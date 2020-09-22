@@ -14,7 +14,7 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import { Dropdown } from './react-native-material-dropdown';
 import BrowserFile from './BrowserFile';
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize ,checkIsTablet} from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupEditAddExtra extends React.Component {
@@ -178,16 +178,17 @@ class PopupEditAddExtra extends React.Component {
     render() {
         const { title, visible, language } = this.props;
         const { name, description, price, isDisable ,supplyFee} = this.state.extraInfo;
+        const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(480);
 
         return (
             <PopupParent
                 title={title}
                 visible={visible}
                 onRequestClose={this.onRequestClose}
-                style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
+                // style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
                 <View style={{
-                    height: scaleSzie(480), backgroundColor: '#fff',
+                    height:tempHeight, backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     paddingHorizontal: scaleSzie(30)
                 }} >
@@ -208,7 +209,7 @@ class PopupEditAddExtra extends React.Component {
                                 }} >
                                     <TextInput
                                         placeholder={`${localize('Extra Name', language)}`}
-                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                        style={{ flex: 1, fontSize: scaleSzie(16), padding: 0 }}
                                         value={name}
                                         onChangeText={(value) => this.updateExtraInfo('name', value)}
                                     />
@@ -222,7 +223,7 @@ class PopupEditAddExtra extends React.Component {
                                 }} >
                                     <TextInput
                                         placeholder=""
-                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                        style={{ flex: 1, fontSize: scaleSzie(16), padding: 0  }}
                                         multiline={true}
                                         value={description}
                                         onChangeText={value => this.updateExtraInfo('description', value)}
@@ -266,7 +267,7 @@ class PopupEditAddExtra extends React.Component {
                                                     unit: '',
                                                     suffixUnit: ''
                                                 }}
-                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                style={{ flex: 1, fontSize: scaleSzie(16) , padding: 0 }}
                                                 placeholder="$ 100"
                                                 value={price}
                                                 onChangeText={value => this.updateExtraInfo('price', value)}
@@ -294,7 +295,7 @@ class PopupEditAddExtra extends React.Component {
                                                     unit: '',
                                                     suffixUnit: ''
                                                 }}
-                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                style={{ flex: 1, fontSize: scaleSzie(16), padding: 0  }}
                                                 placeholder="$ 100"
                                                 value={supplyFee}
                                                 onChangeText={value => this.updateExtraInfo('supplyFee', value)}
@@ -376,7 +377,7 @@ class ItemTime extends React.Component {
                         <TextInputMask
                             type="only-numbers"
                             placeholder='10'
-                            style={{ flex: 1, fontSize: scaleSzie(16) }}
+                            style={{ flex: 1, fontSize: scaleSzie(16) , padding: 0 }}
                             value={value}
                             onChangeText={(value) => this.setState({ value })}
                             onFocus={() => onFocus()}

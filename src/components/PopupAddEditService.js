@@ -6,7 +6,8 @@ import {
     ScrollView,
     Alert,
     TouchableOpacity,
-    ActivityIndicator
+    ActivityIndicator,
+    Platform
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -15,7 +16,7 @@ import PopupParent from './PopupParent';
 import BrowserFile from './BrowserFile';
 import { Dropdown } from './react-native-material-dropdown';
 import Button from './Button';
-import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName, localize } from '@utils';
+import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName, localize, checkIsTablet } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 
@@ -293,19 +294,21 @@ class PopupAddEditService extends React.Component {
         const { title, visible, categoriesByMerchant, language } = this.props;
         const { categoryId, name, description, price, isDisabled, supplyFee
         } = this.state.serviceInfo;
+        const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(480);
 
         return (
             <PopupParent
                 title={title}
                 visible={visible}
                 onRequestClose={this.resetRefPopup}
-                style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
+
                 <View style={{
-                    height: scaleSzie(480), backgroundColor: '#fff',
+                    height: tempHeight, backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     paddingHorizontal: scaleSzie(30)
-                }} >
+                }}
+                >
                     <View style={{ flex: 1, }} >
                         <ScrollView
                             ref={this.scrollServiceRef}
@@ -340,7 +343,7 @@ class PopupAddEditService extends React.Component {
                                     <TextInput
                                         ref={this.nameServiceRef}
                                         placeholder="Gel Nails"
-                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                        style={{ flex: 1, fontSize: scaleSzie(16), padding: 0 }}
                                         value={name}
                                         onChangeText={value => this.updateServiceInfo('name', value)}
                                         onFocus={() => this.scrollServiceTo(70)}
@@ -356,7 +359,15 @@ class PopupAddEditService extends React.Component {
                                     <TextInput
                                         ref={this.descripRef}
                                         placeholder=""
-                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                        style={{
+                                            flex: 1, fontSize: scaleSzie(14),
+                                            padding: 0,
+                                            ...Platform.select({
+                                                android: {
+                                                    textAlignVertical: "top"
+                                                }
+                                            })
+                                        }}
                                         multiline={true}
                                         value={description}
                                         onChangeText={value => this.updateServiceInfo('description', value)}
@@ -412,7 +423,7 @@ class PopupAddEditService extends React.Component {
                                                     unit: '',
                                                     suffixUnit: ''
                                                 }}
-                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                style={{ flex: 1, fontSize: scaleSzie(16), padding: 0 }}
                                                 placeholder="$ 0.00"
                                                 value={price}
                                                 onChangeText={value => this.updateServiceInfo('price', value)}
@@ -440,7 +451,7 @@ class PopupAddEditService extends React.Component {
                                                     unit: '',
                                                     suffixUnit: ''
                                                 }}
-                                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                style={{ flex: 1, fontSize: scaleSzie(16), padding: 0 }}
                                                 placeholder="$ 0.00"
                                                 value={supplyFee}
                                                 onChangeText={value => this.updateServiceInfo('supplyFee', value)}
@@ -635,7 +646,7 @@ class ItemExtra extends React.Component {
                 }} >
                     <TextInput
                         placeholder="Extra Name"
-                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                        style={{ flex: 1, fontSize: scaleSzie(16), padding: 0 }}
                         value={name}
                         onChangeText={value => this.updateExtraInfo('name', value)}
                     />
@@ -649,7 +660,16 @@ class ItemExtra extends React.Component {
                 }} >
                     <TextInput
                         placeholder=""
-                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                        style={{
+                            flex: 1,
+                            fontSize: scaleSzie(14),
+                            padding: 0,
+                            ...Platform.select({
+                                android: {
+                                    textAlignVertical: "top"
+                                }
+                            })
+                        }}
                         multiline={true}
                         value={description}
                         onChangeText={value => this.updateExtraInfo('description', value)}
@@ -663,8 +683,8 @@ class ItemExtra extends React.Component {
                     title=""
                     value={duration}
                     style={{
-                        marginBottom:0,
-                        marginTop:0
+                        marginBottom: 0,
+                        marginTop: 0
                     }}
                 />
                 <View style={{ height: scaleSzie(70), flexDirection: 'row', marginTop: scaleSzie(8) }} >
@@ -686,7 +706,7 @@ class ItemExtra extends React.Component {
                                     unit: '',
                                     suffixUnit: ''
                                 }}
-                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                style={{ flex: 1, fontSize: scaleSzie(16), padding: 0 }}
                                 placeholder="$ 0.00"
                                 value={price}
                                 onChangeText={value => this.updateExtraInfo('price', value)}
@@ -713,7 +733,7 @@ class ItemExtra extends React.Component {
                                     unit: '',
                                     suffixUnit: ''
                                 }}
-                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                style={{ flex: 1, fontSize: scaleSzie(16), padding: 0 }}
                                 placeholder="$ 0.00"
                                 value={supplyFee}
                                 onChangeText={value => this.updateExtraInfo('supplyFee', value)}
@@ -775,11 +795,11 @@ class ItemTime extends React.Component {
     }
 
     render() {
-        const { title, editable, onFocus,style } = this.props;
+        const { title, editable, onFocus, style } = this.props;
         const { value } = this.state;
         return (
             <View style={{ flex: 1 }} >
-                <Text style={[{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) },style]} >
+                <Text style={[{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }, style]} >
                     {title}
                 </Text>
                 <View style={{
@@ -791,7 +811,7 @@ class ItemTime extends React.Component {
                         <TextInputMask
                             type="only-numbers"
                             placeholder='10'
-                            style={{ flex: 1, fontSize: scaleSzie(16) }}
+                            style={{ flex: 1, fontSize: scaleSzie(16), padding: 0 }}
                             value={value}
                             onChangeText={this.onChangeText}
                             editable={editable}

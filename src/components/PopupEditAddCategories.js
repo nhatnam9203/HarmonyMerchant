@@ -139,10 +139,7 @@ class PopupEditAddCategories extends React.Component {
                             }} >
                                 <TextInput
                                     placeholder={localize('Gel Nails', language)}
-                                    style={{ flex: 1, fontSize: scaleSzie(16) ,
-                                    padding:0,
-                                    margin:0
-                                    }}
+                                    style={{ flex: 1, fontSize: scaleSzie(16) , padding:0,}}
                                     value={name}
                                     onChangeText={(value) => this.updateCategoryInfo('name', value)}
                                 />
