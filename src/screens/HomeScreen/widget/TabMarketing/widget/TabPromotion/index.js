@@ -126,6 +126,7 @@ class TabPromotion extends Layout {
     this.promotionThirdRef.current.setStateFromParent(this.getDataItemPromotion(3, promotions));
     this.promotionFourRef.current.setStateFromParent(this.getDataItemPromotion(4, promotions));
     this.promotionFiveRef.current.setStateFromParent(this.getDataItemPromotion(5, promotions));
+    this.promotionRewardPointsRef.current.setStateFromParent(this.getDataItemPromotion(6, promotions));
   }
 
   scrollToNumber = (num = 0) => {
