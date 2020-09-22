@@ -85,7 +85,7 @@ class TextInputSuggestion extends React.PureComponent {
                     justifyContent: "center",
                     ...inputContainerStyle
                 }}
-                style={{ fontSize: scaleSzie(16) }}
+                style={{ fontSize: scaleSzie(16),padding:0 }}
                 onFocus={onFocus && this.onFocus}
                 onBlur={this.onBlur}
                 keyExtractor={(item, index) => `${item}_${index}`}

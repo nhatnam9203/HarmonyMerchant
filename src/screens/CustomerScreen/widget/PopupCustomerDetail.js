@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, PopupParent } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize,checkIsTablet } from '@utils';
 
 class PopupCustomerDetail extends React.Component {
 
@@ -41,15 +41,16 @@ class PopupCustomerDetail extends React.Component {
         const { title, visible, onRequestClose, language} = this.props;
         const {firstName,lastName,phone,email,referrerPhone,favourite,addressPost,isVip} = this.state.customerInfo;
         const {street,city} = addressPost;
+        const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(480);
+
         return (
             <PopupParent
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
-                style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
                 <View style={{
-                     height:  scaleSzie(480),
+                     height:  tempHeight,
                     backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15),
                     borderBottomRightRadius: scaleSzie(15),
