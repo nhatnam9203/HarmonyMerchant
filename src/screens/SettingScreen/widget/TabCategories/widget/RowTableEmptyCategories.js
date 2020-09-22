@@ -19,21 +19,8 @@ class RowTableEmptyCategories extends React.Component {
         }
     }
 
-    handleArchirveStaff = () => {
-        this.setState({
-            isArchive: false
-        })
-    }
-
-    handleRestoreStaff = () => {
-        this.setState({
-            isArchive: true
-        })
-    }
-
     render() {
-        const { staff, index, archiveStaff, editStaff, restoreStaff } = this.props;
-        const { isArchive } = this.state;
+
         return (
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}

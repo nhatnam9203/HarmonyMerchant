@@ -3,7 +3,8 @@ import {
     View,
     Text,
     TextInput,
-    Alert
+    Alert,
+    Keyboard
 } from 'react-native';
 
 import ButtonCustom from './ButtonCustom';
@@ -20,8 +21,29 @@ class PopupEditAddCategories extends React.Component {
             category: {
                 categoryType: '',
                 name: ''
-            }
+            },
+            customStyle: {},
         }
+    }
+
+    componentDidMount() {
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardDidShow);
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
+    }
+
+    keyboardDidShow = async () => {
+        await this.setState({
+            customStyle: {
+                justifyContent: 'flex-start',
+                paddingTop: scaleSzie(50)
+            }
+        });
+    }
+
+    keyboardDidHide = async () => {
+        await this.setState({
+            customStyle: {}
+        });
     }
 
     setStateDefaultFromParent =async () => {
@@ -80,10 +102,10 @@ class PopupEditAddCategories extends React.Component {
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
-                style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(70) }}
+                style={this.state.customStyle}
             >
                 <View style={{
-                    height: scaleSzie(190), backgroundColor: '#fff',
+                    height: scaleSzie(200), backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
                 }} >
                     <View style={{
@@ -94,7 +116,7 @@ class PopupEditAddCategories extends React.Component {
                             <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
                                 {`${localize('Category Type', language)}*`}
                         </Text>
-                            <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
+                            <View style={{ width: scaleSzie(200), height: scaleSzie(35), }} >
                                 <Dropdown
                                     label='Type'
                                     data={[{ value: 'Product' }, { value: 'Service' }]}
@@ -112,12 +134,15 @@ class PopupEditAddCategories extends React.Component {
                                 {`${localize('Category Name', language)}*`}
                             </Text>
                             <View style={{
-                                height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
+                                height: scaleSzie(35), borderWidth: 1, borderColor: '#C5C5C5',
                                 paddingLeft: scaleSzie(10)
                             }} >
                                 <TextInput
                                     placeholder={localize('Gel Nails', language)}
-                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                    style={{ flex: 1, fontSize: scaleSzie(16) ,
+                                    padding:0,
+                                    margin:0
+                                    }}
                                     value={name}
                                     onChangeText={(value) => this.updateCategoryInfo('name', value)}
                                 />
@@ -145,6 +170,11 @@ class PopupEditAddCategories extends React.Component {
                 </View>
             </PopupParent>
         );
+    }
+
+    componentWillUnmount() {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
     }
 
 }

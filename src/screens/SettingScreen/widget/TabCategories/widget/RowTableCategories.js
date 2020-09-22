@@ -141,11 +141,11 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
+        flexDirection: 'row',
         height: scaleSzie(55),
         backgroundColor: '#FAFAFA',
-        borderWidth: 0.5,
-        borderColor: '#C5C5C5',
-        flexDirection: 'row'
+        borderBottomWidth: 1,
+        borderBottomColor: '#C5C5C5'
     },
     textTableHeader: {
         color: '#6A6A6A',
