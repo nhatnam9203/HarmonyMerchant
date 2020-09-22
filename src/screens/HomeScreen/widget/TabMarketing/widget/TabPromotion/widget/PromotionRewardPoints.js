@@ -143,7 +143,7 @@ class PromotionRewardPoints extends React.Component {
                             {`${localize(' get ', language)}`}
                         </Text>
                         <Text style={{ color: '#0764B0', fontWeight: "bold" }} >
-                            100
+                            {`${100* parseFloat(data.discount)}`}
                         </Text>
                         <Text style={{}} >
                             {`${localize(' reward points', language)}`}

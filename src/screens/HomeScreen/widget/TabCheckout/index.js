@@ -968,7 +968,7 @@ class TabCheckout extends Layout {
         const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
         const method = this.getPaymentString(paymentSelected);
         const total = groupAppointment.total ? parseFloat(formatNumberFromCurrency(groupAppointment.total)) : 0;
-        const dueAmount = paymentDetailInfo.dueAmount ? parseFloat(paymentDetailInfo.dueAmount) : 0;
+        const dueAmount = paymentDetailInfo.dueAmount ? parseFloat(formatNumberFromCurrency(paymentDetailInfo.dueAmount)) : 0;
 
         if (isOfflineMode) {
             this.handlePaymentOffLineMode()
