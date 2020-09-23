@@ -168,7 +168,6 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#6A6A6A',
-        // color:'#FF3B30',
         fontSize: scaleSzie(14)
     },
     itemTableHeaderContainer: {

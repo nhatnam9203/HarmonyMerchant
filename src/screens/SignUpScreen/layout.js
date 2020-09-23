@@ -12,7 +12,6 @@ import PrincipalInfo from "../PrincipalScreen";
 import PackageAndPricing from "../PackageAndPricing";
 import ApplicationSubmit from "../ApplicationSubmitScreen";
 
-
 export default class Layout extends React.Component {
 
     render() {

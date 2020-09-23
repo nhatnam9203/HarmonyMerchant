@@ -1,6 +1,8 @@
 import React from 'react';
 import {
     View,
+    Keyboard,
+    Platform
 } from 'react-native';
 
 import { scaleSzie } from '../utils';
@@ -11,7 +13,59 @@ import StatusBarHeader from './StatusBar';
 
 export default class FormInfoParent extends React.PureComponent {
 
-    renderFooter() {
+    render() {
+        return (
+            <View style={{ flex: 1 }} >
+                <StatusBarHeader />
+                <HeaderLogoTop />
+                <View style={{ flex: 1 }} >
+                    {this.props.children}
+                </View>
+                <Footer
+                    back={() => this.props.back()}
+                    next={() => this.props.next()}
+                />
+            </View>
+        );
+    }
+
+
+}
+
+class Footer extends React.PureComponent {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isShowFooter: true
+        }
+    }
+
+    componentDidMount() {
+        if (Platform.OS === "android") {
+            this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+            this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+        }
+
+    }
+
+    keyboardDidShow = async () => {
+        await this.setState({
+            isShowFooter: false
+        })
+    }
+
+    keyboardDidHide = async () => {
+        await this.setState({
+            isShowFooter: true
+        })
+    }
+
+    render() {
+        const { back, next } = this.props;
+        if (!this.state.isShowFooter) {
+            return null;
+        }
         return (
             <View style={{ height: scaleSzie(50), flexDirection: 'row', }} >
                 <View style={{ flex: 1, alignItems: 'center' }} >
@@ -21,7 +75,7 @@ export default class FormInfoParent extends React.PureComponent {
                         backgroundColor="#F1F1F1"
                         title="BACK"
                         textColor="#C5C5C5"
-                        onPress={() => this.props.back()}
+                        onPress={() => back()}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                     />
                 </View>
@@ -32,25 +86,19 @@ export default class FormInfoParent extends React.PureComponent {
                         backgroundColor="#0764B0"
                         title="NEXT"
                         textColor="#fff"
-                        onPress={() => this.props.next()}
+                        onPress={() => next()}
                     />
                 </View>
             </View>
         );
     }
 
-    render() {
-        return (
-            <View style={{ flex: 1 }} >
-                <StatusBarHeader />
-                <HeaderLogoTop />
-                <View style={{ flex: 1 }} >
-                    {this.props.children}
-                </View>
-                {this.renderFooter()}
-            </View>
-        );
-    }
+    componentWillUnmount() {
+        if (Platform.OS === "android") {
+            this.keyboardDidShowListener.remove();
+            this.keyboardDidHideListener.remove();
+        }
 
+    }
 
 }
