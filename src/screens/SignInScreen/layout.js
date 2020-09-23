@@ -26,7 +26,7 @@ export default class Layout extends React.Component {
             >
                 <Image source={IMAGE.logo} style={styles.logo} />
                 {
-                    isTablet && !isShowKeyboard ? <View style={{ height: scaleSzie(60), justifyContent: 'center', alignItems: 'center' }} >
+                    isTablet &&  !isShowKeyboard ? <View style={{ height: scaleSzie(60), justifyContent: 'center', alignItems: 'center' }} >
                         <Text style={{ color: 'red', fontSize: scaleSzie(16), fontWeight: '600' }} >
                             {errorLogin}
                         </Text>
@@ -34,7 +34,7 @@ export default class Layout extends React.Component {
                 }
 
                 {
-                    !isTablet ? <View style={{ height: scaleSzie(50), justifyContent: 'center', alignItems: 'center' }} >
+                    !isTablet ? <View style={{ height: scaleSzie(40), justifyContent: 'center', alignItems: 'center' }} >
                         <Text style={{ color: 'red', fontSize: scaleSzie(16), fontWeight: '600' }} >
                             {errorLogin}
                         </Text>

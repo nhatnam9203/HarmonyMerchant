@@ -66,7 +66,7 @@ class Footer extends React.PureComponent {
             return null;
         }
         return (
-            <View style={{ height: scaleSzie(50), flexDirection: 'row', }} >
+            <View style={{ height: scaleSzie(50), flexDirection: 'row', backgroundColor:"transparent"}} >
                 <View style={{ flex: 1, alignItems: 'center' }} >
                     <ButtonCustom
                         width={scaleSzie(250)}

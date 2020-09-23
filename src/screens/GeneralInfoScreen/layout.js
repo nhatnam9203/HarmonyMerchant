@@ -126,10 +126,11 @@ export default class Layout extends React.Component {
                             onChangeText={(value) => this.updateGeneralInfo('address', value, 'businessAddress')}
                             onFocus={() => this.scrollGeneralTo(310)}
                         />
+
+
                         <View style={{
                             height: scaleSzie(30), justifyContent: 'space-between',
                             flexDirection: 'row', alignItems: 'flex-end',
-                            // marginBottom: scaleSzie(24),
                             marginBottom: scaleSzie(dynamicMarginBottomBA),
                         }} >
                             <View style={{ width: scaleSzie(180) }} >
@@ -145,7 +146,7 @@ export default class Layout extends React.Component {
                                     onFocus={() => this.scrollGeneralTo(310)}
                                 />
                             </View>
-                            <View style={{ width: scaleSzie(180), height: scaleSzie(30) }} >
+                            <View style={{ width: scaleSzie(180), height: "100%" }} >
                                 <TextInputSuggestion
                                     value={state}
                                     onChangeText={(value, count) => {
@@ -154,7 +155,7 @@ export default class Layout extends React.Component {
                                             dynamicMarginBottomBA: count * 24
                                         })
                                     }}
-                                    resetMarginState={() => this.setState({dynamicMarginBottomBA: 24})}
+                                    resetMarginState={() => this.setState({ dynamicMarginBottomBA: 24 })}
                                     onFocus={() => this.scrollGeneralTo(310)}
                                 />
                             </View>
@@ -223,7 +224,7 @@ export default class Layout extends React.Component {
                                     editable={!isDBAAddress}
                                 />
                             </View>
-                            <View style={{ width: scaleSzie(180), height: scaleSzie(30) }} >
+                            <View style={{ width: scaleSzie(180), height: "100%" }} >
                                 <TextInputSuggestion
                                     value={stateDBA}
                                     onChangeText={(value, count) => {
@@ -232,7 +233,7 @@ export default class Layout extends React.Component {
                                             dynamicMarginBottomDA: count * 24
                                         })
                                     }}
-                                    resetMarginState={() => this.setState({dynamicMarginBottomDA: 24})}
+                                    resetMarginState={() => this.setState({ dynamicMarginBottomDA: 24 })}
                                     onFocus={() => this.scrollGeneralTo(425)}
                                     editable={!isDBAAddress}
                                 />
