@@ -6,17 +6,18 @@ import {
 } from 'react-native';
 
 import { Text, InputAuth, ButtonCustom, Button } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie, localize, checkIsTablet } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
 export default class Layout extends React.Component {
 
     render() {
-        const { errorLogin, language, MIDStorage,isRememberMID} = this.props;
-        const { isSecureTextEntry } = this.state;
+        const { errorLogin, language, MIDStorage, isRememberMID } = this.props;
+        const { isSecureTextEntry, isShowKeyboard } = this.state;
         const iconShowPass = isSecureTextEntry ? IMAGE.showPass : IMAGE.notShowPass;
         const temptIconCheck = isRememberMID ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
+        const isTablet = checkIsTablet();
 
         return (
             <ImageBackground
@@ -24,11 +25,22 @@ export default class Layout extends React.Component {
                 source={IMAGE.backgroundLogin}
             >
                 <Image source={IMAGE.logo} style={styles.logo} />
-                <View style={{ height: scaleSzie(60), justifyContent: 'center', alignItems: 'center' }} >
-                    <Text style={{ color: 'red', fontSize: scaleSzie(16), fontWeight: '600' }} >
-                        {errorLogin}
-                    </Text>
-                </View>
+                {
+                    isTablet && !isShowKeyboard ? <View style={{ height: scaleSzie(60), justifyContent: 'center', alignItems: 'center' }} >
+                        <Text style={{ color: 'red', fontSize: scaleSzie(16), fontWeight: '600' }} >
+                            {errorLogin}
+                        </Text>
+                    </View> : <View style={{ height: scaleSzie(15) }} />
+                }
+
+                {
+                    !isTablet ? <View style={{ height: scaleSzie(50), justifyContent: 'center', alignItems: 'center' }} >
+                        <Text style={{ color: 'red', fontSize: scaleSzie(16), fontWeight: '600' }} >
+                            {errorLogin}
+                        </Text>
+                    </View> : <View />
+                }
+
                 <InputAuth
                     ref={this.idInputRef}
                     value={MIDStorage}
@@ -47,31 +59,33 @@ export default class Layout extends React.Component {
                 />
                 <View style={{
                     width: scaleSzie(400), height: scaleSzie(60),
-                     flexDirection: "row",paddingLeft:scaleSzie(10)
+                    flexDirection: "row", paddingLeft: scaleSzie(10)
                 }} >
-                    <View style={{ flex: 1 , flexDirection:"row",alignItems:"center"}} >
-                        <Button onPress={this.toggleRememberMID} style={{width:scaleSzie(30),height:scaleSzie(30),
-                    justifyContent:"center",alignItems:"center"
-                    }} >
-                        <Image source={temptIconCheck} style={{width:scaleSzie(22),height:scaleSzie(22)}} />
+                    <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }} >
+                        <Button onPress={this.toggleRememberMID} style={{
+                            width: scaleSzie(30), height: scaleSzie(30),
+                            justifyContent: "center", alignItems: "center"
+                        }} >
+                            <Image source={temptIconCheck} style={{ width: scaleSzie(22), height: scaleSzie(22) }} />
                         </Button>
-                        
-                        <Text style={{ color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold',
-                    marginLeft:scaleSzie(10)
-                    }} >
+
+                        <Text style={{
+                            color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold',
+                            marginLeft: scaleSzie(10)
+                        }} >
                             {localize('Remember MID', language)}
                         </Text>
                     </View>
 
-                    <View style={{ flex: 1,justifyContent:"center",alignItems:"flex-end" }} >
-                    <Button onPress={this.forgotPassword} >
-                        <Text style={{ color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold' }} >
-                            {localize('Forgot password', language)}
-                        </Text>
-                    </Button>
+                    <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
+                        <Button onPress={this.forgotPassword} >
+                            <Text style={{ color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold' }} >
+                                {localize('Forgot password', language)}
+                            </Text>
+                        </Button>
                     </View>
 
-                   
+
                 </View>
                 <ButtonCustom
                     width={scaleSzie(400)}

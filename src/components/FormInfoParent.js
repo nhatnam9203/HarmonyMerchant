@@ -46,7 +46,6 @@ class Footer extends React.PureComponent {
             this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
             this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
         }
-
     }
 
     keyboardDidShow = async () => {
@@ -98,7 +97,6 @@ class Footer extends React.PureComponent {
             this.keyboardDidShowListener.remove();
             this.keyboardDidHideListener.remove();
         }
-
     }
 
 }

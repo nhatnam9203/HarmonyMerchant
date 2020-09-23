@@ -6,7 +6,7 @@ import {
     Platform,
 } from 'react-native';
 
-import { scaleSzie } from '../utils';
+import { scaleSzie, checkIsTablet } from '../utils';
 import IMAGE from '../resources';
 
 const { width } = Dimensions.get('window');
@@ -15,29 +15,37 @@ export default class HeaderLogoTop extends React.PureComponent {
 
 
     render() {
+        const temptHeight = checkIsTablet() ? scaleSzie(85) : scaleSzie(85);
+
         return (
-                <View style={{
-                    width,
-                    height: scaleSzie(100),
-                    ...Platform.select({
-                        ios: {
-                            shadowRadius: 2,
-                            shadowColor: 'rgba(0, 0, 0, 1.0)',
-                            shadowOpacity: 0.54,
-                            shadowOffset: { width: 0, height: 2 },
-                        },
+            <View style={{
+                width,
+                height: scaleSzie(85),
+                backgroundColor: "#fff",
+                ...Platform.select({
+                    ios: {
+                        shadowRadius: 2,
+                        shadowColor: "#000",
+                        shadowOffset: { width: 0, height: 3 },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 4,
+                    },
 
-                        android: {
-                            elevation: 2,
-                        },
-                    })
-                }} >
+                    android: {
+                        elevation: 2,
+                    },
+                })
+            }} >
 
-                    <Image
-                        source={IMAGE.logoTop}
-                        style={{ width: null, height: null, flex: 1 }}
-                    />
-                </View>
+                <Image
+                    source={IMAGE.logoTop}
+                    style={{
+                        width,
+                        height: temptHeight,
+                    }}
+                    resizeMode="stretch"
+                />
+            </View>
 
         );
     }

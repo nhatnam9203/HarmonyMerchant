@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+    Platform,
+    Keyboard
+} from "react-native";
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -9,10 +13,29 @@ class SignInScreen extends Layout {
         super(props);
         this.state = {
             isSecureTextEntry: true,
+            isShowKeyboard: false
         }
         this.idInputRef = React.createRef();
         this.passwordInputRef = React.createRef();
+    }
 
+    componentDidMount() {
+        if (Platform.OS === "android") {
+            this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+            this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+        }
+    }
+
+    keyboardDidShow = async () => {
+        await this.setState({
+            isShowKeyboard: true
+        })
+    }
+
+    keyboardDidHide = async () => {
+        await this.setState({
+            isShowKeyboard: false
+        })
     }
 
     signIn = () => {
@@ -42,6 +65,13 @@ class SignInScreen extends Layout {
     toggleRememberMID =() =>{
         const {isRememberMID} = this.props;
         this.props.actions.dataLocal.toggleSaveMID(!isRememberMID);
+    }
+
+    componentWillUnmount() {
+        if (Platform.OS === "android") {
+            this.keyboardDidShowListener.remove();
+            this.keyboardDidHideListener.remove();
+        }
     }
 
 }
