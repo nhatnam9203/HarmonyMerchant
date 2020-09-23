@@ -66,7 +66,7 @@ function* getGroupAppointmentById(action) {
 
                 const subTotal = data.subTotal ? formatNumberFromCurrency(data.subTotal) : 0;
                 const discount =  data.discount ? formatNumberFromCurrency(data.discount) : 0;
-                if(subTotal < discount){
+                if(subTotal < discount && action.isNotShowMessage){
                     setTimeout(() =>{
                         Alert.alert(
                             `Warning`,
@@ -78,7 +78,7 @@ function* getGroupAppointmentById(action) {
                             { cancelable: false }
                         );
                     },500);
-                    return;
+                    // return;
                 }
 
                 // ------------ CHECKOUT_SUBMIT CREDIT CARD ---------

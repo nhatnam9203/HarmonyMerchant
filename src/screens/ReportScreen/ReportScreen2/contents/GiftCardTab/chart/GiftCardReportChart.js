@@ -33,9 +33,10 @@ const yAxis = {
     textSize: 14,
     formSize: 14,
     textColor: processColor("#0764B0"),
-    granularity: 10,
     labelCount: 10,
     valueFormatter: "###,###,###.##",
+    granularityEnabled: true,
+    granularity: 1,
   },
   right: {
     drawLabels: false,
@@ -45,7 +46,8 @@ const yAxis = {
     textSize: 14,
     formSize: 14,
     textColor: processColor("#E5B960"),
-    granularity: 10,
+    granularityEnabled: true,
+    granularity: 1,
     labelCount: 10,
   },
 };
@@ -234,7 +236,8 @@ export default function GiftCardBarGroupChart({
       valueFormatterPattern: "MM/DD/YYYY",
       axisMaximum: Math.min(maxCount, valueFormatter?.length),
       axisMinimum: 0,
-      since,
+      // since,
+      wordWrapEnabled: false,
       valueFormatter:
         startDate && valueFormatter.length > maxCount
           ? valueFormatter.filter((x) =>
@@ -288,14 +291,15 @@ export default function GiftCardBarGroupChart({
       }
     });
 
+    const bWidth = 0.1;
+
     return {
-      dataSets: Object.values(dateSets) || [],
+      dataSets: [...Object.values(dateSets), null] || [],
       config: {
-        // BarData
-        barWidth: 0.8 / (Object.keys(dateSets).length || 1),
+        barWidth: bWidth,
         group: {
           fromX: 0,
-          groupSpace: 0.2,
+          groupSpace: 1 - (Object.values(dateSets).length + 1) * bWidth,
           barSpace: 0,
         },
       },
@@ -345,7 +349,7 @@ export default function GiftCardBarGroupChart({
         </View>
         {!_.isEmpty(xAxis) && !_.isEmpty(dataChart) && (
           <BarChart
-            dragEnabled={true}
+            // dragEnabled={true}
             style={styles.chart}
             data={dataChart}
             xAxis={xAxis}
@@ -378,7 +382,7 @@ const styles = StyleSheet.create({
   },
   chart: {
     flex: 1,
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
   },
   amountContent: {
     position: "absolute",

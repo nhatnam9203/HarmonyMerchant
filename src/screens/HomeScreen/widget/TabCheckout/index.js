@@ -776,7 +776,7 @@ class TabCheckout extends Layout {
                 }
                 // ---------- Handle reload Tip in Customer App ---------
                 if (temptData.data && !_.isEmpty(temptData.data) && temptData.data.isTipAppointment) {
-                    this.props.actions.appointment.getGroupAppointmentById(temptData.data.appointmentId);
+                    this.props.actions.appointment.getGroupAppointmentById(temptData.data.appointmentId,false);
                 }
             });
 
