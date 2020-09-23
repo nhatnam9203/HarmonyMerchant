@@ -37,7 +37,7 @@ export default class InputForm extends React.PureComponent {
                             // type="only-numbers"
                             type={typeInputMask ? typeInputMask : 'only-numbers'}
                             options={optionsInputMask}
-                            style={{ flex: 1, fontSize: scaleSzie(16) }}
+                            style={{ flex: 1, fontSize: scaleSzie(16),color:"#000" }}
                             placeholder={placeholder}
                             value={value}
                             onChangeText={(value => onChangeText(value))}
@@ -48,7 +48,7 @@ export default class InputForm extends React.PureComponent {
                             editable={editable}
                             onFocus={() => onFocus && onFocus()}
                         /> : <TextInput
-                                style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                style={{ flex: 1, fontSize: scaleSzie(16) ,color:"#000"}}
                                 placeholder={placeholder}
                                 value={value}
                                 onChangeText={(value => onChangeText(value))}
