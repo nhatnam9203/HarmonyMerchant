@@ -362,11 +362,7 @@ class PopupAddEditService extends React.Component {
                                         style={{
                                             flex: 1, fontSize: scaleSzie(14),
                                             padding: 0,
-                                            ...Platform.select({
-                                                android: {
-                                                    textAlignVertical: "top"
-                                                }
-                                            })
+                                            textAlignVertical: "top"
                                         }}
                                         multiline={true}
                                         value={description}
@@ -664,11 +660,7 @@ class ItemExtra extends React.Component {
                             flex: 1,
                             fontSize: scaleSzie(14),
                             padding: 0,
-                            ...Platform.select({
-                                android: {
-                                    textAlignVertical: "top"
-                                }
-                            })
+                            textAlignVertical: "top"
                         }}
                         multiline={true}
                         value={description}

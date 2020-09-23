@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, PopupParent, PopupConfirm } from '@components';
-import { scaleSzie, localize, getCategoryName } from '@utils';
+import { scaleSzie, localize, getCategoryName, checkIsTablet } from '@utils';
 
 
 class PopupDetailProduct extends React.Component {
@@ -36,7 +36,7 @@ class PopupDetailProduct extends React.Component {
     }
 
     setProductInfoFromParent = (productInfo) => {
-    //console.log('productInfo : ', productInfo);
+        //console.log('productInfo : ', productInfo);
         const { categoriesByMerchant } = this.props;
         this.setState({
             productInfo: {
@@ -65,16 +65,16 @@ class PopupDetailProduct extends React.Component {
     }
 
     submitArchiveYess = async () => {
-       await this.setState({
+        await this.setState({
             visibleArchive: false,
         });
         const { productInfo } = this.state;
         this.props.submitArchiveYess(productInfo.productId);
-       
+
     }
 
-    submitRestoreYess = async () =>{
-      await  this.setState({
+    submitRestoreYess = async () => {
+        await this.setState({
             visibleRestore: false,
         });
         const { productInfo } = this.state;
@@ -88,15 +88,19 @@ class PopupDetailProduct extends React.Component {
         const { categoryId, name, description, sku,
             quantity, minThreshold, maxThreshold, price, isDisabled, needToorDer
         } = this.state.productInfo;
+        const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(480);
+        const tempBtnHieght = checkIsTablet() ? 35 : 45;
+        const tempBtnWidth = checkIsTablet() ? 150 : 200;
+        const tempFooterHieght = checkIsTablet() ? scaleSzie(55) : scaleSzie(70);
+
         return (
             <PopupParent
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
-                style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
                 <View style={{
-                    height: scaleSzie(480), backgroundColor: '#fff',
+                    height: tempHeight, backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15),
                     borderBottomRightRadius: scaleSzie(15),
                     paddingHorizontal: scaleSzie(30)
@@ -155,7 +159,11 @@ class PopupDetailProduct extends React.Component {
                                 }} >
                                     <TextInput
                                         placeholder=""
-                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                        style={{
+                                            flex: 1, fontSize: scaleSzie(16), color: "#000",
+                                            padding: 0,
+                                            textAlignVertical: "top"
+                                        }}
                                         multiline={true}
                                         value={description}
                                         editable={false}
@@ -168,10 +176,10 @@ class PopupDetailProduct extends React.Component {
                         </ScrollView>
                     </View>
                     {/* ---- Footer ---- */}
-                    <View style={{ height: scaleSzie(70), flexDirection: 'row', justifyContent: 'space-evenly' }} >
+                    <View style={{ height: tempFooterHieght, flexDirection: 'row', justifyContent: 'space-evenly' }} >
                         <ButtonCustom
-                            width={200}
-                            height={45}
+                            width={tempBtnWidth}
+                            height={tempBtnHieght}
                             backgroundColor="#F1F1F1"
                             title={localize('Edit', language)}
                             textColor="#6A6A6A"
@@ -189,8 +197,8 @@ class PopupDetailProduct extends React.Component {
                         {
                             isDisabled === 0 || isDisabled === 'Active' ?
                                 <ButtonCustom
-                                    width={200}
-                                    height={45}
+                                    width={tempBtnWidth}
+                                    height={tempBtnHieght}
                                     backgroundColor="#F1F1F1"
                                     title={localize('Archive', language)}
                                     textColor="#6A6A6A"
@@ -205,8 +213,8 @@ class PopupDetailProduct extends React.Component {
                                         fontWeight: '500'
                                     }}
                                 /> : <ButtonCustom
-                                    width={200}
-                                    height={45}
+                                    width={tempBtnWidth}
+                                    height={tempBtnHieght}
                                     backgroundColor="#F1F1F1"
                                     title={localize('Restore', language)}
                                     textColor="#6A6A6A"
@@ -246,14 +254,14 @@ class PopupDetailProduct extends React.Component {
 
 const ItemDetail = ({ title, value }) => {
     return (
-        <View style={{ minHeight: scaleSzie(30), flexDirection: 'row',marginBottom:scaleSzie(10) }} >
+        <View style={{ minHeight: scaleSzie(30), flexDirection: 'row', marginBottom: scaleSzie(10) }} >
             <View style={{ flex: 1, }} >
-                <Text  style={styles.textCommon} >
+                <Text style={styles.textCommon} >
                     {title}
                 </Text>
             </View>
-            <View style={{ flex: 1,  }} >
-                <Text  style={styles.textValue} >
+            <View style={{ flex: 1, }} >
+                <Text style={styles.textValue} >
                     {value}
                 </Text>
             </View>

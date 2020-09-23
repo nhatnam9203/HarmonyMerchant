@@ -14,7 +14,7 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import BrowserFile from './BrowserFile';
 import { Dropdown } from './react-native-material-dropdown';
-import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName, requestAPI, localize } from '@utils';
+import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName, requestAPI, localize ,checkIsTablet} from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 import apiConfigs from '@configs/api';
 
@@ -224,16 +224,16 @@ class PopupAddEditProduct extends React.Component {
         const { categoryId, name, description, sku, quantity, minThreshold,
             maxThreshold, price, isDisabled
         } = this.state.productInfo;
+        const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(480);
 
         return (
             <PopupParent
                 title={title}
                 visible={visible}
                 onRequestClose={this.onRequestClose}
-                style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
                 <View style={{
-                    height: scaleSzie(480), backgroundColor: '#fff',
+                    height: tempHeight, backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     paddingHorizontal: scaleSzie(30)
                 }} >
@@ -270,7 +270,7 @@ class PopupAddEditProduct extends React.Component {
                                 }} >
                                     <TextInput
                                         placeholder="Product 1"
-                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                        style={{ flex: 1, fontSize: scaleSzie(16),padding:0 }}
                                         value={name}
                                         onChangeText={(value) => this.updateProductInfo('name', value)}
                                         onFocus={() => this.scrollProductTo(70)}
@@ -286,7 +286,9 @@ class PopupAddEditProduct extends React.Component {
                                 }} >
                                     <TextInput
                                         placeholder=""
-                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                        style={{ flex: 1, fontSize: scaleSzie(16),padding:0,
+                                        textAlignVertical:"top"
+                                        }}
                                         multiline={true}
                                         value={description}
                                         onChangeText={value => this.updateProductInfo('description', value)}
@@ -305,7 +307,7 @@ class PopupAddEditProduct extends React.Component {
                                             <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
                                                 <TextInput
                                                     placeholder="sku12345678"
-                                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                    style={{ flex: 1, fontSize: scaleSzie(16),padding:0 }}
                                                     value={sku}
                                                     onChangeText={value => this.updateProductInfo('sku', value)}
                                                     onFocus={() => this.scrollProductTo(230)}
@@ -325,7 +327,7 @@ class PopupAddEditProduct extends React.Component {
                                                 <TextInputMask
                                                     type="only-numbers"
                                                     placeholder="100"
-                                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                    style={{ flex: 1, fontSize: scaleSzie(16),padding:0 }}
                                                     value={quantity}
                                                     onChangeText={value => this.updateProductInfo('quantity', value)}
                                                     onFocus={() => this.scrollProductTo(300)}
@@ -348,7 +350,7 @@ class PopupAddEditProduct extends React.Component {
                                                 <TextInputMask
                                                     type="only-numbers"
                                                     placeholder="10"
-                                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                    style={{ flex: 1, fontSize: scaleSzie(16),padding:0 }}
                                                     value={minThreshold}
                                                     onChangeText={value => this.updateProductInfo('minThreshold', value)}
                                                     onFocus={() => this.scrollProductTo(360)}
@@ -365,7 +367,7 @@ class PopupAddEditProduct extends React.Component {
                                                 <TextInputMask
                                                     type="only-numbers"
                                                     placeholder="20"
-                                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                    style={{ flex: 1, fontSize: scaleSzie(16),padding:0 }}
                                                     value={maxThreshold}
                                                     onChangeText={value => this.updateProductInfo('maxThreshold', value)}
                                                     onFocus={() => this.scrollProductTo(360)}
@@ -392,7 +394,7 @@ class PopupAddEditProduct extends React.Component {
                                                         suffixUnit: ''
                                                     }}
                                                     placeholder="$ 0.00"
-                                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                                    style={{ flex: 1, fontSize: scaleSzie(16),padding:0 }}
                                                     value={price}
                                                     onChangeText={value => this.updateProductInfo('price', value)}
                                                     onFocus={() => this.scrollProductTo(450)}

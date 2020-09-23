@@ -210,11 +210,7 @@ class Layout extends React.Component {
                                     style={{
                                         flex: 1,
                                         fontSize: scaleSzie(16),
-                                        ...Platform.select({
-                                            android: {
-                                                textAlignVertical: "top"
-                                            }
-                                        })
+                                        textAlignVertical: "top"
                                     }}
                                     multiline={true}
                                     underlineColorAndroid='transparent'
