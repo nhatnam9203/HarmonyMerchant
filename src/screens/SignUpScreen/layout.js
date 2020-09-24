@@ -3,7 +3,7 @@ import {
     View,
 } from 'react-native';
 
-import { StatusBarHeader,ScrollableTabView } from '@components';
+import { StatusBarHeader, ScrollableTabView } from '@components';
 import styles from './style';
 import GeneralInfoScreen from "../GeneralInfoScreen";
 import BusinessInfo from "../BusinessInfoScreen";
@@ -32,19 +32,19 @@ export default class Layout extends React.Component {
                             springFriction={1}
                             renderTabBar={() => <View />}
                         >
-                            {/* <GeneralInfoScreen
+                            <GeneralInfoScreen
                                 navigation={navigation}
                                 goToPage={this.goToPage}
-                            /> */}
-                            {/* <BusinessInfo goToPage={this.goToPage} /> */}
-                            {/* <BankInfo
+                            />
+                            <BusinessInfo goToPage={this.goToPage} />
+                            <BankInfo
                                 ref={this.bankInfoRef}
                                 goToPage={this.goToPage}
-                            /> */}
-                            {/* <PrincipalInfo
+                            />
+                            <PrincipalInfo
                                 ref={this.principalInfoRef}
                                 goToPage={this.goToPage}
-                            /> */}
+                            />
                             <PackageAndPricing goToPage={this.goToPage} />
                             <ApplicationSubmit />
                         </ScrollableTabView>
