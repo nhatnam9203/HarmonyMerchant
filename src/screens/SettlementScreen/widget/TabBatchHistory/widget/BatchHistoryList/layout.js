@@ -33,7 +33,7 @@ class Layout extends React.Component {
                         <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: scaleSzie(4), flexDirection: 'row' }} >
                             <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                                 <TextInput
-                                    style={{ flex: 1, fontSize: scaleSzie(18) }}
+                                    style={{ flex: 1, fontSize: scaleSzie(18),padding:0,color:"#000" }}
                                     placeholder={localize('Search', language)}
                                     value={keySearch}
                                     onChangeText={(keySearch) => this.setState({ keySearch })}

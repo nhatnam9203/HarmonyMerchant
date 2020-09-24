@@ -243,7 +243,7 @@ class Layout extends React.Component {
                     paddingHorizontal: scaleSzie(10)
                 }} >
                     <TextInput
-                        style={{ flex: 1, fontSize: scaleSzie(12) }}
+                        style={{ flex: 1, fontSize: scaleSzie(12),padding:0,color:"#000",textAlignVertical:"top" }}
                         multiline={true}
                         value={note}
                         onChangeText={(note) => this.setState({ note })}

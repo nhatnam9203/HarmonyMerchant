@@ -231,7 +231,9 @@ export default class ItemPaymentsReport extends React.Component {
                                         unit: '',
                                         suffixUnit: ''
                                     }}
-                                    style={{ flex: 1, fontSize: scaleSzie(12), textAlign: "right" }}
+                                    style={{ flex: 1, fontSize: scaleSzie(12), textAlign: "right",
+                                padding:0,color:"#000"
+                                }}
                                     placeholder="$ 0.00"
                                     value={amount}
                                     onChangeText={amount => this.setState({ amount })}
