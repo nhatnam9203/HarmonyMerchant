@@ -3,6 +3,8 @@ import {
     View,
     Image,
     Text,
+    Platform,
+    Keyboard
 } from 'react-native';
 
 import ButtonCustom from './ButtonCustom';
@@ -11,6 +13,32 @@ import { scaleSzie } from '../utils';
 import IMAGE from '../resources';
 
 export default class FooterTab extends React.PureComponent {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isShowFooter: true
+        }
+    }
+
+    componentDidMount() {
+        if (Platform.OS === "android") {
+            this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+            this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+        }
+    }
+
+    keyboardDidShow = async () => {
+        await this.setState({
+            isShowFooter: false
+        })
+    }
+
+    keyboardDidHide = async () => {
+        await this.setState({
+            isShowFooter: true
+        })
+    }
 
     renderButtonAdd() {
         return (
@@ -66,7 +94,11 @@ export default class FooterTab extends React.PureComponent {
 
 
     render() {
-        const {isNotShowBtnAdd} = this.props
+        const {isNotShowBtnAdd} = this.props;
+        if(!this.state.isShowFooter){
+            return null;
+        }
+
         return (
             <View>
                 {isNotShowBtnAdd ? <View /> : this.renderButtonAdd()}
@@ -75,5 +107,11 @@ export default class FooterTab extends React.PureComponent {
         );
     }
 
+    componentWillUnmount() {
+        if (Platform.OS === "android") {
+            this.keyboardDidShowListener.remove();
+            this.keyboardDidHideListener.remove();
+        }
+    }
 
 }

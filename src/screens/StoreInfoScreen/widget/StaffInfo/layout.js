@@ -11,7 +11,7 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import {
     Dropdown,
-    ButtonCustom, Text, BrowserFile, TextInputSuggestion
+    ButtonCustom, Text, BrowserFile, TextInputSuggestion,FooterTwoButton
 } from '@components';
 import { scaleSzie, localize } from '@utils';
 import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
@@ -319,23 +319,6 @@ class Layout extends React.Component {
                         onFocus={() => this.scrollStaffTo(1300)}
                         toogleCheck={this.disablePercentTip}
                     />
-                    {/* {
-                        Object.keys(temptDataTipFee).map((tip, index) => {
-                            const temptTitle = tip == 'percent' ? 'Percent' : 'Fixed Amount';
-                            const temptChar = tip == 'percent' ? '(%)' : '($)';
-
-                            return <ItemScalary
-                                key={index}
-                                ref={this.setRefTip}
-                                title={`${localize(temptTitle, language)} ${temptChar}`}
-                                placeholder={'10'}
-                                dataInit={temptDataTipFee[tip]}
-                                onFocus={() => this.scrollStaffTo(1300)}
-                                type={`${temptTitle} ${temptChar}`}
-                                toogleCheck={this.disableTip.bind(this, `${temptTitle} ${temptChar}`)}
-                            />
-                        })
-                    } */}
 
                     {/* -----  Payout With Cash ---- */}
                     <TitleTabAdminInfo
@@ -470,7 +453,11 @@ class Layout extends React.Component {
         return (
             <View style={styles.container} >
                 {this.renderBody()}
-                {this.renderFooter()}
+                {/* {this.renderFooter()} */}
+                <FooterTwoButton 
+                     back={() =>  this.props.backTabelStaff()}
+                     next={() => this.props.nextTab()}
+                />
             </View>
 
         );

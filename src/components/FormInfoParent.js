@@ -21,7 +21,7 @@ export default class FormInfoParent extends React.PureComponent {
                 <View style={{ flex: 1 }} >
                     {this.props.children}
                 </View>
-                <Footer
+                <FooterTwoButton
                     back={() => this.props.back()}
                     next={() => this.props.next()}
                 />
@@ -32,7 +32,7 @@ export default class FormInfoParent extends React.PureComponent {
 
 }
 
-class Footer extends React.PureComponent {
+class FooterTwoButton extends React.PureComponent {
 
     constructor(props) {
         super(props);
@@ -66,7 +66,7 @@ class Footer extends React.PureComponent {
             return null;
         }
         return (
-            <View style={{ height: scaleSzie(50), flexDirection: 'row', backgroundColor:"transparent"}} >
+            <View style={{ height: scaleSzie(50), flexDirection: 'row', backgroundColor: "transparent" }} >
                 <View style={{ flex: 1, alignItems: 'center' }} >
                     <ButtonCustom
                         width={scaleSzie(250)}
@@ -100,3 +100,7 @@ class Footer extends React.PureComponent {
     }
 
 }
+
+export {
+    FooterTwoButton
+};

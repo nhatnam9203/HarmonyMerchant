@@ -11,13 +11,12 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import {
     Dropdown,
-    ButtonCustom, Text, BrowserFile, TextInputSuggestion
+    ButtonCustom, Text, BrowserFile, TextInputSuggestion,FooterTwoButton
 } from '@components';
 import { scaleSzie, localize } from '@utils';
 import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
-
 
 class Layout extends React.Component {
 
@@ -417,42 +416,15 @@ class Layout extends React.Component {
 
     }
 
-    renderFooter() {
-        const { language } = this.props;
-
-        return (
-            <View style={styles.footer} >
-                <View style={styles.buttonContainer} >
-                    <ButtonCustom
-                        width={scaleSzie(250)}
-                        height={40}
-                        backgroundColor="#F1F1F1"
-                        title={localize('BACK', language)}
-                        textColor="#6A6A6A"
-                        onPress={() => this.props.backTab()}
-                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                    />
-                </View>
-                <View style={styles.buttonContainer} >
-                    <ButtonCustom
-                        width={scaleSzie(250)}
-                        height={40}
-                        backgroundColor="#0764B0"
-                        title={localize('NEXT', language)}
-                        textColor="#fff"
-                        onPress={() => this.props.nextTab()}
-                    />
-                </View>
-            </View>
-        );
-    }
-
 
     render() {
         return (
             <View style={styles.container} >
                 {this.renderBody()}
-                {this.renderFooter()}
+                <FooterTwoButton 
+                     back={() =>  this.props.backTab()}
+                     next={() => this.props.nextTab()}
+                />
             </View>
 
         );
