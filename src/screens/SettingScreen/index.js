@@ -149,7 +149,6 @@ class SettingScreen extends Layout {
     // add firease comment
     // this.props.actions.auth.logout();
     this.props.actions.auth.requestLogout();
-
     this.props.navigation.navigate("SigninStack");
   };
 

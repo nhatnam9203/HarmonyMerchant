@@ -34,8 +34,10 @@ function uploadReducer(state = initialState, action) {
 
 // module.exports = appReducer;
 
-module.exports = persistReducer({
-    key: "upload",
-    storage: AsyncStorage,
-    whitelist:[]
-  }, uploadReducer);
+// module.exports = persistReducer({
+//     key: "upload",
+//     storage: AsyncStorage,
+//     whitelist:[]
+//   }, uploadReducer);
+
+module.exports =  uploadReducer;

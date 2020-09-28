@@ -45,8 +45,9 @@ function authReducer(state = initialState, action) {
     }
 }
 
-module.exports = persistReducer({
-    key: "auth",
-    storage: AsyncStorage,
-    whitelist:[]
-  }, authReducer);
+// module.exports = persistReducer({
+//     key: "auth",
+//     storage: AsyncStorage,
+//     whitelist:[]
+//   }, authReducer);
+module.exports = authReducer;

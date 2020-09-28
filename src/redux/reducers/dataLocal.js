@@ -181,8 +181,9 @@ const sensitiveStorage = createSensitiveStorage({
 
 const dataLocalPersistConfig = {
     key: "dataLocal",
+    // storage: sensitiveStorage,
     storage: AsyncStorage,
-    blacklist:[]
+    blacklist: []
 };
 
 module.exports = persistReducer(dataLocalPersistConfig, dataLocalReducer);

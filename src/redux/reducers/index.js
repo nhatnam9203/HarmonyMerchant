@@ -19,16 +19,11 @@ import marketing from "./marketing";
 import network from "./network";
 import report from "./report";
 
-
-
-// const rootPersistConfig = (nameReducer) => {
-//   return {
-//     // key: "root",
-//     key:`${nameReducer}`,
-//     storage: AsyncStorage,
-//     // blacklist: ["app", "auth", "upload", "network", "appointment"],
-//   }
-// };
+const rootPersistConfig = {
+  key: 'root',
+  storage: storage,
+  blacklist: ["app", "auth", "upload", "network", "appointment"],
+}
 
 const appReducer = combineReducers({
   dataLocal,
@@ -48,9 +43,10 @@ const appReducer = combineReducers({
   report,
 });
 
+
+
 const rootReducer = (state, action) => {
   if (action.type === "LOGOUT_APP") {
-    console.log("----- LOGOUT_APP ------");
     const { dataLocal } = state;
     state = {
       dataLocal: {
