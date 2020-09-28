@@ -418,9 +418,9 @@ class Layout extends React.Component {
           window.onscroll = function() { window.postMessage(document.documentElement.scrollTop||document.body.scrollTop)}
           true
           `;
-        // const uriWebview = `${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}&deviceId=${deviceId}`;
-        const uriWebview= "https://dev.harmonypayment.com/calendar/index.html?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjaGFudElkIjoiMjc1Iiwic3RhZmZJZCI6IjI2OSIsInJvbGUiOiJNZXJjaGFudCIsIm5iZiI6MTYwMDI0MTU2NSwiZXhwIjoxNjI4NzI2Mzg1LCJpYXQiOjE2MDAyNDE1NjUsImlzcyI6Imh0dHA6Ly9kZXYuaGFybW9ueXBheW1lbnQuY29tL2FwaS8ifQ.ZJtXz3PGa9fIUoKydc4RSenV6Pj_13VJBe4mGG8wcR4&merchantid=275&staffId=269&deviceId=965f36bab5ad543e"
-        console.log(uriWebview);
+        const uriWebview = `${apiConfigs.CALENDAR_URL}?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}&deviceId=${deviceId}`;
+        // const uriWebview= "https://dev.harmonypayment.com/calendar/index.html?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjaGFudElkIjoiMjc1Iiwic3RhZmZJZCI6IjI2OSIsInJvbGUiOiJNZXJjaGFudCIsIm5iZiI6MTYwMDI0MTU2NSwiZXhwIjoxNjI4NzI2Mzg1LCJpYXQiOjE2MDAyNDE1NjUsImlzcyI6Imh0dHA6Ly9kZXYuaGFybW9ueXBheW1lbnQuY29tL2FwaS8ifQ.ZJtXz3PGa9fIUoKydc4RSenV6Pj_13VJBe4mGG8wcR4&merchantid=275&staffId=269&deviceId=965f36bab5ad543e"
+        // console.log(uriWebview);
 
         return (
             <View style={styles.container} >
