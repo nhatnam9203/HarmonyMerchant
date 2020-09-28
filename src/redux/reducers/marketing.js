@@ -26,14 +26,14 @@ const initialState = {
     isDiscountByOwner: true
 }
 
-function appReducer(state = initialState, action) {
+function marketingReducer(state = initialState, action) {
     switch (action.type) {
-        case 'REHYDRATE_MARKETINGS':
-            return {
-                ...initialState,
-                listBanners: action.listBanners,
-                promotions: action.promotions
-            }
+        // case 'REHYDRATE_MARKETINGS':
+        //     return {
+        //         ...initialState,
+        //         listBanners: action.listBanners,
+        //         promotions: action.promotions
+        //     }
         case 'RESET_GROUP_APPOINTMENT':
             return {
                 ...state,
@@ -163,10 +163,18 @@ function appReducer(state = initialState, action) {
     }
 }
 
-const persistConfig = {
+// const persistConfig = {
+//     key: 'marketing',
+//     storage: AsyncStorage,
+//     whitelist: ['listBanners', 'promotions']
+// };
+
+// module.exports = persistReducer(persistConfig, appReducer);
+
+
+module.exports = persistReducer({
     key: 'marketing',
     storage: AsyncStorage,
     whitelist: ['listBanners', 'promotions']
-};
+  }, marketingReducer);
 
-module.exports = persistReducer(persistConfig, appReducer);

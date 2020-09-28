@@ -23,13 +23,13 @@ const initialState = {
   isShowSearchResult: false
 };
 
-function appReducer(state = initialState, action) {
+function staffReducer(state = initialState, action) {
   switch (action.type) {
-    case "REHYDRATE_STAFFS":
-      return {
-        ...initialState,
-        listStaffByMerchant: action.payload,
-      };
+    // case "REHYDRATE_STAFFS":
+    //   return {
+    //     ...initialState,
+    //     listStaffByMerchant: action.payload,
+    //   };
     case "LOGIN_STAFF":
       return {
         ...state,
@@ -183,10 +183,17 @@ function appReducer(state = initialState, action) {
   }
 }
 
-const persistConfig = {
+// const persistConfig = {
+//   key: "staff",
+//   storage: AsyncStorage,
+//   whitelist: ["listStaffByMerchant"],
+// };
+
+// module.exports = persistReducer(persistConfig, appReducer);
+
+module.exports = persistReducer({
   key: "staff",
   storage: AsyncStorage,
   whitelist: ["listStaffByMerchant"],
-};
+}, staffReducer);
 
-module.exports = persistReducer(persistConfig, appReducer);

@@ -344,6 +344,7 @@ const removeBlockAppointment = (blockAppointments, appointmentIdRemove) => {
 
 module.exports = persistReducer({
     key: "appointment",
-    storage: AsyncStorage
+    storage: AsyncStorage,
+    whitelist:[]
   }, appointmentReducer);
 

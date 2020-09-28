@@ -38,7 +38,7 @@ const initialState = {
   productSaleByProductDetailExportPath: null,
 };
 
-function appReducer(state = initialState, action) {
+function reportReducer(state = initialState, action) {
   switch (action.type) {
     case ACTION_TYPES.OPM_GetListSuccess:
       return {
@@ -213,10 +213,16 @@ function appReducer(state = initialState, action) {
   }
 }
 
-const persistConfig = {
+// const persistConfig = {
+//   key: "report",
+//   storage: AsyncStorage,
+//   whitelist: [],
+// };
+
+// module.exports = persistReducer(persistConfig, appReducer);
+
+module.exports = persistReducer({
   key: "report",
   storage: AsyncStorage,
   whitelist: [],
-};
-
-module.exports = persistReducer(persistConfig, appReducer);
+}, reportReducer);

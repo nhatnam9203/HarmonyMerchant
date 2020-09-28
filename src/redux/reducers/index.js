@@ -19,46 +19,38 @@ import marketing from "./marketing";
 import network from "./network";
 import report from "./report";
 
-const sensitiveStorage = createSensitiveStorage({
-  keychainService: "myKeychain",
-  sharedPreferencesName: "mySharedPrefs"
-});
 
 
-const rootPersistConfig = (nameReducer) => {
-  return {
-    // key: "root",
-    key:`${nameReducer}`,
-    storage: AsyncStorage,
-    // blacklist: ["app", "auth", "upload", "network", "appointment"],
-  }
-};
-
-const dataLocalPersistConfig = {
-  key: "dataLocal",
-  storage: sensitiveStorage
-};
+// const rootPersistConfig = (nameReducer) => {
+//   return {
+//     // key: "root",
+//     key:`${nameReducer}`,
+//     storage: AsyncStorage,
+//     // blacklist: ["app", "auth", "upload", "network", "appointment"],
+//   }
+// };
 
 const appReducer = combineReducers({
-  dataLocal: persistReducer(dataLocalPersistConfig, dataLocal),
+  dataLocal,
   app,
-  auth: persistReducer(rootPersistConfig("auth"), auth),
-  category: persistReducer(rootPersistConfig("category"), category),
-  product: persistReducer(rootPersistConfig("product"), product),
-  staff: persistReducer(rootPersistConfig("staff"), staff),
-  service: persistReducer(rootPersistConfig("service"), service),
-  extra: persistReducer(rootPersistConfig("extra"), extra),
-  upload: persistReducer(rootPersistConfig("upload"), upload),
+  auth,
+  category,
+  product,
+  staff,
+  service,
+  extra,
+  upload,
   appointment,
-  customer: persistReducer(rootPersistConfig("customer"), customer),
-  invoice: persistReducer(rootPersistConfig("invoice"), invoice),
-  marketing: persistReducer(rootPersistConfig("marketing"), marketing),
-  network: persistReducer(rootPersistConfig("network"), network),
-  report: persistReducer(rootPersistConfig("report"), report),
+  customer,
+  invoice,
+  marketing,
+  network,
+  report,
 });
 
 const rootReducer = (state, action) => {
   if (action.type === "LOGOUT_APP") {
+    console.log("----- LOGOUT_APP ------");
     const { dataLocal } = state;
     state = {
       dataLocal: {

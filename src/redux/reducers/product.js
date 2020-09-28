@@ -11,14 +11,13 @@ const initialState = {
     inventoryTabPermission: false
 }
 
-function appReducer(state = initialState, action) {
+function productReducer(state = initialState, action) {
     switch (action.type) {
-        case 'REHYDRATE_PRODUCTS':
-            return {
-                ...initialState,
-                productsByMerchantId: action.payload
-            }
-
+        // case 'REHYDRATE_PRODUCTS':
+        //     return {
+        //         ...initialState,
+        //         productsByMerchantId: action.payload
+        //     }
         case 'GET_PRODUCTS_BY_MERCHANR_ID':
             return {
                 ...state,
@@ -88,11 +87,17 @@ function appReducer(state = initialState, action) {
     }
 }
 
-const persistConfig = {
+// const persistConfig = {
+//     key: 'product',
+//     storage: AsyncStorage,
+//     whitelist: ['productsByMerchantId']
+// };
+
+// module.exports = persistReducer(persistConfig, appReducer);
+
+module.exports = persistReducer({
     key: 'product',
     storage: AsyncStorage,
     whitelist: ['productsByMerchantId']
-};
-
-module.exports = persistReducer(persistConfig, appReducer);
+  }, productReducer);
 

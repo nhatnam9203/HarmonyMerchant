@@ -9,13 +9,13 @@ const initialState = {
     isGetListSearchExtra: false
 }
 
-function appReducer(state = initialState, action) {
+function extraReducer(state = initialState, action) {
     switch (action.type) {
-        case 'REHYDRATE_EXTRAS':
-            return {
-                ...initialState,
-                extrasByMerchant: action.payload
-            }
+        // case 'REHYDRATE_EXTRAS':
+        //     return {
+        //         ...initialState,
+        //         extrasByMerchant: action.payload
+        //     }
         case 'GET_EXTRA_BY_MERCHANT':
             return {
                 ...state,
@@ -73,10 +73,16 @@ function appReducer(state = initialState, action) {
     }
 }
 
-const persistConfig = {
+// const persistConfig = {
+//     key: 'extra',
+//     storage: AsyncStorage,
+//     whitelist: ['extrasByMerchant']
+// };
+
+// module.exports = persistReducer(persistConfig, appReducer);
+
+module.exports = persistReducer({
     key: 'extra',
     storage: AsyncStorage,
     whitelist: ['extrasByMerchant']
-};
-
-module.exports = persistReducer(persistConfig, appReducer);
+  }, extraReducer);

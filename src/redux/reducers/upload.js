@@ -1,9 +1,12 @@
+import { persistReducer } from "redux-persist";
+import AsyncStorage from "@react-native-community/async-storage";
+
 const initialState = {
     isUpload: false,
     dataUpload: {}
 }
 
-function appReducer(state = initialState, action) {
+function uploadReducer(state = initialState, action) {
     switch (action.type) {
         case 'UPLOAD_AVATAR_SUCCESS':
             return {
@@ -29,4 +32,10 @@ function appReducer(state = initialState, action) {
     }
 }
 
-module.exports = appReducer;
+// module.exports = appReducer;
+
+module.exports = persistReducer({
+    key: "upload",
+    storage: AsyncStorage,
+    whitelist:[]
+  }, uploadReducer);

@@ -9,13 +9,13 @@ const initialState = {
     customerTabPermission: false
 }
 
-function appReducer(state = initialState, action) {
+function customerReducer(state = initialState, action) {
     switch (action.type) {
-        case 'REHYDRATE_CUSTOMERS':
-            return {
-                ...initialState,
-                listCustomersByMerchant: action.payload
-            }
+        // case 'REHYDRATE_CUSTOMERS':
+        //     return {
+        //         ...initialState,
+        //         listCustomersByMerchant: action.payload
+        //     }
         case 'GET_LIST_CUSTOMER_BY_MERCHANT':
             return {
                 ...state,
@@ -70,10 +70,9 @@ function appReducer(state = initialState, action) {
     }
 }
 
-const persistConfig = {
+
+module.exports = persistReducer({
     key: 'customer',
     storage: AsyncStorage,
     whitelist: ['listCustomersByMerchant']
-};
-
-module.exports = persistReducer(persistConfig, appReducer);
+  }, customerReducer);

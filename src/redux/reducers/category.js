@@ -9,13 +9,13 @@ const initialState = {
     isGetListSearchCategories: false,
 }
 
-function appReducer(state = initialState, action) {
+function categoriesReducer(state = initialState, action) {
     switch (action.type) {
-        case 'REHYDRATE_CATEGORIES':
-            return {
-                ...initialState,
-                categoriesByMerchant: action.payload,
-            }
+        // case 'REHYDRATE_CATEGORIES':
+        //     return {
+        //         ...initialState,
+        //         categoriesByMerchant: action.payload,
+        //     }
 
         case 'GET_CATEGORIES_BY_MERCHANR_ID':
             return {
@@ -76,11 +76,17 @@ function appReducer(state = initialState, action) {
 }
 
 
-const persistConfig = {
-    key: 'category',
+// const persistConfig = {
+//     key: 'category',
+//     storage: AsyncStorage,
+//     whitelist: ["categoriesByMerchant"]
+// };
+
+// module.exports = persistReducer(persistConfig, appReducer);
+
+module.exports = persistReducer({
+    key: "category",
     storage: AsyncStorage,
     whitelist: ["categoriesByMerchant"]
-};
-
-module.exports = persistReducer(persistConfig, appReducer);
+  }, categoriesReducer);
 
