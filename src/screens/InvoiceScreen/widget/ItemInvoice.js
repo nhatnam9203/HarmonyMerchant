@@ -105,14 +105,14 @@ class ItemInvoice extends React.Component {
                     </View>
                 </View>
                 {/* ----------- Col 3 --------- */}
-                <View style={{ flex: 0.7, justifyContent: 'center', alignItems: 'flex-end' }} >
+                <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'flex-end' }} >
                     {
                         settlementId ? <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: "400", marginBottom: scaleSzie(2) }} >
                             {`Batch ID: #${settlementId}`}
                         </Text> : null
                     }
 
-                    <Text style={{ fontSize: scaleSzie(16), color: '#404040', fontWeight: "600" }} >
+                    <Text style={{ fontSize: scaleSzie(14), color: '#404040', fontWeight: "600" }} >
                         {`$ ${invoice.total}`}
                     </Text>
                 </View>

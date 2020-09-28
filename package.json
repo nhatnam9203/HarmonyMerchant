@@ -10,7 +10,6 @@
     "codepush:android:staging": "code-push release-react HpMerchant-ANDROID ios -d \"Staging\" -k private.pem -m --plistFile ./ios/staging.plist --description \"Test printer\" -t \"1.0.8\"",
     "codepush:ios:product": "code-push release-react HpMerchant-IOS ios -d \"Production\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info.plist --description \"fix bugs earn points \" -t \"1.1.2\" ",
     "android-dev": "adb reverse tcp:8081 tcp:8081"
-
   },
   "dependencies": {
     "@microsoft/signalr": "^3.1.4",
@@ -53,6 +52,7 @@
     "react-native-qrcode-svg": "^5.1.2",
     "react-native-reanimated": "^1.9.0",
     "react-native-screens": "^2.9.0",
+    "react-native-sensitive-info": "^5.5.8",
     "react-native-share": "^1.2.1",
     "react-native-sortable-listview": "^0.2.9",
     "react-native-splash-screen": "^3.2.0",
@@ -74,6 +74,7 @@
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-persist": "^5.10.0",
+    "redux-persist-sensitive-storage": "^1.0.0",
     "redux-saga": "^1.0.2",
     "rn-fetch-blob": "^0.10.16",
     "rxjs": "^6.5.2"

@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
-import { persistReducer, persistStore } from "redux-persist";
+import { persistReducer } from "redux-persist";
 import AsyncStorage from "@react-native-community/async-storage";
+import createSensitiveStorage from "redux-persist-sensitive-storage";
 
 import app from "./app";
 import dataLocal from "./dataLocal";
@@ -18,15 +19,26 @@ import marketing from "./marketing";
 import network from "./network";
 import report from "./report";
 
+
+const sensitiveStorage = createSensitiveStorage({
+  keychainService: "myKeychain",
+  sharedPreferencesName: "mySharedPrefs"
+});
+
+
 const rootPersistConfig = {
   key: "root",
   storage: AsyncStorage,
   blacklist: ["app", "auth", "upload", "network", "appointment"],
-  // stateReconciler: autoMergeLevel2,
+};
+
+const dataLocalPersistConfig = {
+  key: "dataLocal",
+  storage: sensitiveStorage
 };
 
 const appReducer = combineReducers({
-  dataLocal,
+  dataLocal: persistReducer(dataLocalPersistConfig, dataLocal),
   app,
   auth,
   category,
