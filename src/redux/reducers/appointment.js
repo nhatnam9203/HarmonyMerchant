@@ -40,7 +40,7 @@ const initialState = {
     bookingGroupId: 0
 }
 
-function appReducer(state = initialState, action) {
+function appointmentReducer(state = initialState, action) {
     switch (action.type) {
         // case 'REHYDRATE_APPOINTMENT':
         //     return {
@@ -342,13 +342,8 @@ const removeBlockAppointment = (blockAppointments, appointmentIdRemove) => {
 }
 
 
-
-// const persistConfig = {
-//     key: 'appointment',
-//     storage: AsyncStorage,
-//     whitelist: ['listAppointmentsOfflineMode']
-// };
-
-// module.exports = persistReducer(persistConfig, appReducer);
-module.exports = appReducer;
+module.exports = persistReducer({
+    key: "appointment",
+    storage: AsyncStorage
+  }, appointmentReducer);
 

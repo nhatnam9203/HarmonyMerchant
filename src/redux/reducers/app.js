@@ -1,3 +1,6 @@
+import { persistReducer } from "redux-persist";
+import AsyncStorage from "@react-native-community/async-storage";
+
 const initialState = {
   loading: false,
   generalInfo: "",
@@ -10,7 +13,6 @@ const initialState = {
     packagePricing: 0,
   },
   visibleModalLock: false,
-  timeOutLockScreen: 15 * 1000 * 60,
   question: [],
   isFlashScreen: true,
   visibleEnterPin: true,
@@ -255,4 +257,7 @@ function appReducer(state = initialState, action) {
   }
 }
 
-module.exports = appReducer;
+module.exports = persistReducer({
+  key: "app",
+  storage: AsyncStorage,
+}, appReducer);

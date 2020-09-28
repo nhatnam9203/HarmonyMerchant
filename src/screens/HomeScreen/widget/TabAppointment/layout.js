@@ -15,6 +15,7 @@ import {
 } from '../TabCheckout/widget';
 import IMAGE from '@resources';
 import { PopupDiscount, PopupChangeStylist, ItemBasket, PopupChangePriceAmountProduct } from './widget';
+import apiConfigs from '@configs/api';
 
 
 class Layout extends React.Component {

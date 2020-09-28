@@ -19,17 +19,19 @@ import marketing from "./marketing";
 import network from "./network";
 import report from "./report";
 
-
 const sensitiveStorage = createSensitiveStorage({
   keychainService: "myKeychain",
   sharedPreferencesName: "mySharedPrefs"
 });
 
 
-const rootPersistConfig = {
-  key: "root",
-  storage: AsyncStorage,
-  blacklist: ["app", "auth", "upload", "network", "appointment"],
+const rootPersistConfig = (nameReducer) => {
+  return {
+    // key: "root",
+    key:`${nameReducer}`,
+    storage: AsyncStorage,
+    // blacklist: ["app", "auth", "upload", "network", "appointment"],
+  }
 };
 
 const dataLocalPersistConfig = {
@@ -40,19 +42,19 @@ const dataLocalPersistConfig = {
 const appReducer = combineReducers({
   dataLocal: persistReducer(dataLocalPersistConfig, dataLocal),
   app,
-  auth,
-  category,
-  product,
-  staff,
-  service,
-  extra,
-  upload,
+  auth: persistReducer(rootPersistConfig("auth"), auth),
+  category: persistReducer(rootPersistConfig("category"), category),
+  product: persistReducer(rootPersistConfig("product"), product),
+  staff: persistReducer(rootPersistConfig("staff"), staff),
+  service: persistReducer(rootPersistConfig("service"), service),
+  extra: persistReducer(rootPersistConfig("extra"), extra),
+  upload: persistReducer(rootPersistConfig("upload"), upload),
   appointment,
-  customer,
-  invoice,
-  marketing,
-  network,
-  report,
+  customer: persistReducer(rootPersistConfig("customer"), customer),
+  invoice: persistReducer(rootPersistConfig("invoice"), invoice),
+  marketing: persistReducer(rootPersistConfig("marketing"), marketing),
+  network: persistReducer(rootPersistConfig("network"), network),
+  report: persistReducer(rootPersistConfig("report"), report),
 });
 
 const rootReducer = (state, action) => {
@@ -72,7 +74,7 @@ const rootReducer = (state, action) => {
         isLoginStaff: false,
         listAppointmentsOfflineMode: [],
         deviceId: "",
-        versionApp:dataLocal.versionApp,
+        versionApp: dataLocal.versionApp,
         isRememberMID: dataLocal.isRememberMID,
       },
     };
@@ -81,4 +83,5 @@ const rootReducer = (state, action) => {
   return appReducer(state, action);
 };
 
-export default persistReducer(rootPersistConfig, rootReducer);
+// export default persistReducer(rootPersistConfig, rootReducer);
+export default rootReducer;

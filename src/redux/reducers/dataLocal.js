@@ -22,7 +22,6 @@ const initialState = {
     checkEmailToResetPax: "",
     MIDStorage: "",
     isRememberMID: false,
-    // printerList: [],
     printerPortType: "Bluetooth",
     printerList: [],
     printerSelect: "",
