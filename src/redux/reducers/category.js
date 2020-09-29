@@ -69,6 +69,10 @@ function categoriesReducer(state = initialState, action) {
                 ...state,
                 isGetListSearchCategories: true
             }
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
 
         default:
             return state
@@ -88,5 +92,5 @@ module.exports = persistReducer({
     key: "category",
     storage: AsyncStorage,
     whitelist: ["categoriesByMerchant"]
-  }, categoriesReducer);
+}, categoriesReducer);
 

@@ -82,6 +82,10 @@ function productReducer(state = initialState, action) {
                 ...state,
                 inventoryTabPermission: false,
             }
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
         default:
             return state
     }
@@ -99,5 +103,5 @@ module.exports = persistReducer({
     key: 'product',
     storage: AsyncStorage,
     whitelist: ['productsByMerchantId']
-  }, productReducer);
+}, productReducer);
 

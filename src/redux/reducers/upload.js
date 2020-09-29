@@ -26,6 +26,10 @@ function uploadReducer(state = initialState, action) {
                 isUpload: false,
                 dataUpload: {}
             }
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
 
         default:
             return state
@@ -35,5 +39,5 @@ function uploadReducer(state = initialState, action) {
 module.exports = persistReducer({
     key: "upload",
     storage: AsyncStorage,
-    whitelist:[]
-  }, uploadReducer);
+    whitelist: []
+}, uploadReducer);

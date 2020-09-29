@@ -68,7 +68,10 @@ function serviceReducer(state = initialState, action) {
                 ...state,
                 servicesByMerchant: action.payload
             }
-
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
 
         default:
             return state
@@ -89,6 +92,6 @@ module.exports = persistReducer({
     key: 'service',
     storage: AsyncStorage,
     whitelist: ['servicesByMerchant']
-  }, serviceReducer);
+}, serviceReducer);
 
 

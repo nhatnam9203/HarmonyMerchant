@@ -73,4 +73,4 @@ const rootReducer = (state, action) => {
 };
 
 // export default persistReducer(rootPersistConfig, rootReducer);
-export default rootReducer;
+export default appReducer;

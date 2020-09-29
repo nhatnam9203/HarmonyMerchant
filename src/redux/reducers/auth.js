@@ -39,6 +39,10 @@ function authReducer(state = initialState, action) {
                 ...state,
                 visiblePopupCheckStaffPermission: action.payload
             }
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
 
         default:
             return state
@@ -48,5 +52,5 @@ function authReducer(state = initialState, action) {
 module.exports = persistReducer({
     key: "auth",
     storage: AsyncStorage,
-    whitelist:[]
-  }, authReducer);
+    whitelist: []
+}, authReducer);

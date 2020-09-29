@@ -256,6 +256,10 @@ function invoiceReducer(state = initialState, action) {
                 ...state,
                 gitfCardSalesBySettlementId: action.payload
             }
+            case 'LOGOUT_APP':
+                return {
+                  ...initialState,
+                }
         default:
             return state
     }

@@ -294,6 +294,10 @@ function appointmentReducer(state = initialState, action) {
                 ...state,
                 bookingGroupId: action.payload,
             }
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
         default:
             return state
     }
@@ -345,6 +349,6 @@ const removeBlockAppointment = (blockAppointments, appointmentIdRemove) => {
 module.exports = persistReducer({
     key: "appointment",
     storage: AsyncStorage,
-    whitelist:[]
-  }, appointmentReducer);
+    whitelist: []
+}, appointmentReducer);
 

@@ -207,6 +207,10 @@ function reportReducer(state = initialState, action) {
         productSaleByProductDetailExportPath: action.payload,
         isDownloadReport: false,
       };
+      case 'LOGOUT_APP':
+        return {
+          ...initialState,
+        }
 
     default:
       return state;

@@ -26,7 +26,7 @@ function extraReducer(state = initialState, action) {
                 ...state,
                 extrasByMerchant: !action.searchFilter ? action.payload : state.extrasByMerchant,
                 listExtrasSearch: action.searchFilter ? action.payload : state.listExtrasSearch,
-                isShowSearchExtra:action.searchFilter,
+                isShowSearchExtra: action.searchFilter,
                 refreshListExtras: false
             }
         case 'GET_EXTRA_BY_MERCHANT_FAIL':
@@ -67,7 +67,10 @@ function extraReducer(state = initialState, action) {
                 ...state,
                 extrasByMerchant: action.payload,
             }
-
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
         default:
             return state
     }
@@ -85,4 +88,4 @@ module.exports = persistReducer({
     key: 'extra',
     storage: AsyncStorage,
     whitelist: ['extrasByMerchant']
-  }, extraReducer);
+}, extraReducer);

@@ -178,6 +178,10 @@ function staffReducer(state = initialState, action) {
         isDownloadReportStaff: false,
         pathFileReportStaffStatistic: null,
       };
+      case 'LOGOUT_APP':
+        return {
+          ...initialState,
+        }
     default:
       return state;
   }

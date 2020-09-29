@@ -2,6 +2,7 @@ import { persistReducer } from "redux-persist";
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { getModalNameOfPrinter } from "@utils";
+import { init } from "ramda";
 
 const initialState = {
     profile: {},
@@ -168,18 +169,30 @@ function dataLocalReducer(state = initialState, action) {
                 ...state,
                 profileLoginInvoice: action.payload,
             }
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+                stateCity: state.stateCity,
+                language: state.language,
+                autoCloseAt: state.autoCloseAt,
+                autoLockScreenAfter: state.autoLockScreenAfter,
+                paxMachineInfo: state.paxMachineInfo,
+                MIDStorage: state.MIDStorage,
+                versionApp: state.versionApp,
+                isRememberMID: state.isRememberMID,
+            }
         default:
             return state
     }
 }
 
 
-  
+
 
 const dataLocalPersistConfig = {
     key: "dataLocal",
     storage: AsyncStorage,
-    blacklist:[],
+    blacklist: [],
 };
 
 module.exports = persistReducer(dataLocalPersistConfig, dataLocalReducer);

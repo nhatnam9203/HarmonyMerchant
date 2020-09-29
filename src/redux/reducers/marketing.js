@@ -22,7 +22,7 @@ const initialState = {
     isApplyFourthPromotion: false,
     isApplyFivethPromotion: false,
     isGetPromotionOfAppointment: "",
-    promotionNotes:{},
+    promotionNotes: {},
     isDiscountByOwner: true
 }
 
@@ -93,7 +93,7 @@ function marketingReducer(state = initialState, action) {
                 appointmentIdUpdatePromotion: action.appointmentId,
                 isGetPromotionOfAppointment: "success",
                 promotionNotes: action.promotionNotes,
-                isDiscountByOwner : action.isDiscountByOwner
+                isDiscountByOwner: action.isDiscountByOwner
             }
         case 'GET_PROMOTION_BY_APPOINTMENT_FAIL':
             return {
@@ -113,7 +113,7 @@ function marketingReducer(state = initialState, action) {
                 appointmentIdUpdatePromotion: action.appointmentId,
                 promotionNotes: action.promotionNotes,
                 isGetPromotionOfAppointment: "success",
-                isDiscountByOwner : action.isDiscountByOwner
+                isDiscountByOwner: action.isDiscountByOwner
             }
 
         case 'CLOSE_MODAL_DISCOUNT':
@@ -156,7 +156,10 @@ function marketingReducer(state = initialState, action) {
                 marketingTabPermission: action.payload,
                 isGoToTabMarketing: action.isGoToTabMarketing
             }
-
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
 
         default:
             return state
@@ -176,5 +179,5 @@ module.exports = persistReducer({
     key: 'marketing',
     storage: AsyncStorage,
     whitelist: ['listBanners', 'promotions']
-  }, marketingReducer);
+}, marketingReducer);
 

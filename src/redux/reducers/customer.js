@@ -64,7 +64,10 @@ function customerReducer(state = initialState, action) {
                 ...state,
                 customerTabPermission: false,
             }
-
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
         default:
             return state
     }
@@ -75,4 +78,4 @@ module.exports = persistReducer({
     key: 'customer',
     storage: AsyncStorage,
     whitelist: ['listCustomersByMerchant']
-  }, customerReducer);
+}, customerReducer);

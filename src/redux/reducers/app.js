@@ -251,6 +251,10 @@ function appReducer(state = initialState, action) {
         ...state,
         settingTabPermission: false,
       };
+    case 'LOGOUT_APP':
+      return {
+        ...initialState,
+      }
 
     default:
       return state;
@@ -260,5 +264,5 @@ function appReducer(state = initialState, action) {
 module.exports = persistReducer({
   key: "app",
   storage: AsyncStorage,
-  whitelist:[]
+  whitelist: []
 }, appReducer);

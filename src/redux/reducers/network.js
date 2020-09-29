@@ -22,6 +22,10 @@ function networkReducer(state = initialState, action) {
                 ...state,
                 isOfflineMode: true
             }
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
         default:
             return state
     }
@@ -38,6 +42,6 @@ function networkReducer(state = initialState, action) {
 module.exports = persistReducer({
     key: "network",
     storage: AsyncStorage,
-    whitelist:[]
-  }, networkReducer);
+    whitelist: []
+}, networkReducer);
 
