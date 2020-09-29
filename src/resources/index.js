@@ -90,6 +90,7 @@ export default {
   print_batch_history: require('./img/print_batch_history.png'),
   share_batch_history: require('./img/share_batch_history.png'),
   clear_text_input: require('./img/closePopup.png'),
+  camera_switcher: require('./img/camera_switcher.png'),
 
 
   // --- Payment ---

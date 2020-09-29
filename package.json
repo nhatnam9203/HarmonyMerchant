@@ -75,6 +75,7 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-persist": "^5.10.0",
     "redux-persist-sensitive-storage": "^1.0.0",
+    "redux-persist-transform-encrypt": "^2.0.1",
     "redux-saga": "^1.0.2",
     "rn-fetch-blob": "^0.10.16",
     "rxjs": "^6.5.2"
