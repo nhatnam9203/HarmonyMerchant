@@ -27,11 +27,17 @@ function networkReducer(state = initialState, action) {
     }
 }
 
-module.exports = networkReducer;
+// module.exports = networkReducer;
 
 // module.exports = persistReducer({
 //     key: "network",
 //     storage: AsyncStorage,
 //     whitelist:[]
 //   }, networkReducer);
+
+module.exports = persistReducer({
+    key: "network",
+    storage: AsyncStorage,
+    whitelist:[]
+  }, networkReducer);
 

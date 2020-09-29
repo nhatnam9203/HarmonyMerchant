@@ -226,3 +226,4 @@ module.exports = persistReducer({
   storage: AsyncStorage,
   whitelist: [],
 }, reportReducer);
+

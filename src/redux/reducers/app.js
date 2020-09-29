@@ -257,10 +257,8 @@ function appReducer(state = initialState, action) {
   }
 }
 
-// module.exports = persistReducer({
-//   key: "app",
-//   storage: AsyncStorage,
-//   whitelist:[]
-// }, appReducer);
-
-module.exports =appReducer;
+module.exports = persistReducer({
+  key: "app",
+  storage: AsyncStorage,
+  whitelist:[]
+}, appReducer);
