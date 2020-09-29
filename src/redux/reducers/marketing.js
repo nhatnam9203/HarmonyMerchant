@@ -28,12 +28,6 @@ const initialState = {
 
 function marketingReducer(state = initialState, action) {
     switch (action.type) {
-        // case 'REHYDRATE_MARKETINGS':
-        //     return {
-        //         ...initialState,
-        //         listBanners: action.listBanners,
-        //         promotions: action.promotions
-        //     }
         case 'RESET_GROUP_APPOINTMENT':
             return {
                 ...state,
@@ -165,15 +159,6 @@ function marketingReducer(state = initialState, action) {
             return state
     }
 }
-
-// const persistConfig = {
-//     key: 'marketing',
-//     storage: AsyncStorage,
-//     whitelist: ['listBanners', 'promotions']
-// };
-
-// module.exports = persistReducer(persistConfig, appReducer);
-
 
 module.exports = persistReducer({
     key: 'marketing',

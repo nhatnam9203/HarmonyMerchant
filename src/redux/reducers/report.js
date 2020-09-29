@@ -217,14 +217,6 @@ function reportReducer(state = initialState, action) {
   }
 }
 
-// const persistConfig = {
-//   key: "report",
-//   storage: AsyncStorage,
-//   whitelist: [],
-// };
-
-// module.exports = persistReducer(persistConfig, appReducer);
-
 module.exports = persistReducer({
   key: "report",
   storage: AsyncStorage,

@@ -11,12 +11,6 @@ const initialState = {
 
 function categoriesReducer(state = initialState, action) {
     switch (action.type) {
-        // case 'REHYDRATE_CATEGORIES':
-        //     return {
-        //         ...initialState,
-        //         categoriesByMerchant: action.payload,
-        //     }
-
         case 'GET_CATEGORIES_BY_MERCHANR_ID':
             return {
                 ...state,
@@ -78,15 +72,6 @@ function categoriesReducer(state = initialState, action) {
             return state
     }
 }
-
-
-// const persistConfig = {
-//     key: 'category',
-//     storage: AsyncStorage,
-//     whitelist: ["categoriesByMerchant"]
-// };
-
-// module.exports = persistReducer(persistConfig, appReducer);
 
 module.exports = persistReducer({
     key: "category",

@@ -1,8 +1,8 @@
 import { persistReducer } from "redux-persist";
 import AsyncStorage from '@react-native-community/async-storage';
+import createSensitiveStorage from "redux-persist-sensitive-storage";
 
 import { getModalNameOfPrinter } from "@utils";
-import { init } from "ramda";
 
 const initialState = {
     profile: {},
@@ -34,8 +34,6 @@ const initialState = {
 
 function dataLocalReducer(state = initialState, action) {
     switch (action.type) {
-        // case 'REHYDRATE_ROOT':
-        //     return action.payload.dataLocal
         case 'LOGIN_APP_SUCCESS':
             return {
                 ...state,
@@ -75,7 +73,6 @@ function dataLocalReducer(state = initialState, action) {
                 ...state,
                 language: action.payload.language,
                 autoCloseAt: action.payload.autoCloseAt,
-                // autoLockScreenAfter: action.payload.autoLockScreenAfter,
             }
         case 'GET_STATE_CITY_SUCCESS':
             return {
@@ -186,13 +183,17 @@ function dataLocalReducer(state = initialState, action) {
     }
 }
 
-
-
+const sensitiveStorage = createSensitiveStorage({
+    keychainService: "myKeychain",
+    sharedPreferencesName: "mySharedPrefs"
+  });
 
 const dataLocalPersistConfig = {
     key: "dataLocal",
-    storage: AsyncStorage,
-    blacklist: [],
+    // storage: AsyncStorage,
+    // blacklist: [],
+    storage: sensitiveStorage
+  
 };
 
 module.exports = persistReducer(dataLocalPersistConfig, dataLocalReducer);

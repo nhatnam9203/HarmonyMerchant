@@ -8,8 +8,6 @@ const initialState = {
     isDonePayment: false,
     connectionSignalR: {},
     flagSignInAppointment: false,
-    // listAppointmentsOfflineMode: [],
-
     groupAppointment: {},
     paymentDetailInfo: {},
     visiblePopupPaymentDetails: false,
@@ -42,11 +40,6 @@ const initialState = {
 
 function appointmentReducer(state = initialState, action) {
     switch (action.type) {
-        // case 'REHYDRATE_APPOINTMENT':
-        //     return {
-        //         ...initialState,
-        //         listAppointmentsOfflineMode: action.payload,
-        //     }
         case 'RESET_GROUP_APPOINTMENT':
             return {
                 ...initialState,

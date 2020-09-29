@@ -12,11 +12,6 @@ const initialState = {
 
 function serviceReducer(state = initialState, action) {
     switch (action.type) {
-        // case 'REHYDRATE_SERVICES':
-        //     return {
-        //         ...initialState,
-        //         servicesByMerchant: action.payload
-        //     }
         case 'GET_SERVICE_BY_MERCHANT':
             return {
                 ...state,
@@ -77,16 +72,6 @@ function serviceReducer(state = initialState, action) {
             return state
     }
 }
-
-
-
-// const persistConfig = {
-//     key: 'service',
-//     storage: AsyncStorage,
-//     whitelist: ['servicesByMerchant']
-// };
-
-// module.exports = persistReducer(persistConfig, appReducer);
 
 module.exports = persistReducer({
     key: 'service',

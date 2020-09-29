@@ -44,11 +44,6 @@ const initialState = {
 
 function invoiceReducer(state = initialState, action) {
     switch (action.type) {
-        // case 'REHYDRATE_INVOICES':
-        //     return {
-        //         ...initialState,
-        //         listInvoicesByMerchant: action.payload
-        //     }
         case 'GET_TRANSACTION_SETTLEMENT':
             return {
                 ...state,
@@ -264,14 +259,6 @@ function invoiceReducer(state = initialState, action) {
             return state
     }
 }
-
-// const persistConfig = {
-//     key: 'invoice',
-//     storage: AsyncStorage,
-//     whitelist: ['listInvoicesByMerchant']
-// };
-
-// module.exports = persistReducer(persistConfig, appReducer);
 
 module.exports = persistReducer({
     key: 'invoice',

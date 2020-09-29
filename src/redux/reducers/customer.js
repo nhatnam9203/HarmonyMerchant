@@ -11,11 +11,6 @@ const initialState = {
 
 function customerReducer(state = initialState, action) {
     switch (action.type) {
-        // case 'REHYDRATE_CUSTOMERS':
-        //     return {
-        //         ...initialState,
-        //         listCustomersByMerchant: action.payload
-        //     }
         case 'GET_LIST_CUSTOMER_BY_MERCHANT':
             return {
                 ...state,
@@ -72,7 +67,6 @@ function customerReducer(state = initialState, action) {
             return state
     }
 }
-
 
 module.exports = persistReducer({
     key: 'customer',

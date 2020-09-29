@@ -25,11 +25,6 @@ const initialState = {
 
 function staffReducer(state = initialState, action) {
   switch (action.type) {
-    // case "REHYDRATE_STAFFS":
-    //   return {
-    //     ...initialState,
-    //     listStaffByMerchant: action.payload,
-    //   };
     case "LOGIN_STAFF":
       return {
         ...state,
@@ -186,14 +181,6 @@ function staffReducer(state = initialState, action) {
       return state;
   }
 }
-
-// const persistConfig = {
-//   key: "staff",
-//   storage: AsyncStorage,
-//   whitelist: ["listStaffByMerchant"],
-// };
-
-// module.exports = persistReducer(persistConfig, appReducer);
 
 module.exports = persistReducer({
   key: "staff",

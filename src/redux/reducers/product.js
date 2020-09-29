@@ -13,11 +13,6 @@ const initialState = {
 
 function productReducer(state = initialState, action) {
     switch (action.type) {
-        // case 'REHYDRATE_PRODUCTS':
-        //     return {
-        //         ...initialState,
-        //         productsByMerchantId: action.payload
-        //     }
         case 'GET_PRODUCTS_BY_MERCHANR_ID':
             return {
                 ...state,
@@ -90,14 +85,6 @@ function productReducer(state = initialState, action) {
             return state
     }
 }
-
-// const persistConfig = {
-//     key: 'product',
-//     storage: AsyncStorage,
-//     whitelist: ['productsByMerchantId']
-// };
-
-// module.exports = persistReducer(persistConfig, appReducer);
 
 module.exports = persistReducer({
     key: 'product',
