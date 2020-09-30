@@ -10,11 +10,12 @@ import {
 } from 'react-native';
 import { StarPRNT } from 'react-native-star-prnt';
 import { captureRef, releaseCapture } from "react-native-view-shot";
+import Dash from 'react-native-dash';
 
 import ButtonCustom from './ButtonCustom';
 import {
-    scaleSzie, localize, PRINTER_MACHINE, getPaymentString, formatMoney, formatWithMoment,
-    getStaffNameForInvoice, getInfoFromModelNameOfPrinter
+    scaleSzie, localize, getPaymentString, formatMoney, formatWithMoment,
+    getStaffNameForInvoice, getInfoFromModelNameOfPrinter, checkIsTablet
 } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import PrintManager from '@lib/PrintManager';
@@ -196,9 +197,8 @@ class PopupInvoicePrint extends React.Component {
         const { basket, temptSubTotal, temptTax, temptDiscount, temptTip, temptTotal, isPrintTempt,
             isSignature, paymentMethods, titleInvoice, invoiceNo, checkoutPayments, promotionNotes
         } = this.state;
-
         const temtCheckoutPayment = paymentMethods.length > 0 ? paymentMethods : checkoutPayments;
-        // console.log("---- temtCheckoutPayment : ", temtCheckoutPayment);
+        const tempHeight = checkIsTablet() ? scaleSzie(400) : scaleSzie(450);
 
         return (
             <Modal
@@ -215,11 +215,10 @@ class PopupInvoicePrint extends React.Component {
                         style={{
                             backgroundColor: "#fff",
                             width: scaleSzie(290),
-                            // height: scaleSzie(450) 
                         }} >
 
                         <View
-                            style={{ height: scaleSzie(450) }}
+                            style={{ height: tempHeight }}
                         >
                             <ScrollView
                                 style={{ flex: 1 }}
@@ -228,7 +227,7 @@ class PopupInvoicePrint extends React.Component {
                             >
                                 <View
                                     ref={this.viewShotRef}
-                                    style={{ paddingHorizontal: scaleSzie(10),backgroundColor: '#FFFFFF' }}
+                                    style={{ paddingHorizontal: scaleSzie(10), backgroundColor: '#FFFFFF' }}
                                 >
                                     {/* ------------- Store Name ----------- */}
                                     <Text style={[styleInvoice.txt_normal, { fontSize: 24, fontWeight: "600", marginTop: scaleSzie(8) }]} >
@@ -257,11 +256,14 @@ class PopupInvoicePrint extends React.Component {
                                         {titleInvoice}
                                     </Text>
                                     {/* ------------- Dot Border  ----------- */}
-                                    <View style={{ height: scaleSzie(8), marginBottom: scaleSzie(8), }} >
-                                        <Text style={{ fontWeight: "300" }} >
-                                            {`- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`}
-                                        </Text>
-                                    </View>
+                                    <Dash
+                                        style={{ width: "100%", height: 1 }}
+                                        dashGap={5}
+                                        dashLength={8}
+                                        dashThickness={1}
+                                        style={{ marginBottom: scaleSzie(10) }}
+                                    />
+
                                     {/* ------------- Invoice Date ----------- */}
                                     <View style={{ flexDirection: "row" }} >
                                         <View style={{ width: scaleSzie(90) }} >
@@ -301,12 +303,15 @@ class PopupInvoicePrint extends React.Component {
                                             </Text>
                                         </View>
                                     </View>
+
                                     {/* ------------- Dot Border  ----------- */}
-                                    <View style={{ height: scaleSzie(8), marginTop: scaleSzie(4) }} >
-                                        <Text style={{ fontWeight: "300" }} >
-                                            {`- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`}
-                                        </Text>
-                                    </View>
+                                    <Dash
+                                        style={{ width: "100%", height: 1 }}
+                                        dashGap={5}
+                                        dashLength={8}
+                                        dashThickness={1}
+                                        style={{ marginBottom: scaleSzie(4), marginTop: scaleSzie(10) }}
+                                    />
 
                                     {/* ------------- Header  ----------- */}
                                     <View style={{ flexDirection: "row", marginTop: scaleSzie(6) }} >
@@ -332,11 +337,13 @@ class PopupInvoicePrint extends React.Component {
                                         </View>
                                     </View>
                                     {/* ------------- Dot Border  ----------- */}
-                                    <View style={{ height: scaleSzie(8), marginBottom: scaleSzie(4) }} >
-                                        <Text style={{ fontWeight: "300" }} >
-                                            {`- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`}
-                                        </Text>
-                                    </View>
+                                    <Dash
+                                        style={{ width: "100%", height: 1 }}
+                                        dashGap={5}
+                                        dashLength={8}
+                                        dashThickness={1}
+                                        style={{ marginBottom: scaleSzie(4), marginTop: scaleSzie(10) }}
+                                    />
 
                                     {/* ------------- Item Invoice   ----------- */}
                                     {
