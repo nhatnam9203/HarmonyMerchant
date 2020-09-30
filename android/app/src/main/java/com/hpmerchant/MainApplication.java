@@ -30,6 +30,7 @@ import com.microsoft.codepush.react.CodePush;
 import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
 import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,6 +47,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+          new ReactNativePushNotificationPackage(),
             new RNSensitiveInfoPackage(),
             new RNSharePackage(),
             new ReactNativeFirebaseMessagingPackage(),
