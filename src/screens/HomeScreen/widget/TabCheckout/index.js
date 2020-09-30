@@ -776,7 +776,7 @@ class TabCheckout extends Layout {
                 }
                 // ---------- Handle reload Tip in Customer App ---------
                 if (temptData.data && !_.isEmpty(temptData.data) && temptData.data.isTipAppointment) {
-                    this.props.actions.appointment.getGroupAppointmentById(temptData.data.appointmentId,false);
+                    this.props.actions.appointment.getGroupAppointmentById(temptData.data.appointmentId, false);
                 }
             });
 
@@ -1075,7 +1075,12 @@ class TabCheckout extends Layout {
 
             } else if (result.ResultTxt && result.ResultTxt == "OK") {
                 if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
-                    alert("You're running your Pax on DEMO MODE!")
+                    await this.setState({
+                        visibleProcessingCredit: false
+                    });
+                    setTimeout(() => {
+                        alert("You're running your Pax on DEMO MODE!")
+                    }, 1000);
                 } else {
                     const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment } = this.props;
                     const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;

@@ -258,7 +258,7 @@ export default class Layout extends React.Component {
                                 dashGap={5}
                                 dashLength={8}
                                 dashThickness={1}
-                                style={{marginBottom:scaleSzie(10)}}
+                                style={{ marginBottom: scaleSzie(10) }}
                             />
 
                             {/* ------------- Invoice Date ----------- */}
@@ -303,14 +303,14 @@ export default class Layout extends React.Component {
                                 </View>
                             </View>
 
-                            
-                             {/* ------------- Dot Border  ----------- */}
-                             <Dash
+
+                            {/* ------------- Dot Border  ----------- */}
+                            <Dash
                                 style={{ width: "100%", height: 1 }}
                                 dashGap={5}
                                 dashLength={8}
                                 dashThickness={1}
-                                style={{marginBottom:scaleSzie(4),marginTop:scaleSzie(10)}}
+                                style={{ marginBottom: scaleSzie(4), marginTop: scaleSzie(10) }}
                             />
 
                             {/* ------------- Header  ----------- */}
@@ -337,13 +337,13 @@ export default class Layout extends React.Component {
                                 </View>
                             </View>
 
-                             {/* ------------- Dot Border  ----------- */}
-                             <Dash
+                            {/* ------------- Dot Border  ----------- */}
+                            <Dash
                                 style={{ width: "100%", height: 1 }}
                                 dashGap={5}
                                 dashLength={8}
                                 dashThickness={1}
-                                style={{marginBottom:scaleSzie(4),marginTop:scaleSzie(10)}}
+                                style={{ marginBottom: scaleSzie(4), marginTop: scaleSzie(10) }}
                             />
 
                             {/* ------------- Item Invoice   ----------- */}
@@ -406,7 +406,9 @@ export default class Layout extends React.Component {
                                                         <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
                                                             {`    ${data.paymentInformation && data.paymentInformation.name ? data.paymentInformation.name : ""}`}
                                                         </Text>
-
+                                                        <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
+                                                            {`    ${data.paymentInformation && data.paymentInformation.refNum ? `Transaction #: ${data.paymentInformation.refNum}` : ""}`}
+                                                        </Text>
                                                     </View>
                                                     : null
                                             }
