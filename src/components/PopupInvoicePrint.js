@@ -436,6 +436,9 @@ class PopupInvoicePrint extends React.Component {
                                                                 <Text style={[styleInvoice.txt_total, { fontSize: scaleSzie(10) }]} >
                                                                     {`    ${data.paymentInformation && data.paymentInformation.name ? data.paymentInformation.name : ""}`}
                                                                 </Text>
+                                                                <Text style={[styleInvoice.txt_total, { fontSize: scaleSzie(10) }]} >
+                                                                    {`    ${data.paymentInformation && data.paymentInformation.refNum ? `Transaction #: ${data.paymentInformation.refNum}` : ""}`}
+                                                                </Text>
                                                             </View>
                                                             : null
                                                     }
