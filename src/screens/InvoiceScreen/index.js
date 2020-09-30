@@ -510,7 +510,7 @@ class InvoiceScreen extends Layout {
                 });
             }
         } catch (error) {
-            alert(error)
+            // alert(error)
         }
     }
 
