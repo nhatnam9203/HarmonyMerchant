@@ -401,13 +401,13 @@ export default class Layout extends React.Component {
                                                 data.paymentMethod === "credit_card" || data.paymentMethod === "debit_card" ?
                                                     <View style={{ marginTop: scaleSzie(5) }} >
                                                         <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
-                                                            {`    ${data.paymentInformation && data.paymentInformation.type ? data.paymentInformation.type : ""}: ***********${data.paymentInformation && data.paymentInformation.number ? data.paymentInformation.number : ""}`}
+                                                            {`${data.paymentInformation && data.paymentInformation.type ? data.paymentInformation.type : ""}: ***********${data.paymentInformation && data.paymentInformation.number ? data.paymentInformation.number : ""}`}
                                                         </Text>
                                                         <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
-                                                            {`    ${data.paymentInformation && data.paymentInformation.name ? data.paymentInformation.name : ""}`}
+                                                            {` ${data.paymentInformation && data.paymentInformation.name ? data.paymentInformation.name : ""}`}
                                                         </Text>
                                                         <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
-                                                            {`    ${data.paymentInformation && data.paymentInformation.refNum ? `Transaction #: ${data.paymentInformation.refNum}` : ""}`}
+                                                            {` ${data.paymentInformation && data.paymentInformation.refNum ? `Transaction #: ${data.paymentInformation.refNum}` : ""}`}
                                                         </Text>
                                                     </View>
                                                     : null

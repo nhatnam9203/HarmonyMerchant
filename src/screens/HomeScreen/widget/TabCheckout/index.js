@@ -1074,7 +1074,7 @@ class TabCheckout extends Layout {
                 }, 300)
 
             } else if (result.ResultTxt && result.ResultTxt == "OK") {
-                if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
+                if (tempEnv == "Production") {
                     await this.setState({
                         visibleProcessingCredit: false
                     });
