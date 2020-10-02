@@ -1,6 +1,7 @@
 import React from 'react';
 import { NativeModules, Alert } from 'react-native';
 import _ from "ramda";
+import env from 'react-native-config';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -93,16 +94,37 @@ class TabFirstSettle extends Layout {
             let isError = false;
 
             try {
-                // ----------- Total Report --------
+                const tempEnv = env.IS_PRODUCTION;
                 PosLink.setupPax(ip, port, timeout);
-                let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "ALL", "", "");
-                let amountResult = JSON.parse(amountData);
-                totalReport = amountResult.CreditAmount ? parseFloat(amountResult.CreditAmount) : 0;
-
                 // ----------- Total Amount --------
                 let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", "", "");
                 let result = JSON.parse(data);
-                totalRecord = result.TotalRecord ? parseInt(result.TotalRecord) : 0;
+                if (result.ResultTxt && result.ResultTxt == "OK") {
+                    if (tempEnv == "Production" || tempEnv == "Dev" && result.Message === "DEMO APPROVED") {
+                        await this.setState({
+                            visible: false,
+                            isGetReportFromPax: false
+                        });
+
+                        setTimeout(() => {
+                            alert("You're running your Pax on DEMO MODE!")
+                        }, 500);
+
+                        throw "You're running your Pax on DEMO MODE!"
+
+                    } else {
+                        totalRecord = result.TotalRecord ? parseInt(result.TotalRecord) : 0;
+
+                        // ----------- Total Report --------
+                        let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "ALL", "", "");
+                        let amountResult = JSON.parse(amountData);
+                        totalReport = amountResult.CreditAmount ? parseFloat(amountResult.CreditAmount) : 0;
+                    }
+                } else {
+                    throw `${result.ResultTxt}`
+                }
+
+
             } catch (error) {
                 isError = true;
                 this.props.actions.app.connectPaxMachineError(`${error}`);
