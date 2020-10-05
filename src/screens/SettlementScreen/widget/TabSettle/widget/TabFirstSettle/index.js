@@ -97,7 +97,7 @@ class TabFirstSettle extends Layout {
                 const tempEnv = env.IS_PRODUCTION;
                 PosLink.setupPax(ip, port, timeout);
                 // ----------- Total Amount --------
-                let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", "", "");
+                let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", "UNKNOWN", "UNKNOWN");
                 let result = JSON.parse(data);
                 if (result.ResultTxt && result.ResultTxt == "OK") {
                     if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
@@ -116,7 +116,7 @@ class TabFirstSettle extends Layout {
                         totalRecord = result.TotalRecord ? parseInt(result.TotalRecord) : 0;
 
                         // ----------- Total Report --------
-                        let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "ALL", "", "");
+                        let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "ALL", "UNKNOWN", "");
                         let amountResult = JSON.parse(amountData);
                         totalReport = amountResult.CreditAmount ? parseFloat(amountResult.CreditAmount) : 0;
                     }
