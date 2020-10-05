@@ -259,7 +259,7 @@ export function cancelHarmonyPayment(appointmentId) {
         body: {},
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/cancelmethod/${appointmentId}`,
+        api: `${apiConfigs.BASE_API}SET_CANCEL_APPOINTMENT`,
     }
 }
 

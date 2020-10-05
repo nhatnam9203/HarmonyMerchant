@@ -93,6 +93,7 @@ function appointmentReducer(state = initialState, action) {
                     lastName: "",
                     phone: ""
                 },
+                isCancelAppointment:false
             }
         case 'PAY_APPOINTMENT_SUCCESS':
             return {
@@ -107,7 +108,8 @@ function appointmentReducer(state = initialState, action) {
         case 'RESET_PAYMENT':
             return {
                 ...state,
-                isDonePayment: false
+                isDonePayment: false,
+                isCancelAppointment:false
             }
         case 'SHOW_MODAL_PRINT_RECEIPT':
             return {
