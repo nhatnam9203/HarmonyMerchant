@@ -100,7 +100,7 @@ class TabFirstSettle extends Layout {
                 let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", "", "");
                 let result = JSON.parse(data);
                 if (result.ResultTxt && result.ResultTxt == "OK") {
-                    if (tempEnv == "Production" || tempEnv == "Dev" && result.Message === "DEMO APPROVED") {
+                    if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
                         await this.setState({
                             visible: false,
                             isGetReportFromPax: false
