@@ -144,9 +144,19 @@ class TabFirstSettle extends Layout {
                 isGetReportFromPax: false
             });
 
+            if (totalRecord = 0) {
+                await this.setState({
+                    editPaymentByCreditCard: 0.00
+                });
+            }
+
         } else {
             this.props.actions.app.connectPaxMachineError("Don't have setup in Hardware Tab!");
+            await this.setState({
+                editPaymentByCreditCard: 0.00
+            });
         }
+
     }
 
     continueSettlement = () => {
@@ -315,6 +325,8 @@ class TabFirstSettle extends Layout {
                 editOtherPayment: settleWaiting.otherPayment ? settleWaiting.otherPayment : 0.00,
                 total: settleWaiting.total ? settleWaiting.total : 0.00,
                 discountSettlement: settleWaiting.discount ? settleWaiting.discount : 0.00,
+
+                editPaymentByCreditCard: settleWaiting.paymentByCreditCard ? settleWaiting.paymentByCreditCard : 0.00
             });
             if (this.state.isGetReportFromPax) {
                 this.handlePAXReport();
