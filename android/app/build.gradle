@@ -210,8 +210,13 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.google.firebase:firebase-analytics:17.3.0'
-    implementation fileTree(dir: 'libAars', include: ['*.aar', '*.jar'], exclude: [])
-    implementation fileTree(dir: 'libJars', include: ['*.aar', '*.jar'], exclude: [])
+
+//    implementation fileTree(dir: 'libAars', include: ['*.aar', '*.jar'], exclude: [])
+//    implementation fileTree(dir: 'libJars', include: ['*.aar', '*.jar'], exclude: [])
+
+    relyOnJarFlavorImplementation fileTree(include: ['*.jar'], dir: 'libJars')
+    theDefaultFlavorImplementation(name: 'PAX_POSLinkAndroid_20200810', ext: 'aar')
+    theDefaultFlavorImplementation fileTree (include: ['*.jar'], dir: 'libAars')
 }
 
 // Run this once to be able to run the application with BUCK

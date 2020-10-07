@@ -71,9 +71,12 @@ class TabAppointment extends Layout {
 
     handleAppStateChange = nextAppState => {
         if (this.state.appState.match(/inactive|background/) && nextAppState === "active") {
-            this.webviewRef.current.postMessage(JSON.stringify({
-                action: 'resetWeb',
-            }))
+            if (this.webviewRef.current) {
+                this.webviewRef.current.postMessage(JSON.stringify({
+                    action: 'resetWeb',
+                }));
+            }
+
         }
         this.setState({ appState: nextAppState });
     };

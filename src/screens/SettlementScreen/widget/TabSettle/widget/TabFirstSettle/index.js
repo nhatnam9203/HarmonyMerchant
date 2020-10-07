@@ -135,7 +135,7 @@ class TabFirstSettle extends Layout {
                 const moneyInPax = formatMoney(roundFloatNumber(totalReport / 100));
                 await this.setState({
                     creditCount: totalRecord,
-                    editPaymentByCreditCard: moneyInPax
+                    // editPaymentByCreditCard: moneyInPax
                 });
             }
 

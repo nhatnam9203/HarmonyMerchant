@@ -57,7 +57,7 @@ class SplashScreen extends Layout {
                 }
 
                 const tempEnv = env.IS_PRODUCTION;
-                if (tempEnv == "Production" || tempEnv == "Staging" || tempEnv == "Dev" ) {
+                if (tempEnv == "Production" || tempEnv == "Staging" || tempEnv == "Dev") {
                     const deploymentKey = tempEnv == "Production" ? configs.codePushKeyIOS.production : configs.codePushKeyIOS.staging;
                     this.checkForUpdateCodepush(deploymentKey);
                 } else {
@@ -86,7 +86,8 @@ class SplashScreen extends Layout {
                         this.controlFlowInitApp();
                     } else {
                         let codePushOptions = {
-                            installMode: CodePush.InstallMode.ON_NEXT_RESTART,
+                            // installMode: CodePush.InstallMode.ON_NEXT_RESTART,
+                            installMode: CodePush.InstallMode.IMMEDIATE,
                             mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
                             deploymentKey: deploymentKey
                         };
@@ -151,6 +152,7 @@ class SplashScreen extends Layout {
             }
         }
     }
+
 }
 
 const mapStateToProps = state => ({
@@ -161,7 +163,9 @@ const mapStateToProps = state => ({
     versionApp: state.dataLocal.versionApp
 });
 
-let codePushOptions = { checkFrequency: CodePush.CheckFrequency.MANUAL };
+let codePushOptions = {
+    checkFrequency: CodePush.CheckFrequency.MANUAL,
+};
 
 SplashScreen = CodePush(codePushOptions)(SplashScreen);
 
