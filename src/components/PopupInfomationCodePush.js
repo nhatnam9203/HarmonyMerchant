@@ -53,7 +53,7 @@ class PopupInfomationCodePush extends React.Component {
     }
 
     render() {
-        const { title, visiblePopupCodePush, descriptionCodePush } = this.props;
+        const { title, visiblePopupCodePush, descriptionCodePush,versionApp } = this.props;
         const { isLoading } = this.state;
         const descriptions = descriptionCodePush.split(",");
 
@@ -94,16 +94,16 @@ class PopupInfomationCodePush extends React.Component {
                         {/* --------- Footer ------- */}
                         <View style={{ height: scaleSzie(73), justifyContent: "center", alignItems: "center" }} >
                             {
-                               isLoading ? <View style={{
-                                    width:scaleSzie(150),height:scaleSzie(46),backgroundColor:"#0764B0",
-                                    borderRadius: scaleSzie(2),justifyContent:"center",alignItems:"center"
+                                isLoading ? <View style={{
+                                    width: scaleSzie(150), height: scaleSzie(46), backgroundColor: "#0764B0",
+                                    borderRadius: scaleSzie(2), justifyContent: "center", alignItems: "center"
                                 }} >
-                                    <ActivityIndicator 
+                                    <ActivityIndicator
                                         color="#fff"
                                         size="large"
                                     />
                                 </View>
-                                : <ButtonCustom
+                                    : <ButtonCustom
                                         width={scaleSzie(150)}
                                         height={46}
                                         backgroundColor="#0764B0"
@@ -140,7 +140,7 @@ class PopupInfomationCodePush extends React.Component {
                             </Text>
                             <View style={{ flex: 1, justifyContent: "flex-end" }} >
                                 <Text style={{ color: "#fff", fontSize: scaleSzie(12), fontWeight: "300" }} >
-                                    {`Version: 1.1.1`}
+                                    {`Version: ${versionApp}`}
                                 </Text>
                             </View>
                         </View>
@@ -155,7 +155,8 @@ class PopupInfomationCodePush extends React.Component {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     visiblePopupCodePush: state.app.visiblePopupCodePush,
-    descriptionCodePush: state.app.descriptionCodePush
+    descriptionCodePush: state.app.descriptionCodePush,
+    versionApp: state.dataLocal.versionApp
 });
 
 export default connectRedux(mapStateToProps, PopupInfomationCodePush);
