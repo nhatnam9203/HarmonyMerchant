@@ -7,7 +7,7 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
 import styles from './style';
 import IMAGE from '../../resources';
-import { Text, PopupInfomationCodePush } from '@components';
+import { Text } from '@components';
 import { scaleSzie } from '@utils';
 
 export default class Layout extends React.Component {
@@ -45,7 +45,6 @@ export default class Layout extends React.Component {
                         </Text>
                     </View>
                 </View>
-                {/* <PopupInfomationCodePush /> */}
             </ImageBackground>
 
         );

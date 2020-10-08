@@ -85,28 +85,24 @@ class HomeScreen extends Layout {
         this.setState({ appState: nextAppState });
     };
 
-   async checkUpdateCodePush(){
-    console.log("------- checkUpdateCodePush --------- ");
-      
+    async checkUpdateCodePush() {
         const tempEnv = env.IS_PRODUCTION;
         const deploymentKey = tempEnv == "Production" ? configs.codePushKeyIOS.production : configs.codePushKeyIOS.staging;
 
-        try {
-            const result = await Promise.race([
-                CodePush.checkForUpdate(deploymentKey),
-                new Promise((resolve, reject) => setTimeout(() => resolve("TIME_OUT"), 20000))
-            ]);
-            console.log("result: ",result);
+        Promise.race([
+            CodePush.checkForUpdate(deploymentKey),
+            new Promise((resolve, reject) => setTimeout(() => reject("TIME_OUT"), 10000))
+        ]).then((result) => {
             if (result && result !== "TIME_OUT" && !result.failedInstall) {
                 this.props.actions.app.closeAllPopupPincode();
                 const description = result.description ? `${result.description}` : "";
-                setTimeout(() =>{
+                setTimeout(() => {
                     this.props.actions.app.tooglePopupCodePush(true, description);
-                },500);
+                }, 500);
             }
-        } catch (error) {
-            console.log("error: ",error);
-        }
+        }).catch((error) => {
+
+        });
     }
 
     codePushStatusDidChange(syncStatus) {

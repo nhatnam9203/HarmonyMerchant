@@ -4,8 +4,9 @@ import {
     Image
 } from 'react-native';
 
-import { HomeTabBar, StatusBarHeader, Button, ParentContainer, 
-    PopupEnterPin, PopupCheckStaffPermission ,
+import {
+    HomeTabBar, StatusBarHeader, Button, ParentContainer,
+    PopupEnterPin, PopupCheckStaffPermission,
     ScrollableTabView
 } from '@components';
 import { scaleSzie, localize } from '@utils';

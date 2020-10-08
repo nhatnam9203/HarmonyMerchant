@@ -2,7 +2,8 @@ import React from 'react';
 import {
     View,
     Image,
-    Text
+    Text,
+    ActivityIndicator
 } from 'react-native';
 import CodePush from "react-native-code-push";
 import env from 'react-native-config';
@@ -16,7 +17,18 @@ import configs from "@configs";
 
 class PopupInfomationCodePush extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: false
+        }
+    }
+
     updateAppByCodePush = () => {
+        this.setState({
+            isLoading: true
+        })
+
         const tempEnv = env.IS_PRODUCTION;
         const deploymentKey = tempEnv == "Production" ? configs.codePushKeyIOS.production : configs.codePushKeyIOS.staging;
 
@@ -42,12 +54,14 @@ class PopupInfomationCodePush extends React.Component {
 
     render() {
         const { title, visiblePopupCodePush, descriptionCodePush } = this.props;
+        const { isLoading } = this.state;
         const descriptions = descriptionCodePush.split(",");
 
         return (
             <ModalCustom
                 title={title}
                 visible={visiblePopupCodePush}
+                // visible={true}
                 onRequestClose={() => { }}
                 transparent={true}
             >
@@ -65,7 +79,7 @@ class PopupInfomationCodePush extends React.Component {
                         {/* --------- Content Update ------- */}
                         <View style={{ flex: 1, paddingTop: scaleSzie(100), paddingHorizontal: scaleSzie(30) }} >
                             {
-                                descriptions.map((desc,key) => <View key={`${desc}_${key}`} style={{ flexDirection: "row", alignItems: "center",marginBottom:scaleSzie(10) }} >
+                                descriptions.map((desc, key) => <View key={`${desc}_${key}`} style={{ flexDirection: "row", alignItems: "center", marginBottom: scaleSzie(10) }} >
                                     <View style={{ height: scaleSzie(8), width: scaleSzie(8), backgroundColor: "#4CD964", borderRadius: scaleSzie(4) }} />
                                     <Text style={{ color: "#404040", fontSize: scaleSzie(16), fontWeight: "600", marginLeft: scaleSzie(10) }} >
                                         {`${desc}`}
@@ -79,18 +93,30 @@ class PopupInfomationCodePush extends React.Component {
                         <View style={{ height: 1, backgroundColor: "rgba(112,112,112,0.4)" }} />
                         {/* --------- Footer ------- */}
                         <View style={{ height: scaleSzie(73), justifyContent: "center", alignItems: "center" }} >
-                            <ButtonCustom
-                                width={scaleSzie(150)}
-                                height={46}
-                                backgroundColor="#0764B0"
-                                title={'UPDATE'}
-                                textColor="#fff"
-                                onPress={this.updateAppByCodePush}
-                                style={[{ borderRadius: scaleSzie(2) },]}
-                                styleText={{
-                                    fontSize: scaleSzie(16)
-                                }}
-                            />
+                            {
+                               isLoading ? <View style={{
+                                    width:scaleSzie(150),height:scaleSzie(46),backgroundColor:"#0764B0",
+                                    borderRadius: scaleSzie(2),justifyContent:"center",alignItems:"center"
+                                }} >
+                                    <ActivityIndicator 
+                                        color="#fff"
+                                        size="large"
+                                    />
+                                </View>
+                                : <ButtonCustom
+                                        width={scaleSzie(150)}
+                                        height={46}
+                                        backgroundColor="#0764B0"
+                                        title={'UPDATE'}
+                                        textColor="#fff"
+                                        onPress={this.updateAppByCodePush}
+                                        style={[{ borderRadius: scaleSzie(2) },]}
+                                        styleText={{
+                                            fontSize: scaleSzie(16)
+                                        }}
+                                    />
+                            }
+
                         </View>
 
                     </View>
