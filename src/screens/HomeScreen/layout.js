@@ -50,7 +50,7 @@ export default class Layout extends React.Component {
                         />
                         <TabAppointment
                             ref={this.tabAppointmentRef}
-                            tabLabel={`${localize('APPOINTMENT', language)}`}
+                            tabLabel={`${localize('APPOINTMENT 00', language)}`}
                             currentTabParent={this.state.currentTab}
                             clearDataTabCheckout={this.clearDataTabCheckout}
                             checkoutAppointment={this.checkoutAppointment}

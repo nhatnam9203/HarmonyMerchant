@@ -9,7 +9,7 @@ import AppNavigators from "./src/navigators/AppNavigator";
 import { persistor, store } from "./src/redux/store";
 import { name as appName } from "./app.json";
 import NavigatorServices from "./src/navigators/NavigatorServices";
-import { Loading, PopupDisconnected, PopupConnected } from "./src/components";
+import { Loading, PopupDisconnected, PopupConnected, PopupInfomationCodePush } from "./src/components";
 import { FirebaseNotificationProvider } from "@firebase";
 
 
@@ -34,6 +34,7 @@ class App extends React.Component {
           <PopupDisconnected />
           <PopupConnected />
           <FirebaseNotificationProvider />
+          <PopupInfomationCodePush />
         </PersistGate>
       </Provider>
     );

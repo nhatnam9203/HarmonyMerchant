@@ -31,6 +31,8 @@ const initialState = {
   },
   isUpdateMerchantSetting: false,
   settingTabPermission: false,
+
+  visiblePopupCodePush: false
 };
 
 function appReducer(state = initialState, action) {
@@ -251,6 +253,13 @@ function appReducer(state = initialState, action) {
         ...state,
         settingTabPermission: false,
       };
+      case "OPEN_POPUP_CODE_PUSH":
+        return {
+          ...state,
+          visiblePopupCodePush: action.payload,
+        };
+
+      
     case 'LOGOUT_APP':
       return {
         ...initialState,

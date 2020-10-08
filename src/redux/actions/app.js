@@ -259,3 +259,15 @@ export function closeAllPopupPincode() {
     type: "CLOSE_ALL_POPUP_PIN_CODE",
   };
 }
+
+export function tooglePopupCodePush(visible = true) {
+  return {
+    type: "OPEN_POPUP_CODE_PUSH",
+    payload:visible
+  };
+}
+
+
+
+
+

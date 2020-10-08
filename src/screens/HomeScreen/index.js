@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'ramda';
+import _, { set } from 'ramda';
 import { Alert, BackHandler, AppState } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { Subject } from 'rxjs';
@@ -94,16 +94,12 @@ class HomeScreen extends Layout {
             new Promise((resolve, reject) => setTimeout(() => reject("TIME_OUT"), 10000))
         ]).then(result => {
             if (result && result !== "TIME_OUT" && !result.failedInstall) {
-                let codePushOptions = {
-                    installMode: CodePush.InstallMode.IMMEDIATE,
-                    mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
-                    deploymentKey: deploymentKey
-                };
-                CodePush.sync(
-                    codePushOptions,
-                    this.codePushStatusDidChange.bind(this),
-                    this.codePushDownloadDidProgress.bind(this)
-                );
+                this.props.actions.app.closeAllPopupPincode();
+                this.props.actions.app.tooglePopupCodePush();
+                // setTimeout(() =>{
+                //     this.props.actions.app.tooglePopupCodePush();
+                // },500)
+                // alert("ddd")
             }
         }).catch(err => {
 
@@ -112,43 +108,6 @@ class HomeScreen extends Layout {
     }
 
 
-    checkUpdateCodePush_1 = async () => {
-        // alert("ddd")
-        const tempEnv = env.IS_PRODUCTION;
-        const deploymentKey = tempEnv == "Production" ? configs.codePushKeyIOS.production : configs.codePushKeyIOS.staging;
-        try {
-            const result = await Promise.race([
-                CodePush.checkForUpdate(deploymentKey),
-                new Promise((resolve, reject) => setTimeout(() => resolve("TIME_OUT"), 10000))
-            ]);
-
-            if (result && result !== "TIME_OUT" && !result.failedInstall) {
-                let codePushOptions = {
-                    // installMode: CodePush.InstallMode.ON_NEXT_RESTART,
-                    installMode: CodePush.InstallMode.IMMEDIATE,
-                    mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
-                    deploymentKey: deploymentKey
-                };
-                CodePush.sync(
-                    codePushOptions,
-                    this.codePushStatusDidChange.bind(this),
-                    this.codePushDownloadDidProgress.bind(this)
-                );
-            }
-
-
-        } catch (error) {
-
-        }
-    }
-
-    codePushStatusDidChange(syncStatus) {
-
-    }
-
-    async codePushDownloadDidProgress(progress) {
-
-    }
 
     backAction = () => {
         if (this.state.isFocus) {
