@@ -260,10 +260,11 @@ export function closeAllPopupPincode() {
   };
 }
 
-export function tooglePopupCodePush(visible = true) {
+export function tooglePopupCodePush(visible = true,description = "") {
   return {
     type: "OPEN_POPUP_CODE_PUSH",
-    payload:visible
+    payload:visible,
+    description
   };
 }
 

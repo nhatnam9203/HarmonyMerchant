@@ -45,6 +45,7 @@ export default class Layout extends React.Component {
                         </Text>
                     </View>
                 </View>
+                {/* <PopupInfomationCodePush /> */}
             </ImageBackground>
 
         );

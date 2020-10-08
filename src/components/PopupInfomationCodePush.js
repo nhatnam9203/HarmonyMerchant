@@ -25,8 +25,6 @@ class PopupInfomationCodePush extends React.Component {
             mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
             deploymentKey: deploymentKey
         };
-
-        this.props.actions.app.tooglePopupCodePush(false);
         CodePush.sync(
             codePushOptions,
             this.codePushStatusDidChange.bind(this),
@@ -43,17 +41,15 @@ class PopupInfomationCodePush extends React.Component {
     }
 
     render() {
-        const { title, visiblePopupCodePush } = this.props;
+        const { title, visiblePopupCodePush, descriptionCodePush } = this.props;
+        const descriptions = descriptionCodePush.split(",");
+
         return (
             <ModalCustom
                 title={title}
                 visible={visiblePopupCodePush}
                 onRequestClose={() => { }}
                 transparent={true}
-                style={{
-                    // justifyContent: 'flex-start',
-                    // paddingTop: scaleSzie(40)
-                }}
             >
                 <View style={{
                     height: scaleSzie(450),
@@ -67,7 +63,15 @@ class PopupInfomationCodePush extends React.Component {
                         borderRadius: scaleSzie(10)
                     }, configs.SHADOW]} >
                         {/* --------- Content Update ------- */}
-                        <View style={{ flex: 1 }} >
+                        <View style={{ flex: 1, paddingTop: scaleSzie(100), paddingHorizontal: scaleSzie(30) }} >
+                            {
+                                descriptions.map((desc,key) => <View key={`${desc}_${key}`} style={{ flexDirection: "row", alignItems: "center",marginBottom:scaleSzie(10) }} >
+                                    <View style={{ height: scaleSzie(8), width: scaleSzie(8), backgroundColor: "#4CD964", borderRadius: scaleSzie(4) }} />
+                                    <Text style={{ color: "#404040", fontSize: scaleSzie(16), fontWeight: "600", marginLeft: scaleSzie(10) }} >
+                                        {`${desc}`}
+                                    </Text>
+                                </View>)
+                            }
 
                         </View>
 
@@ -125,6 +129,7 @@ class PopupInfomationCodePush extends React.Component {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     visiblePopupCodePush: state.app.visiblePopupCodePush,
+    descriptionCodePush: state.app.descriptionCodePush
 });
 
 export default connectRedux(mapStateToProps, PopupInfomationCodePush);

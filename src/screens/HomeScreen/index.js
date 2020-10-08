@@ -81,33 +81,41 @@ class HomeScreen extends Layout {
     handleAppStateChange = nextAppState => {
         if (this.state.appState.match(/inactive|background/) && nextAppState === "active") {
             this.checkUpdateCodePush();
-
         }
         this.setState({ appState: nextAppState });
     };
 
-    checkUpdateCodePush = () => {
+   async checkUpdateCodePush(){
+    console.log("------- checkUpdateCodePush --------- ");
+      
         const tempEnv = env.IS_PRODUCTION;
         const deploymentKey = tempEnv == "Production" ? configs.codePushKeyIOS.production : configs.codePushKeyIOS.staging;
-        Promise.race([
-            CodePush.checkForUpdate(deploymentKey),
-            new Promise((resolve, reject) => setTimeout(() => reject("TIME_OUT"), 10000))
-        ]).then(result => {
+
+        try {
+            const result = await Promise.race([
+                CodePush.checkForUpdate(deploymentKey),
+                new Promise((resolve, reject) => setTimeout(() => resolve("TIME_OUT"), 20000))
+            ]);
+            console.log("result: ",result);
             if (result && result !== "TIME_OUT" && !result.failedInstall) {
                 this.props.actions.app.closeAllPopupPincode();
-                this.props.actions.app.tooglePopupCodePush();
-                // setTimeout(() =>{
-                //     this.props.actions.app.tooglePopupCodePush();
-                // },500)
-                // alert("ddd")
+                const description = result.description ? `${result.description}` : "";
+                setTimeout(() =>{
+                    this.props.actions.app.tooglePopupCodePush(true, description);
+                },500);
             }
-        }).catch(err => {
+        } catch (error) {
+            console.log("error: ",error);
+        }
+    }
 
-        });
+    codePushStatusDidChange(syncStatus) {
 
     }
 
+    codePushDownloadDidProgress(progress) {
 
+    }
 
     backAction = () => {
         if (this.state.isFocus) {
