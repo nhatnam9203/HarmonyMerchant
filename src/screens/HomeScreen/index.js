@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'ramda';
-import { Alert, BackHandler,AppState } from 'react-native';
+import { Alert, BackHandler, AppState } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, finalize } from 'rxjs/operators';
@@ -86,7 +86,34 @@ class HomeScreen extends Layout {
         this.setState({ appState: nextAppState });
     };
 
-    checkUpdateCodePush = async () =>{
+    checkUpdateCodePush = () => {
+        const tempEnv = env.IS_PRODUCTION;
+        const deploymentKey = tempEnv == "Production" ? configs.codePushKeyIOS.production : configs.codePushKeyIOS.staging;
+        Promise.race([
+            CodePush.checkForUpdate(deploymentKey),
+            new Promise((resolve, reject) => setTimeout(() => reject("TIME_OUT"), 10000))
+        ]).then(result => {
+            if (result && result !== "TIME_OUT" && !result.failedInstall) {
+                let codePushOptions = {
+                    installMode: CodePush.InstallMode.IMMEDIATE,
+                    mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
+                    deploymentKey: deploymentKey
+                };
+                CodePush.sync(
+                    codePushOptions,
+                    this.codePushStatusDidChange.bind(this),
+                    this.codePushDownloadDidProgress.bind(this)
+                );
+            }
+        }).catch(err => {
+
+        });
+
+    }
+
+
+    checkUpdateCodePush_1 = async () => {
+        // alert("ddd")
         const tempEnv = env.IS_PRODUCTION;
         const deploymentKey = tempEnv == "Production" ? configs.codePushKeyIOS.production : configs.codePushKeyIOS.staging;
         try {
@@ -111,7 +138,7 @@ class HomeScreen extends Layout {
 
 
         } catch (error) {
-            
+
         }
     }
 

@@ -18,7 +18,7 @@ class SplashScreen extends Layout {
         }
     }
 
-    async componentDidMount() {
+    async componentDidMount_1() {
         let version = await DeviceInfo.getVersion();
         const latestVersion = "1.1.2";
         try {
