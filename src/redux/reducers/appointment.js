@@ -290,7 +290,7 @@ function appointmentReducer(state = initialState, action) {
                 ...state,
                 bookingGroupId: action.payload,
             }
-        case 'GIFTCARD_PAYMENT_INFO':
+        case 'GIFT_CARD_PAYMENT_INFO':
             return {
                 ...state,
                 giftcardPaymentInfo: action.payload,

@@ -684,9 +684,14 @@ function* checkSerialNumber(action) {
         if (parseInt(codeNumber) == 200) {
             if (action.isGiftCardPayment) {
                 yield put({
-                    type: "GIFTCARD_PAYMENT_INFO",
+                    type: 'VISIBLE_POPUP_ACTIVEE_GIFT_CARD',
+                    payload: false
+                });
+                yield put({
+                    type: "GIFT_CARD_PAYMENT_INFO",
                     payload: responses.data ? responses.data : {}
-                })
+                });
+
             } else {
                 if (!action.bodyAction) {
                     const state = yield select();

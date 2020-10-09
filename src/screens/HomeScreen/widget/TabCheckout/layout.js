@@ -7,7 +7,7 @@ import {
 import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber ,} from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
     PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint,
@@ -21,7 +21,7 @@ import {
     PopupBlockDiscount, ItemPaymentMethod,
     ShadowLineLeftToRight,
     ShadowLineRightToLeft,
-    ShadowLineShort, PopupChangeCustomerInfo, PopupAddItemIntoAppointments
+    ShadowLineShort, PopupChangeCustomerInfo, PopupAddItemIntoAppointments, PopupGiftCardDetail
 } from './widget';
 
 class Layout extends React.Component {
@@ -605,7 +605,6 @@ class Layout extends React.Component {
 
                     }
                 </View>
-
                 <View style={styles.box_payment_container} >
                     {
                         ['Giftcard', 'Other'].map((title, index) => <ItemPaymentMethod
@@ -895,7 +894,7 @@ class Layout extends React.Component {
     render() {
         const { language, visiblePopupPaymentDetails } = this.props;
         const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
-            visiblePopupAddItemIntoBasket
+            visiblePopupAddItemIntoBasket,visiblePopupGiftCardDetails
         } = this.state;
 
         return (
@@ -1014,6 +1013,14 @@ class Layout extends React.Component {
                     title={localize('Modification', language)}
                     visible={visiblePopupAddItemIntoBasket}
                     onRequestClose={() => this.setState({ visiblePopupAddItemIntoBasket: false })}
+                />
+
+                <PopupGiftCardDetail
+                    title={localize('Payment Details', language)}
+                    visible={visiblePopupGiftCardDetails}
+                    onRequestClose={this.closePopupProductPaymentDetails}
+                    language={language}
+                    nextPayment={this.nextPayment}
                 />
             </View>
         );
