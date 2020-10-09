@@ -104,6 +104,9 @@ export default {
   harmony_payment: require('./payment/harmony_payment.png'),
   other_payment_se: require('./payment/other_payment_se.png'),
   other_payment: require('./payment/other_payment.png'),
+  giftcard_payment: require('./payment/giftcard_payment.png'),
+  giftcard_payment_se: require('./payment/giftcard_payment_se.png'),
+  
 
   // --- drawer ---
   Customer: require("./drawer/customer.png"),

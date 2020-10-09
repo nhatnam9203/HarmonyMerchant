@@ -5,7 +5,7 @@ import {
     Image
 } from 'react-native';
 
-import { scaleSzie ,checkIsTablet} from '@utils';
+import { scaleSzie, checkIsTablet } from '@utils';
 import {
     Text, Button,
 } from '@components';
@@ -42,6 +42,9 @@ function getPaymentLogoByName(name) {
         case "Debit Card":
             logo = "debit_payment";
             break;
+        case "Giftcard":
+            logo = "giftcard_payment";
+            break;
         case "Other":
             logo = "other_payment";
             break;
@@ -57,11 +60,11 @@ const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
     const logo = getPaymentLogoByName(title);
     const tempLogo = title === paymentSelected ? `${logo}_se` : logo;
 
-    const isTablet =  checkIsTablet();
+    const isTablet = checkIsTablet();
     const tempHeight = isTablet ? scaleSzie(65) : scaleSzie(80);
-    const icon_style = isTablet ? {width: scaleSzie(30),height:scaleSzie(30)}:{};
+    const icon_style = isTablet ? { width: scaleSzie(30), height: scaleSzie(30) } : {};
     const tempTitleMarginTop = isTablet ? scaleSzie(2) : scaleSzie(8);
- 
+
     return (
         <Button onPress={() => selectedPayment(title)} style={[{
             width: scaleSzie(190), height: tempHeight,

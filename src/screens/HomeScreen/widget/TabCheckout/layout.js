@@ -606,12 +606,16 @@ class Layout extends React.Component {
                     }
                 </View>
 
-                <View style={styles.box_payment_singular_container} >
-                    <ItemPaymentMethod
-                        title={"Other"}
-                        selectedPayment={this.selectedPayment}
-                        paymentSelected={this.state.paymentSelected}
-                    />
+                <View style={styles.box_payment_container} >
+                    {
+                        ['Giftcard', 'Other'].map((title, index) => <ItemPaymentMethod
+                            key={index}
+                            title={title}
+                            selectedPayment={this.selectedPayment}
+                            paymentSelected={this.state.paymentSelected}
+                        />)
+
+                    }
                 </View>
 
                 {/* ------ Footer ----- */}

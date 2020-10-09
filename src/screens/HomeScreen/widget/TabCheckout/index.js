@@ -447,8 +447,10 @@ class TabCheckout extends Layout {
                 method = 'credit_card';
                 break;
             case 'Debit Card':
-                // method = 'debit_card';
                 method = 'credit_card';
+                break;
+            case 'Giftcard':
+                method = 'giftcard';
                 break;
             case 'Other':
                 method = 'other';
@@ -1001,7 +1003,11 @@ class TabCheckout extends Layout {
                             alert('Please connect your Pax to take payment.');
                         }, 300)
                     }
-                } else {
+                } else if (method === 'giftcard'){
+                        setTimeout(() =>{
+                            alert("giftcard")
+                        },500)
+                }else {
                     this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
                 }
 
