@@ -367,7 +367,7 @@ export function checkSerialNumber(serialId, bodyAction = false, optionAction = f
         type: 'CHECK_SERIAL_NUMBER',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}giftcard/serialNumber/${serialId}`,
+        api: `${apiConfigs.BASE_API}giftcard/serialNumber/${serialId}?isActive=${isGiftCardPayment}`,
         bodyAction,
         optionAction,
         isGiftCardPayment

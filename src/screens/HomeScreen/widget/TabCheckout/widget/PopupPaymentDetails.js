@@ -93,9 +93,6 @@ class PopupPaymentDetails extends React.Component {
                                 color: "#FF3B30"
                             }}
                         />
-
-                        {/* -----  */}
-                        <TouchableOpacity activeOpacity={1} style={{ height: scaleSzie(250), }} />
                     </View>
                     {/* ---- Footer ---- */}
                     <View style={{ height: scaleSzie(60), flexDirection: 'row', justifyContent: 'space-evenly' }} >
@@ -162,7 +159,5 @@ const mapStateToProps = state => ({
 });
 
 export default connectRedux(mapStateToProps, PopupPaymentDetails);
-
-// export default PopupPaymentDetails;
 
 

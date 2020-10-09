@@ -6,11 +6,13 @@ import {
     ScrollView,
     StyleSheet,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    Keyboard
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, PopupConfirm } from '@components';
-import { scaleSzie, localize, getCategoryName, formatMoney } from '@utils';
+import { scaleSzie, localize, getCategoryName, formatMoney, formatNumberFromCurrency } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 
@@ -21,6 +23,19 @@ class PopupGiftCardDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            amount: 0.00
+        };
+
+        this.scrollRef = React.createRef();
+    }
+
+    componentDidMount() {
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
+    }
+
+    keyboardDidHide = async () => {
+        if (this.scrollRef.current) {
+            this.scrollRef.current.scrollTo({ x: 0, y: 0, animated: true });
         }
     }
 
@@ -28,12 +43,30 @@ class PopupGiftCardDetail extends React.Component {
         this.props.actions.appointment.closePopupPaymentDetail();
     }
 
+    onScroll = () => {
+        this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(200), animated: true });
+    }
+
+    cancelPayment = () => {
+        this.props.cancelGiftCardPayment();
+    }
+
+    getAmountEnter() {
+        const tempAmount = (`${this.state.amount}`.trim()).split("$ ");
+        return formatNumberFromCurrency(tempAmount[1]);
+    }
+
+    payGiftCardPayment = () => {
+
+
+    }
 
     // ---------- Render --------
 
     render() {
-        const { title, visible, onRequestClose, language, nextPayment, paymentDetailInfo } = this.props;
-        const paidAmounts = paymentDetailInfo.paidAmounts && paymentDetailInfo.paidAmounts.length > 0 ? paymentDetailInfo.paidAmounts[0] : {};
+        const { title, visible, onRequestClose, language, giftcardPaymentInfo, paymentDetailInfo } = this.props;
+        const { amount } = this.state;
+
         return (
             <PopupParent
                 title={title}
@@ -43,77 +76,144 @@ class PopupGiftCardDetail extends React.Component {
                 hideCloseButton={true}
             >
                 <View style={{
-                    height: scaleSzie(400), backgroundColor: '#fff',
+                    height: scaleSzie(410), backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15),
                     borderBottomRightRadius: scaleSzie(15),
-                    paddingHorizontal: scaleSzie(50)
                 }} >
                     <View style={{ flex: 1 }} >
-                        <View style={{ height: scaleSzie(15) }} />
-                        {/* ---- start ---- */}
-                        <ItemDetail
-                            title={`${localize('Invoice No', language)}:`}
-                            value={`# ${paymentDetailInfo.invoiceNo ? paymentDetailInfo.invoiceNo : ''}`}
-                            subText={""}
-                        />
-                        <ItemDetail
-                            title={`${localize('Customer Name', language)}:`}
-                            value={`${paymentDetailInfo.customerName ? paymentDetailInfo.customerName : ''}`}
-                            subText={""}
-                        />
-                        <ItemDetail
-                            title={`${localize('Phone Number', language)}:`}
-                            value={`${paymentDetailInfo.phone ? paymentDetailInfo.phone : ''}`}
-                            subText={""}
-                        />
-                        <ItemDetail
-                            title={`${localize('Status', language)}:`}
-                            value={`${paymentDetailInfo.status ? paymentDetailInfo.status : ''}`}
-                            subText={""}
-                        />
-                        <ItemDetail
-                            title={`${localize('Grand Total', language)}:`}
-                            value={`$ ${paymentDetailInfo.grandTotal ? formatMoney(paymentDetailInfo.grandTotal) : ''}`}
-                            isBold={true}
-                            subText={""}
-                        />
-                        <View style={{ height: 3, backgroundColor: "rgb(238,238,238)", marginVertical: scaleSzie(10) }} />
-                        <ItemDetail
-                            title={`${localize('Paid', language)} (${paidAmounts.paymentMethod ? paidAmounts.paymentMethod : ''}):`}
-                            value={`$ ${paidAmounts.amount ? formatMoney(paidAmounts.amount) : ''}`}
-                            isBold={true}
-                            subText={``}
-                        />
-                        <ItemDetail
-                            title={`${localize('Amount Due', language)}:`}
-                            value={`$ ${paymentDetailInfo.dueAmount ? formatMoney(paymentDetailInfo.dueAmount) : ''}`}
-                            isBold={true}
-                            subText={""}
+                        <ScrollView
+                            ref={this.scrollRef}
+                            showsVerticalScrollIndicator={false}
+                        >
+                            <View style={{ height: scaleSzie(15) }} />
+                            <View style={{ paddingHorizontal: scaleSzie(30) }} >
+
+                                {/* ---- start ---- */}
+                                <ItemDetail
+                                    title={`${localize('Serial number', language)}:`}
+                                    value={`# ${giftcardPaymentInfo.serialNumber ? giftcardPaymentInfo.serialNumber : ''}`}
+                                    subText={""}
+                                />
+                                <ItemDetail
+                                    title={`${localize('Amount', language)}:`}
+                                    value={`$ ${giftcardPaymentInfo.amount ? giftcardPaymentInfo.amount : ''}`}
+                                    subText={""}
+                                />
+                                <View style={{ height: 3, backgroundColor: "rgb(238,238,238)", marginVertical: scaleSzie(10) }} />
+                                <ItemDetail
+                                    title={`${localize('Payment details', language)}`}
+                                    value={``}
+                                    subText={""}
+                                    style={{
+                                        fontWeight: "bold"
+                                    }}
+                                />
+                                <ItemDetail
+                                    title={`${localize('Charge amount', language)}:`}
+                                    value={`$ 95.00`}
+                                    subText={""}
+                                    styleValue={{
+                                        fontWeight: "bold"
+                                    }}
+                                    styleValueContent={{
+                                        alignItems: "flex-end",
+                                        paddingRight: scaleSzie(10)
+                                    }}
+                                />
+                                {/* --------------- */}
+                                <View style={{ height: scaleSzie(45), flexDirection: 'row' }} >
+                                    <View style={{ flex: 1, justifyContent: 'center' }} >
+                                        <Text style={[styles.textCommon]} >
+                                            {`${localize('Pay amount', language)}:`}
+                                        </Text>
+                                    </View>
+                                    <View style={[{
+                                        flex: 1.1, borderColor: "#DDDDDD", borderWidth: 1, paddingRight: scaleSzie(9)
+                                    }]} >
+
+                                        <TextInputMask
+                                            type={'money'}
+                                            options={{
+                                                precision: 2,
+                                                separator: '.',
+                                                delimiter: ',',
+                                                unit: '$ ',
+                                                suffixUnit: '',
+                                            }}
+                                            style={{
+                                                flex: 1,
+                                                textAlign: "right",
+                                                padding: 0, color: 'rgb(73,73,73)',
+                                                fontSize: scaleSzie(18), fontWeight: "bold",
+                                            }}
+                                            placeholder="$ 0.00"
+                                            value={amount}
+                                            onChangeText={amount => this.setState({ amount })}
+                                            onFocus={this.onScroll}
+                                        />
+                                    </View>
+                                </View>
+                                {/* --------- New Code --------- */}
+
+                                <ItemDetail
+                                    title={`${localize('Amount Due', language)}:`}
+                                    value={`$ ${formatMoney(formatNumberFromCurrency(95.00) - this.getAmountEnter())}`}
+                                    isBold={true}
+                                    subText={""}
+                                    style={{
+                                        color: "#FF3B30"
+                                    }}
+                                    styleValueContent={{
+                                        alignItems: "flex-end",
+                                        paddingRight: scaleSzie(10)
+                                    }}
+                                    styleValue={{
+                                        fontWeight: "bold"
+                                    }}
+                                />
+                            </View>
+                            <View style={{ height: 3, backgroundColor: "rgb(238,238,238)", marginVertical: scaleSzie(10) }} />
+                            <View style={{ height: scaleSzie(190) }} />
+                        </ScrollView>
+                    </View>
+                    {/* ---- Footer ---- */}
+                    <View style={{
+                        height: scaleSzie(70), flexDirection: 'row',
+                        justifyContent: "space-between", paddingHorizontal: scaleSzie(50)
+                    }} >
+                        <ButtonCustom
+                            width={250}
+                            height={50}
+                            backgroundColor="#F1F1F1"
+                            title={localize('CANCEL', language)}
+                            textColor="#404040"
+                            onPress={this.cancelPayment}
                             style={{
-                                color: "#FF3B30"
+                                borderRadius: scaleSzie(2),
+                                borderColor: '#CCCCCC',
+                                borderWidth: 1,
+                            }}
+                            styleText={{
+                                fontSize: scaleSzie(21),
+                                fontWeight: '400'
                             }}
                         />
 
-                        {/* -----  */}
-                        <TouchableOpacity activeOpacity={1} style={{ height: scaleSzie(250), }} />
-                    </View>
-                    {/* ---- Footer ---- */}
-                    <View style={{ height: scaleSzie(60), flexDirection: 'row', justifyContent: 'space-evenly' }} >
                         <ButtonCustom
-                            width={200}
-                            height={45}
+                            width={250}
+                            height={50}
                             backgroundColor="#0764B0"
-                            title={localize('Next', language)}
+                            title={localize('PAY', language)}
                             textColor="#fff"
-                            onPress={this.nextPayment}
+                            onPress={this.payGiftCardPayment}
                             style={{
-                                borderRadius: scaleSzie(4),
+                                borderRadius: scaleSzie(2),
                                 borderColor: '#C5C5C5',
                                 borderWidth: 1,
                             }}
                             styleText={{
-                                fontSize: scaleSzie(16),
-                                fontWeight: '500'
+                                fontSize: scaleSzie(21),
+                                fontWeight: '400'
                             }}
                         />
                     </View>
@@ -121,19 +221,25 @@ class PopupGiftCardDetail extends React.Component {
             </PopupParent>
         );
     }
+
+    componentWillUnmount() {
+        this.keyboardDidHideListener.remove();
+    }
+
+
 }
 
-const ItemDetail = ({ title, value, isBold, subText, style }) => {
+const ItemDetail = ({ title, value, isBold, subText, style, styleValueContent, styleValue }) => {
     const temptWeight = isBold ? "bold" : "500";
     return (
-        <View style={{ height: scaleSzie(40), flexDirection: 'row' }} >
+        <View style={{ height: scaleSzie(45), flexDirection: 'row' }} >
             <View style={{ flex: 1, justifyContent: 'center' }} >
                 <Text style={[styles.textCommon, style]} >
                     {title}
                 </Text>
             </View>
-            <View style={{ flex: 1.1, justifyContent: 'center' }} >
-                <Text style={[styles.textValue, { fontWeight: temptWeight }, style]} >
+            <View style={[{ flex: 1.1, justifyContent: 'center' }, styleValueContent]} >
+                <Text style={[styles.textValue, { fontWeight: temptWeight }, style, styleValue]} >
                     {value}
                     <Text style={[styles.textCommon, { fontWeight: "400" }, style]} >
                         {subText}
@@ -151,14 +257,14 @@ const styles = StyleSheet.create({
     },
     textValue: {
         color: 'rgb(73,73,73)',
-        fontSize: scaleSzie(18)
-
+        fontSize: scaleSzie(18),
     }
 })
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     paymentDetailInfo: state.appointment.paymentDetailInfo,
+    giftcardPaymentInfo: state.appointment.giftcardPaymentInfo
 });
 
 export default connectRedux(mapStateToProps, PopupGiftCardDetail);
