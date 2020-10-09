@@ -13,7 +13,7 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import Button from './Button';
 import PopupScanCode from './PopupScanCode';
-import { scaleSzie, ListCodeAreaPhone } from '../utils';
+import { scaleSzie } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import IMAGE from '../resources';
 
@@ -89,7 +89,7 @@ class PopupActiveGiftCard extends React.Component {
 
 
     render() {
-        const { title, onRequestClose, confimYes, hideCloseButton,
+        const { title, onRequestClose, hideCloseButton,
             visiblePopupActiveGiftCard, loading
         } = this.props;
         const {  customStyle, scancode } = this.state;

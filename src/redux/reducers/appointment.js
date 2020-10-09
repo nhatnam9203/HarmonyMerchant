@@ -35,7 +35,8 @@ const initialState = {
         phone: ""
     },
     visiblePopupCustomerInfoBuyAppointment: false,
-    bookingGroupId: 0
+    bookingGroupId: 0,
+    giftcardPaymentInfo: {}
 }
 
 function appointmentReducer(state = initialState, action) {
@@ -93,7 +94,7 @@ function appointmentReducer(state = initialState, action) {
                     lastName: "",
                     phone: ""
                 },
-                isCancelAppointment:false
+                isCancelAppointment: false
             }
         case 'PAY_APPOINTMENT_SUCCESS':
             return {
@@ -109,7 +110,7 @@ function appointmentReducer(state = initialState, action) {
             return {
                 ...state,
                 isDonePayment: false,
-                isCancelAppointment:false
+                isCancelAppointment: false
             }
         case 'SHOW_MODAL_PRINT_RECEIPT':
             return {
@@ -288,6 +289,11 @@ function appointmentReducer(state = initialState, action) {
             return {
                 ...state,
                 bookingGroupId: action.payload,
+            }
+        case 'GIFTCARD_PAYMENT_INFO':
+            return {
+                ...state,
+                giftcardPaymentInfo: action.payload,
             }
         case 'LOGOUT_APP':
             return {

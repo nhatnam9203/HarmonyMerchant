@@ -691,7 +691,7 @@ class Layout extends React.Component {
                     }}
                     styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
                 />
-            } else if (paymentSelected === '' || !isAcceptPay) {
+            } else if (paymentSelected === '' || paymentSelected === "Giftcard" || !isAcceptPay) {
                 return (
                     <ButtonCustom
                         width={`100%`}
@@ -984,7 +984,6 @@ class Layout extends React.Component {
                     ref={this.activeGiftCardRef}
                     title={localize('Active Gift Card', language)}
                     onRequestClose={this.closePopupActiveGiftCard}
-                    confimYes={this.sendLinkInstallApp}
                     submitSerialCode={this.submitSerialCode}
                 />
                 <PopupPaymentDetails

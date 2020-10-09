@@ -352,14 +352,19 @@ class TabCheckout extends Layout {
 
     }
 
-    selectedPayment = (payment) => {
+    selectedPayment = async (payment) => {
         const { paymentSelected, changeButtonDone } = this.state;
         const { isDonePayment } = this.props;
         if (changeButtonDone && !isDonePayment && paymentSelected === 'HarmonyPay') {
         } else {
             this.setState(prevState => ({
                 paymentSelected: payment === prevState.paymentSelected ? '' : payment
-            }))
+            }), () => {
+                if (this.state.paymentSelected === "Giftcard") {
+                    this.activeGiftCardRef.current.setStateFromParent();
+                    this.props.actions.appointment.handleVisibleActiveGiftCard();
+                }
+            });
         }
 
 
@@ -1003,11 +1008,11 @@ class TabCheckout extends Layout {
                             alert('Please connect your Pax to take payment.');
                         }, 300)
                     }
-                } else if (method === 'giftcard'){
-                        setTimeout(() =>{
-                            alert("giftcard")
-                        },500)
-                }else {
+                } else if (method === 'giftcard') {
+                    setTimeout(() => {
+                        alert("giftcard")
+                    }, 500)
+                } else {
                     this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
                 }
 
@@ -1190,6 +1195,7 @@ class TabCheckout extends Layout {
                 extraId: -1,
                 name: ''
             },
+            paymentSelected: ""
         })
     }
 
@@ -1440,7 +1446,12 @@ class TabCheckout extends Layout {
         }
 
         if (!_.isEmpty(groupAppointment)) {
-            this.props.actions.appointment.checkSerialNumber(code);
+            if (paymentSelected === "Giftcard") {
+                this.props.actions.appointment.checkSerialNumber(code, false, false, true);
+            } else {
+                this.props.actions.appointment.checkSerialNumber(code);
+            }
+
         } else {
 
             const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
