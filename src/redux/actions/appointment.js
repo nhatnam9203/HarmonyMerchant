@@ -357,7 +357,7 @@ export function showPopupPaymentDetails() {
 
 export function handleVisibleActiveGiftCard(visible = true) {
     return {
-        type: 'VISIBLE_POPUP_ACTIVEE_GIFT_CARD',
+        type: 'VISIBLE_POPUP_ACTIVE_GIFT_CARD',
         payload: visible
     }
 }
@@ -487,4 +487,9 @@ export function updateFromTimeBlockAppointment(fromTime = new Date()) {
     }
 }
 
-
+export function togglePopupGiftCardPaymentDetail(visible = true) {
+    return {
+        type: "TOGGLE_POPUP_GIFT_CARD_PAYMENT_DETAIL",
+        payload: visible
+    }
+}

@@ -23,7 +23,8 @@ class PopupGiftCardDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            amount: 0.00
+            amount: 0.00,
+            tempDueAmount: 0.00
         };
 
         this.scrollRef = React.createRef();
@@ -51,26 +52,34 @@ class PopupGiftCardDetail extends React.Component {
         this.props.cancelGiftCardPayment();
     }
 
-    getAmountEnter() {
-        const tempAmount = (`${this.state.amount}`.trim()).split("$ ");
+    getAmountEnter(amount) {
+        const tempAmount = (`${amount}`.trim()).split("$ ");
         return formatNumberFromCurrency(tempAmount[1]);
     }
 
     payGiftCardPayment = () => {
 
+    }
 
+    changeAmountPayment = (amount) => {
+        this.setState({
+            amount,
+            tempDueAmount
+        })
     }
 
     // ---------- Render --------
 
     render() {
-        const { title, visible, onRequestClose, language, giftcardPaymentInfo, paymentDetailInfo } = this.props;
-        const { amount } = this.state;
+        const { title, visiblePopupGiftCardDetails, onRequestClose, language, giftcardPaymentInfo, paymentDetailInfo } = this.props;
+        const { amount ,tempDueAmount} = this.state;
+        const dueAmount = paymentDetailInfo.dueAmount ? paymentDetailInfo.dueAmount : 0;
+        // const tempDueAmount = formatMoney(formatNumberFromCurrency(dueAmount) - this.getAmountEnter());
 
         return (
             <PopupParent
                 title={title}
-                visible={visible}
+                visible={visiblePopupGiftCardDetails}
                 onRequestClose={() => onRequestClose()}
                 width={500}
                 hideCloseButton={true}
@@ -110,7 +119,7 @@ class PopupGiftCardDetail extends React.Component {
                                 />
                                 <ItemDetail
                                     title={`${localize('Charge amount', language)}:`}
-                                    value={`$ 95.00`}
+                                    value={`$ ${dueAmount}`}
                                     subText={""}
                                     styleValue={{
                                         fontWeight: "bold"
@@ -148,7 +157,7 @@ class PopupGiftCardDetail extends React.Component {
                                             }}
                                             placeholder="$ 0.00"
                                             value={amount}
-                                            onChangeText={amount => this.setState({ amount })}
+                                            onChangeText={this.changeAmountPayment}
                                             onFocus={this.onScroll}
                                         />
                                     </View>
@@ -157,7 +166,7 @@ class PopupGiftCardDetail extends React.Component {
 
                                 <ItemDetail
                                     title={`${localize('Amount Due', language)}:`}
-                                    value={`$ ${formatMoney(formatNumberFromCurrency(95.00) - this.getAmountEnter())}`}
+                                    value={`$ ${tempDueAmount}`}
                                     isBold={true}
                                     subText={""}
                                     style={{
@@ -222,6 +231,17 @@ class PopupGiftCardDetail extends React.Component {
         );
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        const { visiblePopupGiftCardDetails, giftcardPaymentInfo, paymentDetailInfo } = this.props;
+        if (visiblePopupGiftCardDetails && prevProps.visiblePopupGiftCardDetails !== visiblePopupGiftCardDetails) {
+            const dueAmount = paymentDetailInfo.dueAmount ? paymentDetailInfo.dueAmount : 0;
+            this.setState({
+                amount: giftcardPaymentInfo.amount,
+                tempDueAmount: formatMoney(formatNumberFromCurrency(dueAmount) - this.getAmountEnter(giftcardPaymentInfo.amount))
+            })
+        }
+    }
+
     componentWillUnmount() {
         this.keyboardDidHideListener.remove();
     }
@@ -264,7 +284,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     paymentDetailInfo: state.appointment.paymentDetailInfo,
-    giftcardPaymentInfo: state.appointment.giftcardPaymentInfo
+    giftcardPaymentInfo: state.appointment.giftcardPaymentInfo,
+    visiblePopupGiftCardDetails: state.appointment.visiblePopupGiftCardDetails,
 });
 
 export default connectRedux(mapStateToProps, PopupGiftCardDetail);

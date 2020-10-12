@@ -36,23 +36,8 @@ const initialState = {
     },
     visiblePopupCustomerInfoBuyAppointment: false,
     bookingGroupId: 0,
-    giftcardPaymentInfo: {
-        "giftCardId": 1610,
-        "serialNumber": "10120070702900008",
-        "pincode": "006124",
-        "isUsed": 0,
-        "fileId": 2382,
-        "amount": "99.00",
-        "isActive": 0,
-        "isBooking": 0,
-        "createdDate": "2020-07-07T03:35:03.555578",
-        "isPhysical": 1,
-        "giftCardGeneralId": 29,
-        "isDisabled": 0,
-        "usedDate": "0001-01-01T00:00:00",
-        "imageUrl": "https://dev.harmonypayment.com/media/1637260252062465159_bd2c7b43-4ff6-438e-ac2a-7ee37f69c9fb.jpg",
-        "name": "PhujHoof"
-    }
+    giftcardPaymentInfo: {},
+    visiblePopupGiftCardDetails: false
 }
 
 function appointmentReducer(state = initialState, action) {
@@ -189,7 +174,7 @@ function appointmentReducer(state = initialState, action) {
                 ...state,
                 isCancelAppointment: true
             }
-        case 'VISIBLE_POPUP_ACTIVEE_GIFT_CARD':
+        case 'VISIBLE_POPUP_ACTIVE_GIFT_CARD':
             return {
                 ...state,
                 visiblePopupActiveGiftCard: action.payload
@@ -310,6 +295,11 @@ function appointmentReducer(state = initialState, action) {
             return {
                 ...state,
                 giftcardPaymentInfo: action.payload,
+            }
+        case 'TOGGLE_POPUP_GIFT_CARD_PAYMENT_DETAIL':
+            return {
+                ...state,
+                visiblePopupGiftCardDetails: action.payload,
             }
         case 'LOGOUT_APP':
             return {

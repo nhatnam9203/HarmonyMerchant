@@ -361,11 +361,8 @@ class TabCheckout extends Layout {
                 paymentSelected: payment === prevState.paymentSelected ? '' : payment
             }), () => {
                 if (this.state.paymentSelected === "Giftcard") {
-                    // this.activeGiftCardRef.current.setStateFromParent();
-                    // this.props.actions.appointment.handleVisibleActiveGiftCard();
-                    this.setState({
-                        visiblePopupGiftCardDetails: true
-                    })
+                    this.activeGiftCardRef.current.setStateFromParent();
+                    this.props.actions.appointment.handleVisibleActiveGiftCard();
                 }
             });
         }
@@ -1748,6 +1745,15 @@ class TabCheckout extends Layout {
         }
 
         return isBooking;
+    }
+
+    // ------ New code --------
+    cancelGiftCardPayment = () => {
+        this.props.actions.appointment.togglePopupGiftCardPaymentDetail(false);
+        this.setState({
+            // visiblePopupGiftCardDetails: false,
+            paymentSelected: ""
+        })
     }
 
 

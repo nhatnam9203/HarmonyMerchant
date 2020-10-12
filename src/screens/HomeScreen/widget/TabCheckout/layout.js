@@ -894,7 +894,7 @@ class Layout extends React.Component {
     render() {
         const { language, visiblePopupPaymentDetails } = this.props;
         const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
-            visiblePopupAddItemIntoBasket, visiblePopupGiftCardDetails
+            visiblePopupAddItemIntoBasket
         } = this.state;
 
         return (
@@ -1017,15 +1017,11 @@ class Layout extends React.Component {
 
                 <PopupGiftCardDetail
                     title={localize('Gift Card Details', language)}
-                    visible={visiblePopupGiftCardDetails}
+                    // visible={visiblePopupGiftCardDetails}
                     onRequestClose={this.closePopupProductPaymentDetails}
                     language={language}
                     nextPayment={this.nextPayment}
-                    cancelGiftCardPayment={() => {
-                        this.setState({
-                            visiblePopupGiftCardDetails: false
-                        })
-                    }}
+                    cancelGiftCardPayment={this.cancelGiftCardPayment}
                 />
             </View>
         );
