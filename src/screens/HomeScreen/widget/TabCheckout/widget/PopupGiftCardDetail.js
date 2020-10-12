@@ -24,7 +24,7 @@ class PopupGiftCardDetail extends React.Component {
         super(props);
         this.state = {
             amount: 0.00,
-            tempDueAmount: 0.00
+            dueAmountGiftCardPayment: 0.00
         };
 
         this.scrollRef = React.createRef();
@@ -53,18 +53,45 @@ class PopupGiftCardDetail extends React.Component {
     }
 
     getAmountEnter(amount) {
-        const tempAmount = (`${amount}`.trim()).split("$ ");
-        return formatNumberFromCurrency(tempAmount[1]);
+        if (`${amount}`.indexOf("$") !== -1) {
+            const tempAmount = (`${amount}`.trim()).split("$ ");
+            return formatNumberFromCurrency(tempAmount[1]);
+        }
+
+        return formatNumberFromCurrency(amount);
     }
 
     payGiftCardPayment = () => {
+        const { giftcardPaymentInfo,groupAppointment } = this.props
+        const { dueAmountGiftCardPayment, amount } = this.state;
 
+        if (this.getAmountEnter(amount) > formatNumberFromCurrency(giftcardPaymentInfo.amount)) {
+            alert("Enter amount is not bigger than the value of gift card!")
+        } else if (this.getAmountEnter(amount) === 0) {
+            alert("Pay amount is not equal 0!")
+        } else {
+            if (formatNumberFromCurrency(dueAmountGiftCardPayment) < 0) {
+                alert("Enter amount is not bigger than the charge amount!")
+            } else {
+                const checkoutGroupId = groupAppointment.checkoutGroupId  ? groupAppointment.checkoutGroupId  : 0;
+                const giftCardId = giftcardPaymentInfo.giftCardId ? giftcardPaymentInfo.giftCardId : 0;
+                this.props.cancelGiftCardPayment();
+                setTimeout(() =>{
+                    this.props.actions.appointment.paymentAppointment(checkoutGroupId, "giftcard", formatNumberFromCurrency(amount),false,-1,giftCardId);
+                },300)
+               
+                
+            }
+        }
     }
 
     changeAmountPayment = (amount) => {
+        const { paymentDetailInfo } = this.props;
+        const dueAmount = paymentDetailInfo.dueAmount ? paymentDetailInfo.dueAmount : 0;
+
         this.setState({
             amount,
-            tempDueAmount
+            dueAmountGiftCardPayment: formatMoney(formatNumberFromCurrency(dueAmount) - formatNumberFromCurrency(amount))
         })
     }
 
@@ -72,9 +99,11 @@ class PopupGiftCardDetail extends React.Component {
 
     render() {
         const { title, visiblePopupGiftCardDetails, onRequestClose, language, giftcardPaymentInfo, paymentDetailInfo } = this.props;
-        const { amount ,tempDueAmount} = this.state;
+        const { amount, dueAmountGiftCardPayment } = this.state;
         const dueAmount = paymentDetailInfo.dueAmount ? paymentDetailInfo.dueAmount : 0;
-        // const tempDueAmount = formatMoney(formatNumberFromCurrency(dueAmount) - this.getAmountEnter());
+
+
+        // const dueAmountGiftCardPayment = formatMoney(formatNumberFromCurrency(dueAmount) - this.getAmountEnter());
 
         return (
             <PopupParent
@@ -166,7 +195,7 @@ class PopupGiftCardDetail extends React.Component {
 
                                 <ItemDetail
                                     title={`${localize('Amount Due', language)}:`}
-                                    value={`$ ${tempDueAmount}`}
+                                    value={`$ ${dueAmountGiftCardPayment}`}
                                     isBold={true}
                                     subText={""}
                                     style={{
@@ -234,10 +263,16 @@ class PopupGiftCardDetail extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         const { visiblePopupGiftCardDetails, giftcardPaymentInfo, paymentDetailInfo } = this.props;
         if (visiblePopupGiftCardDetails && prevProps.visiblePopupGiftCardDetails !== visiblePopupGiftCardDetails) {
+
             const dueAmount = paymentDetailInfo.dueAmount ? paymentDetailInfo.dueAmount : 0;
+            const tempDueAmount = formatMoney(formatNumberFromCurrency(dueAmount) - this.getAmountEnter(giftcardPaymentInfo.amount));
+
             this.setState({
-                amount: giftcardPaymentInfo.amount,
-                tempDueAmount: formatMoney(formatNumberFromCurrency(dueAmount) - this.getAmountEnter(giftcardPaymentInfo.amount))
+                amount: tempDueAmount >= 0 ? giftcardPaymentInfo.amount : dueAmount,
+            }, () => {
+                this.setState({
+                    dueAmountGiftCardPayment: formatMoney(formatNumberFromCurrency(dueAmount) - formatNumberFromCurrency(this.state.amount))
+                });
             })
         }
     }
@@ -286,6 +321,7 @@ const mapStateToProps = state => ({
     paymentDetailInfo: state.appointment.paymentDetailInfo,
     giftcardPaymentInfo: state.appointment.giftcardPaymentInfo,
     visiblePopupGiftCardDetails: state.appointment.visiblePopupGiftCardDetails,
+    groupAppointment: state.appointment.groupAppointment
 });
 
 export default connectRedux(mapStateToProps, PopupGiftCardDetail);

@@ -91,12 +91,13 @@ export function checkoutAppointment(appointmentId, checkoutGroupId = 0) {
     }
 }
 
-export function paymentAppointment(groupId, method, amount, creditCardInfo = false, merchantId = -1) {
+export function paymentAppointment(groupId, method, amount, creditCardInfo = false, merchantId = -1,giftCardId = 0) {
     return {
         type: 'PAY_APPOINTMENT',
         body: {
             method,
-            amount
+            amount,
+            giftCardId
         },
         method: 'PUT',
         token: true,

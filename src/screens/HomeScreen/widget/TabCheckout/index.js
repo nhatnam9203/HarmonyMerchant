@@ -1751,7 +1751,6 @@ class TabCheckout extends Layout {
     cancelGiftCardPayment = () => {
         this.props.actions.appointment.togglePopupGiftCardPaymentDetail(false);
         this.setState({
-            // visiblePopupGiftCardDetails: false,
             paymentSelected: ""
         })
     }
