@@ -737,6 +737,10 @@ export const getPaymentString = (type) => {
         case 'other':
             method = 'Other - Check';
             break;
+        case 'giftcard':
+            method = 'Gift Card';
+            break;
+
         default:
             method = 'Debit Cards'
     }
@@ -875,7 +879,8 @@ export const validBirthday = (birthday) => {
     return true
 }
 
-export const PAYMENT_METHODS = [{ value: '' }, { value: 'HarmonyPay' }, { value: 'Credit Card' }, { value: 'Cash' }, { value: 'Other' }];
+export const PAYMENT_METHODS = [{ value: '' }, { value: 'HarmonyPay' },
+{ value: 'Credit Card' }, { value: 'Cash' }, { value: 'Other' }, { value: 'Gift Card' }];
 
 export const getPaymentStringInvoice = (type) => {
     let method = '';
@@ -894,6 +899,9 @@ export const getPaymentStringInvoice = (type) => {
             break;
         case 'Debit Card':
             method = 'debit_card';
+            break;
+        case 'Gift Card':
+            method = 'giftcard';
             break;
         default:
             method = ''

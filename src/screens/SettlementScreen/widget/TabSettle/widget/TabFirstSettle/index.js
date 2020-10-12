@@ -24,6 +24,7 @@ class TabFirstSettle extends Layout {
             editPaymentByCash: 0.00,
             editOtherPayment: 0.00,
             discountSettlement: 0.00,
+            paymentByGiftcard:0.00,
             total: 0.00,
             note: '',
             isShowKeyboard: false,
@@ -161,7 +162,7 @@ class TabFirstSettle extends Layout {
 
     continueSettlement = () => {
         const { settleWaiting } = this.props;
-        const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note, discountSettlement } = this.state;
+        const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note, discountSettlement,paymentByGiftcard } = this.state;
         this.props.gotoTabSecondSettle({
             paymentByHarmony: editPaymentByHarmony,
             paymentByCreditCard: editPaymentByCreditCard,
@@ -175,7 +176,8 @@ class TabFirstSettle extends Layout {
                 formatNumberFromCurrency(editPaymentByCreditCard) +
                 formatNumberFromCurrency(editPaymentByCash) +
                 formatNumberFromCurrency(editOtherPayment) +
-                formatNumberFromCurrency(discountSettlement)
+                formatNumberFromCurrency(discountSettlement) +
+                formatNumberFromCurrency(paymentByGiftcard)
             ),
             note
         }, creditCount);
@@ -326,7 +328,9 @@ class TabFirstSettle extends Layout {
                 total: settleWaiting.total ? settleWaiting.total : 0.00,
                 discountSettlement: settleWaiting.discount ? settleWaiting.discount : 0.00,
 
-                editPaymentByCreditCard: settleWaiting.paymentByCreditCard ? settleWaiting.paymentByCreditCard : 0.00
+                editPaymentByCreditCard: settleWaiting.paymentByCreditCard ? settleWaiting.paymentByCreditCard : 0.00,
+                paymentByGiftcard: settleWaiting.paymentByGiftcard ? settleWaiting.paymentByGiftcard : 0.00,
+                
             });
             if (this.state.isGetReportFromPax) {
                 this.handlePAXReport();

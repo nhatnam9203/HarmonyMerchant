@@ -12,7 +12,7 @@ import {
     getArrayProductsFromAppointment, getArrayServicesFromAppointment,
     getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment,
     getPaymentStringInvoice, getQuickFilterStringInvoice,
-    checkStatusPrint, PRINTER_MACHINE, getInfoFromModelNameOfPrinter
+    checkStatusPrint, getInfoFromModelNameOfPrinter
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 

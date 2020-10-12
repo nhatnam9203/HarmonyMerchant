@@ -10,7 +10,7 @@ import _ from 'ramda';
 
 import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, formatWithMoment } from '@utils';
 import {
-    Text, ButtonCustom,Button
+    Text, ButtonCustom, Button
 } from '@components';
 import styles from "./style";
 import ItemPaymentsReport, { StaffsHeaderTable, StaffsItem, GiftCardItem, TotalItem, HeaderPaymentsReport } from "./widget/ItemsSettlement";
@@ -51,7 +51,7 @@ class Layout extends React.Component {
     renderHeaderStaffList() {
         const { language } = this.props;
         return (
-            <View style={{ height: scaleSzie(35), flexDirection: 'row', paddingHorizontal: scaleSzie(10) }} >
+            <View style={{ height: scaleSzie(30), flexDirection: 'row', paddingHorizontal: scaleSzie(10) }} >
                 <View style={{ flex: 1.1, justifyContent: 'center' }} >
                     <Text style={styles.txt_table} >
                         {localize('Sales By Staffs', language)}
@@ -148,7 +148,7 @@ class Layout extends React.Component {
     renderPaymentMethodsReport() {
         const { settleWaiting } = this.props;
         const { discountSettlement, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment,
-            isEditOtherAmount, isEditCashAmount, creditCount
+            isEditOtherAmount, isEditCashAmount, creditCount,paymentByGiftcard
         } = this.state;
 
         const temtpTotal = roundFloatNumber(
@@ -156,7 +156,8 @@ class Layout extends React.Component {
             formatNumberFromCurrency(editPaymentByCreditCard) +
             formatNumberFromCurrency(editPaymentByCash) +
             formatNumberFromCurrency(editOtherPayment) +
-            formatNumberFromCurrency(discountSettlement)
+            formatNumberFromCurrency(discountSettlement)+
+            formatNumberFromCurrency(paymentByGiftcard)
         );
 
         return (
@@ -195,6 +196,12 @@ class Layout extends React.Component {
                         />
                         <View style={{ height: 1 }} />
                         <ItemPaymentsReport
+                            title="Gift Card"
+                            backgroundColor="#3C92D9"
+                            value={paymentByGiftcard}
+                        />
+                        <View style={{ height: 1 }} />
+                        <ItemPaymentsReport
                             ref={this.otherAmountRef}
                             title="Other"
                             backgroundColor="#BBD4E9"
@@ -218,7 +225,7 @@ class Layout extends React.Component {
                         />
                     </View>
                     {this.renderNote()}
-                    <View style={{ height: scaleSzie(150) }} />
+                    <View style={{ height: scaleSzie(180) }} />
                 </ScrollView>
 
                 <View style={{ height: scaleSzie(10) }} />
@@ -243,7 +250,7 @@ class Layout extends React.Component {
                     paddingHorizontal: scaleSzie(10)
                 }} >
                     <TextInput
-                        style={{ flex: 1, fontSize: scaleSzie(12),padding:0,color:"#000",textAlignVertical:"top" }}
+                        style={{ flex: 1, fontSize: scaleSzie(12), padding: 0, color: "#000", textAlignVertical: "top" }}
                         multiline={true}
                         value={note}
                         onChangeText={(note) => this.setState({ note })}
@@ -264,7 +271,7 @@ class Layout extends React.Component {
                     {this.renderLastSettlement()}
                     {this.renderHeaderStaffList()}
                     {/* ------------- Two tables ----------  */}
-                    <View style={{ height: scaleSzie(310), flexDirection: "row", paddingHorizontal: scaleSzie(10) }} >
+                    <View style={{ height: scaleSzie(310 + 30), flexDirection: "row", paddingHorizontal: scaleSzie(10) }} >
                         {this.renderStaffsTable()}
                         <View style={{ width: scaleSzie(10), }} />
                         {this.renderPaymentMethodsReport()}
