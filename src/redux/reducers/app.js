@@ -32,7 +32,7 @@ const initialState = {
   isUpdateMerchantSetting: false,
   settingTabPermission: false,
   visiblePopupCodePush: false,
-  descriptionCodePush:""
+  descriptionCodePush: ""
 };
 
 function appReducer(state = initialState, action) {
@@ -232,7 +232,8 @@ function appReducer(state = initialState, action) {
         ...state,
         connectPAXStatus: {
           status: false,
-          message: action.payload === "You're running your Pax on DEMO MODE!" ? action.payload : `( Your POS system don't have connect to PAX machine. Error : "${action.payload}" )`,
+          message : getErrorMessagePaxMachine(action.payload)
+          // message: action.payload === "You're running your Pax on DEMO MODE!" ? action.payload : `( Your POS system don't have connect to PAX machine. Error : "${action.payload}" )`,
         },
       };
     case "CONNECT_PAX_MACHINE_SUCCESS":
@@ -254,14 +255,14 @@ function appReducer(state = initialState, action) {
         settingTabPermission: false,
         visibleEnterPin: false
       };
-      case "OPEN_POPUP_CODE_PUSH":
-        return {
-          ...state,
-          visiblePopupCodePush: action.payload,
-          descriptionCodePush: action.description ? action.description : ""
-        };
+    case "OPEN_POPUP_CODE_PUSH":
+      return {
+        ...state,
+        visiblePopupCodePush: action.payload,
+        descriptionCodePush: action.description ? action.description : ""
+      };
 
-      
+
     case 'LOGOUT_APP':
       return {
         ...initialState,
@@ -269,6 +270,17 @@ function appReducer(state = initialState, action) {
 
     default:
       return state;
+  }
+}
+
+function getErrorMessagePaxMachine(error) {
+  switch (error) {
+    case "You're running your Pax on DEMO MODE!":
+      return "( You're running your Pax on DEMO MODE! )";
+    case "NOT FOUND":
+      return "( TRASACTIONS NOT FOUND ON YOUR PAX MACHINE! )";
+    default :
+      return `( Your POS system don't have connect to PAX machine. Error : "${error}" )`
   }
 }
 
