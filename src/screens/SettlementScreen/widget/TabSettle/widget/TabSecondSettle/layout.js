@@ -148,7 +148,7 @@ class Layout extends React.Component {
 
     renderActualAmount() {
         const { paymentByHarmony, paymentByCreditCard, paymentByCash, otherPayment, discount, total, note,
-            paymentByCashStatistic, otherPaymentStatistic
+            paymentByCashStatistic, otherPaymentStatistic,paymentByGiftcard
         } = this.state.settleTotal;
 
         return (
@@ -170,6 +170,13 @@ class Layout extends React.Component {
                     backgroundColor="#3480BE"
                     value={paymentByCash}
                     staticValue={paymentByCashStatistic}
+                />
+                <View style={{ height: 1 }} />
+                <ItemPaymentsReport
+                    title="Gift Card"
+                    backgroundColor="#BBD4E9"
+                    value={paymentByGiftcard}
+                    // staticValue={paymentByCashStatistic}
                 />
                 <View style={{ height: 1 }} />
                 <ItemPaymentsReport

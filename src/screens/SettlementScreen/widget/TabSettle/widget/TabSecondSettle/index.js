@@ -23,7 +23,8 @@ class TabSecondSettle extends Layout {
                 total: 0.00,
                 note: ``,
                 paymentByCashStatistic: 0.00,
-                otherPaymentStatistic: 0.00
+                otherPaymentStatistic: 0.00,
+                paymentByGiftcard:0.00
             },
             errorMessage: '',
             paxErrorMessage: ''

@@ -24,7 +24,7 @@ class TabFirstSettle extends Layout {
             editPaymentByCash: 0.00,
             editOtherPayment: 0.00,
             discountSettlement: 0.00,
-            paymentByGiftcard:0.00,
+            paymentByGiftcard: 0.00,
             total: 0.00,
             note: '',
             isShowKeyboard: false,
@@ -162,7 +162,7 @@ class TabFirstSettle extends Layout {
 
     continueSettlement = () => {
         const { settleWaiting } = this.props;
-        const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note, discountSettlement,paymentByGiftcard } = this.state;
+        const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note, discountSettlement, paymentByGiftcard } = this.state;
         this.props.gotoTabSecondSettle({
             paymentByHarmony: editPaymentByHarmony,
             paymentByCreditCard: editPaymentByCreditCard,
@@ -171,6 +171,7 @@ class TabFirstSettle extends Layout {
             discount: discountSettlement,
             paymentByCashStatistic: settleWaiting.paymentByCash ? settleWaiting.paymentByCash : 0.00,
             otherPaymentStatistic: settleWaiting.otherPayment ? settleWaiting.otherPayment : 0.00,
+            paymentByGiftcard: paymentByGiftcard,
             total: roundFloatNumber(
                 formatNumberFromCurrency(editPaymentByHarmony) +
                 formatNumberFromCurrency(editPaymentByCreditCard) +
@@ -330,7 +331,7 @@ class TabFirstSettle extends Layout {
 
                 editPaymentByCreditCard: settleWaiting.paymentByCreditCard ? settleWaiting.paymentByCreditCard : 0.00,
                 paymentByGiftcard: settleWaiting.paymentByGiftcard ? settleWaiting.paymentByGiftcard : 0.00,
-                
+
             });
             if (this.state.isGetReportFromPax) {
                 this.handlePAXReport();
