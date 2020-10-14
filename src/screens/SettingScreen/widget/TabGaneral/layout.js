@@ -14,12 +14,13 @@ import { scaleSzie, localize, getNameStateById, TimeZones, hideCharactes, Workin
 import ICON from "@resources";
 
 const AUTO_LOCK = ["2 Minutes", "5 Minutes", "10 Minutes", "15 Minutes", "Never"];
+const STAFF_COLUMN = [{value:5},{value:8}];
 
 class Layout extends React.Component {
 
     renderSetup() {
         const { language, autoLockScreenAfter } = this.props;
-        const { languageApp, webLink, autoCloseAt, timezone, businessHour, turnAmount } = this.state;
+        const { languageApp, webLink, autoCloseAt, timezone, businessHour, turnAmount,staffColums } = this.state;
 
         return (
             <View style={{ width: '100%', marginTop: scaleSzie(6) }} >
@@ -40,6 +41,15 @@ class Layout extends React.Component {
                         data={WorkingTime}
                         value={autoCloseAt}
                         onChangeText={value => this.setState({ autoCloseAt: value })}
+                        placeHolder='08:00 AM'
+                    />
+
+                     {/* ------- Staff Columns On Calendar  ------ */}
+                     <ItemSetupGeneral
+                        title={`${localize('Staff Columns', language)}:`}
+                        data={STAFF_COLUMN}
+                        value={staffColums}
+                        onChangeText={value => this.setState({ staffColums: value })}
                         placeHolder='08:00 AM'
                     />
 

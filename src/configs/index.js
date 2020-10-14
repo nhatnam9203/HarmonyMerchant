@@ -24,6 +24,7 @@ const configs = {
             },
         })
     },
+    APPSTORE_VERSION: "1.1.2",
     codePushKeyIOS: {
         production: 'duhVozb0nWJ1ciL39iNtdh5xdqBy8ed003ce-e621-4347-babf-de7857b9c737',
         staging: 'mnF_3WG05SYllO2LScQOQIhTgfRs8ed003ce-e621-4347-babf-de7857b9c737',
@@ -37,15 +38,15 @@ const configs = {
     bundleIdAppStore: 'com.merchant.harmony',
     bundleIdAdhoc: 'com.app.hpmerchant',
     bundleIdAdhocDEV: 'com.app.hpmerchant.dev',
-    btn_right_position:{
-        position: 'absolute', 
-        top:Platform.OS ==="ios" ? 20 : 0,  
-        right: 0 
+    btn_right_position: {
+        position: 'absolute',
+        top: Platform.OS === "ios" ? 20 : 0,
+        right: 0
     },
-    btn_left_position:{
-        position: 'absolute', 
-        top:Platform.OS ==="ios" ? 20 : 0,  
-        left: 0 
+    btn_left_position: {
+        position: 'absolute',
+        top: Platform.OS === "ios" ? 20 : 0,
+        left: 0
     }
 }
 

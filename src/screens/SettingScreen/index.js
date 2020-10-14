@@ -206,6 +206,7 @@ class SettingScreen extends Layout {
         profile.timezone ? profile.timezone : "",
         profile.autoCloseAt ? profile.autoCloseAt : "",
         profile.turnAmount ? profile.turnAmount : 0,
+        profile.staffColumn ? profile.staffColumn : 8
       );
     }
   }

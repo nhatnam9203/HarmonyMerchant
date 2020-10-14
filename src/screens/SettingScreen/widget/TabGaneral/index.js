@@ -23,6 +23,7 @@ class TabGaneral extends Layout {
             isUpdateInternal: false,
             businessHour: profile.businessHour ? profile.businessHour : BusinessWorkingTime,
             turnAmount: profile.turnAmount ? profile.turnAmount : 0,
+            staffColums: profile.staffColumn ? profile.staffColumn : 8
         };
         this.inputRefsTime = [];
     }
@@ -34,13 +35,14 @@ class TabGaneral extends Layout {
     };
 
 
-    setStateFromParent = async (webLink, timezone, autoCloseAt,turnAmount) => {
+    setStateFromParent = async (webLink, timezone, autoCloseAt, turnAmount,staffColums) => {
         await this.setState({
             webLink,
             timezone,
             autoCloseAt,
             turnAmount,
             isUpdateInternal: false,
+            staffColums
         });
         this.updateWorkTime();
     }
@@ -77,7 +79,7 @@ class TabGaneral extends Layout {
 
     saveSettngApp = async () => {
         const { profile } = this.props;
-        const { languageApp, longitude, latitude, webLink, autoCloseAt, timezone ,turnAmount} = this.state;
+        const { languageApp, longitude, latitude, webLink, autoCloseAt, timezone, turnAmount,staffColums } = this.state;
 
         const temptLanguage = languageApp === 'English' ? 'en' : 'vi';
         this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
@@ -105,7 +107,8 @@ class TabGaneral extends Layout {
             timezone,
             autoLockscreen: "",
             autoCloseAt,
-            turnAmount
+            turnAmount,
+            staffColums
         });
     }
 
@@ -118,6 +121,7 @@ class TabGaneral extends Layout {
                 timezone: profile.timezone ? profile.timezone : '',
                 autoCloseAt: profile.autoCloseAt ? profile.autoCloseAt : '',
                 turnAmount: profile.turnAmount ? profile.turnAmount : 0,
+                staffColums: profile.staffColumn ? profile.staffColumn : 8
             });
             this.updateWorkTime();
         }
@@ -128,6 +132,7 @@ class TabGaneral extends Layout {
                 timezone: profile.timezone ? profile.timezone : '',
                 autoCloseAt: profile.autoCloseAt ? profile.autoCloseAt : '',
                 turnAmount: profile.turnAmount ? profile.turnAmount : 0,
+                staffColums: profile.staffColumn ? profile.staffColumn : 8,
                 isUpdateInternal: false
             });
             this.updateWorkTime();
