@@ -16,7 +16,9 @@ export default class InputForm extends React.PureComponent {
             isOnlyNumber, maxLength, editable, onFocus, typeInputMask, optionsInputMask,
             styleTitle, styleBoxInput
         } = this.props;
-        const temptHeight = Platform.OS === 'ios' ? 30 : 30;
+        // const temptHeight = Platform.OS === 'ios' ? 30 : 30;
+        const temptHeight = 30;
+
 
         return (
             <View style={[{ marginBottom: scaleSzie(24) }, style]} >
@@ -39,7 +41,7 @@ export default class InputForm extends React.PureComponent {
                             // type="only-numbers"
                             type={typeInputMask ? typeInputMask : 'only-numbers'}
                             options={optionsInputMask}
-                            style={{ flex: 1, fontSize: scaleSzie(16), color: "#000" ,padding:0}}
+                            style={{ flex: 1, fontSize: scaleSzie(16), color: "#000", padding: 0 }}
                             placeholder={placeholder}
                             value={value}
                             onChangeText={(value => onChangeText(value))}
@@ -50,7 +52,7 @@ export default class InputForm extends React.PureComponent {
                             editable={editable}
                             onFocus={() => onFocus && onFocus()}
                         /> : <TextInput
-                                style={{ flex: 1, fontSize: scaleSzie(16), color: "#000",padding:0 }}
+                                style={{ flex: 1, fontSize: scaleSzie(16), color: "#000", padding: 0 }}
                                 placeholder={placeholder}
                                 value={value}
                                 onChangeText={(value => onChangeText(value))}

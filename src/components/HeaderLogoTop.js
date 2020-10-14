@@ -15,7 +15,7 @@ export default class HeaderLogoTop extends React.PureComponent {
 
 
     render() {
-        const temptHeight = checkIsTablet() ? scaleSzie(85) : scaleSzie(85);
+        // const temptHeight = checkIsTablet() ? scaleSzie(85) : scaleSzie(85);
 
         return (
             <View style={{
@@ -24,7 +24,6 @@ export default class HeaderLogoTop extends React.PureComponent {
                 backgroundColor: "#fff",
                 ...Platform.select({
                     ios: {
-                        shadowRadius: 2,
                         shadowColor: "#000",
                         shadowOffset: { width: 0, height: 3 },
                         shadowOpacity: 0.25,
@@ -41,7 +40,7 @@ export default class HeaderLogoTop extends React.PureComponent {
                     source={IMAGE.logoTop}
                     style={{
                         width,
-                        height: temptHeight,
+                        height: scaleSzie(85),
                     }}
                     resizeMode="stretch"
                 />
