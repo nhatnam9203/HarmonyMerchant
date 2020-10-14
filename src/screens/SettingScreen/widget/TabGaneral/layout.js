@@ -20,7 +20,7 @@ class Layout extends React.Component {
 
     renderSetup() {
         const { language, autoLockScreenAfter } = this.props;
-        const { languageApp, webLink, autoCloseAt, timezone, businessHour, turnAmount,staffColums } = this.state;
+        const { languageApp, webLink, autoCloseAt, timezone, businessHour, turnAmount,staffColumn } = this.state;
 
         return (
             <View style={{ width: '100%', marginTop: scaleSzie(6) }} >
@@ -48,8 +48,8 @@ class Layout extends React.Component {
                      <ItemSetupGeneral
                         title={`${localize('Staff Columns', language)}:`}
                         data={STAFF_COLUMN}
-                        value={staffColums}
-                        onChangeText={value => this.setState({ staffColums: value })}
+                        value={staffColumn}
+                        onChangeText={value => this.setState({ staffColumn: value })}
                         placeHolder='08:00 AM'
                     />
 

@@ -174,6 +174,7 @@ function dataLocalReducer(state = initialState, action) {
                 autoCloseAt: state.autoCloseAt,
                 autoLockScreenAfter: state.autoLockScreenAfter,
                 paxMachineInfo: state.paxMachineInfo,
+                printerSelect: state.printerSelect,
                 MIDStorage: state.MIDStorage,
                 versionApp: state.versionApp,
                 isRememberMID: state.isRememberMID,
