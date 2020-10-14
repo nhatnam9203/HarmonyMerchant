@@ -47,7 +47,8 @@ class TabAppointment extends Layout {
         super(props);
         this.state = {
             ...initState,
-            appState: AppState.currentState
+            appState: AppState.currentState,
+            tempLink:"https://www.google.com/?client=safari"
         };
         this.webviewRef = React.createRef();
         this.amountRef = React.createRef();
@@ -60,7 +61,6 @@ class TabAppointment extends Layout {
     componentDidMount() {
         AppState.addEventListener("change", this.handleAppStateChange);
     }
-
 
     onNotif = (notif) => {
         this.props.actions.app.closeAllPopupPincode();
@@ -489,7 +489,8 @@ const mapStateToProps = state => ({
     isReloadWebview: state.app.isReloadWebview,
     deviceId: state.dataLocal.deviceId,
     extrasByMerchant: state.extra.extrasByMerchant,
-    profileStaffLogin: state.dataLocal.profileStaffLogin
+    profileStaffLogin: state.dataLocal.profileStaffLogin,
+    urlCalendar: state.dataLocal.urlCalendar
 })
 
 

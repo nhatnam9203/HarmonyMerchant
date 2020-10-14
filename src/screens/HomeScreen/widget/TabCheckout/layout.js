@@ -607,7 +607,7 @@ class Layout extends React.Component {
                 </View>
                 <View style={styles.box_payment_container} >
                     {
-                        ['Giftcard', 'Other'].map((title, index) => <ItemPaymentMethod
+                        ['Gift Card', 'Other'].map((title, index) => <ItemPaymentMethod
                             key={index}
                             title={title}
                             selectedPayment={this.selectedPayment}
@@ -690,7 +690,7 @@ class Layout extends React.Component {
                     }}
                     styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
                 />
-            } else if (paymentSelected === '' || paymentSelected === "Giftcard" || !isAcceptPay) {
+            } else if (paymentSelected === '' || paymentSelected === "Gift Card" || !isAcceptPay) {
                 return (
                     <ButtonCustom
                         width={`100%`}

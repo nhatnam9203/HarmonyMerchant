@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import createSensitiveStorage from "redux-persist-sensitive-storage";
 
 import { getModalNameOfPrinter } from "@utils";
+import apiConfigs from '@configs/api';
 
 const initialState = {
     profile: {},
@@ -29,7 +30,9 @@ const initialState = {
     printerPortType: "Bluetooth",
     printerList: [],
     printerSelect: "",
-    profileLoginInvoice: {}
+    profileLoginInvoice: {},
+
+    urlCalendar: "",
 }
 
 function dataLocalReducer(state = initialState, action) {
@@ -82,13 +85,15 @@ function dataLocalReducer(state = initialState, action) {
         case 'UPDATE_MERCHANT_PROFILE':
             return {
                 ...state,
-                profile: action.payload
+                profile: action.payload,
+                urlCalendar: `${apiConfigs.CALENDAR_URL}${action.payload.staffColumn}/index.html?token=${state.profileStaffLogin.token}&merchantid=${state.profileStaffLogin.merchantId}&staffId=${action.payload.staffId}&deviceId=${state.deviceId}`
             }
         case 'UPDATE_PROFILE_STAFF_SUCCESS':
             return {
                 ...state,
                 profileStaffLogin: action.payload,
-                isLoginStaff: true
+                isLoginStaff: true,
+                urlCalendar: `${apiConfigs.CALENDAR_URL}${state.profile.staffColumn}/index.html?token=${action.payload.token}&merchantid=${state.profile.merchantId}&staffId=${action.payload.staffId}&deviceId=${state.deviceId}`
             }
         case 'RESET_NEED_SETTING_STORE':
             return {
@@ -187,14 +192,14 @@ function dataLocalReducer(state = initialState, action) {
 const sensitiveStorage = createSensitiveStorage({
     keychainService: "myKeychain",
     sharedPreferencesName: "mySharedPrefs"
-  });
+});
 
 const dataLocalPersistConfig = {
     key: "dataLocal",
     // storage: AsyncStorage,
     // blacklist: [],
     storage: sensitiveStorage
-  
+
 };
 
 module.exports = persistReducer(dataLocalPersistConfig, dataLocalReducer);

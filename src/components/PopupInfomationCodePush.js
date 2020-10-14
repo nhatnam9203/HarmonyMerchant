@@ -136,7 +136,7 @@ class PopupInfomationCodePush extends React.Component {
                                 style={{ height: scaleSzie(55), width: scaleSzie(55) }}
                             />
                             <Text style={{ color: "#fff", fontSize: scaleSzie(14), fontWeight: "bold", marginTop: scaleSzie(18) }} >
-                                {`What's new ?`}
+                                {`What's new?`}
                             </Text>
                             <View style={{ flex: 1, justifyContent: "flex-end" }} >
                                 <Text style={{ color: "#fff", fontSize: scaleSzie(12), fontWeight: "300" }} >

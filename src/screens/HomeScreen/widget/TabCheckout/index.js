@@ -360,7 +360,7 @@ class TabCheckout extends Layout {
             this.setState(prevState => ({
                 paymentSelected: payment === prevState.paymentSelected ? '' : payment
             }), () => {
-                if (this.state.paymentSelected === "Giftcard") {
+                if (this.state.paymentSelected === "Gift Card") {
                     this.activeGiftCardRef.current.setStateFromParent();
                     this.props.actions.appointment.handleVisibleActiveGiftCard();
                 }
@@ -454,7 +454,7 @@ class TabCheckout extends Layout {
             case 'Debit Card':
                 method = 'credit_card';
                 break;
-            case 'Giftcard':
+            case 'Gift Card':
                 method = 'giftcard';
                 break;
             case 'Other':
@@ -1446,7 +1446,7 @@ class TabCheckout extends Layout {
         }
 
         if (!_.isEmpty(groupAppointment)) {
-            if (paymentSelected === "Giftcard") {
+            if (paymentSelected === "Gift Card") {
                 this.props.actions.appointment.checkSerialNumber(code, false, false, true);
             } else {
                 this.props.actions.appointment.checkSerialNumber(code);

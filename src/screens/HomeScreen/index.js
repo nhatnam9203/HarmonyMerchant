@@ -61,7 +61,7 @@ class HomeScreen extends Layout {
             payload => {
                 this.setState({
                     isFocus: true
-                })
+                });
             }
         );
 

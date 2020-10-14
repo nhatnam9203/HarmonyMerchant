@@ -43,7 +43,7 @@ function getPaymentLogoByName(name) {
         case "Debit Card":
             logo = "debit_payment";
             break;
-        case "Giftcard":
+        case "Gift Card":
             logo = "giftcard_payment";
             break;
         case "Other":

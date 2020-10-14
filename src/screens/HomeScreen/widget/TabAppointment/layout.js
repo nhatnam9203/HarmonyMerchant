@@ -408,7 +408,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { token, profile, profileStaffLogin, language, deviceId } = this.props;
+        const { profile, profileStaffLogin, language, deviceId,urlCalendar } = this.props;
         const { visibleConfirm, visibleChangeStylist } = this.state;
         const injectedJavascript = `(function() {
             window.postMessage = function(data) {
@@ -418,20 +418,19 @@ class Layout extends React.Component {
           window.onscroll = function() { window.postMessage(document.documentElement.scrollTop||document.body.scrollTop)}
           true
           `;
-        const staffcolumn = profile.staffColumn ? profile.staffColumn : 8;
-        const uriWebview = `${apiConfigs.CALENDAR_URL}${staffcolumn}/index.html?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}&deviceId=${deviceId}`;
-        // console.log(uriWebview); 
+        // const uriWebview = `${apiConfigs.CALENDAR_URL}${profile.staffColumn}/index.html?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}&deviceId=${deviceId}`;
 
         return (
             <View style={styles.container} >
                 <WebView
                     ref={this.webviewRef}
-                    source={{ uri: uriWebview }}
+                    // source={{ uri: uriWebview }}
+                    // source={{ uri: this.state.tempLink }}
+                    source={{ uri: urlCalendar }}
                     startInLoadingState={true}
                     injectedJavaScript={injectedJavascript}
                     onMessage={this.onMessageFromWebview}
                     cacheEnabled={false}
-                    // domStorageEnabled={true}
                     useWebKit={true}
                 />
                 {this.state.isShowAddAppointment ? this.renderModalBookAppointment() : <View />}
