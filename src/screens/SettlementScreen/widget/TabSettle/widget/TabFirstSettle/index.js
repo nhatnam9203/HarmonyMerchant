@@ -127,7 +127,7 @@ class TabFirstSettle extends Layout {
 
 
             } catch (error) {
-                console.log("---- error: ",error);
+                // console.log("---- error: ",error);
                 isError = true;
                 this.props.actions.app.connectPaxMachineError(`${error}`);
             }

@@ -335,10 +335,9 @@ class HomeScreen extends Layout {
     loginStaffSuccess = () => {
         const { listAppointmentsOfflineMode } = this.props;
         if (this.tabAppointmentRef.current) {
-            // setTimeout(() =>{
+            setTimeout(() => {
                 this.tabAppointmentRef.current.updateLinkOfCalendar();
-            // },3000)
-            
+            }, 500);
         }
 
         if (listAppointmentsOfflineMode && listAppointmentsOfflineMode.length > 0) {
@@ -389,8 +388,8 @@ class HomeScreen extends Layout {
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment, isGoToTabMarketing } = this.props;
         if (isLoginStaff && prevProps.isLoginStaff !== isLoginStaff) {
-            this.props.actions.dataLocal.resetStateLoginStaff();
             this.loginStaffSuccess();
+            this.props.actions.dataLocal.resetStateLoginStaff();
         }
 
         // ----------- Check Appointent Checkout berfore Offline mode -----------

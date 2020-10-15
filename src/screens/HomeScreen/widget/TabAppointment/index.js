@@ -49,7 +49,7 @@ class TabAppointment extends Layout {
         this.state = {
             ...initState,
             appState: AppState.currentState,
-            tempLink: this.getLinkForCalendar()
+            calendarLink: this.getLinkForCalendar()
         };
         this.webviewRef = React.createRef();
         this.amountRef = React.createRef();
@@ -75,8 +75,7 @@ class TabAppointment extends Layout {
         return url;
     }
 
-    updateLinkOfCalendar =   () => {
-        console.log("------- updateLinkOfCalendar ------");
+    updateLinkOfCalendar = async () => {
         const { profile, profileStaffLogin, deviceId } = this.props;
         const staffColumn = profile.staffColumn ? profile.staffColumn : 8;
         const staffToken = profileStaffLogin.token ? profileStaffLogin.token : "";
@@ -84,20 +83,11 @@ class TabAppointment extends Layout {
         const staffId = profileStaffLogin.staffId ? profileStaffLogin.staffId : 0;
         const tempDeviceId = deviceId ? deviceId : "";
         const url = `${apiConfigs.CALENDAR_URL}${staffColumn}/index.html?token=${staffToken}&merchantid=${merchantId}&staffId=${staffId}&deviceId=${tempDeviceId}`;
-
-        this.setState({
-            tempLink: url
-        })
-    //    await this.setState({
-    //         tempLink: url
-    //     },() =>{
-    //         // console.log(this.state.tempLink);
-    //         // this.webviewRef.current.clearCache();
-    //         // this.webviewRef.current.clearHistory();
-    //         // this.webviewRef.current.clearFormData();
-    //         // this.webviewRef.current.reload();
-
-    //     });
+        if (url !== `${this.state.calendarLink}`) {
+            this.setState({
+                calendarLink: url
+            });
+        } 
     }
 
     onNotif = (notif) => {
@@ -464,7 +454,7 @@ class TabAppointment extends Layout {
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces, isReloadWebview} = this.props;
+        const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces, isReloadWebview } = this.props;
         if (!loading && isGetAppointmentSucces && currentTabParent === 1) {
             const { services, products, extras } = appointmentDetail;
             const arrayProducts = getArrayProductsFromAppointment(products);

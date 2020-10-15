@@ -420,7 +420,7 @@ class Layout extends React.Component {
             <View style={styles.container} >
                 <WebView
                     ref={this.webviewRef}
-                    source={{ uri: this.state.tempLink }}
+                    source={{ uri: this.state.calendarLink }}
                     startInLoadingState={true}
                     injectedJavaScript={injectedJavascript}
                     onMessage={this.onMessageFromWebview}

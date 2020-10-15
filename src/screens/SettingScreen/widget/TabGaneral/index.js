@@ -38,7 +38,7 @@ class TabGaneral extends Layout {
     setStateFromParent = async (webLink, timezone, autoCloseAt, turnAmount, staffColumn) => {
         const { isFocus, currentTab } = this.props;
         if (isFocus && currentTab === 0) {
-            console.log("--- setStateFromParent : ", staffColumn);
+            // console.log("--- setStateFromParent : ", staffColumn);
             await this.setState({
                 webLink,
                 timezone,
@@ -120,7 +120,7 @@ class TabGaneral extends Layout {
     async componentDidUpdate(prevProps, prevState) {
         const { profile, refreshingGeneral, loading, isFocus, currentTab } = this.props;
         if (isFocus && currentTab === 0 && prevProps.refreshingGeneral !== refreshingGeneral && !refreshingGeneral) {
-            console.log("----- Internal ------");
+            // console.log("----- Internal ------");
             await this.setState({
                 webLink: profile.webLink ? profile.webLink : '',
                 timezone: profile.timezone ? profile.timezone : '',
@@ -131,7 +131,7 @@ class TabGaneral extends Layout {
             this.updateWorkTime();
         }
         if (isFocus && currentTab === 0 && prevProps.loading !== loading && prevProps.loading && !loading && this.state.isUpdateInternal) {
-            console.log("----- Internal 1 ------: ");
+            // console.log("----- Internal 1 ------: ");
             await this.setState({
                 webLink: profile.webLink ? profile.webLink : '',
                 timezone: profile.timezone ? profile.timezone : '',
