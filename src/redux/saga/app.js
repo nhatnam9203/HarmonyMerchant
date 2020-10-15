@@ -127,7 +127,7 @@ function* merchantSetting(action) {
         const responses = yield requestAPI(action);
         // console.log('--- merchantSetting : ', responses);
         const { codeNumber } = responses;
-        yield put({ type: 'STOP_LOADING_ROOT' });
+        // yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'MERCHANT_SETTING_SUCCESS',

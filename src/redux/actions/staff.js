@@ -144,7 +144,8 @@ export function updateStaffsPosition(body) {
 
 export function reloadButtonEnterPincode() {
   return {
-    type: "LOGIN_STAFF_FAIL",
+    type: "RELOAD_BUTTON_ENTER_PIN_CODE",
+
   };
 }
 

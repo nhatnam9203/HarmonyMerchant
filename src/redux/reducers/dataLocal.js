@@ -30,6 +30,7 @@ const initialState = {
     printerList: [],
     printerSelect: "",
     profileLoginInvoice: {},
+    isUpdateLinkCalendar:false
 }
 
 function dataLocalReducer(state = initialState, action) {
@@ -89,6 +90,7 @@ function dataLocalReducer(state = initialState, action) {
                 ...state,
                 profileStaffLogin: action.payload,
                 isLoginStaff: true,
+                isUpdateLinkCalendar: true
             }
         case 'RESET_NEED_SETTING_STORE':
             return {

@@ -2,10 +2,10 @@ import React from 'react';
 import {
     View,
     Image,
-    Platform
 } from 'react-native';
 
-import { StatusBarHeader, Button, ParentContainer, Text, PopupLogout, 
+import {
+    StatusBarHeader, Button, ParentContainer, Text, PopupLogout,
     PopupCheckStaffPermission,
     ScrollableTabView
 } from '@components';
@@ -35,8 +35,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { language, navigation, settingTabPermission, isAddStaff } = this.props;
-        const { isFocus, indexTab } = this.state;
-        const isScrollWithoutAnimation = Platform.OS === "ios" ? false: true;
+        const { isFocus } = this.state;
 
         return (
             <ParentContainer
@@ -61,10 +60,13 @@ export default class Layout extends React.Component {
                                 locked={true}
                                 springTension={1}
                                 springFriction={1}
-                                // scrollWithoutAnimation={isScrollWithoutAnimation}
                                 renderTabBar={() => <View />}
                             >
-                                <TabGaneral ref={this.generalTabRef} />
+                                <TabGaneral
+                                    ref={this.generalTabRef}
+                                    isFocus={this.state.isFocus}
+                                    currentTab={this.state.indexTab}
+                                />
                                 <TabStaff
                                     ref={this.tabStaffRef}
                                 />
@@ -85,7 +87,7 @@ export default class Layout extends React.Component {
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
                     {
-                        isAddStaff ? <Button onPress={this.backTab} style={[configs.btn_right_position,{
+                        isAddStaff ? <Button onPress={this.backTab} style={[configs.btn_right_position, {
                             width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                         }]} >
                             <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
@@ -123,18 +125,18 @@ class LeftMenuSetting extends React.Component {
         };
     }
 
-    setStateFromParent =async (indexTab) =>{
+    setStateFromParent = async (indexTab) => {
         await this.setState({
             indexTab
         });
     }
 
     render() {
-        const {selectMenu} = this.props;
+        const { selectMenu } = this.props;
         const { indexTab } = this.state;
 
         return (
-            <View style={{ width: scaleSzie(140), backgroundColor: 'rgb(250,250,250)',zIndex:1 }} >
+            <View style={{ width: scaleSzie(140), backgroundColor: 'rgb(250,250,250)', zIndex: 1 }} >
                 {
                     MENU.map((title, index) => {
                         const temptIcon = index === indexTab ? title : `${title}_in`;

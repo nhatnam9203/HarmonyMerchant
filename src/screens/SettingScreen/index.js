@@ -78,6 +78,10 @@ class SettingScreen extends Layout {
       Keyboard.dismiss();
     }
 
+    this.setState({
+      indexTab: index
+    });
+
   }
 
   fetchAPIsInSettingTab = (index) => {
@@ -201,6 +205,8 @@ class SettingScreen extends Layout {
       !this.generalTabRef.current.state.isUpdateInternal &&
       this.state.indexTab === 0
     ) {
+
+      // ------- External Update -----
       this.generalTabRef.current.setStateFromParent(
         profile.webLink ? profile.webLink : "",
         profile.timezone ? profile.timezone : "",

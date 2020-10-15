@@ -334,9 +334,17 @@ class HomeScreen extends Layout {
 
     loginStaffSuccess = () => {
         const { listAppointmentsOfflineMode } = this.props;
+        if (this.tabAppointmentRef.current) {
+            // setTimeout(() =>{
+                this.tabAppointmentRef.current.updateLinkOfCalendar();
+            // },3000)
+            
+        }
+
         if (listAppointmentsOfflineMode && listAppointmentsOfflineMode.length > 0) {
             this.props.actions.appointment.submitAppointmentOffline(listAppointmentsOfflineMode);
         }
+
         this.getCurrentLocation();
         Promise.all([
             this.props.actions.category.getCategoriesByMerchantId(),
@@ -380,7 +388,7 @@ class HomeScreen extends Layout {
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment, isGoToTabMarketing } = this.props;
-        if (isLoginStaff) {
+        if (isLoginStaff && prevProps.isLoginStaff !== isLoginStaff) {
             this.props.actions.dataLocal.resetStateLoginStaff();
             this.loginStaffSuccess();
         }

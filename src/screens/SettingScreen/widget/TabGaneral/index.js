@@ -35,16 +35,21 @@ class TabGaneral extends Layout {
     };
 
 
-    setStateFromParent = async (webLink, timezone, autoCloseAt, turnAmount,staffColumn) => {
-        await this.setState({
-            webLink,
-            timezone,
-            autoCloseAt,
-            turnAmount,
-            isUpdateInternal: false,
-            staffColumn
-        });
-        this.updateWorkTime();
+    setStateFromParent = async (webLink, timezone, autoCloseAt, turnAmount, staffColumn) => {
+        const { isFocus, currentTab } = this.props;
+        if (isFocus && currentTab === 0) {
+            console.log("--- setStateFromParent : ", staffColumn);
+            await this.setState({
+                webLink,
+                timezone,
+                autoCloseAt,
+                turnAmount,
+                isUpdateInternal: false,
+                staffColumn
+            });
+            this.updateWorkTime();
+        }
+
     }
 
     updateWorkTime = () => {
@@ -79,7 +84,7 @@ class TabGaneral extends Layout {
 
     saveSettngApp = async () => {
         const { profile } = this.props;
-        const { languageApp, longitude, latitude, webLink, autoCloseAt, timezone, turnAmount,staffColumn } = this.state;
+        const { languageApp, longitude, latitude, webLink, autoCloseAt, timezone, turnAmount, staffColumn } = this.state;
 
         const temptLanguage = languageApp === 'English' ? 'en' : 'vi';
         this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
@@ -113,9 +118,9 @@ class TabGaneral extends Layout {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        const { profile, refreshingGeneral, loading } = this.props;
-        if (prevProps.refreshingGeneral !== refreshingGeneral && !refreshingGeneral) {
-            // console.log("----- Internal ------");
+        const { profile, refreshingGeneral, loading, isFocus, currentTab } = this.props;
+        if (isFocus && currentTab === 0 && prevProps.refreshingGeneral !== refreshingGeneral && !refreshingGeneral) {
+            console.log("----- Internal ------");
             await this.setState({
                 webLink: profile.webLink ? profile.webLink : '',
                 timezone: profile.timezone ? profile.timezone : '',
@@ -125,13 +130,14 @@ class TabGaneral extends Layout {
             });
             this.updateWorkTime();
         }
-        if (prevProps.loading !== loading && prevProps.loading && !loading && this.state.isUpdateInternal) {
-            // console.log("----- Internal 1 ------");
+        if (isFocus && currentTab === 0 && prevProps.loading !== loading && prevProps.loading && !loading && this.state.isUpdateInternal) {
+            console.log("----- Internal 1 ------: ");
             await this.setState({
                 webLink: profile.webLink ? profile.webLink : '',
                 timezone: profile.timezone ? profile.timezone : '',
                 autoCloseAt: profile.autoCloseAt ? profile.autoCloseAt : '',
                 turnAmount: profile.turnAmount ? profile.turnAmount : 0,
+
                 staffColumn: profile.staffColumn ? profile.staffColumn : 8,
                 isUpdateInternal: false
             });

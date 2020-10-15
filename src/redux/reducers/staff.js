@@ -40,6 +40,11 @@ function staffReducer(state = initialState, action) {
         ...state,
         isShowButtonEnterPinCode: false,
       };
+    case "RELOAD_BUTTON_ENTER_PIN_CODE":
+      return {
+        ...state,
+        isShowButtonEnterPinCode: false,
+      };
     case "GET_STAFF_BY_MERCHANR_ID":
       return {
         ...state,
@@ -173,10 +178,10 @@ function staffReducer(state = initialState, action) {
         isDownloadReportStaff: false,
         pathFileReportStaffStatistic: null,
       };
-      case 'LOGOUT_APP':
-        return {
-          ...initialState,
-        }
+    case 'LOGOUT_APP':
+      return {
+        ...initialState,
+      }
     default:
       return state;
   }
