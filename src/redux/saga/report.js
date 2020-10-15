@@ -12,7 +12,9 @@ const { ACTION_TYPES } = actions.report;
 
 function* getReportOverallPaymentMethod(action) {
   try {
-    action.isShowLoading ? yield put({ type: "LOADING_ROOT" }) : "";
+    if (action.isShowLoading) {
+      yield put({ type: "LOADING_ROOT" })
+    }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
@@ -44,7 +46,9 @@ function* getReportOverallPaymentMethod(action) {
 
 function* getReportOverallMarketingEfficiency(action) {
   try {
-    action.isShowLoading ? yield put({ type: "LOADING_ROOT" }) : "";
+    if (action.isShowLoading) {
+      yield put({ type: "LOADING_ROOT" })
+    }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
@@ -76,7 +80,9 @@ function* getReportOverallMarketingEfficiency(action) {
 
 function* getReportGiftCardSales(action) {
   try {
-    action.isShowLoading ? yield put({ type: "LOADING_ROOT" }) : "";
+    if (action.isShowLoading) {
+      yield put({ type: "LOADING_ROOT" })
+    }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
@@ -108,7 +114,9 @@ function* getReportGiftCardSales(action) {
 
 function* getReportCustomerSales(action) {
   try {
-    action.isShowLoading ? yield put({ type: "LOADING_ROOT" }) : "";
+    if (action.isShowLoading) {
+      yield put({ type: "LOADING_ROOT" })
+    }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
@@ -140,7 +148,9 @@ function* getReportCustomerSales(action) {
 
 function* getServiceSalesByCategory(action) {
   try {
-    action.isShowLoading ? yield put({ type: "LOADING_ROOT" }) : "";
+    if (action.isShowLoading) {
+      yield put({ type: "LOADING_ROOT" })
+    }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
@@ -172,7 +182,9 @@ function* getServiceSalesByCategory(action) {
 
 function* getServiceSalesByService(action) {
   try {
-    action.isShowLoading ? yield put({ type: "LOADING_ROOT" }) : "";
+    if (action.isShowLoading) {
+      yield put({ type: "LOADING_ROOT" })
+    }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
@@ -204,7 +216,9 @@ function* getServiceSalesByService(action) {
 
 function* getProductSalesByCategory(action) {
   try {
-    action.isShowLoading ? yield put({ type: "LOADING_ROOT" }) : "";
+    if (action.isShowLoading) {
+      yield put({ type: "LOADING_ROOT" })
+    }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });
@@ -236,7 +250,9 @@ function* getProductSalesByCategory(action) {
 
 function* getProductSalesByProduct(action) {
   try {
-    action.isShowLoading ? yield put({ type: "LOADING_ROOT" }) : "";
+    if (action.isShowLoading) {
+      yield put({ type: "LOADING_ROOT" })
+    }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
     yield put({ type: "STOP_LOADING_ROOT" });

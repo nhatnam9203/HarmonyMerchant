@@ -6,7 +6,9 @@ import apiConfigs from '../../configs/api';
 
 function* getBannerMerchant(action) {
     try {
-        action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : null;
+        if (action.isLoading) {
+            yield put({ type: 'LOADING_ROOT' });
+        }
         const responses = yield requestAPI(action);
         //console.log('getBannerMerchant : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -101,7 +103,9 @@ function* addBannerWithInfo(action) {
 
 function* getPromotionByMerchant(action) {
     try {
-        action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : null;
+        if(action.isLoading){
+            yield put({ type: 'LOADING_ROOT' })
+        }
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
         //console.log('getPromotionByMerchant : ', JSON.stringify(responses));

@@ -371,7 +371,9 @@ function* paymentAppointment(action) {
 
 function* createAnymousAppointment(action) {
     try {
-        action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
+        if(action.isLoading){
+            yield put({ type: 'LOADING_ROOT' }) 
+        }
         const responses = yield requestAPI(action);
         //console.log('createAnymousAppointment : ' + JSON.stringify(responses));
         const { codeNumber } = responses;
@@ -834,7 +836,9 @@ function* createBlockAppointment(action) {
 
 function* getBlockAppointmentById(action) {
     try {
-        action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
+        if( action.isLoading){
+            yield put({ type: 'LOADING_ROOT' })
+        }
         const responses = yield requestAPI(action);
         // console.log('getBlockAppointmentById : ' + JSON.stringify(responses));
         const { codeNumber } = responses;

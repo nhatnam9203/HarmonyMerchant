@@ -36,7 +36,6 @@ import PopupEnterPin from './PopupEnterPin';
 import PopupSendLinkInstall from './PopupSendLinkInstall';
 import PopupCheckStaffPermission from './PopupCheckStaffPermission';
 import PopupConfirmInvoiceStatus from './PopupConfirmInvoiceStatus';
-import NetworkListener from './NetworkListener';
 import TextInputSuggestion from './TextInputSuggestion';
 import PopupActiveGiftCard from './PopupActiveGiftCard';
 import PopupScanCode from './PopupScanCode';
@@ -92,7 +91,6 @@ module.exports = {
     PopupSendLinkInstall,
     PopupCheckStaffPermission,
     PopupConfirmInvoiceStatus,
-    NetworkListener,
     TextInputSuggestion,
     PopupActiveGiftCard,
     PopupScanCode,

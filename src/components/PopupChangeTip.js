@@ -34,12 +34,10 @@ class PopupChangeTip extends React.Component {
     }
 
     setStateFromParent = async (appointmentId, tip, subTotal = 0, tipPercent) => {
-        // console.log("---- tipPercent : ", parseInt(tipPercent));
         await this.setState({
             appointmentId,
             tip,
             subTotal,
-            percent: 0,
             percent: parseInt(tipPercent)
         });
     }

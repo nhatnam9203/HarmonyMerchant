@@ -47,7 +47,9 @@ function* addServiceByMerchant(action) {
 
 function* getServicesByMerchant(action) {
     try {
-        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
+        if( action.isShowLoading){
+            yield put({ type: 'LOADING_ROOT' })
+        }
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
         //console.log('getServicesByMerchant : ', responses);

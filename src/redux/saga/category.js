@@ -41,7 +41,9 @@ function* addCategory(action) {
 
 function* getCategoriesByMerchantId(action) {
     try {
-        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
+        if( action.isShowLoading){
+            yield put({ type: 'LOADING_ROOT' })
+        }
         const responses = yield requestAPI(action);
         //console.log('getCategoriesByMerchantId : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });

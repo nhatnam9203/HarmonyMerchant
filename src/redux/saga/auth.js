@@ -146,7 +146,7 @@ function* checkStaffPermission(action) {
         });
         yield put({
           type: "UPDATE_PROFILE_LOGIN_INVOICE",
-          payload: responses.data && responses.data ? responses.data : {},
+          payload: responses.data ? responses.data : {},
         });
       } else if (action.tabName === "Settlement") {
         yield put({

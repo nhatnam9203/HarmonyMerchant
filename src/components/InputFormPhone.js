@@ -26,19 +26,22 @@ export default class InputFormPhone extends React.PureComponent {
 
     onChangePhoneCode = (codeAreaPhone) => {
         this.setState({ codeAreaPhone });
-        this.props.onChangePhoneCode ? this.props.onChangePhoneCode(codeAreaPhone) : '';
+        if (this.props.onChangePhoneCode) {
+            this.props.onChangePhoneCode(codeAreaPhone)
+        }
+        // this.props.onChangePhoneCode ? this.props.onChangePhoneCode(codeAreaPhone) : '';
     }
 
     render() {
         const { title, subTitle, placeholder, style, value,
             onChangeText, secureTextEntry, keyboardType,
             isOnlyNumber, maxLength, editable, onFocus,
-            isNotShowDropdown,mark
+            isNotShowDropdown, mark
         } = this.props;
         const temptHeight = Platform.OS === 'ios' ? 30 : 40
         return (
             <View style={[{ marginBottom: scaleSzie(24) }, style]} >
-                <Text style={{ color: '#404040', fontSize: scaleSzie(14),fontWeight:"600" }} >
+                <Text style={{ color: '#404040', fontSize: scaleSzie(14), fontWeight: "600" }} >
                     {title}
                     <Text style={{ color: '#404040', fontSize: scaleSzie(12) }} >
                         {subTitle}

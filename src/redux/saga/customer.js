@@ -6,7 +6,9 @@ import { requestAPI } from '../../utils';
 
 function* getListCustomersByMerchant(action) {
     try {
-        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
+        if(action.isShowLoading){
+            yield put({ type: 'LOADING_ROOT' }) ;
+        }
         const responses = yield requestAPI(action);
     //console.log('responses : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });

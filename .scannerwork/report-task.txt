@@ -2,5 +2,5 @@ projectKey=com.merchant.harmony.sonar
 serverUrl=http://localhost:9000
 serverVersion=8.5.0.37579
 dashboardUrl=http://localhost:9000/dashboard?id=com.merchant.harmony.sonar
-ceTaskId=AXUhiOSlVNsLEyNJ6a5a
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AXUhiOSlVNsLEyNJ6a5a
+ceTaskId=AXUr9Xzoz0Wa6V8PSsCU
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AXUr9Xzoz0Wa6V8PSsCU

@@ -37,7 +37,9 @@ function* addProductByMerchant(action) {
 
 function* getProductsByMerchantId(action) {
     try {
-        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
+        if(action.isShowLoading ){
+            yield put({ type: 'LOADING_ROOT' }) 
+        }
         const responses = yield requestAPI(action);
         // console.log("------- GET_PRODUCTS_BY_MERCHANR_ID : ", JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });

@@ -267,7 +267,7 @@ export default class CalendarPicker extends Component {
 
     // Convert input date into timestamp
     if (disabledDates && Array.isArray(disabledDates)) {
-      disabledDates.map(date => {
+      disabledDates.forEach(date => {
         let thisDate = moment(date);
         thisDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
         disabledDatesTime.push(thisDate.valueOf());
@@ -278,7 +278,7 @@ export default class CalendarPicker extends Component {
 
     if (allowRangeSelection && minRangeDuration) {
       if (Array.isArray(minRangeDuration)) {
-        minRangeDuration.map(minRangeDuration => {
+        minRangeDuration.forEach(minRangeDuration => {
           let thisDate = moment(minRangeDuration.date);
           thisDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
           minRangeDurationTime.push({
@@ -295,7 +295,7 @@ export default class CalendarPicker extends Component {
 
     if (allowRangeSelection && maxRangeDuration) {
       if (Array.isArray(maxRangeDuration)) {
-        maxRangeDuration.map(maxRangeDuration => {
+        maxRangeDuration.forEach(maxRangeDuration => {
           let thisDate = moment(maxRangeDuration.date);
           thisDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
           maxRangeDurationTime.push({

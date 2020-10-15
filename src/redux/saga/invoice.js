@@ -5,7 +5,9 @@ import { requestAPI } from '../../utils';
 
 function* getListInvoicesByMerchant(action) {
     try {
-        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
+        if( action.isShowLoading ){
+            yield put({ type: 'LOADING_ROOT' }) 
+        }
         const responses = yield requestAPI(action);
         // console.log('getListInvoicesByMerchant : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -79,7 +81,9 @@ function* searchInvoice(action) {
 
 function* getSettlementWating(action) {
     try {
-        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
+        if(action.isShowLoading){
+            yield put({ type: 'LOADING_ROOT' }) 
+        }
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
         //console.log('getSettlementWating  : ', responses);
@@ -147,7 +151,9 @@ function* invoicesOfStaff(action) {
 
 function* getTransactionSettlement(action) {
     try {
-        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
+        if( action.isShowLoading ){
+            yield put({ type: 'LOADING_ROOT' })
+        }
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
         //console.log('getTransactionSettlement  : ' + JSON.stringify(responses.data));
@@ -213,7 +219,9 @@ function* searchTransactionSettlement(action) {
 
 function* getBatchHistory(action) {
     try {
-        action.isShowLoading ? yield put({ type: 'LOADING_ROOT' }) : '';
+        if(action.isShowLoading ){
+            yield put({ type: 'LOADING_ROOT' }) 
+        }
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
         //console.log('getBatchHistory  : ' + JSON.stringify(responses));

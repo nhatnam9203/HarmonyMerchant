@@ -6,7 +6,10 @@ import { requestAPI } from '../../utils';
 
 function* getMerchantByID(action) {
     try {
-        !action.isRefresh ? yield put({ type: 'LOADING_ROOT' }) : null;
+        // !action.isRefresh ? yield put({ type: 'LOADING_ROOT' }) : null;
+        if (!action.isRefresh) {
+            yield put({ type: 'LOADING_ROOT' });
+        }
         const responses = yield requestAPI(action);
         // console.log('getMerchantByID : ', JSON.stringify(responses));
         const { codeNumber } = responses;
@@ -123,7 +126,9 @@ function* getQuestion(action) {
 function* merchantSetting(action) {
     try {
         // console.log("----- merchantSetting : ",action );
-        action.isLoading ? yield put({ type: 'LOADING_ROOT' }) : null;
+        if(action.isLoading){
+            yield put({ type: 'LOADING_ROOT' });
+        }
         const responses = yield requestAPI(action);
         // console.log('--- merchantSetting : ', responses);
         const { codeNumber } = responses;
