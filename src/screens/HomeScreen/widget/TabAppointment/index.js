@@ -8,6 +8,7 @@ import {
     validateIsNumber, getArrayProductsFromAppointment, getArrayServicesFromAppointment,
     getArrayExtrasFromAppointment
 } from '@utils';
+import apiConfigs from '@configs/api';
 
 const initState = {
     isShowColProduct: false,
@@ -48,18 +49,44 @@ class TabAppointment extends Layout {
         this.state = {
             ...initState,
             appState: AppState.currentState,
-            tempLink:"https://www.google.com/?client=safari"
+            tempLink:this.getLinkForCalendar()
         };
         this.webviewRef = React.createRef();
         this.amountRef = React.createRef();
         this.changeStylistRef = React.createRef();
-        this.popupEnterPinRef = React.createRef();
         this.changePriceAmountProductRef = React.createRef();
 
     }
 
     componentDidMount() {
+        this.updateLinkOfCalendar();
         AppState.addEventListener("change", this.handleAppStateChange);
+    }
+
+    getLinkForCalendar(){
+        const { profile, profileStaffLogin, deviceId } = this.props;
+        const staffColumn = profile.staffColumn ? profile.staffColumn : 8;
+        const staffToken = profileStaffLogin.token ? profileStaffLogin.token : "";
+        const merchantId = profile.merchantId ? profile.merchantId: "";
+        const staffId = profileStaffLogin.staffId ? profileStaffLogin.staffId : 0;
+        const tempDeviceId = deviceId ? deviceId : "";
+        const url = `${apiConfigs.CALENDAR_URL}${staffColumn}/index.html?token=${staffToken}&merchantid=${merchantId}&staffId=${staffId}&deviceId=${tempDeviceId}`;
+
+        return url;
+    }
+
+    updateLinkOfCalendar = () => {
+        const { profile, profileStaffLogin, deviceId } = this.props;
+        const staffColumn = profile.staffColumn ? profile.staffColumn : 8;
+        const staffToken = profileStaffLogin.token ? profileStaffLogin.token : "";
+        const merchantId = profile.merchantId ? profile.merchantId: "";
+        const staffId = profileStaffLogin.staffId ? profileStaffLogin.staffId : 0;
+        const tempDeviceId = deviceId ? deviceId : "";
+        const url = `${apiConfigs.CALENDAR_URL}${staffColumn}/index.html?token=${staffToken}&merchantid=${merchantId}&staffId=${staffId}&deviceId=${tempDeviceId}`;
+
+        this.setState({
+            tempLink: url
+        })
     }
 
     onNotif = (notif) => {
@@ -407,17 +434,23 @@ class TabAppointment extends Layout {
         })
     }
 
-    submitPincode = () => {
-        const password = this.popupEnterPinRef.current.state.value;
-        const { profile } = this.props;
-        if (password.length === 4) {
-            this.popupEnterPinRef.current.setStateFromParent(true);
-            this.props.actions.staff.loginStaff(profile.merchantCode, password);
-        } else {
-            Alert.alert(`PIN must be 4 digits.`);
-        }
-    }
+    getExtrasFromRedux = (productSeleted) => {
+        const { extrasByMerchant } = this.props;
+        const extrasBySort = [];
 
+        for (let i = 0; i < extrasByMerchant.length; i++) {
+            for (let j = 0; j < productSeleted.extras.length; j++) {
+                const extraLocal = productSeleted.extras[j];
+                const extralGlobal = extrasByMerchant[i];
+                if (extralGlobal.extraId === extraLocal.extraId && extralGlobal.isDisabled === 0) {
+                    extrasBySort.push(extralGlobal);
+                    break;
+                }
+            }
+        }
+
+        return extrasBySort;
+    }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces,
@@ -448,24 +481,9 @@ class TabAppointment extends Layout {
             this.reloadWebviewFromParent();
             this.props.actions.app.resetStateReloadWebView();
         }
-    }
 
-    getExtrasFromRedux = (productSeleted) => {
-        const { extrasByMerchant } = this.props;
-        const extrasBySort = [];
+        
 
-        for (let i = 0; i < extrasByMerchant.length; i++) {
-            for (let j = 0; j < productSeleted.extras.length; j++) {
-                const extraLocal = productSeleted.extras[j];
-                const extralGlobal = extrasByMerchant[i];
-                if (extralGlobal.extraId === extraLocal.extraId && extralGlobal.isDisabled === 0) {
-                    extrasBySort.push(extralGlobal);
-                    break;
-                }
-            }
-        }
-
-        return extrasBySort;
     }
 
     componentWillUnmount() {
@@ -490,7 +508,6 @@ const mapStateToProps = state => ({
     deviceId: state.dataLocal.deviceId,
     extrasByMerchant: state.extra.extrasByMerchant,
     profileStaffLogin: state.dataLocal.profileStaffLogin,
-    urlCalendar: state.dataLocal.urlCalendar
 })
 
 

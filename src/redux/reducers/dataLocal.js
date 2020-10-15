@@ -3,7 +3,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import createSensitiveStorage from "redux-persist-sensitive-storage";
 
 import { getModalNameOfPrinter } from "@utils";
-import apiConfigs from '@configs/api';
 
 const initialState = {
     profile: {},
@@ -31,8 +30,6 @@ const initialState = {
     printerList: [],
     printerSelect: "",
     profileLoginInvoice: {},
-
-    urlCalendar: "",
 }
 
 function dataLocalReducer(state = initialState, action) {
@@ -86,14 +83,12 @@ function dataLocalReducer(state = initialState, action) {
             return {
                 ...state,
                 profile: action.payload,
-                urlCalendar: `${apiConfigs.CALENDAR_URL}${action.payload.staffColumn}/index.html?token=${state.profileStaffLogin.token}&merchantid=${state.profileStaffLogin.merchantId}&staffId=${action.payload.staffId}&deviceId=${state.deviceId}`
             }
         case 'UPDATE_PROFILE_STAFF_SUCCESS':
             return {
                 ...state,
                 profileStaffLogin: action.payload,
                 isLoginStaff: true,
-                urlCalendar: `${apiConfigs.CALENDAR_URL}${state.profile.staffColumn}/index.html?token=${action.payload.token}&merchantid=${state.profile.merchantId}&staffId=${action.payload.staffId}&deviceId=${state.deviceId}`
             }
         case 'RESET_NEED_SETTING_STORE':
             return {

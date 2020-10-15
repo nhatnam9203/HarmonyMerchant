@@ -62,6 +62,9 @@ class HomeScreen extends Layout {
                 this.setState({
                     isFocus: true
                 });
+                if (this.tabAppointmentRef.current) {
+                    this.tabAppointmentRef.current.updateLinkOfCalendar();
+                }
             }
         );
 

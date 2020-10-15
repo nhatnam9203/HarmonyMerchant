@@ -15,8 +15,6 @@ import {
 } from '../TabCheckout/widget';
 import IMAGE from '@resources';
 import { PopupDiscount, PopupChangeStylist, ItemBasket, PopupChangePriceAmountProduct } from './widget';
-import apiConfigs from '@configs/api';
-
 
 class Layout extends React.Component {
 
@@ -408,7 +406,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { profile, profileStaffLogin, language, deviceId,urlCalendar } = this.props;
+        const { language } = this.props;
         const { visibleConfirm, visibleChangeStylist } = this.state;
         const injectedJavascript = `(function() {
             window.postMessage = function(data) {
@@ -418,15 +416,11 @@ class Layout extends React.Component {
           window.onscroll = function() { window.postMessage(document.documentElement.scrollTop||document.body.scrollTop)}
           true
           `;
-        // const uriWebview = `${apiConfigs.CALENDAR_URL}${profile.staffColumn}/index.html?token=${profileStaffLogin.token}&merchantid=${profile.merchantId}&staffId=${profileStaffLogin.staffId}&deviceId=${deviceId}`;
-
         return (
             <View style={styles.container} >
                 <WebView
                     ref={this.webviewRef}
-                    // source={{ uri: uriWebview }}
-                    // source={{ uri: this.state.tempLink }}
-                    source={{ uri: urlCalendar }}
+                    source={{ uri: this.state.tempLink }}
                     startInLoadingState={true}
                     injectedJavaScript={injectedJavascript}
                     onMessage={this.onMessageFromWebview}
