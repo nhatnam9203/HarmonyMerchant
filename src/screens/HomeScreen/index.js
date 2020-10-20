@@ -1,14 +1,16 @@
 import React from 'react';
-import _ from 'ramda';
-import { Alert, BackHandler } from 'react-native';
+import _, { set } from 'ramda';
+import { Alert, BackHandler, AppState } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, finalize } from 'rxjs/operators';
+import CodePush from "react-native-code-push";
+import env from 'react-native-config';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import { getPosotion } from '@utils';
-
+import configs from '@configs';
 
 const initialState = {
     isFocus: true,
@@ -25,7 +27,10 @@ class HomeScreen extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = initialState;
+        this.state = {
+            ...initialState,
+            appState: AppState.currentState
+        };
         this.scrollTabParentRef = React.createRef();
         this.tabAppointmentRef = React.createRef();
         this.tabCheckoutRef = React.createRef();
@@ -56,7 +61,10 @@ class HomeScreen extends Layout {
             payload => {
                 this.setState({
                     isFocus: true
-                })
+                });
+                if (this.tabAppointmentRef.current) {
+                    this.tabAppointmentRef.current.updateLinkOfCalendar();
+                }
             }
         );
 
@@ -69,6 +77,43 @@ class HomeScreen extends Layout {
             const isConnected = state.isConnected ? state.isConnected : false;
             this.watcherNetwork.next(isConnected);
         });
+
+        AppState.addEventListener("change", this.handleAppStateChange);
+    }
+
+    handleAppStateChange = nextAppState => {
+        if (this.state.appState.match(/inactive|background/) && nextAppState === "active") {
+            this.checkUpdateCodePush();
+        }
+        this.setState({ appState: nextAppState });
+    };
+
+    async checkUpdateCodePush() {
+        const tempEnv = env.IS_PRODUCTION;
+        const deploymentKey = tempEnv == "Production" ? configs.codePushKeyIOS.production : configs.codePushKeyIOS.staging;
+
+        Promise.race([
+            CodePush.checkForUpdate(deploymentKey),
+            new Promise((resolve, reject) => setTimeout(() => reject("TIME_OUT"), 10000))
+        ]).then((result) => {
+            if (result && result !== "TIME_OUT" && !result.failedInstall) {
+                this.props.actions.app.closeAllPopupPincode();
+                const description = result.description ? `${result.description}` : "";
+                setTimeout(() => {
+                    this.props.actions.app.tooglePopupCodePush(true, description);
+                }, 500);
+            }
+        }).catch((error) => {
+
+        });
+    }
+
+    codePushStatusDidChange(syncStatus) {
+
+    }
+
+    codePushDownloadDidProgress(progress) {
+
     }
 
     backAction = () => {
@@ -289,9 +334,16 @@ class HomeScreen extends Layout {
 
     loginStaffSuccess = () => {
         const { listAppointmentsOfflineMode } = this.props;
+        if (this.tabAppointmentRef.current) {
+            setTimeout(() => {
+                this.tabAppointmentRef.current.updateLinkOfCalendar();
+            }, 500);
+        }
+
         if (listAppointmentsOfflineMode && listAppointmentsOfflineMode.length > 0) {
             this.props.actions.appointment.submitAppointmentOffline(listAppointmentsOfflineMode);
         }
+
         this.getCurrentLocation();
         Promise.all([
             this.props.actions.category.getCategoriesByMerchantId(),
@@ -335,9 +387,9 @@ class HomeScreen extends Layout {
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment, isGoToTabMarketing } = this.props;
-        if (isLoginStaff) {
-            this.props.actions.dataLocal.resetStateLoginStaff();
+        if (isLoginStaff && prevProps.isLoginStaff !== isLoginStaff) {
             this.loginStaffSuccess();
+            this.props.actions.dataLocal.resetStateLoginStaff();
         }
 
         // ----------- Check Appointent Checkout berfore Offline mode -----------
@@ -363,8 +415,8 @@ class HomeScreen extends Layout {
             finalize(() => { })
         );
         BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+        AppState.removeEventListener("change", this.handleAppStateChange);
     }
-
 
 }
 
@@ -385,5 +437,11 @@ const mapStateToProps = state => ({
     marketingTabPermission: state.marketing.marketingTabPermission,
     isGoToTabMarketing: state.marketing.isGoToTabMarketing
 })
+
+let codePushOptions = {
+    checkFrequency: CodePush.CheckFrequency.MANUAL,
+};
+
+HomeScreen = CodePush(codePushOptions)(HomeScreen);
 
 export default connectRedux(mapStateToProps, HomeScreen);

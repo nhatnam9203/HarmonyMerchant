@@ -435,11 +435,7 @@ class PopupAddEditCustomer extends React.Component {
                                                 style={{
                                                     flex: 1, fontSize: scaleSzie(12),
                                                     padding: 0,
-                                                    ...Platform.select({
-                                                        android: {
-                                                            textAlignVertical: "top"
-                                                        }
-                                                    })
+                                                    textAlignVertical: "top"
                                                 }}
                                                 value={favourite}
                                                 onChangeText={value => this.updateCustomerInfo('favourite', value)}

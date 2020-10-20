@@ -91,12 +91,13 @@ export function checkoutAppointment(appointmentId, checkoutGroupId = 0) {
     }
 }
 
-export function paymentAppointment(groupId, method, amount, creditCardInfo = false, merchantId = -1) {
+export function paymentAppointment(groupId, method, amount, creditCardInfo = false, merchantId = -1,giftCardId = 0) {
     return {
         type: 'PAY_APPOINTMENT',
         body: {
             method,
-            amount
+            amount,
+            giftCardId
         },
         method: 'PUT',
         token: true,
@@ -357,20 +358,20 @@ export function showPopupPaymentDetails() {
 
 export function handleVisibleActiveGiftCard(visible = true) {
     return {
-        type: 'VISIBLE_POPUP_ACTIVEE_GIFT_CARD',
+        type: 'VISIBLE_POPUP_ACTIVE_GIFT_CARD',
         payload: visible
     }
 }
 
-export function checkSerialNumber(serialId, bodyAction = false, optionAction = false) {
+export function checkSerialNumber(serialId, bodyAction = false, optionAction = false,isGiftCardPayment = false) {
     return {
         type: 'CHECK_SERIAL_NUMBER',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}giftcard/serialNumber/${serialId}`,
+        api: `${apiConfigs.BASE_API}giftcard/serialNumber/${serialId}?isActive=${isGiftCardPayment}`,
         bodyAction,
-        optionAction
-
+        optionAction,
+        isGiftCardPayment
     }
 }
 
@@ -487,4 +488,9 @@ export function updateFromTimeBlockAppointment(fromTime = new Date()) {
     }
 }
 
-
+export function togglePopupGiftCardPaymentDetail(visible = true) {
+    return {
+        type: "TOGGLE_POPUP_GIFT_CARD_PAYMENT_DETAIL",
+        payload: visible
+    }
+}

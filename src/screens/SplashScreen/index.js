@@ -19,12 +19,13 @@ class SplashScreen extends Layout {
     }
 
     async componentDidMount() {
-        let version = await DeviceInfo.getVersion();
-        const latestVersion = "1.1.2";
         try {
+            let version = await DeviceInfo.getVersion();
+            const latestVersion = await VersionCheck.getLatestVersion({ provider: 'appStore' });
+            const tempLatestVersion = latestVersion ? latestVersion : configs.APPSTORE_VERSION;
             const res = await VersionCheck.needUpdate({
                 currentVersion: version,
-                latestVersion: latestVersion,
+                latestVersion: tempLatestVersion,
                 forceUpdate: true
             });
             if (res && res.isNeeded) {
@@ -57,7 +58,7 @@ class SplashScreen extends Layout {
                 }
 
                 const tempEnv = env.IS_PRODUCTION;
-                if (tempEnv == "Production" || tempEnv == "Staging" || tempEnv == "Dev" ) {
+                if (tempEnv == "Production" || tempEnv == "Staging") {
                     const deploymentKey = tempEnv == "Production" ? configs.codePushKeyIOS.production : configs.codePushKeyIOS.staging;
                     this.checkForUpdateCodepush(deploymentKey);
                 } else {
@@ -86,7 +87,8 @@ class SplashScreen extends Layout {
                         this.controlFlowInitApp();
                     } else {
                         let codePushOptions = {
-                            installMode: CodePush.InstallMode.ON_NEXT_RESTART,
+                            // installMode: CodePush.InstallMode.ON_NEXT_RESTART,
+                            installMode: CodePush.InstallMode.IMMEDIATE,
                             mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
                             deploymentKey: deploymentKey
                         };
@@ -151,6 +153,7 @@ class SplashScreen extends Layout {
             }
         }
     }
+
 }
 
 const mapStateToProps = state => ({
@@ -161,7 +164,9 @@ const mapStateToProps = state => ({
     versionApp: state.dataLocal.versionApp
 });
 
-let codePushOptions = { checkFrequency: CodePush.CheckFrequency.MANUAL };
+let codePushOptions = {
+    checkFrequency: CodePush.CheckFrequency.MANUAL,
+};
 
 SplashScreen = CodePush(codePushOptions)(SplashScreen);
 

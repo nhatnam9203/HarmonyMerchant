@@ -9,14 +9,8 @@ const initialState = {
     isGetListSearchCategories: false,
 }
 
-function appReducer(state = initialState, action) {
+function categoriesReducer(state = initialState, action) {
     switch (action.type) {
-        case 'REHYDRATE_CATEGORIES':
-            return {
-                ...initialState,
-                categoriesByMerchant: action.payload,
-            }
-
         case 'GET_CATEGORIES_BY_MERCHANR_ID':
             return {
                 ...state,
@@ -69,18 +63,19 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isGetListSearchCategories: true
             }
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
 
         default:
             return state
     }
 }
 
-
-const persistConfig = {
-    key: 'category',
+module.exports = persistReducer({
+    key: "category",
     storage: AsyncStorage,
     whitelist: ["categoriesByMerchant"]
-};
-
-module.exports = persistReducer(persistConfig, appReducer);
+}, categoriesReducer);
 

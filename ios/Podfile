@@ -82,6 +82,8 @@ pod 'RNFBMessaging', :path => '../node_modules/@react-native-firebase/messaging'
 
 pod 'RNShare', :path => '../node_modules/react-native-share'
 
+pod 'react-native-sensitive-info', :path => '../node_modules/react-native-sensitive-info'
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     if target.name == "React"

@@ -50,6 +50,8 @@ import PopupConfirmPrintInvoice from "./PopupConfirmPrintInvoice";
 import ItemWorkingTime from "./ItemWorkingTime";
 import ClearTextInputIcon from "./ClearTextInputIcon";
 import ScrollableTabView from "./react-native-scrollable-tab-view";
+import {FooterTwoButton} from  "./FormInfoParent";
+import PopupInfomationCodePush from "./PopupInfomationCodePush";
 
 module.exports = {
     Button,
@@ -103,5 +105,7 @@ module.exports = {
     PopupConfirmPrintInvoice,
     ItemWorkingTime,
     ClearTextInputIcon,
-    ScrollableTabView
+    ScrollableTabView,
+    FooterTwoButton,
+    PopupInfomationCodePush
 }

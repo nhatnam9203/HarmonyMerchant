@@ -8,8 +8,6 @@ const initialState = {
     isDonePayment: false,
     connectionSignalR: {},
     flagSignInAppointment: false,
-    // listAppointmentsOfflineMode: [],
-
     groupAppointment: {},
     paymentDetailInfo: {},
     visiblePopupPaymentDetails: false,
@@ -37,16 +35,13 @@ const initialState = {
         phone: ""
     },
     visiblePopupCustomerInfoBuyAppointment: false,
-    bookingGroupId: 0
+    bookingGroupId: 0,
+    giftcardPaymentInfo: {},
+    visiblePopupGiftCardDetails: false
 }
 
-function appReducer(state = initialState, action) {
+function appointmentReducer(state = initialState, action) {
     switch (action.type) {
-        // case 'REHYDRATE_APPOINTMENT':
-        //     return {
-        //         ...initialState,
-        //         listAppointmentsOfflineMode: action.payload,
-        //     }
         case 'RESET_GROUP_APPOINTMENT':
             return {
                 ...initialState,
@@ -100,6 +95,7 @@ function appReducer(state = initialState, action) {
                     lastName: "",
                     phone: ""
                 },
+                isCancelAppointment: false
             }
         case 'PAY_APPOINTMENT_SUCCESS':
             return {
@@ -114,7 +110,8 @@ function appReducer(state = initialState, action) {
         case 'RESET_PAYMENT':
             return {
                 ...state,
-                isDonePayment: false
+                isDonePayment: false,
+                isCancelAppointment: false
             }
         case 'SHOW_MODAL_PRINT_RECEIPT':
             return {
@@ -177,7 +174,7 @@ function appReducer(state = initialState, action) {
                 ...state,
                 isCancelAppointment: true
             }
-        case 'VISIBLE_POPUP_ACTIVEE_GIFT_CARD':
+        case 'VISIBLE_POPUP_ACTIVE_GIFT_CARD':
             return {
                 ...state,
                 visiblePopupActiveGiftCard: action.payload
@@ -294,6 +291,20 @@ function appReducer(state = initialState, action) {
                 ...state,
                 bookingGroupId: action.payload,
             }
+        case 'GIFT_CARD_PAYMENT_INFO':
+            return {
+                ...state,
+                giftcardPaymentInfo: action.payload,
+            }
+        case 'TOGGLE_POPUP_GIFT_CARD_PAYMENT_DETAIL':
+            return {
+                ...state,
+                visiblePopupGiftCardDetails: action.payload,
+            }
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
         default:
             return state
     }
@@ -342,13 +353,9 @@ const removeBlockAppointment = (blockAppointments, appointmentIdRemove) => {
 }
 
 
-
-// const persistConfig = {
-//     key: 'appointment',
-//     storage: AsyncStorage,
-//     whitelist: ['listAppointmentsOfflineMode']
-// };
-
-// module.exports = persistReducer(persistConfig, appReducer);
-module.exports = appReducer;
+module.exports = persistReducer({
+    key: "appointment",
+    storage: AsyncStorage,
+    whitelist: []
+}, appointmentReducer);
 

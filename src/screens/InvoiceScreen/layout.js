@@ -8,10 +8,11 @@ import {
     ActivityIndicator
 } from 'react-native';
 import _ from 'ramda';
+import Dash from 'react-native-dash';
 
 import {
     Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupCalendar, PopupCheckStaffPermission,
-    PopupConfirmInvoiceStatus, PopupProcessingCredit, PopupInvoicePrint, PopupConfirmPrintInvoice,ClearTextInputIcon,
+    PopupConfirmInvoiceStatus, PopupProcessingCredit, PopupInvoicePrint, PopupConfirmPrintInvoice, ClearTextInputIcon,
     ScrollableTabView
 } from '@components';
 import { scaleSzie, localize, formatWithMoment, getStaffNameForInvoice, formatMoney, getPaymentString, PAYMENT_METHODS } from '@utils';
@@ -252,11 +253,13 @@ export default class Layout extends React.Component {
                                 {`${invoiceDetail.status && invoiceDetail.status !== "paid" && invoiceDetail.status !== "pending" && invoiceDetail.status !== "complete" ? `${invoiceDetail.status}`.toUpperCase() : "SALE"}`}
                             </Text>
                             {/* ------------- Dot Border  ----------- */}
-                            <View style={{ height: scaleSzie(8), marginBottom: scaleSzie(8), }} >
-                                <Text style={{ fontWeight: "300" }} >
-                                    {`- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`}
-                                </Text>
-                            </View>
+                            <Dash
+                                style={{ width: "100%", height: 1 }}
+                                dashGap={5}
+                                dashLength={8}
+                                dashThickness={1}
+                                style={{ marginBottom: scaleSzie(10) }}
+                            />
 
                             {/* ------------- Invoice Date ----------- */}
                             <View style={{ flexDirection: "row" }} >
@@ -300,12 +303,15 @@ export default class Layout extends React.Component {
                                 </View>
                             </View>
 
+
                             {/* ------------- Dot Border  ----------- */}
-                            <View style={{ height: scaleSzie(8), marginTop: scaleSzie(4) }} >
-                                <Text style={{ fontWeight: "300" }} >
-                                    {`- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`}
-                                </Text>
-                            </View>
+                            <Dash
+                                style={{ width: "100%", height: 1 }}
+                                dashGap={5}
+                                dashLength={8}
+                                dashThickness={1}
+                                style={{ marginBottom: scaleSzie(4), marginTop: scaleSzie(10) }}
+                            />
 
                             {/* ------------- Header  ----------- */}
                             <View style={{ flexDirection: "row", marginTop: scaleSzie(6) }} >
@@ -330,12 +336,15 @@ export default class Layout extends React.Component {
                                     </Text>
                                 </View>
                             </View>
+
                             {/* ------------- Dot Border  ----------- */}
-                            <View style={{ height: scaleSzie(8), marginBottom: scaleSzie(4) }} >
-                                <Text style={{ fontWeight: "300" }} >
-                                    {`- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`}
-                                </Text>
-                            </View>
+                            <Dash
+                                style={{ width: "100%", height: 1 }}
+                                dashGap={5}
+                                dashLength={8}
+                                dashThickness={1}
+                                style={{ marginBottom: scaleSzie(4), marginTop: scaleSzie(10) }}
+                            />
 
                             {/* ------------- Item Invoice   ----------- */}
                             {
@@ -392,12 +401,14 @@ export default class Layout extends React.Component {
                                                 data.paymentMethod === "credit_card" || data.paymentMethod === "debit_card" ?
                                                     <View style={{ marginTop: scaleSzie(5) }} >
                                                         <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
-                                                            {`    ${data.paymentInformation && data.paymentInformation.type ? data.paymentInformation.type : ""}: ***********${data.paymentInformation && data.paymentInformation.number ? data.paymentInformation.number : ""}`}
+                                                            {`${data.paymentInformation && data.paymentInformation.type ? data.paymentInformation.type : ""}: ***********${data.paymentInformation && data.paymentInformation.number ? data.paymentInformation.number : ""}`}
                                                         </Text>
                                                         <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
-                                                            {`    ${data.paymentInformation && data.paymentInformation.name ? data.paymentInformation.name : ""}`}
+                                                            {` ${data.paymentInformation && data.paymentInformation.name ? data.paymentInformation.name : ""}`}
                                                         </Text>
-
+                                                        <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
+                                                            {` ${data.paymentInformation && data.paymentInformation.refNum ? `Transaction #: ${data.paymentInformation.refNum}` : ""}`}
+                                                        </Text>
                                                     </View>
                                                     : null
                                             }
@@ -628,7 +639,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language, navigation, visibleConfirmPrintInvoice, invoiceTabPermission,profileLoginInvoice} = this.props;
+        const { language, navigation, visibleConfirmPrintInvoice, invoiceTabPermission, profileLoginInvoice } = this.props;
         const { visibleCalendar, isFocus, visibleConfirmInvoiceStatus, transactionId, visiblePrintInvoice } = this.state;
         return (
             <ParentContainer

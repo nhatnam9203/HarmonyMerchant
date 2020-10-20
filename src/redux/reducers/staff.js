@@ -23,13 +23,8 @@ const initialState = {
   isShowSearchResult: false
 };
 
-function appReducer(state = initialState, action) {
+function staffReducer(state = initialState, action) {
   switch (action.type) {
-    case "REHYDRATE_STAFFS":
-      return {
-        ...initialState,
-        listStaffByMerchant: action.payload,
-      };
     case "LOGIN_STAFF":
       return {
         ...state,
@@ -41,6 +36,11 @@ function appReducer(state = initialState, action) {
         isShowButtonEnterPinCode: false,
       };
     case "LOGIN_STAFF_FAIL":
+      return {
+        ...state,
+        isShowButtonEnterPinCode: false,
+      };
+    case "RELOAD_BUTTON_ENTER_PIN_CODE":
       return {
         ...state,
         isShowButtonEnterPinCode: false,
@@ -178,15 +178,18 @@ function appReducer(state = initialState, action) {
         isDownloadReportStaff: false,
         pathFileReportStaffStatistic: null,
       };
+    case 'LOGOUT_APP':
+      return {
+        ...initialState,
+      }
     default:
       return state;
   }
 }
 
-const persistConfig = {
+module.exports = persistReducer({
   key: "staff",
   storage: AsyncStorage,
   whitelist: ["listStaffByMerchant"],
-};
+}, staffReducer);
 
-module.exports = persistReducer(persistConfig, appReducer);

@@ -1,10 +1,13 @@
+import AsyncStorage from '@react-native-community/async-storage';
+import { persistReducer } from 'redux-persist';
+
 const initialState = {
     errorLogin: '',
     isLoadingCheckStaffPermission: false,
     visiblePopupCheckStaffPermission: false
 }
 
-function appReducer(state = initialState, action) {
+function authReducer(state = initialState, action) {
     switch (action.type) {
         case 'LOGIN_APP_SUCCESS':
             return {
@@ -36,10 +39,18 @@ function appReducer(state = initialState, action) {
                 ...state,
                 visiblePopupCheckStaffPermission: action.payload
             }
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
 
         default:
             return state
     }
 }
 
-module.exports = appReducer;
+module.exports = persistReducer({
+    key: "auth",
+    storage: AsyncStorage,
+    whitelist: []
+}, authReducer);

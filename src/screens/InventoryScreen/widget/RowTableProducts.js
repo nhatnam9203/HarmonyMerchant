@@ -162,13 +162,12 @@ const styles = StyleSheet.create({
     tableHeader: {
         height: scaleSzie(60),
         backgroundColor: '#FAFAFA',
-        borderWidth: 0.5,
-        borderColor: '#C5C5C5',
+        borderBottomWidth: 0.5,
+        borderBottomColor: '#C5C5C5',
         flexDirection: 'row'
     },
     textTableHeader: {
         color: '#6A6A6A',
-        // color:'#FF3B30',
         fontSize: scaleSzie(14)
     },
     itemTableHeaderContainer: {

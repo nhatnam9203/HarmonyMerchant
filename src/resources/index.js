@@ -90,7 +90,8 @@ export default {
   print_batch_history: require('./img/print_batch_history.png'),
   share_batch_history: require('./img/share_batch_history.png'),
   clear_text_input: require('./img/closePopup.png'),
-
+  camera_switcher: require('./img/camera_switcher.png'),
+  update_code_push: require('./img/update_code_push.png'),
 
   // --- Payment ---
   cash_payment_se: require('./payment/cash_payment_se.png'),
@@ -103,6 +104,9 @@ export default {
   harmony_payment: require('./payment/harmony_payment.png'),
   other_payment_se: require('./payment/other_payment_se.png'),
   other_payment: require('./payment/other_payment.png'),
+  giftcard_payment: require('./payment/giftcard_payment.png'),
+  giftcard_payment_se: require('./payment/giftcard_payment_se.png'),
+  
 
   // --- drawer ---
   Customer: require("./drawer/customer.png"),

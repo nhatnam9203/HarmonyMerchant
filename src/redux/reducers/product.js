@@ -11,14 +11,8 @@ const initialState = {
     inventoryTabPermission: false
 }
 
-function appReducer(state = initialState, action) {
+function productReducer(state = initialState, action) {
     switch (action.type) {
-        case 'REHYDRATE_PRODUCTS':
-            return {
-                ...initialState,
-                productsByMerchantId: action.payload
-            }
-
         case 'GET_PRODUCTS_BY_MERCHANR_ID':
             return {
                 ...state,
@@ -83,16 +77,18 @@ function appReducer(state = initialState, action) {
                 ...state,
                 inventoryTabPermission: false,
             }
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
         default:
             return state
     }
 }
 
-const persistConfig = {
+module.exports = persistReducer({
     key: 'product',
     storage: AsyncStorage,
     whitelist: ['productsByMerchantId']
-};
-
-module.exports = persistReducer(persistConfig, appReducer);
+}, productReducer);
 

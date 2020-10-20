@@ -244,6 +244,7 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amou
                                         @"CvResponse" : myapp.poslink.paymentResponse.CvResponse ? myapp.poslink.paymentResponse.CvResponse : @"",
                                         @"HostCode" : myapp.poslink.paymentResponse.HostCode ? myapp.poslink.paymentResponse.HostCode : @"",
                                         @"HostResponse" : myapp.poslink.paymentResponse.HostResponse ?  myapp.poslink.paymentResponse.HostResponse : @"",
+                                        @"RawResponse" : myapp.poslink.paymentResponse.RawResponse ?  myapp.poslink.paymentResponse.RawResponse : @"",
                                         @"Message" : myapp.poslink.paymentResponse.Message ? myapp.poslink.paymentResponse.Message : @"",
                                         @"RefNum" : myapp.poslink.paymentResponse.RefNum ? myapp.poslink.paymentResponse.RefNum : @"",
                                         @"RemainingBalance" : myapp.poslink.paymentResponse.RemainingBalance ? myapp.poslink.paymentResponse.RemainingBalance : @"",

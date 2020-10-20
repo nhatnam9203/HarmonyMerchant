@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, View } from "react-native";
 import Autocomplete from 'react-native-autocomplete-input';
 
 import connectRedux from "../redux/ConnectRedux";
-import { scaleSzie, removeAccent } from '@utils';
+import { scaleSzie, removeAccent, checkIsTablet } from '@utils';
 
 
 class TextInputSuggestion extends React.PureComponent {
@@ -64,34 +64,35 @@ class TextInputSuggestion extends React.PureComponent {
     render() {
         const { value, onFocus, inputContainerStyle, editable } = this.props;
         const { data } = this.state;
+        const temp_list_style = checkIsTablet() ? { zIndex: 1, position: 'absolute', left: -10, width: "100%" } : {};
+
         return (
             <Autocomplete
                 data={data}
                 defaultValue={value}
                 onChangeText={this.onChangeText}
                 renderItem={({ item, index }) => <TouchableOpacity style={{
-                    height: scaleSzie(25), paddingHorizontal: scaleSzie(8),
+                    height: scaleSzie(25),
+                    paddingHorizontal: scaleSzie(8),
                     justifyContent: "center",
                 }} onPress={() => this.selectSuggestion(item)}>
                     <Text>{item}</Text>
                 </TouchableOpacity>}
                 placeholder={"State"}
                 containerStyle={{
-                    flex: 1
+                    flex: 1,
+                    // color:"#000"
                 }}
                 inputContainerStyle={{
                     paddingHorizontal: scaleSzie(8),
-                    height: scaleSzie(30),
+                    height: "100%",
                     justifyContent: "center",
                     ...inputContainerStyle
                 }}
-                style={{ fontSize: scaleSzie(16),padding:0 }}
+                style={{ flex: 1, fontSize: scaleSzie(16), padding: 0,color:"#000" }}
                 onFocus={onFocus && this.onFocus}
-                onBlur={this.onBlur}
                 keyExtractor={(item, index) => `${item}_${index}`}
-                listStyle={{
-                    // height: scaleSzie(50),
-                }}
+                listStyle={temp_list_style}
                 editable={editable}
                 listContainerStyle={{
                 }}

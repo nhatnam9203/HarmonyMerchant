@@ -1,4 +1,8 @@
-import { getPortNameOfPrinter, getModalNameOfPrinter } from "@utils";
+import { persistReducer } from "redux-persist";
+import AsyncStorage from '@react-native-community/async-storage';
+import createSensitiveStorage from "redux-persist-sensitive-storage";
+
+import { getModalNameOfPrinter } from "@utils";
 
 const initialState = {
     profile: {},
@@ -22,17 +26,14 @@ const initialState = {
     checkEmailToResetPax: "",
     MIDStorage: "",
     isRememberMID: false,
-    // printerList: [],
     printerPortType: "Bluetooth",
     printerList: [],
     printerSelect: "",
-    profileLoginInvoice: {}
+    profileLoginInvoice: {},
 }
 
-function dataLocal(state = initialState, action) {
+function dataLocalReducer(state = initialState, action) {
     switch (action.type) {
-        case 'REHYDRATE_ROOT':
-            return action.payload.dataLocal
         case 'LOGIN_APP_SUCCESS':
             return {
                 ...state,
@@ -72,7 +73,6 @@ function dataLocal(state = initialState, action) {
                 ...state,
                 language: action.payload.language,
                 autoCloseAt: action.payload.autoCloseAt,
-                // autoLockScreenAfter: action.payload.autoLockScreenAfter,
             }
         case 'GET_STATE_CITY_SUCCESS':
             return {
@@ -82,13 +82,13 @@ function dataLocal(state = initialState, action) {
         case 'UPDATE_MERCHANT_PROFILE':
             return {
                 ...state,
-                profile: action.payload
+                profile: action.payload,
             }
         case 'UPDATE_PROFILE_STAFF_SUCCESS':
             return {
                 ...state,
                 profileStaffLogin: action.payload,
-                isLoginStaff: true
+                // isLoginStaff: true,
             }
         case 'RESET_NEED_SETTING_STORE':
             return {
@@ -98,7 +98,7 @@ function dataLocal(state = initialState, action) {
         case 'RESET_STATE_LOGIN_STAFF':
             return {
                 ...state,
-                isLoginStaff: false
+                isLoginStaff: action.payload
             }
         case 'SETUP_PAX_MACHINE':
             return {
@@ -166,10 +166,36 @@ function dataLocal(state = initialState, action) {
                 ...state,
                 profileLoginInvoice: action.payload,
             }
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+                stateCity: state.stateCity,
+                language: state.language,
+                autoCloseAt: state.autoCloseAt,
+                autoLockScreenAfter: state.autoLockScreenAfter,
+                paxMachineInfo: state.paxMachineInfo,
+                printerSelect: state.printerSelect,
+                MIDStorage: state.MIDStorage,
+                versionApp: state.versionApp,
+                isRememberMID: state.isRememberMID,
+            }
         default:
             return state
     }
 }
 
-module.exports = dataLocal;
+const sensitiveStorage = createSensitiveStorage({
+    keychainService: "myKeychain",
+    sharedPreferencesName: "mySharedPrefs"
+});
+
+const dataLocalPersistConfig = {
+    key: "dataLocal",
+    // storage: AsyncStorage,
+    // blacklist: [],
+    storage: sensitiveStorage
+
+};
+
+module.exports = persistReducer(dataLocalPersistConfig, dataLocalReducer);
 

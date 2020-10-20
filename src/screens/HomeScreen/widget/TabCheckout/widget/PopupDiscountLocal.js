@@ -12,7 +12,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
 import { ButtonCustom, PopupParent } from '@components';
-import { scaleSzie, formatNumberFromCurrency, formatMoney ,localize,roundNumber} from '@utils';
+import { scaleSzie, formatNumberFromCurrency, formatMoney ,localize,roundNumber,checkIsTablet} from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupDiscountLocal extends React.Component {
@@ -107,6 +107,9 @@ class PopupDiscountLocal extends React.Component {
         const temptCustomDiscountPercent = customDiscountPercentLocal;
         const temptCustomDiscountFixed =customDiscountFixedLocal;''
 
+        const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(400);
+
+
         return (
             <PopupParent
                 title={title}
@@ -116,7 +119,7 @@ class PopupDiscountLocal extends React.Component {
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
                 <View style={{
-                    height: scaleSzie(380), backgroundColor: '#fff',
+                    height: tempHeight, backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                 }} >
                     <View style={{ height: scaleSzie(260) }} >
@@ -330,7 +333,7 @@ class CustomDiscountFixed extends React.Component {
                                 }}
                                 keyboardType="numeric"
                                 placeholderTextColor="#A9A9A9"
-                                maxLength={3}
+                                // maxLength={3}
                             />
                         </View>
                        

@@ -42,7 +42,7 @@ class SettingScreen extends Layout {
           isFocus: true,
         });
         this.checkPermissionRef.current.setStateFromParent("");
-        // this.props.actions.app.toggleSettingTabPermission();
+        this.props.actions.app.toggleSettingTabPermission();
       }
     );
   }
@@ -77,6 +77,10 @@ class SettingScreen extends Layout {
 
       Keyboard.dismiss();
     }
+
+    this.setState({
+      indexTab: index
+    });
 
   }
 
@@ -149,7 +153,6 @@ class SettingScreen extends Layout {
     // add firease comment
     // this.props.actions.auth.logout();
     this.props.actions.auth.requestLogout();
-
     this.props.navigation.navigate("SigninStack");
   };
 
@@ -202,11 +205,14 @@ class SettingScreen extends Layout {
       !this.generalTabRef.current.state.isUpdateInternal &&
       this.state.indexTab === 0
     ) {
+
+      // ------- External Update -----
       this.generalTabRef.current.setStateFromParent(
         profile.webLink ? profile.webLink : "",
         profile.timezone ? profile.timezone : "",
         profile.autoCloseAt ? profile.autoCloseAt : "",
         profile.turnAmount ? profile.turnAmount : 0,
+        profile.staffColumn ? profile.staffColumn : 8
       );
     }
   }

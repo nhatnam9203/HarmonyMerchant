@@ -223,7 +223,9 @@ class PopupEditAddExtra extends React.Component {
                                 }} >
                                     <TextInput
                                         placeholder=""
-                                        style={{ flex: 1, fontSize: scaleSzie(16), padding: 0  }}
+                                        style={{ flex: 1, fontSize: scaleSzie(16), padding: 0,
+                                        textAlignVertical:"top"
+                                        }}
                                         multiline={true}
                                         value={description}
                                         onChangeText={value => this.updateExtraInfo('description', value)}

@@ -1,6 +1,7 @@
 import { put, takeLatest, all, join } from "redux-saga/effects";
 import RNFetchBlob from 'rn-fetch-blob';
-import { Platform, Linking, Alert } from "react-native";
+import { Platform } from "react-native";
+import Share from 'react-native-share';
 
 import { requestAPI, uploadFromData } from '../../utils';
 import apiConfigs from '../../configs/api';
@@ -89,11 +90,14 @@ function* exportBatchHistory(action) {
                 if (Platform.OS === 'ios') {
                     RNFetchBlob.ios.previewDocument(filePath)
                 } else {
-                    const android = RNFetchBlob.android;
-                    android.actionViewIntent(filePath, 'application/vnd.android.package-archive')
+                    // const android = RNFetchBlob.android;
+                    // android.actionViewIntent(filePath, 'application/vnd.android.package-archive')
+                    const shareResponse = yield Share.open({
+                        url: `file://${filePath}`
+                    });
                 }
             } catch (error) {
-                throw error;
+                // throw error;
             }
 
 
@@ -134,11 +138,14 @@ function* exportBatchDetail(action) {
                 if (Platform.OS === 'ios') {
                     RNFetchBlob.ios.previewDocument(filePath)
                 } else {
-                    const android = RNFetchBlob.android;
-                    android.actionViewIntent(filePath, 'application/vnd.android.package-archive')
+                    // const android = RNFetchBlob.android;
+                    // android.actionViewIntent(filePath, 'application/vnd.android.package-archive')
+                    const shareResponse = yield Share.open({
+                        url: `file://${filePath}`
+                    });
                 }
             } catch (error) {
-                throw error;
+                // throw error;
             }
 
 

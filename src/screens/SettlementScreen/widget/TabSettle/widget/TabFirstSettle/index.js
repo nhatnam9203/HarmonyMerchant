@@ -1,6 +1,7 @@
 import React from 'react';
 import { NativeModules, Alert } from 'react-native';
 import _ from "ramda";
+import env from 'react-native-config';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -23,6 +24,7 @@ class TabFirstSettle extends Layout {
             editPaymentByCash: 0.00,
             editOtherPayment: 0.00,
             discountSettlement: 0.00,
+            paymentByGiftcard: 0.00,
             total: 0.00,
             note: '',
             isShowKeyboard: false,
@@ -93,17 +95,39 @@ class TabFirstSettle extends Layout {
             let isError = false;
 
             try {
-                // ----------- Total Report --------
+                const tempEnv = env.IS_PRODUCTION;
                 PosLink.setupPax(ip, port, timeout);
-                let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "ALL", "", "");
-                let amountResult = JSON.parse(amountData);
-                totalReport = amountResult.CreditAmount ? parseFloat(amountResult.CreditAmount) : 0;
-
                 // ----------- Total Amount --------
-                let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", "", "");
+                let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", "UNKNOWN", "UNKNOWN");
                 let result = JSON.parse(data);
-                totalRecord = result.TotalRecord ? parseInt(result.TotalRecord) : 0;
+                if (result.ResultTxt && result.ResultTxt == "OK") {
+                    if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
+                        await this.setState({
+                            visible: false,
+                            isGetReportFromPax: false
+                        });
+
+                        setTimeout(() => {
+                            alert("You're running your Pax on DEMO MODE!")
+                        }, 500);
+
+                        throw "You're running your Pax on DEMO MODE!"
+
+                    } else {
+                        totalRecord = result.TotalRecord ? parseInt(result.TotalRecord) : 0;
+
+                        // ----------- Total Report --------
+                        let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "ALL", "UNKNOWN", "");
+                        let amountResult = JSON.parse(amountData);
+                        totalReport = amountResult.CreditAmount ? parseFloat(amountResult.CreditAmount) : 0;
+                    }
+                } else {
+                    throw `${result.ResultTxt}`
+                }
+
+
             } catch (error) {
+                // console.log("---- error: ",error);
                 isError = true;
                 this.props.actions.app.connectPaxMachineError(`${error}`);
             }
@@ -113,7 +137,7 @@ class TabFirstSettle extends Layout {
                 const moneyInPax = formatMoney(roundFloatNumber(totalReport / 100));
                 await this.setState({
                     creditCount: totalRecord,
-                    editPaymentByCreditCard: moneyInPax
+                    // editPaymentByCreditCard: moneyInPax
                 });
             }
 
@@ -122,14 +146,24 @@ class TabFirstSettle extends Layout {
                 isGetReportFromPax: false
             });
 
+            if (totalRecord = 0) {
+                await this.setState({
+                    editPaymentByCreditCard: 0.00
+                });
+            }
+
         } else {
             this.props.actions.app.connectPaxMachineError("Don't have setup in Hardware Tab!");
+            await this.setState({
+                editPaymentByCreditCard: 0.00
+            });
         }
+
     }
 
     continueSettlement = () => {
         const { settleWaiting } = this.props;
-        const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note, discountSettlement } = this.state;
+        const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note, discountSettlement, paymentByGiftcard } = this.state;
         this.props.gotoTabSecondSettle({
             paymentByHarmony: editPaymentByHarmony,
             paymentByCreditCard: editPaymentByCreditCard,
@@ -138,12 +172,14 @@ class TabFirstSettle extends Layout {
             discount: discountSettlement,
             paymentByCashStatistic: settleWaiting.paymentByCash ? settleWaiting.paymentByCash : 0.00,
             otherPaymentStatistic: settleWaiting.otherPayment ? settleWaiting.otherPayment : 0.00,
+            paymentByGiftcard: paymentByGiftcard,
             total: roundFloatNumber(
                 formatNumberFromCurrency(editPaymentByHarmony) +
                 formatNumberFromCurrency(editPaymentByCreditCard) +
                 formatNumberFromCurrency(editPaymentByCash) +
                 formatNumberFromCurrency(editOtherPayment) +
-                formatNumberFromCurrency(discountSettlement)
+                formatNumberFromCurrency(discountSettlement) +
+                formatNumberFromCurrency(paymentByGiftcard)
             ),
             note
         }, creditCount);
@@ -293,6 +329,10 @@ class TabFirstSettle extends Layout {
                 editOtherPayment: settleWaiting.otherPayment ? settleWaiting.otherPayment : 0.00,
                 total: settleWaiting.total ? settleWaiting.total : 0.00,
                 discountSettlement: settleWaiting.discount ? settleWaiting.discount : 0.00,
+
+                editPaymentByCreditCard: settleWaiting.paymentByCreditCard ? settleWaiting.paymentByCreditCard : 0.00,
+                paymentByGiftcard: settleWaiting.paymentByGiftcard ? settleWaiting.paymentByGiftcard : 0.00,
+
             });
             if (this.state.isGetReportFromPax) {
                 this.handlePAXReport();

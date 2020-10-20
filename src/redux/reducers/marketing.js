@@ -22,18 +22,12 @@ const initialState = {
     isApplyFourthPromotion: false,
     isApplyFivethPromotion: false,
     isGetPromotionOfAppointment: "",
-    promotionNotes:{},
+    promotionNotes: {},
     isDiscountByOwner: true
 }
 
-function appReducer(state = initialState, action) {
+function marketingReducer(state = initialState, action) {
     switch (action.type) {
-        case 'REHYDRATE_MARKETINGS':
-            return {
-                ...initialState,
-                listBanners: action.listBanners,
-                promotions: action.promotions
-            }
         case 'RESET_GROUP_APPOINTMENT':
             return {
                 ...state,
@@ -93,7 +87,7 @@ function appReducer(state = initialState, action) {
                 appointmentIdUpdatePromotion: action.appointmentId,
                 isGetPromotionOfAppointment: "success",
                 promotionNotes: action.promotionNotes,
-                isDiscountByOwner : action.isDiscountByOwner
+                isDiscountByOwner: action.isDiscountByOwner
             }
         case 'GET_PROMOTION_BY_APPOINTMENT_FAIL':
             return {
@@ -113,7 +107,7 @@ function appReducer(state = initialState, action) {
                 appointmentIdUpdatePromotion: action.appointmentId,
                 promotionNotes: action.promotionNotes,
                 isGetPromotionOfAppointment: "success",
-                isDiscountByOwner : action.isDiscountByOwner
+                isDiscountByOwner: action.isDiscountByOwner
             }
 
         case 'CLOSE_MODAL_DISCOUNT':
@@ -156,17 +150,19 @@ function appReducer(state = initialState, action) {
                 marketingTabPermission: action.payload,
                 isGoToTabMarketing: action.isGoToTabMarketing
             }
-
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
 
         default:
             return state
     }
 }
 
-const persistConfig = {
+module.exports = persistReducer({
     key: 'marketing',
     storage: AsyncStorage,
     whitelist: ['listBanners', 'promotions']
-};
+}, marketingReducer);
 
-module.exports = persistReducer(persistConfig, appReducer);

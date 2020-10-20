@@ -20,10 +20,11 @@ export default class Layout extends React.Component {
             >
 
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: "center", }} >
-                    <View style={{paddingTop:scaleSzie(200)}} >
-                        <Text style={{ color: '#fff', fontSize: scaleSzie(20), fontWeight: '500', marginBottom: scaleSzie(6),
-                    textAlign:"center"
-                    }} >
+                    <View style={{ paddingTop: scaleSzie(200) }} >
+                        <Text style={{
+                            color: '#fff', fontSize: scaleSzie(20), fontWeight: '500', marginBottom: scaleSzie(6),
+                            textAlign: "center"
+                        }} >
                             {`Checking Version`}
                         </Text>
                         <AnimatedEllipsis
@@ -36,9 +37,10 @@ export default class Layout extends React.Component {
                                 height: scaleSzie(5)
                             }}
                         />
-                        <Text style={{ color: '#fff', fontSize: scaleSzie(14), marginBottom: scaleSzie(6), marginTop: scaleSzie(10),
-                     textAlign:"center",fontWeight:"600"
-                    }} >
+                        <Text style={{
+                            color: '#fff', fontSize: scaleSzie(14), marginBottom: scaleSzie(6), marginTop: scaleSzie(10),
+                            textAlign: "center", fontWeight: "600"
+                        }} >
                             {`${this.state.progress}%`}
                         </Text>
                     </View>

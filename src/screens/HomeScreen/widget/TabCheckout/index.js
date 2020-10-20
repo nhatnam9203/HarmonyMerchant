@@ -352,14 +352,19 @@ class TabCheckout extends Layout {
 
     }
 
-    selectedPayment = (payment) => {
+    selectedPayment = async (payment) => {
         const { paymentSelected, changeButtonDone } = this.state;
         const { isDonePayment } = this.props;
         if (changeButtonDone && !isDonePayment && paymentSelected === 'HarmonyPay') {
         } else {
             this.setState(prevState => ({
                 paymentSelected: payment === prevState.paymentSelected ? '' : payment
-            }))
+            }), () => {
+                if (this.state.paymentSelected === "Gift Card") {
+                    this.activeGiftCardRef.current.setStateFromParent();
+                    this.props.actions.appointment.handleVisibleActiveGiftCard();
+                }
+            });
         }
 
 
@@ -447,8 +452,10 @@ class TabCheckout extends Layout {
                 method = 'credit_card';
                 break;
             case 'Debit Card':
-                // method = 'debit_card';
                 method = 'credit_card';
+                break;
+            case 'Gift Card':
+                method = 'giftcard';
                 break;
             case 'Other':
                 method = 'other';
@@ -776,7 +783,7 @@ class TabCheckout extends Layout {
                 }
                 // ---------- Handle reload Tip in Customer App ---------
                 if (temptData.data && !_.isEmpty(temptData.data) && temptData.data.isTipAppointment) {
-                    this.props.actions.appointment.getGroupAppointmentById(temptData.data.appointmentId,false);
+                    this.props.actions.appointment.getGroupAppointmentById(temptData.data.appointmentId, false);
                 }
             });
 
@@ -1001,6 +1008,10 @@ class TabCheckout extends Layout {
                             alert('Please connect your Pax to take payment.');
                         }, 300)
                     }
+                } else if (method === 'giftcard') {
+                    setTimeout(() => {
+                        alert("giftcard")
+                    }, 500)
                 } else {
                     this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff);
                 }
@@ -1075,7 +1086,12 @@ class TabCheckout extends Layout {
 
             } else if (result.ResultTxt && result.ResultTxt == "OK") {
                 if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
-                    alert("You're running your Pax on DEMO MODE!")
+                    await this.setState({
+                        visibleProcessingCredit: false
+                    });
+                    setTimeout(() => {
+                        alert("You're running your Pax on DEMO MODE!")
+                    }, 1000);
                 } else {
                     const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment } = this.props;
                     const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, infoUser, customerInfoByPhone } = this.state;
@@ -1179,6 +1195,7 @@ class TabCheckout extends Layout {
                 extraId: -1,
                 name: ''
             },
+            paymentSelected: ""
         })
     }
 
@@ -1429,7 +1446,12 @@ class TabCheckout extends Layout {
         }
 
         if (!_.isEmpty(groupAppointment)) {
-            this.props.actions.appointment.checkSerialNumber(code);
+            if (paymentSelected === "Gift Card") {
+                this.props.actions.appointment.checkSerialNumber(code, false, false, true);
+            } else {
+                this.props.actions.appointment.checkSerialNumber(code);
+            }
+
         } else {
 
             const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
@@ -1723,6 +1745,14 @@ class TabCheckout extends Layout {
         }
 
         return isBooking;
+    }
+
+    // ------ New code --------
+    cancelGiftCardPayment = () => {
+        this.props.actions.appointment.togglePopupGiftCardPaymentDetail(false);
+        this.setState({
+            paymentSelected: ""
+        })
     }
 
 

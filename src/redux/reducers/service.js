@@ -10,13 +10,8 @@ const initialState = {
 
 }
 
-function appReducer(state = initialState, action) {
+function serviceReducer(state = initialState, action) {
     switch (action.type) {
-        case 'REHYDRATE_SERVICES':
-            return {
-                ...initialState,
-                servicesByMerchant: action.payload
-            }
         case 'GET_SERVICE_BY_MERCHANT':
             return {
                 ...state,
@@ -68,19 +63,20 @@ function appReducer(state = initialState, action) {
                 ...state,
                 servicesByMerchant: action.payload
             }
-
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
 
         default:
             return state
     }
 }
 
-
-
-const persistConfig = {
+module.exports = persistReducer({
     key: 'service',
     storage: AsyncStorage,
     whitelist: ['servicesByMerchant']
-};
+}, serviceReducer);
 
-module.exports = persistReducer(persistConfig, appReducer);
+

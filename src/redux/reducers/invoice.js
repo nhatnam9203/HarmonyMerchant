@@ -42,13 +42,8 @@ const initialState = {
     gitfCardSalesBySettlementId: [],
 }
 
-function appReducer(state = initialState, action) {
+function invoiceReducer(state = initialState, action) {
     switch (action.type) {
-        case 'REHYDRATE_INVOICES':
-            return {
-                ...initialState,
-                listInvoicesByMerchant: action.payload
-            }
         case 'GET_TRANSACTION_SETTLEMENT':
             return {
                 ...state,
@@ -256,15 +251,19 @@ function appReducer(state = initialState, action) {
                 ...state,
                 gitfCardSalesBySettlementId: action.payload
             }
+            case 'LOGOUT_APP':
+                return {
+                  ...initialState,
+                }
         default:
             return state
     }
 }
 
-const persistConfig = {
+module.exports = persistReducer({
     key: 'invoice',
     storage: AsyncStorage,
     whitelist: ['listInvoicesByMerchant']
-};
+  }, invoiceReducer);
 
-module.exports = persistReducer(persistConfig, appReducer);
+

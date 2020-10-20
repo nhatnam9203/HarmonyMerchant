@@ -1,3 +1,6 @@
+import { persistReducer } from "redux-persist";
+import AsyncStorage from "@react-native-community/async-storage";
+
 const initialState = {
   loading: false,
   generalInfo: "",
@@ -10,7 +13,6 @@ const initialState = {
     packagePricing: 0,
   },
   visibleModalLock: false,
-  timeOutLockScreen: 15 * 1000 * 60,
   question: [],
   isFlashScreen: true,
   visibleEnterPin: true,
@@ -29,6 +31,8 @@ const initialState = {
   },
   isUpdateMerchantSetting: false,
   settingTabPermission: false,
+  visiblePopupCodePush: false,
+  descriptionCodePush: ""
 };
 
 function appReducer(state = initialState, action) {
@@ -228,7 +232,8 @@ function appReducer(state = initialState, action) {
         ...state,
         connectPAXStatus: {
           status: false,
-          message: `( Your POS system don't have connect to PAX machine. Error : "${action.payload}" )`,
+          message : getErrorMessagePaxMachine(action.payload)
+          // message: action.payload === "You're running your Pax on DEMO MODE!" ? action.payload : `( Your POS system don't have connect to PAX machine. Error : "${action.payload}" )`,
         },
       };
     case "CONNECT_PAX_MACHINE_SUCCESS":
@@ -248,11 +253,39 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         settingTabPermission: false,
+        visibleEnterPin: false
       };
+    case "OPEN_POPUP_CODE_PUSH":
+      return {
+        ...state,
+        visiblePopupCodePush: action.payload,
+        descriptionCodePush: action.description ? action.description : ""
+      };
+
+
+    case 'LOGOUT_APP':
+      return {
+        ...initialState,
+      }
 
     default:
       return state;
   }
 }
 
-module.exports = appReducer;
+function getErrorMessagePaxMachine(error) {
+  switch (error) {
+    case "You're running your Pax on DEMO MODE!":
+      return "( You're running your Pax on DEMO MODE! )";
+    case "NOT FOUND":
+      return "( TRASACTIONS NOT FOUND ON YOUR PAX MACHINE! )";
+    default :
+      return `( Your POS system don't have connect to PAX machine. Error : "${error}" )`
+  }
+}
+
+module.exports = persistReducer({
+  key: "app",
+  storage: AsyncStorage,
+  whitelist: []
+}, appReducer);

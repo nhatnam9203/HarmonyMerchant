@@ -59,5 +59,6 @@ export default {
     visibleChangePriceAmountProduct: false,
     visibleChangeTip: false,
     isDrawer: false,
-    visiblePopupAddItemIntoBasket: false
+    visiblePopupAddItemIntoBasket: false,
+    visiblePopupGiftCardDetails: false
 }

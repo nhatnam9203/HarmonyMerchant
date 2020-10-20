@@ -1,3 +1,6 @@
+import { persistReducer } from "redux-persist";
+import AsyncStorage from "@react-native-community/async-storage";
+
 const initialState = {
     isOfflineMode: false
 }
@@ -19,9 +22,18 @@ function networkReducer(state = initialState, action) {
                 ...state,
                 isOfflineMode: true
             }
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
         default:
             return state
     }
 }
 
-module.exports = networkReducer;
+module.exports = persistReducer({
+    key: "network",
+    storage: AsyncStorage,
+    whitelist: []
+}, networkReducer);
+

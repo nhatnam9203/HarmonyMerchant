@@ -136,6 +136,9 @@ function* merchantSetting(action) {
                 type: 'UPDATE_MERCHANT_PROFILE',
                 payload: responses.data
             });
+            setTimeout(() => {
+                alert("Update Successfull!")
+            }, 300)
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

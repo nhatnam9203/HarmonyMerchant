@@ -14,10 +14,10 @@ import apiConfigs from '../configs/api';
 import Localization from '../localization';
 import ICON from "../resources";
 
-const { width,height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-export const checkIsTablet = () =>{
-    const isTablet = parseFloat(width/height )  > 1.5 ? true : false;
+export const checkIsTablet = () => {
+    const isTablet = parseFloat(width / height) > 1.5 ? true : false;
     return isTablet;
 }
 
@@ -737,6 +737,10 @@ export const getPaymentString = (type) => {
         case 'other':
             method = 'Other - Check';
             break;
+        case 'giftcard':
+            method = 'Gift Card';
+            break;
+
         default:
             method = 'Debit Cards'
     }
@@ -875,7 +879,8 @@ export const validBirthday = (birthday) => {
     return true
 }
 
-export const PAYMENT_METHODS = [{ value: '' }, { value: 'HarmonyPay' }, { value: 'Credit Card' }, { value: 'Cash' }, { value: 'Other' }];
+export const PAYMENT_METHODS = [{ value: '' }, { value: 'HarmonyPay' },
+{ value: 'Credit Card' }, { value: 'Cash' }, { value: 'Other' }, { value: 'Gift Card' }];
 
 export const getPaymentStringInvoice = (type) => {
     let method = '';
@@ -894,6 +899,9 @@ export const getPaymentStringInvoice = (type) => {
             break;
         case 'Debit Card':
             method = 'debit_card';
+            break;
+        case 'Gift Card':
+            method = 'giftcard';
             break;
         default:
             method = ''
@@ -959,14 +967,16 @@ export const getStaffNameForInvoice = (profileStaffLogin = {}, basket = []) => {
 
     const staffNameLogin = profileStaffLogin.displayName ? profileStaffLogin.displayName : "";
 
-    let temptName = "";
+    let staffArr = [];
     for (let i = 0; i < basket.length; i++) {
         if (basket[i].type === "Service") {
-            temptName = basket[i].staff && basket[i].staff.displayName ? basket[i].staff.displayName : "";
-            break;
+            let temptName = basket[i].staff && basket[i].staff.displayName ? basket[i].staff.displayName : "";
+            staffArr.push(temptName);
         }
     }
-    return temptName ? temptName : staffNameLogin;
+
+    const staffs = [...new Set(staffArr)];
+    return staffs.length > 0 ? staffs.join(", ") : staffNameLogin;
 }
 
 export const hideCharactes = (str, numShow = 4) => {

@@ -9,13 +9,13 @@ const initialState = {
     isGetListSearchExtra: false
 }
 
-function appReducer(state = initialState, action) {
+function extraReducer(state = initialState, action) {
     switch (action.type) {
-        case 'REHYDRATE_EXTRAS':
-            return {
-                ...initialState,
-                extrasByMerchant: action.payload
-            }
+        // case 'REHYDRATE_EXTRAS':
+        //     return {
+        //         ...initialState,
+        //         extrasByMerchant: action.payload
+        //     }
         case 'GET_EXTRA_BY_MERCHANT':
             return {
                 ...state,
@@ -26,7 +26,7 @@ function appReducer(state = initialState, action) {
                 ...state,
                 extrasByMerchant: !action.searchFilter ? action.payload : state.extrasByMerchant,
                 listExtrasSearch: action.searchFilter ? action.payload : state.listExtrasSearch,
-                isShowSearchExtra:action.searchFilter,
+                isShowSearchExtra: action.searchFilter,
                 refreshListExtras: false
             }
         case 'GET_EXTRA_BY_MERCHANT_FAIL':
@@ -67,16 +67,17 @@ function appReducer(state = initialState, action) {
                 ...state,
                 extrasByMerchant: action.payload,
             }
-
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
         default:
             return state
     }
 }
 
-const persistConfig = {
+module.exports = persistReducer({
     key: 'extra',
     storage: AsyncStorage,
     whitelist: ['extrasByMerchant']
-};
-
-module.exports = persistReducer(persistConfig, appReducer);
+}, extraReducer);

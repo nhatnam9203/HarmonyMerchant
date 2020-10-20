@@ -12,7 +12,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
 import { ButtonCustom, PopupParent, Button } from '@components';
-import { scaleSzie, formatNumberFromCurrency, formatMoney, localize, roundNumber } from '@utils';
+import { scaleSzie, formatNumberFromCurrency, formatMoney, localize, roundNumber, checkIsTablet } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
 
@@ -62,8 +62,8 @@ class PopupBlockDiscount extends React.Component {
                 { cancelable: false }
             );
         } else {
-            const { promotionNotes ,isDiscountByOwner} = this.state;
-            this.props.actions.marketing.customPromotion(percentDiscountCustom, moneyDiscountFixedAmout,isDiscountByOwner ,appointmentIdUpdatePromotion, true, true);
+            const { promotionNotes, isDiscountByOwner } = this.state;
+            this.props.actions.marketing.customPromotion(percentDiscountCustom, moneyDiscountFixedAmout, isDiscountByOwner, appointmentIdUpdatePromotion, true, true);
             this.props.actions.marketing.addPromotionNote(appointmentDetail.appointmentId, promotionNotes);
             this.props.actions.marketing.closeModalDiscount();
         }
@@ -102,6 +102,7 @@ class PopupBlockDiscount extends React.Component {
             total = roundNumber(total);
 
             const tempCheckBoxIcon = isDiscountByOwner ? ICON.checkBox : ICON.checkBoxEmpty;
+            const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(400);
 
             return (
                 <PopupParent
@@ -109,10 +110,10 @@ class PopupBlockDiscount extends React.Component {
                     visible={visibleModalBlockDiscount}
                     onRequestClose={this.onRequestClose}
                     width={600}
-                    style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
+                // style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
                 >
                     <View style={{
-                        height: scaleSzie(400), backgroundColor: '#fff',
+                        height: tempHeight, backgroundColor: '#fff',
                         borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     }} >
                         <View style={{ height: scaleSzie(280) }} >
@@ -179,7 +180,7 @@ class PopupBlockDiscount extends React.Component {
                                     </View>
                                     {/* ----------- Row 2 ----------- */}
                                     <View style={{
-                                        flexDirection: 'row', height: scaleSzie(45),  paddingBottom: scaleSzie(20)
+                                        flexDirection: 'row', height: scaleSzie(45), paddingBottom: scaleSzie(20)
                                     }} >
                                         <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
                                             <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
@@ -213,7 +214,7 @@ class PopupBlockDiscount extends React.Component {
                                                         onChangeText={moneyDiscountFixedAmout => { this.setState({ moneyDiscountFixedAmout }); }}
                                                         keyboardType="numeric"
                                                         placeholderTextColor="#A9A9A9"
-                                                        maxLength={3}
+                                                        // maxLength={3}
                                                     />
                                                 </View>
 
@@ -246,7 +247,7 @@ class PopupBlockDiscount extends React.Component {
                                             paddingHorizontal: scaleSzie(10)
                                         }} >
                                             <TextInput
-                                                style={{ flex: 1, fontSize: scaleSzie(12) }}
+                                                style={{ flex: 1, fontSize: scaleSzie(12), padding: 0, textAlignVertical: "top" }}
                                                 multiline={true}
                                                 value={promotionNotes}
                                                 onChangeText={(promotionNotes) => this.setState({ promotionNotes })}
@@ -299,7 +300,7 @@ class PopupBlockDiscount extends React.Component {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        const { visibleModalBlockDiscount, blockAppointments, appointmentIdUpdatePromotion, isGetPromotionOfAppointment, promotionNotes ,isDiscountByOwner} = this.props;
+        const { visibleModalBlockDiscount, blockAppointments, appointmentIdUpdatePromotion, isGetPromotionOfAppointment, promotionNotes, isDiscountByOwner } = this.props;
         if (!prevProps.visibleModalBlockDiscount && visibleModalBlockDiscount && prevProps.visibleModalBlockDiscount !== visibleModalBlockDiscount) {
             const appointmentDetail = blockAppointments.find((appointment) => appointment.appointmentId === appointmentIdUpdatePromotion);
             await this.setState({
@@ -312,7 +313,7 @@ class PopupBlockDiscount extends React.Component {
             this.props.actions.marketing.resetStateGetPromotionOfAppointment();
             await this.setState({
                 promotionNotes: promotionNotes.note ? promotionNotes.note : "",
-                isDiscountByOwner:isDiscountByOwner
+                isDiscountByOwner: isDiscountByOwner
             })
         }
 

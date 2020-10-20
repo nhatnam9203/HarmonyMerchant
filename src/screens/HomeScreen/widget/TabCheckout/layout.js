@@ -7,7 +7,7 @@ import {
 import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber ,} from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
     PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint,
@@ -21,7 +21,7 @@ import {
     PopupBlockDiscount, ItemPaymentMethod,
     ShadowLineLeftToRight,
     ShadowLineRightToLeft,
-    ShadowLineShort, PopupChangeCustomerInfo, PopupAddItemIntoAppointments
+    ShadowLineShort, PopupChangeCustomerInfo, PopupAddItemIntoAppointments, PopupGiftCardDetail
 } from './widget';
 
 class Layout extends React.Component {
@@ -605,13 +605,16 @@ class Layout extends React.Component {
 
                     }
                 </View>
+                <View style={styles.box_payment_container} >
+                    {
+                        ['Gift Card', 'Other'].map((title, index) => <ItemPaymentMethod
+                            key={index}
+                            title={title}
+                            selectedPayment={this.selectedPayment}
+                            paymentSelected={this.state.paymentSelected}
+                        />)
 
-                <View style={styles.box_payment_singular_container} >
-                    <ItemPaymentMethod
-                        title={"Other"}
-                        selectedPayment={this.selectedPayment}
-                        paymentSelected={this.state.paymentSelected}
-                    />
+                    }
                 </View>
 
                 {/* ------ Footer ----- */}
@@ -687,7 +690,7 @@ class Layout extends React.Component {
                     }}
                     styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
                 />
-            } else if (paymentSelected === '' || !isAcceptPay) {
+            } else if (paymentSelected === '' || paymentSelected === "Gift Card" || !isAcceptPay) {
                 return (
                     <ButtonCustom
                         width={`100%`}
@@ -980,7 +983,6 @@ class Layout extends React.Component {
                     ref={this.activeGiftCardRef}
                     title={localize('Active Gift Card', language)}
                     onRequestClose={this.closePopupActiveGiftCard}
-                    confimYes={this.sendLinkInstallApp}
                     submitSerialCode={this.submitSerialCode}
                 />
                 <PopupPaymentDetails
@@ -1011,6 +1013,15 @@ class Layout extends React.Component {
                     title={localize('Modification', language)}
                     visible={visiblePopupAddItemIntoBasket}
                     onRequestClose={() => this.setState({ visiblePopupAddItemIntoBasket: false })}
+                />
+
+                <PopupGiftCardDetail
+                    title={localize('Gift Card Details', language)}
+                    // visible={visiblePopupGiftCardDetails}
+                    onRequestClose={this.closePopupProductPaymentDetails}
+                    language={language}
+                    nextPayment={this.nextPayment}
+                    cancelGiftCardPayment={this.cancelGiftCardPayment}
                 />
             </View>
         );

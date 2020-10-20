@@ -1,7 +1,7 @@
 import actions from "@actions";
 import React from "react";
 import { AppState } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useFirebaseNotification from "./useFirebaseNotification";
 import NotifService from "@utils/NotifService";
 import NavigationServices from "../../navigators/NavigatorServices";
@@ -13,6 +13,14 @@ const FirebaseNotificationProvider = () => {
     AppState.currentState
   );
   let notifyService;
+  const token = useSelector(state => state.dataLocal.token);
+
+  // const [checkToken, setCheckToken] = React.useState(true);
+
+
+  React.useEffect(() => {
+    notifyService = new NotifService(onClickedNotifyMessage);
+  }, [token]);
 
   const onForegroundMessage = (data) => {
     // console.log("==> notification onForegroundMessage", JSON.stringify(data));
@@ -39,9 +47,13 @@ const FirebaseNotificationProvider = () => {
   };
 
   const onClickedNotifyMessage = () => {
-    dispatch(actions.app.closeAllPopupPincode());
-    NavigationServices.navigate("Home");
-    notifyService?.resetBadgeNumber();
+    if (token) {
+      dispatch(actions.app.closeAllPopupPincode());
+      NavigationServices.navigate("Home");
+      notifyService?.resetBadgeNumber();
+    } else {
+      NavigationServices.navigate("SignIn");
+    }
   };
 
   const firebaseToken = useFirebaseNotification({

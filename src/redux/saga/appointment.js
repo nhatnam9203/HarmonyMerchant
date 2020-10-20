@@ -1,8 +1,8 @@
 import { put, takeLatest, all, select, takeEvery } from "redux-saga/effects";
 import _ from "ramda";
-import {Alert} from "react-native";
+import { Alert } from "react-native";
 
-import { requestAPI ,formatNumberFromCurrency} from '../../utils';
+import { requestAPI, formatNumberFromCurrency } from '../../utils';
 import apiConfigs from '../../configs/api';
 
 function* getAppointmentById(action) {
@@ -65,19 +65,19 @@ function* getGroupAppointmentById(action) {
                 });
 
                 const subTotal = data.subTotal ? formatNumberFromCurrency(data.subTotal) : 0;
-                const discount =  data.discount ? formatNumberFromCurrency(data.discount) : 0;
-                if(subTotal < discount && action.isNotShowMessage){
-                    setTimeout(() =>{
+                const discount = data.discount ? formatNumberFromCurrency(data.discount) : 0;
+                if (subTotal < discount && action.isNotShowMessage) {
+                    setTimeout(() => {
                         Alert.alert(
                             `Warning`,
                             `Discount cannot be more than the subtotal.`,
                             [
-        
+
                                 { text: 'OK', onPress: () => { } }
                             ],
                             { cancelable: false }
                         );
-                    },500);
+                    }, 500);
                     // return;
                 }
 
@@ -384,7 +384,7 @@ function* createAnymousAppointment(action) {
                     type: "SET_CANCEL_APPOINTMENT"
                 })
             }
-            if (action.paymentMethod !== 'credit_card' && action.paymentMethod !== 'debit_card' ) {
+            if (action.paymentMethod !== 'credit_card' && action.paymentMethod !== 'debit_card') {
                 yield put({
                     type: 'CHECK_OUT_APPOINTMENT',
                     body: {
@@ -678,48 +678,61 @@ function* checkSerialNumber(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('checkSerialNumber : ' + JSON.stringify(responses));
+        // console.log('checkSerialNumber : ' + JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            if (!action.bodyAction) {
-                const state = yield select();
-                const { groupAppointment } = state.appointment;
-                const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
+            if (action.isGiftCardPayment) {
                 yield put({
-                    type: 'ADD_ITEM_INTO_APPOINTMENT',
-                    body: {
-                        giftCards: [{
-                            bookingGiftCardId: 0,
-                            giftCardId: responses.data && responses.data.giftCardId ? responses.data.giftCardId : 0
-                        }],
-                        services: [],
-                        extras: [],
-                        products: [],
-                    },
-                    method: 'PUT',
-                    token: true,
-                    api: `${apiConfigs.BASE_API}appointment/additem/${mainAppointmentId}`,
-                    appointmentId: mainAppointmentId,
-                    isGroup: true
+                    type: 'VISIBLE_POPUP_ACTIVE_GIFT_CARD',
+                    payload: false
+                });
+                yield put({
+                    type: "GIFT_CARD_PAYMENT_INFO",
+                    payload: responses.data ? responses.data : {}
+                });
+                yield put({
+                    type: "TOGGLE_POPUP_GIFT_CARD_PAYMENT_DETAIL",
+                    payload: true
                 })
+
             } else {
-                //console.log('ddddddd');
-                const state = yield select();
-                const { customerInfoBuyAppointment } = state.appointment;
-                const isNotUpdateCustomerBuyInRedux = customerInfoBuyAppointment.firstName || customerInfoBuyAppointment.lastName || customerInfoBuyAppointment.phone ? true : false;
-                yield put({
-                    type: 'CREATE_ANYMOUS_APPOINTMENT',
-                    body: {
-                        ...action.bodyAction,
-                        giftCards: [{ bookingGiftCardId: 0, GiftCardId: responses.data.giftCardId ? responses.data.giftCardId : 0 }]
-                    },
-                    ...action.optionAction,
-                    isNotUpdateCustomerBuyInRedux
-                })
+                if (!action.bodyAction) {
+                    const state = yield select();
+                    const { groupAppointment } = state.appointment;
+                    const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
+                    yield put({
+                        type: 'ADD_ITEM_INTO_APPOINTMENT',
+                        body: {
+                            giftCards: [{
+                                bookingGiftCardId: 0,
+                                giftCardId: responses.data && responses.data.giftCardId ? responses.data.giftCardId : 0
+                            }],
+                            services: [],
+                            extras: [],
+                            products: [],
+                        },
+                        method: 'PUT',
+                        token: true,
+                        api: `${apiConfigs.BASE_API}appointment/additem/${mainAppointmentId}`,
+                        appointmentId: mainAppointmentId,
+                        isGroup: true
+                    })
+                } else {
+                    const state = yield select();
+                    const { customerInfoBuyAppointment } = state.appointment;
+                    const isNotUpdateCustomerBuyInRedux = customerInfoBuyAppointment.firstName || customerInfoBuyAppointment.lastName || customerInfoBuyAppointment.phone ? true : false;
+                    yield put({
+                        type: 'CREATE_ANYMOUS_APPOINTMENT',
+                        body: {
+                            ...action.bodyAction,
+                            giftCards: [{ bookingGiftCardId: 0, GiftCardId: responses.data.giftCardId ? responses.data.giftCardId : 0 }]
+                        },
+                        ...action.optionAction,
+                        isNotUpdateCustomerBuyInRedux
+                    })
+                }
             }
-
-
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

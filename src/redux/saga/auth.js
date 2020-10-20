@@ -301,7 +301,7 @@ function* activeFirebase(action) {
     action.body = body;
 
     const responses = yield requestAPI(action);
-    yield put({ type: "STOP_LOADING_ROOT" });
+    // yield put({ type: "STOP_LOADING_ROOT" });
   } catch (error) {
     yield put({ type: error });
   } finally {

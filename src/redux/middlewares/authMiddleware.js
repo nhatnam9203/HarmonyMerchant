@@ -8,68 +8,68 @@ const authMiddleware = (store) => (next) => (action) => {
     ? appState.dataLocal.token
     : false;
 
-  if (type === "persist/REHYDRATE" && key === "category" && payload) {
-    return next({
-      type: "REHYDRATE_CATEGORIES",
-      payload: merchantToken ? action.payload.categoriesByMerchant : [],
-    });
-  }
-  if (type === "persist/REHYDRATE" && key === "product" && payload) {
-    return next({
-      type: "REHYDRATE_PRODUCTS",
-      payload: merchantToken ? action.payload.productsByMerchantId : [],
-    });
-  }
+  // if (type === "persist/REHYDRATE" && key === "category" && payload) {
+  //   return next({
+  //     type: "REHYDRATE_CATEGORIES",
+  //     payload: merchantToken ? action.payload.categoriesByMerchant : [],
+  //   });
+  // }
+  // if (type === "persist/REHYDRATE" && key === "product" && payload) {
+  //   return next({
+  //     type: "REHYDRATE_PRODUCTS",
+  //     payload: merchantToken ? action.payload.productsByMerchantId : [],
+  //   });
+  // }
 
-  if (type === "persist/REHYDRATE" && key === "staff" && payload) {
-    return next({
-      type: "REHYDRATE_STAFFS",
-      payload: merchantToken ? action.payload.listStaffByMerchant : [],
-    });
-  }
+  // if (type === "persist/REHYDRATE" && key === "staff" && payload) {
+  //   return next({
+  //     type: "REHYDRATE_STAFFS",
+  //     payload: merchantToken ? action.payload.listStaffByMerchant : [],
+  //   });
+  // }
 
-  if (type === "persist/REHYDRATE" && key === "service" && payload) {
-    return next({
-      type: "REHYDRATE_SERVICES",
-      payload: merchantToken ? action.payload.servicesByMerchant : [],
-    });
-  }
+  // if (type === "persist/REHYDRATE" && key === "service" && payload) {
+  //   return next({
+  //     type: "REHYDRATE_SERVICES",
+  //     payload: merchantToken ? action.payload.servicesByMerchant : [],
+  //   });
+  // }
 
-  if (type === "persist/REHYDRATE" && key === "extra" && payload) {
-    return next({
-      type: "REHYDRATE_EXTRAS",
-      payload: merchantToken ? action.payload.extrasByMerchant : [],
-    });
-  }
+  // if (type === "persist/REHYDRATE" && key === "extra" && payload) {
+  //   return next({
+  //     type: "REHYDRATE_EXTRAS",
+  //     payload: merchantToken ? action.payload.extrasByMerchant : [],
+  //   });
+  // }
 
-  if (type === "persist/REHYDRATE" && key === "appointment" && payload) {
-    return next({
-      type: "REHYDRATE_APPOINTMENT",
-      payload: merchantToken ? action.payload.listAppointmentsOfflineMode : [],
-    });
-  }
+  // if (type === "persist/REHYDRATE" && key === "appointment" && payload) {
+  //   return next({
+  //     type: "REHYDRATE_APPOINTMENT",
+  //     payload: merchantToken ? action.payload.listAppointmentsOfflineMode : [],
+  //   });
+  // }
 
-  if (type === "persist/REHYDRATE" && key === "customer" && payload) {
-    return next({
-      type: "REHYDRATE_CUSTOMERS",
-      payload: merchantToken ? action.payload.listCustomersByMerchant : [],
-    });
-  }
+  // if (type === "persist/REHYDRATE" && key === "customer" && payload) {
+  //   return next({
+  //     type: "REHYDRATE_CUSTOMERS",
+  //     payload: merchantToken ? action.payload.listCustomersByMerchant : [],
+  //   });
+  // }
 
-  if (type === "persist/REHYDRATE" && key === "invoice" && payload) {
-    return next({
-      type: "REHYDRATE_INVOICES",
-      payload: merchantToken ? action.payload.listInvoicesByMerchant : [],
-    });
-  }
+  // if (type === "persist/REHYDRATE" && key === "invoice" && payload) {
+  //   return next({
+  //     type: "REHYDRATE_INVOICES",
+  //     payload: merchantToken ? action.payload.listInvoicesByMerchant : [],
+  //   });
+  // }
 
-  if (type === "persist/REHYDRATE" && key === "marketing" && payload) {
-    return next({
-      type: "REHYDRATE_MARKETINGS",
-      listBanners: merchantToken ? action.payload.listBanners : [],
-      promotions: merchantToken ? action.payload.promotions : [],
-    });
-  }
+  // if (type === "persist/REHYDRATE" && key === "marketing" && payload) {
+  //   return next({
+  //     type: "REHYDRATE_MARKETINGS",
+  //     listBanners: merchantToken ? action.payload.listBanners : [],
+  //     promotions: merchantToken ? action.payload.promotions : [],
+  //   });
+  // }
 
   const versionApp = appState.dataLocal.versionApp;
   const action_tempt = { ...action, versionApp };

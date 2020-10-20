@@ -9,6 +9,7 @@ import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import { TabStoreInfo, TabAdminInfo, TabStaffManagement, TabServiceProduct } from './widget';
+import configs from "@configs";
 
 export default class Layout extends React.Component {
 
@@ -54,7 +55,7 @@ export default class Layout extends React.Component {
                         backTab={() => this.scrollTabRef.current.goToPage(2)}
                     />
                 </ScrollableTabView>
-                <Button onPress={this.signOut} style={{ position: 'absolute', top: 20, right: 0 }} >
+                <Button onPress={this.signOut} style={configs.btn_right_position} >
                     <Image source={IMAGE.signOut} style={{ width: scaleSzie(35), height: scaleSzie(35) }} />
                 </Button>
 

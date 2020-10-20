@@ -3,7 +3,7 @@ import {
     View,
 } from 'react-native';
 
-import { StatusBarHeader,ScrollableTabView } from '@components';
+import { StatusBarHeader, ScrollableTabView } from '@components';
 import styles from './style';
 import GeneralInfoScreen from "../GeneralInfoScreen";
 import BusinessInfo from "../BusinessInfoScreen";
@@ -11,7 +11,6 @@ import BankInfo from "../BankInfoScreen";
 import PrincipalInfo from "../PrincipalScreen";
 import PackageAndPricing from "../PackageAndPricing";
 import ApplicationSubmit from "../ApplicationSubmitScreen";
-
 
 export default class Layout extends React.Component {
 

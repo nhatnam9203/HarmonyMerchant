@@ -4,9 +4,9 @@ import {
     Platform
 } from 'react-native';
 
-import { scaleSzie } from '@utils';
+import { scaleSzie, checkIsTablet } from '@utils';
 
-const { width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
     container: {
@@ -28,36 +28,36 @@ export default StyleSheet.create({
             },
         })
     },
-    textTitle:{
-         color:'#0764B0',
-         fontSize :scaleSzie(30),
-         marginTop:scaleSzie(5)
+    textTitle: {
+        color: '#0764B0',
+        fontSize:checkIsTablet() ?scaleSzie(22) :  scaleSzie(28),
+        marginTop: scaleSzie(5)
     },
-    termContainer:{
-        width:scaleSzie(500),
-        height:scaleSzie(280),
-        borderWidth:1,
-        borderColor:'#0764B0',
-        paddingLeft:scaleSzie(25),
-        paddingRight:scaleSzie(15),
-        paddingTop:scaleSzie(10),
-        paddingBottom:scaleSzie(20),
-        backgroundColor:'rgb(246,246,246)'
+    termContainer: {
+        width: scaleSzie(500),
+        height: checkIsTablet() ? scaleSzie(230) : scaleSzie(300),
+        borderWidth: 1,
+        borderColor: '#0764B0',
+        paddingLeft: scaleSzie(15),
+        paddingRight: scaleSzie(10),
+        paddingTop: scaleSzie(2),
+        paddingBottom: scaleSzie(2),
+        backgroundColor: 'rgb(246,246,246)'
     },
-    buttonContainer:{
-        flex:1,
-        justifyContent:'flex-end',
-        paddingBottom:scaleSzie(5)
+    buttonContainer: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        paddingBottom: scaleSzie(5)
     },
     contentTerms: {
         marginTop: 10,
         fontSize: 17,
         lineHeight: 25
     },
-    checkboxContainer:{
-        width:scaleSzie(500),
-        flexDirection:'row',
-        marginTop:scaleSzie(8)
+    checkboxContainer: {
+        width: scaleSzie(500),
+        flexDirection: 'row',
+        marginTop: checkIsTablet() ? scaleSzie(8) : scaleSzie(10)
     }
 
 })

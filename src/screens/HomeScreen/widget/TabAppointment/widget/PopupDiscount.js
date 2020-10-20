@@ -12,7 +12,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
 import { ButtonCustom, PopupParent,Button } from '@components';
-import { scaleSzie, formatNumberFromCurrency, formatMoney, localize, roundNumber } from '@utils';
+import { scaleSzie, formatNumberFromCurrency, formatMoney, localize, roundNumber,checkIsTablet } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
 
@@ -158,6 +158,7 @@ class PopupDiscount extends React.Component {
 
             const visible = visibleModalDiscount && !_.isEmpty(appointmentDetail) ? true : false;
             const tempCheckBoxIcon = isDiscountByOwner ? ICON.checkBox : ICON.checkBoxEmpty;
+            const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(400);
 
             return (
                 <PopupParent
@@ -168,7 +169,7 @@ class PopupDiscount extends React.Component {
                     style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
                 >
                     <View style={{
-                        height: scaleSzie(400), backgroundColor: '#fff',
+                        height:tempHeight, backgroundColor: '#fff',
                         borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     }} >
                         <View style={{ height: scaleSzie(280) }} >
@@ -226,7 +227,7 @@ class PopupDiscount extends React.Component {
                                             paddingHorizontal: scaleSzie(10)
                                         }} >
                                             <TextInput
-                                                style={{ flex: 1, fontSize: scaleSzie(12) }}
+                                                style={{ flex: 1, fontSize: scaleSzie(12),padding:0,textAlignVertical:"top" }}
                                                 multiline={true}
                                                 value={promotionNotes}
                                                 onChangeText={(promotionNotes) => this.setState({ promotionNotes })}
@@ -440,7 +441,7 @@ class CustomDiscountFixed extends React.Component {
                                 }}
                                 keyboardType="numeric"
                                 placeholderTextColor="#A9A9A9"
-                                maxLength={3}
+                                // maxLength={3}
                             />
                         </View>
 

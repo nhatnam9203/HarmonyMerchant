@@ -151,7 +151,7 @@ export default class Layout extends React.Component {
                             onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 540 : 500)}
                         />
                     </View>
-                    <View style={{ width: scaleSzie(180), height: scaleSzie(30) }} >
+                    <View style={{ width: scaleSzie(180), height: "100%" }} >
                         <TextInputSuggestion
                             value={state}
                             onChangeText={(value, count) => {
@@ -239,8 +239,9 @@ export default class Layout extends React.Component {
                     onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 900 : 860)}
 
                 />
-                <View style={{ flexDirection: 'row', marginBottom: scaleSzie(dynamicMarginBottomDAStateIssuedPrincipal),
-            }} >
+                <View style={{
+                    flexDirection: 'row', marginBottom: scaleSzie(dynamicMarginBottomDAStateIssuedPrincipal),
+                }} >
                     <View style={{ flex: 1, paddingRight: scaleSzie(20) }} >
                         <InputForm
                             title={`${localize('Driver License Number', language)}*`}
@@ -255,15 +256,17 @@ export default class Layout extends React.Component {
                         <Text style={[{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(5), fontWeight: "600" }]} >
                             {`${localize('State Issued', language)}*`}
                         </Text>
-                        <TextInputSuggestion
-                            value={stateIssued}
-                            onChangeText={(value, count) => {
-                                updatePrincipalInfo('stateIssued', value, '', isPrincipalSecond);
-                                this.props.updateMarginTopStateIssued(count);
-                            }}
-                            resetMarginState={() => this.props.resetMarginTopStateIssued()}
-                            onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 980 : 940)}
-                        />
+                        <View style={{ height: scaleSzie(30) }} >
+                            <TextInputSuggestion
+                                value={stateIssued}
+                                onChangeText={(value, count) => {
+                                    updatePrincipalInfo('stateIssued', value, '', isPrincipalSecond);
+                                    this.props.updateMarginTopStateIssued(count);
+                                }}
+                                resetMarginState={() => this.props.resetMarginTopStateIssued()}
+                                onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 980 : 940)}
+                            />
+                        </View>
                     </View>
                 </View>
 

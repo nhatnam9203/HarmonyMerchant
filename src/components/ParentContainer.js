@@ -37,14 +37,14 @@ class ParentContainer extends Component {
         const { activeScreen, visibleEnterPinInvoice, visibleEnterPin, isOfflineMode,
             autoLockScreenAfter, groupAppointment,
             invoiceTabPermission, settlementTabPermission, customerTabPermission,
-            inventoryTabPermission, reportTabPermission, settingTabPermission
+            inventoryTabPermission, reportTabPermission, settingTabPermission,visiblePaymentCompleted
         } = this.props;
         const parent = this.props.navigation.dangerouslyGetParent();
         const isDrawerOpen = parent && parent.state && parent.state.isDrawerOpen;
         if (!isActive && activeScreen && !visibleEnterPin && !isDrawerOpen && !isOfflineMode && autoLockScreenAfter != "Never"
             && _.isEmpty(groupAppointment) && !invoiceTabPermission && !settlementTabPermission
             && !customerTabPermission && !inventoryTabPermission && !reportTabPermission
-            && !settingTabPermission
+            && !settingTabPermission && !visiblePaymentCompleted
         ) {
             this.props.handleLockScreen();
         }
@@ -84,6 +84,8 @@ const mapStateToProps = state => ({
     inventoryTabPermission: state.product.inventoryTabPermission,
     reportTabPermission: state.staff.reportTabPermission,
     settingTabPermission: state.app.settingTabPermission,
+
+    visiblePaymentCompleted: state.appointment.visiblePaymentCompleted,
 
 
 })
