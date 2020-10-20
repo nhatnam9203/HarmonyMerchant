@@ -1,4 +1,4 @@
-import { put, takeLatest, all, join } from "redux-saga/effects";
+import { put, takeLatest, all } from "redux-saga/effects";
 import RNFetchBlob from 'rn-fetch-blob';
 import { Platform } from "react-native";
 import Share from 'react-native-share';

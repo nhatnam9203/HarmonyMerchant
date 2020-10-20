@@ -8,7 +8,7 @@
     "build:ios": "react-native bundle --entry-file='./index.js' --bundle-output='./ios/Hpmerchant/main.jsbundle' --dev=false --platform='ios'",
     "codepush:ios:staging": "code-push release-react HpMerchant-IOS ios -d \"Staging\" -k private.pem -m --plistFile ./ios/staging.plist --description \"Accept for user select staff colum in setting app\" -t \"1.1.3\"",
     "codepush:android:staging": "code-push release-react HpMerchant-ANDROID ios -d \"Staging\" -k private.pem -m --plistFile ./ios/staging.plist --description \"Test printer\" -t \"1.0.8\"",
-    "codepush:ios:product": "code-push release-react HpMerchant-IOS ios -d \"Production\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info.plist --description \"fix bugs earn points \" -t \"1.1.2\" ",
+    "codepush:ios:product": "code-push release-react HpMerchant-IOS ios -d \"Production\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info.plist --description \"Test code push\" -t \"1.1.3\" ",
     "android-dev": "adb reverse tcp:8081 tcp:8081",
     "scan": "sonar-scanner"
     

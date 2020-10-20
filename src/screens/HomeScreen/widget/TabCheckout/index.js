@@ -356,6 +356,7 @@ class TabCheckout extends Layout {
         const { paymentSelected, changeButtonDone } = this.state;
         const { isDonePayment } = this.props;
         if (changeButtonDone && !isDonePayment && paymentSelected === 'HarmonyPay') {
+            
         } else {
             this.setState(prevState => ({
                 paymentSelected: payment === prevState.paymentSelected ? '' : payment

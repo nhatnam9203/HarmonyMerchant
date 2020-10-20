@@ -1,11 +1,7 @@
-import { put, takeLatest, all, join } from "redux-saga/effects";
-import NavigationServices from "../../navigators/NavigatorServices";
-
-import { requestAPI, uploadFromData } from "../../utils";
-import apiConfigs from "../../configs/api";
-
-import { Alert } from "react-native";
+import { put, takeLatest, all } from "redux-saga/effects";
 import RNFetchBlob from "rn-fetch-blob";
+
+import { requestAPI } from "../../utils";
 
 import actions from "@actions";
 const { ACTION_TYPES } = actions.report;

@@ -1,6 +1,5 @@
-import { put, takeLatest, all, join } from "redux-saga/effects";
+import { put, takeLatest, all } from "redux-saga/effects";
 
-import NavigationServices from "../../navigators/NavigatorServices";
 import { requestAPI } from '../../utils';
 import apiConfigs from '../../configs/api';
 

@@ -1,4 +1,4 @@
-import { put, takeLatest, all, join } from "redux-saga/effects";
+import { put, takeLatest, all } from "redux-saga/effects";
 import { Alert } from "react-native";
 import RNFetchBlob from "rn-fetch-blob";
 

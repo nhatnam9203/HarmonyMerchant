@@ -1,7 +1,6 @@
-import { put, takeLatest, all, join } from "redux-saga/effects";
-import NavigationServices from "../../navigators/NavigatorServices";
+import { put, takeLatest, all } from "redux-saga/effects";
 
-import { requestAPI, uploadFromData } from '../../utils';
+import { requestAPI } from '../../utils';
 import apiConfigs from '../../configs/api';
 
 function* getBannerMerchant(action) {
