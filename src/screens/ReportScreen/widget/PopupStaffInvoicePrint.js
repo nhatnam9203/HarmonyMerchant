@@ -465,7 +465,6 @@ class PopupStaffInvoicePrint extends React.Component {
                               />
                             </React.Fragment>
                           );
-                          break;
                         default:
                           totalDesc =
                             totalDesc +
@@ -507,7 +506,6 @@ class PopupStaffInvoicePrint extends React.Component {
                               />
                             </React.Fragment>
                           );
-                          break;
                       }
                     })}
                 </View>

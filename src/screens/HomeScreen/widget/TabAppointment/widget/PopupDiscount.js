@@ -351,7 +351,7 @@ class CustomDiscount extends React.Component {
                     <View style={{
                         width: scaleSzie(120), height: scaleSzie(40),
                         borderColor: '#707070', borderWidth: 1, marginLeft: scaleSzie(20), borderRadius: scaleSzie(4),
-                        flexDirection: 'row', marginLeft: scaleSzie(20)
+                        flexDirection: 'row'
                     }} >
                         <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
                             <TextInputMask

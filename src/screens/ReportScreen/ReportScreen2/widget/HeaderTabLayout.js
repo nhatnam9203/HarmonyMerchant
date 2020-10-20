@@ -49,7 +49,7 @@ export default function HeaderTabLayout({
       renderTabBar={renderHeaderTab}
       onChangeTab={onChangeTab}
     >
-      {children && children}
+      {children}
     </ScrollableTabView>
   );
 }

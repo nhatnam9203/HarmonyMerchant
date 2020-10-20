@@ -64,7 +64,7 @@ function ReportTabLayout({
               />
             )}
 
-            {rightTooltip && rightTooltip}
+            {rightTooltip}
           </>
         }
       >
@@ -96,7 +96,7 @@ function ReportTabLayout({
         )}
       </HeaderTooltip>
 
-      <View style={{ flex: 1 }}>{children && children}</View>
+      <View style={{ flex: 1 }}>{children}</View>
     </View>
   );
 }

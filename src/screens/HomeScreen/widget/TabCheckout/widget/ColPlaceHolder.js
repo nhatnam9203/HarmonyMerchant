@@ -5,7 +5,7 @@ import {
 
 import { scaleSzie } from '@utils';
 
-const ColPlaceHolder = ({ }) => {
+const ColPlaceHolder = () => {
     return (
         <View style={{ flex:1 }} >
             <View style={{

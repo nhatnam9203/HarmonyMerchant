@@ -504,7 +504,6 @@ const mapStateToProps = state => ({
     isReloadWebview: state.app.isReloadWebview,
     deviceId: state.dataLocal.deviceId,
     extrasByMerchant: state.extra.extrasByMerchant,
-    profileStaffLogin: state.dataLocal.profileStaffLogin,
 })
 
 

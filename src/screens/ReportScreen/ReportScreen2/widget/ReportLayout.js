@@ -201,7 +201,7 @@ function ReportLayout(
         springFriction={1}
         onChangeTab={onChangeTab}
       >
-        {children && children}
+        {children}
       </ScrollableTabView>
 
       <PopupCalendar

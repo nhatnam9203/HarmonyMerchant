@@ -52,7 +52,7 @@ export default function CustomScrollTab({
       renderTabBar={renderHeaderTab}
       onChangeTab={onChangeTab}
     >
-      {children && children}
+      {children}
     </ScrollableTabView>
   );
 }

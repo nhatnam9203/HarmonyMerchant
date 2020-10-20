@@ -7,7 +7,7 @@ const TOOLTIP_DEFAULT_HEIGHT = 50;
 export default function HeaderTooltip({ children, rightComponent }) {
   return (
     <View style={styles.container}>
-      {children && children}
+      {children}
       {rightComponent && <View style={styles.right}>{rightComponent}</View>}
     </View>
   );

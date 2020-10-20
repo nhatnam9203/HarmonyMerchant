@@ -74,7 +74,6 @@ const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
             borderRadius: 8,
             ...Platform.select({
                 ios: {
-                    shadowRadius: 2,
                     shadowColor: "#000",
                     shadowOffset: { width: 0, height: 3 },
                     shadowOpacity: 0.25,

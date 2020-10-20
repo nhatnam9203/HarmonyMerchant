@@ -105,7 +105,7 @@ class PopupDiscountLocal extends React.Component {
         const temptTotalDiscount = _.isEmpty(groupAppointment) ? Number(discountTotal).toFixed(2) : Number(total).toFixed(2);
         const temptTotal =totalLocal 
         const temptCustomDiscountPercent = customDiscountPercentLocal;
-        const temptCustomDiscountFixed =customDiscountFixedLocal;''
+        const temptCustomDiscountFixed =customDiscountFixedLocal;
 
         const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(400);
 
@@ -243,7 +243,7 @@ class CustomDiscount extends React.Component {
                     <View style={{
                         width: scaleSzie(120), height: scaleSzie(40),
                         borderColor: '#707070', borderWidth: 1, marginLeft: scaleSzie(20), borderRadius: scaleSzie(4),
-                        flexDirection: 'row', marginLeft: scaleSzie(20)
+                        flexDirection: 'row'
                     }} >
                         <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
                             <TextInputMask

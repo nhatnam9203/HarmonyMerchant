@@ -305,7 +305,7 @@ function TableListExtended({
     autoScroll();
   };
 
-  onScrollBeginDrag = () => {};
+  onScrollBeginDrag = () => { };
 
   const onScrollEndDrag = () => {
     autoScroll();
@@ -380,29 +380,29 @@ function TableListExtended({
                 {key === TABLE_ACTION_KEY
                   ? cellActionRender
                   : cellRender ?? (
-                      <Text style={styles.txtCell}>
-                        {isPriceCell(key)
-                          ? unitKeys[key]
-                            ? item[key] + " " + unitKeys[key]
-                            : "$ " + item[key]
-                          : item[key]}
-                      </Text>
-                    )}
+                    <Text style={styles.txtCell}>
+                      {isPriceCell(key)
+                        ? unitKeys[key]
+                          ? item[key] + " " + unitKeys[key]
+                          : "$ " + item[key]
+                        : item[key]}
+                    </Text>
+                  )}
               </TableCell>
             </View>
           ) : (
-            <TableCell
-              onPress={() => onCellPress(actProps)}
-              key={keyUnique}
-              style={{
-                width: getCellWidth(keyIndex, key),
-                ...(isPriceCell(key) && { alignItems: "flex-end" }),
-              }}
-              disabled={!onCellPress}
-            >
-              {key === TABLE_ACTION_KEY
-                ? cellActionRender
-                : cellRender ?? (
+              <TableCell
+                onPress={() => onCellPress(actProps)}
+                key={keyUnique}
+                style={{
+                  width: getCellWidth(keyIndex, key),
+                  ...(isPriceCell(key) && { alignItems: "flex-end" }),
+                }}
+                disabled={!onCellPress}
+              >
+                {key === TABLE_ACTION_KEY
+                  ? cellActionRender
+                  : cellRender ?? (
                     <Text style={styles.txtCell}>
                       {isPriceCell(key)
                         ? unitKeys[key]
@@ -411,8 +411,8 @@ function TableListExtended({
                         : item[key] || "-"}
                     </Text>
                   )}
-            </TableCell>
-          );
+              </TableCell>
+            );
         })}
       </TableRow>
     );
@@ -446,8 +446,8 @@ function TableListExtended({
                         sortState === SORT_STATE.asc
                           ? IMAGE.sortUp
                           : sortState === SORT_STATE.desc
-                          ? IMAGE.sortDown
-                          : IMAGE.sortNone
+                            ? IMAGE.sortDown
+                            : IMAGE.sortNone
                       }
                       resizeMode="center"
                     />
@@ -457,34 +457,34 @@ function TableListExtended({
             </TableCell>
           </View>
         ) : (
-          <TableCell
-            key={uniqueId(key, index, "header")}
-            style={{
-              width: getCellWidth(index, key),
-              ...(isPriceCell(key) && { alignItems: "flex-end" }),
-              ...(sortKey === key && { flexDirection: "row" }),
-            }}
-          >
-            <Text style={styles.txtHead}>{headerContent[key] ?? ""}</Text>
-            {sortKey === key && (
-              <TouchableOpacity style={styles.btnSort} onPress={changeSortData}>
-                <View>
-                  <Image
-                    style={{ width: scaleSzie(18), height: scaleSzie(18) }}
-                    source={
-                      sortState === SORT_STATE.asc
-                        ? IMAGE.sortUp
-                        : sortState === SORT_STATE.desc
-                        ? IMAGE.sortDown
-                        : IMAGE.sortNone
-                    }
-                    resizeMode="center"
-                  />
-                </View>
-              </TouchableOpacity>
-            )}
-          </TableCell>
-        );
+            <TableCell
+              key={uniqueId(key, index, "header")}
+              style={{
+                width: getCellWidth(index, key),
+                ...(isPriceCell(key) && { alignItems: "flex-end" }),
+                ...(sortKey === key && { flexDirection: "row" }),
+              }}
+            >
+              <Text style={styles.txtHead}>{headerContent[key] ?? ""}</Text>
+              {sortKey === key && (
+                <TouchableOpacity style={styles.btnSort} onPress={changeSortData}>
+                  <View>
+                    <Image
+                      style={{ width: scaleSzie(18), height: scaleSzie(18) }}
+                      source={
+                        sortState === SORT_STATE.asc
+                          ? IMAGE.sortUp
+                          : sortState === SORT_STATE.desc
+                            ? IMAGE.sortDown
+                            : IMAGE.sortNone
+                      }
+                      resizeMode="center"
+                    />
+                  </View>
+                </TouchableOpacity>
+              )}
+            </TableCell>
+          );
       })}
     </TableRow>
   );
@@ -528,30 +528,30 @@ function TableListExtended({
               </TableCell>
             </View>
           ) : (
-            <TableCell
-              key={uniqueId(key, index, "summary")}
-              style={{
-                width: getCellWidth(index, key),
-                ...(isPriceCell(key) && {
-                  alignItems: "flex-end",
-                }),
-              }}
-            >
-              {key === sumTotalKey && (
-                <Text style={styles.txtSum}>{"Total"}</Text>
-              )}
+              <TableCell
+                key={uniqueId(key, index, "summary")}
+                style={{
+                  width: getCellWidth(index, key),
+                  ...(isPriceCell(key) && {
+                    alignItems: "flex-end",
+                  }),
+                }}
+              >
+                {key === sumTotalKey && (
+                  <Text style={styles.txtSum}>{"Total"}</Text>
+                )}
 
-              {calcSumKeys.indexOf(key) > -1 && (
-                <Text style={styles.txtSum}>
-                  {isPriceCell(key)
-                    ? unitKeys[key]
-                      ? formatServerNumber(sumObject[key]) + " " + unitKeys[key]
-                      : "$ " + formatMoney(sumObject[key])
-                    : sumObject[key]}
-                </Text>
-              )}
-            </TableCell>
-          );
+                {calcSumKeys.indexOf(key) > -1 && (
+                  <Text style={styles.txtSum}>
+                    {isPriceCell(key)
+                      ? unitKeys[key]
+                        ? formatServerNumber(sumObject[key]) + " " + unitKeys[key]
+                        : "$ " + formatMoney(sumObject[key])
+                      : sumObject[key]}
+                  </Text>
+                )}
+              </TableCell>
+            );
         })}
       </TableRow>
     );
@@ -650,7 +650,7 @@ export default TableListExtended = forwardRef(TableListExtended);
 function TableRow({ style, children, onPress, disabled }) {
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled}>
-      <View style={[styles.row, style]}>{children && children}</View>
+      <View style={[styles.row, style]}>{children}</View>
     </TouchableOpacity>
   );
 }
@@ -658,7 +658,7 @@ function TableRow({ style, children, onPress, disabled }) {
 function TableCell({ style, children, onPress, disabled }) {
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled}>
-      <View style={[styles.cell, style]}>{children && children}</View>
+      <View style={[styles.cell, style]}>{children}</View>
     </TouchableOpacity>
   );
 }

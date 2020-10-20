@@ -146,8 +146,8 @@ class HomeScreen extends Layout {
         if (!isConnected && !isOfflineMode) {
             this.props.actions.app.showPopupDisconneted();
         } else if (isConnected && isOfflineMode) {
-            this.props.actions.app.showPopupConneted(true),
-                this.props.actions.app.toogleOfflineMode(false);
+            this.props.actions.app.showPopupConneted(true);
+            this.props.actions.app.toogleOfflineMode(false);
         }
     }
 

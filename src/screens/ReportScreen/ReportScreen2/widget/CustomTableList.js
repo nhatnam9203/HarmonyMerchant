@@ -474,7 +474,7 @@ export default TableList;
 function TableRow({ style, children, onPress, disabled }) {
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled}>
-      <View style={[styles.row, style]}>{children && children}</View>
+      <View style={[styles.row, style]}>{children}</View>
     </TouchableOpacity>
   );
 }
@@ -482,7 +482,7 @@ function TableRow({ style, children, onPress, disabled }) {
 function TableCell({ style, children, onPress, disabled }) {
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled}>
-      <View style={[styles.cell, style]}>{children && children}</View>
+      <View style={[styles.cell, style]}>{children}</View>
     </TouchableOpacity>
   );
 }

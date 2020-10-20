@@ -73,51 +73,50 @@ class ReportScreen extends Layout {
 
   changeTitleTimeRange = async (title) => {
     return;
-    await this.setState({
-      titleRangeTime: title !== "Time Range" ? title : "All time",
-      visibleCalendar: false,
-    });
-    this.searchStaff();
-    // console.log("------ title : ", title);
+    // await this.setState({
+    //   titleRangeTime: title !== "Time Range" ? title : "All time",
+    //   visibleCalendar: false,
+    // });
+    // this.searchStaff();
   };
   setPosition = (dx) => {
     this.props.actions.staff.setPositionHeader(dx);
   };
   searchStaff = () => {
     return;
-    const {
-      isCustomizeDate,
-      startDate,
-      endDate,
-      quickFilter,
-    } = this.modalCalendarRef.current.state;
-    let url;
-    if (isCustomizeDate) {
-      url = `timeStart=${startDate}&timeEnd=${endDate}`;
-    } else {
-      const filter = quickFilter === false ? "This Week" : quickFilter;
-      //console.log('quickFilter',quickFilter)
-      url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
-    }
-    this.props.actions.staff.getListStaffsSalaryTop(url, true);
+    // const {
+    //   isCustomizeDate,
+    //   startDate,
+    //   endDate,
+    //   quickFilter,
+    // } = this.modalCalendarRef.current.state;
+    // let url;
+    // if (isCustomizeDate) {
+    //   url = `timeStart=${startDate}&timeEnd=${endDate}`;
+    // } else {
+    //   const filter = quickFilter === false ? "This Week" : quickFilter;
+    //   //console.log('quickFilter',quickFilter)
+    //   url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
+    // }
+    // this.props.actions.staff.getListStaffsSalaryTop(url, true);
   };
 
   onRefreshStaffReport = () => {
     return;
-    const {
-      isCustomizeDate,
-      startDate,
-      endDate,
-      quickFilter,
-    } = this.modalCalendarRef.current.state;
-    let url;
-    if (isCustomizeDate) {
-      url = `timeStart=${startDate}&timeEnd=${endDate}`;
-    } else {
-      const filter = quickFilter === false ? "This Week" : quickFilter;
-      url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
-    }
-    this.props.actions.staff.getListStaffsSalaryTop(url, false);
+    // const {
+    //   isCustomizeDate,
+    //   startDate,
+    //   endDate,
+    //   quickFilter,
+    // } = this.modalCalendarRef.current.state;
+    // let url;
+    // if (isCustomizeDate) {
+    //   url = `timeStart=${startDate}&timeEnd=${endDate}`;
+    // } else {
+    //   const filter = quickFilter === false ? "This Week" : quickFilter;
+    //   url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
+    // }
+    // this.props.actions.staff.getListStaffsSalaryTop(url, false);
   };
 
   cancelStaffInvoicePrint = async () => {

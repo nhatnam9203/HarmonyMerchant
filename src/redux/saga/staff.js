@@ -77,7 +77,7 @@ function* getStaffByMerchantId(action) {
     yield put({ type: error });
   } finally {
     yield put({ type: "STOP_LOADING_ROOT" });
-    if (action.isCreateAdmin && action.isCreateAdmin) {
+    if (action.isCreateAdmin) {
       setTimeout(() => {
         Alert.alert(
           "Great!",
