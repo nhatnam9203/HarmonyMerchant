@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'ramda';
-import { Alert, AppState } from 'react-native';
+import {  AppState } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';

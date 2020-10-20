@@ -2,7 +2,6 @@ import React from 'react';
 import {
     View,
     TextInput,
-    Platform
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -16,9 +15,6 @@ export default class InputForm extends React.PureComponent {
             isOnlyNumber, maxLength, editable, onFocus, typeInputMask, optionsInputMask,
             styleTitle, styleBoxInput
         } = this.props;
-        // const temptHeight = Platform.OS === 'ios' ? 30 : 30;
-        const temptHeight = 30;
-
 
         return (
             <View style={[{ marginBottom: scaleSzie(24) }, style]} >
@@ -32,13 +28,12 @@ export default class InputForm extends React.PureComponent {
                 }
 
                 <View style={[{
-                    height: scaleSzie(temptHeight), borderWidth: 1, borderColor: '#C5C5C5',
+                    height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
                     marginTop: scaleSzie(5),
                     paddingLeft: scaleSzie(8)
                 }, styleBoxInput]} >
                     {
                         isOnlyNumber ? <TextInputMask
-                            // type="only-numbers"
                             type={typeInputMask ? typeInputMask : 'only-numbers'}
                             options={optionsInputMask}
                             style={{ flex: 1, fontSize: scaleSzie(16), color: "#000", padding: 0 }}

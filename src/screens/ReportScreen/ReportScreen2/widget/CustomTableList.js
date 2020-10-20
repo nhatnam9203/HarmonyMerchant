@@ -5,7 +5,6 @@ import {
   roundFloatNumber,
   scaleSzie,
 } from "@utils";
-import PropTypes from "prop-types";
 import _ from "ramda";
 import React, { useEffect, useState } from "react";
 import {

@@ -2,7 +2,6 @@ import React from "react";
 import _ from "ramda";
 
 import Layout from "./layout";
-import { getQuickFilterTimeRange } from "@utils";
 import connectRedux from "@redux/ConnectRedux";
 
 class ReportScreen extends Layout {

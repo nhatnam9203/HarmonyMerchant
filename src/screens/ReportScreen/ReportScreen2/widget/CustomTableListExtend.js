@@ -16,15 +16,10 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
-  RefreshControl,
 } from "react-native";
 import { StickyForm } from "react-native-largelist-v3";
 import { NormalHeader } from "react-native-spring-scrollview/NormalHeader";
-import {
-  WithLastDateHeader,
-  ChineseNormalHeader,
-  ChineseWithLastDateHeader,
-} from "react-native-spring-scrollview/Customize";
+
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get("window");
 

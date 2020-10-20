@@ -1,7 +1,7 @@
 import { formatNumberFromCurrency } from "@utils";
 import moment from "moment";
 import _ from "ramda";
-import React, { forwardRef, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { processColor, StyleSheet, Text, View } from "react-native";
 import { BarChart } from "react-native-charts-wrapper";
 import { CalendarRangePicker, PopupButton } from "../../../widget";

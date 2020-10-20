@@ -6,7 +6,7 @@ import {
     Platform,
 } from 'react-native';
 
-import { scaleSzie, checkIsTablet } from '../utils';
+import { scaleSzie } from '../utils';
 import IMAGE from '../resources';
 
 const { width } = Dimensions.get('window');
@@ -15,8 +15,6 @@ export default class HeaderLogoTop extends React.PureComponent {
 
 
     render() {
-        // const temptHeight = checkIsTablet() ? scaleSzie(85) : scaleSzie(85);
-
         return (
             <View style={{
                 width,

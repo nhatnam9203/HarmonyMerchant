@@ -1,5 +1,4 @@
 import { persistReducer } from "redux-persist";
-import AsyncStorage from '@react-native-community/async-storage';
 import createSensitiveStorage from "redux-persist-sensitive-storage";
 
 import { getModalNameOfPrinter } from "@utils";
