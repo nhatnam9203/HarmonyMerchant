@@ -135,6 +135,8 @@ class Layout extends React.Component {
         const paymentByCashStatistic = settlementDetail.paymentByCashStatistic ? settlementDetail.paymentByCashStatistic : 0.00;
         const otherPaymentStatistic = settlementDetail.otherPaymentStatistic ? settlementDetail.otherPaymentStatistic : 0.00;
 
+        const paymentByGiftcard =  settlementDetail.paymentByGiftcard ? settlementDetail.paymentByGiftcard : 0.00;
+
         return (
             <View style={{ flex: 1, }} >
                 <View style={{ borderColor: "#DDDDDD", borderWidth: 1 }} >
@@ -158,6 +160,12 @@ class Layout extends React.Component {
                         value={paymentByCash}
                         isChange={true}
                         amountStatistic={paymentByCashStatistic}
+                    />
+                    <View style={{ height: 1 }} />
+                    <ItemPaymentsReport
+                        title="Gift Card"
+                        backgroundColor="#3C92D9"
+                        value={paymentByGiftcard}
                     />
                     <View style={{ height: 1 }} />
                     <ItemPaymentsReport
@@ -221,7 +229,7 @@ class Layout extends React.Component {
                     {this.renderLastSettlement()}
                     {this.renderHeaderStaffList()}
                     {/* ------------- Two tables ----------  */}
-                    <View style={{ height: scaleSzie(310), flexDirection: "row", paddingHorizontal: scaleSzie(10) }} >
+                    <View style={{ height: scaleSzie(310 + 30), flexDirection: "row", paddingHorizontal: scaleSzie(10) }} >
                         {this.renderStaffsTable()}
                         <View style={{ width: scaleSzie(10), }} />
                         {this.renderPaymentMethodsReport()}
