@@ -92,7 +92,7 @@ class Layout extends React.Component {
 }
 
 
-const HeaderTable = ({ }) => {
+const HeaderTable = () => {
     return (
         <View style={{
             height: scaleSzie(32), backgroundColor: "#F1F1F1", marginTop: scaleSzie(20), flexDirection: "row",

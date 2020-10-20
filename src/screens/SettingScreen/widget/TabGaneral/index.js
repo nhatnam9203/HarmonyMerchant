@@ -16,7 +16,6 @@ class TabGaneral extends Layout {
             longitude: profile.longitude ? profile.longitude : '',
             latitude: profile.latitude ? profile.latitude : '',
             webLink: profile.webLink ? profile.webLink : '',
-            businessHour: profile.businessHour ? profile.businessHour : '',
             autoCloseAt: profile.autoCloseAt ? profile.autoCloseAt : "",
             autoLockScreenAfter: autoLockScreenAfter,
             timezone: profile.timezone ? profile.timezone : '',

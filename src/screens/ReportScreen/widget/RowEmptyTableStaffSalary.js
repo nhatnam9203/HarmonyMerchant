@@ -79,19 +79,18 @@ class RowEmptyTableStaffSalary extends React.Component {
                     <FlatList
                         data={calendar}
                         keyExtractor={(item, index) => index + ''}
-                        renderItem={({ item }) => {
-                            <View style={{
-                                width: scaleSzie(120), flexDirection: 'row',
-                            }} >
-                                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                                    <Text style={styles.textTableHeader} >
-                                    </Text>
-                                </View>
-                                <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                                    <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                                </View>
+                        renderItem={({ item }) => <View style={{
+                            width: scaleSzie(120), flexDirection: 'row',
+                        }} >
+                            <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                                <Text style={styles.textTableHeader} >
+                                </Text>
                             </View>
-                        }}
+                            <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                                <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
+                            </View>
+                        </View>
+                        }
                     />
                 </View>
                 {/* ----- 4 ------ */}

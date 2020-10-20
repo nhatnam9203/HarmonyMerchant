@@ -45,7 +45,6 @@ class BatchHistoryDetail extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    gitfCardSalesBySettlementId: state.invoice.gitfCardSalesBySettlementId,
     staffSalesBySettlementId: state.invoice.staffSalesBySettlementId,
     gitfCardSalesBySettlementId: state.invoice.gitfCardSalesBySettlementId
 });

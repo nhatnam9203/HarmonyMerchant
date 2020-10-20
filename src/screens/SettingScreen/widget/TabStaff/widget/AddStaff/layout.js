@@ -535,7 +535,6 @@ const TitleTabAdminInfo = ({ title, style }) => {
             marginTop: scaleSzie(14)
         }} >
             <Text style={[{
-                color: '#404040',
                 fontSize: scaleSzie(16),
                 fontWeight: '600',
                 color: "#0764B0"

@@ -4,6 +4,7 @@ import { Keyboard, Platform } from "react-native";
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
 import { checkStatusPrint } from "@utils";
+import { identical } from "ramda";
 
 class SettingScreen extends Layout {
   constructor(props) {
@@ -185,10 +186,18 @@ class SettingScreen extends Layout {
 
   resetSettingTab = () => {
     const { isShowSearchCategories, isShowSearchExtra, isShowSearchService, isShowSearchStaff } = this.props;
-    isShowSearchCategories ? this.props.actions.category.getCategoriesByMerchantId('', '', '', false, false) : null;
-    isShowSearchExtra ? this.props.actions.extra.getExtraByMerchant('', '', false, false) : null;
-    isShowSearchService ? this.props.actions.service.getServicesByMerchant('', '', '', false, false) : null;
-    isShowSearchStaff ? this.props.actions.staff.getStaffByMerchantId("", "", "", false, false) : null;
+    if (isShowSearchCategories) {
+      this.props.actions.category.getCategoriesByMerchantId('', '', '', false, false);
+    };
+    if (isShowSearchExtra) {
+      this.props.actions.extra.getExtraByMerchant('', '', false, false);
+    };
+    if (isShowSearchService) {
+      this.props.actions.service.getServicesByMerchant('', '', '', false, false);
+    };
+    if (isShowSearchStaff) {
+      this.props.actions.staff.getStaffByMerchantId("", "", "", false, false);
+    };
     this.scrollTabRef.current.goToPage(0);
     this.setState({
       indexTab: 0,
