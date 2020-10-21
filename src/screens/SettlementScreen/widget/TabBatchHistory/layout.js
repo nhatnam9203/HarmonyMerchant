@@ -5,10 +5,9 @@ import {
 } from 'react-native';
 import _ from "ramda";
 
-import { } from '@utils';
 import { ScrollableTabView} from '@components';
 import styles from './style';
-import { BatchHistoryDetail, StaffIncomeDetailsTab, BatchHistoryList, GiftCardSalesDetailsTab } from './widget';
+import { BatchHistoryDetail, StaffIncomeDetailsTab, BatchHistoryList, GiftCardSalesDetailsTab,CreditPaymentDetail } from './widget';
 
 class Layout extends React.Component {
 
@@ -31,11 +30,13 @@ class Layout extends React.Component {
                         ref={this.batchHistoryDetailRef}
                         onPressStaff={this.onPressStaff}
                         onPressGiftCardTotal={this.onPressGiftCardTotal}
+                        gotoCreditPaymentDetail={this.gotoCreditPaymentDetail}
                     />
                     <StaffIncomeDetailsTab
                         ref={this.staffIncomDetailsRef}
                     />
                     <GiftCardSalesDetailsTab />
+                    <CreditPaymentDetail />
 
                 </ScrollableTabView>
             </View>

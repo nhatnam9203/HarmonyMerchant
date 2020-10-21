@@ -2,9 +2,9 @@ import React from 'react';
 import {
     View,
     Image,
+    TouchableOpacity
 } from 'react-native';
-import _, { prop } from 'ramda';
-import { TextInputMask } from 'react-native-masked-text';
+import _ from 'ramda';
 
 import { scaleSzie, } from '@utils';
 import {
@@ -178,19 +178,28 @@ export const HeaderPaymentsReport = ({ total }) => {
 
 export default class ItemPaymentsReport extends React.Component {
 
+    onPress = ()=>{
+        if(this.props.activeOpacity){
+            this.props.onPress();
+        }
+    }
 
     render() {
         const { backgroundColor, title, txtStyle, value,
-             isChange, amountStatistic
+             isChange, amountStatistic,titStyle,activeOpacity
         } = this.props;
+        const tempActiveOpacity = activeOpacity ? 0.5 : 1;
 
         return (
-            <View style={{
+            <TouchableOpacity 
+            activeOpacity={tempActiveOpacity}
+            onPress={this.onPress}
+            style={{
                 height: scaleSzie(29),
                 flexDirection: "row", backgroundColor: backgroundColor
             }} >
                 <View style={{ justifyContent: "center" }} >
-                    <Text style={[styles.txt_item, { marginLeft: scaleSzie(15), color: "#fff", fontWeight: "400" }, txtStyle]} >
+                    <Text style={[styles.txt_item, { marginLeft: scaleSzie(15), color: "#fff", fontWeight: "400" }, txtStyle,titStyle]} >
                         {title}
                     </Text>
                 </View>
@@ -214,7 +223,7 @@ export default class ItemPaymentsReport extends React.Component {
                         <View style={{ width: scaleSzie(45), justifyContent: "center" }} />
                     </View>
                 }
-            </View>
+            </TouchableOpacity>
         );
     }
 

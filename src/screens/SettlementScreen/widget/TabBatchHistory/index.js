@@ -57,6 +57,10 @@ class TabBatchHistory extends Layout {
         this.scrollTabRef.current.goToPage(3);
     }
 
+    gotoCreditPaymentDetail = () =>{
+        this.scrollTabRef.current.goToPage(4);
+    }
+
 }
 
 const mapStateToProps = state => ({

@@ -40,6 +40,10 @@ class BatchHistoryDetail extends Layout {
     printBatchHistoryDetail = () =>{
         
     }
+
+    gotoCreditPaymentDetail = () =>{
+      this.props.gotoCreditPaymentDetail();
+    }
     
 }
 

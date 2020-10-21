@@ -4,6 +4,7 @@ import BatchHistoryDetail from './BatchHistoryDetail';
 import StaffIncomeDetailsTab from "./StaffIncomeDetailsTab";
 import BatchHistoryList from "./BatchHistoryList";
 import GiftCardSalesDetailsTab from "./GiftCardSalesDetailsTab";
+import CreditPaymentDetail from "./CreditPaymentDetail";
 
 module.exports = {
     ItemSettle,
@@ -11,5 +12,6 @@ module.exports = {
     BatchHistoryDetail,
     StaffIncomeDetailsTab,
     BatchHistoryList,
-    GiftCardSalesDetailsTab
+    GiftCardSalesDetailsTab,
+    CreditPaymentDetail
 }

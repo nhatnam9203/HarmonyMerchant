@@ -135,7 +135,7 @@ class Layout extends React.Component {
         const paymentByCashStatistic = settlementDetail.paymentByCashStatistic ? settlementDetail.paymentByCashStatistic : 0.00;
         const otherPaymentStatistic = settlementDetail.otherPaymentStatistic ? settlementDetail.otherPaymentStatistic : 0.00;
 
-        const paymentByGiftcard =  settlementDetail.paymentByGiftcard ? settlementDetail.paymentByGiftcard : 0.00;
+        const paymentByGiftcard = settlementDetail.paymentByGiftcard ? settlementDetail.paymentByGiftcard : 0.00;
 
         return (
             <View style={{ flex: 1, }} >
@@ -151,6 +151,11 @@ class Layout extends React.Component {
                         title={`Credit Card`}
                         backgroundColor="#075BA0"
                         value={paymentByCreditCard}
+                        titStyle={{
+                            textDecorationLine: "underline"
+                        }}
+                        activeOpacity={true}
+                        onPress={this.gotoCreditPaymentDetail}
                     />
                     <View style={{ height: 1 }} />
                     <ItemPaymentsReport
