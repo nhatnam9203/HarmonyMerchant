@@ -42,7 +42,7 @@ class BatchHistoryDetail extends Layout {
     }
 
     gotoCreditPaymentDetail = () =>{
-      this.props.gotoCreditPaymentDetail();
+      this.props.gotoCreditPaymentDetail({...this.state.settlementDetail});
     }
     
 }

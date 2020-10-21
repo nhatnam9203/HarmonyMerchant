@@ -6,10 +6,10 @@ import { scaleSzie } from '@utils';
 
 export default StyleSheet.create({
     txt_top_title: {
-        color: '#404040',
-        fontSize: scaleSzie(14),
+        color: '#0764B0',
+        fontSize: scaleSzie(16),
         fontWeight: "600",
-        marginTop:scaleSzie(6),
+        marginTop:scaleSzie(20),
         marginLeft:scaleSzie(10)
     },
     txt_header_table: {

@@ -1,13 +1,13 @@
 import React from 'react';
 import {
     View,
-   
+
 } from 'react-native';
 import _ from "ramda";
 
-import { ScrollableTabView} from '@components';
+import { ScrollableTabView } from '@components';
 import styles from './style';
-import { BatchHistoryDetail, StaffIncomeDetailsTab, BatchHistoryList, GiftCardSalesDetailsTab,CreditPaymentDetail } from './widget';
+import { BatchHistoryDetail, StaffIncomeDetailsTab, BatchHistoryList, GiftCardSalesDetailsTab, CreditPaymentDetail } from './widget';
 
 class Layout extends React.Component {
 
@@ -23,7 +23,7 @@ class Layout extends React.Component {
                     renderTabBar={() => <View />}
                 >
                     <BatchHistoryList
-                         ref={this.batchHistoryListRef}
+                        ref={this.batchHistoryListRef}
                         goToBatchHistoryDetail={this.goToBatchHistoryDetail}
                     />
                     <BatchHistoryDetail
@@ -36,7 +36,9 @@ class Layout extends React.Component {
                         ref={this.staffIncomDetailsRef}
                     />
                     <GiftCardSalesDetailsTab />
-                    <CreditPaymentDetail />
+                    <CreditPaymentDetail
+                        ref={this.creditPaymentDetailRef}
+                    />
 
                 </ScrollableTabView>
             </View>

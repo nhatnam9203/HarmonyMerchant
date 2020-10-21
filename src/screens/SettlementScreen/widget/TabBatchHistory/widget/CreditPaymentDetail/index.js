@@ -8,24 +8,20 @@ class CreditPaymentDetail extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-            staffSalesDetail: [],
+            staffSalesDetail: [1, 2, 3],
             staffName: "",
             total: 0,
             sales: 0,
             tax: 0,
-            tip: 0
+            tip: 0,
+            paymentTransaction:[]
         };
     }
 
-    setStateFromParent = async (staffId = 0) => {
-        const { staffSalesDetail, staffName, total, sales, tax, tip } = this.getStaffSalesDetail(staffId);
+    setStateFromParent = async (paymentTransaction) => {
+        console.log("setStateFromParent: ",paymentTransaction);
         await this.setState({
-            staffSalesDetail,
-            staffName,
-            total,
-            sales,
-            tax,
-            tip
+            paymentTransaction
         });
     }
 

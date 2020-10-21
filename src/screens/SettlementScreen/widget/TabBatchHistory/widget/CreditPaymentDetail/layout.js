@@ -16,38 +16,19 @@ import ICON from "@resources";
 class Layout extends React.Component {
 
     render() {
-        const { staffSalesDetail, staffName,  } = this.state;
+        const { paymentTransaction } = this.state;
+        const transactionsCount = paymentTransaction.length > 0 ? paymentTransaction.length : "";
 
         return (
             <View style={{ flex: 1, backgroundColor: "#fff" }} >
                 <Text style={[styles.txt_top_title]} >
-                    {"Staff Income Details"}
+                    {`Credit Card Transactions:      ${transactionsCount}`}
                 </Text>
-
-                {/* --------- Dropdown ---------- */}
-                <View style={{
-                    height: scaleSzie(35), width: scaleSzie(180),
-                    marginLeft: scaleSzie(10), marginTop: scaleSzie(20)
-                }} >
-                    <Dropdown
-                        label={""}
-                        data={this.getDataDropdownStaffSalesList()}
-                        value={staffName}
-                        onChangeText={this.onChangeStaff}
-                        containerStyle={{
-                            backgroundColor: '#fff',
-                            borderWidth: 2,
-                            borderColor: '#CCCCCC',
-                            flex: 1,
-                            borderRadius: 4
-                        }}
-                    />
-                </View>
                 <HeaderTable />
                 {/* --------- Row Table  ---------- */}
                 <View style={{ flex: 1 }} >
                     <FlatList
-                        data={staffSalesDetail}
+                        data={paymentTransaction}
                         renderItem={({ item, index }) => <RowTable data={item} />}
                         keyExtractor={(item, index) => `${item.appointmentCode}_${index}`}
                     />
@@ -65,48 +46,34 @@ const HeaderTable = () => {
             height: scaleSzie(32), backgroundColor: "#F1F1F1", marginTop: scaleSzie(20), flexDirection: "row",
             paddingHorizontal: scaleSzie(10)
         }} >
-            {/* --------- Services / Products  ---------- */}
+            {/* --------- Trans ID  ---------- */}
+            <View style={{ flex: 1.2, justifyContent: "center" }} >
+                <Text style={styles.txt_header_table} >
+                    {`Trans ID`}
+                </Text>
+            </View>
+
+            {/* --------- Invoice  ---------- */}
             <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={styles.txt_header_table} >
-                    {`Services/ Products`}
+                    {`Invoice`}
                 </Text>
             </View>
-            {/* --------- Appointment ID  ---------- */}
-            <View style={{ flex: 0.8, justifyContent: "center" }} >
+
+            {/* --------- Payments  ---------- */}
+            <View style={{ flex: 1, justifyContent: "center", }} >
                 <Text style={styles.txt_header_table} >
-                    {`Appointment ID`}
+                    {`Payments`}
                 </Text>
             </View>
-            {/* --------- Time  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
-                <Text style={styles.txt_header_table} >
-                    {`Time`}
-                </Text>
-            </View>
-            {/* --------- Sales  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
-                <Text style={styles.txt_header_table} >
-                    {`Sales`}
-                </Text>
-            </View>
-            {/* --------- Tax  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
-                <Text style={styles.txt_header_table} >
-                    {`Tax`}
-                </Text>
-            </View>
-            {/* --------- Tip  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
-                <Text style={styles.txt_header_table} >
-                    {`Tip`}
-                </Text>
-            </View>
+
             {/* --------- Amount  ---------- */}
-            <View style={{ flex: 0.7, justifyContent: "center", alignItems: "flex-end" }} >
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end", }} >
                 <Text style={styles.txt_header_table} >
-                    {`Total Sales`}
+                    {`Amount`}
                 </Text>
             </View>
+
         </View>
     );
 }
@@ -116,46 +83,28 @@ const RowTable = ({ data }) => {
         <View style={{
             height: scaleSzie(35), backgroundColor: "#FAFAFA", flexDirection: "row", paddingHorizontal: scaleSzie(10), marginBottom: 2
         }} >
-            {/* --------- Services / Products  ---------- */}
-            <View style={{ flex: 1, justifyContent: "center" }} >
+            {/* --------- Trans ID  ---------- */}
+            <View style={{ flex: 1.2, justifyContent: "center" }} >
                 <Text numberOfLines={1} style={styles.txt_row_table} >
-                    {`${data.name ? data.name : ""}`}
+                    {`#${data.transactionId ? data.transactionId : ""}`}
                 </Text>
             </View>
-            {/* --------- Appointment ID  ---------- */}
-            <View style={{ flex: 0.8, justifyContent: "center" }} >
+            {/* --------- Invoice  ---------- */}
+            <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={styles.txt_row_table} >
-                    {`# ${data.appointmentCode ? data.appointmentCode : ""}`}
+                    {`#${data.checkoutId ? data.checkoutId : ""}`}
                 </Text>
             </View>
-            {/* --------- Time  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
+            {/* --------- Payments  ---------- */}
+            <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={styles.txt_row_table} >
                     {`${formatWithMoment(data.date ? data.date : new Date(), "hh:mm A")}`}
                 </Text>
             </View>
-            {/* --------- Sales  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
+            {/* --------- Amount  ---------- */}
+            <View style={{ flex: 1, justifyContent: "center",alignItems:"flex-end" }} >
                 <Text style={[styles.txt_row_table, { fontWeight: "bold" }]} >
                     {`$ ${data.sales ? data.sales : "0.00"}`}
-                </Text>
-            </View>
-            {/* --------- Tax  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
-                <Text style={[styles.txt_row_table, { fontWeight: "bold" }]} >
-                    {`$ ${data.tax ? data.tax : "0.00"}`}
-                </Text>
-            </View>
-            {/* --------- Tip  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
-                <Text style={[styles.txt_row_table, { fontWeight: "bold" }]} >
-                    {`$ ${data.tip ? data.tip : "0.00"}`}
-                </Text>
-            </View>
-            {/* --------- Amount  ---------- */}
-            <View style={{ flex: 0.7, justifyContent: "center", alignItems: "flex-end" }} >
-                <Text style={[styles.txt_row_table, { fontWeight: "bold" }]} >
-                    {`$ ${data.total ? data.total : "0.00"}`}
                 </Text>
             </View>
         </View>

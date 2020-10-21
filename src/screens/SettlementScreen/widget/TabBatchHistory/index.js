@@ -9,12 +9,12 @@ class TabBatchHistory extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = {
-        };
+        
         this.scrollTabRef = React.createRef();
         this.batchHistoryListRef = React.createRef();
         this.batchHistoryDetailRef = React.createRef();
         this.staffIncomDetailsRef = React.createRef();
+        this.creditPaymentDetailRef =  React.createRef();
     }
 
     setStateFromParent = () =>{
@@ -57,24 +57,22 @@ class TabBatchHistory extends Layout {
         this.scrollTabRef.current.goToPage(3);
     }
 
-    gotoCreditPaymentDetail = () =>{
+    gotoCreditPaymentDetail = (settlementDetail) =>{
+        const paymentTransaction =  settlementDetail.paymentTransaction ? settlementDetail.paymentTransaction : [];
         this.scrollTabRef.current.goToPage(4);
+        if(this.creditPaymentDetailRef.current){
+            this.creditPaymentDetailRef.current.setStateFromParent(paymentTransaction);
+        }else{
+            setTimeout(() =>{
+                this.creditPaymentDetailRef.current.setStateFromParent(paymentTransaction);
+            },300)
+        }
     }
 
 }
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    listBatchHistory: state.invoice.listBatchHistory,
-    listBatchHistorySearch: state.invoice.listBatchHistorySearch,
-    isShowSearchBatchHistory: state.invoice.isShowSearchBatchHistory,
-    refreshingBatchHistory: state.invoice.refreshingBatchHistory,
-    batchHistoryPagesTotal: state.invoice.batchHistoryPagesTotal,
-    batchHistoryPagesCurrent: state.invoice.batchHistoryPagesCurrent,
-    isLoadMoreBatchHistoryList: state.invoice.isLoadMoreBatchHistoryList,
-    searchBatchHistoryKeyword: state.invoice.searchBatchHistoryKeyword
-})
-
-
+});
 
 export default connectRedux(mapStateToProps, TabBatchHistory);

@@ -40,10 +40,6 @@ class Layout extends React.Component {
                                     onSubmitEditing={this.searchBatchHistory}
                                 />
                             </View>
-                            {/* <Button onPress={this.searchBatchHistory} style={{ width: scaleSzie(35), alignItems: 'center', justifyContent: 'center' }} >
-                                <Image source={ICON.search} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                            </Button> */}
-
                             {
                                 keySearch.length > 0 ? <Button onPress={() => this.setState({keySearch:""})} style={{
                                     width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
@@ -114,15 +110,6 @@ class Layout extends React.Component {
                         style={{ width: scaleSzie(30), height: scaleSzie(30) }}
                     />
                 </Button>
-
-                {/* <Button onPress={this.printBatchHistoryList} style={{
-                    position: "absolute", top: scaleSzie(3), right: scaleSzie(50),
-                    justifyContent: "center"
-                }} >
-                    <Image source={ICON.print_batch_history}
-                        style={{ width: scaleSzie(30), height: scaleSzie(30) }}
-                    />
-                </Button> */}
             </View>
         );
     }
