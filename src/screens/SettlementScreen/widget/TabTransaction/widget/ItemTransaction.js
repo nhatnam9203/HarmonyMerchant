@@ -5,28 +5,10 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { scaleSzie, formatWithMoment } from '@utils';
+import { scaleSzie, formatWithMoment ,getCredicardIcon} from '@utils';
 import { Text } from '@components';
 import ICON from '@resources';
 
-function getCredicardIcon(type) {
-    let icon = "";
-    if (`${type}`.indexOf("visa") !== -1) {
-        icon = ICON.visaLogo;
-    } else if (`${type}`.indexOf("mastercard") !== -1) {
-        icon = ICON.masterCardLogo;
-    } else if (`${type}`.indexOf("discover") !== -1) {
-        icon = ICON.discover;
-    } else if (`${type}`.indexOf("americanexpress") !== -1) {
-        icon = ICON.amricanExpressLogo;
-    } else if (`${type}`.indexOf("other") !== -1) {
-        icon = ICON.otherPaymentLogo;
-    } else {
-        icon = ICON.otherPaymentLogo;
-    }
-
-    return icon;
-}
 
 const ItemTransaction = (props) => {
     const { data } = props;

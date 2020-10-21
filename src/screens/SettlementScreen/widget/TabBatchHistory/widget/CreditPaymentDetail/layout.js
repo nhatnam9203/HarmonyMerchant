@@ -6,18 +6,17 @@ import {
 } from 'react-native';
 import _ from 'ramda';
 
-import { scaleSzie, formatMoney, formatWithMoment } from '@utils';
+import { scaleSzie, formatMoney, formatWithMoment,getCredicardIcon } from '@utils';
 import {
-    Text, Button, Dropdown
+    Text
 } from '@components';
 import styles from "./style";
-import ICON from "@resources";
 
 class Layout extends React.Component {
 
     render() {
         const { paymentTransaction } = this.state;
-        const transactionsCount = paymentTransaction.length > 0 ? paymentTransaction.length : "";
+        const transactionsCount = paymentTransaction.length > 0 ? paymentTransaction.length : 0;
 
         return (
             <View style={{ flex: 1, backgroundColor: "#fff" }} >
@@ -79,6 +78,9 @@ const HeaderTable = () => {
 }
 
 const RowTable = ({ data }) => {
+    const creditCardLogo = getCredicardIcon(data.paymentData && data.paymentData.card_type ? `${data.paymentData.card_type}`.toLowerCase() : "");
+    const cardNumber = data.paymentData && data.paymentData.card_number ? data.paymentData.card_number : "";
+
     return (
         <View style={{
             height: scaleSzie(35), backgroundColor: "#FAFAFA", flexDirection: "row", paddingHorizontal: scaleSzie(10), marginBottom: 2
@@ -96,15 +98,20 @@ const RowTable = ({ data }) => {
                 </Text>
             </View>
             {/* --------- Payments  ---------- */}
-            <View style={{ flex: 1, justifyContent: "center" }} >
-                <Text style={styles.txt_row_table} >
-                    {`${formatWithMoment(data.date ? data.date : new Date(), "hh:mm A")}`}
+            <View style={{ flex: 1,alignItems: 'center', flexDirection: 'row' }} >
+                <Image source={creditCardLogo} style={{ width: scaleSzie(30), height: scaleSzie(20) }} />
+                <View style={{ width: 10 }} />
+                <Text style={{
+                      color: '#404040',
+                      fontSize: scaleSzie(12)
+                }} >
+                    {cardNumber}
                 </Text>
             </View>
             {/* --------- Amount  ---------- */}
-            <View style={{ flex: 1, justifyContent: "center",alignItems:"flex-end" }} >
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
                 <Text style={[styles.txt_row_table, { fontWeight: "bold" }]} >
-                    {`$ ${data.sales ? data.sales : "0.00"}`}
+                    {`$ ${data.amount ? data.amount : "0.00"}`}
                 </Text>
             </View>
         </View>

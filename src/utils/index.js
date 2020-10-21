@@ -1031,26 +1031,21 @@ export const BusinessWorkingTime = {
 }
 
 export const getCredicardIcon = (type) => {
-    let icon;
-    switch (type) {
-        case "visa":
-            icon = ICON.visaLogo;
-            break;
-        case "mastercard":
-            icon = ICON.masterCardLogo;
-            break;
-        case "discover":
-            icon = ICON.discover;
-            break;
-        case "americanexpress":
-            icon = ICON.amricanExpressLogo;
-            break;
-        case "other":
-            icon = ICON.otherPaymentLogo;
-            break;
-        default:
-            icon = ICON.visaLogo;
-    };
+    let icon = "";
+    if (`${type}`.indexOf("visa") !== -1) {
+        icon = ICON.visaLogo;
+    } else if (`${type}`.indexOf("mastercard") !== -1) {
+        icon = ICON.masterCardLogo;
+    } else if (`${type}`.indexOf("discover") !== -1) {
+        icon = ICON.discover;
+    } else if (`${type}`.indexOf("americanexpress") !== -1) {
+        icon = ICON.amricanExpressLogo;
+    } else if (`${type}`.indexOf("other") !== -1) {
+        icon = ICON.otherPaymentLogo;
+    } else {
+        icon = ICON.otherPaymentLogo;
+    }
+
     return icon;
 }
 

@@ -385,7 +385,7 @@ const ItemOpenBatchTable = ({ data }) => {
                 </Text>
             </View>
             <View style={{ flex: 0.9, alignItems: "center", flexDirection: "row" }} >
-                <Image source={getCredicardIcon(data.paymentData && data.paymentData.card_type ? data.paymentData.card_type : "")}
+                <Image source={getCredicardIcon(data.paymentData && data.paymentData.card_type ? `${data.paymentData.card_type}`.toLowerCase() : "")}
                     style={{ width: scaleSzie(17), height: scaleSzie(12), marginRight: scaleSzie(5) }}
                 />
                 <Text style={styles.txt_item_open_batch_table} >
