@@ -100,7 +100,7 @@ class Layout extends React.Component {
         }
 
         return (
-            <View style={{ flex: 1.1, }} >
+            <View style={{ flex: 1.3, }} >
                 {/* ---------- Header --------- */}
                 <View style={[styles.box_scale_by_staffs]} >
                     <StaffsHeaderTable />

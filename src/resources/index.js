@@ -92,6 +92,7 @@ export default {
   clear_text_input: require('./img/closePopup.png'),
   camera_switcher: require('./img/camera_switcher.png'),
   update_code_push: require('./img/update_code_push.png'),
+  sms_logo: require('./img/sms_logo.png'),
 
   // --- Payment ---
   cash_payment_se: require('./payment/cash_payment_se.png'),

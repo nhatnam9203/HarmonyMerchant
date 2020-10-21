@@ -23,25 +23,25 @@ export const StaffsHeaderTable = () => {
             {/* ---------- Name -------- */}
             <View style={[{ flex: 1, paddingLeft: scaleSzie(13) }, styles.container]} >
                 <Text style={styles.txt_normal} >
-                    Name
+                    {`Name`}
                 </Text>
             </View>
             {/* ---------- Sales -------- */}
             <View style={[{ flex: 0.6 }, styles.container]} >
                 <Text style={styles.txt_normal} >
-                    Sales
+                    {`Sales`}
                 </Text>
             </View>
             {/* ---------- Tax -------- */}
             <View style={[{ flex: 0.5 }, styles.container]} >
                 <Text style={styles.txt_normal} >
-                    Tax
+                    {`Tax`}
                 </Text>
             </View>
             {/* ---------- Tip -------- */}
             <View style={[{ flex: 0.5 }, styles.container]} >
                 <Text style={styles.txt_normal} >
-                    Tip
+                    {`Tip`}
                 </Text>
             </View>
             {/* ---------- Total Sales -------- */}
@@ -50,11 +50,13 @@ export const StaffsHeaderTable = () => {
                     {`Total Sales`}
                 </Text>
             </View>
+             {/* ---------- SMS -------- */}
+            <View style={{width:scaleSzie(30)}} />
         </View>
     );
 }
 
-export const StaffsItem = ({ staff, onPress }) => {
+export const StaffsItem = ({ staff, onPress ,sendTotalViaSMS}) => {
 
     return (
         <Button onPress={() => onPress(staff.staffId ? staff.staffId : 0)} style={{
@@ -93,6 +95,12 @@ export const StaffsItem = ({ staff, onPress }) => {
                 </Text>
                 <Image source={ICON.staff_invoice} style={{ marginRight: scaleSzie(8) }} />
             </View>
+            {/* ---------- SMS -------- */}
+            <Button onPress={() => sendTotalViaSMS(staff)} style={{width:scaleSzie(30),justifyContent:"center",alignItems:"center"}} >
+                <Image source={ICON.sms_logo} 
+                // style={{height:scaleSzie(15),width:scaleSzie(15)}} 
+                />
+            </Button>
         </Button>
     );
 }
@@ -123,6 +131,8 @@ export const GiftCardItem = ({ total, onPress }) => {
                 </Text>
                 <Image source={ICON.staff_invoice_blue} style={{ marginRight: scaleSzie(8) }} />
             </View>
+            {/* ---------- SMS -------- */}
+            <View style={{width:scaleSzie(30)}} />
         </Button>
     );
 }

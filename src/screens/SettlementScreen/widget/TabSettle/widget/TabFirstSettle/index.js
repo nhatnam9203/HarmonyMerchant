@@ -316,8 +316,10 @@ class TabFirstSettle extends Layout {
         this.props.actions.invoice.getSettlementWating();
         this.props.actions.invoice.getListStaffsSales();
         this.props.actions.invoice.getListGiftCardSales();
+    }
 
-
+    sendTotalViaSMS = (data) =>{
+        console.log(JSON.stringify(data));
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {

@@ -122,7 +122,7 @@ class Layout extends React.Component {
         }
 
         return (
-            <View style={{ flex: 1.1, }} >
+            <View style={{ flex: 1.3, }} >
                 {/* ---------- Header --------- */}
                 <View style={[styles.box_scale_by_staffs]} >
                     <StaffsHeaderTable />
@@ -131,6 +131,7 @@ class Layout extends React.Component {
                         renderItem={({ item, index }) => <StaffsItem
                             staff={item}
                             onPress={this.onPressStaff}
+                            sendTotalViaSMS={this.sendTotalViaSMS}
                         />}
                         keyExtractor={(item, index) => `${item.staffId}_${index}`}
                         ListFooterComponent={() => <GiftCardItem
