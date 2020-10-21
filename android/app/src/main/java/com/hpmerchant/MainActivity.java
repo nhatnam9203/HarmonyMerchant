@@ -4,6 +4,8 @@ import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
+import android.content.Intent;
+import com.tkporter.sendsms.SendSMSPackage;
 
 public class MainActivity extends ReactActivity {
 
@@ -25,5 +27,12 @@ public class MainActivity extends ReactActivity {
      }
    };
  }
+
+ @Override
+public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	super.onActivityResult(requestCode, resultCode, data);
+	//probably some other stuff here
+	SendSMSPackage.getInstance().onActivityResult(requestCode, resultCode, data);
+}
  
 }

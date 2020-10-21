@@ -1,7 +1,8 @@
 import React from 'react';
-import { NativeModules, Alert } from 'react-native';
+import { NativeModules, Alert ,Linking,Platform} from 'react-native';
 import _ from "ramda";
 import env from 'react-native-config';
+import SendSMS from 'react-native-sms'
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -9,6 +10,7 @@ import {
     formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI,
 } from '@utils';
 import apiConfigs from '@configs/api';
+import Share from 'react-native-share';
 
 const PosLink = NativeModules.MyApp;
 
@@ -318,9 +320,50 @@ class TabFirstSettle extends Layout {
         this.props.actions.invoice.getListGiftCardSales();
     }
 
-    sendTotalViaSMS = (data) =>{
-        console.log(JSON.stringify(data));
+    sendTotalViaSMS_ = async (data) => {
+        try {
+            const { listStaffByMerchant } = this.props;
+            const staffInfo = listStaffByMerchant.find(staff => staff.staffId === data.staffId);
+            if (staffInfo) {
+                const shareOptions = {
+                    title: 'hhh',
+                    social: Share.Social.SMS,
+                    recipient: `0339133571`,
+                    message: 'Hi Phi',
+                    urls: [],
+                };
+
+                const ShareResponse = await Share.shareSingle(shareOptions);
+                alert(JSON.stringify(ShareResponse, null, 2))
+            }
+
+        } catch (error) {
+            alert(error)
+        }
     }
+
+    sendTotalViaSMS = async () => {
+        // const url = (Platform.OS === 'android') ? 'sms:919999999999?body=your message' : 'sms:919999999999?body=your message'
+        // Linking.canOpenURL(url).then(supported => {
+        //     if (!supported) {
+        //         console.log('Unsupported url: ' + url)
+        //     } else {
+        //         return Linking.openURL(url)
+        //     }
+        // }).catch(err => console.error('An error occurred', err))
+        SendSMS.send({
+            body: 'The default body of the SMS!',
+            recipients: ['0123456789', '9876543210'],
+            successTypes: ['sent', 'queued'],
+            allowAndroidSendWithoutReadPermission: true,
+            // attachment: attachment
+        }, (completed, cancelled, error) => {
+    
+            console.log('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);
+    
+        });
+    }
+
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isGettingSettlement, settleWaiting } = this.props;
@@ -356,7 +399,8 @@ const mapStateToProps = state => ({
     versionApp: state.dataLocal.versionApp,
     profileStaffLogin: state.dataLocal.profileStaffLogin,
     staffSales: state.invoice.staffSales,
-    gitfCardSales: state.invoice.gitfCardSales
+    gitfCardSales: state.invoice.gitfCardSales,
+    listStaffByMerchant: state.staff.listStaffByMerchant
 })
 
 

@@ -31,7 +31,7 @@ class SplashScreen extends Layout {
             if (res && res.isNeeded) {
                 Alert.alert(
                     'Notification!',
-                    `The HarmonyPay Salon POS had new version on Apple Store. Press OK to update!`,
+                    `The HarmonyPay Salon POS had a new version on Apple Store. Press OK to update!`,
                     [
                         {
                             text: 'OK', onPress: () => {
