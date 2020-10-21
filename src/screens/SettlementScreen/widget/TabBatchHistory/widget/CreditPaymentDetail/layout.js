@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import _ from 'ramda';
 
-import { scaleSzie, formatMoney, formatWithMoment,getCredicardIcon } from '@utils';
+import { scaleSzie, formatMoney, formatWithMoment, getCredicardIcon } from '@utils';
 import {
     Text
 } from '@components';
@@ -15,7 +15,7 @@ import styles from "./style";
 class Layout extends React.Component {
 
     render() {
-        const { paymentTransaction } = this.state;
+        const { paymentTransaction ,paymentByCreditCard} = this.state;
         const transactionsCount = paymentTransaction.length > 0 ? paymentTransaction.length : 0;
 
         return (
@@ -31,6 +31,26 @@ class Layout extends React.Component {
                         renderItem={({ item, index }) => <RowTable data={item} />}
                         keyExtractor={(item, index) => `${item.appointmentCode}_${index}`}
                     />
+                </View>
+                {/* --------- Footer Table  ---------- */}
+                <View style={{
+                    height: scaleSzie(32),  backgroundColor: "#0764B0", marginTop: scaleSzie(20), flexDirection: "row",
+                    paddingHorizontal: scaleSzie(10)
+                }} >
+                    <View style={{ flex: 1.2, justifyContent: "center", }} >
+                        <Text style={[styles.txt_header_table,{color:"#fff"}]} >
+                            {`Total`}
+                        </Text>
+                    </View>
+
+                    <View style={{ flex: 1}} />
+                    <View style={{ flex: 1 }} />
+                    <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end", }} >
+                        <Text style={[styles.txt_header_table,,{color:"#fff"}]} >
+                            {`$ ${paymentByCreditCard}`}
+                        </Text>
+                    </View>
+
                 </View>
             </View>
         );
@@ -98,12 +118,12 @@ const RowTable = ({ data }) => {
                 </Text>
             </View>
             {/* --------- Payments  ---------- */}
-            <View style={{ flex: 1,alignItems: 'center', flexDirection: 'row' }} >
+            <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
                 <Image source={creditCardLogo} style={{ width: scaleSzie(30), height: scaleSzie(20) }} />
                 <View style={{ width: 10 }} />
                 <Text style={{
-                      color: '#404040',
-                      fontSize: scaleSzie(12)
+                    color: '#404040',
+                    fontSize: scaleSzie(12)
                 }} >
                     {cardNumber}
                 </Text>

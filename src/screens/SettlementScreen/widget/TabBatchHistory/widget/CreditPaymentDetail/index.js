@@ -8,68 +8,16 @@ class CreditPaymentDetail extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-            staffSalesDetail: [1, 2, 3],
-            staffName: "",
-            total: 0,
-            sales: 0,
-            tax: 0,
-            tip: 0,
-            paymentTransaction:[]
+            paymentTransaction:[],
+            paymentByCreditCard:0.00
         };
     }
 
-    setStateFromParent = async (paymentTransaction) => {
-        console.log("setStateFromParent: ",paymentTransaction);
+    setStateFromParent = async (paymentTransaction,paymentByCreditCard) => {
         await this.setState({
-            paymentTransaction
+            paymentTransaction,
+            paymentByCreditCard
         });
-    }
-
-    getStaffSalesDetail = (staffId = 0) => {
-        const { staffSalesBySettlementId } = this.props;
-        let staffSalesDetail = [];
-        let staffName = "";
-        let total = 0;
-        for (let i = 0; i < staffSalesBySettlementId.length; i++) {
-            if (staffSalesBySettlementId[i].staffId === staffId) {
-                staffSalesDetail = [...staffSalesBySettlementId[i].details];
-                staffName = staffSalesBySettlementId[i].name;
-                total = staffSalesBySettlementId[i].total;
-                sales = staffSalesBySettlementId[i].sales;
-                tax = staffSalesBySettlementId[i].tax;
-                tip = staffSalesBySettlementId[i].tip;
-                break;
-            }
-        }
-        return { staffSalesDetail, staffName, total, sales, tax, tip };
-    }
-
-    onChangeStaff = async (value, index, data) => {
-        const staffId = data[index].staffId ? data[index].staffId : 0;
-        const { staffSalesDetail, staffName, total, sales, tax, tip } = this.getStaffSalesDetail(staffId);
-        await this.setState({
-            staffSalesDetail,
-            staffName,
-            total,
-            sales,
-            tax,
-            tip
-        });
-    }
-
-    getDataDropdownStaffSalesList = () => {
-        const { staffSalesBySettlementId } = this.props;
-        const data = staffSalesBySettlementId.map((staff) => {
-            return {
-                value: staff.name ? staff.name : "",
-                staffId: staff.staffId ? staff.staffId : 0
-            }
-        });
-        return data;
-    }
-
-    backHomeTab = () => {
-        this.props.backHomeTab();
     }
 
 }

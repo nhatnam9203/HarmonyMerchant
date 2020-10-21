@@ -59,12 +59,13 @@ class TabBatchHistory extends Layout {
 
     gotoCreditPaymentDetail = (settlementDetail) =>{
         const paymentTransaction =  settlementDetail.paymentTransaction ? settlementDetail.paymentTransaction : [];
+        const paymentByCreditCard = settlementDetail.paymentByCreditCard ? settlementDetail.paymentByCreditCard : 0.00;
         this.scrollTabRef.current.goToPage(4);
         if(this.creditPaymentDetailRef.current){
-            this.creditPaymentDetailRef.current.setStateFromParent(paymentTransaction);
+            this.creditPaymentDetailRef.current.setStateFromParent(paymentTransaction,paymentByCreditCard);
         }else{
             setTimeout(() =>{
-                this.creditPaymentDetailRef.current.setStateFromParent(paymentTransaction);
+                this.creditPaymentDetailRef.current.setStateFromParent(paymentTransaction,paymentByCreditCard);
             },300)
         }
     }

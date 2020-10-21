@@ -8,7 +8,7 @@ class BatchHistoryDetail extends Layout {
     constructor(props) {
         super(props);
         this.state = {
-            settlementDetail:{}
+            settlementDetail: {}
         };
     }
 
@@ -24,27 +24,28 @@ class BatchHistoryDetail extends Layout {
     }
 
     onPressGiftCardTotal = () => {
-        const {gitfCardSalesBySettlementId} = this.props;
-        if(gitfCardSalesBySettlementId.length > 0){
+        const { gitfCardSalesBySettlementId } = this.props;
+        if (gitfCardSalesBySettlementId.length > 0) {
             this.props.onPressGiftCardTotal();
             this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(`1`);
         }
     }
 
-    shareBatchHistoryDetail = () =>{
-        const {settlementDetail} = this.state;
-        const settlementId = settlementDetail.settlementId ?  settlementDetail.settlementId : 0;
+    shareBatchHistoryDetail = () => {
+        const { settlementDetail } = this.state;
+        const settlementId = settlementDetail.settlementId ? settlementDetail.settlementId : 0;
         this.props.actions.upload.exportBatchDetail(settlementId);
     }
 
-    printBatchHistoryDetail = () =>{
-        
+    printBatchHistoryDetail = () => {
+
     }
 
-    gotoCreditPaymentDetail = () =>{
-      this.props.gotoCreditPaymentDetail({...this.state.settlementDetail});
+    gotoCreditPaymentDetail = () => {
+        this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(`1`);
+        this.props.gotoCreditPaymentDetail({ ...this.state.settlementDetail });
     }
-    
+
 }
 
 const mapStateToProps = state => ({
