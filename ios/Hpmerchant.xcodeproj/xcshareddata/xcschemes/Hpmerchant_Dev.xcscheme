@@ -14,7 +14,7 @@
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
-                     BlueprintIdentifier = "23644C8525149E7C00D59096"
+                     BlueprintIdentifier = "2388BEFB253FEC34007B4A7A"
                      BuildableName = "Hpmerchant_Dev.app"
                      BlueprintName = "Hpmerchant_Dev"
                      ReferencedContainer = "container:Hpmerchant.xcodeproj">
@@ -46,7 +46,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "23644C8525149E7C00D59096"
+               BlueprintIdentifier = "2388BEFB253FEC34007B4A7A"
                BuildableName = "Hpmerchant_Dev.app"
                BlueprintName = "Hpmerchant_Dev"
                ReferencedContainer = "container:Hpmerchant.xcodeproj">
@@ -63,7 +63,7 @@
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -76,7 +76,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "23644C8525149E7C00D59096"
+            BlueprintIdentifier = "2388BEFB253FEC34007B4A7A"
             BuildableName = "Hpmerchant_Dev.app"
             BlueprintName = "Hpmerchant_Dev"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
@@ -93,7 +93,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "23644C8525149E7C00D59096"
+            BlueprintIdentifier = "2388BEFB253FEC34007B4A7A"
             BuildableName = "Hpmerchant_Dev.app"
             BlueprintName = "Hpmerchant_Dev"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">

@@ -58,88 +58,92 @@
 		2342066222DD7C1800E0EA35 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */; };
 		2342066422DD7C2600E0EA35 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
 		2342066622DD7C3100E0EA35 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
-		23644C8825149E7C00D59096 /* RNBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008C24DBC6DD00BAA83B /* RNBarChartManager.swift */; };
-		23644C8925149E7C00D59096 /* RNBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008E24DBC6DD00BAA83B /* RNBarChartView.swift */; };
-		23644C8A25149E7C00D59096 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
-		23644C8B25149E7C00D59096 /* RNChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009624DBC6DD00BAA83B /* RNChartViewBase.swift */; };
-		23644C8C25149E7C00D59096 /* BarDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008A24DBC6DD00BAA83B /* BarDataExtract.swift */; };
-		23644C8D25149E7C00D59096 /* DataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009824DBC6DD00BAA83B /* DataExtract.swift */; };
-		23644C8E25149E7C00D59096 /* LargeValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006224DBC6DD00BAA83B /* LargeValueFormatter.swift */; };
-		23644C8F25149E7C00D59096 /* RNRadarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009424DBC6DD00BAA83B /* RNRadarChartView.swift */; };
-		23644C9025149E7C00D59096 /* FontUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006424DBC6DD00BAA83B /* FontUtils.swift */; };
-		23644C9125149E7C00D59096 /* RNRadarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C009324DBC6DD00BAA83B /* RNRadarChartManagerBridge.m */; };
-		23644C9225149E7C00D59096 /* RNScatterChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007824DBC6DD00BAA83B /* RNScatterChartManager.swift */; };
-		23644C9325149E7C00D59096 /* RNBarLineChartBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007024DBC6DD00BAA83B /* RNBarLineChartBaseManager.swift */; };
-		23644C9425149E7C00D59096 /* RNCandleStickChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008424DBC6DD00BAA83B /* RNCandleStickChartManager.swift */; };
-		23644C9525149E7C00D59096 /* RNBubbleChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006C24DBC6DD00BAA83B /* RNBubbleChartView.swift */; };
-		23644C9625149E7C00D59096 /* RNBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C008D24DBC6DD00BAA83B /* RNBarChartManagerBridge.m */; };
-		23644C9725149E7C00D59096 /* HighlightUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006724DBC6DD00BAA83B /* HighlightUtils.swift */; };
-		23644C9825149E7C00D59096 /* RNCombinedChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C005B24DBC6DD00BAA83B /* RNCombinedChartManagerBridge.m */; };
-		23644C9925149E7C00D59096 /* ScatterDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007B24DBC6DD00BAA83B /* ScatterDataExtract.swift */; };
-		23644C9A25149E7C00D59096 /* RNHorizontalBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008F24DBC6DD00BAA83B /* RNHorizontalBarChartView.swift */; };
-		23644C9B25149E7C00D59096 /* RNRadarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009524DBC6DD00BAA83B /* RNRadarChartManager.swift */; };
-		23644C9C25149E7C00D59096 /* RNHorizontalBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C009024DBC6DD00BAA83B /* RNHorizontalBarChartManagerBridge.m */; };
-		23644C9D25149E7C00D59096 /* LineDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008024DBC6DD00BAA83B /* LineDataExtract.swift */; };
-		23644C9E25149E7C00D59096 /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
-		23644C9F25149E7C00D59096 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005E24DBC6DD00BAA83B /* BalloonMarker.swift */; };
-		23644CA025149E7C00D59096 /* RNBarChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008924DBC6DD00BAA83B /* RNBarChartViewBase.swift */; };
-		23644CA125149E7C00D59096 /* RNLineChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007F24DBC6DD00BAA83B /* RNLineChartManagerBridge.m */; };
-		23644CA225149E7C00D59096 /* RadarDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009224DBC6DD00BAA83B /* RadarDataExtract.swift */; };
-		23644CA325149E7C00D59096 /* RNCombinedChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005924DBC6DD00BAA83B /* RNCombinedChartView.swift */; };
-		23644CA425149E7C00D59096 /* RNBarLineChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005F24DBC6DD00BAA83B /* RNBarLineChartViewBase.swift */; };
-		23644CA525149E7C00D59096 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		23644CA625149E7C00D59096 /* RNHorizontalBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008B24DBC6DD00BAA83B /* RNHorizontalBarChartManager.swift */; };
-		23644CA725149E7C00D59096 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		23644CA825149E7C00D59096 /* RNCandleStickChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008324DBC6DD00BAA83B /* RNCandleStickChartView.swift */; };
-		23644CA925149E7C00D59096 /* RNCombinedChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005A24DBC6DD00BAA83B /* RNCombinedChartManager.swift */; };
-		23644CAA25149E7C00D59096 /* RNBubbleChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C006E24DBC6DD00BAA83B /* RNBubbleChartManagerBridge.m */; };
-		23644CAB25149E7C00D59096 /* EntryToDictionaryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006524DBC6DD00BAA83B /* EntryToDictionaryUtils.swift */; };
-		23644CAC25149E7C00D59096 /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
-		23644CAD25149E7C00D59096 /* ChartDataSetConfigUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006624DBC6DD00BAA83B /* ChartDataSetConfigUtils.swift */; };
-		23644CAE25149E7C00D59096 /* BubbleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006D24DBC6DD00BAA83B /* BubbleDataExtract.swift */; };
-		23644CAF25149E7C00D59096 /* ChartGroupHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009724DBC6DD00BAA83B /* ChartGroupHolder.swift */; };
-		23644CB025149E7C00D59096 /* RNPieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007324DBC6DD00BAA83B /* RNPieChartView.swift */; };
-		23644CB125149E7C00D59096 /* CandleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008224DBC6DD00BAA83B /* CandleDataExtract.swift */; };
-		23644CB225149E7C00D59096 /* RNPieChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007424DBC6DD00BAA83B /* RNPieChartManagerBridge.m */; };
-		23644CB325149E7C00D59096 /* RNScatterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007924DBC6DD00BAA83B /* RNScatterChartView.swift */; };
-		23644CB425149E7C00D59096 /* RNCandleStickChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C008524DBC6DD00BAA83B /* RNCandleStickChartManagerBridge.m */; };
-		23644CB525149E7C00D59096 /* RNLineChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007E24DBC6DD00BAA83B /* RNLineChartManager.swift */; };
-		23644CB625149E7C00D59096 /* CombinedDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005C24DBC6DD00BAA83B /* CombinedDataExtract.swift */; };
-		23644CB725149E7C00D59096 /* PieDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007524DBC6DD00BAA83B /* PieDataExtract.swift */; };
-		23644CB825149E7C00D59096 /* RNScatterChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007A24DBC6DD00BAA83B /* RNScatterChartManagerBridge.m */; };
-		23644CB925149E7C00D59096 /* RNPieChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007624DBC6DD00BAA83B /* RNPieChartManager.swift */; };
-		23644CBA25149E7C00D59096 /* RNLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007D24DBC6DD00BAA83B /* RNLineChartView.swift */; };
-		23644CBB25149E7C00D59096 /* ChartDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006124DBC6DD00BAA83B /* ChartDateFormatter.swift */; };
-		23644CBC25149E7C00D59096 /* CustomChartDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006F24DBC6DD00BAA83B /* CustomChartDateFormatter.swift */; };
-		23644CBD25149E7C00D59096 /* RNYAxisChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005D24DBC6DD00BAA83B /* RNYAxisChartViewBase.swift */; };
-		23644CBE25149E7C00D59096 /* BridgeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006824DBC6DD00BAA83B /* BridgeUtils.swift */; };
-		23644CBF25149E7C00D59096 /* RNBubbleChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006B24DBC6DD00BAA83B /* RNBubbleChartManager.swift */; };
-		23644CC025149E7C00D59096 /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
-		23644CC225149E7C00D59096 /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
-		23644CC325149E7C00D59096 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
-		23644CC425149E7C00D59096 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
-		23644CC525149E7C00D59096 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
-		23644CC625149E7C00D59096 /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342065F22DD7C1700E0EA35 /* StarIO.framework */; };
-		23644CC725149E7C00D59096 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */; };
-		23644CC825149E7C00D59096 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
-		23644CC925149E7C00D59096 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
-		23644CCA25149E7C00D59096 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		23644CCB25149E7C00D59096 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		23644CCC25149E7C00D59096 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
-		23644CCD25149E7C00D59096 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
-		23644CCE25149E7C00D59096 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
-		23644CCF25149E7C00D59096 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
-		23644CD025149E7C00D59096 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
-		23644CD125149E7C00D59096 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
-		23644CD225149E7C00D59096 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		23644CD325149E7C00D59096 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
-		23644CD425149E7C00D59096 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
-		23644CD525149E7C00D59096 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F14B6172B346F0950939FF /* libRNGestureHandler.a */; };
-		23644CD625149E7C00D59096 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
-		23644CD925149E7C00D59096 /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D1CE61916DC4F27B8E39081 /* libRNSpringScrollView.a */; };
-		23644CDB25149E7C00D59096 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		23644CDC25149E7C00D59096 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
-		23644CDD25149E7C00D59096 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36F619BA2500D81B00893A84 /* GoogleService-Info.plist */; };
+		2388BDCF253FE9A3007B4A7A /* staging.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2388BDCE253FE9A3007B4A7A /* staging.plist */; };
+		2388BEFE253FEC34007B4A7A /* RNBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008C24DBC6DD00BAA83B /* RNBarChartManager.swift */; };
+		2388BEFF253FEC34007B4A7A /* RNBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008E24DBC6DD00BAA83B /* RNBarChartView.swift */; };
+		2388BF00253FEC34007B4A7A /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
+		2388BF01253FEC34007B4A7A /* RNChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009624DBC6DD00BAA83B /* RNChartViewBase.swift */; };
+		2388BF02253FEC34007B4A7A /* BarDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008A24DBC6DD00BAA83B /* BarDataExtract.swift */; };
+		2388BF03253FEC34007B4A7A /* DataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009824DBC6DD00BAA83B /* DataExtract.swift */; };
+		2388BF04253FEC34007B4A7A /* LargeValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006224DBC6DD00BAA83B /* LargeValueFormatter.swift */; };
+		2388BF05253FEC34007B4A7A /* RNRadarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009424DBC6DD00BAA83B /* RNRadarChartView.swift */; };
+		2388BF06253FEC34007B4A7A /* FontUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006424DBC6DD00BAA83B /* FontUtils.swift */; };
+		2388BF07253FEC34007B4A7A /* RNRadarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C009324DBC6DD00BAA83B /* RNRadarChartManagerBridge.m */; };
+		2388BF08253FEC34007B4A7A /* RNScatterChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007824DBC6DD00BAA83B /* RNScatterChartManager.swift */; };
+		2388BF09253FEC34007B4A7A /* RNBarLineChartBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007024DBC6DD00BAA83B /* RNBarLineChartBaseManager.swift */; };
+		2388BF0A253FEC34007B4A7A /* RNCandleStickChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008424DBC6DD00BAA83B /* RNCandleStickChartManager.swift */; };
+		2388BF0B253FEC34007B4A7A /* RNBubbleChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006C24DBC6DD00BAA83B /* RNBubbleChartView.swift */; };
+		2388BF0C253FEC34007B4A7A /* RNBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C008D24DBC6DD00BAA83B /* RNBarChartManagerBridge.m */; };
+		2388BF0D253FEC34007B4A7A /* HighlightUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006724DBC6DD00BAA83B /* HighlightUtils.swift */; };
+		2388BF0E253FEC34007B4A7A /* RNCombinedChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C005B24DBC6DD00BAA83B /* RNCombinedChartManagerBridge.m */; };
+		2388BF0F253FEC34007B4A7A /* ScatterDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007B24DBC6DD00BAA83B /* ScatterDataExtract.swift */; };
+		2388BF10253FEC34007B4A7A /* RNHorizontalBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008F24DBC6DD00BAA83B /* RNHorizontalBarChartView.swift */; };
+		2388BF11253FEC34007B4A7A /* RNRadarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009524DBC6DD00BAA83B /* RNRadarChartManager.swift */; };
+		2388BF12253FEC34007B4A7A /* RNHorizontalBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C009024DBC6DD00BAA83B /* RNHorizontalBarChartManagerBridge.m */; };
+		2388BF13253FEC34007B4A7A /* LineDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008024DBC6DD00BAA83B /* LineDataExtract.swift */; };
+		2388BF14253FEC34007B4A7A /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
+		2388BF15253FEC34007B4A7A /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005E24DBC6DD00BAA83B /* BalloonMarker.swift */; };
+		2388BF16253FEC34007B4A7A /* RNBarChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008924DBC6DD00BAA83B /* RNBarChartViewBase.swift */; };
+		2388BF17253FEC34007B4A7A /* RNLineChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007F24DBC6DD00BAA83B /* RNLineChartManagerBridge.m */; };
+		2388BF18253FEC34007B4A7A /* RadarDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009224DBC6DD00BAA83B /* RadarDataExtract.swift */; };
+		2388BF19253FEC34007B4A7A /* RNCombinedChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005924DBC6DD00BAA83B /* RNCombinedChartView.swift */; };
+		2388BF1A253FEC34007B4A7A /* RNBarLineChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005F24DBC6DD00BAA83B /* RNBarLineChartViewBase.swift */; };
+		2388BF1B253FEC34007B4A7A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		2388BF1C253FEC34007B4A7A /* RNHorizontalBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008B24DBC6DD00BAA83B /* RNHorizontalBarChartManager.swift */; };
+		2388BF1D253FEC34007B4A7A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		2388BF1E253FEC34007B4A7A /* RNCandleStickChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008324DBC6DD00BAA83B /* RNCandleStickChartView.swift */; };
+		2388BF1F253FEC34007B4A7A /* RNCombinedChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005A24DBC6DD00BAA83B /* RNCombinedChartManager.swift */; };
+		2388BF20253FEC34007B4A7A /* RNBubbleChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C006E24DBC6DD00BAA83B /* RNBubbleChartManagerBridge.m */; };
+		2388BF21253FEC34007B4A7A /* EntryToDictionaryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006524DBC6DD00BAA83B /* EntryToDictionaryUtils.swift */; };
+		2388BF22253FEC34007B4A7A /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
+		2388BF23253FEC34007B4A7A /* ChartDataSetConfigUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006624DBC6DD00BAA83B /* ChartDataSetConfigUtils.swift */; };
+		2388BF24253FEC34007B4A7A /* BubbleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006D24DBC6DD00BAA83B /* BubbleDataExtract.swift */; };
+		2388BF25253FEC34007B4A7A /* ChartGroupHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009724DBC6DD00BAA83B /* ChartGroupHolder.swift */; };
+		2388BF26253FEC34007B4A7A /* RNPieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007324DBC6DD00BAA83B /* RNPieChartView.swift */; };
+		2388BF27253FEC34007B4A7A /* CandleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008224DBC6DD00BAA83B /* CandleDataExtract.swift */; };
+		2388BF28253FEC34007B4A7A /* RNPieChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007424DBC6DD00BAA83B /* RNPieChartManagerBridge.m */; };
+		2388BF29253FEC34007B4A7A /* RNScatterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007924DBC6DD00BAA83B /* RNScatterChartView.swift */; };
+		2388BF2A253FEC34007B4A7A /* RNCandleStickChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C008524DBC6DD00BAA83B /* RNCandleStickChartManagerBridge.m */; };
+		2388BF2B253FEC34007B4A7A /* RNLineChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007E24DBC6DD00BAA83B /* RNLineChartManager.swift */; };
+		2388BF2C253FEC34007B4A7A /* CombinedDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005C24DBC6DD00BAA83B /* CombinedDataExtract.swift */; };
+		2388BF2D253FEC34007B4A7A /* PieDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007524DBC6DD00BAA83B /* PieDataExtract.swift */; };
+		2388BF2E253FEC34007B4A7A /* RNScatterChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007A24DBC6DD00BAA83B /* RNScatterChartManagerBridge.m */; };
+		2388BF2F253FEC34007B4A7A /* RNPieChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007624DBC6DD00BAA83B /* RNPieChartManager.swift */; };
+		2388BF30253FEC34007B4A7A /* RNLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C007D24DBC6DD00BAA83B /* RNLineChartView.swift */; };
+		2388BF31253FEC34007B4A7A /* ChartDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006124DBC6DD00BAA83B /* ChartDateFormatter.swift */; };
+		2388BF32253FEC34007B4A7A /* CustomChartDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006F24DBC6DD00BAA83B /* CustomChartDateFormatter.swift */; };
+		2388BF33253FEC34007B4A7A /* RNYAxisChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005D24DBC6DD00BAA83B /* RNYAxisChartViewBase.swift */; };
+		2388BF34253FEC34007B4A7A /* BridgeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006824DBC6DD00BAA83B /* BridgeUtils.swift */; };
+		2388BF35253FEC34007B4A7A /* RNBubbleChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006B24DBC6DD00BAA83B /* RNBubbleChartManager.swift */; };
+		2388BF36253FEC34007B4A7A /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
+		2388BF38253FEC34007B4A7A /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
+		2388BF39253FEC34007B4A7A /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
+		2388BF3A253FEC34007B4A7A /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
+		2388BF3B253FEC34007B4A7A /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
+		2388BF3C253FEC34007B4A7A /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342065F22DD7C1700E0EA35 /* StarIO.framework */; };
+		2388BF3D253FEC34007B4A7A /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */; };
+		2388BF3E253FEC34007B4A7A /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
+		2388BF3F253FEC34007B4A7A /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		2388BF40253FEC34007B4A7A /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		2388BF41253FEC34007B4A7A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		2388BF42253FEC34007B4A7A /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
+		2388BF43253FEC34007B4A7A /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
+		2388BF44253FEC34007B4A7A /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
+		2388BF45253FEC34007B4A7A /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
+		2388BF46253FEC34007B4A7A /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
+		2388BF47253FEC34007B4A7A /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
+		2388BF48253FEC34007B4A7A /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		2388BF49253FEC34007B4A7A /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
+		2388BF4A253FEC34007B4A7A /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
+		2388BF4B253FEC34007B4A7A /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F14B6172B346F0950939FF /* libRNGestureHandler.a */; };
+		2388BF4C253FEC34007B4A7A /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
+		2388BF4D253FEC34007B4A7A /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		2388BF4E253FEC34007B4A7A /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		2388BF4F253FEC34007B4A7A /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D1CE61916DC4F27B8E39081 /* libRNSpringScrollView.a */; };
+		2388BF50253FEC34007B4A7A /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCBB44A8CC9207C0BF24EC41 /* libPods-Hpmerchant-Hpmerchant_Production.a */; };
+		2388BF52253FEC34007B4A7A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		2388BF53253FEC34007B4A7A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
+		2388BF54253FEC34007B4A7A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36F619BA2500D81B00893A84 /* GoogleService-Info.plist */; };
 		2399DEC122F1A9CF00DBCCFE /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
 		23FE295523C77BEF00E95925 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
 		3649D09224E660C0003C8174 /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3649D09124E65E8D003C8174 /* libRNSpringScrollView.a */; };
@@ -256,7 +260,6 @@
 		B02E0E6DAF7F29AA27CDC35A /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		C723999CEA59B3836E44B362 /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCBB44A8CC9207C0BF24EC41 /* libPods-Hpmerchant-Hpmerchant_Production.a */; };
 		C757D92E4E5E404DAE4671BF /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
-		D1EFF31F7451A99832EEEB83 /* libPods-Hpmerchant-Hpmerchant_Dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B433C90A07569EE0F1690854 /* libPods-Hpmerchant-Hpmerchant_Dev.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -582,7 +585,6 @@
 		1EA86854F25B6D911F08EA07 /* Pods-Hpmerchant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.debug.xcconfig"; sourceTree = "<group>"; };
 		2206C6BACBF3ADBBCD9E5B86 /* Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig"; sourceTree = "<group>"; };
 		230F1DDB24D3DA2200A95898 /* Staing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Staing.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		230F1DDC24D3DA2300A95898 /* staging.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = staging.plist; path = "/Users/phinhn/Desktop/Company Project/Hpmerchant/ios/staging.plist"; sourceTree = "<absolute>"; };
 		232011EC22FAB38C0002C14B /* MyApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MyApp.h; path = Hpmerchant/MyApp.h; sourceTree = "<group>"; };
 		232011ED22FAB38C0002C14B /* MyApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyApp.m; path = Hpmerchant/MyApp.m; sourceTree = "<group>"; };
 		23207B9E22FAC40F0002C14B /* PosLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosLink.h; sourceTree = "<group>"; };
@@ -607,8 +609,9 @@
 		2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO_Extension.framework; path = "../node_modules/react-native-star-prnt/ios/Frameworks/StarIO_Extension.framework"; sourceTree = "<group>"; };
 		2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
-		23644CE425149E7C00D59096 /* Hpmerchant_Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hpmerchant_Dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		23644CE525149E7D00D59096 /* dev.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = dev.plist; path = "/Users/phinhn/Desktop/Company Project/Hpmerchant/ios/dev.plist"; sourceTree = "<absolute>"; };
+		2388BD9F253FE990007B4A7A /* dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = dev.plist; path = Hpmerchant/dev.plist; sourceTree = "<group>"; };
+		2388BDCE253FE9A3007B4A7A /* staging.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = staging.plist; path = Hpmerchant/staging.plist; sourceTree = "<group>"; };
+		2388BF5B253FEC34007B4A7A /* Hpmerchant_Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hpmerchant_Dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2399DE9322F1A9C100DBCCFE /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		23FE295323C77BEF00E95925 /* Hpmerchant-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hpmerchant-Bridging-Header.h"; sourceTree = "<group>"; };
 		23FE295423C77BEF00E95925 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
@@ -769,33 +772,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		23644CC125149E7C00D59096 /* Frameworks */ = {
+		2388BF37253FEC34007B4A7A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23644CC225149E7C00D59096 /* libPosLink.a in Frameworks */,
-				23644CC325149E7C00D59096 /* libRNFetchBlob.a in Frameworks */,
-				23644CC425149E7C00D59096 /* ExternalAccessory.framework in Frameworks */,
-				23644CC525149E7C00D59096 /* CoreBluetooth.framework in Frameworks */,
-				23644CC625149E7C00D59096 /* StarIO.framework in Frameworks */,
-				23644CC725149E7C00D59096 /* StarIO_Extension.framework in Frameworks */,
-				23644CC825149E7C00D59096 /* JavaScriptCore.framework in Frameworks */,
-				23644CC925149E7C00D59096 /* libRCTBlob.a in Frameworks */,
-				23644CCA25149E7C00D59096 /* libRCTAnimation.a in Frameworks */,
-				23644CCB25149E7C00D59096 /* libReact.a in Frameworks */,
-				23644CCC25149E7C00D59096 /* libRCTActionSheet.a in Frameworks */,
-				23644CCD25149E7C00D59096 /* libRCTGeolocation.a in Frameworks */,
-				23644CCE25149E7C00D59096 /* libRCTImage.a in Frameworks */,
-				23644CCF25149E7C00D59096 /* libRCTLinking.a in Frameworks */,
-				23644CD025149E7C00D59096 /* libRCTNetwork.a in Frameworks */,
-				23644CD125149E7C00D59096 /* libRCTSettings.a in Frameworks */,
-				23644CD225149E7C00D59096 /* libRCTText.a in Frameworks */,
-				23644CD325149E7C00D59096 /* libRCTVibration.a in Frameworks */,
-				23644CD425149E7C00D59096 /* libRCTWebSocket.a in Frameworks */,
-				23644CD525149E7C00D59096 /* libRNGestureHandler.a in Frameworks */,
-				23644CD625149E7C00D59096 /* libRNImagePicker.a in Frameworks */,
-				23644CD925149E7C00D59096 /* libRNSpringScrollView.a in Frameworks */,
-				D1EFF31F7451A99832EEEB83 /* libPods-Hpmerchant-Hpmerchant_Dev.a in Frameworks */,
+				2388BF38253FEC34007B4A7A /* libPosLink.a in Frameworks */,
+				2388BF39253FEC34007B4A7A /* libRNFetchBlob.a in Frameworks */,
+				2388BF3A253FEC34007B4A7A /* ExternalAccessory.framework in Frameworks */,
+				2388BF3B253FEC34007B4A7A /* CoreBluetooth.framework in Frameworks */,
+				2388BF3C253FEC34007B4A7A /* StarIO.framework in Frameworks */,
+				2388BF3D253FEC34007B4A7A /* StarIO_Extension.framework in Frameworks */,
+				2388BF3E253FEC34007B4A7A /* JavaScriptCore.framework in Frameworks */,
+				2388BF3F253FEC34007B4A7A /* libRCTBlob.a in Frameworks */,
+				2388BF40253FEC34007B4A7A /* libRCTAnimation.a in Frameworks */,
+				2388BF41253FEC34007B4A7A /* libReact.a in Frameworks */,
+				2388BF42253FEC34007B4A7A /* libRCTActionSheet.a in Frameworks */,
+				2388BF43253FEC34007B4A7A /* libRCTGeolocation.a in Frameworks */,
+				2388BF44253FEC34007B4A7A /* libRCTImage.a in Frameworks */,
+				2388BF45253FEC34007B4A7A /* libRCTLinking.a in Frameworks */,
+				2388BF46253FEC34007B4A7A /* libRCTNetwork.a in Frameworks */,
+				2388BF47253FEC34007B4A7A /* libRCTSettings.a in Frameworks */,
+				2388BF48253FEC34007B4A7A /* libRCTText.a in Frameworks */,
+				2388BF49253FEC34007B4A7A /* libRCTVibration.a in Frameworks */,
+				2388BF4A253FEC34007B4A7A /* libRCTWebSocket.a in Frameworks */,
+				2388BF4B253FEC34007B4A7A /* libRNGestureHandler.a in Frameworks */,
+				2388BF4C253FEC34007B4A7A /* libRNImagePicker.a in Frameworks */,
+				2388BF4D253FEC34007B4A7A /* (null) in Frameworks */,
+				2388BF4E253FEC34007B4A7A /* (null) in Frameworks */,
+				2388BF4F253FEC34007B4A7A /* libRNSpringScrollView.a in Frameworks */,
+				2388BF50253FEC34007B4A7A /* libPods-Hpmerchant-Hpmerchant_Production.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -884,6 +889,8 @@
 		13B07FAE1A68108700A75B9A /* Hpmerchant */ = {
 			isa = PBXGroup;
 			children = (
+				2388BDCE253FE9A3007B4A7A /* staging.plist */,
+				2388BD9F253FE990007B4A7A /* dev.plist */,
 				36F619BB2500D82900893A84 /* Development */,
 				36F619B92500D81000893A84 /* Staging */,
 				36F619B82500D7FE00893A84 /* Product */,
@@ -897,8 +904,6 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				232011EC22FAB38C0002C14B /* MyApp.h */,
 				232011ED22FAB38C0002C14B /* MyApp.m */,
-				230F1DDC24D3DA2300A95898 /* staging.plist */,
-				23644CE525149E7D00D59096 /* dev.plist */,
 				23FE295423C77BEF00E95925 /* File.swift */,
 				23FE295323C77BEF00E95925 /* Hpmerchant-Bridging-Header.h */,
 			);
@@ -1298,7 +1303,7 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* HPMerchant.app */,
 				230F1DDB24D3DA2200A95898 /* Staing.app */,
-				23644CE425149E7C00D59096 /* Hpmerchant_Dev.app */,
+				2388BF5B253FEC34007B4A7A /* Hpmerchant_Dev.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1357,17 +1362,17 @@
 			productReference = 230F1DDB24D3DA2200A95898 /* Staing.app */;
 			productType = "com.apple.product-type.application";
 		};
-		23644C8525149E7C00D59096 /* Hpmerchant_Dev */ = {
+		2388BEFB253FEC34007B4A7A /* Hpmerchant_Dev */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 23644CE125149E7C00D59096 /* Build configuration list for PBXNativeTarget "Hpmerchant_Dev" */;
+			buildConfigurationList = 2388BF58253FEC34007B4A7A /* Build configuration list for PBXNativeTarget "Hpmerchant_Dev" */;
 			buildPhases = (
-				23644C8625149E7C00D59096 /* [CP] Check Pods Manifest.lock */,
-				23644C8725149E7C00D59096 /* Sources */,
-				23644CC125149E7C00D59096 /* Frameworks */,
-				23644CDA25149E7C00D59096 /* Resources */,
-				23644CDE25149E7C00D59096 /* Bundle React Native code and images */,
-				23644CDF25149E7C00D59096 /* ShellScript */,
-				23644CE025149E7C00D59096 /* [CP] Copy Pods Resources */,
+				2388BEFC253FEC34007B4A7A /* [CP] Check Pods Manifest.lock */,
+				2388BEFD253FEC34007B4A7A /* Sources */,
+				2388BF37253FEC34007B4A7A /* Frameworks */,
+				2388BF51253FEC34007B4A7A /* Resources */,
+				2388BF55253FEC34007B4A7A /* Bundle React Native code and images */,
+				2388BF56253FEC34007B4A7A /* ShellScript */,
+				2388BF57253FEC34007B4A7A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1375,7 +1380,7 @@
 			);
 			name = Hpmerchant_Dev;
 			productName = "Hello World";
-			productReference = 23644CE425149E7C00D59096 /* Hpmerchant_Dev.app */;
+			productReference = 2388BF5B253FEC34007B4A7A /* Hpmerchant_Dev.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1396,9 +1401,9 @@
 						DevelopmentTeam = 69WQLJ9K8N;
 						ProvisioningStyle = Automatic;
 					};
-					23644C8525149E7C00D59096 = {
+					2388BEFB253FEC34007B4A7A = {
 						DevelopmentTeam = 69WQLJ9K8N;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -1484,7 +1489,7 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* Hpmerchant_Production */,
 				230F1DB324D3DA2200A95898 /* Hpmerchant_Staging */,
-				23644C8525149E7C00D59096 /* Hpmerchant_Dev */,
+				2388BEFB253FEC34007B4A7A /* Hpmerchant_Dev */,
 			);
 		};
 /* End PBXProject section */
@@ -1801,19 +1806,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2388BDCF253FE9A3007B4A7A /* staging.plist in Resources */,
 				230F1DD324D3DA2200A95898 /* Images.xcassets in Resources */,
 				230F1DD424D3DA2200A95898 /* LaunchScreen.xib in Resources */,
 				36F619C12500DB3900893A84 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		23644CDA25149E7C00D59096 /* Resources */ = {
+		2388BF51253FEC34007B4A7A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23644CDB25149E7C00D59096 /* Images.xcassets in Resources */,
-				23644CDC25149E7C00D59096 /* LaunchScreen.xib in Resources */,
-				23644CDD25149E7C00D59096 /* GoogleService-Info.plist in Resources */,
+				2388BF52253FEC34007B4A7A /* Images.xcassets in Resources */,
+				2388BF53253FEC34007B4A7A /* LaunchScreen.xib in Resources */,
+				2388BF54253FEC34007B4A7A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1905,7 +1911,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		23644C8625149E7C00D59096 /* [CP] Check Pods Manifest.lock */ = {
+		2388BEFC253FEC34007B4A7A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1920,14 +1926,14 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant-Hpmerchant_Dev-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Hpmerchant-Hpmerchant_Production-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		23644CDE25149E7C00D59096 /* Bundle React Native code and images */ = {
+		2388BF55253FEC34007B4A7A /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1941,7 +1947,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=$(which node)\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		23644CDF25149E7C00D59096 /* ShellScript */ = {
+		2388BF56253FEC34007B4A7A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1958,13 +1964,13 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 0f0084a0d929105cf47a24b38dd81f81901f8898 a429bc1d026280dc76172be9fa9b8d4c7afbdf2b261dc836bc1e3b6f8b32c7c3\n";
 		};
-		23644CE025149E7C00D59096 /* [CP] Copy Pods Resources */ = {
+		2388BF57253FEC34007B4A7A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Production/Pods-Hpmerchant-Hpmerchant_Production-resources.sh",
 				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -1973,7 +1979,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Production/Pods-Hpmerchant-Hpmerchant_Production-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		23A6A60C22ACDBDF00739B1A /* ShellScript */ = {
@@ -2164,67 +2170,67 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		23644C8725149E7C00D59096 /* Sources */ = {
+		2388BEFD253FEC34007B4A7A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23644C8825149E7C00D59096 /* RNBarChartManager.swift in Sources */,
-				23644C8925149E7C00D59096 /* RNBarChartView.swift in Sources */,
-				23644C8A25149E7C00D59096 /* File.swift in Sources */,
-				23644C8B25149E7C00D59096 /* RNChartViewBase.swift in Sources */,
-				23644C8C25149E7C00D59096 /* BarDataExtract.swift in Sources */,
-				23644C8D25149E7C00D59096 /* DataExtract.swift in Sources */,
-				23644C8E25149E7C00D59096 /* LargeValueFormatter.swift in Sources */,
-				23644C8F25149E7C00D59096 /* RNRadarChartView.swift in Sources */,
-				23644C9025149E7C00D59096 /* FontUtils.swift in Sources */,
-				23644C9125149E7C00D59096 /* RNRadarChartManagerBridge.m in Sources */,
-				23644C9225149E7C00D59096 /* RNScatterChartManager.swift in Sources */,
-				23644C9325149E7C00D59096 /* RNBarLineChartBaseManager.swift in Sources */,
-				23644C9425149E7C00D59096 /* RNCandleStickChartManager.swift in Sources */,
-				23644C9525149E7C00D59096 /* RNBubbleChartView.swift in Sources */,
-				23644C9625149E7C00D59096 /* RNBarChartManagerBridge.m in Sources */,
-				23644C9725149E7C00D59096 /* HighlightUtils.swift in Sources */,
-				23644C9825149E7C00D59096 /* RNCombinedChartManagerBridge.m in Sources */,
-				23644C9925149E7C00D59096 /* ScatterDataExtract.swift in Sources */,
-				23644C9A25149E7C00D59096 /* RNHorizontalBarChartView.swift in Sources */,
-				23644C9B25149E7C00D59096 /* RNRadarChartManager.swift in Sources */,
-				23644C9C25149E7C00D59096 /* RNHorizontalBarChartManagerBridge.m in Sources */,
-				23644C9D25149E7C00D59096 /* LineDataExtract.swift in Sources */,
-				23644C9E25149E7C00D59096 /* MyApp.m in Sources */,
-				23644C9F25149E7C00D59096 /* BalloonMarker.swift in Sources */,
-				23644CA025149E7C00D59096 /* RNBarChartViewBase.swift in Sources */,
-				23644CA125149E7C00D59096 /* RNLineChartManagerBridge.m in Sources */,
-				23644CA225149E7C00D59096 /* RadarDataExtract.swift in Sources */,
-				23644CA325149E7C00D59096 /* RNCombinedChartView.swift in Sources */,
-				23644CA425149E7C00D59096 /* RNBarLineChartViewBase.swift in Sources */,
-				23644CA525149E7C00D59096 /* AppDelegate.m in Sources */,
-				23644CA625149E7C00D59096 /* RNHorizontalBarChartManager.swift in Sources */,
-				23644CA725149E7C00D59096 /* main.m in Sources */,
-				23644CA825149E7C00D59096 /* RNCandleStickChartView.swift in Sources */,
-				23644CA925149E7C00D59096 /* RNCombinedChartManager.swift in Sources */,
-				23644CAA25149E7C00D59096 /* RNBubbleChartManagerBridge.m in Sources */,
-				23644CAB25149E7C00D59096 /* EntryToDictionaryUtils.swift in Sources */,
-				23644CAC25149E7C00D59096 /* ExtDataPaymentReq.m in Sources */,
-				23644CAD25149E7C00D59096 /* ChartDataSetConfigUtils.swift in Sources */,
-				23644CAE25149E7C00D59096 /* BubbleDataExtract.swift in Sources */,
-				23644CAF25149E7C00D59096 /* ChartGroupHolder.swift in Sources */,
-				23644CB025149E7C00D59096 /* RNPieChartView.swift in Sources */,
-				23644CB125149E7C00D59096 /* CandleDataExtract.swift in Sources */,
-				23644CB225149E7C00D59096 /* RNPieChartManagerBridge.m in Sources */,
-				23644CB325149E7C00D59096 /* RNScatterChartView.swift in Sources */,
-				23644CB425149E7C00D59096 /* RNCandleStickChartManagerBridge.m in Sources */,
-				23644CB525149E7C00D59096 /* RNLineChartManager.swift in Sources */,
-				23644CB625149E7C00D59096 /* CombinedDataExtract.swift in Sources */,
-				23644CB725149E7C00D59096 /* PieDataExtract.swift in Sources */,
-				23644CB825149E7C00D59096 /* RNScatterChartManagerBridge.m in Sources */,
-				23644CB925149E7C00D59096 /* RNPieChartManager.swift in Sources */,
-				23644CBA25149E7C00D59096 /* RNLineChartView.swift in Sources */,
-				23644CBB25149E7C00D59096 /* ChartDateFormatter.swift in Sources */,
-				23644CBC25149E7C00D59096 /* CustomChartDateFormatter.swift in Sources */,
-				23644CBD25149E7C00D59096 /* RNYAxisChartViewBase.swift in Sources */,
-				23644CBE25149E7C00D59096 /* BridgeUtils.swift in Sources */,
-				23644CBF25149E7C00D59096 /* RNBubbleChartManager.swift in Sources */,
-				23644CC025149E7C00D59096 /* IndexValueFormatter.swift in Sources */,
+				2388BEFE253FEC34007B4A7A /* RNBarChartManager.swift in Sources */,
+				2388BEFF253FEC34007B4A7A /* RNBarChartView.swift in Sources */,
+				2388BF00253FEC34007B4A7A /* File.swift in Sources */,
+				2388BF01253FEC34007B4A7A /* RNChartViewBase.swift in Sources */,
+				2388BF02253FEC34007B4A7A /* BarDataExtract.swift in Sources */,
+				2388BF03253FEC34007B4A7A /* DataExtract.swift in Sources */,
+				2388BF04253FEC34007B4A7A /* LargeValueFormatter.swift in Sources */,
+				2388BF05253FEC34007B4A7A /* RNRadarChartView.swift in Sources */,
+				2388BF06253FEC34007B4A7A /* FontUtils.swift in Sources */,
+				2388BF07253FEC34007B4A7A /* RNRadarChartManagerBridge.m in Sources */,
+				2388BF08253FEC34007B4A7A /* RNScatterChartManager.swift in Sources */,
+				2388BF09253FEC34007B4A7A /* RNBarLineChartBaseManager.swift in Sources */,
+				2388BF0A253FEC34007B4A7A /* RNCandleStickChartManager.swift in Sources */,
+				2388BF0B253FEC34007B4A7A /* RNBubbleChartView.swift in Sources */,
+				2388BF0C253FEC34007B4A7A /* RNBarChartManagerBridge.m in Sources */,
+				2388BF0D253FEC34007B4A7A /* HighlightUtils.swift in Sources */,
+				2388BF0E253FEC34007B4A7A /* RNCombinedChartManagerBridge.m in Sources */,
+				2388BF0F253FEC34007B4A7A /* ScatterDataExtract.swift in Sources */,
+				2388BF10253FEC34007B4A7A /* RNHorizontalBarChartView.swift in Sources */,
+				2388BF11253FEC34007B4A7A /* RNRadarChartManager.swift in Sources */,
+				2388BF12253FEC34007B4A7A /* RNHorizontalBarChartManagerBridge.m in Sources */,
+				2388BF13253FEC34007B4A7A /* LineDataExtract.swift in Sources */,
+				2388BF14253FEC34007B4A7A /* MyApp.m in Sources */,
+				2388BF15253FEC34007B4A7A /* BalloonMarker.swift in Sources */,
+				2388BF16253FEC34007B4A7A /* RNBarChartViewBase.swift in Sources */,
+				2388BF17253FEC34007B4A7A /* RNLineChartManagerBridge.m in Sources */,
+				2388BF18253FEC34007B4A7A /* RadarDataExtract.swift in Sources */,
+				2388BF19253FEC34007B4A7A /* RNCombinedChartView.swift in Sources */,
+				2388BF1A253FEC34007B4A7A /* RNBarLineChartViewBase.swift in Sources */,
+				2388BF1B253FEC34007B4A7A /* AppDelegate.m in Sources */,
+				2388BF1C253FEC34007B4A7A /* RNHorizontalBarChartManager.swift in Sources */,
+				2388BF1D253FEC34007B4A7A /* main.m in Sources */,
+				2388BF1E253FEC34007B4A7A /* RNCandleStickChartView.swift in Sources */,
+				2388BF1F253FEC34007B4A7A /* RNCombinedChartManager.swift in Sources */,
+				2388BF20253FEC34007B4A7A /* RNBubbleChartManagerBridge.m in Sources */,
+				2388BF21253FEC34007B4A7A /* EntryToDictionaryUtils.swift in Sources */,
+				2388BF22253FEC34007B4A7A /* ExtDataPaymentReq.m in Sources */,
+				2388BF23253FEC34007B4A7A /* ChartDataSetConfigUtils.swift in Sources */,
+				2388BF24253FEC34007B4A7A /* BubbleDataExtract.swift in Sources */,
+				2388BF25253FEC34007B4A7A /* ChartGroupHolder.swift in Sources */,
+				2388BF26253FEC34007B4A7A /* RNPieChartView.swift in Sources */,
+				2388BF27253FEC34007B4A7A /* CandleDataExtract.swift in Sources */,
+				2388BF28253FEC34007B4A7A /* RNPieChartManagerBridge.m in Sources */,
+				2388BF29253FEC34007B4A7A /* RNScatterChartView.swift in Sources */,
+				2388BF2A253FEC34007B4A7A /* RNCandleStickChartManagerBridge.m in Sources */,
+				2388BF2B253FEC34007B4A7A /* RNLineChartManager.swift in Sources */,
+				2388BF2C253FEC34007B4A7A /* CombinedDataExtract.swift in Sources */,
+				2388BF2D253FEC34007B4A7A /* PieDataExtract.swift in Sources */,
+				2388BF2E253FEC34007B4A7A /* RNScatterChartManagerBridge.m in Sources */,
+				2388BF2F253FEC34007B4A7A /* RNPieChartManager.swift in Sources */,
+				2388BF30253FEC34007B4A7A /* RNLineChartView.swift in Sources */,
+				2388BF31253FEC34007B4A7A /* ChartDateFormatter.swift in Sources */,
+				2388BF32253FEC34007B4A7A /* CustomChartDateFormatter.swift in Sources */,
+				2388BF33253FEC34007B4A7A /* RNYAxisChartViewBase.swift in Sources */,
+				2388BF34253FEC34007B4A7A /* BridgeUtils.swift in Sources */,
+				2388BF35253FEC34007B4A7A /* RNBubbleChartManager.swift in Sources */,
+				2388BF36253FEC34007B4A7A /* IndexValueFormatter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2378,7 +2384,7 @@
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
 					"$(SRCROOT)/../node_modules/react-native-spring-scrollview/ios/SpringScrollView",
 				);
-				INFOPLIST_FILE = staging.plist;
+				INFOPLIST_FILE = Hpmerchant/staging.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)/**",
@@ -2431,7 +2437,7 @@
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
 					"$(SRCROOT)/../node_modules/react-native-spring-scrollview/ios/SpringScrollView",
 				);
-				INFOPLIST_FILE = staging.plist;
+				INFOPLIST_FILE = Hpmerchant/staging.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)/**",
@@ -2457,19 +2463,19 @@
 			};
 			name = Release;
 		};
-		23644CE225149E7C00D59096 /* Debug */ = {
+		2388BF59253FEC34007B4A7A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2206C6BACBF3ADBBCD9E5B86 /* Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig */;
+			baseConfigurationReference = FC14D650DDA8D205FBE477F2 /* Pods-Hpmerchant-Hpmerchant_Production.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = HPMerchant.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 55;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 60;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)/**",
@@ -2484,7 +2490,7 @@
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
 					"$(SRCROOT)/../node_modules/react-native-spring-scrollview/ios/SpringScrollView",
 				);
-				INFOPLIST_FILE = dev.plist;
+				INFOPLIST_FILE = Hpmerchant/dev.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)/**",
@@ -2494,7 +2500,7 @@
 					"\"$(SRCROOT)/HpMerchant\"",
 					"\"$(SRCROOT)/HPMerchant\"",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.1;
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2503,7 +2509,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = HarmonyMerchantDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "Hpmerchant-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -2512,18 +2518,18 @@
 			};
 			name = Debug;
 		};
-		23644CE325149E7C00D59096 /* Release */ = {
+		2388BF5A253FEC34007B4A7A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 429BF6F6217ED276A895E802 /* Pods-Hpmerchant-Hpmerchant_Dev.release.xcconfig */;
+			baseConfigurationReference = 0F23665E7837E3ECA108DEA2 /* Pods-Hpmerchant-Hpmerchant_Production.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = HPMerchant.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 55;
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 60;
+				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)/**",
@@ -2538,7 +2544,7 @@
 					"$(SRCROOT)/../node_modules/react-native-star-prnt/ios/Frameworks/**",
 					"$(SRCROOT)/../node_modules/react-native-spring-scrollview/ios/SpringScrollView",
 				);
-				INFOPLIST_FILE = dev.plist;
+				INFOPLIST_FILE = Hpmerchant/dev.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)/**",
@@ -2548,7 +2554,7 @@
 					"\"$(SRCROOT)/HpMerchant\"",
 					"\"$(SRCROOT)/HPMerchant\"",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.1;
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2557,7 +2563,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.merchant.harmony.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = HarmonyMerchantDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "Hpmerchant-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -2685,11 +2691,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		23644CE125149E7C00D59096 /* Build configuration list for PBXNativeTarget "Hpmerchant_Dev" */ = {
+		2388BF58253FEC34007B4A7A /* Build configuration list for PBXNativeTarget "Hpmerchant_Dev" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				23644CE225149E7C00D59096 /* Debug */,
-				23644CE325149E7C00D59096 /* Release */,
+				2388BF59253FEC34007B4A7A /* Debug */,
+				2388BF5A253FEC34007B4A7A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
