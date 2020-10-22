@@ -5,7 +5,8 @@ import {
     TextInput,
     FlatList,
     ScrollView,
-    ActivityIndicator
+    ActivityIndicator,
+    Platform
 } from 'react-native';
 import _ from 'ramda';
 import Dash from 'react-native-dash';
@@ -211,6 +212,7 @@ export default class Layout extends React.Component {
             invoiceDetail.checkoutPayments.slice(0).reverse() : [];
         const refundAmount = invoiceDetail.refundAmount ? invoiceDetail.refundAmount : 0.00;
         const promotionNotes = invoiceDetail.promotionNotes && invoiceDetail.promotionNotes.note ? invoiceDetail.promotionNotes.note : "";
+        const tempStyle = Platform.OS === "android" ? { paddingHorizontal: scaleSzie(10), backgroundColor: '#FFFFFF' } : { paddingHorizontal: scaleSzie(10)}
 
         return (
             <View style={{ flex: 1 }} >
@@ -222,10 +224,7 @@ export default class Layout extends React.Component {
                     >
                         <View
                             ref={this.viewShotRef}
-                            style={{
-                                paddingHorizontal: scaleSzie(10),
-                                backgroundColor: '#FFFFFF'
-                            }}
+                            style={tempStyle}
                         >
                             {/* ------------- Store Name ----------- */}
                             <Text style={[styles.txt_normal, { fontSize: 24, fontWeight: "600", marginTop: scaleSzie(8) }]} >

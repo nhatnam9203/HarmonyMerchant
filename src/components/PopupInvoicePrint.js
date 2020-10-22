@@ -6,7 +6,8 @@ import {
     ScrollView,
     StyleSheet,
     Modal,
-    Alert
+    Alert,
+    Platform
 } from 'react-native';
 import { StarPRNT } from 'react-native-star-prnt';
 import { captureRef, releaseCapture } from "react-native-view-shot";
@@ -200,6 +201,8 @@ class PopupInvoicePrint extends React.Component {
         const temtCheckoutPayment = paymentMethods.length > 0 ? paymentMethods : checkoutPayments;
         const tempHeight = checkIsTablet() ? scaleSzie(400) : scaleSzie(450);
 
+        const tempStyle = Platform.OS === "android" ? { paddingHorizontal: scaleSzie(10), backgroundColor: '#FFFFFF' } : { paddingHorizontal: scaleSzie(10)};
+
         return (
             <Modal
                 visible={visiblePrintInvoice}
@@ -227,7 +230,7 @@ class PopupInvoicePrint extends React.Component {
                             >
                                 <View
                                     ref={this.viewShotRef}
-                                    style={{ paddingHorizontal: scaleSzie(10), backgroundColor: '#FFFFFF' }}
+                                    style={tempStyle}
                                 >
                                     {/* ------------- Store Name ----------- */}
                                     <Text style={[styleInvoice.txt_normal, { fontSize: 24, fontWeight: "600", marginTop: scaleSzie(8) }]} >
