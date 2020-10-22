@@ -6,12 +6,10 @@ import { requestAPI } from '../../utils';
 
 function* getMerchantByID(action) {
     try {
-        // !action.isRefresh ? yield put({ type: 'LOADING_ROOT' }) : null;
         if (!action.isRefresh) {
             yield put({ type: 'LOADING_ROOT' });
         }
         const responses = yield requestAPI(action);
-        // console.log('getMerchantByID : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -47,7 +45,6 @@ function* registerUser(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('--- registerUser : ', responses);
         const { codeNumber } = responses;
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
@@ -66,7 +63,6 @@ function* registerUser(action) {
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
             });
-            // NavigationServices.navigate('GeneralInfo');
         }
     } catch (error) {
         yield put({ type: error });
@@ -77,9 +73,7 @@ function* registerUser(action) {
 
 function* getStateCity(action) {
     try {
-        // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('--- responses : ', responses);
         yield put({
             type: 'GET_STATE_CITY_SUCCESS',
             payload: responses.data ? responses.data : []
@@ -88,7 +82,6 @@ function* getStateCity(action) {
     } catch (error) {
         yield put({ type: error });
     } finally {
-        // yield put({ type: 'STOP_LOADING_ROOT' });
     }
 }
 

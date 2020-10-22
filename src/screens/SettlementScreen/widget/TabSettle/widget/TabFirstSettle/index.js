@@ -322,27 +322,7 @@ class TabFirstSettle extends Layout {
         this.props.actions.invoice.getListGiftCardSales();
     }
 
-    sendTotalViaSMS_ = async (data) => {
-        try {
-            const { listStaffByMerchant } = this.props;
-            const staffInfo = listStaffByMerchant.find(staff => staff.staffId === data.staffId);
-            if (staffInfo) {
-                const shareOptions = {
-                    title: 'hhh',
-                    social: Share.Social.SMS,
-                    recipient: `0339133571`,
-                    message: 'Hi Phi',
-                    urls: [],
-                };
-
-                const ShareResponse = await Share.shareSingle(shareOptions);
-                alert(JSON.stringify(ShareResponse, null, 2))
-            }
-
-        } catch (error) {
-            alert(error)
-        }
-    }
+   
 
     sendTotalViaSMS = async (data) => {
         // const image = ICON.happy_face;
