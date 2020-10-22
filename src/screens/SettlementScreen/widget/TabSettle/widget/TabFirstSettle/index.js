@@ -1,16 +1,18 @@
 import React from 'react';
-import { NativeModules, Alert ,Linking,Platform} from 'react-native';
+import { NativeModules, Alert, Linking, Platform } from 'react-native';
 import _ from "ramda";
 import env from 'react-native-config';
-import SendSMS from 'react-native-sms'
+import SendSMS from 'react-native-sms';
+import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
-    formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI,
+    formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI, formatWithMoment
 } from '@utils';
 import apiConfigs from '@configs/api';
 import Share from 'react-native-share';
+import ICON from "@resources";
 
 const PosLink = NativeModules.MyApp;
 
@@ -342,26 +344,43 @@ class TabFirstSettle extends Layout {
         }
     }
 
-    sendTotalViaSMS = async () => {
-        // const url = (Platform.OS === 'android') ? 'sms:919999999999?body=your message' : 'sms:919999999999?body=your message'
-        // Linking.canOpenURL(url).then(supported => {
-        //     if (!supported) {
-        //         console.log('Unsupported url: ' + url)
-        //     } else {
-        //         return Linking.openURL(url)
-        //     }
-        // }).catch(err => console.error('An error occurred', err))
-        SendSMS.send({
-            body: 'The default body of the SMS!',
-            recipients: ['0123456789', '9876543210'],
-            successTypes: ['sent', 'queued'],
-            allowAndroidSendWithoutReadPermission: true,
-            // attachment: attachment
-        }, (completed, cancelled, error) => {
-    
-            console.log('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);
-    
-        });
+    sendTotalViaSMS = async (data) => {
+        // const image = ICON.happy_face;
+        // const metadata = resolveAssetSource(image);
+        // const url = metadata.uri;
+
+        // const attachment = {
+        //     url: url,
+        //     iosType: 'public.png',
+        //     iosFilename: 'Image.png',
+        //     androidType: 'image/*'
+        // };
+
+        try {
+            const { listStaffByMerchant } = this.props;
+            const staffInfo = listStaffByMerchant.find(staff => staff.staffId === data.staffId);
+            if (staffInfo) {
+                const displayName = staffInfo.displayName ? staffInfo.displayName : "";
+                const total = data.total ? data.total : 0.00;
+                const phone = staffInfo.phone ? staffInfo.phone : "";
+                const today = formatWithMoment(new Date(), "MM/DD/YYYY");
+
+                SendSMS.send({
+                    body: `Hello ${displayName}, your total today ${today} is $${total}. Thank you :)`,
+                    recipients: [`${phone}`],
+                    successTypes: ['sent', 'queued'],
+                    allowAndroidSendWithoutReadPermission: true,
+                    // attachment: attachment,
+                }, (completed, cancelled, error) => {
+                    // console.log('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);
+                });
+            }
+
+        } catch (error) {
+            // alert(error)
+        }
+
+
     }
 
 

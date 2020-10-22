@@ -67,7 +67,7 @@ class Layout extends React.Component {
         const { language } = this.props;
         return (
             <View style={{ height: scaleSzie(35), flexDirection: 'row', paddingHorizontal: scaleSzie(10) }} >
-                <View style={{ flex: 1.1, justifyContent: 'center' }} >
+                <View style={{ flex: 1.3, justifyContent: 'center' }} >
                     <Text style={styles.txt_table} >
                         {localize('Sales By Staffs', language)}
                     </Text>
