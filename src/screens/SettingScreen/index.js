@@ -1,5 +1,5 @@
 import React from "react";
-import { Keyboard, Platform } from "react-native";
+import { Keyboard } from "react-native";
 
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
@@ -150,8 +150,6 @@ class SettingScreen extends Layout {
   };
 
   logout = () => {
-    // add firease comment
-    // this.props.actions.auth.logout();
     this.props.actions.auth.requestLogout();
     this.props.navigation.navigate("SigninStack");
   };
@@ -216,11 +214,11 @@ class SettingScreen extends Layout {
 
       // ------- External Update -----
       this.generalTabRef.current.setStateFromParent(
-        profile.webLink ? profile.webLink : "",
-        profile.timezone ? profile.timezone : "",
-        profile.autoCloseAt ? profile.autoCloseAt : "",
-        profile.turnAmount ? profile.turnAmount : 0,
-        profile.staffColumn ? profile.staffColumn : 8
+        profile?.webLink || "",
+        profile?.timezone || "",
+        profile?.autoCloseAt || "",
+        profile?.turnAmount || 0,
+        profile?.staffColumn || 8
       );
     }
   }

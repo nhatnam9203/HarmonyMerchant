@@ -13,9 +13,7 @@ class AddStaff extends Layout {
 
     constructor(props) {
         super(props);
-
         const { profile } = this.props;
-
         this.state = {
             user: {
                 firstName: '',
@@ -75,7 +73,6 @@ class AddStaff extends Layout {
             value: {},
             dynamicMarginBottomState: 24
         }
-        // ---- Refs ----
         this.inputRefsTime = [];
         this.browserFileRef = React.createRef();
         this.cellphoneRef = React.createRef();
@@ -86,7 +83,6 @@ class AddStaff extends Layout {
         this.fixedAmountTipFeeRef = React.createRef();
         this.commisionProductScalaryRef = React.createRef();
         this.cashPercentRef =React.createRef();
-
     }
 
     scrollStaffTo(position) {

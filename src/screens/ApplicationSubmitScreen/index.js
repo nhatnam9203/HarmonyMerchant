@@ -5,9 +5,6 @@ class ApplicationSubmitScreen extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = {
-        }
-
     }
 
     submit = () => {
@@ -21,8 +18,6 @@ class ApplicationSubmitScreen extends Layout {
             packagePricing: selectPackageAndPricing.packagePricing
         });
     }
-
-
 }
 
 const mapStateToProps = state => ({
@@ -33,7 +28,5 @@ const mapStateToProps = state => ({
     selectPackageAndPricing: state.app.selectPackageAndPricing,
     language: state.dataLocal.language
 })
-
-
 
 export default connectRedux(mapStateToProps, ApplicationSubmitScreen);

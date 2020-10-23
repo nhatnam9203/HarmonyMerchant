@@ -82,7 +82,7 @@ class InventoryScreen extends Layout {
 
     requestExportFileToServer = async () => {
         const { profile } = this.props;
-        const fileName = this.modalExportRef.current.state.value ? this.modalExportRef.current.state.value : 'Inventory';
+        const fileName = this.modalExportRef?.current?.state?.value || 'Inventory';
         const isExportAll = !this.modalExportRef.current.state.isExportAll;
 
         await this.setState({

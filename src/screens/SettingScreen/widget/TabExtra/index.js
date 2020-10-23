@@ -2,7 +2,6 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { getArrayNameCategories, getCategoryIdByName } from '@utils';
 
 class TabExtra extends Layout {
 

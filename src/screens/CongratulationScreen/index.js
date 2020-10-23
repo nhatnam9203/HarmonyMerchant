@@ -5,15 +5,12 @@ class CongratulationScreen extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = {
-        }
     }
 
     gotoDrawerStack= () =>{
         this.props.navigation.navigate('Drawer');
         this.props.actions.dataLocal.resetNeddSettingStore();
     }
-
 }
 
 const mapStateToProps = state => ({

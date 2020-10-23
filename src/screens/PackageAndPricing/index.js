@@ -1,6 +1,5 @@
 import React from "react";
 import _ from 'ramda';
-import { } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -9,9 +8,6 @@ class PackageAndPricing extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = {
-        };
-
         this.billRef = React.createRef();
     }
 
@@ -27,18 +23,12 @@ class PackageAndPricing extends Layout {
     startFreeTrial = (packageId = 1) => {
         const pricingType = this.billRef.current.state.toogle ? "annualy" : "monthly";
         const packagePricing = packageId;
-
-        // this.props.navigation.navigate('ApplicationSubmit', {
-        //     pricingType,
-        //     packagePricing
-        // });
         this.props.actions.app.setPackagePricing({
             pricingType,
             packagePricing
         })
         this.props.goToPage(5);
     }
-
 }
 
 const mapStateToProps = state => ({

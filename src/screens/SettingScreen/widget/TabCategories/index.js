@@ -2,7 +2,6 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { getArrayNameCategories, getCategoryIdByName } from '@utils';
 
 class TabCategories extends Layout {
 
@@ -19,7 +18,6 @@ class TabCategories extends Layout {
             categoryHandle: {},
             visibleAdd: false,
             visibleEdit: false,
-            // ----
             searchFilter: {
                 keySearch: '',
                 category: '',
@@ -178,8 +176,6 @@ class TabCategories extends Layout {
             this.props.actions.category.updatePositionCategories(body);
         }
     }
-
-
 }
 
 const mapStateToProps = state => ({

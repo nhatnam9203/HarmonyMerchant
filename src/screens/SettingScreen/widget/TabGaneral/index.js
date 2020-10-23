@@ -13,16 +13,16 @@ class TabGaneral extends Layout {
 
         this.state = {
             languageApp: getNameLanguage(this.props.language),
-            longitude: profile.longitude ? profile.longitude : '',
-            latitude: profile.latitude ? profile.latitude : '',
-            webLink: profile.webLink ? profile.webLink : '',
-            autoCloseAt: profile.autoCloseAt ? profile.autoCloseAt : "",
+            longitude: profile?.longitude || '',
+            latitude: profile?.latitude || '',
+            webLink: profile?.webLink || '',
+            autoCloseAt: profile.autoCloseAt || "",
             autoLockScreenAfter: autoLockScreenAfter,
-            timezone: profile.timezone ? profile.timezone : '',
+            timezone: profile?.timezone || '',
             isUpdateInternal: false,
-            businessHour: profile.businessHour ? profile.businessHour : BusinessWorkingTime,
-            turnAmount: profile.turnAmount ? profile.turnAmount : 0,
-            staffColumn: profile.staffColumn ? profile.staffColumn : 8
+            businessHour: profile?.businessHour || BusinessWorkingTime,
+            turnAmount: profile?.turnAmount || 0,
+            staffColumn: profile?.staffColumn || 8
         };
         this.inputRefsTime = [];
     }
@@ -33,11 +33,9 @@ class TabGaneral extends Layout {
         }
     };
 
-
     setStateFromParent = async (webLink, timezone, autoCloseAt, turnAmount, staffColumn) => {
         const { isFocus, currentTab } = this.props;
         if (isFocus && currentTab === 0) {
-            // console.log("--- setStateFromParent : ", staffColumn);
             await this.setState({
                 webLink,
                 timezone,
@@ -84,7 +82,6 @@ class TabGaneral extends Layout {
     saveSettngApp = async () => {
         const { profile } = this.props;
         const { languageApp, longitude, latitude, webLink, autoCloseAt, timezone, turnAmount, staffColumn } = this.state;
-
         const temptLanguage = languageApp === 'English' ? 'en' : 'vi';
         this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
         await this.setState({
@@ -119,9 +116,8 @@ class TabGaneral extends Layout {
     async componentDidUpdate(prevProps, prevState) {
         const { profile, refreshingGeneral, loading, isFocus, currentTab } = this.props;
         if (isFocus && currentTab === 0 && prevProps.refreshingGeneral !== refreshingGeneral && !refreshingGeneral) {
-            // console.log("----- Internal ------");
             await this.setState({
-                webLink: profile.webLink ? profile.webLink : '',
+                webLink: profile?.webLink || '',
                 timezone: profile.timezone ? profile.timezone : '',
                 autoCloseAt: profile.autoCloseAt ? profile.autoCloseAt : '',
                 turnAmount: profile.turnAmount ? profile.turnAmount : 0,

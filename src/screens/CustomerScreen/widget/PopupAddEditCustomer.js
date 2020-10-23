@@ -71,10 +71,10 @@ class PopupAddEditCustomer extends React.Component {
                 phone: getCodeAreaPhone(customer.phone).phone,
                 email: customer.email,
                 addressPost: {
-                    street: customer.addressPost.street ? customer.addressPost.street : "",
-                    city: customer.addressPost.city ? customer.addressPost.city : "",
+                    street: customer?.addressPost?.street || "",
+                    city: customer?.addressPost?.city || "",
                     state: customer.addressPost.state === 0 ? '' : getNameStateById(this.props.stateCity, customer.addressPost.state),
-                    zip: customer.addressPost.zip ? customer.addressPost.zip : "",
+                    zip:  customer?.addressPost?.zip || "",
                 },
                 referrerPhone: getCodeAreaPhone(customer.referrerPhone).phone,
                 favourite: customer.favourite,

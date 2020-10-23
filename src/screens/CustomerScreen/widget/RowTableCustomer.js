@@ -7,7 +7,6 @@ import {
 
 import { Button, } from '@components';
 import { scaleSzie } from '@utils';
-import IMAGE from '@resources';
 
 class RowTableCustomer extends React.Component {
 

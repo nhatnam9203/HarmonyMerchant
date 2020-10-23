@@ -100,7 +100,6 @@ class BankInfoScreen extends Layout {
     }
 
     handleVoidCheck = async (response) => {
-
         if (response.error === "Photo library permissions not granted") {
             gotoSettingsDevice();
         } else if (response.uri) {

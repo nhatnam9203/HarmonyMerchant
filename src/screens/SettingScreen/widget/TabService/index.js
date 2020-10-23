@@ -19,7 +19,6 @@ class TabService extends Layout {
             serviceHanle: {},
             visibleAdd: false,
             visibleEdit: false,
-            // ----
             searchFilter: {
                 keySearch: '',
                 category: '',

@@ -240,10 +240,6 @@ class PrincipalScreen extends Layout {
                         break;
                     } else {
                         if (arrayKey[i] === 'yearAtThisAddress') {
-                            // if (!validateIsNumber(principalInfo2[arrayKey[i]])) {
-                            //     keyError = 'yearAtThisAddressInvalid';
-                            //     break;
-                            // }
                             break;
                         }
                     }
@@ -360,13 +356,9 @@ class PrincipalScreen extends Layout {
                     this.props.actions.app.setPrincipalInfo([temptPrincipalInfo, temptPrincipalSecondInfo]);
                     this.props.goToPage(4);
                 }
-
-
             } else {
                 Alert.alert(`Please upload a photo`);
             }
-
-
         }
     }
 

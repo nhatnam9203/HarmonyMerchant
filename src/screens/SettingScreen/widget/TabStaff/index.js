@@ -15,7 +15,6 @@ class TabStaff extends Layout {
                 status: ''
             },
             staffHandle: {},
-            // ----
             searchFilter: {
                 keySearch: '',
                 role: '',
@@ -53,8 +52,8 @@ class TabStaff extends Layout {
             setTimeout(() => {
                 this.searchStaff();
             }, 100);
-        }else{
-            if(value === ""){
+        } else {
+            if (value === "") {
                 this.searchStaff();
             }
         }
@@ -91,7 +90,7 @@ class TabStaff extends Layout {
     searchStaff = (isShowLoading = true) => {
         const { searchFilter } = this.state;
         const { keySearch, role, status } = searchFilter;
-        this.props.actions.staff.getStaffByMerchantId(keySearch, role, status,searchFilter,isShowLoading);
+        this.props.actions.staff.getStaffByMerchantId(keySearch, role, status, searchFilter, isShowLoading);
     }
 
     addStaff = async () => {
@@ -126,12 +125,12 @@ class TabStaff extends Layout {
     // ------ ADD EDIT STAFF -----
     submitAddStaff = (staff) => {
         const { searchFilter } = this.state;
-        this.props.actions.staff.addStaffByMerchant(staff,searchFilter);
+        this.props.actions.staff.addStaffByMerchant(staff, searchFilter);
     }
 
     submitEditStaff = (staff, id) => {
         const { searchFilter } = this.state;
-        this.props.actions.staff.editStaff(staff, id,searchFilter);
+        this.props.actions.staff.editStaff(staff, id, searchFilter);
     }
 
     findIsActiveOfStaff = (staffId) => {
@@ -146,10 +145,8 @@ class TabStaff extends Layout {
     updateStaffsPosition = (data, isShowSearchStaff) => {
         if (!isShowSearchStaff) {
             const staffsUpdate = data.map((staff, index) => {
-                // console.log("--- staff : ",staff);
                 return {
                     ...staff,
-                    // isActive: this.findIsActiveOfStaff(staff.staffId),
                     position: index
                 }
             });
@@ -167,10 +164,8 @@ class TabStaff extends Layout {
     clearSearchText = () => {
         const { searchFilter } = this.state;
         const { role, status } = searchFilter;
-
         this.updateSearchFilterInfo("keySearch", "");
-        this.props.actions.staff.getStaffByMerchantId("", role, status,searchFilter);
-
+        this.props.actions.staff.getStaffByMerchantId("", role, status, searchFilter);
     }
 
     toggleStaffActive = (staff, isActive) => {
@@ -192,18 +187,18 @@ class TabStaff extends Layout {
             tipFee: staff.tipFees,
             productSalary: staff.productSalaries,
             address: {
-                street: staff.address ? staff.address : "",
-                city: staff.city ? staff.city : "",
-                state: staff.stateId ? staff.stateId : 0,
-                zip: staff.zip ? staff.zip : "",
+                street: staff?.address || "",
+                city: staff?.city || "",
+                state:  staff?.stateId || 0,
+                zip: staff?.zip || "",
             },
             roles: {
-                nameRole: staff.roleName ? staff.roleName : ""
+                nameRole: staff?.roleName || ""
             }
             ,
             isActive
         }, staff.staffId ? staff.staffId : 0,
-        searchFilter
+            searchFilter
         )
     }
 

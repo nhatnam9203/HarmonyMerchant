@@ -5,8 +5,6 @@ class IntroScreen extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = {
-        }
     }
 
     gotoApplication = () => {
