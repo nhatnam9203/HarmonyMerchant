@@ -10,7 +10,6 @@ import ItemCheckBoxInput from './ItemCheckBoxInput';
 import connectRedux from '@redux/ConnectRedux';
 
 class PromotionFive extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {

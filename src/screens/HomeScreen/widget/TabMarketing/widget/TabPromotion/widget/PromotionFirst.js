@@ -65,7 +65,6 @@ class PromotionFirst extends React.Component {
     }
 
     // ----------- RENDER ----------
-
     render() {
         const { language, showCalendar, onFocus ,isApplyFirstPromotion} = this.props;
         const { data, isShowContent } = this.state;

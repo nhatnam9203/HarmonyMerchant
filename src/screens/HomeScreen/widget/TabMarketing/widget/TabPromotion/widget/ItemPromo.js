@@ -13,7 +13,6 @@ import { Button, Text } from '@components';
 const { width } = Dimensions.get('window');
 
 class ItemPromo extends React.Component {
-
     constructor(props) {
         super(props);
     }

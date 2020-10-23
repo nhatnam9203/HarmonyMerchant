@@ -1,21 +1,15 @@
 import React from 'react';
 import {
     View,
-    Image,
 } from 'react-native';
 
 import { scaleSzie,WorkingTime } from '@utils';
 import styles from '../style';
-import IMAGE from '@resources';
-import { Button, Text,Dropdown } from '@components';
+import { Text,Dropdown } from '@components';
 
 class ItemDropdown extends React.Component {
-
     constructor(props){
         super(props);
-        this.state = {
-        }
-
     }
 
     render(){

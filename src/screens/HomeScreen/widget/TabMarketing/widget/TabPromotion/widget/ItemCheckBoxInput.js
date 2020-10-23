@@ -3,10 +3,8 @@ import {
     View,
     Image,
 } from 'react-native';
-import { TextInputMask } from 'react-native-masked-text';
 
 import { scaleSzie } from '@utils';
-import styles from '../style';
 import IMAGE from '@resources';
 import { InputForm, Button } from '@components';
 

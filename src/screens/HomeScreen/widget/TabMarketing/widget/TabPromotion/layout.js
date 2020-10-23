@@ -38,7 +38,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language, promotions, isApplyPromotion, refreshingPromotion } = this.props;
+        const { language, promotions, refreshingPromotion } = this.props;
         const { show, dateCalendar } = this.state;
         if (promotions.length == 0) {
             return this.renderLoadingPromotion();

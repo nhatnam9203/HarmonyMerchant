@@ -1,14 +1,11 @@
 import React from 'react';
-import { } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import { getServiceIdByName } from '@utils';
 import { scaleSzie } from '../../../../../../utils';
 
-
 class TabPromotion extends Layout {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -70,7 +67,6 @@ class TabPromotion extends Layout {
   }
 
   applyPromotion = (promotionId, isSendNoti) => {
-    // console.log("--- promotionId :", promotionId);
     const { servicesByMerchant } = this.props;
 
     const promotionFirst = this.promotionFirstRef.current.state.data;
@@ -81,8 +77,8 @@ class TabPromotion extends Layout {
 
     const temptPromotionSecond = {
       ...this.promotionSecondRef.current.state.data,
-      serviceUsing: getServiceIdByName(servicesByMerchant, promotionSeconde.serviceUsing ? promotionSeconde.serviceUsing : 0),
-      serviceApply: getServiceIdByName(servicesByMerchant, promotionSeconde.serviceApply ? promotionSeconde.serviceApply : 0),
+      serviceUsing: getServiceIdByName(servicesByMerchant, promotionSeconde?.serviceUsing || 0),
+      serviceApply: getServiceIdByName(servicesByMerchant,promotionSeconde?.serviceApply || 0),
     };
 
     let tempPromotion;
@@ -106,7 +102,6 @@ class TabPromotion extends Layout {
         tempPromotion = promotionFive;
     };
 
-    // const dataUpdate = [promotionFirst, temptPromotionSecond, promotionThird, promotionFour, promotionFive];
     this.props.actions.marketing.updatePromotionByMerchant([tempPromotion], promotionId, isSendNoti);
   }
 

@@ -47,12 +47,6 @@ class PromotionRewardPoints extends React.Component {
     }
 
     checkSelectPromotion = () => {
-        // const { data } = this.state;
-        // const isCheck = data.isDisabled === 0 ? 1 : 0;
-        // this.setState({
-        //     data: updateStateChildren('isDisabled', isCheck, data)
-        // });
-        // this.props.checkSelectPromotion();
     }
 
     sendNotification = () => {
@@ -61,7 +55,6 @@ class PromotionRewardPoints extends React.Component {
     }
 
     // ----------- RENDER ----------
-
     render() {
         const { language } = this.props;
         const { data,isShowContent } = this.state;
