@@ -15,22 +15,18 @@ const initialState = {
     settleWaiting: {},
     invoicesOfStaff: [],
     transactionsSettlement: [],
-    // ----- Search transaction ------
     listTransactionSearch: [],
     isShowSearchTransaction: false,
-
     listBatchHistory: [],
     listBatchHistorySearch: [],
     batchHistoryPagesTotal: 0,
     batchHistoryPagesCurrent: 0,
     isShowSearchBatchHistory: false,
-
     refreshingSettle: false,
     refreshingTransaction: false,
     refreshingBatchHistory: false,
     isGettingSettlement: "",
     visibleConfirmPrintInvoice: false,
-
     invoiceTabPermission: false,
     settlementTabPermission: false,
     staffSales: [],

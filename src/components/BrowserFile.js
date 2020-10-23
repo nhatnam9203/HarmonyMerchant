@@ -32,13 +32,11 @@ class BrowserFile extends React.PureComponent {
     }
 
     handleImagePicker = async (response) => {
-    //console.log('response : ', response);
         if (response.error === "Photo library permissions not granted") {
             gotoSettingsDevice();
         } else if (response.uri) {
             this.props.editButtonSubmit(false);
             await this.setState({
-                // uriUpload: response.uri,
                 isProcessingUpload: true
             });
 
@@ -101,7 +99,7 @@ class BrowserFile extends React.PureComponent {
     }
 
     async  componentDidUpdate(prevProps, prevState, snapshot) {
-        const { loading, isUpload, dataUpload, isResetInfoAdmin } = this.props;
+        const { loading, isUpload, dataUpload } = this.props;
         const { isProcessingUpload } = this.state;
         if (isUpload && isUpload !== prevProps.isUpload && isProcessingUpload) {
             this.props.actions.upload.resetStateUpload();

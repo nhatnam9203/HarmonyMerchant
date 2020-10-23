@@ -11,11 +11,6 @@ const initialState = {
 
 function extraReducer(state = initialState, action) {
     switch (action.type) {
-        // case 'REHYDRATE_EXTRAS':
-        //     return {
-        //         ...initialState,
-        //         extrasByMerchant: action.payload
-        //     }
         case 'GET_EXTRA_BY_MERCHANT':
             return {
                 ...state,

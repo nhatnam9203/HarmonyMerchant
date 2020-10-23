@@ -60,7 +60,7 @@ function dataLocalReducer(state = initialState, action) {
             return {
                 ...state,
                 profile: action.payload.profile,
-                token: action.payload.token ? action.payload.token : state.token,
+                token:  action?.payload?.token || state.token,
             }
         case 'GET_MERCHANT_BY_ID_SUCCESS':
             return {
@@ -87,7 +87,6 @@ function dataLocalReducer(state = initialState, action) {
             return {
                 ...state,
                 profileStaffLogin: action.payload,
-                // isLoginStaff: true,
             }
         case 'RESET_NEED_SETTING_STORE':
             return {
@@ -190,8 +189,6 @@ const sensitiveStorage = createSensitiveStorage({
 
 const dataLocalPersistConfig = {
     key: "dataLocal",
-    // storage: AsyncStorage,
-    // blacklist: [],
     storage: sensitiveStorage
 
 };

@@ -17,7 +17,7 @@ function authReducer(state = initialState, action) {
         case 'LOGIN_APP_FAIL':
             return {
                 ...state,
-                errorLogin: action.payload.message
+                errorLogin: action?.payload?.message || ""
             }
         case 'CHECK_STAFF_PERMISSION':
             return {
