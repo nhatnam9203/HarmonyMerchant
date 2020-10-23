@@ -34,20 +34,18 @@ class PopupChangePriceAmountProduct extends React.Component {
     }
 
     handleKeyboardWillHide = async () => {
-
         if (this.scrollRef.current) {
             this.scrollRef.current.scrollTo({ x: 0, y: 0, animated: true })
         }
-
     }
 
     setStateFromParent = async (product, appointmentId) => {
         await this.setState({
-            name: product && product.data && product.data.name ? product.data.name : '',
-            bookingProductId: product && product.data && product.data.bookingProductId ? product.data.bookingProductId : '',
-            price: product && product.data && product.data.price ? product.data.price : 0.00,
-            quantity: product && product.quanlitySet ? product.quanlitySet : 0,
-            productIdLocal: product.data.productId ? product.data.productId : '',
+            name: product?.data?.name || '',
+            bookingProductId: product?.data?.bookingProductId || '',
+            price: roduct?.data?.price || 0.00,
+            quantity: product?.quanlitySet || 0,
+            productIdLocal: product?.data.productId || '',
         });
     }
 

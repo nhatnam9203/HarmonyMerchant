@@ -43,7 +43,7 @@ class PopupDiscount extends React.Component {
         const customDiscountPercent = this.customDiscountRef.current.state.percent;
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
         if (!_.isEmpty(appointmentDetail)) {
-            const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+            const subTotal = appointmentDetail?.subTotal || 0;
             let totalDiscount = 0;
             for (let i = 0; i < discount.length; i++) {
                 totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(discount[i].discount);
@@ -99,9 +99,8 @@ class PopupDiscount extends React.Component {
 
     onChangeTextDiscountFixed = async (discountFixed) => {
         const { appointmentDetail } = this.props;
-
         if (!_.isEmpty(appointmentDetail)) {
-            const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+            const subTotal = appointmentDetail?.subTotal || 0;
             await this.setState({
                 moneyDiscountFixedAmout: discountFixed,
                 moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(subTotal) / 100)
@@ -117,14 +116,11 @@ class PopupDiscount extends React.Component {
         this.setState(prevState => ({ isDiscountByOwner: !prevState.isDiscountByOwner }))
     }
 
-
     // ------ Render -----
 
     render() {
         try {
-            const { title, discount, visibleModalDiscount,
-                appointmentDetail, language
-            } = this.props;
+            const { title, discount, visibleModalDiscount,appointmentDetail, language} = this.props;
             const { customDiscountPercent, customDiscountFixed } = appointmentDetail;
             const {
                 moneyDiscountCustom, moneyDiscountFixedAmout, totalLocal, discountTotal,

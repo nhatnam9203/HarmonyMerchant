@@ -13,7 +13,6 @@ import { Dropdown, PopupParent, ButtonCustom } from '@components';
 import connectRedux from '@redux/ConnectRedux';
 import { scaleSzie, localize, formatWithMoment } from '@utils';
 
-
 class PopupChangeStylist extends React.Component {
 
     constructor(props) {
@@ -35,32 +34,29 @@ class PopupChangeStylist extends React.Component {
     }
 
     handleKeyboardWillHide = async () => {
-
         if (this.scrollRef.current) {
             this.scrollRef.current.scrollTo({ x: 0, y: 0, animated: true })
         }
-
     }
 
     setStateFromParent = async (service) => {
         const { staff } = service;
         await this.setState({
-            staffId: staff && staff.staffId ? staff.staffId : '',
-            name: staff && staff.displayName ? staff.displayName : '',
-            bookingServiceId: service.data.bookingServiceId ? service.data.bookingServiceId : '',
-            tip: staff && staff.tip ? staff.tip : 0.00,
-            serviceIdLocal: service.data.serviceId ? service.data.serviceId : '',
-            price: service.data && service.data.price ? service.data.price : 0.00,
-            note: service.note ? service.note : ""
+            staffId: staff?.staffId || '',
+            name: staff?.displayName || '',
+            bookingServiceId:  service?.data?.bookingServiceId || '',
+            tip: staff?.tip || 0.00,
+            serviceIdLocal: service?.data?.serviceId || '',
+            price: service?.data?.price || 0.00,
+            note: service?.note || ""
         })
     }
 
     getStaffDataDropdown(staffs) {
         const { appointmentDetail } = this.props;
         let fromTime = new Date();
-
         if (!_.isEmpty(appointmentDetail)) {
-            fromTime = appointmentDetail && appointmentDetail.fromTime ? appointmentDetail.fromTime : new Date();
+            fromTime = appointmentDetail?.fromTime || new Date();
         }
         const data = [];
         const dayNameOfWeek = formatWithMoment(fromTime, "dddd");
@@ -92,18 +88,15 @@ class PopupChangeStylist extends React.Component {
             this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentDetail.appointmentId, price, 0, note);
         }
         this.props.onRequestClose();
-
     }
 
     onFocusToScroll = (number) => {
         this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(number), animated: true })
     }
 
-
     // --------------- Render -----------
-
     render() {
-        const { title, visible, listStaffByMerchant, onRequestClose, confimYes, language } = this.props;
+        const { title, visible, listStaffByMerchant, onRequestClose, language } = this.props;
         const { name, tip, price, note } = this.state;
         const dataDropdown = this.getStaffDataDropdown(listStaffByMerchant)
         return (
@@ -154,7 +147,6 @@ class PopupChangeStylist extends React.Component {
                                 paddingHorizontal: scaleSzie(10), marginBottom: scaleSzie(10)
                             }} >
                                 <TextInputMask
-                                    // type="only-numbers"
                                     type={'money'}
                                     options={{
                                         precision: 2,

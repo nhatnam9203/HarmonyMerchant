@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'ramda';
-import {  AppState } from 'react-native';
+import { AppState } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -59,16 +59,15 @@ class TabAppointment extends Layout {
     }
 
     componentDidMount() {
-        this.updateLinkOfCalendar();
         AppState.addEventListener("change", this.handleAppStateChange);
     }
 
     getLinkForCalendar() {
         const { profile, profileStaffLogin, deviceId } = this.props;
-        const staffColumn = profile.staffColumn ? profile.staffColumn : 8;
-        const staffToken = profileStaffLogin.token ? profileStaffLogin.token : "";
-        const merchantId = profile.merchantId ? profile.merchantId : "";
-        const staffId = profileStaffLogin.staffId ? profileStaffLogin.staffId : 0;
+        const staffColumn = profile?.staffColumn || 8;
+        const staffToken = profileStaffLogin?.token || "";
+        const merchantId = profile?.merchantId || "";
+        const staffId = profileStaffLogin?.staffId || 0;
         const tempDeviceId = deviceId ? deviceId : "";
         const url = `${apiConfigs.CALENDAR_URL}${staffColumn}/index.html?token=${staffToken}&merchantid=${merchantId}&staffId=${staffId}&deviceId=${tempDeviceId}`;
 
@@ -76,18 +75,12 @@ class TabAppointment extends Layout {
     }
 
     updateLinkOfCalendar = async () => {
-        const { profile, profileStaffLogin, deviceId } = this.props;
-        const staffColumn = profile.staffColumn ? profile.staffColumn : 8;
-        const staffToken = profileStaffLogin.token ? profileStaffLogin.token : "";
-        const merchantId = profile.merchantId ? profile.merchantId : "";
-        const staffId = profileStaffLogin.staffId ? profileStaffLogin.staffId : 0;
-        const tempDeviceId = deviceId ? deviceId : "";
-        const url = `${apiConfigs.CALENDAR_URL}${staffColumn}/index.html?token=${staffToken}&merchantid=${merchantId}&staffId=${staffId}&deviceId=${tempDeviceId}`;
+        const url = this.getLinkForCalendar();
         if (url !== `${this.state.calendarLink}`) {
             this.setState({
                 calendarLink: url
             });
-        } 
+        }
     }
 
     onNotif = (notif) => {
@@ -142,7 +135,6 @@ class TabAppointment extends Layout {
         try {
             if (event.nativeEvent && event.nativeEvent.data) {
                 const data = JSON.parse(event.nativeEvent.data);
-                // console.log('data : ', JSON.stringify(data));
                 if (validateIsNumber(data) && data < -150) {
                     this.onLoadStartWebview();
                 } else {
@@ -166,7 +158,6 @@ class TabAppointment extends Layout {
         } catch (error) {
         }
     }
-
 
     // -------- Add Appointment --------
     onPressSelectCategory = (category) => {
@@ -327,7 +318,6 @@ class TabAppointment extends Layout {
                 },
             })
         }
-
     }
 
     removeItemBasket = (item) => {
@@ -394,7 +384,6 @@ class TabAppointment extends Layout {
     }
 
     changeProductInBasket = async (product) => {
-        // console.log("product : ", JSON.stringify(product));
         this.changePriceAmountProductRef.current.setStateFromParent(product);
         this.setState({
             visibleChangePriceAmountProduct: true
