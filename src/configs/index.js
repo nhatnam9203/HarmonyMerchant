@@ -24,7 +24,7 @@ const configs = {
             },
         })
     },
-    APPSTORE_VERSION: "1.1.2",
+    APPSTORE_VERSION: "1.1.3",
     codePushKeyIOS: {
         production: 'duhVozb0nWJ1ciL39iNtdh5xdqBy8ed003ce-e621-4347-babf-de7857b9c737',
         staging: 'mnF_3WG05SYllO2LScQOQIhTgfRs8ed003ce-e621-4347-babf-de7857b9c737',

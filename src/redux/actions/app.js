@@ -1,6 +1,5 @@
 import apiConfigs from "../../configs/api";
 
-// ---- Loading ----
 export function loadingApp() {
   return {
     type: "LOADING_ROOT",
