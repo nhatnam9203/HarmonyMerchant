@@ -8,7 +8,6 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 
 class SignInScreen extends Layout {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -73,7 +72,6 @@ class SignInScreen extends Layout {
             this.keyboardDidHideListener.remove();
         }
     }
-
 }
 
 const mapStateToProps = state => ({
@@ -82,7 +80,5 @@ const mapStateToProps = state => ({
     MIDStorage: state.dataLocal.MIDStorage,
     isRememberMID: state.dataLocal.isRememberMID
 })
-
-
 
 export default connectRedux(mapStateToProps, SignInScreen);

@@ -2,8 +2,6 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import NavigatorServices from '@navigators/NavigatorServices';
-
 
 class StoreInfoScreen extends Layout {
 

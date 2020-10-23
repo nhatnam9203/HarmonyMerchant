@@ -1,7 +1,5 @@
 import _ from "ramda";
 import React from "react";
-import { Platform, Linking, Alert, Share } from "react-native";
-import RNFetchBlob from 'rn-fetch-blob';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';

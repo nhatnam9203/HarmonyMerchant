@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 
@@ -17,7 +15,6 @@ class TermsScreen extends Layout {
         if(stateCity.length === 0){
             this.props.actions.app.getStateCity();
         }
-       
     }
 
     agreeTerm = () => {
@@ -29,7 +26,6 @@ class TermsScreen extends Layout {
         if (this.props.isAgreeTerm) {
             this.props.navigation.navigate('SignUp');
         }
-
     }
 }
 

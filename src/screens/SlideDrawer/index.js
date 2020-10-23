@@ -16,16 +16,11 @@ class SlideDrawer extends Layout {
     changeLanguage =(item)=>{
         NavigatorServices.navigate(item)
     }
-
-
-
 }
 
 const mapStateToProps = state => ({
     profile: state.dataLocal.profile,
     language: state.dataLocal.language
 })
-
-
 
 export default connectRedux(mapStateToProps, SlideDrawer);

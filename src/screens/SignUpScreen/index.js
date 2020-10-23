@@ -1,5 +1,4 @@
 import React from 'react';
-import { Keyboard } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -29,9 +28,7 @@ class SignUpScreen extends Layout {
                 this.principalInfoRef.current.setStateFromparent(false);
             }
         }
-
     }
-
 
     componentDidUpdate(prevProps, prevState) {
         const {registerMerchantError} = this.props;

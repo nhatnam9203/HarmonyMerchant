@@ -66,8 +66,6 @@ class SupportScreen extends Layout {
   }
 
   logout = () => {
-    // add firease comment
-    // this.props.actions.auth.logout();
     this.props.actions.auth.requestLogout();
     this.props.navigation.navigate("SigninStack");
   };
@@ -77,7 +75,6 @@ class SupportScreen extends Layout {
     if (indexTab == 1) {
       this.props.actions.staff.switchAddStaff(false);
     }
-    // this.props.actions.app.handleLockScreen(true);
   };
 
   componentWillUnmount() {

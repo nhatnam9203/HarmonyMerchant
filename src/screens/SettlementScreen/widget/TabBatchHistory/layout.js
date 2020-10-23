@@ -12,7 +12,6 @@ import { BatchHistoryDetail, StaffIncomeDetailsTab, BatchHistoryList, GiftCardSa
 class Layout extends React.Component {
 
     render() {
-
         return (
             <View style={styles.container} >
                 <ScrollableTabView
@@ -39,7 +38,6 @@ class Layout extends React.Component {
                     <CreditPaymentDetail
                         ref={this.creditPaymentDetailRef}
                     />
-
                 </ScrollableTabView>
             </View>
         );
