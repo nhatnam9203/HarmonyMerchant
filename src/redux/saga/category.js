@@ -7,11 +7,10 @@ function* addCategory(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('--- responses : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", category: "", status: "" };
+            const searchFilter = action?.searchFilter || { keySearch: "", category: "", status: "" };
             const { keySearch, category, status } = searchFilter;
             yield put({
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
@@ -19,7 +18,7 @@ function* addCategory(action) {
                 token: true,
                 api: `${apiConfigs.BASE_API}category/search?name=${keySearch}&status=${status}&type=${category}`,
                 isShowLoading: true,
-                searchFilter: action.searchFilter ? action.searchFilter : false
+                searchFilter:  action?.searchFilter || false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -44,11 +43,10 @@ function* getCategoriesByMerchantId(action) {
             yield put({ type: 'LOADING_ROOT' })
         }
         const responses = yield requestAPI(action);
-        //console.log('getCategoriesByMerchantId : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", category: "", status: "" };
+            const searchFilter = action?.searchFilter || { keySearch: "", category: "", status: "" };
             const { keySearch, category, status } = searchFilter;
             const tempSearchFilter = keySearch || category || status ? true : false;
             yield put({
@@ -80,9 +78,8 @@ function* archiveCategory(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        //console.log('--- responses : ', responses);
         if (parseInt(codeNumber) == 200) {
-            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", category: "", status: "" };
+            const searchFilter = action?.searchFilter || { keySearch: "", category: "", status: "" };
             const { keySearch, category, status } = searchFilter;
             yield put({ type: 'IS_GET_LIST_SEARCH_CATEGORIES' });
             yield put({
@@ -91,7 +88,7 @@ function* archiveCategory(action) {
                 token: true,
                 api: `${apiConfigs.BASE_API}category/search?name=${keySearch}&status=${status}&type=${category}`,
                 isShowLoading: true,
-                searchFilter: action.searchFilter ? action.searchFilter : false
+                searchFilter: action?.searchFilter || false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -115,9 +112,8 @@ function* restoreCategory(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        //console.log('--- restoreCategory : ', responses);
         if (parseInt(codeNumber) == 200) {
-            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", category: "", status: "" };
+            const searchFilter =  action?.searchFilter || { keySearch: "", category: "", status: "" };
             const { keySearch, category, status } = searchFilter;
             yield put({ type: 'IS_GET_LIST_SEARCH_CATEGORIES' });
             yield put({
@@ -126,7 +122,7 @@ function* restoreCategory(action) {
                 token: true,
                 api: `${apiConfigs.BASE_API}category/search?name=${keySearch}&status=${status}&type=${category}`,
                 isShowLoading: true,
-                searchFilter: action.searchFilter ? action.searchFilter : false
+                searchFilter:  action?.searchFilter || false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -149,10 +145,9 @@ function* editCategory(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", category: "", status: "" };
+            const searchFilter = action?.searchFilter || { keySearch: "", category: "", status: "" };
             const { keySearch, category, status } = searchFilter;
             yield put({ type: 'IS_GET_LIST_SEARCH_CATEGORIES' });
             yield put({
@@ -161,7 +156,7 @@ function* editCategory(action) {
                 token: true,
                 api: `${apiConfigs.BASE_API}category/search?name=${keySearch}&status=${status}&type=${category}`,
                 isShowLoading: true,
-                searchFilter: action.searchFilter ? action.searchFilter : false
+                searchFilter: action?.searchFilter || false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -185,7 +180,6 @@ function* searchCategories(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -211,15 +205,10 @@ function* searchCategories(action) {
 
 function* updatePositionCategories(action) {
     try {
-        // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('--- updatePositionCategories : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            // yield put({
-            //     type: 'SEARCH_CATEGORIES_SUCCESS',
-            //     payload: responses.data
-            // });
+            
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

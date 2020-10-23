@@ -10,7 +10,6 @@ const getAsyncStoreToken = async () => {
   try {
     token = await AsyncStorage.getItem("fcmToken");
   } catch (error) {
-    // console.log("Load token error: ", error);
   }
 
   return token;
@@ -40,9 +39,7 @@ function* login(action) {
   try {
     yield put({ type: "LOADING_ROOT" });
 
-    // Add firebaseToken & device id to login
     const fcmToken = yield call(getFcmToken);
-    // console.log("=========> login get token ", fcmToken);
     const deviceUniqueId = yield call(getDeviceId);
 
     let body = action.body || {};
@@ -60,13 +57,13 @@ function* login(action) {
       yield put({
         type: "SAVE_PROFILE_LOCAL",
         payload: {
-          profile: responses.data.merchant,
-          token: responses.data.token,
+          profile: responses?.data?.merchant,
+          token: responses?.data?.token,
         },
       });
       yield put({
         type: "LOGIN_APP_SUCCESS",
-        payload: action.body && action.body.email ? action.body.email : "",
+        payload: action?.body?.email || "",
         isRememberMID: action.isRememberMID,
       });
       yield put({ type: "STOP_LOADING_ROOT" });
@@ -92,7 +89,6 @@ function* forgotPassword(action) {
   try {
     yield put({ type: "LOADING_ROOT" });
     const responses = yield requestAPI(action);
-    //console.log('responses : ', responses);
     yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
@@ -119,17 +115,13 @@ function* forgotPassword(action) {
 
 function* checkStaffPermission(action) {
   try {
-    // yield put({ type: 'LOADING_ROOT' });
     const responses = yield requestAPI(action);
-    // console.log('responses : ', responses);
     yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
       yield put({
         type: "CHECK_STAFF_PERMISSION_SUCCESS",
       });
-      // yield put({ type: "LOADING_ROOT" });
-
       if (action.tabName === "Invoice") {
         yield put({
           type: "TOGGLE_INVOICE_TAB_PERMISSION",
@@ -146,7 +138,7 @@ function* checkStaffPermission(action) {
         });
         yield put({
           type: "UPDATE_PROFILE_LOGIN_INVOICE",
-          payload: responses.data ? responses.data : {},
+          payload: responses?.data || {},
         });
       } else if (action.tabName === "Settlement") {
         yield put({
@@ -197,8 +189,6 @@ function* checkStaffPermission(action) {
           isShowLoading: true,
         });
       } else if (action.tabName === "Reports") {
-        // console.log("======> auth middle ware", action.tabName);
-
         yield put({
           type: "TOGGLE_REPORT_TAB_PERMISSION",
           payload: false,
@@ -216,7 +206,7 @@ function* checkStaffPermission(action) {
           type: "GET_MERCHANT_BY_ID",
           method: "GET",
           token: true,
-          api: `${apiConfigs.BASE_API}merchant/${state.dataLocal.profile.merchantId}`,
+          api: `${apiConfigs.BASE_API}merchant/${state?.dataLocal?.profile?.merchantId}`,
           isRefresh: false,
         });
       } else if (action.tabName === "Marketing") {
@@ -288,11 +278,8 @@ function* requestLogout(action) {
 
 function* activeFirebase(action) {
   try {
-    // yield put({ type: "LOADING_ROOT" });
     const deviceUniqueId = yield call(getDeviceId);
-    // let fcmToken = yield select((state) => state.app.firebaseToken);
     const fcmToken = action.firebaseToken;
-    // console.log("activeFirebase send", fcmToken);
     let body = action.body || {};
     body = Object.assign({}, body, {
       firebaseToken: fcmToken,
@@ -301,7 +288,6 @@ function* activeFirebase(action) {
     action.body = body;
 
     const responses = yield requestAPI(action);
-    // yield put({ type: "STOP_LOADING_ROOT" });
   } catch (error) {
     yield put({ type: error });
   } finally {

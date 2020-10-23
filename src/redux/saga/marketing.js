@@ -9,7 +9,6 @@ function* getBannerMerchant(action) {
             yield put({ type: 'LOADING_ROOT' });
         }
         const responses = yield requestAPI(action);
-        //console.log('getBannerMerchant : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -42,7 +41,6 @@ function* deleteBannerMerchant(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        //console.log('deleteBannerMerchant : ', responses);
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_BANNER_MERCHANT',
@@ -73,7 +71,6 @@ function* addBannerWithInfo(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('addBannerWithInfo : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -107,7 +104,6 @@ function* getPromotionByMerchant(action) {
         }
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        //console.log('getPromotionByMerchant : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -131,7 +127,6 @@ function* getPromotionByMerchant(action) {
         yield put({
             type: 'GET_PROMOTION_BY_MERCHANT_FAIL',
         })
-        // alert(`error-getPromotionByMerchant: ${error}`)
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -143,7 +138,6 @@ function* updatePromotionByMerchant(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        // console.log('updatePromotionByMerchant : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -189,28 +183,26 @@ function* getPromotionByAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('getPromotionByAppointment : ', JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             if (action.isBlock) {
                 yield put({
                     type: 'GET_PROMOTION_BY_BLOCK_APPOINTMENT_SUCCESS',
-                    payload: responses.data && responses.data.promotions ? responses.data.promotions : [],
+                    payload: responses?.data?.promotions || [],
                     appointmentId: action.appointmentId,
-                    promotionNotes: responses.data && responses.data.notes ? responses.data.notes : {},
-                    isDiscountByOwner: responses.data ? responses.data.isDiscountByOwner : true,
+                    promotionNotes:  responses?.data?.notes || {},
+                    isDiscountByOwner:  responses?.data.isDiscountByOwner || true,
                 })
             } else {
                 yield put({
                     type: 'GET_PROMOTION_BY_APPOINTMENT_SUCCESS',
-                    payload: responses.data && responses.data.promotions ? responses.data.promotions : [],
+                    payload: responses?.data?.promotions || [],
                     appointmentId: action.appointmentId,
-                    promotionNotes: responses.data && responses.data.notes ? responses.data.notes : {},
-                    isDiscountByOwner: responses.data ? responses.data.isDiscountByOwner : true,
+                    promotionNotes:  responses?.data?.notes || {},
+                    isDiscountByOwner: responses?.data.isDiscountByOwner || true,
                 })
             }
-
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -226,9 +218,6 @@ function* getPromotionByAppointment(action) {
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
-        setTimeout(() => {
-            alert(`error-getPromotionByAppointment: ${error}`)
-        }, 2000);
         yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -241,13 +230,12 @@ function* changeStylist(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        // console.log('responses : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             action.isGroup ? yield put({
                 type: 'GET_GROUP_APPOINTMENT_BY_ID',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId ? action.appointmentId : "changeStylist"}`,
+                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action?.appointmentId || "changeStylist"}`,
                 token: true
             }) :
                 yield put({
@@ -277,14 +265,13 @@ function* customPromotion(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('responses : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             if (!action.isBlock) {
                 action.isGroup ? yield put({
                     type: 'GET_GROUP_APPOINTMENT_BY_ID',
                     method: 'GET',
-                    api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentid ? action.appointmentid : "customPromotion"}`,
+                    api: `${apiConfigs.BASE_API}appointment/getGroupById/${action?.appointmentid || "customPromotion"}`,
                     token: true
                 }) :
                     yield put({
@@ -326,7 +313,6 @@ function* sendNotificationByPromotionId(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        // console.log('sendNotificationByPromotionId : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
 
@@ -349,10 +335,7 @@ function* sendNotificationByPromotionId(action) {
 
 function* updatePromotionNote(action) {
     try {
-        // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // yield put({ type: 'STOP_LOADING_ROOT' });
-        // console.log('updatePromotionNote : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
 
@@ -375,10 +358,7 @@ function* updatePromotionNote(action) {
 
 function* addPromotionNote(action) {
     try {
-        // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // yield put({ type: 'STOP_LOADING_ROOT' });
-        // console.log('addPromotionNote : ', JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
 

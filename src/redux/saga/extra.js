@@ -8,10 +8,9 @@ function* addExtraByMerchant(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", status: "" };
+            const searchFilter = action?.searchFilter || { keySearch: "", status: "" };
             const { keySearch, status } = searchFilter;
             yield put({
                 type: 'GET_EXTRA_BY_MERCHANT',
@@ -19,7 +18,7 @@ function* addExtraByMerchant(action) {
                 token: true,
                 api: `${apiConfigs.BASE_API}extra/search?name=${keySearch}&status=${status}`,
                 isShowLoading: true,
-                searchFilter: action.searchFilter ? action.searchFilter : false
+                searchFilter:  action?.searchFilter || false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -45,10 +44,9 @@ function* getExtraByMerchant(action) {
         }
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
-        //console.log('getExtraByMerchant : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", status: "" };
+            const searchFilter =  action?.searchFilter || { keySearch: "", status: "" };
             const { keySearch, status } = searchFilter;
             const tempSearchFilter = keySearch || status ? true : false;
             yield put({
@@ -80,9 +78,8 @@ function* archiveExtra(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        //console.log('--- archiveExtra : ', responses);
         if (parseInt(codeNumber) == 200) {
-            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", status: "" };
+            const searchFilter =  action?.searchFilter || { keySearch: "", status: "" };
             const { keySearch, status } = searchFilter;
             yield put({ type: 'IS_GET_LIST_SEARCH_EXTRA' });
             yield put({
@@ -91,7 +88,7 @@ function* archiveExtra(action) {
                 token: true,
                 api: `${apiConfigs.BASE_API}extra/search?name=${keySearch}&status=${status}`,
                 isShowLoading: true,
-                searchFilter: action.searchFilter ? action.searchFilter : false
+                searchFilter: action?.searchFilter || false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -115,9 +112,8 @@ function* restoreExtra(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        //console.log('--- restoreExtra : ', responses);
         if (parseInt(codeNumber) == 200) {
-            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", status: "" };
+            const searchFilter = action?.searchFilter || { keySearch: "", status: "" };
             const { keySearch, status } = searchFilter;
             yield put({ type: 'IS_GET_LIST_SEARCH_EXTRA' });
             yield put({
@@ -126,7 +122,7 @@ function* restoreExtra(action) {
                 token: true,
                 api: `${apiConfigs.BASE_API}extra/search?name=${keySearch}&status=${status}`,
                 isShowLoading: true,
-                searchFilter: action.searchFilter ? action.searchFilter : false
+                searchFilter: action?.searchFilter || false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -149,10 +145,9 @@ function* editExtra(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('--- responses : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            const searchFilter = action.searchFilter ? action.searchFilter : { keySearch: "", status: "" };
+            const searchFilter =  action?.searchFilter || { keySearch: "", status: "" };
             const { keySearch, status } = searchFilter;
             yield put({ type: 'IS_GET_LIST_SEARCH_EXTRA' });
             yield put({
@@ -161,7 +156,7 @@ function* editExtra(action) {
                 token: true,
                 api: `${apiConfigs.BASE_API}extra/search?name=${keySearch}&status=${status}`,
                 isShowLoading: true,
-                searchFilter: action.searchFilter ? action.searchFilter : false
+                searchFilter:  action?.searchFilter || false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -184,7 +179,6 @@ function* searchExtra(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('--- responses : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -211,15 +205,10 @@ function* searchExtra(action) {
 
 function* updatePositionExtras(action) {
     try {
-        // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('--- updateSerivePosition : ', responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            // yield put({
-            //     type: 'SEARCH_SERVICE_SUCCESS',
-            //     payload: responses.data
-            // });
+        
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

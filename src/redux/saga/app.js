@@ -14,7 +14,7 @@ function* getMerchantByID(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_MERCHANT_BY_ID_SUCCESS',
-                payload: responses.data
+                payload: responses?.data
             });
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -23,7 +23,7 @@ function* getMerchantByID(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             });
             yield put({
                 type: 'GET_MERCHANT_BY_ID_FAIL',
@@ -61,7 +61,7 @@ function* registerUser(action) {
             });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             });
         }
     } catch (error) {
@@ -76,7 +76,7 @@ function* getStateCity(action) {
         const responses = yield requestAPI(action);
         yield put({
             type: 'GET_STATE_CITY_SUCCESS',
-            payload: responses.data ? responses.data : []
+            payload: responses?.data || []
 
         });
     } catch (error) {
@@ -90,12 +90,11 @@ function* getQuestion(action) {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
-        // console.log('--- getQuestion : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_QUESTION_SUCCESS',
-                payload: responses.data ? responses.data : []
+                payload: responses?.data || []
 
             });
         } else {
@@ -104,7 +103,7 @@ function* getQuestion(action) {
             });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
 
@@ -118,21 +117,18 @@ function* getQuestion(action) {
 
 function* merchantSetting(action) {
     try {
-        // console.log("----- merchantSetting : ",action );
         if(action.isLoading){
             yield put({ type: 'LOADING_ROOT' });
         }
         const responses = yield requestAPI(action);
-        // console.log('--- merchantSetting : ', responses);
         const { codeNumber } = responses;
-        // yield put({ type: 'STOP_LOADING_ROOT' });
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'MERCHANT_SETTING_SUCCESS',
             });
             yield put({
                 type: 'UPDATE_MERCHANT_PROFILE',
-                payload: responses.data
+                payload: responses?.data
             });
             setTimeout(() => {
                 alert("Update Successfull!")
@@ -147,7 +143,7 @@ function* merchantSetting(action) {
             });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -165,7 +161,6 @@ function* sendLinkInstallApp(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('--- sendLinkInstallApp : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -181,7 +176,7 @@ function* sendLinkInstallApp(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -195,13 +190,12 @@ function* setupMerchantTAX(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('--- setupMerchantTAX : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'SAVE_PROFILE_LOCAL',
-                payload: { profile: responses.data }
+                payload: { profile: responses?.data }
             });
             yield put({
                 type: 'CHANGE_FLAG_SUBMIT_TAX',
@@ -215,7 +209,7 @@ function* setupMerchantTAX(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -229,7 +223,6 @@ function* checkEmailSignup(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        //console.log('--- checkEmailSignup : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -241,7 +234,7 @@ function* checkEmailSignup(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -255,7 +248,6 @@ function* getPackageAndPricing(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log('--- getPackageAndPricing : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -298,7 +290,6 @@ function* requestNetworkTimeout(action) {
 }
 
 function* timeout(action) {
-    // console.log("ddddddd");
     yield put({ type: 'Server not response' });
     setTimeout(() => {
         alert('Server not response');
@@ -308,7 +299,6 @@ function* timeout(action) {
 
 function* showErrorMessage(action) {
     yield put({ ...action, type: 'STOP_LOADING_ROOT' });
-    // alert(action.message);
     if (action.message === "The pincode is exsits.") {
         setTimeout(() => {
             Alert.alert(

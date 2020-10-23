@@ -11,7 +11,6 @@ function* uploadAvatar(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield uploadFromData(action);
-        //console.log('uploadAvatar : ', responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -19,7 +18,6 @@ function* uploadAvatar(action) {
                 type: 'UPLOAD_AVATAR_SUCCESS',
                 payload: responses.data
             });
-            // yield put({ type: 'LOADING_ROOT' });
         } else {
             yield put({
                 type: 'UPLOAD_AVATAR_FAIL',
@@ -40,7 +38,6 @@ function* uploadBanner(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield uploadFromData(action);
-        //console.log('deleteBannerMerchant : ', responses);
         yield put({ type: 'LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -51,7 +48,7 @@ function* uploadBanner(action) {
                 api: `${apiConfigs.BASE_API}merchantbanner`,
                 body: {
                     ...action.infoBanner,
-                    fileId: responses.data.fileId
+                    fileId: responses?.data?.fileId || 0
                 },
                 merchantId: action.merchantId
             })
@@ -76,8 +73,7 @@ function* exportBatchHistory(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            const pdfPath = responses.data && responses.data.path ? responses.data.path : "";
-
+            const pdfPath =  responses?.data?.path || "";
             const dirs = RNFetchBlob.fs.dirs;
             const fileDownload = yield RNFetchBlob.config({
                 fileCache: true,
@@ -90,14 +86,11 @@ function* exportBatchHistory(action) {
                 if (Platform.OS === 'ios') {
                     RNFetchBlob.ios.previewDocument(filePath)
                 } else {
-                    // const android = RNFetchBlob.android;
-                    // android.actionViewIntent(filePath, 'application/vnd.android.package-archive')
                     const shareResponse = yield Share.open({
                         url: `file://${filePath}`
                     });
                 }
             } catch (error) {
-                // throw error;
             }
 
 
@@ -125,7 +118,7 @@ function* exportBatchDetail(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            const pdfPath = responses.data && responses.data.path ? responses.data.path : "";
+            const pdfPath = responses?.data?.path || "";
             const dirs = RNFetchBlob.fs.dirs;
             const fileDownload = yield RNFetchBlob.config({
                 fileCache: true,
@@ -138,17 +131,12 @@ function* exportBatchDetail(action) {
                 if (Platform.OS === 'ios') {
                     RNFetchBlob.ios.previewDocument(filePath)
                 } else {
-                    // const android = RNFetchBlob.android;
-                    // android.actionViewIntent(filePath, 'application/vnd.android.package-archive')
                     const shareResponse = yield Share.open({
                         url: `file://${filePath}`
                     });
                 }
             } catch (error) {
-                // throw error;
             }
-
-
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
