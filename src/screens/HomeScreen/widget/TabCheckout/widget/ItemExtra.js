@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie } from '@utils';
 import { Text, Button } from '@components';
 
 const ItemExtra = ({ extra, onPressSelectExtra, extraSelected }) => {

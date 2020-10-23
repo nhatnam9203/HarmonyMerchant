@@ -2,17 +2,15 @@ import React from 'react';
 import {
     View,
     Text,
-    TextInput,
     ScrollView,
     StyleSheet,
-    TouchableOpacity,
     Dimensions,
     Keyboard
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
-import { ButtonCustom, PopupParent, PopupConfirm } from '@components';
-import { scaleSzie, localize, getCategoryName, formatMoney, formatNumberFromCurrency } from '@utils';
+import { ButtonCustom, PopupParent } from '@components';
+import { scaleSzie, localize, formatMoney, formatNumberFromCurrency } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 
@@ -26,7 +24,6 @@ class PopupGiftCardDetail extends React.Component {
             amount: 0.00,
             dueAmountGiftCardPayment: 0.00
         };
-
         this.scrollRef = React.createRef();
     }
 
@@ -73,8 +70,8 @@ class PopupGiftCardDetail extends React.Component {
             if (formatNumberFromCurrency(dueAmountGiftCardPayment) < 0) {
                 alert("Enter amount is not bigger than the charge amount!")
             } else {
-                const checkoutGroupId = groupAppointment.checkoutGroupId  ? groupAppointment.checkoutGroupId  : 0;
-                const giftCardId = giftcardPaymentInfo.giftCardId ? giftcardPaymentInfo.giftCardId : 0;
+                const checkoutGroupId = groupAppointment?.checkoutGroupId || 0;
+                const giftCardId =  giftcardPaymentInfo?.giftCardId || 0;
                 this.props.cancelGiftCardPayment();
                 setTimeout(() =>{
                     this.props.actions.appointment.paymentAppointment(checkoutGroupId, "giftcard", formatNumberFromCurrency(amount),false,-1,giftCardId);
@@ -96,14 +93,10 @@ class PopupGiftCardDetail extends React.Component {
     }
 
     // ---------- Render --------
-
     render() {
         const { title, visiblePopupGiftCardDetails, onRequestClose, language, giftcardPaymentInfo, paymentDetailInfo } = this.props;
         const { amount, dueAmountGiftCardPayment } = this.state;
-        const dueAmount = paymentDetailInfo.dueAmount ? paymentDetailInfo.dueAmount : 0;
-
-
-        // const dueAmountGiftCardPayment = formatMoney(formatNumberFromCurrency(dueAmount) - this.getAmountEnter());
+        const dueAmount = paymentDetailInfo?.dueAmount || 0;
 
         return (
             <PopupParent

@@ -2,19 +2,12 @@ import React from 'react';
 import {
     View,
     Text,
-    TextInput,
-    ScrollView,
     StyleSheet,
-    TouchableOpacity,
-    Dimensions
 } from 'react-native';
 
-import { ButtonCustom, PopupParent, PopupConfirm } from '@components';
-import { scaleSzie, localize, getCategoryName, formatMoney } from '@utils';
+import { ButtonCustom, PopupParent } from '@components';
+import { scaleSzie, localize, formatMoney } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
-
-
-const { width } = Dimensions.get("window");
 
 class PopupPaymentDetails extends React.Component {
 
@@ -28,12 +21,11 @@ class PopupPaymentDetails extends React.Component {
         this.props.actions.appointment.closePopupPaymentDetail();
     }
 
-
     // ---------- Render --------
-
     render() {
-        const { title, visible, onRequestClose, language, nextPayment, paymentDetailInfo } = this.props;
+        const { title, visible, onRequestClose, language, paymentDetailInfo } = this.props;
         const paidAmounts = paymentDetailInfo.paidAmounts && paymentDetailInfo.paidAmounts.length > 0 ? paymentDetailInfo.paidAmounts[0] : {};
+
         return (
             <PopupParent
                 title={title}
@@ -53,22 +45,22 @@ class PopupPaymentDetails extends React.Component {
                         {/* ---- start ---- */}
                         <ItemDetail
                             title={`${localize('Invoice No', language)}:`}
-                            value={`# ${paymentDetailInfo.invoiceNo ? paymentDetailInfo.invoiceNo : ''}`}
+                            value={`# ${paymentDetailInfo?.invoiceNo || ''}`}
                             subText={""}
                         />
                         <ItemDetail
                             title={`${localize('Customer Name', language)}:`}
-                            value={`${paymentDetailInfo.customerName ? paymentDetailInfo.customerName : ''}`}
+                            value={`${paymentDetailInfo?.customerName || ''}`}
                             subText={""}
                         />
                         <ItemDetail
                             title={`${localize('Phone Number', language)}:`}
-                            value={`${paymentDetailInfo.phone ? paymentDetailInfo.phone : ''}`}
+                            value={`${paymentDetailInfo?.phone || ''}`}
                             subText={""}
                         />
                         <ItemDetail
                             title={`${localize('Status', language)}:`}
-                            value={`${paymentDetailInfo.status ? paymentDetailInfo.status : ''}`}
+                            value={`${paymentDetailInfo?.status || ''}`}
                             subText={""}
                         />
                         <ItemDetail

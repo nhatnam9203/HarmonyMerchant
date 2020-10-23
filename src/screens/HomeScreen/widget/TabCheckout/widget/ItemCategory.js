@@ -1,9 +1,6 @@
 import React from 'react';
-import {
-    View,
-} from 'react-native';
 
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie } from '@utils';
 import { Text, Button } from '@components';
 
 const ItemCategory = ({ category, onPressSelectCategory, colorText, categorySelected }) => {

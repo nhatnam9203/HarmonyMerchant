@@ -2,18 +2,15 @@ import React from 'react';
 import {
     View,
     Text,
-    Dimensions,
     StyleSheet,
     Platform,
     Image,
     TouchableOpacity
 } from 'react-native';
 
-import { ButtonCustom, PopupParent, Button } from '@components';
-import { scaleSzie, localize, getCategoryName, formatMoney } from '@utils';
+import {  PopupParent, Button } from '@components';
+import { scaleSzie, localize, formatMoney } from '@utils';
 import IMAGE from '@resources';
-
-const { width } = Dimensions.get('window');
 
 class PopupBill extends React.Component {
 
@@ -31,7 +28,6 @@ class PopupBill extends React.Component {
     }
 
     onPressNumber = (number) => {
-    //console.log('---- p : ', this.state.quality);
         this.setState(prevState => ({
             quality: prevState.quality === '0' ? `${number}` : `${prevState.quality}${number}`
         }))
@@ -70,7 +66,6 @@ class PopupBill extends React.Component {
 
     submitStock = () => {
         this.props.submitRestock(this.state.quality);
-        // alert(this.state.quality);
     }
 
 
@@ -79,7 +74,6 @@ class PopupBill extends React.Component {
     }
 
     cancel = () => {
-        // this.props.onRequestClose();
         this.setState({
             quality: '0'
         })
@@ -104,7 +98,6 @@ class PopupBill extends React.Component {
                 }}
                 style={{}}
                 width={470}
-                // hideCloseButton={true}
             >
                 <View style={{
                     height: scaleSzie(297), backgroundColor: '#fff',

@@ -5,8 +5,8 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import { scaleSzie, localize } from '@utils';
-import { Text, Button } from '@components';
+import { scaleSzie } from '@utils';
+import { Text } from '@components';
 import IMAGE from '@resources';
 
 class ItemAmount extends React.Component {

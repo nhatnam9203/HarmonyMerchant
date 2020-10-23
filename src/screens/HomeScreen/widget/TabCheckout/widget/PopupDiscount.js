@@ -54,8 +54,7 @@ class PopupDiscount extends React.Component {
         const customFixedAmount = this.customFixedAmountRef.current.state.discount;
         if (!_.isEmpty(groupAppointment)) {
             const appointmentDetail = appointmentIdUpdatePromotion !== -1 && !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
-            const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
-
+            const subTotal = appointmentDetail?.subTotal || 0;
             let totalDiscount = 0;
             for (let i = 0; i < discount.length; i++) {
                 totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(discount[i].discount);
@@ -81,7 +80,6 @@ class PopupDiscount extends React.Component {
                 this.props.actions.marketing.closeModalDiscount();
                 this.resetState();
             }
-
         }
     }
 
@@ -122,7 +120,7 @@ class PopupDiscount extends React.Component {
             }));
         } else {
             const appointmentDetail = !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
-            const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+            const subTotal = appointmentDetail?.subTotal || 0;
             await this.setState({
                 moneyDiscountFixedAmout: discountFixed,
                 moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(subTotal) / 100)
@@ -179,7 +177,6 @@ class PopupDiscount extends React.Component {
                     visible={visible}
                     onRequestClose={this.onRequestClose}
                     width={600}
-                // style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
                 >
                     <View style={{
                         height:tempHeight, backgroundColor: '#fff',

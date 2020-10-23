@@ -18,7 +18,6 @@ import styles from '../style';
 import ItemBasket from './ItemBasket';
 import connectRedux from '@redux/ConnectRedux';
 
-
 class ItemCustomerBasket extends React.Component {
 
     constructor(props) {
@@ -45,19 +44,18 @@ class ItemCustomerBasket extends React.Component {
     getTypesOfMoneyAppointment = (appointmentDetail) => {
         const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.props;
 
-        const tipAmount = appointmentDetail && appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
-        const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
-        const discount = appointmentDetail && appointmentDetail.discount ? appointmentDetail.discount : 0;
-        const tax = appointmentDetail && appointmentDetail.tax ? appointmentDetail.tax : 0;
-        const total = appointmentDetail && appointmentDetail.total ? appointmentDetail.total : 0;
-        const tipPercent = appointmentDetail && appointmentDetail.tipPercent ? appointmentDetail.tipPercent : 0;
+        const tipAmount = appointmentDetail?.tipAmount || 0;
+        const subTotal = appointmentDetail?.subTotal || 0;
+        const discount = appointmentDetail?.discount || 0;
+        const tax =  appointmentDetail?.tax || 0;
+        const total = appointmentDetail?.total || 0;
+        const tipPercent = appointmentDetail?.tipPercent || 0;
 
         const temptSubTotal = !appointmentDetail || _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
         const temptTotal = !appointmentDetail || _.isEmpty(appointmentDetail) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
         const temptDiscount = !appointmentDetail || _.isEmpty(appointmentDetail) ? discountTotalLocal : discount;
         const temptTip = !appointmentDetail || _.isEmpty(appointmentDetail) ? tipLocal : tipAmount;
         const temptTax = !appointmentDetail || _.isEmpty(appointmentDetail) ? taxLocal : tax;
-
 
         return {
             temptSubTotal,
@@ -77,7 +75,6 @@ class ItemCustomerBasket extends React.Component {
         } else {
             if (checkoutPayments.length === 0) {
                 const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
-                // console.log("----- appointmentId: ",appointmentId);
                 this.props.showModalDiscount(appointmentId);
             }
         }
@@ -85,12 +82,11 @@ class ItemCustomerBasket extends React.Component {
 
     showModalTipAppointment = (tip, tipPercent) => {
         const { groupAppointment, paymentDetailInfo } = this.props;
-        const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
+        const checkoutPayments = paymentDetailInfo?.checkoutPayments || [];
         if (checkoutPayments.length === 0) {
             const { appointmentDetail } = this.props;
-            // console.log("------ appointmentDetail : ", JSON.stringify(appointmentDetail));
             const appointmentId = _.isEmpty(groupAppointment) ? -1 : appointmentDetail.appointmentId;
-            this.props.showModalTipAppointment(appointmentId, tip, appointmentDetail.subTotal ? appointmentDetail.subTotal : 0, tipPercent);
+            this.props.showModalTipAppointment(appointmentId, tip, appointmentDetail?.subTotal || 0, tipPercent);
         }
     }
 
@@ -112,12 +108,11 @@ class ItemCustomerBasket extends React.Component {
     renderHeaderCustomerBaket() {
         const { appointmentDetail, paymentDetailInfo, isOfflineMode } = this.props;
 
-        const lastName = appointmentDetail ? appointmentDetail.lastName : '';
-        const firstName = appointmentDetail ? appointmentDetail.firstName : 'Anonymous';
-        const isMain = appointmentDetail && appointmentDetail.isMain ? appointmentDetail.isMain : 0;
-        const appointmentId = appointmentDetail ? appointmentDetail.appointmentId : -1;
-        const codeAppointment = appointmentDetail ? appointmentDetail.code : -1;
-
+        const lastName = appointmentDetail?.lastName || '';
+        const firstName = appointmentDetail?.firstName || 'Anonymous';
+        const isMain = appointmentDetail?.isMain || 0;
+        const appointmentId = appointmentDetail?.appointmentId || -1;
+        const codeAppointment = appointmentDetail?.code || -1;
 
         const { isCollapsed } = this.state;
         const iconCollaps = isCollapsed ? IMAGE.open_customer_basket : IMAGE.close_customer_basket;
@@ -130,8 +125,9 @@ class ItemCustomerBasket extends React.Component {
             }
         ];
         const temptColor = isMain === 1 || isOfflineMode ? "#0764B0" : "red";
-        const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
+        const checkoutPayments = paymentDetailInfo?.checkoutPayments || [];
         const disabledRemoveItemCustomerBasket = checkoutPayments.length === 0 ? false : true;
+
         return (
             <Swipeout
                 right={swipeoutBtns}
@@ -168,7 +164,7 @@ class ItemCustomerBasket extends React.Component {
             changeProduct
         } = this.props;
         let basket = [];
-        const appointmentId = appointmentDetail && appointmentDetail.appointmentId ? appointmentDetail.appointmentId : -1;
+        const appointmentId = appointmentDetail?.appointmentId || -1;
         const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax, tipPercent } = this.getTypesOfMoneyAppointment(appointmentDetail);
         if (appointmentDetail) {
             const { services, products, extras, giftCards } = appointmentDetail;
@@ -176,14 +172,12 @@ class ItemCustomerBasket extends React.Component {
             const arryaServices = getArrayServicesFromAppointment(services);
             const arrayExtras = getArrayExtrasFromAppointment(extras);
             const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
-            // basket = arrayProducts.concat(arryaServices, arrayExtras, arrayGiftCards);
             basket = arryaServices.concat(arrayExtras, arrayProducts, arrayGiftCards);
         } else {
             basket = basketLocal;
         }
-        // console.log('------ basket : '+ JSON.stringify(basket));
         const isExistService = this.checkIsExistServiceInBasket(basket);
-        const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
+        const checkoutPayments = paymentDetailInfo?.checkoutPayments || [];
         return (
             <View>
                 {this.renderHeaderCustomerBaket()}

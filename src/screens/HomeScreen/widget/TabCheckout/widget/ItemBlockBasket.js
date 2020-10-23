@@ -41,17 +41,12 @@ class ItemBlockBasket extends React.Component {
 
     setStateFromParent = async (isCollapsed) => {
         if (this._isMounted) {
-            // await this.setState({
-            //     isCollapsed
-            // });
             LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-            // this.setState({ expanded: !this.state.expanded });
             await this.setState({
                 isCollapsed
             });
         }
     }
-
 
     toggleCollaps = () => {
         const { appointmentDetail } = this.props;
@@ -68,11 +63,11 @@ class ItemBlockBasket extends React.Component {
     getTypesOfMoneyAppointment = (appointmentDetail) => {
         const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.props;
 
-        const tipAmount = appointmentDetail && appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
-        const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
-        const discount = appointmentDetail && appointmentDetail.discount ? appointmentDetail.discount : 0;
-        const tax = appointmentDetail && appointmentDetail.tax ? appointmentDetail.tax : 0;
-        const total = appointmentDetail && appointmentDetail.total ? appointmentDetail.total : 0;
+        const tipAmount = appointmentDetail?.tipAmount || 0;
+        const subTotal = appointmentDetail?.subTotal || 0;
+        const discount = appointmentDetail?.discount || 0;
+        const tax = appointmentDetail?.tax || 0;
+        const total = appointmentDetail?.total || 0;
 
         const temptSubTotal = !appointmentDetail || _.isEmpty(appointmentDetail) ? subTotalLocal : subTotal;
         const temptTotal = !appointmentDetail || _.isEmpty(appointmentDetail) ? Number(formatNumberFromCurrency(subTotalLocal) + formatNumberFromCurrency(tipLocal) + formatNumberFromCurrency(taxLocal) - formatNumberFromCurrency(discountTotalLocal)).toFixed(2) : total;
@@ -100,13 +95,12 @@ class ItemBlockBasket extends React.Component {
 
     showModalTipAppointment = (tip) => {
         const { groupAppointment, paymentDetailInfo } = this.props;
-        const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
+        const checkoutPayments = paymentDetailInfo?.checkoutPayments || [];
         if (checkoutPayments.length === 0) {
             const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
             this.props.showModalTipAppointment(appointmentId, tip);
         }
     }
-
 
     getBasket = () => {
         const { appointmentDetail } = this.props;
@@ -117,7 +111,6 @@ class ItemBlockBasket extends React.Component {
             const arryaServices = getArrayServicesFromAppointment(services);
             const arrayExtras = getArrayExtrasFromAppointment(extras);
             const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
-            // basket = arrayProducts.concat(arryaServices, arrayExtras, arrayGiftCards);
             basket = arryaServices.concat(arrayExtras, arrayProducts, arrayGiftCards);
 
         }
@@ -136,14 +129,14 @@ class ItemBlockBasket extends React.Component {
         let firstName = '';
         let lastName = '';
 
-        lastName = appointmentDetail ? appointmentDetail.lastName : '';
-        firstName = appointmentDetail ? appointmentDetail.firstName : 'Anonymous';
-        const isMain = appointmentDetail && appointmentDetail.isMain ? appointmentDetail.isMain : 0;
-        const appointmentId = appointmentDetail ? appointmentDetail.appointmentId : -1;
+        lastName = appointmentDetail?.lastName || '';
+        firstName = appointmentDetail?.firstName || 'Anonymous';
+        const isMain = appointmentDetail?.isMain || 0;
+        const appointmentId = appointmentDetail?.appointmentId || -1;
 
         if (isMain === 1) {
-            firstName = infoUser.firstName !== '' ? infoUser.firstName : firstName;
-            lastName = infoUser.lastName !== '' ? infoUser.lastName : lastName;
+            firstName = infoUser?.firstName || firstName;
+            lastName = infoUser?.lastName || lastName;
         }
 
         const iconCollaps = this.state.isCollapsed ? IMAGE.open_customer_basket : IMAGE.close_customer_basket;
@@ -156,7 +149,6 @@ class ItemBlockBasket extends React.Component {
             }
         ];
         const temptColor = blockIndex === 0 ? "transparent" : "red";
-        const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
 
         // ---- New -----
         const temptBackground = !this.state.isCollapsed ? { backgroundColor: "#0764B0" } : { backgroundColor: "#E5E5E5" };
@@ -194,17 +186,15 @@ class ItemBlockBasket extends React.Component {
 
     render() {
         const { language, appointmentDetail, removeItemBasket, paymentDetailInfo } = this.props;
-
-        const appointmentId = appointmentDetail && appointmentDetail.appointmentId ? appointmentDetail.appointmentId : -1;
+        const appointmentId = appointmentDetail?.appointmentId || -1;
         const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax } = this.getTypesOfMoneyAppointment(appointmentDetail);
-        const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
+        const checkoutPayments = paymentDetailInfo?.checkoutPayments || [];
 
         return (
             <>
                 {this.renderHeaderCustomerBaket()}
                 {
                     this.state.isCollapsed ? <View /> : <View >
-                        {/* <Collapsible collapsed={this.state.isCollapsed}> */}
                         {/* ----------- Item Product , Service , Extra --------- */}
                         {
                             this.getBasket().map((item, index) => <ItemBasket
@@ -212,7 +202,6 @@ class ItemBlockBasket extends React.Component {
                                 key={index}
                                 item={item}
                                 removeItemBasket={(item) => removeItemBasket(item, appointmentId, true)}
-                                // onPress={(service) => changeStylist(service, appointmentId)}
                                 onPress={(service) => { }}
                                 changeProduct={product => { }}
                             />)

@@ -1,12 +1,9 @@
 import React from 'react';
 import {
     View,
-    Image,
     Text,
     ScrollView,
-    StyleSheet,
     TouchableOpacity,
-    TextInput
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
@@ -106,9 +103,7 @@ class PopupDiscountLocal extends React.Component {
         const temptTotal =totalLocal 
         const temptCustomDiscountPercent = customDiscountPercentLocal;
         const temptCustomDiscountFixed =customDiscountFixedLocal;
-
         const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(400);
-
 
         return (
             <PopupParent

@@ -2,7 +2,6 @@ import React from 'react';
 import {
     View,
     Text,
-    Keyboard,
     Image,
     FlatList
 } from 'react-native';
@@ -35,11 +34,9 @@ class PopupAddItemIntoAppointments extends React.Component {
 
 
     handleKeyboardWillHide = async () => {
-
         if (this.scrollRef.current) {
             this.scrollRef.current.scrollTo({ x: 0, y: 0, animated: true })
         }
-
     }
 
     setStateFromParent = async (data, mainAppointmentId) => {
@@ -49,8 +46,6 @@ class PopupAddItemIntoAppointments extends React.Component {
             mainAppointmentId
         })
     }
-
-
 
     onRequestClose = () => {
         this.setState(initalState);
@@ -63,7 +58,6 @@ class PopupAddItemIntoAppointments extends React.Component {
         }
     }
 
-
     addItemIntoAppointments = async () => {
         const { data, mainAppointmentId } = this.state;
         let isNotCheck = true;
@@ -71,9 +65,9 @@ class PopupAddItemIntoAppointments extends React.Component {
             const ref = this.listAppointmentRef[i];
             if (ref.state.ischeck) {
                 isNotCheck = false;
-                const appointmentId = ref.props.appointment && ref.props.appointment.appointmentId ? ref.props.appointment.appointmentId : 0;
+                const appointmentId = ref?.props?.appointment?.appointmentId || 0;
                 if (data.services.length > 0) {
-                    const staffId = ref.props.appointment && ref.props.appointment.staffId ? ref.props.appointment.staffId : 0;
+                    const staffId = ref?.props?.appointment?.staffId || 0;
                     if (staffId) {
                         const tempService = { ...data.services[0], staffId };
                         this.props.actions.appointment.addItemIntoMultiAppointment({ ...data, services: [tempService] }, appointmentId, mainAppointmentId, true);
@@ -83,7 +77,6 @@ class PopupAddItemIntoAppointments extends React.Component {
                 } else {
                     this.props.actions.appointment.addItemIntoMultiAppointment(data, appointmentId, mainAppointmentId, true);
                 }
-
             }
         }
 
@@ -94,7 +87,6 @@ class PopupAddItemIntoAppointments extends React.Component {
                 visible: false,
             })
         }
-
     }
 
     // --------------- Render -----------
@@ -102,7 +94,7 @@ class PopupAddItemIntoAppointments extends React.Component {
     render() {
         const { title, groupAppointment } = this.props;
         const { visible } = this.state;
-        const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
+        const appointments = groupAppointment?.appointments || [];
 
         return (
             <PopupParent

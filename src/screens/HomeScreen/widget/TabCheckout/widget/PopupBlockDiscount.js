@@ -38,7 +38,7 @@ class PopupBlockDiscount extends React.Component {
         const { percentDiscountCustom, moneyDiscountFixedAmout } = this.state;
 
         const appointmentDetail = blockAppointments.find((appointment) => appointment.appointmentId === appointmentIdUpdatePromotion);
-        const subTotal = appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+        const subTotal = appointmentDetail?.subTotal || 0;
 
         // ---------- Check total ---------
         let totalDiscount = 0;
@@ -94,7 +94,7 @@ class PopupBlockDiscount extends React.Component {
             }
 
             const appointmentDetail = blockAppointments.find((appointment) => appointment.appointmentId === appointmentIdUpdatePromotion);
-            const subTotal = appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
+            const subTotal = appointmentDetail?.subTotal || 0;
             const moneyDiscountCustom = (formatNumberFromCurrency(percentDiscountCustom) * formatNumberFromCurrency(subTotal) / 100);
 
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountFixedAmout);
@@ -110,7 +110,6 @@ class PopupBlockDiscount extends React.Component {
                     visible={visibleModalBlockDiscount}
                     onRequestClose={this.onRequestClose}
                     width={600}
-                // style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
                 >
                     <View style={{
                         height: tempHeight, backgroundColor: '#fff',
@@ -295,7 +294,6 @@ class PopupBlockDiscount extends React.Component {
                 </PopupParent>
             );
         } catch (error) {
-            // console.log('Popup Discount Checkout : ',error);
         }
     }
 
@@ -304,20 +302,18 @@ class PopupBlockDiscount extends React.Component {
         if (!prevProps.visibleModalBlockDiscount && visibleModalBlockDiscount && prevProps.visibleModalBlockDiscount !== visibleModalBlockDiscount) {
             const appointmentDetail = blockAppointments.find((appointment) => appointment.appointmentId === appointmentIdUpdatePromotion);
             await this.setState({
-                percentDiscountCustom: appointmentDetail && appointmentDetail.customDiscountPercent ? appointmentDetail.customDiscountPercent : 0,
-                moneyDiscountFixedAmout: appointmentDetail && appointmentDetail.customDiscountFixed ? appointmentDetail.customDiscountFixed : 0,
+                percentDiscountCustom: appointmentDetail?.customDiscountPercent || 0,
+                moneyDiscountFixedAmout: appointmentDetail?.customDiscountFixed || 0,
             })
         }
 
         if (visibleModalBlockDiscount && prevProps.isGetPromotionOfAppointment !== isGetPromotionOfAppointment && isGetPromotionOfAppointment === "success") {
             this.props.actions.marketing.resetStateGetPromotionOfAppointment();
             await this.setState({
-                promotionNotes: promotionNotes.note ? promotionNotes.note : "",
+                promotionNotes: promotionNotes?.note || "",
                 isDiscountByOwner: isDiscountByOwner
             })
         }
-
-
     }
 
 }

@@ -88,7 +88,6 @@ class PopupChangeCustomerInfo extends React.Component {
                 visible={visiblePopupCustomerInfoBuyAppointment}
                 onRequestClose={this.onRequestClose}
                 width={scaleSzie(260)}
-                // style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(50) }}
                 styleTitle={{ fontSize: scaleSzie(22), fontWeight: "bold" }}
             >
                 <View style={{
@@ -117,7 +116,6 @@ class PopupChangeCustomerInfo extends React.Component {
                                     style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
                                     value={firstName}
                                     onChangeText={(firstName) => this.setState({ firstName })}
-                                    // onFocus={() => this.onFocusToScroll(60)}
                                     placeholder=""
                                 />
                             </View>

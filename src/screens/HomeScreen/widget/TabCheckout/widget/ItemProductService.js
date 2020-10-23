@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
-import { scaleSzie, localize } from '@utils';
+import { scaleSzie } from '@utils';
 import { Text, Button } from '@components';
 
 const ItemProductService = ({ item, showColAmount, colorText, itemSelected, categoryTypeSelected }) => {
@@ -13,7 +13,6 @@ const ItemProductService = ({ item, showColAmount, colorText, itemSelected, cate
     const temptBackgrounColor = item[temptKeyId] === itemSelected[temptKeyId] ? '#0764B0' : '#FAFAFA';
     const temptTextColor = item[temptKeyId] === itemSelected[temptKeyId] ? { color: '#fff' } : {};
     const temptTextPriceColor = item[temptKeyId] === itemSelected[temptKeyId] ? { color: '#fff' } : {};
-
 
     return (
         <Button onPress={() => showColAmount(item)} style={{

@@ -12,7 +12,6 @@ import IMAGE from '@resources';
 
 const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeProduct }) => {
     const { data } = item;
-    // console.log('item : '+ JSON.stringify(item));
     const swipeoutBtns = [
         {
             backgroundColor: '#6A6A6A',
