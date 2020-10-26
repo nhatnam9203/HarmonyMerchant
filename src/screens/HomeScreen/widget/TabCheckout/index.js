@@ -1614,7 +1614,10 @@ class TabCheckout extends Layout {
 
     // ------------------ Change Customer Info buy appointment ----------
     displayPopupCustomerInfo = async () => {
-        PoslinkAndroid.show('Awesome', PoslinkAndroid.SHORT);
+        PoslinkAndroid.show("192.168.1.35", "10009", "20000",
+        (e) => alert(e),
+        (data) => alert(data)
+        );
 
         // const { customerInfoBuyAppointment } = this.props;
         // const firstName = customerInfoBuyAppointment?.firstName || "";
