@@ -36,6 +36,8 @@ import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import java.util.Arrays;
 import java.util.List;
 
+import com.pax.poslink.PosLink;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
