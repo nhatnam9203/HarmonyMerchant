@@ -20,6 +20,8 @@ import com.pax.poslink.ProcessTransResult;
 import com.pax.poslink.CommSetting;
 
 import com.facebook.react.bridge.Callback;
+import com.google.gson.Gson;
+import com.facebook.react.bridge.Promise;
 
 public class PoslinkModule extends  ReactContextBaseJavaModule {
 
@@ -42,7 +44,7 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void show(String ip, String port,String timeout,Callback errorCallback,Callback successCallback) {
+    public void sendTransaction(String ip, String port,String timeout,String tenderType,String amount,String transType ,Promise promise) {
          CommSetting commSetting = new CommSetting();
         commSetting.setType(CommSetting.TCP);
         commSetting.setDestIP(ip);
@@ -54,9 +56,9 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
 
         PaymentRequest paymentRequest = new PaymentRequest();
 
-        paymentRequest.TenderType = paymentRequest.ParseTenderType("CREDIT");
-        paymentRequest.TransType = paymentRequest.ParseTransType("SALE");
-        paymentRequest.Amount = "100";
+        paymentRequest.TenderType = paymentRequest.ParseTenderType(tenderType);
+        paymentRequest.TransType = paymentRequest.ParseTransType(transType);
+        paymentRequest.Amount = amount;
         paymentRequest.CashBackAmt = "";
         paymentRequest.ECRRefNum = "1";
         paymentRequest.ClerkID = "";
@@ -77,11 +79,14 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
 
         posLink.PaymentRequest = paymentRequest;
         ProcessTransResult processTransResult = posLink.ProcessTrans();
-
+        Gson gson = new Gson();
         if (processTransResult.Code == ProcessTransResult.ProcessTransResultCode.OK) {
-            successCallback.invoke("Success!");
+            PaymentResponse paymentResponse = posLink.PaymentResponse;
+            String data = gson.toJson(paymentResponse);
+            promise.resolve(data);
         }else {
-            errorCallback.invoke(processTransResult.Msg);
+            String error =  gson.toJson(processTransResult);
+            promise.reject(error);
         }
     }
 

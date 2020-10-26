@@ -1614,10 +1614,15 @@ class TabCheckout extends Layout {
 
     // ------------------ Change Customer Info buy appointment ----------
     displayPopupCustomerInfo = async () => {
-        PoslinkAndroid.show("192.168.1.35", "10009", "20000",
-        (e) => alert(e),
-        (data) => alert(data)
-        );
+        try {
+            const data = await PoslinkAndroid.sendTransaction("192.168.1.35", "10009", "20000", "CREDIT", "200", "SALE");
+            const result = JSON.parse(data);
+            console.log(result);
+        } catch (error) {
+            console.log(error);
+        }
+        
+        
 
         // const { customerInfoBuyAppointment } = this.props;
         // const firstName = customerInfoBuyAppointment?.firstName || "";
