@@ -36,7 +36,7 @@ import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import java.util.Arrays;
 import java.util.List;
 
-import com.pax.poslink.PosLink;
+import com.hpmerchant.PoslinkModulePackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -74,6 +74,7 @@ public class MainApplication extends Application implements ReactApplication {
             new ImagePickerPackage(),
             new RNGestureHandlerPackage(),
               new RNCViewPagerPackage(),
+            new PoslinkModulePackage(),
             new CodePush("WIPNFxhxOnC-CPUztRPNuYj4HMhWmkKi-8UOj", MainApplication.this, BuildConfig.DEBUG)
       );
     }

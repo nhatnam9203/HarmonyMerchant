@@ -16,6 +16,7 @@ import apiConfigs from '@configs/api';
 import initState from "./widget/initState";
 
 const PosLink = NativeModules.MyApp;
+const PoslinkAndroid = NativeModules.PoslinkModule;
 
 class TabCheckout extends Layout {
 
@@ -1613,12 +1614,14 @@ class TabCheckout extends Layout {
 
     // ------------------ Change Customer Info buy appointment ----------
     displayPopupCustomerInfo = async () => {
-        const { customerInfoBuyAppointment } = this.props;
-        const firstName = customerInfoBuyAppointment?.firstName || "";
-        const lastName = customerInfoBuyAppointment?.lastName || "";
-        const phone = customerInfoBuyAppointment?.phone || "";
-        this.popupCustomerInfoRef.current.setStateFromParent(firstName, lastName, phone);
-        this.props.actions.appointment.togglePopupCustomerInfoByPhone(true);
+        PoslinkAndroid.show('Awesome', PoslinkAndroid.SHORT);
+
+        // const { customerInfoBuyAppointment } = this.props;
+        // const firstName = customerInfoBuyAppointment?.firstName || "";
+        // const lastName = customerInfoBuyAppointment?.lastName || "";
+        // const phone = customerInfoBuyAppointment?.phone || "";
+        // this.popupCustomerInfoRef.current.setStateFromParent(firstName, lastName, phone);
+        // this.props.actions.appointment.togglePopupCustomerInfoByPhone(true);
     }
 
     updateBlockAppointmentRef = () => {
