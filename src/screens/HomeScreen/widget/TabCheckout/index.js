@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'ramda';
 const signalR = require('@microsoft/signalr');
-import { NativeModules } from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 import env from 'react-native-config';
 
 import Layout from './layout';
@@ -995,23 +995,51 @@ class TabCheckout extends Layout {
         }
     }
 
+
     async hanleCreditCardProcess(online = true, moneyUserGiveForStaff) {
         const { paxMachineInfo } = this.props;
         const { paymentSelected } = this.state;
         const { ip, port, timeout } = paxMachineInfo;
-
-        // 1. Check setup pax 
-        PosLink.setupPax(ip, port, timeout);
-
-        // 2. Show modal processing 
-        await this.setState({
-            visibleProcessingCredit: true
-        })
         const moneyCreditCard = Number(formatNumberFromCurrency(moneyUserGiveForStaff) * 100).toFixed(2);
-
-        // 3. Send Transaction 
         const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
-        PosLink.sendTransaction(tenderType, parseFloat(moneyCreditCard), 0, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
+
+        if (Platform.OS === "android") {
+            // 1. Show modal processing 
+            await this.setState({
+                visibleProcessingCredit: true
+            })
+            setTimeout(() => {
+                PoslinkAndroid.sendTransaction(ip, port, "", tenderType, `${parseInt(moneyCreditCard)}`, "SALE",
+                    (err) => {
+                        console.log(err);
+                        const errorTrans = JSON.parse(err);
+                        this.setState({
+                            visibleProcessingCredit: false,
+                            changeButtonDone: false,
+                        });
+                        setTimeout(() => {
+                            alert(errorTrans.Code);
+                        }, 500)
+
+                    },
+                    (data) => {
+                        this.handleResponseCreditCard(data, online, moneyUserGiveForStaff)
+                    }
+                )
+            }, 100);
+        } else {
+
+            // 1. Check setup pax 
+            PosLink.setupPax(ip, port, timeout);
+
+            // 2. Show modal processing 
+            await this.setState({
+                visibleProcessingCredit: true
+            })
+
+            // 3. Send Transaction 
+            PosLink.sendTransaction(tenderType, parseFloat(moneyCreditCard), 0, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
+        }
     }
 
     async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
@@ -1074,11 +1102,25 @@ class TabCheckout extends Layout {
     }
 
     cancelTransaction = async () => {
-        PosLink.cancelTransaction();
-        await this.setState({
-            visibleProcessingCredit: false,
-            changeButtonDone: false,
-        });
+        // alert("ddd")
+        // if(Platform.OS === "android"){
+        //     PoslinkAndroid.cancelTransaction();
+        // }else{
+        //     PosLink.cancelTransaction();
+        // }
+        console.log("---- cancelTransaction -----");
+        PoslinkAndroid.cancelTransaction();
+
+        // setTimeout(() =>{
+        //     this.setState({
+        //         visibleProcessingCredit: false,
+        //         changeButtonDone: false,
+        //     })
+        // },500)
+        // await this.setState({
+        //     visibleProcessingCredit: false,
+        //     changeButtonDone: false,
+        // });
     }
 
     doneBillByCash = async () => {
@@ -1614,22 +1656,12 @@ class TabCheckout extends Layout {
 
     // ------------------ Change Customer Info buy appointment ----------
     displayPopupCustomerInfo = async () => {
-        try {
-            const data = await PoslinkAndroid.sendTransaction("192.168.1.35", "10009", "20000", "CREDIT", "200", "SALE");
-            const result = JSON.parse(data);
-            console.log(result);
-        } catch (error) {
-            console.log(error);
-        }
-        
-        
-
-        // const { customerInfoBuyAppointment } = this.props;
-        // const firstName = customerInfoBuyAppointment?.firstName || "";
-        // const lastName = customerInfoBuyAppointment?.lastName || "";
-        // const phone = customerInfoBuyAppointment?.phone || "";
-        // this.popupCustomerInfoRef.current.setStateFromParent(firstName, lastName, phone);
-        // this.props.actions.appointment.togglePopupCustomerInfoByPhone(true);
+        const { customerInfoBuyAppointment } = this.props;
+        const firstName = customerInfoBuyAppointment?.firstName || "";
+        const lastName = customerInfoBuyAppointment?.lastName || "";
+        const phone = customerInfoBuyAppointment?.phone || "";
+        this.popupCustomerInfoRef.current.setStateFromParent(firstName, lastName, phone);
+        this.props.actions.appointment.togglePopupCustomerInfoByPhone(true);
     }
 
     updateBlockAppointmentRef = () => {

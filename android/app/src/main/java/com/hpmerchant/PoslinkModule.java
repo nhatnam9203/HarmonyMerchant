@@ -26,6 +26,7 @@ import com.facebook.react.bridge.Promise;
 public class PoslinkModule extends  ReactContextBaseJavaModule {
 
     private static ReactApplicationContext reactContext;
+    private static  PosLink instance;
 
     private static final String DURATION_SHORT_KEY = "SHORT";
     private static final String DURATION_LONG_KEY = "LONG";
@@ -33,6 +34,13 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
     PoslinkModule(ReactApplicationContext context){
         super(context);
         reactContext =  context;
+    }
+
+    public static PosLink getInstance(){
+        if(instance == null){
+            instance = new PosLink();
+        }
+        return instance;
     }
 
     @Override
@@ -44,14 +52,14 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void sendTransaction(String ip, String port,String timeout,String tenderType,String amount,String transType ,Promise promise) {
+    public void sendTransaction(String ip, String port,String timeout,String tenderType,String amount,String transType ,Callback errorCallback,Callback successCallback) {
          CommSetting commSetting = new CommSetting();
         commSetting.setType(CommSetting.TCP);
         commSetting.setDestIP(ip);
         commSetting.setDestPort(port);
         commSetting.setTimeOut(timeout);
 
-        PosLink posLink = new PosLink();
+        PosLink posLink = getInstance();
         posLink.SetCommSetting(commSetting);
 
         PaymentRequest paymentRequest = new PaymentRequest();
@@ -83,11 +91,17 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
         if (processTransResult.Code == ProcessTransResult.ProcessTransResultCode.OK) {
             PaymentResponse paymentResponse = posLink.PaymentResponse;
             String data = gson.toJson(paymentResponse);
-            promise.resolve(data);
+            successCallback.invoke(data);
         }else {
             String error =  gson.toJson(processTransResult);
-            promise.reject(error);
+            errorCallback.invoke(error);
         }
+    }
+
+    @ReactMethod
+    public void cancelTransaction() {
+        PosLink posLink = getInstance();
+        posLink.CancelTrans();
     }
 
     @Nonnull

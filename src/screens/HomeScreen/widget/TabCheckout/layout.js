@@ -1017,7 +1017,6 @@ class Layout extends React.Component {
 
                 <PopupGiftCardDetail
                     title={localize('Gift Card Details', language)}
-                    // visible={visiblePopupGiftCardDetails}
                     onRequestClose={this.closePopupProductPaymentDetails}
                     language={language}
                     nextPayment={this.nextPayment}
