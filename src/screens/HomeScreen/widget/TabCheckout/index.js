@@ -1011,7 +1011,7 @@ class TabCheckout extends Layout {
             setTimeout(() => {
                 PoslinkAndroid.sendTransaction(ip, port, "", tenderType, `${parseInt(moneyCreditCard)}`, "SALE",
                     (err) => {
-                        console.log(err);
+                        // console.log(err);
                         const errorTrans = JSON.parse(err);
                         this.setState({
                             visibleProcessingCredit: false,
@@ -1020,7 +1020,6 @@ class TabCheckout extends Layout {
                         setTimeout(() => {
                             alert(errorTrans.Code);
                         }, 500)
-
                     },
                     (data) => {
                         this.handleResponseCreditCard(data, online, moneyUserGiveForStaff)
@@ -1028,7 +1027,6 @@ class TabCheckout extends Layout {
                 )
             }, 100);
         } else {
-
             // 1. Check setup pax 
             PosLink.setupPax(ip, port, timeout);
 
@@ -1102,25 +1100,19 @@ class TabCheckout extends Layout {
     }
 
     cancelTransaction = async () => {
-        // alert("ddd")
-        // if(Platform.OS === "android"){
-        //     PoslinkAndroid.cancelTransaction();
-        // }else{
-        //     PosLink.cancelTransaction();
-        // }
-        console.log("---- cancelTransaction -----");
-        PoslinkAndroid.cancelTransaction();
-
-        // setTimeout(() =>{
-        //     this.setState({
-        //         visibleProcessingCredit: false,
-        //         changeButtonDone: false,
-        //     })
-        // },500)
-        // await this.setState({
-        //     visibleProcessingCredit: false,
-        //     changeButtonDone: false,
-        // });
+        if (Platform.OS === "android") {
+            console.log("---- cancelTransaction -----");
+            PoslinkAndroid.cancelTransaction((data) =>{
+                // alert("ahiihi") 
+                console.log("--- PRESSS ---: ",data);
+            });
+        } else {
+            PosLink.cancelTransaction();
+            await this.setState({
+                visibleProcessingCredit: false,
+                changeButtonDone: false,
+            });
+        }
     }
 
     doneBillByCash = async () => {

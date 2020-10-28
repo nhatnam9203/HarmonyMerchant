@@ -35,7 +35,9 @@ export default class PrintManager {
             // StarGraphic,
             // StarPRNT
             // StarLine
-            let printResult = await StarPRNT.print(PRINTER_MACHINE[portName].emulation, commands, portName);
+            if(PRINTER_MACHINE[portName]){
+                let printResult = await StarPRNT.print(PRINTER_MACHINE[portName]?.emulation, commands, portName);
+            }
             //console.log(printResult); // Success!
         } catch (e) {
             console.error(e);
@@ -70,7 +72,9 @@ export default class PrintManager {
 
     async connect(portName, hasBarcodeReader = false) {
         try {
-            let connect = await StarPRNT.connect(portName, PRINTER_MACHINE[portName].emulation, hasBarcodeReader);
+            if(PRINTER_MACHINE[portName]){
+                let connect = await StarPRNT.connect(portName, PRINTER_MACHINE[portName]?.emulation, hasBarcodeReader);
+            }
             // console.log('connect : ',connect); // Success!
             return connect;
         } catch (error) {

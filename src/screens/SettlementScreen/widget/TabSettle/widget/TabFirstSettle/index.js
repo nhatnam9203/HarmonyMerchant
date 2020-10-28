@@ -322,7 +322,7 @@ class TabFirstSettle extends Layout {
         this.props.actions.invoice.getListGiftCardSales();
     }
 
-   
+
 
     sendTotalViaSMS = async (data) => {
         // const image = ICON.happy_face;

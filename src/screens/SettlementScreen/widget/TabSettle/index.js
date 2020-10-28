@@ -40,7 +40,10 @@ class TabSettle extends Layout {
     }
 
     finishBatch = () => {
-        this.tabFirstSettleRef.current.resetNoteFromParent();
+        if (this.tabFirstSettleRef.current) {
+            this.tabFirstSettleRef.current.resetNoteFromParent();
+            this.tabFirstSettleRef.current.refreshSettlement();
+        }
     }
 
     // ----------- New code ------------
@@ -68,7 +71,7 @@ class TabSettle extends Layout {
         }
     }
 
-    scrollTabFromParent = () =>{
+    scrollTabFromParent = () => {
         this.scrollTabRef.current.goToPage(0);
     }
 

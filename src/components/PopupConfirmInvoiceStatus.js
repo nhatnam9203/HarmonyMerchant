@@ -9,7 +9,7 @@ import {
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import { scaleSzie, formatWithMoment,getPaymentString } from '@utils';
+import { scaleSzie, formatWithMoment,getPaymentString ,checkIsTablet} from '@utils';
 
 
 class PopupConfirmInvoiceStatus extends React.Component {
@@ -47,13 +47,14 @@ class PopupConfirmInvoiceStatus extends React.Component {
     }
 
 
-
     // ---------- Render --------
 
     render() {
         const { title, visible, onRequestClose, language, confirmChangeInvoiceStatus, profileLoginInvoice } = this.props;
         const { invoiceDetail } = this.state;
         const temptStatus = invoiceDetail.status === 'paid' ? 'Refund' : 'VOID';
+        const tempHeight = checkIsTablet() ? scaleSzie(360) : scaleSzie(480);
+
         return (
             <PopupParent
                 title={title}
@@ -62,7 +63,7 @@ class PopupConfirmInvoiceStatus extends React.Component {
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
             >
                 <View style={{
-                    height: scaleSzie(480), backgroundColor: '#fff',
+                    height: tempHeight, backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15),
                     borderBottomRightRadius: scaleSzie(15),
                     paddingHorizontal: scaleSzie(30)

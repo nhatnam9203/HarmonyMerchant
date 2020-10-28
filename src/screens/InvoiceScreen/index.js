@@ -17,6 +17,7 @@ import {
 import PrintManager from '@lib/PrintManager';
 
 const PosLink = NativeModules.MyApp;
+const PoslinkAndroid = NativeModules.PoslinkModule;
 
 const initalState = {
     isFocus: false,
@@ -162,8 +163,6 @@ class InvoiceScreen extends Layout {
         const arryaServices = getArrayServicesFromAppointment(basket.services);
         const arrayExtras = getArrayExtrasFromAppointment(basket.extras);
         const arrayGiftCards = getArrayGiftCardsFromAppointment(basket.giftCards);
-
-        // const temptBasket = arrayProducts.concat(arryaServices, arrayExtras, arrayGiftCards);
         const temptBasket = arryaServices.concat(arrayExtras, arrayProducts, arrayGiftCards);
 
         return temptBasket;
@@ -194,7 +193,6 @@ class InvoiceScreen extends Layout {
 
     clearSearchText = async () => {
         await this.updateSearchFilterInfo('keySearch', "");
-        // this.searchInvoice();
     }
 
     searchInvoice = (page = 1, isShowLoading = true, isLoadMore = false) => {
@@ -252,27 +250,55 @@ class InvoiceScreen extends Layout {
                 await this.setState({
                     visibleConfirmInvoiceStatus: false,
                     visibleProcessingCredit: true,
-                })
-                PosLink.setupPax(ip, port, timeout);
-                if (invoiceDetail.status === 'paid') {
-                    this.popupProcessingCreditRef.current.setStateFromParent(false);
-                    PosLink.refundTransaction(
-                        parseFloat(paymentInformation.ApprovedAmount),
-                        paymentInformation.RefNum,
-                        paymentInformation.ExtData,
-                        (data) => this.handleResultRefundTransaction(data)
-                    );
-                } else if (invoiceDetail.status === 'complete') {
-                    const transactionId = paymentInformation.RefNum ? paymentInformation.RefNum : 0
-                    this.popupProcessingCreditRef.current.setStateFromParent(transactionId);
-                    PosLink.voidTransaction(
-                        parseFloat(paymentInformation.ApprovedAmount),
-                        paymentInformation.RefNum,
-                        paymentInformation.ExtData,
-                        (data) => this.handleResultVoidTransaction(data)
-                    );
-                }
+                });
+                if (Platform.OS === "android") {
+                    if (invoiceDetail.status === 'paid') {
 
+                    } else if (invoiceDetail.status === 'complete') {
+                        const money = `${parseInt(paymentInformation.ApprovedAmount)}`;
+                       
+                       
+                        setTimeout(() => {
+                            PoslinkAndroid.voidTransaction(ip, port, "", "CREDIT", `${money}`, "VOID",
+                                `${paymentInformation.RefNum}`, `${paymentInformation.ExtData}`,
+                                (err) => {
+                                    const errorTrans = JSON.parse(err);
+                                    this.setState({
+                                        visibleProcessingCredit: false,
+                                        changeButtonDone: false,
+                                    });
+                                    setTimeout(() => {
+                                        alert(err);
+                                    }, 500)
+
+                                },
+                                (data) => {
+                                    this.handleResultVoidTransaction(data)
+                                }
+                            )
+                        }, 100);
+                    }
+                } else {
+                    PosLink.setupPax(ip, port, timeout);
+                    if (invoiceDetail.status === 'paid') {
+                        this.popupProcessingCreditRef.current.setStateFromParent(false);
+                        PosLink.refundTransaction(
+                            parseFloat(paymentInformation.ApprovedAmount),
+                            paymentInformation.RefNum,
+                            paymentInformation.ExtData,
+                            (data) => this.handleResultRefundTransaction(data)
+                        );
+                    } else if (invoiceDetail.status === 'complete') {
+                        const transactionId = paymentInformation.RefNum ? paymentInformation.RefNum : 0
+                        this.popupProcessingCreditRef.current.setStateFromParent(transactionId);
+                        PosLink.voidTransaction(
+                            parseFloat(paymentInformation.ApprovedAmount),
+                            paymentInformation.RefNum,
+                            paymentInformation.ExtData,
+                            (data) => this.handleResultVoidTransaction(data)
+                        );
+                    }
+                }
             }
         } else {
             await this.setState({

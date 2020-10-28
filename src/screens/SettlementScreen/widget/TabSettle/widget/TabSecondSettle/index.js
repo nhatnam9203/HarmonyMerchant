@@ -110,7 +110,7 @@ class TabSecondSettle extends Layout {
             creditAmount: 0,
             errorMessage: '',
             paxErrorMessage: ''
-        })
+        });
     }
 
     settle = async () => {
