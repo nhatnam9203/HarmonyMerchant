@@ -69,7 +69,6 @@ class PopupProcessingCredit extends React.Component {
                             Enter<Text style={{color:"red",fontWeight:"bold"}} >{` ${transactionId} `}</Text> number into your PAX machine!
                         </Text> : <View />
                         }
-                        
 
                         <View style={{ paddingVertical: scaleSzie(14) }} >
                             <ButtonCustom

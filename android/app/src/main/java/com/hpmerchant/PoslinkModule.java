@@ -151,6 +151,53 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
             String error =  gson.toJson(processTransResult);
             errorCallback.invoke(error);
         }
+    }
+
+    @ReactMethod
+    public void refundTransaction(String ip, String port,String timeout,String tenderType,String transType,String amount ,String transactionId,String extData ,Callback errorCallback,Callback successCallback) {
+        CommSetting commSetting = new CommSetting();
+        commSetting.setType(CommSetting.TCP);
+        commSetting.setDestIP(ip);
+        commSetting.setDestPort(port);
+        commSetting.setTimeOut(timeout);
+
+        PosLink posLink = getInstance();
+        posLink.SetCommSetting(commSetting);
+
+        PaymentRequest paymentRequest = new PaymentRequest();
+
+        paymentRequest.TenderType = paymentRequest.ParseTenderType(tenderType);
+        paymentRequest.TransType = paymentRequest.ParseTransType(transType);
+        paymentRequest.Amount = amount;
+        paymentRequest.CashBackAmt = "";
+        paymentRequest.ECRRefNum = transactionId;
+        paymentRequest.ClerkID = "";
+        paymentRequest.Zip = "";
+        paymentRequest.TipAmt = "";
+        paymentRequest.TaxAmt = "";
+        paymentRequest.Street = "";
+        paymentRequest.Street2 = "";
+        paymentRequest.SurchargeAmt = "";
+        paymentRequest.PONum = "";
+        paymentRequest.OrigECRRefNum = "";
+        paymentRequest.OrigRefNum = "";
+        paymentRequest.InvNum = "";
+        paymentRequest.ECRTransID = "";
+        paymentRequest.AuthCode = "";
+        paymentRequest.FuelAmt = "";
+        paymentRequest.ExtData = extData;
+
+        posLink.PaymentRequest = paymentRequest;
+        ProcessTransResult processTransResult = posLink.ProcessTrans();
+        Gson gson = new Gson();
+        if (processTransResult.Code == ProcessTransResult.ProcessTransResultCode.OK) {
+            PaymentResponse paymentResponse = posLink.PaymentResponse;
+            String data = gson.toJson(paymentResponse);
+            successCallback.invoke(data);
+        }else {
+            String error =  gson.toJson(processTransResult);
+            errorCallback.invoke(error);
+        }
 
     }
 

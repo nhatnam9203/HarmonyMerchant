@@ -251,9 +251,32 @@ class InvoiceScreen extends Layout {
                     visibleProcessingCredit: true,
                 });
                 if (Platform.OS === "android") {
+                    // ------------------ REFUND ----------------
                     if (invoiceDetail.status === 'paid') {
-
+                        this.popupProcessingCreditRef.current.setStateFromParent(false);
+                        setTimeout(() => {
+                            PoslinkAndroid.refundTransaction(ip, port, "", "CREDIT", "RETURN",
+                                paymentInformation.ApprovedAmount,
+                                `${paymentInformation.RefNum}`, `${paymentInformation.ExtData}`,
+                                (err) => {
+                                    const errorTrans = JSON.parse(err);
+                                    this.setState({
+                                        visibleProcessingCredit: false
+                                    });
+                                    setTimeout(() => {
+                                        alert(err);
+                                    }, 300);
+                                },
+                                (data) => {
+                                    console.log(data);
+                                    this.handleResultRefundTransaction(data)
+                                }
+                            )
+                        }, 100);
+                        // ------------------ VOID ----------------
                     } else if (invoiceDetail.status === 'complete') {
+                        const transactionId = paymentInformation.RefNum ? paymentInformation.RefNum : 0;
+                        this.popupProcessingCreditRef.current.setStateFromParent(transactionId);
                         setTimeout(() => {
                             PoslinkAndroid.voidTransaction(ip, port, "", "CREDIT", "VOID",
                                 `${paymentInformation.RefNum}`, `${paymentInformation.ExtData}`,
@@ -345,9 +368,6 @@ class InvoiceScreen extends Layout {
                 }, 300)
             }
         }
-
-
-
     }
 
     handleResultRefundTransaction = async result => {
@@ -355,18 +375,29 @@ class InvoiceScreen extends Layout {
         await this.setState({
             visibleProcessingCredit: false
         });
-
         const data = JSON.parse(result);
-        if (data.status === 1 && data.ResultTxt === "OK") {
-            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
-            await this.setState({
-                titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
-            })
+        if (Platform.OS === "android") {
+            if (data.ResultCode == "000000") {
+                this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
+                await this.setState({
+                    titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
+                });
+            } else {
+                setTimeout(() => {
+                    alert(data.ResultTxt)
+                }, 300);
+            }
         } else {
-            setTimeout(() => {
-                alert(data.message)
-            }, 300)
-
+            if (data.status === 1 && data.ResultTxt === "OK") {
+                this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
+                await this.setState({
+                    titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
+                });
+            } else {
+                setTimeout(() => {
+                    alert(data.message)
+                }, 300);
+            }
         }
     }
 
