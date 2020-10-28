@@ -235,7 +235,6 @@ class InvoiceScreen extends Layout {
     }
 
 
-
     confirmChangeInvoiceStatus = async () => {
         const { paxMachineInfo } = this.props;
         const { invoiceDetail } = this.state;
@@ -255,24 +254,20 @@ class InvoiceScreen extends Layout {
                     if (invoiceDetail.status === 'paid') {
 
                     } else if (invoiceDetail.status === 'complete') {
-                        const money = `${parseInt(paymentInformation.ApprovedAmount)}`;
-                       
-                       
                         setTimeout(() => {
-                            PoslinkAndroid.voidTransaction(ip, port, "", "CREDIT", `${money}`, "VOID",
+                            PoslinkAndroid.voidTransaction(ip, port, "", "CREDIT", "VOID",
                                 `${paymentInformation.RefNum}`, `${paymentInformation.ExtData}`,
                                 (err) => {
                                     const errorTrans = JSON.parse(err);
                                     this.setState({
-                                        visibleProcessingCredit: false,
-                                        changeButtonDone: false,
+                                        visibleProcessingCredit: false
                                     });
                                     setTimeout(() => {
                                         alert(err);
-                                    }, 500)
-
+                                    }, 300);
                                 },
                                 (data) => {
+                                    console.log(data);
                                     this.handleResultVoidTransaction(data)
                                 }
                             )
@@ -326,16 +321,32 @@ class InvoiceScreen extends Layout {
             visibleProcessingCredit: false
         });
 
-        if (data.status === 1) {
-            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
-            await this.setState({
-                titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
-            })
+        if (Platform.OS === "android") {
+            if (data.ResultCode == "000000") {
+                this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
+                await this.setState({
+                    titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
+                });
+            } else {
+                setTimeout(() => {
+                    alert(data.ResultTxt)
+                }, 300)
+            }
+
         } else {
-            setTimeout(() => {
-                alert(data.message)
-            }, 300)
+            if (data.status === 1) {
+                this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
+                await this.setState({
+                    titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
+                })
+            } else {
+                setTimeout(() => {
+                    alert(data.message)
+                }, 300)
+            }
         }
+
+
 
     }
 

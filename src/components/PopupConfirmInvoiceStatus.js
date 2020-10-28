@@ -186,7 +186,7 @@ const ItemDetail = ({ title, value,titleStyle,valueStyle }) => {
     return (
         <View style={{ height: scaleSzie(26), flexDirection: 'row' }} >
             <View style={{ flex: 1, justifyContent: 'center' }} >
-                <Text style={[styles.textCommon,{titleStyle}]} >
+                <Text style={[styles.textCommon,titleStyle]} >
                     {title}
                 </Text>
             </View>

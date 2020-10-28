@@ -107,7 +107,7 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void voidTransaction(String ip, String port,String timeout,String tenderType,String amount,String transType,String transactionId,String extData ,Callback errorCallback,Callback successCallback) {
+    public void voidTransaction(String ip, String port,String timeout,String tenderType,String transType,String transactionId,String extData ,Callback errorCallback,Callback successCallback) {
         CommSetting commSetting = new CommSetting();
         commSetting.setType(CommSetting.TCP);
         commSetting.setDestIP(ip);
@@ -121,7 +121,7 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
 
         paymentRequest.TenderType = paymentRequest.ParseTenderType(tenderType);
         paymentRequest.TransType = paymentRequest.ParseTransType(transType);
-        paymentRequest.Amount = amount;
+        paymentRequest.Amount = "";
         paymentRequest.CashBackAmt = "";
         paymentRequest.ECRRefNum = transactionId;
         paymentRequest.ClerkID = "";
