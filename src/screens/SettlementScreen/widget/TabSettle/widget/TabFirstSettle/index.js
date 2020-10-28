@@ -15,6 +15,7 @@ import Share from 'react-native-share';
 import ICON from "@resources";
 
 const PosLink = NativeModules.MyApp;
+const PoslinkAndroid = NativeModules.PoslinkModule;
 
 class TabFirstSettle extends Layout {
 
@@ -87,7 +88,48 @@ class TabFirstSettle extends Layout {
         }
     }
 
-    handlePAXReport = async () => {
+    handlePAXReport = async () =>{
+        const { paxMachineInfo } = this.props;
+        const { ip, port, timeout, isSetup } = paxMachineInfo;
+        if (isSetup) {
+            await this.setState({
+                visible: true
+            });
+            let totalReport = 0;
+            let totalRecord = 0;
+            let isError = false;
+            const tempEnv = env.IS_PRODUCTION;
+
+            setTimeout(() => {
+                PoslinkAndroid.startReport(ip, port, "", "LOCALDETAILREPORT", "ALL","UNKNOWN","UNKNOWN",
+                    (err) => {
+                        const errorTrans = JSON.parse(err);
+                         this.setState({
+                            visible: false
+                        });
+                        setTimeout(() => {
+                            alert(err);
+                        }, 300);
+                    },
+                    (data) => {
+                        this.setState({
+                            visible: false
+                        });
+                        console.log(data);
+                        // this.handleResultRefundTransaction(data)
+                    }
+                )
+            }, 100);
+
+        }else{
+            this.props.actions.app.connectPaxMachineError("Don't have setup in Hardware Tab!");
+            await this.setState({
+                editPaymentByCreditCard: 0.00
+            });
+        }
+    }
+
+    handlePAXReport_IOS  = async () => {
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;
         if (isSetup) {

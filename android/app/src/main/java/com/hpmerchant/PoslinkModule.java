@@ -19,6 +19,9 @@ import com.pax.poslink.PosLink;
 import com.pax.poslink.ProcessTransResult;
 import com.pax.poslink.CommSetting;
 
+import com.pax.poslink.ReportRequest;
+import com.pax.poslink.ReportResponse;
+
 import com.facebook.react.bridge.Callback;
 import com.google.gson.Gson;
 import com.facebook.react.bridge.Promise;
@@ -198,8 +201,40 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
             String error =  gson.toJson(processTransResult);
             errorCallback.invoke(error);
         }
+    }
+
+    @ReactMethod
+    public void startReport(String ip, String port,String timeout,String transType ,String edcType,String cardType,String paymentType,Callback errorCallback,Callback successCallback) {
+        CommSetting commSetting = new CommSetting();
+        commSetting.setType(CommSetting.TCP);
+        commSetting.setDestIP(ip);
+        commSetting.setDestPort(port);
+        commSetting.setTimeOut(timeout);
+
+        PosLink posLink = getInstance();
+        posLink.SetCommSetting(commSetting);
+
+        ReportRequest reportRequest = new ReportRequest();
+
+        reportRequest.TransType = reportRequest.ParseTransType(transType);
+        reportRequest.EDCType = reportRequest.ParseEDCType(edcType);
+        reportRequest.CardType = reportRequest.ParseCardType(cardType);
+        reportRequest.PaymentType = reportRequest.ParsePaymentType(paymentType);
+        posLink.ReportRequest = reportRequest;
+
+        ProcessTransResult processTransResult = posLink.ProcessTrans();
+        Gson gson = new Gson();
+        if (processTransResult.Code == ProcessTransResult.ProcessTransResultCode.OK) {
+            ReportResponse reportResponse = posLink.ReportResponse;
+            String data = gson.toJson(reportResponse);
+            successCallback.invoke(data);
+        }else {
+            String error =  gson.toJson(processTransResult);
+            errorCallback.invoke(error);
+        }
 
     }
+
 
     @Nonnull
     @Override
