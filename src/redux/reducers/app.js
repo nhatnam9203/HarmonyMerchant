@@ -232,7 +232,7 @@ function appReducer(state = initialState, action) {
         ...state,
         connectPAXStatus: {
           status: false,
-          message : getErrorMessagePaxMachine(action.payload)
+          message: getErrorMessagePaxMachine(action.payload)
         },
       };
     case "CONNECT_PAX_MACHINE_SUCCESS":
@@ -278,8 +278,8 @@ function getErrorMessagePaxMachine(error) {
       return "( You're running your Pax on DEMO MODE! )";
     case "NOT FOUND":
       return "( TRASACTIONS NOT FOUND ON YOUR PAX MACHINE! )";
-    default :
-      return `( Your POS system don't have connect to PAX machine. Error : "${error}" )`
+    default:
+      return `(Error From Your Pax : "${error}" )`
   }
 }
 

@@ -88,7 +88,16 @@ class TabFirstSettle extends Layout {
         }
     }
 
-    handlePAXReport = async () =>{
+    handleErrorPaxOnAndroid = (msgError) => {
+        this.setState({
+            visible: false,
+            creditCount: 0,
+            editPaymentByCreditCard: 0.00
+        });
+        this.props.actions.app.connectPaxMachineError(`${msgError}`);
+    }
+
+    handlePAXReport = async () => {
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;
         if (isSetup) {
@@ -101,27 +110,62 @@ class TabFirstSettle extends Layout {
             const tempEnv = env.IS_PRODUCTION;
 
             setTimeout(() => {
-                PoslinkAndroid.startReport(ip, port, "", "LOCALDETAILREPORT", "ALL","UNKNOWN","UNKNOWN",
+                PoslinkAndroid.startReport(ip, port, "", "LOCALDETAILREPORT", "ALL", "UNKNOWN", "UNKNOWN",
                     (err) => {
-                        const errorTrans = JSON.parse(err);
-                         this.setState({
-                            visible: false
-                        });
-                        setTimeout(() => {
-                            alert(err);
-                        }, 300);
+                        const errorDetailReport = JSON.parse(err);
+                        this.handleErrorPaxOnAndroid(errorDetailReport?.Msg);
                     },
                     (data) => {
                         this.setState({
                             visible: false
                         });
-                        console.log(data);
-                        // this.handleResultRefundTransaction(data)
+                        const result = JSON.parse(data);
+                        if (result.ResultTxt && result.ResultTxt == "OK") {
+                            if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
+                                this.setState({
+                                    visible: false,
+                                    isGetReportFromPax: false
+                                });
+
+                                setTimeout(() => {
+                                    alert("You're running your Pax on DEMO MODE!")
+                                }, 500);
+                                this.props.actions.app.connectPaxMachineError(`You're running your Pax on DEMO MODE!`);
+                            } else {
+                                totalRecord = result.TotalRecord ? parseInt(result.TotalRecord) : 0;
+                                // ----------- Total Report --------
+                                PoslinkAndroid.startReport(ip, port, "", "LOCALTOTALREPORT", "ALL", "UNKNOWN", "",
+                                    (error) => {
+                                        const errorTotalReport = JSON.parse(error);
+                                        this.handleErrorPaxOnAndroid(errorTotalReport?.Msg);
+                                    },
+                                    (amountData) => {
+                                        let amountResult = JSON.parse(amountData);
+                                        totalReport = amountResult.CreditAmount ? parseFloat(amountResult.CreditAmount) : 0;
+                                        this.props.actions.app.ConnectPaxMachineSuccess();
+                                        const moneyInPax = formatMoney(roundFloatNumber(totalReport / 100));
+                                        this.setState({
+                                            creditCount: totalRecord,
+                                            // editPaymentByCreditCard: moneyInPax
+                                        });
+                                        this.setState({
+                                            visible: false,
+                                            isGetReportFromPax: false
+                                        });
+
+                                        if (totalRecord = 0) {
+                                            this.setState({
+                                                editPaymentByCreditCard: 0.00
+                                            });
+                                        }
+                                    });
+                            }
+                        }
                     }
                 )
             }, 100);
 
-        }else{
+        } else {
             this.props.actions.app.connectPaxMachineError("Don't have setup in Hardware Tab!");
             await this.setState({
                 editPaymentByCreditCard: 0.00
@@ -129,7 +173,7 @@ class TabFirstSettle extends Layout {
         }
     }
 
-    handlePAXReport_IOS  = async () => {
+    handlePAXReport_IOS = async () => {
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;
         if (isSetup) {

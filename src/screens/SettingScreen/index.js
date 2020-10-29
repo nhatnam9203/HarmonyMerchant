@@ -196,6 +196,10 @@ class SettingScreen extends Layout {
       this.props.actions.staff.getStaffByMerchantId("", "", "", false, false);
     }
     this.scrollTabRef.current.goToPage(0);
+
+    if (this.leftMenuSettingRef.current) {
+      this.leftMenuSettingRef.current.setStateFromParent(0);
+    }
     this.setState({
       indexTab: 0,
     })
