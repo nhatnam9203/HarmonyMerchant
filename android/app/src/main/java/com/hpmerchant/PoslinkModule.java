@@ -18,9 +18,10 @@ import com.pax.poslink.PaymentResponse;
 import com.pax.poslink.PosLink;
 import com.pax.poslink.ProcessTransResult;
 import com.pax.poslink.CommSetting;
-
 import com.pax.poslink.ReportRequest;
 import com.pax.poslink.ReportResponse;
+import com.pax.poslink.BatchRequest;
+import com.pax.poslink.BatchResponse;
 
 import com.facebook.react.bridge.Callback;
 import com.google.gson.Gson;
@@ -54,14 +55,19 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
         return constants;
     }
 
-    @ReactMethod
-    public void sendTransaction(String ip, String port,String timeout,String tenderType,String amount,String transType ,Callback errorCallback,Callback successCallback) {
+    public CommSetting getCommSetting(String ip, String port,String timeout){
         CommSetting commSetting = new CommSetting();
         commSetting.setType(CommSetting.TCP);
         commSetting.setDestIP(ip);
         commSetting.setDestPort(port);
         commSetting.setTimeOut(timeout);
 
+        return commSetting;
+    }
+
+    @ReactMethod
+    public void sendTransaction(String ip, String port,String timeout,String tenderType,String amount,String transType ,Callback errorCallback,Callback successCallback) {
+        CommSetting commSetting = getCommSetting(ip,port,timeout);
         PosLink posLink = getInstance();
         posLink.SetCommSetting(commSetting);
 
@@ -111,12 +117,7 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
 
     @ReactMethod
     public void voidTransaction(String ip, String port,String timeout,String tenderType,String transType,String transactionId,String extData ,Callback errorCallback,Callback successCallback) {
-        CommSetting commSetting = new CommSetting();
-        commSetting.setType(CommSetting.TCP);
-        commSetting.setDestIP(ip);
-        commSetting.setDestPort(port);
-        commSetting.setTimeOut(timeout);
-
+        CommSetting commSetting = getCommSetting(ip,port,timeout);
         PosLink posLink = getInstance();
         posLink.SetCommSetting(commSetting);
 
@@ -158,12 +159,7 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
 
     @ReactMethod
     public void refundTransaction(String ip, String port,String timeout,String tenderType,String transType,String amount ,String transactionId,String extData ,Callback errorCallback,Callback successCallback) {
-        CommSetting commSetting = new CommSetting();
-        commSetting.setType(CommSetting.TCP);
-        commSetting.setDestIP(ip);
-        commSetting.setDestPort(port);
-        commSetting.setTimeOut(timeout);
-
+        CommSetting commSetting = getCommSetting(ip,port,timeout);
         PosLink posLink = getInstance();
         posLink.SetCommSetting(commSetting);
 
@@ -205,12 +201,7 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
 
     @ReactMethod
     public void startReport(String ip, String port,String timeout,String transType ,String edcType,String cardType,String paymentType,Callback errorCallback,Callback successCallback) {
-        CommSetting commSetting = new CommSetting();
-        commSetting.setType(CommSetting.TCP);
-        commSetting.setDestIP(ip);
-        commSetting.setDestPort(port);
-        commSetting.setTimeOut(timeout);
-
+        CommSetting commSetting = getCommSetting(ip,port,timeout);
         PosLink posLink = getInstance();
         posLink.SetCommSetting(commSetting);
 
@@ -232,7 +223,28 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
             String error =  gson.toJson(processTransResult);
             errorCallback.invoke(error);
         }
+    }
 
+    @ReactMethod
+    public void batchTransaction(String ip, String port,String timeout,String transType,Callback errorCallback,Callback successCallback){
+        CommSetting commSetting = getCommSetting(ip,port,timeout);
+        PosLink posLink = getInstance();
+        posLink.SetCommSetting(commSetting);
+
+        BatchRequest batchRequest = new BatchRequest();
+        batchRequest.TransType = batchRequest.ParseTransType(transType);
+        posLink.BatchRequest = batchRequest;
+
+        ProcessTransResult processTransResult = posLink.ProcessTrans();
+        Gson gson = new Gson();
+        if (processTransResult.Code == ProcessTransResult.ProcessTransResultCode.OK) {
+            BatchResponse batchResponse = posLink.BatchResponse;
+            String data = gson.toJson(batchResponse);
+            successCallback.invoke(data);
+        }else {
+            String error =  gson.toJson(processTransResult);
+            errorCallback.invoke(error);
+        }
     }
 
 
