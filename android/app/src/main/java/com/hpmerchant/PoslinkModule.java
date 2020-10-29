@@ -68,7 +68,7 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
     @ReactMethod
     public void sendTransaction(String ip, String port,String timeout,String tenderType,String amount,String transType ,Callback errorCallback,Callback successCallback) {
         CommSetting commSetting = getCommSetting(ip,port,timeout);
-        PosLink posLink = getInstance();
+        PosLink posLink = new PosLink();
         posLink.SetCommSetting(commSetting);
 
         PaymentRequest paymentRequest = new PaymentRequest();
@@ -77,7 +77,7 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
         paymentRequest.TransType = paymentRequest.ParseTransType(transType);
         paymentRequest.Amount = amount;
         paymentRequest.CashBackAmt = "";
-        paymentRequest.ECRRefNum = "1";
+        paymentRequest.ECRRefNum = " ";
         paymentRequest.ClerkID = "";
         paymentRequest.Zip = "";
         paymentRequest.TipAmt = "";
@@ -118,7 +118,7 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
     @ReactMethod
     public void voidTransaction(String ip, String port,String timeout,String tenderType,String transType,String transactionId,String extData ,Callback errorCallback,Callback successCallback) {
         CommSetting commSetting = getCommSetting(ip,port,timeout);
-        PosLink posLink = getInstance();
+        PosLink posLink = new PosLink();
         posLink.SetCommSetting(commSetting);
 
         PaymentRequest paymentRequest = new PaymentRequest();
@@ -160,7 +160,7 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
     @ReactMethod
     public void refundTransaction(String ip, String port,String timeout,String tenderType,String transType,String amount ,String transactionId,String extData ,Callback errorCallback,Callback successCallback) {
         CommSetting commSetting = getCommSetting(ip,port,timeout);
-        PosLink posLink = getInstance();
+        PosLink posLink = new PosLink();
         posLink.SetCommSetting(commSetting);
 
         PaymentRequest paymentRequest = new PaymentRequest();
@@ -202,7 +202,7 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
     @ReactMethod
     public void startReport(String ip, String port,String timeout,String transType ,String edcType,String cardType,String paymentType,Callback errorCallback,Callback successCallback) {
         CommSetting commSetting = getCommSetting(ip,port,timeout);
-        PosLink posLink = getInstance();
+        PosLink posLink = new PosLink();
         posLink.SetCommSetting(commSetting);
 
         ReportRequest reportRequest = new ReportRequest();
@@ -228,7 +228,7 @@ public class PoslinkModule extends  ReactContextBaseJavaModule {
     @ReactMethod
     public void batchTransaction(String ip, String port,String timeout,String transType,Callback errorCallback,Callback successCallback){
         CommSetting commSetting = getCommSetting(ip,port,timeout);
-        PosLink posLink = getInstance();
+        PosLink posLink = new PosLink();
         posLink.SetCommSetting(commSetting);
 
         BatchRequest batchRequest = new BatchRequest();

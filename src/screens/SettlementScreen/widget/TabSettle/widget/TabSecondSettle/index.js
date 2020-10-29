@@ -1,9 +1,10 @@
-import { NativeModules, Alert } from 'react-native';
+import { NativeModules, Alert,Platform } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 
 const PosLink = NativeModules.MyApp;
+const PoslinkAndroid = NativeModules.PoslinkModule;
 
 class TabSecondSettle extends Layout {
 
@@ -38,33 +39,7 @@ class TabSecondSettle extends Layout {
         })
     }
 
-    handleReport() {
-        const { paxMachineInfo } = this.props;
-        const { ip, port, timeout, isSetup } = paxMachineInfo;
-        if (isSetup) {
-            PosLink.setupPax(ip, port, timeout);
-            PosLink.reportTransaction(message => this.handleResponseReportTransactions(message));
-        } else {
-            Alert.alert(
-                'Unable to connect to PAX. Do you want to continue without PAX?',
-                '',
-                [
-
-                    {
-                        text: 'Cancel',
-                        onPress: () => { },
-                        style: 'cancel'
-                    },
-                    { text: 'OK', onPress: () => this.proccessingSettlement() }
-                ],
-                { cancelable: false }
-            );
-
-        }
-    }
-
     async handleResponseReportTransactions(message) {
-        // console.log('Second : ', message);
         try {
             const result = JSON.parse(message);
             if (result.status == 0) {
@@ -113,6 +88,18 @@ class TabSecondSettle extends Layout {
         });
     }
 
+    handleErrorBatchOnAndroid = async (errorMsg) =>{
+        // alert(errorMsg)
+        console.log(errorMsg);
+        this.setState({
+            numberFooter: 1,
+            progress: 0,
+        })
+        await this.setState({
+            paxErrorMessage: errorMsg
+        })
+    }
+
     settle = async () => {
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;
@@ -127,10 +114,21 @@ class TabSecondSettle extends Layout {
                     progress: 0.5,
                 });
             }, 100);
-            PosLink.setupPax(ip, port, timeout);
-            PosLink.batchTransaction(message => this.handleResponseBatchTransactions(message));
+            if(Platform.OS === "android"){
+                PoslinkAndroid.batchTransaction(ip, port, "", "BATCHCLOSE",
+                (err) =>{
+                    // console.log("err: ",err);
+                   this.handleErrorBatchOnAndroid(err);
+                },
+                (data) =>{
+                    this.proccessingSettlement();
+                });
+            }else{
+                PosLink.setupPax(ip, port, timeout);
+                PosLink.batchTransaction(message => this.handleResponseBatchTransactions(message));
+            }
+           
         } else {
-            // alert('Please connect your Pax to take payment.');
             Alert.alert(
                 'Unable to connect to PAX, Do you want to continue without PAX?',
                 '',

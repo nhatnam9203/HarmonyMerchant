@@ -112,6 +112,7 @@ class TabFirstSettle extends Layout {
             setTimeout(() => {
                 PoslinkAndroid.startReport(ip, port, "", "LOCALDETAILREPORT", "ALL", "UNKNOWN", "UNKNOWN",
                     (err) => {
+                        console.log(err);
                         const errorDetailReport = JSON.parse(err);
                         this.handleErrorPaxOnAndroid(errorDetailReport?.Msg);
                     },
@@ -120,8 +121,8 @@ class TabFirstSettle extends Layout {
                             visible: false
                         });
                         const result = JSON.parse(data);
-                        if (result.ResultTxt && result.ResultTxt == "OK") {
-                            if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
+                        if (result?.ResultTxt && result?.ResultTxt == "OK") {
+                            if (tempEnv == "Production" && result?.Message === "DEMO APPROVED") {
                                 this.setState({
                                     visible: false,
                                     isGetReportFromPax: false
@@ -190,8 +191,8 @@ class TabFirstSettle extends Layout {
                 // ----------- Total Amount --------
                 let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", "UNKNOWN", "UNKNOWN");
                 let result = JSON.parse(data);
-                if (result.ResultTxt && result.ResultTxt == "OK") {
-                    if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
+                if (result?.ResultTxt && result?.ResultTxt == "OK") {
+                    if (tempEnv == "Production" && result?.Message === "DEMO APPROVED") {
                         await this.setState({
                             visible: false,
                             isGetReportFromPax: false
