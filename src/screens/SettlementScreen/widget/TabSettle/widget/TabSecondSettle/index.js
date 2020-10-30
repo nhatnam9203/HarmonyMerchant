@@ -1,4 +1,4 @@
-import { NativeModules, Alert,Platform } from 'react-native';
+import { NativeModules, Alert, Platform } from 'react-native';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -88,7 +88,7 @@ class TabSecondSettle extends Layout {
         });
     }
 
-    handleErrorBatchOnAndroid = async (errorMsg) =>{
+    handleErrorBatchOnAndroid = async (errorMsg) => {
         // alert(errorMsg)
         console.log(errorMsg);
         this.setState({
@@ -114,20 +114,19 @@ class TabSecondSettle extends Layout {
                     progress: 0.5,
                 });
             }, 100);
-            if(Platform.OS === "android"){
+            if (Platform.OS === "android") {
                 PoslinkAndroid.batchTransaction(ip, port, "", "BATCHCLOSE",
-                (err) =>{
-                    // console.log("err: ",err);
-                   this.handleErrorBatchOnAndroid(err);
-                },
-                (data) =>{
-                    this.proccessingSettlement();
-                });
-            }else{
+                    (err) => {
+                        this.handleErrorBatchOnAndroid(err);
+                    },
+                    (data) => {
+                        this.proccessingSettlement();
+                    });
+            } else {
                 PosLink.setupPax(ip, port, timeout);
                 PosLink.batchTransaction(message => this.handleResponseBatchTransactions(message));
             }
-           
+
         } else {
             Alert.alert(
                 'Unable to connect to PAX, Do you want to continue without PAX?',

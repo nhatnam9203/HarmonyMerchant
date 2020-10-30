@@ -2,7 +2,8 @@ import React from 'react';
 import {
     View,
     Text,
-    ActivityIndicator
+    ActivityIndicator,
+    Platform
 } from 'react-native';
 
 import ButtonCustom from "./ButtonCustom";
@@ -15,12 +16,12 @@ class PopupProcessingCredit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            transactionId : false
+            transactionId: false
         }
     }
 
-    setStateFromParent = async (transactionId) =>{
-      await  this.setState({
+    setStateFromParent = async (transactionId) => {
+        await this.setState({
             transactionId
         })
     }
@@ -28,7 +29,7 @@ class PopupProcessingCredit extends React.Component {
 
     render() {
         const { visible, onRequestClose, language } = this.props;
-        const {transactionId} = this.state;
+        const { transactionId } = this.state;
 
         return (
             <ModalCustom
@@ -66,22 +67,25 @@ class PopupProcessingCredit extends React.Component {
 
                         {
                             transactionId ? <Text style={{ alignSelf: "center", color: "#404040", fontSize: scaleSzie(18) }} >
-                            Enter<Text style={{color:"red",fontWeight:"bold"}} >{` ${transactionId} `}</Text> number into your PAX machine!
+                                Enter<Text style={{ color: "red", fontWeight: "bold" }} >{` ${transactionId} `}</Text> number into your PAX machine!
                         </Text> : <View />
                         }
 
-                        <View style={{ paddingVertical: scaleSzie(14) }} >
-                            <ButtonCustom
-                                width={scaleSzie(120)}
-                                height={40}
-                                backgroundColor="#F1F1F1"
-                                title={localize('Cancel', language)}
-                                textColor="#6A6A6A"
-                                onPress={() => onRequestClose()}
-                                style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 0 }}
-                                styleText={{ fontSize: scaleSzie(15), fontWeight: 'normal' }}
-                            />
-                        </View>
+                        {
+                            Platform.OS === "ios" ? <View style={{ paddingVertical: scaleSzie(14) }} >
+                                <ButtonCustom
+                                    width={scaleSzie(120)}
+                                    height={40}
+                                    backgroundColor="#F1F1F1"
+                                    title={localize('Cancel', language)}
+                                    textColor="#6A6A6A"
+                                    onPress={() => onRequestClose()}
+                                    style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 0 }}
+                                    styleText={{ fontSize: scaleSzie(15), fontWeight: 'normal' }}
+                                />
+                            </View> : <View />
+                        }
+
 
                     </View>
                 </View>

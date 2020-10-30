@@ -85,6 +85,12 @@ const HeaderTable = () => {
                     {`Payments`}
                 </Text>
             </View>
+            {/* --------- Payments  ---------- */}
+            <View style={{ flex: 0.5, justifyContent: "center", }} >
+                <Text style={styles.txt_header_table} >
+                    {`Status`}
+                </Text>
+            </View>
 
             {/* --------- Amount  ---------- */}
             <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end", }} >
@@ -99,7 +105,7 @@ const HeaderTable = () => {
 
 const RowTable = ({ data }) => {
     const creditCardLogo = getCredicardIcon(data.paymentData && data.paymentData.card_type ? `${data.paymentData.card_type}`.toLowerCase() : "");
-    const cardNumber = data.paymentData && data.paymentData.card_number ? data.paymentData.card_number : "";
+    const cardNumber =  data?.paymentData?.card_number || "";
 
     return (
         <View style={{
@@ -108,13 +114,13 @@ const RowTable = ({ data }) => {
             {/* --------- Trans ID  ---------- */}
             <View style={{ flex: 1.2, justifyContent: "center" }} >
                 <Text numberOfLines={1} style={styles.txt_row_table} >
-                    {`#${data.transactionId ? data.transactionId : ""}`}
+                    {`#${data?.transactionId || ""}`}
                 </Text>
             </View>
             {/* --------- Invoice  ---------- */}
             <View style={{ flex: 1, justifyContent: "center" }} >
                 <Text style={styles.txt_row_table} >
-                    {`#${data.checkoutId ? data.checkoutId : ""}`}
+                    {`#${data?.checkoutId || ""}`}
                 </Text>
             </View>
             {/* --------- Payments  ---------- */}
@@ -128,10 +134,16 @@ const RowTable = ({ data }) => {
                     {cardNumber}
                 </Text>
             </View>
+             {/* --------- Invoice  ---------- */}
+             <View style={{ flex: 0.5, justifyContent: "center" }} >
+                <Text style={styles.txt_row_table} >
+                    {`${data?.status || ""}`}
+                </Text>
+            </View>
             {/* --------- Amount  ---------- */}
             <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
                 <Text style={[styles.txt_row_table, { fontWeight: "bold" }]} >
-                    {`$ ${data.amount ? data.amount : "0.00"}`}
+                    {`$ ${data?.amount || "0.00"}`}
                 </Text>
             </View>
         </View>

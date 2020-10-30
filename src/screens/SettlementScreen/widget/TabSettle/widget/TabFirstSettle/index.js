@@ -97,7 +97,15 @@ class TabFirstSettle extends Layout {
         this.props.actions.app.connectPaxMachineError(`${msgError}`);
     }
 
-    handlePAXReport = async () => {
+    handlePAXReport =() =>{
+        if(Platform.OS === "android"){
+            this.handlePAXReport_Android();
+        }else{
+            this.handlePAXReport_IOS();
+        } 
+    }
+
+    handlePAXReport_Android = async () => {
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;
         if (isSetup) {

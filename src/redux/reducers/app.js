@@ -231,7 +231,7 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         connectPAXStatus: {
-          status: false,
+          status: action.payload === "NOT FOUND" ? true : false,
           message: getErrorMessagePaxMachine(action.payload)
         },
       };
@@ -277,7 +277,7 @@ function getErrorMessagePaxMachine(error) {
     case "You're running your Pax on DEMO MODE!":
       return "( You're running your Pax on DEMO MODE! )";
     case "NOT FOUND":
-      return "( TRASACTIONS NOT FOUND ON YOUR PAX MACHINE! )";
+      return "( Pax terminal successfully connected! )";
     default:
       return `(Error From Your Pax : "${error}" )`
   }
