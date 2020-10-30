@@ -33,7 +33,7 @@ class TabCustomBanner extends Layout {
 
     componentDidMount() {
         const { profile } = this.props;
-        this.props.actions.marketing.getBannerMerchant(profile.merchantId,true);
+        // this.props.actions.marketing.getBannerMerchant(profile.merchantId,true);
     }
 
     scrollInputTo = (index) =>{

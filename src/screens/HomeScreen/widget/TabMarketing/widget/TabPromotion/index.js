@@ -24,7 +24,7 @@ class TabPromotion extends Layout {
   }
 
   componentDidMount() {
-    this.props.actions.marketing.getPromotionByMerchant();
+    // this.props.actions.marketing.getPromotionByMerchant();
   }
 
   onPressListPromotion = () => {

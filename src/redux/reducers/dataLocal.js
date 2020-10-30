@@ -60,7 +60,7 @@ function dataLocalReducer(state = initialState, action) {
             return {
                 ...state,
                 profile: action.payload.profile,
-                token:  action?.payload?.token || state.token,
+                token: action?.payload?.token || state.token,
             }
         case 'GET_MERCHANT_BY_ID_SUCCESS':
             return {

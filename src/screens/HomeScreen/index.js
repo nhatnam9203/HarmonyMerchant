@@ -18,7 +18,6 @@ const initialState = {
     visibleConfirm: false,
     temptCurrentTap: -1,
     visibleEnterPin: true,
-
     isConnectedInternet: true
 }
 
@@ -52,8 +51,8 @@ class HomeScreen extends Layout {
                 this.setState({
                     isFocus: false
                 });
-                this.scrollTabParentRef.current.goToPage(1);
-                this.popupEnterPinRef.current.setStateFromParent('');
+                // this.scrollTabParentRef.current.goToPage(1);
+                this.popupEnterPinRef?.current?.setStateFromParent('');
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -62,15 +61,15 @@ class HomeScreen extends Layout {
                 this.setState({
                     isFocus: true
                 });
-                if (this.tabAppointmentRef.current) {
-                    this.tabAppointmentRef.current.updateLinkOfCalendar();
+                if (this.tabAppointmentRef?.current) {
+                    this.tabAppointmentRef?.current?.updateLinkOfCalendar();
                 }
             }
         );
 
-        setTimeout(() => {
-            this.scrollTabParentRef.current.goToPage(1, false);
-        }, 50);
+        // setTimeout(() => {
+        //     this.scrollTabParentRef.current.goToPage(1, false);
+        // }, 50);
         this.initWatcherNetwork();
 
         this.unsubscribeNetInfo = NetInfo.addEventListener(state => {
@@ -210,41 +209,41 @@ class HomeScreen extends Layout {
         }
 
         if (currentTab !== index) {
-            if (currentTab === 1 && this.tabAppointmentRef.current.state.isShowAddAppointment) {
+            if (currentTab === 1 && this.tabAppointmentRef?.current?.state?.isShowAddAppointment) {
                 //console.log('-----1-------');
                 await this.setState({
                     temptCurrentTap: index
                 })
-                this.tabAppointmentRef.current.setStateVisibleFromParent(true);
-            } else if (currentTab === 2 && this.tabCheckoutRef.current.state.basket.length > 0) {
+                this.tabAppointmentRef?.current?.setStateVisibleFromParent(true);
+            } else if (currentTab === 2 && this.tabCheckoutRef?.current?.state?.basket.length > 0) {
                 // console.log('-----2-------');
                 await this.setState({
                     temptCurrentTap: index
                 })
-                this.tabCheckoutRef.current.setStateVisibleFromParent();
+                this.tabCheckoutRef?.current?.setStateVisibleFromParent();
             }
             else {
                 //console.log('-----3-------');
-                if (currentTab === 2 && this.tabCheckoutRef.current.state.basket.length === 0) {
+                if (currentTab === 2 && this.tabCheckoutRef?.current?.state?.basket.length === 0) {
                     // console.log('-----4-------');
                     if (!_.isEmpty(groupAppointment)) {
                         //console.log('-----5-------');
                         await this.setState({
                             temptCurrentTap: index
                         })
-                        this.tabCheckoutRef.current.setStateVisibleFromParent();
+                        this.tabCheckoutRef?.current?.setStateVisibleFromParent();
                     } else if (blockAppointments && blockAppointments.length > 0) {
                         await this.setState({
                             temptCurrentTap: index
                         })
-                        this.tabCheckoutRef.current.setStateVisibleFromParent();
+                        this.tabCheckoutRef?.current?.setStateVisibleFromParent();
                     }
                     else {
                         //console.log('-----6-------');
                         if (index === 0) {
                             this.tooglePopupMarketingPermission();
                         } else {
-                            this.tabCheckoutRef.current.resetStateFromParent();
+                            this.tabCheckoutRef?.current?.resetStateFromParent();
                             this.scrollTabParentRef.current.goToPage(index);
                         }
 
@@ -267,7 +266,7 @@ class HomeScreen extends Layout {
     tooglePopupMarketingPermission = () => {
         this.checkMarketingPermissionRef.current.setStateFromParent('');
         this.props.actions.marketing.toggleMarketingTabPermission();
-        this.tabCheckoutRef.current.resetStateFromParent();
+        this.tabCheckoutRef?.current?.resetStateFromParent();
     }
 
 
@@ -283,7 +282,7 @@ class HomeScreen extends Layout {
     openDrawer = () => {
         const { groupAppointment, blockAppointments } = this.props;
         if (!_.isEmpty(groupAppointment) || (blockAppointments && blockAppointments.length > 0)) {
-            this.tabCheckoutRef.current.setStateVisibleFromParent(true, true);
+            this.tabCheckoutRef?.current?.setStateVisibleFromParent(true, true);
         } else {
             this.props.navigation.openDrawer();
         }
@@ -297,8 +296,8 @@ class HomeScreen extends Layout {
     }
 
     clearDataTabCheckout = () => {
-        if (this.tabCheckoutRef.current) {
-            this.tabCheckoutRef.current.resetStateFromParent();
+        if (this.tabCheckoutRef?.current) {
+            this.tabCheckoutRef?.current.resetStateFromParent();
         }
     }
 
@@ -308,12 +307,11 @@ class HomeScreen extends Layout {
         })
         const { groupAppointment, isOfflineMode } = this.props;
         if (isOfflineMode) {
-            this.tabCheckoutRef.current.setBasketOfflineModeFromParent(appointment);
+            this.tabCheckoutRef?.current?.setBasketOfflineModeFromParent(appointment);
         } else {
-            const checkoutGroupId = !_.isEmpty(groupAppointment) && groupAppointment.checkoutGroupId ? groupAppointment.checkoutGroupId : 0;
+            const checkoutGroupId =  groupAppointment?.checkoutGroupId || 0;
             this.props.actions.appointment.checkoutAppointment(appointmentId, checkoutGroupId);
         }
-
         this.scrollTabParentRef.current.goToPage(2);
     }
 
@@ -334,9 +332,9 @@ class HomeScreen extends Layout {
 
     loginStaffSuccess = () => {
         const { listAppointmentsOfflineMode } = this.props;
-        if (this.tabAppointmentRef.current) {
+        if (this.tabAppointmentRef?.current) {
             setTimeout(() => {
-                this.tabAppointmentRef.current.updateLinkOfCalendar();
+                this.tabAppointmentRef?.current?.updateLinkOfCalendar();
             }, 500);
         }
 
@@ -369,7 +367,7 @@ class HomeScreen extends Layout {
     }
 
     pushAppointmentIdOfflineIntoWebview = () => {
-        this.tabAppointmentRef.current.connectWebview();
+        this.tabAppointmentRef?.current?.connectWebview();
     }
 
     onChangeTab = (index) => {
@@ -377,7 +375,7 @@ class HomeScreen extends Layout {
         if (index.i === 0) {
             const { profile } = this.props;
             this.props.actions.marketing.getPromotionByMerchant();
-            this.props.actions.marketing.getBannerMerchant(profile.merchantId, false);
+            // this.props.actions.marketing.getBannerMerchant(profile.merchantId, false);
         }
     }
 
@@ -395,7 +393,7 @@ class HomeScreen extends Layout {
         // ----------- Check Appointent Checkout berfore Offline mode -----------
         if (!_.isEmpty(groupAppointment) && isCheckAppointmentBeforeOffline && isCheckAppointmentBeforeOffline !== prevProps.isCheckAppointmentBeforeOffline) {
             this.props.actions.appointment.checkAppointmentBeforOffline(false);
-            this.tabCheckoutRef.current.resetStateFromParent();
+            this.tabCheckoutRef?.current?.resetStateFromParent();
             this.scrollTabParentRef.current.goToPage(1);
             this.props.actions.appointment.resetGroupAppointment();
         }

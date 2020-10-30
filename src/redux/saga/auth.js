@@ -215,13 +215,13 @@ function* checkStaffPermission(action) {
           payload: false,
           isGoToTabMarketing: true,
         });
-        yield put({
-          type: "GET_PROMOTION_BY_MERCHANT",
-          method: "GET",
-          token: true,
-          api: `${apiConfigs.BASE_API}merchantpromotion`,
-          isLoading: true,
-        });
+        // yield put({
+        //   type: "GET_PROMOTION_BY_MERCHANT",
+        //   method: "GET",
+        //   token: true,
+        //   api: `${apiConfigs.BASE_API}merchantpromotion`,
+        //   isLoading: true,
+        // });
       }
     } else if (parseInt(codeNumber) === 401) {
       yield put({
