@@ -51,7 +51,6 @@ export default {
   discoverLogo: require('./img/discoverLogo.png'),
   amricanExpressLogo: require('./img/amrican_express.png'),
   otherPaymentLogo: require('./img/other_payment.png'),
-
   arrowReport: require('./img/arrowReport.png'),
   hpLogo: require('./img/hpLogo.png'),
   paxLogo: require('./img/paxLogo.png'),
@@ -93,6 +92,7 @@ export default {
   camera_switcher: require('./img/camera_switcher.png'),
   update_code_push: require('./img/update_code_push.png'),
   sms_logo: require('./img/sms_logo.png'),
+  trash_icon: require('./img/trash_icon.png'),
 
   // --- Payment ---
   cash_payment_se: require('./payment/cash_payment_se.png'),

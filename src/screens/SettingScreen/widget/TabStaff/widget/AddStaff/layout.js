@@ -17,6 +17,7 @@ import { scaleSzie, localize } from '@utils';
 import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
+import ItemScalaryByIncome from "../ItemScalaryByIncome";
 
 class Layout extends React.Component {
 
@@ -62,7 +63,6 @@ class Layout extends React.Component {
                     >
                         <View style={{
                             flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5),
-                            // marginLeft: scaleSzie(5)
                         }} >
                             <TextInput
                                 style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
@@ -255,16 +255,6 @@ class Layout extends React.Component {
                         })
                     }
 
-                     {/* ----- Service ---- */}
-                     {/* <TitleTabAdminInfo
-                        title={localize('Service', language)}
-                       
-                    />
-
-                    <Text style={{color:"#404040",fontSize:scaleSzie(14),marginTop:scaleSzie(10)}} >
-                        {`Assign services this staff can perform.`}
-                    </Text> */}
-
                     {/* ----- Service Salary ---- */}
                     <TitleTabAdminInfo
                         title={localize('Service Salary', language)}
@@ -281,15 +271,14 @@ class Layout extends React.Component {
                     />
 
                     {/* ----- Commission ServiceSalary ---- */}
-                    <ItemScalary
+                    <ItemScalaryByIncome
                         ref={this.commissionSalaryRef}
-                        title={`${localize("Commission", language)} (%)`}
+                        title={`${localize("Incomes", language)}`}
                         placeholder={'10'}
                         dataInit={commision_ServiceSalary}
                         onFocus={() => this.scrollStaffTo(1100)}
                         toogleCheck={this.disablePerHourSalary}
                     />
-
 
                     {/* ----- Product Salary ---- */}
                     <TitleTabAdminInfo
