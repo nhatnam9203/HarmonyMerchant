@@ -59,6 +59,7 @@ export function requestLogout() {
     type: "REQUEST_LOGOUT_APP",
     method: "PUT",
     api: `${apiConfigs.BASE_API}merchant/logout`,
+    token: true
   };
 }
 
