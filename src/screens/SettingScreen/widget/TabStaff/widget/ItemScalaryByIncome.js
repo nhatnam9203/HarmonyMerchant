@@ -6,6 +6,7 @@ import {
     Image
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
+import _ from "ramda";
 
 import ICON from '@resources';
 import { Button } from '@components';
@@ -19,49 +20,120 @@ export default class ItemScalary extends React.Component {
         const { dataInit } = this.props;
         this.state = {
             isCheck: dataInit.isCheck,
-            value: dataInit.value,
-            rows: [1]
+            rows: this.getinitDataForRows(dataInit)
+        };
+        this.count = 1;
+        this.incomeSalaryRef = [];
+    }
+
+    resetInitState = () => {
+        this.count = 1;
+        this.setState({
+            rows: [{ keyRows: 1, from: "", to: "", commission: "" }]
+        }, () => {
+            this.incomeSalaryRef = this.incomeSalaryRef.filter(ref => ref._isMounted);
+            for (let ref of this.incomeSalaryRef) {
+                ref?.resetStateFromParent();
+            }
+        })
+    }
+
+    getinitDataForRows = (dataInit) => {
+        if (dataInit?.isCheck) {
+            const tempRows = [];
+            const maxLength = dataInit?.value.length || 0;
+            for (let i = 0; i < maxLength; i++) {
+                const data = dataInit?.value[i];
+                tempRows.push({
+                    keyRows: i + 1,
+                    from: data?.from || 0,
+                    to: data?.to || 0,
+                    commission: data?.commission || 0,
+                });
+            };
+            this.count = maxLength;
+            return tempRows;
+        }
+
+        return [{ keyRows: 1, from: "", to: "", commission: "" }];
+    }
+
+    addRef = (ref) => {
+        if (ref) {
+            this.incomeSalaryRef.push(ref);
         }
     }
 
-    setStateFromParent = async (isCheck = false, value = "0") => {
+    setStateFromParent = async (isCheck = false,) => {
         await this.setState({
             isCheck,
-            value
-        })
+        });
+        this.resetInitState();
+    }
+
+    getDataFromParent = () => {
+        this.incomeSalaryRef = this.incomeSalaryRef.filter(ref => ref._isMounted);
+        return this.incomeSalaryRef;
     }
 
     onPress = () => {
-        if (!this.props.isNotToggleCheck) {
-            this.setState((prevState, props) => ({
-                isCheck: !prevState.isCheck
-            }), () => {
-                if (!this.state.isCheck) {
-                    this.setState({
-                        value: "0"
-                    })
-                } else {
-                    this.props.toogleCheck && this.props.toogleCheck();
-                }
-            });
-        }
-    }
-
-    addSalaryIncome = () => {
-        const tempRows = [...this.state.rows];
-        tempRows.push(tempRows.length + 1);
-        this.setState({
-            rows: tempRows
+        this.setState((prevState, props) => ({
+            isCheck: !prevState.isCheck
+        }), () => {
+            if (!this.state.isCheck) {
+                this.resetInitState();
+            } else {
+                this.props.toogleCheck && this.props.toogleCheck();
+            }
         });
     }
 
+    checkValue = (value) => {
+        return value && value != "0.00" ? true : false;
+    }
+
+    addSalaryIncome = () => {
+        let isAddSalaryIncome = true;
+        this.incomeSalaryRef = this.incomeSalaryRef.filter(ref => ref._isMounted);
+        for (let ref of this.incomeSalaryRef) {
+            if (!this.checkValue(ref?.state?.from) || !this.checkValue(ref?.state?.to) || !this.checkValue(ref?.state?.commission)) {
+                isAddSalaryIncome = false;
+                break;
+            }
+        }
+        if (isAddSalaryIncome) {
+            this.count++;
+            const tempRows = [...this.state.rows];
+            tempRows.push({
+                keyRows: this.count,
+                from: "",
+                to: "",
+                commission: ""
+            });
+            this.setState({
+                rows: tempRows
+            });
+        } else {
+            alert("Please enter full information, before you add more!")
+        }
+
+
+    }
+
     removeRow = (index) => {
-        const tempRows =  this.state.rows.filter((row) => row !== index);
+        const tempRows = this.state.rows.filter(data => data.keyRows !== index);
+        const tempRefs = this.incomeSalaryRef.filter(ref => ref._isMounted && ref?.props?.keyRows !== index);
+        this.incomeSalaryRef = [...tempRefs];
         this.setState({
             rows: tempRows
         })
     }
 
+    showRef = () => {
+        console.log(this.incomeSalaryRef);
+    }
+
+    // --------------- Render ------------
     render() {
         const { title, placeholder, onFocus, maxLength } = this.props;
         const { isCheck, rows } = this.state;
@@ -106,62 +178,93 @@ export default class ItemScalary extends React.Component {
 
                     {/* ------------------- Item Staff Salary Income ---------------------- */}
                     {
-                        rows.map((row, index) => <RowSalaryIncome
-                            key={`row_staff_salary_${row}`}
-                            rowIndex={row}
+                        rows.map((data, index) => <RowSalaryIncome
+                            ref={this.addRef}
+                            key={`row_staff_salary_${data.keyRows}`}
+                            data={data}
                             onFocus={() => onFocus()}
                             removeRow={this.removeRow}
+                            isEditable={isCheck}
                         />)
                     }
+                    {
+                        isCheck ? <Button onPress={this.addSalaryIncome} >
+                            <Text style={{ color: "#0764B0", fontWeight: "700", fontSize: scaleSzie(14), marginTop: scaleSzie(5) }} >
+                                {`+ Add more`}
+                            </Text>
+                        </Button> : <View />
+                    }
 
-                    <Button onPress={this.addSalaryIncome} >
+                    {/* <Button onPress={this.showRef} >
                         <Text style={{ color: "#0764B0", fontWeight: "700", fontSize: scaleSzie(14), marginTop: scaleSzie(10) }} >
-                            {`+ Add more`}
+                            {`+ show`}
                         </Text>
-                    </Button>
+                    </Button> */}
                 </View>
             </View >
         );
+    }
+
+    componentWillUnmount() {
+        this.count = 0;
+        this.incomeSalaryRef = [];
     }
 }
 
 class RowSalaryIncome extends React.Component {
 
+    _isMounted = false;
+
     constructor(props) {
         super(props);
         this.state = {
-            fromValue: "",
-            toValue: "",
-            salaryPercent: ""
+            from: this.props?.data?.from,
+            to: this.props?.data?.to,
+            commission: this.props?.data?.commission
         }
     }
 
+    resetStateFromParent = () => {
+        this.setState({
+            from: "",
+            to: "",
+            commission: ""
+        })
+    }
+
+    componentDidMount() {
+        this._isMounted = true;
+    }
+
     render() {
-        const { onFocus, removeRow, rowIndex } = this.props;
-        const { fromValue, toValue, salaryPercent } = this.state;
+        const { onFocus, removeRow, data, isEditable } = this.props;
+        const { from, to, commission } = this.state;
 
         return (
             <View style={{ height: scaleSzie(32), flexDirection: "row", marginBottom: scaleSzie(20) }} >
                 <ItemSalaryIncome
                     placeholder="500.00"
-                    value={fromValue}
-                    onChangeText={(fromValue) => this.setState({ fromValue })}
+                    value={from}
+                    onChangeText={(from) => this.setState({ from })}
                     onFocus={() => onFocus()}
+                    isEditable={isEditable}
                 />
                 <ItemSalaryIncome
                     placeholder="1000.00"
-                    value={toValue}
-                    onChangeText={(toValue) => this.setState({ toValue })}
+                    value={to}
+                    onChangeText={(to) => this.setState({ to })}
                     onFocus={() => onFocus()}
+                    isEditable={isEditable}
                 />
                 <ItemSalaryIncome
                     placeholder="10.00"
-                    value={salaryPercent}
-                    onChangeText={(salaryPercent) => this.setState({ salaryPercent })}
+                    value={commission}
+                    onChangeText={(commission) => this.setState({ commission })}
                     onFocus={() => onFocus()}
+                    isEditable={isEditable}
                 />
                 {
-                    rowIndex !== 1 ? <Button onPress={() => removeRow(rowIndex)}
+                    data.keyRows !== 1 ? <Button onPress={() => removeRow(data.keyRows)}
                         style={{
                             justifyContent: "center", width: scaleSzie(20),
                         }}
@@ -174,9 +277,13 @@ class RowSalaryIncome extends React.Component {
         );
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
 }
 
-const ItemSalaryIncome = ({ placeholder, onFocus, maxLength, value, onChangeText }) => {
+const ItemSalaryIncome = ({ placeholder, onFocus, maxLength, value, onChangeText, isEditable }) => {
     return (
         <View style={styles.box_input_border} >
             <View style={styles.input_border} >
@@ -195,6 +302,7 @@ const ItemSalaryIncome = ({ placeholder, onFocus, maxLength, value, onChangeText
                     onChangeText={(value) => onChangeText(value)}
                     onFocus={() => onFocus()}
                     maxLength={maxLength}
+                    editable={isEditable}
                 />
             </View>
         </View>

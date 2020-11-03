@@ -6,7 +6,7 @@ import Layout from './layout';
 import strings from './strings';
 import {
     validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone, scaleSzie, checkStateIsValid,
-    BusinessWorkingTime
+    BusinessWorkingTime, formatNumberFromCurrency
 } from '@utils';
 
 class AddStaff extends Layout {
@@ -66,7 +66,7 @@ class AddStaff extends Layout {
                     isCheck: false
                 }
             },
-            cashPercent:0,
+            cashPercent: 0,
             fileId: 0,
             imageUrl: '',
             isSubmitButton: true,
@@ -82,7 +82,7 @@ class AddStaff extends Layout {
         this.percentTipFeeRef = React.createRef();
         this.fixedAmountTipFeeRef = React.createRef();
         this.commisionProductScalaryRef = React.createRef();
-        this.cashPercentRef =React.createRef();
+        this.cashPercentRef = React.createRef();
     }
 
     scrollStaffTo(position) {
@@ -147,6 +147,28 @@ class AddStaff extends Layout {
     }
 
     addAdmin = () => {
+        const incomeSalary = this.commissionSalaryRef?.current?.getDataFromParent() || [];
+        const values = [];
+        let isCheckValidIncome = true;
+        for (let ref of incomeSalary) {
+            let from = ref?.state?.from || 0.00;
+            let to = ref?.state?.to || 0.00;
+            if (formatNumberFromCurrency(from) < formatNumberFromCurrency(to)) {
+                values.push({
+                    from: ref?.state?.from || 0.00,
+                    to: ref?.state?.to || 0.00,
+                    commission: ref?.state?.commission || 0.00,
+                })
+            } else {
+                isCheckValidIncome = "From income not greater than to income";
+                alert(isCheckValidIncome);
+            }
+
+        }
+        console.log(values);
+    }
+
+    addAdmin_1 = () => {
         const { user } = this.state;
         const { stateCity } = this.props;
         const arrayKey = Object.keys(user);
@@ -231,8 +253,8 @@ class AddStaff extends Layout {
                     }
 
                 },
-                cashPercent : parseFloat(this.cashPercentRef.current.state.value ? this.cashPercentRef.current.state.value: 0)
-               
+                cashPercent: parseFloat(this.cashPercentRef.current.state.value ? this.cashPercentRef.current.state.value : 0)
+
             };
             if (this.props.isEditStaff) {
                 this.props.editStaff(temptStaff, this.state.staffId)
