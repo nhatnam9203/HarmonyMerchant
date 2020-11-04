@@ -16,26 +16,6 @@ import connectRedux from '@redux/ConnectRedux';
 
 class RowTable extends React.Component {
 
-    constructor(props) {
-        super(props);
-        const { staff } = this.props
-        this.state = {
-            isArchive: true,
-        }
-    }
-
-    handleArchirveStaff = () => {
-        this.setState({
-            isArchive: false
-        })
-    }
-
-    handleRestoreStaff = () => {
-        this.setState({
-            isArchive: true
-        })
-    }
-
     toggleIsActive = async (isActive) => {
         const { staff } = this.props;
         this.props.toggleStaffActive(staff, isActive);
@@ -108,7 +88,6 @@ class RowTable extends React.Component {
                     width: scaleSzie(90), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: "center" }} >
-
                         <Switch
                             trackColor={{ false: "#767577", true: "#0764B0" }}
                             ios_backgroundColor="#E5E5E5"

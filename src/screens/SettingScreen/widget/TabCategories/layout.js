@@ -169,6 +169,7 @@ class Layout extends React.Component {
                             restoreCategory={() => this.restoreCategory(item)}
                             move={move}
                             moveEnd={moveEnd}
+                            toggleIsDisplayOnSignInApp={this.toggleIsDisplayOnSignInApp}
                         />}
                         keyExtractor={(item, index) => `${index}`}
                         ListEmptyComponent={<RowTableEmptyCategories />}

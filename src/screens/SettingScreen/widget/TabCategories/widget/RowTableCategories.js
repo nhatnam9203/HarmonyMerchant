@@ -4,7 +4,8 @@ import {
     Image,
     Text,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    Switch
 } from 'react-native';
 
 import { ButtonCustom } from '@components';
@@ -20,16 +21,9 @@ class RowTableCategories extends React.Component {
         }
     }
 
-    handleArchirveStaff = () => {
-        this.setState({
-            isArchive: false
-        })
-    }
-
-    handleRestoreStaff = () => {
-        this.setState({
-            isArchive: true
-        })
+    toggleIsDisplay = (isActive) =>{
+        const {category} = this.props;
+        this.props.toggleIsDisplayOnSignInApp(category, isActive);
     }
 
     render() {
@@ -57,7 +51,7 @@ class RowTableCategories extends React.Component {
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
-                    width: scaleSzie(180), flexDirection: 'row',
+                    width: scaleSzie(150), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
                         <Text style={styles.textTableHeader} numberOfLines={1} >
@@ -70,12 +64,31 @@ class RowTableCategories extends React.Component {
                 </View>
                 {/* ----- 3 ------ */}
                 <View style={{
-                    width: scaleSzie(230), flexDirection: 'row',
+                    width: scaleSzie(100), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                             {category.categoryType}
                         </Text>
+                    </View>
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
+                    </View>
+                </View>
+                {/* ----- 4 ------ */}
+                <View style={{
+                    width: scaleSzie(170), flexDirection: 'row',
+                }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                        {
+                            category?.categoryType === "Service" ? <Switch
+                                trackColor={{ false: "#767577", true: "#0764B0" }}
+                                ios_backgroundColor="#E5E5E5"
+                                onValueChange={this.toggleIsDisplay}
+                                value={category?.isShowSignInApp}
+                            /> : <View />
+                        }
+
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
@@ -111,7 +124,7 @@ class RowTableCategories extends React.Component {
                                 onPress={() => archiveCategory()}
                                 style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
                                 styleText={{
-                                    fontSize: scaleSzie(14)
+                                    fontSize: scaleSzie(13)
                                 }}
                             /> :
                                 <ButtonCustom
@@ -123,7 +136,7 @@ class RowTableCategories extends React.Component {
                                     onPress={() => restoreCategory()}
                                     style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
                                     styleText={{
-                                        fontSize: scaleSzie(14)
+                                        fontSize: scaleSzie(13)
                                     }}
                                 />
                         }
@@ -149,7 +162,7 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#6A6A6A',
-        fontSize: scaleSzie(14)
+        fontSize: scaleSzie(13)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',

@@ -2,7 +2,7 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { getNameLanguage, getPosotion, gotoSettingsDevice, BusinessWorkingTime,getTitleSignInAppDisplay,getValueSignInAppDisplay } from '@utils';
+import { getNameLanguage, getPosotion, gotoSettingsDevice, BusinessWorkingTime, getTitleSignInAppDisplay, getValueSignInAppDisplay } from '@utils';
 
 class TabGaneral extends Layout {
 
@@ -34,7 +34,7 @@ class TabGaneral extends Layout {
         }
     };
 
-    setStateFromParent = async (webLink, timezone, autoCloseAt, turnAmount, staffColumn,signinAppStyle) => {
+    setStateFromParent = async (webLink, timezone, autoCloseAt, turnAmount, staffColumn, signinAppStyle) => {
         const { isFocus, currentTab } = this.props;
         if (isFocus && currentTab === 0) {
             await this.setState({
@@ -44,7 +44,7 @@ class TabGaneral extends Layout {
                 turnAmount,
                 isUpdateInternal: false,
                 staffColumn,
-                signinAppStyle:getTitleSignInAppDisplay(signinAppStyle)
+                signinAppStyle: getTitleSignInAppDisplay(signinAppStyle)
             });
             this.updateWorkTime();
         }
@@ -83,7 +83,7 @@ class TabGaneral extends Layout {
 
     saveSettngApp = async () => {
         const { profile } = this.props;
-        const { languageApp, longitude, latitude, webLink, autoCloseAt, timezone, turnAmount, staffColumn,signinAppStyle } = this.state;
+        const { languageApp, longitude, latitude, webLink, autoCloseAt, timezone, turnAmount, staffColumn, signinAppStyle } = this.state;
         const temptLanguage = languageApp === 'English' ? 'en' : 'vi';
         this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
         await this.setState({

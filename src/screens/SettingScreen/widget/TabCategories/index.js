@@ -148,7 +148,18 @@ class TabCategories extends Layout {
             category.categoryId,
             searchFilter
         );
+    }
 
+    toggleIsDisplayOnSignInApp = (category, isActive) =>{
+        const { searchFilter } = this.state;
+        this.props.actions.category.editCategory({
+            CategoryType: category.categoryType,
+            name: category.name,
+            isShowSignInApp: isActive
+        },
+            category.categoryId,
+            searchFilter
+        );
     }
 
     restoreCategory(category) {
