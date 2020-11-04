@@ -50,7 +50,6 @@ class HeaderTableCategories extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-
                             {localize('Display on Sign In App', language)}
                         </Text>
                     </View>

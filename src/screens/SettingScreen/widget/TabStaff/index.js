@@ -189,7 +189,7 @@ class TabStaff extends Layout {
             address: {
                 street: staff?.address || "",
                 city: staff?.city || "",
-                state:  staff?.stateId || 0,
+                state: staff?.stateId || 0,
                 zip: staff?.zip || "",
             },
             roles: {

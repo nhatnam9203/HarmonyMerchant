@@ -4,13 +4,14 @@ import {
     Text,
     TextInput,
     Alert,
-    Keyboard
+    Keyboard,
+    Switch
 } from 'react-native';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import { Dropdown } from './react-native-material-dropdown';
-import { scaleSzie,localize } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupEditAddCategories extends React.Component {
@@ -20,7 +21,8 @@ class PopupEditAddCategories extends React.Component {
         this.state = {
             category: {
                 categoryType: '',
-                name: ''
+                name: '',
+                isShowSignInApp: true
             },
             customStyle: {},
         }
@@ -46,17 +48,18 @@ class PopupEditAddCategories extends React.Component {
         });
     }
 
-    setStateDefaultFromParent =async () => {
-       await this.setState({
+    setStateDefaultFromParent = async () => {
+        await this.setState({
             category: {
                 categoryType: '',
-                name: ''
+                name: '',
+                isShowSignInApp: true
             }
         })
     }
 
-    setCategoryFromParent =async (category) => {
-       await this.setState({
+    setCategoryFromParent = async (category) => {
+        await this.setState({
             category
         })
     }
@@ -81,7 +84,7 @@ class PopupEditAddCategories extends React.Component {
 
     checkInputCategory = () => {
         const { categoryType, name } = this.state.category;
-        if (categoryType === ''){
+        if (categoryType === '') {
             Alert.alert(` Please select Category Type.`);
             return;
         }
@@ -94,8 +97,10 @@ class PopupEditAddCategories extends React.Component {
     }
 
     render() {
-        const { title, visible, titleButton, onRequestClose ,language} = this.props;
+        const { title, visible, titleButton, onRequestClose, language } = this.props;
         const { categoryType, name } = this.state.category;
+
+        const tempHeight = categoryType === "Service" ? scaleSzie(250) : scaleSzie(200);
 
         return (
             <PopupParent
@@ -105,7 +110,7 @@ class PopupEditAddCategories extends React.Component {
                 style={this.state.customStyle}
             >
                 <View style={{
-                    height: scaleSzie(200), backgroundColor: '#fff',
+                    height: tempHeight, backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
                 }} >
                     <View style={{
@@ -115,7 +120,7 @@ class PopupEditAddCategories extends React.Component {
                         <View style={{ flex: 1 }} >
                             <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
                                 {`${localize('Category Type', language)}*`}
-                        </Text>
+                            </Text>
                             <View style={{ width: scaleSzie(200), height: scaleSzie(35), }} >
                                 <Dropdown
                                     label='Type'
@@ -139,11 +144,26 @@ class PopupEditAddCategories extends React.Component {
                             }} >
                                 <TextInput
                                     placeholder={localize('Gel Nails', language)}
-                                    style={{ flex: 1, fontSize: scaleSzie(16) , padding:0,}}
+                                    style={{ flex: 1, fontSize: scaleSzie(16), padding: 0, }}
                                     value={name}
                                     onChangeText={(value) => this.updateCategoryInfo('name', value)}
                                 />
                             </View>
+                            {/* ------------------ Display on Sign In App ---------------  */}
+                            {categoryType === "Service" ?
+                                <>
+                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                                        {localize('Display on Sign In App', language)}
+                                    </Text>
+                                    <Switch
+                                        trackColor={{ false: "#767577", true: "#0764B0" }}
+                                        ios_backgroundColor="#E5E5E5"
+                                        onValueChange={(value) => this.updateCategoryInfo('isShowSignInApp', value)}
+                                        value={this.state?.category?.isShowSignInApp}
+                                    />
+                                </> : <View />
+                            }
+
                         </View>
                     </View>
                     <View style={{

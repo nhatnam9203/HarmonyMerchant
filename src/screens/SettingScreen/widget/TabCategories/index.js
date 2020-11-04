@@ -42,7 +42,7 @@ class TabCategories extends Layout {
         const { searchFilter } = this.state;
         const { category, status } = searchFilter;
         this.updateSearchFilterInfo('keySearch', "");
-        this.props.actions.category.getCategoriesByMerchantId("", status, category,searchFilter);
+        this.props.actions.category.getCategoriesByMerchantId("", status, category, searchFilter);
     }
 
     async updateSearchFilterInfo(key, value, keyParent = '') {
@@ -75,7 +75,7 @@ class TabCategories extends Layout {
     searchCategories = (isShowLoading = true) => {
         const { searchFilter } = this.state;
         const { keySearch, category, status } = searchFilter;
-        this.props.actions.category.getCategoriesByMerchantId(keySearch, status, category,searchFilter,isShowLoading);
+        this.props.actions.category.getCategoriesByMerchantId(keySearch, status, category, searchFilter, isShowLoading);
     }
 
     togglePopupArchive = (visible) => {
@@ -142,15 +142,16 @@ class TabCategories extends Layout {
             visibleEdit: false
         });
         this.props.actions.category.editCategory({
-            CategoryType: category.categoryType,
-            name: category.name
+            CategoryType: category?.categoryType || "",
+            name: category?.name || "",
+            isShowSignInApp: category?.isShowSignInApp || true
         },
             category.categoryId,
             searchFilter
         );
     }
 
-    toggleIsDisplayOnSignInApp = (category, isActive) =>{
+    toggleIsDisplayOnSignInApp = (category, isActive) => {
         const { searchFilter } = this.state;
         this.props.actions.category.editCategory({
             CategoryType: category.categoryType,
