@@ -114,7 +114,7 @@ export default class ItemScalary extends React.Component {
                 rows: tempRows
             });
         } else {
-            alert("Please enter full information, before you add more!")
+            alert("Please enter full information, before you add more!");
         }
 
 
