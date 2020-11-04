@@ -1057,4 +1057,34 @@ export const getTotalProductByQuantity = (unitPrice = 0, quantity = 0) => {
 
 
 export const CARD_TYPE = ["VISA", "MASTERCARD", "AMEX", "DISCOVER"];
-export const PAYMENT_TYPE = ["SALE", "RETURN", "VOID SALE"]
+export const PAYMENT_TYPE = ["SALE", "RETURN", "VOID SALE"];
+
+export const getTitleSignInAppDisplay = (value) => {
+    let title = "";
+    switch (value) {
+        case "service_with_category":
+            title = "Services with categories";
+            break;
+        case "category_only":
+            title = "Show categories only";
+            break;
+        default:
+            title = "Services with categories";
+    }
+    return title;
+}
+
+export const getValueSignInAppDisplay = (title) => {
+    let value = "";
+    switch (title) {
+        case "Services with categories":
+            value = "service_with_category";
+            break;
+        case "Show categories only":
+            value = "category_only";
+            break;
+        default:
+            value = "service_with_category";
+    }
+    return value;
+}

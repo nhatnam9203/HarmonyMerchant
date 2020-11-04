@@ -222,7 +222,8 @@ class SettingScreen extends Layout {
         profile?.timezone || "",
         profile?.autoCloseAt || "",
         profile?.turnAmount || 0,
-        profile?.staffColumn || 8
+        profile?.staffColumn || 8,
+        profile?.signinAppStyle || ""
       );
     }
   }

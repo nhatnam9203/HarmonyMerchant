@@ -14,13 +14,14 @@ import { scaleSzie, localize, getNameStateById, TimeZones, hideCharactes, Workin
 import ICON from "@resources";
 
 const AUTO_LOCK = ["2 Minutes", "5 Minutes", "10 Minutes", "15 Minutes", "Never"];
-const STAFF_COLUMN = [{value:5},{value:8}];
+const STAFF_COLUMN = [{ value: 5 }, { value: 8 }];
+const SIGN_IN_APP_STYLE = [{ value: "Services with categories"},{value: "Show categories only"} ];
 
 class Layout extends React.Component {
 
     renderSetup() {
         const { language, autoLockScreenAfter } = this.props;
-        const { languageApp, webLink, autoCloseAt, timezone, businessHour, turnAmount,staffColumn } = this.state;
+        const { languageApp, webLink, autoCloseAt, timezone, businessHour, turnAmount, staffColumn,signinAppStyle } = this.state;
 
         return (
             <View style={{ width: '100%', marginTop: scaleSzie(6) }} >
@@ -44,8 +45,8 @@ class Layout extends React.Component {
                         placeHolder='08:00 AM'
                     />
 
-                     {/* ------- Staff Columns On Calendar  ------ */}
-                     <ItemSetupGeneral
+                    {/* ------- Staff Columns On Calendar  ------ */}
+                    <ItemSetupGeneral
                         title={`${localize('Staff Columns', language)}:`}
                         data={STAFF_COLUMN}
                         value={staffColumn}
@@ -168,6 +169,37 @@ class Layout extends React.Component {
                             />
                         </View>
                     </View>
+
+                    {/* -------- Sign in app display in --------- */}
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
+                        <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
+                            <Text style={{
+                                color: '#404040',
+                                fontSize: scaleSzie(16),
+                                fontWeight: '600',
+                            }}  >
+                                {`${localize('Sign in app display in', language)}:`}
+                            </Text>
+                        </View>
+                        <View style={{
+                            height: scaleSzie(40), flex: 1,
+                        }} >
+                            {/* signinAppStyle:"service_with_category" */}
+                            <Dropdown
+                                label={""}
+                                data={SIGN_IN_APP_STYLE}
+                                value={signinAppStyle}
+                                onChangeText={(signinAppStyle) => this.setState({ signinAppStyle })}
+                                containerStyle={{
+                                    backgroundColor: '#F1F1F1',
+                                    borderWidth: 1,
+                                    borderColor: '#C5C5C5',
+                                    flex: 1
+                                }}
+                            />
+                        </View>
+                    </View>
+
                     {/* -------- Business Hours --------- */}
                     <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
                         <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >

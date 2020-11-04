@@ -276,7 +276,7 @@ class Layout extends React.Component {
                         title={`${localize("Incomes", language)}`}
                         placeholder={'10'}
                         dataInit={commision_ServiceSalary}
-                        onFocus={() => this.scrollStaffTo(1100)}
+                        onFocus={() => this.scrollStaffTo(1250)}
                         toogleCheck={this.disablePerHourSalary}
                     />
 

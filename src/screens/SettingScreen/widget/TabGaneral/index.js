@@ -2,8 +2,7 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { getNameLanguage, getPosotion, gotoSettingsDevice, BusinessWorkingTime } from '@utils';
-
+import { getNameLanguage, getPosotion, gotoSettingsDevice, BusinessWorkingTime,getTitleSignInAppDisplay,getValueSignInAppDisplay } from '@utils';
 
 class TabGaneral extends Layout {
 
@@ -22,7 +21,9 @@ class TabGaneral extends Layout {
             isUpdateInternal: false,
             businessHour: profile?.businessHour || BusinessWorkingTime,
             turnAmount: profile?.turnAmount || 0,
-            staffColumn: profile?.staffColumn || 8
+            staffColumn: profile?.staffColumn || 8,
+
+            signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || "")
         };
         this.inputRefsTime = [];
     }
@@ -33,7 +34,7 @@ class TabGaneral extends Layout {
         }
     };
 
-    setStateFromParent = async (webLink, timezone, autoCloseAt, turnAmount, staffColumn) => {
+    setStateFromParent = async (webLink, timezone, autoCloseAt, turnAmount, staffColumn,signinAppStyle) => {
         const { isFocus, currentTab } = this.props;
         if (isFocus && currentTab === 0) {
             await this.setState({
@@ -42,7 +43,8 @@ class TabGaneral extends Layout {
                 autoCloseAt,
                 turnAmount,
                 isUpdateInternal: false,
-                staffColumn
+                staffColumn,
+                signinAppStyle:getTitleSignInAppDisplay(signinAppStyle)
             });
             this.updateWorkTime();
         }
@@ -81,7 +83,7 @@ class TabGaneral extends Layout {
 
     saveSettngApp = async () => {
         const { profile } = this.props;
-        const { languageApp, longitude, latitude, webLink, autoCloseAt, timezone, turnAmount, staffColumn } = this.state;
+        const { languageApp, longitude, latitude, webLink, autoCloseAt, timezone, turnAmount, staffColumn,signinAppStyle } = this.state;
         const temptLanguage = languageApp === 'English' ? 'en' : 'vi';
         this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
         await this.setState({
@@ -109,7 +111,8 @@ class TabGaneral extends Layout {
             autoLockscreen: "",
             autoCloseAt,
             turnAmount,
-            staffColumn
+            staffColumn,
+            signinAppStyle: getValueSignInAppDisplay(signinAppStyle)
         });
     }
 
@@ -121,7 +124,8 @@ class TabGaneral extends Layout {
                 timezone: profile.timezone ? profile.timezone : '',
                 autoCloseAt: profile.autoCloseAt ? profile.autoCloseAt : '',
                 turnAmount: profile.turnAmount ? profile.turnAmount : 0,
-                staffColumn: profile.staffColumn ? profile.staffColumn : 8
+                staffColumn: profile.staffColumn ? profile.staffColumn : 8,
+                signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || "")
             });
             this.updateWorkTime();
         }
@@ -134,7 +138,8 @@ class TabGaneral extends Layout {
                 turnAmount: profile.turnAmount ? profile.turnAmount : 0,
 
                 staffColumn: profile.staffColumn ? profile.staffColumn : 8,
-                isUpdateInternal: false
+                isUpdateInternal: false,
+                signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || "")
             });
             this.updateWorkTime();
         }
