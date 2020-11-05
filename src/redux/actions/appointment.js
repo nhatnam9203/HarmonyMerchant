@@ -156,7 +156,7 @@ export function createBlockAppointment(merchantId, fromTime = new Date(), userId
             merchantId,
             userId,
             customerId,
-            status: 'unconfirm',
+            status: 'confirm',
             services: [],
             extras: [],
             products: [],

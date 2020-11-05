@@ -21,8 +21,8 @@ class RowTableCategories extends React.Component {
         }
     }
 
-    toggleIsDisplay = (isActive) =>{
-        const {category} = this.props;
+    toggleIsDisplay = (isActive) => {
+        const { category } = this.props;
         this.props.toggleIsDisplayOnSignInApp(category, isActive);
     }
 
