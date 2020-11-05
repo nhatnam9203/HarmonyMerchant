@@ -245,25 +245,19 @@ class Layout extends React.Component {
                     <TitleTabAdminInfo
                         title={localize('Service Salary', language)}
                     />
-                    {
-                        [{ title: `${localize('Per Hour', language)} ($)`, placeholder: '100', type: "perHour" },
-                            // { title: `${localize('Commission')} (%)`, placeholder: '10', type: "commission" }
-                        ].map((salary, index) => {
-                            return <ItemScalary
-                                key={index}
-                                ref={this.setRefSalary}
-                                title={salary.title}
-                                placeholder={salary.placeholder}
-                                type={salary.type}
-                                dataInit={{
-                                    value: '0',
-                                    isCheck: false
-                                }}
-                                onFocus={() => this.scrollStaffTo(1100)}
-                                toogleCheck={this.disableServiceSalary.bind(this, salary.type)}
-                            />
-                        })
-                    }
+
+                    <ItemScalary
+                        ref={this.perHourServiceSalaryRef}
+                        title={`${localize('Per Hour', language)} ($)`}
+                        placeholder={'100'}
+                        type={"perHour"}
+                        dataInit={{
+                            value: '0',
+                            isCheck: false
+                        }}
+                        onFocus={() => this.scrollStaffTo(1100)}
+                        toogleCheck={this.disableCommisionServiceSalary}
+                    />
 
                     {/* ----- Commission ServiceSalary ---- */}
                     <ItemScalaryByIncome
