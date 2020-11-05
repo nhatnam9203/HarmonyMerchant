@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import strings from './strings';
 import { validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone, scaleSzie, checkStateIsValid ,
-    BusinessWorkingTime
+    BusinessWorkingTime,formatNumberFromCurrency
 } from '@utils';
 
 class StaffInfo extends Layout {
@@ -92,10 +92,8 @@ class StaffInfo extends Layout {
     }
 
     async componentDidMount() {
-        // console.log("---- : ",this.props.isEditStaff);
         if (this.props.isEditStaff) {
             const { infoStaffHandle, stateCity } = this.props;
-        //console.log('------ Phi : ',getCodeAreaPhone(infoStaffHandle.phone));
             await this.setState({
                 user: {
                     firstName: infoStaffHandle.firstName,
@@ -104,7 +102,6 @@ class StaffInfo extends Layout {
                     address: {
                         street: infoStaffHandle.address,
                         city: infoStaffHandle.city,
-                        // state: infoStaffHandle.stateId,
                         state: getNameStateById(stateCity, infoStaffHandle.stateId),
                         zip: infoStaffHandle.zip,
                     },
@@ -122,9 +119,6 @@ class StaffInfo extends Layout {
                     professionalLicense: infoStaffHandle.professionalLicense,
                 },
                 staffId: infoStaffHandle.staffId,
-                // workingTime: infoStaffHandle.workingTimes,
-                // tipFee: infoStaffHandle.tipFees,
-                // salary: infoStaffHandle.salaries,
                 fileId: infoStaffHandle.fileId,
                 imageUrl: infoStaffHandle.imageUrl,
             });
@@ -141,7 +135,6 @@ class StaffInfo extends Layout {
     }
 
     setStaffInfoFromParent = staff => {
-    //console.log('setStaffInfoFromParent : ', staff);
     }
 
     setRefTimeWorking = (ref) => {
@@ -168,6 +161,56 @@ class StaffInfo extends Layout {
         })
     }
 
+    checkSalaryIncomeService = () => {
+        const incomeSalary = this.commissionSalaryRef?.current?.getDataFromParent() || [];
+        const values = [];
+        let isCheckIsValidIncome = true;
+        let isEmpty = false;
+
+        for (let ref of incomeSalary) {
+            let from = ref?.state?.from || "";
+            let to = ref?.state?.to || "";
+            let commission = ref?.state?.commission || "";
+
+            if (!from || !to || !commission) {
+                isEmpty = true;
+                break;
+            } else {
+                if (formatNumberFromCurrency(from) < formatNumberFromCurrency(to)) {
+                    values.push({
+                        from: formatNumberFromCurrency(from),
+                        to: formatNumberFromCurrency(to),
+                        commission: formatNumberFromCurrency(commission),
+                    });
+                } else {
+                    isCheckIsValidIncome = false;
+                    break;
+                }
+            }
+        }
+        if (isEmpty) {
+            return {
+                status: false,
+                message: "Please enter full salary income information!",
+                data: [{ from: 0.00, to: 0.00, commission: 0.00 }]
+            };
+        }
+
+        if (!isCheckIsValidIncome) {
+            return {
+                status: false,
+                message: "From income not greater than to income",
+                data: [{ from: 0.00, to: 0.00, commission: 0.00 }]
+            };
+        }
+
+        return {
+            status: true,
+            message: "",
+            data: values
+        }
+    }
+
     addAdmin = () => {
         const { user } = this.state;
         const { stateCity } = this.props;
@@ -175,20 +218,6 @@ class StaffInfo extends Layout {
         let keyError = '';
         for (let i = 0; i < arrayKey.length; i++) {
             if (arrayKey[i] == 'address') {
-                // continue;
-                // if (user.address.street == '') {
-                //     keyError = 'street';
-                //     break;
-                // }
-                // if (user.address.city == '') {
-
-                //     keyError = 'city';
-                //     break;
-                // }
-                // if (user.address.state == '') {
-                //     keyError = 'state';
-                //     break;
-                // }
                 if (user.address.state !== '' && !checkStateIsValid(stateCity, user.address.state)) {
                     keyError = 'stateInvalid';
                     break;
@@ -216,8 +245,15 @@ class StaffInfo extends Layout {
             keyError = 'pinnotmatch'
         }
 
+         // ------- Check Service Salary Income ------------
+         const resultSalaryIncome = this.checkSalaryIncomeService();
+         const isCheckIncomeSalary = this.commissionSalaryRef?.current?.state?.isCheck;
+         if (isCheckIncomeSalary && !resultSalaryIncome.status) {
+             keyError = resultSalaryIncome?.message || "";
+         }
+
         if (keyError !== '') {
-            Alert.alert(`${strings[keyError]}`);
+            Alert.alert(`${strings[keyError] ? strings[keyError] : keyError}`);
         } else {
             let objWorkingTime = [];
             let objSalary = {};
@@ -272,28 +308,28 @@ class StaffInfo extends Layout {
                 workingTime: objWorkingTime,
                 salary: {
                     perHour: {
-                        value: parseFloat(this.perHourServiceSalaryRef.current.state.value ? this.perHourServiceSalaryRef.current.state.value : 0),
-                        isCheck: this.perHourServiceSalaryRef.current.state.isCheck
+                        value: parseFloat(this.perHourServiceSalaryRef?.current?.state?.value || 0),
+                        isCheck: this.perHourServiceSalaryRef?.current?.state?.isCheck
                     },
                     commission: {
-                        value: parseFloat(this.commissionSalaryRef.current.state.value ? this.commissionSalaryRef.current.state.value : 0),
-                        isCheck: this.commissionSalaryRef.current.state.isCheck
+                        value: resultSalaryIncome.data,
+                        isCheck: isCheckIncomeSalary
                     }
                 },
                 tipFee:  {
                     percent: {
-                        value: parseFloat(this.percentTipFeeRef.current.state.value ? this.percentTipFeeRef.current.state.value : 0),
-                        isCheck: this.percentTipFeeRef.current.state.isCheck
+                        value: parseFloat(this.percentTipFeeRef?.current?.state?.value || 0),
+                        isCheck: this.percentTipFeeRef?.current?.state?.isCheck
                     },
                     fixedAmount: {
-                        value: parseFloat(this.fixedAmountTipFeeRef.current.state.value ? this.fixedAmountTipFeeRef.current.state.value : 0),
-                        isCheck: this.fixedAmountTipFeeRef.current.state.isCheck
+                        value: parseFloat(this.fixedAmountTipFeeRef?.current?.state?.value || 0),
+                        isCheck: this.fixedAmountTipFeeRef?.current?.state?.isCheck
                     }
                 },
                 
                 fileId: this.state.fileId,
                 productSalary: objProjectSalary,
-                cashPercent : parseFloat(this.cashPercentRef.current.state.value ? this.cashPercentRef.current.state.value: 0)
+                cashPercent : parseFloat(this.cashPercentRef?.current?.state?.value || 0)
             };
             if (this.props.isEditStaff) {
                 this.props.editStaff(temptStaff, this.state.staffId)

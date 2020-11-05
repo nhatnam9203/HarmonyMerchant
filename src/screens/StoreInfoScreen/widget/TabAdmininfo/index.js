@@ -106,7 +106,7 @@ class StoreInfoScreen extends Layout {
                 if (formatNumberFromCurrency(from) < formatNumberFromCurrency(to)) {
                     values.push({
                         from: formatNumberFromCurrency(from),
-                        to: formatNumberFromCurrency(from),
+                        to: formatNumberFromCurrency(to),
                         commission: formatNumberFromCurrency(commission),
                     });
                 } else {

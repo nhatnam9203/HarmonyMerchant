@@ -17,7 +17,7 @@ import { scaleSzie, localize } from '@utils';
 import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
-
+import ItemScalaryByIncome from "../ItemScalaryByIncome";
 
 class Layout extends React.Component {
 
@@ -264,16 +264,15 @@ class Layout extends React.Component {
                         toogleCheck={this.disableCommisionServiceSalary}
                     />
 
-                    {/* ----- Commission ServiceSalary ---- */}
-                    <ItemScalary
+                     {/* ----- Commission ServiceSalary ---- */}
+                     <ItemScalaryByIncome
                         ref={this.commissionSalaryRef}
-                        title={`${localize("Commission", language)} (%)`}
+                        title={`${localize("Incomes", language)}`}
                         placeholder={'10'}
                         dataInit={commision_ServiceSalary}
-                        onFocus={() => this.scrollStaffTo(1100)}
+                        onFocus={() => this.scrollStaffTo(1250)}
                         toogleCheck={this.disablePerHourSalary}
                     />
-
 
                     {/* ----- Product Salary ---- */}
                     <TitleTabAdminInfo
