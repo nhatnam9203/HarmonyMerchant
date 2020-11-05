@@ -54,8 +54,7 @@ export default class ItemScalary extends React.Component {
             <View style={{
                 flexDirection: 'row',
                 height: scaleSzie(36),
-                paddingLeft: scaleSzie(90),
-                paddingRight: scaleSzie(90),
+                paddingHorizontal: scaleSzie(90),
                 marginTop: scaleSzie(14)
             }} >
                 <Button onPress={this.onPress} style={{ width: scaleSzie(30), justifyContent: 'center' }} >

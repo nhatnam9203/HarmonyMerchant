@@ -152,7 +152,19 @@ class TabCategories extends Layout {
     }
 
     toggleIsDisplayOnSignInApp = (category, isActive) => {
+        const { categoriesByMerchant } = this.props;
         const { searchFilter } = this.state;
+
+        const tempCategoriesByMerchant = [...categoriesByMerchant];
+        for (let tempCategory of tempCategoriesByMerchant) {
+            if (tempCategory.categoryId === category.categoryId) {
+                tempCategory.isShowSignInApp = isActive;
+                break;
+            }
+        }
+
+        this.props.actions.category.updateListCategoryLocal(tempCategoriesByMerchant);
+
         this.props.actions.category.editCategory({
             CategoryType: category.categoryType,
             name: category.name,

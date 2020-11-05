@@ -57,6 +57,7 @@ class StoreInfoScreen extends Layout {
         this.percentTipFeeRef = React.createRef();
         this.fixedAmountTipFeeRef = React.createRef();
         this.cashPercentRef = React.createRef();
+        this.commissionSalaryRef = React.createRef();
     }
 
     scrollStaffTo(position) {

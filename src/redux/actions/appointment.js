@@ -494,3 +494,4 @@ export function togglePopupGiftCardPaymentDetail(visible = true) {
         payload: visible
     }
 }
+

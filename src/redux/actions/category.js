@@ -89,3 +89,9 @@ export function updatePositionCategories(body) {
     }
 }
 
+export function updateListCategoryLocal(data){
+    return {
+        type: "UPDATE_LIST_CATEGORY_LOCAL",
+        payload: data
+    }
+}

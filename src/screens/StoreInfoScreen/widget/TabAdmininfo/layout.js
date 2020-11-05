@@ -11,12 +11,13 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import {
     Dropdown,
-    ButtonCustom, Text, BrowserFile, TextInputSuggestion,FooterTwoButton
+    ButtonCustom, Text, BrowserFile, TextInputSuggestion, FooterTwoButton
 } from '@components';
 import { scaleSzie, localize } from '@utils';
 import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
+import ItemScalaryByIncome from "../ItemScalaryByIncome";
 
 class Layout extends React.Component {
 
@@ -246,7 +247,7 @@ class Layout extends React.Component {
                     />
                     {
                         [{ title: `${localize('Per Hour', language)} ($)`, placeholder: '100', type: "perHour" },
-                        { title: `${localize('Commission')} (%)`, placeholder: '10', type: "commission" }
+                            // { title: `${localize('Commission')} (%)`, placeholder: '10', type: "commission" }
                         ].map((salary, index) => {
                             return <ItemScalary
                                 key={index}
@@ -260,10 +261,26 @@ class Layout extends React.Component {
                                 }}
                                 onFocus={() => this.scrollStaffTo(1100)}
                                 toogleCheck={this.disableServiceSalary.bind(this, salary.type)}
-
                             />
                         })
                     }
+
+                    {/* ----- Commission ServiceSalary ---- */}
+                    <ItemScalaryByIncome
+                        ref={this.commissionSalaryRef}
+                        title={`${localize("Incomes", language)}`}
+                        placeholder={'10'}
+                        dataInit={{
+                            isCheck: false,
+                            value: {
+                                from: "",
+                                to: "",
+                                commission: "",
+                            }
+                        }}
+                        onFocus={() => this.scrollStaffTo(1250)}
+                        toogleCheck={this.disablePerHourSalary}
+                    />
 
                     {/* ----- Product Salary ---- */}
                     <TitleTabAdminInfo
@@ -421,9 +438,9 @@ class Layout extends React.Component {
         return (
             <View style={styles.container} >
                 {this.renderBody()}
-                <FooterTwoButton 
-                     back={() =>  this.props.backTab()}
-                     next={() => this.props.nextTab()}
+                <FooterTwoButton
+                    back={() => this.props.backTab()}
+                    next={() => this.props.nextTab()}
                 />
             </View>
 

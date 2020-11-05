@@ -63,6 +63,11 @@ function categoriesReducer(state = initialState, action) {
                 ...state,
                 isGetListSearchCategories: true
             }
+        case 'UPDATE_LIST_CATEGORY_LOCAL':
+            return {
+                ...state,
+                categoriesByMerchant: action?.payload || state.categoriesByMerchant
+            }
         case 'LOGOUT_APP':
             return {
                 ...initialState,
