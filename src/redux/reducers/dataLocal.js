@@ -14,7 +14,9 @@ const initialState = {
         name: '',
         ip: '',
         port: '',
-        timeout: parseInt(5 * 60 * 1000),
+        // timeout: parseInt(5 * 60 * 1000),
+        timeout: parseInt(1000),
+
         isSetup: false
     },
     profileStaffLogin: {},

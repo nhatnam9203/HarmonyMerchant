@@ -144,7 +144,7 @@ class TabCategories extends Layout {
         this.props.actions.category.editCategory({
             CategoryType: category?.categoryType || "",
             name: category?.name || "",
-            isShowSignInApp: category?.isShowSignInApp || true
+            isShowSignInApp: category?.isShowSignInApp
         },
             category.categoryId,
             searchFilter

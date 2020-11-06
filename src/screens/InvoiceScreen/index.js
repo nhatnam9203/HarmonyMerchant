@@ -363,6 +363,7 @@ class InvoiceScreen extends Layout {
                     titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
                 })
             } else {
+                PosLink.cancelTransaction();
                 setTimeout(() => {
                     alert(data.message)
                 }, 300)
@@ -394,6 +395,7 @@ class InvoiceScreen extends Layout {
                     titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
                 });
             } else {
+                PosLink.cancelTransaction();
                 setTimeout(() => {
                     alert(data.message)
                 }, 300);

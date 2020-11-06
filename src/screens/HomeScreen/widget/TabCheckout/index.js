@@ -1048,6 +1048,7 @@ class TabCheckout extends Layout {
             const result = JSON.parse(message);
             const tempEnv = env.IS_PRODUCTION;
             if (result.status == 0) {
+                PosLink.cancelTransaction();
                 if (result.message === "ABORTED") {
                     return;
                 }
@@ -1101,10 +1102,10 @@ class TabCheckout extends Layout {
 
     cancelTransaction = async () => {
         if (Platform.OS === "android") {
-            console.log("---- cancelTransaction -----");
-            PoslinkAndroid.cancelTransaction((data) =>{
+            // console.log("---- cancelTransaction -----");
+            PoslinkAndroid.cancelTransaction((data) => {
                 // alert("ahiihi") 
-                console.log("--- PRESSS ---: ",data);
+                // console.log("--- PRESSS ---: ",data);
             });
         } else {
             PosLink.cancelTransaction();
