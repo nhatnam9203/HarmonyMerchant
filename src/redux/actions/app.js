@@ -267,6 +267,13 @@ export function tooglePopupCodePush(visible = true,description = "") {
   };
 }
 
+export function resetIsInitApp(){
+  return{
+    type: "RESET_IS_INIT_APP",
+    payload: false
+  }
+}
+
 
 
 

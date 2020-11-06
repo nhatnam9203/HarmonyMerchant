@@ -19,6 +19,10 @@ class SplashScreen extends Layout {
     }
 
     async componentDidMount() {
+        if (this.props?.isInitialApp) {
+            this.props.actions?.auth?.logout();
+            this.props.actions?.app?.resetIsInitApp();
+        }
         try {
             let version = await DeviceInfo.getVersion();
             const latestVersion = await VersionCheck.getLatestVersion({ provider: 'appStore' });
@@ -161,7 +165,8 @@ const mapStateToProps = state => ({
     token: state.dataLocal.token,
     deviceId: state.dataLocal.deviceId,
     stateCity: state.dataLocal.stateCity,
-    versionApp: state.dataLocal.versionApp
+    versionApp: state.dataLocal.versionApp,
+    isInitialApp: state.app.isInitialApp
 });
 
 let codePushOptions = {

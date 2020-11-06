@@ -32,7 +32,8 @@ const initialState = {
   isUpdateMerchantSetting: false,
   settingTabPermission: false,
   visiblePopupCodePush: false,
-  descriptionCodePush: ""
+  descriptionCodePush: "",
+  isInitialApp: true
 };
 
 function appReducer(state = initialState, action) {
@@ -260,11 +261,15 @@ function appReducer(state = initialState, action) {
         visiblePopupCodePush: action.payload,
         descriptionCodePush: action.description ? action.description : ""
       };
-
-
+    case 'RESET_IS_INIT_APP':
+      return {
+        ...initialState,
+        isInitialApp: false
+      }
     case 'LOGOUT_APP':
       return {
         ...initialState,
+        isInitialApp: false
       }
 
     default:
@@ -286,5 +291,5 @@ function getErrorMessagePaxMachine(error) {
 module.exports = persistReducer({
   key: "app",
   storage: AsyncStorage,
-  whitelist: []
+  whitelist: ["isInitialApp"]
 }, appReducer);
