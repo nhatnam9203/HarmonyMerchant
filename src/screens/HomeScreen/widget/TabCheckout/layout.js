@@ -7,7 +7,7 @@ import {
 import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, } from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, intersection, symmetricDifference } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
     PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint,
@@ -135,11 +135,44 @@ class Layout extends React.Component {
     }
 
     renderCategoriesCheckout() {
-        const { language, categoriesByMerchant } = this.props;
+        const { language, categoriesByMerchant, groupAppointment } = this.props;
         const { isShowColProduct } = this.state;
         const temptWidth = isShowColProduct ? 120 : 202;
         const temptColorHeader = isShowColProduct ? { color: '#6A6A6A' } : {};
         const categoriesFilter = categoriesByMerchant.filter((category, index) => category.isDisabled === 0);
+
+        const appointments = groupAppointment?.appointments || [];
+        let tempIdCategoriesList = [];
+        for (let appointment of appointments) {
+            let categories = appointment?.categories || [];
+            for (let category of categories) {
+                tempIdCategoriesList.push(category?.categoryId || 0);
+            }
+        }
+
+        const IdCategoriesList = [...new Set(tempIdCategoriesList)];
+        let selectCategories = [];
+        let notSelectCategories = [];
+        let tempCategories;
+
+        if (IdCategoriesList.length > 0) {
+            for (let i = 0; i < IdCategoriesList.length; i++) {
+                for (let j = 0; j < categoriesFilter.length; j++) {
+                    if (IdCategoriesList[i] === categoriesFilter[j].categoryId) {
+                        selectCategories.push({
+                            ...categoriesFilter[j],
+                            isSelect: true
+                        });
+                        break
+                    }
+                }
+            }
+            notSelectCategories = categoriesFilter.filter((category, index) => this.checkCategoryIsNotExist(category, IdCategoriesList));
+            tempCategories = [...selectCategories, ...notSelectCategories];
+        } else {
+            tempCategories = [...categoriesFilter];
+        }
+
 
         return (
             <View style={{
@@ -159,7 +192,7 @@ class Layout extends React.Component {
                         keyboardShouldPersistTaps="always"
                     >
                         {
-                            categoriesFilter.map((category, index) => <ItemCategory
+                            tempCategories.map((category, index) => <ItemCategory
                                 key={index}
                                 category={category}
                                 onPressSelectCategory={this.onPressSelectCategory}

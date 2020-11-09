@@ -1717,6 +1717,18 @@ class TabCheckout extends Layout {
         })
     }
 
+    checkCategoryIsNotExist(category,IdCategoriesList) {
+        let isNotExist = true;
+        for(let i= 0; i< IdCategoriesList.length; i++){
+            if(IdCategoriesList[i] === category?.categoryId){
+                isNotExist = false;
+                break;
+            }
+        }
+
+        return isNotExist
+    }
+
     async componentDidUpdate(prevProps, prevState) {
         const { isLoadingGetBlockAppointment, blockAppointments, isLoadingRemoveBlockAppointment } = this.props;
         if (blockAppointments.length > 0 && prevProps.isLoadingRemoveBlockAppointment != isLoadingRemoveBlockAppointment && !isLoadingRemoveBlockAppointment) {

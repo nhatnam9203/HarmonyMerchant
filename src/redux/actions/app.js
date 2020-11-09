@@ -259,16 +259,16 @@ export function closeAllPopupPincode() {
   };
 }
 
-export function tooglePopupCodePush(visible = true,description = "") {
+export function tooglePopupCodePush(visible = true, description = "") {
   return {
     type: "OPEN_POPUP_CODE_PUSH",
-    payload:visible,
+    payload: visible,
     description
   };
 }
 
-export function resetIsInitApp(){
-  return{
+export function resetIsInitApp() {
+  return {
     type: "RESET_IS_INIT_APP",
     payload: false
   }
