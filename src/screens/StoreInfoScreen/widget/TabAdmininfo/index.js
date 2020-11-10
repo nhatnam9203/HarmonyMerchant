@@ -95,9 +95,9 @@ class StoreInfoScreen extends Layout {
         let isEmpty = false;
 
         for (let ref of incomeSalary) {
-            let from = ref?.state?.from || "";
-            let to = ref?.state?.to || "";
-            let commission = ref?.state?.commission || "";
+            let from = ref?.state?.from || "0.00";
+            let to = ref?.state?.to || "0.00";
+            let commission = ref?.state?.commission || "0.00";
 
             if (!from || !to || !commission) {
                 isEmpty = true;

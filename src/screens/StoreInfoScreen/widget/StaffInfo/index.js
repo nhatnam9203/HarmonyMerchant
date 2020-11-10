@@ -70,7 +70,8 @@ class StaffInfo extends Layout {
             fileId: 0,
             imageUrl: '',
             isSubmitButton: true,
-            dynamicMarginBottomState: 24
+            dynamicMarginBottomState: 24,
+            rowsSalaryIncome: 0
         }
         // ---- Refs ----
         this.inputRefsTime = [];
@@ -168,9 +169,9 @@ class StaffInfo extends Layout {
         let isEmpty = false;
 
         for (let ref of incomeSalary) {
-            let from = ref?.state?.from || "";
-            let to = ref?.state?.to || "";
-            let commission = ref?.state?.commission || "";
+            let from = ref?.state?.from || "0.00";
+            let to = ref?.state?.to || "0.00";
+            let commission = ref?.state?.commission || "0.00";
 
             if (!from || !to || !commission) {
                 isEmpty = true;

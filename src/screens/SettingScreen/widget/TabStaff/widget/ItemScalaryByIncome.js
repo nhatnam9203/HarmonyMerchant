@@ -46,9 +46,9 @@ export default class ItemScalary extends React.Component {
                 const data = dataInit?.value[i];
                 tempRows.push({
                     keyRows: i + 1,
-                    from: data?.from || 0,
-                    to: data?.to || 0,
-                    commission: data?.commission || 0,
+                    from: data?.from || 0.00,
+                    to: data?.to || 0.00,
+                    commission: data?.commission || 0.00,
                 });
             };
             this.count = maxLength;
@@ -89,7 +89,7 @@ export default class ItemScalary extends React.Component {
     }
 
     checkValue = (value) => {
-        return value ? true : false;
+        return value !== "" ? true : false;
     }
 
     addSalaryIncome = () => {
@@ -113,6 +113,7 @@ export default class ItemScalary extends React.Component {
             this.setState({
                 rows: tempRows
             });
+            this.props.updateRowsSalaryIncome(tempRows.length);
         } else {
             alert("Please enter full information, before you add more!");
         }
@@ -126,7 +127,8 @@ export default class ItemScalary extends React.Component {
         this.incomeSalaryRef = [...tempRefs];
         this.setState({
             rows: tempRows
-        })
+        });
+        this.props.updateRowsSalaryIncome(tempRows.length);
     }
 
     showRef = () => {
