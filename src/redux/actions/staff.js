@@ -6,8 +6,7 @@ export function addStaffByMerchant(body,searchFilter = false) {
     body,
     method: "POST",
     token: true,
-    api: `${apiConfigs.BASE_API}staff`,
-    // merchantId: id,
+    api: `${apiConfigs.BASE_API}staff?api-version=1.1`,
     searchFilter
   };
 }
@@ -18,7 +17,7 @@ export function createAdmin(body) {
     body,
     method: "POST",
     token: true,
-    api: `${apiConfigs.BASE_API}staff`,
+    api: `${apiConfigs.BASE_API}staff?api-version=1.1`,
   };
 }
 
@@ -82,7 +81,7 @@ export function editStaff(body, id = "",searchFilter =false) {
     body,
     method: "PUT",
     token: true,
-    api: `${apiConfigs.BASE_API}staff/${id}`,
+    api: `${apiConfigs.BASE_API}staff/${id}?api-version=1.1`,
     searchFilter
   };
 }

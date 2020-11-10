@@ -27,7 +27,7 @@ export function registerUser(body) {
     type: "REGISTER_USER",
     method: "POST",
     body,
-    api: `${apiConfigs.BASE_API}merchant`,
+    api: `${apiConfigs.BASE_API}merchant?api-version=1.1`,
   };
 }
 

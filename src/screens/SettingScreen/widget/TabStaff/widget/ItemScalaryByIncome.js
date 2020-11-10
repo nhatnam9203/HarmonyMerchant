@@ -89,7 +89,7 @@ export default class ItemScalary extends React.Component {
     }
 
     checkValue = (value) => {
-        return value && value != "0.00" ? true : false;
+        return value ? true : false;
     }
 
     addSalaryIncome = () => {
