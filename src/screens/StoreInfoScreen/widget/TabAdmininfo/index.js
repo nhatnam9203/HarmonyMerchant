@@ -29,12 +29,13 @@ const initState = {
         driverlicense: '',
         socialSecurityNumber: '',
         professionalLicense: '',
-        cashPercent:0
+        cashPercent:0,
     },
     fileId: 0,
     imageUrl: '',
     isSubmitButton: true,
-    dynamicMarginBottomState: 24
+    dynamicMarginBottomState: 24,
+    rowsSalaryIncome: 0
 }
 
 class StoreInfoScreen extends Layout {
@@ -44,7 +45,7 @@ class StoreInfoScreen extends Layout {
         const { profile } = this.props;
         this.state = {
             ...initState,
-            businessHour: profile.businessHour ? profile.businessHour : BusinessWorkingTime
+            businessHour: profile.businessHour ? profile.businessHour : BusinessWorkingTime,
         };
         // ---- Refs ----
         this.inputRefsTime = [];

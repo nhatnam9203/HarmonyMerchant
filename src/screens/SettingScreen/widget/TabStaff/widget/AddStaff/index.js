@@ -93,11 +93,12 @@ class AddStaff extends Layout {
     async componentDidMount() {
         if (this.props.isEditStaff) {
             const { infoStaffHandle, stateCity } = this.props;
+            console.log(infoStaffHandle);
             await this.setState({
                 user: {
-                    firstName: infoStaffHandle.firstName,
-                    lastName: infoStaffHandle.lastName,
-                    displayName: infoStaffHandle.displayName,
+                    firstName: infoStaffHandle?.firstName || "",
+                    lastName: infoStaffHandle?.lastName || "",
+                    displayName: infoStaffHandle?.displayName || "",
                     address: {
                         street: infoStaffHandle.address,
                         city: infoStaffHandle.city,
@@ -105,21 +106,22 @@ class AddStaff extends Layout {
                         zip: infoStaffHandle.zip
                     },
                     cellphone: getCodeAreaPhone(infoStaffHandle.phone).phone,
-                    email: infoStaffHandle.email,
-                    pin: infoStaffHandle.pin,
-                    confirmPin: infoStaffHandle.pin,
-                    isActive: infoStaffHandle.isActive ? infoStaffHandle.isActive : false,
-                    isDisabled: infoStaffHandle.isDisabled === 0 ? 'Active' : 'Disable',
+                    email: infoStaffHandle?.email,
+                    pin: infoStaffHandle?.pin,
+                    confirmPin: infoStaffHandle?.pin,
+                    isActive: infoStaffHandle?.isActive ? infoStaffHandle.isActive : false,
+                    isDisabled: infoStaffHandle?.isDisabled === 0 ? 'Active' : 'Disable',
                     roles: {
-                        nameRole: infoStaffHandle.roleName,
+                        nameRole: infoStaffHandle?.roleName,
                     },
-                    driverlicense: infoStaffHandle.driverLicense,
-                    socialSecurityNumber: infoStaffHandle.ssn,
-                    professionalLicense: infoStaffHandle.professionalLicense,
+                    driverlicense: infoStaffHandle?.driverLicense,
+                    socialSecurityNumber: infoStaffHandle?.ssn,
+                    professionalLicense: infoStaffHandle?.professionalLicense,
                 },
                 staffId: infoStaffHandle.staffId,
                 fileId: infoStaffHandle.fileId,
-                imageUrl: infoStaffHandle.imageUrl
+                imageUrl: infoStaffHandle.imageUrl,
+                rowsSalaryIncome: infoStaffHandle?.salaries?.commission?.value.length || 1
             });
             this.browserFileRef.current.setImageUrlFromParent(infoStaffHandle.imageUrl);
             this.cellphoneRef.current.setcodeAreaPhoneFromParent(getCodeAreaPhone(infoStaffHandle.phone).areaCode);

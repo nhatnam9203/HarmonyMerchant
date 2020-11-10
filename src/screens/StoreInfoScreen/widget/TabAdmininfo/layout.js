@@ -30,7 +30,7 @@ class Layout extends React.Component {
         } = this.state.user;
         const { street, city, state, zip } = address;
         const { nameRole } = roles;
-        const { businessHour, dynamicMarginBottomState } = this.state;
+        const { businessHour, dynamicMarginBottomState,rowsSalaryIncome } = this.state;
 
         return (
             <View style={styles.body} >
@@ -272,8 +272,9 @@ class Layout extends React.Component {
                                 commission: "",
                             }
                         }}
-                        onFocus={() => this.scrollStaffTo(1250)}
+                        onFocus={() => this.scrollStaffTo(1250 +rowsSalaryIncome * 35)}
                         toogleCheck={this.disablePerHourSalary}
+                        updateRowsSalaryIncome={(rowsSalaryIncome) => this.setState({rowsSalaryIncome})}
                     />
 
                     {/* ----- Product Salary ---- */}
@@ -291,7 +292,7 @@ class Layout extends React.Component {
                                     value: '0',
                                     isCheck: false
                                 }}
-                                onFocus={() => this.scrollStaffTo(1230)}
+                                onFocus={() => this.scrollStaffTo(1300+ rowsSalaryIncome * 35)}
                             />
                         })
                     }
@@ -311,7 +312,7 @@ class Layout extends React.Component {
                             value: '0',
                             isCheck: false
                         }}
-                        onFocus={() => this.scrollStaffTo(1300)}
+                        onFocus={() => this.scrollStaffTo(1300+ rowsSalaryIncome * 35)}
                         toogleCheck={this.disableFixedAmountTip}
                     />
 
@@ -324,7 +325,7 @@ class Layout extends React.Component {
                             value: '0',
                             isCheck: false
                         }}
-                        onFocus={() => this.scrollStaffTo(1300)}
+                        onFocus={() => this.scrollStaffTo(1400+ rowsSalaryIncome * 35)}
                         toogleCheck={this.disablePercentTip}
                     />
 
@@ -343,7 +344,7 @@ class Layout extends React.Component {
                             isCheck: true,
                             value: 0
                         }}
-                        onFocus={() => this.scrollStaffTo(1500)}
+                        onFocus={() => this.scrollStaffTo(1500+ rowsSalaryIncome * 35)}
                         maxLength={3}
                         isNotToggleCheck={true}
                     />
@@ -356,7 +357,7 @@ class Layout extends React.Component {
                         value={driverlicense}
                         onChangeText={(value) => this.updateUserInfo('driverlicense', value)}
                         type={true}
-                        onFocus={() => this.scrollStaffTo(1450)}
+                        onFocus={() => this.scrollStaffTo(1600+ rowsSalaryIncome * 35)}
                     />
                     <ItemAdminInfo
                         title={localize('Social Security Number', language)}
@@ -364,7 +365,7 @@ class Layout extends React.Component {
                         value={socialSecurityNumber}
                         onChangeText={(value) => this.updateUserInfo('socialSecurityNumber', value)}
                         type={true}
-                        onFocus={() => this.scrollStaffTo(1450)}
+                        onFocus={() => this.scrollStaffTo(2000+ rowsSalaryIncome * 35)}
                         typeSocial="custom"
                         mark="999-99-9999"
                         style={{
@@ -378,7 +379,7 @@ class Layout extends React.Component {
                         value={professionalLicense}
                         onChangeText={(value) => this.updateUserInfo('professionalLicense', value)}
                         type={true}
-                        onFocus={() => this.scrollStaffTo(1450)}
+                        onFocus={() => this.scrollStaffTo(2000+ rowsSalaryIncome * 35)}
                     />
                     <View style={{
                         height: scaleSzie(70), paddingHorizontal: scaleSzie(90),

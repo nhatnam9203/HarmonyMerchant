@@ -122,6 +122,7 @@ class StaffInfo extends Layout {
                 staffId: infoStaffHandle.staffId,
                 fileId: infoStaffHandle.fileId,
                 imageUrl: infoStaffHandle.imageUrl,
+                rowsSalaryIncome: infoStaffHandle?.salaries?.commission?.value.length || 1
             });
             this.browserFileRef.current.setImageUrlFromParent(infoStaffHandle.imageUrl);
             this.cellphoneRef.current.setcodeAreaPhoneFromParent(getCodeAreaPhone(infoStaffHandle.phone).areaCode);

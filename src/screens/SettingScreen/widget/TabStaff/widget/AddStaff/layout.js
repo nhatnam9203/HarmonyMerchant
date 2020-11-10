@@ -290,7 +290,7 @@ class Layout extends React.Component {
                         title={`${localize("Commission", language)} (%)`}
                         placeholder={'10'}
                         dataInit={commision_ProductScalary}
-                        onFocus={() => this.scrollStaffTo(1300 + rowsSalaryIncome * 35)}
+                        onFocus={() => this.scrollStaffTo(1400 + rowsSalaryIncome * 35)}
                     />
 
                     {/* ----- Tip fee ---- */}
@@ -304,7 +304,7 @@ class Layout extends React.Component {
                         title={`${localize("Percent", language)} (%)`}
                         placeholder={'10'}
                         dataInit={percent_TipFee}
-                        onFocus={() => this.scrollStaffTo(1300+ rowsSalaryIncome * 35)}
+                        onFocus={() => this.scrollStaffTo(1450+ rowsSalaryIncome * 35)}
                         toogleCheck={this.disableFixedAmountTip}
                     />
 
@@ -314,7 +314,7 @@ class Layout extends React.Component {
                         title={`${localize("Fixed Amount", language)} ($)`}
                         placeholder={'10'}
                         dataInit={fixedAmount_TipFee}
-                        onFocus={() => this.scrollStaffTo(1400+ rowsSalaryIncome * 35)}
+                        onFocus={() => this.scrollStaffTo(1450+ rowsSalaryIncome * 35)}
                         toogleCheck={this.disablePercentTip}
                     />
 
