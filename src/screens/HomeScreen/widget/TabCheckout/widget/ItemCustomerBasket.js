@@ -68,13 +68,14 @@ class ItemCustomerBasket extends React.Component {
     }
 
     showModalDiscount = () => {
-        const { groupAppointment, paymentDetailInfo, profileStaffLogin } = this.props;
-        const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
+        const { groupAppointment, profileStaffLogin } = this.props;
+        const checkoutPayments = this.props?.paymentDetailInfo?.checkoutPayments || [];
+        const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
+        
         if (profileStaffLogin.roleName !== "Admin") {
-            alert("You don't have permission!")
+            this.props.showModalCheckPermission(appointmentId);
         } else {
             if (checkoutPayments.length === 0) {
-                const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
                 this.props.showModalDiscount(appointmentId);
             }
         }

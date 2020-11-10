@@ -215,13 +215,22 @@ function* checkStaffPermission(action) {
           payload: false,
           isGoToTabMarketing: true,
         });
-        // yield put({
-        //   type: "GET_PROMOTION_BY_MERCHANT",
-        //   method: "GET",
-        //   token: true,
-        //   api: `${apiConfigs.BASE_API}merchantpromotion`,
-        //   isLoading: true,
-        // });
+      } else if (action.tabName === "CheckDiscountPermission") {
+        const appointmentId = action?.appointmentId || 0;
+
+        yield put({
+          type: "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION",
+          payload: false
+        });
+
+        yield put({
+          type: 'GET_PROMOTION_BY_APPOINTMENT',
+          method: 'GET',
+          token: true,
+          api: `${apiConfigs.BASE_API}appointment/promotion/${appointmentId}`,
+          appointmentId,
+          isBlock: false
+        });
       }
     } else if (parseInt(codeNumber) === 401) {
       yield put({

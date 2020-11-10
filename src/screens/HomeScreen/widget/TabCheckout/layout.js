@@ -7,11 +7,11 @@ import {
 import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, intersection, symmetricDifference } from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
     PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint,
-    PopupChangePriceAmountProduct, PopupChangeTip, ScrollableTabView
+    PopupChangePriceAmountProduct, PopupChangeTip, ScrollableTabView, PopupCheckStaffPermission
 } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -419,6 +419,7 @@ class Layout extends React.Component {
                             basketLocal={basket}
                             isOfflineMode={true}
                             showModalTipAppointment={this.showModalTipAppointment}
+                            showModalCheckPermission={this.showModalCheckPermission}
 
                         /> : <View />) : appointments.map((appointment, index) => <ItemCustomerBasket
                             key={`${appointment.appointmentId}_${index}`}
@@ -434,6 +435,7 @@ class Layout extends React.Component {
                             showModalDiscount={this.showModalDiscount}
                             basketLocal={basket}
                             showModalTipAppointment={this.showModalTipAppointment}
+                            showModalCheckPermission={this.showModalCheckPermission}
                         />)
                     }
                     {/* ----------- Grand Total ----------- */}
@@ -925,7 +927,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language, visiblePopupPaymentDetails } = this.props;
+        const { language, visiblePopupPaymentDetails,visiblePopupCheckDiscountPermission } = this.props;
         const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
             visiblePopupAddItemIntoBasket
         } = this.state;
@@ -1055,6 +1057,13 @@ class Layout extends React.Component {
                     nextPayment={this.nextPayment}
                     cancelGiftCardPayment={this.cancelGiftCardPayment}
                 />
+                <PopupCheckStaffPermission
+                        ref={this.popupCheckDiscountPermissionRef}
+                        visiblePopupCheckStaffPermission={visiblePopupCheckDiscountPermission}
+                        title={localize('Input PIN Number', language)}
+                        tabName="CheckDiscountPermission"
+                        onRequestClose={this.closePopupCheckMarketingTabPermission}
+                    />
             </View>
         );
     }

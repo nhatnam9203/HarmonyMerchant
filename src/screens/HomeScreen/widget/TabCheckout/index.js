@@ -38,9 +38,9 @@ class TabCheckout extends Layout {
         this.changePriceAmountProductRef = React.createRef();
         this.changeTipRef = React.createRef();
         this.blockAppointmentRef = [];
-
         this.popupCustomerInfoRef = React.createRef();
         this.popupAddItemIntoAppointmentsRef = React.createRef();
+        this.popupCheckDiscountPermissionRef = React.createRef();
     }
 
     resetStateFromParent = async () => {
@@ -1292,9 +1292,8 @@ class TabCheckout extends Layout {
     }
 
     showModalDiscount = async (appointmentId) => {
-        const { subTotalLocal, discountTotalLocal, customDiscountPercentLocal,
-            customDiscountFixedLocal
-        } = this.state;
+        const { subTotalLocal, discountTotalLocal, customDiscountPercentLocal,customDiscountFixedLocal} = this.state;
+
         if (appointmentId !== -1) {
             const { groupAppointment } = this.props;
             const appointment = groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentId);
@@ -1717,16 +1716,21 @@ class TabCheckout extends Layout {
         })
     }
 
-    checkCategoryIsNotExist(category,IdCategoriesList) {
+    checkCategoryIsNotExist(category, IdCategoriesList) {
         let isNotExist = true;
-        for(let i= 0; i< IdCategoriesList.length; i++){
-            if(IdCategoriesList[i] === category?.categoryId){
+        for (let i = 0; i < IdCategoriesList.length; i++) {
+            if (IdCategoriesList[i] === category?.categoryId) {
                 isNotExist = false;
                 break;
             }
         }
 
         return isNotExist
+    }
+
+    showModalCheckPermission = (appointmentId) => {
+        this.popupCheckDiscountPermissionRef?.current?.setStateFromParent('',appointmentId);
+        this.props.actions.marketing.switchPopupCheckDiscountPermission(true);
     }
 
     async componentDidUpdate(prevProps, prevState) {
@@ -1780,7 +1784,9 @@ const mapStateToProps = state => ({
     bookingGroupId: state.appointment.bookingGroupId,
 
     printerSelect: state.dataLocal.printerSelect,
-    printerList: state.dataLocal.printerList
+    printerList: state.dataLocal.printerList,
+
+    visiblePopupCheckDiscountPermission: state.marketing.visiblePopupCheckDiscountPermission
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

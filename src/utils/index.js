@@ -1088,25 +1088,3 @@ export const getValueSignInAppDisplay = (title) => {
     }
     return value;
 }
-
-export const  intersection =  (setA, setB) => {
-    let _intersection = new Set()
-    for (let elem of setB) {
-        if (setA.has(elem)) {
-            _intersection.add(elem)
-        }
-    }
-    return _intersection
-}
-
-export  const  symmetricDifference = (setA, setB) => {
-    let _difference = new Set(setA)
-    for (let elem of setB) {
-        if (_difference.has(elem)) {
-            _difference.delete(elem)
-        } else {
-            _difference.add(elem)
-        }
-    }
-    return _difference
-}

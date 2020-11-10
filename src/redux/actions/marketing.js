@@ -40,7 +40,7 @@ export function getPromotionByMerchant(isLoading = true) {
     }
 }
 
-export function updatePromotionByMerchant(body,promotionId = 1,isSendNoti = true) {
+export function updatePromotionByMerchant(body, promotionId = 1, isSendNoti = true) {
     return {
         type: 'UPDATE_PROMOTION_BY_MERCHANT',
         method: 'POST',
@@ -70,7 +70,7 @@ export function closeModalDiscount() {
 }
 
 
-export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentId, price,tipPercent = 0,note = "" ,isGroup = false) {
+export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentId, price, tipPercent = 0, note = "", isGroup = false) {
     return {
         type: 'CHANGE_STYLIST',
         method: 'PUT',
@@ -89,7 +89,7 @@ export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentI
     }
 }
 
-export function customPromotion(discountPercent, discountFixtom, isDiscountByOwner,appointmentid, isGroup = false,isBlock = false) {
+export function customPromotion(discountPercent, discountFixtom, isDiscountByOwner, appointmentid, isGroup = false, isBlock = false) {
     return {
         type: 'CUSTOM_PROMOTION',
         method: 'PUT',
@@ -106,7 +106,7 @@ export function customPromotion(discountPercent, discountFixtom, isDiscountByOwn
     }
 }
 
-export function setStatusApplyButton(isApply,promotionId = 1) {
+export function setStatusApplyButton(isApply, promotionId = 1) {
     return {
         type: 'SET_STATUS_APPLY_BUTTON',
         payload: isApply,
@@ -148,11 +148,11 @@ export function resetStateGetPromotionOfAppointment() {
     }
 }
 
-export function addPromotionNote(appointemntId,notes) {
+export function addPromotionNote(appointemntId, notes) {
     return {
         type: 'ADD_PROMOTION_NOTE',
         method: 'POST',
-        body:{
+        body: {
             notes
         },
         token: true,
@@ -160,11 +160,11 @@ export function addPromotionNote(appointemntId,notes) {
     }
 }
 
-export function updatePromotionNote(promotionNoteId,notes) {
+export function updatePromotionNote(promotionNoteId, notes) {
     return {
         type: 'UPDATE_PROMOTION_NOTE',
         method: 'PUT',
-        body:{
+        body: {
             notes
         },
         token: true,
@@ -172,3 +172,9 @@ export function updatePromotionNote(promotionNoteId,notes) {
     }
 }
 
+export function switchPopupCheckDiscountPermission(visible = true) {
+    return {
+        type: "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION",
+        payload: visible
+    }
+}

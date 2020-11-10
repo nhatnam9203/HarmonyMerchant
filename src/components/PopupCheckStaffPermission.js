@@ -20,6 +20,7 @@ class PopupCheckStaffPermission extends React.Component {
         this.state = {
             value: '',
             customStyle: {},
+            appointmentId:""
         }
     }
 
@@ -28,9 +29,10 @@ class PopupCheckStaffPermission extends React.Component {
         this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
     }
 
-    setStateFromParent = async (value = "") => {
+    setStateFromParent = async (value = "",appointmentId = "") => {
         await this.setState({
-            value
+            value,
+            appointmentId
         })
     }
 
@@ -52,9 +54,9 @@ class PopupCheckStaffPermission extends React.Component {
 
     submitPin = () => {
         const { profile, tabName } = this.props;
-        const { value } = this.state;
+        const { value ,appointmentId} = this.state;
         if (value.length === 4) {
-            this.props.actions.auth.checkStaffPermission(profile.merchantCode, value, tabName);
+            this.props.actions.auth.checkStaffPermission(profile.merchantCode, value, tabName,appointmentId);
         } else {
             Alert.alert(`PIN must be 4 digits.`);
         }
@@ -71,7 +73,7 @@ class PopupCheckStaffPermission extends React.Component {
         const { title, isLoadingCheckStaffPermission,
             visiblePopupCheckStaffPermission, hideCloseButton,tabName
         } = this.props;
-        const { value, customStyle } = this.state;
+        const { value, customStyle,appointmentId } = this.state;
         return (
             <PopupParent
                 title={`${title}`}
