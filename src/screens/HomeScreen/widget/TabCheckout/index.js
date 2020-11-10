@@ -1292,7 +1292,7 @@ class TabCheckout extends Layout {
     }
 
     showModalDiscount = async (appointmentId) => {
-        const { subTotalLocal, discountTotalLocal, customDiscountPercentLocal,customDiscountFixedLocal} = this.state;
+        const { subTotalLocal, discountTotalLocal, customDiscountPercentLocal, customDiscountFixedLocal } = this.state;
 
         if (appointmentId !== -1) {
             const { groupAppointment } = this.props;
@@ -1728,9 +1728,13 @@ class TabCheckout extends Layout {
         return isNotExist
     }
 
-    showModalCheckPermission = (appointmentId) => {
-        this.popupCheckDiscountPermissionRef?.current?.setStateFromParent('',appointmentId);
+    showModalCheckPermission = (appointmentId,isBlock = false) => {
+        this.popupCheckDiscountPermissionRef?.current?.setStateFromParent('', appointmentId,isBlock);
         this.props.actions.marketing.switchPopupCheckDiscountPermission(true);
+    }
+
+    closePopupCheckDiscountPermission = () => {
+        this.props.actions.marketing.switchPopupCheckDiscountPermission(false);
     }
 
     async componentDidUpdate(prevProps, prevState) {

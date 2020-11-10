@@ -28,7 +28,7 @@ export function forgotPassword(email) {
   };
 }
 
-export function checkStaffPermission(merchantCode,staffPin,tabName = "Invoice",appointmentId = "") {
+export function checkStaffPermission(merchantCode,staffPin,tabName = "Invoice",appointmentId = "",isBlock = false) {
   return {
     type: "CHECK_STAFF_PERMISSION",
     body: {
@@ -39,7 +39,8 @@ export function checkStaffPermission(merchantCode,staffPin,tabName = "Invoice",a
     method: "POST",
     api: `${apiConfigs.BASE_API}staff/login/checkpermission`,
     tabName,
-    appointmentId
+    appointmentId,
+    isBlock
   };
 }
 

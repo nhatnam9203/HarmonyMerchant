@@ -73,7 +73,7 @@ class ItemCustomerBasket extends React.Component {
         const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
         
         if (profileStaffLogin.roleName !== "Admin") {
-            this.props.showModalCheckPermission(appointmentId);
+            this.props.showModalCheckPermission(appointmentId,false);
         } else {
             if (checkoutPayments.length === 0) {
                 this.props.showModalDiscount(appointmentId);

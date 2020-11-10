@@ -1062,7 +1062,7 @@ class Layout extends React.Component {
                         visiblePopupCheckStaffPermission={visiblePopupCheckDiscountPermission}
                         title={localize('Input PIN Number', language)}
                         tabName="CheckDiscountPermission"
-                        onRequestClose={this.closePopupCheckMarketingTabPermission}
+                        onRequestClose={this.closePopupCheckDiscountPermission}
                     />
             </View>
         );

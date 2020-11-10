@@ -217,19 +217,17 @@ function* checkStaffPermission(action) {
         });
       } else if (action.tabName === "CheckDiscountPermission") {
         const appointmentId = action?.appointmentId || 0;
-
         yield put({
           type: "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION",
           payload: false
         });
-
         yield put({
           type: 'GET_PROMOTION_BY_APPOINTMENT',
           method: 'GET',
           token: true,
           api: `${apiConfigs.BASE_API}appointment/promotion/${appointmentId}`,
           appointmentId,
-          isBlock: false
+          isBlock:  action?.isBlock 
         });
       }
     } else if (parseInt(codeNumber) === 401) {
