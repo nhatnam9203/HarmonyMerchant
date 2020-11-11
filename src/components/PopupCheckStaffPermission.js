@@ -130,7 +130,7 @@ class PopupCheckStaffPermission extends React.Component {
                                     width={'30%'}
                                     height={35}
                                     backgroundColor="#0764B0"
-                                    title="NEXT"
+                                    title="SUBMIT"
                                     textColor="#fff"
                                     onPress={this.submitPin}
                                     styleText={{
