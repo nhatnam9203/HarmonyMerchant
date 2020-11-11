@@ -90,8 +90,11 @@ const FirebaseNotificationProvider = () => {
 
   // call server update token when firebase token change
   React.useEffect(() => {
-    dispatch(actions.auth.activeFirebase(firebaseToken));
-  }, [firebaseToken]);
+    if(firebaseToken && token){
+      // console.log("---- token :",token);
+      dispatch(actions.auth.activeFirebase(firebaseToken));
+    }
+  }, [firebaseToken,token]);
 
   return null;
 };

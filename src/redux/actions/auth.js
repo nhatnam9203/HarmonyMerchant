@@ -60,14 +60,6 @@ export function requestLogout() {
   };
 }
 
-// export function activeFirebase() {
-//   return {
-//     type: "ACTIVE_FIREBASE",
-//     method: "POST",
-//     api: `${apiConfigs.BASE_API}merchant/activeFirebase`,
-//   };
-// }
-
 export function activeFirebase(firebaseToken) {
   return {
     type: "ACTIVE_FIREBASE",

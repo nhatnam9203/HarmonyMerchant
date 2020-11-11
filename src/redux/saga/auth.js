@@ -217,7 +217,7 @@ function* checkStaffPermission(action) {
         });
       } else if (action.tabName === "CheckDiscountPermission" || action.tabName === "CheckDiscountPermissionInHome") {
         const appointmentId = action?.appointmentId || 0;
-        const type = action?.tabName === "CheckDiscountPermission" ?  "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION" : "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION_IN_HOME";
+        const type = action?.tabName === "CheckDiscountPermission" ? "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION" : "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION_IN_HOME";
         yield put({
           type,
           payload: false
@@ -295,8 +295,12 @@ function* activeFirebase(action) {
     });
     action.body = body;
 
+    console.log("-----body : ", body);
+
     const responses = yield requestAPI(action);
+    console.log("-----activeFirebase : ", responses);
   } catch (error) {
+    console.log("-----error : ", error);
     yield put({ type: error });
   } finally {
     yield put({ type: "STOP_LOADING_ROOT" });
