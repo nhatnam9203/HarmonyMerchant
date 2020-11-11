@@ -215,10 +215,11 @@ function* checkStaffPermission(action) {
           payload: false,
           isGoToTabMarketing: true,
         });
-      } else if (action.tabName === "CheckDiscountPermission") {
+      } else if (action.tabName === "CheckDiscountPermission" || action.tabName === "CheckDiscountPermissionInHome") {
         const appointmentId = action?.appointmentId || 0;
+        const type = action?.tabName === "CheckDiscountPermission" ?  "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION" : "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION_IN_HOME";
         yield put({
-          type: "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION",
+          type,
           payload: false
         });
         yield put({
@@ -227,7 +228,7 @@ function* checkStaffPermission(action) {
           token: true,
           api: `${apiConfigs.BASE_API}appointment/promotion/${appointmentId}`,
           appointmentId,
-          isBlock:  action?.isBlock 
+          isBlock: action?.isBlock
         });
       }
     } else if (parseInt(codeNumber) === 401) {

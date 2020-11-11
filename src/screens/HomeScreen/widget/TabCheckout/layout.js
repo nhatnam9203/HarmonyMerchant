@@ -532,6 +532,7 @@ class Layout extends React.Component {
                         toggleCollaps={this.toggleCollaps}
                         removeBlockAppointment={this.removeBlockAppointment}
                         createABlockAppointment={this.createABlockAppointment}
+                        showModalCheckPermission={this.showModalCheckPermission}
                     />)}
 
                     {/* ----------- Grand Total ----------- */}

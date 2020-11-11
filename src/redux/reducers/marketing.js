@@ -24,7 +24,8 @@ const initialState = {
     isGetPromotionOfAppointment: "",
     promotionNotes: {},
     isDiscountByOwner: true,
-    visiblePopupCheckDiscountPermission: false
+    visiblePopupCheckDiscountPermission: false,
+    visiblePopupCheckDiscountPermissionInHome: false
 }
 
 function marketingReducer(state = initialState, action) {
@@ -155,6 +156,11 @@ function marketingReducer(state = initialState, action) {
             return {
                 ...state,
                 visiblePopupCheckDiscountPermission: action?.payload
+            }
+        case 'SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION_IN_HOME':
+            return {
+                ...state,
+                visiblePopupCheckDiscountPermissionInHome: action?.payload
             }
         case 'LOGOUT_APP':
             return {

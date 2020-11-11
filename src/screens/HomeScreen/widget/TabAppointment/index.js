@@ -55,7 +55,7 @@ class TabAppointment extends Layout {
         this.amountRef = React.createRef();
         this.changeStylistRef = React.createRef();
         this.changePriceAmountProductRef = React.createRef();
-
+        this.popupCheckDiscountPermissionRef = React.createRef();
     }
 
     componentDidMount() {
@@ -404,18 +404,20 @@ class TabAppointment extends Layout {
 
     showModalDiscount = () => {
         const { profileStaffLogin } = this.props;
-        const { basket } = this.state;
+        const { basket, appointmentId } = this.state;
+
         if (basket.length > 0) {
             if (profileStaffLogin.roleName !== "Admin") {
-                alert("You don't have permission!")
+                this.popupCheckDiscountPermissionRef?.current?.setStateFromParent('', appointmentId,false);
+                this.props.actions.marketing.switchPopupCheckDiscountPermissionInHome(true);
             } else {
-                const { appointmentId } = this.state;
                 this.props.actions.marketing.getPromotionByAppointment(appointmentId);
-                this.setState({
-                    visibleDiscount: true
-                })
             }
         }
+    }
+
+    closePopupCheckDiscountPermissionInHome = () => {
+        this.props.actions.marketing.switchPopupCheckDiscountPermissionInHome(false);
     }
 
     closeModalDiscount = () => {
@@ -493,6 +495,8 @@ const mapStateToProps = state => ({
     isReloadWebview: state.app.isReloadWebview,
     deviceId: state.dataLocal.deviceId,
     extrasByMerchant: state.extra.extrasByMerchant,
+
+    visiblePopupCheckDiscountPermissionInHome: state.marketing.visiblePopupCheckDiscountPermissionInHome
 })
 
 

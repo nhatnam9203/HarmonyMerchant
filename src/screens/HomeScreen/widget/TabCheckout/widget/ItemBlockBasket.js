@@ -86,10 +86,12 @@ class ItemBlockBasket extends React.Component {
 
     showModalDiscount = () => {
         const { appointmentDetail, profileStaffLogin } = this.props;
-        if (profileStaffLogin.roleName !== "Admin") {
-            alert("You don't have permission!")
+        const appointmentId = appointmentDetail?.appointmentId || -1;
+
+        if (profileStaffLogin?.roleName !== "Admin") {
+            this.props.showModalCheckPermission(appointmentId,true);
         } else {
-            this.props.actions.marketing.getPromotionByAppointment(appointmentDetail.appointmentId, true);
+            this.props.actions.marketing.getPromotionByAppointment(appointmentId, true);
         }
     }
 

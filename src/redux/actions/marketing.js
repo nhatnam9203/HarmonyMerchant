@@ -178,3 +178,10 @@ export function switchPopupCheckDiscountPermission(visible = true) {
         payload: visible
     }
 }
+
+export function switchPopupCheckDiscountPermissionInHome(visible = true) {
+    return {
+        type: "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION_IN_HOME",
+        payload: visible
+    }
+}

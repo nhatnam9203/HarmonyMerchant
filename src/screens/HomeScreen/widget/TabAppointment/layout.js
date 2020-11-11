@@ -7,7 +7,7 @@ import {
 import { WebView } from 'react-native-webview';
 import _ from 'ramda';
 
-import { Text, ButtonCustom, Button, PopupConfirm } from '@components';
+import { Text, ButtonCustom, Button, PopupConfirm, PopupCheckStaffPermission } from '@components';
 import styles from './style';
 import { scaleSzie, localize, formatMoney } from '@utils';
 import {
@@ -406,7 +406,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language } = this.props;
+        const { language,visiblePopupCheckDiscountPermissionInHome } = this.props;
         const { visibleConfirm, visibleChangeStylist } = this.state;
         const injectedJavascript = `(function() {
             window.postMessage = function(data) {
@@ -450,8 +450,13 @@ class Layout extends React.Component {
                 />
                 <PopupDiscount
                     title={'Discount'}
-                    visible={this.state.visibleDiscount}
-                    onRequestClose={this.closeModalDiscount}
+                />
+                <PopupCheckStaffPermission
+                    ref={this.popupCheckDiscountPermissionRef}
+                    visiblePopupCheckStaffPermission={visiblePopupCheckDiscountPermissionInHome}
+                    title={localize('Input PIN Number', language)}
+                    tabName="CheckDiscountPermissionInHome"
+                    onRequestClose={this.closePopupCheckDiscountPermissionInHome}
                 />
             </View>
         );
