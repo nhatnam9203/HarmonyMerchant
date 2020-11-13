@@ -268,7 +268,6 @@ class InvoiceScreen extends Layout {
                                     }, 300);
                                 },
                                 (data) => {
-                                    console.log(data);
                                     this.handleResultRefundTransaction(data)
                                 }
                             )
@@ -290,7 +289,6 @@ class InvoiceScreen extends Layout {
                                     }, 300);
                                 },
                                 (data) => {
-                                    console.log(data);
                                     this.handleResultVoidTransaction(data)
                                 }
                             )

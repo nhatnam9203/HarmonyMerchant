@@ -126,7 +126,6 @@ class PopupInvoicePrint extends React.Component {
                 }
             }
         } catch (error) {
-            // console.log("---- errror : ",);
             alert(error)
             await this.setState({
                 isProcessingPrint: false

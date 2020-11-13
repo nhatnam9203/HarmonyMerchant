@@ -74,7 +74,7 @@ class PopupChangeTip extends React.Component {
 
     selectPercent = async (percent) => {
         const { subTotal } = this.state;
-        // console.log("-----subTotal : ",subTotal);
+        
         const tip = (formatNumberFromCurrency(subTotal) * percent) / 100;
         await this.setState({
             percent,

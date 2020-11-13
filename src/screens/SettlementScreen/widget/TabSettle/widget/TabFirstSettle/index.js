@@ -120,7 +120,7 @@ class TabFirstSettle extends Layout {
             setTimeout(() => {
                 PoslinkAndroid.startReport(ip, port, "", "LOCALDETAILREPORT", "ALL", "UNKNOWN", "UNKNOWN",
                     (err) => {
-                        console.log(err);
+                        // console.log(err);
                         const errorDetailReport = JSON.parse(err);
                         this.handleErrorPaxOnAndroid(errorDetailReport?.Msg);
                     },

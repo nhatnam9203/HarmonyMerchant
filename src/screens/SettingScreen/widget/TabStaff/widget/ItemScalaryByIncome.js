@@ -132,7 +132,7 @@ export default class ItemScalary extends React.Component {
     }
 
     showRef = () => {
-        console.log(this.incomeSalaryRef);
+        // console.log(this.incomeSalaryRef);
     }
 
     // --------------- Render ------------

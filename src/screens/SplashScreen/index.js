@@ -27,7 +27,6 @@ class SplashScreen extends Layout {
             let version = await DeviceInfo.getVersion();
             const latestVersion = await VersionCheck.getLatestVersion({ provider: 'appStore' });
             const tempLatestVersion = latestVersion ? latestVersion : configs.APPSTORE_VERSION;
-            console.log("---tempLatestVersion: ",tempLatestVersion);
             const res = await VersionCheck.needUpdate({
                 currentVersion: version,
                 latestVersion: tempLatestVersion,

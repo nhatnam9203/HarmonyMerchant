@@ -93,7 +93,7 @@ class AddStaff extends Layout {
     async componentDidMount() {
         if (this.props.isEditStaff) {
             const { infoStaffHandle, stateCity } = this.props;
-            console.log(infoStaffHandle);
+            // console.log(infoStaffHandle);
             await this.setState({
                 user: {
                     firstName: infoStaffHandle?.firstName || "",

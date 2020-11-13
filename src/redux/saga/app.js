@@ -117,7 +117,7 @@ function* getQuestion(action) {
 
 function* merchantSetting(action) {
     try {
-        if(action.isLoading){
+        if (action.isLoading) {
             yield put({ type: 'LOADING_ROOT' });
         }
         const responses = yield requestAPI(action);
@@ -314,7 +314,7 @@ function* showErrorMessage(action) {
         }, 300)
     } else {
         setTimeout(() => {
-            alert(action.message ? action.message : 'Something went wrong');
+            alert(action?.message || 'Some thing went wrong, Please contact with admin!');
         }, 300)
     }
 
@@ -324,7 +324,7 @@ function* showErrorMessage(action) {
 function* handleSomethingWentWrong(action) {
     try {
         yield put({ ...action, type: 'STOP_LOADING_ROOT' });
-        alert('Something went wrong!');
+        alert('Some thing went wrong, Please contact with admin!');
     } catch (error) {
         yield put({ type: error });
     }

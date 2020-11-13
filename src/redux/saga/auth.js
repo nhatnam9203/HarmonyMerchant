@@ -294,13 +294,9 @@ function* activeFirebase(action) {
       deviceId: deviceUniqueId,
     });
     action.body = body;
-
-    console.log("-----body : ", body);
-
     const responses = yield requestAPI(action);
-    console.log("-----activeFirebase : ", responses);
+
   } catch (error) {
-    console.log("-----error : ", error);
     yield put({ type: error });
   } finally {
     yield put({ type: "STOP_LOADING_ROOT" });
