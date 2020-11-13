@@ -50,7 +50,6 @@ export const requestAPI = async (action, header = {}) => {
         headers['Authorization'] = `Bearer ${action.token}`;
     }
 
-    // console.log(`${action.versionApp}.${Configs.CODEPUSH_VERSION}`);
     headers['User-Agent'] = `HarmonyMerchant/${action.versionApp ? `${action.versionApp}.${Configs.CODEPUSH_VERSION}` : `${Configs.VERSION}.${Configs.CODEPUSH_VERSION}`}/${Platform.OS}`;
     const configs = {
         method: `${method}`.toLowerCase(),
