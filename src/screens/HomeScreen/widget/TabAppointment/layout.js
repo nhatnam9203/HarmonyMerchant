@@ -248,7 +248,6 @@ class Layout extends React.Component {
         const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
         const tax = appointmentDetail.tax ? appointmentDetail.tax : 0;
 
-        // console.log("---- basket: ",JSON.stringify(basket));
         const temptBasket = this.formartBasket(basket);
 
         return (

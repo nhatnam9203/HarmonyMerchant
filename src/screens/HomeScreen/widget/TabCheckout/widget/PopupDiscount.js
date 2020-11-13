@@ -285,7 +285,6 @@ class PopupDiscount extends React.Component {
                 </PopupParent>
             );
         } catch (error) {
-            //console.log('Popup Discount Checkout : ',error);
         }
     }
 

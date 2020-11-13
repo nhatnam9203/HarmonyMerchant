@@ -272,7 +272,6 @@ class PopupDiscount extends React.Component {
             );
 
         } catch (error) {   
-            //  console.log(error);
 
         }
     }

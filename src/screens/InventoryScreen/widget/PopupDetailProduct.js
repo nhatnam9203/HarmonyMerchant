@@ -36,7 +36,6 @@ class PopupDetailProduct extends React.Component {
     }
 
     setProductInfoFromParent = (productInfo) => {
-        //console.log('productInfo : ', productInfo);
         const { categoriesByMerchant } = this.props;
         this.setState({
             productInfo: {

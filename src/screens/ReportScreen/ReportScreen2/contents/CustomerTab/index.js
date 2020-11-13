@@ -123,11 +123,9 @@ function CustomerTab({ style, showBackButton }, ref) {
       layoutRef.current.goBack();
     },
     didBlur: () => {
-      // console.log("====> screen report -> customer didBlur");
       // getCustomerReportSales();
     },
     didFocus: () => {
-      // console.log("====> screen report -> staff didFocus");
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
   }));

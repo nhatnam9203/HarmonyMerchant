@@ -21,8 +21,6 @@ class ItemBasket extends React.Component {
     render() {
         const { item } = this.props;
         const { data } = item;
-    //console.log('----- item : '+ JSON.stringify(item));
-    //console.log('----- data : ',data);
 
         return (
             <View style={{

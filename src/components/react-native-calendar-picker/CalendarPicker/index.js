@@ -42,7 +42,6 @@ export default class CalendarPicker extends Component {
     scaleFactor: 375,
     enableSwipe: true,
     onDateChange: () => {
-  //console.log("onDateChange() not provided");
     },
     enableDateChange: true
   };

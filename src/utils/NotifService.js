@@ -19,7 +19,6 @@ export default class NotifService {
     });
 
     PushNotification.getChannels(function (channels) {
-      // console.log(channels);
     });
   }
 
@@ -45,7 +44,6 @@ export default class NotifService {
   }
 
   localNotif(soundName, appointment = {}) {
-    // console.log("----- appointment : ",appointment);
     this.lastId++;
     const firstName = appointment.FirstName ? appointment.FirstName : "";
     const lastName = appointment.lastName ? appointment.lastName : "";

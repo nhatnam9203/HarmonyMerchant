@@ -157,7 +157,6 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         const { invoiceDetail } = this.state;
         const status = invoiceDetail.status ? invoiceDetail.status : '';
-        // console.log("---- invoiceDetail : ",JSON.stringify(invoiceDetail));
 
         let isDebitPayment = false;
         const paymentMethod = invoiceDetail.paymentMethod ? invoiceDetail.paymentMethod : "";
@@ -168,7 +167,6 @@ export default class Layout extends React.Component {
                 isDebitPayment = paymentInformation && paymentInformation[0].paymentData && `${paymentInformation[0].paymentData.transaction_type}`.toUpper() == "CREDIT" ? false : true;
             }
         } catch (error) {
-            // console.log("---- error : ", error);
             isDebitPayment = false;
         }
 

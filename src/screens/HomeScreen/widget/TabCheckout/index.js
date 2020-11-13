@@ -1011,7 +1011,6 @@ class TabCheckout extends Layout {
             setTimeout(() => {
                 PoslinkAndroid.sendTransaction(ip, port, "", tenderType, `${parseInt(moneyCreditCard)}`, "SALE",
                     (err) => {
-                        // console.log(err);
                         const errorTrans = JSON.parse(err);
                         this.setState({
                             visibleProcessingCredit: false,
@@ -1102,10 +1101,8 @@ class TabCheckout extends Layout {
 
     cancelTransaction = async () => {
         if (Platform.OS === "android") {
-            // console.log("---- cancelTransaction -----");
             PoslinkAndroid.cancelTransaction((data) => {
-                // alert("ahiihi") 
-                // console.log("--- PRESSS ---: ",data);
+                
             });
         } else {
             PosLink.cancelTransaction();
