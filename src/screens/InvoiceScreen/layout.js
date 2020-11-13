@@ -208,9 +208,9 @@ export default class Layout extends React.Component {
         const basket = invoiceDetail.basket ? this.convertBasket(invoiceDetail.basket) : [];
         const checkoutPayments = invoiceDetail.checkoutPayments && invoiceDetail.checkoutPayments.length > 0 ?
             invoiceDetail.checkoutPayments.slice(0).reverse() : [];
-        const refundAmount = invoiceDetail.refundAmount ? invoiceDetail.refundAmount : 0.00;
-        const promotionNotes = invoiceDetail.promotionNotes && invoiceDetail.promotionNotes.note ? invoiceDetail.promotionNotes.note : "";
-        const tempStyle = Platform.OS === "android" ? { paddingHorizontal: scaleSzie(10), backgroundColor: '#FFFFFF' } : { paddingHorizontal: scaleSzie(10)}
+        const refundAmount = invoiceDetail?.refundAmount || 0.00;
+        const promotionNotes = invoiceDetail?.promotionNotes?.note || "";
+        const tempStyle = Platform.OS === "android" ? { paddingHorizontal: scaleSzie(10), backgroundColor: '#FFFFFF' } : { paddingHorizontal: scaleSzie(10) }
 
         return (
             <View style={{ flex: 1 }} >
@@ -226,20 +226,20 @@ export default class Layout extends React.Component {
                         >
                             {/* ------------- Store Name ----------- */}
                             <Text style={[styles.txt_normal, { fontSize: 24, fontWeight: "600", marginTop: scaleSzie(8) }]} >
-                                {profile.businessName ? profile.businessName : ""}
+                                {profile?.businessName || ""}
                             </Text>
                             {/* ------------- Store Address ----------- */}
                             <Text numberOfLines={1} style={[styles.txt_normal, { paddingHorizontal: scaleSzie(10), marginTop: scaleSzie(4) }]} >
-                                {profile.addressFull ? profile.addressFull : ''}
+                                {profile?.addressFull || ''}
                             </Text>
                             {/* ------------- Phone Address ----------- */}
                             <Text style={[styles.txt_normal, { paddingHorizontal: scaleSzie(10) }]} >
-                                {`Tel : ${profile.phone ? profile.phone : ""}`}
+                                {`Tel : ${profile?.phone || ""}`}
                             </Text>
                             {/* ------------- Company Website ----------- */}
                             {
-                                profile.webLink ? <Text style={[styles.txt_normal, { paddingHorizontal: scaleSzie(10) }]} >
-                                    {profile.webLink ? profile.webLink : ""}
+                                profile?.webLink ? <Text style={[styles.txt_normal, { paddingHorizontal: scaleSzie(10) }]} >
+                                    {profile?.webLink || ""}
                                 </Text> : <View />
                             }
                             {/* ------------- SALE/VOID/REFUND  ----------- */}
@@ -295,7 +295,7 @@ export default class Layout extends React.Component {
                                 </View>
                                 <View style={{ flex: 1 }} >
                                     <Text style={styles.txt_info} >
-                                        {`: ${invoiceDetail.checkoutId ? `# ${invoiceDetail.checkoutId}` : ""}`}
+                                        {`: ${invoiceDetail?.checkoutId ? `# ${invoiceDetail.checkoutId}` : ""}`}
                                     </Text>
                                 </View>
                             </View>
@@ -359,23 +359,23 @@ export default class Layout extends React.Component {
                             {/* ------------- SubTotal   ----------- */}
                             <ItemTotal
                                 title={"Subtotal"}
-                                value={invoiceDetail.subTotal ? invoiceDetail.subTotal : "0.00"}
+                                value={invoiceDetail?.subTotal || "0.00"}
                             />
                             <ItemTotal
                                 title={"Discount"}
-                                value={invoiceDetail.discount ? invoiceDetail.discount : "0.00"}
+                                value={invoiceDetail?.discount || "0.00"}
                             />
                             <ItemTotal
                                 title={"Tip"}
-                                value={invoiceDetail.tipAmount ? invoiceDetail.tipAmount : "0.00"}
+                                value={invoiceDetail?.tipAmount || "0.00"}
                             />
                             <ItemTotal
                                 title={"Tax"}
-                                value={invoiceDetail.tax ? invoiceDetail.tax : "0.00"}
+                                value={invoiceDetail?.tax || "0.00"}
                             />
                             <ItemTotal
                                 title={"Total"}
-                                value={invoiceDetail.total ? invoiceDetail.total : "0.00"}
+                                value={invoiceDetail?.total || "0.00"}
                             />
 
                             {
@@ -384,13 +384,13 @@ export default class Layout extends React.Component {
                                         checkoutPayments.map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
                                             <View style={{ flexDirection: "row" }} >
                                                 <Text style={[styles.txt_total,]} >
-                                                    {`- Entry method: ${getPaymentString(data.paymentMethod)}`}
+                                                    {`- Entry method: ${getPaymentString(data?.paymentMethod)}`}
                                                     {/* ------------ Amount -------------- */}
 
                                                 </Text>
                                                 <View style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }} >
                                                     <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
-                                                        {`$${data.amount ? data.amount : ""}`}
+                                                        {`$${data?.amount || ""}`}
                                                     </Text>
                                                 </View>
                                             </View>
@@ -398,13 +398,16 @@ export default class Layout extends React.Component {
                                                 data.paymentMethod === "credit_card" || data.paymentMethod === "debit_card" ?
                                                     <View style={{ marginTop: scaleSzie(5) }} >
                                                         <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
-                                                            {`${data.paymentInformation && data.paymentInformation.type ? data.paymentInformation.type : ""}: ***********${data.paymentInformation && data.paymentInformation.number ? data.paymentInformation.number : ""}`}
+                                                            {` ${data?.paymentInformation?.type || ""}: ***********${data?.paymentInformation?.number || ""}`}
                                                         </Text>
                                                         <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
-                                                            {` ${data.paymentInformation && data.paymentInformation.name ? data.paymentInformation.name : ""}`}
+                                                            {` ${data?.paymentInformation?.name || ""}`}
                                                         </Text>
                                                         <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
-                                                            {` ${data.paymentInformation && data.paymentInformation.refNum ? `Transaction #: ${data.paymentInformation.refNum}` : ""}`}
+                                                            {` ${data?.paymentInformation?.sn ? `Terminal ID: ${data?.paymentInformation?.sn}` : ""}`}
+                                                        </Text>
+                                                        <Text style={[styles.txt_total, { fontSize: scaleSzie(10) }]} >
+                                                            {` ${data?.paymentInformation?.refNum ? `Transaction #: ${data?.paymentInformation?.refNum}` : ""}`}
                                                         </Text>
                                                     </View>
                                                     : null
@@ -417,7 +420,7 @@ export default class Layout extends React.Component {
                             <View style={{ height: scaleSzie(16) }} />
                             {
                                 parseFloat(refundAmount) > 0 ? <Text style={{ fontSize: scaleSzie(10), fontWeight: "bold" }} >
-                                    {`Change : $ ${invoiceDetail.refundAmount ? invoiceDetail.refundAmount : 0.00}`}
+                                    {`Change : $ ${invoiceDetail?.refundAmount || 0.00}`}
                                 </Text> : null
                             }
 

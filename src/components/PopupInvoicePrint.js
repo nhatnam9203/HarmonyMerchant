@@ -200,7 +200,7 @@ class PopupInvoicePrint extends React.Component {
         const temtCheckoutPayment = paymentMethods.length > 0 ? paymentMethods : checkoutPayments;
         const tempHeight = checkIsTablet() ? scaleSzie(400) : scaleSzie(450);
 
-        const tempStyle = Platform.OS === "android" ? { paddingHorizontal: scaleSzie(10), backgroundColor: '#FFFFFF' } : { paddingHorizontal: scaleSzie(10)};
+        const tempStyle = Platform.OS === "android" ? { paddingHorizontal: scaleSzie(10), backgroundColor: '#FFFFFF' } : { paddingHorizontal: scaleSzie(10) };
 
         return (
             <Modal
@@ -233,20 +233,20 @@ class PopupInvoicePrint extends React.Component {
                                 >
                                     {/* ------------- Store Name ----------- */}
                                     <Text style={[styleInvoice.txt_normal, { fontSize: 24, fontWeight: "600", marginTop: scaleSzie(8) }]} >
-                                        {profile.businessName ? profile.businessName : ""}
+                                        {profile?.businessName || ""}
                                     </Text>
                                     {/* ------------- Store Address ----------- */}
                                     <Text numberOfLines={1} style={[styleInvoice.txt_normal, { paddingHorizontal: scaleSzie(10), marginTop: scaleSzie(4) }]} >
-                                        {profile.addressFull ? profile.addressFull : ''}
+                                        {profile?.addressFull || ''}
                                     </Text>
                                     {/* ------------- Phone Address ----------- */}
                                     <Text style={[styleInvoice.txt_normal, { paddingHorizontal: scaleSzie(10) }]} >
-                                        {`Tel : ${profile.phone ? profile.phone : ""}`}
+                                        {`Tel : ${profile?.phone || ""}`}
                                     </Text>
                                     {/* ------------- Company Website ----------- */}
                                     {
                                         profile.webLink ? <Text style={[styleInvoice.txt_normal, { paddingHorizontal: scaleSzie(10) }]} >
-                                            {profile.webLink ? profile.webLink : ""}
+                                            {profile?.webLink || ""}
                                         </Text> : <View />
                                     }
 
@@ -301,7 +301,7 @@ class PopupInvoicePrint extends React.Component {
                                         </View>
                                         <View style={{ flex: 1 }} >
                                             <Text style={styleInvoice.txt_info} >
-                                                {`: ${invoiceNo ? invoiceNo : (paymentDetailInfo.invoiceNo ? paymentDetailInfo.invoiceNo : "")}`}
+                                                {`: ${invoiceNo ? invoiceNo : (paymentDetailInfo?.invoiceNo || "")}`}
                                             </Text>
                                         </View>
                                     </View>
@@ -381,7 +381,6 @@ class PopupInvoicePrint extends React.Component {
                                         isPrintTempt ? <View /> : <ItemTotal
                                             title={"Total"}
                                             value={temptTotal}
-                                        // style={{ fontSize: 15, }}
                                         />
 
                                     }
@@ -414,18 +413,17 @@ class PopupInvoicePrint extends React.Component {
 
 
                                     {/* ------------- Entry Method   ----------- */}
-
                                     {
                                         !isPrintTempt ? <View>
                                             {
                                                 temtCheckoutPayment.map((data, index) => <View key={index} style={{ marginBottom: scaleSzie(4) }} >
                                                     <View style={{ flexDirection: "row" }} >
                                                         <Text style={[styleInvoice.txt_total,]} >
-                                                            {`- Entry method: ${getPaymentString(data.paymentMethod ? data.paymentMethod : "")}`}
+                                                            {`- Entry method: ${getPaymentString(data?.paymentMethod || "")}`}
                                                         </Text>
                                                         <View style={{ flex: 1, alignItems: "flex-end", justifyContent: "center" }} >
                                                             <Text style={[styleInvoice.txt_total, { fontSize: scaleSzie(10) }]} >
-                                                                {`$${data.amount ? data.amount : ""}`}
+                                                                {`$${data?.amount || ""}`}
                                                             </Text>
                                                         </View>
                                                     </View>
@@ -433,13 +431,16 @@ class PopupInvoicePrint extends React.Component {
                                                         data.paymentMethod && data.paymentMethod === "credit_card" || data.paymentMethod === "debit_card" ?
                                                             <View style={{ marginTop: scaleSzie(5) }} >
                                                                 <Text style={[styleInvoice.txt_total, { fontSize: scaleSzie(10) }]} >
-                                                                    {`    ${data.paymentInformation && data.paymentInformation.type ? data.paymentInformation.type : ""}: ***********${data.paymentInformation && data.paymentInformation.number ? data.paymentInformation.number : ""}`}
+                                                                    {`    ${data?.paymentInformation?.type || ""}: ***********${data?.paymentInformation?.number || ""}`}
                                                                 </Text>
                                                                 <Text style={[styleInvoice.txt_total, { fontSize: scaleSzie(10) }]} >
-                                                                    {`    ${data.paymentInformation && data.paymentInformation.name ? data.paymentInformation.name : ""}`}
+                                                                    {`    ${data?.paymentInformation?.name || ""}`}
                                                                 </Text>
                                                                 <Text style={[styleInvoice.txt_total, { fontSize: scaleSzie(10) }]} >
-                                                                    {`    ${data.paymentInformation && data.paymentInformation.refNum ? `Transaction #: ${data.paymentInformation.refNum}` : ""}`}
+                                                                    {`    ${data?.paymentInformation?.sn ? `Terminal ID: ${data?.paymentInformation?.sn}` : ""}`}
+                                                                </Text>
+                                                                <Text style={[styleInvoice.txt_total, { fontSize: scaleSzie(10) }]} >
+                                                                    {`    ${data?.paymentInformation?.refNum ? `Transaction #: ${data?.paymentInformation?.refNum}` : ""}`}
                                                                 </Text>
                                                             </View>
                                                             : null

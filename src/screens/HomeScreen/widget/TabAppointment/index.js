@@ -69,7 +69,8 @@ class TabAppointment extends Layout {
         const merchantId = profile?.merchantId || "";
         const staffId = profileStaffLogin?.staffId || 0;
         const tempDeviceId = deviceId ? deviceId : "";
-        const url = `${apiConfigs.CALENDAR_URL}${staffColumn}/index.html?token=${staffToken}&merchantid=${merchantId}&staffId=${staffId}&deviceId=${tempDeviceId}`;
+        const roleName = profileStaffLogin?.roleName || "Admin";
+        const url = `${apiConfigs.CALENDAR_URL}${staffColumn}/index.html?role=${roleName}&token=${staffToken}&merchantid=${merchantId}&staffId=${staffId}&deviceId=${tempDeviceId}`;
 
         return url;
     }
