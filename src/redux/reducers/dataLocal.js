@@ -98,6 +98,11 @@ function dataLocalReducer(state = initialState, action) {
                 ...state,
                 isLoginStaff: action.payload
             }
+        case "LOGIN_STAFF":
+            return {
+                ...state,
+                isLoginStaff: false,
+            };
         case 'SETUP_PAX_MACHINE':
             return {
                 ...state,

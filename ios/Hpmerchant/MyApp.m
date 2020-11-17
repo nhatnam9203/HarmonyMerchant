@@ -452,7 +452,7 @@ RCT_EXPORT_METHOD(reportTransaction:(NSString *)transType edcType:(NSString *)ed
 //                                       @"CashAmount" : myapp.poslink.reportResponse.CashAmount ? myapp.poslink.reportResponse.CashAmount : @"" ,
 //                                       @"CHECKCount" : myapp.poslink.reportResponse.CHECKCount ? myapp.poslink.reportResponse.CHECKCount : @"" ,
 //                                       @"CHECKAmount" : myapp.poslink.reportResponse.CHECKAmount ? myapp.poslink.reportResponse.CHECKAmount : @"" ,
-//                                       @"ExtData" : myapp.poslink.reportResponse.ExtData ? myapp.poslink.reportResponse.ExtData : @"" ,
+                                       @"ExtData" : myapp.poslink.reportResponse.ExtData ? myapp.poslink.reportResponse.ExtData : @"" ,
 //                                       @"VisaCount" : myapp.poslink.reportResponse.VisaCount ? myapp.poslink.reportResponse.VisaCount : @"" ,
 //                                       @"VisaAmount" : myapp.poslink.reportResponse.VisaAmount ? myapp.poslink.reportResponse.VisaAmount : @"" ,
 //                                       @"MasterCardCount" : myapp.poslink.reportResponse.MasterCardCount ? myapp.poslink.reportResponse.MasterCardCount : @"" ,
