@@ -113,7 +113,7 @@ class TabGaneral extends Layout {
             turnAmount,
             staffColumn,
             signinAppStyle: getValueSignInAppDisplay(signinAppStyle)
-        });
+        },true,true);
     }
 
     async componentDidUpdate(prevProps, prevState) {

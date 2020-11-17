@@ -130,9 +130,12 @@ function* merchantSetting(action) {
                 type: 'UPDATE_MERCHANT_PROFILE',
                 payload: responses?.data
             });
-            setTimeout(() => {
-                alert("Update Successfull!")
-            }, 500)
+            if(action.isShowAlert){
+                setTimeout(() => {
+                    alert("Update Successfull!")
+                }, 500)
+            }
+           
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

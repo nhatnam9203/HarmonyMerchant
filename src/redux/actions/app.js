@@ -89,7 +89,7 @@ export function getQuestion() {
   };
 }
 
-export function merchantSetting(body, isLoading = true) {
+export function merchantSetting(body,isShowAlert = false ,isLoading = true) {
   return {
     type: "MERCHANT_SETTING",
     method: "PUT",
@@ -97,6 +97,7 @@ export function merchantSetting(body, isLoading = true) {
     token: true,
     api: `${apiConfigs.BASE_API}merchant/setting`,
     isLoading,
+    isShowAlert
   };
 }
 

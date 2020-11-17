@@ -51,8 +51,7 @@ class TabAdminInfo extends React.Component {
             taxService: 0,
             taxProduct: 0
         };
-        this.props.actions.app.merchantSetting(body, true);
-        // this.props.nextTab();
+        this.props.actions.app.merchantSetting(body);
     };
 
 
@@ -64,9 +63,6 @@ class TabAdminInfo extends React.Component {
         const { businessName, address, city, zip, taxId, phone, email,
             state, businessBank
         } = profile;
-
-        // const businessHour =  profile.businessHour ? profile.businessHour : BusinessWorkingTime;
-        // console.log("businessHour : ",businessHour);
 
         return (
             <View style={styles.body} >
