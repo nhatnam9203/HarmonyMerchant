@@ -17,7 +17,7 @@ const ItemProductService = ({ item, showColAmount, colorText, itemSelected, cate
     });
 
     useEffect(() => {
-        if (source?.uri !== item.imageUrl) {
+        if (source?.uri && source?.uri !== item.imageUrl) {
             setSource({
                 uri: item.imageUrl,
                 priority: FastImage.priority.low,
@@ -25,10 +25,11 @@ const ItemProductService = ({ item, showColAmount, colorText, itemSelected, cate
             });
         }
 
-    }, [item.imageUrl])
+    }, [item?.imageUrl])
 
 
     const temptKeyId = categoryTypeSelected === 'Service' ? 'serviceId' : 'productId';
+    const placeHolder = categoryTypeSelected === 'Service' ? ICON.service_holder : ICON.product_holder;
     const temptBackgrounColor = item[temptKeyId] === itemSelected[temptKeyId] ? '#0764B0' : '#FAFAFA';
     const temptTextColor = item[temptKeyId] === itemSelected[temptKeyId] ? { color: '#fff' } : {};
     const temptTextPriceColor = item[temptKeyId] === itemSelected[temptKeyId] ? { color: '#fff' } : {};
@@ -41,11 +42,16 @@ const ItemProductService = ({ item, showColAmount, colorText, itemSelected, cate
             <View style={{ flex: 1, flexDirection: "row", padding: scaleSzie(4) }} >
                 <View style={{ width: scaleSzie(60), justifyContent: "center", alignItems: "center" }} >
                     <View style={{ width: scaleSzie(60), height: scaleSzie(60) }} >
-                        <FastImage
-                            style={{ width: scaleSzie(60), height: scaleSzie(60) }}
-                            source={source}
-                            onError={() => setSource(categoryTypeSelected === 'Service' ? ICON.service_holder : ICON.product_holder)}
-                        />
+                        {
+                            item.imageUrl ? <FastImage
+                                style={{ width: scaleSzie(60), height: scaleSzie(60) }}
+                                source={source}
+                                onError={() => setSource(categoryTypeSelected === 'Service' ? ICON.service_holder : ICON.product_holder)}
+                            /> : <FastImage
+                                    style={{ width: scaleSzie(60), height: scaleSzie(60) }}
+                                    source={placeHolder}
+                                />
+                        }
                     </View>
                 </View>
                 <View style={{ flex: 1, paddingLeft: scaleSzie(8) }} >

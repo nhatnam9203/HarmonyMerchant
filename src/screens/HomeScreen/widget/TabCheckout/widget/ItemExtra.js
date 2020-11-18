@@ -17,12 +17,14 @@ const ItemExtra = ({ extra, onPressSelectExtra, extraSelected }) => {
     });
 
     useEffect(() => {
-        setSource({
-            uri: extra.imageUrl,
-            priority: FastImage.priority.low,
-            cache: FastImage.cacheControl.immutable
-        })
-    }, [extra.imageUrl])
+        if (source?.uri && source?.uri !== extra.imageUrl) {
+            setSource({
+                uri: extra.imageUrl,
+                priority: FastImage.priority.low,
+                cache: FastImage.cacheControl.immutable
+            })
+        }
+    }, [extra?.imageUrl])
 
     const temptBackgrounColor = extra.extraId === extraSelected.extraId ? '#0764B0' : '#FAFAFA';
     const temptTextColor = extra.extraId === extraSelected.extraId ? { color: '#fff' } : {};
@@ -37,11 +39,16 @@ const ItemExtra = ({ extra, onPressSelectExtra, extraSelected }) => {
             <View style={{ flex: 1, flexDirection: "row", padding: scaleSzie(4) }} >
                 <View style={{ width: scaleSzie(60), justifyContent: "center", alignItems: "center" }} >
                     <View style={{ width: scaleSzie(60), height: scaleSzie(60) }} >
-                        <FastImage
-                            style={{ width: scaleSzie(60), height: scaleSzie(60) }}
-                            source={source}
-                            onError={() => setSource(ICON.extra_holder)}
-                        />
+                        {
+                            extra.imageUrl ? <FastImage
+                                style={{ width: scaleSzie(60), height: scaleSzie(60) }}
+                                source={source}
+                                onError={() => setSource(ICON.extra_holder)}
+                            /> : <FastImage
+                                    style={{ width: scaleSzie(60), height: scaleSzie(60) }}
+                                    source={ICON.extra_holder}
+                                />
+                        }
                     </View>
                 </View>
                 <View style={{ flex: 1, paddingLeft: scaleSzie(8) }} >
