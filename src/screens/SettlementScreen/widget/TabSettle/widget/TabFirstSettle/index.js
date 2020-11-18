@@ -1,18 +1,17 @@
 import React from 'react';
-import { NativeModules, Alert, Linking, Platform } from 'react-native';
+import { NativeModules, Alert, Platform } from 'react-native';
 import _ from "ramda";
 import env from 'react-native-config';
 import SendSMS from 'react-native-sms';
-import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
+import { parseString } from "react-native-xml2js";
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
-    formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI, formatWithMoment
+    formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI, formatWithMoment, xmlToJson
 } from '@utils';
 import apiConfigs from '@configs/api';
-import Share from 'react-native-share';
-import ICON from "@resources";
+
 
 const PosLink = NativeModules.MyApp;
 const PoslinkAndroid = NativeModules.PoslinkModule;
@@ -36,7 +35,8 @@ class TabFirstSettle extends Layout {
             isEditOtherAmount: false,
             isEditCashAmount: false,
             visible: false,
-            isGetReportFromPax: true
+            isGetReportFromPax: true,
+            terminalID: null,
         };
         this.arrayStaffRef = [];
         this.inputHarmonyPaymentRef = React.createRef();
@@ -97,12 +97,12 @@ class TabFirstSettle extends Layout {
         this.props.actions.app.connectPaxMachineError(`${msgError}`);
     }
 
-    handlePAXReport =() =>{
-        if(Platform.OS === "android"){
+    handlePAXReport = () => {
+        if (Platform.OS === "android") {
             this.handlePAXReport_Android();
-        }else{
+        } else {
             this.handlePAXReport_IOS();
-        } 
+        }
     }
 
     handlePAXReport_Android = async () => {
@@ -120,7 +120,6 @@ class TabFirstSettle extends Layout {
             setTimeout(() => {
                 PoslinkAndroid.startReport(ip, port, "", "LOCALDETAILREPORT", "ALL", "UNKNOWN", "UNKNOWN",
                     (err) => {
-                        // console.log(err);
                         const errorDetailReport = JSON.parse(err);
                         this.handleErrorPaxOnAndroid(errorDetailReport?.Msg);
                     },
@@ -199,6 +198,18 @@ class TabFirstSettle extends Layout {
                 // ----------- Total Amount --------
                 let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", "UNKNOWN", "UNKNOWN");
                 let result = JSON.parse(data);
+                const ExtData = result?.ExtData || "";
+                const xmlExtData = "<xml>" + ExtData.replace("\\n", "").replace("\\/", "/") + "</xml>";
+                parseString(xmlExtData, (err, result) => {
+                    if (err) {
+                        this.handleRequestAPIByTerminalID(null);
+                    } else {
+                        const terminalID = `${result?.xml?.SN || null}`;
+                        this.handleRequestAPIByTerminalID(terminalID);
+                    }
+                });
+
+
                 if (result?.ResultTxt && result?.ResultTxt == "OK") {
                     if (tempEnv == "Production" && result?.Message === "DEMO APPROVED") {
                         await this.setState({
@@ -257,7 +268,6 @@ class TabFirstSettle extends Layout {
                 editPaymentByCreditCard: 0.00
             });
         }
-
     }
 
     continueSettlement = () => {
@@ -409,28 +419,27 @@ class TabFirstSettle extends Layout {
     }
 
     refreshSettlement = async () => {
-        await this.setState({
-            isGetReportFromPax: true
-        })
-        this.props.actions.invoice.getSettlementWating();
-        this.props.actions.invoice.getListStaffsSales();
-        this.props.actions.invoice.getListGiftCardSales();
+        this.handlePAXReport();
+        // await this.setState({
+        //     isGetReportFromPax: true
+        // })
+        // this.props.actions.invoice.getSettlementWating();
+        // this.props.actions.invoice.getListStaffsSales();
+        // this.props.actions.invoice.getListGiftCardSales();
     }
 
-
+    handleRequestAPIByTerminalID = (terminalID) => {
+        console.log(terminalID);
+        this.setState({
+            // isGetReportFromPax: true,
+            terminalID
+        });
+        this.props.actions.invoice.getSettlementWating(terminalID);
+        this.props.actions.invoice.getListStaffsSales(terminalID);
+        this.props.actions.invoice.getListGiftCardSales(terminalID);
+    }
 
     sendTotalViaSMS = async (data) => {
-        // const image = ICON.happy_face;
-        // const metadata = resolveAssetSource(image);
-        // const url = metadata.uri;
-
-        // const attachment = {
-        //     url: url,
-        //     iosType: 'public.png',
-        //     iosFilename: 'Image.png',
-        //     androidType: 'image/*'
-        // };
-
         try {
             const { listStaffByMerchant } = this.props;
             const staffInfo = listStaffByMerchant.find(staff => staff.staffId === data.staffId);
@@ -454,13 +463,11 @@ class TabFirstSettle extends Layout {
         } catch (error) {
             // alert(error)
         }
-
-
     }
 
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isGettingSettlement, settleWaiting } = this.props;
+        const { isGettingSettlement, settleWaiting, isHandleInternalFirstSettlemetTab } = this.props;
         if (prevProps.isGettingSettlement === "loading" && isGettingSettlement === "success" && !_.isEmpty(settleWaiting)) {
             await this.setState({
                 editPaymentByHarmony: settleWaiting.paymentByHarmony ? settleWaiting.paymentByHarmony : 0.00,
@@ -473,11 +480,17 @@ class TabFirstSettle extends Layout {
                 paymentByGiftcard: settleWaiting.paymentByGiftcard ? settleWaiting.paymentByGiftcard : 0.00,
 
             });
-            if (this.state.isGetReportFromPax) {
-                this.handlePAXReport();
-            }
+            // if (this.state.isGetReportFromPax) {
+            //     this.handlePAXReport();
+            // }
             this.props.actions.invoice.resetStateIsGettingSettlement();
         }
+
+        if (isHandleInternalFirstSettlemetTab && prevProps.isHandleInternalFirstSettlemetTab !== isHandleInternalFirstSettlemetTab) {
+            this.props.actions.invoice.resetInternalFirstSettlementState(false);
+            this.handlePAXReport();
+        }
+
     }
 
 }
@@ -494,7 +507,8 @@ const mapStateToProps = state => ({
     profileStaffLogin: state.dataLocal.profileStaffLogin,
     staffSales: state.invoice.staffSales,
     gitfCardSales: state.invoice.gitfCardSales,
-    listStaffByMerchant: state.staff.listStaffByMerchant
+    listStaffByMerchant: state.staff.listStaffByMerchant,
+    isHandleInternalFirstSettlemetTab: state.invoice.isHandleInternalFirstSettlemetTab
 })
 
 

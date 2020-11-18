@@ -36,6 +36,8 @@ const initialState = {
     staffSalesBySettlementId: [],
     isShowBackBatchHistory: false,
     gitfCardSalesBySettlementId: [],
+
+    isHandleInternalFirstSettlemetTab: false
 }
 
 function invoiceReducer(state = initialState, action) {
@@ -193,7 +195,13 @@ function invoiceReducer(state = initialState, action) {
         case 'TOGGLE_SETTLEMENT_TAB_PERMISSION':
             return {
                 ...state,
-                settlementTabPermission: action.payload
+                settlementTabPermission: action.payload,
+                isHandleInternalFirstSettlemetTab: !action.payload
+            }
+        case 'RESET_INTERNAL_FIRST_SETTLEMENT_STATE':
+            return {
+                ...state,
+                isHandleInternalFirstSettlemetTab: false
             }
         case 'GET_LIST_STAFFS_SALES_SUCCESS':
             return {
@@ -247,10 +255,10 @@ function invoiceReducer(state = initialState, action) {
                 ...state,
                 gitfCardSalesBySettlementId: action.payload
             }
-            case 'LOGOUT_APP':
-                return {
-                  ...initialState,
-                }
+        case 'LOGOUT_APP':
+            return {
+                ...initialState,
+            }
         default:
             return state
     }
@@ -260,6 +268,6 @@ module.exports = persistReducer({
     key: 'invoice',
     storage: AsyncStorage,
     whitelist: ['listInvoicesByMerchant']
-  }, invoiceReducer);
+}, invoiceReducer);
 
 

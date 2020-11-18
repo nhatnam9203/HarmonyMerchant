@@ -29,11 +29,11 @@ export function clearSearInvoice() {
 
 // ----------- Settle ------------
 
-export function getSettlementWating(isShowLoading = true) {
+export function getSettlementWating(terminalID = null,isShowLoading = true) {
     return {
         type: 'GET_SETTLEMENT_WAITING',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}settlement/waiting`,
+        api: `${apiConfigs.BASE_API}settlement/waiting?sn=${terminalID}`,
         token: true,
         isShowLoading
     }
@@ -163,6 +163,13 @@ export function toggleSettlementTabPermission(visible = true) {
     }
 }
 
+export function resetInternalFirstSettlementState(visible = false) {
+    return {
+        type: 'RESET_INTERNAL_FIRST_SETTLEMENT_STATE',
+        payload: visible
+    }
+}
+
 export function getSettlementWarning() {
     return {
         type: 'GET_SETTLEMENT_WARNING',
@@ -172,21 +179,21 @@ export function getSettlementWarning() {
     }
 }
 
-export function getListStaffsSales() {
+export function getListStaffsSales(terminalID = null) {
     return {
         type: 'GET_LIST_STAFFS_SALES',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/staffSales`,
+        api: `${apiConfigs.BASE_API}appointment/staffSales?sn=${terminalID}`,
     }
 }
 
-export function getListGiftCardSales() {
+export function getListGiftCardSales(terminalID) {
     return {
         type: 'GET_LIST_GIFT_CARD_SALES',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}settlement/waiting/giftCardSales`,
+        api: `${apiConfigs.BASE_API}settlement/waiting/giftCardSales?sn=${terminalID}`,
     }
 }
 
