@@ -183,7 +183,7 @@ RCT_EXPORT_METHOD(cancelTransaction){
 }
 
 
-RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amount tipAmount:(NSString *)tipAmount callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amount tipAmount:(NSString *)tipAmount extData:(NSString *)extData callback:(RCTResponseSenderBlock)callback)
 {
   MyApp *myapp = [MyApp sharedSigleton];
   PaymentRequest *paymentRequest = [[PaymentRequest alloc] init];
@@ -212,7 +212,8 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amou
   paymentRequest.ECRRefNum = @"1";
   paymentRequest.ECRTransID = @"";
   paymentRequest.AuthCode = @"";
-  paymentRequest.ExtData = @"<TipRequest>1</TipRequest>";
+//  paymentRequest.ExtData = @"<TipRequest>1</TipRequest>";
+  paymentRequest.ExtData = extData;
   
   
   

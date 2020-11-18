@@ -200,15 +200,6 @@ class TabFirstSettle extends Layout {
                 let result = JSON.parse(data);
                 const ExtData = result?.ExtData || "";
                 const xmlExtData = "<xml>" + ExtData.replace("\\n", "").replace("\\/", "/") + "</xml>";
-                parseString(xmlExtData, (err, result) => {
-                    if (err) {
-                        this.handleRequestAPIByTerminalID(null);
-                    } else {
-                        const terminalID = `${result?.xml?.SN || null}`;
-                        this.handleRequestAPIByTerminalID(terminalID);
-                    }
-                });
-
 
                 if (result?.ResultTxt && result?.ResultTxt == "OK") {
                     if (tempEnv == "Production" && result?.Message === "DEMO APPROVED") {
@@ -224,12 +215,21 @@ class TabFirstSettle extends Layout {
                         throw "You're running your Pax on DEMO MODE!"
 
                     } else {
-                        totalRecord = result.TotalRecord ? parseInt(result.TotalRecord) : 0;
+                        totalRecord = parseInt(result?.TotalRecord || 0);
 
                         // ----------- Total Report --------
                         let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "ALL", "UNKNOWN", "");
                         let amountResult = JSON.parse(amountData);
-                        totalReport = amountResult.CreditAmount ? parseFloat(amountResult.CreditAmount) : 0;
+                        totalReport = parseFloat(amountResult?.CreditAmount || 0);
+
+                        parseString(xmlExtData, (err, result) => {
+                            if (err) {
+                                this.handleRequestAPIByTerminalID(null);
+                            } else {
+                                const terminalID = `${result?.xml?.SN || null}`;
+                                this.handleRequestAPIByTerminalID(terminalID);
+                            }
+                        });
                     }
                 } else {
                     throw `${result.ResultTxt}`
@@ -238,6 +238,7 @@ class TabFirstSettle extends Layout {
 
             } catch (error) {
                 // console.log("---- error: ",error);
+                this.handleRequestAPIByTerminalID(null);
                 isError = true;
                 this.props.actions.app.connectPaxMachineError(`${error}`);
             }
@@ -260,9 +261,10 @@ class TabFirstSettle extends Layout {
                 await this.setState({
                     editPaymentByCreditCard: 0.00
                 });
-            }
+            };
 
         } else {
+            this.handleRequestAPIByTerminalID(null);
             this.props.actions.app.connectPaxMachineError("Don't have setup in Hardware Tab!");
             await this.setState({
                 editPaymentByCreditCard: 0.00
@@ -272,7 +274,9 @@ class TabFirstSettle extends Layout {
 
     continueSettlement = () => {
         const { settleWaiting } = this.props;
-        const { creditCount, editPaymentByHarmony, editPaymentByCreditCard, editPaymentByCash, editOtherPayment, note, discountSettlement, paymentByGiftcard } = this.state;
+        const { creditCount, editPaymentByHarmony, editPaymentByCreditCard,
+            editPaymentByCash, editOtherPayment, note, discountSettlement, paymentByGiftcard
+        } = this.state;
         this.props.gotoTabSecondSettle({
             paymentByHarmony: editPaymentByHarmony,
             paymentByCreditCard: editPaymentByCreditCard,
@@ -290,7 +294,7 @@ class TabFirstSettle extends Layout {
                 formatNumberFromCurrency(discountSettlement) +
                 formatNumberFromCurrency(paymentByGiftcard)
             ),
-            note
+            note,
         }, creditCount);
     }
 
@@ -469,6 +473,7 @@ class TabFirstSettle extends Layout {
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isGettingSettlement, settleWaiting, isHandleInternalFirstSettlemetTab } = this.props;
         if (prevProps.isGettingSettlement === "loading" && isGettingSettlement === "success" && !_.isEmpty(settleWaiting)) {
+            console.log("----- ahihi -----");
             await this.setState({
                 editPaymentByHarmony: settleWaiting.paymentByHarmony ? settleWaiting.paymentByHarmony : 0.00,
                 editPaymentByCash: settleWaiting.paymentByCash ? settleWaiting.paymentByCash : 0.00,

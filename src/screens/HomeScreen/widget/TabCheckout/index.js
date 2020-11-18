@@ -1034,8 +1034,9 @@ class TabCheckout extends Layout {
                 visibleProcessingCredit: true
             })
 
+            const TipRequest = "<TipRequest>1</TipRequest>";
             // 3. Send Transaction 
-            PosLink.sendTransaction(tenderType, parseFloat(moneyCreditCard), 0, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
+            PosLink.sendTransaction(tenderType, parseFloat(moneyCreditCard), 0, "", (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
         }
     }
 
@@ -1102,7 +1103,7 @@ class TabCheckout extends Layout {
     cancelTransaction = async () => {
         if (Platform.OS === "android") {
             PoslinkAndroid.cancelTransaction((data) => {
-                
+
             });
         } else {
             PosLink.cancelTransaction();
@@ -1725,8 +1726,8 @@ class TabCheckout extends Layout {
         return isNotExist
     }
 
-    showModalCheckPermission = (appointmentId,isBlock = false) => {
-        this.popupCheckDiscountPermissionRef?.current?.setStateFromParent('', appointmentId,isBlock);
+    showModalCheckPermission = (appointmentId, isBlock = false) => {
+        this.popupCheckDiscountPermissionRef?.current?.setStateFromParent('', appointmentId, isBlock);
         this.props.actions.marketing.switchPopupCheckDiscountPermission(true);
     }
 

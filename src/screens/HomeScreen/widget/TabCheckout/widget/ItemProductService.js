@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
 } from 'react-native';
@@ -6,8 +6,27 @@ import FastImage from 'react-native-fast-image';
 
 import { scaleSzie } from '@utils';
 import { Text, Button } from '@components';
+import ICON from "@resources";
 
 const ItemProductService = ({ item, showColAmount, colorText, itemSelected, categoryTypeSelected }) => {
+
+    const [source, setSource] = useState({
+        uri: item.imageUrl,
+        priority: FastImage.priority.low,
+        cache: FastImage.cacheControl.immutable
+    });
+
+    useEffect(() => {
+        if (source?.uri !== item.imageUrl) {
+            setSource({
+                uri: item.imageUrl,
+                priority: FastImage.priority.low,
+                cache: FastImage.cacheControl.immutable
+            });
+        }
+
+    }, [item.imageUrl])
+
 
     const temptKeyId = categoryTypeSelected === 'Service' ? 'serviceId' : 'productId';
     const temptBackgrounColor = item[temptKeyId] === itemSelected[temptKeyId] ? '#0764B0' : '#FAFAFA';
@@ -24,11 +43,8 @@ const ItemProductService = ({ item, showColAmount, colorText, itemSelected, cate
                     <View style={{ width: scaleSzie(60), height: scaleSzie(60) }} >
                         <FastImage
                             style={{ width: scaleSzie(60), height: scaleSzie(60) }}
-                            source={{
-                                uri: item.imageUrl,
-                                priority: FastImage.priority.low,
-                                cache: FastImage.cacheControl.immutable
-                            }}
+                            source={source}
+                            onError={() => setSource(categoryTypeSelected === 'Service' ? ICON.service_holder : ICON.product_holder)}
                         />
                     </View>
                 </View>
@@ -44,7 +60,7 @@ const ItemProductService = ({ item, showColAmount, colorText, itemSelected, cate
                         </Text>
                     </View>
                     <View style={{ flex: 1, justifyContent: "flex-end" }} >
-                        <Text style={[{ fontSize: scaleSzie(11), color: '#6A6A6A' },temptTextPriceColor]} >
+                        <Text style={[{ fontSize: scaleSzie(11), color: '#6A6A6A' }, temptTextPriceColor]} >
                             {`Price : $ `}
                             <Text style={[{ fontWeight: "bold" },]} >
                                 {`${item.price ? item.price : ""}`}
