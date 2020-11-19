@@ -1,4 +1,4 @@
-import { put, takeLatest, all } from "redux-saga/effects";
+import { put, takeLatest, all, takeEvery } from "redux-saga/effects";
 
 import apiConfigs from '../../configs/api';
 import { requestAPI } from '../../utils';
@@ -191,7 +191,7 @@ export default function* saga() {
         takeLatest('ADD_CUSTOMER', addCustomer),
         takeLatest('EDIT_CUSTOMER', editCustomer),
         takeLatest('GET_CUSTOMER_INFO_BY_PHONE', getCustomerInfoByPhone),
-        takeLatest('SEND_GOOGLE_REVIEW_LIINK', sendGoogleReviewLink),
+        takeEvery('SEND_GOOGLE_REVIEW_LIINK', sendGoogleReviewLink),
 
     ])
 }

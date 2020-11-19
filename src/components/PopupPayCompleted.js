@@ -7,10 +7,11 @@ import {
 
 import ModalCustom from './ModalCustom';
 import ButtonCustom from './ButtonCustom';
-import { scaleSzie,getTitleSendLinkGoogle } from '../utils';
+import { scaleSzie, getTitleSendLinkGoogle } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
 import Button from "./Button";
+import { forEach } from 'ramda';
 
 class PopupPayCompleted extends React.Component {
 
@@ -25,11 +26,21 @@ class PopupPayCompleted extends React.Component {
         this.setState((prevState) => ({ isSendLink: !prevState.isSendLink }));
     }
 
-    handleSendGoogleLinkReview = () => {
-        const { profile, customerInfoBuyAppointment } = this.props;
+    handleSendGoogleLinkReview = async () => {
+        const { profile, groupAppointment } = this.props;
         const { isSendLink } = this.state;
         if (isSendLink) {
-            this.props.actions.customer.sendGoogleReviewLink(customerInfoBuyAppointment?.customerId || 0, profile?.merchantId || 0);
+            let customerIdList = new Set();
+            const appointments = groupAppointment?.appointments || [];
+            for (let i = 0; i < appointments.length; i++) {
+                customerIdList.add(appointments[i]?.customerId);
+            }
+            const customerIdListNeedToSendLink = [...customerIdList];
+            const merchantId = profile?.merchantId || 0;
+            customerIdListNeedToSendLink.forEach((customerId) => this.props.actions.customer.sendGoogleReviewLink(customerId, merchantId));
+            await this.setState({
+                isSendLink: false
+            })
         }
     }
 
@@ -146,7 +157,7 @@ class PopupPayCompleted extends React.Component {
 const mapStateToProps = state => ({
     visiblePaymentCompleted: state.appointment.visiblePaymentCompleted,
     profile: state.dataLocal.profile,
-    customerInfoBuyAppointment: state.appointment.customerInfoBuyAppointment
+    groupAppointment: state.appointment.groupAppointment
 });
 
 export default connectRedux(mapStateToProps, PopupPayCompleted);
