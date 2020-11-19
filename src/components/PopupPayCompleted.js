@@ -7,7 +7,7 @@ import {
 
 import ModalCustom from './ModalCustom';
 import ButtonCustom from './ButtonCustom';
-import { scaleSzie } from '../utils';
+import { scaleSzie,getTitleSendLinkGoogle } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
 import Button from "./Button";
@@ -45,7 +45,7 @@ class PopupPayCompleted extends React.Component {
 
 
     render() {
-        const { visiblePaymentCompleted, style } = this.props;
+        const { visiblePaymentCompleted, style, profile } = this.props;
         const { isSendLink } = this.state;
 
         const checkIcon = isSendLink ? ICON.checkBox : ICON.checkBoxEmpty;
@@ -78,18 +78,31 @@ class PopupPayCompleted extends React.Component {
                                 {`Do you want to print receipt?`}
                             </Text>
                         </View>
+
                         {/* ------------ Check box ----- */}
-                        <View style={{
-                            flex: 1, flexDirection: "row",
-                            justifyContent: "center", alignItems: "center"
-                        }} >
-                            <Button onPress={this.switchSendLink} style={{ justifyContent: "center" }} >
-                                <Image source={checkIcon} />
-                            </Button>
-                            <Text style={{ color: 'rgb(130,130,130)', fontSize: scaleSzie(18), marginLeft: scaleSzie(12) }}  >
-                                {`Send Google Review Link`}
-                            </Text>
-                        </View>
+                        {
+                            profile.sendReviewLinkOption === "manual" ?
+                                <View style={{
+                                    flex: 1, flexDirection: "row",
+                                    justifyContent: "center", alignItems: "center"
+                                }} >
+                                    <Button onPress={this.switchSendLink} style={{ justifyContent: "center" }} >
+                                        <Image source={checkIcon} />
+                                    </Button>
+                                    <Text style={{ color: 'rgb(130,130,130)', fontSize: scaleSzie(18), marginLeft: scaleSzie(12) }}  >
+                                        {`Send Google Review Link`}
+                                    </Text>
+                                </View> :
+                                <View style={{
+                                    flex: 1,
+                                    justifyContent: "center", alignItems: "center"
+                                }} >
+                                    <Text style={{ color: 'rgb(130,130,130)', fontSize: scaleSzie(16), marginLeft: scaleSzie(12) }}  >
+                                        {`You Are Choosing ${getTitleSendLinkGoogle(profile.sendReviewLinkOption)} Send Google Review Link`}
+                                    </Text>
+                                </View>
+                        }
+
                     </View>
 
 
