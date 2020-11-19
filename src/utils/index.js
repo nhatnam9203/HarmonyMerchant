@@ -1089,3 +1089,40 @@ export const getValueSignInAppDisplay = (title) => {
     }
     return value;
 }
+
+// ---------- New -------
+export const getTitleSendLinkGoogle = (value) => {
+    let title = "";
+    switch (value) {
+        case "auto":
+            title = "Automatic";
+            break;
+        case "manual":
+            title = "Manually";
+            break;
+        case "off":
+            title = "Off";
+            break;
+        default:
+            title = "Manually";
+    }
+    return title;
+}
+
+export const getValueSendLinkGoogle = (title) => {
+    let value = "";
+    switch (title) {
+        case "Automatic":
+            value = "auto";
+            break;
+        case "Manually":
+            value = "manual";
+            break;
+        case "Off":
+            value = "off";
+            break;
+        default:
+            value = "manual";
+    }
+    return value;
+}

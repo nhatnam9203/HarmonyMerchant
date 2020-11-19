@@ -2,7 +2,11 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { getNameLanguage, getPosotion, gotoSettingsDevice, BusinessWorkingTime, getTitleSignInAppDisplay, getValueSignInAppDisplay } from '@utils';
+import {
+    getNameLanguage, getPosotion, gotoSettingsDevice, BusinessWorkingTime,
+    getTitleSignInAppDisplay, getValueSignInAppDisplay,
+    getTitleSendLinkGoogle, getValueSendLinkGoogle
+} from '@utils';
 
 class TabGaneral extends Layout {
 
@@ -23,7 +27,8 @@ class TabGaneral extends Layout {
             turnAmount: profile?.turnAmount || 0,
             staffColumn: profile?.staffColumn || 8,
 
-            signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || "")
+            signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || ""),
+            sendReviewLinkOption: getTitleSendLinkGoogle(profile?.sendReviewLinkOption || "")
         };
         this.inputRefsTime = [];
     }
@@ -44,7 +49,8 @@ class TabGaneral extends Layout {
                 turnAmount,
                 isUpdateInternal: false,
                 staffColumn,
-                signinAppStyle: getTitleSignInAppDisplay(signinAppStyle)
+                signinAppStyle: getTitleSignInAppDisplay(signinAppStyle),
+                sendReviewLinkOption: getTitleSendLinkGoogle(profile?.sendReviewLinkOption || "")
             });
             this.updateWorkTime();
         }
@@ -83,7 +89,9 @@ class TabGaneral extends Layout {
 
     saveSettngApp = async () => {
         const { profile } = this.props;
-        const { languageApp, longitude, latitude, webLink, autoCloseAt, timezone, turnAmount, staffColumn, signinAppStyle } = this.state;
+        const { languageApp, longitude, latitude, webLink, autoCloseAt, timezone,
+            turnAmount, staffColumn, signinAppStyle,sendReviewLinkOption
+        } = this.state;
         const temptLanguage = languageApp === 'English' ? 'en' : 'vi';
         this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
         await this.setState({
@@ -112,8 +120,9 @@ class TabGaneral extends Layout {
             autoCloseAt,
             turnAmount,
             staffColumn,
-            signinAppStyle: getValueSignInAppDisplay(signinAppStyle)
-        },true,true);
+            signinAppStyle: getValueSignInAppDisplay(signinAppStyle),
+            sendReviewLinkOption: getValueSendLinkGoogle(sendReviewLinkOption)
+        }, true, true);
     }
 
     async componentDidUpdate(prevProps, prevState) {
@@ -125,7 +134,8 @@ class TabGaneral extends Layout {
                 autoCloseAt: profile.autoCloseAt ? profile.autoCloseAt : '',
                 turnAmount: profile.turnAmount ? profile.turnAmount : 0,
                 staffColumn: profile.staffColumn ? profile.staffColumn : 8,
-                signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || "")
+                signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || ""),
+                sendReviewLinkOption: getTitleSendLinkGoogle(profile?.sendReviewLinkOption || "")
             });
             this.updateWorkTime();
         }
@@ -139,7 +149,8 @@ class TabGaneral extends Layout {
 
                 staffColumn: profile.staffColumn ? profile.staffColumn : 8,
                 isUpdateInternal: false,
-                signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || "")
+                signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || ""),
+                sendReviewLinkOption: getTitleSendLinkGoogle(profile?.sendReviewLinkOption || "")
             });
             this.updateWorkTime();
         }

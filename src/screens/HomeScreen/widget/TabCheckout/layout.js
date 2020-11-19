@@ -989,7 +989,6 @@ class Layout extends React.Component {
                 />
 
                 <PopupPayCompleted
-                    visible={this.props.visiblePaymentCompleted}
                     onRequestClose={() => { }}
                     printBill={this.printBill}
                     donotPrintBill={this.donotPrintBill}

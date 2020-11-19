@@ -63,3 +63,11 @@ export function toggleCustomerTabPermission(visible = true) {
     }
 }
 
+export function sendGoogleReviewLink(customerId = 0,merchantId = 0) {
+    return {
+        type: 'SEND_GOOGLE_REVIEW_LIINK',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}customer/sendReviewLink?customerId=${customerId}&merchantId=${merchantId}`,
+        token: true
+    }
+}

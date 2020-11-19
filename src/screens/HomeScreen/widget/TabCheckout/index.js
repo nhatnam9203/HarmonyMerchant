@@ -1755,7 +1755,6 @@ const mapStateToProps = state => ({
     appointmentDetail: state.appointment.appointmentDetail,
     loading: state.app.loading,
     isGetAppointmentSucces: state.appointment.isGetAppointmentSucces,
-    visiblePaymentCompleted: state.appointment.visiblePaymentCompleted,
     profile: state.dataLocal.profile,
     isDonePayment: state.appointment.isDonePayment,
     connectionSignalR: state.appointment.connectionSignalR,

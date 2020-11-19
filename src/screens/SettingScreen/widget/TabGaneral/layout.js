@@ -15,13 +15,14 @@ import ICON from "@resources";
 
 const AUTO_LOCK = ["2 Minutes", "5 Minutes", "10 Minutes", "15 Minutes", "Never"];
 const STAFF_COLUMN = [{ value: 5 }, { value: 8 }];
-const SIGN_IN_APP_STYLE = [{ value: "Services with categories"},{value: "Show categories only"} ];
+const SIGN_IN_APP_STYLE = [{ value: "Services with categories" }, { value: "Show categories only" }];
+const SEND_LINK_DATA = [{ value: "Manually" }, { value: "Automatic" }, { value: "Off" }];
 
 class Layout extends React.Component {
 
     renderSetup() {
         const { language, autoLockScreenAfter } = this.props;
-        const { languageApp, webLink, autoCloseAt, timezone, businessHour, turnAmount, staffColumn,signinAppStyle } = this.state;
+        const { languageApp, webLink, autoCloseAt, timezone, businessHour, turnAmount, staffColumn, signinAppStyle,sendReviewLinkOption } = this.state;
 
         return (
             <View style={{ width: '100%', marginTop: scaleSzie(6) }} >
@@ -51,6 +52,15 @@ class Layout extends React.Component {
                         data={STAFF_COLUMN}
                         value={staffColumn}
                         onChangeText={value => this.setState({ staffColumn: value })}
+                        placeHolder='08:00 AM'
+                    />
+
+                    {/* ------- Send Google Review Link  ------ */}
+                    <ItemSetupGeneral
+                        title={`${localize('Send Google Review Link', language)}`}
+                        data={SEND_LINK_DATA}
+                        value={sendReviewLinkOption}
+                        onChangeText={value => this.setState({ sendReviewLinkOption: value })}
                         placeHolder='08:00 AM'
                     />
 
@@ -337,15 +347,15 @@ class Layout extends React.Component {
     }
 }
 
-const ItemSetupGeneral = ({ title, data, placeHolder, value = '', onChangeText }) => {
+const ItemSetupGeneral = ({ title, data, placeHolder, value = '', onChangeText, titStyle }) => {
     return (
         <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
             <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
-                <Text style={{
+                <Text style={[{
                     color: '#404040',
                     fontSize: scaleSzie(16),
                     fontWeight: '600',
-                }}  >
+                }, titStyle]}  >
                     {title}
                 </Text>
             </View>
