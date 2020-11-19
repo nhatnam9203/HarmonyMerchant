@@ -1,12 +1,12 @@
-import { put, takeLatest, all } from "redux-saga/effects";
+import { put, takeLatest, all, takeEvery } from "redux-saga/effects";
 
 import apiConfigs from '../../configs/api';
 import { requestAPI } from '../../utils';
 
 function* getListCustomersByMerchant(action) {
     try {
-        if(action.isShowLoading){
-            yield put({ type: 'LOADING_ROOT' }) ;
+        if (action.isShowLoading) {
+            yield put({ type: 'LOADING_ROOT' });
         }
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -135,7 +135,7 @@ function* getCustomerInfoByPhone(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-           
+
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -154,6 +154,34 @@ function* getCustomerInfoByPhone(action) {
     }
 }
 
+function* sendGoogleReviewLink(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log("--- sendGoogleReviewLink: ", responses);
+
+        // yield put({ type: 'STOP_LOADING_ROOT' });
+        // const { codeNumber } = responses;
+        // if (parseInt(codeNumber) == 200) {
+
+
+        // } else if (parseInt(codeNumber) === 401) {
+        //     yield put({
+        //         type: 'UNAUTHORIZED'
+        //     })
+        // } else {
+        //     yield put({
+        //         type: 'SHOW_ERROR_MESSAGE',
+        //         message: responses.message
+        //     })
+        // }
+    } catch (error) {
+        // yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 
 
 export default function* saga() {
@@ -163,6 +191,7 @@ export default function* saga() {
         takeLatest('ADD_CUSTOMER', addCustomer),
         takeLatest('EDIT_CUSTOMER', editCustomer),
         takeLatest('GET_CUSTOMER_INFO_BY_PHONE', getCustomerInfoByPhone),
+        takeEvery('SEND_GOOGLE_REVIEW_LIINK', sendGoogleReviewLink),
 
     ])
 }

@@ -8,7 +8,7 @@ import { parseString } from "react-native-xml2js";
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
-    formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI, formatWithMoment, xmlToJson
+    formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI, formatWithMoment
 } from '@utils';
 import apiConfigs from '@configs/api';
 

@@ -1090,42 +1090,38 @@ export const getValueSignInAppDisplay = (title) => {
     return value;
 }
 
-
-export const xmlToJson = (xml) => {
-    let obj = {};
-
-  if (xml.nodeType === 1) { // element
-    // do attributes
-    if (xml.attributes.length > 0) {
-      obj['@attributes'] = {};
-      for (let j = 0; j < xml.attributes.length; j += 1) {
-        const attribute = xml.attributes.item(j);
-        obj['@attributes'][attribute.nodeName] = attribute.nodeValue;
-      }
+export const getTitleSendLinkGoogle = (value) => {
+    let title = "";
+    switch (value) {
+        case "auto":
+            title = "Automatic";
+            break;
+        case "manual":
+            title = "Manually";
+            break;
+        case "off":
+            title = "Off";
+            break;
+        default:
+            title = "Manually";
     }
-  } else if (xml.nodeType === 3) { // text
-    obj = xml.nodeValue;
-  }
+    return title;
+}
 
-  // do children
-  // If just one text node inside
-  if (xml.hasChildNodes() && xml.childNodes.length === 1 && xml.childNodes[0].nodeType === 3) {
-    obj = xml.childNodes[0].nodeValue;
-  } else if (xml.hasChildNodes()) {
-    for (let i = 0; i < xml.childNodes.length; i += 1) {
-      const item = xml.childNodes.item(i);
-      const nodeName = item.nodeName;
-      if (typeof (obj[nodeName]) === 'undefined') {
-        obj[nodeName] = xmlToJson(item);
-      } else {
-        if (typeof (obj[nodeName].push) === 'undefined') {
-          const old = obj[nodeName];
-          obj[nodeName] = [];
-          obj[nodeName].push(old);
-        }
-        obj[nodeName].push(xmlToJson(item));
-      }
+export const getValueSendLinkGoogle = (title) => {
+    let value = "";
+    switch (title) {
+        case "Automatic":
+            value = "auto";
+            break;
+        case "Manually":
+            value = "manual";
+            break;
+        case "Off":
+            value = "off";
+            break;
+        default:
+            value = "manual";
     }
-  }
-  return obj;
-};
+    return value;
+}

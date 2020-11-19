@@ -2,47 +2,126 @@ import React from 'react';
 import {
     View,
     Text,
+    Image
 } from 'react-native';
 
 import ModalCustom from './ModalCustom';
 import ButtonCustom from './ButtonCustom';
-import { scaleSzie } from '../utils';
+import { scaleSzie, getTitleSendLinkGoogle } from '../utils';
+import connectRedux from '@redux/ConnectRedux';
+import ICON from "@resources";
+import Button from "./Button";
+import { forEach } from 'ramda';
 
 class PopupPayCompleted extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            isSendLink: false
+        }
+    }
+
+    switchSendLink = () => {
+        this.setState((prevState) => ({ isSendLink: !prevState.isSendLink }));
+    }
+
+    handleSendGoogleLinkReview = async () => {
+        const { profile, groupAppointment } = this.props;
+        const { isSendLink } = this.state;
+        if (isSendLink) {
+            let customerIdList = new Set();
+            const appointments = groupAppointment?.appointments || [];
+            for (let i = 0; i < appointments.length; i++) {
+                customerIdList.add(appointments[i]?.customerId);
+            }
+            const customerIdListNeedToSendLink = [...customerIdList];
+            const merchantId = profile?.merchantId || 0;
+            customerIdListNeedToSendLink.forEach((customerId) => this.props.actions.customer.sendGoogleReviewLink(customerId, merchantId));
+            await this.setState({
+                isSendLink: false
+            })
+        }
+    }
+
+    printBill = () => {
+        this.handleSendGoogleLinkReview();
+        this.props.printBill();
+    }
+
+    donotPrintBill = () => {
+        this.handleSendGoogleLinkReview();
+        this.props.donotPrintBill();
+    }
+
+
     render() {
-        const { visible, style } = this.props;
+        const { visiblePaymentCompleted, style, profile } = this.props;
+        const { isSendLink } = this.state;
+
+        const checkIcon = isSendLink ? ICON.checkBox : ICON.checkBoxEmpty;
+
         return (
             <ModalCustom
                 transparent={true}
-                visible={visible}
+                visible={visiblePaymentCompleted}
                 onRequestClose={() => { }}
                 style={style}
             >
                 <View style={{
-                    width: scaleSzie(450), height: scaleSzie(180), backgroundColor: "#fff",
+                    width: scaleSzie(450), height: scaleSzie(230), backgroundColor: "#fff",
                     borderRadius: scaleSzie(16)
                 }} >
-                    {/* ---------- header ------ */}
-                    <View style={{
-                        alignItems: 'center', paddingTop: scaleSzie(16), paddingBottom: scaleSzie(12),
-                    }} >
-                        <Text style={{ color: '#0764B0', fontSize: scaleSzie(28), fontWeight: 'bold' }}  >
-                            Transaction completed!
-                    </Text>
-                    </View>
-                    {/* ------------ content ----- */}
-                    <View style={{
-                        alignItems: 'center'
-                    }} >
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(20) }}  >
-                            Do you want to print receipt?
-                    </Text>
+                    <View style={{ flex: 1 }} >
+                        {/* ---------- header ------ */}
+                        <View style={{
+                            alignItems: 'center', paddingTop: scaleSzie(16), paddingBottom: scaleSzie(12),
+                        }} >
+                            <Text style={{ color: '#0764B0', fontSize: scaleSzie(28), fontWeight: 'bold' }}  >
+                                {`Transaction completed!`}
+                            </Text>
+                        </View>
+                        {/* ------------ content ----- */}
+                        <View style={{
+                            alignItems: 'center'
+                        }} >
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(20) }}  >
+                                {`Do you want to print receipt?`}
+                            </Text>
+                        </View>
+
+                        {/* ------------ Check box ----- */}
+                        {
+                            profile.sendReviewLinkOption === "manual" ?
+                                <View style={{
+                                    flex: 1, flexDirection: "row",
+                                    justifyContent: "center", alignItems: "center"
+                                }} >
+                                    <Button onPress={this.switchSendLink} style={{ justifyContent: "center" }} >
+                                        <Image source={checkIcon} />
+                                    </Button>
+                                    <Text style={{ color: 'rgb(130,130,130)', fontSize: scaleSzie(18), marginLeft: scaleSzie(12) }}  >
+                                        {`Send Google Review Link`}
+                                    </Text>
+                                </View> :
+                                <View style={{
+                                    flex: 1,
+                                    justifyContent: "center", alignItems: "center"
+                                }} >
+                                    <Text style={{ color: 'rgb(130,130,130)', fontSize: scaleSzie(16), marginLeft: scaleSzie(12) }}  >
+                                        {`You Are Choosing ${getTitleSendLinkGoogle(profile.sendReviewLinkOption)} Send Google Review Link`}
+                                    </Text>
+                                </View>
+                        }
+
                     </View>
 
-                    <View style={{ flex: 1, flexDirection: 'row',paddingHorizontal:scaleSzie(70),
-                alignItems:'center',justifyContent:'space-between'
-                }} >
+
+                    <View style={{
+                        height: scaleSzie(75), flexDirection: 'row', paddingHorizontal: scaleSzie(70),
+                        alignItems: 'center', justifyContent: 'space-between',
+                        borderTopWidth: 1, borderTopColor: "rgb(212,211,211)"
+                    }} >
                         <ButtonCustom
                             width={scaleSzie(100)}
                             height={40}
@@ -50,7 +129,7 @@ class PopupPayCompleted extends React.Component {
                             // title={localize('Search', language)}
                             title="Yes"
                             textColor="#fff"
-                            onPress={() =>this.props.printBill()}
+                            onPress={this.printBill}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(18), fontWeight: 'normal' }}
                         />
@@ -61,8 +140,7 @@ class PopupPayCompleted extends React.Component {
                             backgroundColor="#F1F1F1"
                             title="No"
                             textColor="#6A6A6A"
-                            
-                            onPress={() =>this.props.donotPrintBill()}
+                            onPress={this.donotPrintBill}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
                             styleText={{ fontSize: scaleSzie(18), fontWeight: 'normal' }}
                         />
@@ -76,6 +154,11 @@ class PopupPayCompleted extends React.Component {
     }
 }
 
+const mapStateToProps = state => ({
+    visiblePaymentCompleted: state.appointment.visiblePaymentCompleted,
+    profile: state.dataLocal.profile,
+    groupAppointment: state.appointment.groupAppointment
+});
 
-export default PopupPayCompleted;
+export default connectRedux(mapStateToProps, PopupPayCompleted);
 

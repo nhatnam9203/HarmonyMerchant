@@ -223,7 +223,8 @@ class SettingScreen extends Layout {
         profile?.autoCloseAt || "",
         profile?.turnAmount || 0,
         profile?.staffColumn || 8,
-        profile?.signinAppStyle || ""
+        profile?.signinAppStyle || "",
+        profile?.sendReviewLinkOption || "",
       );
     }
   }
