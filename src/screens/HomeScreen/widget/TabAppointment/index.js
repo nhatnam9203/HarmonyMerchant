@@ -6,7 +6,7 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
     validateIsNumber, getArrayProductsFromAppointment, getArrayServicesFromAppointment,
-    getArrayExtrasFromAppointment
+    getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment
 } from '@utils';
 import apiConfigs from '@configs/api';
 
@@ -141,11 +141,21 @@ class TabAppointment extends Layout {
                 } else {
                     const { action, appointmentId } = data;
                     if (action === 'checkout') {
-                        this.props.checkoutAppointment(appointmentId, data.appointment);
-                        this.props.actions.appointment.checkoutAppointmentOffline(appointmentId);
-                        this.setState({
-                            appointmentIdOffline: appointmentId
-                        })
+                        const arrayProducts = getArrayProductsFromAppointment(data?.appointment?.products || []);
+                        const arryaServices = getArrayServicesFromAppointment(data?.appointment?.services || []);
+                        const arrayExtras = getArrayExtrasFromAppointment(data?.appointment?.extras || []);
+                        const arrayGiftCards = getArrayGiftCardsFromAppointment(data?.appointment?.giftCards || []);
+                        const temptBasket = arrayProducts.concat(arryaServices, arrayExtras, arrayGiftCards);
+                        if (temptBasket.length > 0) {
+                            this.props.checkoutAppointment(appointmentId, data.appointment);
+                            this.props.actions.appointment.checkoutAppointmentOffline(appointmentId);
+                            this.setState({
+                                appointmentIdOffline: appointmentId
+                            })
+                        } else {
+                            this.props.bookAppointment(appointmentId);
+                        }
+
                     } else if (action == 'signinAppointment') {
                         this.props.bookAppointment(appointmentId);
                     } else if (action === 'addGroupAnyStaff') {
@@ -409,7 +419,7 @@ class TabAppointment extends Layout {
 
         if (basket.length > 0) {
             if (profileStaffLogin.roleName !== "Admin") {
-                this.popupCheckDiscountPermissionRef?.current?.setStateFromParent('', appointmentId,false);
+                this.popupCheckDiscountPermissionRef?.current?.setStateFromParent('', appointmentId, false);
                 this.props.actions.marketing.switchPopupCheckDiscountPermissionInHome(true);
             } else {
                 this.props.actions.marketing.getPromotionByAppointment(appointmentId);

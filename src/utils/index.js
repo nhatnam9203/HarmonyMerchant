@@ -302,7 +302,6 @@ export const getArrayProductsFromAppointment = (products = []) => {
 
 export const getArrayServicesFromAppointment = (services = []) => {
     const temptArrayServices = services.map((service) => {
-        // console.log('getArrayServicesFromAppointment : ',services);
         return {
             type: 'Service',
             id: `${service.serviceId}_ser`,
