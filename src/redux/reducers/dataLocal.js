@@ -29,6 +29,7 @@ const initialState = {
     printerList: [],
     printerSelect: "",
     profileLoginInvoice: {},
+    isTipOnPaxMachine: true
 }
 
 function dataLocalReducer(state = initialState, action) {
@@ -168,6 +169,11 @@ function dataLocalReducer(state = initialState, action) {
             return {
                 ...state,
                 profileLoginInvoice: action.payload,
+            }
+        case 'SWITCH_TIP_ON_PAX_MACHINE':
+            return {
+                ...state,
+                isTipOnPaxMachine: action.payload,
             }
         case 'LOGOUT_APP':
             return {

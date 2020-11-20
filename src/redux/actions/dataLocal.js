@@ -122,4 +122,9 @@ export function selectPrinter(printer) {
     }
 }
 
-
+export function switchTipOnPaxMachine(toggle = true) {
+    return {
+        type: 'SWITCH_TIP_ON_PAX_MACHINE',
+        payload: toggle
+    }
+}

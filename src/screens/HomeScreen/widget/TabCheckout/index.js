@@ -997,7 +997,7 @@ class TabCheckout extends Layout {
 
 
     async hanleCreditCardProcess(online = true, moneyUserGiveForStaff) {
-        const { paxMachineInfo } = this.props;
+        const { paxMachineInfo, isTipOnPaxMachine } = this.props;
         const { paymentSelected } = this.state;
         const { ip, port, timeout } = paxMachineInfo;
         const moneyCreditCard = Number(formatNumberFromCurrency(moneyUserGiveForStaff) * 100).toFixed(2);
@@ -1034,9 +1034,9 @@ class TabCheckout extends Layout {
                 visibleProcessingCredit: true
             })
 
-            const TipRequest = "<TipRequest>1</TipRequest>";
+            const tipRequest = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
             // 3. Send Transaction 
-            PosLink.sendTransaction(tenderType, parseFloat(moneyCreditCard), 0, "", (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
+            PosLink.sendTransaction(tenderType, parseFloat(moneyCreditCard), 0, tipRequest, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
         }
     }
 
@@ -1783,11 +1783,10 @@ const mapStateToProps = state => ({
     versionApp: state.dataLocal.versionApp,
     customerInfoBuyAppointment: state.appointment.customerInfoBuyAppointment,
     bookingGroupId: state.appointment.bookingGroupId,
-
     printerSelect: state.dataLocal.printerSelect,
     printerList: state.dataLocal.printerList,
-
-    visiblePopupCheckDiscountPermission: state.marketing.visiblePopupCheckDiscountPermission
+    visiblePopupCheckDiscountPermission: state.marketing.visiblePopupCheckDiscountPermission,
+    isTipOnPaxMachine: state.dataLocal.isTipOnPaxMachine
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

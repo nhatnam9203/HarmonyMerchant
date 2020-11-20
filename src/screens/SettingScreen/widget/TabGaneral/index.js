@@ -125,6 +125,10 @@ class TabGaneral extends Layout {
         }, true, true);
     }
 
+    switchTipOnPaxMachine =(visible) =>{
+        this.props.actions.dataLocal.switchTipOnPaxMachine(visible);
+    }
+
     async componentDidUpdate(prevProps, prevState) {
         const { profile, refreshingGeneral, loading, isFocus, currentTab } = this.props;
         if (isFocus && currentTab === 0 && prevProps.refreshingGeneral !== refreshingGeneral && !refreshingGeneral) {
@@ -170,7 +174,8 @@ const mapStateToProps = state => ({
     stateCity: state.dataLocal.stateCity,
     refreshingGeneral: state.app.refreshingGeneral,
     loading: state.app.loading,
-    versionApp: state.dataLocal.versionApp
+    versionApp: state.dataLocal.versionApp,
+    isTipOnPaxMachine: state.dataLocal.isTipOnPaxMachine
 })
 
 

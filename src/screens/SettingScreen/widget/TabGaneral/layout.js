@@ -6,6 +6,7 @@ import {
     TextInput,
     RefreshControl,
     Image,
+    Switch
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -21,8 +22,8 @@ const SEND_LINK_DATA = [{ value: "Manually" }, { value: "Automatic" }, { value: 
 class Layout extends React.Component {
 
     renderSetup() {
-        const { language, autoLockScreenAfter } = this.props;
-        const { languageApp, webLink, autoCloseAt, timezone, businessHour, turnAmount, staffColumn, signinAppStyle,sendReviewLinkOption } = this.state;
+        const { language, autoLockScreenAfter,isTipOnPaxMachine } = this.props;
+        const { languageApp, webLink, autoCloseAt, timezone, businessHour, turnAmount, staffColumn, signinAppStyle, sendReviewLinkOption } = this.state;
 
         return (
             <View style={{ width: '100%', marginTop: scaleSzie(6) }} >
@@ -57,7 +58,7 @@ class Layout extends React.Component {
 
                     {/* ------- Send Google Review Link  ------ */}
                     <ItemSetupGeneral
-                        title={`${localize('Send Google Review Link', language)}`}
+                        title={`${localize('Send google review link', language)}:`}
                         data={SEND_LINK_DATA}
                         value={sendReviewLinkOption}
                         onChangeText={value => this.setState({ sendReviewLinkOption: value })}
@@ -95,7 +96,27 @@ class Layout extends React.Component {
                                 }}
                                 value={turnAmount}
                                 onChangeText={value => this.setState({ turnAmount: value })}
-                            // onFocus={() => this.scrollProductTo(450)}
+                            />
+                        </View>
+                    </View>
+
+                    {/* ------- Tip on pax machine  ------ */}
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
+                        <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
+                            <Text style={{
+                                color: '#404040',
+                                fontSize: scaleSzie(16),
+                                fontWeight: '600',
+                            }}  >
+                                {`Tip on pax machine:`}
+                            </Text>
+                        </View>
+                        <View style={{ height: scaleSzie(40), width: scaleSzie(140),justifyContent:"center" }} >
+                            <Switch
+                                trackColor={{ false: "#767577", true: "#0764B0" }}
+                                ios_backgroundColor="#E5E5E5"
+                                onValueChange={this.switchTipOnPaxMachine}
+                                value={isTipOnPaxMachine}
                             />
                         </View>
                     </View>
