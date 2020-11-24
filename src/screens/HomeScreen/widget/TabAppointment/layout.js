@@ -9,7 +9,7 @@ import _ from 'ramda';
 
 import { Text, ButtonCustom, Button, PopupConfirm, PopupCheckStaffPermission } from '@components';
 import styles from './style';
-import { scaleSzie, localize, formatMoney } from '@utils';
+import { scaleSzie, localize, formatMoney,checkCategoryIsNotExist } from '@utils';
 import {
     ItemCategory, ItemProductService, ColPlaceHolder, ItemAmount, ItemExtra
 } from '../TabCheckout/widget';
@@ -70,7 +70,7 @@ class Layout extends React.Component {
                     }
                 }
             }
-            notSelectCategories = categoriesFilter.filter((category, index) => this.checkCategoryIsNotExist(category, IdCategoriesList));
+            notSelectCategories = categoriesFilter.filter((category, index) => checkCategoryIsNotExist(category, IdCategoriesList));
             tempCategories = [...selectCategories, ...notSelectCategories];
         } else {
             tempCategories = [...categoriesFilter];

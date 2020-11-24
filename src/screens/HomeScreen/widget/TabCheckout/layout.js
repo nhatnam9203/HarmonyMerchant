@@ -7,7 +7,7 @@ import {
 import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber } from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber,checkCategoryIsNotExist } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
     PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint,
@@ -167,7 +167,7 @@ class Layout extends React.Component {
                     }
                 }
             }
-            notSelectCategories = categoriesFilter.filter((category, index) => this.checkCategoryIsNotExist(category, IdCategoriesList));
+            notSelectCategories = categoriesFilter.filter((category, index) => checkCategoryIsNotExist(category, IdCategoriesList));
             tempCategories = [...selectCategories, ...notSelectCategories];
         } else {
             tempCategories = [...categoriesFilter];

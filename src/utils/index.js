@@ -1124,3 +1124,15 @@ export const getValueSendLinkGoogle = (title) => {
     }
     return value;
 }
+
+
+export const checkCategoryIsNotExist = (category, IdCategoriesList) => {
+    let isNotExist = true;
+    for (let i = 0; i < IdCategoriesList.length; i++) {
+        if (IdCategoriesList[i] === category?.categoryId) {
+            isNotExist = false;
+            break;
+        }
+    }
+    return isNotExist
+}

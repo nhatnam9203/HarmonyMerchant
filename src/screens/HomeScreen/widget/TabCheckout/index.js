@@ -1714,18 +1714,6 @@ class TabCheckout extends Layout {
         })
     }
 
-    checkCategoryIsNotExist(category, IdCategoriesList) {
-        let isNotExist = true;
-        for (let i = 0; i < IdCategoriesList.length; i++) {
-            if (IdCategoriesList[i] === category?.categoryId) {
-                isNotExist = false;
-                break;
-            }
-        }
-
-        return isNotExist
-    }
-
     showModalCheckPermission = (appointmentId, isBlock = false) => {
         this.popupCheckDiscountPermissionRef?.current?.setStateFromParent('', appointmentId, isBlock);
         this.props.actions.marketing.switchPopupCheckDiscountPermission(true);
