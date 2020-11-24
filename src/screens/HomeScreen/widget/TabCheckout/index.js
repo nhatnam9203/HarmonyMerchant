@@ -1032,7 +1032,7 @@ class TabCheckout extends Layout {
             // 2. Show modal processing 
             await this.setState({
                 visibleProcessingCredit: true
-            })
+            });
 
             const tipRequest = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
             // 3. Send Transaction 
