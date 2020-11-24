@@ -26,9 +26,10 @@ class TabGaneral extends Layout {
             businessHour: profile?.businessHour || BusinessWorkingTime,
             turnAmount: profile?.turnAmount || 0,
             staffColumn: profile?.staffColumn || 8,
-
             signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || ""),
-            sendReviewLinkOption: getTitleSendLinkGoogle(profile?.sendReviewLinkOption || "")
+            sendReviewLinkOption: getTitleSendLinkGoogle(profile?.sendReviewLinkOption || ""),
+
+            isUsingTurn: profile?.isUsingTurn || false
         };
         this.inputRefsTime = [];
     }
@@ -39,7 +40,7 @@ class TabGaneral extends Layout {
         }
     };
 
-    setStateFromParent = async (webLink, timezone, autoCloseAt, turnAmount, staffColumn, signinAppStyle) => {
+    setStateFromParent = async (webLink, timezone, autoCloseAt, turnAmount, staffColumn, signinAppStyle, sendReviewLinkOption,isUsingTurn) => {
         const { isFocus, currentTab } = this.props;
         if (isFocus && currentTab === 0) {
             await this.setState({
@@ -50,7 +51,8 @@ class TabGaneral extends Layout {
                 isUpdateInternal: false,
                 staffColumn,
                 signinAppStyle: getTitleSignInAppDisplay(signinAppStyle),
-                sendReviewLinkOption: getTitleSendLinkGoogle(profile?.sendReviewLinkOption || "")
+                sendReviewLinkOption: getTitleSendLinkGoogle(sendReviewLinkOption || ""),
+                isUsingTurn
             });
             this.updateWorkTime();
         }
@@ -90,7 +92,7 @@ class TabGaneral extends Layout {
     saveSettngApp = async () => {
         const { profile } = this.props;
         const { languageApp, longitude, latitude, webLink, autoCloseAt, timezone,
-            turnAmount, staffColumn, signinAppStyle,sendReviewLinkOption
+            turnAmount, staffColumn, signinAppStyle, sendReviewLinkOption, isUsingTurn
         } = this.state;
         const temptLanguage = languageApp === 'English' ? 'en' : 'vi';
         this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
@@ -121,11 +123,12 @@ class TabGaneral extends Layout {
             turnAmount,
             staffColumn,
             signinAppStyle: getValueSignInAppDisplay(signinAppStyle),
-            sendReviewLinkOption: getValueSendLinkGoogle(sendReviewLinkOption)
+            sendReviewLinkOption: getValueSendLinkGoogle(sendReviewLinkOption),
+            isUsingTurn
         }, true, true);
     }
 
-    switchTipOnPaxMachine =(visible) =>{
+    switchTipOnPaxMachine = (visible) => {
         this.props.actions.dataLocal.switchTipOnPaxMachine(visible);
     }
 
@@ -134,27 +137,28 @@ class TabGaneral extends Layout {
         if (isFocus && currentTab === 0 && prevProps.refreshingGeneral !== refreshingGeneral && !refreshingGeneral) {
             await this.setState({
                 webLink: profile?.webLink || '',
-                timezone: profile.timezone ? profile.timezone : '',
-                autoCloseAt: profile.autoCloseAt ? profile.autoCloseAt : '',
-                turnAmount: profile.turnAmount ? profile.turnAmount : 0,
-                staffColumn: profile.staffColumn ? profile.staffColumn : 8,
+                timezone: profile?.timezone || '',
+                autoCloseAt: profile?.autoCloseAt || '',
+                turnAmount: profile?.turnAmount || 0,
+                staffColumn: profile?.staffColumn || 8,
                 signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || ""),
-                sendReviewLinkOption: getTitleSendLinkGoogle(profile?.sendReviewLinkOption || "")
+                sendReviewLinkOption: getTitleSendLinkGoogle(profile?.sendReviewLinkOption || ""),
+                isUsingTurn: profile?.isUsingTurn || false,
             });
             this.updateWorkTime();
         }
         if (isFocus && currentTab === 0 && prevProps.loading !== loading && prevProps.loading && !loading && this.state.isUpdateInternal) {
             // console.log("----- Internal 1 ------: ");
             await this.setState({
-                webLink: profile.webLink ? profile.webLink : '',
-                timezone: profile.timezone ? profile.timezone : '',
-                autoCloseAt: profile.autoCloseAt ? profile.autoCloseAt : '',
-                turnAmount: profile.turnAmount ? profile.turnAmount : 0,
-
-                staffColumn: profile.staffColumn ? profile.staffColumn : 8,
+                webLink: profile?.webLink || '',
+                timezone: profile?.timezone || '',
+                autoCloseAt: profile?.autoCloseAt || '',
+                turnAmount: profile?.turnAmount || 0,
+                staffColumn: profile?.staffColumn || 8,
                 isUpdateInternal: false,
                 signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || ""),
-                sendReviewLinkOption: getTitleSendLinkGoogle(profile?.sendReviewLinkOption || "")
+                sendReviewLinkOption: getTitleSendLinkGoogle(profile?.sendReviewLinkOption || ""),
+                isUsingTurn: profile?.isUsingTurn || false,
             });
             this.updateWorkTime();
         }

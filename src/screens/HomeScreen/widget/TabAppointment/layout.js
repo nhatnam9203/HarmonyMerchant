@@ -41,13 +41,41 @@ class Layout extends React.Component {
     }
 
     renderCategoriesCheckout() {
-        const { language, categoriesByMerchant } = this.props;
+        const { language, categoriesByMerchant, appointmentDetail } = this.props;
         const { isShowColProduct } = this.state;
         const temptWidth = isShowColProduct ? 140 : 190;
         const temptColorHeader = isShowColProduct ? { color: '#6A6A6A' } : {};
         const temptBorderColor = isShowColProduct ? { borderColor: rgb(197, 197, 197) } : {};
-
         const categoriesFilter = categoriesByMerchant.filter((category, index) => category.isDisabled === 0);
+
+        const categories = appointmentDetail?.categories || [];
+        let tempIdCategoriesList = [];
+        for (let category of categories) {
+            tempIdCategoriesList.push(category?.categoryId || 0);
+        }
+        const IdCategoriesList = [...new Set(tempIdCategoriesList)];
+        let selectCategories = [];
+        let notSelectCategories = [];
+        let tempCategories;
+
+        if (IdCategoriesList.length > 0) {
+            for (let i = 0; i < IdCategoriesList.length; i++) {
+                for (let j = 0; j < categoriesFilter.length; j++) {
+                    if (IdCategoriesList[i] === categoriesFilter[j].categoryId) {
+                        selectCategories.push({
+                            ...categoriesFilter[j],
+                            isSelect: true
+                        });
+                        break
+                    }
+                }
+            }
+            notSelectCategories = categoriesFilter.filter((category, index) => this.checkCategoryIsNotExist(category, IdCategoriesList));
+            tempCategories = [...selectCategories, ...notSelectCategories];
+        } else {
+            tempCategories = [...categoriesFilter];
+        }
+
         return (
             <View style={{ width: scaleSzie(temptWidth), flexDirection: 'row' }} >
                 <View style={{ flex: 1 }} >
@@ -64,7 +92,7 @@ class Layout extends React.Component {
                             keyboardShouldPersistTaps="always"
                         >
                             {
-                                categoriesFilter.map((category, index) => <ItemCategory
+                                tempCategories.map((category, index) => <ItemCategory
                                     key={index}
                                     category={category}
                                     onPressSelectCategory={this.onPressSelectCategory}
@@ -405,7 +433,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language,visiblePopupCheckDiscountPermissionInHome } = this.props;
+        const { language, visiblePopupCheckDiscountPermissionInHome } = this.props;
         const { visibleConfirm, visibleChangeStylist } = this.state;
         const injectedJavascript = `(function() {
             window.postMessage = function(data) {

@@ -138,8 +138,8 @@ class SettingScreen extends Layout {
 
   updateTaxFromParent = () => {
     const { profile } = this.props;
-    const productTAX = profile.taxProduct ? profile.taxProduct : "";
-    const serviceTAX = profile.taxService ? profile.taxService : "";
+    const productTAX = profile?.taxProduct || "";
+    const serviceTAX = profile?.taxService || "";
     if (this.taxTabRef.current) {
       this.taxTabRef.current.setStateFromParent(productTAX, serviceTAX);
     } else {
@@ -225,6 +225,7 @@ class SettingScreen extends Layout {
         profile?.staffColumn || 8,
         profile?.signinAppStyle || "",
         profile?.sendReviewLinkOption || "",
+        profile?.isUsingTurn || false
       );
     }
   }
