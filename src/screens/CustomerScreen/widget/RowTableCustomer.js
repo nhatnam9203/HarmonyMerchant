@@ -15,66 +15,73 @@ class RowTableCustomer extends React.Component {
     }
 
     render() {
-        const { customer} = this.props;
+        const { customer } = this.props;
 
         return (
             <Button onPress={() => this.props.showModalDetail(customer)} style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
-                <View style={{
-                    flex: 1, flexDirection: 'row',
-                }} >
+                <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={[{
                         flex: 1,
                         flexDirection: 'row',
                         alignItems: 'center',
-                        paddingLeft: scaleSzie(12)
+                        paddingHorizontal: scaleSzie(12)
                     }]} >
-                        <Text style={styles.textTableHeader} >
-                            {`${customer.firstName} ${customer.lastName}`}
+                        <Text style={styles.textTableHeader} numberOfLines={1} >
+                            {`${customer?.firstName || ""} ${customer?.lastName || ""}`}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
+                    </View> */}
                 </View>
+
                 {/* ----- 2 ----- */}
-                <View style={{
-                    width: scaleSzie(172), flexDirection: 'row',
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
-                            {customer.phone}
+                <View style={{flex:1,  flexDirection: 'row' }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
+                        <Text style={styles.textTableHeader} numberOfLines={1} >
+                            {customer?.phone || ""}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
+                    </View> */}
                 </View>
+
                 {/* ----- 3 ----- */}
-                <View style={{
-                    width: scaleSzie(172), flexDirection: 'row',
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
-                            {customer.email}
+                <View style={{flex:1.3, flexDirection: 'row',}} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
+                        <Text style={styles.textTableHeader} numberOfLines={1} >
+                            {customer?.email || ""}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
+                    </View> */}
                 </View>
-                {/* ----- 3 ----- */}
-                <View style={{
-                    width: scaleSzie(172), flexDirection: 'row',
-                }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
-                            {customer.referrerPhone === '+1' || customer.referrerPhone === '+84' ? '' : customer.referrerPhone}
+
+                {/* ----- 4 ----- */}
+                <View style={{ flex: 1, flexDirection: 'row' }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
+                        <Text style={styles.textTableHeader} numberOfLines={1} >
+                            {customer?.referrerBy || ""}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
+                    </View> */}
+                </View>
+
+                {/* ----- 5 ----- */}
+                <View style={{ flex: 1, flexDirection: 'row' }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
+                        <Text style={styles.textTableHeader} numberOfLines={1} >
+                            {customer?.referrerPhone || ""}
+                        </Text>
                     </View>
+                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
+                    </View> */}
                 </View>
             </Button>
         );
@@ -86,10 +93,10 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: scaleSzie(60),
+        height: scaleSzie(50),
         backgroundColor: '#FAFAFA',
         borderBottomWidth: 1,
-        borderBottomColor: '#C5C5C5',
+        borderBottomColor: '#EEEEEE',
         flexDirection: 'row'
     },
     textTableHeader: {

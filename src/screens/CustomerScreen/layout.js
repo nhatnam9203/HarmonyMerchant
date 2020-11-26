@@ -39,16 +39,11 @@ export default class Layout extends React.Component {
             <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row' }} >
-                        <View style={{ width: scaleSzie(70), justifyContent: 'center' }} >
-                            <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A' }} >
-                                {localize('Search', language)}
-                            </Text>
-                        </View>
                         <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: scaleSzie(4), flexDirection: 'row' }} >
                             <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
-                                    placeholder={`${localize('Phone Number', language)}/ ${localize('Customer Name', language)}`}
+                                    placeholder={localize('Search', language)}
                                     value={keySearch}
                                     onChangeText={this.onChangeKeySearch}
                                     onSubmitEditing={this.searchCustomer}
@@ -64,42 +59,31 @@ export default class Layout extends React.Component {
                             }
                         </View>
                     </View>
-                    <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >
+
+                    {/* ----------- Search Button ------------ */}
+                    <View style={{ width: scaleSzie(130), alignItems: 'flex-end' }} >
                         <ButtonCustom
-                            width={'90%'}
+                            width={'95%'}
                             height={40}
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
                             onPress={this.searchCustomer}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                            style={{ borderWidth: 1, borderColor: '#C5C5C5',borderRadius:6 }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
                     </View>
-                </View>
-            </View>
-        );
-    }
-
-    renderFilter() {
-        const { language } = this.props;
-        return (
-            <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
-                <View style={{ flex: 1, flexDirection: 'row' }} >
-                    <View style={{ flex: 1, justifyContent: 'flex-end' }} >
-                        <Text style={{ color: '#0764B0', fontSize: scaleSzie(18), fontWeight: 'bold' }} >
-                            {localize('Customer List', language)}
-                        </Text>
-                    </View>
-                    <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >
+                    
+                    {/* ----------- Add New Button ------------ */}
+                    <View style={{ width: scaleSzie(130), alignItems: 'flex-end' }} >
                         <ButtonCustom
-                            width={'90%'}
+                            width={'95%'}
                             height={40}
                             backgroundColor="#0764B0"
                             title={localize('Add New', language)}
                             textColor="#fff"
-                            onPress={this.showModalAddCustomer}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
+                            onPress={this.searchCustomer}
+                            style={{ borderWidth: 1, borderColor: '#C5C5C5',borderRadius:6 }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
                     </View>
@@ -145,11 +129,9 @@ export default class Layout extends React.Component {
                 <View style={styles.container} >
                     <StatusBarHeader />
                     {this.renderHeader()}
-                    <View style={{ height: scaleSzie(18) }} />
+                    <View style={{ height: scaleSzie(25) }} />
                     {this.renderSearch()}
-                    <View style={{ height: scaleSzie(16) }} />
-                    {this.renderFilter()}
-                    <View style={{ height: scaleSzie(18) }} />
+                    <View style={{ height: scaleSzie(25) }} />
                     {this.renderTable()}
 
                     <Button onPress={this.openDrawer} style={configs.btn_left_position} >

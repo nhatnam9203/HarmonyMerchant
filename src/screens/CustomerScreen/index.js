@@ -41,7 +41,7 @@ class CustomerScreen extends Layout {
                     isFocus: true
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
-                this.props.actions.customer.toggleCustomerTabPermission();
+                // this.props.actions.customer.toggleCustomerTabPermission();
             }
         );
     }
