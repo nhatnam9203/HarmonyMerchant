@@ -94,6 +94,13 @@ export default {
   sms_logo: require('./img/sms_logo.png'),
   trash_icon: require('./img/trash_icon.png'),
   edit_customer_icon: require('./img/edit_customer_icon.png'),
+  note_customer: require('./img/note_customer.png'),
+  customer_phone: require('./img/customer_phone.png'),
+  customer_email: require('./img/customer_email.png'),
+  customer_gender: require('./img/customer_gender.png'),
+  customer_birthday: require('./img/customer_birthday.png'),
+  customer_location: require('./img/customer_location.png'),
+  customer_ref_phone: require('./img/customer_ref_phone.png'),
 
   // --- Payment ---
   cash_payment_se: require('./payment/cash_payment_se.png'),
