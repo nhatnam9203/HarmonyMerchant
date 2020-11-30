@@ -4,10 +4,11 @@ import {
     Image,
 } from 'react-native';
 
-import { Text, StatusBarHeader, Button, ParentContainer,
-     PopupCheckStaffPermission, DefaultTabBar ,
-     ScrollableTabView
-    } from '@components';
+import {
+    Text, StatusBarHeader, Button, ParentContainer,
+    PopupCheckStaffPermission, DefaultTabBar,
+    ScrollableTabView
+} from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import ICON from '@resources';
@@ -32,7 +33,7 @@ export default class Layout extends React.Component {
                 <Text style={{ fontSize: scaleSzie(16), color: '#0764B0' }} >
                     {localize('Batch Settlements', language)}
                     <Text numberOflines={1} style={{ fontSize: scaleSzie(11), color: statusConnectColor, fontWeight: "600", fontStyle: 'italic' }} >
-                        {`  ${connectPAXStatus.message}`}
+                        {`  ${connectPAXStatus.message} ${terminalID ? `TerminalID: #${terminalID}` : ""}`}
                     </Text>
                 </Text>
             </View>
@@ -78,8 +79,8 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { navigation, language, settlementTabPermission, isShowBackSettlement,isShowBackBatchHistory } = this.props;
-        const { isFocus,currentPage } = this.state;
+        const { navigation, language, settlementTabPermission, isShowBackSettlement, isShowBackBatchHistory } = this.props;
+        const { isFocus, currentPage } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -95,7 +96,7 @@ export default class Layout extends React.Component {
                     </Button>
 
                     {
-                        isShowBackSettlement && currentPage === 0 ? <Button onPress={this.backSettlementTab} style={[configs.btn_right_position,{
+                        isShowBackSettlement && currentPage === 0 ? <Button onPress={this.backSettlementTab} style={[configs.btn_right_position, {
                             width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                         }]} >
                             <Image source={ICON.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
@@ -103,7 +104,7 @@ export default class Layout extends React.Component {
                     }
 
                     {
-                        isShowBackBatchHistory && currentPage === 2 ? <Button onPress={this.backBatchHistoryTab} style={[configs.btn_right_position,{
+                        isShowBackBatchHistory && currentPage === 2 ? <Button onPress={this.backBatchHistoryTab} style={[configs.btn_right_position, {
                             width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                         }]} >
                             <Image source={ICON.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />

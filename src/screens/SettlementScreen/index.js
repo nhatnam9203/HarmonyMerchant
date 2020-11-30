@@ -116,7 +116,8 @@ const mapStateToProps = state => ({
     connectPAXStatus: state.app.connectPAXStatus,
     settlementTabPermission: state.invoice.settlementTabPermission,
     isShowBackSettlement: state.invoice.isShowBackSettlement,
-    isShowBackBatchHistory: state.invoice.isShowBackBatchHistory
+    isShowBackBatchHistory: state.invoice.isShowBackBatchHistory,
+    terminalID: state.app.terminalID
 })
 
 

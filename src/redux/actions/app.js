@@ -275,6 +275,14 @@ export function resetIsInitApp() {
   }
 }
 
+export function updatePaxTerminalID(terminalID) {
+  return {
+    type: "UPDATE_PAX_TERMINAL_ID",
+    payload: terminalID
+  }
+}
+
+
 
 
 

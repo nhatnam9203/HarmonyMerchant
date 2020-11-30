@@ -93,6 +93,7 @@ export default {
   update_code_push: require('./img/update_code_push.png'),
   sms_logo: require('./img/sms_logo.png'),
   trash_icon: require('./img/trash_icon.png'),
+  edit_customer_icon: require('./img/edit_customer_icon.png'),
 
   // --- Payment ---
   cash_payment_se: require('./payment/cash_payment_se.png'),

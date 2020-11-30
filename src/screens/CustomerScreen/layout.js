@@ -6,13 +6,13 @@ import {
     FlatList
 } from 'react-native';
 
-import { Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, PopupCheckStaffPermission,ClearTextInputIcon } from '@components';
+import { Text, StatusBarHeader, ScrollableTabView, Button, ParentContainer, ButtonCustom, PopupCheckStaffPermission, ClearTextInputIcon } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
     HeaderTableCustomer, RowTableCustomer, RowEmptyTableCustomer,
-    PopupAddEditCustomer, PopupCustomerDetail
+    PopupAddEditCustomer, PopupCustomerDetail, CustomerDetailTab
 } from './widget';
 import configs from "@configs";
 
@@ -69,11 +69,11 @@ export default class Layout extends React.Component {
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
                             onPress={this.searchCustomer}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5',borderRadius:6 }}
+                            style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
                     </View>
-                    
+
                     {/* ----------- Add New Button ------------ */}
                     <View style={{ width: scaleSzie(130), alignItems: 'flex-end' }} >
                         <ButtonCustom
@@ -83,7 +83,7 @@ export default class Layout extends React.Component {
                             title={localize('Add New', language)}
                             textColor="#fff"
                             onPress={this.searchCustomer}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5',borderRadius:6 }}
+                            style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
                     </View>
@@ -129,15 +129,32 @@ export default class Layout extends React.Component {
                 <View style={styles.container} >
                     <StatusBarHeader />
                     {this.renderHeader()}
-                    <View style={{ height: scaleSzie(25) }} />
-                    {this.renderSearch()}
-                    <View style={{ height: scaleSzie(25) }} />
-                    {this.renderTable()}
+                    <ScrollableTabView
+                        ref={this.scrollTabRef}
+                        style={{}}
+                        initialPage={1}
+                        // locked={true}
+                        renderTabBar={() => <View />}
+                        onChangeTab={this.onChangeTab}
+                    >
+                        {/* --------- List Customer Tab -------- */}
+                        <View style={{ flex: 1 }} >
+                            <View style={{ height: scaleSzie(25) }} />
+                            {this.renderSearch()}
+                            <View style={{ height: scaleSzie(25) }} />
+                            {this.renderTable()}
+                        </View>
 
+                        {/* --------- Customer Detail Tab -------- */}
+                        <CustomerDetailTab />
+
+
+                    </ScrollableTabView>
                     <Button onPress={this.openDrawer} style={configs.btn_left_position} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
                 </View>
+
                 <PopupAddEditCustomer
                     ref={this.modalAddRef}
                     language={language}
@@ -172,7 +189,7 @@ export default class Layout extends React.Component {
                     tabName="Customer"
                     onRequestClose={this.closePopupCheckCustomerTabPermission}
                 />
-            </ParentContainer>
+            </ParentContainer >
         );
     }
 }

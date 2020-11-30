@@ -245,6 +245,7 @@ class TabFirstSettle extends Layout {
 
             if (!isError) {
                 this.props.actions.app.ConnectPaxMachineSuccess();
+                this.props.actions.app.updatePaxTerminalID("");
                 const moneyInPax = formatMoney(roundFloatNumber(totalReport / 100));
                 await this.setState({
                     creditCount: totalRecord,
@@ -424,20 +425,13 @@ class TabFirstSettle extends Layout {
 
     refreshSettlement = async () => {
         this.handlePAXReport();
-        // await this.setState({
-        //     isGetReportFromPax: true
-        // })
-        // this.props.actions.invoice.getSettlementWating();
-        // this.props.actions.invoice.getListStaffsSales();
-        // this.props.actions.invoice.getListGiftCardSales();
     }
 
     handleRequestAPIByTerminalID = (terminalID) => {
-        console.log(terminalID);
         this.setState({
-            // isGetReportFromPax: true,
             terminalID
         });
+        this.props.actions.app.updatePaxTerminalID(terminalID ? terminalID : "" );
         this.props.actions.invoice.getSettlementWating(terminalID);
         this.props.actions.invoice.getListStaffsSales(terminalID);
         this.props.actions.invoice.getListGiftCardSales(terminalID);
@@ -473,7 +467,6 @@ class TabFirstSettle extends Layout {
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isGettingSettlement, settleWaiting, isHandleInternalFirstSettlemetTab } = this.props;
         if (prevProps.isGettingSettlement === "loading" && isGettingSettlement === "success" && !_.isEmpty(settleWaiting)) {
-            console.log("----- ahihi -----");
             await this.setState({
                 editPaymentByHarmony: settleWaiting.paymentByHarmony ? settleWaiting.paymentByHarmony : 0.00,
                 editPaymentByCash: settleWaiting.paymentByCash ? settleWaiting.paymentByCash : 0.00,
@@ -485,9 +478,6 @@ class TabFirstSettle extends Layout {
                 paymentByGiftcard: settleWaiting.paymentByGiftcard ? settleWaiting.paymentByGiftcard : 0.00,
 
             });
-            // if (this.state.isGetReportFromPax) {
-            //     this.handlePAXReport();
-            // }
             this.props.actions.invoice.resetStateIsGettingSettlement();
         }
 

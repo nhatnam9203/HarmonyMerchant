@@ -31,13 +31,12 @@ class Layout extends React.Component {
                             <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(18) }}
-                                    placeholder={localize('Invoice No / SKU Number/Customer Phone Number', language)}
+                                    placeholder={localize('Invoice/SKU/Customer Phone/Batch/Last 4-Digits', language)}
                                     value={keySearch}
                                     onChangeText={(value) => this.updateSearchFilterInfo('keySearch', value)}
                                     onSubmitEditing={this.searchTransactions}
                                 />
                             </View>
-
                             {
                                 keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
                                     width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',

@@ -33,7 +33,8 @@ const initialState = {
   settingTabPermission: false,
   visiblePopupCodePush: false,
   descriptionCodePush: "",
-  isInitialApp: true
+  isInitialApp: true,
+  terminalID: ""
 };
 
 function appReducer(state = initialState, action) {
@@ -265,6 +266,11 @@ function appReducer(state = initialState, action) {
       return {
         ...initialState,
         isInitialApp: false
+      }
+    case 'UPDATE_PAX_TERMINAL_ID':
+      return {
+        ...initialState,
+        terminalID: action.payload
       }
     case 'LOGOUT_APP':
       return {
