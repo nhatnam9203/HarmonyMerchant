@@ -12,7 +12,8 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     HeaderTableCustomer, RowTableCustomer, RowEmptyTableCustomer,
-    PopupAddEditCustomer, PopupCustomerDetail, CustomerDetailTab,PopupAppointmentDetail
+    PopupAddEditCustomer, PopupCustomerDetail, CustomerDetailTab, PopupAppointmentDetail,
+    EditOrCreateCustomerTab
 } from './widget';
 import configs from "@configs";
 
@@ -132,7 +133,7 @@ export default class Layout extends React.Component {
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{}}
-                        initialPage={1}
+                        initialPage={2}
                         // locked={true}
                         renderTabBar={() => <View />}
                         onChangeTab={this.onChangeTab}
@@ -146,9 +147,12 @@ export default class Layout extends React.Component {
                         </View>
 
                         {/* --------- Customer Detail Tab -------- */}
-                        <CustomerDetailTab 
+                        <CustomerDetailTab
                             showAppointmentDetail={this.showAppointmentDetail}
                         />
+
+                        {/* --------- Edit or Create Customer -------- */}
+                        <EditOrCreateCustomerTab />
 
 
                     </ScrollableTabView>
