@@ -101,6 +101,9 @@ export default {
   customer_birthday: require('./img/customer_birthday.png'),
   customer_location: require('./img/customer_location.png'),
   customer_ref_phone: require('./img/customer_ref_phone.png'),
+  close_appointment_popup: require('./img/close_appointment_popup.png'),
+  appointment_calendar: require('./img/appointment_calendar.png'),
+  dropdown_appointment:require('./img/dropdown_appointment.png'),
 
   // --- Payment ---
   cash_payment_se: require('./payment/cash_payment_se.png'),

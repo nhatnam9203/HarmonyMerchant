@@ -4,6 +4,7 @@ import RowEmptyTableCustomer from './RowEmptyTableCustomer';
 import PopupAddEditCustomer from './PopupAddEditCustomer';
 import PopupCustomerDetail from './PopupCustomerDetail';
 import CustomerDetailTab from "./CustomerDetailTab";
+import PopupAppointmentDetail from "./PopupAppointmentDetail";
 
 module.exports = {
     HeaderTableCustomer,
@@ -11,5 +12,6 @@ module.exports = {
     RowEmptyTableCustomer,
     PopupAddEditCustomer,
     PopupCustomerDetail,
-    CustomerDetailTab
+    CustomerDetailTab,
+    PopupAppointmentDetail
 }

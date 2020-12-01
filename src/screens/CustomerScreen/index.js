@@ -144,6 +144,10 @@ class CustomerScreen extends Layout {
         this.props.navigation.navigate("Home");
     }
 
+    showAppointmentDetail = () =>{
+        alert("dd")
+    }
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();

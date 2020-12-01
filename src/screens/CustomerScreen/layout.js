@@ -12,7 +12,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     HeaderTableCustomer, RowTableCustomer, RowEmptyTableCustomer,
-    PopupAddEditCustomer, PopupCustomerDetail, CustomerDetailTab
+    PopupAddEditCustomer, PopupCustomerDetail, CustomerDetailTab,PopupAppointmentDetail
 } from './widget';
 import configs from "@configs";
 
@@ -146,7 +146,9 @@ export default class Layout extends React.Component {
                         </View>
 
                         {/* --------- Customer Detail Tab -------- */}
-                        <CustomerDetailTab />
+                        <CustomerDetailTab 
+                            showAppointmentDetail={this.showAppointmentDetail}
+                        />
 
 
                     </ScrollableTabView>
@@ -189,6 +191,7 @@ export default class Layout extends React.Component {
                     tabName="Customer"
                     onRequestClose={this.closePopupCheckCustomerTabPermission}
                 />
+                <PopupAppointmentDetail />
             </ParentContainer >
         );
     }

@@ -3,7 +3,8 @@ import {
     View,
     StyleSheet,
     Platform,
-    Image
+    Image,
+    ScrollView
 } from 'react-native';
 
 import { Button, Text } from '@components';
@@ -17,6 +18,9 @@ class CustomerDetailTab extends React.Component {
         super(props);
     }
 
+    showAppointmentDetail = () =>{
+       this.props.showAppointmentDetail()
+    }
     render() {
         return (
             <View style={{ flex: 1, padding: scaleSzie(10) }} >
@@ -107,8 +111,8 @@ class CustomerDetailTab extends React.Component {
                     <View style={{ flex: 1.6 }} >
                         {/* --------------- Top Right Content ----------- */}
                         <View style={{ height: scaleSzie(130), ...styles.SHADOW }} >
-                            <View style={{ height: scaleSzie(46), paddingLeft: scaleSzie(14), justifyContent: "center" }} >
-                                <Text style={{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "600" }} >
+                            <View style={{ height: scaleSzie(40), paddingLeft: scaleSzie(14), justifyContent: "center" }} >
+                                <Text style={{ color: "#0764B0", fontSize: scaleSzie(14), fontWeight: "600" }} >
                                     {`Sales`}
                                 </Text>
                             </View>
@@ -131,12 +135,12 @@ class CustomerDetailTab extends React.Component {
                                     <Text style={{ color: "#404040", fontSize: scaleSzie(20), fontWeight: "bold" }} >
                                         {`$  42.00`}
                                     </Text>
-                                    <View style={{ flexDirection: "row",justifyContent:"space-between" }}  >
+                                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}  >
                                         <Text style={{ color: "#404040", fontSize: scaleSzie(13) }} >
                                             {`Last visit sales`}
                                         </Text>
 
-                                        <Text style={{ color: "#404040", fontSize: scaleSzie(13),fontWeight:"300" }} >
+                                        <Text style={{ color: "#404040", fontSize: scaleSzie(13), fontWeight: "300" }} >
                                             {`12/23/2018`}
                                         </Text>
                                     </View>
@@ -148,7 +152,110 @@ class CustomerDetailTab extends React.Component {
                         <View style={{ height: scaleSzie(12) }} />
                         {/* --------------- Bottom Right Content ----------- */}
                         <View style={{ flex: 1, ...styles.SHADOW }} >
+                            <View style={{ height: scaleSzie(40), paddingLeft: scaleSzie(14), justifyContent: "center" }} >
+                                <Text style={{ color: "#0764B0", fontSize: scaleSzie(14), fontWeight: "600" }} >
+                                    {`Appointments`}
+                                </Text>
+                            </View>
 
+                            {/* --------------- Line ----------- */}
+                            <View style={{ height: scaleSzie(1), backgroundColor: "#EEEEEE" }} />
+
+                            <View style={{ flex: 1 }} >
+                                <ScrollView>
+                                    <View style={{ height: scaleSzie(130) }} >
+                                        <View style={{ flex: 1, flexDirection: "row", }} >
+                                            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
+                                                <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
+                                                    {`4`}
+                                                </Text>
+                                                <View style={{ height: scaleSzie(10) }} />
+                                                <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
+                                                    {`All bookings`}
+                                                </Text>
+                                            </View>
+                                            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
+                                                <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
+                                                    {`1`}
+                                                </Text>
+                                                <View style={{ height: scaleSzie(10) }} />
+                                                <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
+                                                    {`Upcoming`}
+                                                </Text>
+                                            </View>
+                                            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
+                                                <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
+                                                    {`3`}
+                                                </Text>
+                                                <View style={{ height: scaleSzie(10) }} />
+                                                <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
+                                                    {`Completed`}
+                                                </Text>
+                                            </View>
+                                            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
+                                                <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
+                                                    {`0`}
+                                                </Text>
+                                                <View style={{ height: scaleSzie(10) }} />
+                                                <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
+                                                    {`Cancelled`}
+                                                </Text>
+                                            </View>
+                                        </View>
+
+                                        <View style={{ height: scaleSzie(35), paddingLeft: scaleSzie(14) }} >
+                                            <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600" }} >
+                                                {`Upcoming`}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    {/* --------------- Line ----------- */}
+                                    <View style={{ height: scaleSzie(1), backgroundColor: "#EEEEEE" }} />
+
+                                    {/* -------------- Appointment Item ------------ */}
+                                    <Button onPress={this.showAppointmentDetail} style={{
+                                        minHeight: scaleSzie(100), flexDirection: "row", paddingVertical: scaleSzie(14),
+                                        paddingHorizontal: scaleSzie(10),borderBottomColor:"#EEEEEE",borderBottomWidth:scaleSzie(1),
+                                    }} >
+                                        <View style={{ width: scaleSzie(55), alignItems: "center" }} >
+                                            <Text style={{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "600" }} >
+                                                {`8`}
+                                            </Text>
+                                            <Text style={{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "600" }} >
+                                                {`Jan`}
+                                            </Text>
+                                        </View>
+                                        <View style={{ flex: 1 }} >
+                                            <Text style={{ color: "#404040", fontSize: scaleSzie(16), marginBottom: scaleSzie(10),fontWeight:"600" }} >
+                                                {`Friday - 10:00 AM`}
+                                            </Text>
+
+                                            <Text style={{ color: "#404040", fontSize: scaleSzie(14), marginTop: scaleSzie(12) }} >
+                                                {`Move For French- `}
+                                                <Text style={{ fontWeight: "300" }} >
+                                                    {`with Kerri`}
+                                                </Text>
+                                            </Text>
+
+                                            <Text style={{ color: "#404040", fontSize: scaleSzie(14), marginTop: scaleSzie(12) }} >
+                                                {`Paraffin Wax -`}
+                                                <Text style={{ fontWeight: "300" }} >
+                                                    {`with Kerri`}
+                                                </Text>
+                                            </Text>
+
+                                        </View>
+                                        <View style={{ width: scaleSzie(125),paddingRight:scaleSzie(12),alignItems:"flex-end",justifyContent:"space-between" }} >
+                                            <Text style={{color:"#0764B0",fontSize:scaleSzie(20)}} >
+                                                {`Confirmed`}
+                                            </Text>
+                                            <Text style={{color:"#0764B0",fontSize:scaleSzie(20),fontWeight:"600"}} >
+                                                {`$ 60.00`}
+                                            </Text>
+                                        </View>
+                                    </Button>
+                                </ScrollView>
+                            </View>
                         </View>
                     </View>
                 </View>
