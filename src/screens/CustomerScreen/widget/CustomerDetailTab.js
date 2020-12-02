@@ -18,8 +18,8 @@ class CustomerDetailTab extends React.Component {
         super(props);
     }
 
-    showAppointmentDetail = () =>{
-       this.props.showAppointmentDetail()
+    showAppointmentDetail = () => {
+        this.props.showAppointmentDetail()
     }
     render() {
         return (
@@ -31,9 +31,12 @@ class CustomerDetailTab extends React.Component {
                         <View style={{ height: scaleSzie(100), alignItems: "center", justifyContent: "flex-end" }} >
                             <View style={{
                                 width: scaleSzie(86), height: scaleSzie(86), borderRadius: scaleSzie(43),
-                                overflow: "hidden", backgroundColor: "yellow"
+                                overflow: "hidden", backgroundColor: "#E5E5E5",justifyContent:"center",
+                                alignItems:"center"
                             }} >
-
+                                <Text style={{ color: "#404040", fontSize: scaleSzie(40),fontWeight:"bold" }} >
+                                    {`A`}
+                                </Text>
                             </View>
                         </View>
 
@@ -215,7 +218,7 @@ class CustomerDetailTab extends React.Component {
                                     {/* -------------- Appointment Item ------------ */}
                                     <Button onPress={this.showAppointmentDetail} style={{
                                         minHeight: scaleSzie(100), flexDirection: "row", paddingVertical: scaleSzie(14),
-                                        paddingHorizontal: scaleSzie(10),borderBottomColor:"#EEEEEE",borderBottomWidth:scaleSzie(1),
+                                        paddingHorizontal: scaleSzie(10), borderBottomColor: "#EEEEEE", borderBottomWidth: scaleSzie(1),
                                     }} >
                                         <View style={{ width: scaleSzie(55), alignItems: "center" }} >
                                             <Text style={{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "600" }} >
@@ -226,7 +229,7 @@ class CustomerDetailTab extends React.Component {
                                             </Text>
                                         </View>
                                         <View style={{ flex: 1 }} >
-                                            <Text style={{ color: "#404040", fontSize: scaleSzie(16), marginBottom: scaleSzie(10),fontWeight:"600" }} >
+                                            <Text style={{ color: "#404040", fontSize: scaleSzie(16), marginBottom: scaleSzie(10), fontWeight: "600" }} >
                                                 {`Friday - 10:00 AM`}
                                             </Text>
 
@@ -245,11 +248,11 @@ class CustomerDetailTab extends React.Component {
                                             </Text>
 
                                         </View>
-                                        <View style={{ width: scaleSzie(125),paddingRight:scaleSzie(12),alignItems:"flex-end",justifyContent:"space-between" }} >
-                                            <Text style={{color:"#0764B0",fontSize:scaleSzie(20)}} >
+                                        <View style={{ width: scaleSzie(125), paddingRight: scaleSzie(12), alignItems: "flex-end", justifyContent: "space-between" }} >
+                                            <Text style={{ color: "#0764B0", fontSize: scaleSzie(20) }} >
                                                 {`Confirmed`}
                                             </Text>
-                                            <Text style={{color:"#0764B0",fontSize:scaleSzie(20),fontWeight:"600"}} >
+                                            <Text style={{ color: "#0764B0", fontSize: scaleSzie(20), fontWeight: "600" }} >
                                                 {`$ 60.00`}
                                             </Text>
                                         </View>

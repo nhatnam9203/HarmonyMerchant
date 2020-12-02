@@ -10,10 +10,11 @@ import {
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
-import { Button, Text, Dropdown, ButtonCustom } from '@components';
+import { Button, Text, Dropdown, ButtonCustom, TextInputSuggestion } from '@components';
 import { scaleSzie, ListCodeAreaPhone } from '@utils';
 import Configs from "@configs";
 import ICON from "@resources";
+import PopupChangeCustomerStatus from "./PopupChangeCustomerStatus";
 
 const { width } = Dimensions.get("window");
 
@@ -42,8 +43,8 @@ class EditOrCreateCustomerTab extends React.Component {
             customerId: 0,
             codeAreaPhone: '+1',
             codeReferrerPhone: '+1',
-            dynamicMarginBottomState: 24
-
+            dynamicMarginBottomState: 24,
+            visibleChangeStatus: false
         };
         this.scrollLeftCustomerRef = React.createRef();
         this.scrollRightCustomerRef = React.createRef();
@@ -67,9 +68,36 @@ class EditOrCreateCustomerTab extends React.Component {
         }
     }
 
+    onChangeState = (value, count = 0) => {
+        this.updateCustomerInfo('state', value, 'addressPost');
+        this.setState({
+            dynamicMarginBottomState: count * 24
+        });
+    }
+
+    scrollLeftContentTo = (position) =>{
+        this.scrollLeftCustomerRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true });
+    }
+
+    scrollRightContentTo = (position) =>{
+        this.scrollRightCustomerRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true });
+    }
+
+    changeCustomerStatus = () =>{
+        this.setState({
+            visibleChangeStatus: true
+        })
+    }
+
+    closePopupChangeStatus = () =>{
+        this.setState({
+            visibleChangeStatus: false
+        })
+    }
+
 
     render() {
-        const { codeAreaPhone, codeReferrerPhone } = this.state;
+        const { codeAreaPhone, codeReferrerPhone, dynamicMarginBottomState,visibleChangeStatus } = this.state;
         const { firstName, lastName, phone, email, referrerPhone, favourite, addressPost, isVip, gender, birthday } = this.state.customerInfo;
         const { street, city, state, zip } = addressPost;
 
@@ -83,7 +111,7 @@ class EditOrCreateCustomerTab extends React.Component {
                     <Text style={{ color: "#0764B0", fontSize: scaleSzie(20), fontWeight: "600" }} >
                         {`New customer`}
                     </Text>
-                    <View style={{
+                    <Button onPress={this.changeCustomerStatus} style={{
                         width: scaleSzie(85), height: scaleSzie(28), backgroundColor: "#0764B0", borderRadius: scaleSzie(20),
                         justifyContent: "center", alignItems: "center", flexDirection: "row"
                     }} >
@@ -91,7 +119,7 @@ class EditOrCreateCustomerTab extends React.Component {
                             {`Normal`}
                         </Text>
                         <Image source={ICON.white_drpdown_status_customer} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
-                    </View>
+                    </Button>
                 </View>
 
                 {/* ------------- Line ------------ */}
@@ -120,6 +148,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                 placeholder="Last Name"
                                 value={lastName}
                                 onChangeText={value => this.updateCustomerInfo('lastName', value)}
+                                onFocus={() =>this.scrollLeftContentTo(90)}
                             />
 
                             <PhoneItem
@@ -130,6 +159,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                 upddateCodeArea={(codeAreaPhone) => this.setState({ codeAreaPhone })}
                                 value={phone}
                                 onChangeText={value => this.updateCustomerInfo('phone', value)}
+                                onFocus={() =>this.scrollLeftContentTo(170)}
                             />
 
                             <FromItem
@@ -137,6 +167,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                 placeholder="Email address"
                                 value={email}
                                 onChangeText={value => this.updateCustomerInfo('email', value)}
+                                onFocus={() =>this.scrollLeftContentTo(240)}
                             />
 
                             <Text style={{ fontSize: scaleSzie(14), color: "#404040", fontWeight: "600" }} >
@@ -159,7 +190,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                 />
                             </View>
 
-                            <View style={{ height: scaleSzie(300) }} />
+                            <View style={{ height: scaleSzie(400) }} />
                         </ScrollView>
                     </View>
 
@@ -215,9 +246,10 @@ class EditOrCreateCustomerTab extends React.Component {
                                 }}
                                 value={street}
                                 onChangeText={value => this.updateCustomerInfo('street', value, 'addressPost')}
+                                onFocus={() =>this.scrollRightContentTo(90)}
                             />
 
-                            {/* ----------- City + State ------------- */}
+                            {/* ----------- City + Zip  ------------- */}
                             <View style={{ height: scaleSzie(35), marginBottom: scaleSzie(10), flexDirection: "row" }} >
                                 <View style={{ flex: 1, flexDirection: "row", borderColor: "#CCCCCC", borderWidth: 1, paddingHorizontal: scaleSzie(10) }} >
                                     <TextInput
@@ -230,6 +262,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                         placeholder={"City"}
                                         value={city}
                                         onChangeText={value => this.updateCustomerInfo('city', value, 'addressPost')}
+                                        onFocus={() =>this.scrollRightContentTo(120)}
                                     />
                                     {
                                         city ? <Button
@@ -240,14 +273,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                     }
                                 </View>
                                 <View style={{ width: scaleSzie(35) }} />
-                                <View style={{ flex: 1, borderColor: "#CCCCCC", borderWidth: 1 }} >
-
-                                </View>
-                            </View>
-
-                            {/* ----------- Zip code ------------- */}
-                            <View style={{ height: scaleSzie(35), marginBottom: scaleSzie(10), flexDirection: "row" }} >
-                                <View style={{ flex: 1,flexDirection:"row" ,borderColor: "#CCCCCC", borderWidth: 1, paddingHorizontal: scaleSzie(10) }} >
+                                <View style={{ flex: 1, flexDirection: "row", borderColor: "#CCCCCC", borderWidth: 1, paddingHorizontal: scaleSzie(10) }} >
                                     <TextInput
                                         style={{
                                             flex: 1,
@@ -258,6 +284,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                         placeholder={"Zip"}
                                         value={zip}
                                         onChangeText={value => this.updateCustomerInfo('zip', value, 'addressPost')}
+                                        onFocus={() =>this.scrollRightContentTo(120)}
                                     />
                                     {
                                         zip ? <Button
@@ -266,6 +293,20 @@ class EditOrCreateCustomerTab extends React.Component {
                                             <Image source={ICON.clear_input_customer_info} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                                         </Button> : null
                                     }
+                                </View>
+                            </View>
+
+                            {/* ----------- State  ------------- */}
+                            <View style={{ height: scaleSzie(35), flexDirection: "row", marginBottom: scaleSzie(dynamicMarginBottomState) }} >
+                                <View style={{ flex: 1, }} >
+                                    <TextInputSuggestion
+                                        value={state}
+                                        onChangeText={this.onChangeState}
+                                        resetMarginState={() => this.setState({ dynamicMarginBottomState: 24 })}
+                                    // onFocus={() => this.scrollCustomerTo(280)}
+                                    onFocus={() =>this.scrollRightContentTo(200)}
+                                    />
+
                                 </View>
                                 <View style={{ width: scaleSzie(35) }} />
                                 <View style={{ flex: 1 }} />
@@ -280,6 +321,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                 upddateCodeArea={(codeReferrerPhone) => this.setState({ codeReferrerPhone })}
                                 value={referrerPhone}
                                 onChangeText={value => this.updateCustomerInfo('referrerPhone', value)}
+                                onFocus={() =>this.scrollRightContentTo(250)}
                             />
 
                             {/* ------------ Note --------- */}
@@ -293,16 +335,14 @@ class EditOrCreateCustomerTab extends React.Component {
                                         padding: 0,
                                         textAlignVertical: "top"
                                     }}
-                                    // value={favourite}
-                                    // onChangeText={value => this.updateCustomerInfo('favourite', value)}
-                                    // onFocus={() => this.scrollCustomerTo(500)}
                                     multiline={true}
                                     value={favourite}
                                     onChangeText={value => this.updateCustomerInfo('favourite', value)}
+                                    onFocus={() =>this.scrollRightContentTo(330)}
                                 />
                             </View>
 
-                            <View style={{ height: scaleSzie(300) }} />
+                            <View style={{ height: scaleSzie(400) }} />
                         </ScrollView>
                     </View>
                 </View>
@@ -339,12 +379,17 @@ class EditOrCreateCustomerTab extends React.Component {
                         }}
                     />
                 </View>
+
+                <PopupChangeCustomerStatus 
+                    visible={visibleChangeStatus}
+                    onRequestClose={this.closePopupChangeStatus}
+                />
             </View>
         );
     }
 }
 
-const PhoneItem = ({ title, isRequired, placeholder, style, value, onChangeText, codeArea, upddateCodeArea }) => {
+const PhoneItem = ({ title, isRequired, placeholder, style, value, onChangeText, codeArea, upddateCodeArea,onFocus }) => {
 
     return (
         <View style={[{ marginBottom: scaleSzie(14) }, style]} >
@@ -358,12 +403,7 @@ const PhoneItem = ({ title, isRequired, placeholder, style, value, onChangeText,
 
             </Text>
 
-            <View style={{
-                height: scaleSzie(35), marginTop: scaleSzie(10),
-                //  paddingHorizontal: scaleSzie(10),
-                //   borderWidth: 1, borderColor: "#CCCCCC",
-                flexDirection: "row",
-            }} >
+            <View style={{height: scaleSzie(35), marginTop: scaleSzie(10),flexDirection: "row"}} >
                 <View style={{ width: scaleSzie(55) }} >
                     <Dropdown
                         label={'+1'}
@@ -394,6 +434,7 @@ const PhoneItem = ({ title, isRequired, placeholder, style, value, onChangeText,
                         placeholder="012-345-6456"
                         value={value}
                         onChangeText={onChangeText}
+                        onFocus={onFocus ? onFocus : null}
                     />
                     {
                         value ? <Button
@@ -408,7 +449,7 @@ const PhoneItem = ({ title, isRequired, placeholder, style, value, onChangeText,
     );
 }
 
-const FromItem = ({ title, isRequired, placeholder, style, value, onChangeText }) => {
+const FromItem = ({ title, isRequired, placeholder, style, value, onChangeText,onFocus }) => {
 
     return (
         <View style={[{ marginBottom: scaleSzie(14) }, style]} >
@@ -436,6 +477,7 @@ const FromItem = ({ title, isRequired, placeholder, style, value, onChangeText }
                     placeholder={placeholder ? placeholder : ""}
                     value={value}
                     onChangeText={onChangeText}
+                    onFocus={onFocus ? onFocus : null}
                 />
 
                 {

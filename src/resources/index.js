@@ -106,6 +106,7 @@ export default {
   dropdown_appointment:require('./img/dropdown_appointment.png'),
   white_drpdown_status_customer:require('./img/white_drpdown_status_customer.png'),
   clear_input_customer_info:require('./img/clear_input_customer_info.png'),
+  vip_icon:require('./img/vip_icon.png'),
 
   // --- Payment ---
   cash_payment_se: require('./payment/cash_payment_se.png'),
