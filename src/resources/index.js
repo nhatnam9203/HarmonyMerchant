@@ -104,6 +104,8 @@ export default {
   close_appointment_popup: require('./img/close_appointment_popup.png'),
   appointment_calendar: require('./img/appointment_calendar.png'),
   dropdown_appointment:require('./img/dropdown_appointment.png'),
+  white_drpdown_status_customer:require('./img/white_drpdown_status_customer.png'),
+  clear_input_customer_info:require('./img/clear_input_customer_info.png'),
 
   // --- Payment ---
   cash_payment_se: require('./payment/cash_payment_se.png'),
