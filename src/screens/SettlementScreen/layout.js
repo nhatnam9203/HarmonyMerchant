@@ -22,7 +22,7 @@ import configs from "@configs";
 export default class Layout extends React.Component {
 
     renderHeader() {
-        const { language, connectPAXStatus } = this.props;
+        const { language, connectPAXStatus,terminalID } = this.props;
         const statusConnectColor = connectPAXStatus.status ? "#4CD964" : "#FF6F00";
 
         return (

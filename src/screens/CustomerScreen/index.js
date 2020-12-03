@@ -13,7 +13,8 @@ class CustomerScreen extends Layout {
             visibleAdd: false,
             visibleDetail: false,
             visibleEdit: false,
-            keySearch: ''
+            keySearch: '',
+            currentTab:0
         }
         this.scrollTabRef = React.createRef();
         this.modalDetailRef = React.createRef();
@@ -101,11 +102,17 @@ class CustomerScreen extends Layout {
         })
     }
 
-    showModalDetail = (customer) => {
-        this.modalDetailRef.current.setStateFromParent(customer);
-        this.setState({
-            visibleDetail: true
-        })
+    onChangeTab = (index) => {
+        this.setState({ currentTab: index.i });
+    }
+
+    gotoCustomerDetailTab = (customer) => {
+        console.log("----customer: ",JSON.stringify(customer));
+        this.scrollTabRef.current.goToPage(1);
+        // this.modalDetailRef.current.setStateFromParent(customer);
+        // this.setState({
+        //     visibleDetail: true
+        // })
     }
 
     addCustomer = async (customer) => {
