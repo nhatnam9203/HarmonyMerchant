@@ -16,6 +16,7 @@ import {
     EditOrCreateCustomerTab
 } from './widget';
 import configs from "@configs";
+import ICON from "@resources"
 
 export default class Layout extends React.Component {
 
@@ -120,7 +121,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { language, stateCity, navigation, customerTabPermission } = this.props;
-        const { visibleAdd, visibleDetail, visibleEdit, isFocus } = this.state;
+        const { visibleAdd, visibleDetail, visibleEdit, isFocus, currentTab } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -148,6 +149,7 @@ export default class Layout extends React.Component {
 
                         {/* --------- Customer Detail Tab -------- */}
                         <CustomerDetailTab
+                            ref={this.customerDetailTabRef}
                             showAppointmentDetail={this.showAppointmentDetail}
                         />
 
@@ -159,6 +161,15 @@ export default class Layout extends React.Component {
                     <Button onPress={this.openDrawer} style={configs.btn_left_position} >
                         <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
+
+                    {
+                        currentTab !== 0 ? <Button onPress={this.backCustomerListTab}
+                            style={[configs.btn_right_position, {
+                                width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
+                            }]} >
+                            <Image source={ICON.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
+                        </Button> : <View />
+                    }
                 </View>
 
                 <PopupAddEditCustomer

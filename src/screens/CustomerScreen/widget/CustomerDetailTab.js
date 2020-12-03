@@ -16,12 +16,43 @@ class CustomerDetailTab extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            customer: {
+                customerId: "",
+                firstName: "",
+                lastName: "",
+                phone: "",
+                referrerPhone: "",
+                email: "",
+                isVip: 0,
+                birthdate: "",
+                gender: "",
+                favourite:"",
+                addressPost: {
+                    "street": "",
+                    "state": 0,
+                    "city": "",
+                    "zip": ""
+                },
+
+            }
+        }
+    }
+
+    setStateFromParent = async (customer) => {
+        await this.setState({
+            customer
+        })
     }
 
     showAppointmentDetail = () => {
         this.props.showAppointmentDetail()
     }
+
     render() {
+        const { customer } = this.state;
+        const firstLetter = customer?.firstName ? customer?.firstName[0] : "";
+
         return (
             <View style={{ flex: 1, padding: scaleSzie(10) }} >
                 <View style={{ flex: 1, flexDirection: "row" }} >
@@ -31,11 +62,11 @@ class CustomerDetailTab extends React.Component {
                         <View style={{ height: scaleSzie(100), alignItems: "center", justifyContent: "flex-end" }} >
                             <View style={{
                                 width: scaleSzie(86), height: scaleSzie(86), borderRadius: scaleSzie(43),
-                                overflow: "hidden", backgroundColor: "#E5E5E5",justifyContent:"center",
-                                alignItems:"center"
+                                overflow: "hidden", backgroundColor: "#E5E5E5", justifyContent: "center",
+                                alignItems: "center"
                             }} >
-                                <Text style={{ color: "#404040", fontSize: scaleSzie(40),fontWeight:"bold" }} >
-                                    {`A`}
+                                <Text style={{ color: "#404040", fontSize: scaleSzie(40), fontWeight: "bold" }} >
+                                    {`${firstLetter}`}
                                 </Text>
                             </View>
                         </View>
@@ -45,7 +76,7 @@ class CustomerDetailTab extends React.Component {
                             color: "#404040", fontSize: scaleSzie(14), fontWeight: "600", textAlign: "center",
                             marginVertical: scaleSzie(8)
                         }} >
-                            {`Annette Schuster`}
+                            {`${customer?.firstName || ""} ${customer?.lastName || ""}`}
                         </Text>
 
                         {/* ------------- Customer Status  ---------- */}
@@ -69,7 +100,7 @@ class CustomerDetailTab extends React.Component {
                                     <Image source={ICON.note_customer} />
                                 </View>
                                 <Text style={{ color: "#A9A9A9", fontSize: scaleSzie(12) }} >
-                                    {`Don't like red`}
+                                    {`${customer?.favourite || ""}`}
                                 </Text>
                             </View>
 
@@ -78,27 +109,28 @@ class CustomerDetailTab extends React.Component {
 
                             <ItemCustomerInfo
                                 icon={ICON.customer_phone}
-                                title="515-752-9610"
+                                title={`${customer?.phone || ""}`}
                             />
                             <ItemCustomerInfo
                                 icon={ICON.customer_email}
-                                title="Sean.Barrows@hotmail.com"
+                                title={`${customer?.email || ""}`}
                             />
                             <ItemCustomerInfo
                                 icon={ICON.customer_gender}
-                                title="Female"
+                                title={`${customer?.gender || ""}`}
                             />
                             <ItemCustomerInfo
                                 icon={ICON.customer_birthday}
-                                title="Jan 21"
+                                title={`${customer?.birthdate || ""}`}
                             />
                             <ItemCustomerInfo
                                 icon={ICON.customer_location}
-                                title="864  Brown Avenue - Grover - South Carolina"
+                                title={`${customer?.addressPost?.street} ${customer?.addressPost?.city} ${customer?.addressPost?.state}`}
+
                             />
                             <ItemCustomerInfo
                                 icon={ICON.customer_ref_phone}
-                                title="+1 222 527 1450"
+                                title={`${customer?.referrerPhone || ""}`}
                             />
                         </View>
 

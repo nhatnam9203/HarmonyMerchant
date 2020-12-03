@@ -14,13 +14,14 @@ class CustomerScreen extends Layout {
             visibleDetail: false,
             visibleEdit: false,
             keySearch: '',
-            currentTab:0
+            currentTab: 0
         }
         this.scrollTabRef = React.createRef();
         this.modalDetailRef = React.createRef();
         this.modalAddRef = React.createRef();
         this.modalEditRef = React.createRef();
         this.checkPermissionRef = React.createRef();
+        this.customerDetailTabRef = React.createRef();
     }
 
     componentDidMount() {
@@ -54,11 +55,11 @@ class CustomerScreen extends Layout {
         }
     }
 
-    clearSearchText = () =>{
+    clearSearchText = () => {
         this.setState({
-            keySearch:""
+            keySearch: ""
         })
-    } 
+    }
 
     searchCustomer = (isShowLoading = true) => {
         const { keySearch } = this.state;
@@ -107,12 +108,21 @@ class CustomerScreen extends Layout {
     }
 
     gotoCustomerDetailTab = (customer) => {
-        console.log("----customer: ",JSON.stringify(customer));
+        // console.log(this.customerDetailTabRef);
+
         this.scrollTabRef.current.goToPage(1);
-        // this.modalDetailRef.current.setStateFromParent(customer);
-        // this.setState({
-        //     visibleDetail: true
-        // })
+        if (this.customerDetailTabRef?.current) {
+            this.customerDetailTabRef?.current?.setStateFromParent(customer);
+        } else {
+            setTimeout(() => {
+                this.customerDetailTabRef?.current?.setStateFromParent(customer);
+            }, 300)
+        }
+
+    }
+
+    backCustomerListTab = () => {
+        this.scrollTabRef.current.goToPage(0);
     }
 
     addCustomer = async (customer) => {
@@ -126,7 +136,7 @@ class CustomerScreen extends Layout {
         await this.setState({
             visibleEdit: false
         })
-        this.props.actions.customer.editCustomer(customerId, customer,this.state.keySearch);
+        this.props.actions.customer.editCustomer(customerId, customer, this.state.keySearch);
 
     }
 
@@ -151,7 +161,7 @@ class CustomerScreen extends Layout {
         this.props.navigation.navigate("Home");
     }
 
-    showAppointmentDetail = () =>{
+    showAppointmentDetail = () => {
         alert("dd")
     }
 
