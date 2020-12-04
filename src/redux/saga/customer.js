@@ -182,6 +182,63 @@ function* sendGoogleReviewLink(action) {
     }
 }
 
+function* getCustomerInfoById(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // console.log("getCustomerInfoById: ", JSON.stringify(responses));
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "GET_CUSTOMER_INFO_BY_ID__SUCCESS",
+                payload: responses?.data
+            });
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* getPastAppointments(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log("getPastAppointments: ", JSON.stringify(responses));
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "GET_PAST_APPOINTMENT_SUCCESS",
+                payload: responses?.data || []
+            });
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
 
 
 export default function* saga() {
@@ -192,6 +249,8 @@ export default function* saga() {
         takeLatest('EDIT_CUSTOMER', editCustomer),
         takeLatest('GET_CUSTOMER_INFO_BY_PHONE', getCustomerInfoByPhone),
         takeEvery('SEND_GOOGLE_REVIEW_LIINK', sendGoogleReviewLink),
+        takeLatest('GET_CUSTOMER_INFO_BY_ID', getCustomerInfoById),
+        takeLatest('GET_PAST_APPOINTMENT', getPastAppointments),
 
     ])
 }

@@ -748,7 +748,8 @@ export const getPaymentString = (type) => {
 }
 
 export const formatWithMoment = (data, key) => {
-    return moment.parseZone(data).format(key);
+    const temtFormatDate = moment.parseZone(data).format(key);
+    return temtFormatDate != "Invalid date" ? temtFormatDate : "";
 }
 
 export const PRINTER_MACHINE = {

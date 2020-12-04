@@ -1,6 +1,6 @@
 import apiConfigs from '../../configs/api';
 
-export function getListCustomersByMerchant(key= "", isShowLoading = true) {
+export function getListCustomersByMerchant(key = "", isShowLoading = true) {
     return {
         type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
         method: 'GET',
@@ -36,7 +36,7 @@ export function addCustomer(body) {
     }
 }
 
-export function editCustomer(id, body,keySearch= "") {
+export function editCustomer(id, body, keySearch = "") {
     return {
         type: 'EDIT_CUSTOMER',
         method: 'PUT',
@@ -63,11 +63,29 @@ export function toggleCustomerTabPermission(visible = true) {
     }
 }
 
-export function sendGoogleReviewLink(customerId = 0,merchantId = 0) {
+export function sendGoogleReviewLink(customerId = 0, merchantId = 0) {
     return {
         type: 'SEND_GOOGLE_REVIEW_LIINK',
         method: 'GET',
         api: `${apiConfigs.BASE_API}customer/sendReviewLink?customerId=${customerId}&merchantId=${merchantId}`,
+        token: true
+    }
+}
+
+export function getCustomerInfoById(customerId) {
+    return {
+        type: 'GET_CUSTOMER_INFO_BY_ID',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}customer/${customerId}`,
+        token: true
+    }
+}
+
+export function getPastAppointments(customerId, page = 1) {
+    return {
+        type: 'GET_PAST_APPOINTMENT',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}appointment/getPastByCustomer/${customerId}?page=${page}`,
         token: true
     }
 }

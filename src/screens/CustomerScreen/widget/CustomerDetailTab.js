@@ -4,13 +4,15 @@ import {
     StyleSheet,
     Platform,
     Image,
-    ScrollView
+    ScrollView,
+    FlatList
 } from 'react-native';
 
 import { Button, Text } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie, formatWithMoment, getArrayProductsFromAppointment, getArrayServicesFromAppointment, getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment } from '@utils';
 import Configs from "@configs";
 import ICON from "@resources";
+import connectRedux from '@redux/ConnectRedux';
 
 class CustomerDetailTab extends React.Component {
 
@@ -27,7 +29,7 @@ class CustomerDetailTab extends React.Component {
                 isVip: 0,
                 birthdate: "",
                 gender: "",
-                favourite:"",
+                favourite: "",
                 addressPost: {
                     "street": "",
                     "state": 0,
@@ -50,8 +52,10 @@ class CustomerDetailTab extends React.Component {
     }
 
     render() {
+        const { customerInfoById, pastAppointments } = this.props;
         const { customer } = this.state;
         const firstLetter = customer?.firstName ? customer?.firstName[0] : "";
+        const upcomings = customerInfoById?.customerHistory?.upcomings || [];
 
         return (
             <View style={{ flex: 1, padding: scaleSzie(10) }} >
@@ -79,17 +83,33 @@ class CustomerDetailTab extends React.Component {
                             {`${customer?.firstName || ""} ${customer?.lastName || ""}`}
                         </Text>
 
-                        {/* ------------- Customer Status  ---------- */}
-                        <View style={{ height: scaleSzie(28), alignItems: "center", marginBottom: scaleSzie(10) }} >
-                            <View style={{
-                                height: scaleSzie(28), width: scaleSzie(80), backgroundColor: "#0764B0", borderRadius: scaleSzie(30),
-                                justifyContent: "center", alignItems: "center"
-                            }} >
-                                <Text style={{ color: "#fff", fontSize: scaleSzie(12) }} >
-                                    {`Normal`}
-                                </Text>
-                            </View>
-                        </View>
+                        {/* ------------- Customer VIP or Normal Status  ---------- */}
+                        {
+                            customer?.isVip ?
+
+                                < View style={{ height: scaleSzie(28), alignItems: "center", marginBottom: scaleSzie(10) }} >
+                                    <View style={{
+                                        height: scaleSzie(28), width: scaleSzie(80), backgroundColor: "rgb(76,217,100)", borderRadius: scaleSzie(30),
+                                        justifyContent: "center", alignItems: "center", flexDirection: "row"
+                                    }} >
+                                        <Image source={ICON.vip_icon} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
+                                        <Text style={{ color: "#fff", fontSize: scaleSzie(12), marginLeft: scaleSzie(4) }} >
+                                            {`VIP`}
+                                        </Text>
+                                    </View>
+                                </View>
+                                :
+                                <View style={{ height: scaleSzie(28), alignItems: "center", marginBottom: scaleSzie(10) }} >
+                                    <View style={{
+                                        height: scaleSzie(28), width: scaleSzie(80), backgroundColor: "#0764B0", borderRadius: scaleSzie(30),
+                                        justifyContent: "center", alignItems: "center"
+                                    }} >
+                                        <Text style={{ color: "#fff", fontSize: scaleSzie(12) }} >
+                                            {`Normal`}
+                                        </Text>
+                                    </View>
+                                </View>
+                        }
 
                         <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                             {/* ------------- Customer Note  ---------- */}
@@ -158,7 +178,7 @@ class CustomerDetailTab extends React.Component {
                             <View style={{ flex: 1, flexDirection: "row" }} >
                                 <View style={{ flex: 1, paddingLeft: scaleSzie(14), paddingVertical: scaleSzie(5), justifyContent: "space-around" }} >
                                     <Text style={{ color: "#404040", fontSize: scaleSzie(20), fontWeight: "bold" }} >
-                                        {`$  100.00`}
+                                        {`$  ${customerInfoById?.customerHistory?.totalSales || "0.00"}`}
                                     </Text>
                                     <Text style={{ color: "#404040", fontSize: scaleSzie(13) }} >
                                         {`Total sales`}
@@ -168,7 +188,7 @@ class CustomerDetailTab extends React.Component {
                                 <View style={{ width: scaleSzie(1), backgroundColor: "#EEEEEE" }} />
                                 <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), paddingVertical: scaleSzie(5), justifyContent: "space-around" }} >
                                     <Text style={{ color: "#404040", fontSize: scaleSzie(20), fontWeight: "bold" }} >
-                                        {`$  42.00`}
+                                        {`$  ${customerInfoById?.customerHistory?.lastVisitSale || "0.00"}`}
                                     </Text>
                                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}  >
                                         <Text style={{ color: "#404040", fontSize: scaleSzie(13) }} >
@@ -176,7 +196,7 @@ class CustomerDetailTab extends React.Component {
                                         </Text>
 
                                         <Text style={{ color: "#404040", fontSize: scaleSzie(13), fontWeight: "300" }} >
-                                            {`12/23/2018`}
+                                            {`${formatWithMoment(customerInfoById?.customerHistory?.lastVisitDate, "MM/DD/YYYY")}`}
                                         </Text>
                                     </View>
 
@@ -202,7 +222,7 @@ class CustomerDetailTab extends React.Component {
                                         <View style={{ flex: 1, flexDirection: "row", }} >
                                             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
                                                 <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
-                                                    {`4`}
+                                                    {`${customerInfoById?.customerHistory?.allBooking || 0}`}
                                                 </Text>
                                                 <View style={{ height: scaleSzie(10) }} />
                                                 <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
@@ -211,7 +231,7 @@ class CustomerDetailTab extends React.Component {
                                             </View>
                                             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
                                                 <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
-                                                    {`1`}
+                                                    {`${customerInfoById?.customerHistory?.upcoming || 0}`}
                                                 </Text>
                                                 <View style={{ height: scaleSzie(10) }} />
                                                 <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
@@ -220,7 +240,7 @@ class CustomerDetailTab extends React.Component {
                                             </View>
                                             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
                                                 <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
-                                                    {`3`}
+                                                    {`${customerInfoById?.customerHistory?.completed || 0}`}
                                                 </Text>
                                                 <View style={{ height: scaleSzie(10) }} />
                                                 <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
@@ -229,7 +249,7 @@ class CustomerDetailTab extends React.Component {
                                             </View>
                                             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
                                                 <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
-                                                    {`0`}
+                                                    {`${customerInfoById?.customerHistory?.cancelled || 0}`}
                                                 </Text>
                                                 <View style={{ height: scaleSzie(10) }} />
                                                 <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
@@ -248,56 +268,129 @@ class CustomerDetailTab extends React.Component {
                                     <View style={{ height: scaleSzie(1), backgroundColor: "#EEEEEE" }} />
 
                                     {/* -------------- Appointment Item ------------ */}
-                                    <Button onPress={this.showAppointmentDetail} style={{
-                                        minHeight: scaleSzie(100), flexDirection: "row", paddingVertical: scaleSzie(14),
-                                        paddingHorizontal: scaleSzie(10), borderBottomColor: "#EEEEEE", borderBottomWidth: scaleSzie(1),
-                                    }} >
-                                        <View style={{ width: scaleSzie(55), alignItems: "center" }} >
-                                            <Text style={{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "600" }} >
-                                                {`8`}
-                                            </Text>
-                                            <Text style={{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "600" }} >
-                                                {`Jan`}
-                                            </Text>
-                                        </View>
-                                        <View style={{ flex: 1 }} >
-                                            <Text style={{ color: "#404040", fontSize: scaleSzie(16), marginBottom: scaleSzie(10), fontWeight: "600" }} >
-                                                {`Friday - 10:00 AM`}
-                                            </Text>
+                                    {
+                                        upcomings.map((appointment) => <AppointmentItem
+                                            key={appointment?.appointmentId}
+                                            appointment={appointment}
+                                        />)
+                                    }
 
-                                            <Text style={{ color: "#404040", fontSize: scaleSzie(14), marginTop: scaleSzie(12) }} >
-                                                {`Move For French- `}
-                                                <Text style={{ fontWeight: "300" }} >
-                                                    {`with Kerri`}
-                                                </Text>
-                                            </Text>
+                                    <FlatList
+                                        data={pastAppointments}
+                                        renderItem={({ item, index }) => <AppointmentItem
+                                            appointment={item}
+                                            isPastAppointment={true}
+                                        />}
+                                        keyExtractor={(item, index) => `${item?.appointmentId}_${index}`}
+                                    />
 
-                                            <Text style={{ color: "#404040", fontSize: scaleSzie(14), marginTop: scaleSzie(12) }} >
-                                                {`Paraffin Wax -`}
-                                                <Text style={{ fontWeight: "300" }} >
-                                                    {`with Kerri`}
-                                                </Text>
-                                            </Text>
-
-                                        </View>
-                                        <View style={{ width: scaleSzie(125), paddingRight: scaleSzie(12), alignItems: "flex-end", justifyContent: "space-between" }} >
-                                            <Text style={{ color: "#0764B0", fontSize: scaleSzie(20) }} >
-                                                {`Confirmed`}
-                                            </Text>
-                                            <Text style={{ color: "#0764B0", fontSize: scaleSzie(20), fontWeight: "600" }} >
-                                                {`$ 60.00`}
-                                            </Text>
-                                        </View>
-                                    </Button>
                                 </ScrollView>
                             </View>
                         </View>
                     </View>
                 </View>
-            </View>
+            </View >
         );
     }
 }
+
+const AppointmentItem = ({ appointment, isPastAppointment }) => {
+    const createdDate = appointment?.createdDate;
+    const arrayProducts = getArrayProductsFromAppointment(appointment?.products || []);
+    const arryaServices = getArrayServicesFromAppointment(appointment?.services || []);
+    const arrayExtras = getArrayExtrasFromAppointment(appointment?.extras || []);
+    const arrayGiftCards = getArrayGiftCardsFromAppointment(appointment?.giftCards || []);
+
+    return (
+        <View style={{ paddingHorizontal: scaleSzie(10), borderBottomColor: "#EEEEEE", borderBottomWidth: scaleSzie(1), }} >
+
+            {
+                isPastAppointment ? <View style={{ width: scaleSzie(55), alignItems: "center" }} >
+                    <Text style={{
+                        color: "#404040", fontSize: scaleSzie(16), fontWeight: "600",
+                        marginTop: scaleSzie(22), marginBottom: scaleSzie(10)
+                    }} >
+                        {`Past`}
+                    </Text>
+                </View> : <View />
+            }
+
+            <Button onPress={this.showAppointmentDetail} style={{
+                minHeight: scaleSzie(100), flexDirection: "row", paddingVertical: scaleSzie(14),
+            }} >
+                <View style={{ width: scaleSzie(55), alignItems: "center" }} >
+                    <Text style={{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "600" }} >
+                        {`${formatWithMoment(createdDate, "D")}`}
+                    </Text>
+                    <Text style={{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "600", marginVertical: scaleSzie(3) }} >
+                        {`${formatWithMoment(createdDate, "MMM")}`}
+                    </Text>
+                    {
+                        isPastAppointment ? <Text style={{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "600" }} >
+                            {`${formatWithMoment(createdDate, "YYYY")}`}
+                        </Text> : null
+                    }
+
+                </View>
+                <View style={{ flex: 1 }} >
+                    <Text style={{ color: "#404040", fontSize: scaleSzie(16), marginBottom: scaleSzie(10), fontWeight: "600" }} >
+                        {`${formatWithMoment(createdDate, "dddd")} - ${formatWithMoment(createdDate, "h:mm A")}`}
+                    </Text>
+                    {/* ----------- Services ------------ */}
+                    {
+                        arryaServices.map((service) => <Text key={service?.id} style={{ color: "#404040", fontSize: scaleSzie(14), marginTop: scaleSzie(12) }} >
+                            {`${service?.data?.name || ""}- `}
+                            <Text style={{ fontWeight: "300" }} >
+                                {`${service?.staff?.displayName}`}
+                            </Text>
+                        </Text>)
+                    }
+
+                    {/* ----------- Extras  ------------ */}
+                    {
+                        arrayExtras.map((extra) => <Text key={extra?.id} style={{ color: "#404040", fontSize: scaleSzie(14), marginTop: scaleSzie(12) }} >
+                            {`${extra?.data?.name || ""} `}
+                            <Text style={{ fontWeight: "300" }} >
+                                {`(Extra)`}
+                            </Text>
+                        </Text>)
+                    }
+
+                    {/* ----------- Products  ------------ */}
+                    {
+                        arrayProducts.map((product) => <Text key={product?.id} style={{ color: "#404040", fontSize: scaleSzie(14), marginTop: scaleSzie(12) }} >
+                            {`${product?.data?.name || ""} `}
+                            <Text style={{ fontWeight: "300" }} >
+                                {`(Product)`}
+                            </Text>
+                        </Text>)
+                    }
+
+                    {/* ----------- Giftcards  ------------ */}
+                    {
+                        arrayGiftCards.map((giftcard) => <Text key={giftcard?.id} style={{ color: "#404040", fontSize: scaleSzie(14), marginTop: scaleSzie(12) }} >
+                            {`${giftcard?.data?.name || ""} `}
+                            <Text style={{ fontWeight: "300" }} >
+                                {`(Gift Card)`}
+                            </Text>
+                        </Text>)
+                    }
+
+                </View>
+                <View style={{ width: scaleSzie(125), paddingRight: scaleSzie(12), alignItems: "flex-end", justifyContent: "space-between" }} >
+                    <Text style={{ color: "#0764B0", fontSize: scaleSzie(20) }} >
+                        {`${`${appointment?.status}`.toUpperCase() || ""}`}
+                    </Text>
+                    <Text style={{ color: "#0764B0", fontSize: scaleSzie(20), fontWeight: "600" }} >
+                        {`$ ${appointment?.total || 0.00}`}
+                    </Text>
+                </View>
+            </Button>
+        </View>
+
+    );
+}
+
 
 const ItemCustomerInfo = ({ icon, title }) => {
 
@@ -336,5 +429,12 @@ const styles = StyleSheet.create({
 
 })
 
-export default CustomerDetailTab;
 
+const mapStateToProps = state => ({
+    customerInfoById: state.customer.customerInfoById,
+    pastAppointments: state.customer.pastAppointments
+})
+
+
+
+export default connectRedux(mapStateToProps, CustomerDetailTab);

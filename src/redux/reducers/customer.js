@@ -6,7 +6,9 @@ const initialState = {
     listCustomersSearch: [],
     isShowSearchCustomer: false,
     refreshListCustomer: false,
-    customerTabPermission: false
+    customerTabPermission: false,
+    customerInfoById: {},
+    pastAppointments:[],
 }
 
 function customerReducer(state = initialState, action) {
@@ -59,6 +61,17 @@ function customerReducer(state = initialState, action) {
                 ...state,
                 customerTabPermission: false,
             }
+        case 'GET_CUSTOMER_INFO_BY_ID__SUCCESS':
+            return {
+                ...state,
+                customerInfoById: action.payload,
+            }
+        case 'GET_PAST_APPOINTMENT_SUCCESS':
+            return {
+                ...state,
+                pastAppointments: action.payload,
+            }
+
         case 'LOGOUT_APP':
             return {
                 ...initialState,
@@ -73,3 +86,4 @@ module.exports = persistReducer({
     storage: AsyncStorage,
     whitelist: ['listCustomersByMerchant']
 }, customerReducer);
+

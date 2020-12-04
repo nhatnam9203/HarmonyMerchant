@@ -108,9 +108,9 @@ class CustomerScreen extends Layout {
     }
 
     gotoCustomerDetailTab = (customer) => {
-        // console.log(this.customerDetailTabRef);
-
         this.scrollTabRef.current.goToPage(1);
+        this.props.actions.customer.getCustomerInfoById(customer?.customerId || 0);
+        this.props.actions.customer.getPastAppointments(customer?.customerId || 0);
         if (this.customerDetailTabRef?.current) {
             this.customerDetailTabRef?.current?.setStateFromParent(customer);
         } else {
@@ -183,7 +183,5 @@ const mapStateToProps = state => ({
     stateCity: state.dataLocal.stateCity,
     customerTabPermission: state.customer.customerTabPermission
 })
-
-
 
 export default connectRedux(mapStateToProps, CustomerScreen);
