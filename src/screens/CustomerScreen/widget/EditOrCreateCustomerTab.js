@@ -48,7 +48,12 @@ class EditOrCreateCustomerTab extends React.Component {
         };
         this.scrollLeftCustomerRef = React.createRef();
         this.scrollRightCustomerRef = React.createRef();
+    }
 
+    setStateFromParent = (customerInfo) =>{
+        this.setState({
+            customerInfo
+        })
     }
 
     updateCustomerInfo(key, value, keyParent = '') {

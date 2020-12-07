@@ -49,7 +49,7 @@ export default class Layout extends React.Component {
                                     placeholder={localize('Search', language)}
                                     value={keySearch}
                                     onChangeText={this.onChangeKeySearch}
-                                    onSubmitEditing={this.searchCustomer}
+                                    onSubmitEditing={() => this.searchCustomer(1,true,false)}
                                 />
                             </View>
                             {
@@ -71,7 +71,7 @@ export default class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
-                            onPress={this.searchCustomer}
+                            onPress={() => this.searchCustomer(1,true,false)}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
@@ -85,7 +85,7 @@ export default class Layout extends React.Component {
                             backgroundColor="#0764B0"
                             title={localize('Add New', language)}
                             textColor="#fff"
-                            onPress={this.searchCustomer}
+                            onPress={this.addNewCustomer}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
@@ -96,7 +96,7 @@ export default class Layout extends React.Component {
     }
 
     renderTable() {
-        const { listCustomersByMerchant, refreshListCustomer, language } = this.props;
+        const { listCustomersByMerchant, refreshListCustomer, language, isLoadMoreCustomerList } = this.props;
 
         return (
             <View style={{ flex: 1 }} >
@@ -122,14 +122,14 @@ export default class Layout extends React.Component {
                     removeClippedSubviews={true}
                     initialNumToRender={20}
                     maxToRenderPerBatch={5}
-                    // ListFooterComponent={() => <View style={{ height: scaleSzie(30), alignItems: "center", justifyContent: "center" }} >
-                    //     {
-                    //         isLoadMoreInvoiceList ? <ActivityIndicator
-                    //             size="large"
-                    //             color="#0764B0"
-                    //         /> : null
-                    //     }
-                    // </View>}
+                    ListFooterComponent={() => <View style={{ height: scaleSzie(30), alignItems: "center", justifyContent: "center" }} >
+                        {
+                            isLoadMoreCustomerList ? <ActivityIndicator
+                                size="large"
+                                color="#0764B0"
+                            /> : null
+                        }
+                    </View>}
                 />
             </View>
         );
@@ -167,10 +167,13 @@ export default class Layout extends React.Component {
                         <CustomerDetailTab
                             ref={this.customerDetailTabRef}
                             showAppointmentDetail={this.showAppointmentDetail}
+                            editCustomer={this.editCustomer}
                         />
 
                         {/* --------- Edit or Create Customer -------- */}
-                        <EditOrCreateCustomerTab />
+                        <EditOrCreateCustomerTab 
+                            ref={this.edtitCustomerRef}
+                        />
 
 
                     </ScrollableTabView>
@@ -222,7 +225,7 @@ export default class Layout extends React.Component {
                     tabName="Customer"
                     onRequestClose={this.closePopupCheckCustomerTabPermission}
                 />
-               
+
             </ParentContainer >
         );
     }

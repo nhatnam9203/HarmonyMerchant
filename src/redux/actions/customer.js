@@ -1,13 +1,14 @@
 import apiConfigs from '../../configs/api';
 
-export function getListCustomersByMerchant(key = "",page  = 1 ,isShowLoading = true) {
+export function getListCustomersByMerchant(key = "", page = 1, isShowLoading = true, isShowLoadMore = false) {
     return {
         type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
         method: 'GET',
         api: `${apiConfigs.BASE_API}customer/search?key=${key}&page=${page}`,
         token: true,
         isShowLoading,
-        currentPage: page
+        currentPage: page,
+        isShowLoadMore
     }
 }
 

@@ -68,6 +68,10 @@ class CustomerDetailTab extends React.Component {
         // alert("loadMorePastAppointments")
     }
 
+    editCustomer = () =>{
+        this.props.editCustomer(this.state.customer);
+    }
+
     render() {
         const { customerInfoById, pastAppointments } = this.props;
         const { customer,visible } = this.state;
@@ -171,7 +175,7 @@ class CustomerDetailTab extends React.Component {
                             />
                         </View>
 
-                        <Button style={{ position: "absolute", top: scaleSzie(14), right: scaleSzie(14) }} >
+                        <Button onPress={this.editCustomer} style={{ position: "absolute", top: scaleSzie(14), right: scaleSzie(14) }} >
                             <Image source={ICON.edit_customer_icon} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                         </Button>
                     </View>

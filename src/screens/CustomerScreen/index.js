@@ -22,6 +22,7 @@ class CustomerScreen extends Layout {
         this.modalEditRef = React.createRef();
         this.checkPermissionRef = React.createRef();
         this.customerDetailTabRef = React.createRef();
+        this.edtitCustomerRef = React.createRef();
         this.onEndReachedCalledDuringMomentum = true;
     }
 
@@ -52,23 +53,15 @@ class CustomerScreen extends Layout {
     onChangeKeySearch = async (keySearch) => {
         await this.setState({ keySearch })
         if (keySearch == '') {
-            this.searchCustomer();
+            this.searchCustomer(1, false, false);
         }
     }
 
-    clearSearchText = () => {
-        this.setState({
+    clearSearchText = async () => {
+        await this.setState({
             keySearch: ""
-        })
-    }
-
-    searchCustomer = (isShowLoading = true) => {
-        const { keySearch } = this.state;
-        this.props.actions.customer.getListCustomersByMerchant(keySearch, isShowLoading);
-    }
-
-    onRefreshCustomer = () => {
-        this.searchCustomer(false);
+        });
+        this.searchCustomer(1, true, false);
     }
 
     showModalAddCustomer = () => {
@@ -166,23 +159,41 @@ class CustomerScreen extends Layout {
         alert("dd")
     }
 
+    onRefreshCustomer = () => {
+        this.searchCustomer(1, false, false);
+    }
 
-    searchCustomer_1 = (isShowLoading = true) => {
-        const { totalPages, currentPage } = this.props;
+
+    searchCustomer = (currentPage = 1, isShowLoading = false, isShowLoadMore = false) => {
         const { keySearch } = this.state;
-        this.props.actions.customer.getListCustomersByMerchant(keySearch, parseInt(currentPage + 1), isShowLoading);
+        this.props.actions.customer.getListCustomersByMerchant(keySearch, currentPage, isShowLoading, isShowLoadMore);
     }
 
     loadMoreCustomerList = () => {
         if (!this.onEndReachedCalledDuringMomentum) {
             const { totalPages, currentPage } = this.props;
             if (currentPage < totalPages) {
-                // this.searchInvoice(parseInt(currentPage + 1), false, true)
-                this.searchCustomer_1(false);
+                this.searchCustomer(parseInt(currentPage + 1), false, true);
                 this.onEndReachedCalledDuringMomentum = true;
 
             }
         }
+    }
+
+    addNewCustomer = () => {
+        this.scrollTabRef.current.goToPage(2);
+    }
+
+    editCustomer = (customer) => {
+        if (this.edtitCustomerRef?.current) {
+            this.edtitCustomerRef.current.setStateFromParent(customer);
+        } else {
+            setTimeout(() => {
+                this.edtitCustomerRef.current.setStateFromParent(customer);
+            })
+        }
+
+        this.scrollTabRef.current.goToPage(2);
     }
 
     componentWillUnmount() {
@@ -204,6 +215,7 @@ const mapStateToProps = state => ({
     customerTabPermission: state.customer.customerTabPermission,
     totalPages: state.customer.totalPages,
     currentPage: state.customer.currentPage,
+    isLoadMoreCustomerList: state.customer.isLoadMoreCustomerList
 })
 
 export default connectRedux(mapStateToProps, CustomerScreen);
