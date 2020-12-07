@@ -1137,3 +1137,28 @@ export const checkCategoryIsNotExist = (category, IdCategoriesList) => {
     }
     return isNotExist
 }
+
+
+export const getColorStatus = (status)  =>{
+    let color = '';
+    switch (`${status}`.toLowerCase()) {
+        case 'paid':
+            color = '#4CD964';
+            break;
+        case 'pending':
+            color = '#0764B0';
+            break;
+        case 'complete':
+            color = '#0035FF';
+            break;
+        case 'cancel':
+            color = '#C5C5C5';
+            break;
+            case 'checkin':
+                color = '#0764B0';
+                break;
+        default:
+            color = '#C5C5C5';
+    }
+    return color;
+}

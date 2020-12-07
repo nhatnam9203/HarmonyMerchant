@@ -3,7 +3,8 @@ import {
     View,
     Image,
     TextInput,
-    FlatList
+    FlatList,
+    ActivityIndicator
 } from 'react-native';
 
 import { Text, StatusBarHeader, ScrollableTabView, Button, ParentContainer, ButtonCustom, PopupCheckStaffPermission, ClearTextInputIcon } from '@components';
@@ -114,6 +115,21 @@ export default class Layout extends React.Component {
                     ListEmptyComponent={<RowEmptyTableCustomer />}
                     refreshing={refreshListCustomer}
                     onRefresh={this.onRefreshCustomer}
+
+                    onEndReached={this.loadMoreCustomerList}
+                    onEndReachedThreshold={0.5}
+                    onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+                    removeClippedSubviews={true}
+                    initialNumToRender={20}
+                    maxToRenderPerBatch={5}
+                    // ListFooterComponent={() => <View style={{ height: scaleSzie(30), alignItems: "center", justifyContent: "center" }} >
+                    //     {
+                    //         isLoadMoreInvoiceList ? <ActivityIndicator
+                    //             size="large"
+                    //             color="#0764B0"
+                    //         /> : null
+                    //     }
+                    // </View>}
                 />
             </View>
         );
@@ -206,7 +222,7 @@ export default class Layout extends React.Component {
                     tabName="Customer"
                     onRequestClose={this.closePopupCheckCustomerTabPermission}
                 />
-                <PopupAppointmentDetail />
+               
             </ParentContainer >
         );
     }

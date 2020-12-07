@@ -9,6 +9,8 @@ const initialState = {
     customerTabPermission: false,
     customerInfoById: {},
     pastAppointments:[],
+    totalPages: 0,
+    currentPage: 0,
 }
 
 function customerReducer(state = initialState, action) {
@@ -21,7 +23,9 @@ function customerReducer(state = initialState, action) {
         case 'GET_LIST_CUSTOMER_BY_MERCHANT_SUCCESS':
             return {
                 ...state,
-                listCustomersByMerchant: action.payload,
+                listCustomersByMerchant: action.currentPage === 1 ? action.payload : state.listCustomersByMerchant.concat(action.payload),
+                totalPages: action.totalPages,
+                currentPage: action.currentPage,
                 refreshListCustomer: false
             }
         case 'GET_LIST_CUSTOMER_BY_MERCHANT_FAIL':

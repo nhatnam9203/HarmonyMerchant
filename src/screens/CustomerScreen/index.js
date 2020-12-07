@@ -22,6 +22,7 @@ class CustomerScreen extends Layout {
         this.modalEditRef = React.createRef();
         this.checkPermissionRef = React.createRef();
         this.customerDetailTabRef = React.createRef();
+        this.onEndReachedCalledDuringMomentum = true;
     }
 
     componentDidMount() {
@@ -43,7 +44,7 @@ class CustomerScreen extends Layout {
                     isFocus: true
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
-                // this.props.actions.customer.toggleCustomerTabPermission();
+                this.props.actions.customer.toggleCustomerTabPermission();
             }
         );
     }
@@ -165,6 +166,25 @@ class CustomerScreen extends Layout {
         alert("dd")
     }
 
+
+    searchCustomer_1 = (isShowLoading = true) => {
+        const { totalPages, currentPage } = this.props;
+        const { keySearch } = this.state;
+        this.props.actions.customer.getListCustomersByMerchant(keySearch, parseInt(currentPage + 1), isShowLoading);
+    }
+
+    loadMoreCustomerList = () => {
+        if (!this.onEndReachedCalledDuringMomentum) {
+            const { totalPages, currentPage } = this.props;
+            if (currentPage < totalPages) {
+                // this.searchInvoice(parseInt(currentPage + 1), false, true)
+                this.searchCustomer_1(false);
+                this.onEndReachedCalledDuringMomentum = true;
+
+            }
+        }
+    }
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
@@ -181,7 +201,9 @@ const mapStateToProps = state => ({
     isShowSearchCustomer: state.customer.isShowSearchCustomer,
     refreshListCustomer: state.customer.refreshListCustomer,
     stateCity: state.dataLocal.stateCity,
-    customerTabPermission: state.customer.customerTabPermission
+    customerTabPermission: state.customer.customerTabPermission,
+    totalPages: state.customer.totalPages,
+    currentPage: state.customer.currentPage,
 })
 
 export default connectRedux(mapStateToProps, CustomerScreen);

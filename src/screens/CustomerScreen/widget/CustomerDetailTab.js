@@ -9,10 +9,13 @@ import {
 } from 'react-native';
 
 import { Button, Text } from '@components';
-import { scaleSzie, formatWithMoment, getArrayProductsFromAppointment, getArrayServicesFromAppointment, getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment } from '@utils';
+import { scaleSzie, formatWithMoment, getArrayProductsFromAppointment, getArrayServicesFromAppointment, getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment,
+    getColorStatus
+} from '@utils';
 import Configs from "@configs";
 import ICON from "@resources";
 import connectRedux from '@redux/ConnectRedux';
+import PopupAppointmentDetail from "./PopupAppointmentDetail";
 
 class CustomerDetailTab extends React.Component {
 
@@ -37,7 +40,8 @@ class CustomerDetailTab extends React.Component {
                     "zip": ""
                 },
 
-            }
+            },
+            visible: false
         }
     }
 
@@ -48,12 +52,25 @@ class CustomerDetailTab extends React.Component {
     }
 
     showAppointmentDetail = () => {
-        this.props.showAppointmentDetail()
+        // this.props.showAppointmentDetail()
+        this.setState({
+            visible: true
+        })
+    }
+
+    closePopup = () =>{
+        this.setState({
+            visible: false
+        })
+    }
+
+    loadMorePastAppointments = () => {
+        // alert("loadMorePastAppointments")
     }
 
     render() {
         const { customerInfoById, pastAppointments } = this.props;
-        const { customer } = this.state;
+        const { customer,visible } = this.state;
         const firstLetter = customer?.firstName ? customer?.firstName[0] : "";
         const upcomings = customerInfoById?.customerHistory?.upcomings || [];
 
@@ -218,7 +235,7 @@ class CustomerDetailTab extends React.Component {
 
                             <View style={{ flex: 1 }} >
                                 <ScrollView>
-                                    <View style={{ height: scaleSzie(130) }} >
+                                    <View style={{ minHeight: scaleSzie(130 - 35) }} >
                                         <View style={{ flex: 1, flexDirection: "row", }} >
                                             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
                                                 <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
@@ -258,11 +275,14 @@ class CustomerDetailTab extends React.Component {
                                             </View>
                                         </View>
 
-                                        <View style={{ height: scaleSzie(35), paddingLeft: scaleSzie(14) }} >
-                                            <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600" }} >
-                                                {`Upcoming`}
-                                            </Text>
-                                        </View>
+                                        {
+                                            upcomings.length > 0 ? <View style={{ height: scaleSzie(35), paddingLeft: scaleSzie(14) }} >
+                                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600" }} >
+                                                    {`Upcoming`}
+                                                </Text>
+                                            </View> : <View />
+                                        }
+
                                     </View>
                                     {/* --------------- Line ----------- */}
                                     <View style={{ height: scaleSzie(1), backgroundColor: "#EEEEEE" }} />
@@ -272,6 +292,7 @@ class CustomerDetailTab extends React.Component {
                                         upcomings.map((appointment) => <AppointmentItem
                                             key={appointment?.appointmentId}
                                             appointment={appointment}
+                                            showAppointmentDetail={this.showAppointmentDetail}
                                         />)
                                     }
 
@@ -280,8 +301,11 @@ class CustomerDetailTab extends React.Component {
                                         renderItem={({ item, index }) => <AppointmentItem
                                             appointment={item}
                                             isPastAppointment={true}
+                                            showAppointmentDetail={this.showAppointmentDetail}
                                         />}
                                         keyExtractor={(item, index) => `${item?.appointmentId}_${index}`}
+                                        onEndReached={this.loadMorePastAppointments}
+                                        onEndReachedThreshold={0.5}
                                     />
 
                                 </ScrollView>
@@ -289,12 +313,17 @@ class CustomerDetailTab extends React.Component {
                         </View>
                     </View>
                 </View>
+
+                <PopupAppointmentDetail 
+                    visible={visible}
+                    closePopup={this.closePopup}
+                />
             </View >
         );
     }
 }
 
-const AppointmentItem = ({ appointment, isPastAppointment }) => {
+const AppointmentItem = ({ appointment, isPastAppointment, showAppointmentDetail }) => {
     const createdDate = appointment?.createdDate;
     const arrayProducts = getArrayProductsFromAppointment(appointment?.products || []);
     const arryaServices = getArrayServicesFromAppointment(appointment?.services || []);
@@ -302,7 +331,7 @@ const AppointmentItem = ({ appointment, isPastAppointment }) => {
     const arrayGiftCards = getArrayGiftCardsFromAppointment(appointment?.giftCards || []);
 
     return (
-        <View style={{ paddingHorizontal: scaleSzie(10), borderBottomColor: "#EEEEEE", borderBottomWidth: scaleSzie(1), }} >
+        <Button onPress={showAppointmentDetail} style={{ paddingHorizontal: scaleSzie(10), borderBottomColor: "#EEEEEE", borderBottomWidth: scaleSzie(1), }} >
 
             {
                 isPastAppointment ? <View style={{ width: scaleSzie(55), alignItems: "center" }} >
@@ -315,7 +344,7 @@ const AppointmentItem = ({ appointment, isPastAppointment }) => {
                 </View> : <View />
             }
 
-            <Button onPress={this.showAppointmentDetail} style={{
+            <View style={{
                 minHeight: scaleSzie(100), flexDirection: "row", paddingVertical: scaleSzie(14),
             }} >
                 <View style={{ width: scaleSzie(55), alignItems: "center" }} >
@@ -378,15 +407,15 @@ const AppointmentItem = ({ appointment, isPastAppointment }) => {
 
                 </View>
                 <View style={{ width: scaleSzie(125), paddingRight: scaleSzie(12), alignItems: "flex-end", justifyContent: "space-between" }} >
-                    <Text style={{ color: "#0764B0", fontSize: scaleSzie(20) }} >
+                    <Text style={{ color: getColorStatus(appointment?.status) , fontSize: scaleSzie(20) }} >
                         {`${`${appointment?.status}`.toUpperCase() || ""}`}
                     </Text>
                     <Text style={{ color: "#0764B0", fontSize: scaleSzie(20), fontWeight: "600" }} >
                         {`$ ${appointment?.total || 0.00}`}
                     </Text>
                 </View>
-            </Button>
-        </View>
+            </View>
+        </Button>
 
     );
 }

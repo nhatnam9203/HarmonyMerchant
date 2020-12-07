@@ -221,7 +221,6 @@ class InvoiceScreen extends Layout {
                 this.searchInvoice(parseInt(currentPage + 1), false, true)
                 this.onEndReachedCalledDuringMomentum = true;
             }
-
         }
     }
 

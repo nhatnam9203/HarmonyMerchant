@@ -9,12 +9,15 @@ function* getListCustomersByMerchant(action) {
             yield put({ type: 'LOADING_ROOT' });
         }
         const responses = yield requestAPI(action);
+        console.log("---- responses: ",responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_LIST_CUSTOMER_BY_MERCHANT_SUCCESS',
-                payload: responses.data
+                payload: responses?.data || [],
+                totalPages: responses?.pages || 0,
+                currentPage: action.currentPage
             })
 
         } else if (parseInt(codeNumber) === 401) {

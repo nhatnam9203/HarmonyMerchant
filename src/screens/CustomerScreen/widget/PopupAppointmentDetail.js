@@ -9,7 +9,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { ButtonCustom, ModalCustom } from '@components';
+import { ButtonCustom, ModalCustom, Button } from '@components';
 import { scaleSzie, localize, checkIsTablet } from '@utils';
 import ICON from "@resources";
 
@@ -29,11 +29,11 @@ class PopupAppointmentDetail extends React.Component {
     }
 
     render() {
-        const { } = this.props;
+        const { visible,closePopup } = this.props;
         return (
             <ModalCustom
                 transparent={true}
-                visible={false}
+                visible={visible}
                 onRequestClose={() => { }}
             // style={style}
             >
@@ -45,7 +45,9 @@ class PopupAppointmentDetail extends React.Component {
                     overflow: "hidden",
                 }} >
                     {/* --------- Header ---------- */}
-                    <PopupHeader />
+                    <PopupHeader 
+                    closePopup={closePopup}
+                    />
 
                     <View style={{ paddingHorizontal: scaleSzie(14) }} >
                         {/* ------------ Calendar --------- */}
@@ -179,14 +181,14 @@ class PopupAppointmentDetail extends React.Component {
 
 }
 
-const PopupHeader = ({isPaid}) => {
-    const temp_backgroundColor = !isPaid ? {backgroundColor: "#4AD100"} : {};
+const PopupHeader = ({ isPaid,closePopup }) => {
+    const temp_backgroundColor = !isPaid ? { backgroundColor: "#4AD100" } : {};
 
     return (
         <View style={[{
             height: scaleSzie(50), backgroundColor: "#9DDFF2", flexDirection: "row", paddingHorizontal: scaleSzie(14),
             justifyContent: "space-between", alignItems: "center"
-        },temp_backgroundColor]} >
+        }, temp_backgroundColor]} >
             <Text style={{ color: "#fff", fontSize: scaleSzie(16), fontWeight: "bold" }} >
                 {`#1`}
             </Text>
@@ -194,8 +196,10 @@ const PopupHeader = ({isPaid}) => {
             <Text style={{ color: "#fff", fontSize: scaleSzie(16), fontWeight: "bold" }} >
                 {`Confirmed appointment`}
             </Text>
+            <Button onPress={closePopup} >
+                <Image source={ICON.close_appointment_popup} style={{ height: scaleSzie(24), width: scaleSzie(24) }} />
+            </Button>
 
-            <Image source={ICON.close_appointment_popup} style={{ height: scaleSzie(24), width: scaleSzie(24) }} />
         </View>
     );
 }
@@ -321,7 +325,7 @@ const styles = StyleSheet.create({
     txt_title_paid: {
         color: "#000000",
         fontSize: scaleSzie(12),
-        fontWeight:"600"
+        fontWeight: "600"
     },
     txt_item: {
         color: "#404040",

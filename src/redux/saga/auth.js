@@ -173,9 +173,10 @@ function* checkStaffPermission(action) {
         yield put({
           type: "GET_LIST_CUSTOMER_BY_MERCHANT",
           method: "GET",
-          api: `${apiConfigs.BASE_API}customer/search?key=`,
+          api: `${apiConfigs.BASE_API}customer/search?key=&page=1`,
           token: true,
           isShowLoading: true,
+          currentPage: 1
         });
       } else if (action.tabName === "Inventory") {
         yield put({
