@@ -9,7 +9,7 @@ function* getListCustomersByMerchant(action) {
             yield put({ type: 'LOADING_ROOT' });
         }
         const responses = yield requestAPI(action);
-        console.log("---- responses: ",responses);
+        console.log("---- responses: ", responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -109,9 +109,11 @@ function* editCustomer(action) {
             yield put({
                 type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}customer/search?key=${action.keySearch}`,
+                api: `${apiConfigs.BASE_API}customer/search?key=&page=1`,
                 token: true,
-                isShowLoading: true
+                isShowLoading: true,
+                currentPage: 1,
+                isShowLoadMore: false
             })
 
         } else if (parseInt(codeNumber) === 401) {

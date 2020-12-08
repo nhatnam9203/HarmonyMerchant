@@ -6,15 +6,20 @@ import {
     Image,
     ScrollView,
     TextInput,
-    Dimensions
+    Dimensions,
+    Alert
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
+import moment from "moment";
 
 import { Button, Text, Dropdown, ButtonCustom, TextInputSuggestion } from '@components';
-import { scaleSzie, ListCodeAreaPhone } from '@utils';
+import { scaleSzie, ListCodeAreaPhone, formatWithMoment, getNameStateById, getCodeAreaPhone,
+    checkStateIsValid,getIdStateByName,isValidDate,stringToDate
+} from '@utils';
 import Configs from "@configs";
 import ICON from "@resources";
 import PopupChangeCustomerStatus from "./PopupChangeCustomerStatus";
+import connectRedux from '@redux/ConnectRedux';
 
 const { width } = Dimensions.get("window");
 
@@ -36,9 +41,9 @@ class EditOrCreateCustomerTab extends React.Component {
                 },
                 referrerPhone: '',
                 favourite: '',
-                isVip: "Normal",
+                isVip: 0,
                 gender: "Female",
-                birthday: ""
+                birthdate: ""
             },
             customerId: 0,
             codeAreaPhone: '+1',
@@ -50,9 +55,26 @@ class EditOrCreateCustomerTab extends React.Component {
         this.scrollRightCustomerRef = React.createRef();
     }
 
-    setStateFromParent = (customerInfo) =>{
+    setStateFromParent = (customer) => {
+        // console.log("customerInfo : ",JSON.stringify(customer));
+        const { stateCity } = this.props;
         this.setState({
-            customerInfo
+            customerInfo: {
+                ...customer,
+                gender: customer?.gender && customer?.gender != "undefined" ? customer?.gender : "",
+                birthdate: formatWithMoment(customer?.birthdate, "MM/DD/YYYY"),
+                addressPost: {
+                    street: customer?.addressPost?.street || "",
+                    city: customer?.addressPost?.city || "",
+                    state: customer.addressPost.state === 0 ? '' : getNameStateById(stateCity, customer.addressPost.state),
+                    zip: customer?.addressPost?.zip || "",
+                },
+                phone: getCodeAreaPhone(customer?.phone)?.phone,
+                referrerPhone: getCodeAreaPhone(customer?.referrerPhone)?.phone,
+            },
+            customerId: customer.customerId,
+            codeAreaPhone: getCodeAreaPhone(customer.phone).areaCode,
+            codeReferrerPhone: getCodeAreaPhone(customer.referrerPhone).areaCode,
         })
     }
 
@@ -80,30 +102,85 @@ class EditOrCreateCustomerTab extends React.Component {
         });
     }
 
-    scrollLeftContentTo = (position) =>{
+    scrollLeftContentTo = (position) => {
         this.scrollLeftCustomerRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true });
     }
 
-    scrollRightContentTo = (position) =>{
+    scrollRightContentTo = (position) => {
         this.scrollRightCustomerRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true });
     }
 
-    changeCustomerStatus = () =>{
+    changeCustomerStatus = () => {
         this.setState({
             visibleChangeStatus: true
         })
     }
 
-    closePopupChangeStatus = () =>{
+    closePopupChangeStatus = () => {
         this.setState({
             visibleChangeStatus: false
         })
     }
 
+    saveCustomerInfo = () => {
+        const { stateCity } = this.props;
+        const { customerInfo } = this.state;
+        const arrayKey = Object.keys(customerInfo);
+        let keyError = "";
+        for (let i = 0; i <= arrayKey.length - 1; i++) {
+            if (customerInfo[arrayKey[i]] == "" && (arrayKey[i] === 'firstName' || arrayKey[i] === 'lastName' || arrayKey[i] === 'phone')) {
+                keyError = arrayKey[i];
+                break;
+            }
+
+            if (customerInfo.addressPost.state !== "" && !checkStateIsValid(stateCity, customerInfo.addressPost.state)) {
+                keyError = "StateInvalid";
+                break
+            }
+
+            if (customerInfo.birthdate !== "" && !isValidDate(customerInfo.birthdate)) {
+                keyError = "birthdate";
+                break
+            }
+        }
+
+        if (keyError != '') {
+            Alert.alert(`${strings[keyError]}`);
+        } else {
+            const { addressPost } = customerInfo;
+            const temptAddress = {
+                ...addressPost,
+                state: addressPost.state ? getIdStateByName(this.props.stateCity, addressPost.state) : 0
+            };
+
+            const temptCustomerInfo = {
+                ...customerInfo,
+                phone: customerInfo.phone ? `${this.state.codeAreaPhone}${customerInfo.phone}` : '',
+                referrerPhone: customerInfo.referrerPhone ? `${this.state.codeReferrerPhone}${customerInfo.referrerPhone}` : '',
+                addressPost: temptAddress,
+                birthdate: customerInfo?.birthdate ? stringToDate(customerInfo?.birthdate) : null
+            };
+
+
+            this.props.submitEditCustomer(temptCustomerInfo);
+            this.scrollLeftCustomerRef.current.scrollTo({ x: 0, y: 0, animated: false });
+            this.scrollRightCustomerRef.current.scrollTo({ x: 0, y: 0, animated: false });
+
+
+            // if (this.props.isSave) {
+            //     this.props.editCustomer(this.state.customerId, temptCustomerInfo);
+            // } else {
+            //     this.props.addCustomer(temptCustomerInfo);
+            // }
+
+        }
+
+    }
+
 
     render() {
-        const { codeAreaPhone, codeReferrerPhone, dynamicMarginBottomState,visibleChangeStatus } = this.state;
-        const { firstName, lastName, phone, email, referrerPhone, favourite, addressPost, isVip, gender, birthday } = this.state.customerInfo;
+        const { codeAreaPhone, codeReferrerPhone, dynamicMarginBottomState, visibleChangeStatus } = this.state;
+        const { firstName, lastName, phone, email, referrerPhone, favourite, addressPost, isVip, gender, birthdate } = this.state.customerInfo;
         const { street, city, state, zip } = addressPost;
 
         return (
@@ -153,7 +230,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                 placeholder="Last Name"
                                 value={lastName}
                                 onChangeText={value => this.updateCustomerInfo('lastName', value)}
-                                onFocus={() =>this.scrollLeftContentTo(90)}
+                                onFocus={() => this.scrollLeftContentTo(90)}
                             />
 
                             <PhoneItem
@@ -164,7 +241,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                 upddateCodeArea={(codeAreaPhone) => this.setState({ codeAreaPhone })}
                                 value={phone}
                                 onChangeText={value => this.updateCustomerInfo('phone', value)}
-                                onFocus={() =>this.scrollLeftContentTo(170)}
+                                onFocus={() => this.scrollLeftContentTo(170)}
                             />
 
                             <FromItem
@@ -172,7 +249,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                 placeholder="Email address"
                                 value={email}
                                 onChangeText={value => this.updateCustomerInfo('email', value)}
-                                onFocus={() =>this.scrollLeftContentTo(240)}
+                                onFocus={() => this.scrollLeftContentTo(240)}
                             />
 
                             <Text style={{ fontSize: scaleSzie(14), color: "#404040", fontWeight: "600" }} >
@@ -227,12 +304,12 @@ class EditOrCreateCustomerTab extends React.Component {
                                             mask: '99/99/9999'
                                         }}
                                         placeholder="MM/DD/YYYY"
-                                        value={birthday}
-                                        onChangeText={value => this.updateCustomerInfo('birthday', value)}
+                                        value={birthdate}
+                                        onChangeText={value => this.updateCustomerInfo('birthdate', value)}
                                     />
                                     {
-                                        birthday ? <Button
-                                            onPress={() => this.updateCustomerInfo('birthday', "")}
+                                        birthdate ? <Button
+                                            onPress={() => this.updateCustomerInfo('birthdate', "")}
                                             style={{ width: scaleSzie(22), justifyContent: "center", alignItems: "center" }} >
                                             <Image source={ICON.clear_input_customer_info} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                                         </Button> : null
@@ -244,14 +321,13 @@ class EditOrCreateCustomerTab extends React.Component {
                             {/* ------------ Address --------- */}
                             <FromItem
                                 title={`Address`}
-                                isRequired={true}
                                 placeholder="Street"
                                 style={{
                                     marginBottom: scaleSzie(10)
                                 }}
                                 value={street}
                                 onChangeText={value => this.updateCustomerInfo('street', value, 'addressPost')}
-                                onFocus={() =>this.scrollRightContentTo(90)}
+                                onFocus={() => this.scrollRightContentTo(90)}
                             />
 
                             {/* ----------- City + Zip  ------------- */}
@@ -267,7 +343,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                         placeholder={"City"}
                                         value={city}
                                         onChangeText={value => this.updateCustomerInfo('city', value, 'addressPost')}
-                                        onFocus={() =>this.scrollRightContentTo(120)}
+                                        onFocus={() => this.scrollRightContentTo(120)}
                                     />
                                     {
                                         city ? <Button
@@ -289,7 +365,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                         placeholder={"Zip"}
                                         value={zip}
                                         onChangeText={value => this.updateCustomerInfo('zip', value, 'addressPost')}
-                                        onFocus={() =>this.scrollRightContentTo(120)}
+                                        onFocus={() => this.scrollRightContentTo(120)}
                                     />
                                     {
                                         zip ? <Button
@@ -308,8 +384,8 @@ class EditOrCreateCustomerTab extends React.Component {
                                         value={state}
                                         onChangeText={this.onChangeState}
                                         resetMarginState={() => this.setState({ dynamicMarginBottomState: 24 })}
-                                    // onFocus={() => this.scrollCustomerTo(280)}
-                                    onFocus={() =>this.scrollRightContentTo(200)}
+                                        // onFocus={() => this.scrollCustomerTo(280)}
+                                        onFocus={() => this.scrollRightContentTo(200)}
                                     />
 
                                 </View>
@@ -326,7 +402,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                 upddateCodeArea={(codeReferrerPhone) => this.setState({ codeReferrerPhone })}
                                 value={referrerPhone}
                                 onChangeText={value => this.updateCustomerInfo('referrerPhone', value)}
-                                onFocus={() =>this.scrollRightContentTo(250)}
+                                onFocus={() => this.scrollRightContentTo(250)}
                             />
 
                             {/* ------------ Note --------- */}
@@ -343,7 +419,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                     multiline={true}
                                     value={favourite}
                                     onChangeText={value => this.updateCustomerInfo('favourite', value)}
-                                    onFocus={() =>this.scrollRightContentTo(330)}
+                                    onFocus={() => this.scrollRightContentTo(330)}
                                 />
                             </View>
 
@@ -377,7 +453,7 @@ class EditOrCreateCustomerTab extends React.Component {
                         backgroundColor="#0764B0"
                         title="SAVE"
                         textColor="#fff"
-                        onPress={() => { }}
+                        onPress={this.saveCustomerInfo}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4 }}
                         styleText={{
                             fontSize: scaleSzie(22)
@@ -385,7 +461,7 @@ class EditOrCreateCustomerTab extends React.Component {
                     />
                 </View>
 
-                <PopupChangeCustomerStatus 
+                <PopupChangeCustomerStatus
                     visible={visibleChangeStatus}
                     onRequestClose={this.closePopupChangeStatus}
                 />
@@ -394,7 +470,7 @@ class EditOrCreateCustomerTab extends React.Component {
     }
 }
 
-const PhoneItem = ({ title, isRequired, placeholder, style, value, onChangeText, codeArea, upddateCodeArea,onFocus }) => {
+const PhoneItem = ({ title, isRequired, placeholder, style, value, onChangeText, codeArea, upddateCodeArea, onFocus }) => {
 
     return (
         <View style={[{ marginBottom: scaleSzie(14) }, style]} >
@@ -408,7 +484,7 @@ const PhoneItem = ({ title, isRequired, placeholder, style, value, onChangeText,
 
             </Text>
 
-            <View style={{height: scaleSzie(35), marginTop: scaleSzie(10),flexDirection: "row"}} >
+            <View style={{ height: scaleSzie(35), marginTop: scaleSzie(10), flexDirection: "row" }} >
                 <View style={{ width: scaleSzie(55) }} >
                     <Dropdown
                         label={'+1'}
@@ -454,7 +530,7 @@ const PhoneItem = ({ title, isRequired, placeholder, style, value, onChangeText,
     );
 }
 
-const FromItem = ({ title, isRequired, placeholder, style, value, onChangeText,onFocus }) => {
+const FromItem = ({ title, isRequired, placeholder, style, value, onChangeText, onFocus }) => {
 
     return (
         <View style={[{ marginBottom: scaleSzie(14) }, style]} >
@@ -498,25 +574,18 @@ const FromItem = ({ title, isRequired, placeholder, style, value, onChangeText,o
 }
 
 
-const styles = StyleSheet.create({
-    SHADOW: {
-        backgroundColor: "#fff",
-        borderRadius: scaleSzie(4),
-        ...Platform.select({
-            ios: {
-                shadowRadius: 2,
-                shadowColor: 'rgba(0, 0, 0, 0.5)',
-                shadowOpacity: 0.6,
-                shadowOffset: { width: 0, height: 1 },
-            },
+const strings = {
+    firstName: 'Missing Info: First Name',
+    lastName: 'Missing Info: Last Name',
+    phone: 'Missing Info: Phone',
+    StateInvalid: "State Invalid",
+    birthdate:"Birth Date Invalid"
+}
 
-            android: {
-                elevation: 2,
-            },
-        })
-    },
-
+const mapStateToProps = state => ({
+    stateCity: state.dataLocal.stateCity,
 })
 
-export default EditOrCreateCustomerTab;
 
+
+export default connectRedux(mapStateToProps, EditOrCreateCustomerTab);

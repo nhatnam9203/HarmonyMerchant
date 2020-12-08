@@ -162,7 +162,8 @@ class CustomerDetailTab extends React.Component {
                             />
                             <ItemCustomerInfo
                                 icon={ICON.customer_birthday}
-                                title={`${customer?.birthdate || ""}`}
+                                // title={`${customer?.birthdate || ""}`}
+                                title={`${formatWithMoment(customer?.birthdate, "MM/DD/YYYY")}`}
                             />
                             <ItemCustomerInfo
                                 icon={ICON.customer_location}

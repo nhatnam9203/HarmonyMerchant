@@ -126,14 +126,6 @@ class CustomerScreen extends Layout {
         this.props.actions.customer.addCustomer(customer);
     }
 
-    editCustomer = async (customerId, customer) => {
-        await this.setState({
-            visibleEdit: false
-        })
-        this.props.actions.customer.editCustomer(customerId, customer, this.state.keySearch);
-
-    }
-
     handleLockScreen = () => {
         const { isFocus } = this.state;
         if (isFocus) {
@@ -194,6 +186,12 @@ class CustomerScreen extends Layout {
         }
 
         this.scrollTabRef.current.goToPage(2);
+    }
+
+    submitEditCustomer = async (customer) => {
+        this.scrollTabRef.current.goToPage(1);
+        this.props.actions.customer.editCustomer(customer?.customerId, customer);
+
     }
 
     componentWillUnmount() {

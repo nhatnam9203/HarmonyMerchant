@@ -49,7 +49,7 @@ export default class Layout extends React.Component {
                                     placeholder={localize('Search', language)}
                                     value={keySearch}
                                     onChangeText={this.onChangeKeySearch}
-                                    onSubmitEditing={() => this.searchCustomer(1,true,false)}
+                                    onSubmitEditing={() => this.searchCustomer(1, true, false)}
                                 />
                             </View>
                             {
@@ -71,7 +71,7 @@ export default class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
-                            onPress={() => this.searchCustomer(1,true,false)}
+                            onPress={() => this.searchCustomer(1, true, false)}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
@@ -171,8 +171,9 @@ export default class Layout extends React.Component {
                         />
 
                         {/* --------- Edit or Create Customer -------- */}
-                        <EditOrCreateCustomerTab 
+                        <EditOrCreateCustomerTab
                             ref={this.edtitCustomerRef}
+                            submitEditCustomer={this.submitEditCustomer}
                         />
 
 

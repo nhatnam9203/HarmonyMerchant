@@ -1139,7 +1139,7 @@ export const checkCategoryIsNotExist = (category, IdCategoriesList) => {
 }
 
 
-export const getColorStatus = (status)  =>{
+export const getColorStatus = (status) => {
     let color = '';
     switch (`${status}`.toLowerCase()) {
         case 'paid':
@@ -1154,11 +1154,24 @@ export const getColorStatus = (status)  =>{
         case 'cancel':
             color = '#C5C5C5';
             break;
-            case 'checkin':
-                color = '#0764B0';
-                break;
+        case 'checkin':
+            color = '#0764B0';
+            break;
         default:
             color = '#C5C5C5';
     }
     return color;
+}
+
+export const isValidDate = (date) => {
+    return /((^(10|12|0?[13578])([/])(3[01]|[12][0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(11|0?[469])([/])(30|[12][0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(0?2)([/])(2[0-8]|1[0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(0?2)([/])(29)([/])([2468][048]00)$)|(^(0?2)([/])(29)([/])([3579][26]00)$)|(^(0?2)([/])(29)([/])([1][89][0][48])$)|(^(0?2)([/])(29)([/])([2-9][0-9][0][48])$)|(^(0?2)([/])(29)([/])([1][89][2468][048])$)|(^(0?2)([/])(29)([/])([2-9][0-9][2468][048])$)|(^(0?2)([/])(29)([/])([1][89][13579][26])$)|(^(0?2)([/])(29)([/])([2-9][0-9][13579][26])$))/.test(date);
+}
+
+export const stringToDate = (d) => {
+    const date = `${d}`.split("/");
+
+    if (date.length >= 3) {
+        return `${date[2]}-${date[0]}-${date[1]}`
+    }
+    return null;
 }
