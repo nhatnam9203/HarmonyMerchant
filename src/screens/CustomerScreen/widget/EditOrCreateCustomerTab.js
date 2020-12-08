@@ -13,8 +13,9 @@ import { TextInputMask } from 'react-native-masked-text';
 import moment from "moment";
 
 import { Button, Text, Dropdown, ButtonCustom, TextInputSuggestion } from '@components';
-import { scaleSzie, ListCodeAreaPhone, formatWithMoment, getNameStateById, getCodeAreaPhone,
-    checkStateIsValid,getIdStateByName,isValidDate,stringToDate
+import {
+    scaleSzie, ListCodeAreaPhone, formatWithMoment, getNameStateById, getCodeAreaPhone,
+    checkStateIsValid, getIdStateByName, isValidDate, stringToDate
 } from '@utils';
 import Configs from "@configs";
 import ICON from "@resources";
@@ -174,7 +175,16 @@ class EditOrCreateCustomerTab extends React.Component {
             // }
 
         }
+    }
 
+    updateCustomerStatus = (isVip) => {
+        this.setState({
+            customerInfo: {
+                ...this.state.customerInfo,
+                isVip
+            },
+            visibleChangeStatus: false
+        });
     }
 
 
@@ -193,15 +203,41 @@ class EditOrCreateCustomerTab extends React.Component {
                     <Text style={{ color: "#0764B0", fontSize: scaleSzie(20), fontWeight: "600" }} >
                         {`New customer`}
                     </Text>
-                    <Button onPress={this.changeCustomerStatus} style={{
-                        width: scaleSzie(85), height: scaleSzie(28), backgroundColor: "#0764B0", borderRadius: scaleSzie(20),
-                        justifyContent: "center", alignItems: "center", flexDirection: "row"
-                    }} >
-                        <Text style={{ color: "#fff", fontSize: scaleSzie(13), marginLeft: scaleSzie(6) }} >
-                            {`Normal`}
-                        </Text>
-                        <Image source={ICON.white_drpdown_status_customer} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
-                    </Button>
+                    {
+                        isVip ? <Button onPress={this.changeCustomerStatus} style={{
+                            width: scaleSzie(85), height: scaleSzie(28), backgroundColor: "rgb(76,217,100)", borderRadius: scaleSzie(20),
+                            justifyContent: "center", alignItems: "center", flexDirection: "row"
+                        }} >
+                            <Image source={ICON.vip_icon} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
+                            <Text style={{ color: "#fff", fontSize: scaleSzie(13), marginLeft: scaleSzie(6) }} >
+                                {`VIP`}
+                            </Text>
+                            {
+                                visibleChangeStatus ?
+                                    <Image source={ICON.white_drpup_status_customer} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
+                                    :
+                                    <Image source={ICON.white_drpdown_status_customer} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
+
+                            }
+                        </Button>
+                            :
+                            <Button onPress={this.changeCustomerStatus} style={{
+                                width: scaleSzie(85), height: scaleSzie(28), backgroundColor: "#0764B0", borderRadius: scaleSzie(20),
+                                justifyContent: "center", alignItems: "center", flexDirection: "row"
+                            }} >
+                                <Text style={{ color: "#fff", fontSize: scaleSzie(13), marginLeft: scaleSzie(6) }} >
+                                    {`Normal`}
+                                </Text>
+                                {
+                                    visibleChangeStatus ?
+                                        <Image source={ICON.white_drpup_status_customer} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
+                                        :
+                                        <Image source={ICON.white_drpdown_status_customer} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
+
+                                }
+                            </Button>
+                    }
+
                 </View>
 
                 {/* ------------- Line ------------ */}
@@ -464,6 +500,8 @@ class EditOrCreateCustomerTab extends React.Component {
                 <PopupChangeCustomerStatus
                     visible={visibleChangeStatus}
                     onRequestClose={this.closePopupChangeStatus}
+                    isVip={isVip}
+                    updateCustomerStatus={this.updateCustomerStatus}
                 />
             </View>
         );
@@ -579,7 +617,7 @@ const strings = {
     lastName: 'Missing Info: Last Name',
     phone: 'Missing Info: Phone',
     StateInvalid: "State Invalid",
-    birthdate:"Birth Date Invalid"
+    birthdate: "Birth Date Invalid"
 }
 
 const mapStateToProps = state => ({

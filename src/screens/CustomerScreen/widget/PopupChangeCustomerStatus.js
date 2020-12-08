@@ -24,7 +24,7 @@ class PopupChangeCustomerStatus extends React.Component {
     }
 
     render() {
-        const {visible,onRequestClose} = this.props;
+        const { visible, onRequestClose, isVip,updateCustomerStatus  } = this.props;
         return (
             <ModalCustom
                 visible={visible}
@@ -35,18 +35,38 @@ class PopupChangeCustomerStatus extends React.Component {
                 }}
             >
                 <View style={{ width, height }} >
-                    <Button style={{
-                        position: "absolute",
-                        top: scaleSzie(35) + 20 + scaleSzie(28) + scaleSzie(20),
-                        right: scaleSzie(10),
-                        width: scaleSzie(85), height: scaleSzie(28), backgroundColor: "rgb(76,217,100)", borderRadius: scaleSzie(20),
-                        justifyContent: "center", alignItems: "center", flexDirection: "row"
-                    }} >
-                        <Image source={ICON.vip_icon} style={{width:scaleSzie(18),height:scaleSzie(18)}} />
-                        <Text style={{ color: "#fff", fontSize: scaleSzie(13), marginLeft: scaleSzie(6) }} >
-                            {`VIP`}
-                        </Text>
-                    </Button>
+                    {
+                        isVip ? <Button
+                            onPress={() => updateCustomerStatus(0)}
+                            style={{
+                                position: "absolute",
+                                top: scaleSzie(35) + 20 + scaleSzie(28) + scaleSzie(20),
+                                right: scaleSzie(10),
+                                width: scaleSzie(85), height: scaleSzie(28), backgroundColor: "#0764B0", borderRadius: scaleSzie(20),
+                                justifyContent: "center", alignItems: "center", flexDirection: "row"
+                            }} >
+                            {/* <Image source={ICON.vip_icon} style={{ width: scaleSzie(18), height: scaleSzie(18) }} /> */}
+                            <Text style={{ color: "#fff", fontSize: scaleSzie(13), marginLeft: scaleSzie(6) }} >
+                                {`Normal`}
+                            </Text>
+                        </Button>
+                            :
+                            <Button
+                                onPress={() => updateCustomerStatus(1)}
+                                style={{
+                                    position: "absolute",
+                                    top: scaleSzie(35) + 20 + scaleSzie(28) + scaleSzie(20),
+                                    right: scaleSzie(10),
+                                    width: scaleSzie(85), height: scaleSzie(28), backgroundColor: "rgb(76,217,100)", borderRadius: scaleSzie(20),
+                                    justifyContent: "center", alignItems: "center", flexDirection: "row"
+                                }} >
+                                <Image source={ICON.vip_icon} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
+                                <Text style={{ color: "#fff", fontSize: scaleSzie(13), marginLeft: scaleSzie(6) }} >
+                                    {`VIP`}
+                                </Text>
+                            </Button>
+                    }
+
                 </View>
             </ModalCustom>
         );
