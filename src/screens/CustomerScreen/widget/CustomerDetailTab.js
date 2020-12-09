@@ -29,6 +29,7 @@ class CustomerDetailTab extends React.Component {
                 firstName: "",
                 lastName: "",
                 phone: "",
+                referrerBy:"",
                 referrerPhone: "",
                 email: "",
                 isVip: 0,
@@ -46,6 +47,7 @@ class CustomerDetailTab extends React.Component {
             visible: false
         };
         this.onEndReachedCalledDuringMomentum = true;
+        this.popupAppointmentDetailRef = React.createRef();
     }
 
     setStateFromParent = async (customer) => {
@@ -54,8 +56,8 @@ class CustomerDetailTab extends React.Component {
         })
     }
 
-    showAppointmentDetail = () => {
-        // this.props.showAppointmentDetail()
+    showAppointmentDetail = (appointment) => {
+        this.popupAppointmentDetailRef.current.setStateFromParent(appointment);
         this.setState({
             visible: true
         })
@@ -144,7 +146,7 @@ class CustomerDetailTab extends React.Component {
                     upcomings.map((appointment) => <AppointmentItem
                         key={appointment?.appointmentId}
                         appointment={appointment}
-                        showAppointmentDetail={this.showAppointmentDetail}
+                        showAppointmentDetail={() =>this.showAppointmentDetail(appointment)}
                     />)
                 }
 
@@ -324,7 +326,7 @@ class CustomerDetailTab extends React.Component {
                                     renderItem={({ item, index }) => <AppointmentItem
                                         appointment={item}
                                         isPastAppointment={true}
-                                        showAppointmentDetail={this.showAppointmentDetail}
+                                        showAppointmentDetail={() =>this.showAppointmentDetail(item)}
                                     />}
                                     ListHeaderComponent={() => this.renderHeaderFlatlist() }
                                     keyExtractor={(item, index) => `${item?.appointmentId}_${index}`}
@@ -349,6 +351,7 @@ class CustomerDetailTab extends React.Component {
                 </View>
 
                 <PopupAppointmentDetail
+                    ref={this.popupAppointmentDetailRef}
                     visible={visible}
                     closePopup={this.closePopup}
                 />

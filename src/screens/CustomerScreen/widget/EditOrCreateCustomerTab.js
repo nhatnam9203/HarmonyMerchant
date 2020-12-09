@@ -37,6 +37,7 @@ const initState = {
             zip: ""
         },
         referrerPhone: '',
+        referrerBy: "",
         favourite: '',
         isVip: 0,
         gender: "Female",
@@ -202,7 +203,7 @@ class EditOrCreateCustomerTab extends React.Component {
 
     render() {
         const { codeAreaPhone, codeReferrerPhone, dynamicMarginBottomState, visibleChangeStatus } = this.state;
-        const { firstName, lastName, phone, email, referrerPhone, favourite, addressPost, isVip, gender, birthdate } = this.state.customerInfo;
+        const { firstName, lastName, phone, email, referrerPhone, favourite, addressPost, isVip, gender, birthdate,referrerBy } = this.state.customerInfo;
         const { street, city, state, zip } = addressPost;
 
         return (
@@ -441,6 +442,18 @@ class EditOrCreateCustomerTab extends React.Component {
                                 <View style={{ flex: 1 }} />
                             </View>
 
+                            {/* ------------ Referrer By --------- */}
+                            <FromItem
+                                title={`Referrer By`}
+                                placeholder="Referrer By"
+                                style={{
+                                    marginBottom: scaleSzie(10)
+                                }}
+                                value={referrerBy ? referrerBy : "" }
+                                onChangeText={value => this.updateCustomerInfo('referrerBy', value)}
+                                onFocus={() => this.scrollRightContentTo(250)}
+                            />
+
                             {/* ------------ Referrer Phone Number --------- */}
                             <PhoneItem
                                 title={`Referrer Phone Number`}
@@ -449,7 +462,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                 upddateCodeArea={(codeReferrerPhone) => this.setState({ codeReferrerPhone })}
                                 value={referrerPhone}
                                 onChangeText={value => this.updateCustomerInfo('referrerPhone', value)}
-                                onFocus={() => this.scrollRightContentTo(250)}
+                                onFocus={() => this.scrollRightContentTo(330)}
                             />
 
                             {/* ------------ Note --------- */}
@@ -466,7 +479,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                     multiline={true}
                                     value={favourite}
                                     onChangeText={value => this.updateCustomerInfo('favourite', value)}
-                                    onFocus={() => this.scrollRightContentTo(330)}
+                                    onFocus={() => this.scrollRightContentTo(400)}
                                 />
                             </View>
 

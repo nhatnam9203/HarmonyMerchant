@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, ModalCustom, Button } from '@components';
-import { scaleSzie, localize, checkIsTablet } from '@utils';
+import { scaleSzie, localize, checkIsTablet, formatWithMoment, getColorStatus } from '@utils';
 import ICON from "@resources";
 
 const { width } = Dimensions.get("window");
@@ -20,16 +20,27 @@ class PopupAppointmentDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            appointmentDetail: {}
         }
     }
 
-    setStateFromParent = async customer => {
-
+    setStateFromParent = async (appointment) => {
+        console.log(appointment);
+        this.setState({
+            appointmentDetail: appointment
+        })
     }
 
     render() {
-        const { visible,closePopup } = this.props;
+        const { visible, closePopup } = this.props;
+        const { appointmentDetail } = this.state;
+
+        const services = appointmentDetail?.services || [];
+        const products = appointmentDetail?.products || [];
+        const extras = appointmentDetail?.extras || [];
+        const giftCards = appointmentDetail?.giftCards || [];
+        const notes = appointmentDetail?.notes || [];
+
         return (
             <ModalCustom
                 transparent={true}
@@ -45,8 +56,10 @@ class PopupAppointmentDetail extends React.Component {
                     overflow: "hidden",
                 }} >
                     {/* --------- Header ---------- */}
-                    <PopupHeader 
-                    closePopup={closePopup}
+                    <PopupHeader
+                        closePopup={closePopup}
+                        appointmentDetail={appointmentDetail}
+
                     />
 
                     <View style={{ paddingHorizontal: scaleSzie(14) }} >
@@ -58,7 +71,7 @@ class PopupAppointmentDetail extends React.Component {
                         }} >
                             <Image source={ICON.appointment_calendar} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
                             <Text style={{ color: "#404040", fontSize: scaleSzie(12), marginLeft: scaleSzie(10) }} >
-                                {`1/14/2019`}
+                                {`${formatWithMoment(appointmentDetail?.createdDate, "MM/DD/YYYY")}`}
                             </Text>
                             <View style={{ flex: 1, alignItems: "flex-end" }} >
                                 <Image source={ICON.dropdown_appointment} />
@@ -68,108 +81,161 @@ class PopupAppointmentDetail extends React.Component {
                         {/* --------------- Table -------------- */}
                         <View style={{ borderColor: "#EEEEEE", borderWidth: 1 }} >
                             {/* --------- Table Header -------- */}
-                            {/* <TableHeader /> */}
-                            <TableHeaderPaid />
+                            {
+                                services.length > 0 || extras.length > 0 ? <ServiceHeader
+                                    status={appointmentDetail?.status || ""}
+                                /> : null
+                            }
+                            {
+                                services.map((service, index) => <ServiceItem
+                                    key={service?.bookingServiceId || index}
+                                    service={service}
+                                    status={appointmentDetail?.status || ""}
+                                />)
 
-                            {/* --------- Table Item -------- */}
-                            <TableItem />
-                            <TableItem />
+                            }
+
+                            {
+                                extras.map((extra, index) => <ExtraItem
+                                    key={extra?.bookingExtraId || index}
+                                    extra={extra}
+                                    status={appointmentDetail?.status || ""}
+                                />)
+                            }
+
+                            {/* ---------------- Products  ------------- */}
+                            {
+                                products.length > 0 ? <ProductHeader /> : null
+                            }
+                            {
+                                products.map((product, index) => <ProductItem
+                                    key={product?.bookingProductId || index}
+                                    product={product}
+                                />)
+                            }
+
+                            {/* ---------------- GiftCards  ------------- */}
+                            {giftCards.length > 0 ? <GiftCardHeader /> : null}
+
+                            {
+                                giftCards.map((giftcard, index) => <GiftCardItem
+                                    key={`giftcard_${index}`}
+                                    giftCard={giftcard}
+                                />)
+                            }
+
                         </View>
 
 
                         {/* ------------- Note ------------ */}
-                        <Text style={{ color: "#404040", fontSize: scaleSzie(12), fontWeight: "600", marginTop: scaleSzie(12) }} >
-                            {`Appointment note:`}
-                        </Text>
+                        {
+                            notes.length > 0 ? <Text style={{ color: "#404040", fontSize: scaleSzie(12), fontWeight: "600", marginTop: scaleSzie(12) }} >
+                                {`Appointment note:`}
+                            </Text> : null
+                        }
+
                         {/* ------------- Note Item ------------ */}
-                        <View style={{ flexDirection: "row", marginTop: scaleSzie(10) }} >
-                            <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(12), fontWeight: "400", width: scaleSzie(130) }} >
-                                {`03/14/18, 10:00 AM`}
-                            </Text>
-                            <Text style={{ color: "#404040", fontSize: scaleSzie(12), fontWeight: "600", width: scaleSzie(90) }} >
-                                {`Venessa`}
-                            </Text>
-                            <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(12), fontWeight: "500" }} >
-                                {`Lorem ipsum dolor sit amet, consetetur sadipscing elitr.`}
-                            </Text>
-                        </View>
-
-                        {/* ------------- Line ------------ */}
-                        {/* <View style={{ height: 1, backgroundColor: "#EEEEEE", marginTop: scaleSzie(12), marginBottom: scaleSzie(14) }} /> */}
-
-                        {/* ------------- Total duration + Total ------------ */}
-                        {/* <View style={{ alignItems: "flex-end" }} >
-                            <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(13) }} >
-                                {`Total duration:`}
-                                <Text style={{ fontWeight: "bold" }} >
-                                    {`   45 min`}
+                        {
+                            notes.map((note, index) => <View style={{ flexDirection: "row", marginTop: scaleSzie(10) }} >
+                                <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(12), fontWeight: "400", width: scaleSzie(130) }} >
+                                    {`${formatWithMoment(note?.createDate, "MM/DD/YYYY hh:mm A")}`}
                                 </Text>
-                                <Text >
-                                    {`           Total:`}
+                                <Text style={{ color: "#404040", fontSize: scaleSzie(12), fontWeight: "600", width: scaleSzie(90) }} >
+                                    {`${note?.staffName || ""}`}
                                 </Text>
-                                <Text style={{ fontWeight: "bold", color: "#0764B0", fontSize: scaleSzie(16) }} >
-                                    {`   $ 60.00`}
+                                <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(12), fontWeight: "500" }} >
+                                    {`${note?.note || ""}`}
                                 </Text>
-                            </Text>
-                        </View> */}
+                            </View>)
+                        }
 
-                        {/* ------------- Line ------------ */}
-                        <View style={{ height: 1, backgroundColor: "#EEEEEE", marginTop: scaleSzie(12), marginBottom: scaleSzie(14) }} />
+                        {
+                            appointmentDetail?.status === "paid" ?
+                                <>
+                                    {/* ------------- Line ------------ */}
+                                    <View style={{ height: 1, backgroundColor: "#EEEEEE", marginTop: scaleSzie(12), marginBottom: scaleSzie(14) }} />
 
-                        {/* ------------- Subtotal + Discount + Tip + Tax  ------------ */}
-                        <View style={{ height: scaleSzie(55), flexDirection: "row" }} >
-                            <View style={{ flex: 1, justifyContent: "space-between" }} >
-                                <View style={{ flexDirection: "row", justifyContent: "space-between" }} >
-                                    <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(14) }} >
-                                        {`Subtotal:`}
-                                    </Text>
-                                    <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "bold" }} >
-                                        {`$ 100.00`}
-                                    </Text>
-                                </View>
+                                    {/* ------------- Subtotal + Discount + Tip + Tax  ------------ */}
+                                    <View style={{ height: scaleSzie(55), flexDirection: "row" }} >
+                                        <View style={{ flex: 1, justifyContent: "space-between" }} >
+                                            <View style={{ flexDirection: "row", justifyContent: "space-between" }} >
+                                                <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(14) }} >
+                                                    {`Subtotal:`}
+                                                </Text>
+                                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "bold" }} >
+                                                    {`$ ${appointmentDetail?.subTotal || 0.00}`}
+                                                </Text>
+                                            </View>
 
-                                <View style={{ flexDirection: "row", justifyContent: "space-between" }} >
-                                    <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(14) }} >
-                                        {`Tip:`}
-                                    </Text>
-                                    <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "bold" }} >
-                                        {`$ 10.00`}
-                                    </Text>
-                                </View>
-                            </View>
-                            <View style={{ flex: 1.4, justifyContent: "space-between", paddingLeft: scaleSzie(30) }} >
-                                <View style={{ flexDirection: "row", justifyContent: "space-between" }} >
-                                    <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(14) }} >
-                                        {`Discount:`}
-                                    </Text>
-                                    <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "bold" }} >
-                                        {`$ 100.00`}
-                                    </Text>
-                                </View>
+                                            <View style={{ flexDirection: "row", justifyContent: "space-between" }} >
+                                                <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(14) }} >
+                                                    {`Tip:`}
+                                                </Text>
+                                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "bold" }} >
+                                                    {`$ ${appointmentDetail?.tipAmount || 0.00}`}
+                                                </Text>
+                                            </View>
+                                        </View>
+                                        <View style={{ flex: 1.4, justifyContent: "space-between", paddingLeft: scaleSzie(30) }} >
+                                            <View style={{ flexDirection: "row", justifyContent: "space-between" }} >
+                                                <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(14) }} >
+                                                    {`Discount:`}
+                                                </Text>
+                                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "bold" }} >
+                                                    {`$ ${appointmentDetail?.discount || 0.00}`}
+                                                </Text>
+                                            </View>
 
-                                <View style={{ flexDirection: "row", justifyContent: "space-between" }} >
-                                    <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(14) }} >
-                                        {`Tax::`}
-                                    </Text>
-                                    <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "bold" }} >
-                                        {`$ 10.00`}
-                                    </Text>
-                                </View>
-                            </View>
-                        </View>
+                                            <View style={{ flexDirection: "row", justifyContent: "space-between" }} >
+                                                <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(14) }} >
+                                                    {`Tax:`}
+                                                </Text>
+                                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "bold" }} >
+                                                    {`$ ${appointmentDetail?.tax || 0.00}`}
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    </View>
 
-                        {/* ------------- Line ------------ */}
-                        <View style={{ height: 1, backgroundColor: "#EEEEEE", marginTop: scaleSzie(12), marginBottom: scaleSzie(14) }} />
+                                    {/* ------------- Line ------------ */}
+                                    <View style={{ height: 1, backgroundColor: "#EEEEEE", marginTop: scaleSzie(12), marginBottom: scaleSzie(14) }} />
 
-                        {/* ------------- Total ------------ */}
-                        <View style={{ justifyContent: "space-between", flexDirection: "row" }} >
-                            <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(16), fontWeight: "bold" }} >
-                                {`Total`}
-                            </Text>
-                            <Text style={{ color: "#4CD964", fontSize: scaleSzie(16), fontWeight: "bold" }} >
-                                {`$ 90.00`}
-                            </Text>
-                        </View>
+                                    {/* ------------- Total ------------ */}
+                                    <View style={{ justifyContent: "space-between", flexDirection: "row" }} >
+                                        <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(16), fontWeight: "bold" }} >
+                                            {`Total`}
+                                        </Text>
+                                        <Text style={{ color: "#4CD964", fontSize: scaleSzie(16), fontWeight: "bold" }} >
+                                            {`$ ${appointmentDetail?.total || 0.00}`}
+                                        </Text>
+                                    </View>
+                                </>
+
+                                :
+
+                                <>
+                                    {/* ------------- Line ------------ */}
+                                    <View style={{ height: 1, backgroundColor: "#EEEEEE", marginTop: scaleSzie(12), marginBottom: scaleSzie(14) }} />
+
+                                    {/* ------------- Total duration + Total ------------ */}
+                                    <View style={{ alignItems: "flex-end" }} >
+                                        <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(13) }} >
+                                            {`Total duration:`}
+                                            <Text style={{ fontWeight: "bold" }} >
+                                                {`   ${appointmentDetail?.duration || 0} min`}
+                                            </Text>
+                                            <Text >
+                                                {`           Total:`}
+                                            </Text>
+                                            <Text style={{ fontWeight: "bold", color: "#0764B0", fontSize: scaleSzie(16) }} >
+                                                {`   $ ${appointmentDetail?.total || 0.00}`}
+                                            </Text>
+                                        </Text>
+                                    </View>
+                                </>
+                        }
+
+
 
 
                         <View style={{ height: scaleSzie(16) }} />
@@ -181,20 +247,19 @@ class PopupAppointmentDetail extends React.Component {
 
 }
 
-const PopupHeader = ({ isPaid,closePopup }) => {
-    const temp_backgroundColor = !isPaid ? { backgroundColor: "#4AD100" } : {};
+const PopupHeader = ({ closePopup, appointmentDetail }) => {
 
     return (
         <View style={[{
-            height: scaleSzie(50), backgroundColor: "#9DDFF2", flexDirection: "row", paddingHorizontal: scaleSzie(14),
+            height: scaleSzie(50), backgroundColor: getColorStatus(appointmentDetail?.status), flexDirection: "row", paddingHorizontal: scaleSzie(14),
             justifyContent: "space-between", alignItems: "center"
-        }, temp_backgroundColor]} >
+        }]} >
             <Text style={{ color: "#fff", fontSize: scaleSzie(16), fontWeight: "bold" }} >
-                {`#1`}
+                {`#${appointmentDetail?.appointmentId || ""}`}
             </Text>
 
             <Text style={{ color: "#fff", fontSize: scaleSzie(16), fontWeight: "bold" }} >
-                {`Confirmed appointment`}
+                {`${`${appointmentDetail?.status}`.toUpperCase()} APPOINTMENT`}
             </Text>
             <Button onPress={closePopup} >
                 <Image source={ICON.close_appointment_popup} style={{ height: scaleSzie(24), width: scaleSzie(24) }} />
@@ -240,7 +305,7 @@ const TableHeader = ({ }) => {
     );
 }
 
-const TableHeaderPaid = ({ }) => {
+const ServiceHeader = ({ status }) => {
     return (
         <View style={{ height: scaleSzie(25), backgroundColor: "#E5E5E5", flexDirection: "row" }} >
             <View style={{ flex: 1, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
@@ -263,7 +328,7 @@ const TableHeaderPaid = ({ }) => {
             <View style={{ width: 1, backgroundColor: "#fff" }} />
             <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
                 <Text style={styles.txt_title_paid} >
-                    {`Tip ($)`}
+                    {`${status === "paid" ? `Tip ($)` : `Duration (min)`}`}
                 </Text>
             </View>
             <View style={{ width: 1, backgroundColor: "#fff" }} />
@@ -276,8 +341,67 @@ const TableHeaderPaid = ({ }) => {
     );
 }
 
+const ProductHeader = ({ }) => {
+    return (
+        <View style={{ height: scaleSzie(25), backgroundColor: "#E5E5E5", flexDirection: "row" }} >
+            <View style={{ flex: 1, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+                <Text style={styles.txt_title_paid} >
+                    {`Products`}
+                </Text>
+            </View>
+            <View style={{ width: 1 }} />
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} />
+            <View style={{ width: 1 }} />
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} />
+            <View style={{ width: 1, backgroundColor: "#fff" }} />
 
-const TableItem = ({ }) => {
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+                <Text style={styles.txt_title_paid} >
+                    {`Quantity`}
+                </Text>
+            </View>
+
+            <View style={{ width: 1, backgroundColor: "#fff" }} />
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+                <Text style={styles.txt_title_paid} >
+                    {`Price ($)`}
+                </Text>
+            </View>
+        </View>
+    );
+}
+
+const GiftCardHeader = ({ }) => {
+    return (
+        <View style={{ height: scaleSzie(25), backgroundColor: "#E5E5E5", flexDirection: "row" }} >
+            <View style={{ flex: 1, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+                <Text style={styles.txt_title_paid} >
+                    {`Gift Cards`}
+                </Text>
+            </View>
+            <View style={{ width: 1 }} />
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} />
+            <View style={{ width: 1 }} />
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} />
+            <View style={{ width: 1, backgroundColor: "#fff" }} />
+
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+                <Text style={styles.txt_title_paid} >
+                    {`Quantity`}
+                </Text>
+            </View>
+
+            <View style={{ width: 1, backgroundColor: "#fff" }} />
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+                <Text style={styles.txt_title_paid} >
+                    {`Price ($)`}
+                </Text>
+            </View>
+        </View>
+    );
+}
+
+const ServiceItem = ({ service, status }) => {
 
     return (
         <View style={{
@@ -286,31 +410,130 @@ const TableItem = ({ }) => {
         }} >
             <View style={{ flex: 1, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
                 <Text style={styles.txt_item} >
-                    {`Services`}
+                    {`${service?.serviceName || ""}`}
                 </Text>
             </View>
             <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
             <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
                 <Text style={styles.txt_item} >
-                    {`Staff`}
+                    {`${service?.staff?.displayName || ""}`}
                 </Text>
             </View>
             <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
             <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
                 <Text style={styles.txt_item} >
-                    {`Start time`}
+                    {`${formatWithMoment(service?.fromTime, "hh:mm A")}`}
                 </Text>
             </View>
             <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
             <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
                 <Text style={styles.txt_item} >
-                    {`Duration (min)`}
+                    {`${status === "paid" ? (service?.tipAmount || 0.00) : (service?.duration || 1)}`}
                 </Text>
             </View>
             <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
             <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
                 <Text style={styles.txt_item} >
-                    {`Price ($)`}
+                    {`${service?.price || 0.00}`}
+                </Text>
+            </View>
+        </View>
+    );
+}
+
+const ExtraItem = ({ extra, status }) => {
+
+    return (
+        <View style={{
+            height: scaleSzie(38), backgroundColor: "#fff", flexDirection: "row",
+            borderTopColor: "#EEEEEE", borderTopWidth: 1
+        }} >
+            <View style={{ flex: 1, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+                <Text style={styles.txt_item} >
+                    {`${extra?.extraName || ""}`}
+                </Text>
+            </View>
+            <View style={{ width: 1 }} />
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} />
+            <View style={{ width: 1 }} />
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} />
+            <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
+
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+                <Text style={styles.txt_item} >
+                    {`${status === "paid" ? "0.00" : (extra?.duration || 1)}`}
+                </Text>
+            </View>
+            <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+                <Text style={styles.txt_item} >
+                    {`${extra?.price || 0.00}`}
+                </Text>
+            </View>
+        </View>
+    );
+}
+
+const ProductItem = ({ product }) => {
+
+    return (
+        <View style={{
+            height: scaleSzie(38), backgroundColor: "#fff", flexDirection: "row",
+            borderTopColor: "#EEEEEE", borderTopWidth: 1
+        }} >
+            <View style={{ flex: 1, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+                <Text style={styles.txt_item} >
+                    {`${product?.productName || ""}`}
+                </Text>
+            </View>
+            <View style={{ width: 1 }} />
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} />
+            <View style={{ width: 1 }} />
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} />
+            <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
+
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+                <Text style={styles.txt_item} >
+                    {`${product?.quantity || 1}`}
+                </Text>
+            </View>
+            <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+                <Text style={styles.txt_item} >
+                    {`${product?.price || 0.00}`}
+                </Text>
+            </View>
+        </View>
+    );
+}
+
+const GiftCardItem = ({ giftCard }) => {
+
+    return (
+        <View style={{
+            height: scaleSzie(38), backgroundColor: "#fff", flexDirection: "row",
+            borderTopColor: "#EEEEEE", borderTopWidth: 1
+        }} >
+            <View style={{ flex: 1, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+                <Text style={styles.txt_item} >
+                    {`${giftCard?.name || ""}`}
+                </Text>
+            </View>
+            <View style={{ width: 1 }} />
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} />
+            <View style={{ width: 1 }} />
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} />
+            <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
+
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+                <Text style={styles.txt_item} >
+                    {`${giftCard?.quantity || 1}`}
+                </Text>
+            </View>
+            <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
+            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+                <Text style={styles.txt_item} >
+                    {`${giftCard?.price || 0.00}`}
                 </Text>
             </View>
         </View>
