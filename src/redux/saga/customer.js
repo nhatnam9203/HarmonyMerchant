@@ -78,10 +78,12 @@ function* addCustomer(action) {
             yield put({
                 type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}customer/bymerchant`,
+                api: `${apiConfigs.BASE_API}customer/search?key=&page=1`,
                 token: true,
-                isShowLoading: true
-            })
+                isShowLoading: true,
+                currentPage: 1,
+                isShowLoadMore: false
+            });
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -169,7 +171,7 @@ function* sendGoogleReviewLink(action) {
     try {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log("--- sendGoogleReviewLink: ", responses);
+        // console.log("--- sendGoogleReviewLink: ", responses);
 
         // yield put({ type: 'STOP_LOADING_ROOT' });
         // const { codeNumber } = responses;
@@ -197,7 +199,7 @@ function* getCustomerInfoById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log("getCustomerInfoById: ", JSON.stringify(responses));
+        // console.log("getCustomerInfoById: ", JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -224,7 +226,9 @@ function* getCustomerInfoById(action) {
 
 function* getPastAppointments(action) {
     try {
-        yield put({ type: 'LOADING_ROOT' });
+        if (action.isShowLoading) {
+            yield put({ type: 'LOADING_ROOT' });
+        }
         const responses = yield requestAPI(action);
         // console.log("getPastAppointments: ", JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -232,7 +236,9 @@ function* getPastAppointments(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: "GET_PAST_APPOINTMENT_SUCCESS",
-                payload: responses?.data || []
+                payload: responses?.data || [],
+                totalPastAppointmentPages: responses?.pages || 0,
+                currentPastAppointmentPage: action.currentPage
             });
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -242,7 +248,10 @@ function* getPastAppointments(action) {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
-            })
+            });
+            yield put({
+                type: 'GET_PAST_APPOINTMENT_FAIL',
+            });
         }
     } catch (error) {
         yield put({ type: error });

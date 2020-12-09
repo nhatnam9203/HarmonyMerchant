@@ -5,7 +5,8 @@ import {
     Platform,
     Image,
     ScrollView,
-    FlatList
+    FlatList,
+    ActivityIndicator
 } from 'react-native';
 
 import { Button, Text } from '@components';
@@ -43,7 +44,8 @@ class CustomerDetailTab extends React.Component {
 
             },
             visible: false
-        }
+        };
+        this.onEndReachedCalledDuringMomentum = true;
     }
 
     setStateFromParent = async (customer) => {
@@ -66,15 +68,92 @@ class CustomerDetailTab extends React.Component {
     }
 
     loadMorePastAppointments = () => {
-        // alert("loadMorePastAppointments")
+        if (!this.onEndReachedCalledDuringMomentum) {
+            const { totalPastAppointmentPages, currentPastAppointmentPage } = this.props;
+            if (currentPastAppointmentPage < totalPastAppointmentPages) {
+                this.props.actions.customer.getPastAppointments(this.state?.customer?.customerId || 0, currentPastAppointmentPage + 1,true,false);
+                this.onEndReachedCalledDuringMomentum = true;
+            }
+        }
     }
 
     editCustomer = () => {
         this.props.editCustomer(this.state.customer);
     }
 
+    renderHeaderFlatlist() {
+        const {  customerHistory } = this.props;
+        const upcomings = customerHistory?.upcomings || [];
+
+        return (
+            <View style={{marginTop:scaleSzie(15)}} >
+                <View style={{ minHeight: scaleSzie(130 - 35) }} >
+                    <View style={{ flex: 1, flexDirection: "row", }} >
+                        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
+                            <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
+                                {`${customerHistory?.allBooking || 0}`}
+                            </Text>
+                            <View style={{ height: scaleSzie(10) }} />
+                            <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
+                                {`All bookings`}
+                            </Text>
+                        </View>
+                        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
+                            <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
+                                {`${customerHistory?.upcoming || 0}`}
+                            </Text>
+                            <View style={{ height: scaleSzie(10) }} />
+                            <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
+                                {`Upcoming`}
+                            </Text>
+                        </View>
+                        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
+                            <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
+                                {`${customerHistory?.completed || 0}`}
+                            </Text>
+                            <View style={{ height: scaleSzie(10) }} />
+                            <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
+                                {`Completed`}
+                            </Text>
+                        </View>
+                        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
+                            <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
+                                {`${customerHistory?.cancelled || 0}`}
+                            </Text>
+                            <View style={{ height: scaleSzie(10) }} />
+                            <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
+                                {`Cancelled`}
+                            </Text>
+                        </View>
+                    </View>
+
+                    {
+                        upcomings.length > 0 ? <View style={{ height: scaleSzie(40), paddingLeft: scaleSzie(14),justifyContent:"center" }} >
+                            <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600" }} >
+                                {`Upcoming`}
+                            </Text>
+                        </View> : <View />
+                    }
+
+                </View>
+                {/* --------------- Line ----------- */}
+                <View style={{ height: scaleSzie(1), backgroundColor: "#EEEEEE" }} />
+
+                {/* -------------- Appointment Item ------------ */}
+                {
+                    upcomings.map((appointment) => <AppointmentItem
+                        key={appointment?.appointmentId}
+                        appointment={appointment}
+                        showAppointmentDetail={this.showAppointmentDetail}
+                    />)
+                }
+
+            </View>
+        );
+    }
+
     render() {
-        const { pastAppointments, customerHistory } = this.props;
+        const { pastAppointments, customerHistory,isLoadMorePastAppointment } = this.props;
         const { customer, visible } = this.state;
         const firstLetter = customer?.firstName ? customer?.firstName[0] : "";
         const upcomings = customerHistory?.upcomings || [];
@@ -240,81 +319,30 @@ class CustomerDetailTab extends React.Component {
                             <View style={{ height: scaleSzie(1), backgroundColor: "#EEEEEE" }} />
 
                             <View style={{ flex: 1 }} >
-                                <ScrollView>
-                                    <View style={{ minHeight: scaleSzie(130 - 35) }} >
-                                        <View style={{ flex: 1, flexDirection: "row", }} >
-                                            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
-                                                <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
-                                                    {`${customerHistory?.allBooking || 0}`}
-                                                </Text>
-                                                <View style={{ height: scaleSzie(10) }} />
-                                                <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
-                                                    {`All bookings`}
-                                                </Text>
-                                            </View>
-                                            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
-                                                <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
-                                                    {`${customerHistory?.upcoming || 0}`}
-                                                </Text>
-                                                <View style={{ height: scaleSzie(10) }} />
-                                                <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
-                                                    {`Upcoming`}
-                                                </Text>
-                                            </View>
-                                            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
-                                                <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
-                                                    {`${customerHistory?.completed || 0}`}
-                                                </Text>
-                                                <View style={{ height: scaleSzie(10) }} />
-                                                <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
-                                                    {`Completed`}
-                                                </Text>
-                                            </View>
-                                            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
-                                                <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
-                                                    {`${customerHistory?.cancelled || 0}`}
-                                                </Text>
-                                                <View style={{ height: scaleSzie(10) }} />
-                                                <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
-                                                    {`Cancelled`}
-                                                </Text>
-                                            </View>
-                                        </View>
-
-                                        {
-                                            upcomings.length > 0 ? <View style={{ height: scaleSzie(35), paddingLeft: scaleSzie(14) }} >
-                                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600" }} >
-                                                    {`Upcoming`}
-                                                </Text>
-                                            </View> : <View />
-                                        }
-
-                                    </View>
-                                    {/* --------------- Line ----------- */}
-                                    <View style={{ height: scaleSzie(1), backgroundColor: "#EEEEEE" }} />
-
-                                    {/* -------------- Appointment Item ------------ */}
+                                <FlatList
+                                    data={pastAppointments}
+                                    renderItem={({ item, index }) => <AppointmentItem
+                                        appointment={item}
+                                        isPastAppointment={true}
+                                        showAppointmentDetail={this.showAppointmentDetail}
+                                    />}
+                                    ListHeaderComponent={() => this.renderHeaderFlatlist() }
+                                    keyExtractor={(item, index) => `${item?.appointmentId}_${index}`}
+                                    onEndReached={this.loadMorePastAppointments}
+                                    onEndReachedThreshold={0.5}
+                                    onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+                                    removeClippedSubviews={true}
+                                    initialNumToRender={20}
+                                    maxToRenderPerBatch={5}
+                                    ListFooterComponent={() => <View style={{ height: scaleSzie(30), alignItems: "center", justifyContent: "center" }} >
                                     {
-                                        upcomings.map((appointment) => <AppointmentItem
-                                            key={appointment?.appointmentId}
-                                            appointment={appointment}
-                                            showAppointmentDetail={this.showAppointmentDetail}
-                                        />)
+                                        isLoadMorePastAppointment ? <ActivityIndicator
+                                            size="large"
+                                            color="#0764B0"
+                                        /> : null
                                     }
-
-                                    <FlatList
-                                        data={pastAppointments}
-                                        renderItem={({ item, index }) => <AppointmentItem
-                                            appointment={item}
-                                            isPastAppointment={true}
-                                            showAppointmentDetail={this.showAppointmentDetail}
-                                        />}
-                                        keyExtractor={(item, index) => `${item?.appointmentId}_${index}`}
-                                        onEndReached={this.loadMorePastAppointments}
-                                        onEndReachedThreshold={0.5}
-                                    />
-
-                                </ScrollView>
+                                </View>}
+                                />
                             </View>
                         </View>
                     </View>
@@ -329,9 +357,9 @@ class CustomerDetailTab extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { isGetCustomerInfoByIdSuccess,customerInfoById } = this.props;
+        const { isGetCustomerInfoByIdSuccess, customerInfoById } = this.props;
 
-        if(isGetCustomerInfoByIdSuccess && prevProps.isGetCustomerInfoByIdSuccess !== isGetCustomerInfoByIdSuccess){
+        if (isGetCustomerInfoByIdSuccess && prevProps.isGetCustomerInfoByIdSuccess !== isGetCustomerInfoByIdSuccess) {
             // console.log("---- Update ne ----");
             this.setState({
                 customer: customerInfoById
@@ -482,7 +510,10 @@ const mapStateToProps = state => ({
     customerInfoById: state.customer.customerInfoById,
     pastAppointments: state.customer.pastAppointments,
     customerHistory: state.customer.customerHistory,
-    isGetCustomerInfoByIdSuccess: state.customer.isGetCustomerInfoByIdSuccess
+    isGetCustomerInfoByIdSuccess: state.customer.isGetCustomerInfoByIdSuccess,
+    totalPastAppointmentPages: state.customer.totalPastAppointmentPages,
+    currentPastAppointmentPage: state.customer.currentPastAppointmentPage,
+    isLoadMorePastAppointment: state.customer.isLoadMorePastAppointment
 })
 
 

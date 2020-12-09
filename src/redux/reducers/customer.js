@@ -13,7 +13,10 @@ const initialState = {
     isLoadMoreCustomerList: false,
     customerInfoById: {},
     customerHistory: {},
-    isGetCustomerInfoByIdSuccess: false
+    isGetCustomerInfoByIdSuccess: false,
+    totalPastAppointmentPages: 0,
+    currentPastAppointmentPage: 0,
+    isLoadMorePastAppointment: false
 }
 
 function customerReducer(state = initialState, action) {
@@ -23,15 +26,6 @@ function customerReducer(state = initialState, action) {
                 ...state,
                 refreshListCustomer: !action.isShowLoading,
                 isLoadMoreCustomerList: action?.isShowLoadMore
-            }
-        case 'GET_LIST_CUSTOMER_BY_MERCHANT_SUCCESS':
-            return {
-                ...state,
-                listCustomersByMerchant: action.currentPage === 1 ? action.payload : state.listCustomersByMerchant.concat(action.payload),
-                totalPages: action.totalPages,
-                currentPage: action.currentPage,
-                refreshListCustomer: false,
-                isLoadMoreCustomerList: false
             }
         case 'GET_LIST_CUSTOMER_BY_MERCHANT_FAIL':
             return {
@@ -88,12 +82,33 @@ function customerReducer(state = initialState, action) {
                 ...state,
                 isGetCustomerInfoByIdSuccess: false,
             }
+        case 'GET_LIST_CUSTOMER_BY_MERCHANT_SUCCESS':
+            return {
+                ...state,
+                listCustomersByMerchant: action.currentPage === 1 ? action.payload : state.listCustomersByMerchant.concat(action.payload),
+                totalPages: action.totalPages,
+                currentPage: action.currentPage,
+                refreshListCustomer: false,
+                isLoadMoreCustomerList: false
+            }
+        case 'GET_PAST_APPOINTMENT':
+            return {
+                ...state,
+                isLoadMorePastAppointment: action?.isShowLoadMore
+            }
         case 'GET_PAST_APPOINTMENT_SUCCESS':
             return {
                 ...state,
-                pastAppointments: action.payload,
+                pastAppointments: action?.currentPastAppointmentPage === 1 ? action.payload : state.pastAppointments.concat(action.payload),
+                totalPastAppointmentPages: action?.totalPastAppointmentPages || 1,
+                currentPastAppointmentPage: action?.currentPastAppointmentPage || 1,
+                isLoadMorePastAppointment: false
             }
-
+        case 'GET_PAST_APPOINTMENT_FAIL':
+            return {
+                ...state,
+                isLoadMorePastAppointment: false
+            }
         case 'LOGOUT_APP':
             return {
                 ...initialState,

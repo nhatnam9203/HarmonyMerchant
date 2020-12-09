@@ -84,12 +84,15 @@ export function getCustomerInfoById(customerId) {
     }
 }
 
-export function getPastAppointments(customerId, page = 1) {
+export function getPastAppointments(customerId, page = 1,isShowLoadMore = false,isShowLoading = true) {
     return {
         type: 'GET_PAST_APPOINTMENT',
         method: 'GET',
         api: `${apiConfigs.BASE_API}appointment/getPastByCustomer/${customerId}?page=${page}`,
-        token: true
+        token: true,
+        currentPage:page,
+        isShowLoadMore,
+        isShowLoading,
     }
 }
 

@@ -13,8 +13,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     HeaderTableCustomer, RowTableCustomer, RowEmptyTableCustomer,
-    PopupAddEditCustomer, PopupCustomerDetail, CustomerDetailTab, PopupAppointmentDetail,
-    EditOrCreateCustomerTab
+   CustomerDetailTab,EditOrCreateCustomerTab
 } from './widget';
 import configs from "@configs";
 import ICON from "@resources"
@@ -151,7 +150,7 @@ export default class Layout extends React.Component {
                         ref={this.scrollTabRef}
                         style={{}}
                         initialPage={0}
-                        // locked={true}
+                        locked={true}
                         renderTabBar={() => <View />}
                         onChangeTab={this.onChangeTab}
                     >
@@ -176,6 +175,7 @@ export default class Layout extends React.Component {
                             submitEditCustomer={this.submitEditCustomer}
                             cancelEditCustomerInfo={this.cancelEditCustomerInfo}
                             cancelAddCustomerInfo={this.cancelAddCustomerInfo}
+                            addCustomer={this.addCustomer}
                         />
 
 
@@ -185,7 +185,7 @@ export default class Layout extends React.Component {
                     </Button>
 
                     {
-                        currentTab !== 0 ? <Button onPress={this.backCustomerListTab}
+                        currentTab === 1 ? <Button onPress={this.backCustomerListTab}
                             style={[configs.btn_right_position, {
                                 width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                             }]} >
@@ -193,34 +193,6 @@ export default class Layout extends React.Component {
                         </Button> : <View />
                     }
                 </View>
-
-                <PopupAddEditCustomer
-                    ref={this.modalAddRef}
-                    language={language}
-                    visible={visibleAdd}
-                    title={localize('New Customer', language)}
-                    onRequestClose={this.closeModalAddCustomer}
-                    addCustomer={this.addCustomer}
-                    stateCity={stateCity}
-                />
-                <PopupAddEditCustomer
-                    ref={this.modalEditRef}
-                    language={language}
-                    visible={visibleEdit}
-                    title={localize('Edit Customer', language)}
-                    onRequestClose={this.closeModalEditCustomer}
-                    editCustomer={this.editCustomer}
-                    stateCity={stateCity}
-                    isSave={true}
-                />
-                <PopupCustomerDetail
-                    ref={this.modalDetailRef}
-                    language={language}
-                    visible={visibleDetail}
-                    title={localize('Customer Details', language)}
-                    onRequestClose={this.closeModalDetail}
-                    showModalEditCustomer={this.showModalEditCustomer}
-                />
                 <PopupCheckStaffPermission
                     ref={this.checkPermissionRef}
                     visiblePopupCheckStaffPermission={customerTabPermission}

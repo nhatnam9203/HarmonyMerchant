@@ -119,13 +119,6 @@ class CustomerScreen extends Layout {
         this.scrollTabRef.current.goToPage(0);
     }
 
-    addCustomer = async (customer) => {
-        await this.setState({
-            visibleAdd: false
-        })
-        this.props.actions.customer.addCustomer(customer);
-    }
-
     handleLockScreen = () => {
         const { isFocus } = this.state;
         if (isFocus) {
@@ -208,6 +201,11 @@ class CustomerScreen extends Layout {
         this.scrollTabRef.current.goToPage(0);
     }
 
+    addCustomer = async (customer) => {
+        this.scrollTabRef.current.goToPage(0);
+        this.props.actions.customer.addCustomer(customer);
+    }
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
@@ -231,3 +229,4 @@ const mapStateToProps = state => ({
 })
 
 export default connectRedux(mapStateToProps, CustomerScreen);
+

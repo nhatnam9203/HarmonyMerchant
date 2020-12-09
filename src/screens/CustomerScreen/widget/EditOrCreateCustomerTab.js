@@ -82,7 +82,7 @@ class EditOrCreateCustomerTab extends React.Component {
         })
     }
 
-    setStateFromListCusomterTab = () =>{
+    setStateFromListCusomterTab = () => {
         this.setState(initState);
     }
 
@@ -170,17 +170,13 @@ class EditOrCreateCustomerTab extends React.Component {
             };
 
 
-            this.props.submitEditCustomer(temptCustomerInfo);
+            if (this.state.isEditCustomerInfo) {
+                this.props.submitEditCustomer(temptCustomerInfo);
+            } else {
+                this.props.addCustomer(temptCustomerInfo);
+            }
             this.scrollLeftCustomerRef.current.scrollTo({ x: 0, y: 0, animated: false });
             this.scrollRightCustomerRef.current.scrollTo({ x: 0, y: 0, animated: false });
-
-
-            // if (this.props.isSave) {
-            //     this.props.editCustomer(this.state.customerId, temptCustomerInfo);
-            // } else {
-            //     this.props.addCustomer(temptCustomerInfo);
-            // }
-
         }
     }
 
@@ -194,11 +190,11 @@ class EditOrCreateCustomerTab extends React.Component {
         });
     }
 
-    cancelCustomer = () =>{
-        const {isEditCustomerInfo} = this.state;
-        if(isEditCustomerInfo){
+    cancelCustomer = () => {
+        const { isEditCustomerInfo } = this.state;
+        if (isEditCustomerInfo) {
             this.props.cancelEditCustomerInfo();
-        }else{
+        } else {
             this.props.cancelAddCustomerInfo();
         }
     }
@@ -448,7 +444,6 @@ class EditOrCreateCustomerTab extends React.Component {
                             {/* ------------ Referrer Phone Number --------- */}
                             <PhoneItem
                                 title={`Referrer Phone Number`}
-                                isRequired={true}
                                 placeholder="Enter phone number"
                                 codeArea={codeReferrerPhone}
                                 upddateCodeArea={(codeReferrerPhone) => this.setState({ codeReferrerPhone })}
