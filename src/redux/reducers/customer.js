@@ -7,11 +7,13 @@ const initialState = {
     isShowSearchCustomer: false,
     refreshListCustomer: false,
     customerTabPermission: false,
-    customerInfoById: {},
     pastAppointments: [],
     totalPages: 0,
     currentPage: 0,
-    isLoadMoreCustomerList: false
+    isLoadMoreCustomerList: false,
+    customerInfoById: {},
+    customerHistory: {},
+    isGetCustomerInfoByIdSuccess: false
 }
 
 function customerReducer(state = initialState, action) {
@@ -69,10 +71,22 @@ function customerReducer(state = initialState, action) {
                 ...state,
                 customerTabPermission: false,
             }
+        case 'GET_CUSTOMER_INFO_BY_ID':
+            return {
+                ...state,
+                isGetCustomerInfoByIdSuccess: false,
+            }
         case 'GET_CUSTOMER_INFO_BY_ID__SUCCESS':
             return {
                 ...state,
-                customerInfoById: action.payload,
+                customerInfoById: { ...action?.payload, customerHistory: null },
+                customerHistory: action?.payload?.customerHistory,
+                isGetCustomerInfoByIdSuccess: true
+            }
+        case 'RESET_IS_GET_CUSTOMER_INFO_BY_ID_STATE':
+            return {
+                ...state,
+                isGetCustomerInfoByIdSuccess: false,
             }
         case 'GET_PAST_APPOINTMENT_SUCCESS':
             return {

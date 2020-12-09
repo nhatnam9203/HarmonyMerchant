@@ -173,6 +173,13 @@ class CustomerScreen extends Layout {
     }
 
     addNewCustomer = () => {
+        if (this.edtitCustomerRef?.current) {
+            this.edtitCustomerRef.current.setStateFromListCusomterTab();
+        } else {
+            setTimeout(() => {
+                this.edtitCustomerRef.current.setStateFromListCusomterTab();
+            })
+        }
         this.scrollTabRef.current.goToPage(2);
     }
 
@@ -191,7 +198,14 @@ class CustomerScreen extends Layout {
     submitEditCustomer = async (customer) => {
         this.scrollTabRef.current.goToPage(1);
         this.props.actions.customer.editCustomer(customer?.customerId, customer);
+    }
 
+    cancelEditCustomerInfo = () =>{
+        this.scrollTabRef.current.goToPage(1);
+    }
+
+    cancelAddCustomerInfo = () =>{
+        this.scrollTabRef.current.goToPage(0);
     }
 
     componentWillUnmount() {

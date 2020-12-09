@@ -45,7 +45,8 @@ export function editCustomer(id, body, keySearch = "") {
         body,
         api: `${apiConfigs.BASE_API}customer/${id}`,
         token: true,
-        keySearch
+        keySearch,
+        customerId:id
     }
 }
 
@@ -89,5 +90,13 @@ export function getPastAppointments(customerId, page = 1) {
         method: 'GET',
         api: `${apiConfigs.BASE_API}appointment/getPastByCustomer/${customerId}?page=${page}`,
         token: true
+    }
+}
+
+
+export function resetIsGetCustomerInfoByIdState(visible = false) {
+    return {
+        type: 'RESET_IS_GET_CUSTOMER_INFO_BY_ID_STATE',
+        payload: visible
     }
 }

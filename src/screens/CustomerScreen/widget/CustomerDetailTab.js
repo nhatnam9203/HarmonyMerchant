@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 
 import { Button, Text } from '@components';
-import { scaleSzie, formatWithMoment, getArrayProductsFromAppointment, getArrayServicesFromAppointment, getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment,
+import {
+    scaleSzie, formatWithMoment, getArrayProductsFromAppointment, getArrayServicesFromAppointment, getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment,
     getColorStatus
 } from '@utils';
 import Configs from "@configs";
@@ -58,7 +59,7 @@ class CustomerDetailTab extends React.Component {
         })
     }
 
-    closePopup = () =>{
+    closePopup = () => {
         this.setState({
             visible: false
         })
@@ -68,15 +69,15 @@ class CustomerDetailTab extends React.Component {
         // alert("loadMorePastAppointments")
     }
 
-    editCustomer = () =>{
+    editCustomer = () => {
         this.props.editCustomer(this.state.customer);
     }
 
     render() {
-        const { customerInfoById, pastAppointments } = this.props;
-        const { customer,visible } = this.state;
+        const { pastAppointments, customerHistory } = this.props;
+        const { customer, visible } = this.state;
         const firstLetter = customer?.firstName ? customer?.firstName[0] : "";
-        const upcomings = customerInfoById?.customerHistory?.upcomings || [];
+        const upcomings = customerHistory?.upcomings || [];
 
         return (
             <View style={{ flex: 1, padding: scaleSzie(10) }} >
@@ -200,7 +201,7 @@ class CustomerDetailTab extends React.Component {
                             <View style={{ flex: 1, flexDirection: "row" }} >
                                 <View style={{ flex: 1, paddingLeft: scaleSzie(14), paddingVertical: scaleSzie(5), justifyContent: "space-around" }} >
                                     <Text style={{ color: "#404040", fontSize: scaleSzie(20), fontWeight: "bold" }} >
-                                        {`$  ${customerInfoById?.customerHistory?.totalSales || "0.00"}`}
+                                        {`$  ${customerHistory?.totalSales || "0.00"}`}
                                     </Text>
                                     <Text style={{ color: "#404040", fontSize: scaleSzie(13) }} >
                                         {`Total sales`}
@@ -210,7 +211,7 @@ class CustomerDetailTab extends React.Component {
                                 <View style={{ width: scaleSzie(1), backgroundColor: "#EEEEEE" }} />
                                 <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), paddingVertical: scaleSzie(5), justifyContent: "space-around" }} >
                                     <Text style={{ color: "#404040", fontSize: scaleSzie(20), fontWeight: "bold" }} >
-                                        {`$  ${customerInfoById?.customerHistory?.lastVisitSale || "0.00"}`}
+                                        {`$  ${customerHistory?.lastVisitSale || "0.00"}`}
                                     </Text>
                                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}  >
                                         <Text style={{ color: "#404040", fontSize: scaleSzie(13) }} >
@@ -218,7 +219,7 @@ class CustomerDetailTab extends React.Component {
                                         </Text>
 
                                         <Text style={{ color: "#404040", fontSize: scaleSzie(13), fontWeight: "300" }} >
-                                            {`${formatWithMoment(customerInfoById?.customerHistory?.lastVisitDate, "MM/DD/YYYY")}`}
+                                            {`${formatWithMoment(customerHistory?.lastVisitDate, "MM/DD/YYYY")}`}
                                         </Text>
                                     </View>
 
@@ -244,7 +245,7 @@ class CustomerDetailTab extends React.Component {
                                         <View style={{ flex: 1, flexDirection: "row", }} >
                                             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
                                                 <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
-                                                    {`${customerInfoById?.customerHistory?.allBooking || 0}`}
+                                                    {`${customerHistory?.allBooking || 0}`}
                                                 </Text>
                                                 <View style={{ height: scaleSzie(10) }} />
                                                 <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
@@ -253,7 +254,7 @@ class CustomerDetailTab extends React.Component {
                                             </View>
                                             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
                                                 <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
-                                                    {`${customerInfoById?.customerHistory?.upcoming || 0}`}
+                                                    {`${customerHistory?.upcoming || 0}`}
                                                 </Text>
                                                 <View style={{ height: scaleSzie(10) }} />
                                                 <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
@@ -262,7 +263,7 @@ class CustomerDetailTab extends React.Component {
                                             </View>
                                             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
                                                 <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
-                                                    {`${customerInfoById?.customerHistory?.completed || 0}`}
+                                                    {`${customerHistory?.completed || 0}`}
                                                 </Text>
                                                 <View style={{ height: scaleSzie(10) }} />
                                                 <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
@@ -271,7 +272,7 @@ class CustomerDetailTab extends React.Component {
                                             </View>
                                             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
                                                 <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
-                                                    {`${customerInfoById?.customerHistory?.cancelled || 0}`}
+                                                    {`${customerHistory?.cancelled || 0}`}
                                                 </Text>
                                                 <View style={{ height: scaleSzie(10) }} />
                                                 <Text style={{ color: "#404040", fontSize: scaleSzie(14) }} >
@@ -319,13 +320,26 @@ class CustomerDetailTab extends React.Component {
                     </View>
                 </View>
 
-                <PopupAppointmentDetail 
+                <PopupAppointmentDetail
                     visible={visible}
                     closePopup={this.closePopup}
                 />
             </View >
         );
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { isGetCustomerInfoByIdSuccess,customerInfoById } = this.props;
+
+        if(isGetCustomerInfoByIdSuccess && prevProps.isGetCustomerInfoByIdSuccess !== isGetCustomerInfoByIdSuccess){
+            // console.log("---- Update ne ----");
+            this.setState({
+                customer: customerInfoById
+            })
+            this.props.actions.customer.resetIsGetCustomerInfoByIdState();
+        }
+    }
+
 }
 
 const AppointmentItem = ({ appointment, isPastAppointment, showAppointmentDetail }) => {
@@ -412,7 +426,7 @@ const AppointmentItem = ({ appointment, isPastAppointment, showAppointmentDetail
 
                 </View>
                 <View style={{ width: scaleSzie(125), paddingRight: scaleSzie(12), alignItems: "flex-end", justifyContent: "space-between" }} >
-                    <Text style={{ color: getColorStatus(appointment?.status) , fontSize: scaleSzie(20) }} >
+                    <Text style={{ color: getColorStatus(appointment?.status), fontSize: scaleSzie(20) }} >
                         {`${`${appointment?.status}`.toUpperCase() || ""}`}
                     </Text>
                     <Text style={{ color: "#0764B0", fontSize: scaleSzie(20), fontWeight: "600" }} >
@@ -466,7 +480,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
     customerInfoById: state.customer.customerInfoById,
-    pastAppointments: state.customer.pastAppointments
+    pastAppointments: state.customer.pastAppointments,
+    customerHistory: state.customer.customerHistory,
+    isGetCustomerInfoByIdSuccess: state.customer.isGetCustomerInfoByIdSuccess
 })
 
 

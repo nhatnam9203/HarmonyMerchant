@@ -24,40 +24,42 @@ import connectRedux from '@redux/ConnectRedux';
 
 const { width } = Dimensions.get("window");
 
+const initState = {
+    customerInfo: {
+        firstName: '',
+        lastName: '',
+        phone: '',
+        email: '',
+        addressPost: {
+            street: '',
+            city: '',
+            state: '',
+            zip: ""
+        },
+        referrerPhone: '',
+        favourite: '',
+        isVip: 0,
+        gender: "Female",
+        birthdate: ""
+    },
+    customerId: 0,
+    codeAreaPhone: '+1',
+    codeReferrerPhone: '+1',
+    dynamicMarginBottomState: 24,
+    visibleChangeStatus: false,
+    isEditCustomerInfo: false
+}
+
 class EditOrCreateCustomerTab extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            customerInfo: {
-                firstName: '',
-                lastName: '',
-                phone: '',
-                email: '',
-                addressPost: {
-                    street: '',
-                    city: '',
-                    state: '',
-                    zip: ""
-                },
-                referrerPhone: '',
-                favourite: '',
-                isVip: 0,
-                gender: "Female",
-                birthdate: ""
-            },
-            customerId: 0,
-            codeAreaPhone: '+1',
-            codeReferrerPhone: '+1',
-            dynamicMarginBottomState: 24,
-            visibleChangeStatus: false
-        };
+        this.state = initState;
         this.scrollLeftCustomerRef = React.createRef();
         this.scrollRightCustomerRef = React.createRef();
     }
 
     setStateFromParent = (customer) => {
-        // console.log("customerInfo : ",JSON.stringify(customer));
         const { stateCity } = this.props;
         this.setState({
             customerInfo: {
@@ -76,7 +78,12 @@ class EditOrCreateCustomerTab extends React.Component {
             customerId: customer.customerId,
             codeAreaPhone: getCodeAreaPhone(customer.phone).areaCode,
             codeReferrerPhone: getCodeAreaPhone(customer.referrerPhone).areaCode,
+            isEditCustomerInfo: true
         })
+    }
+
+    setStateFromListCusomterTab = () =>{
+        this.setState(initState);
     }
 
     updateCustomerInfo(key, value, keyParent = '') {
@@ -185,6 +192,15 @@ class EditOrCreateCustomerTab extends React.Component {
             },
             visibleChangeStatus: false
         });
+    }
+
+    cancelCustomer = () =>{
+        const {isEditCustomerInfo} = this.state;
+        if(isEditCustomerInfo){
+            this.props.cancelEditCustomerInfo();
+        }else{
+            this.props.cancelAddCustomerInfo();
+        }
     }
 
 
@@ -476,7 +492,7 @@ class EditOrCreateCustomerTab extends React.Component {
                         backgroundColor="#F1F1F1"
                         title="CANCEL"
                         textColor="#404040"
-                        onPress={() => { }}
+                        onPress={this.cancelCustomer}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4 }}
                         styleText={{
                             fontSize: scaleSzie(22)

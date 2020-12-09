@@ -174,6 +174,8 @@ export default class Layout extends React.Component {
                         <EditOrCreateCustomerTab
                             ref={this.edtitCustomerRef}
                             submitEditCustomer={this.submitEditCustomer}
+                            cancelEditCustomerInfo={this.cancelEditCustomerInfo}
+                            cancelAddCustomerInfo={this.cancelAddCustomerInfo}
                         />
 
 
