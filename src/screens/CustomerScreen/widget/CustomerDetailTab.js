@@ -403,6 +403,7 @@ const AppointmentItem = ({ appointment, isPastAppointment, showAppointmentDetail
     const arryaServices = getArrayServicesFromAppointment(appointment?.services || []);
     const arrayExtras = getArrayExtrasFromAppointment(appointment?.extras || []);
     const arrayGiftCards = getArrayGiftCardsFromAppointment(appointment?.giftCards || []);
+    const status = appointment?.status === "checkin" ? "check-in" : appointment?.status;
 
     return (
         <Button onPress={showAppointmentDetail} style={{ paddingHorizontal: scaleSzie(10), borderBottomColor: "#EEEEEE", borderBottomWidth: scaleSzie(1), }} >
@@ -482,7 +483,7 @@ const AppointmentItem = ({ appointment, isPastAppointment, showAppointmentDetail
                 </View>
                 <View style={{ width: scaleSzie(140), paddingRight: scaleSzie(12), alignItems: "flex-end", justifyContent: "space-between" }} >
                     <Text style={{ color: getColorStatus(appointment?.status), fontSize: scaleSzie(16) }} >
-                        {`${`${appointment?.status}`.toUpperCase() || ""}`}
+                        {`${`${status ? status : ""}`.toUpperCase() || ""}`}
                     </Text>
                     <Text style={{ color: "#0764B0", fontSize: scaleSzie(20), fontWeight: "600" }} >
                         {`$ ${appointment?.total || 0.00}`}

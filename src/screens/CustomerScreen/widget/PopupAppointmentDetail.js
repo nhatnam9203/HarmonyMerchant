@@ -8,6 +8,7 @@ import {
     Image,
     StyleSheet
 } from 'react-native';
+import moment from "moment";
 
 import { ButtonCustom, ModalCustom, Button } from '@components';
 import { scaleSzie, localize, checkIsTablet, formatWithMoment, getColorStatus } from '@utils';
@@ -40,6 +41,9 @@ class PopupAppointmentDetail extends React.Component {
         const extras = appointmentDetail?.extras || [];
         const giftCards = appointmentDetail?.giftCards || [];
         const notes = appointmentDetail?.notes || [];
+        const duration = appointmentDetail?.duration || 0;
+        const millisecondsDuration =  duration*60*1000;
+        const tempDuration = moment.utc(millisecondsDuration).format('h:mm');
 
         return (
             <ModalCustom
@@ -222,7 +226,7 @@ class PopupAppointmentDetail extends React.Component {
                                         <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(13) }} >
                                             {`Total duration:`}
                                             <Text style={{ fontWeight: "bold" }} >
-                                                {`   ${appointmentDetail?.duration || 0} min`}
+                                                {`   ${tempDuration} min`}
                                             </Text>
                                             <Text >
                                                 {`           Total:`}
@@ -248,6 +252,7 @@ class PopupAppointmentDetail extends React.Component {
 }
 
 const PopupHeader = ({ closePopup, appointmentDetail }) => {
+    const status = appointmentDetail?.status === "checkin" ? "check-in" : appointmentDetail?.status;
 
     return (
         <View style={[{
@@ -259,48 +264,12 @@ const PopupHeader = ({ closePopup, appointmentDetail }) => {
             </Text>
 
             <Text style={{ color: "#fff", fontSize: scaleSzie(16), fontWeight: "bold" }} >
-                {`${`${appointmentDetail?.status}`.toUpperCase()} APPOINTMENT`}
+                {`${`${status ? status : ""}`.toUpperCase() || ""} APPOINTMENT`}
             </Text>
             <Button onPress={closePopup} >
                 <Image source={ICON.close_appointment_popup} style={{ height: scaleSzie(24), width: scaleSzie(24) }} />
             </Button>
 
-        </View>
-    );
-}
-
-const TableHeader = ({ }) => {
-    return (
-        <View style={{ height: scaleSzie(25), backgroundColor: "#404040", flexDirection: "row" }} >
-            <View style={{ flex: 1, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
-                <Text style={styles.txt_title} >
-                    {`Services`}
-                </Text>
-            </View>
-            <View style={{ width: 1, backgroundColor: "#fff" }} />
-            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
-                <Text style={styles.txt_title} >
-                    {`Staff`}
-                </Text>
-            </View>
-            <View style={{ width: 1, backgroundColor: "#fff" }} />
-            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
-                <Text style={styles.txt_title} >
-                    {`Start time`}
-                </Text>
-            </View>
-            <View style={{ width: 1, backgroundColor: "#fff" }} />
-            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
-                <Text style={styles.txt_title} >
-                    {`Duration (min)`}
-                </Text>
-            </View>
-            <View style={{ width: 1, backgroundColor: "#fff" }} />
-            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
-                <Text style={styles.txt_title} >
-                    {`Price ($)`}
-                </Text>
-            </View>
         </View>
     );
 }
@@ -332,7 +301,7 @@ const ServiceHeader = ({ status }) => {
                 </Text>
             </View>
             <View style={{ width: 1, backgroundColor: "#fff" }} />
-            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+            <View style={{ flex: 0.8, justifyContent: "center",alignItems:"flex-end", paddingHorizontal: scaleSzie(10) }} >
                 <Text style={styles.txt_title_paid} >
                     {`Price ($)`}
                 </Text>
@@ -362,7 +331,7 @@ const ProductHeader = ({ }) => {
             </View>
 
             <View style={{ width: 1, backgroundColor: "#fff" }} />
-            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+            <View style={{ flex: 0.8, justifyContent: "center",alignItems:"flex-end", paddingHorizontal: scaleSzie(10) }} >
                 <Text style={styles.txt_title_paid} >
                     {`Price ($)`}
                 </Text>
@@ -392,7 +361,7 @@ const GiftCardHeader = ({ }) => {
             </View>
 
             <View style={{ width: 1, backgroundColor: "#fff" }} />
-            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+            <View style={{ flex: 0.8, justifyContent: "center",alignItems:"flex-end", paddingHorizontal: scaleSzie(10) }} >
                 <Text style={styles.txt_title_paid} >
                     {`Price ($)`}
                 </Text>
@@ -432,7 +401,7 @@ const ServiceItem = ({ service, status }) => {
                 </Text>
             </View>
             <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
-            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+            <View style={{ flex: 0.8, justifyContent: "center", alignItems:"flex-end", paddingHorizontal: scaleSzie(10) }} >
                 <Text style={styles.txt_item} >
                     {`${service?.price || 0.00}`}
                 </Text>
@@ -465,7 +434,7 @@ const ExtraItem = ({ extra, status }) => {
                 </Text>
             </View>
             <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
-            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+            <View style={{ flex: 0.8, justifyContent: "center", alignItems:"flex-end", paddingHorizontal: scaleSzie(10) }} >
                 <Text style={styles.txt_item} >
                     {`${extra?.price || 0.00}`}
                 </Text>
@@ -498,7 +467,7 @@ const ProductItem = ({ product }) => {
                 </Text>
             </View>
             <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
-            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+            <View style={{ flex: 0.8, justifyContent: "center", alignItems:"flex-end", paddingHorizontal: scaleSzie(10) }} >
                 <Text style={styles.txt_item} >
                     {`${product?.price || 0.00}`}
                 </Text>
@@ -531,7 +500,7 @@ const GiftCardItem = ({ giftCard }) => {
                 </Text>
             </View>
             <View style={{ width: 1, backgroundColor: "#EEEEEE" }} />
-            <View style={{ flex: 0.8, justifyContent: "center", paddingLeft: scaleSzie(10) }} >
+            <View style={{ flex: 0.8, justifyContent: "center",alignItems:"flex-end", paddingHorizontal: scaleSzie(10) }} >
                 <Text style={styles.txt_item} >
                     {`${giftCard?.price || 0.00}`}
                 </Text>
