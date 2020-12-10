@@ -189,7 +189,6 @@ class CustomerScreen extends Layout {
     }
 
     submitEditCustomer = async (customer) => {
-        this.scrollTabRef.current.goToPage(1);
         this.props.actions.customer.editCustomer(customer?.customerId, customer);
     }
 
@@ -202,8 +201,21 @@ class CustomerScreen extends Layout {
     }
 
     addCustomer = async (customer) => {
-        this.scrollTabRef.current.goToPage(0);
+        // this.scrollTabRef.current.goToPage(0);
         this.props.actions.customer.addCustomer(customer);
+    }
+
+    componentDidUpdate(prevProps,prevState){
+        const {isEditCustomerSuccess, isAddCustomerSuccess} = this.props;
+        if(isEditCustomerSuccess && isEditCustomerSuccess !== prevProps.isEditCustomerSuccess){
+            this.scrollTabRef.current.goToPage(1);
+            this.props.actions.customer.resetEditCustomerState();
+        }
+
+        if(isAddCustomerSuccess && isAddCustomerSuccess !== prevProps.isAddCustomerSuccess){
+            this.scrollTabRef.current.goToPage(0);
+            this.props.actions.customer.resetAddCustomerState();
+        }
     }
 
     componentWillUnmount() {
@@ -225,7 +237,9 @@ const mapStateToProps = state => ({
     customerTabPermission: state.customer.customerTabPermission,
     totalPages: state.customer.totalPages,
     currentPage: state.customer.currentPage,
-    isLoadMoreCustomerList: state.customer.isLoadMoreCustomerList
+    isLoadMoreCustomerList: state.customer.isLoadMoreCustomerList,
+    isEditCustomerSuccess: state.customer.isEditCustomerSuccess,
+    isAddCustomerSuccess: state.customer.isAddCustomerSuccess
 })
 
 export default connectRedux(mapStateToProps, CustomerScreen);

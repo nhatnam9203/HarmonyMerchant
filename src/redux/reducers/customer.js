@@ -16,7 +16,10 @@ const initialState = {
     isGetCustomerInfoByIdSuccess: false,
     totalPastAppointmentPages: 0,
     currentPastAppointmentPage: 0,
-    isLoadMorePastAppointment: false
+    isLoadMorePastAppointment: false,
+    isEditCustomerSuccess: false,
+    isAddCustomerSuccess: false,
+
 }
 
 function customerReducer(state = initialState, action) {
@@ -32,6 +35,46 @@ function customerReducer(state = initialState, action) {
                 ...state,
                 refreshListCustomer: false,
                 isLoadMoreCustomerList: false
+            }
+        case 'EDIT_CUSTOMER':
+            return {
+                ...state,
+                isEditCustomerSuccess: false
+            }
+        case 'EDIT_CUSTOMER_SUCCESS':
+            return {
+                ...state,
+                isEditCustomerSuccess: true
+            }
+        case 'EDIT_CUSTOMER_FAIL':
+            return {
+                ...state,
+                isEditCustomerSuccess: false
+            }
+        case 'RESET_EDIT_CUSTOMER_STATE':
+            return {
+                ...state,
+                isEditCustomerSuccess: false
+            }
+        case 'ADD_CUSTOMER':
+            return {
+                ...state,
+                isAddCustomerSuccess: false
+            }
+        case 'ADD_CUSTOMER_SUCCESS':
+            return {
+                ...state,
+                isAddCustomerSuccess: true
+            }
+        case 'ADD_CUSTOMER_FAIL':
+            return {
+                ...state,
+                isAddCustomerSuccess: false
+            }
+        case 'RESET_ADD_CUSTOMER_STATE':
+            return {
+                ...state,
+                isAddCustomerSuccess: false
             }
         case 'SEARCH_CUSTOMER_SUCCESS':
             return {

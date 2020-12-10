@@ -537,6 +537,7 @@ class EditOrCreateCustomerTab extends React.Component {
             </View>
         );
     }
+
 }
 
 const PhoneItem = ({ title, isRequired, placeholder, style, value, onChangeText, codeArea, upddateCodeArea, onFocus }) => {

@@ -76,6 +76,10 @@ function* addCustomer(action) {
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
+                type: "ADD_CUSTOMER_SUCCESS"
+            });
+
+            yield put({
                 type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
                 method: 'GET',
                 api: `${apiConfigs.BASE_API}customer/search?key=&page=1`,
@@ -93,7 +97,10 @@ function* addCustomer(action) {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
-            })
+            });
+            yield put({
+                type: "ADD_CUSTOMER_FAIL"
+            });
         }
     } catch (error) {
         yield put({ type: error });
@@ -108,6 +115,9 @@ function* editCustomer(action) {
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "EDIT_CUSTOMER_SUCCESS"
+            })
             yield put({
                 type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
                 method: 'GET',
@@ -132,6 +142,9 @@ function* editCustomer(action) {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
+            });
+            yield put({
+                type: "EDIT_CUSTOMER_FAIL"
             })
         }
     } catch (error) {

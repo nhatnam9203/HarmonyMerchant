@@ -96,10 +96,25 @@ export function getPastAppointments(customerId, page = 1,isShowLoadMore = false,
     }
 }
 
-
 export function resetIsGetCustomerInfoByIdState(visible = false) {
     return {
         type: 'RESET_IS_GET_CUSTOMER_INFO_BY_ID_STATE',
         payload: visible
     }
 }
+
+export function resetEditCustomerState(visible = false) {
+    return {
+        type: 'RESET_EDIT_CUSTOMER_STATE',
+        payload: visible
+    }
+}
+
+export function resetAddCustomerState(visible = false) {
+    return {
+        type: 'RESET_ADD_CUSTOMER_STATE',
+        payload: visible
+    }
+}
+
+

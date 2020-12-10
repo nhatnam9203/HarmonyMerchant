@@ -11,7 +11,7 @@ import {
 import moment from "moment";
 
 import { ButtonCustom, ModalCustom, Button } from '@components';
-import { scaleSzie, localize, checkIsTablet, formatWithMoment, getColorStatus } from '@utils';
+import { scaleSzie, localize, checkIsTablet, formatWithMoment, getColorStatus,msToTime } from '@utils';
 import ICON from "@resources";
 
 const { width } = Dimensions.get("window");
@@ -43,7 +43,7 @@ class PopupAppointmentDetail extends React.Component {
         const notes = appointmentDetail?.notes || [];
         const duration = appointmentDetail?.duration || 0;
         const millisecondsDuration =  duration*60*1000;
-        const tempDuration = moment.utc(millisecondsDuration).format('h:mm');
+        const tempDuration = msToTime(millisecondsDuration);
 
         return (
             <ModalCustom
@@ -226,7 +226,7 @@ class PopupAppointmentDetail extends React.Component {
                                         <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(13) }} >
                                             {`Total duration:`}
                                             <Text style={{ fontWeight: "bold" }} >
-                                                {`   ${tempDuration} min`}
+                                                {`   ${tempDuration}`}
                                             </Text>
                                             <Text >
                                                 {`           Total:`}
