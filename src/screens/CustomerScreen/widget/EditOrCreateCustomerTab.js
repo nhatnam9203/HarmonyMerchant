@@ -15,7 +15,7 @@ import moment from "moment";
 import { Button, Text, Dropdown, ButtonCustom, TextInputSuggestion } from '@components';
 import {
     scaleSzie, ListCodeAreaPhone, formatWithMoment, getNameStateById, getCodeAreaPhone,
-    checkStateIsValid, getIdStateByName, isValidDate, stringToDate
+    checkStateIsValid, getIdStateByName, isValidDate, stringToDate,validateEmail
 } from '@utils';
 import Configs from "@configs";
 import ICON from "@resources";
@@ -38,7 +38,7 @@ const initState = {
         },
         referrerPhone: '',
         referrerBy: "",
-        favourite: '',
+        note: '',
         isVip: 0,
         gender: "Female",
         birthdate: ""
@@ -147,6 +147,11 @@ class EditOrCreateCustomerTab extends React.Component {
                 break
             }
 
+            if (customerInfo.email !== "" && !validateEmail(customerInfo.email)) {
+                keyError = "email";
+                break
+            }
+            
             if (customerInfo.birthdate !== "" && !isValidDate(customerInfo.birthdate)) {
                 keyError = "birthdate";
                 break
@@ -203,7 +208,7 @@ class EditOrCreateCustomerTab extends React.Component {
 
     render() {
         const { codeAreaPhone, codeReferrerPhone, dynamicMarginBottomState, visibleChangeStatus } = this.state;
-        const { firstName, lastName, phone, email, referrerPhone, favourite, addressPost, isVip, gender, birthdate,referrerBy } = this.state.customerInfo;
+        const { firstName, lastName, phone, email, referrerPhone, note, addressPost, isVip, gender, birthdate,referrerBy } = this.state.customerInfo;
         const { street, city, state, zip } = addressPost;
 
         return (
@@ -294,7 +299,7 @@ class EditOrCreateCustomerTab extends React.Component {
                             />
 
                             <FromItem
-                                title={`Contact email`}
+                                title={`Contact Email`}
                                 placeholder="Email address"
                                 value={email}
                                 onChangeText={value => this.updateCustomerInfo('email', value)}
@@ -469,7 +474,9 @@ class EditOrCreateCustomerTab extends React.Component {
                             <Text style={{ fontSize: scaleSzie(14), color: "#404040", fontWeight: "600", marginBottom: scaleSzie(10) }} >
                                 {`Note:`}
                             </Text>
-                            <View style={{ height: scaleSzie(70), borderColor: "#CCCCCC", borderWidth: 1, padding: scaleSzie(10) }} >
+                            <View style={{ height: scaleSzie(70), borderColor: "#CCCCCC", borderWidth: 1, paddingHorizontal: scaleSzie(10),
+                        paddingVertical:scaleSzie(5)
+                        }} >
                                 <TextInput
                                     style={{
                                         flex: 1, fontSize: scaleSzie(12),
@@ -477,8 +484,8 @@ class EditOrCreateCustomerTab extends React.Component {
                                         textAlignVertical: "top"
                                     }}
                                     multiline={true}
-                                    value={favourite}
-                                    onChangeText={value => this.updateCustomerInfo('favourite', value)}
+                                    value={note}
+                                    onChangeText={value => this.updateCustomerInfo('note', value)}
                                     onFocus={() => this.scrollRightContentTo(400)}
                                 />
                             </View>
@@ -547,7 +554,7 @@ const PhoneItem = ({ title, isRequired, placeholder, style, value, onChangeText,
             </Text>
 
             <View style={{ height: scaleSzie(35), marginTop: scaleSzie(10), flexDirection: "row" }} >
-                <View style={{ width: scaleSzie(55) }} >
+                <View style={{ width: scaleSzie(65) }} >
                     <Dropdown
                         label={'+1'}
                         data={ListCodeAreaPhone}
@@ -641,7 +648,8 @@ const strings = {
     lastName: 'Missing Info: Last Name',
     phone: 'Missing Info: Phone',
     StateInvalid: "State Invalid",
-    birthdate: "Birth Date Invalid"
+    birthdate: "Birth Date Invalid",
+    email: "Email Invalid"
 }
 
 const mapStateToProps = state => ({

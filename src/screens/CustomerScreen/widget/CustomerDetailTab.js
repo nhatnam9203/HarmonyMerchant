@@ -4,9 +4,9 @@ import {
     StyleSheet,
     Platform,
     Image,
-    ScrollView,
     FlatList,
-    ActivityIndicator
+    ActivityIndicator,
+    ScrollView
 } from 'react-native';
 
 import { Button, Text } from '@components';
@@ -29,13 +29,13 @@ class CustomerDetailTab extends React.Component {
                 firstName: "",
                 lastName: "",
                 phone: "",
-                referrerBy:"",
+                referrerBy: "",
                 referrerPhone: "",
                 email: "",
                 isVip: 0,
                 birthdate: "",
                 gender: "",
-                favourite: "",
+                note: "",
                 addressPost: {
                     "street": "",
                     "state": 0,
@@ -73,7 +73,7 @@ class CustomerDetailTab extends React.Component {
         if (!this.onEndReachedCalledDuringMomentum) {
             const { totalPastAppointmentPages, currentPastAppointmentPage } = this.props;
             if (currentPastAppointmentPage < totalPastAppointmentPages) {
-                this.props.actions.customer.getPastAppointments(this.state?.customer?.customerId || 0, currentPastAppointmentPage + 1,true,false);
+                this.props.actions.customer.getPastAppointments(this.state?.customer?.customerId || 0, currentPastAppointmentPage + 1, true, false);
                 this.onEndReachedCalledDuringMomentum = true;
             }
         }
@@ -84,11 +84,11 @@ class CustomerDetailTab extends React.Component {
     }
 
     renderHeaderFlatlist() {
-        const {  customerHistory } = this.props;
+        const { customerHistory } = this.props;
         const upcomings = customerHistory?.upcomings || [];
 
         return (
-            <View style={{marginTop:scaleSzie(15)}} >
+            <View style={{ marginTop: scaleSzie(15) }} >
                 <View style={{ minHeight: scaleSzie(130 - 35) }} >
                     <View style={{ flex: 1, flexDirection: "row", }} >
                         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
@@ -130,7 +130,7 @@ class CustomerDetailTab extends React.Component {
                     </View>
 
                     {
-                        upcomings.length > 0 ? <View style={{ height: scaleSzie(40), paddingLeft: scaleSzie(14),justifyContent:"center" }} >
+                        upcomings.length > 0 ? <View style={{ height: scaleSzie(40), paddingLeft: scaleSzie(14), justifyContent: "center" }} >
                             <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600" }} >
                                 {`Upcoming`}
                             </Text>
@@ -146,7 +146,7 @@ class CustomerDetailTab extends React.Component {
                     upcomings.map((appointment) => <AppointmentItem
                         key={appointment?.appointmentId}
                         appointment={appointment}
-                        showAppointmentDetail={() =>this.showAppointmentDetail(appointment)}
+                        showAppointmentDetail={() => this.showAppointmentDetail(appointment)}
                     />)
                 }
 
@@ -155,7 +155,7 @@ class CustomerDetailTab extends React.Component {
     }
 
     render() {
-        const { pastAppointments, customerHistory,isLoadMorePastAppointment } = this.props;
+        const { pastAppointments, customerHistory, isLoadMorePastAppointment } = this.props;
         const { customer, visible } = this.state;
         const firstLetter = customer?.firstName ? customer?.firstName[0] : "";
         const upcomings = customerHistory?.upcomings || [];
@@ -166,9 +166,9 @@ class CustomerDetailTab extends React.Component {
                     {/* --------------- Left Content ----------- */}
                     <View style={{ flex: 1, ...styles.SHADOW }} >
                         {/* ------------- Customer Avatar ---------- */}
-                        <View style={{ height: scaleSzie(100), alignItems: "center", justifyContent: "flex-end" }} >
+                        <View style={{ height: scaleSzie(90), alignItems: "center", justifyContent: "flex-end" }} >
                             <View style={{
-                                width: scaleSzie(86), height: scaleSzie(86), borderRadius: scaleSzie(43),
+                                width: scaleSzie(80), height: scaleSzie(80), borderRadius: scaleSzie(40),
                                 overflow: "hidden", backgroundColor: "#E5E5E5", justifyContent: "center",
                                 alignItems: "center"
                             }} >
@@ -217,45 +217,69 @@ class CustomerDetailTab extends React.Component {
                         <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                             {/* ------------- Customer Note  ---------- */}
                             <View style={{
-                                flexDirection: "row", paddingRight: scaleSzie(20), alignItems: "center"
+                                flexDirection: "row", paddingRight: scaleSzie(10), alignItems: "center",
+                                maxHeight: scaleSzie(70)
                             }} >
                                 <View style={{ width: scaleSzie(26) }} >
                                     <Image source={ICON.note_customer} />
                                 </View>
-                                <Text style={{ color: "#A9A9A9", fontSize: scaleSzie(12) }} >
-                                    {`${customer?.favourite || ""}`}
-                                </Text>
+                                <View style={{ flex: 1 }} >
+                                    <ScrollView>
+                                        <Text style={{ color: "#A9A9A9", fontSize: scaleSzie(12) }} >
+                                            {`${customer?.note || ""}`}
+                                        </Text>
+                                    </ScrollView>
+                                </View>
+
                             </View>
 
                             {/* ------------- Line  ---------- */}
                             <View style={{ height: scaleSzie(1), backgroundColor: "#EEEEEE", marginVertical: scaleSzie(14) }} />
 
-                            <ItemCustomerInfo
-                                icon={ICON.customer_phone}
-                                title={`${customer?.phone || ""}`}
-                            />
-                            <ItemCustomerInfo
-                                icon={ICON.customer_email}
-                                title={`${customer?.email || ""}`}
-                            />
-                            <ItemCustomerInfo
-                                icon={ICON.customer_gender}
-                                title={`${customer?.gender || ""}`}
-                            />
-                            <ItemCustomerInfo
-                                icon={ICON.customer_birthday}
-                                // title={`${customer?.birthdate || ""}`}
-                                title={`${formatWithMoment(customer?.birthdate, "MM/DD/YYYY")}`}
-                            />
-                            <ItemCustomerInfo
-                                icon={ICON.customer_location}
-                                title={`${customer?.addressPost?.street} ${customer?.addressPost?.city} ${customer?.addressPost?.state}`}
+                            {
+                                customer?.phone ? <ItemCustomerInfo
+                                    icon={ICON.customer_phone}
+                                    title={`${customer?.phone || ""}`}
+                                /> : null
+                            }
 
-                            />
-                            <ItemCustomerInfo
-                                icon={ICON.customer_ref_phone}
-                                title={`${customer?.referrerPhone || ""}`}
-                            />
+                            {
+                                customer?.email ? <ItemCustomerInfo
+                                    icon={ICON.customer_email}
+                                    title={`${customer?.email || ""}`}
+                                /> : null
+                            }
+
+                            {
+                                customer?.gender && customer?.gender != "undefined" ? <ItemCustomerInfo
+                                    icon={ICON.customer_gender}
+                                    title={`${customer?.gender || ""}`}
+                                /> : null
+                            }
+
+                            {
+                                customer?.birthdate ? <ItemCustomerInfo
+                                    icon={ICON.customer_birthday}
+                                    title={`${formatWithMoment(customer?.birthdate, "MM/DD/YYYY")}`}
+                                /> : null
+                            }
+
+                            {
+                                customer?.addressPost?.street && customer?.addressPost?.city && customer?.addressPost?.state ?
+                                    <ItemCustomerInfo
+                                        icon={ICON.customer_location}
+                                        title={`${customer?.addressPost?.street} ${customer?.addressPost?.city} ${customer?.addressPost?.state}`}
+                                    /> : null
+                            }
+
+
+                            {
+                                customer?.referrerBy && customer?.referrerPhone ? <ItemCustomerInfo
+                                    icon={ICON.customer_ref_phone}
+                                    title={`${customer?.referrerBy || ""} ${customer?.referrerPhone || ""}`}
+                                /> : null
+                            }
+
                         </View>
 
                         <Button onPress={this.editCustomer} style={{ position: "absolute", top: scaleSzie(14), right: scaleSzie(14) }} >
@@ -326,9 +350,9 @@ class CustomerDetailTab extends React.Component {
                                     renderItem={({ item, index }) => <AppointmentItem
                                         appointment={item}
                                         isPastAppointment={true}
-                                        showAppointmentDetail={() =>this.showAppointmentDetail(item)}
+                                        showAppointmentDetail={() => this.showAppointmentDetail(item)}
                                     />}
-                                    ListHeaderComponent={() => this.renderHeaderFlatlist() }
+                                    ListHeaderComponent={() => this.renderHeaderFlatlist()}
                                     keyExtractor={(item, index) => `${item?.appointmentId}_${index}`}
                                     onEndReached={this.loadMorePastAppointments}
                                     onEndReachedThreshold={0.5}
@@ -337,13 +361,13 @@ class CustomerDetailTab extends React.Component {
                                     initialNumToRender={20}
                                     maxToRenderPerBatch={5}
                                     ListFooterComponent={() => <View style={{ height: scaleSzie(30), alignItems: "center", justifyContent: "center" }} >
-                                    {
-                                        isLoadMorePastAppointment ? <ActivityIndicator
-                                            size="large"
-                                            color="#0764B0"
-                                        /> : null
-                                    }
-                                </View>}
+                                        {
+                                            isLoadMorePastAppointment ? <ActivityIndicator
+                                                size="large"
+                                                color="#0764B0"
+                                            /> : null
+                                        }
+                                    </View>}
                                 />
                             </View>
                         </View>
@@ -374,7 +398,7 @@ class CustomerDetailTab extends React.Component {
 }
 
 const AppointmentItem = ({ appointment, isPastAppointment, showAppointmentDetail }) => {
-    const createdDate = appointment?.createdDate;
+    const fromTime = appointment?.fromTime;
     const arrayProducts = getArrayProductsFromAppointment(appointment?.products || []);
     const arryaServices = getArrayServicesFromAppointment(appointment?.services || []);
     const arrayExtras = getArrayExtrasFromAppointment(appointment?.extras || []);
@@ -399,21 +423,21 @@ const AppointmentItem = ({ appointment, isPastAppointment, showAppointmentDetail
             }} >
                 <View style={{ width: scaleSzie(55), alignItems: "center" }} >
                     <Text style={{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "600" }} >
-                        {`${formatWithMoment(createdDate, "D")}`}
+                        {`${formatWithMoment(fromTime, "D")}`}
                     </Text>
                     <Text style={{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "600", marginVertical: scaleSzie(3) }} >
-                        {`${formatWithMoment(createdDate, "MMM")}`}
+                        {`${formatWithMoment(fromTime, "MMM")}`}
                     </Text>
                     {
                         isPastAppointment ? <Text style={{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "600" }} >
-                            {`${formatWithMoment(createdDate, "YYYY")}`}
+                            {`${formatWithMoment(fromTime, "YYYY")}`}
                         </Text> : null
                     }
 
                 </View>
                 <View style={{ flex: 1 }} >
-                    <Text style={{ color: "#404040", fontSize: scaleSzie(16), marginBottom: scaleSzie(10), fontWeight: "600" }} >
-                        {`${formatWithMoment(createdDate, "dddd")} - ${formatWithMoment(createdDate, "h:mm A")}`}
+                    <Text style={{ color: "#404040", fontSize: scaleSzie(14), marginBottom: scaleSzie(10), fontWeight: "600" }} >
+                        {`${formatWithMoment(fromTime, "dddd")} - ${formatWithMoment(fromTime, "h:mm A")}`}
                     </Text>
                     {/* ----------- Services ------------ */}
                     {
@@ -456,8 +480,8 @@ const AppointmentItem = ({ appointment, isPastAppointment, showAppointmentDetail
                     }
 
                 </View>
-                <View style={{ width: scaleSzie(125), paddingRight: scaleSzie(12), alignItems: "flex-end", justifyContent: "space-between" }} >
-                    <Text style={{ color: getColorStatus(appointment?.status), fontSize: scaleSzie(20) }} >
+                <View style={{ width: scaleSzie(140), paddingRight: scaleSzie(12), alignItems: "flex-end", justifyContent: "space-between" }} >
+                    <Text style={{ color: getColorStatus(appointment?.status), fontSize: scaleSzie(16) }} >
                         {`${`${appointment?.status}`.toUpperCase() || ""}`}
                     </Text>
                     <Text style={{ color: "#0764B0", fontSize: scaleSzie(20), fontWeight: "600" }} >

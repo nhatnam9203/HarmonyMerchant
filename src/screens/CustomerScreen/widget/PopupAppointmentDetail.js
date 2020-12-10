@@ -255,7 +255,7 @@ const PopupHeader = ({ closePopup, appointmentDetail }) => {
             justifyContent: "space-between", alignItems: "center"
         }]} >
             <Text style={{ color: "#fff", fontSize: scaleSzie(16), fontWeight: "bold" }} >
-                {`#${appointmentDetail?.appointmentId || ""}`}
+                {`#${appointmentDetail?.code || ""}`}
             </Text>
 
             <Text style={{ color: "#fff", fontSize: scaleSzie(16), fontWeight: "bold" }} >
