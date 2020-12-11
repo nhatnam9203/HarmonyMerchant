@@ -207,9 +207,10 @@ class EditOrCreateCustomerTab extends React.Component {
 
 
     render() {
-        const { codeAreaPhone, codeReferrerPhone, dynamicMarginBottomState, visibleChangeStatus } = this.state;
+        const { codeAreaPhone, codeReferrerPhone, dynamicMarginBottomState, visibleChangeStatus,isEditCustomerInfo } = this.state;
         const { firstName, lastName, phone, email, referrerPhone, note, addressPost, isVip, gender, birthdate, referrerBy } = this.state.customerInfo;
         const { street, city, state, zip } = addressPost;
+        const title = isEditCustomerInfo ? "Edit Customer" : "New customer";
 
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
@@ -219,7 +220,7 @@ class EditOrCreateCustomerTab extends React.Component {
                     alignItems: "center", justifyContent: "space-between", marginTop: scaleSzie(10)
                 }} >
                     <Text style={{ color: "#0764B0", fontSize: scaleSzie(20), fontWeight: "600" }} >
-                        {`New customer`}
+                        {`${title}`}
                     </Text>
                     {
                         isVip ? <Button onPress={this.changeCustomerStatus} style={{
