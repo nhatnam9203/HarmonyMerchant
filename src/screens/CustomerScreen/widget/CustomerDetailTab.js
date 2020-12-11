@@ -12,7 +12,7 @@ import {
 import { Button, Text } from '@components';
 import {
     scaleSzie, formatWithMoment, getArrayProductsFromAppointment, getArrayServicesFromAppointment, getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment,
-    getColorStatus
+    getColorStatus,getNameStateById
 } from '@utils';
 import Configs from "@configs";
 import ICON from "@resources";
@@ -155,7 +155,7 @@ class CustomerDetailTab extends React.Component {
     }
 
     render() {
-        const { pastAppointments, customerHistory, isLoadMorePastAppointment } = this.props;
+        const { pastAppointments, customerHistory, isLoadMorePastAppointment,stateCity } = this.props;
         const { customer, visible } = this.state;
         const firstLetter = customer?.firstName ? customer?.firstName[0] : "";
         const upcomings = customerHistory?.upcomings || [];
@@ -268,7 +268,7 @@ class CustomerDetailTab extends React.Component {
                                 customer?.addressPost?.street && customer?.addressPost?.city && customer?.addressPost?.state ?
                                     <ItemCustomerInfo
                                         icon={ICON.customer_location}
-                                        title={`${customer?.addressPost?.street} ${customer?.addressPost?.city} ${customer?.addressPost?.state}`}
+                                        title={`${customer?.addressPost?.street} ${customer?.addressPost?.city} ${getNameStateById(stateCity,customer?.addressPost?.state)}`}
                                     /> : null
                             }
 
@@ -541,7 +541,8 @@ const mapStateToProps = state => ({
     isGetCustomerInfoByIdSuccess: state.customer.isGetCustomerInfoByIdSuccess,
     totalPastAppointmentPages: state.customer.totalPastAppointmentPages,
     currentPastAppointmentPage: state.customer.currentPastAppointmentPage,
-    isLoadMorePastAppointment: state.customer.isLoadMorePastAppointment
+    isLoadMorePastAppointment: state.customer.isLoadMorePastAppointment,
+    stateCity: state.dataLocal.stateCity,
 })
 
 

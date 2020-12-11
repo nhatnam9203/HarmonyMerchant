@@ -15,7 +15,7 @@ import moment from "moment";
 import { Button, Text, Dropdown, ButtonCustom, TextInputSuggestion } from '@components';
 import {
     scaleSzie, ListCodeAreaPhone, formatWithMoment, getNameStateById, getCodeAreaPhone,
-    checkStateIsValid, getIdStateByName, isValidDate, stringToDate,validateEmail
+    checkStateIsValid, getIdStateByName, isValidDate, stringToDate, validateEmail
 } from '@utils';
 import Configs from "@configs";
 import ICON from "@resources";
@@ -151,7 +151,7 @@ class EditOrCreateCustomerTab extends React.Component {
                 keyError = "email";
                 break
             }
-            
+
             if (customerInfo.birthdate !== "" && !isValidDate(customerInfo.birthdate)) {
                 keyError = "birthdate";
                 break
@@ -208,7 +208,7 @@ class EditOrCreateCustomerTab extends React.Component {
 
     render() {
         const { codeAreaPhone, codeReferrerPhone, dynamicMarginBottomState, visibleChangeStatus } = this.state;
-        const { firstName, lastName, phone, email, referrerPhone, note, addressPost, isVip, gender, birthdate,referrerBy } = this.state.customerInfo;
+        const { firstName, lastName, phone, email, referrerPhone, note, addressPost, isVip, gender, birthdate, referrerBy } = this.state.customerInfo;
         const { street, city, state, zip } = addressPost;
 
         return (
@@ -409,7 +409,8 @@ class EditOrCreateCustomerTab extends React.Component {
                                 </View>
                                 <View style={{ width: scaleSzie(35) }} />
                                 <View style={{ flex: 1, flexDirection: "row", borderColor: "#CCCCCC", borderWidth: 1, paddingHorizontal: scaleSzie(10) }} >
-                                    <TextInput
+                                    < TextInputMask
+                                        type="only-numbers"
                                         style={{
                                             flex: 1,
                                             fontSize: scaleSzie(14),
@@ -420,6 +421,8 @@ class EditOrCreateCustomerTab extends React.Component {
                                         value={zip}
                                         onChangeText={value => this.updateCustomerInfo('zip', value, 'addressPost')}
                                         onFocus={() => this.scrollRightContentTo(120)}
+                                        keyboardType={"numeric"}
+                                        maxLength={5}
                                     />
                                     {
                                         zip ? <Button
@@ -454,7 +457,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                 style={{
                                     marginBottom: scaleSzie(10)
                                 }}
-                                value={referrerBy ? referrerBy : "" }
+                                value={referrerBy ? referrerBy : ""}
                                 onChangeText={value => this.updateCustomerInfo('referrerBy', value)}
                                 onFocus={() => this.scrollRightContentTo(250)}
                             />
@@ -474,9 +477,10 @@ class EditOrCreateCustomerTab extends React.Component {
                             <Text style={{ fontSize: scaleSzie(14), color: "#404040", fontWeight: "600", marginBottom: scaleSzie(10) }} >
                                 {`Note:`}
                             </Text>
-                            <View style={{ height: scaleSzie(70), borderColor: "#CCCCCC", borderWidth: 1, paddingHorizontal: scaleSzie(10),
-                        paddingVertical:scaleSzie(5)
-                        }} >
+                            <View style={{
+                                height: scaleSzie(70), borderColor: "#CCCCCC", borderWidth: 1, paddingHorizontal: scaleSzie(10),
+                                paddingVertical: scaleSzie(5)
+                            }} >
                                 <TextInput
                                     style={{
                                         flex: 1, fontSize: scaleSzie(12),

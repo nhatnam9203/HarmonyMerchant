@@ -201,7 +201,6 @@ class CustomerScreen extends Layout {
     }
 
     addCustomer = async (customer) => {
-        // this.scrollTabRef.current.goToPage(0);
         this.props.actions.customer.addCustomer(customer);
     }
 
