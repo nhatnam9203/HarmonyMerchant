@@ -40,7 +40,7 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
-        this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
+        // this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
 
         // ----------- Add Listener Back Action On Android --------------
         BackHandler.addEventListener("hardwareBackPress", this.backAction);
@@ -51,7 +51,6 @@ class HomeScreen extends Layout {
                 this.setState({
                     isFocus: false
                 });
-                // this.scrollTabParentRef.current.goToPage(1);
                 this.popupEnterPinRef?.current?.setStateFromParent('');
             }
         );
@@ -67,9 +66,6 @@ class HomeScreen extends Layout {
             }
         );
 
-        // setTimeout(() => {
-        //     this.scrollTabParentRef.current.goToPage(1, false);
-        // }, 50);
         this.initWatcherNetwork();
 
         this.unsubscribeNetInfo = NetInfo.addEventListener(state => {
@@ -309,7 +305,7 @@ class HomeScreen extends Layout {
         if (isOfflineMode) {
             this.tabCheckoutRef?.current?.setBasketOfflineModeFromParent(appointment);
         } else {
-            const checkoutGroupId =  groupAppointment?.checkoutGroupId || 0;
+            const checkoutGroupId = groupAppointment?.checkoutGroupId || 0;
             this.props.actions.appointment.checkoutAppointment(appointmentId, checkoutGroupId);
         }
         this.scrollTabParentRef.current.goToPage(2);
