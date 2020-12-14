@@ -133,6 +133,8 @@ export default {
   Setting: require("./drawer/setting.png"),
   Settlement: require("./drawer/settlement.png"),
   Support: require("./drawer/support.png"),
+  GiftCard: require("./drawer/giftcard.png"),
+
 
   Se_Customer: require("./drawer/se_customer.png"),
   Se_Home: require("./drawer/se_home.png"),
@@ -142,6 +144,7 @@ export default {
   Se_Setting: require("./drawer/se_setting.png"),
   Se_Settlement: require("./drawer/se_settlement.png"),
   Se_Support: require("./drawer/se_support.png"),
+  Se_GiftCard: require("./drawer/se_giftcard.png"),
 
   // --- setting --
   General: require("./setting/General.png"),

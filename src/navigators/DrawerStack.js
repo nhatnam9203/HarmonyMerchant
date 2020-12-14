@@ -11,6 +11,7 @@ import {
   SupportScreen,
   SettlementScreen,
   ReportScreen,
+  GiftCardScreen
 } from "../screens";
 
 const DrawerStack = createDrawerNavigator(
@@ -22,7 +23,8 @@ const DrawerStack = createDrawerNavigator(
     Invoice: InvoiceScreen,
     Support: SupportScreen,
     Settlement: SettlementScreen,
-    Reports: ReportScreen
+    Reports: ReportScreen,
+    GiftCard:GiftCardScreen
   }, {
   initialRouteName: "Home",
   contentComponent: SlideDrawer,

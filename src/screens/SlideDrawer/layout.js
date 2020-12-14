@@ -9,25 +9,27 @@ import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
-const dataDrawer = ['Home', 'Invoice', 'Settlement', 'Customer', 'Inventory', 'Reports', 'Setting', 'Support'];
+const dataDrawer = ['Home', 'Invoice', 'Settlement', 'Customer', 'Inventory', 'GiftCard', 'Reports', 'Setting', 'Support'];
 
 export default class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
-        const activeItemKey = this.props.activeItemKey ? this.props.activeItemKey : "Home"
+        const activeItemKey = this.props?.activeItemKey || "Home";
 
         return (
             <View style={styles.container} >
+                <View style={{ height: scaleSzie(10) }} />
                 {
                     dataDrawer.map((item, index) => <ItemDrawer
                         key={index}
                         title={localize(item, language)}
                         icon={item === activeItemKey ? IMAGE[`Se_${item}`] : IMAGE[item]}
                         onPress={() => this.changeLanguage(item)}
-                        style={item === activeItemKey ? { fontWeight: "bold",color:"orange", fontSize: scaleSzie(20) } : {}}
+                        style={item === activeItemKey ? { fontWeight: "bold", color: "orange", fontSize: scaleSzie(20) } : {}}
                     />)
                 }
+                <View style={{ height: scaleSzie(10) }} />
             </View>
 
         );
@@ -47,7 +49,7 @@ const ItemDrawer = ({ title, icon, onPress, style }) => {
                 }}
             />
             <Text style={[{ color: '#fff', fontSize: scaleSzie(17) }, style]} >
-                {title}
+                {title !== "GiftCard" ? title : "Gift Card"}
             </Text>
         </Button>
     );
