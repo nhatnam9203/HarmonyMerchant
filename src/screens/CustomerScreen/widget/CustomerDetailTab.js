@@ -12,7 +12,7 @@ import {
 import { Button, Text } from '@components';
 import {
     scaleSzie, formatWithMoment, getArrayProductsFromAppointment, getArrayServicesFromAppointment, getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment,
-    getColorStatus,getNameStateById
+    getColorStatus, getNameStateById
 } from '@utils';
 import Configs from "@configs";
 import ICON from "@resources";
@@ -84,7 +84,7 @@ class CustomerDetailTab extends React.Component {
     }
 
     renderHeaderFlatlist() {
-        const { customerHistory } = this.props;
+        const { customerHistory, pastAppointments } = this.props;
         const upcomings = customerHistory?.upcomings || [];
 
         return (
@@ -92,7 +92,7 @@ class CustomerDetailTab extends React.Component {
                 <View style={{ minHeight: scaleSzie(130 - 35) }} >
                     <View style={{ flex: 1, flexDirection: "row", }} >
                         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
-                            <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
+                            <Text style={styles.booking_txt} >
                                 {`${customerHistory?.allBooking || 0}`}
                             </Text>
                             <View style={{ height: scaleSzie(10) }} />
@@ -101,7 +101,7 @@ class CustomerDetailTab extends React.Component {
                             </Text>
                         </View>
                         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
-                            <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
+                            <Text style={styles.booking_txt} >
                                 {`${customerHistory?.upcoming || 0}`}
                             </Text>
                             <View style={{ height: scaleSzie(10) }} />
@@ -110,7 +110,7 @@ class CustomerDetailTab extends React.Component {
                             </Text>
                         </View>
                         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
-                            <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
+                            <Text style={styles.booking_txt} >
                                 {`${customerHistory?.completed || 0}`}
                             </Text>
                             <View style={{ height: scaleSzie(10) }} />
@@ -119,7 +119,7 @@ class CustomerDetailTab extends React.Component {
                             </Text>
                         </View>
                         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
-                            <Text style={{ color: "#0764B0", fontWeight: "bold", fontSize: scaleSzie(20) }} >
+                            <Text style={styles.booking_txt} >
                                 {`${customerHistory?.cancelled || 0}`}
                             </Text>
                             <View style={{ height: scaleSzie(10) }} />
@@ -150,12 +150,27 @@ class CustomerDetailTab extends React.Component {
                     />)
                 }
 
+
+                {
+                    pastAppointments.length > 0 ?
+                        <>
+                            <View style={{ height: scaleSzie(40), paddingLeft: scaleSzie(14), justifyContent: "center" }} >
+                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600" }} >
+                                    {`Past`}
+                                </Text>
+                            </View>
+                            {/* --------------- Line ----------- */}
+                            <View style={{ height: scaleSzie(1), backgroundColor: "#EEEEEE" }} />
+                        </>
+                        : <View />
+                }
+
             </View>
         );
     }
 
     render() {
-        const { pastAppointments, customerHistory, isLoadMorePastAppointment,stateCity } = this.props;
+        const { pastAppointments, customerHistory, isLoadMorePastAppointment, stateCity } = this.props;
         const { customer, visible } = this.state;
         const firstLetter = customer?.firstName ? customer?.firstName[0] : "";
         const upcomings = customerHistory?.upcomings || [];
@@ -268,7 +283,7 @@ class CustomerDetailTab extends React.Component {
                                 customer?.addressPost?.street && customer?.addressPost?.city && customer?.addressPost?.state ?
                                     <ItemCustomerInfo
                                         icon={ICON.customer_location}
-                                        title={`${customer?.addressPost?.street} ${customer?.addressPost?.city} ${getNameStateById(stateCity,customer?.addressPost?.state)}`}
+                                        title={`${customer?.addressPost?.street} ${customer?.addressPost?.city} ${getNameStateById(stateCity, customer?.addressPost?.state)}`}
                                     /> : null
                             }
 
@@ -344,6 +359,7 @@ class CustomerDetailTab extends React.Component {
                             {/* --------------- Line ----------- */}
                             <View style={{ height: scaleSzie(1), backgroundColor: "#EEEEEE" }} />
 
+                            {/* --------------- Past Appointments ----------- */}
                             <View style={{ flex: 1 }} >
                                 <FlatList
                                     data={pastAppointments}
@@ -408,7 +424,7 @@ const AppointmentItem = ({ appointment, isPastAppointment, showAppointmentDetail
     return (
         <Button onPress={showAppointmentDetail} style={{ paddingHorizontal: scaleSzie(10), borderBottomColor: "#EEEEEE", borderBottomWidth: scaleSzie(1), }} >
 
-            {
+            {/* {
                 isPastAppointment ? <View style={{ width: scaleSzie(55), alignItems: "center" }} >
                     <Text style={{
                         color: "#404040", fontSize: scaleSzie(16), fontWeight: "600",
@@ -417,7 +433,7 @@ const AppointmentItem = ({ appointment, isPastAppointment, showAppointmentDetail
                         {`Past`}
                     </Text>
                 </View> : <View />
-            }
+            } */}
 
             <View style={{
                 minHeight: scaleSzie(100), flexDirection: "row", paddingVertical: scaleSzie(14),
@@ -482,10 +498,10 @@ const AppointmentItem = ({ appointment, isPastAppointment, showAppointmentDetail
 
                 </View>
                 <View style={{ width: scaleSzie(140), paddingRight: scaleSzie(12), alignItems: "flex-end", justifyContent: "space-between" }} >
-                    <Text style={{ color: getColorStatus(appointment?.status), fontSize: scaleSzie(16) }} >
+                    <Text style={{ color: getColorStatus(appointment?.status), fontSize: scaleSzie(14) }} >
                         {`${`${status ? status : ""}`.toUpperCase() || ""}`}
                     </Text>
-                    <Text style={{ color: "#0764B0", fontSize: scaleSzie(20), fontWeight: "600" }} >
+                    <Text style={{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "600" }} >
                         {`$ ${appointment?.total || 0.00}`}
                     </Text>
                 </View>
@@ -530,6 +546,11 @@ const styles = StyleSheet.create({
             },
         })
     },
+    booking_txt: {
+        color: "#0764B0",
+        fontWeight: "bold",
+        fontSize: scaleSzie(18)
+    }
 
 })
 

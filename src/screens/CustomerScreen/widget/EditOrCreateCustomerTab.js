@@ -198,6 +198,8 @@ class EditOrCreateCustomerTab extends React.Component {
 
     cancelCustomer = () => {
         const { isEditCustomerInfo } = this.state;
+        this.scrollLeftCustomerRef.current.scrollTo({ x: 0, y: 0, animated: false });
+        this.scrollRightCustomerRef.current.scrollTo({ x: 0, y: 0, animated: false });
         if (isEditCustomerInfo) {
             this.props.cancelEditCustomerInfo();
         } else {
