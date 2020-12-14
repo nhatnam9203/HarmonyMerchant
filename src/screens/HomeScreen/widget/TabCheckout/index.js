@@ -41,6 +41,11 @@ class TabCheckout extends Layout {
         this.popupCustomerInfoRef = React.createRef();
         this.popupAddItemIntoAppointmentsRef = React.createRef();
         this.popupCheckDiscountPermissionRef = React.createRef();
+        this.popupEnterAmountGiftCardRef = React.createRef();
+    }
+
+    componentDidMount(){
+        // this.props.actions.appointment.updatePopupEnterAmountGiftCardRef(this.popupEnterAmountGiftCardRef);
     }
 
     resetStateFromParent = async () => {

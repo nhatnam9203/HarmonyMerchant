@@ -657,10 +657,14 @@ function* checkSerialNumber(action) {
                     type: "SAVE_GIFT_CARD_ACTION_INFO",
                     addGiftCardInfoAction: { ...action, giftCardInfo: responses?.data || {} }
                 });
+                yield put({
+                    type:"UPDATE_QUANTITY_OF_GIFT_CARD",
+                    payload: true
+                });
                 yield delay(300);
                 yield put({
                     type: "SWITCH_POPUP_GIFT_CARD_ENTER_AMOUNT",
-                    payload: true
+                    payload: true,
                 });
             }
         } else if (parseInt(codeNumber) === 401) {
@@ -1018,7 +1022,7 @@ function* handleEnterGiftCardAmount(action) {
                 body: {
                     ...addGiftCardInfoAction.bodyAction,
                     giftCards: [{
-                        giftCardId:  addGiftCardInfoAction?.giftCardInfo?.giftCardId || 0,
+                        giftCardId: addGiftCardInfoAction?.giftCardInfo?.giftCardId || 0,
                         price: action.payload
                     }]
                 },
@@ -1027,7 +1031,7 @@ function* handleEnterGiftCardAmount(action) {
             })
         }
     } catch (error) {
-        console.log("------ Error -----: ",error);
+        console.log("------ Error -----: ", error);
         yield put({ type: 'STOP_LOADING_ROOT' });
         yield put({ type: error });
     } finally {

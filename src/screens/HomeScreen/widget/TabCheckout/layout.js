@@ -1010,7 +1010,7 @@ class Layout extends React.Component {
                 />
 
                 <PopupEnterAmountGiftCard
-                    // ref={this.modalBillRef}
+                    ref={this.popupEnterAmountGiftCardRef}
                     title={localize('Gift Card Active Amount', language)}
                     onRequestClose={this.onRequestCloseBillModal}
                     language={language}

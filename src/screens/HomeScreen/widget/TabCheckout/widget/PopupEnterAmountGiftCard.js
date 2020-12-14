@@ -87,8 +87,8 @@ class PopupEnterAmountGiftCard extends React.Component {
     addGiftCardAmount = () => {
         const { quality } = this.state;
         if (parseFloat(quality) > 0) {
-           this.props.actions.appointment.handleEnterGiftCardAmount(parseFloat(quality));
-        }else{
+            this.props.actions.appointment.handleEnterGiftCardAmount(parseFloat(quality));
+        } else {
             alert("Amount must greater than 0!")
         }
     }
@@ -232,6 +232,21 @@ class PopupEnterAmountGiftCard extends React.Component {
             </PopupParent>
         );
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { isUpdateQuantityOfGiftCard, addGiftCardInfoAction } = this.props;
+        if (isUpdateQuantityOfGiftCard && prevProps.isUpdateQuantityOfGiftCard !== isUpdateQuantityOfGiftCard) {
+            this.props.actions.appointment.updateQuantityOfGiftCard(false);
+            const tempQuantity = addGiftCardInfoAction?.giftCardInfo?.isActive ? `0` : `${addGiftCardInfoAction?.giftCardInfo?.amount || 0}`
+            this.setState({
+                quality: tempQuantity
+            });
+            // console.log("--------- updateQuantityOfGiftCard -----");
+           
+           
+        }
+    }
+
 }
 
 const Key = ({ number, onPressNumber, style, txtStyle }) => {
@@ -275,7 +290,9 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-    visiblePopupGiftCardEnterAmount: state.appointment.visiblePopupGiftCardEnterAmount
+    visiblePopupGiftCardEnterAmount: state.appointment.visiblePopupGiftCardEnterAmount,
+    isUpdateQuantityOfGiftCard: state.appointment.isUpdateQuantityOfGiftCard,
+    addGiftCardInfoAction: state.appointment.addGiftCardInfoAction
 });
 
 export default connectRedux(mapStateToProps, PopupEnterAmountGiftCard);
