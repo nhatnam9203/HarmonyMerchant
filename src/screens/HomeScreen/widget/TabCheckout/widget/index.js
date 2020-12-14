@@ -27,6 +27,7 @@ import PopupBlockDiscount from "./PopupBlockDiscount";
 import PopupChangeCustomerInfo from "./PopupChangeCustomerInfo";
 import PopupAddItemIntoAppointments from "./PopupAddItemIntoAppointments";
 import PopupGiftCardDetail from "./PopupGiftCardDetail";
+import PopupEnterAmountGiftCard from "./PopupEnterAmountGiftCard";
 
 function getPaymentLogoByName(name) {
     let logo = "";
@@ -156,7 +157,8 @@ module.exports = {
     ShadowLineRightToLeft,
     ShadowLineShort,
     PopupAddItemIntoAppointments,
-    PopupGiftCardDetail
+    PopupGiftCardDetail,
+    PopupEnterAmountGiftCard
 }
 
 

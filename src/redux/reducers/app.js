@@ -15,7 +15,7 @@ const initialState = {
   visibleModalLock: false,
   question: [],
   isFlashScreen: true,
-  visibleEnterPin: true,
+  visibleEnterPin: true,  // ----------- True ----------
   isSubmitTax: false,
   visibleEnterPinInvoice: false,
   isOfflineMode: false,

@@ -17,7 +17,7 @@ class PopupParent extends React.Component {
     }
 
     render() {
-        const { title, visible, style, width, hideCloseButton ,styleTitle} = this.props;
+        const { title, visible, style, width, hideCloseButton, styleTitle } = this.props;
         const temptWidth = width ? width : 400;
         return (
             <ModalCustom
@@ -31,22 +31,23 @@ class PopupParent extends React.Component {
                         height: scaleSzie(55), backgroundColor: '#0764B0',
                         borderTopRightRadius: scaleSzie(15), borderTopLeftRadius: scaleSzie(15), flexDirection: 'row'
                     }} >
-                        <View style={{ width: scaleSzie(70) }} />
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}} >
-                            <Text style={[{ color: '#fff', fontSize: scaleSzie(22), fontWeight: 'bold' },styleTitle]} >
+                        {/* <View style={{ width: scaleSzie(70) }} /> */}
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                            <Text style={[{ color: '#fff', fontSize: scaleSzie(22), fontWeight: 'bold' }, styleTitle]} >
                                 {title}
                             </Text>
                         </View>
                         <View style={{
-                            width: scaleSzie(70), justifyContent: 'center', alignItems: 'flex-end',
-                            paddingRight: scaleSzie(12)
+                            height: scaleSzie(55), width: scaleSzie(70), justifyContent: 'center', alignItems: 'flex-end',
+                            // paddingRight: scaleSzie(12),
+                            position: "absolute", right: scaleSzie(12), top: 0
                         }} >
                             {
                                 hideCloseButton ? <View /> : <Button onPress={this.onPress} style={{
-                                    width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#fff',
-                                    borderRadius: scaleSzie(17), justifyContent: 'center', alignItems: 'center'
+                                    width: scaleSzie(30), height: scaleSzie(30), backgroundColor: '#fff',
+                                    borderRadius: scaleSzie(15), justifyContent: 'center', alignItems: 'center'
                                 }} >
-                                    <Image source={IMAGE.closePopup} style={{ width: scaleSzie(16), height: scaleSzie(16) }} />
+                                    <Image source={IMAGE.closePopup} style={{ width: scaleSzie(14), height: scaleSzie(14) }} />
                                 </Button>
                             }
 

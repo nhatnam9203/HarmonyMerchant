@@ -7,7 +7,7 @@ import {
 import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber,checkCategoryIsNotExist } from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, checkCategoryIsNotExist } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
     PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint,
@@ -21,7 +21,8 @@ import {
     PopupBlockDiscount, ItemPaymentMethod,
     ShadowLineLeftToRight,
     ShadowLineRightToLeft,
-    ShadowLineShort, PopupChangeCustomerInfo, PopupAddItemIntoAppointments, PopupGiftCardDetail
+    ShadowLineShort, PopupChangeCustomerInfo, PopupAddItemIntoAppointments, PopupGiftCardDetail,
+    PopupEnterAmountGiftCard
 } from './widget';
 
 class Layout extends React.Component {
@@ -928,7 +929,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language, visiblePopupPaymentDetails,visiblePopupCheckDiscountPermission } = this.props;
+        const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission,visiblePopupEnterGiftCardAmount } = this.props;
         const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
             visiblePopupAddItemIntoBasket
         } = this.state;
@@ -1007,6 +1008,16 @@ class Layout extends React.Component {
                     extractBill={this.extractBill}
                     doneBill={this.doneBill}
                 />
+
+                <PopupEnterAmountGiftCard
+                    ref={this.popupEnterAmountGiftCardRef}
+                    title={localize('Gift Card Active Amount', language)}
+                    onRequestClose={this.onRequestCloseBillModal}
+                    language={language}
+                    extractBill={this.extractBill}
+                    doneBill={this.doneBill}
+                />
+
                 <PopupSendLinkInstall
                     ref={this.popupSendLinkInstallRef}
                     visible={this.state.visibleSendLinkPopup}
@@ -1058,12 +1069,12 @@ class Layout extends React.Component {
                     cancelGiftCardPayment={this.cancelGiftCardPayment}
                 />
                 <PopupCheckStaffPermission
-                        ref={this.popupCheckDiscountPermissionRef}
-                        visiblePopupCheckStaffPermission={visiblePopupCheckDiscountPermission}
-                        title={localize('Input PIN Number', language)}
-                        tabName="CheckDiscountPermission"
-                        onRequestClose={this.closePopupCheckDiscountPermission}
-                    />
+                    ref={this.popupCheckDiscountPermissionRef}
+                    visiblePopupCheckStaffPermission={visiblePopupCheckDiscountPermission}
+                    title={localize('Input PIN Number', language)}
+                    tabName="CheckDiscountPermission"
+                    onRequestClose={this.closePopupCheckDiscountPermission}
+                />
             </View>
         );
     }

@@ -13,7 +13,7 @@ export function getAppointmentById(id) {
     }
 }
 
-export function getGroupAppointmentById(id,isNotShowMessage = true) {
+export function getGroupAppointmentById(id, isNotShowMessage = true) {
     return {
         type: 'GET_GROUP_APPOINTMENT_BY_ID',
         method: 'GET',
@@ -36,7 +36,7 @@ export function addItemIntoAppointment(body, appointmentId, isGroup = false, isB
     }
 }
 
-export function addItemIntoMultiAppointment(body, appointmentId,mainAppointmentId, isGroup = false, isBlock = false) {
+export function addItemIntoMultiAppointment(body, appointmentId, mainAppointmentId, isGroup = false, isBlock = false) {
     return {
         type: 'ADD_ITEM_INTO_APPOINTMENT',
         body: body,
@@ -91,7 +91,7 @@ export function checkoutAppointment(appointmentId, checkoutGroupId = 0) {
     }
 }
 
-export function paymentAppointment(groupId, method, amount, creditCardInfo = false, merchantId = -1,giftCardId = 0) {
+export function paymentAppointment(groupId, method, amount, creditCardInfo = false, merchantId = -1, giftCardId = 0) {
     return {
         type: 'PAY_APPOINTMENT',
         body: {
@@ -149,7 +149,7 @@ export function createAnymousAppointment(merchantId, userId = 0, customerId = 0,
     }
 }
 
-export function createBlockAppointment(merchantId, fromTime = new Date(), userId = 0, customerId = 0, firstName = "", lastName = "", phoneNumber = "",bookingGroupId) {
+export function createBlockAppointment(merchantId, fromTime = new Date(), userId = 0, customerId = 0, firstName = "", lastName = "", phoneNumber = "", bookingGroupId) {
     return {
         type: 'CREATE_BLOCK_APPOINTMENT',
         body: {
@@ -176,7 +176,7 @@ export function createBlockAppointment(merchantId, fromTime = new Date(), userId
     }
 }
 
-export function getBlockAppointmentById(appointmentId,isGetBookingGroupId = false) {
+export function getBlockAppointmentById(appointmentId, isGetBookingGroupId = false) {
     return {
         type: 'GET_BLOCK_APPOINTMENT_BY_ID',
         method: 'GET',
@@ -363,7 +363,7 @@ export function handleVisibleActiveGiftCard(visible = true) {
     }
 }
 
-export function checkSerialNumber(serialId, bodyAction = false, optionAction = false,isGiftCardPayment = false) {
+export function checkSerialNumber(serialId, bodyAction = false, optionAction = false, isGiftCardPayment = false) {
     return {
         type: 'CHECK_SERIAL_NUMBER',
         method: 'GET',
@@ -491,6 +491,34 @@ export function updateFromTimeBlockAppointment(fromTime = new Date()) {
 export function togglePopupGiftCardPaymentDetail(visible = true) {
     return {
         type: "TOGGLE_POPUP_GIFT_CARD_PAYMENT_DETAIL",
+        payload: visible
+    }
+}
+
+export function switchPopupGiftCardEnterAmount(visible = true) {
+    return {
+        type: "SWITCH_POPUP_GIFT_CARD_ENTER_AMOUNT",
+        payload: visible
+    }
+}
+
+export function handleEnterGiftCardAmount(amount = 0) {
+    return {
+        type: "HANDLE_ENTER_GIFT_CARD_AMOUNT",
+        payload: amount
+    }
+}
+
+export function updatePopupEnterAmountGiftCardRef(ref) {
+    return {
+        type: "UPDATE_POPUP_ENTER_AMOUNT_GIFT_CARD_REF",
+        payload: ref
+    }
+}
+
+export function updateQuantityOfGiftCard(visible) {
+    return {
+        type: "UPDATE_QUANTITY_OF_GIFTCARD",
         payload: visible
     }
 }

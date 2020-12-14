@@ -1,4 +1,4 @@
-import { put, takeLatest, all, select, takeEvery } from "redux-saga/effects";
+import { put, takeLatest, all, select, takeEvery, delay } from "redux-saga/effects";
 import _ from "ramda";
 import { Alert } from "react-native";
 
@@ -628,7 +628,7 @@ function* checkSerialNumber(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log("checkSerialNumber: ",JSON.stringify(responses));
+        // console.log("checkSerialNumber: ", JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -647,41 +647,25 @@ function* checkSerialNumber(action) {
                 })
 
             } else {
-                if (!action.bodyAction) {
-                    const state = yield select();
-                    const { groupAppointment } = state.appointment;
-                    const mainAppointmentId = groupAppointment?.mainAppointmentId || 0;
-                    yield put({
-                        type: 'ADD_ITEM_INTO_APPOINTMENT',
-                        body: {
-                            giftCards: [{
-                                bookingGiftCardId: 0,
-                                giftCardId: responses?.data?.giftCardId || 0
-                            }],
-                            services: [],
-                            extras: [],
-                            products: [],
-                        },
-                        method: 'PUT',
-                        token: true,
-                        api: `${apiConfigs.BASE_API}appointment/additem/${mainAppointmentId}`,
-                        appointmentId: mainAppointmentId,
-                        isGroup: true
-                    })
-                } else {
-                    const state = yield select();
-                    const { customerInfoBuyAppointment } = state.appointment;
-                    const isNotUpdateCustomerBuyInRedux = customerInfoBuyAppointment.firstName || customerInfoBuyAppointment.lastName || customerInfoBuyAppointment.phone ? true : false;
-                    yield put({
-                        type: 'CREATE_ANYMOUS_APPOINTMENT',
-                        body: {
-                            ...action.bodyAction,
-                            giftCards: [{ bookingGiftCardId: 0, GiftCardId: responses?.data?.giftCardId || 0 }]
-                        },
-                        ...action.optionAction,
-                        isNotUpdateCustomerBuyInRedux
-                    })
-                }
+                // --------- Close popup Active Gift Card -----------
+                yield put({
+                    type: 'VISIBLE_POPUP_ACTIVE_GIFT_CARD',
+                    payload: false
+                });
+                // ---------- Save Action Information ----------
+                yield put({
+                    type: "SAVE_GIFT_CARD_ACTION_INFO",
+                    addGiftCardInfoAction: { ...action, giftCardInfo: responses?.data || {} }
+                });
+                yield put({
+                    type:"UPDATE_QUANTITY_OF_GIFT_CARD",
+                    payload: true
+                });
+                yield delay(300);
+                yield put({
+                    type: "SWITCH_POPUP_GIFT_CARD_ENTER_AMOUNT",
+                    payload: true,
+                });
             }
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -1001,6 +985,60 @@ function* updateCustomerInAppointment(action) {
     }
 }
 
+function* handleEnterGiftCardAmount(action) {
+    try {
+        yield put({
+            type: "SWITCH_POPUP_GIFT_CARD_ENTER_AMOUNT",
+            payload: false
+        });
+        delay(200);
+        const state = yield select();
+        const addGiftCardInfoAction = state?.appointment?.addGiftCardInfoAction || {};
+        if (!addGiftCardInfoAction.bodyAction) {
+            const groupAppointment = state?.appointment?.groupAppointment || {};
+            const mainAppointmentId = groupAppointment?.mainAppointmentId || 0;
+            yield put({
+                type: 'ADD_ITEM_INTO_APPOINTMENT',
+                body: {
+                    giftCards: [{
+                        giftCardId: addGiftCardInfoAction?.giftCardInfo?.giftCardId || 0,
+                        price: action.payload
+                    }],
+                    services: [],
+                    extras: [],
+                    products: [],
+                },
+                method: 'PUT',
+                token: true,
+                api: `${apiConfigs.BASE_API}appointment/additem/${mainAppointmentId}`,
+                appointmentId: mainAppointmentId,
+                isGroup: true
+            });
+        } else {
+            const customerInfoBuyAppointment = state?.appointment?.customerInfoBuyAppointment;
+            const isNotUpdateCustomerBuyInRedux = customerInfoBuyAppointment?.firstName || customerInfoBuyAppointment?.lastName || customerInfoBuyAppointment?.phone ? true : false;
+            yield put({
+                type: 'CREATE_ANYMOUS_APPOINTMENT',
+                body: {
+                    ...addGiftCardInfoAction.bodyAction,
+                    giftCards: [{
+                        giftCardId: addGiftCardInfoAction?.giftCardInfo?.giftCardId || 0,
+                        price: action.payload
+                    }]
+                },
+                ...addGiftCardInfoAction.optionAction,
+                isNotUpdateCustomerBuyInRedux
+            })
+        }
+    } catch (error) {
+        console.log("------ Error -----: ", error);
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 
 export default function* saga() {
     yield all([
@@ -1023,8 +1061,8 @@ export default function* saga() {
         takeLatest('GET_BLOCK_APPOINTMENT_BY_ID', getBlockAppointmentById),
         takeLatest('ADD_GIFT_CARD_INTO_BLOCK_APPOINTMENT', addGiftCardIntoBlockAppointment),
         takeLatest('GET_CUSTOMER_INFO_BUY_APPOINTMENT', getCustomerBuyAppointment),
-
         takeLatest('CHANGE_CUSTOMER_IN_APPOINTMENT', changeCustomerInAppointment),
         takeEvery('UPDATE_CUSTOMER_IN_APPOINTMENT', updateCustomerInAppointment),
+        takeLatest('HANDLE_ENTER_GIFT_CARD_AMOUNT', handleEnterGiftCardAmount),
     ]);
 }
