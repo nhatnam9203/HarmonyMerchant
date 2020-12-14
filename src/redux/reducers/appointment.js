@@ -37,7 +37,8 @@ const initialState = {
     visiblePopupCustomerInfoBuyAppointment: false,
     bookingGroupId: 0,
     giftcardPaymentInfo: {},
-    visiblePopupGiftCardDetails: false
+    visiblePopupGiftCardDetails: false,
+    visiblePopupGiftCardEnterAmount: false
 }
 
 function appointmentReducer(state = initialState, action) {
@@ -300,6 +301,16 @@ function appointmentReducer(state = initialState, action) {
             return {
                 ...state,
                 visiblePopupGiftCardDetails: action.payload,
+            }
+        case 'SWITCH_POPUP_GIFT_CARD_ENTER_AMOUNT':
+            return {
+                ...state,
+                visiblePopupGiftCardEnterAmount: action.payload,
+            }
+        case "SAVE_GIFT_CARD_ACTION_INFO":
+            return {
+                ...state,
+                addGiftCardInfoAction: action.addGiftCardInfoAction,
             }
         case 'LOGOUT_APP':
             return {

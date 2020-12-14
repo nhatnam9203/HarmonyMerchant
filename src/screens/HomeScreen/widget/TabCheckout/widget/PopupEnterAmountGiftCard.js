@@ -11,6 +11,7 @@ import {
 import { PopupParent, Button } from '@components';
 import { scaleSzie, localize, formatMoney } from '@utils';
 import IMAGE from '@resources';
+import connectRedux from '@redux/ConnectRedux';
 
 class PopupEnterAmountGiftCard extends React.Component {
 
@@ -83,18 +84,28 @@ class PopupEnterAmountGiftCard extends React.Component {
         this.props.doneBill();
     }
 
+    addGiftCardAmount = () => {
+        const { quality } = this.state;
+        if (parseFloat(quality) > 0) {
+           this.props.actions.appointment.handleEnterGiftCardAmount(parseFloat(quality));
+        }else{
+            alert("Amount must greater than 0!")
+        }
+    }
+
     // ---------- Render --------
     render() {
-        const { title, visible, onRequestClose, language } = this.props;
+        const { title, visible, onRequestClose, language, visiblePopupGiftCardEnterAmount } = this.props;
         return (
             <PopupParent
                 title={title}
-                visible={visible}
+                visible={visiblePopupGiftCardEnterAmount}
                 onRequestClose={() => {
                     this.setState({
                         quality: '0'
-                    })
-                    onRequestClose();
+                    });
+                    this.props.actions.appointment.switchPopupGiftCardEnterAmount(false);
+                    // onRequestClose();
                 }}
                 style={{}}
                 width={350}
@@ -207,14 +218,14 @@ class PopupEnterAmountGiftCard extends React.Component {
                         </View>
 
                         {/* ------------- Add To Basket Button -------- */}
-                        <View style={{
+                        <Button onPress={this.addGiftCardAmount} style={{
                             height: scaleSzie(50), width: "100%", backgroundColor: '#0764B0', marginVertical: scaleSzie(15),
                             borderRadius: scaleSzie(2), alignItems: "center", justifyContent: "center"
                         }} >
                             <Text style={{ color: "#fff", fontSize: scaleSzie(20), fontWeight: "600" }} >
                                 {`ADD TO BASKET`}
                             </Text>
-                        </View>
+                        </Button>
 
                     </View>
                 </View>
@@ -263,6 +274,10 @@ const styles = StyleSheet.create({
     }
 })
 
-export default PopupEnterAmountGiftCard;
+const mapStateToProps = state => ({
+    visiblePopupGiftCardEnterAmount: state.appointment.visiblePopupGiftCardEnterAmount
+});
+
+export default connectRedux(mapStateToProps, PopupEnterAmountGiftCard);
 
 

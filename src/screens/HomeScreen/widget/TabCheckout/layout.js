@@ -929,7 +929,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission } = this.props;
+        const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission,visiblePopupEnterGiftCardAmount } = this.props;
         const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
             visiblePopupAddItemIntoBasket
         } = this.state;
@@ -1012,8 +1012,6 @@ class Layout extends React.Component {
                 <PopupEnterAmountGiftCard
                     // ref={this.modalBillRef}
                     title={localize('Gift Card Active Amount', language)}
-                    // visible={this.state.visibleBillOfPayment}
-                    visible={true}
                     onRequestClose={this.onRequestCloseBillModal}
                     language={language}
                     extractBill={this.extractBill}
