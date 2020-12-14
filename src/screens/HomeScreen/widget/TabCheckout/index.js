@@ -44,10 +44,6 @@ class TabCheckout extends Layout {
         this.popupEnterAmountGiftCardRef = React.createRef();
     }
 
-    componentDidMount(){
-        // this.props.actions.appointment.updatePopupEnterAmountGiftCardRef(this.popupEnterAmountGiftCardRef);
-    }
-
     resetStateFromParent = async () => {
         await this.setState(initState);
     }

@@ -509,16 +509,9 @@ export function handleEnterGiftCardAmount(amount = 0) {
     }
 }
 
-export function updatePopupEnterAmountGiftCardRef(ref) {
-    return {
-        type: "UPDATE_POPUP_ENTER_AMOUNT_GIFT_CARD_REF",
-        payload: ref
-    }
-}
-
 export function updateQuantityOfGiftCard(visible) {
     return {
-        type: "UPDATE_QUANTITY_OF_GIFTCARD",
+        type: "UPDATE_QUANTITY_OF_GIFT_CARD",
         payload: visible
     }
 }

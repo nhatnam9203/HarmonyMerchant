@@ -101,9 +101,9 @@ class PopupEnterAmountGiftCard extends React.Component {
                 title={title}
                 visible={visiblePopupGiftCardEnterAmount}
                 onRequestClose={() => {
-                    this.setState({
-                        quality: '0'
-                    });
+                    // this.setState({
+                    //     quality: '0'
+                    // });
                     this.props.actions.appointment.switchPopupGiftCardEnterAmount(false);
                     // onRequestClose();
                 }}
@@ -233,17 +233,15 @@ class PopupEnterAmountGiftCard extends React.Component {
         );
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    async componentDidUpdate(prevProps, prevState) {
         const { isUpdateQuantityOfGiftCard, addGiftCardInfoAction } = this.props;
         if (isUpdateQuantityOfGiftCard && prevProps.isUpdateQuantityOfGiftCard !== isUpdateQuantityOfGiftCard) {
             this.props.actions.appointment.updateQuantityOfGiftCard(false);
-            const tempQuantity = addGiftCardInfoAction?.giftCardInfo?.isActive ? `0` : `${addGiftCardInfoAction?.giftCardInfo?.amount || 0}`
-            this.setState({
+            const tempQuantity = addGiftCardInfoAction?.giftCardInfo?.isActive === 1 ? `0` : `${addGiftCardInfoAction?.giftCardInfo?.amount}`;
+            await this.setState({
                 quality: tempQuantity
             });
-            // console.log("--------- updateQuantityOfGiftCard -----");
-           
-           
+            this.props.actions.appointment.switchPopupGiftCardEnterAmount(true);
         }
     }
 

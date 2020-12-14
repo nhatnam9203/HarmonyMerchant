@@ -655,17 +655,14 @@ function* checkSerialNumber(action) {
                 // ---------- Save Action Information ----------
                 yield put({
                     type: "SAVE_GIFT_CARD_ACTION_INFO",
-                    addGiftCardInfoAction: { ...action, giftCardInfo: responses?.data || {} }
+                    addGiftCardInfoAction: { ...action, giftCardInfo: { ...responses?.data } || {} }
                 });
-                yield put({
-                    type:"UPDATE_QUANTITY_OF_GIFT_CARD",
-                    payload: true
-                });
-                yield delay(300);
-                yield put({
-                    type: "SWITCH_POPUP_GIFT_CARD_ENTER_AMOUNT",
-                    payload: true,
-                });
+
+                // yield delay(300);
+                // yield put({
+                //     type: "SWITCH_POPUP_GIFT_CARD_ENTER_AMOUNT",
+                //     payload: true,
+                // });
             }
         } else if (parseInt(codeNumber) === 401) {
             yield put({
