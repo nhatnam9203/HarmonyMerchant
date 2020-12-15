@@ -528,3 +528,12 @@ export function getGiftCardsActiveList(keySearch = "", page = 1, isShowLoading =
         isRefreshing
     }
 }
+
+export function getGiftCardLogs(giftCardId = 0) {
+    return {
+        type: 'GET_GIFT_CARDS_LOGS',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}giftcardlog/${giftCardId}`,
+    }
+}

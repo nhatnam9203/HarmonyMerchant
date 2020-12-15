@@ -18,7 +18,7 @@ class RowTableCustomer extends React.Component {
         const { giftCard } = this.props;
 
         return (
-            <Button onPress={() => this.props.showModalDetail(customer)} style={styles.tableHeader} >
+            <Button onPress={() => this.props.goToGiftCardLogs(giftCard)} style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={[{

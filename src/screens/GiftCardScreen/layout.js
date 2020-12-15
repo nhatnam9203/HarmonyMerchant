@@ -93,7 +93,7 @@ export default class Layout extends React.Component {
                     renderItem={({ item, index }) => <RowTableCustomer
                         key={index}
                         giftCard={item}
-                        showModalDetail={this.gotoCustomerDetailTab}
+                        goToGiftCardLogs={this.goToGiftCardLogs}
                     />}
                     keyExtractor={(item, index) => `${item.giftCardId}_${index}`}
                     ListEmptyComponent={<RowEmptyTableCustomer />}
@@ -133,7 +133,7 @@ export default class Layout extends React.Component {
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{}}
-                        initialPage={1}
+                        initialPage={0}
                         // locked={true}
                         renderTabBar={() => <View />}
                         onChangeTab={this.onChangeTab}

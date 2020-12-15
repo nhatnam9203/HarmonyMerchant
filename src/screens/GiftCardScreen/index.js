@@ -27,7 +27,7 @@ class GiftCardScreen extends Layout {
     }
 
     componentDidMount() {
-        // this.props.actions.appointment.getGiftCardsActiveList();
+        this.props.actions.appointment.getGiftCardsActiveList();
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
@@ -103,18 +103,9 @@ class GiftCardScreen extends Layout {
         this.setState({ currentTab: index.i });
     }
 
-    gotoCustomerDetailTab = (customer) => {
+    goToGiftCardLogs = (giftCard) => {
         this.scrollTabRef.current.goToPage(1);
-        this.props.actions.customer.getCustomerInfoById(customer?.customerId || 0);
-        this.props.actions.customer.getPastAppointments(customer?.customerId || 0);
-        if (this.customerDetailTabRef?.current) {
-            this.customerDetailTabRef?.current?.setStateFromParent(customer);
-        } else {
-            setTimeout(() => {
-                this.customerDetailTabRef?.current?.setStateFromParent(customer);
-            }, 300)
-        }
-
+        this.props.actions.appointment.getGiftCardLogs(giftCard?.giftCardId);
     }
 
     backCustomerListTab = () => {
@@ -241,7 +232,7 @@ const mapStateToProps = state => ({
     giftCardsList: state.appointment.giftCardsList,
     totalGiftCardsListPages: state.appointment.totalGiftCardsListPages,
     currentGiftCardsListPage: state.appointment.currentGiftCardsListPage,
-    isLoadMoreGiftCardsList: state.appointment.isLoadMoreGiftCardsList
+    isLoadMoreGiftCardsList: state.appointment.isLoadMoreGiftCardsList,
 })
 
 export default connectRedux(mapStateToProps, GiftCardScreen);

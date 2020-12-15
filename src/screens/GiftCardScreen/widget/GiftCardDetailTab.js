@@ -37,9 +37,7 @@ class GiftCardDetailTab extends React.Component {
     }
 
     render() {
-        const { pastAppointments, customerHistory, isLoadMorePastAppointment, stateCity } = this.props;
-        const { customer, visible } = this.state;
-        const firstLetter = customer?.firstName ? customer?.firstName[0] : "";
+        const { giftCardLogs } = this.props;
 
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(15), paddingTop: scaleSzie(20) }} >
@@ -88,18 +86,23 @@ class GiftCardDetailTab extends React.Component {
                 </View>
 
                 {/* ----------------- Rows Table ------------------ */}
+                <FlatList
+                    data={giftCardLogs}
+                    renderItem={({ item, index }) => <View style={{ flexDirection: "row", minHeight: scaleSzie(30) }} >
+                        <Text style={{ width: scaleSzie(140), fontSize: scaleSzie(12), fontWeight: "500", color: TXT_COLOR_3, }} >
+                            {`${formatWithMoment(item?.createdDate, "hh:mm ss A")}`}
+                        </Text>
+                        <Text style={{ width: scaleSzie(180), fontSize: scaleSzie(12), fontWeight: "500", color: TXT_COLOR_3, }} >
+                            {`${formatWithMoment(item?.createdDate, "MMM DD, YYYY")}`}
+                        </Text>
+                        <Text style={{ flex: 1, fontSize: scaleSzie(12), fontWeight: "600", color: TXT_COLOR_3, }} >
+                            {`${item?.message || ""}`}
+                        </Text>
+                    </View>}
+                    keyExtractor={(item, index) => `${item?.giftCardLogId}_${index}`}
+                />
 
-                <View style={{ flexDirection: "row", minHeight: scaleSzie(30) }} >
-                    <Text style={{ width: scaleSzie(140), fontSize: scaleSzie(12), fontWeight: "500", color: TXT_COLOR_3, }} >
-                    {`${formatWithMoment(new Date(), "hh:mm ss A")}`}
-                    </Text>
-                    <Text style={{ width: scaleSzie(180), fontSize: scaleSzie(12), fontWeight: "500", color: TXT_COLOR_3, }} >
-                    {`${formatWithMoment(new Date(), "MMM DD, YYYY")}`}
-                    </Text>
-                    <Text style={{ flex: 1, fontSize: scaleSzie(12), fontWeight: "600", color: TXT_COLOR_3, }} >
-                        {`Message`}
-                    </Text>
-                </View>
+
 
             </View >
         );
@@ -149,7 +152,7 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = state => ({
-
+    giftCardLogs: state.appointment.giftCardLogs
 })
 
 
