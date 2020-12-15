@@ -33,7 +33,7 @@ const RowEmptyTableCustomer = () => {
             </View>
             {/* ----- 2 ----- */}
             <View style={{
-                width: scaleSzie(172), flexDirection: 'row',
+                flex:1.2, flexDirection: 'row',
             }} >
                 <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                     <Text style={styles.textTableHeader} >
@@ -46,7 +46,7 @@ const RowEmptyTableCustomer = () => {
             </View>
             {/* ----- 3 ----- */}
             <View style={{
-                width: scaleSzie(172), flexDirection: 'row',
+               flex:1, flexDirection: 'row',
             }} >
                 <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                     <Text style={styles.textTableHeader} >
@@ -57,11 +57,11 @@ const RowEmptyTableCustomer = () => {
                     <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                 </View>
             </View>
-            {/* ----- 4 ------ */}
+            
 
-            {/* ----- 3 ----- */}
+            {/* ----- 4 ----- */}
             <View style={{
-                width: scaleSzie(172), flexDirection: 'row',
+               flex:1, flexDirection: 'row',
             }} >
                 <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                     <Text style={styles.textTableHeader} >
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: scaleSzie(60),
+        height: scaleSzie(50),
         backgroundColor: '#FAFAFA',
         borderWidth: 0.5,
         borderColor: '#C5C5C5',

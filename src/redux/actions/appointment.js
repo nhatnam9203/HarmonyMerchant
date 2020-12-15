@@ -516,3 +516,12 @@ export function updateQuantityOfGiftCard(visible) {
     }
 }
 
+export function getGiftCardsActiveList(page = 1) {
+    return {
+        type: 'GET_GIFT_CARDS_ACTIVE_LIST',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}giftcard/getByMerchant?page=${page}`,
+        currentPage: page
+    }
+}

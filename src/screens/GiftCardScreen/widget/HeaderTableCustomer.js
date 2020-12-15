@@ -23,9 +23,9 @@ class HeaderTableCustomer extends React.Component {
                     <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(20) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
-                        {localize('Name', language)}
+                        {localize('ID', language)}
                         </Text>
                     </View>
                     {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -33,11 +33,11 @@ class HeaderTableCustomer extends React.Component {
                     </View> */}
                 </View>
                 {/* ----- 2 ------ */}
-                <View style={{flex:1, flexDirection: 'row'}} >
+                <View style={{flex:1.2, flexDirection: 'row'}} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                         
-                        {localize('Phone Number', language)}
+                        {localize('Serial', language)}
                             </Text>
                     </View>
                     {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -45,35 +45,24 @@ class HeaderTableCustomer extends React.Component {
                     </View> */}
                 </View>
                 {/* ----- 3 ------ */}
-                <View style={{flex:1.3, flexDirection: 'row' }} >
+                <View style={{flex:1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                         
-                        {localize('Email', language)}
+                        {localize('Created On', language)}
                             </Text>
                     </View>
                     {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View> */}
                 </View>
+                
                 {/* ----- 4 ------ */}
-                <View style={{ flex:1, flexDirection: 'row' }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} >
-                        
-                        {localize('Referrer', language)}
-                        </Text>
-                    </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
-                </View>
-                {/* ----- 5 ------ */}
                 <View style={{ flex:1, flexDirection: 'row'}} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center',alignItems:"flex-end",paddingHorizontal: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                         
-                        {localize('Referrer phone', language)}
+                        {localize('Value', language)}
                         </Text>
                     </View>
                     {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >

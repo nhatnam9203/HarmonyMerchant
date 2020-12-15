@@ -40,7 +40,10 @@ const initialState = {
     visiblePopupGiftCardDetails: false,
     visiblePopupGiftCardEnterAmount: false,
     addGiftCardInfoAction: {},
-    isUpdateQuantityOfGiftCard: false
+    isUpdateQuantityOfGiftCard: false,
+    giftCardsList: [],
+    totalGiftCardsListPages: 0,
+    currentGiftCardsListPage: 0,
 }
 
 function appointmentReducer(state = initialState, action) {
@@ -320,7 +323,13 @@ function appointmentReducer(state = initialState, action) {
                 ...state,
                 isUpdateQuantityOfGiftCard: action.payload,
             }
-
+        case "GET_GIFT_CARDS_ACTIVE_LIST_SUCCESS":
+            return {
+                ...state,
+                giftCardsList: action?.currentPage === 1 ? action.payload : state.giftCardsList.concat(action.payload),
+                totalGiftCardsListPages: action?.totalPages || 1,
+                currentGiftCardsListPage: action?.currentPage || 1,
+            }
         case 'LOGOUT_APP':
             return {
                 ...initialState,

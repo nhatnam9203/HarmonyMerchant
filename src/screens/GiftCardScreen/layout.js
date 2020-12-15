@@ -95,7 +95,7 @@ export default class Layout extends React.Component {
     }
 
     renderTable() {
-        const { listCustomersByMerchant, refreshListCustomer, language, isLoadMoreCustomerList } = this.props;
+        const { refreshListCustomer, language, isLoadMoreCustomerList,giftCardsList } = this.props;
 
         return (
             <View style={{ flex: 1 }} >
@@ -103,18 +103,16 @@ export default class Layout extends React.Component {
                     language={language}
                 />
                 <FlatList
-                    data={listCustomersByMerchant}
+                    data={giftCardsList}
                     renderItem={({ item, index }) => <RowTableCustomer
                         key={index}
-                        customer={item}
-                        unSelectAll={this.unSelectAll}
+                        giftCard={item}
                         showModalDetail={this.gotoCustomerDetailTab}
                     />}
                     keyExtractor={(item, index) => `${item.customerId}`}
                     ListEmptyComponent={<RowEmptyTableCustomer />}
                     refreshing={refreshListCustomer}
                     onRefresh={this.onRefreshCustomer}
-
                     onEndReached={this.loadMoreCustomerList}
                     onEndReachedThreshold={0.5}
                     onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}

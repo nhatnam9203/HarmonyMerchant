@@ -1028,7 +1028,6 @@ function* handleEnterGiftCardAmount(action) {
             })
         }
     } catch (error) {
-        console.log("------ Error -----: ", error);
         yield put({ type: 'STOP_LOADING_ROOT' });
         yield put({ type: error });
     } finally {
@@ -1036,6 +1035,39 @@ function* handleEnterGiftCardAmount(action) {
     }
 }
 
+function* getGiftCardsActiveList(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // console.log("------- getGiftCardsActiveList: ", responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "GET_GIFT_CARDS_ACTIVE_LIST_SUCCESS",
+                payload: responses?.data || [],
+                currentPage: action?.currentPage,
+                totalPages: responses?.pages || 1
+            })
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+
+        yield put({ type: error });
+
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
 
 export default function* saga() {
     yield all([
@@ -1061,5 +1093,7 @@ export default function* saga() {
         takeLatest('CHANGE_CUSTOMER_IN_APPOINTMENT', changeCustomerInAppointment),
         takeEvery('UPDATE_CUSTOMER_IN_APPOINTMENT', updateCustomerInAppointment),
         takeLatest('HANDLE_ENTER_GIFT_CARD_AMOUNT', handleEnterGiftCardAmount),
+        takeLatest('GET_GIFT_CARDS_ACTIVE_LIST', getGiftCardsActiveList),
+
     ]);
 }

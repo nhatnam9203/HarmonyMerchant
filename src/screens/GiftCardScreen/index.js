@@ -27,6 +27,7 @@ class GiftCardScreen extends Layout {
     }
 
     componentDidMount() {
+        this.props.actions.appointment.getGiftCardsActiveList();
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
@@ -157,11 +158,10 @@ class GiftCardScreen extends Layout {
 
     loadMoreCustomerList = () => {
         if (!this.onEndReachedCalledDuringMomentum) {
-            const { totalPages, currentPage } = this.props;
-            if (currentPage < totalPages) {
-                this.searchCustomer(parseInt(currentPage + 1), false, true);
-                this.onEndReachedCalledDuringMomentum = true;
-
+            const { totalGiftCardsListPages, currentGiftCardsListPage } = this.props;
+            if (currentGiftCardsListPage < totalGiftCardsListPages) {
+                // this.searchCustomer(parseInt(currentGiftCardsListPage + 1), false, true);
+                // this.onEndReachedCalledDuringMomentum = true;
             }
         }
     }
@@ -193,11 +193,11 @@ class GiftCardScreen extends Layout {
         this.props.actions.customer.editCustomer(customer?.customerId, customer);
     }
 
-    cancelEditCustomerInfo = () =>{
+    cancelEditCustomerInfo = () => {
         this.scrollTabRef.current.goToPage(1);
     }
 
-    cancelAddCustomerInfo = () =>{
+    cancelAddCustomerInfo = () => {
         this.scrollTabRef.current.goToPage(0);
     }
 
@@ -205,17 +205,8 @@ class GiftCardScreen extends Layout {
         this.props.actions.customer.addCustomer(customer);
     }
 
-    componentDidUpdate(prevProps,prevState){
-        const {isEditCustomerSuccess, isAddCustomerSuccess} = this.props;
-        if(isEditCustomerSuccess && isEditCustomerSuccess !== prevProps.isEditCustomerSuccess){
-            this.scrollTabRef.current.goToPage(1);
-            this.props.actions.customer.resetEditCustomerState();
-        }
-
-        if(isAddCustomerSuccess && isAddCustomerSuccess !== prevProps.isAddCustomerSuccess){
-            this.scrollTabRef.current.goToPage(0);
-            this.props.actions.customer.resetAddCustomerState();
-        }
+    componentDidUpdate(prevProps, prevState) {
+       
     }
 
     componentWillUnmount() {
@@ -239,7 +230,13 @@ const mapStateToProps = state => ({
     currentPage: state.customer.currentPage,
     isLoadMoreCustomerList: state.customer.isLoadMoreCustomerList,
     isEditCustomerSuccess: state.customer.isEditCustomerSuccess,
-    isAddCustomerSuccess: state.customer.isAddCustomerSuccess
+    isAddCustomerSuccess: state.customer.isAddCustomerSuccess,
+
+
+    // -------------- New State ---------------
+    giftCardsList: state.appointment.giftCardsList,
+    totalGiftCardsListPages: state.appointment.totalGiftCardsListPages,
+    currentGiftCardsListPage: state.appointment.currentGiftCardsListPage,
 })
 
 export default connectRedux(mapStateToProps, GiftCardScreen);

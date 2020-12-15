@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { Button, } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSzie, formatWithMoment } from '@utils';
 
 class RowTableCustomer extends React.Component {
 
@@ -15,7 +15,7 @@ class RowTableCustomer extends React.Component {
     }
 
     render() {
-        const { customer } = this.props;
+        const { giftCard } = this.props;
 
         return (
             <Button onPress={() => this.props.showModalDetail(customer)} style={styles.tableHeader} >
@@ -28,60 +28,40 @@ class RowTableCustomer extends React.Component {
                         paddingHorizontal: scaleSzie(12)
                     }]} >
                         <Text style={styles.textTableHeader} numberOfLines={1} >
-                            {`${customer?.firstName || ""} ${customer?.lastName || ""}`}
+                            {`${giftCard?.giftCardId || 0}`}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
+
                 </View>
 
                 {/* ----- 2 ----- */}
-                <View style={{flex:1,  flexDirection: 'row' }} >
+                <View style={{ flex: 1.2, flexDirection: 'row' }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} numberOfLines={1} >
-                            {customer?.phone || ""}
+                            {`${giftCard?.serialNumber || 0}`}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
+
                 </View>
 
                 {/* ----- 3 ----- */}
-                <View style={{flex:1.3, flexDirection: 'row',}} >
+                <View style={{ flex: 1, flexDirection: 'row', }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} numberOfLines={1} >
-                            {customer?.email || ""}
+                            {`${formatWithMoment(giftCard?.createdDate, "MMM DD, YYYY")}`}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
+
                 </View>
 
                 {/* ----- 4 ----- */}
                 <View style={{ flex: 1, flexDirection: 'row' }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center',alignItems:"flex-end",paddingHorizontal: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} numberOfLines={1} >
-                            {customer?.referrerBy || ""}
+                            {`$ ${giftCard?.amount}`}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
-                </View>
 
-                {/* ----- 5 ----- */}
-                <View style={{ flex: 1, flexDirection: 'row' }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
-                        <Text style={styles.textTableHeader} numberOfLines={1} >
-                            {customer?.referrerPhone || ""}
-                        </Text>
-                    </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View> */}
                 </View>
             </Button>
         );
