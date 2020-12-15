@@ -13,7 +13,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     HeaderTableCustomer, RowTableCustomer, RowEmptyTableCustomer,
-    CustomerDetailTab, EditOrCreateCustomerTab
+    GiftCardDetailTab, EditOrCreateCustomerTab
 } from './widget';
 import configs from "@configs";
 import ICON from "@resources"
@@ -133,8 +133,8 @@ export default class Layout extends React.Component {
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{}}
-                        initialPage={0}
-                        locked={true}
+                        initialPage={1}
+                        // locked={true}
                         renderTabBar={() => <View />}
                         onChangeTab={this.onChangeTab}
                     >
@@ -147,7 +147,7 @@ export default class Layout extends React.Component {
                         </View>
 
                         {/* --------- Customer Detail Tab -------- */}
-                        <CustomerDetailTab
+                        <GiftCardDetailTab
                             ref={this.customerDetailTabRef}
                             showAppointmentDetail={this.showAppointmentDetail}
                             editCustomer={this.editCustomer}

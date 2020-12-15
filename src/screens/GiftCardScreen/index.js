@@ -27,7 +27,7 @@ class GiftCardScreen extends Layout {
     }
 
     componentDidMount() {
-        this.props.actions.appointment.getGiftCardsActiveList();
+        // this.props.actions.appointment.getGiftCardsActiveList();
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {

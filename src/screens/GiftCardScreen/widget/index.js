@@ -3,7 +3,7 @@ import RowTableCustomer from './RowTableCustomer';
 import RowEmptyTableCustomer from './RowEmptyTableCustomer';
 import PopupAddEditCustomer from './PopupAddEditCustomer';
 import PopupCustomerDetail from './PopupCustomerDetail';
-import CustomerDetailTab from "./CustomerDetailTab";
+import GiftCardDetailTab from "./GiftCardDetailTab";
 import PopupAppointmentDetail from "./PopupAppointmentDetail";
 import EditOrCreateCustomerTab from "./EditOrCreateCustomerTab";
 import PopupChangeCustomerStatus from "./PopupChangeCustomerStatus";
@@ -14,7 +14,7 @@ module.exports = {
     RowEmptyTableCustomer,
     PopupAddEditCustomer,
     PopupCustomerDetail,
-    CustomerDetailTab,
+    GiftCardDetailTab,
     PopupAppointmentDetail,
     EditOrCreateCustomerTab,
     PopupChangeCustomerStatus
