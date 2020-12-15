@@ -134,7 +134,7 @@ export default class Layout extends React.Component {
                         ref={this.scrollTabRef}
                         style={{}}
                         initialPage={0}
-                        // locked={true}
+                        locked={true}
                         renderTabBar={() => <View />}
                         onChangeTab={this.onChangeTab}
                     >
@@ -148,7 +148,7 @@ export default class Layout extends React.Component {
 
                         {/* --------- Customer Detail Tab -------- */}
                         <GiftCardDetailTab
-                            ref={this.customerDetailTabRef}
+                            ref={this.giftCardDetailTabRef}
                         />
 
 
@@ -170,7 +170,7 @@ export default class Layout extends React.Component {
                     ref={this.checkPermissionRef}
                     visiblePopupCheckStaffPermission={customerTabPermission}
                     title={localize('Input PIN Number', language)}
-                    tabName="Customer"
+                    tabName="GiftCard"
                     onRequestClose={this.closePopupCheckCustomerTabPermission}
                 />
 

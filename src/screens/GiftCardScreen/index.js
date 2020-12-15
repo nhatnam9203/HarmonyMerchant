@@ -21,9 +21,9 @@ class GiftCardScreen extends Layout {
         this.modalAddRef = React.createRef();
         this.modalEditRef = React.createRef();
         this.checkPermissionRef = React.createRef();
-        this.customerDetailTabRef = React.createRef();
         this.edtitCustomerRef = React.createRef();
         this.onEndReachedCalledDuringMomentum = true;
+        this.giftCardDetailTabRef = React.createRef();
     }
 
     componentDidMount() {
@@ -71,6 +71,13 @@ class GiftCardScreen extends Layout {
     }
 
     goToGiftCardLogs = (giftCard) => {
+        if (this.giftCardDetailTabRef?.current) {
+            this.giftCardDetailTabRef?.current?.setStateFromParent(giftCard);
+        } else {
+            setTimeout(() =>{
+                this.giftCardDetailTabRef?.current?.setStateFromParent(giftCard);
+            },300);
+        }
         this.scrollTabRef.current.goToPage(1);
         this.props.actions.appointment.getGiftCardLogs(giftCard?.giftCardId);
     }

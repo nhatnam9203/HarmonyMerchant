@@ -38,6 +38,7 @@ class GiftCardDetailTab extends React.Component {
     }
 
     setStateFromParent = async (giftCardDetail) => {
+        console.log("------- giftCardDetail: ",giftCardDetail);
         await this.setState({
             giftCardDetail
         });
@@ -45,7 +46,7 @@ class GiftCardDetailTab extends React.Component {
 
     render() {
         const { giftCardLogs } = this.props;
-        const {giftCardDetail} = this.state;
+        const { giftCardDetail } = this.state;
 
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(15), paddingTop: scaleSzie(20) }} >
@@ -55,22 +56,22 @@ class GiftCardDetailTab extends React.Component {
 
                 <GiftCardDetailInfo
                     title={"ID"}
-                    value={"1005"}
+                    value={`${giftCardDetail?.giftCardId || 0}`}
                 />
 
                 <GiftCardDetailInfo
                     title={"Serial"}
-                    value={"1005424324424432"}
+                    value={`${giftCardDetail?.serialNumber || 0}`}
                 />
 
                 <GiftCardDetailInfo
                     title={"Created On"}
-                    value={`${formatWithMoment(new Date(), "MMM DD, YYYY")}`}
+                    value={`${formatWithMoment(giftCardDetail?.createdDate, "MMM DD, YYYY")}`}
                 />
 
                 <GiftCardDetailInfo
                     title={"Value On"}
-                    value={`$ 193.00`}
+                    value={`$ ${giftCardDetail?.amount || 0}`}
                 />
 
                 {/* ------------------- Line -------------------- */}
