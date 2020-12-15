@@ -20,7 +20,7 @@ class PopupCheckStaffPermission extends React.Component {
         this.state = {
             value: '',
             customStyle: {},
-            appointmentId:"",
+            appointmentId: "",
             isBlock: false
         }
     }
@@ -30,7 +30,7 @@ class PopupCheckStaffPermission extends React.Component {
         this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
     }
 
-    setStateFromParent = async (value = "",appointmentId = "",isBlock = false) => {
+    setStateFromParent = async (value = "", appointmentId = "", isBlock = false) => {
         await this.setState({
             value,
             appointmentId,
@@ -56,9 +56,9 @@ class PopupCheckStaffPermission extends React.Component {
 
     submitPin = () => {
         const { profile, tabName } = this.props;
-        const { value ,appointmentId,isBlock} = this.state;
+        const { value, appointmentId, isBlock } = this.state;
         if (value.length === 4) {
-            this.props.actions.auth.checkStaffPermission(profile.merchantCode, value, tabName,appointmentId,isBlock);
+            this.props.actions.auth.checkStaffPermission(profile.merchantCode, value, tabName, appointmentId, isBlock);
         } else {
             Alert.alert(`PIN must be 4 digits.`);
         }
@@ -73,9 +73,9 @@ class PopupCheckStaffPermission extends React.Component {
 
     render() {
         const { title, isLoadingCheckStaffPermission,
-            visiblePopupCheckStaffPermission, hideCloseButton,tabName
+            visiblePopupCheckStaffPermission, hideCloseButton, tabName
         } = this.props;
-        const { value, customStyle,appointmentId } = this.state;
+        const { value, customStyle, appointmentId } = this.state;
         return (
             <PopupParent
                 title={`${title}`}
@@ -141,7 +141,6 @@ class PopupCheckStaffPermission extends React.Component {
                                     }}
                                 />
                         }
-
                     </View>
                 </View>
             </PopupParent>

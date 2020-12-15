@@ -537,3 +537,10 @@ export function getGiftCardLogs(giftCardId = 0) {
         api: `${apiConfigs.BASE_API}giftcardlog/${giftCardId}`,
     }
 }
+
+export function switchGiftCardTabPermission(visible = true) {
+    return {
+        type: 'SWITCH_GIFT_CARD_TAB_PERMISSION',
+        payload: visible
+    }
+}

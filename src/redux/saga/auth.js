@@ -232,6 +232,21 @@ function* checkStaffPermission(action) {
           appointmentId,
           isBlock: action?.isBlock
         });
+      } else if (action.tabName === "GiftCard") {
+        yield put({
+          type: 'SWITCH_GIFT_CARD_TAB_PERMISSION',
+          payload: false
+        });
+        yield put({
+          type: 'GET_GIFT_CARDS_ACTIVE_LIST',
+          method: 'GET',
+          token: true,
+          api: `${apiConfigs.BASE_API}giftcard/getByMerchant?keySearch=&page=1`,
+          currentPage: 1,
+          isShowLoading: true,
+          isShowLoadMore: false,
+          isRefreshing: false
+        });
       }
     } else if (parseInt(codeNumber) === 401) {
       yield put({

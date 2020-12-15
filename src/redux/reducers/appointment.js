@@ -46,7 +46,8 @@ const initialState = {
     currentGiftCardsListPage: 0,
     isLoadMoreGiftCardsList: false,
     isRefreshingGiftCardsList: false,
-    giftCardLogs: []
+    giftCardLogs: [],
+    isGiftCardTabPermission: false
 }
 
 function appointmentReducer(state = initialState, action) {
@@ -351,6 +352,11 @@ function appointmentReducer(state = initialState, action) {
             return {
                 ...state,
                 giftCardLogs: action.payload,
+            }
+        case "SWITCH_GIFT_CARD_TAB_PERMISSION":
+            return {
+                ...state,
+                isGiftCardTabPermission: action.payload,
             }
         case 'LOGOUT_APP':
             return {

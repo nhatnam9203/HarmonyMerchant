@@ -27,7 +27,6 @@ class GiftCardScreen extends Layout {
     }
 
     componentDidMount() {
-        this.props.actions.appointment.getGiftCardsActiveList();
         this.didBlurSubscription = this.props.navigation.addListener(
             'didBlur',
             payload => {
@@ -46,7 +45,7 @@ class GiftCardScreen extends Layout {
                     isFocus: true
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
-                // this.props.actions.customer.toggleCustomerTabPermission();
+                this.props.actions.appointment.switchGiftCardTabPermission();
                 this.scrollTabRef?.current?.goToPage(0);
             }
         );
@@ -74,9 +73,9 @@ class GiftCardScreen extends Layout {
         if (this.giftCardDetailTabRef?.current) {
             this.giftCardDetailTabRef?.current?.setStateFromParent(giftCard);
         } else {
-            setTimeout(() =>{
+            setTimeout(() => {
                 this.giftCardDetailTabRef?.current?.setStateFromParent(giftCard);
-            },300);
+            }, 300);
         }
         this.scrollTabRef.current.goToPage(1);
         this.props.actions.appointment.getGiftCardLogs(giftCard?.giftCardId);
@@ -148,6 +147,7 @@ const mapStateToProps = state => ({
     totalGiftCardsListPages: state.appointment.totalGiftCardsListPages,
     currentGiftCardsListPage: state.appointment.currentGiftCardsListPage,
     isLoadMoreGiftCardsList: state.appointment.isLoadMoreGiftCardsList,
+    isGiftCardTabPermission: state.appointment.isGiftCardTabPermission
 })
 
 export default connectRedux(mapStateToProps, GiftCardScreen);
