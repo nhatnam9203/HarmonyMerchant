@@ -1037,9 +1037,11 @@ function* handleEnterGiftCardAmount(action) {
 
 function* getGiftCardsActiveList(action) {
     try {
-        yield put({ type: 'LOADING_ROOT' });
+        if (action.isShowLoading) {
+            yield put({ type: 'LOADING_ROOT' });
+        }
         const responses = yield requestAPI(action);
-        // console.log("------- getGiftCardsActiveList: ", responses);
+
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -1055,11 +1057,17 @@ function* getGiftCardsActiveList(action) {
             })
         } else {
             yield put({
+                type: "GET_GIFT_CARDS_ACTIVE_LIST_FAIL",
+            });
+            yield put({
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses.message
             })
         }
     } catch (error) {
+        yield put({
+            type: "GET_GIFT_CARDS_ACTIVE_LIST_FAIL",
+        });
         yield put({ type: 'STOP_LOADING_ROOT' });
 
         yield put({ type: error });
@@ -1094,6 +1102,5 @@ export default function* saga() {
         takeEvery('UPDATE_CUSTOMER_IN_APPOINTMENT', updateCustomerInAppointment),
         takeLatest('HANDLE_ENTER_GIFT_CARD_AMOUNT', handleEnterGiftCardAmount),
         takeLatest('GET_GIFT_CARDS_ACTIVE_LIST', getGiftCardsActiveList),
-
     ]);
 }

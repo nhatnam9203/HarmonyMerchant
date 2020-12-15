@@ -44,6 +44,8 @@ const initialState = {
     giftCardsList: [],
     totalGiftCardsListPages: 0,
     currentGiftCardsListPage: 0,
+    isLoadMoreGiftCardsList: false,
+    isRefreshingGiftCardsList: false
 }
 
 function appointmentReducer(state = initialState, action) {
@@ -323,12 +325,26 @@ function appointmentReducer(state = initialState, action) {
                 ...state,
                 isUpdateQuantityOfGiftCard: action.payload,
             }
+        case "GET_GIFT_CARDS_ACTIVE_LIST":
+            return {
+                ...state,
+                isLoadMoreGiftCardsList: action.isShowLoadMore,
+                isRefreshingGiftCardsList: action.isRefreshingGiftCardsList
+            }
         case "GET_GIFT_CARDS_ACTIVE_LIST_SUCCESS":
             return {
                 ...state,
                 giftCardsList: action?.currentPage === 1 ? action.payload : state.giftCardsList.concat(action.payload),
                 totalGiftCardsListPages: action?.totalPages || 1,
                 currentGiftCardsListPage: action?.currentPage || 1,
+                isLoadMoreGiftCardsList: false,
+                isRefreshingGiftCardsList: false
+            }
+        case "GET_GIFT_CARDS_ACTIVE_LIST_FAIL":
+            return {
+                ...state,
+                isLoadMoreGiftCardsList: false,
+                isRefreshingGiftCardsList: false
             }
         case 'LOGOUT_APP':
             return {

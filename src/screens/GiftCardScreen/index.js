@@ -63,7 +63,7 @@ class GiftCardScreen extends Layout {
         await this.setState({
             keySearch: ""
         });
-        this.searchCustomer(1, true, false);
+        this.searchGiftCardsList(1, true, false,false);
     }
 
     showModalAddCustomer = () => {
@@ -146,22 +146,27 @@ class GiftCardScreen extends Layout {
         alert("dd")
     }
 
-    onRefreshCustomer = () => {
-        this.searchCustomer(1, false, false);
+    onRefreshGiftCardList = () => {
+        this.searchGiftCardsList(1, false, false,true);
     }
-
 
     searchCustomer = (currentPage = 1, isShowLoading = false, isShowLoadMore = false) => {
         const { keySearch } = this.state;
         this.props.actions.customer.getListCustomersByMerchant(keySearch, currentPage, isShowLoading, isShowLoadMore);
     }
 
+
+    searchGiftCardsList = (currentPage = 1, isShowLoading = false, isShowLoadMore = false, isRefreshing = false) => {
+        const { keySearch } = this.state;
+        this.props.actions.appointment.getGiftCardsActiveList(keySearch, currentPage, isShowLoading, isShowLoadMore, isRefreshing);
+    }
+
     loadMoreCustomerList = () => {
         if (!this.onEndReachedCalledDuringMomentum) {
             const { totalGiftCardsListPages, currentGiftCardsListPage } = this.props;
             if (currentGiftCardsListPage < totalGiftCardsListPages) {
-                // this.searchCustomer(parseInt(currentGiftCardsListPage + 1), false, true);
-                // this.onEndReachedCalledDuringMomentum = true;
+                this.searchGiftCardsList(parseInt(currentGiftCardsListPage + 1), false, true, false);
+                this.onEndReachedCalledDuringMomentum = true;
             }
         }
     }
@@ -206,7 +211,7 @@ class GiftCardScreen extends Layout {
     }
 
     componentDidUpdate(prevProps, prevState) {
-       
+
     }
 
     componentWillUnmount() {
@@ -237,6 +242,7 @@ const mapStateToProps = state => ({
     giftCardsList: state.appointment.giftCardsList,
     totalGiftCardsListPages: state.appointment.totalGiftCardsListPages,
     currentGiftCardsListPage: state.appointment.currentGiftCardsListPage,
+    isLoadMoreGiftCardsList: state.appointment.isLoadMoreGiftCardsList
 })
 
 export default connectRedux(mapStateToProps, GiftCardScreen);

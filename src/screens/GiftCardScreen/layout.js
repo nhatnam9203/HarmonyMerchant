@@ -13,7 +13,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     HeaderTableCustomer, RowTableCustomer, RowEmptyTableCustomer,
-   CustomerDetailTab,EditOrCreateCustomerTab
+    CustomerDetailTab, EditOrCreateCustomerTab
 } from './widget';
 import configs from "@configs";
 import ICON from "@resources"
@@ -27,7 +27,7 @@ export default class Layout extends React.Component {
                 height: scaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSzie(50),
                 justifyContent: 'center'
             }} >
-                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0',fontWeight:"600" }} >
+                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0', fontWeight: "600" }} >
                     {localize('Gift Card', language)}
                 </Text>
             </View>
@@ -48,7 +48,7 @@ export default class Layout extends React.Component {
                                     placeholder={localize('Search', language)}
                                     value={keySearch}
                                     onChangeText={this.onChangeKeySearch}
-                                    onSubmitEditing={() => this.searchCustomer(1, true, false)}
+                                    onSubmitEditing={() => this.searchGiftCardsList(1, true, false,false)}
                                 />
                             </View>
                             {
@@ -70,32 +70,18 @@ export default class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
-                            onPress={() => this.searchCustomer(1, true, false)}
+                            onPress={() => this.searchGiftCardsList(1, true, false,false)}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
                     </View>
-
-                    {/* ----------- Add New Button ------------ */}
-                    {/* <View style={{ width: scaleSzie(130), alignItems: 'flex-end' }} >
-                        <ButtonCustom
-                            width={'95%'}
-                            height={40}
-                            backgroundColor="#0764B0"
-                            title={localize('Add New', language)}
-                            textColor="#fff"
-                            onPress={this.addNewCustomer}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
-                            styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
-                        />
-                    </View> */}
                 </View>
             </View>
         );
     }
 
     renderTable() {
-        const { refreshListCustomer, language, isLoadMoreCustomerList,giftCardsList } = this.props;
+        const { refreshListCustomer, language, giftCardsList, isLoadMoreGiftCardsList } = this.props;
 
         return (
             <View style={{ flex: 1 }} >
@@ -112,7 +98,7 @@ export default class Layout extends React.Component {
                     keyExtractor={(item, index) => `${item.customerId}`}
                     ListEmptyComponent={<RowEmptyTableCustomer />}
                     refreshing={refreshListCustomer}
-                    onRefresh={this.onRefreshCustomer}
+                    onRefresh={this.onRefreshGiftCardList}
                     onEndReached={this.loadMoreCustomerList}
                     onEndReachedThreshold={0.5}
                     onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
@@ -121,7 +107,7 @@ export default class Layout extends React.Component {
                     maxToRenderPerBatch={5}
                     ListFooterComponent={() => <View style={{ height: scaleSzie(30), alignItems: "center", justifyContent: "center" }} >
                         {
-                            isLoadMoreCustomerList ? <ActivityIndicator
+                            isLoadMoreGiftCardsList ? <ActivityIndicator
                                 size="large"
                                 color="#0764B0"
                             /> : null
