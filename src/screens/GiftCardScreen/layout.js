@@ -48,7 +48,7 @@ export default class Layout extends React.Component {
                                     placeholder={localize('Search', language)}
                                     value={keySearch}
                                     onChangeText={this.onChangeKeySearch}
-                                    onSubmitEditing={() => this.searchGiftCardsList(1, true, false,false)}
+                                    onSubmitEditing={() => this.searchGiftCardsList(1, true, false, false)}
                                 />
                             </View>
                             {
@@ -70,7 +70,7 @@ export default class Layout extends React.Component {
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
-                            onPress={() => this.searchGiftCardsList(1, true, false,false)}
+                            onPress={() => this.searchGiftCardsList(1, true, false, false)}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
@@ -95,7 +95,7 @@ export default class Layout extends React.Component {
                         giftCard={item}
                         showModalDetail={this.gotoCustomerDetailTab}
                     />}
-                    keyExtractor={(item, index) => `${item.customerId}`}
+                    keyExtractor={(item, index) => `${item.giftCardId}_${index}`}
                     ListEmptyComponent={<RowEmptyTableCustomer />}
                     refreshing={refreshListCustomer}
                     onRefresh={this.onRefreshGiftCardList}

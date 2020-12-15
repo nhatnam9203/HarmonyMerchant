@@ -332,6 +332,7 @@ function appointmentReducer(state = initialState, action) {
                 isRefreshingGiftCardsList: action.isRefreshingGiftCardsList
             }
         case "GET_GIFT_CARDS_ACTIVE_LIST_SUCCESS":
+            console.log(action?.currentPage === 1);
             return {
                 ...state,
                 giftCardsList: action?.currentPage === 1 ? action.payload : state.giftCardsList.concat(action.payload),

@@ -63,7 +63,7 @@ class GiftCardScreen extends Layout {
         await this.setState({
             keySearch: ""
         });
-        this.searchGiftCardsList(1, true, false,false);
+        this.searchGiftCardsList(1, true, false, false);
     }
 
     showModalAddCustomer = () => {
@@ -143,18 +143,17 @@ class GiftCardScreen extends Layout {
     }
 
     showAppointmentDetail = () => {
-        alert("dd")
+        alert("dd");
     }
 
     onRefreshGiftCardList = () => {
-        this.searchGiftCardsList(1, false, false,true);
+        this.searchGiftCardsList(1, false, false, true);
     }
 
     searchCustomer = (currentPage = 1, isShowLoading = false, isShowLoadMore = false) => {
         const { keySearch } = this.state;
         this.props.actions.customer.getListCustomersByMerchant(keySearch, currentPage, isShowLoading, isShowLoadMore);
     }
-
 
     searchGiftCardsList = (currentPage = 1, isShowLoading = false, isShowLoadMore = false, isRefreshing = false) => {
         const { keySearch } = this.state;
