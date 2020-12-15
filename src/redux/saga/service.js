@@ -32,7 +32,7 @@ function* addServiceByMerchant(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -75,7 +75,7 @@ function* getServicesByMerchant(action) {
             yield put({ type: 'GET_SERVICE_BY_MERCHANT_FAIL' });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -110,7 +110,7 @@ function* archiveService(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -144,7 +144,7 @@ function* restoreService(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -179,7 +179,7 @@ function* editService(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -207,7 +207,7 @@ function* searchService(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -230,7 +230,7 @@ function* updateSerivePosition(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {

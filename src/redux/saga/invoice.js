@@ -34,7 +34,7 @@ function* getListInvoicesByMerchant(action) {
             yield put({ type: 'GET_LIST_INVOICE_BY_MERCHANT_FAIL' });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -64,7 +64,7 @@ function* searchInvoice(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -100,7 +100,7 @@ function* getSettlementWating(action) {
             })
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -133,7 +133,7 @@ function* invoicesOfStaff(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -168,7 +168,7 @@ function* getTransactionSettlement(action) {
             })
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -200,7 +200,7 @@ function* searchTransactionSettlement(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -236,7 +236,7 @@ function* getBatchHistory(action) {
             })
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -277,7 +277,7 @@ function* changeStatustransaction(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -326,7 +326,7 @@ function* settleBatch(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             });
             yield put({
                 type: "SETTLE_BATCH_FAIL"
@@ -357,7 +357,7 @@ function* getSettlementWarning(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -387,7 +387,7 @@ function* getListStaffsSales(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -416,7 +416,7 @@ function* getListGiftCardSales(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -445,7 +445,7 @@ function* getStaffSalesBySettlementId(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -474,7 +474,7 @@ function* getGiftCardSalesBySettlementId(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {

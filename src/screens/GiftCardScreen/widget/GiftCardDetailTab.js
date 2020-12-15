@@ -31,13 +31,21 @@ class GiftCardDetailTab extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            giftCardDetail: {}
         };
         this.onEndReachedCalledDuringMomentum = true;
         this.popupAppointmentDetailRef = React.createRef();
     }
 
+    setStateFromParent = async (giftCardDetail) => {
+        await this.setState({
+            giftCardDetail
+        });
+    }
+
     render() {
         const { giftCardLogs } = this.props;
+        const {giftCardDetail} = this.state;
 
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(15), paddingTop: scaleSzie(20) }} >
@@ -77,7 +85,7 @@ class GiftCardDetailTab extends React.Component {
                     <Text style={{ width: scaleSzie(140), fontSize: scaleSzie(14), fontWeight: "500", color: TXT_COLOR, }} >
                         {`Time`}
                     </Text>
-                    <Text style={{ width: scaleSzie(180), fontSize: scaleSzie(14), fontWeight: "500", color: TXT_COLOR, }} >
+                    <Text style={{ width: scaleSzie(160), fontSize: scaleSzie(14), fontWeight: "500", color: TXT_COLOR, }} >
                         {`Date`}
                     </Text>
                     <Text style={{ flex: 1, fontSize: scaleSzie(13), fontWeight: "600", color: TXT_COLOR, }} >
@@ -92,7 +100,7 @@ class GiftCardDetailTab extends React.Component {
                         <Text style={{ width: scaleSzie(140), fontSize: scaleSzie(12), fontWeight: "500", color: TXT_COLOR_3, }} >
                             {`${formatWithMoment(item?.createdDate, "hh:mm ss A")}`}
                         </Text>
-                        <Text style={{ width: scaleSzie(180), fontSize: scaleSzie(12), fontWeight: "500", color: TXT_COLOR_3, }} >
+                        <Text style={{ width: scaleSzie(160), fontSize: scaleSzie(12), fontWeight: "500", color: TXT_COLOR_3, }} >
                             {`${formatWithMoment(item?.createdDate, "MMM DD, YYYY")}`}
                         </Text>
                         <Text style={{ flex: 1, fontSize: scaleSzie(12), fontWeight: "600", color: TXT_COLOR_3, }} >

@@ -15,7 +15,7 @@ class GiftCardScreen extends Layout {
             visibleEdit: false,
             keySearch: '',
             currentTab: 0
-        }
+        };
         this.scrollTabRef = React.createRef();
         this.modalDetailRef = React.createRef();
         this.modalAddRef = React.createRef();
@@ -55,7 +55,7 @@ class GiftCardScreen extends Layout {
     onChangeKeySearch = async (keySearch) => {
         await this.setState({ keySearch })
         if (keySearch == '') {
-            this.searchCustomer(1, false, false);
+            this.searchGiftCardsList(1, true, false, false);
         }
     }
 
@@ -64,39 +64,6 @@ class GiftCardScreen extends Layout {
             keySearch: ""
         });
         this.searchGiftCardsList(1, true, false, false);
-    }
-
-    showModalAddCustomer = () => {
-        this.modalAddRef.current.setStateDefaultFromParent();
-        this.setState({
-            visibleAdd: true
-        })
-    }
-
-    showModalEditCustomer = (customer) => {
-        this.modalEditRef.current.setStateFromParent(customer);
-        this.setState({
-            visibleDetail: false,
-            visibleEdit: true
-        })
-    }
-
-    closeModalEditCustomer = () => {
-        this.setState({
-            visibleEdit: false
-        })
-    }
-
-    closeModalAddCustomer = () => {
-        this.setState({
-            visibleAdd: false
-        })
-    }
-
-    closeModalDetail = () => {
-        this.setState({
-            visibleDetail: false
-        })
     }
 
     onChangeTab = (index) => {
@@ -112,46 +79,29 @@ class GiftCardScreen extends Layout {
         this.scrollTabRef.current.goToPage(0);
     }
 
-    handleLockScreen = () => {
-        const { isFocus } = this.state;
-        if (isFocus) {
-            this.props.navigation.navigate('Home');
-            this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
-        }
-    }
 
     openDrawer = () => {
         this.props.navigation.openDrawer();
     }
 
-    showLockScreen = () => {
-        this.props.actions.app.handleLockScreen(true);
-    }
 
     closePopupCheckCustomerTabPermission = () => {
         this.props.actions.customer.toggleCustomerTabPermission(false);
         this.props.navigation.navigate("Home");
     }
 
-    showAppointmentDetail = () => {
-        alert("dd");
-    }
 
     onRefreshGiftCardList = () => {
         this.searchGiftCardsList(1, false, false, true);
     }
 
-    searchCustomer = (currentPage = 1, isShowLoading = false, isShowLoadMore = false) => {
-        const { keySearch } = this.state;
-        this.props.actions.customer.getListCustomersByMerchant(keySearch, currentPage, isShowLoading, isShowLoadMore);
-    }
 
     searchGiftCardsList = (currentPage = 1, isShowLoading = false, isShowLoadMore = false, isRefreshing = false) => {
         const { keySearch } = this.state;
         this.props.actions.appointment.getGiftCardsActiveList(keySearch, currentPage, isShowLoading, isShowLoadMore, isRefreshing);
     }
 
-    loadMoreCustomerList = () => {
+    loadMoreGiftCardsList = () => {
         if (!this.onEndReachedCalledDuringMomentum) {
             const { totalGiftCardsListPages, currentGiftCardsListPage } = this.props;
             if (currentGiftCardsListPage < totalGiftCardsListPages) {
@@ -161,48 +111,6 @@ class GiftCardScreen extends Layout {
         }
     }
 
-    addNewCustomer = () => {
-        if (this.edtitCustomerRef?.current) {
-            this.edtitCustomerRef.current.setStateFromListCusomterTab();
-        } else {
-            setTimeout(() => {
-                this.edtitCustomerRef.current.setStateFromListCusomterTab();
-            })
-        }
-        this.scrollTabRef.current.goToPage(2);
-    }
-
-    editCustomer = (customer) => {
-        if (this.edtitCustomerRef?.current) {
-            this.edtitCustomerRef.current.setStateFromParent(customer);
-        } else {
-            setTimeout(() => {
-                this.edtitCustomerRef.current.setStateFromParent(customer);
-            })
-        }
-
-        this.scrollTabRef.current.goToPage(2);
-    }
-
-    submitEditCustomer = async (customer) => {
-        this.props.actions.customer.editCustomer(customer?.customerId, customer);
-    }
-
-    cancelEditCustomerInfo = () => {
-        this.scrollTabRef.current.goToPage(1);
-    }
-
-    cancelAddCustomerInfo = () => {
-        this.scrollTabRef.current.goToPage(0);
-    }
-
-    addCustomer = async (customer) => {
-        this.props.actions.customer.addCustomer(customer);
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-
-    }
 
     componentWillUnmount() {
         this.didBlurSubscription.remove();

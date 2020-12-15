@@ -23,7 +23,7 @@ function* getBannerMerchant(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -55,7 +55,7 @@ function* deleteBannerMerchant(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -86,7 +86,7 @@ function* addBannerWithInfo(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -117,7 +117,7 @@ function* getPromotionByMerchant(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             });
             yield put({
                 type: 'GET_PROMOTION_BY_MERCHANT_FAIL',
@@ -169,7 +169,7 @@ function* updatePromotionByMerchant(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -213,7 +213,7 @@ function* getPromotionByAppointment(action) {
             });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -251,7 +251,7 @@ function* changeStylist(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -297,7 +297,7 @@ function* customPromotion(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: `${responses.message}-${codeNumber}`
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -323,7 +323,7 @@ function* sendNotificationByPromotionId(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -346,7 +346,7 @@ function* updatePromotionNote(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -369,7 +369,7 @@ function* addPromotionNote(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {

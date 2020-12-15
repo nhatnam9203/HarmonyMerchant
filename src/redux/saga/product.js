@@ -24,7 +24,7 @@ function* addProductByMerchant(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -55,7 +55,7 @@ function* getProductsByMerchantId(action) {
             yield put({ type: 'GET_PRODUCTS_BY_MERCHANR_ID_FAIL' });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -86,7 +86,7 @@ function* archiveProduct(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -116,7 +116,7 @@ function* restoreProduct(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -146,7 +146,7 @@ function* editProduct(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -174,7 +174,7 @@ function* searchProduct(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -204,7 +204,7 @@ function* restockProduct(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -242,7 +242,7 @@ function* exportInventory(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -264,7 +264,7 @@ function* updateProductsPosition(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -287,7 +287,7 @@ function* checkSKUIsExist(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {

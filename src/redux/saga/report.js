@@ -30,7 +30,7 @@ function* getReportOverallPaymentMethod(action) {
       });
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -64,7 +64,7 @@ function* getReportOverallMarketingEfficiency(action) {
       });
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -98,7 +98,7 @@ function* getReportGiftCardSales(action) {
       });
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -132,7 +132,7 @@ function* getReportCustomerSales(action) {
       });
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -166,7 +166,7 @@ function* getServiceSalesByCategory(action) {
       });
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -200,7 +200,7 @@ function* getServiceSalesByService(action) {
       });
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -234,7 +234,7 @@ function* getProductSalesByCategory(action) {
       });
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -268,7 +268,7 @@ function* getProductSalesByProduct(action) {
       });
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -409,7 +409,7 @@ function* exportReport(action) {
     } else {
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {

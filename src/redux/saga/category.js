@@ -27,7 +27,7 @@ function* addCategory(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -62,7 +62,7 @@ function* getCategoriesByMerchantId(action) {
             yield put({ type: 'GET_CATEGORIES_BY_MERCHANR_ID_FAIL' });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -97,7 +97,7 @@ function* archiveCategory(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -131,7 +131,7 @@ function* restoreCategory(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -165,7 +165,7 @@ function* editCategory(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -193,7 +193,7 @@ function* searchCategories(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -216,7 +216,7 @@ function* updatePositionCategories(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {

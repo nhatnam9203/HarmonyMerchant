@@ -130,12 +130,12 @@ function* merchantSetting(action) {
                 type: 'UPDATE_MERCHANT_PROFILE',
                 payload: responses?.data
             });
-            if(action.isShowAlert){
+            if (action.isShowAlert) {
                 setTimeout(() => {
                     alert("Update Successfull!")
                 }, 500)
             }
-           
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -265,7 +265,7 @@ function* getPackageAndPricing(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -320,8 +320,6 @@ function* showErrorMessage(action) {
             alert(action?.message || 'Some thing went wrong, Please contact with admin!');
         }, 300)
     }
-
-
 }
 
 function* handleSomethingWentWrong(action) {
@@ -332,8 +330,6 @@ function* handleSomethingWentWrong(action) {
         yield put({ type: error });
     }
 }
-
-
 
 export default function* saga() {
     yield all([

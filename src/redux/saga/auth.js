@@ -103,7 +103,7 @@ function* forgotPassword(action) {
     } else {
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -240,17 +240,17 @@ function* checkStaffPermission(action) {
     } else {
       yield put({
         type: "CHECK_STAFF_PERMISSION_FAIL",
-        message: responses.message,
+        message: responses?.message,
       });
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
     yield put({
       type: "CHECK_STAFF_PERMISSION_FAIL",
-      message: responses.message,
+      message: responses?.message,
     });
     yield put({ type: error });
   } finally {

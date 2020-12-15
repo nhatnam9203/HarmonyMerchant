@@ -99,7 +99,7 @@ export default class Layout extends React.Component {
                     ListEmptyComponent={<RowEmptyTableCustomer />}
                     refreshing={refreshListCustomer}
                     onRefresh={this.onRefreshGiftCardList}
-                    onEndReached={this.loadMoreCustomerList}
+                    onEndReached={this.loadMoreGiftCardsList}
                     onEndReachedThreshold={0.5}
                     onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
                     removeClippedSubviews={true}
@@ -149,17 +149,6 @@ export default class Layout extends React.Component {
                         {/* --------- Customer Detail Tab -------- */}
                         <GiftCardDetailTab
                             ref={this.customerDetailTabRef}
-                            showAppointmentDetail={this.showAppointmentDetail}
-                            editCustomer={this.editCustomer}
-                        />
-
-                        {/* --------- Edit or Create Customer -------- */}
-                        <EditOrCreateCustomerTab
-                            ref={this.edtitCustomerRef}
-                            submitEditCustomer={this.submitEditCustomer}
-                            cancelEditCustomerInfo={this.cancelEditCustomerInfo}
-                            cancelAddCustomerInfo={this.cancelAddCustomerInfo}
-                            addCustomer={this.addCustomer}
                         />
 
 

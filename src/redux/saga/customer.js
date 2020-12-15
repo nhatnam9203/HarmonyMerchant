@@ -28,7 +28,7 @@ function* getListCustomersByMerchant(action) {
             yield put({ type: 'GET_LIST_CUSTOMER_BY_MERCHANT_FAIL' });
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -58,7 +58,7 @@ function* searchCustomer(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -96,7 +96,7 @@ function* addCustomer(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             });
             yield put({
                 type: "ADD_CUSTOMER_FAIL"
@@ -141,7 +141,7 @@ function* editCustomer(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             });
             yield put({
                 type: "EDIT_CUSTOMER_FAIL"
@@ -170,7 +170,7 @@ function* getCustomerInfoByPhone(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -198,7 +198,7 @@ function* sendGoogleReviewLink(action) {
         // } else {
         //     yield put({
         //         type: 'SHOW_ERROR_MESSAGE',
-        //         message: responses.message
+        //         message: responses?.message
         //     })
         // }
     } catch (error) {
@@ -227,7 +227,7 @@ function* getCustomerInfoById(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             })
         }
     } catch (error) {
@@ -260,7 +260,7 @@ function* getPastAppointments(action) {
         } else {
             yield put({
                 type: 'SHOW_ERROR_MESSAGE',
-                message: responses.message
+                message: responses?.message
             });
             yield put({
                 type: 'GET_PAST_APPOINTMENT_FAIL',

@@ -28,7 +28,7 @@ function* addStaffByMerchant(action) {
     } else {
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -66,7 +66,7 @@ function* getStaffByMerchantId(action) {
       yield put({ type: "GET_STAFF_BY_MERCHANR_ID_FAIL" });
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -110,7 +110,7 @@ function* searchStaffByName(action) {
     } else {
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -144,7 +144,7 @@ function* archiveStaff(action) {
     } else {
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -178,7 +178,7 @@ function* restoreStaff(action) {
     } else {
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -212,7 +212,7 @@ function* createAdmin(action) {
     } else {
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -248,7 +248,7 @@ function* editStaff(action) {
     } else {
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -292,7 +292,7 @@ function* loginStaff(action) {
       yield put({ type: "LOGIN_STAFF_FAIL" });
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
     yield put({ type: "STOP_LOADING_ROOT" });
@@ -327,7 +327,7 @@ function* forgotPin(action) {
     } else {
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -350,7 +350,7 @@ function* updateStaffsPosition(action) {
     } else {
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -383,7 +383,7 @@ function* getListStaffsSalaryTop(action) {
       });
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
@@ -441,7 +441,7 @@ function* exportReportStaff(action) {
     } else {
       yield put({
         type: "SHOW_ERROR_MESSAGE",
-        message: responses.message,
+        message: responses?.message,
       });
     }
   } catch (error) {
