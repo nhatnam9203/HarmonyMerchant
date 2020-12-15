@@ -30,7 +30,7 @@ export default class Layout extends React.Component {
                 height: scaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSzie(50),
                 justifyContent: 'center'
             }} >
-                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0' }} >
+                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0' ,fontWeight:"600"}} >
                     {localize('Batch Settlements', language)}
                     <Text numberOflines={1} style={{ fontSize: scaleSzie(11), color: statusConnectColor, fontWeight: "600", fontStyle: 'italic' }} >
                         {`  ${connectPAXStatus.message} ${terminalID ? `TerminalID: #${terminalID}` : ""}`}

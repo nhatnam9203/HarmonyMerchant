@@ -27,8 +27,8 @@ export default class Layout extends React.Component {
                 height: scaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSzie(50),
                 justifyContent: 'center'
             }} >
-                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0' }} >
-                    {localize('Customer', language)}
+                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0',fontWeight:"600" }} >
+                    {localize('Gift Card', language)}
                 </Text>
             </View>
         );
@@ -77,7 +77,7 @@ export default class Layout extends React.Component {
                     </View>
 
                     {/* ----------- Add New Button ------------ */}
-                    <View style={{ width: scaleSzie(130), alignItems: 'flex-end' }} >
+                    {/* <View style={{ width: scaleSzie(130), alignItems: 'flex-end' }} >
                         <ButtonCustom
                             width={'95%'}
                             height={40}
@@ -88,7 +88,7 @@ export default class Layout extends React.Component {
                             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
                             styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
-                    </View>
+                    </View> */}
                 </View>
             </View>
         );

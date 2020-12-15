@@ -24,9 +24,9 @@ const DrawerStack = createDrawerNavigator(
     Support: SupportScreen,
     Settlement: SettlementScreen,
     Reports: ReportScreen,
-    GiftCard:GiftCardScreen
+    GiftCard: GiftCardScreen
   }, {
-  initialRouteName: "Home",
+  initialRouteName: "GiftCard",
   contentComponent: SlideDrawer,
   drawerWidth: scaleSzie(220),
   overlayColor: "rgba(0, 0, 0, 0.5) ",

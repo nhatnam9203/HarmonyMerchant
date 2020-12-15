@@ -45,7 +45,7 @@ class GiftCardScreen extends Layout {
                     isFocus: true
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
-                this.props.actions.customer.toggleCustomerTabPermission();
+                // this.props.actions.customer.toggleCustomerTabPermission();
                 this.scrollTabRef?.current?.goToPage(0);
             }
         );

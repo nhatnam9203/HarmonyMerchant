@@ -36,7 +36,7 @@ export default class Layout extends React.Component {
           justifyContent: "center",
         }}
       >
-        <Text style={{ fontSize: scaleSzie(16), color: "#0764B0" }}>
+        <Text style={{ fontSize: scaleSzie(16), color: "#0764B0",fontWeight:"600" }}>
           {localize("Reports", language)}
         </Text>
       </View>
