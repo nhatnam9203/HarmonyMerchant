@@ -93,30 +93,7 @@ class PopupEnterAmountGiftCard extends React.Component {
     }
 
     clearNumber = async () => {
-        const { leftNumbers, rightNumners, isClear } = this.state;
-        const amount = `${leftNumbers}${rightNumners}`;
-        const arrAmount = amount.split("");
-        const arrLength = arrAmount.length;
-        const indexClear = arrLength - isClear;
-
-        if (indexClear >= 0) {
-            arrAmount[indexClear] = isClear === 1 || isClear === 1 ? "0" : "";
-
-            const leftArrNumber = arrAmount.slice(0, arrLength - 2);
-            const rightArrNumber = arrAmount.slice(arrLength - 2);
-            const leftArrMoney = leftArrNumber.join("");
-            const rightArrMoney = rightArrNumber.join("");
-            const money = `${leftArrMoney}.${rightArrMoney}`;
-
-            const { leftMoney, rightMoney } = this.formatState(money);
-
-            await this.setState(prevState => ({
-                leftNumbers: leftMoney,
-                rightNumners: rightMoney,
-                isPressDot: 0,
-                isClear: this.state.isClear + 1
-            }))
-        }
+        this.setState(initState);
     }
 
     cancel = () => {
@@ -127,9 +104,12 @@ class PopupEnterAmountGiftCard extends React.Component {
 
 
     addGiftCardAmount = () => {
-        const { quality } = this.state;
-        if (formatNumberFromCurrency(quality) > 0) {
-            this.props.actions.appointment.handleEnterGiftCardAmount(formatNumberFromCurrency(quality));
+        // const { quality } = this.state;
+        const { leftNumbers, rightNumners } = this.state;
+
+        const money = formatNumberFromCurrency(`${leftNumbers}.${rightNumners}`);
+        if (formatNumberFromCurrency(money) > 0) {
+            this.props.actions.appointment.handleEnterGiftCardAmount(formatNumberFromCurrency(money));
         } else {
             alert("Amount must greater than 0!")
         }
@@ -284,11 +264,18 @@ class PopupEnterAmountGiftCard extends React.Component {
         const { isUpdateQuantityOfGiftCard, addGiftCardInfoAction } = this.props;
         if (isUpdateQuantityOfGiftCard && prevProps.isUpdateQuantityOfGiftCard !== isUpdateQuantityOfGiftCard) {
             this.props.actions.appointment.updateQuantityOfGiftCard(false);
-            const tempQuantity = addGiftCardInfoAction?.giftCardInfo?.isActive === 1 ? `0` : `${addGiftCardInfoAction?.giftCardInfo?.amount}`;
-            await this.setState({
-                quality: tempQuantity,
-                isResetQuantityToZero: formatNumberFromCurrency(tempQuantity) > 0 ? true : false
+            const tempQuantity = addGiftCardInfoAction?.giftCardInfo?.isActive === 1 ? `0.00` : `${addGiftCardInfoAction?.giftCardInfo?.amount}`;
+
+            const quantityFormat = formatNumberFromCurrency(tempQuantity);
+            const { leftMoney, rightMoney } = this.formatState(`${quantityFormat}`);
+
+            this.setState({
+                leftNumbers: leftMoney,
+                rightNumners: rightMoney,
+                isPressDot: 0,
+                isClear: 1,
             });
+
             this.props.actions.appointment.switchPopupGiftCardEnterAmount(true);
         }
     }

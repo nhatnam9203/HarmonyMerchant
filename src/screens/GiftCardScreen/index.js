@@ -91,8 +91,8 @@ class GiftCardScreen extends Layout {
     }
 
 
-    closePopupCheckCustomerTabPermission = () => {
-        this.props.actions.customer.toggleCustomerTabPermission(false);
+    closePopupCheckGiftCardTabPermission = () => {
+        this.props.actions.appointment.switchGiftCardTabPermission(false);
         this.props.navigation.navigate("Home");
     }
 

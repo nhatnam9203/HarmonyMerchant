@@ -171,7 +171,7 @@ export default class Layout extends React.Component {
                     visiblePopupCheckStaffPermission={isGiftCardTabPermission}
                     title={localize('Input PIN Number', language)}
                     tabName="GiftCard"
-                    onRequestClose={this.closePopupCheckCustomerTabPermission}
+                    onRequestClose={this.closePopupCheckGiftCardTabPermission}
                 />
 
             </ParentContainer >

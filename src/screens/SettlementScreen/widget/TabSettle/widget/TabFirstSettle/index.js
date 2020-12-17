@@ -465,26 +465,28 @@ class TabFirstSettle extends Layout {
 
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isGettingSettlement, settleWaiting, isHandleInternalFirstSettlemetTab } = this.props;
-        if (prevProps.isGettingSettlement === "loading" && isGettingSettlement === "success" && !_.isEmpty(settleWaiting)) {
-            await this.setState({
-                editPaymentByHarmony: settleWaiting.paymentByHarmony ? settleWaiting.paymentByHarmony : 0.00,
-                editPaymentByCash: settleWaiting.paymentByCash ? settleWaiting.paymentByCash : 0.00,
-                editOtherPayment: settleWaiting.otherPayment ? settleWaiting.otherPayment : 0.00,
-                total: settleWaiting.total ? settleWaiting.total : 0.00,
-                discountSettlement: settleWaiting.discount ? settleWaiting.discount : 0.00,
+        // const { isGettingSettlement, settleWaiting, isHandleInternalFirstSettlemetTab } = this.props;
+        // if (prevProps.isGettingSettlement === "loading" && isGettingSettlement === "success" && !_.isEmpty(settleWaiting)) {
+        //     console.log("------- ahihi 11111 ------");
+        //     await this.setState({
+        //         editPaymentByHarmony: settleWaiting.paymentByHarmony ? settleWaiting.paymentByHarmony : 0.00,
+        //         editPaymentByCash: settleWaiting.paymentByCash ? settleWaiting.paymentByCash : 0.00,
+        //         editOtherPayment: settleWaiting.otherPayment ? settleWaiting.otherPayment : 0.00,
+        //         total: settleWaiting.total ? settleWaiting.total : 0.00,
+        //         discountSettlement: settleWaiting.discount ? settleWaiting.discount : 0.00,
 
-                editPaymentByCreditCard: settleWaiting.paymentByCreditCard ? settleWaiting.paymentByCreditCard : 0.00,
-                paymentByGiftcard: settleWaiting.paymentByGiftcard ? settleWaiting.paymentByGiftcard : 0.00,
+        //         editPaymentByCreditCard: settleWaiting.paymentByCreditCard ? settleWaiting.paymentByCreditCard : 0.00,
+        //         paymentByGiftcard: settleWaiting.paymentByGiftcard ? settleWaiting.paymentByGiftcard : 0.00,
 
-            });
-            this.props.actions.invoice.resetStateIsGettingSettlement();
-        }
+        //     });
+        //     this.props.actions.invoice.resetStateIsGettingSettlement();
+        // }
 
-        if (isHandleInternalFirstSettlemetTab && prevProps.isHandleInternalFirstSettlemetTab !== isHandleInternalFirstSettlemetTab) {
-            this.props.actions.invoice.resetInternalFirstSettlementState(false);
-            this.handlePAXReport();
-        }
+        // if (isHandleInternalFirstSettlemetTab && prevProps.isHandleInternalFirstSettlemetTab !== isHandleInternalFirstSettlemetTab) {
+        //     console.log("------- ahihi 2222 ------");
+        //     this.props.actions.invoice.resetInternalFirstSettlementState(false);
+        //     this.handlePAXReport();
+        // }
 
     }
 

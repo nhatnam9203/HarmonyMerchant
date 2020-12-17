@@ -19,10 +19,11 @@ class SplashScreen extends Layout {
     }
 
     async componentDidMount() {
-        if (this.props?.isInitialApp) {
-            this.props.actions?.auth?.logout();
-            this.props.actions?.app?.resetIsInitApp();
-        }
+        // if (this.props?.isInitialApp) {
+        //     console.log("----- isInitialApp -----");
+        //     this.props.actions?.auth?.logout();
+        //     this.props.actions?.app?.resetIsInitApp();
+        // }
         try {
             let version = await DeviceInfo.getVersion();
             const latestVersion = await VersionCheck.getLatestVersion({ provider: 'appStore' });
@@ -141,6 +142,7 @@ class SplashScreen extends Layout {
     }
 
     controlFlowInitApp() {
+        console.log("----- controlFlowInitApp -----");
         const { token, profile, stateCity } = this.props;
         if (!stateCity || stateCity.length === 0) {
             this.props.actions.app.getStateCity();
