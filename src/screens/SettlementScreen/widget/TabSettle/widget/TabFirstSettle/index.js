@@ -431,7 +431,7 @@ class TabFirstSettle extends Layout {
         this.setState({
             terminalID
         });
-        this.props.actions.app.updatePaxTerminalID(terminalID ? terminalID : "" );
+        this.props.actions.app.updatePaxTerminalID(terminalID ? terminalID : "");
         this.props.actions.invoice.getSettlementWating(terminalID);
         this.props.actions.invoice.getListStaffsSales(terminalID);
         this.props.actions.invoice.getListGiftCardSales(terminalID);
@@ -465,29 +465,26 @@ class TabFirstSettle extends Layout {
 
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        // const { isGettingSettlement, settleWaiting, isHandleInternalFirstSettlemetTab } = this.props;
-        // if (prevProps.isGettingSettlement === "loading" && isGettingSettlement === "success" && !_.isEmpty(settleWaiting)) {
-        //     console.log("------- ahihi 11111 ------");
-        //     await this.setState({
-        //         editPaymentByHarmony: settleWaiting.paymentByHarmony ? settleWaiting.paymentByHarmony : 0.00,
-        //         editPaymentByCash: settleWaiting.paymentByCash ? settleWaiting.paymentByCash : 0.00,
-        //         editOtherPayment: settleWaiting.otherPayment ? settleWaiting.otherPayment : 0.00,
-        //         total: settleWaiting.total ? settleWaiting.total : 0.00,
-        //         discountSettlement: settleWaiting.discount ? settleWaiting.discount : 0.00,
+        const { isGettingSettlement, settleWaiting, isHandleInternalFirstSettlemetTab } = this.props;
 
-        //         editPaymentByCreditCard: settleWaiting.paymentByCreditCard ? settleWaiting.paymentByCreditCard : 0.00,
-        //         paymentByGiftcard: settleWaiting.paymentByGiftcard ? settleWaiting.paymentByGiftcard : 0.00,
+        if (isHandleInternalFirstSettlemetTab && prevProps.isHandleInternalFirstSettlemetTab !== isHandleInternalFirstSettlemetTab) {
+            this.props.actions.invoice.resetInternalFirstSettlementState(false);
+            this.handlePAXReport();
+        }
 
-        //     });
-        //     this.props.actions.invoice.resetStateIsGettingSettlement();
-        // }
-
-        // if (isHandleInternalFirstSettlemetTab && prevProps.isHandleInternalFirstSettlemetTab !== isHandleInternalFirstSettlemetTab) {
-        //     console.log("------- ahihi 2222 ------");
-        //     this.props.actions.invoice.resetInternalFirstSettlementState(false);
-        //     this.handlePAXReport();
-        // }
-
+        if (prevProps.isGettingSettlement === "loading" && isGettingSettlement === "success" && !_.isEmpty(settleWaiting) && !isHandleInternalFirstSettlemetTab) {
+            this.props.actions.app.changeFlagVisibleEnteerPinCode(false);
+            this.props.actions.invoice.resetStateIsGettingSettlement();
+           await this.setState({
+                editPaymentByHarmony: settleWaiting?.paymentByHarmony || 0.00,
+                editPaymentByCash: settleWaiting?.paymentByCash || 0.00,
+                editOtherPayment: settleWaiting?.otherPayment || 0.00,
+                total: settleWaiting?.total || 0.00,
+                discountSettlement: settleWaiting?.discount || 0.00,
+                editPaymentByCreditCard: settleWaiting?.paymentByCreditCard || 0.00,
+                paymentByGiftcard: settleWaiting?.paymentByGiftcard || 0.00,
+            });
+        }
     }
 
 }

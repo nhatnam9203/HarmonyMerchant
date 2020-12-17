@@ -147,6 +147,11 @@ function* checkStaffPermission(action) {
           payload: false,
         });
 
+        yield put({
+            type:"HANDLE_INTERNAL_FIRST_SETTLEMENT_STATE",
+            payload: true
+        })
+
         // yield put({
         //   type: "GET_SETTLEMENT_WAITING",
         //   method: "GET",

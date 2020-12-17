@@ -429,7 +429,8 @@ const mapStateToProps = state => ({
     isCheckAppointmentBeforeOffline: state.appointment.isCheckAppointmentBeforeOffline,
     blockAppointments: state.appointment.blockAppointments,
     marketingTabPermission: state.marketing.marketingTabPermission,
-    isGoToTabMarketing: state.marketing.isGoToTabMarketing
+    isGoToTabMarketing: state.marketing.isGoToTabMarketing,
+    visibleEnterPin: state.app.visibleEnterPin,
 })
 
 let codePushOptions = {

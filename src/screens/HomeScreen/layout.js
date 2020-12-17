@@ -18,7 +18,7 @@ import configs from "@configs";
 export default class Layout extends React.Component {
 
     render() {
-        const { language, navigation, marketingTabPermission } = this.props;
+        const { language, navigation, marketingTabPermission,visibleEnterPin } = this.props;
         const { isFocus } = this.state;
         return (
             <ParentContainer
@@ -80,6 +80,7 @@ export default class Layout extends React.Component {
                     </Button>
 
                     <PopupEnterPin
+                        visibleEnterPin={visibleEnterPin && isFocus ? true : false}
                         ref={this.popupEnterPinRef}
                         title="Pin code"
                         onRequestClose={() => { }}

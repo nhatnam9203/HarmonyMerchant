@@ -203,7 +203,6 @@ class PopupEnterPin extends React.Component {
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
     isShowButtonEnterPinCode: state.staff.isShowButtonEnterPinCode,
-    visibleEnterPin: state.app.visibleEnterPin,
     isOfflineMode: state.network.isOfflineMode
 });
 
