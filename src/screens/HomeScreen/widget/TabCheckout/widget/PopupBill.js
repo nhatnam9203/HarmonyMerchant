@@ -8,7 +8,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import {  PopupParent, Button } from '@components';
+import { PopupParent, Button } from '@components';
 import { scaleSzie, localize, formatMoney } from '@utils';
 import IMAGE from '@resources';
 
@@ -28,12 +28,30 @@ class PopupBill extends React.Component {
     }
 
     onPressNumber = (number) => {
-        this.setState(prevState => ({
-            quality: prevState.quality === '0' ? `${number}` : `${prevState.quality}${number}`
-        }))
+        if (this.state.quality.key < 12) {
+            const tempQuantity = `${this.state.quality}`.split(".");
+            if (tempQuantity.length > 1) {
+                // console.log("---- tempQuantity: ", tempQuantity);
+                console.log("------ 1 ------");
+                const fromDotToRigthNumber = tempQuantity[1];
+                if (fromDotToRigthNumber.length < 2) {
+                    this.setState(prevState => ({
+                        quality: prevState.quality === '0' ? `${number}` : `${prevState.quality}${number}`
+                    }))
+                }
+            } else {
+                console.log("------ 2 ------");
+                this.setState(prevState => ({
+                    quality: prevState.quality === '0' ? `${number}` : `${prevState.quality}${number}`
+                }))
+            }
+        }
+
+
+
     }
 
-    onPressAddNumber =(number) =>{
+    onPressAddNumber = (number) => {
         const temptData = parseFloat(this.state.quality) + number;
         this.setState({
             quality: temptData,

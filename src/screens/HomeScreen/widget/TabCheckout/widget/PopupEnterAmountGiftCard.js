@@ -9,69 +9,114 @@ import {
 } from 'react-native';
 
 import { PopupParent, Button } from '@components';
-import { scaleSzie, localize, formatMoney } from '@utils';
+import { scaleSzie, formatNumberFromCurrency, formatMoney } from '@utils';
 import IMAGE from '@resources';
 import connectRedux from '@redux/ConnectRedux';
+
+const initState = {
+    leftNumbers: "0",
+    rightNumners: "00",
+    isPressDot: 0,
+    isClear: 1,
+    quality: '0',
+    isResetQuantityToZero: false
+}
 
 class PopupEnterAmountGiftCard extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            quality: '0'
-        }
+        this.state = initState;
     }
 
     setStateFromParent = (quality) => {
         this.setState({
             quality
-        })
+        });
     }
 
-    onPressNumber = (number) => {
-        this.setState(prevState => ({
-            quality: prevState.quality === '0' ? `${number}` : `${prevState.quality}${number}`
-        }))
-    }
-
-    onPressAddNumber = (number) => {
-        const temptData = parseFloat(this.state.quality) + number;
-        this.setState({
-            quality: temptData,
-        })
-    }
-
-    addDotInNumber = () => {
-        if (!`${this.state.quality}`.includes('.')) {
-            this.setState(prevState => ({
-                quality: `${prevState.quality}.`
-            }))
-        }
-    }
-
-    clearNumber = async () => {
-        if (this.state.quality !== 0) {
-            if (this.state.quality.length == 1) {
-                await this.setState({
-                    quality: `${0}`
-                })
+    onPressNumber = async (number) => {
+        const { leftNumbers, isPressDot, rightNumners } = this.state;
+        const amount = formatMoney(`${leftNumbers}.${rightNumners}`);
+        if (`${amount}`.length < 12) {
+            if (!isPressDot) {
+                this.setState(prevState => ({
+                    leftNumbers: prevState.leftNumbers == '0' ? `${number}` : `${prevState.leftNumbers}${number}`,
+                    isClear: 1,
+                }));
             } else {
-                await this.setState(prevState => ({
-                    quality: `${prevState.quality}`.slice(0, (`${prevState.quality}`.length) - 1)
-                }))
+                let tempRightNumners = false;
+                if (isPressDot === 1) {
+                    tempRightNumners = `${number}${rightNumners[1]}`;
+                } else if (isPressDot === 2) {
+                    tempRightNumners = `${rightNumners[0]}${number}`;
+                }
+                if (tempRightNumners) {
+                    this.setState({
+                        rightNumners: tempRightNumners,
+                        isPressDot: isPressDot === 1 ? 2 : 0,
+                        isClear: 1,
+                    });
+                }
             }
         }
 
+    }
+
+    onPressAddNumber = (number) => {
+        const { leftNumbers, rightNumners } = this.state;
+        const tempQuantity = formatNumberFromCurrency(`${leftNumbers}.${rightNumners}`) + number;
+        const { leftMoney, rightMoney } = this.formatState(tempQuantity);
+
+        this.setState({
+            leftNumbers: leftMoney,
+            rightNumners: rightMoney,
+            isPressDot: 0,
+            isClear: 1,
+        });
+    }
+
+    formatState = (MoneyString) => {
+        const quantity = `${MoneyString}`.split(".");
+
+        return {
+            leftMoney: quantity[0],
+            rightMoney: quantity[1] ? (quantity[1] < 10 && quantity[1].length < 2 ? `0${quantity[1]}` : `${quantity[1]}`) : "00",
+        }
 
     }
 
-    submitStock = () => {
-        this.props.submitRestock(this.state.quality);
+    addDotInNumber = () => {
+        this.setState({
+            isPressDot: 1
+        })
     }
 
+    clearNumber = async () => {
+        const { leftNumbers, rightNumners, isClear } = this.state;
+        const amount = `${leftNumbers}${rightNumners}`;
+        const arrAmount = amount.split("");
+        const arrLength = arrAmount.length;
+        const indexClear = arrLength - isClear;
 
-    extract = () => {
-        this.props.extractBill();
+        if (indexClear >= 0) {
+            arrAmount[indexClear] = isClear === 1 || isClear === 1 ? "0" : "";
+
+            const leftArrNumber = arrAmount.slice(0, arrLength - 2);
+            const rightArrNumber = arrAmount.slice(arrLength - 2);
+            const leftArrMoney = leftArrNumber.join("");
+            const rightArrMoney = rightArrNumber.join("");
+            const money = `${leftArrMoney}.${rightArrMoney}`;
+
+            const { leftMoney, rightMoney } = this.formatState(money);
+
+            await this.setState(prevState => ({
+                leftNumbers: leftMoney,
+                rightNumners: rightMoney,
+                isPressDot: 0,
+                isClear: this.state.isClear + 1
+            }))
+        }
     }
 
     cancel = () => {
@@ -80,33 +125,35 @@ class PopupEnterAmountGiftCard extends React.Component {
         })
     }
 
-    done = () => {
-        this.props.doneBill();
-    }
 
     addGiftCardAmount = () => {
         const { quality } = this.state;
-        if (parseFloat(quality) > 0) {
-            this.props.actions.appointment.handleEnterGiftCardAmount(parseFloat(quality));
+        if (formatNumberFromCurrency(quality) > 0) {
+            this.props.actions.appointment.handleEnterGiftCardAmount(formatNumberFromCurrency(quality));
         } else {
             alert("Amount must greater than 0!")
         }
     }
 
+    onRequestClose = () => {
+        this.props.actions.appointment.switchPopupGiftCardEnterAmount(false);
+        this.setState(initState);
+    }
+
     // ---------- Render --------
     render() {
-        const { title, visible, onRequestClose, language, visiblePopupGiftCardEnterAmount } = this.props;
+        const { title, visible, onRequestClose, language, visiblePopupGiftCardEnterAmount, addGiftCardInfoAction } = this.props;
+        const { leftNumbers, rightNumners } = this.state;
+        const amount = formatMoney(`${leftNumbers}.${rightNumners}`);
+
+        const tempTitle = addGiftCardInfoAction?.giftCardInfo?.isActive === 1 ? "Gift Card" : "Gift Card Active Amount";
+        const tempDescription = addGiftCardInfoAction?.giftCardInfo?.isActive === 1 ? "Enter the amount" : "Enter the amount to active gift card";
+
         return (
             <PopupParent
-                title={title}
+                title={tempTitle}
                 visible={visiblePopupGiftCardEnterAmount}
-                onRequestClose={() => {
-                    // this.setState({
-                    //     quality: '0'
-                    // });
-                    this.props.actions.appointment.switchPopupGiftCardEnterAmount(false);
-                    // onRequestClose();
-                }}
+                onRequestClose={this.onRequestClose}
                 style={{}}
                 width={350}
                 styleTitle={{
@@ -123,7 +170,7 @@ class PopupEnterAmountGiftCard extends React.Component {
                     <View style={{ flex: 1 }} >
                         {/* ------ Display Box --- */}
                         <Text style={{ textAlign: "center", marginTop: scaleSzie(20), fontSize: scaleSzie(16), fontWeight: "600" }} >
-                            {`Enter the amount to active gift card`}
+                            {`${tempDescription}`}
                         </Text>
 
                         {/* ------ Display Box --- */}
@@ -139,7 +186,7 @@ class PopupEnterAmountGiftCard extends React.Component {
                                     {`$`}
                                 </Text>
                                 <Text style={{ fontSize: scaleSzie(28), color: '#8BC53F', fontWeight: "600" }} >
-                                    {`${formatMoney(this.state.quality)}`}
+                                    {`${amount}`}
                                 </Text>
                             </View>
                         </View>
@@ -239,7 +286,8 @@ class PopupEnterAmountGiftCard extends React.Component {
             this.props.actions.appointment.updateQuantityOfGiftCard(false);
             const tempQuantity = addGiftCardInfoAction?.giftCardInfo?.isActive === 1 ? `0` : `${addGiftCardInfoAction?.giftCardInfo?.amount}`;
             await this.setState({
-                quality: tempQuantity
+                quality: tempQuantity,
+                isResetQuantityToZero: formatNumberFromCurrency(tempQuantity) > 0 ? true : false
             });
             this.props.actions.appointment.switchPopupGiftCardEnterAmount(true);
         }
@@ -294,5 +342,3 @@ const mapStateToProps = state => ({
 });
 
 export default connectRedux(mapStateToProps, PopupEnterAmountGiftCard);
-
-
