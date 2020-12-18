@@ -38,7 +38,7 @@ class GiftCardDetailTab extends React.Component {
     }
 
     setStateFromParent = async (giftCardDetail) => {
-        console.log("------- giftCardDetail: ",giftCardDetail);
+        // console.log("------- giftCardDetail: ",giftCardDetail);
         await this.setState({
             giftCardDetail
         });

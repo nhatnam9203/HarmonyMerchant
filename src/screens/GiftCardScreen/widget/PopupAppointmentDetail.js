@@ -26,7 +26,7 @@ class PopupAppointmentDetail extends React.Component {
     }
 
     setStateFromParent = async (appointment) => {
-        console.log(appointment);
+        // console.log(appointment);
         this.setState({
             appointmentDetail: appointment
         })

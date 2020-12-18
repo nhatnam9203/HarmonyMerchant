@@ -116,7 +116,7 @@ function* forgotPassword(action) {
 function* checkStaffPermission(action) {
   try {
     const responses = yield requestAPI(action);
-    console.log("----- responses ----: ",responses);
+    // console.log("----- responses ----: ",responses);
     yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
@@ -239,7 +239,7 @@ function* checkStaffPermission(action) {
           isBlock: action?.isBlock
         });
       } else if (action.tabName === "GiftCard") {
-        console.log(action);
+        // console.log(action);
         yield put({
           type: 'SWITCH_GIFT_CARD_TAB_PERMISSION',
           payload: false
