@@ -1291,33 +1291,45 @@ class TabCheckout extends Layout {
     }
 
     showModalDiscount = async (appointmentId) => {
-        const { subTotalLocal, discountTotalLocal, customDiscountPercentLocal, customDiscountFixedLocal } = this.state;
+        const { connectionSignalR } = this.props;
+        if (_.isEmpty(connectionSignalR)) {
+            const { subTotalLocal, discountTotalLocal, customDiscountPercentLocal, customDiscountFixedLocal } = this.state;
 
-        if (appointmentId !== -1) {
-            const { groupAppointment } = this.props;
-            const appointment = groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentId);
-            const { services, products, extras, giftCards } = appointment;
-            const arrayProducts = getArrayProductsFromAppointment(products);
-            const arryaServices = getArrayServicesFromAppointment(services);
-            const arrayExtras = getArrayExtrasFromAppointment(extras);
-            const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
-            const temptBasket = arrayProducts.concat(arryaServices, arrayExtras, arrayGiftCards);
-            if (temptBasket.length > 0) {
-                this.props.actions.marketing.getPromotionByAppointment(appointmentId);
+            if (appointmentId !== -1) {
+                const { groupAppointment } = this.props;
+                const appointment = groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentId);
+                const { services, products, extras, giftCards } = appointment;
+                const arrayProducts = getArrayProductsFromAppointment(products);
+                const arryaServices = getArrayServicesFromAppointment(services);
+                const arrayExtras = getArrayExtrasFromAppointment(extras);
+                const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
+                const temptBasket = arrayProducts.concat(arryaServices, arrayExtras, arrayGiftCards);
+                if (temptBasket.length > 0) {
+                    this.props.actions.marketing.getPromotionByAppointment(appointmentId);
+                }
+            } else { // ----------- Offline ------------
+                this.popupDiscountLocalRef.current.setStateFromParent(subTotalLocal, discountTotalLocal, customDiscountPercentLocal, customDiscountFixedLocal);
+                await this.setState({
+                    visiblePopupDiscountLocal: true
+                })
             }
-        } else { // ----------- Offline ------------
-            this.popupDiscountLocalRef.current.setStateFromParent(subTotalLocal, discountTotalLocal, customDiscountPercentLocal, customDiscountFixedLocal);
-            await this.setState({
-                visiblePopupDiscountLocal: true
-            })
+        } else {
+            alert("You are paying by Harmony Payment!");
         }
+
     }
 
     showModalTipAppointment = async (appointmentId, tip, subTotal, tipPercent) => {
-        this.changeTipRef.current.setStateFromParent(appointmentId, tip, subTotal, tipPercent);
-        await this.setState({
-            visibleChangeTip: true
-        })
+        const { connectionSignalR } = this.props;
+        if (_.isEmpty(connectionSignalR)) {
+            this.changeTipRef.current.setStateFromParent(appointmentId, tip, subTotal, tipPercent);
+            await this.setState({
+                visibleChangeTip: true
+            })
+        } else {
+            alert("You are paying by Harmony Payment!");
+        }
+
     }
 
     async callbackDiscountToParent(customDiscountPercentLocal, customDiscountFixedLocal, discountTotalLocal) {

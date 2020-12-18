@@ -371,7 +371,6 @@ class TabFirstSettle extends Layout {
         if (gitfCardSales.length > 0) {
             this.props.onPressGiftCardTotal();
         }
-
     }
 
 
@@ -475,7 +474,7 @@ class TabFirstSettle extends Layout {
         if (prevProps.isGettingSettlement === "loading" && isGettingSettlement === "success" && !_.isEmpty(settleWaiting) && !isHandleInternalFirstSettlemetTab) {
             this.props.actions.app.changeFlagVisibleEnteerPinCode(false);
             this.props.actions.invoice.resetStateIsGettingSettlement();
-           await this.setState({
+            await this.setState({
                 editPaymentByHarmony: settleWaiting?.paymentByHarmony || 0.00,
                 editPaymentByCash: settleWaiting?.paymentByCash || 0.00,
                 editOtherPayment: settleWaiting?.otherPayment || 0.00,
