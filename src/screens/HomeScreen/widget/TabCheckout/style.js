@@ -10,7 +10,7 @@ export default StyleSheet.create({
         flex: 1,
     },
     headerContainer: {
-        height: scaleSzie(53),
+        height: scaleSzie(60),
         flexDirection: 'row',
         borderColor: 'rgb(197,197,197)',
         borderWidth: 1,
@@ -18,23 +18,21 @@ export default StyleSheet.create({
     },
     textHeader: {
         fontSize: scaleSzie(18),
-        // fontWeight:"600",
         color: '#404040'
     },
     categoriesHeader: {
-        height: scaleSzie(36),
+        height: scaleSzie(38),
         borderBottomWidth: 2,
         borderColor: '#DDDDDD',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor:"#F1F1F1"
     },
     categoriesBody: {
         flex: 1,
-        // backgroundColor: '#F1F1F1'
     },
     shadowLine: {
         width: 10,
-        // backgroundColor: '#DDDDDD',
         ...Platform.select({
             ios: {
                 shadowColor: 'rgba(0, 0, 0,1)',
@@ -124,5 +122,10 @@ export default StyleSheet.create({
     box_payment_singular_container :{
         marginTop: checkIsTablet() ? scaleSzie(15) :  scaleSzie(30),
         paddingHorizontal: scaleSzie(20),
+    },
+    txt_category_header_extra:{
+        color:"#404040",
+        fontSize:scaleSzie(15),
+        fontWeight:"500"
     }
 })

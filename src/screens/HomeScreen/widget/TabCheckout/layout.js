@@ -182,7 +182,7 @@ class Layout extends React.Component {
             }} >
                 {/* ------- Header ----- */}
                 <View style={[styles.categoriesHeader,]} >
-                    <Text style={[styles.textHeader, temptColorHeader]} >
+                    <Text style={[styles.textHeader, temptColorHeader, styles.txt_category_header_extra]} >
                         {localize('Categories', language)}
                     </Text>
                 </View>
@@ -214,7 +214,6 @@ class Layout extends React.Component {
                         />
                     </ScrollView>
                 </View>
-
             </View>
         );
     }
@@ -225,7 +224,7 @@ class Layout extends React.Component {
             categoryTypeSelected,
         } = this.state;
         let temptWidth = isShowColProduct ? 224 : 122;
-        temptWidth = isShowColAmount ? 72 : temptWidth;
+        temptWidth = isShowColAmount ? (72 + 60) : temptWidth;
         const temptColorHeader = isShowColAmount ? { color: '#6A6A6A' } : {};
         const data = this.getDataColProduct();
 
@@ -257,14 +256,8 @@ class Layout extends React.Component {
                                 flex: 1,
                             }, temptWidht]} >
                                 {/* ----- Header ---- */}
-                                <View style={{
-                                    height: scaleSzie(36),
-                                    borderBottomWidth: 2,
-                                    borderColor: '#DDDDDD',
-                                    justifyContent: 'center',
-                                    alignItems: 'center'
-                                }} >
-                                    <Text style={[styles.textHeader, temptColorHeader]} >
+                                <View style={[styles.categoriesHeader,]} >
+                                    <Text style={[styles.textHeader, temptColorHeader, styles.txt_category_header_extra]} >
                                         {localize(categorySelected.categoryType, language)}
                                     </Text>
                                 </View>
@@ -298,7 +291,7 @@ class Layout extends React.Component {
     renderAmountCheckout() {
         const { language } = this.props;
         const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted, isShowColProduct } = this.state;
-        const temptWidth = isShowColAmount ? 254 : 102;
+        const temptWidth = isShowColAmount ? (254 - 60)  : 102;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
         const atualWidth = !isShowColAmount && !isShowColProduct ? 122 : temptWidth;
 
@@ -326,14 +319,8 @@ class Layout extends React.Component {
                                 borderRightColor: "#DDDDDD", borderRightWidth: 1
                             }} >
                                 {/* ----- Header ---- */}
-                                <View style={{
-                                    height: scaleSzie(36),
-                                    borderBottomWidth: 2,
-                                    borderBottomColor: '#DDDDDD',
-                                    justifyContent: 'center',
-                                    alignItems: 'center'
-                                }} >
-                                    <Text style={styles.textHeader} >
+                                <View style={[styles.categoriesHeader,]} >
+                                    <Text style={[styles.textHeader, styles.txt_category_header_extra]} >
                                         {localize(temptHeader, language)}
                                     </Text>
                                 </View>
@@ -929,7 +916,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission,visiblePopupEnterGiftCardAmount } = this.props;
+        const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission, visiblePopupEnterGiftCardAmount } = this.props;
         const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
             visiblePopupAddItemIntoBasket
         } = this.state;

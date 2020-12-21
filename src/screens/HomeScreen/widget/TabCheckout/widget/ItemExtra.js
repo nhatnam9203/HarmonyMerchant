@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
-import { scaleSzie } from '@utils';
+import { scaleSzie,msToTime } from '@utils';
 import { Text, Button } from '@components';
 import ICON from "@resources";
 
@@ -26,26 +26,26 @@ const ItemExtra = ({ extra, onPressSelectExtra, extraSelected }) => {
         }
     }, [extra?.imageUrl])
 
-    const temptBackgrounColor = extra.extraId === extraSelected.extraId ? '#0764B0' : '#FAFAFA';
-    const temptTextColor = extra.extraId === extraSelected.extraId ? { color: '#fff' } : {};
+    const temptBackgrounColor = extra.extraId === extraSelected.extraId ? '#DCF7FF' : '#FAFAFA';
+    // const temptTextColor = extra.extraId === extraSelected.extraId ? { color: '#fff' } : {};
 
     return (
         <Button onPress={() => onPressSelectExtra(extra)} style={{
-            height: scaleSzie(75), justifyContent: 'center',
+            height: scaleSzie(68), justifyContent: 'center',
             alignItems: 'center', borderBottomWidth: 2, borderBottomColor: '#DDDDDD',
             backgroundColor: temptBackgrounColor
         }} >
 
             <View style={{ flex: 1, flexDirection: "row", padding: scaleSzie(4) }} >
-                <View style={{ width: scaleSzie(60), justifyContent: "center", alignItems: "center" }} >
-                    <View style={{ width: scaleSzie(60), height: scaleSzie(60) }} >
+                <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center" }} >
+                    <View style={{ width: scaleSzie(50), height: scaleSzie(60) }} >
                         {
                             extra.imageUrl ? <FastImage
-                                style={{ width: scaleSzie(60), height: scaleSzie(60) }}
+                                style={{ width: scaleSzie(50), height: scaleSzie(60) }}
                                 source={source}
                                 onError={() => setSource(ICON.extra_holder)}
                             /> : <FastImage
-                                    style={{ width: scaleSzie(60), height: scaleSzie(60) }}
+                                    style={{ width: scaleSzie(50), height: scaleSzie(60) }}
                                     source={ICON.extra_holder}
                                 />
                         }
@@ -53,16 +53,28 @@ const ItemExtra = ({ extra, onPressSelectExtra, extraSelected }) => {
                 </View>
                 <View style={{ flex: 1, paddingLeft: scaleSzie(8) }} >
                     <View style={{ height: scaleSzie(40), }} >
-                        <Text numberOflines={2} style={[{ fontSize: scaleSzie(13), color: '#0764B0', fontWeight: "500", }, temptTextColor]} >
-                            {extra.name}
+                        <Text numberOflines={2} style={[{ fontSize: scaleSzie(12), color: '#0764B0', fontWeight: "500", },
+                            //  temptTextColor
+                        ]} >
+                            {extra?.name || ""}
                         </Text>
                     </View>
-                    <View style={{ flex: 1, justifyContent: "flex-end" }} >
-                        <Text style={[{ fontSize: scaleSzie(11), color: '#6A6A6A' }, temptTextColor]} >
+                    <View style={{ flex: 1, alignItems: "flex-end",flexDirection:"row",justifyContent:"space-between" }} >
+                        {/* <Text style={[{ fontSize: scaleSzie(11), color: '#6A6A6A' }, 
+                        // temptTextColor
+                        ]} >
                             {`Price : $ `}
                             <Text style={[{ fontWeight: "bold" },]} >
                                 {`${extra.price ? extra.price : ""}`}
                             </Text>
+                        </Text> */}
+                        <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A',fontWeight:"300" },
+                        ]} >
+                            {`${msToTime(extra?.duration || 0)}`}
+                        </Text>
+                        <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A',fontWeight:"700" },
+                        ]} >
+                           {`${extra?.price || ""}`}
                         </Text>
                     </View>
                 </View>

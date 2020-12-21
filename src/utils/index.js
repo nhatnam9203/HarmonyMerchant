@@ -1176,7 +1176,8 @@ export const stringToDate = (d) => {
     return null;
 }
 
-export const msToTime = (duration) => {
+export const msToTime = (tempDuration) => {
+    const duration = tempDuration*60*1000;
     let minutes = Math.floor((duration / (1000 * 60)) % 60),
         hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
 
