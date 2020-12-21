@@ -7,9 +7,6 @@ class TabSettle extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = {
-
-        };
         this.scrollTabRef = React.createRef();
         this.tabFirstSettleRef = React.createRef();
         this.tabsecondSettleRef = React.createRef();
@@ -19,6 +16,7 @@ class TabSettle extends Layout {
 
 
     onDidFocus = () => {
+        this.scrollTabRef.current.goToPage(0);
         this.tabFirstSettleRef.current.setStateFromParent();
     }
 
@@ -31,8 +29,6 @@ class TabSettle extends Layout {
                 this.tabsecondSettleRef.current.setStateFromParent(settlement, creditCount);
             }, 500);
         }
-
-
     }
 
     backTabFirstSettle = () => {

@@ -184,6 +184,7 @@ class TabFirstSettle extends Layout {
     handlePAXReport_IOS = async () => {
         const { paxMachineInfo } = this.props;
         const { ip, port, timeout, isSetup } = paxMachineInfo;
+
         if (isSetup) {
             await this.setState({
                 visible: true
@@ -238,14 +239,14 @@ class TabFirstSettle extends Layout {
 
             } catch (error) {
                 // console.log("---- error: ",error);
-                this.handleRequestAPIByTerminalID(null);
                 isError = true;
+                this.handleRequestAPIByTerminalID(null);
                 this.props.actions.app.connectPaxMachineError(`${error}`);
             }
 
             if (!isError) {
                 this.props.actions.app.ConnectPaxMachineSuccess();
-                this.props.actions.app.updatePaxTerminalID("");
+                // this.props.actions.app.updatePaxTerminalID("");
                 const moneyInPax = formatMoney(roundFloatNumber(totalReport / 100));
                 await this.setState({
                     creditCount: totalRecord,
@@ -427,6 +428,7 @@ class TabFirstSettle extends Layout {
     }
 
     handleRequestAPIByTerminalID = (terminalID) => {
+        console.log("------ terminalID: ", terminalID);
         this.setState({
             terminalID
         });
@@ -434,6 +436,9 @@ class TabFirstSettle extends Layout {
         this.props.actions.invoice.getSettlementWating(terminalID);
         this.props.actions.invoice.getListStaffsSales(terminalID);
         this.props.actions.invoice.getListGiftCardSales(terminalID);
+        if (terminalID) {
+            this.props.actions.app.ConnectPaxMachineSuccess();
+        }
     }
 
     sendTotalViaSMS = async (data) => {
