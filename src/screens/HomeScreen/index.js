@@ -1,6 +1,6 @@
 import React from 'react';
 import _, { set } from 'ramda';
-import { Alert, BackHandler, AppState } from 'react-native';
+import { Alert, BackHandler, AppState, NativeModules } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, finalize } from 'rxjs/operators';
@@ -21,6 +21,7 @@ const initialState = {
     isConnectedInternet: true
 }
 
+const PosLink = NativeModules.MyApp;
 
 class HomeScreen extends Layout {
 
@@ -79,6 +80,8 @@ class HomeScreen extends Layout {
     handleAppStateChange = nextAppState => {
         if (this.state.appState.match(/inactive|background/) && nextAppState === "active") {
             this.checkUpdateCodePush();
+        } else {
+            PosLink.cancelTransaction();
         }
         this.setState({ appState: nextAppState });
     };
