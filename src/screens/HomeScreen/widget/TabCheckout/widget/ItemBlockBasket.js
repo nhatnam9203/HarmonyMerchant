@@ -113,8 +113,15 @@ class ItemBlockBasket extends React.Component {
             const arryaServices = getArrayServicesFromAppointment(services);
             const arrayExtras = getArrayExtrasFromAppointment(extras);
             const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
-            basket = arryaServices.concat(arrayExtras, arrayProducts, arrayGiftCards);
 
+            for (let i = 0; i < arryaServices.length; i++) {
+                for (let j = 0; j < arrayExtras.length; j++) {
+                    if (arrayExtras[j]?.data?.bookingServiceId === arryaServices[i]?.data?.bookingServiceId) {
+                        arryaServices[i]?.extras.push({ ...arrayExtras[j] });
+                    }
+                }
+            }
+            basket = arryaServices.concat(arrayProducts, arrayGiftCards);
         }
 
         return basket
@@ -206,6 +213,7 @@ class ItemBlockBasket extends React.Component {
                                 removeItemBasket={(item) => removeItemBasket(item, appointmentId, true)}
                                 onPress={(service) => { }}
                                 changeProduct={product => { }}
+                                removeExtra={(extra) => removeItemBasket(extra,appointmentId,true)}
                             />)
                         }
                         {/* ----------- Payment Number --------- */}

@@ -170,6 +170,7 @@ class ItemCustomerBasket extends React.Component {
             const arrayProducts = getArrayProductsFromAppointment(products);
             const arryaServices = getArrayServicesFromAppointment(services);
             const arrayExtras = getArrayExtrasFromAppointment(extras);
+            const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
 
             for (let i = 0; i < arryaServices.length; i++) {
                 for (let j = 0; j < arrayExtras.length; j++) {
@@ -178,7 +179,7 @@ class ItemCustomerBasket extends React.Component {
                     }
                 }
             }
-            const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
+           
             basket = arryaServices.concat(arrayProducts, arrayGiftCards);
 
         } else {

@@ -27,12 +27,16 @@ const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra }) => {
     }, [extra?.imageUrl])
 
     let isSelect = false;
-    for (let i = 0; i < arrSelectedExtra.length; i++) {
-        if (arrSelectedExtra[i]?.extraId === extra?.extraId) {
-            isSelect = true;
-            break;
+
+    if (arrSelectedExtra && arrSelectedExtra.length > 0) {
+        for (let i = 0; i < arrSelectedExtra.length; i++) {
+            if (arrSelectedExtra[i]?.extraId === extra?.extraId) {
+                isSelect = true;
+                break;
+            }
         }
     }
+
     const temptBackgrounColor = isSelect ? '#DCF7FF' : '#FAFAFA';
     // const temptTextColor = extra.extraId === extraSelected.extraId ? { color: '#fff' } : {};
 

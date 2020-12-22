@@ -19,11 +19,6 @@ class SplashScreen extends Layout {
     }
 
     async componentDidMount() {
-        // if (this.props?.isInitialApp) {
-        //     console.log("----- isInitialApp -----");
-        //     this.props.actions?.auth?.logout();
-        //     this.props.actions?.app?.resetIsInitApp();
-        // }
         try {
             let version = await DeviceInfo.getVersion();
             const latestVersion = await VersionCheck.getLatestVersion({ provider: 'appStore' });
@@ -63,7 +58,9 @@ class SplashScreen extends Layout {
                 }
 
                 const tempEnv = env.IS_PRODUCTION;
-                if (tempEnv == "Production" || tempEnv == "Staging") {
+                if (tempEnv == "Production" 
+                // || tempEnv == "Staging"
+                ) {
                     const deploymentKey = tempEnv == "Production" ? configs.codePushKeyIOS.production : configs.codePushKeyIOS.staging;
                     this.checkForUpdateCodepush(deploymentKey);
                 } else {
