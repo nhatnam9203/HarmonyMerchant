@@ -47,7 +47,7 @@ class ItemCustomerBasket extends React.Component {
         const tipAmount = appointmentDetail?.tipAmount || 0;
         const subTotal = appointmentDetail?.subTotal || 0;
         const discount = appointmentDetail?.discount || 0;
-        const tax =  appointmentDetail?.tax || 0;
+        const tax = appointmentDetail?.tax || 0;
         const total = appointmentDetail?.total || 0;
         const tipPercent = appointmentDetail?.tipPercent || 0;
 
@@ -71,9 +71,9 @@ class ItemCustomerBasket extends React.Component {
         const { groupAppointment, profileStaffLogin } = this.props;
         const checkoutPayments = this.props?.paymentDetailInfo?.checkoutPayments || [];
         const appointmentId = _.isEmpty(groupAppointment) ? -1 : this.props.appointmentDetail.appointmentId;
-        
+
         if (profileStaffLogin.roleName !== "Admin") {
-            this.props.showModalCheckPermission(appointmentId,false);
+            this.props.showModalCheckPermission(appointmentId, false);
         } else {
             if (checkoutPayments.length === 0) {
                 this.props.showModalDiscount(appointmentId);
@@ -157,8 +157,6 @@ class ItemCustomerBasket extends React.Component {
         );
     }
 
-
-
     render() {
         const { isCollapsed } = this.state;
         const { language, appointmentDetail, removeItemBasket, changeStylist, basketLocal, paymentDetailInfo,
@@ -172,8 +170,17 @@ class ItemCustomerBasket extends React.Component {
             const arrayProducts = getArrayProductsFromAppointment(products);
             const arryaServices = getArrayServicesFromAppointment(services);
             const arrayExtras = getArrayExtrasFromAppointment(extras);
+
+            for (let i = 0; i < arryaServices.length; i++) {
+                for (let j = 0; j < arrayExtras.length; j++) {
+                    if (arrayExtras[j]?.data?.bookingServiceId === arryaServices[i]?.data?.bookingServiceId) {
+                        arryaServices[i]?.extras.push({ ...arrayExtras[j] });
+                    }
+                }
+            }
             const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
-            basket = arryaServices.concat(arrayExtras, arrayProducts, arrayGiftCards);
+            basket = arryaServices.concat(arrayProducts, arrayGiftCards);
+
         } else {
             basket = basketLocal;
         }
@@ -192,6 +199,7 @@ class ItemCustomerBasket extends React.Component {
                             removeItemBasket={(item) => removeItemBasket(item, appointmentId, true)}
                             onPress={(service) => changeStylist(service, appointmentId)}
                             changeProduct={product => changeProduct(product, appointmentId)}
+                            removeExtra={(extra) => removeItemBasket(extra,appointmentId,true)}
                         />)
                     }
                     {/* ----------- Payment Number --------- */}

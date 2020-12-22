@@ -9,7 +9,7 @@ import { scaleSzie, getTotalProductByQuantity, formatMoney } from '@utils';
 import { Text, Button } from '@components';
 import ICON from '@resources';
 
-const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeProduct }) => {
+const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeProduct, removeExtra }) => {
     const { data } = item;
     const swipeoutBtns = [
         {
@@ -82,7 +82,7 @@ const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeP
                                 {item.type === 'Product' || item.type === "GiftCards" ? item.quanlitySet : item.data.name}
                             </Text>
                         </View>
-                        {/* ------------ */}
+                        {/* -------- Price ------- */}
                         <View style={{
                             flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(10),
                         }} >
@@ -94,14 +94,40 @@ const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeP
                 </View>
 
                 {/* ------------------ Extra ----------------- */}
-                <View style={{ paddingLeft: scaleSzie(45), flexDirection: "row" }} >
-                    <Image
-                        source={ICON.delete_extra_mini}
-                    />
-                    <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(12), fontWeight: "300" }} numberOfLines={1} >
-                        {'Extra'}
-                    </Text>
-                </View>
+                {
+                    item.type === "Service" && item.extras ?
+
+                        item.extras.map((extra) => <View key={extra?.id} style={{ alignItems: "center", paddingLeft: scaleSzie(45), paddingRight: scaleSzie(10), flexDirection: "row", marginBottom: scaleSzie(8) }} >
+                            <Image
+                                source={ICON.extra_mini}
+                                style={{ height: scaleSzie(15), width: scaleSzie(15) }}
+                            />
+                            <Text style={{
+                                color: '#6A6A6A', fontSize: scaleSzie(12), fontWeight: "500",
+                                marginHorizontal: scaleSzie(6)
+                            }} numberOfLines={1} >
+                                {`${extra?.data?.name}`}
+                            </Text>
+
+                            <Button onPress={() => removeExtra(extra)}>
+                                <Image
+                                    source={ICON.delete_extra_mini}
+                                    style={{ height: scaleSzie(15), width: scaleSzie(15) }}
+                                />
+                            </Button>
+
+                            {/* --------------- Price ------------------ */}
+                            <Text style={{
+                                flex: 1, textAlign: "right", color: '#6A6A6A', fontSize: scaleSzie(12), fontWeight: "600",
+                            }} numberOfLines={1} >
+                                {`$ ${extra?.data?.price}`}
+                            </Text>
+                        </View>)
+                        :
+                        null
+                }
+
+
 
             </Button>
         </Swipeout>

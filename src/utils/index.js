@@ -313,22 +313,25 @@ export const getArrayServicesFromAppointment = (services = []) => {
             },
             serviceName: 'Service',
             staff: service.staff,
-            note: service.note ? service.note : ""
+            note: service.note ? service.note : "",
+            extras:[],
         }
     });
     return temptArrayServices
 }
 
 export const getArrayExtrasFromAppointment = (extras = []) => {
+    // console.log("------ getArrayExtrasFromAppointment: ", JSON.stringify(extras));
     const temptArrayExtras = extras.map(extra => {
         return {
             type: 'Extra',
-            id: `${extra.extraId}_extra`,
+            id: `${extra?.extraId}_extra`,
             data: {
-                name: extra.extraName,
-                extraId: extra.extraId,
-                price: extra.price,
-                bookingExtraId: extra.bookingExtraId
+                name: extra?.extraName || "",
+                extraId: extra?.extraId || 0,
+                price: extra?.price || 0,
+                bookingExtraId: extra?.bookingExtraId || 0,
+                bookingServiceId: extra?.bookingServiceId || 0
             },
             serviceName: 'Extra'
         }
@@ -1177,7 +1180,7 @@ export const stringToDate = (d) => {
 }
 
 export const msToTime = (tempDuration) => {
-    const duration = tempDuration*60*1000;
+    const duration = tempDuration * 60 * 1000;
     let minutes = Math.floor((duration / (1000 * 60)) % 60),
         hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
 
