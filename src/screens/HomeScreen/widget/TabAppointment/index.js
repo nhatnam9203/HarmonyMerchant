@@ -225,27 +225,31 @@ class TabAppointment extends Layout {
         return total;
     }
 
-    formartBasket = (basket = []) => {
-        const services = [];
-        const extras = [];
-        const products = [];
+    formartBasket = () => {
+        const { appointmentDetail } = this.props;
+        const services = appointmentDetail?.services || [];
+        const products = appointmentDetail?.products || [];
+        const extras = appointmentDetail?.extras || [];
 
-        for (let i = 0; i < basket.length; i++) {
-            const temptItem = basket[i];
-            if (temptItem.type === "Service") {
-                services.push(temptItem);
-            } else if (temptItem.type === "Extra") {
-                extras.push(temptItem);
-            } else if (temptItem.type === "Product") {
-                products.push(temptItem)
+        const arrayProducts = getArrayProductsFromAppointment(products);
+        const arryaServices = getArrayServicesFromAppointment(services);
+        const arrayExtras = getArrayExtrasFromAppointment(extras);
+
+        for (let i = 0; i < arryaServices.length; i++) {
+            for (let j = 0; j < arrayExtras.length; j++) {
+                if (arrayExtras[j]?.data?.bookingServiceId === arryaServices[i]?.data?.bookingServiceId) {
+                    arryaServices[i]?.extras.push({ ...arrayExtras[j] });
+                }
             }
         }
 
-        return services.concat(extras, products);
+        const temptBasket = arryaServices.concat(arrayProducts);
+
+        return temptBasket;
     }
 
     addAmount = async () => {
-        const { categoryTypeSelected, basket, productSeleted, extraSelected, appointmentId } = this.state;
+        const { categoryTypeSelected, productSeleted, extraSelected, appointmentId } = this.state;
         if (categoryTypeSelected === 'Product') {
             if (appointmentId !== -1) {
                 // ------- Buy With Appointment -----
@@ -261,7 +265,7 @@ class TabAppointment extends Layout {
                     }, appointmentId)
             } else {
                 // ------ Buy Ofline -----------
-                const temptBasket = basket.filter((item) => item.id !== `${productSeleted.productId}_pro`);
+                const temptBasket = [];
                 temptBasket.unshift({
                     type: 'Product',
                     id: `${productSeleted.productId}_pro`,
@@ -273,7 +277,6 @@ class TabAppointment extends Layout {
                     quanlitySet: this.amountRef.current.state.quanlity
                 });
                 await this.setState({
-                    basket: temptBasket,
                     total: this.getPriceOfline(temptBasket)
                 })
             }
@@ -458,16 +461,16 @@ class TabAppointment extends Layout {
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces, isReloadWebview } = this.props;
         if (!loading && isGetAppointmentSucces && currentTabParent === 1) {
-            const { services, products, extras } = appointmentDetail;
-            const arrayProducts = getArrayProductsFromAppointment(products);
-            const arryaServices = getArrayServicesFromAppointment(services);
-            const arrayExtras = getArrayExtrasFromAppointment(extras);
-            const temptBasket = arrayProducts.concat(arryaServices, arrayExtras);
+            // const { services, products, extras } = appointmentDetail;
+            // const arrayProducts = getArrayProductsFromAppointment(products);
+            // const arryaServices = getArrayServicesFromAppointment(services);
+            // const arrayExtras = getArrayExtrasFromAppointment(extras);
+            // const temptBasket = arrayProducts.concat(arryaServices, arrayExtras);
             this.props.actions.appointment.resetKeyUpdateAppointment();
 
             await this.setState({
-                total: appointmentDetail.total,
-                basket: temptBasket,
+                // total: appointmentDetail.total,
+                // basket: temptBasket,
                 appointmentId: appointmentDetail.appointmentId,
                 infoUser: {
                     firstName: appointmentDetail.firstName,
