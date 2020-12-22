@@ -1,5 +1,5 @@
 import React from 'react';
-import _, { set } from 'ramda';
+import _ from 'ramda';
 import { Alert, BackHandler, AppState, NativeModules } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { Subject } from 'rxjs';
@@ -81,7 +81,9 @@ class HomeScreen extends Layout {
         if (this.state.appState.match(/inactive|background/) && nextAppState === "active") {
             this.checkUpdateCodePush();
         } else {
-            PosLink.cancelTransaction();
+            if (!_.isEmpty(this.props.groupAppointment)) {
+                PosLink.cancelTransaction();
+            }
         }
         this.setState({ appState: nextAppState });
     };
