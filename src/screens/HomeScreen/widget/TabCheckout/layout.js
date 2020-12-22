@@ -344,7 +344,7 @@ class Layout extends React.Component {
 
                                 </View>
                                 {/* ------- Footer -------- */}
-                                <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
+                                <View style={{ height: scaleSzie(52), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
                                     <ButtonCustom
                                         width={`100%`}
                                         backgroundColor="#F1F1F1"
@@ -356,7 +356,7 @@ class Layout extends React.Component {
                                             backgroundColor: '#0764B0',
                                             flex: 1
                                         }}
-                                        styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', color: '#fff' }}
+                                        styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold', color: '#fff' }}
                                     />
                                 </View>
 

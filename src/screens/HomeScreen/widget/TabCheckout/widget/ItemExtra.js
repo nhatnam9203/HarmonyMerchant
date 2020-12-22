@@ -74,7 +74,7 @@ const ItemExtra = ({ extra, onPressSelectExtra, extraSelected }) => {
                         </Text>
                         <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A',fontWeight:"700" },
                         ]} >
-                           {`${extra?.price || ""}`}
+                           {`$ ${extra?.price || ""}`}
                         </Text>
                     </View>
                 </View>

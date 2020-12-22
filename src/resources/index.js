@@ -108,6 +108,8 @@ export default {
   clear_input_customer_info:require('./img/clear_input_customer_info.png'),
   vip_icon: require('./img/vip_icon.png'),
   white_drpup_status_customer: require('./img/white_drpup_status_customer.png'),
+  extra_mini: require('./img/extra_mini.png'),
+  delete_extra_mini: require('./img/delete_extra_mini.png'),
 
   // --- Payment ---
   cash_payment_se: require('./payment/cash_payment_se.png'),

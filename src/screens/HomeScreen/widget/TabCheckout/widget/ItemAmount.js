@@ -40,43 +40,45 @@ class ItemAmount extends React.Component {
 
     render() {
         const { quanlity } = this.state;
-        const {price} = this.props
+        const { price } = this.props
         return (
             <View style={{
-                height: scaleSzie(85),
+                height: scaleSzie(68),
                 borderBottomWidth: 3, borderBottomColor: '#fff',
                 backgroundColor: '#0764B0',
             }} >
                 <View style={{
-                    flexDirection: 'row', alignItems: 'center',
-                    justifyContent: 'space-around', paddingTop: scaleSzie(8)
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-around',
+                    paddingTop: scaleSzie(10),
                 }} >
                     <TouchableOpacity onPress={this.subQuanlity} >
                         <Image
                             source={IMAGE.subAmount}
-                            style={{ width: scaleSzie(30), height: scaleSzie(30) }}
+                            style={{ width: scaleSzie(25), height: scaleSzie(25) }}
                         />
                     </TouchableOpacity>
                     <View style={{
                         width: scaleSzie(90), borderColor: '#fff',
-                        borderWidth: 3, borderRadius: scaleSzie(8), height: scaleSzie(40),
+                        borderWidth: 3, borderRadius: scaleSzie(8), height: scaleSzie(30),
                         justifyContent: 'center', alignItems: 'center'
                     }} >
-                        <Text style={{ color: '#fff', fontSize: scaleSzie(30), fontWeight: 'bold' }} >
+                        <Text style={{ color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold' }} >
                             {quanlity}
                         </Text>
                     </View>
                     <TouchableOpacity onPress={this.plusQuanlity} >
                         <Image
                             source={IMAGE.plusAmount}
-                            style={{ width: scaleSzie(30), height: scaleSzie(30) }}
+                            style={{ width: scaleSzie(25), height: scaleSzie(25) }}
                         />
                     </TouchableOpacity>
                 </View>
 
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                    <Text style={{ color: '#fff', fontSize: scaleSzie(20) }} >
-                      {`$ ${price}`}
+                    <Text style={{ color: '#fff', fontSize: scaleSzie(12), fontWeight: "bold" }} >
+                        {`$ ${price}`}
                     </Text>
                 </View>
             </View>
