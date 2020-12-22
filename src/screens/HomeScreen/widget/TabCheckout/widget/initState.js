@@ -60,5 +60,7 @@ export default {
     visibleChangeTip: false,
     isDrawer: false,
     visiblePopupAddItemIntoBasket: false,
-    visiblePopupGiftCardDetails: false
+    visiblePopupGiftCardDetails: false,
+
+    arrSelectedExtra: []
 }

@@ -4,11 +4,11 @@ import {
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
-import { scaleSzie,msToTime } from '@utils';
+import { scaleSzie, msToTime } from '@utils';
 import { Text, Button } from '@components';
 import ICON from "@resources";
 
-const ItemExtra = ({ extra, onPressSelectExtra, extraSelected }) => {
+const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra }) => {
 
     const [source, setSource] = useState({
         uri: extra.imageUrl,
@@ -26,7 +26,14 @@ const ItemExtra = ({ extra, onPressSelectExtra, extraSelected }) => {
         }
     }, [extra?.imageUrl])
 
-    const temptBackgrounColor = extra.extraId === extraSelected.extraId ? '#DCF7FF' : '#FAFAFA';
+    let isSelect = false;
+    for (let i = 0; i < arrSelectedExtra.length; i++) {
+        if (arrSelectedExtra[i]?.extraId === extra?.extraId) {
+            isSelect = true;
+            break;
+        }
+    }
+    const temptBackgrounColor = isSelect ? '#DCF7FF' : '#FAFAFA';
     // const temptTextColor = extra.extraId === extraSelected.extraId ? { color: '#fff' } : {};
 
     return (
@@ -59,22 +66,15 @@ const ItemExtra = ({ extra, onPressSelectExtra, extraSelected }) => {
                             {extra?.name || ""}
                         </Text>
                     </View>
-                    <View style={{ flex: 1, alignItems: "flex-end",flexDirection:"row",justifyContent:"space-between" }} >
-                        {/* <Text style={[{ fontSize: scaleSzie(11), color: '#6A6A6A' }, 
-                        // temptTextColor
-                        ]} >
-                            {`Price : $ `}
-                            <Text style={[{ fontWeight: "bold" },]} >
-                                {`${extra.price ? extra.price : ""}`}
-                            </Text>
-                        </Text> */}
-                        <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A',fontWeight:"300" },
+                    <View style={{ flex: 1, alignItems: "flex-end", flexDirection: "row", justifyContent: "space-between" }} >
+
+                        <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A', fontWeight: "300" },
                         ]} >
                             {`${msToTime(extra?.duration || 0)}`}
                         </Text>
-                        <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A',fontWeight:"700" },
+                        <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A', fontWeight: "700" },
                         ]} >
-                           {`$ ${extra?.price || ""}`}
+                            {`$ ${extra?.price || ""}`}
                         </Text>
                     </View>
                 </View>

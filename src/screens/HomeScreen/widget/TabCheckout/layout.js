@@ -290,8 +290,8 @@ class Layout extends React.Component {
 
     renderAmountCheckout() {
         const { language } = this.props;
-        const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted, isShowColProduct } = this.state;
-        const temptWidth = isShowColAmount ? (254 - 60)  : 102;
+        const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted, isShowColProduct,arrSelectedExtra} = this.state;
+        const temptWidth = isShowColAmount ? (254 - 60) : 102;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
         const atualWidth = !isShowColAmount && !isShowColProduct ? 122 : temptWidth;
 
@@ -336,7 +336,7 @@ class Layout extends React.Component {
                                                         key={index}
                                                         extra={extra}
                                                         onPressSelectExtra={this.onPressSelectExtra}
-                                                        extraSelected={this.state.extraSelected}
+                                                        arrSelectedExtra={arrSelectedExtra}
                                                     />)
                                                 }
                                             </ScrollView>

@@ -96,7 +96,6 @@ const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeP
                 {/* ------------------ Extra ----------------- */}
                 {
                     item.type === "Service" && item.extras ?
-
                         item.extras.map((extra) => <View key={extra?.id} style={{ alignItems: "center", paddingLeft: scaleSzie(45), paddingRight: scaleSzie(10), flexDirection: "row", marginBottom: scaleSzie(8) }} >
                             <Image
                                 source={ICON.extra_mini}

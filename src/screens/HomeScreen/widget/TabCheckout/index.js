@@ -90,7 +90,7 @@ class TabCheckout extends Layout {
 
     addAmount = async () => {
         const { groupAppointment, isOfflineMode, blockAppointments, profileStaffLogin } = this.props;
-        const { categoryTypeSelected, basket, productSeleted, extraSelected } = this.state;
+        const { categoryTypeSelected, basket, productSeleted, arrSelectedExtra } = this.state;
 
         // ------------ Block Booking -------------
         if (blockAppointments.length > 0) {
@@ -117,7 +117,11 @@ class TabCheckout extends Layout {
             } else {
                 //  -------------Add Extra , Service ---------
                 const mainAppointment = appointments.find((appointment) => appointment.appointmentId === mainAppointmentId);
-                const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
+                const temptExtra = [];
+                for (let i = 0; i < arrSelectedExtra.length; i++) {
+                    temptExtra.push({ extraId: arrSelectedExtra[i]?.extraId });
+                }
+
                 body = {
                     services: [{
                         serviceId: productSeleted.serviceId,
@@ -139,16 +143,17 @@ class TabCheckout extends Layout {
         else {
             // -------------  Add Product  ------------
             if (categoryTypeSelected === 'Product') {
-                const temptBasket = basket.filter((item) => item.id !== `${productSeleted.productId}_pro`);
+                const temptBasket = [];
                 temptBasket.unshift({
                     type: 'Product',
                     id: `${productSeleted.productId}_pro`,
                     data: {
-                        name: productSeleted.name,
-                        productId: productSeleted.productId,
-                        price: productSeleted.price
+                        name: productSeleted?.name || "",
+                        productId: productSeleted?.productId || 0,
+                        price: productSeleted?.price || 0
                     },
-                    quanlitySet: this.amountRef.current.state.quanlity
+                    quanlitySet: this.amountRef?.current?.state.quanlity || 1
+
                 });
                 this.setState({
                     basket: temptBasket,
@@ -163,7 +168,7 @@ class TabCheckout extends Layout {
                 });
             } else {
                 //  -------------Add Extra , Service ---------
-                const temptBasket = basket.filter((item) => item.id !== `${productSeleted.serviceId}_ser`);
+                const temptBasket = [];
                 temptBasket.unshift({
                     type: 'Service',
                     id: `${productSeleted.serviceId}_ser`,
@@ -181,24 +186,23 @@ class TabCheckout extends Layout {
                     }
                 });
 
-                const temptBasketExtra = temptBasket.filter((item) => item.id !== `${extraSelected.extraId}_extra`);
-                if (extraSelected.extraId !== -1) {
-                    temptBasketExtra.unshift({
+                for(let i=0; i< arrSelectedExtra.length; i++){
+                    temptBasket.unshift({
                         type: 'Extra',
-                        id: `${extraSelected.extraId}_extra`,
+                        id: `${arrSelectedExtra[i]?.extraId}_extra`,
                         data: {
-                            name: extraSelected.name,
-                            extraId: extraSelected.extraId,
-                            price: extraSelected.price
+                            name: arrSelectedExtra[i]?.name,
+                            extraId: arrSelectedExtra[i]?.extraId,
+                            price: arrSelectedExtra[i]?.price
                         },
-                        serviceName: productSeleted.name
+                        serviceName: productSeleted?.name
                     });
                 }
 
                 this.setState({
-                    basket: temptBasketExtra,
-                    subTotalLocal: this.getPriceOfline(temptBasketExtra),
-                    taxLocal: this.calculateTotalTaxLocal(temptBasketExtra)
+                    basket: temptBasket,
+                    subTotalLocal: this.getPriceOfline(temptBasket),
+                    taxLocal: this.calculateTotalTaxLocal(temptBasket)
                 }, () => {
                     if (isOfflineMode) {
                         // -------------  Handle Offline Mode  ------------
@@ -220,10 +224,7 @@ class TabCheckout extends Layout {
                 name: ''
             },
             categoryTypeSelected: '',
-            extraSelected: {
-                extraId: -1,
-                name: ''
-            },
+            arrSelectedExtra:[]
         })
     }
 
@@ -362,16 +363,28 @@ class TabCheckout extends Layout {
         this.setState({
             productSeleted: item,
             isShowColAmount: true,
-            extraSelected: {
-                extraId: -1,
-                name: ''
-            },
+            arrSelectedExtra:[]
         })
     }
 
     onPressSelectExtra = (extra) => {
+        const { arrSelectedExtra } = this.state;
+        let tempArrSelectedExtra;
+        let isExist = false;
+        for (let i = 0; i < arrSelectedExtra.length; i++) {
+            if (arrSelectedExtra[i]?.extraId === extra?.extraId) {
+                isExist = true;
+                break;
+            }
+        }
+        if (isExist) {
+            tempArrSelectedExtra = arrSelectedExtra.filter((selectedExtra) => selectedExtra?.extraId !== extra?.extraId);
+        } else {
+            tempArrSelectedExtra = [...arrSelectedExtra];
+            tempArrSelectedExtra.push(extra);
+        }
         this.setState({
-            extraSelected: extra
+            arrSelectedExtra: tempArrSelectedExtra
         })
     }
 
@@ -1165,10 +1178,7 @@ class TabCheckout extends Layout {
                 name: ''
             },
             categoryTypeSelected: '',
-            extraSelected: {
-                extraId: -1,
-                name: ''
-            },
+            arrSelectedExtra:[],
             paymentSelected: ""
         })
     }
@@ -1184,10 +1194,7 @@ class TabCheckout extends Layout {
                 },
                 isShowColProduct: false,
                 isShowColAmount: false,
-                extraSelected: {
-                    extraId: -1,
-                    name: ''
-                },
+                arrSelectedExtra:[]
             });
             this.activeGiftCardRef.current.setStateFromParent();
             this.props.actions.appointment.handleVisibleActiveGiftCard();
@@ -1204,10 +1211,7 @@ class TabCheckout extends Layout {
                     name: ''
                 },
                 categoryTypeSelected: '',
-                extraSelected: {
-                    extraId: -1,
-                    name: ''
-                },
+                arrSelectedExtra:[]
             })
         }
     }
@@ -1223,10 +1227,7 @@ class TabCheckout extends Layout {
                 productSeleted: {
                     name: ''
                 },
-                extraSelected: {
-                    extraId: -1,
-                    name: ''
-                },
+                arrSelectedExtra: []
             })
         } else {
             await this.setState({
@@ -1240,10 +1241,7 @@ class TabCheckout extends Layout {
                     name: ''
                 },
                 categoryTypeSelected: '',
-                extraSelected: {
-                    extraId: -1,
-                    name: ''
-                },
+                arrSelectedExtra:[]
             })
         }
     }
@@ -1478,10 +1476,7 @@ class TabCheckout extends Layout {
                 name: ''
             },
             categoryTypeSelected: '',
-            extraSelected: {
-                extraId: -1,
-                name: ''
-            },
+            arrSelectedExtra:[]
         });
 
     }
@@ -1542,7 +1537,7 @@ class TabCheckout extends Layout {
 
     addBlockAppointment = async () => {
         const { isOpenBlockAppointmentId } = this.props;
-        const { categoryTypeSelected, productSeleted, extraSelected } = this.state;
+        const { categoryTypeSelected, productSeleted,arrSelectedExtra } = this.state;
 
         let isAppointmentIdOpen = "";
 
@@ -1567,7 +1562,11 @@ class TabCheckout extends Layout {
                     giftCards: []
                 }, appointmentId, false, true);
         } else { // ------------- Buy online Extra , Service ---------
-            const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
+            
+            const temptExtra =  [];
+            for(let i= 0; i< arrSelectedExtra.length; i++){
+                temptExtra.push({extraId: arrSelectedExtra[i]?.extraId})
+            }
             this.props.actions.appointment.addItemIntoAppointment(
                 {
                     services: [{
@@ -1590,10 +1589,7 @@ class TabCheckout extends Layout {
                 name: ''
             },
             categoryTypeSelected: '',
-            extraSelected: {
-                extraId: -1,
-                name: ''
-            },
+            arrSelectedExtra:[]
         });
 
     }
