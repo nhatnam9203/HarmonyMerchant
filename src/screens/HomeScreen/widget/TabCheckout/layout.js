@@ -7,7 +7,9 @@ import {
 import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, checkCategoryIsNotExist } from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, checkCategoryIsNotExist ,
+    getArrayProductsFromAppointment,getArrayServicesFromAppointment
+} from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
     PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint,
@@ -217,7 +219,7 @@ class Layout extends React.Component {
     }
 
     renderProductCheckout() {
-        const { language } = this.props;
+        const { language,groupAppointment} = this.props;
         const { isShowColProduct, isShowColAmount, categorySelected, productSeleted,
             categoryTypeSelected,
         } = this.state;
@@ -225,7 +227,6 @@ class Layout extends React.Component {
         temptWidth = isShowColAmount ? (72 + 60) : temptWidth;
         const temptColorHeader = isShowColAmount ? { color: '#6A6A6A' } : {};
         const data = this.getDataColProduct();
-
         const temptWidht = isShowColAmount ? {} : { borderRightColor: "#DDDDDD", borderRightWidth: 1 };
 
         return (
@@ -274,6 +275,7 @@ class Layout extends React.Component {
                                                 itemSelected={productSeleted}
                                                 categoryTypeSelected={categoryTypeSelected}
                                                 isShowColAmount={isShowColAmount}
+                                                groupAppointment={groupAppointment}
                                             />)
                                         }
                                     </ScrollView>
@@ -287,8 +289,8 @@ class Layout extends React.Component {
     }
 
     renderAmountCheckout() {
-        const { language } = this.props;
-        const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted, isShowColProduct,arrSelectedExtra} = this.state;
+        const { language,groupAppointment } = this.props;
+        const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted, isShowColProduct, arrSelectedExtra } = this.state;
         const temptWidth = isShowColAmount ? (254 - 60) : 102;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
         const atualWidth = !isShowColAmount && !isShowColProduct ? 122 : temptWidth;
@@ -335,6 +337,7 @@ class Layout extends React.Component {
                                                         extra={extra}
                                                         onPressSelectExtra={this.onPressSelectExtra}
                                                         arrSelectedExtra={arrSelectedExtra}
+                                                        groupAppointment={groupAppointment}
                                                     />)
                                                 }
                                             </ScrollView>

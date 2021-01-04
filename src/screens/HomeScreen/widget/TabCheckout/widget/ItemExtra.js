@@ -8,7 +8,7 @@ import { scaleSzie, msToTime } from '@utils';
 import { Text, Button } from '@components';
 import ICON from "@resources";
 
-const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra }) => {
+const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra, groupAppointment }) => {
 
     const [source, setSource] = useState({
         uri: extra.imageUrl,
@@ -27,7 +27,6 @@ const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra }) => {
     }, [extra?.imageUrl])
 
     let isSelect = false;
-
     if (arrSelectedExtra && arrSelectedExtra.length > 0) {
         for (let i = 0; i < arrSelectedExtra.length; i++) {
             if (arrSelectedExtra[i]?.extraId === extra?.extraId) {
@@ -37,15 +36,31 @@ const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra }) => {
         }
     }
 
-    const temptBackgrounColor = isSelect ? '#DCF7FF' : '#FAFAFA';
-    // const temptTextColor = extra.extraId === extraSelected.extraId ? { color: '#fff' } : {};
+    let isSelectOnServer = false;
+    const appointments = groupAppointment?.appointments || [];
+    for (let i = 0; i < appointments.length; i++) {
+        const extras = appointments[i]?.extras || [];
+        for (let j = 0; j < extras.length; j++) {
+            if (extras[j]?.extraId === extra?.extraId) {
+                isSelectOnServer = true;
+                break;
+            }
+        }
+        if (isSelectOnServer) {
+            break;
+        }
+    }
+
+    const temtemptBackgrounColorSelectOnServer = isSelectOnServer ? { backgroundColor: "#DCF7FF" } : {};
+    const temptBackgrounColor = isSelect ? { backgroundColor: '#0764B0' } : {};
+    const temptTextColor = isSelect ? { color: '#fff' } : {};
 
     return (
-        <Button onPress={() => onPressSelectExtra(extra)} style={{
+        <Button onPress={() => onPressSelectExtra(extra)} style={[{
             height: scaleSzie(68), justifyContent: 'center',
             alignItems: 'center', borderBottomWidth: 2, borderBottomColor: '#DDDDDD',
-            backgroundColor: temptBackgrounColor
-        }} >
+            backgroundColor: "#FAFAFA"
+        }, temtemptBackgrounColorSelectOnServer, temptBackgrounColor]} >
 
             <View style={{ flex: 1, flexDirection: "row", padding: scaleSzie(4) }} >
                 <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center" }} >
@@ -65,7 +80,7 @@ const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra }) => {
                 <View style={{ flex: 1, paddingLeft: scaleSzie(8) }} >
                     <View style={{ height: scaleSzie(40), }} >
                         <Text numberOflines={2} style={[{ fontSize: scaleSzie(12), color: '#0764B0', fontWeight: "500", },
-                            //  temptTextColor
+                            temptTextColor
                         ]} >
                             {extra?.name || ""}
                         </Text>
@@ -73,11 +88,11 @@ const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra }) => {
                     <View style={{ flex: 1, alignItems: "flex-end", flexDirection: "row", justifyContent: "space-between" }} >
 
                         <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A', fontWeight: "300" },
-                        ]} >
+                        ], temptTextColor} >
                             {`${msToTime(extra?.duration || 0)}`}
                         </Text>
                         <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A', fontWeight: "700" },
-                        ]} >
+                        ], temptTextColor} >
                             {`$ ${extra?.price || ""}`}
                         </Text>
                     </View>

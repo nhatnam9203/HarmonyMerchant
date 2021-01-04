@@ -191,7 +191,7 @@ class Layout extends React.Component {
 
     renderAmountCheckout() {
         const { language } = this.props;
-        const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted,arrSelectedExtra } = this.state;
+        const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted, arrSelectedExtra } = this.state;
         const temptWidth = isShowColAmount ? 190 : 140;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
         return (
@@ -374,7 +374,7 @@ class Layout extends React.Component {
     }
 
     renderButtonBookAppointment() {
-        const { language,appointmentDetail } = this.props;
+        const { language, appointmentDetail } = this.props;
 
         if (appointmentDetail && appointmentDetail?.subTotal > 0) {
             return (

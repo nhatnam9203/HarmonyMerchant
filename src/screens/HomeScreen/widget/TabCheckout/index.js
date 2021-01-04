@@ -401,7 +401,6 @@ class TabCheckout extends Layout {
     clearDataCofrim = async () => {
         const { connectionSignalR, groupAppointment, profile, isCancelAppointment, blockAppointments, payAppointmentId, customerInfoBuyAppointment } = this.props;
         const { isDrawer } = this.state;
-
         const temptBlockAppointments = blockAppointments ? [...blockAppointments] : [];
 
         if (!_.isEmpty(connectionSignalR)) {
@@ -433,7 +432,6 @@ class TabCheckout extends Layout {
         }
 
         this.blockAppointmentRef = [];
-
     }
 
     setStateFromParent = () => {
