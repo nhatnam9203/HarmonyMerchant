@@ -71,7 +71,6 @@ class Layout extends React.Component {
                             </View>
                     }
 
-
                     <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12) }]} >
                         {`${localize('Phone', language)}:`}
                     </Text>
@@ -173,7 +172,6 @@ class Layout extends React.Component {
         } else {
             tempCategories = [...categoriesFilter];
         }
-
 
         return (
             <View style={{
@@ -475,11 +473,8 @@ class Layout extends React.Component {
                                     </Text>
                                 </View> : <View />
                             }
-
                         </View> : <View />
                     }
-
-
                     <View style={{ height: scaleSzie(50) }} />
                 </ScrollView>
             </View>

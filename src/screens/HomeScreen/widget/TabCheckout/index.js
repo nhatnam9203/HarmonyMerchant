@@ -186,7 +186,7 @@ class TabCheckout extends Layout {
                     }
                 });
 
-                for(let i=0; i< arrSelectedExtra.length; i++){
+                for (let i = 0; i < arrSelectedExtra.length; i++) {
                     temptBasket.unshift({
                         type: 'Extra',
                         id: `${arrSelectedExtra[i]?.extraId}_extra`,
@@ -224,7 +224,7 @@ class TabCheckout extends Layout {
                 name: ''
             },
             categoryTypeSelected: '',
-            arrSelectedExtra:[]
+            arrSelectedExtra: []
         })
     }
 
@@ -363,7 +363,7 @@ class TabCheckout extends Layout {
         this.setState({
             productSeleted: item,
             isShowColAmount: true,
-            arrSelectedExtra:[]
+            arrSelectedExtra: []
         })
     }
 
@@ -1178,7 +1178,7 @@ class TabCheckout extends Layout {
                 name: ''
             },
             categoryTypeSelected: '',
-            arrSelectedExtra:[],
+            arrSelectedExtra: [],
             paymentSelected: ""
         })
     }
@@ -1194,7 +1194,7 @@ class TabCheckout extends Layout {
                 },
                 isShowColProduct: false,
                 isShowColAmount: false,
-                arrSelectedExtra:[]
+                arrSelectedExtra: []
             });
             this.activeGiftCardRef.current.setStateFromParent();
             this.props.actions.appointment.handleVisibleActiveGiftCard();
@@ -1211,7 +1211,7 @@ class TabCheckout extends Layout {
                     name: ''
                 },
                 categoryTypeSelected: '',
-                arrSelectedExtra:[]
+                arrSelectedExtra: []
             })
         }
     }
@@ -1241,7 +1241,7 @@ class TabCheckout extends Layout {
                     name: ''
                 },
                 categoryTypeSelected: '',
-                arrSelectedExtra:[]
+                arrSelectedExtra: []
             })
         }
     }
@@ -1476,7 +1476,7 @@ class TabCheckout extends Layout {
                 name: ''
             },
             categoryTypeSelected: '',
-            arrSelectedExtra:[]
+            arrSelectedExtra: []
         });
 
     }
@@ -1537,7 +1537,7 @@ class TabCheckout extends Layout {
 
     addBlockAppointment = async () => {
         const { isOpenBlockAppointmentId } = this.props;
-        const { categoryTypeSelected, productSeleted,arrSelectedExtra } = this.state;
+        const { categoryTypeSelected, productSeleted, arrSelectedExtra } = this.state;
 
         let isAppointmentIdOpen = "";
 
@@ -1562,10 +1562,10 @@ class TabCheckout extends Layout {
                     giftCards: []
                 }, appointmentId, false, true);
         } else { // ------------- Buy online Extra , Service ---------
-            
-            const temptExtra =  [];
-            for(let i= 0; i< arrSelectedExtra.length; i++){
-                temptExtra.push({extraId: arrSelectedExtra[i]?.extraId})
+
+            const temptExtra = [];
+            for (let i = 0; i < arrSelectedExtra.length; i++) {
+                temptExtra.push({ extraId: arrSelectedExtra[i]?.extraId })
             }
             this.props.actions.appointment.addItemIntoAppointment(
                 {
@@ -1589,7 +1589,7 @@ class TabCheckout extends Layout {
                 name: ''
             },
             categoryTypeSelected: '',
-            arrSelectedExtra:[]
+            arrSelectedExtra: []
         });
 
     }

@@ -40,6 +40,7 @@ const initState = {
     visibleDiscount: false,
     appointmentIdOffline: 0,
     visibleChangePriceAmountProduct: false,
+    arrSelectedExtra: []
 }
 
 class TabAppointment extends Layout {
@@ -182,10 +183,7 @@ class TabAppointment extends Layout {
                 productSeleted: {
                     name: ''
                 },
-                extraSelected: {
-                    extraId: -1,
-                    name: ''
-                },
+                arrSelectedExtra: []
             })
         }
     }
@@ -204,17 +202,29 @@ class TabAppointment extends Layout {
         this.setState({
             productSeleted: item,
             isShowColAmount: true,
-            extraSelected: {
-                extraId: -1,
-                name: ''
-            },
+            arrSelectedExtra: []
         })
     }
 
     onPressSelectExtra = (extra) => {
+        const { arrSelectedExtra } = this.state;
+        let tempArrSelectedExtra;
+        let isExist = false;
+        for (let i = 0; i < arrSelectedExtra.length; i++) {
+            if (arrSelectedExtra[i]?.extraId === extra?.extraId) {
+                isExist = true;
+                break;
+            }
+        }
+        if (isExist) {
+            tempArrSelectedExtra = arrSelectedExtra.filter((selectedExtra) => selectedExtra?.extraId !== extra?.extraId);
+        } else {
+            tempArrSelectedExtra = [...arrSelectedExtra];
+            tempArrSelectedExtra.push(extra);
+        }
         this.setState({
-            extraSelected: extra
-        })
+            arrSelectedExtra: tempArrSelectedExtra
+        });
     }
 
     getPriceOfline(baseket) {
@@ -244,12 +254,11 @@ class TabAppointment extends Layout {
         }
 
         const temptBasket = arryaServices.concat(arrayProducts);
-
         return temptBasket;
     }
 
     addAmount = async () => {
-        const { categoryTypeSelected, productSeleted, extraSelected, appointmentId } = this.state;
+        const { categoryTypeSelected, productSeleted, appointmentId, arrSelectedExtra } = this.state;
         if (categoryTypeSelected === 'Product') {
             if (appointmentId !== -1) {
                 // ------- Buy With Appointment -----
@@ -292,16 +301,17 @@ class TabAppointment extends Layout {
                     name: ''
                 },
                 categoryTypeSelected: '',
-                extraSelected: {
-                    extraId: -1,
-                    name: ''
-                },
+                arrSelectedExtra:[]
             })
 
         } else {
             if (appointmentId !== -1) {
                 // ------- Buy with appointment ------
-                const temptExtra = extraSelected.extraId !== -1 ? [{ extraId: extraSelected.extraId }] : [];
+                const temptExtra = [];
+                for (let i = 0; i < arrSelectedExtra.length; i++) {
+                    temptExtra.push({ extraId: arrSelectedExtra[i]?.extraId });
+                }
+
                 this.props.actions.appointment.addItemIntoAppointment(
                     {
                         services: [{
@@ -326,16 +336,16 @@ class TabAppointment extends Layout {
                     name: ''
                 },
                 categoryTypeSelected: '',
-                extraSelected: {
-                    extraId: -1,
-                    name: ''
-                },
+                arrSelectedExtra: []
             })
         }
     }
 
     removeItemBasket = (item) => {
-        const { appointmentId, basket } = this.state;
+        const { basket } = this.state;
+        const { appointmentDetail } = this.props;
+        const appointmentId = appointmentDetail?.appointmentId || -1;
+
         if (appointmentId !== -1) {
             // ----- Remove With Appointmnet
             let dataRemove = {};
@@ -417,10 +427,10 @@ class TabAppointment extends Layout {
     }
 
     showModalDiscount = () => {
-        const { profileStaffLogin } = this.props;
+        const { profileStaffLogin,appointmentDetail } = this.props;
         const { basket, appointmentId } = this.state;
 
-        if (basket.length > 0) {
+        if (appointmentDetail && appointmentDetail?.subTotal > 0) {
             if (profileStaffLogin.roleName !== "Admin") {
                 this.popupCheckDiscountPermissionRef?.current?.setStateFromParent('', appointmentId, false);
                 this.props.actions.marketing.switchPopupCheckDiscountPermissionInHome(true);

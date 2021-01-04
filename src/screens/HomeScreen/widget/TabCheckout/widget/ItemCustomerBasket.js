@@ -166,7 +166,12 @@ class ItemCustomerBasket extends React.Component {
         const appointmentId = appointmentDetail?.appointmentId || -1;
         const { temptSubTotal, temptTotal, temptDiscount, temptTip, temptTax, tipPercent } = this.getTypesOfMoneyAppointment(appointmentDetail);
         if (appointmentDetail) {
-            const { services, products, extras, giftCards } = appointmentDetail;
+            // const { services, products, extras, giftCards } = appointmentDetail;
+            const services = appointmentDetail?.services || [];
+            const products = appointmentDetail?.products || [];
+            const extras = appointmentDetail?.extras || [];
+            const giftCards = appointmentDetail?.giftCards || [];
+
             const arrayProducts = getArrayProductsFromAppointment(products);
             const arryaServices = getArrayServicesFromAppointment(services);
             const arrayExtras = getArrayExtrasFromAppointment(extras);

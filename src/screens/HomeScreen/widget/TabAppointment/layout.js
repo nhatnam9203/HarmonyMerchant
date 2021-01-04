@@ -9,15 +9,14 @@ import _ from 'ramda';
 
 import { Text, ButtonCustom, Button, PopupConfirm, PopupCheckStaffPermission } from '@components';
 import styles from './style';
-import { scaleSzie, localize, formatMoney,checkCategoryIsNotExist } from '@utils';
+import { scaleSzie, localize, formatMoney, checkCategoryIsNotExist } from '@utils';
 import {
-    ItemCategory, ItemProductService, ColPlaceHolder, ItemAmount, ItemExtra
+    ItemCategory, ItemProductService, ColPlaceHolder, ItemAmount, ItemExtra, ItemBasket
 } from '../TabCheckout/widget';
 import IMAGE from '@resources';
-import { PopupDiscount, PopupChangeStylist, ItemBasket, PopupChangePriceAmountProduct } from './widget';
+import { PopupDiscount, PopupChangeStylist, PopupChangePriceAmountProduct } from './widget';
 
 class Layout extends React.Component {
-
 
     renderHeader() {
         const { language } = this.props;
@@ -126,6 +125,7 @@ class Layout extends React.Component {
         const temptBorder = isShowColAmount ? 'rgb(197,197,197)' : '#404040';
         const temptColorHeader = isShowColAmount ? { color: '#6A6A6A' } : {};
         const data = this.getDataColProduct();
+
         return (
             <View style={{ width: scaleSzie(temptWidth) }} >
                 {
@@ -186,13 +186,12 @@ class Layout extends React.Component {
                     </View>
                 }
             </View>
-
         );
     }
 
     renderAmountCheckout() {
         const { language } = this.props;
-        const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted } = this.state;
+        const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted,arrSelectedExtra } = this.state;
         const temptWidth = isShowColAmount ? 190 : 140;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
         return (
@@ -230,7 +229,8 @@ class Layout extends React.Component {
                                                     key={index}
                                                     extra={extra}
                                                     onPressSelectExtra={this.onPressSelectExtra}
-                                                    extraSelected={this.state.extraSelected}
+                                                    // extraSelected={this.state.extraSelected}
+                                                    arrSelectedExtra={arrSelectedExtra}
                                                 />)
                                             }
                                         </ScrollView>
@@ -269,13 +269,12 @@ class Layout extends React.Component {
 
     renderBasket() {
         const { language, appointmentDetail } = this.props;
-        const { basket, total } = this.state;
-        const tempTipAmount = appointmentDetail.tipAmount ? appointmentDetail.tipAmount : 0;
-        const subTotal = !_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0;
-
-        const discount = appointmentDetail.discount ? appointmentDetail.discount : 0;
-        const tax = appointmentDetail.tax ? appointmentDetail.tax : 0;
-
+        const { basket } = this.state;
+        const tempTipAmount = appointmentDetail?.tipAmount || 0;
+        const subTotal = appointmentDetail && appointmentDetail?.subTotal || 0;
+        const discount = appointmentDetail?.discount || 0;
+        const tax = appointmentDetail?.tax || 0;
+        const total = appointmentDetail?.total || 0;
         const temptBasket = this.formartBasket(basket);
 
         return (
@@ -298,6 +297,7 @@ class Layout extends React.Component {
                                     removeItemBasket={this.removeItemBasket}
                                     onPress={this.changeStylist}
                                     changeProductInBasket={this.changeProductInBasket}
+                                    removeExtra={this.removeItemBasket}
                                 />)
                             }
                         </ScrollView>
@@ -356,9 +356,7 @@ class Layout extends React.Component {
                                     {`${localize('Total', language)}:`}
                                 </Text>
                                 <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(20) }]} >
-                                    {/* {`$ ${parseFloat(Math.round(total * 100) / 100).toFixed(2)}`} */}
                                     {`$ ${formatMoney(total)}`}
-
                                 </Text>
                             </View>
                         </View>
@@ -376,9 +374,9 @@ class Layout extends React.Component {
     }
 
     renderButtonBookAppointment() {
-        const { basket } = this.state;
-        const { language } = this.props;
-        if (basket.length > 0) {
+        const { language,appointmentDetail } = this.props;
+
+        if (appointmentDetail && appointmentDetail?.subTotal > 0) {
             return (
                 <ButtonCustom
                     width={`100%`}
