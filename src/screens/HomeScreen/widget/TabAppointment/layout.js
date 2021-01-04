@@ -116,7 +116,7 @@ class Layout extends React.Component {
 
 
     renderProductCheckout() {
-        const { language } = this.props;
+        const { language, appointmentDetail } = this.props;
         const { isShowColProduct, isShowColAmount, categorySelected, productSeleted,
             categoryTypeSelected
         } = this.state;
@@ -171,6 +171,7 @@ class Layout extends React.Component {
                                             colorText={temptColorHeader}
                                             itemSelected={productSeleted}
                                             categoryTypeSelected={categoryTypeSelected}
+                                            appointmentDetail={appointmentDetail}
                                         />)
                                     }
                                 </ScrollView>
@@ -190,7 +191,7 @@ class Layout extends React.Component {
     }
 
     renderAmountCheckout() {
-        const { language } = this.props;
+        const { language, appointmentDetail } = this.props;
         const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted, arrSelectedExtra } = this.state;
         const temptWidth = isShowColAmount ? 190 : 140;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
@@ -229,8 +230,8 @@ class Layout extends React.Component {
                                                     key={index}
                                                     extra={extra}
                                                     onPressSelectExtra={this.onPressSelectExtra}
-                                                    // extraSelected={this.state.extraSelected}
                                                     arrSelectedExtra={arrSelectedExtra}
+                                                    appointmentDetail={appointmentDetail}
                                                 />)
                                             }
                                         </ScrollView>

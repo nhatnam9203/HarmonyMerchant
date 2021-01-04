@@ -3,12 +3,13 @@ import {
     View,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import _ from "ramda";
 
 import { scaleSzie, msToTime } from '@utils';
 import { Text, Button } from '@components';
 import ICON from "@resources";
 
-const ItemProductService = ({ item, showColAmount, itemSelected, categoryTypeSelected, groupAppointment }) => {
+const ItemProductService = ({ item, showColAmount, itemSelected, categoryTypeSelected, groupAppointment, appointmentDetail }) => {
 
     const [source, setSource] = useState({
         uri: item.imageUrl,
@@ -61,6 +62,27 @@ const ItemProductService = ({ item, showColAmount, itemSelected, categoryTypeSel
             }
         }
     }
+
+    if (!isSelectOnServer && !_.isEmpty(appointmentDetail)) {
+        if (categoryTypeSelected === "Service") {
+            const services = appointmentDetail?.services || [];
+            for (let j = 0; j < services.length; j++) {
+                if (services[j]?.serviceId === item[temptKeyId]) {
+                    isSelectOnServer = true;
+                    break;
+                }
+            }
+        } else {
+            const products = appointmentDetail?.products || [];
+            for (let j = 0; j < products.length; j++) {
+                if (products[j]?.productId === item[temptKeyId]) {
+                    isSelectOnServer = true;
+                    break;
+                }
+            }
+        }
+    }
+
 
     const temtemptBackgrounColorSelectOnServer = isSelectOnServer ? { backgroundColor: "#DCF7FF" } : {};
     const temptBackgrounColor = item[temptKeyId] === itemSelected[temptKeyId] ? { backgroundColor: '#0764B0' } : {};

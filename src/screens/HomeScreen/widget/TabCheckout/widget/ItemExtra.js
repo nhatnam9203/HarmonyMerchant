@@ -3,12 +3,13 @@ import {
     View,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import _ from "ramda";
 
 import { scaleSzie, msToTime } from '@utils';
 import { Text, Button } from '@components';
 import ICON from "@resources";
 
-const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra, groupAppointment }) => {
+const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra, groupAppointment, appointmentDetail }) => {
 
     const [source, setSource] = useState({
         uri: extra.imageUrl,
@@ -48,6 +49,16 @@ const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra, groupAppointme
         }
         if (isSelectOnServer) {
             break;
+        }
+    }
+
+    if (!isSelectOnServer && !_.isEmpty(appointmentDetail)) {
+        const extras = appointmentDetail?.extras || [];
+        for (let j = 0; j < extras.length; j++) {
+            if (extras[j]?.extraId === extra?.extraId) {
+                isSelectOnServer = true;
+                break;
+            }
         }
     }
 
