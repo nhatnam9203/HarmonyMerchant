@@ -49,7 +49,8 @@ const initialState = {
     giftCardLogs: [],
     isGiftCardTabPermission: false,
 
-    startProcessingPax: false
+    startProcessingPax: false,
+    amountCredtitForSubmitToServer:0
 }
 
 function appointmentReducer(state = initialState, action) {
@@ -364,14 +365,14 @@ function appointmentReducer(state = initialState, action) {
         case 'CHECK_CREDIT_PAYMENT_TO_SERVER':
             return {
                 ...state,
-                paxAmount: action?.paxAmount || 0
+                paxAmount: action?.paxAmount || 0,
+                amountCredtitForSubmitToServer: action?.moneyUserGiveForStaff || 0
             }
         case 'CHECK_CREDIT_PAYMENT_TO_SERVER_SUCCESS':
             return {
                 ...state,
                 payAppointmentId: action.payload,
                 startProcessingPax: true,
-                // paxAmount: action.paxAmount
             }
         case 'CHECK_CREDIT_PAYMENT_TO_SERVER_FAIL':
             return {

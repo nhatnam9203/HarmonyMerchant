@@ -238,19 +238,22 @@ export function changeFlagSigninAppointment(flag = false) {
 }
 
 
-export function submitPaymentWithCreditCard(merchantId, userId, responseData, appointmentId) {
+export function submitPaymentWithCreditCard(merchantId, responseData, checkoutPaymentId,moneyUserGiveForStaff) {
     return {
         type: 'SUBMIT_PAYMENT_WITH_CREDIT_CARD',
         body: {
             merchantId,
-            userId,
+            userId: 0,
             title: 'pax',
             responseData,
-            appointmentId
+            checkoutPaymentId: checkoutPaymentId
         },
         method: 'POST',
         token: true,
         api: `${apiConfigs.BASE_API}paymentTransaction`,
+        paymentMethod: "credit_card",
+        amount: moneyUserGiveForStaff,
+        checkoutPaymentId: checkoutPaymentId
     }
 }
 
@@ -545,7 +548,7 @@ export function switchGiftCardTabPermission(visible = true) {
     }
 }
 
-export function checkCreditPaymentToServer(groupId, amount) {
+export function checkCreditPaymentToServer(groupId, amount, paxAmount) {
     return {
         type: 'CHECK_CREDIT_PAYMENT_TO_SERVER',
         body: {
@@ -556,7 +559,8 @@ export function checkCreditPaymentToServer(groupId, amount) {
         method: 'PUT',
         token: true,
         api: `${apiConfigs.BASE_API}appointment/selectpaymentmethod/${groupId}`,
-        paxAmount: amount
+        paxAmount,
+        moneyUserGiveForStaff: amount
     }
 }
 

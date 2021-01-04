@@ -1039,24 +1039,12 @@ class TabCheckout extends Layout {
             }, 100);
         } else {
             const { groupAppointment } = this.props;
-            this.props.actions.appointment.checkCreditPaymentToServer(groupAppointment?.checkoutGroupId || 0, moneyUserGiveForStaff);
-
-            // // 1. Check setup pax 
-            // PosLink.setupPax(ip, port, timeout);
-
-            // // 2. Show modal processing 
-            // await this.setState({
-            //     visibleProcessingCredit: true
-            // });
-
-            // const tipRequest = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
-            // // 3. Send Transaction 
-            // PosLink.sendTransaction(tenderType, parseFloat(moneyCreditCard), 0, tipRequest, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
+            this.props.actions.appointment.checkCreditPaymentToServer(groupAppointment?.checkoutGroupId || 0, moneyUserGiveForStaff,moneyCreditCard);
         }
     }
 
     sendTransToPaxMachine = async () => {
-        const { paxMachineInfo, isTipOnPaxMachine, paxAmount } = this.props;
+        const { paxMachineInfo, isTipOnPaxMachine, paxAmount,amountCredtitForSubmitToServer } = this.props;
         const { paymentSelected } = this.state;
         const { ip, port, timeout } = paxMachineInfo;
         const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
@@ -1073,7 +1061,7 @@ class TabCheckout extends Layout {
 
         console.log("------ paxAmount: ",paxAmount);
         // 3. Send Transaction 
-        PosLink.sendTransaction(tenderType, parseFloat(paxAmount), 0, tipRequest, (message) => this.handleResponseCreditCard(message, true, paxAmount));
+        PosLink.sendTransaction(tenderType, parseFloat(paxAmount), 0, tipRequest, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer));
     }
 
     async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
@@ -1101,30 +1089,37 @@ class TabCheckout extends Layout {
                         alert("You're running your Pax on DEMO MODE!")
                     }, 1000);
                 } else {
-                    const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment } = this.props;
+                    const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment,payAppointmentId } = this.props;
                     const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal } = this.state;
                     let method = this.getPaymentString(paymentSelected);
 
                     if (online) {
                         // ------ Payment with credit online card success ----
-                        this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff, message, profile.merchantId);
+                        // this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff, message, profile.merchantId);
+                        this.props.actions.appointment.submitPaymentWithCreditCard(
+                            profile?.merchantId || 0,
+                            message,
+                            payAppointmentId,
+                            moneyUserGiveForStaff
+                        )
+
                     } else {
                         // ------ Payment with credit offline card success ----
-                        const dataAnymousAppoitment = this.getBasketOffline();
-                        const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
-                        this.props.actions.appointment.createAnymousAppointment(
-                            profile.merchantId,
-                            customerInfoBuyAppointment?.userId || 0,
-                            customerInfoBuyAppointment?.customerId || 0,
-                            profileStaffLogin.staffId,
-                            arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
-                            customDiscountFixedLocal, customDiscountPercentLocal,
-                            customerInfoBuyAppointment?.firstName || "",
-                            customerInfoBuyAppointment?.lastName || "",
-                            customerInfoBuyAppointment?.phone || "",
-                            moneyUserGiveForStaff,
-                            message,
-                        );
+                        // const dataAnymousAppoitment = this.getBasketOffline();
+                        // const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
+                        // this.props.actions.appointment.createAnymousAppointment(
+                        //     profile.merchantId,
+                        //     customerInfoBuyAppointment?.userId || 0,
+                        //     customerInfoBuyAppointment?.customerId || 0,
+                        //     profileStaffLogin.staffId,
+                        //     arrayProductBuy, arryaServicesBuy, arrayExtrasBuy, method, true,
+                        //     customDiscountFixedLocal, customDiscountPercentLocal,
+                        //     customerInfoBuyAppointment?.firstName || "",
+                        //     customerInfoBuyAppointment?.lastName || "",
+                        //     customerInfoBuyAppointment?.phone || "",
+                        //     moneyUserGiveForStaff,
+                        //     message,
+                        // );
                     }
                 }
             } else {
@@ -1812,7 +1807,8 @@ const mapStateToProps = state => ({
     visiblePopupCheckDiscountPermission: state.marketing.visiblePopupCheckDiscountPermission,
     isTipOnPaxMachine: state.dataLocal.isTipOnPaxMachine,
     startProcessingPax: state.appointment.startProcessingPax,
-    paxAmount: state.appointment.paxAmount
+    paxAmount: state.appointment.paxAmount,
+    amountCredtitForSubmitToServer: state.appointment.amountCredtitForSubmitToServer
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);
