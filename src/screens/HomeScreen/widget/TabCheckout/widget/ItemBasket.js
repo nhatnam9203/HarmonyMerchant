@@ -10,6 +10,7 @@ import { Text, Button } from '@components';
 import ICON from '@resources';
 
 const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeProduct, removeExtra }) => {
+    console.log("----- item: ",JSON.stringify(item));
     const { data } = item;
     const swipeoutBtns = [
         {
@@ -43,8 +44,10 @@ const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeP
                     {/* -------- Avatar ------- */}
                     <View style={{ width: scaleSzie(45), justifyContent: 'center', alignItems: 'center' }} >
                         {
-                            item.type === 'Service' ? <View style={{ width: scaleSzie(30), height: scaleSzie(30), borderRadius: scaleSzie(20), overflow: 'hidden' }} >
-                                {item.staff && item.staff.imageUrl ? <Image source={{ uri: item.staff.imageUrl }}
+                            item.type === 'Service' ? <View style={{ width: scaleSzie(30), height: scaleSzie(30),
+                            //  borderRadius: scaleSzie(20), overflow: 'hidden' 
+                             }} >
+                                {item.staff && item.staff.imageUrl ? <Image source={{ uri: item.imageUrl }}
                                     style={{ width: scaleSzie(30), height: scaleSzie(30) }}
                                 /> : <Image source={ICON.staff_basket}
                                     style={{ width: scaleSzie(30), height: scaleSzie(30) }}
@@ -67,7 +70,9 @@ const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeP
                         <View style={{ flex: 1, justifyContent: 'center' }} >
                             <Text style={{ color: '#0764B0', fontSize: scaleSzie(13), fontWeight: "500" }} numberOfLines={1} >
                                 {
-                                    item.type === 'Service' ? (item.staff && item.staff.displayName ? item.staff.displayName : 'Any staff') : data.name
+                                    // item.type === 'Service' ? (item.staff && item.staff.displayName ? item.staff.displayName : 'Any staff') : data.name
+                                    item.type === 'Service' ? (item?.data?.name || "") : data?.name || ""
+                                    // item?.data?.name || ""
                                 }
                             </Text>
                         </View>
@@ -79,7 +84,7 @@ const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeP
                         }} >
 
                             <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(13), fontWeight: "500" }} >
-                                {item.type === 'Product' || item.type === "GiftCards" ? item.quanlitySet : item.data.name}
+                                {item.type === 'Product' || item.type === "GiftCards" ? item?.quanlitySet || 1 : item?.staff?.displayName || 'Any staff'}
                             </Text>
                         </View>
                         {/* -------- Price ------- */}

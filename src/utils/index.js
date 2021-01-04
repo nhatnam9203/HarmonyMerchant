@@ -306,15 +306,16 @@ export const getArrayServicesFromAppointment = (services = []) => {
             type: 'Service',
             id: `${service.serviceId}_ser`,
             data: {
-                name: service.serviceName,
-                serviceId: service.serviceId,
-                price: service.price,
-                bookingServiceId: service.bookingServiceId
+                name: service?.serviceName || "",
+                serviceId: service?.serviceId || 0,
+                price: service?.price || 0,
+                bookingServiceId: service?.bookingServiceId || 0
             },
             serviceName: 'Service',
-            staff: service.staff,
-            note: service.note ? service.note : "",
-            extras:[],
+            staff: service?.staff || {},
+            note: service?.note || "",
+            extras: [],
+            imageUrl: service?.imageUrl || ""
         }
     });
     return temptArrayServices
