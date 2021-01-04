@@ -544,3 +544,25 @@ export function switchGiftCardTabPermission(visible = true) {
         payload: visible
     }
 }
+
+export function checkCreditPaymentToServer(groupId, amount) {
+    return {
+        type: 'CHECK_CREDIT_PAYMENT_TO_SERVER',
+        body: {
+            method: "credit_card",
+            amount,
+            giftCardId: 0
+        },
+        method: 'PUT',
+        token: true,
+        api: `${apiConfigs.BASE_API}appointment/selectpaymentmethod/${groupId}`,
+        paxAmount: amount
+    }
+}
+
+export function resetStateCheckCreditPaymentToServer(visible = false) {
+    return {
+        type: 'RESET_STATE_CHECK_CREDIT_PAYMENT_TO_SERVER',
+        payload: visible
+    }
+}

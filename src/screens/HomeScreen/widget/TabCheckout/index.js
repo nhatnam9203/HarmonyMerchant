@@ -1038,18 +1038,42 @@ class TabCheckout extends Layout {
                 )
             }, 100);
         } else {
-            // 1. Check setup pax 
-            PosLink.setupPax(ip, port, timeout);
+            const { groupAppointment } = this.props;
+            this.props.actions.appointment.checkCreditPaymentToServer(groupAppointment?.checkoutGroupId || 0, moneyUserGiveForStaff);
 
-            // 2. Show modal processing 
-            await this.setState({
-                visibleProcessingCredit: true
-            });
+            // // 1. Check setup pax 
+            // PosLink.setupPax(ip, port, timeout);
 
-            const tipRequest = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
-            // 3. Send Transaction 
-            PosLink.sendTransaction(tenderType, parseFloat(moneyCreditCard), 0, tipRequest, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
+            // // 2. Show modal processing 
+            // await this.setState({
+            //     visibleProcessingCredit: true
+            // });
+
+            // const tipRequest = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
+            // // 3. Send Transaction 
+            // PosLink.sendTransaction(tenderType, parseFloat(moneyCreditCard), 0, tipRequest, (message) => this.handleResponseCreditCard(message, online, moneyUserGiveForStaff));
         }
+    }
+
+    sendTransToPaxMachine = async () => {
+        const { paxMachineInfo, isTipOnPaxMachine, paxAmount } = this.props;
+        const { paymentSelected } = this.state;
+        const { ip, port, timeout } = paxMachineInfo;
+        const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
+
+        // 1. Check setup pax 
+        PosLink.setupPax(ip, port, timeout);
+
+        // 2. Show modal processing 
+        await this.setState({
+            visibleProcessingCredit: true
+        });
+
+        const tipRequest = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
+
+        console.log("------ paxAmount: ",paxAmount);
+        // 3. Send Transaction 
+        PosLink.sendTransaction(tenderType, parseFloat(paxAmount), 0, tipRequest, (message) => this.handleResponseCreditCard(message, true, paxAmount));
     }
 
     async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
@@ -1731,12 +1755,17 @@ class TabCheckout extends Layout {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        const { isLoadingGetBlockAppointment, blockAppointments, isLoadingRemoveBlockAppointment } = this.props;
+        const { isLoadingGetBlockAppointment, blockAppointments, isLoadingRemoveBlockAppointment, startProcessingPax } = this.props;
         if (blockAppointments.length > 0 && prevProps.isLoadingRemoveBlockAppointment != isLoadingRemoveBlockAppointment && !isLoadingRemoveBlockAppointment) {
             this.updateBlockAppointmentRef();
         }
         if (blockAppointments.length > 0 && prevProps.isLoadingGetBlockAppointment != isLoadingGetBlockAppointment && !isLoadingGetBlockAppointment) {
             this.setBlockToggleCollaps();
+        }
+
+        if (startProcessingPax && prevProps.startProcessingPax !== startProcessingPax) {
+            this.props.actions.appointment.resetStateCheckCreditPaymentToServer(false);
+            this.sendTransToPaxMachine()
         }
     }
 
@@ -1781,7 +1810,9 @@ const mapStateToProps = state => ({
     printerSelect: state.dataLocal.printerSelect,
     printerList: state.dataLocal.printerList,
     visiblePopupCheckDiscountPermission: state.marketing.visiblePopupCheckDiscountPermission,
-    isTipOnPaxMachine: state.dataLocal.isTipOnPaxMachine
+    isTipOnPaxMachine: state.dataLocal.isTipOnPaxMachine,
+    startProcessingPax: state.appointment.startProcessingPax,
+    paxAmount: state.appointment.paxAmount
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

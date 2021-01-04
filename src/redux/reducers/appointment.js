@@ -47,7 +47,9 @@ const initialState = {
     isLoadMoreGiftCardsList: false,
     isRefreshingGiftCardsList: false,
     giftCardLogs: [],
-    isGiftCardTabPermission: false
+    isGiftCardTabPermission: false,
+
+    startProcessingPax: false
 }
 
 function appointmentReducer(state = initialState, action) {
@@ -357,6 +359,30 @@ function appointmentReducer(state = initialState, action) {
             return {
                 ...state,
                 isGiftCardTabPermission: action.payload,
+            }
+        // ------- New code ------
+        case 'CHECK_CREDIT_PAYMENT_TO_SERVER':
+            return {
+                ...state,
+                paxAmount: action?.paxAmount || 0
+            }
+        case 'CHECK_CREDIT_PAYMENT_TO_SERVER_SUCCESS':
+            return {
+                ...state,
+                payAppointmentId: action.payload,
+                startProcessingPax: true,
+                // paxAmount: action.paxAmount
+            }
+        case 'CHECK_CREDIT_PAYMENT_TO_SERVER_FAIL':
+            return {
+                ...state,
+                payAppointmentId: 0,
+                startProcessingPax: false
+            }
+        case 'RESET_STATE_CHECK_CREDIT_PAYMENT_TO_SERVER':
+            return {
+                ...state,
+                startProcessingPax: false
             }
         case 'LOGOUT_APP':
             return {

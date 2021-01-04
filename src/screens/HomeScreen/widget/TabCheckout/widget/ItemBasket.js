@@ -10,7 +10,6 @@ import { Text, Button } from '@components';
 import ICON from '@resources';
 
 const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeProduct, removeExtra }) => {
-    console.log("----- item: ",JSON.stringify(item));
     const { data } = item;
     const swipeoutBtns = [
         {

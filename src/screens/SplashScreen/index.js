@@ -18,6 +18,10 @@ class SplashScreen extends Layout {
         }
     }
 
+    // componentDidMount(){
+    //     this.props.actions.auth.logout();
+    // }
+
     async componentDidMount() {
         try {
             let version = await DeviceInfo.getVersion();
