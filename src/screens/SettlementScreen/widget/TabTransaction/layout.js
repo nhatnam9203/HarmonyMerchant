@@ -119,7 +119,7 @@ class Layout extends React.Component {
 
     renderContent() {
         const { transactionsSettlement, listTransactionSearch, isShowSearchTransaction,
-            refreshingTransaction, language,isLoadMoreTransSettlement
+            refreshingTransaction, language, isLoadMoreTransSettlement
         } = this.props;
         const tempData = isShowSearchTransaction ? listTransactionSearch : transactionsSettlement;
         return (
@@ -144,13 +144,13 @@ class Layout extends React.Component {
                         initialNumToRender={20}
                         maxToRenderPerBatch={5}
                         ListFooterComponent={() => <View style={{ height: scaleSzie(30), alignItems: "center", justifyContent: "center" }} >
-                        {
-                            isLoadMoreTransSettlement ? <ActivityIndicator
-                                size="large"
-                                color="#0764B0"
-                            /> : null
-                        }
-                    </View>}
+                            {
+                                isLoadMoreTransSettlement ? <ActivityIndicator
+                                    size="large"
+                                    color="#0764B0"
+                                /> : null
+                            }
+                        </View>}
                     />
 
                 </View>

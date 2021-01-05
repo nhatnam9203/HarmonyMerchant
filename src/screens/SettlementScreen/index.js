@@ -52,13 +52,15 @@ class SettlementScreen extends Layout {
             currentPage: currentIndex
         })
         if (currentIndex === 1) {
-            if (this.transactionTabRef.current) {
+            if (this.transactionTabRef?.current) {
                 this.transactionTabRef.current.searchTransactions();
             }
         } else if (currentIndex === 2) {
             this.props.actions.invoice.getBatchHistory();
-            if (this.batchHistoryTabRef.current) {
-                this.batchHistoryTabRef.current.setStateFromParent();
+            if (this.batchHistoryTabRef?.current) {
+                this.batchHistoryTabRef?.current.setStateFromParent();
+                this.batchHistoryTabRef?.current.scrollTabFromParent(0);
+                this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(false);
             } else {
                 setTimeout(() => {
                     this.batchHistoryTabRef.current.setStateFromParent();

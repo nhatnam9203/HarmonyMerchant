@@ -28,7 +28,10 @@ class TabBatchHistory extends Layout {
     }
 
     scrollTabFromParent =(page) =>{
-        this.scrollTabRef.current.goToPage(page);
+        if(this.scrollTabRef?.current){
+            this.scrollTabRef?.current?.goToPage(page);
+        }
+       
     }
 
     goToBatchHistoryDetail = (settlementDetail) => {
