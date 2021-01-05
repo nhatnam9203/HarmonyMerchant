@@ -4,10 +4,11 @@ import {
     Image,
     TextInput,
     FlatList,
+    ActivityIndicator
 } from 'react-native';
 
 import { scaleSzie, localize, } from '@utils';
-import { Text, Button, ButtonCustom, Dropdown, PopupCalendar,ClearTextInputIcon } from '@components';
+import { Text, Button, ButtonCustom, Dropdown, PopupCalendar, ClearTextInputIcon } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
 import { ItemTransaction, HeaderTableTransaction } from './widget';
@@ -118,7 +119,7 @@ class Layout extends React.Component {
 
     renderContent() {
         const { transactionsSettlement, listTransactionSearch, isShowSearchTransaction,
-            refreshingTransaction, language
+            refreshingTransaction, language,isLoadMoreTransSettlement
         } = this.props;
         const tempData = isShowSearchTransaction ? listTransactionSearch : transactionsSettlement;
         return (
@@ -134,7 +135,22 @@ class Layout extends React.Component {
                         renderItem={({ item, index }) => <ItemTransaction data={item} />}
                         keyExtractor={(item, index) => `${index}`}
                         refreshing={refreshingTransaction}
-                        onRefresh={this.searchTransactions.bind(this, false)}
+                        onRefresh={() => this.searchTransactions(1, false)}
+
+                        onEndReached={this.loadMoreSettlement}
+                        onEndReachedThreshold={0.5}
+                        onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+                        removeClippedSubviews={true}
+                        initialNumToRender={20}
+                        maxToRenderPerBatch={5}
+                        ListFooterComponent={() => <View style={{ height: scaleSzie(30), alignItems: "center", justifyContent: "center" }} >
+                        {
+                            isLoadMoreTransSettlement ? <ActivityIndicator
+                                size="large"
+                                color="#0764B0"
+                            /> : null
+                        }
+                    </View>}
                     />
 
                 </View>

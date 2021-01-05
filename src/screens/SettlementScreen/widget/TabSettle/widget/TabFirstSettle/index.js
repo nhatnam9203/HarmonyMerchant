@@ -428,7 +428,6 @@ class TabFirstSettle extends Layout {
     }
 
     handleRequestAPIByTerminalID = (terminalID) => {
-        console.log("------ terminalID: ", terminalID);
         this.setState({
             terminalID
         });

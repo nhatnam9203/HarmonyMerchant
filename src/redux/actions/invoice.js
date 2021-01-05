@@ -54,13 +54,15 @@ export function invoicesOfStaff(staffId) {
     }
 }
 
-export function getTransactionSettlement(status = "", timeStart = "", timeEnd = "", key = "", quickFilter = "", isShowLoading = true) {
+export function getTransactionSettlement(status = "", timeStart = "", timeEnd = "", key = "", quickFilter = "",page = 1 ,isShowLoading = true,isLoadMore = false) {
     return {
         type: 'GET_TRANSACTION_SETTLEMENT',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}settlement/transaction?status=${status}&timeStart=${timeStart}&timeEnd=${timeEnd}&key=${key}&quickFilter=${quickFilter}`,
+        api: `${apiConfigs.BASE_API}settlement/transaction?status=${status}&timeStart=${timeStart}&timeEnd=${timeEnd}&key=${key}&quickFilter=${quickFilter}&page=${page}`,
         token: true,
-        isShowLoading
+        isShowLoading,
+        currentPage: page,
+        isLoadMore
     }
 }
 

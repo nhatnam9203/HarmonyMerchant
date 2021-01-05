@@ -37,16 +37,14 @@ const initialState = {
     isShowBackBatchHistory: false,
     gitfCardSalesBySettlementId: [],
 
-    isHandleInternalFirstSettlemetTab: false
+    isHandleInternalFirstSettlemetTab: false,
+    settlementCurrentPage: 0,
+    settlementTotalPages: 0,
+    isLoadMoreTransSettlement: false
 }
 
 function invoiceReducer(state = initialState, action) {
     switch (action.type) {
-        case 'GET_TRANSACTION_SETTLEMENT':
-            return {
-                ...state,
-                refreshingTransaction: !action.isShowLoading
-            }
         case 'GET_LIST_INVOICE_BY_MERCHANT':
             return {
                 ...state,
@@ -116,16 +114,26 @@ function invoiceReducer(state = initialState, action) {
                 ...state,
                 invoicesOfStaff: action.payload,
             }
+        case 'GET_TRANSACTION_SETTLEMENT':
+            return {
+                ...state,
+                isLoadMoreTransSettlement: action.isLoadMore,
+                refreshingTransaction: !action.isShowLoading
+            }
         case 'GET_TRANSACTION_SETTLEMENT_SUCCESS':
             return {
                 ...state,
-                transactionsSettlement: action.payload,
-                refreshingTransaction: false
+                transactionsSettlement: action.currentPage === 1 ? action.payload : state.transactionsSettlement.concat(action.payload),
+                refreshingTransaction: false,
+                settlementCurrentPage: action.currentPage,
+                settlementTotalPages: action.totalPages,
+                isLoadMoreTransSettlement: false
             }
         case 'GET_TRANSACTION_SETTLEMENT_FAIL':
             return {
                 ...state,
-                refreshingTransaction: false
+                refreshingTransaction: false,
+                isLoadMoreTransSettlement: false
             }
         case 'SEARCH_TRANSACTION_SETTLEMENT_SUCCESS':
             return {

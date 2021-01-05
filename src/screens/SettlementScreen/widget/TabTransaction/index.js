@@ -19,17 +19,14 @@ class TabTransaction extends Layout {
         super(props);
         this.state = initalSate;
         this.modalCalendarRef = React.createRef();
-    }
-
-    componentDidMount() {
-        this.searchTransactions();
+        this.onEndReachedCalledDuringMomentum = true;
     }
 
     resetStateFromParent = async () => {
         await this.setState(initalSate);
     }
 
-    searchTransactions = (isShowloading = true) => {
+    searchTransactions = (page = 1, isShowloading = true, isLoadMore = false) => {
         const { searchFilter } = this.state;
         const { keySearch, status } = searchFilter;
         const { isCustomizeDate, startDate, endDate, quickFilter } = this.modalCalendarRef.current.state;
@@ -40,10 +37,20 @@ class TabTransaction extends Layout {
             isCustomizeDate ? endDate : "",
             keySearch,
             quickFilter ? getQuickFilterStringInvoice(quickFilter) : "",
-            isShowloading
+            page,
+            isShowloading,
+            isLoadMore
         );
+    }
 
-
+    loadMoreSettlement = () => {
+        if (!this.onEndReachedCalledDuringMomentum) {
+            const { settlementCurrentPage, settlementTotalPages } = this.props;
+            if (settlementCurrentPage < settlementTotalPages) {
+                this.searchTransactions(parseInt(settlementCurrentPage + 1), false, true);
+                this.onEndReachedCalledDuringMomentum = true;
+            }
+        }
     }
 
     showCalendar = () => {
@@ -72,7 +79,6 @@ class TabTransaction extends Layout {
                 this.searchTransactions();
             }, 100);
         } else {
-            // this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
         }
     }
 
@@ -88,7 +94,11 @@ const mapStateToProps = state => ({
     transactionsSettlement: state.invoice.transactionsSettlement,
     listTransactionSearch: state.invoice.listTransactionSearch,
     isShowSearchTransaction: state.invoice.isShowSearchTransaction,
-    refreshingTransaction: state.invoice.refreshingTransaction
+    refreshingTransaction: state.invoice.refreshingTransaction,
+
+    settlementCurrentPage: state.invoice.settlementCurrentPage,
+    settlementTotalPages: state.invoice.settlementTotalPages,
+    isLoadMoreTransSettlement: state.invoice.isLoadMoreTransSettlement
 })
 
 

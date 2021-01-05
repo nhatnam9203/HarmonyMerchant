@@ -5,8 +5,8 @@ import { requestAPI } from '../../utils';
 
 function* getListInvoicesByMerchant(action) {
     try {
-        if( action.isShowLoading ){
-            yield put({ type: 'LOADING_ROOT' }) 
+        if (action.isShowLoading) {
+            yield put({ type: 'LOADING_ROOT' })
         }
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -78,8 +78,8 @@ function* searchInvoice(action) {
 
 function* getSettlementWating(action) {
     try {
-        if(action.isShowLoading){
-            yield put({ type: 'LOADING_ROOT' }) 
+        if (action.isShowLoading) {
+            yield put({ type: 'LOADING_ROOT' })
         }
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -146,16 +146,19 @@ function* invoicesOfStaff(action) {
 
 function* getTransactionSettlement(action) {
     try {
-        if( action.isShowLoading ){
+        if (action.isShowLoading) {
             yield put({ type: 'LOADING_ROOT' })
         }
         const responses = yield requestAPI(action);
+        console.log("------ getTransactionSettlement: ", responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_TRANSACTION_SETTLEMENT_SUCCESS',
-                payload: responses.data
+                payload: responses.data,
+                totalPages: responses?.pages || 0,
+                currentPage: action?.currentPage || 0
             })
 
         } else if (parseInt(codeNumber) === 401) {
@@ -212,8 +215,8 @@ function* searchTransactionSettlement(action) {
 
 function* getBatchHistory(action) {
     try {
-        if(action.isShowLoading ){
-            yield put({ type: 'LOADING_ROOT' }) 
+        if (action.isShowLoading) {
+            yield put({ type: 'LOADING_ROOT' })
         }
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
