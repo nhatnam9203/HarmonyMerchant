@@ -1065,6 +1065,7 @@ class TabCheckout extends Layout {
     }
 
     async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
+        const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment,payAppointmentId } = this.props;
         await this.setState({
             visibleProcessingCredit: false
         })
@@ -1073,6 +1074,9 @@ class TabCheckout extends Layout {
             const tempEnv = env.IS_PRODUCTION;
             if (result.status == 0) {
                 PosLink.cancelTransaction();
+                if (payAppointmentId) {
+                    this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
+                }
                 if (result.message === "ABORTED") {
                     return;
                 }
@@ -1082,6 +1086,9 @@ class TabCheckout extends Layout {
 
             } else if (result.ResultTxt && result.ResultTxt == "OK") {
                 if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
+                    if (payAppointmentId) {
+                        this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
+                    }
                     await this.setState({
                         visibleProcessingCredit: false
                     });
@@ -1089,7 +1096,6 @@ class TabCheckout extends Layout {
                         alert("You're running your Pax on DEMO MODE!")
                     }, 1000);
                 } else {
-                    const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment,payAppointmentId } = this.props;
                     const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal } = this.state;
                     let method = this.getPaymentString(paymentSelected);
 
@@ -1123,6 +1129,9 @@ class TabCheckout extends Layout {
                     }
                 }
             } else {
+                if (payAppointmentId) {
+                    this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
+                }
                 setTimeout(() => {
                     alert(result?.ResultTxt || "Transaction failed:");
                 }, 300)
@@ -1132,12 +1141,16 @@ class TabCheckout extends Layout {
     }
 
     cancelTransaction = async () => {
+        const { payAppointmentId } = this.props;
         if (Platform.OS === "android") {
             PoslinkAndroid.cancelTransaction((data) => {
 
             });
         } else {
             PosLink.cancelTransaction();
+            if (payAppointmentId) {
+                this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
+            }
             await this.setState({
                 visibleProcessingCredit: false,
                 changeButtonDone: false,

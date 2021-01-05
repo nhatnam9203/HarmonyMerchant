@@ -238,7 +238,7 @@ export function changeFlagSigninAppointment(flag = false) {
 }
 
 
-export function submitPaymentWithCreditCard(merchantId, responseData, checkoutPaymentId,moneyUserGiveForStaff) {
+export function submitPaymentWithCreditCard(merchantId, responseData, checkoutPaymentId, moneyUserGiveForStaff) {
     return {
         type: 'SUBMIT_PAYMENT_WITH_CREDIT_CARD',
         body: {
