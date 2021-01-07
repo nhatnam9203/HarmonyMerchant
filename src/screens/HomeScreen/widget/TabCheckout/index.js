@@ -1059,7 +1059,6 @@ class TabCheckout extends Layout {
 
         const tipRequest = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
 
-        console.log("------ paxAmount: ",paxAmount);
         // 3. Send Transaction 
         PosLink.sendTransaction(tenderType, parseFloat(paxAmount), 0, tipRequest, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer));
     }

@@ -293,7 +293,7 @@ function* paymentAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' })
         const responses = yield requestAPI(action);
-        console.log("------ PAY_APPOINTMENT: ", JSON.stringify(responses));
+        // console.log("------ PAY_APPOINTMENT: ", JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -1125,14 +1125,14 @@ function* checkCreditPaymentToServer(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log("-------- checkCreditPaymentToServer: ",JSON.stringify(responses));
+        // console.log("-------- checkCreditPaymentToServer: ", JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-           yield put({
-               type:"CHECK_CREDIT_PAYMENT_TO_SERVER_SUCCESS",
-               payload: responses?.data || 0,
-               paxAmount: action?.paxAmount || 0
-           })
+            yield put({
+                type: "CHECK_CREDIT_PAYMENT_TO_SERVER_SUCCESS",
+                payload: responses?.data || 0,
+                paxAmount: action?.paxAmount || 0
+            })
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -1144,14 +1144,14 @@ function* checkCreditPaymentToServer(action) {
                 message: responses?.message
             });
             yield put({
-                type:"CHECK_CREDIT_PAYMENT_TO_SERVER_FAIL",
+                type: "CHECK_CREDIT_PAYMENT_TO_SERVER_FAIL",
             });
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         yield put({ type: error });
         yield put({
-            type:"CHECK_CREDIT_PAYMENT_TO_SERVER_FAIL",
+            type: "CHECK_CREDIT_PAYMENT_TO_SERVER_FAIL",
         });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
