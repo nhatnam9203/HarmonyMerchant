@@ -260,6 +260,7 @@ class PopupAddEditProduct extends React.Component {
                                             flex: 1
                                         }}
                                     />
+                                    
                                 </View>
                                 <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                     {`${localize('Product', language)}*`}

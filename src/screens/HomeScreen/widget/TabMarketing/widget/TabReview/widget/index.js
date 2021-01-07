@@ -8,6 +8,7 @@ import PromotionThird from './PromotionThird';
 import PromotionFive from './PromotionFive';
 import PromotionFour from './PromotionFour';
 import PromotionRewardPoints from "./PromotionRewardPoints";
+import ItemHeader from "./ItemHeader";
 
 module.exports = {
     ItemCalendar,
@@ -19,5 +20,6 @@ module.exports = {
     PromotionThird,
     PromotionFour,
     PromotionFive,
-    PromotionRewardPoints
+    PromotionRewardPoints,
+    ItemHeader,
 }

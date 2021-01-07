@@ -41,7 +41,7 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
-        this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
+        // this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
 
         // ----------- Add Listener Back Action On Android --------------
         BackHandler.addEventListener("hardwareBackPress", this.backAction);
