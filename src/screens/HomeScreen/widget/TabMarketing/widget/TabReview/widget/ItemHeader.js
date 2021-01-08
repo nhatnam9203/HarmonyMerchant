@@ -5,16 +5,32 @@ import Collapsible from "react-native-collapsible";
 import { scaleSzie } from "@utils";
 import IMAGE from "@resources";
 import { Button, Text } from "@components";
+import Stars from "react-native-stars";
 
 const { width } = Dimensions.get("window");
 
-const ItemHeader = ({ title = "", content = "", rating = "" }) => {
+const ItemHeader = ({ title = "", content = "", rating = "", isRating }) => {
   return (
     <View style={styles.container}>
       <View style={styles.padding}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.content}>{content}</Text>
-        <Text style={styles.rating}>{rating}</Text>
+        <View style={styles.row}>
+          <Text style={styles.rating}>{rating}</Text>
+          {isRating && (
+            <View style={{ marginLeft: scaleSzie(10) }}>
+              <Stars
+                display={2.8}
+                spacing={2}
+                count={5}
+                starSize={15}
+                color={"#B1b1b1"}
+                fullStar={IMAGE.FullStar}
+                emptyStar={IMAGE.EmptyStar}
+              />
+            </View>
+          )}
+        </View>
       </View>
     </View>
   );
@@ -54,6 +70,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#404040",
     paddingVertical: scaleSzie(4),
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 

@@ -201,4 +201,9 @@ export default {
   Report_Print: require("./img/report_print.png"),
   Report_Chart: require("./img/report_chart.png"),
   Report_Grid: require("./img/report_grid.png"),
+
+  // --- Review ---
+
+  FullStar: require("./img/fullstar.png"),
+  EmptyStar: require("./img/emptyStar.png"),
 };
