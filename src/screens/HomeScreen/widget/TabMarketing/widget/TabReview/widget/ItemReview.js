@@ -14,7 +14,31 @@ import Stars from "react-native-stars";
 
 const { width } = Dimensions.get("window");
 
-const ItemReview = ({ item }) => {
+const images = [
+  {
+    url: "",
+  },
+  {
+    url: "",
+  },
+  {
+    url: "",
+  },
+  {
+    url: "",
+  },
+  {
+    url: "",
+  },
+  {
+    url: "",
+  },
+  {
+    url: "",
+  },
+];
+
+const ItemReview = ({ item, openImage }) => {
   const { date, customer, review, rating, actions } = item;
 
   const checkActions = () => {
@@ -27,6 +51,34 @@ const ItemReview = ({ item }) => {
         break;
     }
   };
+
+  function renderImage() {
+    return images.slice(0, 5).map((obj, index) =>
+      index === 4 ? (
+        <TouchableOpacity style={{ marginRight: 5 }} onPress={openImage}>
+          <Image
+            style={[styles.img, { opacity: 0.4 }]}
+            source={{
+              uri: "https://reactnative.dev/img/tiny_logo.png",
+            }}
+          />
+          <View style={styles.extImg}>
+            <Text style={styles.extText}>+{images.length - 5}</Text>
+          </View>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity style={{ marginRight: 5 }} onPress={openImage}>
+          <Image
+            style={styles.img}
+            source={{
+              uri: "https://reactnative.dev/img/tiny_logo.png",
+            }}
+          />
+        </TouchableOpacity>
+      )
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.padding}>
@@ -47,10 +99,14 @@ const ItemReview = ({ item }) => {
           </Text>
         </View>
 
-        <Text style={[styles.text, { width: "45%" }]}>{review}</Text>
+        <View style={{ width: "45%" }}>
+          <Text style={[styles.text]}>{review}</Text>
+          <View style={[styles.row, { marginTop: 8 }]}>{renderImage()}</View>
+        </View>
+
         <View style={{ width: "8%" }}>
           <Stars
-            display={1.7}
+            display={rating}
             spacing={2}
             count={5}
             starSize={15}
@@ -62,6 +118,7 @@ const ItemReview = ({ item }) => {
         <View style={{ width: "12%" }} />
         <TouchableOpacity
           style={[styles.btn, { backgroundColor: checkActions().color }]}
+          // onPress={openImage}
         >
           <Text style={[styles.text, { color: "#FFF" }]}>{actions}</Text>
         </TouchableOpacity>
@@ -94,6 +151,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 1,
+  },
+  img: {
+    width: scaleSzie(25),
+    height: scaleSzie(25),
+  },
+  extImg: {
+    position: "absolute",
+    top: scaleSzie(5),
+    left: scaleSzie(4),
+  },
+  extText: {
+    color: "#000",
+    fontSize: scaleSzie(12),
   },
 });
 

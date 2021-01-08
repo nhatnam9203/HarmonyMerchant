@@ -19,12 +19,27 @@ export default StyleSheet.create({
   },
   itemDropdown: {
     width: scaleSzie(120),
-    height: scaleSzie(40),
+    height: scaleSzie(38),
     paddingLeft: scaleSzie(15),
   },
   titletabar: {
-      color: '#404040',
-      fontSize: scaleSzie(17),
-      fontWeight: '500'
+    color: "#404040",
+    fontSize: scaleSzie(17),
+    fontWeight: "500",
+  },
+  closeBtn: {
+    marginTop: scaleSzie(25),
+    marginRight: scaleSzie(20),
+    width: scaleSzie(30),
+    height: scaleSzie(30),
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  close:{
+    width: scaleSzie(30),
+    height: scaleSzie(30),
+  },
+  headerView: {
+    alignItems: 'flex-end'
   }
 });
