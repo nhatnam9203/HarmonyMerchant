@@ -132,8 +132,10 @@ export default function StaffReportTab({
         <TableListExtended
           tableData={filterDataTable()}
           tableHead={{
-            name: localize("Name", language),
+            name: localize("Name ", language),
             serviceSales: localize("Service Sales", language),
+            surcharge: localize("Surcharge", language),
+            netServiceSales: localize("Net Service Sale", language),
             serviceSplit: localize("Service Split", language),
             productSales: localize("Product Sales", language),
             productSplit: localize("Product Split", language),
@@ -146,6 +148,8 @@ export default function StaffReportTab({
           whiteKeys={[
             "name",
             "serviceSales",
+            "surcharge",
+            "netServiceSales",
             "serviceSplit",
             "productSales",
             "productSplit",
@@ -160,6 +164,8 @@ export default function StaffReportTab({
           sumTotalKey="name"
           calcSumKeys={[
             "serviceSales",
+            "surcharge",
+            "netServiceSales",
             "serviceSplit",
             "productSales",
             "productSplit",
@@ -171,6 +177,8 @@ export default function StaffReportTab({
           ]}
           priceKeys={[
             "serviceSales",
+            "surcharge",
+            "netServiceSales",
             "serviceSplit",
             "productSales",
             "productSplit",

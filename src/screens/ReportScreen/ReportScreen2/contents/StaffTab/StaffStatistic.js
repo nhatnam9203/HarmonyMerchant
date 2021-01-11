@@ -26,6 +26,8 @@ export default function StaffStatistic(props, ref) {
       tableHead: {
         dateString: localize("Date", language),
         serviceSales: localize("Service Sales", language),
+        surcharge: localize("Surcharge", language),
+        netServiceSales: localize("Net Service Sale", language),
         serviceSplit: localize("Service Split", language),
         productSales: localize("Product Sales", language),
         productSplit: localize("Product Split", language),
@@ -40,6 +42,8 @@ export default function StaffStatistic(props, ref) {
       whiteKeys: [
         "dateString",
         "serviceSales",
+        "surcharge",
+        "netServiceSales",
         "serviceSplit",
         "productSales",
         "productSplit",
@@ -55,6 +59,8 @@ export default function StaffStatistic(props, ref) {
       sumTotalKey: "dateString",
       calcSumKeys: [
         "serviceSales",
+        "surcharge",
+        "netServiceSales",
         "serviceSplit",
         "productSales",
         "productSplit",
@@ -66,6 +72,8 @@ export default function StaffStatistic(props, ref) {
       ],
       priceKeys: [
         "serviceSales",
+        "surcharge",
+        "netServiceSales",
         "serviceSplit",
         "productSales",
         "productSplit",
@@ -81,7 +89,7 @@ export default function StaffStatistic(props, ref) {
     });
   }, [filterId, listStaffsSalary]);
 
-  const onCellPress = ({ key, row, column, item }) => {};
+  const onCellPress = ({ key, row, column, item }) => { };
 
   const renderCell = ({ key, row, column, item }) => {
     return null;

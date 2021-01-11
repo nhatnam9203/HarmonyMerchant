@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TouchableOpacity, StyleSheet, Text, View, Image } from "react-native";
-import {ScrollableTabView} from "@components";
+import { ScrollableTabView } from "@components";
 
 import IMAGE from "@resources";
 

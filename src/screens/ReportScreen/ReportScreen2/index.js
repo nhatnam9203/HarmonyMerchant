@@ -84,7 +84,7 @@ function ReportScreen2({ showBackButton }, ref) {
           break;
       }
     },
-    didFocus: () => {},
+    didFocus: () => { },
   }));
 
   const onTabChange = (index) => {
