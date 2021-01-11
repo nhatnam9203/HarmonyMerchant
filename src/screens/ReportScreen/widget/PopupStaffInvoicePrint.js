@@ -134,8 +134,7 @@ class PopupStaffInvoicePrint extends React.Component {
         ? `0${parseInt(new Date().getHours()) - 12}`
         : parseInt(new Date().getHours());
     const surfix = parseInt(new Date().getHours()) - 12 > 0 ? "PM" : "AM";
-    const temptDate = `${hours}:${
-      new Date().getMinutes() > 10
+    const temptDate = `${hours}:${new Date().getMinutes() > 10
         ? new Date().getMinutes()
         : `0${new Date().getMinutes()}`
       } ${surfix}`;
@@ -144,8 +143,7 @@ class PopupStaffInvoicePrint extends React.Component {
   }
 
   getDate() {
-    return `${
-      new Date().getMonth() + 1
+    return `${new Date().getMonth() + 1
       }/${new Date().getDate()}/${new Date().getFullYear()}`;
   }
 
@@ -227,18 +225,14 @@ class PopupStaffInvoicePrint extends React.Component {
     const toTime = receipts.to
       ? formatWithMoment(receipts.to, "MM/DD/YYYY")
       : "";
-    const sales = receipts.serviceSales ? receipts.serviceSales : "0.00";
-    const workingHour = receipts.workingHour ? receipts.workingHour : "0";
-    const product = receipts.productSales ? receipts.productSales : "0.00";
-    const cash = receipts.cash ? receipts.cash : "0.00";
-    const nonCash = receipts.nonCash ? receipts.nonCash : "0.00";
-    const detail = receipts.detail ?? [];
-
-    // const servicePayout = this.findReceiptType("ServicePayout");
-    // const workingHourReceipt = this.findReceiptType("WorkingHour");
-    // const productPayout = this.findReceiptType("ProductPayout");
-    // const tippayout = this.findReceiptType("Tippayout");
-    // const totalReceipt = this.findReceiptType("Total");
+    const sales = receipts?.serviceSales || "0.00";
+    const workingHour = receipts?.workingHour || "0";
+    const product =  receipts?.productSales || "0.00";
+    const cash = receipts?.cash || "0.00";
+    const nonCash = receipts?.nonCash || "0.00";
+    const detail = receipts?.detail || [];
+    const netServiceSales = receipts?.netServiceSales || "0.00";
+    
     let totalDesc = "";
     return (
       <Modal
@@ -278,7 +272,7 @@ class PopupStaffInvoicePrint extends React.Component {
                       { fontSize: scaleSzie(14), fontWeight: "600" },
                     ]}
                   >
-                    {`${receiptType} receipts - ${staffName}`}
+                    {`${receiptType} receipts 111 - ${staffName}`}
                   </Text>
                   {/* -------------- Date -------------- */}
                   <Text
@@ -295,6 +289,10 @@ class PopupStaffInvoicePrint extends React.Component {
                   <ItemStaffInvoice
                     title="Service Sales"
                     value={`$ ${sales}`}
+                  />
+                  <ItemStaffInvoice
+                    title="Net Service Sale"
+                    value={`$ ${netServiceSales}`}
                   />
                   <ItemStaffInvoice
                     title="Total Time Work"
@@ -343,11 +341,9 @@ class PopupStaffInvoicePrint extends React.Component {
                                 }}
                               />
                               <ItemStaffInvoice
-                                title={`Tip Fee (${
-                                  x.fee && x.fee.value ? x.fee.value : "0.00%"
+                                title={`Tip Fee (${x.fee && x.fee.value ? x.fee.value : "0.00%"
                                   })`}
-                                value={`$ ${
-                                  x.fee && x.fee.amount ? x.fee.amount : "0.00"
+                                value={`$ ${x.fee && x.fee.amount ? x.fee.amount : "0.00"
                                   }`}
                                 styleTilte={{
                                   fontSize: scaleSzie(13),
