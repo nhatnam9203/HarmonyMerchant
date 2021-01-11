@@ -139,11 +139,12 @@ class Layout extends React.Component {
 
   renderItem = () => {
     return data.map((obj, index) => (
-      <ItemReview item={obj} openImage={this.openImage} />
+      <ItemReview key={index} item={obj} openImage={this.openImage} />
     ));
   };
 
   render() {
+    const {rating, count, goodCount, badCount} = this.props.summaryReview;
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -159,23 +160,23 @@ class Layout extends React.Component {
             <ItemHeader
               title={"Aggregate rating"}
               content={"All time statictics"}
-              rating={"4.7"}
+              rating={rating}
               isRating={true}
             />
             <ItemHeader
               title={"Total reivews"}
               content={"All time statictics"}
-              rating={"122"}
+              rating={count}
             />
             <ItemHeader
               title={"Good reviews"}
               content={"All time statictics"}
-              rating={"100"}
+              rating={goodCount}
             />
             <ItemHeader
               title={"Bad reviews"}
               content={"All time statictics"}
-              rating={"22"}
+              rating={badCount}
             />
           </View>
 
@@ -197,8 +198,8 @@ class Layout extends React.Component {
               <Dropdown
                 label={"All reviews"}
                 data={dataReview}
-                value={this.state.isReview}
-                onChangeText={(value) => this.setState({ isReview: value })}
+                value={this.formatDataReview(this.state.isReview).value}
+                onChangeText={(value) => this.onFilterReview(value)}
                 containerStyle={{
                   backgroundColor: "#FFF",
                   borderWidth: 1,
@@ -212,8 +213,8 @@ class Layout extends React.Component {
               <Dropdown
                 label={"All Status"}
                 data={dataStatus}
-                value={this.state.isStatus}
-                onChangeText={(value) => this.setState({ isStatus: value })}
+                value={this.formatDataStatus(this.state.isStatus).value}
+                onChangeText={(value) => this.onFilterStatus(value)}
                 containerStyle={{
                   backgroundColor: "#FFF",
                   borderWidth: 1,

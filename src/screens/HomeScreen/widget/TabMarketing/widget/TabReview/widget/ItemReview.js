@@ -55,7 +55,7 @@ const ItemReview = ({ item, openImage }) => {
   function renderImage() {
     return images.slice(0, 5).map((obj, index) =>
       index === 4 ? (
-        <TouchableOpacity style={{ marginRight: 5 }} onPress={openImage}>
+        <TouchableOpacity key={index} style={{ marginRight: 5 }} onPress={openImage}>
           <Image
             style={[styles.img, { opacity: 0.4 }]}
             source={{
@@ -67,7 +67,7 @@ const ItemReview = ({ item, openImage }) => {
           </View>
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity style={{ marginRight: 5 }} onPress={openImage}>
+        <TouchableOpacity key={index} style={{ marginRight: 5 }} onPress={openImage}>
           <Image
             style={styles.img}
             source={{

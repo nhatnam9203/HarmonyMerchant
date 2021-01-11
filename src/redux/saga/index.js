@@ -13,6 +13,7 @@ import customer from "./customer";
 import invoice from "./invoice";
 import marketing from "./marketing";
 import report from "./report";
+import review from "./review";
 
 export default function* sagaRoot() {
   yield all([
@@ -29,5 +30,6 @@ export default function* sagaRoot() {
     invoice(),
     marketing(),
     report(),
+    review(),
   ]);
 }

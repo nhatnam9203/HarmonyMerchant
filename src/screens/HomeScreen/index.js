@@ -14,7 +14,7 @@ import configs from '@configs';
 
 const initialState = {
     isFocus: true,
-    currentTab: 1,
+    currentTab: 0,
     visibleConfirm: false,
     temptCurrentTap: -1,
     visibleEnterPin: true,
@@ -41,7 +41,7 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
-        // this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
+        this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
 
         // ----------- Add Listener Back Action On Android --------------
         BackHandler.addEventListener("hardwareBackPress", this.backAction);

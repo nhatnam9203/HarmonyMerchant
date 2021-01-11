@@ -12,6 +12,7 @@ import * as customer from "./customer";
 import * as invoice from "./invoice";
 import * as marketing from "./marketing";
 import * as report from "./report";
+import * as review from "./review";
 
 export default {
   app,
@@ -28,4 +29,5 @@ export default {
   invoice,
   marketing,
   report,
+  review,
 };

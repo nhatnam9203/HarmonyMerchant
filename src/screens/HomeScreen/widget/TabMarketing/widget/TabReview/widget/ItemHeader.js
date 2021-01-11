@@ -20,7 +20,7 @@ const ItemHeader = ({ title = "", content = "", rating = "", isRating }) => {
           {isRating && (
             <View style={{ marginLeft: scaleSzie(10) }}>
               <Stars
-                display={2.8}
+                display={rating/1}
                 spacing={2}
                 count={5}
                 starSize={15}
