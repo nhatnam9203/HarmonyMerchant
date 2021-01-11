@@ -42,7 +42,7 @@ function* getListReview(action) {
     if (parseInt(codeNumber) == 200) {
       yield put({
         type: "GET_LIST_REVIEW_SUCCESS",
-        payload: responses?.data,
+        payload: responses?.data || [],
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
@@ -66,7 +66,7 @@ function* getListReview(action) {
 
 function* showReview(action) {
   try {
-    yield put({ type: "LOADING_ROOT" });
+    // yield put({ type: "LOADING_ROOT" });
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
@@ -90,13 +90,13 @@ function* showReview(action) {
   } catch (error) {
     yield put({ type: error });
   } finally {
-    yield put({ type: "STOP_LOADING_ROOT" });
+    // yield put({ type: "STOP_LOADING_ROOT" });
   }
 }
 
 function* hideReview(action) {
   try {
-    yield put({ type: "LOADING_ROOT" });
+    // yield put({ type: "LOADING_ROOT" });
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
@@ -120,7 +120,7 @@ function* hideReview(action) {
   } catch (error) {
     yield put({ type: error });
   } finally {
-    yield put({ type: "STOP_LOADING_ROOT" });
+    // yield put({ type: "STOP_LOADING_ROOT" });
   }
 }
 

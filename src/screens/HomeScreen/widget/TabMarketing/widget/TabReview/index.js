@@ -12,6 +12,7 @@ class TabReview extends Layout {
       isvisible: false,
       isReview: "all",
       isStatus: "all",
+      refreshing: false
     };
   }
 
@@ -47,10 +48,10 @@ class TabReview extends Layout {
         break;
     }
     console.log(this.state.isStatus, this.state.isReview);
-    // this.props.actions.review.getListReview(
-    //   this.state.isStatus,
-    //   this.state.isReview
-    // );
+    this.props.actions.review.getListReview(
+      this.state.isStatus,
+      this.state.isReview
+    );
   };
 
   formatDataReview = (item) => {
@@ -96,10 +97,10 @@ class TabReview extends Layout {
     }
     console.log(this.state.isStatus, this.state.isReview);
 
-    // this.props.actions.review.getListReview(
-    //   this.state.isStatus,
-    //   this.state.isReview
-    // );
+    this.props.actions.review.getListReview(
+      this.state.isStatus,
+      this.state.isReview
+    );
   };
 
   onLoadmore = () => {
@@ -111,24 +112,37 @@ class TabReview extends Layout {
     );
   };
 
-  onRefesh = () => {
+  onRefresh = () => {
+    this.setState({refreshing: true})
     const merchantId = this.props.merchantId;
     this.props.actions.review.getSummaryReview(merchantId);
     this.props.actions.review.getListReview(
       this.state.isStatus,
       this.state.isReview
     );
+    this.setState({refreshing: false})
   };
 
   isVisibleReview = (status, id) => {
     switch (status) {
-      case "show":
+      case 0:
         this.props.actions.review.hideRating(id);
+        setTimeout(() => {
+          this.props.actions.review.getListReview(
+            this.state.isStatus,
+            this.state.isReview
+          );
+        }, 500);
         break;
-      case "hide":
+      case 1:
         this.props.actions.review.showRating(id);
+        setTimeout(() => {
+          this.props.actions.review.getListReview(
+            this.state.isStatus,
+            this.state.isReview
+          );
+        }, 500);
         break;
-
       default:
         break;
     }
@@ -138,6 +152,7 @@ class TabReview extends Layout {
 const mapStateToProps = (state) => ({
   merchantId: state.dataLocal.profile?.merchantId,
   summaryReview: state.review.summaryReview,
+  listReview: state.review.listReview,
 });
 
 export default connectRedux(mapStateToProps, TabReview);

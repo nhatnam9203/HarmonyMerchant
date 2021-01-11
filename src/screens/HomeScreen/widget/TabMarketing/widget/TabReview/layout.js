@@ -8,6 +8,8 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  RefreshControl,
+  FlatList,
 } from "react-native";
 
 import { scaleSzie, localize } from "@utils";
@@ -138,16 +140,28 @@ class Layout extends React.Component {
   }
 
   renderItem = () => {
-    return data.map((obj, index) => (
-      <ItemReview key={index} item={obj} openImage={this.openImage} />
+    return this.props.listReview.map((obj, index) => (
+      <ItemReview
+        key={index}
+        item={obj}
+        openImage={this.openImage}
+        isVisibleReview={this.isVisibleReview}
+      />
     ));
   };
 
   render() {
-    const {rating, count, goodCount, badCount} = this.props.summaryReview;
+    const { rating, count, goodCount, badCount } = this.props.summaryReview;
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
+        >
           <View
             style={[
               styles.row,
@@ -248,7 +262,20 @@ class Layout extends React.Component {
           </View>
 
           {/* ITEM REVIEW */}
-          {this.renderItem()}
+          {/* {this.renderItem()} */}
+
+          <FlatList
+            data={this.props.listReview}
+            renderItem={({ item, index }) => (
+              <ItemReview
+                key={index}
+                item={item}
+                openImage={this.openImage}
+                isVisibleReview={this.isVisibleReview}
+              />
+            )}
+            keyExtractor={(item,index) => `${index}`}
+          />
         </ScrollView>
         <Modal
           visible={this.state.isvisible}
@@ -259,7 +286,7 @@ class Layout extends React.Component {
             imageUrls={images}
             onSwipeDown={this.closeImage}
             enableSwipeDown={true}
-            backgroundColor={'#404040'}
+            backgroundColor={"#404040"}
             renderHeader={() => (
               <View style={styles.headerView}>
                 <TouchableOpacity

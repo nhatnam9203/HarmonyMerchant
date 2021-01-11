@@ -206,6 +206,8 @@ export default {
 
   FullStar: require("./img/fullstar.png"),
   EmptyStar: require("./img/emptyStar.png"),
+  HalfStar: require("./img/halfStar.png"),
+  
   ArrowLeft:  require("./img/arrowLeft.png"),
   ArrowRight:  require("./img/arrowRight.png"),
 };

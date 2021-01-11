@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Image,
@@ -10,68 +10,64 @@ import { scaleSzie } from "@utils";
 import IMAGE from "@resources";
 import { Button, Text } from "@components";
 import moment from "moment";
-import Stars from "react-native-stars";
+import StarRating from "react-native-star-rating";
 
 const { width } = Dimensions.get("window");
 
-const images = [
-  {
-    url: "",
-  },
-  {
-    url: "",
-  },
-  {
-    url: "",
-  },
-  {
-    url: "",
-  },
-  {
-    url: "",
-  },
-  {
-    url: "",
-  },
-  {
-    url: "",
-  },
-];
-
-const ItemReview = ({ item, openImage }) => {
-  const { date, customer, review, rating, actions } = item;
-
+const ItemReview = ({ item, openImage, isVisibleReview }) => {
+  const {
+    createdDate,
+    user,
+    message,
+    rating,
+    isDisabled,
+    ratingImages,
+    staffRatingId,
+  } = item;
+  console.log(rating);
   const checkActions = () => {
-    switch (actions) {
-      case "Show":
-        return { color: "#0764B0" };
-      case "Hide":
-        return { color: "#FF3B30" };
+    switch (isDisabled) {
+      case 0:
+        return { color: "#0764B0", content: "Show" };
+      case 1:
+        return { color: "#FF3B30", content: "Hidden" };
       default:
-        break;
+        return { color: "#0764B0" };
     }
   };
 
+  const onDisableReview = () => {
+    isVisibleReview(isDisabled, staffRatingId);
+  };
+
   function renderImage() {
-    return images.slice(0, 5).map((obj, index) =>
+    return ratingImages.slice(0, 5).map((obj, index) =>
       index === 4 ? (
-        <TouchableOpacity key={index} style={{ marginRight: 5 }} onPress={openImage}>
+        <TouchableOpacity
+          key={index}
+          style={{ marginRight: 5 }}
+          onPress={openImage}
+        >
           <Image
             style={[styles.img, { opacity: 0.4 }]}
             source={{
-              uri: "https://reactnative.dev/img/tiny_logo.png",
+              uri: obj.imageUrl,
             }}
           />
           <View style={styles.extImg}>
-            <Text style={styles.extText}>+{images.length - 5}</Text>
+            <Text style={styles.extText}>+{ratingImages.length - 5}</Text>
           </View>
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity key={index} style={{ marginRight: 5 }} onPress={openImage}>
+        <TouchableOpacity
+          key={index}
+          style={{ marginRight: 5 }}
+          onPress={openImage}
+        >
           <Image
             style={styles.img}
             source={{
-              uri: "https://reactnative.dev/img/tiny_logo.png",
+              uri: obj.imageUrl,
             }}
           />
         </TouchableOpacity>
@@ -84,43 +80,45 @@ const ItemReview = ({ item, openImage }) => {
       <View style={styles.padding}>
         <View style={{ width: "12%" }}>
           <Text style={[styles.text]}>
-            {moment(new Date()).format("MM/DD/YYYY")}
+            {moment(createdDate).format("MM/DD/YYYY")}
           </Text>
           <Text style={[styles.text]}>
-            {moment(new Date()).format("h:mm A")}
+            {moment(createdDate).format("h:mm A")}
           </Text>
         </View>
         <View style={{ width: "15%" }}>
           <Text style={[styles.text, { color: "#0764B0", fontWeight: "500" }]}>
-            {customer}
+            {user?.name || ""}
           </Text>
-          <Text style={[styles.text, { color: "#0764B0", fontWeight: "500" }]}>
+          {/* <Text style={[styles.text, { color: "#0764B0", fontWeight: "500" }]}>
             {customer}
-          </Text>
+          </Text> */}
         </View>
 
         <View style={{ width: "45%" }}>
-          <Text style={[styles.text]}>{review}</Text>
+          <Text style={[styles.text]}>{message}</Text>
           <View style={[styles.row, { marginTop: 8 }]}>{renderImage()}</View>
         </View>
 
         <View style={{ width: "8%" }}>
-          <Stars
-            display={rating}
-            spacing={2}
-            count={5}
-            starSize={15}
-            color={"#B1b1b1"}
+          <StarRating
+            disabled={false}
+            maxStars={5}
+            rating={rating /1}
             fullStar={IMAGE.FullStar}
             emptyStar={IMAGE.EmptyStar}
+            halfStar={IMAGE.HalfStar}
+            starSize={15}
           />
         </View>
         <View style={{ width: "12%" }} />
         <TouchableOpacity
           style={[styles.btn, { backgroundColor: checkActions().color }]}
-          // onPress={openImage}
+          onPress={onDisableReview}
         >
-          <Text style={[styles.text, { color: "#FFF" }]}>{actions}</Text>
+          <Text style={[styles.text, { color: "#FFF" }]}>
+            {checkActions().content}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
