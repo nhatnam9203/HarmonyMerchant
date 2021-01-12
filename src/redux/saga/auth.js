@@ -50,7 +50,7 @@ function* login(action) {
     action.body = body;
 
     responses = yield requestAPI(action);
-
+    console.log("LOGIN_APP_SUCCESS: ",JSON.stringify(responses));
     yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {

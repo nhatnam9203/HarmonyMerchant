@@ -24,7 +24,7 @@ class Layout extends React.Component {
     renderSetup() {
         const { language, autoLockScreenAfter, isTipOnPaxMachine } = this.props;
         const { languageApp, webLink, autoCloseAt, timezone, businessHour, turnAmount, staffColumn,
-            signinAppStyle, sendReviewLinkOption, isUsingTurn
+            signinAppStyle, sendReviewLinkOption, isUsingTurn,giftForNewEnabled
         } = this.state;
 
         return (
@@ -102,8 +102,8 @@ class Layout extends React.Component {
                         </View>
                     </View>
 
-                     {/* ------- Auto Turn  ------ */}
-                     <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
+                    {/* ------- Auto Turn  ------ */}
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
                         <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
                             <Text style={{
                                 color: '#404040',
@@ -140,6 +140,27 @@ class Layout extends React.Component {
                                 ios_backgroundColor="#E5E5E5"
                                 onValueChange={this.switchTipOnPaxMachine}
                                 value={isTipOnPaxMachine}
+                            />
+                        </View>
+                    </View>
+
+                    {/* ------- Gift for new customer  ------ */}
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
+                        <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
+                            <Text style={{
+                                color: '#404040',
+                                fontSize: scaleSzie(16),
+                                fontWeight: '600',
+                            }}  >
+                                {`Gift For New Customer:`}
+                            </Text>
+                        </View>
+                        <View style={{ height: scaleSzie(40), width: scaleSzie(140), justifyContent: "center" }} >
+                            <Switch
+                                trackColor={{ false: "#767577", true: "#0764B0" }}
+                                ios_backgroundColor="#E5E5E5"
+                                onValueChange={(giftForNewEnabled) => this.setState({ giftForNewEnabled })}
+                                value={giftForNewEnabled}
                             />
                         </View>
                     </View>
