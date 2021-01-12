@@ -117,19 +117,19 @@ const HeaderTable = () => {
                 </Text>
             </View>
             {/* --------- Sales  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
+            <View style={{ flex: 0.6, justifyContent: "center",alignItems:"flex-end" }} >
                 <Text style={styles.txt_header_table} >
                     {`Sales`}
                 </Text>
             </View>
             {/* --------- Tax  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
+            <View style={{ flex: 0.6, justifyContent: "center" ,alignItems:"flex-end"}} >
                 <Text style={styles.txt_header_table} >
                     {`Tax`}
                 </Text>
             </View>
             {/* --------- Tip  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
+            <View style={{ flex: 0.6, justifyContent: "center",alignItems:"flex-end" }} >
                 <Text style={styles.txt_header_table} >
                     {`Tip`}
                 </Text>
@@ -168,19 +168,19 @@ const RowTable = ({ data }) => {
                 </Text>
             </View>
             {/* --------- Sales  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
+            <View style={{ flex: 0.6, justifyContent: "center" ,alignItems:"flex-end"}} >
                 <Text style={[styles.txt_row_table, { fontWeight: "bold" }]} >
                     {`$ ${data.sales ? data.sales : "0.00"}`}
                 </Text>
             </View>
             {/* --------- Tax  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
+            <View style={{ flex: 0.6, justifyContent: "center",alignItems:"flex-end" }} >
                 <Text style={[styles.txt_row_table, { fontWeight: "bold" }]} >
                     {`$ ${data.tax ? data.tax : "0.00"}`}
                 </Text>
             </View>
             {/* --------- Tip  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
+            <View style={{ flex: 0.6, justifyContent: "center" ,alignItems:"flex-end"}} >
                 <Text style={[styles.txt_row_table, { fontWeight: "bold" }]} >
                     {`$ ${data.tip ? data.tip : "0.00"}`}
                 </Text>
