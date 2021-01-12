@@ -67,11 +67,13 @@ const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra, groupAppointme
     const temptTextColor = isSelect ? { color: '#fff' } : {};
 
     return (
-        <Button onPress={() => onPressSelectExtra(extra)} style={[{
-            height: scaleSzie(68), justifyContent: 'center',
-            alignItems: 'center', borderBottomWidth: 2, borderBottomColor: '#DDDDDD',
-            backgroundColor: "#FAFAFA"
-        }, temtemptBackgrounColorSelectOnServer, temptBackgrounColor]} >
+        <Button
+            disabled={isSelectOnServer}
+            onPress={() => onPressSelectExtra(extra)} style={[{
+                height: scaleSzie(68), justifyContent: 'center',
+                alignItems: 'center', borderBottomWidth: 2, borderBottomColor: '#DDDDDD',
+                backgroundColor: "#FAFAFA"
+            }, temtemptBackgrounColorSelectOnServer, temptBackgrounColor]} >
 
             <View style={{ flex: 1, flexDirection: "row", padding: scaleSzie(4) }} >
                 <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center" }} >

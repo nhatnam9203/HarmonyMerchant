@@ -90,9 +90,11 @@ const ItemProductService = ({ item, showColAmount, itemSelected, categoryTypeSel
     const temptTextPriceColor = item[temptKeyId] === itemSelected[temptKeyId] ? { color: '#fff' } : {};
 
     return (
-        <Button onPress={() => showColAmount(item)} style={[{
-            height: scaleSzie(68), borderBottomWidth: 2, borderBottomColor: '#DDDDDD', backgroundColor: '#FAFAFA'
-        }, temtemptBackgrounColorSelectOnServer, temptBackgrounColor]} >
+        <Button
+            disabled={isSelectOnServer}
+            onPress={() => showColAmount(item)} style={[{
+                height: scaleSzie(68), borderBottomWidth: 2, borderBottomColor: '#DDDDDD', backgroundColor: '#FAFAFA'
+            }, temtemptBackgrounColorSelectOnServer, temptBackgrounColor]} >
             <View style={{ flex: 1, flexDirection: "row", padding: scaleSzie(4) }} >
                 <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center" }} >
                     <View style={{ width: scaleSzie(50), height: scaleSzie(60) }} >
