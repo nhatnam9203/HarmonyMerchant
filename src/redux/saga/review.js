@@ -36,13 +36,17 @@ function* getSummaryReview(action) {
 
 function* getListReview(action) {
   try {
-    yield put({ type: "LOADING_ROOT" });
+    if (action.isShowLoading) {
+      yield put({ type: "LOADING_ROOT" });
+    }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
       yield put({
         type: "GET_LIST_REVIEW_SUCCESS",
         payload: responses?.data || [],
+        totalPages: responses?.pages || 0,
+        currentPage: action.currentPage,
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({

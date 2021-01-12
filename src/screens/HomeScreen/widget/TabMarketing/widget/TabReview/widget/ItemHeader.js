@@ -6,6 +6,7 @@ import { scaleSzie } from "@utils";
 import IMAGE from "@resources";
 import { Button, Text } from "@components";
 import StarRating from "react-native-star-rating";
+import Stars from "react-native-stars";
 
 const { width } = Dimensions.get("window");
 

@@ -11,6 +11,7 @@ import IMAGE from "@resources";
 import { Button, Text } from "@components";
 import moment from "moment";
 import StarRating from "react-native-star-rating";
+import FastImage from "react-native-fast-image";
 
 const { width } = Dimensions.get("window");
 
@@ -24,7 +25,6 @@ const ItemReview = ({ item, openImage, isVisibleReview }) => {
     ratingImages,
     staffRatingId,
   } = item;
-  console.log(rating);
   const checkActions = () => {
     switch (isDisabled) {
       case 0:
@@ -40,19 +40,26 @@ const ItemReview = ({ item, openImage, isVisibleReview }) => {
     isVisibleReview(isDisabled, staffRatingId);
   };
 
+  const setImage = (index) => {
+    openImage(ratingImages, index);
+  };
+
   function renderImage() {
     return ratingImages.slice(0, 5).map((obj, index) =>
       index === 4 ? (
         <TouchableOpacity
           key={index}
           style={{ marginRight: 5 }}
-          onPress={openImage}
+          onPress={() => setImage(index)}
         >
-          <Image
+          <FastImage
             style={[styles.img, { opacity: 0.4 }]}
             source={{
               uri: obj.imageUrl,
+              headers: { Authorization: "someAuthToken" },
+              priority: FastImage.priority.high,
             }}
+            resizeMode={FastImage.resizeMode.contain}
           />
           <View style={styles.extImg}>
             <Text style={styles.extText}>+{ratingImages.length - 5}</Text>
@@ -62,13 +69,16 @@ const ItemReview = ({ item, openImage, isVisibleReview }) => {
         <TouchableOpacity
           key={index}
           style={{ marginRight: 5 }}
-          onPress={openImage}
+          onPress={() =>setImage(index)}
         >
-          <Image
-            style={styles.img}
+          <FastImage
+            style={[styles.img]}
             source={{
               uri: obj.imageUrl,
+              headers: { Authorization: "someAuthToken" },
+              priority: FastImage.priority.high,
             }}
+            resizeMode={FastImage.resizeMode.stretch}
           />
         </TouchableOpacity>
       )
@@ -104,7 +114,7 @@ const ItemReview = ({ item, openImage, isVisibleReview }) => {
           <StarRating
             disabled={false}
             maxStars={5}
-            rating={rating /1}
+            rating={rating / 1}
             fullStar={IMAGE.FullStar}
             emptyStar={IMAGE.EmptyStar}
             halfStar={IMAGE.HalfStar}

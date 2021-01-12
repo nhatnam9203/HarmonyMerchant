@@ -12,8 +12,12 @@ class TabReview extends Layout {
       isvisible: false,
       isReview: "all",
       isStatus: "all",
-      refreshing: false
+      refreshing: false,
+      imageArr: [],
+      indexImage: 0,
+      currentPage: 1,
     };
+    this.onEndReachedCalledDuringMomentum = true;
   }
 
   componentDidMount() {
@@ -25,8 +29,22 @@ class TabReview extends Layout {
     );
   }
 
-  openImage = () => {
-    this.setState({ isvisible: true });
+  openImage = (ratingImages, index) => {
+    this.setState({
+      isvisible: true,
+      imageArr: this.formatImageArr(ratingImages),
+      indexImage: index,
+    });
+  };
+
+  formatImageArr = (oldArr) => {
+    const resultArr = oldArr.map((item) => ({
+      url: item.imageUrl,
+      id: item.staffRatingId,
+      // width: 200,
+      // height: 300
+    }));
+    return resultArr;
   };
 
   closeImage = () => {
@@ -47,7 +65,6 @@ class TabReview extends Layout {
       default:
         break;
     }
-    console.log(this.state.isStatus, this.state.isReview);
     this.props.actions.review.getListReview(
       this.state.isStatus,
       this.state.isReview
@@ -95,8 +112,6 @@ class TabReview extends Layout {
       default:
         break;
     }
-    console.log(this.state.isStatus, this.state.isReview);
-
     this.props.actions.review.getListReview(
       this.state.isStatus,
       this.state.isReview
@@ -104,23 +119,31 @@ class TabReview extends Layout {
   };
 
   onLoadmore = () => {
-    const merchantId = this.props.merchantId;
-    this.props.actions.review.getSummaryReview(merchantId);
-    this.props.actions.review.getListReview(
-      this.state.isStatus,
-      this.state.isReview
-    );
+    if (!this.onEndReachedCalledDuringMomentum) {
+      const { totalPages, currentPage } = this.props;
+      if (currentPage < totalPages) {
+        this.props.actions.review.getListReview(
+          this.state.isStatus,
+          this.state.isReview,
+          parseInt(currentPage + 1),
+          false,
+          true
+        );
+        this.onEndReachedCalledDuringMomentum = true;
+      }
+      console.log(totalPages, currentPage);
+    }
   };
 
   onRefresh = () => {
-    this.setState({refreshing: true})
+    this.setState({ refreshing: true});
     const merchantId = this.props.merchantId;
     this.props.actions.review.getSummaryReview(merchantId);
     this.props.actions.review.getListReview(
       this.state.isStatus,
       this.state.isReview
     );
-    this.setState({refreshing: false})
+    this.setState({ refreshing: false });
   };
 
   isVisibleReview = (status, id) => {
@@ -153,6 +176,9 @@ const mapStateToProps = (state) => ({
   merchantId: state.dataLocal.profile?.merchantId,
   summaryReview: state.review.summaryReview,
   listReview: state.review.listReview,
+  isLoadMoreReviewList: state.review.isLoadMoreReviewList,
+  totalPages: state.review.totalPages,
+  currentPage: state.review.currentPage,
 });
 
 export default connectRedux(mapStateToProps, TabReview);

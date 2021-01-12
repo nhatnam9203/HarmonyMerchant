@@ -28,7 +28,7 @@ export default StyleSheet.create({
     fontWeight: "500",
   },
   closeBtn: {
-    marginTop: scaleSzie(25),
+    marginTop: scaleSzie(20),
     marginRight: scaleSzie(20),
     width: scaleSzie(30),
     height: scaleSzie(30),
