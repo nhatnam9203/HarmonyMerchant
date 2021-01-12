@@ -7,6 +7,7 @@ const initialState = {
   isLoadMoreReviewList: false,
   totalPages: 0,
   currentPage: 0,
+  isGetReview: false,
 };
 
 function reviewReducer(state = initialState, action) {
@@ -15,15 +16,18 @@ function reviewReducer(state = initialState, action) {
       return {
         ...state,
         isLoadMoreReviewList: action.isShowLoadMore,
+        isGetReview: false,
       };
     case "GET_SUMMARY_REVIEW_SUCCESS":
       return {
         ...state,
         summaryReview: action.payload,
+        isGetReview: true,
       };
     case "GET_SUMMARY_REVIEW_FAIL":
       return {
         ...state,
+        isGetReview: false,
       };
 
     case "GET_LIST_REVIEW_SUCCESS":
@@ -60,6 +64,11 @@ function reviewReducer(state = initialState, action) {
     case "HIDE_RATING_REVIEW_FAIL":
       return {
         ...state,
+      };
+    case "RESET_IS_LIST_REVIEW":
+      return {
+        ...state,
+        isGetReview: false,
       };
 
     default:

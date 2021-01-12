@@ -11,8 +11,8 @@ export function getSummaryReview(id = 1, isShowLoading = true) {
 }
 
 export function getListReview(
-  status = "show",
-  review = "good",
+  status = "all",
+  review = "all",
   page = 1,
   isShowLoading = true,
   isShowLoadMore = false
@@ -45,5 +45,11 @@ export function hideRating(id = 1, isShowLoading = true) {
     api: `${apiConfigs.BASE_API}rating/archive/${id}`,
     token: true,
     isShowLoading,
+  };
+}
+
+export function resetListReview() {
+  return {
+    type: "RESET_IS_LIST_REVIEW",
   };
 }

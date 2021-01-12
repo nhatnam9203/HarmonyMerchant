@@ -5,7 +5,9 @@ import apiConfigs from "../../configs/api";
 
 function* getSummaryReview(action) {
   try {
-    yield put({ type: "LOADING_ROOT" });
+    if (action.isShowLoading) {
+      yield put({ type: "LOADING_ROOT" });
+    }
     const responses = yield requestAPI(action);
     yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;

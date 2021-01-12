@@ -1,41 +1,52 @@
-import React from 'react';
-import { StarPRNT } from 'react-native-star-prnt';
+import React from "react";
+import { StarPRNT } from "react-native-star-prnt";
 
-import Layout from './layout';
-import connectRedux from '@redux/ConnectRedux';
+import Layout from "./layout";
+import connectRedux from "@redux/ConnectRedux";
 import NavigationServices from "@navigators/NavigatorServices";
-import PrintManager from '@lib/PrintManager';
+import PrintManager from "@lib/PrintManager";
 
 class TabMarketing extends Layout {
+  constructor(props) {
+    super(props);
+    this.scrollTabRef = React.createRef();
+  }
 
-    constructor(props) {
-        super(props);
-        this.scrollTabRef = React.createRef();
-    }
+  fetchMarketingApi = (page) => {
+    alert(page);
+  };
 
-    fetchMarketingApi = (page) => {
-        alert(page)
-    }
+  addPromotion = async () => {};
 
-    addPromotion = async () => {
+  onChangeTab = (index) => {
+    const currentIndex = index.i;
+    switch (currentIndex) {
+      case 0:
+        this.props.actions.marketing.getPromotionByMerchant();
+        break;
+      case 1:
+        this.props.actions.review.getListReview();
+        break;
+      default:
+        const { profile } = this.props;
+        this.props.actions.marketing.getBannerMerchant(
+          profile.merchantId,
+          false
+        );
+        break;
     }
-
-    onChangeTab = (index) => {
-        const currentIndex = index.i;
-        if(currentIndex === 0){
-            this.props.actions.marketing.getPromotionByMerchant();
-        }else{
-            const { profile } = this.props;
-            this.props.actions.marketing.getBannerMerchant(profile.merchantId,false);
-        }
-    }
+    // if(currentIndex === 0){
+    //     this.props.actions.marketing.getPromotionByMerchant();
+    // }else{
+    //     const { profile } = this.props;
+    //     this.props.actions.marketing.getBannerMerchant(profile.merchantId,false);
+    // }
+  };
 }
 
-const mapStateToProps = state => ({
-    language: state.dataLocal.language,
-    profile: state.dataLocal.profile,
-})
-
-
+const mapStateToProps = (state) => ({
+  language: state.dataLocal.language,
+  profile: state.dataLocal.profile,
+});
 
 export default connectRedux(mapStateToProps, TabMarketing);

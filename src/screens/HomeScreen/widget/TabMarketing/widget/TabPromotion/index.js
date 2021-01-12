@@ -150,6 +150,7 @@ class TabPromotion extends Layout {
       this.props.actions.marketing.resetStateGetPromotion();
       this.updatePromotionsFromParent();
     }
+
   }
 
 }

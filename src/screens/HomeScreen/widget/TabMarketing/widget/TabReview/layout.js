@@ -85,10 +85,6 @@ class Layout extends React.Component {
             />
           }
         > */}
-
-        {/* ITEM REVIEW */}
-        {/* {this.renderItem()} */}
-
         <FlatList
           data={this.props.listReview}
           ListHeaderComponent={() => (
@@ -201,6 +197,12 @@ class Layout extends React.Component {
               </View>
             </View>
           )}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
           renderItem={({ item, index }) => (
             <ItemReview
               key={index}

@@ -15,7 +15,6 @@ class TabReview extends Layout {
       refreshing: false,
       imageArr: [],
       indexImage: 0,
-      currentPage: 1,
     };
     this.onEndReachedCalledDuringMomentum = true;
   }
@@ -136,12 +135,15 @@ class TabReview extends Layout {
   };
 
   onRefresh = () => {
-    this.setState({ refreshing: true});
+    this.setState({ refreshing: true });
     const merchantId = this.props.merchantId;
-    this.props.actions.review.getSummaryReview(merchantId);
+    this.props.actions.review.getSummaryReview(merchantId, false);
     this.props.actions.review.getListReview(
       this.state.isStatus,
-      this.state.isReview
+      this.state.isReview,
+      1,
+      false,
+      false
     );
     this.setState({ refreshing: false });
   };
@@ -170,6 +172,15 @@ class TabReview extends Layout {
         break;
     }
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    const { isGetReview } = this.props;
+    if (prevProps.isGetReview !== isGetReview && isGetReview) {
+      this.props.actions.review.resetListReview();
+      this.setState({isReview: "all", isStatus: "all"})
+    }
+    
+  }
 }
 
 const mapStateToProps = (state) => ({
@@ -179,6 +190,7 @@ const mapStateToProps = (state) => ({
   isLoadMoreReviewList: state.review.isLoadMoreReviewList,
   totalPages: state.review.totalPages,
   currentPage: state.review.currentPage,
+  isGetReview: state.review.isGetReview,
 });
 
 export default connectRedux(mapStateToProps, TabReview);
