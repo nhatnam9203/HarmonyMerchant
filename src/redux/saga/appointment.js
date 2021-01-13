@@ -293,7 +293,7 @@ function* paymentAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' })
         const responses = yield requestAPI(action);
-        console.log("------ PAY_APPOINTMENT: ", JSON.stringify(responses));
+        // console.log("------ PAY_APPOINTMENT: ", JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -1125,7 +1125,7 @@ function* checkCreditPaymentToServer(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log("-------- checkCreditPaymentToServer: ",JSON.stringify(responses));
+        // console.log("-------- checkCreditPaymentToServer: ",JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
            yield put({

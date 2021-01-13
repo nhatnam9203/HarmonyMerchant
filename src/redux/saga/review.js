@@ -76,10 +76,10 @@ function* showReview(action) {
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
-      yield put({
-        type: "SHOW_RATING_REVIEW_SUCCESS",
-        payload: responses?.data,
-      });
+      // yield put({
+      //   type: "SHOW_RATING_REVIEW_SUCCESS",
+      //   payload: responses?.data,
+      // });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
         type: "UNAUTHORIZED",
@@ -106,10 +106,10 @@ function* hideReview(action) {
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
-      yield put({
-        type: "HIDE_RATING_REVIEW_SUCCESS",
-        payload: responses?.data,
-      });
+      // yield put({
+      //   type: "HIDE_RATING_REVIEW_SUCCESS",
+      //   payload: responses?.data,
+      // });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
         type: "UNAUTHORIZED",

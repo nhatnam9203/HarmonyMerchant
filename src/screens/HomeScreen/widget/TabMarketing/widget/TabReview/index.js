@@ -1,9 +1,5 @@
-import React from "react";
-
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
-import { getServiceIdByName } from "@utils";
-import { scaleSzie } from "../../../../../../utils";
 
 class TabReview extends Layout {
   constructor(props) {
@@ -181,13 +177,6 @@ class TabReview extends Layout {
     this.setState({ isReview: "all", isStatus: "all" });
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    const { isGetReview } = this.props;
-    if (prevProps.isGetReview !== isGetReview && isGetReview) {
-      this.props.actions.review.resetListReview();
-      this.updateState();
-    }
-  }
 }
 
 const mapStateToProps = (state) => ({

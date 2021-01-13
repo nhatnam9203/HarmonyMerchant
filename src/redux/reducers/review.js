@@ -47,24 +47,24 @@ function reviewReducer(state = initialState, action) {
         isLoadMoreInvoiceList: false,
       };
 
-    case "SHOW_RATING_REVIEW_SUCCESS":
-      return {
-        ...state,
-      };
+    // case "SHOW_RATING_REVIEW_SUCCESS":
+    //   return {
+    //     ...state,
+    //   };
 
-    case "SHOW_RATING_REVIEW_FAIL":
-      return {
-        ...state,
-      };
+    // case "SHOW_RATING_REVIEW_FAIL":
+    //   return {
+    //     ...state,
+    //   };
 
-    case "HIDE_RATING_REVIEW_SUCCESS":
-      return {
-        ...state,
-      };
-    case "HIDE_RATING_REVIEW_FAIL":
-      return {
-        ...state,
-      };
+    // case "HIDE_RATING_REVIEW_SUCCESS":
+    //   return {
+    //     ...state,
+    //   };
+    // case "HIDE_RATING_REVIEW_FAIL":
+    //   return {
+    //     ...state,
+    //   };
     case "RESET_IS_LIST_REVIEW":
       return {
         ...state,
