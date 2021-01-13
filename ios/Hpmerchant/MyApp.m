@@ -290,10 +290,12 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amou
 RCT_EXPORT_METHOD(setupPax:(NSString *)destIp portDevice:(NSString *)portDevice timeoutConnect:(NSString *)timeoutConnect)
 {
   MyApp *myapp = [MyApp sharedSigleton];
-  myapp.poslink.commSetting.commType = @"TCP";
+//  myapp.poslink.commSetting.commType = @"TCP";
+  myapp.poslink.commSetting.commType = @"BLUETOOTH";
   myapp.poslink.commSetting.destIP = destIp;
   myapp.poslink.commSetting.destPort = portDevice;
   myapp.poslink.commSetting.timeout = timeoutConnect;
+  myapp.poslink.commSetting.bluetoothAddr = @"6B45846D-B084-14C8-F339-23DF0B190ABC";
   
    [self save];
 }
