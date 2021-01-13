@@ -63,17 +63,17 @@ class Layout extends React.Component {
                     </View>
                     <View style={{ flex: 0.8 }} />
                     <View style={{ flex: 0.6 }} />
-                    <View style={{ flex: 0.6, justifyContent: "center" }} >
+                    <View style={{ flex: 0.6, justifyContent: "center",alignItems:"flex-end" }} >
                         <Text style={[styles.txt_header_table, { color: "#fff", fontWeight: "bold" }]} >
                             {`$ ${formatMoney(sales)}`}
                         </Text>
                     </View>
-                    <View style={{ flex: 0.6, justifyContent: "center" }} >
+                    <View style={{ flex: 0.6, justifyContent: "center",alignItems:"flex-end" }} >
                         <Text style={[styles.txt_header_table, { color: "#fff", fontWeight: "bold" }]} >
                             {`$ ${formatMoney(tax)}`}
                         </Text>
                     </View>
-                    <View style={{ flex: 0.6, justifyContent: "center" }} >
+                    <View style={{ flex: 0.6, justifyContent: "center",alignItems:"flex-end" }} >
                         <Text style={[styles.txt_header_table, { color: "#fff", fontWeight: "bold" }]} >
                             {`$ ${formatMoney(tip)}`}
                         </Text>
