@@ -18,6 +18,7 @@ import { DatePicker, Dropdown } from "@components";
 import { ItemReview, ItemHeader } from "./widget";
 import ImageViewer from "react-native-image-zoom-viewer";
 import IMAGE from "@resources";
+import FastImage from "react-native-fast-image";
 
 const { width } = Dimensions.get("window");
 
@@ -251,27 +252,16 @@ class Layout extends React.Component {
             backgroundColor={"#2D2D2DC7"}
             index={this.state.indexImage}
             onChange={(index) => this.setIndex(index)}
+            saveToLocalByLongPress={false}
             renderImage={(props) => (
               <Image
                 {...props}
                 style={{
-                  height: '80%'
+                  height: "80%",
+                  marginTop: "20%"
                 }}
-                resizeMode={'contain'}
+                resizeMode={"contain"}
               />
-            )}
-            renderHeader={() => (
-              <View style={styles.headerView}>
-                <TouchableOpacity
-                  style={styles.closeBtn}
-                  onPress={this.closeImage}
-                >
-                  <Image
-                    style={styles.close}
-                    source={IMAGE.close_appointment_popup}
-                  />
-                </TouchableOpacity>
-              </View>
             )}
             renderArrowLeft={() =>
               this.state.indexImage === 0 ? (
@@ -302,6 +292,16 @@ class Layout extends React.Component {
               )
             }
           />
+            <TouchableOpacity
+              style={styles.closeBtn}
+              onPress={this.closeImage}
+            >
+              <Image
+                style={styles.close}
+                source={IMAGE.close_appointment_popup}
+              />
+            </TouchableOpacity>
+
         </Modal>
       </View>
     );

@@ -28,18 +28,20 @@ export default StyleSheet.create({
     fontWeight: "500",
   },
   closeBtn: {
-    marginTop: scaleSzie(20),
-    marginRight: scaleSzie(20),
-    width: scaleSzie(40),
-    height: scaleSzie(40),
+    position: 'absolute',
+    top: scaleSzie(20),
+    right: scaleSzie(10),
+    width: scaleSzie(30),
+    height: scaleSzie(30),
     justifyContent: "center",
     alignItems: "center",
   },
   close:{
-    width: scaleSzie(40),
-    height: scaleSzie(40),
+    width: scaleSzie(30),
+    height: scaleSzie(30),
   },
   headerView: {
-    alignItems: 'flex-end'
+    position: 'absolute',
+    right: scaleSzie(10)
   }
 });
