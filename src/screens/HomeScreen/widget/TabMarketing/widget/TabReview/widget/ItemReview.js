@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { scaleSzie } from "@utils";
+import { scaleSzie,formatWithMoment } from "@utils";
 import IMAGE from "@resources";
 import { Button, Text } from "@components";
 import moment from "moment";
@@ -90,10 +90,10 @@ const ItemReview = ({ item, openImage, isVisibleReview }) => {
       <View style={styles.padding}>
         <View style={{ width: "12%" }}>
           <Text style={[styles.text]}>
-            {moment(createdDate).format("MM/DD/YYYY")}
+            {formatWithMoment(createdDate,"MM/DD/YYYY")}
           </Text>
           <Text style={[styles.text]}>
-            {moment(createdDate).format("h:mm A")}
+            {formatWithMoment(createdDate, "h:mm A")}
           </Text>
         </View>
         <View style={{ width: "15%" }}>
