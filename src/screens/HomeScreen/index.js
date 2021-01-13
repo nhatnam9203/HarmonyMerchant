@@ -14,7 +14,7 @@ import configs from '@configs';
 
 const initialState = {
     isFocus: true,
-    currentTab: 0,
+    currentTab: 1,
     visibleConfirm: false,
     temptCurrentTap: -1,
     visibleEnterPin: true,

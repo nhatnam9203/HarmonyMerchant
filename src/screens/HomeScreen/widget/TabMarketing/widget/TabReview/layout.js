@@ -72,131 +72,119 @@ class Layout extends React.Component {
     ));
   };
 
-  render() {
+  renderHeader = () => {
     const { rating, count, goodCount, badCount } = this.props.summaryReview;
+    return (
+      <View>
+        <View
+          style={[
+            styles.row,
+            {
+              justifyContent: "space-between",
+              paddingHorizontal: scaleSzie(15),
+            },
+          ]}
+        >
+          <ItemHeader
+            title={"Aggregate rating"}
+            content={"All time statictics"}
+            rating={rating}
+            isRating={true}
+          />
+          <ItemHeader
+            title={"Total reivews"}
+            content={"All time statictics"}
+            rating={count}
+          />
+          <ItemHeader
+            title={"Good reviews"}
+            content={"All time statictics"}
+            rating={goodCount}
+          />
+          <ItemHeader
+            title={"Bad reviews"}
+            content={"All time statictics"}
+            rating={badCount}
+          />
+        </View>
+
+        {/* FILTERS */}
+        <View
+          style={[
+            styles.row,
+            {
+              paddingHorizontal: scaleSzie(15),
+              paddingTop: scaleSzie(15),
+              alignItems: "center",
+            },
+          ]}
+        >
+          <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(17) }}>
+            Filters
+          </Text>
+          <View style={[styles.itemDropdown, { width: scaleSzie(135) }]}>
+            <Dropdown
+              label={"All reviews"}
+              data={dataReview}
+              value={this.formatDataReview(this.state.isReview).value}
+              onChangeText={(value) => this.onFilterReview(value)}
+              containerStyle={{
+                backgroundColor: "#FFF",
+                borderWidth: 1,
+                borderColor: "#C5C5C5",
+                flex: 1,
+                borderRadius: 10,
+              }}
+            />
+          </View>
+          <View style={styles.itemDropdown}>
+            <Dropdown
+              label={"All Status"}
+              data={dataStatus}
+              value={this.formatDataStatus(this.state.isStatus).value}
+              onChangeText={(value) => this.onFilterStatus(value)}
+              containerStyle={{
+                backgroundColor: "#FFF",
+                borderWidth: 1,
+                borderColor: "#C5C5C5",
+                flex: 1,
+                borderRadius: 10,
+              }}
+            />
+          </View>
+        </View>
+
+        {/* TAB */}
+        <View
+          style={[
+            styles.row,
+            {
+              justifyContent: "space-between",
+              paddingHorizontal: scaleSzie(15),
+              paddingVertical: 10,
+              backgroundColor: "#F1F1F1",
+              marginTop: scaleSzie(10),
+              alignItems: "center",
+            },
+          ]}
+        >
+          <Text style={[styles.titletabar, { width: "12%" }]}>Date</Text>
+          <Text style={[styles.titletabar, { width: "15%" }]}>Customer</Text>
+          <Text style={[styles.titletabar, { width: "45%" }]}>Review</Text>
+          <Text style={[styles.titletabar, { width: "20%" }]}>Rating</Text>
+          <Text style={[styles.titletabar, { width: "15%" }]}>Actions</Text>
+        </View>
+      </View>
+    );
+  };
+
+  render() {
     const { isLoadMoreReviewList } = this.props;
     return (
       <View style={styles.container}>
-        {/* <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this.onRefresh}
-            />
-          }
-        > */}
         <FlatList
           data={this.props.listReview}
-          ListHeaderComponent={() => (
-            <View>
-              <View
-                style={[
-                  styles.row,
-                  {
-                    justifyContent: "space-between",
-                    paddingHorizontal: scaleSzie(15),
-                  },
-                ]}
-              >
-                <ItemHeader
-                  title={"Aggregate rating"}
-                  content={"All time statictics"}
-                  rating={rating}
-                  isRating={true}
-                />
-                <ItemHeader
-                  title={"Total reivews"}
-                  content={"All time statictics"}
-                  rating={count}
-                />
-                <ItemHeader
-                  title={"Good reviews"}
-                  content={"All time statictics"}
-                  rating={goodCount}
-                />
-                <ItemHeader
-                  title={"Bad reviews"}
-                  content={"All time statictics"}
-                  rating={badCount}
-                />
-              </View>
-
-              {/* FILTERS */}
-              <View
-                style={[
-                  styles.row,
-                  {
-                    paddingHorizontal: scaleSzie(15),
-                    paddingTop: scaleSzie(15),
-                    alignItems: "center",
-                  },
-                ]}
-              >
-                <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(17) }}>
-                  Filters
-                </Text>
-                <View style={[styles.itemDropdown, { width: scaleSzie(135) }]}>
-                  <Dropdown
-                    label={"All reviews"}
-                    data={dataReview}
-                    value={this.formatDataReview(this.state.isReview).value}
-                    onChangeText={(value) => this.onFilterReview(value)}
-                    containerStyle={{
-                      backgroundColor: "#FFF",
-                      borderWidth: 1,
-                      borderColor: "#C5C5C5",
-                      flex: 1,
-                      borderRadius: 10,
-                    }}
-                  />
-                </View>
-                <View style={styles.itemDropdown}>
-                  <Dropdown
-                    label={"All Status"}
-                    data={dataStatus}
-                    value={this.formatDataStatus(this.state.isStatus).value}
-                    onChangeText={(value) => this.onFilterStatus(value)}
-                    containerStyle={{
-                      backgroundColor: "#FFF",
-                      borderWidth: 1,
-                      borderColor: "#C5C5C5",
-                      flex: 1,
-                      borderRadius: 10,
-                    }}
-                  />
-                </View>
-              </View>
-
-              {/* TAB */}
-              <View
-                style={[
-                  styles.row,
-                  {
-                    justifyContent: "space-between",
-                    paddingHorizontal: scaleSzie(15),
-                    paddingVertical: 10,
-                    backgroundColor: "#F1F1F1",
-                    marginTop: scaleSzie(10),
-                    alignItems: "center",
-                  },
-                ]}
-              >
-                <Text style={[styles.titletabar, { width: "12%" }]}>Date</Text>
-                <Text style={[styles.titletabar, { width: "15%" }]}>
-                  Customer
-                </Text>
-                <Text style={[styles.titletabar, { width: "45%" }]}>
-                  Review
-                </Text>
-                <Text style={[styles.titletabar, { width: "20%" }]}>
-                  Rating
-                </Text>
-                <Text style={[styles.titletabar, { width: "15%" }]}>
-                  Actions
-                </Text>
-              </View>
-            </View>
-          )}
+          ListHeaderComponent={this.renderHeader}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
@@ -234,7 +222,7 @@ class Layout extends React.Component {
             </View>
           )}
         />
-        {/* </ScrollView> */}
+
         <Modal
           visible={this.state.isvisible}
           transparent={true}

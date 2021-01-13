@@ -173,13 +173,20 @@ class TabReview extends Layout {
     }
   };
 
+  setStateFromParent = async () => {
+    await this.setState({ isReview: "all", isStatus: "all" });
+  }
+
+  updateState = () => {
+    this.setState({ isReview: "all", isStatus: "all" });
+  };
+
   componentDidUpdate(prevProps, prevState) {
     const { isGetReview } = this.props;
     if (prevProps.isGetReview !== isGetReview && isGetReview) {
       this.props.actions.review.resetListReview();
-      this.setState({isReview: "all", isStatus: "all"})
+      this.updateState();
     }
-    
   }
 }
 
