@@ -74,6 +74,7 @@ class Layout extends React.Component {
 
   renderHeader = () => {
     const { rating, count, goodCount, badCount } = this.props.summaryReview;
+    const { language } = this.props;
     return (
       <View>
         <View
@@ -86,23 +87,23 @@ class Layout extends React.Component {
           ]}
         >
           <ItemHeader
-            title={"Aggregate rating"}
+            title={`${localize("Aggregate Rating", language)}`}
             content={"All time statictics"}
             rating={rating}
             isRating={true}
           />
           <ItemHeader
-            title={"Total reivews"}
+            title={`${localize("Total Reivews", language)}`}
             content={"All time statictics"}
             rating={count}
           />
           <ItemHeader
-            title={"Good reviews"}
+            title={`${localize("Good Reviews", language)}`}
             content={"All time statictics"}
             rating={goodCount}
           />
           <ItemHeader
-            title={"Bad reviews"}
+            title={`${localize("Bad Reviews", language)}`}
             content={"All time statictics"}
             rating={badCount}
           />
@@ -168,11 +169,26 @@ class Layout extends React.Component {
             },
           ]}
         >
-          <Text style={[styles.titletabar, { width: "12%" }]}>Date</Text>
-          <Text style={[styles.titletabar, { width: "15%" }]}>Customer</Text>
-          <Text style={[styles.titletabar, { width: "45%" }]}>Review</Text>
-          <Text style={[styles.titletabar, { width: "20%" }]}>Rating</Text>
-          <Text style={[styles.titletabar, { width: "15%" }]}>Actions</Text>
+          <Text style={[styles.titletabar, { width: "12%" }]}>{`${localize(
+            "Date",
+            language
+          )}`}</Text>
+          <Text style={[styles.titletabar, { width: "15%" }]}>{`${localize(
+            "Customer",
+            language
+          )}`}</Text>
+          <Text style={[styles.titletabar, { width: "45%" }]}>{`${localize(
+            "Review",
+            language
+          )}`}</Text>
+          <Text style={[styles.titletabar, { width: "20%" }]}>{`${localize(
+            "Rating",
+            language
+          )}`}</Text>
+          <Text style={[styles.titletabar, { width: "15%" }]}>{`${localize(
+            "Actions",
+            language
+          )}`}</Text>
         </View>
       </View>
     );
@@ -234,6 +250,16 @@ class Layout extends React.Component {
             enableSwipeDown={true}
             backgroundColor={"#2D2D2DC7"}
             index={this.state.indexImage}
+            onChange={(index) => this.setIndex(index)}
+            renderImage={(props) => (
+              <Image
+                {...props}
+                style={{
+                  height: '80%'
+                }}
+                resizeMode={'contain'}
+              />
+            )}
             renderHeader={() => (
               <View style={styles.headerView}>
                 <TouchableOpacity
@@ -247,6 +273,34 @@ class Layout extends React.Component {
                 </TouchableOpacity>
               </View>
             )}
+            renderArrowLeft={() =>
+              this.state.indexImage === 0 ? (
+                <View style={{ marginHorizontal: 20, opacity: 0.5 }}>
+                  <Image source={IMAGE.ArrowLeft} />
+                </View>
+              ) : (
+                <TouchableOpacity
+                  style={{ marginHorizontal: 15 }}
+                  onPress={this.prevImage}
+                >
+                  <Image source={IMAGE.ArrowLeft} />
+                </TouchableOpacity>
+              )
+            }
+            renderArrowRight={() =>
+              this.state.indexImage === this.state.imageArr.length - 1 ? (
+                <View style={{ marginHorizontal: 20, opacity: 0.5 }}>
+                  <Image source={IMAGE.ArrowRight} />
+                </View>
+              ) : (
+                <TouchableOpacity
+                  style={{ marginHorizontal: 15 }}
+                  onPress={this.nextImage}
+                >
+                  <Image source={IMAGE.ArrowRight} />
+                </TouchableOpacity>
+              )
+            }
           />
         </Modal>
       </View>

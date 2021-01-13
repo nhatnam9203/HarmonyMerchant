@@ -1,5 +1,6 @@
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
+import { Image } from "react-native";
 
 class TabReview extends Layout {
   constructor(props) {
@@ -22,6 +23,7 @@ class TabReview extends Layout {
       this.state.isStatus,
       this.state.isReview
     );
+
   }
 
   openImage = (ratingImages, index) => {
@@ -36,8 +38,8 @@ class TabReview extends Layout {
     const resultArr = oldArr.map((item) => ({
       url: item.imageUrl,
       id: item.staffRatingId,
-      // width: 200,
-      // height: 300
+      // width: Image.getSize(item.imageUrl, (width)),
+      // height: Image.getSize(item.imageUrl, (height)),
     }));
     return resultArr;
   };
@@ -126,7 +128,7 @@ class TabReview extends Layout {
         );
         this.onEndReachedCalledDuringMomentum = true;
       }
-      console.log(totalPages, currentPage);
+      // console.log(totalPages, currentPage);
     }
   };
 
@@ -145,6 +147,7 @@ class TabReview extends Layout {
   };
 
   isVisibleReview = (status, id) => {
+    const merchantId = this.props.merchantId;
     switch (status) {
       case 0:
         this.props.actions.review.hideRating(id);
@@ -153,6 +156,7 @@ class TabReview extends Layout {
             this.state.isStatus,
             this.state.isReview
           );
+          this.props.actions.review.getSummaryReview(merchantId, false);
         }, 500);
         break;
       case 1:
@@ -162,6 +166,7 @@ class TabReview extends Layout {
             this.state.isStatus,
             this.state.isReview
           );
+          this.props.actions.review.getSummaryReview(merchantId, false);
         }, 500);
         break;
       default:
@@ -171,12 +176,23 @@ class TabReview extends Layout {
 
   setStateFromParent = async () => {
     await this.setState({ isReview: "all", isStatus: "all" });
-  }
-
-  updateState = () => {
-    this.setState({ isReview: "all", isStatus: "all" });
   };
 
+  setIndex = (index) => {
+    this.setState({ indexImage: index });
+  };
+
+  nextImage = () => {
+    if (this.state.indexImage < this.state.imageArr.length - 1) {
+      this.setState({ indexImage: this.state.indexImage + 1 });
+    }
+  };
+
+  prevImage = () => {
+    if (this.state.indexImage > 0) {
+      this.setState({ indexImage: this.state.indexImage - 1 });
+    }
+  };
 }
 
 const mapStateToProps = (state) => ({
@@ -187,6 +203,7 @@ const mapStateToProps = (state) => ({
   totalPages: state.review.totalPages,
   currentPage: state.review.currentPage,
   isGetReview: state.review.isGetReview,
+  language: state.dataLocal.language,
 });
 
 export default connectRedux(mapStateToProps, TabReview);

@@ -6,10 +6,9 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { scaleSzie,formatWithMoment } from "@utils";
+import { scaleSzie, formatWithMoment } from "@utils";
 import IMAGE from "@resources";
 import { Button, Text } from "@components";
-import moment from "moment";
 import StarRating from "react-native-star-rating";
 import FastImage from "react-native-fast-image";
 
@@ -30,7 +29,7 @@ const ItemReview = ({ item, openImage, isVisibleReview }) => {
       case 0:
         return { color: "#0764B0", content: "Show" };
       case 1:
-        return { color: "#FF3B30", content: "Hidden" };
+        return { color: "#FF3B30", content: "Hide" };
       default:
         return { color: "#0764B0" };
     }
@@ -69,7 +68,7 @@ const ItemReview = ({ item, openImage, isVisibleReview }) => {
         <TouchableOpacity
           key={index}
           style={{ marginRight: 5 }}
-          onPress={() =>setImage(index)}
+          onPress={() => setImage(index)}
         >
           <FastImage
             style={[styles.img]}
@@ -90,7 +89,7 @@ const ItemReview = ({ item, openImage, isVisibleReview }) => {
       <View style={styles.padding}>
         <View style={{ width: "12%" }}>
           <Text style={[styles.text]}>
-            {formatWithMoment(createdDate,"MM/DD/YYYY")}
+            {formatWithMoment(createdDate, "MM/DD/YYYY")}
           </Text>
           <Text style={[styles.text]}>
             {formatWithMoment(createdDate, "h:mm A")}

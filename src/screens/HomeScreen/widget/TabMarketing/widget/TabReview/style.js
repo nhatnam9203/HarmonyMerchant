@@ -30,14 +30,14 @@ export default StyleSheet.create({
   closeBtn: {
     marginTop: scaleSzie(20),
     marginRight: scaleSzie(20),
-    width: scaleSzie(30),
-    height: scaleSzie(30),
+    width: scaleSzie(40),
+    height: scaleSzie(40),
     justifyContent: "center",
     alignItems: "center",
   },
   close:{
-    width: scaleSzie(30),
-    height: scaleSzie(30),
+    width: scaleSzie(40),
+    height: scaleSzie(40),
   },
   headerView: {
     alignItems: 'flex-end'

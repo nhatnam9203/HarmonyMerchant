@@ -17,7 +17,7 @@ const ItemHeader = ({ title = "", content = "", rating = "", isRating }) => {
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.content}>{content}</Text>
         <View style={styles.row}>
-          <Text style={styles.rating}>{rating}</Text>
+          <Text style={styles.rating}>{isRating ? parseFloat(rating/1).toFixed(1) : rating/1}</Text>
           {isRating && (
             <View style={{ marginLeft: scaleSzie(10) }}>
               <StarRating
