@@ -184,7 +184,7 @@ class ItemCustomerBasket extends React.Component {
                     }
                 }
             }
-           
+
             basket = arryaServices.concat(arrayProducts, arrayGiftCards);
 
         } else {
@@ -205,7 +205,7 @@ class ItemCustomerBasket extends React.Component {
                             removeItemBasket={(item) => removeItemBasket(item, appointmentId, true)}
                             onPress={(service) => changeStylist(service, appointmentId)}
                             changeProduct={product => changeProduct(product, appointmentId)}
-                            removeExtra={(extra) => removeItemBasket(extra,appointmentId,true)}
+                            removeExtra={(extra) => removeItemBasket(extra, appointmentId, true)}
                         />)
                     }
                     {/* ----------- Payment Number --------- */}

@@ -91,7 +91,7 @@ const ItemProductService = ({ item, showColAmount, itemSelected, categoryTypeSel
 
     return (
         <Button
-            disabled={isSelectOnServer}
+            // disabled={isSelectOnServer}
             onPress={() => showColAmount(item)} style={[{
                 height: scaleSzie(68), borderBottomWidth: 2, borderBottomColor: '#DDDDDD', backgroundColor: '#FAFAFA'
             }, temtemptBackgrounColorSelectOnServer, temptBackgrounColor]} >

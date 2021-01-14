@@ -19,6 +19,7 @@ import {
 } from "react-native";
 import { StickyForm } from "react-native-largelist-v3";
 import { NormalHeader } from "react-native-spring-scrollview/NormalHeader";
+import moment from "moment";
 
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get("window");
@@ -35,6 +36,9 @@ const TABLE_HEADER_KEY = "report-header";
 const TABLE_SUMMARY_KEY = "report-summary";
 const TABLE_ACTION_KEY = "action";
 const KEY_CONCAT_FOR_INDEX = "#";
+
+const DATE_FORMAT = "MM/DD/YYYY";
+
 
 const uniqueId = (key, index, defaultPrefix = "key") =>
   defaultPrefix + key + "-index" + index;
@@ -84,6 +88,9 @@ const getCellKey = (item, primaryId) => {
 };
 
 const strCompare = (a, b) => {
+  if (moment(a).isValid() && moment(b).isValid() ) {
+    return moment(a,DATE_FORMAT) <= moment(b,DATE_FORMAT);
+  }
   return a.toString().localeCompare(b.toString());
 };
 
@@ -241,8 +248,8 @@ function TableListExtended({
   useEffect(() => {
     // set data and sort -> render
     if (!sortDefault) {
-      setSortState(SORT_STATE.desc);
-      setListData(SORT_STATE.desc);
+      setSortState(SORT_STATE.asc);
+      setListData(SORT_STATE.asc);
     } else {
       setSortState(sortDefault);
       setListData(sortDefault);

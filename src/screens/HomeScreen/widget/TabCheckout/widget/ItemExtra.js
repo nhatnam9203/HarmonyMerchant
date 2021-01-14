@@ -68,7 +68,7 @@ const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra, groupAppointme
 
     return (
         <Button
-            disabled={isSelectOnServer}
+            // disabled={isSelectOnServer}
             onPress={() => onPressSelectExtra(extra)} style={[{
                 height: scaleSzie(68), justifyContent: 'center',
                 alignItems: 'center', borderBottomWidth: 2, borderBottomColor: '#DDDDDD',

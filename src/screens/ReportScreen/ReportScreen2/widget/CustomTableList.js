@@ -16,6 +16,8 @@ import {
   View,
   RefreshControl,
 } from "react-native";
+import moment from "moment";
+
 
 const TABLE_HEADER_HEIGHT = 50;
 const TABLE_ROW_HEIGHT = 50;
@@ -26,6 +28,7 @@ const CELL_FONT_SIZE = 15;
 const TABLE_HEADER_KEY = "report-header";
 const TABLE_SUMMARY_KEY = "report-summary";
 const TABLE_ACTION_KEY = "action";
+const DATE_FORMAT = "MM/DD/YYYY";
 
 const uniqueId = (key, index, defaultPrefix = "key") =>
   defaultPrefix + key + "-index" + index;
@@ -65,6 +68,10 @@ const getCellKey = (item, primaryId) => {
 };
 
 const strCompare = (a, b) => {
+  // check valid date -> sort date
+  if (moment(a).isValid() && moment(b).isValid() ) {
+    return moment(a,DATE_FORMAT) <= moment(b,DATE_FORMAT);
+  }
   return a.toString().localeCompare(b.toString());
 };
 
