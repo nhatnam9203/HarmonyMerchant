@@ -86,6 +86,8 @@ pod 'react-native-sensitive-info', :path => '../node_modules/react-native-sensit
 
 pod 'react-native-sms', :path => '../node_modules/react-native-sms'
 
+pod 'react-native-ble-manager', :path => '../node_modules/react-native-ble-manager'
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     if target.name == "React"
