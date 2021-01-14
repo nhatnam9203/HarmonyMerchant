@@ -8,7 +8,7 @@
     "build:ios": "react-native bundle --entry-file='./index.js' --bundle-output='./ios/Hpmerchant/main.jsbundle' --dev=false --platform='ios'",
     "codepush:ios:staging": "code-push release-react HpMerchant-IOS ios -d \"Staging\" -k private.pem -m --plistFile ./ios/staging.plist --description \"Review Tab\" -t \"1.1.5\"",
     "codepush:android:staging": "code-push release-react HpMerchant-ANDROID ios -d \"Staging\" -k private.pem -m --plistFile ./ios/staging.plist --description \"Test printer\" -t \"1.0.8\"",
-    "codepush:ios:product": "code-push release-react HpMerchant-IOS ios -d \"Production\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info.plist --description \"Update Application\" -t \"1.1.5\" ",
+    "codepush:ios:product": "code-push release-react HpMerchant-IOS ios -d \"Production\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info.plist --description \"Add Review management,Add $5 campaign setting\" -t \"1.1.5\" ",
     "android-dev": "adb reverse tcp:8081 tcp:8081",
     "reload-android": "adb shell input text RR",
     "scan": "sonar-scanner"
