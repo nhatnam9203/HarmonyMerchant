@@ -5,6 +5,7 @@ import {
     Image,
     Platform
 } from 'react-native';
+import { BleManager } from 'react-native-ble-plx';
 
 import { Button, Text, ButtonCustom } from '@components';
 import { scaleSzie, localize } from '@utils';
@@ -19,20 +20,64 @@ class AddDeviceHardware extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            bluetoothDevices: []
+            peripherals: []
         }
         this.bluetoothScannerRef = React.createRef();
+
+        this.manager = new BleManager();
+    }
+
+    componentDidMount() {
+        const subscription = this.manager.onStateChange((state) => {
+            console.log("---- Bluetooth State: ", state);
+            if (state === 'PoweredOn') {
+                // this.scanAndConnect();
+                // subscription.remove();
+            } else if (state === "PoweredOff") {
+                alert("Your Bluetooth Device Is Turn Off");
+            }
+        }, true);
     }
 
     addDevice = () => {
-        this.props.actions.app.loadingApp();
-        this.bluetoothScannerRef.current.startScan();
+        // this.scanAndConnect();
 
-        setTimeout(() => {
-            this.props.actions.app.stopLoadingApp();
-        }, 10000);
+        // this.props.actions.app.loadingApp();
+        // this.bluetoothScannerRef.current.startScan();
 
-        // this.props.gotoSetupDevice();
+        // setTimeout(() => {
+        //     this.props.actions.app.stopLoadingApp();
+        // }, 10000);
+
+        this.props.gotoSetupDevice();
+    }
+
+    scanAndConnect() {
+        console.log("----- Start Scan ......");
+        this.manager.startDeviceScan(null, null, (error, device) => {
+            if (error) {
+                // Handle error (scanning will be stopped automatically)
+                console.log("----- Error : ", error);
+                return
+            }
+
+            if (device?.localName) {
+                console.log("----- Detect device: ", device);
+            }
+
+
+
+            // Check if it is a device you are looking for based on advertisement data
+            // or other criteria.
+            // if (device.name === 'TI BLE Sensor Tag' || 
+            //     device.name === 'SensorTag') {
+
+            //     // Stop scanning as it's not necessary if you are scanning for one device.
+            //     this.manager.stopDeviceScan();
+
+            //     // Proceed with connection.
+            // }
+        });
     }
 
     backHomeHardware = () => {
@@ -43,8 +88,12 @@ class AddDeviceHardware extends React.Component {
         console.log("------ list ------: ", list.length);
         this.props.actions.app.stopLoadingApp();
         this.setState({
-            bluetoothDevices: list
+            peripherals: list
         });
+    }
+
+    handleSelectPeripheral = (peripheral) => {
+        this.props.actions.dataLocal.saveBluetoothPaxInfo(peripheral);
     }
 
     // -------- Render ------
@@ -144,9 +193,10 @@ class AddDeviceHardware extends React.Component {
                 <View style={{ flex: 1, }} >
                     <ScrollView>
                         {
-                            this.state.bluetoothDevices.map((device, index) => <ItemBluetooth
-                                key={`${device?.id}_${index}`}
-                                bluetooth={device}
+                            this.state.peripherals.map((peripheral, index) => <ItemBluetooth
+                                key={`${peripheral?.id}_${index}`}
+                                peripheral={peripheral}
+                                onPress={this.handleSelectPeripheral}
                             />)
                         }
                     </ScrollView>
@@ -175,6 +225,10 @@ class AddDeviceHardware extends React.Component {
             </View>
         );
     }
+
+    componentWillUnmount() {
+        subscription.remove();
+    }
 }
 
 const ItemBluetoothConnect = ({ title, isSelect, onPress }) => {
@@ -190,10 +244,10 @@ const ItemBluetoothConnect = ({ title, isSelect, onPress }) => {
     );
 }
 
-const ItemBluetooth = ({ bluetooth, isConnected, onPress }) => {
+const ItemBluetooth = ({ peripheral, isConnected, onPress }) => {
 
     return (
-        <Button onPress={() => onPress(modelName)} style={{
+        <Button onPress={() => onPress(peripheral)} style={{
             height: scaleSzie(45), backgroundColor: "rgb(250,250,250)", borderRadius: 6,
             flexDirection: "row", alignItems: "center", paddingLeft: scaleSzie(15),
             paddingRight: scaleSzie(40), justifyContent: "space-between",
@@ -204,13 +258,13 @@ const ItemBluetooth = ({ bluetooth, isConnected, onPress }) => {
                     fontSize: scaleSzie(14),
                     fontWeight: '600',
                 }} >
-                    {bluetooth?.name || "No Name"}
+                    {peripheral?.name || "No Name"}
                 </Text>
                 <Text style={{
                     fontSize: scaleSzie(8),
                     fontWeight: '300',
                 }} >
-                    {bluetooth?.id || ""}
+                    {peripheral?.id || ""}
                 </Text>
             </View>
 

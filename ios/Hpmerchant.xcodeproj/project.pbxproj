@@ -58,6 +58,9 @@
 		2342066222DD7C1800E0EA35 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */; };
 		2342066422DD7C2600E0EA35 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
 		2342066622DD7C3100E0EA35 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
+		234AF86C25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */; };
+		234AF86D25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */; };
+		234AF86E25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */; };
 		2388BDCF253FE9A3007B4A7A /* staging.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2388BDCE253FE9A3007B4A7A /* staging.plist */; };
 		2388BEFE253FEC34007B4A7A /* RNBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008C24DBC6DD00BAA83B /* RNBarChartManager.swift */; };
 		2388BEFF253FEC34007B4A7A /* RNBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008E24DBC6DD00BAA83B /* RNBarChartView.swift */; };
@@ -608,6 +611,7 @@
 		2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO_Extension.framework; path = "../node_modules/react-native-star-prnt/ios/Frameworks/StarIO_Extension.framework"; sourceTree = "<group>"; };
 		2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rn_ble_plx.swift; sourceTree = "<group>"; };
 		2388BD9F253FE990007B4A7A /* dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = dev.plist; path = Hpmerchant/dev.plist; sourceTree = "<group>"; };
 		2388BDCE253FE9A3007B4A7A /* staging.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = staging.plist; path = Hpmerchant/staging.plist; sourceTree = "<group>"; };
 		2388BF5B253FEC34007B4A7A /* Hpmerchant_Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hpmerchant_Dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -904,6 +908,7 @@
 				232011ED22FAB38C0002C14B /* MyApp.m */,
 				23FE295423C77BEF00E95925 /* File.swift */,
 				23FE295323C77BEF00E95925 /* Hpmerchant-Bridging-Header.h */,
+				234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */,
 			);
 			name = Hpmerchant;
 			sourceTree = "<group>";
@@ -2072,6 +2077,7 @@
 				366C00F624DBC6DE00BAA83B /* RNLineChartManagerBridge.m in Sources */,
 				366C012024DBC6DE00BAA83B /* RadarDataExtract.swift in Sources */,
 				366C009C24DBC6DE00BAA83B /* RNCombinedChartView.swift in Sources */,
+				234AF86C25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */,
 				366C00AE24DBC6DE00BAA83B /* RNBarLineChartViewBase.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				366C010E24DBC6DE00BAA83B /* RNHorizontalBarChartManager.swift in Sources */,
@@ -2136,6 +2142,7 @@
 				366C00F824DBC6DE00BAA83B /* RNLineChartManagerBridge.m in Sources */,
 				366C012224DBC6DE00BAA83B /* RadarDataExtract.swift in Sources */,
 				366C009E24DBC6DE00BAA83B /* RNCombinedChartView.swift in Sources */,
+				234AF86D25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */,
 				366C00B024DBC6DE00BAA83B /* RNBarLineChartViewBase.swift in Sources */,
 				230F1DB824D3DA2200A95898 /* AppDelegate.m in Sources */,
 				366C011024DBC6DE00BAA83B /* RNHorizontalBarChartManager.swift in Sources */,
@@ -2200,6 +2207,7 @@
 				2388BF17253FEC34007B4A7A /* RNLineChartManagerBridge.m in Sources */,
 				2388BF18253FEC34007B4A7A /* RadarDataExtract.swift in Sources */,
 				2388BF19253FEC34007B4A7A /* RNCombinedChartView.swift in Sources */,
+				234AF86E25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */,
 				2388BF1A253FEC34007B4A7A /* RNBarLineChartViewBase.swift in Sources */,
 				2388BF1B253FEC34007B4A7A /* AppDelegate.m in Sources */,
 				2388BF1C253FEC34007B4A7A /* RNHorizontalBarChartManager.swift in Sources */,

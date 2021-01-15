@@ -965,9 +965,12 @@ class TabCheckout extends Layout {
                             this.hanleCreditCardProcess(true, moneyUserGiveForStaff);
                         }
                     } else {
-                        setTimeout(() => {
-                            alert('Please connect your Pax to take payment.');
-                        }, 300)
+                        // setTimeout(() => {
+                        //     alert('Please connect your Pax to take payment.');
+                        // }, 300)
+
+                        // this.sendTransToPaxMachine();
+                        this.hanleCreditCardProcess(true, moneyUserGiveForStaff);
                     }
                 } else if (method === 'giftcard') {
                     setTimeout(() => {
@@ -1039,18 +1042,20 @@ class TabCheckout extends Layout {
             }, 100);
         } else {
             const { groupAppointment } = this.props;
-            this.props.actions.appointment.checkCreditPaymentToServer(groupAppointment?.checkoutGroupId || 0, moneyUserGiveForStaff,moneyCreditCard);
+            this.props.actions.appointment.checkCreditPaymentToServer(groupAppointment?.checkoutGroupId || 0, moneyUserGiveForStaff, moneyCreditCard);
         }
     }
 
     sendTransToPaxMachine = async () => {
-        const { paxMachineInfo, isTipOnPaxMachine, paxAmount,amountCredtitForSubmitToServer } = this.props;
+        const { paxMachineInfo, isTipOnPaxMachine, paxAmount, amountCredtitForSubmitToServer, bluetoothPaxInfo } = this.props;
         const { paymentSelected } = this.state;
         const { ip, port, timeout } = paxMachineInfo;
         const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
 
+        console.log("--- sendTransToPaxMachine ---- : ", bluetoothPaxInfo?.id);
+
         // 1. Check setup pax 
-        PosLink.setupPax(ip, port, timeout);
+        PosLink.setupPax("TCP", ip, port, 90000, bluetoothPaxInfo?.id);
 
         // 2. Show modal processing 
         await this.setState({
@@ -1064,7 +1069,14 @@ class TabCheckout extends Layout {
     }
 
     async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
-        const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment,payAppointmentId } = this.props;
+        console.log("------ Messagee: ", message);
+        await this.setState({
+            visibleProcessingCredit: false
+        });
+    }
+
+    async handleResponseCreditCard_1(message, online, moneyUserGiveForStaff) {
+        const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment, payAppointmentId } = this.props;
         await this.setState({
             visibleProcessingCredit: false
         })
@@ -1820,7 +1832,9 @@ const mapStateToProps = state => ({
     isTipOnPaxMachine: state.dataLocal.isTipOnPaxMachine,
     startProcessingPax: state.appointment.startProcessingPax,
     paxAmount: state.appointment.paxAmount,
-    amountCredtitForSubmitToServer: state.appointment.amountCredtitForSubmitToServer
+    amountCredtitForSubmitToServer: state.appointment.amountCredtitForSubmitToServer,
+
+    bluetoothPaxInfo: state.dataLocal.bluetoothPaxInfo
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

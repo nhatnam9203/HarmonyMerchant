@@ -29,7 +29,12 @@ const initialState = {
     printerList: [],
     printerSelect: "",
     profileLoginInvoice: {},
-    isTipOnPaxMachine: true
+    isTipOnPaxMachine: true,
+
+    bluetoothPaxInfo: {
+        id: "",
+        name: ""
+    }
 }
 
 function dataLocalReducer(state = initialState, action) {
@@ -174,6 +179,11 @@ function dataLocalReducer(state = initialState, action) {
             return {
                 ...state,
                 isTipOnPaxMachine: action.payload,
+            }
+        case 'SAVE_BLUETOOTH_PAX_INFO':
+            return {
+                ...state,
+                bluetoothPaxInfo: action.payload,
             }
         case 'LOGOUT_APP':
             return {
