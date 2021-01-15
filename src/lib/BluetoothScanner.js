@@ -1,22 +1,16 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import {
-    StyleSheet,
-    Text,
-    View,
     NativeEventEmitter,
     NativeModules,
     Platform,
     PermissionsAndroid,
-    Dimensions,
 } from 'react-native';
 import BleManager from 'react-native-ble-manager';
-
-const window = Dimensions.get('window');
 
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
-export default class App extends Component {
+export default class BluetoothScanner extends Component {
     constructor(props) {
         super(props);
 
@@ -30,20 +24,20 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        BleManager.start({ showAlert: false });
+        BleManager.start({ showAlert: true });
         this.handlerDiscover = bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', this.handleDiscoverPeripheral);
         this.handlerStop = bleManagerEmitter.addListener('BleManagerStopScan', this.handleStopScan);
 
         if (Platform.OS === 'android' && Platform.Version >= 23) {
             PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).then((result) => {
                 if (result) {
-                    console.log("Permission is OK");
+                    // console.log("Permission is OK");
                 } else {
                     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).then((result) => {
                         if (result) {
-                            console.log("User accept");
+                            // console.log("User accept");
                         } else {
-                            console.log("User refuse");
+                            // console.log("User refuse");
                         }
                     });
                 }
@@ -52,31 +46,37 @@ export default class App extends Component {
 
     }
 
-    handleStopScan() {
+    async handleStopScan() {
         const list = Array.from(this.state.peripherals.values());
-        console.log("------ handleStopScan ------- : ",list);
-        this.setState({ scanning: false });
+        await this.setState({ scanning: false });
+        this.props.handleStopScan(list);
     }
 
-    startScan() {
-        console.log("------ startScan -------");
+    startScan = () => {
         if (!this.state.scanning) {
-            BleManager.scan([], 3, true).then((results) => {
-                console.log('Scanning...');
+            BleManager.scan([], 10, true).then((results) => {
+                // console.log('Scanning...: ', results);
                 this.setState({ scanning: true });
             });
         }
     }
 
+    stopScan = () => {
+        BleManager.stopScan().then(() => {
+        });
+    }
 
 
     async handleDiscoverPeripheral(peripheral) {
-        console.log("------ handleDiscoverPeripheral -------");
         var peripherals = this.state.peripherals;
-        if (peripheral?.name && peripheral?.id) {
-            // console.log('Got ble peripheral: ', JSON.stringify(peripheral)); 
+        const nameBluetooth = peripheral?.name && peripheral?.name != undefined ? `${peripheral?.name}` : "";
+        if (nameBluetooth
+            //  && nameBluetooth.includes("80")
+        ) {
+            console.log("------ peripheral: ", peripheral);
             peripherals.set(peripheral.id, peripheral);
             await this.setState({ peripherals });
+            // this.stopScan();
         }
     }
 
@@ -92,19 +92,3 @@ export default class App extends Component {
 
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#FFF',
-        width: window.width,
-        height: window.height
-    },
-    scroll: {
-        flex: 1,
-        backgroundColor: '#f0f0f0',
-        margin: 10,
-    },
-    row: {
-        margin: 10
-    },
-});

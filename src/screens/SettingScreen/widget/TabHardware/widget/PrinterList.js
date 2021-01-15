@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Button, Text, ButtonCustom } from '@components';
-import { scaleSzie, localize ,checkStatusPrint} from '@utils';
+import { scaleSzie, localize, checkStatusPrint } from '@utils';
 import ICON from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 
@@ -30,9 +30,9 @@ class PrinterList extends React.Component {
             this.props.actions.app.stopLoadingApp();
         } catch (error) {
             this.props.actions.app.stopLoadingApp();
-            setTimeout(() =>{
+            setTimeout(() => {
                 alert(error)
-            },500)
+            }, 500)
         }
 
     }

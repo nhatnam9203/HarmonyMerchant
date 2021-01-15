@@ -296,6 +296,7 @@ RCT_EXPORT_METHOD(setupPax:(NSString *)destIp portDevice:(NSString *)portDevice 
   myapp.poslink.commSetting.destPort = portDevice;
   myapp.poslink.commSetting.timeout = timeoutConnect;
   myapp.poslink.commSetting.bluetoothAddr = @"6B45846D-B084-14C8-F339-23DF0B190ABC";
+//  myapp.poslink.commSetting.bluetoothAddr = @"8451A339-09C8-982C-B4AD-7AEAB9C4A86E";
   
    [self save];
 }
