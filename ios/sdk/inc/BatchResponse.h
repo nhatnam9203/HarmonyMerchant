@@ -1,12 +1,13 @@
 //
 //  BatchResponse.h
-//  PosLink
+//  POSLink
 //
 //  Created by sunny on 15-12-18.
 //  Copyright (c) 2015年 pax. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import "TORResponseInfo.h"
 
 @interface BatchResponse : NSObject
 
@@ -176,6 +177,11 @@
  * And there may be several elements named "Line".<br>
  */
 @property (nonatomic) NSString*ExtData;
+/**
+ * TORResponseInfo
+ */
+@property (nonatomic,strong) TORResponseInfo *TORResponseInfo;
+
 
 
 -(int)unpack:(NSArray*)dataRespArry;

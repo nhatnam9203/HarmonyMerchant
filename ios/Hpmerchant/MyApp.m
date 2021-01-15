@@ -262,9 +262,9 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amou
         
         
         if (signData != nil) {
-          NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
-          [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
-          [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
+//          NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
+//          [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
+//          [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
         }
         
       }else {
@@ -597,9 +597,9 @@ RCT_EXPORT_METHOD(refundTransaction:(NSString *)amount transactionId:(NSString *
         
         
         if (signData != nil) {
-          NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
-          [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
-          [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
+//          NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
+//          [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
+//          [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
         }
         
       }else {
@@ -703,9 +703,9 @@ RCT_EXPORT_METHOD(voidTransaction:(NSString *)amount transactionId:(NSString *)t
         }
         
         if (signData != nil) {
-          NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
-          [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
-          [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
+//          NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
+//          [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
+//          [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
         }
         
         

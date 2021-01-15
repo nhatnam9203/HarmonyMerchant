@@ -1,6 +1,6 @@
 //
 //  processTransResult.h
-//  PosLink
+//  POSLink
 //
 //  Created by sunny on 15-7-23.
 //  Copyright (c) 2015年 pax. All rights reserved.

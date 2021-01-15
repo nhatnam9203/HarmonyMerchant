@@ -1,6 +1,6 @@
 //
 //  LogManager.h
-//  PosLink
+//  POSLink
 //
 //  Created by Li Zhengzhe on 2017/8/3.
 //  Copyright © 2017年 pax. All rights reserved.

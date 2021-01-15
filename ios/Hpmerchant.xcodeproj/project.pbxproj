@@ -28,7 +28,6 @@
 		230F1DB824D3DA2200A95898 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		230F1DB924D3DA2200A95898 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		230F1DBA24D3DA2200A95898 /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
-		230F1DBC24D3DA2200A95898 /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
 		230F1DBD24D3DA2200A95898 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
 		230F1DBE24D3DA2200A95898 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
 		230F1DBF24D3DA2200A95898 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
@@ -53,7 +52,9 @@
 		230F1DD424D3DA2200A95898 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		232011EE22FAB38C0002C14B /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
 		23207BB522FAD00F0002C14B /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
-		23207BB622FAD5BE0002C14B /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
+		233BC50825B19B020003FA27 /* libPOSLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 233BC50725B19B020003FA27 /* libPOSLink.a */; };
+		233BC50925B19B020003FA27 /* libPOSLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 233BC50725B19B020003FA27 /* libPOSLink.a */; };
+		233BC50B25B19B1F0003FA27 /* libPOSLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 233BC50725B19B020003FA27 /* libPOSLink.a */; };
 		2342066122DD7C1800E0EA35 /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342065F22DD7C1700E0EA35 /* StarIO.framework */; };
 		2342066222DD7C1800E0EA35 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */; };
 		2342066422DD7C2600E0EA35 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
@@ -119,7 +120,6 @@
 		2388BF34253FEC34007B4A7A /* BridgeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006824DBC6DD00BAA83B /* BridgeUtils.swift */; };
 		2388BF35253FEC34007B4A7A /* RNBubbleChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006B24DBC6DD00BAA83B /* RNBubbleChartManager.swift */; };
 		2388BF36253FEC34007B4A7A /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
-		2388BF38253FEC34007B4A7A /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
 		2388BF39253FEC34007B4A7A /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
 		2388BF3A253FEC34007B4A7A /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
 		2388BF3B253FEC34007B4A7A /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
@@ -589,24 +589,38 @@
 		230F1DDB24D3DA2200A95898 /* Staing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Staing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		232011EC22FAB38C0002C14B /* MyApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MyApp.h; path = Hpmerchant/MyApp.h; sourceTree = "<group>"; };
 		232011ED22FAB38C0002C14B /* MyApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyApp.m; path = Hpmerchant/MyApp.m; sourceTree = "<group>"; };
-		23207B9E22FAC40F0002C14B /* PosLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosLink.h; sourceTree = "<group>"; };
-		23207B9F22FAC40F0002C14B /* PaymentResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentResponse.h; sourceTree = "<group>"; };
-		23207BA022FAC40F0002C14B /* ProcessTransResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessTransResult.h; sourceTree = "<group>"; };
-		23207BA122FAC4100002C14B /* ManageResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageResponse.h; sourceTree = "<group>"; };
-		23207BA222FAC4100002C14B /* CommSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommSetting.h; sourceTree = "<group>"; };
-		23207BA322FAC4100002C14B /* ManageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageRequest.h; sourceTree = "<group>"; };
-		23207BA422FAC4100002C14B /* MposBluetoothScan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MposBluetoothScan.h; sourceTree = "<group>"; };
-		23207BA522FAC4100002C14B /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
-		23207BA622FAC4100002C14B /* POSLinkLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POSLinkLog.h; sourceTree = "<group>"; };
-		23207BA722FAC4100002C14B /* PaymentRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentRequest.h; sourceTree = "<group>"; };
-		23207BA822FAC4100002C14B /* BatchResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchResponse.h; sourceTree = "<group>"; };
-		23207BA922FAC4100002C14B /* BatchRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchRequest.h; sourceTree = "<group>"; };
-		23207BAA22FAC4100002C14B /* ReportResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportResponse.h; sourceTree = "<group>"; };
-		23207BAB22FAC4100002C14B /* LogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogManager.h; sourceTree = "<group>"; };
-		23207BAC22FAC4100002C14B /* ReportRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportRequest.h; sourceTree = "<group>"; };
-		23207BAF22FAC4730002C14B /* libPosLink.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPosLink.a; sourceTree = "<group>"; };
 		23207BB322FAD00F0002C14B /* ExtDataPaymentReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtDataPaymentReq.h; sourceTree = "<group>"; };
 		23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExtDataPaymentReq.m; sourceTree = "<group>"; };
+		233BC4EA25B19B020003FA27 /* ADDLRspData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADDLRspData.h; sourceTree = "<group>"; };
+		233BC4EB25B19B020003FA27 /* GoogleServiceUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleServiceUsage.h; sourceTree = "<group>"; };
+		233BC4EC25B19B020003FA27 /* ApplePayVAS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplePayVAS.h; sourceTree = "<group>"; };
+		233BC4ED25B19B020003FA27 /* PosLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosLink.h; sourceTree = "<group>"; };
+		233BC4EE25B19B020003FA27 /* ProcessTransResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessTransResult.h; sourceTree = "<group>"; };
+		233BC4EF25B19B020003FA27 /* GoogleServiceUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleServiceUpdate.h; sourceTree = "<group>"; };
+		233BC4F025B19B020003FA27 /* BatchRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchRequest.h; sourceTree = "<group>"; };
+		233BC4F125B19B020003FA27 /* PaymentResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentResponse.h; sourceTree = "<group>"; };
+		233BC4F225B19B020003FA27 /* TaxDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaxDetail.h; sourceTree = "<group>"; };
+		233BC4F325B19B020003FA27 /* CommercialInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommercialInformation.h; sourceTree = "<group>"; };
+		233BC4F425B19B020003FA27 /* ReportRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportRequest.h; sourceTree = "<group>"; };
+		233BC4F525B19B020003FA27 /* POSLinkLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POSLinkLog.h; sourceTree = "<group>"; };
+		233BC4F625B19B020003FA27 /* GoogleSmartTap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleSmartTap.h; sourceTree = "<group>"; };
+		233BC4F725B19B020003FA27 /* ManageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageRequest.h; sourceTree = "<group>"; };
+		233BC4F825B19B020003FA27 /* MultipleCommandsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleCommandsResponse.h; sourceTree = "<group>"; };
+		233BC4F925B19B020003FA27 /* GoogleNewService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleNewService.h; sourceTree = "<group>"; };
+		233BC4FA25B19B020003FA27 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		233BC4FB25B19B020003FA27 /* PaymentRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentRequest.h; sourceTree = "<group>"; };
+		233BC4FC25B19B020003FA27 /* LineItemDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineItemDetail.h; sourceTree = "<group>"; };
+		233BC4FD25B19B020003FA27 /* CommSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommSetting.h; sourceTree = "<group>"; };
+		233BC4FE25B19B020003FA27 /* ReportResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportResponse.h; sourceTree = "<group>"; };
+		233BC4FF25B19B020003FA27 /* ManageResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageResponse.h; sourceTree = "<group>"; };
+		233BC50025B19B020003FA27 /* VASResponseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VASResponseInfo.h; sourceTree = "<group>"; };
+		233BC50125B19B020003FA27 /* TORResponseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TORResponseInfo.h; sourceTree = "<group>"; };
+		233BC50225B19B020003FA27 /* BatchResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchResponse.h; sourceTree = "<group>"; };
+		233BC50325B19B020003FA27 /* MultipleCommandsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleCommandsRequest.h; sourceTree = "<group>"; };
+		233BC50425B19B020003FA27 /* GoogleSmartTapPushService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleSmartTapPushService.h; sourceTree = "<group>"; };
+		233BC50525B19B020003FA27 /* MposBluetoothScan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MposBluetoothScan.h; sourceTree = "<group>"; };
+		233BC50625B19B020003FA27 /* LogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogManager.h; sourceTree = "<group>"; };
+		233BC50725B19B020003FA27 /* libPOSLink.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPOSLink.a; sourceTree = "<group>"; };
 		2342065F22DD7C1700E0EA35 /* StarIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO.framework; path = "../node_modules/react-native-star-prnt/ios/Frameworks/StarIO.framework"; sourceTree = "<group>"; };
 		2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO_Extension.framework; path = "../node_modules/react-native-star-prnt/ios/Frameworks/StarIO_Extension.framework"; sourceTree = "<group>"; };
 		2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -717,7 +731,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23207BB622FAD5BE0002C14B /* libPosLink.a in Frameworks */,
+				233BC50825B19B020003FA27 /* libPOSLink.a in Frameworks */,
 				2399DEC122F1A9CF00DBCCFE /* libRNFetchBlob.a in Frameworks */,
 				2342066622DD7C3100E0EA35 /* ExternalAccessory.framework in Frameworks */,
 				2342066422DD7C2600E0EA35 /* CoreBluetooth.framework in Frameworks */,
@@ -750,8 +764,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				233BC50925B19B020003FA27 /* libPOSLink.a in Frameworks */,
 				3649D09224E660C0003C8174 /* libRNSpringScrollView.a in Frameworks */,
-				230F1DBC24D3DA2200A95898 /* libPosLink.a in Frameworks */,
 				230F1DBD24D3DA2200A95898 /* libRNFetchBlob.a in Frameworks */,
 				230F1DBE24D3DA2200A95898 /* ExternalAccessory.framework in Frameworks */,
 				230F1DBF24D3DA2200A95898 /* CoreBluetooth.framework in Frameworks */,
@@ -780,7 +794,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2388BF38253FEC34007B4A7A /* libPosLink.a in Frameworks */,
+				233BC50B25B19B1F0003FA27 /* libPOSLink.a in Frameworks */,
 				2388BF39253FEC34007B4A7A /* libRNFetchBlob.a in Frameworks */,
 				2388BF3A253FEC34007B4A7A /* ExternalAccessory.framework in Frameworks */,
 				2388BF3B253FEC34007B4A7A /* CoreBluetooth.framework in Frameworks */,
@@ -957,37 +971,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		23207B9C22FAC3BC0002C14B /* sdk */ = {
-			isa = PBXGroup;
-			children = (
-				23207B9D22FAC3F40002C14B /* inc */,
-				23207BAF22FAC4730002C14B /* libPosLink.a */,
-			);
-			path = sdk;
-			sourceTree = "<group>";
-		};
-		23207B9D22FAC3F40002C14B /* inc */ = {
-			isa = PBXGroup;
-			children = (
-				23207BA922FAC4100002C14B /* BatchRequest.h */,
-				23207BA822FAC4100002C14B /* BatchResponse.h */,
-				23207BA522FAC4100002C14B /* Common.h */,
-				23207BA222FAC4100002C14B /* CommSetting.h */,
-				23207BAB22FAC4100002C14B /* LogManager.h */,
-				23207BA322FAC4100002C14B /* ManageRequest.h */,
-				23207BA122FAC4100002C14B /* ManageResponse.h */,
-				23207BA422FAC4100002C14B /* MposBluetoothScan.h */,
-				23207BA722FAC4100002C14B /* PaymentRequest.h */,
-				23207B9F22FAC40F0002C14B /* PaymentResponse.h */,
-				23207B9E22FAC40F0002C14B /* PosLink.h */,
-				23207BA622FAC4100002C14B /* POSLinkLog.h */,
-				23207BA022FAC40F0002C14B /* ProcessTransResult.h */,
-				23207BAC22FAC4100002C14B /* ReportRequest.h */,
-				23207BAA22FAC4100002C14B /* ReportResponse.h */,
-			);
-			path = inc;
-			sourceTree = "<group>";
-		};
 		23207BB222FACFD70002C14B /* ExtData */ = {
 			isa = PBXGroup;
 			children = (
@@ -995,6 +978,51 @@
 				23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */,
 			);
 			name = ExtData;
+			sourceTree = "<group>";
+		};
+		233BC4E825B19B020003FA27 /* sdk */ = {
+			isa = PBXGroup;
+			children = (
+				233BC4E925B19B020003FA27 /* inc */,
+				233BC50725B19B020003FA27 /* libPOSLink.a */,
+			);
+			path = sdk;
+			sourceTree = "<group>";
+		};
+		233BC4E925B19B020003FA27 /* inc */ = {
+			isa = PBXGroup;
+			children = (
+				233BC4EA25B19B020003FA27 /* ADDLRspData.h */,
+				233BC4EB25B19B020003FA27 /* GoogleServiceUsage.h */,
+				233BC4EC25B19B020003FA27 /* ApplePayVAS.h */,
+				233BC4ED25B19B020003FA27 /* PosLink.h */,
+				233BC4EE25B19B020003FA27 /* ProcessTransResult.h */,
+				233BC4EF25B19B020003FA27 /* GoogleServiceUpdate.h */,
+				233BC4F025B19B020003FA27 /* BatchRequest.h */,
+				233BC4F125B19B020003FA27 /* PaymentResponse.h */,
+				233BC4F225B19B020003FA27 /* TaxDetail.h */,
+				233BC4F325B19B020003FA27 /* CommercialInformation.h */,
+				233BC4F425B19B020003FA27 /* ReportRequest.h */,
+				233BC4F525B19B020003FA27 /* POSLinkLog.h */,
+				233BC4F625B19B020003FA27 /* GoogleSmartTap.h */,
+				233BC4F725B19B020003FA27 /* ManageRequest.h */,
+				233BC4F825B19B020003FA27 /* MultipleCommandsResponse.h */,
+				233BC4F925B19B020003FA27 /* GoogleNewService.h */,
+				233BC4FA25B19B020003FA27 /* Common.h */,
+				233BC4FB25B19B020003FA27 /* PaymentRequest.h */,
+				233BC4FC25B19B020003FA27 /* LineItemDetail.h */,
+				233BC4FD25B19B020003FA27 /* CommSetting.h */,
+				233BC4FE25B19B020003FA27 /* ReportResponse.h */,
+				233BC4FF25B19B020003FA27 /* ManageResponse.h */,
+				233BC50025B19B020003FA27 /* VASResponseInfo.h */,
+				233BC50125B19B020003FA27 /* TORResponseInfo.h */,
+				233BC50225B19B020003FA27 /* BatchResponse.h */,
+				233BC50325B19B020003FA27 /* MultipleCommandsRequest.h */,
+				233BC50425B19B020003FA27 /* GoogleSmartTapPushService.h */,
+				233BC50525B19B020003FA27 /* MposBluetoothScan.h */,
+				233BC50625B19B020003FA27 /* LogManager.h */,
+			);
+			path = inc;
 			sourceTree = "<group>";
 		};
 		2399DE9422F1A9C100DBCCFE /* Products */ = {
@@ -1286,8 +1314,8 @@
 				36F619BE2500D99A00893A84 /* Dev.entitlements */,
 				3684059024F8BCDA00021B55 /* HPMerchant.entitlements */,
 				3684056524F8BCA200021B55 /* Staing.entitlements */,
+				233BC4E825B19B020003FA27 /* sdk */,
 				366C005624DBC6DD00BAA83B /* ReactNativeCharts */,
-				23207B9C22FAC3BC0002C14B /* sdk */,
 				13B07FAE1A68108700A75B9A /* Hpmerchant */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* HpmerchantTests */,
@@ -2291,6 +2319,7 @@
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
 					"\"$(SRCROOT)/HPMerchant\"",
+					"$(PROJECT_DIR)/20200925",
 				);
 				MARKETING_VERSION = 1.1.5;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2345,6 +2374,7 @@
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
 					"\"$(SRCROOT)/HPMerchant\"",
+					"$(PROJECT_DIR)/20200925",
 				);
 				MARKETING_VERSION = 1.1.5;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2398,6 +2428,7 @@
 					"$(PROJECT_DIR)/sdk/inc/**",
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
+					"$(PROJECT_DIR)/20200925",
 				);
 				MARKETING_VERSION = 1.1.5;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2451,6 +2482,7 @@
 					"$(PROJECT_DIR)/sdk/inc/**",
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
+					"$(PROJECT_DIR)/20200925",
 				);
 				MARKETING_VERSION = 1.1.5;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2505,6 +2537,7 @@
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
 					"\"$(SRCROOT)/HPMerchant\"",
+					"$(PROJECT_DIR)/20200925",
 				);
 				MARKETING_VERSION = 1.1.4;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2559,6 +2592,7 @@
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
 					"\"$(SRCROOT)/HPMerchant\"",
+					"$(PROJECT_DIR)/20200925",
 				);
 				MARKETING_VERSION = 1.1.4;
 				OTHER_CFLAGS = "-fembed-bitcode";
