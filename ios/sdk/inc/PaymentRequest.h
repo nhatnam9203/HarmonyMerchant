@@ -1,20 +1,14 @@
 //
 //  PaymentRequest.h
-//  POSLink
+//  PosLink
 //
 //  Created by sunny on 15-12-18.
 //  Copyright (c) 2015年 pax. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "CommercialInformation.h"
-
-
-#if TARGET_OS_IOS
 #import <UIKit/UIKit.h>
-#else
-#import <AppKit/AppKit.h>
-#endif
+
 @interface PaymentRequest : NSObject
 
 /**
@@ -101,11 +95,6 @@
  * Fuel Amount $$$$$$CC.
  */
 @property (nonatomic) NSString*  FuelAmt;
-
-/**
- Service Fee for Credit and Debit transactions, $$$$$$CC.
- */
-@property (nonatomic) NSString* ServiceFee;
 /**
  * Employee/clerk id.
  */
@@ -170,15 +159,6 @@
  * Extended data in XML format
  */
 @property (nonatomic) NSString* ExtData;
-
-/**
- * Extended data in XML format
- */
-@property (nonatomic) NSString *ContinuousScreen;
-/**
- * Commercial Information
- */
-@property (nonatomic) CommercialInformation *CommercialInformation;
 
 
 /**
@@ -246,25 +226,14 @@
  * @param trace: sigData;
  * @return a picture.
  */
-
-#if TARGET_OS_IOS
-/**
- * Convert signature data to picture.
- * @param trace: sigData;
- * @return a picture.
- */
 +(UIImage *)convertSigToPic:(NSData *)sigdata;
 
 /**
  * save sig image.
  * @param image: sig image;
- * @param sigPath: sig image file path;
  * @param type: sig image file type;
  * @param out: sig image file name;
  */
--(BOOL)saveSigToPic:(UIImage *)image sigPath:(NSString *)sigPath type:(NSString *)type outFile:(NSString *)outFile;
-#else
-+(NSImage *)convertSigToPic:(NSData *)sigdata;
--(BOOL)saveSigToPic:(NSImage *)image sigPath:(NSString *)sigPath type:(NSString *)type outFile:(NSString *)outFile;
-#endif
+-(void)saveSigToPic:(UIImage *)image type:(NSString *)type outFile:(NSString *)outFile;
+
 @end

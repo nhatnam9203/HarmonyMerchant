@@ -1,6 +1,6 @@
 //
 //  PosLink.h
-//  POSLink
+//  PosLink
 //
 //  Created by sunny on 15-7-23.
 //  Copyright (c) 2015年 pax. All rights reserved.
@@ -8,8 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CommSetting.h"
-#import "MultipleCommandsResponse.h"
-#import "MultipleCommandsRequest.h"
+
 
 typedef NS_ENUM(NSUInteger, processType)
 {
@@ -17,8 +16,7 @@ typedef NS_ENUM(NSUInteger, processType)
     PAYMENT,
     MANAGE,
     REPORT,
-    BATCH,
-    MUTIPLE,
+    BATCH
 };
 
 @class PaymentRequest;
@@ -35,8 +33,6 @@ typedef NS_ENUM(NSUInteger, processType)
 
 @class ProcessTransResult;
 
-//@class MultipleCommandsRequest;
-//@class MultipleCommandsResponse;
 
 @interface PosLink : NSObject
 
@@ -52,7 +48,7 @@ typedef NS_ENUM(NSUInteger, processType)
 /*!
  @abstract init Poslink with CommSetting
  @result
- PosLink instance
+  PosLink instance
  */
 -(id) initWithCommSetting:(CommSetting*) setting;
 
@@ -91,11 +87,6 @@ typedef NS_ENUM(NSUInteger, processType)
 @property (nonatomic)ReportRequest* reportRequest;
 @property (nonatomic,readonly) ReportResponse* reportResponse;
 
-/**
- * The MutipleCommandsRequest object which need to be created before assign to this property.
- **/
-@property (nonatomic)MultipleCommandsRequest* mutipleRequest;
-@property (nonatomic,readonly) MultipleCommandsResponse* mutipleResponse;
 
 /**
  * To cancel last process by sending command to terminal.
@@ -113,6 +104,4 @@ typedef NS_ENUM(NSUInteger, processType)
  */
 -(ProcessTransResult*)processTrans:(processType)type;
 
-- (NSString *)getVersion;
 @end
-

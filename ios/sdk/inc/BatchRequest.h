@@ -1,6 +1,6 @@
 //
 //  BatchRequest.h
-//  POSLink
+//  PosLink
 //
 //  Created by sunny on 15-12-18.
 //  Copyright (c) 2015年 pax. All rights reserved.

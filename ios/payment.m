@@ -9,6 +9,7 @@
 #import "payment.h"
 #import "CommSetting.h"
 #import "PosLink.h"
+#import "PaymentRequest.h"
 #import "PaymentResponse.h"
 #import "ProcessTransResult.h"
 #import "MyPax.h"
@@ -45,6 +46,16 @@ static int statusCode;
     if (self.mypax.poslink.paymentRequest.SigSavePath != nil && self.mypax.poslink.paymentRequest.SigSavePath > 0){
         [settings setObject:self.mypax.poslink.paymentRequest.SigSavePath forKey:keySaveSigPath];
     }
+}
+
+- (NSString*) convertObjectToJson:(NSObject*) object
+{
+  NSError *writeError = nil;
+  
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingPrettyPrinted error:&writeError];
+  NSString *result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+  
+  return result;
 }
 
 - (void)saveSetupSetting {
@@ -93,8 +104,6 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amou
    paymentRequest.ECRTransID = @"";
    paymentRequest.AuthCode = @"";
    paymentRequest.ExtData = extData;
-   paymentRequest.ContinuousScreen = @"";
-   paymentRequest.ServiceFee = @"";
   
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
@@ -107,11 +116,51 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amou
     };
 
     ProcessTransResult *ret = [self.mypax.poslink processTrans:PAYMENT];
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//
-//
-//    });
-    
+    dispatch_async(dispatch_get_main_queue(), ^{
+      if (ret.code == OK) {
+        NSDictionary *dataSuccess = @{@"status":@true,
+                                      @"ResultCode" : self.mypax.poslink.paymentResponse.ResultCode ? self.mypax.poslink.paymentResponse.ResultCode : @"",
+                                      @"ResultTxt" : self.mypax.poslink.paymentResponse.ResultTxt ? self.mypax.poslink.paymentResponse.ResultTxt : @"",
+                                      @"AuthCode" : self.mypax.poslink.paymentResponse.AuthCode ? self.mypax.poslink.paymentResponse.AuthCode : @"",
+                                      @"ApprovedAmount" : self.mypax.poslink.paymentResponse.ApprovedAmount ? self.mypax.poslink.paymentResponse.ApprovedAmount : @"",
+                                      @"AvsResponse" : self.mypax.poslink.paymentResponse.AvsResponse ? self.mypax.poslink.paymentResponse.AvsResponse : @"",
+                                      @"BogusAccountNum" : self.mypax.poslink.paymentResponse.BogusAccountNum ? self.mypax.poslink.paymentResponse.BogusAccountNum : @"",
+                                      @"CardType" : self.mypax.poslink.paymentResponse.CardType ? self.mypax.poslink.paymentResponse.CardType : @"",
+                                      @"CvResponse" : self.mypax.poslink.paymentResponse.CvResponse ? self.mypax.poslink.paymentResponse.CvResponse : @"",
+                                      @"HostCode" : self.mypax.poslink.paymentResponse.HostCode ? self.mypax.poslink.paymentResponse.HostCode : @"",
+                                      @"HostResponse" : self.mypax.poslink.paymentResponse.HostResponse ?  self.mypax.poslink.paymentResponse.HostResponse : @"",
+                                      @"RawResponse" : self.mypax.poslink.paymentResponse.RawResponse ?  self.mypax.poslink.paymentResponse.RawResponse : @"",
+                                      @"Message" : self.mypax.poslink.paymentResponse.Message ? self.mypax.poslink.paymentResponse.Message : @"",
+                                      @"RefNum" : self.mypax.poslink.paymentResponse.RefNum ? self.mypax.poslink.paymentResponse.RefNum : @"",
+                                      @"RemainingBalance" : self.mypax.poslink.paymentResponse.RemainingBalance ? self.mypax.poslink.paymentResponse.RemainingBalance : @"",
+                                      @"ExtraBalance" : self.mypax.poslink.paymentResponse.ExtraBalance ? self.mypax.poslink.paymentResponse.ExtraBalance : @"",
+                                      @"Timestamp" : self.mypax.poslink.paymentResponse.Timestamp ?  self.mypax.poslink.paymentResponse.Timestamp : @"",
+                                      @"InvNum" : self.mypax.poslink.paymentResponse.InvNum ? self.mypax.poslink.paymentResponse.InvNum : @"",
+                                      @"ExtData" : self.mypax.poslink.paymentResponse.ExtData ? self.mypax.poslink.paymentResponse.ExtData : @"",
+                                      @"RequestedAmount" : self.mypax.poslink.paymentResponse.RequestedAmount ? self.mypax.poslink.paymentResponse.RequestedAmount : @"",
+                                      };
+   
+        
+        signData = self.mypax.poslink.paymentResponse.signData;
+        if (signData != nil) {
+          NSString *str = [self.mypax.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",self.mypax.poslink.paymentResponse.RefNum];
+          [self.mypax.poslink.paymentRequest saveSigData:signData fileName:str];
+          [self.mypax.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
+        }
+
+        NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
+        callback(@[result]);
+        return;
+      }else {
+        NSDictionary *dataError = @{@"status":@false,
+                                    @"message":ret.msg
+                                      };
+         NSString  *resultError =  [self convertObjectToJson:dataError ] ;
+        callback(@[resultError]);
+        return;
+      }
+
+    });
   });
   
 }
@@ -122,13 +171,13 @@ RCT_EXPORT_METHOD(setupPax:(NSString *)commType  destIp:(NSString *)destIp  port
 {
   MyPax *mypax = [MyPax sharedSigleton];
 // commType = @"TCP", @"BLUETOOTH";
-//  myapp.poslink.commSetting.commType = @"BLUETOOTH";
+//  self.mypax.poslink.commSetting.commType = @"BLUETOOTH";
   mypax.poslink.commSetting.commType = commType;
   mypax.poslink.commSetting.destIP = destIp;
   mypax.poslink.commSetting.destPort = portDevice;
   mypax.poslink.commSetting.timeout = timeoutConnect;
   mypax.poslink.commSetting.bluetoothAddr = bluetoothAddr;
-//  myapp.poslink.commSetting.bluetoothAddr = @"8451A339-09C8-982C-B4AD-7AEAB9C4A86E";
+//  self.mypax.poslink.commSetting.bluetoothAddr = @"8451A339-09C8-982C-B4AD-7AEAB9C4A86E";
   
    [self saveSetupSetting];
 }

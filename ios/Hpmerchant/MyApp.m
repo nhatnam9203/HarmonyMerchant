@@ -170,9 +170,9 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amou
   paymentRequest.AuthCode = @"";
 //  paymentRequest.ExtData = @"<TipRequest>1</TipRequest>";
   paymentRequest.ExtData = extData;
-  paymentRequest.ContinuousScreen = @"";
-  paymentRequest.ServiceFee = @"";
-  paymentRequest.CommercialInformation = @"";
+//  paymentRequest.ContinuousScreen = @"";
+//  paymentRequest.ServiceFee = @"";
+//  paymentRequest.CommercialInformation = @"";
   
   
   

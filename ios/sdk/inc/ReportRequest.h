@@ -1,6 +1,6 @@
 //
 //  ReportRequest.h
-//  POSLink
+//  PosLink
 //
 //  Created by sunny on 15-12-18.
 //  Copyright (c) 2015年 pax. All rights reserved.
@@ -156,14 +156,6 @@
  * <p>Only valid when TransTYpe = SAFSUMMARYREPORT<br>
  */
 @property (nonatomic) NSString* SAFIndicator;
-
-/**
- Retrieve the last transaction details:
- Valid value:
- 0 = needn’t (default value)
- 1 = need
- */
-@property (nonatomic) NSString* LASTTRANSACTION;
 
 /**
  * Extended data in XML format

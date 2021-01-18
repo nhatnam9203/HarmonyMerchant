@@ -1,6 +1,6 @@
 //
 //  POSLinkLog.h
-//  POSLink
+//  PosLink
 //
 //  Created by Nick.z on 2018/10/10.
 //  Copyright © 2018年 pax. All rights reserved.
@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-//POSLOG_LEVEL_INFO deprecated!
 /*!
  @abstract log level enumeration
  @constant POSLOG_LEVEL_NONE   log level none

@@ -1,17 +1,13 @@
 
 //
 //  PaymentResponse.h
-//  POSLink
+//  PosLink
 //
 //  Created by sunny on 15-12-18.
 //  Copyright (c) 2015年 pax. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "ADDLRspData.h"
-#import "VASResponseInfo.h"
-
-#import "TORResponseInfo.h"
 
 @interface PaymentResponse : NSObject
 
@@ -75,16 +71,6 @@
  *  Balance extra on card .
  */
 @property NSString* ExtraBalance;
-
-/**
- Service Fee for Credit and Debit transactions, $$$$$$CC.
- */
-@property NSString* ServiceFee;
-
-/**
- Any amount of the original authorization remaining after this void/refund, $$$$$$CC.
- */
-@property NSString* TransactionRemainingAmount;
 /**
  * Original requested amount of the transaction .
  */
@@ -118,41 +104,8 @@
 /**
  * signature data
  */
-@property NSString *signData;
-/**
- * * The gift card type.
- Values:
- C - Custom Value Gift Card
- P - Predetermine Value Gift Card
- */
-@property NSString *GiftCardType;
-/**
- C - Checking
- S - Saving
- D - Default
+@property NSData *signData;
 
- */
-@property NSString *DebitAccountType;
-
-/**
- VAS Response
- */
-@property (nonatomic,strong) VASResponseInfo *VASResponseInfo;
-
-/**
- ADDLRspData
- */
-@property (nonatomic,strong) ADDLRspData *ADDLRspData;
-
-/**
- * TORResponseInfo
- */
-@property (nonatomic,strong) TORResponseInfo *TORResponseInfo;
-
-/**
- Transaction Integrity Class is assigned by MasterCard for a U.S. merchant in an authorization response message
- */
-@property (nonatomic,copy) NSString *TranIntgClass;
 -(int)unpack:(NSArray*)data;
 
 @end
