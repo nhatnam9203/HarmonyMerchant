@@ -1,12 +1,14 @@
 //
 //  ReportResponse.h
-//  PosLink
+//  POSLink
 //
 //  Created by sunny on 15-12-18.
 //  Copyright (c) 2015年 pax. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import "ADDLRspData.h"
+#import "TORResponseInfo.h"
 
 @interface ReportResponse : NSObject
 
@@ -127,6 +129,12 @@
  * <p> If host returns it, this field is mandatory.<br>
  */
 @property (nonatomic) NSString*BatchNum;
+
+/**
+ * A unique transaction identifier from bank/card brand.
+ */
+@property (nonatomic) NSString*TransactionIdentifier ;
+
 
 /**
  * Returns the transaction auth code from the payment processor.
@@ -467,7 +475,23 @@
  *<p>Transaction total data in XML format<br>
  */
 @property (nonatomic) NSString*TransTotal;
+/**
+ Define “ADDLRSPDATA” as additional host/terminal response data.
+ */
+@property (nonatomic,strong)  ADDLRspData *ADDLRspData;
 
+/**
+ TORResponseInfo
+*/
+@property (nonatomic,strong) TORResponseInfo *TORResponseInfo;
+/**
+ Transaction Integrity Class is assigned by MasterCard for a U.S. merchant in an authorization response message
+ */
+@property (nonatomic,copy) NSString *TranIntgClass;
+/**
+ Any amount of the original authorization remaining after this void/refund, $$$$$$CC.
+ */
+@property NSString* TransactionRemainingAmount;
 
 -(int)unpack:(NSArray*)dataRespArry;
 

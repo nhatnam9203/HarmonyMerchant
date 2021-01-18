@@ -1,14 +1,18 @@
 //
 //  ManageResponse.h
-//  PosLink
+//  POSLink
 //
 //  Created by sunny on 15-11-15.
 //  Copyright (c) 2015年 pax. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import "VASResponseInfo.h"
+#if TARGET_OS_IOS
 #import <UIKit/UIKit.h>
-
+#else
+#import <AppKit/AppKit.h>
+#endif
 @interface ManageResponse : NSObject
 
 /**
@@ -240,6 +244,108 @@
  * Label Selected
  */
 @property NSString *LabelSelected;
+
+/**
+ The algorithm is MD5.
+ */
+@property NSString *Checksum;
+
+/**
+ Token value
+ */
+@property NSString *Token;
+
+/**
+ Token Serial Number
+ */
+@property NSString *TokenSN;
+
+/**
+ Only valid when M1 command is 1(read)
+ */
+@property NSString *BlockValue ;
+
+/**
+ Store and forward mode indicator
+ 0: Stay Online.
+ 1: Stay Offline
+ 2: Offline Till batch.
+ 3: Offline On Demand/Auto.
+ */
+@property NSString *SAFMode;
+
+/**
+ The effective start date time, YYYYMMDDhhmmss.
+ Valid for SAF mode as 1
+ */
+@property NSString *StartDateTime;
+
+/**
+ The effective end date time, YYYYMMDDhhmmss
+ Valid for SAF mode as 1.
+ */
+@property NSString *EndDateTime;
+
+/**
+ SAF On for next number of days from today
+ Valid for SAF mode as 1.
+ */
+@property NSString *DurationinDays;
+
+/**
+ SAF max number of record - SAF only support this number of records. i.e. 50 SAF only, once it reached it will stop working.
+ */
+@property NSString *Maxnumber;
+
+/**
+ Total ceiling amount. Once this amount is reached it will not accept any SAF record
+ */
+@property NSString *TotalCeilingAmount;
+
+/**
+ Once this amount is reached it will not accept any SAF record.
+ Separated by Card Type with space in the card type sequence of “Visa MasterCard AMEX Diners Discover JCB enRoute VisaFleet MasterCardFleet FleetOne Fleetwide Fuleman Gascard Voyarger WrightExpress Extended(others)”, i.e. “2000 2000 2000 2000 2000 2000 2000 2000 2000 2000 2000 2000 2000 2000 2000 2000”.
+ 1 exception that value of “2000” without any spaces means taking 2000 as unified ceiling amount for each card type.
+ Empty value means ceiling amount validation will not be started during SAF.
+ */
+@property NSString *CeilingAmountPercardType;
+
+/**
+ Once this amount per trans is reached it will not accept any SAF record.
+ Separated by Card Type with space in the card type sequence of “Visa MasterCard AMEX Diners Discover JCB enRoute VisaFleet MasterCardFleet FleetOne Fleetwide Fuleman Gascard Voyarger WrightExpress Extended(others)”, i.e. “2000 2000 2000 2000 2000 2000 2000 2000 2000 2000 2000 2000 2000 2000 2000 2000”.
+ 1 exception that value of “2000” without any spaces means taking 2000 as unified HALO amount for each card type.
+ Empty value means HALO amount validation will not be started during SAF.
+ */
+@property NSString *HALOpercardtype;
+
+/**
+ SAF Uploading mode.
+ 0: Upload before batch.
+ 1: Silent Auto Upload.
+ */
+@property NSString *UploadMode;
+
+/**
+ Auto uploading checking interval in unit of 100ms.
+ */
+@property NSString *AutoUploadIntervalTime;
+
+/**
+ Delete SAF Confirmation.
+ 0: with Prompt.
+ 1: without Prompt.
+ */
+@property NSString *DeleteSAFConfirmation;
+
+/**
+ VAS Response
+ */
+@property (nonatomic,strong) VASResponseInfo *VASResponseInfo;
+
+/**
+The MAC result, represented in hexadecimal
+ */
+@property (nonatomic) NSString *ResultData;
 -(int)unpack:(NSArray*)dataRespArry;
 
 @end

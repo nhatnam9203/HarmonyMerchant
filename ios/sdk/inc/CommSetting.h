@@ -20,7 +20,7 @@
 @property (nonatomic, assign) NSString* commType;
 /**
  * Transaction time out.
- * <p>-1: no timeout, but -1 only valid for "UART" and "TCP", -default<br>
+ * <p>-1: no timeout, but -1 only valid for "TCP", 60000 -default<br>
  * >0 wait n millisecond to timeout.<br>
  * measured in 1ms
  */
