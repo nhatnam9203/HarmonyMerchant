@@ -13,15 +13,8 @@
 #import "PaymentResponse.h"
 #import "ProcessTransResult.h"
 #import "MyPax.h"
-#import "CommSetting.h"
 
 #define keySaveSigPath @"SigFilePath"
-#define keyCommType @"commType"
-#define keyTimeout @"timeout"
-#define keySerialPort @"serialPort"
-#define keyDestIP @"destIP"
-#define keyDestPort @"destPort"
-#define keyBluetoothAddr @"bluetoothAddr"
 
 static NSString *signData;
 static int statusCode;
@@ -97,8 +90,9 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amou
     self.mypax.poslink.reportedStatusChangeBlock = ^{
       statusCode = [weakSelf.mypax.poslink getReportedStatus];
       dispatch_async(dispatch_get_main_queue(), ^{
-        NSLog(@"Terminal ReportedStatus = %d",statusCode);
+       
       });
+      NSLog(@"Terminal ReportedStatus = %d",statusCode);
     };
 
     ProcessTransResult *ret = [self.mypax.poslink processTrans:PAYMENT];
@@ -128,11 +122,13 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amou
    
         
         signData = self.mypax.poslink.paymentResponse.signData;
+
         if (signData != nil) {
           NSString *str = [self.mypax.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",self.mypax.poslink.paymentResponse.RefNum];
           [self.mypax.poslink.paymentRequest saveSigData:signData fileName:str];
-          [self.mypax.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
         }
+        
+      
 
         NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
         callback(@[result]);

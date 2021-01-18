@@ -12,7 +12,9 @@
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
 #import "MyPax.h"
+#import "PaymentRequest.h"
 
+typedef void(^MutiplePaymentBlock)(PaymentRequest *model);
 @interface payment : NSObject <RCTBridgeModule>
 
 @property (nonatomic, strong) MyPax *mypax;
