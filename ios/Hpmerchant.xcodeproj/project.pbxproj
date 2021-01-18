@@ -52,12 +52,6 @@
 		230F1DD424D3DA2200A95898 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		232011EE22FAB38C0002C14B /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
 		23207BB522FAD00F0002C14B /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
-		232A4E1825B53B720049AA45 /* MyPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 232A4E1725B53B720049AA45 /* MyPax.m */; };
-		232A4E1925B53B720049AA45 /* MyPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 232A4E1725B53B720049AA45 /* MyPax.m */; };
-		232A4E1A25B53B720049AA45 /* MyPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 232A4E1725B53B720049AA45 /* MyPax.m */; };
-		232A4E2925B542850049AA45 /* payment.m in Sources */ = {isa = PBXBuildFile; fileRef = 232A4E2825B542850049AA45 /* payment.m */; };
-		232A4E2A25B542850049AA45 /* payment.m in Sources */ = {isa = PBXBuildFile; fileRef = 232A4E2825B542850049AA45 /* payment.m */; };
-		232A4E2B25B542850049AA45 /* payment.m in Sources */ = {isa = PBXBuildFile; fileRef = 232A4E2825B542850049AA45 /* payment.m */; };
 		232A50B025B56B840049AA45 /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 232A50AF25B56B840049AA45 /* libPosLink.a */; };
 		232A50B125B56B840049AA45 /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 232A50AF25B56B840049AA45 /* libPosLink.a */; };
 		232A50B225B56B840049AA45 /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 232A50AF25B56B840049AA45 /* libPosLink.a */; };
@@ -68,6 +62,15 @@
 		234AF86C25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */; };
 		234AF86D25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */; };
 		234AF86E25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */; };
+		237D40E025B589E500E39755 /* MyPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D40DC25B589E500E39755 /* MyPax.m */; };
+		237D40E125B589E500E39755 /* MyPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D40DC25B589E500E39755 /* MyPax.m */; };
+		237D40E225B589E500E39755 /* MyPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D40DC25B589E500E39755 /* MyPax.m */; };
+		237D40E325B589E500E39755 /* payment.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D40DE25B589E500E39755 /* payment.m */; };
+		237D40E425B589E500E39755 /* payment.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D40DE25B589E500E39755 /* payment.m */; };
+		237D40E525B589E500E39755 /* payment.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D40DE25B589E500E39755 /* payment.m */; };
+		237D40EC25B58BC700E39755 /* setting.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D40EB25B58BC700E39755 /* setting.m */; };
+		237D40ED25B58BC700E39755 /* setting.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D40EB25B58BC700E39755 /* setting.m */; };
+		237D40EE25B58BC700E39755 /* setting.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D40EB25B58BC700E39755 /* setting.m */; };
 		2388BDCF253FE9A3007B4A7A /* staging.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2388BDCE253FE9A3007B4A7A /* staging.plist */; };
 		2388BEFE253FEC34007B4A7A /* RNBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008C24DBC6DD00BAA83B /* RNBarChartManager.swift */; };
 		2388BEFF253FEC34007B4A7A /* RNBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008E24DBC6DD00BAA83B /* RNBarChartView.swift */; };
@@ -597,10 +600,6 @@
 		232011ED22FAB38C0002C14B /* MyApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyApp.m; path = Hpmerchant/MyApp.m; sourceTree = "<group>"; };
 		23207BB322FAD00F0002C14B /* ExtDataPaymentReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtDataPaymentReq.h; sourceTree = "<group>"; };
 		23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExtDataPaymentReq.m; sourceTree = "<group>"; };
-		232A4E1625B53B390049AA45 /* MyPax.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyPax.h; sourceTree = "<group>"; };
-		232A4E1725B53B720049AA45 /* MyPax.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyPax.m; sourceTree = "<group>"; };
-		232A4E2425B542610049AA45 /* payment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = payment.h; sourceTree = "<group>"; };
-		232A4E2825B542850049AA45 /* payment.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = payment.m; sourceTree = "<group>"; };
 		232A50A025B56B840049AA45 /* PosLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosLink.h; sourceTree = "<group>"; };
 		232A50A125B56B840049AA45 /* ProcessTransResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessTransResult.h; sourceTree = "<group>"; };
 		232A50A225B56B840049AA45 /* BatchRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchRequest.h; sourceTree = "<group>"; };
@@ -622,6 +621,12 @@
 		2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rn_ble_plx.swift; sourceTree = "<group>"; };
+		237D40DC25B589E500E39755 /* MyPax.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPax.m; sourceTree = "<group>"; };
+		237D40DD25B589E500E39755 /* payment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = payment.h; sourceTree = "<group>"; };
+		237D40DE25B589E500E39755 /* payment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = payment.m; sourceTree = "<group>"; };
+		237D40DF25B589E500E39755 /* MyPax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPax.h; sourceTree = "<group>"; };
+		237D40EA25B58BB800E39755 /* setting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = setting.h; sourceTree = "<group>"; };
+		237D40EB25B58BC700E39755 /* setting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = setting.m; sourceTree = "<group>"; };
 		2388BD9F253FE990007B4A7A /* dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = dev.plist; path = Hpmerchant/dev.plist; sourceTree = "<group>"; };
 		2388BDCE253FE9A3007B4A7A /* staging.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = staging.plist; path = Hpmerchant/staging.plist; sourceTree = "<group>"; };
 		2388BF5B253FEC34007B4A7A /* Hpmerchant_Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hpmerchant_Dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -919,10 +924,7 @@
 				23FE295423C77BEF00E95925 /* File.swift */,
 				23FE295323C77BEF00E95925 /* Hpmerchant-Bridging-Header.h */,
 				234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */,
-				232A4E1625B53B390049AA45 /* MyPax.h */,
-				232A4E1725B53B720049AA45 /* MyPax.m */,
-				232A4E2425B542610049AA45 /* payment.h */,
-				232A4E2825B542850049AA45 /* payment.m */,
+				237D407025B588E300E39755 /* trans */,
 			);
 			name = Hpmerchant;
 			sourceTree = "<group>";
@@ -1009,6 +1011,35 @@
 				232A50AE25B56B840049AA45 /* LogManager.h */,
 			);
 			path = inc;
+			sourceTree = "<group>";
+		};
+		237D407025B588E300E39755 /* trans */ = {
+			isa = PBXGroup;
+			children = (
+				237D40E925B58B2F00E39755 /* setting */,
+				237D40DB25B589E500E39755 /* payment */,
+			);
+			path = trans;
+			sourceTree = "<group>";
+		};
+		237D40DB25B589E500E39755 /* payment */ = {
+			isa = PBXGroup;
+			children = (
+				237D40DC25B589E500E39755 /* MyPax.m */,
+				237D40DD25B589E500E39755 /* payment.h */,
+				237D40DE25B589E500E39755 /* payment.m */,
+				237D40DF25B589E500E39755 /* MyPax.h */,
+			);
+			path = payment;
+			sourceTree = "<group>";
+		};
+		237D40E925B58B2F00E39755 /* setting */ = {
+			isa = PBXGroup;
+			children = (
+				237D40EA25B58BB800E39755 /* setting.h */,
+				237D40EB25B58BC700E39755 /* setting.m */,
+			);
+			path = setting;
 			sourceTree = "<group>";
 		};
 		2399DE9422F1A9C100DBCCFE /* Products */ = {
@@ -2067,9 +2098,9 @@
 				366C011724DBC6DE00BAA83B /* RNBarChartView.swift in Sources */,
 				23FE295523C77BEF00E95925 /* File.swift in Sources */,
 				366C012C24DBC6DE00BAA83B /* RNChartViewBase.swift in Sources */,
-				232A4E1825B53B720049AA45 /* MyPax.m in Sources */,
 				366C010B24DBC6DE00BAA83B /* BarDataExtract.swift in Sources */,
 				366C013224DBC6DE00BAA83B /* DataExtract.swift in Sources */,
+				237D40E025B589E500E39755 /* MyPax.m in Sources */,
 				366C00B424DBC6DE00BAA83B /* LargeValueFormatter.swift in Sources */,
 				366C012624DBC6DE00BAA83B /* RNRadarChartView.swift in Sources */,
 				366C00B724DBC6DE00BAA83B /* FontUtils.swift in Sources */,
@@ -2113,7 +2144,8 @@
 				366C00F324DBC6DE00BAA83B /* RNLineChartManager.swift in Sources */,
 				366C00A524DBC6DE00BAA83B /* CombinedDataExtract.swift in Sources */,
 				366C00DE24DBC6DE00BAA83B /* PieDataExtract.swift in Sources */,
-				232A4E2925B542850049AA45 /* payment.m in Sources */,
+				237D40EC25B58BC700E39755 /* setting.m in Sources */,
+				237D40E325B589E500E39755 /* payment.m in Sources */,
 				366C00EA24DBC6DE00BAA83B /* RNScatterChartManagerBridge.m in Sources */,
 				366C00E124DBC6DE00BAA83B /* RNPieChartManager.swift in Sources */,
 				366C00F024DBC6DE00BAA83B /* RNLineChartView.swift in Sources */,
@@ -2134,9 +2166,9 @@
 				366C011924DBC6DE00BAA83B /* RNBarChartView.swift in Sources */,
 				230F1DB624D3DA2200A95898 /* File.swift in Sources */,
 				366C012E24DBC6DE00BAA83B /* RNChartViewBase.swift in Sources */,
-				232A4E1925B53B720049AA45 /* MyPax.m in Sources */,
 				366C010D24DBC6DE00BAA83B /* BarDataExtract.swift in Sources */,
 				366C013424DBC6DE00BAA83B /* DataExtract.swift in Sources */,
+				237D40E125B589E500E39755 /* MyPax.m in Sources */,
 				366C00B624DBC6DE00BAA83B /* LargeValueFormatter.swift in Sources */,
 				366C012824DBC6DE00BAA83B /* RNRadarChartView.swift in Sources */,
 				366C00B924DBC6DE00BAA83B /* FontUtils.swift in Sources */,
@@ -2180,7 +2212,8 @@
 				366C00F524DBC6DE00BAA83B /* RNLineChartManager.swift in Sources */,
 				366C00A724DBC6DE00BAA83B /* CombinedDataExtract.swift in Sources */,
 				366C00E024DBC6DE00BAA83B /* PieDataExtract.swift in Sources */,
-				232A4E2A25B542850049AA45 /* payment.m in Sources */,
+				237D40ED25B58BC700E39755 /* setting.m in Sources */,
+				237D40E425B589E500E39755 /* payment.m in Sources */,
 				366C00EC24DBC6DE00BAA83B /* RNScatterChartManagerBridge.m in Sources */,
 				366C00E324DBC6DE00BAA83B /* RNPieChartManager.swift in Sources */,
 				366C00F224DBC6DE00BAA83B /* RNLineChartView.swift in Sources */,
@@ -2201,9 +2234,9 @@
 				2388BEFF253FEC34007B4A7A /* RNBarChartView.swift in Sources */,
 				2388BF00253FEC34007B4A7A /* File.swift in Sources */,
 				2388BF01253FEC34007B4A7A /* RNChartViewBase.swift in Sources */,
-				232A4E1A25B53B720049AA45 /* MyPax.m in Sources */,
 				2388BF02253FEC34007B4A7A /* BarDataExtract.swift in Sources */,
 				2388BF03253FEC34007B4A7A /* DataExtract.swift in Sources */,
+				237D40E225B589E500E39755 /* MyPax.m in Sources */,
 				2388BF04253FEC34007B4A7A /* LargeValueFormatter.swift in Sources */,
 				2388BF05253FEC34007B4A7A /* RNRadarChartView.swift in Sources */,
 				2388BF06253FEC34007B4A7A /* FontUtils.swift in Sources */,
@@ -2247,7 +2280,8 @@
 				2388BF2B253FEC34007B4A7A /* RNLineChartManager.swift in Sources */,
 				2388BF2C253FEC34007B4A7A /* CombinedDataExtract.swift in Sources */,
 				2388BF2D253FEC34007B4A7A /* PieDataExtract.swift in Sources */,
-				232A4E2B25B542850049AA45 /* payment.m in Sources */,
+				237D40EE25B58BC700E39755 /* setting.m in Sources */,
+				237D40E525B589E500E39755 /* payment.m in Sources */,
 				2388BF2E253FEC34007B4A7A /* RNScatterChartManagerBridge.m in Sources */,
 				2388BF2F253FEC34007B4A7A /* RNPieChartManager.swift in Sources */,
 				2388BF30253FEC34007B4A7A /* RNLineChartView.swift in Sources */,

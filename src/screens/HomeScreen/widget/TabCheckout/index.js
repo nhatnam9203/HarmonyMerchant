@@ -17,6 +17,7 @@ import initState from "./widget/initState";
 
 // const PosLink = NativeModules.MyApp;
 const PosLink = NativeModules.payment;
+const SettingPayment = NativeModules.setting;
 
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
@@ -1057,7 +1058,7 @@ class TabCheckout extends Layout {
         console.log("--- sendTransToPaxMachine ---- : ", bluetoothPaxInfo?.id);
 
         // 1. Check setup pax 
-        PosLink.setupPax("TCP", ip, port, 90000, bluetoothPaxInfo?.id);
+        SettingPayment.setupPax("TCP", ip, port, 90000, bluetoothPaxInfo?.id);
 
         // 2. Show modal processing 
         await this.setState({

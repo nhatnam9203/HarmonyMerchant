@@ -19,7 +19,6 @@
 
 - (void)load;
 - (void)save;
-- (void)saveSetupSetting;
 
 @end
 
