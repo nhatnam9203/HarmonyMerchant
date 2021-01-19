@@ -12,8 +12,8 @@ import {
 } from '@utils';
 import apiConfigs from '@configs/api';
 
-
-const PosLink = NativeModules.MyApp;
+const PosLink = NativeModules.report;
+const SettingPayment = NativeModules.setting;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
 class TabFirstSettle extends Layout {
@@ -195,7 +195,7 @@ class TabFirstSettle extends Layout {
 
             try {
                 const tempEnv = env.IS_PRODUCTION;
-                PosLink.setupPax(ip, port, timeout);
+                SettingPayment.setupPax("TCP", ip, port, 90000, "");
                 // ----------- Total Amount --------
                 let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", "UNKNOWN", "UNKNOWN");
                 let result = JSON.parse(data);

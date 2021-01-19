@@ -15,7 +15,6 @@ import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
 import initState from "./widget/initState";
 
-// const PosLink = NativeModules.MyApp;
 const PosLink = NativeModules.payment;
 const SettingPayment = NativeModules.setting;
 
