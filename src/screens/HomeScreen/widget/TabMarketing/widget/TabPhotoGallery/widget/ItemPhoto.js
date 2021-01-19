@@ -5,19 +5,17 @@ import {
   Dimensions,
   StyleSheet,
   View,
-  Linking,
+  Image,
   TouchableOpacity,
 } from "react-native";
 import FastImage from "react-native-fast-image";
 import IMAGE from "@resources";
 
-const { width } = Dimensions.get("window");
-
-const ItemBrand = ({ item }) => {
-  const { name, fileURL, link } = item;
+const ItemPhoto = ({ item }) => {
+  const { brandName, url, linking } = item;
 
   const openLinking = () => {
-    Linking.openURL(link);
+    // Linking.openURL(linking);
   };
 
   return (
@@ -25,14 +23,15 @@ const ItemBrand = ({ item }) => {
       <FastImage
         style={styles.image}
         source={{
-          uri: fileURL,
+          uri: url,
           headers: { Authorization: "someAuthToken" },
           priority: FastImage.priority.high,
         }}
         resizeMode={FastImage.resizeMode.stretch}
       />
-      <View style={styles.brandName}>
-        <Text style={styles.name}>{name}</Text>
+      <View style={styles.photo}>
+        <Image source={IMAGE.Gallery_ic} />
+        <Text style={styles.name}>{brandName}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -41,8 +40,7 @@ const ItemBrand = ({ item }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFF",
-    width: scaleSzie(126),
-    minHeight: scaleSzie(150),
+    width: scaleSzie(140),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -52,26 +50,25 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
-    margin: scaleSzie(13),
-    borderRadius: scaleSzie(5),
+    margin: scaleSzie(4),
+    marginVertical: scaleSzie(10),
   },
   image: {
-    borderTopLeftRadius: scaleSzie(5),
-    borderTopRightRadius: scaleSzie(5),
-    width: '100%',
-    height: scaleSzie(120),
-  },
-  brandName: {
-    paddingVertical: scaleSzie(13),
     width: "100%",
-    justifyContent: "center",
+    height: scaleSzie(100),
+  },
+  photo: {
+    marginLeft: scaleSzie(5),
+    paddingVertical: scaleSzie(10),
+    width: "100%",
     alignItems: "center",
+    flexDirection: 'row'
   },
   name: {
-    fontSize: scaleSzie(12),
-    fontWeight: "600",
-    color: "#0764B0",
+    marginLeft: scaleSzie(5),
+    fontSize: scaleSzie(11),
+    color: "#9A9A9A",
   },
 });
 
-export default ItemBrand;
+export default ItemPhoto;

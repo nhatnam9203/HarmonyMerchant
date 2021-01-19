@@ -210,4 +210,13 @@ export default {
   
   ArrowLeft:  require("./img/arrowLeft.png"),
   ArrowRight:  require("./img/arrowRight.png"),
+
+  // --- Photo Gallery ---
+
+  Ic_Camera:  require("./img/ic_camera.png"),
+  Ic_Camera_Small:  require("./img/ic_camera_small.png"),
+  Ic_Gallery:  require("./img/ic_gallery.png"),
+  Ic_Gallery_Small:  require("./img/ic_gallery_small.png"),
+  Gallery_ic:  require("./img/gallery_img.png"),
+  Trash:  require("./img/trash.png"),
 };

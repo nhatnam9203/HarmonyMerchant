@@ -1,7 +1,7 @@
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
 
-class TabMarketPlace extends Layout {
+class TabPhotoGallery extends Layout {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,7 +11,7 @@ class TabMarketPlace extends Layout {
   }
 
   componentDidMount() {
-    this.props.actions.review.getListMarketPlace();
+    // this.props.actions.review.getListMarketPlace();
   }
 
   onLoadmore = () => {
@@ -53,4 +53,4 @@ const mapStateToProps = (state) => ({
   language: state.dataLocal.language,
 });
 
-export default connectRedux(mapStateToProps, TabMarketPlace);
+export default connectRedux(mapStateToProps, TabPhotoGallery);

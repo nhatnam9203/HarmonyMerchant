@@ -60,7 +60,7 @@ export function getListMarketPlace(
   return {
     type: "GET_LIST_MARKET_PLACE",
     method: "GET",
-    api: `${apiConfigs.BASE_API}rating/merchant/filters?status=${status}&review=${review}&page=${page}`,
+    api: `${apiConfigs.BASE_API}MarketPlace?page=${page}`,
     token: true,
     isShowLoading,
     currentPage: page,

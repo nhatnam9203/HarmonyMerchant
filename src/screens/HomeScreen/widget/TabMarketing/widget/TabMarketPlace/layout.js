@@ -108,9 +108,9 @@ class Layout extends React.Component {
             language
           )}`}</Text>
         </View>
-        <View style={{ backgroundColor: "#FFF", marginTop: -1 }}>
+        <View style={{ backgroundColor: "#FFF", marginTop: -1, paddingLeft: scaleSzie(4) }}>
           <FlatList
-            data={data}
+            data={listMarketPlace}
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refreshing}

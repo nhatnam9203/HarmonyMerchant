@@ -3,6 +3,7 @@ import TabCustomBanner from './TabCustomBanner';
 import TabCustomMarketing from './TabCustomMarketing';
 import TabReview from './TabReview';
 import TabMarketPlace from './TabMarketPlace';
+import TabPhotoGallery from './TabPhotoGallery';
 
 module.exports = {
     TabPromotion,
@@ -10,4 +11,5 @@ module.exports = {
     TabCustomMarketing,
     TabReview,
     TabMarketPlace,
+    TabPhotoGallery,
 }
