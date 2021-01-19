@@ -1071,14 +1071,15 @@ class TabCheckout extends Layout {
         PosLink.sendTransaction(tenderType, parseFloat(paxAmount), 0, tipRequest, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer));
     }
 
-    async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
+    async handleResponseCreditCard_1(message, online, moneyUserGiveForStaff) {
         console.log("------ Messagee: ", message);
         await this.setState({
             visibleProcessingCredit: false
         });
     }
 
-    async handleResponseCreditCard_1(message, online, moneyUserGiveForStaff) {
+    async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
+        console.log("------ Messagee: ", message);
         const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment, payAppointmentId } = this.props;
         await this.setState({
             visibleProcessingCredit: false

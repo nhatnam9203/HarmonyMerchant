@@ -218,13 +218,7 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amou
           callback(@[result]);
           return;
         }
-        
-        
-        if (signData != nil) {
-//          NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
-//          [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
-//          [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
-        }
+
         
       }else {
         NSDictionary *dataError = @{@"status":@false,
