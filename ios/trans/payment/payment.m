@@ -88,7 +88,6 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
    paymentRequest.PONum = @"";
    paymentRequest.OrigRefNum = @"";
    paymentRequest.InvNum = @"";
-//   paymentRequest.ECRRefNum = @"1";
   paymentRequest.ECRRefNum = transactionId;
    paymentRequest.ECRTransID = @"";
    paymentRequest.AuthCode = @"";
@@ -136,7 +135,7 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
           NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
           callback(@[result]);
         }else{
-          //--------- Case Duplication ---------
+          //--------- Handle Duplication ---------
           NSDictionary *dupError = @{@"status":@false,
                                       @"message":self.mypax.poslink.paymentResponse.ResultTxt ? self.mypax.poslink.paymentResponse.ResultTxt : @"",
                                         };

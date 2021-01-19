@@ -1065,10 +1065,10 @@ class TabCheckout extends Layout {
             visibleProcessingCredit: true
         });
 
-        const tipRequest = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
+        const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
 
         // 3. Send Transaction 
-        PosLink.sendTransaction(tenderType, parseFloat(paxAmount), 0, tipRequest, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer));
+        PosLink.sendTransaction(tenderType, "SALE", parseFloat(paxAmount), 1, extData, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer));
     }
 
     async handleResponseCreditCard_1(message, online, moneyUserGiveForStaff) {

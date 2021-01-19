@@ -16,7 +16,9 @@ import {
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 
-const PosLink = NativeModules.MyApp;
+// const PosLink = NativeModules.MyApp;
+const PosLink = NativeModules.payment;
+const SettingPayment = NativeModules.setting;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
 const initalState = {
@@ -294,24 +296,18 @@ class InvoiceScreen extends Layout {
                         }, 100);
                     }
                 } else {
-                    PosLink.setupPax(ip, port, timeout);
+                    // PosLink.setupPax(ip, port, timeout);
+                    SettingPayment.setupPax("TCP", ip, port, 90000, "");
+                    const amount = paymentInformation?.ApprovedAmount || 0;
+                    const transactionId = paymentInformation?.RefNum || 0;
+                    const extData = paymentInformation?.ExtData || "";
+
                     if (invoiceDetail.status === 'paid') {
                         this.popupProcessingCreditRef.current.setStateFromParent(false);
-                        PosLink.refundTransaction(
-                            parseFloat(paymentInformation.ApprovedAmount),
-                            paymentInformation.RefNum,
-                            paymentInformation.ExtData,
-                            (data) => this.handleResultRefundTransaction(data)
-                        );
+                        PosLink.sendTransaction("CREDIT", "RETURN", parseFloat(amount), transactionId, extData, (data) => this.handleResultRefundTransaction(data));
                     } else if (invoiceDetail.status === 'complete') {
-                        const transactionId = paymentInformation.RefNum ? paymentInformation.RefNum : 0
                         this.popupProcessingCreditRef.current.setStateFromParent(transactionId);
-                        PosLink.voidTransaction(
-                            parseFloat(paymentInformation.ApprovedAmount),
-                            paymentInformation.RefNum,
-                            paymentInformation.ExtData,
-                            (data) => this.handleResultVoidTransaction(data)
-                        );
+                        PosLink.sendTransaction("CREDIT", "VOID", "", transactionId, extData, (data) => this.handleResultVoidTransaction(data));
                     }
                 }
             }
