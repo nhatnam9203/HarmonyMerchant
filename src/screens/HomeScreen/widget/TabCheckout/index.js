@@ -1099,7 +1099,7 @@ class TabCheckout extends Layout {
                     alert(result.message);
                 }, 300)
 
-            } else if (result.ResultTxt && result.ResultTxt == "OK") {
+            } else if (result.ResultCode && result.ResultCode == "000000") {
                 if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
                     if (payAppointmentId) {
                         this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);

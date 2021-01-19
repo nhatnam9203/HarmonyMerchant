@@ -331,8 +331,10 @@ class InvoiceScreen extends Layout {
     }
 
     handleResultVoidTransaction = async result => {
+        console.log("---- handleResultVoidTransaction: ", result);
         const { invoiceDetail } = this.state;
         const data = JSON.parse(result);
+
         await this.setState({
             visibleProcessingCredit: false
         });
@@ -350,7 +352,7 @@ class InvoiceScreen extends Layout {
             }
 
         } else {
-            if (data.status === 1) {
+            if (data.ResultCode === "000000") {
                 this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
                 await this.setState({
                     titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
@@ -382,7 +384,7 @@ class InvoiceScreen extends Layout {
                 }, 300);
             }
         } else {
-            if (data.status === 1 && data.ResultTxt === "OK") {
+            if (data.ResultCode === "000000") {
                 this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
                 await this.setState({
                     titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"

@@ -107,8 +107,7 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
     ProcessTransResult *ret = [self.mypax.poslink processTrans:PAYMENT];
     dispatch_async(dispatch_get_main_queue(), ^{
       if (ret.code == OK) {
-        
-        if(self.mypax.poslink.paymentResponse.ResultTxt && [self.mypax.poslink.paymentResponse.ResultTxt  isEqual: @"OK"]){
+        if([self.mypax.poslink.paymentResponse.ResultCode isEqual: @"000000"]){
           NSDictionary *dataSuccess = @{@"status":@true,
                                         @"ResultCode" : self.mypax.poslink.paymentResponse.ResultCode ? self.mypax.poslink.paymentResponse.ResultCode : @"",
                                         @"ResultTxt" : self.mypax.poslink.paymentResponse.ResultTxt ? self.mypax.poslink.paymentResponse.ResultTxt : @"",
@@ -138,6 +137,7 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
           //--------- Handle Duplication ---------
           NSDictionary *dupError = @{@"status":@false,
                                       @"message":self.mypax.poslink.paymentResponse.ResultTxt ? self.mypax.poslink.paymentResponse.ResultTxt : @"",
+                                     @"test":@"phi test ne"
                                         };
           NSString  *hanldeDup =  [self convertObjectToJson:dupError ] ;
           callback(@[hanldeDup]);
