@@ -8,10 +8,14 @@ const initialState = {
   totalPages: 0,
   currentPage: 0,
   isGetReview: false,
+  listMarketPlace: [],
+  isLoadMoreMarketList: false,
 };
 
 function reviewReducer(state = initialState, action) {
   switch (action.type) {
+    // TAB REVIEW
+
     case "GET_LIST_REVIEW":
       return {
         ...state,
@@ -47,28 +51,30 @@ function reviewReducer(state = initialState, action) {
         isLoadMoreInvoiceList: false,
       };
 
-    // case "SHOW_RATING_REVIEW_SUCCESS":
-    //   return {
-    //     ...state,
-    //   };
+    // TAB MARKET PLACE
 
-    // case "SHOW_RATING_REVIEW_FAIL":
-    //   return {
-    //     ...state,
-    //   };
-
-    // case "HIDE_RATING_REVIEW_SUCCESS":
-    //   return {
-    //     ...state,
-    //   };
-    // case "HIDE_RATING_REVIEW_FAIL":
-    //   return {
-    //     ...state,
-    //   };
-    case "RESET_IS_LIST_REVIEW":
+    case "GET_LIST_MARKET_PLACE":
       return {
         ...state,
+        isLoadMoreMarketList: action.isShowLoadMore,
         isGetReview: false,
+      };
+
+    case "GET_LIST_MARKET_PLACE_SUCCESS":
+      return {
+        ...state,
+        listMarketPlace:
+          action.currentPage === 1
+            ? action.payload
+            : state.listMarketPlace.concat(action.payload),
+        totalPages: action.totalPages,
+        currentPage: action.currentPage,
+        isLoadMoreMarketList: false,
+      };
+    case "GET_LIST_MARKET_PLACE_FAIL":
+      return {
+        ...state,
+        isLoadMoreMarketList: false,
       };
 
     default:

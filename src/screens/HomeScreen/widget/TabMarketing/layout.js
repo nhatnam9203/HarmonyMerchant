@@ -6,7 +6,7 @@ import {
 import { CustomTabBar,ScrollableTabView } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
-import { TabPromotion, TabCustomBanner, TabReview } from './widget';
+import { TabPromotion, TabCustomBanner, TabReview, TabMarketPlace} from './widget';
 
 class Layout extends React.Component {
 
@@ -31,8 +31,9 @@ class Layout extends React.Component {
                     <TabPromotion tabLabel={`${localize('Promotions', language)}`}
                         addPromotion={this.addPromotion}
                     />
+                    <TabCustomBanner tabLabel={`${localize('Photos Gallery', language)}`} />
                     <TabReview tabLabel={`${localize('Reviews', language)}`} ref={this.reviewRef} />
-                    <TabCustomBanner tabLabel={`${localize('Market Place', language)}`} />
+                    <TabMarketPlace tabLabel={`${localize('Market Place', language)}`} />
 
                 </ScrollableTabView>
             </View>

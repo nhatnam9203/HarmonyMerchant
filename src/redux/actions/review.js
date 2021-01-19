@@ -1,5 +1,7 @@
 import apiConfigs from "../../configs/api";
 
+// TAB REVIEW 
+
 export function getSummaryReview(id = 1, isShowLoading = true) {
   return {
     type: "GET_SUMMARY_REVIEW",
@@ -48,8 +50,21 @@ export function hideRating(id = 1, isShowLoading = true) {
   };
 }
 
-export function resetListReview() {
+// TAB MARKET PLACE
+
+export function getListMarketPlace(
+  page = 1,
+  isShowLoading = true,
+  isShowLoadMore = false
+) {
   return {
-    type: "RESET_IS_LIST_REVIEW",
+    type: "GET_LIST_MARKET_PLACE",
+    method: "GET",
+    api: `${apiConfigs.BASE_API}rating/merchant/filters?status=${status}&review=${review}&page=${page}`,
+    token: true,
+    isShowLoading,
+    currentPage: page,
+    isShowLoadMore,
   };
 }
+

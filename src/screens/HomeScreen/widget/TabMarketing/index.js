@@ -25,9 +25,12 @@ class TabMarketing extends Layout {
       case 0:
         this.props.actions.marketing.getPromotionByMerchant();
         break;
-      case 1:
+      case 2:
         this.props.actions.review.getListReview();
         this.reviewRef.current.setStateFromParent();
+        break;
+      case 3:
+        // this.props.actions.review.getListMarketPlace();
         break;
       default:
         const { profile } = this.props;
