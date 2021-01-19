@@ -3,7 +3,9 @@ import { NativeModules, Alert, Platform } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 
-const PosLink = NativeModules.MyApp;
+// const PosLink = NativeModules.MyApp;
+const PosLink = NativeModules.batch;
+const SettingPayment = NativeModules.setting;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
 class TabSecondSettle extends Layout {
@@ -124,7 +126,7 @@ class TabSecondSettle extends Layout {
                         this.proccessingSettlement();
                     });
             } else {
-                PosLink.setupPax(ip, port, timeout);
+                SettingPayment.setupPax("TCP", ip, port, 90000, "");
                 PosLink.batchTransaction(message => this.handleResponseBatchTransactions(message));
             }
 

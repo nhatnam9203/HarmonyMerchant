@@ -202,7 +202,7 @@ class TabFirstSettle extends Layout {
                 const ExtData = result?.ExtData || "";
                 const xmlExtData = "<xml>" + ExtData.replace("\\n", "").replace("\\/", "/") + "</xml>";
 
-                if (result?.ResultTxt && result?.ResultTxt == "OK") {
+                if (result?.ResultCode && result?.ResultCode == "000000") {
                     if (tempEnv == "Production" && result?.Message === "DEMO APPROVED") {
                         await this.setState({
                             visible: false,

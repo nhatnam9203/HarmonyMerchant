@@ -63,6 +63,9 @@
 		2371130325B6DCC100A91653 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 2371130225B6DCC100A91653 /* report.m */; };
 		2371130425B6DCC100A91653 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 2371130225B6DCC100A91653 /* report.m */; };
 		2371130525B6DCC100A91653 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 2371130225B6DCC100A91653 /* report.m */; };
+		2371130F25B6ED6D00A91653 /* batch.m in Sources */ = {isa = PBXBuildFile; fileRef = 2371130E25B6ED6D00A91653 /* batch.m */; };
+		2371131025B6ED6D00A91653 /* batch.m in Sources */ = {isa = PBXBuildFile; fileRef = 2371130E25B6ED6D00A91653 /* batch.m */; };
+		2371131125B6ED6D00A91653 /* batch.m in Sources */ = {isa = PBXBuildFile; fileRef = 2371130E25B6ED6D00A91653 /* batch.m */; };
 		237D40E025B589E500E39755 /* MyPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D40DC25B589E500E39755 /* MyPax.m */; };
 		237D40E125B589E500E39755 /* MyPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D40DC25B589E500E39755 /* MyPax.m */; };
 		237D40E225B589E500E39755 /* MyPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D40DC25B589E500E39755 /* MyPax.m */; };
@@ -610,6 +613,8 @@
 		237112F925B6D8F100A91653 /* ExtDataPaymentReq.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExtDataPaymentReq.m; sourceTree = "<group>"; };
 		2371130125B6DCB200A91653 /* report.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = report.h; sourceTree = "<group>"; };
 		2371130225B6DCC100A91653 /* report.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = report.m; sourceTree = "<group>"; };
+		2371130D25B6ED6000A91653 /* batch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = batch.h; sourceTree = "<group>"; };
+		2371130E25B6ED6D00A91653 /* batch.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = batch.m; sourceTree = "<group>"; };
 		237D40DC25B589E500E39755 /* MyPax.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPax.m; sourceTree = "<group>"; };
 		237D40DD25B589E500E39755 /* payment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = payment.h; sourceTree = "<group>"; };
 		237D40DE25B589E500E39755 /* payment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = payment.m; sourceTree = "<group>"; };
@@ -1009,9 +1014,19 @@
 			path = report;
 			sourceTree = "<group>";
 		};
+		2371130C25B6EAD800A91653 /* batch */ = {
+			isa = PBXGroup;
+			children = (
+				2371130D25B6ED6000A91653 /* batch.h */,
+				2371130E25B6ED6D00A91653 /* batch.m */,
+			);
+			path = batch;
+			sourceTree = "<group>";
+		};
 		237D407025B588E300E39755 /* trans */ = {
 			isa = PBXGroup;
 			children = (
+				2371130C25B6EAD800A91653 /* batch */,
 				2371130025B6DA8F00A91653 /* report */,
 				237112C225B6D7FA00A91653 /* ExtData */,
 				237D40E925B58B2F00E39755 /* setting */,
@@ -2188,6 +2203,7 @@
 				366C00A524DBC6DE00BAA83B /* CombinedDataExtract.swift in Sources */,
 				2371130325B6DCC100A91653 /* report.m in Sources */,
 				366C00DE24DBC6DE00BAA83B /* PieDataExtract.swift in Sources */,
+				2371130F25B6ED6D00A91653 /* batch.m in Sources */,
 				237D40EC25B58BC700E39755 /* setting.m in Sources */,
 				237D40E325B589E500E39755 /* payment.m in Sources */,
 				366C00EA24DBC6DE00BAA83B /* RNScatterChartManagerBridge.m in Sources */,
@@ -2257,6 +2273,7 @@
 				366C00A724DBC6DE00BAA83B /* CombinedDataExtract.swift in Sources */,
 				2371130425B6DCC100A91653 /* report.m in Sources */,
 				366C00E024DBC6DE00BAA83B /* PieDataExtract.swift in Sources */,
+				2371131025B6ED6D00A91653 /* batch.m in Sources */,
 				237D40ED25B58BC700E39755 /* setting.m in Sources */,
 				237D40E425B589E500E39755 /* payment.m in Sources */,
 				366C00EC24DBC6DE00BAA83B /* RNScatterChartManagerBridge.m in Sources */,
@@ -2326,6 +2343,7 @@
 				2388BF2C253FEC34007B4A7A /* CombinedDataExtract.swift in Sources */,
 				2371130525B6DCC100A91653 /* report.m in Sources */,
 				2388BF2D253FEC34007B4A7A /* PieDataExtract.swift in Sources */,
+				2371131125B6ED6D00A91653 /* batch.m in Sources */,
 				237D40EE25B58BC700E39755 /* setting.m in Sources */,
 				237D40E525B589E500E39755 /* payment.m in Sources */,
 				2388BF2E253FEC34007B4A7A /* RNScatterChartManagerBridge.m in Sources */,
