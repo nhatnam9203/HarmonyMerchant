@@ -39,13 +39,11 @@ RCT_EXPORT_METHOD(setupPax:(NSString *)commType  destIp:(NSString *)destIp  port
 {
   MyPax *mypax = [MyPax sharedSigleton];
 // commType = @"TCP", @"BLUETOOTH";
-//  self.mypax.poslink.commSetting.commType = @"BLUETOOTH";
   mypax.poslink.commSetting.commType = commType;
   mypax.poslink.commSetting.destIP = destIp;
   mypax.poslink.commSetting.destPort = portDevice;
   mypax.poslink.commSetting.timeout = timeoutConnect;
   mypax.poslink.commSetting.bluetoothAddr = bluetoothAddr;
-//  self.mypax.poslink.commSetting.bluetoothAddr = @"8451A339-09C8-982C-B4AD-7AEAB9C4A86E";
   
    [self save];
 }

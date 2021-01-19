@@ -60,6 +60,9 @@
 		237112FA25B6D8F100A91653 /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 237112F925B6D8F100A91653 /* ExtDataPaymentReq.m */; };
 		237112FB25B6D8F100A91653 /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 237112F925B6D8F100A91653 /* ExtDataPaymentReq.m */; };
 		237112FC25B6D8F100A91653 /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 237112F925B6D8F100A91653 /* ExtDataPaymentReq.m */; };
+		2371130325B6DCC100A91653 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 2371130225B6DCC100A91653 /* report.m */; };
+		2371130425B6DCC100A91653 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 2371130225B6DCC100A91653 /* report.m */; };
+		2371130525B6DCC100A91653 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 2371130225B6DCC100A91653 /* report.m */; };
 		237D40E025B589E500E39755 /* MyPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D40DC25B589E500E39755 /* MyPax.m */; };
 		237D40E125B589E500E39755 /* MyPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D40DC25B589E500E39755 /* MyPax.m */; };
 		237D40E225B589E500E39755 /* MyPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D40DC25B589E500E39755 /* MyPax.m */; };
@@ -605,6 +608,8 @@
 		234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rn_ble_plx.swift; sourceTree = "<group>"; };
 		237112F825B6D8EA00A91653 /* ExtDataPaymentReq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtDataPaymentReq.h; sourceTree = "<group>"; };
 		237112F925B6D8F100A91653 /* ExtDataPaymentReq.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExtDataPaymentReq.m; sourceTree = "<group>"; };
+		2371130125B6DCB200A91653 /* report.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = report.h; sourceTree = "<group>"; };
+		2371130225B6DCC100A91653 /* report.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = report.m; sourceTree = "<group>"; };
 		237D40DC25B589E500E39755 /* MyPax.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPax.m; sourceTree = "<group>"; };
 		237D40DD25B589E500E39755 /* payment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = payment.h; sourceTree = "<group>"; };
 		237D40DE25B589E500E39755 /* payment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = payment.m; sourceTree = "<group>"; };
@@ -995,9 +1000,19 @@
 			path = ExtData;
 			sourceTree = "<group>";
 		};
+		2371130025B6DA8F00A91653 /* report */ = {
+			isa = PBXGroup;
+			children = (
+				2371130125B6DCB200A91653 /* report.h */,
+				2371130225B6DCC100A91653 /* report.m */,
+			);
+			path = report;
+			sourceTree = "<group>";
+		};
 		237D407025B588E300E39755 /* trans */ = {
 			isa = PBXGroup;
 			children = (
+				2371130025B6DA8F00A91653 /* report */,
 				237112C225B6D7FA00A91653 /* ExtData */,
 				237D40E925B58B2F00E39755 /* setting */,
 				237D40DB25B589E500E39755 /* payment */,
@@ -2171,6 +2186,7 @@
 				366C010524DBC6DE00BAA83B /* RNCandleStickChartManagerBridge.m in Sources */,
 				366C00F324DBC6DE00BAA83B /* RNLineChartManager.swift in Sources */,
 				366C00A524DBC6DE00BAA83B /* CombinedDataExtract.swift in Sources */,
+				2371130325B6DCC100A91653 /* report.m in Sources */,
 				366C00DE24DBC6DE00BAA83B /* PieDataExtract.swift in Sources */,
 				237D40EC25B58BC700E39755 /* setting.m in Sources */,
 				237D40E325B589E500E39755 /* payment.m in Sources */,
@@ -2239,6 +2255,7 @@
 				366C010724DBC6DE00BAA83B /* RNCandleStickChartManagerBridge.m in Sources */,
 				366C00F524DBC6DE00BAA83B /* RNLineChartManager.swift in Sources */,
 				366C00A724DBC6DE00BAA83B /* CombinedDataExtract.swift in Sources */,
+				2371130425B6DCC100A91653 /* report.m in Sources */,
 				366C00E024DBC6DE00BAA83B /* PieDataExtract.swift in Sources */,
 				237D40ED25B58BC700E39755 /* setting.m in Sources */,
 				237D40E425B589E500E39755 /* payment.m in Sources */,
@@ -2307,6 +2324,7 @@
 				2388BF2A253FEC34007B4A7A /* RNCandleStickChartManagerBridge.m in Sources */,
 				2388BF2B253FEC34007B4A7A /* RNLineChartManager.swift in Sources */,
 				2388BF2C253FEC34007B4A7A /* CombinedDataExtract.swift in Sources */,
+				2371130525B6DCC100A91653 /* report.m in Sources */,
 				2388BF2D253FEC34007B4A7A /* PieDataExtract.swift in Sources */,
 				237D40EE25B58BC700E39755 /* setting.m in Sources */,
 				237D40E525B589E500E39755 /* payment.m in Sources */,
