@@ -9,9 +9,9 @@ import {
     Keyboard
 } from 'react-native';
 
-import { ButtonCustom, Text } from '@components';
+import { ButtonCustom, Text, Button } from '@components';
 import { scaleSzie, localize } from '@utils';
-import IMAGE from '@resources';
+import ICON from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 
 class SetupHardware extends React.Component {
@@ -21,12 +21,14 @@ class SetupHardware extends React.Component {
         const { paxMachineInfo } = this.props;
         const { name, ip, port, timeout } = paxMachineInfo;
         this.state = {
+            commType: "TCP",
             name,
             ip,
             port,
-            timeout:60000
+            timeout: 60000
         };
         this.scrollRef = React.createRef();
+        this.setCommType = this.setCommType.bind(this);
     }
 
     componentDidMount() {
@@ -34,11 +36,11 @@ class SetupHardware extends React.Component {
     }
 
     handleKeyboardWillHide = async () => {
-       
-        if(this.scrollRef.current){
+
+        if (this.scrollRef.current) {
             this.scrollRef.current.scrollTo({ x: 0, y: 0, animated: true })
         }
-       
+
     }
 
     setupPax = () => {
@@ -46,7 +48,7 @@ class SetupHardware extends React.Component {
         if (name == '' || ip == '' || port == '' || timeout == '') {
             alert('Please enter full infomation!');
         } else {
-            this.props.actions.dataLocal.setupPaxMachine({ name, ip, port, timeout ,isSetup: true});
+            this.props.actions.dataLocal.setupPaxMachine({ name, ip, port, timeout, isSetup: true });
             this.props.backListDevices();
         };
     }
@@ -64,15 +66,24 @@ class SetupHardware extends React.Component {
         this.props.backListDevices();
     }
 
-    scrollTo =(number) =>{
-        this.scrollRef.current.scrollTo({x: 0, y: scaleSzie(number), animated: true});
+    scrollTo = (number) => {
+        this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(number), animated: true });
+    }
+
+    setCommType = (commType) => () => {
+        this.setState({
+            commType
+        })
     }
 
     // -------- Render ------
 
     render() {
-        const {language} = this.props;
-        const { name, ip, port, timeout } = this.state;
+        const { language } = this.props;
+        const { name, ip, port, timeout, commType } = this.state;
+
+        const tempCheckEthernetIcon = commType === "TCP" ? ICON.radioExportSe : ICON.radioExport;
+        const tempCheckBluetoothIcon = commType === "Bluetooth" ? ICON.radioExportSe : ICON.radioExport;
 
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), paddingTop: scaleSzie(20) }} >
@@ -81,9 +92,8 @@ class SetupHardware extends React.Component {
                     fontWeight: '600',
                     color: '#0764B0'
                 }} >
-                    
                     {localize('Payment Terminal', language)}
-                        </Text>
+                </Text>
                 <Text style={{
                     fontSize: scaleSzie(16),
                     fontWeight: '600',
@@ -91,17 +101,51 @@ class SetupHardware extends React.Component {
                     marginTop: scaleSzie(26),
                     marginBottom: scaleSzie(10)
                 }} >
-                    
+
                     {localize('Terminal Configuration', language)}
-                        </Text>
+                </Text>
 
                 {/* ----------- Line ------------ */}
                 <View style={{ height: scaleSzie(1), backgroundColor: 'rgb(227,227,227)', }} />
-                <ScrollView  
+                <ScrollView
                     ref={this.scrollRef}
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="always"
                 >
+                    {/* --------------- Communication Type ----------------- */}
+                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), }} >
+                        <View style={{ width: scaleSzie(140), justifyContent: 'center', }} >
+                            <Text style={{ fontSize: scaleSzie(13), color: 'rgb(42,42,42)' }} >
+                                {`Communication Type`}
+                            </Text>
+                        </View>
+                        <View style={{ flex: 1, flexDirection: "row", paddingHorizontal: scaleSzie(20) }} >
+                            <View style={{ flex: 1, }} >
+                                <Button onPress={this.setCommType("TCP")} style={{ flexDirection: "row" }} >
+                                    <Image
+                                        source={tempCheckEthernetIcon}
+                                        style={{ marginRight: scaleSzie(10) }}
+                                    />
+                                    <Text style={{ fontSize: scaleSzie(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
+                                        {`Ethernet`}
+                                    </Text>
+                                </Button>
+                            </View>
+                            <View style={{ flex: 1, flexDirection: "row" }} >
+                                <Button onPress={this.setCommType("Bluetooth")} style={{ flexDirection: "row" }} >
+                                    <Image
+                                        source={tempCheckBluetoothIcon}
+                                        style={{ marginRight: scaleSzie(10) }}
+                                    />
+                                    <Text style={{ fontSize: scaleSzie(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
+                                        {`Bluetooth`}
+                                    </Text>
+                                </Button>
+                            </View>
+
+                        </View>
+                    </View>
+
                     <ItemSetup
                         title={localize('Name', language)}
                         placeholder={localize('Device name', language)}
@@ -127,12 +171,7 @@ class SetupHardware extends React.Component {
                         onFocus={() => this.scrollTo(120)}
                     />
 
-                    {/* <ItemSetup
-                        title={"Timeout"}
-                        placeholder={"20000 ms"}
-                        value={timeout}
-                        onChangeText={timeout => this.setState({ timeout })}
-                    /> */}
+
                     <View style={{ height: scaleSzie(400) }} />
                 </ScrollView>
                 {/* ------- Footer -------- */}
@@ -173,11 +212,11 @@ class SetupHardware extends React.Component {
 }
 
 
-const ItemSetup = ({ title, value, placeholder, onChangeText,keyboardType ,onFocus}) => {
+const ItemSetup = ({ title, value, placeholder, onChangeText, keyboardType, onFocus }) => {
     return (
         <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), }} >
             <View style={{ width: scaleSzie(140), justifyContent: 'center', }} >
-                <Text style={{ fontSize: scaleSzie(14), color: 'rgb(42,42,42)' }} >
+                <Text style={{ fontSize: scaleSzie(13), color: 'rgb(42,42,42)' }} >
                     {title}
                 </Text>
             </View>

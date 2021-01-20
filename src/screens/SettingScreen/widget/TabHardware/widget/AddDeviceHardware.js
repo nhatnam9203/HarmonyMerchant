@@ -28,28 +28,28 @@ class AddDeviceHardware extends React.Component {
     }
 
     componentDidMount() {
-        const subscription = this.manager.onStateChange((state) => {
-            console.log("---- Bluetooth State: ", state);
-            if (state === 'PoweredOn') {
-                // this.scanAndConnect();
-                // subscription.remove();
-            } else if (state === "PoweredOff") {
-                alert("Your Bluetooth Device Is Turn Off");
-            }
-        }, true);
+        // const subscription = this.manager.onStateChange((state) => {
+        //     console.log("---- Bluetooth State: ", state);
+        //     if (state === 'PoweredOn') {
+        //         // this.scanAndConnect();
+        //         // subscription.remove();
+        //     } else if (state === "PoweredOff") {
+        //         alert("Your Bluetooth Device Is Turn Off");
+        //     }
+        // }, true);
     }
 
     addDevice = () => {
         // this.scanAndConnect();
 
-        this.props.actions.app.loadingApp();
-        this.bluetoothScannerRef.current.startScan();
+        // this.props.actions.app.loadingApp();
+        // this.bluetoothScannerRef.current.startScan();
 
-        setTimeout(() => {
-            this.props.actions.app.stopLoadingApp();
-        }, 10000);
+        // setTimeout(() => {
+        //     this.props.actions.app.stopLoadingApp();
+        // }, 10000);
 
-        // this.props.gotoSetupDevice();
+        this.props.gotoSetupDevice();
     }
 
     scanAndConnect() {
@@ -213,7 +213,7 @@ class AddDeviceHardware extends React.Component {
     }
 
     componentWillUnmount() {
-        subscription.remove();
+        // subscription.remove();
     }
 }
 
