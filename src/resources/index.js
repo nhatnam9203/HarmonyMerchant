@@ -219,4 +219,5 @@ export default {
   Ic_Gallery_Small:  require("./img/ic_gallery_small.png"),
   Gallery_ic:  require("./img/gallery_img.png"),
   Trash:  require("./img/trash.png"),
+  Tick_ic:  require("./img/tick_ic.png"),
 };

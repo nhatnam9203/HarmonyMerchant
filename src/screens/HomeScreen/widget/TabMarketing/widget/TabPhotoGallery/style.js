@@ -42,7 +42,7 @@ export default StyleSheet.create({
     height: scaleSzie(30)
   },
   footer: {
-    height: scaleSzie(100),
+    height: scaleSzie(75),
     width: "100%",
     position: "absolute",
     bottom: 0,

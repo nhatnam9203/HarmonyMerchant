@@ -26,6 +26,13 @@ class TabMarketing extends Layout {
       case 0:
         this.props.actions.marketing.getPromotionByMerchant();
         break;
+      case 1:
+        const { profile } = this.props;
+        this.props.actions.marketing.getBannerMerchant(
+          profile.merchantId,
+          true
+        );
+        break;
       case 2:
         this.props.actions.review.getListReview();
         this.reviewRef.current.setStateFromParent();
@@ -35,11 +42,11 @@ class TabMarketing extends Layout {
         this.marketPlace.current.setStateFromParent();
         break;
       default:
-        const { profile } = this.props;
-        this.props.actions.marketing.getBannerMerchant(
-          profile.merchantId,
-          false
-        );
+        // const { profile } = this.props;
+        // this.props.actions.marketing.getBannerMerchant(
+        //   profile.merchantId,
+        //   false
+        // );
         break;
     }
     // if(currentIndex === 0){
