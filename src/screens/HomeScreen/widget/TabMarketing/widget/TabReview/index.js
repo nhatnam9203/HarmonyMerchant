@@ -176,6 +176,7 @@ class TabReview extends Layout {
 
   setStateFromParent = async () => {
     await this.setState({ isReview: "all", isStatus: "all" });
+    this.flatListRef.scrollToOffset({ y: 0, animated: false });
   };
 
   setIndex = (index) => {

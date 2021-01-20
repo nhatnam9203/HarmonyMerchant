@@ -18,9 +18,7 @@ class TabMarketPlace extends Layout {
     if (!this.onEndReachedCalledDuringMomentum) {
       const { totalPages, currentPage } = this.props;
       if (currentPage < totalPages) {
-        this.props.actions.review.getListReview(
-          this.state.isStatus,
-          this.state.isReview,
+        this.props.actions.review.getListMarketPlace(
           parseInt(currentPage + 1),
           false,
           true
@@ -32,16 +30,13 @@ class TabMarketPlace extends Layout {
 
   onRefresh = () => {
     this.setState({ refreshing: true });
-    const merchantId = this.props.merchantId;
-    this.props.actions.review.getSummaryReview(merchantId, false);
-    this.props.actions.review.getListReview(
-      this.state.isStatus,
-      this.state.isReview,
-      1,
-      false,
-      false
-    );
+
+    this.props.actions.review.getListMarketPlace(1, false, false);
     this.setState({ refreshing: false });
+  };
+
+  setStateFromParent = () => {
+    this.flatListRef.scrollToOffset({ y: 0, animated: false });
   };
 }
 

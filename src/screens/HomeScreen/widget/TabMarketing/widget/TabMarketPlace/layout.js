@@ -108,7 +108,14 @@ class Layout extends React.Component {
             language
           )}`}</Text>
         </View>
-        <View style={{ backgroundColor: "#FFF", marginTop: -1, paddingLeft: scaleSzie(4) }}>
+        <View
+          style={{
+            backgroundColor: "#FFF",
+            marginTop: -1,
+            paddingLeft: scaleSzie(4),
+            height: "95%",
+          }}
+        >
           <FlatList
             data={listMarketPlace}
             refreshControl={
@@ -120,10 +127,13 @@ class Layout extends React.Component {
             renderItem={({ item, index }) => (
               <ItemBrand key={index} item={item} />
             )}
+            ref={(ref) => {
+              this.flatListRef = ref;
+            }}
             numColumns={"5"}
             keyExtractor={(item, index) => `${index}`}
             onEndReached={this.onLoadmore}
-            onEndReachedThreshold={0.5}
+            onEndReachedThreshold={0.3}
             onMomentumScrollBegin={() => {
               this.onEndReachedCalledDuringMomentum = false;
             }}
@@ -133,9 +143,9 @@ class Layout extends React.Component {
             ListFooterComponent={() => (
               <View
                 style={{
-                  height: scaleSzie(50),
+                  height: scaleSzie(20),
                   justifyContent: "center",
-                  marginBottom: scaleSzie(50)
+                  marginBottom: scaleSzie(40),
                 }}
               >
                 {isLoadMoreMarketList ? (

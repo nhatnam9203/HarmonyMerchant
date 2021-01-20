@@ -11,6 +11,7 @@ class TabMarketing extends Layout {
     super(props);
     this.scrollTabRef = React.createRef();
     this.reviewRef = React.createRef();
+    this.marketPlace = React.createRef();
   }
 
   fetchMarketingApi = (page) => {
@@ -30,7 +31,8 @@ class TabMarketing extends Layout {
         this.reviewRef.current.setStateFromParent();
         break;
       case 3:
-        // this.props.actions.review.getListMarketPlace();
+        this.props.actions.review.getListMarketPlace();
+        this.marketPlace.current.setStateFromParent();
         break;
       default:
         const { profile } = this.props;
