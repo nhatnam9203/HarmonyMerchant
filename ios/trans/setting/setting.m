@@ -35,7 +35,13 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(setupPax:(NSString *)commType  destIp:(NSString *)destIp  portDevice:(NSString *)portDevice timeoutConnect:(NSString *)timeoutConnect bluetoothAddr:(NSString *)bluetoothAddr)
+RCT_EXPORT_METHOD(setupPax:
+                  (NSString *)commType
+                  destIp:(NSString *)destIp
+                  portDevice:(NSString *)portDevice
+                  timeoutConnect:(NSString *)timeoutConnect
+                  bluetoothAddr:(NSString *)bluetoothAddr
+                  )
 {
   MyPax *mypax = [MyPax sharedSigleton];
 // commType = @"TCP", @"BLUETOOTH";

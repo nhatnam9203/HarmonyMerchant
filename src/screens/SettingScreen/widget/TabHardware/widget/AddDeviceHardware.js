@@ -42,21 +42,20 @@ class AddDeviceHardware extends React.Component {
     addDevice = () => {
         // this.scanAndConnect();
 
-        // this.props.actions.app.loadingApp();
-        // this.bluetoothScannerRef.current.startScan();
+        this.props.actions.app.loadingApp();
+        this.bluetoothScannerRef.current.startScan();
 
-        // setTimeout(() => {
-        //     this.props.actions.app.stopLoadingApp();
-        // }, 10000);
+        setTimeout(() => {
+            this.props.actions.app.stopLoadingApp();
+        }, 10000);
 
-        this.props.gotoSetupDevice();
+        // this.props.gotoSetupDevice();
     }
 
     scanAndConnect() {
         console.log("----- Start Scan ......");
         this.manager.startDeviceScan(null, null, (error, device) => {
             if (error) {
-                // Handle error (scanning will be stopped automatically)
                 console.log("----- Error : ", error);
                 return
             }
@@ -64,19 +63,6 @@ class AddDeviceHardware extends React.Component {
             if (device?.localName) {
                 console.log("----- Detect device: ", device);
             }
-
-
-
-            // Check if it is a device you are looking for based on advertisement data
-            // or other criteria.
-            // if (device.name === 'TI BLE Sensor Tag' || 
-            //     device.name === 'SensorTag') {
-
-            //     // Stop scanning as it's not necessary if you are scanning for one device.
-            //     this.manager.stopDeviceScan();
-
-            //     // Proceed with connection.
-            // }
         });
     }
 

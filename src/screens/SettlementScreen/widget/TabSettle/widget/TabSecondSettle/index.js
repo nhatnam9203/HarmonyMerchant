@@ -3,7 +3,6 @@ import { NativeModules, Alert, Platform } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 
-// const PosLink = NativeModules.MyApp;
 const PosLink = NativeModules.batch;
 const SettingPayment = NativeModules.setting;
 const PoslinkAndroid = NativeModules.PoslinkModule;
@@ -28,7 +27,7 @@ class TabSecondSettle extends Layout {
                 paymentByCashStatistic: 0.00,
                 otherPaymentStatistic: 0.00,
                 paymentByGiftcard: 0.00,
-                
+
             },
             errorMessage: '',
             paxErrorMessage: ''

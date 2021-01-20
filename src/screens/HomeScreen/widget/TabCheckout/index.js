@@ -3,6 +3,7 @@ import _ from 'ramda';
 const signalR = require('@microsoft/signalr');
 import { NativeModules, Platform } from 'react-native';
 import env from 'react-native-config';
+import BleManager from 'react-native-ble-manager';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -1056,8 +1057,12 @@ class TabCheckout extends Layout {
 
         console.log("--- sendTransToPaxMachine ---- : ", bluetoothPaxInfo?.id);
 
+        // ----------- Handle connect bluetooth -------
+        // const isConnected = await this.handleConnectBluetooth();
+        // console.log("--- isConnected: ", isConnected);
+
         // 1. Check setup pax 
-        SettingPayment.setupPax("TCP", ip, port, 90000, bluetoothPaxInfo?.id);
+        SettingPayment.setupPax("BLUETOOTH", ip, port, 90000, bluetoothPaxInfo?.id);
 
         // 2. Show modal processing 
         await this.setState({
@@ -1068,6 +1073,29 @@ class TabCheckout extends Layout {
 
         // 3. Send Transaction 
         PosLink.sendTransaction(tenderType, "SALE", parseFloat(paxAmount), 1, extData, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer));
+    }
+
+    handleConnectBluetooth = async () => {
+        const { bluetoothPaxInfo } = this.props;
+        console.log(`---- id: ${bluetoothPaxInfo?.id}`);
+        try {
+            console.log("Connected");
+            await BleManager.connect(bluetoothPaxInfo?.id);
+            return true;
+        } catch (error) {
+            console.log("error:", error);
+            return false
+        }
+
+
+        // .then(() => {
+        //     // Success code
+        //     console.log("Connected");
+        // })
+        // .catch((error) => {
+        //     // Failure code
+        //     console.log("error:", error);
+        // });
     }
 
     async handleResponseCreditCard_1(message, online, moneyUserGiveForStaff) {
