@@ -1,5 +1,5 @@
 import { Text } from "@components";
-import { scaleSzie } from "@utils";
+import { scaleSzie, openBrowser } from "@utils";
 import React from "react";
 import {
   Dimensions,
@@ -18,7 +18,7 @@ const ItemBrand = ({ item }) => {
   const { name, fileURL, link } = item;
 
   const openLinking = () => {
-    Linking.openURL(link);
+    openBrowser(link)
   };
 
   return (
