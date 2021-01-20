@@ -13,6 +13,7 @@ import { ButtonCustom, Text, Button } from '@components';
 import { scaleSzie, localize } from '@utils';
 import ICON from '@resources';
 import connectRedux from '@redux/ConnectRedux';
+import BluetoothScanner from "@lib/BluetoothScanner";
 
 class SetupHardware extends React.Component {
 
@@ -25,10 +26,18 @@ class SetupHardware extends React.Component {
             name,
             ip,
             port,
-            timeout: 60000
+            timeout: 60000,
+            bluetoothAddr:"",
+            peripherals: []
         };
+
         this.scrollRef = React.createRef();
+        this.bluetoothScannerRef = React.createRef();
+
         this.setCommType = this.setCommType.bind(this);
+        this.handleStopScan = this.handleStopScan.bind(this);
+        this.scanDevices = this.scanDevices.bind(this);
+        this.handleSelectPeripheral = this.handleSelectPeripheral.bind(this);
     }
 
     componentDidMount() {
@@ -36,15 +45,13 @@ class SetupHardware extends React.Component {
     }
 
     handleKeyboardWillHide = async () => {
-
         if (this.scrollRef.current) {
             this.scrollRef.current.scrollTo({ x: 0, y: 0, animated: true })
         }
-
     }
 
     setupPax = () => {
-        const { name, ip, port, timeout } = this.state;
+        const { name, ip, port, timeout,commType } = this.state;
         if (name == '' || ip == '' || port == '' || timeout == '') {
             alert('Please enter full infomation!');
         } else {
@@ -73,13 +80,40 @@ class SetupHardware extends React.Component {
     setCommType = (commType) => () => {
         this.setState({
             commType
+        });
+
+        if (commType === "Bluetooth") {
+            this.scanDevices();
+        }
+    }
+
+    scanDevices() {
+        this.props.actions.app.loadingApp();
+        this.bluetoothScannerRef.current.startScan();
+
+        setTimeout(() => {
+            this.props.actions.app.stopLoadingApp();
+        }, 10000);
+    }
+
+    handleStopScan = (list) => {
+        this.props.actions.app.stopLoadingApp();
+        this.setState({
+            peripherals: list
+        });
+    }
+
+    handleSelectPeripheral = (peripheral) => () => {
+        this.props.actions.dataLocal.saveBluetoothPaxInfo(peripheral);
+        this.setState({
+            name: peripheral?.name || ""
         })
     }
 
     // -------- Render ------
 
     render() {
-        const { language } = this.props;
+        const { language, bluetoothPaxInfo } = this.props;
         const { name, ip, port, timeout, commType } = this.state;
 
         const tempCheckEthernetIcon = commType === "TCP" ? ICON.radioExportSe : ICON.radioExport;
@@ -153,23 +187,90 @@ class SetupHardware extends React.Component {
                         onChangeText={name => this.setState({ name })}
                     />
 
-                    <ItemSetup
-                        title={localize('IP Address', language)}
-                        placeholder={"192.168.1.1"}
-                        value={ip}
-                        onChangeText={ip => this.setState({ ip })}
-                        keyboardType="numeric"
-                        onFocus={() => this.scrollTo(70)}
-                    />
+                    {
+                        commType === "TCP" ? <>
+                            <ItemSetup
+                                title={localize('IP Address', language)}
+                                placeholder={"192.168.1.1"}
+                                value={ip}
+                                onChangeText={ip => this.setState({ ip })}
+                                keyboardType="numeric"
+                                onFocus={() => this.scrollTo(70)}
+                            />
 
-                    <ItemSetup
-                        title={localize('Port', language)}
-                        placeholder={"10009"}
-                        value={port}
-                        onChangeText={port => this.setState({ port })}
-                        keyboardType="numeric"
-                        onFocus={() => this.scrollTo(120)}
-                    />
+                            <ItemSetup
+                                title={localize('Port', language)}
+                                placeholder={"10009"}
+                                value={port}
+                                onChangeText={port => this.setState({ port })}
+                                keyboardType="numeric"
+                                onFocus={() => this.scrollTo(120)}
+                            />
+                        </> : null
+                    }
+
+                    {
+                        commType === "Bluetooth" ? <ItemSetup
+                            title={localize('Bluetooth ID', language)}
+                            placeholder={"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"}
+                            value={bluetoothPaxInfo?.id || ""}
+                            onChangeText={ip => this.setState({ ip })}
+                            keyboardType="numeric"
+                            onFocus={() => this.scrollTo(70)}
+                            editable={false}
+                        /> : null
+                    }
+
+                    {
+                        commType === "Bluetooth" ?
+                            <>
+                                <Button onPress={this.scanDevices} style={{
+                                    flexDirection: 'row', alignItems: 'center', width: scaleSzie(120),
+                                    marginTop: scaleSzie(20), marginLeft: scaleSzie(15)
+                                }} >
+                                    <View style={{
+                                        width: scaleSzie(20), height: scaleSzie(20),
+                                        borderRadius: scaleSzie(4), borderColor: '#0764B0', borderWidth: 3,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }} >
+                                        <Text style={{
+                                            fontSize: scaleSzie(14),
+                                            color: '#0764B0',
+                                            fontWeight: 'bold'
+                                        }} >
+                                            +
+                                    </Text>
+                                    </View>
+
+                                    <Text style={{
+                                        fontSize: scaleSzie(14),
+                                        color: '#0764B0',
+                                        marginLeft: scaleSzie(8), fontWeight: "600"
+                                    }} >
+
+                                        {localize('Scan devices', language)}
+                                    </Text>
+                                </Button>
+
+                                {/* ------------- Bluetooth devices list ----------- */}
+                                <View style={{ marginTop: scaleSzie(15) }} >
+                                    <ScrollView>
+                                        {
+                                            this.state.peripherals.map((peripheral, index) => <ItemBluetooth
+                                                key={`${peripheral?.id}_${index}`}
+                                                peripheral={peripheral}
+                                                onPress={this.handleSelectPeripheral(peripheral)}
+                                                bluetoothPaxInfo={bluetoothPaxInfo}
+                                            />)
+                                        }
+                                    </ScrollView>
+                                </View>
+
+                            </>
+                            : null
+                    }
+
 
 
                     <View style={{ height: scaleSzie(400) }} />
@@ -200,6 +301,11 @@ class SetupHardware extends React.Component {
                         />
                     </View>
                 </View>
+
+                <BluetoothScanner
+                    ref={this.bluetoothScannerRef}
+                    handleStopScan={this.handleStopScan}
+                />
             </View>
         );
 
@@ -212,7 +318,7 @@ class SetupHardware extends React.Component {
 }
 
 
-const ItemSetup = ({ title, value, placeholder, onChangeText, keyboardType, onFocus }) => {
+const ItemSetup = ({ title, value, placeholder, onChangeText, keyboardType, onFocus, editable }) => {
     return (
         <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), }} >
             <View style={{ width: scaleSzie(140), justifyContent: 'center', }} >
@@ -232,6 +338,7 @@ const ItemSetup = ({ title, value, placeholder, onChangeText, keyboardType, onFo
                         onChangeText={(value) => onChangeText(value)}
                         keyboardType={keyboardType}
                         onFocus={() => onFocus && onFocus()}
+                        editable={editable}
                     />
                 </View>
             </View>
@@ -240,10 +347,48 @@ const ItemSetup = ({ title, value, placeholder, onChangeText, keyboardType, onFo
 
 }
 
+const ItemBluetooth = ({ peripheral, bluetoothPaxInfo, onPress }) => {
+
+    const isConnected = peripheral?.id && peripheral?.id === bluetoothPaxInfo?.id ? true : false;
+
+    return (
+        <Button onPress={() => onPress(peripheral)} style={{
+            height: scaleSzie(45), backgroundColor: "rgb(250,250,250)", borderRadius: 6,
+            flexDirection: "row", alignItems: "center", paddingLeft: scaleSzie(15),
+            paddingRight: scaleSzie(40), justifyContent: "space-between",
+            marginBottom: scaleSzie(13)
+        }} >
+            <View>
+                <Text style={{
+                    fontSize: scaleSzie(14),
+                    fontWeight: '600',
+                }} >
+                    {peripheral?.name || "No Name"}
+                </Text>
+                <Text style={{
+                    fontSize: scaleSzie(8),
+                    fontWeight: '300',
+                }} >
+                    {peripheral?.id || ""}
+                </Text>
+            </View>
+
+            <Text style={{
+                fontSize: scaleSzie(12),
+                fontWeight: '600',
+                color: '#0764B0',
+            }} >
+                {`${isConnected ? "Connected" : ""}`}
+            </Text>
+        </Button>
+    );
+}
+
 
 const mapStateToProps = state => ({
     paxMachineInfo: state.dataLocal.paxMachineInfo,
     language: state.dataLocal.language,
+    bluetoothPaxInfo: state.dataLocal.bluetoothPaxInfo
 })
 
 export default connectRedux(mapStateToProps, SetupHardware);

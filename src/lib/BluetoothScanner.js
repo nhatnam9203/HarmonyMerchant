@@ -24,7 +24,7 @@ export default class BluetoothScanner extends Component {
     }
 
     componentDidMount() {
-        BleManager.start({ showAlert: true });
+        BleManager.start({ showAlert: false });
         this.handlerDiscover = bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', this.handleDiscoverPeripheral);
         this.handlerStop = bleManagerEmitter.addListener('BleManagerStopScan', this.handleStopScan);
 

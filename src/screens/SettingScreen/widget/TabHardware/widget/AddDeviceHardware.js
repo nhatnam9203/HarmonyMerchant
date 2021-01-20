@@ -175,19 +175,6 @@ class AddDeviceHardware extends React.Component {
                 </Text>
                 {!paxMachineInfo.isSetup ? this.renderNoConnected() : this.renderConnected()}
 
-                {/* ------------- Bluetooth devices list ----------- */}
-                <View style={{ flex: 1, }} >
-                    <ScrollView>
-                        {
-                            this.state.peripherals.map((peripheral, index) => <ItemBluetooth
-                                key={`${peripheral?.id}_${index}`}
-                                peripheral={peripheral}
-                                onPress={this.handleSelectPeripheral}
-                            />)
-                        }
-                    </ScrollView>
-                </View>
-
                 {/* ------- Footer -------- */}
                 <View style={{ position: 'absolute', bottom: 0, width: '100%', justifyContent: 'flex-end', paddingBottom: scaleSzie(30) }} >
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }} >
