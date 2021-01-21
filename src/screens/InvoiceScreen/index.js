@@ -16,7 +16,6 @@ import {
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 
-// const PosLink = NativeModules.MyApp;
 const PosLink = NativeModules.payment;
 const SettingPayment = NativeModules.setting;
 const PoslinkAndroid = NativeModules.PoslinkModule;
@@ -239,8 +238,7 @@ class InvoiceScreen extends Layout {
     confirmChangeInvoiceStatus = async () => {
         const { paxMachineInfo } = this.props;
         const { invoiceDetail } = this.state;
-        const { ip, port, timeout } = paxMachineInfo;
-
+        const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
 
         if (invoiceDetail.paymentMethod === "credit_card") {
             const paymentInformation = invoiceDetail.paymentInformation && invoiceDetail.paymentInformation.length > 0 &&
@@ -296,8 +294,7 @@ class InvoiceScreen extends Layout {
                         }, 100);
                     }
                 } else {
-                    // PosLink.setupPax(ip, port, timeout);
-                    SettingPayment.setupPax("TCP", ip, port, 90000, "");
+                    SettingPayment.setupPax(commType, ip, port, 90000, bluetoothAddr);
                     const amount = paymentInformation?.ApprovedAmount || 0;
                     const transactionId = paymentInformation?.RefNum || 0;
                     const extData = paymentInformation?.ExtData || "";

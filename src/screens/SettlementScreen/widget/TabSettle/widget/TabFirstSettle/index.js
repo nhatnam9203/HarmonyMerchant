@@ -183,7 +183,7 @@ class TabFirstSettle extends Layout {
 
     handlePAXReport_IOS = async () => {
         const { paxMachineInfo } = this.props;
-        const { ip, port, timeout, isSetup } = paxMachineInfo;
+        const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
 
         if (isSetup) {
             await this.setState({
@@ -195,7 +195,7 @@ class TabFirstSettle extends Layout {
 
             try {
                 const tempEnv = env.IS_PRODUCTION;
-                SettingPayment.setupPax("TCP", ip, port, 90000, "");
+                SettingPayment.setupPax(commType, ip, port, 90000, bluetoothAddr);
                 // ----------- Total Amount --------
                 let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", "UNKNOWN", "UNKNOWN");
                 let result = JSON.parse(data);
@@ -238,7 +238,7 @@ class TabFirstSettle extends Layout {
 
 
             } catch (error) {
-                // console.log("---- error: ",error);
+                console.log("---- error: ",error);
                 isError = true;
                 this.handleRequestAPIByTerminalID(null);
                 this.props.actions.app.connectPaxMachineError(`${error}`);

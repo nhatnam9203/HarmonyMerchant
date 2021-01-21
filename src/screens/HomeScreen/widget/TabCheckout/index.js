@@ -1049,7 +1049,7 @@ class TabCheckout extends Layout {
     sendTransToPaxMachine = async () => {
         const { paxMachineInfo, isTipOnPaxMachine, paxAmount, amountCredtitForSubmitToServer, bluetoothPaxInfo } = this.props;
         const { paymentSelected } = this.state;
-        const { name, ip, port, timeout, commType, bluetoothAddr } = paxMachineInfo;
+        const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
         const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
 
         // 1. Check setup pax 

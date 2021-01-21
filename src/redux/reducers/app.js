@@ -233,7 +233,7 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         connectPAXStatus: {
-          status: action.payload === "NOT FOUND" ? true : false,
+          status: action.payload === "Error: NOT FOUND" ? true : false,
           message: getErrorMessagePaxMachine(action.payload)
         },
       };
@@ -287,8 +287,8 @@ function getErrorMessagePaxMachine(error) {
   switch (error) {
     case "You're running your Pax on DEMO MODE!":
       return "( You're running your Pax on DEMO MODE! )";
-    case "NOT FOUND":
-      return "( Pax terminal successfully connected! )";
+    case "Error: NOT FOUND":
+      return "( Pax terminal successfully connected!: Not found any transactions )";
     default:
       return `(Error From Your Pax : "${error}" )`
   }

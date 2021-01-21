@@ -104,7 +104,8 @@ class TabSecondSettle extends Layout {
 
     settle = async () => {
         const { paxMachineInfo } = this.props;
-        const { ip, port, timeout, isSetup } = paxMachineInfo;
+        const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
+        
         if (isSetup) {
             await this.setState({
                 numberFooter: 2,
@@ -125,7 +126,7 @@ class TabSecondSettle extends Layout {
                         this.proccessingSettlement();
                     });
             } else {
-                SettingPayment.setupPax("TCP", ip, port, 90000, "");
+                SettingPayment.setupPax(commType, ip, port, 90000, bluetoothAddr);
                 PosLink.batchTransaction(message => this.handleResponseBatchTransactions(message));
             }
 

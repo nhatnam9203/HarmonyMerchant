@@ -48,31 +48,41 @@ RCT_EXPORT_METHOD(reportTransaction:
   reportRequest.AuthCode = @"";
   reportRequest.ECRRefNum = @"";
   reportRequest.SAFIndicator = @"";
+  reportRequest.LASTTRANSACTION = @"";
   reportRequest.ExtData = @"";
   
   mypax.poslink.reportRequest = reportRequest;
   
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+
     ProcessTransResult *ret = [mypax.poslink processTrans:REPORT];
     
     dispatch_async(dispatch_get_main_queue(), ^{
       
-      if (ret.code == OK) {
-        
-        NSDictionary *dataSuccess = @{
-          @"status":@true,
-          @"ResultCode" : mypax.poslink.reportResponse.ResultCode ? mypax.poslink.reportResponse.ResultCode : @"" ,
-          @"ResultTxt" : mypax.poslink.reportResponse.ResultTxt ? mypax.poslink.reportResponse.ResultTxt : @"" ,
-          @"TotalRecord" : mypax.poslink.reportResponse.TotalRecord ? mypax.poslink.reportResponse.TotalRecord : @"" ,
-          @"Message" : mypax.poslink.reportResponse.Message ? mypax.poslink.reportResponse.Message : @"" ,
-          @"ApprovedAmount" : mypax.poslink.reportResponse.ApprovedAmount ? mypax.poslink.reportResponse.ApprovedAmount : @"" ,
-          @"CreditCount" : mypax.poslink.reportResponse.CreditCount ? mypax.poslink.reportResponse.CreditCount : @"" ,
-          @"CreditAmount" : mypax.poslink.reportResponse.CreditAmount ? mypax.poslink.reportResponse.CreditAmount : @"" ,
-          @"ExtData" : mypax.poslink.reportResponse.ExtData ? mypax.poslink.reportResponse.ExtData : @"" ,
-        };
-        
-        NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
-        resolve(@[result]);
+      if (ret.code == OK && mypax.poslink.reportResponse.ResultCode && [ mypax.poslink.reportResponse.ResultCode  isEqual: @"000000"] ) {
+//        if([ mypax.poslink.reportResponse.ResultCode  isEqual: @"000000"]){
+          NSDictionary *dataSuccess = @{
+            @"status":@true,
+            @"ResultCode" : mypax.poslink.reportResponse.ResultCode ? mypax.poslink.reportResponse.ResultCode : @"" ,
+            @"ResultTxt" : mypax.poslink.reportResponse.ResultTxt ? mypax.poslink.reportResponse.ResultTxt : @"" ,
+            @"TotalRecord" : mypax.poslink.reportResponse.TotalRecord ? mypax.poslink.reportResponse.TotalRecord : @"" ,
+            @"Message" : mypax.poslink.reportResponse.Message ? mypax.poslink.reportResponse.Message : @"" ,
+            @"ApprovedAmount" : mypax.poslink.reportResponse.ApprovedAmount ? mypax.poslink.reportResponse.ApprovedAmount : @"" ,
+            @"CreditCount" : mypax.poslink.reportResponse.CreditCount ? mypax.poslink.reportResponse.CreditCount : @"" ,
+            @"CreditAmount" : mypax.poslink.reportResponse.CreditAmount ? mypax.poslink.reportResponse.CreditAmount : @"" ,
+            @"ExtData" : mypax.poslink.reportResponse.ExtData ? mypax.poslink.reportResponse.ExtData : @"" ,
+          };
+          
+          NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
+          resolve(@[result]);
+          
+//        }else{
+//          
+//          NSDictionary *dataError = @{@"status":@false, @"message":mypax.poslink.reportResponse.ResultTxt };
+//          NSString *domain = @"com.harmony.pos.paxError";
+//          NSError *error = [NSError errorWithDomain:domain code:-101 userInfo:dataError];
+//          reject(@"no_events", mypax.poslink.reportResponse.ResultTxt,error);
+//        }
         
       }else{
         NSDictionary *dataError = @{@"status":@false, @"message":ret.msg };

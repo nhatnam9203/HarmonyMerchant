@@ -79,7 +79,7 @@ class SetupHardware extends React.Component {
             ip,
             port,
             timeout,
-            commType, 
+            commType,
             bluetoothAddr
         });
 
