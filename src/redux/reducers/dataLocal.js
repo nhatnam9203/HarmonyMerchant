@@ -11,10 +11,12 @@ const initialState = {
     autoCloseAt: '',
     autoLockScreenAfter: 'Never',
     paxMachineInfo: {
+        commType:"",
         name: '',
         ip: '',
         port: '',
-        timeout: parseInt(5 * 60 * 1000),
+        timeout: 90000,
+        bluetoothAddr:"",
         isSetup: false
     },
     profileStaffLogin: {},

@@ -20,14 +20,14 @@ class SetupHardware extends React.Component {
     constructor(props) {
         super(props);
         const { paxMachineInfo } = this.props;
-        const { name, ip, port, timeout } = paxMachineInfo;
+        const { name, ip, port, timeout, commType, bluetoothAddr } = paxMachineInfo;
         this.state = {
-            commType: "TCP",
+            commType: commType || "TCP",
             name,
             ip,
             port,
-            timeout: 60000,
-            bluetoothAddr:"",
+            timeout: 90000,
+            bluetoothAddr,
             peripherals: []
         };
 
@@ -51,23 +51,36 @@ class SetupHardware extends React.Component {
     }
 
     setupPax = () => {
-        const { name, ip, port, timeout,commType } = this.state;
-        if (name == '' || ip == '' || port == '' || timeout == '') {
-            alert('Please enter full infomation!');
+        const { name, ip, port, timeout, commType, bluetoothAddr } = this.state;
+        // ------- Handle Bluetooth Comunication Type ------------
+
+        if (commType === "BLUETOOTH") {
+            if (name === "" || bluetoothAddr === "") {
+                alert('Please enter full infomation!');
+            } else {
+                this.props.actions.dataLocal.setupPaxMachine({ commType, name, ip, port, timeout, bluetoothAddr, isSetup: true });
+                this.props.backListDevices();
+            }
         } else {
-            this.props.actions.dataLocal.setupPaxMachine({ name, ip, port, timeout, isSetup: true });
-            this.props.backListDevices();
-        };
+            if (name == '' || ip == '' || port == '' || timeout == '') {
+                alert('Please enter full infomation!');
+            } else {
+                this.props.actions.dataLocal.setupPaxMachine({ commType, name, ip, port, timeout, bluetoothAddr, isSetup: true });
+                this.props.backListDevices();
+            };
+        }
     }
 
     cancelSetupPax = async () => {
         const { paxMachineInfo } = this.props;
-        const { name, ip, port, timeout } = paxMachineInfo;
+        const { name, ip, port, timeout, commType, bluetoothAddr } = paxMachineInfo;
         await this.setState({
             name,
             ip,
             port,
             timeout,
+            commType, 
+            bluetoothAddr
         });
 
         this.props.backListDevices();
@@ -82,7 +95,7 @@ class SetupHardware extends React.Component {
             commType
         });
 
-        if (commType === "Bluetooth") {
+        if (commType === "BLUETOOTH") {
             this.scanDevices();
         }
     }
@@ -106,7 +119,8 @@ class SetupHardware extends React.Component {
     handleSelectPeripheral = (peripheral) => () => {
         this.props.actions.dataLocal.saveBluetoothPaxInfo(peripheral);
         this.setState({
-            name: peripheral?.name || ""
+            name: peripheral?.name || "",
+            bluetoothAddr: peripheral?.id || ""
         })
     }
 
@@ -117,7 +131,7 @@ class SetupHardware extends React.Component {
         const { name, ip, port, timeout, commType } = this.state;
 
         const tempCheckEthernetIcon = commType === "TCP" ? ICON.radioExportSe : ICON.radioExport;
-        const tempCheckBluetoothIcon = commType === "Bluetooth" ? ICON.radioExportSe : ICON.radioExport;
+        const tempCheckBluetoothIcon = commType === "BLUETOOTH" ? ICON.radioExportSe : ICON.radioExport;
 
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), paddingTop: scaleSzie(20) }} >
@@ -166,7 +180,7 @@ class SetupHardware extends React.Component {
                                 </Button>
                             </View>
                             <View style={{ flex: 1, flexDirection: "row" }} >
-                                <Button onPress={this.setCommType("Bluetooth")} style={{ flexDirection: "row" }} >
+                                <Button onPress={this.setCommType("BLUETOOTH")} style={{ flexDirection: "row" }} >
                                     <Image
                                         source={tempCheckBluetoothIcon}
                                         style={{ marginRight: scaleSzie(10) }}
@@ -210,7 +224,7 @@ class SetupHardware extends React.Component {
                     }
 
                     {
-                        commType === "Bluetooth" ? <ItemSetup
+                        commType === "BLUETOOTH" ? <ItemSetup
                             title={localize('Bluetooth ID', language)}
                             placeholder={"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"}
                             value={bluetoothPaxInfo?.id || ""}
@@ -218,11 +232,12 @@ class SetupHardware extends React.Component {
                             keyboardType="numeric"
                             onFocus={() => this.scrollTo(70)}
                             editable={false}
+                            style={{ backgroundColor: "rgb(250,250,250)" }}
                         /> : null
                     }
 
                     {
-                        commType === "Bluetooth" ?
+                        commType === "BLUETOOTH" ?
                             <>
                                 <Button onPress={this.scanDevices} style={{
                                     flexDirection: 'row', alignItems: 'center', width: scaleSzie(120),
@@ -318,19 +333,19 @@ class SetupHardware extends React.Component {
 }
 
 
-const ItemSetup = ({ title, value, placeholder, onChangeText, keyboardType, onFocus, editable }) => {
+const ItemSetup = ({ title, value, placeholder, onChangeText, keyboardType, onFocus, editable, style }) => {
     return (
-        <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), }} >
+        <View style={[{ flexDirection: 'row', marginTop: scaleSzie(20), }]} >
             <View style={{ width: scaleSzie(140), justifyContent: 'center', }} >
                 <Text style={{ fontSize: scaleSzie(13), color: 'rgb(42,42,42)' }} >
                     {title}
                 </Text>
             </View>
-            <View style={{ flex: 1, }} >
-                <View style={{
+            <View style={[{ flex: 1, },]} >
+                <View style={[{
                     height: scaleSzie(35), width: '85%', borderColor: 'rgb(227,227,227)',
                     borderWidth: scaleSzie(1), paddingHorizontal: scaleSzie(10)
-                }} >
+                }, style]} >
                     <TextInput
                         style={{ flex: 1, fontSize: scaleSzie(14) }}
                         placeholder={placeholder}

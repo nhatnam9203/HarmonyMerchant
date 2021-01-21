@@ -968,12 +968,9 @@ class TabCheckout extends Layout {
                             this.hanleCreditCardProcess(true, moneyUserGiveForStaff);
                         }
                     } else {
-                        // setTimeout(() => {
-                        //     alert('Please connect your Pax to take payment.');
-                        // }, 300)
-
-                        // this.sendTransToPaxMachine();
-                        this.hanleCreditCardProcess(true, moneyUserGiveForStaff);
+                        setTimeout(() => {
+                            alert('Please connect your Pax to take payment.');
+                        }, 300);
                     }
                 } else if (method === 'giftcard') {
                     setTimeout(() => {
@@ -1052,17 +1049,11 @@ class TabCheckout extends Layout {
     sendTransToPaxMachine = async () => {
         const { paxMachineInfo, isTipOnPaxMachine, paxAmount, amountCredtitForSubmitToServer, bluetoothPaxInfo } = this.props;
         const { paymentSelected } = this.state;
-        const { ip, port, timeout } = paxMachineInfo;
+        const { name, ip, port, timeout, commType, bluetoothAddr } = paxMachineInfo;
         const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
 
-        console.log("--- sendTransToPaxMachine ---- : ", bluetoothPaxInfo?.id);
-
-        // ----------- Handle connect bluetooth -------
-        // const isConnected = await this.handleConnectBluetooth();
-        // console.log("--- isConnected: ", isConnected);
-
         // 1. Check setup pax 
-        SettingPayment.setupPax("BLUETOOTH", ip, port, 90000, bluetoothPaxInfo?.id);
+        SettingPayment.setupPax(commType, ip, port, 90000, bluetoothAddr);
 
         // 2. Show modal processing 
         await this.setState({
@@ -1075,38 +1066,7 @@ class TabCheckout extends Layout {
         PosLink.sendTransaction(tenderType, "SALE", parseFloat(paxAmount), 1, extData, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer));
     }
 
-    handleConnectBluetooth = async () => {
-        const { bluetoothPaxInfo } = this.props;
-        console.log(`---- id: ${bluetoothPaxInfo?.id}`);
-        try {
-            console.log("Connected");
-            await BleManager.connect(bluetoothPaxInfo?.id);
-            return true;
-        } catch (error) {
-            console.log("error:", error);
-            return false
-        }
-
-
-        // .then(() => {
-        //     // Success code
-        //     console.log("Connected");
-        // })
-        // .catch((error) => {
-        //     // Failure code
-        //     console.log("error:", error);
-        // });
-    }
-
-    async handleResponseCreditCard_1(message, online, moneyUserGiveForStaff) {
-        console.log("------ Messagee: ", message);
-        await this.setState({
-            visibleProcessingCredit: false
-        });
-    }
-
     async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
-        console.log("------ Messagee: ", message);
         const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment, payAppointmentId } = this.props;
         await this.setState({
             visibleProcessingCredit: false
