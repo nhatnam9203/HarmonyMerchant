@@ -195,7 +195,7 @@ class TabFirstSettle extends Layout {
 
             try {
                 const tempEnv = env.IS_PRODUCTION;
-                SettingPayment.setupPax(commType, ip, port, 90000, bluetoothAddr);
+                SettingPayment.setupPax(commType, ip, port, "90000", bluetoothAddr);
                 // ----------- Total Amount --------
                 let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", "UNKNOWN", "UNKNOWN");
                 let result = JSON.parse(data);
@@ -236,9 +236,8 @@ class TabFirstSettle extends Layout {
                     throw `${result.ResultTxt}`
                 }
 
-
             } catch (error) {
-                console.log("---- error: ",error);
+                console.log("---- error: ", error);
                 isError = true;
                 this.handleRequestAPIByTerminalID(null);
                 this.props.actions.app.connectPaxMachineError(`${error}`);

@@ -35,7 +35,16 @@ RCT_EXPORT_METHOD(reportTransaction:
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
   
-  MyPax *mypax = [MyPax sharedSigleton];
+//  MyPax *mypax = [MyPax sharedSigleton];
+  MyPax *mypax =  [[MyPax alloc] init];
+  
+//  --------- setting --------
+  mypax.poslink.commSetting.commType = @"TCP";
+  mypax.poslink.commSetting.destIP = @"192.168.50.12";
+  mypax.poslink.commSetting.destPort = @"10009";
+  mypax.poslink.commSetting.timeout = @"90000";
+  mypax.poslink.commSetting.bluetoothAddr = @"";
+  
   ReportRequest *reportRequest = [[ReportRequest alloc] init];
   
   reportRequest.TransType = [ReportRequest ParseTransType:transType];
@@ -59,7 +68,7 @@ RCT_EXPORT_METHOD(reportTransaction:
     
     dispatch_async(dispatch_get_main_queue(), ^{
       
-      if (ret.code == OK && mypax.poslink.reportResponse.ResultCode && [ mypax.poslink.reportResponse.ResultCode  isEqual: @"000000"] ) {
+      if (ret.code == OK ) {
 //        if([ mypax.poslink.reportResponse.ResultCode  isEqual: @"000000"]){
           NSDictionary *dataSuccess = @{
             @"status":@true,
@@ -75,7 +84,9 @@ RCT_EXPORT_METHOD(reportTransaction:
           
           NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
           resolve(@[result]);
-          
+      
+        
+       
 //        }else{
 //          
 //          NSDictionary *dataError = @{@"status":@false, @"message":mypax.poslink.reportResponse.ResultTxt };
@@ -89,6 +100,8 @@ RCT_EXPORT_METHOD(reportTransaction:
         NSString *domain = @"com.harmony.pos.paxError";
         NSError *error = [NSError errorWithDomain:domain code:-101 userInfo:dataError];
         reject(@"no_events", ret.msg,error);
+        
+      
       }
         
     });

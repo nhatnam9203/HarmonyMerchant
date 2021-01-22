@@ -27,7 +27,17 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(batchTransaction:(RCTResponseSenderBlock)callback){
   
-  MyPax *mypax = [MyPax sharedSigleton];
+//  MyPax *mypax = [MyPax sharedSigleton];
+  MyPax *mypax =  [[MyPax alloc] init];
+  
+  
+  //  --------- setting --------
+    mypax.poslink.commSetting.commType = @"TCP";
+    mypax.poslink.commSetting.destIP = @"192.168.50.12";
+    mypax.poslink.commSetting.destPort = @"10009";
+    mypax.poslink.commSetting.timeout = @"90000";
+    mypax.poslink.commSetting.bluetoothAddr = @"";
+  
   BatchRequest *batchRequest = [[BatchRequest alloc] init];
   
   batchRequest.TransType = [BatchRequest ParseTransType:@"BATCHCLOSE"];

@@ -17,7 +17,7 @@
 #define keySaveSigPath @"SigFilePath"
 
 static NSString *signData;
-static int statusCode;
+//static int statusCode;
 
 @implementation payment
 
@@ -26,7 +26,7 @@ static int statusCode;
     id idTemp;
     
     NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-  MyPax *mypax = [MyPax sharedSigleton];
+    MyPax *mypax = [MyPax sharedSigleton];
     if ((idTemp = [settings objectForKey:keySaveSigPath]) != nil) {
       mypax.poslink.paymentRequest.SigSavePath = (NSString *)idTemp;
     }
@@ -62,6 +62,14 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
                   )
 {
   self.mypax = [MyPax sharedSigleton];
+  
+//  ------------------ Setting -------------
+  self.mypax.poslink.commSetting.commType = @"TCP";
+  self.mypax.poslink.commSetting.destIP = @"192.168.50.12";
+  self.mypax.poslink.commSetting.destPort = @"10009";
+  self.mypax.poslink.commSetting.timeout = @"90000";
+  self.mypax.poslink.commSetting.bluetoothAddr = @"";
+  
   PaymentRequest *paymentRequest = [[PaymentRequest alloc] init];
   self.mypax.poslink.paymentRequest = paymentRequest;
   
@@ -74,9 +82,9 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
    paymentRequest.Amount = amount;
    paymentRequest.CashBackAmt = @"";
    paymentRequest.ClerkID = @"";
-    [self load];
+//    [self load];
     paymentRequest.SigSavePath = @"";
-   [self save];
+//   [self save];
    paymentRequest.Zip = @"";
    paymentRequest.TipAmt = @"";
    paymentRequest.TaxAmt = @"";
@@ -94,15 +102,6 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
    paymentRequest.ExtData = extData;
   
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-
-    __weak typeof(self) weakSelf = self;
-    self.mypax.poslink.reportedStatusChangeBlock = ^{
-      statusCode = [weakSelf.mypax.poslink getReportedStatus];
-      dispatch_async(dispatch_get_main_queue(), ^{
-       
-      });
-      NSLog(@"Terminal ReportedStatus = %d",statusCode);
-    };
 
     ProcessTransResult *ret = [self.mypax.poslink processTrans:PAYMENT];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -142,15 +141,18 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
           NSString  *hanldeDup =  [self convertObjectToJson:dupError ] ;
           callback(@[hanldeDup]);
         }
-
       }else {
         NSDictionary *dataError = @{@"status":@false,
                                     @"message":ret.msg
                                       };
          NSString  *resultError =  [self convertObjectToJson:dataError ] ;
         callback(@[resultError]);
+  
        
       }
+      
+      //      ------- Cancel Object --------
+      self.mypax = nil;
 
     });
   });
@@ -159,7 +161,17 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
 
 RCT_EXPORT_METHOD(cancelTransaction){
   self.mypax = [MyPax sharedSigleton];
+  
+  self.mypax.poslink.commSetting.commType = @"TCP";
+  self.mypax.poslink.commSetting.destIP = @"192.168.50.12";
+  self.mypax.poslink.commSetting.destPort = @"10009";
+  self.mypax.poslink.commSetting.timeout = @"90000";
+  self.mypax.poslink.commSetting.bluetoothAddr = @"";
+  
   [self.mypax.poslink cancelTrans];
+  
+  //      ------- Cancel Object --------
+  self.mypax = nil;
 }
 
 
