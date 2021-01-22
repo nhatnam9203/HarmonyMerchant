@@ -65,7 +65,7 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: '#898989',
+    borderColor: '#A9A9A9',
     borderStyle: 'dashed'
   },
   text: {

@@ -24,15 +24,26 @@ const ItemPhoto = ({ item, selectImage, imageSelect }) => {
       style={styles.container}
       onPress={onSelected}
     >
-      <FastImage
-        style={styles.image}
-        source={{
-          uri: imageUrl,
-          headers: { Authorization: "someAuthToken" },
-          priority: FastImage.priority.high,
-        }}
-        resizeMode={FastImage.resizeMode.stretch}
-      />
+      {imageUrl ? (
+        <FastImage
+          style={styles.image}
+          source={{
+            uri: imageUrl,
+            headers: { Authorization: "someAuthToken" },
+            priority: FastImage.priority.high,
+          }}
+          resizeMode={FastImage.resizeMode.stretch}
+        />
+      ) : (
+        <View style={styles.img}>
+          <Image
+            style={styles.image_null}
+            source={IMAGE.Gallery_ic}
+            resizeMode={FastImage.resizeMode.contain}
+          />
+        </View>
+      )}
+
       <View style={styles.photo}>
         <Image source={IMAGE.Gallery_ic} />
         <Text style={styles.name}>{title}</Text>
@@ -66,8 +77,18 @@ const styles = StyleSheet.create({
     width: "100%",
     height: scaleSzie(100),
   },
+  img: {
+    width: "100%",
+    height: scaleSzie(100),
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  image_null: {
+    width: "30%",
+    height: "30%",
+  },
   photo: {
-    marginLeft: scaleSzie(5),
+    marginLeft: scaleSzie(10),
     paddingVertical: scaleSzie(10),
     width: "100%",
     alignItems: "center",

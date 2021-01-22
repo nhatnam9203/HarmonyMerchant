@@ -12,6 +12,7 @@ class TabMarketing extends Layout {
     this.scrollTabRef = React.createRef();
     this.reviewRef = React.createRef();
     this.marketPlace = React.createRef();
+    this.photoGalleryRef = React.createRef();
   }
 
   fetchMarketingApi = (page) => {
@@ -32,6 +33,7 @@ class TabMarketing extends Layout {
           profile.merchantId,
           true
         );
+        this.photoGalleryRef.current.setStateFromParent();
         break;
       case 2:
         this.props.actions.review.getListReview();
@@ -42,19 +44,10 @@ class TabMarketing extends Layout {
         this.marketPlace.current.setStateFromParent();
         break;
       default:
-        // const { profile } = this.props;
-        // this.props.actions.marketing.getBannerMerchant(
-        //   profile.merchantId,
-        //   false
-        // );
+
         break;
     }
-    // if(currentIndex === 0){
-    //     this.props.actions.marketing.getPromotionByMerchant();
-    // }else{
-    //     const { profile } = this.props;
-    //     this.props.actions.marketing.getBannerMerchant(profile.merchantId,false);
-    // }
+
   };
 }
 

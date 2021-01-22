@@ -11,13 +11,13 @@ export function getBannerMerchant(merchantId, isLoading = true, isRefresh = fals
     }
 }
 
-export function deleteBannerMerchant(merchantBannerId, merchantId) {
+export function deleteBannerMerchant(body, merchantId) {
     return {
         type: 'DELETE_BANNER_MERCHANT',
         method: 'DELETE',
-        body: {},
+        body: body,
         token: true,
-        api: `${apiConfigs.BASE_API}merchantbanner/${merchantBannerId}`,
+        api: `${apiConfigs.BASE_API}merchantbanner/multiple`,
         merchantId
     }
 }

@@ -40,7 +40,7 @@ class TabPhotoGallery extends Layout {
         fileName: "",
         type: "",
       },
-      imageSelect: this.props.listBanners,
+      imageSelect: [],
       isSelected: false,
     };
     this.onEndReachedCalledDuringMomentum = true;
@@ -50,25 +50,9 @@ class TabPhotoGallery extends Layout {
     // this.props.actions.review.getListMarketPlace();
   }
 
-  onLoadmore = () => {
-    if (!this.onEndReachedCalledDuringMomentum) {
-      const { totalPages, currentPage } = this.props;
-      if (currentPage < totalPages) {
-        this.props.actions.review.getListReview(
-          this.state.isStatus,
-          this.state.isReview,
-          parseInt(currentPage + 1),
-          false,
-          true
-        );
-        this.onEndReachedCalledDuringMomentum = true;
-      }
-    }
-  };
-
   onRefresh = () => {
     const { profile } = this.props;
-    this.setState({ refreshing: true, isSelected: false });
+    this.setState({ refreshing: true, isSelected: false, imageSelect: [] });
     this.props.actions.marketing.getBannerMerchant(
       profile.merchantId,
       false,
@@ -125,37 +109,23 @@ class TabPhotoGallery extends Layout {
     });
   };
 
-  deleteBanner = async () => {
+  deleteBanner = () => {
     const { profile } = this.props;
-    const isSelectedImage = this.state.imageSelect.filter((item) => item.selected === true);
-    console.log(isSelectedImage)
-    // const { merchantBannerIdDelete } = this.state;
+    const isSelectedImage = this.state.imageSelect.filter(
+      (item) => item.selected === true
+    );
+    const arrBody = isSelectedImage.map((item) => item.merchantBannerId);
 
-    // this.props.actions.marketing.deleteBannerMerchant(
-    //   merchantBannerIdDelete,
-    //   profile.merchantId
-    // );
-  };
-
-  cancelUploadBannerLocal = async () => {
-    await this.setState({
-      bannerUpload: {
-        uri: "",
-        fileName: "",
-        type: "",
-      },
-    });
+    this.props.actions.marketing.deleteBannerMerchant(
+      arrBody,
+      profile.merchantId
+    );
+    setTimeout(() => {
+      this.setState({ isSelected: false, imageSelect: [] });
+    }, 500);
   };
 
   selectImage = (id) => {
-    const isCheckSelect = this.state.imageSelect.findIndex(
-      (item) => item.selected === true
-    );
-    if (isCheckSelect !== -1) {
-      this.setState({ isSelected: false });
-    } else {
-      this.setState({ isSelected: true });
-    }
     let imageSelect = [...this.props.listBanners];
     for (let data of imageSelect) {
       if (data.merchantBannerId == id) {
@@ -164,7 +134,19 @@ class TabPhotoGallery extends Layout {
       }
     }
     this.setState({ imageSelect });
-    // console.log(imageSelect);
+    const isCheckSelect = imageSelect.findIndex(
+      (item) => item.selected === true
+    );
+    if (isCheckSelect !== -1) {
+      this.setState({ isSelected: true });
+    } else {
+      this.setState({ isSelected: false });
+    }
+  };
+
+  setStateFromParent = () => {
+    this.setState({ isSelected: false, imageSelect: [] });
+    this.flatListRef.scrollToOffset({ y: 0, animated: false });
   };
 }
 
