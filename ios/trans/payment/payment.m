@@ -64,27 +64,24 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
   self.mypax = [MyPax sharedSigleton];
   
 //  ------------------ Setting -------------
-  self.mypax.poslink.commSetting.commType = @"TCP";
-  self.mypax.poslink.commSetting.destIP = @"192.168.50.12";
-  self.mypax.poslink.commSetting.destPort = @"10009";
-  self.mypax.poslink.commSetting.timeout = @"90000";
-  self.mypax.poslink.commSetting.bluetoothAddr = @"";
+//  self.mypax.poslink.commSetting.commType = @"TCP";
+//  self.mypax.poslink.commSetting.destIP = @"192.168.50.12";
+//  self.mypax.poslink.commSetting.destPort = @"10009";
+//  self.mypax.poslink.commSetting.timeout = @"90000";
+//  self.mypax.poslink.commSetting.bluetoothAddr = @"";
   
   PaymentRequest *paymentRequest = [[PaymentRequest alloc] init];
   self.mypax.poslink.paymentRequest = paymentRequest;
   
-  //  tenderType = CREDIT,DEBIT
-  paymentRequest.TenderType = [PaymentRequest ParseTenderType:tenderType];
-  //  transType = SALE,VOID,RETURN
-  paymentRequest.TransType = [PaymentRequest ParseTransType:transType];
-
+  paymentRequest.TenderType = [PaymentRequest ParseTenderType:tenderType]; // CREDIT,DEBIT
+  paymentRequest.TransType = [PaymentRequest ParseTransType:transType]; // SALE,VOID,RETURN
    
    paymentRequest.Amount = amount;
    paymentRequest.CashBackAmt = @"";
    paymentRequest.ClerkID = @"";
-//    [self load];
+    [self load];
     paymentRequest.SigSavePath = @"";
-//   [self save];
+   [self save];
    paymentRequest.Zip = @"";
    paymentRequest.TipAmt = @"";
    paymentRequest.TaxAmt = @"";
@@ -100,6 +97,8 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
    paymentRequest.ECRTransID = @"";
    paymentRequest.AuthCode = @"";
    paymentRequest.ExtData = extData;
+  paymentRequest.ContinuousScreen = @"";
+  paymentRequest.ServiceFee = @"";
   
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
@@ -135,8 +134,8 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
         }else{
           //--------- Handle Duplication ---------
           NSDictionary *dupError = @{@"status":@false,
-                                      @"message":self.mypax.poslink.paymentResponse.ResultTxt ? self.mypax.poslink.paymentResponse.ResultTxt : @"",
-                                     @"test":@"phi test ne"
+                                      @"message":self.mypax.poslink.paymentResponse.ResultTxt ? self.mypax.poslink.paymentResponse.ResultTxt : @"The transaction was closed!"
+                                   
                                         };
           NSString  *hanldeDup =  [self convertObjectToJson:dupError ] ;
           callback(@[hanldeDup]);

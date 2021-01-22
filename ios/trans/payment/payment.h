@@ -19,9 +19,6 @@ typedef void(^MutiplePaymentBlock)(PaymentRequest *model);
 
 @property (nonatomic, strong) MyPax *mypax;
 
-- (void)load;
-- (void)save;
-
 @end
 
 #endif /* payment_h */
