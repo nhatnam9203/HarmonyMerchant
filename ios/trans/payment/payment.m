@@ -71,7 +71,6 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
 //  self.mypax.poslink.commSetting.bluetoothAddr = @"";
   
   PaymentRequest *paymentRequest = [[PaymentRequest alloc] init];
-  self.mypax.poslink.paymentRequest = paymentRequest;
   
   paymentRequest.TenderType = [PaymentRequest ParseTenderType:tenderType]; // CREDIT,DEBIT
   paymentRequest.TransType = [PaymentRequest ParseTransType:transType]; // SALE,VOID,RETURN
@@ -99,6 +98,8 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
    paymentRequest.ExtData = extData;
   paymentRequest.ContinuousScreen = @"";
   paymentRequest.ServiceFee = @"";
+  
+  self.mypax.poslink.paymentRequest = paymentRequest;
   
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
@@ -151,7 +152,7 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
       }
       
       //      ------- Cancel Object --------
-      self.mypax = nil;
+//      self.mypax = nil;
 
     });
   });
@@ -170,7 +171,7 @@ RCT_EXPORT_METHOD(cancelTransaction){
   [self.mypax.poslink cancelTrans];
   
   //      ------- Cancel Object --------
-  self.mypax = nil;
+//  self.mypax = nil;
 }
 
 

@@ -16,7 +16,8 @@ import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
 import initState from "./widget/initState";
 
-const PosLink = NativeModules.payment;
+const PosLink = NativeModules.tempPayment;
+// const PosLink = NativeModules.payment;
 const SettingPayment = NativeModules.setting;
 
 const PoslinkAndroid = NativeModules.PoslinkModule;
@@ -1053,7 +1054,7 @@ class TabCheckout extends Layout {
         const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
 
         // 1. Check setup pax 
-        SettingPayment.setupPax(commType, ip, port, 90000, bluetoothAddr);
+        // SettingPayment.setupPax(commType, ip, port, 90000, bluetoothAddr);
 
         // 2. Show modal processing 
         await this.setState({
@@ -1067,6 +1068,8 @@ class TabCheckout extends Layout {
     }
 
     async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
+
+        console.log("---- handleResponseCreditCard: ",message);
         const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment, payAppointmentId } = this.props;
         await this.setState({
             visibleProcessingCredit: false
