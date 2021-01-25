@@ -1066,10 +1066,6 @@ class TabCheckout extends Layout {
         const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
 
         // 3. Send Transaction 
-        // PosLink.sendTransactionByBluetooth(tenderType, "SALE", parseFloat(paxAmount), 1, extData,
-        //    idBluetooth,{id:idBluetooth},
-        //     (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer));
-
         PosLink.sendTransaction({
             tenderType: tenderType,
             transType: "SALE",
@@ -1080,7 +1076,20 @@ class TabCheckout extends Layout {
             destIp: ip,
             portDevice: port,
             timeoutConnect: "90000"
-        }, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer))
+        }, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer));
+
+        // PosLink.sendTransactionByBluetooth({
+        //     tenderType: tenderType,
+        //     transType: "SALE",
+        //     amount: `${parseFloat(paxAmount)}`,
+        //     transactionId: "1",
+        //     extData: extData,
+        //     commType: "BLUETOOTH",
+        //     destIp: "",
+        //     portDevice: "",
+        //     timeoutConnect: "90000",
+        //     bluetoothAddr: "6B45846D-B084-14C8-F339-23DF0B190ABC"
+        // }, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer))
     }
 
     async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {

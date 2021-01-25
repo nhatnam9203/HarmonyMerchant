@@ -18,6 +18,7 @@
 @implementation tempPayment
 
 // MyPax *mypax;
+NSString *tempIdAddrBluetooth;
 
 - (NSString*) convertObjectToJson:(NSObject*) object
 {
@@ -31,46 +32,37 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(sendTransactionByBluetooth:(NSString *)tenderType
-                  transType:(NSString *)transType
-                  amount:(NSString *)amount
-                  transactionId:(NSString *)transactionId
-                  extData:(NSString *)extData
-                  bluetoothAddr:(NSString *)bluetoothAddr
-                  info:(NSDictionary *)info
-                  callback:(RCTResponseSenderBlock)callback
-                  )
+
+RCT_EXPORT_METHOD(setIdAddrBluetooth:(NSString *) addr){
+  tempIdAddrBluetooth = addr;
+ 
+}
+
+RCT_EXPORT_METHOD(sendTransactionByBluetooth:(NSDictionary *)paymentInfo callback:(RCTResponseSenderBlock)callback)
 {
   
   MyPax *mypax =  [[MyPax alloc] init];
   
-  NSLog(@" -----Your name is %@", [bluetoothAddr class] );
-  NSLog(@" -----Your name is %@", info[@"id"] );
 //  ------------------ Setting -------------
-  mypax.poslink.commSetting.commType = @"BLUETOOTH";
-//  mypax.poslink.commSetting.destIP = destIp;
-//  mypax.poslink.commSetting.destPort = portDevice;
-  mypax.poslink.commSetting.timeout = @"90000";
-//  NSString *idBluetoothAddr = (NSString) bluetoothAddr;
-  mypax.poslink.commSetting.bluetoothAddr = info[@"id"];
+  mypax.poslink.commSetting.commType = paymentInfo[@"commType"];
+  mypax.poslink.commSetting.destIP = paymentInfo[@"destIp"] ;
+  mypax.poslink.commSetting.destPort = paymentInfo[@"portDevice"];
+  mypax.poslink.commSetting.timeout = paymentInfo[@"timeoutConnect"];
+
+  tempIdAddrBluetooth = paymentInfo[@"bluetoothAddr"];
+  mypax.poslink.commSetting.bluetoothAddr = tempIdAddrBluetooth;
   
-//  mypax.poslink.commSetting.commType = commType;
-//  mypax.poslink.commSetting.destIP = destIp;
-//  mypax.poslink.commSetting.destPort = portDevice;
-//  mypax.poslink.commSetting.timeout = timeoutConnect;
-//  mypax.poslink.commSetting.bluetoothAddr = bluetoothAddr;
+
   
   PaymentRequest *paymentRequest = [[PaymentRequest alloc] init];
   
-  paymentRequest.TenderType = [PaymentRequest ParseTenderType:tenderType]; // CREDIT,DEBIT
-  paymentRequest.TransType = [PaymentRequest ParseTransType:transType]; // SALE,VOID,RETURN
+  paymentRequest.TenderType = [PaymentRequest ParseTenderType:paymentInfo[@"tenderType"]]; // CREDIT,DEBIT
+  paymentRequest.TransType = [PaymentRequest ParseTransType:paymentInfo[@"transType"]]; // SALE,VOID,RETURN
    
-   paymentRequest.Amount = amount;
+   paymentRequest.Amount =paymentInfo[@"amount"];
    paymentRequest.CashBackAmt = @"";
    paymentRequest.ClerkID = @"";
-//    [self load];
     paymentRequest.SigSavePath = @"";
-//   [self save];
    paymentRequest.Zip = @"";
    paymentRequest.TipAmt = @"";
    paymentRequest.TaxAmt = @"";
@@ -82,10 +74,10 @@ RCT_EXPORT_METHOD(sendTransactionByBluetooth:(NSString *)tenderType
    paymentRequest.PONum = @"";
    paymentRequest.OrigRefNum = @"";
    paymentRequest.InvNum = @"";
-  paymentRequest.ECRRefNum = transactionId;
+  paymentRequest.ECRRefNum = paymentInfo[@"transactionId"];
    paymentRequest.ECRTransID = @"";
    paymentRequest.AuthCode = @"";
-   paymentRequest.ExtData = extData;
+   paymentRequest.ExtData = paymentInfo[@"extData"];
   paymentRequest.ContinuousScreen = @"";
   paymentRequest.ServiceFee = @"";
   
@@ -122,8 +114,6 @@ RCT_EXPORT_METHOD(sendTransactionByBluetooth:(NSString *)tenderType
           
           NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
           callback(@[result]);
-          //      ------- Cancel Object --------
-//          mypax = nil;
         }else{
           //--------- Handle Duplication ---------
           NSDictionary *dupError = @{
@@ -133,8 +123,6 @@ RCT_EXPORT_METHOD(sendTransactionByBluetooth:(NSString *)tenderType
                                         };
           NSString  *hanldeDup =  [self convertObjectToJson:dupError ] ;
           callback(@[hanldeDup]);
-          //      ------- Cancel Object --------
-//          mypax = nil;
         }
       }else {
         NSDictionary *dataError = @{@"status":@false,
@@ -142,10 +130,10 @@ RCT_EXPORT_METHOD(sendTransactionByBluetooth:(NSString *)tenderType
                                       };
          NSString  *resultError =  [self convertObjectToJson:dataError ] ;
         callback(@[resultError]);
-        //      ------- Cancel Object --------
-//        mypax = nil;
       }
       
+      //      ------- Cancel Object --------
+//      mypax = nil;
 
     });
   });
@@ -255,6 +243,9 @@ RCT_EXPORT_METHOD(cancelTransaction){
 //    [mypax.poslink cancelTrans];
 //  }
 //  mypax = nil;
+  
+  MyPax  *mypax =  [[MyPax alloc] init];
+  [mypax.poslink cancelTrans];
  
 }
 
