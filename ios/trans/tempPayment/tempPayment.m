@@ -17,7 +17,7 @@
 
 @implementation tempPayment
 
- MyPax *mypax;
+// MyPax *mypax;
 
 - (NSString*) convertObjectToJson:(NSObject*) object
 {
@@ -31,25 +31,34 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
+RCT_EXPORT_METHOD(sendTransactionByBluetooth:(NSString *)tenderType
                   transType:(NSString *)transType
                   amount:(NSString *)amount
                   transactionId:(NSString *)transactionId
                   extData:(NSString *)extData
-                  
-                  
+                  bluetoothAddr:(NSString *)bluetoothAddr
+                  info:(NSDictionary *)info
                   callback:(RCTResponseSenderBlock)callback
                   )
 {
-//  mypax = [MyPax sharedSigleton];
-  mypax =  [[MyPax alloc] init];
   
+  MyPax *mypax =  [[MyPax alloc] init];
+  
+  NSLog(@" -----Your name is %@", [bluetoothAddr class] );
+  NSLog(@" -----Your name is %@", info[@"id"] );
 //  ------------------ Setting -------------
-  mypax.poslink.commSetting.commType = @"TCP";
-  mypax.poslink.commSetting.destIP = @"192.168.50.12";
-  mypax.poslink.commSetting.destPort = @"10009";
+  mypax.poslink.commSetting.commType = @"BLUETOOTH";
+//  mypax.poslink.commSetting.destIP = destIp;
+//  mypax.poslink.commSetting.destPort = portDevice;
   mypax.poslink.commSetting.timeout = @"90000";
-  mypax.poslink.commSetting.bluetoothAddr = @"";
+//  NSString *idBluetoothAddr = (NSString) bluetoothAddr;
+  mypax.poslink.commSetting.bluetoothAddr = info[@"id"];
+  
+//  mypax.poslink.commSetting.commType = commType;
+//  mypax.poslink.commSetting.destIP = destIp;
+//  mypax.poslink.commSetting.destPort = portDevice;
+//  mypax.poslink.commSetting.timeout = timeoutConnect;
+//  mypax.poslink.commSetting.bluetoothAddr = bluetoothAddr;
   
   PaymentRequest *paymentRequest = [[PaymentRequest alloc] init];
   
@@ -113,6 +122,107 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
           
           NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
           callback(@[result]);
+          //      ------- Cancel Object --------
+//          mypax = nil;
+        }else{
+          //--------- Handle Duplication ---------
+          NSDictionary *dupError = @{
+                                      @"status":@false,
+                                      @"message":mypax.poslink.paymentResponse.ResultTxt ? mypax.poslink.paymentResponse.ResultTxt : @"ABORTED"
+                                   
+                                        };
+          NSString  *hanldeDup =  [self convertObjectToJson:dupError ] ;
+          callback(@[hanldeDup]);
+          //      ------- Cancel Object --------
+//          mypax = nil;
+        }
+      }else {
+        NSDictionary *dataError = @{@"status":@false,
+                                    @"message":ret.msg
+                                      };
+         NSString  *resultError =  [self convertObjectToJson:dataError ] ;
+        callback(@[resultError]);
+        //      ------- Cancel Object --------
+//        mypax = nil;
+      }
+      
+
+    });
+  });
+  
+}
+
+RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo callback:(RCTResponseSenderBlock)callback)
+{
+  
+  MyPax  *mypax =  [[MyPax alloc] init];
+  
+//  ------------------ Setting -------------
+  mypax.poslink.commSetting.commType = paymentInfo[@"commType"];
+  mypax.poslink.commSetting.destIP = paymentInfo[@"destIp"] ;
+  mypax.poslink.commSetting.destPort = paymentInfo[@"portDevice"];
+  mypax.poslink.commSetting.timeout = paymentInfo[@"timeoutConnect"];
+  
+  PaymentRequest *paymentRequest = [[PaymentRequest alloc] init];
+  
+  paymentRequest.TenderType = [PaymentRequest ParseTenderType:paymentInfo[@"tenderType"]]; // CREDIT,DEBIT
+  paymentRequest.TransType = [PaymentRequest ParseTransType:paymentInfo[@"transType"]]; // SALE,VOID,RETURN
+   
+   paymentRequest.Amount =paymentInfo[@"amount"];
+   paymentRequest.CashBackAmt = @"";
+   paymentRequest.ClerkID = @"";
+    paymentRequest.SigSavePath = @"";
+   paymentRequest.Zip = @"";
+   paymentRequest.TipAmt = @"";
+   paymentRequest.TaxAmt = @"";
+   paymentRequest.FuelAmt = @"";
+   paymentRequest.ECRTransID = @"";
+   paymentRequest.Street1 = @"";
+   paymentRequest.Street2 = @"";
+   paymentRequest.SurchargeAmt = @"";
+   paymentRequest.PONum = @"";
+   paymentRequest.OrigRefNum = @"";
+   paymentRequest.InvNum = @"";
+  paymentRequest.ECRRefNum = paymentInfo[@"transactionId"];
+   paymentRequest.ECRTransID = @"";
+   paymentRequest.AuthCode = @"";
+   paymentRequest.ExtData = paymentInfo[@"extData"];
+  paymentRequest.ContinuousScreen = @"";
+  paymentRequest.ServiceFee = @"";
+  
+  mypax.poslink.paymentRequest = paymentRequest;
+  
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+
+    ProcessTransResult *ret = [mypax.poslink processTrans:PAYMENT];
+    dispatch_async(dispatch_get_main_queue(), ^{
+      if (ret.code == OK ) {
+        if([mypax.poslink.paymentResponse.ResultCode isEqual: @"000000"]){
+          NSDictionary *dataSuccess = @{@"status":@true,
+                                        @"ResultCode" : mypax.poslink.paymentResponse.ResultCode ? mypax.poslink.paymentResponse.ResultCode : @"",
+                                        @"ResultTxt" : mypax.poslink.paymentResponse.ResultTxt ? mypax.poslink.paymentResponse.ResultTxt : @"",
+                                        @"AuthCode" : mypax.poslink.paymentResponse.AuthCode ? mypax.poslink.paymentResponse.AuthCode : @"",
+                                        @"ApprovedAmount" : mypax.poslink.paymentResponse.ApprovedAmount ? mypax.poslink.paymentResponse.ApprovedAmount : @"",
+                                        @"AvsResponse" : mypax.poslink.paymentResponse.AvsResponse ? mypax.poslink.paymentResponse.AvsResponse : @"",
+                                        @"BogusAccountNum" : mypax.poslink.paymentResponse.BogusAccountNum ? mypax.poslink.paymentResponse.BogusAccountNum : @"",
+                                        @"CardType" : mypax.poslink.paymentResponse.CardType ? mypax.poslink.paymentResponse.CardType : @"",
+                                        @"CvResponse" : mypax.poslink.paymentResponse.CvResponse ? mypax.poslink.paymentResponse.CvResponse : @"",
+                                        @"HostCode" : mypax.poslink.paymentResponse.HostCode ? mypax.poslink.paymentResponse.HostCode : @"",
+                                        @"HostResponse" : mypax.poslink.paymentResponse.HostResponse ?  mypax.poslink.paymentResponse.HostResponse : @"",
+                                        @"RawResponse" : mypax.poslink.paymentResponse.RawResponse ?  mypax.poslink.paymentResponse.RawResponse : @"",
+                                        @"Message" : mypax.poslink.paymentResponse.Message ? mypax.poslink.paymentResponse.Message : @"",
+                                        @"RefNum" : mypax.poslink.paymentResponse.RefNum ? mypax.poslink.paymentResponse.RefNum : @"",
+                                        @"RemainingBalance" : mypax.poslink.paymentResponse.RemainingBalance ? mypax.poslink.paymentResponse.RemainingBalance : @"",
+                                        @"ExtraBalance" : mypax.poslink.paymentResponse.ExtraBalance ? mypax.poslink.paymentResponse.ExtraBalance : @"",
+                                        @"Timestamp" : mypax.poslink.paymentResponse.Timestamp ?  mypax.poslink.paymentResponse.Timestamp : @"",
+                                        @"InvNum" : mypax.poslink.paymentResponse.InvNum ? mypax.poslink.paymentResponse.InvNum : @"",
+                                        @"ExtData" : mypax.poslink.paymentResponse.ExtData ? mypax.poslink.paymentResponse.ExtData : @"",
+                                        @"RequestedAmount" : mypax.poslink.paymentResponse.RequestedAmount ? mypax.poslink.paymentResponse.RequestedAmount : @"",
+                                        @"SignData": mypax.poslink.paymentResponse.signData ? mypax.poslink.paymentResponse.signData  : @""
+                                        };
+          
+          NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
+          callback(@[result]);
         }else{
           //--------- Handle Duplication ---------
           NSDictionary *dupError = @{
@@ -132,7 +242,7 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
       }
       
       //      ------- Cancel Object --------
-      mypax = nil;
+//      mypax = nil;
 
     });
   });
@@ -141,10 +251,10 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType
 
 
 RCT_EXPORT_METHOD(cancelTransaction){
-  if(mypax){
-    [mypax.poslink cancelTrans];
-  }
-  mypax = nil;
+//  if(mypax){
+//    [mypax.poslink cancelTrans];
+//  }
+//  mypax = nil;
  
 }
 

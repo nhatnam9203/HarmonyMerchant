@@ -18,8 +18,7 @@ import initState from "./widget/initState";
 
 const PosLink = NativeModules.tempPayment;
 // const PosLink = NativeModules.payment;
-const SettingPayment = NativeModules.setting;
-
+// const SettingPayment = NativeModules.setting;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
 class TabCheckout extends Layout {
@@ -1061,15 +1060,32 @@ class TabCheckout extends Layout {
             visibleProcessingCredit: true
         });
 
+        const tempIpPax = commType == "TCP" ? ip : "";
+        const tempPortPax = commType == "TCP" ? port : "";
+        const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
         const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
 
         // 3. Send Transaction 
-        PosLink.sendTransaction(tenderType, "SALE", parseFloat(paxAmount), 1, extData, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer));
+        // PosLink.sendTransactionByBluetooth(tenderType, "SALE", parseFloat(paxAmount), 1, extData,
+        //    idBluetooth,{id:idBluetooth},
+        //     (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer));
+
+        PosLink.sendTransaction({
+            tenderType: tenderType,
+            transType: "SALE",
+            amount: `${parseFloat(paxAmount)}`,
+            transactionId: "1",
+            extData: extData,
+            commType: commType,
+            destIp: ip,
+            portDevice: port,
+            timeoutConnect: "90000"
+        }, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer))
     }
 
     async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
 
-        console.log("---- handleResponseCreditCard: ",message);
+        console.log("---- handleResponseCreditCard: ", message);
         const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment, payAppointmentId } = this.props;
         await this.setState({
             visibleProcessingCredit: false
