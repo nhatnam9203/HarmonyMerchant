@@ -21,7 +21,7 @@ const initialState = {
     isConnectedInternet: true
 }
 
-const PosLink = NativeModules.MyApp;
+const PosLink = NativeModules.tempPayment;
 
 class HomeScreen extends Layout {
 

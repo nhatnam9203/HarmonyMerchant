@@ -3,7 +3,7 @@ import _ from 'ramda';
 const signalR = require('@microsoft/signalr');
 import { NativeModules, Platform } from 'react-native';
 import env from 'react-native-config';
-import BleManager from 'react-native-ble-manager';
+// import BleManager from 'react-native-ble-manager';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -1066,7 +1066,19 @@ class TabCheckout extends Layout {
         const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
 
         // 3. Send Transaction 
-        PosLink.sendTransaction({
+        // PosLink.sendTransaction({
+        //     tenderType: tenderType,
+        //     transType: "SALE",
+        //     amount: `${parseFloat(paxAmount)}`,
+        //     transactionId: "1",
+        //     extData: extData,
+        //     commType: commType,
+        //     destIp: ip,
+        //     portDevice: port,
+        //     timeoutConnect: "90000"
+        // }, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer));
+
+        PosLink.sendTransactionByBluetooth({
             tenderType: tenderType,
             transType: "SALE",
             amount: `${parseFloat(paxAmount)}`,
@@ -1075,21 +1087,9 @@ class TabCheckout extends Layout {
             commType: commType,
             destIp: ip,
             portDevice: port,
-            timeoutConnect: "90000"
-        }, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer));
-
-        // PosLink.sendTransactionByBluetooth({
-        //     tenderType: tenderType,
-        //     transType: "SALE",
-        //     amount: `${parseFloat(paxAmount)}`,
-        //     transactionId: "1",
-        //     extData: extData,
-        //     commType: "BLUETOOTH",
-        //     destIp: "",
-        //     portDevice: "",
-        //     timeoutConnect: "90000",
-        //     bluetoothAddr: "6B45846D-B084-14C8-F339-23DF0B190ABC"
-        // }, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer))
+            timeoutConnect: "90000",
+            bluetoothAddr: bluetoothAddr
+        }, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer))
     }
 
     async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {

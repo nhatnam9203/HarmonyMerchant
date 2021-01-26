@@ -1,5 +1,6 @@
 import { persistReducer } from "redux-persist";
 import createSensitiveStorage from "redux-persist-sensitive-storage";
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { getModalNameOfPrinter } from "@utils";
 
@@ -205,16 +206,24 @@ function dataLocalReducer(state = initialState, action) {
     }
 }
 
-const sensitiveStorage = createSensitiveStorage({
-    keychainService: "myKeychain",
-    sharedPreferencesName: "mySharedPrefs"
-});
+// const sensitiveStorage = createSensitiveStorage({
+//     keychainService: "myKeychain",
+//     sharedPreferencesName: "mySharedPrefs"
+// });
 
-const dataLocalPersistConfig = {
+// const dataLocalPersistConfig = {
+//     key: "dataLocal",
+//     storage: sensitiveStorage
+
+// };
+
+
+// module.exports = persistReducer(dataLocalPersistConfig, dataLocalReducer);
+
+module.exports = persistReducer({
     key: "dataLocal",
-    storage: sensitiveStorage
+    storage: AsyncStorage,
+    blacklist: []
+}, dataLocalReducer);
 
-};
-
-module.exports = persistReducer(dataLocalPersistConfig, dataLocalReducer);
 

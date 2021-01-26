@@ -11,10 +11,13 @@
 
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
-#import "MyPax.h"
+//#import "MyPax.h"
+//#import "PosLink.h"
 
 @interface tempPayment : NSObject <RCTBridgeModule>
-  
+
+@property(nonatomic, strong)NSString *tempIdAddrBluetooth;
+//@property(nonatomic, strong)PosLink *poslink;
 
 @end
 

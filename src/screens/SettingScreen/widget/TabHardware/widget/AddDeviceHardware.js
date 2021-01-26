@@ -5,14 +5,14 @@ import {
     Image,
     Platform
 } from 'react-native';
-import { BleManager } from 'react-native-ble-plx';
+// import { BleManager } from 'react-native-ble-plx';
 
 import { Button, Text, ButtonCustom } from '@components';
 import { scaleSzie, localize } from '@utils';
 import IMAGE from '@resources';
 import connectRedux from '@redux/ConnectRedux';
-import BluetoothScanner from "@lib/BluetoothScanner";
-import { ScrollView } from 'react-native-gesture-handler';
+// import BluetoothScanner from "@lib/BluetoothScanner";
+// import { ScrollView } from 'react-native-gesture-handler';
 
 class AddDeviceHardware extends React.Component {
 
@@ -24,7 +24,7 @@ class AddDeviceHardware extends React.Component {
         }
         this.bluetoothScannerRef = React.createRef();
 
-        this.manager = new BleManager();
+        // this.manager = new BleManager();
     }
 
     componentDidMount() {
@@ -54,16 +54,16 @@ class AddDeviceHardware extends React.Component {
 
     scanAndConnect() {
         console.log("----- Start Scan ......");
-        this.manager.startDeviceScan(null, null, (error, device) => {
-            if (error) {
-                console.log("----- Error : ", error);
-                return
-            }
+        // this.manager.startDeviceScan(null, null, (error, device) => {
+        //     if (error) {
+        //         console.log("----- Error : ", error);
+        //         return
+        //     }
 
-            if (device?.localName) {
-                console.log("----- Detect device: ", device);
-            }
-        });
+        //     if (device?.localName) {
+        //         console.log("----- Detect device: ", device);
+        //     }
+        // });
     }
 
     backHomeHardware = () => {
@@ -191,10 +191,10 @@ class AddDeviceHardware extends React.Component {
                     </View>
                 </View>
 
-                <BluetoothScanner
+                {/* <BluetoothScanner
                     ref={this.bluetoothScannerRef}
                     handleStopScan={this.handleStopScan}
-                />
+                /> */}
             </View>
         );
     }
