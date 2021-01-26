@@ -3,7 +3,7 @@ import _ from 'ramda';
 const signalR = require('@microsoft/signalr');
 import { NativeModules, Platform } from 'react-native';
 import env from 'react-native-config';
-// import BleManager from 'react-native-ble-manager';
+import BleManager from 'react-native-ble-manager';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -17,8 +17,6 @@ import apiConfigs from '@configs/api';
 import initState from "./widget/initState";
 
 const PosLink = NativeModules.tempPayment;
-// const PosLink = NativeModules.payment;
-// const SettingPayment = NativeModules.setting;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
 class TabCheckout extends Layout {
@@ -1065,30 +1063,17 @@ class TabCheckout extends Layout {
         const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
         const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
 
-        // 3. Send Transaction 
-        // PosLink.sendTransaction({
-        //     tenderType: tenderType,
-        //     transType: "SALE",
-        //     amount: `${parseFloat(paxAmount)}`,
-        //     transactionId: "1",
-        //     extData: extData,
-        //     commType: commType,
-        //     destIp: ip,
-        //     portDevice: port,
-        //     timeoutConnect: "90000"
-        // }, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer));
-
-        PosLink.sendTransactionByBluetooth({
+        PosLink.sendTransaction({
             tenderType: tenderType,
             transType: "SALE",
             amount: `${parseFloat(paxAmount)}`,
             transactionId: "1",
             extData: extData,
             commType: commType,
-            destIp: ip,
-            portDevice: port,
+            destIp: tempIpPax,
+            portDevice: tempPortPax,
             timeoutConnect: "90000",
-            bluetoothAddr: bluetoothAddr
+            bluetoothAddr: idBluetooth
         }, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer))
     }
 

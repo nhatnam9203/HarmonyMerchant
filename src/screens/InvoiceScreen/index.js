@@ -16,9 +16,7 @@ import {
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 
-// const PosLink = NativeModules.payment;
 const PosLink = NativeModules.tempPayment;
-// const SettingPayment = NativeModules.setting;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
 const initalState = {
@@ -295,22 +293,50 @@ class InvoiceScreen extends Layout {
                         }, 100);
                     }
                 } else {
-                    // SettingPayment.setupPax(commType, ip, port, 90000, bluetoothAddr);
                     const amount = paymentInformation?.ApprovedAmount || 0;
                     const transactionId = paymentInformation?.RefNum || 0;
                     const extData = paymentInformation?.ExtData || "";
-                    const idBluetooth = commType === "BLUETOOTH" ? bluetoothPaxInfo : "";
+                    // --------- new code ---------
+                    const tempIpPax = commType == "TCP" ? ip : "";
+                    const tempPortPax = commType == "TCP" ? port : "";
+                    const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+                    // --------------------------------------
 
                     if (invoiceDetail.status === 'paid') {
                         this.popupProcessingCreditRef.current.setStateFromParent(false);
-                        PosLink.sendTransaction("CREDIT", "RETURN", parseFloat(amount), transactionId, extData,
-                            commType, ip, port, "90000", idBluetooth,
-                            (data) => this.handleResultRefundTransaction(data));
+                        PosLink.sendTransaction({
+                            tenderType: "CREDIT",
+                            transType: "RETURN",
+                            amount: `${parseFloat(amount)}`,
+                            transactionId: transactionId,
+                            extData: extData,
+                            commType: commType,
+                            destIp: tempIpPax,
+                            portDevice: tempPortPax,
+                            timeoutConnect: "90000",
+                            bluetoothAddr: idBluetooth
+                        }, (data) => this.handleResultRefundTransaction(data))
+                        
+                        // PosLink.sendTransaction("CREDIT", "RETURN", parseFloat(amount), transactionId, extData,
+                        //     commType, ip, port, "90000", idBluetooth,
+                        //     (data) => this.handleResultRefundTransaction(data));
                     } else if (invoiceDetail.status === 'complete') {
                         this.popupProcessingCreditRef.current.setStateFromParent(transactionId);
-                        PosLink.sendTransaction("CREDIT", "VOID", "", transactionId, extData,
-                            commType, ip, port, "90000", idBluetooth,
-                            (data) => this.handleResultVoidTransaction(data));
+                        PosLink.sendTransaction({
+                            tenderType: "CREDIT",
+                            transType: "VOID",
+                            amount: "",
+                            transactionId: transactionId,
+                            extData: extData,
+                            commType: commType,
+                            destIp: tempIpPax,
+                            portDevice: tempPortPax,
+                            timeoutConnect: "90000",
+                            bluetoothAddr: idBluetooth
+                        }, (data) => this.handleResultVoidTransaction(data))
+                        // PosLink.sendTransaction("CREDIT", "VOID", "", transactionId, extData,
+                        //     commType, ip, port, "90000", idBluetooth,
+                        //     (data) => this.handleResultVoidTransaction(data));
                     }
                 }
             }
