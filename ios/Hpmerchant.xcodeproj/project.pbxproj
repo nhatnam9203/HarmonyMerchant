@@ -143,6 +143,9 @@
 		239AD16225BE643700302985 /* tempPayment.m in Sources */ = {isa = PBXBuildFile; fileRef = 239AD13625BE643700302985 /* tempPayment.m */; };
 		239AD16325BE643700302985 /* tempPayment.m in Sources */ = {isa = PBXBuildFile; fileRef = 239AD13625BE643700302985 /* tempPayment.m */; };
 		23FE295523C77BEF00E95925 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
+		23FEDCE625BFFD9100DDDC25 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCE425BFFD9000DDDC25 /* report.m */; };
+		23FEDCE725BFFD9100DDDC25 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCE425BFFD9000DDDC25 /* report.m */; };
+		23FEDCE825BFFD9100DDDC25 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCE425BFFD9000DDDC25 /* report.m */; };
 		3649D09224E660C0003C8174 /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3649D09124E65E8D003C8174 /* libRNSpringScrollView.a */; };
 		366C009924DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
 		366C009B24DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
@@ -627,6 +630,8 @@
 		239AD13625BE643700302985 /* tempPayment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tempPayment.m; sourceTree = "<group>"; };
 		23FE295323C77BEF00E95925 /* Hpmerchant-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hpmerchant-Bridging-Header.h"; sourceTree = "<group>"; };
 		23FE295423C77BEF00E95925 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		23FEDCE425BFFD9000DDDC25 /* report.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = report.m; sourceTree = "<group>"; };
+		23FEDCE525BFFD9000DDDC25 /* report.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = report.h; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DC3A16DE477A97F683FBAE5 /* Pods-Hpmerchant_Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Dev.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Dev/Pods-Hpmerchant_Dev.debug.xcconfig"; sourceTree = "<group>"; };
 		365E73FA24F8F38400D2CDB9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -967,6 +972,7 @@
 		237D407025B588E300E39755 /* trans */ = {
 			isa = PBXGroup;
 			children = (
+				23FEDCE325BFFD9000DDDC25 /* report */,
 				239AD13425BE643700302985 /* tempPayment */,
 			);
 			path = trans;
@@ -1040,6 +1046,15 @@
 				23A9C2B822AA946200C9593A /* libRNImagePicker.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		23FEDCE325BFFD9000DDDC25 /* report */ = {
+			isa = PBXGroup;
+			children = (
+				23FEDCE425BFFD9000DDDC25 /* report.m */,
+				23FEDCE525BFFD9000DDDC25 /* report.h */,
+			);
+			path = report;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -2103,6 +2118,7 @@
 				366C00AB24DBC6DE00BAA83B /* BalloonMarker.swift in Sources */,
 				366C010824DBC6DE00BAA83B /* RNBarChartViewBase.swift in Sources */,
 				366C00F624DBC6DE00BAA83B /* RNLineChartManagerBridge.m in Sources */,
+				23FEDCE625BFFD9100DDDC25 /* report.m in Sources */,
 				366C012024DBC6DE00BAA83B /* RadarDataExtract.swift in Sources */,
 				366C009C24DBC6DE00BAA83B /* RNCombinedChartView.swift in Sources */,
 				234AF86C25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */,
@@ -2167,6 +2183,7 @@
 				366C00AD24DBC6DE00BAA83B /* BalloonMarker.swift in Sources */,
 				366C010A24DBC6DE00BAA83B /* RNBarChartViewBase.swift in Sources */,
 				366C00F824DBC6DE00BAA83B /* RNLineChartManagerBridge.m in Sources */,
+				23FEDCE725BFFD9100DDDC25 /* report.m in Sources */,
 				366C012224DBC6DE00BAA83B /* RadarDataExtract.swift in Sources */,
 				366C009E24DBC6DE00BAA83B /* RNCombinedChartView.swift in Sources */,
 				234AF86D25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */,
@@ -2231,6 +2248,7 @@
 				2388BF15253FEC34007B4A7A /* BalloonMarker.swift in Sources */,
 				2388BF16253FEC34007B4A7A /* RNBarChartViewBase.swift in Sources */,
 				2388BF17253FEC34007B4A7A /* RNLineChartManagerBridge.m in Sources */,
+				23FEDCE825BFFD9100DDDC25 /* report.m in Sources */,
 				2388BF18253FEC34007B4A7A /* RadarDataExtract.swift in Sources */,
 				2388BF19253FEC34007B4A7A /* RNCombinedChartView.swift in Sources */,
 				234AF86E25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */,

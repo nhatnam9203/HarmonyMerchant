@@ -27,12 +27,6 @@
 
 RCT_EXPORT_MODULE();
 
-
-RCT_EXPORT_METHOD(setIdAddrBluetooth:(NSString *) addr){
-//  _tempIdAddrBluetooth = addr;
- 
-}
-
 RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo callback:(RCTResponseSenderBlock)callback)
 {
   
@@ -43,8 +37,6 @@ RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo callback:(RCTRespo
   commSetting.timeout = paymentInfo[@"timeoutConnect"];
   _tempIdAddrBluetooth = paymentInfo[@"bluetoothAddr"];
   commSetting.bluetoothAddr = _tempIdAddrBluetooth;
-  
-  NSLog(@"------------ bluetoothAddr: %@", _tempIdAddrBluetooth);
   
   _poslink = [[PosLink alloc]initWithCommSetting:commSetting];
   _poslink.commSetting.bluetoothAddr = _tempIdAddrBluetooth;
@@ -127,13 +119,11 @@ RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo callback:(RCTRespo
         callback(@[resultError]);
       }
       
-
     });
+    
   });
   
 }
-
-
 
 
 RCT_EXPORT_METHOD(cancelTransaction){

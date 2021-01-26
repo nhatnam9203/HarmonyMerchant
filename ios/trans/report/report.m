@@ -7,11 +7,11 @@
 //
 
 #import "report.h"
-#import "MyPax.h"
 #import "ReportRequest.h"
 #import "ReportResponse.h"
 #import "ProcessTransResult.h"
-
+#import "CommSetting.h"
+#import "PosLink.h"
 
 @implementation report
 
@@ -28,6 +28,17 @@
 RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(reportTransaction:
+                  (NSString *)transType
+                  edcType:(NSString *)edcType
+                  cardType:(NSString *)cardType
+                  paymentType:(NSString *)paymentType
+                  findEventsWithResolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+  
+}
+
+RCT_EXPORT_METHOD(reportTransaction_1:
                   (NSString *)transType
                   edcType:(NSString *)edcType
                   cardType:(NSString *)cardType
