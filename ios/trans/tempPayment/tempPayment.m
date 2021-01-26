@@ -31,16 +31,17 @@ RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo callback:(RCTRespo
 {
   
   CommSetting *commSetting = [[CommSetting alloc]init];
+  
+  _tempIdAddrBluetooth = paymentInfo[@"bluetoothAddr"];
+  
   commSetting.commType = paymentInfo[@"commType"];
   commSetting.destIP = paymentInfo[@"destIp"];
   commSetting.destPort = paymentInfo[@"portDevice"];
   commSetting.timeout = paymentInfo[@"timeoutConnect"];
-  _tempIdAddrBluetooth = paymentInfo[@"bluetoothAddr"];
   commSetting.bluetoothAddr = _tempIdAddrBluetooth;
   
   _poslink = [[PosLink alloc]initWithCommSetting:commSetting];
-  _poslink.commSetting.bluetoothAddr = _tempIdAddrBluetooth;
-  
+
   PaymentRequest *paymentRequest = [[PaymentRequest alloc] init];
   
   paymentRequest.TenderType = [PaymentRequest ParseTenderType:paymentInfo[@"tenderType"]]; // CREDIT,DEBIT

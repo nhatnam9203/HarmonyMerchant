@@ -13,7 +13,6 @@ import {
 import apiConfigs from '@configs/api';
 
 const PosLink = NativeModules.report;
-const SettingPayment = NativeModules.setting;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
 class TabFirstSettle extends Layout {
@@ -195,9 +194,21 @@ class TabFirstSettle extends Layout {
 
             try {
                 const tempEnv = env.IS_PRODUCTION;
-                SettingPayment.setupPax(commType, ip, port, "90000", bluetoothAddr);
+                const tempIpPax = commType == "TCP" ? ip : "";
+                const tempPortPax = commType == "TCP" ? port : "";
+                const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
                 // ----------- Total Amount --------
-                let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", "UNKNOWN", "UNKNOWN");
+                let data = await PosLink.reportTransaction({
+                    transType: "LOCALDETAILREPORT",
+                    edcType: "ALL",
+                    cardType: "UNKNOWN",
+                    paymentType: "UNKNOWN",
+                    commType: commType,
+                    destIp: tempIpPax,
+                    portDevice: tempPortPax,
+                    timeoutConnect: "90000",
+                    bluetoothAddr: idBluetooth
+                });
                 let result = JSON.parse(data);
                 const ExtData = result?.ExtData || "";
                 const xmlExtData = "<xml>" + ExtData.replace("\\n", "").replace("\\/", "/") + "</xml>";
@@ -219,7 +230,17 @@ class TabFirstSettle extends Layout {
                         totalRecord = parseInt(result?.TotalRecord || 0);
 
                         // ----------- Total Report --------
-                        let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "ALL", "UNKNOWN", "");
+                        let amountData = await PosLink.reportTransaction({
+                            transType: "LOCALTOTALREPORT",
+                            edcType: "ALL",
+                            cardType: "UNKNOWN",
+                            paymentType: "",
+                            commType: commType,
+                            destIp: tempIpPax,
+                            portDevice: tempPortPax,
+                            timeoutConnect: "90000",
+                            bluetoothAddr: idBluetooth
+                        });
                         let amountResult = JSON.parse(amountData);
                         totalReport = parseFloat(amountResult?.CreditAmount || 0);
 

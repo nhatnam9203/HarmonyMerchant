@@ -14,6 +14,8 @@
 
 @interface report : NSObject <RCTBridgeModule>
 
+@property(nonatomic, strong)NSString *tempIdAddrBluetooth;
+
 @end
 
 #endif /* report_h */

@@ -27,42 +27,26 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(reportTransaction:
-                  (NSString *)transType
-                  edcType:(NSString *)edcType
-                  cardType:(NSString *)cardType
-                  paymentType:(NSString *)paymentType
-                  findEventsWithResolver:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(reportTransaction:(NSDictionary *)reportInfo findEventsWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
+  CommSetting *commSetting = [[CommSetting alloc]init];
   
-}
-
-RCT_EXPORT_METHOD(reportTransaction_1:
-                  (NSString *)transType
-                  edcType:(NSString *)edcType
-                  cardType:(NSString *)cardType
-                  paymentType:(NSString *)paymentType
-                  findEventsWithResolver:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
-{
+  _tempIdAddrBluetooth = reportInfo[@"bluetoothAddr"];
   
-//  MyPax *mypax = [MyPax sharedSigleton];
-  MyPax *mypax =  [[MyPax alloc] init];
+  commSetting.commType = reportInfo[@"commType"];
+  commSetting.destIP = reportInfo[@"destIp"];
+  commSetting.destPort = reportInfo[@"portDevice"];
+  commSetting.timeout = reportInfo[@"timeoutConnect"];
+  commSetting.bluetoothAddr = _tempIdAddrBluetooth;
   
-//  --------- setting --------
-  mypax.poslink.commSetting.commType = @"TCP";
-  mypax.poslink.commSetting.destIP = @"192.168.50.12";
-  mypax.poslink.commSetting.destPort = @"10009";
-  mypax.poslink.commSetting.timeout = @"90000";
-  mypax.poslink.commSetting.bluetoothAddr = @"";
+  PosLink *poslink = [[PosLink alloc]initWithCommSetting:commSetting];
   
   ReportRequest *reportRequest = [[ReportRequest alloc] init];
   
-  reportRequest.TransType = [ReportRequest ParseTransType:transType];
-   reportRequest.EDCType = [ReportRequest ParseEDCType:edcType];
-  reportRequest.CardType = [ReportRequest ParseCardType:cardType];
- reportRequest.PaymentType = [ReportRequest ParsePaymentType:paymentType];
+  reportRequest.TransType = [ReportRequest ParseTransType:reportInfo[@"transType"]];
+   reportRequest.EDCType = [ReportRequest ParseEDCType:reportInfo[@"edcType"]];
+  reportRequest.CardType = [ReportRequest ParseCardType:reportInfo[@"cardType"]];
+ reportRequest.PaymentType = [ReportRequest ParsePaymentType:reportInfo[@"paymentType"]];
   
   reportRequest.RecordNum = @"";
   reportRequest.RefNum = @"";
@@ -72,56 +56,44 @@ RCT_EXPORT_METHOD(reportTransaction_1:
   reportRequest.LASTTRANSACTION = @"";
   reportRequest.ExtData = @"";
   
-  mypax.poslink.reportRequest = reportRequest;
+  poslink.reportRequest = reportRequest;
   
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-
-    ProcessTransResult *ret = [mypax.poslink processTrans:REPORT];
+    
+    ProcessTransResult *ret = [poslink processTrans:REPORT];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-      
       if (ret.code == OK ) {
-//        if([ mypax.poslink.reportResponse.ResultCode  isEqual: @"000000"]){
-          NSDictionary *dataSuccess = @{
-            @"status":@true,
-            @"ResultCode" : mypax.poslink.reportResponse.ResultCode ? mypax.poslink.reportResponse.ResultCode : @"" ,
-            @"ResultTxt" : mypax.poslink.reportResponse.ResultTxt ? mypax.poslink.reportResponse.ResultTxt : @"" ,
-            @"TotalRecord" : mypax.poslink.reportResponse.TotalRecord ? mypax.poslink.reportResponse.TotalRecord : @"" ,
-            @"Message" : mypax.poslink.reportResponse.Message ? mypax.poslink.reportResponse.Message : @"" ,
-            @"ApprovedAmount" : mypax.poslink.reportResponse.ApprovedAmount ? mypax.poslink.reportResponse.ApprovedAmount : @"" ,
-            @"CreditCount" : mypax.poslink.reportResponse.CreditCount ? mypax.poslink.reportResponse.CreditCount : @"" ,
-            @"CreditAmount" : mypax.poslink.reportResponse.CreditAmount ? mypax.poslink.reportResponse.CreditAmount : @"" ,
-            @"ExtData" : mypax.poslink.reportResponse.ExtData ? mypax.poslink.reportResponse.ExtData : @"" ,
-          };
-          
-          NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
-          resolve(@[result]);
-      
         
-       
-//        }else{
-//          
-//          NSDictionary *dataError = @{@"status":@false, @"message":mypax.poslink.reportResponse.ResultTxt };
-//          NSString *domain = @"com.harmony.pos.paxError";
-//          NSError *error = [NSError errorWithDomain:domain code:-101 userInfo:dataError];
-//          reject(@"no_events", mypax.poslink.reportResponse.ResultTxt,error);
-//        }
+        NSDictionary *dataSuccess = @{
+          @"status":@true,
+          @"ResultCode" : poslink.reportResponse.ResultCode ? poslink.reportResponse.ResultCode : @"" ,
+          @"ResultTxt" : poslink.reportResponse.ResultTxt ? poslink.reportResponse.ResultTxt : @"" ,
+          @"TotalRecord" : poslink.reportResponse.TotalRecord ? poslink.reportResponse.TotalRecord : @"" ,
+          @"Message" : poslink.reportResponse.Message ? poslink.reportResponse.Message : @"" ,
+          @"ApprovedAmount" : poslink.reportResponse.ApprovedAmount ? poslink.reportResponse.ApprovedAmount : @"" ,
+          @"CreditCount" : poslink.reportResponse.CreditCount ? poslink.reportResponse.CreditCount : @"" ,
+          @"CreditAmount" : poslink.reportResponse.CreditAmount ? poslink.reportResponse.CreditAmount : @"" ,
+          @"ExtData" : poslink.reportResponse.ExtData ? poslink.reportResponse.ExtData : @"" ,
+        };
+        
+        NSString  *result =  [self convertObjectToJson:dataSuccess ] ;
+        resolve(@[result]);
         
       }else{
+        
         NSDictionary *dataError = @{@"status":@false, @"message":ret.msg };
         NSString *domain = @"com.harmony.pos.paxError";
         NSError *error = [NSError errorWithDomain:domain code:-101 userInfo:dataError];
         reject(@"no_events", ret.msg,error);
         
-      
       }
-        
+      
     });
     
   });
   
 }
-
 
 @end
 

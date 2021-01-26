@@ -296,11 +296,9 @@ class InvoiceScreen extends Layout {
                     const amount = paymentInformation?.ApprovedAmount || 0;
                     const transactionId = paymentInformation?.RefNum || 0;
                     const extData = paymentInformation?.ExtData || "";
-                    // --------- new code ---------
                     const tempIpPax = commType == "TCP" ? ip : "";
                     const tempPortPax = commType == "TCP" ? port : "";
                     const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
-                    // --------------------------------------
 
                     if (invoiceDetail.status === 'paid') {
                         this.popupProcessingCreditRef.current.setStateFromParent(false);
@@ -316,7 +314,7 @@ class InvoiceScreen extends Layout {
                             timeoutConnect: "90000",
                             bluetoothAddr: idBluetooth
                         }, (data) => this.handleResultRefundTransaction(data))
-                        
+
                         // PosLink.sendTransaction("CREDIT", "RETURN", parseFloat(amount), transactionId, extData,
                         //     commType, ip, port, "90000", idBluetooth,
                         //     (data) => this.handleResultRefundTransaction(data));
