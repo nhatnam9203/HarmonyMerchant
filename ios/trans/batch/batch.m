@@ -7,9 +7,10 @@
 //
 
 #import "batch.h"
-#import "MyPax.h"
 #import "BatchResponse.h"
 #import "ProcessTransResult.h"
+#import "CommSetting.h"
+#import "PosLink.h"
 
 @implementation batch
 
@@ -25,23 +26,24 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(batchTransaction:(RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(batchTransaction:(NSDictionary *)batchInfo callback:(RCTResponseSenderBlock)callback){
   
-//  MyPax *mypax = [MyPax sharedSigleton];
-  MyPax *mypax =  [[MyPax alloc] init];
+  CommSetting *commSetting = [[CommSetting alloc]init];
   
+  _tempIdAddrBluetooth = batchInfo[@"bluetoothAddr"];
   
-  //  --------- setting --------
-    mypax.poslink.commSetting.commType = @"TCP";
-    mypax.poslink.commSetting.destIP = @"192.168.50.12";
-    mypax.poslink.commSetting.destPort = @"10009";
-    mypax.poslink.commSetting.timeout = @"90000";
-    mypax.poslink.commSetting.bluetoothAddr = @"";
+  commSetting.commType = batchInfo[@"commType"];
+  commSetting.destIP = batchInfo[@"destIp"];
+  commSetting.destPort = batchInfo[@"portDevice"];
+  commSetting.timeout = batchInfo[@"timeoutConnect"];
+  commSetting.bluetoothAddr = _tempIdAddrBluetooth;
+  
+  PosLink *poslink = [[PosLink alloc]initWithCommSetting:commSetting];
   
   BatchRequest *batchRequest = [[BatchRequest alloc] init];
   
-  batchRequest.TransType = [BatchRequest ParseTransType:@"BATCHCLOSE"];
-  batchRequest.EDCType = [BatchRequest ParseEDCType:@"ALL"];
+  batchRequest.TransType = [BatchRequest ParseTransType:batchInfo[@"transType"]];  // BATCHCLOSE
+  batchRequest.EDCType = [BatchRequest ParseEDCType:batchInfo[@"edcType"]]; // ALL
   batchRequest.PaymentType = [BatchRequest ParseTransType:@""];
   batchRequest.CardType = [BatchRequest ParseEDCType:@""];
   batchRequest.Timestamp = @"";
@@ -52,51 +54,51 @@ RCT_EXPORT_METHOD(batchTransaction:(RCTResponseSenderBlock)callback){
   batchRequest.ECRRefNum = @"";
   batchRequest.ExtData = @"";
   
-  mypax.poslink.batchRequest = batchRequest;
+  poslink.batchRequest = batchRequest;
   
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     
-    ProcessTransResult *ret = [mypax.poslink processTrans:BATCH];
+    ProcessTransResult *ret = [poslink processTrans:BATCH];
     dispatch_async(dispatch_get_main_queue(), ^{
       
       if (ret.code == OK){
         NSDictionary *dataSuccess = @{
           @"status":@true,
-          @"ResultCode" : mypax.poslink.batchResponse.ResultCode ? mypax.poslink.batchResponse.ResultCode : @"" ,
-          @"ResultTxt" : mypax.poslink.batchResponse.ResultTxt ? mypax.poslink.batchResponse.ResultTxt : @"",
-          @"CreditCount" :mypax.poslink.batchResponse.CreditCount ? mypax.poslink.batchResponse.CreditCount : @"",
-          @"CreditAmount" :  mypax.poslink.batchResponse.CreditAmount ?  mypax.poslink.batchResponse.CreditAmount : @"",
-          @"DebitCount" : mypax.poslink.batchResponse.DebitCount ?  mypax.poslink.batchResponse.DebitCount : @"",
-          @"DebitAmount" : mypax.poslink.batchResponse.DebitAmount ? mypax.poslink.batchResponse.DebitAmount : @"",
-          @"EBTCount" : mypax.poslink.batchResponse.EBTCount  ? mypax.poslink.batchResponse.EBTCount : @"",
-          @"EBTAmount" : mypax.poslink.batchResponse.EBTAmount ? mypax.poslink.batchResponse.EBTAmount : @"" ,
-          @"GiftCount" : mypax.poslink.batchResponse.GiftCount ? mypax.poslink.batchResponse.GiftCount : @"",
-          @"GiftAmount" : mypax.poslink.batchResponse.GiftAmount ? mypax.poslink.batchResponse.GiftAmount : @"",
-          @"LoyaltyCount" : mypax.poslink.batchResponse.LoyaltyCount ? mypax.poslink.batchResponse.LoyaltyCount : @"",
-          @"LoyaltyAmount" :mypax.poslink.batchResponse.LoyaltyAmount ? mypax.poslink.batchResponse.LoyaltyAmount : @"",
-          @"CashCount" : mypax.poslink.batchResponse.CashCount ? mypax.poslink.batchResponse.CashCount : @"",
-          @"CashAmount" : mypax.poslink.batchResponse.CashAmount ?  mypax.poslink.batchResponse.CashAmount : @"",
-          @"CHECKCount" : mypax.poslink.batchResponse.CHECKCount ? mypax.poslink.batchResponse.CHECKCount : @"",
-          @"CHECKAmount" : mypax.poslink.batchResponse.CHECKAmount ? mypax.poslink.batchResponse.CHECKAmount : @"",
-          @"Timestamp" : mypax.poslink.batchResponse.Timestamp ? mypax.poslink.batchResponse.Timestamp : @"",
-          @"TID" :mypax.poslink.batchResponse.TID ? mypax.poslink.batchResponse.TID : @"",
-          @"MID" : mypax.poslink.batchResponse.MID ? mypax.poslink.batchResponse.MID : @"",
-          @"HostTraceNum" : mypax.poslink.batchResponse.HostTraceNum ?  mypax.poslink.batchResponse.HostTraceNum : @"",
-          @"BatchNum" : mypax.poslink.batchResponse.BatchNum ? mypax.poslink.batchResponse.BatchNum : @"",
-          @"AuthCode" : mypax.poslink.batchResponse.AuthCode ? mypax.poslink.batchResponse.AuthCode : @"",
-          @"HostCode" : mypax.poslink.batchResponse.HostCode ? mypax.poslink.batchResponse.HostCode : @"",
-          @"HostResponse" : mypax.poslink.batchResponse.HostResponse ? mypax.poslink.batchResponse.HostResponse : @"",
-          @"Message" : mypax.poslink.batchResponse.Message ?  mypax.poslink.batchResponse.Message : @"",
-          @"ExtData" : mypax.poslink.batchResponse.ExtData ?  mypax.poslink.batchResponse.ExtData : @"",
-          @"BatchFailedRefNum" : mypax.poslink.batchResponse.BatchFailedRefNum ? mypax.poslink.batchResponse.BatchFailedRefNum : @"",
-          @"BatchFailedCount" : mypax.poslink.batchResponse.BatchFailedCount ? mypax.poslink.batchResponse.BatchFailedCount : @"",
-          @"SAFTotalCount" : mypax.poslink.batchResponse.SAFTotalCount ? mypax.poslink.batchResponse.SAFTotalCount : @"",
-          @"SAFTotalAmount" : mypax.poslink.batchResponse.SAFTotalAmount ? mypax.poslink.batchResponse.SAFTotalAmount : @"",
-          @"SAFUploadedCount" : mypax.poslink.batchResponse.SAFUploadedCount ?  mypax.poslink.batchResponse.SAFUploadedCount : @"",
-          @"SAFUploadedAmount" : mypax.poslink.batchResponse.SAFUploadedAmount ? mypax.poslink.batchResponse.SAFUploadedAmount : @"",
-          @"SAFFailedCount" : mypax.poslink.batchResponse.SAFFailedCount ? mypax.poslink.batchResponse.SAFFailedCount : @"",
-          @"SAFFailedTotal" : mypax.poslink.batchResponse.SAFFailedTotal ? mypax.poslink.batchResponse.SAFFailedTotal : @"",
-          @"SAFDeletedCount" : mypax.poslink.batchResponse.SAFDeletedCount ? mypax.poslink.batchResponse.SAFDeletedCount : @"",
+          @"ResultCode" : poslink.batchResponse.ResultCode ? poslink.batchResponse.ResultCode : @"" ,
+          @"ResultTxt" : poslink.batchResponse.ResultTxt ? poslink.batchResponse.ResultTxt : @"",
+          @"CreditCount" : poslink.batchResponse.CreditCount ? poslink.batchResponse.CreditCount : @"",
+          @"CreditAmount" : poslink.batchResponse.CreditAmount ?  poslink.batchResponse.CreditAmount : @"",
+          @"DebitCount" : poslink.batchResponse.DebitCount ?  poslink.batchResponse.DebitCount : @"",
+          @"DebitAmount" : poslink.batchResponse.DebitAmount ? poslink.batchResponse.DebitAmount : @"",
+          @"EBTCount" : poslink.batchResponse.EBTCount  ? poslink.batchResponse.EBTCount : @"",
+          @"EBTAmount" : poslink.batchResponse.EBTAmount ? poslink.batchResponse.EBTAmount : @"" ,
+          @"GiftCount" : poslink.batchResponse.GiftCount ? poslink.batchResponse.GiftCount : @"",
+          @"GiftAmount" : poslink.batchResponse.GiftAmount ? poslink.batchResponse.GiftAmount : @"",
+          @"LoyaltyCount" : poslink.batchResponse.LoyaltyCount ? poslink.batchResponse.LoyaltyCount : @"",
+          @"LoyaltyAmount" : poslink.batchResponse.LoyaltyAmount ? poslink.batchResponse.LoyaltyAmount : @"",
+          @"CashCount" : poslink.batchResponse.CashCount ? poslink.batchResponse.CashCount : @"",
+          @"CashAmount" : poslink.batchResponse.CashAmount ?  poslink.batchResponse.CashAmount : @"",
+          @"CHECKCount" : poslink.batchResponse.CHECKCount ? poslink.batchResponse.CHECKCount : @"",
+          @"CHECKAmount" : poslink.batchResponse.CHECKAmount ? poslink.batchResponse.CHECKAmount : @"",
+          @"Timestamp" : poslink.batchResponse.Timestamp ? poslink.batchResponse.Timestamp : @"",
+          @"TID" : poslink.batchResponse.TID ? poslink.batchResponse.TID : @"",
+          @"MID" : poslink.batchResponse.MID ? poslink.batchResponse.MID : @"",
+          @"HostTraceNum" : poslink.batchResponse.HostTraceNum ?  poslink.batchResponse.HostTraceNum : @"",
+          @"BatchNum" : poslink.batchResponse.BatchNum ? poslink.batchResponse.BatchNum : @"",
+          @"AuthCode" : poslink.batchResponse.AuthCode ? poslink.batchResponse.AuthCode : @"",
+          @"HostCode" : poslink.batchResponse.HostCode ? poslink.batchResponse.HostCode : @"",
+          @"HostResponse" : poslink.batchResponse.HostResponse ? poslink.batchResponse.HostResponse : @"",
+          @"Message" : poslink.batchResponse.Message ?  poslink.batchResponse.Message : @"",
+          @"ExtData" : poslink.batchResponse.ExtData ?  poslink.batchResponse.ExtData : @"",
+          @"BatchFailedRefNum" : poslink.batchResponse.BatchFailedRefNum ? poslink.batchResponse.BatchFailedRefNum : @"",
+          @"BatchFailedCount" : poslink.batchResponse.BatchFailedCount ? poslink.batchResponse.BatchFailedCount : @"",
+          @"SAFTotalCount" : poslink.batchResponse.SAFTotalCount ? poslink.batchResponse.SAFTotalCount : @"",
+          @"SAFTotalAmount" : poslink.batchResponse.SAFTotalAmount ? poslink.batchResponse.SAFTotalAmount : @"",
+          @"SAFUploadedCount" : poslink.batchResponse.SAFUploadedCount ? poslink.batchResponse.SAFUploadedCount : @"",
+          @"SAFUploadedAmount" : poslink.batchResponse.SAFUploadedAmount ? poslink.batchResponse.SAFUploadedAmount : @"",
+          @"SAFFailedCount" : poslink.batchResponse.SAFFailedCount ? poslink.batchResponse.SAFFailedCount : @"",
+          @"SAFFailedTotal" : poslink.batchResponse.SAFFailedTotal ? poslink.batchResponse.SAFFailedTotal : @"",
+          @"SAFDeletedCount" : poslink.batchResponse.SAFDeletedCount ? poslink.batchResponse.SAFDeletedCount : @"",
         };
         
         NSString  *result =  [self convertObjectToJson:dataSuccess ] ;

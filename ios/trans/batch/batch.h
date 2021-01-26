@@ -14,6 +14,8 @@
 
 @interface batch : NSObject <RCTBridgeModule>
 
+@property(nonatomic, strong)NSString *tempIdAddrBluetooth;
+
 @end
 
 #endif /* batch_h */

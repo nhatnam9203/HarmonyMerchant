@@ -146,6 +146,9 @@
 		23FEDCE625BFFD9100DDDC25 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCE425BFFD9000DDDC25 /* report.m */; };
 		23FEDCE725BFFD9100DDDC25 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCE425BFFD9000DDDC25 /* report.m */; };
 		23FEDCE825BFFD9100DDDC25 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCE425BFFD9000DDDC25 /* report.m */; };
+		23FEDCEF25C00DFD00DDDC25 /* batch.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCEE25C00DFD00DDDC25 /* batch.m */; };
+		23FEDCF025C00DFD00DDDC25 /* batch.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCEE25C00DFD00DDDC25 /* batch.m */; };
+		23FEDCF125C00DFD00DDDC25 /* batch.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCEE25C00DFD00DDDC25 /* batch.m */; };
 		3649D09224E660C0003C8174 /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3649D09124E65E8D003C8174 /* libRNSpringScrollView.a */; };
 		366C009924DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
 		366C009B24DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
@@ -632,6 +635,8 @@
 		23FE295423C77BEF00E95925 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		23FEDCE425BFFD9000DDDC25 /* report.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = report.m; sourceTree = "<group>"; };
 		23FEDCE525BFFD9000DDDC25 /* report.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = report.h; sourceTree = "<group>"; };
+		23FEDCED25C00DFD00DDDC25 /* batch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = batch.h; sourceTree = "<group>"; };
+		23FEDCEE25C00DFD00DDDC25 /* batch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = batch.m; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DC3A16DE477A97F683FBAE5 /* Pods-Hpmerchant_Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Dev.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Dev/Pods-Hpmerchant_Dev.debug.xcconfig"; sourceTree = "<group>"; };
 		365E73FA24F8F38400D2CDB9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -972,6 +977,7 @@
 		237D407025B588E300E39755 /* trans */ = {
 			isa = PBXGroup;
 			children = (
+				23FEDCEC25C00DFD00DDDC25 /* batch */,
 				23FEDCE325BFFD9000DDDC25 /* report */,
 				239AD13425BE643700302985 /* tempPayment */,
 			);
@@ -1055,6 +1061,15 @@
 				23FEDCE525BFFD9000DDDC25 /* report.h */,
 			);
 			path = report;
+			sourceTree = "<group>";
+		};
+		23FEDCEC25C00DFD00DDDC25 /* batch */ = {
+			isa = PBXGroup;
+			children = (
+				23FEDCED25C00DFD00DDDC25 /* batch.h */,
+				23FEDCEE25C00DFD00DDDC25 /* batch.m */,
+			);
+			path = batch;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -2103,6 +2118,7 @@
 				366C012624DBC6DE00BAA83B /* RNRadarChartView.swift in Sources */,
 				366C00B724DBC6DE00BAA83B /* FontUtils.swift in Sources */,
 				366C012324DBC6DE00BAA83B /* RNRadarChartManagerBridge.m in Sources */,
+				23FEDCEF25C00DFD00DDDC25 /* batch.m in Sources */,
 				366C00E424DBC6DE00BAA83B /* RNScatterChartManager.swift in Sources */,
 				366C00D524DBC6DE00BAA83B /* RNBarLineChartBaseManager.swift in Sources */,
 				366C010224DBC6DE00BAA83B /* RNCandleStickChartManager.swift in Sources */,
@@ -2168,6 +2184,7 @@
 				366C012824DBC6DE00BAA83B /* RNRadarChartView.swift in Sources */,
 				366C00B924DBC6DE00BAA83B /* FontUtils.swift in Sources */,
 				366C012524DBC6DE00BAA83B /* RNRadarChartManagerBridge.m in Sources */,
+				23FEDCF025C00DFD00DDDC25 /* batch.m in Sources */,
 				366C00E624DBC6DE00BAA83B /* RNScatterChartManager.swift in Sources */,
 				366C00D724DBC6DE00BAA83B /* RNBarLineChartBaseManager.swift in Sources */,
 				366C010424DBC6DE00BAA83B /* RNCandleStickChartManager.swift in Sources */,
@@ -2233,6 +2250,7 @@
 				2388BF05253FEC34007B4A7A /* RNRadarChartView.swift in Sources */,
 				2388BF06253FEC34007B4A7A /* FontUtils.swift in Sources */,
 				2388BF07253FEC34007B4A7A /* RNRadarChartManagerBridge.m in Sources */,
+				23FEDCF125C00DFD00DDDC25 /* batch.m in Sources */,
 				2388BF08253FEC34007B4A7A /* RNScatterChartManager.swift in Sources */,
 				2388BF09253FEC34007B4A7A /* RNBarLineChartBaseManager.swift in Sources */,
 				2388BF0A253FEC34007B4A7A /* RNCandleStickChartManager.swift in Sources */,

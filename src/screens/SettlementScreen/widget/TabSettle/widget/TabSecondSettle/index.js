@@ -4,7 +4,6 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 
 const PosLink = NativeModules.batch;
-const SettingPayment = NativeModules.setting;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
 class TabSecondSettle extends Layout {
@@ -105,7 +104,7 @@ class TabSecondSettle extends Layout {
     settle = async () => {
         const { paxMachineInfo } = this.props;
         const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
-        
+
         if (isSetup) {
             await this.setState({
                 numberFooter: 2,
@@ -126,8 +125,20 @@ class TabSecondSettle extends Layout {
                         this.proccessingSettlement();
                     });
             } else {
-                SettingPayment.setupPax(commType, ip, port, 90000, bluetoothAddr);
-                PosLink.batchTransaction(message => this.handleResponseBatchTransactions(message));
+                const tempIpPax = commType == "TCP" ? ip : "";
+                const tempPortPax = commType == "TCP" ? port : "";
+                const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+
+                PosLink.batchTransaction({
+                    transType: "BATCHCLOSE",
+                    edcType: "ALL",
+                    commType: commType,
+                    destIp: tempIpPax,
+                    portDevice: tempPortPax,
+                    timeoutConnect: "90000",
+                    bluetoothAddr: idBluetooth
+                },
+                    message => this.handleResponseBatchTransactions(message));
             }
 
         } else {
