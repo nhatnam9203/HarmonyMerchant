@@ -10,93 +10,6 @@ import {
 import styles from "./style";
 import { ItemBrand } from "./widget";
 
-const data = [
-  {
-    brandName: "Brand Name ",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "Brand Name",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "Brand Name",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "Brand Name",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "Brand Name",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "Brand Name",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "Brand Name",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "Brand Name",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "Brand Name",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "Brand Name",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "Brand Name",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "Brand Name",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "Brand Name",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "Brand Name",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-];
-
 class Layout extends React.Component {
   render() {
     const { language, listMarketPlace, isLoadMoreMarketList } = this.props;
@@ -117,6 +30,7 @@ class Layout extends React.Component {
           }}
         >
           <FlatList
+          ref={ this.flatListRef }
             data={listMarketPlace}
             refreshControl={
               <RefreshControl
@@ -127,9 +41,6 @@ class Layout extends React.Component {
             renderItem={({ item, index }) => (
               <ItemBrand key={index} item={item} />
             )}
-            ref={(ref) => {
-              this.flatListRef = ref;
-            }}
             numColumns={"5"}
             keyExtractor={(item, index) => `${index}`}
             onEndReached={this.onLoadmore}

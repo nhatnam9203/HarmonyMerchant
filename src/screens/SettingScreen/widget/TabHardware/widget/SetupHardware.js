@@ -110,7 +110,7 @@ class SetupHardware extends React.Component {
         });
         this.manager.startDeviceScan(null, null, (error, device) => {
             if (error) {
-                console.log("----- Error : ", error);
+                // console.log("----- Error : ", error);
                 return
             }
 
@@ -140,7 +140,7 @@ class SetupHardware extends React.Component {
     }
 
     handleStopScan = (list) => {
-        console.log("----- handleStopScan: ", list);
+        // console.log("----- handleStopScan: ", list);
         this.props.actions.app.stopLoadingApp();
         this.setState({
             peripherals: list

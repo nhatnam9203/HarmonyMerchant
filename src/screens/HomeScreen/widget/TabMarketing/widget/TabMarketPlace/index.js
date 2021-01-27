@@ -1,3 +1,5 @@
+import React from "react";
+
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
 
@@ -8,6 +10,7 @@ class TabMarketPlace extends Layout {
       refreshing: false,
     };
     this.onEndReachedCalledDuringMomentum = true;
+    this.flatListRef = React.createRef();
   }
 
   componentDidMount() {
@@ -36,7 +39,10 @@ class TabMarketPlace extends Layout {
   };
 
   setStateFromParent = () => {
-    this.flatListRef.scrollToOffset({ y: 0, animated: false });
+    if (this.flatListRef?.current) {
+      this.flatListRef?.current?.scrollToOffset({ y: 0, animated: false });
+    }
+
   };
 }
 

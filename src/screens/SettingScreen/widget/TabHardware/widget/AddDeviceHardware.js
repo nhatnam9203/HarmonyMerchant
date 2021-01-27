@@ -53,7 +53,7 @@ class AddDeviceHardware extends React.Component {
     }
 
     scanAndConnect() {
-        console.log("----- Start Scan ......");
+        // console.log("----- Start Scan ......");
         // this.manager.startDeviceScan(null, null, (error, device) => {
         //     if (error) {
         //         console.log("----- Error : ", error);
@@ -71,7 +71,7 @@ class AddDeviceHardware extends React.Component {
     }
 
     handleStopScan = (list) => {
-        console.log("------ list ------: ", list.length);
+        // console.log("------ list ------: ", list.length);
         this.props.actions.app.stopLoadingApp();
         this.setState({
             peripherals: list

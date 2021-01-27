@@ -200,6 +200,7 @@ class Layout extends React.Component {
     return (
       <View style={styles.container}>
         <FlatList
+         ref={this.flatListRef}
           data={this.props.listReview}
           ListHeaderComponent={this.renderHeader}
           refreshControl={
@@ -216,9 +217,6 @@ class Layout extends React.Component {
               isVisibleReview={this.isVisibleReview}
             />
           )}
-          ref={(ref) => {
-            this.flatListRef = ref;
-          }}
           keyExtractor={(item, index) => `${index}`}
           onEndReached={this.onLoadmore}
           onEndReachedThreshold={0.5}

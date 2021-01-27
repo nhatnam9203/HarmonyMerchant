@@ -1,33 +1,9 @@
+import React from "react";
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
 import { gotoSettingsDevice, scaleSzie } from "@utils";
 import ImagePicker from "react-native-image-picker";
 import { Platform } from "react-native";
-import ItemPhoto from "./widget/ItemPhoto";
-
-const Data = [
-  {
-    merchantBannerId: 1,
-    brandName: "filename.jpg",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    merchantBannerId: 2,
-    brandName: "filename.jpg",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    merchantBannerId: 3,
-    brandName: "filename.jpg",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-];
 
 class TabPhotoGallery extends Layout {
   constructor(props) {
@@ -44,6 +20,7 @@ class TabPhotoGallery extends Layout {
       isSelected: false,
     };
     this.onEndReachedCalledDuringMomentum = true;
+    this.flatListRef = React.createRef();
   }
 
   componentDidMount() {
@@ -146,7 +123,10 @@ class TabPhotoGallery extends Layout {
 
   setStateFromParent = () => {
     this.setState({ isSelected: false, imageSelect: [] });
-    this.flatListRef.scrollToOffset({ y: 0, animated: false });
+    if(this.flatListRef?.current){
+      this.flatListRef?.current?.scrollToOffset({ y: 0, animated: false });
+    }
+   
   };
 }
 

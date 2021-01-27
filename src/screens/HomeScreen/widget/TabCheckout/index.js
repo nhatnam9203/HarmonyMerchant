@@ -1077,7 +1077,7 @@ class TabCheckout extends Layout {
 
     async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
 
-        console.log("---- handleResponseCreditCard: ", message);
+        // console.log("---- handleResponseCreditCard: ", message);
         const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment, payAppointmentId } = this.props;
         await this.setState({
             visibleProcessingCredit: false

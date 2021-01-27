@@ -1,6 +1,7 @@
+import React from "react";
+
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
-import { Image } from "react-native";
 
 class TabReview extends Layout {
   constructor(props) {
@@ -14,6 +15,7 @@ class TabReview extends Layout {
       indexImage: 0,
     };
     this.onEndReachedCalledDuringMomentum = true;
+    this.flatListRef =  React.createRef();
   }
 
   componentDidMount() {
@@ -176,7 +178,9 @@ class TabReview extends Layout {
 
   setStateFromParent = async () => {
     await this.setState({ isReview: "all", isStatus: "all" });
-    this.flatListRef.scrollToOffset({ y: 0, animated: false });
+    if(this.flatListRef?.current){
+      this.flatListRef?.current?.scrollToOffset({ y: 0, animated: false });
+    }
   };
 
   setIndex = (index) => {

@@ -13,56 +13,7 @@ import styles from "./style";
 import { ItemPhoto } from "./widget";
 import IMAGE from "@resources";
 
-const data = [
-  {
-    brandName: "filename.jpg",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "filename.jpg",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "filename.jpg",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "filename.jpg",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "filename.jpg",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "filename.jpg",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "filename.jpg",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-  {
-    brandName: "filename.jpg",
-    url:
-      "https://stc.hoatuoihoangnga.com/data/uploads/news/8d/nhung-dieu-ma-ban-chua-hieu-het-ve-hoa-mai-1577947427224.jpg",
-    linking: "https://www.google.com/",
-  },
-];
+
 
 class Layout extends React.Component {
   render() {
@@ -103,9 +54,7 @@ class Layout extends React.Component {
                     imageSelect={this.state.imageSelect}
                   />
                 )}
-                ref={(ref) => {
-                  this.flatListRef = ref;
-                }}
+                ref={this.flatListRef}
                 numColumns={"5"}
                 keyExtractor={(item, index) => `${index}`}
                 // onEndReached={this.onLoadmore}
@@ -154,34 +103,34 @@ class Layout extends React.Component {
             </View>
           </View>
         ) : (
-          //  RENDER WHEN LENGTH ITEM = 0
-          <View style={styles.upload}>
-            <View style={{ height: scaleSzie(70) }} />
-            <Text style={styles.text}>
-              You have not uploaded any images yet
+            //  RENDER WHEN LENGTH ITEM = 0
+            <View style={styles.upload}>
+              <View style={{ height: scaleSzie(70) }} />
+              <Text style={styles.text}>
+                You have not uploaded any images yet
             </Text>
-            <View style={{ height: scaleSzie(40) }} />
-            <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
-                style={styles.btn_upload}
-                onPress={this.takePhoto}
-                activeOpacity={0.8}
-              >
-                <Image style={styles.ic} source={IMAGE.Ic_Camera} />
-                <Text style={styles.text}>Take a Photo</Text>
-              </TouchableOpacity>
-              <View style={{ width: scaleSzie(30) }} />
-              <TouchableOpacity
-                style={styles.btn_upload}
-                onPress={this.openImageLibrary}
-                activeOpacity={0.8}
-              >
-                <Image style={styles.ic} source={IMAGE.Ic_Gallery} />
-                <Text style={styles.text}>Add Photos</Text>
-              </TouchableOpacity>
+              <View style={{ height: scaleSzie(40) }} />
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity
+                  style={styles.btn_upload}
+                  onPress={this.takePhoto}
+                  activeOpacity={0.8}
+                >
+                  <Image style={styles.ic} source={IMAGE.Ic_Camera} />
+                  <Text style={styles.text}>Take a Photo</Text>
+                </TouchableOpacity>
+                <View style={{ width: scaleSzie(30) }} />
+                <TouchableOpacity
+                  style={styles.btn_upload}
+                  onPress={this.openImageLibrary}
+                  activeOpacity={0.8}
+                >
+                  <Image style={styles.ic} source={IMAGE.Ic_Gallery} />
+                  <Text style={styles.text}>Add Photos</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        )}
+          )}
       </View>
     );
   }
