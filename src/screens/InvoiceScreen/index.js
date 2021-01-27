@@ -16,7 +16,7 @@ import {
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 
-const PosLink = NativeModules.MyApp;
+const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
 const initalState = {
@@ -237,8 +237,7 @@ class InvoiceScreen extends Layout {
     confirmChangeInvoiceStatus = async () => {
         const { paxMachineInfo } = this.props;
         const { invoiceDetail } = this.state;
-        const { ip, port, timeout } = paxMachineInfo;
-
+        const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
 
         if (invoiceDetail.paymentMethod === "credit_card") {
             const paymentInformation = invoiceDetail.paymentInformation && invoiceDetail.paymentInformation.length > 0 &&
@@ -294,24 +293,48 @@ class InvoiceScreen extends Layout {
                         }, 100);
                     }
                 } else {
-                    PosLink.setupPax(ip, port, timeout);
+                    const amount = paymentInformation?.ApprovedAmount || 0;
+                    const transactionId = paymentInformation?.RefNum || 0;
+                    const extData = paymentInformation?.ExtData || "";
+                    const tempIpPax = commType == "TCP" ? ip : "";
+                    const tempPortPax = commType == "TCP" ? port : "";
+                    const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+
                     if (invoiceDetail.status === 'paid') {
                         this.popupProcessingCreditRef.current.setStateFromParent(false);
-                        PosLink.refundTransaction(
-                            parseFloat(paymentInformation.ApprovedAmount),
-                            paymentInformation.RefNum,
-                            paymentInformation.ExtData,
-                            (data) => this.handleResultRefundTransaction(data)
-                        );
+                        PosLink.sendTransaction({
+                            tenderType: "CREDIT",
+                            transType: "RETURN",
+                            amount: `${parseFloat(amount)}`,
+                            transactionId: transactionId,
+                            extData: extData,
+                            commType: commType,
+                            destIp: tempIpPax,
+                            portDevice: tempPortPax,
+                            timeoutConnect: "90000",
+                            bluetoothAddr: idBluetooth
+                        }, (data) => this.handleResultRefundTransaction(data))
+
+                        // PosLink.sendTransaction("CREDIT", "RETURN", parseFloat(amount), transactionId, extData,
+                        //     commType, ip, port, "90000", idBluetooth,
+                        //     (data) => this.handleResultRefundTransaction(data));
                     } else if (invoiceDetail.status === 'complete') {
-                        const transactionId = paymentInformation.RefNum ? paymentInformation.RefNum : 0
                         this.popupProcessingCreditRef.current.setStateFromParent(transactionId);
-                        PosLink.voidTransaction(
-                            parseFloat(paymentInformation.ApprovedAmount),
-                            paymentInformation.RefNum,
-                            paymentInformation.ExtData,
-                            (data) => this.handleResultVoidTransaction(data)
-                        );
+                        PosLink.sendTransaction({
+                            tenderType: "CREDIT",
+                            transType: "VOID",
+                            amount: "",
+                            transactionId: transactionId,
+                            extData: extData,
+                            commType: commType,
+                            destIp: tempIpPax,
+                            portDevice: tempPortPax,
+                            timeoutConnect: "90000",
+                            bluetoothAddr: idBluetooth
+                        }, (data) => this.handleResultVoidTransaction(data))
+                        // PosLink.sendTransaction("CREDIT", "VOID", "", transactionId, extData,
+                        //     commType, ip, port, "90000", idBluetooth,
+                        //     (data) => this.handleResultVoidTransaction(data));
                     }
                 }
             }
@@ -335,8 +358,10 @@ class InvoiceScreen extends Layout {
     }
 
     handleResultVoidTransaction = async result => {
+        console.log("---- handleResultVoidTransaction: ", result);
         const { invoiceDetail } = this.state;
         const data = JSON.parse(result);
+
         await this.setState({
             visibleProcessingCredit: false
         });
@@ -354,7 +379,7 @@ class InvoiceScreen extends Layout {
             }
 
         } else {
-            if (data.status === 1) {
+            if (data.ResultCode === "000000") {
                 this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
                 await this.setState({
                     titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
@@ -386,7 +411,7 @@ class InvoiceScreen extends Layout {
                 }, 300);
             }
         } else {
-            if (data.status === 1 && data.ResultTxt === "OK") {
+            if (data.ResultCode === "000000") {
                 this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
                 await this.setState({
                     titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
@@ -604,7 +629,7 @@ const mapStateToProps = state => ({
     totalPages: state.invoice.totalPages,
     currentPage: state.invoice.currentPage,
     visibleEnterPinInvoice: state.app.visibleEnterPinInvoice,
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.hardware.paxMachineInfo,
     visibleConfirmPrintInvoice: state.invoice.visibleConfirmPrintInvoice,
     isLoadMoreInvoiceList: state.invoice.isLoadMoreInvoiceList,
     searchKeyword: state.invoice.searchKeyword,

@@ -288,7 +288,7 @@ function getErrorMessagePaxMachine(error) {
     case "You're running your Pax on DEMO MODE!":
       return "( You're running your Pax on DEMO MODE! )";
     case "NOT FOUND":
-      return "( Pax terminal successfully connected! )";
+      return "( Pax terminal successfully connected!: Not found any transactions )";
     default:
       return `(Error From Your Pax : "${error}" )`
   }

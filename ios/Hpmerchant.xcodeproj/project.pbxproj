@@ -24,11 +24,8 @@
 		190B834FB4BB4246962A3E7E /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F14B6172B346F0950939FF /* libRNGestureHandler.a */; };
 		20C2FB8293574864B9DB94B3 /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D1CE61916DC4F27B8E39081 /* libRNSpringScrollView.a */; };
 		230F1DB624D3DA2200A95898 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
-		230F1DB724D3DA2200A95898 /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
 		230F1DB824D3DA2200A95898 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		230F1DB924D3DA2200A95898 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		230F1DBA24D3DA2200A95898 /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
-		230F1DBC24D3DA2200A95898 /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
 		230F1DBD24D3DA2200A95898 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
 		230F1DBE24D3DA2200A95898 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
 		230F1DBF24D3DA2200A95898 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
@@ -51,13 +48,16 @@
 		230F1DD024D3DA2200A95898 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
 		230F1DD324D3DA2200A95898 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		230F1DD424D3DA2200A95898 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
-		232011EE22FAB38C0002C14B /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
-		23207BB522FAD00F0002C14B /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
-		23207BB622FAD5BE0002C14B /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
+		2339219725C147BF00E16629 /* libPOSLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 237D411225B59F0B00E39755 /* libPOSLink.a */; };
+		2339219B25C147C300E16629 /* libPOSLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 237D411225B59F0B00E39755 /* libPOSLink.a */; };
+		2339219F25C147C700E16629 /* libPOSLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 237D411225B59F0B00E39755 /* libPOSLink.a */; };
 		2342066122DD7C1800E0EA35 /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342065F22DD7C1700E0EA35 /* StarIO.framework */; };
 		2342066222DD7C1800E0EA35 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */; };
 		2342066422DD7C2600E0EA35 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
 		2342066622DD7C3100E0EA35 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
+		234AF86C25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */; };
+		234AF86D25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */; };
+		234AF86E25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */; };
 		2388BDCF253FE9A3007B4A7A /* staging.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2388BDCE253FE9A3007B4A7A /* staging.plist */; };
 		2388BEFE253FEC34007B4A7A /* RNBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008C24DBC6DD00BAA83B /* RNBarChartManager.swift */; };
 		2388BEFF253FEC34007B4A7A /* RNBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008E24DBC6DD00BAA83B /* RNBarChartView.swift */; };
@@ -81,7 +81,6 @@
 		2388BF11253FEC34007B4A7A /* RNRadarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009524DBC6DD00BAA83B /* RNRadarChartManager.swift */; };
 		2388BF12253FEC34007B4A7A /* RNHorizontalBarChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C009024DBC6DD00BAA83B /* RNHorizontalBarChartManagerBridge.m */; };
 		2388BF13253FEC34007B4A7A /* LineDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008024DBC6DD00BAA83B /* LineDataExtract.swift */; };
-		2388BF14253FEC34007B4A7A /* MyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 232011ED22FAB38C0002C14B /* MyApp.m */; };
 		2388BF15253FEC34007B4A7A /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005E24DBC6DD00BAA83B /* BalloonMarker.swift */; };
 		2388BF16253FEC34007B4A7A /* RNBarChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008924DBC6DD00BAA83B /* RNBarChartViewBase.swift */; };
 		2388BF17253FEC34007B4A7A /* RNLineChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C007F24DBC6DD00BAA83B /* RNLineChartManagerBridge.m */; };
@@ -95,7 +94,6 @@
 		2388BF1F253FEC34007B4A7A /* RNCombinedChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005A24DBC6DD00BAA83B /* RNCombinedChartManager.swift */; };
 		2388BF20253FEC34007B4A7A /* RNBubbleChartManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C006E24DBC6DD00BAA83B /* RNBubbleChartManagerBridge.m */; };
 		2388BF21253FEC34007B4A7A /* EntryToDictionaryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006524DBC6DD00BAA83B /* EntryToDictionaryUtils.swift */; };
-		2388BF22253FEC34007B4A7A /* ExtDataPaymentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */; };
 		2388BF23253FEC34007B4A7A /* ChartDataSetConfigUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006624DBC6DD00BAA83B /* ChartDataSetConfigUtils.swift */; };
 		2388BF24253FEC34007B4A7A /* BubbleDataExtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006D24DBC6DD00BAA83B /* BubbleDataExtract.swift */; };
 		2388BF25253FEC34007B4A7A /* ChartGroupHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C009724DBC6DD00BAA83B /* ChartGroupHolder.swift */; };
@@ -116,7 +114,6 @@
 		2388BF34253FEC34007B4A7A /* BridgeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006824DBC6DD00BAA83B /* BridgeUtils.swift */; };
 		2388BF35253FEC34007B4A7A /* RNBubbleChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C006B24DBC6DD00BAA83B /* RNBubbleChartManager.swift */; };
 		2388BF36253FEC34007B4A7A /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
-		2388BF38253FEC34007B4A7A /* libPosLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23207BAF22FAC4730002C14B /* libPosLink.a */; };
 		2388BF39253FEC34007B4A7A /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
 		2388BF3A253FEC34007B4A7A /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */; };
 		2388BF3B253FEC34007B4A7A /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
@@ -142,7 +139,16 @@
 		2388BF53253FEC34007B4A7A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		2388BF54253FEC34007B4A7A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36F619BA2500D81B00893A84 /* GoogleService-Info.plist */; };
 		2399DEC122F1A9CF00DBCCFE /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
+		239AD16125BE643700302985 /* payment.m in Sources */ = {isa = PBXBuildFile; fileRef = 239AD13625BE643700302985 /* payment.m */; };
+		239AD16225BE643700302985 /* payment.m in Sources */ = {isa = PBXBuildFile; fileRef = 239AD13625BE643700302985 /* payment.m */; };
+		239AD16325BE643700302985 /* payment.m in Sources */ = {isa = PBXBuildFile; fileRef = 239AD13625BE643700302985 /* payment.m */; };
 		23FE295523C77BEF00E95925 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
+		23FEDCE625BFFD9100DDDC25 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCE425BFFD9000DDDC25 /* report.m */; };
+		23FEDCE725BFFD9100DDDC25 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCE425BFFD9000DDDC25 /* report.m */; };
+		23FEDCE825BFFD9100DDDC25 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCE425BFFD9000DDDC25 /* report.m */; };
+		23FEDCEF25C00DFD00DDDC25 /* batch.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCEE25C00DFD00DDDC25 /* batch.m */; };
+		23FEDCF025C00DFD00DDDC25 /* batch.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCEE25C00DFD00DDDC25 /* batch.m */; };
+		23FEDCF125C00DFD00DDDC25 /* batch.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCEE25C00DFD00DDDC25 /* batch.m */; };
 		3649D09224E660C0003C8174 /* libRNSpringScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3649D09124E65E8D003C8174 /* libRNSpringScrollView.a */; };
 		366C009924DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
 		366C009B24DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C005724DBC6DD00BAA83B /* IndexValueFormatter.swift */; };
@@ -584,36 +590,53 @@
 		1EA86854F25B6D911F08EA07 /* Pods-Hpmerchant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant/Pods-Hpmerchant.debug.xcconfig"; sourceTree = "<group>"; };
 		2206C6BACBF3ADBBCD9E5B86 /* Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev.debug.xcconfig"; sourceTree = "<group>"; };
 		230F1DDB24D3DA2200A95898 /* Staing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Staing.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		232011EC22FAB38C0002C14B /* MyApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MyApp.h; path = Hpmerchant/MyApp.h; sourceTree = "<group>"; };
-		232011ED22FAB38C0002C14B /* MyApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MyApp.m; path = Hpmerchant/MyApp.m; sourceTree = "<group>"; };
-		23207B9E22FAC40F0002C14B /* PosLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosLink.h; sourceTree = "<group>"; };
-		23207B9F22FAC40F0002C14B /* PaymentResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentResponse.h; sourceTree = "<group>"; };
-		23207BA022FAC40F0002C14B /* ProcessTransResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessTransResult.h; sourceTree = "<group>"; };
-		23207BA122FAC4100002C14B /* ManageResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageResponse.h; sourceTree = "<group>"; };
-		23207BA222FAC4100002C14B /* CommSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommSetting.h; sourceTree = "<group>"; };
-		23207BA322FAC4100002C14B /* ManageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageRequest.h; sourceTree = "<group>"; };
-		23207BA422FAC4100002C14B /* MposBluetoothScan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MposBluetoothScan.h; sourceTree = "<group>"; };
-		23207BA522FAC4100002C14B /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
-		23207BA622FAC4100002C14B /* POSLinkLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POSLinkLog.h; sourceTree = "<group>"; };
-		23207BA722FAC4100002C14B /* PaymentRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentRequest.h; sourceTree = "<group>"; };
-		23207BA822FAC4100002C14B /* BatchResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchResponse.h; sourceTree = "<group>"; };
-		23207BA922FAC4100002C14B /* BatchRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchRequest.h; sourceTree = "<group>"; };
-		23207BAA22FAC4100002C14B /* ReportResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportResponse.h; sourceTree = "<group>"; };
-		23207BAB22FAC4100002C14B /* LogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogManager.h; sourceTree = "<group>"; };
-		23207BAC22FAC4100002C14B /* ReportRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportRequest.h; sourceTree = "<group>"; };
-		23207BAF22FAC4730002C14B /* libPosLink.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPosLink.a; sourceTree = "<group>"; };
-		23207BB322FAD00F0002C14B /* ExtDataPaymentReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtDataPaymentReq.h; sourceTree = "<group>"; };
-		23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExtDataPaymentReq.m; sourceTree = "<group>"; };
 		2342065F22DD7C1700E0EA35 /* StarIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO.framework; path = "../node_modules/react-native-star-prnt/ios/Frameworks/StarIO.framework"; sourceTree = "<group>"; };
 		2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO_Extension.framework; path = "../node_modules/react-native-star-prnt/ios/Frameworks/StarIO_Extension.framework"; sourceTree = "<group>"; };
 		2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rn_ble_plx.swift; sourceTree = "<group>"; };
+		237D40F525B59F0B00E39755 /* ADDLRspData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADDLRspData.h; sourceTree = "<group>"; };
+		237D40F625B59F0B00E39755 /* GoogleServiceUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleServiceUsage.h; sourceTree = "<group>"; };
+		237D40F725B59F0B00E39755 /* ApplePayVAS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplePayVAS.h; sourceTree = "<group>"; };
+		237D40F825B59F0B00E39755 /* PosLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosLink.h; sourceTree = "<group>"; };
+		237D40F925B59F0B00E39755 /* ProcessTransResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessTransResult.h; sourceTree = "<group>"; };
+		237D40FA25B59F0B00E39755 /* GoogleServiceUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleServiceUpdate.h; sourceTree = "<group>"; };
+		237D40FB25B59F0B00E39755 /* BatchRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchRequest.h; sourceTree = "<group>"; };
+		237D40FC25B59F0B00E39755 /* PaymentResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentResponse.h; sourceTree = "<group>"; };
+		237D40FD25B59F0B00E39755 /* TaxDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaxDetail.h; sourceTree = "<group>"; };
+		237D40FE25B59F0B00E39755 /* CommercialInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommercialInformation.h; sourceTree = "<group>"; };
+		237D40FF25B59F0B00E39755 /* ReportRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportRequest.h; sourceTree = "<group>"; };
+		237D410025B59F0B00E39755 /* POSLinkLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POSLinkLog.h; sourceTree = "<group>"; };
+		237D410125B59F0B00E39755 /* GoogleSmartTap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleSmartTap.h; sourceTree = "<group>"; };
+		237D410225B59F0B00E39755 /* ManageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageRequest.h; sourceTree = "<group>"; };
+		237D410325B59F0B00E39755 /* MultipleCommandsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleCommandsResponse.h; sourceTree = "<group>"; };
+		237D410425B59F0B00E39755 /* GoogleNewService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleNewService.h; sourceTree = "<group>"; };
+		237D410525B59F0B00E39755 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		237D410625B59F0B00E39755 /* PaymentRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentRequest.h; sourceTree = "<group>"; };
+		237D410725B59F0B00E39755 /* LineItemDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineItemDetail.h; sourceTree = "<group>"; };
+		237D410825B59F0B00E39755 /* CommSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommSetting.h; sourceTree = "<group>"; };
+		237D410925B59F0B00E39755 /* ReportResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportResponse.h; sourceTree = "<group>"; };
+		237D410A25B59F0B00E39755 /* ManageResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageResponse.h; sourceTree = "<group>"; };
+		237D410B25B59F0B00E39755 /* VASResponseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VASResponseInfo.h; sourceTree = "<group>"; };
+		237D410C25B59F0B00E39755 /* TORResponseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TORResponseInfo.h; sourceTree = "<group>"; };
+		237D410D25B59F0B00E39755 /* BatchResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchResponse.h; sourceTree = "<group>"; };
+		237D410E25B59F0B00E39755 /* MultipleCommandsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleCommandsRequest.h; sourceTree = "<group>"; };
+		237D410F25B59F0B00E39755 /* GoogleSmartTapPushService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleSmartTapPushService.h; sourceTree = "<group>"; };
+		237D411025B59F0B00E39755 /* MposBluetoothScan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MposBluetoothScan.h; sourceTree = "<group>"; };
+		237D411125B59F0B00E39755 /* LogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogManager.h; sourceTree = "<group>"; };
+		237D411225B59F0B00E39755 /* libPOSLink.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPOSLink.a; sourceTree = "<group>"; };
 		2388BD9F253FE990007B4A7A /* dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = dev.plist; path = Hpmerchant/dev.plist; sourceTree = "<group>"; };
 		2388BDCE253FE9A3007B4A7A /* staging.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = staging.plist; path = Hpmerchant/staging.plist; sourceTree = "<group>"; };
 		2388BF5B253FEC34007B4A7A /* Hpmerchant_Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hpmerchant_Dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2399DE9322F1A9C100DBCCFE /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
+		239AD13525BE643700302985 /* payment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = payment.h; sourceTree = "<group>"; };
+		239AD13625BE643700302985 /* payment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = payment.m; sourceTree = "<group>"; };
 		23FE295323C77BEF00E95925 /* Hpmerchant-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hpmerchant-Bridging-Header.h"; sourceTree = "<group>"; };
 		23FE295423C77BEF00E95925 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		23FEDCE425BFFD9000DDDC25 /* report.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = report.m; sourceTree = "<group>"; };
+		23FEDCE525BFFD9000DDDC25 /* report.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = report.h; sourceTree = "<group>"; };
+		23FEDCED25C00DFD00DDDC25 /* batch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = batch.h; sourceTree = "<group>"; };
+		23FEDCEE25C00DFD00DDDC25 /* batch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = batch.m; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DC3A16DE477A97F683FBAE5 /* Pods-Hpmerchant_Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hpmerchant_Dev.debug.xcconfig"; path = "Target Support Files/Pods-Hpmerchant_Dev/Pods-Hpmerchant_Dev.debug.xcconfig"; sourceTree = "<group>"; };
 		365E73FA24F8F38400D2CDB9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -713,7 +736,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23207BB622FAD5BE0002C14B /* libPosLink.a in Frameworks */,
+				2339219F25C147C700E16629 /* libPOSLink.a in Frameworks */,
 				2399DEC122F1A9CF00DBCCFE /* libRNFetchBlob.a in Frameworks */,
 				2342066622DD7C3100E0EA35 /* ExternalAccessory.framework in Frameworks */,
 				2342066422DD7C2600E0EA35 /* CoreBluetooth.framework in Frameworks */,
@@ -746,8 +769,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2339219B25C147C300E16629 /* libPOSLink.a in Frameworks */,
 				3649D09224E660C0003C8174 /* libRNSpringScrollView.a in Frameworks */,
-				230F1DBC24D3DA2200A95898 /* libPosLink.a in Frameworks */,
 				230F1DBD24D3DA2200A95898 /* libRNFetchBlob.a in Frameworks */,
 				230F1DBE24D3DA2200A95898 /* ExternalAccessory.framework in Frameworks */,
 				230F1DBF24D3DA2200A95898 /* CoreBluetooth.framework in Frameworks */,
@@ -776,7 +799,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2388BF38253FEC34007B4A7A /* libPosLink.a in Frameworks */,
+				2339219725C147BF00E16629 /* libPOSLink.a in Frameworks */,
 				2388BF39253FEC34007B4A7A /* libRNFetchBlob.a in Frameworks */,
 				2388BF3A253FEC34007B4A7A /* ExternalAccessory.framework in Frameworks */,
 				2388BF3B253FEC34007B4A7A /* CoreBluetooth.framework in Frameworks */,
@@ -892,7 +915,6 @@
 				36F619BB2500D82900893A84 /* Development */,
 				36F619B92500D81000893A84 /* Staging */,
 				36F619B82500D7FE00893A84 /* Product */,
-				23207BB222FACFD70002C14B /* ExtData */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -900,10 +922,10 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				232011EC22FAB38C0002C14B /* MyApp.h */,
-				232011ED22FAB38C0002C14B /* MyApp.m */,
 				23FE295423C77BEF00E95925 /* File.swift */,
 				23FE295323C77BEF00E95925 /* Hpmerchant-Bridging-Header.h */,
+				234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */,
+				237D407025B588E300E39755 /* trans */,
 			);
 			name = Hpmerchant;
 			sourceTree = "<group>";
@@ -952,44 +974,60 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		23207B9C22FAC3BC0002C14B /* sdk */ = {
+		237D407025B588E300E39755 /* trans */ = {
 			isa = PBXGroup;
 			children = (
-				23207B9D22FAC3F40002C14B /* inc */,
-				23207BAF22FAC4730002C14B /* libPosLink.a */,
+				237D40F325B59F0B00E39755 /* sdk */,
+				23FEDCEC25C00DFD00DDDC25 /* batch */,
+				23FEDCE325BFFD9000DDDC25 /* report */,
+				239AD13425BE643700302985 /* payment */,
+			);
+			path = trans;
+			sourceTree = "<group>";
+		};
+		237D40F325B59F0B00E39755 /* sdk */ = {
+			isa = PBXGroup;
+			children = (
+				237D40F425B59F0B00E39755 /* inc */,
+				237D411225B59F0B00E39755 /* libPOSLink.a */,
 			);
 			path = sdk;
 			sourceTree = "<group>";
 		};
-		23207B9D22FAC3F40002C14B /* inc */ = {
+		237D40F425B59F0B00E39755 /* inc */ = {
 			isa = PBXGroup;
 			children = (
-				23207BA922FAC4100002C14B /* BatchRequest.h */,
-				23207BA822FAC4100002C14B /* BatchResponse.h */,
-				23207BA522FAC4100002C14B /* Common.h */,
-				23207BA222FAC4100002C14B /* CommSetting.h */,
-				23207BAB22FAC4100002C14B /* LogManager.h */,
-				23207BA322FAC4100002C14B /* ManageRequest.h */,
-				23207BA122FAC4100002C14B /* ManageResponse.h */,
-				23207BA422FAC4100002C14B /* MposBluetoothScan.h */,
-				23207BA722FAC4100002C14B /* PaymentRequest.h */,
-				23207B9F22FAC40F0002C14B /* PaymentResponse.h */,
-				23207B9E22FAC40F0002C14B /* PosLink.h */,
-				23207BA622FAC4100002C14B /* POSLinkLog.h */,
-				23207BA022FAC40F0002C14B /* ProcessTransResult.h */,
-				23207BAC22FAC4100002C14B /* ReportRequest.h */,
-				23207BAA22FAC4100002C14B /* ReportResponse.h */,
+				237D40F525B59F0B00E39755 /* ADDLRspData.h */,
+				237D40F625B59F0B00E39755 /* GoogleServiceUsage.h */,
+				237D40F725B59F0B00E39755 /* ApplePayVAS.h */,
+				237D40F825B59F0B00E39755 /* PosLink.h */,
+				237D40F925B59F0B00E39755 /* ProcessTransResult.h */,
+				237D40FA25B59F0B00E39755 /* GoogleServiceUpdate.h */,
+				237D40FB25B59F0B00E39755 /* BatchRequest.h */,
+				237D40FC25B59F0B00E39755 /* PaymentResponse.h */,
+				237D40FD25B59F0B00E39755 /* TaxDetail.h */,
+				237D40FE25B59F0B00E39755 /* CommercialInformation.h */,
+				237D40FF25B59F0B00E39755 /* ReportRequest.h */,
+				237D410025B59F0B00E39755 /* POSLinkLog.h */,
+				237D410125B59F0B00E39755 /* GoogleSmartTap.h */,
+				237D410225B59F0B00E39755 /* ManageRequest.h */,
+				237D410325B59F0B00E39755 /* MultipleCommandsResponse.h */,
+				237D410425B59F0B00E39755 /* GoogleNewService.h */,
+				237D410525B59F0B00E39755 /* Common.h */,
+				237D410625B59F0B00E39755 /* PaymentRequest.h */,
+				237D410725B59F0B00E39755 /* LineItemDetail.h */,
+				237D410825B59F0B00E39755 /* CommSetting.h */,
+				237D410925B59F0B00E39755 /* ReportResponse.h */,
+				237D410A25B59F0B00E39755 /* ManageResponse.h */,
+				237D410B25B59F0B00E39755 /* VASResponseInfo.h */,
+				237D410C25B59F0B00E39755 /* TORResponseInfo.h */,
+				237D410D25B59F0B00E39755 /* BatchResponse.h */,
+				237D410E25B59F0B00E39755 /* MultipleCommandsRequest.h */,
+				237D410F25B59F0B00E39755 /* GoogleSmartTapPushService.h */,
+				237D411025B59F0B00E39755 /* MposBluetoothScan.h */,
+				237D411125B59F0B00E39755 /* LogManager.h */,
 			);
 			path = inc;
-			sourceTree = "<group>";
-		};
-		23207BB222FACFD70002C14B /* ExtData */ = {
-			isa = PBXGroup;
-			children = (
-				23207BB322FAD00F0002C14B /* ExtDataPaymentReq.h */,
-				23207BB422FAD00F0002C14B /* ExtDataPaymentReq.m */,
-			);
-			name = ExtData;
 			sourceTree = "<group>";
 		};
 		2399DE9422F1A9C100DBCCFE /* Products */ = {
@@ -1000,12 +1038,39 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		239AD13425BE643700302985 /* payment */ = {
+			isa = PBXGroup;
+			children = (
+				239AD13525BE643700302985 /* payment.h */,
+				239AD13625BE643700302985 /* payment.m */,
+			);
+			path = payment;
+			sourceTree = "<group>";
+		};
 		23A9C2B422AA946200C9593A /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				23A9C2B822AA946200C9593A /* libRNImagePicker.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		23FEDCE325BFFD9000DDDC25 /* report */ = {
+			isa = PBXGroup;
+			children = (
+				23FEDCE425BFFD9000DDDC25 /* report.m */,
+				23FEDCE525BFFD9000DDDC25 /* report.h */,
+			);
+			path = report;
+			sourceTree = "<group>";
+		};
+		23FEDCEC25C00DFD00DDDC25 /* batch */ = {
+			isa = PBXGroup;
+			children = (
+				23FEDCED25C00DFD00DDDC25 /* batch.h */,
+				23FEDCEE25C00DFD00DDDC25 /* batch.m */,
+			);
+			path = batch;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -1282,7 +1347,6 @@
 				3684059024F8BCDA00021B55 /* HPMerchant.entitlements */,
 				3684056524F8BCA200021B55 /* Staing.entitlements */,
 				366C005624DBC6DD00BAA83B /* ReactNativeCharts */,
-				23207B9C22FAC3BC0002C14B /* sdk */,
 				13B07FAE1A68108700A75B9A /* Hpmerchant */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* HpmerchantTests */,
@@ -2054,6 +2118,7 @@
 				366C012624DBC6DE00BAA83B /* RNRadarChartView.swift in Sources */,
 				366C00B724DBC6DE00BAA83B /* FontUtils.swift in Sources */,
 				366C012324DBC6DE00BAA83B /* RNRadarChartManagerBridge.m in Sources */,
+				23FEDCEF25C00DFD00DDDC25 /* batch.m in Sources */,
 				366C00E424DBC6DE00BAA83B /* RNScatterChartManager.swift in Sources */,
 				366C00D524DBC6DE00BAA83B /* RNBarLineChartBaseManager.swift in Sources */,
 				366C010224DBC6DE00BAA83B /* RNCandleStickChartManager.swift in Sources */,
@@ -2066,12 +2131,13 @@
 				366C012924DBC6DE00BAA83B /* RNRadarChartManager.swift in Sources */,
 				366C011D24DBC6DE00BAA83B /* RNHorizontalBarChartManagerBridge.m in Sources */,
 				366C00F924DBC6DE00BAA83B /* LineDataExtract.swift in Sources */,
-				232011EE22FAB38C0002C14B /* MyApp.m in Sources */,
 				366C00AB24DBC6DE00BAA83B /* BalloonMarker.swift in Sources */,
 				366C010824DBC6DE00BAA83B /* RNBarChartViewBase.swift in Sources */,
 				366C00F624DBC6DE00BAA83B /* RNLineChartManagerBridge.m in Sources */,
+				23FEDCE625BFFD9100DDDC25 /* report.m in Sources */,
 				366C012024DBC6DE00BAA83B /* RadarDataExtract.swift in Sources */,
 				366C009C24DBC6DE00BAA83B /* RNCombinedChartView.swift in Sources */,
+				234AF86C25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */,
 				366C00AE24DBC6DE00BAA83B /* RNBarLineChartViewBase.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				366C010E24DBC6DE00BAA83B /* RNHorizontalBarChartManager.swift in Sources */,
@@ -2080,7 +2146,6 @@
 				366C009F24DBC6DE00BAA83B /* RNCombinedChartManager.swift in Sources */,
 				366C00CF24DBC6DE00BAA83B /* RNBubbleChartManagerBridge.m in Sources */,
 				366C00BA24DBC6DE00BAA83B /* EntryToDictionaryUtils.swift in Sources */,
-				23207BB522FAD00F0002C14B /* ExtDataPaymentReq.m in Sources */,
 				366C00BD24DBC6DE00BAA83B /* ChartDataSetConfigUtils.swift in Sources */,
 				366C00CC24DBC6DE00BAA83B /* BubbleDataExtract.swift in Sources */,
 				366C012F24DBC6DE00BAA83B /* ChartGroupHolder.swift in Sources */,
@@ -2098,6 +2163,7 @@
 				366C00B124DBC6DE00BAA83B /* ChartDateFormatter.swift in Sources */,
 				366C00D224DBC6DE00BAA83B /* CustomChartDateFormatter.swift in Sources */,
 				366C00A824DBC6DE00BAA83B /* RNYAxisChartViewBase.swift in Sources */,
+				239AD16125BE643700302985 /* payment.m in Sources */,
 				366C00C324DBC6DE00BAA83B /* BridgeUtils.swift in Sources */,
 				366C00C624DBC6DE00BAA83B /* RNBubbleChartManager.swift in Sources */,
 				366C009924DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */,
@@ -2118,6 +2184,7 @@
 				366C012824DBC6DE00BAA83B /* RNRadarChartView.swift in Sources */,
 				366C00B924DBC6DE00BAA83B /* FontUtils.swift in Sources */,
 				366C012524DBC6DE00BAA83B /* RNRadarChartManagerBridge.m in Sources */,
+				23FEDCF025C00DFD00DDDC25 /* batch.m in Sources */,
 				366C00E624DBC6DE00BAA83B /* RNScatterChartManager.swift in Sources */,
 				366C00D724DBC6DE00BAA83B /* RNBarLineChartBaseManager.swift in Sources */,
 				366C010424DBC6DE00BAA83B /* RNCandleStickChartManager.swift in Sources */,
@@ -2130,12 +2197,13 @@
 				366C012B24DBC6DE00BAA83B /* RNRadarChartManager.swift in Sources */,
 				366C011F24DBC6DE00BAA83B /* RNHorizontalBarChartManagerBridge.m in Sources */,
 				366C00FB24DBC6DE00BAA83B /* LineDataExtract.swift in Sources */,
-				230F1DB724D3DA2200A95898 /* MyApp.m in Sources */,
 				366C00AD24DBC6DE00BAA83B /* BalloonMarker.swift in Sources */,
 				366C010A24DBC6DE00BAA83B /* RNBarChartViewBase.swift in Sources */,
 				366C00F824DBC6DE00BAA83B /* RNLineChartManagerBridge.m in Sources */,
+				23FEDCE725BFFD9100DDDC25 /* report.m in Sources */,
 				366C012224DBC6DE00BAA83B /* RadarDataExtract.swift in Sources */,
 				366C009E24DBC6DE00BAA83B /* RNCombinedChartView.swift in Sources */,
+				234AF86D25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */,
 				366C00B024DBC6DE00BAA83B /* RNBarLineChartViewBase.swift in Sources */,
 				230F1DB824D3DA2200A95898 /* AppDelegate.m in Sources */,
 				366C011024DBC6DE00BAA83B /* RNHorizontalBarChartManager.swift in Sources */,
@@ -2144,7 +2212,6 @@
 				366C00A124DBC6DE00BAA83B /* RNCombinedChartManager.swift in Sources */,
 				366C00D124DBC6DE00BAA83B /* RNBubbleChartManagerBridge.m in Sources */,
 				366C00BC24DBC6DE00BAA83B /* EntryToDictionaryUtils.swift in Sources */,
-				230F1DBA24D3DA2200A95898 /* ExtDataPaymentReq.m in Sources */,
 				366C00BF24DBC6DE00BAA83B /* ChartDataSetConfigUtils.swift in Sources */,
 				366C00CE24DBC6DE00BAA83B /* BubbleDataExtract.swift in Sources */,
 				366C013124DBC6DE00BAA83B /* ChartGroupHolder.swift in Sources */,
@@ -2162,6 +2229,7 @@
 				366C00B324DBC6DE00BAA83B /* ChartDateFormatter.swift in Sources */,
 				366C00D424DBC6DE00BAA83B /* CustomChartDateFormatter.swift in Sources */,
 				366C00AA24DBC6DE00BAA83B /* RNYAxisChartViewBase.swift in Sources */,
+				239AD16225BE643700302985 /* payment.m in Sources */,
 				366C00C524DBC6DE00BAA83B /* BridgeUtils.swift in Sources */,
 				366C00C824DBC6DE00BAA83B /* RNBubbleChartManager.swift in Sources */,
 				366C009B24DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */,
@@ -2182,6 +2250,7 @@
 				2388BF05253FEC34007B4A7A /* RNRadarChartView.swift in Sources */,
 				2388BF06253FEC34007B4A7A /* FontUtils.swift in Sources */,
 				2388BF07253FEC34007B4A7A /* RNRadarChartManagerBridge.m in Sources */,
+				23FEDCF125C00DFD00DDDC25 /* batch.m in Sources */,
 				2388BF08253FEC34007B4A7A /* RNScatterChartManager.swift in Sources */,
 				2388BF09253FEC34007B4A7A /* RNBarLineChartBaseManager.swift in Sources */,
 				2388BF0A253FEC34007B4A7A /* RNCandleStickChartManager.swift in Sources */,
@@ -2194,12 +2263,13 @@
 				2388BF11253FEC34007B4A7A /* RNRadarChartManager.swift in Sources */,
 				2388BF12253FEC34007B4A7A /* RNHorizontalBarChartManagerBridge.m in Sources */,
 				2388BF13253FEC34007B4A7A /* LineDataExtract.swift in Sources */,
-				2388BF14253FEC34007B4A7A /* MyApp.m in Sources */,
 				2388BF15253FEC34007B4A7A /* BalloonMarker.swift in Sources */,
 				2388BF16253FEC34007B4A7A /* RNBarChartViewBase.swift in Sources */,
 				2388BF17253FEC34007B4A7A /* RNLineChartManagerBridge.m in Sources */,
+				23FEDCE825BFFD9100DDDC25 /* report.m in Sources */,
 				2388BF18253FEC34007B4A7A /* RadarDataExtract.swift in Sources */,
 				2388BF19253FEC34007B4A7A /* RNCombinedChartView.swift in Sources */,
+				234AF86E25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */,
 				2388BF1A253FEC34007B4A7A /* RNBarLineChartViewBase.swift in Sources */,
 				2388BF1B253FEC34007B4A7A /* AppDelegate.m in Sources */,
 				2388BF1C253FEC34007B4A7A /* RNHorizontalBarChartManager.swift in Sources */,
@@ -2208,7 +2278,6 @@
 				2388BF1F253FEC34007B4A7A /* RNCombinedChartManager.swift in Sources */,
 				2388BF20253FEC34007B4A7A /* RNBubbleChartManagerBridge.m in Sources */,
 				2388BF21253FEC34007B4A7A /* EntryToDictionaryUtils.swift in Sources */,
-				2388BF22253FEC34007B4A7A /* ExtDataPaymentReq.m in Sources */,
 				2388BF23253FEC34007B4A7A /* ChartDataSetConfigUtils.swift in Sources */,
 				2388BF24253FEC34007B4A7A /* BubbleDataExtract.swift in Sources */,
 				2388BF25253FEC34007B4A7A /* ChartGroupHolder.swift in Sources */,
@@ -2226,6 +2295,7 @@
 				2388BF31253FEC34007B4A7A /* ChartDateFormatter.swift in Sources */,
 				2388BF32253FEC34007B4A7A /* CustomChartDateFormatter.swift in Sources */,
 				2388BF33253FEC34007B4A7A /* RNYAxisChartViewBase.swift in Sources */,
+				239AD16325BE643700302985 /* payment.m in Sources */,
 				2388BF34253FEC34007B4A7A /* BridgeUtils.swift in Sources */,
 				2388BF35253FEC34007B4A7A /* RNBubbleChartManager.swift in Sources */,
 				2388BF36253FEC34007B4A7A /* IndexValueFormatter.swift in Sources */,
@@ -2283,6 +2353,9 @@
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
 					"\"$(SRCROOT)/HPMerchant\"",
+					"$(PROJECT_DIR)/20200925",
+					"$(PROJECT_DIR)/20191125",
+					"$(PROJECT_DIR)/trans/sdk",
 				);
 				MARKETING_VERSION = 1.1.5;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2337,6 +2410,9 @@
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
 					"\"$(SRCROOT)/HPMerchant\"",
+					"$(PROJECT_DIR)/20200925",
+					"$(PROJECT_DIR)/20191125",
+					"$(PROJECT_DIR)/trans/sdk",
 				);
 				MARKETING_VERSION = 1.1.5;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2390,6 +2466,9 @@
 					"$(PROJECT_DIR)/sdk/inc/**",
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
+					"$(PROJECT_DIR)/20200925",
+					"$(PROJECT_DIR)/20191125",
+					"$(PROJECT_DIR)/trans/sdk",
 				);
 				MARKETING_VERSION = 1.1.5;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2443,6 +2522,9 @@
 					"$(PROJECT_DIR)/sdk/inc/**",
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
+					"$(PROJECT_DIR)/20200925",
+					"$(PROJECT_DIR)/20191125",
+					"$(PROJECT_DIR)/trans/sdk",
 				);
 				MARKETING_VERSION = 1.1.5;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2497,6 +2579,9 @@
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
 					"\"$(SRCROOT)/HPMerchant\"",
+					"$(PROJECT_DIR)/20200925",
+					"$(PROJECT_DIR)/20191125",
+					"$(PROJECT_DIR)/trans/sdk",
 				);
 				MARKETING_VERSION = 1.1.4;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2551,6 +2636,9 @@
 					"$(PROJECT_DIR)/sdk",
 					"\"$(SRCROOT)/HpMerchant\"",
 					"\"$(SRCROOT)/HPMerchant\"",
+					"$(PROJECT_DIR)/20200925",
+					"$(PROJECT_DIR)/20191125",
+					"$(PROJECT_DIR)/trans/sdk",
 				);
 				MARKETING_VERSION = 1.1.4;
 				OTHER_CFLAGS = "-fembed-bitcode";

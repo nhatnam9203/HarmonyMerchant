@@ -12,8 +12,7 @@ import {
 } from '@utils';
 import apiConfigs from '@configs/api';
 
-
-const PosLink = NativeModules.MyApp;
+const PosLink = NativeModules.report;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
 class TabFirstSettle extends Layout {
@@ -183,7 +182,7 @@ class TabFirstSettle extends Layout {
 
     handlePAXReport_IOS = async () => {
         const { paxMachineInfo } = this.props;
-        const { ip, port, timeout, isSetup } = paxMachineInfo;
+        const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
 
         if (isSetup) {
             await this.setState({
@@ -195,14 +194,26 @@ class TabFirstSettle extends Layout {
 
             try {
                 const tempEnv = env.IS_PRODUCTION;
-                PosLink.setupPax(ip, port, timeout);
+                const tempIpPax = commType == "TCP" ? ip : "";
+                const tempPortPax = commType == "TCP" ? port : "";
+                const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
                 // ----------- Total Amount --------
-                let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", "UNKNOWN", "UNKNOWN");
+                let data = await PosLink.reportTransaction({
+                    transType: "LOCALDETAILREPORT",
+                    edcType: "ALL",
+                    cardType: "UNKNOWN",
+                    paymentType: "UNKNOWN",
+                    commType: commType,
+                    destIp: tempIpPax,
+                    portDevice: tempPortPax,
+                    timeoutConnect: "90000",
+                    bluetoothAddr: idBluetooth
+                });
                 let result = JSON.parse(data);
                 const ExtData = result?.ExtData || "";
                 const xmlExtData = "<xml>" + ExtData.replace("\\n", "").replace("\\/", "/") + "</xml>";
 
-                if (result?.ResultTxt && result?.ResultTxt == "OK") {
+                if (result?.ResultCode && result?.ResultCode == "000000") {
                     if (tempEnv == "Production" && result?.Message === "DEMO APPROVED") {
                         await this.setState({
                             visible: false,
@@ -219,7 +230,17 @@ class TabFirstSettle extends Layout {
                         totalRecord = parseInt(result?.TotalRecord || 0);
 
                         // ----------- Total Report --------
-                        let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "ALL", "UNKNOWN", "");
+                        let amountData = await PosLink.reportTransaction({
+                            transType: "LOCALTOTALREPORT",
+                            edcType: "ALL",
+                            cardType: "UNKNOWN",
+                            paymentType: "",
+                            commType: commType,
+                            destIp: tempIpPax,
+                            portDevice: tempPortPax,
+                            timeoutConnect: "90000",
+                            bluetoothAddr: idBluetooth
+                        });
                         let amountResult = JSON.parse(amountData);
                         totalReport = parseFloat(amountResult?.CreditAmount || 0);
 
@@ -236,9 +257,8 @@ class TabFirstSettle extends Layout {
                     throw `${result.ResultTxt}`
                 }
 
-
             } catch (error) {
-                // console.log("---- error: ",error);
+                console.log("---- error: ", error);
                 isError = true;
                 this.handleRequestAPIByTerminalID(null);
                 this.props.actions.app.connectPaxMachineError(`${error}`);
@@ -494,7 +514,7 @@ class TabFirstSettle extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.hardware.paxMachineInfo,
     settleWaiting: state.invoice.settleWaiting,
     invoicesOfStaff: state.invoice.invoicesOfStaff,
     loading: state.app.loading,

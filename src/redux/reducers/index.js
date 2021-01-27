@@ -16,6 +16,7 @@ import marketing from "./marketing";
 import network from "./network";
 import report from "./report";
 import review from "./review";
+import hardware from "./hardware";
 
 const appReducer = combineReducers({
   dataLocal,
@@ -34,6 +35,7 @@ const appReducer = combineReducers({
   network,
   report,
   review,
+  hardware
 });
 
 export default appReducer;

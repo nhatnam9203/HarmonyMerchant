@@ -3,7 +3,7 @@ import { NativeModules, Alert, Platform } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 
-const PosLink = NativeModules.MyApp;
+const PosLink = NativeModules.batch;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
 class TabSecondSettle extends Layout {
@@ -26,7 +26,7 @@ class TabSecondSettle extends Layout {
                 paymentByCashStatistic: 0.00,
                 otherPaymentStatistic: 0.00,
                 paymentByGiftcard: 0.00,
-                
+
             },
             errorMessage: '',
             paxErrorMessage: ''
@@ -103,7 +103,8 @@ class TabSecondSettle extends Layout {
 
     settle = async () => {
         const { paxMachineInfo } = this.props;
-        const { ip, port, timeout, isSetup } = paxMachineInfo;
+        const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
+
         if (isSetup) {
             await this.setState({
                 numberFooter: 2,
@@ -124,8 +125,20 @@ class TabSecondSettle extends Layout {
                         this.proccessingSettlement();
                     });
             } else {
-                PosLink.setupPax(ip, port, timeout);
-                PosLink.batchTransaction(message => this.handleResponseBatchTransactions(message));
+                const tempIpPax = commType == "TCP" ? ip : "";
+                const tempPortPax = commType == "TCP" ? port : "";
+                const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+
+                PosLink.batchTransaction({
+                    transType: "BATCHCLOSE",
+                    edcType: "ALL",
+                    commType: commType,
+                    destIp: tempIpPax,
+                    portDevice: tempPortPax,
+                    timeoutConnect: "90000",
+                    bluetoothAddr: idBluetooth
+                },
+                    message => this.handleResponseBatchTransactions(message));
             }
 
         } else {
@@ -221,7 +234,7 @@ class TabSecondSettle extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.hardware.paxMachineInfo,
     settleWaiting: state.invoice.settleWaiting,
     isSettleBatch: state.invoice.isSettleBatch,
     connectPAXStatus: state.app.connectPAXStatus,

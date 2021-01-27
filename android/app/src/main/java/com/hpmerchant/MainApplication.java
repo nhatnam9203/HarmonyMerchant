@@ -3,6 +3,8 @@ package com.hpmerchant;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.polidea.reactnativeble.BlePackage;
+import it.innove.BleManagerPackage;
 import com.tkporter.sendsms.SendSMSPackage;
 import br.com.classapp.RNSensitiveInfo.RNSensitiveInfoPackage;
 import cl.json.RNSharePackage;
@@ -50,6 +52,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new BlePackage(),
+            new BleManagerPackage(),
             SendSMSPackage.getInstance(),
           new ReactNativePushNotificationPackage(),
             new RNSensitiveInfoPackage(),

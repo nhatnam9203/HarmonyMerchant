@@ -5,29 +5,90 @@ import {
     Image,
     Platform
 } from 'react-native';
+// import { BleManager } from 'react-native-ble-plx';
 
 import { Button, Text, ButtonCustom } from '@components';
 import { scaleSzie, localize } from '@utils';
 import IMAGE from '@resources';
 import connectRedux from '@redux/ConnectRedux';
+// import BluetoothScanner from "@lib/BluetoothScanner";
+// import { ScrollView } from 'react-native-gesture-handler';
 
 class AddDeviceHardware extends React.Component {
 
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            peripherals: []
+        }
+        this.bluetoothScannerRef = React.createRef();
+
+        // this.manager = new BleManager();
+    }
+
+    componentDidMount() {
+        // const subscription = this.manager.onStateChange((state) => {
+        //     console.log("---- Bluetooth State: ", state);
+        //     if (state === 'PoweredOn') {
+        //         // this.scanAndConnect();
+        //         // subscription.remove();
+        //     } else if (state === "PoweredOff") {
+        //         alert("Your Bluetooth Device Is Turn Off");
+        //     }
+        // }, true);
+    }
+
     addDevice = () => {
+        // this.scanAndConnect();
+
+        // this.props.actions.app.loadingApp();
+        // this.bluetoothScannerRef.current.startScan();
+
+        // setTimeout(() => {
+        //     this.props.actions.app.stopLoadingApp();
+        // }, 10000);
+
         this.props.gotoSetupDevice();
+    }
+
+    scanAndConnect() {
+        console.log("----- Start Scan ......");
+        // this.manager.startDeviceScan(null, null, (error, device) => {
+        //     if (error) {
+        //         console.log("----- Error : ", error);
+        //         return
+        //     }
+
+        //     if (device?.localName) {
+        //         console.log("----- Detect device: ", device);
+        //     }
+        // });
     }
 
     backHomeHardware = () => {
         this.props.backHomeHardware();
     }
 
+    handleStopScan = (list) => {
+        console.log("------ list ------: ", list.length);
+        this.props.actions.app.stopLoadingApp();
+        this.setState({
+            peripherals: list
+        });
+    }
+
+    handleSelectPeripheral = (peripheral) => {
+        this.props.actions.dataLocal.saveBluetoothPaxInfo(peripheral);
+    }
+
     // -------- Render ------
 
-    renderNoConnected(){
-        const {language} = this.props;
+    renderNoConnected() {
+        const { language } = this.props;
 
-        return(
-            <View>
+        return (
+            <View style={{ marginBottom: scaleSzie(10) }} >
                 <Text style={{
                     fontSize: scaleSzie(12),
                     color: 'rgb(131,131,131)',
@@ -35,7 +96,7 @@ class AddDeviceHardware extends React.Component {
                     marginBottom: scaleSzie(7)
                 }} >
                     {localize('No connected device', language)}
-                    
+
                 </Text>
 
                 <Button onPress={this.addDevice} style={{
@@ -61,7 +122,7 @@ class AddDeviceHardware extends React.Component {
                         color: '#0764B0',
                         marginLeft: scaleSzie(8)
                     }} >
-                        
+
                         {localize('Add device', language)}
                     </Text>
                 </Button>
@@ -69,29 +130,29 @@ class AddDeviceHardware extends React.Component {
         );
     }
 
-    renderConnected(){
+    renderConnected() {
         const { paxMachineInfo } = this.props;
-        return(
+        return (
             <Button onPress={this.addDevice} style={{
                 flexDirection: 'row', alignItems: 'center', width: scaleSzie(120),
-                marginTop:scaleSzie(12)
+                marginTop: scaleSzie(12)
 
             }} >
                 <Text style={{
                     fontSize: scaleSzie(14),
-                    fontWeight:'bold',
+                    fontWeight: 'bold',
                     color: '#0764B0',
                     marginLeft: scaleSzie(8),
-                    textDecorationLine: 'underline' 
+                    textDecorationLine: 'underline'
                 }} >
-                   {paxMachineInfo.name}
+                    {paxMachineInfo.name}
                 </Text>
             </Button>
         );
     }
 
     render() {
-        const { paxMachineInfo ,language} = this.props;
+        const { paxMachineInfo, language } = this.props;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), paddingTop: scaleSzie(20) }} >
                 <Text style={{
@@ -99,9 +160,9 @@ class AddDeviceHardware extends React.Component {
                     fontWeight: '600',
                     color: '#0764B0'
                 }} >
-                    
+
                     {localize('Payment Terminal', language)}
-            </Text>
+                </Text>
 
                 <Text style={{
                     fontSize: scaleSzie(16),
@@ -109,10 +170,10 @@ class AddDeviceHardware extends React.Component {
                     color: 'rgb(81,81,81)',
                     marginTop: scaleSzie(26)
                 }} >
-                    
+
                     {localize('Connected Device', language)}
-            </Text>
-                {!paxMachineInfo.isSetup ? this.renderNoConnected() : this.renderConnected() }
+                </Text>
+                {!paxMachineInfo.isSetup ? this.renderNoConnected() : this.renderConnected()}
 
                 {/* ------- Footer -------- */}
                 <View style={{ position: 'absolute', bottom: 0, width: '100%', justifyContent: 'flex-end', paddingBottom: scaleSzie(30) }} >
@@ -127,27 +188,72 @@ class AddDeviceHardware extends React.Component {
                             style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
                             styleText={{ fontSize: scaleSzie(20), fontWeight: '500' }}
                         />
-                        {/* <View style={{ width: scaleSzie(100) }} />
-                        <ButtonCustom
-                            width={scaleSzie(130)}
-                            height={50}
-                            backgroundColor="#0764B0"
-                            title="SAVE"
-                            textColor="#fff"
-                            onPress={this.setupPax}
-                            style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
-                            styleText={{ fontSize: scaleSzie(20), fontWeight: '500' }}
-                        /> */}
                     </View>
                 </View>
 
+                {/* <BluetoothScanner
+                    ref={this.bluetoothScannerRef}
+                    handleStopScan={this.handleStopScan}
+                /> */}
             </View>
         );
     }
+
+    componentWillUnmount() {
+        // subscription.remove();
+    }
+}
+
+const ItemBluetoothConnect = ({ title, isSelect, onPress }) => {
+    const tempIconSelect = isSelect ? ICON.radioExportSe : ICON.radioExport;
+
+    return (
+        <Button onPress={() => onPress(title)} style={{ flexDirection: "row", alignItems: "center", marginTop: scaleSzie(10) }} >
+            <Image source={tempIconSelect} />
+            <Text style={{ fontSize: scaleSzie(14), color: "rgb(131,131,131)", marginLeft: scaleSzie(10) }} >
+                {title}
+            </Text>
+        </Button>
+    );
+}
+
+const ItemBluetooth = ({ peripheral, isConnected, onPress }) => {
+
+    return (
+        <Button onPress={() => onPress(peripheral)} style={{
+            height: scaleSzie(45), backgroundColor: "rgb(250,250,250)", borderRadius: 6,
+            flexDirection: "row", alignItems: "center", paddingLeft: scaleSzie(15),
+            paddingRight: scaleSzie(40), justifyContent: "space-between",
+            marginBottom: scaleSzie(13)
+        }} >
+            <View>
+                <Text style={{
+                    fontSize: scaleSzie(14),
+                    fontWeight: '600',
+                }} >
+                    {peripheral?.name || "No Name"}
+                </Text>
+                <Text style={{
+                    fontSize: scaleSzie(8),
+                    fontWeight: '300',
+                }} >
+                    {peripheral?.id || ""}
+                </Text>
+            </View>
+
+            <Text style={{
+                fontSize: scaleSzie(12),
+                fontWeight: '600',
+                color: '#0764B0',
+            }} >
+                {`${isConnected ? "Connected" : ""}`}
+            </Text>
+        </Button>
+    );
 }
 
 const mapStateToProps = state => ({
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.hardware.paxMachineInfo,
     language: state.dataLocal.language,
 })
 

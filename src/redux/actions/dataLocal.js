@@ -128,3 +128,10 @@ export function switchTipOnPaxMachine(toggle = true) {
         payload: toggle
     }
 }
+
+export function saveBluetoothPaxInfo(peripheral) {
+    return {
+        type: 'SAVE_BLUETOOTH_PAX_INFO',
+        payload: peripheral
+    }
+}

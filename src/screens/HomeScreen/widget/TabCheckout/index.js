@@ -3,6 +3,7 @@ import _ from 'ramda';
 const signalR = require('@microsoft/signalr');
 import { NativeModules, Platform } from 'react-native';
 import env from 'react-native-config';
+import BleManager from 'react-native-ble-manager';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -15,7 +16,7 @@ import PrintManager from '@lib/PrintManager';
 import apiConfigs from '@configs/api';
 import initState from "./widget/initState";
 
-const PosLink = NativeModules.MyApp;
+const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
 class TabCheckout extends Layout {
@@ -967,7 +968,7 @@ class TabCheckout extends Layout {
                     } else {
                         setTimeout(() => {
                             alert('Please connect your Pax to take payment.');
-                        }, 300)
+                        }, 300);
                     }
                 } else if (method === 'giftcard') {
                     setTimeout(() => {
@@ -1039,32 +1040,45 @@ class TabCheckout extends Layout {
             }, 100);
         } else {
             const { groupAppointment } = this.props;
-            this.props.actions.appointment.checkCreditPaymentToServer(groupAppointment?.checkoutGroupId || 0, moneyUserGiveForStaff,moneyCreditCard);
+            this.props.actions.appointment.checkCreditPaymentToServer(groupAppointment?.checkoutGroupId || 0, moneyUserGiveForStaff, moneyCreditCard);
         }
     }
 
     sendTransToPaxMachine = async () => {
-        const { paxMachineInfo, isTipOnPaxMachine, paxAmount,amountCredtitForSubmitToServer } = this.props;
+        const { paxMachineInfo, isTipOnPaxMachine, paxAmount, amountCredtitForSubmitToServer, bluetoothPaxInfo } = this.props;
         const { paymentSelected } = this.state;
-        const { ip, port, timeout } = paxMachineInfo;
+        const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
         const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
 
-        // 1. Check setup pax 
-        PosLink.setupPax(ip, port, timeout);
-
-        // 2. Show modal processing 
+        // 1. Show modal processing 
         await this.setState({
             visibleProcessingCredit: true
         });
 
-        const tipRequest = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
+        const tempIpPax = commType == "TCP" ? ip : "";
+        const tempPortPax = commType == "TCP" ? port : "";
+        const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+        const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
 
-        // 3. Send Transaction 
-        PosLink.sendTransaction(tenderType, parseFloat(paxAmount), 0, tipRequest, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer));
+        // 2. Send Trans to pax
+        PosLink.sendTransaction({
+            tenderType: tenderType,
+            transType: "SALE",
+            amount: `${parseFloat(paxAmount)}`,
+            transactionId: "1",
+            extData: extData,
+            commType: commType,
+            destIp: tempIpPax,
+            portDevice: tempPortPax,
+            timeoutConnect: "90000",
+            bluetoothAddr: idBluetooth
+        }, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer))
     }
 
     async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
-        const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment,payAppointmentId } = this.props;
+
+        console.log("---- handleResponseCreditCard: ", message);
+        const { profile, groupAppointment, profileStaffLogin, customerInfoBuyAppointment, payAppointmentId } = this.props;
         await this.setState({
             visibleProcessingCredit: false
         })
@@ -1083,7 +1097,7 @@ class TabCheckout extends Layout {
                     alert(result.message);
                 }, 300)
 
-            } else if (result.ResultTxt && result.ResultTxt == "OK") {
+            } else if (result.ResultCode && result.ResultCode == "000000") {
                 if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
                     if (payAppointmentId) {
                         this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
@@ -1791,7 +1805,7 @@ const mapStateToProps = state => ({
     isDonePayment: state.appointment.isDonePayment,
     connectionSignalR: state.appointment.connectionSignalR,
     flagSignInAppointment: state.appointment.flagSignInAppointment,
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.hardware.paxMachineInfo,
     extrasByMerchant: state.extra.extrasByMerchant,
     listStaffByMerchant: state.staff.listStaffByMerchant,
     profileStaffLogin: state.dataLocal.profileStaffLogin,
@@ -1820,7 +1834,9 @@ const mapStateToProps = state => ({
     isTipOnPaxMachine: state.dataLocal.isTipOnPaxMachine,
     startProcessingPax: state.appointment.startProcessingPax,
     paxAmount: state.appointment.paxAmount,
-    amountCredtitForSubmitToServer: state.appointment.amountCredtitForSubmitToServer
+    amountCredtitForSubmitToServer: state.appointment.amountCredtitForSubmitToServer,
+
+    bluetoothPaxInfo: state.dataLocal.bluetoothPaxInfo
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);
