@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.hardware.paxMachineInfo,
     language: state.dataLocal.language,
     printerSelect: state.dataLocal.printerSelect
 })

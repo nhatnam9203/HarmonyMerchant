@@ -234,7 +234,7 @@ class TabSecondSettle extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.hardware.paxMachineInfo,
     settleWaiting: state.invoice.settleWaiting,
     isSettleBatch: state.invoice.isSettleBatch,
     connectPAXStatus: state.app.connectPAXStatus,

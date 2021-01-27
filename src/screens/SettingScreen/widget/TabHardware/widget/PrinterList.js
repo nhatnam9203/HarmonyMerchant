@@ -218,7 +218,7 @@ const ItemPrinter = ({ modelName, isConnected, onPress }) => {
 }
 
 const mapStateToProps = state => ({
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.hardware.paxMachineInfo,
     language: state.dataLocal.language,
     printerPortType: state.dataLocal.printerPortType,
     printerList: state.dataLocal.printerList,

@@ -253,7 +253,7 @@ const ItemBluetooth = ({ peripheral, isConnected, onPress }) => {
 }
 
 const mapStateToProps = state => ({
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.hardware.paxMachineInfo,
     language: state.dataLocal.language,
 })
 

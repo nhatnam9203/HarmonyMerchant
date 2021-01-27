@@ -629,7 +629,7 @@ const mapStateToProps = state => ({
     totalPages: state.invoice.totalPages,
     currentPage: state.invoice.currentPage,
     visibleEnterPinInvoice: state.app.visibleEnterPinInvoice,
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.hardware.paxMachineInfo,
     visibleConfirmPrintInvoice: state.invoice.visibleConfirmPrintInvoice,
     isLoadMoreInvoiceList: state.invoice.isLoadMoreInvoiceList,
     searchKeyword: state.invoice.searchKeyword,

@@ -1050,10 +1050,7 @@ class TabCheckout extends Layout {
         const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
         const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
 
-        // 1. Check setup pax 
-        // SettingPayment.setupPax(commType, ip, port, 90000, bluetoothAddr);
-
-        // 2. Show modal processing 
+        // 1. Show modal processing 
         await this.setState({
             visibleProcessingCredit: true
         });
@@ -1063,6 +1060,7 @@ class TabCheckout extends Layout {
         const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
         const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
 
+        // 2. Send Trans to pax
         PosLink.sendTransaction({
             tenderType: tenderType,
             transType: "SALE",
@@ -1807,7 +1805,7 @@ const mapStateToProps = state => ({
     isDonePayment: state.appointment.isDonePayment,
     connectionSignalR: state.appointment.connectionSignalR,
     flagSignInAppointment: state.appointment.flagSignInAppointment,
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.hardware.paxMachineInfo,
     extrasByMerchant: state.extra.extrasByMerchant,
     listStaffByMerchant: state.staff.listStaffByMerchant,
     profileStaffLogin: state.dataLocal.profileStaffLogin,

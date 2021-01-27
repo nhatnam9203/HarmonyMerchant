@@ -514,7 +514,7 @@ class TabFirstSettle extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.hardware.paxMachineInfo,
     settleWaiting: state.invoice.settleWaiting,
     invoicesOfStaff: state.invoice.invoicesOfStaff,
     loading: state.app.loading,

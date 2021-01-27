@@ -1,5 +1,4 @@
 import { persistReducer } from "redux-persist";
-import createSensitiveStorage from "redux-persist-sensitive-storage";
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { getModalNameOfPrinter } from "@utils";
@@ -11,15 +10,6 @@ const initialState = {
     language: 'en',
     autoCloseAt: '',
     autoLockScreenAfter: 'Never',
-    paxMachineInfo: {
-        commType:"",
-        name: '',
-        ip: '',
-        port: '',
-        timeout: 90000,
-        bluetoothAddr:"",
-        isSetup: false
-    },
     profileStaffLogin: {},
     isLoginStaff: false,
     listAppointmentsOfflineMode: [],
@@ -46,13 +36,6 @@ function dataLocalReducer(state = initialState, action) {
             return {
                 ...state,
                 checkEmailToResetPax: action.payload,
-                paxMachineInfo: state.checkEmailToResetPax && state.checkEmailToResetPax === action.payload ? state.paxMachineInfo : {
-                    name: '',
-                    ip: '',
-                    port: '',
-                    timeout: 60000,
-                    isSetup: false
-                },
                 MIDStorage: action.isRememberMID ? action.payload : "",
             }
         case 'TOGGLE_SAVE_MID':
@@ -112,11 +95,6 @@ function dataLocalReducer(state = initialState, action) {
                 ...state,
                 isLoginStaff: false,
             };
-        case 'SETUP_PAX_MACHINE':
-            return {
-                ...state,
-                paxMachineInfo: action.payload
-            }
         case 'ADD_APPOINTMENT_OFFLINE_MODE':
             return {
                 ...state,
@@ -134,18 +112,6 @@ function dataLocalReducer(state = initialState, action) {
                 profile: { ...state.profile, ...action.payload }
             }
         }
-        case 'DELETE_HARDWARE':
-            return {
-                ...state,
-                paxMachineInfo: {
-                    name: '',
-                    ip: '',
-                    port: '',
-                    timeout: 60000,
-                    isSetup: false
-                }
-            }
-
         case "UPDATE_DEVICE_ID":
             return {
                 ...state,
@@ -206,19 +172,7 @@ function dataLocalReducer(state = initialState, action) {
     }
 }
 
-// const sensitiveStorage = createSensitiveStorage({
-//     keychainService: "myKeychain",
-//     sharedPreferencesName: "mySharedPrefs"
-// });
 
-// const dataLocalPersistConfig = {
-//     key: "dataLocal",
-//     storage: sensitiveStorage
-
-// };
-
-
-// module.exports = persistReducer(dataLocalPersistConfig, dataLocalReducer);
 
 module.exports = persistReducer({
     key: "dataLocal",

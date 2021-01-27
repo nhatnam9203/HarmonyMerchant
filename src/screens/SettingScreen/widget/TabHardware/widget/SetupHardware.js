@@ -61,14 +61,14 @@ class SetupHardware extends React.Component {
             if (name === "" || bluetoothAddr === "") {
                 alert('Please enter full infomation!');
             } else {
-                this.props.actions.dataLocal.setupPaxMachine({ commType, name, ip, port, timeout, bluetoothAddr, isSetup: true });
+                this.props.actions.hardware.setupPaxMachine({ commType, name, ip, port, timeout, bluetoothAddr, isSetup: true });
                 this.props.backListDevices();
             }
         } else {
             if (name == '' || ip == '' || port == '' || timeout == '') {
                 alert('Please enter full infomation!');
             } else {
-                this.props.actions.dataLocal.setupPaxMachine({ commType, name, ip, port, timeout, bluetoothAddr, isSetup: true });
+                this.props.actions.hardware.setupPaxMachine({ commType, name, ip, port, timeout, bluetoothAddr, isSetup: true });
                 this.props.backListDevices();
             };
         }
@@ -433,7 +433,7 @@ const ItemBluetooth = ({ peripheral, bluetoothPaxInfo, onPress }) => {
 
 
 const mapStateToProps = state => ({
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.hardware.paxMachineInfo,
     language: state.dataLocal.language,
     bluetoothPaxInfo: state.dataLocal.bluetoothPaxInfo
 })
