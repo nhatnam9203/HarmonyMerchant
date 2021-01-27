@@ -16,7 +16,7 @@ import {
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 
-const PosLink = NativeModules.tempPayment;
+const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
 const initalState = {

@@ -8,6 +8,7 @@ import {
     ScrollView,
     Keyboard
 } from 'react-native';
+import { BleManager } from 'react-native-ble-plx';
 
 import { ButtonCustom, Text, Button } from '@components';
 import { scaleSzie, localize } from '@utils';
@@ -38,6 +39,8 @@ class SetupHardware extends React.Component {
         this.handleStopScan = this.handleStopScan.bind(this);
         this.scanDevices = this.scanDevices.bind(this);
         this.handleSelectPeripheral = this.handleSelectPeripheral.bind(this);
+
+        this.manager = new BleManager();
     }
 
     componentDidMount() {
@@ -100,9 +103,36 @@ class SetupHardware extends React.Component {
         }
     }
 
-    scanDevices() {
+    async scanDevices() {
         this.props.actions.app.loadingApp();
-        this.bluetoothScannerRef.current.startScan();
+        await this.setState({
+            peripherals: []
+        });
+        this.manager.startDeviceScan(null, null, (error, device) => {
+            if (error) {
+                console.log("----- Error : ", error);
+                return
+            }
+
+            if (device?.localName && device?.localName.includes("80")) {
+                // console.log("----- Detect device: ", device);
+                const tempPeripherals = [...this.state.peripherals];
+                tempPeripherals.push({
+                    id: device?.id || "",
+                    name: device?.name || "",
+                    localName: device?.localName || ""
+                });
+                this.setState({
+                    peripherals: tempPeripherals
+                });
+                this.manager.stopDeviceScan();
+                this.props.actions.app.stopLoadingApp();
+            }
+        });
+
+
+        // this.props.actions.app.loadingApp();
+        // this.bluetoothScannerRef.current.startScan();
 
         setTimeout(() => {
             this.props.actions.app.stopLoadingApp();
@@ -110,6 +140,7 @@ class SetupHardware extends React.Component {
     }
 
     handleStopScan = (list) => {
+        console.log("----- handleStopScan: ", list);
         this.props.actions.app.stopLoadingApp();
         this.setState({
             peripherals: list
@@ -317,10 +348,10 @@ class SetupHardware extends React.Component {
                     </View>
                 </View>
 
-                <BluetoothScanner
+                {/* <BluetoothScanner
                     ref={this.bluetoothScannerRef}
                     handleStopScan={this.handleStopScan}
-                />
+                /> */}
             </View>
         );
 
@@ -328,6 +359,7 @@ class SetupHardware extends React.Component {
 
     componentWillUnmount() {
         this.keyboardWillHide.remove();
+        this.manager = null
     }
 
 }

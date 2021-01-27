@@ -48,6 +48,9 @@
 		230F1DD024D3DA2200A95898 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F648A0DA8C8C4D8EB8650400 /* libRNImagePicker.a */; };
 		230F1DD324D3DA2200A95898 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		230F1DD424D3DA2200A95898 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
+		2339219725C147BF00E16629 /* libPOSLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 237D411225B59F0B00E39755 /* libPOSLink.a */; };
+		2339219B25C147C300E16629 /* libPOSLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 237D411225B59F0B00E39755 /* libPOSLink.a */; };
+		2339219F25C147C700E16629 /* libPOSLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 237D411225B59F0B00E39755 /* libPOSLink.a */; };
 		2342066122DD7C1800E0EA35 /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342065F22DD7C1700E0EA35 /* StarIO.framework */; };
 		2342066222DD7C1800E0EA35 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066022DD7C1800E0EA35 /* StarIO_Extension.framework */; };
 		2342066422DD7C2600E0EA35 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */; };
@@ -55,9 +58,6 @@
 		234AF86C25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */; };
 		234AF86D25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */; };
 		234AF86E25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */; };
-		237D411325B59F0B00E39755 /* libPOSLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 237D411225B59F0B00E39755 /* libPOSLink.a */; };
-		237D411425B59F0B00E39755 /* libPOSLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 237D411225B59F0B00E39755 /* libPOSLink.a */; };
-		237D411525B59F0B00E39755 /* libPOSLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 237D411225B59F0B00E39755 /* libPOSLink.a */; };
 		2388BDCF253FE9A3007B4A7A /* staging.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2388BDCE253FE9A3007B4A7A /* staging.plist */; };
 		2388BEFE253FEC34007B4A7A /* RNBarChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008C24DBC6DD00BAA83B /* RNBarChartManager.swift */; };
 		2388BEFF253FEC34007B4A7A /* RNBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366C008E24DBC6DD00BAA83B /* RNBarChartView.swift */; };
@@ -139,9 +139,9 @@
 		2388BF53253FEC34007B4A7A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		2388BF54253FEC34007B4A7A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36F619BA2500D81B00893A84 /* GoogleService-Info.plist */; };
 		2399DEC122F1A9CF00DBCCFE /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2399DEBD22F1A9C100DBCCFE /* libRNFetchBlob.a */; };
-		239AD16125BE643700302985 /* tempPayment.m in Sources */ = {isa = PBXBuildFile; fileRef = 239AD13625BE643700302985 /* tempPayment.m */; };
-		239AD16225BE643700302985 /* tempPayment.m in Sources */ = {isa = PBXBuildFile; fileRef = 239AD13625BE643700302985 /* tempPayment.m */; };
-		239AD16325BE643700302985 /* tempPayment.m in Sources */ = {isa = PBXBuildFile; fileRef = 239AD13625BE643700302985 /* tempPayment.m */; };
+		239AD16125BE643700302985 /* payment.m in Sources */ = {isa = PBXBuildFile; fileRef = 239AD13625BE643700302985 /* payment.m */; };
+		239AD16225BE643700302985 /* payment.m in Sources */ = {isa = PBXBuildFile; fileRef = 239AD13625BE643700302985 /* payment.m */; };
+		239AD16325BE643700302985 /* payment.m in Sources */ = {isa = PBXBuildFile; fileRef = 239AD13625BE643700302985 /* payment.m */; };
 		23FE295523C77BEF00E95925 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23FE295423C77BEF00E95925 /* File.swift */; };
 		23FEDCE625BFFD9100DDDC25 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCE425BFFD9000DDDC25 /* report.m */; };
 		23FEDCE725BFFD9100DDDC25 /* report.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCE425BFFD9000DDDC25 /* report.m */; };
@@ -629,8 +629,8 @@
 		2388BDCE253FE9A3007B4A7A /* staging.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = staging.plist; path = Hpmerchant/staging.plist; sourceTree = "<group>"; };
 		2388BF5B253FEC34007B4A7A /* Hpmerchant_Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hpmerchant_Dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2399DE9322F1A9C100DBCCFE /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
-		239AD13525BE643700302985 /* tempPayment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tempPayment.h; sourceTree = "<group>"; };
-		239AD13625BE643700302985 /* tempPayment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tempPayment.m; sourceTree = "<group>"; };
+		239AD13525BE643700302985 /* payment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = payment.h; sourceTree = "<group>"; };
+		239AD13625BE643700302985 /* payment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = payment.m; sourceTree = "<group>"; };
 		23FE295323C77BEF00E95925 /* Hpmerchant-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hpmerchant-Bridging-Header.h"; sourceTree = "<group>"; };
 		23FE295423C77BEF00E95925 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		23FEDCE425BFFD9000DDDC25 /* report.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = report.m; sourceTree = "<group>"; };
@@ -736,6 +736,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2339219F25C147C700E16629 /* libPOSLink.a in Frameworks */,
 				2399DEC122F1A9CF00DBCCFE /* libRNFetchBlob.a in Frameworks */,
 				2342066622DD7C3100E0EA35 /* ExternalAccessory.framework in Frameworks */,
 				2342066422DD7C2600E0EA35 /* CoreBluetooth.framework in Frameworks */,
@@ -754,7 +755,6 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				237D411325B59F0B00E39755 /* libPOSLink.a in Frameworks */,
 				190B834FB4BB4246962A3E7E /* libRNGestureHandler.a in Frameworks */,
 				C757D92E4E5E404DAE4671BF /* libRNImagePicker.a in Frameworks */,
 				B02E0E6DAF7F29AA27CDC35A /* (null) in Frameworks */,
@@ -769,6 +769,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2339219B25C147C300E16629 /* libPOSLink.a in Frameworks */,
 				3649D09224E660C0003C8174 /* libRNSpringScrollView.a in Frameworks */,
 				230F1DBD24D3DA2200A95898 /* libRNFetchBlob.a in Frameworks */,
 				230F1DBE24D3DA2200A95898 /* ExternalAccessory.framework in Frameworks */,
@@ -782,7 +783,6 @@
 				230F1DC624D3DA2200A95898 /* libRCTActionSheet.a in Frameworks */,
 				230F1DC724D3DA2200A95898 /* libRCTGeolocation.a in Frameworks */,
 				230F1DC824D3DA2200A95898 /* libRCTImage.a in Frameworks */,
-				237D411425B59F0B00E39755 /* libPOSLink.a in Frameworks */,
 				230F1DC924D3DA2200A95898 /* libRCTLinking.a in Frameworks */,
 				230F1DCA24D3DA2200A95898 /* libRCTNetwork.a in Frameworks */,
 				230F1DCB24D3DA2200A95898 /* libRCTSettings.a in Frameworks */,
@@ -799,6 +799,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2339219725C147BF00E16629 /* libPOSLink.a in Frameworks */,
 				2388BF39253FEC34007B4A7A /* libRNFetchBlob.a in Frameworks */,
 				2388BF3A253FEC34007B4A7A /* ExternalAccessory.framework in Frameworks */,
 				2388BF3B253FEC34007B4A7A /* CoreBluetooth.framework in Frameworks */,
@@ -812,7 +813,6 @@
 				2388BF43253FEC34007B4A7A /* libRCTGeolocation.a in Frameworks */,
 				2388BF44253FEC34007B4A7A /* libRCTImage.a in Frameworks */,
 				2388BF45253FEC34007B4A7A /* libRCTLinking.a in Frameworks */,
-				237D411525B59F0B00E39755 /* libPOSLink.a in Frameworks */,
 				2388BF46253FEC34007B4A7A /* libRCTNetwork.a in Frameworks */,
 				2388BF47253FEC34007B4A7A /* libRCTSettings.a in Frameworks */,
 				2388BF48253FEC34007B4A7A /* libRCTText.a in Frameworks */,
@@ -977,9 +977,10 @@
 		237D407025B588E300E39755 /* trans */ = {
 			isa = PBXGroup;
 			children = (
+				237D40F325B59F0B00E39755 /* sdk */,
 				23FEDCEC25C00DFD00DDDC25 /* batch */,
 				23FEDCE325BFFD9000DDDC25 /* report */,
-				239AD13425BE643700302985 /* tempPayment */,
+				239AD13425BE643700302985 /* payment */,
 			);
 			path = trans;
 			sourceTree = "<group>";
@@ -1037,13 +1038,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		239AD13425BE643700302985 /* tempPayment */ = {
+		239AD13425BE643700302985 /* payment */ = {
 			isa = PBXGroup;
 			children = (
-				239AD13525BE643700302985 /* tempPayment.h */,
-				239AD13625BE643700302985 /* tempPayment.m */,
+				239AD13525BE643700302985 /* payment.h */,
+				239AD13625BE643700302985 /* payment.m */,
 			);
-			path = tempPayment;
+			path = payment;
 			sourceTree = "<group>";
 		};
 		23A9C2B422AA946200C9593A /* Products */ = {
@@ -1342,7 +1343,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				237D40F325B59F0B00E39755 /* sdk */,
 				36F619BE2500D99A00893A84 /* Dev.entitlements */,
 				3684059024F8BCDA00021B55 /* HPMerchant.entitlements */,
 				3684056524F8BCA200021B55 /* Staing.entitlements */,
@@ -2163,7 +2163,7 @@
 				366C00B124DBC6DE00BAA83B /* ChartDateFormatter.swift in Sources */,
 				366C00D224DBC6DE00BAA83B /* CustomChartDateFormatter.swift in Sources */,
 				366C00A824DBC6DE00BAA83B /* RNYAxisChartViewBase.swift in Sources */,
-				239AD16125BE643700302985 /* tempPayment.m in Sources */,
+				239AD16125BE643700302985 /* payment.m in Sources */,
 				366C00C324DBC6DE00BAA83B /* BridgeUtils.swift in Sources */,
 				366C00C624DBC6DE00BAA83B /* RNBubbleChartManager.swift in Sources */,
 				366C009924DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */,
@@ -2229,7 +2229,7 @@
 				366C00B324DBC6DE00BAA83B /* ChartDateFormatter.swift in Sources */,
 				366C00D424DBC6DE00BAA83B /* CustomChartDateFormatter.swift in Sources */,
 				366C00AA24DBC6DE00BAA83B /* RNYAxisChartViewBase.swift in Sources */,
-				239AD16225BE643700302985 /* tempPayment.m in Sources */,
+				239AD16225BE643700302985 /* payment.m in Sources */,
 				366C00C524DBC6DE00BAA83B /* BridgeUtils.swift in Sources */,
 				366C00C824DBC6DE00BAA83B /* RNBubbleChartManager.swift in Sources */,
 				366C009B24DBC6DE00BAA83B /* IndexValueFormatter.swift in Sources */,
@@ -2295,7 +2295,7 @@
 				2388BF31253FEC34007B4A7A /* ChartDateFormatter.swift in Sources */,
 				2388BF32253FEC34007B4A7A /* CustomChartDateFormatter.swift in Sources */,
 				2388BF33253FEC34007B4A7A /* RNYAxisChartViewBase.swift in Sources */,
-				239AD16325BE643700302985 /* tempPayment.m in Sources */,
+				239AD16325BE643700302985 /* payment.m in Sources */,
 				2388BF34253FEC34007B4A7A /* BridgeUtils.swift in Sources */,
 				2388BF35253FEC34007B4A7A /* RNBubbleChartManager.swift in Sources */,
 				2388BF36253FEC34007B4A7A /* IndexValueFormatter.swift in Sources */,
@@ -2355,6 +2355,7 @@
 					"\"$(SRCROOT)/HPMerchant\"",
 					"$(PROJECT_DIR)/20200925",
 					"$(PROJECT_DIR)/20191125",
+					"$(PROJECT_DIR)/trans/sdk",
 				);
 				MARKETING_VERSION = 1.1.5;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2411,6 +2412,7 @@
 					"\"$(SRCROOT)/HPMerchant\"",
 					"$(PROJECT_DIR)/20200925",
 					"$(PROJECT_DIR)/20191125",
+					"$(PROJECT_DIR)/trans/sdk",
 				);
 				MARKETING_VERSION = 1.1.5;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2466,6 +2468,7 @@
 					"\"$(SRCROOT)/HpMerchant\"",
 					"$(PROJECT_DIR)/20200925",
 					"$(PROJECT_DIR)/20191125",
+					"$(PROJECT_DIR)/trans/sdk",
 				);
 				MARKETING_VERSION = 1.1.5;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2521,6 +2524,7 @@
 					"\"$(SRCROOT)/HpMerchant\"",
 					"$(PROJECT_DIR)/20200925",
 					"$(PROJECT_DIR)/20191125",
+					"$(PROJECT_DIR)/trans/sdk",
 				);
 				MARKETING_VERSION = 1.1.5;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2577,6 +2581,7 @@
 					"\"$(SRCROOT)/HPMerchant\"",
 					"$(PROJECT_DIR)/20200925",
 					"$(PROJECT_DIR)/20191125",
+					"$(PROJECT_DIR)/trans/sdk",
 				);
 				MARKETING_VERSION = 1.1.4;
 				OTHER_CFLAGS = "-fembed-bitcode";
@@ -2633,6 +2638,7 @@
 					"\"$(SRCROOT)/HPMerchant\"",
 					"$(PROJECT_DIR)/20200925",
 					"$(PROJECT_DIR)/20191125",
+					"$(PROJECT_DIR)/trans/sdk",
 				);
 				MARKETING_VERSION = 1.1.4;
 				OTHER_CFLAGS = "-fembed-bitcode";

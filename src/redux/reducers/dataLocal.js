@@ -223,7 +223,7 @@ function dataLocalReducer(state = initialState, action) {
 module.exports = persistReducer({
     key: "dataLocal",
     storage: AsyncStorage,
-    blacklist: []
+    // blacklist: []
 }, dataLocalReducer);
 
 

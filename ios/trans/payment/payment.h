@@ -1,24 +1,23 @@
 //
-//  payment.h
+//  report.h
 //  Hpmerchant
 //
-//  Created by Nguyễn Hoàng Nhật Phi on 18/01/2021.
+//  Created by Nguyễn Hoàng Nhật Phi on 19/01/2021.
 //  Copyright © 2021 Facebook. All rights reserved.
 //
 
-#ifndef payment_h
-#define payment_h
+#ifndef report_h
+#define report_h
 
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
-#import "MyPax.h"
-#import "PaymentRequest.h"
+#import "PosLink.h"
 
-typedef void(^MutiplePaymentBlock)(PaymentRequest *model);
 @interface payment : NSObject <RCTBridgeModule>
 
-@property (nonatomic, strong) MyPax *mypax;
+@property(nonatomic, strong)NSString *tempIdAddrBluetooth;
+@property(nonatomic, strong)PosLink *poslink;
 
 @end
 
-#endif /* payment_h */
+#endif /* report_h */
