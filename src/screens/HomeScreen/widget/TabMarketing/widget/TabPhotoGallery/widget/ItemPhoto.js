@@ -45,8 +45,8 @@ const ItemPhoto = ({ item, selectImage, imageSelect }) => {
       )}
 
       <View style={styles.photo}>
-        <Image source={IMAGE.Gallery_ic} />
-        <Text style={styles.name}>{title}</Text>
+        <Image style={{marginTop: scaleSzie(1)}} source={IMAGE.Gallery_ic} />
+        <Text numberOfLines={2} style={styles.name}>{title}</Text>
       </View>
       {selected && (
         <View style={styles.tick}>
@@ -91,10 +91,10 @@ const styles = StyleSheet.create({
     marginLeft: scaleSzie(10),
     paddingVertical: scaleSzie(10),
     width: "100%",
-    alignItems: "center",
     flexDirection: "row",
   },
   name: {
+    width: "80%",
     marginLeft: scaleSzie(5),
     fontSize: scaleSzie(11),
     color: "#9A9A9A",

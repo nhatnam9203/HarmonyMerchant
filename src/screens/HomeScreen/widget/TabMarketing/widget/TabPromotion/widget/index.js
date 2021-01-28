@@ -2,6 +2,7 @@ import ItemCalendar from './ItemCalendar';
 import ItemPromo from './ItemPromo';
 import ItemDropdown from './ItemDropdown';
 import ItemCheckBoxInput from './ItemCheckBoxInput';
+import PromotionHome from "./PromotionHome";
 
 
 module.exports = {
@@ -9,5 +10,5 @@ module.exports = {
     ItemPromo,
     ItemDropdown,
     ItemCheckBoxInput,
-    
+    PromotionHome
 }

@@ -13,7 +13,7 @@ import styles from './style';
 import { DatePicker, ScrollableTabView } from '@components';
 import {
     PromotionFirst, PromotionSecond, PromotionThird, PromotionFour, PromotionFive,
-    PromotionRewardPoints
+    PromotionRewardPoints,PromotionHome
 } from './widget';
 
 const { width } = Dimensions.get('window');
@@ -34,9 +34,7 @@ class Layout extends React.Component {
                     renderTabBar={() => <View />}
                 // onChangeTab={this.onChangeTab}
                 >
-                    <View style={{ flex: 1, }} >
-
-                    </View>
+                    <PromotionHome />
 
                 </ScrollableTabView>
 

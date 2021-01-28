@@ -73,7 +73,7 @@ function* exportBatchHistory(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            const pdfPath =  responses?.data?.path || "";
+            const pdfPath = responses?.data?.path || "";
             const dirs = RNFetchBlob.fs.dirs;
             const fileDownload = yield RNFetchBlob.config({
                 fileCache: true,
