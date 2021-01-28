@@ -332,7 +332,8 @@ class PrincipalScreen extends Layout {
                     mobilePhone: `${phoneCodePrincipal1.mobilePhone}${principalInfo.mobilePhone}`,
                     dateOfBirth: `${formatWithMoment(this.state.dateOfBirth, 'MM/DD/YYYY')}`,
                     fileId: this.state.fileId,
-                    addressPrincipal: temptAddressPrincipal
+                    addressPrincipal: temptAddressPrincipal,
+                    stateIssued: getIdStateByName(stateCity, principalInfo.stateIssued)
                 };
 
                 // -------- handle principal 2 -------
@@ -349,7 +350,8 @@ class PrincipalScreen extends Layout {
                         mobilePhone: `${phoneCodePrincipal2.mobilePhone}${principalInfo2.mobilePhone}`,
                         dateOfBirth: `${formatWithMoment(this.state.dateOfBirthPrincipal2, 'MM/DD/YYYY')}`,
                         fileId: this.state.fileIdPrincipal2,
-                        addressPrincipal: temptAddressPrincipalSecond
+                        addressPrincipal: temptAddressPrincipalSecond,
+                        stateIssued: getIdStateByName(stateCity, principalInfo2.stateIssued)
                     };
                     this.props.actions.app.setPrincipalInfo([temptPrincipalInfo, temptPrincipalSecondInfo]);
                     this.props.goToPage(4);
@@ -481,7 +483,7 @@ class PrincipalScreen extends Layout {
         });
     }
 
-    resetMarginTopStateIssued = () =>{
+    resetMarginTopStateIssued = () => {
         this.setState({
             dynamicMarginBottomDAStateIssuedPrincipal1: 24,
             dynamicMarginBottomDAStateIssuedPrincipal2: 24,
