@@ -17,6 +17,7 @@ class Layout extends React.Component {
                 <ScrollableTabView
                     ref={this.scrollTabRef}
                     style={{}}
+                    locked={true}
                     initialPage={0}
                     renderTabBar={() => <CustomTabBar
                         activeTextColor="#fff"
