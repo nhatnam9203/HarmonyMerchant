@@ -297,7 +297,8 @@ class Layout extends React.Component {
                                     item={item}
                                     removeItemBasket={this.removeItemBasket}
                                     onPress={this.changeStylist}
-                                    changeProductInBasket={this.changeProductInBasket}
+                                    changeProduct={this.changeProductInBasket}
+                                    // changeProduct={product => this.changeProductInBasket(product)}
                                     removeExtra={this.removeItemBasket}
                                 />)
                             }

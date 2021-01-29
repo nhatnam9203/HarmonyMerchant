@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import Swipeout from 'react-native-swipeout'
 
-import { scaleSzie, getTotalProductByQuantity ,formatMoney} from '@utils';
+import { scaleSzie, getTotalProductByQuantity, formatMoney } from '@utils';
 import { Text, Button } from '@components';
 import IMAGE from '@resources';
 
@@ -64,7 +64,7 @@ const ItemBasket = ({ item, removeItemBasket, onPress, changeProductInBasket }) 
                     </View>
 
                     {/* ------------ */}
-                    <View style={{  flex: 1, justifyContent: 'center'}} >
+                    <View style={{ flex: 1, justifyContent: 'center' }} >
                         <Text style={{ color: '#fff', fontSize: scaleSzie(13), }} >
                             {item.type === 'Product' ? item.quanlitySet : item.data.name}
                         </Text>

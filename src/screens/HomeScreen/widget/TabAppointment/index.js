@@ -301,7 +301,7 @@ class TabAppointment extends Layout {
                     name: ''
                 },
                 categoryTypeSelected: '',
-                arrSelectedExtra:[]
+                arrSelectedExtra: []
             })
 
         } else {
@@ -408,6 +408,7 @@ class TabAppointment extends Layout {
     }
 
     changeProductInBasket = async (product) => {
+        // console.log("------ product: ",product);
         this.changePriceAmountProductRef.current.setStateFromParent(product);
         this.setState({
             visibleChangePriceAmountProduct: true
@@ -427,7 +428,7 @@ class TabAppointment extends Layout {
     }
 
     showModalDiscount = () => {
-        const { profileStaffLogin,appointmentDetail } = this.props;
+        const { profileStaffLogin, appointmentDetail } = this.props;
         const { basket, appointmentId } = this.state;
 
         if (appointmentDetail && appointmentDetail?.subTotal > 0) {
