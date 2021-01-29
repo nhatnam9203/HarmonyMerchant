@@ -72,5 +72,14 @@ export default StyleSheet.create({
     color: '#6A6A6A',
     fontSize: scaleSzie(12),
     marginTop: scaleSzie(10)
-  }
+  },
+  closeBtn: {
+    position: 'absolute',
+    top: scaleSzie(20),
+    right: scaleSzie(10),
+    width: scaleSzie(30),
+    height: scaleSzie(30),
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
