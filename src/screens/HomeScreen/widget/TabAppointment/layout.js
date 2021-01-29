@@ -9,7 +9,7 @@ import _ from 'ramda';
 
 import { Text, ButtonCustom, Button, PopupConfirm, PopupCheckStaffPermission } from '@components';
 import styles from './style';
-import { scaleSzie, localize, formatMoney, checkCategoryIsNotExist } from '@utils';
+import { scaleSzie, localize, formatMoney, checkCategoryIsNotExist, formatNumberFromCurrency} from '@utils';
 import {
     ItemCategory, ItemProductService, ColPlaceHolder, ItemAmount, ItemExtra, ItemBasket
 } from '../TabCheckout/widget';
@@ -378,7 +378,7 @@ class Layout extends React.Component {
     renderButtonBookAppointment() {
         const { language, appointmentDetail } = this.props;
 
-        if (appointmentDetail && appointmentDetail?.subTotal > 0) {
+        if (appointmentDetail && formatNumberFromCurrency(appointmentDetail?.subTotal || 0) > 0) {
             return (
                 <ButtonCustom
                     width={`100%`}
