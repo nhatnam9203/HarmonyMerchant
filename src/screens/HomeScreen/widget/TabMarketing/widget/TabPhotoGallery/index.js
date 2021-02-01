@@ -9,6 +9,7 @@ class TabPhotoGallery extends Layout {
   constructor(props) {
     super(props);
     this.state = {
+      isvisible: false,
       refreshing: false,
       uriUpload: "",
       bannerUpload: {
@@ -18,6 +19,7 @@ class TabPhotoGallery extends Layout {
       },
       imageSelect: [],
       isSelected: false,
+      indexImage: 0,
     };
     this.onEndReachedCalledDuringMomentum = true;
     this.flatListRef = React.createRef();
@@ -26,6 +28,43 @@ class TabPhotoGallery extends Layout {
   componentDidMount() {
     // this.props.actions.review.getListMarketPlace();
   }
+
+  openImage = (index) => {
+    this.setState({
+      isvisible: true,
+      indexImage: index,
+    });
+  };
+
+  closeImage = () => {
+    this.setState({ isvisible: false });
+  };
+
+  formatImageArr = (oldArr) => {
+    const resultArr = oldArr.map((item) => ({
+      url: item.imageUrl,
+      id: item.merchantBannerId,
+      // width: Image.getSize(item.imageUrl, (width)),
+      // height: Image.getSize(item.imageUrl, (height)),
+    }));
+    return resultArr;
+  };
+
+  setIndex = (index) => {
+    this.setState({ indexImage: index });
+  };
+
+  nextImage = () => {
+    if (this.state.indexImage < this.props.listBanners.length - 1) {
+      this.setState({ indexImage: this.state.indexImage + 1 });
+    }
+  };
+
+  prevImage = () => {
+    if (this.state.indexImage > 0) {
+      this.setState({ indexImage: this.state.indexImage - 1 });
+    }
+  };
 
   onRefresh = () => {
     const { profile } = this.props;
@@ -40,10 +79,11 @@ class TabPhotoGallery extends Layout {
 
   handleUploadBannerLocal = async (response) => {
     const { profile } = this.props;
+    console.log(response);
     if (response.error === "Photo library permissions not granted") {
       gotoSettingsDevice();
     } else if (response.uri) {
-      let fileName = response?.fileName || "";
+      let fileName = response?.fileName || `IMG_${response?.fileSize}.JPG`;
       if (
         Platform.OS === "ios" &&
         (fileName.endsWith(".heic") || fileName.endsWith(".HEIC"))
@@ -126,7 +166,6 @@ class TabPhotoGallery extends Layout {
     if(this.flatListRef?.current){
       this.flatListRef?.current?.scrollToOffset({ y: 0, animated: false });
     }
-   
   };
 }
 

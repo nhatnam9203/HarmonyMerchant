@@ -11,18 +11,23 @@ import {
 import FastImage from "react-native-fast-image";
 import IMAGE from "@resources";
 
-const ItemPhoto = ({ item, selectImage, imageSelect }) => {
+const ItemPhoto = ({ index, item, selectImage, openImage, isSelected }) => {
   const { merchantBannerId, title, imageUrl, selected } = item;
 
   const onSelected = () => {
     selectImage(merchantBannerId);
   };
 
+  const onOpenImage = () => {
+    openImage(index);
+  };
+
   return (
     <TouchableOpacity
       activeOpacity={0.9}
       style={styles.container}
-      onPress={onSelected}
+      onPress={isSelected ? onSelected : onOpenImage}
+      onLongPress={onSelected}
     >
       {imageUrl ? (
         <FastImage
