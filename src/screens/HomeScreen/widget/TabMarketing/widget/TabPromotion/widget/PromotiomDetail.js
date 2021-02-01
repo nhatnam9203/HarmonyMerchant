@@ -14,7 +14,7 @@ import { Button, Text } from '@components';
 
 const { width } = Dimensions.get('window');
 
-const PromotionHome = () => {
+const PromotiomDetail = () => {
 
     const [promotion, setPromotion] = React.useState();
 
@@ -250,5 +250,5 @@ const styles = StyleSheet.create({
 
 
 
-export default PromotionHome;
+export default PromotiomDetail;
 

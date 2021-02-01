@@ -12,8 +12,7 @@ import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import { DatePicker, ScrollableTabView } from '@components';
 import {
-    PromotionFirst, PromotionSecond, PromotionThird, PromotionFour, PromotionFive,
-    PromotionRewardPoints,PromotionHome
+    PromotionHome,PromotiomDetail
 } from './widget';
 
 const { width } = Dimensions.get('window');
@@ -35,6 +34,7 @@ class Layout extends React.Component {
                 // onChangeTab={this.onChangeTab}
                 >
                     <PromotionHome />
+                    <PromotiomDetail />
 
                 </ScrollableTabView>
 
