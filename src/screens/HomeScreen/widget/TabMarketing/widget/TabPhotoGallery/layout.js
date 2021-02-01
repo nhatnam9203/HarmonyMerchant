@@ -100,7 +100,7 @@ class Layout extends React.Component {
                   }
                   renderItem={({ item, index }) => (
                     <ItemPhoto
-                      key={index}
+                      index={index}
                       item={item}
                       selectImage={this.selectImage}
                       imageSelect={this.state.imageSelect}
@@ -188,7 +188,7 @@ class Layout extends React.Component {
             </View>
           )}
         </View>
-        {/* <Modal
+        <Modal
           visible={this.state.isvisible}
           transparent={true}
           onRequestClose={this.closeImage}
@@ -206,7 +206,7 @@ class Layout extends React.Component {
                 {...props}
                 style={{
                   height: "80%",
-                  marginTop: "20%",
+                  marginVertical: "10%",
                 }}
                 resizeMode={"contain"}
               />
@@ -246,7 +246,7 @@ class Layout extends React.Component {
               source={IMAGE.close_appointment_popup}
             />
           </TouchableOpacity>
-        </Modal> */}
+        </Modal>
       </View>
     );
   }
