@@ -6,25 +6,44 @@ import {
     StyleSheet,
     FlatList
 } from 'react-native';
-import Collapsible from 'react-native-collapsible';
+import { useSelector } from 'react-redux';
 
-import { scaleSzie } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import IMAGE from '@resources';
-import { Button, Text } from '@components';
-
+import { Button, Text, InputForm } from '@components';
 const { width } = Dimensions.get('window');
 
 const PromotiomDetail = () => {
 
     const [promotion, setPromotion] = React.useState();
+    const language = useSelector(state => state?.dataLocal?.language || "en");
 
     return (
-        <View style={{ flex: 1 }} >
-            {/* ------------------- Campaigns ------------------- */}
-            <Text style={{ color: "#404040", fontSize: scaleSzie(16), fontWeight: "600", marginLeft: scaleSzie(14) }} >
+        <View style={{ flex: 1, backgroundColor: "#fff", paddingHorizontal: scaleSzie(14) }} >
+            {/* ------------------- New Campaigns ------------------- */}
+            <Text style={{ color: "#404040", fontSize: scaleSzie(16), fontWeight: "600", marginBottom: scaleSzie(20) }} >
                 {`New campaign`}
             </Text>
-            
+
+            <InputForm
+                title={`${localize('Campaign Name', language)}:`}
+                subTitle=""
+                placeholder="Campaign name"
+                value={""}
+                onChangeText={(value) => {
+                }}
+                style={{ marginBottom: scaleSzie(10), }}
+                styleTitle={{ fontSize: scaleSzie(14), fontWeight: "600" ,marginBottom:scaleSzie(5)}}
+                styleInputText={{fontSize:scaleSzie(13)}}
+            />
+
+             {/* ------------------- Date ------------------- */}
+             <Text style={{ color: "#404040", fontSize: scaleSzie(16), fontWeight: "600", marginBottom: scaleSzie(20),
+            marginTop:scaleSzie(12)
+            }} >
+                {`Date:`}
+            </Text>
+
         </View>
     );
 }

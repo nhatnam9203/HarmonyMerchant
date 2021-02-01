@@ -13,7 +13,7 @@ export default class InputForm extends React.PureComponent {
         const { title, subTitle, placeholder, style, value,
             onChangeText, secureTextEntry, keyboardType,
             isOnlyNumber, maxLength, editable, onFocus, typeInputMask, optionsInputMask,
-            styleTitle, styleBoxInput
+            styleTitle, styleBoxInput,styleInputText
         } = this.props;
 
         return (
@@ -28,7 +28,7 @@ export default class InputForm extends React.PureComponent {
                 }
 
                 <View style={[{
-                    height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
+                    height: scaleSzie(30), borderWidth: 1, borderColor: '#CCCCCC',
                     marginTop: scaleSzie(5),
                     paddingLeft: scaleSzie(8)
                 }, styleBoxInput]} >
@@ -36,7 +36,7 @@ export default class InputForm extends React.PureComponent {
                         isOnlyNumber ? <TextInputMask
                             type={typeInputMask ? typeInputMask : 'only-numbers'}
                             options={optionsInputMask}
-                            style={{ flex: 1, fontSize: scaleSzie(16), color: "#000", padding: 0 }}
+                            style={[{ flex: 1, fontSize: scaleSzie(16), color: "#000", padding: 0 },styleInputText]}
                             placeholder={placeholder}
                             value={value}
                             onChangeText={(value => onChangeText(value))}
@@ -47,7 +47,7 @@ export default class InputForm extends React.PureComponent {
                             editable={editable}
                             onFocus={() => onFocus && onFocus()}
                         /> : <TextInput
-                                style={{ flex: 1, fontSize: scaleSzie(16), color: "#000", padding: 0 }}
+                                style={[{ flex: 1, fontSize: scaleSzie(16), color: "#000", padding: 0 },styleInputText]}
                                 placeholder={placeholder}
                                 value={value}
                                 onChangeText={(value => onChangeText(value))}
