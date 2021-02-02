@@ -111,6 +111,7 @@ export default {
   extra_mini: require('./img/extra_mini.png'),
   delete_extra_mini: require('./img/delete_extra_mini.png'),
   marketing_calendar: require('./img/marketing_calendar.png'),
+  remove_tag: require('./img/remove_tag.png'),
 
   // --- Payment ---
   cash_payment_se: require('./payment/cash_payment_se.png'),
