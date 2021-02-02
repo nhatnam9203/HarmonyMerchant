@@ -1185,8 +1185,13 @@ export const msToTime = (tempDuration) => {
     let minutes = Math.floor((duration / (1000 * 60)) % 60),
         hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
 
-    // hours = (hours < 10) ? "0" + hours : hours;
-    // minutes = (minutes < 10) ? "0" + minutes : minutes;
-
     return hours == 0 ? `${minutes} min` : `${hours} hour ${minutes} min`;
 }
+
+export const MARKETING_CONDITIONS = [
+    { value: "No Condition" },
+    { value: "Using specific services" },
+    { value: "Customer birthday is within the week" },
+    { value: "Times using the service reached the quantity" },
+    { value: "The customer is the referral" }
+];

@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { TextInputMask } from 'react-native-masked-text';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-import { scaleSzie, localize, WorkingTime } from '@utils';
+import { scaleSzie, localize, WorkingTime, formatWithMoment, MARKETING_CONDITIONS } from '@utils';
 import ICON from '@resources';
 import { Button, Text, InputForm, Dropdown } from '@components';
 const { width } = Dimensions.get('window');
@@ -23,30 +23,20 @@ const PromotiomDetail = () => {
     const [startTime, setStartTime] = useState("12:00 AM");
     const [endTime, setEndTime] = useState("12:00 AM");
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [is]
+    const [isChangeDate, setIsChangeDate] = useState("start");
+    const [condition, setCondition] = useState("No condition");
 
     const language = useSelector(state => state?.dataLocal?.language || "en");
 
-    const showStartDatePicker = () => {
-        // alert("ahii")
+    const showDatePicker = (isChangeDate) => () => {
+        setIsChangeDate(isChangeDate);
         setDatePickerVisibility(true);
     }
-
-    const showEndDatePicker = () => {
-        // alert("ahii")
-    }
-
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
-    };
-
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
-    };
 
     const handleConfirm = (date) => {
-        console.warn("A date has been picked: ", date);
-        hideDatePicker();
+        const tempDate = formatWithMoment(date, "MM/DD/YYYY");
+        isChangeDate === "start" ? setStartDate(tempDate) : setEndDate(tempDate);
+        setDatePickerVisibility(false);
     };
 
     return (
@@ -70,10 +60,7 @@ const PromotiomDetail = () => {
                 />
 
                 {/* ------------------- Date ------------------- */}
-                <Text style={{
-                    color: "#404040", fontSize: scaleSzie(16), fontWeight: "600", marginBottom: scaleSzie(10),
-                    marginTop: scaleSzie(12)
-                }} >
+                <Text style={[styles.txt_tit, { marginBottom: scaleSzie(10), marginTop: scaleSzie(12) }]} >
                     {`Date:`}
                 </Text>
 
@@ -102,7 +89,7 @@ const PromotiomDetail = () => {
                                 <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                                     <View style={{ flex: 1, backgroundColor: "#CCCCCC" }} />
                                 </View>
-                                <Button onPress={showStartDatePicker} style={{ width: scaleSzie(35), justifyContent: "center", alignItems: "center" }} >
+                                <Button onPress={showDatePicker("start")} style={{ width: scaleSzie(35), justifyContent: "center", alignItems: "center" }} >
                                     <Image source={ICON.marketing_calendar} />
                                 </Button>
                             </View>
@@ -147,7 +134,7 @@ const PromotiomDetail = () => {
                                 <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                                     <View style={{ flex: 1, backgroundColor: "#CCCCCC" }} />
                                 </View>
-                                <Button onPress={showEndDatePicker} style={{ width: scaleSzie(35), justifyContent: "center", alignItems: "center" }} >
+                                <Button onPress={showDatePicker("end")} style={{ width: scaleSzie(35), justifyContent: "center", alignItems: "center" }} >
                                     <Image source={ICON.marketing_calendar} />
                                 </Button>
                             </View>
@@ -169,6 +156,59 @@ const PromotiomDetail = () => {
                     </View>
                 </View>
 
+                {/* ------------------- Condition ------------------- */}
+                <Text style={[styles.txt_tit, { marginBottom: scaleSzie(15), marginTop: scaleSzie(16) }]} >
+                    {`Condition:`}
+                </Text>
+
+                {/* ---------  Condition Dropdown ------ */}
+                <View style={{ width: scaleSzie(330), height: scaleSzie(30), marginBottom: scaleSzie(10) }} >
+                    <Dropdown
+                        label={"h:mm"}
+                        data={MARKETING_CONDITIONS}
+                        value={condition}
+                        onChangeText={setCondition}
+                        containerStyle={{
+                            borderWidth: 1,
+                            borderColor: '#DDDDDD',
+                            flex: 1
+                        }}
+                    />
+                </View>
+
+                {/* ---------  Specific Condition ------ */}
+                <View style={{ flexDirection: "row", height: scaleSzie(30) }} >
+                    {/* ---------  Specific ------ */}
+                    <View style={[{ width: scaleSzie(85) }, styles.centered_box, styles.border_select]} >
+                        <Text style={[styles.txt_condition_select]} >
+                            {`Specific`}
+                        </Text>
+                    </View>
+                    {/* ---------  All ------ */}
+                    <View style={[{ width: scaleSzie(45), marginLeft: scaleSzie(4), marginRight: scaleSzie(50) }, styles.centered_box, styles.border_select]} >
+                        <Text style={[styles.txt_condition_select]} >
+                            {`All`}
+                        </Text>
+                    </View>
+                    {/* ---------  Service/Product Dropdown ------ */}
+                        <Dropdown
+                            label={"h:mm"}
+                            data={MARKETING_CONDITIONS}
+                            value={condition}
+                            onChangeText={setCondition}
+                            containerStyle={[{
+                                flex: 1
+                            }, styles.border_comm]}
+                        />
+                    {/* ---------  Add Button ------ */}
+
+                    <View style={[{ width: scaleSzie(85), backgroundColor: "#0764B0", marginLeft: scaleSzie(15), borderRadius: 4 }, styles.centered_box]} >
+                        <Text style={[styles.txt_condition_select, { color: "#fff" }]} >
+                            {`Add`}
+                        </Text>
+                    </View>
+                </View>
+
                 <View style={{ height: scaleSzie(300) }} />
             </ScrollView>
 
@@ -176,7 +216,6 @@ const PromotiomDetail = () => {
                 isVisible={isDatePickerVisible}
                 mode="date"
                 onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
             />
         </View>
     );
@@ -186,6 +225,18 @@ const PromotiomDetail = () => {
 
 
 const styles = StyleSheet.create({
+    centered_box: {
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    border_select: {
+        borderColor: "#0764B0",
+        borderWidth: 2
+    },
+    txt_condition_select: {
+        color: "#0764B0",
+        fontSize: scaleSzie(14)
+    },
     txt_date: {
         color: "#6A6A6A",
         fontSize: scaleSzie(12),
@@ -194,6 +245,11 @@ const styles = StyleSheet.create({
     border_comm: {
         borderWidth: 1,
         borderColor: '#CCCCCC',
+    },
+    txt_tit: {
+        color: "#404040",
+        fontSize: scaleSzie(14),
+        fontWeight: "600"
     }
 
 });
