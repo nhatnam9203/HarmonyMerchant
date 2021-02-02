@@ -9,10 +9,7 @@ class TabPromotion extends Layout {
   constructor(props) {
     super(props);
     this.state = {
-      dateCalendar: new Date(),
-      keyCalendarUpdate: '',
-      promotionIdCalendar: -1,
-      show: false,
+    
     }
   }
 

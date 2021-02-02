@@ -16,7 +16,7 @@
   "dependencies": {
     "@microsoft/signalr": "^3.1.4",
     "@react-native-community/async-storage": "^1.6.2",
-    "@react-native-community/datetimepicker": "^2.0.0",
+    "@react-native-community/datetimepicker": "3.0.2",
     "@react-native-community/netinfo": "^5.3.2",
     "@react-native-community/push-notification-ios": "^1.4.0",
     "@react-native-community/viewpager": "^4.1.6",
@@ -51,6 +51,7 @@
     "react-native-largelist-v3": "^3.0.15",
     "react-native-masked-text": "^1.12.3",
     "react-native-material-dropdown": "^0.11.1",
+    "react-native-modal-datetime-picker": "^9.1.0",
     "react-native-permissions": "^2.0.3",
     "react-native-progress": "^3.6.0",
     "react-native-push-notification": "^5.0.1",
