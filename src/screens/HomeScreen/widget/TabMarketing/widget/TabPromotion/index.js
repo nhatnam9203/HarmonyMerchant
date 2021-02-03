@@ -8,21 +8,43 @@ import { scaleSzie } from '@utils';
 class TabPromotion extends Layout {
   constructor(props) {
     super(props);
+
     this.state = {
       currentTab: 0
-    }
+    };
+
+    this.scrollTabParentRef = React.createRef();
+
   }
 
   onChangeTab = (index) => {
     const currentIndex = index.i;
-    this.setState({ currentTab: currentIndex });
+    this.props.handleChangeBackgrounColor(currentIndex);
   }
 
-  createNewCampaign = () =>{
-    
+  createNewCampaign = () => {
+    if (this.scrollTabParentRef?.current) {
+      this.scrollTabParentRef?.current.goToPage(1);
+    } else {
+      setTimeout(() => {
+        this.scrollTabParentRef?.current.goToPage(1);
+      }, 300)
+    }
   }
 
- 
+  editCampaign = (campaign) => () => {
+    alert(campaign);
+  }
+
+  disableCampaign = () => {
+    alert("disableCampaign")
+  }
+
+  cancelCampaign = () => {
+    this.scrollTabParentRef?.current.goToPage(0);
+  }
+
+
 }
 
 const mapStateToProps = state => ({

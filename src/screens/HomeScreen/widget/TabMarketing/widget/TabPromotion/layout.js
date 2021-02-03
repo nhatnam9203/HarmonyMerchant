@@ -26,7 +26,7 @@ class Layout extends React.Component {
         return (
             <View style={styles.container} >
                 <ScrollableTabView
-                    // ref={this.scrollTabParentRef}
+                    ref={this.scrollTabParentRef}
                     style={{}}
                     initialPage={0}
                     locked={true}
@@ -34,9 +34,14 @@ class Layout extends React.Component {
                     onChangeTab={this.onChangeTab}
                 >
                     <PromotionHome
-                         createNewCampaign={this.createNewCampaign}
+                        createNewCampaign={this.createNewCampaign}
+                        editCampaign={this.editCampaign}
+                        disableCampaign={this.disableCampaign}
                     />
-                    <PromotiomDetail />
+                    <PromotiomDetail
+                        cancelCampaign={this.cancelCampaign}
+                        handleCampaign={this.createNewCampaign}
+                    />
 
                 </ScrollableTabView>
 

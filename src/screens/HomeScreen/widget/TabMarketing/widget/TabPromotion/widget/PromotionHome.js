@@ -14,9 +14,7 @@ import { Button, Text } from '@components';
 
 const { width } = Dimensions.get('window');
 
-const PromotionHome = ({createNewCampaign}) => {
-
-    const [promotion, setPromotion] = React.useState();
+const PromotionHome = ({ createNewCampaign, editCampaign, disableCampaign }) => {
 
     return (
         <View style={{ flex: 1 }} >
@@ -27,7 +25,7 @@ const PromotionHome = ({createNewCampaign}) => {
                 </Text>
                 <Button onPress={createNewCampaign} style={{
                     height: scaleSzie(30), width: scaleSzie(130), backgroundColor: "#0764B0",
-                    borderRadius: scaleSzie(4), justifyContent: "center", alignItems: "center"
+                    borderRadius: 4, justifyContent: "center", alignItems: "center"
                 }} >
                     <Text style={{ color: "#fff", fontSize: scaleSzie(13), fontWeight: "600" }} >
                         {`New Campaign`}
@@ -37,7 +35,10 @@ const PromotionHome = ({createNewCampaign}) => {
 
             <FlatList
                 data={[0, 1, 2]}
-                renderItem={({ item, index }) => <CampaignRow />}
+                renderItem={({ item, index }) => <CampaignRow
+                    editCampaign={editCampaign(item)}
+                    disableCampaign={disableCampaign}
+                />}
                 ListHeaderComponent={() => <CampaignTableHeader />}
                 ListFooterComponent={() => <>
                     <Text style={{
@@ -164,7 +165,7 @@ const RuleRow = () => {
     );
 }
 
-const CampaignRow = () => {
+const CampaignRow = ({ editCampaign, disableCampaign }) => {
 
     return (
         <View style={{
@@ -198,19 +199,19 @@ const CampaignRow = () => {
             {/* ------------------- Actions ------------------- */}
             <View style={[{ width: scaleSzie(150), flexDirection: "row" }, styles.center_txt]} >
                 <View style={{ flex: 1, justifyContent: "center" }} >
-                    <View style={styles.btn_row} >
+                    <Button onPress={editCampaign} style={styles.btn_row} >
                         <Text style={[styles.txt_row, { color: "#fff", fontfontSize: scaleSzie(12), fontWeight: "600" }]} >
                             {`Edit`}
                         </Text>
-                    </View>
+                    </Button>
                 </View>
                 <View style={{ width: scaleSzie(10) }} />
                 <View style={{ flex: 1, justifyContent: "center" }} >
-                    <View style={[styles.btn_row, { backgroundColor: "#FF3B30" }]} >
+                    <Button onPress={disableCampaign} style={[styles.btn_row, { backgroundColor: "#FF3B30" }]} >
                         <Text style={[styles.txt_row, { color: "#fff", fontfontSize: scaleSzie(12), fontWeight: "600" }]} >
                             {`Disable`}
                         </Text>
-                    </View>
+                    </Button>
                 </View>
             </View>
         </View>

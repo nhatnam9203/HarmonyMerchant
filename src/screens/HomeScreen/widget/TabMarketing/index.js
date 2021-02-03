@@ -10,7 +10,8 @@ class TabMarketing extends Layout {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: 0
+      currentTab: 0,
+      isChangeBackground:false
     }
 
     this.scrollTabRef = React.createRef();
@@ -21,8 +22,10 @@ class TabMarketing extends Layout {
 
   }
 
-  fetchMarketingApi = (page) => {
-    alert(page);
+  handleChangeBackgrounColor = (currentchildPage) => {
+    this.setState({
+      isChangeBackground: currentchildPage === 1 ? true : false
+    })
   };
 
   addPromotion = async () => { };

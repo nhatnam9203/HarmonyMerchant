@@ -12,9 +12,9 @@ class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
-        const { currentTab } = this.state;
+        const { isChangeBackground } = this.state;
         // const tempBackgroundColor = currentTab === 0 ? { backgroundColor: "#fff" } : {};
-        const tempBackgroundColor = this.promotionTabRef?.currentTab?.state?.currentTab === 0  ? { backgroundColor: "#fff" } : {};
+        const tempBackgroundColor = isChangeBackground ? { backgroundColor: "#fff" } : {};
 
 
         return (
@@ -38,6 +38,7 @@ class Layout extends React.Component {
                         ref={this.promotionTabRef}
                         tabLabel={`${localize('Promotions', language)}`}
                         addPromotion={this.addPromotion}
+                        handleChangeBackgrounColor={this.handleChangeBackgrounColor}
                     />
                     {/* <TabCustomBanner tabLabel={`${localize('Photos Gallery', language)}`} /> */}
                     <TabPhotoGallery tabLabel={`${localize('Photos Gallery', language)}`} ref={this.photoGalleryRef} />

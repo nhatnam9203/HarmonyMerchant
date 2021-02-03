@@ -17,7 +17,7 @@ import ICON from '@resources';
 import { Button, Text, InputForm, Dropdown } from '@components';
 const { width } = Dimensions.get('window');
 
-const PromotiomDetail = () => {
+const PromotiomDetail = ({ cancelCampaign,handleCampaign }) => {
 
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
@@ -211,17 +211,17 @@ const PromotiomDetail = () => {
                 left: (width - scaleSzie(280)) / 2,
                 flexDirection: "row"
             }} >
-                <View style={[{ flex: 1, backgroundColor: "#F1F1F1", borderRadius: 2 }, styles.centered_box]} >
+                <Button onPress={cancelCampaign} style={[{ flex: 1, backgroundColor: "#F1F1F1", borderRadius: 2 }, styles.centered_box]} >
                     <Text style={styles.txt_footer} >
                         {`CANCEL`}
                     </Text>
-                </View>
+                </Button>
                 <View style={{ width: scaleSzie(25) }} />
-                <View style={[{ flex: 1, backgroundColor: "#0764B0", borderRadius: 2 }, styles.centered_box]} >
+                <Button onPress={handleCampaign} style={[{ flex: 1, backgroundColor: "#0764B0", borderRadius: 2 }, styles.centered_box]} >
                     <Text style={[styles.txt_footer, { color: "#fff" }]} >
                         {`ADD`}
                     </Text>
-                </View>
+                </Button>
             </View>
 
             <DateTimePickerModal
