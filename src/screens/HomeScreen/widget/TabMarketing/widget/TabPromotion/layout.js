@@ -12,7 +12,7 @@ import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import { DatePicker, ScrollableTabView } from '@components';
 import {
-    PromotionHome,PromotiomDetail
+    PromotionHome, PromotiomDetail
 } from './widget';
 
 const { width } = Dimensions.get('window');
@@ -28,24 +28,18 @@ class Layout extends React.Component {
                 <ScrollableTabView
                     // ref={this.scrollTabParentRef}
                     style={{}}
-                    initialPage={1}
+                    initialPage={0}
                     locked={true}
                     renderTabBar={() => <View />}
-                // onChangeTab={this.onChangeTab}
+                    onChangeTab={this.onChangeTab}
                 >
-                    <PromotionHome />
+                    <PromotionHome
+                         createNewCampaign={this.createNewCampaign}
+                    />
                     <PromotiomDetail />
 
                 </ScrollableTabView>
 
-                {/* ------- Date -------- */}
-                {/* <DatePicker
-                    visible={show}
-                    onRequestClose={() => this.setState({ show: false })}
-                    title={localize('Select From Date', language)}
-                    dateCalendar={dateCalendar}
-                    setDateSelected={this.setDateSelected}
-                /> */}
 
             </View>
         );

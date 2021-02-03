@@ -9,17 +9,23 @@ import PrintManager from "@lib/PrintManager";
 class TabMarketing extends Layout {
   constructor(props) {
     super(props);
+    this.state = {
+      currentTab: 0
+    }
+
     this.scrollTabRef = React.createRef();
+    this.promotionTabRef = React.createRef();
     this.reviewRef = React.createRef();
     this.marketPlace = React.createRef();
     this.photoGalleryRef = React.createRef();
+
   }
 
   fetchMarketingApi = (page) => {
     alert(page);
   };
 
-  addPromotion = async () => {};
+  addPromotion = async () => { };
 
   onChangeTab = (index) => {
     const currentIndex = index.i;
@@ -47,7 +53,9 @@ class TabMarketing extends Layout {
 
         break;
     }
-
+    this.setState({
+      currentTab: currentIndex
+    })
   };
 }
 

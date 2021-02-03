@@ -14,7 +14,7 @@ import { Button, Text } from '@components';
 
 const { width } = Dimensions.get('window');
 
-const PromotionHome = () => {
+const PromotionHome = ({createNewCampaign}) => {
 
     const [promotion, setPromotion] = React.useState();
 
@@ -25,14 +25,14 @@ const PromotionHome = () => {
                 <Text style={{ color: "#404040", fontSize: scaleSzie(16), fontWeight: "600" }} >
                     {`Campaigns`}
                 </Text>
-                <View style={{
+                <Button onPress={createNewCampaign} style={{
                     height: scaleSzie(30), width: scaleSzie(130), backgroundColor: "#0764B0",
                     borderRadius: scaleSzie(4), justifyContent: "center", alignItems: "center"
                 }} >
                     <Text style={{ color: "#fff", fontSize: scaleSzie(13), fontWeight: "600" }} >
                         {`New Campaign`}
                     </Text>
-                </View>
+                </Button>
             </View>
 
             <FlatList

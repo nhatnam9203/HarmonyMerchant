@@ -3,17 +3,22 @@ import {
     View,
 } from 'react-native';
 
-import { CustomTabBar,ScrollableTabView } from '@components';
+import { CustomTabBar, ScrollableTabView } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
-import { TabPromotion, TabCustomBanner, TabReview, TabMarketPlace, TabPhotoGallery} from './widget';
+import { TabPromotion, TabCustomBanner, TabReview, TabMarketPlace, TabPhotoGallery } from './widget';
 
 class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
+        const { currentTab } = this.state;
+        // const tempBackgroundColor = currentTab === 0 ? { backgroundColor: "#fff" } : {};
+        const tempBackgroundColor = this.promotionTabRef?.currentTab?.state?.currentTab === 0  ? { backgroundColor: "#fff" } : {};
+
+
         return (
-            <View style={styles.container} >
+            <View style={[styles.container, tempBackgroundColor]} >
                 <ScrollableTabView
                     ref={this.scrollTabRef}
                     style={{}}
@@ -29,7 +34,9 @@ class Layout extends React.Component {
                     />}
                     onChangeTab={this.onChangeTab}
                 >
-                    <TabPromotion tabLabel={`${localize('Promotions', language)}`}
+                    <TabPromotion
+                        ref={this.promotionTabRef}
+                        tabLabel={`${localize('Promotions', language)}`}
                         addPromotion={this.addPromotion}
                     />
                     {/* <TabCustomBanner tabLabel={`${localize('Photos Gallery', language)}`} /> */}
