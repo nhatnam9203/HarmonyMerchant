@@ -41,6 +41,7 @@ export function getPromotionByMerchant(isLoading = true) {
 }
 
 export function updatePromotionByMerchant(body, promotionId = 1, isSendNoti = true) {
+    console.log("-------body: ",body);
     return {
         type: 'UPDATE_PROMOTION_BY_MERCHANT',
         method: 'POST',

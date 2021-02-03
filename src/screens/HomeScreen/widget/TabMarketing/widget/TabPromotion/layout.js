@@ -5,12 +5,12 @@ import {
     Dimensions,
     ActivityIndicator,
     RefreshControl
-
 } from 'react-native';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
-import {  DatePicker } from '@components';
+import { DatePicker } from '@components';
 import {
     PromotionFirst, PromotionSecond, PromotionThird, PromotionFour, PromotionFive,
     PromotionRewardPoints
@@ -40,6 +40,7 @@ class Layout extends React.Component {
     render() {
         const { language, promotions, refreshingPromotion } = this.props;
         const { show, dateCalendar } = this.state;
+        
         if (promotions.length == 0) {
             return this.renderLoadingPromotion();
         }
@@ -134,12 +135,20 @@ class Layout extends React.Component {
                 </View>
 
                 {/* ------- Date -------- */}
-                <DatePicker
+                {/* <DatePicker
                     visible={show}
                     onRequestClose={() => this.setState({ show: false })}
                     title={localize('Select From Date', language)}
                     dateCalendar={dateCalendar}
                     setDateSelected={this.setDateSelected}
+                /> */}
+
+                <DateTimePickerModal
+                    isVisible={show}
+                    mode="date"
+                    onConfirm={this.setDateSelected}
+                    onCancel={() => this.setState({ show: false })}
+                    date={dateCalendar}
                 />
 
             </View>

@@ -43,9 +43,13 @@ class PromotionFirst extends React.Component {
         })
     }
 
-    setDateFromParent = (key, value) => {
-        this.setState({
-            data: updateStateChildren(key, value, this.state.data)
+    setDateFromParent = async (key, value) => {
+        console.log("---key: ", key);
+        console.log("---- value: ", `${value}`);
+        await this.setState({
+            data: updateStateChildren(key, value, { ...this.state.data })
+        },() =>{
+            console.log(this.state.data);
         })
     }
 
@@ -55,18 +59,18 @@ class PromotionFirst extends React.Component {
         this.setState({
             data: updateStateChildren('isDisabled', isCheck, data)
         });
-        this.props.actions.marketing.setStatusApplyButton(true,1);
+        this.props.actions.marketing.setStatusApplyButton(true, 1);
     }
 
     applyPromotion = () => {
         const { data } = this.state;
         const isSendNoti = data.isDisabled === 0 ? false : true;
-        this.props.applyPromotion(data.promotionId,isSendNoti);
+        this.props.applyPromotion(data.promotionId, isSendNoti);
     }
 
     // ----------- RENDER ----------
     render() {
-        const { language, showCalendar, onFocus ,isApplyFirstPromotion} = this.props;
+        const { language, showCalendar, onFocus, isApplyFirstPromotion } = this.props;
         const { data, isShowContent } = this.state;
         const { campaignName } = data;
         return (
@@ -88,7 +92,7 @@ class PromotionFirst extends React.Component {
                             this.setState({
                                 data: updateStateChildren('campaignName', value, data)
                             });
-                            this.props.actions.marketing.setStatusApplyButton(true,1);
+                            this.props.actions.marketing.setStatusApplyButton(true, 1);
                         }}
                         style={{ marginBottom: scaleSzie(10) }}
                         styleTitle={{ fontWeight: "600" }}
@@ -103,13 +107,13 @@ class PromotionFirst extends React.Component {
                     {/* ---- Row ---- */}
                     <View style={{ flexDirection: 'row' }} >
                         <ItemCalendar
-                            title={localize('Select Start Date ', language)}
+                            title={localize('Start Date', language)}
                             value={`${formatWithMoment(data.fromDate, 'MM/DD/YYYY')}`}
                             onPress={() => showCalendar('fromDate', data.fromDate, 1)}
                         />
                         <View style={{ width: scaleSzie(50) }} />
                         <ItemCalendar
-                            title={localize('Select End Date', language)}
+                            title={localize('End Date', language)}
                             value={`${formatWithMoment(data.toDate, 'MM/DD/YYYY')}`}
                             onPress={() => showCalendar('toDate', data.toDate, 1)}
 
@@ -129,7 +133,7 @@ class PromotionFirst extends React.Component {
                                 this.setState({
                                     data: updateStateChildren('fromTime', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true,1);
+                                this.props.actions.marketing.setStatusApplyButton(true, 1);
                             }}
                         />
                         <View style={{ width: scaleSzie(50) }} />
@@ -143,7 +147,7 @@ class PromotionFirst extends React.Component {
                                 this.setState({
                                     data: updateStateChildren('toTime', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true,1);
+                                this.props.actions.marketing.setStatusApplyButton(true, 1);
                             }}
                         />
                     </View>
@@ -166,7 +170,7 @@ class PromotionFirst extends React.Component {
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true,1);
+                                this.props.actions.marketing.setStatusApplyButton(true, 1);
                             }}
                             selectCheckbox={() => {
                                 if (data.discountType === 'discount_percent') {
@@ -174,13 +178,13 @@ class PromotionFirst extends React.Component {
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true,1);
+                                    this.props.actions.marketing.setStatusApplyButton(true, 1);
                                 } else {
                                     const tempData = updateStateChildren('discountType', 'discount_percent', data)
                                     this.setState({
                                         data: { ...tempData, discount: 0 }
                                     });
-                                    this.props.actions.marketing.setStatusApplyButton(true,1);
+                                    this.props.actions.marketing.setStatusApplyButton(true, 1);
                                 }
                             }}
                             onFocus={() => onFocus(250)}
@@ -195,10 +199,10 @@ class PromotionFirst extends React.Component {
                                 this.setState({
                                     data: updateStateChildren('discount', value, data)
                                 });
-                                this.props.actions.marketing.setStatusApplyButton(true,1);
+                                this.props.actions.marketing.setStatusApplyButton(true, 1);
                             }}
                             selectCheckbox={() => {
-                                this.props.actions.marketing.setStatusApplyButton(true,1);
+                                this.props.actions.marketing.setStatusApplyButton(true, 1);
                                 if (data.discountType === 'discount_fixtom') {
                                     const tempData = updateStateChildren('discountType', '', data);
                                     this.setState({

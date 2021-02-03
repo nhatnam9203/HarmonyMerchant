@@ -3,7 +3,7 @@ import React from 'react';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import { getServiceIdByName } from '@utils';
-import { scaleSzie } from '../../../../../../utils';
+import { scaleSzie, formatWithMoment } from '@utils';
 
 class TabPromotion extends Layout {
   constructor(props) {
@@ -23,9 +23,6 @@ class TabPromotion extends Layout {
     this.scrollRef = React.createRef();
   }
 
-  componentDidMount() {
-    // this.props.actions.marketing.getPromotionByMerchant();
-  }
 
   onPressListPromotion = () => {
     this.props.actions.marketing.getPromotionByMerchant(false);
@@ -33,6 +30,7 @@ class TabPromotion extends Layout {
 
   setDateSelected = (date) => {
     const { promotionIdCalendar } = this.state;
+
     if (promotionIdCalendar === 1) {
       this.promotionFirstRef.current.setDateFromParent(this.state.keyCalendarUpdate, date);
     } else if (promotionIdCalendar === 6) {
@@ -41,6 +39,7 @@ class TabPromotion extends Layout {
       this.promotionSecondRef.current.setDateFromParent(this.state.keyCalendarUpdate, date);
     }
     this.props.actions.marketing.setStatusApplyButton(true);
+    this.setState({ show: false })
   }
 
   getDataItemPromotion = (index, promotions) => {
@@ -57,7 +56,7 @@ class TabPromotion extends Layout {
 
   showCalendar = async (keyCalendarUpdate, date, promotionId) => {
     await this.setState({
-      dateCalendar: date,
+      dateCalendar: new Date(date),
       keyCalendarUpdate: keyCalendarUpdate,
       promotionIdCalendar: promotionId
     })
@@ -69,7 +68,11 @@ class TabPromotion extends Layout {
   applyPromotion = (promotionId, isSendNoti) => {
     const { servicesByMerchant } = this.props;
 
-    const promotionFirst = this.promotionFirstRef.current.state.data;
+    const promotionFirst = {
+      ...this.promotionFirstRef?.current?.state.data,
+      fromDate: formatWithMoment(this.promotionFirstRef?.current?.state?.data.fromDate, "YYYY-MM-DD"),
+      toDate: formatWithMoment(this.promotionFirstRef?.current?.state?.data.toDate, "YYYY-MM-DD"),
+    };
     const promotionSeconde = this.promotionSecondRef.current.state.data;
     const promotionThird = this.promotionThirdRef.current.state.data;
     const promotionFour = this.promotionFourRef.current.state.data;
@@ -78,7 +81,7 @@ class TabPromotion extends Layout {
     const temptPromotionSecond = {
       ...this.promotionSecondRef.current.state.data,
       serviceUsing: getServiceIdByName(servicesByMerchant, promotionSeconde?.serviceUsing || 0),
-      serviceApply: getServiceIdByName(servicesByMerchant,promotionSeconde?.serviceApply || 0),
+      serviceApply: getServiceIdByName(servicesByMerchant, promotionSeconde?.serviceApply || 0),
     };
 
     let tempPromotion;

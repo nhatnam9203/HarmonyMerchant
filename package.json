@@ -51,6 +51,7 @@
     "react-native-largelist-v3": "^3.0.15",
     "react-native-masked-text": "^1.12.3",
     "react-native-material-dropdown": "^0.11.1",
+    "react-native-modal-datetime-picker": "^9.1.0",
     "react-native-permissions": "^2.0.3",
     "react-native-progress": "^3.6.0",
     "react-native-push-notification": "^5.0.1",
