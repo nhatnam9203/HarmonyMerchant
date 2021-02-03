@@ -618,7 +618,7 @@ class Layout extends React.Component {
                 </View>
                 <View style={styles.box_payment_container} >
                     {
-                        ['Credit Card', 'Debit Card'].map((title, index) => <ItemPaymentMethod
+                        ['Credit Card','Other' ].map((title, index) => <ItemPaymentMethod
                             key={index}
                             title={title}
                             selectedPayment={this.selectedPayment}
@@ -629,7 +629,7 @@ class Layout extends React.Component {
                 </View>
                 <View style={styles.box_payment_container} >
                     {
-                        ['Gift Card', 'Other'].map((title, index) => <ItemPaymentMethod
+                        [ 'Gift Card'].map((title, index) => <ItemPaymentMethod
                             key={index}
                             title={title}
                             selectedPayment={this.selectedPayment}

@@ -38,7 +38,7 @@ class TabPromotion extends Layout {
     } else {
       this.promotionSecondRef.current.setDateFromParent(this.state.keyCalendarUpdate, date);
     }
-    this.props.actions.marketing.setStatusApplyButton(true);
+    this.props.actions.marketing.setStatusApplyButton(true,promotionIdCalendar);
     this.setState({ show: false })
   }
 
@@ -73,15 +73,20 @@ class TabPromotion extends Layout {
       fromDate: formatWithMoment(this.promotionFirstRef?.current?.state?.data.fromDate, "YYYY-MM-DD"),
       toDate: formatWithMoment(this.promotionFirstRef?.current?.state?.data.toDate, "YYYY-MM-DD"),
     };
-    const promotionSeconde = this.promotionSecondRef.current.state.data;
+    const promotionSecond = {
+      ...this.promotionSecondRef.current.state.data,
+    
+    };
     const promotionThird = this.promotionThirdRef.current.state.data;
     const promotionFour = this.promotionFourRef.current.state.data;
     const promotionFive = this.promotionFiveRef.current.state.data;
 
     const temptPromotionSecond = {
       ...this.promotionSecondRef.current.state.data,
-      serviceUsing: getServiceIdByName(servicesByMerchant, promotionSeconde?.serviceUsing || 0),
-      serviceApply: getServiceIdByName(servicesByMerchant, promotionSeconde?.serviceApply || 0),
+      serviceUsing: getServiceIdByName(servicesByMerchant, promotionSecond?.serviceUsing || 0),
+      serviceApply: getServiceIdByName(servicesByMerchant, promotionSecond?.serviceApply || 0),
+      fromDate: formatWithMoment(this.promotionSecondRef?.current?.state?.data.fromDate, "YYYY-MM-DD"),
+      toDate: formatWithMoment(this.promotionSecondRef?.current?.state?.data.toDate, "YYYY-MM-DD"),
     };
 
     let tempPromotion;

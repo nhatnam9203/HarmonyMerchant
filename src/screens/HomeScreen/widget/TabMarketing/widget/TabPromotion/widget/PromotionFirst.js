@@ -44,13 +44,9 @@ class PromotionFirst extends React.Component {
     }
 
     setDateFromParent = async (key, value) => {
-        console.log("---key: ", key);
-        console.log("---- value: ", `${value}`);
         await this.setState({
             data: updateStateChildren(key, value, { ...this.state.data })
-        },() =>{
-            console.log(this.state.data);
-        })
+        });
     }
 
     checkSelectPromotion = () => {
