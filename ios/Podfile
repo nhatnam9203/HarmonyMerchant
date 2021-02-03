@@ -39,7 +39,6 @@ pod 'RNSVG', :path => '../node_modules/react-native-svg'
 pod 'RNFastImage', :path => '../node_modules/react-native-fast-image'
 
 pod 'RNStarPrnt', :path => '../node_modules/react-native-star-prnt'
-  pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker/RNDateTimePicker.podspec'
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 pod 'XCDYouTubeKit', '~> 2.8'
 
@@ -90,6 +89,8 @@ pod 'react-native-ble-manager', :path => '../node_modules/react-native-ble-manag
 
 pod 'react-native-ble-plx', :path => '../node_modules/react-native-ble-plx'
 pod 'react-native-ble-plx-swift', :path => '../node_modules/react-native-ble-plx'
+
+pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
