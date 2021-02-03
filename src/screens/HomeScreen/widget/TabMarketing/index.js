@@ -11,7 +11,7 @@ class TabMarketing extends Layout {
     super(props);
     this.state = {
       currentTab: 0,
-      isChangeBackground:false
+      isChangeBackground:true
     }
 
     this.scrollTabRef = React.createRef();
@@ -24,7 +24,7 @@ class TabMarketing extends Layout {
 
   handleChangeBackgrounColor = (currentchildPage) => {
     this.setState({
-      isChangeBackground: currentchildPage === 1 ? true : false
+      isChangeBackground: currentchildPage === 0 ? false : true
     })
   };
 

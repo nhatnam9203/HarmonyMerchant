@@ -14,7 +14,7 @@ import { Button, Text } from '@components';
 
 const { width } = Dimensions.get('window');
 
-const PromotionHome = ({ createNewCampaign, editCampaign, disableCampaign }) => {
+const PromotionHome = ({ createNewCampaign, editCampaign, disableCampaign,viewRule,disableRule}) => {
 
     return (
         <View style={{ flex: 1 }} >
@@ -48,7 +48,10 @@ const PromotionHome = ({ createNewCampaign, editCampaign, disableCampaign }) => 
                         {`Rules`}
                     </Text>
                     <RuleTableHeader />
-                    <RuleRow />
+                    <RuleRow
+                        viewRule={viewRule}
+                        disableRule={disableRule}
+                    />
                     <View style={{ height: scaleSzie(50) }} />
                 </>}
             />
@@ -121,7 +124,7 @@ const RuleTableHeader = () => {
     );
 }
 
-const RuleRow = () => {
+const RuleRow = ({viewRule,disableRule}) => {
 
     return (
         <View style={{
@@ -146,19 +149,19 @@ const RuleRow = () => {
             {/* ------------------- Actions ------------------- */}
             <View style={[{ width: scaleSzie(150), flexDirection: "row" }, styles.center_txt]} >
                 <View style={{ flex: 1, justifyContent: "center" }} >
-                    <View style={styles.btn_row} >
+                    <Button onPress={viewRule} style={styles.btn_row} >
                         <Text style={[styles.txt_row, { color: "#fff", fontfontSize: scaleSzie(12), fontWeight: "600" }]} >
-                            {`Edit`}
+                            {`View`}
                         </Text>
-                    </View>
+                    </Button>
                 </View>
                 <View style={{ width: scaleSzie(10) }} />
                 <View style={{ flex: 1, justifyContent: "center" }} >
-                    <View style={[styles.btn_row, { backgroundColor: "#FF3B30" }]} >
+                    <Button onPress={disableRule} style={[styles.btn_row, { backgroundColor: "#FF3B30" }]} >
                         <Text style={[styles.txt_row, { color: "#fff", fontfontSize: scaleSzie(12), fontWeight: "600" }]} >
                             {`Disable`}
                         </Text>
-                    </View>
+                    </Button>
                 </View>
             </View>
         </View>

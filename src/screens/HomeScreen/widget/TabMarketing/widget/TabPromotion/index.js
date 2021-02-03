@@ -44,6 +44,13 @@ class TabPromotion extends Layout {
     this.scrollTabParentRef?.current.goToPage(0);
   }
 
+  viewRule = () =>{
+
+  }
+
+  disableRule =() =>{
+    
+  }
 
 }
 

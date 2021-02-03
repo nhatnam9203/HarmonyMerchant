@@ -12,7 +12,7 @@ import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import { DatePicker, ScrollableTabView } from '@components';
 import {
-    PromotionHome, PromotiomDetail
+    PromotionHome, PromotiomDetail, RewardDetail
 } from './widget';
 
 const { width } = Dimensions.get('window');
@@ -28,7 +28,7 @@ class Layout extends React.Component {
                 <ScrollableTabView
                     ref={this.scrollTabParentRef}
                     style={{}}
-                    initialPage={0}
+                    initialPage={2}
                     locked={true}
                     renderTabBar={() => <View />}
                     onChangeTab={this.onChangeTab}
@@ -37,11 +37,15 @@ class Layout extends React.Component {
                         createNewCampaign={this.createNewCampaign}
                         editCampaign={this.editCampaign}
                         disableCampaign={this.disableCampaign}
+                        viewRule={this.viewRule}
+                        disableRule={this.disableRule}
                     />
                     <PromotiomDetail
                         cancelCampaign={this.cancelCampaign}
                         handleCampaign={this.createNewCampaign}
                     />
+
+                    <RewardDetail />
 
                 </ScrollableTabView>
 
