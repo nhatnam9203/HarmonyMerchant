@@ -220,4 +220,7 @@ export default {
   Gallery_ic:  require("./img/gallery_img.png"),
   Trash:  require("./img/trash.png"),
   Tick_ic:  require("./img/tick_ic.png"),
+
+  Arrow_up:  require("./img/arrow_up.png"),
+  Arrow_down:  require("./img/arrow_down.png"),
 };

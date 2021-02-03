@@ -90,9 +90,9 @@ class AddStaff extends Layout {
         this.scrollStaffRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
-    async componentDidMount() {
-        if (this.props.isEditStaff) {
-            const { infoStaffHandle, stateCity } = this.props;
+     setStateFromParent = async  (infoStaffHandle,isEditStaff) => {
+        if (isEditStaff) {
+            const {  stateCity } = this.props;
             // console.log(infoStaffHandle);
             await this.setState({
                 user: {
