@@ -5,31 +5,46 @@ import IMAGE from "@resources";
 import { Dropdown, Button } from "@components";
 import { scaleSzie, WorkingTime } from "@utils";
 import Collapsible from "react-native-collapsible";
+import connectRedux from "@redux/ConnectRedux";
 
 const data = [
   {
     id: 1,
     title: "Title 1",
-    content: "Content 1",
+    content: [
+      {
+        id: 1,
+        content: "Content 1",
+      },
+      {
+        id: 2,
+        content: "Content 2",
+      },
+    ],
   },
   {
     id: 2,
     title: "Title 2",
-    content: "Content 2",
+    content: [
+      {
+        id: 1,
+        content: "Content 1",
+      },
+    ],
   },
   {
     id: 3,
     title: "Title 3",
-    content: "Content 3",
+    content: [],
   },
 ];
 
-export default class ItemServives extends React.Component {
+class ItemServives extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isCheck: true,
-      servives: data,
+      servives: this.mapCategoryServives(this.props.categoriesByMerchant),
       isSelectAll: false,
     };
   }
@@ -46,16 +61,29 @@ export default class ItemServives extends React.Component {
     }));
   };
 
-  selectItem = (id) => {
+  selectItem = (id, index, id_item) => {
     let itemSelect = [...this.state.servives];
     for (let Data of itemSelect) {
-      if (Data.id == id) {
+      if (Data.categoryId == id) {
         Data.selected = Data.selected == null ? true : !Data.selected;
-        break;
+
+        if (index !== undefined) {
+          if (Data.servives[index].categoryId == id_item) {
+            Data.servives[index].selected =
+              Data.servives[index].selected == null
+                ? true
+                : !Data.servives[index].selected;
+            break;
+          }
+        } else {
+          for (let child of Data.servives) {
+            child.selected = child.selected == null ? true : !child.selected;
+          }
+        }
       }
     }
     const checkSelectAll = itemSelect.filter((item) => item.selected === true);
-    console.log(checkSelectAll);
+
     this.setState({ servives: itemSelect });
 
     if (checkSelectAll.length === itemSelect.length) {
@@ -65,6 +93,36 @@ export default class ItemServives extends React.Component {
     }
   };
 
+  selectItemChild = (id, index, id_item) => {
+    let itemSelect = [...this.state.servives];
+    for (let Data of itemSelect) {
+      if (Data.categoryId == id) {
+        if (index !== undefined) {
+          if (Data.servives[index].categoryId == id_item) {
+            Data.servives[index].selected =
+              Data.servives[index].selected == null
+                ? true
+                : !Data.servives[index].selected;
+            // break;
+          }
+        }
+
+        const isCheckSelect = Data.servives.filter(
+          (item) => item.selected === true
+        );
+
+        if (isCheckSelect.length === 0) {
+          Data.selected = false;
+        }
+        if (isCheckSelect.length !== 0) {
+          Data.selected = true;
+        }
+      }
+    }
+
+    this.setState({ servives: itemSelect });
+  };
+
   selectAllItem = () => {
     const { isSelectAll } = this.state;
     this.setState({ isSelectAll: !this.state.isSelectAll });
@@ -72,27 +130,57 @@ export default class ItemServives extends React.Component {
       let itemSelect = [...this.state.servives];
       for (let Data of itemSelect) {
         Data.selected = false;
+        for (let child of Data.servives) {
+          child.selected = false
+        }
       }
       this.setState({ servives: itemSelect });
     }
   };
 
-  renderItem = () => {
-    const { isCheck, isSelectAll } = this.state;
-    const temptIconCheck = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
+  mapCategoryServives = (arr_category) => {
+    let categoryArr = [];
+    let resultArr = [];
+    categoryArr = arr_category.filter(
+      (item) => item.categoryType === "Service"
+    );
 
-    const temptIconCheckArrow = isCheck ? IMAGE.Arrow_up : IMAGE.Arrow_down;
+    resultArr = categoryArr.map((item) => ({
+      categoryId: item.categoryId,
+      name: item.name,
+      servives: (this.props?.servicesByMerchant || []).filter(
+        (i) => i.categoryId === item.categoryId
+      ),
+    }));
+
+    return resultArr;
+  };
+
+  setCollap = (id) => {
+    let itemSelect = [...this.state.servives];
+    for (let Data of itemSelect) {
+      if (Data.categoryId == id) {
+        Data.isCollap = Data.isCollap == null ? true : !Data.isCollap;
+        break;
+      }
+    }
+    this.setState({ servives: itemSelect });
+  };
+
+  renderItem = () => {
+    const { isSelectAll } = this.state;
     return this.state.servives.map((item, index) => (
       <View
         style={{ paddingHorizontal: scaleSzie(25), marginBottom: scaleSzie(5) }}
+        key={index}
       >
         <TouchableOpacity
           style={styles.item}
-          onPress={this.onPress}
+          onPress={() => this.setCollap(item.categoryId)}
           activeOpacity={0.9}
         >
           <Button
-            onPress={() => this.selectItem(item.id)}
+            onPress={() => this.selectItem(item.categoryId)}
             style={{ width: scaleSzie(30), justifyContent: "center" }}
           >
             {item.selected || isSelectAll ? (
@@ -115,38 +203,67 @@ export default class ItemServives extends React.Component {
                 fontWeight: "600",
               }}
             >
-              {item.title}
+              {item.name}
             </Text>
           </View>
-          <Image
-            source={temptIconCheckArrow}
-            style={{ width: scaleSzie(18), height: scaleSzie(18) }}
-          />
+
+          {item.isCollap ? (
+            <Image
+              source={IMAGE.Arrow_up}
+              style={{ width: scaleSzie(18), height: scaleSzie(18) }}
+            />
+          ) : (
+            <Image
+              source={IMAGE.Arrow_down}
+              style={{ width: scaleSzie(18), height: scaleSzie(18) }}
+            />
+          )}
         </TouchableOpacity>
 
-        <Collapsible collapsed={isCheck}>
-          {data.map((item, index) => (
-            <View style={styles.item_collap}>
+        <Collapsible collapsed={!item.isCollap}>
+          {item.servives.map((items, index) => (
+            <View key={index} style={styles.item_collap}>
               <Button
-                onPress={this.onPress}
+                onPress={() =>
+                  this.selectItemChild(item.categoryId, index, items.categoryId)
+                }
                 style={{ width: scaleSzie(30), justifyContent: "center" }}
               >
-                <Image
-                  source={temptIconCheck}
-                  style={{ width: scaleSzie(15), height: scaleSzie(15) }}
-                />
+                {items.selected || isSelectAll ? (
+                  <Image
+                    source={IMAGE.checkBox}
+                    style={{ width: scaleSzie(15), height: scaleSzie(15) }}
+                  />
+                ) : (
+                  <Image
+                    source={IMAGE.checkBoxEmpty}
+                    style={{ width: scaleSzie(15), height: scaleSzie(15) }}
+                  />
+                )}
               </Button>
-              <Image
-                source={{
-                  uri: "https://reactnative.dev/img/tiny_logo.png",
-                }}
-                style={{
-                  width: scaleSzie(30),
-                  height: scaleSzie(30),
-                  marginRight: scaleSzie(10),
-                }}
-              />
-              <View style={{ width: scaleSzie(120), justifyContent: "center" }}>
+              {items?.imageUrl ? (
+                <Image
+                  source={{
+                    uri: items?.imageUrl,
+                  }}
+                  style={{
+                    width: scaleSzie(30),
+                    height: scaleSzie(30),
+                    marginRight: scaleSzie(10),
+                  }}
+                />
+              ) : (
+                <Image
+                  source={IMAGE.Gallery_ic}
+                  style={{
+                    width: scaleSzie(30),
+                    height: scaleSzie(30),
+                    marginRight: scaleSzie(10),
+                  }}
+                />
+              )}
+
+              <View style={{ width: "80%", justifyContent: "center" }}>
                 <Text
                   style={[
                     styles.text,
@@ -155,7 +272,7 @@ export default class ItemServives extends React.Component {
                     },
                   ]}
                 >
-                  {item.content}
+                  {items.name}
                 </Text>
               </View>
             </View>
@@ -235,3 +352,12 @@ const styles = StyleSheet.create({
     marginVertical: scaleSzie(1),
   },
 });
+
+const mapStateToProps = (state) => ({
+  language: state.dataLocal.language,
+  profile: state.dataLocal.profile,
+  categoriesByMerchant: state.category.categoriesByMerchant,
+  servicesByMerchant: state.service.servicesByMerchant,
+});
+
+export default connectRedux(mapStateToProps, ItemServives);
