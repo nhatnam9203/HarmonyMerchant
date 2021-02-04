@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TextInput } from "react-native";
+import { View, TextInput, Image } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 
 import { scaleSzie, localize } from "@utils";
@@ -262,7 +262,7 @@ class Layout extends React.Component {
           ref={this.scrollTabParentRef}
           style={{}}
           initialPage={0}
-          locked={false}
+          locked={true}
         >
           <View style={{ flex: 1 }}>{this.renderTableStaff()}</View>
           <AddStaff

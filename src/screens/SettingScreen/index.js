@@ -94,6 +94,8 @@ class SettingScreen extends Layout {
         );
       case 1:
         this.resetStateStaffSetting();
+        this.props.actions.category.getCategoriesByMerchantId('', '', '', false, false);
+        this.props.actions.service.getServicesByMerchant('', '', '', false, false);
         return this.props.actions.staff.getStaffByMerchantId("", "", "", false, false);
       case 2:
         this.resetStateCategoriesSetting();
@@ -156,6 +158,9 @@ class SettingScreen extends Layout {
 
   backTab = () => {
     this.props.actions.staff.switchAddStaff(false);
+    if (this.tabStaffRef?.current) {
+      this.tabStaffRef?.current.backAddStaff();
+    }
   };
 
   closePopupCheckSettingTabPermission = () => {

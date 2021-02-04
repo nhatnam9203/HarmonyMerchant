@@ -7,38 +7,6 @@ import { scaleSzie, WorkingTime } from "@utils";
 import Collapsible from "react-native-collapsible";
 import connectRedux from "@redux/ConnectRedux";
 
-const data = [
-  {
-    id: 1,
-    title: "Title 1",
-    content: [
-      {
-        id: 1,
-        content: "Content 1",
-      },
-      {
-        id: 2,
-        content: "Content 2",
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: "Title 2",
-    content: [
-      {
-        id: 1,
-        content: "Content 1",
-      },
-    ],
-  },
-  {
-    id: 3,
-    title: "Title 3",
-    content: [],
-  },
-];
-
 class ItemServives extends React.Component {
   constructor(props) {
     super(props);

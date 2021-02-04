@@ -116,13 +116,13 @@ class TabStaff extends Layout {
     // await this.setState({
     //   isEditStaff: false,
     // });
-    // this.props.actions.staff.switchAddStaff(true);
+    this.props.actions.staff.switchAddStaff(true);
 
     if (this.addStaffRef?.current) {
-      this.addStaffRef?.current?.setStateFromParent({}, false);
+      this.addStaffRef?.current?.setStateFromParent("", false);
     } else {
       setTimeout(() => {
-        this.addStaffRef?.current?.setStateFromParent({}, false);
+        this.addStaffRef?.current?.setStateFromParent("", false);
       }, 500);
     }
 
@@ -141,7 +141,7 @@ class TabStaff extends Layout {
     //   staffHandle: staff,
     //   isEditStaff: true,
     // });
-    // this.props.actions.staff.switchAddStaff(true);
+    this.props.actions.staff.switchAddStaff(true);
 
     if (this.addStaffRef?.current) {
       this.addStaffRef?.current?.setStateFromParent(staff, true);
@@ -160,6 +160,12 @@ class TabStaff extends Layout {
       staffHandle: staff,
     });
   }
+
+  backAddStaff = () => {
+    if (this.scrollTabParentRef?.current) {
+      this.scrollTabParentRef?.current.goToPage(0);
+    }
+  };
 
   // ------ ADD EDIT STAFF -----
   submitAddStaff = (staff) => {
