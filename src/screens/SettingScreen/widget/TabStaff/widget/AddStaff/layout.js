@@ -324,12 +324,7 @@ class Layout extends React.Component {
 
           <TitleTabAdminInfo title={localize("Services", language)} />
 
-          <ItemServives
-            // key={index}
-            ref={this.setRefTimeWorking}
-            // title={day}
-            // dataInit={temptDataWorkingTime[day]}
-          />
+          <ItemServives setServices={this.setServives} ref={this.servivesRef} />
 
           {/* ----- Service Salary ---- */}
           <TitleTabAdminInfo title={localize("Service Salary", language)} />

@@ -12,15 +12,9 @@ class ItemServives extends React.Component {
     super(props);
     this.state = {
       isCheck: true,
-      servives: this.mapCategoryServives(this.props.categoriesByMerchant),
+      services: this.mapCategoryServives(this.props.categoriesByMerchant),
       isSelectAll: false,
     };
-  }
-
-  async componentDidMount() {
-    await this.setState({
-      isCheck: dataInit.isCheck,
-    });
   }
 
   onPress = () => {
@@ -30,29 +24,34 @@ class ItemServives extends React.Component {
   };
 
   selectItem = (id, index, id_item) => {
-    let itemSelect = [...this.state.servives];
+    let itemSelect = [...this.state.services];
     for (let Data of itemSelect) {
       if (Data.categoryId == id) {
         Data.selected = Data.selected == null ? true : !Data.selected;
 
         if (index !== undefined) {
-          if (Data.servives[index].categoryId == id_item) {
-            Data.servives[index].selected =
-              Data.servives[index].selected == null
+          if (Data.services[index].categoryId == id_item) {
+            Data.services[index].selected =
+              Data.services[index].selected == null
                 ? true
-                : !Data.servives[index].selected;
+                : !Data.services[index].selected;
             break;
           }
         } else {
-          for (let child of Data.servives) {
-            child.selected = child.selected == null ? true : !child.selected;
+          for (let child of Data.services) {
+            if (Data.selected) {
+              child.selected = true;
+            } else {
+              child.selected = false;
+            }
           }
         }
       }
     }
     const checkSelectAll = itemSelect.filter((item) => item.selected === true);
 
-    this.setState({ servives: itemSelect });
+    this.setState({ services: itemSelect });
+    this.props.setServices(itemSelect);
 
     if (checkSelectAll.length === itemSelect.length) {
       this.setState({ isSelectAll: true });
@@ -62,20 +61,20 @@ class ItemServives extends React.Component {
   };
 
   selectItemChild = (id, index, id_item) => {
-    let itemSelect = [...this.state.servives];
+    let itemSelect = [...this.state.services];
     for (let Data of itemSelect) {
       if (Data.categoryId == id) {
         if (index !== undefined) {
-          if (Data.servives[index].categoryId == id_item) {
-            Data.servives[index].selected =
-              Data.servives[index].selected == null
+          if (Data.services[index].categoryId == id_item) {
+            Data.services[index].selected =
+              Data.services[index].selected == null
                 ? true
-                : !Data.servives[index].selected;
+                : !Data.services[index].selected;
             // break;
           }
         }
 
-        const isCheckSelect = Data.servives.filter(
+        const isCheckSelect = Data.services.filter(
           (item) => item.selected === true
         );
 
@@ -88,21 +87,32 @@ class ItemServives extends React.Component {
       }
     }
 
-    this.setState({ servives: itemSelect });
+    this.setState({ services: itemSelect });
+    this.props.setServices(itemSelect);
   };
 
   selectAllItem = () => {
     const { isSelectAll } = this.state;
     this.setState({ isSelectAll: !this.state.isSelectAll });
+    let itemSelect = [...this.state.services];
     if (isSelectAll) {
-      let itemSelect = [...this.state.servives];
       for (let Data of itemSelect) {
         Data.selected = false;
-        for (let child of Data.servives) {
-          child.selected = false
+        for (let child of Data.services) {
+          child.selected = false;
         }
       }
-      this.setState({ servives: itemSelect });
+      this.setState({ services: itemSelect });
+      this.props.setServices(itemSelect);
+    } else {
+      for (let Data of itemSelect) {
+        Data.selected = true;
+        for (let child of Data.services) {
+          child.selected = true;
+        }
+      }
+      this.setState({ services: itemSelect });
+      this.props.setServices(itemSelect);
     }
   };
 
@@ -116,7 +126,7 @@ class ItemServives extends React.Component {
     resultArr = categoryArr.map((item) => ({
       categoryId: item.categoryId,
       name: item.name,
-      servives: (this.props?.servicesByMerchant || []).filter(
+      services: (this.props?.servicesByMerchant || []).filter(
         (i) => i.categoryId === item.categoryId
       ),
     }));
@@ -125,19 +135,19 @@ class ItemServives extends React.Component {
   };
 
   setCollap = (id) => {
-    let itemSelect = [...this.state.servives];
+    let itemSelect = [...this.state.services];
     for (let Data of itemSelect) {
       if (Data.categoryId == id) {
         Data.isCollap = Data.isCollap == null ? true : !Data.isCollap;
         break;
       }
     }
-    this.setState({ servives: itemSelect });
+    this.setState({ services: itemSelect });
   };
 
   renderItem = () => {
     const { isSelectAll } = this.state;
-    return this.state.servives.map((item, index) => (
+    return this.state.services.map((item, index) => (
       <View
         style={{ paddingHorizontal: scaleSzie(25), marginBottom: scaleSzie(5) }}
         key={index}
@@ -189,7 +199,7 @@ class ItemServives extends React.Component {
         </TouchableOpacity>
 
         <Collapsible collapsed={!item.isCollap}>
-          {item.servives.map((items, index) => (
+          {item.services.map((items, index) => (
             <View key={index} style={styles.item_collap}>
               <Button
                 onPress={() =>
@@ -257,7 +267,7 @@ class ItemServives extends React.Component {
       <View>
         <View style={styles.title_services}>
           <Text style={styles.text}>
-            Assign servives this staff can perform
+            Assign services this staff can perform
           </Text>
         </View>
         <View style={styles.select_all}>

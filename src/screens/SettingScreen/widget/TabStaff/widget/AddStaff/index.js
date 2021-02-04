@@ -80,6 +80,8 @@ class AddStaff extends Layout {
       value: {},
       dynamicMarginBottomState: 24,
       rowsSalaryIncome: 0,
+      isEditStaff: false,
+      categories: []
     };
     this.inputRefsTime = [];
     this.browserFileRef = React.createRef();
@@ -91,6 +93,7 @@ class AddStaff extends Layout {
     this.fixedAmountTipFeeRef = React.createRef();
     this.commisionProductScalaryRef = React.createRef();
     this.cashPercentRef = React.createRef();
+    this.servivesRef = React.createRef();
   }
 
   scrollStaffTo(position) {
@@ -102,6 +105,7 @@ class AddStaff extends Layout {
   }
 
   setStateFromParent = async (infoStaffHandle, isEditStaff) => {
+    this.setState({ isEditStaff: isEditStaff });
     if (this.scrollStaffRef?.current) {
       this.scrollStaffRef?.current?.scrollTo({ y: 0, animated: false });
     }
@@ -251,135 +255,148 @@ class AddStaff extends Layout {
     };
   };
 
+  setServives = (services) => {
+    const { isEditStaff } = this.state;
+    const arrServices = services.map((item) => ({
+      staffCategoryId: !isEditStaff ? 0 : 1,
+      categoryId: item.categoryId,
+      selected: item?.selected ? item?.selected : false,
+      services: item.services.map((i) => ({
+        staffServiceId: !isEditStaff ? 0 : 1,
+        serviceId: i.serviceId,
+        selected: i?.selected ? i.selected : false,
+      })),
+    }));
+    console.log(arrServices);
+    this.setState({categories: arrServices})
+  };
+
   addAdmin = () => {
-    const { user } = this.state;
-    const { stateCity } = this.props;
-    const arrayKey = Object.keys(user);
-    let keyError = "";
-    for (let i = 0; i < arrayKey.length; i++) {
-      if (arrayKey[i] == "address") {
-        if (
-          user.address.state !== "" &&
-          !checkStateIsValid(stateCity, user.address.state)
-        ) {
-          keyError = "stateInvalid";
-          break;
-        }
-      } else if (arrayKey[i] == "roles") {
-        if (user.roles.nameRole == "") {
-          keyError = "nameRole";
-          break;
-        }
-      } else if (arrayKey[i] == "email" && user[arrayKey[i]] !== "") {
-        if (!validateEmail(user[arrayKey[i]])) {
-          keyError = "emailInvalid";
-          break;
-        }
-      } else if (
-        arrayKey[i] != "driverlicense" &&
-        arrayKey[i] != "socialSecurityNumber" &&
-        arrayKey[i] != "professionalLicense"
-      ) {
-        if (
-          user[arrayKey[i]] === "" &&
-          arrayKey[i] !== "cellphone" &&
-          arrayKey[i] !== "email"
-        ) {
-          keyError = arrayKey[i];
-          break;
-        }
-      }
-    }
-
-    if (user.pin !== user.confirmPin) {
-      keyError = "pinnotmatch";
-    }
-
-    // ------- Check Service Salary Income ------------
-    const resultSalaryIncome = this.checkSalaryIncomeService();
-    const isCheckIncomeSalary = this.commissionSalaryRef?.current?.state
-      ?.isCheck;
-    if (isCheckIncomeSalary && !resultSalaryIncome.status) {
-      keyError = resultSalaryIncome?.message || "";
-    }
-
-    if (keyError !== "") {
-      Alert.alert(`${strings[keyError] ? strings[keyError] : keyError}`);
-    } else {
-      let objWorkingTime = [];
-      this.inputRefsTime.forEach((ref) => {
-        objWorkingTime = {
-          ...objWorkingTime,
-          [ref.props.title]: {
-            timeStart: ref.state.timeStart,
-            timeEnd: ref.state.timeEnd,
-            isCheck: ref.state.isCheck,
-          },
-        };
-      });
-
-      const { address } = user;
-      const temptAddress = {
-        ...address,
-        state: getIdStateByName(stateCity, address.state),
-      };
-      const temptStaff = {
-        ...user,
-        cellphone:
-          user.cellphone === ""
-            ? ""
-            : `${this.cellphoneRef?.current?.state?.codeAreaPhone}${user.cellphone}`,
-        address: temptAddress,
-        isDisabled: user.isDisabled === "Active" ? 0 : 1,
-        workingTime: objWorkingTime,
-        salary: {
-          perHour: {
-            value: parseFloat(
-              this.perHourServiceSalaryRef?.current?.state?.value || 0
-            ),
-            isCheck:
-              this.perHourServiceSalaryRef?.current?.state?.isCheck || false,
-          },
-          commission: {
-            value: resultSalaryIncome.data,
-            isCheck: isCheckIncomeSalary,
-          },
-        },
-        tipFee: {
-          percent: {
-            value: parseFloat(
-              this.percentTipFeeRef?.current?.state?.value || 0
-            ),
-            isCheck: this.percentTipFeeRef?.current?.state?.isCheck || false,
-          },
-          fixedAmount: {
-            value: parseFloat(
-              this.fixedAmountTipFeeRef?.current?.state?.value || 0
-            ),
-            isCheck:
-              this.fixedAmountTipFeeRef?.current?.state?.isCheck || false,
-          },
-        },
-        fileId: this.state.fileId,
-        productSalary: {
-          commission: {
-            value: parseFloat(
-              this.commisionProductScalaryRef?.current?.state?.value || 0
-            ),
-            isCheck:
-              this.commisionProductScalaryRef?.current?.state?.isCheck || false,
-          },
-        },
-        cashPercent: parseFloat(
-          this.cashPercentRef?.current?.state?.value || 0
-        ),
-      };
-      if (this.props.isEditStaff) {
-        this.props.editStaff(temptStaff, this.state.staffId);
-      } else {
-        this.props.addStaff(temptStaff);
-      }
-    }
+    // this.servivesRef?.current?.setServivesCheck()
+    // const { user } = this.state;
+    // const { stateCity } = this.props;
+    // const arrayKey = Object.keys(user);
+    // let keyError = "";
+    // for (let i = 0; i < arrayKey.length; i++) {
+    //   if (arrayKey[i] == "address") {
+    //     if (
+    //       user.address.state !== "" &&
+    //       !checkStateIsValid(stateCity, user.address.state)
+    //     ) {
+    //       keyError = "stateInvalid";
+    //       break;
+    //     }
+    //   } else if (arrayKey[i] == "roles") {
+    //     if (user.roles.nameRole == "") {
+    //       keyError = "nameRole";
+    //       break;
+    //     }
+    //   } else if (arrayKey[i] == "email" && user[arrayKey[i]] !== "") {
+    //     if (!validateEmail(user[arrayKey[i]])) {
+    //       keyError = "emailInvalid";
+    //       break;
+    //     }
+    //   } else if (
+    //     arrayKey[i] != "driverlicense" &&
+    //     arrayKey[i] != "socialSecurityNumber" &&
+    //     arrayKey[i] != "professionalLicense"
+    //   ) {
+    //     if (
+    //       user[arrayKey[i]] === "" &&
+    //       arrayKey[i] !== "cellphone" &&
+    //       arrayKey[i] !== "email"
+    //     ) {
+    //       keyError = arrayKey[i];
+    //       break;
+    //     }
+    //   }
+    // }
+    // if (user.pin !== user.confirmPin) {
+    //   keyError = "pinnotmatch";
+    // }
+    // // ------- Check Service Salary Income ------------
+    // const resultSalaryIncome = this.checkSalaryIncomeService();
+    // const isCheckIncomeSalary = this.commissionSalaryRef?.current?.state
+    //   ?.isCheck;
+    // if (isCheckIncomeSalary && !resultSalaryIncome.status) {
+    //   keyError = resultSalaryIncome?.message || "";
+    // }
+    // if (keyError !== "") {
+    //   Alert.alert(`${strings[keyError] ? strings[keyError] : keyError}`);
+    // } else {
+    //   let objWorkingTime = [];
+    //   this.inputRefsTime.forEach((ref) => {
+    //     objWorkingTime = {
+    //       ...objWorkingTime,
+    //       [ref.props.title]: {
+    //         timeStart: ref.state.timeStart,
+    //         timeEnd: ref.state.timeEnd,
+    //         isCheck: ref.state.isCheck,
+    //       },
+    //     };
+    //   });
+    //   const { address } = user;
+    //   const temptAddress = {
+    //     ...address,
+    //     state: getIdStateByName(stateCity, address.state),
+    //   };
+    //   const temptStaff = {
+    //     ...user,
+    //     cellphone:
+    //       user.cellphone === ""
+    //         ? ""
+    //         : `${this.cellphoneRef?.current?.state?.codeAreaPhone}${user.cellphone}`,
+    //     address: temptAddress,
+    //     isDisabled: user.isDisabled === "Active" ? 0 : 1,
+    //     workingTime: objWorkingTime,
+    //     salary: {
+    //       perHour: {
+    //         value: parseFloat(
+    //           this.perHourServiceSalaryRef?.current?.state?.value || 0
+    //         ),
+    //         isCheck:
+    //           this.perHourServiceSalaryRef?.current?.state?.isCheck || false,
+    //       },
+    //       commission: {
+    //         value: resultSalaryIncome.data,
+    //         isCheck: isCheckIncomeSalary,
+    //       },
+    //     },
+    //     tipFee: {
+    //       percent: {
+    //         value: parseFloat(
+    //           this.percentTipFeeRef?.current?.state?.value || 0
+    //         ),
+    //         isCheck: this.percentTipFeeRef?.current?.state?.isCheck || false,
+    //       },
+    //       fixedAmount: {
+    //         value: parseFloat(
+    //           this.fixedAmountTipFeeRef?.current?.state?.value || 0
+    //         ),
+    //         isCheck:
+    //           this.fixedAmountTipFeeRef?.current?.state?.isCheck || false,
+    //       },
+    //     },
+    //     fileId: this.state.fileId,
+    //     productSalary: {
+    //       commission: {
+    //         value: parseFloat(
+    //           this.commisionProductScalaryRef?.current?.state?.value || 0
+    //         ),
+    //         isCheck:
+    //           this.commisionProductScalaryRef?.current?.state?.isCheck || false,
+    //       },
+    //     },
+    //     cashPercent: parseFloat(
+    //       this.cashPercentRef?.current?.state?.value || 0
+    //     ),
+    //   };
+    //   if (this.props.isEditStaff) {
+    //     this.props.editStaff(temptStaff, this.state.staffId);
+    //   } else {
+    //     this.props.addStaff(temptStaff);
+    //   }
+    // }
   };
 
   convertKeyToName(key) {
