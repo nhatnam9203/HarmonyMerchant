@@ -860,7 +860,7 @@ class TabCheckout extends Layout {
 
     payBasket = async () => {
         const { paymentSelected } = this.state;
-        const { groupAppointment, isOfflineMode } = this.props;
+        const { groupAppointment, isOfflineMode, paymentDetailInfo } = this.props;
         const method = this.getPaymentString(paymentSelected);
 
         if (isOfflineMode && method === 'harmony') {
@@ -880,9 +880,14 @@ class TabCheckout extends Layout {
                 visibleSendLinkPopup: true
             });
         } else {
-            await this.setState({
-                visibleBillOfPayment: true
-            })
+            if (method === 'harmony' || method === 'credit_card') {
+                const dueAmount = parseFloat(formatNumberFromCurrency(paymentDetailInfo?.dueAmount || 0));
+                this.doneBill(dueAmount);
+            } else {
+                await this.setState({
+                    visibleBillOfPayment: true
+                });
+            }
         }
 
     }
@@ -929,12 +934,12 @@ class TabCheckout extends Layout {
         }
     }
 
-    doneBill = async () => {
+    doneBill = async (amountPayment = false) => {
         const { groupAppointment, profile, paxMachineInfo, token, isOfflineMode, deviceId, profileStaffLogin, customerInfoBuyAppointment,
             paymentDetailInfo
         } = this.props;
         const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, customerInfoByPhone } = this.state;
-        const moneyUserGiveForStaff = parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
+        const moneyUserGiveForStaff = amountPayment !== false ? amountPayment : parseFloat(formatNumberFromCurrency(this.modalBillRef.current.state.quality));
         const method = this.getPaymentString(paymentSelected);
         const total = groupAppointment.total ? parseFloat(formatNumberFromCurrency(groupAppointment.total)) : 0;
         const dueAmount = paymentDetailInfo.dueAmount ? parseFloat(formatNumberFromCurrency(paymentDetailInfo.dueAmount)) : 0;
