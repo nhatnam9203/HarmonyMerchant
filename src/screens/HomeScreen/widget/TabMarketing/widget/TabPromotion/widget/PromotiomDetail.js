@@ -286,17 +286,17 @@ const ConditionSpecific = ({ title, condition, setCondition }) => {
 
             <View style={{ flexDirection: "row", height: scaleSzie(30) }} >
                 {/* ---------  Specific ------ */}
-                <View style={[{ width: scaleSzie(85) }, styles.centered_box, styles.border_select]} >
+                {/* <View style={[{ width: scaleSzie(85) }, styles.centered_box, styles.border_select]} >
                     <Text style={[styles.txt_condition_select]} >
                         {`Specific`}
                     </Text>
-                </View>
+                </View> */}
                 {/* ---------  All ------ */}
-                <View style={[{ width: scaleSzie(45), marginLeft: scaleSzie(4), marginRight: scaleSzie(50) }, styles.centered_box, styles.border_select]} >
+                {/* <View style={[{ width: scaleSzie(45), marginLeft: scaleSzie(4), marginRight: scaleSzie(50) }, styles.centered_box, styles.border_select]} >
                     <Text style={[styles.txt_condition_select]} >
                         {`All`}
                     </Text>
-                </View>
+                </View> */}
                 {/* ---------  Service/Product Dropdown ------ */}
                 <Dropdown
                     label={"h:mm"}
@@ -321,8 +321,8 @@ const ConditionSpecific = ({ title, condition, setCondition }) => {
 const Tags = ({ tags }) => {
     return (
         <View style={{ flexDirection: "row", marginTop: scaleSzie(10) }} >
-            <View style={[{ width: scaleSzie(85) }]} />
-            <View style={[{ width: scaleSzie(45), marginLeft: scaleSzie(4), marginRight: scaleSzie(50) },]} />
+            {/* <View style={[{ width: scaleSzie(85) }]} />
+            <View style={[{ width: scaleSzie(45), marginLeft: scaleSzie(4), marginRight: scaleSzie(50) },]} /> */}
             <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }} >
                 {
                     tags.map((tag, index) => <Tag name={tag} />)

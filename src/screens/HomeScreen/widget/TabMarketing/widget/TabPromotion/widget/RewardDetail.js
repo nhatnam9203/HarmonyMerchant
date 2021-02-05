@@ -17,7 +17,7 @@ import ICON from '@resources';
 import { Button, Text, InputForm, Dropdown } from '@components';
 const { width } = Dimensions.get('window');
 
-const RewardDetail = ({ cancelCampaign,handleCampaign }) => {
+const RewardDetail = ({ cancelRewardPoints,saveRewardPoints }) => {
 
     const language = useSelector(state => state?.dataLocal?.language || "en");
 
@@ -61,13 +61,13 @@ const RewardDetail = ({ cancelCampaign,handleCampaign }) => {
                 left: (width - scaleSzie(280)) / 2,
                 flexDirection: "row"
             }} >
-                <Button onPress={cancelCampaign} style={[{ flex: 1, backgroundColor: "#F1F1F1", borderRadius: 2 }, styles.centered_box]} >
+                <Button onPress={cancelRewardPoints} style={[{ flex: 1, backgroundColor: "#F1F1F1", borderRadius: 2 }, styles.centered_box]} >
                     <Text style={styles.txt_footer} >
                         {`CANCEL`}
                     </Text>
                 </Button>
                 <View style={{ width: scaleSzie(25) }} />
-                <Button onPress={handleCampaign} style={[{ flex: 1, backgroundColor: "#0764B0", borderRadius: 2 }, styles.centered_box]} >
+                <Button onPress={saveRewardPoints} style={[{ flex: 1, backgroundColor: "#0764B0", borderRadius: 2 }, styles.centered_box]} >
                     <Text style={[styles.txt_footer, { color: "#fff" }]} >
                         {`ADD`}
                     </Text>

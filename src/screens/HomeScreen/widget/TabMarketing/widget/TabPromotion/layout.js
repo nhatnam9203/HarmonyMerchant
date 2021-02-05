@@ -28,7 +28,7 @@ class Layout extends React.Component {
                 <ScrollableTabView
                     ref={this.scrollTabParentRef}
                     style={{}}
-                    initialPage={2}
+                    initialPage={0}
                     locked={true}
                     renderTabBar={() => <View />}
                     onChangeTab={this.onChangeTab}
@@ -45,7 +45,10 @@ class Layout extends React.Component {
                         handleCampaign={this.createNewCampaign}
                     />
 
-                    <RewardDetail />
+                    <RewardDetail 
+                        cancelRewardPoints={this.cancelRewardPoints}
+                        saveRewardPoints={this.saveRewardPoints}
+                    />
 
                 </ScrollableTabView>
 

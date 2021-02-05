@@ -23,13 +23,7 @@ class TabPromotion extends Layout {
   }
 
   createNewCampaign = () => {
-    if (this.scrollTabParentRef?.current) {
-      this.scrollTabParentRef?.current.goToPage(1);
-    } else {
-      setTimeout(() => {
-        this.scrollTabParentRef?.current.goToPage(1);
-      }, 300)
-    }
+    this.goToPage(1);
   }
 
   editCampaign = (campaign) => () => {
@@ -44,12 +38,30 @@ class TabPromotion extends Layout {
     this.scrollTabParentRef?.current.goToPage(0);
   }
 
-  viewRule = () =>{
+  goToPage = (page = 1) => {
+    if (this.scrollTabParentRef?.current) {
+      this.scrollTabParentRef?.current.goToPage(page);
+    } else {
+      setTimeout(() => {
+        this.scrollTabParentRef?.current.goToPage(page);
+      }, 300)
+    }
+  }
+
+  viewRule = () => {
+    this.goToPage(2);
+  }
+
+  disableRule = () => {
 
   }
 
-  disableRule =() =>{
-    
+  cancelRewardPoints = () => {
+    this.goToPage(0);
+  }
+
+  saveRewardPoints = () => {
+    this.goToPage(0);
   }
 
 }
