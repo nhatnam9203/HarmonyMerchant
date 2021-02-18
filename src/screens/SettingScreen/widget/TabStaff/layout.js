@@ -244,19 +244,6 @@ class Layout extends React.Component {
     const { isEditStaff, staffHandle } = this.state;
     return (
       <View style={{ flex: 1 }}>
-        {/* {isAddStaff ? (
-          <AddStaff
-            profile={profile}
-            stateCity={stateCity}
-            language={language}
-            infoStaffHandle={staffHandle}
-            isEditStaff={isEditStaff}
-            addStaff={this.submitAddStaff}
-            editStaff={this.submitEditStaff}
-          />
-        ) : (
-          this.renderTableStaff()
-        )} */}
         <ScrollableTabView
           renderTabBar={() => <View style={{ height: 0 }} />}
           ref={this.scrollTabParentRef}
