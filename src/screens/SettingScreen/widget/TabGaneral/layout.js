@@ -145,7 +145,7 @@ class Layout extends React.Component {
                     </View>
 
                     {/* ------- Gift for new customer  ------ */}
-                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
+                    {/* <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
                         <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
                             <Text style={{
                                 color: '#404040',
@@ -163,7 +163,7 @@ class Layout extends React.Component {
                                 value={giftForNewEnabled}
                             />
                         </View>
-                    </View>
+                    </View> */}
 
 
                     {/* ------------ Item Auto lock ------------- */}

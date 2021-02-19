@@ -4,7 +4,9 @@ import {
     Image,
     Dimensions,
     StyleSheet,
-    FlatList
+    FlatList,
+    ActivityIndicator,
+    Switch
 } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 
@@ -14,7 +16,7 @@ import { Button, Text } from '@components';
 
 const { width } = Dimensions.get('window');
 
-const PromotionHome = ({ createNewCampaign, editCampaign, disableCampaign,viewRule,disableRule}) => {
+const PromotionHome = ({ createNewCampaign, editCampaign, disableCampaign, viewRule, disableRule }) => {
 
     return (
         <View style={{ flex: 1 }} >
@@ -52,6 +54,22 @@ const PromotionHome = ({ createNewCampaign, editCampaign, disableCampaign,viewRu
                         viewRule={viewRule}
                         disableRule={disableRule}
                     />
+
+                    {/* ------------  Gift For New Customer ------------ */}
+
+                    <View style={{ flexDirection: "row", marginTop: scaleSzie(25) }} >
+                        <Text style={{ color: "#404040", marginLeft: scaleSzie(14), fontSize: scaleSzie(14), marginRight: scaleSzie(25) }} >
+                            {`Gift For New Customer`}
+                        </Text>
+                        <Switch
+                            trackColor={{ false: "#767577", true: "#0764B0" }}
+                            ios_backgroundColor="#E5E5E5"
+                            // onValueChange={(value) => this.updateCategoryInfo('isShowSignInApp', value)}
+                            value={true}
+                        />
+                    </View>
+
+
                     <View style={{ height: scaleSzie(50) }} />
                 </>}
             />
@@ -124,7 +142,7 @@ const RuleTableHeader = () => {
     );
 }
 
-const RuleRow = ({viewRule,disableRule}) => {
+const RuleRow = ({ viewRule, disableRule }) => {
 
     return (
         <View style={{
