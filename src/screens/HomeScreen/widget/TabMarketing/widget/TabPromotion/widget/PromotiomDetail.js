@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     Image,
@@ -15,19 +15,32 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { scaleSzie, localize, WorkingTime, formatWithMoment, MARKETING_CONDITIONS } from '@utils';
 import ICON from '@resources';
 import { Button, Text, InputForm, Dropdown } from '@components';
+import { product } from 'ramda';
 const { width } = Dimensions.get('window');
 
-const PromotiomDetail = ({ cancelCampaign,handleCampaign }) => {
+const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign }) => {
 
+    const [title, setTitle] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [startTime, setStartTime] = useState("12:00 AM");
     const [endTime, setEndTime] = useState("12:00 AM");
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isChangeDate, setIsChangeDate] = useState("start");
-    const [condition, setCondition] = useState("No condition");
+    const [condition, setCondition] = useState("No Condition");
+    const [conditionServiceProductTags, setConditionServiceProductTags] = useState([]);
+
+    setStateFromParent((data) => {
+        setTitle(data?.title);
+        setStartDate(data?.startDate);
+        setEndDate(data?.endDate);
+        setStartTime(data?.startTime);
+        setEndTime(data?.endTime);
+    });
 
     const language = useSelector(state => state?.dataLocal?.language || "en");
+    const productsByMerchantId = useSelector(state => state?.product?.productsByMerchantId || []);
+    const servicesByMerchant = useSelector(state => state?.service?.servicesByMerchant || []);
 
     const showDatePicker = (isChangeDate) => () => {
         setIsChangeDate(isChangeDate);
@@ -44,6 +57,12 @@ const PromotiomDetail = ({ cancelCampaign,handleCampaign }) => {
         hideDatePicker(false);
     };
 
+    const addConditionServiceProductTags = (tag) => {
+        const tempData = [...conditionServiceProductTags];
+        tempData.push(tag);
+        setConditionServiceProductTags(tempData);
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: "#fff", paddingHorizontal: scaleSzie(14) }} >
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -56,9 +75,8 @@ const PromotiomDetail = ({ cancelCampaign,handleCampaign }) => {
                     title={`${localize('Campaign Name', language)}:`}
                     subTitle=""
                     placeholder="Campaign name"
-                    value={""}
-                    onChangeText={(value) => {
-                    }}
+                    value={title}
+                    onChangeText={setTitle}
                     style={{ marginBottom: scaleSzie(10), }}
                     styleTitle={{ fontSize: scaleSzie(14), fontWeight: "600", marginBottom: scaleSzie(5) }}
                     styleInputText={{ fontSize: scaleSzie(13) }}
@@ -135,8 +153,13 @@ const PromotiomDetail = ({ cancelCampaign,handleCampaign }) => {
                     title={"Condition"}
                     condition={condition}
                     setCondition={setCondition}
+                    addTag={addConditionServiceProductTags}
+                    productsByMerchantId={productsByMerchantId}
+                    servicesByMerchant={servicesByMerchant}
                 />
-                <Tags tags={["Deluxe Spa Manicure", "Deluxe Spa Pedicure", "Deluxe ", "Pedicure"]} />
+                {
+                    condition !== "No Condition" && <Tags tags={conditionServiceProductTags} />
+                }
 
                 {/* ---------  Actions Condition ------ */}
 
@@ -144,8 +167,10 @@ const PromotiomDetail = ({ cancelCampaign,handleCampaign }) => {
                     title={"Action"}
                     condition={condition}
                     setCondition={setCondition}
+                    productsByMerchantId={productsByMerchantId}
+                    servicesByMerchant={servicesByMerchant}
                 />
-                <Tags tags={["Deluxe Spa Manicure", "Deluxe Spa Pedicure", "Deluxe ", "Pedicure"]} />
+                {/* <Tags tags={["Deluxe Spa Manicure", "Deluxe Spa Pedicure", "Deluxe ", "Pedicure"]} /> */}
 
                 {/* ---------  Promotion type ------ */}
                 <Text style={[styles.txt_tit, { marginBottom: scaleSzie(15), marginTop: scaleSzie(20) }]} >
@@ -262,7 +287,32 @@ const SelectPromotionDate = ({ value, onChangeText, showDatePicker }) => {
     );
 }
 
-const ConditionSpecific = ({ title, condition, setCondition }) => {
+const ConditionSpecific = ({ title, condition, setCondition, addTag, productsByMerchantId, servicesByMerchant }) => {
+
+    const [tag, setTag] = useState("");
+    const [tagIndex, setTagIndex] = useState(-1);
+    const [dataServiceProduct, setDataServiceProduct] = useState([]);
+
+    useEffect(() => {
+        const tempService = servicesByMerchant.map((service) => ({ value: service?.name || "", type: "Service", originalId: service?.serviceId || 0, id: `${service?.serviceId}_Service` }));
+        const tempProduct = productsByMerchantId.map((product) => ({ value: product?.name || "", type: "Product", originalId: product?.productId || 0, id: `${product?.productId}_Product` }));
+        const tempData = tempService.concat(tempProduct);
+        setDataServiceProduct(tempData);
+    }, [productsByMerchantId, servicesByMerchant]);
+
+    onChangeServiceProduct = (value, index) => {
+        setTag(value);
+        setTagIndex(index);
+    }
+
+    handleAddTag = () => {
+        if (tag && tagIndex !== -1) {
+            addTag({ ...dataServiceProduct[tagIndex] });
+            setTag("");
+            setTagIndex(-1);
+        }
+    }
+
     return (
         <View>
             <Text style={[styles.txt_tit, { marginBottom: scaleSzie(15), marginTop: scaleSzie(16) }]} >
@@ -283,37 +333,27 @@ const ConditionSpecific = ({ title, condition, setCondition }) => {
                     }}
                 />
             </View>
-
-            <View style={{ flexDirection: "row", height: scaleSzie(30) }} >
-                {/* ---------  Specific ------ */}
-                {/* <View style={[{ width: scaleSzie(85) }, styles.centered_box, styles.border_select]} >
-                    <Text style={[styles.txt_condition_select]} >
-                        {`Specific`}
-                    </Text>
-                </View> */}
-                {/* ---------  All ------ */}
-                {/* <View style={[{ width: scaleSzie(45), marginLeft: scaleSzie(4), marginRight: scaleSzie(50) }, styles.centered_box, styles.border_select]} >
-                    <Text style={[styles.txt_condition_select]} >
-                        {`All`}
-                    </Text>
-                </View> */}
-                {/* ---------  Service/Product Dropdown ------ */}
-                <Dropdown
-                    label={"h:mm"}
-                    data={MARKETING_CONDITIONS}
-                    value={condition}
-                    onChangeText={setCondition}
-                    containerStyle={[{
-                        flex: 1
-                    }, styles.border_comm]}
-                />
-                {/* ---------  Add Button ------ */}
-                <View style={[{ width: scaleSzie(85), backgroundColor: "#0764B0", marginLeft: scaleSzie(15), borderRadius: 4 }, styles.centered_box]} >
-                    <Text style={[styles.txt_condition_select, { color: "#fff" }]} >
-                        {`Add`}
-                    </Text>
+            {
+                condition !== "No Condition" && <View style={{ flexDirection: "row", height: scaleSzie(30) }} >
+                    {/* ---------  Service/Product Dropdown ------ */}
+                    <Dropdown
+                        label={"Services/Products"}
+                        data={dataServiceProduct}
+                        value={tag}
+                        onChangeText={onChangeServiceProduct}
+                        containerStyle={[{
+                            flex: 1
+                        }, styles.border_comm]}
+                    />
+                    {/* ---------  Add Button ------ */}
+                    <Button onPress={handleAddTag} style={[{ width: scaleSzie(85), backgroundColor: "#0764B0", marginLeft: scaleSzie(15), borderRadius: 4 }, styles.centered_box]} >
+                        <Text style={[styles.txt_condition_select, { color: "#fff" }]} >
+                            {`Add`}
+                        </Text>
+                    </Button>
                 </View>
-            </View>
+            }
+
         </View>
     );
 }
@@ -321,11 +361,9 @@ const ConditionSpecific = ({ title, condition, setCondition }) => {
 const Tags = ({ tags }) => {
     return (
         <View style={{ flexDirection: "row", marginTop: scaleSzie(10) }} >
-            {/* <View style={[{ width: scaleSzie(85) }]} />
-            <View style={[{ width: scaleSzie(45), marginLeft: scaleSzie(4), marginRight: scaleSzie(50) },]} /> */}
             <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }} >
                 {
-                    tags.map((tag, index) => <Tag name={tag} />)
+                    tags.map((tag, index) => <Tag key={index} name={tag?.value || ""} />)
                 }
             </View>
             <View style={[{ width: scaleSzie(85), marginLeft: scaleSzie(15), }]} />

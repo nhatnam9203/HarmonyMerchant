@@ -8,12 +8,13 @@ import { scaleSzie } from '@utils';
 class TabPromotion extends Layout {
   constructor(props) {
     super(props);
-
     this.state = {
       currentTab: 0
     };
 
     this.scrollTabParentRef = React.createRef();
+    this.promotionDetailRef = React.createRef();
+    this.setStateToPromotiomDetail = null;
 
   }
 
@@ -22,8 +23,27 @@ class TabPromotion extends Layout {
     this.props.handleChangeBackgrounColor(currentIndex);
   }
 
+  handleSetStateToPromotiomDetail = (ref) => {
+    this.setStateToPromotiomDetail = ref;
+  }
+
   createNewCampaign = () => {
     this.goToPage(1);
+    const data = {
+      title: "Valentine Day",
+      startDate: "02/14/2021",
+      endDate: "03/13/2021",
+      startTime:"08:30 AM",
+      endTime: "00:00 AM"
+    }
+    if (this.setStateToPromotiomDetail) {
+      this.setStateToPromotiomDetail(data);
+    } else {
+      setTimeout(() => {
+        this.setStateToPromotiomDetail(data);
+      }, 300)
+    }
+
   }
 
   editCampaign = (campaign) => () => {
@@ -62,6 +82,10 @@ class TabPromotion extends Layout {
 
   saveRewardPoints = () => {
     this.goToPage(0);
+  }
+
+  componentWillUnmount() {
+    this.setStateToPromotiomDetail = null;
   }
 
 }

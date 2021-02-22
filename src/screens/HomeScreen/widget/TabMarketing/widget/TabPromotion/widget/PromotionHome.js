@@ -168,7 +168,7 @@ const RuleRow = ({ viewRule, disableRule }) => {
             <View style={[{ width: scaleSzie(150), flexDirection: "row" }, styles.center_txt]} >
                 <View style={{ flex: 1, justifyContent: "center" }} >
                     <Button onPress={viewRule} style={styles.btn_row} >
-                        <Text style={[styles.txt_row, { color: "#fff", fontfontSize: scaleSzie(12), fontWeight: "600" }]} >
+                        <Text style={[styles.txt_row, { color: "#fff", fontSize: scaleSzie(12), fontWeight: "600" }]} >
                             {`View`}
                         </Text>
                     </Button>
@@ -176,7 +176,7 @@ const RuleRow = ({ viewRule, disableRule }) => {
                 <View style={{ width: scaleSzie(10) }} />
                 <View style={{ flex: 1, justifyContent: "center" }} >
                     <Button onPress={disableRule} style={[styles.btn_row, { backgroundColor: "#FF3B30" }]} >
-                        <Text style={[styles.txt_row, { color: "#fff", fontfontSize: scaleSzie(12), fontWeight: "600" }]} >
+                        <Text style={[styles.txt_row, { color: "#fff", fontSize: scaleSzie(12), fontWeight: "600" }]} >
                             {`Disable`}
                         </Text>
                     </Button>
@@ -221,7 +221,7 @@ const CampaignRow = ({ editCampaign, disableCampaign }) => {
             <View style={[{ width: scaleSzie(150), flexDirection: "row" }, styles.center_txt]} >
                 <View style={{ flex: 1, justifyContent: "center" }} >
                     <Button onPress={editCampaign} style={styles.btn_row} >
-                        <Text style={[styles.txt_row, { color: "#fff", fontfontSize: scaleSzie(12), fontWeight: "600" }]} >
+                        <Text style={[styles.txt_row, { color: "#fff", fontSize: scaleSzie(12), fontWeight: "600" }]} >
                             {`Edit`}
                         </Text>
                     </Button>
@@ -229,7 +229,7 @@ const CampaignRow = ({ editCampaign, disableCampaign }) => {
                 <View style={{ width: scaleSzie(10) }} />
                 <View style={{ flex: 1, justifyContent: "center" }} >
                     <Button onPress={disableCampaign} style={[styles.btn_row, { backgroundColor: "#FF3B30" }]} >
-                        <Text style={[styles.txt_row, { color: "#fff", fontfontSize: scaleSzie(12), fontWeight: "600" }]} >
+                        <Text style={[styles.txt_row, { color: "#fff", fontSize: scaleSzie(12), fontWeight: "600" }]} >
                             {`Disable`}
                         </Text>
                     </Button>
