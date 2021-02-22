@@ -190,3 +190,23 @@ export function getPromotionByMerchant(isLoading = true) {
         isLoading
     }
 }
+
+export function disablePromotionById(promotionId) {
+    return {
+        type: 'DISABLE_PROMOTION_BY_ID',
+        method: 'PUT',
+        body: {},
+        token: true,
+        api: `${apiConfigs.BASE_API}MerchantPromotion/disable/${promotionId}?api-version=1.2`
+    }
+}
+
+export function enablePromotionById(promotionId) {
+    return {
+        type: 'ENABLE_PROMOTION_BY_ID',
+        method: 'PUT',
+        body: {},
+        token: true,
+        api: `${apiConfigs.BASE_API}MerchantPromotion/enable/${promotionId}?api-version=1.2`
+    }
+}

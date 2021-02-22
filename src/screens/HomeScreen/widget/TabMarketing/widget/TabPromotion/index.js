@@ -53,8 +53,9 @@ class TabPromotion extends Layout {
     alert(campaign);
   }
 
-  disableCampaign = () => {
-    alert("disableCampaign")
+  disableCampaign = (campaign) => () => {
+    // console.log(campaign);
+    this.props.actions.marketing.disablePromotionById(campaign?.id || 0);
   }
 
   cancelCampaign = () => {

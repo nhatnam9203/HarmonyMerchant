@@ -40,7 +40,7 @@ const PromotionHome = ({ promotions, createNewCampaign, editCampaign, disableCam
                 renderItem={({ item, index }) => <CampaignRow
                     data={item}
                     editCampaign={editCampaign(item)}
-                    disableCampaign={disableCampaign}
+                    disableCampaign={disableCampaign(item)}
                 />}
                 ListHeaderComponent={() => <CampaignTableHeader />}
                 ListFooterComponent={() => <>
