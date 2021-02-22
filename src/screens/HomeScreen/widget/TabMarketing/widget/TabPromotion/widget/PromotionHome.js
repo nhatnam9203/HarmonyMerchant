@@ -8,15 +8,15 @@ import {
     ActivityIndicator,
     Switch
 } from 'react-native';
-import Collapsible from 'react-native-collapsible';
 
-import { scaleSzie } from '@utils';
+import { scaleSzie, formatWithMoment } from '@utils';
 import IMAGE from '@resources';
 import { Button, Text } from '@components';
 
 const { width } = Dimensions.get('window');
 
-const PromotionHome = ({ createNewCampaign, editCampaign, disableCampaign, viewRule, disableRule }) => {
+const PromotionHome = ({ promotions, createNewCampaign, editCampaign, disableCampaign, viewRule, disableRule }) => {
+
 
     return (
         <View style={{ flex: 1 }} >
@@ -36,8 +36,9 @@ const PromotionHome = ({ createNewCampaign, editCampaign, disableCampaign, viewR
             </View>
 
             <FlatList
-                data={[0, 1, 2]}
+                data={promotions}
                 renderItem={({ item, index }) => <CampaignRow
+                    data={item}
                     editCampaign={editCampaign(item)}
                     disableCampaign={disableCampaign}
                 />}
@@ -186,7 +187,7 @@ const RuleRow = ({ viewRule, disableRule }) => {
     );
 }
 
-const CampaignRow = ({ editCampaign, disableCampaign }) => {
+const CampaignRow = ({ data, editCampaign, disableCampaign }) => {
 
     return (
         <View style={{
@@ -196,25 +197,25 @@ const CampaignRow = ({ editCampaign, disableCampaign }) => {
             {/* ------------------- Name ------------------- */}
             <View style={[{ flex: 1 }, styles.center_txt]} >
                 <Text style={styles.txt_name_row} >
-                    {`Happy valentine`}
+                    {data?.name || ""}
                 </Text>
             </View>
             {/* ------------------- Status ------------------- */}
             <View style={[{ width: scaleSzie(90), }, styles.center_txt]} >
                 <Text style={styles.txt_row} >
-                    {`Active`}
+                    {data?.isDisabled ? "Active" : "Disable"}
                 </Text>
             </View>
             {/* ------------------- Start date ------------------- */}
             <View style={[{ width: scaleSzie(100) }, styles.center_txt]} >
                 <Text style={styles.txt_row} >
-                    {`01/01/19`}
+                    {formatWithMoment(data?.fromDate, "MM/DD/YYYY")}
                 </Text>
             </View>
             {/* ------------------- End date ------------------- */}
             <View style={[{ width: scaleSzie(100), }, styles.center_txt]} >
                 <Text style={styles.txt_row} >
-                    {`01/01/20`}
+                    {formatWithMoment(data?.toDate, "MM/DD/YYYY")}
                 </Text>
             </View>
             {/* ------------------- Actions ------------------- */}

@@ -13,9 +13,7 @@ class Layout extends React.Component {
     render() {
         const { language } = this.props;
         const { isChangeBackground } = this.state;
-        // const tempBackgroundColor = currentTab === 0 ? { backgroundColor: "#fff" } : {};
         const tempBackgroundColor = isChangeBackground ? { backgroundColor: "#fff" } : {};
-
 
         return (
             <View style={[styles.container, tempBackgroundColor]} >

@@ -108,7 +108,7 @@ function* getPromotionByMerchant(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_PROMOTION_BY_MERCHANT_SUCCESS',
-                payload: responses.data
+                payload: responses?.data || []
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({

@@ -59,7 +59,26 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
 
     const addConditionServiceProductTags = (tag) => {
         const tempData = [...conditionServiceProductTags];
-        tempData.push(tag);
+        let isExist = false;
+        for (let i = 0; i < tempData.length; i++) {
+            if (tempData[i]?.id === tag?.id) {
+                isExist = true;
+                break;
+            }
+        }
+        if (!isExist) {
+            tempData.push(tag);
+            setConditionServiceProductTags(tempData);
+        }
+    }
+
+    removeConditionServiceProductTags = (tag) => {
+        const tempData = [];
+        for (let i = 0; i < conditionServiceProductTags.length; i++) {
+            if (conditionServiceProductTags[i]?.id !== tag?.id) {
+                tempData.push({...conditionServiceProductTags[i]});
+            }
+        }
         setConditionServiceProductTags(tempData);
     }
 
@@ -158,7 +177,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
                     servicesByMerchant={servicesByMerchant}
                 />
                 {
-                    condition !== "No Condition" && <Tags tags={conditionServiceProductTags} />
+                    condition !== "No Condition" && <Tags tags={conditionServiceProductTags} removeTag={removeConditionServiceProductTags} />
                 }
 
                 {/* ---------  Actions Condition ------ */}
@@ -358,12 +377,16 @@ const ConditionSpecific = ({ title, condition, setCondition, addTag, productsByM
     );
 }
 
-const Tags = ({ tags }) => {
+const Tags = ({ tags, removeTag }) => {
     return (
         <View style={{ flexDirection: "row", marginTop: scaleSzie(10) }} >
             <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }} >
                 {
-                    tags.map((tag, index) => <Tag key={index} name={tag?.value || ""} />)
+                    tags.map((tag, index) => <Tag
+                        key={index}
+                        name={tag?.value || ""}
+                        removeTag={() => removeTag(tag)}
+                    />)
                 }
             </View>
             <View style={[{ width: scaleSzie(85), marginLeft: scaleSzie(15), }]} />
@@ -371,9 +394,9 @@ const Tags = ({ tags }) => {
     );
 }
 
-const Tag = ({ name }) => {
+const Tag = ({ name, removeTag }) => {
     return (
-        <Button style={{ flexDirection: "row", marginRight: scaleSzie(18), alignItems: "center", marginBottom: scaleSzie(4) }} onPress={() => alert("ddd")}>
+        <Button onPress={removeTag} style={{ flexDirection: "row", marginRight: scaleSzie(18), alignItems: "center", marginBottom: scaleSzie(4) }} >
             <Text style={[styles.txt_condition_select, { fontWeight: "600" }]} >{name}</Text>
             <Image source={ICON.remove_tag} style={{ marginLeft: scaleSzie(5) }} />
         </Button>

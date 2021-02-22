@@ -30,15 +30,7 @@ export function resetStateUploadBanner() {
 
 // ------------ promotion -------------
 
-export function getPromotionByMerchant(isLoading = true) {
-    return {
-        type: 'GET_PROMOTION_BY_MERCHANT',
-        method: 'GET',
-        token: true,
-        api: `${apiConfigs.BASE_API}merchantpromotion`,
-        isLoading
-    }
-}
+
 
 export function updatePromotionByMerchant(body, promotionId = 1, isSendNoti = true) {
     return {
@@ -183,5 +175,18 @@ export function switchPopupCheckDiscountPermissionInHome(visible = true) {
     return {
         type: "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION_IN_HOME",
         payload: visible
+    }
+}
+
+// -------------- New Promotion API ------------
+
+export function getPromotionByMerchant(isLoading = true) {
+    return {
+        type: 'GET_PROMOTION_BY_MERCHANT',
+        method: 'GET',
+        token: true,
+        // api: `${apiConfigs.BASE_API}merchantpromotion`,
+        api: `${apiConfigs.BASE_API}MerchantPromotion?api-version=1.2`,
+        isLoading
     }
 }

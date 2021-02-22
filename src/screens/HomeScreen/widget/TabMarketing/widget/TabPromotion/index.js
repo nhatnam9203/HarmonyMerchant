@@ -15,7 +15,10 @@ class TabPromotion extends Layout {
     this.scrollTabParentRef = React.createRef();
     this.promotionDetailRef = React.createRef();
     this.setStateToPromotiomDetail = null;
+  }
 
+  componentDidMount() {
+    this.props.actions.marketing.getPromotionByMerchant(false);
   }
 
   onChangeTab = (index) => {
@@ -33,7 +36,7 @@ class TabPromotion extends Layout {
       title: "Valentine Day",
       startDate: "02/14/2021",
       endDate: "03/13/2021",
-      startTime:"08:30 AM",
+      startTime: "08:30 AM",
       endTime: "00:00 AM"
     }
     if (this.setStateToPromotiomDetail) {

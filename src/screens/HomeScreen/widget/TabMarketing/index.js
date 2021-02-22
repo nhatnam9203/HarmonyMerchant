@@ -11,7 +11,7 @@ class TabMarketing extends Layout {
     super(props);
     this.state = {
       currentTab: 0,
-      isChangeBackground:true
+      isChangeBackground:false
     }
 
     this.scrollTabRef = React.createRef();
