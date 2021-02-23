@@ -51,6 +51,7 @@ class TabPromotion extends Layout {
 
   editCampaign = (campaign) => () => {
     this.goToPage(1);
+    this.props.actions.marketing.getPromotionDetailById(campaign?.id);
     if (this.setStateToPromotiomDetail) {
       this.setStateToPromotiomDetail(campaign);
     } else {

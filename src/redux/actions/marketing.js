@@ -191,6 +191,15 @@ export function getPromotionByMerchant(isLoading = true) {
     }
 }
 
+export function getPromotionDetailById(promotionId) {
+    return {
+        type: 'GET_PROMOTION_DETAIL_BY_ID',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}MerchantPromotion/${promotionId}?api-version=1.2`,
+    }
+}
+
 export function disablePromotionById(promotionId) {
     return {
         type: 'DISABLE_PROMOTION_BY_ID',

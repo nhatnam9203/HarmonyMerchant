@@ -32,6 +32,19 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
     const [conditionServiceProductTags, setConditionServiceProductTags] = useState([]);
     const [promotionType, setPromotionType] = useState("percent"); // fixed
     const [promotionValue, setPromotionValue] = useState("");
+    const [dataServiceProduct, setDataServiceProduct] = useState([]);
+    const [numberOfTimesApply, setNumberOfTimesApply] = useState("");
+
+    const language = useSelector(state => state?.dataLocal?.language || "en");
+    const productsByMerchantId = useSelector(state => state?.product?.productsByMerchantId || []);
+    const servicesByMerchant = useSelector(state => state?.service?.servicesByMerchant || []);
+
+    useEffect(() => {
+        const tempService = servicesByMerchant.map((service) => ({ value: service?.name || "", type: "Service", originalId: service?.serviceId || 0, id: `${service?.serviceId}_Service` }));
+        const tempProduct = productsByMerchantId.map((product) => ({ value: product?.name || "", type: "Product", originalId: product?.productId || 0, id: `${product?.productId}_Product` }));
+        const tempData = tempService.concat(tempProduct);
+        setDataServiceProduct(tempData);
+    }, [productsByMerchantId, servicesByMerchant]);
 
     setStateFromParent((data) => {
         setTitle(data?.name);
@@ -41,9 +54,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
         setEndTime(formatWithMoment(data?.toDate, "hh:mm A"));
     });
 
-    const language = useSelector(state => state?.dataLocal?.language || "en");
-    const productsByMerchantId = useSelector(state => state?.product?.productsByMerchantId || []);
-    const servicesByMerchant = useSelector(state => state?.service?.servicesByMerchant || []);
+
 
     const showDatePicker = (isChangeDate) => () => {
         setIsChangeDate(isChangeDate);
@@ -103,7 +114,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
                     placeholder="Campaign name"
                     value={title}
                     onChangeText={setTitle}
-                    style={{ marginBottom: scaleSzie(10), }}
+                    style={{ marginBottom: scaleSzie(10) }}
                     styleTitle={{ fontSize: scaleSzie(14), fontWeight: "600", marginBottom: scaleSzie(5) }}
                     styleInputText={{ fontSize: scaleSzie(13) }}
                 />
@@ -182,11 +193,25 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
                     condition={condition}
                     setCondition={setCondition}
                     addTag={addConditionServiceProductTags}
-                    productsByMerchantId={productsByMerchantId}
-                    servicesByMerchant={servicesByMerchant}
+                    dataServiceProduct={dataServiceProduct}
                 />
                 {
                     condition === "Using specific services" && <Tags tags={conditionServiceProductTags} removeTag={removeConditionServiceProductTags} />
+                }
+
+                {
+                    condition === "Times using the service reached the quantity" &&
+                    <InputForm
+                        title={`${localize('Number of times applied', language)}:`}
+                        subTitle=""
+                        placeholder="Campaign name"
+                        value={numberOfTimesApply}
+                        isOnlyNumber={true}
+                        onChangeText={setNumberOfTimesApply}
+                        style={{ marginBottom: scaleSzie(10), marginTop: scaleSzie(5), width: scaleSzie(200) }}
+                        styleTitle={{ fontSize: scaleSzie(12), fontWeight: "400", marginBottom: scaleSzie(2) }}
+                        styleInputText={{ fontSize: scaleSzie(13) }}
+                    />
                 }
 
                 {/* ---------  Actions Condition ------ */}
@@ -197,12 +222,9 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
                     comparativeCondition={"Discount for specific services"}
                     dropdownData={DISCOUNT_ACTION}
                     setCondition={setActionCondition}
-                    productsByMerchantId={productsByMerchantId}
-                    servicesByMerchant={servicesByMerchant}
+                    dataServiceProduct={dataServiceProduct}
                 />
-                 {/* {
-                    condition === "Times using the service reached the quantity" && <Tags tags={conditionServiceProductTags} removeTag={removeConditionServiceProductTags} />
-                } */}
+
                 {/* <Tags tags={["Deluxe Spa Manicure", "Deluxe Spa Pedicure", "Deluxe ", "Pedicure"]} /> */}
 
                 {/* ---------  Promotion type ------ */}
@@ -328,20 +350,12 @@ const SelectPromotionDate = ({ value, onChangeText, showDatePicker }) => {
     );
 }
 
-const ConditionSpecific = ({ title, condition, setCondition, addTag, productsByMerchantId, servicesByMerchant,
-    dropdownData, comparativeCondition
-}) => {
+const ConditionSpecific = ({ title, condition, setCondition, addTag, dropdownData, comparativeCondition, dataServiceProduct }) => {
+
+    console.log("-------- ConditionSpecific ------");
 
     const [tag, setTag] = useState("");
     const [tagIndex, setTagIndex] = useState(-1);
-    const [dataServiceProduct, setDataServiceProduct] = useState([]);
-
-    useEffect(() => {
-        const tempService = servicesByMerchant.map((service) => ({ value: service?.name || "", type: "Service", originalId: service?.serviceId || 0, id: `${service?.serviceId}_Service` }));
-        const tempProduct = productsByMerchantId.map((product) => ({ value: product?.name || "", type: "Product", originalId: product?.productId || 0, id: `${product?.productId}_Product` }));
-        const tempData = tempService.concat(tempProduct);
-        setDataServiceProduct(tempData);
-    }, [productsByMerchantId, servicesByMerchant]);
 
     onChangeServiceProduct = (value, index) => {
         setTag(value);

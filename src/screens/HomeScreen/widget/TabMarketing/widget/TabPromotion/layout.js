@@ -22,7 +22,6 @@ class Layout extends React.Component {
 
     render() {
         const { language, promotions, refreshingPromotion } = this.props;
-
         return (
             <View style={styles.container} >
                 <ScrollableTabView
