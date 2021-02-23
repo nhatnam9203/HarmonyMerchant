@@ -383,7 +383,31 @@ function* addPromotionNote(action) {
 function* disablePromotionById(action) {
     try {
         const responses = yield requestAPI(action);
-        console.log("----- disablePromotionById: ", responses);
+        // console.log("----- disablePromotionById: ", responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put(getPromotionByMerchant());
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* enablePromotionById(action) {
+    try {
+        const responses = yield requestAPI(action);
+        // console.log("----- enablePromotionById: ", responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put(getPromotionByMerchant());
@@ -420,6 +444,6 @@ export default function* saga() {
 
         // -------------- New Promotion API ------------
         takeLatest('DISABLE_PROMOTION_BY_ID', disablePromotionById),
-        // takeLatest('ENABLE_PROMOTION_BY_ID', enablePromotionById),
+        takeLatest('ENABLE_PROMOTION_BY_ID', enablePromotionById),
     ])
 }

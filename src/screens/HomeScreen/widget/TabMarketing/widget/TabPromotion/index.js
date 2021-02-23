@@ -50,12 +50,22 @@ class TabPromotion extends Layout {
   }
 
   editCampaign = (campaign) => () => {
-    alert(campaign);
+    this.goToPage(1);
+    if (this.setStateToPromotiomDetail) {
+      this.setStateToPromotiomDetail(campaign);
+    } else {
+      setTimeout(() => {
+        this.setStateToPromotiomDetail(campaign);
+      }, 300)
+    }
   }
 
   disableCampaign = (campaign) => () => {
-    // console.log(campaign);
     this.props.actions.marketing.disablePromotionById(campaign?.id || 0);
+  }
+
+  enableCampaign = (campaign) => () => {
+    this.props.actions.marketing.enablePromotionById(campaign?.id || 0);
   }
 
   cancelCampaign = () => {

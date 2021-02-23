@@ -15,8 +15,7 @@ import { Button, Text } from '@components';
 
 const { width } = Dimensions.get('window');
 
-const PromotionHome = ({ promotions, createNewCampaign, editCampaign, disableCampaign, viewRule, disableRule }) => {
-
+const PromotionHome = ({ promotions, createNewCampaign, editCampaign, disableCampaign, enableCampaign, viewRule, disableRule }) => {
 
     return (
         <View style={{ flex: 1 }} >
@@ -41,6 +40,7 @@ const PromotionHome = ({ promotions, createNewCampaign, editCampaign, disableCam
                     data={item}
                     editCampaign={editCampaign(item)}
                     disableCampaign={disableCampaign(item)}
+                    enableCampaign={enableCampaign(item)}
                 />}
                 ListHeaderComponent={() => <CampaignTableHeader />}
                 ListFooterComponent={() => <>
@@ -187,7 +187,7 @@ const RuleRow = ({ viewRule, disableRule }) => {
     );
 }
 
-const CampaignRow = ({ data, editCampaign, disableCampaign }) => {
+const CampaignRow = ({ data, editCampaign, disableCampaign, enableCampaign }) => {
 
     return (
         <View style={{
@@ -203,7 +203,7 @@ const CampaignRow = ({ data, editCampaign, disableCampaign }) => {
             {/* ------------------- Status ------------------- */}
             <View style={[{ width: scaleSzie(90), }, styles.center_txt]} >
                 <Text style={styles.txt_row} >
-                    {data?.isDisabled ? "Active" : "Disable"}
+                    {data?.isDisabled ? "Disable" : "Active"}
                 </Text>
             </View>
             {/* ------------------- Start date ------------------- */}
@@ -229,11 +229,20 @@ const CampaignRow = ({ data, editCampaign, disableCampaign }) => {
                 </View>
                 <View style={{ width: scaleSzie(10) }} />
                 <View style={{ flex: 1, justifyContent: "center" }} >
-                    <Button onPress={disableCampaign} style={[styles.btn_row, { backgroundColor: "#FF3B30" }]} >
-                        <Text style={[styles.txt_row, { color: "#fff", fontSize: scaleSzie(12), fontWeight: "600" }]} >
-                            {`Disable`}
-                        </Text>
-                    </Button>
+                    {
+                        data?.isDisabled ? <Button onPress={enableCampaign} style={[styles.btn_row, { backgroundColor: "#EEEEEE" }]} >
+                            <Text style={[styles.txt_row, { color: "#6A6A6A", fontSize: scaleSzie(12), fontWeight: "600" }]} >
+                                {`Start`}
+                            </Text>
+                        </Button>
+                            :
+                            <Button onPress={disableCampaign} style={[styles.btn_row, { backgroundColor: "#FF3B30" }]} >
+                                <Text style={[styles.txt_row, { color: "#fff", fontSize: scaleSzie(12), fontWeight: "600" }]} >
+                                    {`Disable`}
+                                </Text>
+                            </Button>
+                    }
+
                 </View>
             </View>
         </View>

@@ -37,6 +37,7 @@ class Layout extends React.Component {
                         createNewCampaign={this.createNewCampaign}
                         editCampaign={this.editCampaign}
                         disableCampaign={this.disableCampaign}
+                        enableCampaign={this.enableCampaign}
                         viewRule={this.viewRule}
                         disableRule={this.disableRule}
                         promotions={promotions}
