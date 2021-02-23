@@ -1189,9 +1189,14 @@ export const msToTime = (tempDuration) => {
 }
 
 export const MARKETING_CONDITIONS = [
-    { value: "No Condition" },
+    { value: "No condition" },
     { value: "Using specific services" },
     { value: "Customer birthday is within the week" },
     { value: "Times using the service reached the quantity" },
     { value: "The customer is the referral" }
+];
+
+export const DISCOUNT_ACTION = [
+    { value: "Discount for specific services" },
+    { value: "Discount for whole cart" }
 ];

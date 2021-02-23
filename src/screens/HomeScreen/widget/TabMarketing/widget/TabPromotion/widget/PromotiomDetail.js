@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { TextInputMask } from 'react-native-masked-text';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-import { scaleSzie, localize, WorkingTime, formatWithMoment, MARKETING_CONDITIONS } from '@utils';
+import { scaleSzie, localize, WorkingTime, formatWithMoment, MARKETING_CONDITIONS, DISCOUNT_ACTION } from '@utils';
 import ICON from '@resources';
 import { Button, Text, InputForm, Dropdown } from '@components';
 import { product } from 'ramda';
@@ -28,14 +28,17 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isChangeDate, setIsChangeDate] = useState("start");
     const [condition, setCondition] = useState("No Condition");
+    const [actionCondition, setActionCondition] = useState("Discount for whole cart");
     const [conditionServiceProductTags, setConditionServiceProductTags] = useState([]);
+    const [promotionType, setPromotionType] = useState("percent"); // fixed
+    const [promotionValue, setPromotionValue] = useState("");
 
     setStateFromParent((data) => {
-        setTitle(data?.title);
-        setStartDate(data?.startDate);
-        setEndDate(data?.endDate);
-        setStartTime(data?.startTime);
-        setEndTime(data?.endTime);
+        setTitle(data?.name);
+        setStartDate(formatWithMoment(data?.fromDate, "MM/DD/YYYY"));
+        setEndDate(formatWithMoment(data?.toDate, "MM/DD/YYYY"));
+        setStartTime(formatWithMoment(data?.fromDate, "hh:mm A"));
+        setEndTime(formatWithMoment(data?.toDate, "hh:mm A"));
     });
 
     const language = useSelector(state => state?.dataLocal?.language || "en");
@@ -76,10 +79,14 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
         const tempData = [];
         for (let i = 0; i < conditionServiceProductTags.length; i++) {
             if (conditionServiceProductTags[i]?.id !== tag?.id) {
-                tempData.push({...conditionServiceProductTags[i]});
+                tempData.push({ ...conditionServiceProductTags[i] });
             }
         }
         setConditionServiceProductTags(tempData);
+    }
+
+    handleSetPromotionType = (type) => () => {
+        setPromotionType(type);
     }
 
     return (
@@ -170,6 +177,8 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
                 {/* ---------  Specific Condition ------ */}
                 <ConditionSpecific
                     title={"Condition"}
+                    comparativeCondition={"Using specific services"}
+                    dropdownData={MARKETING_CONDITIONS}
                     condition={condition}
                     setCondition={setCondition}
                     addTag={addConditionServiceProductTags}
@@ -177,18 +186,23 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
                     servicesByMerchant={servicesByMerchant}
                 />
                 {
-                    condition !== "No Condition" && <Tags tags={conditionServiceProductTags} removeTag={removeConditionServiceProductTags} />
+                    condition === "Using specific services" && <Tags tags={conditionServiceProductTags} removeTag={removeConditionServiceProductTags} />
                 }
 
                 {/* ---------  Actions Condition ------ */}
 
                 <ConditionSpecific
                     title={"Action"}
-                    condition={condition}
-                    setCondition={setCondition}
+                    condition={actionCondition}
+                    comparativeCondition={"Discount for specific services"}
+                    dropdownData={DISCOUNT_ACTION}
+                    setCondition={setActionCondition}
                     productsByMerchantId={productsByMerchantId}
                     servicesByMerchant={servicesByMerchant}
                 />
+                 {/* {
+                    condition === "Times using the service reached the quantity" && <Tags tags={conditionServiceProductTags} removeTag={removeConditionServiceProductTags} />
+                } */}
                 {/* <Tags tags={["Deluxe Spa Manicure", "Deluxe Spa Pedicure", "Deluxe ", "Pedicure"]} /> */}
 
                 {/* ---------  Promotion type ------ */}
@@ -198,35 +212,43 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
 
                 <View style={{ flexDirection: "row", height: scaleSzie(30) }} >
                     {/* ---------  Specific ------ */}
-                    <View style={[{ width: scaleSzie(30) }, styles.centered_box, styles.border_select]} >
-                        <Text style={[styles.txt_condition_select]} >
+                    <Button onPress={handleSetPromotionType("percent")} style={[{ width: scaleSzie(30) }, styles.centered_box,
+                    promotionType === "percent" ? styles.border_select : styles.border_unselect
+                    ]} >
+                        <Text style={promotionType === "percent" ? styles.txt_condition_select : styles.txt_condition_unselect} >
                             {`%`}
                         </Text>
-                    </View>
+                    </Button>
                     {/* ---------  All ------ */}
-                    <View style={[{ width: scaleSzie(30), marginLeft: scaleSzie(4), marginRight: scaleSzie(10) }, styles.centered_box, styles.border_select]} >
-                        <Text style={[styles.txt_condition_select]} >
+                    <Button onPress={handleSetPromotionType("fixed")} style={[{ width: scaleSzie(30), marginLeft: scaleSzie(4), marginRight: scaleSzie(10) }, styles.centered_box,
+                    promotionType === "fixed" ? styles.border_select : styles.border_unselect
+                    ]} >
+                        <Text style={promotionType === "fixed" ? styles.txt_condition_select : styles.txt_condition_unselect} >
                             {`$`}
                         </Text>
-                    </View>
+                    </Button>
 
                     <View style={[{ flexDirection: "row", width: scaleSzie(140) }, styles.border_comm]} >
                         {/* --------- Input Promotion type ------ */}
                         <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
                             <TextInputMask
-                                type={'custom'}
+                                type={'money'}
                                 options={{
-                                    mask: '99/99/9999'
+                                    precision: 2,
+                                    separator: '.',
+                                    delimiter: ',',
+                                    unit: '',
+                                    suffixUnit: ''
                                 }}
-                                placeholder="MM/DD/YYYY"
-                                value={""}
-                                // onChangeText={onChangeText}
+                                placeholder="0.00"
+                                value={promotionValue}
+                                onChangeText={setPromotionValue}
                                 style={[{ flex: 1, fontSize: scaleSzie(12), color: "#404040", padding: 0 }]}
                             />
                         </View>
                         <View onPress={showDatePicker} style={[{ width: scaleSzie(25) }, styles.centered_box]} >
                             <Text style={styles.txt_date} >
-                                {`%`}
+                                {promotionType === "percent" ? `%` : `$`}
                             </Text>
                         </View>
                     </View>
@@ -306,7 +328,9 @@ const SelectPromotionDate = ({ value, onChangeText, showDatePicker }) => {
     );
 }
 
-const ConditionSpecific = ({ title, condition, setCondition, addTag, productsByMerchantId, servicesByMerchant }) => {
+const ConditionSpecific = ({ title, condition, setCondition, addTag, productsByMerchantId, servicesByMerchant,
+    dropdownData, comparativeCondition
+}) => {
 
     const [tag, setTag] = useState("");
     const [tagIndex, setTagIndex] = useState(-1);
@@ -342,7 +366,7 @@ const ConditionSpecific = ({ title, condition, setCondition, addTag, productsByM
             <View style={{ width: scaleSzie(330), height: scaleSzie(30), marginBottom: scaleSzie(10) }} >
                 <Dropdown
                     label={"h:mm"}
-                    data={MARKETING_CONDITIONS}
+                    data={dropdownData}
                     value={condition}
                     onChangeText={setCondition}
                     containerStyle={{
@@ -353,7 +377,7 @@ const ConditionSpecific = ({ title, condition, setCondition, addTag, productsByM
                 />
             </View>
             {
-                condition !== "No Condition" && <View style={{ flexDirection: "row", height: scaleSzie(30) }} >
+                condition === comparativeCondition && <View style={{ flexDirection: "row", height: scaleSzie(30) }} >
                     {/* ---------  Service/Product Dropdown ------ */}
                     <Dropdown
                         label={"Services/Products"}
@@ -413,8 +437,17 @@ const styles = StyleSheet.create({
         borderColor: "#0764B0",
         borderWidth: 2,
     },
+    border_unselect: {
+        borderColor: "#A9A9A9",
+        borderWidth: 2,
+    },
     txt_condition_select: {
         color: "#0764B0",
+        fontSize: scaleSzie(14),
+        fontWeight: "600"
+    },
+    txt_condition_unselect: {
+        color: "#A9A9A9",
         fontSize: scaleSzie(14),
         fontWeight: "600"
     },
