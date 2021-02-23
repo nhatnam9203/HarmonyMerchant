@@ -137,10 +137,8 @@ class TabStaff extends Layout {
   }
 
   async editStaff(staff) {
-    // await this.setState({
-    //   staffHandle: staff,
-    //   isEditStaff: true,
-    // });
+
+    this.props.actions.staff.getDetailStaffByMerchantId(staff?.staffId);
     this.props.actions.staff.switchAddStaff(true);
 
     if (this.addStaffRef?.current) {

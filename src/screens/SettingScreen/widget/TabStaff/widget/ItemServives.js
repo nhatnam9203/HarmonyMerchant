@@ -22,6 +22,9 @@ class ItemServives extends React.Component {
       isCheck: !prevState.isCheck,
     }));
   };
+  // componentDidMount(){
+  //   console.log('hihi')
+  // }
 
   selectItem = (id, index, id_item) => {
     let itemSelect = [...this.state.services];

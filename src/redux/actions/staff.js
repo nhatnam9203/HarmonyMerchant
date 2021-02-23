@@ -32,6 +32,15 @@ export function getStaffByMerchantId(name = "", role = "", status = "",searchFil
   };
 }
 
+export function getDetailStaffByMerchantId(id) {
+  return {
+    type: "GET_STAFF_DETAIL",
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}staff/${id}`,
+  };
+}
+
 export function searchStaffByName(name = "", role = "", status = "") {
   return {
     type: "SEARCH_STAFF_BY_NAME",
