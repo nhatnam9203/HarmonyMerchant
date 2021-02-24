@@ -229,3 +229,10 @@ export function updatePromotionById(promotionId, body) {
         api: `${apiConfigs.BASE_API}MerchantPromotion/${promotionId}?api-version=1.2`
     }
 }
+
+export function resetStateIsUpdatePromotionById(visible = true) {
+    return {
+        type: "RESET_STATE_IS_UPDATE_PROMOTION_BY_ID",
+        payload: visible
+    }
+}

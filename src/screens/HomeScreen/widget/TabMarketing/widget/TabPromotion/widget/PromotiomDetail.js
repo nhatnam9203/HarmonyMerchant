@@ -56,17 +56,23 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         setDataServiceProduct(tempData);
     }, [productsByMerchantId, servicesByMerchant]);
 
-    useEffect(() =>{
+    useEffect(() => {
         const serviceConditionTag = promotionDetailById?.conditionDetail?.service || [];
         const productonditionTag = promotionDetailById?.conditionDetail?.product || [];
+        const tempServiceConditionTag = getTagInfoById("Service", serviceConditionTag, dataServiceProduct);
+        const tempProductonditionTag = getTagInfoById("Product", productonditionTag, dataServiceProduct);
+        const tempConditionServiceProductTags = [...tempServiceConditionTag, ...tempProductonditionTag];
 
-        const tempServiceConditionTag = getTagInfoById("Service",serviceConditionTag,dataServiceProduct);
-        const tempProductonditionTag = getTagInfoById("Product",productonditionTag,dataServiceProduct);
+        const serviceActionConditionTag = promotionDetailById?.applyToDetail?.service || [];
+        const productActionConditionTag = promotionDetailById?.applyToDetail?.product || [];
+        const tempServiceActionConditionTag = getTagInfoById("Service", serviceActionConditionTag, dataServiceProduct);
+        const tempProductActionConditionTag = getTagInfoById("Product", productActionConditionTag, dataServiceProduct);
+        const tempActionConditionTags = [...tempServiceActionConditionTag, ...tempProductActionConditionTag];
 
-        const tempConditionServiceProductTags = [...tempServiceConditionTag,...tempProductonditionTag];
         setConditionServiceProductTags(tempConditionServiceProductTags);
+        setActionTags(tempActionConditionTags);
 
-    },[promotionDetailById])
+    }, [promotionDetailById])
 
     setStateFromParent((data) => {
         setPromotionId(data?.id || "");
@@ -82,7 +88,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         setCondition(getConditionTitleIdById(data?.conditionId || 1));
         setActionCondition(getDiscountActionByShortName(data?.applyTo || "all"));
 
-        const p = getTagInfoById("Service",[608],dataServiceProduct);
+        const p = getTagInfoById("Service", [608], dataServiceProduct);
         console.log(p);
     });
 

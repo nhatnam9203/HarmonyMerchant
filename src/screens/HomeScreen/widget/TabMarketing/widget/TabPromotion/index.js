@@ -84,8 +84,6 @@ class TabPromotion extends Layout {
   }
 
   updatePromotionById = (promotionId,body) =>{
-    // console.log("----- promotionId: ",promotionId);
-    // console.log("----- body: ",body);
     this.props.actions.marketing.updatePromotionById(promotionId,body);
 
   }
@@ -106,6 +104,14 @@ class TabPromotion extends Layout {
     this.goToPage(0);
   }
 
+  componentDidUpdate(prevProps,prevState){
+    const {isUpdatePromotionById} =  this.props;
+    if(isUpdatePromotionById && prevProps.isUpdatePromotionById !== isUpdatePromotionById){
+      this.props.actions.marketing.resetStateIsUpdatePromotionById(false);
+      this.goToPage(0);
+    }
+  }
+
   componentWillUnmount() {
     this.setStateToPromotiomDetail = null;
   }
@@ -119,7 +125,9 @@ const mapStateToProps = state => ({
   servicesByMerchant: state.service.servicesByMerchant,
   isApplyPromotion: state.marketing.isApplyPromotion,
   refreshingPromotion: state.marketing.refreshingPromotion,
-  isGetPromotionByMerchant: state.marketing.isGetPromotionByMerchant
+  isGetPromotionByMerchant: state.marketing.isGetPromotionByMerchant,
+
+  isUpdatePromotionById: state.marketing.isUpdatePromotionById
 })
 
 

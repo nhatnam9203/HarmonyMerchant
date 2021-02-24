@@ -463,10 +463,13 @@ function* updatePromotionById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log("----- updatePromotionById: ", responses);
+        // console.log("----- updatePromotionById: ", responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put(getPromotionByMerchant());
+            yield put({
+                type:"UPDATE_PROMOTION_BY_ID_SUCCESS"
+            })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
