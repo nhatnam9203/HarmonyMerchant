@@ -12,7 +12,7 @@ class ItemServives extends React.Component {
     super(props);
     this.state = {
       isCheck: true,
-      services: this.mapCategoryServives(this.props.categoriesByMerchant),
+      services: [],
       isSelectAll: false,
     };
   }
@@ -22,9 +22,40 @@ class ItemServives extends React.Component {
       isCheck: !prevState.isCheck,
     }));
   };
-  // componentDidMount(){
-  //   console.log('hihi')
-  // }
+  componentDidMount() {
+    const isEditStaff = this.props.isEditStaff;
+console.log(this.props.isEditStaff)
+    // if (isEditStaff) {
+    //   // console.log("hihi");
+    // } else {
+    //   // console.log('new')
+    //   this.setState({
+    //     services: this.mapCategoryServives(this.props.categoriesByMerchant),
+    //   });
+    // }
+  }
+
+  componentDidUpdate(prevProps) {
+    const prevCategories = prevProps?.categories?.categories || [];
+
+    if (
+      prevCategories !== this.props.categories &&
+      prevProps.isEditStaff !== this.props.isEditStaff
+    ) {
+      if (this.props.isEditStaff) {
+        // console.log("hihi", this.props.categories?.categories);
+        // console.log('dsad', this.mapCategoryServives(this.props.categoriesByMerchant))
+        this.setState({
+          services: this.props.categories?.categories || [],
+        });
+      } else {
+        console.log("new");
+        this.setState({
+          services: this.mapCategoryServives(this.props.categoriesByMerchant),
+        });
+      }
+    }
+  }
 
   selectItem = (id, index, id_item) => {
     let itemSelect = [...this.state.services];
@@ -129,7 +160,7 @@ class ItemServives extends React.Component {
     resultArr = categoryArr.map((item) => ({
       categoryId: item.categoryId,
       name: item.name,
-      services: (this.props?.servicesByMerchant || []).filter(
+      staffServices: (this.props?.servicesByMerchant || []).filter(
         (i) => i.categoryId === item.categoryId
       ),
     }));
@@ -202,7 +233,7 @@ class ItemServives extends React.Component {
         </TouchableOpacity>
 
         <Collapsible collapsed={!item.isCollap}>
-          {item.services.map((items, index) => (
+          {item.staffServices.map((items, index) => (
             <View key={index} style={styles.item_collap}>
               <Button
                 onPress={() =>
@@ -339,6 +370,7 @@ const mapStateToProps = (state) => ({
   profile: state.dataLocal.profile,
   categoriesByMerchant: state.category.categoriesByMerchant,
   servicesByMerchant: state.service.servicesByMerchant,
+  categories: state.staff.staffDetail,
 });
 
 export default connectRedux(mapStateToProps, ItemServives);

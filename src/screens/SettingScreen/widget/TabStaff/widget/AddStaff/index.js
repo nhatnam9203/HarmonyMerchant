@@ -105,13 +105,13 @@ class AddStaff extends Layout {
   }
 
   setStateFromParent = async (infoStaffHandle, isEditStaff) => {
-    this.setState({ isEditStaff: isEditStaff });
+    await this.setState({ isEditStaff: isEditStaff });
     if (this.scrollStaffRef?.current) {
       this.scrollStaffRef?.current?.scrollTo({ y: 0, animated: false });
     }
     if (isEditStaff) {
       const { stateCity } = this.props;
-      console.log(infoStaffHandle);
+      // console.log(infoStaffHandle);
       await this.setState({
         user: {
           firstName: infoStaffHandle?.firstName || "",
