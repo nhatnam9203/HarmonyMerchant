@@ -487,6 +487,35 @@ function* updatePromotionById(action) {
     }
 }
 
+function* createNewCampaign(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // console.log("----- createNewCampaign: ", responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put(getPromotionByMerchant());
+            yield put({
+                type:"UPDATE_PROMOTION_BY_ID_SUCCESS"
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+
 export default function* saga() {
     yield all([
         takeLatest('GET_BANNER_MERCHANT', getBannerMerchant),
@@ -506,5 +535,7 @@ export default function* saga() {
         takeLatest('ENABLE_PROMOTION_BY_ID', enablePromotionById),
         takeLatest('GET_PROMOTION_DETAIL_BY_ID', getPromotionDetailById),
         takeLatest('UPDATE_PROMOTION_BY_ID', updatePromotionById),
+        takeLatest('CREATE_NEW_CAMPAIGN', createNewCampaign),
+
     ])
 }

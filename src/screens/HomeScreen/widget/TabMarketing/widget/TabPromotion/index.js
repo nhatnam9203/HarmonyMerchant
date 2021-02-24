@@ -32,18 +32,11 @@ class TabPromotion extends Layout {
 
   createNewCampaign = () => {
     this.goToPage(1);
-    const data = {
-      title: "Valentine Day",
-      startDate: "02/14/2021",
-      endDate: "03/13/2021",
-      startTime: "08:30 AM",
-      endTime: "00:00 AM"
-    }
     if (this.setStateToPromotiomDetail) {
-      this.setStateToPromotiomDetail(data);
+      this.setStateToPromotiomDetail();
     } else {
       setTimeout(() => {
-        this.setStateToPromotiomDetail(data);
+        this.setStateToPromotiomDetail();
       }, 300)
     }
 
@@ -60,6 +53,7 @@ class TabPromotion extends Layout {
       }, 300)
     }
   }
+
 
   disableCampaign = (campaign) => () => {
     this.props.actions.marketing.disablePromotionById(campaign?.id || 0);
@@ -85,7 +79,10 @@ class TabPromotion extends Layout {
 
   updatePromotionById = (promotionId,body) =>{
     this.props.actions.marketing.updatePromotionById(promotionId,body);
+  }
 
+  handleCreateNewCampaign = (campaign) => {
+    this.props.actions.marketing.createNewCampaign(campaign);
   }
 
   viewRule = () => {

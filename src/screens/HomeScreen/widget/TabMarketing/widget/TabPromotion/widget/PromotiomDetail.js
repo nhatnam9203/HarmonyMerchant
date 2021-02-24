@@ -11,6 +11,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { TextInputMask } from 'react-native-masked-text';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import _ from "ramda";
 
 import {
     scaleSzie, localize, WorkingTime, formatWithMoment, formatHourMinute, MARKETING_CONDITIONS, DISCOUNT_ACTION,
@@ -22,8 +23,8 @@ import { Button, Text, InputForm, Dropdown } from '@components';
 import { product } from 'ramda';
 const { width } = Dimensions.get('window');
 
-const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updatePromotionById
-    //  handleCampaign 
+const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updatePromotionById,
+    handleCreateNewCampaign
 }) => {
 
     const [promotionId, setPromotionId] = useState("");
@@ -43,8 +44,8 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     const [numberOfTimesApply, setNumberOfTimesApply] = useState("");
     const [actionTags, setActionTags] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true);
+    const [isHandleEdit, setIsHandleEdit] = useState(false);
 
-    const dispatch = useDispatch();
     const productsByMerchantId = useSelector(state => state?.product?.productsByMerchantId || []);
     const servicesByMerchant = useSelector(state => state?.service?.servicesByMerchant || []);
     const promotionDetailById = useSelector(state => state?.marketing?.promotionDetailById || {});
@@ -57,39 +58,42 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     }, [productsByMerchantId, servicesByMerchant]);
 
     useEffect(() => {
-        const serviceConditionTag = promotionDetailById?.conditionDetail?.service || [];
-        const productonditionTag = promotionDetailById?.conditionDetail?.product || [];
-        const tempServiceConditionTag = getTagInfoById("Service", serviceConditionTag, dataServiceProduct);
-        const tempProductonditionTag = getTagInfoById("Product", productonditionTag, dataServiceProduct);
-        const tempConditionServiceProductTags = [...tempServiceConditionTag, ...tempProductonditionTag];
+        if (promotionDetailById?.id) {
+            const serviceConditionTag = promotionDetailById?.conditionDetail?.service || [];
+            const productonditionTag = promotionDetailById?.conditionDetail?.product || [];
+            const tempServiceConditionTag = getTagInfoById("Service", serviceConditionTag, dataServiceProduct);
+            const tempProductonditionTag = getTagInfoById("Product", productonditionTag, dataServiceProduct);
+            const tempConditionServiceProductTags = [...tempServiceConditionTag, ...tempProductonditionTag];
 
-        const serviceActionConditionTag = promotionDetailById?.applyToDetail?.service || [];
-        const productActionConditionTag = promotionDetailById?.applyToDetail?.product || [];
-        const tempServiceActionConditionTag = getTagInfoById("Service", serviceActionConditionTag, dataServiceProduct);
-        const tempProductActionConditionTag = getTagInfoById("Product", productActionConditionTag, dataServiceProduct);
-        const tempActionConditionTags = [...tempServiceActionConditionTag, ...tempProductActionConditionTag];
+            const serviceActionConditionTag = promotionDetailById?.applyToDetail?.service || [];
+            const productActionConditionTag = promotionDetailById?.applyToDetail?.product || [];
+            const tempServiceActionConditionTag = getTagInfoById("Service", serviceActionConditionTag, dataServiceProduct);
+            const tempProductActionConditionTag = getTagInfoById("Product", productActionConditionTag, dataServiceProduct);
+            const tempActionConditionTags = [...tempServiceActionConditionTag, ...tempProductActionConditionTag];
 
-        setConditionServiceProductTags(tempConditionServiceProductTags);
-        setActionTags(tempActionConditionTags);
+            let tempNumberOfTimesApply = promotionDetailById?.conditionId === 4 ? promotionDetailById?.conditionDetail : "";
+
+            setConditionServiceProductTags(tempConditionServiceProductTags);
+            setActionTags(tempActionConditionTags);
+            setNumberOfTimesApply(tempNumberOfTimesApply);
+        }
+
 
     }, [promotionDetailById])
 
-    setStateFromParent((data) => {
+    setStateFromParent((data = {}) => {
+        setIsHandleEdit(data?.id ? true : false);
         setPromotionId(data?.id || "");
         setTitle(data?.name);
-        setStartDate(formatWithMoment(data?.fromDate, "MM/DD/YYYY"));
-        setEndDate(formatWithMoment(data?.toDate, "MM/DD/YYYY"));
-        setStartTime(formatWithMoment(data?.fromDate, "hh:mm A"));
-        setEndTime(formatWithMoment(data?.toDate, "hh:mm A"));
+        setStartDate(formatWithMoment(data?.fromDate || new Date(), "MM/DD/YYYY"));
+        setEndDate(formatWithMoment(data?.toDate || new Date(), "MM/DD/YYYY"));
+        setStartTime(data?.fromDate ? formatWithMoment(data?.fromDate, "hh:mm A") : "00:00 AM");
+        setEndTime(data?.toDate ? formatWithMoment(data?.toDate, "hh:mm A") : "00:00 AM");
         setPromotionType(data?.promotionType || "percent");
         setPromotionValue(data?.promotionValue || "");
         setIsDisabled(data?.isDisabled ? false : true);
-
         setCondition(getConditionTitleIdById(data?.conditionId || 1));
         setActionCondition(getDiscountActionByShortName(data?.applyTo || "all"));
-
-        const p = getTagInfoById("Service", [608], dataServiceProduct);
-        console.log(p);
     });
 
 
@@ -167,13 +171,13 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     handleCampaign = () => {
         const tempConditionTags = getFormatTags(conditionServiceProductTags);
         const tempActionTags = getFormatTags(actionTags);
-        const body = {
+        const campaign = {
             name: title,
             fromDate: `${formatWithMoment(new Date(startDate), "YYYY-MM-DD")}T${formatHourMinute(startTime)}:00`,
             toDate: `${formatWithMoment(new Date(endDate), "YYYY-MM-DD")}T${formatHourMinute(endTime)}:00`,
             conditionId: getConditionIdByTitle(condition),
             applyTo: getShortNameForDiscountAction(actionCondition),
-            conditionDetail: {
+            conditionDetail: getConditionIdByTitle(condition) === 4 ? numberOfTimesApply : {
                 service: tempConditionTags?.services || [],
                 product: tempConditionTags?.products || []
             },
@@ -184,9 +188,31 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
             promotionType: promotionType,
             promotionValue: `${promotionValue || 0.00}`,
             isDisabled: isDisabled ? 0 : 1
+        };
+
+        // ------------ Check Valid ---------
+        let isValid = true;
+        const fromDate = (new Date(campaign?.fromDate)).getTime();
+        const toDate = (new Date(campaign?.toDate)).getTime();
+
+        if (!campaign?.name) {
+            alert("Enter the campaign's name please!");
+            isValid = false;
+        } else if (parseInt(fromDate) >= parseInt(toDate)) {
+            alert("The start date is not larger than the to date ");
+            isValid = false;
+        }else if(campaign.conditionId === 2 && conditionServiceProductTags.length < 1){
+            alert("Select services/product specific please!");
+            isValid = false;
+        }else if(campaign.conditionId === 4 && parseInt(numberOfTimesApply ?numberOfTimesApply : 0 ) < 1){
+            alert("Enter the number of times applied please!");
+            isValid = false;
         }
 
-        updatePromotionById(promotionId, body);
+        if (isValid) {
+            isHandleEdit ? updatePromotionById(promotionId, campaign) : handleCreateNewCampaign(campaign);
+        }
+
     }
 
     return (
@@ -400,7 +426,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                 <View style={{ width: scaleSzie(25) }} />
                 <Button onPress={handleCampaign} style={[{ flex: 1, backgroundColor: "#0764B0", borderRadius: 2 }, styles.centered_box]} >
                     <Text style={[styles.txt_footer, { color: "#fff" }]} >
-                        {`ADD`}
+                        {isHandleEdit ? "SAVE" : "ADD"}
                     </Text>
                 </Button>
             </View>

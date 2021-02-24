@@ -236,3 +236,13 @@ export function resetStateIsUpdatePromotionById(visible = true) {
         payload: visible
     }
 }
+
+export function createNewCampaign(body) {
+    return {
+        type: 'CREATE_NEW_CAMPAIGN',
+        method: 'POST',
+        body,
+        token: true,
+        api: `${apiConfigs.BASE_API}MerchantPromotion?api-version=1.2`
+    }
+}
