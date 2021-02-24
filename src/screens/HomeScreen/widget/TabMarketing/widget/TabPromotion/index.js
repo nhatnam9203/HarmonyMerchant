@@ -83,6 +83,13 @@ class TabPromotion extends Layout {
     }
   }
 
+  updatePromotionById = (promotionId,body) =>{
+    // console.log("----- promotionId: ",promotionId);
+    // console.log("----- body: ",body);
+    this.props.actions.marketing.updatePromotionById(promotionId,body);
+
+  }
+
   viewRule = () => {
     this.goToPage(2);
   }

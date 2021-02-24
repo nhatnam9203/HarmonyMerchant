@@ -8,18 +8,25 @@ import {
     ScrollView,
     Switch
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { TextInputMask } from 'react-native-masked-text';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-import { scaleSzie, localize, WorkingTime, formatWithMoment, MARKETING_CONDITIONS, DISCOUNT_ACTION } from '@utils';
+import {
+    scaleSzie, localize, WorkingTime, formatWithMoment, formatHourMinute, MARKETING_CONDITIONS, DISCOUNT_ACTION,
+    getConditionIdByTitle, getShortNameForDiscountAction, getFormatTags, getConditionTitleIdById, getDiscountActionByShortName,
+    getTagInfoById
+} from '@utils';
 import ICON from '@resources';
 import { Button, Text, InputForm, Dropdown } from '@components';
 import { product } from 'ramda';
 const { width } = Dimensions.get('window');
 
-const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign }) => {
+const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updatePromotionById
+    //  handleCampaign 
+}) => {
 
+    const [promotionId, setPromotionId] = useState("");
     const [title, setTitle] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
@@ -27,17 +34,20 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
     const [endTime, setEndTime] = useState("12:00 AM");
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isChangeDate, setIsChangeDate] = useState("start");
-    const [condition, setCondition] = useState("No Condition");
+    const [condition, setCondition] = useState("No condition");
     const [actionCondition, setActionCondition] = useState("Discount for whole cart");
     const [conditionServiceProductTags, setConditionServiceProductTags] = useState([]);
     const [promotionType, setPromotionType] = useState("percent"); // fixed
     const [promotionValue, setPromotionValue] = useState("");
     const [dataServiceProduct, setDataServiceProduct] = useState([]);
     const [numberOfTimesApply, setNumberOfTimesApply] = useState("");
+    const [actionTags, setActionTags] = useState([]);
+    const [isDisabled, setIsDisabled] = useState(true);
 
-    const language = useSelector(state => state?.dataLocal?.language || "en");
+    const dispatch = useDispatch();
     const productsByMerchantId = useSelector(state => state?.product?.productsByMerchantId || []);
     const servicesByMerchant = useSelector(state => state?.service?.servicesByMerchant || []);
+    const promotionDetailById = useSelector(state => state?.marketing?.promotionDetailById || {});
 
     useEffect(() => {
         const tempService = servicesByMerchant.map((service) => ({ value: service?.name || "", type: "Service", originalId: service?.serviceId || 0, id: `${service?.serviceId}_Service` }));
@@ -46,12 +56,34 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
         setDataServiceProduct(tempData);
     }, [productsByMerchantId, servicesByMerchant]);
 
+    useEffect(() =>{
+        const serviceConditionTag = promotionDetailById?.conditionDetail?.service || [];
+        const productonditionTag = promotionDetailById?.conditionDetail?.product || [];
+
+        const tempServiceConditionTag = getTagInfoById("Service",serviceConditionTag,dataServiceProduct);
+        const tempProductonditionTag = getTagInfoById("Product",productonditionTag,dataServiceProduct);
+
+        const tempConditionServiceProductTags = [...tempServiceConditionTag,...tempProductonditionTag];
+        setConditionServiceProductTags(tempConditionServiceProductTags);
+
+    },[promotionDetailById])
+
     setStateFromParent((data) => {
+        setPromotionId(data?.id || "");
         setTitle(data?.name);
         setStartDate(formatWithMoment(data?.fromDate, "MM/DD/YYYY"));
         setEndDate(formatWithMoment(data?.toDate, "MM/DD/YYYY"));
         setStartTime(formatWithMoment(data?.fromDate, "hh:mm A"));
         setEndTime(formatWithMoment(data?.toDate, "hh:mm A"));
+        setPromotionType(data?.promotionType || "percent");
+        setPromotionValue(data?.promotionValue || "");
+        setIsDisabled(data?.isDisabled ? false : true);
+
+        setCondition(getConditionTitleIdById(data?.conditionId || 1));
+        setActionCondition(getDiscountActionByShortName(data?.applyTo || "all"));
+
+        const p = getTagInfoById("Service",[608],dataServiceProduct);
+        console.log(p);
     });
 
 
@@ -86,6 +118,21 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
         }
     }
 
+    const addActionTags = (tag) => {
+        const tempData = [...actionTags];
+        let isExist = false;
+        for (let i = 0; i < tempData.length; i++) {
+            if (tempData[i]?.id === tag?.id) {
+                isExist = true;
+                break;
+            }
+        }
+        if (!isExist) {
+            tempData.push(tag);
+            setActionTags(tempData);
+        }
+    }
+
     removeConditionServiceProductTags = (tag) => {
         const tempData = [];
         for (let i = 0; i < conditionServiceProductTags.length; i++) {
@@ -96,8 +143,44 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
         setConditionServiceProductTags(tempData);
     }
 
+
+    removeActionTags = (tag) => {
+        const tempData = [];
+        for (let i = 0; i < actionTags.length; i++) {
+            if (actionTags[i]?.id !== tag?.id) {
+                tempData.push({ ...actionTags[i] });
+            }
+        }
+        setActionTags(tempData);
+    }
+
     handleSetPromotionType = (type) => () => {
         setPromotionType(type);
+    }
+
+    handleCampaign = () => {
+        const tempConditionTags = getFormatTags(conditionServiceProductTags);
+        const tempActionTags = getFormatTags(actionTags);
+        const body = {
+            name: title,
+            fromDate: `${formatWithMoment(new Date(startDate), "YYYY-MM-DD")}T${formatHourMinute(startTime)}:00`,
+            toDate: `${formatWithMoment(new Date(endDate), "YYYY-MM-DD")}T${formatHourMinute(endTime)}:00`,
+            conditionId: getConditionIdByTitle(condition),
+            applyTo: getShortNameForDiscountAction(actionCondition),
+            conditionDetail: {
+                service: tempConditionTags?.services || [],
+                product: tempConditionTags?.products || []
+            },
+            applyToDetail: {
+                service: tempActionTags?.services || [],
+                product: tempActionTags?.products || []
+            },
+            promotionType: promotionType,
+            promotionValue: `${promotionValue || 0.00}`,
+            isDisabled: isDisabled ? 0 : 1
+        }
+
+        updatePromotionById(promotionId, body);
     }
 
     return (
@@ -223,9 +306,13 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
                     dropdownData={DISCOUNT_ACTION}
                     setCondition={setActionCondition}
                     dataServiceProduct={dataServiceProduct}
+                    addTag={addActionTags}
                 />
 
-                {/* <Tags tags={["Deluxe Spa Manicure", "Deluxe Spa Pedicure", "Deluxe ", "Pedicure"]} /> */}
+                {
+                    actionCondition === "Discount for specific services" && <Tags tags={actionTags} removeTag={removeActionTags} />
+                }
+
 
                 {/* ---------  Promotion type ------ */}
                 <Text style={[styles.txt_tit, { marginBottom: scaleSzie(15), marginTop: scaleSzie(20) }]} >
@@ -284,8 +371,8 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
                 <Switch
                     trackColor={{ false: "#767577", true: "#0764B0" }}
                     ios_backgroundColor="#E5E5E5"
-                    // onValueChange={(value) => this.updateCategoryInfo('isShowSignInApp', value)}
-                    value={true}
+                    value={isDisabled}
+                    onValueChange={setIsDisabled}
                 />
 
                 <View style={{ height: scaleSzie(300) }} />
@@ -317,6 +404,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, handleCampaign })
                 mode="date"
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
+                date={new Date(isChangeDate === "start" ? startDate : endDate)}
             />
         </View>
     );
@@ -338,6 +426,7 @@ const SelectPromotionDate = ({ value, onChangeText, showDatePicker }) => {
                     value={value}
                     onChangeText={onChangeText}
                     style={[{ flex: 1, fontSize: scaleSzie(12), color: "#404040", padding: 0 }]}
+                    editable={false}
                 />
             </View>
             <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
@@ -351,8 +440,6 @@ const SelectPromotionDate = ({ value, onChangeText, showDatePicker }) => {
 }
 
 const ConditionSpecific = ({ title, condition, setCondition, addTag, dropdownData, comparativeCondition, dataServiceProduct }) => {
-
-    console.log("-------- ConditionSpecific ------");
 
     const [tag, setTag] = useState("");
     const [tagIndex, setTagIndex] = useState(-1);

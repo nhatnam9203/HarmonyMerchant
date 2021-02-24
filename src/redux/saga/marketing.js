@@ -435,13 +435,38 @@ function* getPromotionDetailById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log("----- getPromotionDetailById: ", responses);
+        // console.log("----- getPromotionDetailById: ", responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: "GET_PROMOTION_DETAIL_BY_ID_SUCCESS",
                 payload: responses?.data || {}
             });
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* updatePromotionById(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        console.log("----- updatePromotionById: ", responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put(getPromotionByMerchant());
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -477,6 +502,6 @@ export default function* saga() {
         takeLatest('DISABLE_PROMOTION_BY_ID', disablePromotionById),
         takeLatest('ENABLE_PROMOTION_BY_ID', enablePromotionById),
         takeLatest('GET_PROMOTION_DETAIL_BY_ID', getPromotionDetailById),
-
+        takeLatest('UPDATE_PROMOTION_BY_ID', updatePromotionById),
     ])
 }

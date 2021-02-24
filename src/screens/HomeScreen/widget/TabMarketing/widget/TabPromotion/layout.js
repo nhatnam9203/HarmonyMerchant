@@ -33,6 +33,7 @@ class Layout extends React.Component {
                     onChangeTab={this.onChangeTab}
                 >
                     <PromotionHome
+                        language={language}
                         createNewCampaign={this.createNewCampaign}
                         editCampaign={this.editCampaign}
                         disableCampaign={this.disableCampaign}
@@ -42,9 +43,11 @@ class Layout extends React.Component {
                         promotions={promotions}
                     />
                     <PromotiomDetail
+                        language={language}
                         setStateFromParent={this.handleSetStateToPromotiomDetail}
                         cancelCampaign={this.cancelCampaign}
                         handleCampaign={this.createNewCampaign}
+                        updatePromotionById={this.updatePromotionById}
                     />
 
                     <RewardDetail

@@ -219,3 +219,13 @@ export function enablePromotionById(promotionId) {
         api: `${apiConfigs.BASE_API}MerchantPromotion/enable/${promotionId}?api-version=1.2`
     }
 }
+
+export function updatePromotionById(promotionId, body) {
+    return {
+        type: 'UPDATE_PROMOTION_BY_ID',
+        method: 'PUT',
+        body,
+        token: true,
+        api: `${apiConfigs.BASE_API}MerchantPromotion/${promotionId}?api-version=1.2`
+    }
+}
