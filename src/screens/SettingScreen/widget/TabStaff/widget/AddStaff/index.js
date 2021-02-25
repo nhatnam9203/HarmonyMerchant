@@ -81,7 +81,8 @@ class AddStaff extends Layout {
       dynamicMarginBottomState: 24,
       rowsSalaryIncome: 0,
       isEditStaff: false,
-      categories: []
+      staffIdCheck: 0,
+      categories: [],
     };
     this.inputRefsTime = [];
     this.browserFileRef = React.createRef();
@@ -112,6 +113,7 @@ class AddStaff extends Layout {
     if (isEditStaff) {
       const { stateCity } = this.props;
       // console.log(infoStaffHandle);
+      this.servivesRef.current.setListServices();
       await this.setState({
         user: {
           firstName: infoStaffHandle?.firstName || "",
@@ -138,8 +140,8 @@ class AddStaff extends Layout {
           socialSecurityNumber: infoStaffHandle?.ssn,
           professionalLicense: infoStaffHandle?.professionalLicense,
         },
-        staffId: "",
-        fileId: "",
+        staffId: infoStaffHandle?.staffId || "",
+        fileId: infoStaffHandle?.fileId || 0,
         imageUrl: infoStaffHandle.imageUrl,
         rowsSalaryIncome:
           infoStaffHandle?.salaries?.commission?.value.length || 1,
@@ -151,6 +153,7 @@ class AddStaff extends Layout {
         getCodeAreaPhone(infoStaffHandle.phone).areaCode
       );
     } else {
+      this.servivesRef.current.setListServices();
       await this.setState({
         user: {
           firstName: "",
@@ -258,17 +261,17 @@ class AddStaff extends Layout {
   setServives = (services) => {
     const { isEditStaff } = this.state;
     const arrServices = services.map((item) => ({
-      id: !isEditStaff ? 0 : 1,
+      id: !isEditStaff ? 0 : item.id,
       categoryId: item.categoryId,
       selected: item?.selected ? item?.selected : false,
-      staffServices: item.services.map((i) => ({
-        id: !isEditStaff ? 0 : 1,
+      staffServices: item.staffServices.map((i) => ({
+        id: !isEditStaff ? 0 : i.id,
         serviceId: i.serviceId,
         selected: i?.selected ? i.selected : false,
       })),
     }));
-    console.log(arrServices);
-    this.setState({categories: arrServices})
+    console.log(services)
+    this.setState({ categories: arrServices });
   };
 
   addAdmin = () => {
@@ -378,6 +381,7 @@ class AddStaff extends Layout {
           },
         },
         fileId: this.state.fileId,
+        imageUrl: this.state.imageUrl,
         productSalary: {
           commission: {
             value: parseFloat(
@@ -392,7 +396,7 @@ class AddStaff extends Layout {
         ),
         categories: this.state.categories,
       };
-      if (this.props.isEditStaff) {
+      if (this.state.isEditStaff) {
         this.props.editStaff(temptStaff, this.state.staffId);
       } else {
         this.props.addStaff(temptStaff);

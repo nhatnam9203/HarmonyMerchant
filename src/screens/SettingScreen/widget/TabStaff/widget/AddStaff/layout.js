@@ -328,6 +328,7 @@ class Layout extends React.Component {
             setServices={this.setServives}
             ref={this.servivesRef}
             isEditStaff={this.state.isEditStaff}
+            staffIdCheck={this.state.staffIdCheck}
           />
 
           {/* ----- Service Salary ---- */}
@@ -463,7 +464,7 @@ class Layout extends React.Component {
   renderButtonSubmit() {
     const { language } = this.props;
     const { isSubmitButton } = this.state;
-    const titleButton = this.props.isEditStaff ? "SAVE" : "ADD";
+    const titleButton = this.state.isEditStaff ? "SAVE" : "ADD";
     if (isSubmitButton) {
       return (
         <ButtonCustom

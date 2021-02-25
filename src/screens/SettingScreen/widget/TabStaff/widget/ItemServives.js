@@ -22,57 +22,45 @@ class ItemServives extends React.Component {
       isCheck: !prevState.isCheck,
     }));
   };
-  componentDidMount() {
-    const isEditStaff = this.props.isEditStaff;
-console.log(this.props.isEditStaff)
-    // if (isEditStaff) {
-    //   // console.log("hihi");
-    // } else {
-    //   // console.log('new')
-    //   this.setState({
-    //     services: this.mapCategoryServives(this.props.categoriesByMerchant),
-    //   });
-    // }
-  }
 
-  componentDidUpdate(prevProps) {
-    const prevCategories = prevProps?.categories?.categories || [];
-
-    if (
-      prevCategories !== this.props.categories &&
-      prevProps.isEditStaff !== this.props.isEditStaff
-    ) {
-      if (this.props.isEditStaff) {
-        // console.log("hihi", this.props.categories?.categories);
-        // console.log('dsad', this.mapCategoryServives(this.props.categoriesByMerchant))
+  setListServices = () => {
+    if (this.props.isEditStaff) {
+      setTimeout(() => {
         this.setState({
           services: this.props.categories?.categories || [],
         });
-      } else {
-        console.log("new");
-        this.setState({
-          services: this.mapCategoryServives(this.props.categoriesByMerchant),
-        });
-      }
+        const isCheckSelectAll = this.props.categories?.categories.filter(
+          (item) => item.selected === false
+        );
+        if (isCheckSelectAll.length === 0) {
+          this.setState({ isSelectAll: true });
+        } else {
+          this.setState({ isSelectAll: false });
+        }
+      }, 1000);
+    } else {
+      this.setState({
+        services: this.mapCategoryServives(this.props.categoriesByMerchant),
+        isSelectAll: false,
+      });
     }
-  }
+  };
 
   selectItem = (id, index, id_item) => {
     let itemSelect = [...this.state.services];
     for (let Data of itemSelect) {
       if (Data.categoryId == id) {
         Data.selected = Data.selected == null ? true : !Data.selected;
-
         if (index !== undefined) {
-          if (Data.services[index].categoryId == id_item) {
-            Data.services[index].selected =
-              Data.services[index].selected == null
+          if (Data.staffServices[index].categoryId == id_item) {
+            Data.staffServices[index].selected =
+              Data.staffServices[index].selected == null
                 ? true
-                : !Data.services[index].selected;
+                : !Data.staffServices[index].selected;
             break;
           }
         } else {
-          for (let child of Data.services) {
+          for (let child of Data.staffServices) {
             if (Data.selected) {
               child.selected = true;
             } else {
@@ -99,16 +87,16 @@ console.log(this.props.isEditStaff)
     for (let Data of itemSelect) {
       if (Data.categoryId == id) {
         if (index !== undefined) {
-          if (Data.services[index].categoryId == id_item) {
-            Data.services[index].selected =
-              Data.services[index].selected == null
+          if (Data.staffServices[index].categoryId == id_item) {
+            Data.staffServices[index].selected =
+              Data.staffServices[index].selected == null
                 ? true
-                : !Data.services[index].selected;
+                : !Data.staffServices[index].selected;
             // break;
           }
         }
 
-        const isCheckSelect = Data.services.filter(
+        const isCheckSelect = Data.staffServices.filter(
           (item) => item.selected === true
         );
 
@@ -132,7 +120,7 @@ console.log(this.props.isEditStaff)
     if (isSelectAll) {
       for (let Data of itemSelect) {
         Data.selected = false;
-        for (let child of Data.services) {
+        for (let child of Data.staffServices) {
           child.selected = false;
         }
       }
@@ -141,7 +129,7 @@ console.log(this.props.isEditStaff)
     } else {
       for (let Data of itemSelect) {
         Data.selected = true;
-        for (let child of Data.services) {
+        for (let child of Data.staffServices) {
           child.selected = true;
         }
       }

@@ -261,6 +261,7 @@ class Layout extends React.Component {
             isEditStaff={isEditStaff}
             addStaff={this.submitAddStaff}
             editStaff={this.submitEditStaff}
+            isAddStaffCheck={isAddStaff}
           />
         </ScrollableTabView>
       </View>
