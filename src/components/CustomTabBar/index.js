@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     height: scaleSzie(34),
     width: width,
     paddingHorizontal: scaleSzie(15),
-    borderRadius: scaleSzie(10)
+    borderRadius: scaleSzie(10),
   },
   tabs: {
     flex: 1,

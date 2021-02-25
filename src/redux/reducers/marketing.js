@@ -25,7 +25,10 @@ const initialState = {
     promotionNotes: {},
     isDiscountByOwner: true,
     visiblePopupCheckDiscountPermission: false,
-    visiblePopupCheckDiscountPermissionInHome: false
+    visiblePopupCheckDiscountPermissionInHome: false,
+
+    promotionDetailById: {},
+    isUpdatePromotionById: false
 }
 
 function marketingReducer(state = initialState, action) {
@@ -161,6 +164,26 @@ function marketingReducer(state = initialState, action) {
             return {
                 ...state,
                 visiblePopupCheckDiscountPermissionInHome: action?.payload
+            }
+        case "GET_PROMOTION_DETAIL_BY_ID_SUCCESS":
+            return {
+                ...state,
+                promotionDetailById: action.payload
+            }
+        case "UPDATE_PROMOTION_BY_ID":
+            return {
+                ...state,
+                isUpdatePromotionById: false
+            }
+        case "UPDATE_PROMOTION_BY_ID_SUCCESS":
+            return {
+                ...state,
+                isUpdatePromotionById: true
+            }
+        case "RESET_STATE_IS_UPDATE_PROMOTION_BY_ID":
+            return {
+                ...state,
+                isUpdatePromotionById: false
             }
         case 'LOGOUT_APP':
             return {

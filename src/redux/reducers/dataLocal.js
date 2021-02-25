@@ -154,6 +154,22 @@ function dataLocalReducer(state = initialState, action) {
                 ...state,
                 bluetoothPaxInfo: action.payload,
             }
+        case 'CHANGE_IS_GIFT_FOR_NEW_SUCCESS':
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    giftForNewEnabled: action.payload
+                },
+            }
+        case 'CHANGE_IS_GIFT_FOR_NEW_FAIL':
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    giftForNewEnabled: action.payload
+                },
+            }
         case 'LOGOUT_APP':
             return {
                 ...initialState,

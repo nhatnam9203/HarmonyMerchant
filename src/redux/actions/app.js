@@ -89,7 +89,7 @@ export function getQuestion() {
   };
 }
 
-export function merchantSetting(body,isShowAlert = false ,isLoading = true) {
+export function merchantSetting(body, isShowAlert = false, isLoading = true) {
   return {
     type: "MERCHANT_SETTING",
     method: "PUT",
@@ -282,8 +282,18 @@ export function updatePaxTerminalID(terminalID) {
   }
 }
 
-
-
+export function changeIsGiftForNew(visible = true) {
+  return {
+    type: "CHANGE_IS_GIFT_FOR_NEW",
+    method: "PUT",
+    body:{
+      GiftForNewEnabled: visible
+    },
+    token: true,
+    api: `${apiConfigs.BASE_API}merchant/setting/giftForNew`,
+    visible
+  };
+}
 
 
 

@@ -21,7 +21,7 @@ class ItemCheckBoxInput extends React.Component {
     }
 
     render() {
-        const { title, placeholder, isSelectCheckBox, value, onChangeText,onFocus } = this.props;
+        const { title, placeholder, isSelectCheckBox, value, onChangeText, onFocus } = this.props;
         const temptIconCheckbox = isSelectCheckBox ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
             <View style={{ height: scaleSzie(55), flexDirection: 'row', marginTop: scaleSzie(8) }} >

@@ -526,10 +526,10 @@ export const splitPlusInPhoneNumber = (phone) => {
 
 export const WorkingTime = [
     {
-        value: '12:00 AM',
+        value: '00:00 AM',
     },
     {
-        value: '12:30 AM',
+        value: '00:30 AM',
     },
     {
         value: '01:00 AM',
@@ -1185,8 +1185,144 @@ export const msToTime = (tempDuration) => {
     let minutes = Math.floor((duration / (1000 * 60)) % 60),
         hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
 
-    // hours = (hours < 10) ? "0" + hours : hours;
-    // minutes = (minutes < 10) ? "0" + minutes : minutes;
-
     return hours == 0 ? `${minutes} min` : `${hours} hour ${minutes} min`;
+}
+
+export const MARKETING_CONDITIONS = [
+    { value: "No condition" },
+    { value: "Using specific services" },
+    { value: "Customer birthday is within the week" },
+    { value: "Times using the service reached the quantity" },
+    { value: "The customer is the referral" }
+];
+
+export const DISCOUNT_ACTION = [
+    { value: "Discount for whole cart" },
+    { value: "Discount for specific services" }
+];
+
+export const formatHourMinute = (time) => {
+    if (`${time}`.includes("PM")) {
+        const tempTime = `${time}`.split(":");
+        const tempHour = parseInt(tempTime[0]) !== 12 ? parseInt(tempTime[0]) + 12 : parseInt(tempTime[0]);
+
+        return `${tempHour}:${tempTime[1]}`.replace(" PM", "");
+    };
+    return `${time}`.replace(" AM", "");
+}
+
+export const getConditionIdByTitle = (title) => {
+    let id;
+    switch (title) {
+        case "No condition":
+            id = 1;
+            break;
+        case "Using specific services":
+            id = 2;
+            break;
+        case "Customer birthday is within the week":
+            id = 3;
+            break;
+        case "Times using the service reached the quantity":
+            id = 4;
+            break;
+        case "The customer is the referral":
+            id = 5;
+            break;
+        default:
+            id = 1;
+    }
+
+    return id;
+}
+
+export const getConditionTitleIdById = (id) => {
+    let title;
+    switch (id) {
+        case 1:
+            title = "No condition";
+            break;
+        case 2:
+            title = "Using specific services";
+            break;
+        case 3:
+            title = "Customer birthday is within the week";
+            break;
+        case 4:
+            title = "Times using the service reached the quantity";
+            break;
+        case 5:
+            title = "The customer is the referral";
+            break;
+        default:
+            title = "No condition";
+    }
+
+    return title;
+}
+
+
+export const getShortNameForDiscountAction = (title) => {
+    let shortName = "";
+    switch (title) {
+        case "Discount for specific services":
+            shortName = "specific";
+            break;
+        case "Discount for whole cart":
+            shortName = "all";
+            break;
+        default:
+            shortName = "all";
+    }
+
+    return shortName;
+}
+
+export const getDiscountActionByShortName = (shortName) => {
+    let actionDiscount = "";
+    switch (shortName) {
+        case "specific":
+            actionDiscount = "Discount for specific services";
+            break;
+        case "all":
+            actionDiscount = "Discount for whole cart";
+            break;
+        default:
+            actionDiscount = "Discount for whole cart";
+    }
+
+    return actionDiscount;
+}
+
+export const getFormatTags = (data) => {
+    const services = [];
+    const products = [];
+
+    for (let i = 0; i < data.length; i++) {
+        const tempData = data[i];
+        if (tempData.type === "Service") {
+            services.push(tempData?.originalId);
+        } else {
+            products.push(tempData?.originalId);
+        }
+    }
+    return {
+        services,
+        products
+    }
+}
+
+export const getTagInfoById = (type, arrTagId = [], data = []) => {
+    const arrInfoTag = [];
+
+    for (let i = 0; i < arrTagId.length; i++) {
+        for (let j = 0; j < data.length; j++) {
+            if (data[j]?.type === type && data[j]?.originalId === arrTagId[i]) {
+                arrInfoTag.push({...data[j]});
+                break;
+            }
+        }
+    }
+
+    return arrInfoTag;
 }

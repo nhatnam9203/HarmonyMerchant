@@ -41,7 +41,7 @@ class TabGaneral extends Layout {
         }
     };
 
-    setStateFromParent = async (webLink, timezone, autoCloseAt, turnAmount, staffColumn, signinAppStyle, sendReviewLinkOption, isUsingTurn,giftForNewEnabled) => {
+    setStateFromParent = async (webLink, timezone, autoCloseAt, turnAmount, staffColumn, signinAppStyle, sendReviewLinkOption, isUsingTurn, giftForNewEnabled) => {
         const { isFocus, currentTab } = this.props;
         if (isFocus && currentTab === 0) {
             await this.setState({
@@ -94,7 +94,7 @@ class TabGaneral extends Layout {
     saveSettngApp = async () => {
         const { profile } = this.props;
         const { languageApp, longitude, latitude, webLink, autoCloseAt, timezone,
-            turnAmount, staffColumn, signinAppStyle, sendReviewLinkOption, isUsingTurn,giftForNewEnabled
+            turnAmount, staffColumn, signinAppStyle, sendReviewLinkOption, isUsingTurn, giftForNewEnabled
         } = this.state;
         const temptLanguage = languageApp === 'English' ? 'en' : 'vi';
         this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);

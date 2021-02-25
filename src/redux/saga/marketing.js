@@ -2,6 +2,7 @@ import { put, takeLatest, all } from "redux-saga/effects";
 
 import { requestAPI } from '../../utils';
 import apiConfigs from '../../configs/api';
+import { getPromotionByMerchant } from "../actions/marketing";
 
 function* getBannerMerchant(action) {
     try {
@@ -97,9 +98,9 @@ function* addBannerWithInfo(action) {
 }
 // ---------- Handle Promotion -----
 
-function* getPromotionByMerchant(action) {
+function* getPromotionByMerchantSaga(action) {
     try {
-        if(action.isLoading){
+        if (action.isLoading) {
             yield put({ type: 'LOADING_ROOT' })
         }
         const responses = yield requestAPI(action);
@@ -108,7 +109,7 @@ function* getPromotionByMerchant(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: 'GET_PROMOTION_BY_MERCHANT_SUCCESS',
-                payload: responses.data
+                payload: responses?.data || []
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -191,15 +192,15 @@ function* getPromotionByAppointment(action) {
                     type: 'GET_PROMOTION_BY_BLOCK_APPOINTMENT_SUCCESS',
                     payload: responses?.data?.promotions || [],
                     appointmentId: action.appointmentId,
-                    promotionNotes:  responses?.data?.notes || {},
-                    isDiscountByOwner:  responses?.data.isDiscountByOwner || true,
+                    promotionNotes: responses?.data?.notes || {},
+                    isDiscountByOwner: responses?.data.isDiscountByOwner || true,
                 })
             } else {
                 yield put({
                     type: 'GET_PROMOTION_BY_APPOINTMENT_SUCCESS',
                     payload: responses?.data?.promotions || [],
                     appointmentId: action.appointmentId,
-                    promotionNotes:  responses?.data?.notes || {},
+                    promotionNotes: responses?.data?.notes || {},
                     isDiscountByOwner: responses?.data.isDiscountByOwner || true,
                 })
             }
@@ -379,12 +380,148 @@ function* addPromotionNote(action) {
     }
 }
 
+function* disablePromotionById(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // console.log("----- disablePromotionById: ", responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put(getPromotionByMerchant());
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* enablePromotionById(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // console.log("----- enablePromotionById: ", responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put(getPromotionByMerchant());
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+
+function* getPromotionDetailById(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // console.log("----- getPromotionDetailById: ", responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "GET_PROMOTION_DETAIL_BY_ID_SUCCESS",
+                payload: responses?.data || {}
+            });
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* updatePromotionById(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // console.log("----- updatePromotionById: ", responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put(getPromotionByMerchant());
+            yield put({
+                type:"UPDATE_PROMOTION_BY_ID_SUCCESS"
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* createNewCampaign(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // console.log("----- createNewCampaign: ", responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put(getPromotionByMerchant());
+            yield put({
+                type:"UPDATE_PROMOTION_BY_ID_SUCCESS"
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+
 export default function* saga() {
     yield all([
         takeLatest('GET_BANNER_MERCHANT', getBannerMerchant),
         takeLatest('DELETE_BANNER_MERCHANT', deleteBannerMerchant),
         takeLatest('ADD_BANNER_WITH_INFO', addBannerWithInfo),
-        takeLatest('GET_PROMOTION_BY_MERCHANT', getPromotionByMerchant),
+        takeLatest('GET_PROMOTION_BY_MERCHANT', getPromotionByMerchantSaga),
         takeLatest('UPDATE_PROMOTION_BY_MERCHANT', updatePromotionByMerchant),
         takeLatest('GET_PROMOTION_BY_APPOINTMENT', getPromotionByAppointment),
         takeLatest('CHANGE_STYLIST', changeStylist),
@@ -392,6 +529,13 @@ export default function* saga() {
         takeLatest('SEND_NOTI_BY_PROMOTION_ID', sendNotificationByPromotionId),
         takeLatest('UPDATE_PROMOTION_NOTE', updatePromotionNote),
         takeLatest('ADD_PROMOTION_NOTE', addPromotionNote),
+
+        // -------------- New Promotion API ------------
+        takeLatest('DISABLE_PROMOTION_BY_ID', disablePromotionById),
+        takeLatest('ENABLE_PROMOTION_BY_ID', enablePromotionById),
+        takeLatest('GET_PROMOTION_DETAIL_BY_ID', getPromotionDetailById),
+        takeLatest('UPDATE_PROMOTION_BY_ID', updatePromotionById),
+        takeLatest('CREATE_NEW_CAMPAIGN', createNewCampaign),
 
     ])
 }

@@ -30,15 +30,7 @@ export function resetStateUploadBanner() {
 
 // ------------ promotion -------------
 
-export function getPromotionByMerchant(isLoading = true) {
-    return {
-        type: 'GET_PROMOTION_BY_MERCHANT',
-        method: 'GET',
-        token: true,
-        api: `${apiConfigs.BASE_API}merchantpromotion`,
-        isLoading
-    }
-}
+
 
 export function updatePromotionByMerchant(body, promotionId = 1, isSendNoti = true) {
     console.log("-------body: ",body);
@@ -184,5 +176,74 @@ export function switchPopupCheckDiscountPermissionInHome(visible = true) {
     return {
         type: "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION_IN_HOME",
         payload: visible
+    }
+}
+
+// -------------- New Promotion API ------------
+
+export function getPromotionByMerchant(isLoading = true) {
+    return {
+        type: 'GET_PROMOTION_BY_MERCHANT',
+        method: 'GET',
+        token: true,
+        // api: `${apiConfigs.BASE_API}merchantpromotion`,
+        api: `${apiConfigs.BASE_API}MerchantPromotion?api-version=1.2`,
+        isLoading
+    }
+}
+
+export function getPromotionDetailById(promotionId) {
+    return {
+        type: 'GET_PROMOTION_DETAIL_BY_ID',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}MerchantPromotion/${promotionId}?api-version=1.2`,
+    }
+}
+
+export function disablePromotionById(promotionId) {
+    return {
+        type: 'DISABLE_PROMOTION_BY_ID',
+        method: 'PUT',
+        body: {},
+        token: true,
+        api: `${apiConfigs.BASE_API}MerchantPromotion/disable/${promotionId}?api-version=1.2`
+    }
+}
+
+export function enablePromotionById(promotionId) {
+    return {
+        type: 'ENABLE_PROMOTION_BY_ID',
+        method: 'PUT',
+        body: {},
+        token: true,
+        api: `${apiConfigs.BASE_API}MerchantPromotion/enable/${promotionId}?api-version=1.2`
+    }
+}
+
+export function updatePromotionById(promotionId, body) {
+    return {
+        type: 'UPDATE_PROMOTION_BY_ID',
+        method: 'PUT',
+        body,
+        token: true,
+        api: `${apiConfigs.BASE_API}MerchantPromotion/${promotionId}?api-version=1.2`
+    }
+}
+
+export function resetStateIsUpdatePromotionById(visible = true) {
+    return {
+        type: "RESET_STATE_IS_UPDATE_PROMOTION_BY_ID",
+        payload: visible
+    }
+}
+
+export function createNewCampaign(body) {
+    return {
+        type: 'CREATE_NEW_CAMPAIGN',
+        method: 'POST',
+        body,
+        token: true,
+        api: `${apiConfigs.BASE_API}MerchantPromotion?api-version=1.2`
     }
 }
