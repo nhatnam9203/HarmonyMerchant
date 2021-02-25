@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Image,
@@ -8,14 +8,34 @@ import {
     ActivityIndicator,
     Switch
 } from 'react-native';
+import { useSelector, useDispatch } from "react-redux";
 
 import { scaleSzie, formatWithMoment } from '@utils';
 import IMAGE from '@resources';
 import { Button, Text } from '@components';
+import * as appActions from "@actions/app";
 
 const { width } = Dimensions.get('window');
 
 const PromotionHome = ({ promotions, createNewCampaign, editCampaign, disableCampaign, enableCampaign, viewRule, disableRule }) => {
+
+    const [giftForNewEnabled, setGiftForNewEnabled] = useState(true);
+    const profile = useSelector(state => state?.dataLocal?.profile);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        console.log("----- useEffect -----");
+        setGiftForNewEnabled(profile?.giftForNewEnabled);
+    }, [profile]);
+
+    handleChangeGiftForCustomer = (value) => {
+        setGiftForNewEnabled(value);
+        dispatch(appActions.merchantSetting({
+            // ...profile,
+            giftForNewEnabled: value
+        }));
+    };
+
 
     return (
         <View style={{ flex: 1 }} >
@@ -33,7 +53,8 @@ const PromotionHome = ({ promotions, createNewCampaign, editCampaign, disableCam
                     </Text>
                 </Button>
             </View>
-
+            <CampaignTableHeader />
+            
             <FlatList
                 data={promotions}
                 renderItem={({ item, index }) => <CampaignRow
@@ -42,9 +63,9 @@ const PromotionHome = ({ promotions, createNewCampaign, editCampaign, disableCam
                     disableCampaign={disableCampaign(item)}
                     enableCampaign={enableCampaign(item)}
                 />}
-                ListHeaderComponent={() => <CampaignTableHeader />}
+                // ListHeaderComponent={() => <CampaignTableHeader />}
                 ListFooterComponent={() => <>
-                    <Text style={{
+                    {/* <Text style={{
                         color: "#404040", fontSize: scaleSzie(16), fontWeight: "600",
                         marginLeft: scaleSzie(14), marginTop: scaleSzie(28), marginBottom: scaleSzie(8)
                     }} >
@@ -54,7 +75,7 @@ const PromotionHome = ({ promotions, createNewCampaign, editCampaign, disableCam
                     <RuleRow
                         viewRule={viewRule}
                         disableRule={disableRule}
-                    />
+                    /> */}
 
                     {/* ------------  Gift For New Customer ------------ */}
 
@@ -65,8 +86,8 @@ const PromotionHome = ({ promotions, createNewCampaign, editCampaign, disableCam
                         <Switch
                             trackColor={{ false: "#767577", true: "#0764B0" }}
                             ios_backgroundColor="#E5E5E5"
-                            // onValueChange={(value) => this.updateCategoryInfo('isShowSignInApp', value)}
-                            value={true}
+                            onValueChange={handleChangeGiftForCustomer}
+                            value={giftForNewEnabled}
                         />
                     </View>
 

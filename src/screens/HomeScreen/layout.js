@@ -18,7 +18,7 @@ import configs from "@configs";
 export default class Layout extends React.Component {
 
     render() {
-        const { language, navigation, marketingTabPermission,visibleEnterPin } = this.props;
+        const { language, navigation, marketingTabPermission, visibleEnterPin } = this.props;
         const { isFocus } = this.state;
         return (
             <ParentContainer
@@ -31,7 +31,7 @@ export default class Layout extends React.Component {
                     <ScrollableTabView
                         ref={this.scrollTabParentRef}
                         style={{}}
-                        initialPage={1}
+                        initialPage={0}
                         locked={true}
                         renderTabBar={() => <HomeTabBar
                             activeTextColor="#fff"
@@ -96,7 +96,7 @@ export default class Layout extends React.Component {
                     />
                 </View>
             </ParentContainer>
-            
+
         );
     }
 }
