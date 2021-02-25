@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
     View,
     Image,
@@ -45,6 +45,8 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     const [actionTags, setActionTags] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true);
     const [isHandleEdit, setIsHandleEdit] = useState(false);
+
+    const scrollRef = useRef(null);
 
     const productsByMerchantId = useSelector(state => state?.product?.productsByMerchantId || []);
     const servicesByMerchant = useSelector(state => state?.service?.servicesByMerchant || []);
@@ -201,23 +203,37 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         } else if (parseInt(fromDate) >= parseInt(toDate)) {
             alert("The start date is not larger than the to date ");
             isValid = false;
-        }else if(campaign.conditionId === 2 && conditionServiceProductTags.length < 1){
+        } else if (campaign.conditionId === 2 && conditionServiceProductTags.length < 1) {
             alert("Select services/product specific please!");
             isValid = false;
-        }else if(campaign.conditionId === 4 && parseInt(numberOfTimesApply ?numberOfTimesApply : 0 ) < 1){
+        } else if (campaign.conditionId === 4 && parseInt(numberOfTimesApply ? numberOfTimesApply : 0) < 1) {
             alert("Enter the number of times applied please!");
+            isValid = false;
+        } else if (campaign?.applyTo === "specific" && actionTags.length < 1) {
+            alert("Select services/product for discount specific please!");
+            isValid = false;
+        } else if (promotionValue == 0) {
+            alert("Enter promotion value please!");
             isValid = false;
         }
 
+        console.log(promotionValue);
         if (isValid) {
             isHandleEdit ? updatePromotionById(promotionId, campaign) : handleCreateNewCampaign(campaign);
         }
 
     }
 
+    handleScroll = (number) => () => {
+        scrollRef?.current?.scrollTo({ x: 0, y: scaleSzie(number), animated: true });
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: "#fff", paddingHorizontal: scaleSzie(14) }} >
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView
+                ref={scrollRef}
+                showsVerticalScrollIndicator={false}
+            >
                 {/* ------------------- New Campaigns ------------------- */}
                 <Text style={{ color: "#404040", fontSize: scaleSzie(16), fontWeight: "600", marginBottom: scaleSzie(20) }} >
                     {`New campaign`}
@@ -326,6 +342,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                         style={{ marginBottom: scaleSzie(10), marginTop: scaleSzie(5), width: scaleSzie(200) }}
                         styleTitle={{ fontSize: scaleSzie(12), fontWeight: "400", marginBottom: scaleSzie(2) }}
                         styleInputText={{ fontSize: scaleSzie(13) }}
+                        onFocus={handleScroll(280)}
                     />
                 }
 
@@ -385,6 +402,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                                 value={promotionValue}
                                 onChangeText={setPromotionValue}
                                 style={[{ flex: 1, fontSize: scaleSzie(12), color: "#404040", padding: 0 }]}
+                                onFocus={handleScroll(500)}
                             />
                         </View>
                         <View onPress={showDatePicker} style={[{ width: scaleSzie(25) }, styles.centered_box]} >
