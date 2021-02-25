@@ -30,10 +30,7 @@ const PromotionHome = ({ promotions, createNewCampaign, editCampaign, disableCam
 
     handleChangeGiftForCustomer = (value) => {
         setGiftForNewEnabled(value);
-        dispatch(appActions.merchantSetting({
-            // ...profile,
-            giftForNewEnabled: value
-        }));
+        dispatch(appActions.changeIsGiftForNew(value));
     };
 
 
@@ -54,7 +51,7 @@ const PromotionHome = ({ promotions, createNewCampaign, editCampaign, disableCam
                 </Button>
             </View>
             <CampaignTableHeader />
-            
+
             <FlatList
                 data={promotions}
                 renderItem={({ item, index }) => <CampaignRow
