@@ -96,6 +96,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         setIsDisabled(data?.isDisabled ? false : true);
         setCondition(getConditionTitleIdById(data?.conditionId || 1));
         setActionCondition(getDiscountActionByShortName(data?.applyTo || "all"));
+        handleScroll(0,false)();
     });
 
 
@@ -220,12 +221,13 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         console.log(promotionValue);
         if (isValid) {
             isHandleEdit ? updatePromotionById(promotionId, campaign) : handleCreateNewCampaign(campaign);
+
         }
 
     }
 
-    handleScroll = (number) => () => {
-        scrollRef?.current?.scrollTo({ x: 0, y: scaleSzie(number), animated: true });
+    handleScroll = (number,animated = true) => () => {
+        scrollRef?.current?.scrollTo({ x: 0, y: scaleSzie(number), animated: animated });
     }
 
     return (
