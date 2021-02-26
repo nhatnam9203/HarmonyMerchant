@@ -41,8 +41,11 @@ class ItemServives extends React.Component {
     } else {
       this.setState({
         services: this.mapCategoryServives(this.props.categoriesByMerchant),
-        isSelectAll: false,
+        // isSelectAll: true,
       });
+      setTimeout(() => {
+        this.selectAllItem();
+      }, 500);
     }
   };
 

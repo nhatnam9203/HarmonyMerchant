@@ -54,10 +54,10 @@ function* getStaffByMerchantId(action) {
         payload: responses.data,
         searchFilter: tempSearchFilter
       });
-      yield put({
-        type: "SWICH_ADD_STAFF",
-        payload: false,
-      });
+      // yield put({
+      //   type: "SWICH_ADD_STAFF",
+      //   payload: false,
+      // });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
         type: "UNAUTHORIZED",
