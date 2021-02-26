@@ -26,7 +26,7 @@ const DrawerStack = createDrawerNavigator(
     Reports: ReportScreen,
     GiftCard: GiftCardScreen
   }, {
-  initialRouteName: "Home",
+  initialRouteName: "Customer",
   contentComponent: SlideDrawer,
   drawerWidth: scaleSzie(220),
   overlayColor: "rgba(0, 0, 0, 0.5) ",
