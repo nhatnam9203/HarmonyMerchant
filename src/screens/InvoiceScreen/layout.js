@@ -503,7 +503,7 @@ export default class Layout extends React.Component {
                 <View style={{ flex: 1 }} >
                     <View style={{ height: scaleSzie(16) }} />
                     <View style={{ flex: 1 }} >
-                        <ScrollView showsVerticalScrollIndicator={false} >
+                        <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='always' >
                             {
                                 invoiceDetail.history.map((item, index) => <ItemHistory
                                     key={index}

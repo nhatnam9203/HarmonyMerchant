@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { TextInputMask } from 'react-native-masked-text';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import _ from "ramda";
+import Autocomplete from 'react-native-autocomplete-input';
 
 import {
     scaleSzie, localize, WorkingTime, formatWithMoment, formatHourMinute, MARKETING_CONDITIONS, DISCOUNT_ACTION,
@@ -96,7 +97,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         setIsDisabled(data?.isDisabled ? false : true);
         setCondition(getConditionTitleIdById(data?.conditionId || 1));
         setActionCondition(getDiscountActionByShortName(data?.applyTo || "all"));
-        handleScroll(0,false)();
+        handleScroll(0, false)();
     });
 
 
@@ -226,7 +227,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
 
     }
 
-    handleScroll = (number,animated = true) => () => {
+    handleScroll = (number, animated = true) => () => {
         scrollRef?.current?.scrollTo({ x: 0, y: scaleSzie(number), animated: animated });
     }
 
@@ -235,7 +236,12 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
             <ScrollView
                 ref={scrollRef}
                 showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps='always'
             >
+                 <Autocomplete 
+                    defaultValue={["hi","ba"]}
+                    data={["hi","ba","hi","ba","hi","ba","hi","ba","hi","ba","hi","ba"]}
+                 />
                 {/* ------------------- New Campaigns ------------------- */}
                 <Text style={{ color: "#404040", fontSize: scaleSzie(16), fontWeight: "600", marginBottom: scaleSzie(20) }} >
                     {`New campaign`}

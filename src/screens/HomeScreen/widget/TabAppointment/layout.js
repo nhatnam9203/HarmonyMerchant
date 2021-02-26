@@ -290,7 +290,7 @@ class Layout extends React.Component {
                 <View style={{ flex: 1 }} >
                     <View style={{ flex: 1 }} >
                         {/* ------ Items Basket ------- */}
-                        <ScrollView showsVerticalScrollIndicator={false} >
+                        <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='always' >
                             {
                                 temptBasket.map((item, index) => <ItemBasket
                                     key={index}

@@ -209,7 +209,7 @@ class EditOrCreateCustomerTab extends React.Component {
 
 
     render() {
-        const { codeAreaPhone, codeReferrerPhone, dynamicMarginBottomState, visibleChangeStatus,isEditCustomerInfo } = this.state;
+        const { codeAreaPhone, codeReferrerPhone, dynamicMarginBottomState, visibleChangeStatus, isEditCustomerInfo } = this.state;
         const { firstName, lastName, phone, email, referrerPhone, note, addressPost, isVip, gender, birthdate, referrerBy } = this.state.customerInfo;
         const { street, city, state, zip } = addressPost;
         const title = isEditCustomerInfo ? "Edit Customer" : "New customer";
@@ -270,6 +270,7 @@ class EditOrCreateCustomerTab extends React.Component {
                         <ScrollView
                             ref={this.scrollLeftCustomerRef}
                             showsVerticalScrollIndicator={false}
+                            keyboardShouldPersistTaps='always'
                         >
                             <View style={{ height: scaleSzie(18) }} />
                             {/* --------- Item -------- */}
@@ -341,6 +342,7 @@ class EditOrCreateCustomerTab extends React.Component {
                         <ScrollView
                             ref={this.scrollRightCustomerRef}
                             showsVerticalScrollIndicator={false}
+                            keyboardShouldPersistTaps='always'
                         >
                             <View style={{ height: scaleSzie(18) }} />
                             <Text style={{ fontSize: scaleSzie(14), color: "#404040", fontWeight: "600" }} >
@@ -444,7 +446,6 @@ class EditOrCreateCustomerTab extends React.Component {
                                         value={state}
                                         onChangeText={this.onChangeState}
                                         resetMarginState={() => this.setState({ dynamicMarginBottomState: 24 })}
-                                        // onFocus={() => this.scrollCustomerTo(280)}
                                         onFocus={() => this.scrollRightContentTo(200)}
                                     />
 
