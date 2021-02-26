@@ -157,7 +157,9 @@ class DropdownSearchable extends Component {
 
     return (
       <ScrollView 
-      keyboardShouldPersistTaps="always" >
+      keyboardShouldPersistTaps="always" 
+     
+      >
         {
           data.map((item,index) => renderItem({item,index}))
         }

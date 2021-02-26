@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { TextInputMask } from 'react-native-masked-text';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import _ from "ramda";
-import Autocomplete from 'react-native-autocomplete-input';
+import DropdownSearch from "./DropdownSearch";
 
 import {
     scaleSzie, localize, WorkingTime, formatWithMoment, formatHourMinute, MARKETING_CONDITIONS, DISCOUNT_ACTION,
@@ -23,6 +23,11 @@ import ICON from '@resources';
 import { Button, Text, InputForm, Dropdown } from '@components';
 import { product } from 'ramda';
 const { width } = Dimensions.get('window');
+
+const DATA = [
+    { code: 'AP', name: 'Andhra Pradesh' },
+    { code: 'AR', name: 'Arunachal Pradesh' },
+];
 
 const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updatePromotionById,
     handleCreateNewCampaign
@@ -46,6 +51,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     const [actionTags, setActionTags] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true);
     const [isHandleEdit, setIsHandleEdit] = useState(false);
+    const [dynamicConditionMarginBottom, setDynamicConditionMarginBottom] = useState(24);
 
     const scrollRef = useRef(null);
 
@@ -231,6 +237,11 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         scrollRef?.current?.scrollTo({ x: 0, y: scaleSzie(number), animated: animated });
     }
 
+    handleConditionDropdown = (value, count = 0) => {
+        // dynamicConditionMarginBottom: count * 24
+        setDynamicConditionMarginBottom(count * 24);
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: "#fff", paddingHorizontal: scaleSzie(14) }} >
             <ScrollView
@@ -238,10 +249,6 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps='always'
             >
-                 <Autocomplete 
-                    defaultValue={["hi","ba"]}
-                    data={["hi","ba","hi","ba","hi","ba","hi","ba","hi","ba","hi","ba"]}
-                 />
                 {/* ------------------- New Campaigns ------------------- */}
                 <Text style={{ color: "#404040", fontSize: scaleSzie(16), fontWeight: "600", marginBottom: scaleSzie(20) }} >
                     {`New campaign`}
@@ -334,6 +341,17 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                     addTag={addConditionServiceProductTags}
                     dataServiceProduct={dataServiceProduct}
                 />
+                <View style={{ height: scaleSzie(30), 
+                paddingHorizontal:1,
+                    marginBottom: scaleSzie(dynamicConditionMarginBottom) }} >
+                    <DropdownSearch
+                        value="hi"
+                        dataServiceProduct={dataServiceProduct}
+                        onChangeText={handleConditionDropdown}
+                        resetMarginState={() => this.setState({ dynamicMarginBottomState: 24 })}
+                        onFocus={handleScroll(280)}
+                    />
+                </View>
                 {
                     condition === "Using specific services" && <Tags tags={conditionServiceProductTags} removeTag={removeConditionServiceProductTags} />
                 }
