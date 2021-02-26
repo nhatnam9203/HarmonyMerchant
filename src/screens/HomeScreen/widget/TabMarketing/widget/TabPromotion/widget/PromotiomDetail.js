@@ -135,7 +135,11 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         if (!isExist) {
             tempData.push(tag);
             setConditionServiceProductTags(tempData);
+        } else {
+            alert("The item is exist")
         }
+
+        setDynamicConditionMarginBottom(24);
     }
 
     const addActionTags = (tag) => {
@@ -237,9 +241,9 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         scrollRef?.current?.scrollTo({ x: 0, y: scaleSzie(number), animated: animated });
     }
 
-    handleConditionDropdown = (value, count = 0) => {
-        // dynamicConditionMarginBottom: count * 24
+    handleConditionDropdown = (count = 0) => {
         setDynamicConditionMarginBottom(count * 24);
+        // addConditionServiceProductTags(value);
     }
 
     return (
@@ -341,19 +345,26 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                     addTag={addConditionServiceProductTags}
                     dataServiceProduct={dataServiceProduct}
                 />
-                <View style={{ height: scaleSzie(30), 
-                paddingHorizontal:1,
-                    marginBottom: scaleSzie(dynamicConditionMarginBottom) }} >
-                    <DropdownSearch
-                        value="hi"
-                        dataServiceProduct={dataServiceProduct}
-                        onChangeText={handleConditionDropdown}
-                        resetMarginState={() => this.setState({ dynamicMarginBottomState: 24 })}
-                        onFocus={handleScroll(280)}
-                    />
-                </View>
+
                 {
-                    condition === "Using specific services" && <Tags tags={conditionServiceProductTags} removeTag={removeConditionServiceProductTags} />
+                    condition === "Using specific services" &&
+                    <>
+                        <View style={{
+                            height: scaleSzie(30),
+                            paddingHorizontal: 1,
+                            marginBottom: scaleSzie(dynamicConditionMarginBottom === 24 && conditionServiceProductTags.length > 0 ? 5 : dynamicConditionMarginBottom)
+                        }} >
+                            <DropdownSearch
+                                dataServiceProduct={dataServiceProduct}
+                                selectedTag={addConditionServiceProductTags}
+                                onFocus={handleScroll(280)}
+                                onChangeText={handleConditionDropdown}
+                            />
+                        </View>
+
+                        <Tags tags={conditionServiceProductTags} removeTag={removeConditionServiceProductTags} />
+                    </>
+
                 }
 
                 {
@@ -515,7 +526,7 @@ const SelectPromotionDate = ({ value, onChangeText, showDatePicker }) => {
     );
 }
 
-const ConditionSpecific = ({ title, condition, setCondition, addTag, dropdownData, comparativeCondition, dataServiceProduct }) => {
+const ConditionSpecific = ({ title, condition, setCondition, addTag, dropdownData, dataServiceProduct }) => {
 
     const [tag, setTag] = useState("");
     const [tagIndex, setTagIndex] = useState(-1);
@@ -553,26 +564,6 @@ const ConditionSpecific = ({ title, condition, setCondition, addTag, dropdownDat
                     }}
                 />
             </View>
-            {
-                condition === comparativeCondition && <View style={{ flexDirection: "row", height: scaleSzie(30) }} >
-                    {/* ---------  Service/Product Dropdown ------ */}
-                    <Dropdown
-                        label={"Services/Products"}
-                        data={dataServiceProduct}
-                        value={tag}
-                        onChangeText={onChangeServiceProduct}
-                        containerStyle={[{
-                            flex: 1
-                        }, styles.border_comm]}
-                    />
-                    {/* ---------  Add Button ------ */}
-                    <Button onPress={handleAddTag} style={[{ width: scaleSzie(85), backgroundColor: "#0764B0", marginLeft: scaleSzie(15), borderRadius: 4 }, styles.centered_box]} >
-                        <Text style={[styles.txt_condition_select, { color: "#fff" }]} >
-                            {`Add`}
-                        </Text>
-                    </Button>
-                </View>
-            }
 
         </View>
     );

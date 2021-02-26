@@ -1,21 +1,25 @@
 import React from "react";
-import { TouchableOpacity, Text, View ,Platform} from "react-native";
+import { TouchableOpacity, Text, View, Platform } from "react-native";
 // import Autocomplete from 'react-native-autocomplete-input';
 
 import connectRedux from "@redux/ConnectRedux";
 import { scaleSzie, removeAccent, checkIsTablet } from '@utils';
-import {DropdownSearchable} from "@components";
+import { DropdownSearchable } from "@components";
 
 class DropdownSearch extends React.PureComponent {
 
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            value: ""
         }
     }
 
-    onChangeText = (value) => {
+    onChangeText = async (value) => {
+        await this.setState({
+            value
+        })
         if (value.length === 0) {
             this.setState({
                 data: []
@@ -23,11 +27,7 @@ class DropdownSearch extends React.PureComponent {
             this.props.onChangeText(value, 1);
             return;
         }
-        // const { stateCity } = this.props;
-        // const temptState = stateCity.map(state => state.name);
         const temptState = this.props.dataServiceProduct;
-        // console.log(JSON.stringify(temptState));
-
         let temptData = [];
         for (let i = 0; i < temptState.length; i++) {
             if (removeAccent(temptState[i]?.value.toLowerCase()).startsWith(removeAccent(value).toLowerCase())) {
@@ -35,21 +35,27 @@ class DropdownSearch extends React.PureComponent {
             }
         }
         this.setState({
-            data: temptData
+            data: temptData,
         })
-        this.props.onChangeText(value, temptData.length !== 0 ? (temptData.length > 4 ? 5 :temptData.length ) : 1);
+        this.props.onChangeText(temptData.length !== 0 ? (temptData.length > 4 ? 5 : temptData.length) : 1);
     }
 
-    selectSuggestion(value) {
+    selectSuggestion = (value) => () => {
         this.setState({
-            data: []
+            data: [],
+            value: ""
         })
-        this.props.onChangeText(value, 1);
+        this.props.selectedTag(value);
     }
 
     onFocus = () => {
-        const { value } = this.props;
-        this.onChangeText(value, 1);
+        if (this.state.value === "") {
+            const temptState = this.props.dataServiceProduct;
+            this.setState({
+                data: temptState,
+            });
+            this.props.onChangeText(temptState.length !== 0 ? (temptState.length > 4 ? 5 : temptState.length) : 1);
+        }
         this.props.onFocus();
     }
 
@@ -65,20 +71,21 @@ class DropdownSearch extends React.PureComponent {
     }
 
     render() {
-        const { value, onFocus, inputContainerStyle, editable } = this.props;
-        const { data } = this.state;
+        const { onFocus, inputContainerStyle, editable } = this.props;
+        const { data, value } = this.state;
         const temp_list_style = checkIsTablet() ? { zIndex: 1, position: 'absolute', left: -10, width: "100%" } : {};
 
         return (
             <DropdownSearchable
                 data={data}
-                defaultValue={value}
+                // defaultValue={value}
+                value={value}
                 onChangeText={this.onChangeText}
                 renderItem={({ item, index }) => <TouchableOpacity style={{
                     height: scaleSzie(25),
                     paddingHorizontal: scaleSzie(8),
                     justifyContent: "center",
-                }} onPress={() => this.selectSuggestion(item)}>
+                }} onPress={this.selectSuggestion(item)}>
                     <Text>{item?.value}</Text>
                 </TouchableOpacity>}
                 placeholder={"State"}
@@ -92,18 +99,18 @@ class DropdownSearch extends React.PureComponent {
                     justifyContent: "center",
                     ...inputContainerStyle
                 }}
-                style={{ flex: 1, fontSize: scaleSzie(16), padding: 0,color:"#000" }}
+                style={{ flex: 1, fontSize: scaleSzie(16), padding: 0, color: "#000" }}
                 onFocus={onFocus && this.onFocus}
                 keyExtractor={(item, index) => `${item}_${index}`}
                 listStyle={temp_list_style}
                 editable={editable}
                 listContainerStyle={{
                     maxHeight:scaleSzie(100),
-                    position:"absolute",
-                    top:scaleSzie(30),
-                    left:0,
-                    right:0,
-                    backgroundColor:"#fff",
+                    position: "absolute",
+                    top: scaleSzie(30),
+                    left: 0,
+                    right: 0,
+                    backgroundColor: "#fff",
                     ...Platform.select({
                         ios: {
                             shadowRadius: 1,
@@ -111,12 +118,12 @@ class DropdownSearch extends React.PureComponent {
                             shadowOpacity: 0.6,
                             shadowOffset: { width: 0, height: 0 },
                         },
-            
+
                         android: {
                             elevation: 2,
                         },
                     })
-                    
+
                 }}
             />
 
