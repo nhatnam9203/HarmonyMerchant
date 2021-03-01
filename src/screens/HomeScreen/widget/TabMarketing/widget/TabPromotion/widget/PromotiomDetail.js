@@ -52,6 +52,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     const [isDisabled, setIsDisabled] = useState(true);
     const [isHandleEdit, setIsHandleEdit] = useState(false);
     const [dynamicConditionMarginBottom, setDynamicConditionMarginBottom] = useState(24);
+    const [dynamicActionTagsMarginBottom, setDynamicActionTagsMarginBottom] = useState(24);
 
     const scrollRef = useRef(null);
 
@@ -154,7 +155,10 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         if (!isExist) {
             tempData.push(tag);
             setActionTags(tempData);
+        }else {
+            alert("The item is exist")
         }
+        setDynamicActionTagsMarginBottom(24);
     }
 
     removeConditionServiceProductTags = (tag) => {
@@ -243,7 +247,10 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
 
     handleConditionDropdown = (count = 0) => {
         setDynamicConditionMarginBottom(count * 24);
-        // addConditionServiceProductTags(value);
+    }
+
+    handleActionTagsDropdown = (count = 0) => {
+        setDynamicActionTagsMarginBottom(count * 24);
     }
 
     return (
@@ -349,8 +356,12 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                 {
                     condition === "Using specific services" &&
                     <>
+                        <Text style={[styles.txt_date, { marginBottom: scaleSzie(8), marginTop: scaleSzie(5) }]} >
+                            {`Select services/products`}
+                        </Text>
                         <View style={{
                             height: scaleSzie(30),
+                            width: scaleSzie(330),
                             paddingHorizontal: 1,
                             marginBottom: scaleSzie(dynamicConditionMarginBottom === 24 && conditionServiceProductTags.length > 0 ? 5 : dynamicConditionMarginBottom)
                         }} >
@@ -362,9 +373,10 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                             />
                         </View>
 
-                        <Tags tags={conditionServiceProductTags} removeTag={removeConditionServiceProductTags} />
+                        <View style={{ width: "100%" }} >
+                            <Tags tags={conditionServiceProductTags} removeTag={removeConditionServiceProductTags} />
+                        </View>
                     </>
-
                 }
 
                 {
@@ -396,7 +408,29 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                 />
 
                 {
-                    actionCondition === "Discount for specific services" && <Tags tags={actionTags} removeTag={removeActionTags} />
+                    actionCondition === "Discount for specific services" &&
+                    <>
+                        <Text style={[styles.txt_date, { marginBottom: scaleSzie(8), marginTop: scaleSzie(5) }]} >
+                            {`Select services/products`}
+                        </Text>
+                        <View style={{
+                            height: scaleSzie(30),
+                            width: scaleSzie(330),
+                            paddingHorizontal: 1,
+                            marginBottom: scaleSzie(dynamicActionTagsMarginBottom === 24 && actionTags.length > 0 ? 5 : dynamicActionTagsMarginBottom)
+                        }} >
+                            <DropdownSearch
+                                dataServiceProduct={dataServiceProduct}
+                                selectedTag={addActionTags}
+                                onFocus={handleScroll(450)}
+                                onChangeText={handleActionTagsDropdown}
+                            />
+                        </View>
+
+                        <View style={{ width: "100%" }} >
+                            <Tags tags={actionTags} removeTag={removeActionTags} />
+                        </View>
+                    </>
                 }
 
 

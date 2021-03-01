@@ -88,7 +88,7 @@ class DropdownSearch extends React.PureComponent {
                 }} onPress={this.selectSuggestion(item)}>
                     <Text>{item?.value}</Text>
                 </TouchableOpacity>}
-                placeholder={"State"}
+                placeholder={"Type to search"}
                 containerStyle={{
                     flex: 1,
                     // color:"#000"
