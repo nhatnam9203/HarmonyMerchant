@@ -198,10 +198,6 @@ class HomeScreen extends Layout {
         this.scrollTabParentRef.current.goToPage(2);
     }
 
-    onPressHandlerChangeTab_ = (index) => {
-        this.props.actions.marketing.toggleMarketingTabPermission();
-    }
-
     onPressHandlerChangeTab = async (index) => {
         const { currentTab } = this.state;
         const { groupAppointment, appointmentIdOffline, blockAppointments } = this.props;
@@ -265,9 +261,16 @@ class HomeScreen extends Layout {
     }
 
     tooglePopupMarketingPermission = () => {
-        this.checkMarketingPermissionRef.current.setStateFromParent('');
-        this.props.actions.marketing.toggleMarketingTabPermission();
-        this.tabCheckoutRef?.current?.resetStateFromParent();
+        const { profileStaffLogin } = this.props;
+        const roleName = profileStaffLogin?.roleName || "Admin";
+        if (roleName === "Admin") {
+            this.scrollTabParentRef.current.goToPage(0);
+        } else {
+            this.checkMarketingPermissionRef.current.setStateFromParent('');
+            this.props.actions.marketing.toggleMarketingTabPermission();
+            this.tabCheckoutRef?.current?.resetStateFromParent();
+        }
+
     }
 
 
@@ -376,7 +379,6 @@ class HomeScreen extends Layout {
         if (index.i === 0) {
             const { profile } = this.props;
             this.props.actions.marketing.getPromotionByMerchant();
-            // this.props.actions.marketing.getBannerMerchant(profile.merchantId, false);
         }
     }
 
@@ -436,6 +438,7 @@ const mapStateToProps = state => ({
     marketingTabPermission: state.marketing.marketingTabPermission,
     isGoToTabMarketing: state.marketing.isGoToTabMarketing,
     visibleEnterPin: state.app.visibleEnterPin,
+    profileStaffLogin: state?.dataLocal?.profileStaffLogin || {}
 })
 
 let codePushOptions = {

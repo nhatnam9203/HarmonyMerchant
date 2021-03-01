@@ -24,7 +24,6 @@ const PromotionHome = ({ promotions, createNewCampaign, editCampaign, disableCam
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log("----- useEffect -----");
         setGiftForNewEnabled(profile?.giftForNewEnabled);
     }, [profile]);
 

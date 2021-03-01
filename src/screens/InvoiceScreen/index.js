@@ -72,7 +72,14 @@ class InvoiceScreen extends Layout {
                     isFocus: true
                 });
                 this.checkInvoicePermissionRef.current.setStateFromParent('',);
-                this.props.actions.invoice.toggleInvoiceTabPermission();
+                const { profileStaffLogin } = this.props;
+                const roleName = profileStaffLogin?.roleName || "Admin";
+                if (roleName === "Admin") {
+                    this.props.actions.invoice.getListInvoicesByMerchant();
+                } else {
+                    this.props.actions.invoice.toggleInvoiceTabPermission();
+                }
+               
             }
         );
     }
@@ -638,7 +645,7 @@ const mapStateToProps = state => ({
 
     printerSelect: state.dataLocal.printerSelect,
     printerList: state.dataLocal.printerList,
-    profileLoginInvoice: state.dataLocal.profileLoginInvoice
+    profileLoginInvoice: state.dataLocal.profileLoginInvoice,
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

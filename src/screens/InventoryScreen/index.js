@@ -60,7 +60,14 @@ class InventoryScreen extends Layout {
                     isFocus: true
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
-                this.props.actions.product.toggleProductTabPermission();
+
+                const { profileStaffLogin } = this.props;
+                const roleName = profileStaffLogin?.roleName || "Admin";
+                if (roleName === "Admin") {
+                    this.props.actions.product.getProductsByMerchant("", "", true);
+                } else {
+                    this.props.actions.product.toggleProductTabPermission();
+                }
             }
         );
     }
@@ -354,7 +361,8 @@ const mapStateToProps = state => ({
     refreshListProducts: state.product.refreshListProducts,
     isDownloadInventory: state.product.isDownloadInventory,
     pathFileInventory: state.product.pathFileInventory,
-    inventoryTabPermission: state.product.inventoryTabPermission
+    inventoryTabPermission: state.product.inventoryTabPermission,
+    profileStaffLogin: state.dataLocal.profileStaffLogin,
 })
 
 

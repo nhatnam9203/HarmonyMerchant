@@ -41,7 +41,13 @@ class SettlementScreen extends Layout {
                 });
                 this.tabSettleRef.current.onDidFocus();
                 this.checkPermissionRef.current.setStateFromParent('');
-                this.props.actions.invoice.toggleSettlementTabPermission();
+                const { profileStaffLogin } = this.props;
+                const roleName = profileStaffLogin?.roleName || "Admin";
+                if (roleName === "Admin") {
+                    this.tabSettleRef?.current?.callReportFromChildren();
+                } else {
+                    this.props.actions.invoice.toggleSettlementTabPermission();
+                }
             }
         );
     }
@@ -119,7 +125,8 @@ const mapStateToProps = state => ({
     settlementTabPermission: state.invoice.settlementTabPermission,
     isShowBackSettlement: state.invoice.isShowBackSettlement,
     isShowBackBatchHistory: state.invoice.isShowBackBatchHistory,
-    terminalID: state.app.terminalID
+    terminalID: state.app.terminalID,
+    profileStaffLogin: state.dataLocal.profileStaffLogin,
 })
 
 
