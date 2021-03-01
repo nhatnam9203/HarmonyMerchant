@@ -155,7 +155,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         if (!isExist) {
             tempData.push(tag);
             setActionTags(tempData);
-        }else {
+        } else {
             alert("The item is exist")
         }
         setDynamicActionTagsMarginBottom(24);
@@ -253,6 +253,16 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         setDynamicActionTagsMarginBottom(count * 24);
     }
 
+    handleSetCondition = (value) =>{
+        setCondition(value);
+        setDynamicConditionMarginBottom(24);
+    }
+
+    handleSetActionCondition = (value) =>{
+        setActionCondition(value);
+        setDynamicActionTagsMarginBottom(24);
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: "#fff", paddingHorizontal: scaleSzie(14) }} >
             <ScrollView
@@ -348,7 +358,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                     comparativeCondition={"Using specific services"}
                     dropdownData={MARKETING_CONDITIONS}
                     condition={condition}
-                    setCondition={setCondition}
+                    setCondition={handleSetCondition}
                     addTag={addConditionServiceProductTags}
                     dataServiceProduct={dataServiceProduct}
                 />
@@ -402,7 +412,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                     condition={actionCondition}
                     comparativeCondition={"Discount for specific services"}
                     dropdownData={DISCOUNT_ACTION}
-                    setCondition={setActionCondition}
+                    setCondition={handleSetActionCondition}
                     dataServiceProduct={dataServiceProduct}
                     addTag={addActionTags}
                 />

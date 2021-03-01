@@ -37,7 +37,7 @@ class DropdownSearch extends React.PureComponent {
         this.setState({
             data: temptData,
         })
-        this.props.onChangeText(temptData.length !== 0 ? (temptData.length > 4 ? 5 : temptData.length) : 1);
+        this.props.onChangeText(temptData.length !== 0 ? (temptData.length > 4 ? 5 : temptData.length + 1) : 1);
     }
 
     selectSuggestion = (value) => () => {
