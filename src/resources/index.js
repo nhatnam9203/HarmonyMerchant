@@ -215,11 +215,14 @@ export default {
 
   // --- Photo Gallery ---
 
-  Ic_Camera: require("./img/ic_camera.png"),
-  Ic_Camera_Small: require("./img/ic_camera_small.png"),
-  Ic_Gallery: require("./img/ic_gallery.png"),
-  Ic_Gallery_Small: require("./img/ic_gallery_small.png"),
-  Gallery_ic: require("./img/gallery_img.png"),
-  Trash: require("./img/trash.png"),
-  Tick_ic: require("./img/tick_ic.png"),
+
+  Ic_Camera:  require("./img/ic_camera.png"),
+  Ic_Camera_Small:  require("./img/ic_camera_small.png"),
+  Ic_Gallery:  require("./img/ic_gallery.png"),
+  Ic_Gallery_Small:  require("./img/ic_gallery_small.png"),
+  Gallery_ic:  require("./img/gallery_img.png"),
+  Trash:  require("./img/trash.png"),
+  Tick_ic:  require("./img/tick_ic.png"),
+  Arrow_up:  require("./img/arrow_up.png"),
+  Arrow_down:  require("./img/arrow_down.png"),
 };
