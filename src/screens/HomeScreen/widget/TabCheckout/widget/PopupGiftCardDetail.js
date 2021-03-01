@@ -115,6 +115,7 @@ class PopupGiftCardDetail extends React.Component {
                         <ScrollView
                             ref={this.scrollRef}
                             showsVerticalScrollIndicator={false}
+                            keyboardShouldPersistTaps='always'
                         >
                             <View style={{ height: scaleSzie(15) }} />
                             <View style={{ paddingHorizontal: scaleSzie(30) }} >

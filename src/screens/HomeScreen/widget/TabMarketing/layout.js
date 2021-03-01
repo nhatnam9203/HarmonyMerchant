@@ -38,7 +38,6 @@ class Layout extends React.Component {
                         addPromotion={this.addPromotion}
                         handleChangeBackgrounColor={this.handleChangeBackgrounColor}
                     />
-                    {/* <TabCustomBanner tabLabel={`${localize('Photos Gallery', language)}`} /> */}
                     <TabPhotoGallery tabLabel={`${localize('Photos Gallery', language)}`} ref={this.photoGalleryRef} />
                     <TabReview tabLabel={`${localize('Reviews', language)}`} ref={this.reviewRef} />
                     <TabMarketPlace tabLabel={`${localize('Market Place', language)}`} ref={this.marketPlace} />

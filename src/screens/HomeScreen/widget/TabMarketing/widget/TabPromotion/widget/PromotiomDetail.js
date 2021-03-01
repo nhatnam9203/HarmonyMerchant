@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { TextInputMask } from 'react-native-masked-text';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import _ from "ramda";
+import DropdownSearch from "./DropdownSearch";
 
 import {
     scaleSzie, localize, WorkingTime, formatWithMoment, formatHourMinute, MARKETING_CONDITIONS, DISCOUNT_ACTION,
@@ -22,6 +23,11 @@ import ICON from '@resources';
 import { Button, Text, InputForm, Dropdown } from '@components';
 import { product } from 'ramda';
 const { width } = Dimensions.get('window');
+
+const DATA = [
+    { code: 'AP', name: 'Andhra Pradesh' },
+    { code: 'AR', name: 'Arunachal Pradesh' },
+];
 
 const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updatePromotionById,
     handleCreateNewCampaign
@@ -45,6 +51,8 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     const [actionTags, setActionTags] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true);
     const [isHandleEdit, setIsHandleEdit] = useState(false);
+    const [dynamicConditionMarginBottom, setDynamicConditionMarginBottom] = useState(24);
+    const [dynamicActionTagsMarginBottom, setDynamicActionTagsMarginBottom] = useState(24);
 
     const scrollRef = useRef(null);
 
@@ -96,7 +104,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         setIsDisabled(data?.isDisabled ? false : true);
         setCondition(getConditionTitleIdById(data?.conditionId || 1));
         setActionCondition(getDiscountActionByShortName(data?.applyTo || "all"));
-        handleScroll(0,false)();
+        handleScroll(0, false)();
     });
 
 
@@ -128,7 +136,11 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         if (!isExist) {
             tempData.push(tag);
             setConditionServiceProductTags(tempData);
+        } else {
+            alert("The item is exist")
         }
+
+        setDynamicConditionMarginBottom(24);
     }
 
     const addActionTags = (tag) => {
@@ -143,7 +155,10 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         if (!isExist) {
             tempData.push(tag);
             setActionTags(tempData);
+        }else {
+            alert("The item is exist")
         }
+        setDynamicActionTagsMarginBottom(24);
     }
 
     removeConditionServiceProductTags = (tag) => {
@@ -226,8 +241,16 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
 
     }
 
-    handleScroll = (number,animated = true) => () => {
+    handleScroll = (number, animated = true) => () => {
         scrollRef?.current?.scrollTo({ x: 0, y: scaleSzie(number), animated: animated });
+    }
+
+    handleConditionDropdown = (count = 0) => {
+        setDynamicConditionMarginBottom(count * 24);
+    }
+
+    handleActionTagsDropdown = (count = 0) => {
+        setDynamicActionTagsMarginBottom(count * 24);
     }
 
     return (
@@ -235,6 +258,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
             <ScrollView
                 ref={scrollRef}
                 showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps='always'
             >
                 {/* ------------------- New Campaigns ------------------- */}
                 <Text style={{ color: "#404040", fontSize: scaleSzie(16), fontWeight: "600", marginBottom: scaleSzie(20) }} >
@@ -328,8 +352,31 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                     addTag={addConditionServiceProductTags}
                     dataServiceProduct={dataServiceProduct}
                 />
+
                 {
-                    condition === "Using specific services" && <Tags tags={conditionServiceProductTags} removeTag={removeConditionServiceProductTags} />
+                    condition === "Using specific services" &&
+                    <>
+                        <Text style={[styles.txt_date, { marginBottom: scaleSzie(8), marginTop: scaleSzie(5) }]} >
+                            {`Select services/products`}
+                        </Text>
+                        <View style={{
+                            height: scaleSzie(30),
+                            width: scaleSzie(330),
+                            paddingHorizontal: 1,
+                            marginBottom: scaleSzie(dynamicConditionMarginBottom === 24 && conditionServiceProductTags.length > 0 ? 5 : dynamicConditionMarginBottom)
+                        }} >
+                            <DropdownSearch
+                                dataServiceProduct={dataServiceProduct}
+                                selectedTag={addConditionServiceProductTags}
+                                onFocus={handleScroll(280)}
+                                onChangeText={handleConditionDropdown}
+                            />
+                        </View>
+
+                        <View style={{ width: "100%" }} >
+                            <Tags tags={conditionServiceProductTags} removeTag={removeConditionServiceProductTags} />
+                        </View>
+                    </>
                 }
 
                 {
@@ -361,7 +408,29 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                 />
 
                 {
-                    actionCondition === "Discount for specific services" && <Tags tags={actionTags} removeTag={removeActionTags} />
+                    actionCondition === "Discount for specific services" &&
+                    <>
+                        <Text style={[styles.txt_date, { marginBottom: scaleSzie(8), marginTop: scaleSzie(5) }]} >
+                            {`Select services/products`}
+                        </Text>
+                        <View style={{
+                            height: scaleSzie(30),
+                            width: scaleSzie(330),
+                            paddingHorizontal: 1,
+                            marginBottom: scaleSzie(dynamicActionTagsMarginBottom === 24 && actionTags.length > 0 ? 5 : dynamicActionTagsMarginBottom)
+                        }} >
+                            <DropdownSearch
+                                dataServiceProduct={dataServiceProduct}
+                                selectedTag={addActionTags}
+                                onFocus={handleScroll(450)}
+                                onChangeText={handleActionTagsDropdown}
+                            />
+                        </View>
+
+                        <View style={{ width: "100%" }} >
+                            <Tags tags={actionTags} removeTag={removeActionTags} />
+                        </View>
+                    </>
                 }
 
 
@@ -491,7 +560,7 @@ const SelectPromotionDate = ({ value, onChangeText, showDatePicker }) => {
     );
 }
 
-const ConditionSpecific = ({ title, condition, setCondition, addTag, dropdownData, comparativeCondition, dataServiceProduct }) => {
+const ConditionSpecific = ({ title, condition, setCondition, addTag, dropdownData, dataServiceProduct }) => {
 
     const [tag, setTag] = useState("");
     const [tagIndex, setTagIndex] = useState(-1);
@@ -529,26 +598,6 @@ const ConditionSpecific = ({ title, condition, setCondition, addTag, dropdownDat
                     }}
                 />
             </View>
-            {
-                condition === comparativeCondition && <View style={{ flexDirection: "row", height: scaleSzie(30) }} >
-                    {/* ---------  Service/Product Dropdown ------ */}
-                    <Dropdown
-                        label={"Services/Products"}
-                        data={dataServiceProduct}
-                        value={tag}
-                        onChangeText={onChangeServiceProduct}
-                        containerStyle={[{
-                            flex: 1
-                        }, styles.border_comm]}
-                    />
-                    {/* ---------  Add Button ------ */}
-                    <Button onPress={handleAddTag} style={[{ width: scaleSzie(85), backgroundColor: "#0764B0", marginLeft: scaleSzie(15), borderRadius: 4 }, styles.centered_box]} >
-                        <Text style={[styles.txt_condition_select, { color: "#fff" }]} >
-                            {`Add`}
-                        </Text>
-                    </Button>
-                </View>
-            }
 
         </View>
     );

@@ -5,7 +5,6 @@ import {
     Dimensions,
     ActivityIndicator,
     RefreshControl
-
 } from 'react-native';
 
 import { scaleSzie, localize } from '@utils';
