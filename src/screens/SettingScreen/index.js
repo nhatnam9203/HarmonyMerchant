@@ -41,8 +41,16 @@ class SettingScreen extends Layout {
         this.setState({
           isFocus: true,
         });
-        this.checkPermissionRef.current.setStateFromParent("");
-        this.props.actions.app.toggleSettingTabPermission();
+        this.checkPermissionRef?.current?.setStateFromParent("");
+
+        const { profileStaffLogin } = this.props;
+        const roleName = profileStaffLogin?.roleName || "Admin";
+        if (roleName === "Admin") {
+          const {profile} = this.props;
+          this.props.actions.app.getMerchantByID(profile?.merchantId);
+        } else {
+          this.props.actions.app.toggleSettingTabPermission();
+        }
       }
     );
   }
@@ -249,6 +257,7 @@ const mapStateToProps = (state) => ({
   isShowSearchExtra: state.extra.isShowSearchExtra,
   isShowSearchService: state.service.isShowSearchService,
   isShowSearchStaff: state.staff.isShowSearchStaff,
+  profileStaffLogin: state.dataLocal.profileStaffLogin,
 });
 
 export default connectRedux(mapStateToProps, SettingScreen);

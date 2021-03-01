@@ -40,8 +40,15 @@ class ReportScreen extends Layout {
           isFocus: true,
         });
         this.checkPermissionRef.current.setStateFromParent("");
-        this.props.actions.staff.toggleReportTabPermission();
         this.screenReportRef.current.didFocus();
+
+        const { profileStaffLogin } = this.props;
+        const roleName = profileStaffLogin?.roleName || "Admin";
+        if (roleName === "Admin") {
+          this.props.actions.staff.getListStaffsSalaryTop();
+        } else {
+          this.props.actions.staff.toggleReportTabPermission();
+        }
       }
     );
   }
@@ -159,6 +166,7 @@ const mapStateToProps = (state) => ({
   listStaffsCalendar: state.staff.listStaffsCalendar,
   dx: state.staff.dx,
   reportTabPermission: state.staff.reportTabPermission,
+  profileStaffLogin: state.dataLocal.profileStaffLogin,
 });
 
 export default connectRedux(mapStateToProps, ReportScreen);
