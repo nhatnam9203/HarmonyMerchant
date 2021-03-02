@@ -94,8 +94,8 @@ export default StyleSheet.create({
         })
     },
     btnCashier: {
-        height: scaleSzie(30),
-        width: scaleSzie(120),
+        height: scaleSzie(26),
+        width: scaleSzie(100),
         backgroundColor: '#0764B0',
         borderRadius: scaleSzie(3),
         flexDirection: "row",
@@ -106,7 +106,7 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         fontSize: scaleSzie(10),
         color: "#fff",
-        marginLeft: scaleSzie(4)
+        marginLeft: scaleSzie(4),
     },
     payment_header: {
         backgroundColor: "#F1F1F1",

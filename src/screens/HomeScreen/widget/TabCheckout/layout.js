@@ -16,7 +16,7 @@ import {
     PopupChangePriceAmountProduct, PopupChangeTip, ScrollableTabView, PopupCheckStaffPermission
 } from '@components';
 import styles from './style';
-import IMAGE from '@resources';
+import ICON from '@resources';
 import {
     ItemCategory, ItemProductService, ItemAmount,
     ItemExtra, PopupDiscount, PopupBill, PopupDiscountLocal, ItemCustomerBasket, PopupPaymentDetails, ItemBlockBasket,
@@ -40,82 +40,20 @@ class Layout extends React.Component {
         return (
             <View style={styles.headerContainer} >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                    <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12) }]} >
-                        {`${localize('Customer', language)}:`}
+                    <Image source={ICON.checkout_customer_icon} />
+                    <Text style={{color:"#404040",fontSize:scaleSzie(12),fontWeight:"600", marginHorizontal:scaleSzie(8)}} >
+                        {`Walking Customer`}
                     </Text>
-                    {
-                        name.trim() == '' ?
-                            <ButtonCustom
-                                width={scaleSzie(100)}
-                                height={30}
-                                backgroundColor="#F8F8F8"
-                                title={localize('Enter Name', language)}
-                                textColor="#404040"
-                                onPress={this.displayPopupCustomerInfo}
-                                style={{
-                                    borderWidth: 1, borderColor: '#EEEEEE',
-                                    borderRadius: scaleSzie(3),
-                                    marginHorizontal: scaleSzie(14),
-                                    alignItems: "flex-start",
-                                    paddingHorizontal: scaleSzie(10)
-                                }}
-                                styleText={{ fontSize: scaleSzie(12), fontWeight: "500" }}
-                            />
-                            :
-                            <View style={{
-                                backgroundColor: "#F8F8F8", height: scaleSzie(30), justifyContent: "center",
-                                paddingRight: scaleSzie(30), paddingLeft: scaleSzie(8), borderWidth: 1, borderColor: '#EEEEEE', borderRadius: scaleSzie(3),
-                                marginLeft: scaleSzie(15), marginRight: scaleSzie(20)
-                            }} >
-                                <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12), color: "#404040", fontWeight: "600" }]} >
-                                    {`${name}`}
-                                </Text>
-                            </View>
-                    }
-
-                    <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12) }]} >
-                        {`${localize('Phone', language)}:`}
-                    </Text>
-                    {
-                        phone.trim() == '' ?
-                            <ButtonCustom
-                                width={scaleSzie(100)}
-                                height={30}
-                                backgroundColor="#F8F8F8"
-                                title={localize('Enter Phone', language)}
-                                textColor="#404040"
-                                onPress={this.displayPopupCustomerInfo}
-                                style={{
-                                    borderWidth: 1, borderColor: '#EEEEEE',
-                                    borderRadius: scaleSzie(3),
-                                    marginHorizontal: scaleSzie(14),
-                                    alignItems: "flex-start",
-                                    paddingHorizontal: scaleSzie(10)
-                                }}
-                                styleText={{ fontSize: scaleSzie(12), fontWeight: "500" }}
-                            />
-                            :
-                            <View style={{
-                                backgroundColor: "#F8F8F8", height: scaleSzie(30), justifyContent: "center",
-                                paddingRight: scaleSzie(30), paddingLeft: scaleSzie(8), borderWidth: 1, borderColor: '#EEEEEE', borderRadius: scaleSzie(3),
-                                marginLeft: scaleSzie(15)
-                            }} >
-                                <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12), fontWeight: "600" }]} >
-                                    {phone}
-                                </Text>
-                            </View>
-                    }
-
+                    <Image source={ICON.add_customer_info_checkout_tab} />
                 </View>
                 {/* -------- Button open cash -------- */}
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'row' }} >
                     {
                         !_.isEmpty(groupAppointment) ? <Button onPress={this.printTemptInvoice} style={[styles.btnCashier, { marginRight: scaleSzie(8) }]} >
-                            <Image source={IMAGE.print_btn}
+                            <Image source={ICON.print_btn}
                                 style={{ width: scaleSzie(14), height: scaleSzie(16) }}
                             />
-                            <Text style={styles.textBtnCashier} >
-
+                           <Text style={[styles.textBtnCashier, { fontSize: scaleSzie(9), fontWeight: "500" }]} >
                                 {localize('Print receipt', language)}
                             </Text>
                         </Button> : <View />
@@ -123,11 +61,11 @@ class Layout extends React.Component {
 
 
                     <Button onPress={this.checkStatusCashier} style={styles.btnCashier} >
-                        <Image source={IMAGE.cashier_btn}
+                        <Image source={ICON.cashier_btn}
                             style={{ width: scaleSzie(16), height: scaleSzie(13) }}
                         />
                         <Text style={[styles.textBtnCashier, { fontSize: scaleSzie(9), fontWeight: "500" }]} >
-                            {localize('Open Cash Drawer', language)}
+                            {localize('Open Cashier', language)}
                         </Text>
                     </Button>
 
@@ -569,7 +507,7 @@ class Layout extends React.Component {
                                 || (blockAppointments.length && isShowAddBlock) > 0
                                 ? <Button onPress={this.addAppointmentCheckout} >
                                     <Image
-                                        source={IMAGE.add_appointment_checkout}
+                                        source={ICON.add_appointment_checkout}
                                         style={{ width: scaleSzie(25), height: scaleSzie(25) }}
                                     />
                                 </Button> : <View />
