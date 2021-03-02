@@ -18,10 +18,6 @@ class SplashScreen extends Layout {
         }
     }
 
-    // componentDidMount(){
-    //     this.props.actions.auth.logout();
-    // }
-
     async componentDidMount() {
         try {
             let version = await DeviceInfo.getVersion();
@@ -62,7 +58,7 @@ class SplashScreen extends Layout {
                 }
 
                 const tempEnv = env.IS_PRODUCTION;
-                if (tempEnv == "Production" || tempEnv == "Staging") {
+                if (tempEnv == "Production" || tempEnv == "Staging1") {
                     const deploymentKey = tempEnv == "Production" ? configs.codePushKeyIOS.production : configs.codePushKeyIOS.staging;
                     this.checkForUpdateCodepush(deploymentKey);
                 } else {

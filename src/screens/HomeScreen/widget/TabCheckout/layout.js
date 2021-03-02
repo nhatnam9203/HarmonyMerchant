@@ -40,11 +40,11 @@ class Layout extends React.Component {
         return (
             <View style={styles.headerContainer} >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                    <Image source={ICON.checkout_customer_icon} />
+                    <Image source={ICON.checkout_customer_icon} style={{width:scaleSzie(30),height:scaleSzie(30)}} />
                     <Text style={{color:"#404040",fontSize:scaleSzie(12),fontWeight:"600", marginHorizontal:scaleSzie(8)}} >
                         {`Walking Customer`}
                     </Text>
-                    <Image source={ICON.add_customer_info_checkout_tab} />
+                    <Image source={ICON.add_customer_info_checkout_tab} style={{width:scaleSzie(20),height:scaleSzie(20)}} />
                 </View>
                 {/* -------- Button open cash -------- */}
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'row' }} >
@@ -70,6 +70,17 @@ class Layout extends React.Component {
                     </Button>
 
                 </View>
+            </View>
+        );
+    }
+
+    renderStaffColumn(){
+        return(
+            <View style={{
+                width: scaleSzie(150),
+                borderRightColor: "#DDDDDD", borderRightWidth: 1
+            }} >
+                
             </View>
         );
     }
@@ -838,9 +849,10 @@ class Layout extends React.Component {
                         }}
                     >
                         <View style={{ flex: 1, flexDirection: 'row' }} >
-                            {this.renderCategoriesCheckout()}
+                            {this.renderStaffColumn()}
+                            {/* {this.renderCategoriesCheckout()}
                             {this.renderProductCheckout()}
-                            {this.renderAmountCheckout()}
+                            {this.renderAmountCheckout()} */}
                         </View>
                         {this.renderPaymetsMethod()}
                         {this.renderOfflineMode()}
