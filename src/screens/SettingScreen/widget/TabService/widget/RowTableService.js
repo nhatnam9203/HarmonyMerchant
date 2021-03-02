@@ -23,7 +23,7 @@ const RowTableService = ({ service, index, archiveService, editService, restoreS
     useEffect(() => {
         if (source?.uri && source?.uri !== service?.imageUrl) {
             setSource({
-                uri: staff?.imageUrl,
+                uri: service?.imageUrl,
                 priority: FastImage.priority.low,
                 cache: FastImage.cacheControl.immutable
             })
