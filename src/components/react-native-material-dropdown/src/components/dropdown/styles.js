@@ -36,7 +36,6 @@ export default StyleSheet.create({
     borderRadius: 2,
 
     position: 'absolute',
-    // backgroundColor:'red',
 
     ...Platform.select({
       ios: {

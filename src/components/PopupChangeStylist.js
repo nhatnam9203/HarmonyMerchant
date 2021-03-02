@@ -134,7 +134,7 @@ class PopupChangeStylist extends React.Component {
                         >
                             <View style={{ height: scaleSzie(20) }} />
                             <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
-                                Stylist
+                                {`Staff`}
                             </Text>
                             {/* ------- Dropdown -------- */}
                             <View style={{ height: scaleSzie(40), marginBottom: scaleSzie(10) }} >
@@ -149,11 +149,13 @@ class PopupChangeStylist extends React.Component {
                                         borderColor: '#C5C5C5',
                                         flex: 1
                                     }}
+                                    fontSize={scaleSzie(14)}
+                                    extraHeight={scaleSzie(90)}
                                 />
                             </View>
                             {/* ------- Price -------- */}
                             <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
-                                Price ($)
+                                {`Price ($)`}
                             </Text>
                             {/* ------- Box Price -------- */}
                             <View style={{
@@ -178,7 +180,7 @@ class PopupChangeStylist extends React.Component {
                             </View>
                             {/* ------- Tip -------- */}
                             <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
-                                Tip ($)
+                                {`Tip ($)`}
                             </Text>
                             {/* ------- Box Tip -------- */}
                             <View style={{
