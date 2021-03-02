@@ -80,8 +80,12 @@ class Layout extends React.Component {
     }
 
     renderStaffColumn() {
+        const { isShowCategoriesColumn } = this.state;
+        const tempWidth = isShowCategoriesColumn ? 75 : 180;
+        const tempStyleBox = isShowCategoriesColumn ? styles.staff_column_box_small : {};
+
         return (
-            <View style={[{ width: scaleSzie(180) }, styles.staff_column_box]} >
+            <View style={[{ width: scaleSzie(tempWidth) }, styles.staff_column_box, tempStyleBox]} >
                 {/* ----------  StaffColumn Header ----------  */}
                 <View style={styles.staff_column_header} >
                     <Text style={styles.txt_staff_column_header} >
@@ -93,7 +97,7 @@ class Layout extends React.Component {
                 <View style={{ flex: 1 }} >
                     <ScrollView>
                         <StaffItem displayCategoriesColumn={this.displayCategoriesColumn} />
-                        
+
                     </ScrollView>
                 </View>
             </View>
@@ -102,8 +106,10 @@ class Layout extends React.Component {
 
     renderCategoriesCheckout() {
         const { language, categoriesByMerchant, groupAppointment } = this.props;
-        const { isShowColProduct } = this.state;
-        const temptWidth = isShowColProduct ? 120 : 202;
+        const { isShowColProduct, isShowCategoriesColumn } = this.state;
+        let tempWidth = 180;
+        tempWidth = isShowColProduct ? 100 : tempWidth;
+
         const temptColorHeader = isShowColProduct ? { color: '#6A6A6A' } : {};
         const categoriesFilter = categoriesByMerchant.filter((category, index) => category.isDisabled === 0);
 
@@ -140,10 +146,7 @@ class Layout extends React.Component {
         }
 
         return (
-            <View style={{
-                width: scaleSzie(temptWidth),
-                borderLeftColor: "#DDDDDD", borderLeftWidth: 1
-            }} >
+            <View style={[{ width: scaleSzie(tempWidth) }, styles.categories_column_box]} >
                 {/* ------- Header ----- */}
                 <View style={[styles.categoriesHeader,]} >
                     <Text style={[styles.textHeader, temptColorHeader, styles.txt_category_header_extra]} >
@@ -187,66 +190,39 @@ class Layout extends React.Component {
         const { isShowColProduct, isShowColAmount, categorySelected, productSeleted,
             categoryTypeSelected,
         } = this.state;
-        let temptWidth = isShowColProduct ? 224 : 122;
-        temptWidth = isShowColAmount ? (72 + 60) : temptWidth;
+        let tempWidth = 200
+        tempWidth = isShowColAmount ? 120 : tempWidth;
         const temptColorHeader = isShowColAmount ? { color: '#6A6A6A' } : {};
         const data = this.getDataColProduct();
-        const temptWidht = isShowColAmount ? {} : { borderRightColor: "#DDDDDD", borderRightWidth: 1 };
 
         return (
-            <View style={{ width: scaleSzie(temptWidth) }} >
-                {
-                    !isShowColProduct ?
-                        <View style={{
-                            flex: 1, borderRightColor: "#DDDDDD", borderRightWidth: 1, flexDirection: "row",
-                            backgroundColor: "#fff"
-                        }} >
-                            <ShadowLineLeftToRight />
-                        </View>
-                        :
-                        <View style={{
-                            flex: 1, flexDirection: 'row',
-                        }} >
-                            {/* ------- Shadow Line ----- */}
-                            <View style={{
-                                flexDirection: "row",
-                                backgroundColor: "#fff"
-                            }} >
-                                <ShadowLineRightToLeft />
-                            </View>
-
-                            <View style={[{
-                                flex: 1,
-                            }, temptWidht]} >
-                                {/* ----- Header ---- */}
-                                <View style={[styles.categoriesHeader,]} >
-                                    <Text style={[styles.textHeader, temptColorHeader, styles.txt_category_header_extra]} >
-                                        {localize(categorySelected.categoryType, language)}
-                                    </Text>
-                                </View>
-                                {/* --------- List ------- */}
-                                <View style={{ flex: 1 }} >
-                                    <ScrollView
-                                        showsVerticalScrollIndicator={false}
-                                        keyboardShouldPersistTaps="always"
-                                    >
-                                        {
-                                            data.map((item, index) => <ItemProductService
-                                                key={index}
-                                                item={item}
-                                                showColAmount={this.showColAmount}
-                                                colorText={temptColorHeader}
-                                                itemSelected={productSeleted}
-                                                categoryTypeSelected={categoryTypeSelected}
-                                                isShowColAmount={isShowColAmount}
-                                                groupAppointment={groupAppointment}
-                                            />)
-                                        }
-                                    </ScrollView>
-                                </View>
-                            </View>
-                        </View>
-                }
+            <View style={[{ width: scaleSzie(tempWidth) }, styles.product_column_box]} >
+                {/* ----- Header ---- */}
+                <View style={[styles.categoriesHeader,]} >
+                    <Text style={[styles.textHeader, temptColorHeader, styles.txt_category_header_extra]} >
+                        {localize(categorySelected.categoryType, language)}
+                    </Text>
+                </View>
+                {/* --------- List ------- */}
+                <View style={{ flex: 1 }} >
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        keyboardShouldPersistTaps="always"
+                    >
+                        {
+                            data.map((item, index) => <ItemProductService
+                                key={index}
+                                item={item}
+                                showColAmount={this.showColAmount}
+                                colorText={temptColorHeader}
+                                itemSelected={productSeleted}
+                                categoryTypeSelected={categoryTypeSelected}
+                                isShowColAmount={isShowColAmount}
+                                groupAppointment={groupAppointment}
+                            />)
+                        }
+                    </ScrollView>
+                </View>
             </View>
 
         );
@@ -255,87 +231,65 @@ class Layout extends React.Component {
     renderAmountCheckout() {
         const { language, groupAppointment } = this.props;
         const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted, isShowColProduct, arrSelectedExtra } = this.state;
-        const temptWidth = isShowColAmount ? (254 - 60) : 102;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
-        const atualWidth = !isShowColAmount && !isShowColProduct ? 122 : temptWidth;
 
         return (
-            <View style={{ width: scaleSzie(atualWidth) }} >
-                {
-                    !isShowColAmount ?
-                        <View style={{
-                            flex: 1, borderRightColor: "#DDDDDD", borderRightWidth: 1, flexDirection: "row",
-                            backgroundColor: "#fff"
-                        }} >
-                            {isShowColProduct ? <ShadowLineLeftToRight /> : null}
-                        </View>
-                        :
-                        <View style={{ flex: 1, flexDirection: 'row' }} >
-                            {/* ------- Shadow Line ----- */}
-                            <View style={{
-                                flexDirection: "row",
-                                backgroundColor: "#fff"
-                            }} >
-                                <ShadowLineShort />
-                            </View>
-                            <View style={{
-                                flex: 1, borderLeftColor: "#DDDDDD", borderLeftWidth: 1,
-                                borderRightColor: "#DDDDDD", borderRightWidth: 1
-                            }} >
-                                {/* ----- Header ---- */}
-                                <View style={[styles.categoriesHeader,]} >
-                                    <Text style={[styles.textHeader, styles.txt_category_header_extra]} >
-                                        {localize(temptHeader, language)}
-                                    </Text>
-                                </View>
-                                {/* ------- Content ----- */}
-                                <View style={{ flex: 1 }} >
+            <View style={[{ flex:1 },styles.product_column_box]} >
+                {/* ------- Shadow Line ----- */}
+                <View style={{
+                    flexDirection: "row",
+                    backgroundColor: "#fff"
+                }} >
+                    <ShadowLineShort />
+                </View>
+                <View style={{
+                    flex: 1, borderLeftColor: "#DDDDDD", borderLeftWidth: 1,
+                    borderRightColor: "#DDDDDD", borderRightWidth: 1
+                }} >
+                    {/* ----- Header ---- */}
+                    <View style={[styles.categoriesHeader,]} >
+                        <Text style={[styles.textHeader, styles.txt_category_header_extra]} >
+                            {localize(temptHeader, language)}
+                        </Text>
+                    </View>
+                    {/* ------- Content ----- */}
+                    <View style={{ flex: 1 }} >
+                        {
+                            categoryTypeSelected === 'Product' ? <ItemAmount
+                                ref={this.amountRef}
+                                price={productSeleted.price}
+                            /> : <ScrollView keyboardShouldPersistTaps="always" >
                                     {
-                                        categoryTypeSelected === 'Product' ? <ItemAmount
-                                            ref={this.amountRef}
-                                            price={productSeleted.price}
-                                        /> : <ScrollView keyboardShouldPersistTaps="always" >
-                                                {
-                                                    (this.getExtrasFromRedux(productSeleted)).map((extra, index) => <ItemExtra
-                                                        key={index}
-                                                        extra={extra}
-                                                        onPressSelectExtra={this.onPressSelectExtra}
-                                                        arrSelectedExtra={arrSelectedExtra}
-                                                        groupAppointment={groupAppointment}
-                                                    />)
-                                                }
-                                            </ScrollView>
+                                        (this.getExtrasFromRedux(productSeleted)).map((extra, index) => <ItemExtra
+                                            key={index}
+                                            extra={extra}
+                                            onPressSelectExtra={this.onPressSelectExtra}
+                                            arrSelectedExtra={arrSelectedExtra}
+                                            groupAppointment={groupAppointment}
+                                        />)
                                     }
+                                </ScrollView>
+                        }
 
-                                </View>
-                                {/* ------- Footer -------- */}
-                                <View style={{ height: scaleSzie(52), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
-                                    <ButtonCustom
-                                        width={`100%`}
-                                        backgroundColor="#F1F1F1"
-                                        title={localize('ADD', language)}
-                                        textColor="#6A6A6A"
-                                        onPress={this.addAmount}
-                                        style={{
-                                            borderWidth: 1, borderColor: '#C5C5C5',
-                                            backgroundColor: '#0764B0',
-                                            flex: 1
-                                        }}
-                                        styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold', color: '#fff' }}
-                                    />
-                                </View>
+                    </View>
+                    {/* ------- Footer -------- */}
+                    <View style={{ height: scaleSzie(52), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
+                        <ButtonCustom
+                            width={`100%`}
+                            backgroundColor="#F1F1F1"
+                            title={localize('ADD', language)}
+                            textColor="#6A6A6A"
+                            onPress={this.addAmount}
+                            style={{
+                                borderWidth: 1, borderColor: '#C5C5C5',
+                                backgroundColor: '#0764B0',
+                                flex: 1
+                            }}
+                            styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold', color: '#fff' }}
+                        />
+                    </View>
 
-                            </View>
-
-                            {/* ------- Shadow Line ----- */}
-                            <View style={{
-                                flexDirection: "row",
-                                backgroundColor: "#fff"
-                            }} >
-                                <ShadowLineLeftToRight />
-                            </View>
-                        </View>
-                }
+                </View>
             </View>
 
         );
@@ -508,16 +462,14 @@ class Layout extends React.Component {
 
     renderBasket() {
         const { language, groupAppointment, paymentDetailInfo, blockAppointments } = this.props;
+        const {isShowColAmount} = this.state;
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         const length_blockAppointments = blockAppointments ? blockAppointments.length : 0;
         const isShowAddBlock = length_blockAppointments > 0 && blockAppointments[length_blockAppointments - 1].total != "0.00" ? true : false;
+        const tempStyle =  !isShowColAmount ?  {borderLeftWidth:3, borderLeftColor:"#EEEEEE"} : {};
 
         return (
-            <View style={{
-                flex: 1,
-                zIndex: 1,
-                backgroundColor: "#fff"
-            }} >
+            <View style={[styles.basket_box,tempStyle]} >
                 {/* -------- Header Basket -------- */}
                 <View style={[styles.headerBasket, {
                     flexDirection: "row", paddingHorizontal: scaleSzie(8),
@@ -847,9 +799,11 @@ class Layout extends React.Component {
     }
 
     renderBodyCheckout() {
+        const { isShowCategoriesColumn, isShowColProduct, isShowColAmount } = this.state;
+
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
-                <View style={{ width: scaleSzie(460) }} >
+                <View style={{ width: scaleSzie(480) }} >
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{
@@ -864,9 +818,10 @@ class Layout extends React.Component {
                     >
                         <View style={{ flex: 1, flexDirection: 'row' }} >
                             {this.renderStaffColumn()}
-                            {/* {this.renderCategoriesCheckout()}
-                            {this.renderProductCheckout()}
-                            {this.renderAmountCheckout()} */}
+                            {isShowCategoriesColumn ? this.renderCategoriesCheckout() : null}
+                            {isShowColProduct ? this.renderProductCheckout() : null}
+                            {isShowColAmount ? this.renderAmountCheckout() : null}
+                            <View style={{width:scaleSzie(4)}} />
                         </View>
                         {this.renderPaymetsMethod()}
                         {this.renderOfflineMode()}

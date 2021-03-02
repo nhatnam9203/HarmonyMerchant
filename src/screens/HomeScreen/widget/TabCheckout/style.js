@@ -5,8 +5,8 @@ import {
 
 import { scaleSzie, checkIsTablet } from '@utils';
 
-const TXT_COLOR= "#404040";
-const BULE_SKY= "#0764B0"
+const TXT_COLOR = "#404040";
+const BULE_SKY = "#0764B0"
 
 export default StyleSheet.create({
     container: {
@@ -24,14 +24,6 @@ export default StyleSheet.create({
     textHeader: {
         fontSize: scaleSzie(18),
         color: '#404040'
-    },
-    categoriesHeader: {
-        height: scaleSzie(38),
-        borderBottomWidth: 2,
-        borderColor: '#DDDDDD',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: "#F1F1F1"
     },
     categoriesBody: {
         flex: 1,
@@ -114,7 +106,7 @@ export default StyleSheet.create({
         fontWeight: "500"
     },
 
-    // -------------- New Style --------
+    // ------------- Staff Column Style -------------
     centered: {
         justifyContent: "center",
         alignItems: "center"
@@ -125,16 +117,19 @@ export default StyleSheet.create({
         borderRightWidth: 1,
         ...Platform.select({
             ios: {
-                shadowRadius: 2,
-                shadowColor: 'rgba(0, 0, 0, 0.2)',
-                shadowOpacity: 0.54,
-                shadowOffset: { width: 4, height: 0 },
+                shadowRadius: 5,
+                shadowColor: '#000000',
+                shadowOpacity: 0.5,
+                shadowOffset: { width: 0, height: 3 },
             },
 
             android: {
                 elevation: 2,
             },
         })
+    },
+    staff_column_box_small: {
+        borderRightWidth: 0,
     },
     staff_column_header: {
         height: scaleSzie(43),
@@ -144,47 +139,125 @@ export default StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     },
+    categoriesHeader: {
+        height: scaleSzie(43),
+        borderBottomWidth: 2,
+        borderColor: '#DDDDDD',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: "#F1F1F1"
+    },
     txt_staff_column_header: {
         color: TXT_COLOR,
         fontSize: scaleSzie(18),
         fontWeight: "600"
     },
-    staff_item:{
-        height:scaleSzie(75),
-        borderBottomWidth:1,
+    staff_item: {
+        height: scaleSzie(75),
+        borderBottomWidth: 1,
         borderBottomColor: "#EEEEEE",
         justifyContent: "center",
         alignItems: "center"
     },
-    staff_avatar_box:{
-        width:scaleSzie(38),
-        height:scaleSzie(38),
-        borderRadius:scaleSzie(19),
-        overflow:"hidden"
+    staff_avatar_box: {
+        width: scaleSzie(38),
+        height: scaleSzie(38),
+        borderRadius: scaleSzie(19),
+        overflow: "hidden"
     },
-    staff_avatar:{
-        width:scaleSzie(38),
-        height:scaleSzie(38),
+    staff_avatar: {
+        width: scaleSzie(38),
+        height: scaleSzie(38),
     },
-    txt_staff_name:{
-        color:TXT_COLOR,
-        fontSize:scaleSzie(12),
-        marginTop:scaleSzie(4)
+    txt_staff_name: {
+        color: TXT_COLOR,
+        fontSize: scaleSzie(12),
+        marginTop: scaleSzie(4)
     },
-    number_staff_appointment_box:{
-        width:scaleSzie(20),
-        height:scaleSzie(20),
-        borderRadius:scaleSzie(10),
-        backgroundColor:BULE_SKY,
-        position:"absolute",
-        top:scaleSzie(6),
-        left:scaleSzie(6),
+    number_staff_appointment_box: {
+        width: scaleSzie(20),
+        height: scaleSzie(20),
+        borderRadius: scaleSzie(10),
+        backgroundColor: BULE_SKY,
+        position: "absolute",
+        top: scaleSzie(6),
+        left: scaleSzie(6),
         justifyContent: "center",
         alignItems: "center"
     },
-    number_staff_appointment:{
-        color:"#fff",
-        fontSize:scaleSzie(12),
-        fontWeight:"600"
-    }
+    number_staff_appointment: {
+        color: "#fff",
+        fontSize: scaleSzie(12),
+        fontWeight: "600"
+    },
+
+    // ------------- Categories Column Style -------------
+
+    categories_column_box: {
+        backgroundColor: "#fff",
+        borderRightColor: "#EEEEEE",
+        borderRightWidth: 1,
+        borderLeftColor: "#EEEEEE",
+        borderLeftWidth: 1,
+        ...Platform.select({
+            ios: {
+                shadowRadius: 5,
+                shadowColor: '#000000',
+                shadowOpacity: 0.5,
+                shadowOffset: { width: 0, height: 3 },
+            },
+
+            android: {
+                elevation: 2,
+            },
+        })
+    },
+    // ------------- Product Column Style -------------
+    product_column_box: {
+        backgroundColor: "#fff",
+        borderRightColor: "#EEEEEE",
+        borderRightWidth: 1,
+        borderLeftColor: "#EEEEEE",
+        borderLeftWidth: 1,
+        ...Platform.select({
+            ios: {
+                shadowRadius: 5,
+                shadowColor: '#000000',
+                shadowOpacity: 0.5,
+                shadowOffset: { width: 0, height: 3 },
+            },
+
+            android: {
+                elevation: 2,
+            },
+        })
+    },
+     // ------------- Extra Column Style -------------
+     product_column_box: {
+        backgroundColor: "#fff",
+        borderRightColor: "#EEEEEE",
+        borderRightWidth: 1,
+        borderLeftColor: "#EEEEEE",
+        borderLeftWidth: 1,
+        ...Platform.select({
+            ios: {
+                shadowRadius: 5,
+                shadowColor: '#000000',
+                shadowOpacity: 0.5,
+                shadowOffset: { width: 0, height: 3 },
+            },
+
+            android: {
+                elevation: 2,
+            },
+        })
+    },
+
+     // ------------- Basket Column Style -------------
+     basket_box:{
+        flex: 1,
+        zIndex: 1,
+        backgroundColor: "#fff",
+        
+     }
 })
