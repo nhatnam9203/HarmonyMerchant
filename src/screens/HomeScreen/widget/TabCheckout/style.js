@@ -3,7 +3,10 @@ import {
     Platform
 } from 'react-native';
 
-import { scaleSzie ,checkIsTablet} from '@utils';
+import { scaleSzie, checkIsTablet } from '@utils';
+
+const TXT_COLOR= "#404040";
+const BULE_SKY= "#0764B0"
 
 export default StyleSheet.create({
     container: {
@@ -16,7 +19,7 @@ export default StyleSheet.create({
         borderWidth: 1,
         paddingHorizontal: scaleSzie(14),
 
-       
+
     },
     textHeader: {
         fontSize: scaleSzie(18),
@@ -28,29 +31,10 @@ export default StyleSheet.create({
         borderColor: '#DDDDDD',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor:"#F1F1F1"
+        backgroundColor: "#F1F1F1"
     },
     categoriesBody: {
         flex: 1,
-    },
-    shadowLine: {
-        width: 10,
-        ...Platform.select({
-            ios: {
-                shadowColor: 'rgba(0, 0, 0,1)',
-                shadowOpacity: 1,
-            },
-
-            android: {
-                elevation: 2,
-            },
-        })
-    },
-    shadowLineLeft: {
-        shadowOffset: { width: -3.5, height: 2 },
-    },
-    shadowLineRight: {
-        shadowOffset: { width: 3.5, height: 2 },
     },
     headerBasket: {
         height: scaleSzie(37),
@@ -72,7 +56,6 @@ export default StyleSheet.create({
         fontSize: scaleSzie(16),
         color: '#404040'
     },
-
     containerQrcode: {
         width: scaleSzie(220),
         height: scaleSzie(220),
@@ -119,15 +102,89 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: scaleSzie(20),
-        marginTop: checkIsTablet() ? scaleSzie(15) :  scaleSzie(30)
+        marginTop: checkIsTablet() ? scaleSzie(15) : scaleSzie(30)
     },
-    box_payment_singular_container :{
-        marginTop: checkIsTablet() ? scaleSzie(15) :  scaleSzie(30),
+    box_payment_singular_container: {
+        marginTop: checkIsTablet() ? scaleSzie(15) : scaleSzie(30),
         paddingHorizontal: scaleSzie(20),
     },
-    txt_category_header_extra:{
-        color:"#404040",
-        fontSize:scaleSzie(15),
-        fontWeight:"500"
+    txt_category_header_extra: {
+        color: "#404040",
+        fontSize: scaleSzie(15),
+        fontWeight: "500"
+    },
+
+    // -------------- New Style --------
+    centered: {
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    staff_column_box: {
+        backgroundColor: "#fff",
+        borderRightColor: "#EEEEEE",
+        borderRightWidth: 1,
+        ...Platform.select({
+            ios: {
+                shadowRadius: 2,
+                shadowColor: 'rgba(0, 0, 0, 0.2)',
+                shadowOpacity: 0.54,
+                shadowOffset: { width: 4, height: 0 },
+            },
+
+            android: {
+                elevation: 2,
+            },
+        })
+    },
+    staff_column_header: {
+        height: scaleSzie(43),
+        backgroundColor: "#F1F1F1",
+        borderBottomColor: "#EEEEEE",
+        borderBottomWidth: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    txt_staff_column_header: {
+        color: TXT_COLOR,
+        fontSize: scaleSzie(18),
+        fontWeight: "600"
+    },
+    staff_item:{
+        height:scaleSzie(75),
+        borderBottomWidth:1,
+        borderBottomColor: "#EEEEEE",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    staff_avatar_box:{
+        width:scaleSzie(38),
+        height:scaleSzie(38),
+        borderRadius:scaleSzie(19),
+        overflow:"hidden"
+    },
+    staff_avatar:{
+        width:scaleSzie(38),
+        height:scaleSzie(38),
+    },
+    txt_staff_name:{
+        color:TXT_COLOR,
+        fontSize:scaleSzie(12),
+        marginTop:scaleSzie(4)
+    },
+    number_staff_appointment_box:{
+        width:scaleSzie(20),
+        height:scaleSzie(20),
+        borderRadius:scaleSzie(10),
+        backgroundColor:BULE_SKY,
+        position:"absolute",
+        top:scaleSzie(6),
+        left:scaleSzie(6),
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    number_staff_appointment:{
+        color:"#fff",
+        fontSize:scaleSzie(12),
+        fontWeight:"600"
     }
 })

@@ -3,12 +3,15 @@ import {
     View,
     Image,
     ScrollView,
+    Platform
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
+import FastImage from "react-native-fast-image";
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, checkCategoryIsNotExist ,
-    getArrayProductsFromAppointment,getArrayServicesFromAppointment
+import {
+    scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, checkCategoryIsNotExist,
+    getArrayProductsFromAppointment, getArrayServicesFromAppointment
 } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
@@ -27,6 +30,8 @@ import {
     PopupEnterAmountGiftCard
 } from './widget';
 
+import { StaffItem } from "./widget/NewCheckoutComponent";
+
 class Layout extends React.Component {
 
     renderHeader() {
@@ -40,11 +45,11 @@ class Layout extends React.Component {
         return (
             <View style={styles.headerContainer} >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                    <Image source={ICON.checkout_customer_icon} style={{width:scaleSzie(30),height:scaleSzie(30)}} />
-                    <Text style={{color:"#404040",fontSize:scaleSzie(12),fontWeight:"600", marginHorizontal:scaleSzie(8)}} >
+                    <Image source={ICON.checkout_customer_icon} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
+                    <Text style={{ color: "#404040", fontSize: scaleSzie(12), fontWeight: "600", marginHorizontal: scaleSzie(8) }} >
                         {`Walking Customer`}
                     </Text>
-                    <Image source={ICON.add_customer_info_checkout_tab} style={{width:scaleSzie(20),height:scaleSzie(20)}} />
+                    <Image source={ICON.add_customer_info_checkout_tab} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                 </View>
                 {/* -------- Button open cash -------- */}
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'row' }} >
@@ -53,7 +58,7 @@ class Layout extends React.Component {
                             <Image source={ICON.print_btn}
                                 style={{ width: scaleSzie(14), height: scaleSzie(16) }}
                             />
-                           <Text style={[styles.textBtnCashier, { fontSize: scaleSzie(9), fontWeight: "500" }]} >
+                            <Text style={[styles.textBtnCashier, { fontSize: scaleSzie(9), fontWeight: "500" }]} >
                                 {localize('Print receipt', language)}
                             </Text>
                         </Button> : <View />
@@ -74,13 +79,23 @@ class Layout extends React.Component {
         );
     }
 
-    renderStaffColumn(){
-        return(
-            <View style={{
-                width: scaleSzie(150),
-                borderRightColor: "#DDDDDD", borderRightWidth: 1
-            }} >
-                
+    renderStaffColumn() {
+        return (
+            <View style={[{ width: scaleSzie(180) }, styles.staff_column_box]} >
+                {/* ----------  StaffColumn Header ----------  */}
+                <View style={styles.staff_column_header} >
+                    <Text style={styles.txt_staff_column_header} >
+                        {`Staff`}
+                    </Text>
+                </View>
+
+                {/* ----------  StaffColumn Header ----------  */}
+                <View style={{ flex: 1 }} >
+                    <ScrollView>
+                        <StaffItem displayCategoriesColumn={this.displayCategoriesColumn} />
+                        
+                    </ScrollView>
+                </View>
             </View>
         );
     }
@@ -168,7 +183,7 @@ class Layout extends React.Component {
     }
 
     renderProductCheckout() {
-        const { language,groupAppointment} = this.props;
+        const { language, groupAppointment } = this.props;
         const { isShowColProduct, isShowColAmount, categorySelected, productSeleted,
             categoryTypeSelected,
         } = this.state;
@@ -238,7 +253,7 @@ class Layout extends React.Component {
     }
 
     renderAmountCheckout() {
-        const { language,groupAppointment } = this.props;
+        const { language, groupAppointment } = this.props;
         const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted, isShowColProduct, arrSelectedExtra } = this.state;
         const temptWidth = isShowColAmount ? (254 - 60) : 102;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
@@ -567,7 +582,7 @@ class Layout extends React.Component {
                 </View>
                 <View style={styles.box_payment_container} >
                     {
-                        ['Credit Card','Other' ].map((title, index) => <ItemPaymentMethod
+                        ['Credit Card', 'Other'].map((title, index) => <ItemPaymentMethod
                             key={index}
                             title={title}
                             selectedPayment={this.selectedPayment}
@@ -578,7 +593,7 @@ class Layout extends React.Component {
                 </View>
                 <View style={styles.box_payment_container} >
                     {
-                        [ 'Gift Card'].map((title, index) => <ItemPaymentMethod
+                        ['Gift Card'].map((title, index) => <ItemPaymentMethod
                             key={index}
                             title={title}
                             selectedPayment={this.selectedPayment}
@@ -834,7 +849,7 @@ class Layout extends React.Component {
     renderBodyCheckout() {
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
-                <View style={{ width: scaleSzie(446) }} >
+                <View style={{ width: scaleSzie(460) }} >
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{
@@ -842,7 +857,6 @@ class Layout extends React.Component {
                         }}
                         initialPage={0}
                         locked={true}
-                        // scrollWithoutAnimation={true}
                         renderTabBar={() => <View />}
                         onChangeTab={(index) => {
                             this.setState({ tabCurrent: index.i })

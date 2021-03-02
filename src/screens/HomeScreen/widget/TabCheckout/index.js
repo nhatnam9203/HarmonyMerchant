@@ -1763,7 +1763,6 @@ class TabCheckout extends Layout {
         return isBooking;
     }
 
-    // ------ New code --------
     cancelGiftCardPayment = () => {
         this.props.actions.appointment.togglePopupGiftCardPaymentDetail(false);
         this.setState({
@@ -1778,6 +1777,13 @@ class TabCheckout extends Layout {
 
     closePopupCheckDiscountPermission = () => {
         this.props.actions.marketing.switchPopupCheckDiscountPermission(false);
+    }
+
+
+    // ------------ New Code ----------
+
+    displayCategoriesColumn = () => {
+        this.setState(prevState => ({ isShowCategoriesColumn: !prevState.isShowCategoriesColumn }));
     }
 
     async componentDidUpdate(prevProps, prevState) {
