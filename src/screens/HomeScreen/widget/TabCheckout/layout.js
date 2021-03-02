@@ -81,14 +81,14 @@ class Layout extends React.Component {
 
     renderStaffColumn() {
         const { isShowCategoriesColumn } = this.state;
-        const tempWidth = isShowCategoriesColumn ? 75 : 180;
+        const tempWidth = isShowCategoriesColumn ? 70 : 180;
         const tempStyleBox = isShowCategoriesColumn ? styles.staff_column_box_small : {};
 
         return (
             <View style={[{ width: scaleSzie(tempWidth) }, styles.staff_column_box, tempStyleBox]} >
                 {/* ----------  StaffColumn Header ----------  */}
                 <View style={styles.staff_column_header} >
-                    <Text style={styles.txt_staff_column_header} >
+                    <Text style={styles.txt_staff_column_header,styles.txt_category_header_extra} >
                         {`Staff`}
                     </Text>
                 </View>
@@ -194,13 +194,14 @@ class Layout extends React.Component {
         tempWidth = isShowColAmount ? 120 : tempWidth;
         const temptColorHeader = isShowColAmount ? { color: '#6A6A6A' } : {};
         const data = this.getDataColProduct();
+        const tempTitle = categorySelected?.categoryType === "Service" ? "Services" : "Products";
 
         return (
             <View style={[{ width: scaleSzie(tempWidth) }, styles.product_column_box]} >
                 {/* ----- Header ---- */}
                 <View style={[styles.categoriesHeader,]} >
                     <Text style={[styles.textHeader, temptColorHeader, styles.txt_category_header_extra]} >
-                        {localize(categorySelected.categoryType, language)}
+                        {localize(tempTitle, language)}
                     </Text>
                 </View>
                 {/* --------- List ------- */}

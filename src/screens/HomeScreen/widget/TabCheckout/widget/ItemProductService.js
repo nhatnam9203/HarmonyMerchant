@@ -90,28 +90,28 @@ const ItemProductService = ({ item, showColAmount, itemSelected, categoryTypeSel
     const temptTextPriceColor = item[temptKeyId] === itemSelected[temptKeyId] ? { color: '#fff' } : {};
 
     return (
-        <Button
-            // disabled={isSelectOnServer}
-            onPress={() => showColAmount(item)} style={[{
-                height: scaleSzie(68), borderBottomWidth: 2, borderBottomColor: '#DDDDDD', backgroundColor: '#FAFAFA'
+        <Button onPress={() => showColAmount(item)} style={[{
+                height: scaleSzie(70), borderBottomWidth: 2, borderBottomColor: '#DDDDDD', backgroundColor: '#FAFAFA',
+                padding:scaleSzie(8), flexDirection: "row"
             }, temtemptBackgrounColorSelectOnServer, temptBackgrounColor]} >
-            <View style={{ flex: 1, flexDirection: "row", padding: scaleSzie(4) }} >
+
                 <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center" }} >
-                    <View style={{ width: scaleSzie(50), height: scaleSzie(60) }} >
+                    <View style={{ width: scaleSzie(50), height: scaleSzie(50),borderRadius:scaleSzie(3),overflow:"hidden" }} >
                         {
                             item.imageUrl ? <FastImage
-                                style={{ width: scaleSzie(50), height: scaleSzie(60) }}
+                                style={{ width: scaleSzie(50), height: scaleSzie(50) }}
                                 source={source}
                                 onError={() => setSource(categoryTypeSelected === 'Service' ? ICON.service_holder : ICON.product_holder)}
                             /> : <FastImage
-                                    style={{ width: scaleSzie(50), height: scaleSzie(60) }}
+                                    style={{ width: scaleSzie(50), height: scaleSzie(50) }}
                                     source={placeHolder}
                                 />
                         }
                     </View>
                 </View>
-                <View style={{ flex: 1, paddingLeft: scaleSzie(8) }} >
-                    <View style={{ height: scaleSzie(40), }} >
+
+                {/* <View style={{ flex: 1, paddingLeft: scaleSzie(8) }} >
+                    <View style={{ height: scaleSzie(40),backgroundColor:"red" }} >
                         <Text numberOflines={2} style={[{
                             fontSize: scaleSzie(12), color: '#0764B0', fontWeight: "500",
                         },
@@ -130,8 +130,7 @@ const ItemProductService = ({ item, showColAmount, itemSelected, categoryTypeSel
                             {`${msToTime(item?.duration || 0)}`}
                         </Text>
                     </View>
-                </View>
-            </View>
+                </View> */}
 
         </Button>
     );

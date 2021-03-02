@@ -29,15 +29,17 @@ export default StyleSheet.create({
         flex: 1,
     },
     headerBasket: {
-        height: scaleSzie(37),
-        borderWidth: 1,
-        borderColor: 'rgb(197,197,197)',
-        borderRightColor: 'rgb(223,223,223)',
-        borderRightWidth: 3,
-        borderLeftWidth: 0,
-        borderTopWidth: 0,
+        height: scaleSzie(38),
+        // borderWidth: 1,
+        // borderColor: 'rgb(197,197,197)',
+        // borderRightColor: 'rgb(223,223,223)',
+        // borderRightWidth: 3,
+        // borderLeftWidth: 0,
+        // borderTopWidth: 0,
         justifyContent: 'center',
         alignItems: 'center',
+        borderBottomColor:"#DDDDDD",
+        borderBottomWidth:1
     },
     payNumberTextContainer: {
         flexDirection: 'row',
@@ -132,7 +134,7 @@ export default StyleSheet.create({
         borderRightWidth: 0,
     },
     staff_column_header: {
-        height: scaleSzie(43),
+        height: scaleSzie(38),
         backgroundColor: "#F1F1F1",
         borderBottomColor: "#EEEEEE",
         borderBottomWidth: 1,
@@ -140,12 +142,15 @@ export default StyleSheet.create({
         alignItems: "center"
     },
     categoriesHeader: {
-        height: scaleSzie(43),
-        borderBottomWidth: 2,
-        borderColor: '#DDDDDD',
+        height: scaleSzie(38),
+        // borderBottomWidth: 2,
+        // borderColor: '#DDDDDD',
         justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: "#F1F1F1"
+        // alignItems: 'center',
+        backgroundColor: "#F1F1F1",
+        borderBottomColor:"#DDDDDD",
+        borderBottomWidth:1,
+        paddingLeft:scaleSzie(8)
     },
     txt_staff_column_header: {
         color: TXT_COLOR,
@@ -153,21 +158,21 @@ export default StyleSheet.create({
         fontWeight: "600"
     },
     staff_item: {
-        height: scaleSzie(75),
+        height: scaleSzie(70),
         borderBottomWidth: 1,
         borderBottomColor: "#EEEEEE",
         justifyContent: "center",
         alignItems: "center"
     },
     staff_avatar_box: {
-        width: scaleSzie(38),
-        height: scaleSzie(38),
-        borderRadius: scaleSzie(19),
+        width: scaleSzie(34),
+        height: scaleSzie(34),
+        borderRadius: scaleSzie(17),
         overflow: "hidden"
     },
     staff_avatar: {
-        width: scaleSzie(38),
-        height: scaleSzie(38),
+        width: scaleSzie(34),
+        height: scaleSzie(34),
     },
     txt_staff_name: {
         color: TXT_COLOR,
