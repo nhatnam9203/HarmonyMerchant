@@ -16,7 +16,7 @@ const ItemCategory = ({ category, onPressSelectCategory, colorText, categorySele
             borderBottomWidth: 2, borderBottomColor: '#DDDDDD',
             backgroundColor: temptBackgrounColor,paddingLeft:scaleSzie(8)
         }} >
-            <Text numberOfLines={2} style={[{ fontSize: scaleSzie(12), color: '#6A6A6A' }, colorText, temptTextColor]} >
+            <Text numberOfLines={2} style={[{ fontSize: scaleSzie(12), color: '#6A6A6A',fontWeight:"500" }, colorText, temptTextColor]} >
                 {category.name}
             </Text>
         </Button>

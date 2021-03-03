@@ -88,7 +88,7 @@ class Layout extends React.Component {
             <View style={[{ width: scaleSzie(tempWidth) }, styles.staff_column_box, tempStyleBox]} >
                 {/* ----------  StaffColumn Header ----------  */}
                 <View style={styles.staff_column_header} >
-                    <Text style={styles.txt_staff_column_header,styles.txt_category_header_extra} >
+                    <Text style={styles.txt_staff_column_header, styles.txt_category_header_extra} >
                         {`Staff`}
                     </Text>
                 </View>
@@ -235,7 +235,7 @@ class Layout extends React.Component {
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
 
         return (
-            <View style={[{ flex:1 },styles.product_column_box]} >
+            <View style={[{ flex: 1 }, styles.product_column_box]} >
                 {/* ------- Shadow Line ----- */}
                 <View style={{
                     flexDirection: "row",
@@ -463,14 +463,14 @@ class Layout extends React.Component {
 
     renderBasket() {
         const { language, groupAppointment, paymentDetailInfo, blockAppointments } = this.props;
-        const {isShowColAmount} = this.state;
+        const { isShowColAmount } = this.state;
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         const length_blockAppointments = blockAppointments ? blockAppointments.length : 0;
         const isShowAddBlock = length_blockAppointments > 0 && blockAppointments[length_blockAppointments - 1].total != "0.00" ? true : false;
-        const tempStyle =  !isShowColAmount ?  {borderLeftWidth:3, borderLeftColor:"#EEEEEE"} : {};
+        const tempStyle = !isShowColAmount ? { borderLeftWidth: 3, borderLeftColor: "#EEEEEE" } : {};
 
         return (
-            <View style={[styles.basket_box,tempStyle]} >
+            <View style={[styles.basket_box, tempStyle]} >
                 {/* -------- Header Basket -------- */}
                 <View style={[styles.headerBasket, {
                     flexDirection: "row", paddingHorizontal: scaleSzie(8),
@@ -822,7 +822,7 @@ class Layout extends React.Component {
                             {isShowCategoriesColumn ? this.renderCategoriesCheckout() : null}
                             {isShowColProduct ? this.renderProductCheckout() : null}
                             {isShowColAmount ? this.renderAmountCheckout() : null}
-                            <View style={{width:scaleSzie(4)}} />
+                            <View style={{ width: scaleSzie(4) }} />
                         </View>
                         {this.renderPaymetsMethod()}
                         {this.renderOfflineMode()}

@@ -9,7 +9,7 @@ import { scaleSzie, msToTime } from '@utils';
 import { Text, Button } from '@components';
 import ICON from "@resources";
 
-const ItemProductService = ({ item, showColAmount, itemSelected, categoryTypeSelected, groupAppointment, appointmentDetail }) => {
+const ItemProductService = ({ item, showColAmount, itemSelected, categoryTypeSelected, groupAppointment, appointmentDetail, isShowColAmount }) => {
 
     const [source, setSource] = useState({
         uri: item.imageUrl,
@@ -91,46 +91,50 @@ const ItemProductService = ({ item, showColAmount, itemSelected, categoryTypeSel
 
     return (
         <Button onPress={() => showColAmount(item)} style={[{
-                height: scaleSzie(70), borderBottomWidth: 2, borderBottomColor: '#DDDDDD', backgroundColor: '#FAFAFA',
-                padding:scaleSzie(8), flexDirection: "row"
-            }, temtemptBackgrounColorSelectOnServer, temptBackgrounColor]} >
+            height: scaleSzie(70), borderBottomWidth: 1, borderBottomColor: '#DDDDDD', backgroundColor: '#fff',
+            padding: scaleSzie(8), flexDirection: "row"
+        }, temtemptBackgrounColorSelectOnServer, temptBackgrounColor]} >
 
-                <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center" }} >
-                    <View style={{ width: scaleSzie(50), height: scaleSzie(50),borderRadius:scaleSzie(3),overflow:"hidden" }} >
-                        {
-                            item.imageUrl ? <FastImage
+            <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center" }} >
+                <View style={{ width: scaleSzie(50), height: scaleSzie(50), borderRadius: scaleSzie(3), overflow: "hidden" }} >
+                    {
+                        item.imageUrl ? <FastImage
+                            style={{ width: scaleSzie(50), height: scaleSzie(50) }}
+                            source={source}
+                            onError={() => setSource(categoryTypeSelected === 'Service' ? ICON.service_holder : ICON.product_holder)}
+                        /> : <FastImage
                                 style={{ width: scaleSzie(50), height: scaleSzie(50) }}
-                                source={source}
-                                onError={() => setSource(categoryTypeSelected === 'Service' ? ICON.service_holder : ICON.product_holder)}
-                            /> : <FastImage
-                                    style={{ width: scaleSzie(50), height: scaleSzie(50) }}
-                                    source={placeHolder}
-                                />
-                        }
-                    </View>
+                                source={placeHolder}
+                            />
+                    }
                 </View>
+            </View>
 
-                {/* <View style={{ flex: 1, paddingLeft: scaleSzie(8) }} >
-                    <View style={{ height: scaleSzie(40),backgroundColor:"red" }} >
-                        <Text numberOflines={2} style={[{
-                            fontSize: scaleSzie(12), color: '#0764B0', fontWeight: "500",
-                        },
-                            temptTextColor
-                        ]} >
-                            {item?.name || ""}
-                        </Text>
-                    </View>
-                    <View style={{ flex: 1, flexDirection: "row", alignItems: "flex-end", justifyContent: "space-between" }} >
-                        <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A', fontWeight: "700", }, temptTextPriceColor]} >
+            <View style={{ flex: 1, paddingLeft: scaleSzie(8) }} >
+                <View style={{ height: scaleSzie(40) }} >
+                    <Text numberOflines={2} style={[{
+                        fontSize: scaleSzie(12), color: '#0764B0', fontWeight: "600",
+                    },
+                        temptTextColor
+                    ]} >
+                        {item?.name || ""}
+                    </Text>
+                </View>
+                <View style={{ flex: 1, flexDirection: "row", alignItems: "flex-end", justifyContent: "space-between" }} >
+                    {
+                        categoryTypeSelected === 'Service' ? <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A', fontWeight: "300" }, temptTextPriceColor]} >
+                            {`${msToTime(item?.duration || 0)}`}
+                        </Text> : <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A', fontWeight: "700", }, temptTextPriceColor]} >
+                                {`$ ${item?.price || ""}`}
+                            </Text>
+                    }
+                    {
+                        !isShowColAmount && categoryTypeSelected === 'Service' && <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A', fontWeight: "700", }, temptTextPriceColor]} >
                             {`$ ${item?.price || ""}`}
                         </Text>
-                        <View style={{ width: scaleSzie(50), backgroundColor: "red" }} />
-                        <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A', fontWeight: "300" },
-                        ]} >
-                            {`${msToTime(item?.duration || 0)}`}
-                        </Text>
-                    </View>
-                </View> */}
+                    }
+                </View>
+            </View>
 
         </Button>
     );

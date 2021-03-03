@@ -68,47 +68,45 @@ const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra, groupAppointme
 
     return (
         <Button
-            // disabled={isSelectOnServer}
             onPress={() => onPressSelectExtra(extra)} style={[{
-                height: scaleSzie(68), justifyContent: 'center',
-                alignItems: 'center', borderBottomWidth: 2, borderBottomColor: '#DDDDDD',
-                backgroundColor: "#FAFAFA"
+                height: scaleSzie(70), justifyContent: 'center',
+                alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#DDDDDD',
+                backgroundColor: "#fff", flexDirection: "row", padding: scaleSzie(8)
             }, temtemptBackgrounColorSelectOnServer, temptBackgrounColor]} >
 
-            <View style={{ flex: 1, flexDirection: "row", padding: scaleSzie(4) }} >
-                <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center" }} >
-                    <View style={{ width: scaleSzie(50), height: scaleSzie(60) }} >
-                        {
-                            extra.imageUrl ? <FastImage
-                                style={{ width: scaleSzie(50), height: scaleSzie(60) }}
-                                source={source}
-                                onError={() => setSource(ICON.extra_holder)}
-                            /> : <FastImage
-                                    style={{ width: scaleSzie(50), height: scaleSzie(60) }}
-                                    source={ICON.extra_holder}
-                                />
-                        }
-                    </View>
+            <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center" }} >
+                <View style={{ width: scaleSzie(50), height: scaleSzie(50), borderRadius: scaleSzie(3), overflow: "hidden" }} >
+                    {
+                        extra.imageUrl ? <FastImage
+                            style={{ width: scaleSzie(50), height: scaleSzie(50) }}
+                            source={source}
+                            onError={() => setSource(ICON.extra_holder)}
+                        /> : <FastImage
+                                style={{ width: scaleSzie(50), height: scaleSzie(50) }}
+                                source={ICON.extra_holder}
+                            />
+                    }
                 </View>
-                <View style={{ flex: 1, paddingLeft: scaleSzie(8) }} >
-                    <View style={{ height: scaleSzie(40), }} >
-                        <Text numberOflines={2} style={[{ fontSize: scaleSzie(12), color: '#0764B0', fontWeight: "500", },
-                            temptTextColor
-                        ]} >
-                            {extra?.name || ""}
-                        </Text>
-                    </View>
-                    <View style={{ flex: 1, alignItems: "flex-end", flexDirection: "row", justifyContent: "space-between" }} >
+            </View>
 
-                        <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A', fontWeight: "300" },
-                        ], temptTextColor} >
-                            {`${msToTime(extra?.duration || 0)}`}
-                        </Text>
-                        <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A', fontWeight: "700" },
-                        ], temptTextColor} >
-                            {`$ ${extra?.price || ""}`}
-                        </Text>
-                    </View>
+            <View style={{ flex: 1, paddingLeft: scaleSzie(8) }} >
+                <View style={{ height: scaleSzie(40), }} >
+                    <Text numberOflines={2} style={[{ fontSize: scaleSzie(12), color: '#0764B0', fontWeight: "600", },
+                        temptTextColor
+                    ]} >
+                        {extra?.name || ""}
+                    </Text>
+                </View>
+                <View style={{ flex: 1, alignItems: "flex-end", flexDirection: "row", justifyContent: "space-between" }} >
+                    <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A', fontWeight: "300" },
+                    ], temptTextColor} >
+                        {`${msToTime(extra?.duration || 0)}`}
+                    </Text>
+
+                    <Text numberOflines={2} style={[{ color: '#6A6A6A', fontSize: scaleSzie(10), fontWeight: "600" },
+                    ], {...temptTextColor, fontSize: scaleSzie(10), fontWeight: "600" }} >
+                        {`$ ${extra?.price || ""}`}
+                    </Text>
                 </View>
             </View>
         </Button>
