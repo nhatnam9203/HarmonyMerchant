@@ -10,11 +10,13 @@ import { Text, Button } from '@components';
 import ICON from "@resources";
 import styles from "../style";
 
-export const StaffItem = ({staff, displayCategoriesColumn}) => {
+export const StaffItem = ({staff,selectedStaff ,displayCategoriesColumn}) => {
+    const temptBackgrounColor = staff?.staffId === selectedStaff?.staffId ? { backgroundColor: '#0764B0' } : {};
+    const tempTxtColor = staff?.staffId === selectedStaff?.staffId  ? {color:"#fff"} :{};
     const backgroundColorAvailable = staff?.isNextAvailableStaff ? {backgroundColor:"#FF3B30"} : {};
-
+   
     return (
-        <Button onPress={displayCategoriesColumn} style={styles.staff_item} >
+        <Button onPress={displayCategoriesColumn} style={[styles.staff_item,temptBackgrounColor]} >
             <View style={styles.staff_avatar_box} >
                 <FastImage
                     style={styles.staff_avatar}
@@ -26,7 +28,7 @@ export const StaffItem = ({staff, displayCategoriesColumn}) => {
                     resizeMode={FastImage.resizeMode.stretch}
                 />
             </View>
-            <Text style={styles.txt_staff_name} >
+            <Text style={[styles.txt_staff_name,tempTxtColor]} >
                 {staff?.displayName || ""}
             </Text>
             {/* -------- staff number of appointment ------- */}

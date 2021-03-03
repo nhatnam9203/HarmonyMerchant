@@ -81,7 +81,7 @@ class Layout extends React.Component {
 
     renderStaffColumn() {
         const { staffListCurrentDate } = this.props;
-        const { isShowCategoriesColumn } = this.state;
+        const { isShowCategoriesColumn, selectedStaff } = this.state;
         const tempWidth = isShowCategoriesColumn ? 70 : 180;
         const tempStyleBox = isShowCategoriesColumn ? styles.staff_column_box_small : {};
 
@@ -101,8 +101,8 @@ class Layout extends React.Component {
                             staffListCurrentDate.map((staff, index) => <StaffItem
                                 key={`${staff?.staffId}_${index}`}
                                 staff={staff}
-                                displayCategoriesColumn={this.displayCategoriesColumn}
-
+                                displayCategoriesColumn={this.displayCategoriesColumn(staff)}
+                                selectedStaff={selectedStaff}
                             />)
                         }
                     </ScrollView>

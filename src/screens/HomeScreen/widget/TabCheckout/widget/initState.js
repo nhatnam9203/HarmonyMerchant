@@ -66,5 +66,6 @@ export default {
 
 
     // -------- New State ------
-    isShowCategoriesColumn: false
+    isShowCategoriesColumn: false,
+    selectedStaff:{},
 }
