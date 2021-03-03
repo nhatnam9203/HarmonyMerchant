@@ -18,8 +18,6 @@ export default StyleSheet.create({
         borderColor: 'rgb(197,197,197)',
         borderWidth: 1,
         paddingHorizontal: scaleSzie(14),
-
-
     },
     textHeader: {
         fontSize: scaleSzie(18),
@@ -264,5 +262,22 @@ export default StyleSheet.create({
         zIndex: 1,
         backgroundColor: "#fff",
         
+     },
+
+     btn_basket:{
+        borderWidth: 1, 
+        borderColor: '#C5C5C5',
+        flex: 1,
+        borderRadius:4
+     },
+     txt_btn_basket:{
+        fontSize: scaleSzie(19), 
+        fontWeight: '600'
+     },
+     btn_back:{
+        borderWidth: 1, 
+        borderColor: '#C5C5C5',
+        borderRadius:4,
+        height: scaleSzie(44)
      }
 })

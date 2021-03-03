@@ -1777,6 +1777,16 @@ class TabCheckout extends Layout {
                 isShowCategoriesColumn: false,
                 isShowColProduct: false,
                 isShowColAmount: false,
+                
+                categorySelected: {
+                    categoryId: -1,
+                    categoryType: ''
+                },
+                productSeleted: {
+                    name: ''
+                },
+                categoryTypeSelected: '',
+                arrSelectedExtra: [],
             })
         }else{
            await this.setState({
@@ -1784,6 +1794,16 @@ class TabCheckout extends Layout {
                 isShowCategoriesColumn: true,
                 isShowColProduct: false,
                 isShowColAmount: false,
+
+                categorySelected: {
+                    categoryId: -1,
+                    categoryType: ''
+                },
+                productSeleted: {
+                    name: ''
+                },
+                categoryTypeSelected: '',
+                arrSelectedExtra: [],
             })
         }
         // this.setState(prevState => ({ isShowCategoriesColumn: !prevState.isShowCategoriesColumn }));

@@ -281,7 +281,7 @@ class Layout extends React.Component {
 
                     </View>
                     {/* ------- Footer -------- */}
-                    <View style={{ height: scaleSzie(52), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
+                    <View style={{ height: scaleSzie(52), paddingHorizontal: scaleSzie(6), paddingBottom: scaleSzie(8) }} >
                         <ButtonCustom
                             width={`100%`}
                             backgroundColor="#F1F1F1"
@@ -291,9 +291,10 @@ class Layout extends React.Component {
                             style={{
                                 borderWidth: 1, borderColor: '#C5C5C5',
                                 backgroundColor: '#0764B0',
-                                flex: 1
+                                flex: 1,
+                                borderRadius:4
                             }}
-                            styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold', color: '#fff' }}
+                            styleText={{ fontSize: scaleSzie(19), fontWeight: 'bold', color: '#fff' }}
                         />
                     </View>
 
@@ -508,7 +509,7 @@ class Layout extends React.Component {
                 }
 
                 {/* -------- Footer Basket -------- */}
-                <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
+                <View style={{ height: scaleSzie(52), paddingHorizontal: scaleSzie(8), paddingBottom: scaleSzie(8) }} >
                     {this.renderButtonChekout()}
                 </View>
             </View>
@@ -518,11 +519,7 @@ class Layout extends React.Component {
     renderPaymetsMethod() {
         const { language } = this.props;
         return (
-            <View style={{
-                flex: 1,
-                borderRightWidth: 1,
-                borderRightColor: 'rgb(197, 197, 197)',
-            }} >
+            <View style={{ flex: 1, }} >
                 <View style={[styles.payment_header, { paddingLeft: scaleSzie(20) }]} >
                     <Text style={[styles.textHeader, { fontWeight: "600", fontSize: scaleSzie(15) }]} >
                         {localize('Select payment method', language)}
@@ -567,13 +564,12 @@ class Layout extends React.Component {
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
                     <ButtonCustom
                         width={scaleSzie(350)}
-                        height={60}
                         title={localize('BACK', language)}
                         backgroundColor="#0764B0"
                         textColor="#fff"
                         onPress={this.backAddBasket}
-                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                        styleText={{ fontSize: scaleSzie(26) }}
+                        style={styles.btn_back}
+                        styleText={styles.txt_btn_basket}
                     />
                 </View>
 
@@ -600,11 +596,8 @@ class Layout extends React.Component {
                             title={localize('CANCEL', language)}
                             textColor="#fff"
                             onPress={this.cancelHarmonyPayment}
-                            style={{
-                                borderWidth: 1, borderColor: '#C5C5C5',
-                                flex: 1
-                            }}
-                            styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                            style={styles.btn_basket}
+                            styleText={styles.txt_btn_basket}
                         />
                     );
                 }
@@ -615,11 +608,8 @@ class Layout extends React.Component {
                         title={localize('DONE', language)}
                         textColor="#6A6A6A"
                         onPress={() => { }}
-                        style={{
-                            borderWidth: 1, borderColor: '#C5C5C5',
-                            flex: 1
-                        }}
-                        styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                        style={styles.btn_basket}
+                        styleText={styles.txt_btn_basket}
                         activeOpacity={1}
                     />
                 );
@@ -630,11 +620,8 @@ class Layout extends React.Component {
                     title={localize('DONE', language)}
                     textColor="#fff"
                     onPress={() => { }}
-                    style={{
-                        borderWidth: 1, borderColor: '#C5C5C5',
-                        flex: 1
-                    }}
-                    styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                    style={styles.btn_basket}
+                    styleText={styles.txt_btn_basket}
                 />
             } else if (paymentSelected === '' || paymentSelected === "Gift Card" || !isAcceptPay) {
                 return (
@@ -644,12 +631,9 @@ class Layout extends React.Component {
                         title={localize('PAY', language)}
                         textColor="#6A6A6A"
                         onPress={() => { }}
-                        style={{
-                            borderWidth: 1, borderColor: '#C5C5C5',
-                            flex: 1
-                        }}
-                        styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                        style={styles.btn_basket}
                         activeOpacity={1}
+                        styleText={styles.txt_btn_basket}
                     />
                 );
             }
@@ -659,11 +643,8 @@ class Layout extends React.Component {
                 title={localize('PAY', language)}
                 textColor="#fff"
                 onPress={this.payBasket}
-                style={{
-                    borderWidth: 1, borderColor: '#C5C5C5',
-                    flex: 1
-                }}
-                styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                style={styles.btn_basket}
+                styleText={styles.txt_btn_basket}
             />
 
         } else if (tabCurrent === 2) {
@@ -674,12 +655,8 @@ class Layout extends React.Component {
                     title={localize('CONFIRM', language)}
                     textColor="#fff"
                     onPress={this.confimPayOfflinemode}
-                    style={{
-                        borderWidth: 1, borderColor: '#C5C5C5',
-                        flex: 1
-                    }}
-                    styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
-                // activeOpacity={1}
+                    style={styles.btn_basket}
+                    styleText={styles.txt_btn_basket}
                 />
             );
         } else {
@@ -693,11 +670,8 @@ class Layout extends React.Component {
                             title={localize('BOOK', language)}
                             textColor="#fff"
                             onPress={this.bookBlockAppointment}
-                            style={{
-                                borderWidth: 1, borderColor: '#C5C5C5',
-                                flex: 1
-                            }}
-                            styleText={{ fontSize: scaleSzie(22), fontWeight: 'bold', }}
+                            style={styles.btn_basket}
+                            styleText={styles.txt_btn_basket}
                         />
                     );
                 }
@@ -708,12 +682,9 @@ class Layout extends React.Component {
                         title={localize('BOOK', language)}
                         textColor="#6A6A6A"
                         onPress={() => { }}
-                        style={{
-                            borderWidth: 1, borderColor: '#C5C5C5',
-                            flex: 1
-                        }}
-                        styleText={{ fontSize: scaleSzie(22), fontWeight: 'bold', }}
+                        style={styles.btn_basket}
                         activeOpacity={1}
+                        styleText={styles.txt_btn_basket}
                     />
                 );
 
@@ -726,11 +697,8 @@ class Layout extends React.Component {
                         title={localize('SELECT PAYMENT', language)}
                         textColor="#fff"
                         onPress={this.selectPayment}
-                        style={{
-                            borderWidth: 1, borderColor: '#C5C5C5',
-                            flex: 1
-                        }}
-                        styleText={{ fontSize: scaleSzie(22), fontWeight: 'bold', }}
+                        style={styles.btn_basket}
+                        styleText={styles.txt_btn_basket}
                     />
                 );
             }
@@ -741,12 +709,9 @@ class Layout extends React.Component {
                     title={localize('SELECT PAYMENT', language)}
                     textColor="#6A6A6A"
                     onPress={() => { }}
-                    style={{
-                        borderWidth: 1, borderColor: '#C5C5C5',
-                        flex: 1
-                    }}
-                    styleText={{ fontSize: scaleSzie(22), fontWeight: 'bold', }}
+                    style={styles.btn_basket}
                     activeOpacity={1}
+                    styleText={styles.txt_btn_basket}
                 />
             );
         }
@@ -758,10 +723,7 @@ class Layout extends React.Component {
         const { appointmentOfflineMode } = this.state;
 
         return (
-            <View style={{
-                flex: 1, borderRightWidth: 1, borderRightColor: 'rgb(197, 197, 197)',
-                paddingHorizontal: scaleSzie(22)
-            }} >
+            <View style={{flex: 1,paddingHorizontal: scaleSzie(22) }} >
                 <Text style={[styles.textHeader, { fontSize: scaleSzie(19), marginTop: scaleSzie(10), marginBottom: scaleSzie(12) }]} >
                     {localize('Offline mode', language)}
                 </Text>
@@ -793,13 +755,12 @@ class Layout extends React.Component {
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
                     <ButtonCustom
                         width={scaleSzie(350)}
-                        height={60}
                         title={localize('BACK', language)}
                         backgroundColor="#0764B0"
                         textColor="#fff"
                         onPress={() => this.scrollTabRef.current.goToPage(1)}
-                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                        styleText={{ fontSize: scaleSzie(26) }}
+                        style={styles.btn_back}
+                        styleText={styles.txt_btn_basket}
                     />
                 </View>
             </View>
