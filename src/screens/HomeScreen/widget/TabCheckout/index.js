@@ -1847,7 +1847,8 @@ const mapStateToProps = state => ({
     paxAmount: state.appointment.paxAmount,
     amountCredtitForSubmitToServer: state.appointment.amountCredtitForSubmitToServer,
 
-    bluetoothPaxInfo: state.dataLocal.bluetoothPaxInfo
+    bluetoothPaxInfo: state.dataLocal.bluetoothPaxInfo,
+    staffListCurrentDate: state.appointment.staffListCurrentDate
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

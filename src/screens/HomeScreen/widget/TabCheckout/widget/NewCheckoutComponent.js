@@ -10,7 +10,8 @@ import { Text, Button } from '@components';
 import ICON from "@resources";
 import styles from "../style";
 
-export const StaffItem = ({ displayCategoriesColumn}) => {
+export const StaffItem = ({staff, displayCategoriesColumn}) => {
+    const backgroundColorAvailable = staff?.isNextAvailableStaff ? {backgroundColor:"#FF3B30"} : {};
 
     return (
         <Button onPress={displayCategoriesColumn} style={styles.staff_item} >
@@ -18,20 +19,20 @@ export const StaffItem = ({ displayCategoriesColumn}) => {
                 <FastImage
                     style={styles.staff_avatar}
                     source={{
-                        uri: 'https://unsplash.it/400/400?image=1',
+                        uri: staff?.imageUrl || "https://staffsenate.uncg.edu/wp-content/uploads/2019/02/Avatar-2.png",
                         headers: { Authorization: 'someAuthToken' },
                         priority: FastImage.priority.normal,
                     }}
-                    resizeMode={FastImage.resizeMode.contain}
+                    resizeMode={FastImage.resizeMode.stretch}
                 />
             </View>
             <Text style={styles.txt_staff_name} >
-                {`Jessica`}
+                {staff?.displayName || ""}
             </Text>
             {/* -------- staff number of appointment ------- */}
-            <View style={styles.number_staff_appointment_box} >
+            <View style={[styles.number_staff_appointment_box,backgroundColorAvailable]} >
                 <Text style={styles.number_staff_appointment} >
-                    {`1`}
+                    {staff?.orderNumber || 0}
                 </Text>
             </View>
         </Button>

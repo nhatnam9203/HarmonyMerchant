@@ -570,3 +570,14 @@ export function resetStateCheckCreditPaymentToServer(visible = false) {
         payload: visible
     }
 }
+
+
+export function getStaffListByCurrentDate(merchantId) {
+    const date = formatWithMoment(new Date(), "YYYY-MM-DD");
+    return {
+        type: 'GET_STAFF_LIST_BY_CURRENT_DATE',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}staff/getbydate/${merchantId}?date=${date}`,
+    }
+}

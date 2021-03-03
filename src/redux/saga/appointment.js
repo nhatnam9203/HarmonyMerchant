@@ -1157,6 +1157,38 @@ function* checkCreditPaymentToServer(action) {
     }
 }
 
+
+function* getStaffListByCurrentDate(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // console.log("----- getStaffListByCurrentDate: ", responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "GET_STAFF_LIST_BY_CURRENT_DATE_SUCCESS",
+                payload: responses?.data || []
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+
+        yield put({ type: error });
+
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 export default function* saga() {
     yield all([
         takeLatest('GET_APPOINTMENT_BY_ID', getAppointmentById),
@@ -1183,7 +1215,9 @@ export default function* saga() {
         takeLatest('HANDLE_ENTER_GIFT_CARD_AMOUNT', handleEnterGiftCardAmount),
         takeLatest('GET_GIFT_CARDS_ACTIVE_LIST', getGiftCardsActiveList),
         takeLatest('GET_GIFT_CARDS_LOGS', getGiftCardLogs),
-
         takeLatest('CHECK_CREDIT_PAYMENT_TO_SERVER', checkCreditPaymentToServer),
+
+        takeLatest('GET_STAFF_LIST_BY_CURRENT_DATE', getStaffListByCurrentDate),
+
     ]);
 }

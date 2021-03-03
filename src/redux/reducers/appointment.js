@@ -48,9 +48,10 @@ const initialState = {
     isRefreshingGiftCardsList: false,
     giftCardLogs: [],
     isGiftCardTabPermission: false,
-
     startProcessingPax: false,
-    amountCredtitForSubmitToServer:0
+    amountCredtitForSubmitToServer: 0,
+
+    staffListCurrentDate: []
 }
 
 function appointmentReducer(state = initialState, action) {
@@ -385,6 +386,16 @@ function appointmentReducer(state = initialState, action) {
                 ...state,
                 startProcessingPax: false
             }
+        case 'RESET_STATE_CHECK_CREDIT_PAYMENT_TO_SERVER':
+            return {
+                ...state,
+                startProcessingPax: false
+            }
+        case 'GET_STAFF_LIST_BY_CURRENT_DATE_SUCCESS':
+            return {
+                ...state,
+                staffListCurrentDate: action.payload
+            }
         case 'LOGOUT_APP':
             return {
                 ...initialState,
@@ -440,6 +451,6 @@ const removeBlockAppointment = (blockAppointments, appointmentIdRemove) => {
 module.exports = persistReducer({
     key: "appointment",
     storage: AsyncStorage,
-    whitelist: []
+    whitelist: ["staffListCurrentDate"]
 }, appointmentReducer);
 

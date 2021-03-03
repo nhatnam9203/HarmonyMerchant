@@ -375,10 +375,14 @@ class HomeScreen extends Layout {
     }
 
     onChangeTab = (index) => {
-        this.setState({ currentTab: index.i });
-        if (index.i === 0) {
-            const { profile } = this.props;
+        const { profile } = this.props;
+        const page = index?.i || 0;
+
+        this.setState({ currentTab: page });
+        if (page === 0) {
             this.props.actions.marketing.getPromotionByMerchant();
+        } else if (page === 2) {
+            this.props.actions.appointment.getStaffListByCurrentDate(profile?.merchantId);
         }
     }
 
