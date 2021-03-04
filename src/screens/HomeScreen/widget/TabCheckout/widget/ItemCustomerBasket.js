@@ -140,13 +140,13 @@ class ItemCustomerBasket extends React.Component {
                     height: scaleSzie(35), backgroundColor: "#0764B0", paddingLeft: scaleSzie(10),
                     flexDirection: "row", alignItems: "center",
                 }} >
-                    <Text style={{ color: "#fff", fontSize: scaleSzie(14), fontWeight: "bold" }} >
+                    <Text style={{ color: "#fff", fontSize: scaleSzie(12), fontWeight: "600" }} >
                         {`#${codeAppointment} - ${firstName} ${lastName}`}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         <Button onPress={this.toggleCollaps} >
                             <Image source={iconCollaps}
-                                style={{ width: scaleSzie(28), height: scaleSzie(28) }}
+                                style={{ width: scaleSzie(22), height: scaleSzie(22) }}
                             />
                         </Button>
                     </View>

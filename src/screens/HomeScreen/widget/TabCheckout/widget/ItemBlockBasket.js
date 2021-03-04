@@ -180,7 +180,7 @@ class ItemBlockBasket extends React.Component {
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         <Button onPress={this.toggleCollaps} >
                             <Image source={iconCollaps}
-                                style={{ width: scaleSzie(28), height: scaleSzie(28) }}
+                                style={{ width: scaleSzie(22), height: scaleSzie(22) }}
                             />
                         </Button>
                     </View>

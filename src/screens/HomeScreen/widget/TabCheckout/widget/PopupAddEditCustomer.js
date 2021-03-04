@@ -65,6 +65,7 @@ class PopupAddEditCustomer extends React.Component {
     }
 
     setStateFromParent = async customer => {
+        console.log(customer);
         await this.setState({
             customerInfo: {
                 firstName: customer?.firstName || "",
@@ -74,7 +75,7 @@ class PopupAddEditCustomer extends React.Component {
                 addressPost: {
                     street: customer?.street || "",
                     city: customer?.city || "",
-                    state: customer?.stateId ? "" : getNameStateById(this.props.stateCity, customer?.stateId),
+                    state: customer?.stateId ? getNameStateById(this.props.stateCity, customer?.stateId) : "" ,
                     zip: customer?.zip || "",
                 },
                 referrerPhone: getCodeAreaPhone(customer?.referrerPhone).phone,
