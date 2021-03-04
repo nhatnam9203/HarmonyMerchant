@@ -563,7 +563,7 @@ class Layout extends React.Component {
                 {/* ------ Footer ----- */}
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
                     <ButtonCustom
-                        width={scaleSzie(350)}
+                        width={scaleSzie(300)}
                         title={localize('BACK', language)}
                         backgroundColor="#0764B0"
                         textColor="#fff"
@@ -754,7 +754,7 @@ class Layout extends React.Component {
                 {/* ------ Footer ----- */}
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
                     <ButtonCustom
-                        width={scaleSzie(350)}
+                        width={scaleSzie(300)}
                         title={localize('BACK', language)}
                         backgroundColor="#0764B0"
                         textColor="#fff"
@@ -841,7 +841,7 @@ class Layout extends React.Component {
                 <PopupChangeStylist
                     ref={this.changeStylistRef}
                     visible={visibleChangeStylist}
-                    title={localize('Modification', language)}
+                    title={localize('Modify Service', language)}
                     onRequestClose={() => { this.setState({ visibleChangeStylist: false }) }}
                     changeStylistBasketLocal={this.changeStylistBasketLocal}
                 />

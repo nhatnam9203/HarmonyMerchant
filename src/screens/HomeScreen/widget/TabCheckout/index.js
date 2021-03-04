@@ -91,7 +91,7 @@ class TabCheckout extends Layout {
 
     addAmount = async () => {
         const { groupAppointment, isOfflineMode, blockAppointments, profileStaffLogin } = this.props;
-        const { categoryTypeSelected, productSeleted, arrSelectedExtra, selectedStaff} = this.state;
+        const { categoryTypeSelected, productSeleted, arrSelectedExtra, selectedStaff } = this.state;
 
         // ------------ Block Booking -------------
         if (blockAppointments.length > 0) {
@@ -232,7 +232,7 @@ class TabCheckout extends Layout {
 
     createAnymousAppointment = async () => {
         const { profile, profileStaffLogin, customerInfoBuyAppointment } = this.props;
-        const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, selectedStaff} = this.state;
+        const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal, selectedStaff } = this.state;
 
         const dataAnymousAppoitment = this.getBasketOffline();
         const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } = dataAnymousAppoitment;
@@ -363,11 +363,32 @@ class TabCheckout extends Layout {
     }
 
     showColAmount = (item) => {
-        this.setState({
-            productSeleted: item,
-            isShowColAmount: true,
-            arrSelectedExtra: []
-        })
+        const { categorySelected, productSeleted } = this.state;
+        const categoryType = categorySelected?.categoryType;
+        let isExist = false;
+        if (categoryType === "Service" && productSeleted?.serviceId === item?.serviceId) {
+            isExist = true;
+        } else if (categoryType === "Product" && productSeleted?.productId === item?.productId) {
+            isExist = true;
+        }
+
+        if (!isExist) {
+            this.setState({
+                productSeleted: item,
+                isShowColAmount: true,
+                arrSelectedExtra: []
+            })
+        }else{
+            this.setState({
+                productSeleted: {
+                    name: ''
+                },
+                isShowColAmount: false,
+                arrSelectedExtra: []
+            })
+        }
+
+
     }
 
     onPressSelectExtra = (extra) => {
@@ -470,7 +491,7 @@ class TabCheckout extends Layout {
 
     getBasketOffline = () => {
         const { basket, selectedStaff } = this.state;
-      
+
         const arrayProductBuy = [];
         const arryaServicesBuy = [];
         const arrayExtrasBuy = [];
@@ -500,7 +521,7 @@ class TabCheckout extends Layout {
             arrayProductBuy,
             arryaServicesBuy,
             arrayExtrasBuy,
-            staffId:  selectedStaff?.staffId
+            staffId: selectedStaff?.staffId
         }
     }
 
@@ -1772,12 +1793,12 @@ class TabCheckout extends Layout {
     displayCategoriesColumn = (staff) => async () => {
         const { selectedStaff } = this.state;
         if (selectedStaff?.staffId === staff?.staffId) {
-           await this.setState({
+            await this.setState({
                 selectedStaff: {},
                 isShowCategoriesColumn: false,
                 isShowColProduct: false,
                 isShowColAmount: false,
-                
+
                 categorySelected: {
                     categoryId: -1,
                     categoryType: ''
@@ -1788,8 +1809,8 @@ class TabCheckout extends Layout {
                 categoryTypeSelected: '',
                 arrSelectedExtra: [],
             })
-        }else{
-           await this.setState({
+        } else {
+            await this.setState({
                 selectedStaff: staff,
                 isShowCategoriesColumn: true,
                 isShowColProduct: false,
