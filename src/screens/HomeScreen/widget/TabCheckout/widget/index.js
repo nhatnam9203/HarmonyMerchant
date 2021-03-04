@@ -29,6 +29,7 @@ import PopupAddItemIntoAppointments from "./PopupAddItemIntoAppointments";
 import PopupGiftCardDetail from "./PopupGiftCardDetail";
 import PopupEnterAmountGiftCard from "./PopupEnterAmountGiftCard";
 import EnterCustomerPhonePopup from "./EnterCustomerPhonePopup";
+import PopupAddEditCustomer from "./PopupAddEditCustomer";
 
 function getPaymentLogoByName(name) {
     let logo = "";
@@ -160,7 +161,8 @@ module.exports = {
     PopupAddItemIntoAppointments,
     PopupGiftCardDetail,
     PopupEnterAmountGiftCard,
-    EnterCustomerPhonePopup
+    EnterCustomerPhonePopup,
+    PopupAddEditCustomer
 }
 
 

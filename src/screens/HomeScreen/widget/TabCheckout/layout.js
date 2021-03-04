@@ -27,7 +27,7 @@ import {
     ShadowLineLeftToRight,
     ShadowLineRightToLeft,
     ShadowLineShort, PopupChangeCustomerInfo, PopupAddItemIntoAppointments, PopupGiftCardDetail,
-    PopupEnterAmountGiftCard, EnterCustomerPhonePopup
+    PopupEnterAmountGiftCard, EnterCustomerPhonePopup,PopupAddEditCustomer
 } from './widget';
 
 import { StaffItem } from "./widget/NewCheckoutComponent";
@@ -36,7 +36,6 @@ class Layout extends React.Component {
 
     renderHeader() {
         const { language, groupAppointment, customerInfoBuyAppointment } = this.props;
-
         let firstName = customerInfoBuyAppointment?.firstName || "";
         let lastName = customerInfoBuyAppointment?.lastName || "";
         let phone = customerInfoBuyAppointment?.phone || "";
@@ -47,7 +46,7 @@ class Layout extends React.Component {
         return (
             <View style={styles.headerContainer} >
                 {
-                    customerId ? <Button onPress={this.displayEnterUserPhonePopup} style={{ flexDirection: 'row', alignItems: 'center' }} >
+                    customerId ? <Button onPress={this.displayCustomerInfoPopup} style={{ flexDirection: 'row', alignItems: 'center' }} >
                         <View style={styles.avatar_box} >
                             <Text style={styles.txt_avatar} >
                                 {`${firstLetter}`}
@@ -826,7 +825,7 @@ class Layout extends React.Component {
     render() {
         const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission, visiblePopupEnterGiftCardAmount } = this.props;
         const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
-            visiblePopupAddItemIntoBasket
+            visiblePopupAddItemIntoBasket,visibleAddEditCustomerPopup
         } = this.state;
 
         return (
@@ -968,6 +967,13 @@ class Layout extends React.Component {
                     title={localize('Input PIN Number', language)}
                     tabName="CheckDiscountPermission"
                     onRequestClose={this.closePopupCheckDiscountPermission}
+                />
+
+                <PopupAddEditCustomer 
+                    ref={this.addEditCustomerInfoRef}
+                    visible={visibleAddEditCustomerPopup}
+                    title={"Customer Infomation"}
+                    onRequestClose={() => this.setState({visibleAddEditCustomerPopup:false})}
                 />
             </View>
         );

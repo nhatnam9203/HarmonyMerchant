@@ -43,6 +43,9 @@ class TabCheckout extends Layout {
         this.popupAddItemIntoAppointmentsRef = React.createRef();
         this.popupCheckDiscountPermissionRef = React.createRef();
         this.popupEnterAmountGiftCardRef = React.createRef();
+
+        this.addEditCustomerInfoRef = React.createRef();
+
     }
 
     resetStateFromParent = async () => {
@@ -1810,13 +1813,21 @@ class TabCheckout extends Layout {
         });
     }
 
-    displayEnterUserPhonePopup =() =>{
+    displayEnterUserPhonePopup = () => {
         const { customerInfoBuyAppointment } = this.props;
         const firstName = customerInfoBuyAppointment?.firstName || "";
         const lastName = customerInfoBuyAppointment?.lastName || "";
         const phone = customerInfoBuyAppointment?.phone || "";
         this.popupCustomerInfoRef.current.setStateFromParent(firstName, lastName, phone);
         this.props.actions.appointment.togglePopupCustomerInfoByPhone(true);
+    }
+
+    displayCustomerInfoPopup = async () => {
+        this.addEditCustomerInfoRef?.current?.setStateFromParent({ ...this.props.customerInfoBuyAppointment });
+        await this.setState({
+            visibleAddEditCustomerPopup: true
+        });
+
     }
 
     async componentDidUpdate(prevProps, prevState) {
