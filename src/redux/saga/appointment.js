@@ -873,13 +873,14 @@ function* getCustomerBuyAppointment(action) {
                 type: 'UNAUTHORIZED'
             })
         } else {
-            yield put({
-                type: "GET_CUSTOMER_INFO_BUY_APPOINTMENT_FAIL",
-                payload: action.customerInfoLocal
-            });
-            yield put({
-                type: "CHANGE_CUSTOMER_IN_APPOINTMENT",
-            });
+            // yield put({
+            //     type: "GET_CUSTOMER_INFO_BUY_APPOINTMENT_FAIL",
+            //     payload: action.customerInfoLocal
+            // });
+            // yield put({
+            //     type: "CHANGE_CUSTOMER_IN_APPOINTMENT",
+            // });
+            console.log("------ handle ----");
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });

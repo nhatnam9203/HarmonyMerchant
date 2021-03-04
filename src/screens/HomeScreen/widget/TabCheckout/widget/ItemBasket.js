@@ -61,10 +61,10 @@ const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeP
                         }
                     </View>
                     {/* -------- Name ------- */}
-                    <View style={{ flex: 1, flexDirection: 'row', }} >
+                    <View style={{ flex: 1, flexDirection: 'row',}} >
                         {/* ------------ */}
-                        <View style={{ flex: 1.5, justifyContent: 'center' }} >
-                            <Text style={{ color: '#0764B0', fontSize: scaleSzie(13), fontWeight: "500" }}  >
+                        <View  style={{ flex: 1.5, justifyContent: 'center' }} >
+                            <Text numberOfLines={1} style={{ color: '#0764B0', fontSize: scaleSzie(13), fontWeight: "500" }}  >
                                 {
                                     item.type === 'Service' ? (item?.data?.name || "") : data?.name || ""
                                 }
@@ -87,7 +87,7 @@ const ItemBasket = ({ item, removeItemBasket, onPress, disabled = false, changeP
                         </View>
                     </View>
                 </View>
-
+                <View style={{height:10}} />
                 {/* ------------------ Extra ----------------- */}
                 {
                     item.type === "Service" && item.extras ?

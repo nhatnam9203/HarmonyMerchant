@@ -477,9 +477,9 @@ export function getCustomerBuyAppointment(phoneNumber, customerInfoLocal = {
     }
 }
 
-export function togglePopupCustomerInfoByPhone(visible = true) {
+export function switchVisibleEnterCustomerPhonePopup(visible = true) {
     return {
-        type: "TOGGLE_POPUP_CUSTOMER_INFO_BUY_APPOINTMENT",
+        type: "SWITCH_VISIBLE_ENTER_CUSTOMER_PHONE_POPUP",
         payload: visible
     }
 }
@@ -579,5 +579,12 @@ export function getStaffListByCurrentDate(merchantId) {
         method: 'GET',
         token: true,
         api: `${apiConfigs.BASE_API}staff/getbydate/${merchantId}?date=${date}`,
+    }
+}
+
+export function switchVisibleAddEditCustomerPopup(visible = true) {
+    return {
+        type: 'SWITCH_VISIBLE_ADD_EDIT_CUSTOMER_POPUP',
+        payload: visible
     }
 }

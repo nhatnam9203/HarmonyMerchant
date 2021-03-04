@@ -91,19 +91,19 @@ class EnterCustomerPhonePopup extends React.Component {
 
     onRequestClose = () => {
         this.setState(initalState);
-        this.props.actions.appointment.togglePopupCustomerInfoByPhone(false);
+        this.props.actions.appointment.switchVisibleEnterCustomerPhonePopup(false);
     }
 
     // --------------- Render -----------
 
     render() {
-        const { title, visiblePopupCustomerInfoBuyAppointment, loading, confimYes } = this.props;
+        const { title, visibleEnterCustmerPhonePopup, loading, confimYes } = this.props;
         const { codeAreaPhone, phone, customStyle } = this.state;
 
         return (
             <PopupParent
                 title={title}
-                visible={visiblePopupCustomerInfoBuyAppointment}
+                visible={visibleEnterCustmerPhonePopup}
                 onRequestClose={this.onRequestClose}
                 width={scaleSzie(240)}
                 styleTitle={{ fontSize: scaleSzie(18), fontWeight: "600" }}
@@ -199,7 +199,7 @@ const mapStateToProps = state => ({
     listStaffByMerchant: state.staff.listStaffByMerchant,
     appointmentDetail: state.appointment.appointmentDetail,
     groupAppointment: state.appointment.groupAppointment,
-    visiblePopupCustomerInfoBuyAppointment: state.appointment.visiblePopupCustomerInfoBuyAppointment,
+    visibleEnterCustmerPhonePopup: state.appointment.visibleEnterCustmerPhonePopup,
     loading: state.app.loading
 })
 

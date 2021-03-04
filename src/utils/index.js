@@ -257,7 +257,6 @@ export const getIdStateByName = (stateCity = [], name = '') => {
 }
 
 export const getNameStateById = (stateCity = [], id = '') => {
-    console.log("---- getNameStateById: ",id);
     let stateName = '';
     for (let i = 0; i < stateCity.length; i++) {
         if (stateCity[i].stateId == id) {

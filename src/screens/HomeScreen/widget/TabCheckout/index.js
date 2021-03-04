@@ -1719,7 +1719,7 @@ class TabCheckout extends Layout {
         const lastName = customerInfoBuyAppointment?.lastName || "";
         const phone = customerInfoBuyAppointment?.phone || "";
         this.popupCustomerInfoRef.current.setStateFromParent(firstName, lastName, phone);
-        this.props.actions.appointment.togglePopupCustomerInfoByPhone(true);
+        this.props.actions.appointment.switchVisibleEnterCustomerPhonePopup(true);
     }
 
     updateBlockAppointmentRef = () => {
@@ -1819,7 +1819,7 @@ class TabCheckout extends Layout {
         const lastName = customerInfoBuyAppointment?.lastName || "";
         const phone = customerInfoBuyAppointment?.phone || "";
         this.popupCustomerInfoRef.current.setStateFromParent(firstName, lastName, phone);
-        this.props.actions.appointment.togglePopupCustomerInfoByPhone(true);
+        this.props.actions.appointment.switchVisibleEnterCustomerPhonePopup(true);
     }
 
     displayCustomerInfoPopup = async () => {
@@ -1899,9 +1899,10 @@ const mapStateToProps = state => ({
     startProcessingPax: state.appointment.startProcessingPax,
     paxAmount: state.appointment.paxAmount,
     amountCredtitForSubmitToServer: state.appointment.amountCredtitForSubmitToServer,
-
     bluetoothPaxInfo: state.dataLocal.bluetoothPaxInfo,
-    staffListCurrentDate: state.appointment.staffListCurrentDate
+    staffListCurrentDate: state.appointment.staffListCurrentDate,
+
+    visibleAddEditCustomerPopup: state.appointment.visibleAddEditCustomerPopup
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);
