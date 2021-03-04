@@ -15,6 +15,7 @@ import {
     scaleSzie, localize, getIdStateByName, getNameStateById, ListCodeAreaPhone,
     getCodeAreaPhone, checkStateIsValid, checkIsTablet
 } from '@utils';
+import connectRedux from '@redux/ConnectRedux';
 
 class PopupAddEditCustomer extends React.Component {
 
@@ -71,10 +72,10 @@ class PopupAddEditCustomer extends React.Component {
                 phone: getCodeAreaPhone(customer?.phone).phone,
                 email: customer?.email || "",
                 addressPost: {
-                    street: customer?.addressPost?.street || "",
-                    city: customer?.addressPost?.city || "",
-                    state: customer?.addressPost?.state === 0 ? '' : getNameStateById(this.props.stateCity, customer?.addressPost?.state),
-                    zip: customer?.addressPost?.zip || "",
+                    street: customer?.street || "",
+                    city: customer?.city || "",
+                    state: customer?.stateId ? "" : getNameStateById(this.props.stateCity, customer?.stateId),
+                    zip: customer?.zip || "",
                 },
                 referrerPhone: getCodeAreaPhone(customer?.referrerPhone).phone,
                 favourite: customer?.favourite,
@@ -117,7 +118,7 @@ class PopupAddEditCustomer extends React.Component {
                 break;
             }
 
-            if (customerInfo.addressPost.state !== "" && !checkStateIsValid(stateCity, customerInfo.addressPost.state)) {
+            if (customerInfo?.addressPost?.state !== "" && !checkStateIsValid(stateCity, customerInfo?.addressPost?.state)) {
                 keyError = "StateInvalid";
                 break
             }
@@ -130,7 +131,7 @@ class PopupAddEditCustomer extends React.Component {
             const { addressPost } = customerInfo;
             const temptAddress = {
                 ...addressPost,
-                state: addressPost.state ? getIdStateByName(this.props.stateCity, addressPost.state) : 0
+                state: addressPost?.state ? getIdStateByName(this.props.stateCity, addressPost.state) : 0
             };
             const temptCustomerInfo = {
                 ...customerInfo,
@@ -139,16 +140,18 @@ class PopupAddEditCustomer extends React.Component {
                 addressPost: temptAddress,
                 isVip: customerInfo.isVip === "Normal" ? 0 : 1
             };
-            if (this.props.isSave) {
-                this.props.editCustomer(this.state.customerId, temptCustomerInfo);
-            } else {
-                this.props.addCustomer(temptCustomerInfo);
-            }
+
+            this.props.editCustomerInfo(this.state.customerId, temptCustomerInfo);
+            // if (this.props.isSave) {
+            //     this.props.editCustomer(this.state.customerId, temptCustomerInfo);
+            // } else {
+            //     this.props.addCustomer(temptCustomerInfo);
+            // }
 
         }
     }
 
-    scrollCustomerTo(position) {
+    scrollCustomerTo = (position) => () => {
         this.scrollCustomerRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
@@ -258,7 +261,7 @@ class PopupAddEditCustomer extends React.Component {
                                             style={{ flex: 1, fontSize: scaleSzie(16), padding: 0 }}
                                             value={phone}
                                             onChangeText={value => this.updateCustomerInfo('phone', value)}
-                                            onFocus={() => this.scrollCustomerTo(60)}
+                                            onFocus={this.scrollCustomerTo(60)}
                                             keyboardType="numeric"
                                         />
                                     </View>
@@ -277,7 +280,7 @@ class PopupAddEditCustomer extends React.Component {
                                         style={{ flex: 1, fontSize: scaleSzie(16), padding: 0 }}
                                         value={email}
                                         onChangeText={value => this.updateCustomerInfo('email', value)}
-                                        onFocus={() => this.scrollCustomerTo(120)}
+                                        onFocus={this.scrollCustomerTo(140)}
                                     />
                                 </View>
                                 {/* ------- */}
@@ -293,7 +296,7 @@ class PopupAddEditCustomer extends React.Component {
                                         style={{ flex: 1, fontSize: scaleSzie(16), padding: 0 }}
                                         value={street}
                                         onChangeText={value => this.updateCustomerInfo('street', value, 'addressPost')}
-                                        onFocus={() => this.scrollCustomerTo(180)}
+                                        onFocus={this.scrollCustomerTo(195)}
                                     />
                                 </View>
                                 {/* ----- */}
@@ -306,7 +309,7 @@ class PopupAddEditCustomer extends React.Component {
                                                     style={{ flex: 1, fontSize: scaleSzie(16), padding: 0 }}
                                                     value={city}
                                                     onChangeText={value => this.updateCustomerInfo('city', value, 'addressPost')}
-                                                    onFocus={() => this.scrollCustomerTo(180)}
+                                                    onFocus={this.scrollCustomerTo(195)}
                                                 />
                                             </View>
                                         </View>
@@ -322,7 +325,7 @@ class PopupAddEditCustomer extends React.Component {
                                                     style={{ flex: 1, fontSize: scaleSzie(16), padding: 0 }}
                                                     value={zip}
                                                     onChangeText={value => this.updateCustomerInfo('zip', value, 'addressPost')}
-                                                    onFocus={() => this.scrollCustomerTo(220)}
+                                                    onFocus={this.scrollCustomerTo(198)}
                                                     maxLength={5}
                                                     keyboardType="numeric"
                                                 />
@@ -339,9 +342,8 @@ class PopupAddEditCustomer extends React.Component {
                                                 <TextInputSuggestion
                                                     value={state}
                                                     onChangeText={this.onChangeText}
-                                                    onFocus={() => this.scrollCustomerTo(180)}
                                                     resetMarginState={() => this.setState({ dynamicMarginBottomState: 24 })}
-                                                    onFocus={() => this.scrollCustomerTo(280)}
+                                                    onFocus={this.scrollCustomerTo(290)}
                                                 />
                                             </View>
                                         </View>
@@ -381,7 +383,7 @@ class PopupAddEditCustomer extends React.Component {
                                             style={{ flex: 1, fontSize: scaleSzie(16), padding: 0 }}
                                             value={referrerPhone}
                                             onChangeText={value => this.updateCustomerInfo('referrerPhone', value)}
-                                            onFocus={() => this.scrollCustomerTo(275)}
+                                            onFocus={this.scrollCustomerTo(350)}
                                             keyboardType="numeric"
                                         />
                                     </View>
@@ -442,7 +444,7 @@ class PopupAddEditCustomer extends React.Component {
                                                 }}
                                                 value={favourite}
                                                 onChangeText={value => this.updateCustomerInfo('favourite', value)}
-                                                onFocus={() => this.scrollCustomerTo(500)}
+                                                onFocus={this.scrollCustomerTo(500)}
                                                 multiline={true}
                                             />
                                         </View>
@@ -483,6 +485,10 @@ const strings = {
     StateInvalid: "State Invalid"
 }
 
-export default PopupAddEditCustomer;
+const mapStateToProps = state => ({
+    stateCity: state?.dataLocal?.stateCity
+})
+
+export default connectRedux(mapStateToProps, PopupAddEditCustomer);
 
 

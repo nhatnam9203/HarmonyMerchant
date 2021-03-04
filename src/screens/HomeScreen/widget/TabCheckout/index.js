@@ -1827,7 +1827,16 @@ class TabCheckout extends Layout {
         await this.setState({
             visibleAddEditCustomerPopup: true
         });
+    }
 
+    editCustomerInfo = async (customerId,customer) =>{
+        await this.setState({
+            visibleAddEditCustomerPopup: false
+        });
+        setTimeout(() =>{
+            this.props.actions.customer.editCustomer(customerId, customer,true);
+        },100)
+        
     }
 
     async componentDidUpdate(prevProps, prevState) {

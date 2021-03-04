@@ -38,15 +38,15 @@ export function addCustomer(body) {
     }
 }
 
-export function editCustomer(id, body, keySearch = "") {
+export function editCustomer(customerId, body,isGetCustomerInfoInCheckoutTab = false) {
     return {
         type: 'EDIT_CUSTOMER',
         method: 'PUT',
         body,
-        api: `${apiConfigs.BASE_API}customer/${id}`,
+        api: `${apiConfigs.BASE_API}customer/${customerId}`,
         token: true,
-        keySearch,
-        customerId:id
+        customerId,
+        isGetCustomerInfoInCheckoutTab
     }
 }
 
