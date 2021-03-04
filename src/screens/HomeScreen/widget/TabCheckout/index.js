@@ -378,7 +378,7 @@ class TabCheckout extends Layout {
                 isShowColAmount: true,
                 arrSelectedExtra: []
             })
-        }else{
+        } else {
             this.setState({
                 productSeleted: {
                     name: ''
@@ -1792,42 +1792,26 @@ class TabCheckout extends Layout {
 
     displayCategoriesColumn = (staff) => async () => {
         const { selectedStaff } = this.state;
-        if (selectedStaff?.staffId === staff?.staffId) {
-            await this.setState({
-                selectedStaff: {},
-                isShowCategoriesColumn: false,
-                isShowColProduct: false,
-                isShowColAmount: false,
+        const isExist = selectedStaff?.staffId === staff?.staffId ? true : false;
+        await this.setState({
+            selectedStaff: isExist ? {} : staff,
+            isShowCategoriesColumn: !isExist,
+            isShowColProduct: false,
+            isShowColAmount: false,
+            categorySelected: {
+                categoryId: -1,
+                categoryType: ''
+            },
+            productSeleted: {
+                name: ''
+            },
+            categoryTypeSelected: '',
+            arrSelectedExtra: [],
+        });
+    }
 
-                categorySelected: {
-                    categoryId: -1,
-                    categoryType: ''
-                },
-                productSeleted: {
-                    name: ''
-                },
-                categoryTypeSelected: '',
-                arrSelectedExtra: [],
-            })
-        } else {
-            await this.setState({
-                selectedStaff: staff,
-                isShowCategoriesColumn: true,
-                isShowColProduct: false,
-                isShowColAmount: false,
-
-                categorySelected: {
-                    categoryId: -1,
-                    categoryType: ''
-                },
-                productSeleted: {
-                    name: ''
-                },
-                categoryTypeSelected: '',
-                arrSelectedExtra: [],
-            })
-        }
-        // this.setState(prevState => ({ isShowCategoriesColumn: !prevState.isShowCategoriesColumn }));
+    displayEnterUserPhonePopup =() =>{
+        
     }
 
     async componentDidUpdate(prevProps, prevState) {

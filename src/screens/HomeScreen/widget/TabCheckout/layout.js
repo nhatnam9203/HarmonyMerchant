@@ -44,13 +44,13 @@ class Layout extends React.Component {
 
         return (
             <View style={styles.headerContainer} >
-                <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+                <Button onPress={this.displayEnterUserPhonePopup} style={{ flexDirection: 'row', alignItems: 'center' }} >
                     <Image source={ICON.checkout_customer_icon} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
                     <Text style={{ color: "#404040", fontSize: scaleSzie(12), fontWeight: "600", marginHorizontal: scaleSzie(8) }} >
                         {`Walking Customer`}
                     </Text>
                     <Image source={ICON.add_customer_info_checkout_tab} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                </View>
+                </Button>
                 {/* -------- Button open cash -------- */}
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'row' }} >
                     {
@@ -238,7 +238,7 @@ class Layout extends React.Component {
 
     renderAmountCheckout() {
         const { language, groupAppointment } = this.props;
-        const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted, isShowColProduct, arrSelectedExtra } = this.state;
+        const {  categorySelected, categoryTypeSelected, productSeleted, isShowColProduct, arrSelectedExtra } = this.state;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
 
         return (

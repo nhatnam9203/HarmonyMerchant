@@ -321,6 +321,10 @@ class HomeScreen extends Layout {
 
     bookAppointment = async (appointmentId) => {
         this.props.actions.appointment.getAppointmentById(appointmentId);
+
+        // this.props.actions.appointment.getGroupAppointmentById(appointmentId);
+        // this.tabCheckoutRef?.current?.resetStateFromParent();
+        // this.scrollTabParentRef.current.goToPage(2);
     }
 
     submitPincode = () => {
