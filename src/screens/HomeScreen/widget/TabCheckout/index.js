@@ -1811,7 +1811,12 @@ class TabCheckout extends Layout {
     }
 
     displayEnterUserPhonePopup =() =>{
-        
+        const { customerInfoBuyAppointment } = this.props;
+        const firstName = customerInfoBuyAppointment?.firstName || "";
+        const lastName = customerInfoBuyAppointment?.lastName || "";
+        const phone = customerInfoBuyAppointment?.phone || "";
+        this.popupCustomerInfoRef.current.setStateFromParent(firstName, lastName, phone);
+        this.props.actions.appointment.togglePopupCustomerInfoByPhone(true);
     }
 
     async componentDidUpdate(prevProps, prevState) {

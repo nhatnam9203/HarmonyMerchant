@@ -27,7 +27,7 @@ import {
     ShadowLineLeftToRight,
     ShadowLineRightToLeft,
     ShadowLineShort, PopupChangeCustomerInfo, PopupAddItemIntoAppointments, PopupGiftCardDetail,
-    PopupEnterAmountGiftCard
+    PopupEnterAmountGiftCard, EnterCustomerPhonePopup
 } from './widget';
 
 import { StaffItem } from "./widget/NewCheckoutComponent";
@@ -37,20 +37,42 @@ class Layout extends React.Component {
     renderHeader() {
         const { language, groupAppointment, customerInfoBuyAppointment } = this.props;
 
-        let firstName = customerInfoBuyAppointment.firstName ? customerInfoBuyAppointment.firstName : "";
-        let lastName = customerInfoBuyAppointment.lastName ? customerInfoBuyAppointment.lastName : "";
-        let phone = customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "";
-        const name = `${firstName} ${lastName}`;
+        let firstName = customerInfoBuyAppointment?.firstName || "";
+        let lastName = customerInfoBuyAppointment?.lastName || "";
+        let phone = customerInfoBuyAppointment?.phone || "";
+        let customerId = customerInfoBuyAppointment?.customerId || 0;
+        const displayName = `${firstName} ${lastName}`;
+        const firstLetter = customerInfoBuyAppointment?.firstName ? customerInfoBuyAppointment?.firstName[0] : "";
 
         return (
             <View style={styles.headerContainer} >
-                <Button onPress={this.displayEnterUserPhonePopup} style={{ flexDirection: 'row', alignItems: 'center' }} >
-                    <Image source={ICON.checkout_customer_icon} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
-                    <Text style={{ color: "#404040", fontSize: scaleSzie(12), fontWeight: "600", marginHorizontal: scaleSzie(8) }} >
-                        {`Walking Customer`}
-                    </Text>
-                    <Image source={ICON.add_customer_info_checkout_tab} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                </Button>
+                {
+                    customerId ? <Button onPress={this.displayEnterUserPhonePopup} style={{ flexDirection: 'row', alignItems: 'center' }} >
+                        <View style={styles.avatar_box} >
+                            <Text style={styles.txt_avatar} >
+                                {`${firstLetter}`}
+                            </Text>
+                        </View>
+                        <View style={{ marginLeft: scaleSzie(12) }} >
+                            <Text style={styles.txt_customer_name} >
+                                {`${displayName}`}
+                            </Text>
+                            <Text style={styles.txt_customer_phone} >
+                                {`${phone}`}
+                            </Text>
+                        </View>
+                    </Button> :
+                        <Button onPress={this.displayEnterUserPhonePopup} style={{ flexDirection: 'row', alignItems: 'center' }} >
+                            <Image source={ICON.checkout_customer_icon} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
+                            <Text style={{ color: "#404040", fontSize: scaleSzie(12), fontWeight: "600", marginHorizontal: scaleSzie(8) }} >
+                                {`Walking Customer`}
+                            </Text>
+                            <Image source={ICON.add_customer_info_checkout_tab} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
+                        </Button>
+                }
+
+
+
                 {/* -------- Button open cash -------- */}
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'row' }} >
                     {
@@ -238,7 +260,7 @@ class Layout extends React.Component {
 
     renderAmountCheckout() {
         const { language, groupAppointment } = this.props;
-        const {  categorySelected, categoryTypeSelected, productSeleted, isShowColProduct, arrSelectedExtra } = this.state;
+        const { categorySelected, categoryTypeSelected, productSeleted, isShowColProduct, arrSelectedExtra } = this.state;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
 
         return (
@@ -292,7 +314,7 @@ class Layout extends React.Component {
                                 borderWidth: 1, borderColor: '#C5C5C5',
                                 backgroundColor: '#0764B0',
                                 flex: 1,
-                                borderRadius:4
+                                borderRadius: 4
                             }}
                             styleText={{ fontSize: scaleSzie(19), fontWeight: 'bold', color: '#fff' }}
                         />
@@ -723,7 +745,7 @@ class Layout extends React.Component {
         const { appointmentOfflineMode } = this.state;
 
         return (
-            <View style={{flex: 1,paddingHorizontal: scaleSzie(22) }} >
+            <View style={{ flex: 1, paddingHorizontal: scaleSzie(22) }} >
                 <Text style={[styles.textHeader, { fontSize: scaleSzie(19), marginTop: scaleSzie(10), marginBottom: scaleSzie(12) }]} >
                     {localize('Offline mode', language)}
                 </Text>
@@ -920,9 +942,9 @@ class Layout extends React.Component {
                     visiblePrintInvoice={this.state.visiblePrintInvoice}
                     onRequestClose={this.cancelInvoicePrint}
                 />
-                <PopupChangeCustomerInfo
+                <EnterCustomerPhonePopup
                     ref={this.popupCustomerInfoRef}
-                    title={localize('Modification', language)}
+                    title={localize('Enter Phone Number', language)}
                     onRequestClose={() => { this.setState({ visibleCustomerName: false }) }}
                     changeStylistBasketLocal={this.changeStylistBasketLocal}
                 />

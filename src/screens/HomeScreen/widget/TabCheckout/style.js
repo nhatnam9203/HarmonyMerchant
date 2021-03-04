@@ -36,8 +36,8 @@ export default StyleSheet.create({
         // borderTopWidth: 0,
         justifyContent: 'center',
         alignItems: 'center',
-        borderBottomColor:"#DDDDDD",
-        borderBottomWidth:1
+        borderBottomColor: "#DDDDDD",
+        borderBottomWidth: 1
     },
     payNumberTextContainer: {
         flexDirection: 'row',
@@ -146,9 +146,9 @@ export default StyleSheet.create({
         justifyContent: 'center',
         // alignItems: 'center',
         backgroundColor: "#F1F1F1",
-        borderBottomColor:"#DDDDDD",
-        borderBottomWidth:1,
-        paddingLeft:scaleSzie(8)
+        borderBottomColor: "#DDDDDD",
+        borderBottomWidth: 1,
+        paddingLeft: scaleSzie(8)
     },
     txt_staff_column_header: {
         color: TXT_COLOR,
@@ -235,8 +235,8 @@ export default StyleSheet.create({
             },
         })
     },
-     // ------------- Extra Column Style -------------
-     product_column_box: {
+    // ------------- Extra Column Style -------------
+    product_column_box: {
         backgroundColor: "#fff",
         borderRightColor: "#EEEEEE",
         borderRightWidth: 1,
@@ -256,28 +256,53 @@ export default StyleSheet.create({
         })
     },
 
-     // ------------- Basket Column Style -------------
-     basket_box:{
+    // ------------- Basket Column Style -------------
+    basket_box: {
         flex: 1,
         zIndex: 1,
         backgroundColor: "#fff",
-        
-     },
 
-     btn_basket:{
-        borderWidth: 1, 
+    },
+
+    btn_basket: {
+        borderWidth: 1,
         borderColor: '#C5C5C5',
         flex: 1,
-        borderRadius:4
-     },
-     txt_btn_basket:{
-        fontSize: scaleSzie(19), 
+        borderRadius: 4
+    },
+    txt_btn_basket: {
+        fontSize: scaleSzie(19),
         fontWeight: '600'
-     },
-     btn_back:{
-        borderWidth: 1, 
+    },
+    btn_back: {
+        borderWidth: 1,
         borderColor: '#C5C5C5',
-        borderRadius:4,
+        borderRadius: 4,
         height: scaleSzie(44)
-     }
+    },
+    avatar_box: {
+        width: scaleSzie(40),
+        height: scaleSzie(40),
+        borderRadius: scaleSzie(20),
+        overflow: "hidden",
+        backgroundColor: "#E5E5E5",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    txt_avatar: {
+        color: "#404040",
+        fontSize: scaleSzie(18),
+        fontWeight: "bold"
+    },
+    txt_customer_name:{
+        color:"#0764B0",
+        fontSize:scaleSzie(16),
+        fontWeight:"600"
+    },
+    txt_customer_phone:{
+        color:"#404040",
+        fontSize:scaleSzie(14),
+        fontWeight:"400",
+        marginTop:5
+    }
 })
