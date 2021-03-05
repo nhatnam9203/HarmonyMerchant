@@ -426,7 +426,9 @@ class TabCheckout extends Layout {
     }
 
     clearDataCofrim = async () => {
-        const { connectionSignalR, groupAppointment, profile, isCancelAppointment, blockAppointments, payAppointmentId, customerInfoBuyAppointment } = this.props;
+        const { connectionSignalR, groupAppointment, profile, isCancelAppointment, 
+            blockAppointments, payAppointmentId, customerInfoBuyAppointment,appointmentIdBookingFromCalendar
+        } = this.props;
         const { isDrawer } = this.state;
         const temptBlockAppointments = blockAppointments ? [...blockAppointments] : [];
 
@@ -450,6 +452,11 @@ class TabCheckout extends Layout {
             const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
             const customerId = customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0;
             this.props.actions.appointment.cancleAppointment(mainAppointmentId, profile.merchantId, customerId);
+        }
+
+        if(appointmentIdBookingFromCalendar){
+            const customerId = customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0;
+            this.props.actions.appointment.cancleAppointment(appointmentIdBookingFromCalendar, profile.merchantId, customerId);
         }
 
         if (temptBlockAppointments && temptBlockAppointments.length > 0) {
@@ -1904,6 +1911,7 @@ const mapStateToProps = state => ({
     staffListCurrentDate: state.appointment.staffListCurrentDate,
 
     visibleAddEditCustomerPopup: state.appointment.visibleAddEditCustomerPopup,
+    appointmentIdBookingFromCalendar: state.appointment.appointmentIdBookingFromCalendar
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

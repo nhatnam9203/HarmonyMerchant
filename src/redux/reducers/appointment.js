@@ -50,9 +50,11 @@ const initialState = {
     isGiftCardTabPermission: false,
     startProcessingPax: false,
     amountCredtitForSubmitToServer: 0,
-
     staffListCurrentDate: [],
-    visibleAddEditCustomerPopup: false
+    visibleAddEditCustomerPopup: false,
+
+    isBookingFromCalendar: false,
+    appointmentIdBookingFromCalendar: 0
 }
 
 function appointmentReducer(state = initialState, action) {
@@ -85,7 +87,12 @@ function appointmentReducer(state = initialState, action) {
                 ...state,
                 groupAppointment: action.payload,
                 paymentDetailInfo: action.paymentDetailInfo,
-
+            }
+        case 'BOOKING_A_APPOINTMENT_FROM_CALENDAR_SUCCESS':
+            return {
+                ...state,
+                isBookingFromCalendar: action?.isBookingFromCalendar,
+                appointmentIdBookingFromCalendar: action?.appointmentIdBookingFromCalendar
             }
         case 'GET_APPOINTMENT_BY_ID_FAIL':
             return {

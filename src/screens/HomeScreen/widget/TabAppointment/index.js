@@ -383,14 +383,14 @@ class TabAppointment extends Layout {
     }
 
     clearDataCofrim = () => {
-        this.setState(initState);
-        this.props.actions.appointment.resetBasketEmpty();
-        this.props.actions.appointment.resetPayment();
-        this.props.actions.appointment.changeFlagSigninAppointment(false);
-        this.props.clearDataTabCheckout();
-        // ------- Cancle book appointment ----------
-        const { profile, appointmentDetail } = this.props;
-        this.props.actions.appointment.cancleAppointment(this.state.appointmentId, profile.merchantId, appointmentDetail.userId ? appointmentDetail.userId : 0);
+        // this.setState(initState);
+        // this.props.actions.appointment.resetBasketEmpty();
+        // this.props.actions.appointment.resetPayment();
+        // this.props.actions.appointment.changeFlagSigninAppointment(false);
+        // this.props.clearDataTabCheckout();
+        // // ------- Cancle book appointment ----------
+        // const { profile, appointmentDetail } = this.props;
+        // this.props.actions.appointment.cancleAppointment(this.state.appointmentId, profile.merchantId, appointmentDetail.userId ? appointmentDetail.userId : 0);
     }
 
     setStateVisibleFromParent = async (visibleConfirm) => {

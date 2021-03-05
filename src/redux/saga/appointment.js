@@ -46,7 +46,7 @@ function* getGroupAppointmentById(action) {
             if (data) {
                 yield put({
                     type: 'GET_GROUP_APPOINTMENT_BY_ID_SUCCESS',
-                    payload: responses?.data,
+                    payload: data,
                     paymentDetailInfo: {
                         checkoutGropId: data?.checkoutGroupId || 0,
                         customerName: "",
@@ -55,8 +55,18 @@ function* getGroupAppointmentById(action) {
                         grandTotal: data?.total || 0,
                         paidAmounts: data?.checkoutPayments || [],
                         dueAmount: data?.dueAmount || 0
-                    }
+                    },
+
                 });
+
+                if (action?.isBookingFromCalendar) {
+                    yield put({
+                        type: "BOOKING_A_APPOINTMENT_FROM_CALENDAR_SUCCESS",
+                        isBookingFromCalendar: action?.isBookingFromCalendar,
+                        appointmentIdBookingFromCalendar: action?.isBookingFromCalendar ? (data?.mainAppointmentId || 0) : 0
+                    })
+                }
+
 
                 const subTotal = data.subTotal ? formatNumberFromCurrency(data.subTotal) : 0;
                 const discount = data.discount ? formatNumberFromCurrency(data.discount) : 0;
@@ -883,15 +893,15 @@ function* getCustomerBuyAppointment(action) {
             // });
 
             // console.log(action?.customerInfoLocal?.phone);
-            
+
             yield put(actions.appointment.switchVisibleEnterCustomerPhonePopup(false));
             yield put({
-                type:"CUSTOMER_INFO_NOT_EXIST_IN_CHECKOUT_TAB",
+                type: "CUSTOMER_INFO_NOT_EXIST_IN_CHECKOUT_TAB",
                 payload: action?.customerInfoLocal?.phone || ""
 
             })
             yield put(actions.appointment.switchVisibleAddEditCustomerPopup(true));
-            
+
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
