@@ -335,7 +335,7 @@ class Layout extends React.Component {
     }
 
     renderGroupAppointments() {
-        const { language, groupAppointment, paymentDetailInfo, isOfflineMode } = this.props;
+        const { language, groupAppointment, paymentDetailInfo, isOfflineMode, isBookingFromCalendar } = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
         const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;
@@ -401,7 +401,7 @@ class Layout extends React.Component {
 
                     {/* ----------- Paid Amount ----------- */}
                     {
-                        !_.isEmpty(paymentDetailInfo) ? <View style={{ paddingHorizontal: scaleSzie(10), marginBottom: scaleSzie(8) }} >
+                      !isBookingFromCalendar &&  !_.isEmpty(paymentDetailInfo)  ? <View style={{ paddingHorizontal: scaleSzie(10), marginBottom: scaleSzie(8) }} >
                             <View style={{ height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
                             {/* ---------- Paid amount ------ */}
                             {
@@ -422,7 +422,7 @@ class Layout extends React.Component {
 
                             {/* ---------- Due amount ------ */}
                             {
-                                paymentDetailInfo.dueAmount ? <View style={[styles.payNumberTextContainer, { justifyContent: 'space-between', }]} >
+                             !isBookingFromCalendar &&   paymentDetailInfo.dueAmount ? <View style={[styles.payNumberTextContainer, { justifyContent: 'space-between', }]} >
                                     <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#FF3B30" }]} >
                                         {`${localize('Amount Due', language)}:`}
                                     </Text>
