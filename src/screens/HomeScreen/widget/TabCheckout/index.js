@@ -1830,10 +1830,6 @@ class TabCheckout extends Layout {
     }
 
     displayCustomerInfoPopup = async () => {
-        // this.addEditCustomerInfoRef?.current?.setStateFromParent({ ...this.props.customerInfoBuyAppointment });
-        // await this.setState({
-        //     visibleAddEditCustomerPopup: true
-        // });
         const customerId = this.props?.customerInfoBuyAppointment?.customerId || 0;
         this.props.actions.customer.getCustomerInfoById(customerId, true)
     }
@@ -1844,6 +1840,12 @@ class TabCheckout extends Layout {
 
     addCustomerInfo = (customer) => {
        this.props.actions.customer.addCustomer(customer,true);
+    }
+
+    bookAppointmentFromCalendar = () => {
+        this.props.gotoTabAppointment();
+        this.setState(initState);
+        this.props.actions.appointment.resetGroupAppointment();
     }
 
     async componentDidUpdate(prevProps, prevState) {
@@ -1911,7 +1913,8 @@ const mapStateToProps = state => ({
     staffListCurrentDate: state.appointment.staffListCurrentDate,
 
     visibleAddEditCustomerPopup: state.appointment.visibleAddEditCustomerPopup,
-    appointmentIdBookingFromCalendar: state.appointment.appointmentIdBookingFromCalendar
+    appointmentIdBookingFromCalendar: state.appointment.appointmentIdBookingFromCalendar,
+    isBookingFromCalendar: state.appointment.isBookingFromCalendar
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

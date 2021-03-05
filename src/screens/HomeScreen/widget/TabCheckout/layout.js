@@ -27,7 +27,7 @@ import {
     ShadowLineLeftToRight,
     ShadowLineRightToLeft,
     ShadowLineShort, PopupChangeCustomerInfo, PopupAddItemIntoAppointments, PopupGiftCardDetail,
-    PopupEnterAmountGiftCard, EnterCustomerPhonePopup,PopupAddEditCustomer
+    PopupEnterAmountGiftCard, EnterCustomerPhonePopup, PopupAddEditCustomer
 } from './widget';
 
 import { StaffItem } from "./widget/NewCheckoutComponent";
@@ -608,7 +608,7 @@ class Layout extends React.Component {
 
 
     renderButtonChekout() {
-        const { language, isDonePayment, groupAppointment, blockAppointments } = this.props;
+        const { language, isDonePayment, groupAppointment, blockAppointments, isBookingFromCalendar } = this.props;
         const { tabCurrent, basket, paymentSelected, changeButtonDone, isCancelHarmonyPay
         } = this.state;
 
@@ -717,8 +717,36 @@ class Layout extends React.Component {
                     />
                 );
 
-            }
-            if (basket.length > 0 || !_.isEmpty(groupAppointment)) {
+            } else if (isBookingFromCalendar) {
+                if (!_.isEmpty(groupAppointment) && groupAppointment?.total > 0) {
+                    return (
+                        <ButtonCustom
+                            width={`100%`}
+                            backgroundColor="#0764B0"
+                            title={localize('BOOK', language)}
+                            textColor="#fff"
+                            onPress={this.bookAppointmentFromCalendar}
+                            style={styles.btn_basket}
+                            styleText={styles.txt_btn_basket}
+                        />
+                    );
+                } else {
+                    return (
+                        <ButtonCustom
+                            width={`100%`}
+                            backgroundColor="#F1F1F1"
+                            title={localize('BOOK', language)}
+                            textColor="#6A6A6A"
+                            onPress={() => { }}
+                            style={styles.btn_basket}
+                            activeOpacity={1}
+                            styleText={styles.txt_btn_basket}
+                        />
+                    );
+                }
+
+
+            } else if (basket.length > 0 || !_.isEmpty(groupAppointment)) {
                 return (
                     <ButtonCustom
                         width={`100%`}
@@ -833,7 +861,7 @@ class Layout extends React.Component {
     render() {
         const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission, visiblePopupEnterGiftCardAmount } = this.props;
         const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
-            visiblePopupAddItemIntoBasket,visibleAddEditCustomerPopup
+            visiblePopupAddItemIntoBasket, visibleAddEditCustomerPopup
         } = this.state;
 
         return (
@@ -977,11 +1005,11 @@ class Layout extends React.Component {
                     onRequestClose={this.closePopupCheckDiscountPermission}
                 />
 
-                <PopupAddEditCustomer 
+                <PopupAddEditCustomer
                     ref={this.addEditCustomerInfoRef}
                     visible={visibleAddEditCustomerPopup}
                     title={"Customer Infomation"}
-                    onRequestClose={() => this.setState({visibleAddEditCustomerPopup:false})}
+                    onRequestClose={() => this.setState({ visibleAddEditCustomerPopup: false })}
                     editCustomerInfo={this.editCustomerInfo}
                     addCustomerInfo={this.addCustomerInfo}
                 />
