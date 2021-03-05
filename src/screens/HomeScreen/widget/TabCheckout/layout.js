@@ -60,6 +60,14 @@ class Layout extends React.Component {
                                 {`${phone}`}
                             </Text>
                         </View>
+
+                        {/* -------- Enter other number --------- */}
+                        <Button onPress={this.displayEnterUserPhonePopup} >
+                            <Text style={styles.txt_enter_other_phone_number} >
+                                {`Enter another phone`}
+                            </Text>
+                        </Button>
+
                     </Button> :
                         <Button onPress={this.displayEnterUserPhonePopup} style={{ flexDirection: 'row', alignItems: 'center' }} >
                             <Image source={ICON.checkout_customer_icon} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />

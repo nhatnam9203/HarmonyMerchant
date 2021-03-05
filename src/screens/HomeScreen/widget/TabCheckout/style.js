@@ -303,6 +303,12 @@ export default StyleSheet.create({
         color:"#404040",
         fontSize:scaleSzie(14),
         fontWeight:"400",
-        marginTop:5
+        marginTop:5,
+    },
+    txt_enter_other_phone_number:{ 
+        textDecorationLine:"underline",  
+        color:"#0764B0",
+        fontSize:scaleSzie(12),
+        marginLeft:scaleSzie(10)
     }
 })
