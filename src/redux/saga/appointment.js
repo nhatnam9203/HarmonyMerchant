@@ -4,6 +4,7 @@ import { Alert } from "react-native";
 
 import { requestAPI, formatNumberFromCurrency } from '../../utils';
 import apiConfigs from '../../configs/api';
+import actions from "../actions";
 
 function* getAppointmentById(action) {
     try {
@@ -45,7 +46,7 @@ function* getGroupAppointmentById(action) {
             if (data) {
                 yield put({
                     type: 'GET_GROUP_APPOINTMENT_BY_ID_SUCCESS',
-                    payload: responses?.data,
+                    payload: data,
                     paymentDetailInfo: {
                         checkoutGropId: data?.checkoutGroupId || 0,
                         customerName: "",
@@ -54,8 +55,18 @@ function* getGroupAppointmentById(action) {
                         grandTotal: data?.total || 0,
                         paidAmounts: data?.checkoutPayments || [],
                         dueAmount: data?.dueAmount || 0
-                    }
+                    },
+
                 });
+
+                if (action?.isBookingFromCalendar) {
+                    yield put({
+                        type: "BOOKING_A_APPOINTMENT_FROM_CALENDAR_SUCCESS",
+                        isBookingFromCalendar: action?.isBookingFromCalendar,
+                        appointmentIdBookingFromCalendar: action?.isBookingFromCalendar ? (data?.mainAppointmentId || 0) : 0
+                    })
+                }
+
 
                 const subTotal = data.subTotal ? formatNumberFromCurrency(data.subTotal) : 0;
                 const discount = data.discount ? formatNumberFromCurrency(data.discount) : 0;
@@ -855,6 +866,7 @@ function* getCustomerBuyAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' })
         const responses = yield requestAPI(action);
+        // console.log("---- responses: ",JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -872,13 +884,24 @@ function* getCustomerBuyAppointment(action) {
                 type: 'UNAUTHORIZED'
             })
         } else {
+            // yield put({
+            //     type: "GET_CUSTOMER_INFO_BUY_APPOINTMENT_FAIL",
+            //     payload: action.customerInfoLocal
+            // });
+            // yield put({
+            //     type: "CHANGE_CUSTOMER_IN_APPOINTMENT",
+            // });
+
+            // console.log(action?.customerInfoLocal?.phone);
+
+            yield put(actions.appointment.switchVisibleEnterCustomerPhonePopup(false));
             yield put({
-                type: "GET_CUSTOMER_INFO_BUY_APPOINTMENT_FAIL",
-                payload: action.customerInfoLocal
-            });
-            yield put({
-                type: "CHANGE_CUSTOMER_IN_APPOINTMENT",
-            });
+                type: "CUSTOMER_INFO_NOT_EXIST_IN_CHECKOUT_TAB",
+                payload: action?.customerInfoLocal?.phone || ""
+
+            })
+            yield put(actions.appointment.switchVisibleAddEditCustomerPopup(true));
+
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -1157,6 +1180,38 @@ function* checkCreditPaymentToServer(action) {
     }
 }
 
+
+function* getStaffListByCurrentDate(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // console.log("----- getStaffListByCurrentDate: ", responses);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "GET_STAFF_LIST_BY_CURRENT_DATE_SUCCESS",
+                payload: responses?.data || []
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+
+        yield put({ type: error });
+
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 export default function* saga() {
     yield all([
         takeLatest('GET_APPOINTMENT_BY_ID', getAppointmentById),
@@ -1183,7 +1238,9 @@ export default function* saga() {
         takeLatest('HANDLE_ENTER_GIFT_CARD_AMOUNT', handleEnterGiftCardAmount),
         takeLatest('GET_GIFT_CARDS_ACTIVE_LIST', getGiftCardsActiveList),
         takeLatest('GET_GIFT_CARDS_LOGS', getGiftCardLogs),
-
         takeLatest('CHECK_CREDIT_PAYMENT_TO_SERVER', checkCreditPaymentToServer),
+
+        takeLatest('GET_STAFF_LIST_BY_CURRENT_DATE', getStaffListByCurrentDate),
+
     ]);
 }

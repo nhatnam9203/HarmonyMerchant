@@ -232,7 +232,7 @@ const mapStateToProps = state => ({
     listStaffByMerchant: state.staff.listStaffByMerchant,
     appointmentDetail: state.appointment.appointmentDetail,
     groupAppointment: state.appointment.groupAppointment,
-    visiblePopupCustomerInfoBuyAppointment: state.appointment.visiblePopupCustomerInfoBuyAppointment,
+    visibleEnterCustmerPhonePopup: state.appointment.visibleEnterCustmerPhonePopup,
     loading: state.app.loading
 })
 

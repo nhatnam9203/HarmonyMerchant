@@ -70,15 +70,15 @@ class EditOrCreateCustomerTab extends React.Component {
                 addressPost: {
                     street: customer?.addressPost?.street || "",
                     city: customer?.addressPost?.city || "",
-                    state: customer.addressPost.state === 0 ? '' : getNameStateById(stateCity, customer.addressPost.state),
+                    state: customer?.addressPost?.state === 0 ? '' : getNameStateById(stateCity, customer?.addressPost?.state),
                     zip: customer?.addressPost?.zip || "",
                 },
                 phone: getCodeAreaPhone(customer?.phone)?.phone,
                 referrerPhone: getCodeAreaPhone(customer?.referrerPhone)?.phone,
             },
-            customerId: customer.customerId,
-            codeAreaPhone: getCodeAreaPhone(customer.phone).areaCode,
-            codeReferrerPhone: getCodeAreaPhone(customer.referrerPhone).areaCode,
+            customerId: customer?.customerId,
+            codeAreaPhone: getCodeAreaPhone(customer?.phone).areaCode,
+            codeReferrerPhone: getCodeAreaPhone(customer?.referrerPhone).areaCode,
             isEditCustomerInfo: true
         })
     }

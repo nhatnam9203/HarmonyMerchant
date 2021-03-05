@@ -13,13 +13,14 @@ export function getAppointmentById(id) {
     }
 }
 
-export function getGroupAppointmentById(id, isNotShowMessage = true) {
+export function getGroupAppointmentById(id, isBookingFromCalendar = false ,isNotShowMessage = true) {
     return {
         type: 'GET_GROUP_APPOINTMENT_BY_ID',
         method: 'GET',
         api: `${apiConfigs.BASE_API}appointment/getGroupById/${id}`,
         token: true,
-        isNotShowMessage
+        isNotShowMessage,
+        isBookingFromCalendar
     }
 }
 
@@ -477,12 +478,6 @@ export function getCustomerBuyAppointment(phoneNumber, customerInfoLocal = {
     }
 }
 
-export function togglePopupCustomerInfoByPhone(visible = true) {
-    return {
-        type: "TOGGLE_POPUP_CUSTOMER_INFO_BUY_APPOINTMENT",
-        payload: visible
-    }
-}
 
 export function updateFromTimeBlockAppointment(fromTime = new Date()) {
     return {
@@ -567,6 +562,31 @@ export function checkCreditPaymentToServer(groupId, amount, paxAmount) {
 export function resetStateCheckCreditPaymentToServer(visible = false) {
     return {
         type: 'RESET_STATE_CHECK_CREDIT_PAYMENT_TO_SERVER',
+        payload: visible
+    }
+}
+
+
+export function getStaffListByCurrentDate(merchantId) {
+    const date = formatWithMoment(new Date(), "YYYY-MM-DD");
+    return {
+        type: 'GET_STAFF_LIST_BY_CURRENT_DATE',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}staff/getbydate/${merchantId}?date=${date}`,
+    }
+}
+
+export function switchVisibleEnterCustomerPhonePopup(visible = true) {
+    return {
+        type: "SWITCH_VISIBLE_ENTER_CUSTOMER_PHONE_POPUP",
+        payload: visible
+    }
+}
+
+export function switchVisibleAddEditCustomerPopup(visible = true) {
+    return {
+        type: 'SWITCH_VISIBLE_ADD_EDIT_CUSTOMER_POPUP',
         payload: visible
     }
 }

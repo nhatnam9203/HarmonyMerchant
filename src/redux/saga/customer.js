@@ -2,6 +2,7 @@ import { put, takeLatest, all, takeEvery } from "redux-saga/effects";
 
 import apiConfigs from '../../configs/api';
 import { requestAPI } from '../../utils';
+import actions from "../actions";
 
 function* getListCustomersByMerchant(action) {
     try {
@@ -72,23 +73,33 @@ function* addCustomer(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
+        // console.log("----- ADD_CUSTOMER: ",JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({
-                type: "ADD_CUSTOMER_SUCCESS"
-            });
-
-            yield put({
-                type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
-                method: 'GET',
-                api: `${apiConfigs.BASE_API}customer/search?key=&page=1`,
-                token: true,
-                isShowLoading: true,
-                currentPage: 1,
-                isShowLoadMore: false
-            });
-
+            if(action?.isGetCustomerInfoIncheckoutTab){
+                yield put({
+                    type: "GET_CUSTOMER_INFO_BUY_APPOINTMENT_SUCCESS",
+                    payload: responses?.data || {}
+                });
+                yield put({
+                    type: "CHANGE_CUSTOMER_IN_APPOINTMENT",
+                });
+                yield put(actions.appointment.switchVisibleAddEditCustomerPopup(false));
+            }else{
+                yield put({
+                    type: "ADD_CUSTOMER_SUCCESS"
+                });
+                yield put({
+                    type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
+                    method: 'GET',
+                    api: `${apiConfigs.BASE_API}customer/search?key=&page=1`,
+                    token: true,
+                    isShowLoading: true,
+                    currentPage: 1,
+                    isShowLoadMore: false
+                });
+            }
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -115,24 +126,35 @@ function* editCustomer(action) {
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({
-                type: "EDIT_CUSTOMER_SUCCESS"
-            })
-            yield put({
-                type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
-                method: 'GET',
-                api: `${apiConfigs.BASE_API}customer/search?key=&page=1`,
-                token: true,
-                isShowLoading: true,
-                currentPage: 1,
-                isShowLoadMore: false
-            });
-            yield put({
-                type: 'GET_CUSTOMER_INFO_BY_ID',
-                method: 'GET',
-                api: `${apiConfigs.BASE_API}customer/${action?.customerId}`,
-                token: true
-            })
+            if (action?.isGetCustomerInfoInCheckoutTab) {
+                yield put({
+                    type: 'GET_CUSTOMER_INFO_BY_ID',
+                    method: 'GET',
+                    api: `${apiConfigs.BASE_API}customer/${action?.customerId}`,
+                    token: true,
+                    isGetCustomerInfoInCheckoutTab: action?.isGetCustomerInfoInCheckoutTab
+                });
+            } else {
+                yield put({
+                    type: "EDIT_CUSTOMER_SUCCESS"
+                })
+                yield put({
+                    type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
+                    method: 'GET',
+                    api: `${apiConfigs.BASE_API}customer/search?key=&page=1`,
+                    token: true,
+                    isShowLoading: true,
+                    currentPage: 1,
+                    isShowLoadMore: false
+                });
+                yield put({
+                    type: 'GET_CUSTOMER_INFO_BY_ID',
+                    method: 'GET',
+                    api: `${apiConfigs.BASE_API}customer/${action?.customerId}`,
+                    token: true,
+                })
+            }
+
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -216,10 +238,28 @@ function* getCustomerInfoById(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            yield put({
-                type: "GET_CUSTOMER_INFO_BY_ID__SUCCESS",
-                payload: responses?.data
-            });
+            if (action?.isGetCustomerInfoInCheckoutTab) {
+                yield put({
+                    type: "GET_CUSTOMER_INFO_BUY_APPOINTMENT_SUCCESS",
+                    payload: responses?.data || {}
+                });
+                yield put({
+                    type: "CHANGE_CUSTOMER_IN_APPOINTMENT",
+                });
+                yield put(actions.appointment.switchVisibleAddEditCustomerPopup(false));
+            } else if(action?.isVisibleCustomerInfoPopup){
+                yield put({
+                    type:"GET_CUSTOMER_IN_CHECKOUT_TAB_SUCCESS",
+                    payload:responses?.data || {}
+                })
+                yield put(actions.appointment.switchVisibleAddEditCustomerPopup(true));
+            }  else {
+                yield put({
+                    type: "GET_CUSTOMER_INFO_BY_ID__SUCCESS",
+                    payload: responses?.data
+                });
+            }
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

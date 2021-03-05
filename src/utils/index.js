@@ -505,7 +505,7 @@ export const removeAccent = str => {
 
 export const checkStateIsValid = (arrayState, state) => {
     let isValid = false;
-    for (let i = 0; i < arrayState.length; i++) {
+    for (let i = 0; i < arrayState?.length; i++) {
         if (removeAccent(arrayState[i].name.toLowerCase()) === removeAccent(state.toLowerCase())) {
             isValid = true;
             break;

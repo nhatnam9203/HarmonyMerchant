@@ -320,7 +320,15 @@ class HomeScreen extends Layout {
     }
 
     bookAppointment = async (appointmentId) => {
-        this.props.actions.appointment.getAppointmentById(appointmentId);
+        // this.props.actions.appointment.getAppointmentById(appointmentId);
+
+        this.props.actions.appointment.getGroupAppointmentById(appointmentId,true,false);
+        this.tabCheckoutRef?.current?.resetStateFromParent();
+        this.scrollTabParentRef.current.goToPage(2);
+
+         // ------- Cancle book appointment ----------
+        //  const { profile, appointmentDetail } = this.props;
+        //  this.props.actions.appointment.cancleAppointment(this.state.appointmentId, profile.merchantId, appointmentDetail.userId ? appointmentDetail.userId : 0);
     }
 
     submitPincode = () => {
@@ -375,10 +383,14 @@ class HomeScreen extends Layout {
     }
 
     onChangeTab = (index) => {
-        this.setState({ currentTab: index.i });
-        if (index.i === 0) {
-            const { profile } = this.props;
+        const { profile } = this.props;
+        const page = index?.i || 0;
+
+        this.setState({ currentTab: page });
+        if (page === 0) {
             this.props.actions.marketing.getPromotionByMerchant();
+        } else if (page === 2) {
+            this.props.actions.appointment.getStaffListByCurrentDate(profile?.merchantId);
         }
     }
 
