@@ -1823,24 +1823,25 @@ class TabCheckout extends Layout {
     }
 
     displayCustomerInfoPopup = async () => {
-        this.addEditCustomerInfoRef?.current?.setStateFromParent({ ...this.props.customerInfoBuyAppointment });
-        await this.setState({
-            visibleAddEditCustomerPopup: true
-        });
+        // this.addEditCustomerInfoRef?.current?.setStateFromParent({ ...this.props.customerInfoBuyAppointment });
+        // await this.setState({
+        //     visibleAddEditCustomerPopup: true
+        // });
+        const customerId = this.props?.customerInfoBuyAppointment?.customerId || 0;
+        this.props.actions.customer.getCustomerInfoById(customerId, true)
     }
 
-    editCustomerInfo = async (customerId,customer) =>{
-        await this.setState({
-            visibleAddEditCustomerPopup: false
-        });
-        setTimeout(() =>{
-            this.props.actions.customer.editCustomer(customerId, customer,true);
-        },100)
-        
+    editCustomerInfo = (customerId, customer) => {
+        this.props.actions.customer.editCustomer(customerId, customer, true);
+    }
+
+    addCustomerInfo = (customer) => {
+        console.log(customer);
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        const { isLoadingGetBlockAppointment, blockAppointments, isLoadingRemoveBlockAppointment, startProcessingPax } = this.props;
+        const { isLoadingGetBlockAppointment, blockAppointments, isLoadingRemoveBlockAppointment, startProcessingPax,
+        } = this.props;
         if (blockAppointments.length > 0 && prevProps.isLoadingRemoveBlockAppointment != isLoadingRemoveBlockAppointment && !isLoadingRemoveBlockAppointment) {
             this.updateBlockAppointmentRef();
         }
@@ -1902,7 +1903,7 @@ const mapStateToProps = state => ({
     bluetoothPaxInfo: state.dataLocal.bluetoothPaxInfo,
     staffListCurrentDate: state.appointment.staffListCurrentDate,
 
-    visibleAddEditCustomerPopup: state.appointment.visibleAddEditCustomerPopup
+    visibleAddEditCustomerPopup: state.appointment.visibleAddEditCustomerPopup,
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);

@@ -4,6 +4,7 @@ import { Alert } from "react-native";
 
 import { requestAPI, formatNumberFromCurrency } from '../../utils';
 import apiConfigs from '../../configs/api';
+import actions from "../actions";
 
 function* getAppointmentById(action) {
     try {
@@ -880,7 +881,17 @@ function* getCustomerBuyAppointment(action) {
             // yield put({
             //     type: "CHANGE_CUSTOMER_IN_APPOINTMENT",
             // });
-            console.log("------ handle ----");
+
+            // console.log(action?.customerInfoLocal?.phone);
+            
+            yield put(actions.appointment.switchVisibleEnterCustomerPhonePopup(false));
+            yield put({
+                type:"CUSTOMER_INFO_NOT_EXIST_IN_CHECKOUT_TAB",
+                payload: action?.customerInfoLocal?.phone || ""
+
+            })
+            yield put(actions.appointment.switchVisibleAddEditCustomerPopup(true));
+            
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });

@@ -975,6 +975,7 @@ class Layout extends React.Component {
                     title={"Customer Infomation"}
                     onRequestClose={() => this.setState({visibleAddEditCustomerPopup:false})}
                     editCustomerInfo={this.editCustomerInfo}
+                    addCustomerInfo={this.addCustomerInfo}
                 />
             </View>
         );

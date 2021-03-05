@@ -19,7 +19,7 @@ const initialState = {
     isLoadMorePastAppointment: false,
     isEditCustomerSuccess: false,
     isAddCustomerSuccess: false,
-
+    customerInfoInCheckoutTab: {}
 }
 
 function customerReducer(state = initialState, action) {
@@ -151,6 +151,24 @@ function customerReducer(state = initialState, action) {
             return {
                 ...state,
                 isLoadMorePastAppointment: false
+            }
+        case 'GET_CUSTOMER_IN_CHECKOUT_TAB_SUCCESS':
+            return {
+                ...state,
+                isGetCustomerInCheckoutTabSuccess: true,
+                customerInfoInCheckoutTab: action.payload
+            }
+        case 'CUSTOMER_INFO_NOT_EXIST_IN_CHECKOUT_TAB':
+            return {
+                ...state,
+                isGetCustomerInCheckoutTabSuccess: true,
+                customerInfoInCheckoutTab: {phone:action.payload}
+            }
+
+        case 'RESET_STATE_IS_GET_CUSTOMER_IN_CHECKOUT_TAB_SUCCESS':
+            return {
+                ...state,
+                isGetCustomerInCheckoutTabSuccess: false,
             }
         case 'LOGOUT_APP':
             return {

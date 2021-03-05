@@ -280,12 +280,12 @@ function appointmentReducer(state = initialState, action) {
                 customerInfoBuyAppointment: action.payload,
                 visibleEnterCustmerPhonePopup: false
             }
-        case 'GET_CUSTOMER_INFO_BUY_APPOINTMENT_FAIL':
-            return {
-                ...state,
-                customerInfoBuyAppointment: action.payload,
-                visibleEnterCustmerPhonePopup: false
-            }
+        // case 'GET_CUSTOMER_INFO_BUY_APPOINTMENT_FAIL':
+        //     return {
+        //         ...state,
+        //         customerInfoBuyAppointment: action.payload,
+        //         visibleEnterCustmerPhonePopup: false
+        //     }
         case 'SWITCH_VISIBLE_ENTER_CUSTOMER_PHONE_POPUP':
             return {
                 ...state,

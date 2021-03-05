@@ -2,6 +2,7 @@ import { put, takeLatest, all, takeEvery } from "redux-saga/effects";
 
 import apiConfigs from '../../configs/api';
 import { requestAPI } from '../../utils';
+import actions from "../actions";
 
 function* getListCustomersByMerchant(action) {
     try {
@@ -232,11 +233,17 @@ function* getCustomerInfoById(action) {
                     type: "GET_CUSTOMER_INFO_BUY_APPOINTMENT_SUCCESS",
                     payload: responses?.data || {}
                 });
-    
                 yield put({
                     type: "CHANGE_CUSTOMER_IN_APPOINTMENT",
                 });
-            } else {
+                yield put(actions.appointment.switchVisibleAddEditCustomerPopup(false));
+            } else if(action?.isVisibleCustomerInfoPopup){
+                yield put({
+                    type:"GET_CUSTOMER_IN_CHECKOUT_TAB_SUCCESS",
+                    payload:responses?.data || {}
+                })
+                yield put(actions.appointment.switchVisibleAddEditCustomerPopup(true));
+            }  else {
                 yield put({
                     type: "GET_CUSTOMER_INFO_BY_ID__SUCCESS",
                     payload: responses?.data

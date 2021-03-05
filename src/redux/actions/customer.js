@@ -75,12 +75,13 @@ export function sendGoogleReviewLink(customerId = 0, merchantId = 0) {
     }
 }
 
-export function getCustomerInfoById(customerId) {
+export function getCustomerInfoById(customerId,isVisibleCustomerInfoPopup =  false) {
     return {
         type: 'GET_CUSTOMER_INFO_BY_ID',
         method: 'GET',
         api: `${apiConfigs.BASE_API}customer/${customerId}`,
-        token: true
+        token: true,
+        isVisibleCustomerInfoPopup
     }
 }
 
@@ -117,4 +118,9 @@ export function resetAddCustomerState(visible = false) {
     }
 }
 
-
+export function resetStateIsGetCustomerInCheckoutTabSuccess(visible = false) {
+    return {
+        type: 'RESET_STATE_IS_GET_CUSTOMER_IN_CHECKOUT_TAB_SUCCESS',
+        payload: visible
+    }
+}

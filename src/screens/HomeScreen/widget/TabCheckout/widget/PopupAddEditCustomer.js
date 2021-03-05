@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
-import { ButtonCustom, PopupParent, Dropdown, TextInputSuggestion } from '@components';
+import { ButtonCustom, PopupParent, Dropdown, TextInputSuggestion,Loading } from '@components';
 import {
     scaleSzie, localize, getIdStateByName, getNameStateById, ListCodeAreaPhone,
     getCodeAreaPhone, checkStateIsValid, checkIsTablet
@@ -65,7 +65,7 @@ class PopupAddEditCustomer extends React.Component {
     }
 
     setStateFromParent = async customer => {
-        console.log(customer);
+        // console.log(customer);
         await this.setState({
             customerInfo: {
                 firstName: customer?.firstName || "",
@@ -142,7 +142,14 @@ class PopupAddEditCustomer extends React.Component {
                 isVip: customerInfo.isVip === "Normal" ? 0 : 1
             };
 
-            this.props.editCustomerInfo(this.state.customerId, temptCustomerInfo);
+
+            if(this.state.customerId){
+                this.props.editCustomerInfo(this.state.customerId, temptCustomerInfo);
+            }else{
+                this.props.addCustomerInfo(temptCustomerInfo);
+            }
+
+           
             // if (this.props.isSave) {
             //     this.props.editCustomer(this.state.customerId, temptCustomerInfo);
             // } else {
@@ -163,11 +170,15 @@ class PopupAddEditCustomer extends React.Component {
         });
     }
 
+    onRequestClose = () =>{
+        this.props.actions.appointment.switchVisibleAddEditCustomerPopup(false);
+    }
+
     // ----------- render ----------
 
 
     render() {
-        const { title, visible, onRequestClose, isSave, language } = this.props;
+        const { title, visible, onRequestClose, isSave, language,visibleAddEditCustomerPopup } = this.props;
         const temptTitleButton = isSave ? 'Save' : 'Add';
 
         const { dynamicMarginBottomState } = this.state;
@@ -178,8 +189,8 @@ class PopupAddEditCustomer extends React.Component {
         return (
             <PopupParent
                 title={title}
-                visible={visible}
-                onRequestClose={onRequestClose}
+                visible={visibleAddEditCustomerPopup}
+                onRequestClose={this.onRequestClose}
                 styleTitle={{
                     fontSize: scaleSzie(20), fontWeight: '600'
                 }}
@@ -472,9 +483,19 @@ class PopupAddEditCustomer extends React.Component {
                         />
                     </View>
                 </View>
+                <Loading />
             </PopupParent>
         );
     }
+
+    async componentDidUpdate(prevProps, prevState) {
+        const { isGetCustomerInCheckoutTabSuccess,customerInfoInCheckoutTab } = this.props;
+        if (isGetCustomerInCheckoutTabSuccess && prevProps.isGetCustomerInCheckoutTabSuccess !== isGetCustomerInCheckoutTabSuccess) {
+            this.setStateFromParent({...customerInfoInCheckoutTab});
+            this.props.actions.customer.resetStateIsGetCustomerInCheckoutTabSuccess(false);
+        }
+    }
+
 
 }
 
@@ -487,7 +508,10 @@ const strings = {
 }
 
 const mapStateToProps = state => ({
-    stateCity: state?.dataLocal?.stateCity
+    stateCity: state?.dataLocal?.stateCity,
+    visibleAddEditCustomerPopup: state.appointment.visibleAddEditCustomerPopup,
+    isGetCustomerInCheckoutTabSuccess: state.customer.isGetCustomerInCheckoutTabSuccess,
+    customerInfoInCheckoutTab: state.customer.customerInfoInCheckoutTab
 })
 
 export default connectRedux(mapStateToProps, PopupAddEditCustomer);

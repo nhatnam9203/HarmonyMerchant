@@ -41,7 +41,7 @@ class HomeScreen extends Layout {
     }
 
     componentDidMount() {
-        // this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
+        this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
 
         // ----------- Add Listener Back Action On Android --------------
         BackHandler.addEventListener("hardwareBackPress", this.backAction);
@@ -325,6 +325,10 @@ class HomeScreen extends Layout {
         // this.props.actions.appointment.getGroupAppointmentById(appointmentId);
         // this.tabCheckoutRef?.current?.resetStateFromParent();
         // this.scrollTabParentRef.current.goToPage(2);
+
+         // ------- Cancle book appointment ----------
+        //  const { profile, appointmentDetail } = this.props;
+        //  this.props.actions.appointment.cancleAppointment(this.state.appointmentId, profile.merchantId, appointmentDetail.userId ? appointmentDetail.userId : 0);
     }
 
     submitPincode = () => {
