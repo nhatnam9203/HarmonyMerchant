@@ -119,12 +119,19 @@ class PopupChangeStylist extends React.Component {
     }
 
     submitChangeStylist = () => {
-        const { staffId, bookingServiceId, tip, serviceIdLocal, appointmentIdChangeStylist, price, note } = this.state;
+        const { staffId, bookingServiceId, tip, serviceIdLocal, appointmentIdChangeStylist, price, note,extras } = this.state;
         const { groupAppointment } = this.props;
         if (_.isEmpty(groupAppointment)) {
             this.props.changeStylistBasketLocal(serviceIdLocal, staffId, tip, price);
         } else {
-            this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentIdChangeStylist, price, 0, note, true);
+            const tempExtras = [];
+            for(let extra of extras ){
+                console.log(extra);
+                if(extra?.isSelect){
+                    tempExtras.push(extra?.extraId);
+                }
+            }
+            this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentIdChangeStylist, price,tempExtras, 0, note, true);
 
         }
         this.props.onRequestClose();
@@ -323,7 +330,7 @@ const ExtraItem = ({ extra, selectExtra }) => {
                 alignItems: "center",
             }}
         >
-            <Button onPress={selectExtra} style={{ width: scaleSzie(18), height: scaleSzie(18)}} >
+            <Button onPress={selectExtra} style={{ width: scaleSzie(18), height: scaleSzie(18) }} >
                 <Image source={extra?.isSelect ? ICON.checkBox : ICON.checkBoxEmpty} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
             </Button>
 

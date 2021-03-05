@@ -28,13 +28,14 @@ export function clearSearCustomer() {
     }
 }
 
-export function addCustomer(body) {
+export function addCustomer(body,isGetCustomerInfoIncheckoutTab = false) {
     return {
         type: 'ADD_CUSTOMER',
         method: 'POST',
         body,
         api: `${apiConfigs.BASE_API}customer`,
-        token: true
+        token: true,
+        isGetCustomerInfoIncheckoutTab
     }
 }
 

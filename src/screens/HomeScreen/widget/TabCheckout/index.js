@@ -1836,7 +1836,7 @@ class TabCheckout extends Layout {
     }
 
     addCustomerInfo = (customer) => {
-        console.log(customer);
+       this.props.actions.customer.addCustomer(customer,true);
     }
 
     async componentDidUpdate(prevProps, prevState) {
