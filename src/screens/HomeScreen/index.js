@@ -319,16 +319,27 @@ class HomeScreen extends Layout {
         this.scrollTabParentRef.current.goToPage(2);
     }
 
-    bookAppointment = async (appointmentId) => {
+    bookAppointment = async (appointmentId, staffId = 0) => {
         // this.props.actions.appointment.getAppointmentById(appointmentId);
 
-        this.props.actions.appointment.getGroupAppointmentById(appointmentId,true,false);
-        this.tabCheckoutRef?.current?.resetStateFromParent();
+        this.props.actions.appointment.getGroupAppointmentById(appointmentId, true, false);
+        // this.tabCheckoutRef?.current?.resetStateFromParent();
         this.scrollTabParentRef.current.goToPage(2);
 
-         // ------- Cancle book appointment ----------
-        //  const { profile, appointmentDetail } = this.props;
-        //  this.props.actions.appointment.cancleAppointment(this.state.appointmentId, profile.merchantId, appointmentDetail.userId ? appointmentDetail.userId : 0);
+        if (this.tabCheckoutRef?.current) {
+            this.tabCheckoutRef?.current?.resetStateFromParent();
+            if (staffId) {
+                this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+            }
+        } else {
+            setTimeout(() => {
+                this.tabCheckoutRef?.current?.resetStateFromParent();
+                if (staffId) {
+                    this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+                }
+            }, 200)
+        }
+
     }
 
     submitPincode = () => {
