@@ -1855,6 +1855,13 @@ class TabCheckout extends Layout {
         })
     }
 
+    setBlockStateFromCalendar = async () => {
+        await this.setState({
+            isShowCategoriesColumn: true,
+            isBlockBookingFromCalendar: true
+        })
+    }
+
     async componentDidUpdate(prevProps, prevState) {
         const { isLoadingGetBlockAppointment, blockAppointments, isLoadingRemoveBlockAppointment, startProcessingPax,
         } = this.props;
