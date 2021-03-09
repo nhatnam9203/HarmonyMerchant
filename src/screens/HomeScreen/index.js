@@ -192,12 +192,6 @@ class HomeScreen extends Layout {
         this.scrollTabParentRef.current.goToPage(1);
     }
 
-    createABlockAppointment = (appointmentId, fromTime) => {
-        this.props.actions.appointment.updateFromTimeBlockAppointment(fromTime ? fromTime : new Date());
-        this.props.actions.appointment.getBlockAppointmentById(appointmentId, true);
-        this.scrollTabParentRef.current.goToPage(2);
-    }
-
     onPressHandlerChangeTab = async (index) => {
         const { currentTab } = this.state;
         const { groupAppointment, appointmentIdOffline, blockAppointments } = this.props;
@@ -319,16 +313,39 @@ class HomeScreen extends Layout {
         this.scrollTabParentRef.current.goToPage(2);
     }
 
-    bookAppointment = async (appointmentId) => {
+    bookAppointment = async (appointmentId, staffId = 0) => {
         // this.props.actions.appointment.getAppointmentById(appointmentId);
 
-        this.props.actions.appointment.getGroupAppointmentById(appointmentId,true,false);
-        this.tabCheckoutRef?.current?.resetStateFromParent();
+        this.props.actions.appointment.getGroupAppointmentById(appointmentId, true, false);
         this.scrollTabParentRef.current.goToPage(2);
 
-         // ------- Cancle book appointment ----------
-        //  const { profile, appointmentDetail } = this.props;
-        //  this.props.actions.appointment.cancleAppointment(this.state.appointmentId, profile.merchantId, appointmentDetail.userId ? appointmentDetail.userId : 0);
+        if (this.tabCheckoutRef?.current) {
+            this.tabCheckoutRef?.current?.resetStateFromParent();
+            if (staffId) {
+                this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+            }
+        } else {
+            setTimeout(() => {
+                this.tabCheckoutRef?.current?.resetStateFromParent();
+                if (staffId) {
+                    this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+                }
+            }, 200)
+        }
+    }
+
+    createABlockAppointment = (appointmentId, fromTime) => {
+        this.props.actions.appointment.updateFromTimeBlockAppointment(fromTime ? fromTime : new Date());
+        this.props.actions.appointment.getBlockAppointmentById(appointmentId, true);
+
+        this.scrollTabParentRef.current.goToPage(2);
+        if (this.tabCheckoutRef?.current) {
+            this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
+        }else{
+            setTimeout(() => {
+                this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
+            }, 200)
+        }
     }
 
     submitPincode = () => {

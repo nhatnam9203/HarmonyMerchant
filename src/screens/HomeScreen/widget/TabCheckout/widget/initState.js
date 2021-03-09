@@ -68,5 +68,6 @@ export default {
     // -------- New State ------
     isShowCategoriesColumn: false,
     selectedStaff:{},
-    visibleAddEditCustomerPopup: false
+    visibleAddEditCustomerPopup: false,
+    isBlockBookingFromCalendar: false
 }

@@ -110,7 +110,7 @@ class Layout extends React.Component {
 
     renderStaffColumn() {
         const { staffListCurrentDate } = this.props;
-        const { isShowCategoriesColumn, selectedStaff } = this.state;
+        const { isShowCategoriesColumn, selectedStaff, isBlockBookingFromCalendar } = this.state;
         const tempWidth = isShowCategoriesColumn ? 70 : 180;
         const tempStyleBox = isShowCategoriesColumn ? styles.staff_column_box_small : {};
 
@@ -136,6 +136,12 @@ class Layout extends React.Component {
                         }
                     </ScrollView>
                 </View>
+            {
+                isBlockBookingFromCalendar && <View style={{flex:1,position:"absolute",top:0,left:0,right:0,bottom:0,
+                backgroundColor:"rgba(255,255,255,0.5)"}} />
+            }
+                
+
             </View>
         );
     }

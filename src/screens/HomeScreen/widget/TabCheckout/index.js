@@ -426,8 +426,8 @@ class TabCheckout extends Layout {
     }
 
     clearDataCofrim = async () => {
-        const { connectionSignalR, groupAppointment, profile, isCancelAppointment, 
-            blockAppointments, payAppointmentId, customerInfoBuyAppointment,appointmentIdBookingFromCalendar
+        const { connectionSignalR, groupAppointment, profile, isCancelAppointment,
+            blockAppointments, payAppointmentId, customerInfoBuyAppointment, appointmentIdBookingFromCalendar
         } = this.props;
         const { isDrawer } = this.state;
         const temptBlockAppointments = blockAppointments ? [...blockAppointments] : [];
@@ -454,7 +454,7 @@ class TabCheckout extends Layout {
             this.props.actions.appointment.cancleAppointment(mainAppointmentId, profile.merchantId, customerId);
         }
 
-        if(appointmentIdBookingFromCalendar){
+        if (appointmentIdBookingFromCalendar) {
             const customerId = customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0;
             this.props.actions.appointment.cancleAppointment(appointmentIdBookingFromCalendar, profile.merchantId, customerId);
         }
@@ -1839,13 +1839,27 @@ class TabCheckout extends Layout {
     }
 
     addCustomerInfo = (customer) => {
-       this.props.actions.customer.addCustomer(customer,true);
+        this.props.actions.customer.addCustomer(customer, true);
     }
 
     bookAppointmentFromCalendar = () => {
         this.props.gotoTabAppointment();
         this.setState(initState);
         this.props.actions.appointment.resetGroupAppointment();
+    }
+
+    setSelectStaffFromCalendar = async (staffId) => {
+        await this.setState({
+            selectedStaff: { staffId },
+            isShowCategoriesColumn: true
+        })
+    }
+
+    setBlockStateFromCalendar = async () => {
+        await this.setState({
+            isShowCategoriesColumn: true,
+            isBlockBookingFromCalendar: true
+        })
     }
 
     async componentDidUpdate(prevProps, prevState) {
