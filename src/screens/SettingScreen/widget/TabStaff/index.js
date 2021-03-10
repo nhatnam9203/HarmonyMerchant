@@ -130,13 +130,13 @@ class TabStaff extends Layout {
   };
 
   archiveStaff = (staff) => async () => {
-   await this.setState({
+    await this.setState({
       visibleArchive: true,
       staffHandle: staff,
     });
   }
 
-   editStaff = (staff) => async () => {
+  editStaff = (staff) => async () => {
     this.props.actions.staff.getDetailStaffByMerchantId(staff?.staffId);
     this.props.actions.staff.switchAddStaff(true);
 
@@ -250,6 +250,16 @@ class TabStaff extends Layout {
       searchFilter
     );
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    const { isEditStaffByIdSuccess } = this.props;
+    if (isEditStaffByIdSuccess && prevProps.isEditStaffByIdSuccess !== isEditStaffByIdSuccess) {
+      this.scrollTabParentRef?.current.goToPage(0);
+      this.props.actions.staff.resetStateIsEditStaffById();
+    }
+  }
+
+
 }
 
 const mapStateToProps = (state) => ({
@@ -263,6 +273,7 @@ const mapStateToProps = (state) => ({
   refreshListStaffs: state.staff.refreshListStaffs,
   isGetListSearchStaff: state.staff.isGetListSearchStaff,
   isShowSearchResult: state.staff.isShowSearchResult,
+  isEditStaffByIdSuccess: state.staff.isEditStaffByIdSuccess
 });
 
 export default connectRedux(mapStateToProps, TabStaff);

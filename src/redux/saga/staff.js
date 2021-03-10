@@ -97,7 +97,7 @@ function* getStaffDetailByMerchantId(action) {
   try {
     yield put({ type: "LOADING_ROOT" })
     const responses = yield requestAPI(action);
-    console.log("-------- getStaffDetailByMerchantId: ",JSON.stringify(responses));
+    // console.log("-------- getStaffDetailByMerchantId: ",JSON.stringify(responses));
     yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
@@ -262,6 +262,9 @@ function* editStaff(action) {
     if (parseInt(codeNumber) == 200) {
       const searchFilter =  action?.searchFilter || { keySearch: "", role: "", status: "" };
       const { keySearch, role, status } = searchFilter;
+      yield put({
+        type:"EDIT_STAFF_BY_MERCHANT_SUCCESS",
+      });
       yield put({
         type: "GET_STAFF_BY_MERCHANR_ID",
         method: "GET",

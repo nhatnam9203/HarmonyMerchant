@@ -22,7 +22,8 @@ const initialState = {
 
   isShowSearchResult: false,
   staffDetail: {},
-  isGetStaffDetailSuccess: false
+  isGetStaffDetailSuccess: false,
+  isEditStaffByIdSuccess: false
 };
 
 function staffReducer(state = initialState, action) {
@@ -198,6 +199,16 @@ function staffReducer(state = initialState, action) {
         ...state,
         isDownloadReportStaff: false,
         pathFileReportStaffStatistic: null,
+      };
+    case "EDIT_STAFF_BY_MERCHANT_SUCCESS":
+      return {
+        ...state,
+        isEditStaffByIdSuccess: true,
+      };
+    case "RESET_STATE_IS_EDIT_STAFF_BY_ID":
+      return {
+        ...state,
+        isEditStaffByIdSuccess: false,
       };
     case "LOGOUT_APP":
       return {

@@ -251,8 +251,8 @@ class AssignSevices extends Component {
         if (isGetStaffDetailSuccess && prevProps.isGetStaffDetailSuccess !== isGetStaffDetailSuccess) {
             const tempcategories = staffDetail?.categories || [];
             this.setState({
-                content: [...tempcategories]
-            });
+                content: [...tempcategories],
+            }, () => this.checkIsSelectAll());
             this.props.actions.staff.resetStateGetStaffDetail();
         }
     }

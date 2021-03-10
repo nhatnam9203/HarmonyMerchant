@@ -232,3 +232,10 @@ export function resetStateGetStaffDetail() {
   }
 }
 
+export function resetStateIsEditStaffById() {
+  return {
+    type: "RESET_STATE_IS_EDIT_STAFF_BY_ID"
+  }
+}
+
+
