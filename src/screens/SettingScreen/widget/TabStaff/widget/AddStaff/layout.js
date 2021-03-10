@@ -22,6 +22,7 @@ import ItemWorkingTime from "../ItemWorkingTime";
 import ItemServives from "../ItemServives";
 import ItemScalary from "../ItemScalary";
 import ItemScalaryByIncome from "../ItemScalaryByIncome";
+import AssignSevices from "../AssignSevices";
 
 class Layout extends React.Component {
   renderBody() {
@@ -183,7 +184,7 @@ class Layout extends React.Component {
                   resetMarginState={() =>
                     this.setState({ dynamicMarginBottomState: 24 })
                   }
-                  onFocus={() => {}}
+                  onFocus={() => { }}
                   inputContainerStyle={{
                     height: scaleSzie(35),
                   }}
@@ -324,11 +325,9 @@ class Layout extends React.Component {
 
           <TitleTabAdminInfo title={localize("Services", language)} />
 
-          <ItemServives
-            setServices={this.setServives}
-            ref={this.servivesRef}
-            isEditStaff={this.state.isEditStaff}
-            staffIdCheck={this.state.staffIdCheck}
+          {/* ------------- Assigns Services For Staff ----------- */}
+          <AssignSevices
+            ref={this.assignSevices}
           />
 
           {/* ----- Service Salary ---- */}
@@ -340,7 +339,8 @@ class Layout extends React.Component {
             title={`${localize("Per Hour", language)} ($)`}
             placeholder={"10"}
             dataInit={perHour_ServiceSalary}
-            onFocus={() => this.scrollStaffTo(1100)}
+            // onFocus={() => this.scrollStaffTo(1100)}
+            onFocus={() => { }}
             toogleCheck={this.disableCommisionServiceSalary}
           />
 
@@ -350,7 +350,8 @@ class Layout extends React.Component {
             title={`${localize("Incomes", language)}`}
             placeholder={"10"}
             dataInit={commision_ServiceSalary}
-            onFocus={() => this.scrollStaffTo(1250 + rowsSalaryIncome * 35)}
+            // onFocus={() => this.scrollStaffTo(1250 + rowsSalaryIncome * 35)}
+            onFocus={() => { }}
             toogleCheck={this.disablePerHourSalary}
             updateRowsSalaryIncome={(rowsSalaryIncome) =>
               this.setState({ rowsSalaryIncome })
@@ -365,7 +366,8 @@ class Layout extends React.Component {
             title={`${localize("Commission", language)} (%)`}
             placeholder={"10"}
             dataInit={commision_ProductScalary}
-            onFocus={() => this.scrollStaffTo(1400 + rowsSalaryIncome * 35)}
+            // onFocus={() => this.scrollStaffTo(1400 + rowsSalaryIncome * 35)}
+            onFocus={() => { }}
           />
 
           {/* ----- Tip fee ---- */}
@@ -377,7 +379,8 @@ class Layout extends React.Component {
             title={`${localize("Percent", language)} (%)`}
             placeholder={"10"}
             dataInit={percent_TipFee}
-            onFocus={() => this.scrollStaffTo(1450 + rowsSalaryIncome * 35)}
+            // onFocus={() => this.scrollStaffTo(1450 + rowsSalaryIncome * 35)}
+            onFocus={() => { }}
             toogleCheck={this.disableFixedAmountTip}
           />
 
@@ -387,7 +390,8 @@ class Layout extends React.Component {
             title={`${localize("Fixed Amount", language)} ($)`}
             placeholder={"10"}
             dataInit={fixedAmount_TipFee}
-            onFocus={() => this.scrollStaffTo(1450 + rowsSalaryIncome * 35)}
+            // onFocus={() => this.scrollStaffTo(1450 + rowsSalaryIncome * 35)}
+            onFocus={() => { }}
             toogleCheck={this.disablePercentTip}
           />
 
@@ -403,7 +407,8 @@ class Layout extends React.Component {
               isCheck: true,
               value: temptCashPercent,
             }}
-            onFocus={() => this.scrollStaffTo(1500 + rowsSalaryIncome * 35)}
+            // onFocus={() => this.scrollStaffTo(1500 + rowsSalaryIncome * 35)}
+            onFocus={() => { }}
             maxLength={3}
             isNotToggleCheck={true}
           />
@@ -417,7 +422,8 @@ class Layout extends React.Component {
               this.updateUserInfo("driverlicense", value)
             }
             type={true}
-            onFocus={() => this.scrollStaffTo(2000 + rowsSalaryIncome * 35)}
+            // onFocus={() => this.scrollStaffTo(2000 + rowsSalaryIncome * 35)}
+            onFocus={() => { }}
           />
           <ItemAdminInfo
             title={localize("Social Security Number", language)}
@@ -427,7 +433,8 @@ class Layout extends React.Component {
               this.updateUserInfo("socialSecurityNumber", value)
             }
             type={true}
-            onFocus={() => this.scrollStaffTo(2000 + rowsSalaryIncome * 35)}
+            // onFocus={() => this.scrollStaffTo(2000 + rowsSalaryIncome * 35)}
+            onFocus={() => { }}
             typeSocial="custom"
             mark="999-99-9999"
             style={{
@@ -443,7 +450,8 @@ class Layout extends React.Component {
               this.updateUserInfo("professionalLicense", value)
             }
             type={true}
-            onFocus={() => this.scrollStaffTo(2000 + rowsSalaryIncome * 35)}
+            // onFocus={() => this.scrollStaffTo(2000 + rowsSalaryIncome * 35)}
+            onFocus={() => { }}
           />
           <View
             style={{

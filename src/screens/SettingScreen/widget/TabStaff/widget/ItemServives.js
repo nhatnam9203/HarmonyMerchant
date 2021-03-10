@@ -1,11 +1,24 @@
 import React from "react";
 import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
+import Collapsible from "react-native-collapsible";
+import Accordion from 'react-native-collapsible/Accordion';
 
 import IMAGE from "@resources";
 import { Dropdown, Button } from "@components";
 import { scaleSzie, WorkingTime } from "@utils";
-import Collapsible from "react-native-collapsible";
 import connectRedux from "@redux/ConnectRedux";
+// import Test from "./Test";
+
+const SECTIONS = [
+  {
+    title: 'First',
+    content: 'Lorem ipsum...',
+  },
+  {
+    title: 'Second',
+    content: 'Lorem ipsum...',
+  },
+];
 
 class ItemServives extends React.Component {
   constructor(props) {
@@ -15,6 +28,37 @@ class ItemServives extends React.Component {
       services: [],
       isSelectAll: false,
     };
+  }
+
+  getFormatData = () => {
+    const { categoriesByMerchant, servicesByMerchant } = this.props;
+    const serviceCategories = [];
+    for (let category of categoriesByMerchant) {
+      if (category?.categoryType === "Service") {
+        serviceCategories.push({
+          isSelect: false,
+          categoryId: category?.categoryId,
+          name: category?.name,
+          services: []
+        })
+      }
+    }
+
+    for (let service of servicesByMerchant) {
+      for (let category of serviceCategories) {
+        if (service?.categoryId === category?.categoryId) {
+          category?.services.push({
+            isSelect: false,
+            serviceId: service?.serviceId,
+            name: service?.name,
+            categoryId: category?.categoryId,
+          });
+          break;
+        }
+      }
+    }
+
+    console.log(JSON.stringify(serviceCategories));
   }
 
   onPress = () => {
@@ -285,14 +329,44 @@ class ItemServives extends React.Component {
     ));
   };
 
+  _renderSectionTitle = section => {
+    return (
+      <View style={styles.content}>
+        <Text>{section.content}</Text>
+      </View>
+    );
+  };
+
+  _renderHeader = section => {
+    return (
+      <View style={styles.header}>
+        <Text style={styles.headerText}>{section.title}</Text>
+      </View>
+    );
+  };
+
+  _renderContent = section => {
+    return (
+      <View style={styles.content}>
+        <Text>{section.content}</Text>
+      </View>
+    );
+  };
+
+  _updateSections = activeSections => {
+    this.setState({ activeSections });
+  };
+
   render() {
     const { isCheck, isSelectAll } = this.state;
     const temptIconCheck = isSelectAll ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
+    // this.getFormatData();
+
     return (
       <View>
         <View style={styles.title_services}>
           <Text style={styles.text}>
-            Assign services this staff can perform
+            {`Assign services this staff can perform`}
           </Text>
         </View>
         <View style={styles.select_all}>
@@ -312,10 +386,11 @@ class ItemServives extends React.Component {
               justifyContent: "center",
             }}
           >
-            <Text style={styles.text}>Select All</Text>
+            <Text style={styles.text}>{`Select All`}</Text>
           </View>
         </View>
-        {this.renderItem()}
+
+        {/* <Test /> */}
       </View>
     );
   }
@@ -353,6 +428,63 @@ const styles = StyleSheet.create({
     paddingVertical: scaleSzie(10),
     backgroundColor: "#f4f3f4",
     marginVertical: scaleSzie(1),
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#F5FCFF',
+    // paddingTop: Constants.statusBarHeight,
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: 22,
+    fontWeight: '300',
+    marginBottom: 20,
+  },
+  header: {
+    backgroundColor: '#F5FCFF',
+    padding: 10,
+  },
+  headerText: {
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  content: {
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  active: {
+    backgroundColor: 'rgba(255,255,255,1)',
+  },
+  inactive: {
+    backgroundColor: 'rgba(245,252,255,1)',
+  },
+  selectors: {
+    marginBottom: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  selector: {
+    backgroundColor: '#F5FCFF',
+    padding: 10,
+  },
+  activeSelector: {
+    fontWeight: 'bold',
+  },
+  selectTitle: {
+    fontSize: 14,
+    fontWeight: '500',
+    padding: 10,
+  },
+  multipleToggle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 30,
+    alignItems: 'center',
+  },
+  multipleToggle__title: {
+    fontSize: 16,
+    marginRight: 8,
   },
 });
 

@@ -15,74 +15,78 @@ import {
   formatNumberFromCurrency,
 } from "@utils";
 
+const initState = {
+  user: {
+    firstName: "",
+    lastName: "",
+    displayName: "",
+    address: {
+      street: "",
+      city: "",
+      state: "",
+      zip: "",
+    },
+    cellphone: "",
+    email: "",
+    pin: "",
+    confirmPin: "",
+    isActive: true,
+    isDisabled: "Active",
+    roles: {
+      nameRole: "Admin",
+    },
+    driverlicense: "",
+    socialSecurityNumber: "",
+    professionalLicense: "",
+  },
+  staffId: "",
+  tipFee: {
+    percent: {
+      value: "",
+      isCheck: false,
+    },
+    fixedAmount: {
+      value: "",
+      isCheck: false,
+    },
+  },
+  salary: {
+    perHour: {
+      value: "",
+      isCheck: false,
+    },
+    commission: {
+      value: "",
+      isCheck: false,
+    },
+  },
+  productSalary: {
+    commission: {
+      value: 0,
+      isCheck: false,
+    },
+  },
+  cashPercent: 0,
+  fileId: 0,
+  imageUrl: "",
+  isSubmitButton: true,
+  value: {},
+  dynamicMarginBottomState: 24,
+  rowsSalaryIncome: 0,
+  isEditStaff: false,
+  staffIdCheck: 0,
+  categories: [],
+}
+
 class AddStaff extends Layout {
   constructor(props) {
     super(props);
     const { profile } = this.props;
     this.state = {
-      user: {
-        firstName: "",
-        lastName: "",
-        displayName: "",
-        address: {
-          street: "",
-          city: "",
-          state: "",
-          zip: "",
-        },
-        cellphone: "",
-        email: "",
-        pin: "",
-        confirmPin: "",
-        isActive: true,
-        isDisabled: "Active",
-        roles: {
-          nameRole: "Admin",
-        },
-        driverlicense: "",
-        socialSecurityNumber: "",
-        professionalLicense: "",
-      },
-      staffId: "",
+      ...initState,
       workingTime: profile.businessHour
         ? profile.businessHour
         : BusinessWorkingTime,
-      tipFee: {
-        percent: {
-          value: "",
-          isCheck: false,
-        },
-        fixedAmount: {
-          value: "",
-          isCheck: false,
-        },
-      },
-      salary: {
-        perHour: {
-          value: "",
-          isCheck: false,
-        },
-        commission: {
-          value: "",
-          isCheck: false,
-        },
-      },
-      productSalary: {
-        commission: {
-          value: 0,
-          isCheck: false,
-        },
-      },
-      cashPercent: 0,
-      fileId: 0,
-      imageUrl: "",
-      isSubmitButton: true,
-      value: {},
-      dynamicMarginBottomState: 24,
-      rowsSalaryIncome: 0,
-      isEditStaff: false,
-      staffIdCheck: 0,
-      categories: [],
     };
     this.inputRefsTime = [];
     this.browserFileRef = React.createRef();
@@ -95,6 +99,8 @@ class AddStaff extends Layout {
     this.commisionProductScalaryRef = React.createRef();
     this.cashPercentRef = React.createRef();
     this.servivesRef = React.createRef();
+
+    this.assignSevices = React.createRef();
   }
 
   scrollStaffTo(position) {
@@ -112,8 +118,6 @@ class AddStaff extends Layout {
     }
     if (isEditStaff) {
       const { stateCity } = this.props;
-      // console.log(infoStaffHandle);
-      this.servivesRef.current.setListServices();
       await this.setState({
         user: {
           firstName: infoStaffHandle?.firstName || "",
@@ -153,37 +157,16 @@ class AddStaff extends Layout {
         getCodeAreaPhone(infoStaffHandle.phone).areaCode
       );
     } else {
-      this.servivesRef.current.setListServices();
+      // ----------- Create New Staff -----------
+      const { profile } = this.props;
       await this.setState({
-        user: {
-          firstName: "",
-          lastName: "",
-          displayName: "",
-          address: {
-            street: "",
-            city: "",
-            state: "",
-            zip: "",
-          },
-          cellphone: "",
-          email: "",
-          pin: "",
-          confirmPin: "",
-          isActive: true,
-          isDisabled: "Active",
-          roles: {
-            nameRole: "Admin",
-          },
-          driverlicense: "",
-          socialSecurityNumber: "",
-          professionalLicense: "",
-        },
-        staffId: "",
-        fileId: "",
-        imageUrl: "",
-        rowsSalaryIncome: 1,
+        ...initState,
+        workingTime: profile.businessHour
+          ? profile.businessHour
+          : BusinessWorkingTime,
       });
-      this.browserFileRef.current.setImageUrlFromParent("");
+      this.browserFileRef?.current?.setImageUrlFromParent("");
+      this.assignSevices?.current?.getServiceAssignData();
     }
   };
 
@@ -193,7 +176,7 @@ class AddStaff extends Layout {
     });
   };
 
-  setStaffInfoFromParent = (staff) => {};
+  setStaffInfoFromParent = (staff) => { };
 
   setRefTimeWorking = (ref) => {
     if (ref) {
@@ -394,7 +377,7 @@ class AddStaff extends Layout {
         cashPercent: parseFloat(
           this.cashPercentRef?.current?.state?.value || 0
         ),
-        categories: this.state.categories,
+        categories: this.assignSevices?.current?.getStateFromParent()
       };
       if (this.state.isEditStaff) {
         this.props.editStaff(temptStaff, this.state.staffId);

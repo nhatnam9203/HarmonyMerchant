@@ -34,7 +34,7 @@ export function getStaffByMerchantId(name = "", role = "", status = "",searchFil
 
 export function getDetailStaffByMerchantId(id) {
   return {
-    type: "GET_STAFF_DETAIL",
+    type: "GET_STAFF_DETAIL_BY_ID",
     method: "GET",
     token: true,
     api: `${apiConfigs.BASE_API}staff/${id}`,
@@ -225,3 +225,17 @@ export function resetDownloadExportFiles() {
     type: "RESET_DOWNLOAD_FILE_REPORT_STAFF"
   }
 }
+
+export function resetStateGetStaffDetail() {
+  return {
+    type: "RESET_STATE_GET_STAFF_DETAIL"
+  }
+}
+
+export function resetStateIsEditStaffById() {
+  return {
+    type: "RESET_STATE_IS_EDIT_STAFF_BY_ID"
+  }
+}
+
+

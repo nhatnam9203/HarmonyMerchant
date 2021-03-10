@@ -22,6 +22,8 @@ const initialState = {
 
   isShowSearchResult: false,
   staffDetail: {},
+  isGetStaffDetailSuccess: false,
+  isEditStaffByIdSuccess: false
 };
 
 function staffReducer(state = initialState, action) {
@@ -68,10 +70,16 @@ function staffReducer(state = initialState, action) {
         ...state,
         refreshListStaffs: false,
       };
-    case "GET_STAFF_DETAIL_MERCHANR_ID_SUCCESS":
+    case "GET_STAFF_DETAIL_BY_ID_SUCCESS":
       return {
         ...state,
         staffDetail: action.payload,
+        isGetStaffDetailSuccess: true
+      };
+    case "RESET_STATE_GET_STAFF_DETAIL":
+      return {
+        ...state,
+        isGetStaffDetailSuccess: false
       };
     case "GET_STAFF_DETAIL_MERCHANR_ID_FAIL":
       return {
@@ -191,6 +199,16 @@ function staffReducer(state = initialState, action) {
         ...state,
         isDownloadReportStaff: false,
         pathFileReportStaffStatistic: null,
+      };
+    case "EDIT_STAFF_BY_MERCHANT_SUCCESS":
+      return {
+        ...state,
+        isEditStaffByIdSuccess: true,
+      };
+    case "RESET_STATE_IS_EDIT_STAFF_BY_ID":
+      return {
+        ...state,
+        isEditStaffByIdSuccess: false,
       };
     case "LOGOUT_APP":
       return {

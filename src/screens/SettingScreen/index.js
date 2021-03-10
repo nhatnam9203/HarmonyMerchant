@@ -51,6 +51,7 @@ class SettingScreen extends Layout {
         } else {
           this.props.actions.app.toggleSettingTabPermission();
         }
+
       }
     );
   }
