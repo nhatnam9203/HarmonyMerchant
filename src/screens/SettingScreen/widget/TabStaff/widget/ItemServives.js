@@ -7,7 +7,7 @@ import IMAGE from "@resources";
 import { Dropdown, Button } from "@components";
 import { scaleSzie, WorkingTime } from "@utils";
 import connectRedux from "@redux/ConnectRedux";
-import Test from "./Test";
+// import Test from "./Test";
 
 const SECTIONS = [
   {
@@ -390,7 +390,7 @@ class ItemServives extends React.Component {
           </View>
         </View>
 
-        <Test />
+        {/* <Test /> */}
       </View>
     );
   }

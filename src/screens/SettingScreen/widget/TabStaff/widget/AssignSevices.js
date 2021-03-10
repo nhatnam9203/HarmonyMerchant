@@ -15,10 +15,11 @@ import ICON from "@resources";
 import { scaleSzie } from "@utils";
 import { Button } from "@components";
 
-class ServicesAssign extends Component {
+class AssignSevices extends Component {
     state = {
         activeSections: [],
-        content: []
+        content: [],
+        isSelectAll: true
     };
 
     setSections = sections => {
@@ -26,6 +27,17 @@ class ServicesAssign extends Component {
             activeSections: sections.includes(undefined) ? [] : sections,
         });
     };
+
+    getStateFromParent = () => {
+        const tempcategories = [...this.state.content];
+        for (let category of tempcategories) {
+            const staffServices = category?.staffServices || [];
+            const isSelectCategory = staffServices.length > 0 ? this.getIsSelectCategory(staffServices) : category?.selected;
+            category.selected = isSelectCategory;
+        }
+
+        return tempcategories;
+    }
 
     selectService = (selectService) => () => {
         const tempContent = [...this.state.content];
@@ -49,7 +61,7 @@ class ServicesAssign extends Component {
         }
         this.setState({
             content: tempContent
-        })
+        }, () => this.checkIsSelectAll());
     }
 
     selectCategory = (categorySelect) => async () => {
@@ -77,7 +89,7 @@ class ServicesAssign extends Component {
 
         await this.setState({
             content: tempContent
-        })
+        }, () => this.checkIsSelectAll())
 
     }
 
@@ -89,8 +101,51 @@ class ServicesAssign extends Component {
                 break;
             }
         }
-
         return selected;
+    }
+
+    selectAllServices = () => {
+        const { isSelectAll, content } = this.state;
+        const tempContent = [...content];
+        for (let category of tempContent) {
+            category.selected = !isSelectAll;
+            let staffServices = category?.staffServices || [];
+            for (let service of staffServices) {
+                service.selected = !isSelectAll;
+            }
+        }
+
+        this.setState((prevState) => ({
+            content: tempContent,
+            isSelectAll: !prevState.isSelectAll
+        }), () => this.checkIsSelectAll())
+    }
+
+    checkIsSelectAll = async () => {
+        const { content } = this.state;
+        let isSelectAll = true;
+        for (let category of content) {
+            if (!category?.selected) {
+                isSelectAll = false;
+            } else {
+                const services = category?.staffServices || [];
+                for (let service of services) {
+                    if (!service?.selected) {
+                        isSelectAll = false;
+                        break;
+                    }
+                }
+            }
+
+            if (!isSelectAll) {
+                break;
+            }
+        }
+
+        // console.log(isSelectAll);
+        await this.setState({
+            isSelectAll
+        })
     }
 
     renderHeader = (section, _, isActive) => {
@@ -150,20 +205,20 @@ class ServicesAssign extends Component {
     }
 
     render() {
-        const { content, activeSections } = this.state;
+        const { content, activeSections, isSelectAll } = this.state;
 
         return (
             <View style={styles.container}>
                 <Text style={styles.txt_title}>
                     {`Assign services this staff can perform`}
                 </Text>
-                {/* <View style={styles.select_all}>
+                <View style={styles.select_all}>
                     <Button
-                        // onPress={this.selectAllItem}
+                        onPress={this.selectAllServices}
                         style={{ width: scaleSzie(30), justifyContent: "center" }}
                     >
                         <Image
-                            source={temptIconCheck}
+                            source={isSelectAll ? ICON.checkBox : ICON.checkBoxEmpty}
                             style={{ width: scaleSzie(15), height: scaleSzie(15) }}
                         />
                     </Button>
@@ -174,9 +229,9 @@ class ServicesAssign extends Component {
                             justifyContent: "center",
                         }}
                     >
-                        <Text style={styles.text}>{`Select All`}</Text>
+                        <Text style={[styles.txt_title, { fontWeight: "600" }]}>{`Select All`}</Text>
                     </View>
-                </View> */}
+                </View>
                 <Accordion
                     activeSections={activeSections}
                     sections={content}
@@ -191,15 +246,14 @@ class ServicesAssign extends Component {
         );
     }
 
-    componentDidUpdate(prevProps,prevState){
-        const {isGetStaffDetailSuccess,staffDetail} = this.props;
-        if(isGetStaffDetailSuccess && prevProps.isGetStaffDetailSuccess !== isGetStaffDetailSuccess){
+    componentDidUpdate(prevProps, prevState) {
+        const { isGetStaffDetailSuccess, staffDetail } = this.props;
+        if (isGetStaffDetailSuccess && prevProps.isGetStaffDetailSuccess !== isGetStaffDetailSuccess) {
             const tempcategories = staffDetail?.categories || [];
             this.setState({
-                content : [...tempcategories]
+                content: [...tempcategories]
             });
             this.props.actions.staff.resetStateGetStaffDetail();
-            console.log("------ ahihi ------");
         }
     }
 
@@ -207,12 +261,18 @@ class ServicesAssign extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        paddingHorizontal: scaleSzie(25),
+        marginTop: scaleSzie(15)
     },
     txt_title: {
         color: "#404040",
         fontSize: scaleSzie(14),
-    }
+    },
+    select_all: {
+        flexDirection: "row",
+        marginTop: scaleSzie(14),
+        marginBottom: scaleSzie(15),
+    },
 
 });
 
@@ -225,4 +285,4 @@ const mapStateToProps = (state) => ({
     isGetStaffDetailSuccess: state.staff.isGetStaffDetailSuccess
 });
 
-export default connectRedux(mapStateToProps, ServicesAssign);
+export default connectRedux(mapStateToProps, AssignSevices);
