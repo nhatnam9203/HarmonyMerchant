@@ -360,7 +360,7 @@ class ItemServives extends React.Component {
   render() {
     const { isCheck, isSelectAll } = this.state;
     const temptIconCheck = isSelectAll ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
-    this.getFormatData();
+    // this.getFormatData();
 
     return (
       <View>

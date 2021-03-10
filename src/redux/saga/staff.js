@@ -95,12 +95,15 @@ function* getStaffByMerchantId(action) {
 
 function* getStaffDetailByMerchantId(action) {
   try {
+    yield put({ type: "LOADING_ROOT" })
     const responses = yield requestAPI(action);
+    console.log("-------- getStaffDetailByMerchantId: ",JSON.stringify(responses));
+    yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
       yield put({
-        type: "GET_STAFF_DETAIL_MERCHANR_ID_SUCCESS",
-        payload: responses.data,
+        type: "GET_STAFF_DETAIL_BY_ID_SUCCESS",
+        payload: responses?.data || {},
       });
 
     } else if (parseInt(codeNumber) === 401) {
@@ -115,6 +118,7 @@ function* getStaffDetailByMerchantId(action) {
       });
     }
   } catch (error) {
+    yield put({ type: "STOP_LOADING_ROOT" });
     yield put({ type: "GET_STAFF_DETAIL_MERCHANR_ID_FAIL" });
     yield put({ type: error });
   }
@@ -494,6 +498,6 @@ export default function* saga() {
     takeLatest("GET_LIST_STAFFS_SALARY_TOP", getListStaffsSalaryTop),
     takeLatest("EXPORT_STAFFS_SALARY", exportReportStaff),
     takeLatest("EXPORT_STAFFS_STATISTICS", exportReportStaff),
-    takeLatest("GET_STAFF_DETAIL", getStaffDetailByMerchantId)
+    takeLatest("GET_STAFF_DETAIL_BY_ID", getStaffDetailByMerchantId)
   ]);
 }

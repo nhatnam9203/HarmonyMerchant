@@ -129,15 +129,14 @@ class TabStaff extends Layout {
     this.scrollTabParentRef?.current.goToPage(1);
   };
 
-  archiveStaff(staff) {
-    this.setState({
+  archiveStaff = (staff) => async () => {
+   await this.setState({
       visibleArchive: true,
       staffHandle: staff,
     });
   }
 
-  async editStaff(staff) {
-
+   editStaff = (staff) => async () => {
     this.props.actions.staff.getDetailStaffByMerchantId(staff?.staffId);
     this.props.actions.staff.switchAddStaff(true);
 
@@ -148,11 +147,10 @@ class TabStaff extends Layout {
         this.addStaffRef?.current?.setStateFromParent(staff, true);
       }, 500);
     }
-
     this.scrollTabParentRef?.current.goToPage(1);
   }
 
-  restoreStaff(staff) {
+  restoreStaff = (staff) => () => {
     this.setState({
       visibleRestore: true,
       staffHandle: staff,

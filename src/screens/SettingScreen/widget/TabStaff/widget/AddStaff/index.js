@@ -178,8 +178,8 @@ class AddStaff extends Layout {
           socialSecurityNumber: "",
           professionalLicense: "",
         },
-        staffId: "",
-        fileId: "",
+        staffId: 0,
+        fileId: 0,
         imageUrl: "",
         rowsSalaryIncome: 1,
       });

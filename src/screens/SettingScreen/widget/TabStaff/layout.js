@@ -197,9 +197,9 @@ class Layout extends React.Component {
               <RowTableStaff
                 index={index}
                 staff={item}
-                archiveStaff={() => this.archiveStaff(item)}
-                editStaff={() => this.editStaff(item)}
-                restoreStaff={() => this.restoreStaff(item)}
+                archiveStaff={this.archiveStaff(item)}
+                editStaff={this.editStaff(item)}
+                restoreStaff={this.restoreStaff(item)}
                 move={move}
                 moveEnd={moveEnd}
                 toggleStaffActive={this.toggleStaffActive}

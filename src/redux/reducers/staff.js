@@ -22,6 +22,7 @@ const initialState = {
 
   isShowSearchResult: false,
   staffDetail: {},
+  isGetStaffDetailSuccess: false
 };
 
 function staffReducer(state = initialState, action) {
@@ -68,10 +69,16 @@ function staffReducer(state = initialState, action) {
         ...state,
         refreshListStaffs: false,
       };
-    case "GET_STAFF_DETAIL_MERCHANR_ID_SUCCESS":
+    case "GET_STAFF_DETAIL_BY_ID_SUCCESS":
       return {
         ...state,
         staffDetail: action.payload,
+        isGetStaffDetailSuccess: true
+      };
+    case "RESET_STATE_GET_STAFF_DETAIL":
+      return {
+        ...state,
+        isGetStaffDetailSuccess: false
       };
     case "GET_STAFF_DETAIL_MERCHANR_ID_FAIL":
       return {
