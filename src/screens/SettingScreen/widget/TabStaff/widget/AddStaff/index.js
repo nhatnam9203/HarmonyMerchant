@@ -157,6 +157,7 @@ class AddStaff extends Layout {
         getCodeAreaPhone(infoStaffHandle.phone).areaCode
       );
     } else {
+      // ----------- Create New Staff -----------
       const { profile } = this.props;
       await this.setState({
         ...initState,
@@ -164,7 +165,8 @@ class AddStaff extends Layout {
           ? profile.businessHour
           : BusinessWorkingTime,
       });
-      this.browserFileRef.current.setImageUrlFromParent("");
+      this.browserFileRef?.current?.setImageUrlFromParent("");
+      this.assignSevices?.current?.getServiceAssignData();
     }
   };
 

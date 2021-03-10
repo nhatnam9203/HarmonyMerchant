@@ -14,6 +14,9 @@ function* addStaffByMerchant(action) {
       const searchFilter = action?.searchFilter || { keySearch: "", role: "", status: "" };
       const { keySearch, role, status } = searchFilter;
       yield put({
+        type:"EDIT_STAFF_BY_MERCHANT_SUCCESS",
+      });
+      yield put({
         type: "GET_STAFF_BY_MERCHANR_ID",
         method: "GET",
         token: true,

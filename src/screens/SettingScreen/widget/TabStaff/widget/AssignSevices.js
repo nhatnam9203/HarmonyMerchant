@@ -28,6 +28,39 @@ class AssignSevices extends Component {
         });
     };
 
+    getServiceAssignData = async () => {
+        const { categoriesByMerchant, servicesByMerchant } = this.props;
+        const serviceCategories = [];
+        for (let category of categoriesByMerchant) {
+            if (category?.categoryType === "Service") {
+                serviceCategories.push({
+                    selected: true,
+                    categoryId: category?.categoryId,
+                    name: category?.name,
+                    staffServices: []
+                })
+            }
+        }
+
+        for (let service of servicesByMerchant) {
+            for (let category of serviceCategories) {
+                if (service?.categoryId === category?.categoryId) {
+                    category?.staffServices.push({
+                        selected: true,
+                        serviceId: service?.serviceId,
+                        name: service?.name,
+                        categoryId: category?.categoryId,
+                    });
+                    break;
+                }
+            }
+        }
+        await this.setState({
+            content: serviceCategories
+        })
+
+    }
+
     getStateFromParent = () => {
         const tempcategories = [...this.state.content];
         for (let category of tempcategories) {
@@ -282,7 +315,7 @@ const mapStateToProps = (state) => ({
     categoriesByMerchant: state.category.categoriesByMerchant,
     servicesByMerchant: state.service.servicesByMerchant,
     staffDetail: state.staff.staffDetail,
-    isGetStaffDetailSuccess: state.staff.isGetStaffDetailSuccess
+    isGetStaffDetailSuccess: state.staff.isGetStaffDetailSuccess,
 });
 
 export default connectRedux(mapStateToProps, AssignSevices);
