@@ -45,6 +45,7 @@ class TabCheckout extends Layout {
         this.popupEnterAmountGiftCardRef = React.createRef();
 
         this.addEditCustomerInfoRef = React.createRef();
+        this.staffFlatListRef = React.createRef();
 
     }
 
@@ -1800,6 +1801,24 @@ class TabCheckout extends Layout {
 
     // ------------ New Code ----------
 
+    scrollFlatListToStaffIndex = (staffId) => {
+        let index = -1;
+        for (let i = 0; i < this.props.staffListCurrentDate.length; i++) {
+            if (this.props.staffListCurrentDate[i]?.staffId === staffId) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index !== -1) {
+            setTimeout(() => {
+                this.staffFlatListRef?.current?.scrollToIndex({
+                    index
+                });
+            },200);
+        }
+    }
+
     displayCategoriesColumn = (staff) => async () => {
         const { selectedStaff } = this.state;
         const isExist = selectedStaff?.staffId === staff?.staffId ? true : false;
@@ -1818,6 +1837,7 @@ class TabCheckout extends Layout {
             categoryTypeSelected: '',
             arrSelectedExtra: [],
         });
+        // this.scrollFlatListToStaffIndex(staff?.staffId);
     }
 
     displayEnterUserPhonePopup = () => {
@@ -1852,7 +1872,9 @@ class TabCheckout extends Layout {
         await this.setState({
             selectedStaff: { staffId },
             isShowCategoriesColumn: true
-        })
+        });
+
+        this.scrollFlatListToStaffIndex(staffId);
     }
 
     setBlockStateFromCalendar = async () => {

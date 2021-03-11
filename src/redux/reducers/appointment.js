@@ -62,6 +62,7 @@ function appointmentReducer(state = initialState, action) {
         case 'RESET_GROUP_APPOINTMENT':
             return {
                 ...initialState,
+                staffListCurrentDate: state.staffListCurrentDate,
                 groupAppointment: {},
             }
 

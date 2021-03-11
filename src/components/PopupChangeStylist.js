@@ -10,7 +10,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
-import _, { is } from 'ramda';
+import _ from 'ramda';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
@@ -119,19 +119,19 @@ class PopupChangeStylist extends React.Component {
     }
 
     submitChangeStylist = () => {
-        const { staffId, bookingServiceId, tip, serviceIdLocal, appointmentIdChangeStylist, price, note,extras } = this.state;
+        const { staffId, bookingServiceId, tip, serviceIdLocal, appointmentIdChangeStylist, price, note, extras } = this.state;
         const { groupAppointment } = this.props;
         if (_.isEmpty(groupAppointment)) {
             this.props.changeStylistBasketLocal(serviceIdLocal, staffId, tip, price);
         } else {
             const tempExtras = [];
-            for(let extra of extras ){
+            for (let extra of extras) {
                 console.log(extra);
-                if(extra?.isSelect){
+                if (extra?.isSelect) {
                     tempExtras.push(extra?.extraId);
                 }
             }
-            this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentIdChangeStylist, price,tempExtras, 0, note, true);
+            this.props.actions.marketing.changeStylist(staffId, bookingServiceId, tip, appointmentIdChangeStylist, price, tempExtras, 0, note, true);
 
         }
         this.props.onRequestClose();
@@ -172,7 +172,7 @@ class PopupChangeStylist extends React.Component {
                 title={title}
                 visible={visible}
                 onRequestClose={this.onRequestClose}
-                width={scaleSzie(280)}
+                width={440}
                 styleTitle={{ fontSize: scaleSzie(20), fontWeight: "600" }}
             >
                 <View style={{
@@ -289,25 +289,31 @@ class PopupChangeStylist extends React.Component {
                                 </View>
 
                                 {/* ------- Button -------- */}
-                                <View style={{ marginTop: scaleSzie(20), alignItems: 'center', }} >
-                                    <ButtonCustom
-                                        width={scaleSzie(120)}
-                                        height={45}
-                                        backgroundColor="#0764B0"
-                                        title="SUBMIT"
-                                        textColor="#fff"
-                                        onPress={this.submitChangeStylist}
-                                        style={{
-                                            borderWidth: 1, borderColor: '#C5C5C5',
-                                            borderRadius: 4
-                                        }}
-                                        styleText={{ fontWeight: "400", fontSize: scaleSzie(16) }}
-                                    />
-                                </View>
+                                {/* <View style={{ marginTop: scaleSzie(20), alignItems: 'center', backgroundColor: "red" }} >  */}
+
+                                {/* </View> */}
                                 <View style={{ height: scaleSzie(250) }} />
                             </TouchableOpacity>
                         </ScrollView>
                     </View>
+
+                    <ButtonCustom
+                        width={scaleSzie(140)}
+                        height={38}
+                        backgroundColor="#0764B0"
+                        title="SUBMIT"
+                        textColor="#fff"
+                        onPress={this.submitChangeStylist}
+                        style={{
+                            borderWidth: 1, borderColor: '#C5C5C5',
+                            borderRadius: 4,
+                            position:"absolute",
+                            bottom: scaleSzie(15),
+                            marginLeft: scaleSzie((440 - 140)/2)
+                        }}
+                        styleText={{ fontWeight: "600", fontSize: scaleSzie(14) }}
+                    />
+
                 </View>
             </PopupParent>
         );

@@ -318,7 +318,6 @@ class HomeScreen extends Layout {
 
         this.props.actions.appointment.getGroupAppointmentById(appointmentId, true, false);
         this.scrollTabParentRef.current.goToPage(2);
-
         if (this.tabCheckoutRef?.current) {
             this.tabCheckoutRef?.current?.resetStateFromParent();
             if (staffId) {
@@ -360,7 +359,7 @@ class HomeScreen extends Layout {
 
 
     loginStaffSuccess = () => {
-        const { listAppointmentsOfflineMode } = this.props;
+        const { listAppointmentsOfflineMode, profile } = this.props;
         if (this.tabAppointmentRef?.current) {
             setTimeout(() => {
                 this.tabAppointmentRef?.current?.updateLinkOfCalendar();
@@ -377,10 +376,11 @@ class HomeScreen extends Layout {
             this.props.actions.extra.getExtraByMerchant(),
             this.props.actions.service.getServicesByMerchant(),
             this.props.actions.product.getProductsByMerchant(),
-            this.props.actions.staff.getStaffByMerchantId()
+            this.props.actions.staff.getStaffByMerchantId(),
+            this.props.actions.appointment.getStaffListByCurrentDate(profile?.merchantId)
         ]).then((data) => {
             this.props.actions.staff.reloadButtonEnterPincode();
-            if (data.length === 5) {
+            if (data.length >= 5) {
                 this.props.actions.app.changeFlagVisibleEnteerPinCode(false);
             }
         }).catch(error => {

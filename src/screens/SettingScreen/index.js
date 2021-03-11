@@ -46,7 +46,7 @@ class SettingScreen extends Layout {
         const { profileStaffLogin } = this.props;
         const roleName = profileStaffLogin?.roleName || "Admin";
         if (roleName === "Admin") {
-          const {profile} = this.props;
+          const { profile } = this.props;
           this.props.actions.app.getMerchantByID(profile?.merchantId);
         } else {
           this.props.actions.app.toggleSettingTabPermission();

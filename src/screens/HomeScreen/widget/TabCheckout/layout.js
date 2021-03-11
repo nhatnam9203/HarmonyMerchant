@@ -3,15 +3,13 @@ import {
     View,
     Image,
     ScrollView,
-    Platform
+    FlatList
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
-import FastImage from "react-native-fast-image";
 
 import {
     scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, checkCategoryIsNotExist,
-    getArrayProductsFromAppointment, getArrayServicesFromAppointment
 } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
@@ -24,9 +22,7 @@ import {
     ItemCategory, ItemProductService, ItemAmount,
     ItemExtra, PopupDiscount, PopupBill, PopupDiscountLocal, ItemCustomerBasket, PopupPaymentDetails, ItemBlockBasket,
     PopupBlockDiscount, ItemPaymentMethod,
-    ShadowLineLeftToRight,
-    ShadowLineRightToLeft,
-    ShadowLineShort, PopupChangeCustomerInfo, PopupAddItemIntoAppointments, PopupGiftCardDetail,
+    ShadowLineShort, PopupAddItemIntoAppointments, PopupGiftCardDetail,
     PopupEnterAmountGiftCard, EnterCustomerPhonePopup, PopupAddEditCustomer
 } from './widget';
 
@@ -108,6 +104,7 @@ class Layout extends React.Component {
         );
     }
 
+
     renderStaffColumn() {
         const { staffListCurrentDate } = this.props;
         const { isShowCategoriesColumn, selectedStaff, isBlockBookingFromCalendar } = this.state;
@@ -125,22 +122,26 @@ class Layout extends React.Component {
 
                 {/* ----------  StaffColumn Header ----------  */}
                 <View style={{ flex: 1 }} >
-                    <ScrollView showsVerticalScrollIndicator={false} >
-                        {
-                            staffListCurrentDate.map((staff, index) => <StaffItem
-                                key={`${staff?.staffId}_${index}`}
-                                staff={staff}
-                                displayCategoriesColumn={this.displayCategoriesColumn(staff)}
-                                selectedStaff={selectedStaff}
-                            />)
-                        }
-                    </ScrollView>
+                    <FlatList
+                        ref={this.staffFlatListRef}
+                        data={staffListCurrentDate}
+                        renderItem={({ item, index }) => <StaffItem
+                            staff={item}
+                            displayCategoriesColumn={this.displayCategoriesColumn(item)}
+                            selectedStaff={selectedStaff}
+                        />}
+                        extraData={selectedStaff}
+                        keyExtractor={(item, index) => `${item?.staffId}_${index}`}
+                        showsVerticalScrollIndicator={false}
+                    />
                 </View>
-            {
-                isBlockBookingFromCalendar && <View style={{flex:1,position:"absolute",top:0,left:0,right:0,bottom:0,
-                backgroundColor:"rgba(255,255,255,0.5)"}} />
-            }
-                
+                {
+                    isBlockBookingFromCalendar && <View style={{
+                        flex: 1, position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
+                        backgroundColor: "rgba(255,255,255,0.5)"
+                    }} />
+                }
+
 
             </View>
         );
@@ -302,16 +303,16 @@ class Layout extends React.Component {
                                 ref={this.amountRef}
                                 price={productSeleted.price}
                             /> : <ScrollView keyboardShouldPersistTaps="always" >
-                                    {
-                                        (this.getExtrasFromRedux(productSeleted)).map((extra, index) => <ItemExtra
-                                            key={index}
-                                            extra={extra}
-                                            onPressSelectExtra={this.onPressSelectExtra}
-                                            arrSelectedExtra={arrSelectedExtra}
-                                            groupAppointment={groupAppointment}
-                                        />)
-                                    }
-                                </ScrollView>
+                                {
+                                    (this.getExtrasFromRedux(productSeleted)).map((extra, index) => <ItemExtra
+                                        key={index}
+                                        extra={extra}
+                                        onPressSelectExtra={this.onPressSelectExtra}
+                                        arrSelectedExtra={arrSelectedExtra}
+                                        groupAppointment={groupAppointment}
+                                    />)
+                                }
+                            </ScrollView>
                         }
 
                     </View>
@@ -407,7 +408,7 @@ class Layout extends React.Component {
 
                     {/* ----------- Paid Amount ----------- */}
                     {
-                      !isBookingFromCalendar &&  !_.isEmpty(paymentDetailInfo)  ? <View style={{ paddingHorizontal: scaleSzie(10), marginBottom: scaleSzie(8) }} >
+                        !isBookingFromCalendar && !_.isEmpty(paymentDetailInfo) ? <View style={{ paddingHorizontal: scaleSzie(10), marginBottom: scaleSzie(8) }} >
                             <View style={{ height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
                             {/* ---------- Paid amount ------ */}
                             {
@@ -428,7 +429,7 @@ class Layout extends React.Component {
 
                             {/* ---------- Due amount ------ */}
                             {
-                             !isBookingFromCalendar &&   paymentDetailInfo.dueAmount ? <View style={[styles.payNumberTextContainer, { justifyContent: 'space-between', }]} >
+                                !isBookingFromCalendar && paymentDetailInfo.dueAmount ? <View style={[styles.payNumberTextContainer, { justifyContent: 'space-between', }]} >
                                     <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#FF3B30" }]} >
                                         {`${localize('Amount Due', language)}:`}
                                     </Text>
