@@ -316,7 +316,7 @@ class HomeScreen extends Layout {
     bookAppointment = async (appointmentId, staffId = 0) => {
         // this.props.actions.appointment.getAppointmentById(appointmentId);
 
-        this.props.actions.appointment.getGroupAppointmentById(appointmentId, true, false);
+        this.props.actions.appointment.getGroupAppointmentById(appointmentId, true, false,false);
         this.scrollTabParentRef.current.goToPage(2);
         if (this.tabCheckoutRef?.current) {
             this.tabCheckoutRef?.current?.resetStateFromParent();
@@ -333,6 +333,11 @@ class HomeScreen extends Layout {
         }
     }
 
+    addMoreAppointmentFromCalendar = (appointmentId) => {
+        this.props.actions.appointment.getGroupAppointmentById(appointmentId, false, true,false);
+        this.scrollTabParentRef.current.goToPage(2);
+    }
+
     createABlockAppointment = (appointmentId, fromTime) => {
         this.props.actions.appointment.updateFromTimeBlockAppointment(fromTime ? fromTime : new Date());
         this.props.actions.appointment.getBlockAppointmentById(appointmentId, true);
@@ -340,7 +345,7 @@ class HomeScreen extends Layout {
         this.scrollTabParentRef.current.goToPage(2);
         if (this.tabCheckoutRef?.current) {
             this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
-        }else{
+        } else {
             setTimeout(() => {
                 this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
             }, 200)

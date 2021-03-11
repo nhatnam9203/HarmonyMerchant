@@ -141,7 +141,7 @@ class TabAppointment extends Layout {
                     this.onLoadStartWebview();
                 } else {
                     const { action, appointmentId } = data;
-                    // console.log("onMessageFromWebview: ", JSON.stringify(data));
+                    console.log("onMessageFromWebview: ", JSON.stringify(data));
                     if (action === 'checkout') {
                         const arrayProducts = getArrayProductsFromAppointment(data?.appointment?.products || []);
                         const arryaServices = getArrayServicesFromAppointment(data?.appointment?.services || []);
@@ -165,6 +165,8 @@ class TabAppointment extends Layout {
                     } else if (action === 'push_notification' && data.isNotification) {
                         const appointment = data.appointment ? { ...data.appointment } : {};
                         this.handleNewAppointmentNotification(appointment)
+                    } else if (action == 'addMore') {
+                        this.props.addMoreAppointmentFromCalendar(data?.appointmentId);
                     }
                 }
             }

@@ -13,14 +13,15 @@ export function getAppointmentById(id) {
     }
 }
 
-export function getGroupAppointmentById(id, isBookingFromCalendar = false ,isNotShowMessage = true) {
+export function getGroupAppointmentById(id, isBookingFromCalendar = false,isAddMoreFromCalendar = false ,isNotShowMessage = true) {
     return {
         type: 'GET_GROUP_APPOINTMENT_BY_ID',
         method: 'GET',
         api: `${apiConfigs.BASE_API}appointment/getGroupById/${id}`,
         token: true,
         isNotShowMessage,
-        isBookingFromCalendar
+        isBookingFromCalendar,
+        isAddMoreFromCalendar
     }
 }
 

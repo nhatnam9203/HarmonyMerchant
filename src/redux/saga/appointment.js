@@ -67,6 +67,15 @@ function* getGroupAppointmentById(action) {
                     })
                 }
 
+                if (action?.isAddMoreFromCalendar) {
+                    console.log("action?.isAddMoreFromCalendar: ",action?.isAddMoreFromCalendar);
+                    yield put({
+                        type: "BOOKING_A_APPOINTMENT_FROM_CALENDAR_SUCCESS",
+                        isBookingFromCalendar: true,
+                        appointmentIdBookingFromCalendar: 0
+                    })
+                }
+
 
                 const subTotal = data.subTotal ? formatNumberFromCurrency(data.subTotal) : 0;
                 const discount = data.discount ? formatNumberFromCurrency(data.discount) : 0;

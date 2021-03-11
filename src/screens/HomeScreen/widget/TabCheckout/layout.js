@@ -506,7 +506,7 @@ class Layout extends React.Component {
     }
 
     renderBasket() {
-        const { language, groupAppointment, paymentDetailInfo, blockAppointments } = this.props;
+        const { language, groupAppointment, paymentDetailInfo, blockAppointments,isBookingFromCalendar } = this.props;
         const { isShowColAmount } = this.state;
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         const length_blockAppointments = blockAppointments ? blockAppointments.length : 0;
@@ -526,8 +526,7 @@ class Layout extends React.Component {
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         {
-                            (!_.isEmpty(groupAppointment) && checkoutPayments.length === 0)
-                                || (blockAppointments.length && isShowAddBlock) > 0
+                          !isBookingFromCalendar && ( (!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) || (blockAppointments.length && isShowAddBlock) > 0 )
                                 ? <Button onPress={this.addAppointmentCheckout} >
                                     <Image
                                         source={ICON.add_appointment_checkout}
@@ -725,7 +724,7 @@ class Layout extends React.Component {
                 );
 
             } else if (isBookingFromCalendar) {
-                if (!_.isEmpty(groupAppointment) && groupAppointment?.total > 0) {
+                if (!_.isEmpty(groupAppointment) && formatNumberFromCurrency(groupAppointment?.total) > 0) {
                     return (
                         <ButtonCustom
                             width={`100%`}
