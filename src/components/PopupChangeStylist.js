@@ -205,8 +205,8 @@ class PopupChangeStylist extends React.Component {
                                             borderColor: '#C5C5C5',
                                             flex: 1
                                         }}
-                                        fontSize={scaleSzie(14)}
-                                        extraHeight={scaleSzie(90)}
+                                        fontSize={scaleSzie(20)}
+                                        // extraHeight={scaleSzie(90)}
                                     />
                                 </View>
                                 {/* ------- Price -------- */}
