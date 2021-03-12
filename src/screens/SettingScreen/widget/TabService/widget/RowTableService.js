@@ -14,21 +14,21 @@ import IMAGE from '@resources';
 
 const RowTableService = ({ service, index, archiveService, editService, restoreService, categoryName, move, moveEnd }) => {
 
-    const [source, setSource] = useState({
-        uri: service?.imageUrl,
-        priority: FastImage.priority.low,
-        cache: FastImage.cacheControl.immutable
-    });
+    // const [source, setSource] = useState({
+    //     uri: service?.imageUrl,
+    //     priority: FastImage.priority.low,
+    //     cache: FastImage.cacheControl.immutable
+    // });
 
-    useEffect(() => {
-        if (source?.uri && source?.uri !== service?.imageUrl) {
-            setSource({
-                uri: service?.imageUrl,
-                priority: FastImage.priority.low,
-                cache: FastImage.cacheControl.immutable
-            })
-        }
-    }, [service?.imageUrl])
+    // useEffect(() => {
+    //     if (source?.uri && source?.uri !== service?.imageUrl) {
+    //         setSource({
+    //             uri: service?.imageUrl,
+    //             priority: FastImage.priority.low,
+    //             cache: FastImage.cacheControl.immutable
+    //         })
+    //     }
+    // }, [service?.imageUrl])
 
 
     return (
@@ -56,11 +56,15 @@ const RowTableService = ({ service, index, archiveService, editService, restoreS
                 width: scaleSzie(160), flexDirection: 'row',
             }} >
                 <View style={{ justifyContent: 'center' }} >
-                    {
+                {
                         service.imageUrl ? <FastImage
                             style={{ width: scaleSzie(30), height: scaleSzie(30) }}
-                            source={source}
-                            onError={() => setSource(IMAGE.service_holder)}
+                            source={{
+                                uri: service?.imageUrl,
+                                priority: FastImage.priority.low,
+                                cache: FastImage.cacheControl.immutable
+                            }}
+                            // onError={() => setSource(IMAGE.service_holder)}
                         /> : <FastImage source={IMAGE.service_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
                     }
 
