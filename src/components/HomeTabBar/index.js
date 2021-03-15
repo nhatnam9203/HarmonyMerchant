@@ -7,10 +7,12 @@ const {
   Text,
   View,
   Animated,
+  Image
 } = ReactNative;
 const Button = require('./Button');
 
-import { scaleSzie } from '../../utils';
+import { scaleSzie } from '@utils';
+import ICON from "@resources";
 
 const HomeTabBar = createReactClass({
   propTypes: {
@@ -24,7 +26,7 @@ const HomeTabBar = createReactClass({
     tabStyle: ViewPropTypes.style,
     renderTab: PropTypes.func,
     underlineStyle: ViewPropTypes.style,
-    onPressHandlerChangeTab:PropTypes.func,
+    onPressHandlerChangeTab: PropTypes.func,
   },
 
   getDefaultProps() {
@@ -56,6 +58,24 @@ const HomeTabBar = createReactClass({
           {name}
         </Text>
       </View>
+
+    {
+      page === 1 && <Button onPress={() => this.props.displayNotifiPopup()} style={{
+        position: "absolute", height: scaleSzie(34), with: 80,
+        right: scaleSzie(10),justifyContent:"center",alignItems:"center"
+      }} >
+        <Image source={ICON.noti_bell} style={{height:scaleSzie(28),width:scaleSzie(28)}} />
+        <View style={{width:scaleSzie(14),height:scaleSzie(14),backgroundColor:"#EE2F24",
+      position: "absolute",top:scaleSzie(2),right:0,borderRadius:scaleSzie(7),justifyContent:"center",alignItems:"center"
+      }} >
+        <Text style={{color:"#fff",fontSize:scaleSzie(6),fontWeight:"600"}} >
+          {`10`}
+        </Text>
+        </View>
+      </Button> 
+    }
+      
+
     </Button>;
   },
 

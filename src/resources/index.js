@@ -114,6 +114,8 @@ export default {
   remove_tag: require('./img/remove_tag.png'),
   checkout_customer_icon: require('./img/checkout_customer_icon.png'),
   add_customer_info_checkout_tab: require('./img/add_customer_info_checkout_tab.png'),
+  noti_bell:  require('./img/noti_bell.png'),
+  close_noti_popup: require('./img/close_noti_popup.png'),
 
   // --- Payment ---
   cash_payment_se: require('./payment/cash_payment_se.png'),

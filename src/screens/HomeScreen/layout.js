@@ -1,25 +1,31 @@
 import React from 'react';
 import {
     View,
-    Image
+    Image,
+    Dimensions,
+    Text
 } from 'react-native';
 
 import {
     HomeTabBar, StatusBarHeader, Button, ParentContainer,
     PopupEnterPin, PopupCheckStaffPermission,
-    ScrollableTabView
+    ScrollableTabView, ModalCustom
 } from '@components';
 import { scaleSzie, localize } from '@utils';
 import styles from './style';
-import IMAGE from '@resources';
+import ICON from '@resources';
 import { TabMarketing, TabAppointment, TabCheckout } from './widget';
 import configs from "@configs";
 
+const { width, height } = Dimensions.get("window");
+
 export default class Layout extends React.Component {
+
+
 
     render() {
         const { language, navigation, marketingTabPermission, visibleEnterPin } = this.props;
-        const { isFocus } = this.state;
+        const { isFocus, visible } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -43,6 +49,7 @@ export default class Layout extends React.Component {
                                 fontWeight: '500'
                             }}
                             onPressHandlerChangeTab={this.onPressHandlerChangeTab}
+                            displayNotifiPopup={this.displayNotifiPopup}
                         />}
                         onChangeTab={this.onChangeTab}
 
@@ -74,11 +81,11 @@ export default class Layout extends React.Component {
                         />
                     </ScrollableTabView>
                     <Button onPress={this.openDrawer} style={configs.btn_left_position} >
-                        <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
+                        <Image source={ICON.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
 
                     <Button onPress={this.showLockScreen} style={configs.btn_right_position} >
-                        <Image source={IMAGE.signOut} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
+                        <Image source={ICON.signOut} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
 
                     <PopupEnterPin
@@ -96,6 +103,38 @@ export default class Layout extends React.Component {
                         tabName="Marketing"
                         onRequestClose={this.closePopupCheckMarketingTabPermission}
                     />
+
+                    {/* --------- Notification Popup  ------ */}
+                    <ModalCustom
+                        transparent={true}
+                        visible={visible}
+                        animationType={"fade"}
+                        onRequestClose={this.closeNotiPopup}
+                        style={{
+                            justifyContent: "flex-start",
+                            paddingTop: scaleSzie(45)
+                        }}
+                    >
+                        <View style={{ height: height - scaleSzie(34), width: scaleSzie(300), backgroundColor: "#fff", paddingHorizontal: scaleSzie(10) }} >
+                            {/* -------------- Header ----------- */}
+                            <View style={{ height: scaleSzie(50) }}>
+                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600" , marginTop: scaleSzie(10)}} >
+                                    {`Notifications`}
+                                </Text>
+
+                                <Button onPress={this.closeNotiPopup}  style={{
+                                    height: scaleSzie(30), width: scaleSzie(30), 
+                                    justifyContent: "center", alignItems: "flex-end",
+                                    position:"absolute",top:0,right:0
+                                }} >
+                                    <Image source={ICON.close_noti_popup}/>
+                                </Button>
+                                
+                            </View>
+
+                        </View>
+                    </ModalCustom>
+
                 </View>
             </ParentContainer>
 
