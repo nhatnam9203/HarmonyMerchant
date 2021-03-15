@@ -153,6 +153,14 @@ class ReportScreen extends Layout {
     this.setState({ showBackButton: value });
   };
 
+  clearIntervalById = () => {
+    const { notiIntervalId } = this.props;
+    if (notiIntervalId) {
+      clearInterval(notiIntervalId);
+      this.props.actions.app.resetNotiIntervalId();
+    }
+  }
+
   componentWillUnmount() {
     this.didBlurSubscription.remove();
     this.didFocusSubscription.remove();
@@ -167,6 +175,7 @@ const mapStateToProps = (state) => ({
   dx: state.staff.dx,
   reportTabPermission: state.staff.reportTabPermission,
   profileStaffLogin: state.dataLocal.profileStaffLogin,
+  notiIntervalId: state.app.notiIntervalId
 });
 
 export default connectRedux(mapStateToProps, ReportScreen);

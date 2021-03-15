@@ -124,6 +124,13 @@ class GiftCardScreen extends Layout {
         }
     }
 
+    clearIntervalById = () => {
+        const { notiIntervalId } = this.props;
+        if (notiIntervalId) {
+            clearInterval(notiIntervalId);
+            this.props.actions.app.resetNotiIntervalId();
+        }
+    }
 
     componentWillUnmount() {
         this.didBlurSubscription.remove();
@@ -153,6 +160,7 @@ const mapStateToProps = state => ({
     isLoadMoreGiftCardsList: state.appointment.isLoadMoreGiftCardsList,
     isGiftCardTabPermission: state.appointment.isGiftCardTabPermission,
     profileStaffLogin: state.dataLocal.profileStaffLogin,
+    notiIntervalId: state.app.notiIntervalId
 })
 
 export default connectRedux(mapStateToProps, GiftCardScreen);

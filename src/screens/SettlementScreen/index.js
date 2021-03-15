@@ -110,11 +110,18 @@ class SettlementScreen extends Layout {
         this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(isShowIcon);
     }
 
+    clearIntervalById = () => {
+        const { notiIntervalId } = this.props;
+        if (notiIntervalId) {
+          clearInterval(notiIntervalId);
+          this.props.actions.app.resetNotiIntervalId();
+        }
+      }
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
     }
-
 
 }
 
@@ -127,6 +134,7 @@ const mapStateToProps = state => ({
     isShowBackBatchHistory: state.invoice.isShowBackBatchHistory,
     terminalID: state.app.terminalID,
     profileStaffLogin: state.dataLocal.profileStaffLogin,
+    notiIntervalId: state.app.notiIntervalId
 })
 
 

@@ -625,7 +625,6 @@ class InvoiceScreen extends Layout {
           this.props.actions.app.resetNotiIntervalId();
         }
       }
-    
 
     componentWillUnmount() {
         this.didBlurSubscription.remove();

@@ -225,11 +225,18 @@ class CustomerScreen extends Layout {
         }
     }
 
+    clearIntervalById = () => {
+        const { notiIntervalId } = this.props;
+        if (notiIntervalId) {
+          clearInterval(notiIntervalId);
+          this.props.actions.app.resetNotiIntervalId();
+        }
+      }
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
     }
-
 
 }
 
@@ -248,6 +255,7 @@ const mapStateToProps = state => ({
     isEditCustomerSuccess: state.customer.isEditCustomerSuccess,
     isAddCustomerSuccess: state.customer.isAddCustomerSuccess,
     profileStaffLogin: state.dataLocal.profileStaffLogin,
+    notiIntervalId: state.app.notiIntervalId
 })
 
 export default connectRedux(mapStateToProps, CustomerScreen);
