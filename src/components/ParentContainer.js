@@ -34,6 +34,7 @@ class ParentContainer extends Component {
     }
 
     handleInactive = isActive => {
+        console.log("----- handleInactive: ",isActive);
         const { activeScreen, visibleEnterPinInvoice, visibleEnterPin, isOfflineMode,
             autoLockScreenAfter, groupAppointment,
             invoiceTabPermission, settlementTabPermission, customerTabPermission,
@@ -67,6 +68,10 @@ class ParentContainer extends Component {
         );
     }
 
+    componentDidUpdate(prevProps,prevState){
+
+    }
+
 }
 
 
@@ -76,7 +81,6 @@ const mapStateToProps = state => ({
     visibleEnterPinInvoice: state.app.visibleEnterPinInvoice,
     visibleEnterPin: state.app.visibleEnterPin,
     isOfflineMode: state.network.isOfflineMode,
-
     groupAppointment: state.appointment.groupAppointment,
     invoiceTabPermission: state.invoice.invoiceTabPermission,
     settlementTabPermission: state.invoice.settlementTabPermission,
@@ -84,9 +88,9 @@ const mapStateToProps = state => ({
     inventoryTabPermission: state.product.inventoryTabPermission,
     reportTabPermission: state.staff.reportTabPermission,
     settingTabPermission: state.app.settingTabPermission,
-
     visiblePaymentCompleted: state.appointment.visiblePaymentCompleted,
 
+    isHandleNotiWhenHaveAAppointment: state.app.isHandleNotiWhenHaveAAppointment
 
 })
 
