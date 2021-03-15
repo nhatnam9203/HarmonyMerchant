@@ -76,6 +76,7 @@ const initState = {
   isEditStaff: false,
   staffIdCheck: 0,
   categories: [],
+  isEditSSN: false
 }
 
 class AddStaff extends Layout {
@@ -147,8 +148,8 @@ class AddStaff extends Layout {
         staffId: infoStaffHandle?.staffId || "",
         fileId: infoStaffHandle?.fileId || 0,
         imageUrl: infoStaffHandle.imageUrl,
-        rowsSalaryIncome:
-          infoStaffHandle?.salaries?.commission?.value.length || 1,
+        rowsSalaryIncome:infoStaffHandle?.salaries?.commission?.value.length || 1,
+        isEditSSN: false
       });
       this.browserFileRef.current.setImageUrlFromParent(
         infoStaffHandle.imageUrl

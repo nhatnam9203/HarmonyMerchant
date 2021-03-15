@@ -14,9 +14,9 @@ import {
   ButtonCustom,
   Text,
   BrowserFile,
-  TextInputSuggestion,
+  TextInputSuggestion,Button
 } from "@components";
-import { scaleSzie, localize } from "@utils";
+import { scaleSzie, localize, hideCharactes } from "@utils";
 import { ItemAdminInfo, ItemAdminCellPhone } from "../componentTab";
 import ItemWorkingTime from "../ItemWorkingTime";
 import ItemServives from "../ItemServives";
@@ -425,23 +425,57 @@ class Layout extends React.Component {
             // onFocus={() => this.scrollStaffTo(2000 + rowsSalaryIncome * 35)}
             onFocus={() => { }}
           />
-          <ItemAdminInfo
-            title={localize("Social Security Number", language)}
-            placeholder="000-00-0000"
-            value={socialSecurityNumber}
-            onChangeText={(value) =>
-              this.updateUserInfo("socialSecurityNumber", value)
-            }
-            type={true}
-            // onFocus={() => this.scrollStaffTo(2000 + rowsSalaryIncome * 35)}
-            onFocus={() => { }}
-            typeSocial="custom"
-            mark="999-99-9999"
-            style={{
-              fontSize: scaleSzie(12),
-              fontWeight: "bold",
-            }}
-          />
+
+          {/* ----------- Handle Social Security Number -----------  */}
+          {
+            !this.state.isEditSSN && !isEditStaff ?
+              <View style={[{
+                flexDirection: 'row',
+                height: scaleSzie(36),
+                paddingHorizontal: scaleSzie(25),
+                marginTop: scaleSzie(25)
+              }]} >
+                <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
+                  <Text style={[{
+                    color: '#404040',
+                    // fontSize: scaleSzie(14),
+                    // fontWeight: '600',
+                    fontSize: scaleSzie(12),
+                    fontWeight: "bold",
+
+                  }]}  >
+                    {`${localize("Social Security Number", language)}`}
+                  </Text>
+                </View>
+                <Button onPress={() => {
+                  this.setState({isEditSSN: true});
+                  this.updateUserInfo("socialSecurityNumber", "")
+                }} style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5), justifyContent: "center" }} >
+                  <Text style={{ fontSize: scaleSzie(14), color: '#404040', }} >
+                    {hideCharactes(socialSecurityNumber)}
+                  </Text>
+                </Button>
+              </View>
+              :
+              <ItemAdminInfo
+                title={localize("Social Security Number", language)}
+                placeholder="000-00-0000"
+                value={socialSecurityNumber}
+                onChangeText={(value) =>
+                  this.updateUserInfo("socialSecurityNumber", value)
+                }
+                type={true}
+                onFocus={() => this.scrollStaffTo(100000)}
+                typeSocial="custom"
+                mark="999-99-9999"
+                style={{
+                  fontSize: scaleSzie(12),
+                  fontWeight: "bold",
+                }}
+                autoFocus={true}
+              />
+          }
+
           <ItemAdminInfo
             title={localize("Professional License", language)}
             // placeholder="0000-0000-0000"
@@ -451,7 +485,7 @@ class Layout extends React.Component {
             }
             type={true}
             // onFocus={() => this.scrollStaffTo(2000 + rowsSalaryIncome * 35)}
-            onFocus={() => { }}
+            onFocus={() => this.scrollStaffTo(100000)}
           />
           <View
             style={{
