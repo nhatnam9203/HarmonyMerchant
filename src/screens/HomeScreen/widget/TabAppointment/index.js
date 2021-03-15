@@ -167,6 +167,8 @@ class TabAppointment extends Layout {
                         this.handleNewAppointmentNotification(appointment)
                     } else if (action == 'addMore') {
                         this.props.addMoreAppointmentFromCalendar(data?.appointmentId);
+                    }else if (action == 'addMoreAnyStaff') {
+                        this.props.addMoreAppointmentFromCalendar(data?.appointmentId,true);
                     }
                 }
             }

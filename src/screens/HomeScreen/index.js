@@ -334,9 +334,19 @@ class HomeScreen extends Layout {
         }
     }
 
-    addMoreAppointmentFromCalendar = (appointmentId) => {
+    addMoreAppointmentFromCalendar = (appointmentId,addMoreAnyStaff = false) => {
         this.props.actions.appointment.getGroupAppointmentById(appointmentId, false, true, false);
         this.scrollTabParentRef.current.goToPage(2);
+
+        if(addMoreAnyStaff){
+            if (this.tabCheckoutRef?.current) {
+                this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
+            } else {
+                setTimeout(() => {
+                    this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
+                }, 200)
+            }
+        }
     }
 
     createABlockAppointment = (appointmentId, fromTime) => {
