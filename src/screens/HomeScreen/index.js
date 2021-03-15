@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { distinctUntilChanged, finalize } from 'rxjs/operators';
 import CodePush from "react-native-code-push";
 import env from 'react-native-config';
+import SoundPlayer from 'react-native-sound-player'
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -316,7 +317,7 @@ class HomeScreen extends Layout {
     bookAppointment = async (appointmentId, staffId = 0) => {
         // this.props.actions.appointment.getAppointmentById(appointmentId);
 
-        this.props.actions.appointment.getGroupAppointmentById(appointmentId, true, false,false);
+        this.props.actions.appointment.getGroupAppointmentById(appointmentId, true, false, false);
         this.scrollTabParentRef.current.goToPage(2);
         if (this.tabCheckoutRef?.current) {
             this.tabCheckoutRef?.current?.resetStateFromParent();
@@ -334,7 +335,7 @@ class HomeScreen extends Layout {
     }
 
     addMoreAppointmentFromCalendar = (appointmentId) => {
-        this.props.actions.appointment.getGroupAppointmentById(appointmentId, false, true,false);
+        this.props.actions.appointment.getGroupAppointmentById(appointmentId, false, true, false);
         this.scrollTabParentRef.current.goToPage(2);
     }
 
@@ -420,8 +421,30 @@ class HomeScreen extends Layout {
         this.props.actions.marketing.toggleMarketingTabPermission(false);
     }
 
+    handleNotification = () => {
+        const intervalId = setInterval(() => {
+            try {
+                SoundPlayer.playSoundFile('harmony', 'mp3');
+            } catch (e) {
+                console.log(`cannot play the sound file`, e)
+            }
+        }, 5000);
+
+        this.props.actions.app.handleNotifiIntervalId(intervalId);
+
+        // console.log("----- this._interval: ",this._interval);
+    }
+
+    clearIntervalById = () =>{
+        const {notiIntervalId} = this.props;
+        if (notiIntervalId) {
+            clearInterval(notiIntervalId);
+            this.props.actions.app.resetNotiIntervalId();
+        }
+    }
+
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment, isGoToTabMarketing } = this.props;
+        const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment, isGoToTabMarketing, isHandleNotiWhenHaveAAppointment } = this.props;
         if (isLoginStaff && prevProps.isLoginStaff !== isLoginStaff) {
             this.loginStaffSuccess();
             this.props.actions.dataLocal.resetStateLoginStaff();
@@ -439,6 +462,11 @@ class HomeScreen extends Layout {
             this.props.actions.marketing.toggleMarketingTabPermission(false);
             this.scrollTabParentRef.current.goToPage(0);
         }
+
+        if (isHandleNotiWhenHaveAAppointment && prevProps.isHandleNotiWhenHaveAAppointment !== isHandleNotiWhenHaveAAppointment) {
+            this.handleNotification();
+            this.props.actions.app.resetStateNotiWhenHaveAAppointment();
+        }
     }
 
 
@@ -451,6 +479,7 @@ class HomeScreen extends Layout {
         );
         BackHandler.removeEventListener("hardwareBackPress", this.backAction);
         AppState.removeEventListener("change", this.handleAppStateChange);
+        this.clearIntervalById();
     }
 
 }
@@ -472,7 +501,10 @@ const mapStateToProps = state => ({
     marketingTabPermission: state.marketing.marketingTabPermission,
     isGoToTabMarketing: state.marketing.isGoToTabMarketing,
     visibleEnterPin: state.app.visibleEnterPin,
-    profileStaffLogin: state?.dataLocal?.profileStaffLogin || {}
+    profileStaffLogin: state?.dataLocal?.profileStaffLogin || {},
+
+    isHandleNotiWhenHaveAAppointment: state.app.isHandleNotiWhenHaveAAppointment,
+    notiIntervalId: state.app.notiIntervalId
 })
 
 let codePushOptions = {

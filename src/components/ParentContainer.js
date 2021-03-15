@@ -5,6 +5,8 @@ import SoundPlayer from 'react-native-sound-player'
 
 import connectRedux from '@redux/ConnectRedux';
 
+let phi;
+
 class ParentContainer extends Component {
     constructor(props) {
         super(props);
@@ -36,16 +38,19 @@ class ParentContainer extends Component {
     }
 
     handleInactive = isActive => {
-        // console.log("----- handleInactive: ",isActive);
-        if (this._interval && isActive) {
-            clearInterval(this._interval);
-        }
-
         const { activeScreen, visibleEnterPinInvoice, visibleEnterPin, isOfflineMode,
             autoLockScreenAfter, groupAppointment,
             invoiceTabPermission, settlementTabPermission, customerTabPermission,
-            inventoryTabPermission, reportTabPermission, settingTabPermission, visiblePaymentCompleted
+            inventoryTabPermission, reportTabPermission, settingTabPermission, visiblePaymentCompleted,
+            notiIntervalId
         } = this.props;
+
+        if (notiIntervalId && isActive && this.props.clearIntervalById) {
+            console.log("---- clearclearIntervalById ----");
+            this.props.clearIntervalById();
+        }
+
+       
         const parent = this.props.navigation.dangerouslyGetParent();
         const isDrawerOpen = parent && parent.state && parent.state.isDrawerOpen;
         if (!isActive && activeScreen && !visibleEnterPin && !isDrawerOpen && !isOfflineMode && autoLockScreenAfter != "Never"
@@ -58,18 +63,27 @@ class ParentContainer extends Component {
     }
 
     handleNotification = () => {
-        this._interval = setInterval(() => {
+        const intervalId = setInterval(() => {
             this.playSoundNotificaton();
         }, 5000);
+
+        this.props.actions.app.handleNotifiIntervalId(intervalId);
+       
     }
 
     playSoundNotificaton = () => {
         try {
-            // play the file tone.mp3
-            SoundPlayer.playSoundFile('harmony', 'mp3')
-            // or play from url
+            SoundPlayer.playSoundFile('harmony', 'mp3');
         } catch (e) {
             console.log(`cannot play the sound file`, e)
+        }
+    }
+
+    clearIntervalById = () =>{
+        const {notiIntervalId} = this.props;
+        if (notiIntervalId) {
+            clearInterval(notiIntervalId);
+            this.props.actions.app.resetNotiIntervalId();
         }
     }
 
@@ -92,16 +106,15 @@ class ParentContainer extends Component {
         const { isHandleNotiWhenHaveAAppointment } = this.props;
         if (isHandleNotiWhenHaveAAppointment && prevProps.isHandleNotiWhenHaveAAppointment !== isHandleNotiWhenHaveAAppointment) {
             // console.log("------ set interval nootifixation -----");
-            this.handleNotification();
-            this.props.actions.app.resetStateNotiWhenHaveAAppointment();
+            // this.handleNotification();
+            // this.props.actions.app.resetStateNotiWhenHaveAAppointment();
         }
     }
 
     componentWillUnmount() {
-        if (this._interval) {
-            clearInterval(this._interval);
-        }
+        // this.clearIntervalById();
     }
+
 }
 
 
@@ -120,7 +133,8 @@ const mapStateToProps = state => ({
     settingTabPermission: state.app.settingTabPermission,
     visiblePaymentCompleted: state.appointment.visiblePaymentCompleted,
 
-    isHandleNotiWhenHaveAAppointment: state.app.isHandleNotiWhenHaveAAppointment
+    isHandleNotiWhenHaveAAppointment: state.app.isHandleNotiWhenHaveAAppointment,
+    notiIntervalId: state.app.notiIntervalId
 
 })
 

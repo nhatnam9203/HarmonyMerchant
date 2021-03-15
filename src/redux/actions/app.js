@@ -301,4 +301,17 @@ export function resetStateNotiWhenHaveAAppointment() {
   }
 }
 
+export function handleNotifiIntervalId(intervalId) {
+  return {
+    type: "HANDLE_NOTIFI_INTERVAL_ID",
+    payload: intervalId
+  }
+}
+
+export function resetNotiIntervalId() {
+  return {
+    type: "RESET_NOTIFI_INTERVAL_ID",
+  }
+}
+
 

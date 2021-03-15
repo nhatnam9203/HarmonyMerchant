@@ -220,6 +220,15 @@ class SettingScreen extends Layout {
 
   }
 
+  clearIntervalById = () => {
+    const { notiIntervalId } = this.props;
+    if (notiIntervalId) {
+      clearInterval(notiIntervalId);
+      this.props.actions.app.resetNotiIntervalId();
+    }
+  }
+
+
   componentDidUpdate(prevProps, prevState) {
     const { profile, loading } = this.props;
     if (
@@ -264,6 +273,7 @@ const mapStateToProps = (state) => ({
   isShowSearchService: state.service.isShowSearchService,
   isShowSearchStaff: state.staff.isShowSearchStaff,
   profileStaffLogin: state.dataLocal.profileStaffLogin,
+  notiIntervalId: state.app.notiIntervalId
 });
 
 export default connectRedux(mapStateToProps, SettingScreen);

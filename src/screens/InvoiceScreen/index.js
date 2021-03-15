@@ -618,6 +618,15 @@ class InvoiceScreen extends Layout {
         this.props.navigation.navigate("Home");
     }
 
+    clearIntervalById = () => {
+        const { notiIntervalId } = this.props;
+        if (notiIntervalId) {
+          clearInterval(notiIntervalId);
+          this.props.actions.app.resetNotiIntervalId();
+        }
+      }
+    
+
     componentWillUnmount() {
         this.didBlurSubscription.remove();
         this.didFocusSubscription.remove();
@@ -646,6 +655,7 @@ const mapStateToProps = state => ({
     printerSelect: state.dataLocal.printerSelect,
     printerList: state.dataLocal.printerList,
     profileLoginInvoice: state.dataLocal.profileLoginInvoice,
+    notiIntervalId: state.app.notiIntervalId
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

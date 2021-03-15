@@ -35,7 +35,8 @@ const initialState = {
   descriptionCodePush: "",
   isInitialApp: true,
   terminalID: "",
-  isHandleNotiWhenHaveAAppointment: false
+  isHandleNotiWhenHaveAAppointment: false,
+  notiIntervalId:false
 };
 
 function appReducer(state = initialState, action) {
@@ -273,6 +274,17 @@ function appReducer(state = initialState, action) {
         ...state,
         isHandleNotiWhenHaveAAppointment: false
       }
+    case "HANDLE_NOTIFI_INTERVAL_ID":
+      return {
+        ...state,
+        notiIntervalId: action.payload
+      }
+    case "RESET_NOTIFI_INTERVAL_ID":
+      return {
+        ...state,
+        notiIntervalId: false
+      }
+
     case 'RESET_IS_INIT_APP':
       return {
         ...initialState,
