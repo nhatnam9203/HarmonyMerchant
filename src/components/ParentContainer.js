@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import UserInactivity from 'react-native-user-inactivity';
 import _ from "ramda";
+import SoundPlayer from 'react-native-sound-player'
 
 import connectRedux from '@redux/ConnectRedux';
 
@@ -9,7 +10,8 @@ class ParentContainer extends Component {
         super(props);
         this.state = {
             active: true
-        }
+        };
+        this._interval = false;
     }
 
     getTimeOut(number) {
@@ -34,11 +36,15 @@ class ParentContainer extends Component {
     }
 
     handleInactive = isActive => {
-        console.log("----- handleInactive: ",isActive);
+        // console.log("----- handleInactive: ",isActive);
+        if (this._interval && isActive) {
+            clearInterval(this._interval);
+        }
+
         const { activeScreen, visibleEnterPinInvoice, visibleEnterPin, isOfflineMode,
             autoLockScreenAfter, groupAppointment,
             invoiceTabPermission, settlementTabPermission, customerTabPermission,
-            inventoryTabPermission, reportTabPermission, settingTabPermission,visiblePaymentCompleted
+            inventoryTabPermission, reportTabPermission, settingTabPermission, visiblePaymentCompleted
         } = this.props;
         const parent = this.props.navigation.dangerouslyGetParent();
         const isDrawerOpen = parent && parent.state && parent.state.isDrawerOpen;
@@ -51,7 +57,21 @@ class ParentContainer extends Component {
         }
     }
 
+    handleNotification = () => {
+        this._interval = setInterval(() => {
+            this.playSoundNotificaton();
+        }, 5000);
+    }
 
+    playSoundNotificaton = () => {
+        try {
+            // play the file tone.mp3
+            SoundPlayer.playSoundFile('harmony', 'mp3')
+            // or play from url
+        } catch (e) {
+            console.log(`cannot play the sound file`, e)
+        }
+    }
 
     render() {
         const { autoLockScreenAfter } = this.props;
@@ -68,10 +88,20 @@ class ParentContainer extends Component {
         );
     }
 
-    componentDidUpdate(prevProps,prevState){
-
+    componentDidUpdate(prevProps, prevState) {
+        const { isHandleNotiWhenHaveAAppointment } = this.props;
+        if (isHandleNotiWhenHaveAAppointment && prevProps.isHandleNotiWhenHaveAAppointment !== isHandleNotiWhenHaveAAppointment) {
+            // console.log("------ set interval nootifixation -----");
+            this.handleNotification();
+            this.props.actions.app.resetStateNotiWhenHaveAAppointment();
+        }
     }
 
+    componentWillUnmount() {
+        if (this._interval) {
+            clearInterval(this._interval);
+        }
+    }
 }
 
 

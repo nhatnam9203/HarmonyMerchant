@@ -63,6 +63,7 @@
     "react-native-share": "^1.2.1",
     "react-native-sms": "^1.11.0",
     "react-native-sortable-listview": "^0.2.9",
+    "react-native-sound-player": "^0.10.6",
     "react-native-splash-screen": "^3.2.0",
     "react-native-spring-scrollview": "^2.0.23",
     "react-native-star-prnt": "^1.1.0",

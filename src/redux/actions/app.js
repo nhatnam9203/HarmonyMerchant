@@ -295,5 +295,10 @@ export function changeIsGiftForNew(visible = true) {
   };
 }
 
+export function resetStateNotiWhenHaveAAppointment() {
+  return {
+    type: "RESET_STATE_HANDLE_NOTIFICATION_WHEN_HAVE_A_APPOINTMENT",
+  }
+}
 
 
