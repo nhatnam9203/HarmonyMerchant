@@ -19,6 +19,7 @@ class PopupParent extends React.Component {
     render() {
         const { title, visible, style, width, hideCloseButton, styleTitle } = this.props;
         const temptWidth = width ? width : 400;
+        
         return (
             <ModalCustom
                 transparent={true}

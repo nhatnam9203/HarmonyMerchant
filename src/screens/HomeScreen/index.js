@@ -460,10 +460,13 @@ class HomeScreen extends Layout {
         return data?.length;
     }
 
-    getItem = (data, index) => ({
-        id: Math.random().toString(12).substring(0),
-        title: `Item ${index + 1}`
-    })
+    getItem = (data, index) => {
+        // console.log("----- getItem: ",data);
+        return {
+            ...data[index],
+            id: `${data[index]?.merchantNotificationId}_${Math.random().toString(12).substring(0)}`,
+        }
+    }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment, isGoToTabMarketing, isHandleNotiWhenHaveAAppointment } = this.props;
