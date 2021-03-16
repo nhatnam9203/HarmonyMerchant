@@ -149,7 +149,7 @@ class Layout extends React.Component {
 
     renderCategoriesCheckout() {
         const { language, categoriesByMerchant, groupAppointment } = this.props;
-        const { isShowColProduct, isShowCategoriesColumn } = this.state;
+        const { isShowColProduct } = this.state;
         let tempWidth = 180;
         tempWidth = isShowColProduct ? 100 : tempWidth;
 
@@ -230,7 +230,7 @@ class Layout extends React.Component {
 
     renderProductCheckout() {
         const { language, groupAppointment } = this.props;
-        const { isShowColProduct, isShowColAmount, categorySelected, productSeleted,
+        const {  isShowColAmount, categorySelected, productSeleted,
             categoryTypeSelected,
         } = this.state;
         let tempWidth = 200

@@ -11,21 +11,21 @@ import ICON from "@resources";
 
 const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra, groupAppointment, appointmentDetail }) => {
 
-    const [source, setSource] = useState({
-        uri: extra.imageUrl,
-        priority: FastImage.priority.low,
-        cache: FastImage.cacheControl.immutable
-    });
+    // const [source, setSource] = useState({
+    //     uri: extra.imageUrl,
+    //     priority: FastImage.priority.low,
+    //     cache: FastImage.cacheControl.immutable
+    // });
 
-    useEffect(() => {
-        if (source?.uri && source?.uri !== extra.imageUrl) {
-            setSource({
-                uri: extra.imageUrl,
-                priority: FastImage.priority.low,
-                cache: FastImage.cacheControl.immutable
-            })
-        }
-    }, [extra?.imageUrl])
+    // useEffect(() => {
+    //     if (source?.uri && source?.uri !== extra.imageUrl) {
+    //         setSource({
+    //             uri: extra.imageUrl,
+    //             priority: FastImage.priority.low,
+    //             cache: FastImage.cacheControl.immutable
+    //         })
+    //     }
+    // }, [extra?.imageUrl])
 
     let isSelect = false;
     if (arrSelectedExtra && arrSelectedExtra.length > 0) {
@@ -77,10 +77,14 @@ const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra, groupAppointme
             <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center" }} >
                 <View style={{ width: scaleSzie(50), height: scaleSzie(50), borderRadius: scaleSzie(3), overflow: "hidden" }} >
                     {
-                        extra.imageUrl ? <FastImage
+                        extra?.imageUrl ? <FastImage
                             style={{ width: scaleSzie(50), height: scaleSzie(50) }}
-                            source={source}
-                            onError={() => setSource(ICON.extra_holder)}
+                            source={{
+                                uri: extra.imageUrl,
+                                priority: FastImage.priority.low,
+                                cache: FastImage.cacheControl.immutable
+                            }}
+                            // onError={() => setSource(ICON.extra_holder)}
                         /> : <FastImage
                                 style={{ width: scaleSzie(50), height: scaleSzie(50) }}
                                 source={ICON.extra_holder}

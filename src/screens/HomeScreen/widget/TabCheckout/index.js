@@ -58,15 +58,20 @@ class TabCheckout extends Layout {
         const { productsByMerchantId, servicesByMerchant, extrasByMerchant } = this.props;
         if (categoryTypeSelected === 'Extra') {
             const dataExtra = extrasByMerchant.filter((extra, index) => {
-                return extra.isDisabled === 0;
+                return extra?.isDisabled === 0;
             });
             return dataExtra;
         } else {
             const data = categoryTypeSelected === 'Service' ? servicesByMerchant : productsByMerchantId;
-            const temptData = data.filter(item => {
-                return item.categoryId === categorySelected.categoryId && item.isDisabled === 0;
-            });
-            return temptData;
+            if (data?.length > 0) {
+                const temptData = data.filter(item => {
+                    return item?.categoryId === categorySelected?.categoryId && item?.isDisabled === 0;
+                });
+                return temptData;
+            } else {
+                return []
+            }
+
         }
 
     }
@@ -399,7 +404,7 @@ class TabCheckout extends Layout {
         const { arrSelectedExtra } = this.state;
         let tempArrSelectedExtra;
         let isExist = false;
-        for (let i = 0; i < arrSelectedExtra.length; i++) {
+        for (let i = 0; i < arrSelectedExtra?.length; i++) {
             if (arrSelectedExtra[i]?.extraId === extra?.extraId) {
                 isExist = true;
                 break;
@@ -784,7 +789,7 @@ class TabCheckout extends Layout {
                 }
                 // ---------- Handle reload Tip in Customer App ---------
                 if (temptData.data && !_.isEmpty(temptData.data) && temptData.data.isTipAppointment) {
-                    this.props.actions.appointment.getGroupAppointmentById(temptData.data.appointmentId, false,false,true);
+                    this.props.actions.appointment.getGroupAppointmentById(temptData.data.appointmentId, false, false, true);
                 }
             });
 
@@ -1252,10 +1257,10 @@ class TabCheckout extends Layout {
 
     onSelectGiftCard = async (category) => {
         const { categorySelected } = this.state;
-        if (categorySelected.categoryId !== category.categoryId) {
+        if (categorySelected?.categoryId !== category?.categoryId) {
             await this.setState({
                 categorySelected: category,
-                categoryTypeSelected: category.categoryType,
+                categoryTypeSelected: category?.categoryType,
                 productSeleted: {
                     name: ''
                 },
@@ -1285,10 +1290,10 @@ class TabCheckout extends Layout {
 
     onPressSelectCategory = async (category) => {
         const { categorySelected } = this.state;
-        if (categorySelected.categoryId !== category.categoryId) {
+        if (categorySelected?.categoryId !== category?.categoryId) {
             await this.setState({
                 categorySelected: category,
-                categoryTypeSelected: category.categoryType,
+                categoryTypeSelected: category?.categoryType,
                 isShowColProduct: true,
                 isShowColAmount: false,
                 productSeleted: {
@@ -1811,11 +1816,18 @@ class TabCheckout extends Layout {
         }
 
         if (index !== -1) {
-            setTimeout(() => {
+            if (this.staffFlatListRef?.current) {
                 this.staffFlatListRef?.current?.scrollToIndex({
                     index
                 });
-            },200);
+            } else {
+                setTimeout(() => {
+                    this.staffFlatListRef?.current?.scrollToIndex({
+                        index
+                    });
+                }, 200);
+            }
+
         }
     }
 

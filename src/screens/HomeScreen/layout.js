@@ -3,7 +3,9 @@ import {
     View,
     Image,
     Dimensions,
-    Text
+    Text,
+    FlatList,
+    VirtualizedList
 } from 'react-native';
 
 import {
@@ -19,9 +21,110 @@ import configs from "@configs";
 
 const { width, height } = Dimensions.get("window");
 
+const DATA = [
+    {
+        "merchantNotificationId": 43517,
+        "title": "New Appointment",
+        "content": "New appointment for: <b>vva</b> #9876006606",
+        "createdDate": "2021-03-15T17:32:26.487363",
+        "view": 0,
+        "type": "appointment_add",
+        "appointmentId": 14909,
+        "appointmentDate": "2021-03-15T18:00:00"
+    },
+    {
+        "merchantNotificationId": 43516,
+        "title": "New Appointment",
+        "content": "New appointment for: <b>cae</b> #9876006605",
+        "createdDate": "2021-03-15T17:29:24.39587",
+        "view": 0,
+        "type": "appointment_add",
+        "appointmentId": 14908,
+        "appointmentDate": "2021-03-03T14:00:00"
+    },
+    {
+        "merchantNotificationId": 43515,
+        "title": "Appointment schedule changes",
+        "content": "JerryDat  has changed the appointment time.",
+        "createdDate": "2021-03-15T10:57:16.290354",
+        "view": 0,
+        "type": "appointment_schedule_changes",
+        "appointmentId": 14711,
+        "appointmentDate": "2021-03-15T12:15:00"
+    },
+    {
+        "merchantNotificationId": 43514,
+        "title": "Appointment schedule changes",
+        "content": "JerryDat  has changed the appointment time.",
+        "createdDate": "2021-03-15T10:57:05.907348",
+        "view": 0,
+        "type": "appointment_schedule_changes",
+        "appointmentId": 14711,
+        "appointmentDate": "2021-03-15T12:15:00"
+    },
+    {
+        "merchantNotificationId": 43513,
+        "title": "New Appointment",
+        "content": "New appointment for: <b>Phi </b> #9876006604",
+        "createdDate": "2021-03-15T10:43:42.514064",
+        "view": 0,
+        "type": "appointment_add",
+        "appointmentId": 14907,
+        "appointmentDate": "2021-03-15T12:45:00"
+    },
+    {
+        "merchantNotificationId": 43512,
+        "title": "New Appointment",
+        "content": "New appointment for: <b>Phi </b> #9876006603",
+        "createdDate": "2021-03-15T10:42:37.635098",
+        "view": 0,
+        "type": "appointment_add",
+        "appointmentId": 14906,
+        "appointmentDate": "2021-03-15T13:45:00"
+    },
+    {
+        "merchantNotificationId": 43511,
+        "title": "New Appointment",
+        "content": "New appointment for: <b>cae</b> #9876006602",
+        "createdDate": "2021-03-12T10:24:46.550508",
+        "view": 0,
+        "type": "appointment_add",
+        "appointmentId": 14905,
+        "appointmentDate": "2021-03-03T14:00:00"
+    },
+    {
+        "merchantNotificationId": 43510,
+        "title": "New Appointment",
+        "content": "New appointment for: <b>cae</b> #9876006601",
+        "createdDate": "2021-03-12T10:23:00.245834",
+        "view": 0,
+        "type": "appointment_add",
+        "appointmentId": 14904,
+        "appointmentDate": "2021-03-03T14:00:00"
+    },
+    {
+        "merchantNotificationId": 43509,
+        "title": "New Appointment",
+        "content": "New appointment for: <b>cae</b> #9876006600",
+        "createdDate": "2021-03-12T09:44:04.916669",
+        "view": 0,
+        "type": "appointment_add",
+        "appointmentId": 14903,
+        "appointmentDate": "2021-03-03T14:00:00"
+    },
+    {
+        "merchantNotificationId": 43508,
+        "title": "New Appointment",
+        "content": "New appointment for: <b>cae</b> #9876006599",
+        "createdDate": "2021-03-11T17:30:24.597443",
+        "view": 0,
+        "type": "appointment_add",
+        "appointmentId": 14902,
+        "appointmentDate": "0001-01-01T00:35:00"
+    }
+]
+
 export default class Layout extends React.Component {
-
-
 
     render() {
         const { language, navigation, marketingTabPermission, visibleEnterPin } = this.props;
@@ -115,21 +218,27 @@ export default class Layout extends React.Component {
                             paddingTop: scaleSzie(45)
                         }}
                     >
-                        <View style={{ height: height - scaleSzie(34), width: scaleSzie(300), backgroundColor: "#fff", paddingHorizontal: scaleSzie(10) }} >
+                        <View style={{ height: height - scaleSzie(45), width: scaleSzie(300), backgroundColor: "#fff", paddingHorizontal: scaleSzie(10) }} >
                             {/* -------------- Header ----------- */}
                             <View style={{ height: scaleSzie(50) }}>
-                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600" , marginTop: scaleSzie(10)}} >
+                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600", marginTop: scaleSzie(10) }} >
                                     {`Notifications`}
                                 </Text>
 
-                                <Button onPress={this.closeNotiPopup}  style={{
-                                    height: scaleSzie(30), width: scaleSzie(30), 
+                                <Button onPress={this.closeNotiPopup} style={{
+                                    height: scaleSzie(30), width: scaleSzie(30),
                                     justifyContent: "center", alignItems: "flex-end",
-                                    position:"absolute",top:0,right:0
+                                    position: "absolute", top: 0, right: 0
                                 }} >
-                                    <Image source={ICON.close_noti_popup}/>
+                                    <Image source={ICON.close_noti_popup} />
                                 </Button>
-                                
+                            </View>
+
+                            {/* ------------ Notification List ---------- */}
+                            <View style={{ flex: 1 }} >
+                                <VirtualizedList
+
+                                />
                             </View>
 
                         </View>
