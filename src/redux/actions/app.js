@@ -332,6 +332,14 @@ export function getCountUnReadOfNotification() {
   };
 }
 
-
+export function maskNotiAsReadById(notiId) {
+  return {
+    type: "MASK_NOTI_AS_READ_BY_ID",
+    method: "PUT",
+    body: {},
+    token: true,
+    api: `${apiConfigs.BASE_API}notification/view/${notiId}`,
+  };
+}
 
 

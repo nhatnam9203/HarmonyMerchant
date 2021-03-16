@@ -1,8 +1,11 @@
+import React from 'react';
 import {
     Platform,
     Dimensions,
     Linking,
     Alert,
+    Text,
+    StyleSheet
 } from 'react-native';
 import axios from 'axios';
 import { openSettings } from 'react-native-permissions';
@@ -1327,9 +1330,9 @@ export const getTagInfoById = (type, arrTagId = [], data = []) => {
     return arrInfoTag;
 }
 
-export const getIconByTitle = (title) => {
+export const getIconByNotiType = (type) => {
     let icon;
-    switch (title) {
+    switch (type) {
         case "appointment_add":
             icon = "new_appointment";
             break;
@@ -1352,4 +1355,106 @@ export const getIconByTitle = (title) => {
             icon = "new_appointment";
     }
     return icon;
+}
+
+export const getColorTitleByNotiType = (isRead, type) => {
+    let color;
+    if (isRead == 1) {
+        color = "#6A6A6A";
+    } else {
+        switch (type) {
+            case "appointment_cancel":
+                color = "#FF3B30";
+                break;
+            default:
+                color = "#0764B0";
+        }
+    }
+    return color
+
+}
+
+const styles = StyleSheet.create({
+    txt_content: {
+        color: "#404040",
+        fontSize: scaleSzie(14),
+        fontWeight: "300"
+    }
+});
+
+export const getNotiContentByType = (noti) => {
+    let message;
+    switch (noti?.type) {
+        case "appointment_add":
+            message = <Text style={styles.txt_content} >
+                {`${noti?.message || ""} `}
+                <Text style={{ fontWeight: "500" }} >
+                    {`${noti?.customerName || ""} `}
+                </Text>
+                <Text>
+                    {`${noti?.customerPhone || ""}`}
+                </Text>
+            </Text>;
+            break;
+        case "appointment_update":
+            message = <Text style={[styles.txt_content, { fontWeight: "500" }]} >
+                {`${noti?.staffName || ""} `}
+                <Text style={{ fontWeight: "300" }} >
+                    {`${noti?.message || ""} `}
+                </Text>
+            </Text>;
+            break;
+        case "appointment_schedule_changes":
+            message = <Text style={[styles.txt_content, { fontWeight: "500" }]} >
+                {`${noti?.staffName || ""} `}
+                <Text style={{ fontWeight: "300" }} >
+                    {`${noti?.message || ""} `}
+                </Text>
+            </Text>;
+            break;
+        case "appointment_checkin":
+            message = <Text style={[styles.txt_content, { fontWeight: "500" }]} >
+                {`${noti?.customerName || ""} `}
+                <Text style={{ fontWeight: "300" }} >
+                    {`${noti?.message || ""} `}
+                </Text>
+                <Text style={{ color: "#0764B0" }} >
+                    {`#${noti?.appointmentId || ""} `}
+                </Text>
+            </Text>;
+            break;
+        case "appointment_confirm":
+            message = <Text style={[styles.txt_content, { fontWeight: "500" }]} >
+                {`${noti?.customerName || ""} `}
+                <Text style={{ fontWeight: "300" }} >
+                    {`${noti?.message || ""} `}
+                </Text>
+                <Text style={{ color: "#0764B0" }} >
+                    {`#${noti?.appointmentId || ""} `}
+                </Text>
+            </Text>;
+            break;
+        case "appointment_cancel":
+            message = <Text style={[styles.txt_content, ]} >
+                {`Appointment `}
+                <Text style={{ fontWeight: "500", color:"#0764B0" }} >
+                    {`#${noti?.appointmentCode || ""} `}
+                </Text>
+                <Text style={{ }} >
+                    {`${noti?.message || ""} `}
+                </Text>
+            </Text>;
+            break;
+        default:
+            message = <Text style={[styles.txt_content, { fontWeight: "500" }]} >
+                {`${noti?.customerName || ""} `}
+                <Text style={{ fontWeight: "300" }} >
+                    {`${noti?.message || ""} `}
+                </Text>
+                <Text style={{ color: "#0764B0" }} >
+                    {`#${noti?.appointmentId || ""} `}
+                </Text>
+            </Text>;
+    }
+    return message;
 }

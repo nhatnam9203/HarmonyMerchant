@@ -449,7 +449,9 @@ class HomeScreen extends Layout {
     displayNotifiPopup = () => {
         this.setState({
             visible: true
-        })
+        });
+        this.props.actions.app.getNotificationList();
+
     }
 
     closeNotiPopup = () => {
@@ -475,7 +477,8 @@ class HomeScreen extends Layout {
         this.tabAppointmentRef?.current?.pushNotiDataToWebView(noti);
         this.setState({
             visible: false
-        })
+        });
+        this.props.actions.app.maskNotiAsReadById(noti?.merchantNotificationId || 0);
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {

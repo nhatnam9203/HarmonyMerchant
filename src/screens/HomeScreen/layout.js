@@ -15,7 +15,7 @@ import {
     PopupEnterPin, PopupCheckStaffPermission,
     ScrollableTabView
 } from '@components';
-import { scaleSzie, localize, getIconByTitle } from '@utils';
+import { scaleSzie, localize, getIconByNotiType, getColorTitleByNotiType, getNotiContentByType } from '@utils';
 import styles from './style';
 import ICON from '@resources';
 import { TabMarketing, TabAppointment, TabCheckout } from './widget';
@@ -27,7 +27,8 @@ export default class Layout extends React.Component {
 
     renderNotiItem(noti) {
 
-        const icon = getIconByTitle(noti?.type || "");
+        const icon = getIconByNotiType(noti?.type || "");
+        const content = getNotiContentByType(noti);
 
         return (
             <Button onPress={this.handlePushNotiDataToWebView(noti)} style={{ minHeight: scaleSzie(125), }} >
@@ -38,12 +39,13 @@ export default class Layout extends React.Component {
                     </View>
                     {/* ------------ Information ------------ */}
                     <View style={{ flex: 1 }} >
-                        <Text style={{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "600" }} >
+                        <Text style={{ color: getColorTitleByNotiType(noti?.view, noti?.type), fontSize: scaleSzie(16), fontWeight: "600" }} >
                             {noti?.title || ""}
                         </Text>
-                        <Text style={{ color: "#585858", fontSize: scaleSzie(16), marginTop: scaleSzie(6) }} >
+                        {/* <Text style={{ color: "#585858", fontSize: scaleSzie(16), marginTop: scaleSzie(6) }} >
                             {`${noti?.content}` || ""}
-                        </Text>
+                        </Text> */}
+                        {content}
 
                         <View style={{ flex: 1, justifyContent: "flex-end", }} >
                             <Text style={{ color: "#585858", fontSize: scaleSzie(12), marginTop: scaleSzie(10) }} >
