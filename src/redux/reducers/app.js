@@ -38,7 +38,9 @@ const initialState = {
   isHandleNotiWhenHaveAAppointment: false,
   notiIntervalId: false,
   notificationList: [],
-  notificationContUnread: 0
+  notificationContUnread: 0,
+  notiTotalPages: 0,
+  notiCurrentPage: 0,
 };
 
 function appReducer(state = initialState, action) {
@@ -289,7 +291,10 @@ function appReducer(state = initialState, action) {
     case "GET_NOTIFICATION_LIST_SUCCESS":
       return {
         ...state,
-        notificationList: action.payload
+        // notificationList: action.payload,
+        notificationList: action.currentPage === 1 ? action.payload : state.notificationList.concat(action.payload),
+        notiTotalPages: action.totalPages,
+        notiCurrentPage: action.currentPage,
       }
     case "GET_COUNT_UNREAD_OF_NOTIFICATION_SUCCESS":
       return {

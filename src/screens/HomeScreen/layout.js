@@ -176,6 +176,9 @@ export default class Layout extends React.Component {
                                         getItemCount={this.getItemCount}
                                         getItem={this.getItem}
                                         showsVerticalScrollIndicator={false}
+                                        onEndReached={this.loadMoreNotificationList}
+                                        onEndReachedThreshold={0.5}
+                                        onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
                                     />
                                 </View>
                             </View>

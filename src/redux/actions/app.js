@@ -319,7 +319,8 @@ export function getNotificationList(page = 1) {
     type: "GET_NOTIFICATION_LIST",
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}notification?page=${page}&row=10`,
+    api: `${apiConfigs.BASE_API}notification?page=${page}&row=20`,
+    currentPage: page,
   };
 }
 

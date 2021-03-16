@@ -321,7 +321,9 @@ function* getNotificationList(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: "GET_NOTIFICATION_LIST_SUCCESS",
-                payload: responses?.data || []
+                payload: responses?.data || [],
+                totalPages: responses?.pages || 0,
+                currentPage: action.currentPage
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({

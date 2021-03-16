@@ -40,6 +40,8 @@ class HomeScreen extends Layout {
         this.unsubscribeNetInfo = null;
         this.watcherNetwork = new Subject();
         this.checkMarketingPermissionRef = React.createRef();
+
+        this.onEndReachedCalledDuringMomentum = true;
     }
 
     componentDidMount() {
@@ -481,6 +483,16 @@ class HomeScreen extends Layout {
         this.props.actions.app.maskNotiAsReadById(noti?.merchantNotificationId || 0);
     }
 
+    loadMoreNotificationList = () => {
+        if (!this.onEndReachedCalledDuringMomentum) {
+            const { notiTotalPages, notiCurrentPage } = this.props;
+            if (notiCurrentPage < notiTotalPages) {
+                this.props.actions.app.getNotificationList(notiCurrentPage + 1);
+                this.onEndReachedCalledDuringMomentum = true;
+            }
+        }
+    }
+
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment, isGoToTabMarketing, isHandleNotiWhenHaveAAppointment } = this.props;
         if (isLoginStaff && prevProps.isLoginStaff !== isLoginStaff) {
@@ -544,7 +556,9 @@ const mapStateToProps = state => ({
     isHandleNotiWhenHaveAAppointment: state.app.isHandleNotiWhenHaveAAppointment,
     notiIntervalId: state.app.notiIntervalId,
     notificationList: state.app.notificationList,
-    notificationContUnread: state.app.notificationContUnread
+    notificationContUnread: state.app.notificationContUnread,
+    notiCurrentPage: state.app.notiCurrentPage, 
+    notiTotalPages: state.app.notiTotalPages, 
 })
 
 let codePushOptions = {
