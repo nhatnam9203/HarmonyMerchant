@@ -114,7 +114,6 @@ export default class Layout extends React.Component {
                     ListEmptyComponent={<RowEmptyTableCustomer />}
                     refreshing={refreshListCustomer}
                     onRefresh={this.onRefreshCustomer}
-
                     onEndReached={this.loadMoreCustomerList}
                     onEndReachedThreshold={0.5}
                     onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}

@@ -3,6 +3,7 @@ import NavigationServices from "../../navigators/NavigatorServices";
 import { Alert } from 'react-native';
 
 import { requestAPI } from '../../utils';
+import actions from "../actions";
 
 function* getMerchantByID(action) {
     try {
@@ -310,6 +311,110 @@ function* changeIsGiftForNew(action) {
     }
 }
 
+function* getNotificationList(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // yield put({ type: 'STOP_LOADING_ROOT' });
+        // console.log("------- getNotificationList: ", JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "GET_NOTIFICATION_LIST_SUCCESS",
+                payload: responses?.data || [],
+                totalPages: responses?.pages || 0,
+                currentPage: action.currentPage
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            });
+            yield put({
+                type: "GET_NOTIFICATION_LIST_FAIL",
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+        yield put({
+            type: "GET_NOTIFICATION_LIST_FAIL",
+        })
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* getCountUnReadOfNotification(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // yield put({ type: 'STOP_LOADING_ROOT' });
+        console.log("------- getCountUnReadOfNotification: ", JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "GET_COUNT_UNREAD_OF_NOTIFICATION_SUCCESS",
+                payload: responses?.data || "0"
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            });
+            // yield put({
+            //     type: "GET_NOTIFICATION_LIST_FAIL",
+            // })
+        }
+    } catch (error) {
+        yield put({ type: error });
+        // yield put({
+        //     type: "GET_NOTIFICATION_LIST_FAIL",
+        // })
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* maskNotiAsReadById(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // yield put({ type: 'STOP_LOADING_ROOT' });
+        console.log("------- maskNotiAsReadById: ", JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put(actions.app.getCountUnReadOfNotification());
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            });
+            // yield put({
+            //     type: "GET_NOTIFICATION_LIST_FAIL",
+            // })
+        }
+    } catch (error) {
+        yield put({ type: error });
+        // yield put({
+        //     type: "GET_NOTIFICATION_LIST_FAIL",
+        // })
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
 
 function* requestNetworkTimeout(action) {
     yield put({ type: 'STOP_LOADING_ROOT' });
@@ -377,6 +482,9 @@ export default function* saga() {
         takeLatest('CHECK_EMAIL_SIGN_UP', checkEmailSignup),
         takeLatest('GET_PACKAGE_AND_PRICING', getPackageAndPricing),
         takeLatest('CHANGE_IS_GIFT_FOR_NEW', changeIsGiftForNew),
+        takeLatest('GET_NOTIFICATION_LIST', getNotificationList),
+        takeLatest('GET_COUNT_UNREAD_OF_NOTIFICATION', getCountUnReadOfNotification),
+        takeLatest('MASK_NOTI_AS_READ_BY_ID', maskNotiAsReadById),
 
 
         takeLatest('NET_WORK_REQUEST_FAIL', requestNetworkTimeout),

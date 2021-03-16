@@ -1,16 +1,11 @@
 import React from 'react';
 import {
     View,
-    ScrollView,
-    Image
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import _ from 'ramda';
 
-import { PopupConfirm, PopupCheckStaffPermission } from '@components';
 import styles from './style';
-import { localize, } from '@utils';
-
 
 class Layout extends React.Component {
 
@@ -40,12 +35,6 @@ class Layout extends React.Component {
 
 }
 
-
-const ShadowLine = ({ style }) => {
-    return (
-        <View style={[styles.shadowLine, style]} />
-    )
-}
 
 export default Layout;
 

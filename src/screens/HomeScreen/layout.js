@@ -15,7 +15,7 @@ import {
     PopupEnterPin, PopupCheckStaffPermission,
     ScrollableTabView
 } from '@components';
-import { scaleSzie, localize, getIconByTitle } from '@utils';
+import { scaleSzie, localize, getIconByNotiType, getColorTitleByNotiType, getNotiContentByType,formatWithMoment } from '@utils';
 import styles from './style';
 import ICON from '@resources';
 import { TabMarketing, TabAppointment, TabCheckout } from './widget';
@@ -23,185 +23,31 @@ import configs from "@configs";
 
 const { width, height } = Dimensions.get("window");
 
-const DATA = [
-    {
-        "merchantNotificationId": 43545,
-        "title": "Appointment changes",
-        "content": "Rockie has changed the appointment #9876006623",
-        "createdDate": "2021-03-16T11:19:19.970411",
-        "view": 0,
-        "type": "appointment_update",
-        "appointmentId": 14926,
-        "appointmentDate": "2021-03-16T10:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43544,
-        "title": "New Appointment",
-        "content": "New appointment for: <b>Rockie</b> #9876006623",
-        "createdDate": "2021-03-16T11:17:42.684294",
-        "view": 0,
-        "type": "appointment_add",
-        "appointmentId": 14926,
-        "appointmentDate": "2021-03-16T10:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43543,
-        "title": "New Appointment",
-        "content": "New appointment for: <b>Rockie</b> #9876006622",
-        "createdDate": "2021-03-16T11:16:16.633511",
-        "view": 0,
-        "type": "appointment_add",
-        "appointmentId": 14925,
-        "appointmentDate": "2021-03-16T16:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43542,
-        "title": "Appointment changes",
-        "content": "Rockie has changed the appointment #9876006619",
-        "createdDate": "2021-03-16T11:15:00.478879",
-        "view": 0,
-        "type": "appointment_update",
-        "appointmentId": 14922,
-        "appointmentDate": "2021-03-16T13:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43541,
-        "title": "Appointment changes",
-        "content": "Rockie has changed the appointment #9876006619",
-        "createdDate": "2021-03-16T11:14:27.459535",
-        "view": 0,
-        "type": "appointment_update",
-        "appointmentId": 14922,
-        "appointmentDate": "2021-03-16T13:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43540,
-        "title": "Appointment schedule changes",
-        "content": "Rockie has changed the appointment time.",
-        "createdDate": "2021-03-16T11:13:55.288042",
-        "view": 0,
-        "type": "appointment_schedule_changes",
-        "appointmentId": 14922,
-        "appointmentDate": "2021-03-16T13:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43539,
-        "title": "New Appointment",
-        "content": "New appointment for: <b>Rockie</b> #9876006621",
-        "createdDate": "2021-03-16T11:12:17.964114",
-        "view": 0,
-        "type": "appointment_add",
-        "appointmentId": 14924,
-        "appointmentDate": "2021-03-16T13:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43538,
-        "title": "New Appointment",
-        "content": "New appointment for: <b>Rockie</b> #9876006620",
-        "createdDate": "2021-03-16T11:10:55.180735",
-        "view": 0,
-        "type": "appointment_add",
-        "appointmentId": 14923,
-        "appointmentDate": "2021-03-15T14:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43537,
-        "title": "Appointment schedule changes",
-        "content": "Rockie has changed the appointment time.",
-        "createdDate": "2021-03-16T11:10:31.833091",
-        "view": 0,
-        "type": "appointment_schedule_changes",
-        "appointmentId": 14922,
-        "appointmentDate": "2021-03-16T13:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43536,
-        "title": "New Appointment",
-        "content": "New appointment for: <b>Rockie</b> #9876006619",
-        "createdDate": "2021-03-16T11:07:14.065807",
-        "view": 0,
-        "type": "appointment_add",
-        "appointmentId": 14922,
-        "appointmentDate": "2021-03-16T13:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    }
-]
-
 export default class Layout extends React.Component {
 
     renderNotiItem(noti) {
-        //  console.log("----- renderNotiItem: ",JSON.stringify(noti));
-
-        const icon = getIconByTitle(noti?.type || "");
+        const icon = noti?.view ? `${getIconByNotiType(noti?.type || "")}_is_read` : getIconByNotiType(noti?.type || "") ;
+        const content = getNotiContentByType(noti);
 
         return (
-            <View style={{ minHeight: scaleSzie(125), }} >
-                <View style={{ flex: 1, flexDirection: "row", paddingTop: scaleSzie(10),paddingBottom:scaleSzie(6) }} >
+            <Button onPress={this.handlePushNotiDataToWebView(noti)} style={{ minHeight: scaleSzie(125), }} >
+                <View style={{ flex: 1, flexDirection: "row", paddingTop: scaleSzie(10), paddingBottom: scaleSzie(6) }} >
                     {/* ------------ Icon ------------ */}
                     <View style={{ width: scaleSzie(50) }} >
                         <Image source={ICON[icon]} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
                     </View>
                     {/* ------------ Information ------------ */}
                     <View style={{ flex: 1 }} >
-                        <Text style={{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "600" }} >
+                        <Text style={{ color: getColorTitleByNotiType(noti?.view, noti?.type), fontSize: scaleSzie(16), fontWeight: "600",
+                    marginBottom:scaleSzie(6)
+                    }} >
                             {noti?.title || ""}
                         </Text>
-                        <Text style={{ color: "#585858", fontSize: scaleSzie(16), marginTop: scaleSzie(6) }} >
-                            {`${noti?.content}` || ""}
-                        </Text>
+                        {content}
 
-                        <View style={{ flex: 1,justifyContent:"flex-end", }} >
-                            <Text style={{ color: "#585858", fontSize: scaleSzie(12),marginTop:scaleSzie(10)  }} >
-                                {`1 minute ago.`}
+                        <View style={{ flex: 1, justifyContent: "flex-end", }} >
+                            <Text style={{ color: "#585858", fontSize: scaleSzie(12), marginTop: scaleSzie(10) }} >
+                                {formatWithMoment(noti?.createdDate,"MM/DD/YYYY   hh:mm A")}
                             </Text>
                         </View>
                     </View>
@@ -209,12 +55,12 @@ export default class Layout extends React.Component {
 
 
                 <View style={{ height: 2, backgroundColor: "#EEEEEE" }} />
-            </View>
+            </Button>
         );
     }
 
     render() {
-        const { language, navigation, marketingTabPermission, visibleEnterPin } = this.props;
+        const { language, navigation, marketingTabPermission, visibleEnterPin, notificationList, notificationContUnread } = this.props;
         const { isFocus, visible } = this.state;
         return (
             <ParentContainer
@@ -240,6 +86,7 @@ export default class Layout extends React.Component {
                             }}
                             onPressHandlerChangeTab={this.onPressHandlerChangeTab}
                             displayNotifiPopup={this.displayNotifiPopup}
+                            notificationContUnread={notificationContUnread}
                         />}
                         onChangeTab={this.onChangeTab}
 
@@ -322,13 +169,16 @@ export default class Layout extends React.Component {
                                 {/* ------------ Notification List ---------- */}
                                 <View style={{ flex: 1 }} >
                                     <VirtualizedList
-                                        data={DATA}
+                                        data={notificationList}
                                         initialNumToRender={10}
                                         renderItem={({ item }) => this.renderNotiItem(item)}
                                         keyExtractor={(item, index) => `${item?.merchantNotificationId}_${index}`}
                                         getItemCount={this.getItemCount}
                                         getItem={this.getItem}
                                         showsVerticalScrollIndicator={false}
+                                        onEndReached={this.loadMoreNotificationList}
+                                        onEndReachedThreshold={0.5}
+                                        onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
                                     />
                                 </View>
                             </View>

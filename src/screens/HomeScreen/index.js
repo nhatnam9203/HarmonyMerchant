@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'ramda';
+import _, { not } from 'ramda';
 import { Alert, BackHandler, AppState, NativeModules } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { Subject } from 'rxjs';
@@ -40,6 +40,8 @@ class HomeScreen extends Layout {
         this.unsubscribeNetInfo = null;
         this.watcherNetwork = new Subject();
         this.checkMarketingPermissionRef = React.createRef();
+
+        this.onEndReachedCalledDuringMomentum = true;
     }
 
     componentDidMount() {
@@ -394,7 +396,9 @@ class HomeScreen extends Layout {
             this.props.actions.service.getServicesByMerchant(),
             this.props.actions.product.getProductsByMerchant(),
             this.props.actions.staff.getStaffByMerchantId(),
-            this.props.actions.appointment.getStaffListByCurrentDate(profile?.merchantId)
+            this.props.actions.appointment.getStaffListByCurrentDate(profile?.merchantId),
+            this.props.actions.app.getNotificationList(),
+            this.props.actions.app.getCountUnReadOfNotification()
         ]).then((data) => {
             this.props.actions.staff.reloadButtonEnterPincode();
             if (data.length >= 5) {
@@ -457,7 +461,9 @@ class HomeScreen extends Layout {
     displayNotifiPopup = () => {
         this.setState({
             visible: true
-        })
+        });
+        this.props.actions.app.getNotificationList();
+
     }
 
     closeNotiPopup = () => {
@@ -475,6 +481,25 @@ class HomeScreen extends Layout {
         return {
             ...data[index],
             id: `${data[index]?.merchantNotificationId}_${Math.random().toString(12).substring(0)}`,
+        }
+    }
+
+
+    handlePushNotiDataToWebView = (noti) => () => {
+        this.tabAppointmentRef?.current?.pushNotiDataToWebView(noti);
+        this.setState({
+            visible: false
+        });
+        this.props.actions.app.maskNotiAsReadById(noti?.merchantNotificationId || 0);
+    }
+
+    loadMoreNotificationList = () => {
+        if (!this.onEndReachedCalledDuringMomentum) {
+            const { notiTotalPages, notiCurrentPage } = this.props;
+            if (notiCurrentPage < notiTotalPages) {
+                this.props.actions.app.getNotificationList(notiCurrentPage + 1);
+                this.onEndReachedCalledDuringMomentum = true;
+            }
         }
     }
 
@@ -500,6 +525,7 @@ class HomeScreen extends Layout {
 
         if (isHandleNotiWhenHaveAAppointment && prevProps.isHandleNotiWhenHaveAAppointment !== isHandleNotiWhenHaveAAppointment) {
             this.handleNotification();
+            this.props.actions.app.getCountUnReadOfNotification();
             this.props.actions.app.resetStateNotiWhenHaveAAppointment();
         }
     }
@@ -539,7 +565,11 @@ const mapStateToProps = state => ({
     profileStaffLogin: state?.dataLocal?.profileStaffLogin || {},
 
     isHandleNotiWhenHaveAAppointment: state.app.isHandleNotiWhenHaveAAppointment,
-    notiIntervalId: state.app.notiIntervalId
+    notiIntervalId: state.app.notiIntervalId,
+    notificationList: state.app.notificationList,
+    notificationContUnread: state.app.notificationContUnread,
+    notiCurrentPage: state.app.notiCurrentPage, 
+    notiTotalPages: state.app.notiTotalPages, 
 })
 
 let codePushOptions = {
