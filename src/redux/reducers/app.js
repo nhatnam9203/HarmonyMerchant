@@ -37,7 +37,8 @@ const initialState = {
   terminalID: "",
   isHandleNotiWhenHaveAAppointment: false,
   notiIntervalId: false,
-  notificationList: []
+  notificationList: [],
+  notificationContUnread: 0
 };
 
 function appReducer(state = initialState, action) {
@@ -289,6 +290,11 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         notificationList: action.payload
+      }
+    case "GET_COUNT_UNREAD_OF_NOTIFICATION_SUCCESS":
+      return {
+        ...state,
+        notificationContUnread: action.payload
       }
     case 'RESET_IS_INIT_APP':
       return {

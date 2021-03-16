@@ -385,7 +385,8 @@ class HomeScreen extends Layout {
             this.props.actions.product.getProductsByMerchant(),
             this.props.actions.staff.getStaffByMerchantId(),
             this.props.actions.appointment.getStaffListByCurrentDate(profile?.merchantId),
-            this.props.actions.app.getNotificationList()
+            this.props.actions.app.getNotificationList(),
+            this.props.actions.app.getCountUnReadOfNotification()
         ]).then((data) => {
             this.props.actions.staff.reloadButtonEnterPincode();
             if (data.length >= 5) {
@@ -539,7 +540,8 @@ const mapStateToProps = state => ({
 
     isHandleNotiWhenHaveAAppointment: state.app.isHandleNotiWhenHaveAAppointment,
     notiIntervalId: state.app.notiIntervalId,
-    notificationList: state.app.notificationList
+    notificationList: state.app.notificationList,
+    notificationContUnread: state.app.notificationContUnread
 })
 
 let codePushOptions = {

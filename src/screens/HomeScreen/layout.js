@@ -60,7 +60,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language, navigation, marketingTabPermission, visibleEnterPin, notificationList } = this.props;
+        const { language, navigation, marketingTabPermission, visibleEnterPin, notificationList, notificationContUnread } = this.props;
         const { isFocus, visible } = this.state;
         return (
             <ParentContainer
@@ -86,6 +86,7 @@ export default class Layout extends React.Component {
                             }}
                             onPressHandlerChangeTab={this.onPressHandlerChangeTab}
                             displayNotifiPopup={this.displayNotifiPopup}
+                            notificationContUnread={notificationContUnread}
                         />}
                         onChangeTab={this.onChangeTab}
 

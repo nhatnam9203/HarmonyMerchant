@@ -345,6 +345,40 @@ function* getNotificationList(action) {
     }
 }
 
+function* getCountUnReadOfNotification(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // yield put({ type: 'STOP_LOADING_ROOT' });
+        console.log("------- getCountUnReadOfNotification: ", JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "GET_COUNT_UNREAD_OF_NOTIFICATION_SUCCESS",
+                payload: responses?.data || "0"
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            });
+            // yield put({
+            //     type: "GET_NOTIFICATION_LIST_FAIL",
+            // })
+        }
+    } catch (error) {
+        yield put({ type: error });
+        // yield put({
+        //     type: "GET_NOTIFICATION_LIST_FAIL",
+        // })
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
 
 function* requestNetworkTimeout(action) {
     yield put({ type: 'STOP_LOADING_ROOT' });
@@ -413,6 +447,7 @@ export default function* saga() {
         takeLatest('GET_PACKAGE_AND_PRICING', getPackageAndPricing),
         takeLatest('CHANGE_IS_GIFT_FOR_NEW', changeIsGiftForNew),
         takeLatest('GET_NOTIFICATION_LIST', getNotificationList),
+        takeLatest('GET_COUNT_UNREAD_OF_NOTIFICATION', getCountUnReadOfNotification),
 
         takeLatest('NET_WORK_REQUEST_FAIL', requestNetworkTimeout),
         takeLatest('TIME_OUT', timeout),

@@ -230,7 +230,7 @@ class Layout extends React.Component {
 
     renderProductCheckout() {
         const { language, groupAppointment } = this.props;
-        const {  isShowColAmount, categorySelected, productSeleted,
+        const { isShowColAmount, categorySelected, productSeleted,
             categoryTypeSelected,
         } = this.state;
         let tempWidth = 200
@@ -506,7 +506,7 @@ class Layout extends React.Component {
     }
 
     renderBasket() {
-        const { language, groupAppointment, paymentDetailInfo, blockAppointments,isBookingFromCalendar } = this.props;
+        const { language, groupAppointment, paymentDetailInfo, blockAppointments, isBookingFromCalendar } = this.props;
         const { isShowColAmount } = this.state;
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         const length_blockAppointments = blockAppointments ? blockAppointments.length : 0;
@@ -526,7 +526,7 @@ class Layout extends React.Component {
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         {
-                          !isBookingFromCalendar && ( (!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) || (blockAppointments.length && isShowAddBlock) > 0 )
+                            !isBookingFromCalendar && ((!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) || (blockAppointments.length && isShowAddBlock) > 0)
                                 ? <Button onPress={this.addAppointmentCheckout} >
                                     <Image
                                         source={ICON.add_appointment_checkout}

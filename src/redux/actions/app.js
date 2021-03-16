@@ -323,4 +323,15 @@ export function getNotificationList(page = 1) {
   };
 }
 
+export function getCountUnReadOfNotification() {
+  return {
+    type: "GET_COUNT_UNREAD_OF_NOTIFICATION",
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}notification/countUnRead?api-version=2.0`,
+  };
+}
+
+
+
 

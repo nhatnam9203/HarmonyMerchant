@@ -41,7 +41,7 @@ const HomeTabBar = createReactClass({
   },
 
   renderTab(name, page, isTabActive, onPressHandler) {
-    const { activeTextColor, inactiveTextColor, textStyle, backgroundTabActive } = this.props;
+    const { activeTextColor, inactiveTextColor, textStyle, backgroundTabActive,notificationContUnread } = this.props;
     const textColor = isTabActive ? activeTextColor : inactiveTextColor;
     const fontWeight = isTabActive ? 'bold' : 'normal';
     const backgroundColorActive = isTabActive ? { backgroundColor: backgroundTabActive } : { backgroundColor: '#F1F1F1' };
@@ -69,7 +69,7 @@ const HomeTabBar = createReactClass({
       position: "absolute",top:scaleSzie(2),right:0,borderRadius:scaleSzie(7),justifyContent:"center",alignItems:"center"
       }} >
         <Text style={{color:"#fff",fontSize:scaleSzie(6),fontWeight:"600"}} >
-          {`10`}
+          {`${notificationContUnread}`}
         </Text>
         </View>
       </Button> 

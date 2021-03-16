@@ -82,7 +82,7 @@ class TabAppointment extends Layout {
     }
 
     pushNotiDataToWebView = (data) => {
-        console.log("------ pushNotiDataToWebView: ",JSON.stringify(data));
+        // console.log("------ pushNotiDataToWebView: ",JSON.stringify(data));
         this.webviewRef.current.postMessage(JSON.stringify({
             action: 'appointmentNotification',
             data: data
