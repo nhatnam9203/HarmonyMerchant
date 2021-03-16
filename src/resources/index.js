@@ -114,8 +114,13 @@ export default {
   remove_tag: require('./img/remove_tag.png'),
   checkout_customer_icon: require('./img/checkout_customer_icon.png'),
   add_customer_info_checkout_tab: require('./img/add_customer_info_checkout_tab.png'),
-  noti_bell:  require('./img/noti_bell.png'),
+  noti_bell: require('./img/noti_bell.png'),
   close_noti_popup: require('./img/close_noti_popup.png'),
+  new_appointment: require('./img/new_appointment.png'),
+  appointment_change: require('./img/appointment_change.png'),
+  appointment_confirmation: require('./img/appointment_confirmation.png'),
+  appointment_cancel: require('./img/appointment_cancel.png'),
+  customer_checkin: require('./img/customer_checkin.png'),
 
   // --- Payment ---
   cash_payment_se: require('./payment/cash_payment_se.png'),
@@ -220,13 +225,13 @@ export default {
   // --- Photo Gallery ---
 
 
-  Ic_Camera:  require("./img/ic_camera.png"),
-  Ic_Camera_Small:  require("./img/ic_camera_small.png"),
-  Ic_Gallery:  require("./img/ic_gallery.png"),
-  Ic_Gallery_Small:  require("./img/ic_gallery_small.png"),
-  Gallery_ic:  require("./img/gallery_img.png"),
-  Trash:  require("./img/trash.png"),
-  Tick_ic:  require("./img/tick_ic.png"),
-  Arrow_up:  require("./img/arrow_up.png"),
-  Arrow_down:  require("./img/arrow_down.png"),
+  Ic_Camera: require("./img/ic_camera.png"),
+  Ic_Camera_Small: require("./img/ic_camera_small.png"),
+  Ic_Gallery: require("./img/ic_gallery.png"),
+  Ic_Gallery_Small: require("./img/ic_gallery_small.png"),
+  Gallery_ic: require("./img/gallery_img.png"),
+  Trash: require("./img/trash.png"),
+  Tick_ic: require("./img/tick_ic.png"),
+  Arrow_up: require("./img/arrow_up.png"),
+  Arrow_down: require("./img/arrow_down.png"),
 };

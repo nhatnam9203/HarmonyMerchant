@@ -126,6 +126,18 @@ const DATA = [
 
 export default class Layout extends React.Component {
 
+    renderNotiItem(noti){
+        return(
+            <View style={{minHeight:scaleSzie(125)}} >
+                <View style={{flex:1,flexDirection:"row"}} >
+
+                </View>
+
+                <View style={{height: 2, backgroundColor:"#EEEEEE"}} />
+            </View>
+        );
+    }
+
     render() {
         const { language, navigation, marketingTabPermission, visibleEnterPin } = this.props;
         const { isFocus, visible } = this.state;
@@ -237,7 +249,12 @@ export default class Layout extends React.Component {
                             {/* ------------ Notification List ---------- */}
                             <View style={{ flex: 1 }} >
                                 <VirtualizedList
-
+                                    data={DATA}
+                                    initialNumToRender={5}
+                                    renderItem={({ item }) => this.renderNotiItem(item)}
+                                    keyExtractor={(item,index) => `${item?.merchantNotificationId}_${index}`}
+                                    getItemCount={this.getItemCount}
+                                    getItem={this.getItem}
                                 />
                             </View>
 

@@ -450,11 +450,20 @@ class HomeScreen extends Layout {
         })
     }
 
-    closeNotiPopup = () =>{
+    closeNotiPopup = () => {
         this.setState({
             visible: false
         })
     }
+
+    getItemCount = (data) => {
+        return data?.length;
+    }
+
+    getItem = (data, index) => ({
+        id: Math.random().toString(12).substring(0),
+        title: `Item ${index + 1}`
+    })
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment, isGoToTabMarketing, isHandleNotiWhenHaveAAppointment } = this.props;
