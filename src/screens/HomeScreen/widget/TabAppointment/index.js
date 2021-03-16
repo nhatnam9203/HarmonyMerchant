@@ -11,36 +11,7 @@ import {
 import apiConfigs from '@configs/api';
 
 const initState = {
-    isShowColProduct: false,
-    isShowColAmount: false,
-    categorySelected: {
-        categoryId: -1,
-        categoryType: ''
-    },
-    productSeleted: {
-        name: ''
-    },
-    categoryTypeSelected: '',
-    extraSelected: {
-        extraId: -1,
-        name: ''
-    },
-    basket: [],
-    total: 0,
-    isInitBasket: true,
-    appointmentId: -1,
-    infoUser: {
-        firstName: '',
-        lastName: '',
-        phoneNumber: ''
-    },
-    isShowAddAppointment: false,
-    visibleConfirm: false,
-    visibleChangeStylist: false,
-    visibleDiscount: false,
     appointmentIdOffline: 0,
-    visibleChangePriceAmountProduct: false,
-    arrSelectedExtra: []
 }
 
 class TabAppointment extends Layout {
@@ -85,13 +56,6 @@ class TabAppointment extends Layout {
         }
     }
 
-    onNotif = (notif) => {
-        this.props.actions.app.closeAllPopupPincode();
-        this.props.navigation.navigate("Home");
-        this.notif.resetBadgeNumber();
-    }
-
-
     handleAppStateChange = nextAppState => {
         if (this.state.appState.match(/inactive|background/) && nextAppState === "active") {
             if (this.webviewRef.current) {
@@ -117,6 +81,14 @@ class TabAppointment extends Layout {
         }))
     }
 
+    pushNotiDataToWebView = (data) => {
+        console.log("------ pushNotiDataToWebView: ",JSON.stringify(data));
+        this.webviewRef.current.postMessage(JSON.stringify({
+            action: 'appointmentNotification',
+            data: data
+        }))
+    }
+
     setStateFromParent = async () => {
         await this.setState(initState);
     }
@@ -128,9 +100,6 @@ class TabAppointment extends Layout {
     onLoadStartWebview = () => {
         this.webviewRef.current.reload();
 
-    }
-
-    handleNewAppointmentNotification = (appointment) => {
     }
 
     onMessageFromWebview = async (event) => {
@@ -163,8 +132,7 @@ class TabAppointment extends Layout {
                     } else if (action === 'addGroupAnyStaff') {
                         this.props.createABlockAppointment(appointmentId, data.dataAnyStaff && data.dataAnyStaff.fromTime ? data.dataAnyStaff.fromTime : new Date());
                     } else if (action === 'push_notification' && data.isNotification) {
-                        const appointment = data.appointment ? { ...data.appointment } : {};
-                        this.handleNewAppointmentNotification(appointment)
+                        // ---------- Handle Push Notification from weview --------------
                     } else if (action == 'addMore') {
                         this.props.addMoreAppointmentFromCalendar(data?.appointmentId);
                     }
@@ -173,64 +141,6 @@ class TabAppointment extends Layout {
         } catch (error) {
         }
     }
-
-    // -------- Add Appointment --------
-    onPressSelectCategory = (category) => {
-        const { categorySelected } = this.state;
-        if (categorySelected.categoryId !== category.categoryId) {
-            this.setState({
-                categorySelected: category,
-                categoryTypeSelected: category.categoryType,
-                isShowColProduct: true,
-                isShowColAmount: false,
-                productSeleted: {
-                    name: ''
-                },
-                arrSelectedExtra: []
-            })
-        }
-    }
-
-    getDataColProduct() {
-        const { categorySelected, categoryTypeSelected } = this.state;
-        const { productsByMerchantId, servicesByMerchant } = this.props;
-        const data = categoryTypeSelected === 'Service' ? servicesByMerchant : productsByMerchantId;
-        const temptData = data.filter(item => {
-            return item.categoryId === categorySelected.categoryId && item.isDisabled === 0;
-        });
-        return temptData;
-    }
-
-    showColAmount = (item) => {
-        this.setState({
-            productSeleted: item,
-            isShowColAmount: true,
-            arrSelectedExtra: []
-        })
-    }
-
-    onPressSelectExtra = (extra) => {
-        const { arrSelectedExtra } = this.state;
-        let tempArrSelectedExtra;
-        let isExist = false;
-        for (let i = 0; i < arrSelectedExtra.length; i++) {
-            if (arrSelectedExtra[i]?.extraId === extra?.extraId) {
-                isExist = true;
-                break;
-            }
-        }
-        if (isExist) {
-            tempArrSelectedExtra = arrSelectedExtra.filter((selectedExtra) => selectedExtra?.extraId !== extra?.extraId);
-        } else {
-            tempArrSelectedExtra = [...arrSelectedExtra];
-            tempArrSelectedExtra.push(extra);
-        }
-        this.setState({
-            arrSelectedExtra: tempArrSelectedExtra
-        });
-    }
-
-
 
 
     async componentDidUpdate(prevProps, prevState, snapshot) {

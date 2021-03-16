@@ -23,169 +23,15 @@ import configs from "@configs";
 
 const { width, height } = Dimensions.get("window");
 
-const DATA = [
-    {
-        "merchantNotificationId": 43545,
-        "title": "Appointment changes",
-        "content": "Rockie has changed the appointment #9876006623",
-        "createdDate": "2021-03-16T11:19:19.970411",
-        "view": 0,
-        "type": "appointment_update",
-        "appointmentId": 14926,
-        "appointmentDate": "2021-03-16T10:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43544,
-        "title": "New Appointment",
-        "content": "New appointment for: <b>Rockie</b> #9876006623",
-        "createdDate": "2021-03-16T11:17:42.684294",
-        "view": 0,
-        "type": "appointment_add",
-        "appointmentId": 14926,
-        "appointmentDate": "2021-03-16T10:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43543,
-        "title": "New Appointment",
-        "content": "New appointment for: <b>Rockie</b> #9876006622",
-        "createdDate": "2021-03-16T11:16:16.633511",
-        "view": 0,
-        "type": "appointment_add",
-        "appointmentId": 14925,
-        "appointmentDate": "2021-03-16T16:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43542,
-        "title": "Appointment changes",
-        "content": "Rockie has changed the appointment #9876006619",
-        "createdDate": "2021-03-16T11:15:00.478879",
-        "view": 0,
-        "type": "appointment_update",
-        "appointmentId": 14922,
-        "appointmentDate": "2021-03-16T13:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43541,
-        "title": "Appointment changes",
-        "content": "Rockie has changed the appointment #9876006619",
-        "createdDate": "2021-03-16T11:14:27.459535",
-        "view": 0,
-        "type": "appointment_update",
-        "appointmentId": 14922,
-        "appointmentDate": "2021-03-16T13:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43540,
-        "title": "Appointment schedule changes",
-        "content": "Rockie has changed the appointment time.",
-        "createdDate": "2021-03-16T11:13:55.288042",
-        "view": 0,
-        "type": "appointment_schedule_changes",
-        "appointmentId": 14922,
-        "appointmentDate": "2021-03-16T13:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43539,
-        "title": "New Appointment",
-        "content": "New appointment for: <b>Rockie</b> #9876006621",
-        "createdDate": "2021-03-16T11:12:17.964114",
-        "view": 0,
-        "type": "appointment_add",
-        "appointmentId": 14924,
-        "appointmentDate": "2021-03-16T13:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43538,
-        "title": "New Appointment",
-        "content": "New appointment for: <b>Rockie</b> #9876006620",
-        "createdDate": "2021-03-16T11:10:55.180735",
-        "view": 0,
-        "type": "appointment_add",
-        "appointmentId": 14923,
-        "appointmentDate": "2021-03-15T14:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43537,
-        "title": "Appointment schedule changes",
-        "content": "Rockie has changed the appointment time.",
-        "createdDate": "2021-03-16T11:10:31.833091",
-        "view": 0,
-        "type": "appointment_schedule_changes",
-        "appointmentId": 14922,
-        "appointmentDate": "2021-03-16T13:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    },
-    {
-        "merchantNotificationId": 43536,
-        "title": "New Appointment",
-        "content": "New appointment for: <b>Rockie</b> #9876006619",
-        "createdDate": "2021-03-16T11:07:14.065807",
-        "view": 0,
-        "type": "appointment_add",
-        "appointmentId": 14922,
-        "appointmentDate": "2021-03-16T13:30:00",
-        "customerName": null,
-        "customerPhone": null,
-        "appointmentCode": null,
-        "staffName": null,
-        "message": null
-    }
-]
-
 export default class Layout extends React.Component {
 
     renderNotiItem(noti) {
-        //  console.log("----- renderNotiItem: ",JSON.stringify(noti));
 
         const icon = getIconByTitle(noti?.type || "");
 
         return (
-            <View style={{ minHeight: scaleSzie(125), }} >
-                <View style={{ flex: 1, flexDirection: "row", paddingTop: scaleSzie(10),paddingBottom:scaleSzie(6) }} >
+            <Button onPress={this.handlePushNotiDataToWebView(noti)} style={{ minHeight: scaleSzie(125), }} >
+                <View style={{ flex: 1, flexDirection: "row", paddingTop: scaleSzie(10), paddingBottom: scaleSzie(6) }} >
                     {/* ------------ Icon ------------ */}
                     <View style={{ width: scaleSzie(50) }} >
                         <Image source={ICON[icon]} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
@@ -199,8 +45,8 @@ export default class Layout extends React.Component {
                             {`${noti?.content}` || ""}
                         </Text>
 
-                        <View style={{ flex: 1,justifyContent:"flex-end", }} >
-                            <Text style={{ color: "#585858", fontSize: scaleSzie(12),marginTop:scaleSzie(10)  }} >
+                        <View style={{ flex: 1, justifyContent: "flex-end", }} >
+                            <Text style={{ color: "#585858", fontSize: scaleSzie(12), marginTop: scaleSzie(10) }} >
                                 {`1 minute ago.`}
                             </Text>
                         </View>
@@ -209,12 +55,12 @@ export default class Layout extends React.Component {
 
 
                 <View style={{ height: 2, backgroundColor: "#EEEEEE" }} />
-            </View>
+            </Button>
         );
     }
 
     render() {
-        const { language, navigation, marketingTabPermission, visibleEnterPin } = this.props;
+        const { language, navigation, marketingTabPermission, visibleEnterPin, notificationList } = this.props;
         const { isFocus, visible } = this.state;
         return (
             <ParentContainer
@@ -322,7 +168,7 @@ export default class Layout extends React.Component {
                                 {/* ------------ Notification List ---------- */}
                                 <View style={{ flex: 1 }} >
                                     <VirtualizedList
-                                        data={DATA}
+                                        data={notificationList}
                                         initialNumToRender={10}
                                         renderItem={({ item }) => this.renderNotiItem(item)}
                                         keyExtractor={(item, index) => `${item?.merchantNotificationId}_${index}`}

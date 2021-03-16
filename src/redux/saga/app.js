@@ -310,6 +310,41 @@ function* changeIsGiftForNew(action) {
     }
 }
 
+function* getNotificationList(action) {
+    try {
+        // yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // yield put({ type: 'STOP_LOADING_ROOT' });
+        // console.log("------- getNotificationList: ", JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "GET_NOTIFICATION_LIST_SUCCESS",
+                payload: responses?.data || []
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            });
+            yield put({
+                type: "GET_NOTIFICATION_LIST_FAIL",
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+        yield put({
+            type: "GET_NOTIFICATION_LIST_FAIL",
+        })
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 
 function* requestNetworkTimeout(action) {
     yield put({ type: 'STOP_LOADING_ROOT' });
@@ -377,7 +412,7 @@ export default function* saga() {
         takeLatest('CHECK_EMAIL_SIGN_UP', checkEmailSignup),
         takeLatest('GET_PACKAGE_AND_PRICING', getPackageAndPricing),
         takeLatest('CHANGE_IS_GIFT_FOR_NEW', changeIsGiftForNew),
-
+        takeLatest('GET_NOTIFICATION_LIST', getNotificationList),
 
         takeLatest('NET_WORK_REQUEST_FAIL', requestNetworkTimeout),
         takeLatest('TIME_OUT', timeout),

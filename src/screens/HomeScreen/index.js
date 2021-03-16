@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'ramda';
+import _, { not } from 'ramda';
 import { Alert, BackHandler, AppState, NativeModules } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { Subject } from 'rxjs';
@@ -384,7 +384,8 @@ class HomeScreen extends Layout {
             this.props.actions.service.getServicesByMerchant(),
             this.props.actions.product.getProductsByMerchant(),
             this.props.actions.staff.getStaffByMerchantId(),
-            this.props.actions.appointment.getStaffListByCurrentDate(profile?.merchantId)
+            this.props.actions.appointment.getStaffListByCurrentDate(profile?.merchantId),
+            this.props.actions.app.getNotificationList()
         ]).then((data) => {
             this.props.actions.staff.reloadButtonEnterPincode();
             if (data.length >= 5) {
@@ -468,6 +469,14 @@ class HomeScreen extends Layout {
         }
     }
 
+
+    handlePushNotiDataToWebView = (noti) => () => {
+        this.tabAppointmentRef?.current?.pushNotiDataToWebView(noti);
+        this.setState({
+            visible: false
+        })
+    }
+
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment, isGoToTabMarketing, isHandleNotiWhenHaveAAppointment } = this.props;
         if (isLoginStaff && prevProps.isLoginStaff !== isLoginStaff) {
@@ -529,7 +538,8 @@ const mapStateToProps = state => ({
     profileStaffLogin: state?.dataLocal?.profileStaffLogin || {},
 
     isHandleNotiWhenHaveAAppointment: state.app.isHandleNotiWhenHaveAAppointment,
-    notiIntervalId: state.app.notiIntervalId
+    notiIntervalId: state.app.notiIntervalId,
+    notificationList: state.app.notificationList
 })
 
 let codePushOptions = {

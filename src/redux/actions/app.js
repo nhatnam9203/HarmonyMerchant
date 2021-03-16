@@ -286,7 +286,7 @@ export function changeIsGiftForNew(visible = true) {
   return {
     type: "CHANGE_IS_GIFT_FOR_NEW",
     method: "PUT",
-    body:{
+    body: {
       GiftForNewEnabled: visible
     },
     token: true,
@@ -312,6 +312,15 @@ export function resetNotiIntervalId() {
   return {
     type: "RESET_NOTIFI_INTERVAL_ID",
   }
+}
+
+export function getNotificationList(page = 1) {
+  return {
+    type: "GET_NOTIFICATION_LIST",
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}notification?page=${page}&row=10`,
+  };
 }
 
 
