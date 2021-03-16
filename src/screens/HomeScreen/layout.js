@@ -15,7 +15,7 @@ import {
     PopupEnterPin, PopupCheckStaffPermission,
     ScrollableTabView
 } from '@components';
-import { scaleSzie, localize, getIconByNotiType, getColorTitleByNotiType, getNotiContentByType } from '@utils';
+import { scaleSzie, localize, getIconByNotiType, getColorTitleByNotiType, getNotiContentByType,formatWithMoment } from '@utils';
 import styles from './style';
 import ICON from '@resources';
 import { TabMarketing, TabAppointment, TabCheckout } from './widget';
@@ -26,8 +26,7 @@ const { width, height } = Dimensions.get("window");
 export default class Layout extends React.Component {
 
     renderNotiItem(noti) {
-
-        const icon = getIconByNotiType(noti?.type || "");
+        const icon = noti?.view ? `${getIconByNotiType(noti?.type || "")}_is_read` : getIconByNotiType(noti?.type || "") ;
         const content = getNotiContentByType(noti);
 
         return (
@@ -39,17 +38,16 @@ export default class Layout extends React.Component {
                     </View>
                     {/* ------------ Information ------------ */}
                     <View style={{ flex: 1 }} >
-                        <Text style={{ color: getColorTitleByNotiType(noti?.view, noti?.type), fontSize: scaleSzie(16), fontWeight: "600" }} >
+                        <Text style={{ color: getColorTitleByNotiType(noti?.view, noti?.type), fontSize: scaleSzie(16), fontWeight: "600",
+                    marginBottom:scaleSzie(6)
+                    }} >
                             {noti?.title || ""}
                         </Text>
-                        {/* <Text style={{ color: "#585858", fontSize: scaleSzie(16), marginTop: scaleSzie(6) }} >
-                            {`${noti?.content}` || ""}
-                        </Text> */}
                         {content}
 
                         <View style={{ flex: 1, justifyContent: "flex-end", }} >
                             <Text style={{ color: "#585858", fontSize: scaleSzie(12), marginTop: scaleSzie(10) }} >
-                                {`1 minute ago.`}
+                                {formatWithMoment(noti?.createdDate,"MM/DD/YYYY   hh:mm A")}
                             </Text>
                         </View>
                     </View>
