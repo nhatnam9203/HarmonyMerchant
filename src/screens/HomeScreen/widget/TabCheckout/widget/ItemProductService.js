@@ -11,22 +11,22 @@ import ICON from "@resources";
 
 const ItemProductService = ({ item, showColAmount, itemSelected, categoryTypeSelected, groupAppointment, appointmentDetail, isShowColAmount }) => {
 
-    const [source, setSource] = useState({
-        uri: item.imageUrl,
-        priority: FastImage.priority.low,
-        cache: FastImage.cacheControl.immutable
-    });
+    // const [source, setSource] = useState({
+    //     uri: item.imageUrl,
+    //     priority: FastImage.priority.low,
+    //     cache: FastImage.cacheControl.immutable
+    // });
 
-    useEffect(() => {
-        if (source?.uri && source?.uri !== item.imageUrl) {
-            setSource({
-                uri: item.imageUrl,
-                priority: FastImage.priority.low,
-                cache: FastImage.cacheControl.immutable
-            });
-        }
+    // useEffect(() => {
+    //     if (source?.uri && source?.uri !== item.imageUrl) {
+    //         setSource({
+    //             uri: item.imageUrl,
+    //             priority: FastImage.priority.low,
+    //             cache: FastImage.cacheControl.immutable
+    //         });
+    //     }
 
-    }, [item?.imageUrl])
+    // }, [item?.imageUrl])
 
 
     const temptKeyId = categoryTypeSelected === 'Service' ? 'serviceId' : 'productId';
@@ -98,10 +98,14 @@ const ItemProductService = ({ item, showColAmount, itemSelected, categoryTypeSel
             <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center" }} >
                 <View style={{ width: scaleSzie(50), height: scaleSzie(50), borderRadius: scaleSzie(3), overflow: "hidden" }} >
                     {
-                        item.imageUrl ? <FastImage
+                        item?.imageUrl ? <FastImage
                             style={{ width: scaleSzie(50), height: scaleSzie(50) }}
-                            source={source}
-                            onError={() => setSource(categoryTypeSelected === 'Service' ? ICON.service_holder : ICON.product_holder)}
+                            source={{
+                                    uri: item?.imageUrl,
+                                    priority: FastImage.priority.low,
+                                    cache: FastImage.cacheControl.immutable
+                            }}
+                            // onError={() => setSource(categoryTypeSelected === 'Service' ? ICON.service_holder : ICON.product_holder)}
                         /> : <FastImage
                                 style={{ width: scaleSzie(50), height: scaleSzie(50) }}
                                 source={placeHolder}

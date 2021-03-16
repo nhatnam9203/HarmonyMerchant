@@ -16,21 +16,21 @@ import connectRedux from '@redux/ConnectRedux';
 
 const RowTable = ({ staff, index, archiveStaff, editStaff, restoreStaff, move, moveEnd, toggleStaffActive }) => {
 
-    const [source, setSource] = useState({
-        uri: staff?.imageUrl,
-        priority: FastImage.priority.low,
-        cache: FastImage.cacheControl.immutable
-    });
+    // const [source, setSource] = useState({
+    //     uri: staff?.imageUrl,
+    //     priority: FastImage.priority.low,
+    //     cache: FastImage.cacheControl.immutable
+    // });
 
-    useEffect(() => {
-        if (source?.uri && source?.uri !== staff?.imageUrl) {
-            setSource({
-                uri: staff?.imageUrl,
-                priority: FastImage.priority.low,
-                cache: FastImage.cacheControl.immutable
-            })
-        }
-    }, [staff?.imageUrl])
+    // useEffect(() => {
+    //     if (source?.uri && source?.uri !== staff?.imageUrl) {
+    //         setSource({
+    //             uri: staff?.imageUrl,
+    //             priority: FastImage.priority.low,
+    //             cache: FastImage.cacheControl.immutable
+    //         })
+    //     }
+    // }, [staff?.imageUrl])
 
     function toggleIsActive(isActive) {
         toggleStaffActive(staff, isActive);
@@ -61,10 +61,14 @@ const RowTable = ({ staff, index, archiveStaff, editStaff, restoreStaff, move, m
             }} >
                 <View style={{ justifyContent: 'center' }} >
                     {
-                        staff.imageUrl ? <FastImage
+                        staff?.imageUrl ? <FastImage
                             style={{ width: scaleSzie(30), height: scaleSzie(30) }}
-                            source={source}
-                            onError={() => setSource(IMAGE.staff_holder)}
+                            source={{
+                                uri: staff?.imageUrl,
+                                priority: FastImage.priority.low,
+                                cache: FastImage.cacheControl.immutable
+                            }}
+                            // onError={() => setSource(IMAGE.staff_holder)}
                         /> : <FastImage source={IMAGE.staff_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
                     }
                 </View>

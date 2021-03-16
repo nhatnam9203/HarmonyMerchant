@@ -1318,11 +1318,38 @@ export const getTagInfoById = (type, arrTagId = [], data = []) => {
     for (let i = 0; i < arrTagId.length; i++) {
         for (let j = 0; j < data.length; j++) {
             if (data[j]?.type === type && data[j]?.originalId === arrTagId[i]) {
-                arrInfoTag.push({...data[j]});
+                arrInfoTag.push({ ...data[j] });
                 break;
             }
         }
     }
 
     return arrInfoTag;
+}
+
+export const getIconByTitle = (title) => {
+    let icon;
+    switch (title) {
+        case "appointment_add":
+            icon = "new_appointment";
+            break;
+        case "appointment_update":
+            icon = "appointment_change";
+            break;
+        case "appointment_schedule_changes":
+            icon = "appointment_change";
+            break;
+        case "appointment_checkin":
+            icon = "customer_checkin";
+            break;
+        case "appointment_confirm":
+            icon = "appointment_confirmation";
+            break;
+        case "appointment_cancel":
+            icon = "appointment_cancel";
+            break;
+        default:
+            icon = "new_appointment";
+    }
+    return icon;
 }

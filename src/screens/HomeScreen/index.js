@@ -19,7 +19,8 @@ const initialState = {
     visibleConfirm: false,
     temptCurrentTap: -1,
     visibleEnterPin: true,
-    isConnectedInternet: true
+    isConnectedInternet: true,
+    visible: false
 }
 
 const PosLink = NativeModules.payment;
@@ -445,11 +446,35 @@ class HomeScreen extends Layout {
         // console.log("----- this._interval: ",this._interval);
     }
 
-    clearIntervalById = () =>{
-        const {notiIntervalId} = this.props;
+    clearIntervalById = () => {
+        const { notiIntervalId } = this.props;
         if (notiIntervalId) {
             clearInterval(notiIntervalId);
             this.props.actions.app.resetNotiIntervalId();
+        }
+    }
+
+    displayNotifiPopup = () => {
+        this.setState({
+            visible: true
+        })
+    }
+
+    closeNotiPopup = () => {
+        this.setState({
+            visible: false
+        })
+    }
+
+    getItemCount = (data) => {
+        return data?.length;
+    }
+
+    getItem = (data, index) => {
+        // console.log("----- getItem: ",data);
+        return {
+            ...data[index],
+            id: `${data[index]?.merchantNotificationId}_${Math.random().toString(12).substring(0)}`,
         }
     }
 
