@@ -126,7 +126,6 @@ class PopupChangeStylist extends React.Component {
         } else {
             const tempExtras = [];
             for (let extra of extras) {
-                console.log(extra);
                 if (extra?.isSelect) {
                     tempExtras.push(extra?.extraId);
                 }

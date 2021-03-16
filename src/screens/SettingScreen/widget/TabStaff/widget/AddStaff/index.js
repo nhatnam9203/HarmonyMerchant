@@ -254,7 +254,7 @@ class AddStaff extends Layout {
         selected: i?.selected ? i.selected : false,
       })),
     }));
-    console.log(services)
+    // console.log(services)
     this.setState({ categories: arrServices });
   };
 

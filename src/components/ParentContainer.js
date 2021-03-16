@@ -46,7 +46,6 @@ class ParentContainer extends Component {
         } = this.props;
 
         if (notiIntervalId && isActive && this.props.clearIntervalById) {
-            console.log("---- clearclearIntervalById ----");
             this.props.clearIntervalById();
         }
 
@@ -75,7 +74,7 @@ class ParentContainer extends Component {
         try {
             SoundPlayer.playSoundFile('harmony', 'mp3');
         } catch (e) {
-            console.log(`cannot play the sound file`, e)
+            // console.log(`cannot play the sound file`, e)
         }
     }
 

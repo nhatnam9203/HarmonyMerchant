@@ -68,7 +68,7 @@ function* getGroupAppointmentById(action) {
                 }
 
                 if (action?.isAddMoreFromCalendar) {
-                    console.log("action?.isAddMoreFromCalendar: ",action?.isAddMoreFromCalendar);
+                    // console.log("action?.isAddMoreFromCalendar: ",action?.isAddMoreFromCalendar);
                     yield put({
                         type: "BOOKING_A_APPOINTMENT_FROM_CALENDAR_SUCCESS",
                         isBookingFromCalendar: true,

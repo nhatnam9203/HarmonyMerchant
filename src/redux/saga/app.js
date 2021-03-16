@@ -353,7 +353,7 @@ function* getCountUnReadOfNotification(action) {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // yield put({ type: 'STOP_LOADING_ROOT' });
-        console.log("------- getCountUnReadOfNotification: ", JSON.stringify(responses));
+        // console.log("------- getCountUnReadOfNotification: ", JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -388,7 +388,7 @@ function* maskNotiAsReadById(action) {
         // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
         // yield put({ type: 'STOP_LOADING_ROOT' });
-        console.log("------- maskNotiAsReadById: ", JSON.stringify(responses));
+        // console.log("------- maskNotiAsReadById: ", JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put(actions.app.getCountUnReadOfNotification());

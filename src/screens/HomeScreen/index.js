@@ -441,7 +441,7 @@ class HomeScreen extends Layout {
             try {
                 SoundPlayer.playSoundFile('harmony', 'mp3');
             } catch (e) {
-                console.log(`cannot play the sound file`, e)
+                // console.log(`cannot play the sound file`, e)
             }
         }, 5000);
 
