@@ -515,6 +515,7 @@ class HomeScreen extends Layout {
 
         if (isHandleNotiWhenHaveAAppointment && prevProps.isHandleNotiWhenHaveAAppointment !== isHandleNotiWhenHaveAAppointment) {
             this.handleNotification();
+            this.props.actions.app.getCountUnReadOfNotification();
             this.props.actions.app.resetStateNotiWhenHaveAAppointment();
         }
     }
