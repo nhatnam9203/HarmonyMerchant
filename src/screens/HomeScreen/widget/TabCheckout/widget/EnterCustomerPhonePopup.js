@@ -105,7 +105,7 @@ class EnterCustomerPhonePopup extends React.Component {
                 title={title}
                 visible={visibleEnterCustmerPhonePopup}
                 onRequestClose={this.onRequestClose}
-                width={scaleSzie(240)}
+                width={420}
                 styleTitle={{ fontSize: scaleSzie(18), fontWeight: "600" }}
                 style={customStyle}
             >

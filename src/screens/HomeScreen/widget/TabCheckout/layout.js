@@ -922,7 +922,6 @@ class Layout extends React.Component {
                     visible={this.state.visibleChangeTip}
                     title={localize('Add Tip', language)}
                     onRequestClose={() => { this.setState({ visibleChangeTip: false }) }}
-                // changeStylistBasketLocal={this.changeStylistBasketLocal}
                 />
 
                 <PopupPayCompleted
