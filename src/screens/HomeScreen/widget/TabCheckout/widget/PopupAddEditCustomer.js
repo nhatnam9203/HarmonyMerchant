@@ -65,7 +65,6 @@ class PopupAddEditCustomer extends React.Component {
     }
 
     setStateFromParent = async customer => {
-        // console.log(customer);
         await this.setState({
             customerInfo: {
                 firstName: customer?.firstName || "",

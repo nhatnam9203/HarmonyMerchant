@@ -441,13 +441,10 @@ class HomeScreen extends Layout {
             try {
                 SoundPlayer.playSoundFile('harmony', 'mp3');
             } catch (e) {
-                // console.log(`cannot play the sound file`, e)
             }
         }, 5000);
 
         this.props.actions.app.handleNotifiIntervalId(intervalId);
-
-        // console.log("----- this._interval: ",this._interval);
     }
 
     clearIntervalById = () => {
@@ -477,7 +474,6 @@ class HomeScreen extends Layout {
     }
 
     getItem = (data, index) => {
-        // console.log("----- getItem: ",data);
         return {
             ...data[index],
             id: `${data[index]?.merchantNotificationId}_${Math.random().toString(12).substring(0)}`,

@@ -152,7 +152,6 @@ class TabGaneral extends Layout {
             this.updateWorkTime();
         }
         if (isFocus && currentTab === 0 && prevProps.loading !== loading && prevProps.loading && !loading && this.state.isUpdateInternal) {
-            // console.log("----- Internal 1 ------: ");
             await this.setState({
                 webLink: profile?.webLink || '',
                 timezone: profile?.timezone || '',

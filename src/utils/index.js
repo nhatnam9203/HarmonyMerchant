@@ -325,7 +325,6 @@ export const getArrayServicesFromAppointment = (services = []) => {
 }
 
 export const getArrayExtrasFromAppointment = (extras = []) => {
-    // console.log("------ getArrayExtrasFromAppointment: ", JSON.stringify(extras));
     const temptArrayExtras = extras.map(extra => {
         return {
             type: 'Extra',
@@ -413,7 +412,6 @@ export const formatMoney = (number, decimalCount = 2, decimal = ".", thousands =
 
         return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
     } catch (e) {
-        // console.log(e)
     }
 }
 
@@ -844,7 +842,6 @@ export const getModalNameOfPrinter = (printers, tempModalName) => {
 export const checkStatusPrint = async (portType = "Bluetooth") => {
     try {
         const printer = await PrintManager.getInstance().portDiscovery(portType);
-        // console.log("--- printer : ", JSON.stringify(printer));
         return printer ? printer : [];
     } catch (error) {
         throw error

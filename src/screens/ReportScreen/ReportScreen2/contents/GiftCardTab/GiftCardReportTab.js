@@ -54,13 +54,6 @@ export default function GiftCardReportTab({
   const viewModeChart = () => changeViewMode(VIEW_MODE.CHART);
 
   const bindChartData = async () => {
-    // if (!giftCardReportList) return [];
-    // console.log(overallPaymentMethodList);
-    // const data = createChartObjectFromValues(
-    //   marketingEfficiencyList,
-    //   "method",
-    //   "netPayment"
-    // );
     await setChartData(giftCardReportList || []);
   };
 

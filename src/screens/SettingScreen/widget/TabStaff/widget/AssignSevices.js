@@ -175,7 +175,6 @@ class AssignSevices extends Component {
             }
         }
 
-        // console.log(isSelectAll);
         await this.setState({
             isSelectAll
         })

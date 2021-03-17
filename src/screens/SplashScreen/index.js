@@ -126,7 +126,6 @@ class SplashScreen extends Layout {
 
 
     codePushStatusDidChange(syncStatus) {
-        //console.log('progress : ' ,syncStatus);
     }
 
     async codePushDownloadDidProgress(progress) {

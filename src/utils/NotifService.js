@@ -38,9 +38,7 @@ export default class NotifService {
   }
 
   popInitialNotification() {
-    PushNotification.popInitialNotification((notification) =>
-      console.log("InitialNotication:", notification)
-    );
+    PushNotification.popInitialNotification((notification) => { });
   }
 
   localNotif(soundName, appointment = {}) {

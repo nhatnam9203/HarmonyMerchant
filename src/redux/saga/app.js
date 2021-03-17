@@ -313,10 +313,7 @@ function* changeIsGiftForNew(action) {
 
 function* getNotificationList(action) {
     try {
-        // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // yield put({ type: 'STOP_LOADING_ROOT' });
-        // console.log("------- getNotificationList: ", JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -350,10 +347,7 @@ function* getNotificationList(action) {
 
 function* getCountUnReadOfNotification(action) {
     try {
-        // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // yield put({ type: 'STOP_LOADING_ROOT' });
-        // console.log("------- getCountUnReadOfNotification: ", JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -369,15 +363,9 @@ function* getCountUnReadOfNotification(action) {
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses?.message
             });
-            // yield put({
-            //     type: "GET_NOTIFICATION_LIST_FAIL",
-            // })
         }
     } catch (error) {
         yield put({ type: error });
-        // yield put({
-        //     type: "GET_NOTIFICATION_LIST_FAIL",
-        // })
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -385,10 +373,7 @@ function* getCountUnReadOfNotification(action) {
 
 function* maskNotiAsReadById(action) {
     try {
-        // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // yield put({ type: 'STOP_LOADING_ROOT' });
-        // console.log("------- maskNotiAsReadById: ", JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put(actions.app.getCountUnReadOfNotification());
@@ -402,15 +387,9 @@ function* maskNotiAsReadById(action) {
                 type: 'SHOW_ERROR_MESSAGE',
                 message: responses?.message
             });
-            // yield put({
-            //     type: "GET_NOTIFICATION_LIST_FAIL",
-            // })
         }
     } catch (error) {
         yield put({ type: error });
-        // yield put({
-        //     type: "GET_NOTIFICATION_LIST_FAIL",
-        // })
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }

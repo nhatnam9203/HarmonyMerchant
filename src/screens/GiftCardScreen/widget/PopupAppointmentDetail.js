@@ -26,7 +26,6 @@ class PopupAppointmentDetail extends React.Component {
     }
 
     setStateFromParent = async (appointment) => {
-        // console.log(appointment);
         this.setState({
             appointmentDetail: appointment
         })
@@ -42,7 +41,6 @@ class PopupAppointmentDetail extends React.Component {
         const giftCards = appointmentDetail?.giftCards || [];
         const notes = appointmentDetail?.notes || [];
         const duration = appointmentDetail?.duration || 0;
-        // const millisecondsDuration =  duration*60*1000;
         const tempDuration = msToTime(duration);
 
         return (

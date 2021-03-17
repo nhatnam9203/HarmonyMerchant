@@ -55,23 +55,15 @@ class YouTubeItem extends React.Component {
     }
 
     onReady = (e) =>{
-    //console.log('onReady : ',e);
-        // this.setState({ isReady: true });
     }
 
     onChangeState = (e) =>{
-    //console.log('onChangeState : ',e);
-        // this.setState({ status: e.state })
     }
 
     onChangeQuality = (e) =>{
-    //console.log('onChangeQuality : ',e);
-        // this.setState({ quality: e.quality })
     }
 
     onError = (e) =>{
-    //console.log('onError : ',e);
-        // this.setState({ error: e.error })
     }
 
     showFullScreeen =() =>{

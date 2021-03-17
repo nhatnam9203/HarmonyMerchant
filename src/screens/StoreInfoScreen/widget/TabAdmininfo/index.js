@@ -222,13 +222,11 @@ class StoreInfoScreen extends Layout {
                 cashPercent : parseFloat(this.cashPercentRef.current.state.value ? this.cashPercentRef.current.state.value: 0),
                 fileId: this.state.fileId
             };
-            //console.log('productSalary : ' + JSON.stringify(objProjectSalary));
             this.props.actions.staff.createAdmin(temptStaff);
         }
     }
 
     convertKeyToName(key) {
-        //console.log('key : ', key);
         let name = '';
         switch (key) {
             case 'Percent (%)':

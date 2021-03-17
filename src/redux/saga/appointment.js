@@ -68,7 +68,6 @@ function* getGroupAppointmentById(action) {
                 }
 
                 if (action?.isAddMoreFromCalendar) {
-                    // console.log("action?.isAddMoreFromCalendar: ",action?.isAddMoreFromCalendar);
                     yield put({
                         type: "BOOKING_A_APPOINTMENT_FROM_CALENDAR_SUCCESS",
                         isBookingFromCalendar: true,
@@ -313,7 +312,6 @@ function* paymentAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' })
         const responses = yield requestAPI(action);
-        // console.log("------ PAY_APPOINTMENT: ", JSON.stringify(responses));
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -649,7 +647,6 @@ function* checkSerialNumber(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log("checkSerialNumber: ", JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -875,7 +872,6 @@ function* getCustomerBuyAppointment(action) {
     try {
         yield put({ type: 'LOADING_ROOT' })
         const responses = yield requestAPI(action);
-        // console.log("---- responses: ",JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -893,16 +889,6 @@ function* getCustomerBuyAppointment(action) {
                 type: 'UNAUTHORIZED'
             })
         } else {
-            // yield put({
-            //     type: "GET_CUSTOMER_INFO_BUY_APPOINTMENT_FAIL",
-            //     payload: action.customerInfoLocal
-            // });
-            // yield put({
-            //     type: "CHANGE_CUSTOMER_IN_APPOINTMENT",
-            // });
-
-            // console.log(action?.customerInfoLocal?.phone);
-
             yield put(actions.appointment.switchVisibleEnterCustomerPhonePopup(false));
             yield put({
                 type: "CUSTOMER_INFO_NOT_EXIST_IN_CHECKOUT_TAB",
@@ -1114,16 +1100,11 @@ function* getGiftCardLogs(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-
-        // console.log("--getGiftCardLogs :"+ JSON.stringify(responses));
-
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: "GET_GIFT_CARDS_LOGS_SUCCESS",
                 payload: responses?.data || [],
-                // currentPage: action?.currentPage,
-                // totalPages: responses?.pages || 1
             })
 
         } else if (parseInt(codeNumber) === 401) {
@@ -1192,9 +1173,7 @@ function* checkCreditPaymentToServer(action) {
 
 function* getStaffListByCurrentDate(action) {
     try {
-        // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log("----- getStaffListByCurrentDate: ", responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({

@@ -82,7 +82,6 @@ class TabAppointment extends Layout {
     }
 
     pushNotiDataToWebView = (data) => {
-        // console.log("------ pushNotiDataToWebView: ",JSON.stringify(data));
         this.webviewRef.current.postMessage(JSON.stringify({
             action: 'appointmentNotification',
             data: data
@@ -110,7 +109,6 @@ class TabAppointment extends Layout {
                     this.onLoadStartWebview();
                 } else {
                     const { action, appointmentId } = data;
-                    // console.log("onMessageFromWebview: ", JSON.stringify(data));
                     if (action === 'checkout') {
                         const arrayProducts = getArrayProductsFromAppointment(data?.appointment?.products || []);
                         const arryaServices = getArrayServicesFromAppointment(data?.appointment?.services || []);

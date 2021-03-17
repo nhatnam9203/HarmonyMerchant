@@ -365,7 +365,6 @@ class InvoiceScreen extends Layout {
     }
 
     handleResultVoidTransaction = async result => {
-        // console.log("---- handleResultVoidTransaction: ", result);
         const { invoiceDetail } = this.state;
         const data = JSON.parse(result);
 

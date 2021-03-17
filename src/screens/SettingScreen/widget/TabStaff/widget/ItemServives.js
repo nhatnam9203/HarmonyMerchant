@@ -57,8 +57,6 @@ class ItemServives extends React.Component {
         }
       }
     }
-
-    // console.log(JSON.stringify(serviceCategories));
   }
 
   onPress = () => {

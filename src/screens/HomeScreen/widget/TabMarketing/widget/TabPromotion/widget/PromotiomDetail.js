@@ -233,12 +233,9 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
             isValid = false;
         }
 
-        console.log(promotionValue);
         if (isValid) {
             isHandleEdit ? updatePromotionById(promotionId, campaign) : handleCreateNewCampaign(campaign);
-
         }
-
     }
 
     handleScroll = (number, animated = true) => () => {

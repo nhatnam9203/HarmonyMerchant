@@ -90,39 +90,10 @@ class ReportScreen extends Layout {
   };
   searchStaff = () => {
     return;
-    // const {
-    //   isCustomizeDate,
-    //   startDate,
-    //   endDate,
-    //   quickFilter,
-    // } = this.modalCalendarRef.current.state;
-    // let url;
-    // if (isCustomizeDate) {
-    //   url = `timeStart=${startDate}&timeEnd=${endDate}`;
-    // } else {
-    //   const filter = quickFilter === false ? "This Week" : quickFilter;
-    //   //console.log('quickFilter',quickFilter)
-    //   url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
-    // }
-    // this.props.actions.staff.getListStaffsSalaryTop(url, true);
   };
 
   onRefreshStaffReport = () => {
     return;
-    // const {
-    //   isCustomizeDate,
-    //   startDate,
-    //   endDate,
-    //   quickFilter,
-    // } = this.modalCalendarRef.current.state;
-    // let url;
-    // if (isCustomizeDate) {
-    //   url = `timeStart=${startDate}&timeEnd=${endDate}`;
-    // } else {
-    //   const filter = quickFilter === false ? "This Week" : quickFilter;
-    //   url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
-    // }
-    // this.props.actions.staff.getListStaffsSalaryTop(url, false);
   };
 
   cancelStaffInvoicePrint = async () => {
@@ -133,7 +104,6 @@ class ReportScreen extends Layout {
   };
 
   showPopupStaffInvoice = async (staff) => {
-    // console.log("staff : ",JSON.stringify(staff));
     await this.setState({
       visibleStaffInvoicePrint: true,
       selectedStaff: staff,

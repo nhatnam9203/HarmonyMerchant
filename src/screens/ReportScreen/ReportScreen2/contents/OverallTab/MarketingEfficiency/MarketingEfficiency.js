@@ -54,12 +54,6 @@ export default function MarketingEfficiency({
 
   const bindChartData = async () => {
     if (!marketingEfficiencyList) return [];
-    // console.log(overallPaymentMethodList);
-    // const data = createChartObjectFromValues(
-    //   marketingEfficiencyList,
-    //   "method",
-    //   "netPayment"
-    // );
     await setChartData(marketingEfficiencyList);
   };
 

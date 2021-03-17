@@ -31,7 +31,6 @@ export default class BluetoothScanner extends Component {
         if (Platform.OS === 'android' && Platform.Version >= 23) {
             PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).then((result) => {
                 if (result) {
-                    // console.log("Permission is OK");
                 } else {
                     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).then((result) => {
                         if (result) {
@@ -55,7 +54,6 @@ export default class BluetoothScanner extends Component {
     startScan = () => {
         if (!this.state.scanning) {
             BleManager.scan([], 10, false).then((results) => {
-                // console.log('Scanning...: ', results);
                 this.setState({ scanning: true });
             });
         }
@@ -71,7 +69,6 @@ export default class BluetoothScanner extends Component {
         var peripherals = this.state.peripherals;
         const nameBluetooth = peripheral?.name && peripheral?.name != undefined ? `${peripheral?.name}` : "";
         if (nameBluetooth && nameBluetooth.includes("80")) {
-            // console.log("------ peripheral: ", peripheral);
             peripherals.set(peripheral.id, peripheral);
             await this.setState({ peripherals });
             this.stopScan();

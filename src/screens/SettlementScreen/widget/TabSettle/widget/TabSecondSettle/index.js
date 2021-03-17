@@ -59,7 +59,6 @@ class TabSecondSettle extends Layout {
                 })
             }
         } catch (error) {
-            //console.log('error : ', error)
         }
     }
 
@@ -90,8 +89,6 @@ class TabSecondSettle extends Layout {
     }
 
     handleErrorBatchOnAndroid = async (errorMsg) => {
-        // alert(errorMsg)
-        // console.log(errorMsg);
         this.setState({
             numberFooter: 1,
             progress: 0,

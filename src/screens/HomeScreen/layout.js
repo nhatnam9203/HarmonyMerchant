@@ -4,9 +4,7 @@ import {
     Image,
     Dimensions,
     Text,
-    FlatList,
     VirtualizedList,
-    ScrollView,
     Modal
 } from 'react-native';
 

@@ -79,7 +79,6 @@ class TabPhotoGallery extends Layout {
 
   handleUploadBannerLocal = async (response) => {
     const { profile } = this.props;
-    // console.log(response);
     if (response.error === "Photo library permissions not granted") {
       gotoSettingsDevice();
     } else if (response.uri) {

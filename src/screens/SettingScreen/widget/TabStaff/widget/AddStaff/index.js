@@ -254,12 +254,10 @@ class AddStaff extends Layout {
         selected: i?.selected ? i.selected : false,
       })),
     }));
-    // console.log(services)
     this.setState({ categories: arrServices });
   };
 
   addAdmin = () => {
-    // this.servivesRef?.current?.setServivesCheck()
     const { user } = this.state;
     const { stateCity } = this.props;
     const arrayKey = Object.keys(user);

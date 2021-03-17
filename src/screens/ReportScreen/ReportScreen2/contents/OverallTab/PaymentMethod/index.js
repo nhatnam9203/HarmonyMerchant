@@ -135,10 +135,8 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
       layoutRef.current.goBack();
     },
     didBlur: () => {
-      // setTitleRangeTime("This week");
     },
     didFocus: () => {
-      // console.log("====> screen report -> staff didFocus");
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
   }));

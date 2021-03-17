@@ -10,7 +10,6 @@ function* getListCustomersByMerchant(action) {
             yield put({ type: 'LOADING_ROOT' });
         }
         const responses = yield requestAPI(action);
-        // console.log("---- responses: ", responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -73,7 +72,6 @@ function* addCustomer(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log("----- ADD_CUSTOMER: ",JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -204,27 +202,8 @@ function* getCustomerInfoByPhone(action) {
 
 function* sendGoogleReviewLink(action) {
     try {
-        // yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log("--- sendGoogleReviewLink: ", responses);
-
-        // yield put({ type: 'STOP_LOADING_ROOT' });
-        // const { codeNumber } = responses;
-        // if (parseInt(codeNumber) == 200) {
-
-
-        // } else if (parseInt(codeNumber) === 401) {
-        //     yield put({
-        //         type: 'UNAUTHORIZED'
-        //     })
-        // } else {
-        //     yield put({
-        //         type: 'SHOW_ERROR_MESSAGE',
-        //         message: responses?.message
-        //     })
-        // }
     } catch (error) {
-        // yield put({ type: error });
     } finally {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
@@ -234,7 +213,6 @@ function* getCustomerInfoById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log("getCustomerInfoById: ", JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -283,7 +261,6 @@ function* getPastAppointments(action) {
             yield put({ type: 'LOADING_ROOT' });
         }
         const responses = yield requestAPI(action);
-        // console.log("getPastAppointments: ", JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {

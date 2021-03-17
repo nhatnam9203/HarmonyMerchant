@@ -40,7 +40,6 @@ class PopupChangePriceAmountProduct extends React.Component {
     }
 
     setStateFromParent = async (product, appointmentId) => {
-        // console.log("---- setStateFromParent: ",product);
         await this.setState({
             name: product?.data?.name || '',
             bookingProductId: product?.data?.bookingProductId || '',
