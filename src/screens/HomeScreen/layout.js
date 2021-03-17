@@ -30,7 +30,7 @@ export default class Layout extends React.Component {
         const content = getNotiContentByType(noti);
 
         return (
-            <Button onPress={this.handlePushNotiDataToWebView(noti)} style={{ minHeight: scaleSzie(125), }} >
+            <Button onPress={this.handlePushNotiDataToWebView(noti)} style={{ minHeight: scaleSzie(110), }} >
                 <View style={{ flex: 1, flexDirection: "row", paddingTop: scaleSzie(10), paddingBottom: scaleSzie(6) }} >
                     {/* ------------ Icon ------------ */}
                     <View style={{ width: scaleSzie(50) }} >
