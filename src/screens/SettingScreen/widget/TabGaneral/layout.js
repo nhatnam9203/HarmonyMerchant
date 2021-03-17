@@ -24,7 +24,7 @@ class Layout extends React.Component {
     renderSetup() {
         const { language, autoLockScreenAfter, isTipOnPaxMachine } = this.props;
         const { languageApp, webLink, autoCloseAt, timezone, businessHour, turnAmount, staffColumn,
-            signinAppStyle, sendReviewLinkOption, isUsingTurn,giftForNewEnabled
+            signinAppStyle, sendReviewLinkOption, isUsingTurn, giftForNewEnabled
         } = this.state;
 
         return (
@@ -218,7 +218,7 @@ class Layout extends React.Component {
                         </View>
                     </View>
                     {/* -------- Time Zone --------- */}
-                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
+                    {/* <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
                         <View style={{ width: scaleSzie(180), justifyContent: 'center' }} >
                             <Text style={{
                                 color: '#404040',
@@ -244,7 +244,7 @@ class Layout extends React.Component {
                                 }}
                             />
                         </View>
-                    </View>
+                    </View> */}
 
                     {/* -------- Sign in app display in --------- */}
                     <View style={{ flexDirection: 'row', marginTop: scaleSzie(8) }} >
