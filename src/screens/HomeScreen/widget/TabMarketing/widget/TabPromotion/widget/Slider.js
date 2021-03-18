@@ -3,7 +3,6 @@
 import React, {
     PureComponent,
 } from "react";
-
 import {
     Animated,
     Image,
@@ -14,8 +13,9 @@ import {
     ViewPropTypes,
     Text
 } from "react-native";
-
 import PropTypes from 'prop-types';
+
+import { scaleSzie } from "@utils";
 
 var TRACK_SIZE = 4;
 var THUMB_SIZE = 20;
@@ -276,15 +276,30 @@ export default class Slider extends PureComponent {
                         }
                     ]}
                 >
-                    <Text style={{ position: "absolute", top: -60, width: 100, backgroundColor: "red",
-                    left:-20
-                }} >
-                        {`40000`}
-                    </Text>
+                    <View style={{
+                          position: "absolute", top: -scaleSzie(29),  left: -scaleSzie(6),
+                         minWidth:scaleSzie(60)
+                    }} >
+                        <Text style={{
+                            color: "#0764B0", fontSize: scaleSzie(14), fontWeight: "400",
+                        }} >
+                            {`4000`}
+                        </Text>
+                    </View>
+
                     {this._renderThumbImage()}
-                    <Text style={{ position: "absolute", top: 60 }} >
-                        {`Pho mne`}
-                    </Text>
+
+                    <View style={{
+                          position: "absolute", top: scaleSzie(45),  left: -scaleSzie(6),minWidth:scaleSzie(60)
+                    }} >
+                        <Text style={{
+                            color: "#0764B0", fontSize: scaleSzie(14), fontWeight: "600",
+                        }} >
+                            {`$24.00`}
+                        </Text>
+                    </View>
+
+                   
                 </Animated.View>
                 <View
                     renderToHardwareTextureAndroid={true}

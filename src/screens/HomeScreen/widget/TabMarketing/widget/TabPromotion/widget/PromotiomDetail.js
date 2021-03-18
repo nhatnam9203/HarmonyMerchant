@@ -23,7 +23,6 @@ import {
 } from '@utils';
 import ICON from '@resources';
 import { Button, Text, InputForm, Dropdown } from '@components';
-import { product } from 'ramda';
 const { width } = Dimensions.get('window');
 
 const DATA = [
@@ -507,16 +506,25 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                         }
 
                         {/* ---------- SMS configuration ----------- */}
-                        <Text style={{ color: "#404040", fontSize: scaleSzie(16), fontWeight: "600" }} >
+                        <Text style={{ color: "#404040", fontSize: scaleSzie(16), fontWeight: "600", marginTop: scaleSzie(20) }} >
                             {`SMS configuration`}
                         </Text>
-                        <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "400" }} >
+                        <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "400", marginTop: scaleSzie(8) }} >
                             {`Number of messages`}
                         </Text>
 
-                        <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "400" }} >
-                            {value}
-                        </Text>
+                        {/* -------------- Range Of Slider ----------------- */}
+
+                        <View style={{ height: scaleSzie(30), marginTop: scaleSzie(8), flexDirection: "row", justifyContent: "space-between" }} >
+                            <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "400", }} >
+                                {`0`}
+                            </Text>
+
+                            <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "400", }} >
+                                {`1000`}
+                            </Text>
+                        </View>
+
                         <Slider
                             value={value}
                             onValueChange={value => setValue(value)}
@@ -538,6 +546,17 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                             }}
                             minimumTrackTintColor="#0764B0"
                         />
+
+                        <View style={{ height: scaleSzie(30), marginTop: scaleSzie(8), alignItems: "flex-end", flexDirection: "row", justifyContent: "space-between" }} >
+                            <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600", }} >
+                                {`$ 0.00`}
+                            </Text>
+
+                            <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600", }} >
+                                {`$40.00`}
+                            </Text>
+                        </View>
+
                     </View>
                 </View>
 
