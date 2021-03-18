@@ -133,7 +133,9 @@ class TabAppointment extends Layout {
                         this.props.createABlockAppointment(appointmentId, data.dataAnyStaff && data.dataAnyStaff.fromTime ? data.dataAnyStaff.fromTime : new Date());
                     } else if (action === 'push_notification' || action === 'update_notification') {
                         // ---------- Handle Push Notification from weview --------------
-                        this.props.actions.app.getCountUnReadOfNotification();
+                        if (this.props?.profileStaffLogin?.token) {
+                            this.props.actions.app.getCountUnReadOfNotification();
+                        }
                     } else if (action == 'addMore') {
                         this.props.addMoreAppointmentFromCalendar(data?.appointmentId);
                     } else if (action == 'addMoreAnyStaff') {

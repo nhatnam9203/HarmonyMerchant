@@ -258,7 +258,7 @@ function* changeStatustransaction(action) {
         yield put({ type: 'LOADING_ROOT' });
         const state = yield select();
         const { profileLoginInvoice } = state.dataLocal;
-        const temptAction = { ...action, token: profileLoginInvoice?.token || "" };
+        const temptAction = profileLoginInvoice?.token ?  { ...action, token: profileLoginInvoice?.token || "" } : action;
         const responses = yield requestAPI(temptAction);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;

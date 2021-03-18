@@ -170,6 +170,11 @@ function dataLocalReducer(state = initialState, action) {
                     giftForNewEnabled: action.payload
                 },
             }
+        case 'RESET_PROFILE_INVOICE_LOGIN':
+            return {
+                ...state,
+                profileLoginInvoice: {}
+            }
         case 'LOGOUT_APP':
             return {
                 ...initialState,

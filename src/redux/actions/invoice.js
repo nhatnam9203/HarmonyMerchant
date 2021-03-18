@@ -238,3 +238,11 @@ export function toggleDisplayBackBatchHistoryIcon(visible = true) {
         payload: visible
     }
 }
+
+
+export function resetProfileInvoiceLogin() {
+    return {
+        type: 'RESET_PROFILE_INVOICE_LOGIN',
+    }
+}
+

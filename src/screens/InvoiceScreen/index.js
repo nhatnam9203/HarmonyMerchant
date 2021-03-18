@@ -76,6 +76,7 @@ class InvoiceScreen extends Layout {
                 const roleName = profileStaffLogin?.roleName || "Admin";
                 if (roleName === "Admin") {
                     this.props.actions.invoice.getListInvoicesByMerchant();
+                    this.props.actions.invoice.resetProfileInvoiceLogin();
                 } else {
                     this.props.actions.invoice.toggleInvoiceTabPermission();
                 }
