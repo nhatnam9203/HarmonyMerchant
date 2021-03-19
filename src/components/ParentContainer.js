@@ -46,7 +46,6 @@ class ParentContainer extends Component {
             this.props.clearIntervalById();
         }
 
-       
         const parent = this.props.navigation.dangerouslyGetParent();
         const isDrawerOpen = parent && parent.state && parent.state.isDrawerOpen;
         if (!isActive && activeScreen && !visibleEnterPin && !isDrawerOpen && !isOfflineMode && autoLockScreenAfter != "Never"

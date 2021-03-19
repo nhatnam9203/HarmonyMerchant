@@ -337,11 +337,11 @@ class HomeScreen extends Layout {
         }
     }
 
-    addMoreAppointmentFromCalendar = (appointmentId,addMoreAnyStaff = false) => {
+    addMoreAppointmentFromCalendar = (appointmentId, addMoreAnyStaff = false) => {
         this.props.actions.appointment.getGroupAppointmentById(appointmentId, false, true, false);
         this.scrollTabParentRef.current.goToPage(2);
 
-        if(addMoreAnyStaff){
+        if (addMoreAnyStaff) {
             if (this.tabCheckoutRef?.current) {
                 this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
             } else {
@@ -437,14 +437,16 @@ class HomeScreen extends Layout {
     }
 
     handleNotification = () => {
-        const intervalId = setInterval(() => {
-            try {
-                SoundPlayer.playSoundFile('harmony', 'mp3');
-            } catch (e) {
-            }
-        }, 5000);
+        if (!this.props?.notiIntervalId) {
+            const intervalId = setInterval(() => {
+                try {
+                    SoundPlayer.playSoundFile('harmony', 'mp3');
+                } catch (e) {
+                }
+            }, 5000);
+            this.props.actions.app.handleNotifiIntervalId(intervalId);
+        }
 
-        this.props.actions.app.handleNotifiIntervalId(intervalId);
     }
 
     clearIntervalById = () => {
@@ -474,6 +476,7 @@ class HomeScreen extends Layout {
     }
 
     getItem = (data, index) => {
+        // console.log("----- getItem: ",data);
         return {
             ...data[index],
             id: `${data[index]?.merchantNotificationId}_${Math.random().toString(12).substring(0)}`,
@@ -500,7 +503,9 @@ class HomeScreen extends Layout {
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment, isGoToTabMarketing, isHandleNotiWhenHaveAAppointment } = this.props;
+        const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment, isGoToTabMarketing, isHandleNotiWhenHaveAAppointment,
+            profileStaffLogin
+        } = this.props;
         if (isLoginStaff && prevProps.isLoginStaff !== isLoginStaff) {
             this.loginStaffSuccess();
             this.props.actions.dataLocal.resetStateLoginStaff();
@@ -520,9 +525,11 @@ class HomeScreen extends Layout {
         }
 
         if (isHandleNotiWhenHaveAAppointment && prevProps.isHandleNotiWhenHaveAAppointment !== isHandleNotiWhenHaveAAppointment) {
-            this.handleNotification();
-            this.props.actions.app.getCountUnReadOfNotification();
-            this.props.actions.app.resetStateNotiWhenHaveAAppointment();
+            if (profileStaffLogin?.token) {
+                this.handleNotification();
+                this.props.actions.app.getCountUnReadOfNotification();
+                this.props.actions.app.resetStateNotiWhenHaveAAppointment();
+            }
         }
     }
 
@@ -564,8 +571,9 @@ const mapStateToProps = state => ({
     notiIntervalId: state.app.notiIntervalId,
     notificationList: state.app.notificationList,
     notificationContUnread: state.app.notificationContUnread,
-    notiCurrentPage: state.app.notiCurrentPage, 
-    notiTotalPages: state.app.notiTotalPages, 
+    notiCurrentPage: state.app.notiCurrentPage,
+    notiTotalPages: state.app.notiTotalPages,
+
 })
 
 let codePushOptions = {
