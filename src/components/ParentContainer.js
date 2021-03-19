@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import UserInactivity from 'react-native-user-inactivity';
 import _ from "ramda";
-import SoundPlayer from 'react-native-sound-player'
 
 import connectRedux from '@redux/ConnectRedux';
-
-let phi;
 
 class ParentContainer extends Component {
     constructor(props) {
@@ -38,7 +35,7 @@ class ParentContainer extends Component {
     }
 
     handleInactive = isActive => {
-        const { activeScreen, visibleEnterPinInvoice, visibleEnterPin, isOfflineMode,
+        const { activeScreen, visibleEnterPin, isOfflineMode,
             autoLockScreenAfter, groupAppointment,
             invoiceTabPermission, settlementTabPermission, customerTabPermission,
             inventoryTabPermission, reportTabPermission, settingTabPermission, visiblePaymentCompleted,
@@ -49,7 +46,6 @@ class ParentContainer extends Component {
             this.props.clearIntervalById();
         }
 
-       
         const parent = this.props.navigation.dangerouslyGetParent();
         const isDrawerOpen = parent && parent.state && parent.state.isDrawerOpen;
         if (!isActive && activeScreen && !visibleEnterPin && !isDrawerOpen && !isOfflineMode && autoLockScreenAfter != "Never"
@@ -61,30 +57,6 @@ class ParentContainer extends Component {
         }
     }
 
-    handleNotification = () => {
-        const intervalId = setInterval(() => {
-            this.playSoundNotificaton();
-        }, 5000);
-
-        this.props.actions.app.handleNotifiIntervalId(intervalId);
-       
-    }
-
-    playSoundNotificaton = () => {
-        try {
-            SoundPlayer.playSoundFile('harmony', 'mp3');
-        } catch (e) {
-            // console.log(`cannot play the sound file`, e)
-        }
-    }
-
-    clearIntervalById = () =>{
-        const {notiIntervalId} = this.props;
-        if (notiIntervalId) {
-            clearInterval(notiIntervalId);
-            this.props.actions.app.resetNotiIntervalId();
-        }
-    }
 
     render() {
         const { autoLockScreenAfter } = this.props;
@@ -99,19 +71,6 @@ class ParentContainer extends Component {
                 {this.props.children}
             </UserInactivity>
         );
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        const { isHandleNotiWhenHaveAAppointment } = this.props;
-        if (isHandleNotiWhenHaveAAppointment && prevProps.isHandleNotiWhenHaveAAppointment !== isHandleNotiWhenHaveAAppointment) {
-            // console.log("------ set interval nootifixation -----");
-            // this.handleNotification();
-            // this.props.actions.app.resetStateNotiWhenHaveAAppointment();
-        }
-    }
-
-    componentWillUnmount() {
-        // this.clearIntervalById();
     }
 
 }

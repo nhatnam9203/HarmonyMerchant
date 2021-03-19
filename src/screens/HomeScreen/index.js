@@ -437,17 +437,16 @@ class HomeScreen extends Layout {
     }
 
     handleNotification = () => {
-        const intervalId = setInterval(() => {
-            try {
-                SoundPlayer.playSoundFile('harmony', 'mp3');
-            } catch (e) {
-                // console.log(`cannot play the sound file`, e)
-            }
-        }, 5000);
+        if (!this.props?.notiIntervalId) {
+            const intervalId = setInterval(() => {
+                try {
+                    SoundPlayer.playSoundFile('harmony', 'mp3');
+                } catch (e) {
+                }
+            }, 5000);
+            this.props.actions.app.handleNotifiIntervalId(intervalId);
+        }
 
-        this.props.actions.app.handleNotifiIntervalId(intervalId);
-
-        // console.log("----- this._interval: ",this._interval);
     }
 
     clearIntervalById = () => {
