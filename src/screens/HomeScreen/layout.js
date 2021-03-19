@@ -167,9 +167,10 @@ export default class Layout extends React.Component {
                                     </Button>
 
                                     <Button onPress={this.readAllNotification}
-                                        style={{ position: "absolute", top: 0, right: scaleSzie(16),  height: scaleSzie(30), width: scaleSzie(30),
-                                        justifyContent: "center",
-                                    }}
+                                        style={{
+                                            position: "absolute", top: 0, right: scaleSzie(16), height: scaleSzie(30), width: scaleSzie(30),
+                                            justifyContent: "center",
+                                        }}
                                     >
                                         <Image style={{ width: scaleSzie(22), height: scaleSzie(22) }}
                                             source={ICON.read_all_noti} />
