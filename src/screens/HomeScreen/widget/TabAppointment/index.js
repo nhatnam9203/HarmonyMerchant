@@ -110,7 +110,7 @@ class TabAppointment extends Layout {
                     this.onLoadStartWebview();
                 } else {
                     const { action, appointmentId } = data;
-                    // console.log("onMessageFromWebview: ", JSON.stringify(data));
+                    console.log("onMessageFromWebview: ", JSON.stringify(data));
                     if (action === 'checkout') {
                         const arrayProducts = getArrayProductsFromAppointment(data?.appointment?.products || []);
                         const arryaServices = getArrayServicesFromAppointment(data?.appointment?.services || []);
@@ -124,7 +124,7 @@ class TabAppointment extends Layout {
                                 appointmentIdOffline: appointmentId
                             })
                         } else {
-                            this.props.bookAppointment(appointmentId);
+                            this.props.bookAppointment(appointmentId,data?.staffId || 0);
                         }
 
                     } else if (action == 'signinAppointment') {

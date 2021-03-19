@@ -109,8 +109,8 @@ export default class FooterTab extends React.PureComponent {
 
     componentWillUnmount() {
         if (Platform.OS === "android") {
-            this.keyboardDidShowListener.remove();
-            this.keyboardDidHideListener.remove();
+            this.keyboardDidShowListener?.remove();
+            this.keyboardDidHideListener?.remove();
         }
     }
 

@@ -187,7 +187,7 @@ class EnterCustomerPhonePopup extends React.Component {
     }
 
     componentWillUnmount() {
-        this.keyboardWillHide.remove();
+        this.keyboardWillHide?.remove();
     }
 
 

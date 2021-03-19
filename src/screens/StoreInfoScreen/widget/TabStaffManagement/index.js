@@ -90,9 +90,6 @@ class TabStaffManagement extends Layout {
         })
     }
 
-    componentWillUnmount() {
-    }
-
 }
 
 const mapStateToProps = state => ({

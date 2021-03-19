@@ -162,8 +162,8 @@ class ReportScreen extends Layout {
   }
 
   componentWillUnmount() {
-    this.didBlurSubscription.remove();
-    this.didFocusSubscription.remove();
+    this.didBlurSubscription?.remove();
+    this.didFocusSubscription?.remove();
   }
 }
 

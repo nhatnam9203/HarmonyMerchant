@@ -150,8 +150,8 @@ class PopupCheckStaffPermission extends React.Component {
 
 
     componentWillUnmount() {
-        this.keyboardDidShowListener.remove();
-        this.keyboardDidHideListener.remove();
+        this.keyboardDidShowListener?.remove();
+        this.keyboardDidHideListener?.remove();
     }
 
 }

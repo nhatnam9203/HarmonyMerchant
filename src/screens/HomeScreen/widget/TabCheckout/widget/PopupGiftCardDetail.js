@@ -272,7 +272,7 @@ class PopupGiftCardDetail extends React.Component {
     }
 
     componentWillUnmount() {
-        this.keyboardDidHideListener.remove();
+        this.keyboardDidHideListener?.remove();
     }
 
 

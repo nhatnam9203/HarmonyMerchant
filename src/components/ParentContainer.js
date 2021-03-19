@@ -90,10 +90,7 @@ const mapStateToProps = state => ({
     reportTabPermission: state.staff.reportTabPermission,
     settingTabPermission: state.app.settingTabPermission,
     visiblePaymentCompleted: state.appointment.visiblePaymentCompleted,
-
-    isHandleNotiWhenHaveAAppointment: state.app.isHandleNotiWhenHaveAAppointment,
     notiIntervalId: state.app.notiIntervalId
-
 })
 
 

@@ -84,8 +84,8 @@ export default class BluetoothScanner extends Component {
     }
 
     componentWillUnmount() {
-        this.handlerDiscover.remove();
-        this.handlerStop.remove();
+        this.handlerDiscover?.remove();
+        this.handlerStop?.remove();
     }
 
 }
