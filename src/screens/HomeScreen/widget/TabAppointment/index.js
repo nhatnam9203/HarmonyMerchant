@@ -82,7 +82,6 @@ class TabAppointment extends Layout {
     }
 
     pushNotiDataToWebView = (data) => {
-        // console.log("------ pushNotiDataToWebView: ",JSON.stringify(data));
         this.webviewRef.current.postMessage(JSON.stringify({
             action: 'appointmentNotification',
             data: data
@@ -110,7 +109,7 @@ class TabAppointment extends Layout {
                     this.onLoadStartWebview();
                 } else {
                     const { action, appointmentId } = data;
-                    console.log("onMessageFromWebview: ", JSON.stringify(data));
+                    // console.log("onMessageFromWebview: ", JSON.stringify(data));
                     if (action === 'checkout') {
                         const arrayProducts = getArrayProductsFromAppointment(data?.appointment?.products || []);
                         const arryaServices = getArrayServicesFromAppointment(data?.appointment?.services || []);
@@ -118,13 +117,13 @@ class TabAppointment extends Layout {
                         const arrayGiftCards = getArrayGiftCardsFromAppointment(data?.appointment?.giftCards || []);
                         const temptBasket = arrayProducts.concat(arryaServices, arrayExtras, arrayGiftCards);
                         if (temptBasket.length > 0) {
-                            this.props.checkoutAppointment(appointmentId, data.appointment);
+                            this.props.checkoutAppointment(appointmentId, data?.appointment || {});
                             this.props.actions.appointment.checkoutAppointmentOffline(appointmentId);
                             this.setState({
                                 appointmentIdOffline: appointmentId
                             })
                         } else {
-                            this.props.bookAppointment(appointmentId,data?.staffId || 0);
+                            this.props.bookAppointment(appointmentId,data?.appointment?.staffId || 0);
                         }
 
                     } else if (action == 'signinAppointment') {
