@@ -109,7 +109,7 @@ class TabAppointment extends Layout {
                     this.onLoadStartWebview();
                 } else {
                     const { action, appointmentId } = data;
-                    // console.log("onMessageFromWebview: ", JSON.stringify(data));
+                    console.log("onMessageFromWebview: ", JSON.stringify(data));
                     if (action === 'checkout') {
                         const arrayProducts = getArrayProductsFromAppointment(data?.appointment?.products || []);
                         const arryaServices = getArrayServicesFromAppointment(data?.appointment?.services || []);
@@ -123,7 +123,7 @@ class TabAppointment extends Layout {
                                 appointmentIdOffline: appointmentId
                             })
                         } else {
-                            this.props.bookAppointment(appointmentId,data?.appointment?.staffId || 0);
+                            this.props.bookAppointment(appointmentId, data?.appointment?.staffId || 0);
                         }
 
                     } else if (action == 'signinAppointment') {
@@ -136,9 +136,9 @@ class TabAppointment extends Layout {
                             this.props.actions.app.getCountUnReadOfNotification();
                         }
                     } else if (action == 'addMore') {
-                        this.props.addMoreAppointmentFromCalendar(data?.appointmentId);
+                        this.props.addMoreAppointmentFromCalendar(data?.appointmentId,data?.staffId || 0);
                     } else if (action == 'addMoreAnyStaff') {
-                        this.props.addMoreAppointmentFromCalendar(data?.appointmentId, true);
+                        this.props.addMoreAppointmentFromCalendar(data?.appointmentId, data?.staffId || 0);
                     }
                 }
             }
