@@ -116,18 +116,17 @@ export default {
   add_customer_info_checkout_tab: require('./img/add_customer_info_checkout_tab.png'),
   noti_bell: require('./img/noti_bell.png'),
   close_noti_popup: require('./img/close_noti_popup.png'),
-
   new_appointment: require('./img/new_appointment.png'),
   appointment_change: require('./img/appointment_change.png'),
   appointment_confirmation: require('./img/appointment_confirmation.png'),
   appointment_cancel: require('./img/appointment_cancel.png'),
   customer_checkin: require('./img/customer_checkin.png'),
-
   new_appointment_is_read: require('./img/new_appointment_is_read.png'),
   appointment_change_is_read: require('./img/appointment_change_is_read.png'),
   appointment_confirmation_is_read: require('./img/appointment_confirmation_is_read.png'),
   appointment_cancel_is_read: require('./img/appointment_cancel_is_read.png'),
   customer_checkin_is_read: require('./img/customer_checkin_is_read.png'),
+  read_all_noti: require('./img/read_all_noti.png'),
 
   // --- Payment ---
   cash_payment_se: require('./payment/cash_payment_se.png'),

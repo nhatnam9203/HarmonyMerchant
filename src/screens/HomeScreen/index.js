@@ -520,6 +520,10 @@ class HomeScreen extends Layout {
         }
     }
 
+    readAllNotification = () =>{
+       this.props.actions.app.readAllNotification();
+    }
+
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment, isGoToTabMarketing, isHandleNotiWhenHaveAAppointment,
             profileStaffLogin
