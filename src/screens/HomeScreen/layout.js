@@ -13,7 +13,7 @@ import {
 import {
     HomeTabBar, StatusBarHeader, Button, ParentContainer,
     PopupEnterPin, PopupCheckStaffPermission,
-    ScrollableTabView,Loading
+    ScrollableTabView, Loading
 } from '@components';
 import { scaleSzie, localize, getIconByNotiType, getColorTitleByNotiType, getNotiContentByType, formatWithMoment } from '@utils';
 import styles from './style';
@@ -166,7 +166,11 @@ export default class Layout extends React.Component {
                                         <Image source={ICON.close_noti_popup} />
                                     </Button>
 
-                                    <Button onPress={this.readAllNotification} style={{ position: "absolute", bottom: 0, right: scaleSzie(16) }} >
+                                    <Button onPress={this.readAllNotification}
+                                        style={{ position: "absolute", top: 0, right: scaleSzie(16),  height: scaleSzie(30), width: scaleSzie(30),
+                                        justifyContent: "center",
+                                    }}
+                                    >
                                         <Image style={{ width: scaleSzie(22), height: scaleSzie(22) }}
                                             source={ICON.read_all_noti} />
                                     </Button>
