@@ -123,7 +123,7 @@ class TabAppointment extends Layout {
                                 appointmentIdOffline: appointmentId
                             })
                         } else {
-                            this.props.bookAppointment(appointmentId, data?.appointment?.staffId || 0);
+                            this.props.bookAppointment(appointmentId, data?.staffId ? data?.staffId : (data?.appointment?.staffId || 0));
                         }
 
                     } else if (action == 'signinAppointment') {
@@ -136,7 +136,7 @@ class TabAppointment extends Layout {
                             this.props.actions.app.getCountUnReadOfNotification();
                         }
                     } else if (action == 'addMore') {
-                        this.props.addMoreAppointmentFromCalendar(data?.appointmentId,data?.staffId || 0);
+                        this.props.addMoreAppointmentFromCalendar(data?.appointmentId, data?.staffId || 0);
                     } else if (action == 'addMoreAnyStaff') {
                         this.props.addMoreAppointmentFromCalendar(data?.appointmentId, data?.staffId || 0);
                     }
