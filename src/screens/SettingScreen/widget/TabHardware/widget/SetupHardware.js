@@ -355,7 +355,7 @@ class SetupHardware extends React.Component {
     }
 
     componentWillUnmount() {
-        this.keyboardWillHide.remove();
+        this.keyboardWillHide?.remove();
         this.manager = null
     }
 

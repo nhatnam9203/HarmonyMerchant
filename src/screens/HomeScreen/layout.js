@@ -11,9 +11,9 @@ import {
 import {
     HomeTabBar, StatusBarHeader, Button, ParentContainer,
     PopupEnterPin, PopupCheckStaffPermission,
-    ScrollableTabView
+    ScrollableTabView, Loading
 } from '@components';
-import { scaleSzie, localize, getIconByNotiType, getColorTitleByNotiType, getNotiContentByType,formatWithMoment } from '@utils';
+import { scaleSzie, localize, getIconByNotiType, getColorTitleByNotiType, getNotiContentByType, formatWithMoment } from '@utils';
 import styles from './style';
 import ICON from '@resources';
 import { TabMarketing, TabAppointment, TabCheckout } from './widget';
@@ -24,7 +24,7 @@ const { width, height } = Dimensions.get("window");
 export default class Layout extends React.Component {
 
     renderNotiItem(noti) {
-        const icon = noti?.view ? `${getIconByNotiType(noti?.type || "")}_is_read` : getIconByNotiType(noti?.type || "") ;
+        const icon = noti?.view ? `${getIconByNotiType(noti?.type || "")}_is_read` : getIconByNotiType(noti?.type || "");
         const content = getNotiContentByType(noti);
 
         return (
@@ -36,16 +36,17 @@ export default class Layout extends React.Component {
                     </View>
                     {/* ------------ Information ------------ */}
                     <View style={{ flex: 1 }} >
-                        <Text style={{ color: getColorTitleByNotiType(noti?.view, noti?.type), fontSize: scaleSzie(16), fontWeight: "600",
-                    marginBottom:scaleSzie(6)
-                    }} >
+                        <Text style={{
+                            color: getColorTitleByNotiType(noti?.view, noti?.type), fontSize: scaleSzie(16), fontWeight: "600",
+                            marginBottom: scaleSzie(6)
+                        }} >
                             {noti?.title || ""}
                         </Text>
                         {content}
 
                         <View style={{ flex: 1, justifyContent: "flex-end", }} >
                             <Text style={{ color: "#585858", fontSize: scaleSzie(12), marginTop: scaleSzie(10) }} >
-                                {formatWithMoment(noti?.createdDate,"MM/DD/YYYY   hh:mm A")}
+                                {formatWithMoment(noti?.createdDate, "MM/DD/YYYY   hh:mm A")}
                             </Text>
                         </View>
                     </View>
@@ -162,6 +163,16 @@ export default class Layout extends React.Component {
                                     }} >
                                         <Image source={ICON.close_noti_popup} />
                                     </Button>
+
+                                    <Button onPress={this.readAllNotification}
+                                        style={{
+                                            position: "absolute", top: 0, right: scaleSzie(16), height: scaleSzie(30), width: scaleSzie(30),
+                                            justifyContent: "center",
+                                        }}
+                                    >
+                                        <Image style={{ width: scaleSzie(22), height: scaleSzie(22) }}
+                                            source={ICON.read_all_noti} />
+                                    </Button>
                                 </View>
 
                                 {/* ------------ Notification List ---------- */}
@@ -181,6 +192,7 @@ export default class Layout extends React.Component {
                                 </View>
                             </View>
                         </View>
+                        <Loading />
                     </Modal>
                 </View>
             </ParentContainer>

@@ -31,7 +31,6 @@ class EnterCustomerPhonePopup extends React.Component {
     }
 
     componentDidMount() {
-        // this.keyboardWillHide = Keyboard.addListener('keyboardWillHide', this.handleKeyboardWillHide);
         this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardDidShow);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
     }
@@ -166,18 +165,18 @@ class EnterCustomerPhonePopup extends React.Component {
                                     color="#fff"
                                 />
                             </View> : <ButtonCustom
-                                    width={scaleSzie(120)}
-                                    height={40}
-                                    backgroundColor="#0764B0"
-                                    title="NEXT"
-                                    textColor="#fff"
-                                    onPress={this.submitCustomerInfo}
-                                    style={{
-                                        borderWidth: 1, borderColor: '#C5C5C5',
-                                        borderRadius: 5
-                                    }}
-                                    styleText={{ fontWeight: "600", fontSize: scaleSzie(16) }}
-                                />
+                                width={scaleSzie(120)}
+                                height={40}
+                                backgroundColor="#0764B0"
+                                title="NEXT"
+                                textColor="#fff"
+                                onPress={this.submitCustomerInfo}
+                                style={{
+                                    borderWidth: 1, borderColor: '#C5C5C5',
+                                    borderRadius: 5
+                                }}
+                                styleText={{ fontWeight: "600", fontSize: scaleSzie(16) }}
+                            />
                         }
 
                     </View>
@@ -187,7 +186,8 @@ class EnterCustomerPhonePopup extends React.Component {
     }
 
     componentWillUnmount() {
-        this.keyboardWillHide.remove();
+        this.keyboardDidShowListener?.remove();
+        this.keyboardDidHideListener?.remove();
     }
 
 

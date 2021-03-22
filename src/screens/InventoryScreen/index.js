@@ -301,7 +301,7 @@ class InventoryScreen extends Layout {
             this.setState({ visibleAdd: true });
             this.addProductRef.current.setDefaultStateFromParent();
         } else {
-            alert('Create category before add service please !')
+            alert('Create category before add product please !')
         }
     }
 
@@ -348,14 +348,14 @@ class InventoryScreen extends Layout {
     clearIntervalById = () => {
         const { notiIntervalId } = this.props;
         if (notiIntervalId) {
-          clearInterval(notiIntervalId);
-          this.props.actions.app.resetNotiIntervalId();
+            clearInterval(notiIntervalId);
+            this.props.actions.app.resetNotiIntervalId();
         }
-      }
+    }
 
     componentWillUnmount() {
-        this.didBlurSubscription.remove();
-        this.didFocusSubscription.remove();
+        this.didBlurSubscription?.remove();
+        this.didFocusSubscription?.remove();
     }
 }
 

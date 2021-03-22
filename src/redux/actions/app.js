@@ -343,4 +343,14 @@ export function maskNotiAsReadById(notiId) {
   };
 }
 
+export function readAllNotification() {
+  return {
+    type: "READ_ALL_NOTIFICATION",
+    method: "PUT",
+    body: {},
+    token: true,
+    api: `${apiConfigs.BASE_API}notification/view/all`,
+  };
+}
+
 

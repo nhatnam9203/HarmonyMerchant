@@ -315,6 +315,17 @@ class HomeScreen extends Layout {
             this.props.actions.appointment.checkoutAppointment(appointmentId, checkoutGroupId);
         }
         this.scrollTabParentRef.current.goToPage(2);
+
+        const staffId = appointment?.staffId || false;
+        if (staffId) {
+            if (this.tabCheckoutRef?.current) {
+                this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+            } else {
+                setTimeout(() => {
+                    this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+                }, 200);
+            }
+        }
     }
 
     bookAppointment = async (appointmentId, staffId = 0) => {
@@ -337,11 +348,19 @@ class HomeScreen extends Layout {
         }
     }
 
-    addMoreAppointmentFromCalendar = (appointmentId, addMoreAnyStaff = false) => {
+    addMoreAppointmentFromCalendar = (appointmentId, staffId = 0) => {
         this.props.actions.appointment.getGroupAppointmentById(appointmentId, false, true, false);
         this.scrollTabParentRef.current.goToPage(2);
 
-        if (addMoreAnyStaff) {
+        if (staffId) {
+            if (this.tabCheckoutRef?.current) {
+                this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+            } else {
+                setTimeout(() => {
+                    this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+                }, 200)
+            }
+        } else {
             if (this.tabCheckoutRef?.current) {
                 this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
             } else {
@@ -446,14 +465,13 @@ class HomeScreen extends Layout {
             }, 5000);
             this.props.actions.app.handleNotifiIntervalId(intervalId);
         }
-
     }
 
     clearIntervalById = () => {
         const { notiIntervalId } = this.props;
         if (notiIntervalId) {
             clearInterval(notiIntervalId);
-            this.props.actions.app.resetNotiIntervalId();
+            this.props.actions.app?.resetNotiIntervalId();
         }
     }
 
@@ -502,6 +520,10 @@ class HomeScreen extends Layout {
         }
     }
 
+    readAllNotification = () =>{
+       this.props.actions.app.readAllNotification();
+    }
+
     async componentDidUpdate(prevProps, prevState, snapshot) {
         const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment, isGoToTabMarketing, isHandleNotiWhenHaveAAppointment,
             profileStaffLogin
@@ -535,10 +557,10 @@ class HomeScreen extends Layout {
 
 
     componentWillUnmount() {
-        this.didBlurSubscription.remove();
-        this.didFocusSubscription.remove();
+        this.didBlurSubscription?.remove();
+        this.didFocusSubscription?.remove();
         this.unsubscribeNetInfo();
-        this.watcherNetwork.pipe(
+        this.watcherNetwork?.pipe(
             finalize(() => { })
         );
         BackHandler.removeEventListener("hardwareBackPress", this.backAction);
