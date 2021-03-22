@@ -260,6 +260,7 @@ function* changeStatustransaction(action) {
         const { profileLoginInvoice } = state.dataLocal;
         const temptAction = profileLoginInvoice?.token ?  { ...action, token: profileLoginInvoice?.token || "" } : action;
         const responses = yield requestAPI(temptAction);
+        // console.log("------ changeStatustransaction: ",JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {

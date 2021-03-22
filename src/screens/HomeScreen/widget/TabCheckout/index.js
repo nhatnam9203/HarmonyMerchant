@@ -919,13 +919,21 @@ class TabCheckout extends Layout {
             });
         } else {
             if (method === 'harmony' || method === 'credit_card') {
-                const dueAmount = parseFloat(formatNumberFromCurrency(paymentDetailInfo?.dueAmount || 0));
-                this.doneBill(dueAmount);
-            } else {
-                await this.setState({
-                    visibleBillOfPayment: true
-                });
+                const dueAmount = paymentDetailInfo?.dueAmount || 0;
+                this.modalBillRef?.current?.setStateFromParent(`${dueAmount}`);
             }
+
+            await this.setState({
+                visibleBillOfPayment: true
+            });
+            // if (method === 'harmony' || method === 'credit_card') {
+            //     const dueAmount = parseFloat(formatNumberFromCurrency(paymentDetailInfo?.dueAmount || 0));
+            //     this.doneBill(dueAmount);
+            // } else {
+            //     await this.setState({
+            //         visibleBillOfPayment: true
+            //     });
+            // }
         }
 
     }
