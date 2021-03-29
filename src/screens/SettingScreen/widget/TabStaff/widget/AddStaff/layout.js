@@ -14,11 +14,11 @@ import {
   ButtonCustom,
   Text,
   BrowserFile,
-  TextInputSuggestion,Button
+  TextInputSuggestion, Button
 } from "@components";
 import { scaleSzie, localize, hideCharactes } from "@utils";
 import { ItemAdminInfo, ItemAdminCellPhone } from "../componentTab";
-import {ItemWorkingTime} from "../ItemWorkingTime";
+import { ItemWorkingTime } from "../ItemWorkingTime";
 import ItemScalary from "../ItemScalary";
 import ItemScalaryByIncome from "../ItemScalaryByIncome";
 import AssignSevices from "../AssignSevices";
@@ -44,7 +44,7 @@ class Layout extends React.Component {
     const { street, city, state, zip } = address;
     const { nameRole } = roles;
     const { language, isEditStaff, infoStaffHandle } = this.props;
-    const { dynamicMarginBottomState, rowsSalaryIncome, workingTime } = this.state;
+    const { dynamicMarginBottomState, rowsSalaryIncome, workingTime, tipFee, salary } = this.state;
 
     const temptDataTipFee = isEditStaff
       ? infoStaffHandle.tipFees
@@ -55,6 +55,8 @@ class Layout extends React.Component {
     const temptDataProductScalary = isEditStaff
       ? infoStaffHandle.productSalaries
       : this.state.productSalary;
+
+    console.log("---- infoStaffHandle: ", JSON.stringify(infoStaffHandle));
 
     const perHour_ServiceSalary = temptDataSalary["perHour"]
       ? temptDataSalary["perHour"]
@@ -307,14 +309,13 @@ class Layout extends React.Component {
             style={{ color: "#0764B0" }}
           />
           {Object.keys(workingTime).map((day, index) => {
-            console.log(`------${day} : , ${JSON.stringify(workingTime[day])}`);
             return (
               <ItemWorkingTime
                 key={index}
                 // ref={this.setRefTimeWorking}
                 title={day}
                 data={workingTime[day]}
-                selectCheckbox={this.selectCheckbox(day,workingTime[day]?.isCheck)}
+                selectCheckbox={this.selectCheckbox(day, workingTime[day]?.isCheck)}
                 onChangeTimeOfWorkingTime={this.onChangeTimeOfWorkingTime}
               />
             );
@@ -334,46 +335,46 @@ class Layout extends React.Component {
 
           {/* ----- Per Hour ServiceSalary ---- */}
           <ItemScalary
-            ref={this.perHourServiceSalaryRef}
             title={`${localize("Per Hour", language)} ($)`}
             placeholder={"10"}
-            dataInit={perHour_ServiceSalary}
-            // onFocus={() => this.scrollStaffTo(1100)}
+            // dataInit={perHour_ServiceSalary}
+            data={salary?.perHour}
             onFocus={() => { }}
-            toogleCheck={this.disableCommisionServiceSalary}
+            onPressCheckBox={this.handlePerHourCheckBox}
+            // toogleCheck={this.disableCommisionServiceSalary}
+            onChangeValue={this.handleChangePerHourValue}
           />
 
           {/* ----- Commission ServiceSalary ---- */}
           <ItemScalaryByIncome
-            ref={this.commissionSalaryRef}
             title={`${localize("Incomes", language)}`}
             placeholder={"10"}
-            dataInit={commision_ServiceSalary}
             // onFocus={() => this.scrollStaffTo(1250 + rowsSalaryIncome * 35)}
             onFocus={() => { }}
-            toogleCheck={this.disablePerHourSalary}
-            updateRowsSalaryIncome={(rowsSalaryIncome) =>
-              this.setState({ rowsSalaryIncome })
-            }
+            data={salary?.commission}
+            onPressIncomesCheckbox={this.onPressIncomesCheckbox}
+            addMoreSalary={this.addMoreSalary}
+            onChangeSalaryByIndex={this.onChangeSalaryByIndex}
+            removeSalaryByIndex={this.removeSalaryByIndex}
           />
 
           {/* ----- Product Salary ---- */}
           <TitleTabAdminInfo title={localize("Product Salary", language)} />
 
-          <ItemScalary
+          {/* <ItemScalary
             ref={this.commisionProductScalaryRef}
             title={`${localize("Commission", language)} (%)`}
             placeholder={"10"}
             dataInit={commision_ProductScalary}
             // onFocus={() => this.scrollStaffTo(1400 + rowsSalaryIncome * 35)}
             onFocus={() => { }}
-          />
+          /> */}
 
           {/* ----- Tip fee ---- */}
           <TitleTabAdminInfo title={localize("Tip", language)} />
 
           {/* ----- Percent Tip Fee ---- */}
-          <ItemScalary
+          {/* <ItemScalary
             ref={this.percentTipFeeRef}
             title={`${localize("Percent", language)} (%)`}
             placeholder={"10"}
@@ -381,10 +382,10 @@ class Layout extends React.Component {
             // onFocus={() => this.scrollStaffTo(1450 + rowsSalaryIncome * 35)}
             onFocus={() => { }}
             toogleCheck={this.disableFixedAmountTip}
-          />
+          /> */}
 
           {/* ----- Fix amount Tip Fee ---- */}
-          <ItemScalary
+          {/* <ItemScalary
             ref={this.fixedAmountTipFeeRef}
             title={`${localize("Fixed Amount", language)} ($)`}
             placeholder={"10"}
@@ -392,13 +393,13 @@ class Layout extends React.Component {
             // onFocus={() => this.scrollStaffTo(1450 + rowsSalaryIncome * 35)}
             onFocus={() => { }}
             toogleCheck={this.disablePercentTip}
-          />
+          /> */}
 
           {/* -----  Payout With Cash ---- */}
           <TitleTabAdminInfo title={localize("Payout With Cash", language)} />
 
           {/* ----- Cash Percent ---- */}
-          <ItemScalary
+          {/* <ItemScalary
             ref={this.cashPercentRef}
             title={`${localize("Cash Percent", language)} (%)`}
             placeholder={"10"}
@@ -410,7 +411,7 @@ class Layout extends React.Component {
             onFocus={() => { }}
             maxLength={3}
             isNotToggleCheck={true}
-          />
+          /> */}
 
           {/* ---- Address ---- */}
           <ItemAdminInfo
@@ -447,7 +448,7 @@ class Layout extends React.Component {
                   </Text>
                 </View>
                 <Button onPress={() => {
-                  this.setState({isEditSSN: true});
+                  this.setState({ isEditSSN: true });
                   this.updateUserInfo("socialSecurityNumber", "")
                 }} style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5), justifyContent: "center" }} >
                   <Text style={{ fontSize: scaleSzie(14), color: '#404040', }} >

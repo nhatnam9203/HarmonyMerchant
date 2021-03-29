@@ -112,8 +112,6 @@ class AddStaff extends Layout {
   }
 
   setStateFromParent = async (infoStaffHandle, isEditStaff) => {
-
-    console.log("--- isEditStaff: ", isEditStaff);
     if (isEditStaff) {
       const { stateCity } = this.props;
       await this.setState({
@@ -148,7 +146,9 @@ class AddStaff extends Layout {
         rowsSalaryIncome: infoStaffHandle?.salaries?.commission?.value.length || 1,
         isEditSSN: false,
 
-        workingTime: infoStaffHandle?.workingTimes || BusinessWorkingTime
+        workingTime: infoStaffHandle?.workingTimes || BusinessWorkingTime,
+        salary: infoStaffHandle?.salaries
+
       });
       this.browserFileRef.current.setImageUrlFromParent(
         infoStaffHandle.imageUrl
@@ -315,8 +315,8 @@ class AddStaff extends Layout {
     if (keyError !== "") {
       Alert.alert(`${strings[keyError] ? strings[keyError] : keyError}`);
     } else {
-      
-      
+
+
       const { address } = user;
       const temptAddress = {
         ...address,
@@ -452,6 +452,99 @@ class AddStaff extends Layout {
     tempWorkingTime[day][keyTime] = value;
     await this.setState({
       workingTime: tempWorkingTime
+    })
+  }
+
+  // ------------------- New Code ---------------
+
+  handlePerHourCheckBox = () => {
+    const tempSalary = { ...this.state.salary };
+    const isCheck = tempSalary?.perHour?.isCheck;
+    if (isCheck) {
+      tempSalary.perHour.value = "0.00";
+    } else {
+      tempSalary.commission = {
+        value: [
+          {
+            from: 0,
+            to: 0,
+            commission: 0
+          }
+        ],
+        isCheck: false
+      }
+    }
+    tempSalary.perHour.isCheck = !isCheck;
+
+    this.setState({
+      salary: tempSalary
+    })
+  }
+
+  handleChangePerHourValue = async (value) => {
+    const tempSalary = { ...this.state.salary };
+    tempSalary.perHour.value = value;
+
+    await this.setState({
+      salary: tempSalary
+    })
+  }
+
+  onPressIncomesCheckbox = () => {
+    const tempSalary = { ...this.state.salary };
+    const isCheck = tempSalary?.commission?.isCheck;
+
+    if (isCheck) {
+      tempSalary.commission.value = [
+        {
+          from: 0,
+          to: 0,
+          commission: 0
+        }
+      ];
+    } else {
+      tempSalary.perHour = {
+        value: "",
+        isCheck: false
+      };
+    }
+    tempSalary.commission.isCheck = !isCheck;
+
+    this.setState({
+      salary: tempSalary
+    })
+  }
+
+  addMoreSalary = () => {
+    const tempSalary = { ...this.state.salary };
+    tempSalary.commission.value.push({
+      from: "",
+      to: "",
+      commission: ""
+    });
+
+    this.setState({
+      salary: tempSalary
+    })
+  }
+
+  removeSalaryByIndex = (indexRemove) => {
+    const tempSalary = { ...this.state.salary };
+    const valueCommission = tempSalary?.commission?.value || [];
+    const tempValueCommission = valueCommission.filter((value, index) => index !== indexRemove);
+    tempSalary.commission.value = tempValueCommission;
+
+    this.setState({
+      salary: tempSalary
+    })
+  }
+
+  onChangeSalaryByIndex = (value, key, index) => {
+    const tempSalary = { ...this.state.salary };
+    tempSalary.commission.value[index][key] = value;
+
+    this.setState({
+      salary: tempSalary
     })
   }
 

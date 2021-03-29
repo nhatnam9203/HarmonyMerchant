@@ -14,43 +14,29 @@ import { scaleSzie } from '@utils';
 
 export default class ItemScalary extends React.Component {
 
-    constructor(props) {
-        super(props);
-        const {dataInit} = this.props;
-        this.state = {
-            isCheck:dataInit.isCheck,
-            value: dataInit.value
-        }
-    }
+    // onPress = () => {
+    //     if (!this.props.isNotToggleCheck) {
+    //         this.setState((prevState, props) => ({
+    //             isCheck: !prevState.isCheck
+    //         }), () => {
+    //             if (!this.state.isCheck) {
+    //                 this.setState({
+    //                     value: "0"
+    //                 })
+    //             } else {
+    //                 this.props.toogleCheck && this.props.toogleCheck();
+    //             }
+    //         });
+    //     }
 
-    setStateFromParent = async (isCheck = false ,value = "0") =>{
-        await this.setState({
-            isCheck,
-            value
-        })
-    }
-
-    onPress = () => {
-        if(!this.props.isNotToggleCheck){
-            this.setState((prevState, props) => ({
-                isCheck: !prevState.isCheck
-            }),() =>{
-                if(!this.state.isCheck){
-                    this.setState({
-                        value: "0"
-                    })
-                }else{
-                    this.props.toogleCheck && this.props.toogleCheck();
-                }
-            });
-        }
-       
-    }
+    // }
 
     render() {
-        const { title, placeholder ,onFocus,maxLength} = this.props;
-        const { isCheck, value } = this.state;
+        const { title, placeholder, onFocus, maxLength, data, onPressCheckBox, onChangeValue } = this.props;
+        const isCheck = data?.isCheck;
+        const value = data?.value;
         const temptIconCheck = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
+
         return (
             <View style={{
                 flexDirection: 'row',
@@ -58,7 +44,7 @@ export default class ItemScalary extends React.Component {
                 paddingHorizontal: scaleSzie(25),
                 marginTop: scaleSzie(14)
             }} >
-                <Button onPress={this.onPress} style={{ width: scaleSzie(30), justifyContent: 'center' }} >
+                <Button onPress={onPressCheckBox} style={{ width: scaleSzie(30), justifyContent: 'center' }} >
                     <Image source={temptIconCheck} style={{ width: scaleSzie(15), height: scaleSzie(15) }} />
                 </Button>
 
@@ -86,8 +72,8 @@ export default class ItemScalary extends React.Component {
                         style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
                         placeholder={placeholder}
                         value={value}
-                        onChangeText={(value) => this.setState({ value })}
-                        onFocus={() =>onFocus()}
+                        onChangeText={onChangeValue}
+                        onFocus={() => onFocus()}
                         editable={isCheck}
                         maxLength={maxLength}
                     />
