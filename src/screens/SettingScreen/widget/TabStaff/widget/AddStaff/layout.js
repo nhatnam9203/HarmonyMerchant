@@ -18,8 +18,7 @@ import {
 } from "@components";
 import { scaleSzie, localize, hideCharactes } from "@utils";
 import { ItemAdminInfo, ItemAdminCellPhone } from "../componentTab";
-import ItemWorkingTime from "../ItemWorkingTime";
-import ItemServives from "../ItemServives";
+import {ItemWorkingTime} from "../ItemWorkingTime";
 import ItemScalary from "../ItemScalary";
 import ItemScalaryByIncome from "../ItemScalaryByIncome";
 import AssignSevices from "../AssignSevices";
@@ -45,11 +44,8 @@ class Layout extends React.Component {
     const { street, city, state, zip } = address;
     const { nameRole } = roles;
     const { language, isEditStaff, infoStaffHandle } = this.props;
-    const { dynamicMarginBottomState, rowsSalaryIncome } = this.state;
+    const { dynamicMarginBottomState, rowsSalaryIncome, workingTime } = this.state;
 
-    const temptDataWorkingTime = isEditStaff
-      ? infoStaffHandle.workingTimes
-      : this.state.workingTime;
     const temptDataTipFee = isEditStaff
       ? infoStaffHandle.tipFees
       : this.state.tipFee;
@@ -310,13 +306,16 @@ class Layout extends React.Component {
             title={localize("Working Time", language)}
             style={{ color: "#0764B0" }}
           />
-          {Object.keys(temptDataWorkingTime).map((day, index) => {
+          {Object.keys(workingTime).map((day, index) => {
+            console.log(`------${day} : , ${JSON.stringify(workingTime[day])}`);
             return (
               <ItemWorkingTime
                 key={index}
-                ref={this.setRefTimeWorking}
+                // ref={this.setRefTimeWorking}
                 title={day}
-                dataInit={temptDataWorkingTime[day]}
+                data={workingTime[day]}
+                selectCheckbox={this.selectCheckbox(day,workingTime[day]?.isCheck)}
+                onChangeTimeOfWorkingTime={this.onChangeTimeOfWorkingTime}
               />
             );
           })}

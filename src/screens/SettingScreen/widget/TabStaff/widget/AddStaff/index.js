@@ -89,7 +89,6 @@ class AddStaff extends Layout {
         ? profile.businessHour
         : BusinessWorkingTime,
     };
-    this.inputRefsTime = [];
     this.browserFileRef = React.createRef();
     this.cellphoneRef = React.createRef();
     this.scrollStaffRef = React.createRef();
@@ -113,10 +112,8 @@ class AddStaff extends Layout {
   }
 
   setStateFromParent = async (infoStaffHandle, isEditStaff) => {
-    await this.setState({ isEditStaff: isEditStaff });
-    if (this.scrollStaffRef?.current) {
-      this.scrollStaffRef?.current?.scrollTo({ y: 0, animated: false });
-    }
+
+    console.log("--- isEditStaff: ", isEditStaff);
     if (isEditStaff) {
       const { stateCity } = this.props;
       await this.setState({
@@ -148,8 +145,10 @@ class AddStaff extends Layout {
         staffId: infoStaffHandle?.staffId || "",
         fileId: infoStaffHandle?.fileId || 0,
         imageUrl: infoStaffHandle.imageUrl,
-        rowsSalaryIncome:infoStaffHandle?.salaries?.commission?.value.length || 1,
-        isEditSSN: false
+        rowsSalaryIncome: infoStaffHandle?.salaries?.commission?.value.length || 1,
+        isEditSSN: false,
+
+        workingTime: infoStaffHandle?.workingTimes || BusinessWorkingTime
       });
       this.browserFileRef.current.setImageUrlFromParent(
         infoStaffHandle.imageUrl
@@ -168,6 +167,11 @@ class AddStaff extends Layout {
       });
       this.browserFileRef?.current?.setImageUrlFromParent("");
       this.assignSevices?.current?.getServiceAssignData();
+    }
+
+    await this.setState({ isEditStaff: isEditStaff });
+    if (this.scrollStaffRef?.current) {
+      this.scrollStaffRef?.current?.scrollTo({ y: 0, animated: false });
     }
   };
 
@@ -311,17 +315,8 @@ class AddStaff extends Layout {
     if (keyError !== "") {
       Alert.alert(`${strings[keyError] ? strings[keyError] : keyError}`);
     } else {
-      let objWorkingTime = [];
-      this.inputRefsTime.forEach((ref) => {
-        objWorkingTime = {
-          ...objWorkingTime,
-          [ref.props.title]: {
-            timeStart: ref.state.timeStart,
-            timeEnd: ref.state.timeEnd,
-            isCheck: ref.state.isCheck,
-          },
-        };
-      });
+      
+      
       const { address } = user;
       const temptAddress = {
         ...address,
@@ -335,7 +330,8 @@ class AddStaff extends Layout {
             : `${this.cellphoneRef?.current?.state?.codeAreaPhone}${user.cellphone}`,
         address: temptAddress,
         isDisabled: user.isDisabled === "Active" ? 0 : 1,
-        workingTime: objWorkingTime,
+        // workingTime: objWorkingTime,
+        workingTime: { ...this.state.workingTime },
         salary: {
           perHour: {
             value: parseFloat(
@@ -442,9 +438,23 @@ class AddStaff extends Layout {
     this.perHourServiceSalaryRef.current.setStateFromParent();
   };
 
-  componentWillUnmount() {
-    this.inputRefsTime = [];
+  selectCheckbox = (day, isCheck) => async () => {
+    const tempWorkingTime = { ...this.state.workingTime };
+    tempWorkingTime[day].isCheck = !isCheck;
+
+    await this.setState({
+      workingTime: tempWorkingTime
+    })
   }
+
+  onChangeTimeOfWorkingTime = async (value, day, keyTime) => {
+    const tempWorkingTime = { ...this.state.workingTime };
+    tempWorkingTime[day][keyTime] = value;
+    await this.setState({
+      workingTime: tempWorkingTime
+    })
+  }
+
 }
 
 export default AddStaff;
