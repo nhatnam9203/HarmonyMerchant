@@ -20,7 +20,7 @@ import { scaleSzie, localize, hideCharactes } from "@utils";
 import { ItemAdminInfo, ItemAdminCellPhone } from "../componentTab";
 import { ItemWorkingTime } from "../ItemWorkingTime";
 import ItemScalary from "../ItemScalary";
-import ItemScalaryByIncome from "../ItemScalaryByIncome";
+import { ItemScalaryByIncome } from "../ItemScalaryByIncome";
 import AssignSevices from "../AssignSevices";
 
 class Layout extends React.Component {
@@ -44,7 +44,7 @@ class Layout extends React.Component {
     const { street, city, state, zip } = address;
     const { nameRole } = roles;
     const { language, isEditStaff, infoStaffHandle } = this.props;
-    const { dynamicMarginBottomState, rowsSalaryIncome, workingTime, tipFee, salary } = this.state;
+    const { dynamicMarginBottomState, rowsSalaryIncome, workingTime, tipFee, salary, productSalary } = this.state;
 
     const temptDataTipFee = isEditStaff
       ? infoStaffHandle.tipFees
@@ -58,21 +58,11 @@ class Layout extends React.Component {
 
     console.log("---- infoStaffHandle: ", JSON.stringify(infoStaffHandle));
 
-    const perHour_ServiceSalary = temptDataSalary["perHour"]
-      ? temptDataSalary["perHour"]
-      : { value: 0, isCheck: false };
-    const commision_ServiceSalary = temptDataSalary["commission"]
-      ? temptDataSalary["commission"]
-      : { value: 0, isCheck: false };
-    const percent_TipFee = temptDataTipFee["percent"]
-      ? temptDataTipFee["percent"]
-      : { value: 0, isCheck: false };
-    const fixedAmount_TipFee = temptDataTipFee["fixedAmount"]
-      ? temptDataTipFee["fixedAmount"]
-      : { value: 0, isCheck: false };
-    const commision_ProductScalary = temptDataProductScalary["commission"]
-      ? temptDataProductScalary["commission"]
-      : { value: 0, isCheck: false };
+    const perHour_ServiceSalary = temptDataSalary["perHour"] ? temptDataSalary["perHour"] : { value: 0, isCheck: false };
+    const commision_ServiceSalary = temptDataSalary["commission"] ? temptDataSalary["commission"] : { value: 0, isCheck: false };
+    const percent_TipFee = temptDataTipFee["percent"] ? temptDataTipFee["percent"] : { value: 0, isCheck: false };
+    const fixedAmount_TipFee = temptDataTipFee["fixedAmount"] ? temptDataTipFee["fixedAmount"] : { value: 0, isCheck: false };
+    const commision_ProductScalary = temptDataProductScalary["commission"] ? temptDataProductScalary["commission"] : { value: 0, isCheck: false };
 
     const temptCashPercent = isEditStaff
       ? infoStaffHandle.cashPercent
@@ -337,11 +327,9 @@ class Layout extends React.Component {
           <ItemScalary
             title={`${localize("Per Hour", language)} ($)`}
             placeholder={"10"}
-            // dataInit={perHour_ServiceSalary}
             data={salary?.perHour}
             onFocus={() => { }}
             onPressCheckBox={this.handlePerHourCheckBox}
-            // toogleCheck={this.disableCommisionServiceSalary}
             onChangeValue={this.handleChangePerHourValue}
           />
 
@@ -349,7 +337,6 @@ class Layout extends React.Component {
           <ItemScalaryByIncome
             title={`${localize("Incomes", language)}`}
             placeholder={"10"}
-            // onFocus={() => this.scrollStaffTo(1250 + rowsSalaryIncome * 35)}
             onFocus={() => { }}
             data={salary?.commission}
             onPressIncomesCheckbox={this.onPressIncomesCheckbox}
@@ -361,14 +348,14 @@ class Layout extends React.Component {
           {/* ----- Product Salary ---- */}
           <TitleTabAdminInfo title={localize("Product Salary", language)} />
 
-          {/* <ItemScalary
-            ref={this.commisionProductScalaryRef}
+          <ItemScalary
             title={`${localize("Commission", language)} (%)`}
             placeholder={"10"}
-            dataInit={commision_ProductScalary}
-            // onFocus={() => this.scrollStaffTo(1400 + rowsSalaryIncome * 35)}
             onFocus={() => { }}
-          /> */}
+            data={productSalary?.commission}
+            onPressCheckBox={this.handleProductSalaryCheckBox}
+            onChangeValue={this.handleChangeProductSalaryValue}
+          />
 
           {/* ----- Tip fee ---- */}
           <TitleTabAdminInfo title={localize("Tip", language)} />

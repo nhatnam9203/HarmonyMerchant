@@ -13,90 +13,77 @@ import { Button } from '@components';
 import { scaleSzie } from '@utils';
 
 
-export default class ItemScalary extends React.Component {
+export const ItemScalaryByIncome = ({ title, onFocus, data, onPressIncomesCheckbox, addMoreSalary, onChangeSalaryByIndex, removeSalaryByIndex}) => {
 
-    // --------------- Render ------------
-    render() {
-        const { title, onFocus, data, onPressIncomesCheckbox, addMoreSalary, onChangeSalaryByIndex, removeSalaryByIndex } = this.props;
-        const rows = data?.value || [];
-        const isCheck = data?.isCheck;
-        const temptIconCheck = isCheck ? ICON.checkBox : ICON.checkBoxEmpty;
+    const rows = data?.value || [];
+    const isCheck = data?.isCheck;
+    const temptIconCheck = isCheck ? ICON.checkBox : ICON.checkBoxEmpty;
 
-        return (
-            <View style={{
-                flexDirection: 'row',
-                paddingHorizontal: scaleSzie(25),
-                marginTop: scaleSzie(20)
-            }} >
-                <Button onPress={onPressIncomesCheckbox} style={{ width: scaleSzie(30) }} >
-                    <Image source={temptIconCheck} style={{ width: scaleSzie(15), height: scaleSzie(15) }} />
-                </Button>
-                <View style={{ width: scaleSzie(120) }} >
-                    <Text style={{
-                        color: '#404040',
-                        fontSize: scaleSzie(14),
-                        fontWeight: '600',
-                    }}  >
-                        {`${title}`}
-                    </Text>
-                </View>
-                <View style={[{ width: scaleSzie(420) }]} >
-                    {/* ------------------- Header Staff Salary Income ---------------------- */}
-                    <View style={{ height: scaleSzie(32), flexDirection: "row" }} >
-                        <View style={{ flex: 1 }} >
-                            <Text style={styles.title} >
-                                {`From ($)`}
-                            </Text>
-                        </View>
-                        <View style={{ flex: 1 }} >
-                            <Text style={styles.title} >
-                                {`To ($)`}
-                            </Text>
-                        </View>
-                        <View style={{ flex: 1 }} >
-                            <Text style={styles.title} >
-                                {`Salary percented (%)`}
-                            </Text>
-                        </View>
+    return (
+        <View style={{
+            flexDirection: 'row',
+            paddingHorizontal: scaleSzie(25),
+            marginTop: scaleSzie(20)
+        }} >
+            <Button onPress={onPressIncomesCheckbox} style={{ width: scaleSzie(30) }} >
+                <Image source={temptIconCheck} style={{ width: scaleSzie(15), height: scaleSzie(15) }} />
+            </Button>
+            <View style={{ width: scaleSzie(120) }} >
+                <Text style={{
+                    color: '#404040',
+                    fontSize: scaleSzie(14),
+                    fontWeight: '600',
+                }}  >
+                    {`${title}`}
+                </Text>
+            </View>
+            <View style={[{ width: scaleSzie(420) }]} >
+                {/* ------------------- Header Staff Salary Income ---------------------- */}
+                <View style={{ height: scaleSzie(32), flexDirection: "row" }} >
+                    <View style={{ flex: 1 }} >
+                        <Text style={styles.title} >
+                            {`From ($)`}
+                        </Text>
                     </View>
-
-                    {/* ------------------- Item Staff Salary Income ---------------------- */}
-                    {
-                        rows.map((data, index) => <RowSalaryIncome
-                            ref={this.addRef}
-                            key={`row_staff_salary_${data.keyRows}`}
-                            data={data}
-                            onFocus={() => onFocus()}
-                            removeRow={this.removeRow}
-                            isEditable={isCheck}
-                            index={index}
-                            onChangeText={onChangeSalaryByIndex}
-                            removeSalaryByIndex={removeSalaryByIndex}
-                        />)
-                    }
-                    {
-                        isCheck ? <Button onPress={addMoreSalary} >
-                            <Text style={{ color: "#0764B0", fontWeight: "700", fontSize: scaleSzie(14), marginTop: scaleSzie(5) }} >
-                                {`+ Add more`}
-                            </Text>
-                        </Button> : <View />
-                    }
+                    <View style={{ flex: 1 }} >
+                        <Text style={styles.title} >
+                            {`To ($)`}
+                        </Text>
+                    </View>
+                    <View style={{ flex: 1 }} >
+                        <Text style={styles.title} >
+                            {`Salary percented (%)`}
+                        </Text>
+                    </View>
                 </View>
-            </View >
-        );
-    }
 
-    componentWillUnmount() {
-        this.count = 0;
-        this.incomeSalaryRef = [];
-    }
+                {/* ------------------- Item Staff Salary Income ---------------------- */}
+                {
+                    rows.map((data, index) => <RowSalaryIncome
+                        ref={this.addRef}
+                        key={`row_staff_salary_${data.keyRows}`}
+                        data={data}
+                        onFocus={() => onFocus()}
+                        removeRow={this.removeRow}
+                        isEditable={isCheck}
+                        index={index}
+                        onChangeText={onChangeSalaryByIndex}
+                        removeSalaryByIndex={removeSalaryByIndex}
+                    />)
+                }
+                {
+                    isCheck ? <Button onPress={addMoreSalary} >
+                        <Text style={{ color: "#0764B0", fontWeight: "700", fontSize: scaleSzie(14), marginTop: scaleSzie(5) }} >
+                            {`+ Add more`}
+                        </Text>
+                    </Button> : <View />
+                }
+            </View>
+        </View >
+    );
 }
 
-class RowSalaryIncome extends React.Component {
-
-
-    render() {
-        const { onFocus, removeSalaryByIndex, data, isEditable, index, onChangeText } = this.props;
+const RowSalaryIncome = ({onFocus, removeSalaryByIndex, data, isEditable, index, onChangeText }) => {
         const from = data?.from;
         const to = data?.to;
         const commission = data?.commission;
@@ -113,7 +100,6 @@ class RowSalaryIncome extends React.Component {
                 <ItemSalaryIncome
                     placeholder="1000.00"
                     value={to}
-                    // onChangeText={(to) => this.setState({ to })}
                     onChangeText={(value) => onChangeText(value, "to", index)}
                     onFocus={() => onFocus()}
                     isEditable={isEditable}
@@ -122,7 +108,6 @@ class RowSalaryIncome extends React.Component {
                     placeholder="10.00"
                     value={commission}
                     onChangeText={(value) => onChangeText(value, "commission", index)}
-                    // onChangeText={(commission) => this.setState({ commission })}
                     onFocus={() => onFocus()}
                     isEditable={isEditable}
                 />
@@ -138,9 +123,6 @@ class RowSalaryIncome extends React.Component {
 
             </View>
         );
-    }
-
-
 }
 
 const ItemSalaryIncome = ({ placeholder, onFocus, maxLength, value, onChangeText, isEditable }) => {

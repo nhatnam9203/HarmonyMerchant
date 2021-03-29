@@ -56,7 +56,13 @@ const initState = {
       isCheck: false,
     },
     commission: {
-      value: "",
+      value: [
+        {
+          from: 0,
+          to: 0,
+          commission: 0
+        }
+      ],
       isCheck: false,
     },
   },
@@ -147,7 +153,8 @@ class AddStaff extends Layout {
         isEditSSN: false,
 
         workingTime: infoStaffHandle?.workingTimes || BusinessWorkingTime,
-        salary: infoStaffHandle?.salaries
+        salary: infoStaffHandle?.salaries,
+        productSalary: infoStaffHandle?.productSalaries
 
       });
       this.browserFileRef.current.setImageUrlFromParent(
@@ -545,6 +552,25 @@ class AddStaff extends Layout {
 
     this.setState({
       salary: tempSalary
+    })
+  }
+
+  handleProductSalaryCheckBox = () => {
+    const tempProductSalary = { ...this.state.productSalary };
+    const isCheck = tempProductSalary?.commission?.isCheck;
+    tempProductSalary.commission.isCheck = !isCheck;
+
+    this.setState({
+      productSalary: tempProductSalary
+    })
+  }
+
+  handleChangeProductSalaryValue = (value) => {
+    const tempProductSalary = { ...this.state.productSalary };
+    tempProductSalary.commission.value =  value;
+
+    this.setState({
+      productSalary: tempProductSalary
     })
   }
 
