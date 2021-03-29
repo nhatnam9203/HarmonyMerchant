@@ -44,7 +44,7 @@ class Layout extends React.Component {
     const { street, city, state, zip } = address;
     const { nameRole } = roles;
     const { language, isEditStaff, infoStaffHandle } = this.props;
-    const { dynamicMarginBottomState, rowsSalaryIncome, workingTime, tipFee, salary, productSalary } = this.state;
+    const { dynamicMarginBottomState, rowsSalaryIncome, workingTime, tipFee, salary, productSalary, cashPercent } = this.state;
 
     const temptDataTipFee = isEditStaff
       ? infoStaffHandle.tipFees
@@ -361,44 +361,42 @@ class Layout extends React.Component {
           <TitleTabAdminInfo title={localize("Tip", language)} />
 
           {/* ----- Percent Tip Fee ---- */}
-          {/* <ItemScalary
-            ref={this.percentTipFeeRef}
+          <ItemScalary
             title={`${localize("Percent", language)} (%)`}
             placeholder={"10"}
-            dataInit={percent_TipFee}
-            // onFocus={() => this.scrollStaffTo(1450 + rowsSalaryIncome * 35)}
             onFocus={() => { }}
-            toogleCheck={this.disableFixedAmountTip}
-          /> */}
+            data={tipFee?.percent}
+            onPressCheckBox={this.handleTipFeePercentCheckBox}
+            onChangeValue={this.handleChangeTipFeePercentValue}
+          />
 
           {/* ----- Fix amount Tip Fee ---- */}
-          {/* <ItemScalary
-            ref={this.fixedAmountTipFeeRef}
+          <ItemScalary
             title={`${localize("Fixed Amount", language)} ($)`}
             placeholder={"10"}
-            dataInit={fixedAmount_TipFee}
-            // onFocus={() => this.scrollStaffTo(1450 + rowsSalaryIncome * 35)}
             onFocus={() => { }}
-            toogleCheck={this.disablePercentTip}
-          /> */}
+            data={tipFee?.fixedAmount}
+            onPressCheckBox={this.handleTipFeeFixedAmountCheckBox}
+            onChangeValue={this.handleChangeTipFeeFixedAmountValue}
+          />
 
           {/* -----  Payout With Cash ---- */}
           <TitleTabAdminInfo title={localize("Payout With Cash", language)} />
 
           {/* ----- Cash Percent ---- */}
-          {/* <ItemScalary
-            ref={this.cashPercentRef}
+          <ItemScalary
             title={`${localize("Cash Percent", language)} (%)`}
             placeholder={"10"}
-            dataInit={{
-              isCheck: true,
-              value: temptCashPercent,
-            }}
-            // onFocus={() => this.scrollStaffTo(1500 + rowsSalaryIncome * 35)}
             onFocus={() => { }}
             maxLength={3}
             isNotToggleCheck={true}
-          /> */}
+            data={{
+              isCheck: true,
+              value: cashPercent,
+            }}
+            onPressCheckBox={() =>{}}
+            onChangeValue={this.handleChangeCashPercentValue}
+          />
 
           {/* ---- Address ---- */}
           <ItemAdminInfo

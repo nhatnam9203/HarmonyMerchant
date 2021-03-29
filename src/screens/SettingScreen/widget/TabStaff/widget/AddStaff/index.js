@@ -154,7 +154,9 @@ class AddStaff extends Layout {
 
         workingTime: infoStaffHandle?.workingTimes || BusinessWorkingTime,
         salary: infoStaffHandle?.salaries,
-        productSalary: infoStaffHandle?.productSalaries
+        productSalary: infoStaffHandle?.productSalaries,
+        tipFee: infoStaffHandle?.tipFees,
+        cashPercent: infoStaffHandle?.cashPercent
 
       });
       this.browserFileRef.current.setImageUrlFromParent(
@@ -339,48 +341,12 @@ class AddStaff extends Layout {
         isDisabled: user.isDisabled === "Active" ? 0 : 1,
         // workingTime: objWorkingTime,
         workingTime: { ...this.state.workingTime },
-        salary: {
-          perHour: {
-            value: parseFloat(
-              this.perHourServiceSalaryRef?.current?.state?.value || 0
-            ),
-            isCheck:
-              this.perHourServiceSalaryRef?.current?.state?.isCheck || false,
-          },
-          commission: {
-            value: resultSalaryIncome.data,
-            isCheck: isCheckIncomeSalary,
-          },
-        },
-        tipFee: {
-          percent: {
-            value: parseFloat(
-              this.percentTipFeeRef?.current?.state?.value || 0
-            ),
-            isCheck: this.percentTipFeeRef?.current?.state?.isCheck || false,
-          },
-          fixedAmount: {
-            value: parseFloat(
-              this.fixedAmountTipFeeRef?.current?.state?.value || 0
-            ),
-            isCheck:
-              this.fixedAmountTipFeeRef?.current?.state?.isCheck || false,
-          },
-        },
+        salary: this.state.salary,
+        tipFee: this.state.tipFee,
         fileId: this.state.fileId,
         imageUrl: this.state.imageUrl,
-        productSalary: {
-          commission: {
-            value: parseFloat(
-              this.commisionProductScalaryRef?.current?.state?.value || 0
-            ),
-            isCheck:
-              this.commisionProductScalaryRef?.current?.state?.isCheck || false,
-          },
-        },
-        cashPercent: parseFloat(
-          this.cashPercentRef?.current?.state?.value || 0
-        ),
+        productSalary: this.state.productSalary,
+        cashPercent: parseFloat(this.state.cashPercent),
         categories: this.assignSevices?.current?.getStateFromParent()
       };
       if (this.state.isEditStaff) {
@@ -567,10 +533,71 @@ class AddStaff extends Layout {
 
   handleChangeProductSalaryValue = (value) => {
     const tempProductSalary = { ...this.state.productSalary };
-    tempProductSalary.commission.value =  value;
+    tempProductSalary.commission.value = value;
 
     this.setState({
       productSalary: tempProductSalary
+    })
+  }
+
+  handleTipFeePercentCheckBox = () => {
+    const tempTipFee = { ...this.state.tipFee };
+    const isCheck = tempTipFee?.percent?.isCheck;
+
+    if (isCheck) {
+      tempTipFee.percent.value = '0.00';
+    } else {
+      tempTipFee.fixedAmount.isCheck = false;
+      tempTipFee.fixedAmount.value = '0.00';
+    }
+
+    tempTipFee.percent.isCheck = !isCheck;
+
+    this.setState({
+      tipFee: tempTipFee
+    })
+
+  }
+
+  handleChangeTipFeePercentValue = (value) => {
+    const tempTipFee = { ...this.state.tipFee };
+    tempTipFee.percent.value = value;
+
+    this.setState({
+      tipFee: tempTipFee
+    })
+  }
+
+  handleTipFeeFixedAmountCheckBox = () => {
+    const tempTipFee = { ...this.state.tipFee };
+    const isCheck = tempTipFee?.fixedAmount?.isCheck;
+
+    if (isCheck) {
+      tempTipFee.fixedAmount.value = '0.00';
+    }else{
+      tempTipFee.percent.isCheck = false;
+      tempTipFee.percent.value = '0.00';
+    }
+
+    tempTipFee.fixedAmount.isCheck = !isCheck;
+
+    this.setState({
+      tipFee: tempTipFee
+    })
+  }
+
+  handleChangeTipFeeFixedAmountValue = (value) => {
+    const tempTipFee = { ...this.state.tipFee };
+    tempTipFee.fixedAmount.value = value;
+
+    this.setState({
+      tipFee: tempTipFee
+    })
+  }
+
+  handleChangeCashPercentValue =(value)=>{
+    this.setState({
+      cashPercent: value
     })
   }
 
