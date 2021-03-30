@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Collapsible from "react-native-collapsible";
-import Accordion from 'react-native-collapsible/Accordion';
 
 import IMAGE from "@resources";
 import { Dropdown, Button } from "@components";

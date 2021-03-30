@@ -7,7 +7,6 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native';
-import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
 
 import connectRedux from "@redux/ConnectRedux";
@@ -215,9 +214,9 @@ class AssignSevices extends Component {
             <View>
                 {
                     section?.staffServices.map((service, key) =>
-                        <>
+                        <View key={`${service?.serviceId}_${key}`} >
                             <View style={{ height: scaleSzie(3), backgroundColor: "#FAFAFA" }} />
-                            <View key={`${service?.serviceId}_${key}`} style={{
+                            <View  style={{
                                 height: scaleSzie(50), flexDirection: "row", alignItems: "center", backgroundColor: "#fff",
                                 paddingHorizontal: scaleSzie(40)
                             }} >
@@ -229,7 +228,7 @@ class AssignSevices extends Component {
                                 </Text>
 
                             </View>
-                        </>
+                        </View>
                     )
                 }
             </View>

@@ -56,7 +56,13 @@ const initState = {
       isCheck: false,
     },
     commission: {
-      value: "",
+      value: [
+        {
+          from: 0,
+          to: 0,
+          commission: 0
+        }
+      ],
       isCheck: false,
     },
   },
@@ -89,7 +95,6 @@ class AddStaff extends Layout {
         ? profile.businessHour
         : BusinessWorkingTime,
     };
-    this.inputRefsTime = [];
     this.browserFileRef = React.createRef();
     this.cellphoneRef = React.createRef();
     this.scrollStaffRef = React.createRef();
@@ -113,10 +118,6 @@ class AddStaff extends Layout {
   }
 
   setStateFromParent = async (infoStaffHandle, isEditStaff) => {
-    await this.setState({ isEditStaff: isEditStaff });
-    if (this.scrollStaffRef?.current) {
-      this.scrollStaffRef?.current?.scrollTo({ y: 0, animated: false });
-    }
     if (isEditStaff) {
       const { stateCity } = this.props;
       await this.setState({
@@ -148,8 +149,15 @@ class AddStaff extends Layout {
         staffId: infoStaffHandle?.staffId || "",
         fileId: infoStaffHandle?.fileId || 0,
         imageUrl: infoStaffHandle.imageUrl,
-        rowsSalaryIncome:infoStaffHandle?.salaries?.commission?.value.length || 1,
-        isEditSSN: false
+        rowsSalaryIncome: infoStaffHandle?.salaries?.commission?.value.length || 1,
+        isEditSSN: false,
+
+        workingTime: infoStaffHandle?.workingTimes || BusinessWorkingTime,
+        salary: infoStaffHandle?.salaries,
+        productSalary: infoStaffHandle?.productSalaries,
+        tipFee: infoStaffHandle?.tipFees,
+        cashPercent: infoStaffHandle?.cashPercent
+
       });
       this.browserFileRef.current.setImageUrlFromParent(
         infoStaffHandle.imageUrl
@@ -168,6 +176,11 @@ class AddStaff extends Layout {
       });
       this.browserFileRef?.current?.setImageUrlFromParent("");
       this.assignSevices?.current?.getServiceAssignData();
+    }
+
+    await this.setState({ isEditStaff: isEditStaff });
+    if (this.scrollStaffRef?.current) {
+      this.scrollStaffRef?.current?.scrollTo({ y: 0, animated: false });
     }
   };
 
@@ -309,17 +322,8 @@ class AddStaff extends Layout {
     if (keyError !== "") {
       Alert.alert(`${strings[keyError] ? strings[keyError] : keyError}`);
     } else {
-      let objWorkingTime = [];
-      this.inputRefsTime.forEach((ref) => {
-        objWorkingTime = {
-          ...objWorkingTime,
-          [ref.props.title]: {
-            timeStart: ref.state.timeStart,
-            timeEnd: ref.state.timeEnd,
-            isCheck: ref.state.isCheck,
-          },
-        };
-      });
+
+
       const { address } = user;
       const temptAddress = {
         ...address,
@@ -333,49 +337,14 @@ class AddStaff extends Layout {
             : `${this.cellphoneRef?.current?.state?.codeAreaPhone}${user.cellphone}`,
         address: temptAddress,
         isDisabled: user.isDisabled === "Active" ? 0 : 1,
-        workingTime: objWorkingTime,
-        salary: {
-          perHour: {
-            value: parseFloat(
-              this.perHourServiceSalaryRef?.current?.state?.value || 0
-            ),
-            isCheck:
-              this.perHourServiceSalaryRef?.current?.state?.isCheck || false,
-          },
-          commission: {
-            value: resultSalaryIncome.data,
-            isCheck: isCheckIncomeSalary,
-          },
-        },
-        tipFee: {
-          percent: {
-            value: parseFloat(
-              this.percentTipFeeRef?.current?.state?.value || 0
-            ),
-            isCheck: this.percentTipFeeRef?.current?.state?.isCheck || false,
-          },
-          fixedAmount: {
-            value: parseFloat(
-              this.fixedAmountTipFeeRef?.current?.state?.value || 0
-            ),
-            isCheck:
-              this.fixedAmountTipFeeRef?.current?.state?.isCheck || false,
-          },
-        },
+        // workingTime: objWorkingTime,
+        workingTime: { ...this.state.workingTime },
+        salary: this.state.salary,
+        tipFee: this.state.tipFee,
         fileId: this.state.fileId,
         imageUrl: this.state.imageUrl,
-        productSalary: {
-          commission: {
-            value: parseFloat(
-              this.commisionProductScalaryRef?.current?.state?.value || 0
-            ),
-            isCheck:
-              this.commisionProductScalaryRef?.current?.state?.isCheck || false,
-          },
-        },
-        cashPercent: parseFloat(
-          this.cashPercentRef?.current?.state?.value || 0
-        ),
+        productSalary: this.state.productSalary,
+        cashPercent: parseFloat(this.state.cashPercent),
         categories: this.assignSevices?.current?.getStateFromParent()
       };
       if (this.state.isEditStaff) {
@@ -440,9 +409,196 @@ class AddStaff extends Layout {
     this.perHourServiceSalaryRef.current.setStateFromParent();
   };
 
-  componentWillUnmount() {
-    this.inputRefsTime = [];
+  selectCheckbox = (day, isCheck) => async () => {
+    const tempWorkingTime = { ...this.state.workingTime };
+    tempWorkingTime[day].isCheck = !isCheck;
+
+    await this.setState({
+      workingTime: tempWorkingTime
+    })
   }
+
+  onChangeTimeOfWorkingTime = async (value, day, keyTime) => {
+    const tempWorkingTime = { ...this.state.workingTime };
+    tempWorkingTime[day][keyTime] = value;
+    await this.setState({
+      workingTime: tempWorkingTime
+    })
+  }
+
+  // ------------------- New Code ---------------
+
+  handlePerHourCheckBox = () => {
+    const tempSalary = { ...this.state.salary };
+    const isCheck = tempSalary?.perHour?.isCheck;
+    if (isCheck) {
+      tempSalary.perHour.value = "0.00";
+    } else {
+      tempSalary.commission = {
+        value: [
+          {
+            from: 0,
+            to: 0,
+            commission: 0
+          }
+        ],
+        isCheck: false
+      }
+    }
+    tempSalary.perHour.isCheck = !isCheck;
+
+    this.setState({
+      salary: tempSalary
+    })
+  }
+
+  handleChangePerHourValue = async (value) => {
+    const tempSalary = { ...this.state.salary };
+    tempSalary.perHour.value = value;
+
+    await this.setState({
+      salary: tempSalary
+    })
+  }
+
+  onPressIncomesCheckbox = () => {
+    const tempSalary = { ...this.state.salary };
+    const isCheck = tempSalary?.commission?.isCheck;
+
+    if (isCheck) {
+      tempSalary.commission.value = [
+        {
+          from: 0,
+          to: 0,
+          commission: 0
+        }
+      ];
+    } else {
+      tempSalary.perHour = {
+        value: "",
+        isCheck: false
+      };
+    }
+    tempSalary.commission.isCheck = !isCheck;
+
+    this.setState({
+      salary: tempSalary
+    })
+  }
+
+  addMoreSalary = () => {
+    const tempSalary = { ...this.state.salary };
+    tempSalary.commission.value.push({
+      from: "",
+      to: "",
+      commission: ""
+    });
+
+    this.setState({
+      salary: tempSalary
+    })
+  }
+
+  removeSalaryByIndex = (indexRemove) => {
+    const tempSalary = { ...this.state.salary };
+    const valueCommission = tempSalary?.commission?.value || [];
+    const tempValueCommission = valueCommission.filter((value, index) => index !== indexRemove);
+    tempSalary.commission.value = tempValueCommission;
+
+    this.setState({
+      salary: tempSalary
+    })
+  }
+
+  onChangeSalaryByIndex = (value, key, index) => {
+    const tempSalary = { ...this.state.salary };
+    tempSalary.commission.value[index][key] = value;
+
+    this.setState({
+      salary: tempSalary
+    })
+  }
+
+  handleProductSalaryCheckBox = () => {
+    const tempProductSalary = { ...this.state.productSalary };
+    const isCheck = tempProductSalary?.commission?.isCheck;
+    tempProductSalary.commission.isCheck = !isCheck;
+
+    this.setState({
+      productSalary: tempProductSalary
+    })
+  }
+
+  handleChangeProductSalaryValue = (value) => {
+    const tempProductSalary = { ...this.state.productSalary };
+    tempProductSalary.commission.value = value;
+
+    this.setState({
+      productSalary: tempProductSalary
+    })
+  }
+
+  handleTipFeePercentCheckBox = () => {
+    const tempTipFee = { ...this.state.tipFee };
+    const isCheck = tempTipFee?.percent?.isCheck;
+
+    if (isCheck) {
+      tempTipFee.percent.value = '0.00';
+    } else {
+      tempTipFee.fixedAmount.isCheck = false;
+      tempTipFee.fixedAmount.value = '0.00';
+    }
+
+    tempTipFee.percent.isCheck = !isCheck;
+
+    this.setState({
+      tipFee: tempTipFee
+    })
+
+  }
+
+  handleChangeTipFeePercentValue = (value) => {
+    const tempTipFee = { ...this.state.tipFee };
+    tempTipFee.percent.value = value;
+
+    this.setState({
+      tipFee: tempTipFee
+    })
+  }
+
+  handleTipFeeFixedAmountCheckBox = () => {
+    const tempTipFee = { ...this.state.tipFee };
+    const isCheck = tempTipFee?.fixedAmount?.isCheck;
+
+    if (isCheck) {
+      tempTipFee.fixedAmount.value = '0.00';
+    }else{
+      tempTipFee.percent.isCheck = false;
+      tempTipFee.percent.value = '0.00';
+    }
+
+    tempTipFee.fixedAmount.isCheck = !isCheck;
+
+    this.setState({
+      tipFee: tempTipFee
+    })
+  }
+
+  handleChangeTipFeeFixedAmountValue = (value) => {
+    const tempTipFee = { ...this.state.tipFee };
+    tempTipFee.fixedAmount.value = value;
+
+    this.setState({
+      tipFee: tempTipFee
+    })
+  }
+
+  handleChangeCashPercentValue =(value)=>{
+    this.setState({
+      cashPercent: value
+    })
+  }
+
 }
 
 export default AddStaff;

@@ -14,14 +14,13 @@ import {
   ButtonCustom,
   Text,
   BrowserFile,
-  TextInputSuggestion,Button
+  TextInputSuggestion, Button
 } from "@components";
 import { scaleSzie, localize, hideCharactes } from "@utils";
 import { ItemAdminInfo, ItemAdminCellPhone } from "../componentTab";
-import ItemWorkingTime from "../ItemWorkingTime";
-import ItemServives from "../ItemServives";
+import { ItemWorkingTime } from "../ItemWorkingTime";
 import ItemScalary from "../ItemScalary";
-import ItemScalaryByIncome from "../ItemScalaryByIncome";
+import { ItemScalaryByIncome } from "../ItemScalaryByIncome";
 import AssignSevices from "../AssignSevices";
 
 class Layout extends React.Component {
@@ -44,41 +43,8 @@ class Layout extends React.Component {
     } = this.state.user;
     const { street, city, state, zip } = address;
     const { nameRole } = roles;
-    const { language, isEditStaff, infoStaffHandle } = this.props;
-    const { dynamicMarginBottomState, rowsSalaryIncome } = this.state;
-
-    const temptDataWorkingTime = isEditStaff
-      ? infoStaffHandle.workingTimes
-      : this.state.workingTime;
-    const temptDataTipFee = isEditStaff
-      ? infoStaffHandle.tipFees
-      : this.state.tipFee;
-    const temptDataSalary = isEditStaff
-      ? infoStaffHandle.salaries
-      : this.state.salary;
-    const temptDataProductScalary = isEditStaff
-      ? infoStaffHandle.productSalaries
-      : this.state.productSalary;
-
-    const perHour_ServiceSalary = temptDataSalary["perHour"]
-      ? temptDataSalary["perHour"]
-      : { value: 0, isCheck: false };
-    const commision_ServiceSalary = temptDataSalary["commission"]
-      ? temptDataSalary["commission"]
-      : { value: 0, isCheck: false };
-    const percent_TipFee = temptDataTipFee["percent"]
-      ? temptDataTipFee["percent"]
-      : { value: 0, isCheck: false };
-    const fixedAmount_TipFee = temptDataTipFee["fixedAmount"]
-      ? temptDataTipFee["fixedAmount"]
-      : { value: 0, isCheck: false };
-    const commision_ProductScalary = temptDataProductScalary["commission"]
-      ? temptDataProductScalary["commission"]
-      : { value: 0, isCheck: false };
-
-    const temptCashPercent = isEditStaff
-      ? infoStaffHandle.cashPercent
-      : this.state.cashPercent;
+    const { language, isEditStaff } = this.props;
+    const { dynamicMarginBottomState, workingTime, tipFee, salary, productSalary, cashPercent } = this.state;
 
     return (
       <View style={styles.body}>
@@ -310,13 +276,15 @@ class Layout extends React.Component {
             title={localize("Working Time", language)}
             style={{ color: "#0764B0" }}
           />
-          {Object.keys(temptDataWorkingTime).map((day, index) => {
+          {Object.keys(workingTime).map((day, index) => {
             return (
               <ItemWorkingTime
                 key={index}
-                ref={this.setRefTimeWorking}
+                // ref={this.setRefTimeWorking}
                 title={day}
-                dataInit={temptDataWorkingTime[day]}
+                data={workingTime[day]}
+                selectCheckbox={this.selectCheckbox(day, workingTime[day]?.isCheck)}
+                onChangeTimeOfWorkingTime={this.onChangeTimeOfWorkingTime}
               />
             );
           })}
@@ -335,39 +303,36 @@ class Layout extends React.Component {
 
           {/* ----- Per Hour ServiceSalary ---- */}
           <ItemScalary
-            ref={this.perHourServiceSalaryRef}
             title={`${localize("Per Hour", language)} ($)`}
             placeholder={"10"}
-            dataInit={perHour_ServiceSalary}
-            // onFocus={() => this.scrollStaffTo(1100)}
+            data={salary?.perHour}
             onFocus={() => { }}
-            toogleCheck={this.disableCommisionServiceSalary}
+            onPressCheckBox={this.handlePerHourCheckBox}
+            onChangeValue={this.handleChangePerHourValue}
           />
 
           {/* ----- Commission ServiceSalary ---- */}
           <ItemScalaryByIncome
-            ref={this.commissionSalaryRef}
             title={`${localize("Incomes", language)}`}
             placeholder={"10"}
-            dataInit={commision_ServiceSalary}
-            // onFocus={() => this.scrollStaffTo(1250 + rowsSalaryIncome * 35)}
             onFocus={() => { }}
-            toogleCheck={this.disablePerHourSalary}
-            updateRowsSalaryIncome={(rowsSalaryIncome) =>
-              this.setState({ rowsSalaryIncome })
-            }
+            data={salary?.commission}
+            onPressIncomesCheckbox={this.onPressIncomesCheckbox}
+            addMoreSalary={this.addMoreSalary}
+            onChangeSalaryByIndex={this.onChangeSalaryByIndex}
+            removeSalaryByIndex={this.removeSalaryByIndex}
           />
 
           {/* ----- Product Salary ---- */}
           <TitleTabAdminInfo title={localize("Product Salary", language)} />
 
           <ItemScalary
-            ref={this.commisionProductScalaryRef}
             title={`${localize("Commission", language)} (%)`}
             placeholder={"10"}
-            dataInit={commision_ProductScalary}
-            // onFocus={() => this.scrollStaffTo(1400 + rowsSalaryIncome * 35)}
             onFocus={() => { }}
+            data={productSalary?.commission}
+            onPressCheckBox={this.handleProductSalaryCheckBox}
+            onChangeValue={this.handleChangeProductSalaryValue}
           />
 
           {/* ----- Tip fee ---- */}
@@ -375,24 +340,22 @@ class Layout extends React.Component {
 
           {/* ----- Percent Tip Fee ---- */}
           <ItemScalary
-            ref={this.percentTipFeeRef}
             title={`${localize("Percent", language)} (%)`}
             placeholder={"10"}
-            dataInit={percent_TipFee}
-            // onFocus={() => this.scrollStaffTo(1450 + rowsSalaryIncome * 35)}
             onFocus={() => { }}
-            toogleCheck={this.disableFixedAmountTip}
+            data={tipFee?.percent}
+            onPressCheckBox={this.handleTipFeePercentCheckBox}
+            onChangeValue={this.handleChangeTipFeePercentValue}
           />
 
           {/* ----- Fix amount Tip Fee ---- */}
           <ItemScalary
-            ref={this.fixedAmountTipFeeRef}
             title={`${localize("Fixed Amount", language)} ($)`}
             placeholder={"10"}
-            dataInit={fixedAmount_TipFee}
-            // onFocus={() => this.scrollStaffTo(1450 + rowsSalaryIncome * 35)}
             onFocus={() => { }}
-            toogleCheck={this.disablePercentTip}
+            data={tipFee?.fixedAmount}
+            onPressCheckBox={this.handleTipFeeFixedAmountCheckBox}
+            onChangeValue={this.handleChangeTipFeeFixedAmountValue}
           />
 
           {/* -----  Payout With Cash ---- */}
@@ -400,17 +363,17 @@ class Layout extends React.Component {
 
           {/* ----- Cash Percent ---- */}
           <ItemScalary
-            ref={this.cashPercentRef}
             title={`${localize("Cash Percent", language)} (%)`}
             placeholder={"10"}
-            dataInit={{
-              isCheck: true,
-              value: temptCashPercent,
-            }}
-            // onFocus={() => this.scrollStaffTo(1500 + rowsSalaryIncome * 35)}
             onFocus={() => { }}
             maxLength={3}
             isNotToggleCheck={true}
+            data={{
+              isCheck: true,
+              value: cashPercent,
+            }}
+            onPressCheckBox={() =>{}}
+            onChangeValue={this.handleChangeCashPercentValue}
           />
 
           {/* ---- Address ---- */}
@@ -448,7 +411,7 @@ class Layout extends React.Component {
                   </Text>
                 </View>
                 <Button onPress={() => {
-                  this.setState({isEditSSN: true});
+                  this.setState({ isEditSSN: true });
                   this.updateUserInfo("socialSecurityNumber", "")
                 }} style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5), justifyContent: "center" }} >
                   <Text style={{ fontSize: scaleSzie(14), color: '#404040', }} >
