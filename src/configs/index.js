@@ -3,7 +3,7 @@ import { Dimensions, Platform } from 'react-native';
 const configs = {
     VERSION: "1.1.7",
     BUILD: "",
-    CODEPUSH_VERSION: "2",
+    CODEPUSH_VERSION: "3",
     DEFAULT_WIDTH: Platform.OS === 'ios' ? 768 : 780,
     // DEFAULT_WIDTH: 736, mobile
     DEFAULT_HEIGHT: 736,

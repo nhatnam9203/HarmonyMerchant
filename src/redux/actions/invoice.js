@@ -114,13 +114,14 @@ export function changeStatustransaction(checkoutId, params,responseData = {}) {
 }
 
 
-export function settleBatch(body) {
+export function settleBatch(body,timeoutIncrease = true) {
     return {
         type: 'SETTLE_BATCH',
         method: 'POST',
         body,
         api: `${apiConfigs.BASE_API}settlement`,
-        token: true
+        token: true,
+        timeoutIncrease
     }
 }
 

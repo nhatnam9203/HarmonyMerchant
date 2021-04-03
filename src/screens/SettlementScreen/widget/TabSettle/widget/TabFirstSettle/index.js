@@ -297,7 +297,8 @@ class TabFirstSettle extends Layout {
     continueSettlement = () => {
         const { settleWaiting } = this.props;
         const { creditCount, editPaymentByHarmony, editPaymentByCreditCard,
-            editPaymentByCash, editOtherPayment, note, discountSettlement, paymentByGiftcard
+            editPaymentByCash, editOtherPayment, note, discountSettlement, paymentByGiftcard,
+            terminalID
         } = this.state;
         this.props.gotoTabSecondSettle({
             paymentByHarmony: editPaymentByHarmony,
@@ -317,6 +318,7 @@ class TabFirstSettle extends Layout {
                 formatNumberFromCurrency(paymentByGiftcard)
             ),
             note,
+            terminalID
         }, creditCount);
     }
 

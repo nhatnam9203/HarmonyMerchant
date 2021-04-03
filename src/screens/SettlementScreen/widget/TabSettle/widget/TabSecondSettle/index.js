@@ -26,6 +26,7 @@ class TabSecondSettle extends Layout {
                 paymentByCashStatistic: 0.00,
                 otherPaymentStatistic: 0.00,
                 paymentByGiftcard: 0.00,
+                terminalID: null
 
             },
             errorMessage: '',
@@ -90,8 +91,6 @@ class TabSecondSettle extends Layout {
     }
 
     handleErrorBatchOnAndroid = async (errorMsg) => {
-        // alert(errorMsg)
-        // console.log(errorMsg);
         this.setState({
             numberFooter: 1,
             progress: 0,
