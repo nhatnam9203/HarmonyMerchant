@@ -59,7 +59,7 @@ export const requestAPI = async (action, header = {}) => {
         baseURL: baseURL,
         url: '',
         headers: headers,
-        timeout: 30000,
+        timeout: action?.timeoutIncrease ? 60000 : 30000,
         validateStatus: (status) => status >= 200 && status < 600,
     };
     if ((method == "POST" || method == "DELETE" || method == "PUT") && action.body) {
@@ -1432,12 +1432,12 @@ export const getNotiContentByType = (noti) => {
             </Text>;
             break;
         case "appointment_cancel":
-            message = <Text style={[styles.txt_content, ]} >
+            message = <Text style={[styles.txt_content,]} >
                 {`Appointment `}
-                <Text style={{ fontWeight: "500", color:"#0764B0" }} >
+                <Text style={{ fontWeight: "500", color: "#0764B0" }} >
                     {`#${noti?.appointmentCode || ""} `}
                 </Text>
-                <Text style={{ }} >
+                <Text style={{}} >
                     {`${noti?.message || ""} `}
                 </Text>
             </Text>;

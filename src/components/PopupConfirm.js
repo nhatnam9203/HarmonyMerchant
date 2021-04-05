@@ -24,7 +24,7 @@ class PopupConfirm extends React.Component {
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(18),textAlign:"center" }} >
                             {message}
                         </Text>
                     </View>
