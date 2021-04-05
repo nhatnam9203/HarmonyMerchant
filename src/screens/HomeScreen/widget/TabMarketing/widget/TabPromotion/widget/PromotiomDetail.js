@@ -19,7 +19,7 @@ import Slider from "./Slider";
 import {
     scaleSzie, localize, WorkingTime, formatWithMoment, formatHourMinute, MARKETING_CONDITIONS, DISCOUNT_ACTION,
     getConditionIdByTitle, getShortNameForDiscountAction, getFormatTags, getConditionTitleIdById, getDiscountActionByShortName,
-    getTagInfoById
+    getTagInfoById,roundFloatNumber
 } from '@utils';
 import ICON from '@resources';
 import { Button, Text, InputForm, Dropdown } from '@components';
@@ -33,7 +33,6 @@ const DATA = [
 const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updatePromotionById,
     handleCreateNewCampaign
 }) => {
-
     const [promotionId, setPromotionId] = useState("");
     const [title, setTitle] = useState("");
     const [startDate, setStartDate] = useState("");
@@ -54,13 +53,16 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     const [isHandleEdit, setIsHandleEdit] = useState(false);
     const [dynamicConditionMarginBottom, setDynamicConditionMarginBottom] = useState(24);
     const [dynamicActionTagsMarginBottom, setDynamicActionTagsMarginBottom] = useState(24);
-    const [value, setValue] = useState(0.2);
+    const [value, setValue] = useState(0);
+    const [customerCount, setCustomerCount] = useState(0);
 
     const scrollRef = useRef(null);
 
     const productsByMerchantId = useSelector(state => state?.product?.productsByMerchantId || []);
     const servicesByMerchant = useSelector(state => state?.service?.servicesByMerchant || []);
     const promotionDetailById = useSelector(state => state?.marketing?.promotionDetailById || {});
+    const smsInfoMarketing = useSelector(state => state?.marketing?.smsInfoMarketing || {});
+    // console.log("---- smsInfoMarketing: ", JSON.stringify(smsInfoMarketing));
 
     useEffect(() => {
         const tempService = servicesByMerchant.map((service) => ({ value: service?.name || "", type: "Service", originalId: service?.serviceId || 0, id: `${service?.serviceId}_Service` }));
@@ -264,6 +266,27 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     handleSetActionCondition = (value) => {
         setActionCondition(value);
         setDynamicActionTagsMarginBottom(24);
+    }
+
+    hanldeSliderValue = (value) => {
+        setValue(value);
+    }
+
+    calculatorsmsMoney = () => {
+        //  title conditionServiceProductTags actionTags
+        //   conditionId: getConditionIdByTitle(condition),
+        // applyTo: getShortNameForDiscountAction(actionCondition),
+        const smsCount = Math.ceil(value * (smsInfoMarketing?.customerCount || 1));
+        const smsLength = smsInfoMarketing?.smsLength || 0;
+        const segment = smsInfoMarketing?.segment || 1;
+
+        const allSMSWord = smsLength+ title.length + (getConditionIdByTitle(condition) === 2 ? `${conditionServiceProductTags.join("")}`.length : 0 )  + (getShortNameForDiscountAction(actionCondition) === "specific" ? `${actionTags.join("")}`.length : 0)  ;
+        // const smsLength = 
+
+        const smsMoney = smsCount * Math.ceil(allSMSWord/159) *segment;
+
+        console.log("calculatorsmsMoney : ",allSMSWord);
+        return  roundFloatNumber(smsMoney);
     }
 
     return (
@@ -515,48 +538,34 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                         </Text>
 
                         {/* -------------- Range Of Slider ----------------- */}
+                        <View style={{ paddingRight: scaleSzie(26), marginVertical: scaleSzie(40) }} >
 
-                        <View style={{ height: scaleSzie(30), marginTop: scaleSzie(8), flexDirection: "row", justifyContent: "space-between" }} >
-                            <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "400", }} >
-                                {`0`}
-                            </Text>
+                            <Slider
+                                value={value}
+                                onValueChange={hanldeSliderValue}
+                                trackStyle={{ height: scaleSzie(10), backgroundColor: "#F1F1F1", borderRadius: scaleSzie(6) }}
+                                thumbStyle={{
+                                    height: scaleSzie(24), width: scaleSzie(24), borderRadius: scaleSzie(12), backgroundColor: "#fff",
+                                    ...Platform.select({
+                                        ios: {
+                                            shadowColor: 'rgba(0, 0, 0,0.3)',
+                                            shadowOffset: { width: 1, height: 0 },
+                                            shadowOpacity: 1,
 
-                            <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "400", }} >
-                                {`1000`}
-                            </Text>
+                                        },
+
+                                        android: {
+                                            elevation: 2,
+                                        },
+                                    })
+                                }}
+                                minimumTrackTintColor="#0764B0"
+                                smsCount={Math.ceil(value * (smsInfoMarketing?.customerCount || 1))}
+                                smsMoney={calculatorsmsMoney()}
+                            />
+
                         </View>
 
-                        <Slider
-                            value={value}
-                            onValueChange={value => setValue(value)}
-                            trackStyle={{ height: scaleSzie(10), backgroundColor: "#F1F1F1", borderRadius: scaleSzie(6) }}
-                            thumbStyle={{
-                                height: scaleSzie(24), width: scaleSzie(24), borderRadius: scaleSzie(12), backgroundColor: "#fff",
-                                ...Platform.select({
-                                    ios: {
-                                        shadowColor: 'rgba(0, 0, 0,0.3)',
-                                        shadowOffset: { width: 1, height: 0 },
-                                        shadowOpacity: 1,
-
-                                    },
-
-                                    android: {
-                                        elevation: 2,
-                                    },
-                                })
-                            }}
-                            minimumTrackTintColor="#0764B0"
-                        />
-
-                        <View style={{ height: scaleSzie(30), marginTop: scaleSzie(8), alignItems: "flex-end", flexDirection: "row", justifyContent: "space-between" }} >
-                            <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600", }} >
-                                {`$ 0.00`}
-                            </Text>
-
-                            <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600", }} >
-                                {`$40.00`}
-                            </Text>
-                        </View>
 
                     </View>
                 </View>

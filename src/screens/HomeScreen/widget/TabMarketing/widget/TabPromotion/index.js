@@ -44,8 +44,10 @@ class TabPromotion extends Layout {
   }
 
   editCampaign = (campaign) => () => {
-    this.goToPage(1);
+    this.props.actions.marketing.getSMSInformation(campaign?.conditionId);
     this.props.actions.marketing.getPromotionDetailById(campaign?.id);
+    this.goToPage(1);
+
     if (this.setStateToPromotiomDetail) {
       this.setStateToPromotiomDetail(campaign);
     } else {
@@ -78,8 +80,8 @@ class TabPromotion extends Layout {
     }
   }
 
-  updatePromotionById = (promotionId,body) =>{
-    this.props.actions.marketing.updatePromotionById(promotionId,body);
+  updatePromotionById = (promotionId, body) => {
+    this.props.actions.marketing.updatePromotionById(promotionId, body);
   }
 
   handleCreateNewCampaign = (campaign) => {
@@ -102,9 +104,9 @@ class TabPromotion extends Layout {
     this.goToPage(0);
   }
 
-  componentDidUpdate(prevProps,prevState){
-    const {isUpdatePromotionById} =  this.props;
-    if(isUpdatePromotionById && prevProps.isUpdatePromotionById !== isUpdatePromotionById){
+  componentDidUpdate(prevProps, prevState) {
+    const { isUpdatePromotionById } = this.props;
+    if (isUpdatePromotionById && prevProps.isUpdatePromotionById !== isUpdatePromotionById) {
       this.props.actions.marketing.resetStateIsUpdatePromotionById(false);
       this.goToPage(0);
     }

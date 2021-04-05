@@ -216,6 +216,19 @@ export default class Slider extends PureComponent {
         }
     };
 
+    getLeftPositionOfCount = (count) => {
+        let leftPosition;
+        const lengthOfCount = `${count}`.length;
+        if (lengthOfCount < 3) {
+            leftPosition = 5;
+        }else if(lengthOfCount ===3){
+            leftPosition = 0
+        }else{
+            leftPosition = -6
+        }
+        return leftPosition;
+    }
+
     render() {
         var {
             minimumValue,
@@ -277,29 +290,29 @@ export default class Slider extends PureComponent {
                     ]}
                 >
                     <View style={{
-                          position: "absolute", top: -scaleSzie(29),  left: -scaleSzie(6),
-                         minWidth:scaleSzie(60)
+                        position: "absolute", top: -scaleSzie(29), minWidth: scaleSzie(60),
+                        left: scaleSzie(this.getLeftPositionOfCount(this.props.smsCount)) ,
                     }} >
                         <Text style={{
                             color: "#0764B0", fontSize: scaleSzie(14), fontWeight: "400",
                         }} >
-                            {`4000`}
+                            {`${this.props.smsCount}`}
                         </Text>
                     </View>
 
                     {this._renderThumbImage()}
 
                     <View style={{
-                          position: "absolute", top: scaleSzie(45),  left: -scaleSzie(6),minWidth:scaleSzie(60)
+                        position: "absolute", top: scaleSzie(45), left: -scaleSzie(6), minWidth: scaleSzie(60)
                     }} >
                         <Text style={{
                             color: "#0764B0", fontSize: scaleSzie(14), fontWeight: "600",
                         }} >
-                            {`$24.00`}
+                            {`$${this.props.smsMoney}`}
                         </Text>
                     </View>
 
-                   
+
                 </Animated.View>
                 <View
                     renderToHardwareTextureAndroid={true}

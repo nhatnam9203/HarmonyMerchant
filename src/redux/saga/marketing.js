@@ -524,7 +524,7 @@ function* getSMSInformation(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: "GET_SMS_INFORMATION_SUCCESS",
-                payload: responses
+                payload: responses?.data || {}
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({

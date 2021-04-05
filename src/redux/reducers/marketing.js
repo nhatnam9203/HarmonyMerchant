@@ -28,7 +28,8 @@ const initialState = {
     visiblePopupCheckDiscountPermissionInHome: false,
 
     promotionDetailById: {},
-    isUpdatePromotionById: false
+    isUpdatePromotionById: false,
+    smsInfoMarketing:{}
 }
 
 function marketingReducer(state = initialState, action) {
