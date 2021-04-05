@@ -185,6 +185,12 @@ function marketingReducer(state = initialState, action) {
                 ...state,
                 isUpdatePromotionById: false
             }
+        case "GET_SMS_INFORMATION_SUCCESS":
+            return {
+                ...state,
+                smsInfoMarketing: action.payload
+            }
+            
         case 'LOGOUT_APP':
             return {
                 ...initialState,

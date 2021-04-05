@@ -207,7 +207,8 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
             },
             promotionType: promotionType,
             promotionValue: `${promotionValue || 0.00}`,
-            isDisabled: isDisabled ? 0 : 1
+            isDisabled: isDisabled ? 0 : 1,
+            smsAmount: 100
         };
 
         // ------------ Check Valid ---------

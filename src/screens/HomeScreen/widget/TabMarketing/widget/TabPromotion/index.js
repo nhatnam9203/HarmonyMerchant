@@ -31,6 +31,7 @@ class TabPromotion extends Layout {
   }
 
   createNewCampaign = () => {
+    this.props.actions.marketing.getSMSInformation(0);
     this.goToPage(1);
     if (this.setStateToPromotiomDetail) {
       this.setStateToPromotiomDetail();

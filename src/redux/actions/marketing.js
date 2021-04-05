@@ -246,3 +246,12 @@ export function createNewCampaign(body) {
         api: `${apiConfigs.BASE_API}MerchantPromotion?api-version=1.2`
     }
 }
+
+export function getSMSInformation(conditionId) {
+    return {
+        type: 'GET_SMS_INFORMATION',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}MerchantPromotion/smsLength/${conditionId}?api-version=1.2`
+    }
+}
