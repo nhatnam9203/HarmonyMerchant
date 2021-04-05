@@ -1970,7 +1970,7 @@ const mapStateToProps = state => ({
 
     visibleAddEditCustomerPopup: state.appointment.visibleAddEditCustomerPopup,
     appointmentIdBookingFromCalendar: state.appointment.appointmentIdBookingFromCalendar,
-    isBookingFromCalendar: state.appointment.isBookingFromCalendar
+    isBookingFromCalendar: state.appointment.isBookingFromCalendar,
 })
 
 export default connectRedux(mapStateToProps, TabCheckout);
