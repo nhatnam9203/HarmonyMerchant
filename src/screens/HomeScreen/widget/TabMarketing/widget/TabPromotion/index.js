@@ -44,6 +44,7 @@ class TabPromotion extends Layout {
   }
 
   editCampaign = (campaign) => () => {
+    console.log(JSON.stringify(campaign));
     this.props.actions.marketing.getSMSInformation(campaign?.conditionId);
     this.props.actions.marketing.getPromotionDetailById(campaign?.id);
     this.goToPage(1);

@@ -19,7 +19,7 @@ import Slider from "./Slider";
 import {
     scaleSzie, localize, WorkingTime, formatWithMoment, formatHourMinute, MARKETING_CONDITIONS, DISCOUNT_ACTION,
     getConditionIdByTitle, getShortNameForDiscountAction, getFormatTags, getConditionTitleIdById, getDiscountActionByShortName,
-    getTagInfoById,roundFloatNumber
+    getTagInfoById,roundFloatNumber, formatMoney
 } from '@utils';
 import ICON from '@resources';
 import { Button, Text, InputForm, Dropdown } from '@components';
@@ -210,7 +210,8 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
             promotionType: promotionType,
             promotionValue: `${promotionValue || 0.00}`,
             isDisabled: isDisabled ? 0 : 1,
-            smsAmount: 100
+            smsAmount: calculatorsmsMoney()?.smsMoney,
+            customerSendSMSQuantity: calculatorsmsMoney()?.smsCount
         };
 
         // ------------ Check Valid ---------
@@ -273,20 +274,17 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     }
 
     calculatorsmsMoney = () => {
-        //  title conditionServiceProductTags actionTags
-        //   conditionId: getConditionIdByTitle(condition),
-        // applyTo: getShortNameForDiscountAction(actionCondition),
         const smsCount = Math.ceil(value * (smsInfoMarketing?.customerCount || 1));
         const smsLength = smsInfoMarketing?.smsLength || 0;
         const segment = smsInfoMarketing?.segment || 1;
 
         const allSMSWord = smsLength+ title.length + (getConditionIdByTitle(condition) === 2 ? `${conditionServiceProductTags.join("")}`.length : 0 )  + (getShortNameForDiscountAction(actionCondition) === "specific" ? `${actionTags.join("")}`.length : 0)  ;
-        // const smsLength = 
+        const smsMoney =roundFloatNumber(smsCount * Math.ceil(allSMSWord/159) *segment);
 
-        const smsMoney = smsCount * Math.ceil(allSMSWord/159) *segment;
-
-        console.log("calculatorsmsMoney : ",allSMSWord);
-        return  roundFloatNumber(smsMoney);
+        return  {
+            smsMoney: formatMoney(smsMoney),
+            smsCount:smsCount
+        };
     }
 
     return (
@@ -560,8 +558,8 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                                     })
                                 }}
                                 minimumTrackTintColor="#0764B0"
-                                smsCount={Math.ceil(value * (smsInfoMarketing?.customerCount || 1))}
-                                smsMoney={calculatorsmsMoney()}
+                                smsCount={calculatorsmsMoney()?.smsCount}
+                                smsMoney={calculatorsmsMoney()?.smsMoney}
                             />
 
                         </View>
