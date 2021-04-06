@@ -1,8 +1,11 @@
+import React from 'react';
 import {
     Platform,
     Dimensions,
     Linking,
     Alert,
+    Text,
+    StyleSheet
 } from 'react-native';
 import axios from 'axios';
 import { openSettings } from 'react-native-permissions';
@@ -56,7 +59,7 @@ export const requestAPI = async (action, header = {}) => {
         baseURL: baseURL,
         url: '',
         headers: headers,
-        timeout: 30000,
+        timeout: action?.timeoutIncrease ? 60000 : 30000,
         validateStatus: (status) => status >= 200 && status < 600,
     };
     if ((method == "POST" || method == "DELETE" || method == "PUT") && action.body) {
@@ -322,7 +325,6 @@ export const getArrayServicesFromAppointment = (services = []) => {
 }
 
 export const getArrayExtrasFromAppointment = (extras = []) => {
-    // console.log("------ getArrayExtrasFromAppointment: ", JSON.stringify(extras));
     const temptArrayExtras = extras.map(extra => {
         return {
             type: 'Extra',
@@ -410,7 +412,6 @@ export const formatMoney = (number, decimalCount = 2, decimal = ".", thousands =
 
         return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
     } catch (e) {
-        // console.log(e)
     }
 }
 
@@ -505,7 +506,7 @@ export const removeAccent = str => {
 
 export const checkStateIsValid = (arrayState, state) => {
     let isValid = false;
-    for (let i = 0; i < arrayState.length; i++) {
+    for (let i = 0; i < arrayState?.length; i++) {
         if (removeAccent(arrayState[i].name.toLowerCase()) === removeAccent(state.toLowerCase())) {
             isValid = true;
             break;
@@ -841,7 +842,6 @@ export const getModalNameOfPrinter = (printers, tempModalName) => {
 export const checkStatusPrint = async (portType = "Bluetooth") => {
     try {
         const printer = await PrintManager.getInstance().portDiscovery(portType);
-        // console.log("--- printer : ", JSON.stringify(printer));
         return printer ? printer : [];
     } catch (error) {
         throw error
@@ -1318,11 +1318,140 @@ export const getTagInfoById = (type, arrTagId = [], data = []) => {
     for (let i = 0; i < arrTagId.length; i++) {
         for (let j = 0; j < data.length; j++) {
             if (data[j]?.type === type && data[j]?.originalId === arrTagId[i]) {
-                arrInfoTag.push({...data[j]});
+                arrInfoTag.push({ ...data[j] });
                 break;
             }
         }
     }
 
     return arrInfoTag;
+}
+
+export const getIconByNotiType = (type) => {
+    let icon;
+    switch (type) {
+        case "appointment_add":
+            icon = "new_appointment";
+            break;
+        case "appointment_update":
+            icon = "appointment_change";
+            break;
+        case "appointment_schedule_changes":
+            icon = "appointment_change";
+            break;
+        case "appointment_checkin":
+            icon = "customer_checkin";
+            break;
+        case "appointment_confirm":
+            icon = "appointment_confirmation";
+            break;
+        case "appointment_cancel":
+            icon = "appointment_cancel";
+            break;
+        default:
+            icon = "new_appointment";
+    }
+    return icon;
+}
+
+export const getColorTitleByNotiType = (isRead, type) => {
+    let color;
+    if (isRead == 1) {
+        color = "#6A6A6A";
+    } else {
+        switch (type) {
+            case "appointment_cancel":
+                color = "#FF3B30";
+                break;
+            default:
+                color = "#0764B0";
+        }
+    }
+    return color
+
+}
+
+const styles = StyleSheet.create({
+    txt_content: {
+        color: "#404040",
+        fontSize: scaleSzie(14),
+        fontWeight: "300"
+    }
+});
+
+export const getNotiContentByType = (noti) => {
+    let message;
+    switch (noti?.type) {
+        case "appointment_add":
+            message = <Text style={styles.txt_content} >
+                {`${noti?.message || ""} `}
+                <Text style={{ fontWeight: "500" }} >
+                    {`${noti?.customerName || ""} `}
+                </Text>
+                <Text>
+                    {`${noti?.customerPhone || ""}`}
+                </Text>
+            </Text>;
+            break;
+        case "appointment_update":
+            message = <Text style={[styles.txt_content, { fontWeight: "500" }]} >
+                {`${noti?.staffName || ""} `}
+                <Text style={{ fontWeight: "300" }} >
+                    {`${noti?.message || ""} `}
+                </Text>
+            </Text>;
+            break;
+        case "appointment_schedule_changes":
+            message = <Text style={[styles.txt_content, { fontWeight: "500" }]} >
+                {`${noti?.staffName || ""} `}
+                <Text style={{ fontWeight: "300" }} >
+                    {`${noti?.message || ""} `}
+                </Text>
+            </Text>;
+            break;
+        case "appointment_checkin":
+            message = <Text style={[styles.txt_content, { fontWeight: "500" }]} >
+                {`${noti?.customerName || ""} `}
+                <Text style={{ fontWeight: "300" }} >
+                    {`${noti?.message || ""} `}
+                </Text>
+                <Text style={{ color: "#0764B0" }} >
+                    {`#${noti?.appointmentId || ""} `}
+                </Text>
+            </Text>;
+            break;
+        case "appointment_confirm":
+            message = <Text style={[styles.txt_content, { fontWeight: "500" }]} >
+                {`${noti?.customerName || ""} `}
+                <Text style={{ fontWeight: "300" }} >
+                    {`${noti?.message || ""} `}
+                </Text>
+                <Text style={{ color: "#0764B0" }} >
+                    {`#${noti?.appointmentId || ""} `}
+                </Text>
+            </Text>;
+            break;
+        case "appointment_cancel":
+            message = <Text style={[styles.txt_content,]} >
+                {`Appointment `}
+                <Text style={{ fontWeight: "500", color: "#0764B0" }} >
+                    {`#${noti?.appointmentCode || ""} `}
+                </Text>
+                <Text style={{}} >
+                    {`${noti?.message || ""} `}
+                </Text>
+            </Text>;
+            break;
+        default:
+            message = <Text style={[styles.txt_content, { fontWeight: "500" }]} >
+                {`${noti?.customerName || ""} `}
+                <Text style={{ fontWeight: "300" }} >
+                    {`${noti?.message || ""} `}
+                </Text>
+                <Text style={{ color: "#0764B0" }} >
+                    {`#${noti?.appointmentId || ""} `}
+                </Text>
+            </Text>;
+    }
+    return message;
 }

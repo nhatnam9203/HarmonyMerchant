@@ -42,7 +42,6 @@ function StaffTab({ style, showBackButton }, ref) {
 
   /**function */
   const getListStaffsSalaryTop = async () => {
-    // console.log("======> getListStaffsSalaryTop");
     await dispatch(
       actions.staff.getListStaffsSalaryTop(
         layoutRef?.current?.getTimeUrl(),

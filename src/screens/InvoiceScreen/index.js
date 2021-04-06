@@ -72,7 +72,15 @@ class InvoiceScreen extends Layout {
                     isFocus: true
                 });
                 this.checkInvoicePermissionRef.current.setStateFromParent('',);
-                this.props.actions.invoice.toggleInvoiceTabPermission();
+                const { profileStaffLogin } = this.props;
+                const roleName = profileStaffLogin?.roleName || "Admin";
+                if (roleName === "Admin") {
+                    this.props.actions.invoice.getListInvoicesByMerchant();
+                    this.props.actions.invoice.resetProfileInvoiceLogin();
+                } else {
+                    this.props.actions.invoice.toggleInvoiceTabPermission();
+                }
+               
             }
         );
     }
@@ -240,8 +248,7 @@ class InvoiceScreen extends Layout {
         const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
 
         if (invoiceDetail.paymentMethod === "credit_card") {
-            const paymentInformation = invoiceDetail.paymentInformation && invoiceDetail.paymentInformation.length > 0 &&
-                invoiceDetail.paymentInformation[0].responseData ? invoiceDetail.paymentInformation[0].responseData : {};
+            const paymentInformation =invoiceDetail?.paymentInformation[0]?.responseData || {};
 
             if (!_.isEmpty(paymentInformation)) {
                 await this.setState({
@@ -313,11 +320,8 @@ class InvoiceScreen extends Layout {
                             portDevice: tempPortPax,
                             timeoutConnect: "90000",
                             bluetoothAddr: idBluetooth
-                        }, (data) => this.handleResultRefundTransaction(data))
+                        }, (data) => this.handleResultRefundTransaction(data));
 
-                        // PosLink.sendTransaction("CREDIT", "RETURN", parseFloat(amount), transactionId, extData,
-                        //     commType, ip, port, "90000", idBluetooth,
-                        //     (data) => this.handleResultRefundTransaction(data));
                     } else if (invoiceDetail.status === 'complete') {
                         this.popupProcessingCreditRef.current.setStateFromParent(transactionId);
                         PosLink.sendTransaction({
@@ -331,10 +335,7 @@ class InvoiceScreen extends Layout {
                             portDevice: tempPortPax,
                             timeoutConnect: "90000",
                             bluetoothAddr: idBluetooth
-                        }, (data) => this.handleResultVoidTransaction(data))
-                        // PosLink.sendTransaction("CREDIT", "VOID", "", transactionId, extData,
-                        //     commType, ip, port, "90000", idBluetooth,
-                        //     (data) => this.handleResultVoidTransaction(data));
+                        }, (data) => this.handleResultVoidTransaction(data));
                     }
                 }
             }
@@ -358,7 +359,6 @@ class InvoiceScreen extends Layout {
     }
 
     handleResultVoidTransaction = async result => {
-        // console.log("---- handleResultVoidTransaction: ", result);
         const { invoiceDetail } = this.state;
         const data = JSON.parse(result);
 
@@ -368,7 +368,7 @@ class InvoiceScreen extends Layout {
 
         if (Platform.OS === "android") {
             if (data.ResultCode == "000000") {
-                this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
+                this.props.actions.invoice.changeStatustransaction(invoiceDetail?.checkoutId, this.getParamsSearch(), result);
                 await this.setState({
                     titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
                 });
@@ -380,7 +380,7 @@ class InvoiceScreen extends Layout {
 
         } else {
             if (data.ResultCode === "000000") {
-                this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
+                this.props.actions.invoice.changeStatustransaction(invoiceDetail?.checkoutId, this.getParamsSearch(), result);
                 await this.setState({
                     titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
                 })
@@ -611,9 +611,17 @@ class InvoiceScreen extends Layout {
         this.props.navigation.navigate("Home");
     }
 
+    clearIntervalById = () => {
+        const { notiIntervalId } = this.props;
+        if (notiIntervalId) {
+          clearInterval(notiIntervalId);
+          this.props.actions.app.resetNotiIntervalId();
+        }
+      }
+
     componentWillUnmount() {
-        this.didBlurSubscription.remove();
-        this.didFocusSubscription.remove();
+        this.didBlurSubscription?.remove();
+        this.didFocusSubscription?.remove();
     }
 
 
@@ -638,7 +646,8 @@ const mapStateToProps = state => ({
 
     printerSelect: state.dataLocal.printerSelect,
     printerList: state.dataLocal.printerList,
-    profileLoginInvoice: state.dataLocal.profileLoginInvoice
+    profileLoginInvoice: state.dataLocal.profileLoginInvoice,
+    notiIntervalId: state.app.notiIntervalId
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

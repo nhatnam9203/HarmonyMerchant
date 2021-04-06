@@ -41,8 +41,17 @@ class SettingScreen extends Layout {
         this.setState({
           isFocus: true,
         });
-        this.checkPermissionRef.current.setStateFromParent("");
-        this.props.actions.app.toggleSettingTabPermission();
+        this.checkPermissionRef?.current?.setStateFromParent("");
+
+        const { profileStaffLogin } = this.props;
+        const roleName = profileStaffLogin?.roleName || "Admin";
+        if (roleName === "Admin") {
+          const { profile } = this.props;
+          this.props.actions.app.getMerchantByID(profile?.merchantId);
+        } else {
+          this.props.actions.app.toggleSettingTabPermission();
+        }
+
       }
     );
   }
@@ -94,6 +103,8 @@ class SettingScreen extends Layout {
         );
       case 1:
         this.resetStateStaffSetting();
+        this.props.actions.category.getCategoriesByMerchantId('', '', '', false, false);
+        this.props.actions.service.getServicesByMerchant('', '', '', false, false);
         return this.props.actions.staff.getStaffByMerchantId("", "", "", false, false);
       case 2:
         this.resetStateCategoriesSetting();
@@ -156,6 +167,9 @@ class SettingScreen extends Layout {
 
   backTab = () => {
     this.props.actions.staff.switchAddStaff(false);
+    if (this.tabStaffRef?.current) {
+      this.tabStaffRef?.current.backAddStaff();
+    }
   };
 
   closePopupCheckSettingTabPermission = () => {
@@ -206,6 +220,15 @@ class SettingScreen extends Layout {
 
   }
 
+  clearIntervalById = () => {
+    const { notiIntervalId } = this.props;
+    if (notiIntervalId) {
+      clearInterval(notiIntervalId);
+      this.props.actions.app.resetNotiIntervalId();
+    }
+  }
+
+
   componentDidUpdate(prevProps, prevState) {
     const { profile, loading } = this.props;
     if (
@@ -232,8 +255,8 @@ class SettingScreen extends Layout {
   }
 
   componentWillUnmount() {
-    this.didBlurSubscription.remove();
-    this.didFocusSubscription.remove();
+    this.didBlurSubscription?.remove();
+    this.didFocusSubscription?.remove();
   }
 }
 
@@ -249,6 +272,8 @@ const mapStateToProps = (state) => ({
   isShowSearchExtra: state.extra.isShowSearchExtra,
   isShowSearchService: state.service.isShowSearchService,
   isShowSearchStaff: state.staff.isShowSearchStaff,
+  profileStaffLogin: state.dataLocal.profileStaffLogin,
+  notiIntervalId: state.app.notiIntervalId
 });
 
 export default connectRedux(mapStateToProps, SettingScreen);

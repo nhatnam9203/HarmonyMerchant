@@ -40,8 +40,15 @@ class ReportScreen extends Layout {
           isFocus: true,
         });
         this.checkPermissionRef.current.setStateFromParent("");
-        this.props.actions.staff.toggleReportTabPermission();
         this.screenReportRef.current.didFocus();
+
+        const { profileStaffLogin } = this.props;
+        const roleName = profileStaffLogin?.roleName || "Admin";
+        if (roleName === "Admin") {
+          this.props.actions.staff.getListStaffsSalaryTop();
+        } else {
+          this.props.actions.staff.toggleReportTabPermission();
+        }
       }
     );
   }
@@ -83,39 +90,10 @@ class ReportScreen extends Layout {
   };
   searchStaff = () => {
     return;
-    // const {
-    //   isCustomizeDate,
-    //   startDate,
-    //   endDate,
-    //   quickFilter,
-    // } = this.modalCalendarRef.current.state;
-    // let url;
-    // if (isCustomizeDate) {
-    //   url = `timeStart=${startDate}&timeEnd=${endDate}`;
-    // } else {
-    //   const filter = quickFilter === false ? "This Week" : quickFilter;
-    //   //console.log('quickFilter',quickFilter)
-    //   url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
-    // }
-    // this.props.actions.staff.getListStaffsSalaryTop(url, true);
   };
 
   onRefreshStaffReport = () => {
     return;
-    // const {
-    //   isCustomizeDate,
-    //   startDate,
-    //   endDate,
-    //   quickFilter,
-    // } = this.modalCalendarRef.current.state;
-    // let url;
-    // if (isCustomizeDate) {
-    //   url = `timeStart=${startDate}&timeEnd=${endDate}`;
-    // } else {
-    //   const filter = quickFilter === false ? "This Week" : quickFilter;
-    //   url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
-    // }
-    // this.props.actions.staff.getListStaffsSalaryTop(url, false);
   };
 
   cancelStaffInvoicePrint = async () => {
@@ -126,7 +104,6 @@ class ReportScreen extends Layout {
   };
 
   showPopupStaffInvoice = async (staff) => {
-    // console.log("staff : ",JSON.stringify(staff));
     await this.setState({
       visibleStaffInvoicePrint: true,
       selectedStaff: staff,
@@ -146,9 +123,17 @@ class ReportScreen extends Layout {
     this.setState({ showBackButton: value });
   };
 
+  clearIntervalById = () => {
+    const { notiIntervalId } = this.props;
+    if (notiIntervalId) {
+      clearInterval(notiIntervalId);
+      this.props.actions.app.resetNotiIntervalId();
+    }
+  }
+
   componentWillUnmount() {
-    this.didBlurSubscription.remove();
-    this.didFocusSubscription.remove();
+    this.didBlurSubscription?.remove();
+    this.didFocusSubscription?.remove();
   }
 }
 
@@ -159,6 +144,8 @@ const mapStateToProps = (state) => ({
   listStaffsCalendar: state.staff.listStaffsCalendar,
   dx: state.staff.dx,
   reportTabPermission: state.staff.reportTabPermission,
+  profileStaffLogin: state.dataLocal.profileStaffLogin,
+  notiIntervalId: state.app.notiIntervalId
 });
 
 export default connectRedux(mapStateToProps, ReportScreen);

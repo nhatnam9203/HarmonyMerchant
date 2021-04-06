@@ -9,7 +9,8 @@ class ParentContainer extends Component {
         super(props);
         this.state = {
             active: true
-        }
+        };
+        this._interval = false;
     }
 
     getTimeOut(number) {
@@ -34,11 +35,17 @@ class ParentContainer extends Component {
     }
 
     handleInactive = isActive => {
-        const { activeScreen, visibleEnterPinInvoice, visibleEnterPin, isOfflineMode,
+        const { activeScreen, visibleEnterPin, isOfflineMode,
             autoLockScreenAfter, groupAppointment,
             invoiceTabPermission, settlementTabPermission, customerTabPermission,
-            inventoryTabPermission, reportTabPermission, settingTabPermission,visiblePaymentCompleted
+            inventoryTabPermission, reportTabPermission, settingTabPermission, visiblePaymentCompleted,
+            notiIntervalId
         } = this.props;
+
+        if (notiIntervalId && isActive && this.props.clearIntervalById) {
+            this.props.clearIntervalById();
+        }
+
         const parent = this.props.navigation.dangerouslyGetParent();
         const isDrawerOpen = parent && parent.state && parent.state.isDrawerOpen;
         if (!isActive && activeScreen && !visibleEnterPin && !isDrawerOpen && !isOfflineMode && autoLockScreenAfter != "Never"
@@ -49,7 +56,6 @@ class ParentContainer extends Component {
             this.props.handleLockScreen();
         }
     }
-
 
 
     render() {
@@ -76,7 +82,6 @@ const mapStateToProps = state => ({
     visibleEnterPinInvoice: state.app.visibleEnterPinInvoice,
     visibleEnterPin: state.app.visibleEnterPin,
     isOfflineMode: state.network.isOfflineMode,
-
     groupAppointment: state.appointment.groupAppointment,
     invoiceTabPermission: state.invoice.invoiceTabPermission,
     settlementTabPermission: state.invoice.settlementTabPermission,
@@ -84,10 +89,8 @@ const mapStateToProps = state => ({
     inventoryTabPermission: state.product.inventoryTabPermission,
     reportTabPermission: state.staff.reportTabPermission,
     settingTabPermission: state.app.settingTabPermission,
-
     visiblePaymentCompleted: state.appointment.visiblePaymentCompleted,
-
-
+    notiIntervalId: state.app.notiIntervalId
 })
 
 

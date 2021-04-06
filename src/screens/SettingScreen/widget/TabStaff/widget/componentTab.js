@@ -11,7 +11,7 @@ import {
 import { scaleSzie,ListCodeAreaPhone } from '@utils';
 
 const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntry , type,onFocus,
-    typeSocial,mark, maxLength,style}) => {
+    typeSocial,mark, maxLength,style,autoFocus}) => {
     return (
         <View style={[{
             flexDirection: 'row',
@@ -44,6 +44,7 @@ const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntr
                         secureTextEntry={secureTextEntry}
                         maxLength={maxLength ? maxLength : null}
                         onFocus={() => onFocus()}
+                        autoFocus={autoFocus}
                     /> : <TextInput
                             style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
                             placeholder={placeholder}
@@ -52,6 +53,7 @@ const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntr
                             secureTextEntry={secureTextEntry}
                             maxLength={maxLength ? maxLength : null}
                             onFocus={() => onFocus()}
+                            autoFocus={autoFocus}
                         />
                 }
             </View>

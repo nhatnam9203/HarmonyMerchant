@@ -28,7 +28,7 @@ export default class Layout extends React.Component {
                 height: scaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSzie(50),
                 justifyContent: 'center'
             }} >
-                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0',fontWeight:"600" }} >
+                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0', fontWeight: "600" }} >
                     {localize('Inventory', language)}
                 </Text>
             </View>
@@ -83,7 +83,7 @@ export default class Layout extends React.Component {
 
     renderFilter() {
         const { language, categoriesByMerchant, pathFileInventory } = this.props;
-        const {  searchFilter } = this.state;
+        const { searchFilter } = this.state;
         const { category } = searchFilter;
         const dataProductCategory = getArrayNameCategories(categoriesByMerchant, 'Product');
         dataProductCategory.unshift({ value: '' });
@@ -245,6 +245,7 @@ export default class Layout extends React.Component {
                 handleLockScreen={this.handleLockScreen}
                 activeScreen={isFocus}
                 navigation={navigation}
+                clearIntervalById={this.clearIntervalById}
             >
                 <View style={styles.container} >
                     <StatusBarHeader />

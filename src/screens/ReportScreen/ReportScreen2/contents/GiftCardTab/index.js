@@ -129,11 +129,8 @@ function GiftCardTab({ style, showBackButton }, ref) {
       layoutRef.current.goBack();
     },
     didBlur: () => {
-      // console.log("====> screen report -> giftcard didBlur");
-      // getGiftCardReportSales();
     },
     didFocus: () => {
-      // console.log("====> screen report -> staff didFocus");
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
   }));

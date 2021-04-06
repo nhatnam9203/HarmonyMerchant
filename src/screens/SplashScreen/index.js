@@ -18,10 +18,6 @@ class SplashScreen extends Layout {
         }
     }
 
-    // componentDidMount(){
-    //     this.props.actions.auth.logout();
-    // }
-
     async componentDidMount() {
         try {
             let version = await DeviceInfo.getVersion();
@@ -130,7 +126,6 @@ class SplashScreen extends Layout {
 
 
     codePushStatusDidChange(syncStatus) {
-        //console.log('progress : ' ,syncStatus);
     }
 
     async codePushDownloadDidProgress(progress) {

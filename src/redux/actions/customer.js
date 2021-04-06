@@ -28,25 +28,26 @@ export function clearSearCustomer() {
     }
 }
 
-export function addCustomer(body) {
+export function addCustomer(body,isGetCustomerInfoIncheckoutTab = false) {
     return {
         type: 'ADD_CUSTOMER',
         method: 'POST',
         body,
         api: `${apiConfigs.BASE_API}customer`,
-        token: true
+        token: true,
+        isGetCustomerInfoIncheckoutTab
     }
 }
 
-export function editCustomer(id, body, keySearch = "") {
+export function editCustomer(customerId, body,isGetCustomerInfoInCheckoutTab = false) {
     return {
         type: 'EDIT_CUSTOMER',
         method: 'PUT',
         body,
-        api: `${apiConfigs.BASE_API}customer/${id}`,
+        api: `${apiConfigs.BASE_API}customer/${customerId}`,
         token: true,
-        keySearch,
-        customerId:id
+        customerId,
+        isGetCustomerInfoInCheckoutTab
     }
 }
 
@@ -75,12 +76,13 @@ export function sendGoogleReviewLink(customerId = 0, merchantId = 0) {
     }
 }
 
-export function getCustomerInfoById(customerId) {
+export function getCustomerInfoById(customerId,isVisibleCustomerInfoPopup =  false) {
     return {
         type: 'GET_CUSTOMER_INFO_BY_ID',
         method: 'GET',
         api: `${apiConfigs.BASE_API}customer/${customerId}`,
-        token: true
+        token: true,
+        isVisibleCustomerInfoPopup
     }
 }
 
@@ -117,4 +119,9 @@ export function resetAddCustomerState(visible = false) {
     }
 }
 
-
+export function resetStateIsGetCustomerInCheckoutTabSuccess(visible = false) {
+    return {
+        type: 'RESET_STATE_IS_GET_CUSTOMER_IN_CHECKOUT_TAB_SUCCESS',
+        payload: visible
+    }
+}

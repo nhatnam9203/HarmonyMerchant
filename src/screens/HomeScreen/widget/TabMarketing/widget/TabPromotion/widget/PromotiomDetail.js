@@ -255,9 +255,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
 
         if (isValid) {
             isHandleEdit ? updatePromotionById(promotionId, campaign) : handleCreateNewCampaign(campaign);
-
         }
-
     }
 
     handleScroll = (number, animated = true) => () => {

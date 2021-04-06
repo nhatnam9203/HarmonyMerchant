@@ -24,46 +24,16 @@ class AddDeviceHardware extends React.Component {
         }
         this.bluetoothScannerRef = React.createRef();
 
-        // this.manager = new BleManager();
     }
 
     componentDidMount() {
-        // const subscription = this.manager.onStateChange((state) => {
-        //     console.log("---- Bluetooth State: ", state);
-        //     if (state === 'PoweredOn') {
-        //         // this.scanAndConnect();
-        //         // subscription.remove();
-        //     } else if (state === "PoweredOff") {
-        //         alert("Your Bluetooth Device Is Turn Off");
-        //     }
-        // }, true);
     }
 
     addDevice = () => {
-        // this.scanAndConnect();
-
-        // this.props.actions.app.loadingApp();
-        // this.bluetoothScannerRef.current.startScan();
-
-        // setTimeout(() => {
-        //     this.props.actions.app.stopLoadingApp();
-        // }, 10000);
-
         this.props.gotoSetupDevice();
     }
 
     scanAndConnect() {
-        // console.log("----- Start Scan ......");
-        // this.manager.startDeviceScan(null, null, (error, device) => {
-        //     if (error) {
-        //         console.log("----- Error : ", error);
-        //         return
-        //     }
-
-        //     if (device?.localName) {
-        //         console.log("----- Detect device: ", device);
-        //     }
-        // });
     }
 
     backHomeHardware = () => {
@@ -71,7 +41,6 @@ class AddDeviceHardware extends React.Component {
     }
 
     handleStopScan = (list) => {
-        // console.log("------ list ------: ", list.length);
         this.props.actions.app.stopLoadingApp();
         this.setState({
             peripherals: list

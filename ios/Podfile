@@ -92,6 +92,8 @@ pod 'react-native-ble-plx-swift', :path => '../node_modules/react-native-ble-plx
 
 pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
 
+pod 'RNSoundPlayer', :path => '../node_modules/react-native-sound-player'
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     if target.name == "React"

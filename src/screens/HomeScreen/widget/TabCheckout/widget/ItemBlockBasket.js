@@ -175,12 +175,12 @@ class ItemBlockBasket extends React.Component {
                     flexDirection: "row", alignItems: "center",
                 }, temptBackground]} >
                     <Text style={[{ fontSize: scaleSzie(16), fontWeight: "bold" }, temptTextColor]} >
-                        {`Block ${blockIndex + 1}`}
+                        {`Client ${blockIndex + 1}`}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         <Button onPress={this.toggleCollaps} >
                             <Image source={iconCollaps}
-                                style={{ width: scaleSzie(28), height: scaleSzie(28) }}
+                                style={{ width: scaleSzie(22), height: scaleSzie(22) }}
                             />
                         </Button>
                     </View>

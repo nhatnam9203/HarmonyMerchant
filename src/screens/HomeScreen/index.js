@@ -1,11 +1,12 @@
 import React from 'react';
-import _ from 'ramda';
+import _, { not } from 'ramda';
 import { Alert, BackHandler, AppState, NativeModules } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, finalize } from 'rxjs/operators';
 import CodePush from "react-native-code-push";
 import env from 'react-native-config';
+import SoundPlayer from 'react-native-sound-player'
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
@@ -18,7 +19,8 @@ const initialState = {
     visibleConfirm: false,
     temptCurrentTap: -1,
     visibleEnterPin: true,
-    isConnectedInternet: true
+    isConnectedInternet: true,
+    visible: false
 }
 
 const PosLink = NativeModules.payment;
@@ -38,6 +40,8 @@ class HomeScreen extends Layout {
         this.unsubscribeNetInfo = null;
         this.watcherNetwork = new Subject();
         this.checkMarketingPermissionRef = React.createRef();
+
+        this.onEndReachedCalledDuringMomentum = true;
     }
 
     componentDidMount() {
@@ -192,16 +196,6 @@ class HomeScreen extends Layout {
         this.scrollTabParentRef.current.goToPage(1);
     }
 
-    createABlockAppointment = (appointmentId, fromTime) => {
-        this.props.actions.appointment.updateFromTimeBlockAppointment(fromTime ? fromTime : new Date());
-        this.props.actions.appointment.getBlockAppointmentById(appointmentId, true);
-        this.scrollTabParentRef.current.goToPage(2);
-    }
-
-    onPressHandlerChangeTab_ = (index) => {
-        this.props.actions.marketing.toggleMarketingTabPermission();
-    }
-
     onPressHandlerChangeTab = async (index) => {
         const { currentTab } = this.state;
         const { groupAppointment, appointmentIdOffline, blockAppointments } = this.props;
@@ -265,9 +259,16 @@ class HomeScreen extends Layout {
     }
 
     tooglePopupMarketingPermission = () => {
-        this.checkMarketingPermissionRef.current.setStateFromParent('');
-        this.props.actions.marketing.toggleMarketingTabPermission();
-        this.tabCheckoutRef?.current?.resetStateFromParent();
+        const { profileStaffLogin } = this.props;
+        const roleName = profileStaffLogin?.roleName || "Admin";
+        if (roleName === "Admin") {
+            this.scrollTabParentRef.current.goToPage(0);
+        } else {
+            this.checkMarketingPermissionRef.current.setStateFromParent('');
+            this.props.actions.marketing.toggleMarketingTabPermission();
+            this.tabCheckoutRef?.current?.resetStateFromParent();
+        }
+
     }
 
 
@@ -314,10 +315,74 @@ class HomeScreen extends Layout {
             this.props.actions.appointment.checkoutAppointment(appointmentId, checkoutGroupId);
         }
         this.scrollTabParentRef.current.goToPage(2);
+
+        const staffId = appointment?.staffId || false;
+        if (staffId) {
+            if (this.tabCheckoutRef?.current) {
+                this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+            } else {
+                setTimeout(() => {
+                    this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+                }, 200);
+            }
+        }
     }
 
-    bookAppointment = async (appointmentId) => {
-        this.props.actions.appointment.getAppointmentById(appointmentId);
+    bookAppointment = async (appointmentId, staffId = 0) => {
+        // this.props.actions.appointment.getAppointmentById(appointmentId);
+
+        this.props.actions.appointment.getGroupAppointmentById(appointmentId, true, false, false);
+        this.scrollTabParentRef.current.goToPage(2);
+        if (this.tabCheckoutRef?.current) {
+            this.tabCheckoutRef?.current?.resetStateFromParent();
+            if (staffId) {
+                this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+            }
+        } else {
+            setTimeout(() => {
+                this.tabCheckoutRef?.current?.resetStateFromParent();
+                if (staffId) {
+                    this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+                }
+            }, 200)
+        }
+    }
+
+    addMoreAppointmentFromCalendar = (appointmentId, staffId = 0) => {
+        this.props.actions.appointment.getGroupAppointmentById(appointmentId, false, true, false);
+        this.scrollTabParentRef.current.goToPage(2);
+
+        if (staffId) {
+            if (this.tabCheckoutRef?.current) {
+                this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+            } else {
+                setTimeout(() => {
+                    this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+                }, 200)
+            }
+        } else {
+            if (this.tabCheckoutRef?.current) {
+                this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
+            } else {
+                setTimeout(() => {
+                    this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
+                }, 200)
+            }
+        }
+    }
+
+    createABlockAppointment = (appointmentId, fromTime) => {
+        this.props.actions.appointment.updateFromTimeBlockAppointment(fromTime ? fromTime : new Date());
+        this.props.actions.appointment.getBlockAppointmentById(appointmentId, true);
+
+        this.scrollTabParentRef.current.goToPage(2);
+        if (this.tabCheckoutRef?.current) {
+            this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
+        } else {
+            setTimeout(() => {
+                this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
+            }, 200)
+        }
     }
 
     submitPincode = () => {
@@ -332,7 +397,7 @@ class HomeScreen extends Layout {
 
 
     loginStaffSuccess = () => {
-        const { listAppointmentsOfflineMode } = this.props;
+        const { listAppointmentsOfflineMode, profile } = this.props;
         if (this.tabAppointmentRef?.current) {
             setTimeout(() => {
                 this.tabAppointmentRef?.current?.updateLinkOfCalendar();
@@ -349,10 +414,13 @@ class HomeScreen extends Layout {
             this.props.actions.extra.getExtraByMerchant(),
             this.props.actions.service.getServicesByMerchant(),
             this.props.actions.product.getProductsByMerchant(),
-            this.props.actions.staff.getStaffByMerchantId()
+            this.props.actions.staff.getStaffByMerchantId(),
+            this.props.actions.appointment.getStaffListByCurrentDate(profile?.merchantId),
+            this.props.actions.app.getNotificationList(),
+            this.props.actions.app.getCountUnReadOfNotification()
         ]).then((data) => {
             this.props.actions.staff.reloadButtonEnterPincode();
-            if (data.length === 5) {
+            if (data.length >= 5) {
                 this.props.actions.app.changeFlagVisibleEnteerPinCode(false);
             }
         }).catch(error => {
@@ -372,11 +440,14 @@ class HomeScreen extends Layout {
     }
 
     onChangeTab = (index) => {
-        this.setState({ currentTab: index.i });
-        if (index.i === 0) {
-            const { profile } = this.props;
+        const { profile } = this.props;
+        const page = index?.i || 0;
+
+        this.setState({ currentTab: page });
+        if (page === 0) {
             this.props.actions.marketing.getPromotionByMerchant();
-            // this.props.actions.marketing.getBannerMerchant(profile.merchantId, false);
+        } else if (page === 2) {
+            this.props.actions.appointment.getStaffListByCurrentDate(profile?.merchantId);
         }
     }
 
@@ -384,8 +455,79 @@ class HomeScreen extends Layout {
         this.props.actions.marketing.toggleMarketingTabPermission(false);
     }
 
+    handleNotification = () => {
+        if (!this.props?.notiIntervalId) {
+            const intervalId = setInterval(() => {
+                try {
+                    SoundPlayer.playSoundFile('harmony', 'mp3');
+                } catch (e) {
+                }
+            }, 5000);
+            this.props.actions.app.handleNotifiIntervalId(intervalId);
+        }
+    }
+
+    clearIntervalById = () => {
+        const { notiIntervalId } = this.props;
+        if (notiIntervalId) {
+            clearInterval(notiIntervalId);
+            this.props.actions.app?.resetNotiIntervalId();
+        }
+    }
+
+    displayNotifiPopup = () => {
+        this.setState({
+            visible: true
+        });
+        this.props.actions.app.getNotificationList();
+
+    }
+
+    closeNotiPopup = () => {
+        this.setState({
+            visible: false
+        })
+    }
+
+    getItemCount = (data) => {
+        return data?.length;
+    }
+
+    getItem = (data, index) => {
+        // console.log("----- getItem: ",data);
+        return {
+            ...data[index],
+            id: `${data[index]?.merchantNotificationId}_${Math.random().toString(12).substring(0)}`,
+        }
+    }
+
+
+    handlePushNotiDataToWebView = (noti) => () => {
+        this.tabAppointmentRef?.current?.pushNotiDataToWebView(noti);
+        this.setState({
+            visible: false
+        });
+        this.props.actions.app.maskNotiAsReadById(noti?.merchantNotificationId || 0);
+    }
+
+    loadMoreNotificationList = () => {
+        if (!this.onEndReachedCalledDuringMomentum) {
+            const { notiTotalPages, notiCurrentPage } = this.props;
+            if (notiCurrentPage < notiTotalPages) {
+                this.props.actions.app.getNotificationList(notiCurrentPage + 1);
+                this.onEndReachedCalledDuringMomentum = true;
+            }
+        }
+    }
+
+    readAllNotification = () =>{
+       this.props.actions.app.readAllNotification();
+    }
+
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment, isGoToTabMarketing } = this.props;
+        const { isLoginStaff, isCheckAppointmentBeforeOffline, groupAppointment, isGoToTabMarketing, isHandleNotiWhenHaveAAppointment,
+            profileStaffLogin
+        } = this.props;
         if (isLoginStaff && prevProps.isLoginStaff !== isLoginStaff) {
             this.loginStaffSuccess();
             this.props.actions.dataLocal.resetStateLoginStaff();
@@ -403,18 +545,27 @@ class HomeScreen extends Layout {
             this.props.actions.marketing.toggleMarketingTabPermission(false);
             this.scrollTabParentRef.current.goToPage(0);
         }
+
+        if (isHandleNotiWhenHaveAAppointment && prevProps.isHandleNotiWhenHaveAAppointment !== isHandleNotiWhenHaveAAppointment) {
+            if (profileStaffLogin?.token) {
+                this.handleNotification();
+                this.props.actions.app.getCountUnReadOfNotification();
+                this.props.actions.app.resetStateNotiWhenHaveAAppointment();
+            }
+        }
     }
 
 
     componentWillUnmount() {
-        this.didBlurSubscription.remove();
-        this.didFocusSubscription.remove();
+        this.didBlurSubscription?.remove();
+        this.didFocusSubscription?.remove();
         this.unsubscribeNetInfo();
-        this.watcherNetwork.pipe(
+        this.watcherNetwork?.pipe(
             finalize(() => { })
         );
         BackHandler.removeEventListener("hardwareBackPress", this.backAction);
         AppState.removeEventListener("change", this.handleAppStateChange);
+        this.clearIntervalById();
     }
 
 }
@@ -436,6 +587,15 @@ const mapStateToProps = state => ({
     marketingTabPermission: state.marketing.marketingTabPermission,
     isGoToTabMarketing: state.marketing.isGoToTabMarketing,
     visibleEnterPin: state.app.visibleEnterPin,
+    profileStaffLogin: state?.dataLocal?.profileStaffLogin || {},
+
+    isHandleNotiWhenHaveAAppointment: state.app.isHandleNotiWhenHaveAAppointment,
+    notiIntervalId: state.app.notiIntervalId,
+    notificationList: state.app.notificationList,
+    notificationContUnread: state.app.notificationContUnread,
+    notiCurrentPage: state.app.notiCurrentPage,
+    notiTotalPages: state.app.notiTotalPages,
+
 })
 
 let codePushOptions = {

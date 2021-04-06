@@ -107,7 +107,6 @@ class PopupStaffInvoicePrint extends React.Component {
         });
       }
     } catch (error) {
-      // console.log(error);
       await this.setState({
         isProcessingPrint: false,
       });

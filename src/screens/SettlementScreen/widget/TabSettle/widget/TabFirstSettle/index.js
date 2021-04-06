@@ -258,7 +258,6 @@ class TabFirstSettle extends Layout {
                 }
 
             } catch (error) {
-                // console.log("---- error: ", error);
                 isError = true;
                 this.handleRequestAPIByTerminalID(null);
                 this.props.actions.app.connectPaxMachineError(`${error}`);
@@ -266,7 +265,6 @@ class TabFirstSettle extends Layout {
 
             if (!isError) {
                 this.props.actions.app.ConnectPaxMachineSuccess();
-                // this.props.actions.app.updatePaxTerminalID("");
                 const moneyInPax = formatMoney(roundFloatNumber(totalReport / 100));
                 await this.setState({
                     creditCount: totalRecord,
@@ -297,7 +295,8 @@ class TabFirstSettle extends Layout {
     continueSettlement = () => {
         const { settleWaiting } = this.props;
         const { creditCount, editPaymentByHarmony, editPaymentByCreditCard,
-            editPaymentByCash, editOtherPayment, note, discountSettlement, paymentByGiftcard
+            editPaymentByCash, editOtherPayment, note, discountSettlement, paymentByGiftcard,
+            terminalID
         } = this.state;
         this.props.gotoTabSecondSettle({
             paymentByHarmony: editPaymentByHarmony,
@@ -317,6 +316,7 @@ class TabFirstSettle extends Layout {
                 formatNumberFromCurrency(paymentByGiftcard)
             ),
             note,
+            terminalID
         }, creditCount);
     }
 
@@ -475,9 +475,7 @@ class TabFirstSettle extends Layout {
                     recipients: [`${phone}`],
                     successTypes: ['sent', 'queued'],
                     allowAndroidSendWithoutReadPermission: true,
-                    // attachment: attachment,
                 }, (completed, cancelled, error) => {
-                    // console.log('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);
                 });
             }
 

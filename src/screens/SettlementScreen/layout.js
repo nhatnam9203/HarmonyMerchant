@@ -33,7 +33,8 @@ export default class Layout extends React.Component {
                 <Text style={{ fontSize: scaleSzie(16), color: '#0764B0' ,fontWeight:"600"}} >
                     {localize('Batch Settlements', language)}
                     <Text numberOflines={1} style={{ fontSize: scaleSzie(11), color: statusConnectColor, fontWeight: "600", fontStyle: 'italic' }} >
-                        {`  ${connectPAXStatus.message} ${terminalID ? `TerminalID: #${terminalID}` : ""}`}
+                        {/* {`  ${connectPAXStatus.message} ${terminalID ? `TerminalID: #${terminalID}` : ""}`} */}
+                        {`  ${connectPAXStatus.message}`}
                     </Text>
                 </Text>
             </View>
@@ -86,6 +87,7 @@ export default class Layout extends React.Component {
                 handleLockScreen={this.handleLockScreen}
                 activeScreen={isFocus}
                 navigation={navigation}
+                clearIntervalById={this.clearIntervalById}
             >
                 <View style={styles.container} >
                     <StatusBarHeader />

@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>Harmony POS</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -68,7 +68,7 @@ jwIDAQAB</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Bluetooth is used to communicate with BLE devices.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to use your camera</string>
+	<string>$(PRODUCT_NAME) would like to use your camera to take photo for upload your resources or to scan QR code</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Get your store address to show up on the Google Map</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -78,9 +78,9 @@ jwIDAQAB</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like to your microphone (for videos)</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to save photos to your photo gallery</string>
+	<string>$(PRODUCT_NAME) would like to save photos to your photo gallery for upload your resources</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like access to your photo gallery</string>
+	<string>$(PRODUCT_NAME) would like access to your photo gallery for upload your resources</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

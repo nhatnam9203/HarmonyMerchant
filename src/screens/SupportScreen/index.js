@@ -77,15 +77,24 @@ class SupportScreen extends Layout {
     }
   };
 
+  clearIntervalById = () => {
+    const { notiIntervalId } = this.props;
+    if (notiIntervalId) {
+      clearInterval(notiIntervalId);
+      this.props.actions.app.resetNotiIntervalId();
+    }
+  }
+
   componentWillUnmount() {
-    this.didBlurSubscription.remove();
-    this.didFocusSubscription.remove();
+    this.didBlurSubscription?.remove();
+    this.didFocusSubscription?.remove();
   }
 }
 
 const mapStateToProps = (state) => ({
   profile: state.dataLocal.profile,
   language: state.dataLocal.language,
+  notiIntervalId: state.app.notiIntervalId
 });
 
 export default connectRedux(mapStateToProps, SupportScreen);

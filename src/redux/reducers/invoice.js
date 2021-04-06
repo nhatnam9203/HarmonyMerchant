@@ -204,7 +204,6 @@ function invoiceReducer(state = initialState, action) {
             return {
                 ...state,
                 settlementTabPermission: action.payload,
-                // isHandleInternalFirstSettlemetTab: !action.payload
             }
 
         case 'HANDLE_INTERNAL_FIRST_SETTLEMENT_STATE':

@@ -14,21 +14,21 @@ import IMAGE from '@resources';
 
 const RowTableExtra = ({ extra, index, archiveExtra, editService, restoreExtra, move, moveEnd }) => {
 
-    const [source, setSource] = useState({
-        uri: extra?.imageUrl,
-        priority: FastImage.priority.low,
-        cache: FastImage.cacheControl.immutable
-    });
+    // const [source, setSource] = useState({
+    //     uri: extra?.imageUrl,
+    //     priority: FastImage.priority.low,
+    //     cache: FastImage.cacheControl.immutable
+    // });
 
-    useEffect(() => {
-        if (source?.uri && source?.uri !== extra?.imageUrl) {
-            setSource({
-                uri: extra?.imageUrl,
-                priority: FastImage.priority.low,
-                cache: FastImage.cacheControl.immutable
-            })
-        }
-    }, [extra?.imageUrl])
+    // useEffect(() => {
+    //     if (source?.uri && source?.uri !== extra?.imageUrl) {
+    //         setSource({
+    //             uri: extra?.imageUrl,
+    //             priority: FastImage.priority.low,
+    //             cache: FastImage.cacheControl.immutable
+    //         })
+    //     }
+    // }, [extra?.imageUrl])
 
     return (
         <TouchableOpacity
@@ -54,11 +54,15 @@ const RowTableExtra = ({ extra, index, archiveExtra, editService, restoreExtra, 
                 width: scaleSzie(160), flexDirection: 'row',
             }} >
                 <View style={{ justifyContent: 'center', marginRight: scaleSzie(8) }} >
-                    {
-                        extra.imageUrl ? <FastImage
+                {
+                        extra?.imageUrl ? <FastImage
                             style={{ width: scaleSzie(30), height: scaleSzie(30) }}
-                            source={source}
-                            onError={() => setSource(IMAGE.extra_holder)}
+                            source={{
+                                uri: extra?.imageUrl,
+                                priority: FastImage.priority.low,
+                                cache: FastImage.cacheControl.immutable
+                            }}
+                            // onError={() => setSource(IMAGE.extra_holder)}
                         /> : <FastImage source={IMAGE.extra_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
                     }
                 </View>

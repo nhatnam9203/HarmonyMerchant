@@ -43,7 +43,7 @@ class PopupChangePriceAmountProduct extends React.Component {
         await this.setState({
             name: product?.data?.name || '',
             bookingProductId: product?.data?.bookingProductId || '',
-            price: roduct?.data?.price || 0.00,
+            price: product?.data?.price || 0.00,
             quantity: product?.quanlitySet || 0,
             productIdLocal: product?.data.productId || '',
         });
@@ -195,7 +195,7 @@ class PopupChangePriceAmountProduct extends React.Component {
     }
 
     componentWillUnmount() {
-        this.keyboardWillHide.remove();
+        this.keyboardWillHide?.remove();
     }
 
 

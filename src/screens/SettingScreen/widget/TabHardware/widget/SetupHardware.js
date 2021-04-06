@@ -110,12 +110,10 @@ class SetupHardware extends React.Component {
         });
         this.manager.startDeviceScan(null, null, (error, device) => {
             if (error) {
-                // console.log("----- Error : ", error);
                 return
             }
 
             if (device?.localName && device?.localName.includes("80")) {
-                // console.log("----- Detect device: ", device);
                 const tempPeripherals = [...this.state.peripherals];
                 tempPeripherals.push({
                     id: device?.id || "",
@@ -140,7 +138,6 @@ class SetupHardware extends React.Component {
     }
 
     handleStopScan = (list) => {
-        // console.log("----- handleStopScan: ", list);
         this.props.actions.app.stopLoadingApp();
         this.setState({
             peripherals: list
@@ -358,7 +355,7 @@ class SetupHardware extends React.Component {
     }
 
     componentWillUnmount() {
-        this.keyboardWillHide.remove();
+        this.keyboardWillHide?.remove();
         this.manager = null
     }
 

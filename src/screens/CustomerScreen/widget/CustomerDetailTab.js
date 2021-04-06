@@ -401,9 +401,7 @@ class CustomerDetailTab extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { isGetCustomerInfoByIdSuccess, customerInfoById } = this.props;
-
         if (isGetCustomerInfoByIdSuccess && prevProps.isGetCustomerInfoByIdSuccess !== isGetCustomerInfoByIdSuccess) {
-            // console.log("---- Update ne ----");
             this.setState({
                 customer: customerInfoById
             })
@@ -423,18 +421,6 @@ const AppointmentItem = ({ appointment, isPastAppointment, showAppointmentDetail
 
     return (
         <Button onPress={showAppointmentDetail} style={{ paddingHorizontal: scaleSzie(10), borderBottomColor: "#EEEEEE", borderBottomWidth: scaleSzie(1), }} >
-
-            {/* {
-                isPastAppointment ? <View style={{ width: scaleSzie(55), alignItems: "center" }} >
-                    <Text style={{
-                        color: "#404040", fontSize: scaleSzie(16), fontWeight: "600",
-                        marginTop: scaleSzie(22), marginBottom: scaleSzie(10)
-                    }} >
-                        {`Past`}
-                    </Text>
-                </View> : <View />
-            } */}
-
             <View style={{
                 minHeight: scaleSzie(100), flexDirection: "row", paddingVertical: scaleSzie(14),
             }} >

@@ -14,6 +14,9 @@ class TabSettle extends Layout {
         this.giftCardSalesDetailsTabRef = React.createRef();
     }
 
+    callReportFromChildren = () => {
+        this.tabFirstSettleRef?.current?.handlePAXReport();
+    }
 
     onDidFocus = () => {
         this.scrollTabRef.current.goToPage(0);

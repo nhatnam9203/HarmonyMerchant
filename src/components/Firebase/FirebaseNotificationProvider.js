@@ -13,6 +13,8 @@ const FirebaseNotificationProvider = () => {
   );
   let notifyService;
   const token = useSelector(state => state.dataLocal.token);
+  const visibleEnterPin = useSelector(state => state?.app?.visibleEnterPin);
+  // console.log("----- visibleEnterPin: ",visibleEnterPin);
 
   React.useEffect(() => {
     notifyService = new NotifService(onClickedNotifyMessage);
@@ -20,6 +22,10 @@ const FirebaseNotificationProvider = () => {
 
   const onForegroundMessage = (data) => {
     // TODO: process message on foreground state
+    dispatch({
+      type:"HANDLE_NOTIFICATION_WHEN_HAVE_A_APPOINTMENT",
+      payload: data
+    });
     notifyService?.firebaseNotify(data);
   };
 
@@ -37,7 +43,9 @@ const FirebaseNotificationProvider = () => {
 
   const onClickedNotifyMessage = () => {
     if (token) {
-      dispatch(actions.app.closeAllPopupPincode());
+      if(!visibleEnterPin){
+        dispatch(actions.app.closeAllPopupPincode());
+      }
       NavigationServices.navigate("Home");
       notifyService?.resetBadgeNumber();
     } else {

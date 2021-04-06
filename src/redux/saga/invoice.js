@@ -150,7 +150,6 @@ function* getTransactionSettlement(action) {
             yield put({ type: 'LOADING_ROOT' })
         }
         const responses = yield requestAPI(action);
-        // console.log("------ getTransactionSettlement: ", responses);
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -258,8 +257,9 @@ function* changeStatustransaction(action) {
         yield put({ type: 'LOADING_ROOT' });
         const state = yield select();
         const { profileLoginInvoice } = state.dataLocal;
-        const temptAction = { ...action, token: profileLoginInvoice?.token || "" };
+        const temptAction = profileLoginInvoice?.token ?  { ...action, token: profileLoginInvoice?.token || "" } : action;
         const responses = yield requestAPI(temptAction);
+        // console.log("------ changeStatustransaction: ",JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {

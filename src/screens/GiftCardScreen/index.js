@@ -45,8 +45,15 @@ class GiftCardScreen extends Layout {
                     isFocus: true
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
-                this.props.actions.appointment.switchGiftCardTabPermission();
                 this.scrollTabRef?.current?.goToPage(0);
+
+                const { profileStaffLogin } = this.props;
+                const roleName = profileStaffLogin?.roleName || "Admin";
+                if (roleName === "Admin") {
+                    this.searchGiftCardsList(1, true, false, false);
+                } else {
+                    this.props.actions.appointment.switchGiftCardTabPermission();
+                }
             }
         );
     }
@@ -117,10 +124,17 @@ class GiftCardScreen extends Layout {
         }
     }
 
+    clearIntervalById = () => {
+        const { notiIntervalId } = this.props;
+        if (notiIntervalId) {
+            clearInterval(notiIntervalId);
+            this.props.actions.app.resetNotiIntervalId();
+        }
+    }
 
     componentWillUnmount() {
-        this.didBlurSubscription.remove();
-        this.didFocusSubscription.remove();
+        this.didBlurSubscription?.remove();
+        this.didFocusSubscription?.remove();
     }
 
 
@@ -140,14 +154,13 @@ const mapStateToProps = state => ({
     isLoadMoreCustomerList: state.customer.isLoadMoreCustomerList,
     isEditCustomerSuccess: state.customer.isEditCustomerSuccess,
     isAddCustomerSuccess: state.customer.isAddCustomerSuccess,
-
-
-    // -------------- New State ---------------
     giftCardsList: state.appointment.giftCardsList,
     totalGiftCardsListPages: state.appointment.totalGiftCardsListPages,
     currentGiftCardsListPage: state.appointment.currentGiftCardsListPage,
     isLoadMoreGiftCardsList: state.appointment.isLoadMoreGiftCardsList,
-    isGiftCardTabPermission: state.appointment.isGiftCardTabPermission
+    isGiftCardTabPermission: state.appointment.isGiftCardTabPermission,
+    profileStaffLogin: state.dataLocal.profileStaffLogin,
+    notiIntervalId: state.app.notiIntervalId
 })
 
 export default connectRedux(mapStateToProps, GiftCardScreen);

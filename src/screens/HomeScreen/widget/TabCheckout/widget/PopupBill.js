@@ -207,14 +207,14 @@ class PopupBill extends React.Component {
                                         {localize('Exact', language)}
                                     </Text>
                                 </Button>
-                                {/* -------- Btn Cancel ------ */}
+                                {/* -------- CLEAR BUTTON ------ */}
                                 <Button onPress={this.cancel} style={{
                                     width: '100%', height: scaleSzie(35), backgroundColor: '#F1F1F1',
                                     justifyContent: 'center', alignItems: 'center', borderRadius: scaleSzie(4),
                                     borderColor: '#C5C5C5', borderWidth: 1, marginTop: scaleSzie(9)
                                 }} >
                                     <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(20), fontWeight: '600' }} >
-                                        {localize('Cancel', language)}
+                                        {localize('Clear', language)}
                                     </Text>
                                 </Button>
                                 {/* -------- Btn Done ------ */}

@@ -384,7 +384,6 @@ function* disablePromotionById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log("----- disablePromotionById: ", responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put(getPromotionByMerchant());
@@ -409,7 +408,6 @@ function* enablePromotionById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log("----- enablePromotionById: ", responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put(getPromotionByMerchant());
@@ -435,7 +433,6 @@ function* getPromotionDetailById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log("----- getPromotionDetailById: ", responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
@@ -463,7 +460,6 @@ function* updatePromotionById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log("----- updatePromotionById: ", responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put(getPromotionByMerchant());
@@ -491,7 +487,6 @@ function* createNewCampaign(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log("----- createNewCampaign: ", responses);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put(getPromotionByMerchant());

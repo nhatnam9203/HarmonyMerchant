@@ -3,6 +3,7 @@ package com.hpmerchant;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.johnsonsu.rnsoundplayer.RNSoundPlayerPackage;
 import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
 import com.polidea.reactnativeble.BlePackage;
 import it.innove.BleManagerPackage;
@@ -53,6 +54,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNSoundPlayerPackage(),
             new RNDateTimePickerPackage(),
             new BlePackage(),
             new BleManagerPackage(),

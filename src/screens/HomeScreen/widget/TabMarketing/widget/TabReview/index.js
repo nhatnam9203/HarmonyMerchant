@@ -130,7 +130,6 @@ class TabReview extends Layout {
         );
         this.onEndReachedCalledDuringMomentum = true;
       }
-      // console.log(totalPages, currentPage);
     }
   };
 

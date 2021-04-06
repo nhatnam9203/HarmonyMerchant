@@ -50,7 +50,6 @@ function* login(action) {
     action.body = body;
 
     responses = yield requestAPI(action);
-    // console.log("LOGIN_APP_SUCCESS: ",JSON.stringify(responses));
     yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
@@ -116,7 +115,6 @@ function* forgotPassword(action) {
 function* checkStaffPermission(action) {
   try {
     const responses = yield requestAPI(action);
-    // console.log("----- responses ----: ",responses);
     yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
@@ -152,25 +150,6 @@ function* checkStaffPermission(action) {
             payload: true
         })
 
-        // yield put({
-        //   type: "GET_SETTLEMENT_WAITING",
-        //   method: "GET",
-        //   api: `${apiConfigs.BASE_API}settlement/waiting`,
-        //   token: true,
-        //   isShowLoading: true,
-        // });
-        // yield put({
-        //   type: "GET_LIST_STAFFS_SALES",
-        //   method: "GET",
-        //   token: true,
-        //   api: `${apiConfigs.BASE_API}appointment/staffSales`,
-        // });
-        // yield put({
-        //   type: "GET_LIST_GIFT_CARD_SALES",
-        //   method: "GET",
-        //   token: true,
-        //   api: `${apiConfigs.BASE_API}settlement/waiting/giftCardSales`,
-        // });
       } else if (action.tabName === "Customer") {
         yield put({
           type: "TOGGLE_CUSTOMER_TAB_PERMISSION",
@@ -239,7 +218,6 @@ function* checkStaffPermission(action) {
           isBlock: action?.isBlock
         });
       } else if (action.tabName === "GiftCard") {
-        // console.log(action);
         yield put({
           type: 'SWITCH_GIFT_CARD_TAB_PERMISSION',
           payload: false

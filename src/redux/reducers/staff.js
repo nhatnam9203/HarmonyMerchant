@@ -20,7 +20,10 @@ const initialState = {
   pathFileReportStaffStatistic: null,
   reportTabPermissionSuccess: false,
 
-  isShowSearchResult: false
+  isShowSearchResult: false,
+  staffDetail: {},
+  isGetStaffDetailSuccess: false,
+  isEditStaffByIdSuccess: false
 };
 
 function staffReducer(state = initialState, action) {
@@ -53,8 +56,12 @@ function staffReducer(state = initialState, action) {
     case "GET_STAFF_BY_MERCHANR_ID_SUCCESS":
       return {
         ...state,
-        listStaffByMerchant: !action.searchFilter ? action.payload : state.listStaffByMerchant,
-        listSearchStaff: action.searchFilter ? action.payload : state.listSearchStaff,
+        listStaffByMerchant: !action.searchFilter
+          ? action.payload
+          : state.listStaffByMerchant,
+        listSearchStaff: action.searchFilter
+          ? action.payload
+          : state.listSearchStaff,
         isShowSearchStaff: action.searchFilter,
         refreshListStaffs: false,
       };
@@ -62,6 +69,21 @@ function staffReducer(state = initialState, action) {
       return {
         ...state,
         refreshListStaffs: false,
+      };
+    case "GET_STAFF_DETAIL_BY_ID_SUCCESS":
+      return {
+        ...state,
+        staffDetail: action.payload,
+        isGetStaffDetailSuccess: true
+      };
+    case "RESET_STATE_GET_STAFF_DETAIL":
+      return {
+        ...state,
+        isGetStaffDetailSuccess: false
+      };
+    case "GET_STAFF_DETAIL_MERCHANR_ID_FAIL":
+      return {
+        ...state,
       };
     case "SWICH_ADD_STAFF":
       return {
@@ -178,18 +200,30 @@ function staffReducer(state = initialState, action) {
         isDownloadReportStaff: false,
         pathFileReportStaffStatistic: null,
       };
-    case 'LOGOUT_APP':
+    case "EDIT_STAFF_BY_MERCHANT_SUCCESS":
+      return {
+        ...state,
+        isEditStaffByIdSuccess: true,
+      };
+    case "RESET_STATE_IS_EDIT_STAFF_BY_ID":
+      return {
+        ...state,
+        isEditStaffByIdSuccess: false,
+      };
+    case "LOGOUT_APP":
       return {
         ...initialState,
-      }
+      };
     default:
       return state;
   }
 }
 
-module.exports = persistReducer({
-  key: "staff",
-  storage: AsyncStorage,
-  whitelist: ["listStaffByMerchant"],
-}, staffReducer);
-
+module.exports = persistReducer(
+  {
+    key: "staff",
+    storage: AsyncStorage,
+    whitelist: ["listStaffByMerchant"],
+  },
+  staffReducer
+);

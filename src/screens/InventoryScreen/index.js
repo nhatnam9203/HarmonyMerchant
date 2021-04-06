@@ -60,7 +60,14 @@ class InventoryScreen extends Layout {
                     isFocus: true
                 });
                 this.checkPermissionRef.current.setStateFromParent('');
-                this.props.actions.product.toggleProductTabPermission();
+
+                const { profileStaffLogin } = this.props;
+                const roleName = profileStaffLogin?.roleName || "Admin";
+                if (roleName === "Admin") {
+                    this.props.actions.product.getProductsByMerchant("", "", true);
+                } else {
+                    this.props.actions.product.toggleProductTabPermission();
+                }
             }
         );
     }
@@ -294,7 +301,7 @@ class InventoryScreen extends Layout {
             this.setState({ visibleAdd: true });
             this.addProductRef.current.setDefaultStateFromParent();
         } else {
-            alert('Create category before add service please !')
+            alert('Create category before add product please !')
         }
     }
 
@@ -338,9 +345,17 @@ class InventoryScreen extends Layout {
         this.props.navigation.navigate("Home");
     }
 
+    clearIntervalById = () => {
+        const { notiIntervalId } = this.props;
+        if (notiIntervalId) {
+            clearInterval(notiIntervalId);
+            this.props.actions.app.resetNotiIntervalId();
+        }
+    }
+
     componentWillUnmount() {
-        this.didBlurSubscription.remove();
-        this.didFocusSubscription.remove();
+        this.didBlurSubscription?.remove();
+        this.didFocusSubscription?.remove();
     }
 }
 
@@ -354,7 +369,9 @@ const mapStateToProps = state => ({
     refreshListProducts: state.product.refreshListProducts,
     isDownloadInventory: state.product.isDownloadInventory,
     pathFileInventory: state.product.pathFileInventory,
-    inventoryTabPermission: state.product.inventoryTabPermission
+    inventoryTabPermission: state.product.inventoryTabPermission,
+    profileStaffLogin: state.dataLocal.profileStaffLogin,
+    notiIntervalId: state.app.notiIntervalId
 })
 
 

@@ -34,7 +34,7 @@ const initialState = {
         lastName: "",
         phone: ""
     },
-    visiblePopupCustomerInfoBuyAppointment: false,
+    visibleEnterCustmerPhonePopup: false,
     bookingGroupId: 0,
     giftcardPaymentInfo: {},
     visiblePopupGiftCardDetails: false,
@@ -48,9 +48,13 @@ const initialState = {
     isRefreshingGiftCardsList: false,
     giftCardLogs: [],
     isGiftCardTabPermission: false,
-
     startProcessingPax: false,
-    amountCredtitForSubmitToServer:0
+    amountCredtitForSubmitToServer: 0,
+    staffListCurrentDate: [],
+    visibleAddEditCustomerPopup: false,
+
+    isBookingFromCalendar: false,
+    appointmentIdBookingFromCalendar: 0
 }
 
 function appointmentReducer(state = initialState, action) {
@@ -58,6 +62,7 @@ function appointmentReducer(state = initialState, action) {
         case 'RESET_GROUP_APPOINTMENT':
             return {
                 ...initialState,
+                staffListCurrentDate: state.staffListCurrentDate,
                 groupAppointment: {},
             }
 
@@ -83,7 +88,12 @@ function appointmentReducer(state = initialState, action) {
                 ...state,
                 groupAppointment: action.payload,
                 paymentDetailInfo: action.paymentDetailInfo,
-
+            }
+        case 'BOOKING_A_APPOINTMENT_FROM_CALENDAR_SUCCESS':
+            return {
+                ...state,
+                isBookingFromCalendar: action?.isBookingFromCalendar,
+                appointmentIdBookingFromCalendar: action?.appointmentIdBookingFromCalendar
             }
         case 'GET_APPOINTMENT_BY_ID_FAIL':
             return {
@@ -276,18 +286,18 @@ function appointmentReducer(state = initialState, action) {
             return {
                 ...state,
                 customerInfoBuyAppointment: action.payload,
-                visiblePopupCustomerInfoBuyAppointment: false
+                visibleEnterCustmerPhonePopup: false
             }
-        case 'GET_CUSTOMER_INFO_BUY_APPOINTMENT_FAIL':
+        // case 'GET_CUSTOMER_INFO_BUY_APPOINTMENT_FAIL':
+        //     return {
+        //         ...state,
+        //         customerInfoBuyAppointment: action.payload,
+        //         visibleEnterCustmerPhonePopup: false
+        //     }
+        case 'SWITCH_VISIBLE_ENTER_CUSTOMER_PHONE_POPUP':
             return {
                 ...state,
-                customerInfoBuyAppointment: action.payload,
-                visiblePopupCustomerInfoBuyAppointment: false
-            }
-        case 'TOGGLE_POPUP_CUSTOMER_INFO_BUY_APPOINTMENT':
-            return {
-                ...state,
-                visiblePopupCustomerInfoBuyAppointment: action.payload,
+                visibleEnterCustmerPhonePopup: action.payload,
             }
         case 'UPDATE_CUSTOMER_ID_BUY_APPOINTMENT':
             return {
@@ -385,6 +395,21 @@ function appointmentReducer(state = initialState, action) {
                 ...state,
                 startProcessingPax: false
             }
+        case 'RESET_STATE_CHECK_CREDIT_PAYMENT_TO_SERVER':
+            return {
+                ...state,
+                startProcessingPax: false
+            }
+        case 'GET_STAFF_LIST_BY_CURRENT_DATE_SUCCESS':
+            return {
+                ...state,
+                staffListCurrentDate: action.payload
+            }
+        case 'SWITCH_VISIBLE_ADD_EDIT_CUSTOMER_POPUP':
+            return {
+                ...state,
+                visibleAddEditCustomerPopup: action.payload
+            }
         case 'LOGOUT_APP':
             return {
                 ...initialState,
@@ -440,6 +465,6 @@ const removeBlockAppointment = (blockAppointments, appointmentIdRemove) => {
 module.exports = persistReducer({
     key: "appointment",
     storage: AsyncStorage,
-    whitelist: []
+    whitelist: ["staffListCurrentDate"]
 }, appointmentReducer);
 

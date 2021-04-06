@@ -11,36 +11,7 @@ import {
 import apiConfigs from '@configs/api';
 
 const initState = {
-    isShowColProduct: false,
-    isShowColAmount: false,
-    categorySelected: {
-        categoryId: -1,
-        categoryType: ''
-    },
-    productSeleted: {
-        name: ''
-    },
-    categoryTypeSelected: '',
-    extraSelected: {
-        extraId: -1,
-        name: ''
-    },
-    basket: [],
-    total: 0,
-    isInitBasket: true,
-    appointmentId: -1,
-    infoUser: {
-        firstName: '',
-        lastName: '',
-        phoneNumber: ''
-    },
-    isShowAddAppointment: false,
-    visibleConfirm: false,
-    visibleChangeStylist: false,
-    visibleDiscount: false,
     appointmentIdOffline: 0,
-    visibleChangePriceAmountProduct: false,
-    arrSelectedExtra: []
 }
 
 class TabAppointment extends Layout {
@@ -85,13 +56,6 @@ class TabAppointment extends Layout {
         }
     }
 
-    onNotif = (notif) => {
-        this.props.actions.app.closeAllPopupPincode();
-        this.props.navigation.navigate("Home");
-        this.notif.resetBadgeNumber();
-    }
-
-
     handleAppStateChange = nextAppState => {
         if (this.state.appState.match(/inactive|background/) && nextAppState === "active") {
             if (this.webviewRef.current) {
@@ -117,6 +81,13 @@ class TabAppointment extends Layout {
         }))
     }
 
+    pushNotiDataToWebView = (data) => {
+        this.webviewRef.current.postMessage(JSON.stringify({
+            action: 'appointmentNotification',
+            data: data
+        }))
+    }
+
     setStateFromParent = async () => {
         await this.setState(initState);
     }
@@ -130,9 +101,6 @@ class TabAppointment extends Layout {
 
     }
 
-    handleNewAppointmentNotification = (appointment) => {
-    }
-
     onMessageFromWebview = async (event) => {
         try {
             if (event.nativeEvent && event.nativeEvent.data) {
@@ -141,6 +109,7 @@ class TabAppointment extends Layout {
                     this.onLoadStartWebview();
                 } else {
                     const { action, appointmentId } = data;
+                    // console.log("onMessageFromWebview: ", JSON.stringify(data));
                     if (action === 'checkout') {
                         const arrayProducts = getArrayProductsFromAppointment(data?.appointment?.products || []);
                         const arryaServices = getArrayServicesFromAppointment(data?.appointment?.services || []);
@@ -148,22 +117,28 @@ class TabAppointment extends Layout {
                         const arrayGiftCards = getArrayGiftCardsFromAppointment(data?.appointment?.giftCards || []);
                         const temptBasket = arrayProducts.concat(arryaServices, arrayExtras, arrayGiftCards);
                         if (temptBasket.length > 0) {
-                            this.props.checkoutAppointment(appointmentId, data.appointment);
+                            this.props.checkoutAppointment(appointmentId, data?.appointment || {});
                             this.props.actions.appointment.checkoutAppointmentOffline(appointmentId);
                             this.setState({
                                 appointmentIdOffline: appointmentId
                             })
                         } else {
-                            this.props.bookAppointment(appointmentId);
+                            this.props.bookAppointment(appointmentId, data?.staffId ? data?.staffId : (data?.appointment?.staffId || 0));
                         }
 
                     } else if (action == 'signinAppointment') {
-                        this.props.bookAppointment(appointmentId);
+                        this.props.bookAppointment(appointmentId, data?.staffId || 0);
                     } else if (action === 'addGroupAnyStaff') {
                         this.props.createABlockAppointment(appointmentId, data.dataAnyStaff && data.dataAnyStaff.fromTime ? data.dataAnyStaff.fromTime : new Date());
-                    } else if (action === 'push_notification' && data.isNotification) {
-                        const appointment = data.appointment ? { ...data.appointment } : {};
-                        this.handleNewAppointmentNotification(appointment)
+                    } else if (action === 'push_notification' || action === 'update_notification') {
+                        // ---------- Handle Push Notification from weview --------------
+                        if (this.props?.profileStaffLogin?.token) {
+                            this.props.actions.app.getCountUnReadOfNotification();
+                        }
+                    } else if (action == 'addMore') {
+                        this.props.addMoreAppointmentFromCalendar(data?.appointmentId, data?.staffId || 0);
+                    } else if (action == 'addMoreAnyStaff') {
+                        this.props.addMoreAppointmentFromCalendar(data?.appointmentId, data?.staffId || 0);
                     }
                 }
             }
@@ -171,326 +146,9 @@ class TabAppointment extends Layout {
         }
     }
 
-    // -------- Add Appointment --------
-    onPressSelectCategory = (category) => {
-        const { categorySelected } = this.state;
-        if (categorySelected.categoryId !== category.categoryId) {
-            this.setState({
-                categorySelected: category,
-                categoryTypeSelected: category.categoryType,
-                isShowColProduct: true,
-                isShowColAmount: false,
-                productSeleted: {
-                    name: ''
-                },
-                arrSelectedExtra: []
-            })
-        }
-    }
-
-    getDataColProduct() {
-        const { categorySelected, categoryTypeSelected } = this.state;
-        const { productsByMerchantId, servicesByMerchant } = this.props;
-        const data = categoryTypeSelected === 'Service' ? servicesByMerchant : productsByMerchantId;
-        const temptData = data.filter(item => {
-            return item.categoryId === categorySelected.categoryId && item.isDisabled === 0;
-        });
-        return temptData;
-    }
-
-    showColAmount = (item) => {
-        this.setState({
-            productSeleted: item,
-            isShowColAmount: true,
-            arrSelectedExtra: []
-        })
-    }
-
-    onPressSelectExtra = (extra) => {
-        const { arrSelectedExtra } = this.state;
-        let tempArrSelectedExtra;
-        let isExist = false;
-        for (let i = 0; i < arrSelectedExtra.length; i++) {
-            if (arrSelectedExtra[i]?.extraId === extra?.extraId) {
-                isExist = true;
-                break;
-            }
-        }
-        if (isExist) {
-            tempArrSelectedExtra = arrSelectedExtra.filter((selectedExtra) => selectedExtra?.extraId !== extra?.extraId);
-        } else {
-            tempArrSelectedExtra = [...arrSelectedExtra];
-            tempArrSelectedExtra.push(extra);
-        }
-        this.setState({
-            arrSelectedExtra: tempArrSelectedExtra
-        });
-    }
-
-    getPriceOfline(baseket) {
-        let total = 0;
-        for (let i = 0; i < baseket.length; i++) {
-            total = total + parseInt(baseket[i].data.price);
-        }
-        return total;
-    }
-
-    formartBasket = () => {
-        const { appointmentDetail } = this.props;
-        const services = appointmentDetail?.services || [];
-        const products = appointmentDetail?.products || [];
-        const extras = appointmentDetail?.extras || [];
-
-        const arrayProducts = getArrayProductsFromAppointment(products);
-        const arryaServices = getArrayServicesFromAppointment(services);
-        const arrayExtras = getArrayExtrasFromAppointment(extras);
-
-        for (let i = 0; i < arryaServices.length; i++) {
-            for (let j = 0; j < arrayExtras.length; j++) {
-                if (arrayExtras[j]?.data?.bookingServiceId === arryaServices[i]?.data?.bookingServiceId) {
-                    arryaServices[i]?.extras.push({ ...arrayExtras[j] });
-                }
-            }
-        }
-
-        const temptBasket = arryaServices.concat(arrayProducts);
-        return temptBasket;
-    }
-
-    addAmount = async () => {
-        const { categoryTypeSelected, productSeleted, appointmentId, arrSelectedExtra } = this.state;
-        if (categoryTypeSelected === 'Product') {
-            if (appointmentId !== -1) {
-                // ------- Buy With Appointment -----
-                this.props.actions.appointment.addItemIntoAppointment(
-                    {
-                        services: [],
-                        extras: [],
-                        products: [{
-                            productId: productSeleted.productId,
-                            quantity: this.amountRef.current.state.quanlity
-                        }],
-                        giftCards: []
-                    }, appointmentId)
-            } else {
-                // ------ Buy Ofline -----------
-                const temptBasket = [];
-                temptBasket.unshift({
-                    type: 'Product',
-                    id: `${productSeleted.productId}_pro`,
-                    data: {
-                        name: productSeleted.name,
-                        productId: productSeleted.productId,
-                        price: productSeleted.price
-                    },
-                    quanlitySet: this.amountRef.current.state.quanlity
-                });
-                await this.setState({
-                    total: this.getPriceOfline(temptBasket)
-                })
-            }
-
-            await this.setState({
-                isShowColProduct: false,
-                isShowColAmount: false,
-                categorySelected: {
-                    categoryId: -1,
-                    categoryType: ''
-                },
-                productSeleted: {
-                    name: ''
-                },
-                categoryTypeSelected: '',
-                arrSelectedExtra:[]
-            })
-
-        } else {
-            if (appointmentId !== -1) {
-                // ------- Buy with appointment ------
-                const temptExtra = [];
-                for (let i = 0; i < arrSelectedExtra.length; i++) {
-                    temptExtra.push({ extraId: arrSelectedExtra[i]?.extraId });
-                }
-
-                this.props.actions.appointment.addItemIntoAppointment(
-                    {
-                        services: [{
-                            serviceId: productSeleted.serviceId
-                        }],
-                        extras: temptExtra,
-                        products: [],
-                        giftCards: []
-                    }, appointmentId)
-            } else {
-                // ------ Buy Offline ------
-                alert('You can only sell products to visitors');
-            }
-            await this.setState({
-                isShowColProduct: false,
-                isShowColAmount: false,
-                categorySelected: {
-                    categoryId: -1,
-                    categoryType: ''
-                },
-                productSeleted: {
-                    name: ''
-                },
-                categoryTypeSelected: '',
-                arrSelectedExtra: []
-            })
-        }
-    }
-
-    removeItemBasket = (item) => {
-        const { basket } = this.state;
-        const { appointmentDetail } = this.props;
-        const appointmentId = appointmentDetail?.appointmentId || -1;
-
-        if (appointmentId !== -1) {
-            // ----- Remove With Appointmnet
-            let dataRemove = {};
-            switch (item.type) {
-                case 'Product':
-                    dataRemove = {
-                        services: [],
-                        extras: [],
-                        products: [{ bookingProductId: item.data.bookingProductId }]
-                    }
-                    break;
-                case 'Service':
-                    dataRemove = {
-                        services: [{ bookingServiceId: item.data.bookingServiceId }],
-                        extras: [],
-                        products: []
-                    }
-                    break;
-                case 'Extra':
-                    dataRemove = {
-                        services: [],
-                        extras: [{ bookingExtraId: item.data.bookingExtraId }],
-                        products: []
-                    }
-                    break;
-            }
-            this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId, false);
-        } else {
-            // -------- Remove Offline --------
-            const temptBasket = basket.filter((itemBasket) => itemBasket.id !== item.id);
-            this.setState({
-                basket: temptBasket
-            })
-        }
-    }
-
-    clearDataCofrim = () => {
-        this.setState(initState);
-        this.props.actions.appointment.resetBasketEmpty();
-        this.props.actions.appointment.resetPayment();
-        this.props.actions.appointment.changeFlagSigninAppointment(false);
-        this.props.clearDataTabCheckout();
-        // ------- Cancle book appointment ----------
-        const { profile, appointmentDetail } = this.props;
-        this.props.actions.appointment.cancleAppointment(this.state.appointmentId, profile.merchantId, appointmentDetail.userId ? appointmentDetail.userId : 0);
-    }
-
-    setStateVisibleFromParent = async (visibleConfirm) => {
-        await this.setState({
-            visibleConfirm
-        })
-    }
-
-    bookAppointment = () => {
-        this.setState(initState);
-        this.props.actions.appointment.resetBasketEmpty();
-        this.props.actions.appointment.resetPayment();
-        this.props.actions.appointment.changeFlagSigninAppointment(false);
-        this.props.clearDataTabCheckout();
-    }
-
-    changeProductInBasket = async (product) => {
-        this.changePriceAmountProductRef.current.setStateFromParent(product);
-        this.setState({
-            visibleChangePriceAmountProduct: true
-        })
-
-    }
-
-    changeProductBasketLocal = async (productIdLocal, price, quantity) => {
-
-    }
-
-    changeStylist = async (service) => {
-        this.changeStylistRef.current.setStateFromParent(service);
-        await this.setState({
-            visibleChangeStylist: true
-        })
-    }
-
-    showModalDiscount = () => {
-        const { profileStaffLogin,appointmentDetail } = this.props;
-        const { basket, appointmentId } = this.state;
-
-        if (appointmentDetail && appointmentDetail?.subTotal > 0) {
-            if (profileStaffLogin.roleName !== "Admin") {
-                this.popupCheckDiscountPermissionRef?.current?.setStateFromParent('', appointmentId, false);
-                this.props.actions.marketing.switchPopupCheckDiscountPermissionInHome(true);
-            } else {
-                this.props.actions.marketing.getPromotionByAppointment(appointmentId);
-            }
-        }
-    }
-
-    closePopupCheckDiscountPermissionInHome = () => {
-        this.props.actions.marketing.switchPopupCheckDiscountPermissionInHome(false);
-    }
-
-    closeModalDiscount = () => {
-        this.setState({
-            visibleDiscount: false
-        })
-    }
-
-    getExtrasFromRedux = (productSeleted) => {
-        const { extrasByMerchant } = this.props;
-        const extrasBySort = [];
-
-        for (let i = 0; i < extrasByMerchant.length; i++) {
-            for (let j = 0; j < productSeleted.extras.length; j++) {
-                const extraLocal = productSeleted.extras[j];
-                const extralGlobal = extrasByMerchant[i];
-                if (extralGlobal.extraId === extraLocal.extraId && extralGlobal.isDisabled === 0) {
-                    extrasBySort.push(extralGlobal);
-                    break;
-                }
-            }
-        }
-
-        return extrasBySort;
-    }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        const { currentTabParent, appointmentDetail, loading, isGetAppointmentSucces, isReloadWebview } = this.props;
-        if (!loading && isGetAppointmentSucces && currentTabParent === 1) {
-            // const { services, products, extras } = appointmentDetail;
-            // const arrayProducts = getArrayProductsFromAppointment(products);
-            // const arryaServices = getArrayServicesFromAppointment(services);
-            // const arrayExtras = getArrayExtrasFromAppointment(extras);
-            // const temptBasket = arrayProducts.concat(arryaServices, arrayExtras);
-            this.props.actions.appointment.resetKeyUpdateAppointment();
-
-            await this.setState({
-                // total: appointmentDetail.total,
-                // basket: temptBasket,
-                appointmentId: appointmentDetail.appointmentId,
-                infoUser: {
-                    firstName: appointmentDetail.firstName,
-                    lastName: appointmentDetail.lastName,
-                    phoneNumber: appointmentDetail.phoneNumber,
-                },
-                isShowAddAppointment: true,
-            });
-        }
-
+        const { isReloadWebview } = this.props;
         if (isReloadWebview && isReloadWebview != prevProps.isReloadWebview) {
             this.reloadWebviewFromParent();
             this.props.actions.app.resetStateReloadWebView();

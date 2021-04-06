@@ -34,7 +34,13 @@ const initialState = {
   visiblePopupCodePush: false,
   descriptionCodePush: "",
   isInitialApp: true,
-  terminalID: ""
+  terminalID: "",
+  isHandleNotiWhenHaveAAppointment: false,
+  notiIntervalId: false,
+  notificationList: [],
+  notificationContUnread: 0,
+  notiTotalPages: 0,
+  notiCurrentPage: 0,
 };
 
 function appReducer(state = initialState, action) {
@@ -262,6 +268,39 @@ function appReducer(state = initialState, action) {
         visiblePopupCodePush: action.payload,
         descriptionCodePush: action.description ? action.description : ""
       };
+    case "HANDLE_NOTIFICATION_WHEN_HAVE_A_APPOINTMENT":
+      return {
+        ...state,
+        isHandleNotiWhenHaveAAppointment: true
+      }
+    case "RESET_STATE_HANDLE_NOTIFICATION_WHEN_HAVE_A_APPOINTMENT":
+      return {
+        ...state,
+        isHandleNotiWhenHaveAAppointment: false
+      }
+    case "HANDLE_NOTIFI_INTERVAL_ID":
+      return {
+        ...state,
+        notiIntervalId: action.payload
+      }
+    case "RESET_NOTIFI_INTERVAL_ID":
+      return {
+        ...state,
+        notiIntervalId: false
+      }
+    case "GET_NOTIFICATION_LIST_SUCCESS":
+      return {
+        ...state,
+        // notificationList: action.payload,
+        notificationList: action.currentPage === 1 ? action.payload : state.notificationList.concat(action.payload),
+        notiTotalPages: action.totalPages,
+        notiCurrentPage: action.currentPage,
+      }
+    case "GET_COUNT_UNREAD_OF_NOTIFICATION_SUCCESS":
+      return {
+        ...state,
+        notificationContUnread: action.payload
+      }
     case 'RESET_IS_INIT_APP':
       return {
         ...initialState,

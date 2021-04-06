@@ -286,7 +286,7 @@ export function changeIsGiftForNew(visible = true) {
   return {
     type: "CHANGE_IS_GIFT_FOR_NEW",
     method: "PUT",
-    body:{
+    body: {
       GiftForNewEnabled: visible
     },
     token: true,
@@ -295,5 +295,62 @@ export function changeIsGiftForNew(visible = true) {
   };
 }
 
+export function resetStateNotiWhenHaveAAppointment() {
+  return {
+    type: "RESET_STATE_HANDLE_NOTIFICATION_WHEN_HAVE_A_APPOINTMENT",
+  }
+}
+
+export function handleNotifiIntervalId(intervalId) {
+  return {
+    type: "HANDLE_NOTIFI_INTERVAL_ID",
+    payload: intervalId
+  }
+}
+
+export function resetNotiIntervalId() {
+  return {
+    type: "RESET_NOTIFI_INTERVAL_ID",
+  }
+}
+
+export function getNotificationList(page = 1) {
+  return {
+    type: "GET_NOTIFICATION_LIST",
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}notification?page=${page}&row=20`,
+    currentPage: page,
+  };
+}
+
+export function getCountUnReadOfNotification() {
+  return {
+    type: "GET_COUNT_UNREAD_OF_NOTIFICATION",
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}notification/countUnRead?api-version=2.0`,
+  };
+}
+
+export function maskNotiAsReadById(notiId) {
+  return {
+    type: "MASK_NOTI_AS_READ_BY_ID",
+    method: "PUT",
+    body: {},
+    token: true,
+    api: `${apiConfigs.BASE_API}notification/view/${notiId}`,
+  };
+}
+
+export function readAllNotification() {
+  return {
+    type: "READ_ALL_NOTIFICATION",
+    method: "PUT",
+    body: {},
+    token: true,
+    api: `${apiConfigs.BASE_API}notification/view/all`,
+  };
+}
 
 

@@ -8,12 +8,12 @@ import {
   View,
   TouchableOpacity,
   Image,
+  Modal,
 } from "react-native";
 import styles from "./style";
 import { ItemPhoto } from "./widget";
 import IMAGE from "@resources";
-
-
+import ImageViewer from "react-native-image-zoom-viewer";
 
 class Layout extends React.Component {
   render() {
@@ -21,94 +21,99 @@ class Layout extends React.Component {
     const { isSelected, imageSelect } = this.state;
     return (
       <View style={styles.container}>
-        <View style={styles.tabName}>
-          <Text style={styles.title}>{`${localize(
-            "Slide Banner",
-            language
-          )}`}</Text>
-        </View>
-        {listBanners.length > 0 ? (
-          //  RENDER WHEN LENGTH ITEM > 0
-          <View style={{ height: "92%" }}>
-            <View
-              style={{
-                backgroundColor: "#FFF",
-                marginTop: -1,
-                paddingLeft: scaleSzie(15),
-                height: "100%",
-              }}
-            >
-              <FlatList
-                data={isSelected ? imageSelect : listBanners}
-                refreshControl={
-                  <RefreshControl
-                    refreshing={this.state.refreshing}
-                    onRefresh={this.onRefresh}
-                  />
-                }
-                renderItem={({ item, index }) => (
-                  <ItemPhoto
-                    key={index}
-                    item={item}
-                    selectImage={this.selectImage}
-                    imageSelect={this.state.imageSelect}
-                  />
-                )}
-                ref={this.flatListRef}
-                numColumns={"5"}
-                keyExtractor={(item, index) => `${index}`}
-                // onEndReached={this.onLoadmore}
-                onEndReachedThreshold={0.5}
-                onMomentumScrollBegin={() => {
-                  this.onEndReachedCalledDuringMomentum = false;
+        <View>
+          <View style={styles.tabName}>
+            <Text style={styles.title}>{`${localize(
+              "Slide Banner",
+              language
+            )}`}</Text>
+          </View>
+          {listBanners.length > 0 ? (
+            //  RENDER WHEN LENGTH ITEM > 0
+            <View style={{ height: "92%" }}>
+              <View
+                style={{
+                  backgroundColor: "#FFF",
+                  marginTop: -1,
+                  paddingLeft: scaleSzie(15),
+                  height: "100%",
                 }}
-                removeClippedSubviews={true}
-                initialNumToRender={20}
-                maxToRenderPerBatch={5}
-                ListFooterComponent={() => (
-                  <View
-                    style={{
-                      height: scaleSzie(50),
-                      justifyContent: "center",
-                      marginBottom: scaleSzie(50),
-                    }}
-                  >
-                    {/* {isLoadMoreMarketList ? (
+              >
+                <FlatList
+                  data={isSelected ? imageSelect : listBanners}
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={this.state.refreshing}
+                      onRefresh={this.onRefresh}
+                    />
+                  }
+                  renderItem={({ item, index }) => (
+                    <ItemPhoto
+                      index={index}
+                      item={item}
+                      selectImage={this.selectImage}
+                      imageSelect={this.state.imageSelect}
+                      isSelected={this.state.isSelected}
+                      openImage={this.openImage}
+                    />
+                  )}
+                  ref={(ref) => {
+                    this.flatListRef = ref;
+                  }}
+                  numColumns={"5"}
+                  keyExtractor={(item, index) => `${index}`}
+                  // onEndReached={this.onLoadmore}
+                  onEndReachedThreshold={0.5}
+                  onMomentumScrollBegin={() => {
+                    this.onEndReachedCalledDuringMomentum = false;
+                  }}
+                  removeClippedSubviews={true}
+                  initialNumToRender={20}
+                  maxToRenderPerBatch={5}
+                  ListFooterComponent={() => (
+                    <View
+                      style={{
+                        height: scaleSzie(50),
+                        justifyContent: "center",
+                        marginBottom: scaleSzie(50),
+                      }}
+                    >
+                      {/* {isLoadMoreMarketList ? (
                     <ActivityIndicator size="large" color="#0764B0" />
                   ) : null} */}
-                  </View>
-                )}
-              />
-            </View>
-            <View style={styles.footer}>
-              <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity style={styles.btn} onPress={this.takePhoto}>
-                  <Image source={IMAGE.Ic_Camera_Small} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.btn}
-                  onPress={this.openImageLibrary}
-                >
-                  <Image source={IMAGE.Ic_Gallery_Small} />
-                </TouchableOpacity>
+                    </View>
+                  )}
+                />
               </View>
-              {this.state.isSelected ? (
-                <TouchableOpacity
-                  onPress={this.deleteBanner}
-                  style={[styles.btn, { marginRight: scaleSzie(15) }]}
-                >
-                  <Image source={IMAGE.Trash} />
-                </TouchableOpacity>
-              ) : null}
+              <View style={styles.footer}>
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity style={styles.btn} onPress={this.takePhoto}>
+                    <Image source={IMAGE.Ic_Camera_Small} />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.btn}
+                    onPress={this.openImageLibrary}
+                  >
+                    <Image source={IMAGE.Ic_Gallery_Small} />
+                  </TouchableOpacity>
+                </View>
+                {this.state.isSelected ? (
+                  <TouchableOpacity
+                    onPress={this.deleteBanner}
+                    style={[styles.btn, { marginRight: scaleSzie(15) }]}
+                  >
+                    <Image source={IMAGE.Trash} />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
             </View>
-          </View>
-        ) : (
+          ) : (
             //  RENDER WHEN LENGTH ITEM = 0
             <View style={styles.upload}>
               <View style={{ height: scaleSzie(70) }} />
               <Text style={styles.text}>
                 You have not uploaded any images yet
-            </Text>
+              </Text>
               <View style={{ height: scaleSzie(40) }} />
               <View style={{ flexDirection: "row" }}>
                 <TouchableOpacity
@@ -131,6 +136,66 @@ class Layout extends React.Component {
               </View>
             </View>
           )}
+        </View>
+        <Modal
+          visible={this.state.isvisible}
+          transparent={true}
+          onRequestClose={this.closeImage}
+        >
+          <ImageViewer
+            imageUrls={this.formatImageArr(listBanners)}
+            onSwipeDown={this.closeImage}
+            enableSwipeDown={true}
+            backgroundColor={"#2D2D2DC7"}
+            index={this.state.indexImage}
+            onChange={(index) => this.setIndex(index)}
+            saveToLocalByLongPress={false}
+            renderImage={(props) => (
+              <Image
+                {...props}
+                style={{
+                  height: "80%",
+                  marginVertical: "10%",
+                }}
+                resizeMode={"contain"}
+              />
+            )}
+            renderArrowLeft={() =>
+              this.state.indexImage === 0 ? (
+                <View style={{ marginHorizontal: 20, opacity: 0.5 }}>
+                  <Image source={IMAGE.ArrowLeft} />
+                </View>
+              ) : (
+                <TouchableOpacity
+                  style={{ marginHorizontal: 15 }}
+                  onPress={this.prevImage}
+                >
+                  <Image source={IMAGE.ArrowLeft} />
+                </TouchableOpacity>
+              )
+            }
+            renderArrowRight={() =>
+              this.state.indexImage === listBanners.length - 1 ? (
+                <View style={{ marginHorizontal: 20, opacity: 0.5 }}>
+                  <Image source={IMAGE.ArrowRight} />
+                </View>
+              ) : (
+                <TouchableOpacity
+                  style={{ marginHorizontal: 15 }}
+                  onPress={this.nextImage}
+                >
+                  <Image source={IMAGE.ArrowRight} />
+                </TouchableOpacity>
+              )
+            }
+          />
+          <TouchableOpacity style={styles.closeBtn} onPress={this.closeImage}>
+            <Image
+              style={styles.close}
+              source={IMAGE.close_appointment_popup}
+            />
+          </TouchableOpacity>
+        </Modal>
       </View>
     );
   }
