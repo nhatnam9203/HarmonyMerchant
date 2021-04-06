@@ -51,6 +51,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     const [value, setValue] = useState(0);
     const [customerSendSMSQuantity, setCustomerSendSMSQuantity] = useState(0);
     const [smsAmount, setSmsAmount] = useState("0.00");
+    const [smsMaxAmount, setSmsMaxAmount] = useState("0.00");
 
     const scrollRef = useRef(null);
 
@@ -58,7 +59,6 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     const servicesByMerchant = useSelector(state => state?.service?.servicesByMerchant || []);
     const promotionDetailById = useSelector(state => state?.marketing?.promotionDetailById || {});
     const smsInfoMarketing = useSelector(state => state?.marketing?.smsInfoMarketing || {});
-    // console.log("---- smsInfoMarketing: ", JSON.stringify(smsInfoMarketing));
 
     setStateFromParent((data = {}) => {
         setCustomerSendSMSQuantity(data?.customerSendSMSQuantity || 0);
@@ -81,10 +81,10 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     });
 
     useEffect(() => {
-        if(!_.isEmpty(smsInfoMarketing)){
+        if (!_.isEmpty(smsInfoMarketing)) {
             calculatorsmsMoney(value);
         }
-      
+
     }, [title, conditionServiceProductTags, actionTags])
 
     useEffect(() => {
@@ -292,26 +292,16 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     }
 
     calculatorsmsMoney = (tempValue) => {
-        // console.log("---- value: ", value);
-        // console.log("---- tempValue: ", tempValue);
-
         const smsCount = Math.ceil(tempValue * (smsInfoMarketing?.customerCount || 1));
         const smsLength = smsInfoMarketing?.smsLength || 0;
         const segment = smsInfoMarketing?.segment || 1;
-
-
-
         const allSMSWord = smsLength + (title?.length || 0) + (getConditionIdByTitle(condition) === 2 ? `${conditionServiceProductTags.join("")}`.length : 0) + (getShortNameForDiscountAction(actionCondition) === "specific" ? `${actionTags.join("")}`.length : 0);
-        // console.log("---- allSMSWord: ", allSMSWord);
         const smsMoney = roundFloatNumber(smsCount * Math.ceil(allSMSWord / 159) * segment);
-        // console.log("---- smsMoney: ", (smsCount * Math.ceil(allSMSWord / 159) * segment));
-        // console.log("---- smsMoney: ", smsMoney);
-        // console.log("---- smsCount: ", smsCount);
-
+        const smsMaxMoney = roundFloatNumber((smsInfoMarketing?.customerCount || 1) * Math.ceil(allSMSWord / 159) * segment);
 
         setSmsAmount(formatMoney(smsMoney));
         setCustomerSendSMSQuantity(smsCount);
-
+        setSmsMaxAmount(formatMoney(smsMaxMoney));
     }
 
     return (
@@ -563,7 +553,22 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                         </Text>
 
                         {/* -------------- Range Of Slider ----------------- */}
-                        <View style={{ paddingRight: scaleSzie(26), marginVertical: scaleSzie(40) }} >
+                        <View style={{
+                            paddingRight: scaleSzie(26),
+                            marginVertical: scaleSzie(30)
+                        }} >
+
+                            {/* -------------- Min Of Slider ----------------- */}
+
+                            <View style={{ height: scaleSzie(20), marginTop: scaleSzie(8), flexDirection: "row", justifyContent: "space-between" }} >
+                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "400", }} >
+                                    {`0`}
+                                </Text>
+
+                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "400", }} >
+                                    {`${smsInfoMarketing?.customerCount}`}
+                                </Text>
+                            </View>
 
                             <Slider
                                 value={value}
@@ -586,8 +591,21 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                                 }}
                                 minimumTrackTintColor="#0764B0"
                                 smsCount={customerSendSMSQuantity}
+                                smsMaxCount={smsInfoMarketing?.customerCount || 1}
                                 smsMoney={smsAmount}
+                                smsMaxMoney={smsMaxAmount}
                             />
+
+                            {/* -------------- Max Of Slider ----------------- */}
+                            <View style={{ height: scaleSzie(20), marginTop: scaleSzie(8), alignItems: "flex-end", flexDirection: "row", justifyContent: "space-between" }} >
+                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600", }} >
+                                    {`$ 0.00`}
+                                </Text>
+
+                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600", }} >
+                                    {`$${smsMaxAmount}`}
+                                </Text>
+                            </View>
 
                         </View>
 

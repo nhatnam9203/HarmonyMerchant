@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import PropTypes from 'prop-types';
 
-import { scaleSzie } from "@utils";
+import { scaleSzie,formatNumberFromCurrency } from "@utils";
 
 var TRACK_SIZE = 4;
 var THUMB_SIZE = 20;
@@ -221,9 +221,9 @@ export default class Slider extends PureComponent {
         const lengthOfCount = `${count}`.length;
         if (lengthOfCount < 3) {
             leftPosition = 5;
-        }else if(lengthOfCount ===3){
+        } else if (lengthOfCount === 3) {
             leftPosition = 0
-        }else{
+        } else {
             leftPosition = -6
         }
         return leftPosition;
@@ -264,6 +264,10 @@ export default class Slider extends PureComponent {
         };
 
         var touchOverflowStyle = this._getTouchOverflowStyle();
+        // formatNumberFromCurrency(this.props.smsMoney) != 0 && formatNumberFromCurrency(this.props.smsMoney)
+        console.log("-----this.props.smsMoney: ",this.props.smsMoney);
+        console.log("-----this.props.smsMaxMoney: ",this.props.smsMaxMoney);
+
 
         return (
             <View {...other} style={[mainStyles.container, style]} onLayout={this._measureContainer}>
@@ -289,28 +293,35 @@ export default class Slider extends PureComponent {
                         }
                     ]}
                 >
-                    <View style={{
-                        position: "absolute", top: -scaleSzie(29), minWidth: scaleSzie(60),
-                        left: scaleSzie(this.getLeftPositionOfCount(this.props.smsCount)) ,
-                    }} >
-                        <Text style={{
-                            color: "#0764B0", fontSize: scaleSzie(14), fontWeight: "400",
+                    {
+                        this.props.smsCount != "0" && this.props.smsCount != this.props.smsMaxCount && <View style={{
+                            position: "absolute", top: -scaleSzie(45), minWidth: scaleSzie(60),
+                            left: scaleSzie(this.getLeftPositionOfCount(this.props.smsCount)),
                         }} >
-                            {`${this.props.smsCount}`}
-                        </Text>
-                    </View>
+                            <Text style={{
+                                color: "#0764B0", fontSize: scaleSzie(14), fontWeight: "400",
+                            }} >
+                                {`${this.props.smsCount}`}
+                            </Text>
+                        </View> 
+                    }
+
 
                     {this._renderThumbImage()}
 
-                    <View style={{
-                        position: "absolute", top: scaleSzie(45), left: -scaleSzie(6), minWidth: scaleSzie(60)
-                    }} >
-                        <Text style={{
-                            color: "#0764B0", fontSize: scaleSzie(14), fontWeight: "600",
+                    {
+                       formatNumberFromCurrency(this.props.smsMoney) != 0 && formatNumberFromCurrency(this.props.smsMoney) != formatNumberFromCurrency(this.props.smsMaxMoney) && <View style={{
+                            position: "absolute", top: scaleSzie(56), left: -scaleSzie(6), minWidth: scaleSzie(60)
                         }} >
-                            {`$${this.props.smsMoney}`}
-                        </Text>
-                    </View>
+                            <Text style={{
+                                color: "#0764B0", fontSize: scaleSzie(14), fontWeight: "600",
+                            }} >
+                                {`$${this.props.smsMoney}`}
+                            </Text>
+                        </View>
+                    }
+
+
 
 
                 </Animated.View>
