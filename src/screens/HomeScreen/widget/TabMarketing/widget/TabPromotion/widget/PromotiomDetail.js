@@ -62,7 +62,6 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
 
     setStateFromParent((data = {}) => {
         setCustomerSendSMSQuantity(data?.customerSendSMSQuantity || 0);
-
         setIsHandleEdit(data?.id ? true : false);
         setPromotionId(data?.id || "");
         setTitle(data?.name);
