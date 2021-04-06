@@ -44,11 +44,8 @@ class TabPromotion extends Layout {
   }
 
   editCampaign = (campaign) => () => {
-    console.log(JSON.stringify(campaign));
-    this.props.actions.marketing.getSMSInformation(campaign?.conditionId);
-    this.props.actions.marketing.getPromotionDetailById(campaign?.id);
+    // console.log(JSON.stringify(campaign));
     this.goToPage(1);
-
     if (this.setStateToPromotiomDetail) {
       this.setStateToPromotiomDetail(campaign);
     } else {
@@ -56,8 +53,15 @@ class TabPromotion extends Layout {
         this.setStateToPromotiomDetail(campaign);
       }, 300)
     }
+
+    this.props.actions.marketing.getSMSInformation(campaign?.conditionId);
+    this.props.actions.marketing.getPromotionDetailById(campaign?.id);
   }
 
+  getSMSInformation = (conditionId) => {
+    console.log("----- getSMSInformation: ",conditionId);
+    this.props.actions.marketing.getSMSInformation(conditionId);
+  }
 
   disableCampaign = (campaign) => () => {
     this.props.actions.marketing.disablePromotionById(campaign?.id || 0);

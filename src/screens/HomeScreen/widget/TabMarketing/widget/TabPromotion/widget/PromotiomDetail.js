@@ -19,19 +19,14 @@ import Slider from "./Slider";
 import {
     scaleSzie, localize, WorkingTime, formatWithMoment, formatHourMinute, MARKETING_CONDITIONS, DISCOUNT_ACTION,
     getConditionIdByTitle, getShortNameForDiscountAction, getFormatTags, getConditionTitleIdById, getDiscountActionByShortName,
-    getTagInfoById,roundFloatNumber, formatMoney
+    getTagInfoById, roundFloatNumber, formatMoney
 } from '@utils';
 import ICON from '@resources';
 import { Button, Text, InputForm, Dropdown } from '@components';
 const { width } = Dimensions.get('window');
 
-const DATA = [
-    { code: 'AP', name: 'Andhra Pradesh' },
-    { code: 'AR', name: 'Arunachal Pradesh' },
-];
-
 const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updatePromotionById,
-    handleCreateNewCampaign
+    handleCreateNewCampaign, getSMSInformation
 }) => {
     const [promotionId, setPromotionId] = useState("");
     const [title, setTitle] = useState("");
@@ -54,7 +49,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     const [dynamicConditionMarginBottom, setDynamicConditionMarginBottom] = useState(24);
     const [dynamicActionTagsMarginBottom, setDynamicActionTagsMarginBottom] = useState(24);
     const [value, setValue] = useState(0);
-    const [customerCount, setCustomerCount] = useState(0);
+    const [customerSendSMSQuantity, setCustomerSendSMSQuantity] = useState(0);
 
     const scrollRef = useRef(null);
 
@@ -63,6 +58,28 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     const promotionDetailById = useSelector(state => state?.marketing?.promotionDetailById || {});
     const smsInfoMarketing = useSelector(state => state?.marketing?.smsInfoMarketing || {});
     // console.log("---- smsInfoMarketing: ", JSON.stringify(smsInfoMarketing));
+
+    setStateFromParent((data = {}) => {
+        setCustomerSendSMSQuantity(data?.customerSendSMSQuantity || 0);
+
+        setIsHandleEdit(data?.id ? true : false);
+        setPromotionId(data?.id || "");
+        setTitle(data?.name);
+        setStartDate(formatWithMoment(data?.fromDate || new Date(), "MM/DD/YYYY"));
+        setEndDate(formatWithMoment(data?.toDate || new Date(), "MM/DD/YYYY"));
+        setStartTime(data?.fromDate ? formatWithMoment(data?.fromDate, "hh:mm A") : "00:00 AM");
+        setEndTime(data?.toDate ? formatWithMoment(data?.toDate, "hh:mm A") : "00:00 AM");
+        setPromotionType(data?.promotionType || "percent");
+        setPromotionValue(data?.promotionValue || "");
+        setIsDisabled(data?.isDisabled ? false : true);
+        setCondition(getConditionTitleIdById(data?.conditionId || 1));
+        setActionCondition(getDiscountActionByShortName(data?.applyTo || "all"));
+        handleScroll(0, false)();
+
+        // console.log("------ setStateFromParent ------: ",data?.customerSendSMSQuantity);
+        
+    });
+
 
     useEffect(() => {
         const tempService = servicesByMerchant.map((service) => ({ value: service?.name || "", type: "Service", originalId: service?.serviceId || 0, id: `${service?.serviceId}_Service` }));
@@ -91,27 +108,15 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
             setActionTags(tempActionConditionTags);
             setNumberOfTimesApply(tempNumberOfTimesApply);
         }
-
-
     }, [promotionDetailById])
 
-    setStateFromParent((data = {}) => {
-        setIsHandleEdit(data?.id ? true : false);
-        setPromotionId(data?.id || "");
-        setTitle(data?.name);
-        setStartDate(formatWithMoment(data?.fromDate || new Date(), "MM/DD/YYYY"));
-        setEndDate(formatWithMoment(data?.toDate || new Date(), "MM/DD/YYYY"));
-        setStartTime(data?.fromDate ? formatWithMoment(data?.fromDate, "hh:mm A") : "00:00 AM");
-        setEndTime(data?.toDate ? formatWithMoment(data?.toDate, "hh:mm A") : "00:00 AM");
-        setPromotionType(data?.promotionType || "percent");
-        setPromotionValue(data?.promotionValue || "");
-        setIsDisabled(data?.isDisabled ? false : true);
-        setCondition(getConditionTitleIdById(data?.conditionId || 1));
-        setActionCondition(getDiscountActionByShortName(data?.applyTo || "all"));
-        handleScroll(0, false)();
-    });
+    useEffect(() => {
+        if (!_.isEmpty(smsInfoMarketing)) {
+            const customerCount = smsInfoMarketing?.customerCount || 1;
+            setValue(customerSendSMSQuantity / customerCount);
+        }
 
-
+    }, [smsInfoMarketing])
 
     const showDatePicker = (isChangeDate) => () => {
         setIsChangeDate(isChangeDate);
@@ -262,6 +267,9 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     handleSetCondition = (value) => {
         setCondition(value);
         setDynamicConditionMarginBottom(24);
+
+        getSMSInformation(getConditionIdByTitle(value));
+        // -------- dispatch action ------
     }
 
     handleSetActionCondition = (value) => {
@@ -278,12 +286,12 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         const smsLength = smsInfoMarketing?.smsLength || 0;
         const segment = smsInfoMarketing?.segment || 1;
 
-        const allSMSWord = smsLength+ title.length + (getConditionIdByTitle(condition) === 2 ? `${conditionServiceProductTags.join("")}`.length : 0 )  + (getShortNameForDiscountAction(actionCondition) === "specific" ? `${actionTags.join("")}`.length : 0)  ;
-        const smsMoney =roundFloatNumber(smsCount * Math.ceil(allSMSWord/159) *segment);
+        const allSMSWord = smsLength + (title?.length || 0) + (getConditionIdByTitle(condition) === 2 ? `${conditionServiceProductTags.join("")}`.length : 0) + (getShortNameForDiscountAction(actionCondition) === "specific" ? `${actionTags.join("")}`.length : 0);
+        const smsMoney = roundFloatNumber(smsCount * Math.ceil(allSMSWord / 159) * segment);
 
-        return  {
+        return {
             smsMoney: formatMoney(smsMoney),
-            smsCount:smsCount
+            smsCount: smsCount
         };
     }
 
