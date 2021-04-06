@@ -53,9 +53,10 @@ class TabPromotion extends Layout {
         this.setStateToPromotiomDetail(campaign);
       }, 300)
     }
-
-    this.props.actions.marketing.getSMSInformation(campaign?.conditionId);
     this.props.actions.marketing.getPromotionDetailById(campaign?.id);
+    setTimeout(() =>{
+      this.props.actions.marketing.getSMSInformation(campaign?.conditionId);
+    },300)
   }
 
   getSMSInformation = (conditionId) => {

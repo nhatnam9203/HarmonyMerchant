@@ -50,6 +50,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     const [dynamicActionTagsMarginBottom, setDynamicActionTagsMarginBottom] = useState(24);
     const [value, setValue] = useState(0);
     const [customerSendSMSQuantity, setCustomerSendSMSQuantity] = useState(0);
+    const [smsAmount, setSmsAmount] = useState("0.00");
 
     const scrollRef = useRef(null);
 
@@ -77,9 +78,15 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         handleScroll(0, false)();
 
         // console.log("------ setStateFromParent ------: ",data?.customerSendSMSQuantity);
-        
+
     });
 
+    useEffect(() => {
+        if(!_.isEmpty(smsInfoMarketing)){
+            calculatorsmsMoney(value);
+        }
+      
+    }, [title, conditionServiceProductTags, actionTags])
 
     useEffect(() => {
         const tempService = servicesByMerchant.map((service) => ({ value: service?.name || "", type: "Service", originalId: service?.serviceId || 0, id: `${service?.serviceId}_Service` }));
@@ -113,7 +120,9 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     useEffect(() => {
         if (!_.isEmpty(smsInfoMarketing)) {
             const customerCount = smsInfoMarketing?.customerCount || 1;
-            setValue(customerSendSMSQuantity / customerCount);
+            const tempValue = customerSendSMSQuantity / customerCount;
+            setValue(tempValue);
+            calculatorsmsMoney(tempValue);
         }
 
     }, [smsInfoMarketing])
@@ -178,6 +187,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
             }
         }
         setConditionServiceProductTags(tempData);
+
     }
 
 
@@ -215,8 +225,8 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
             promotionType: promotionType,
             promotionValue: `${promotionValue || 0.00}`,
             isDisabled: isDisabled ? 0 : 1,
-            smsAmount: calculatorsmsMoney()?.smsMoney,
-            customerSendSMSQuantity: calculatorsmsMoney()?.smsCount
+            smsAmount: smsAmount,
+            customerSendSMSQuantity: customerSendSMSQuantity
         };
 
         // ------------ Check Valid ---------
@@ -244,7 +254,6 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
             isValid = false;
         }
 
-        console.log(promotionValue);
         if (isValid) {
             isHandleEdit ? updatePromotionById(promotionId, campaign) : handleCreateNewCampaign(campaign);
 
@@ -267,9 +276,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     handleSetCondition = (value) => {
         setCondition(value);
         setDynamicConditionMarginBottom(24);
-
         getSMSInformation(getConditionIdByTitle(value));
-        // -------- dispatch action ------
     }
 
     handleSetActionCondition = (value) => {
@@ -279,20 +286,35 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
 
     hanldeSliderValue = (value) => {
         setValue(value);
+        calculatorsmsMoney(value);
     }
 
-    calculatorsmsMoney = () => {
-        const smsCount = Math.ceil(value * (smsInfoMarketing?.customerCount || 1));
+    handleSetCampaignName = (title) => {
+        setTitle(title);
+        // calculatorsmsMoney(value);
+    }
+
+    calculatorsmsMoney = (tempValue) => {
+        // console.log("---- value: ", value);
+        // console.log("---- tempValue: ", tempValue);
+
+        const smsCount = Math.ceil(tempValue * (smsInfoMarketing?.customerCount || 1));
         const smsLength = smsInfoMarketing?.smsLength || 0;
         const segment = smsInfoMarketing?.segment || 1;
 
-        const allSMSWord = smsLength + (title?.length || 0) + (getConditionIdByTitle(condition) === 2 ? `${conditionServiceProductTags.join("")}`.length : 0) + (getShortNameForDiscountAction(actionCondition) === "specific" ? `${actionTags.join("")}`.length : 0);
-        const smsMoney = roundFloatNumber(smsCount * Math.ceil(allSMSWord / 159) * segment);
 
-        return {
-            smsMoney: formatMoney(smsMoney),
-            smsCount: smsCount
-        };
+
+        const allSMSWord = smsLength + (title?.length || 0) + (getConditionIdByTitle(condition) === 2 ? `${conditionServiceProductTags.join("")}`.length : 0) + (getShortNameForDiscountAction(actionCondition) === "specific" ? `${actionTags.join("")}`.length : 0);
+        // console.log("---- allSMSWord: ", allSMSWord);
+        const smsMoney = roundFloatNumber(smsCount * Math.ceil(allSMSWord / 159) * segment);
+        // console.log("---- smsMoney: ", (smsCount * Math.ceil(allSMSWord / 159) * segment));
+        // console.log("---- smsMoney: ", smsMoney);
+        // console.log("---- smsCount: ", smsCount);
+
+
+        setSmsAmount(formatMoney(smsMoney));
+        setCustomerSendSMSQuantity(smsCount);
+
     }
 
     return (
@@ -312,7 +334,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                     subTitle=""
                     placeholder="Campaign name"
                     value={title}
-                    onChangeText={setTitle}
+                    onChangeText={handleSetCampaignName}
                     style={{ marginBottom: scaleSzie(10) }}
                     styleTitle={{ fontSize: scaleSzie(14), fontWeight: "600", marginBottom: scaleSzie(5) }}
                     styleInputText={{ fontSize: scaleSzie(13) }}
@@ -566,8 +588,8 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                                     })
                                 }}
                                 minimumTrackTintColor="#0764B0"
-                                smsCount={calculatorsmsMoney()?.smsCount}
-                                smsMoney={calculatorsmsMoney()?.smsMoney}
+                                smsCount={customerSendSMSQuantity}
+                                smsMoney={smsAmount}
                             />
 
                         </View>
