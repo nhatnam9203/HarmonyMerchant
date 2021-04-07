@@ -49,7 +49,7 @@ RCT_EXPORT_METHOD(reportTransaction:(NSDictionary *)reportInfo findEventsWithRes
  reportRequest.PaymentType = [ReportRequest ParsePaymentType:reportInfo[@"paymentType"]];
   
   reportRequest.RecordNum = @"";
-  reportRequest.RefNum = @"";
+  reportRequest.RefNum = reportInfo[@"refNum"];
   reportRequest.AuthCode = @"";
   reportRequest.ECRRefNum = @"";
   reportRequest.SAFIndicator = @"";

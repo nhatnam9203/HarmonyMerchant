@@ -1102,7 +1102,7 @@ class TabCheckout extends Layout {
         const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
         const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
 
-        console.log("------ groupAppointment: ", JSON.stringify(groupAppointment));
+        // console.log("------ groupAppointment: ", JSON.stringify(groupAppointment));
         // 1. Show modal processing 
         await this.setState({
             visibleProcessingCredit: true
