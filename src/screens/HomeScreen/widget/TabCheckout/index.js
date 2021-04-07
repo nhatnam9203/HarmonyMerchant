@@ -1097,11 +1097,12 @@ class TabCheckout extends Layout {
     }
 
     sendTransToPaxMachine = async () => {
-        const { paxMachineInfo, isTipOnPaxMachine, paxAmount, amountCredtitForSubmitToServer, bluetoothPaxInfo } = this.props;
+        const { paxMachineInfo, isTipOnPaxMachine, paxAmount, amountCredtitForSubmitToServer, bluetoothPaxInfo, groupAppointment } = this.props;
         const { paymentSelected } = this.state;
         const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
         const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
 
+        console.log("------ groupAppointment: ", JSON.stringify(groupAppointment));
         // 1. Show modal processing 
         await this.setState({
             visibleProcessingCredit: true
@@ -1123,7 +1124,8 @@ class TabCheckout extends Layout {
             destIp: tempIpPax,
             portDevice: tempPortPax,
             timeoutConnect: "90000",
-            bluetoothAddr: idBluetooth
+            bluetoothAddr: idBluetooth,
+            invNum: `${groupAppointment?.checkoutGroupId || 0}` 
         }, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer))
     }
 

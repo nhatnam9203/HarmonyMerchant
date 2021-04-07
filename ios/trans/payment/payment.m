@@ -61,7 +61,7 @@ RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo callback:(RCTRespo
    paymentRequest.SurchargeAmt = @"";
    paymentRequest.PONum = @"";
    paymentRequest.OrigRefNum = @"";
-   paymentRequest.InvNum = @"";
+  paymentRequest.InvNum = paymentInfo[@"invNum"];
   paymentRequest.ECRRefNum = paymentInfo[@"transactionId"];
    paymentRequest.ECRTransID = @"";
    paymentRequest.AuthCode = @"";

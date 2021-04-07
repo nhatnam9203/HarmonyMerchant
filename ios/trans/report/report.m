@@ -75,6 +75,36 @@ RCT_EXPORT_METHOD(reportTransaction:(NSDictionary *)reportInfo findEventsWithRes
           @"CreditCount" : poslink.reportResponse.CreditCount ? poslink.reportResponse.CreditCount : @"" ,
           @"CreditAmount" : poslink.reportResponse.CreditAmount ? poslink.reportResponse.CreditAmount : @"" ,
           @"ExtData" : poslink.reportResponse.ExtData ? poslink.reportResponse.ExtData : @"" ,
+          
+          @"InvNum" : poslink.reportResponse.InvNum ? poslink.reportResponse.InvNum : @"" ,
+          @"EDCType" : poslink.reportResponse.EDCType ? poslink.reportResponse.EDCType : @"" ,
+          @"RecordNumber" : poslink.reportResponse.RecordNumber ? poslink.reportResponse.RecordNumber : @"" ,
+          @"PaymentType" : poslink.reportResponse.PaymentType ? poslink.reportResponse.PaymentType : @"" ,
+          @"OrigPaymentType" : poslink.reportResponse.OrigPaymentType ? poslink.reportResponse.OrigPaymentType : @"" ,
+          @"HostTraceNum" : poslink.reportResponse.HostTraceNum ? poslink.reportResponse.HostTraceNum : @"" ,
+          @"BatchNum" : poslink.reportResponse.BatchNum ? poslink.reportResponse.BatchNum : @"" ,
+          @"AuthCode" : poslink.reportResponse.AuthCode ? poslink.reportResponse.AuthCode : @"" ,
+          @"HostCode" : poslink.reportResponse.HostCode ? poslink.reportResponse.HostCode : @"" ,
+          @"HostResponse" : poslink.reportResponse.HostResponse ? poslink.reportResponse.HostResponse : @"" ,
+          @"RemainingBalance" : poslink.reportResponse.RemainingBalance ? poslink.reportResponse.RemainingBalance : @"" ,
+          @"ExtraBalance" : poslink.reportResponse.ExtraBalance ? poslink.reportResponse.ExtraBalance : @"" ,
+          @"BogusAccountNum" : poslink.reportResponse.BogusAccountNum ? poslink.reportResponse.BogusAccountNum : @"" ,
+          @"CardType" : poslink.reportResponse.CardType ? poslink.reportResponse.CardType : @"" ,
+          @"CvResponse" : poslink.reportResponse.CvResponse ? poslink.reportResponse.CvResponse : @"" ,
+          @"RefNum" : poslink.reportResponse.RefNum ? poslink.reportResponse.RefNum : @"" ,
+          @"ECRRefNum" : poslink.reportResponse.ECRRefNum ? poslink.reportResponse.ECRRefNum : @"" ,
+          @"Timestamp" : poslink.reportResponse.Timestamp ? poslink.reportResponse.Timestamp : @"" ,
+          @"ClerkID" : poslink.reportResponse.ClerkID ? poslink.reportResponse.ClerkID : @"" ,
+          @"ShiftID" : poslink.reportResponse.ShiftID ? poslink.reportResponse.ShiftID : @"" ,
+          @"ReportType" : poslink.reportResponse.ReportType ? poslink.reportResponse.ReportType : @"" ,
+          @"DebitCount" : poslink.reportResponse.DebitCount ? poslink.reportResponse.DebitCount : @"" ,
+          @"DebitAmount" : poslink.reportResponse.DebitAmount ? poslink.reportResponse.DebitAmount : @"" ,
+          @"TransTotal" : poslink.reportResponse.TransTotal ? poslink.reportResponse.TransTotal : @"" ,
+          @"TransactionIdentifier" : poslink.reportResponse.TransactionIdentifier ? poslink.reportResponse.TransactionIdentifier : @"" ,
+          @"TranIntgClass" : poslink.reportResponse.TranIntgClass ? poslink.reportResponse.TranIntgClass : @"" ,
+          @"TransactionRemainingAmount" : poslink.reportResponse.TransactionRemainingAmount ? poslink.reportResponse.TransactionRemainingAmount : @"" ,
+          
+          
         };
         
         NSString  *result =  [self convertObjectToJson:dataSuccess ] ;

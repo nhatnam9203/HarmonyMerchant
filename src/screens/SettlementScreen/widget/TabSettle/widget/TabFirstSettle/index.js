@@ -210,6 +210,7 @@ class TabFirstSettle extends Layout {
                     bluetoothAddr: idBluetooth
                 });
                 let result = JSON.parse(data);
+                console.log(JSON.stringify(result));
                 const ExtData = result?.ExtData || "";
                 const xmlExtData = "<xml>" + ExtData.replace("\\n", "").replace("\\/", "/") + "</xml>";
 
@@ -242,6 +243,7 @@ class TabFirstSettle extends Layout {
                             bluetoothAddr: idBluetooth
                         });
                         let amountResult = JSON.parse(amountData);
+                        console.log("LOCALTOTALREPORT: ",JSON.stringify(amountResult));
                         totalReport = parseFloat(amountResult?.CreditAmount || 0);
 
                         parseString(xmlExtData, (err, result) => {

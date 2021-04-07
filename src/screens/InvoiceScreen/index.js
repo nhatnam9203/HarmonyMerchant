@@ -80,7 +80,7 @@ class InvoiceScreen extends Layout {
                 } else {
                     this.props.actions.invoice.toggleInvoiceTabPermission();
                 }
-               
+
             }
         );
     }
@@ -248,7 +248,7 @@ class InvoiceScreen extends Layout {
         const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
 
         if (invoiceDetail.paymentMethod === "credit_card") {
-            const paymentInformation =invoiceDetail?.paymentInformation[0]?.responseData || {};
+            const paymentInformation = invoiceDetail?.paymentInformation[0]?.responseData || {};
 
             if (!_.isEmpty(paymentInformation)) {
                 await this.setState({
@@ -319,7 +319,8 @@ class InvoiceScreen extends Layout {
                             destIp: tempIpPax,
                             portDevice: tempPortPax,
                             timeoutConnect: "90000",
-                            bluetoothAddr: idBluetooth
+                            bluetoothAddr: idBluetooth,
+                            invNum: ``
                         }, (data) => this.handleResultRefundTransaction(data));
 
                     } else if (invoiceDetail.status === 'complete') {
@@ -334,7 +335,8 @@ class InvoiceScreen extends Layout {
                             destIp: tempIpPax,
                             portDevice: tempPortPax,
                             timeoutConnect: "90000",
-                            bluetoothAddr: idBluetooth
+                            bluetoothAddr: idBluetooth,
+                            invNum: ''
                         }, (data) => this.handleResultVoidTransaction(data));
                     }
                 }
@@ -615,10 +617,10 @@ class InvoiceScreen extends Layout {
     clearIntervalById = () => {
         const { notiIntervalId } = this.props;
         if (notiIntervalId) {
-          clearInterval(notiIntervalId);
-          this.props.actions.app.resetNotiIntervalId();
+            clearInterval(notiIntervalId);
+            this.props.actions.app.resetNotiIntervalId();
         }
-      }
+    }
 
     componentWillUnmount() {
         this.didBlurSubscription?.remove();
