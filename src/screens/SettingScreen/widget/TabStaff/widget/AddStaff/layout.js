@@ -56,7 +56,7 @@ class Layout extends React.Component {
       ? infoStaffHandle.productSalaries
       : this.state.productSalary;
 
-    console.log("---- infoStaffHandle: ", JSON.stringify(infoStaffHandle));
+    // console.log("---- infoStaffHandle: ", JSON.stringify(infoStaffHandle));
 
     const perHour_ServiceSalary = temptDataSalary["perHour"] ? temptDataSalary["perHour"] : { value: 0, isCheck: false };
     const commision_ServiceSalary = temptDataSalary["commission"] ? temptDataSalary["commission"] : { value: 0, isCheck: false };

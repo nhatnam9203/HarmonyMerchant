@@ -101,48 +101,6 @@ class TabSecondSettle extends Layout {
         })
     }
 
-    settle_11 = async () => {
-        const { settleWaiting, paxMachineInfo } = this.props;
-        const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
-        const { creditCount } = this.state;
-
-        const paymentTransaction = settleWaiting?.paymentTransaction?.length || 0;
-        if (creditCount == paymentTransaction) {
-            const tempIpPax = commType == "TCP" ? ip : "";
-            const tempPortPax = commType == "TCP" ? port : "";
-            const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
-
-            const responseData = [];
-            try {
-                for (let i = 1; i <= creditCount; i++) {
-                    let data = await PosLinkReport.reportTransaction({
-                        transType: "LOCALDETAILREPORT",
-                        edcType: "ALL",
-                        cardType: "",
-                        paymentType: "",
-                        commType: commType,
-                        destIp: tempIpPax,
-                        portDevice: tempPortPax,
-                        timeoutConnect: "90000",
-                        bluetoothAddr: idBluetooth,
-                        refNum: `${i}`
-                    });
-                    let result = JSON.parse(data);
-                    responseArray.push(result);
-                    console.log(responseArray);
-                }
-            } catch (error) {
-                console.log("---- error: ", error);
-
-            }
-        } else {
-            console.log("----- not match ");
-            console.log("creditCount: ", creditCount);
-            console.log("creditCount: ", creditCount);
-        }
-
-    }
-
     settle = async () => {
         const { paxMachineInfo, settleWaiting } = this.props;
         const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
@@ -174,7 +132,7 @@ class TabSecondSettle extends Layout {
                 const paymentTransaction = settleWaiting?.paymentTransaction?.length || 0;
                 const responseData = [];
 
-                if (creditCount == paymentTransaction) {
+                if (creditCount != paymentTransaction) {
                     this.props.actions.app.loadingApp();
                     try {
                         for (let i = 1; i <= creditCount; i++) {
@@ -272,7 +230,8 @@ class TabSecondSettle extends Layout {
 
     settleSuccsess = async () => {
         await this.setState({
-            progress: 1
+            progress: 1,
+            creditCount: 0
         });
 
         setTimeout(() => {
