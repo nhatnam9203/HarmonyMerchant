@@ -494,7 +494,6 @@ class HomeScreen extends Layout {
     }
 
     getItem = (data, index) => {
-        // console.log("----- getItem: ",data);
         return {
             ...data[index],
             id: `${data[index]?.merchantNotificationId}_${Math.random().toString(12).substring(0)}`,

@@ -6,7 +6,8 @@ import {
     FlatList,
     ScrollView,
     ActivityIndicator,
-    Platform
+    Platform,
+    VirtualizedList
 } from 'react-native';
 import _ from 'ramda';
 import Dash from 'react-native-dash';
@@ -33,7 +34,7 @@ export default class Layout extends React.Component {
                 height: scaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSzie(50),
                 justifyContent: 'center'
             }} >
-                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0',fontWeight:"600" }} >
+                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0', fontWeight: "600" }} >
                     {localize('Invoice', language)}
                 </Text>
             </View>
@@ -550,7 +551,7 @@ export default class Layout extends React.Component {
                     </View>
                     <View style={{ flex: 1 }} >
                         {/* ----- Item Invoice ----- */}
-                        <FlatList
+                        <VirtualizedList
                             data={listInvoicesByMerchant}
                             renderItem={({ item, index }) => <ItemInvoice
                                 ref={this.setListInvoiceRef}
@@ -569,7 +570,7 @@ export default class Layout extends React.Component {
                             onEndReachedThreshold={0.1}
                             onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
                             removeClippedSubviews={true}
-                            initialNumToRender={20}
+                            initialNumToRender={10}
                             maxToRenderPerBatch={5}
                             ListFooterComponent={() => <View style={{ height: scaleSzie(30), alignItems: "center", justifyContent: "center" }} >
                                 {
@@ -579,6 +580,9 @@ export default class Layout extends React.Component {
                                     /> : null
                                 }
                             </View>}
+
+                            getItemCount={this.getItemCount}
+                            getItem={this.getItem}
                         />
                     </View>
                 </View>

@@ -223,13 +223,23 @@ class InvoiceScreen extends Layout {
     }
 
     loadMoreInvoiceList = ({ distanceFromEnd }) => {
-        console.log("----- distanceFromEnd: ",distanceFromEnd);
         if (!this.onEndReachedCalledDuringMomentum) {
             const { totalPages, currentPage } = this.props;
             if (currentPage < totalPages) {
                 this.searchInvoice(parseInt(currentPage + 1), false, true)
                 this.onEndReachedCalledDuringMomentum = true;
             }
+        }
+    }
+
+    getItemCount = (data) => {
+        return data?.length;
+    }
+
+    getItem = (data, index) => {
+        return {
+            ...data[index],
+            id: `${data[index]?.checkoutId}_${Math.random().toString(12).substring(0)}`,
         }
     }
 
