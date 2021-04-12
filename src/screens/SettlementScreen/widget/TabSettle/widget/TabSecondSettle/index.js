@@ -7,32 +7,38 @@ const PosLink = NativeModules.batch;
 const PosLinkReport = NativeModules.report;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
+const INIT_STATE = {
+    numberFooter: 1,
+    progress: 0,
+    creditCount: 0,
+    creditAmount: 0,
+    settleTotal: {
+        paymentByHarmony: 0.00,
+        paymentByCreditCard: 0.00,
+        paymentByCash: 0.00,
+        otherPayment: 0.00,
+        discount: 0.00,
+        total: 0.00,
+        note: ``,
+        paymentByCashStatistic: 0.00,
+        otherPaymentStatistic: 0.00,
+        paymentByGiftcard: 0.00,
+        terminalID: null
+
+    },
+    errorMessage: '',
+    paxErrorMessage: ''
+}
+
 class TabSecondSettle extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = {
-            numberFooter: 1,
-            progress: 0,
-            creditCount: 0,
-            creditAmount: 0,
-            settleTotal: {
-                paymentByHarmony: 0.00,
-                paymentByCreditCard: 0.00,
-                paymentByCash: 0.00,
-                otherPayment: 0.00,
-                discount: 0.00,
-                total: 0.00,
-                note: ``,
-                paymentByCashStatistic: 0.00,
-                otherPaymentStatistic: 0.00,
-                paymentByGiftcard: 0.00,
-                terminalID: null
+        this.state = INIT_STATE;
+    }
 
-            },
-            errorMessage: '',
-            paxErrorMessage: ''
-        };
+    resetStateFromParent = () => {
+        this.setState(INIT_STATE)
     }
 
     setStateFromParent = async (settleTotal, creditCount) => {
@@ -103,9 +109,9 @@ class TabSecondSettle extends Layout {
     settle = async () => {
         const { paxMachineInfo, settleWaiting } = this.props;
         const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
-        const { creditCount } = this.state;
+        const { creditCount, settleTotal } = this.state;
 
-        if (isSetup) {
+        if (isSetup && settleTotal?.terminalID) {
             await this.setState({
                 numberFooter: 2,
                 errorMessage: '',
@@ -172,7 +178,7 @@ class TabSecondSettle extends Layout {
 
         } else {
             Alert.alert(
-                'Unable to connect to PAX, Do you want to continue without PAX?',
+                'Unable to connect to PAX or not found any transaction on your PAX, Do you want to continue without PAX?',
                 '',
                 [
                     {

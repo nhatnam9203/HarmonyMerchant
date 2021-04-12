@@ -190,8 +190,8 @@ class PopupDiscount extends React.Component {
                                     {
                                         discount.map((promo, index) => <ItemCampaign
                                             key={index}
-                                            title={promo.merchantPromotion.campaignName}
-                                            discount={promo.discount}
+                                            title={promo?.merchantPromotion?.name}
+                                            discount={promo?.discount}
                                         />
                                         )
                                     }

@@ -20,7 +20,8 @@ class TabSettle extends Layout {
 
     onDidFocus = () => {
         this.scrollTabRef.current.goToPage(0);
-        this.tabFirstSettleRef.current.setStateFromParent();
+        this.tabFirstSettleRef?.current?.setStateFromParent();
+        this.tabsecondSettleRef?.current?.resetStateFromParent();
     }
 
     gotoTabSecondSettle = (settlement, creditCount) => {

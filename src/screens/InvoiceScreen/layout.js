@@ -168,8 +168,6 @@ export default class Layout extends React.Component {
         } catch (error) {
             isDebitPayment = false;
         }
-
-
         if (status === 'paid' && !isDebitPayment) {
             return (
                 <ButtonCustom
