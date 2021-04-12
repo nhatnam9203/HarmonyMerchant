@@ -303,6 +303,7 @@ class InvoiceScreen extends Layout {
                     const amount = paymentInformation?.ApprovedAmount || 0;
                     const transactionId = paymentInformation?.RefNum || 0;
                     const extData = paymentInformation?.ExtData || "";
+                    const invNum = paymentInformation?.InvNum || "";
                     const tempIpPax = commType == "TCP" ? ip : "";
                     const tempPortPax = commType == "TCP" ? port : "";
                     const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
@@ -320,7 +321,7 @@ class InvoiceScreen extends Layout {
                             portDevice: tempPortPax,
                             timeoutConnect: "90000",
                             bluetoothAddr: idBluetooth,
-                            invNum: ``
+                            invNum: `${invNum}`
                         }, (data) => this.handleResultRefundTransaction(data));
 
                     } else if (invoiceDetail.status === 'complete') {
@@ -336,7 +337,7 @@ class InvoiceScreen extends Layout {
                             portDevice: tempPortPax,
                             timeoutConnect: "90000",
                             bluetoothAddr: idBluetooth,
-                            invNum: ''
+                            invNum: `${invNum}`
                         }, (data) => this.handleResultVoidTransaction(data));
                     }
                 }
