@@ -9,28 +9,6 @@ import { scaleSzie, formatWithMoment } from '@utils';
 
 class ItemInvoice extends React.Component {
 
-    _isMounted = false;
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            isSelected: false
-        }
-    }
-
-    componentDidMount() {
-        this._isMounted = true;
-    }
-
-    setStateFromParent = isSlect => {
-        if (this._isMounted) {
-            this.setState({
-                isSelected: isSlect
-            });
-        };
-
-    }
-
     getColorStatus(status) {
         let color = '';
         switch (status) {
@@ -49,21 +27,15 @@ class ItemInvoice extends React.Component {
         return color;
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        const { invoice } = this.props;
-        const { isSelected } = this.state
-        return invoice.code !== nextProps.invoice.code || isSelected !== nextState.isSelected ||
-            invoice.status !== nextProps.invoice.status || invoice.createdDate !== nextProps.createdDate;
-    }
 
     render() {
-        const { invoice, onPress } = this.props;
+        const { invoice, onPress , isSelectedInvoice} = this.props;
         const { user } = invoice;
         const tempDate = `${formatWithMoment(invoice.createdDate, 'MM/DD/YYYY')}` === `${formatWithMoment(new Date(), 'MM/DD/YYYY')}` ? 'Today' : formatWithMoment(invoice.createdDate, 'MM/DD/YYYY');
         const temptFirstName = user ? user.firstName : '';
         const temptLastName = user ? user.lastName : '';
         const colorStaus = this.getColorStatus(invoice.status);
-        const temptBackground = this.state.isSelected ? { backgroundColor: 'rgb(225,246,254)' } : {};
+        const temptBackground = isSelectedInvoice ? { backgroundColor: 'rgb(225,246,254)' } : {};
         const settlementId = invoice.settlementId ? invoice.settlementId : 0;
 
         return (
@@ -121,9 +93,6 @@ class ItemInvoice extends React.Component {
         );
     }
 
-    componentWillUnmount() {
-        this._isMounted = false;
-    }
 }
 
 

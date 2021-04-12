@@ -970,7 +970,7 @@ export const getQuickFilterStringInvoice = (type) => {
 
 export const getStaffNameForInvoice = (profileStaffLogin = {}, basket = []) => {
 
-    const staffNameLogin = profileStaffLogin.displayName ? profileStaffLogin.displayName : "";
+    // const staffNameLogin = profileStaffLogin.displayName ? profileStaffLogin.displayName : "";
 
     let staffArr = [];
     for (let i = 0; i < basket.length; i++) {
@@ -981,7 +981,7 @@ export const getStaffNameForInvoice = (profileStaffLogin = {}, basket = []) => {
     }
 
     const staffs = [...new Set(staffArr)];
-    return staffs.length > 0 ? staffs.join(", ") : staffNameLogin;
+    return staffs.length > 0 ? staffs.join(", ") : '';
 }
 
 export const hideCharactes = (str, numShow = 4) => {

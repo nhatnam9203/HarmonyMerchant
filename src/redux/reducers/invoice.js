@@ -42,7 +42,7 @@ const initialState = {
     settlementTotalPages: 0,
     isLoadMoreTransSettlement: false,
 
-    invoiceDetail:{}
+    invoiceDetail: {}
 }
 
 function invoiceReducer(state = initialState, action) {
@@ -270,11 +270,16 @@ function invoiceReducer(state = initialState, action) {
                 ...state,
                 gitfCardSalesBySettlementId: action.payload
             }
-            case 'GET_INVOICE_DETAIL_SUCCESS':
-                return {
-                    ...state,
-                    invoiceDetail: action.payload
-                }
+        case 'GET_INVOICE_DETAIL_SUCCESS':
+            return {
+                ...state,
+                invoiceDetail: action.payload
+            }
+        case 'RESET_INVOICE_DETAIL_STATE':
+            return {
+                ...state,
+                invoiceDetail: {}
+            }
         case 'LOGOUT_APP':
             return {
                 ...initialState,

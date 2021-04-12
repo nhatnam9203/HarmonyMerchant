@@ -255,3 +255,9 @@ export function getInvoiceDetail(checkoutId = 0) {
         api: `${apiConfigs.BASE_API}checkout/${checkoutId}`,
     }
 }
+
+export function resetInvoiceDetailState() {
+    return {
+        type: 'RESET_INVOICE_DETAIL_STATE',
+    }
+}

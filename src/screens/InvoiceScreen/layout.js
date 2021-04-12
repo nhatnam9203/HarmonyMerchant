@@ -202,13 +202,14 @@ export default class Layout extends React.Component {
     }
 
     renderDetailInvoice() {
-        const { profile, profileStaffLogin, invoiceDetail} = this.props;
+        const { profile, profileStaffLogin, invoiceDetail } = this.props;
         const basket = this.convertBasket(invoiceDetail?.basket || []);
         const checkoutPayments = invoiceDetail?.checkoutPayments?.slice(0).reverse() || [];
         const refundAmount = invoiceDetail?.refundAmount || 0.00;
         const promotionNotes = invoiceDetail?.promotionNotes?.note || "";
         const tempStyle = Platform.OS === "android" ? { paddingHorizontal: scaleSzie(10), backgroundColor: '#FFFFFF' } : { paddingHorizontal: scaleSzie(10) };
-        const status= invoiceDetail?.status || '';
+        const status = invoiceDetail?.status || '';
+        const checkoutId = invoiceDetail?.checkoutId || '';
 
         return (
             <View style={{ flex: 1 }} >
@@ -293,7 +294,10 @@ export default class Layout extends React.Component {
                                 </View>
                                 <View style={{ flex: 1 }} >
                                     <Text style={styles.txt_info} >
-                                        {`: # ${invoiceDetail?.checkoutId || ''}`}
+                                       
+                                        {
+                                            checkoutId ? `: # ${checkoutId}` : ':'
+                                        }
                                     </Text>
                                 </View>
                             </View>
@@ -469,7 +473,7 @@ export default class Layout extends React.Component {
 
     renderHistoryInvoice() {
         const { language, invoiceDetail } = this.props;
-        const promotionNotes =  invoiceDetail?.promotionNotes?.note  || "";
+        const promotionNotes = invoiceDetail?.promotionNotes?.note || "";
         const history = invoiceDetail?.history || [];
 
         return (
@@ -550,9 +554,9 @@ export default class Layout extends React.Component {
                         <VirtualizedList
                             data={listInvoicesByMerchant}
                             renderItem={({ item, index }) => <ItemInvoice
-                                ref={this.setListInvoiceRef}
                                 invoice={item}
                                 onPress={this.setInvoiceDetail(item)}
+                                isSelectedInvoice={item?.checkoutId === invoiceDetail?.checkoutId}
                             />}
                             keyExtractor={(item, index) => `${item.checkoutId}`}
                             onRefresh={this.onRefreshInvoiceList}
