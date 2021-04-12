@@ -6,33 +6,28 @@ import {
     StyleSheet,
     FlatList,
     ScrollView,
-    Switch
+    Switch,
+    Platform
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextInputMask } from 'react-native-masked-text';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import _ from "ramda";
 import DropdownSearch from "./DropdownSearch";
+import Slider from "./Slider";
 
 import {
     scaleSzie, localize, WorkingTime, formatWithMoment, formatHourMinute, MARKETING_CONDITIONS, DISCOUNT_ACTION,
     getConditionIdByTitle, getShortNameForDiscountAction, getFormatTags, getConditionTitleIdById, getDiscountActionByShortName,
-    getTagInfoById
+    getTagInfoById, roundFloatNumber, formatMoney
 } from '@utils';
 import ICON from '@resources';
 import { Button, Text, InputForm, Dropdown } from '@components';
-import { product } from 'ramda';
 const { width } = Dimensions.get('window');
 
-const DATA = [
-    { code: 'AP', name: 'Andhra Pradesh' },
-    { code: 'AR', name: 'Arunachal Pradesh' },
-];
-
 const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updatePromotionById,
-    handleCreateNewCampaign
+    handleCreateNewCampaign, getSMSInformation
 }) => {
-
     const [promotionId, setPromotionId] = useState("");
     const [title, setTitle] = useState("");
     const [startDate, setStartDate] = useState("");
@@ -53,12 +48,44 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     const [isHandleEdit, setIsHandleEdit] = useState(false);
     const [dynamicConditionMarginBottom, setDynamicConditionMarginBottom] = useState(24);
     const [dynamicActionTagsMarginBottom, setDynamicActionTagsMarginBottom] = useState(24);
+    const [value, setValue] = useState(0);
+    const [customerSendSMSQuantity, setCustomerSendSMSQuantity] = useState(0);
+    const [smsAmount, setSmsAmount] = useState("0.00");
+    const [smsMaxAmount, setSmsMaxAmount] = useState("0.00");
 
     const scrollRef = useRef(null);
 
     const productsByMerchantId = useSelector(state => state?.product?.productsByMerchantId || []);
     const servicesByMerchant = useSelector(state => state?.service?.servicesByMerchant || []);
     const promotionDetailById = useSelector(state => state?.marketing?.promotionDetailById || {});
+    const smsInfoMarketing = useSelector(state => state?.marketing?.smsInfoMarketing || {});
+
+    setStateFromParent((data = {}) => {
+        setCustomerSendSMSQuantity(data?.customerSendSMSQuantity || 0);
+        setIsHandleEdit(data?.id ? true : false);
+        setPromotionId(data?.id || "");
+        setTitle(data?.name);
+        setStartDate(formatWithMoment(data?.fromDate || new Date(), "MM/DD/YYYY"));
+        setEndDate(formatWithMoment(data?.toDate || new Date(), "MM/DD/YYYY"));
+        setStartTime(data?.fromDate ? formatWithMoment(data?.fromDate, "hh:mm A") : "00:00 AM");
+        setEndTime(data?.toDate ? formatWithMoment(data?.toDate, "hh:mm A") : "00:00 AM");
+        setPromotionType(data?.promotionType || "percent");
+        setPromotionValue(data?.promotionValue || "");
+        setIsDisabled(data?.isDisabled ? false : true);
+        setCondition(getConditionTitleIdById(data?.conditionId || 1));
+        setActionCondition(getDiscountActionByShortName(data?.applyTo || "all"));
+        handleScroll(0, false)();
+
+        // console.log("------ setStateFromParent ------: ",data?.customerSendSMSQuantity);
+
+    });
+
+    useEffect(() => {
+        if (!_.isEmpty(smsInfoMarketing)) {
+            calculatorsmsMoney(value);
+        }
+
+    }, [title, conditionServiceProductTags, actionTags])
 
     useEffect(() => {
         const tempService = servicesByMerchant.map((service) => ({ value: service?.name || "", type: "Service", originalId: service?.serviceId || 0, id: `${service?.serviceId}_Service` }));
@@ -87,27 +114,17 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
             setActionTags(tempActionConditionTags);
             setNumberOfTimesApply(tempNumberOfTimesApply);
         }
-
-
     }, [promotionDetailById])
 
-    setStateFromParent((data = {}) => {
-        setIsHandleEdit(data?.id ? true : false);
-        setPromotionId(data?.id || "");
-        setTitle(data?.name);
-        setStartDate(formatWithMoment(data?.fromDate || new Date(), "MM/DD/YYYY"));
-        setEndDate(formatWithMoment(data?.toDate || new Date(), "MM/DD/YYYY"));
-        setStartTime(data?.fromDate ? formatWithMoment(data?.fromDate, "hh:mm A") : "00:00 AM");
-        setEndTime(data?.toDate ? formatWithMoment(data?.toDate, "hh:mm A") : "00:00 AM");
-        setPromotionType(data?.promotionType || "percent");
-        setPromotionValue(data?.promotionValue || "");
-        setIsDisabled(data?.isDisabled ? false : true);
-        setCondition(getConditionTitleIdById(data?.conditionId || 1));
-        setActionCondition(getDiscountActionByShortName(data?.applyTo || "all"));
-        handleScroll(0, false)();
-    });
+    useEffect(() => {
+        if (!_.isEmpty(smsInfoMarketing)) {
+            const customerCount = smsInfoMarketing?.customerCount || 1;
+            const tempValue = customerSendSMSQuantity / customerCount;
+            setValue(tempValue);
+            calculatorsmsMoney(tempValue);
+        }
 
-
+    }, [smsInfoMarketing])
 
     const showDatePicker = (isChangeDate) => () => {
         setIsChangeDate(isChangeDate);
@@ -169,6 +186,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
             }
         }
         setConditionServiceProductTags(tempData);
+
     }
 
 
@@ -205,7 +223,9 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
             },
             promotionType: promotionType,
             promotionValue: `${promotionValue || 0.00}`,
-            isDisabled: isDisabled ? 0 : 1
+            isDisabled: isDisabled ? 0 : 1,
+            smsAmount: smsAmount,
+            customerSendSMSQuantity: customerSendSMSQuantity
         };
 
         // ------------ Check Valid ---------
@@ -253,11 +273,35 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     handleSetCondition = (value) => {
         setCondition(value);
         setDynamicConditionMarginBottom(24);
+        getSMSInformation(getConditionIdByTitle(value));
     }
 
     handleSetActionCondition = (value) => {
         setActionCondition(value);
         setDynamicActionTagsMarginBottom(24);
+    }
+
+    hanldeSliderValue = (value) => {
+        setValue(value);
+        calculatorsmsMoney(value);
+    }
+
+    handleSetCampaignName = (title) => {
+        setTitle(title);
+        // calculatorsmsMoney(value);
+    }
+
+    calculatorsmsMoney = (tempValue) => {
+        const smsCount = Math.ceil(tempValue * (smsInfoMarketing?.customerCount || 1));
+        const smsLength = smsInfoMarketing?.smsLength || 0;
+        const segment = smsInfoMarketing?.segment || 1;
+        const allSMSWord = smsLength + (title?.length || 0) + (getConditionIdByTitle(condition) === 2 ? `${conditionServiceProductTags.join("")}`.length : 0) + (getShortNameForDiscountAction(actionCondition) === "specific" ? `${actionTags.join("")}`.length : 0);
+        const smsMoney = roundFloatNumber(smsCount * Math.ceil(allSMSWord / 159) * segment);
+        const smsMaxMoney = roundFloatNumber((smsInfoMarketing?.customerCount || 1) * Math.ceil(allSMSWord / 159) * segment);
+
+        setSmsAmount(formatMoney(smsMoney));
+        setCustomerSendSMSQuantity(smsCount);
+        setSmsMaxAmount(formatMoney(smsMaxMoney));
     }
 
     return (
@@ -277,7 +321,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                     subTitle=""
                     placeholder="Campaign name"
                     value={title}
-                    onChangeText={setTitle}
+                    onChangeText={handleSetCampaignName}
                     style={{ marginBottom: scaleSzie(10) }}
                     styleTitle={{ fontSize: scaleSzie(14), fontWeight: "600", marginBottom: scaleSzie(5) }}
                     styleInputText={{ fontSize: scaleSzie(13) }}
@@ -316,6 +360,123 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                             />
                             <View style={{ width: scaleSzie(28), }} />
                         </View>
+
+                        {/* ---------  Specific Condition ------ */}
+                        <ConditionSpecific
+                            title={"Condition"}
+                            comparativeCondition={"Using specific services"}
+                            dropdownData={MARKETING_CONDITIONS}
+                            condition={condition}
+                            setCondition={handleSetCondition}
+                            addTag={addConditionServiceProductTags}
+                            dataServiceProduct={dataServiceProduct}
+                        />
+
+                        {
+                            condition === "Using specific services" &&
+                            <>
+                                <Text style={[styles.txt_date, { marginBottom: scaleSzie(8), marginTop: scaleSzie(5) }]} >
+                                    {`Select services/products`}
+                                </Text>
+                                <View style={{
+                                    height: scaleSzie(30),
+                                    width: scaleSzie(330),
+                                    paddingHorizontal: 1,
+                                    marginBottom: scaleSzie(dynamicConditionMarginBottom === 24 && conditionServiceProductTags.length > 0 ? 5 : dynamicConditionMarginBottom)
+                                }} >
+                                    <DropdownSearch
+                                        dataServiceProduct={dataServiceProduct}
+                                        selectedTag={addConditionServiceProductTags}
+                                        onFocus={handleScroll(280)}
+                                        onChangeText={handleConditionDropdown}
+                                    />
+                                </View>
+
+                                <View style={{ width: "90%" }} >
+                                    <Tags tags={conditionServiceProductTags} removeTag={removeConditionServiceProductTags} />
+                                </View>
+                            </>
+                        }
+
+                        {
+                            condition === "Times using the service reached the quantity" &&
+                            <InputForm
+                                title={`${localize('Number of times applied', language)}:`}
+                                subTitle=""
+                                placeholder="Campaign name"
+                                value={numberOfTimesApply}
+                                isOnlyNumber={true}
+                                onChangeText={setNumberOfTimesApply}
+                                style={{ marginBottom: scaleSzie(10), marginTop: scaleSzie(5), width: scaleSzie(200) }}
+                                styleTitle={{ fontSize: scaleSzie(12), fontWeight: "400", marginBottom: scaleSzie(2) }}
+                                styleInputText={{ fontSize: scaleSzie(13) }}
+                                onFocus={handleScroll(280)}
+                            />
+                        }
+
+                        {/* ---------  Promotion type ------ */}
+                        <Text style={[styles.txt_tit, { marginBottom: scaleSzie(15), marginTop: scaleSzie(20) }]} >
+                            {`Promotion type:`}
+                        </Text>
+
+                        <View style={{ flexDirection: "row", height: scaleSzie(30) }} >
+                            {/* ---------  Specific ------ */}
+                            <Button onPress={handleSetPromotionType("percent")} style={[{ width: scaleSzie(30) }, styles.centered_box,
+                            promotionType === "percent" ? styles.border_select : styles.border_unselect
+                            ]} >
+                                <Text style={promotionType === "percent" ? styles.txt_condition_select : styles.txt_condition_unselect} >
+                                    {`%`}
+                                </Text>
+                            </Button>
+                            {/* ---------  All ------ */}
+                            <Button onPress={handleSetPromotionType("fixed")} style={[{ width: scaleSzie(30), marginLeft: scaleSzie(4), marginRight: scaleSzie(10) }, styles.centered_box,
+                            promotionType === "fixed" ? styles.border_select : styles.border_unselect
+                            ]} >
+                                <Text style={promotionType === "fixed" ? styles.txt_condition_select : styles.txt_condition_unselect} >
+                                    {`$`}
+                                </Text>
+                            </Button>
+
+                            <View style={[{ flexDirection: "row", width: scaleSzie(140) }, styles.border_comm]} >
+                                {/* --------- Input Promotion type ------ */}
+                                <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
+                                    <TextInputMask
+                                        type={'money'}
+                                        options={{
+                                            precision: 2,
+                                            separator: '.',
+                                            delimiter: ',',
+                                            unit: '',
+                                            suffixUnit: ''
+                                        }}
+                                        placeholder="0.00"
+                                        value={promotionValue}
+                                        onChangeText={setPromotionValue}
+                                        style={[{ flex: 1, fontSize: scaleSzie(12), color: "#404040", padding: 0 }]}
+                                        onFocus={handleScroll(500)}
+                                    />
+                                </View>
+                                <View onPress={showDatePicker} style={[{ width: scaleSzie(25) }, styles.centered_box]} >
+                                    <Text style={styles.txt_date} >
+                                        {promotionType === "percent" ? `%` : `$`}
+                                    </Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        {/* ---------  Promotion type ------ */}
+                        <Text style={[styles.txt_tit, { marginBottom: scaleSzie(10), marginTop: scaleSzie(20) }]} >
+                            {`Active`}
+                        </Text>
+
+                        <Switch
+                            trackColor={{ false: "#767577", true: "#0764B0" }}
+                            ios_backgroundColor="#E5E5E5"
+                            value={isDisabled}
+                            onValueChange={setIsDisabled}
+                        />
+
+
                     </View>
 
                     {/* ------------------- End Date ------------------- */}
@@ -345,163 +506,112 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
                             />
                             <View style={{ width: scaleSzie(10) }} />
                         </View>
-                    </View>
-                </View>
 
+                        {/* ---------  Actions Condition ------ */}
+                        <ConditionSpecific
+                            title={"Action"}
+                            condition={actionCondition}
+                            comparativeCondition={"Discount for specific services"}
+                            dropdownData={DISCOUNT_ACTION}
+                            setCondition={handleSetActionCondition}
+                            dataServiceProduct={dataServiceProduct}
+                            addTag={addActionTags}
+                        />
 
-                {/* ---------  Specific Condition ------ */}
-                <ConditionSpecific
-                    title={"Condition"}
-                    comparativeCondition={"Using specific services"}
-                    dropdownData={MARKETING_CONDITIONS}
-                    condition={condition}
-                    setCondition={handleSetCondition}
-                    addTag={addConditionServiceProductTags}
-                    dataServiceProduct={dataServiceProduct}
-                />
+                        {
+                            actionCondition === "Discount for specific services" &&
+                            <>
+                                <Text style={[styles.txt_date, { marginBottom: scaleSzie(8), marginTop: scaleSzie(5) }]} >
+                                    {`Select services/products`}
+                                </Text>
+                                <View style={{
+                                    height: scaleSzie(30),
+                                    width: scaleSzie(330),
+                                    paddingHorizontal: 1,
+                                    marginBottom: scaleSzie(dynamicActionTagsMarginBottom === 24 && actionTags.length > 0 ? 5 : dynamicActionTagsMarginBottom)
+                                }} >
+                                    <DropdownSearch
+                                        dataServiceProduct={dataServiceProduct}
+                                        selectedTag={addActionTags}
+                                        onFocus={handleScroll(450)}
+                                        onChangeText={handleActionTagsDropdown}
+                                    />
+                                </View>
 
-                {
-                    condition === "Using specific services" &&
-                    <>
-                        <Text style={[styles.txt_date, { marginBottom: scaleSzie(8), marginTop: scaleSzie(5) }]} >
-                            {`Select services/products`}
+                                <View style={{ width: "100%" }} >
+                                    <Tags tags={actionTags} removeTag={removeActionTags} />
+                                </View>
+                            </>
+                        }
+
+                        {/* ---------- SMS configuration ----------- */}
+                        <Text style={{ color: "#404040", fontSize: scaleSzie(16), fontWeight: "600", marginTop: scaleSzie(20) }} >
+                            {`SMS configuration`}
                         </Text>
+                        <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "400", marginTop: scaleSzie(8) }} >
+                            {`Number of messages`}
+                        </Text>
+
+                        {/* -------------- Range Of Slider ----------------- */}
                         <View style={{
-                            height: scaleSzie(30),
-                            width: scaleSzie(330),
-                            paddingHorizontal: 1,
-                            marginBottom: scaleSzie(dynamicConditionMarginBottom === 24 && conditionServiceProductTags.length > 0 ? 5 : dynamicConditionMarginBottom)
+                            paddingRight: scaleSzie(26),
+                            marginVertical: scaleSzie(30)
                         }} >
-                            <DropdownSearch
-                                dataServiceProduct={dataServiceProduct}
-                                selectedTag={addConditionServiceProductTags}
-                                onFocus={handleScroll(280)}
-                                onChangeText={handleConditionDropdown}
-                            />
-                        </View>
 
-                        <View style={{ width: "100%" }} >
-                            <Tags tags={conditionServiceProductTags} removeTag={removeConditionServiceProductTags} />
-                        </View>
-                    </>
-                }
+                            {/* -------------- Min Of Slider ----------------- */}
 
-                {
-                    condition === "Times using the service reached the quantity" &&
-                    <InputForm
-                        title={`${localize('Number of times applied', language)}:`}
-                        subTitle=""
-                        placeholder="Campaign name"
-                        value={numberOfTimesApply}
-                        isOnlyNumber={true}
-                        onChangeText={setNumberOfTimesApply}
-                        style={{ marginBottom: scaleSzie(10), marginTop: scaleSzie(5), width: scaleSzie(200) }}
-                        styleTitle={{ fontSize: scaleSzie(12), fontWeight: "400", marginBottom: scaleSzie(2) }}
-                        styleInputText={{ fontSize: scaleSzie(13) }}
-                        onFocus={handleScroll(280)}
-                    />
-                }
+                            <View style={{ height: scaleSzie(20), marginTop: scaleSzie(8), flexDirection: "row", justifyContent: "space-between" }} >
+                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "400", }} >
+                                    {`0`}
+                                </Text>
 
-                {/* ---------  Actions Condition ------ */}
+                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "400", }} >
+                                    {`${smsInfoMarketing?.customerCount}`}
+                                </Text>
+                            </View>
 
-                <ConditionSpecific
-                    title={"Action"}
-                    condition={actionCondition}
-                    comparativeCondition={"Discount for specific services"}
-                    dropdownData={DISCOUNT_ACTION}
-                    setCondition={handleSetActionCondition}
-                    dataServiceProduct={dataServiceProduct}
-                    addTag={addActionTags}
-                />
+                            <Slider
+                                value={value}
+                                onValueChange={hanldeSliderValue}
+                                trackStyle={{ height: scaleSzie(10), backgroundColor: "#F1F1F1", borderRadius: scaleSzie(6) }}
+                                thumbStyle={{
+                                    height: scaleSzie(24), width: scaleSzie(24), borderRadius: scaleSzie(12), backgroundColor: "#fff",
+                                    ...Platform.select({
+                                        ios: {
+                                            shadowColor: 'rgba(0, 0, 0,0.3)',
+                                            shadowOffset: { width: 1, height: 0 },
+                                            shadowOpacity: 1,
 
-                {
-                    actionCondition === "Discount for specific services" &&
-                    <>
-                        <Text style={[styles.txt_date, { marginBottom: scaleSzie(8), marginTop: scaleSzie(5) }]} >
-                            {`Select services/products`}
-                        </Text>
-                        <View style={{
-                            height: scaleSzie(30),
-                            width: scaleSzie(330),
-                            paddingHorizontal: 1,
-                            marginBottom: scaleSzie(dynamicActionTagsMarginBottom === 24 && actionTags.length > 0 ? 5 : dynamicActionTagsMarginBottom)
-                        }} >
-                            <DropdownSearch
-                                dataServiceProduct={dataServiceProduct}
-                                selectedTag={addActionTags}
-                                onFocus={handleScroll(450)}
-                                onChangeText={handleActionTagsDropdown}
-                            />
-                        </View>
+                                        },
 
-                        <View style={{ width: "100%" }} >
-                            <Tags tags={actionTags} removeTag={removeActionTags} />
-                        </View>
-                    </>
-                }
-
-
-                {/* ---------  Promotion type ------ */}
-                <Text style={[styles.txt_tit, { marginBottom: scaleSzie(15), marginTop: scaleSzie(20) }]} >
-                    {`Promotion type:`}
-                </Text>
-
-                <View style={{ flexDirection: "row", height: scaleSzie(30) }} >
-                    {/* ---------  Specific ------ */}
-                    <Button onPress={handleSetPromotionType("percent")} style={[{ width: scaleSzie(30) }, styles.centered_box,
-                    promotionType === "percent" ? styles.border_select : styles.border_unselect
-                    ]} >
-                        <Text style={promotionType === "percent" ? styles.txt_condition_select : styles.txt_condition_unselect} >
-                            {`%`}
-                        </Text>
-                    </Button>
-                    {/* ---------  All ------ */}
-                    <Button onPress={handleSetPromotionType("fixed")} style={[{ width: scaleSzie(30), marginLeft: scaleSzie(4), marginRight: scaleSzie(10) }, styles.centered_box,
-                    promotionType === "fixed" ? styles.border_select : styles.border_unselect
-                    ]} >
-                        <Text style={promotionType === "fixed" ? styles.txt_condition_select : styles.txt_condition_unselect} >
-                            {`$`}
-                        </Text>
-                    </Button>
-
-                    <View style={[{ flexDirection: "row", width: scaleSzie(140) }, styles.border_comm]} >
-                        {/* --------- Input Promotion type ------ */}
-                        <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
-                            <TextInputMask
-                                type={'money'}
-                                options={{
-                                    precision: 2,
-                                    separator: '.',
-                                    delimiter: ',',
-                                    unit: '',
-                                    suffixUnit: ''
+                                        android: {
+                                            elevation: 2,
+                                        },
+                                    })
                                 }}
-                                placeholder="0.00"
-                                value={promotionValue}
-                                onChangeText={setPromotionValue}
-                                style={[{ flex: 1, fontSize: scaleSzie(12), color: "#404040", padding: 0 }]}
-                                onFocus={handleScroll(500)}
+                                minimumTrackTintColor="#0764B0"
+                                smsCount={customerSendSMSQuantity}
+                                smsMaxCount={smsInfoMarketing?.customerCount || 1}
+                                smsMoney={smsAmount}
+                                smsMaxMoney={smsMaxAmount}
                             />
+
+                            {/* -------------- Max Of Slider ----------------- */}
+                            <View style={{ height: scaleSzie(20), marginTop: scaleSzie(8), alignItems: "flex-end", flexDirection: "row", justifyContent: "space-between" }} >
+                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600", }} >
+                                    {`$ 0.00`}
+                                </Text>
+
+                                <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600", }} >
+                                    {`$${smsMaxAmount}`}
+                                </Text>
+                            </View>
+
                         </View>
-                        <View onPress={showDatePicker} style={[{ width: scaleSzie(25) }, styles.centered_box]} >
-                            <Text style={styles.txt_date} >
-                                {promotionType === "percent" ? `%` : `$`}
-                            </Text>
-                        </View>
+
+
                     </View>
                 </View>
-
-                {/* ---------  Promotion type ------ */}
-                <Text style={[styles.txt_tit, { marginBottom: scaleSzie(10), marginTop: scaleSzie(20) }]} >
-                    {`Active`}
-                </Text>
-
-                <Switch
-                    trackColor={{ false: "#767577", true: "#0764B0" }}
-                    ios_backgroundColor="#E5E5E5"
-                    value={isDisabled}
-                    onValueChange={setIsDisabled}
-                />
 
                 <View style={{ height: scaleSzie(300) }} />
             </ScrollView>

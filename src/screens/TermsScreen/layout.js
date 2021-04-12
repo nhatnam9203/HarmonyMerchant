@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { Text, HeaderLogoTop, ButtonCustom, Button, StatusBarHeader } from '@components';
-import { scaleSzie, localize,checkIsTablet } from '@utils';
+import { scaleSzie, localize, checkIsTablet } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
@@ -498,8 +498,8 @@ export default class Layout extends React.Component {
                 <Button onPress={() => this.props.navigation.goBack()} style={{
                     width: scaleSzie(50), height: scaleSzie(50),
                     justifyContent: 'center', alignItems: 'center',
-                    position: 'absolute', 
-                    top: checkIsTablet() ?  scaleSzie(90) :scaleSzie(110),
+                    position: 'absolute',
+                    top: checkIsTablet() ? scaleSzie(90) : scaleSzie(110),
                     left: scaleSzie(20)
 
                 }} >

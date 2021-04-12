@@ -464,7 +464,7 @@ function* updatePromotionById(action) {
         if (parseInt(codeNumber) == 200) {
             yield put(getPromotionByMerchant());
             yield put({
-                type:"UPDATE_PROMOTION_BY_ID_SUCCESS"
+                type: "UPDATE_PROMOTION_BY_ID_SUCCESS"
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -491,7 +491,7 @@ function* createNewCampaign(action) {
         if (parseInt(codeNumber) == 200) {
             yield put(getPromotionByMerchant());
             yield put({
-                type:"UPDATE_PROMOTION_BY_ID_SUCCESS"
+                type: "UPDATE_PROMOTION_BY_ID_SUCCESS"
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -509,6 +509,35 @@ function* createNewCampaign(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
     }
 }
+
+function* getSMSInformation(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // console.log("----- getSMSInformation: ", JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "GET_SMS_INFORMATION_SUCCESS",
+                payload: responses?.data || {}
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 
 
 export default function* saga() {
@@ -531,6 +560,8 @@ export default function* saga() {
         takeLatest('GET_PROMOTION_DETAIL_BY_ID', getPromotionDetailById),
         takeLatest('UPDATE_PROMOTION_BY_ID', updatePromotionById),
         takeLatest('CREATE_NEW_CAMPAIGN', createNewCampaign),
+        takeLatest('GET_SMS_INFORMATION', getSMSInformation),
+
 
     ])
 }

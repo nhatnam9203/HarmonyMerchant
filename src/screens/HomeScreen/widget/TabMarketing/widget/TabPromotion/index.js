@@ -31,6 +31,7 @@ class TabPromotion extends Layout {
   }
 
   createNewCampaign = () => {
+    this.props.actions.marketing.getSMSInformation(0);
     this.goToPage(1);
     if (this.setStateToPromotiomDetail) {
       this.setStateToPromotiomDetail();
@@ -43,8 +44,8 @@ class TabPromotion extends Layout {
   }
 
   editCampaign = (campaign) => () => {
+    // console.log(JSON.stringify(campaign));
     this.goToPage(1);
-    this.props.actions.marketing.getPromotionDetailById(campaign?.id);
     if (this.setStateToPromotiomDetail) {
       this.setStateToPromotiomDetail(campaign);
     } else {
@@ -52,8 +53,16 @@ class TabPromotion extends Layout {
         this.setStateToPromotiomDetail(campaign);
       }, 300)
     }
+    this.props.actions.marketing.getPromotionDetailById(campaign?.id);
+    setTimeout(() =>{
+      this.props.actions.marketing.getSMSInformation(campaign?.conditionId);
+    },300)
   }
 
+  getSMSInformation = (conditionId) => {
+    console.log("----- getSMSInformation: ",conditionId);
+    this.props.actions.marketing.getSMSInformation(conditionId);
+  }
 
   disableCampaign = (campaign) => () => {
     this.props.actions.marketing.disablePromotionById(campaign?.id || 0);
@@ -77,8 +86,8 @@ class TabPromotion extends Layout {
     }
   }
 
-  updatePromotionById = (promotionId,body) =>{
-    this.props.actions.marketing.updatePromotionById(promotionId,body);
+  updatePromotionById = (promotionId, body) => {
+    this.props.actions.marketing.updatePromotionById(promotionId, body);
   }
 
   handleCreateNewCampaign = (campaign) => {
@@ -101,9 +110,9 @@ class TabPromotion extends Layout {
     this.goToPage(0);
   }
 
-  componentDidUpdate(prevProps,prevState){
-    const {isUpdatePromotionById} =  this.props;
-    if(isUpdatePromotionById && prevProps.isUpdatePromotionById !== isUpdatePromotionById){
+  componentDidUpdate(prevProps, prevState) {
+    const { isUpdatePromotionById } = this.props;
+    if (isUpdatePromotionById && prevProps.isUpdatePromotionById !== isUpdatePromotionById) {
       this.props.actions.marketing.resetStateIsUpdatePromotionById(false);
       this.goToPage(0);
     }
