@@ -188,7 +188,7 @@ class TabFirstSettle extends Layout {
             await this.setState({
                 visible: true
             });
-            let totalReport = 0;
+            // let totalReport = 0;
             let totalRecord = 0;
             let isError = false;
 
@@ -201,13 +201,14 @@ class TabFirstSettle extends Layout {
                 let data = await PosLink.reportTransaction({
                     transType: "LOCALDETAILREPORT",
                     edcType: "ALL",
-                    cardType: "UNKNOWN",
-                    paymentType: "UNKNOWN",
+                    cardType: "",
+                    paymentType: "",
                     commType: commType,
                     destIp: tempIpPax,
                     portDevice: tempPortPax,
                     timeoutConnect: "90000",
-                    bluetoothAddr: idBluetooth
+                    bluetoothAddr: idBluetooth,
+                    refNum: ''
                 });
                 let result = JSON.parse(data);
                 const ExtData = result?.ExtData || "";
@@ -230,19 +231,23 @@ class TabFirstSettle extends Layout {
                         totalRecord = parseInt(result?.TotalRecord || 0);
 
                         // ----------- Total Report --------
-                        let amountData = await PosLink.reportTransaction({
-                            transType: "LOCALTOTALREPORT",
-                            edcType: "ALL",
-                            cardType: "UNKNOWN",
-                            paymentType: "",
-                            commType: commType,
-                            destIp: tempIpPax,
-                            portDevice: tempPortPax,
-                            timeoutConnect: "90000",
-                            bluetoothAddr: idBluetooth
-                        });
-                        let amountResult = JSON.parse(amountData);
-                        totalReport = parseFloat(amountResult?.CreditAmount || 0);
+                        // let amountData = await PosLink.reportTransaction({
+                        //     transType: "LOCALTOTALREPORT",
+                        //     edcType: "ALL",
+                        //     cardType: "",
+                        //     paymentType: "",
+                        //     commType: commType,
+                        //     destIp: tempIpPax,
+                        //     portDevice: tempPortPax,
+                        //     timeoutConnect: "90000",
+                        //     bluetoothAddr: idBluetooth,
+                        //     refNum: ''
+                        // });
+                        // let amountResult = JSON.parse(amountData);
+                        // totalRecord = parseInt(amountResult?.CreditCount || 0);
+                        // console.log("LOCALTOTALREPORT: ", JSON.stringify(amountResult));
+
+                        // totalReport = parseFloat(amountResult?.CreditAmount || 0);
 
                         parseString(xmlExtData, (err, result) => {
                             if (err) {
@@ -265,7 +270,7 @@ class TabFirstSettle extends Layout {
 
             if (!isError) {
                 this.props.actions.app.ConnectPaxMachineSuccess();
-                const moneyInPax = formatMoney(roundFloatNumber(totalReport / 100));
+                // const moneyInPax = formatMoney(roundFloatNumber(totalReport / 100));
                 await this.setState({
                     creditCount: totalRecord,
                     // editPaymentByCreditCard: moneyInPax
@@ -475,7 +480,9 @@ class TabFirstSettle extends Layout {
                     recipients: [`${phone}`],
                     successTypes: ['sent', 'queued'],
                     allowAndroidSendWithoutReadPermission: true,
+                    // attachment: attachment,
                 }, (completed, cancelled, error) => {
+                    // console.log('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);
                 });
             }
 

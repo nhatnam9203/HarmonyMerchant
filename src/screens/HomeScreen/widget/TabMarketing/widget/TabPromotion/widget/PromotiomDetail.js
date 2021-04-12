@@ -250,12 +250,12 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         setDynamicActionTagsMarginBottom(count * 24);
     }
 
-    handleSetCondition = (value) =>{
+    handleSetCondition = (value) => {
         setCondition(value);
         setDynamicConditionMarginBottom(24);
     }
 
-    handleSetActionCondition = (value) =>{
+    handleSetActionCondition = (value) => {
         setActionCondition(value);
         setDynamicActionTagsMarginBottom(24);
     }

@@ -4,6 +4,7 @@ import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 
 const PosLink = NativeModules.batch;
+const PosLinkReport = NativeModules.report;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
 class TabSecondSettle extends Layout {
@@ -100,8 +101,9 @@ class TabSecondSettle extends Layout {
     }
 
     settle = async () => {
-        const { paxMachineInfo } = this.props;
+        const { paxMachineInfo, settleWaiting } = this.props;
         const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
+        const { creditCount } = this.state;
 
         if (isSetup) {
             await this.setState({
@@ -126,6 +128,35 @@ class TabSecondSettle extends Layout {
                 const tempIpPax = commType == "TCP" ? ip : "";
                 const tempPortPax = commType == "TCP" ? port : "";
                 const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+                const paymentTransaction = settleWaiting?.paymentTransaction?.length || 0;
+                const responseData = [];
+
+                if (creditCount != paymentTransaction) {
+                    this.props.actions.app.loadingApp();
+                    try {
+                        for (let i = 1; i <= creditCount; i++) {
+                            let data = await PosLinkReport.reportTransaction({
+                                transType: "LOCALDETAILREPORT",
+                                edcType: "ALL",
+                                cardType: "",
+                                paymentType: "",
+                                commType: commType,
+                                destIp: tempIpPax,
+                                portDevice: tempPortPax,
+                                timeoutConnect: "90000",
+                                bluetoothAddr: idBluetooth,
+                                refNum: `${i}`
+                            });
+                            let result = JSON.parse(data);
+                            responseData.push(result);
+                        }
+                    } catch (error) {
+                        this.props.actions.app.stopLoadingApp();
+                        // console.log("---- error: ", error);
+                    }
+                };
+                this.props.actions.app.stopLoadingApp();
+
 
                 PosLink.batchTransaction({
                     transType: "BATCHCLOSE",
@@ -136,7 +167,7 @@ class TabSecondSettle extends Layout {
                     timeoutConnect: "90000",
                     bluetoothAddr: idBluetooth
                 },
-                    message => this.handleResponseBatchTransactions(message));
+                    message => this.handleResponseBatchTransactions(message,responseData));
             }
 
         } else {
@@ -144,7 +175,6 @@ class TabSecondSettle extends Layout {
                 'Unable to connect to PAX, Do you want to continue without PAX?',
                 '',
                 [
-
                     {
                         text: 'Cancel',
                         onPress: () => { },
@@ -157,12 +187,12 @@ class TabSecondSettle extends Layout {
         }
     }
 
-    proccessingSettlement = async () => {
+    proccessingSettlement = async (responseData) => {
         const { settleWaiting, connectPAXStatus } = this.props;
         const { settleTotal } = this.state;
         const { status, message } = connectPAXStatus;
         const isConnectPax = status && message && message == "( Pax terminal successfully connected! )" ? true : false;
-        const body = { ...settleTotal, checkout: settleWaiting.checkout, isConnectPax };
+        const body = { ...settleTotal, checkout: settleWaiting.checkout, isConnectPax, responseData };
 
         this.setState({
             numberFooter: 2,
@@ -179,7 +209,7 @@ class TabSecondSettle extends Layout {
     }
 
 
-    async handleResponseBatchTransactions(message) {
+    async handleResponseBatchTransactions(message, responseData) {
         try {
             const result = JSON.parse(message);
             if (result.status == 0) {
@@ -191,7 +221,7 @@ class TabSecondSettle extends Layout {
                     paxErrorMessage: result.message
                 })
             } else {
-                this.proccessingSettlement();
+                this.proccessingSettlement(responseData);
             }
         } catch (error) {
         }
@@ -199,7 +229,8 @@ class TabSecondSettle extends Layout {
 
     settleSuccsess = async () => {
         await this.setState({
-            progress: 1
+            progress: 1,
+            creditCount: 0
         });
 
         setTimeout(() => {

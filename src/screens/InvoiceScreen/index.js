@@ -80,7 +80,7 @@ class InvoiceScreen extends Layout {
                 } else {
                     this.props.actions.invoice.toggleInvoiceTabPermission();
                 }
-               
+
             }
         );
     }
@@ -248,7 +248,7 @@ class InvoiceScreen extends Layout {
         const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
 
         if (invoiceDetail.paymentMethod === "credit_card") {
-            const paymentInformation =invoiceDetail?.paymentInformation[0]?.responseData || {};
+            const paymentInformation = invoiceDetail?.paymentInformation[0]?.responseData || {};
 
             if (!_.isEmpty(paymentInformation)) {
                 await this.setState({
@@ -303,6 +303,7 @@ class InvoiceScreen extends Layout {
                     const amount = paymentInformation?.ApprovedAmount || 0;
                     const transactionId = paymentInformation?.RefNum || 0;
                     const extData = paymentInformation?.ExtData || "";
+                    const invNum = paymentInformation?.InvNum || "";
                     const tempIpPax = commType == "TCP" ? ip : "";
                     const tempPortPax = commType == "TCP" ? port : "";
                     const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
@@ -319,7 +320,8 @@ class InvoiceScreen extends Layout {
                             destIp: tempIpPax,
                             portDevice: tempPortPax,
                             timeoutConnect: "90000",
-                            bluetoothAddr: idBluetooth
+                            bluetoothAddr: idBluetooth,
+                            invNum: `${invNum}`
                         }, (data) => this.handleResultRefundTransaction(data));
 
                     } else if (invoiceDetail.status === 'complete') {
@@ -334,7 +336,8 @@ class InvoiceScreen extends Layout {
                             destIp: tempIpPax,
                             portDevice: tempPortPax,
                             timeoutConnect: "90000",
-                            bluetoothAddr: idBluetooth
+                            bluetoothAddr: idBluetooth,
+                            invNum: `${invNum}`
                         }, (data) => this.handleResultVoidTransaction(data));
                     }
                 }
@@ -614,10 +617,10 @@ class InvoiceScreen extends Layout {
     clearIntervalById = () => {
         const { notiIntervalId } = this.props;
         if (notiIntervalId) {
-          clearInterval(notiIntervalId);
-          this.props.actions.app.resetNotiIntervalId();
+            clearInterval(notiIntervalId);
+            this.props.actions.app.resetNotiIntervalId();
         }
-      }
+    }
 
     componentWillUnmount() {
         this.didBlurSubscription?.remove();

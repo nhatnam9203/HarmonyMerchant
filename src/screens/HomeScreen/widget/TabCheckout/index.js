@@ -454,22 +454,22 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.changeFlagSigninAppointment(false);
         this.props.actions.appointment.resetGroupAppointment();
 
-        if (isCancelAppointment) {
-            const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
-            const customerId = customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0;
-            this.props.actions.appointment.cancleAppointment(mainAppointmentId, profile.merchantId, customerId);
-        }
+        // if (isCancelAppointment) {
+        //     const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
+        //     const customerId = customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0;
+        //     this.props.actions.appointment.cancleAppointment(mainAppointmentId, profile.merchantId, customerId);
+        // }
 
-        if (appointmentIdBookingFromCalendar) {
-            const customerId = customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0;
-            this.props.actions.appointment.cancleAppointment(appointmentIdBookingFromCalendar, profile.merchantId, customerId);
-        }
+        // if (appointmentIdBookingFromCalendar) {
+        //     const customerId = customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0;
+        //     this.props.actions.appointment.cancleAppointment(appointmentIdBookingFromCalendar, profile.merchantId, customerId);
+        // }
 
-        if (temptBlockAppointments && temptBlockAppointments.length > 0) {
-            for (let i = 0; i < temptBlockAppointments.length; i++) {
-                this.props.actions.appointment.cancleAppointment(temptBlockAppointments[i].appointmentId, profile.merchantId, 0, true, true);
-            }
-        }
+        // if (temptBlockAppointments && temptBlockAppointments.length > 0) {
+        //     for (let i = 0; i < temptBlockAppointments.length; i++) {
+        //         this.props.actions.appointment.cancleAppointment(temptBlockAppointments[i].appointmentId, profile.merchantId, 0, true, true);
+        //     }
+        // }
 
         this.blockAppointmentRef = [];
     }
@@ -1097,11 +1097,12 @@ class TabCheckout extends Layout {
     }
 
     sendTransToPaxMachine = async () => {
-        const { paxMachineInfo, isTipOnPaxMachine, paxAmount, amountCredtitForSubmitToServer, bluetoothPaxInfo } = this.props;
+        const { paxMachineInfo, isTipOnPaxMachine, paxAmount, amountCredtitForSubmitToServer, bluetoothPaxInfo, groupAppointment } = this.props;
         const { paymentSelected } = this.state;
         const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
         const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
 
+        // console.log("------ groupAppointment: ", JSON.stringify(groupAppointment));
         // 1. Show modal processing 
         await this.setState({
             visibleProcessingCredit: true
@@ -1123,7 +1124,8 @@ class TabCheckout extends Layout {
             destIp: tempIpPax,
             portDevice: tempPortPax,
             timeoutConnect: "90000",
-            bluetoothAddr: idBluetooth
+            bluetoothAddr: idBluetooth,
+            invNum: `${groupAppointment?.checkoutGroupId || 0}` 
         }, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer))
     }
 
@@ -1699,10 +1701,10 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.removeItemIntoAppointment(dataRemove, appointmentId, false, true);
     }
 
-    removeBlockAppointment = (appointmentId) => {
-        const { profile } = this.props;
-        this.props.actions.appointment.cancleAppointment(appointmentId, profile.merchantId, 0, true);
-    }
+    // removeBlockAppointment = (appointmentId) => {
+    //     const { profile } = this.props;
+    //     this.props.actions.appointment.cancleAppointment(appointmentId, profile.merchantId, 0, true);
+    // }
 
 
     bookBlockAppointment = () => {

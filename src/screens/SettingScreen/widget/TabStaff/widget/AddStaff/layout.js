@@ -43,6 +43,7 @@ class Layout extends React.Component {
     } = this.state.user;
     const { street, city, state, zip } = address;
     const { nameRole } = roles;
+
     const { language, isEditStaff } = this.props;
     const { dynamicMarginBottomState, workingTime, tipFee, salary, productSalary, cashPercent } = this.state;
 
@@ -372,7 +373,7 @@ class Layout extends React.Component {
               isCheck: true,
               value: cashPercent,
             }}
-            onPressCheckBox={() =>{}}
+            onPressCheckBox={() => { }}
             onChangeValue={this.handleChangeCashPercentValue}
           />
 
