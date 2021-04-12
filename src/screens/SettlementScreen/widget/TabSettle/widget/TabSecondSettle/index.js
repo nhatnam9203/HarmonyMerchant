@@ -167,7 +167,7 @@ class TabSecondSettle extends Layout {
                     timeoutConnect: "90000",
                     bluetoothAddr: idBluetooth
                 },
-                    message => this.handleResponseBatchTransactions(message,responseData));
+                    message => this.handleResponseBatchTransactions(message, responseData));
             }
 
         } else {

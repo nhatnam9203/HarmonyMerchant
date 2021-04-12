@@ -60,7 +60,7 @@ class TabPromotion extends Layout {
   }
 
   getSMSInformation = (conditionId) => {
-    console.log("----- getSMSInformation: ",conditionId);
+    // console.log("----- getSMSInformation: ",conditionId);
     this.props.actions.marketing.getSMSInformation(conditionId);
   }
 
