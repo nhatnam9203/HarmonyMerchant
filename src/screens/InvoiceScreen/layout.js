@@ -3,7 +3,6 @@ import {
     View,
     Image,
     TextInput,
-    FlatList,
     ScrollView,
     ActivityIndicator,
     Platform,
@@ -53,7 +52,7 @@ export default class Layout extends React.Component {
                             <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                                 <TextInput
                                     style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                    placeholder={`${localize('Invoice No / SKU Number/Phone Number / Customer Name', language)}`}
+                                    placeholder={`${localize('Invoice No /Phone Number/ Customer Name', language)}`}
                                     value={keySearch}
                                     onChangeText={(keySearch) => this.updateSearchFilterInfo('keySearch', keySearch)}
                                     onSubmitEditing={this.searchInvoiceWithKeyword}
@@ -155,17 +154,16 @@ export default class Layout extends React.Component {
     }
 
     renderButtonVoid() {
-        const { language } = this.props;
-        const { invoiceDetail } = this.state;
-        const status = invoiceDetail.status ? invoiceDetail.status : '';
+        const { language, invoiceDetail } = this.props;
+        const status = invoiceDetail?.status || '';
 
         let isDebitPayment = false;
-        const paymentMethod = invoiceDetail.paymentMethod ? invoiceDetail.paymentMethod : "";
+        const paymentMethod = invoiceDetail?.paymentMethod || "";
 
         try {
             if (paymentMethod && paymentMethod === "credit_card") {
-                const paymentInformation = invoiceDetail.paymentInformation.length > 0 ? invoiceDetail.paymentInformation : false;
-                isDebitPayment = paymentInformation && paymentInformation[0].paymentData && `${paymentInformation[0].paymentData.transaction_type}`.toUpper() == "CREDIT" ? false : true;
+                const paymentInformation = invoiceDetail?.paymentInformation?.length > 0 || false;
+                isDebitPayment = paymentInformation && paymentInformation[0]?.paymentData && `${paymentInformation[0]?.paymentData.transaction_type}`.toUpper() == "CREDIT" ? false : true;
             }
         } catch (error) {
             isDebitPayment = false;
@@ -204,14 +202,13 @@ export default class Layout extends React.Component {
     }
 
     renderDetailInvoice() {
-        const { profile, profileStaffLogin } = this.props;
-        const { invoiceDetail } = this.state;
-        const basket = invoiceDetail.basket ? this.convertBasket(invoiceDetail.basket) : [];
-        const checkoutPayments = invoiceDetail.checkoutPayments && invoiceDetail.checkoutPayments.length > 0 ?
-            invoiceDetail.checkoutPayments.slice(0).reverse() : [];
+        const { profile, profileStaffLogin, invoiceDetail} = this.props;
+        const basket = this.convertBasket(invoiceDetail?.basket || []);
+        const checkoutPayments = invoiceDetail?.checkoutPayments?.slice(0).reverse() || [];
         const refundAmount = invoiceDetail?.refundAmount || 0.00;
         const promotionNotes = invoiceDetail?.promotionNotes?.note || "";
-        const tempStyle = Platform.OS === "android" ? { paddingHorizontal: scaleSzie(10), backgroundColor: '#FFFFFF' } : { paddingHorizontal: scaleSzie(10) }
+        const tempStyle = Platform.OS === "android" ? { paddingHorizontal: scaleSzie(10), backgroundColor: '#FFFFFF' } : { paddingHorizontal: scaleSzie(10) };
+        const status= invoiceDetail?.status || '';
 
         return (
             <View style={{ flex: 1 }} >
@@ -248,7 +245,7 @@ export default class Layout extends React.Component {
                                 fontSize: 20, fontWeight: "600",
                                 marginTop: scaleSzie(6), marginBottom: scaleSzie(6)
                             }]} >
-                                {`${invoiceDetail.status && invoiceDetail.status !== "paid" && invoiceDetail.status !== "pending" && invoiceDetail.status !== "complete" ? `${invoiceDetail.status}`.toUpperCase() : "SALE"}`}
+                                {`${status && status !== "paid" && status !== "pending" && status !== "complete" ? `${status}`.toUpperCase() : "SALE"}`}
                             </Text>
                             {/* ------------- Dot Border  ----------- */}
                             <Dash
@@ -268,7 +265,7 @@ export default class Layout extends React.Component {
                                 </View>
                                 <View style={{ flex: 1 }} >
                                     <Text style={styles.txt_info} >
-                                        {`: ${invoiceDetail.createdDate ? formatWithMoment(invoiceDetail.createdDate, "MM/DD/YYYY hh:mm A") : ""}`}
+                                        {`: ${invoiceDetail?.createdDate ? formatWithMoment(invoiceDetail?.createdDate, "MM/DD/YYYY hh:mm A") : ""}`}
                                     </Text>
                                 </View>
                             </View>
@@ -296,7 +293,7 @@ export default class Layout extends React.Component {
                                 </View>
                                 <View style={{ flex: 1 }} >
                                     <Text style={styles.txt_info} >
-                                        {`: ${invoiceDetail?.checkoutId ? `# ${invoiceDetail.checkoutId}` : ""}`}
+                                        {`: # ${invoiceDetail?.checkoutId || ''}`}
                                     </Text>
                                 </View>
                             </View>
@@ -458,7 +455,7 @@ export default class Layout extends React.Component {
                 {/* ------- button void  ------ */}
                 <View style={{ marginBottom: scaleSzie(5), paddingHorizontal: scaleSzie(10) }}  >
                     {
-                        invoiceDetail.checkoutId ? <ItemButton
+                        invoiceDetail?.checkoutId ? <ItemButton
                             title={'History'}
                             onPress={this.gotoHistory}
                         /> : null
@@ -471,9 +468,9 @@ export default class Layout extends React.Component {
 
 
     renderHistoryInvoice() {
-        const { language } = this.props;
-        const { invoiceDetail } = this.state;
-        const promotionNotes = invoiceDetail.promotionNotes && invoiceDetail.promotionNotes.note ? invoiceDetail.promotionNotes.note : "";
+        const { language, invoiceDetail } = this.props;
+        const promotionNotes =  invoiceDetail?.promotionNotes?.note  || "";
+        const history = invoiceDetail?.history || [];
 
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), paddingTop: scaleSzie(8) }} >
@@ -506,7 +503,7 @@ export default class Layout extends React.Component {
                     <View style={{ flex: 1 }} >
                         <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='always' >
                             {
-                                invoiceDetail.history.map((item, index) => <ItemHistory
+                                history.map((item, index) => <ItemHistory
                                     key={index}
                                     data={item}
                                 />)
@@ -532,9 +529,8 @@ export default class Layout extends React.Component {
     }
 
     renderInvoice() {
-        const { language, listInvoicesByMerchant, refreshListInvoice, isLoadMoreInvoiceList
+        const { language, listInvoicesByMerchant, refreshListInvoice, isLoadMoreInvoiceList, invoiceDetail
         } = this.props;
-        const { invoiceDetail } = this.state;
 
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
@@ -556,7 +552,7 @@ export default class Layout extends React.Component {
                             renderItem={({ item, index }) => <ItemInvoice
                                 ref={this.setListInvoiceRef}
                                 invoice={item}
-                                onPress={() => this.setInvoiceDetail(item)}
+                                onPress={this.setInvoiceDetail(item)}
                             />}
                             keyExtractor={(item, index) => `${item.checkoutId}`}
                             onRefresh={this.onRefreshInvoiceList}
@@ -615,7 +611,7 @@ export default class Layout extends React.Component {
                     </View>
 
                     {
-                        invoiceDetail.checkoutId ? <Button onPress={this.shareCustomerInvoice} style={{
+                        invoiceDetail?.checkoutId ? <Button onPress={this.shareCustomerInvoice} style={{
                             position: 'absolute', top: scaleSzie(-12), right: scaleSzie(50),
                             width: scaleSzie(35), height: scaleSzie(35), backgroundColor: "#0764B0", justifyContent: "center",
                             alignItems: "center", borderRadius: scaleSzie(4)
@@ -627,7 +623,7 @@ export default class Layout extends React.Component {
                     }
 
                     {
-                        invoiceDetail.checkoutId ? <Button onPress={this.printCustomerInvoice} style={{
+                        invoiceDetail?.checkoutId ? <Button onPress={this.printCustomerInvoice} style={{
                             position: 'absolute', top: scaleSzie(-12), right: scaleSzie(8),
                             width: scaleSzie(35), height: scaleSzie(35), backgroundColor: "#0764B0", justifyContent: "center",
                             alignItems: "center", borderRadius: scaleSzie(4)

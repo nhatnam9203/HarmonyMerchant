@@ -29,7 +29,7 @@ export function clearSearInvoice() {
 
 // ----------- Settle ------------
 
-export function getSettlementWating(terminalID = null,isShowLoading = true) {
+export function getSettlementWating(terminalID = null, isShowLoading = true) {
     return {
         type: 'GET_SETTLEMENT_WAITING',
         method: 'GET',
@@ -54,7 +54,7 @@ export function invoicesOfStaff(staffId) {
     }
 }
 
-export function getTransactionSettlement(status = "", timeStart = "", timeEnd = "", key = "", quickFilter = "",page = 1 ,isShowLoading = true,isLoadMore = false) {
+export function getTransactionSettlement(status = "", timeStart = "", timeEnd = "", key = "", quickFilter = "", page = 1, isShowLoading = true, isLoadMore = false) {
     return {
         type: 'GET_TRANSACTION_SETTLEMENT',
         method: 'GET',
@@ -100,12 +100,12 @@ export function clearSearchBatchHistory() {
     }
 }
 
-export function changeStatustransaction(checkoutId, params,responseData = {}) {
+export function changeStatustransaction(checkoutId, params, responseData = {}) {
     return {
         type: 'CHANGE_STATUS_TRANSACTION',
         method: 'PUT',
         body: {
-            responseData:responseData
+            responseData: responseData
         },
         api: `${apiConfigs.BASE_API}checkout/paymentvoidrefundtransaction/${checkoutId}`,
         token: true,
@@ -114,7 +114,7 @@ export function changeStatustransaction(checkoutId, params,responseData = {}) {
 }
 
 
-export function settleBatch(body,timeoutIncrease = true) {
+export function settleBatch(body, timeoutIncrease = true) {
     return {
         type: 'SETTLE_BATCH',
         method: 'POST',
@@ -247,3 +247,11 @@ export function resetProfileInvoiceLogin() {
     }
 }
 
+export function getInvoiceDetail(checkoutId = 0) {
+    return {
+        type: 'GET_INVOICE_DETAIL',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}checkout/${checkoutId}`,
+    }
+}

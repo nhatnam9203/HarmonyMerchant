@@ -176,17 +176,18 @@ class InvoiceScreen extends Layout {
         return temptBasket;
     }
 
-    setInvoiceDetail = (invoice) => {
-        this.setState({
-            invoiceDetail: invoice
-        });
-        for (let i = 0; i < this.listInvoiceRef.length; i++) {
-            if (this.listInvoiceRef[i].props.invoice.checkoutId === invoice.checkoutId) {
-                this.listInvoiceRef[i].setStateFromParent(true);
-            } else {
-                this.listInvoiceRef[i].setStateFromParent(false);
-            }
-        }
+    setInvoiceDetail = (invoice) => ()  => {
+        this.props.actions.invoice.getInvoiceDetail(invoice?.checkoutId);
+        // this.setState({
+        //     invoiceDetail: invoice
+        // });
+        // for (let i = 0; i < this.listInvoiceRef.length; i++) {
+        //     if (this.listInvoiceRef[i].props.invoice.checkoutId === invoice.checkoutId) {
+        //         this.listInvoiceRef[i].setStateFromParent(true);
+        //     } else {
+        //         this.listInvoiceRef[i].setStateFromParent(false);
+        //     }
+        // }
 
     }
 
@@ -661,7 +662,9 @@ const mapStateToProps = state => ({
     printerSelect: state.dataLocal.printerSelect,
     printerList: state.dataLocal.printerList,
     profileLoginInvoice: state.dataLocal.profileLoginInvoice,
-    notiIntervalId: state.app.notiIntervalId
+    notiIntervalId: state.app.notiIntervalId,
+
+    invoiceDetail: state.invoice.invoiceDetail
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

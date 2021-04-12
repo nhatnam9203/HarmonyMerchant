@@ -380,7 +380,7 @@ function* getListStaffsSales(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: "GET_LIST_STAFFS_SALES_SUCCESS",
-                payload: responses.data
+                payload: responses?.data
             })
 
         } else if (parseInt(codeNumber) === 401) {
@@ -409,7 +409,7 @@ function* getListGiftCardSales(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: "GET_LIST_GIFT_CARD_SALES_SUCCESS",
-                payload: responses.data
+                payload: responses?.data
             })
 
         } else if (parseInt(codeNumber) === 401) {
@@ -438,7 +438,7 @@ function* getStaffSalesBySettlementId(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: "GET_STAFF_SALES_BY_SETTLEMENT_ID_SUCCESS",
-                payload: responses.data
+                payload: responses?.data
             })
 
         } else if (parseInt(codeNumber) === 401) {
@@ -467,7 +467,36 @@ function* getGiftCardSalesBySettlementId(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: "GET_GIFT_CARD_SALES_BY_SETTLEMENT_ID_SUCCESS",
-                payload: responses.data ? responses.data : []
+                payload: responses?.data || []
+            })
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* getInvoiceDetail(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "GET_INVOICE_DETAIL_SUCCESS",
+                payload: responses?.data
             })
 
         } else if (parseInt(codeNumber) === 401) {
@@ -503,5 +532,8 @@ export default function* saga() {
         takeLatest('GET_LIST_GIFT_CARD_SALES', getListGiftCardSales),
         takeLatest('GET_STAFF_SALES_BY_SETTLEMENT_ID', getStaffSalesBySettlementId),
         takeLatest('GET_GIFT_CARD_SALES_BY_SETTLEMENT_ID', getGiftCardSalesBySettlementId),
+
+        takeLatest('GET_INVOICE_DETAIL', getInvoiceDetail),
+
     ])
 }
