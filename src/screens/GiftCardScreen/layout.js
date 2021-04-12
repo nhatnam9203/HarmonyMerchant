@@ -100,7 +100,7 @@ export default class Layout extends React.Component {
                     refreshing={refreshListCustomer}
                     onRefresh={this.onRefreshGiftCardList}
                     onEndReached={this.loadMoreGiftCardsList}
-                    onEndReachedThreshold={0.5}
+                    onEndReachedThreshold={0.1}
                     onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
                     removeClippedSubviews={true}
                     initialNumToRender={20}

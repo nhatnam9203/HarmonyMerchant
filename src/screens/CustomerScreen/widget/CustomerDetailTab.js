@@ -371,7 +371,7 @@ class CustomerDetailTab extends React.Component {
                                     ListHeaderComponent={() => this.renderHeaderFlatlist()}
                                     keyExtractor={(item, index) => `${item?.appointmentId}_${index}`}
                                     onEndReached={this.loadMorePastAppointments}
-                                    onEndReachedThreshold={0.5}
+                                    onEndReachedThreshold={0.1}
                                     onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
                                     removeClippedSubviews={true}
                                     initialNumToRender={20}

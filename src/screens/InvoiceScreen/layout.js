@@ -566,7 +566,7 @@ export default class Layout extends React.Component {
                                 </Text>
                             </View>}
                             onEndReached={this.loadMoreInvoiceList}
-                            onEndReachedThreshold={0.5}
+                            onEndReachedThreshold={0.1}
                             onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
                             removeClippedSubviews={true}
                             initialNumToRender={20}

@@ -138,7 +138,7 @@ class Layout extends React.Component {
                         onRefresh={() => this.searchTransactions(1, false)}
 
                         onEndReached={this.loadMoreSettlement}
-                        onEndReachedThreshold={0.5}
+                        onEndReachedThreshold={0.1}
                         onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
                         removeClippedSubviews={true}
                         initialNumToRender={20}

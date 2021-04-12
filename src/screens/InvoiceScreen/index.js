@@ -223,6 +223,7 @@ class InvoiceScreen extends Layout {
     }
 
     loadMoreInvoiceList = ({ distanceFromEnd }) => {
+        console.log("----- distanceFromEnd: ",distanceFromEnd);
         if (!this.onEndReachedCalledDuringMomentum) {
             const { totalPages, currentPage } = this.props;
             if (currentPage < totalPages) {

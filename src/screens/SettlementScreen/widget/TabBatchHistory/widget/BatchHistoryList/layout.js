@@ -141,7 +141,7 @@ class Layout extends React.Component {
                         refreshing={refreshingBatchHistory}
                         onRefresh={this.onRefresBathHistoryList}
                         onEndReached={this.loadMoreBatchHistoryList}
-                        onEndReachedThreshold={0.5}
+                        onEndReachedThreshold={0.1}
                         onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
                         removeClippedSubviews={true}
                         initialNumToRender={20}

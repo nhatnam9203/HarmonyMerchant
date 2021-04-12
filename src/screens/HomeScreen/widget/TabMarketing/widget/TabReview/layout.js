@@ -219,7 +219,7 @@ class Layout extends React.Component {
           )}
           keyExtractor={(item, index) => `${index}`}
           onEndReached={this.onLoadmore}
-          onEndReachedThreshold={0.5}
+          onEndReachedThreshold={0.1}
           onMomentumScrollBegin={() => {
             this.onEndReachedCalledDuringMomentum = false;
           }}

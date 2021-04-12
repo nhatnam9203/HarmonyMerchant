@@ -44,7 +44,7 @@ class Layout extends React.Component {
             numColumns={"5"}
             keyExtractor={(item, index) => `${index}`}
             onEndReached={this.onLoadmore}
-            onEndReachedThreshold={0.3}
+            onEndReachedThreshold={0.1}
             onMomentumScrollBegin={() => {
               this.onEndReachedCalledDuringMomentum = false;
             }}
