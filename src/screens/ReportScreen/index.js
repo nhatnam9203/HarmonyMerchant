@@ -29,8 +29,8 @@ class ReportScreen extends Layout {
           isFocus: false,
           titleRangeTime: "This week",
         });
-        this.checkPermissionRef.current.setStateFromParent("");
-        this.screenReportRef.current.didBlur();
+        this.checkPermissionRef?.current?.setStateFromParent("");
+        this.screenReportRef?.current?.didBlur();
       }
     );
     this.didFocusSubscription = this.props.navigation.addListener(
@@ -39,8 +39,8 @@ class ReportScreen extends Layout {
         this.setState({
           isFocus: true,
         });
-        this.checkPermissionRef.current.setStateFromParent("");
-        this.screenReportRef.current.didFocus();
+        this.checkPermissionRef?.current?.setStateFromParent("");
+        this.screenReportRef?.current?.didFocus();
 
         const { profileStaffLogin } = this.props;
         const roleName = profileStaffLogin?.roleName || "Admin";

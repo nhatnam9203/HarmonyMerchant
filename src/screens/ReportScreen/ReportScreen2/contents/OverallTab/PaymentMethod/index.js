@@ -139,6 +139,7 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
     didFocus: () => {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
+    getOverallPaymentMethod: () => getOverallPaymentMethod(),
   }));
 
   /**effect */

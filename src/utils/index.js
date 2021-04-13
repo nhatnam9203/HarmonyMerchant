@@ -67,6 +67,7 @@ export const requestAPI = async (action, header = {}) => {
     }
     try {
         let response = await axios(configs);
+        // console.log(JSON.stringify(response));
         const codeNumber = response.status ? response.status : 0;
         if (codeNumber === 401) {
             return { codeNumber: codeNumber }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useStatem, forwardRef, useRef, useImperativeHandle } from "react";
 import { TouchableOpacity, StyleSheet, Text, View, Image } from "react-native";
 import { ScrollableTabView } from "@components";
 
@@ -19,16 +19,14 @@ const TAB_DEFAULT_HEIGHT = 50;
 //================================
 //Header Tab Layout
 //================================
-export default function HeaderTabLayout({
-  children,
-  tabIcons,
-  onHeaderTabChanged,
-}) {
+function HeaderTabLayout({ children, tabIcons, onHeaderTabChanged, handleOnChangeTab }, ref) {
   /**process */
-  const [tabCurrent, changeTabCurrent] = useState(SCROLL_PAGE_DEFAULT);
+  // const [tabCurrent, changeTabCurrent] = useState(SCROLL_PAGE_DEFAULT);
+
+  const scrollableTabRef = useRef(null);
 
   const onChangeTab = ({ i, ref }) => {
-    changeTabCurrent(i);
+    handleOnChangeTab(i);
     if (onHeaderTabChanged) {
       onHeaderTabChanged(i);
     }
@@ -40,8 +38,13 @@ export default function HeaderTabLayout({
     return <CustomTabBar {...args} tabIcons={tabIcons} />;
   };
 
+  useImperativeHandle(ref,()=>({
+    goToFirstTab : () =>  scrollableTabRef?.current.goToPage(0)
+  }));
+
   return (
     <ScrollableTabView
+      ref={scrollableTabRef}
       style={styles.scrollTab}
       initialPage={SCROLL_PAGE_DEFAULT}
       locked={true}
@@ -142,3 +145,6 @@ const styles = StyleSheet.create({
   },
   scrollTab: { flex: 1 },
 });
+
+
+export default HeaderTabLayout = forwardRef(HeaderTabLayout)

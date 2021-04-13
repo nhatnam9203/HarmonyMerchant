@@ -128,6 +128,7 @@ function CustomerTab({ style, showBackButton }, ref) {
     didFocus: () => {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
+    getCustomerReportSales: () => getCustomerReportSales()
   }));
 
   /**effect */

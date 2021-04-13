@@ -133,6 +133,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
     didFocus: () => {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
+    getGiftCardReportSales: () => getGiftCardReportSales()
   }));
 
   /**effect */

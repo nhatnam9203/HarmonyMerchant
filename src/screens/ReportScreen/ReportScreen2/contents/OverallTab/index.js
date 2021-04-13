@@ -62,6 +62,10 @@ function OverallTab({ style, showBackButton }, ref) {
       paymentTabRef?.current?.didFocus();
       efficiencyTabRef?.current?.didFocus();
     },
+    callAPIForTwoTabs: () => {
+      paymentTabRef?.current?.getOverallPaymentMethod();
+      efficiencyTabRef?.current?.getMarketingEfficiencyMethod();
+    }
   }));
 
   return (

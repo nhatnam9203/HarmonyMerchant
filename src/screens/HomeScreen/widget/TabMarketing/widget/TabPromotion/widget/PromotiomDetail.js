@@ -296,8 +296,8 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         const smsLength = smsInfoMarketing?.smsLength || 0;
         const segment = smsInfoMarketing?.segment || 1;
         const allSMSWord = smsLength + (title?.length || 0) + (getConditionIdByTitle(condition) === 2 ? `${conditionServiceProductTags.join("")}`.length : 0) + (getShortNameForDiscountAction(actionCondition) === "specific" ? `${actionTags.join("")}`.length : 0);
-        const smsMoney = roundFloatNumber(smsCount * Math.ceil(allSMSWord / 153) * segment);
-        const smsMaxMoney = roundFloatNumber((smsInfoMarketing?.customerCount || 1) * Math.ceil(allSMSWord / 153) * segment);
+        const smsMoney = roundFloatNumber(smsCount * Math.ceil(allSMSWord / 70) * segment + 0.01);
+        const smsMaxMoney = roundFloatNumber((smsInfoMarketing?.customerCount || 1) * Math.ceil(allSMSWord / 70) * segment +  0.01);
 
         setSmsAmount(formatMoney(smsMoney));
         setCustomerSendSMSQuantity(smsCount);

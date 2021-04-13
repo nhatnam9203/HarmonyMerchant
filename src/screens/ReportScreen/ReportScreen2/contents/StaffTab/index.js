@@ -119,6 +119,7 @@ function StaffTab({ style, showBackButton }, ref) {
       layoutRef.current.goBack();
       dispatch(actions.staff.resetDownloadExportFiles());
     },
+    getListStaffsSalaryTop: () => getListStaffsSalaryTop(),
     didBlur: async () => {
       //   setTitleRangeTime(RANGE_TIME_DEFAULT);
     },

@@ -142,6 +142,7 @@ function MarketingEfficiencyTab({ style, showBackButton, showHeader }, ref) {
     didFocus: () => {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
+    getMarketingEfficiencyMethod: () => getMarketingEfficiencyMethod()
   }));
 
   /**effect */
