@@ -13,7 +13,7 @@ export function getAppointmentById(id) {
     }
 }
 
-export function getGroupAppointmentById(id, isBookingFromCalendar = false,isAddMoreFromCalendar = false ,isNotShowMessage = true) {
+export function getGroupAppointmentById(id, isBookingFromCalendar = false, isAddMoreFromCalendar = false, isNotShowMessage = true) {
     return {
         type: 'GET_GROUP_APPOINTMENT_BY_ID',
         method: 'GET',
@@ -259,10 +259,13 @@ export function submitPaymentWithCreditCard(merchantId, responseData, checkoutPa
     }
 }
 
-export function cancelHarmonyPayment(appointmentId) {
+export function cancelHarmonyPayment(appointmentId, status = null, note = null) {
     return {
         type: 'CANCEL_HARMONY_PAYMENT',
-        body: {},
+        body: {
+            status,
+            note
+        },
         method: 'PUT',
         token: true,
         api: `${apiConfigs.BASE_API}appointment/cancelmethod/${appointmentId}`,

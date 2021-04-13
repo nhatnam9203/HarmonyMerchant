@@ -1125,7 +1125,7 @@ class TabCheckout extends Layout {
             portDevice: tempPortPax,
             timeoutConnect: "90000",
             bluetoothAddr: idBluetooth,
-            invNum: `${groupAppointment?.checkoutGroupId || 0}` 
+            invNum: `${groupAppointment?.checkoutGroupId || 0}`
         }, (message) => this.handleResponseCreditCard(message, true, amountCredtitForSubmitToServer))
     }
 
@@ -1140,9 +1140,9 @@ class TabCheckout extends Layout {
             if (result.status == 0) {
                 PosLink.cancelTransaction();
                 if (payAppointmentId) {
-                    this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
+                    this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId,'transaction fail', result?.message);
                 }
-                if (result.message === "ABORTED") {
+                if (result?.message === "ABORTED") {
                     return;
                 }
                 setTimeout(() => {
@@ -1161,29 +1161,36 @@ class TabCheckout extends Layout {
                         alert("You're running your Pax on DEMO MODE!")
                     }, 1000);
                 } else {
-                    const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal } = this.state;
-                    let method = this.getPaymentString(paymentSelected);
+                    this.props.actions.appointment.submitPaymentWithCreditCard(
+                        profile?.merchantId || 0,
+                        message,
+                        payAppointmentId,
+                        moneyUserGiveForStaff
+                    )
 
-                    if (online) {
-                        // ------ Payment with credit online card success ----
-                        // this.props.actions.appointment.paymentAppointment(groupAppointment.checkoutGroupId, method, moneyUserGiveForStaff, message, profile.merchantId);
-                        this.props.actions.appointment.submitPaymentWithCreditCard(
-                            profile?.merchantId || 0,
-                            message,
-                            payAppointmentId,
-                            moneyUserGiveForStaff
-                        )
+                    // const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal } = this.state;
+                    // let method = this.getPaymentString(paymentSelected);
 
-                    } else {
-                        // ------ Payment with credit offline card success ----
-                    }
+                    // if (online) {
+                    //     // ------ Payment with credit online card success ----
+                    //     this.props.actions.appointment.submitPaymentWithCreditCard(
+                    //         profile?.merchantId || 0,
+                    //         message,
+                    //         payAppointmentId,
+                    //         moneyUserGiveForStaff
+                    //     )
+
+                    // } else {
+                    //     // ------ Payment with credit offline card success ----
+                    // }
                 }
             } else {
+                const resultTxt = result?.ResultTxt || "Transaction failed:";
                 if (payAppointmentId) {
-                    this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
+                    this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId, 'transaction fail', resultTxt);
                 }
                 setTimeout(() => {
-                    alert(result?.ResultTxt || "Transaction failed:");
+                    alert(resultTxt);
                 }, 300)
             }
         } catch (error) {

@@ -18,6 +18,9 @@ class ItemInvoice extends React.Component {
             case 'pending':
                 color = '#0764B0';
                 break;
+            case 'incomplete':
+                color = '#0764B0';
+                break;
             case 'complete':
                 color = '#0035FF';
                 break;
@@ -29,12 +32,12 @@ class ItemInvoice extends React.Component {
 
 
     render() {
-        const { invoice, onPress , isSelectedInvoice} = this.props;
+        const { invoice, onPress, isSelectedInvoice } = this.props;
         const { user } = invoice;
         const tempDate = `${formatWithMoment(invoice.createdDate, 'MM/DD/YYYY')}` === `${formatWithMoment(new Date(), 'MM/DD/YYYY')}` ? 'Today' : formatWithMoment(invoice.createdDate, 'MM/DD/YYYY');
         const temptFirstName = user ? user.firstName : '';
         const temptLastName = user ? user.lastName : '';
-        const colorStaus = this.getColorStatus(invoice.status);
+        const colorStaus = this.getColorStatus(invoice?.status);
         const temptBackground = isSelectedInvoice ? { backgroundColor: 'rgb(225,246,254)' } : {};
         const settlementId = invoice.settlementId ? invoice.settlementId : 0;
 

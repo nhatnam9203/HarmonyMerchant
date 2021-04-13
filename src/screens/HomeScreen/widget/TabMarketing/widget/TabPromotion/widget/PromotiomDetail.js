@@ -299,7 +299,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         const segmentLength = smsInfoMarketing?.segmentLength || 1;
         const additionalFee = parseFloat(smsCount > 0 ? (smsInfoMarketing?.additionalFee || 0) : 0);
 
-        const allSMSWord = smsLength  + (title?.length || 0) + (getConditionIdByTitle(condition) === 2 ? (`${conditionServiceProductTags.join(", ")}`.length +35) : 0) + (getShortNameForDiscountAction(actionCondition) === "specific" ? (`${actionTags.join(", ")}`.length + 35) : 0);
+        const allSMSWord = smsLength + (title?.length || 0) + (getConditionIdByTitle(condition) === 2 ? (`${conditionServiceProductTags.join(", ")}`.length + 35) : 0) + (getShortNameForDiscountAction(actionCondition) === "specific" ? (`${actionTags.join(", ")}`.length + 35) : 0);
         const tempFee = Math.ceil(parseFloat(Math.ceil(allSMSWord / segmentLength) * segmentFee) * 100) / 100 + additionalFee;
         const smsMoney = parseFloat(smsCount * tempFee);
         const smsMaxMoney = parseFloat(customerCount * tempFee);

@@ -244,7 +244,7 @@ export default class Layout extends React.Component {
                                 fontSize: 20, fontWeight: "600",
                                 marginTop: scaleSzie(6), marginBottom: scaleSzie(6)
                             }]} >
-                                {`${status && status !== "paid" && status !== "pending" && status !== "complete" ? `${status}`.toUpperCase() : "SALE"}`}
+                                {`${status && status !== "paid" && status !== "pending" && status !== "incomplete" && status !== "complete" ? `${status}`.toUpperCase() : "SALE"}`}
                             </Text>
                             {/* ------------- Dot Border  ----------- */}
                             <Dash
@@ -292,7 +292,7 @@ export default class Layout extends React.Component {
                                 </View>
                                 <View style={{ flex: 1 }} >
                                     <Text style={styles.txt_info} >
-                                       
+
                                         {
                                             checkoutId ? `: # ${checkoutId}` : ':'
                                         }
