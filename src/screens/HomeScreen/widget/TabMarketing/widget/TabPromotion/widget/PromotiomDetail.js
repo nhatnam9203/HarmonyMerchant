@@ -292,16 +292,21 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     }
 
     calculatorsmsMoney = (tempValue) => {
-        const smsCount = Math.ceil(tempValue * (smsInfoMarketing?.customerCount || 1));
-        const smsLength = smsInfoMarketing?.smsLength || 0;
-        const segment = smsInfoMarketing?.segment || 1;
-        const allSMSWord = smsLength + (title?.length || 0) + (getConditionIdByTitle(condition) === 2 ? `${conditionServiceProductTags.join("")}`.length : 0) + (getShortNameForDiscountAction(actionCondition) === "specific" ? `${actionTags.join("")}`.length : 0);
-        const smsMoney = roundFloatNumber(smsCount * Math.ceil(allSMSWord / 70) * segment + 0.01);
-        const smsMaxMoney = roundFloatNumber((smsInfoMarketing?.customerCount || 1) * Math.ceil(allSMSWord / 70) * segment +  0.01);
+        const customerCount = parseInt(smsInfoMarketing?.customerCount || 1);
+        const smsCount = Math.ceil(tempValue * customerCount);
+        const smsLength = smsInfoMarketing?.smsLength || 1;
+        const segmentFee = smsInfoMarketing?.segmentFee || 1;
+        const segmentLength = smsInfoMarketing?.segmentLength || 1;
+        const additionalFee = parseFloat(smsCount > 0 ? (smsInfoMarketing?.additionalFee || 0) : 0);
+
+        const allSMSWord = smsLength  + (title?.length || 0) + (getConditionIdByTitle(condition) === 2 ? (`${conditionServiceProductTags.join(", ")}`.length +35) : 0) + (getShortNameForDiscountAction(actionCondition) === "specific" ? (`${actionTags.join(", ")}`.length + 35) : 0);
+        const tempFee = Math.ceil(parseFloat(Math.ceil(allSMSWord / segmentLength) * segmentFee) * 100) / 100 + additionalFee;
+        const smsMoney = parseFloat(smsCount * tempFee);
+        const smsMaxMoney = parseFloat(customerCount * tempFee);
 
         setSmsAmount(formatMoney(smsMoney));
-        setCustomerSendSMSQuantity(smsCount);
         setSmsMaxAmount(formatMoney(smsMaxMoney));
+        setCustomerSendSMSQuantity(smsCount);
     }
 
     return (
