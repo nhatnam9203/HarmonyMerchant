@@ -1140,7 +1140,7 @@ class TabCheckout extends Layout {
             if (result.status == 0) {
                 PosLink.cancelTransaction();
                 if (payAppointmentId) {
-                    this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId,'transaction fail', result?.message);
+                    this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId, 'transaction fail', result?.message);
                 }
                 if (result?.message === "ABORTED") {
                     return;

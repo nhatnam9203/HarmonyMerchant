@@ -56,7 +56,7 @@ export const requestAPI = async (action, header = {}) => {
     headers['User-Agent'] = `HarmonyMerchant/${action.versionApp ? `${action.versionApp}.${Configs.CODEPUSH_VERSION}` : `${Configs.VERSION}.${Configs.CODEPUSH_VERSION}`}/${Platform.OS}`;
     const configs = {
         method: `${method}`.toLowerCase(),
-        baseURL: baseURL,
+        baseURL: encodeURI(baseURL),
         url: '',
         headers: headers,
         timeout: action?.timeoutIncrease ? 60000 : 30000,
@@ -920,6 +920,12 @@ export const getStatusStringInvoice = (type) => {
     switch (type) {
         case 'Pending':
             status = 'pending';
+            break;
+        case 'Incomplete':
+            status = 'incomplete';
+            break;
+        case 'Transaction Fail':
+            status = 'transaction fail';
             break;
         case 'Paid':
             status = 'paid';
