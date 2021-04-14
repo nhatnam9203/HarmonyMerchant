@@ -6,7 +6,10 @@ const authMiddleware = (store) => (next) => (action) => {
   const versionApp = appState?.dataLocal?.versionApp || configs.APPSTORE_VERSION;
   const deviceId = appState?.dataLocal?.deviceId || '';
   const deviceName = appState?.dataLocal?.deviceName || '';
-  const action_tempt = { ...action, versionApp , deviceId, deviceName};
+  const macAddress = appState?.dataLocal?.macAddress || '';
+  console.log('----- authMiddleware: ',macAddress);
+  const action_tempt = { ...action, versionApp , deviceId, deviceName,macAddress};
+
   if (action.token) {
     return next({
       ...action_tempt,

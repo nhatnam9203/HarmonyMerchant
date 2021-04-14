@@ -58,6 +58,9 @@
 		234AF86C25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */; };
 		234AF86D25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */; };
 		234AF86E25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */; };
+		2357FF672626B5CF003E7357 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 2357FF662626B5CF003E7357 /* Device.m */; };
+		2357FF682626B5CF003E7357 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 2357FF662626B5CF003E7357 /* Device.m */; };
+		2357FF692626B5CF003E7357 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 2357FF662626B5CF003E7357 /* Device.m */; };
 		23880FF225FF1A6900A9A12A /* harmony.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 23880FF125FF1A6900A9A12A /* harmony.mp3 */; };
 		23880FF325FF1A6900A9A12A /* harmony.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 23880FF125FF1A6900A9A12A /* harmony.mp3 */; };
 		23880FF425FF1A6900A9A12A /* harmony.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 23880FF125FF1A6900A9A12A /* harmony.mp3 */; };
@@ -598,6 +601,8 @@
 		2342066322DD7C2600E0EA35 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		2342066522DD7C3100E0EA35 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rn_ble_plx.swift; sourceTree = "<group>"; };
+		2357FF652626B57F003E7357 /* Device.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Device.h; sourceTree = "<group>"; };
+		2357FF662626B5CF003E7357 /* Device.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Device.m; sourceTree = "<group>"; };
 		237D40F525B59F0B00E39755 /* ADDLRspData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADDLRspData.h; sourceTree = "<group>"; };
 		237D40F625B59F0B00E39755 /* GoogleServiceUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleServiceUsage.h; sourceTree = "<group>"; };
 		237D40F725B59F0B00E39755 /* ApplePayVAS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplePayVAS.h; sourceTree = "<group>"; };
@@ -931,6 +936,8 @@
 				23FE295323C77BEF00E95925 /* Hpmerchant-Bridging-Header.h */,
 				234AF86B25B15BBB0051AC5E /* rn_ble_plx.swift */,
 				237D407025B588E300E39755 /* trans */,
+				2357FF652626B57F003E7357 /* Device.h */,
+				2357FF662626B5CF003E7357 /* Device.m */,
 			);
 			name = Hpmerchant;
 			sourceTree = "<group>";
@@ -2119,6 +2126,7 @@
 				366C011124DBC6DE00BAA83B /* RNBarChartManager.swift in Sources */,
 				366C011724DBC6DE00BAA83B /* RNBarChartView.swift in Sources */,
 				23FE295523C77BEF00E95925 /* File.swift in Sources */,
+				2357FF672626B5CF003E7357 /* Device.m in Sources */,
 				366C012C24DBC6DE00BAA83B /* RNChartViewBase.swift in Sources */,
 				366C010B24DBC6DE00BAA83B /* BarDataExtract.swift in Sources */,
 				366C013224DBC6DE00BAA83B /* DataExtract.swift in Sources */,
@@ -2185,6 +2193,7 @@
 				366C011324DBC6DE00BAA83B /* RNBarChartManager.swift in Sources */,
 				366C011924DBC6DE00BAA83B /* RNBarChartView.swift in Sources */,
 				230F1DB624D3DA2200A95898 /* File.swift in Sources */,
+				2357FF682626B5CF003E7357 /* Device.m in Sources */,
 				366C012E24DBC6DE00BAA83B /* RNChartViewBase.swift in Sources */,
 				366C010D24DBC6DE00BAA83B /* BarDataExtract.swift in Sources */,
 				366C013424DBC6DE00BAA83B /* DataExtract.swift in Sources */,
@@ -2251,6 +2260,7 @@
 				2388BEFE253FEC34007B4A7A /* RNBarChartManager.swift in Sources */,
 				2388BEFF253FEC34007B4A7A /* RNBarChartView.swift in Sources */,
 				2388BF00253FEC34007B4A7A /* File.swift in Sources */,
+				2357FF692626B5CF003E7357 /* Device.m in Sources */,
 				2388BF01253FEC34007B4A7A /* RNChartViewBase.swift in Sources */,
 				2388BF02253FEC34007B4A7A /* BarDataExtract.swift in Sources */,
 				2388BF03253FEC34007B4A7A /* DataExtract.swift in Sources */,
