@@ -270,3 +270,9 @@ export function getCreditBatchDetailById(batchId) {
         token: true
     }
 }
+
+export function resetStateCreditBatchDetailById() {
+    return {
+        type: 'RESET_STATE_CREDIT_BATCH_DETAIL_BY_ID',
+    }
+}

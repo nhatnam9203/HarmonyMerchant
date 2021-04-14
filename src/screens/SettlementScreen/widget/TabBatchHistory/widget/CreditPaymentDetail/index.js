@@ -7,26 +7,14 @@ class CreditPaymentDetail extends Layout {
 
     constructor(props) {
         super(props);
-        this.state = {
-            paymentTransaction:[],
-            paymentByCreditCard:0.00
-        };
-    }
-
-    setStateFromParent = async (paymentTransaction,paymentByCreditCard) => {
-        await this.setState({
-            paymentTransaction,
-            paymentByCreditCard
-        });
     }
 
 }
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    staffSalesBySettlementId: state.invoice.staffSalesBySettlementId
+    staffSalesBySettlementId: state.invoice.staffSalesBySettlementId,
+    creditBatchDetailById: state.invoice.creditBatchDetailById,
 })
-
-
 
 export default connectRedux(mapStateToProps, CreditPaymentDetail);

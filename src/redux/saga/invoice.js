@@ -520,12 +520,13 @@ function* getCreditBatchDetailById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
+        console.log('------ getCreditBatchDetailById: ',JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: "GET_CREDIT_BATCH_DETAIL_BY_ID_SUCCESS",
-                payload: responses?.data
+                payload: responses?.data || {}
             })
 
         } else if (parseInt(codeNumber) === 401) {

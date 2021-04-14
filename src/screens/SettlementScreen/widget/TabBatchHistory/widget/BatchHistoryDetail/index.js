@@ -42,8 +42,10 @@ class BatchHistoryDetail extends Layout {
     }
 
     gotoCreditPaymentDetail = () => {
-        this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(`1`);
-        this.props.gotoCreditPaymentDetail({ ...this.state.settlementDetail });
+        const batchId = this.state.settlementDetail?.settlementId || "";
+        this.props.actions.invoice.getCreditBatchDetailById(batchId);
+        // this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(`1`);
+        // this.props.gotoCreditPaymentDetail({ ...this.state.settlementDetail });
     }
 
 }

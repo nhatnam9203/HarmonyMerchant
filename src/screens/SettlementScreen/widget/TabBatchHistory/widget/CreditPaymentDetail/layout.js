@@ -15,8 +15,8 @@ import styles from "./style";
 class Layout extends React.Component {
 
     render() {
-        const { paymentTransaction ,paymentByCreditCard} = this.state;
-        const transactionsCount = paymentTransaction.length > 0 ? paymentTransaction.length : 0;
+        const {creditBatchDetailById} = this.props;
+        const transactionsCount = creditBatchDetailById?.paymentTransaction?.length || 0;
 
         return (
             <View style={{ flex: 1, backgroundColor: "#fff" }} >
@@ -27,7 +27,7 @@ class Layout extends React.Component {
                 {/* --------- Row Table  ---------- */}
                 <View style={{ flex: 1 }} >
                     <FlatList
-                        data={paymentTransaction}
+                        data={creditBatchDetailById?.paymentTransaction || []}
                         renderItem={({ item, index }) => <RowTable data={item} />}
                         keyExtractor={(item, index) => `${item.appointmentCode}_${index}`}
                     />
@@ -47,7 +47,7 @@ class Layout extends React.Component {
                     <View style={{ flex: 1 }} />
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end", }} >
                         <Text style={[styles.txt_header_table,,{color:"#fff"}]} >
-                            {`$ ${paymentByCreditCard}`}
+                            {`$ ${creditBatchDetailById?.paymentByCreditCard || '0.00'}`}
                         </Text>
                     </View>
 

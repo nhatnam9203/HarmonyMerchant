@@ -24,6 +24,9 @@ class ItemInvoice extends React.Component {
             case 'complete':
                 color = '#0035FF';
                 break;
+            case 'transaction fail':
+                color = '#FF3B30';
+                break;
             default:
                 color = '#C5C5C5';
         }
@@ -49,7 +52,7 @@ class ItemInvoice extends React.Component {
                 flexDirection: "row"
             }, temptBackground]} >
                 {/* ----------- Col 1 --------- */}
-                <View style={{ flex: 1.7 }} >
+                <View style={{ flex:2}} >
                     <View style={{ flex: 1, justifyContent: 'center' }} >
                         <Text style={{ fontSize: scaleSzie(14), color: '#404040' }} >
                             {`${temptFirstName} ${temptLastName}`}
@@ -60,7 +63,7 @@ class ItemInvoice extends React.Component {
                             {`# ${invoice.code}`}
                         </Text>
                         <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: colorStaus }} />
-                        <Text style={{ fontSize: scaleSzie(14), color: colorStaus, marginLeft: scaleSzie(5) }} >
+                        <Text style={{ fontSize: scaleSzie(12), color: colorStaus, marginLeft: scaleSzie(5),fontWeight:"600" }} >
                             {invoice.status}
                         </Text>
 

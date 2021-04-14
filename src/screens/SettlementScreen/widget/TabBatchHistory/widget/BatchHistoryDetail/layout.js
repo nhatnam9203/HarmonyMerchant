@@ -113,7 +113,7 @@ class Layout extends React.Component {
         const { settlementDetail } = this.state;
 
         const paymentByHarmony = settlementDetail?.paymentByHarmony || 0.00;
-        const paymentByCreditCard =  settlementDetail?.paymentByCreditCard || 0.00;
+        const paymentByCreditCard = settlementDetail?.paymentByCreditCard || 0.00;
         const paymentByCash = settlementDetail?.paymentByCash || 0.00;
         const otherPayment = settlementDetail?.otherPayment || 0.00;
         const discount = settlementDetail?.discount || 0.00;

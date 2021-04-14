@@ -42,7 +42,9 @@ const initialState = {
     settlementTotalPages: 0,
     isLoadMoreTransSettlement: false,
 
-    invoiceDetail: {}
+    invoiceDetail: {},
+    creditBatchDetailById: {},
+    isGetCreditBatchDetailById: false
 }
 
 function invoiceReducer(state = initialState, action) {
@@ -279,6 +281,17 @@ function invoiceReducer(state = initialState, action) {
             return {
                 ...state,
                 invoiceDetail: {}
+            }
+        case 'GET_CREDIT_BATCH_DETAIL_BY_ID_SUCCESS':
+            return {
+                ...state,
+                creditBatchDetailById: action.payload,
+                isGetCreditBatchDetailById: true
+            }
+        case 'RESET_STATE_CREDIT_BATCH_DETAIL_BY_ID':
+            return {
+                ...state,
+                isGetCreditBatchDetailById: false
             }
         case 'LOGOUT_APP':
             return {
