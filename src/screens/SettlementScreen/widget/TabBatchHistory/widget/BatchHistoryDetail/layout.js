@@ -1,17 +1,14 @@
 import React from 'react';
 import {
     View,
-    TextInput,
     FlatList,
     ScrollView,
     Image
 } from 'react-native';
 import _ from 'ramda';
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, formatWithMoment } from '@utils';
-import {
-    Text, ButtonCustom, Button
-} from '@components';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, formatWithMoment } from '@utils';
+import { Text, Button } from '@components';
 import styles from "./style";
 import ItemPaymentsReport, { StaffsHeaderTable, StaffsItem, GiftCardItem, TotalItem, HeaderPaymentsReport } from "./widget/ItemsSettlement";
 import ICON from "@resources";
@@ -21,14 +18,12 @@ class Layout extends React.Component {
     renderLastSettlement() {
         const { language } = this.props;
         const { settlementDetail } = this.state;
-        const batchId = settlementDetail.settlementId ? settlementDetail.settlementId : "";
-        const settlementDate = settlementDetail.settlementDate ? settlementDetail.settlementDate : new Date();
-        const total = settlementDetail.total ? settlementDetail.total : "0.00";
+        const batchId = settlementDetail?.settlementId || "";
+        const settlementDate = settlementDetail?.settlementDate || new Date();
+        const total = settlementDetail?.total || "0.00";
 
         return (
-            <View style={{
-                height: scaleSzie(40), flexDirection: 'row', alignItems: 'center',
-            }} >
+            <View style={{ height: scaleSzie(40), flexDirection: 'row', alignItems: 'center' }} >
                 <Text style={[styles.txt_top_title, { marginLeft: scaleSzie(10), marginRight: scaleSzie(20), fontWeight: "400" }]} >
                     {`${localize('Batch ID', language)}: `}
                     <Text style={[styles.txt_top_title, { marginLeft: scaleSzie(10), marginRight: scaleSzie(20), }]} >
@@ -50,15 +45,6 @@ class Layout extends React.Component {
                         style={{ width: scaleSzie(30), height: scaleSzie(30) }}
                     />
                 </Button>
-
-                {/* <Button onPress={this.printBatchHistoryDetail} style={{
-                    position: "absolute", top: scaleSzie(10), right: scaleSzie(50),
-                    justifyContent: "center"
-                }} >
-                    <Image source={ICON.print_batch_history}
-                        style={{ width: scaleSzie(30), height: scaleSzie(30) }}
-                    />
-                </Button> */}
             </View>
         );
     }
@@ -89,13 +75,13 @@ class Layout extends React.Component {
         let giftCardTotal = 0
         if (staffSalesBySettlementId.length > 0) {
             staffSalesBySettlementId.forEach(staff => {
-                totalAmount = parseFloat(totalAmount) + parseFloat(formatNumberFromCurrency(staff.total ? staff.total : 0.00));
+                totalAmount = parseFloat(totalAmount) + parseFloat(formatNumberFromCurrency(staff?.total || 0.00));
             });
         }
 
         if (gitfCardSalesBySettlementId.length > 0) {
             gitfCardSalesBySettlementId.forEach(giftCard => {
-                giftCardTotal = parseFloat(giftCardTotal) + parseFloat(formatNumberFromCurrency(giftCard.total ? giftCard.total : 0.00));
+                giftCardTotal = parseFloat(giftCardTotal) + parseFloat(formatNumberFromCurrency(giftCard?.total || 0.00));
             });
         }
 
@@ -126,16 +112,15 @@ class Layout extends React.Component {
     renderPaymentMethodsReport() {
         const { settlementDetail } = this.state;
 
-        const paymentByHarmony = settlementDetail.paymentByHarmony ? settlementDetail.paymentByHarmony : 0.00;
-        const paymentByCreditCard = settlementDetail.paymentByCreditCard ? settlementDetail.paymentByCreditCard : 0.00;
-        const paymentByCash = settlementDetail.paymentByCash ? settlementDetail.paymentByCash : 0.00;
-        const otherPayment = settlementDetail.otherPayment ? settlementDetail.otherPayment : 0.00;
-        const discount = settlementDetail.discount ? settlementDetail.discount : 0.00;
-        const total = settlementDetail.total ? settlementDetail.total : 0.00;
-        const paymentByCashStatistic = settlementDetail.paymentByCashStatistic ? settlementDetail.paymentByCashStatistic : 0.00;
-        const otherPaymentStatistic = settlementDetail.otherPaymentStatistic ? settlementDetail.otherPaymentStatistic : 0.00;
-
-        const paymentByGiftcard = settlementDetail.paymentByGiftcard ? settlementDetail.paymentByGiftcard : 0.00;
+        const paymentByHarmony = settlementDetail?.paymentByHarmony || 0.00;
+        const paymentByCreditCard =  settlementDetail?.paymentByCreditCard || 0.00;
+        const paymentByCash = settlementDetail?.paymentByCash || 0.00;
+        const otherPayment = settlementDetail?.otherPayment || 0.00;
+        const discount = settlementDetail?.discount || 0.00;
+        const total = settlementDetail?.total || 0.00;
+        const paymentByCashStatistic = settlementDetail?.paymentByCashStatistic || 0.00;
+        const otherPaymentStatistic = settlementDetail?.otherPaymentStatistic || 0.00;
+        const paymentByGiftcard = settlementDetail?.paymentByGiftcard || 0.00;
 
         return (
             <View style={{ flex: 1, }} >
@@ -201,7 +186,6 @@ class Layout extends React.Component {
     renderNote() {
         const { settlementDetail } = this.state;
         const note = settlementDetail.note ? settlementDetail.note : "";
-        const settlementDate = settlementDetail.settlementDate ? settlementDetail.settlementDate : new Date();
 
         return (
             <View style={{}} >
@@ -226,8 +210,6 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language } = this.props;
-
         return (
             <View style={{ flex: 1, backgroundColor: "#fff" }} >
                 <View style={{ flex: 1 }} >

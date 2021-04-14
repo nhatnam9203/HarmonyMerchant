@@ -257,7 +257,7 @@ function* changeStatustransaction(action) {
         yield put({ type: 'LOADING_ROOT' });
         const state = yield select();
         const { profileLoginInvoice } = state.dataLocal;
-        const temptAction = profileLoginInvoice?.token ?  { ...action, token: profileLoginInvoice?.token || "" } : action;
+        const temptAction = profileLoginInvoice?.token ? { ...action, token: profileLoginInvoice?.token || "" } : action;
         const responses = yield requestAPI(temptAction);
         // console.log("------ changeStatustransaction: ",JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -516,6 +516,35 @@ function* getInvoiceDetail(action) {
     }
 }
 
+function* getCreditBatchDetailById(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "GET_CREDIT_BATCH_DETAIL_BY_ID_SUCCESS",
+                payload: responses?.data
+            })
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
 export default function* saga() {
     yield all([
         takeLatest('GET_LIST_INVOICE_BY_MERCHANT', getListInvoicesByMerchant),
@@ -532,8 +561,7 @@ export default function* saga() {
         takeLatest('GET_LIST_GIFT_CARD_SALES', getListGiftCardSales),
         takeLatest('GET_STAFF_SALES_BY_SETTLEMENT_ID', getStaffSalesBySettlementId),
         takeLatest('GET_GIFT_CARD_SALES_BY_SETTLEMENT_ID', getGiftCardSalesBySettlementId),
-
         takeLatest('GET_INVOICE_DETAIL', getInvoiceDetail),
-
+        takeLatest('GET_CREDIT_BATCH_DETAIL_BY_ID', getCreditBatchDetailById),
     ])
 }

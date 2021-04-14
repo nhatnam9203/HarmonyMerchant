@@ -1,24 +1,16 @@
 import React from 'react';
 import {
-    View,
-    Image,
-    TextInput,
-    FlatList,
-    ScrollView,
-    Dimensions
+    View
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
-import { scaleSzie, localize, formatMoney } from '@utils';
-import {
-    Text, Button, ButtonCustom,
-} from '@components';
-import IMAGE from '@resources';
+import { scaleSzie } from '@utils';
+import { Text } from '@components';
 
 export default class TextInputAmount extends React.Component {
 
     render() {
-        const { value,onFocus ,onChangeText,editable} = this.props;
+        const { value, onFocus, onChangeText, editable } = this.props;
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
                 <View style={{ justifyContent: 'center', width: scaleSzie(13) }} >
@@ -41,7 +33,7 @@ export default class TextInputAmount extends React.Component {
                             flex: 1,
                         }}
                         value={`${value}`}
-                        onChangeText={(value) =>onChangeText(value)}
+                        onChangeText={(value) => onChangeText(value)}
                         onFocus={() => onFocus && onFocus()}
                         editable={editable}
                     />

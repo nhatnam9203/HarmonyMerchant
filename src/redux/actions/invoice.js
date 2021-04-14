@@ -4,7 +4,7 @@ export function getListInvoicesByMerchant(key = "", method = "", status = "", ti
     return {
         type: 'GET_LIST_INVOICE_BY_MERCHANT',
         method: 'GET',
-        api:`${apiConfigs.BASE_API}checkout?page=${page}&method=${method}&status=${status}&timeStart=${timeStart}&timeEnd=${timeEnd}&key=${key}&quickFilter=${quickFilter}&row=10&api-version=1.1`,
+        api: `${apiConfigs.BASE_API}checkout?page=${page}&method=${method}&status=${status}&timeStart=${timeStart}&timeEnd=${timeEnd}&key=${key}&quickFilter=${quickFilter}&row=10&api-version=1.1`,
         token: true,
         isShowLoading,
         currentPage: page,
@@ -259,5 +259,14 @@ export function getInvoiceDetail(checkoutId = 0) {
 export function resetInvoiceDetailState() {
     return {
         type: 'RESET_INVOICE_DETAIL_STATE',
+    }
+}
+
+export function getCreditBatchDetailById(batchId) {
+    return {
+        type: 'GET_CREDIT_BATCH_DETAIL_BY_ID',
+        method: 'GET',
+        api: `${apiConfigs.BASE_API}settlement/${batchId}`,
+        token: true
     }
 }
