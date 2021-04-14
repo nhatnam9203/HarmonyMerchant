@@ -50,6 +50,7 @@ class InvoiceScreen extends Layout {
         this.invoicePrintRef = React.createRef();
         this.invoicePrintRef = React.createRef();
         this.viewShotRef = React.createRef();
+        this.virtualizedListRef = React.createRef();
     }
 
     componentDidMount() {
@@ -59,6 +60,7 @@ class InvoiceScreen extends Layout {
                 this.setState(initalState);
                 this.checkInvoicePermissionRef.current.setStateFromParent('');
                 this.props.actions.invoice.resetInvoiceDetailState();
+                this.virtualizedListRef?.current?.scrollToOffset({ x: 0, y: 0, animated: false });
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -102,6 +104,7 @@ class InvoiceScreen extends Layout {
             setTimeout(() => {
                 this.searchInvoice();
             }, 100);
+           this.virtualizedListRef?.current?.scrollToOffset({ x: 0, y: 0, animated: false });
         } else {
             this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
         }
@@ -173,6 +176,7 @@ class InvoiceScreen extends Layout {
     searchInvoiceWithKeyword = () => {
         this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
         this.searchInvoice();
+        this.virtualizedListRef?.current?.scrollToOffset({ x: 0, y: 0, animated: false });
     }
 
     clearSearchText = async () => {
@@ -196,6 +200,7 @@ class InvoiceScreen extends Layout {
             isShowLoading,
             isLoadMore
         );
+
     }
 
     loadMoreInvoiceList = ({ distanceFromEnd }) => {

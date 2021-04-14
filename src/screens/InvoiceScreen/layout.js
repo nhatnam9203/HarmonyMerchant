@@ -135,7 +135,7 @@ export default class Layout extends React.Component {
                         <Dropdown
                             label={localize('Status', language)}
                             data={[{ value: '' }, { value: 'Complete' }, { value: 'Incomplete' }, { value: 'Paid' }, { value: 'Void' },
-                            { value: 'Refund' }, { value: 'Cancel' },{value: 'Transaction Fail'}
+                            { value: 'Refund' }, { value: 'Cancel' }, { value: 'Transaction Fail' }
                             ]}
                             value={status}
                             onChangeText={(value) => this.updateSearchFilterInfo('status', value)}
@@ -550,6 +550,7 @@ export default class Layout extends React.Component {
                     <View style={{ flex: 1 }} >
                         {/* ----- Item Invoice ----- */}
                         <VirtualizedList
+                            ref={this.virtualizedListRef}
                             data={listInvoicesByMerchant}
                             renderItem={({ item, index }) => <ItemInvoice
                                 invoice={item}
