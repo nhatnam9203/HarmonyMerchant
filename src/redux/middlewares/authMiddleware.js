@@ -5,7 +5,8 @@ const authMiddleware = (store) => (next) => (action) => {
   const appState = store.getState();
   const versionApp = appState?.dataLocal?.versionApp || configs.APPSTORE_VERSION;
   const deviceId = appState?.dataLocal?.deviceId || '';
-  const action_tempt = { ...action, versionApp , deviceId};
+  const deviceName = appState?.dataLocal?.deviceName || '';
+  const action_tempt = { ...action, versionApp , deviceId, deviceName};
   if (action.token) {
     return next({
       ...action_tempt,

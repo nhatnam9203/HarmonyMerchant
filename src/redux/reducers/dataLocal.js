@@ -27,7 +27,9 @@ const initialState = {
     bluetoothPaxInfo: {
         id: "",
         name: ""
-    }
+    },
+
+    deviceName: ''
 }
 
 function dataLocalReducer(state = initialState, action) {
@@ -116,6 +118,11 @@ function dataLocalReducer(state = initialState, action) {
             return {
                 ...state,
                 deviceId: action.payload
+            }
+        case "UPDATE_DEVICE_NAME":
+            return {
+                ...state,
+                deviceName: action.payload
             }
         case "UPDATE_VERSION_APP":
             return {
