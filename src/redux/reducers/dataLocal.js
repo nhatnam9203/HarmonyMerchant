@@ -30,7 +30,6 @@ const initialState = {
     },
 
     deviceName: '',
-    macAddress:''
 }
 
 function dataLocalReducer(state = initialState, action) {
@@ -124,11 +123,6 @@ function dataLocalReducer(state = initialState, action) {
             return {
                 ...state,
                 deviceName: action.payload
-            }
-        case "UPDATE_MAC_ADDRESS":
-            return {
-                ...state,
-                macAddress: action.payload
             }
         case "UPDATE_VERSION_APP":
             return {

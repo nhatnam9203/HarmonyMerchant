@@ -80,12 +80,6 @@ export function updateDeviceName(deviceName) {
     }
 }
 
-export function updateMacAddress(macAddress) {
-    return {
-        type: 'UPDATE_MAC_ADDRESS',
-        payload: macAddress
-    }
-}
 
 export function updateVersionApp(version) {
     return {

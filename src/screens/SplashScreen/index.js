@@ -47,16 +47,12 @@ class SplashScreen extends Layout {
                 );
 
             } else {
-                const { deviceId, versionApp, deviceName, macAddress } = this.props;
+                const { deviceId, versionApp} = this.props;
                 if (!deviceId) {
                     const uniqueId = await DeviceInfo.getUniqueId();
                     this.props.actions.dataLocal.updateDeviceId(uniqueId || 'simulator');
                 }
 
-                if (!macAddress) {
-                    const tempMacAddress = await DeviceInfo.getMacAddress();
-                    this.props.actions.dataLocal.updateMacAddress(tempMacAddress || 'simulator');
-                }
 
                 const tempDeviceName = await DeviceInfo.getDeviceName();
                 this.props.actions.dataLocal.updateDeviceName(tempDeviceName || 'simulator');
@@ -171,7 +167,6 @@ const mapStateToProps = state => ({
     stateCity: state.dataLocal.stateCity,
     versionApp: state.dataLocal.versionApp,
     isInitialApp: state.app.isInitialApp,
-    macAddress: state.dataLocal.macAddress
 });
 
 let codePushOptions = {
