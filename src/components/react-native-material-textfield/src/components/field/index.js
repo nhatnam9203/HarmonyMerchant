@@ -529,7 +529,9 @@ export default class TextField extends PureComponent {
           <TextInput
             style={[styles.input,
             //  inputStyle, inputStyleOverrides, 
-            { fontSize: scaleSzie(14) }]}
+            { fontSize: scaleSzie(14) },
+            this.props.styleInput
+          ]}
             selectionColor={tintColor}
 
             {...props}

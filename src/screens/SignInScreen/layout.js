@@ -80,6 +80,7 @@ export default class Layout extends React.Component {
                                 borderColor: '#C5C5C5',
                                 flex: 1
                             }}
+                            styleInput={{fontSize:scaleSzie(18)}}
                         />
                     </View>
                 </View>
