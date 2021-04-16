@@ -5,16 +5,23 @@ import {
     ImageBackground,
 } from 'react-native';
 
-import { Text, InputAuth, ButtonCustom, Button } from '@components';
+import { Text, InputAuth, ButtonCustom, Button, Dropdown } from '@components';
 import { scaleSzie, localize, checkIsTablet } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
+
+const TERMINAL_ID_LIST = [
+    {value: 'Terminal 1 (MAIN)'},{value: 'Terminal 2'},{value: 'Terminal 3'},{value: 'Terminal 4'},
+    {value: 'Terminal 5'},{value: 'Terminal 6'},{value: 'Terminal 7'},{value: 'Terminal 8'},
+    {value: 'Terminal 9'},{value: 'Terminal 10'},{value: 'Terminal 11'},{value: 'Terminal 12'},{value: 'Terminal 13'},
+    {value: 'Terminal 14'},{value: 'Terminal 15'},{value:'SUPPORT ONLY'}
+];
 
 export default class Layout extends React.Component {
 
     render() {
         const { errorLogin, language, MIDStorage, isRememberMID } = this.props;
-        const { isSecureTextEntry, isShowKeyboard } = this.state;
+        const { isSecureTextEntry, isShowKeyboard, terminalId } = this.state;
         const iconShowPass = isSecureTextEntry ? IMAGE.showPass : IMAGE.notShowPass;
         const temptIconCheck = isRememberMID ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         const isTablet = checkIsTablet();
@@ -26,7 +33,7 @@ export default class Layout extends React.Component {
             >
                 <Image source={IMAGE.logo} style={styles.logo} />
                 {
-                    isTablet &&  !isShowKeyboard ? <View style={{ height: scaleSzie(60), justifyContent: 'center', alignItems: 'center' }} >
+                    isTablet && !isShowKeyboard ? <View style={{ height: scaleSzie(60), justifyContent: 'center', alignItems: 'center' }} >
                         <Text style={{ color: 'red', fontSize: scaleSzie(16), fontWeight: '600' }} >
                             {errorLogin}
                         </Text>
@@ -57,6 +64,26 @@ export default class Layout extends React.Component {
                     changeShowPass={this.changeShowPass}
                     iconShowPass={iconShowPass}
                 />
+
+                <View style={{ height: scaleSzie(20) }} />
+                {/* ---------------- Terminal ID Dropdown -------------- */}
+                <View style={{ flexDirection: 'row', height: scaleSzie(45), width: scaleSzie(400), }} >
+                    <View style={{ flex: 1,}} >
+                        <Dropdown
+                            label={'Select Terminal ID'}
+                            data={TERMINAL_ID_LIST}
+                            value={terminalId}
+                            onChangeText={(terminalId) => this.setState({terminalId})}
+                            containerStyle={{
+                                backgroundColor: '#fff',
+                                borderWidth: 1,
+                                borderColor: '#C5C5C5',
+                                flex: 1
+                            }}
+                        />
+                    </View>
+                </View>
+
                 <View style={{
                     width: scaleSzie(400), height: scaleSzie(60),
                     flexDirection: "row", paddingLeft: scaleSzie(10)
