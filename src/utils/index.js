@@ -54,8 +54,8 @@ export const requestAPI = async (action, header = {}) => {
     }
 
     headers['User-Agent'] = `HarmonyMerchant/${action.versionApp ? `${action.versionApp}.${Configs.CODEPUSH_VERSION}` : `${Configs.VERSION}.${Configs.CODEPUSH_VERSION}`}/${Platform.OS}`;
-    headers['DeviceID'] = `${encodeURI(action?.deviceName)}_${action?.deviceId}`;
-    // console.log("---- headers: ",headers);
+    headers['DeviceID'] = `${encodeURIComponent(action?.deviceName)}_${action?.deviceId}`;
+    console.log("---- headers: ", headers);
     const configs = {
         method: `${method}`.toLowerCase(),
         baseURL: encodeURI(baseURL),

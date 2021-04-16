@@ -63,7 +63,7 @@ class ItemInvoice extends React.Component {
                             {`# ${invoice.code}`}
                         </Text>
                         <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: colorStaus }} />
-                        <Text style={{ fontSize: scaleSzie(12), color: colorStaus, marginLeft: scaleSzie(5),fontWeight:"600" }} >
+                        <Text style={{ fontSize: scaleSzie(11), color: colorStaus, marginLeft: scaleSzie(5),fontWeight:"600" }} >
                             {invoice.status}
                         </Text>
 
