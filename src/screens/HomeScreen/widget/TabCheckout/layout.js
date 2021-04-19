@@ -23,7 +23,8 @@ import {
     ItemExtra, PopupDiscount, PopupBill, PopupDiscountLocal, ItemCustomerBasket, PopupPaymentDetails, ItemBlockBasket,
     PopupBlockDiscount, ItemPaymentMethod,
     ShadowLineShort, PopupAddItemIntoAppointments, PopupGiftCardDetail,
-    PopupEnterAmountGiftCard, EnterCustomerPhonePopup, PopupAddEditCustomer
+    PopupEnterAmountGiftCard, EnterCustomerPhonePopup, PopupAddEditCustomer,
+    ErrorMessagePaxModal
 } from './widget';
 
 import { StaffItem } from "./widget/NewCheckoutComponent";
@@ -867,7 +868,8 @@ class Layout extends React.Component {
     render() {
         const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission, isCancelAppointment } = this.props;
         const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
-            visiblePopupAddItemIntoBasket, visibleAddEditCustomerPopup
+            visiblePopupAddItemIntoBasket, visibleAddEditCustomerPopup,
+            visibleErrorMessageFromPax, errorMessageFromPax
         } = this.state;
 
         const titleExitCheckoutTab = isCancelAppointment ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? " : 'Are you sure you want to exit Check-Out?';
@@ -896,6 +898,15 @@ class Layout extends React.Component {
                     message={titleExitCheckoutTab}
                     onRequestClose={() => { this.setState({ visibleConfirm: false }) }}
                     confimYes={this.clearDataCofrim}
+                />
+
+                {/* ----------------- Display Error Message From Pax Machine ------------------ */}
+                <ErrorMessagePaxModal
+                    visible={visibleErrorMessageFromPax}
+                    title={localize('Trasaction Fail', language)}
+                    message={errorMessageFromPax}
+                    onRequestClose={() => { this.setState({ visibleErrorMessageFromPax: false }) }}
+                    confimYes={() => { this.setState({ visibleErrorMessageFromPax: false }) }}
                 />
                 <PopupChangeMoney
                     ref={this.cashBackRef}

@@ -1146,7 +1146,11 @@ class TabCheckout extends Layout {
                     return;
                 }
                 setTimeout(() => {
-                    alert(result.message);
+                    // alert(result.message);
+                    this.setState({
+                        visibleErrorMessageFromPax: true,
+                        errorMessageFromPax: `${result.message}`
+                    })
                 }, 300)
 
             } else if (result.ResultCode && result.ResultCode == "000000") {
@@ -1190,7 +1194,11 @@ class TabCheckout extends Layout {
                     this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId, 'transaction fail', resultTxt);
                 }
                 setTimeout(() => {
-                    alert(resultTxt);
+                    // alert(resultTxt);
+                    this.setState({
+                        visibleErrorMessageFromPax: true,
+                        errorMessageFromPax: `${resultTxt}`
+                    })
                 }, 300)
             }
         } catch (error) {

@@ -67,7 +67,10 @@ export default {
 
     // -------- New State ------
     isShowCategoriesColumn: false,
-    selectedStaff:{},
+    selectedStaff: {},
     visibleAddEditCustomerPopup: false,
-    isBlockBookingFromCalendar: false
+    isBlockBookingFromCalendar: false,
+
+    visibleErrorMessageFromPax: false,
+    errorMessageFromPax: ''
 }
