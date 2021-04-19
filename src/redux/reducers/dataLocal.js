@@ -194,6 +194,8 @@ function dataLocalReducer(state = initialState, action) {
                 MIDStorage: state.MIDStorage,
                 versionApp: state.versionApp,
                 isRememberMID: state.isRememberMID,
+                deviceName: state.deviceName,
+                deviceId: state.deviceId
             }
         default:
             return state

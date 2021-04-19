@@ -47,7 +47,7 @@ class SplashScreen extends Layout {
                 );
 
             } else {
-                const { deviceId, versionApp} = this.props;
+                const { deviceId, versionApp, deviceName } = this.props;
                 if (!deviceId) {
                     const uniqueId = await DeviceInfo.getUniqueId();
                     this.props.actions.dataLocal.updateDeviceId(uniqueId || 'simulator');
@@ -55,7 +55,9 @@ class SplashScreen extends Layout {
 
 
                 const tempDeviceName = await DeviceInfo.getDeviceName();
-                this.props.actions.dataLocal.updateDeviceName(tempDeviceName || 'simulator');
+                if (tempDeviceName !== deviceName) {
+                    this.props.actions.dataLocal.updateDeviceName(tempDeviceName || 'simulator');
+                }
 
                 if (version !== versionApp) {
                     this.props.actions.dataLocal.updateVersionApp(version ? version : latestVersion);

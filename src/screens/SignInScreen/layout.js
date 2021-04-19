@@ -11,10 +11,15 @@ import styles from './style';
 import IMAGE from '@resources';
 
 const TERMINAL_ID_LIST = [
-    {value: 'Terminal 1 (MAIN)'},{value: 'Terminal 2'},{value: 'Terminal 3'},{value: 'Terminal 4'},
-    {value: 'Terminal 5'},{value: 'Terminal 6'},{value: 'Terminal 7'},{value: 'Terminal 8'},
-    {value: 'Terminal 9'},{value: 'Terminal 10'},{value: 'Terminal 11'},{value: 'Terminal 12'},{value: 'Terminal 13'},
-    {value: 'Terminal 14'},{value: 'Terminal 15'},{value:'SUPPORT ONLY'}
+    { value: 'Terminal 1 (MAIN)' }, { value: 'Terminal 2' }, { value: 'Terminal 3' }, { value: 'Terminal 4' },
+    { value: 'Terminal 5' }, { value: 'Terminal 6' }, { value: 'Terminal 7' }, { value: 'Terminal 8' },
+    { value: 'Terminal 9' }, { value: 'Terminal 10' }, { value: 'Terminal 11' }, { value: 'Terminal 12' }, { value: 'Terminal 13' },
+    { value: 'Terminal 14' }, { value: 'Terminal 15' },
+    { value: 'Terminal 16' }, { value: 'Terminal 17' }, { value: 'Terminal 18' },
+    { value: 'Terminal 19' }, { value: 'Terminal 20' }, { value: 'Terminal 21' }, { value: 'Terminal 22' },
+    { value: 'Terminal 23' }, { value: 'Terminal 24' }, { value: 'Terminal 25' }, { value: 'Terminal 26' }, { value: 'Terminal 27' },
+    { value: 'Terminal 28' }, { value: 'Terminal 29' }, { value: 'Terminal 30' }
+    , { value: 'SUPPORT ONLY' }
 ];
 
 export default class Layout extends React.Component {
@@ -68,19 +73,19 @@ export default class Layout extends React.Component {
                 <View style={{ height: scaleSzie(20) }} />
                 {/* ---------------- Terminal ID Dropdown -------------- */}
                 <View style={{ flexDirection: 'row', height: scaleSzie(45), width: scaleSzie(400), }} >
-                    <View style={{ flex: 1,}} >
+                    <View style={{ flex: 1, }} >
                         <Dropdown
                             label={'Select Terminal ID'}
                             data={TERMINAL_ID_LIST}
                             value={terminalId}
-                            onChangeText={(terminalId) => this.setState({terminalId})}
+                            onChangeText={(terminalId) => this.setState({ terminalId })}
                             containerStyle={{
                                 backgroundColor: '#fff',
                                 borderWidth: 1,
                                 borderColor: '#C5C5C5',
                                 flex: 1
                             }}
-                            styleInput={{fontSize:scaleSzie(18)}}
+                            styleInput={{ fontSize: scaleSzie(18) }}
                         />
                     </View>
                 </View>
