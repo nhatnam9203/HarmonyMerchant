@@ -770,8 +770,9 @@ class TabCheckout extends Layout {
     // ------------ Signal R -------
     setupSignalR(profile, token, checkoutGroupId, deviceId, method, moneyUserGiveForStaff) {
         try {
+            // ${apiConfigs.BASE_URL}
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl(`${apiConfigs.BASE_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app&deviceId=${deviceId}&token=${token}`,
+                .withUrl(`https://signalr-stage.harmonypayment.com/notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app&deviceId=${deviceId}&token=${token}`,
                     {
                         transport: signalR.HttpTransportType.LongPolling | signalR.HttpTransportType.WebSockets
                     })
