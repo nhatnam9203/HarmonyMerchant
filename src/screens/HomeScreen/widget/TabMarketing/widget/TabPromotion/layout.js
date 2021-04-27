@@ -42,8 +42,9 @@ class Layout extends React.Component {
                         promotions={promotions}
                     />
                     <PromotiomDetail
+                        ref={this.promotionDetailRef}
                         language={language}
-                        setStateFromParent={this.handleSetStateToPromotiomDetail}
+                        // setStateFromParent={this.handleSetStateToPromotiomDetail}
                         cancelCampaign={this.cancelCampaign}
                         handleCreateNewCampaign={this.handleCreateNewCampaign}
                         updatePromotionById={this.updatePromotionById}

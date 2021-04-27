@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from 'react';
 import {
     View,
     Image,
@@ -25,9 +25,10 @@ import ICON from '@resources';
 import { Button, Text, InputForm, Dropdown } from '@components';
 const { width } = Dimensions.get('window');
 
-const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updatePromotionById,
+
+const PromotiomDetail = forwardRef(({ cancelCampaign, language, updatePromotionById,
     handleCreateNewCampaign, getSMSInformation
-}) => {
+}, ref) => {
     const [promotionId, setPromotionId] = useState("");
     const [title, setTitle] = useState("");
     const [startDate, setStartDate] = useState("");
@@ -60,34 +61,34 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     const promotionDetailById = useSelector(state => state?.marketing?.promotionDetailById || {});
     const smsInfoMarketing = useSelector(state => state?.marketing?.smsInfoMarketing || {});
 
-    setStateFromParent((data = {}) => {
-        setCustomerSendSMSQuantity(data?.customerSendSMSQuantity || 0);
-        setIsHandleEdit(data?.id ? true : false);
-        setPromotionId(data?.id || "");
-        setTitle(data?.name);
-        setStartDate(formatWithMoment(data?.fromDate || new Date(), "MM/DD/YYYY"));
-        setEndDate(formatWithMoment(data?.toDate || new Date(), "MM/DD/YYYY"));
-        setStartTime(data?.fromDate ? formatWithMoment(data?.fromDate, "hh:mm A") : "00:00 AM");
-        setEndTime(data?.toDate ? formatWithMoment(data?.toDate, "hh:mm A") : "00:00 AM");
-        setPromotionType(data?.promotionType || "percent");
-        setPromotionValue(data?.promotionValue || "");
-        setIsDisabled(data?.isDisabled ? false : true);
-        setCondition(getConditionTitleIdById(data?.conditionId || 1));
-        setActionCondition(getDiscountActionByShortName(data?.applyTo || "all"));
-        handleScroll(0, false)();
+    useImperativeHandle(ref, () => ({
+        setStateFromParent: (data = {}) => {
+            console.log('---- setStateFromParent: ', data?.customerSendSMSQuantity);
 
-        // console.log("------ setStateFromParent ------: ",data?.customerSendSMSQuantity);
+            setCustomerSendSMSQuantity(data?.customerSendSMSQuantity || 0);
+            setIsHandleEdit(data?.id ? true : false);
+            setPromotionId(data?.id || "");
+            setTitle(data?.name);
+            setStartDate(formatWithMoment(data?.fromDate || new Date(), "MM/DD/YYYY"));
+            setEndDate(formatWithMoment(data?.toDate || new Date(), "MM/DD/YYYY"));
+            setStartTime(data?.fromDate ? formatWithMoment(data?.fromDate, "hh:mm A") : "00:00 AM");
+            setEndTime(data?.toDate ? formatWithMoment(data?.toDate, "hh:mm A") : "00:00 AM");
+            setPromotionType(data?.promotionType || "percent");
+            setPromotionValue(data?.promotionValue || "");
+            setIsDisabled(data?.isDisabled ? false : true);
+            setCondition(getConditionTitleIdById(data?.conditionId || 1));
+            setActionCondition(getDiscountActionByShortName(data?.applyTo || "all"));
+            handleScroll(0, false)();
+            if (_.isEmpty(data)) {
+                setValue(0)
+            }
 
-    });
 
-    useEffect(() => {
-        if (!_.isEmpty(smsInfoMarketing)) {
-            calculatorsmsMoney(value);
         }
-
-    }, [title, conditionServiceProductTags, actionTags])
+    }))
 
     useEffect(() => {
+        // console.log('----- useEffect 2 --------');
         const tempService = servicesByMerchant.map((service) => ({ value: service?.name || "", type: "Service", originalId: service?.serviceId || 0, id: `${service?.serviceId}_Service` }));
         const tempProduct = productsByMerchantId.map((product) => ({ value: product?.name || "", type: "Product", originalId: product?.productId || 0, id: `${product?.productId}_Product` }));
         const tempData = tempService.concat(tempProduct);
@@ -95,6 +96,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     }, [productsByMerchantId, servicesByMerchant]);
 
     useEffect(() => {
+        // console.log('----- useEffect 3 --------');
         if (promotionDetailById?.id) {
             const serviceConditionTag = promotionDetailById?.conditionDetail?.service || [];
             const productonditionTag = promotionDetailById?.conditionDetail?.product || [];
@@ -117,14 +119,49 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
     }, [promotionDetailById])
 
     useEffect(() => {
+        // console.log('----- useEffect 1 --------');
         if (!_.isEmpty(smsInfoMarketing)) {
+            calculatorsmsMoney(value);
+        }
+
+    }, [title, conditionServiceProductTags, actionTags])
+
+    useEffect(() => {
+        if (!_.isEmpty(smsInfoMarketing)) {
+            // console.log('----- useEffect 4 --------');
+
             const customerCount = smsInfoMarketing?.customerCount || 1;
+            const customerSendSMSQuantity = promotionDetailById?.customerSendSMSQuantity || 0;
             const tempValue = customerSendSMSQuantity / customerCount;
+
+            // console.log('--- customerCount: ', customerCount);
+            // console.log('--- customerSendSMSQuantity: ', customerSendSMSQuantity);
+            // console.log('--- tempValue: ', tempValue);
+
             setValue(tempValue);
             calculatorsmsMoney(tempValue);
         }
 
     }, [smsInfoMarketing])
+
+    calculatorsmsMoney = (tempValue) => {
+
+        const customerCount = parseInt(smsInfoMarketing?.customerCount || 1);
+        const smsCount = Math.ceil(tempValue * customerCount);
+        const smsLength = smsInfoMarketing?.smsLength || 1;
+        const segmentFee = smsInfoMarketing?.segmentFee || 1;
+        const segmentLength = smsInfoMarketing?.segmentLength || 1;
+        const additionalFee = parseFloat(smsCount > 0 ? (smsInfoMarketing?.additionalFee || 0) : 0);
+
+        const allSMSWord = smsLength + (title?.length || 0) + (getConditionIdByTitle(condition) === 2 ? (`${conditionServiceProductTags.join(", ")}`.length + 35) : 0) + (getShortNameForDiscountAction(actionCondition) === "specific" ? (`${actionTags.join(", ")}`.length + 35) : 0);
+        const tempFee = Math.ceil(parseFloat(Math.ceil(allSMSWord / segmentLength) * segmentFee) * 100) / 100 + additionalFee;
+        const smsMoney = parseFloat(smsCount * tempFee);
+        const smsMaxMoney = parseFloat(customerCount * tempFee);
+
+        setSmsAmount(formatMoney(smsMoney));
+        setSmsMaxAmount(formatMoney(smsMaxMoney));
+        setCustomerSendSMSQuantity(smsCount);
+    }
 
     const showDatePicker = (isChangeDate) => () => {
         setIsChangeDate(isChangeDate);
@@ -291,23 +328,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
         // calculatorsmsMoney(value);
     }
 
-    calculatorsmsMoney = (tempValue) => {
-        const customerCount = parseInt(smsInfoMarketing?.customerCount || 1);
-        const smsCount = Math.ceil(tempValue * customerCount);
-        const smsLength = smsInfoMarketing?.smsLength || 1;
-        const segmentFee = smsInfoMarketing?.segmentFee || 1;
-        const segmentLength = smsInfoMarketing?.segmentLength || 1;
-        const additionalFee = parseFloat(smsCount > 0 ? (smsInfoMarketing?.additionalFee || 0) : 0);
 
-        const allSMSWord = smsLength + (title?.length || 0) + (getConditionIdByTitle(condition) === 2 ? (`${conditionServiceProductTags.join(", ")}`.length + 35) : 0) + (getShortNameForDiscountAction(actionCondition) === "specific" ? (`${actionTags.join(", ")}`.length + 35) : 0);
-        const tempFee = Math.ceil(parseFloat(Math.ceil(allSMSWord / segmentLength) * segmentFee) * 100) / 100 + additionalFee;
-        const smsMoney = parseFloat(smsCount * tempFee);
-        const smsMaxMoney = parseFloat(customerCount * tempFee);
-
-        setSmsAmount(formatMoney(smsMoney));
-        setSmsMaxAmount(formatMoney(smsMaxMoney));
-        setCustomerSendSMSQuantity(smsCount);
-    }
 
     return (
         <View style={{ flex: 1, backgroundColor: "#fff", paddingHorizontal: scaleSzie(14) }} >
@@ -651,7 +672,7 @@ const PromotiomDetail = ({ setStateFromParent, cancelCampaign, language, updateP
             />
         </View>
     );
-}
+});
 
 // ---------------- Internal Components ------------------
 

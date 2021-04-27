@@ -192,12 +192,13 @@ export function getPromotionByMerchant(isLoading = true) {
     }
 }
 
-export function getPromotionDetailById(promotionId) {
+export function getPromotionDetailById(promotionId,conditionId) {
     return {
         type: 'GET_PROMOTION_DETAIL_BY_ID',
         method: 'GET',
         token: true,
         api: `${apiConfigs.BASE_API}MerchantPromotion/${promotionId}?api-version=1.2`,
+        conditionId
     }
 }
 
@@ -254,5 +255,11 @@ export function getSMSInformation(conditionId) {
         method: 'GET',
         token: true,
         api: `${apiConfigs.BASE_API}MerchantPromotion/smsLength/${conditionId}?api-version=1.2`
+    }
+}
+
+export function resetStatePromotionDetailById() {
+    return {
+        type: "RESET_STATE_PROMOTION_DETAIL_BY_ID",
     }
 }

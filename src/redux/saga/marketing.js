@@ -4,6 +4,8 @@ import { requestAPI } from '../../utils';
 import apiConfigs from '../../configs/api';
 import { getPromotionByMerchant } from "../actions/marketing";
 
+import actions from '@actions';
+
 function* getBannerMerchant(action) {
     try {
         if (action.isLoading) {
@@ -439,6 +441,11 @@ function* getPromotionDetailById(action) {
                 type: "GET_PROMOTION_DETAIL_BY_ID_SUCCESS",
                 payload: responses?.data || {}
             });
+
+            if (action?.conditionId) {
+                yield put(actions.marketing.getSMSInformation(action?.conditionId));
+            }
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

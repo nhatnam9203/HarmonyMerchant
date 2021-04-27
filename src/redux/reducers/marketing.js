@@ -29,7 +29,7 @@ const initialState = {
 
     promotionDetailById: {},
     isUpdatePromotionById: false,
-    smsInfoMarketing:{}
+    smsInfoMarketing: {}
 }
 
 function marketingReducer(state = initialState, action) {
@@ -191,7 +191,11 @@ function marketingReducer(state = initialState, action) {
                 ...state,
                 smsInfoMarketing: action.payload
             }
-            
+        case "RESET_STATE_PROMOTION_DETAIL_BY_ID":
+            return {
+                ...state,
+                promotionDetailById: {}
+            }
         case 'LOGOUT_APP':
             return {
                 ...initialState,

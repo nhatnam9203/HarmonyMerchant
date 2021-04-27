@@ -14,7 +14,6 @@ class TabPromotion extends Layout {
 
     this.scrollTabParentRef = React.createRef();
     this.promotionDetailRef = React.createRef();
-    this.setStateToPromotiomDetail = null;
   }
 
   componentDidMount() {
@@ -26,37 +25,38 @@ class TabPromotion extends Layout {
     this.props.handleChangeBackgrounColor(currentIndex);
   }
 
-  handleSetStateToPromotiomDetail = (ref) => {
-    this.setStateToPromotiomDetail = ref;
-  }
+
 
   createNewCampaign = () => {
+    this.props.actions.marketing.resetStatePromotionDetailById();
     this.props.actions.marketing.getSMSInformation(0);
     this.goToPage(1);
-    if (this.setStateToPromotiomDetail) {
-      this.setStateToPromotiomDetail();
+    if (this.promotionDetailRef?.current) {
+      this.promotionDetailRef?.current?.setStateFromParent();
     } else {
       setTimeout(() => {
-        this.setStateToPromotiomDetail();
+        this.promotionDetailRef?.current?.setStateFromParent();
       }, 300)
     }
 
   }
 
   editCampaign = (campaign) => () => {
-    // console.log(JSON.stringify(campaign));
+
     this.goToPage(1);
-    if (this.setStateToPromotiomDetail) {
-      this.setStateToPromotiomDetail(campaign);
+    if (this.promotionDetailRef?.current) {
+      this.promotionDetailRef?.current?.setStateFromParent(campaign);
     } else {
       setTimeout(() => {
-        this.setStateToPromotiomDetail(campaign);
+        this.promotionDetailRef?.current?.setStateFromParent(campaign);
       }, 300)
     }
-    this.props.actions.marketing.getPromotionDetailById(campaign?.id);
-    setTimeout(() =>{
-      this.props.actions.marketing.getSMSInformation(campaign?.conditionId);
-    },300)
+
+
+    this.props.actions.marketing.getPromotionDetailById(campaign?.id,campaign?.conditionId);
+    // setTimeout(() => {
+    //   this.props.actions.marketing.getSMSInformation(campaign?.conditionId);
+    // }, 500)
   }
 
   getSMSInformation = (conditionId) => {
@@ -116,10 +116,6 @@ class TabPromotion extends Layout {
       this.props.actions.marketing.resetStateIsUpdatePromotionById(false);
       this.goToPage(0);
     }
-  }
-
-  componentWillUnmount() {
-    this.setStateToPromotiomDetail = null;
   }
 
 }
