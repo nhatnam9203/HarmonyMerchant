@@ -128,7 +128,7 @@ const PromotiomDetail = forwardRef(({ cancelCampaign, language, updatePromotionB
 
     useEffect(() => {
         if (!_.isEmpty(smsInfoMarketing)) {
-            console.log('----- useEffect 4 --------');
+            // console.log('----- useEffect 4 --------');
 
             const customerCount = smsInfoMarketing?.customerCount || 0;
             const customerSendSMSQuantity = promotionDetailById?.customerSendSMSQuantity || 0;

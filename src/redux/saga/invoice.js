@@ -520,7 +520,7 @@ function* getCreditBatchDetailById(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        console.log('------ getCreditBatchDetailById: ',JSON.stringify(responses));
+        // console.log('------ getCreditBatchDetailById: ',JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
