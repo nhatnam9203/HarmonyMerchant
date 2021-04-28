@@ -442,9 +442,10 @@ function* getPromotionDetailById(action) {
                 payload: responses?.data || {}
             });
 
-            if (action?.conditionId) {
-                yield put(actions.marketing.getSMSInformation(action?.conditionId));
-            }
+            yield put(actions.marketing.getSMSInformation(action?.conditionId || 0));
+            // if (action?.conditionId) {
+            //     yield put(actions.marketing.getSMSInformation(action?.conditionId || 0));
+            // }
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({

@@ -6,7 +6,8 @@ import {
     Platform,
     TextInput,
     ScrollView,
-    Keyboard
+    Keyboard,
+    ActivityIndicator
 } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
 
@@ -29,7 +30,8 @@ class SetupHardware extends React.Component {
             port,
             timeout: 90000,
             bluetoothAddr,
-            peripherals: []
+            peripherals: [],
+            scanLoading: false
         };
 
         this.scrollRef = React.createRef();
@@ -104,16 +106,17 @@ class SetupHardware extends React.Component {
     }
 
     async scanDevices() {
-        this.props.actions.app.loadingApp();
+        // this.props.actions.app.loadingApp();
         await this.setState({
-            peripherals: []
+            peripherals: [],
+            scanLoading: true
         });
         this.manager.startDeviceScan(null, null, (error, device) => {
             if (error) {
                 return
             }
 
-            if (device?.localName && device?.localName.includes("80")) {
+            if (device?.localName) {
                 const tempPeripherals = [...this.state.peripherals];
                 tempPeripherals.push({
                     id: device?.id || "",
@@ -123,18 +126,28 @@ class SetupHardware extends React.Component {
                 this.setState({
                     peripherals: tempPeripherals
                 });
-                this.manager.stopDeviceScan();
-                this.props.actions.app.stopLoadingApp();
+
             }
         });
-
 
         // this.props.actions.app.loadingApp();
         // this.bluetoothScannerRef.current.startScan();
 
         setTimeout(() => {
-            this.props.actions.app.stopLoadingApp();
-        }, 10000);
+            // this.props.actions.app.stopLoadingApp();
+            // this.manager.stopDeviceScan();
+            // this.props.actions.app.stopLoadingApp();
+            this.setState({
+                scanLoading: false
+            });
+        }, 20000);
+    }
+
+    stopDeviceScan = () => {
+        this.manager?.stopDeviceScan();
+        this.setState({
+            scanLoading: false
+        });
     }
 
     handleStopScan = (list) => {
@@ -294,6 +307,11 @@ class SetupHardware extends React.Component {
 
                                         {localize('Scan devices', language)}
                                     </Text>
+                                    <View style={{width: scaleSzie(15)}} />
+                                    {
+                                        this.state.scanLoading && <ActivityIndicator size="small" color="#0000ff" />
+                                    }
+                                    
                                 </Button>
 
                                 {/* ------------- Bluetooth devices list ----------- */}
@@ -436,4 +454,5 @@ const mapStateToProps = state => ({
 })
 
 export default connectRedux(mapStateToProps, SetupHardware);
+
 

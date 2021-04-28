@@ -63,7 +63,7 @@ const PromotiomDetail = forwardRef(({ cancelCampaign, language, updatePromotionB
 
     useImperativeHandle(ref, () => ({
         setStateFromParent: (data = {}) => {
-            console.log('---- setStateFromParent: ', data?.customerSendSMSQuantity);
+            // console.log('---- setStateFromParent: ', data?.customerSendSMSQuantity);
 
             setCustomerSendSMSQuantity(data?.customerSendSMSQuantity || 0);
             setIsHandleEdit(data?.id ? true : false);
@@ -128,9 +128,9 @@ const PromotiomDetail = forwardRef(({ cancelCampaign, language, updatePromotionB
 
     useEffect(() => {
         if (!_.isEmpty(smsInfoMarketing)) {
-            // console.log('----- useEffect 4 --------');
+            console.log('----- useEffect 4 --------');
 
-            const customerCount = smsInfoMarketing?.customerCount || 1;
+            const customerCount = smsInfoMarketing?.customerCount || 0;
             const customerSendSMSQuantity = promotionDetailById?.customerSendSMSQuantity || 0;
             const tempValue = customerSendSMSQuantity / customerCount;
 
@@ -146,17 +146,24 @@ const PromotiomDetail = forwardRef(({ cancelCampaign, language, updatePromotionB
 
     calculatorsmsMoney = (tempValue) => {
 
-        const customerCount = parseInt(smsInfoMarketing?.customerCount || 1);
+        const customerCount = parseInt(smsInfoMarketing?.customerCount || 0);
         const smsCount = Math.ceil(tempValue * customerCount);
+
         const smsLength = smsInfoMarketing?.smsLength || 1;
         const segmentFee = smsInfoMarketing?.segmentFee || 1;
         const segmentLength = smsInfoMarketing?.segmentLength || 1;
-        const additionalFee = parseFloat(smsCount > 0 ? (smsInfoMarketing?.additionalFee || 0) : 0);
+        // const additionalFee = parseFloat(smsCount > 0 ? (smsInfoMarketing?.additionalFee || 0) : 0);
+        const additionalFee = parseFloat(smsInfoMarketing?.additionalFee || 0);
+
 
         const allSMSWord = smsLength + (title?.length || 0) + (getConditionIdByTitle(condition) === 2 ? (`${conditionServiceProductTags.join(", ")}`.length + 35) : 0) + (getShortNameForDiscountAction(actionCondition) === "specific" ? (`${actionTags.join(", ")}`.length + 35) : 0);
         const tempFee = Math.ceil(parseFloat(Math.ceil(allSMSWord / segmentLength) * segmentFee) * 100) / 100 + additionalFee;
         const smsMoney = parseFloat(smsCount * tempFee);
-        const smsMaxMoney = parseFloat(customerCount * tempFee);
+
+
+        const smsMaxMoney = customerCount == 0 ? 0 : parseFloat(customerCount * tempFee);
+        // console.log('----- tempValue: ', tempValue);
+        // console.log('----- smsMaxMoney: ', smsMaxMoney);
 
         setSmsAmount(formatMoney(smsMoney));
         setSmsMaxAmount(formatMoney(smsMaxMoney));
