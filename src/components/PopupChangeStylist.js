@@ -52,38 +52,47 @@ class PopupChangeStylist extends React.Component {
 
     }
 
+    checkIsSelected = (arrSelectedExtra, extra) => {
+        let isExit = false;
+        for (let i = 0; i < arrSelectedExtra.length; i++) {
+            if (arrSelectedExtra[i]?.data?.extraId === extra?.extraId) {
+                isExit = true;
+                break
+            }
+        }
+
+        return isExit;
+    }
+
     setStateFromParent = async (service, appointmentId) => {
         const { servicesByMerchant } = this.props;
-        const { staff } = service;
-        let extras = [];
+        const staff = service?.staff || {};
+        const extras = [];
+        const arrSelectedExtra = service?.extras || [];
 
         for (let i = 0; i < servicesByMerchant.length; i++) {
             if (servicesByMerchant[i]?.serviceId === service?.data?.serviceId) {
-                extras = servicesByMerchant[i]?.extras ? [...servicesByMerchant[i]?.extras] : [];
+                const extrasByMerchant = servicesByMerchant[i]?.extras || [];
+                for (let j = 0; j < extrasByMerchant.length; j++) {
+                    extras.push({
+                        ...extrasByMerchant[j],
+                        isSelect: this.checkIsSelected(arrSelectedExtra, extrasByMerchant[j])
+                    })
+                }
                 break;
             }
         }
 
-        const arrSelectedExtra = service?.extras || [];
-        for (let i = 0; i < arrSelectedExtra.length; i++) {
-            for (let j = 0; j < extras.length; j++) {
-                if (extras[j]?.extraId === arrSelectedExtra[i]?.data?.extraId) {
-                    extras[j] = { ...extras[j], isSelect: true };
-                    break;
-                }
-            }
-        }
-
         await this.setState({
-            staffId: staff && staff.staffId ? staff.staffId : '',
-            name: staff && staff.displayName ? staff.displayName : '',
-            bookingServiceId: service.data.bookingServiceId ? service.data.bookingServiceId : '',
-            tip: staff && staff.tip ? staff.tip : 0.00,
-            serviceIdLocal: service.data.serviceId ? service.data.serviceId : '',
+            extras: [...extras],
+            staffId: staff?.staffId || '',
+            name: staff?.displayName || '',
+            bookingServiceId: service?.data?.bookingServiceId || '',
+            tip: staff?.tip || 0.00,
+            serviceIdLocal: service?.data?.serviceId || '',
             appointmentIdChangeStylist: appointmentId,
-            price: service.data && service.data.price ? service.data.price : 0.00,
-            note: service.note ? service.note : "",
-            extras: [...extras]
+            price: service?.data?.price || 0.00,
+            note: service?.note || "",
         })
     }
 
@@ -140,12 +149,12 @@ class PopupChangeStylist extends React.Component {
         this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(number), animated: true })
     }
 
-    onRequestClose = () => {
-        this.setState(INIT_STATE);
+    onRequestClose = async () => {
+        await this.setState(INIT_STATE);
         this.props.onRequestClose();
     }
 
-    selectExtra = (extra) => () => {
+    selectExtra = (extra) => {
         const { extras } = this.state;
         const tempExtra = [...extras];
         for (let i = 0; i < tempExtra.length; i++) {
@@ -205,7 +214,7 @@ class PopupChangeStylist extends React.Component {
                                             flex: 1
                                         }}
                                         fontSize={scaleSzie(20)}
-                                        // extraHeight={scaleSzie(90)}
+                                    // extraHeight={scaleSzie(90)}
                                     />
                                 </View>
                                 {/* ------- Price -------- */}
@@ -259,14 +268,14 @@ class PopupChangeStylist extends React.Component {
 
                                 {/* ----------- Extra ----------- */}
                                 <Text style={[styles.txt_title, { marginTop: scaleSzie(10) }]} >
-                                    {`Extra`}
+                                    {`Extra 111`}
                                 </Text>
 
                                 {
                                     extras.map((extra, index) => <ExtraItem
                                         key={`${extra?.extraId}_${index}`}
                                         extra={extra}
-                                        selectExtra={this.selectExtra(extra)}
+                                        selectExtra={this.selectExtra}
                                     />)
                                 }
 
@@ -306,9 +315,9 @@ class PopupChangeStylist extends React.Component {
                         style={{
                             borderWidth: 1, borderColor: '#C5C5C5',
                             borderRadius: 4,
-                            position:"absolute",
+                            position: "absolute",
                             bottom: scaleSzie(15),
-                            marginLeft: scaleSzie((440 - 140)/2)
+                            marginLeft: scaleSzie((440 - 140) / 2)
                         }}
                         styleText={{ fontWeight: "600", fontSize: scaleSzie(14) }}
                     />
@@ -335,7 +344,7 @@ const ExtraItem = ({ extra, selectExtra }) => {
                 alignItems: "center",
             }}
         >
-            <Button onPress={selectExtra} style={{ width: scaleSzie(18), height: scaleSzie(18) }} >
+            <Button onPress={() => selectExtra(extra)} style={{ width: scaleSzie(18), height: scaleSzie(18) }} >
                 <Image source={extra?.isSelect ? ICON.checkBox : ICON.checkBoxEmpty} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
             </Button>
 

@@ -771,10 +771,10 @@ class TabCheckout extends Layout {
     setupSignalR(profile, token, checkoutGroupId, deviceId, method, moneyUserGiveForStaff) {
         try {
             // ${apiConfigs.BASE_URL}
-            const tempEnv = env.IS_PRODUCTION;
-            const tempURI = tempEnv == "Staging" ? 'https://signalr-stage.harmonypayment.com/' : apiConfigs.BASE_URL;
+            // const tempEnv = env.IS_PRODUCTION;
+            // const tempURI = tempEnv == "Staging" ? 'https://signalr-stage.harmonypayment.com/' : apiConfigs.BASE_URL;
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl(`${tempURI}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app&deviceId=${deviceId}&token=${token}`,
+                .withUrl(`${apiConfigs.BASE_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app&deviceId=${deviceId}&token=${token}`,
                     {
                         transport: signalR.HttpTransportType.LongPolling | signalR.HttpTransportType.WebSockets
                     })
@@ -1251,9 +1251,14 @@ class TabCheckout extends Layout {
 
     changeStylist = async (service, appointmentId) => {
         this.changeStylistRef.current.setStateFromParent(service, appointmentId);
-        await this.setState({
-            visibleChangeStylist: true,
-        })
+
+        // setTimeout(() => {
+            this.setState({
+                visibleChangeStylist: true,
+            })
+        // }, 500)
+
+
     }
 
     changeProduct = async (product, appointmentId) => {
