@@ -29,7 +29,7 @@ class TabPromotion extends Layout {
 
   createNewCampaign = () => {
     this.props.actions.marketing.resetStatePromotionDetailById();
-    this.props.actions.marketing.getSMSInformation(0);
+    this.props.actions.marketing.getSMSInformation(1);
     this.goToPage(1);
     if (this.promotionDetailRef?.current) {
       this.promotionDetailRef?.current?.setStateFromParent();

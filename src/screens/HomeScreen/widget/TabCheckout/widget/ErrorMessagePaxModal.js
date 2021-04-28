@@ -24,9 +24,9 @@ class ErrorMessagePaxModal extends React.Component {
                     minHeight: scaleSzie(180), backgroundColor: '#fff',
                     borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: scaleSzie(10) }} >
                         <Image source={ICON.danger} />
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(17), textAlign: "center", marginVertical: scaleSzie(12) }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(14), textAlign: "center", marginVertical: scaleSzie(12) }} >
                             {message}
                         </Text>
                     </View>
