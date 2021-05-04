@@ -3,6 +3,10 @@ package com.hpmerchant;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.xogus.reactnative.versioncheck.RNVersionCheckPackage;
+import com.swmansion.rnscreens.RNScreensPackage;
+import com.swmansion.reanimated.ReanimatedPackage;
+import com.github.wuxudong.rncharts.MPAndroidChartPackage;
 import com.johnsonsu.rnsoundplayer.RNSoundPlayerPackage;
 import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
 import com.polidea.reactnativeble.BlePackage;
@@ -54,6 +58,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNVersionCheckPackage(),
+            new RNScreensPackage(),
+            new ReanimatedPackage(),
+            new MPAndroidChartPackage(),
             new RNSoundPlayerPackage(),
             new RNDateTimePickerPackage(),
             new BlePackage(),

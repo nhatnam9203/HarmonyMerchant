@@ -94,6 +94,12 @@ pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/dateti
 
 pod 'RNSoundPlayer', :path => '../node_modules/react-native-sound-player'
 
+pod 'react-native-viewpager', :path => '../node_modules/@react-native-community/viewpager'
+
+pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+
+pod 'RNScreens', :path => '../node_modules/react-native-screens'
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     if target.name == "React"

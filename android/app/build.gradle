@@ -181,6 +181,10 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-version-check')
+    implementation project(':react-native-screens')
+    implementation project(':react-native-reanimated')
+    implementation project(':react-native-charts-wrapper')
     implementation project(':react-native-sound-player')
     implementation project(':@react-native-community_datetimepicker')
     implementation project(':react-native-ble-plx')
