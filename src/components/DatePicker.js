@@ -37,7 +37,7 @@ class DatePicker extends Component {
             <Modal
                 transparent={true}
                 visible={tempVisible}
-                onRequestClose={() => onRequestClose()}
+                //onRequestClose={() => onRequestClose()}
                 animationType={this.props.animationType || 'none'}
                 style={{
                     justifyContent: 'flex-end'
