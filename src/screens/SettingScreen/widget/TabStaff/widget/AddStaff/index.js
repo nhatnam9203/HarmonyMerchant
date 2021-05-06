@@ -1,9 +1,9 @@
-import React from "react";
-import { Alert } from "react-native";
-import _ from "ramda";
+import React from 'react';
+import { Alert } from 'react-native';
+import _ from 'ramda';
 
-import Layout from "./layout";
-import strings from "./strings";
+import Layout from './layout';
+import strings from './strings';
 import {
   validateEmail,
   getIdStateByName,
@@ -13,46 +13,46 @@ import {
   checkStateIsValid,
   BusinessWorkingTime,
   formatNumberFromCurrency,
-} from "@utils";
+} from '@utils';
 
 const initState = {
   user: {
-    firstName: "",
-    lastName: "",
-    displayName: "",
+    firstName: '',
+    lastName: '',
+    displayName: '',
     address: {
-      street: "",
-      city: "",
-      state: "",
-      zip: "",
+      street: '',
+      city: '',
+      state: '',
+      zip: '',
     },
-    cellphone: "",
-    email: "",
-    pin: "",
-    confirmPin: "",
+    cellphone: '',
+    email: '',
+    pin: '',
+    confirmPin: '',
     isActive: true,
-    isDisabled: "Active",
+    isDisabled: 'Active',
     roles: {
-      nameRole: "Admin",
+      nameRole: 'Admin',
     },
-    driverlicense: "",
-    socialSecurityNumber: "",
-    professionalLicense: "",
+    driverlicense: '',
+    socialSecurityNumber: '',
+    professionalLicense: '',
   },
-  staffId: "",
+  staffId: '',
   tipFee: {
     percent: {
-      value: "",
+      value: '',
       isCheck: false,
     },
     fixedAmount: {
-      value: "",
+      value: '',
       isCheck: false,
     },
   },
   salary: {
     perHour: {
-      value: "0.00",
+      value: '0.00',
       isCheck: false,
     },
     commission: {
@@ -60,8 +60,8 @@ const initState = {
         {
           from: 0,
           to: 0,
-          commission: 0
-        }
+          commission: 0,
+        },
       ],
       isCheck: false,
     },
@@ -74,7 +74,7 @@ const initState = {
   },
   cashPercent: 0,
   fileId: 0,
-  imageUrl: "",
+  imageUrl: '',
   isSubmitButton: true,
   value: {},
   dynamicMarginBottomState: 24,
@@ -82,8 +82,8 @@ const initState = {
   isEditStaff: false,
   staffIdCheck: 0,
   categories: [],
-  isEditSSN: false
-}
+  isEditSSN: false,
+};
 
 class AddStaff extends Layout {
   constructor(props) {
@@ -122,9 +122,9 @@ class AddStaff extends Layout {
       const { stateCity } = this.props;
       await this.setState({
         user: {
-          firstName: infoStaffHandle?.firstName || "",
-          lastName: infoStaffHandle?.lastName || "",
-          displayName: infoStaffHandle?.displayName || "",
+          firstName: infoStaffHandle?.firstName || '',
+          lastName: infoStaffHandle?.lastName || '',
+          displayName: infoStaffHandle?.displayName || '',
           address: {
             street: infoStaffHandle.address,
             city: infoStaffHandle.city,
@@ -138,7 +138,7 @@ class AddStaff extends Layout {
           isActive: infoStaffHandle?.isActive
             ? infoStaffHandle.isActive
             : false,
-          isDisabled: infoStaffHandle?.isDisabled === 0 ? "Active" : "Disable",
+          isDisabled: infoStaffHandle?.isDisabled === 0 ? 'Active' : 'Disable',
           roles: {
             nameRole: infoStaffHandle?.roleName,
           },
@@ -146,18 +146,18 @@ class AddStaff extends Layout {
           socialSecurityNumber: infoStaffHandle?.ssn,
           professionalLicense: infoStaffHandle?.professionalLicense,
         },
-        staffId: infoStaffHandle?.staffId || "",
+        staffId: infoStaffHandle?.staffId || '',
         fileId: infoStaffHandle?.fileId || 0,
         imageUrl: infoStaffHandle.imageUrl,
-        rowsSalaryIncome: infoStaffHandle?.salaries?.commission?.value.length || 1,
+        rowsSalaryIncome:
+          infoStaffHandle?.salaries?.commission?.value.length || 1,
         isEditSSN: false,
 
         workingTime: infoStaffHandle?.workingTimes || BusinessWorkingTime,
         salary: infoStaffHandle?.salaries,
         productSalary: infoStaffHandle?.productSalaries,
         tipFee: infoStaffHandle?.tipFees,
-        cashPercent: infoStaffHandle?.cashPercent
-
+        cashPercent: infoStaffHandle?.cashPercent,
       });
       this.browserFileRef.current.setImageUrlFromParent(
         infoStaffHandle.imageUrl
@@ -174,7 +174,7 @@ class AddStaff extends Layout {
           ? profile.businessHour
           : BusinessWorkingTime,
       });
-      this.browserFileRef?.current?.setImageUrlFromParent("");
+      this.browserFileRef?.current?.setImageUrlFromParent('');
       this.assignSevices?.current?.getServiceAssignData();
     }
 
@@ -190,7 +190,7 @@ class AddStaff extends Layout {
     });
   };
 
-  setStaffInfoFromParent = (staff) => { };
+  setStaffInfoFromParent = (staff) => {};
 
   setRefTimeWorking = (ref) => {
     if (ref) {
@@ -212,9 +212,9 @@ class AddStaff extends Layout {
     let isEmpty = false;
 
     for (let ref of incomeSalary) {
-      let from = ref?.state?.from || "0.00";
-      let to = ref?.state?.to || "0.00";
-      let commission = ref?.state?.commission || "0.00";
+      let from = ref?.state?.from || '0.00';
+      let to = ref?.state?.to || '0.00';
+      let commission = ref?.state?.commission || '0.00';
 
       if (!from || !to || !commission) {
         isEmpty = true;
@@ -235,7 +235,7 @@ class AddStaff extends Layout {
     if (isEmpty) {
       return {
         status: false,
-        message: "Please enter full salary income information!",
+        message: 'Please enter full salary income information!',
         data: [{ from: 0.0, to: 0.0, commission: 0.0 }],
       };
     }
@@ -243,14 +243,14 @@ class AddStaff extends Layout {
     if (!isCheckIsValidIncome) {
       return {
         status: false,
-        message: "From income not greater than to income",
+        message: 'From income not greater than to income',
         data: [{ from: 0.0, to: 0.0, commission: 0.0 }],
       };
     }
 
     return {
       status: true,
-      message: "",
+      message: '',
       data: values,
     };
   };
@@ -270,39 +270,48 @@ class AddStaff extends Layout {
     this.setState({ categories: arrServices });
   };
 
+  checkCommissionValueNotEmpty = (data) => {
+    const condition = (element) => +element > 0;
+    let newValue = data.filter((item) => {
+      const item_value = Object.values(item);
+      return item_value.some(condition);
+    });
+    return newValue;
+  };
+
   addAdmin = () => {
     const { user } = this.state;
     const { stateCity } = this.props;
     const arrayKey = Object.keys(user);
-    let keyError = "";
+    let keyError = '';
     for (let i = 0; i < arrayKey.length; i++) {
-      if (arrayKey[i] == "address") {
+      if (arrayKey[i] == 'address') {
         if (
-          user.address.state !== "" &&
+          user.address.state !== '' &&
           !checkStateIsValid(stateCity, user.address.state)
         ) {
-          keyError = "stateInvalid";
+          keyError = 'stateInvalid';
           break;
         }
-      } else if (arrayKey[i] == "roles") {
-        if (user.roles.nameRole == "") {
-          keyError = "nameRole";
+      } else if (arrayKey[i] == 'roles') {
+        if (user.roles.nameRole == '') {
+          keyError = 'nameRole';
           break;
         }
-      } else if (arrayKey[i] == "email" && user[arrayKey[i]] !== "") {
+      } else if (arrayKey[i] == 'email' && user[arrayKey[i]] !== '') {
         if (!validateEmail(user[arrayKey[i]])) {
-          keyError = "emailInvalid";
+          keyError = 'emailInvalid';
           break;
         }
       } else if (
-        arrayKey[i] != "driverlicense" &&
-        arrayKey[i] != "socialSecurityNumber" &&
-        arrayKey[i] != "professionalLicense"
+        arrayKey[i] != 'driverlicense' &&
+        arrayKey[i] != 'socialSecurityNumber' &&
+        arrayKey[i] != 'professionalLicense'
       ) {
         if (
-          user[arrayKey[i]] === "" &&
-          arrayKey[i] !== "cellphone" &&
-          arrayKey[i] !== "email"
+          user[arrayKey[i]] === '' &&
+          arrayKey[i] !== 'cellphone' &&
+          arrayKey[i] !== 'email'
         ) {
           keyError = arrayKey[i];
           break;
@@ -310,43 +319,53 @@ class AddStaff extends Layout {
       }
     }
     if (user.pin !== user.confirmPin) {
-      keyError = "pinnotmatch";
+      keyError = 'pinnotmatch';
     }
     // ------- Check Service Salary Income ------------
     const resultSalaryIncome = this.checkSalaryIncomeService();
     const isCheckIncomeSalary = this.commissionSalaryRef?.current?.state
       ?.isCheck;
     if (isCheckIncomeSalary && !resultSalaryIncome.status) {
-      keyError = resultSalaryIncome?.message || "";
+      keyError = resultSalaryIncome?.message || '';
     }
-    if (keyError !== "") {
+    if (keyError !== '') {
       Alert.alert(`${strings[keyError] ? strings[keyError] : keyError}`);
     } else {
-
-
       const { address } = user;
       const temptAddress = {
         ...address,
         state: getIdStateByName(stateCity, address.state),
       };
+
+      const tempSalary = JSON.parse(JSON.stringify(this.state.salary));
+      tempSalary.commission.value = this.checkCommissionValueNotEmpty(
+        tempSalary.commission.value
+      );
+
+      this.setState({
+        salary: tempSalary,
+      });
+
       const temptStaff = {
         ...user,
         cellphone:
-          user.cellphone === ""
-            ? ""
+          user.cellphone === ''
+            ? ''
             : `${this.cellphoneRef?.current?.state?.codeAreaPhone}${user.cellphone}`,
         address: temptAddress,
-        isDisabled: user.isDisabled === "Active" ? 0 : 1,
+        isDisabled: user.isDisabled === 'Active' ? 0 : 1,
         // workingTime: objWorkingTime,
         workingTime: { ...this.state.workingTime },
-        salary: this.state.salary,
+        salary: tempSalary,
         tipFee: this.state.tipFee,
         fileId: this.state.fileId,
         imageUrl: this.state.imageUrl,
         productSalary: this.state.productSalary,
         cashPercent: parseFloat(this.state.cashPercent),
-        categories: this.assignSevices?.current?.getStateFromParent()
+        categories: this.assignSevices?.current?.getStateFromParent(),
       };
+
+
       if (this.state.isEditStaff) {
         this.props.editStaff(temptStaff, this.state.staffId);
       } else {
@@ -356,29 +375,29 @@ class AddStaff extends Layout {
   };
 
   convertKeyToName(key) {
-    let name = "";
+    let name = '';
     switch (key) {
-      case "Percent (%)":
-        name = "percent";
+      case 'Percent (%)':
+        name = 'percent';
         break;
-      case "Fixed amount ($)":
-        name = "fixedAmount";
+      case 'Fixed amount ($)':
+        name = 'fixedAmount';
         break;
-      case "Per hour ($)":
-        name = "perHour";
+      case 'Per hour ($)':
+        name = 'perHour';
         break;
-      case "Commission (%)":
-        name = "commission";
+      case 'Commission (%)':
+        name = 'commission';
         break;
       default:
-        name = "commission1";
+        name = 'commission1';
     }
     return name;
   }
 
-  updateUserInfo(key, value, keyParent = "") {
+  updateUserInfo(key, value, keyParent = '') {
     const { user } = this.state;
-    if (keyParent !== "") {
+    if (keyParent !== '') {
       const temptParent = user[keyParent];
       const temptChild = { ...temptParent, [key]: value };
       const temptUpdate = { ...user, [keyParent]: temptChild };
@@ -414,55 +433,55 @@ class AddStaff extends Layout {
     tempWorkingTime[day].isCheck = !isCheck;
 
     await this.setState({
-      workingTime: tempWorkingTime
-    })
-  }
+      workingTime: tempWorkingTime,
+    });
+  };
 
   onChangeTimeOfWorkingTime = async (value, day, keyTime) => {
     const tempWorkingTime = { ...this.state.workingTime };
     tempWorkingTime[day][keyTime] = value;
     await this.setState({
-      workingTime: tempWorkingTime
-    })
-  }
+      workingTime: tempWorkingTime,
+    });
+  };
 
   // ------------------- New Code ---------------
 
   handlePerHourCheckBox = () => {
-    const tempSalary = { ...this.state.salary };
+    const tempSalary = JSON.parse(JSON.stringify(this.state.salary));
     const isCheck = tempSalary?.perHour?.isCheck;
     if (isCheck) {
-      tempSalary.perHour.value = "0.00";
+      tempSalary.perHour.value = '0.00';
     } else {
       tempSalary.commission = {
         value: [
           {
             from: 0,
             to: 0,
-            commission: 0
-          }
+            commission: 0,
+          },
         ],
-        isCheck: false
-      }
+        isCheck: false,
+      };
     }
     tempSalary.perHour.isCheck = !isCheck;
 
     this.setState({
-      salary: tempSalary
-    })
-  }
+      salary: tempSalary,
+    });
+  };
 
   handleChangePerHourValue = async (value) => {
-    const tempSalary = { ...this.state.salary };
+    const tempSalary = JSON.parse(JSON.stringify(this.state.salary));
     tempSalary.perHour.value = value;
 
     await this.setState({
-      salary: tempSalary
-    })
-  }
+      salary: tempSalary,
+    });
+  };
 
   onPressIncomesCheckbox = () => {
-    const tempSalary = { ...this.state.salary };
+    const tempSalary = JSON.parse(JSON.stringify(this.state.salary));
     const isCheck = tempSalary?.commission?.isCheck;
 
     if (isCheck) {
@@ -470,54 +489,56 @@ class AddStaff extends Layout {
         {
           from: 0,
           to: 0,
-          commission: 0
-        }
+          commission: 0,
+        },
       ];
     } else {
       tempSalary.perHour = {
-        value: "0.00",
-        isCheck: false
+        value: '0.00',
+        isCheck: false,
       };
     }
     tempSalary.commission.isCheck = !isCheck;
 
     this.setState({
-      salary: tempSalary
-    })
-  }
+      salary: tempSalary,
+    });
+  };
 
   addMoreSalary = () => {
-    const tempSalary = { ...this.state.salary };
+    const tempSalary = JSON.parse(JSON.stringify(this.state.salary));
     tempSalary.commission.value.push({
-      from: "",
-      to: "",
-      commission: ""
+      from: '0.0',
+      to: '0.0',
+      commission: '0.0',
     });
 
     this.setState({
-      salary: tempSalary
-    })
-  }
+      salary: tempSalary,
+    });
+  };
 
   removeSalaryByIndex = (indexRemove) => {
-    const tempSalary = { ...this.state.salary };
+    const tempSalary = JSON.parse(JSON.stringify(this.state.salary));
     const valueCommission = tempSalary?.commission?.value || [];
-    const tempValueCommission = valueCommission.filter((value, index) => index !== indexRemove);
+    const tempValueCommission = valueCommission.filter(
+      (value, index) => index !== indexRemove
+    );
     tempSalary.commission.value = tempValueCommission;
 
     this.setState({
-      salary: tempSalary
-    })
-  }
+      salary: tempSalary,
+    });
+  };
 
   onChangeSalaryByIndex = (value, key, index) => {
-    const tempSalary = { ...this.state.salary };
+    const tempSalary = JSON.parse(JSON.stringify(this.state.salary));
     tempSalary.commission.value[index][key] = value;
 
     this.setState({
-      salary: tempSalary
-    })
-  }
+      salary: tempSalary,
+    });
+  };
 
   handleProductSalaryCheckBox = () => {
     const tempProductSalary = { ...this.state.productSalary };
@@ -525,18 +546,18 @@ class AddStaff extends Layout {
     tempProductSalary.commission.isCheck = !isCheck;
 
     this.setState({
-      productSalary: tempProductSalary
-    })
-  }
+      productSalary: tempProductSalary,
+    });
+  };
 
   handleChangeProductSalaryValue = (value) => {
     const tempProductSalary = { ...this.state.productSalary };
     tempProductSalary.commission.value = value;
 
     this.setState({
-      productSalary: tempProductSalary
-    })
-  }
+      productSalary: tempProductSalary,
+    });
+  };
 
   handleTipFeePercentCheckBox = () => {
     const tempTipFee = { ...this.state.tipFee };
@@ -552,19 +573,18 @@ class AddStaff extends Layout {
     tempTipFee.percent.isCheck = !isCheck;
 
     this.setState({
-      tipFee: tempTipFee
-    })
-
-  }
+      tipFee: tempTipFee,
+    });
+  };
 
   handleChangeTipFeePercentValue = (value) => {
     const tempTipFee = { ...this.state.tipFee };
     tempTipFee.percent.value = value;
 
     this.setState({
-      tipFee: tempTipFee
-    })
-  }
+      tipFee: tempTipFee,
+    });
+  };
 
   handleTipFeeFixedAmountCheckBox = () => {
     const tempTipFee = { ...this.state.tipFee };
@@ -572,7 +592,7 @@ class AddStaff extends Layout {
 
     if (isCheck) {
       tempTipFee.fixedAmount.value = '0.00';
-    }else{
+    } else {
       tempTipFee.percent.isCheck = false;
       tempTipFee.percent.value = '0.00';
     }
@@ -580,25 +600,24 @@ class AddStaff extends Layout {
     tempTipFee.fixedAmount.isCheck = !isCheck;
 
     this.setState({
-      tipFee: tempTipFee
-    })
-  }
+      tipFee: tempTipFee,
+    });
+  };
 
   handleChangeTipFeeFixedAmountValue = (value) => {
     const tempTipFee = { ...this.state.tipFee };
     tempTipFee.fixedAmount.value = value;
 
     this.setState({
-      tipFee: tempTipFee
-    })
-  }
+      tipFee: tempTipFee,
+    });
+  };
 
-  handleChangeCashPercentValue =(value)=>{
+  handleChangeCashPercentValue = (value) => {
     this.setState({
-      cashPercent: value
-    })
-  }
-
+      cashPercent: value,
+    });
+  };
 }
 
 export default AddStaff;

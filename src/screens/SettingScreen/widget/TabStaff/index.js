@@ -1,6 +1,6 @@
-import React from "react";
-import Layout from "./layout";
-import connectRedux from "@redux/ConnectRedux";
+import React from 'react';
+import Layout from './layout';
+import connectRedux from '@redux/ConnectRedux';
 
 class TabStaff extends Layout {
   constructor(props) {
@@ -11,14 +11,14 @@ class TabStaff extends Layout {
       visibleRestore: false,
       isEditStaff: false,
       filter: {
-        role: "",
-        status: "",
+        role: '',
+        status: '',
       },
       staffHandle: {},
       searchFilter: {
-        keySearch: "",
-        role: "",
-        status: "",
+        keySearch: '',
+        role: '',
+        status: '',
       },
       index: 0,
     };
@@ -33,16 +33,16 @@ class TabStaff extends Layout {
   setStateFromParent = async () => {
     await this.setState({
       searchFilter: {
-        keySearch: "",
-        role: "",
-        status: "",
+        keySearch: '',
+        role: '',
+        status: '',
       },
     });
   };
 
-  async updateSearchFilterInfo(key, value, keyParent = "") {
+  async updateSearchFilterInfo(key, value, keyParent = '') {
     const { searchFilter } = this.state;
-    if (keyParent !== "") {
+    if (keyParent !== '') {
       const temptParent = searchFilter[keyParent];
       const temptChild = { ...temptParent, [key]: value };
       const temptUpdate = { ...searchFilter, [keyParent]: temptChild };
@@ -55,12 +55,12 @@ class TabStaff extends Layout {
         searchFilter: temptUpdate,
       });
     }
-    if (key !== "keySearch") {
+    if (key !== 'keySearch') {
       setTimeout(() => {
         this.searchStaff();
       }, 100);
     } else {
-      if (value === "") {
+      if (value === '') {
         this.searchStaff();
       }
     }
@@ -119,10 +119,10 @@ class TabStaff extends Layout {
     this.props.actions.staff.switchAddStaff(true);
 
     if (this.addStaffRef?.current) {
-      this.addStaffRef?.current?.setStateFromParent("", false);
+      this.addStaffRef?.current?.setStateFromParent('', false);
     } else {
       setTimeout(() => {
-        this.addStaffRef?.current?.setStateFromParent("", false);
+        this.addStaffRef?.current?.setStateFromParent('', false);
       }, 500);
     }
 
@@ -134,12 +134,13 @@ class TabStaff extends Layout {
       visibleArchive: true,
       staffHandle: staff,
     });
-  }
+  };
 
   editStaff = (staff) => async () => {
+    console.log('staff', staff?.salaries);
     await this.setState({
-      staffHandle: staff
-    })
+      staffHandle: staff,
+    });
     this.props.actions.staff.getDetailStaffByMerchantId(staff?.staffId);
     this.props.actions.staff.switchAddStaff(true);
 
@@ -151,14 +152,14 @@ class TabStaff extends Layout {
       }, 500);
     }
     this.scrollTabParentRef?.current.goToPage(1);
-  }
+  };
 
   restoreStaff = (staff) => () => {
     this.setState({
       visibleRestore: true,
       staffHandle: staff,
     });
-  }
+  };
 
   backAddStaff = () => {
     if (this.scrollTabParentRef?.current) {
@@ -210,9 +211,9 @@ class TabStaff extends Layout {
   clearSearchText = () => {
     const { searchFilter } = this.state;
     const { role, status } = searchFilter;
-    this.updateSearchFilterInfo("keySearch", "");
+    this.updateSearchFilterInfo('keySearch', '');
     this.props.actions.staff.getStaffByMerchantId(
-      "",
+      '',
       role,
       status,
       searchFilter
@@ -239,13 +240,13 @@ class TabStaff extends Layout {
         tipFee: staff.tipFees,
         productSalary: staff.productSalaries,
         address: {
-          street: staff?.address || "",
-          city: staff?.city || "",
+          street: staff?.address || '',
+          city: staff?.city || '',
           state: staff?.stateId || 0,
-          zip: staff?.zip || "",
+          zip: staff?.zip || '',
         },
         roles: {
-          nameRole: staff?.roleName || "",
+          nameRole: staff?.roleName || '',
         },
         isActive,
       },
@@ -256,13 +257,14 @@ class TabStaff extends Layout {
 
   componentDidUpdate(prevProps, prevState) {
     const { isEditStaffByIdSuccess } = this.props;
-    if (isEditStaffByIdSuccess && prevProps.isEditStaffByIdSuccess !== isEditStaffByIdSuccess) {
+    if (
+      isEditStaffByIdSuccess &&
+      prevProps.isEditStaffByIdSuccess !== isEditStaffByIdSuccess
+    ) {
       this.scrollTabParentRef?.current.goToPage(0);
       this.props.actions.staff.resetStateIsEditStaffById();
     }
   }
-
-
 }
 
 const mapStateToProps = (state) => ({
@@ -276,7 +278,7 @@ const mapStateToProps = (state) => ({
   refreshListStaffs: state.staff.refreshListStaffs,
   isGetListSearchStaff: state.staff.isGetListSearchStaff,
   isShowSearchResult: state.staff.isShowSearchResult,
-  isEditStaffByIdSuccess: state.staff.isEditStaffByIdSuccess
+  isEditStaffByIdSuccess: state.staff.isEditStaffByIdSuccess,
 });
 
 export default connectRedux(mapStateToProps, TabStaff);
