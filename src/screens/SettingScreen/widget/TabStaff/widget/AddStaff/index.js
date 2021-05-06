@@ -52,7 +52,7 @@ const initState = {
   },
   salary: {
     perHour: {
-      value: "",
+      value: "0.00",
       isCheck: false,
     },
     commission: {
@@ -475,7 +475,7 @@ class AddStaff extends Layout {
       ];
     } else {
       tempSalary.perHour = {
-        value: "",
+        value: "0.00",
         isCheck: false
       };
     }

@@ -52,7 +52,7 @@ class StaffInfo extends Layout {
             },
             salary: {
                 perHour: {
-                    value: '',
+                    value: '0.00',
                     isCheck: false
                 },
                 commission: {
