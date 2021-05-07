@@ -137,7 +137,6 @@ class TabStaff extends Layout {
   };
 
   editStaff = (staff) => async () => {
-    console.log('staff', staff?.salaries);
     await this.setState({
       staffHandle: staff,
     });

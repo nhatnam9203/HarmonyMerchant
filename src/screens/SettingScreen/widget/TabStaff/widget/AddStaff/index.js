@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert } from 'react-native';
-import _ from 'ramda';
+import _, { isEmpty } from 'ramda';
 
 import Layout from './layout';
 import strings from './strings';
@@ -120,6 +120,19 @@ class AddStaff extends Layout {
   setStateFromParent = async (infoStaffHandle, isEditStaff) => {
     if (isEditStaff) {
       const { stateCity } = this.props;
+
+      //Set default values salary
+      const tempsalaries = JSON.parse(
+        JSON.stringify(infoStaffHandle?.salaries)
+      );
+      if (isEmpty(tempsalaries?.commission?.value)) {
+        tempsalaries?.commission?.value.push({
+          from: '0.0',
+          to: '0.0',
+          commission: '0.0',
+        });
+      }
+
       await this.setState({
         user: {
           firstName: infoStaffHandle?.firstName || '',
@@ -154,7 +167,7 @@ class AddStaff extends Layout {
         isEditSSN: false,
 
         workingTime: infoStaffHandle?.workingTimes || BusinessWorkingTime,
-        salary: infoStaffHandle?.salaries,
+        salary: tempsalaries,
         productSalary: infoStaffHandle?.productSalaries,
         tipFee: infoStaffHandle?.tipFees,
         cashPercent: infoStaffHandle?.cashPercent,
@@ -342,9 +355,9 @@ class AddStaff extends Layout {
         tempSalary.commission.value
       );
 
-      this.setState({
-        salary: tempSalary,
-      });
+      // this.setState({
+      //   salary: tempSalary,
+      // });
 
       const temptStaff = {
         ...user,
@@ -364,7 +377,6 @@ class AddStaff extends Layout {
         cashPercent: parseFloat(this.state.cashPercent),
         categories: this.assignSevices?.current?.getStateFromParent(),
       };
-
 
       if (this.state.isEditStaff) {
         this.props.editStaff(temptStaff, this.state.staffId);
