@@ -42,11 +42,11 @@ const initState = {
   staffId: '',
   tipFee: {
     percent: {
-      value: '',
+      value: '0.0',
       isCheck: false,
     },
     fixedAmount: {
-      value: '',
+      value: '0.0',
       isCheck: false,
     },
   },
@@ -572,7 +572,7 @@ class AddStaff extends Layout {
   };
 
   handleTipFeePercentCheckBox = () => {
-    const tempTipFee = { ...this.state.tipFee };
+    const tempTipFee = JSON.parse(JSON.stringify(this.state.tipFee));
     const isCheck = tempTipFee?.percent?.isCheck;
 
     if (isCheck) {
@@ -590,7 +590,7 @@ class AddStaff extends Layout {
   };
 
   handleChangeTipFeePercentValue = (value) => {
-    const tempTipFee = { ...this.state.tipFee };
+    const tempTipFee = JSON.parse(JSON.stringify(this.state.tipFee));
     tempTipFee.percent.value = value;
 
     this.setState({
@@ -599,7 +599,7 @@ class AddStaff extends Layout {
   };
 
   handleTipFeeFixedAmountCheckBox = () => {
-    const tempTipFee = { ...this.state.tipFee };
+    const tempTipFee = JSON.parse(JSON.stringify(this.state.tipFee));
     const isCheck = tempTipFee?.fixedAmount?.isCheck;
 
     if (isCheck) {
@@ -617,7 +617,7 @@ class AddStaff extends Layout {
   };
 
   handleChangeTipFeeFixedAmountValue = (value) => {
-    const tempTipFee = { ...this.state.tipFee };
+    const tempTipFee = JSON.parse(JSON.stringify(this.state.tipFee));
     tempTipFee.fixedAmount.value = value;
 
     this.setState({
