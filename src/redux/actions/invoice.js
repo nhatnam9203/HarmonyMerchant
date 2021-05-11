@@ -109,7 +109,8 @@ export function changeStatustransaction(checkoutId, params, responseData = {}) {
         },
         api: `${apiConfigs.BASE_API}checkout/paymentvoidrefundtransaction/${checkoutId}`,
         token: true,
-        params
+        params,
+        checkoutId
     }
 }
 
