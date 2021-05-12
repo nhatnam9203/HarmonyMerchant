@@ -89,23 +89,23 @@ class Layout extends React.Component {
         >
           <ItemHeader
             title={`${localize("Aggregate Rating", language)}`}
-            content={"All time statictics"}
+            content={"All time statistics"}
             rating={rating}
             isRating={true}
           />
           <ItemHeader
-            title={`${localize("Total Reivews", language)}`}
-            content={"All time statictics"}
+            title={`${localize("Total Reviews", language)}`}
+            content={"All time statistics"}
             rating={count}
           />
           <ItemHeader
             title={`${localize("Good Reviews", language)}`}
-            content={"All time statictics"}
+            content={"All time statistics"}
             rating={goodCount}
           />
           <ItemHeader
             title={`${localize("Bad Reviews", language)}`}
-            content={"All time statictics"}
+            content={"All time statistics"}
             rating={badCount}
           />
         </View>
