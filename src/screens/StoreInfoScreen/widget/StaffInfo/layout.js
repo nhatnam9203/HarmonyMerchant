@@ -93,14 +93,14 @@ class Layout extends React.Component {
                         <View style={{
                             flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5)
                         }} >
-                            <TextInputMask
-                                type="only-numbers"
+                            <TextInput
+                       
                                 style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
                                 placeholder={localize('Zip Code', language)}
                                 value={zip}
                                 onChangeText={(value) => this.updateUserInfo('zip', value, 'address')}
-                                maxLength={5}
-                                keyboardType="numeric"
+                                 //maxLength={10}
+                                // keyboardType="numeric"
                                 onFocus={() => this.scrollStaffTo(150)}
                             />
                         </View>

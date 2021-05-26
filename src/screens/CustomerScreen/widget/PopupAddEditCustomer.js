@@ -320,8 +320,8 @@ class PopupAddEditCustomer extends React.Component {
                                                     value={zip}
                                                     onChangeText={value => this.updateCustomerInfo('zip', value, 'addressPost')}
                                                     onFocus={() => this.scrollCustomerTo(220)}
-                                                    maxLength={5}
-                                                    keyboardType="numeric"
+                                                    //  maxLength={10}
+                                                    // keyboardType="numeric"
                                                 />
                                             </View>
                                         </View>

@@ -414,8 +414,8 @@ class EditOrCreateCustomerTab extends React.Component {
                                 </View>
                                 <View style={{ width: scaleSzie(35) }} />
                                 <View style={{ flex: 1, flexDirection: "row", borderColor: "#CCCCCC", borderWidth: 1, paddingHorizontal: scaleSzie(10) }} >
-                                    < TextInputMask
-                                        type="only-numbers"
+                                    < TextInput
+
                                         style={{
                                             flex: 1,
                                             fontSize: scaleSzie(14),
@@ -426,8 +426,8 @@ class EditOrCreateCustomerTab extends React.Component {
                                         value={zip}
                                         onChangeText={value => this.updateCustomerInfo('zip', value, 'addressPost')}
                                         onFocus={() => this.scrollRightContentTo(120)}
-                                        keyboardType={"numeric"}
-                                        maxLength={5}
+                                        // keyboardType={"numeric"}
+                                        // maxLength={10}
                                     />
                                     {
                                         zip ? <Button

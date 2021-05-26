@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   ScrollView,
@@ -6,22 +6,23 @@ import {
   TextInput,
   ActivityIndicator,
   Switch,
-} from "react-native";
-import { TextInputMask } from "react-native-masked-text";
+} from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 import {
   Dropdown,
   ButtonCustom,
   Text,
   BrowserFile,
-  TextInputSuggestion, Button
-} from "@components";
-import { scaleSzie, localize, hideCharactes } from "@utils";
-import { ItemAdminInfo, ItemAdminCellPhone } from "../componentTab";
-import { ItemWorkingTime } from "../ItemWorkingTime";
-import ItemScalary from "../ItemScalary";
-import { ItemScalaryByIncome } from "../ItemScalaryByIncome";
-import AssignSevices from "../AssignSevices";
+  TextInputSuggestion,
+  Button,
+} from '@components';
+import { scaleSzie, localize, hideCharactes } from '@utils';
+import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
+import { ItemWorkingTime } from '../ItemWorkingTime';
+import ItemScalary from '../ItemScalary';
+import { ItemScalaryByIncome } from '../ItemScalaryByIncome';
+import AssignSevices from '../AssignSevices';
 
 class Layout extends React.Component {
   renderBody() {
@@ -45,7 +46,14 @@ class Layout extends React.Component {
     const { nameRole } = roles;
 
     const { language, isEditStaff } = this.props;
-    const { dynamicMarginBottomState, workingTime, tipFee, salary, productSalary, cashPercent } = this.state;
+    const {
+      dynamicMarginBottomState,
+      workingTime,
+      tipFee,
+      salary,
+      productSalary,
+      cashPercent,
+    } = this.state;
 
     return (
       <View style={styles.body}>
@@ -53,75 +61,74 @@ class Layout extends React.Component {
           ref={this.scrollStaffRef}
           showsVerticalScrollIndicator={false}
           automaticallyAdjustContentInsets={true}
-          keyboardShouldPersistTaps={"always"}
+          keyboardShouldPersistTaps={'always'}
         >
           <View style={{ height: scaleSzie(30) }} />
           <ItemAdminInfoDoubleItem
-            title={`${localize("Name", language)}*`}
-            placeholder={localize("First Name", language)}
+            title={`${localize('Name', language)}*`}
+            placeholder={localize('First Name', language)}
             value={firstName}
-            onChangeText={(value) => this.updateUserInfo("firstName", value)}
+            onChangeText={(value) => this.updateUserInfo('firstName', value)}
           >
             <View
               style={{
                 flex: 1,
                 borderWidth: 1,
-                borderColor: "#C5C5C5",
+                borderColor: '#C5C5C5',
                 paddingLeft: scaleSzie(5),
               }}
             >
               <TextInput
-                style={{ flex: 1, fontSize: scaleSzie(14), color: "#404040" }}
-                placeholder={localize("Last Name", language)}
+                style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040' }}
+                placeholder={localize('Last Name', language)}
                 value={lastName}
-                onChangeText={(value) => this.updateUserInfo("lastName", value)}
+                onChangeText={(value) => this.updateUserInfo('lastName', value)}
               />
             </View>
           </ItemAdminInfoDoubleItem>
 
           <ItemAdminInfoDoubleItem
-            title={`${localize("Display Name", language)}*`}
-            placeholder={localize("Display Name", language)}
+            title={`${localize('Display Name', language)}*`}
+            placeholder={localize('Display Name', language)}
             value={displayName}
-            onChangeText={(value) => this.updateUserInfo("displayName", value)}
+            onChangeText={(value) => this.updateUserInfo('displayName', value)}
           />
 
           <ItemAdminInfo
-            title={localize("Address", language)}
-            placeholder={localize("Street", language)}
+            title={localize('Address', language)}
+            placeholder={localize('Street', language)}
             value={street}
             onChangeText={(value) =>
-              this.updateUserInfo("street", value, "address")
+              this.updateUserInfo('street', value, 'address')
             }
             onFocus={() => this.scrollStaffTo(140)}
           />
 
           <ItemAdminInfoDoubleItem
             title=""
-            placeholder={localize("City", language)}
+            placeholder={localize('City', language)}
             value={city}
             onChangeText={(value) =>
-              this.updateUserInfo("city", value, "address")
+              this.updateUserInfo('city', value, 'address')
             }
           >
             <View
               style={{
                 flex: 1,
                 borderWidth: 1,
-                borderColor: "#C5C5C5",
+                borderColor: '#C5C5C5',
                 paddingLeft: scaleSzie(5),
               }}
             >
-              <TextInputMask
-                type="only-numbers"
-                style={{ flex: 1, fontSize: scaleSzie(14), color: "#404040" }}
-                placeholder={localize("Zip Code", language)}
+              <TextInput
+                style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040' }}
+                placeholder={localize('Zip Code', language)}
                 value={zip}
                 onChangeText={(value) =>
-                  this.updateUserInfo("zip", value, "address")
+                  this.updateUserInfo('zip', value, 'address')
                 }
-                maxLength={5}
-                keyboardType="numeric"
+                // maxLength={10}
+                //keyboardType="numeric"
                 onFocus={() => this.scrollStaffTo(140)}
               />
             </View>
@@ -130,7 +137,7 @@ class Layout extends React.Component {
           {/* ------------ Zip code ----------- */}
           <View
             style={{
-              flexDirection: "row",
+              flexDirection: 'row',
               height: scaleSzie(36),
               paddingHorizontal: scaleSzie(25),
               marginTop: scaleSzie(14),
@@ -138,12 +145,12 @@ class Layout extends React.Component {
             }}
           >
             <View style={{ width: scaleSzie(150) }} />
-            <View style={{ flex: 1, flexDirection: "row" }}>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
               <View style={{ flex: 1 }}>
                 <TextInputSuggestion
                   value={state}
                   onChangeText={(value, count) => {
-                    this.updateUserInfo("state", value, "address");
+                    this.updateUserInfo('state', value, 'address');
                     this.setState({
                       dynamicMarginBottomState: count * 24,
                     });
@@ -151,7 +158,7 @@ class Layout extends React.Component {
                   resetMarginState={() =>
                     this.setState({ dynamicMarginBottomState: 24 })
                   }
-                  onFocus={() => { }}
+                  onFocus={() => {}}
                   inputContainerStyle={{
                     height: scaleSzie(35),
                   }}
@@ -164,36 +171,36 @@ class Layout extends React.Component {
 
           <ItemAdminCellPhone
             ref={this.cellphoneRef}
-            title={`${localize("Cell Phone", language)}`}
-            placeholder={localize("Phone Number", language)}
+            title={`${localize('Cell Phone', language)}`}
+            placeholder={localize('Phone Number', language)}
             value={cellphone}
-            onChangeText={(value) => this.updateUserInfo("cellphone", value)}
+            onChangeText={(value) => this.updateUserInfo('cellphone', value)}
             type={true}
             onFocus={() => this.scrollStaffTo(310)}
             style={{ marginTop: scaleSzie(10) }}
           />
           <ItemAdminInfo
-            title={`${localize("Contact Email", language)}`}
-            placeholder={localize("Email")}
+            title={`${localize('Contact Email', language)}`}
+            placeholder={localize('Email')}
             value={email}
-            onChangeText={(value) => this.updateUserInfo("email", value)}
+            onChangeText={(value) => this.updateUserInfo('email', value)}
             onFocus={() => this.scrollStaffTo(370)}
           />
           <ItemAdminInfo
-            title={`${localize("Create PIN", language)}*`}
+            title={`${localize('Create PIN', language)}*`}
             placeholder="****"
             value={pin}
-            onChangeText={(value) => this.updateUserInfo("pin", value)}
+            onChangeText={(value) => this.updateUserInfo('pin', value)}
             secureTextEntry={true}
             maxLength={4}
             type={true}
             onFocus={() => this.scrollStaffTo(430)}
           />
           <ItemAdminInfo
-            title={`${localize("Confirm PIN", language)}*`}
+            title={`${localize('Confirm PIN', language)}*`}
             placeholder="****"
             value={confirmPin}
-            onChangeText={(value) => this.updateUserInfo("confirmPin", value)}
+            onChangeText={(value) => this.updateUserInfo('confirmPin', value)}
             secureTextEntry={true}
             maxLength={4}
             type={true}
@@ -202,22 +209,22 @@ class Layout extends React.Component {
           <ItemAdminInfoRole
             DropdowAdmin={() => (
               <Dropdown
-                label={localize("Admin", language)}
-                data={[{ value: "Admin" }, { value: "Staff" }]}
+                label={localize('Admin', language)}
+                data={[{ value: 'Admin' }, { value: 'Staff' }]}
                 value={nameRole}
                 onChangeText={(value) =>
-                  this.updateUserInfo("nameRole", value, "roles")
+                  this.updateUserInfo('nameRole', value, 'roles')
                 }
                 containerStyle={styles.dropdown}
               />
             )}
             DropdowStatusAdmin={() => (
               <Dropdown
-                label={localize("Status", language)}
-                data={[{ value: "Active" }, { value: "Disable" }]}
+                label={localize('Status', language)}
+                data={[{ value: 'Active' }, { value: 'Disable' }]}
                 value={isDisabled}
                 onChangeText={(value) =>
-                  this.updateUserInfo("isDisabled", value)
+                  this.updateUserInfo('isDisabled', value)
                 }
                 containerStyle={styles.dropdown}
               />
@@ -227,31 +234,31 @@ class Layout extends React.Component {
           {/* ----------- Active -------- */}
           <View
             style={{
-              flexDirection: "row",
+              flexDirection: 'row',
               height: scaleSzie(36),
               paddingHorizontal: scaleSzie(25),
               marginTop: scaleSzie(25),
             }}
           >
-            <View style={{ width: scaleSzie(150), justifyContent: "center" }}>
+            <View style={{ width: scaleSzie(150), justifyContent: 'center' }}>
               <Text
                 style={{
-                  color: "#404040",
+                  color: '#404040',
                   fontSize: scaleSzie(14),
-                  fontWeight: "600",
+                  fontWeight: '600',
                 }}
               >
                 {`Visible`}
               </Text>
             </View>
 
-            <View style={{ flex: 1, justifyContent: "center" }}>
+            <View style={{ flex: 1, justifyContent: 'center' }}>
               <Switch
-                trackColor={{ false: "#767577", true: "#0764B0" }}
+                trackColor={{ false: '#767577', true: '#0764B0' }}
                 // thumbColor={toogle ? "#f5dd4b" : "#f4f3f4"}
                 ios_backgroundColor="#E5E5E5"
                 onValueChange={(isActive) =>
-                  this.updateUserInfo("isActive", isActive)
+                  this.updateUserInfo('isActive', isActive)
                 }
                 value={isActive ? isActive : false}
               />
@@ -265,17 +272,17 @@ class Layout extends React.Component {
               updateFileId={this.updateFileId}
               imageUrl={this.state.imageUrl}
               styleText={{
-                color: "#404040",
+                color: '#404040',
                 fontSize: scaleSzie(14),
-                fontWeight: "600",
+                fontWeight: '600',
               }}
               editButtonSubmit={this.editButtonSubmit}
             />
           </View>
 
           <TitleTabAdminInfo
-            title={localize("Working Time", language)}
-            style={{ color: "#0764B0" }}
+            title={localize('Working Time', language)}
+            style={{ color: '#0764B0' }}
           />
           {Object.keys(workingTime).map((day, index) => {
             return (
@@ -284,7 +291,10 @@ class Layout extends React.Component {
                 // ref={this.setRefTimeWorking}
                 title={day}
                 data={workingTime[day]}
-                selectCheckbox={this.selectCheckbox(day, workingTime[day]?.isCheck)}
+                selectCheckbox={this.selectCheckbox(
+                  day,
+                  workingTime[day]?.isCheck
+                )}
                 onChangeTimeOfWorkingTime={this.onChangeTimeOfWorkingTime}
               />
             );
@@ -292,31 +302,29 @@ class Layout extends React.Component {
 
           {/* ----- Service ---- */}
 
-          <TitleTabAdminInfo title={localize("Services", language)} />
+          <TitleTabAdminInfo title={localize('Services', language)} />
 
           {/* ------------- Assigns Services For Staff ----------- */}
-          <AssignSevices
-            ref={this.assignSevices}
-          />
+          <AssignSevices ref={this.assignSevices} />
 
           {/* ----- Service Salary ---- */}
-          <TitleTabAdminInfo title={localize("Service Salary", language)} />
+          <TitleTabAdminInfo title={localize('Service Salary', language)} />
 
           {/* ----- Per Hour ServiceSalary ---- */}
           <ItemScalary
-            title={`${localize("Per Hour", language)} ($)`}
-            placeholder={"10"}
+            title={`${localize('Per Hour', language)} ($)`}
+            placeholder={'10'}
             data={salary?.perHour}
-            onFocus={() => { }}
+            onFocus={() => {}}
             onPressCheckBox={this.handlePerHourCheckBox}
             onChangeValue={this.handleChangePerHourValue}
           />
 
           {/* ----- Commission ServiceSalary ---- */}
           <ItemScalaryByIncome
-            title={`${localize("Incomes", language)}`}
-            placeholder={"10"}
-            onFocus={() => { }}
+            title={`${localize('Incomes', language)}`}
+            placeholder={'10'}
+            onFocus={() => {}}
             data={salary?.commission}
             onPressIncomesCheckbox={this.onPressIncomesCheckbox}
             addMoreSalary={this.addMoreSalary}
@@ -325,25 +333,25 @@ class Layout extends React.Component {
           />
 
           {/* ----- Product Salary ---- */}
-          <TitleTabAdminInfo title={localize("Product Salary", language)} />
+          <TitleTabAdminInfo title={localize('Product Salary', language)} />
 
           <ItemScalary
-            title={`${localize("Commission", language)} (%)`}
-            placeholder={"10"}
-            onFocus={() => { }}
+            title={`${localize('Commission', language)} (%)`}
+            placeholder={'10'}
+            onFocus={() => {}}
             data={productSalary?.commission}
             onPressCheckBox={this.handleProductSalaryCheckBox}
             onChangeValue={this.handleChangeProductSalaryValue}
           />
 
           {/* ----- Tip fee ---- */}
-          <TitleTabAdminInfo title={localize("Tip", language)} />
+          <TitleTabAdminInfo title={localize('Tip', language)} />
 
           {/* ----- Percent Tip Fee ---- */}
           <ItemScalary
-            title={`${localize("Percent", language)} (%)`}
-            placeholder={"10"}
-            onFocus={() => { }}
+            title={`${localize('Percent', language)} (%)`}
+            placeholder={'10'}
+            onFocus={() => {}}
             data={tipFee?.percent}
             onPressCheckBox={this.handleTipFeePercentCheckBox}
             onChangeValue={this.handleChangeTipFeePercentValue}
@@ -351,101 +359,116 @@ class Layout extends React.Component {
 
           {/* ----- Fix amount Tip Fee ---- */}
           <ItemScalary
-            title={`${localize("Fixed Amount", language)} ($)`}
-            placeholder={"10"}
-            onFocus={() => { }}
+            title={`${localize('Fixed Amount', language)} ($)`}
+            placeholder={'10'}
+            onFocus={() => {}}
             data={tipFee?.fixedAmount}
             onPressCheckBox={this.handleTipFeeFixedAmountCheckBox}
             onChangeValue={this.handleChangeTipFeeFixedAmountValue}
           />
 
           {/* -----  Payout With Cash ---- */}
-          <TitleTabAdminInfo title={localize("Payout With Cash", language)} />
+          <TitleTabAdminInfo title={localize('Payout With Cash', language)} />
 
           {/* ----- Cash Percent ---- */}
           <ItemScalary
-            title={`${localize("Cash Percent", language)} (%)`}
-            placeholder={"10"}
-            onFocus={() => { }}
+            title={`${localize('Cash Percent', language)} (%)`}
+            placeholder={'10'}
+            onFocus={() => {}}
             maxLength={3}
             isNotToggleCheck={true}
             data={{
               isCheck: true,
               value: cashPercent,
             }}
-            onPressCheckBox={() => { }}
+            onPressCheckBox={() => {}}
             onChangeValue={this.handleChangeCashPercentValue}
           />
 
           {/* ---- Address ---- */}
           <ItemAdminInfo
-            title={localize("Driver License", language)}
+            title={localize('Driver License', language)}
             // placeholder="0000-0000-0000"
             value={driverlicense}
             onChangeText={(value) =>
-              this.updateUserInfo("driverlicense", value)
+              this.updateUserInfo('driverlicense', value)
             }
             type={true}
             // onFocus={() => this.scrollStaffTo(2000 + rowsSalaryIncome * 35)}
-            onFocus={() => { }}
+            onFocus={() => {}}
           />
 
           {/* ----------- Handle Social Security Number -----------  */}
-          {
-            !this.state.isEditSSN && !isEditStaff ?
-              <View style={[{
-                flexDirection: 'row',
-                height: scaleSzie(36),
-                paddingHorizontal: scaleSzie(25),
-                marginTop: scaleSzie(25)
-              }]} >
-                <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
-                  <Text style={[{
-                    color: '#404040',
-                    // fontSize: scaleSzie(14),
-                    // fontWeight: '600',
-                    fontSize: scaleSzie(12),
-                    fontWeight: "bold",
-
-                  }]}  >
-                    {`${localize("Social Security Number", language)}`}
-                  </Text>
-                </View>
-                <Button onPress={() => {
-                  this.setState({ isEditSSN: true });
-                  this.updateUserInfo("socialSecurityNumber", "")
-                }} style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5), justifyContent: "center" }} >
-                  <Text style={{ fontSize: scaleSzie(14), color: '#404040', }} >
-                    {hideCharactes(socialSecurityNumber)}
-                  </Text>
-                </Button>
+          {!this.state.isEditSSN && !isEditStaff ? (
+            <View
+              style={[
+                {
+                  flexDirection: 'row',
+                  height: scaleSzie(36),
+                  paddingHorizontal: scaleSzie(25),
+                  marginTop: scaleSzie(25),
+                },
+              ]}
+            >
+              <View style={{ width: scaleSzie(150), justifyContent: 'center' }}>
+                <Text
+                  style={[
+                    {
+                      color: '#404040',
+                      // fontSize: scaleSzie(14),
+                      // fontWeight: '600',
+                      fontSize: scaleSzie(12),
+                      fontWeight: 'bold',
+                    },
+                  ]}
+                >
+                  {`${localize('Social Security Number', language)}`}
+                </Text>
               </View>
-              :
-              <ItemAdminInfo
-                title={localize("Social Security Number", language)}
-                placeholder="000-00-0000"
-                value={socialSecurityNumber}
-                onChangeText={(value) =>
-                  this.updateUserInfo("socialSecurityNumber", value)
-                }
-                type={true}
-                onFocus={() => this.scrollStaffTo(100000)}
-                typeSocial="custom"
-                mark="999-99-9999"
-                style={{
-                  fontSize: scaleSzie(12),
-                  fontWeight: "bold",
+              <Button
+                onPress={() => {
+                  this.setState({ isEditSSN: true });
+                  this.updateUserInfo('socialSecurityNumber', '');
                 }}
-                autoFocus={true}
-              />
-          }
+                style={{
+                  flex: 1,
+                  borderWidth: 1,
+                  borderColor: '#C5C5C5',
+                  paddingLeft: scaleSzie(5),
+                  justifyContent: 'center',
+                }}
+              >
+                <Text style={{ fontSize: scaleSzie(14), color: '#404040' }}>
+                  {hideCharactes(socialSecurityNumber)}
+                </Text>
+              </Button>
+            </View>
+          ) : (
+            <ItemAdminInfo
+              title={localize('Social Security Number', language)}
+              placeholder="000-00-0000"
+              value={socialSecurityNumber}
+              onChangeText={(value) =>
+                this.updateUserInfo('socialSecurityNumber', value)
+              }
+              type={true}
+              onFocus={() => this.scrollStaffTo(100000)}
+              typeSocial="custom"
+              mark="999-99-9999"
+              style={{
+                fontSize: scaleSzie(12),
+                fontWeight: 'bold',
+              }}
+              autoFocus={true}
+            />
+          )}
 
           <ItemAdminInfo
-            title={localize("Professional License", language)}
+            title={localize('Professional License', language)}
             // placeholder="0000-0000-0000"
             value={professionalLicense}
             onChangeText={(value) =>
-              this.updateUserInfo("professionalLicense", value)
+              this.updateUserInfo('professionalLicense', value)
             }
             type={true}
             // onFocus={() => this.scrollStaffTo(2000 + rowsSalaryIncome * 35)}
@@ -455,8 +478,8 @@ class Layout extends React.Component {
             style={{
               height: scaleSzie(70),
               paddingHorizontal: scaleSzie(25),
-              justifyContent: "center",
-              alignItems: "flex-end",
+              justifyContent: 'center',
+              alignItems: 'flex-end',
             }}
           >
             {this.renderButtonSubmit()}
@@ -470,7 +493,7 @@ class Layout extends React.Component {
   renderButtonSubmit() {
     const { language } = this.props;
     const { isSubmitButton } = this.state;
-    const titleButton = this.state.isEditStaff ? "SAVE" : "ADD";
+    const titleButton = this.state.isEditStaff ? 'SAVE' : 'ADD';
     if (isSubmitButton) {
       return (
         <ButtonCustom
@@ -482,13 +505,13 @@ class Layout extends React.Component {
           onPress={this.addAdmin}
           style={{
             borderWidth: 1,
-            borderColor: "#C5C5C5",
-            backgroundColor: "#0764B0",
+            borderColor: '#C5C5C5',
+            backgroundColor: '#0764B0',
           }}
           styleText={{
             fontSize: scaleSzie(15),
-            fontWeight: "500",
-            color: "#fff",
+            fontWeight: '500',
+            color: '#fff',
           }}
         />
       );
@@ -498,10 +521,10 @@ class Layout extends React.Component {
           style={{
             width: scaleSzie(120),
             height: scaleSzie(40),
-            backgroundColor: "#0764B0",
+            backgroundColor: '#0764B0',
             borderRadius: scaleSzie(2),
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <ActivityIndicator size="large" color="#fff" />
@@ -525,35 +548,35 @@ const ItemAdminInfoDoubleItem = ({
   return (
     <View
       style={{
-        flexDirection: "row",
+        flexDirection: 'row',
         height: scaleSzie(36),
         paddingHorizontal: scaleSzie(25),
         marginTop: scaleSzie(14),
       }}
     >
-      <View style={{ width: scaleSzie(150), justifyContent: "center" }}>
+      <View style={{ width: scaleSzie(150), justifyContent: 'center' }}>
         <Text
           style={{
-            color: "#404040",
+            color: '#404040',
             fontSize: scaleSzie(14),
-            fontWeight: "600",
+            fontWeight: '600',
           }}
         >
           {`${title}`}
         </Text>
       </View>
 
-      <View style={{ flex: 1, flexDirection: "row" }}>
+      <View style={{ flex: 1, flexDirection: 'row' }}>
         <View
           style={{
             flex: 1,
             borderWidth: 1,
-            borderColor: "#C5C5C5",
+            borderColor: '#C5C5C5',
             paddingLeft: scaleSzie(5),
           }}
         >
           <TextInput
-            style={{ flex: 1, fontSize: scaleSzie(14), color: "#404040" }}
+            style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040' }}
             placeholder={placeholder}
             value={value}
             onChangeText={(value) => onChangeText(value)}
@@ -572,37 +595,37 @@ const ItemAdminInfoRole = ({ DropdowAdmin, DropdowStatusAdmin }) => {
   return (
     <View
       style={{
-        flexDirection: "row",
+        flexDirection: 'row',
         height: scaleSzie(36),
         paddingHorizontal: scaleSzie(25),
         marginTop: scaleSzie(14),
       }}
     >
-      <View style={{ width: scaleSzie(150), justifyContent: "center" }}>
+      <View style={{ width: scaleSzie(150), justifyContent: 'center' }}>
         <Text
           style={{
-            color: "#404040",
+            color: '#404040',
             fontSize: scaleSzie(14),
-            fontWeight: "600",
+            fontWeight: '600',
           }}
         >
           {`Roles`}
         </Text>
       </View>
 
-      <View style={{ flex: 1, flexDirection: "row" }}>
-        <View style={{ flex: 1.3, flexDirection: "row" }}>
+      <View style={{ flex: 1, flexDirection: 'row' }}>
+        <View style={{ flex: 1.3, flexDirection: 'row' }}>
           <View style={{ flex: 1 }}>{DropdowAdmin()}</View>
           <View style={{ flex: 1 }} />
         </View>
 
-        <View style={{ flex: 1, flexDirection: "row" }}>
-          <View style={{ justifyContent: "center" }}>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{ justifyContent: 'center' }}>
             <Text
               style={{
-                color: "#404040",
+                color: '#404040',
                 fontSize: scaleSzie(14),
-                fontWeight: "600",
+                fontWeight: '600',
               }}
             >
               {`Status`}
@@ -629,8 +652,8 @@ const TitleTabAdminInfo = ({ title, style }) => {
         style={[
           {
             fontSize: scaleSzie(16),
-            fontWeight: "600",
-            color: "#0764B0",
+            fontWeight: '600',
+            color: '#0764B0',
           },
           style,
         ]}
@@ -650,20 +673,20 @@ const styles = StyleSheet.create({
   },
   footer: {
     height: scaleSzie(50),
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   buttonContainer: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
   },
   borderTextInput: {
     borderWidth: 1,
-    borderColor: "#C5C5C5",
+    borderColor: '#C5C5C5',
   },
   dropdown: {
-    backgroundColor: "#F1F1F1",
+    backgroundColor: '#F1F1F1',
     borderWidth: 1,
-    borderColor: "#C5C5C5",
+    borderColor: '#C5C5C5',
     flex: 1,
   },
 });

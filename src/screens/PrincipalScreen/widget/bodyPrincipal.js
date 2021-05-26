@@ -172,8 +172,8 @@ export default class Layout extends React.Component {
                             }}
                             value={zip}
                             onChangeText={(value) => updatePrincipalInfo('zip', value, 'addressPrincipal', isPrincipalSecond)}
-                            keyboardType="numeric"
-                            maxLength={5}
+                            // keyboardType="numeric"
+                            //  maxLength={10}
                             onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 540 : 500)}
                         />
                     </View>
