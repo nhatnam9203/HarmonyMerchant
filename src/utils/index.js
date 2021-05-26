@@ -675,6 +675,21 @@ export const WorkingTime = [
     }
 ]
 
+export const getCurrentIndexWorkingTime = () => {
+    const currentTime = formatWithMoment(new Date(), "hh:mm A");
+    const splitTime = currentTime.split(":");
+    const splitSpace = splitTime[1].split(" ");
+    let str;
+    if (parseInt(splitSpace[0]) > 30 ) {
+        str =`${splitTime[0]}:30 ${splitSpace[1]}`
+    } else {
+        str = `${splitTime[0]}:00 ${splitSpace[1]}`
+    }
+    // console.log(str);
+
+    return WorkingTime.findIndex(x => x.value === str);
+}
+
 export const Roles = [
     {
         value: 'Admin'

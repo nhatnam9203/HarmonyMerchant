@@ -11,7 +11,8 @@
     "codepush:ios:product": "code-push release-react NhatPhi2201/HpMerchant-IOS ios -d \"Production\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info.plist --description \"Update Application\" -t \"1.1.8\" ",
     "android-dev": "adb reverse tcp:8081 tcp:8081",
     "reload-android": "adb shell input text RR",
-    "scan": "sonar-scanner"
+    "scan": "sonar-scanner",
+    "clean": "rm -rf node_modules && rm -rf yarn.lock && watchman watch-del-all"
   },
   "dependencies": {
     "@microsoft/signalr": "^3.1.4",
@@ -44,6 +45,7 @@
     "react-native-dash": "0.0.11",
     "react-native-device-info": "^6.0.0",
     "react-native-draggable-flatlist": "^1.1.9",
+    "react-native-dropdown-picker": "^5.1.19",
     "react-native-fast-image": "^7.0.2",
     "react-native-gesture-handler": "1.4.0",
     "react-native-image-picker": "^0.28.1",

@@ -167,6 +167,7 @@ export default class Layout extends React.Component {
                             ref={this.customerDetailTabRef}
                             showAppointmentDetail={this.showAppointmentDetail}
                             editCustomer={this.editCustomer}
+                            deleteCustomer={this.deleteCustomer}
                         />
 
                         {/* --------- Edit or Create Customer -------- */}
