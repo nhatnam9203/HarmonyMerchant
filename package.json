@@ -12,7 +12,8 @@
     "android-dev": "adb reverse tcp:8081 tcp:8081",
     "reload-android": "adb shell input text RR",
     "scan": "sonar-scanner",
-    "clean": "rm -rf node_modules && rm -rf yarn.lock && watchman watch-del-all"
+    "clean": "rm -rf node_modules && rm -rf yarn.lock && watchman watch-del-all",
+    "push:ios-staging": "appcenter codepush release-react -a NhatPhi2201/HpMerchant-IOS -d Staging -t 1.2.1 --description update"
   },
   "dependencies": {
     "@microsoft/signalr": "^3.1.4",

@@ -15,6 +15,7 @@ import {
   Switch,
   Platform,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { TextInputMask } from "react-native-masked-text";
@@ -23,6 +24,7 @@ import _ from "ramda";
 import DropdownSearch from "./DropdownSearch";
 import Slider from "./Slider";
 import IMAGE from "@resources";
+import moment from "moment";
 
 import {
   scaleSzie,
@@ -41,6 +43,7 @@ import {
   roundFloatNumber,
   formatMoney,
   getCurrentIndexWorkingTime,
+  getWorkingTime,
 } from "@utils";
 import ICON from "@resources";
 import {
@@ -67,8 +70,8 @@ const PromotiomDetail = forwardRef(
     const [title, setTitle] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-    const [startTime, setStartTime] = useState("12:00 AM");
-    const [endTime, setEndTime] = useState("12:00 AM");
+    const [startTime, setStartTime] = useState(null);
+    const [endTime, setEndTime] = useState(null);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isChangeDate, setIsChangeDate] = useState("start");
     const [condition, setCondition] = useState("No condition");
@@ -126,13 +129,17 @@ const PromotiomDetail = forwardRef(
 
         setEndDate(formatWithMoment(data?.toDate, "MM/DD/YYYY"));
         if (data?.toDate && data?.fromDate) {
-          setStartTime(formatWithMoment(data?.fromDate, "hh:mm A"));
-          setEndTime(formatWithMoment(data?.toDate || new Date(), "hh:mm A"));
+          setStartTime(data?.fromDate);
+          // setStartTime(formatWithMoment(data?.fromDate, "hh:mm A"));
+          setEndTime(data?.toDate);
+          // setEndTime(formatWithMoment(data?.toDate || new Date(), "hh:mm A"));
         } else {
-          const index = getCurrentIndexWorkingTime();
+          // const index = getCurrentIndexWorkingTime();
           //   console.log(index);
-          setStartTime(WorkingTime[index]?.value ?? "12:00 AM");
-          setEndTime(WorkingTime[index + 1]?.value ?? "12:00 AM");
+          // setStartTime(WorkingTime[index]?.value ?? "12:00 AM");
+          // setEndTime(WorkingTime[index + 1]?.value ?? "12:00 AM");
+          setStartTime(new Date());
+          setEndTime(new Date());
         }
         setPromotionType(data?.promotionType || "percent");
         setPromotionValue(data?.promotionValue || "");
@@ -545,7 +552,7 @@ const PromotiomDetail = forwardRef(
                 /> */}
                 <CustomTimePicker
                   editable={true}
-                  dateString={startTime}
+                  dateString={startDate}
                   onChangeDate={(d) => {
                     setStartTime(d);
                   }}
@@ -560,17 +567,14 @@ const PromotiomDetail = forwardRef(
                         paddingHorizontal: scaleSzie(10),
                       }}
                     >
-                      <TextInputMask
-                        type={"custom"}
-                        clearTextOnFocus={true}
-                        options={{
-                          mask: "99:99 AA",
-                        }}
+                      <TextInput
+                        editable={false}
                         placeholder="--:--"
-                        value={startTime}
-                        onChangeText={(txt) => {
-                          setStartTime(txt);
-                        }}
+                        value={getWorkingTime(startTime)}
+                        // editable={false}
+                        // onChangeText={(txt) => {
+                        //   setStartTime(txt);
+                        // }}
                         style={{
                           flex: 1,
                           fontSize: scaleSzie(14),
@@ -822,8 +826,8 @@ const PromotiomDetail = forwardRef(
                   }}
                 /> */}
                 <CustomTimePicker
-                  editable={true}
-                  dateString={endTime}
+                  editable={false}
+                  dateString={endDate}
                   onChangeDate={(d) => {
                     setEndTime(d);
                   }}
@@ -838,17 +842,12 @@ const PromotiomDetail = forwardRef(
                         paddingHorizontal: scaleSzie(10),
                       }}
                     >
-                      <TextInputMask
-                        type={"custom"}
-                        clearTextOnFocus={true}
-                        options={{
-                          mask: "99:99 AA",
-                        }}
+                      <TextInput
                         placeholder="--:--"
-                        value={endTime}
-                        onChangeText={(txt) => {
-                          setEndTime(txt);
-                        }}
+                        value={getWorkingTime(endTime)}
+                        // onChangeText={(txt) => {
+                        //   setEndTime(txt);
+                        // }}
                         style={{
                           flex: 1,
                           fontSize: scaleSzie(14),

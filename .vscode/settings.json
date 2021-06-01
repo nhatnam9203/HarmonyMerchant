@@ -1,3 +1,8 @@
 {
-    "i18next.i18nPaths": "/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/Folly/folly/lang,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/boost-for-react-native/boost/locale"
+    "i18next.i18nPaths": "/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/Folly/folly/lang,/Volumes/DATA/work/2021/Hamony/Project/Hpmerchant4/ios/Pods/boost-for-react-native/boost/locale",
+    "i18n-ally.localesPaths": [
+        "ios/Pods/Folly/folly/lang",
+        "ios/Pods/boost-for-react-native/boost/locale",
+        "ios/Pods/boost-for-react-native/boost/predef/language"
+    ]
 }

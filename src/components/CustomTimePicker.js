@@ -1,11 +1,8 @@
-import moment from "moment";
 import React from "react";
-import { TouchableOpacity, View, Keyboard, Platform } from "react-native";
+import { Keyboard, Platform, TouchableOpacity, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-// const DATE_FORMAT = 'YYYY/MM/DD';
 const HOURS_FORMAT = "hh:mm A";
-// const DATE_FORMAT = 'YYYY-MM-DD hh:mm:ss';
 const LAYOUT_WIDTH = "100%";
 
 const CustomTimePicker = ({
@@ -17,7 +14,7 @@ const CustomTimePicker = ({
   dateString,
 }) => {
   const [visible, setVisible] = React.useState(false);
-  const [date, setDate] = React.useState(new Date());
+  const [date, setDate] = React.useState();
 
   const showPicker = () => {
     Keyboard.dismiss();
@@ -28,25 +25,9 @@ const CustomTimePicker = ({
     setVisible(false);
   };
 
-  function createDateAsUTC(date) {
-    return new Date(
-      Date.UTC(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        date.getHours(),
-        date.getMinutes(),
-        date.getSeconds()
-      )
-    );
-  }
-
   React.useEffect(() => {
     if (dateString) {
-      var dateObject = moment(dateString, "DD/MM/YYYY HH:mm A");
-      // Logger.debug(dateObject, '=======> dateObject');
-
-      setDate(dateObject?.toDate());
+      setDate(dateString);
     }
   }, [dateString]);
 
@@ -56,23 +37,7 @@ const CustomTimePicker = ({
     }
 
     if (typeof onChangeDate === "function") {
-      var current = moment().startOf("day");
-      const temtFormatDate = moment.parseZone(date);
-      const diffDate = moment(new Date()).diff(moment(date)); // số tuổi tính ms
-      const delta = moment(temtFormatDate).diff(current, "days");
-
-      if (delta > 0) {
-        onChangeDate(moment(selectDate).format(fmDate));
-      } else {
-        const deltaH = moment(selectDate).diff(moment(new Date()), "minute");
-        if (deltaH > 0) {
-          onChangeDate(moment(selectDate).format(fmDate));
-        } else {
-          alert("Error when pick time");
-
-          return;
-        }
-      }
+      onChangeDate(selectDate);
     }
 
     if (Platform.OS === "ios") {
@@ -99,10 +64,11 @@ const CustomTimePicker = ({
         isVisible={visible}
         mode="time"
         display={"spinner"}
+        locale="en-US"
         is24Hour={false}
         onConfirm={handleConfirm}
         onCancel={hidePicker}
-        value={date}
+        // value={date}
         cancelTextIOS={"Close"}
         confirmTextIOS={"Confirm"}
         headerTextIOS={"Pick Time"}

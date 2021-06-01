@@ -675,12 +675,12 @@ export const WorkingTime = [
     }
 ]
 
-export const getCurrentIndexWorkingTime = () => {
-    const currentTime = formatWithMoment(new Date(), "hh:mm A");
+export const getCurrentIndexWorkingTime = (date) => {
+    const currentTime = formatWithMoment(date ?? new Date(), "hh:mm A");
     const splitTime = currentTime.split(":");
     const splitSpace = splitTime[1].split(" ");
     let str;
-    if (parseInt(splitSpace[0]) > 30 ) {
+    if (parseInt(splitSpace[0]) >= 30 ) {
         str =`${splitTime[0]}:30 ${splitSpace[1]}`
     } else {
         str = `${splitTime[0]}:00 ${splitSpace[1]}`
@@ -773,6 +773,11 @@ export const getPaymentString = (type) => {
 export const formatWithMoment = (data, key) => {
     const temtFormatDate = moment.parseZone(data).format(key);
     return temtFormatDate != "Invalid date" ? temtFormatDate : "";
+}
+export const getWorkingTime = (date) => {
+    const index = getCurrentIndexWorkingTime(date);
+    return WorkingTime[index]?.value;
+
 }
 
 export const PRINTER_MACHINE = {
