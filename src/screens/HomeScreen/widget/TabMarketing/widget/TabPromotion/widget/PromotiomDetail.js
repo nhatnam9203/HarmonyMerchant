@@ -55,6 +55,8 @@ import {
 } from "@components";
 const { width } = Dimensions.get("window");
 
+const HOURS_FORMAT = "hh:mm A";
+
 const PromotiomDetail = forwardRef(
   (
     {
@@ -156,7 +158,6 @@ const PromotiomDetail = forwardRef(
     }));
 
     useEffect(() => {
-      // console.log('----- useEffect 2 --------');
       const tempService = servicesByMerchant.map((service) => ({
         value: service?.name || "",
         type: "Service",
@@ -371,11 +372,11 @@ const PromotiomDetail = forwardRef(
         fromDate: `${formatWithMoment(
           new Date(startDate),
           "YYYY-MM-DD"
-        )}T${formatHourMinute(startTime)}:00`,
+        )}T${formatHourMinute(formatWithMoment(startTime, HOURS_FORMAT))}:00`,
         toDate: `${formatWithMoment(
           new Date(endDate),
           "YYYY-MM-DD"
-        )}T${formatHourMinute(endTime)}:00`,
+        )}T${formatHourMinute(formatWithMoment(endTime, HOURS_FORMAT))}:00`,
         conditionId: getConditionIdByTitle(condition),
         applyTo: getShortNameForDiscountAction(actionCondition),
         conditionDetail:

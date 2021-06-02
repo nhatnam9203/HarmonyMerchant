@@ -333,7 +333,7 @@ function* loginStaff(action) {
         ? yield put({
             type: 'GET_LIST_INVOICE_BY_MERCHANT',
             method: 'GET',
-            api: `${apiConfigs.BASE_API}checkout?page=1&method=&status=&timeStart=&timeEnd=&key=&quickFilter=`,
+            api: `${apiConfigs.BASE_API}checkout?page=1&method=&status=&timeStart=&timeEnd=&key=&quickFilter=api-version=1.1`,
             token: true,
             isShowLoading: true,
             currentPage: 1,
