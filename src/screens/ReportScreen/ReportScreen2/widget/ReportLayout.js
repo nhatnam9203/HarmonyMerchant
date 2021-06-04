@@ -9,7 +9,7 @@ import React, {
   useState,
 } from "react";
 import { Platform, View } from "react-native";
-import {ScrollableTabView} from "@components";
+import { ScrollableTabView } from "@components";
 import { useDispatch, useSelector } from "react-redux";
 import RNFetchBlob from "rn-fetch-blob";
 import PopupExportReport from "./PopupExportReport";
@@ -39,9 +39,8 @@ function ReportLayout(
   /**state */
   const [visibleCalendar, setVisibleCalendar] = useState(false);
   const [visiblePopupExport, setVisiblePopupExport] = useState(false);
-  const [visiblePopupLoadingExport, setVisiblePopupLoadingExport] = useState(
-    false
-  );
+  const [visiblePopupLoadingExport, setVisiblePopupLoadingExport] =
+    useState(false);
   const [titleExportFile, setTitleExportFile] = useState(
     localize("Export", language)
   );
@@ -69,26 +68,23 @@ function ReportLayout(
     goBack: goBack,
     goNext: goNext,
     didBlur: () => {},
-    didFocus: () => {
-    },
+    didFocus: () => {},
     getTimeUrl: getFilterTimeParams,
     getTimeTitle: getTimeTitle,
     showCalendar: setVisibleCalendar,
     showPopupExport: onShowPopupExport,
     handleTheDownloadedFile: handleTheDownloadedFile,
     setTimeFilter: (time) => {
+      console.log("time", time);
       modalCalendarRef?.current?.selectQuickFilter(time);
     },
   }));
 
   // create time range params
   const getFilterTimeParams = () => {
-    const {
-      isCustomizeDate,
-      startDate,
-      endDate,
-      quickFilter,
-    } = modalCalendarRef.current.state;
+    const { isCustomizeDate, startDate, endDate, quickFilter } =
+      modalCalendarRef.current.state;
+    console.log("getFilterTimeParams > quickFilter", quickFilter);
 
     let url;
 
@@ -97,6 +93,7 @@ function ReportLayout(
     } else {
       const filter = quickFilter === false ? "This Week" : quickFilter;
       url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
+      console.log("getFilterTimeParams > url", url);
     }
 
     return url;
@@ -104,12 +101,9 @@ function ReportLayout(
 
   // create title for time, to set default title print
   const getTimeTitle = () => {
-    const {
-      isCustomizeDate,
-      startDate,
-      endDate,
-      quickFilter,
-    } = modalCalendarRef.current.state;
+    const { isCustomizeDate, startDate, endDate, quickFilter } =
+      modalCalendarRef.current.state;
+    console.log("getFilterTimeParams > getTimeTitle", quickFilter);
 
     const filter = quickFilter === false ? "This Week" : quickFilter;
     let title = `${filter}`;
