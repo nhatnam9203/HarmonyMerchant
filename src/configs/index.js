@@ -1,14 +1,14 @@
 import { Dimensions, Platform } from 'react-native';
 
 const configs = {
-    VERSION: "1.1.8",
-    BUILD: "",
+    VERSION: "1.1.9",
+    BUILD: "1",
     CODEPUSH_VERSION: "1",
     DEFAULT_WIDTH: Platform.OS === 'ios' ? 768 : 780,
     // DEFAULT_WIDTH: 736, mobile
     DEFAULT_HEIGHT: 736,
     FULL_WIDTH: Dimensions.get('window').width,
-    // app's color 
+    // app's color
     ORANGE: "rgb(249,115,0)",
     COLOR_MAIN_APP: "rgba(51,73,131,0.6)",
     SHADOW: {
@@ -25,7 +25,7 @@ const configs = {
             },
         })
     },
-    APPSTORE_VERSION: "1.1.3",
+    APPSTORE_VERSION: "1.1.9",
     codePushKeyIOS: {
         production: 'duhVozb0nWJ1ciL39iNtdh5xdqBy8ed003ce-e621-4347-babf-de7857b9c737',
         staging: 'mnF_3WG05SYllO2LScQOQIhTgfRs8ed003ce-e621-4347-babf-de7857b9c737',
