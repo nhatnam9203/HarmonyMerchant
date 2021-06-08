@@ -1,7 +1,7 @@
 import { Dimensions, Platform } from 'react-native';
 
 const configs = {
-    VERSION: "1.1.9",
+    VERSION: "1.1.8",
     BUILD: "1",
     CODEPUSH_VERSION: "1",
     DEFAULT_WIDTH: Platform.OS === 'ios' ? 768 : 780,
@@ -25,7 +25,7 @@ const configs = {
             },
         })
     },
-    APPSTORE_VERSION: "1.1.9",
+    APPSTORE_VERSION: "1.1.8",
     codePushKeyIOS: {
         production: 'duhVozb0nWJ1ciL39iNtdh5xdqBy8ed003ce-e621-4347-babf-de7857b9c737',
         staging: 'mnF_3WG05SYllO2LScQOQIhTgfRs8ed003ce-e621-4347-babf-de7857b9c737',

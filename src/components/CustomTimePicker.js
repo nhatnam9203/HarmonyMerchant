@@ -11,7 +11,7 @@ const CustomTimePicker = ({
   style,
   fmDate = HOURS_FORMAT,
   editable = false,
-  dateString,
+  defaultValue,
 }) => {
   const [visible, setVisible] = React.useState(false);
   const [date, setDate] = React.useState();
@@ -26,10 +26,15 @@ const CustomTimePicker = ({
   };
 
   React.useEffect(() => {
-    if (dateString) {
-      setDate(dateString);
+    console.log(defaultValue);
+    if (!defaultValue) return;
+
+    if (defaultValue instanceof Date) {
+      setDate(defaultValue);
+    } else if (typeof defaultValue === "string") {
+      setDate(Date.parse(defaultValue));
     }
-  }, [dateString]);
+  }, [defaultValue]);
 
   const handleConfirm = (selectDate) => {
     if (Platform.OS === "android") {
@@ -66,6 +71,7 @@ const CustomTimePicker = ({
         display={"spinner"}
         locale="en-US"
         is24Hour={false}
+        date={date}
         onConfirm={handleConfirm}
         onCancel={hidePicker}
         // value={date}

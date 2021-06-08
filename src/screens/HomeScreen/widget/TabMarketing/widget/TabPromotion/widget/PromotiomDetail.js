@@ -140,8 +140,8 @@ const PromotiomDetail = forwardRef(
           //   console.log(index);
           // setStartTime(WorkingTime[index]?.value ?? "12:00 AM");
           // setEndTime(WorkingTime[index + 1]?.value ?? "12:00 AM");
-          setStartTime(new Date());
-          setEndTime(new Date());
+          setStartTime(new Date().toDateString());
+          setEndTime(new Date().toDateString());
         }
         setPromotionType(data?.promotionType || "percent");
         setPromotionValue(data?.promotionValue || "");
@@ -553,7 +553,7 @@ const PromotiomDetail = forwardRef(
                 /> */}
                 <CustomTimePicker
                   editable={true}
-                  dateString={startDate}
+                  defaultValue={startTime}
                   onChangeDate={(d) => {
                     setStartTime(d);
                   }}
@@ -828,7 +828,7 @@ const PromotiomDetail = forwardRef(
                 /> */}
                 <CustomTimePicker
                   editable={false}
-                  dateString={endDate}
+                  defaultValue={endTime}
                   onChangeDate={(d) => {
                     setEndTime(d);
                   }}
