@@ -42,7 +42,6 @@ function StaffTab({ style, showBackButton }, ref) {
 
   /**function */
   const getListStaffsSalaryTop = async () => {
-    // console.log("======> getListStaffsSalaryTop");
     await dispatch(
       actions.staff.getListStaffsSalaryTop(
         layoutRef?.current?.getTimeUrl(),
@@ -120,6 +119,7 @@ function StaffTab({ style, showBackButton }, ref) {
       layoutRef.current.goBack();
       dispatch(actions.staff.resetDownloadExportFiles());
     },
+    getListStaffsSalaryTop: () => getListStaffsSalaryTop(),
     didBlur: async () => {
       //   setTitleRangeTime(RANGE_TIME_DEFAULT);
     },

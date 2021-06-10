@@ -3,7 +3,7 @@ import {
     View,
 } from 'react-native';
 
-import { scaleSzie,WorkingTime } from '@utils';
+import { scaleSize,WorkingTime } from '@utils';
 import styles from '../style';
 import { Text,Dropdown } from '@components';
 
@@ -16,9 +16,9 @@ class ItemDropdown extends React.Component {
         const { title, width ,placeholder,value,onChangeText,dataDropdown} = this.props;
         const temptData = dataDropdown ? dataDropdown : WorkingTime;
         return(
-            <View style={{ height: scaleSzie(30), flexDirection: 'row', marginTop: scaleSzie(8) }} >
+            <View style={{ height: scaleSize(30), flexDirection: 'row', marginTop: scaleSize(8) }} >
             <View style={{
-                justifyContent: 'center', width: scaleSzie(80), paddingRight: scaleSzie(10),
+                justifyContent: 'center', width: scaleSize(80), paddingRight: scaleSize(10),
                 alignItems: 'flex-end'
             }} >
                 <Text style={styles.textNormal} >
@@ -26,8 +26,8 @@ class ItemDropdown extends React.Component {
                 </Text>
             </View>
 
-            <View style={{ width: scaleSzie(180)}} >
-                <View style={{ height: scaleSzie(30), width: scaleSzie(width) }} >
+            <View style={{ width: scaleSize(180)}} >
+                <View style={{ height: scaleSize(30), width: scaleSize(width) }} >
                     <Dropdown
                         label={placeholder}
                         data={temptData}

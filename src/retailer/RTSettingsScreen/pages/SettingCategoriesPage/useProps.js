@@ -1,0 +1,85 @@
+import React from 'react';
+import {
+  useGetCategoriesList,
+  useDeleteCategories,
+} from '@shared/services/api/retailer';
+import { SORT_TYPE } from '@shared/utils/app';
+import { useTranslation } from 'react-i18next';
+import _ from 'lodash';
+import NavigationServices from '@navigators/NavigatorServices';
+
+export const useProps = ({ params: { reload }, reloadPage }) => {
+  const [t] = useTranslation();
+  const [searchVal, setSearchVal] = React.useState();
+  const [page, setPage] = React.useState(1);
+
+  /**
+  |--------------------------------------------------
+  | CALL API
+  |--------------------------------------------------
+  */
+  const [categoriesList, getCategoriesList] = useGetCategoriesList();
+  const callGetCategoriesList = React.useCallback(() => {
+    getCategoriesList({
+      key: searchVal ?? '',
+      page: page,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, searchVal]);
+
+  const [, deleteCategories] = useDeleteCategories(() => {
+    callGetCategoriesList();
+  });
+
+  React.useEffect(() => {
+    callGetCategoriesList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  React.useEffect(() => {
+    if (reload || reloadPage) callGetCategoriesList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reload, reloadPage]);
+
+  React.useEffect(() => {
+    callGetCategoriesList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, searchVal]);
+
+  const onChangeValueSearch = (text) => {
+    if (text) {
+      setSearchVal(text);
+    }
+  };
+
+  const onButtonSearchPress = () => {
+    callGetCategoriesList();
+  };
+
+  const onButtonNewCategoriesPress = () => {
+    NavigationServices.navigate('retailer.settings.categories.new', {
+      isNew: true,
+    });
+  };
+
+  const onButtonDeleteCategoriesPress = (item) => {
+    if (!item) return;
+    deleteCategories(item.categoryId);
+  };
+
+  const onButtonEditCategoriesPress = (item) => {
+    NavigationServices.navigate('retailer.settings.categories.new', {
+      isEdit: true,
+      item,
+    });
+  };
+  return {
+    items: categoriesList?.data,
+    onChangeValueSearch,
+    onButtonSearchPress,
+    onButtonNewCategoriesPress,
+    onButtonDeleteCategoriesPress,
+    onButtonEditCategoriesPress,
+    onSelectRow: () => {},
+  };
+};

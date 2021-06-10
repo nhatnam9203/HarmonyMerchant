@@ -1,0 +1,178 @@
+import React from 'react';
+import { View, StyleSheet, Image } from 'react-native';
+import {
+  ButtonGradient,
+  ButtonGradientWhite,
+  ExportModal,
+} from '@shared/components';
+import { InputSearch } from '@shared/components/InputSearch';
+import { ButtonFilter } from '@shared/components/ButtonFilter';
+import { useTranslation } from 'react-i18next';
+import { layouts, fonts, colors } from '@shared/themes';
+import { HeaderToolBarTitle } from '@shared/components/HeaderToolBarTitle';
+import { Table } from '@shared/components/CustomTable';
+import IMAGE from '@resources';
+import { dateToString, DATE_SHOW_FORMAT_STRING } from '@shared/utils';
+import { getUniqueId } from '@shared/components/CustomTable/helpers';
+
+export const Layout = ({
+  items,
+  groupType,
+  setGroupType,
+  customerGroups,
+  getCustomerGroupLabel,
+  sortName,
+  sortPhoneNumber,
+  onSortWithKey,
+  onChangeValueSearch,
+  onButtonSearchPress,
+  onButtonNewCustomerPress,
+  onSelectRow,
+  onEditCustomer,
+}) => {
+  const { t } = useTranslation();
+  const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
+    if (columnKey === 'actions') {
+      const onHandleEditCustomer = () => {
+        onEditCustomer(item);
+      };
+      return (
+        <View
+          style={layouts.fill}
+          key={getUniqueId(columnKey, rowIndex, 'cell-action')}
+        >
+          <ButtonGradient
+            label={t('Edit')}
+            width={scaleWidth(72)}
+            height={scaleHeight(28)}
+            fontSize={scaleFont(15)}
+            textColor={colors.WHITE}
+            fontWeight="normal"
+            onPress={onHandleEditCustomer}
+          />
+        </View>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={layouts.fill}>
+        <Table
+          items={items?.map((x) =>
+            Object.assign({}, x, {
+              customerName: `${x.firstName} ${x.lastName}`,
+              group: getCustomerGroupLabel(x.isVip),
+            }),
+          )}
+          headerKeyLabels={{
+            customerName: t('Name'),
+            phone: t('Phone Number'),
+            email: t('Email'),
+            group: t('Group'),
+            createdDate: t('Customer Since'),
+            actions: t('Actions'),
+          }}
+          whiteListKeys={[
+            'customerName',
+            'phone',
+            'email',
+            'group',
+            'createdDate',
+            'actions',
+          ]}
+          sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
+          primaryKey="customerId"
+          unitKeys={{ totalDuration: 'hrs' }}
+          widthForKeys={{
+            customerName: scaleWidth(190),
+            phone: scaleWidth(170),
+            email: scaleWidth(280),
+            group: scaleWidth(120),
+            createdDate: scaleWidth(170),
+          }}
+          emptyDescription={t('No Customers')}
+          styleTextKeys={{ customerName: styles.textName }}
+          onSortWithKey={onSortWithKey}
+          formatFunctionKeys={{
+            createdDate: (value) =>
+              dateToString(value, DATE_SHOW_FORMAT_STRING),
+          }}
+          renderCell={onRenderCell}
+          onRowPress={onSelectRow}
+        />
+      </View>
+      <View style={styles.rowContent}>
+        <HeaderToolBarTitle label={t('Customer')} style={styles.textTitle} />
+        <ExportModal />
+      </View>
+
+      <View style={styles.rowContent}>
+        <ButtonFilter
+          filterItems={customerGroups}
+          defaultValue={groupType}
+          onChangeValue={setGroupType}
+          width={scaleWidth(208)}
+        />
+      </View>
+
+      <View style={styles.rowContent}>
+        <View style={styles.leftContent}>
+          <InputSearch onSearch={onChangeValueSearch} width={scaleWidth(280)} />
+          <View style={layouts.marginHorizontal} />
+          <ButtonGradientWhite
+            label={t('Search')}
+            width={scaleWidth(120)}
+            onPress={onButtonSearchPress}
+          />
+        </View>
+        <ButtonGradient
+          onPress={onButtonNewCustomerPress}
+          label={t('New Customer')}
+          width={scaleWidth(140)}
+        />
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column-reverse',
+  },
+
+  rowContent: {
+    marginTop: scaleHeight(20),
+    paddingHorizontal: scaleWidth(16),
+    height: scaleHeight(40),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  leftContent: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+
+  textTitle: {
+    fontFamily: fonts.BOLD,
+    fontSize: scaleFont(26),
+    fontWeight: 'bold',
+    fontStyle: 'normal',
+    letterSpacing: 0,
+    textAlign: 'left',
+    color: colors.OCEAN_BLUE,
+  },
+
+  textName: {
+    fontFamily: fonts.MEDIUM,
+    fontSize: scaleFont(15),
+    fontWeight: '500',
+    fontStyle: 'normal',
+    letterSpacing: 0,
+    textAlign: 'left',
+    color: colors.GREYISH_BROWN,
+  },
+});

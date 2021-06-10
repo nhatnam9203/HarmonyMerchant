@@ -73,6 +73,13 @@ export function updateDeviceId(uniqueId) {
     }
 }
 
+export function updateDeviceName(deviceName) {
+    return {
+        type: 'UPDATE_DEVICE_NAME',
+        payload: deviceName
+    }
+}
+
 
 export function updateVersionApp(version) {
     return {
@@ -126,5 +133,12 @@ export function switchTipOnPaxMachine(toggle = true) {
     return {
         type: 'SWITCH_TIP_ON_PAX_MACHINE',
         payload: toggle
+    }
+}
+
+export function saveBluetoothPaxInfo(peripheral) {
+    return {
+        type: 'SAVE_BLUETOOTH_PAX_INFO',
+        payload: peripheral
     }
 }

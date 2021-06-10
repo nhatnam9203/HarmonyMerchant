@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, Text, Dropdown, Button } from '@components';
-import { scaleSzie, localize, WorkingTime, getNameLanguage } from '@utils';
+import { scaleSize, localize, WorkingTime, getNameLanguage } from '@utils';
 import IMAGE from '@resources';
 import styles from './style';
 
@@ -22,12 +22,12 @@ class Layout extends React.Component {
                 <View style={styles.containerAbout} >
                     <View style={{ flex: 1 }} >
                         <Text style={styles.textTitle} >
-                            
+
                             {localize('Contact information', language)}
                         </Text>
                         {/* ----------- */}
                         <Text style={styles.textCopy} >
-                            
+
                             {localize('Hotline', language)}
                         </Text>
                         {/* ----------- */}
@@ -42,27 +42,27 @@ class Layout extends React.Component {
                         </Text>
                          {/* ----------- */}
                         <Button onPress={this.callPhone} style={{
-                            width: scaleSzie(45), height: scaleSzie(45),
+                            width: scaleSize(45), height: scaleSize(45),
                         }} >
                             <Image source={IMAGE.phoneContact}
-                                style={{ width: scaleSzie(45), height: scaleSzie(45) }}
+                                style={{ width: scaleSize(45), height: scaleSize(45) }}
                             />
                         </Button>
                         {/* ----------- */}
-                        <Text style={[styles.textCopy, { marginVertical: scaleSzie(10) }]} >
-                            
+                        <Text style={[styles.textCopy, { marginVertical: scaleSize(10) }]} >
+
                             {localize('Email', language)}
                         </Text>
                         {/* ----------- */}
-                        <Text style={[styles.textPhone,{marginTop:scaleSzie(5),marginBottom:scaleSzie(15)}]} >
+                        <Text style={[styles.textPhone,{marginTop:scaleSize(5),marginBottom:scaleSize(15)}]} >
                         team@harmonypayment.com
                         </Text>
                          {/* ----------- */}
                          <Button onPress={this.sendEmail} style={{
-                            width: scaleSzie(45), height: scaleSzie(45),
+                            width: scaleSize(45), height: scaleSize(45),
                         }} >
                             <Image source={IMAGE.emailContact}
-                                style={{ width: scaleSzie(45), height: scaleSzie(45) }}
+                                style={{ width: scaleSize(45), height: scaleSize(45) }}
                             />
                         </Button>
                     </View>

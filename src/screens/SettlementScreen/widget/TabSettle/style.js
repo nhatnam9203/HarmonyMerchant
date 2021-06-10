@@ -2,7 +2,7 @@ import {
     StyleSheet,
 } from 'react-native';
 
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 
 export default StyleSheet.create({
     container: {
@@ -11,12 +11,12 @@ export default StyleSheet.create({
     borderStyle:{
         borderWidth:1,
         borderColor:'#C5C5C5',
-        borderRadius:scaleSzie(4),
+        borderRadius:scaleSize(4),
         backgroundColor: 'rgb(246,246,246)',
     },
     textTitleLefConten:{
         color:'#404040',
-        fontSize:scaleSzie(14)
+        fontSize:scaleSize(14)
     },
     tableLeft:{
         flex:1,
@@ -24,48 +24,48 @@ export default StyleSheet.create({
         borderColor:'#C5C5C5'
     },
     btnLogDetail:{
-        height:scaleSzie(35),
+        height:scaleSize(35),
         borderColor:'#C5C5C5',
         borderWidth:1,
         borderRadius:4,
         backgroundColor:'#F1F1F1',
         alignItems:'center',
-        paddingHorizontal:scaleSzie(10),
+        paddingHorizontal:scaleSize(10),
         justifyContent:'space-between',
     },
     rowBox:{
         flexDirection: 'row',
         justifyContent:'space-between',
-        marginBottom:scaleSzie(4),
-        // paddingRight:scaleSzie(10)
+        marginBottom:scaleSize(4),
+        // paddingRight:scaleSize(10)
     },
     textLeftBox:{
         color: '#404040',
-         fontSize: scaleSzie(14) 
+         fontSize: scaleSize(14)
     },
     textRightBox:{
         color: '#404040',
-        fontSize: scaleSzie(14) ,
+        fontSize: scaleSize(14) ,
         fontWeight:'bold'
     },
     boxChild:{
         flex:1,
         backgroundColor:'#E5E5E5',
-        marginBottom:scaleSzie(3),
-        paddingHorizontal:scaleSzie(8),
+        marginBottom:scaleSize(3),
+        paddingHorizontal:scaleSize(8),
         justifyContent:'space-evenly'
     },
     boxChildLogo:{
-        width:scaleSzie(22),
-        height:scaleSzie(15)
+        width:scaleSize(22),
+        height:scaleSize(15)
     },
     rowBoxChild:{
         flexDirection: 'row',
         justifyContent:'space-between',
-        // marginBottom:scaleSzie(4) 
+        // marginBottom:scaleSize(4)
     },
     textBoxChild:{
         color: '#404040',
-        fontSize: scaleSzie(12) 
+        fontSize: scaleSize(12)
     }
 })

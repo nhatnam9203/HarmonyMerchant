@@ -7,10 +7,12 @@ const {
   Text,
   View,
   Animated,
+  Image
 } = ReactNative;
 const Button = require('./Button');
 
-import { scaleSzie } from '../../utils';
+import { scaleSize } from '@utils';
+import ICON from "@resources";
 
 const HomeTabBar = createReactClass({
   propTypes: {
@@ -24,7 +26,7 @@ const HomeTabBar = createReactClass({
     tabStyle: ViewPropTypes.style,
     renderTab: PropTypes.func,
     underlineStyle: ViewPropTypes.style,
-    onPressHandlerChangeTab:PropTypes.func,
+    onPressHandlerChangeTab: PropTypes.func,
   },
 
   getDefaultProps() {
@@ -39,7 +41,7 @@ const HomeTabBar = createReactClass({
   },
 
   renderTab(name, page, isTabActive, onPressHandler) {
-    const { activeTextColor, inactiveTextColor, textStyle, backgroundTabActive } = this.props;
+    const { activeTextColor, inactiveTextColor, textStyle, backgroundTabActive, notificationContUnread } = this.props;
     const textColor = isTabActive ? activeTextColor : inactiveTextColor;
     const fontWeight = isTabActive ? 'bold' : 'normal';
     const backgroundColorActive = isTabActive ? { backgroundColor: backgroundTabActive } : { backgroundColor: '#F1F1F1' };
@@ -56,6 +58,25 @@ const HomeTabBar = createReactClass({
           {name}
         </Text>
       </View>
+
+      {
+        page === 1 && isTabActive && <Button onPress={() => this.props.displayNotifiPopup()} style={{
+          position: "absolute", height: scaleSize(34), with: 80,
+          right: scaleSize(10), justifyContent: "center", alignItems: "center"
+        }} >
+          <Image source={ICON.noti_bell} style={{ height: scaleSize(28), width: scaleSize(28) }} />
+          <View style={{
+            width: scaleSize(14), height: scaleSize(14), backgroundColor: "#EE2F24",
+            position: "absolute", top: scaleSize(2), right: 0, borderRadius: scaleSize(7), justifyContent: "center", alignItems: "center"
+          }} >
+            <Text style={{ color: "#fff", fontSize: scaleSize(6), fontWeight: "600" }} >
+              {`${notificationContUnread}`}
+            </Text>
+          </View>
+        </Button>
+      }
+
+
     </Button>;
   },
 
@@ -102,15 +123,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-end',
-    paddingBottom: scaleSzie(5),
+    paddingBottom: scaleSize(5),
     borderRightWidth: 0.5,
     borderRightColor: '#404040'
   },
   tabs: {
-    height: scaleSzie(34),
+    height: scaleSize(34),
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderBottomWidth: scaleSzie(1),
+    borderBottomWidth: scaleSize(1),
     borderBottomColor: '#0764B0'
   },
 });

@@ -3,6 +3,16 @@ package com.hpmerchant;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.bolan9999.SpringScrollViewPackage;
+import io.xogus.reactnative.versioncheck.RNVersionCheckPackage;
+import com.swmansion.rnscreens.RNScreensPackage;
+import com.swmansion.reanimated.ReanimatedPackage;
+import com.github.wuxudong.rncharts.MPAndroidChartPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.johnsonsu.rnsoundplayer.RNSoundPlayerPackage;
+import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
+import com.polidea.reactnativeble.BlePackage;
+import it.innove.BleManagerPackage;
 import com.tkporter.sendsms.SendSMSPackage;
 import br.com.classapp.RNSensitiveInfo.RNSensitiveInfoPackage;
 import cl.json.RNSharePackage;
@@ -50,6 +60,16 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new SpringScrollViewPackage(),
+            new RNVersionCheckPackage(),
+            new RNScreensPackage(),
+            new ReanimatedPackage(),
+            new MPAndroidChartPackage(),
+            new LinearGradientPackage(),
+            new RNSoundPlayerPackage(),
+            new RNDateTimePickerPackage(),
+            new BlePackage(),
+            new BleManagerPackage(),
             SendSMSPackage.getInstance(),
           new ReactNativePushNotificationPackage(),
             new RNSensitiveInfoPackage(),

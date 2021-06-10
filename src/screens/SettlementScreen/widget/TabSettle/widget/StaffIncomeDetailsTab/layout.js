@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import _ from 'ramda';
 
-import { scaleSzie, formatMoney, formatWithMoment } from '@utils';
+import { scaleSize, formatMoney, formatWithMoment } from '@utils';
 import {
     Text, Button, Dropdown
 } from '@components';
@@ -26,8 +26,8 @@ class Layout extends React.Component {
 
                 {/* --------- Dropdown ---------- */}
                 <View style={{
-                    height: scaleSzie(35), width: scaleSzie(180),
-                    marginLeft: scaleSzie(10), marginTop: scaleSzie(20)
+                    height: scaleSize(35), width: scaleSize(180),
+                    marginLeft: scaleSize(10), marginTop: scaleSize(20)
                 }} >
                     <Dropdown
                         label={""}
@@ -54,7 +54,7 @@ class Layout extends React.Component {
                 </View>
                 {/* --------- Footer Table  ---------- */}
                 <View style={{
-                    height: scaleSzie(40), backgroundColor: "#0764B0", flexDirection: "row", paddingHorizontal: scaleSzie(10)
+                    height: scaleSize(40), backgroundColor: "#0764B0", flexDirection: "row", paddingHorizontal: scaleSize(10)
                 }} >
                     <View style={{ flex: 1, justifyContent: "center" }} >
                         <Text style={[styles.txt_header_table, { color: "#fff" }]} >
@@ -63,17 +63,17 @@ class Layout extends React.Component {
                     </View>
                     <View style={{ flex: 0.8 }} />
                     <View style={{ flex: 0.6 }} />
-                    <View style={{ flex: 0.6, justifyContent: "center" }} >
+                    <View style={{ flex: 0.6, justifyContent: "center",alignItems:"flex-end" }} >
                         <Text style={[styles.txt_header_table, { color: "#fff", fontWeight: "bold" }]} >
                             {`$ ${formatMoney(sales)}`}
                         </Text>
                     </View>
-                    <View style={{ flex: 0.6, justifyContent: "center" }} >
+                    <View style={{ flex: 0.6, justifyContent: "center",alignItems:"flex-end" }} >
                         <Text style={[styles.txt_header_table, { color: "#fff", fontWeight: "bold" }]} >
                             {`$ ${formatMoney(tax)}`}
                         </Text>
                     </View>
-                    <View style={{ flex: 0.6, justifyContent: "center" }} >
+                    <View style={{ flex: 0.6, justifyContent: "center",alignItems:"flex-end" }} >
                         <Text style={[styles.txt_header_table, { color: "#fff", fontWeight: "bold" }]} >
                             {`$ ${formatMoney(tip)}`}
                         </Text>
@@ -95,8 +95,8 @@ class Layout extends React.Component {
 const HeaderTable = () => {
     return (
         <View style={{
-            height: scaleSzie(32), backgroundColor: "#F1F1F1", marginTop: scaleSzie(20), flexDirection: "row",
-            paddingHorizontal: scaleSzie(10)
+            height: scaleSize(32), backgroundColor: "#F1F1F1", marginTop: scaleSize(20), flexDirection: "row",
+            paddingHorizontal: scaleSize(10)
         }} >
             {/* --------- Services / Products  ---------- */}
             <View style={{ flex: 1, justifyContent: "center" }} >
@@ -117,19 +117,19 @@ const HeaderTable = () => {
                 </Text>
             </View>
             {/* --------- Sales  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
+            <View style={{ flex: 0.6, justifyContent: "center",alignItems:"flex-end" }} >
                 <Text style={styles.txt_header_table} >
                     {`Sales`}
                 </Text>
             </View>
             {/* --------- Tax  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
+            <View style={{ flex: 0.6, justifyContent: "center" ,alignItems:"flex-end"}} >
                 <Text style={styles.txt_header_table} >
                     {`Tax`}
                 </Text>
             </View>
             {/* --------- Tip  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
+            <View style={{ flex: 0.6, justifyContent: "center",alignItems:"flex-end" }} >
                 <Text style={styles.txt_header_table} >
                     {`Tip`}
                 </Text>
@@ -147,7 +147,7 @@ const HeaderTable = () => {
 const RowTable = ({ data }) => {
     return (
         <View style={{
-            minHeight: scaleSzie(35), backgroundColor: "#FAFAFA", flexDirection: "row", paddingHorizontal: scaleSzie(10), marginBottom: 2
+            minHeight: scaleSize(35), backgroundColor: "#FAFAFA", flexDirection: "row", paddingHorizontal: scaleSize(10), marginBottom: 2
         }} >
             {/* --------- Services / Products  ---------- */}
             <View style={{ flex: 1, justifyContent: "center" }} >
@@ -168,19 +168,19 @@ const RowTable = ({ data }) => {
                 </Text>
             </View>
             {/* --------- Sales  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
+            <View style={{ flex: 0.6, justifyContent: "center" ,alignItems:"flex-end"}} >
                 <Text style={[styles.txt_row_table, { fontWeight: "bold" }]} >
                     {`$ ${data.sales ? data.sales : "0.00"}`}
                 </Text>
             </View>
             {/* --------- Tax  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
+            <View style={{ flex: 0.6, justifyContent: "center",alignItems:"flex-end" }} >
                 <Text style={[styles.txt_row_table, { fontWeight: "bold" }]} >
                     {`$ ${data.tax ? data.tax : "0.00"}`}
                 </Text>
             </View>
             {/* --------- Tip  ---------- */}
-            <View style={{ flex: 0.6, justifyContent: "center" }} >
+            <View style={{ flex: 0.6, justifyContent: "center" ,alignItems:"flex-end"}} >
                 <Text style={[styles.txt_row_table, { fontWeight: "bold" }]} >
                     {`$ ${data.tip ? data.tip : "0.00"}`}
                 </Text>

@@ -1,18 +1,21 @@
-import { all } from "redux-saga/effects";
+import { takeEvery, all, fork } from 'redux-saga/effects';
 
-import app from "./app";
-import auth from "./auth";
-import category from "./category";
-import product from "./product";
-import staff from "./staff";
-import service from "./service";
-import extra from "./extra";
-import upload from "./upload";
-import appointment from "./appointment";
-import customer from "./customer";
-import invoice from "./invoice";
-import marketing from "./marketing";
-import report from "./report";
+import app from './app';
+import auth from './auth';
+import category from './category';
+import product from './product';
+import staff from './staff';
+import service from './service';
+import extra from './extra';
+import upload from './upload';
+import appointment from './appointment';
+import customer from './customer';
+import invoice from './invoice';
+import marketing from './marketing';
+import report from './report';
+import review from './review';
+import orderRetail from './orderRetail';
+import authMerchant from './merchant/auth';
 
 export default function* sagaRoot() {
   yield all([
@@ -29,5 +32,8 @@ export default function* sagaRoot() {
     invoice(),
     marketing(),
     report(),
+    review(),
+    orderRetail(),
+    authMerchant(),
   ]);
 }

@@ -14,10 +14,14 @@ class TabSettle extends Layout {
         this.giftCardSalesDetailsTabRef = React.createRef();
     }
 
+    callReportFromChildren = () => {
+        this.tabFirstSettleRef?.current?.handlePAXReport();
+    }
 
     onDidFocus = () => {
         this.scrollTabRef.current.goToPage(0);
-        this.tabFirstSettleRef.current.setStateFromParent();
+        this.tabFirstSettleRef?.current?.setStateFromParent();
+        this.tabsecondSettleRef?.current?.resetStateFromParent();
     }
 
     gotoTabSecondSettle = (settlement, creditCount) => {

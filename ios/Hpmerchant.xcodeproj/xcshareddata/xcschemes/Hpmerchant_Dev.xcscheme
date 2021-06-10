@@ -10,7 +10,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "echo &quot;.env.dev&quot; &gt; /tmp/envfile&#10;">
+               scriptText = "cp ${PROJECT_DIR}/../.env.development ${PROJECT_DIR}/../.env&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
@@ -72,6 +72,24 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "cp ${PROJECT_DIR}/../.env.development ${PROJECT_DIR}/../.env&#10;">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "2388BEFB253FEC34007B4A7A"
+                     BuildableName = "Hpmerchant_Dev.app"
+                     BlueprintName = "Hpmerchant_Dev"
+                     ReferencedContainer = "container:Hpmerchant.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
@@ -106,5 +124,23 @@
    <ArchiveAction
       buildConfiguration = "Release"
       revealArchiveInOrganizer = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "# Type a script or drag a script file from your workspace to insert its path.&#10;cp ${PROJECT_DIR}/../.env.development ${PROJECT_DIR}/../.env&#10;">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "2388BEFB253FEC34007B4A7A"
+                     BuildableName = "Hpmerchant_Dev.app"
+                     BlueprintName = "Hpmerchant_Dev"
+                     ReferencedContainer = "container:Hpmerchant.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
    </ArchiveAction>
 </Scheme>

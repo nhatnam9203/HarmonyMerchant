@@ -1,4 +1,4 @@
-import apiConfigs from "../../configs/api";
+import Configs from "@configs";
 
 /**
  * OPM: Overall Payment Method
@@ -88,7 +88,7 @@ export function getOverallPaymentMethod(
     type: ACTION_TYPES.OPM_GetList,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}overall/paymentMethod?${params}&method=${method}`,
+    api: `overall/paymentMethod?${params}&method=${method}`,
     isShowLoading,
   };
 }
@@ -102,7 +102,7 @@ export function getOverallMarketingEfficiency(
     type: ACTION_TYPES.OME_GetList,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}overall/marketingEfficiency?${params}&promotionId=${promotionId}`,
+    api: `overall/marketingEfficiency?${params}&promotionId=${promotionId}`,
     isShowLoading,
   };
 }
@@ -116,7 +116,7 @@ export function getGiftCardReportSales(
     type: ACTION_TYPES.GiftCard_GetList,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}giftCard/reportSales?${params}&giftCardGeneralId=${giftCardGeneralId}`,
+    api: `giftCard/reportSales?${params}&giftCardGeneralId=${giftCardGeneralId}`,
     isShowLoading,
   };
 }
@@ -130,7 +130,7 @@ export function getServiceByCategoryReportSales(
     type: ACTION_TYPES.ServiceCategory_GetList,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}service/report/saleByCategory?${params}&category=${categoryId}`,
+    api: `service/report/saleByCategory?${params}&category=${categoryId}`,
     isShowLoading,
   };
 }
@@ -144,7 +144,7 @@ export function getServiceByServiceReportSales(
     type: ACTION_TYPES.Service_GetList,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}service/report/saleByService?${params}&service=${serviceId}`,
+    api: `service/report/saleByService?${params}&service=${serviceId}`,
     isShowLoading,
   };
 }
@@ -158,7 +158,7 @@ export function getProductByCategoryReportSales(
     type: ACTION_TYPES.ProductCategory_GetList,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}product/report/saleByCategory?${params}&category=${categoryId}`,
+    api: `product/report/saleByCategory?${params}&category=${categoryId}`,
     isShowLoading,
   };
 }
@@ -172,7 +172,7 @@ export function getProductByProductReportSales(
     type: ACTION_TYPES.Product_GetList,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}product/report/saleByProduct?${params}&product=${productId}`,
+    api: `product/report/saleByProduct?${params}&product=${productId}`,
     isShowLoading,
   };
 }
@@ -189,7 +189,7 @@ export function exportPaymentMethod(
     type: ACTION_TYPES.OPM_Export,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}overall/paymentMethod/export?${params}&method=${method}`,
+    api: `overall/paymentMethod/export?${params}&method=${method}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -207,7 +207,7 @@ export function exportPaymentMethodStatistics(
     type: ACTION_TYPES.OPM_StatisticExport,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}overall/paymentMethod/export/${method}?${params}`,
+    api: `overall/paymentMethod/export/${method}?${params}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -225,7 +225,7 @@ export function exportMarketingEfficiency(
     type: ACTION_TYPES.OME_Export,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}overall/marketingEfficiency/export?${params}&promotionId=${promotionId}`,
+    api: `overall/marketingEfficiency/export?${params}&promotionId=${promotionId}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -243,7 +243,7 @@ export function exportMarketingEfficiencyStatistics(
     type: ACTION_TYPES.OME_StatisticExport,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}overall/marketingEfficiency/export/${promotionId}?${params}`,
+    api: `overall/marketingEfficiency/export/${promotionId}?${params}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -261,7 +261,7 @@ export function exportGiftCardReportSales(
     type: ACTION_TYPES.GiftCard_Export,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}giftCard/reportSales/export?${params}&giftCardGeneralId=${giftCardGeneralId}`,
+    api: `giftCard/reportSales/export?${params}&giftCardGeneralId=${giftCardGeneralId}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -279,7 +279,7 @@ export function exportGiftCardReportSalesStatistics(
     type: ACTION_TYPES.GiftCard_ExportStatistic,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}giftCard/reportSales/export/${giftCardGeneralId}?${params}`,
+    api: `giftCard/reportSales/export/${giftCardGeneralId}?${params}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -305,7 +305,7 @@ export function getCustomerSales(
     type: ACTION_TYPES.Customer_GetList,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}appointment/report/customerSales?${params}`,
+    api: `appointment/report/customerSales?${params}`,
     isShowLoading,
   };
 }
@@ -321,7 +321,7 @@ export function exportCustomerSalesSales(
     type: ACTION_TYPES.Customer_Export,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}appointment/report/customerSales/export?${params}`,
+    api: `appointment/report/customerSales/export?${params}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -341,7 +341,7 @@ export function exportProductSaleByCategory(
     type: ACTION_TYPES.ProductCategory_Export,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}product/report/saleByCategory/export?${params}&category=${categoryId}`,
+    api: `product/report/saleByCategory/export?${params}&category=${categoryId}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -359,7 +359,7 @@ export function exportProductSaleByCategoryDetail(
     type: ACTION_TYPES.ProductCategory_ExportStatistic,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}product/report/saleByCategory/export/${categoryId}?${params}`,
+    api: `product/report/saleByCategory/export/${categoryId}?${params}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -377,7 +377,7 @@ export function exportProductSaleByProduct(
     type: ACTION_TYPES.Product_Export,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}product/report/saleByProduct/export?${params}&product=${productId}`,
+    api: `product/report/saleByProduct/export?${params}&product=${productId}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -395,7 +395,7 @@ export function exportProductSaleByProductDetail(
     type: ACTION_TYPES.Product_ExportStatistic,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}product/report/saleByProduct/export/${productId}?${params}`,
+    api: `product/report/saleByProduct/export/${productId}?${params}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -415,7 +415,7 @@ export function exportServiceSaleByCategory(
     type: ACTION_TYPES.ServiceCategory_Export,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}service/report/saleByCategory/export?${params}&category=${categoryId}`,
+    api: `service/report/saleByCategory/export?${params}&category=${categoryId}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -433,7 +433,7 @@ export function exportServiceSaleByCategoryDetail(
     type: ACTION_TYPES.ServiceCategory_ExportStatistic,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}service/report/saleByCategory/export/${categoryId}?${params}`,
+    api: `service/report/saleByCategory/export/${categoryId}?${params}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -451,7 +451,7 @@ export function exportServiceSaleByService(
     type: ACTION_TYPES.Service_Export,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}service/report/saleByService/export?${params}&service=${serviceId}`,
+    api: `service/report/saleByService/export?${params}&service=${serviceId}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",
@@ -469,7 +469,7 @@ export function exportServiceSaleByServiceDetail(
     type: ACTION_TYPES.Service_ExportStatistic,
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}service/report/saleByService/export/${serviceId}?${params}`,
+    api: `service/report/saleByService/export/${serviceId}?${params}`,
     isShowLoading,
     fileName,
     extention: type === "excel" ? "csv" : "pdf",

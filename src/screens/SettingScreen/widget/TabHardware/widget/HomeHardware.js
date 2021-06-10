@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Button, Text } from '@components';
-import { scaleSzie, localize, checkStatusPrint } from '@utils';
+import { scaleSize, localize, checkStatusPrint } from '@utils';
 import IMAGE from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 
@@ -34,23 +34,23 @@ class HomeHardware extends React.Component {
         return (
             <View style={{ flex: 1 }} >
                 <View style={{
-                    width: '100%', flexDirection: 'row', marginTop: scaleSzie(20),
+                    width: '100%', flexDirection: 'row', marginTop: scaleSize(20),
                     // justifyContent: 'space-around',
-                    paddingHorizontal: scaleSzie(10)
+                    paddingHorizontal: scaleSize(10)
                 }} >
                     {/* ------------- Box 1 ----------- */}
                     {/* <Button onPress={() => this.onPressBox('Barcode')} style={styles.box} >
                         <View style={styles.containerIconBox} >
                             <Image source={IMAGE.Barcode} style={{
-                                width: scaleSzie(33),
-                                height: scaleSzie(35)
+                                width: scaleSize(33),
+                                height: scaleSize(35)
                             }} />
                         </View>
                         <View style={styles.containerTextBox} >
                             <Text style={styles.textBox} >
                                 Barcode scanner
                         </Text>
-                            <Text style={[styles.textBox, { fontWeight: 'normal', fontSize: scaleSzie(11), marginTop: scaleSzie(10) }]} >
+                            <Text style={[styles.textBox, { fontWeight: 'normal', fontSize: scaleSize(11), marginTop: scaleSize(10) }]} >
                                 No device
                         </Text>
                         </View>
@@ -59,8 +59,8 @@ class HomeHardware extends React.Component {
                     <Button onPress={() => this.onPressBox('Pax')} style={styles.box} >
                         <View style={styles.containerIconBox} >
                             <Image source={IMAGE.Pax} style={{
-                                width: scaleSzie(25),
-                                height: scaleSzie(35)
+                                width: scaleSize(25),
+                                height: scaleSize(35)
                             }} />
                         </View>
                         <View style={styles.containerTextBox} >
@@ -68,37 +68,37 @@ class HomeHardware extends React.Component {
 
                                 {localize('Payment terminal', language)}
                             </Text>
-                            <Text style={[styles.textBox, { fontWeight: 'normal', fontSize: scaleSzie(11), marginTop: scaleSzie(10) }]} >
+                            <Text style={[styles.textBox, { fontWeight: 'normal', fontSize: scaleSize(11), marginTop: scaleSize(10) }]} >
                                 {temptTitle}
                             </Text>
                         </View>
 
                         {
                             paxMachineInfo.isSetup ? <Button onPress={this.deleteHardware} style={{
-                                width: scaleSzie(20), height: scaleSzie(20),
+                                width: scaleSize(20), height: scaleSize(20),
                                 position: "absolute", top: 5, right: 5,
-                                borderRadius: scaleSzie(10), justifyContent: "center", alignItems: "center"
+                                borderRadius: scaleSize(10), justifyContent: "center", alignItems: "center"
                             }} >
                                 <Image source={IMAGE.deleteIconBanner}
-                                    style={{ width: scaleSzie(10), height: scaleSzie(10) }}
+                                    style={{ width: scaleSize(10), height: scaleSize(10) }}
                                 />
                             </Button> : null
                         }
 
                     </Button>
                     {/* ------------- Box 3 ----------- */}
-                    <Button onPress={() => this.onPressBox('Print')} style={[styles.box, { marginLeft: scaleSzie(20) }]} >
+                    <Button onPress={() => this.onPressBox('Print')} style={[styles.box, { marginLeft: scaleSize(20) }]} >
                         <View style={styles.containerIconBox} >
                             <Image source={IMAGE.Print} style={{
-                                width: scaleSzie(28),
-                                height: scaleSzie(35)
+                                width: scaleSize(28),
+                                height: scaleSize(35)
                             }} />
                         </View>
                         <View style={styles.containerTextBox} >
                             <Text style={styles.textBox} >
                                 {'Receipt printer'}
                             </Text>
-                            <Text style={[styles.textBox, { fontWeight: 'normal', fontSize: scaleSzie(11), marginTop: scaleSzie(10) }]} >
+                            <Text style={[styles.textBox, { fontWeight: 'normal', fontSize: scaleSize(11), marginTop: scaleSize(10) }]} >
                                 {`${printerSelect === "" ? "No device" : printerSelect}`}
                             </Text>
                         </View>
@@ -114,9 +114,9 @@ const styles = StyleSheet.create({
     box: {
         flexDirection: 'row',
         width: '31%',
-        height: scaleSzie(70),
+        height: scaleSize(70),
         backgroundColor: '#fff',
-        borderRadius: scaleSzie(4),
+        borderRadius: scaleSize(4),
         ...Platform.select({
             ios: {
                 shadowRadius: 2,
@@ -132,22 +132,22 @@ const styles = StyleSheet.create({
 
     },
     containerIconBox: {
-        paddingLeft: scaleSzie(14),
-        paddingRight: scaleSzie(16),
+        paddingLeft: scaleSize(14),
+        paddingRight: scaleSize(16),
         justifyContent: 'center'
     },
     containerTextBox: {
-        paddingTop: scaleSzie(16),
+        paddingTop: scaleSize(16),
     },
     textBox: {
-        fontSize: scaleSzie(12),
+        fontSize: scaleSize(12),
         fontWeight: '600',
         color: '#0764B0'
     }
 })
 
 const mapStateToProps = state => ({
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.hardware.paxMachineInfo,
     language: state.dataLocal.language,
     printerSelect: state.dataLocal.printerSelect
 })

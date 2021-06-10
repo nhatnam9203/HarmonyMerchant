@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, PopupParent, Button, ModalCustom } from '@components';
-import { scaleSzie, localize, getCategoryName } from '@utils';
+import { scaleSize, localize, getCategoryName } from '@utils';
 import IMAGE from '@resources';
 
 const { width } = Dimensions.get('window');
@@ -37,17 +37,17 @@ class PopupLoadingExport extends React.Component {
             // style={style}
             >
                 <View style={{
-                    height: scaleSzie(280),
-                    width: scaleSzie(420),
+                    height: scaleSize(280),
+                    width: scaleSize(420),
                     backgroundColor: '#fff',
-                    borderRadius: scaleSzie(15),
-                    paddingTop: scaleSzie(16)
+                    borderRadius: scaleSize(15),
+                    paddingTop: scaleSize(16)
                 }} >
                     <View style={{ flex: 1, alignItems: 'center' }} >
-                        <Text style={{ color: '#0764B0', fontSize: scaleSzie(24), fontWeight: 'bold' }} >
+                        <Text style={{ color: '#0764B0', fontSize: scaleSize(24), fontWeight: 'bold' }} >
                             {`${localize('Please wait', language)}!`}
                         </Text>
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(18), marginTop: scaleSzie(4) }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSize(18), marginTop: scaleSize(4) }} >
                             {`${localize(`${typeFile} file is being created`, language)} ...`}
                         </Text>
 
@@ -64,16 +64,16 @@ class PopupLoadingExport extends React.Component {
                             />
                         </View>
 
-                        <View style={{paddingVertical:scaleSzie(14)}} >
+                        <View style={{paddingVertical:scaleSize(14)}} >
                             <ButtonCustom
-                                width={scaleSzie(120)}
+                                width={scaleSize(120)}
                                 height={40}
                                 backgroundColor="#F1F1F1"
                                 title={localize('Cancel', language)}
                                 textColor="#6A6A6A"
                                 onPress={() =>onRequestClose()}
                                 style={{ borderWidth: 1, borderColor: '#C5C5C5',borderRadius:0 }}
-                                styleText={{ fontSize: scaleSzie(15), fontWeight: 'normal' }}
+                                styleText={{ fontSize: scaleSize(15), fontWeight: 'normal' }}
                             />
                         </View>
 

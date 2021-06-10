@@ -1,4 +1,4 @@
-import apiConfigs from '../../configs/api';
+import Configs from '@configs';
 
 export function addExtraByMerchant(body, searchFilter = false) {
     return {
@@ -6,7 +6,7 @@ export function addExtraByMerchant(body, searchFilter = false) {
         body,
         method: 'POST',
         token: true,
-        api: `${apiConfigs.BASE_API}extra`,
+        api: `extra`,
         searchFilter
     }
 }
@@ -16,7 +16,7 @@ export function getExtraByMerchant(name = '', status = '', searchFilter = false,
         type: 'GET_EXTRA_BY_MERCHANT',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}extra/search?name=${name}&status=${status}`,
+        api: `extra/search?name=${name}&status=${status}`,
         isShowLoading,
         searchFilter
     }
@@ -27,7 +27,7 @@ export function searchExtra(name = '', status = '') {
         type: 'SEARCH_EXTRA',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}extra/search?name=${name}&status=${status}`
+        api: `extra/search?name=${name}&status=${status}`
     }
 }
 
@@ -37,7 +37,7 @@ export function archiveExtra(id, searchFilter = false) {
         body: {},
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}extra/archive/${id}`,
+        api: `extra/archive/${id}`,
         searchFilter
     }
 }
@@ -48,7 +48,7 @@ export function restoreExtra(id, searchFilter = false) {
         body: {},
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}extra/restore/${id}`,
+        api: `extra/restore/${id}`,
         searchFilter
     }
 }
@@ -59,7 +59,7 @@ export function editExtra(body, id, searchFilter = false) {
         body,
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}extra/${id}`,
+        api: `extra/${id}`,
         searchFilter
     }
 }
@@ -85,6 +85,6 @@ export function updatePositionExtras(body) {
         method: 'PUT',
         body,
         token: true,
-        api: `${apiConfigs.BASE_API}extra/update/position`
+        api: `extra/update/position`
     }
 }

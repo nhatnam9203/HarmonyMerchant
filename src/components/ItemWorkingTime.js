@@ -8,7 +8,7 @@ import {
 import IMAGE from '@resources';
 import { Dropdown } from './react-native-material-dropdown';
 import Button from './Button';
-import { scaleSzie, WorkingTime } from '@utils';
+import { scaleSize, WorkingTime } from '@utils';
 
 export default class ItemWorkingTime extends React.Component {
 
@@ -48,29 +48,29 @@ export default class ItemWorkingTime extends React.Component {
         const { title, dataInit } = this.props;
         const { isCheck, timeStart, timeEnd } = this.state;
         const temptIconCheck = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
-        
+
         return (
             <View style={{
                 flexDirection: 'row',
-                height: scaleSzie(36),
-                paddingHorizontal: scaleSzie(25),
-                marginTop: scaleSzie(14)
+                height: scaleSize(36),
+                paddingHorizontal: scaleSize(25),
+                marginTop: scaleSize(14)
             }} >
-                <Button onPress={this.onPress} style={{ width: scaleSzie(30), justifyContent: 'center' }} >
-                    <Image source={temptIconCheck} style={{ width: scaleSzie(15), height: scaleSzie(15) }} />
+                <Button onPress={this.onPress} style={{ width: scaleSize(30), justifyContent: 'center' }} >
+                    <Image source={temptIconCheck} style={{ width: scaleSize(15), height: scaleSize(15) }} />
                 </Button>
 
-                <View style={{ width: scaleSzie(120), justifyContent: 'center' }} >
+                <View style={{ width: scaleSize(120), justifyContent: 'center' }} >
                     <Text style={{
                         color: '#404040',
-                        fontSize: scaleSzie(14),
+                        fontSize: scaleSize(14),
                         fontWeight: '600',
                     }}  >
                         {`${title}`}
                     </Text>
                 </View>
 
-                <View style={{ width: scaleSzie(150) }} >
+                <View style={{ width: scaleSize(150) }} >
                     <Dropdown
                         label={'08:00 AM'}
                         data={WorkingTime}
@@ -84,15 +84,15 @@ export default class ItemWorkingTime extends React.Component {
                         }}
                     />
                 </View>
-                <View style={{ justifyContent: 'center', paddingHorizontal: scaleSzie(8) }} >
+                <View style={{ justifyContent: 'center', paddingHorizontal: scaleSize(8) }} >
                     <View style={{
                         backgroundColor: '#404040',
-                        width: scaleSzie(12),
+                        width: scaleSize(12),
                         height: 1
                     }}  >
                     </View>
                 </View>
-                <View style={{ width: scaleSzie(150) }} >
+                <View style={{ width: scaleSize(150) }} >
                     <Dropdown
                         label={'09:00 AM'}
                         data={WorkingTime}

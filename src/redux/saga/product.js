@@ -2,7 +2,7 @@ import { put, takeLatest, all } from "redux-saga/effects";
 import RNFetchBlob from 'rn-fetch-blob';
 
 import { requestAPI } from '../../utils';
-import apiConfigs from '../../configs/api';
+import Configs from '@configs';
 
 function* addProductByMerchant(action) {
     try {
@@ -14,7 +14,7 @@ function* addProductByMerchant(action) {
                 type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}product`,
+                api: `product`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
@@ -37,7 +37,7 @@ function* addProductByMerchant(action) {
 function* getProductsByMerchantId(action) {
     try {
         if(action.isShowLoading ){
-            yield put({ type: 'LOADING_ROOT' }) 
+            yield put({ type: 'LOADING_ROOT' })
         }
         const responses = yield requestAPI(action);
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -76,7 +76,7 @@ function* archiveProduct(action) {
                 type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}product/search?name=${action.keySearch}&category=${action.category}`,
+                api: `product/search?name=${action.keySearch}&category=${action.category}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
@@ -106,7 +106,7 @@ function* restoreProduct(action) {
                 type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}product/search?name=${action.keySearch}&category=${action.category}`,
+                api: `product/search?name=${action.keySearch}&category=${action.category}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
@@ -136,7 +136,7 @@ function* editProduct(action) {
                 type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}product/search?name=${action.keySearch}&category=${action.category}`,
+                api: `product/search?name=${action.keySearch}&category=${action.category}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
@@ -194,7 +194,7 @@ function* restockProduct(action) {
                 type: 'GET_PRODUCTS_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}product/search?name=${action.keySearch}&category=${action.category}`,
+                api: `product/search?name=${action.keySearch}&category=${action.category}`,
                 isShowLoading: true
             })
         } else if (parseInt(codeNumber) === 401) {
@@ -230,7 +230,7 @@ function* exportInventory(action) {
                 description: 'File downloaded by download manager.',
                 path: `${dirs.DocumentDir}/${action.fileName}.${action.extention}`,
             }).fetch('GET', responses.data.path, {});
-            
+
             yield put({
                 type: 'DOWNLOAD_INVENTORY_SUCCESS',
                 payload: fileDownload.path()
@@ -311,4 +311,4 @@ export default function* saga() {
         takeLatest('UPDATE_PRODUCTS_POSITION', updateProductsPosition),
         takeLatest('CHECK_SKU_IS_EXIST', checkSKUIsExist),
     ])
-} 
+}

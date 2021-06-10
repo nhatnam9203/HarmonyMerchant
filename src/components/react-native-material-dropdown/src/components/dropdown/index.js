@@ -20,6 +20,7 @@ import styles from './styles';
 import Button from "../../../../Button";
 import connectRedux from "@redux/ConnectRedux";
 
+
 class Dropdown extends PureComponent {
   static defaultProps = {
     hitSlop: { top: 6, right: 4, bottom: 6, left: 4 },
@@ -140,7 +141,7 @@ class Dropdown extends PureComponent {
     disabledItemColor: PropTypes.string,
     baseColor: PropTypes.string,
 
-    itemTextStyle: Text.propTypes.style,
+    // itemTextStyle: Text.propTypes.style,
 
     itemCount: PropTypes.number,
     itemPadding: PropTypes.number,
@@ -677,6 +678,7 @@ class Dropdown extends PureComponent {
       disabled,
       itemPadding,
       dropdownPosition,
+      extraHeight
     } = props;
 
     let { left, top, width, opacity, selected, modal } = this.state;
@@ -686,7 +688,7 @@ class Dropdown extends PureComponent {
     let tailItemCount = this.tailItemCount();
     let itemSize = this.itemSize();
 
-    let height = 2 * itemPadding + itemSize * visibleItemCount;
+    let height = 2 * itemPadding + itemSize * visibleItemCount + (extraHeight ?  extraHeight : 0);
     let translateY = -itemPadding;
 
     if (null == dropdownPosition) {
@@ -745,7 +747,7 @@ class Dropdown extends PureComponent {
             {this.renderBase(props)}
             {this.renderRipple()}
           </View>
-          </Button>
+        </Button>
         {/* </TouchableWithoutFeedback> */}
 
         <Modal

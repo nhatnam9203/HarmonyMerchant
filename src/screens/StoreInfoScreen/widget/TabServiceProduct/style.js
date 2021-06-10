@@ -2,12 +2,12 @@ import {
     StyleSheet,
 } from 'react-native';
 
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop:scaleSzie(15),
-        
+        paddingTop:scaleSize(15),
+
     },
 })

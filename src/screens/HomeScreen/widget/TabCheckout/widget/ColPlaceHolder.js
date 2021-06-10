@@ -3,13 +3,13 @@ import {
     View,
 } from 'react-native';
 
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 
 const ColPlaceHolder = () => {
     return (
         <View style={{ flex:1 }} >
             <View style={{
-                height: scaleSzie(46),
+                height: scaleSize(46),
                 borderWidth: 1,
                 borderColor: 'rgb(197,197,197)',
                 borderRightColor: 'rgb(223,223,223)',
@@ -24,9 +24,9 @@ const ColPlaceHolder = () => {
                 borderRightWidth: 3, borderRightColor: 'rgb(223,223,223)',
             }} >
                 {
-                    [0,1,2,3,4,5].map(value => <View key={value} style={{ height: scaleSzie(85), borderBottomWidth: 3, borderBottomColor: '#fff' }} />)
+                    [0,1,2,3,4,5].map(value => <View key={value} style={{ height: scaleSize(85), borderBottomWidth: 3, borderBottomColor: '#fff' }} />)
                 }
-               
+
             </View>
         </View>
     );

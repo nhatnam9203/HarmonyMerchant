@@ -4,18 +4,19 @@ import { connect } from 'react-redux';
 import actions from './actions';
 
 const mapDispatchToProps = (dispatch) => {
-    let acts = {};
-    for (let key in actions) {
-        acts[key] = bindActionCreators(actions[key], dispatch);
-    }
-    return {
-        actions: acts,
-        dispatch
-    };
-}
+  let acts = {};
+  for (let key in actions) {
+    acts[key] = bindActionCreators(actions[key], dispatch);
+  }
+  return {
+    actions: acts,
+    dispatch,
+  };
+};
 
 function connectRedux(mapStateToProps, Screen) {
-    return connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(Screen);
+  return connect(mapStateToProps, mapDispatchToProps, null, {
+    forwardRef: true,
+  })(Screen);
 }
 export default connectRedux;
-

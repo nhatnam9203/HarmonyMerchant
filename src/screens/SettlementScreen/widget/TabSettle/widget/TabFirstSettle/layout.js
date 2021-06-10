@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import _ from 'ramda';
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, formatWithMoment } from '@utils';
+import { scaleSize, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, formatWithMoment } from '@utils';
 import {
     Text, ButtonCustom, Button
 } from '@components';
@@ -24,24 +24,24 @@ class Layout extends React.Component {
         const { settlementDate } = settleWaiting;
         return (
             <View style={{
-                height: scaleSzie(40), flexDirection: 'row', alignItems: 'center',
+                height: scaleSize(40), flexDirection: 'row', alignItems: 'center',
             }} >
-                <Text style={[styles.txt_top_title, { marginLeft: scaleSzie(10), marginRight: scaleSzie(20), }]} >
+                <Text style={[styles.txt_top_title, { marginLeft: scaleSize(10), marginRight: scaleSize(20), }]} >
                     {`${localize('Last Settlement', language)}:`}
                 </Text>
-                <Text style={[styles.txt_top_title, { fontWeight: '500', marginRight: scaleSzie(20) }]}  >
+                <Text style={[styles.txt_top_title, { fontWeight: '500', marginRight: scaleSize(20) }]}  >
                     {formatWithMoment(settlementDate, 'MM/DD/YYYY')}
                 </Text>
-                <Text style={[styles.txt_top_title, { fontWeight: '500', marginRight: scaleSzie(20) }]}  >
+                <Text style={[styles.txt_top_title, { fontWeight: '500', marginRight: scaleSize(20) }]}  >
                     {formatWithMoment(settlementDate, 'hh:mm A')}
                 </Text>
 
                 <Button onPress={this.refreshSettlement} style={{
-                    position: "absolute", top: scaleSzie(10), right: scaleSzie(10),
+                    position: "absolute", top: scaleSize(10), right: scaleSize(10),
                     justifyContent: "center"
                 }} >
                     <Image source={ICON.refresh_settlement}
-                        style={{ width: scaleSzie(30), height: scaleSzie(30) }}
+                        style={{ width: scaleSize(30), height: scaleSize(30) }}
                     />
                 </Button>
             </View>
@@ -51,13 +51,13 @@ class Layout extends React.Component {
     renderHeaderStaffList() {
         const { language } = this.props;
         return (
-            <View style={{ height: scaleSzie(30), flexDirection: 'row', paddingHorizontal: scaleSzie(10) }} >
+            <View style={{ height: scaleSize(30), flexDirection: 'row', paddingHorizontal: scaleSize(10) }} >
                 <View style={{ flex: 1.3, justifyContent: 'center' }} >
                     <Text style={styles.txt_table} >
                         {localize('Sales By Staffs', language)}
                     </Text>
                 </View>
-                <View style={{ width: scaleSzie(15) }} />
+                <View style={{ width: scaleSize(15) }} />
                 <View style={{ flex: 1, justifyContent: 'center' }} >
                     <Text style={styles.txt_table} >
                         {localize('Income By Payment Methods', language)}
@@ -85,17 +85,17 @@ class Layout extends React.Component {
             return (
                 <View style={{
                     flex: 1, justifyContent: "flex-end", alignItems: 'center',
-                    paddingBottom: scaleSzie(15)
+                    paddingBottom: scaleSize(15)
                 }} >
                     <ButtonCustom
-                        width={scaleSzie(330)}
+                        width={scaleSize(330)}
                         height={50}
                         backgroundColor="#0764B0"
                         title={localize('CONFIRM ', language)}
                         textColor="#fff"
                         onPress={this.gotoTabSecondSettle}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
-                        styleText={{ fontSize: scaleSzie(21), fontWeight: '500' }}
+                        styleText={{ fontSize: scaleSize(21), fontWeight: '500' }}
                     />
                 </View>
             );
@@ -140,7 +140,7 @@ class Layout extends React.Component {
                         />}
                     />
                 </View>
-                <View style={{ height: scaleSzie(10) }} />
+                <View style={{ height: scaleSize(10) }} />
                 <TotalItem total={formatMoney(totalAmount + giftCardTotal)} />
             </View>
         );
@@ -226,10 +226,10 @@ class Layout extends React.Component {
                         />
                     </View>
                     {this.renderNote()}
-                    <View style={{ height: scaleSzie(180) }} />
+                    <View style={{ height: scaleSize(180) }} />
                 </ScrollView>
 
-                <View style={{ height: scaleSzie(10) }} />
+                <View style={{ height: scaleSize(10) }} />
                 <TotalItem total={formatMoney(temtpTotal)} />
             </View>
         );
@@ -241,17 +241,17 @@ class Layout extends React.Component {
         return (
             <View style={{}} >
                 <Text style={[{
-                    color: "#404040", fontSize: scaleSzie(10), fontWeight: "600",
-                    marginBottom: scaleSzie(5), marginTop: scaleSzie(12)
+                    color: "#404040", fontSize: scaleSize(10), fontWeight: "600",
+                    marginBottom: scaleSize(5), marginTop: scaleSize(12)
                 }]} >
                     {`Note`}
                 </Text>
                 <View style={{
-                    height: scaleSzie(54), borderColor: "#DDDDDD", borderWidth: 1, borderRadius: 4, paddingVertical: 5,
-                    paddingHorizontal: scaleSzie(10)
+                    height: scaleSize(54), borderColor: "#DDDDDD", borderWidth: 1, borderRadius: 4, paddingVertical: 5,
+                    paddingHorizontal: scaleSize(10)
                 }} >
                     <TextInput
-                        style={{ flex: 1, fontSize: scaleSzie(12), padding: 0, color: "#000", textAlignVertical: "top" }}
+                        style={{ flex: 1, fontSize: scaleSize(12), padding: 0, color: "#000", textAlignVertical: "top" }}
                         multiline={true}
                         value={note}
                         onChangeText={(note) => this.setState({ note })}
@@ -272,9 +272,9 @@ class Layout extends React.Component {
                     {this.renderLastSettlement()}
                     {this.renderHeaderStaffList()}
                     {/* ------------- Two tables ----------  */}
-                    <View style={{ height: scaleSzie(310 + 30), flexDirection: "row", paddingHorizontal: scaleSzie(10) }} >
+                    <View style={{ height: scaleSize(310 + 30), flexDirection: "row", paddingHorizontal: scaleSize(10) }} >
                         {this.renderStaffsTable()}
-                        <View style={{ width: scaleSzie(10), }} />
+                        <View style={{ width: scaleSize(10), }} />
                         {this.renderPaymentMethodsReport()}
                     </View>
                     {this.renderButtonConfirm()}

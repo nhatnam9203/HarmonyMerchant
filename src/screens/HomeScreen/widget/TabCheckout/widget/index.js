@@ -5,7 +5,7 @@ import {
     Image
 } from 'react-native';
 
-import { scaleSzie, checkIsTablet } from '@utils';
+import { scaleSize, checkIsTablet } from '@utils';
 import {
     Text, Button,
 } from '@components';
@@ -28,6 +28,9 @@ import PopupChangeCustomerInfo from "./PopupChangeCustomerInfo";
 import PopupAddItemIntoAppointments from "./PopupAddItemIntoAppointments";
 import PopupGiftCardDetail from "./PopupGiftCardDetail";
 import PopupEnterAmountGiftCard from "./PopupEnterAmountGiftCard";
+import EnterCustomerPhonePopup from "./EnterCustomerPhonePopup";
+import PopupAddEditCustomer from "./PopupAddEditCustomer";
+import ErrorMessagePaxModal from './ErrorMessagePaxModal';
 
 function getPaymentLogoByName(name) {
     let logo = "";
@@ -63,13 +66,13 @@ const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
     const tempLogo = title === paymentSelected ? `${logo}_se` : logo;
 
     const isTablet = checkIsTablet();
-    const tempHeight = isTablet ? scaleSzie(65) : scaleSzie(80);
-    const icon_style = isTablet ? { width: scaleSzie(30), height: scaleSzie(30) } : {};
-    const tempTitleMarginTop = isTablet ? scaleSzie(2) : scaleSzie(8);
+    const tempHeight = isTablet ? scaleSize(65) : scaleSize(80);
+    const icon_style = isTablet ? { width: scaleSize(30), height: scaleSize(30) } : {};
+    const tempTitleMarginTop = isTablet ? scaleSize(2) : scaleSize(8);
 
     return (
         <Button onPress={() => selectedPayment(title)} style={[{
-            width: scaleSzie(190), height: tempHeight,
+            width: scaleSize(190), height: tempHeight,
             backgroundColor: "#fff",
             justifyContent: 'center', alignItems: 'center',
             borderRadius: 8,
@@ -90,51 +93,13 @@ const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
                 style={icon_style}
             />
             <Text style={[{
-                fontSize: scaleSzie(13),
+                fontSize: scaleSize(13),
                 color: '#404040', marginTop: tempTitleMarginTop
             }, temptTextColor]} >
                 {title}
             </Text>
         </Button>
     );
-}
-
-const ShadowLineLeftToRight = ({ style }) => {
-    return (
-        <>
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.1)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.08)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.06)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.04)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.04)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.02)" }} />
-            <View style={{ flex: 1 }} />
-        </>
-    )
-}
-
-const ShadowLineRightToLeft = ({ style }) => {
-    return (
-        <>
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.02)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.04)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.04)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.06)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.08)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.1)" }} />
-            <View style={{ flex: 1 }} />
-        </>
-    )
-}
-
-const ShadowLineShort = ({ style }) => {
-    return (
-        <>
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.02)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.04)" }} />
-            <View style={{ width: 1, backgroundColor: "rgba(0, 0, 0,0.04)" }} />
-        </>
-    )
 }
 
 module.exports = {
@@ -153,12 +118,12 @@ module.exports = {
     PopupBlockDiscount,
     PopupChangeCustomerInfo,
     ItemPaymentMethod,
-    ShadowLineLeftToRight,
-    ShadowLineRightToLeft,
-    ShadowLineShort,
     PopupAddItemIntoAppointments,
     PopupGiftCardDetail,
-    PopupEnterAmountGiftCard
+    PopupEnterAmountGiftCard,
+    EnterCustomerPhonePopup,
+    PopupAddEditCustomer,
+    ErrorMessagePaxModal
 }
 
 

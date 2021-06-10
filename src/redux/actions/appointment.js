@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import apiConfigs from '../../configs/api';
+import Configs from '@configs';
 import { formatWithMoment, splitPlusInPhoneNumber } from "@utils";
 
 
@@ -8,18 +8,20 @@ export function getAppointmentById(id) {
     return {
         type: 'GET_APPOINTMENT_BY_ID',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}appointment/${id}`,
+        api: `appointment/${id}`,
         token: true
     }
 }
 
-export function getGroupAppointmentById(id, isNotShowMessage = true) {
+export function getGroupAppointmentById(id, isBookingFromCalendar = false, isAddMoreFromCalendar = false, isNotShowMessage = true) {
     return {
         type: 'GET_GROUP_APPOINTMENT_BY_ID',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}appointment/getGroupById/${id}`,
+        api: `appointment/getGroupById/${id}`,
         token: true,
-        isNotShowMessage
+        isNotShowMessage,
+        isBookingFromCalendar,
+        isAddMoreFromCalendar
     }
 }
 
@@ -29,7 +31,7 @@ export function addItemIntoAppointment(body, appointmentId, isGroup = false, isB
         body: body,
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/additem/${appointmentId}`,
+        api: `appointment/additem/${appointmentId}`,
         appointmentId,
         isGroup,
         isBlock
@@ -42,7 +44,7 @@ export function addItemIntoMultiAppointment(body, appointmentId, mainAppointment
         body: body,
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/additem/${appointmentId}`,
+        api: `appointment/additem/${appointmentId}`,
         appointmentId: mainAppointmentId,
         isGroup,
         isBlock
@@ -57,7 +59,7 @@ export function removeItemIntoAppointment(body, appointmentId, isGroup = false, 
         body: body,
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/removeitem/${appointmentId}`,
+        api: `appointment/removeitem/${appointmentId}`,
         appointmentId,
         isGroup,
         isBlock
@@ -85,7 +87,7 @@ export function checkoutAppointment(appointmentId, checkoutGroupId = 0) {
         },
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/checkout/${appointmentId}`,
+        api: `appointment/checkout/${appointmentId}`,
         checkoutGroupId,
         appointmentId
     }
@@ -101,7 +103,7 @@ export function paymentAppointment(groupId, method, amount, creditCardInfo = fal
         },
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/selectpaymentmethod/${groupId}`,
+        api: `appointment/selectpaymentmethod/${groupId}`,
         paymentMethod: method,
         amount,
         creditCardInfo,
@@ -139,7 +141,7 @@ export function createAnymousAppointment(merchantId, userId = 0, customerId = 0,
         },
         method: 'POST',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment`,
+        api: `appointment`,
         paymentMethod,
         isLoading,
         paidAmount,
@@ -171,7 +173,7 @@ export function createBlockAppointment(merchantId, fromTime = new Date(), userId
         },
         method: 'POST',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment`,
+        api: `appointment`,
         fromTimeBlockAppointment: fromTime
     }
 }
@@ -180,7 +182,7 @@ export function getBlockAppointmentById(appointmentId, isGetBookingGroupId = fal
     return {
         type: 'GET_BLOCK_APPOINTMENT_BY_ID',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}appointment/${appointmentId}`,
+        api: `appointment/${appointmentId}`,
         token: true,
         appointmentId,
         isGetBookingGroupId
@@ -212,7 +214,7 @@ export function checkoutSubmit(appointmentId) {
         body: {},
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}checkout/submit/${appointmentId}`,
+        api: `checkout/submit/${appointmentId}`,
     }
 }
 
@@ -238,29 +240,35 @@ export function changeFlagSigninAppointment(flag = false) {
 }
 
 
-export function submitPaymentWithCreditCard(merchantId, userId, responseData, appointmentId) {
+export function submitPaymentWithCreditCard(merchantId, responseData, checkoutPaymentId, moneyUserGiveForStaff) {
     return {
         type: 'SUBMIT_PAYMENT_WITH_CREDIT_CARD',
         body: {
             merchantId,
-            userId,
+            userId: 0,
             title: 'pax',
             responseData,
-            appointmentId
+            checkoutPaymentId: checkoutPaymentId
         },
         method: 'POST',
         token: true,
-        api: `${apiConfigs.BASE_API}paymentTransaction`,
+        api: `paymentTransaction`,
+        paymentMethod: "credit_card",
+        amount: moneyUserGiveForStaff,
+        checkoutPaymentId: checkoutPaymentId
     }
 }
 
-export function cancelHarmonyPayment(appointmentId) {
+export function cancelHarmonyPayment(appointmentId, status = null, note = null) {
     return {
         type: 'CANCEL_HARMONY_PAYMENT',
-        body: {},
+        body: {
+            status,
+            note
+        },
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/cancelmethod/${appointmentId}`,
+        api: `appointment/cancelmethod/${appointmentId}`,
     }
 }
 
@@ -277,7 +285,7 @@ export function submitAppointmentOffline(body) {
         body: body,
         method: 'POST',
         token: true,
-        api: `${apiConfigs.BASE_API}appointmentOffline`,
+        api: `appointmentOffline`,
     }
 }
 
@@ -300,7 +308,7 @@ export function cancleAppointment(appointmentId, merchantId, userId, isBlock = f
         ,
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/${appointmentId}`,
+        api: `appointment/${appointmentId}`,
         isBlock,
         appointmentId,
         isCancelManyAppointment
@@ -313,7 +321,7 @@ export function removeAppointmentInGroup(appointmentId) {
         body: {},
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/removeGroup/${appointmentId}`,
+        api: `appointment/removeGroup/${appointmentId}`,
     }
 }
 
@@ -368,7 +376,7 @@ export function checkSerialNumber(serialId, bodyAction = false, optionAction = f
         type: 'CHECK_SERIAL_NUMBER',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}giftcard/serialNumber/${serialId}?isActive=${isGiftCardPayment}`,
+        api: `giftcard/serialNumber/${serialId}?isActive=${isGiftCardPayment}`,
         bodyAction,
         optionAction,
         isGiftCardPayment
@@ -380,7 +388,7 @@ export function addGiftCardIntoBlockAppointment(serialId, appointmentId) {
         type: 'ADD_GIFT_CARD_INTO_BLOCK_APPOINTMENT',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}giftcard/serialNumber/${serialId}`,
+        api: `giftcard/serialNumber/${serialId}`,
         appointmentId
 
     }
@@ -392,7 +400,7 @@ export function updateCustomerInAppointment(appointmentId, body) {
         method: 'PUT',
         body,
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/updateCustomer/${appointmentId}`,
+        api: `appointment/updateCustomer/${appointmentId}`,
     }
 }
 
@@ -432,7 +440,7 @@ export function updateProductInAppointment(appointmentId, body, isGroup = true) 
         method: 'PUT',
         body,
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/updateProduct/${appointmentId}`,
+        api: `appointment/updateProduct/${appointmentId}`,
         appointmentId,
         isGroup
     }
@@ -469,17 +477,11 @@ export function getCustomerBuyAppointment(phoneNumber, customerInfoLocal = {
         type: 'GET_CUSTOMER_INFO_BUY_APPOINTMENT',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}customer/getbyphone/${splitPlusInPhoneNumber(phoneNumber)}`,
+        api: `customer/getbyphone/${splitPlusInPhoneNumber(phoneNumber)}`,
         customerInfoLocal
     }
 }
 
-export function togglePopupCustomerInfoByPhone(visible = true) {
-    return {
-        type: "TOGGLE_POPUP_CUSTOMER_INFO_BUY_APPOINTMENT",
-        payload: visible
-    }
-}
 
 export function updateFromTimeBlockAppointment(fromTime = new Date()) {
     return {
@@ -521,7 +523,7 @@ export function getGiftCardsActiveList(keySearch = "", page = 1, isShowLoading =
         type: 'GET_GIFT_CARDS_ACTIVE_LIST',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}giftcard/getByMerchant?keySearch=${keySearch}&page=${page}`,
+        api: `giftcard/getByMerchant?keySearch=${keySearch}&page=${page}`,
         currentPage: page,
         isShowLoading,
         isShowLoadMore,
@@ -534,13 +536,61 @@ export function getGiftCardLogs(giftCardId = 0) {
         type: 'GET_GIFT_CARDS_LOGS',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}giftcardlog/${giftCardId}`,
+        api: `giftcardlog/${giftCardId}`,
     }
 }
 
 export function switchGiftCardTabPermission(visible = true) {
     return {
         type: 'SWITCH_GIFT_CARD_TAB_PERMISSION',
+        payload: visible
+    }
+}
+
+export function checkCreditPaymentToServer(groupId, amount, paxAmount) {
+    return {
+        type: 'CHECK_CREDIT_PAYMENT_TO_SERVER',
+        body: {
+            method: "credit_card",
+            amount,
+            giftCardId: 0
+        },
+        method: 'PUT',
+        token: true,
+        api: `appointment/selectpaymentmethod/${groupId}`,
+        paxAmount,
+        moneyUserGiveForStaff: amount
+    }
+}
+
+export function resetStateCheckCreditPaymentToServer(visible = false) {
+    return {
+        type: 'RESET_STATE_CHECK_CREDIT_PAYMENT_TO_SERVER',
+        payload: visible
+    }
+}
+
+
+export function getStaffListByCurrentDate(merchantId) {
+    const date = formatWithMoment(new Date(), "YYYY-MM-DD");
+    return {
+        type: 'GET_STAFF_LIST_BY_CURRENT_DATE',
+        method: 'GET',
+        token: true,
+        api: `staff/getbydate/${merchantId}?date=${date}`,
+    }
+}
+
+export function switchVisibleEnterCustomerPhonePopup(visible = true) {
+    return {
+        type: "SWITCH_VISIBLE_ENTER_CUSTOMER_PHONE_POPUP",
+        payload: visible
+    }
+}
+
+export function switchVisibleAddEditCustomerPopup(visible = true) {
+    return {
+        type: 'SWITCH_VISIBLE_ADD_EDIT_CUSTOMER_POPUP',
         payload: visible
     }
 }

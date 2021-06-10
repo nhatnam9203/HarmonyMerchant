@@ -11,6 +11,14 @@ class TabHardware extends Layout {
         this.state = {
         };
         this.scrollTabHardwareRef = React.createRef();
+        this.setupHardwareRef = React.createRef();
+    }
+
+    onChangeTab = (index) => {
+        this.setState({ tabCurrent: index.i });
+        if (this.setupHardwareRef?.current) {
+            this.setupHardwareRef?.current?.stopDeviceScan();
+        }
     }
 
     gotoListDevices = (type) => {

@@ -9,7 +9,7 @@ import {
 import FastImage from 'react-native-fast-image';
 
 import { Button, } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 import IMAGE from '@resources';
 
 class RowTableProducts extends React.Component {
@@ -65,72 +65,72 @@ class RowTableProducts extends React.Component {
                         flex: 1,
                         flexDirection: 'row',
                         alignItems: 'center',
-                        paddingLeft: scaleSzie(12)
+                        paddingLeft: scaleSize(12)
                     }]} >
-                        <Button onPress={this.selectCheckBox} style={{ marginRight: scaleSzie(12) }} >
+                        <Button onPress={this.selectCheckBox} style={{ marginRight: scaleSize(12) }} >
                             <Image source={temptIconCheckbox}
                             />
                         </Button>
-                        <View style={{ justifyContent: 'center', marginRight: scaleSzie(8) }} >
+                        <View style={{ justifyContent: 'center', marginRight: scaleSize(8) }} >
                             {
                                 product.imageUrl ? <FastImage
-                                    style={{ width: scaleSzie(30), height: scaleSzie(30) }}
+                                    style={{ width: scaleSize(30), height: scaleSize(30) }}
                                     source={{
                                         uri: product.imageUrl,
                                         priority: FastImage.priority.low,
                                         cache: FastImage.cacheControl.immutable
                                     }}
-                                /> : <Image source={IMAGE.product_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
+                                /> : <Image source={IMAGE.product_holder} style={{ width: scaleSize(30), height: scaleSize(30) }} />
                             }
                         </View>
-                        <View style={{ flex: 1, paddingRight: scaleSzie(6) }} >
+                        <View style={{ flex: 1, paddingRight: scaleSize(6) }} >
                             <Text numberOfLines={3} style={[styles.textTableHeader, temptTextColor]} >
                                 {product.name}
                             </Text>
                         </View>
 
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 2 ----- */}
                 <View style={{
-                    width: scaleSzie(140), flexDirection: 'row',
+                    width: scaleSize(140), flexDirection: 'row',
                 }} >
 
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={[styles.textTableHeader, temptTextColor]} >
                             {product.sku}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 3 ----- */}
                 <View style={{
-                    width: scaleSzie(140), flexDirection: 'row',
+                    width: scaleSize(140), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={[styles.textTableHeader, temptTextColor]} >
                             {nameCategory}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 3 ----- */}
                 <View style={{
-                    width: scaleSzie(140), flexDirection: 'row',
+                    width: scaleSize(140), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={[styles.textTableHeader, temptTextColor]} >
                             {product.quantity}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
@@ -138,14 +138,14 @@ class RowTableProducts extends React.Component {
 
                 {/* ----- 3 ----- */}
                 <View style={{
-                    width: scaleSzie(140), flexDirection: 'row',
+                    width: scaleSize(140), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={[styles.textTableHeader, temptTextColor]} >
                             {product.needToorDer}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: scaleSzie(60),
+        height: scaleSize(60),
         backgroundColor: '#FAFAFA',
         borderBottomWidth: 0.5,
         borderBottomColor: '#C5C5C5',
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#6A6A6A',
-        fontSize: scaleSzie(14)
+        fontSize: scaleSize(14)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',

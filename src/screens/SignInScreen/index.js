@@ -12,7 +12,8 @@ class SignInScreen extends Layout {
         super(props);
         this.state = {
             isSecureTextEntry: true,
-            isShowKeyboard: false
+            isShowKeyboard: false,
+            terminalId:'Terminal 1 (MAIN)'
         }
         this.idInputRef = React.createRef();
         this.passwordInputRef = React.createRef();
@@ -39,12 +40,13 @@ class SignInScreen extends Layout {
 
     signIn = () => {
         const {isRememberMID} =this.props;
+        const {terminalId} = this.state;
         const email = this.idInputRef.current.state.value;
         const password = this.passwordInputRef.current.state.value;
-        if (email === '' || password === '') {
+        if (email === '' || password === '' || terminalId === '') {
             alert('Please enter full information!');
         } else {
-            this.props.actions.auth.login(email, password,isRememberMID);
+            this.props.actions.auth.login(email, password,terminalId,isRememberMID);
         }
 
     }
@@ -68,8 +70,8 @@ class SignInScreen extends Layout {
 
     componentWillUnmount() {
         if (Platform.OS === "android") {
-            this.keyboardDidShowListener.remove();
-            this.keyboardDidHideListener.remove();
+            this.keyboardDidShowListener?.remove();
+            this.keyboardDidHideListener?.remove();
         }
     }
 }

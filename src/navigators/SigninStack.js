@@ -3,7 +3,7 @@ import {
     createStackNavigator
 } from 'react-navigation';
 import getSlideFromRightTransition from 'react-navigation-slide-from-right-transition';
-import { scaleSzie } from '../utils';
+import { scaleSize } from '../utils';
 
 import {
     SignInScreen,

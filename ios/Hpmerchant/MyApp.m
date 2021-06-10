@@ -52,57 +52,13 @@ static int statusCode;
   }
 }
 
+
 - (id)init
 {
   self = [super init];
   commSetting = [[CommSetting alloc]init];
   poslink = [[PosLink alloc]initWithCommSetting:commSetting];
   
-  //init PaymentReqExtData
-  NSArray *payReqExtDataNames = [NSArray arrayWithObjects:
-                                 @"Account Information",
-                                 @"Check Information",
-                                 @"Trace Information",
-                                 @"Cashier Information",
-                                 @"Commercial Information",
-                                 @"MOTO/E- Commercial Information",
-                                 @"Additional Information",
-                                 nil];
-  NSArray *AccountInfoKeys = [NSArray arrayWithObjects:@"Account", @"ExpDate", @"CVV", @"EBTFoodStampVoucher", @"EBTType", @"VoucherNum",
-                              @"Force", @"FirstName", @"LastName", @"CountryCode",
-                              @"StateCode", @"CityName", @"EmailAddress", nil];
-  NSArray *CheckInfoKeys = [NSArray arrayWithObjects:@"CheckSaleType", @"CheckRoutingNum", @"CheckNum",
-                            @"CheckType", @"CheckIDType", @"CheckIDValue", @"Birth", @"PhoneNum", nil];
-  NSArray *TraceInfoKeys = [NSArray arrayWithObjects:@"TimeStamp",@"OrigECRRefNum", nil];
-  NSArray *CashierInfoKeys = [NSArray arrayWithObjects:@"ShiftID", nil];
-  NSArray *CommercialInfoKeys = [NSArray arrayWithObjects:@"CustomerCode", @"TaxExempt", @"TaxExemptID",
-                                 @"MerchantTaxID", @"DestinationZipCode", @"ProductDescription",
-                                 @"LocalTax", @"NationalTax", @"CustomerTaxID",
-                                 @"SummaryCommodityCode", @"DiscountAmt", @"FreightAmt",
-                                 @"DutyAmt", @"ShipFromZipCode", @"VATInvoiceRefNum",
-                                 @"OrderDate", @"VATTaxAmt", @"VATTaxRate", @"AlternateTaxAmt",
-                                 @"AlternateTaxID", nil];
-  NSArray *Moto_EComInfoKeys = [NSArray arrayWithObjects:@"MOTOECommerceMode", @"MOTOECommerceTransType", @"ECommerceSecureType",
-                                @"MOTOECommerceOrderNumber", @"Installments", @"CurrentInstallment", nil];
-  NSArray *AddiInfoKeys = [NSArray arrayWithObjects:@"TableNum", @"GuestNum", @"SignatureCapture", @"TicketNum",
-                           @"HRefNum", @"TipRequest", @"SignUploadFlag", @"ReportStatus",
-                           @"Token", @"TokenRequest", @"CardType", @"CardTypeBitmap",
-                           @"PassthruData", @"ReturnReason", @"OrigTransDate", @"OrigPAN",
-                           @"OrigExpiryDate", @"OrigTransTime", @"DisProgPrompts",
-                           @"GatewayID", @"POSEchoData", @"GetSign", @"EntryModeBitmap",
-                           @"ReceiptPrint", @"CPMode", @"FleetPromptCode", @"DebitNetwork",
-                           @"Odometer", @"VehicleNo", @"JobNo", @"DriverID", @"EmployeeNo",
-                           @"LicenseNo", @"JobID", @"DepartmentNo", @"CustomerData", @"UserID",
-                           @"VehicleID", @"MM_ID", @"MM_Name", @"OrigSettlementDate",@"OrigTransType",@"StationNo",@"UserLanguage",@"AddLRspDataRequest",@"SurchargeFeeRequest",@"CustomizeData1",@"CustomizeData2",@"CustomizeData3",@"ForceCC",@"ForceFSA",nil];
-  
-  
-  NSArray *InfoKeysArray = [NSArray arrayWithObjects:AccountInfoKeys, CheckInfoKeys, TraceInfoKeys, CashierInfoKeys, CommercialInfoKeys, Moto_EComInfoKeys, AddiInfoKeys, nil];
-  
-  self.PaymentReqExtData = [NSMutableArray array];
-  for (int i = 0; i < [payReqExtDataNames count]; i ++)
-  {
-    [self.PaymentReqExtData setObject:[[ExtDataPaymentReq alloc] initWithName:payReqExtDataNames[i] Keys:InfoKeysArray[i]] atIndexedSubscript:i];
-  }
   
   return self;
 }
@@ -173,7 +129,7 @@ static int statusCode;
 
 
 
-//--------- Test Javascript ---------
+//---------  Javascript Module ---------
 RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(cancelTransaction){
@@ -214,6 +170,9 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amou
   paymentRequest.AuthCode = @"";
 //  paymentRequest.ExtData = @"<TipRequest>1</TipRequest>";
   paymentRequest.ExtData = extData;
+//  paymentRequest.ContinuousScreen = @"";
+//  paymentRequest.ServiceFee = @"";
+//  paymentRequest.CommercialInformation = @"";
   
   
   
@@ -259,13 +218,7 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amou
           callback(@[result]);
           return;
         }
-        
-        
-        if (signData != nil) {
-          NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
-          [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
-          [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
-        }
+
         
       }else {
         NSDictionary *dataError = @{@"status":@false,
@@ -287,13 +240,17 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amou
   });
 }
 
-RCT_EXPORT_METHOD(setupPax:(NSString *)destIp portDevice:(NSString *)portDevice timeoutConnect:(NSString *)timeoutConnect)
+RCT_EXPORT_METHOD(setupPax:(NSString *)commType  destIp:(NSString *)destIp  portDevice:(NSString *)portDevice timeoutConnect:(NSString *)timeoutConnect bluetoothAddr:(NSString *)bluetoothAddr)
 {
   MyApp *myapp = [MyApp sharedSigleton];
-  myapp.poslink.commSetting.commType = @"TCP";
+// commType = @"TCP", @"BLUETOOTH";
+//  myapp.poslink.commSetting.commType = @"BLUETOOTH";
+  myapp.poslink.commSetting.commType = commType;
   myapp.poslink.commSetting.destIP = destIp;
   myapp.poslink.commSetting.destPort = portDevice;
   myapp.poslink.commSetting.timeout = timeoutConnect;
+  myapp.poslink.commSetting.bluetoothAddr = bluetoothAddr;
+//  myapp.poslink.commSetting.bluetoothAddr = @"8451A339-09C8-982C-B4AD-7AEAB9C4A86E";
   
    [self save];
 }
@@ -593,9 +550,9 @@ RCT_EXPORT_METHOD(refundTransaction:(NSString *)amount transactionId:(NSString *
         
         
         if (signData != nil) {
-          NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
-          [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
-          [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
+//          NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
+//          [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
+//          [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
         }
         
       }else {
@@ -699,9 +656,9 @@ RCT_EXPORT_METHOD(voidTransaction:(NSString *)amount transactionId:(NSString *)t
         }
         
         if (signData != nil) {
-          NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
-          [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
-          [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
+//          NSString *str = [myapp.poslink.paymentResponse.Timestamp stringByAppendingFormat:@"_%@",myapp.poslink.paymentResponse.RefNum];
+//          [myapp.poslink.paymentRequest saveSigData:signData fileName:str];
+//          [myapp.poslink.paymentRequest saveSigToPic:[PaymentRequest convertSigToPic:signData]  type:@".PNG" outFile:str];
         }
         
         

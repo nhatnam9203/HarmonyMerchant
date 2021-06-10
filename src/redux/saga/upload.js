@@ -4,7 +4,7 @@ import { Platform } from "react-native";
 import Share from 'react-native-share';
 
 import { requestAPI, uploadFromData } from '../../utils';
-import apiConfigs from '../../configs/api';
+import Configs from '@configs';
 
 
 function* uploadAvatar(action) {
@@ -45,7 +45,7 @@ function* uploadBanner(action) {
                 type: 'ADD_BANNER_WITH_INFO',
                 method: 'POST',
                 token: true,
-                api: `${apiConfigs.BASE_API}merchantbanner`,
+                api: `merchantbanner`,
                 body: {
                     ...action.infoBanner,
                     fileId: responses?.data?.fileId || 0
@@ -73,7 +73,7 @@ function* exportBatchHistory(action) {
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            const pdfPath =  responses?.data?.path || "";
+            const pdfPath = responses?.data?.path || "";
             const dirs = RNFetchBlob.fs.dirs;
             const fileDownload = yield RNFetchBlob.config({
                 fileCache: true,

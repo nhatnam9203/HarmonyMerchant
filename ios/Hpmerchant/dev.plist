@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>Development</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -23,15 +23,7 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>CodePushDeploymentKey</key>
-	<string>duhVozb0nWJ1ciL39iNtdh5xdqBy8ed003ce-e621-4347-babf-de7857b9c73</string>
-	<key>CodePushPublicKey</key>
-	<string>MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyDvbEcUEvQwdc662d747
-RmCyF0VmPdq2pB68FNEWY/NmBVgk0QyGfhCswxHPrJNg+PrXU6aOkARELZsPsHUG
-5vvmF1ZsELrdrWQ8WIAT5a/NK/duRpeS3AbXF4lkzMxXs5G90fvxZctyQRdL7/A8
-38Oqs3v9uDoC5YQa3OeM4GtlP9DGCzMLhKqkY8wiSeQE0hN0uEcr7YUVOk8o01VQ
-aGaT+l3HHtFMcmvjlqhvQd0MM3hSxUvIxeNAHPCczZSTc/qMi2O1dO2DuZmcHmM2
-tG1mbWPF0B9xiwWe3DF6dBZVrM6+WSQMtPUpnay6x1AuwN5Dr3YQ3wxTS+FlVt3C
-jwIDAQAB</string>
+	<string>IN34wWcTxlg5q3zbwEceFQHVNQttizlEe55Pl</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -81,6 +73,45 @@ jwIDAQAB</string>
 	<string>$(PRODUCT_NAME) would like to save photos to your photo gallery</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like access to your photo gallery</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Roboto-Black.ttf</string>
+		<string>Roboto-BlackItalic.ttf</string>
+		<string>Roboto-Bold.ttf</string>
+		<string>Roboto-BoldItalic.ttf</string>
+		<string>Roboto-Italic.ttf</string>
+		<string>Roboto-Light.ttf</string>
+		<string>Roboto-LightItalic.ttf</string>
+		<string>Roboto-Medium.ttf</string>
+		<string>Roboto-MediumItalic.ttf</string>
+		<string>Roboto-Regular.ttf</string>
+		<string>Roboto-Thin.ttf</string>
+		<string>Roboto-ThinItalic.ttf</string>
+		<string>segoeui.ttf</string>
+		<string>segoeuib.ttf</string>
+		<string>segoeuii.ttf</string>
+		<string>segoeuil.ttf</string>
+		<string>segoeuisl.ttf</string>
+		<string>segoeuiz.ttf</string>
+		<string>seguibl.ttf</string>
+		<string>seguibli.ttf</string>
+		<string>seguili.ttf</string>
+		<string>seguisb.ttf</string>
+		<string>seguisbi.ttf</string>
+		<string>SF Pro Text Bold.ttf</string>
+		<string>SF Pro Text BoldItalic.ttf</string>
+		<string>SF Pro Text Heavy.ttf</string>
+		<string>SF Pro Text HeavyItalic.ttf</string>
+		<string>SF Pro Text Italic.ttf</string>
+		<string>SF Pro Text Light.ttf</string>
+		<string>SF Pro Text LightItalic.ttf</string>
+		<string>SF Pro Text Medium.ttf</string>
+		<string>SF Pro Text MediumItalic.ttf</string>
+		<string>SF Pro Text Regular.ttf</string>
+		<string>SF Pro Text RegularItalic.ttf</string>
+		<string>SF Pro Text SemiBold.ttf</string>
+		<string>SF Pro Text SemiBoldItalic.ttf</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

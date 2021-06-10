@@ -3,7 +3,8 @@ import _ from "ramda";
 import { Alert } from "react-native";
 
 import { requestAPI, formatNumberFromCurrency } from '../../utils';
-import apiConfigs from '../../configs/api';
+import Configs from '@configs';
+import actions from "../actions";
 
 function* getAppointmentById(action) {
     try {
@@ -45,7 +46,7 @@ function* getGroupAppointmentById(action) {
             if (data) {
                 yield put({
                     type: 'GET_GROUP_APPOINTMENT_BY_ID_SUCCESS',
-                    payload: responses?.data,
+                    payload: data,
                     paymentDetailInfo: {
                         checkoutGropId: data?.checkoutGroupId || 0,
                         customerName: "",
@@ -54,8 +55,26 @@ function* getGroupAppointmentById(action) {
                         grandTotal: data?.total || 0,
                         paidAmounts: data?.checkoutPayments || [],
                         dueAmount: data?.dueAmount || 0
-                    }
+                    },
+
                 });
+
+                if (action?.isBookingFromCalendar) {
+                    yield put({
+                        type: "BOOKING_A_APPOINTMENT_FROM_CALENDAR_SUCCESS",
+                        isBookingFromCalendar: action?.isBookingFromCalendar,
+                        appointmentIdBookingFromCalendar: action?.isBookingFromCalendar ? (data?.mainAppointmentId || 0) : 0
+                    })
+                }
+
+                if (action?.isAddMoreFromCalendar) {
+                    yield put({
+                        type: "BOOKING_A_APPOINTMENT_FROM_CALENDAR_SUCCESS",
+                        isBookingFromCalendar: true,
+                        appointmentIdBookingFromCalendar: 0
+                    })
+                }
+
 
                 const subTotal = data.subTotal ? formatNumberFromCurrency(data.subTotal) : 0;
                 const discount = data.discount ? formatNumberFromCurrency(data.discount) : 0;
@@ -81,7 +100,7 @@ function* getGroupAppointmentById(action) {
                         body: {},
                         method: 'PUT',
                         token: true,
-                        api: `${apiConfigs.BASE_API}checkout/submit/${action.checkoutPaymentId}`,
+                        api: `checkout/submit/${action.checkoutPaymentId}`,
                         paymentMethod: action.paymentMethod,
                         amount: action.amount
                     });
@@ -122,7 +141,7 @@ function* getGroupAppointmentById(action) {
                         },
                         method: 'PUT',
                         token: true,
-                        api: `${apiConfigs.BASE_API}appointment/selectpaymentmethod/${responses.data.checkoutGroupId}`,
+                        api: `appointment/selectpaymentmethod/${responses.data.checkoutGroupId}`,
                         paymentMethod: action.paymentMethod,
                         amount: action.paidAmount,
                         creditCardInfo: action.creditCardInfo,
@@ -161,20 +180,20 @@ function* addItemIntoAppointment(action) {
                 action.isGroup ? yield put({
                     type: 'GET_GROUP_APPOINTMENT_BY_ID',
                     method: 'GET',
-                    api: `${apiConfigs.BASE_API}appointment/getGroupById/${action?.appointmentId || "addItemIntoAppointment"}`,
+                    api: `appointment/getGroupById/${action?.appointmentId || "addItemIntoAppointment"}`,
                     token: true
                 }) :
                     yield put({
                         type: 'GET_APPOINTMENT_BY_ID',
                         method: 'GET',
-                        api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
+                        api: `appointment/${action.appointmentId}`,
                         token: true
                     })
             } else {
                 yield put({
                     type: 'GET_BLOCK_APPOINTMENT_BY_ID',
                     method: 'GET',
-                    api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
+                    api: `appointment/${action.appointmentId}`,
                     token: true,
                     appointmentId: action.appointmentId
                 })
@@ -210,14 +229,14 @@ function* removeItemIntoAppointment(action) {
                     yield put({
                         type: 'GET_GROUP_APPOINTMENT_BY_ID',
                         method: 'GET',
-                        api: `${apiConfigs.BASE_API}appointment/getGroupById/${action?.appointmentId || "removeItemIntoAppointment"}`,
+                        api: `appointment/getGroupById/${action?.appointmentId || "removeItemIntoAppointment"}`,
                         token: true
                     })
                 } else {
                     yield put({
                         type: 'GET_APPOINTMENT_BY_ID',
                         method: 'GET',
-                        api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
+                        api: `appointment/${action.appointmentId}`,
                         token: true
                     })
                 }
@@ -225,7 +244,7 @@ function* removeItemIntoAppointment(action) {
                 yield put({
                     type: 'GET_BLOCK_APPOINTMENT_BY_ID',
                     method: 'GET',
-                    api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
+                    api: `appointment/${action.appointmentId}`,
                     token: true,
                     appointmentId: action.appointmentId
                 })
@@ -259,7 +278,7 @@ function* checkoutAppointment(action) {
             yield put({
                 type: 'GET_GROUP_APPOINTMENT_BY_ID',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action?.appointmentId || "checkoutAppointment"}`,
+                api: `appointment/getGroupById/${action?.appointmentId || "checkoutAppointment"}`,
                 token: true,
                 appointmentId: action.appointmentId,
                 paidAmount: action.paidAmount,
@@ -297,7 +316,7 @@ function* paymentAppointment(action) {
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: "PAY_APPOINTMENT_ID",
-                payload: responses.data
+                payload: responses?.data || 0
             });
             if (action.paymentMethod !== 'harmony' && action.paymentMethod !== 'credit_card' && action.paymentMethod !== "debit_card") {
                 yield put({
@@ -305,7 +324,7 @@ function* paymentAppointment(action) {
                     body: {},
                     method: 'PUT',
                     token: true,
-                    api: `${apiConfigs.BASE_API}checkout/submit/${responses.data}`,
+                    api: `checkout/submit/${responses.data}`,
                     paymentMethod: action.paymentMethod,
                     amount: action.amount,
                 });
@@ -322,7 +341,7 @@ function* paymentAppointment(action) {
                     },
                     method: 'POST',
                     token: true,
-                    api: `${apiConfigs.BASE_API}paymentTransaction`,
+                    api: `paymentTransaction`,
                     paymentMethod: action.paymentMethod,
                     amount: action.amount,
                     checkoutPaymentId: responses.data
@@ -373,7 +392,7 @@ function* createAnymousAppointment(action) {
                     },
                     method: 'PUT',
                     token: true,
-                    api: `${apiConfigs.BASE_API}appointment/checkout/${appointmentId}`,
+                    api: `appointment/checkout/${appointmentId}`,
                     checkoutGroupId: 0,
                     appointmentId,
                     paidAmount: action.paidAmount,
@@ -389,7 +408,7 @@ function* createAnymousAppointment(action) {
                     },
                     method: 'PUT',
                     token: true,
-                    api: `${apiConfigs.BASE_API}appointment/checkout/${appointmentId}`,
+                    api: `appointment/checkout/${appointmentId}`,
                     checkoutGroupId: 0,
                     appointmentId,
                     paidAmount: action.paidAmount,
@@ -475,7 +494,7 @@ function* submitPaymentWithCreditCard(action) {
             yield put({
                 type: 'GET_GROUP_APPOINTMENT_BY_ID',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/getGroupById/${mainAppointmentId}`,
+                api: `appointment/getGroupById/${mainAppointmentId}`,
                 token: true,
                 isCheckoutSubmit: true,
                 checkoutPaymentId: action.checkoutPaymentId,
@@ -602,7 +621,7 @@ function* removeAppointmentInGroup(action) {
             yield put({
                 type: 'GET_GROUP_APPOINTMENT_BY_ID',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/getGroupById/${mainAppointmentId ? mainAppointmentId : "removeAppointmentInGroup"}`,
+                api: `appointment/getGroupById/${mainAppointmentId ? mainAppointmentId : "removeAppointmentInGroup"}`,
                 token: true
             });
 
@@ -628,7 +647,6 @@ function* checkSerialNumber(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-        // console.log("checkSerialNumber: ", JSON.stringify(responses));
         yield put({ type: 'STOP_LOADING_ROOT' });
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
@@ -691,13 +709,13 @@ function* updateProductInAppointment(action) {
             action.isGroup ? yield put({
                 type: 'GET_GROUP_APPOINTMENT_BY_ID',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/getGroupById/${action?.appointmentId || "updateProductInAppointment"}`,
+                api: `appointment/getGroupById/${action?.appointmentId || "updateProductInAppointment"}`,
                 token: true
             }) :
                 yield put({
                     type: 'GET_APPOINTMENT_BY_ID',
                     method: 'GET',
-                    api: `${apiConfigs.BASE_API}appointment/${action?.appointmentId}`,
+                    api: `appointment/${action?.appointmentId}`,
                     token: true
                 })
 
@@ -730,7 +748,7 @@ function* createBlockAppointment(action) {
             yield put({
                 type: 'GET_BLOCK_APPOINTMENT_BY_ID',
                 method: 'GET',
-                api: `${apiConfigs.BASE_API}appointment/${appointmentId}`,
+                api: `appointment/${appointmentId}`,
                 token: true,
                 appointmentId
             })
@@ -828,7 +846,7 @@ function* addGiftCardIntoBlockAppointment(action) {
                 },
                 method: 'PUT',
                 token: true,
-                api: `${apiConfigs.BASE_API}appointment/additem/${action.appointmentId}`,
+                api: `appointment/additem/${action.appointmentId}`,
                 appointmentId: action.appointmentId,
                 isBlock: true
             })
@@ -871,13 +889,14 @@ function* getCustomerBuyAppointment(action) {
                 type: 'UNAUTHORIZED'
             })
         } else {
+            yield put(actions.appointment.switchVisibleEnterCustomerPhonePopup(false));
             yield put({
-                type: "GET_CUSTOMER_INFO_BUY_APPOINTMENT_FAIL",
-                payload: action.customerInfoLocal
-            });
-            yield put({
-                type: "CHANGE_CUSTOMER_IN_APPOINTMENT",
-            });
+                type: "CUSTOMER_INFO_NOT_EXIST_IN_CHECKOUT_TAB",
+                payload: action?.customerInfoLocal?.phone || ""
+
+            })
+            yield put(actions.appointment.switchVisibleAddEditCustomerPopup(true));
+
         }
     } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
@@ -909,7 +928,7 @@ function* changeCustomerInAppointment(action) {
                     method: 'PUT',
                     body: customerInfo,
                     token: true,
-                    api: `${apiConfigs.BASE_API}appointment/updateCustomer/${mainAppointmentId}`,
+                    api: `appointment/updateCustomer/${mainAppointmentId}`,
                     appointmentId: mainAppointmentId,
                     isGroup: true
                 });
@@ -921,7 +940,7 @@ function* changeCustomerInAppointment(action) {
                     method: 'PUT',
                     body: customerInfo,
                     token: true,
-                    api: `${apiConfigs.BASE_API}appointment/updateCustomer/${blockAppointments[i].appointmentId}`,
+                    api: `appointment/updateCustomer/${blockAppointments[i].appointmentId}`,
                     isGroup: false,
                     appointmentId: blockAppointments[i].appointmentId
                 });
@@ -950,7 +969,7 @@ function* updateCustomerInAppointment(action) {
                 yield put({
                     type: 'GET_GROUP_APPOINTMENT_BY_ID',
                     method: 'GET',
-                    api: `${apiConfigs.BASE_API}appointment/getGroupById/${action.appointmentId}`,
+                    api: `appointment/getGroupById/${action.appointmentId}`,
                     token: true,
                     isNotUpdateCustomerBuyInRedux: true
                 });
@@ -958,7 +977,7 @@ function* updateCustomerInAppointment(action) {
                 yield put({
                     type: 'GET_BLOCK_APPOINTMENT_BY_ID',
                     method: 'GET',
-                    api: `${apiConfigs.BASE_API}appointment/${action.appointmentId}`,
+                    api: `appointment/${action.appointmentId}`,
                     token: true,
                     appointmentId: action.appointmentId
                 })
@@ -1007,7 +1026,7 @@ function* handleEnterGiftCardAmount(action) {
                 },
                 method: 'PUT',
                 token: true,
-                api: `${apiConfigs.BASE_API}appointment/additem/${mainAppointmentId}`,
+                api: `appointment/additem/${mainAppointmentId}`,
                 appointmentId: mainAppointmentId,
                 isGroup: true
             });
@@ -1081,16 +1100,11 @@ function* getGiftCardLogs(action) {
     try {
         yield put({ type: 'LOADING_ROOT' });
         const responses = yield requestAPI(action);
-
-        // console.log("--getGiftCardLogs :"+ JSON.stringify(responses));
-
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
             yield put({
                 type: "GET_GIFT_CARDS_LOGS_SUCCESS",
                 payload: responses?.data || [],
-                // currentPage: action?.currentPage,
-                // totalPages: responses?.pages || 1
             })
 
         } else if (parseInt(codeNumber) === 401) {
@@ -1110,6 +1124,74 @@ function* getGiftCardLogs(action) {
         yield put({
             type: "GET_GIFT_CARDS_LOGS_FAIL",
         });
+        yield put({ type: 'STOP_LOADING_ROOT' });
+
+        yield put({ type: error });
+
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+// ------------- New code ------------
+function* checkCreditPaymentToServer(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        // console.log("-------- checkCreditPaymentToServer: ",JSON.stringify(responses));
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "CHECK_CREDIT_PAYMENT_TO_SERVER_SUCCESS",
+                payload: responses?.data || 0,
+                paxAmount: action?.paxAmount || 0
+            })
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            });
+            yield put({
+                type: "CHECK_CREDIT_PAYMENT_TO_SERVER_FAIL",
+            });
+        }
+    } catch (error) {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+        yield put({ type: error });
+        yield put({
+            type: "CHECK_CREDIT_PAYMENT_TO_SERVER_FAIL",
+        });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+
+function* getStaffListByCurrentDate(action) {
+    try {
+        const responses = yield requestAPI(action);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            yield put({
+                type: "GET_STAFF_LIST_BY_CURRENT_DATE_SUCCESS",
+                payload: responses?.data || []
+            })
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
         yield put({ type: 'STOP_LOADING_ROOT' });
 
         yield put({ type: error });
@@ -1145,5 +1227,9 @@ export default function* saga() {
         takeLatest('HANDLE_ENTER_GIFT_CARD_AMOUNT', handleEnterGiftCardAmount),
         takeLatest('GET_GIFT_CARDS_ACTIVE_LIST', getGiftCardsActiveList),
         takeLatest('GET_GIFT_CARDS_LOGS', getGiftCardLogs),
+        takeLatest('CHECK_CREDIT_PAYMENT_TO_SERVER', checkCreditPaymentToServer),
+
+        takeLatest('GET_STAFF_LIST_BY_CURRENT_DATE', getStaffListByCurrentDate),
+
     ]);
 }

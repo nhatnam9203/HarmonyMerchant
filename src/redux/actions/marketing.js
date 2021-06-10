@@ -1,23 +1,23 @@
-import apiConfigs from '../../configs/api';
+import Configs from '@configs';
 
 export function getBannerMerchant(merchantId, isLoading = true, isRefresh = false) {
     return {
         type: 'GET_BANNER_MERCHANT',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}merchantbanner/getbymerchant/${merchantId}`,
+        api: `merchantbanner/getbymerchant/${merchantId}`,
         isLoading,
         isRefresh
     }
 }
 
-export function deleteBannerMerchant(merchantBannerId, merchantId) {
+export function deleteBannerMerchant(body, merchantId) {
     return {
         type: 'DELETE_BANNER_MERCHANT',
         method: 'DELETE',
-        body: {},
+        body: body,
         token: true,
-        api: `${apiConfigs.BASE_API}merchantbanner/${merchantBannerId}`,
+        api: `merchantbanner/multiple`,
         merchantId
     }
 }
@@ -30,15 +30,7 @@ export function resetStateUploadBanner() {
 
 // ------------ promotion -------------
 
-export function getPromotionByMerchant(isLoading = true) {
-    return {
-        type: 'GET_PROMOTION_BY_MERCHANT',
-        method: 'GET',
-        token: true,
-        api: `${apiConfigs.BASE_API}merchantpromotion`,
-        isLoading
-    }
-}
+
 
 export function updatePromotionByMerchant(body, promotionId = 1, isSendNoti = true) {
     return {
@@ -46,7 +38,7 @@ export function updatePromotionByMerchant(body, promotionId = 1, isSendNoti = tr
         method: 'POST',
         token: true,
         body,
-        api: `${apiConfigs.BASE_API}merchantPromotion`,
+        api: `merchantPromotion`,
         promotionId,
         isSendNoti
     }
@@ -57,7 +49,7 @@ export function getPromotionByAppointment(appointmentId, isBlock = false) {
         type: 'GET_PROMOTION_BY_APPOINTMENT',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/promotion/${appointmentId}`,
+        api: `appointment/promotion/${appointmentId}`,
         appointmentId,
         isBlock
     }
@@ -70,7 +62,7 @@ export function closeModalDiscount() {
 }
 
 
-export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentId, price, tipPercent = 0, note = "", isGroup = false) {
+export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentId, price,extras = null, tipPercent = 0, note = "", isGroup = false) {
     return {
         type: 'CHANGE_STYLIST',
         method: 'PUT',
@@ -81,9 +73,10 @@ export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentI
             tipAmount,
             price,
             tipPercent,
-            note
+            note,
+            extras:extras,
         },
-        api: `${apiConfigs.BASE_API}appointment/tip/${appointmentId}`,
+        api: `appointment/tip/${appointmentId}`,
         appointmentId,
         isGroup
     }
@@ -99,7 +92,7 @@ export function customPromotion(discountPercent, discountFixtom, isDiscountByOwn
             discountFixtom,
             isDiscountByOwner
         },
-        api: `${apiConfigs.BASE_API}appointment/custompromotion/${appointmentid}`,
+        api: `appointment/custompromotion/${appointmentid}`,
         appointmentid,
         isGroup,
         isBlock
@@ -119,7 +112,7 @@ export function sendNotificationByPromotionId(promotionId) {
         type: 'SEND_NOTI_BY_PROMOTION_ID',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}merchantpromotion/promotion/${promotionId}`
+        api: `merchantpromotion/promotion/${promotionId}`
     }
 }
 
@@ -156,7 +149,7 @@ export function addPromotionNote(appointemntId, notes) {
             notes
         },
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/promotion/note/${appointemntId}`
+        api: `appointment/promotion/note/${appointemntId}`
     }
 }
 
@@ -168,7 +161,7 @@ export function updatePromotionNote(promotionNoteId, notes) {
             notes
         },
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/promotion/note/${promotionNoteId}`
+        api: `appointment/promotion/note/${promotionNoteId}`
     }
 }
 
@@ -183,5 +176,88 @@ export function switchPopupCheckDiscountPermissionInHome(visible = true) {
     return {
         type: "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION_IN_HOME",
         payload: visible
+    }
+}
+
+// -------------- New Promotion API ------------
+
+export function getPromotionByMerchant(isLoading = true) {
+    return {
+        type: 'GET_PROMOTION_BY_MERCHANT',
+        method: 'GET',
+        token: true,
+        api: `MerchantPromotion?api-version=1.2`,
+        isLoading
+    }
+}
+
+export function getPromotionDetailById(promotionId,conditionId) {
+    return {
+        type: 'GET_PROMOTION_DETAIL_BY_ID',
+        method: 'GET',
+        token: true,
+        api: `MerchantPromotion/${promotionId}?api-version=1.2`,
+    }
+}
+
+export function disablePromotionById(promotionId) {
+    return {
+        type: 'DISABLE_PROMOTION_BY_ID',
+        method: 'PUT',
+        body: {},
+        token: true,
+        api: `MerchantPromotion/disable/${promotionId}?api-version=1.2`
+    }
+}
+
+export function enablePromotionById(promotionId) {
+    return {
+        type: 'ENABLE_PROMOTION_BY_ID',
+        method: 'PUT',
+        body: {},
+        token: true,
+        api: `MerchantPromotion/enable/${promotionId}?api-version=1.2`
+    }
+}
+
+export function updatePromotionById(promotionId, body) {
+    return {
+        type: 'UPDATE_PROMOTION_BY_ID',
+        method: 'PUT',
+        body,
+        token: true,
+        api: `MerchantPromotion/${promotionId}?api-version=1.2`
+    }
+}
+
+export function resetStateIsUpdatePromotionById(visible = true) {
+    return {
+        type: "RESET_STATE_IS_UPDATE_PROMOTION_BY_ID",
+        payload: visible
+    }
+}
+
+export function createNewCampaign(body) {
+    return {
+        type: 'CREATE_NEW_CAMPAIGN',
+        method: 'POST',
+        body,
+        token: true,
+        api: `MerchantPromotion?api-version=1.2`
+    }
+}
+
+export function getSMSInformation(conditionId) {
+    return {
+        type: 'GET_SMS_INFORMATION',
+        method: 'GET',
+        token: true,
+        api: `MerchantPromotion/smsLength/${conditionId}?api-version=1.2`
+    }
+}
+
+export function resetStatePromotionDetailById() {
+    return {
+        type: "RESET_STATE_PROMOTION_DETAIL_BY_ID",
     }
 }

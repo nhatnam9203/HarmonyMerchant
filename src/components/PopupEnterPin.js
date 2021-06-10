@@ -9,7 +9,7 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import { scaleSzie, localize } from '../utils';
+import { scaleSize, localize } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupEnterPin extends React.Component {
@@ -39,7 +39,7 @@ class PopupEnterPin extends React.Component {
         await this.setState({
             customStyle: {
                 justifyContent: 'flex-start',
-                paddingTop: scaleSzie(80)
+                paddingTop: scaleSize(80)
             }
         });
     }
@@ -73,17 +73,17 @@ class PopupEnterPin extends React.Component {
                 <View
                     style={{
                         backgroundColor: '#fff',
-                        borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
+                        borderBottomLeftRadius: scaleSize(15), borderBottomRightRadius: scaleSize(15)
                     }} >
-                    <View style={{ height: scaleSzie(85), justifyContent: 'center', alignItems: 'center' }} >
+                    <View style={{ height: scaleSize(85), justifyContent: 'center', alignItems: 'center' }} >
                         <View style={{
-                            width: '90%', height: scaleSzie(45),
+                            width: '90%', height: scaleSize(45),
                             borderColor: 'rgb(231,231,231)', borderWidth: 3
                         }} >
                             <TextInputMask
                                 type="only-numbers"
                                 style={{
-                                    flex: 1, fontSize: scaleSzie(18), textAlign: 'center',
+                                    flex: 1, fontSize: scaleSize(18), textAlign: 'center',
                                     padding: 0, margin: 0
                                 }}
                                 placeholder={localize('Your pin code', language)}
@@ -99,21 +99,21 @@ class PopupEnterPin extends React.Component {
                         </View>
                     </View>
                     {
-                        isOfflineMode ? <View style={{ height: scaleSzie(120), }} >
+                        isOfflineMode ? <View style={{ height: scaleSize(120), }} >
                             <Text style={{
-                                color: 'rgb(246,195,49)', fontWeight: 'bold', fontSize: scaleSzie(14),
+                                color: 'rgb(246,195,49)', fontWeight: 'bold', fontSize: scaleSize(14),
                                 textAlign: 'center'
                             }} >
                                 {`${localize('Please check your internet', language)} !`}
                             </Text>
                             <Text style={{
-                                color: 'rgb(246,195,49)', fontWeight: 'bold', fontSize: scaleSzie(14),
+                                color: 'rgb(246,195,49)', fontWeight: 'bold', fontSize: scaleSize(14),
                                 textAlign: 'center'
                             }} >
                                 Or
                         </Text>
                             <Text style={{
-                                color: 'rgb(246,195,49)', fontWeight: 'bold', fontSize: scaleSzie(14),
+                                color: 'rgb(246,195,49)', fontWeight: 'bold', fontSize: scaleSize(14),
                                 textAlign: 'center'
                             }} >
                                 {`${localize('Do you want use offline mode', language)}?`}
@@ -130,10 +130,10 @@ class PopupEnterPin extends React.Component {
                                     textColor="#fff"
                                     onPress={() => this.props.actions.app.toogleOfflineMode(false)}
                                     styleText={{
-                                        fontSize: scaleSzie(14)
+                                        fontSize: scaleSize(14)
                                     }}
                                     style={{
-                                        borderRadius: scaleSzie(4)
+                                        borderRadius: scaleSize(4)
                                     }}
                                 />
 
@@ -145,21 +145,21 @@ class PopupEnterPin extends React.Component {
                                     textColor="#fff"
                                     onPress={this.loginWithOfflineMode}
                                     styleText={{
-                                        fontSize: scaleSzie(14)
+                                        fontSize: scaleSize(14)
                                     }}
                                     style={{
-                                        borderRadius: scaleSzie(4)
+                                        borderRadius: scaleSize(4)
                                     }}
                                 />
 
                             </View>
                         </View> :
                             < View style={{
-                                height: scaleSzie(45), alignItems: 'center'
+                                height: scaleSize(45), alignItems: 'center'
                             }} >
                                 {
                                     isShowButtonEnterPinCode ? <View style={{
-                                        width: '30%', height: scaleSzie(35), backgroundColor: '#0764B0',
+                                        width: '30%', height: scaleSize(35), backgroundColor: '#0764B0',
                                         justifyContent: 'center', alignItems: 'center'
                                     }} >
                                         <ActivityIndicator
@@ -174,10 +174,10 @@ class PopupEnterPin extends React.Component {
                                             textColor="#fff"
                                             onPress={() => confimYes()}
                                             styleText={{
-                                                fontSize: scaleSzie(14)
+                                                fontSize: scaleSize(14)
                                             }}
                                             style={{
-                                                borderRadius: scaleSzie(4)
+                                                borderRadius: scaleSize(4)
                                             }}
                                         />
                                 }
@@ -191,8 +191,8 @@ class PopupEnterPin extends React.Component {
 
 
     componentWillUnmount() {
-        this.keyboardDidShowListener.remove();
-        this.keyboardDidHideListener.remove();
+        this.keyboardDidShowListener?.remove();
+        this.keyboardDidHideListener?.remove();
     }
 
 }

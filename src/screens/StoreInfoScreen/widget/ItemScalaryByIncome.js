@@ -10,7 +10,7 @@ import _ from "ramda";
 
 import ICON from '@resources';
 import { Button } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 
 
 export default class ItemScalary extends React.Component {
@@ -132,7 +132,6 @@ export default class ItemScalary extends React.Component {
     }
 
     showRef = () => {
-        // console.log(this.incomeSalaryRef);
     }
 
     // --------------- Render ------------
@@ -143,24 +142,24 @@ export default class ItemScalary extends React.Component {
         return (
             <View style={{
                 flexDirection: 'row',
-                paddingHorizontal: scaleSzie(90),
-                marginTop: scaleSzie(20)
+                paddingHorizontal: scaleSize(90),
+                marginTop: scaleSize(20)
             }} >
-                <Button onPress={this.onPress} style={{ width: scaleSzie(30) }} >
-                    <Image source={temptIconCheck} style={{ width: scaleSzie(15), height: scaleSzie(15) }} />
+                <Button onPress={this.onPress} style={{ width: scaleSize(30) }} >
+                    <Image source={temptIconCheck} style={{ width: scaleSize(15), height: scaleSize(15) }} />
                 </Button>
-                <View style={{ width: scaleSzie(120) }} >
+                <View style={{ width: scaleSize(120) }} >
                     <Text style={{
                         color: '#404040',
-                        fontSize: scaleSzie(14),
+                        fontSize: scaleSize(14),
                         fontWeight: '600',
                     }}  >
                         {`${title}`}
                     </Text>
                 </View>
-                <View style={[{ width: scaleSzie(420) }]} >
+                <View style={[{ width: scaleSize(420) }]} >
                     {/* ------------------- Header Staff Salary Income ---------------------- */}
-                    <View style={{ height: scaleSzie(32), flexDirection: "row" }} >
+                    <View style={{ height: scaleSize(32), flexDirection: "row" }} >
                         <View style={{ flex: 1 }} >
                             <Text style={styles.title} >
                                 {`From ($)`}
@@ -191,14 +190,14 @@ export default class ItemScalary extends React.Component {
                     }
                     {
                         isCheck ? <Button onPress={this.addSalaryIncome} >
-                            <Text style={{ color: "#0764B0", fontWeight: "700", fontSize: scaleSzie(14), marginTop: scaleSzie(5) }} >
+                            <Text style={{ color: "#0764B0", fontWeight: "700", fontSize: scaleSize(14), marginTop: scaleSize(5) }} >
                                 {`+ Add more`}
                             </Text>
                         </Button> : <View />
                     }
 
                     {/* <Button onPress={this.showRef} >
-                        <Text style={{ color: "#0764B0", fontWeight: "700", fontSize: scaleSzie(14), marginTop: scaleSzie(10) }} >
+                        <Text style={{ color: "#0764B0", fontWeight: "700", fontSize: scaleSize(14), marginTop: scaleSize(10) }} >
                             {`+ show`}
                         </Text>
                     </Button> */}
@@ -243,7 +242,7 @@ class RowSalaryIncome extends React.Component {
         const { from, to, commission } = this.state;
 
         return (
-            <View style={{ height: scaleSzie(32), flexDirection: "row", marginBottom: scaleSzie(20) }} >
+            <View style={{ height: scaleSize(32), flexDirection: "row", marginBottom: scaleSize(20) }} >
                 <ItemSalaryIncome
                     placeholder="500.00"
                     value={from}
@@ -268,11 +267,11 @@ class RowSalaryIncome extends React.Component {
                 {
                     data.keyRows !== 1 ? <Button onPress={() => removeRow(data.keyRows)}
                         style={{
-                            justifyContent: "center", width: scaleSzie(20),
+                            justifyContent: "center", width: scaleSize(20),
                         }}
                     >
                         <Image source={ICON.trash_icon} />
-                    </Button> : <View style={{ width: scaleSzie(20) }} />
+                    </Button> : <View style={{ width: scaleSize(20) }} />
                 }
 
             </View>
@@ -298,7 +297,7 @@ const ItemSalaryIncome = ({ placeholder, onFocus, maxLength, value, onChangeText
                         unit: '',
                         suffixUnit: ''
                     }}
-                    style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
+                    style={{ flex: 1, fontSize: scaleSize(14), color: '#404040', }}
                     placeholder={placeholder}
                     value={value}
                     onChangeText={(value) => onChangeText(value)}
@@ -315,17 +314,17 @@ const styles = StyleSheet.create({
     title: {
         color: "#404040",
         fontWeight: '500',
-        fontSize: scaleSzie(13)
+        fontSize: scaleSize(13)
     },
     box_input_border: {
         flex: 1,
-        paddingRight: scaleSzie(20)
+        paddingRight: scaleSize(20)
     },
     input_border: {
         flex: 1,
         borderColor: '#C5C5C5',
         borderWidth: 1,
-        paddingHorizontal: scaleSzie(5)
+        paddingHorizontal: scaleSize(5)
     }
 
 })

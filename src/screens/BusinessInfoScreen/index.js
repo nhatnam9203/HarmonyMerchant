@@ -2,7 +2,7 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 
 class BusinessInfoScreen extends Layout {
 
@@ -50,7 +50,7 @@ class BusinessInfoScreen extends Layout {
     }
 
     scrollBusinessTo(position) {
-        this.srollBusinessRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
+        this.srollBusinessRef.current.scrollTo({ x: 0, y: scaleSize(position), animated: true })
     }
 
     updateBusinessInfo(key, value, keyParent = '') {

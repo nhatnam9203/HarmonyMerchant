@@ -6,7 +6,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 import IMAGE from '@resources';
 
 class RowTable extends React.Component {
@@ -31,18 +31,18 @@ class RowTable extends React.Component {
     }
 
     render() {
-        
+
         return (
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={[{
-                    width: scaleSzie(60),
+                    width: scaleSize(60),
                     flexDirection: 'row',
                     justifyContent: 'space-around',
                     alignItems: 'center'
                 }]} >
                     <Image source={IMAGE.indicate}
-                        style={{ width: scaleSzie(12), height: scaleSzie(29) }}
+                        style={{ width: scaleSize(12), height: scaleSize(29) }}
                     />
                     <Text style={styles.textTableHeader} >
                         {/* {`${index}.`} */}
@@ -50,56 +50,56 @@ class RowTable extends React.Component {
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
-                    width: scaleSzie(200), flexDirection: 'row',
+                    width: scaleSize(200), flexDirection: 'row',
                 }} >
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(5) }} >
                         <Text style={styles.textTableHeader} >
                             {/* {staff.name} */}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 3 ------ */}
                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                    width: scaleSize(110), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(5) }} >
                         <Text style={styles.textTableHeader} >
                             {/* {staff.id} */}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 4 ------ */}
                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                    width: scaleSize(110), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(5) }} >
                         <Text style={styles.textTableHeader} >
                             {/* {staff.role} */}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 5 ----- */}
                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                    width: scaleSize(110), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(5) }} >
                         <Text style={styles.textTableHeader} >
                             {/* {staff.status} */}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: scaleSzie(60),
+        height: scaleSize(60),
         backgroundColor: '#FAFAFA',
         borderWidth: 0.5,
         borderColor: '#C5C5C5',
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#C5C5C5',
-        fontSize: scaleSzie(14)
+        fontSize: scaleSize(14)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',

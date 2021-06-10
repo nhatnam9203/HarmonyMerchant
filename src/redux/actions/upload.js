@@ -1,11 +1,11 @@
-import apiConfigs from '../../configs/api';
+import Configs from '@configs';
 
 export function uploadAvatar(files) {
     return {
         type: 'UPLOAD_AVATAR',
         method: 'POST',
         media: files,
-        api: `${apiConfigs.BASE_API}file?category=avatar`
+        api: `file?category=avatar`
     }
 }
 
@@ -20,7 +20,7 @@ export function uploadBanner(files, infoBanner, merchantId) {
         type: 'UPLOAD_BANNER',
         method: 'POST',
         media: files,
-        api: `${apiConfigs.BASE_API}file?category=avatar`,
+        api: `file?category=avatar`,
         infoBanner,
         merchantId
     }
@@ -31,7 +31,7 @@ export function exportBatchHistory(key = "", timeStart = "", timeEnd = "", quick
         type: 'EXPORT_BATCH_HISTORY',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}settlement/search/export?key=${key}&timeStart=${timeStart}&timeEnd=${timeEnd}&quickFilter=${quickFilter}&page=${page}`,
+        api: `settlement/search/export?key=${key}&timeStart=${timeStart}&timeEnd=${timeEnd}&quickFilter=${quickFilter}&page=${page}`,
     }
 }
 
@@ -40,7 +40,7 @@ export function exportBatchDetail(settlementId) {
         type: 'EXPORT_BATCH_DETAIL',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}settlement/search/export/${settlementId}
+        api: `settlement/search/export/${settlementId}
         `,
     }
 }

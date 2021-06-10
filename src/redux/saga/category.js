@@ -1,7 +1,7 @@
 import { put, takeLatest, all } from "redux-saga/effects";
 
 import { requestAPI } from '../../utils';
-import apiConfigs from '../../configs/api';
+import Configs from '@configs';
 
 function* addCategory(action) {
     try {
@@ -16,7 +16,7 @@ function* addCategory(action) {
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}category/search?name=${keySearch}&status=${status}&type=${category}`,
+                api: `category/search?name=${keySearch}&status=${status}&type=${category}`,
                 isShowLoading: true,
                 searchFilter:  action?.searchFilter || false
             })
@@ -86,7 +86,7 @@ function* archiveCategory(action) {
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}category/search?name=${keySearch}&status=${status}&type=${category}`,
+                api: `category/search?name=${keySearch}&status=${status}&type=${category}`,
                 isShowLoading: true,
                 searchFilter: action?.searchFilter || false
             })
@@ -120,7 +120,7 @@ function* restoreCategory(action) {
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}category/search?name=${keySearch}&status=${status}&type=${category}`,
+                api: `category/search?name=${keySearch}&status=${status}&type=${category}`,
                 isShowLoading: true,
                 searchFilter:  action?.searchFilter || false
             })
@@ -154,7 +154,7 @@ function* editCategory(action) {
                 type: 'GET_CATEGORIES_BY_MERCHANR_ID',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}category/search?name=${keySearch}&status=${status}&type=${category}`,
+                api: `category/search?name=${keySearch}&status=${status}&type=${category}`,
                 isShowLoading: true,
                 searchFilter: action?.searchFilter || false
             })
@@ -208,7 +208,7 @@ function* updatePositionCategories(action) {
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { FooterTab, PopupConfirm,PopupAddEditProduct} from '@components';
-import { scaleSzie, getCategoryName ,getArrayNameCategories,localize} from '@utils';
+import { scaleSize, getCategoryName ,getArrayNameCategories,localize} from '@utils';
 import HeaderTableProducts from './HeaderTableProducts';
 import RowTableProducts from './RowTableProducts';
 import RowEmptyTableProducts from './RowEmptyTableProducts';
@@ -68,7 +68,7 @@ class TabProducts extends React.Component {
     })
         const { serviceInfoHandle } = this.state;
         this.props.actions.product.archiveProduct(serviceInfoHandle.productId);
-    
+
     }
 
   async  restoreStaffYess() {
@@ -77,7 +77,7 @@ class TabProducts extends React.Component {
     })
         const { serviceInfoHandle } = this.state;
         this.props.actions.product.restoreProduct(serviceInfoHandle.productId);
-     
+
     }
 
     async editService(product) {
@@ -85,7 +85,7 @@ class TabProducts extends React.Component {
             visibleEdit: true
         })
         this.editProductRef.current.setProductInfoFromParent(product);
-   
+
     }
 
     showModalAddProduct = () => {
@@ -101,13 +101,13 @@ class TabProducts extends React.Component {
     addProduct =async product => {
         await this.setState({ visibleAdd: false })
         this.props.actions.product.addProductByMerchant(product);
-       
+
     }
 
     editProduct = async product => {
         await this.setState({ visibleEdit: false })
         this.props.actions.product.editProduct(product, product.productId);
-      
+
     }
 
     renderTable() {
@@ -141,7 +141,7 @@ class TabProducts extends React.Component {
     render() {
         const {language} = this.props;
         const { visibleArchive, visibleRestore, visibleAdd, visibleEdit } = this.state;
-        
+
         return (
             <View style={styles.container} >
                 {this.renderTable()}
@@ -193,7 +193,7 @@ class TabProducts extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: scaleSzie(12)
+        paddingTop: scaleSize(12)
     },
 })
 

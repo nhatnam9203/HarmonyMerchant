@@ -25,7 +25,11 @@ const initialState = {
     promotionNotes: {},
     isDiscountByOwner: true,
     visiblePopupCheckDiscountPermission: false,
-    visiblePopupCheckDiscountPermissionInHome: false
+    visiblePopupCheckDiscountPermissionInHome: false,
+
+    promotionDetailById: {},
+    isUpdatePromotionById: false,
+    smsInfoMarketing: {}
 }
 
 function marketingReducer(state = initialState, action) {
@@ -162,6 +166,36 @@ function marketingReducer(state = initialState, action) {
                 ...state,
                 visiblePopupCheckDiscountPermissionInHome: action?.payload
             }
+        case "GET_PROMOTION_DETAIL_BY_ID_SUCCESS":
+            return {
+                ...state,
+                promotionDetailById: action.payload
+            }
+        case "UPDATE_PROMOTION_BY_ID":
+            return {
+                ...state,
+                isUpdatePromotionById: false
+            }
+        case "UPDATE_PROMOTION_BY_ID_SUCCESS":
+            return {
+                ...state,
+                isUpdatePromotionById: true
+            }
+        case "RESET_STATE_IS_UPDATE_PROMOTION_BY_ID":
+            return {
+                ...state,
+                isUpdatePromotionById: false
+            }
+        case "GET_SMS_INFORMATION_SUCCESS":
+            return {
+                ...state,
+                smsInfoMarketing: action.payload
+            }
+        case "RESET_STATE_PROMOTION_DETAIL_BY_ID":
+            return {
+                ...state,
+                promotionDetailById: {}
+            }
         case 'LOGOUT_APP':
             return {
                 ...initialState,
@@ -172,9 +206,11 @@ function marketingReducer(state = initialState, action) {
     }
 }
 
-module.exports = persistReducer({
-    key: 'marketing',
-    storage: AsyncStorage,
-    whitelist: ['listBanners', 'promotions']
-}, marketingReducer);
+// module.exports = persistReducer({
+//     key: 'marketing',
+//     storage: AsyncStorage,
+//     whitelist: ['listBanners', 'promotions']
+// }, marketingReducer);
 
+
+export default marketingReducer;

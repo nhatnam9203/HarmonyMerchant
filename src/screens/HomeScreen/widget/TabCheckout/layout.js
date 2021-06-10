@@ -3,12 +3,13 @@ import {
     View,
     Image,
     ScrollView,
+    FlatList
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
-import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, checkCategoryIsNotExist ,
-    getArrayProductsFromAppointment,getArrayServicesFromAppointment
+import {
+    scaleSize, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, checkCategoryIsNotExist,
 } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
@@ -16,106 +17,74 @@ import {
     PopupChangePriceAmountProduct, PopupChangeTip, ScrollableTabView, PopupCheckStaffPermission
 } from '@components';
 import styles from './style';
-import IMAGE from '@resources';
+import ICON from '@resources';
 import {
     ItemCategory, ItemProductService, ItemAmount,
     ItemExtra, PopupDiscount, PopupBill, PopupDiscountLocal, ItemCustomerBasket, PopupPaymentDetails, ItemBlockBasket,
     PopupBlockDiscount, ItemPaymentMethod,
-    ShadowLineLeftToRight,
-    ShadowLineRightToLeft,
-    ShadowLineShort, PopupChangeCustomerInfo, PopupAddItemIntoAppointments, PopupGiftCardDetail,
-    PopupEnterAmountGiftCard
+    PopupAddItemIntoAppointments, PopupGiftCardDetail,
+    PopupEnterAmountGiftCard, EnterCustomerPhonePopup, PopupAddEditCustomer,
+    ErrorMessagePaxModal
 } from './widget';
+
+import { StaffItem } from "./widget/NewCheckoutComponent";
 
 class Layout extends React.Component {
 
     renderHeader() {
         const { language, groupAppointment, customerInfoBuyAppointment } = this.props;
-
-        let firstName = customerInfoBuyAppointment.firstName ? customerInfoBuyAppointment.firstName : "";
-        let lastName = customerInfoBuyAppointment.lastName ? customerInfoBuyAppointment.lastName : "";
-        let phone = customerInfoBuyAppointment.phone ? customerInfoBuyAppointment.phone : "";
-        const name = `${firstName} ${lastName}`;
+        let firstName = customerInfoBuyAppointment?.firstName || "";
+        let lastName = customerInfoBuyAppointment?.lastName || "";
+        let phone = customerInfoBuyAppointment?.phone || "";
+        let customerId = customerInfoBuyAppointment?.customerId || 0;
+        const displayName = `${firstName} ${lastName}`;
+        const firstLetter = customerInfoBuyAppointment?.firstName ? customerInfoBuyAppointment?.firstName[0] : "";
 
         return (
             <View style={styles.headerContainer} >
-                <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                    <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12) }]} >
-                        {`${localize('Customer', language)}:`}
-                    </Text>
-                    {
-                        name.trim() == '' ?
-                            <ButtonCustom
-                                width={scaleSzie(100)}
-                                height={30}
-                                backgroundColor="#F8F8F8"
-                                title={localize('Enter Name', language)}
-                                textColor="#404040"
-                                onPress={this.displayPopupCustomerInfo}
-                                style={{
-                                    borderWidth: 1, borderColor: '#EEEEEE',
-                                    borderRadius: scaleSzie(3),
-                                    marginHorizontal: scaleSzie(14),
-                                    alignItems: "flex-start",
-                                    paddingHorizontal: scaleSzie(10)
-                                }}
-                                styleText={{ fontSize: scaleSzie(12), fontWeight: "500" }}
-                            />
-                            :
-                            <View style={{
-                                backgroundColor: "#F8F8F8", height: scaleSzie(30), justifyContent: "center",
-                                paddingRight: scaleSzie(30), paddingLeft: scaleSzie(8), borderWidth: 1, borderColor: '#EEEEEE', borderRadius: scaleSzie(3),
-                                marginLeft: scaleSzie(15), marginRight: scaleSzie(20)
-                            }} >
-                                <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12), color: "#404040", fontWeight: "600" }]} >
-                                    {`${name}`}
-                                </Text>
-                            </View>
-                    }
+                {
+                    customerId ? <Button onPress={this.displayCustomerInfoPopup} style={{ flexDirection: 'row', alignItems: 'center' }} >
+                        <View style={styles.avatar_box} >
+                            <Text style={styles.txt_avatar} >
+                                {`${firstLetter}`}
+                            </Text>
+                        </View>
+                        <View style={{ marginLeft: scaleSize(12) }} >
+                            <Text style={styles.txt_customer_name} >
+                                {`${displayName}`}
+                            </Text>
+                            <Text style={styles.txt_customer_phone} >
+                                {`${phone}`}
+                            </Text>
+                        </View>
 
-                    <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12) }]} >
-                        {`${localize('Phone', language)}:`}
-                    </Text>
-                    {
-                        phone.trim() == '' ?
-                            <ButtonCustom
-                                width={scaleSzie(100)}
-                                height={30}
-                                backgroundColor="#F8F8F8"
-                                title={localize('Enter Phone', language)}
-                                textColor="#404040"
-                                onPress={this.displayPopupCustomerInfo}
-                                style={{
-                                    borderWidth: 1, borderColor: '#EEEEEE',
-                                    borderRadius: scaleSzie(3),
-                                    marginHorizontal: scaleSzie(14),
-                                    alignItems: "flex-start",
-                                    paddingHorizontal: scaleSzie(10)
-                                }}
-                                styleText={{ fontSize: scaleSzie(12), fontWeight: "500" }}
-                            />
-                            :
-                            <View style={{
-                                backgroundColor: "#F8F8F8", height: scaleSzie(30), justifyContent: "center",
-                                paddingRight: scaleSzie(30), paddingLeft: scaleSzie(8), borderWidth: 1, borderColor: '#EEEEEE', borderRadius: scaleSzie(3),
-                                marginLeft: scaleSzie(15)
-                            }} >
-                                <Text onPress={this.displayPopupCustomerInfo} style={[styles.textHeader, { fontSize: scaleSzie(12), fontWeight: "600" }]} >
-                                    {phone}
-                                </Text>
-                            </View>
-                    }
+                        {/* -------- Enter other number --------- */}
+                        <Button onPress={this.displayEnterUserPhonePopup} >
+                            <Text style={styles.txt_enter_other_phone_number} >
+                                {`Enter another phone`}
+                            </Text>
+                        </Button>
 
-                </View>
+                    </Button> :
+                        <Button onPress={this.displayEnterUserPhonePopup} style={{ flexDirection: 'row', alignItems: 'center' }} >
+                            <Image source={ICON.checkout_customer_icon} style={{ width: scaleSize(30), height: scaleSize(30) }} />
+                            <Text style={{ color: "#404040", fontSize: scaleSize(12), fontWeight: "600", marginHorizontal: scaleSize(8) }} >
+                                {`Walking Customer`}
+                            </Text>
+                            <Image source={ICON.add_customer_info_checkout_tab} style={{ width: scaleSize(20), height: scaleSize(20) }} />
+                        </Button>
+                }
+
+
+
                 {/* -------- Button open cash -------- */}
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'row' }} >
                     {
-                        !_.isEmpty(groupAppointment) ? <Button onPress={this.printTemptInvoice} style={[styles.btnCashier, { marginRight: scaleSzie(8) }]} >
-                            <Image source={IMAGE.print_btn}
-                                style={{ width: scaleSzie(14), height: scaleSzie(16) }}
+                        !_.isEmpty(groupAppointment) ? <Button onPress={this.printTemptInvoice} style={[styles.btnCashier, { marginRight: scaleSize(8) }]} >
+                            <Image source={ICON.print_btn}
+                                style={{ width: scaleSize(14), height: scaleSize(16) }}
                             />
-                            <Text style={styles.textBtnCashier} >
-
+                            <Text style={[styles.textBtnCashier, { fontSize: scaleSize(9), fontWeight: "500" }]} >
                                 {localize('Print receipt', language)}
                             </Text>
                         </Button> : <View />
@@ -123,11 +92,11 @@ class Layout extends React.Component {
 
 
                     <Button onPress={this.checkStatusCashier} style={styles.btnCashier} >
-                        <Image source={IMAGE.cashier_btn}
-                            style={{ width: scaleSzie(16), height: scaleSzie(13) }}
+                        <Image source={ICON.cashier_btn}
+                            style={{ width: scaleSize(16), height: scaleSize(13) }}
                         />
-                        <Text style={[styles.textBtnCashier, { fontSize: scaleSzie(9), fontWeight: "500" }]} >
-                            {localize('Open Cash Drawer', language)}
+                        <Text style={[styles.textBtnCashier, { fontSize: scaleSize(9), fontWeight: "500" }]} >
+                            {localize('Open Cashier', language)}
                         </Text>
                     </Button>
 
@@ -136,10 +105,55 @@ class Layout extends React.Component {
         );
     }
 
+
+    renderStaffColumn() {
+        const { staffListCurrentDate } = this.props;
+        const { isShowCategoriesColumn, selectedStaff, isBlockBookingFromCalendar } = this.state;
+        const tempWidth = isShowCategoriesColumn ? 70 : 180;
+        const tempStyleBox = isShowCategoriesColumn ? styles.staff_column_box_small : {};
+
+        return (
+            <View style={[{ width: scaleSize(tempWidth) }, styles.staff_column_box, tempStyleBox]} >
+                {/* ----------  StaffColumn Header ----------  */}
+                <View style={styles.staff_column_header} >
+                    <Text style={styles.txt_staff_column_header, styles.txt_category_header_extra} >
+                        {`Staff`}
+                    </Text>
+                </View>
+
+                {/* ----------  StaffColumn Header ----------  */}
+                <View style={{ flex: 1 }} >
+                    <FlatList
+                        ref={this.staffFlatListRef}
+                        data={staffListCurrentDate}
+                        renderItem={({ item, index }) => <StaffItem
+                            staff={item}
+                            displayCategoriesColumn={this.displayCategoriesColumn(item)}
+                            selectedStaff={selectedStaff}
+                        />}
+                        extraData={selectedStaff}
+                        keyExtractor={(item, index) => `${item?.staffId}_${index}`}
+                        showsVerticalScrollIndicator={false}
+                    />
+                </View>
+                {
+                    isBlockBookingFromCalendar && <View style={{
+                        flex: 1, position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
+                        backgroundColor: "rgba(255,255,255,0.5)"
+                    }} />
+                }
+
+
+            </View>
+        );
+    }
+
     renderCategoriesCheckout() {
         const { language, categoriesByMerchant, groupAppointment } = this.props;
         const { isShowColProduct } = this.state;
-        const temptWidth = isShowColProduct ? 120 : 202;
+        let tempWidth = 180;
+        tempWidth = isShowColProduct ? 100 : tempWidth;
+
         const temptColorHeader = isShowColProduct ? { color: '#6A6A6A' } : {};
         const categoriesFilter = categoriesByMerchant.filter((category, index) => category.isDisabled === 0);
 
@@ -176,10 +190,7 @@ class Layout extends React.Component {
         }
 
         return (
-            <View style={{
-                width: scaleSzie(temptWidth),
-                borderLeftColor: "#DDDDDD", borderLeftWidth: 1
-            }} >
+            <View style={[{ width: scaleSize(tempWidth) }, styles.categories_column_box]} >
                 {/* ------- Header ----- */}
                 <View style={[styles.categoriesHeader,]} >
                     <Text style={[styles.textHeader, temptColorHeader, styles.txt_category_header_extra]} >
@@ -219,159 +230,105 @@ class Layout extends React.Component {
     }
 
     renderProductCheckout() {
-        const { language,groupAppointment} = this.props;
-        const { isShowColProduct, isShowColAmount, categorySelected, productSeleted,
+        const { language, groupAppointment } = this.props;
+        const { isShowColAmount, categorySelected, productSeleted,
             categoryTypeSelected,
         } = this.state;
-        let temptWidth = isShowColProduct ? 224 : 122;
-        temptWidth = isShowColAmount ? (72 + 60) : temptWidth;
+        let tempWidth = 200
+        tempWidth = isShowColAmount ? 120 : tempWidth;
         const temptColorHeader = isShowColAmount ? { color: '#6A6A6A' } : {};
         const data = this.getDataColProduct();
-        const temptWidht = isShowColAmount ? {} : { borderRightColor: "#DDDDDD", borderRightWidth: 1 };
+        const tempTitle = categorySelected?.categoryType === "Service" ? "Services" : "Products";
 
         return (
-            <View style={{ width: scaleSzie(temptWidth) }} >
-                {
-                    !isShowColProduct ?
-                        <View style={{
-                            flex: 1, borderRightColor: "#DDDDDD", borderRightWidth: 1, flexDirection: "row",
-                            backgroundColor: "#fff"
-                        }} >
-                            <ShadowLineLeftToRight />
-                        </View>
-                        :
-                        <View style={{
-                            flex: 1, flexDirection: 'row',
-                        }} >
-                            {/* ------- Shadow Line ----- */}
-                            <View style={{
-                                flexDirection: "row",
-                                backgroundColor: "#fff"
-                            }} >
-                                <ShadowLineRightToLeft />
-                            </View>
-
-                            <View style={[{
-                                flex: 1,
-                            }, temptWidht]} >
-                                {/* ----- Header ---- */}
-                                <View style={[styles.categoriesHeader,]} >
-                                    <Text style={[styles.textHeader, temptColorHeader, styles.txt_category_header_extra]} >
-                                        {localize(categorySelected.categoryType, language)}
-                                    </Text>
-                                </View>
-                                {/* --------- List ------- */}
-                                <View style={{ flex: 1 }} >
-                                    <ScrollView
-                                        showsVerticalScrollIndicator={false}
-                                        keyboardShouldPersistTaps="always"
-                                    >
-                                        {
-                                            data.map((item, index) => <ItemProductService
-                                                key={index}
-                                                item={item}
-                                                showColAmount={this.showColAmount}
-                                                colorText={temptColorHeader}
-                                                itemSelected={productSeleted}
-                                                categoryTypeSelected={categoryTypeSelected}
-                                                isShowColAmount={isShowColAmount}
-                                                groupAppointment={groupAppointment}
-                                            />)
-                                        }
-                                    </ScrollView>
-                                </View>
-                            </View>
-                        </View>
-                }
+            <View style={[{ width: scaleSize(tempWidth) }, styles.product_column_box]} >
+                {/* ----- Header ---- */}
+                <View style={[styles.categoriesHeader,]} >
+                    <Text style={[styles.textHeader, temptColorHeader, styles.txt_category_header_extra]} >
+                        {localize(tempTitle, language)}
+                    </Text>
+                </View>
+                {/* --------- List ------- */}
+                <View style={{ flex: 1 }} >
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        keyboardShouldPersistTaps="always"
+                    >
+                        {
+                            data.map((item, index) => <ItemProductService
+                                key={index}
+                                item={item}
+                                showColAmount={this.showColAmount}
+                                colorText={temptColorHeader}
+                                itemSelected={productSeleted}
+                                categoryTypeSelected={categoryTypeSelected}
+                                isShowColAmount={isShowColAmount}
+                                groupAppointment={groupAppointment}
+                            />)
+                        }
+                    </ScrollView>
+                </View>
             </View>
 
         );
     }
 
     renderAmountCheckout() {
-        const { language,groupAppointment } = this.props;
-        const { isShowColAmount, categorySelected, categoryTypeSelected, productSeleted, isShowColProduct, arrSelectedExtra } = this.state;
-        const temptWidth = isShowColAmount ? (254 - 60) : 102;
+        const { language, groupAppointment } = this.props;
+        const { categorySelected, categoryTypeSelected, productSeleted, isShowColProduct, arrSelectedExtra } = this.state;
         const temptHeader = categorySelected.categoryType === 'Service' ? 'Extra' : 'Amount';
-        const atualWidth = !isShowColAmount && !isShowColProduct ? 122 : temptWidth;
 
         return (
-            <View style={{ width: scaleSzie(atualWidth) }} >
-                {
-                    !isShowColAmount ?
-                        <View style={{
-                            flex: 1, borderRightColor: "#DDDDDD", borderRightWidth: 1, flexDirection: "row",
-                            backgroundColor: "#fff"
-                        }} >
-                            {isShowColProduct ? <ShadowLineLeftToRight /> : null}
-                        </View>
-                        :
-                        <View style={{ flex: 1, flexDirection: 'row' }} >
-                            {/* ------- Shadow Line ----- */}
-                            <View style={{
-                                flexDirection: "row",
-                                backgroundColor: "#fff"
-                            }} >
-                                <ShadowLineShort />
-                            </View>
-                            <View style={{
-                                flex: 1, borderLeftColor: "#DDDDDD", borderLeftWidth: 1,
-                                borderRightColor: "#DDDDDD", borderRightWidth: 1
-                            }} >
-                                {/* ----- Header ---- */}
-                                <View style={[styles.categoriesHeader,]} >
-                                    <Text style={[styles.textHeader, styles.txt_category_header_extra]} >
-                                        {localize(temptHeader, language)}
-                                    </Text>
-                                </View>
-                                {/* ------- Content ----- */}
-                                <View style={{ flex: 1 }} >
-                                    {
-                                        categoryTypeSelected === 'Product' ? <ItemAmount
-                                            ref={this.amountRef}
-                                            price={productSeleted.price}
-                                        /> : <ScrollView keyboardShouldPersistTaps="always" >
-                                                {
-                                                    (this.getExtrasFromRedux(productSeleted)).map((extra, index) => <ItemExtra
-                                                        key={index}
-                                                        extra={extra}
-                                                        onPressSelectExtra={this.onPressSelectExtra}
-                                                        arrSelectedExtra={arrSelectedExtra}
-                                                        groupAppointment={groupAppointment}
-                                                    />)
-                                                }
-                                            </ScrollView>
-                                    }
+            <View style={[{ flex: 1 }, styles.product_column_box]} >
+                <View style={{
+                    flex: 1, borderLeftColor: "#DDDDDD", borderLeftWidth: 1,
+                    borderRightColor: "#DDDDDD", borderRightWidth: 1
+                }} >
+                    {/* ----- Header ---- */}
+                    <View style={[styles.categoriesHeader,]} >
+                        <Text style={[styles.textHeader, styles.txt_category_header_extra]} >
+                            {localize(temptHeader, language)}
+                        </Text>
+                    </View>
+                    {/* ------- Content ----- */}
+                    <View style={{ flex: 1 }} >
+                        {
+                            categoryTypeSelected === 'Product' ? <ItemAmount
+                                ref={this.amountRef}
+                                price={productSeleted.price}
+                            /> : <ScrollView keyboardShouldPersistTaps="always" >
+                                {
+                                    (this.getExtrasFromRedux(productSeleted)).map((extra, index) => <ItemExtra
+                                        key={index}
+                                        extra={extra}
+                                        onPressSelectExtra={this.onPressSelectExtra}
+                                        arrSelectedExtra={arrSelectedExtra}
+                                        groupAppointment={groupAppointment}
+                                    />)
+                                }
+                            </ScrollView>
+                        }
 
-                                </View>
-                                {/* ------- Footer -------- */}
-                                <View style={{ height: scaleSzie(52), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
-                                    <ButtonCustom
-                                        width={`100%`}
-                                        backgroundColor="#F1F1F1"
-                                        title={localize('ADD', language)}
-                                        textColor="#6A6A6A"
-                                        onPress={this.addAmount}
-                                        style={{
-                                            borderWidth: 1, borderColor: '#C5C5C5',
-                                            backgroundColor: '#0764B0',
-                                            flex: 1
-                                        }}
-                                        styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold', color: '#fff' }}
-                                    />
-                                </View>
+                    </View>
+                    {/* ------- Footer -------- */}
+                    <View style={{ height: scaleSize(52), paddingHorizontal: scaleSize(6), paddingBottom: scaleSize(8) }} >
+                        <ButtonCustom
+                            width={`100%`}
+                            backgroundColor="#F1F1F1"
+                            title={localize('ADD', language)}
+                            textColor="#6A6A6A"
+                            onPress={this.addAmount}
+                            style={{
+                                borderWidth: 1, borderColor: '#C5C5C5',
+                                backgroundColor: '#0764B0',
+                                flex: 1,
+                                borderRadius: 4
+                            }}
+                            styleText={{ fontSize: scaleSize(19), fontWeight: 'bold', color: '#fff' }}
+                        />
+                    </View>
 
-                            </View>
-
-                            {/* ------- Shadow Line ----- */}
-                            <View style={{
-                                flexDirection: "row",
-                                backgroundColor: "#fff"
-                            }} >
-                                <ShadowLineLeftToRight />
-                            </View>
-                        </View>
-                }
+                </View>
             </View>
 
         );
@@ -379,7 +336,7 @@ class Layout extends React.Component {
     }
 
     renderGroupAppointments() {
-        const { language, groupAppointment, paymentDetailInfo, isOfflineMode } = this.props;
+        const { language, groupAppointment, paymentDetailInfo, isOfflineMode, isBookingFromCalendar } = this.props;
         const { basket, subTotalLocal, tipLocal, discountTotalLocal, taxLocal } = this.state;
         const appointments = groupAppointment.appointments ? groupAppointment.appointments : [];
         const temptGrandTotal = groupAppointment.total ? groupAppointment.total : 0;
@@ -429,13 +386,13 @@ class Layout extends React.Component {
                     }
                     {/* ----------- Grand Total ----------- */}
                     {
-                        parseFloat(tempTotal) > 0 ? <View style={{ paddingHorizontal: scaleSzie(10) }} >
-                            <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
+                        parseFloat(tempTotal) > 0 ? <View style={{ paddingHorizontal: scaleSize(10) }} >
+                            <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSize(10), marginBottom: scaleSize(15) }} />
                             <View style={styles.payNumberTextContainer} >
-                                <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#0764B0" }]} >
+                                <Text style={[styles.textPay, { fontSize: scaleSize(18), fontWeight: "600", color: "#0764B0" }]} >
                                     {`${localize('Grand Total', language)}:`}
                                 </Text>
-                                <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
+                                <Text style={[styles.textPay, { fontSize: scaleSize(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
                                     {`$ ${formatMoney(tempTotal)}`}
                                 </Text>
                             </View>
@@ -445,18 +402,18 @@ class Layout extends React.Component {
 
                     {/* ----------- Paid Amount ----------- */}
                     {
-                        !_.isEmpty(paymentDetailInfo) ? <View style={{ paddingHorizontal: scaleSzie(10), marginBottom: scaleSzie(8) }} >
-                            <View style={{ height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
+                        !isBookingFromCalendar && !_.isEmpty(paymentDetailInfo) ? <View style={{ paddingHorizontal: scaleSize(10), marginBottom: scaleSize(8) }} >
+                            <View style={{ height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSize(10), marginBottom: scaleSize(15) }} />
                             {/* ---------- Paid amount ------ */}
                             {
-                                paidAmounts.map((paidAmountInfo, index) => <View key={index} style={[styles.payNumberTextContainer, { justifyContent: 'space-between', marginBottom: scaleSzie(8) }]} >
-                                    <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#404040" }]} >
+                                paidAmounts.map((paidAmountInfo, index) => <View key={index} style={[styles.payNumberTextContainer, { justifyContent: 'space-between', marginBottom: scaleSize(8) }]} >
+                                    <Text style={[styles.textPay, { fontSize: scaleSize(18), fontWeight: "600", color: "#404040" }]} >
                                         {`${localize('Paid ', language)}`}
-                                        <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "300", color: '#404040' }]} >
+                                        <Text style={[styles.textPay, { fontSize: scaleSize(18), fontWeight: "300", color: '#404040' }]} >
                                             {` (${paidAmountInfo.paymentMethod})`}
                                         </Text>
                                     </Text>
-                                    <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: '#404040' }]} >
+                                    <Text style={[styles.textPay, { fontSize: scaleSize(18), fontWeight: "600", color: '#404040' }]} >
                                         {`  $ ${formatMoney(paidAmountInfo.amount)}`}
                                     </Text>
 
@@ -466,11 +423,11 @@ class Layout extends React.Component {
 
                             {/* ---------- Due amount ------ */}
                             {
-                                paymentDetailInfo.dueAmount ? <View style={[styles.payNumberTextContainer, { justifyContent: 'space-between', }]} >
-                                    <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#FF3B30" }]} >
+                                !isBookingFromCalendar && paymentDetailInfo.dueAmount ? <View style={[styles.payNumberTextContainer, { justifyContent: 'space-between', }]} >
+                                    <Text style={[styles.textPay, { fontSize: scaleSize(18), fontWeight: "600", color: "#FF3B30" }]} >
                                         {`${localize('Amount Due', language)}:`}
                                     </Text>
-                                    <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: '#FF3B30' }]} >
+                                    <Text style={[styles.textPay, { fontSize: scaleSize(18), fontWeight: "600", color: '#FF3B30' }]} >
                                         {`   $ ${formatMoney(paymentDetailInfo.dueAmount)}`}
 
                                     </Text>
@@ -478,7 +435,7 @@ class Layout extends React.Component {
                             }
                         </View> : <View />
                     }
-                    <View style={{ height: scaleSzie(50) }} />
+                    <View style={{ height: scaleSize(50) }} />
                 </ScrollView>
             </View>
         );
@@ -522,55 +479,52 @@ class Layout extends React.Component {
                     />)}
 
                     {/* ----------- Grand Total ----------- */}
-                    <View style={{ paddingHorizontal: scaleSzie(10), marginTop: scaleSzie(15) }} >
-                        <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
+                    <View style={{ paddingHorizontal: scaleSize(10), marginTop: scaleSize(15) }} >
+                        <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSize(10), marginBottom: scaleSize(15) }} />
                         {/* ---------- Tip ------ */}
                         <View style={styles.payNumberTextContainer} >
-                            <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#0764B0" }]} >
+                            <Text style={[styles.textPay, { fontSize: scaleSize(18), fontWeight: "600", color: "#0764B0" }]} >
                                 {`${localize('Grand Total', language)}:`}
                             </Text>
-                            <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
+                            <Text style={[styles.textPay, { fontSize: scaleSize(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
                                 {`$ ${formatMoney(temptGrandTotal)}`}
                             </Text>
                         </View>
                     </View>
 
 
-                    <View style={{ height: scaleSzie(70) }} />
+                    <View style={{ height: scaleSize(70) }} />
                 </ScrollView>
             </View>
         );
     }
 
     renderBasket() {
-        const { language, groupAppointment, paymentDetailInfo, blockAppointments } = this.props;
+        const { language, groupAppointment, paymentDetailInfo, blockAppointments, isBookingFromCalendar } = this.props;
+        const { isShowColAmount } = this.state;
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         const length_blockAppointments = blockAppointments ? blockAppointments.length : 0;
         const isShowAddBlock = length_blockAppointments > 0 && blockAppointments[length_blockAppointments - 1].total != "0.00" ? true : false;
+        const tempStyle = !isShowColAmount ? { borderLeftWidth: 3, borderLeftColor: "#EEEEEE" } : {};
 
         return (
-            <View style={{
-                flex: 1,
-                zIndex: 1,
-                backgroundColor: "#fff"
-            }} >
+            <View style={[styles.basket_box, tempStyle]} >
                 {/* -------- Header Basket -------- */}
                 <View style={[styles.headerBasket, {
-                    flexDirection: "row", paddingHorizontal: scaleSzie(8),
+                    flexDirection: "row", paddingHorizontal: scaleSize(8),
                     backgroundColor: "#F1F1F1"
                 },]} >
                     <View style={{ flex: 1 }} />
-                    <Text style={[styles.textHeader, { fontWeight: "600", fontSize: scaleSzie(16) }]} >
+                    <Text style={[styles.textHeader, { fontWeight: "600", fontSize: scaleSize(16) }]} >
                         {localize('Basket', language)}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         {
-                            (!_.isEmpty(groupAppointment) && checkoutPayments.length === 0)
-                                || (blockAppointments.length && isShowAddBlock) > 0
+                            !isBookingFromCalendar && ((!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) || (blockAppointments.length && isShowAddBlock) > 0)
                                 ? <Button onPress={this.addAppointmentCheckout} >
                                     <Image
-                                        source={IMAGE.add_appointment_checkout}
-                                        style={{ width: scaleSzie(25), height: scaleSzie(25) }}
+                                        source={ICON.add_appointment_checkout}
+                                        style={{ width: scaleSize(25), height: scaleSize(25) }}
                                     />
                                 </Button> : <View />
                         }
@@ -584,7 +538,7 @@ class Layout extends React.Component {
                 }
 
                 {/* -------- Footer Basket -------- */}
-                <View style={{ height: scaleSzie(70), paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(8) }} >
+                <View style={{ height: scaleSize(52), paddingHorizontal: scaleSize(8), paddingBottom: scaleSize(8) }} >
                     {this.renderButtonChekout()}
                 </View>
             </View>
@@ -594,13 +548,9 @@ class Layout extends React.Component {
     renderPaymetsMethod() {
         const { language } = this.props;
         return (
-            <View style={{
-                flex: 1,
-                borderRightWidth: 1,
-                borderRightColor: 'rgb(197, 197, 197)',
-            }} >
-                <View style={[styles.payment_header, { paddingLeft: scaleSzie(20) }]} >
-                    <Text style={[styles.textHeader, { fontWeight: "600", fontSize: scaleSzie(15) }]} >
+            <View style={{ flex: 1, }} >
+                <View style={[styles.payment_header, { paddingLeft: scaleSize(20) }]} >
+                    <Text style={[styles.textHeader, { fontWeight: "600", fontSize: scaleSize(15) }]} >
                         {localize('Select payment method', language)}
                     </Text>
                 </View>
@@ -618,7 +568,7 @@ class Layout extends React.Component {
                 </View>
                 <View style={styles.box_payment_container} >
                     {
-                        ['Credit Card', 'Debit Card'].map((title, index) => <ItemPaymentMethod
+                        ['Credit Card', 'Other'].map((title, index) => <ItemPaymentMethod
                             key={index}
                             title={title}
                             selectedPayment={this.selectedPayment}
@@ -629,7 +579,7 @@ class Layout extends React.Component {
                 </View>
                 <View style={styles.box_payment_container} >
                     {
-                        ['Gift Card', 'Other'].map((title, index) => <ItemPaymentMethod
+                        ['Gift Card'].map((title, index) => <ItemPaymentMethod
                             key={index}
                             title={title}
                             selectedPayment={this.selectedPayment}
@@ -640,16 +590,15 @@ class Layout extends React.Component {
                 </View>
 
                 {/* ------ Footer ----- */}
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSize(8) }} >
                     <ButtonCustom
-                        width={scaleSzie(350)}
-                        height={60}
+                        width={scaleSize(300)}
                         title={localize('BACK', language)}
                         backgroundColor="#0764B0"
                         textColor="#fff"
                         onPress={this.backAddBasket}
-                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                        styleText={{ fontSize: scaleSzie(26) }}
+                        style={styles.btn_back}
+                        styleText={styles.txt_btn_basket}
                     />
                 </View>
 
@@ -659,7 +608,7 @@ class Layout extends React.Component {
 
 
     renderButtonChekout() {
-        const { language, isDonePayment, groupAppointment, blockAppointments } = this.props;
+        const { language, isDonePayment, groupAppointment, blockAppointments, isBookingFromCalendar } = this.props;
         const { tabCurrent, basket, paymentSelected, changeButtonDone, isCancelHarmonyPay
         } = this.state;
 
@@ -676,11 +625,8 @@ class Layout extends React.Component {
                             title={localize('CANCEL', language)}
                             textColor="#fff"
                             onPress={this.cancelHarmonyPayment}
-                            style={{
-                                borderWidth: 1, borderColor: '#C5C5C5',
-                                flex: 1
-                            }}
-                            styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                            style={styles.btn_basket}
+                            styleText={styles.txt_btn_basket}
                         />
                     );
                 }
@@ -691,11 +637,8 @@ class Layout extends React.Component {
                         title={localize('DONE', language)}
                         textColor="#6A6A6A"
                         onPress={() => { }}
-                        style={{
-                            borderWidth: 1, borderColor: '#C5C5C5',
-                            flex: 1
-                        }}
-                        styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                        style={styles.btn_basket}
+                        styleText={styles.txt_btn_basket}
                         activeOpacity={1}
                     />
                 );
@@ -706,11 +649,8 @@ class Layout extends React.Component {
                     title={localize('DONE', language)}
                     textColor="#fff"
                     onPress={() => { }}
-                    style={{
-                        borderWidth: 1, borderColor: '#C5C5C5',
-                        flex: 1
-                    }}
-                    styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                    style={styles.btn_basket}
+                    styleText={styles.txt_btn_basket}
                 />
             } else if (paymentSelected === '' || paymentSelected === "Gift Card" || !isAcceptPay) {
                 return (
@@ -720,12 +660,9 @@ class Layout extends React.Component {
                         title={localize('PAY', language)}
                         textColor="#6A6A6A"
                         onPress={() => { }}
-                        style={{
-                            borderWidth: 1, borderColor: '#C5C5C5',
-                            flex: 1
-                        }}
-                        styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                        style={styles.btn_basket}
                         activeOpacity={1}
+                        styleText={styles.txt_btn_basket}
                     />
                 );
             }
@@ -735,11 +672,8 @@ class Layout extends React.Component {
                 title={localize('PAY', language)}
                 textColor="#fff"
                 onPress={this.payBasket}
-                style={{
-                    borderWidth: 1, borderColor: '#C5C5C5',
-                    flex: 1
-                }}
-                styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
+                style={styles.btn_basket}
+                styleText={styles.txt_btn_basket}
             />
 
         } else if (tabCurrent === 2) {
@@ -750,12 +684,8 @@ class Layout extends React.Component {
                     title={localize('CONFIRM', language)}
                     textColor="#fff"
                     onPress={this.confimPayOfflinemode}
-                    style={{
-                        borderWidth: 1, borderColor: '#C5C5C5',
-                        flex: 1
-                    }}
-                    styleText={{ fontSize: scaleSzie(30), fontWeight: 'bold', }}
-                // activeOpacity={1}
+                    style={styles.btn_basket}
+                    styleText={styles.txt_btn_basket}
                 />
             );
         } else {
@@ -769,11 +699,8 @@ class Layout extends React.Component {
                             title={localize('BOOK', language)}
                             textColor="#fff"
                             onPress={this.bookBlockAppointment}
-                            style={{
-                                borderWidth: 1, borderColor: '#C5C5C5',
-                                flex: 1
-                            }}
-                            styleText={{ fontSize: scaleSzie(22), fontWeight: 'bold', }}
+                            style={styles.btn_basket}
+                            styleText={styles.txt_btn_basket}
                         />
                     );
                 }
@@ -784,17 +711,42 @@ class Layout extends React.Component {
                         title={localize('BOOK', language)}
                         textColor="#6A6A6A"
                         onPress={() => { }}
-                        style={{
-                            borderWidth: 1, borderColor: '#C5C5C5',
-                            flex: 1
-                        }}
-                        styleText={{ fontSize: scaleSzie(22), fontWeight: 'bold', }}
+                        style={styles.btn_basket}
                         activeOpacity={1}
+                        styleText={styles.txt_btn_basket}
                     />
                 );
 
-            }
-            if (basket.length > 0 || !_.isEmpty(groupAppointment)) {
+            } else if (isBookingFromCalendar) {
+                if (!_.isEmpty(groupAppointment) && formatNumberFromCurrency(groupAppointment?.total) > 0) {
+                    return (
+                        <ButtonCustom
+                            width={`100%`}
+                            backgroundColor="#0764B0"
+                            title={localize('BOOK', language)}
+                            textColor="#fff"
+                            onPress={this.bookAppointmentFromCalendar}
+                            style={styles.btn_basket}
+                            styleText={styles.txt_btn_basket}
+                        />
+                    );
+                } else {
+                    return (
+                        <ButtonCustom
+                            width={`100%`}
+                            backgroundColor="#F1F1F1"
+                            title={localize('BOOK', language)}
+                            textColor="#6A6A6A"
+                            onPress={() => { }}
+                            style={styles.btn_basket}
+                            activeOpacity={1}
+                            styleText={styles.txt_btn_basket}
+                        />
+                    );
+                }
+
+
+            } else if (basket.length > 0 || !_.isEmpty(groupAppointment)) {
                 return (
                     <ButtonCustom
                         width={`100%`}
@@ -802,11 +754,8 @@ class Layout extends React.Component {
                         title={localize('SELECT PAYMENT', language)}
                         textColor="#fff"
                         onPress={this.selectPayment}
-                        style={{
-                            borderWidth: 1, borderColor: '#C5C5C5',
-                            flex: 1
-                        }}
-                        styleText={{ fontSize: scaleSzie(22), fontWeight: 'bold', }}
+                        style={styles.btn_basket}
+                        styleText={styles.txt_btn_basket}
                     />
                 );
             }
@@ -817,12 +766,9 @@ class Layout extends React.Component {
                     title={localize('SELECT PAYMENT', language)}
                     textColor="#6A6A6A"
                     onPress={() => { }}
-                    style={{
-                        borderWidth: 1, borderColor: '#C5C5C5',
-                        flex: 1
-                    }}
-                    styleText={{ fontSize: scaleSzie(22), fontWeight: 'bold', }}
+                    style={styles.btn_basket}
                     activeOpacity={1}
+                    styleText={styles.txt_btn_basket}
                 />
             );
         }
@@ -834,15 +780,12 @@ class Layout extends React.Component {
         const { appointmentOfflineMode } = this.state;
 
         return (
-            <View style={{
-                flex: 1, borderRightWidth: 1, borderRightColor: 'rgb(197, 197, 197)',
-                paddingHorizontal: scaleSzie(22)
-            }} >
-                <Text style={[styles.textHeader, { fontSize: scaleSzie(19), marginTop: scaleSzie(10), marginBottom: scaleSzie(12) }]} >
+            <View style={{ flex: 1, paddingHorizontal: scaleSize(22) }} >
+                <Text style={[styles.textHeader, { fontSize: scaleSize(19), marginTop: scaleSize(10), marginBottom: scaleSize(12) }]} >
                     {localize('Offline mode', language)}
                 </Text>
-                <View style={{ alignItems: 'center', marginBottom: scaleSzie(30) }} >
-                    <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
+                <View style={{ alignItems: 'center', marginBottom: scaleSize(30) }} >
+                    <Text style={[styles.textHeader, { fontSize: scaleSize(18) }]} >
 
                         {localize('Use consumer app to scan QR code below', language)}
                     </Text>
@@ -851,31 +794,30 @@ class Layout extends React.Component {
                     <View style={styles.containerQrcode} >
                         <QRCode
                             value={JSON.stringify(appointmentOfflineMode)}
-                            size={scaleSzie(200)}
+                            size={scaleSize(200)}
                         />
                     </View>
                 </View>
-                <View style={{ alignItems: 'center', marginTop: scaleSzie(25) }} >
-                    <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
+                <View style={{ alignItems: 'center', marginTop: scaleSize(25) }} >
+                    <Text style={[styles.textHeader, { fontSize: scaleSize(18) }]} >
                         {localize('Then scan the QR code on the phone', language)}
 
                     </Text>
-                    <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
+                    <Text style={[styles.textHeader, { fontSize: scaleSize(18) }]} >
                         {localize('to complete the transaction', language)}
 
                     </Text>
                 </View>
                 {/* ------ Footer ----- */}
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSize(8) }} >
                     <ButtonCustom
-                        width={scaleSzie(350)}
-                        height={60}
+                        width={scaleSize(300)}
                         title={localize('BACK', language)}
                         backgroundColor="#0764B0"
                         textColor="#fff"
                         onPress={() => this.scrollTabRef.current.goToPage(1)}
-                        style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                        styleText={{ fontSize: scaleSzie(26) }}
+                        style={styles.btn_back}
+                        styleText={styles.txt_btn_basket}
                     />
                 </View>
             </View>
@@ -883,9 +825,11 @@ class Layout extends React.Component {
     }
 
     renderBodyCheckout() {
+        const { isShowCategoriesColumn, isShowColProduct, isShowColAmount } = this.state;
+
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
-                <View style={{ width: scaleSzie(446) }} >
+                <View style={{ width: scaleSize(480) }} >
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{
@@ -893,16 +837,17 @@ class Layout extends React.Component {
                         }}
                         initialPage={0}
                         locked={true}
-                        // scrollWithoutAnimation={true}
                         renderTabBar={() => <View />}
                         onChangeTab={(index) => {
                             this.setState({ tabCurrent: index.i })
                         }}
                     >
                         <View style={{ flex: 1, flexDirection: 'row' }} >
-                            {this.renderCategoriesCheckout()}
-                            {this.renderProductCheckout()}
-                            {this.renderAmountCheckout()}
+                            {this.renderStaffColumn()}
+                            {isShowCategoriesColumn ? this.renderCategoriesCheckout() : null}
+                            {isShowColProduct ? this.renderProductCheckout() : null}
+                            {isShowColAmount ? this.renderAmountCheckout() : null}
+                            <View style={{ width: scaleSize(4) }} />
                         </View>
                         {this.renderPaymetsMethod()}
                         {this.renderOfflineMode()}
@@ -914,10 +859,13 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission, visiblePopupEnterGiftCardAmount } = this.props;
+        const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission, isCancelAppointment } = this.props;
         const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
-            visiblePopupAddItemIntoBasket
+            visiblePopupAddItemIntoBasket, visibleAddEditCustomerPopup,
+            visibleErrorMessageFromPax, errorMessageFromPax
         } = this.state;
+
+        const titleExitCheckoutTab = isCancelAppointment ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? " : 'Are you sure you want to exit Check-Out?';
 
         return (
             <View style={styles.container} >
@@ -940,9 +888,18 @@ class Layout extends React.Component {
                 <PopupConfirm
                     visible={visibleConfirm}
                     title={localize('Confirmation', language)}
-                    message="Are you sure you want to exit Check-Out?"
+                    message={titleExitCheckoutTab}
                     onRequestClose={() => { this.setState({ visibleConfirm: false }) }}
                     confimYes={this.clearDataCofrim}
+                />
+
+                {/* ----------------- Display Error Message From Pax Machine ------------------ */}
+                <ErrorMessagePaxModal
+                    visible={visibleErrorMessageFromPax}
+                    title={localize('Trasaction Fail', language)}
+                    message={errorMessageFromPax}
+                    onRequestClose={() => { this.setState({ visibleErrorMessageFromPax: false }) }}
+                    confimYes={() => { this.setState({ visibleErrorMessageFromPax: false }) }}
                 />
                 <PopupChangeMoney
                     ref={this.cashBackRef}
@@ -953,7 +910,7 @@ class Layout extends React.Component {
                 <PopupChangeStylist
                     ref={this.changeStylistRef}
                     visible={visibleChangeStylist}
-                    title={localize('Modification', language)}
+                    title={localize('Modify Service', language)}
                     onRequestClose={() => { this.setState({ visibleChangeStylist: false }) }}
                     changeStylistBasketLocal={this.changeStylistBasketLocal}
                 />
@@ -971,7 +928,6 @@ class Layout extends React.Component {
                     visible={this.state.visibleChangeTip}
                     title={localize('Add Tip', language)}
                     onRequestClose={() => { this.setState({ visibleChangeTip: false }) }}
-                // changeStylistBasketLocal={this.changeStylistBasketLocal}
                 />
 
                 <PopupPayCompleted
@@ -1032,9 +988,9 @@ class Layout extends React.Component {
                     visiblePrintInvoice={this.state.visiblePrintInvoice}
                     onRequestClose={this.cancelInvoicePrint}
                 />
-                <PopupChangeCustomerInfo
+                <EnterCustomerPhonePopup
                     ref={this.popupCustomerInfoRef}
-                    title={localize('Modification', language)}
+                    title={localize('Enter Phone Number', language)}
                     onRequestClose={() => { this.setState({ visibleCustomerName: false }) }}
                     changeStylistBasketLocal={this.changeStylistBasketLocal}
                 />
@@ -1058,6 +1014,15 @@ class Layout extends React.Component {
                     title={localize('Input PIN Number', language)}
                     tabName="CheckDiscountPermission"
                     onRequestClose={this.closePopupCheckDiscountPermission}
+                />
+
+                <PopupAddEditCustomer
+                    ref={this.addEditCustomerInfoRef}
+                    visible={visibleAddEditCustomerPopup}
+                    title={"Customer Infomation"}
+                    onRequestClose={() => this.setState({ visibleAddEditCustomerPopup: false })}
+                    editCustomerInfo={this.editCustomerInfo}
+                    addCustomerInfo={this.addCustomerInfo}
                 />
             </View>
         );

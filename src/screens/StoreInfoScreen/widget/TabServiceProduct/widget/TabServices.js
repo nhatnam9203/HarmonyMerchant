@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { FooterTab, PopupConfirm, PopupAddEditService } from '@components';
-import { scaleSzie, getCategoryName, getArrayNameCategories,localize } from '@utils';
+import { scaleSize, getCategoryName, getArrayNameCategories,localize } from '@utils';
 import HeaderTableServices from './HeaderTableServices';
 import RowTableServices from './RowTableServices';
 import RowEmptyTableServices from './RowEmptyTableServices';
@@ -76,13 +76,13 @@ class TabServices extends React.Component {
     })
         const { serviceInfoHandle } = this.state;
         this.props.actions.service.restoreService(serviceInfoHandle.serviceId);
-      
+
     }
 
     addService =async service => {
         await   this.setState({ visibleAdd: false })
         this.props.actions.service.addServiceByMerchant(service);
-     
+
     }
 
     async showModalEditService(service) {
@@ -95,7 +95,7 @@ class TabServices extends React.Component {
     editService =async service => {
         await this.setState({ visibleEdit: false })
         this.props.actions.service.editService(service, service.serviceId);
-       
+
     }
 
     getExtraName(extras) {
@@ -207,7 +207,7 @@ class TabServices extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: scaleSzie(12)
+        paddingTop: scaleSize(12)
     },
 })
 

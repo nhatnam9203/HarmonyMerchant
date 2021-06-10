@@ -1,4 +1,24 @@
 rootProject.name = 'Hpmerchant'
+include ':react-native-spring-scrollview'
+project(':react-native-spring-scrollview').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-spring-scrollview/android')
+include ':react-native-version-check'
+project(':react-native-version-check').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-version-check/android')
+include ':react-native-screens'
+project(':react-native-screens').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-screens/android')
+include ':react-native-reanimated'
+project(':react-native-reanimated').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-reanimated/android')
+include ':react-native-charts-wrapper'
+project(':react-native-charts-wrapper').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-charts-wrapper/android')
+include ':react-native-linear-gradient'
+project(':react-native-linear-gradient').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-linear-gradient/android')
+include ':react-native-sound-player'
+project(':react-native-sound-player').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sound-player/android')
+include ':@react-native-community_datetimepicker'
+project(':@react-native-community_datetimepicker').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/datetimepicker/android')
+include ':react-native-ble-plx'
+project(':react-native-ble-plx').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-ble-plx/android')
+include ':react-native-ble-manager'
+project(':react-native-ble-manager').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-ble-manager/android')
 include ':react-native-sms'
 project(':react-native-sms').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sms/android')
 include ':react-native-sensitive-info'

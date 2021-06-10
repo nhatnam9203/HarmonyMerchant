@@ -2,7 +2,7 @@ import IMAGE from "@resources";
 import { localize } from "@utils";
 import React from "react";
 import { View } from "react-native";
-import { Dropdown } from "react-native-material-dropdown";
+import { Dropdown } from "react-native-material-dropdown-v2";
 import { useSelector } from "react-redux";
 import HeaderTitle from "./HeaderTitle";
 import HeaderTooltip from "./HeaderTooltip";

@@ -1,14 +1,15 @@
-import apiConfigs from "../../configs/api";
+import Configs from "@configs";
 
-export function login(email, password, isRememberMID = false) {
+export function login(email, password, terminalId, isRememberMID = false) {
   return {
     type: "LOGIN_APP",
     body: {
-      email: email,
-      password: password,
+      email,
+      password,
+      terminalId
     },
     method: "POST",
-    api: `${apiConfigs.BASE_API}merchant/login`,
+    api: `merchant/login`,
     isRememberMID,
   };
 }
@@ -23,12 +24,12 @@ export function forgotPassword(email) {
   return {
     type: "FORGOT_PASSWORD",
     method: "GET",
-    api: `${apiConfigs.BASE_API}merchant/forgotpassword/?email=${email}`,
+    api: `merchant/forgotpassword/?email=${email}`,
     email,
   };
 }
 
-export function checkStaffPermission(merchantCode,staffPin,tabName = "Invoice",appointmentId = "",isBlock = false) {
+export function checkStaffPermission(merchantCode, staffPin, tabName = "Invoice", appointmentId = "", isBlock = false) {
   return {
     type: "CHECK_STAFF_PERMISSION",
     body: {
@@ -37,7 +38,7 @@ export function checkStaffPermission(merchantCode,staffPin,tabName = "Invoice",a
       tab: tabName,
     },
     method: "POST",
-    api: `${apiConfigs.BASE_API}staff/login/checkpermission`,
+    api: `staff/login/checkpermission`,
     tabName,
     appointmentId,
     isBlock
@@ -55,7 +56,7 @@ export function requestLogout() {
   return {
     type: "REQUEST_LOGOUT_APP",
     method: "PUT",
-    api: `${apiConfigs.BASE_API}merchant/logout`,
+    api: `merchant/logout`,
     token: true
   };
 }
@@ -65,7 +66,7 @@ export function activeFirebase(firebaseToken) {
     type: "ACTIVE_FIREBASE",
     method: "PUT",
     token: true,
-    api: `${apiConfigs.BASE_API}merchant/setupFireBase`,
+    api: `merchant/setupFireBase`,
     firebaseToken,
   };
 }

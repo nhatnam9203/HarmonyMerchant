@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { getIdStateByName, scaleSzie, BusinessWorkingTime,formatNumberFromCurrency } from '@utils';
+import { getIdStateByName, scaleSize, BusinessWorkingTime,formatNumberFromCurrency } from '@utils';
 
 const initState = {
     user: {
@@ -62,7 +62,7 @@ class StoreInfoScreen extends Layout {
     }
 
     scrollStaffTo(position) {
-        this.scrollStaffRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
+        this.scrollStaffRef.current.scrollTo({ x: 0, y: scaleSize(position), animated: true })
     }
 
     editButtonSubmit = async (isSubmit) => {
@@ -179,7 +179,7 @@ class StoreInfoScreen extends Layout {
                     }
                 }
             });
-           
+
             this.inputRefproductSalary.forEach(ref => {
                 objProjectSalary = {
                     ...objProjectSalary,
@@ -189,7 +189,7 @@ class StoreInfoScreen extends Layout {
                     }
                 }
             });
-           
+
             const { address } = user;
             const temptAddress = { ...address, state: getIdStateByName(stateCity, address.state) };
             const temptStaff = {
@@ -222,13 +222,11 @@ class StoreInfoScreen extends Layout {
                 cashPercent : parseFloat(this.cashPercentRef.current.state.value ? this.cashPercentRef.current.state.value: 0),
                 fileId: this.state.fileId
             };
-            //console.log('productSalary : ' + JSON.stringify(objProjectSalary));
             this.props.actions.staff.createAdmin(temptStaff);
         }
     }
 
     convertKeyToName(key) {
-        //console.log('key : ', key);
         let name = '';
         switch (key) {
             case 'Percent (%)':

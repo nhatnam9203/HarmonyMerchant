@@ -10,7 +10,7 @@ import {
     Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupAddEditProduct,
     ModalCustom, PopupCheckStaffPermission, ClearTextInputIcon
 } from '@components';
-import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
+import { scaleSize, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
@@ -25,10 +25,10 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         return (
             <View style={{
-                height: scaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSzie(50),
+                height: scaleSize(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSize(50),
                 justifyContent: 'center'
             }} >
-                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0',fontWeight:"600" }} >
+                <Text style={{ fontSize: scaleSize(16), color: '#0764B0', fontWeight: "600" }} >
                     {localize('Inventory', language)}
                 </Text>
             </View>
@@ -40,13 +40,13 @@ export default class Layout extends React.Component {
         const { searchFilter } = this.state;
         const { keySearch } = searchFilter;
         return (
-            <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
+            <View style={{ height: scaleSize(40), paddingHorizontal: scaleSize(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row' }} >
-                        <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: scaleSzie(4), flexDirection: 'row' }} >
-                            <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
+                        <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: scaleSize(4), flexDirection: 'row' }} >
+                            <View style={{ flex: 1, paddingHorizontal: scaleSize(12) }} >
                                 <TextInput
-                                    style={{ flex: 1, fontSize: scaleSzie(18) }}
+                                    style={{ flex: 1, fontSize: scaleSize(18) }}
                                     placeholder={`${localize('SKU Number', language)}/ ${localize('Product Name', language)}`}
                                     value={keySearch}
                                     onChangeText={(value) => this.updateSearchFilterInfo('keySearch', value)}
@@ -55,7 +55,7 @@ export default class Layout extends React.Component {
                             </View>
                             {
                                 keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
-                                    width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
+                                    width: scaleSize(35), alignItems: 'center', justifyContent: 'center',
 
                                 }} >
                                     <ClearTextInputIcon />
@@ -64,16 +64,16 @@ export default class Layout extends React.Component {
 
                         </View>
                     </View>
-                    <View style={{ width: scaleSzie(120), alignItems: 'flex-end' }} >
+                    <View style={{ width: scaleSize(120), alignItems: 'flex-end' }} >
                         <ButtonCustom
-                            width={scaleSzie(110)}
+                            width={scaleSize(110)}
                             height={40}
                             backgroundColor="#F1F1F1"
                             title={localize('Search', language)}
                             textColor="#6A6A6A"
                             onPress={this.searchProduct}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                            styleText={{ fontSize: scaleSzie(15), fontWeight: 'normal' }}
+                            styleText={{ fontSize: scaleSize(15), fontWeight: 'normal' }}
                         />
                     </View>
                 </View>
@@ -83,15 +83,15 @@ export default class Layout extends React.Component {
 
     renderFilter() {
         const { language, categoriesByMerchant, pathFileInventory } = this.props;
-        const {  searchFilter } = this.state;
+        const { searchFilter } = this.state;
         const { category } = searchFilter;
         const dataProductCategory = getArrayNameCategories(categoriesByMerchant, 'Product');
         dataProductCategory.unshift({ value: '' });
         return (
-            <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
+            <View style={{ height: scaleSize(40), paddingHorizontal: scaleSize(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row' }} >
-                        <View style={[{ width: scaleSzie(160) }]} >
+                        <View style={[{ width: scaleSize(160) }]} >
                             <Dropdown
                                 label={localize('Categories', language)}
                                 data={dataProductCategory}
@@ -100,7 +100,7 @@ export default class Layout extends React.Component {
                                 containerStyle={{
                                     borderWidth: 1,
                                     flex: 1,
-                                    borderRadius: scaleSzie(4),
+                                    borderRadius: scaleSize(4),
                                     borderColor: '#C5C5C5',
                                     backgroundColor: '#F1F1F1',
                                 }}
@@ -110,9 +110,9 @@ export default class Layout extends React.Component {
                             {/* -------- Review File Download ------- */}
                             {
                                 pathFileInventory === '' ? <View /> : <Button onPress={this.handleTheDownloadedFile} style={[{
-                                    width: scaleSzie(200), justifyContent: 'center', alignItems: 'center', marginRight: scaleSzie(8)
+                                    width: scaleSize(200), justifyContent: 'center', alignItems: 'center', marginRight: scaleSize(8)
                                 }, styles.borderStyle, { backgroundColor: 'rgb(235,93,57)' }]} >
-                                    <Text style={{ color: '#fff', fontSize: scaleSzie(15) }} >
+                                    <Text style={{ color: '#fff', fontSize: scaleSize(15) }} >
                                         {localize('Handle the downloaded file', language)}
                                     </Text>
                                 </Button>
@@ -120,35 +120,35 @@ export default class Layout extends React.Component {
 
                             {/* --------- Restock ------ */}
                             <Button onPress={this.restock} style={[{
-                                width: scaleSzie(120), justifyContent: 'center', alignItems: 'center',
+                                width: scaleSize(120), justifyContent: 'center', alignItems: 'center',
                             }, styles.borderStyle]} >
-                                <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
+                                <Text style={{ color: '#6A6A6A', fontSize: scaleSize(15) }} >
                                     {localize('Restock', language)}
                                 </Text>
                             </Button>
                         </View>
 
                     </View>
-                    <View style={[{ width: scaleSzie(120), alignItems: 'flex-end' }]} >
-                        <Button onPress={this.exportFile} style={[{ height: scaleSzie(40), width: scaleSzie(110), flexDirection: 'row' }, styles.borderStyle]} >
+                    <View style={[{ width: scaleSize(120), alignItems: 'flex-end' }]} >
+                        <Button onPress={this.exportFile} style={[{ height: scaleSize(40), width: scaleSize(110), flexDirection: 'row' }, styles.borderStyle]} >
                             <View style={{ alignItems: 'center', flexDirection: 'row' }} >
                                 <Image source={IMAGE.export} style={{
-                                    width: scaleSzie(18), height: scaleSzie(18),
-                                    marginHorizontal: scaleSzie(8)
+                                    width: scaleSize(18), height: scaleSize(18),
+                                    marginHorizontal: scaleSize(8)
                                 }} />
-                                <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(15) }} >
+                                <Text style={{ color: '#6A6A6A', fontSize: scaleSize(15) }} >
 
                                     {localize('Export', language)}
                                 </Text>
                             </View>
 
-                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(6) }} >
-                                <Image source={IMAGE.dropdown} style={{ width: scaleSzie(6), height: scaleSzie(3) }} />
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSize(6) }} >
+                                <Image source={IMAGE.dropdown} style={{ width: scaleSize(6), height: scaleSize(3) }} />
                             </View>
                         </Button>
 
                     </View>
-                    <View style={{ width: scaleSzie(120), alignItems: 'flex-end' }} >
+                    <View style={{ width: scaleSize(120), alignItems: 'flex-end' }} >
                         <ButtonCustom
                             width={'90%'}
                             height={40}
@@ -157,7 +157,7 @@ export default class Layout extends React.Component {
                             textColor="#fff"
                             onPress={this.showModaAddProduct}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                            styleText={{ fontSize: scaleSzie(15), fontWeight: 'normal' }}
+                            styleText={{ fontSize: scaleSize(15), fontWeight: 'normal' }}
                         />
                     </View>
                 </View>
@@ -177,7 +177,7 @@ export default class Layout extends React.Component {
             }
         });
         return (
-            <View style={{ flex: 1, paddingTop: scaleSzie(20) }} >
+            <View style={{ flex: 1, paddingTop: scaleSize(20) }} >
                 <HeaderTableProducts
                     language={language}
                 />
@@ -216,18 +216,18 @@ export default class Layout extends React.Component {
                     backgroundColor: 'transparent',
                     justifyContent: 'flex-start',
                     alignItems: 'flex-end',
-                    paddingRight: scaleSzie(132),
-                    paddingTop: scaleSzie(155)
+                    paddingRight: scaleSize(132),
+                    paddingTop: scaleSize(155)
                 }}
             >
                 <View style={styles.containerDropdownExport} >
                     <Button onPress={this.exportExcel.bind(this, "pdf")} style={{ flex: 1, justifyContent: 'center' }} >
-                        <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
+                        <Text style={{ color: '#6A6A6A', fontSize: scaleSize(14) }} >
                             {`Export to PDF`}
                         </Text>
                     </Button>
                     <Button onPress={this.exportExcel.bind(this, "excel")} style={{ flex: 1, justifyContent: 'center' }} >
-                        <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(14) }} >
+                        <Text style={{ color: '#6A6A6A', fontSize: scaleSize(14) }} >
 
                             {localize('Export to Excel', language)}
                         </Text>
@@ -245,17 +245,18 @@ export default class Layout extends React.Component {
                 handleLockScreen={this.handleLockScreen}
                 activeScreen={isFocus}
                 navigation={navigation}
+                clearIntervalById={this.clearIntervalById}
             >
                 <View style={styles.container} >
                     <StatusBarHeader />
                     {this.renderHeader()}
-                    <View style={{ height: scaleSzie(18) }} />
+                    <View style={{ height: scaleSize(18) }} />
                     {this.renderSearch()}
-                    <View style={{ height: scaleSzie(10) }} />
+                    <View style={{ height: scaleSize(10) }} />
                     {this.renderFilter()}
                     {this.renderTable()}
                     <Button onPress={this.openDrawer} style={configs.btn_left_position} >
-                        <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
+                        <Image source={IMAGE.openDrawer} style={{ width: scaleSize(34), height: scaleSize(34) }} />
                     </Button>
                 </View>
                 <PopupDetailProduct

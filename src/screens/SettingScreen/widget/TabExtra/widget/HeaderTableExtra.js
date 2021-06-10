@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import {  Button } from '@components';
-import { scaleSzie ,localize} from '@utils';
+import { scaleSize ,localize} from '@utils';
 import IMAGE from '@resources';
 
 class HeaderTableExtra extends React.Component {
@@ -52,7 +52,7 @@ class HeaderTableExtra extends React.Component {
                 <View style={styles.tableHeader} >
                     {/* ----- 1 ------ */}
                     <View style={[{
-                        width: scaleSzie(50),
+                        width: scaleSize(50),
                     }, styles.itemTableHeaderContainer]} >
                         <Text style={styles.textTableHeader} >
                             {`${localize('No',language)}.`}
@@ -60,9 +60,9 @@ class HeaderTableExtra extends React.Component {
                     </View>
                     {/* ----- 2 ------ */}
                     <View style={{
-                        width: scaleSzie(160), flexDirection: 'row',
+                        width: scaleSize(160), flexDirection: 'row',
                     }} >
-                        <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
+                        <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(5) }} >
                             <Text style={styles.textTableHeader} >
                             {localize('Name',language)}
                             </Text>
@@ -70,9 +70,9 @@ class HeaderTableExtra extends React.Component {
                     </View>
                     {/* ----- 3 ------ */}
                     <View style={{
-                        width: scaleSzie(140), flexDirection: 'row',
+                        width: scaleSize(140), flexDirection: 'row',
                     }} >
-                        <View style={{ flex: 1, justifyContent: 'center',paddingLeft: scaleSzie(10)   }} >
+                        <View style={{ flex: 1, justifyContent: 'center',paddingLeft: scaleSize(10)   }} >
                             <Text style={styles.textTableHeader} >
                             {`${localize('Price',language)} ($)`}
                             </Text>
@@ -80,11 +80,11 @@ class HeaderTableExtra extends React.Component {
                     </View>
                     {/* ----- 4 ----- */}
                     <View style={{
-                        width: scaleSzie(110), flexDirection: 'row',
+                        width: scaleSize(110), flexDirection: 'row',
                     }} >
-                        <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                        <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                             <Text style={styles.textTableHeader} >
-                                
+
                                 {localize('Status',language)}
                             </Text>
                         </View>
@@ -94,7 +94,7 @@ class HeaderTableExtra extends React.Component {
                         flex: 1,
                     }, styles.itemTableHeaderContainer]} >
                         <Text style={styles.textTableHeader} >
-                            
+
                             {localize('Actions',language)}
                         </Text>
                     </View>
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: scaleSzie(35),
+        height: scaleSize(35),
         backgroundColor: '#fff',
         borderBottomWidth: 0.5,
         borderBottomColor: '#C5C5C5',
@@ -117,15 +117,15 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#0764B0',
-        fontSize: scaleSzie(16)
+        fontSize: scaleSize(16)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',
         alignItems: 'center'
     },
     iconSort:{
-         width: scaleSzie(8),
-          height: scaleSzie(12) 
+         width: scaleSize(8),
+          height: scaleSize(12)
         }
 
 })

@@ -2,16 +2,16 @@ import {
     StyleSheet,
 } from 'react-native';
 
-import { scaleSzie, checkIsTablet } from '@utils';
+import { scaleSize, checkIsTablet } from '@utils';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        paddingTop: checkIsTablet() ? scaleSzie(30) : scaleSzie(40)
+        paddingTop: checkIsTablet() ? scaleSize(30) : scaleSize(40)
     },
     logo: {
-        width: scaleSzie(284),
-        height: scaleSzie(65)
+        width: scaleSize(284),
+        height: scaleSize(65)
     }
 })

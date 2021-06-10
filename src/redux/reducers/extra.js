@@ -71,8 +71,10 @@ function extraReducer(state = initialState, action) {
     }
 }
 
-module.exports = persistReducer({
-    key: 'extra',
-    storage: AsyncStorage,
-    whitelist: ['extrasByMerchant']
-}, extraReducer);
+// module.exports = persistReducer({
+//     key: 'extra',
+//     storage: AsyncStorage,
+//     whitelist: ['extrasByMerchant']
+// }, extraReducer);
+
+export default extraReducer;

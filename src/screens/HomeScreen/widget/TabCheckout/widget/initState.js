@@ -62,5 +62,15 @@ export default {
     visiblePopupAddItemIntoBasket: false,
     visiblePopupGiftCardDetails: false,
 
-    arrSelectedExtra: []
+    arrSelectedExtra: [],
+
+
+    // -------- New State ------
+    isShowCategoriesColumn: false,
+    selectedStaff: {},
+    visibleAddEditCustomerPopup: false,
+    isBlockBookingFromCalendar: false,
+
+    visibleErrorMessageFromPax: false,
+    errorMessageFromPax: ''
 }

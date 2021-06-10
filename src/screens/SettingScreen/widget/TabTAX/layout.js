@@ -10,7 +10,7 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, Text } from '@components';
-import { scaleSzie, localize, formatNumberFromCurrency } from '@utils';
+import { scaleSize, localize, formatNumberFromCurrency } from '@utils';
 import IMAGE from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 
@@ -21,9 +21,9 @@ class Layout extends React.Component {
         const { isSubmitTax } = this.props;
         const { serviceTAX, productTAX } = this.state;
         return (
-            <View style={{ flex: 1, paddingHorizontal: scaleSzie(14), paddingTop: scaleSzie(20) }} >
+            <View style={{ flex: 1, paddingHorizontal: scaleSize(14), paddingTop: scaleSize(20) }} >
                 <Text style={{
-                    fontSize: scaleSzie(16),
+                    fontSize: scaleSize(16),
                     fontWeight: '600',
                     color: '#0764B0'
                 }} >
@@ -43,31 +43,31 @@ class Layout extends React.Component {
                         value={productTAX}
                         onChangeText={this.onChangeProductTax}
                     />
-                    <View style={{ height: scaleSzie(300) }} />
+                    <View style={{ height: scaleSize(300) }} />
                 </ScrollView>
                 {/* ------- Footer -------- */}
-                <View style={{ position: 'absolute', bottom: 0, width: '100%', justifyContent: 'flex-end', paddingBottom: scaleSzie(30) }} >
+                <View style={{ position: 'absolute', bottom: 0, width: '100%', justifyContent: 'flex-end', paddingBottom: scaleSize(30) }} >
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }} >
                         {
                             isSubmitTax ? <ButtonCustom
-                                width={scaleSzie(130)}
+                                width={scaleSize(130)}
                                 height={50}
                                 backgroundColor="#0764B0"
                                 title="SAVE"
                                 textColor="#fff"
                                 onPress={this.setupTAX}
                                 style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
-                                styleText={{ fontSize: scaleSzie(20), fontWeight: '500' }}
+                                styleText={{ fontSize: scaleSize(20), fontWeight: '500' }}
                             /> :
                                 <ButtonCustom
-                                    width={scaleSzie(130)}
+                                    width={scaleSize(130)}
                                     height={50}
                                     backgroundColor="#F1F1F1"
                                     title="SAVE"
                                     textColor="#6A6A6A"
                                     onPress={() => { }}
                                     style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
-                                    styleText={{ fontSize: scaleSzie(20), fontWeight: '500' }}
+                                    styleText={{ fontSize: scaleSize(20), fontWeight: '500' }}
                                     activeOpacity={1}
                                 />
                         }
@@ -83,16 +83,16 @@ class Layout extends React.Component {
 
 const ItemSetup = ({ title, value, placeholder, onChangeText }) => {
     return (
-        <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), }} >
-            <View style={{ width: scaleSzie(140), justifyContent: 'center', }} >
-                <Text style={{ fontSize: scaleSzie(14), color: 'rgb(42,42,42)' }} >
+        <View style={{ flexDirection: 'row', marginTop: scaleSize(20), }} >
+            <View style={{ width: scaleSize(140), justifyContent: 'center', }} >
+                <Text style={{ fontSize: scaleSize(14), color: 'rgb(42,42,42)' }} >
                     {title}
                 </Text>
             </View>
             <View style={{ flex: 1, }} >
                 <View style={{
-                    height: scaleSzie(35), width: '50%', borderColor: 'rgb(227,227,227)',
-                    borderWidth: scaleSzie(1), paddingHorizontal: scaleSzie(10)
+                    height: scaleSize(35), width: '50%', borderColor: 'rgb(227,227,227)',
+                    borderWidth: scaleSize(1), paddingHorizontal: scaleSize(10)
                 }} >
                     <TextInputMask
                         type={'money'}
@@ -103,7 +103,7 @@ const ItemSetup = ({ title, value, placeholder, onChangeText }) => {
                             unit: '',
                             suffixUnit: ''
                         }}
-                        style={{ flex: 1, fontSize: scaleSzie(14) }}
+                        style={{ flex: 1, fontSize: scaleSize(14) }}
                         placeholder={placeholder}
                         value={value}
                         onChangeText={(value) => onChangeText(value)}

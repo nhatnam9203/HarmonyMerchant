@@ -1,7 +1,24 @@
-import { NavigationActions ,StackActions} from "react-navigation";
-import type { NavigationParams, NavigationRoute } from "react-navigation";
+import * as React from 'react';
+import { NavigationActions } from 'react-navigation';
+import { StackActions } from '@react-navigation/native';
 
 let _container; // eslint-disable-line
+export const isReadyRef = React.createRef();
+
+export const navigationRef = React.createRef();
+
+function navigate(name, params) {
+  if (isReadyRef.current) navigationRef.current?.navigate(name, params);
+}
+
+function replace(name) {
+  if (isReadyRef.current)
+    navigationRef.current?.dispatch(StackActions.replace(name));
+}
+
+function goBack() {
+  navigationRef.current?.goBack();
+}
 
 function setContainer(container: Object) {
   _container = container;
@@ -12,38 +29,35 @@ function reset(routeName: string, params?: NavigationParams) {
     StackActions.reset({
       index: 0,
       key: null,
-      actions: [
-        NavigationActions.navigate({routeName})
-      ]
-    })
+      actions: [NavigationActions.navigate({ routeName })],
+    }),
   );
 }
 
-function navigate(routeName: string, params?: NavigationParams) {
-
-  _container.dispatch(
-    NavigationActions.navigate({
-      type: "Navigation/NAVIGATE",
-      routeName,
-      params
-    })
-  );
-}
+// function navigate(routeName: string, params?: NavigationParams) {
+//   _container.dispatch(
+//     NavigationActions.navigate({
+//       type: 'Navigation/NAVIGATE',
+//       routeName,
+//       params,
+//     }),
+//   );
+// }
 
 function navigateDeep(
-  actions: { routeName: string, params?: NavigationParams }[]
+  actions: { routeName: string, params?: NavigationParams }[],
 ) {
   _container.dispatch(
     actions.reduceRight(
       (prevAction, action): any =>
         NavigationActions.navigate({
-          type: "Navigation/NAVIGATE",
+          type: 'Navigation/NAVIGATE',
           routeName: action.routeName,
           params: action.params,
-          action: prevAction
+          action: prevAction,
         }),
-      undefined
-    )
+      undefined,
+    ),
   );
 }
 
@@ -70,5 +84,7 @@ export default {
   reset,
   getCurrentRoute,
   back,
-  popToTop
+  popToTop,
+  goBack,
+  replace,
 };

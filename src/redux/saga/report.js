@@ -1,19 +1,20 @@
-import { put, takeLatest, all } from "redux-saga/effects";
-import RNFetchBlob from "rn-fetch-blob";
+import { put, takeLatest, all } from 'redux-saga/effects';
+import RNFetchBlob from 'rn-fetch-blob';
 
-import { requestAPI } from "../../utils";
+import { requestAPI } from '../../utils';
 
-import actions from "@actions";
+import actions from '../actions';
+
 const { ACTION_TYPES } = actions.report;
 
 function* getReportOverallPaymentMethod(action) {
   try {
     if (action.isShowLoading) {
-      yield put({ type: "LOADING_ROOT" })
+      yield put({ type: 'LOADING_ROOT' });
     }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
 
     if (parseInt(codeNumber) == 200) {
       yield put({
@@ -22,32 +23,32 @@ function* getReportOverallPaymentMethod(action) {
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
-        type: "UNAUTHORIZED",
+        type: 'UNAUTHORIZED',
       });
     } else {
       yield put({
         type: ACTION_TYPES.OPM_GetListFail,
       });
       yield put({
-        type: "SHOW_ERROR_MESSAGE",
+        type: 'SHOW_ERROR_MESSAGE',
         message: responses?.message,
       });
     }
   } catch (error) {
     yield put({ type: error });
   } finally {
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
   }
 }
 
 function* getReportOverallMarketingEfficiency(action) {
   try {
     if (action.isShowLoading) {
-      yield put({ type: "LOADING_ROOT" })
+      yield put({ type: 'LOADING_ROOT' });
     }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
 
     if (parseInt(codeNumber) == 200) {
       yield put({
@@ -56,32 +57,32 @@ function* getReportOverallMarketingEfficiency(action) {
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
-        type: "UNAUTHORIZED",
+        type: 'UNAUTHORIZED',
       });
     } else {
       yield put({
         type: ACTION_TYPES.OME_GetListFail,
       });
       yield put({
-        type: "SHOW_ERROR_MESSAGE",
+        type: 'SHOW_ERROR_MESSAGE',
         message: responses?.message,
       });
     }
   } catch (error) {
     yield put({ type: error });
   } finally {
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
   }
 }
 
 function* getReportGiftCardSales(action) {
   try {
     if (action.isShowLoading) {
-      yield put({ type: "LOADING_ROOT" })
+      yield put({ type: 'LOADING_ROOT' });
     }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
 
     if (parseInt(codeNumber) == 200) {
       yield put({
@@ -90,32 +91,32 @@ function* getReportGiftCardSales(action) {
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
-        type: "UNAUTHORIZED",
+        type: 'UNAUTHORIZED',
       });
     } else {
       yield put({
         type: ACTION_TYPES.GiftCard_GetListFail,
       });
       yield put({
-        type: "SHOW_ERROR_MESSAGE",
+        type: 'SHOW_ERROR_MESSAGE',
         message: responses?.message,
       });
     }
   } catch (error) {
     yield put({ type: error });
   } finally {
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
   }
 }
 
 function* getReportCustomerSales(action) {
   try {
     if (action.isShowLoading) {
-      yield put({ type: "LOADING_ROOT" })
+      yield put({ type: 'LOADING_ROOT' });
     }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
 
     if (parseInt(codeNumber) == 200) {
       yield put({
@@ -124,32 +125,32 @@ function* getReportCustomerSales(action) {
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
-        type: "UNAUTHORIZED",
+        type: 'UNAUTHORIZED',
       });
     } else {
       yield put({
         type: ACTION_TYPES.Customer_GetListFail,
       });
       yield put({
-        type: "SHOW_ERROR_MESSAGE",
+        type: 'SHOW_ERROR_MESSAGE',
         message: responses?.message,
       });
     }
   } catch (error) {
     yield put({ type: error });
   } finally {
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
   }
 }
 
 function* getServiceSalesByCategory(action) {
   try {
     if (action.isShowLoading) {
-      yield put({ type: "LOADING_ROOT" })
+      yield put({ type: 'LOADING_ROOT' });
     }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
 
     if (parseInt(codeNumber) == 200) {
       yield put({
@@ -158,32 +159,32 @@ function* getServiceSalesByCategory(action) {
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
-        type: "UNAUTHORIZED",
+        type: 'UNAUTHORIZED',
       });
     } else {
       yield put({
         type: ACTION_TYPES.ServiceCategory_GetListFail,
       });
       yield put({
-        type: "SHOW_ERROR_MESSAGE",
+        type: 'SHOW_ERROR_MESSAGE',
         message: responses?.message,
       });
     }
   } catch (error) {
     yield put({ type: error });
   } finally {
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
   }
 }
 
 function* getServiceSalesByService(action) {
   try {
     if (action.isShowLoading) {
-      yield put({ type: "LOADING_ROOT" })
+      yield put({ type: 'LOADING_ROOT' });
     }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
 
     if (parseInt(codeNumber) == 200) {
       yield put({
@@ -192,32 +193,32 @@ function* getServiceSalesByService(action) {
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
-        type: "UNAUTHORIZED",
+        type: 'UNAUTHORIZED',
       });
     } else {
       yield put({
         type: ACTION_TYPES.Service_GetListFail,
       });
       yield put({
-        type: "SHOW_ERROR_MESSAGE",
+        type: 'SHOW_ERROR_MESSAGE',
         message: responses?.message,
       });
     }
   } catch (error) {
     yield put({ type: error });
   } finally {
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
   }
 }
 
 function* getProductSalesByCategory(action) {
   try {
     if (action.isShowLoading) {
-      yield put({ type: "LOADING_ROOT" })
+      yield put({ type: 'LOADING_ROOT' });
     }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
 
     if (parseInt(codeNumber) == 200) {
       yield put({
@@ -226,32 +227,32 @@ function* getProductSalesByCategory(action) {
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
-        type: "UNAUTHORIZED",
+        type: 'UNAUTHORIZED',
       });
     } else {
       yield put({
         type: ACTION_TYPES.ProductCategory_GetListFail,
       });
       yield put({
-        type: "SHOW_ERROR_MESSAGE",
+        type: 'SHOW_ERROR_MESSAGE',
         message: responses?.message,
       });
     }
   } catch (error) {
     yield put({ type: error });
   } finally {
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
   }
 }
 
 function* getProductSalesByProduct(action) {
   try {
     if (action.isShowLoading) {
-      yield put({ type: "LOADING_ROOT" })
+      yield put({ type: 'LOADING_ROOT' });
     }
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
 
     if (parseInt(codeNumber) == 200) {
       yield put({
@@ -260,21 +261,21 @@ function* getProductSalesByProduct(action) {
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
-        type: "UNAUTHORIZED",
+        type: 'UNAUTHORIZED',
       });
     } else {
       yield put({
         type: ACTION_TYPES.Product_GetListFail,
       });
       yield put({
-        type: "SHOW_ERROR_MESSAGE",
+        type: 'SHOW_ERROR_MESSAGE',
         message: responses?.message,
       });
     }
   } catch (error) {
     yield put({ type: error });
   } finally {
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
   }
 }
 
@@ -283,7 +284,7 @@ function* getProductSalesByProduct(action) {
 function* exportReport(action) {
   try {
     yield put({
-      type: "DOWNLOAD_REPORT_EXPORT",
+      type: 'DOWNLOAD_REPORT_EXPORT',
     });
 
     const responses = yield requestAPI(action);
@@ -298,9 +299,9 @@ function* exportReport(action) {
         useDownloadManager: true,
         mediaScannable: true,
         notification: true,
-        description: "File downloaded by download manager.",
+        description: 'File downloaded by download manager.',
         path: `${dirs.DocumentDir}/${action.fileName}.${action.extention}`,
-      }).fetch("GET", responses.data, {});
+      }).fetch('GET', responses.data, {});
 
       switch (action.type) {
         case ACTION_TYPES.OPM_Export:
@@ -404,18 +405,18 @@ function* exportReport(action) {
       }
     } else if (parseInt(codeNumber) === 401) {
       yield put({
-        type: "UNAUTHORIZED",
+        type: 'UNAUTHORIZED',
       });
     } else {
       yield put({
-        type: "SHOW_ERROR_MESSAGE",
+        type: 'SHOW_ERROR_MESSAGE',
         message: responses?.message,
       });
     }
   } catch (error) {
     yield put({ type: error });
   } finally {
-    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: 'STOP_LOADING_ROOT' });
   }
 }
 

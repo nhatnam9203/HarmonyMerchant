@@ -6,7 +6,7 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import Text from './Text';
-import { scaleSzie, ListCodeAreaPhone } from '../utils';
+import { scaleSize, ListCodeAreaPhone } from '../utils';
 import { Dropdown } from './react-native-material-dropdown';
 
 export default class InputFormPhone extends React.PureComponent {
@@ -40,21 +40,21 @@ export default class InputFormPhone extends React.PureComponent {
         } = this.props;
         const temptHeight = Platform.OS === 'ios' ? 30 : 40
         return (
-            <View style={[{ marginBottom: scaleSzie(24) }, style]} >
-                <Text style={{ color: '#404040', fontSize: scaleSzie(14), fontWeight: "600" }} >
+            <View style={[{ marginBottom: scaleSize(24) }, style]} >
+                <Text style={{ color: '#404040', fontSize: scaleSize(14), fontWeight: "600" }} >
                     {title}
-                    <Text style={{ color: '#404040', fontSize: scaleSzie(12) }} >
+                    <Text style={{ color: '#404040', fontSize: scaleSize(12) }} >
                         {subTitle}
                     </Text>
                 </Text>
                 <View style={{
-                    height: scaleSzie(temptHeight),
-                    marginTop: scaleSzie(5),
+                    height: scaleSize(temptHeight),
+                    marginTop: scaleSize(5),
                     flexDirection: 'row'
                 }} >
                     {
                         !isNotShowDropdown ? <>
-                            <View style={{ width: scaleSzie(60), }} >
+                            <View style={{ width: scaleSize(60), }} >
                                 <Dropdown
                                     label={'+1'}
                                     data={ListCodeAreaPhone}
@@ -68,7 +68,7 @@ export default class InputFormPhone extends React.PureComponent {
                                     }}
                                 />
                             </View>
-                            <View style={{ width: scaleSzie(8) }} />
+                            <View style={{ width: scaleSize(8) }} />
                         </> : <View />
                     }
 
@@ -78,7 +78,7 @@ export default class InputFormPhone extends React.PureComponent {
                             options={{
                                 mask: mark ? mark : '999-999-9999'
                             }}
-                            style={{ flex: 1, fontSize: scaleSzie(16) }}
+                            style={{ flex: 1, fontSize: scaleSize(16) }}
                             placeholder={placeholder}
                             value={value}
                             onChangeText={(value => onChangeText(value))}

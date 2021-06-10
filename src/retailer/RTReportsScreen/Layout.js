@@ -1,0 +1,32 @@
+import { StatusBarHeader } from '@components';
+import { createStackNavigator } from '@react-navigation/stack';
+import { ButtonDrawer } from '@shared/components/ButtonDrawer';
+import { HeaderToolBar } from '@shared/components/HeaderToolBar';
+import { HeaderToolBarTitle } from '@shared/components/HeaderToolBarTitle';
+import { colors } from '@shared/themes';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet, View } from 'react-native';
+import { ReportSalesPage } from './pages';
+
+export const Layout = ({ openDrawer }) => {
+  const { t } = useTranslation();
+
+  return (
+    <View style={styles.container}>
+      <StatusBarHeader />
+      <HeaderToolBar
+        leftComponent={() => <ButtonDrawer onPress={openDrawer} />}
+      >
+        <HeaderToolBarTitle label={t('Reports')} />
+      </HeaderToolBar>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.WHITE_FA,
+  },
+});

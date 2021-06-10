@@ -42,6 +42,7 @@ function ReportScreen2({ showBackButton }, ref) {
   const serviceRef = useRef(null);
   const productRef = useRef(null);
   const overallRef = useRef(null);
+  const scrollTabRef = useRef(null);
 
   /**public function  */
   useImperativeHandle(ref, () => ({
@@ -82,9 +83,10 @@ function ReportScreen2({ showBackButton }, ref) {
           overallRef?.current?.didBlur();
 
           break;
-      }
+      };
+      scrollTabRef?.current?.goToFirstTab()
     },
-    didFocus: () => {},
+    didFocus: () => { },
   }));
 
   const onTabChange = (index) => {
@@ -151,9 +153,32 @@ function ReportScreen2({ showBackButton }, ref) {
     }
   }, [reportTabPermission, reportTabPermissionSuccess]);
 
+  // ------------- New Code ---------------
+
+  handleOnChangeTab = (i) => {
+    switch (i) {
+      case 0:
+        staffRef?.current?.getListStaffsSalaryTop();
+        break;
+      case 1:
+        giftCardRef?.current?.getGiftCardReportSales();
+        break;
+      case 2:
+        customerRef?.current?.getCustomerReportSales();
+        break;
+      case 5:
+        overallRef?.current?.callAPIForTwoTabs();
+        break;
+
+      default:
+        break;
+    };
+  }
+
   return (
     <View style={styles.container}>
       <HeaderTabLayout
+        ref={scrollTabRef}
         tabIcons={[
           IMAGE.Staff,
           IMAGE.giftcard,
@@ -163,29 +188,30 @@ function ReportScreen2({ showBackButton }, ref) {
           IMAGE.Report_Overall,
         ]}
         onHeaderTabChanged={onTabChange}
+        handleOnChangeTab={handleOnChangeTab}
       >
         <StaffTab
+          ref={staffRef}
           style={styles.content}
           tabLabel={localize("Staff Salary", language)}
-          ref={staffRef}
           showBackButton={onShowBackButton}
         />
         <GiftCardTab
+          ref={giftCardRef}
           style={styles.content}
           tabLabel={localize("Gift Card", language)}
-          ref={giftCardRef}
           showBackButton={onShowBackButton}
         />
         <CustomerTab
+          ref={customerRef}
           style={styles.content}
           tabLabel={localize("Customer", language)}
-          ref={customerRef}
           showBackButton={onShowBackButton}
         />
         <ServiceTab
+           ref={serviceRef}
           style={styles.content}
           tabLabel={localize("Services", language)}
-          ref={serviceRef}
           showBackButton={onShowBackButton}
         />
         <ProductTab

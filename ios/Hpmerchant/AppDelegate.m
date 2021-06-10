@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
+// #import <Fabric/Fabric.h>
+// #import <Crashlytics/Crashlytics.h>
 #import "AppDelegate.h"
 
 #import <React/RCTBridge.h>
@@ -29,7 +29,7 @@
   if ([FIRApp defaultApp] == nil) {
     [FIRApp configure];
   }
-  
+
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"Hpmerchant"
@@ -41,20 +41,20 @@
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
-  
 
-  
-  
+
+
+
   [self.window makeKeyAndVisible];
-      [Fabric with:@[[Crashlytics class]]];
+      // [Fabric with:@[[Crashlytics class]]];
   [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error: nil];
-  
+
     [RNSplashScreen show];
-  
+
   // Define UNUserNotificationCenter
    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
    center.delegate = self;
-  
+
 
   return YES;
 }

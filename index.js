@@ -1,44 +1,14 @@
-/** @format */
-import React from "react";
-import { AppRegistry, View } from "react-native";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/es/integration/react";
-import SplashScreen from "react-native-splash-screen";
+/**
+ * @format
+ */
 
-import AppNavigators from "./src/navigators/AppNavigator";
-import { persistor, store } from "./src/redux/store";
-import { name as appName } from "./app.json";
-import NavigatorServices from "./src/navigators/NavigatorServices";
-import { Loading, PopupDisconnected, PopupConnected, PopupInfomationCodePush } from "./src/components";
-import { FirebaseNotificationProvider } from "@firebase";
+import { AppRegistry, LogBox } from 'react-native';
+import 'react-native-gesture-handler';
+import { enableScreens } from 'react-native-screens';
+import { name as appName } from './app.json';
+import './globals';
+import App from './src/App';
 
-
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    SplashScreen.hide();
-    console.disableYellowBox = true
-    console.ignoredYellowBox = ['Setting a timer'];
-  }
-
-  render() {
-    return (
-      <Provider store={store}>
-        <PersistGate loading={<View />} persistor={persistor}>
-          <AppNavigators
-            ref={(navigatorRef) => {
-              NavigatorServices.setContainer(navigatorRef);
-            }}
-          />
-          <Loading />
-          <PopupDisconnected />
-          <PopupConnected />
-          <FirebaseNotificationProvider />
-          <PopupInfomationCodePush />
-        </PersistGate>
-      </Provider>
-    );
-  }
-}
-
+LogBox.ignoreAllLogs();
+enableScreens();
 AppRegistry.registerComponent(appName, () => App);

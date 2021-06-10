@@ -1,7 +1,7 @@
 import { put, takeLatest, all } from "redux-saga/effects";
 
 import { requestAPI } from '../../utils';
-import apiConfigs from '../../configs/api';
+import Configs from '@configs';
 
 function* addServiceByMerchant(action) {
     try {
@@ -15,7 +15,7 @@ function* addServiceByMerchant(action) {
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}service/search?name=${keySearch}&category=${category}&status=${status}`,
+                api: `service/search?name=${keySearch}&category=${category}&status=${status}`,
                 isShowLoading: true,
                 searchFilter: action?.searchFilter || false
             })
@@ -23,7 +23,7 @@ function* addServiceByMerchant(action) {
                 type: 'GET_EXTRA_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}extra`,
+                api: `extra`,
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -64,7 +64,7 @@ function* getServicesByMerchant(action) {
                     type: 'GET_EXTRA_BY_MERCHANT',
                     method: 'GET',
                     token: true,
-                    api: `${apiConfigs.BASE_API}extra`,
+                    api: `extra`,
                 })
             }
         } else if (parseInt(codeNumber) === 401) {
@@ -99,7 +99,7 @@ function* archiveService(action) {
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}service/search?name=${keySearch}&category=${category}&status=${status}`,
+                api: `service/search?name=${keySearch}&category=${category}&status=${status}`,
                 isShowLoading: true,
                 searchFilter:  action?.searchFilter || false
             })
@@ -133,7 +133,7 @@ function* restoreService(action) {
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}service/search?name=${keySearch}&category=${category}&status=${status}`,
+                api: `service/search?name=${keySearch}&category=${category}&status=${status}`,
                 isShowLoading: true,
                 searchFilter:  action?.searchFilter || false
             })
@@ -167,7 +167,7 @@ function* editService(action) {
                 type: 'GET_SERVICE_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}service/search?name=${keySearch}&category=${category}&status=${status}`,
+                api: `service/search?name=${keySearch}&category=${category}&status=${status}`,
                 isShowLoading: true,
                 isGetListExtra: true,
                 searchFilter: action?.searchFilter || false
@@ -222,7 +222,7 @@ function* updateSerivePosition(action) {
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-           
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

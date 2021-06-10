@@ -8,12 +8,11 @@ import { parseString } from "react-native-xml2js";
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
-    formatNumberFromCurrency, formatMoney, scaleSzie, roundFloatNumber, requestAPI, formatWithMoment
+    formatNumberFromCurrency, formatMoney, scaleSize, roundFloatNumber, requestAPI, formatWithMoment
 } from '@utils';
-import apiConfigs from '@configs/api';
+import Configs from '@configs';
 
-
-const PosLink = NativeModules.MyApp;
+const PosLink = NativeModules.report;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
 class TabFirstSettle extends Layout {
@@ -68,7 +67,7 @@ class TabFirstSettle extends Layout {
 
     scrollTo = (number) => {
         if (this.scrollRef.current) {
-            this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(number), animated: true });
+            this.scrollRef.current.scrollTo({ x: 0, y: scaleSize(number), animated: true });
         }
 
     }
@@ -115,7 +114,7 @@ class TabFirstSettle extends Layout {
             let totalReport = 0;
             let totalRecord = 0;
             let isError = false;
-            const tempEnv = env.IS_PRODUCTION;
+            const tempEnv = env.ENV;
 
             setTimeout(() => {
                 PoslinkAndroid.startReport(ip, port, "", "LOCALDETAILREPORT", "ALL", "UNKNOWN", "UNKNOWN",
@@ -183,26 +182,39 @@ class TabFirstSettle extends Layout {
 
     handlePAXReport_IOS = async () => {
         const { paxMachineInfo } = this.props;
-        const { ip, port, timeout, isSetup } = paxMachineInfo;
+        const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
 
         if (isSetup) {
             await this.setState({
                 visible: true
             });
-            let totalReport = 0;
+            // let totalReport = 0;
             let totalRecord = 0;
             let isError = false;
 
             try {
-                const tempEnv = env.IS_PRODUCTION;
-                PosLink.setupPax(ip, port, timeout);
+                const tempEnv = env.ENV;
+                const tempIpPax = commType == "TCP" ? ip : "";
+                const tempPortPax = commType == "TCP" ? port : "";
+                const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
                 // ----------- Total Amount --------
-                let data = await PosLink.reportTransaction("LOCALDETAILREPORT", "ALL", "UNKNOWN", "UNKNOWN");
+                let data = await PosLink.reportTransaction({
+                    transType: "LOCALDETAILREPORT",
+                    edcType: "ALL",
+                    cardType: "",
+                    paymentType: "",
+                    commType: commType,
+                    destIp: tempIpPax,
+                    portDevice: tempPortPax,
+                    timeoutConnect: "90000",
+                    bluetoothAddr: idBluetooth,
+                    refNum: ''
+                });
                 let result = JSON.parse(data);
                 const ExtData = result?.ExtData || "";
                 const xmlExtData = "<xml>" + ExtData.replace("\\n", "").replace("\\/", "/") + "</xml>";
 
-                if (result?.ResultTxt && result?.ResultTxt == "OK") {
+                if (result?.ResultCode && result?.ResultCode == "000000") {
                     if (tempEnv == "Production" && result?.Message === "DEMO APPROVED") {
                         await this.setState({
                             visible: false,
@@ -219,9 +231,23 @@ class TabFirstSettle extends Layout {
                         totalRecord = parseInt(result?.TotalRecord || 0);
 
                         // ----------- Total Report --------
-                        let amountData = await PosLink.reportTransaction("LOCALTOTALREPORT", "ALL", "UNKNOWN", "");
-                        let amountResult = JSON.parse(amountData);
-                        totalReport = parseFloat(amountResult?.CreditAmount || 0);
+                        // let amountData = await PosLink.reportTransaction({
+                        //     transType: "LOCALTOTALREPORT",
+                        //     edcType: "ALL",
+                        //     cardType: "",
+                        //     paymentType: "",
+                        //     commType: commType,
+                        //     destIp: tempIpPax,
+                        //     portDevice: tempPortPax,
+                        //     timeoutConnect: "90000",
+                        //     bluetoothAddr: idBluetooth,
+                        //     refNum: ''
+                        // });
+                        // let amountResult = JSON.parse(amountData);
+                        // totalRecord = parseInt(amountResult?.CreditCount || 0);
+                        // console.log("LOCALTOTALREPORT: ", JSON.stringify(amountResult));
+
+                        // totalReport = parseFloat(amountResult?.CreditAmount || 0);
 
                         parseString(xmlExtData, (err, result) => {
                             if (err) {
@@ -236,9 +262,7 @@ class TabFirstSettle extends Layout {
                     throw `${result.ResultTxt}`
                 }
 
-
             } catch (error) {
-                // console.log("---- error: ",error);
                 isError = true;
                 this.handleRequestAPIByTerminalID(null);
                 this.props.actions.app.connectPaxMachineError(`${error}`);
@@ -246,8 +270,7 @@ class TabFirstSettle extends Layout {
 
             if (!isError) {
                 this.props.actions.app.ConnectPaxMachineSuccess();
-                // this.props.actions.app.updatePaxTerminalID("");
-                const moneyInPax = formatMoney(roundFloatNumber(totalReport / 100));
+                // const moneyInPax = formatMoney(roundFloatNumber(totalReport / 100));
                 await this.setState({
                     creditCount: totalRecord,
                     // editPaymentByCreditCard: moneyInPax
@@ -277,7 +300,8 @@ class TabFirstSettle extends Layout {
     continueSettlement = () => {
         const { settleWaiting } = this.props;
         const { creditCount, editPaymentByHarmony, editPaymentByCreditCard,
-            editPaymentByCash, editOtherPayment, note, discountSettlement, paymentByGiftcard
+            editPaymentByCash, editOtherPayment, note, discountSettlement, paymentByGiftcard,
+            terminalID
         } = this.state;
         this.props.gotoTabSecondSettle({
             paymentByHarmony: editPaymentByHarmony,
@@ -297,6 +321,7 @@ class TabFirstSettle extends Layout {
                 formatNumberFromCurrency(paymentByGiftcard)
             ),
             note,
+            terminalID
         }, creditCount);
     }
 
@@ -308,7 +333,7 @@ class TabFirstSettle extends Layout {
                 type: 'GET_SETTLEMENT_WARNING',
                 method: 'GET',
                 token: profileStaffLogin.token,
-                api: `${apiConfigs.BASE_API}settlement/warning`,
+                api: `settlement/warning`,
                 versionApp: versionApp
             });
             this.props.actions.app.stopLoadingApp();
@@ -428,7 +453,6 @@ class TabFirstSettle extends Layout {
     }
 
     handleRequestAPIByTerminalID = (terminalID) => {
-        console.log("------ terminalID: ", terminalID);
         this.setState({
             terminalID
         });
@@ -495,7 +519,7 @@ class TabFirstSettle extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.hardware.paxMachineInfo,
     settleWaiting: state.invoice.settleWaiting,
     invoicesOfStaff: state.invoice.invoicesOfStaff,
     loading: state.app.loading,

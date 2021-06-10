@@ -1,7 +1,7 @@
 import { put, takeLatest, all } from "redux-saga/effects";
 
 import { requestAPI } from '../../utils';
-import apiConfigs from '../../configs/api';
+import Configs from '@configs';
 
 function* addExtraByMerchant(action) {
     try {
@@ -16,7 +16,7 @@ function* addExtraByMerchant(action) {
                 type: 'GET_EXTRA_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}extra/search?name=${keySearch}&status=${status}`,
+                api: `extra/search?name=${keySearch}&status=${status}`,
                 isShowLoading: true,
                 searchFilter:  action?.searchFilter || false
             })
@@ -86,7 +86,7 @@ function* archiveExtra(action) {
                 type: 'GET_EXTRA_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}extra/search?name=${keySearch}&status=${status}`,
+                api: `extra/search?name=${keySearch}&status=${status}`,
                 isShowLoading: true,
                 searchFilter: action?.searchFilter || false
             })
@@ -120,7 +120,7 @@ function* restoreExtra(action) {
                 type: 'GET_EXTRA_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}extra/search?name=${keySearch}&status=${status}`,
+                api: `extra/search?name=${keySearch}&status=${status}`,
                 isShowLoading: true,
                 searchFilter: action?.searchFilter || false
             })
@@ -154,7 +154,7 @@ function* editExtra(action) {
                 type: 'GET_EXTRA_BY_MERCHANT',
                 method: 'GET',
                 token: true,
-                api: `${apiConfigs.BASE_API}extra/search?name=${keySearch}&status=${status}`,
+                api: `extra/search?name=${keySearch}&status=${status}`,
                 isShowLoading: true,
                 searchFilter:  action?.searchFilter || false
             })
@@ -208,7 +208,7 @@ function* updatePositionExtras(action) {
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-        
+
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'

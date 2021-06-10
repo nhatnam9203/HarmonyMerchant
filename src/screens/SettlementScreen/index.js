@@ -41,7 +41,13 @@ class SettlementScreen extends Layout {
                 });
                 this.tabSettleRef.current.onDidFocus();
                 this.checkPermissionRef.current.setStateFromParent('');
-                this.props.actions.invoice.toggleSettlementTabPermission();
+                const { profileStaffLogin } = this.props;
+                const roleName = profileStaffLogin?.roleName || "Admin";
+                if (roleName === "Admin") {
+                    this.tabSettleRef?.current?.callReportFromChildren();
+                } else {
+                    this.props.actions.invoice.toggleSettlementTabPermission();
+                }
             }
         );
     }
@@ -52,13 +58,15 @@ class SettlementScreen extends Layout {
             currentPage: currentIndex
         })
         if (currentIndex === 1) {
-            if (this.transactionTabRef.current) {
+            if (this.transactionTabRef?.current) {
                 this.transactionTabRef.current.searchTransactions();
             }
         } else if (currentIndex === 2) {
             this.props.actions.invoice.getBatchHistory();
-            if (this.batchHistoryTabRef.current) {
-                this.batchHistoryTabRef.current.setStateFromParent();
+            if (this.batchHistoryTabRef?.current) {
+                this.batchHistoryTabRef?.current.setStateFromParent();
+                this.batchHistoryTabRef?.current.scrollTabFromParent(0);
+                this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(false);
             } else {
                 setTimeout(() => {
                     this.batchHistoryTabRef.current.setStateFromParent();
@@ -102,11 +110,18 @@ class SettlementScreen extends Layout {
         this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(isShowIcon);
     }
 
-    componentWillUnmount() {
-        this.didBlurSubscription.remove();
-        this.didFocusSubscription.remove();
-    }
+    clearIntervalById = () => {
+        const { notiIntervalId } = this.props;
+        if (notiIntervalId) {
+          clearInterval(notiIntervalId);
+          this.props.actions.app.resetNotiIntervalId();
+        }
+      }
 
+    componentWillUnmount() {
+        this.didBlurSubscription();
+        this.didFocusSubscription();
+    }
 
 }
 
@@ -117,7 +132,9 @@ const mapStateToProps = state => ({
     settlementTabPermission: state.invoice.settlementTabPermission,
     isShowBackSettlement: state.invoice.isShowBackSettlement,
     isShowBackBatchHistory: state.invoice.isShowBackBatchHistory,
-    terminalID: state.app.terminalID
+    terminalID: state.app.terminalID,
+    profileStaffLogin: state.dataLocal.profileStaffLogin,
+    notiIntervalId: state.app.notiIntervalId
 })
 
 

@@ -8,22 +8,22 @@ import { TextInputMask } from 'react-native-masked-text';
 import {
     Text, Dropdown
 } from '@components';
-import { scaleSzie, ListCodeAreaPhone } from '@utils';
+import { scaleSize, ListCodeAreaPhone } from '@utils';
 
 const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntry, type,onFocus,
     typeSocial,mark,maxLength,style }) => {
     return (
         <View style={{
             flexDirection: 'row',
-            height: scaleSzie(36),
-            paddingLeft: scaleSzie(90),
-            paddingRight: scaleSzie(90),
-            marginTop: scaleSzie(25)
+            height: scaleSize(36),
+            paddingLeft: scaleSize(90),
+            paddingRight: scaleSize(90),
+            marginTop: scaleSize(25)
         }} >
-            <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
+            <View style={{ width: scaleSize(150), justifyContent: 'center' }} >
                 <Text style={[{
                     color: '#404040',
-                    fontSize: scaleSzie(14),
+                    fontSize: scaleSize(14),
                     fontWeight: '600',
 
                 },style]}  >
@@ -31,14 +31,14 @@ const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntr
                 </Text>
             </View>
 
-            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSzie(5) }} >
+            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSize(5) }} >
                 {
                     type ? <TextInputMask
                         type={typeSocial ? typeSocial :"only-numbers"}
                         options={{
                             mask: mark ? mark : null
                         }}
-                        style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
+                        style={{ flex: 1, fontSize: scaleSize(14), color: '#404040', }}
                         placeholder={placeholder}
                         value={value}
                         onChangeText={(value => onChangeText(value))}
@@ -46,7 +46,7 @@ const ItemAdminInfo = ({ title, placeholder, value, onChangeText, secureTextEntr
                         maxLength={maxLength ? maxLength : null}
                         onFocus={() => onFocus()}
                     /> : <TextInput
-                            style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
+                            style={{ flex: 1, fontSize: scaleSize(14), color: '#404040', }}
                             placeholder={placeholder}
                             value={value}
                             onChangeText={(value => onChangeText(value))}
@@ -73,7 +73,7 @@ class ItemAdminCellPhone extends React.Component {
         await this.setState({
             codeAreaPhone: code
         })
-    }   
+    }
 
     render() {
         const { title, placeholder, value, onChangeText, secureTextEntry, maxLength,onFocus,style } = this.props;
@@ -81,15 +81,15 @@ class ItemAdminCellPhone extends React.Component {
         return (
             <View style={[{
                 flexDirection: 'row',
-                height: scaleSzie(36),
-                paddingLeft: scaleSzie(90),
-                paddingRight: scaleSzie(90),
-                marginTop: scaleSzie(25)
+                height: scaleSize(36),
+                paddingLeft: scaleSize(90),
+                paddingRight: scaleSize(90),
+                marginTop: scaleSize(25)
             },style]} >
-                <View style={{ width: scaleSzie(150), justifyContent: 'center' }} >
+                <View style={{ width: scaleSize(150), justifyContent: 'center' }} >
                     <Text style={{
                         color: '#404040',
-                        fontSize: scaleSzie(14),
+                        fontSize: scaleSize(14),
                         fontWeight: '600',
 
                     }}  >
@@ -100,7 +100,7 @@ class ItemAdminCellPhone extends React.Component {
                 <View style={{
                     flex: 1, flexDirection: 'row'
                 }} >
-                    <View style={{ width: scaleSzie(60), backgroundColor: 'red' }} >
+                    <View style={{ width: scaleSize(60), backgroundColor: 'red' }} >
                         <Dropdown
                             label={'+1'}
                             data={ListCodeAreaPhone}
@@ -114,14 +114,14 @@ class ItemAdminCellPhone extends React.Component {
                             }}
                         />
                     </View>
-                    <View style={{ width: scaleSzie(8) }} />
-                    <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(10) }} >
+                    <View style={{ width: scaleSize(8) }} />
+                    <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSize(10) }} >
                     <TextInputMask
                            type={'custom'}
                            options={{
                             mask: '999-999-9999'
                            }}
-                            style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040', }}
+                            style={{ flex: 1, fontSize: scaleSize(14), color: '#404040', }}
                             placeholder={placeholder}
                             value={value}
                             onChangeText={(value => onChangeText(value))}

@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { Dropdown } from "react-native-material-dropdown";
+import { Dropdown } from "react-native-material-dropdown-v2";
 
 import IMAGE from "@resources";
-import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
+import { localize, scaleSize, getQuickFilterTimeRange } from "@utils";
 import { PopupCalendar } from "@components";
 
 import HeaderTitle from "./HeaderTitle";
@@ -103,12 +103,12 @@ export default function ReportStatisticLayout({
           </>
         }
       >
-        <PopupButton
+        {/* <PopupButton
           text={titleRangeTime}
           imageSrc={IMAGE.calendar}
           onPress={showCalendar}
           style={{ marginRight: 20 }}
-        />
+        /> */}
         {dataFilters && (
           <Dropdown
             data={dataFilters}

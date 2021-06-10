@@ -148,3 +148,13 @@ android/.idea/libraries/Gradle__me_leolin_ShortcutBadger_1_1_21_aar.xml
 android/.idea/libraries/Gradle__org_webkit_android_jsc_r174650_aar.xml
 android/.gradle/4.6/fileHashes/fileHashes.bin
 android/.gradle/4.6/fileHashes/fileHashes.lock
+
+
+# Recycle
+*.zip
+*.hrof
+
+# configuration
+.env
+ios/Podfile.lock
+

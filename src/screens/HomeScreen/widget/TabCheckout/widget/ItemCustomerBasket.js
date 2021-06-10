@@ -10,7 +10,7 @@ import _ from 'ramda';
 
 import { Button } from '@components';
 import {
-    scaleSzie, localize, formatNumberFromCurrency, formatMoney, getArrayProductsFromAppointment,
+    scaleSize, localize, formatNumberFromCurrency, formatMoney, getArrayProductsFromAppointment,
     getArrayServicesFromAppointment, getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment
 } from '@utils';
 import IMAGE from '@resources';
@@ -121,7 +121,7 @@ class ItemCustomerBasket extends React.Component {
             {
                 backgroundColor: '#fff',
                 component: <Button onPress={() => this.props.actions.appointment.removeAppointmentInGroup(appointmentId)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                    <Image source={IMAGE.removeItemBasket} style={{ width: scaleSzie(24), height: scaleSzie(24) }} />
+                    <Image source={IMAGE.removeItemBasket} style={{ width: scaleSize(24), height: scaleSize(24) }} />
                 </Button>,
             }
         ];
@@ -132,25 +132,25 @@ class ItemCustomerBasket extends React.Component {
         return (
             <Swipeout
                 right={swipeoutBtns}
-                buttonWidth={scaleSzie(45)}
+                buttonWidth={scaleSize(45)}
                 disabled={isMain === 1 || isOfflineMode ? true : disabledRemoveItemCustomerBasket}
                 close={true}
             >
                 <View style={{
-                    height: scaleSzie(35), backgroundColor: "#0764B0", paddingLeft: scaleSzie(10),
+                    height: scaleSize(35), backgroundColor: "#0764B0", paddingLeft: scaleSize(10),
                     flexDirection: "row", alignItems: "center",
                 }} >
-                    <Text style={{ color: "#fff", fontSize: scaleSzie(14), fontWeight: "bold" }} >
+                    <Text style={{ color: "#fff", fontSize: scaleSize(12), fontWeight: "600" }} >
                         {`#${codeAppointment} - ${firstName} ${lastName}`}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         <Button onPress={this.toggleCollaps} >
                             <Image source={iconCollaps}
-                                style={{ width: scaleSzie(28), height: scaleSzie(28) }}
+                                style={{ width: scaleSize(22), height: scaleSize(22) }}
                             />
                         </Button>
                     </View>
-                    <View style={{ width: scaleSzie(5), height: scaleSzie(35), backgroundColor: temptColor, marginLeft: scaleSzie(8) }} />
+                    <View style={{ width: scaleSize(5), height: scaleSize(35), backgroundColor: temptColor, marginLeft: scaleSize(8) }} />
                 </View>
                 <View style={{ height: 2, borderBottomColor: "#fff", borderBottomWidth: 2 }} />
             </Swipeout>
@@ -184,7 +184,7 @@ class ItemCustomerBasket extends React.Component {
                     }
                 }
             }
-           
+
             basket = arryaServices.concat(arrayProducts, arrayGiftCards);
 
         } else {
@@ -205,12 +205,12 @@ class ItemCustomerBasket extends React.Component {
                             removeItemBasket={(item) => removeItemBasket(item, appointmentId, true)}
                             onPress={(service) => changeStylist(service, appointmentId)}
                             changeProduct={product => changeProduct(product, appointmentId)}
-                            removeExtra={(extra) => removeItemBasket(extra,appointmentId,true)}
+                            removeExtra={(extra) => removeItemBasket(extra, appointmentId, true)}
                         />)
                     }
                     {/* ----------- Payment Number --------- */}
-                    <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
-                        <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
+                    <View style={{ flexDirection: 'row', marginTop: scaleSize(10) }} >
+                        <View style={{ flex: 1, paddingHorizontal: scaleSize(10) }} >
                             {/* ---------- Price ------ */}
                             <View style={styles.payNumberTextContainer} >
                                 <Text style={styles.textPay} >
@@ -229,7 +229,7 @@ class ItemCustomerBasket extends React.Component {
                                     {
                                         checkoutPayments.length === 0 ?
                                             <Image source={IMAGE.add_discount_checkout}
-                                                style={{ width: scaleSzie(20), height: scaleSzie(20) }}
+                                                style={{ width: scaleSize(20), height: scaleSize(20) }}
                                             /> : null
                                     }
                                 </Button>
@@ -247,7 +247,7 @@ class ItemCustomerBasket extends React.Component {
                                     {
                                         isExistService ?
                                             <Image source={IMAGE.add_discount_checkout}
-                                                style={{ width: scaleSzie(20), height: scaleSzie(20) }}
+                                                style={{ width: scaleSize(20), height: scaleSize(20) }}
                                             /> : null
                                     }
                                 </Button>
@@ -267,15 +267,15 @@ class ItemCustomerBasket extends React.Component {
                             </View>
                             {/* ---------- Line ------ */}
                             <View style={{
-                                height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSzie(2),
-                                marginBottom: scaleSzie(6)
+                                height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSize(2),
+                                marginBottom: scaleSize(6)
                             }} />
                             {/* ---------- Total ------ */}
                             <View style={styles.payNumberTextContainer} >
-                                <Text style={[styles.textPay, { fontSize: scaleSzie(18) }]} >
+                                <Text style={[styles.textPay, { fontSize: scaleSize(18) }]} >
                                     {`${localize('Total', language)}:`}
                                 </Text>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(18), fontWeight: "600" }]} >
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSize(18), fontWeight: "600" }]} >
                                     {`$ ${formatMoney(`${temptTotal}`)}`}
                                 </Text>
                             </View>

@@ -1,9 +1,9 @@
-import React from "react";
-import { Keyboard } from "react-native";
+import React from 'react';
+import { Keyboard } from 'react-native';
 
-import Layout from "./layout";
-import connectRedux from "@redux/ConnectRedux";
-import { checkStatusPrint } from "@utils";
+import Layout from './layout';
+import connectRedux from '@redux/ConnectRedux';
+import { checkStatusPrint } from '@utils';
 
 class SettingScreen extends Layout {
   constructor(props) {
@@ -26,31 +26,40 @@ class SettingScreen extends Layout {
 
   componentDidMount() {
     this.didBlurSubscription = this.props.navigation.addListener(
-      "didBlur",
+      'didBlur',
       (payload) => {
         this.setState({
           isFocus: false,
         });
-        this.checkPermissionRef.current.setStateFromParent("");
+        this.checkPermissionRef.current.setStateFromParent('');
         this.resetSettingTab();
-      }
+      },
     );
+
     this.didFocusSubscription = this.props.navigation.addListener(
-      "didFocus",
+      'didFocus',
       (payload) => {
         this.setState({
           isFocus: true,
         });
-        this.checkPermissionRef.current.setStateFromParent("");
-        this.props.actions.app.toggleSettingTabPermission();
-      }
+        this.checkPermissionRef?.current?.setStateFromParent('');
+
+        const { profileStaffLogin } = this.props;
+        const roleName = profileStaffLogin?.roleName || 'Admin';
+        if (roleName === 'Admin') {
+          const { profile } = this.props;
+          this.props.actions.app.getMerchantByID(profile?.merchantId);
+        } else {
+          this.props.actions.app.toggleSettingTabPermission();
+        }
+      },
     );
   }
 
   handleLockScreen = () => {
     const { isFocus } = this.state;
     if (isFocus) {
-      this.props.navigation.navigate("Home");
+      this.props.navigation.navigate('Home');
       this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     }
   };
@@ -79,31 +88,64 @@ class SettingScreen extends Layout {
     }
 
     this.setState({
-      indexTab: index
+      indexTab: index,
     });
-
-  }
+  };
 
   fetchAPIsInSettingTab = (index) => {
     switch (index) {
       case 0:
         const { profile } = this.props;
-        return this.props.actions.app.getMerchantByID(
-          profile.merchantId,
-          true
-        );
+        return this.props.actions.app.getMerchantByID(profile.merchantId, true);
       case 1:
         this.resetStateStaffSetting();
-        return this.props.actions.staff.getStaffByMerchantId("", "", "", false, false);
+        this.props.actions.category.getCategoriesByMerchantId(
+          '',
+          '',
+          '',
+          false,
+          false,
+        );
+        this.props.actions.service.getServicesByMerchant(
+          '',
+          '',
+          '',
+          false,
+          false,
+        );
+        return this.props.actions.staff.getStaffByMerchantId(
+          '',
+          '',
+          '',
+          false,
+          false,
+        );
       case 2:
         this.resetStateCategoriesSetting();
-        return this.props.actions.category.getCategoriesByMerchantId('', '', '', false, false);
+        return this.props.actions.category.getCategoriesByMerchantId(
+          '',
+          '',
+          '',
+          false,
+          false,
+        );
       case 3:
         this.resetStateServiceSetting();
-        return this.props.actions.service.getServicesByMerchant('', '', '', false, false);
+        return this.props.actions.service.getServicesByMerchant(
+          '',
+          '',
+          '',
+          false,
+          false,
+        );
       case 4:
         this.resetStateExtraSetting();
-        return this.props.actions.extra.getExtraByMerchant('', '', false, false);
+        return this.props.actions.extra.getExtraByMerchant(
+          '',
+          '',
+          false,
+          false,
+        );
       case 5:
         return this.updateTaxFromParent();
       case 6:
@@ -116,30 +158,30 @@ class SettingScreen extends Layout {
     if (this.tabExtraRef.current) {
       this.tabExtraRef.current.setStateFromParent();
     }
-  }
+  };
 
   resetStateServiceSetting = () => {
     if (this.tabServiceRef.current) {
       this.tabServiceRef.current.setStateFromParent();
     }
-  }
+  };
 
   resetStateCategoriesSetting = () => {
     if (this.tabCategoriesRef.current) {
       this.tabCategoriesRef.current.setStateFromParent();
     }
-  }
+  };
 
   resetStateStaffSetting = () => {
     if (this.tabStaffRef.current) {
       this.tabStaffRef.current.setStateFromParent();
     }
-  }
+  };
 
   updateTaxFromParent = () => {
     const { profile } = this.props;
-    const productTAX = profile?.taxProduct || "";
-    const serviceTAX = profile?.taxService || "";
+    const productTAX = profile?.taxProduct || '';
+    const serviceTAX = profile?.taxService || '';
     if (this.taxTabRef.current) {
       this.taxTabRef.current.setStateFromParent(productTAX, serviceTAX);
     } else {
@@ -150,50 +192,72 @@ class SettingScreen extends Layout {
   };
 
   logout = () => {
-    this.props.actions.auth.requestLogout();
-    this.props.navigation.navigate("SigninStack");
+    // this.props.actions.auth.requestLogout();
+    // this.props.navigation.navigate("SigninStack");
   };
 
   backTab = () => {
     this.props.actions.staff.switchAddStaff(false);
+    if (this.tabStaffRef?.current) {
+      this.tabStaffRef?.current.backAddStaff();
+    }
   };
 
   closePopupCheckSettingTabPermission = () => {
     this.props.actions.app.toggleSettingTabPermission(false);
-    this.props.navigation.navigate("Home");
+    this.props.navigation.navigate('Home');
   };
 
   getPrinters = async () => {
     const { printerPortType } = this.props;
     try {
       if (!printerPortType) {
-        this.props.actions.dataLocal.updatePrinterPortType("Bluetooth");
+        this.props.actions.dataLocal.updatePrinterPortType('Bluetooth');
       }
-      this.props.actions.app.loadingApp()
-      const printMachine = await checkStatusPrint(printerPortType ? printerPortType : "Bluetooth");
+      this.props.actions.app.loadingApp();
+      const printMachine = await checkStatusPrint(
+        printerPortType ? printerPortType : 'Bluetooth',
+      );
       this.props.actions.dataLocal.updatePrinterList(printMachine);
       this.props.actions.app.stopLoadingApp();
     } catch (error) {
       this.props.actions.app.stopLoadingApp();
       setTimeout(() => {
-        alert(error)
-      }, 500)
+        alert(error);
+      }, 500);
     }
-  }
+  };
 
   resetSettingTab = () => {
-    const { isShowSearchCategories, isShowSearchExtra, isShowSearchService, isShowSearchStaff } = this.props;
+    const {
+      isShowSearchCategories,
+      isShowSearchExtra,
+      isShowSearchService,
+      isShowSearchStaff,
+    } = this.props;
     if (isShowSearchCategories) {
-      this.props.actions.category.getCategoriesByMerchantId('', '', '', false, false);
+      this.props.actions.category.getCategoriesByMerchantId(
+        '',
+        '',
+        '',
+        false,
+        false,
+      );
     }
     if (isShowSearchExtra) {
       this.props.actions.extra.getExtraByMerchant('', '', false, false);
     }
     if (isShowSearchService) {
-      this.props.actions.service.getServicesByMerchant('', '', '', false, false);
+      this.props.actions.service.getServicesByMerchant(
+        '',
+        '',
+        '',
+        false,
+        false,
+      );
     }
     if (isShowSearchStaff) {
-      this.props.actions.staff.getStaffByMerchantId("", "", "", false, false);
+      this.props.actions.staff.getStaffByMerchantId('', '', '', false, false);
     }
     this.scrollTabRef.current.goToPage(0);
 
@@ -202,9 +266,16 @@ class SettingScreen extends Layout {
     }
     this.setState({
       indexTab: 0,
-    })
+    });
+  };
 
-  }
+  clearIntervalById = () => {
+    const { notiIntervalId } = this.props;
+    if (notiIntervalId) {
+      clearInterval(notiIntervalId);
+      this.props.actions.app.resetNotiIntervalId();
+    }
+  };
 
   componentDidUpdate(prevProps, prevState) {
     const { profile, loading } = this.props;
@@ -215,24 +286,24 @@ class SettingScreen extends Layout {
       !this.generalTabRef.current.state.isUpdateInternal &&
       this.state.indexTab === 0
     ) {
-
       // ------- External Update -----
       this.generalTabRef.current.setStateFromParent(
-        profile?.webLink || "",
-        profile?.timezone || "",
-        profile?.autoCloseAt || "",
+        profile?.webLink || '',
+        profile?.timezone || '',
+        profile?.autoCloseAt || '',
         profile?.turnAmount || 0,
         profile?.staffColumn || 8,
-        profile?.signinAppStyle || "",
-        profile?.sendReviewLinkOption || "",
-        profile?.isUsingTurn || false
+        profile?.signinAppStyle || '',
+        profile?.sendReviewLinkOption || '',
+        profile?.isUsingTurn || false,
+        profile?.giftForNewEnabled || false,
       );
     }
   }
 
   componentWillUnmount() {
-    this.didBlurSubscription.remove();
-    this.didFocusSubscription.remove();
+    this.didBlurSubscription();
+    this.didFocusSubscription();
   }
 }
 
@@ -248,6 +319,8 @@ const mapStateToProps = (state) => ({
   isShowSearchExtra: state.extra.isShowSearchExtra,
   isShowSearchService: state.service.isShowSearchService,
   isShowSearchStaff: state.staff.isShowSearchStaff,
+  profileStaffLogin: state.dataLocal.profileStaffLogin,
+  notiIntervalId: state.app.notiIntervalId,
 });
 
 export default connectRedux(mapStateToProps, SettingScreen);

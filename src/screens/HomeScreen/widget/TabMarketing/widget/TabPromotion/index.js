@@ -3,152 +3,118 @@ import React from 'react';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import { getServiceIdByName } from '@utils';
-import { scaleSzie } from '../../../../../../utils';
+import { scaleSize } from '@utils';
 
 class TabPromotion extends Layout {
   constructor(props) {
     super(props);
     this.state = {
-      dateCalendar: new Date(),
-      keyCalendarUpdate: '',
-      promotionIdCalendar: -1,
-      show: false,
-    }
-    this.promotionFirstRef = React.createRef();
-    this.promotionSecondRef = React.createRef();
-    this.promotionThirdRef = React.createRef();
-    this.promotionFourRef = React.createRef();
-    this.promotionFiveRef = React.createRef();
-    this.promotionRewardPointsRef = React.createRef();
-    this.scrollRef = React.createRef();
+      currentTab: 0
+    };
+
+    this.scrollTabParentRef = React.createRef();
+    this.promotionDetailRef = React.createRef();
   }
 
   componentDidMount() {
-    // this.props.actions.marketing.getPromotionByMerchant();
-  }
-
-  onPressListPromotion = () => {
     this.props.actions.marketing.getPromotionByMerchant(false);
   }
 
-  setDateSelected = (date) => {
-    const { promotionIdCalendar } = this.state;
-    if (promotionIdCalendar === 1) {
-      this.promotionFirstRef.current.setDateFromParent(this.state.keyCalendarUpdate, date);
-    } else if (promotionIdCalendar === 6) {
-      this.promotionRewardPointsRef.current.setDateFromParent(this.state.keyCalendarUpdate, date);
+  onChangeTab = (index) => {
+    const currentIndex = index.i;
+    this.props.handleChangeBackgrounColor(currentIndex);
+  }
+
+
+
+  createNewCampaign = () => {
+    this.props.actions.marketing.resetStatePromotionDetailById();
+    this.props.actions.marketing.getSMSInformation(1);
+    this.goToPage(1);
+    if (this.promotionDetailRef?.current) {
+      this.promotionDetailRef?.current?.setStateFromParent();
     } else {
-      this.promotionSecondRef.current.setDateFromParent(this.state.keyCalendarUpdate, date);
+      setTimeout(() => {
+        this.promotionDetailRef?.current?.setStateFromParent();
+      }, 300)
     }
-    this.props.actions.marketing.setStatusApplyButton(true);
+
   }
 
-  getDataItemPromotion = (index, promotions) => {
-    const data = promotions.filter(item => item.promotionId === index);
-    return data[0];
+  editCampaign = (campaign) => () => {
+
+    this.goToPage(1);
+    if (this.promotionDetailRef?.current) {
+      this.promotionDetailRef?.current?.setStateFromParent(campaign);
+    } else {
+      setTimeout(() => {
+        this.promotionDetailRef?.current?.setStateFromParent(campaign);
+      }, 300)
+    }
+
+
+    this.props.actions.marketing.getPromotionDetailById(campaign?.id,campaign?.conditionId);
+    // setTimeout(() => {
+    //   this.props.actions.marketing.getSMSInformation(campaign?.conditionId);
+    // }, 500)
   }
 
-  getDataDropdownService() {
-    const { servicesByMerchant } = this.props;
-    return servicesByMerchant.map(item => {
-      return { value: item.name }
-    });
+  getSMSInformation = (conditionId) => {
+    // console.log("----- getSMSInformation: ",conditionId);
+    this.props.actions.marketing.getSMSInformation(conditionId);
   }
 
-  showCalendar = async (keyCalendarUpdate, date, promotionId) => {
-    await this.setState({
-      dateCalendar: date,
-      keyCalendarUpdate: keyCalendarUpdate,
-      promotionIdCalendar: promotionId
-    })
-    await this.setState({
-      show: true
-    });
+  disableCampaign = (campaign) => () => {
+    this.props.actions.marketing.disablePromotionById(campaign?.id || 0);
   }
 
-  applyPromotion = (promotionId, isSendNoti) => {
-    const { servicesByMerchant } = this.props;
-
-    const promotionFirst = this.promotionFirstRef.current.state.data;
-    const promotionSeconde = this.promotionSecondRef.current.state.data;
-    const promotionThird = this.promotionThirdRef.current.state.data;
-    const promotionFour = this.promotionFourRef.current.state.data;
-    const promotionFive = this.promotionFiveRef.current.state.data;
-
-    const temptPromotionSecond = {
-      ...this.promotionSecondRef.current.state.data,
-      serviceUsing: getServiceIdByName(servicesByMerchant, promotionSeconde?.serviceUsing || 0),
-      serviceApply: getServiceIdByName(servicesByMerchant,promotionSeconde?.serviceApply || 0),
-    };
-
-    let tempPromotion;
-    switch (parseInt(promotionId)) {
-      case 1:
-        tempPromotion = promotionFirst;
-        break;
-      case 2:
-        tempPromotion = temptPromotionSecond;
-        break;
-      case 3:
-        tempPromotion = promotionThird;
-        break;
-      case 4:
-        tempPromotion = promotionFour;
-        break;
-      case 5:
-        tempPromotion = promotionFive;
-        break;
-      default:
-        tempPromotion = promotionFive;
-    };
-
-    this.props.actions.marketing.updatePromotionByMerchant([tempPromotion], promotionId, isSendNoti);
+  enableCampaign = (campaign) => () => {
+    this.props.actions.marketing.enablePromotionById(campaign?.id || 0);
   }
 
-  checkSelectPromotion = () => {
-    this.props.actions.marketing.setStatusApplyButton(true);
+  cancelCampaign = () => {
+    this.scrollTabParentRef?.current.goToPage(0);
   }
 
-  sendNotification = (promotionId) => {
-
-    this.props.actions.marketing.sendNotificationByPromotionId(promotionId);
+  goToPage = (page = 1) => {
+    if (this.scrollTabParentRef?.current) {
+      this.scrollTabParentRef?.current.goToPage(page);
+    } else {
+      setTimeout(() => {
+        this.scrollTabParentRef?.current.goToPage(page);
+      }, 300)
+    }
   }
 
-  updatePromotionsFromParent = () => {
-    const { promotions } = this.props;
-    this.promotionFirstRef.current.setStateFromParent(this.getDataItemPromotion(1, promotions));
-    this.promotionSecondRef.current.setStateFromParent(this.getDataItemPromotion(2, promotions));
-    this.promotionThirdRef.current.setStateFromParent(this.getDataItemPromotion(3, promotions));
-    this.promotionFourRef.current.setStateFromParent(this.getDataItemPromotion(4, promotions));
-    this.promotionFiveRef.current.setStateFromParent(this.getDataItemPromotion(5, promotions));
-    this.promotionRewardPointsRef.current.setStateFromParent(this.getDataItemPromotion(6, promotions));
+  updatePromotionById = (promotionId, body) => {
+    this.props.actions.marketing.updatePromotionById(promotionId, body);
   }
 
-  scrollToNumber = (num = 0) => {
-    this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(num), animated: true })
+  handleCreateNewCampaign = (campaign) => {
+    this.props.actions.marketing.createNewCampaign(campaign);
   }
 
-  toogleOtherPromotions = (ref) => {
-    let firstPromotion = this.promotionFirstRef === this[ref] ? false : true;
-    let secondPromotion = this.promotionSecondRef === this[ref] ? false : true;
-    let thirdPromotion = this.promotionThirdRef === this[ref] ? false : true;
-    let fourPromotion = this.promotionFourRef === this[ref] ? false : true;
-    let fivePromotion = this.promotionFiveRef === this[ref] ? false : true;
-    let rewardPromotion = this.promotionRewardPointsRef === this[ref] ? false : true;
+  viewRule = () => {
+    this.goToPage(2);
+  }
 
-    this.promotionFirstRef.current.toogleFromParent(firstPromotion);
-    this.promotionSecondRef.current.toogleFromParent(secondPromotion);
-    this.promotionThirdRef.current.toogleFromParent(thirdPromotion);
-    this.promotionFourRef.current.toogleFromParent(fourPromotion);
-    this.promotionFiveRef.current.toogleFromParent(fivePromotion);
-    this.promotionRewardPointsRef.current.toogleFromParent(rewardPromotion);
+  disableRule = () => {
+
+  }
+
+  cancelRewardPoints = () => {
+    this.goToPage(0);
+  }
+
+  saveRewardPoints = () => {
+    this.goToPage(0);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { profile, isGetPromotionByMerchant } = this.props;
-    if (prevProps.isGetPromotionByMerchant !== isGetPromotionByMerchant && isGetPromotionByMerchant) {
-      this.props.actions.marketing.resetStateGetPromotion();
-      this.updatePromotionsFromParent();
+    const { isUpdatePromotionById } = this.props;
+    if (isUpdatePromotionById && prevProps.isUpdatePromotionById !== isUpdatePromotionById) {
+      this.props.actions.marketing.resetStateIsUpdatePromotionById(false);
+      this.goToPage(0);
     }
   }
 
@@ -161,7 +127,9 @@ const mapStateToProps = state => ({
   servicesByMerchant: state.service.servicesByMerchant,
   isApplyPromotion: state.marketing.isApplyPromotion,
   refreshingPromotion: state.marketing.refreshingPromotion,
-  isGetPromotionByMerchant: state.marketing.isGetPromotionByMerchant
+  isGetPromotionByMerchant: state.marketing.isGetPromotionByMerchant,
+
+  isUpdatePromotionById: state.marketing.isUpdatePromotionById
 })
 
 

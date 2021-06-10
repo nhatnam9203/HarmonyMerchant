@@ -1,12 +1,12 @@
 import React from 'react';
 import {
     View,
-    
+
 } from 'react-native';
 
-import {ScrollableTabView } from '@components';
+import { ScrollableTabView } from '@components';
 import styles from './style';
-import { HomeHardware, AddDeviceHardware, SetupHardware ,PrinterList} from './widget';
+import { HomeHardware, AddDeviceHardware, SetupHardware, PrinterList } from './widget';
 
 class Layout extends React.Component {
 
@@ -19,9 +19,10 @@ class Layout extends React.Component {
                     initialPage={0}
                     locked={true}
                     renderTabBar={() => <View />}
-                    onChangeTab={(index) => {
-                        this.setState({ tabCurrent: index.i })
-                    }}
+                    // onChangeTab={(index) => {
+                    //     this.setState({ tabCurrent: index.i })
+                    // }}
+                    onChangeTab={this.onChangeTab}
                 >
                     <HomeHardware
                         gotoListDevices={this.gotoListDevices}
@@ -32,11 +33,12 @@ class Layout extends React.Component {
                         backHomeHardware={this.backHomeHardware}
                     />
                     <SetupHardware
+                        ref={this.setupHardwareRef}
                         backListDevices={this.backListDevices}
                     />
-                     <PrinterList 
-                          backHomeHardware={this.backHomeHardware}
-                     />
+                    <PrinterList
+                        backHomeHardware={this.backHomeHardware}
+                    />
 
 
                 </ScrollableTabView>

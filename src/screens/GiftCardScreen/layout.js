@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import { Text, StatusBarHeader, ScrollableTabView, Button, ParentContainer, ButtonCustom, PopupCheckStaffPermission, ClearTextInputIcon } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSize, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
@@ -24,10 +24,10 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         return (
             <View style={{
-                height: scaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSzie(50),
+                height: scaleSize(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSize(50),
                 justifyContent: 'center'
             }} >
-                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0', fontWeight: "600" }} >
+                <Text style={{ fontSize: scaleSize(16), color: '#0764B0', fontWeight: "600" }} >
                     {localize('Gift Card', language)}
                 </Text>
             </View>
@@ -38,13 +38,13 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         const { keySearch } = this.state;
         return (
-            <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
+            <View style={{ height: scaleSize(40), paddingHorizontal: scaleSize(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row' }} >
-                        <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: scaleSzie(4), flexDirection: 'row' }} >
-                            <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
+                        <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: scaleSize(4), flexDirection: 'row' }} >
+                            <View style={{ flex: 1, paddingHorizontal: scaleSize(12) }} >
                                 <TextInput
-                                    style={{ flex: 1, fontSize: scaleSzie(18) }}
+                                    style={{ flex: 1, fontSize: scaleSize(18) }}
                                     placeholder={localize('Search', language)}
                                     value={keySearch}
                                     onChangeText={this.onChangeKeySearch}
@@ -53,7 +53,7 @@ export default class Layout extends React.Component {
                             </View>
                             {
                                 keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
-                                    width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
+                                    width: scaleSize(35), alignItems: 'center', justifyContent: 'center',
 
                                 }} >
                                     <ClearTextInputIcon />
@@ -63,7 +63,7 @@ export default class Layout extends React.Component {
                     </View>
 
                     {/* ----------- Search Button ------------ */}
-                    <View style={{ width: scaleSzie(130), alignItems: 'flex-end' }} >
+                    <View style={{ width: scaleSize(130), alignItems: 'flex-end' }} >
                         <ButtonCustom
                             width={'95%'}
                             height={40}
@@ -72,7 +72,7 @@ export default class Layout extends React.Component {
                             textColor="#6A6A6A"
                             onPress={() => this.searchGiftCardsList(1, true, false, false)}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
-                            styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
+                            styleText={{ fontSize: scaleSize(15), fontWeight: '500' }}
                         />
                     </View>
                 </View>
@@ -100,12 +100,12 @@ export default class Layout extends React.Component {
                     refreshing={refreshListCustomer}
                     onRefresh={this.onRefreshGiftCardList}
                     onEndReached={this.loadMoreGiftCardsList}
-                    onEndReachedThreshold={0.5}
+                    onEndReachedThreshold={0.1}
                     onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
                     removeClippedSubviews={true}
                     initialNumToRender={20}
                     maxToRenderPerBatch={5}
-                    ListFooterComponent={() => <View style={{ height: scaleSzie(30), alignItems: "center", justifyContent: "center" }} >
+                    ListFooterComponent={() => <View style={{ height: scaleSize(30), alignItems: "center", justifyContent: "center" }} >
                         {
                             isLoadMoreGiftCardsList ? <ActivityIndicator
                                 size="large"
@@ -126,6 +126,7 @@ export default class Layout extends React.Component {
                 handleLockScreen={this.handleLockScreen}
                 activeScreen={isFocus}
                 navigation={navigation}
+                clearIntervalById={this.clearIntervalById}
             >
                 <View style={styles.container} >
                     <StatusBarHeader />
@@ -140,9 +141,9 @@ export default class Layout extends React.Component {
                     >
                         {/* --------- List Customer Tab -------- */}
                         <View style={{ flex: 1 }} >
-                            <View style={{ height: scaleSzie(25) }} />
+                            <View style={{ height: scaleSize(25) }} />
                             {this.renderSearch()}
-                            <View style={{ height: scaleSzie(25) }} />
+                            <View style={{ height: scaleSize(25) }} />
                             {this.renderTable()}
                         </View>
 
@@ -154,15 +155,15 @@ export default class Layout extends React.Component {
 
                     </ScrollableTabView>
                     <Button onPress={this.openDrawer} style={configs.btn_left_position} >
-                        <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
+                        <Image source={IMAGE.openDrawer} style={{ width: scaleSize(34), height: scaleSize(34) }} />
                     </Button>
 
                     {
                         currentTab === 1 ? <Button onPress={this.backCustomerListTab}
                             style={[configs.btn_right_position, {
-                                width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
+                                width: scaleSize(34), height: scaleSize(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                             }]} >
-                            <Image source={ICON.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
+                            <Image source={ICON.arrowRight} style={{ width: scaleSize(22), height: scaleSize(17) }} />
                         </Button> : <View />
                     }
                 </View>

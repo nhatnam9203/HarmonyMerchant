@@ -17,7 +17,7 @@ import _ from "ramda";
 
 import { Button, ButtonCustom } from "@components";
 import {
-  scaleSzie,
+  scaleSize,
   localize,
   PRINTER_MACHINE,
   formatWithMoment,
@@ -107,7 +107,6 @@ class PopupStaffInvoicePrint extends React.Component {
         });
       }
     } catch (error) {
-      // console.log(error);
       await this.setState({
         isProcessingPrint: false,
       });
@@ -134,8 +133,7 @@ class PopupStaffInvoicePrint extends React.Component {
         ? `0${parseInt(new Date().getHours()) - 12}`
         : parseInt(new Date().getHours());
     const surfix = parseInt(new Date().getHours()) - 12 > 0 ? "PM" : "AM";
-    const temptDate = `${hours}:${
-      new Date().getMinutes() > 10
+    const temptDate = `${hours}:${new Date().getMinutes() > 10
         ? new Date().getMinutes()
         : `0${new Date().getMinutes()}`
       } ${surfix}`;
@@ -144,8 +142,7 @@ class PopupStaffInvoicePrint extends React.Component {
   }
 
   getDate() {
-    return `${
-      new Date().getMonth() + 1
+    return `${new Date().getMonth() + 1
       }/${new Date().getDate()}/${new Date().getFullYear()}`;
   }
 
@@ -196,8 +193,8 @@ class PopupStaffInvoicePrint extends React.Component {
       return (
         <View
           style={{
-            height: scaleSzie(530),
-            width: scaleSzie(290),
+            height: scaleSize(530),
+            width: scaleSize(290),
             position: "absolute",
             top: 0,
             bottom: 0,
@@ -227,18 +224,14 @@ class PopupStaffInvoicePrint extends React.Component {
     const toTime = receipts.to
       ? formatWithMoment(receipts.to, "MM/DD/YYYY")
       : "";
-    const sales = receipts.serviceSales ? receipts.serviceSales : "0.00";
-    const workingHour = receipts.workingHour ? receipts.workingHour : "0";
-    const product = receipts.productSales ? receipts.productSales : "0.00";
-    const cash = receipts.cash ? receipts.cash : "0.00";
-    const nonCash = receipts.nonCash ? receipts.nonCash : "0.00";
-    const detail = receipts.detail ?? [];
+    const sales = receipts?.serviceSales || "0.00";
+    const workingHour = receipts?.workingHour || "0";
+    const product =  receipts?.productSales || "0.00";
+    const cash = receipts?.cash || "0.00";
+    const nonCash = receipts?.nonCash || "0.00";
+    const detail = receipts?.detail || [];
+    const netServiceSales = receipts?.netServiceSales || "0.00";
 
-    // const servicePayout = this.findReceiptType("ServicePayout");
-    // const workingHourReceipt = this.findReceiptType("WorkingHour");
-    // const productPayout = this.findReceiptType("ProductPayout");
-    // const tippayout = this.findReceiptType("Tippayout");
-    // const totalReceipt = this.findReceiptType("Total");
     let totalDesc = "";
     return (
       <Modal
@@ -259,26 +252,26 @@ class PopupStaffInvoicePrint extends React.Component {
           <View
             style={{
               backgroundColor: "#fff",
-              width: scaleSzie(290),
-              // height: scaleSzie(450)
+              width: scaleSize(290),
+              // height: scaleSize(450)
             }}
           >
-            <View style={{ height: scaleSzie(480) }}>
+            <View style={{ height: scaleSize(480) }}>
               <ScrollView
                 style={{ flex: 1 }}
                 automaticallyAdjustContentInsets={true}
                 keyboardShouldPersistTaps="always"
               >
-                <View style={{ height: scaleSzie(10) }} />
+                <View style={{ height: scaleSize(10) }} />
                 <View ref={this.viewShotRef} style={{ paddingHorizontal: 20 }}>
                   {/* -------------- Type Invoice + Staff Name -------------- */}
                   <Text
                     style={[
                       styleInvoice.txt_normal,
-                      { fontSize: scaleSzie(14), fontWeight: "600" },
+                      { fontSize: scaleSize(14), fontWeight: "600" },
                     ]}
                   >
-                    {`${receiptType} receipts - ${staffName}`}
+                    {`${receiptType} receipts 111 - ${staffName}`}
                   </Text>
                   {/* -------------- Date -------------- */}
                   <Text
@@ -295,6 +288,10 @@ class PopupStaffInvoicePrint extends React.Component {
                   <ItemStaffInvoice
                     title="Service Sales"
                     value={`$ ${sales}`}
+                  />
+                  <ItemStaffInvoice
+                    title="Net Service Sale"
+                    value={`$ ${netServiceSales}`}
                   />
                   <ItemStaffInvoice
                     title="Total Time Work"
@@ -327,34 +324,32 @@ class PopupStaffInvoicePrint extends React.Component {
                                   language
                                 )}`}
                                 value={`$ ${x.total}`}
-                                style={{ marginTop: scaleSzie(15) }}
+                                style={{ marginTop: scaleSize(15) }}
                               />
 
                               <ItemStaffInvoice
                                 title="Tip Total"
                                 value={`$ ${x.subTotal}`}
                                 styleTilte={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                                 styleValue={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                               />
                               <ItemStaffInvoice
-                                title={`Tip Fee (${
-                                  x.fee && x.fee.value ? x.fee.value : "0.00%"
+                                title={`Tip Fee (${x.fee && x.fee.value ? x.fee.value : "0.00%"
                                   })`}
-                                value={`$ ${
-                                  x.fee && x.fee.amount ? x.fee.amount : "0.00"
+                                value={`$ ${x.fee && x.fee.amount ? x.fee.amount : "0.00"
                                   }`}
                                 styleTilte={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                                 styleValue={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                               />
@@ -362,11 +357,11 @@ class PopupStaffInvoicePrint extends React.Component {
                                 title="Check"
                                 value={`$ ${x.check}`}
                                 styleTilte={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                                 styleValue={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                               />
@@ -380,7 +375,7 @@ class PopupStaffInvoicePrint extends React.Component {
                                 style={{
                                   height: 2,
                                   backgroundColor: "#000",
-                                  marginVertical: scaleSzie(10),
+                                  marginVertical: scaleSize(10),
                                 }}
                               />
 
@@ -390,11 +385,11 @@ class PopupStaffInvoicePrint extends React.Component {
                                 value={`$ ${x.total}`}
                                 subTitle={" (" + totalDesc + ")"}
                                 styleTilte={{
-                                  fontSize: scaleSzie(14),
+                                  fontSize: scaleSize(14),
                                   fontWeight: "600",
                                 }}
                                 styleValue={{
-                                  fontSize: scaleSzie(14),
+                                  fontSize: scaleSize(14),
                                   fontWeight: "600",
                                 }}
                               />
@@ -402,11 +397,11 @@ class PopupStaffInvoicePrint extends React.Component {
                                 title="Cash"
                                 value={`$ ${x.cash}`}
                                 styleTilte={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                                 styleValue={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                               />
@@ -414,11 +409,11 @@ class PopupStaffInvoicePrint extends React.Component {
                                 title="Check"
                                 value={`$ ${x.check}`}
                                 styleTilte={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                                 styleValue={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                               />
@@ -443,11 +438,11 @@ class PopupStaffInvoicePrint extends React.Component {
                                 title="Cash"
                                 value={`$ ${x.cash}`}
                                 styleTilte={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                                 styleValue={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                               />
@@ -455,11 +450,11 @@ class PopupStaffInvoicePrint extends React.Component {
                                 title="Check"
                                 value={`$ ${x.check}`}
                                 styleTilte={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                                 styleValue={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                               />
@@ -484,11 +479,11 @@ class PopupStaffInvoicePrint extends React.Component {
                                 title="Cash"
                                 value={`$ ${x.cash}`}
                                 styleTilte={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                                 styleValue={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                               />
@@ -496,11 +491,11 @@ class PopupStaffInvoicePrint extends React.Component {
                                 title="Check"
                                 value={`$ ${x.check}`}
                                 styleTilte={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                                 styleValue={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                               />
@@ -509,14 +504,14 @@ class PopupStaffInvoicePrint extends React.Component {
                       }
                     })}
                 </View>
-                <View style={{ height: scaleSzie(100) }} />
+                <View style={{ height: scaleSize(100) }} />
               </ScrollView>
             </View>
 
             {/* ------ Button ----- */}
             <View
               style={{
-                height: scaleSzie(40),
+                height: scaleSize(40),
                 justifyContent: "center",
                 flexDirection: "row",
               }}
@@ -529,7 +524,7 @@ class PopupStaffInvoicePrint extends React.Component {
                 textColor="#fff"
                 onPress={this.cancelInvoicePrint}
                 styleText={{
-                  fontSize: scaleSzie(10),
+                  fontSize: scaleSize(10),
                   fontWeight: "600",
                   color: "#404040",
                 }}
@@ -540,7 +535,7 @@ class PopupStaffInvoicePrint extends React.Component {
                   backgroundColor: "#F1F1F1",
                 }}
               />
-              <View style={{ width: scaleSzie(35) }} />
+              <View style={{ width: scaleSize(35) }} />
               <ButtonCustom
                 width={"30%"}
                 height={30}
@@ -549,7 +544,7 @@ class PopupStaffInvoicePrint extends React.Component {
                 textColor="#fff"
                 onPress={this.processPrintInvoice}
                 styleText={{
-                  fontSize: scaleSzie(10),
+                  fontSize: scaleSize(10),
                   fontWeight: "600",
                 }}
                 style={{
@@ -605,18 +600,18 @@ const ItemBorderBottom = () => {
 const styleInvoice = StyleSheet.create({
   txt_normal: {
     color: "#000",
-    fontSize: scaleSzie(13),
+    fontSize: scaleSize(13),
     alignSelf: "center",
     fontWeight: "200",
   },
   txt_info: {
     color: "#000",
-    fontSize: scaleSzie(12),
+    fontSize: scaleSize(12),
     fontWeight: "400",
   },
   txt_total: {
     color: "#000",
-    fontSize: scaleSzie(16),
+    fontSize: scaleSize(16),
     fontWeight: "200",
   },
 });

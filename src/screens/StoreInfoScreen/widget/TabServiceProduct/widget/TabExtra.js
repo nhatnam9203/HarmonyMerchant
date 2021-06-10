@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { FooterTab, PopupConfirm, PopupEditAddExtra } from '@components';
-import { scaleSzie ,localize} from '@utils';
+import { scaleSize ,localize} from '@utils';
 import HeaderTableExtra from './HeaderTableExtra';
 import RowTableExtra from './RowTableExtra';
 import RowEmptyTableExtra from './RowEmptyTableExtra';
@@ -67,7 +67,7 @@ class TabExtra extends React.Component {
     })
         const { extraInfoHandle } = this.state;
         this.props.actions.extra.archiveExtra(extraInfoHandle.extraId);
-      
+
     }
 
   async  restoreStaffYess() {
@@ -76,7 +76,7 @@ class TabExtra extends React.Component {
     })
         const { extraInfoHandle } = this.state;
         this.props.actions.extra.restoreExtra(extraInfoHandle.extraId);
-      
+
     }
 
     showModalAddExtra = () => {
@@ -87,7 +87,7 @@ class TabExtra extends React.Component {
     addExtra =async (extra) => {
        await this.setState({ visibleAdd: false })
         this.props.actions.extra.addExtraByMerchant(extra);
-       
+
     }
 
     editExtra =async  extra => {
@@ -95,7 +95,7 @@ class TabExtra extends React.Component {
             visibleEdit: false
         })
         this.props.actions.extra.editExtra(extra, extra.extraId);
-      
+
     }
 
     async editService(extra) {
@@ -103,7 +103,7 @@ class TabExtra extends React.Component {
             visibleEdit: true
         })
         this.editExtraRef.current.setExtraFromParent(extra);
-       
+
     }
 
     renderTable() {
@@ -188,7 +188,7 @@ class TabExtra extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: scaleSzie(12)
+        paddingTop: scaleSize(12)
     },
 })
 

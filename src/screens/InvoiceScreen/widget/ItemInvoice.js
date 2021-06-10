@@ -5,31 +5,9 @@ import {
 } from 'react-native';
 
 import { Button } from '@components';
-import { scaleSzie, formatWithMoment } from '@utils';
+import { scaleSize, formatWithMoment } from '@utils';
 
 class ItemInvoice extends React.Component {
-
-    _isMounted = false;
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            isSelected: false
-        }
-    }
-
-    componentDidMount() {
-        this._isMounted = true;
-    }
-
-    setStateFromParent = isSlect => {
-        if (this._isMounted) {
-            this.setState({
-                isSelected: isSlect
-            });
-        };
-
-    }
 
     getColorStatus(status) {
         let color = '';
@@ -40,8 +18,14 @@ class ItemInvoice extends React.Component {
             case 'pending':
                 color = '#0764B0';
                 break;
+            case 'incomplete':
+                color = '#0764B0';
+                break;
             case 'complete':
                 color = '#0035FF';
+                break;
+            case 'transaction fail':
+                color = '#FF3B30';
                 break;
             default:
                 color = '#C5C5C5';
@@ -49,43 +33,37 @@ class ItemInvoice extends React.Component {
         return color;
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        const { invoice } = this.props;
-        const { isSelected } = this.state
-        return invoice.code !== nextProps.invoice.code || isSelected !== nextState.isSelected ||
-            invoice.status !== nextProps.invoice.status || invoice.createdDate !== nextProps.createdDate;
-    }
 
     render() {
-        const { invoice, onPress } = this.props;
+        const { invoice, onPress, isSelectedInvoice } = this.props;
         const { user } = invoice;
         const tempDate = `${formatWithMoment(invoice.createdDate, 'MM/DD/YYYY')}` === `${formatWithMoment(new Date(), 'MM/DD/YYYY')}` ? 'Today' : formatWithMoment(invoice.createdDate, 'MM/DD/YYYY');
         const temptFirstName = user ? user.firstName : '';
         const temptLastName = user ? user.lastName : '';
-        const colorStaus = this.getColorStatus(invoice.status);
-        const temptBackground = this.state.isSelected ? { backgroundColor: 'rgb(225,246,254)' } : {};
+        const colorStaus = this.getColorStatus(invoice?.status);
+        const temptBackground = isSelectedInvoice ? { backgroundColor: 'rgb(225,246,254)' } : {};
         const settlementId = invoice.settlementId ? invoice.settlementId : 0;
 
         return (
             <Button onPress={() => onPress()} style={[{
-                height: scaleSzie(62), paddingHorizontal: scaleSzie(10),
+                height: scaleSize(62), paddingHorizontal: scaleSize(10),
                 borderBottomColor: '#C5C5C5', borderBottomWidth: 1,
                 backgroundColor: '#FAFAFA',
                 flexDirection: "row"
             }, temptBackground]} >
                 {/* ----------- Col 1 --------- */}
-                <View style={{ flex: 1.7 }} >
+                <View style={{ flex:2}} >
                     <View style={{ flex: 1, justifyContent: 'center' }} >
-                        <Text style={{ fontSize: scaleSzie(14), color: '#404040' }} >
+                        <Text style={{ fontSize: scaleSize(14), color: '#404040' }} >
                             {`${temptFirstName} ${temptLastName}`}
                         </Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
-                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', marginRight: scaleSzie(20) }} >
+                        <Text style={{ fontSize: scaleSize(14), color: '#6A6A6A', marginRight: scaleSize(20) }} >
                             {`# ${invoice.code}`}
                         </Text>
                         <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: colorStaus }} />
-                        <Text style={{ fontSize: scaleSzie(14), color: colorStaus, marginLeft: scaleSzie(5) }} >
+                        <Text style={{ fontSize: scaleSize(11), color: colorStaus, marginLeft: scaleSize(5),fontWeight:"600" }} >
                             {invoice.status}
                         </Text>
 
@@ -94,12 +72,12 @@ class ItemInvoice extends React.Component {
                 {/* ----------- Col 2 --------- */}
                 <View style={{ flex: 1 }} >
                     <View style={{ flex: 1, justifyContent: 'center' }} >
-                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A' }} >
+                        <Text style={{ fontSize: scaleSize(14), color: '#6A6A6A' }} >
                             {tempDate}
                         </Text>
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', }} >
-                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', fontWeight: "bold" }} >
+                        <Text style={{ fontSize: scaleSize(14), color: '#6A6A6A', fontWeight: "bold" }} >
                             {`${formatWithMoment(invoice.createdDate, 'hh:mm A')}`}
                         </Text>
                     </View>
@@ -107,12 +85,12 @@ class ItemInvoice extends React.Component {
                 {/* ----------- Col 3 --------- */}
                 <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'flex-end' }} >
                     {
-                        settlementId ? <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: "400", marginBottom: scaleSzie(2) }} >
+                        settlementId ? <Text style={{ fontSize: scaleSize(12), color: '#404040', fontWeight: "400", marginBottom: scaleSize(2) }} >
                             {`Batch ID: #${settlementId}`}
                         </Text> : null
                     }
 
-                    <Text style={{ fontSize: scaleSzie(14), color: '#404040', fontWeight: "600" }} >
+                    <Text style={{ fontSize: scaleSize(14), color: '#404040', fontWeight: "600" }} >
                         {`$ ${invoice.total}`}
                     </Text>
                 </View>
@@ -121,9 +99,6 @@ class ItemInvoice extends React.Component {
         );
     }
 
-    componentWillUnmount() {
-        this._isMounted = false;
-    }
 }
 
 

@@ -1,6 +1,6 @@
 import { Button, ButtonCustom, ModalCustom } from "@components";
 import IMAGE from "@resources";
-import { localize, scaleSzie } from "@utils";
+import { localize, scaleSize } from "@utils";
 import React, { useEffect, useState } from "react";
 import {
   Image, KeyboardAvoidingView, StyleSheet, Text,
@@ -51,7 +51,7 @@ function PopupExportReport({
         <View style={styles.container}>
           <View
             style={{
-              height: scaleSzie(55),
+              height: scaleSize(55),
               backgroundColor: "#0764B0",
               flexDirection: "row",
               width: "100%",
@@ -68,7 +68,7 @@ function PopupExportReport({
               <Text
                 style={{
                   color: "#fff",
-                  fontSize: scaleSzie(22),
+                  fontSize: scaleSize(22),
                   fontWeight: "bold",
                 }}
               >
@@ -77,26 +77,26 @@ function PopupExportReport({
             </View>
             <View
               style={{
-                width: scaleSzie(70),
+                width: scaleSize(70),
                 justifyContent: "center",
                 alignItems: "flex-end",
-                paddingRight: scaleSzie(12),
+                paddingRight: scaleSize(12),
               }}
             >
               <Button
                 onPress={() => onRequestClose()}
                 style={{
-                  width: scaleSzie(34),
-                  height: scaleSzie(34),
+                  width: scaleSize(34),
+                  height: scaleSize(34),
                   backgroundColor: "#fff",
-                  borderRadius: scaleSzie(17),
+                  borderRadius: scaleSize(17),
                   justifyContent: "center",
                   alignItems: "center",
                 }}
               >
                 <Image
                   source={IMAGE.closePopup}
-                  style={{ width: scaleSzie(16), height: scaleSzie(16) }}
+                  style={{ width: scaleSize(16), height: scaleSize(16) }}
                 />
               </Button>
             </View>
@@ -109,11 +109,11 @@ function PopupExportReport({
               padding: 20,
             }}
           >
-            <View style={{ flexDirection: "row", height: scaleSzie(40) }}>
+            <View style={{ flexDirection: "row", height: scaleSize(40) }}>
               <View
-                style={{ marginRight: scaleSzie(10), justifyContent: "center" }}
+                style={{ marginRight: scaleSize(10), justifyContent: "center" }}
               >
-                <Text style={{ color: "#404040", fontSize: scaleSzie(20) }}>
+                <Text style={{ color: "#404040", fontSize: scaleSize(20) }}>
                   {localize("Save as", language)}
                 </Text>
               </View>
@@ -122,11 +122,11 @@ function PopupExportReport({
                   flex: 1,
                   borderWidth: 1,
                   borderColor: "#C5C5C5",
-                  paddingHorizontal: scaleSzie(10),
+                  paddingHorizontal: scaleSize(10),
                 }}
               >
                 <TextInput
-                  style={{ flex: 1, fontSize: scaleSzie(18), color: "#404040" }}
+                  style={{ flex: 1, fontSize: scaleSize(18), color: "#404040" }}
                   value={exportTitle}
                   onChangeText={(value) => setExportTitle(value)}
                 />
@@ -136,21 +136,21 @@ function PopupExportReport({
 
           <View
             style={{
-              height: scaleSzie(55),
+              height: scaleSize(55),
               width: "100%",
               justifyContent: "center",
               alignItems: "center",
             }}
           >
             <ButtonCustom
-              width={scaleSzie(120)}
+              width={scaleSize(120)}
               height={40}
               backgroundColor="#0764B0"
               title={localize("Export", language)}
               textColor="#fff"
               onPress={onExportButtonPressed}
               style={{ borderWidth: 1, borderColor: "#C5C5C5" }}
-              styleText={{ fontSize: scaleSzie(18), fontWeight: "normal" }}
+              styleText={{ fontSize: scaleSize(18), fontWeight: "normal" }}
             />
           </View>
         </View>
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   container: {
     width: 600,
     backgroundColor: "#fff",
-    borderRadius: scaleSzie(15),
+    borderRadius: scaleSize(15),
     overflow: "hidden",
   },
 });

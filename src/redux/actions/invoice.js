@@ -1,10 +1,10 @@
-import apiConfigs from '../../configs/api';
+import Configs from '@configs';
 
 export function getListInvoicesByMerchant(key = "", method = "", status = "", timeStart = "", timeEnd = "", quickFilter = "", page = 1, isShowLoading = true, isLoadMore = false) {
     return {
         type: 'GET_LIST_INVOICE_BY_MERCHANT',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}checkout?page=${page}&method=${method}&status=${status}&timeStart=${timeStart}&timeEnd=${timeEnd}&key=${key}&quickFilter=${quickFilter}`,
+        api: `checkout?page=${page}&method=${method}&status=${status}&timeStart=${timeStart}&timeEnd=${timeEnd}&key=${key}&quickFilter=${quickFilter}&row=10&api-version=1.1`,
         token: true,
         isShowLoading,
         currentPage: page,
@@ -16,7 +16,7 @@ export function searchInvoice(urlSearch) {
     return {
         type: 'SEARCH_INVOICE',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}checkout/search?${urlSearch}`,
+        api: `checkout/search?${urlSearch}`,
         token: true
     }
 }
@@ -29,11 +29,11 @@ export function clearSearInvoice() {
 
 // ----------- Settle ------------
 
-export function getSettlementWating(terminalID = null,isShowLoading = true) {
+export function getSettlementWating(terminalID = null, isShowLoading = true) {
     return {
         type: 'GET_SETTLEMENT_WAITING',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}settlement/waiting?sn=${terminalID}`,
+        api: `settlement/waiting?sn=${terminalID}`,
         token: true,
         isShowLoading
     }
@@ -49,18 +49,20 @@ export function invoicesOfStaff(staffId) {
     return {
         type: 'INVOICE_OFF_STAFF',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}settlement/checkoutbystaff/${staffId}`,
+        api: `settlement/checkoutbystaff/${staffId}`,
         token: true
     }
 }
 
-export function getTransactionSettlement(status = "", timeStart = "", timeEnd = "", key = "", quickFilter = "", isShowLoading = true) {
+export function getTransactionSettlement(status = "", timeStart = "", timeEnd = "", key = "", quickFilter = "", page = 1, isShowLoading = true, isLoadMore = false) {
     return {
         type: 'GET_TRANSACTION_SETTLEMENT',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}settlement/transaction?status=${status}&timeStart=${timeStart}&timeEnd=${timeEnd}&key=${key}&quickFilter=${quickFilter}`,
+        api: `settlement/transaction?status=${status}&timeStart=${timeStart}&timeEnd=${timeEnd}&key=${key}&quickFilter=${quickFilter}&page=${page}`,
         token: true,
-        isShowLoading
+        isShowLoading,
+        currentPage: page,
+        isLoadMore
     }
 }
 
@@ -68,7 +70,7 @@ export function searchTransactionSettlement(urlSearch) {
     return {
         type: 'SEARCH_TRANSACTION_SETTLEMENT',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}settlement/transaction?${urlSearch}`,
+        api: `settlement/transaction?${urlSearch}`,
         token: true
     }
 }
@@ -83,7 +85,7 @@ export function getBatchHistory(key = "", timeStart = "", timeEnd = "", quickFil
     return {
         type: 'GET_BATCH_HISTORY',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}settlement/search?key=${key}&timeStart=${timeStart}&timeEnd=${timeEnd}&quickFilter=${quickFilter}&page=${page}`,
+        api: `settlement/search?key=${key}&timeStart=${timeStart}&timeEnd=${timeEnd}&quickFilter=${quickFilter}&page=${page}&row=10&api-version=1.1`,
         token: true,
         isShowLoading,
         currentPage: page,
@@ -98,27 +100,29 @@ export function clearSearchBatchHistory() {
     }
 }
 
-export function changeStatustransaction(checkoutId, params,responseData = {}) {
+export function changeStatustransaction(checkoutId, params, responseData = {}) {
     return {
         type: 'CHANGE_STATUS_TRANSACTION',
         method: 'PUT',
         body: {
-            responseData:responseData
+            responseData: responseData
         },
-        api: `${apiConfigs.BASE_API}checkout/paymentvoidrefundtransaction/${checkoutId}`,
+        api: `checkout/paymentvoidrefundtransaction/${checkoutId}`,
         token: true,
-        params
+        params,
+        checkoutId
     }
 }
 
 
-export function settleBatch(body) {
+export function settleBatch(body, timeoutIncrease = true) {
     return {
         type: 'SETTLE_BATCH',
         method: 'POST',
         body,
-        api: `${apiConfigs.BASE_API}settlement`,
-        token: true
+        api: `settlement`,
+        token: true,
+        timeoutIncrease
     }
 }
 
@@ -174,7 +178,7 @@ export function getSettlementWarning() {
     return {
         type: 'GET_SETTLEMENT_WARNING',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}settlement/warning`,
+        api: `settlement/warning`,
         token: true
     }
 }
@@ -184,7 +188,7 @@ export function getListStaffsSales(terminalID = null) {
         type: 'GET_LIST_STAFFS_SALES',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/staffSales?sn=${terminalID}`,
+        api: `appointment/staffSales?sn=${terminalID}`,
     }
 }
 
@@ -193,7 +197,7 @@ export function getListGiftCardSales(terminalID) {
         type: 'GET_LIST_GIFT_CARD_SALES',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}settlement/waiting/giftCardSales?sn=${terminalID}`,
+        api: `settlement/waiting/giftCardSales?sn=${terminalID}`,
     }
 }
 
@@ -217,7 +221,7 @@ export function getStaffSalesBySettlementId(settlementId = 0) {
         type: 'GET_STAFF_SALES_BY_SETTLEMENT_ID',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}appointment/staffSales/getBySettlement/${settlementId}`,
+        api: `appointment/staffSales/getBySettlement/${settlementId}`,
     }
 }
 
@@ -226,7 +230,7 @@ export function getGiftCardSalesBySettlementId(settlementId = 0) {
         type: 'GET_GIFT_CARD_SALES_BY_SETTLEMENT_ID',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}settlement/giftCardSales/${settlementId}`,
+        api: `settlement/giftCardSales/${settlementId}`,
     }
 }
 
@@ -234,5 +238,42 @@ export function toggleDisplayBackBatchHistoryIcon(visible = true) {
     return {
         type: 'TOOGLE_DISPLAY_BACK_BATCH_HISTORY_ICON',
         payload: visible
+    }
+}
+
+
+export function resetProfileInvoiceLogin() {
+    return {
+        type: 'RESET_PROFILE_INVOICE_LOGIN',
+    }
+}
+
+export function getInvoiceDetail(checkoutId = 0) {
+    return {
+        type: 'GET_INVOICE_DETAIL',
+        method: 'GET',
+        token: true,
+        api: `checkout/${checkoutId}`,
+    }
+}
+
+export function resetInvoiceDetailState() {
+    return {
+        type: 'RESET_INVOICE_DETAIL_STATE',
+    }
+}
+
+export function getCreditBatchDetailById(batchId) {
+    return {
+        type: 'GET_CREDIT_BATCH_DETAIL_BY_ID',
+        method: 'GET',
+        api: `settlement/${batchId}`,
+        token: true
+    }
+}
+
+export function resetStateCreditBatchDetailById() {
+    return {
+        type: 'RESET_STATE_CREDIT_BATCH_DETAIL_BY_ID',
     }
 }

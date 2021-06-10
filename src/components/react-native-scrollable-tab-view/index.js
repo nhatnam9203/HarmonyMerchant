@@ -126,10 +126,10 @@ const ScrollableTabView = createReactClass({
 
   componentWillUnmount() {
     if (Platform.OS === 'ios') {
-      this.state.scrollXIOS.removeAllListeners();
+      this.state.scrollXIOS?.removeAllListeners();
     } else {
-      this.state.positionAndroid.removeAllListeners();
-      this.state.offsetAndroid.removeAllListeners();
+      this.state.positionAndroid?.removeAllListeners();
+      this.state.offsetAndroid?.removeAllListeners();
     }
   },
 

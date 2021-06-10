@@ -1,10 +1,10 @@
-import apiConfigs from '../../configs/api';
+import Configs from '@configs';
 
 export function getListCustomersByMerchant(key = "", page = 1, isShowLoading = true, isShowLoadMore = false) {
     return {
         type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}customer/search?key=${key}&page=${page}`,
+        api: `customer/search?key=${key}&page=${page}`,
         token: true,
         isShowLoading,
         currentPage: page,
@@ -17,7 +17,7 @@ export function searchCustomer(key) {
     return {
         type: 'SEARCH_CUSTOMER',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}customer/search?key=${key}`,
+        api: `customer/search?key=${key}`,
         token: true
     }
 }
@@ -28,25 +28,26 @@ export function clearSearCustomer() {
     }
 }
 
-export function addCustomer(body) {
+export function addCustomer(body,isGetCustomerInfoIncheckoutTab = false) {
     return {
         type: 'ADD_CUSTOMER',
         method: 'POST',
         body,
-        api: `${apiConfigs.BASE_API}customer`,
-        token: true
+        api: `customer`,
+        token: true,
+        isGetCustomerInfoIncheckoutTab
     }
 }
 
-export function editCustomer(id, body, keySearch = "") {
+export function editCustomer(customerId, body,isGetCustomerInfoInCheckoutTab = false) {
     return {
         type: 'EDIT_CUSTOMER',
         method: 'PUT',
         body,
-        api: `${apiConfigs.BASE_API}customer/${id}`,
+        api: `customer/${customerId}`,
         token: true,
-        keySearch,
-        customerId:id
+        customerId,
+        isGetCustomerInfoInCheckoutTab
     }
 }
 
@@ -54,7 +55,7 @@ export function getCustomerInfoByPhone(phone) {
     return {
         type: 'GET_CUSTOMER_INFO_BY_PHONE',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}customer/getbyphone/${phone}`,
+        api: `customer/getbyphone/${phone}`,
         token: true
     }
 }
@@ -70,17 +71,18 @@ export function sendGoogleReviewLink(customerId = 0, merchantId = 0) {
     return {
         type: 'SEND_GOOGLE_REVIEW_LIINK',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}customer/sendReviewLink?customerId=${customerId}&merchantId=${merchantId}`,
+        api: `customer/sendReviewLink?customerId=${customerId}&merchantId=${merchantId}`,
         token: true
     }
 }
 
-export function getCustomerInfoById(customerId) {
+export function getCustomerInfoById(customerId,isVisibleCustomerInfoPopup =  false) {
     return {
         type: 'GET_CUSTOMER_INFO_BY_ID',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}customer/${customerId}`,
-        token: true
+        api: `customer/${customerId}`,
+        token: true,
+        isVisibleCustomerInfoPopup
     }
 }
 
@@ -88,7 +90,7 @@ export function getPastAppointments(customerId, page = 1,isShowLoadMore = false,
     return {
         type: 'GET_PAST_APPOINTMENT',
         method: 'GET',
-        api: `${apiConfigs.BASE_API}appointment/getPastByCustomer/${customerId}?page=${page}`,
+        api: `appointment/getPastByCustomer/${customerId}?page=${page}`,
         token: true,
         currentPage:page,
         isShowLoadMore,
@@ -117,4 +119,9 @@ export function resetAddCustomerState(visible = false) {
     }
 }
 
-
+export function resetStateIsGetCustomerInCheckoutTabSuccess(visible = false) {
+    return {
+        type: 'RESET_STATE_IS_GET_CUSTOMER_IN_CHECKOUT_TAB_SUCCESS',
+        payload: visible
+    }
+}

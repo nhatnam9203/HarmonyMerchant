@@ -16,15 +16,12 @@ import {
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 
-const PosLink = NativeModules.MyApp;
+const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
 const initalState = {
     isFocus: false,
     visibleCalendar: false,
-    invoiceDetail: {
-        history: []
-    },
     searchFilter: {
         keySearch: '',
         paymentMethod: '',
@@ -46,7 +43,6 @@ class InvoiceScreen extends Layout {
         this.state = initalState;
         this.scrollTabInvoiceRef = React.createRef();
         this.modalCalendarRef = React.createRef();
-        this.listInvoiceRef = [];
         this.onEndReachedCalledDuringMomentum = true;
         this.checkInvoicePermissionRef = React.createRef();
         this.confirmInvoiceStatusRef = React.createRef();
@@ -54,6 +50,7 @@ class InvoiceScreen extends Layout {
         this.invoicePrintRef = React.createRef();
         this.invoicePrintRef = React.createRef();
         this.viewShotRef = React.createRef();
+        this.virtualizedListRef = React.createRef();
     }
 
     componentDidMount() {
@@ -62,7 +59,8 @@ class InvoiceScreen extends Layout {
             payload => {
                 this.setState(initalState);
                 this.checkInvoicePermissionRef.current.setStateFromParent('');
-                this.resetInvoiceItem();
+                this.props.actions.invoice.resetInvoiceDetailState();
+                this.virtualizedListRef?.current?.scrollToOffset({ x: 0, y: 0, animated: false });
             }
         );
         this.didFocusSubscription = this.props.navigation.addListener(
@@ -72,16 +70,19 @@ class InvoiceScreen extends Layout {
                     isFocus: true
                 });
                 this.checkInvoicePermissionRef.current.setStateFromParent('',);
-                this.props.actions.invoice.toggleInvoiceTabPermission();
+                const { profileStaffLogin } = this.props;
+                const roleName = profileStaffLogin?.roleName || "Admin";
+                if (roleName === "Admin") {
+                    this.props.actions.invoice.getListInvoicesByMerchant();
+                    this.props.actions.invoice.resetProfileInvoiceLogin();
+                } else {
+                    this.props.actions.invoice.toggleInvoiceTabPermission();
+                }
+
             }
         );
     }
 
-    resetInvoiceItem = () => {
-        for (let i = 0; i < this.listInvoiceRef.length; i++) {
-            this.listInvoiceRef[i].setStateFromParent(false);
-        }
-    }
 
 
     async updateSearchFilterInfo(key, value, keyParent = '') {
@@ -103,16 +104,12 @@ class InvoiceScreen extends Layout {
             setTimeout(() => {
                 this.searchInvoice();
             }, 100);
+           this.virtualizedListRef?.current?.scrollToOffset({ x: 0, y: 0, animated: false });
         } else {
             this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
         }
     }
 
-    setListInvoiceRef = ref => {
-        if (ref) {
-            this.listInvoiceRef.push(ref);
-        }
-    }
 
     gotoTabPaymentInfomation = () => {
         this.scrollTabInvoiceRef.current.goToPage(1);
@@ -168,18 +165,8 @@ class InvoiceScreen extends Layout {
         return temptBasket;
     }
 
-    setInvoiceDetail = (invoice) => {
-        this.setState({
-            invoiceDetail: invoice
-        });
-        for (let i = 0; i < this.listInvoiceRef.length; i++) {
-            if (this.listInvoiceRef[i].props.invoice.checkoutId === invoice.checkoutId) {
-                this.listInvoiceRef[i].setStateFromParent(true);
-            } else {
-                this.listInvoiceRef[i].setStateFromParent(false);
-            }
-        }
-
+    setInvoiceDetail = (invoice) => () => {
+        this.props.actions.invoice.getInvoiceDetail(invoice?.checkoutId);
     }
 
     onRefreshInvoiceList = () => {
@@ -189,6 +176,7 @@ class InvoiceScreen extends Layout {
     searchInvoiceWithKeyword = () => {
         this.props.actions.invoice.updateSearchKeyword(this.state.searchFilter.keySearch);
         this.searchInvoice();
+        this.virtualizedListRef?.current?.scrollToOffset({ x: 0, y: 0, animated: false });
     }
 
     clearSearchText = async () => {
@@ -212,6 +200,7 @@ class InvoiceScreen extends Layout {
             isShowLoading,
             isLoadMore
         );
+
     }
 
     loadMoreInvoiceList = ({ distanceFromEnd }) => {
@@ -224,8 +213,19 @@ class InvoiceScreen extends Layout {
         }
     }
 
+    getItemCount = (data) => {
+        return data?.length;
+    }
+
+    getItem = (data, index) => {
+        return {
+            ...data[index],
+            id: `${data[index]?.checkoutId}_${Math.random().toString(12).substring(0)}`,
+        }
+    }
+
     changeStatustransaction = async () => {
-        const { invoiceDetail } = this.state;
+        const { invoiceDetail } = this.props;
         this.confirmInvoiceStatusRef.current.setStateFromParent(invoiceDetail);
 
         await this.setState({
@@ -235,14 +235,11 @@ class InvoiceScreen extends Layout {
 
 
     confirmChangeInvoiceStatus = async () => {
-        const { paxMachineInfo } = this.props;
-        const { invoiceDetail } = this.state;
-        const { ip, port, timeout } = paxMachineInfo;
+        const { paxMachineInfo, invoiceDetail } = this.props;
+        const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
 
-
-        if (invoiceDetail.paymentMethod === "credit_card") {
-            const paymentInformation = invoiceDetail.paymentInformation && invoiceDetail.paymentInformation.length > 0 &&
-                invoiceDetail.paymentInformation[0].responseData ? invoiceDetail.paymentInformation[0].responseData : {};
+        if (invoiceDetail?.paymentMethod === "credit_card") {
+            const paymentInformation = invoiceDetail?.paymentInformation[0]?.responseData || {};
 
             if (!_.isEmpty(paymentInformation)) {
                 await this.setState({
@@ -251,7 +248,7 @@ class InvoiceScreen extends Layout {
                 });
                 if (Platform.OS === "android") {
                     // ------------------ REFUND ----------------
-                    if (invoiceDetail.status === 'paid') {
+                    if (invoiceDetail?.status === 'paid') {
                         this.popupProcessingCreditRef.current.setStateFromParent(false);
                         setTimeout(() => {
                             PoslinkAndroid.refundTransaction(ip, port, "", "CREDIT", "RETURN",
@@ -272,7 +269,7 @@ class InvoiceScreen extends Layout {
                             )
                         }, 100);
                         // ------------------ VOID ----------------
-                    } else if (invoiceDetail.status === 'complete') {
+                    } else if (invoiceDetail?.status === 'complete') {
                         const transactionId = paymentInformation.RefNum ? paymentInformation.RefNum : 0;
                         this.popupProcessingCreditRef.current.setStateFromParent(transactionId);
                         setTimeout(() => {
@@ -294,33 +291,54 @@ class InvoiceScreen extends Layout {
                         }, 100);
                     }
                 } else {
-                    PosLink.setupPax(ip, port, timeout);
-                    if (invoiceDetail.status === 'paid') {
+                    const amount = paymentInformation?.ApprovedAmount || 0;
+                    const transactionId = paymentInformation?.RefNum || 0;
+                    const extData = paymentInformation?.ExtData || "";
+                    const invNum = paymentInformation?.InvNum || "";
+                    const tempIpPax = commType == "TCP" ? ip : "";
+                    const tempPortPax = commType == "TCP" ? port : "";
+                    const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+
+                    if (invoiceDetail?.status === 'paid') {
                         this.popupProcessingCreditRef.current.setStateFromParent(false);
-                        PosLink.refundTransaction(
-                            parseFloat(paymentInformation.ApprovedAmount),
-                            paymentInformation.RefNum,
-                            paymentInformation.ExtData,
-                            (data) => this.handleResultRefundTransaction(data)
-                        );
-                    } else if (invoiceDetail.status === 'complete') {
-                        const transactionId = paymentInformation.RefNum ? paymentInformation.RefNum : 0
+                        PosLink.sendTransaction({
+                            tenderType: "CREDIT",
+                            transType: "RETURN",
+                            amount: `${parseFloat(amount)}`,
+                            transactionId: transactionId,
+                            extData: extData,
+                            commType: commType,
+                            destIp: tempIpPax,
+                            portDevice: tempPortPax,
+                            timeoutConnect: "90000",
+                            bluetoothAddr: idBluetooth,
+                            invNum: `${invNum}`
+                        }, (data) => this.handleResultRefundTransaction(data));
+
+                    } else if (invoiceDetail?.status === 'complete') {
                         this.popupProcessingCreditRef.current.setStateFromParent(transactionId);
-                        PosLink.voidTransaction(
-                            parseFloat(paymentInformation.ApprovedAmount),
-                            paymentInformation.RefNum,
-                            paymentInformation.ExtData,
-                            (data) => this.handleResultVoidTransaction(data)
-                        );
+                        PosLink.sendTransaction({
+                            tenderType: "CREDIT",
+                            transType: "VOID",
+                            amount: "",
+                            transactionId: transactionId,
+                            extData: extData,
+                            commType: commType,
+                            destIp: tempIpPax,
+                            portDevice: tempPortPax,
+                            timeoutConnect: "90000",
+                            bluetoothAddr: idBluetooth,
+                            invNum: `${invNum}`
+                        }, (data) => this.handleResultVoidTransaction(data));
                     }
                 }
             }
         } else {
             await this.setState({
                 visibleConfirmInvoiceStatus: false,
-                titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
+                titleInvoice: invoiceDetail?.status === 'paid' ? "REFUND" : "VOID"
             })
-            this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch());
+            this.props.actions.invoice.changeStatustransaction(invoiceDetail?.checkoutId, this.getParamsSearch());
         }
     }
 
@@ -335,17 +353,18 @@ class InvoiceScreen extends Layout {
     }
 
     handleResultVoidTransaction = async result => {
-        const { invoiceDetail } = this.state;
+        const { invoiceDetail } = this.props;
         const data = JSON.parse(result);
+
         await this.setState({
             visibleProcessingCredit: false
         });
 
         if (Platform.OS === "android") {
             if (data.ResultCode == "000000") {
-                this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
+                this.props.actions.invoice.changeStatustransaction(invoiceDetail?.checkoutId, this.getParamsSearch(), result);
                 await this.setState({
-                    titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
+                    titleInvoice: invoiceDetail?.status === 'paid' ? "REFUND" : "VOID"
                 });
             } else {
                 setTimeout(() => {
@@ -354,10 +373,10 @@ class InvoiceScreen extends Layout {
             }
 
         } else {
-            if (data.status === 1) {
-                this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
+            if (data.ResultCode === "000000") {
+                this.props.actions.invoice.changeStatustransaction(invoiceDetail?.checkoutId, this.getParamsSearch(), result);
                 await this.setState({
-                    titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
+                    titleInvoice: invoiceDetail?.status === 'paid' ? "REFUND" : "VOID"
                 })
             } else {
                 PosLink.cancelTransaction();
@@ -369,16 +388,16 @@ class InvoiceScreen extends Layout {
     }
 
     handleResultRefundTransaction = async result => {
-        const { invoiceDetail } = this.state;
+        const { invoiceDetail } = this.props;
         await this.setState({
             visibleProcessingCredit: false
         });
         const data = JSON.parse(result);
         if (Platform.OS === "android") {
             if (data.ResultCode == "000000") {
-                this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
+                this.props.actions.invoice.changeStatustransaction(invoiceDetail?.checkoutId, this.getParamsSearch(), result);
                 await this.setState({
-                    titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
+                    titleInvoice: invoiceDetail?.status === 'paid' ? "REFUND" : "VOID"
                 });
             } else {
                 setTimeout(() => {
@@ -386,10 +405,10 @@ class InvoiceScreen extends Layout {
                 }, 300);
             }
         } else {
-            if (data.status === 1 && data.ResultTxt === "OK") {
+            if (data.ResultCode === "000000") {
                 this.props.actions.invoice.changeStatustransaction(invoiceDetail.checkoutId, this.getParamsSearch(), result);
                 await this.setState({
-                    titleInvoice: invoiceDetail.status === 'paid' ? "REFUND" : "VOID"
+                    titleInvoice: invoiceDetail?.status === 'paid' ? "REFUND" : "VOID"
                 });
             } else {
                 PosLink.cancelTransaction();
@@ -470,9 +489,10 @@ class InvoiceScreen extends Layout {
     }
 
     printInvoice = async () => {
-        const { invoiceDetail, titleInvoice } = this.state;
+        const { invoiceDetail } = this.props;
+        const { titleInvoice } = this.state;
 
-        if (!invoiceDetail.appointmentId) {
+        if (!invoiceDetail?.appointmentId) {
             alert("You don't select invoice!")
         } else {
             const printMachine = await checkStatusPrint();
@@ -483,7 +503,7 @@ class InvoiceScreen extends Layout {
                 // const basket = arrayProductBuy.concat(arryaServicesBuy, arrayExtrasBuy, arrayGiftCards);
                 const basket = arryaServicesBuy.concat(arrayExtrasBuy, arrayProductBuy, arrayGiftCards);
                 const { subTotal, total, discount, tipAmount, tax, paymentMethod } = invoiceDetail;
-                const promotionNotes = invoiceDetail.promotionNotes && invoiceDetail.promotionNotes.note ? invoiceDetail.promotionNotes.note : "";
+                const promotionNotes = invoiceDetail?.promotionNotes?.note || "";
 
                 this.invoicePrintRef.current.setStateFromParent(
                     basket,
@@ -497,8 +517,8 @@ class InvoiceScreen extends Layout {
                     printMachine,
                     promotionNotes,
                     titleInvoice,
-                    invoiceDetail.checkoutId ? invoiceDetail.checkoutId : "",
-                    invoiceDetail.checkoutPayments ? invoiceDetail.checkoutPayments : []
+                    invoiceDetail?.checkoutId || "",
+                    invoiceDetail?.checkoutPayments || []
                 );
 
                 await this.setState({
@@ -524,15 +544,6 @@ class InvoiceScreen extends Layout {
     }
 
     updateInvoiceDetailAfterCallServer = async () => {
-        const { invoiceDetail } = this.state;
-        for (let i = 0; i < this.listInvoiceRef.length; i++) {
-            if (this.listInvoiceRef[i].props.invoice.checkoutId === invoiceDetail.checkoutId) {
-                await this.setState({
-                    invoiceDetail: this.listInvoiceRef[i].props.invoice
-                });
-                break;
-            }
-        }
     }
 
     printCustomerInvoice = async () => {
@@ -586,9 +597,17 @@ class InvoiceScreen extends Layout {
         this.props.navigation.navigate("Home");
     }
 
+    clearIntervalById = () => {
+        const { notiIntervalId } = this.props;
+        if (notiIntervalId) {
+            clearInterval(notiIntervalId);
+            this.props.actions.app.resetNotiIntervalId();
+        }
+    }
+
     componentWillUnmount() {
-        this.didBlurSubscription.remove();
-        this.didFocusSubscription.remove();
+        this.didBlurSubscription();
+        this.didFocusSubscription();
     }
 
 
@@ -604,7 +623,7 @@ const mapStateToProps = state => ({
     totalPages: state.invoice.totalPages,
     currentPage: state.invoice.currentPage,
     visibleEnterPinInvoice: state.app.visibleEnterPinInvoice,
-    paxMachineInfo: state.dataLocal.paxMachineInfo,
+    paxMachineInfo: state.hardware.paxMachineInfo,
     visibleConfirmPrintInvoice: state.invoice.visibleConfirmPrintInvoice,
     isLoadMoreInvoiceList: state.invoice.isLoadMoreInvoiceList,
     searchKeyword: state.invoice.searchKeyword,
@@ -613,7 +632,10 @@ const mapStateToProps = state => ({
 
     printerSelect: state.dataLocal.printerSelect,
     printerList: state.dataLocal.printerList,
-    profileLoginInvoice: state.dataLocal.profileLoginInvoice
+    profileLoginInvoice: state.dataLocal.profileLoginInvoice,
+    notiIntervalId: state.app.notiIntervalId,
+
+    invoiceDetail: state.invoice.invoiceDetail
 })
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

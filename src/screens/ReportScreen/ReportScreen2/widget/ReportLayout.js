@@ -1,6 +1,6 @@
 import actions from "@actions";
 import { PopupCalendar } from "@components";
-import { getQuickFilterTimeRange, localize, scaleSzie } from "@utils";
+import { getQuickFilterTimeRange, localize, scaleSize } from "@utils";
 import React, {
   forwardRef,
   useEffect,
@@ -70,7 +70,6 @@ function ReportLayout(
     goNext: goNext,
     didBlur: () => {},
     didFocus: () => {
-      // console.log("====> screen report -> staff didFocus");
     },
     getTimeUrl: getFilterTimeParams,
     getTimeTitle: getTimeTitle,
@@ -97,7 +96,6 @@ function ReportLayout(
       url = `timeStart=${startDate}&timeEnd=${endDate}`;
     } else {
       const filter = quickFilter === false ? "This Week" : quickFilter;
-      // console.log("quickFilter", quickFilter);
       url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
     }
 
@@ -210,7 +208,7 @@ function ReportLayout(
         visible={visibleCalendar}
         onRequestClose={() => setVisibleCalendar(false)}
         changeTitleTimeRange={changeTitleTimeRange}
-        paddingLeft={scaleSzie(60)}
+        paddingLeft={scaleSize(60)}
       />
 
       <PopupExportReport

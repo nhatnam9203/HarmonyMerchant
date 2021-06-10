@@ -51,6 +51,8 @@ import ClearTextInputIcon from "./ClearTextInputIcon";
 import ScrollableTabView from "./react-native-scrollable-tab-view";
 import {FooterTwoButton} from  "./FormInfoParent";
 import PopupInfomationCodePush from "./PopupInfomationCodePush";
+import DropdownSearchable from "./DropdownSearchable";
+import GradientButton from "./GradientButton";
 
 module.exports = {
     Button,
@@ -105,5 +107,7 @@ module.exports = {
     ClearTextInputIcon,
     ScrollableTabView,
     FooterTwoButton,
-    PopupInfomationCodePush
+    PopupInfomationCodePush,
+    DropdownSearchable,
+    GradientButton
 }

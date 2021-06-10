@@ -1,4 +1,4 @@
-import apiConfigs from '../../configs/api';
+import Configs from '@configs';
 
 export function addProductByMerchant(body) {
     return {
@@ -6,7 +6,7 @@ export function addProductByMerchant(body) {
         body,
         method: 'POST',
         token: true,
-        api: `${apiConfigs.BASE_API}product`,
+        api: `product`,
     }
 }
 
@@ -15,7 +15,7 @@ export function getProductsByMerchant(name = "", category = "", isShowLoading = 
         type: 'GET_PRODUCTS_BY_MERCHANR_ID',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}product/search?name=${name}&category=${category}`,
+        api: `product/search?name=${name}&category=${category}`,
         isShowLoading
     }
 }
@@ -25,7 +25,7 @@ export function searchProduct(name = '', category = '', status = '') {
         type: 'SEARCH_PRODUCT',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}product/search?name=${name}&category=${category}`
+        api: `product/search?name=${name}&category=${category}`
     }
 }
 
@@ -35,7 +35,7 @@ export function archiveProduct(id,keySearch = "",category ="") {
         body: {},
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}product/archive/${id}`,
+        api: `product/archive/${id}`,
         keySearch,
         category
     }
@@ -47,7 +47,7 @@ export function restoreProduct(id,keySearch = "",category ="") {
         body: {},
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}product/restore/${id}`,
+        api: `product/restore/${id}`,
         keySearch,
         category
     }
@@ -59,7 +59,7 @@ export function editProduct(body, id,keySearch = "",category ="") {
         body: body,
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}product/${id}`,
+        api: `product/${id}`,
         keySearch,
         category
     }
@@ -83,7 +83,7 @@ export function restockProduct(ids, quantity,keySearch = "",category ="") {
         },
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}product/restock`,
+        api: `product/restock`,
         keySearch,
         category
     }
@@ -94,7 +94,7 @@ export function exportInventory(merchantId, fileName, isNeedToOrder = true, type
         type: 'EXPORT_INVENTORY',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}product/export?merchantId=${merchantId}&isNeedToOrder=${isNeedToOrder}&type=${type}`,
+        api: `product/export?merchantId=${merchantId}&isNeedToOrder=${isNeedToOrder}&type=${type}`,
         fileName,
         extention: type === "excel" ? "csv" : "pdf"
     }
@@ -119,7 +119,7 @@ export function updateProductsPosition(body) {
         method: 'PUT',
         body,
         token: true,
-        api: `${apiConfigs.BASE_API}product/update/position`,
+        api: `product/update/position`,
     }
 }
 
@@ -128,7 +128,7 @@ export function checkSKUIsExist(sku) {
         type: 'CHECK_SKU_IS_EXIST',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}product/checksku?sku=${sku}`,
+        api: `product/checksku?sku=${sku}`,
     }
 }
 

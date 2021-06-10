@@ -20,34 +20,37 @@ import InvoiceScreen from './InvoiceScreen';
 import SupportScreen from './SupportScreen';
 import SettlementScreen from './SettlementScreen';
 import ReportScreen from './ReportScreen';
-import PackageAndPricing from "./PackageAndPricing";
-import SignUpScreen from "./SignUpScreen";
-import GiftCardScreen from "./GiftCardScreen";
-
+import PackageAndPricing from './PackageAndPricing';
+import SignUpScreen from './SignUpScreen';
+import GiftCardScreen from './GiftCardScreen';
+import InventoryOfRetail from './InventoryOfRetail';
+import CustomerNewScreen from './CustomerNewScreen';
 module.exports = {
-    SplashScreen,
-    HomeScreen,
-    IntroScreen,
-    SignInScreen,
-    ForgotPasswordScreen,
-    StoreInfoScreen,
-    CongratulationScreen,
-    ApplicationSubmitScreen,
-    UserGuideScreen,
-    TermsScreen,
-    GeneralInfoScreen,
-    BankInfoScreen,
-    BusinessInfoScreen,
-    PrincipalScreen,
-    SlideDrawer,
-    SettingScreen,
-    InventoryScreen,
-    CustomerScreen,
-    InvoiceScreen,
-    SupportScreen,
-    SettlementScreen,
-    ReportScreen,
-    PackageAndPricing,
-    SignUpScreen,
-    GiftCardScreen
-}
+  SplashScreen,
+  HomeScreen,
+  IntroScreen,
+  SignInScreen,
+  ForgotPasswordScreen,
+  StoreInfoScreen,
+  CongratulationScreen,
+  ApplicationSubmitScreen,
+  UserGuideScreen,
+  TermsScreen,
+  GeneralInfoScreen,
+  BankInfoScreen,
+  BusinessInfoScreen,
+  PrincipalScreen,
+  SlideDrawer,
+  SettingScreen,
+  InventoryScreen,
+  CustomerScreen,
+  InvoiceScreen,
+  SupportScreen,
+  SettlementScreen,
+  ReportScreen,
+  PackageAndPricing,
+  SignUpScreen,
+  GiftCardScreen,
+  InventoryOfRetail,
+  CustomerNewScreen,
+};

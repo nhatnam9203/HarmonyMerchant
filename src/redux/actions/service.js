@@ -1,4 +1,4 @@
-import apiConfigs from '../../configs/api';
+import Configs from '@configs';
 
 export function addServiceByMerchant(body,searchFilter = false) {
     return {
@@ -6,7 +6,7 @@ export function addServiceByMerchant(body,searchFilter = false) {
         body,
         method: 'POST',
         token: true,
-        api: `${apiConfigs.BASE_API}service`,
+        api: `service`,
         searchFilter
     }
 }
@@ -16,7 +16,7 @@ export function getServicesByMerchant(name = '', category = '', status = '',sear
         type: 'GET_SERVICE_BY_MERCHANT',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}service/search?name=${name}&category=${category}&status=${status}`,
+        api: `service/search?name=${name}&category=${category}&status=${status}`,
         isShowLoading,
         searchFilter
     }
@@ -27,7 +27,7 @@ export function searchService(name = '', category = '', status = '') {
         type: 'SEARCH_SERVICE',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}service/search?name=${name}&category=${category}&status=${status}`
+        api: `service/search?name=${name}&category=${category}&status=${status}`
     }
 }
 
@@ -37,7 +37,7 @@ export function archiveService(id,searchFilter = false) {
         body: {},
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}service/archive/${id}`,
+        api: `service/archive/${id}`,
         searchFilter
     }
 }
@@ -48,7 +48,7 @@ export function restoreService(id,searchFilter = false) {
         body: {},
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}service/restore/${id}`,
+        api: `service/restore/${id}`,
         searchFilter
     }
 }
@@ -59,7 +59,7 @@ export function editService(body, id,searchFilter = false) {
         body,
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}service/${id}`,
+        api: `service/${id}`,
         searchFilter
     }
 }
@@ -77,7 +77,7 @@ export function updateSerivePosition(body) {
         body,
         method: 'PUT',
         token: true,
-        api: `${apiConfigs.BASE_API}service/update/position`,
+        api: `service/update/position`,
     }
 }
 

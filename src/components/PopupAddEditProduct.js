@@ -14,9 +14,8 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import BrowserFile from './BrowserFile';
 import { Dropdown } from './react-native-material-dropdown';
-import { scaleSzie, getCategoryName, getArrayNameCategories, getCategoryIdByName, requestAPI, localize ,checkIsTablet} from '@utils';
+import { scaleSize, getCategoryName, getArrayNameCategories, getCategoryIdByName, requestAPI, localize ,checkIsTablet} from '@utils';
 import connectRedux from '@redux/ConnectRedux';
-import apiConfigs from '@configs/api';
 
 
 class PopupAddEditProduct extends React.Component {
@@ -133,7 +132,7 @@ class PopupAddEditProduct extends React.Component {
                         type: 'CHECK_SKU_IS_EXIST1',
                         method: 'GET',
                         token: profileStaffLogin.token,
-                        api: `${apiConfigs.BASE_API}product/checksku?sku=${temptProductInfo.sku}`,
+                        api: `product/checksku?sku=${temptProductInfo.sku}`,
                         versionApp: versionApp
                     });
                     if (checkSKUIsExist.codeNumber === 200) {
@@ -179,7 +178,7 @@ class PopupAddEditProduct extends React.Component {
     }
 
     scrollProductTo(position) {
-        this.scrollProductRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
+        this.scrollProductRef.current.scrollTo({ x: 0, y: scaleSize(position), animated: true })
     }
 
 
@@ -198,17 +197,17 @@ class PopupAddEditProduct extends React.Component {
                     title={temptTitleButton}
                     textColor="#fff"
                     onPress={this.doneAddProduct}
-                    style={{ borderRadius: scaleSzie(2) }}
+                    style={{ borderRadius: scaleSize(2) }}
                     styleText={{
-                        fontSize: scaleSzie(14)
+                        fontSize: scaleSize(14)
                     }}
                 />
             );
         } else {
             return (
                 <View style={{
-                    width: 150, height: scaleSzie(35), backgroundColor: '#0764B0',
-                    borderRadius: scaleSzie(2), justifyContent: 'center', alignItems: 'center'
+                    width: 150, height: scaleSize(35), backgroundColor: '#0764B0',
+                    borderRadius: scaleSize(2), justifyContent: 'center', alignItems: 'center'
                 }} >
                     < ActivityIndicator
                         size="large"
@@ -224,7 +223,7 @@ class PopupAddEditProduct extends React.Component {
         const { categoryId, name, description, sku, quantity, minThreshold,
             maxThreshold, price, isDisabled
         } = this.state.productInfo;
-        const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(480);
+        const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(480);
 
         return (
             <PopupParent
@@ -234,8 +233,8 @@ class PopupAddEditProduct extends React.Component {
             >
                 <View style={{
                     height: tempHeight, backgroundColor: '#fff',
-                    borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
-                    paddingHorizontal: scaleSzie(30)
+                    borderBottomLeftRadius: scaleSize(15), borderBottomRightRadius: scaleSize(15),
+                    paddingHorizontal: scaleSize(30)
                 }} >
                     <View style={{ flex: 1, }} >
                         <ScrollView
@@ -244,10 +243,10 @@ class PopupAddEditProduct extends React.Component {
                             keyboardShouldPersistTaps="always"
                         >
                             <TouchableOpacity activeOpacity={1}>
-                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(10), marginBottom: scaleSzie(10) }} >
+                                <Text style={{ color: '#404040', fontSize: scaleSize(12), marginTop: scaleSize(10), marginBottom: scaleSize(10) }} >
                                     {`${localize('Category', language)}*`}
                                 </Text>
-                                <View style={{ width: scaleSzie(200), height: scaleSzie(30), }} >
+                                <View style={{ width: scaleSize(200), height: scaleSize(30), }} >
                                     <Dropdown
                                         label='Facial'
                                         data={getArrayNameCategories(categoriesByMerchant, 'Product')}
@@ -260,33 +259,34 @@ class PopupAddEditProduct extends React.Component {
                                             flex: 1
                                         }}
                                     />
+
                                 </View>
-                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                                <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(10), marginTop: scaleSize(7) }} >
                                     {`${localize('Product', language)}*`}
                                 </Text>
                                 <View style={{
-                                    height: scaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
-                                    paddingLeft: scaleSzie(10),
+                                    height: scaleSize(30), borderWidth: 1, borderColor: '#C5C5C5',
+                                    paddingLeft: scaleSize(10),
                                 }} >
                                     <TextInput
                                         placeholder="Product 1"
-                                        style={{ flex: 1, fontSize: scaleSzie(16),padding:0 }}
+                                        style={{ flex: 1, fontSize: scaleSize(16),padding:0 }}
                                         value={name}
                                         onChangeText={(value) => this.updateProductInfo('name', value)}
                                         onFocus={() => this.scrollProductTo(70)}
                                     />
                                 </View>
-                                <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
+                                <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(10), marginTop: scaleSize(7) }} >
 
                                     {`${localize('Description', language)}`}
                                 </Text>
                                 <View style={{
-                                    height: scaleSzie(70), borderWidth: 1, borderColor: '#C5C5C5',
-                                    paddingLeft: scaleSzie(10), backgroundColor: '#FAFAFA', paddingTop: scaleSzie(5)
+                                    height: scaleSize(70), borderWidth: 1, borderColor: '#C5C5C5',
+                                    paddingLeft: scaleSize(10), backgroundColor: '#FAFAFA', paddingTop: scaleSize(5)
                                 }} >
                                     <TextInput
                                         placeholder=""
-                                        style={{ flex: 1, fontSize: scaleSzie(16),padding:0,
+                                        style={{ flex: 1, fontSize: scaleSize(16),padding:0,
                                         textAlignVertical:"top"
                                         }}
                                         multiline={true}
@@ -296,18 +296,18 @@ class PopupAddEditProduct extends React.Component {
                                     />
                                 </View>
                                 {/* -------------------------- */}
-                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                <View style={{ flexDirection: 'row', marginTop: scaleSize(10) }} >
                                     <View style={{ flex: 1 }} >
-                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                        <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(10) }} >
                                             {`${localize('SKU Number', language)}*`}
                                         </Text>
                                         <View style={{
-                                            height: scaleSzie(30),
+                                            height: scaleSize(30),
                                         }} >
-                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSize(5) }} >
                                                 <TextInput
                                                     placeholder="sku12345678"
-                                                    style={{ flex: 1, fontSize: scaleSzie(16),padding:0 }}
+                                                    style={{ flex: 1, fontSize: scaleSize(16),padding:0 }}
                                                     value={sku}
                                                     onChangeText={value => this.updateProductInfo('sku', value)}
                                                     onFocus={() => this.scrollProductTo(230)}
@@ -317,17 +317,17 @@ class PopupAddEditProduct extends React.Component {
                                     </View>
                                 </View>
                                 {/* -----  */}
-                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                <View style={{ flexDirection: 'row', marginTop: scaleSize(10) }} >
                                     <View style={{ flex: 1 }} >
-                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                        <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(10) }} >
                                             {`${localize('Items In Stock', language)}*`}
                                         </Text>
-                                        <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
+                                        <View style={{ height: scaleSize(30), paddingRight: scaleSize(20) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSize(5) }} >
                                                 <TextInputMask
                                                     type="only-numbers"
                                                     placeholder="100"
-                                                    style={{ flex: 1, fontSize: scaleSzie(16),padding:0 }}
+                                                    style={{ flex: 1, fontSize: scaleSize(16),padding:0 }}
                                                     value={quantity}
                                                     onChangeText={value => this.updateProductInfo('quantity', value)}
                                                     onFocus={() => this.scrollProductTo(300)}
@@ -340,17 +340,17 @@ class PopupAddEditProduct extends React.Component {
                                     </View>
                                 </View>
                                 {/* ----- */}
-                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                <View style={{ flexDirection: 'row', marginTop: scaleSize(10) }} >
                                     <View style={{ flex: 1 }} >
-                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                        <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(10) }} >
                                             {`${localize('Low Threshold', language)}*`}
                                         </Text>
-                                        <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
+                                        <View style={{ height: scaleSize(30), paddingRight: scaleSize(20) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSize(5) }} >
                                                 <TextInputMask
                                                     type="only-numbers"
                                                     placeholder="10"
-                                                    style={{ flex: 1, fontSize: scaleSzie(16),padding:0 }}
+                                                    style={{ flex: 1, fontSize: scaleSize(16),padding:0 }}
                                                     value={minThreshold}
                                                     onChangeText={value => this.updateProductInfo('minThreshold', value)}
                                                     onFocus={() => this.scrollProductTo(360)}
@@ -359,15 +359,15 @@ class PopupAddEditProduct extends React.Component {
                                         </View>
                                     </View>
                                     <View style={{ flex: 1 }} >
-                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                        <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(10) }} >
                                             {`${localize('High Threshold', language)}*`}
                                         </Text>
-                                        <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
+                                        <View style={{ height: scaleSize(30), paddingRight: scaleSize(20) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSize(5) }} >
                                                 <TextInputMask
                                                     type="only-numbers"
                                                     placeholder="20"
-                                                    style={{ flex: 1, fontSize: scaleSzie(16),padding:0 }}
+                                                    style={{ flex: 1, fontSize: scaleSize(16),padding:0 }}
                                                     value={maxThreshold}
                                                     onChangeText={value => this.updateProductInfo('maxThreshold', value)}
                                                     onFocus={() => this.scrollProductTo(360)}
@@ -377,13 +377,13 @@ class PopupAddEditProduct extends React.Component {
                                     </View>
                                 </View>
                                 {/* ----- */}
-                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                <View style={{ flexDirection: 'row', marginTop: scaleSize(10) }} >
                                     <View style={{ flex: 1 }} >
-                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                        <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(10) }} >
                                             {`${localize('Price', language)}*`}
                                         </Text>
-                                        <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSzie(5) }} >
+                                        <View style={{ height: scaleSize(30), paddingRight: scaleSize(20) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSize(5) }} >
                                                 <TextInputMask
                                                     type={'money'}
                                                     options={{
@@ -394,7 +394,7 @@ class PopupAddEditProduct extends React.Component {
                                                         suffixUnit: ''
                                                     }}
                                                     placeholder="$ 0.00"
-                                                    style={{ flex: 1, fontSize: scaleSzie(16),padding:0 }}
+                                                    style={{ flex: 1, fontSize: scaleSize(16),padding:0 }}
                                                     value={price}
                                                     onChangeText={value => this.updateProductInfo('price', value)}
                                                     onFocus={() => this.scrollProductTo(450)}
@@ -403,11 +403,11 @@ class PopupAddEditProduct extends React.Component {
                                         </View>
                                     </View>
                                     <View style={{ flex: 1 }} >
-                                        <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
+                                        <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(10) }} >
                                             {`${localize('Status', language)}*`}
                                         </Text>
-                                        <View style={{ height: scaleSzie(30), paddingRight: scaleSzie(20) }} >
-                                            <View style={{ width: scaleSzie(100), height: scaleSzie(30) }} >
+                                        <View style={{ height: scaleSize(30), paddingRight: scaleSize(20) }} >
+                                            <View style={{ width: scaleSize(100), height: scaleSize(30) }} >
                                                 <Dropdown
                                                     label='Active'
                                                     data={[{ value: 'Active' }, { value: 'Disable' }]}
@@ -431,12 +431,12 @@ class PopupAddEditProduct extends React.Component {
                                     editButtonSubmit={this.editButtonSubmit}
                                 />
                                 {/* -----  */}
-                                <View style={{ height: scaleSzie(250) }} />
+                                <View style={{ height: scaleSize(250) }} />
                             </TouchableOpacity>
                         </ScrollView>
                     </View>
                     {/* ---- Footer ---- */}
-                    <View style={{ height: scaleSzie(50), alignItems: 'center' }} >
+                    <View style={{ height: scaleSize(50), alignItems: 'center' }} >
                         {this.renderButtonSubmit()}
                     </View>
                 </View>

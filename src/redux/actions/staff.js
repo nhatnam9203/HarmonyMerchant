@@ -1,4 +1,4 @@
-import apiConfigs from "../../configs/api";
+import Configs from "@configs";
 
 export function addStaffByMerchant(body,searchFilter = false) {
   return {
@@ -6,7 +6,7 @@ export function addStaffByMerchant(body,searchFilter = false) {
     body,
     method: "POST",
     token: true,
-    api: `${apiConfigs.BASE_API}staff?api-version=1.1`,
+    api: `staff?api-version=1.1`,
     searchFilter
   };
 }
@@ -17,7 +17,7 @@ export function createAdmin(body) {
     body,
     method: "POST",
     token: true,
-    api: `${apiConfigs.BASE_API}staff?api-version=1.1`,
+    api: `staff?api-version=1.1`,
   };
 }
 
@@ -26,9 +26,18 @@ export function getStaffByMerchantId(name = "", role = "", status = "",searchFil
     type: "GET_STAFF_BY_MERCHANR_ID",
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}staff/search?name=${name}&role=${role}&status=${status}`,
+    api: `staff/search?name=${name}&role=${role}&status=${status}`,
     isShowLoading,
     searchFilter
+  };
+}
+
+export function getDetailStaffByMerchantId(id) {
+  return {
+    type: "GET_STAFF_DETAIL_BY_ID",
+    method: "GET",
+    token: true,
+    api: `staff/${id}`,
   };
 }
 
@@ -37,7 +46,7 @@ export function searchStaffByName(name = "", role = "", status = "") {
     type: "SEARCH_STAFF_BY_NAME",
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}staff/search?name=${name}&role=${role}&status=${status}`,
+    api: `staff/search?name=${name}&role=${role}&status=${status}`,
   };
 }
 
@@ -60,7 +69,7 @@ export function archiveStaff(id,searchFilter = false) {
     type: "ARCHICVE_STAFF",
     method: "PUT",
     token: true,
-    api: `${apiConfigs.BASE_API}staff/archive/${id}`,
+    api: `staff/archive/${id}`,
     searchFilter
   };
 }
@@ -70,7 +79,7 @@ export function restoreStaff(id,searchFilter =false) {
     type: "RESTORE_STAFF",
     method: "PUT",
     token: true,
-    api: `${apiConfigs.BASE_API}staff/restore/${id}`,
+    api: `staff/restore/${id}`,
     searchFilter
   };
 }
@@ -81,7 +90,7 @@ export function editStaff(body, id = "",searchFilter =false) {
     body,
     method: "PUT",
     token: true,
-    api: `${apiConfigs.BASE_API}staff/${id}?api-version=1.1`,
+    api: `staff/${id}?api-version=1.1`,
     searchFilter
   };
 }
@@ -100,7 +109,7 @@ export function loginStaff(merchantCode, staffPin, isPincodeInvoice = false) {
       staffPin: staffPin,
     },
     method: "POST",
-    api: `${apiConfigs.BASE_API}staff/login`,
+    api: `staff/login`,
     isPincodeInvoice,
   };
 }
@@ -113,7 +122,7 @@ export function forgotPin(merchantCode, email) {
       email: email,
     },
     method: "POST",
-    api: `${apiConfigs.BASE_API}staff/forgotpin`,
+    api: `staff/forgotpin`,
   };
 }
 
@@ -137,7 +146,7 @@ export function updateStaffsPosition(body) {
     body,
     method: "PUT",
     token: true,
-    api: `${apiConfigs.BASE_API}staff/update/position`,
+    api: `staff/update/position`,
   };
 }
 
@@ -156,7 +165,7 @@ export function getListStaffsSalaryTop(
     type: "GET_LIST_STAFFS_SALARY_TOP",
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}staff/salary?${params}`,
+    api: `staff/salary?${params}`,
     isShowLoading,
   };
 }
@@ -185,7 +194,7 @@ export function getExportStaffSalary(
     type: "EXPORT_STAFFS_SALARY",
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}staff/salary/export?${params}`,
+    api: `staff/salary/export?${params}`,
     isShowLoading,
     fileName,
     extention: type ?? "pdf",
@@ -203,7 +212,7 @@ export function getExportStaffStatistics(
     type: "EXPORT_STAFFS_STATISTICS",
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}staff/salary/export/${staffId}?${params}`,
+    api: `staff/salary/export/${staffId}?${params}`,
     isShowLoading,
     fileName,
     extention: type ?? "pdf",
@@ -216,3 +225,17 @@ export function resetDownloadExportFiles() {
     type: "RESET_DOWNLOAD_FILE_REPORT_STAFF"
   }
 }
+
+export function resetStateGetStaffDetail() {
+  return {
+    type: "RESET_STATE_GET_STAFF_DETAIL"
+  }
+}
+
+export function resetStateIsEditStaffById() {
+  return {
+    type: "RESET_STATE_IS_EDIT_STAFF_BY_ID"
+  }
+}
+
+

@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import { StatusBarHeader, Button, ParentContainer, Text, ScrollableTabView } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSize, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import { TabContactUs, TabVideos } from './widget';
@@ -19,10 +19,10 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         return (
             <View style={{
-                height: scaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSzie(50),
+                height: scaleSize(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSize(50),
                 justifyContent: 'center'
             }} >
-                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0' }} >
+                <Text style={{ fontSize: scaleSize(16), color: '#0764B0' }} >
                     {localize('Support', language)}
                 </Text>
             </View>
@@ -32,7 +32,7 @@ export default class Layout extends React.Component {
     renderMenu() {
         const { indexTab } = this.state;
         return (
-            <View style={{ width: scaleSzie(150), backgroundColor: 'rgb(250,250,250)' }} >
+            <View style={{ width: scaleSize(150), backgroundColor: 'rgb(250,250,250)' }} >
                 {
                     MENU.map((title, index) => {
                         let temptIcon;
@@ -50,14 +50,14 @@ export default class Layout extends React.Component {
                         const temptTextColorSelect = index === indexTab ? { color: '#0764B0' } : {}
                         return (
                             <Button onPress={() => this.selectMenu(index)} key={index} style={[{
-                                height: scaleSzie(50), borderBottomColor: 'rgb(241,241,241)', borderBottomWidth: 3,
-                                flexDirection: 'row', alignItems: "center", paddingLeft: scaleSzie(10)
+                                height: scaleSize(50), borderBottomColor: 'rgb(241,241,241)', borderBottomWidth: 3,
+                                flexDirection: 'row', alignItems: "center", paddingLeft: scaleSize(10)
                             }, temptBackground]} >
                                 <Image source={IMAGE[temptIcon]} style={{
-                                    width: scaleSzie(18), height: scaleSzie(18),
-                                    marginRight: scaleSzie(10)
+                                    width: scaleSize(18), height: scaleSize(18),
+                                    marginRight: scaleSize(10)
                                 }} />
-                                <Text style={[{ color: '#404040', fontSize: scaleSzie(16) }, temptTextColorSelect]} >
+                                <Text style={[{ color: '#404040', fontSize: scaleSize(16) }, temptTextColorSelect]} >
                                     {title}
                                 </Text>
                             </Button>
@@ -77,6 +77,7 @@ export default class Layout extends React.Component {
                 handleLockScreen={this.handleLockScreen}
                 activeScreen={isFocus}
                 navigation={navigation}
+                clearIntervalById={this.clearIntervalById}
             >
                 <View style={styles.container} >
                     <StatusBarHeader />
@@ -103,13 +104,13 @@ export default class Layout extends React.Component {
                     </View>
 
                     <Button onPress={this.openDrawer} style={configs.btn_left_position} >
-                        <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
+                        <Image source={IMAGE.openDrawer} style={{ width: scaleSize(34), height: scaleSize(34) }} />
                     </Button>
 
                     <Button onPress={this.backTab} style={[configs.btn_right_position, {
-                        width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
+                        width: scaleSize(34), height: scaleSize(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                     }]} >
-                        <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
+                        <Image source={IMAGE.arrowRight} style={{ width: scaleSize(22), height: scaleSize(17) }} />
                     </Button>
                 </View>
             </ParentContainer>

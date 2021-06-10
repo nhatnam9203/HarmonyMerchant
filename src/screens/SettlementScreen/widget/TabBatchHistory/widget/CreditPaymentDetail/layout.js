@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import _ from 'ramda';
 
-import { scaleSzie, formatMoney, formatWithMoment, getCredicardIcon } from '@utils';
+import { scaleSize, formatMoney, formatWithMoment, getCredicardIcon } from '@utils';
 import {
     Text
 } from '@components';
@@ -15,8 +15,8 @@ import styles from "./style";
 class Layout extends React.Component {
 
     render() {
-        const { paymentTransaction ,paymentByCreditCard} = this.state;
-        const transactionsCount = paymentTransaction.length > 0 ? paymentTransaction.length : 0;
+        const {creditBatchDetailById} = this.props;
+        const transactionsCount = creditBatchDetailById?.paymentTransaction?.length || 0;
 
         return (
             <View style={{ flex: 1, backgroundColor: "#fff" }} >
@@ -27,15 +27,15 @@ class Layout extends React.Component {
                 {/* --------- Row Table  ---------- */}
                 <View style={{ flex: 1 }} >
                     <FlatList
-                        data={paymentTransaction}
+                        data={creditBatchDetailById?.paymentTransaction || []}
                         renderItem={({ item, index }) => <RowTable data={item} />}
                         keyExtractor={(item, index) => `${item.appointmentCode}_${index}`}
                     />
                 </View>
                 {/* --------- Footer Table  ---------- */}
                 <View style={{
-                    height: scaleSzie(32),  backgroundColor: "#0764B0", marginTop: scaleSzie(20), flexDirection: "row",
-                    paddingHorizontal: scaleSzie(10)
+                    height: scaleSize(32),  backgroundColor: "#0764B0", marginTop: scaleSize(20), flexDirection: "row",
+                    paddingHorizontal: scaleSize(10)
                 }} >
                     <View style={{ flex: 1.2, justifyContent: "center", }} >
                         <Text style={[styles.txt_header_table,{color:"#fff"}]} >
@@ -47,7 +47,7 @@ class Layout extends React.Component {
                     <View style={{ flex: 1 }} />
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end", }} >
                         <Text style={[styles.txt_header_table,,{color:"#fff"}]} >
-                            {`$ ${paymentByCreditCard}`}
+                            {`$ ${creditBatchDetailById?.paymentByCreditCard || '0.00'}`}
                         </Text>
                     </View>
 
@@ -62,8 +62,8 @@ class Layout extends React.Component {
 const HeaderTable = () => {
     return (
         <View style={{
-            height: scaleSzie(32), backgroundColor: "#F1F1F1", marginTop: scaleSzie(20), flexDirection: "row",
-            paddingHorizontal: scaleSzie(10)
+            height: scaleSize(32), backgroundColor: "#F1F1F1", marginTop: scaleSize(20), flexDirection: "row",
+            paddingHorizontal: scaleSize(10)
         }} >
             {/* --------- Trans ID  ---------- */}
             <View style={{ flex: 1.2, justifyContent: "center" }} >
@@ -109,7 +109,7 @@ const RowTable = ({ data }) => {
 
     return (
         <View style={{
-            height: scaleSzie(35), backgroundColor: "#FAFAFA", flexDirection: "row", paddingHorizontal: scaleSzie(10), marginBottom: 2
+            height: scaleSize(35), backgroundColor: "#FAFAFA", flexDirection: "row", paddingHorizontal: scaleSize(10), marginBottom: 2
         }} >
             {/* --------- Trans ID  ---------- */}
             <View style={{ flex: 1.2, justifyContent: "center" }} >
@@ -125,11 +125,11 @@ const RowTable = ({ data }) => {
             </View>
             {/* --------- Payments  ---------- */}
             <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
-                <Image source={creditCardLogo} style={{ width: scaleSzie(30), height: scaleSzie(20) }} />
+                <Image source={creditCardLogo} style={{ width: scaleSize(30), height: scaleSize(20) }} />
                 <View style={{ width: 10 }} />
                 <Text style={{
                     color: '#404040',
-                    fontSize: scaleSzie(12)
+                    fontSize: scaleSize(12)
                 }} >
                     {cardNumber}
                 </Text>

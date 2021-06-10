@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
-import { Animated } from 'react-native';
+import PropTypes from "prop-types";
+import React, { PureComponent } from "react";
+import { Animated, Text } from "react-native";
 
-import {scaleSzie} from '../../../../../utils';
+import { scaleSize } from "../../../../../utils";
 
 export default class Label extends PureComponent {
   static defaultProps = {
@@ -31,7 +31,7 @@ export default class Label extends PureComponent {
 
     animationDuration: PropTypes.number.isRequired,
 
-    style: Animated.Text.propTypes.style,
+    // style: Text.propTypes.style,
 
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -55,26 +55,22 @@ export default class Label extends PureComponent {
     if (focused ^ props.focused || active ^ props.active) {
       let toValue = this.inputState(props);
 
-      Animated
-        .timing(input, { toValue, duration })
-        .start();
+      Animated.timing(input, { toValue, duration }).start();
     }
 
     if (focused ^ props.focused || errored ^ props.errored) {
       let toValue = this.focusState(props);
 
-      Animated
-        .timing(focus, { toValue, duration })
-        .start();
+      Animated.timing(focus, { toValue, duration }).start();
     }
   }
 
   inputState({ focused, active } = this.props) {
-    return active || focused? 1 : 0;
+    return active || focused ? 1 : 0;
   }
 
   focusState({ focused, errored } = this.props) {
-    return errored? -1 : (focused? 1 : 0);
+    return errored ? -1 : focused ? 1 : 0;
   }
 
   render() {
@@ -91,18 +87,18 @@ export default class Label extends PureComponent {
       basePadding,
       style,
       errored,
-      active, 
+      active,
       focused,
       animationDuration,
       ...props
     } = this.props;
 
-    let color = restricted?
-      errorColor:
-      focus.interpolate({
-        inputRange: [-1, 0, 1],
-        outputRange: [errorColor, baseColor, tintColor],
-      });
+    let color = restricted
+      ? errorColor
+      : focus.interpolate({
+          inputRange: [-1, 0, 1],
+          outputRange: [errorColor, baseColor, tintColor],
+        });
 
     let top = input.interpolate({
       inputRange: [0, 1],
@@ -123,14 +119,22 @@ export default class Label extends PureComponent {
 
     let containerStyle = {
       // position: 'absolute',
-      // top : scaleSzie(9),
-      // left: scaleSzie(10),
-      // bottom:scaleSzie(10),
+      // top : scaleSize(9),
+      // left: scaleSize(10),
+      // bottom:scaleSize(10),
     };
 
     return (
       <Animated.View style={containerStyle}>
-        <Animated.Text style={[style, textStyle,{fontSize:scaleSzie(16)}]} {...props}>
+        <Animated.Text
+          style={[
+            style,
+            textStyle,
+            { fontSize: scaleSize(16) },
+            this.props.styleLable,
+          ]}
+          {...props}
+        >
           {children}
         </Animated.Text>
       </Animated.View>
