@@ -1,8 +1,8 @@
-import { colors, fonts } from '@shared/themes';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
+import { colors, fonts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, View } from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
 
 export const ButtonFilter = React.forwardRef(
   (
@@ -15,16 +15,16 @@ export const ButtonFilter = React.forwardRef(
       style,
       placeholder,
     },
-    ref,
+    ref
   ) => {
     const [t] = useTranslation();
 
     const [open, setOpen] = React.useState(false);
-    const [items, setItems] = React.useState([]);
-    const [item, setItem] = React.useState();
+    const [items, setItems] = React.useState(filterItems);
+    const [item, setItem] = React.useState(defaultValue);
 
     const onHandleChange = (value) => {
-      if (onChangeValue && typeof onChangeValue === 'function') {
+      if (onChangeValue && typeof onChangeValue === "function") {
         onChangeValue(value);
       }
     };
@@ -35,19 +35,19 @@ export const ButtonFilter = React.forwardRef(
       },
     }));
 
-    React.useEffect(() => {
-      if (filterItems?.length) {
-        setItems(filterItems?.map((x) => ({ ...x, label: t(x.label) })));
-      } else {
-        setItems([]);
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [filterItems]);
+    // React.useEffect(() => {
+    //   if (filterItems?.length) {
+    //     setItems(filterItems?.map((x) => ({ ...x, label: t(x.label) })));
+    //   } else {
+    //     setItems([]);
+    //   }
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [filterItems]);
 
-    React.useEffect(() => {
-      setItem(defaultValue);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [defaultValue]);
+    // React.useEffect(() => {
+    //   setItem(defaultValue);
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [defaultValue]);
 
     return (
       <View
@@ -62,6 +62,7 @@ export const ButtonFilter = React.forwardRef(
           items={items}
           setOpen={setOpen}
           setValue={setItem}
+          setItems={setItems}
           onChangeValue={onHandleChange}
           value={item}
           open={open}
@@ -73,7 +74,7 @@ export const ButtonFilter = React.forwardRef(
           placeholderStyle={styles.dropdownTerminalPlaceholder}
           dropDownDirection="AUTO"
           scrollViewProps={{
-            decelerationRate: 'fast',
+            decelerationRate: "fast",
           }}
           itemKey="value"
           closeAfterSelecting={true}
@@ -82,64 +83,64 @@ export const ButtonFilter = React.forwardRef(
         />
       </View>
     );
-  },
+  }
 );
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
 
   dropdownContent: {
     borderRadius: scaleWidth(1),
-    height: '100%',
+    height: "100%",
     flex: 1,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: '#cccccc',
+    borderColor: "#cccccc",
   },
 
   dropDownContainerStyle: {
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: '#cccccc',
+    borderColor: "#cccccc",
   },
 
   dropdownTerminalText: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '400',
-    fontStyle: 'normal',
+    fontWeight: "400",
+    fontStyle: "normal",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.GREYISH_BROWN,
   },
 
   dropdownTerminalPlaceholder: {
-    fontFamily: 'Roboto-Light',
-    fontWeight: '300',
+    fontFamily: "Roboto-Light",
+    fontWeight: "300",
     letterSpacing: 0,
     color: colors.INACTIVE,
-    textAlign: 'left',
+    textAlign: "left",
   },
 
   selectedItemLabelStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '400',
-    fontStyle: 'normal',
+    fontWeight: "400",
+    fontStyle: "normal",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.ROBIN_S_EGG,
   },
 
   itemLabelStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '400',
-    fontStyle: 'normal',
+    fontWeight: "400",
+    fontStyle: "normal",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.GREYISH_BROWN,
   },
 });

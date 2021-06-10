@@ -1,8 +1,8 @@
-import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { layouts, colors, fonts } from '@shared/themes';
+import React from "react";
+import { View, StyleSheet, Text } from "react-native";
+import { useTranslation } from "react-i18next";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { layouts, colors, fonts } from "@shared/themes";
 import {
   FormFullName,
   FormTitle,
@@ -15,8 +15,8 @@ import {
   FormLabelSwitch,
   ButtonGradient,
   ButtonGradientWhite,
-} from '@shared/components';
-import { dateToString, BIRTH_DAY_DATE_FORMAT_STRING } from '@shared/utils';
+} from "@shared/components";
+import { dateToString, BIRTH_DAY_DATE_FORMAT_STRING } from "@shared/utils";
 
 export const Layout = ({ form, buttonCancelPress, isEdit, isNew }) => {
   const [t] = useTranslation();
@@ -24,15 +24,15 @@ export const Layout = ({ form, buttonCancelPress, isEdit, isNew }) => {
   return (
     <View style={layouts.fill}>
       <View style={styles.headContent}>
-        {isEdit && <Text style={styles.headTitle}>{t('Edit Customer')}</Text>}
-        {isNew && <Text style={styles.headTitle}>{t('New Customer')}</Text>}
+        {isEdit && <Text style={styles.headTitle}>{t("Edit Customer")}</Text>}
+        {isNew && <Text style={styles.headTitle}>{t("New Customer")}</Text>}
       </View>
       <KeyboardAwareScrollView>
         <View style={styles.container}>
           <View style={styles.content}>
             <View style={styles.bottomContent}>
               <FormContactEmail
-                onChangeEmail={form.handleChange('email')}
+                onChangeEmail={form.handleChange("email")}
                 defaultValue={form.values?.email}
               />
 
@@ -40,8 +40,8 @@ export const Layout = ({ form, buttonCancelPress, isEdit, isNew }) => {
                 defaultDateString={form.values?.birthDate}
                 onChangeDate={(date) =>
                   form.setFieldValue(
-                    'birthDate',
-                    dateToString(date, BIRTH_DAY_DATE_FORMAT_STRING),
+                    "birthDate",
+                    dateToString(date, BIRTH_DAY_DATE_FORMAT_STRING)
                   )
                 }
               />
@@ -49,14 +49,14 @@ export const Layout = ({ form, buttonCancelPress, isEdit, isNew }) => {
               <View style={layouts.horizontal}>
                 <FormGender
                   defaultValue={form.values?.gender}
-                  onChangeValue={form.handleChange('gender')}
+                  onChangeValue={form.handleChange("gender")}
                   height={scaleHeight(40)}
                   style={layouts.fill}
                 />
                 <View style={layouts.marginHorizontal} />
                 <FormCustomerGroup
                   defaultValue={form.values?.IsVip}
-                  onChangeValue={(value) => form.setFieldValue('IsVip', value)}
+                  onChangeValue={(value) => form.setFieldValue("IsVip", value)}
                   height={scaleHeight(40)}
                   style={layouts.fill}
                 />
@@ -65,47 +65,54 @@ export const Layout = ({ form, buttonCancelPress, isEdit, isNew }) => {
 
             <FormPhoneNumber
               phoneNumber={form.values?.phone}
-              onChangePhoneNumber={form.handleChange('phone')}
+              onChangePhoneNumber={form.handleChange("phone")}
             />
 
             <FormFullName
               firstName={form?.values?.firstName}
               lastName={form?.values?.lastName}
-              onChangeFirstName={form?.handleChange('firstName')}
-              onChangeLastName={form?.handleChange('lastName')}
+              onChangeFirstName={form?.handleChange("firstName")}
+              onChangeLastName={form?.handleChange("lastName")}
             />
 
-            <FormTitle label={t('General Informations')} />
+            <FormTitle label={t("General Informations")} />
           </View>
+
           <View style={styles.content}>
             <FormLabelSwitch
               defaultValue={form.values?.addressPost?.defaultShippingAddress}
               onValueChange={(value) =>
-                form.setFieldValue('addressPost.defaultShippingAddress', value)
+                form.setFieldValue("defaultAddress.defaultShippingAddress", value)
               }
-              label={t('Default Shipping Address')}
+              label={t("Default Shipping Address")}
             />
 
             <FormLabelSwitch
               defaultValue={form.values?.addressPost?.defaultBillingAddress}
               onValueChange={(value) =>
-                form.setFieldValue('addressPost.defaultBillingAddress', value)
+                form.setFieldValue("defaultAddress.defaultBillingAddress", value)
               }
-              label={t('Default Billing Address')}
+              label={t("Default Billing Address")}
             />
 
             <FormPhoneNumber
               phoneNumber={form.values?.addressPost?.phone}
-              onChangePhoneNumber={form.handleChange('addressPost.phone')}
+              onChangePhoneNumber={form.handleChange("defaultAddress.phone")}
             />
 
             <FormAddress
-              onChangeCityValue={form.handleChange('addressPost.city')}
-              onChangeStateValue={(value) =>
-                form.setFieldValue('addressPost.state', value)
+              onChangeCityValue={(value) =>
+                form.setFieldValue("defaultAddress.city", value)
               }
-              onChangeZipCodeValue={form.handleChange('addressPost.zip')}
-              onChangeStreetValue={form.handleChange('addressPost.street')}
+              onChangeStateValue={(value) =>
+                form.setFieldValue("defaultAddress.state", value)
+              }
+              onChangeZipCodeValue={(value) =>
+                form.setFieldValue("defaultAddress.zip", value)
+              }
+              onChangeStreetValue={(value) =>
+                form.setFieldValue("defaultAddress.street", value)
+              }
               defaultStateValue={form?.values?.addressPost?.state}
               defaultStreetValue={form?.values?.addressPost?.street}
               defaultCityValue={form?.values?.addressPost?.city}
@@ -115,18 +122,18 @@ export const Layout = ({ form, buttonCancelPress, isEdit, isNew }) => {
             <FormFullName
               firstName={form.values?.addressPost?.firstName}
               lastName={form.values?.addressPost?.lastName}
-              onChangeFirstName={form.handleChange('addressPost.firstName')}
-              onChangeLastName={form.handleChange('addressPost.lastName')}
+              onChangeFirstName={form.handleChange("defaultAddress.firstName")}
+              onChangeLastName={form.handleChange("defaultAddress.lastName")}
             />
 
-            <FormTitle label={t('Addresses')} />
+            <FormTitle label={t("Addresses")} />
           </View>
         </View>
       </KeyboardAwareScrollView>
       <View style={styles.buttonContent}>
         <ButtonGradientWhite
           onPress={buttonCancelPress}
-          label={t('Cancel').toUpperCase()}
+          label={t("Cancel").toUpperCase()}
           width={scaleWidth(400)}
           height={scaleHeight(60)}
           textColor={colors.GREYISH_BROWN}
@@ -134,7 +141,7 @@ export const Layout = ({ form, buttonCancelPress, isEdit, isNew }) => {
           fontWeight="500"
         />
         <ButtonGradient
-          label={t('Save').toUpperCase()}
+          label={t("Save").toUpperCase()}
           width={scaleWidth(400)}
           height={scaleHeight(60)}
           fontSize={scaleFont(25)}
@@ -153,36 +160,36 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: scaleWidth(0),
     paddingVertical: scaleHeight(16),
-    flexDirection: 'row',
-    alignItems: 'flex-start',
+    flexDirection: "row",
+    alignItems: "flex-start",
   },
 
   content: {
     flex: 1,
     marginHorizontal: scaleWidth(16),
-    flexDirection: 'column-reverse',
+    flexDirection: "column-reverse",
   },
 
   buttonContent: {
     height: scaleHeight(84),
     backgroundColor: colors.WHITE,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "space-around",
+    alignItems: "center",
+    flexDirection: "row",
   },
 
   headContent: {
     height: scaleHeight(50),
     backgroundColor: colors.WHITE,
-    shadowColor: '#0000001a',
+    shadowColor: "#0000001a",
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowRadius: 2,
     shadowOpacity: 0.32,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    justifyContent: "center",
+    alignItems: "flex-start",
     paddingLeft: scaleWidth(16),
   },
 
@@ -193,10 +200,10 @@ const styles = StyleSheet.create({
   headTitle: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(23),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 });

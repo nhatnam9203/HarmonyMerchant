@@ -1,12 +1,12 @@
-import React from 'react';
-import { Layout } from './Layout';
-import { useProps } from './useProps';
-import { createScreenComponent } from '@shared/helpers/createScreenComponent';
+import React from "react";
+import { Layout } from "./Layout";
+import { useProps } from "./useProps";
+import { createScreenComponent } from "@shared/helpers/createScreenComponent";
 
 export const EditCustomerPage = createScreenComponent(
-  'retailer.customer',
+  "retailer.customer.edit",
   (props) => <Layout {...useProps(props)} />,
   {
-    title: 'Edit Customer',
-  },
+    title: "Edit Customer",
+  }
 );

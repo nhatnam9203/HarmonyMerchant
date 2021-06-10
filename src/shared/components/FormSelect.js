@@ -15,7 +15,7 @@ export const FormSelect = ({
   children,
 }) => {
   const [t] = useTranslation();
-  const [items, setItems] = React.useState(filterItems);
+  // const [items, setItems] = React.useState(filterItems);
 
   // React.useEffect(() => {
   //   setItems(filterItems);
@@ -31,7 +31,7 @@ export const FormSelect = ({
       )}
       <View style={styles.content}>
         <ButtonFilter
-          filterItems={items}
+          filterItems={filterItems}
           defaultValue={defaultValue}
           onChangeValue={onChangeValue}
           style={layouts.fill}

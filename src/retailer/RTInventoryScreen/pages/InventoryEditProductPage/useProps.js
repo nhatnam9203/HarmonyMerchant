@@ -1,29 +1,31 @@
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import NavigationServices from '@navigators/NavigatorServices';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import NavigationServices from "@navigators/NavigatorServices";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 import {
   useCreateProducts,
   useEditProducts,
-} from '@shared/services/api/retailer';
+  useGetCategoriesList,
+} from "@shared/services/api/retailer";
 import {
   BIRTH_DAY_DATE_FORMAT_STRING,
   statusSuccess,
   dateToString,
-} from '@shared/utils';
-import { merge } from 'lodash';
+} from "@shared/utils";
+import { merge } from "lodash";
+import { useFocusEffect } from "@react-navigation/native";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[InventoryEditProduct] ${message}`, obj);
 };
 
-export const useProps = ({ params: { isNew, isEdit, item } }) => {
+export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const categories = useSelector(
-    (state) => state.inventoryRetailer?.categories,
+    (state) => state.inventoryRetailer?.categories
   );
 
   const [errorMsg, setErrorMsg] = React.useState(null);
@@ -35,6 +37,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   */
   const [productData, createProduct] = useCreateProducts();
   const [productEdit, editProduct] = useEditProducts();
+  const [, getCategoriesList] = useGetCategoriesList();
 
   /**
   |--------------------------------------------------
@@ -44,7 +47,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   const form = useFormik({
     initialValues: item ?? {},
     validationSchema: Yup.object().shape({
-      name: Yup.string().required(t('Product name is required')),
+      name: Yup.string().required(t("Product name is required")),
       // categoryId: Yup.number(),
       // description: Yup.string(),
       // sku: Yup.string(),
@@ -87,7 +90,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
       } else if (isEdit) {
         editProduct(
           Object.assign({}, values, { options: formatOptions }),
-          values.productId,
+          values.productId
         );
       }
     },
@@ -98,6 +101,13 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   | useEffect
   |--------------------------------------------------
   */
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (reload) getCategoriesList({ page: 1 });
+    }, [reload])
+  );
+
   React.useEffect(() => {
     if (!productData && !productEdit) {
       return;
@@ -106,7 +116,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     const { codeStatus, message, data } = productData || productEdit;
     if (statusSuccess(codeStatus)) {
       setErrorMsg(null);
-      NavigationServices.navigate('retailer.inventory.list', { reload: true });
+      NavigationServices.navigate("retailer.inventory.list", { reload: true });
 
       return;
     }
@@ -116,18 +126,16 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     }
   }, [productData, productEdit]);
 
-  React.useEffect(() => {
-    setListSelectCategories(
-      categories?.length
-        ? categories
-            ?.filter((x) => x.isSubCategory)
-            .map((x) => ({
-              value: x.categoryId,
-              label: x.name,
-            }))
-        : [],
-    );
-  }, [categories]);
+  // React.useEffect(() => {
+  //   const list = categories
+  //     ?.filter((x) => x.isSubCategory)
+  //     .map((x) => ({
+  //       value: x.categoryId,
+  //       label: x.name,
+  //     }));
+
+  //   setListSelectCategories(list);
+  // }, [categories]);
 
   return {
     isEdit,
@@ -137,34 +145,31 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     },
     productItem: item, // form
     onNewCategory: () => {
-      NavigationServices.navigate('retailer.inventory.product.category', {
+      NavigationServices.navigate("retailer.inventory.product.category", {
         isNew: true,
       });
     },
     form,
-    listSelectCategories: categories?.length
-      ? categories
-          ?.filter((x) => x.isSubCategory)
-          .map((x) => ({
-            value: x.categoryId,
-            label: x.name,
-          }))
-      : [],
+    listSelectCategories: categories
+      ?.filter((x) => x.isSubCategory)
+      .map((x) => ({
+        value: x.categoryId,
+        label: x.name,
+      })),
     onAddAttributes: (attributes) => {
       const currentOptions = form?.values?.options || [];
       const mergeOptions = currentOptions.concat(
         attributes?.filter(
           (v) =>
-            currentOptions.findIndex((x) => v.attributeId === x.attributeId) <
-            0,
-        ),
+            currentOptions.findIndex((x) => v.attributeId === x.attributeId) < 0
+        )
       );
       log(mergeOptions);
-      form.setFieldValue('options', mergeOptions);
+      form.setFieldValue("options", mergeOptions);
     },
 
     updateAttributeOptions: (optValue) => {
-      log(optValue, 'optValue');
+      log(optValue, "optValue");
       let values = optValue?.values?.filter((v) => v.checked);
       const opt = Object.assign({}, optValue, { values });
       let options = form.values?.options?.map((v) => {
@@ -174,7 +179,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
           return v;
         }
       });
-      form.setFieldValue('options', options);
+      form.setFieldValue("options", options);
     },
   };
 };
