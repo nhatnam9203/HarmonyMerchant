@@ -3,6 +3,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+DropDownPicker.setListMode("SCROLLVIEW");
 
 export const ButtonFilter = React.forwardRef(
   (
@@ -80,6 +81,7 @@ export const ButtonFilter = React.forwardRef(
           closeAfterSelecting={true}
           showTickIcon={false}
           placeholder={placeholder}
+          listMode="SCROLLVIEW" // This line solved my issue.
         />
       </View>
     );

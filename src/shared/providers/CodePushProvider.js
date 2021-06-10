@@ -1,7 +1,7 @@
-import React, { createContext } from 'react';
-import codePush from 'react-native-code-push';
+import React, { createContext } from "react";
+import codePush from "react-native-code-push";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[CodePushProvider] ${message}`, obj);
 };
 
@@ -38,13 +38,13 @@ export const CodePushProvider = ({ children }) => {
   const codePushProcessComplete = async () => {
     // await dispatch(app.loadingSuccess());
     progressComplete?.forEach(
-      (x) => x && typeof x?.delegate === 'function' && x?.delegate(),
+      (x) => x && typeof x?.delegate === "function" && x?.delegate()
     );
   };
 
   const codePushStatusChange = (status) => {
     if (status === codePush.SyncStatus.UPDATE_INSTALLED) {
-      log(status, 'CodePush Update Installed');
+      log(status, "CodePush Update Installed");
 
       codePush.allowRestart();
       setTimeout(() => {
@@ -62,7 +62,7 @@ export const CodePushProvider = ({ children }) => {
     const defaultOption = {
       updateDialog: {
         appendReleaseDescription: true,
-        descriptionPrefix: '\n\nChange log:\n',
+        descriptionPrefix: "\nChange log:\n",
       },
       // installMode: codePush.InstallMode.IMMEDIATE,
     };
@@ -70,7 +70,7 @@ export const CodePushProvider = ({ children }) => {
     await codePush.sync(
       defaultOption,
       codePushStatusChange,
-      codePushDownloadProgress,
+      codePushDownloadProgress
     );
   };
 
@@ -78,7 +78,7 @@ export const CodePushProvider = ({ children }) => {
   const codePushCheck = async () => {
     const timeOutNetWork = new Promise((resolve) => {
       setTimeout(() => {
-        resolve('NET_WORK_TIME_OUT');
+        resolve("NET_WORK_TIME_OUT");
       }, 10000);
     });
     try {
@@ -86,30 +86,30 @@ export const CodePushProvider = ({ children }) => {
         codePush.checkForUpdate(),
         timeOutNetWork,
       ]);
-      log(update, 'checkUpdateCodePush');
+      log(update, "checkUpdateCodePush");
 
-      if (update && update !== 'NET_WORK_TIME_OUT') {
+      if (update && update !== "NET_WORK_TIME_OUT") {
         // Trường hợp có update
         if (update.isFirstRun && update.description) {
           // Display a "what's new?" modal
-          log(update, 'CodePush Show Dialog AWAITING_USER_ACTION isFirstRun');
+          log(update, "CodePush Show Dialog AWAITING_USER_ACTION isFirstRun");
           setCodePushStatus(codePush.SyncStatus.AWAITING_USER_ACTION);
         } else if (update.failedInstall) {
           /* đã update failed */
-          log(update, 'CodePush Show Dialog UPDATE_INSTALLED failed');
+          log(update, "CodePush Show Dialog UPDATE_INSTALLED failed");
           setCodePushStatus(codePush.SyncStatus.UPDATE_IGNORED);
         } else {
-          log(update, 'CodePush Show Dialog AWAITING_USER_ACTION ');
+          log(update, "CodePush Show Dialog AWAITING_USER_ACTION ");
           setCodePushStatus(codePush.SyncStatus.AWAITING_USER_ACTION);
           await codePushSync();
         }
       } else {
         // not update
-        log(null, 'CodePush Show Dialog UP_TO_DATE ');
+        log(null, "CodePush Show Dialog UP_TO_DATE ");
         setCodePushStatus(codePush.SyncStatus.UP_TO_DATE);
       }
     } catch (err) {
-      console.log('==========> CodePush error:' + err);
+      console.log("==========> CodePush error:" + err);
     }
   };
 

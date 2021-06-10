@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     fontSize: scaleFont(15),
     fontWeight: 'normal',
     fontStyle: 'normal',
-    lineHeight: 36,
     letterSpacing: 0,
     textAlign: 'left',
     color: colors.GREYISH_BROWN,

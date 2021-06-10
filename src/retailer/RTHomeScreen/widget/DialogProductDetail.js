@@ -270,7 +270,6 @@ const styles = StyleSheet.create({
     fontSize: scaleFont(20),
     fontWeight: '500',
     fontStyle: 'normal',
-    lineHeight: 20,
     letterSpacing: 0,
     textAlign: 'left',
     color: colors.GREYISH_BROWN,

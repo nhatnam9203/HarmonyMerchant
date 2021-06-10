@@ -195,7 +195,6 @@ const styles = StyleSheet.create({
     fontSize: scaleFont(15),
     fontWeight: '500',
     fontStyle: 'normal',
-    lineHeight: 20,
     letterSpacing: 0,
     textAlign: 'left',
     color: colors.OCEAN_BLUE,
