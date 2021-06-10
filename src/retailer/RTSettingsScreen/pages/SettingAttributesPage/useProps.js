@@ -1,12 +1,13 @@
-import React from 'react';
+import React from "react";
 import {
   useGetAttributesList,
   useDeleteAttributes,
-} from '@shared/services/api/retailer';
-import { SORT_TYPE } from '@shared/utils/app';
-import { useTranslation } from 'react-i18next';
-import _ from 'lodash';
-import NavigationServices from '@navigators/NavigatorServices';
+} from "@shared/services/api/retailer";
+import { SORT_TYPE } from "@shared/utils/app";
+import { useTranslation } from "react-i18next";
+import _ from "lodash";
+import NavigationServices from "@navigators/NavigatorServices";
+import { useFocusEffect } from "@react-navigation/native";
 
 export const useProps = ({ params: { reload }, reloadPage }) => {
   const [t] = useTranslation();
@@ -22,7 +23,7 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   const [attributesList, getAttributesList] = useGetAttributesList();
   const callGetAttributesList = React.useCallback(() => {
     getAttributesList({
-      key: searchVal ?? '',
+      key: searchVal ?? "",
       page: page,
       sort: { label: sortLabel },
     });
@@ -38,10 +39,16 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  React.useEffect(() => {
-    if (reload || reloadPage) callGetAttributesList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reload, reloadPage]);
+  // React.useEffect(() => {
+  //   if (reload || reloadPage) callGetAttributesList();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [reload, reloadPage]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (reload || reloadPage) callGetAttributesList();
+    }, [reload, reloadPage])
+  );
 
   React.useEffect(() => {
     callGetAttributesList();
@@ -50,7 +57,7 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
 
   const onSortWithKey = (sortKey) => {
     switch (sortKey) {
-      case 'label':
+      case "label":
         const sorted =
           sortLabel === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
         setSortLabel(sorted);
@@ -72,12 +79,12 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   };
 
   const onButtonNewAttributePress = () => {
-    NavigationServices.navigate('retailer.settings.attributes.new', {
+    NavigationServices.navigate("retailer.settings.attributes.new", {
       isNew: true,
     });
   };
   const onButtonEditAttributePress = (item) => {
-    NavigationServices.navigate('retailer.settings.attributes.new', {
+    NavigationServices.navigate("retailer.settings.attributes.new", {
       isEdit: true,
       item,
     });

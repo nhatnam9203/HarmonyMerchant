@@ -11,6 +11,9 @@ import { SettingPaymentPage } from '../SettingPaymentPage';
 import { SettingStaffPage } from '../SettingStaffPage';
 import { SettingTaxPage } from '../SettingTaxPage';
 
+// import { SettlementScreen, SupportScreen, SettingScreen } from '../screens';
+
+
 import { WithDialogConfirm } from '@shared/HOC/withDialogConfirm';
 
 export const Layout = ({ openDrawer, reload, logOut }) => {

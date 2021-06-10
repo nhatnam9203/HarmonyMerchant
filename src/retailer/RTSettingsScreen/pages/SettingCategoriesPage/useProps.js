@@ -1,12 +1,13 @@
-import React from 'react';
+import React from "react";
 import {
   useGetCategoriesList,
   useDeleteCategories,
-} from '@shared/services/api/retailer';
-import { SORT_TYPE } from '@shared/utils/app';
-import { useTranslation } from 'react-i18next';
-import _ from 'lodash';
-import NavigationServices from '@navigators/NavigatorServices';
+} from "@shared/services/api/retailer";
+import { SORT_TYPE } from "@shared/utils/app";
+import { useTranslation } from "react-i18next";
+import _ from "lodash";
+import NavigationServices from "@navigators/NavigatorServices";
+import { useFocusEffect } from "@react-navigation/native";
 
 export const useProps = ({ params: { reload }, reloadPage }) => {
   const [t] = useTranslation();
@@ -21,7 +22,7 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   const [categoriesList, getCategoriesList] = useGetCategoriesList();
   const callGetCategoriesList = React.useCallback(() => {
     getCategoriesList({
-      key: searchVal ?? '',
+      key: searchVal ?? "",
       page: page,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -36,10 +37,16 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  React.useEffect(() => {
-    if (reload || reloadPage) callGetCategoriesList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reload, reloadPage]);
+  // React.useEffect(() => {
+  //   if (reload || reloadPage) callGetCategoriesList();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [reload, reloadPage]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (reload || reloadPage) callGetCategoriesList();
+    }, [reload, reloadPage])
+  );
 
   React.useEffect(() => {
     callGetCategoriesList();
@@ -57,7 +64,7 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   };
 
   const onButtonNewCategoriesPress = () => {
-    NavigationServices.navigate('retailer.settings.categories.new', {
+    NavigationServices.navigate("retailer.settings.categories.new", {
       isNew: true,
     });
   };
@@ -68,7 +75,7 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   };
 
   const onButtonEditCategoriesPress = (item) => {
-    NavigationServices.navigate('retailer.settings.categories.new', {
+    NavigationServices.navigate("retailer.settings.categories.new", {
       isEdit: true,
       item,
     });
