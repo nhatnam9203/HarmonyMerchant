@@ -45,10 +45,10 @@ export const ButtonFilter = React.forwardRef(
     //   // eslint-disable-next-line react-hooks/exhaustive-deps
     // }, [filterItems]);
 
-    // React.useEffect(() => {
-    //   setItem(defaultValue);
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [defaultValue]);
+    React.useEffect(() => {
+      setItem(defaultValue);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [defaultValue]);
 
     return (
       <View

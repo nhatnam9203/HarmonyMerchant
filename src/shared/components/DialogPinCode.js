@@ -1,34 +1,13 @@
-import { basketRetailer } from "@redux/slices";
-import {
-  ButtonGradient,
-  FormAddress,
-  FormContactEmail,
-  FormFullName,
-  FormPhoneNumber,
-  FormTitle,
-  ButtonGradientWhite,
-} from "@shared/components";
+import { authMerchant } from "@redux/slices";
+import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
 import { useStaffLogin } from "@shared/services/api/merchant";
-import { colors, fonts, layouts } from "@shared/themes";
+import { colors, fonts } from "@shared/themes";
 import { statusSuccess } from "@shared/utils";
-import { useFormik } from "formik";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  StyleSheet,
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import * as Yup from "yup";
-import { CustomInput } from "./CustomInput";
-import { appMerchant, authMerchant } from "@redux/slices";
-import { saveAuthToken } from "@shared/storages/authToken";
 
 const log = (obj, message = "") => {
   Logger.log(`[DialogPincode] ${message}`, obj);

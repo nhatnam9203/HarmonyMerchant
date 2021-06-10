@@ -1,20 +1,21 @@
-import { DialogLayout } from '@shared/layouts';
-import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { colors, fonts, layouts } from '@shared/themes';
-import { ButtonGradient, FormInputAmount } from '@shared/components';
-import FastImage from 'react-native-fast-image';
+import { DialogLayout } from "@shared/layouts";
+import React from "react";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { useTranslation } from "react-i18next";
+import { colors, fonts, layouts } from "@shared/themes";
+import { ButtonGradient, FormInputAmount } from "@shared/components";
+import FastImage from "react-native-fast-image";
 import {
   useGetProducts,
   useCreateAppointmentTemp,
-} from '@shared/services/api/retailer';
-import { INPUT_TYPE, calcTotalPriceOfOption } from '@shared/utils';
-import { basketRetailer } from '@redux/slices';
-import { map } from 'rxjs/operators';
-import { useDispatch } from 'react-redux';
+} from "@shared/services/api/retailer";
+import { INPUT_TYPE, calcTotalPriceOfOption } from "@shared/utils";
+import { basketRetailer } from "@redux/slices";
+import { map } from "rxjs/operators";
+import { useDispatch } from "react-redux";
+import IMAGE from "@resources";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[DialogProductDetail] ${message}`, obj);
 };
 
@@ -35,12 +36,13 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
   const [products, getProducts] = useGetProducts();
 
   const calcTotalPrice = React.useCallback(() => {
+    if (!products) return 0;
     let price = parseFloat(product?.price);
     price += product?.options?.reduce((accumulator, currentItem) => {
       if (!options[currentItem.inputType]) return accumulator;
 
       const findItem = currentItem?.values?.find(
-        (v) => v.id === options[currentItem.inputType],
+        (v) => v.id === options[currentItem.inputType]
       );
       if (findItem) {
         return accumulator + parseFloat(findItem.valueAdd);
@@ -69,8 +71,8 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
           id: Date.now(),
           options: filterOptions,
           quantity: quantity,
-        }),
-      ),
+        })
+      )
     );
 
     dialogRef.current?.hide();
@@ -95,7 +97,7 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
   const renderOption = (itemOption) => {
     const onHandlePress = (optionValue) => {
       setOptions((prev) =>
-        Object.assign({}, prev, { [itemOption?.inputType]: optionValue.id }),
+        Object.assign({}, prev, { [itemOption?.inputType]: optionValue.id })
       );
     };
 
@@ -104,20 +106,20 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
       setOptions((prev) =>
         Object.assign({}, prev, {
           [itemOption?.inputType]: itemOption?.values[0].id,
-        }),
+        })
       );
     }
 
     switch (itemOption?.inputType) {
       case INPUT_TYPE.TEXT_SWATCH:
         return (
-          <View key={itemOption.id + ''}>
+          <View key={itemOption.id + ""}>
             <Text style={styles.itemText}>{itemOption?.label}</Text>
             <View style={layouts.marginVertical} />
             <View style={layouts.horizontal}>
               {itemOption?.values?.map((v, index) => (
                 <TouchableOpacity
-                  key={v.id + ''}
+                  key={v.id + ""}
                   style={[
                     styles.buttonColor,
                     options[itemOption?.inputType] === v.id &&
@@ -134,13 +136,13 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
         );
       case INPUT_TYPE.DROP_DOWN:
         return (
-          <View key={itemOption.id + ''}>
+          <View key={itemOption.id + ""}>
             <Text style={styles.itemText}>{itemOption?.label}</Text>
             <View style={layouts.marginVertical} />
             <View style={layouts.horizontal}>
               {itemOption?.values?.map((v) => (
                 <TouchableOpacity
-                  key={v.id + ''}
+                  key={v.id + ""}
                   style={[
                     styles.buttonSize,
                     options[itemOption?.inputType] === v.id &&
@@ -157,13 +159,13 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
         );
       case INPUT_TYPE.VISUAL_SWATCH:
         return (
-          <View key={itemOption.id + ''}>
+          <View key={itemOption.id + ""}>
             <Text style={styles.itemText}>{itemOption?.label}</Text>
             <View style={layouts.marginVertical} />
             <View style={layouts.horizontal}>
               {itemOption?.values?.map((v) => (
                 <TouchableOpacity
-                  key={v.id + ''}
+                  key={v.id + ""}
                   style={[
                     styles.buttonColor,
                     { backgroundColor: v.value },
@@ -185,12 +187,12 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
   return (
     <View>
       <DialogLayout
-        title={t('Product details')}
+        title={t("Product details")}
         ref={dialogRef}
         bottomChildren={() => (
           <View style={styles.bottomStyle}>
             <ButtonGradient
-              label={t('Add to basket')}
+              label={t("Add to basket")}
               width={scaleWidth(140)}
               height={scaleHeight(40)}
               borderRadius={scaleWidth(3)}
@@ -203,11 +205,15 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
         <View style={styles.container}>
           <FastImage
             style={styles.imageStyle}
-            source={{
-              uri: product?.imageUrl,
-              priority: FastImage.priority.high,
-              cache: FastImage.cacheControl.immutable,
-            }}
+            source={
+              product?.imageUrl
+                ? {
+                    uri: product?.imageUrl,
+                    priority: FastImage.priority.high,
+                    cache: FastImage.cacheControl.immutable,
+                  }
+                : IMAGE.product_holder
+            }
             resizeMode="contain"
           />
           <View style={layouts.marginHorizontal} />
@@ -222,7 +228,7 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
             {product?.options?.map((item) => renderOption(item))}
 
             <FormInputAmount
-              label={t('Amount')}
+              label={t("Amount")}
               defaultValue={quantity}
               onChangeValue={setQuantity}
             />
@@ -241,37 +247,37 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
 
   bottomStyle: {
-    width: '100%',
+    width: "100%",
     height: scaleHeight(80),
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    flexDirection: "row",
     borderTopWidth: 1,
-    borderTopColor: '#ddd',
+    borderTopColor: "#ddd",
   },
 
   title: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(23),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.OCEAN_BLUE,
   },
 
   price: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
@@ -279,7 +285,7 @@ const styles = StyleSheet.create({
     // height: scaleHeight(400),
     maxHeight: scaleHeight(400),
     minHeight: scaleHeight(100),
-    width: '100%',
+    width: "100%",
     marginVertical: scaleHeight(20),
   },
 
@@ -287,27 +293,27 @@ const styles = StyleSheet.create({
     width: scaleWidth(440),
     height: scaleHeight(48),
     backgroundColor: colors.WHITE,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderRightWidth: scaleWidth(1),
     borderLeftWidth: scaleWidth(1),
-    borderColor: '#dddddd',
-    alignItems: 'center',
+    borderColor: "#dddddd",
+    alignItems: "center",
     paddingHorizontal: scaleWidth(16),
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
 
   itemSeparator: {
-    backgroundColor: '#dddddd',
+    backgroundColor: "#dddddd",
     height: scaleHeight(1),
   },
 
   itemText: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
@@ -320,7 +326,7 @@ const styles = StyleSheet.create({
 
   line: {
     height: 1,
-    backgroundColor: '#dddddd',
+    backgroundColor: "#dddddd",
   },
 
   buttonColor: {
@@ -334,15 +340,15 @@ const styles = StyleSheet.create({
     height: scaleHeight(32),
     marginRight: scaleWidth(15),
     backgroundColor: colors.WHITE,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: '#cccccc',
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderColor: "#cccccc",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   selectBorder: {
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: scaleWidth(2),
     borderColor: colors.OCEAN_BLUE,
   },

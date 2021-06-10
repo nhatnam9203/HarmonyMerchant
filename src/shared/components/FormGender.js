@@ -1,29 +1,35 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { fonts, colors } from '@shared/themes';
-import { useTranslation } from 'react-i18next';
-import DropDownPicker from 'react-native-dropdown-picker';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { fonts, colors } from "@shared/themes";
+import { useTranslation } from "react-i18next";
+import DropDownPicker from "react-native-dropdown-picker";
 
 const GenderTypes = [
-  { label: 'Male', value: 'Male' },
-  { label: 'Female', value: 'Female' },
+  { label: "Male", value: "Male" },
+  { label: "Female", value: "Female" },
 ];
 
 export const FormGender = ({ width, height, onChangeValue, defaultValue }) => {
   const [t] = useTranslation();
 
   const [open, setOpen] = React.useState(false);
-  const [item, setItem] = React.useState(defaultValue);
+  const [item, setItem] = React.useState(null);
 
   const onHandleChange = (value) => {
-    if (onChangeValue && typeof onChangeValue === 'function') {
+    if (onChangeValue && typeof onChangeValue === "function") {
       onChangeValue(value);
     }
   };
 
+  React.useEffect(() => {
+    if (defaultValue) {
+      setItem(defaultValue);
+    }
+  }, [defaultValue]);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.textStyle}>{t('Gender')}</Text>
+      <Text style={styles.textStyle}>{t("Gender")}</Text>
       <View style={styles.content}>
         <DropDownPicker
           value={item}
@@ -40,7 +46,7 @@ export const FormGender = ({ width, height, onChangeValue, defaultValue }) => {
           placeholderStyle={styles.dropdownTerminalPlaceholder}
           dropDownDirection="AUTO"
           scrollViewProps={{
-            decelerationRate: 'fast',
+            decelerationRate: "fast",
           }}
           itemKey="label"
           closeAfterSelecting={true}
@@ -64,62 +70,62 @@ const styles = StyleSheet.create({
   textStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   dropdownContent: {
     borderRadius: scaleWidth(1),
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: '#cccccc',
-    width: '100%',
+    borderColor: "#cccccc",
+    width: "100%",
   },
 
   dropDownContainerStyle: {
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: '#cccccc',
+    borderColor: "#cccccc",
   },
 
   dropdownTerminalText: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '400',
-    fontStyle: 'normal',
+    fontWeight: "400",
+    fontStyle: "normal",
     letterSpacing: 1,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   dropdownTerminalPlaceholder: {
-    fontFamily: 'Roboto-Light',
-    fontWeight: '300',
+    fontFamily: "Roboto-Light",
+    fontWeight: "300",
     letterSpacing: 0,
     color: colors.INACTIVE,
-    textAlign: 'left',
+    textAlign: "left",
   },
 
   selectedItemLabelStyle: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(17),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.ROBIN_S_EGG,
   },
 
   itemLabelStyle: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(17),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 });

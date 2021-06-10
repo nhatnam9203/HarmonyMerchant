@@ -18,11 +18,18 @@ import {
 } from "@shared/components";
 import { dateToString, BIRTH_DAY_DATE_FORMAT_STRING } from "@shared/utils";
 
-export const Layout = ({ form, buttonCancelPress, isEdit, isNew }) => {
+export const Layout = ({
+  form,
+  buttonCancelPress,
+  isEdit,
+  isNew,
+  currentCustomer,
+}) => {
   const [t] = useTranslation();
 
   return (
     <View style={layouts.fill}>
+      {/* <Text style={styles.headTitle}>{errorMsg}</Text> */}
       <View style={styles.headContent}>
         {isEdit && <Text style={styles.headTitle}>{t("Edit Customer")}</Text>}
         {isNew && <Text style={styles.headTitle}>{t("New Customer")}</Text>}
@@ -33,29 +40,38 @@ export const Layout = ({ form, buttonCancelPress, isEdit, isNew }) => {
             <View style={styles.bottomContent}>
               <FormContactEmail
                 onChangeEmail={form.handleChange("email")}
-                defaultValue={form.values?.email}
-              />
-
-              <FormBirthDay
-                defaultDateString={form.values?.birthDate}
-                onChangeDate={(date) =>
-                  form.setFieldValue(
-                    "birthDate",
-                    dateToString(date, BIRTH_DAY_DATE_FORMAT_STRING)
-                  )
-                }
+                defaultValue={currentCustomer?.email}
               />
 
               <View style={layouts.horizontal}>
+                <View style={layouts.fill}>
+                  <FormBirthDay
+                    defaultDateString={dateToString(
+                      currentCustomer?.birthdate ?? new Date(),
+                      BIRTH_DAY_DATE_FORMAT_STRING
+                    )}
+                    onChangeDate={(date) =>
+                      form.setFieldValue(
+                        "birthdate",
+                        dateToString(date, BIRTH_DAY_DATE_FORMAT_STRING)
+                      )
+                    }
+                  />
+                </View>
+                <View style={layouts.marginHorizontal} />
+                <View style={layouts.fill} />
+              </View>
+
+              <View style={layouts.horizontal}>
                 <FormGender
-                  defaultValue={form.values?.gender}
+                  defaultValue={currentCustomer?.gender}
                   onChangeValue={form.handleChange("gender")}
                   height={scaleHeight(40)}
                   style={layouts.fill}
                 />
                 <View style={layouts.marginHorizontal} />
                 <FormCustomerGroup
-                  defaultValue={form.values?.IsVip}
+                  defaultValue={currentCustomer?.isVip}
                   onChangeValue={(value) => form.setFieldValue("IsVip", value)}
                   height={scaleHeight(40)}
                   style={layouts.fill}
@@ -64,13 +80,13 @@ export const Layout = ({ form, buttonCancelPress, isEdit, isNew }) => {
             </View>
 
             <FormPhoneNumber
-              phoneNumber={form.values?.phone}
-              onChangePhoneNumber={form.handleChange("phone")}
+              defaultPhone={currentCustomer?.phone}
+              onChangePhoneNumber={form?.handleChange("phone")}
             />
 
             <FormFullName
-              firstName={form?.values?.firstName}
-              lastName={form?.values?.lastName}
+              firstName={currentCustomer?.firstName}
+              lastName={currentCustomer?.lastName}
               onChangeFirstName={form?.handleChange("firstName")}
               onChangeLastName={form?.handleChange("lastName")}
             />
@@ -80,50 +96,52 @@ export const Layout = ({ form, buttonCancelPress, isEdit, isNew }) => {
 
           <View style={styles.content}>
             <FormLabelSwitch
-              defaultValue={form.values?.addressPost?.defaultShippingAddress}
+              defaultValue={
+                currentCustomer?.addressPost?.defaultShippingAddress
+              }
               onValueChange={(value) =>
-                form.setFieldValue("defaultAddress.defaultShippingAddress", value)
+                form.setFieldValue("addressPost.defaultShippingAddress", value)
               }
               label={t("Default Shipping Address")}
             />
 
             <FormLabelSwitch
-              defaultValue={form.values?.addressPost?.defaultBillingAddress}
+              defaultValue={currentCustomer?.addressPost?.defaultBillingAddress}
               onValueChange={(value) =>
-                form.setFieldValue("defaultAddress.defaultBillingAddress", value)
+                form.setFieldValue("addressPost.defaultBillingAddress", value)
               }
               label={t("Default Billing Address")}
             />
 
             <FormPhoneNumber
-              phoneNumber={form.values?.addressPost?.phone}
-              onChangePhoneNumber={form.handleChange("defaultAddress.phone")}
+              defaultPhone={currentCustomer?.defaultAddress?.addressPhone}
+              onChangePhoneNumber={form.handleChange("addressPost.phone")}
             />
 
             <FormAddress
               onChangeCityValue={(value) =>
-                form.setFieldValue("defaultAddress.city", value)
+                form.setFieldValue("addressPost.city", value)
               }
               onChangeStateValue={(value) =>
-                form.setFieldValue("defaultAddress.state", value)
+                form.setFieldValue("addressPost.state", value)
               }
               onChangeZipCodeValue={(value) =>
-                form.setFieldValue("defaultAddress.zip", value)
+                form.setFieldValue("addressPost.zip", value)
               }
               onChangeStreetValue={(value) =>
-                form.setFieldValue("defaultAddress.street", value)
+                form.setFieldValue("addressPost.street", value)
               }
-              defaultStateValue={form?.values?.addressPost?.state}
-              defaultStreetValue={form?.values?.addressPost?.street}
-              defaultCityValue={form?.values?.addressPost?.city}
-              defaultZipCodeValue={form?.values?.addressPost?.zip}
+              defaultStateValue={currentCustomer?.addressPost?.stateId}
+              defaultStreetValue={currentCustomer?.addressPost?.street}
+              defaultCityValue={currentCustomer?.addressPost?.city}
+              defaultZipCodeValue={currentCustomer?.addressPost?.zipCode}
             />
 
             <FormFullName
-              firstName={form.values?.addressPost?.firstName}
-              lastName={form.values?.addressPost?.lastName}
-              onChangeFirstName={form.handleChange("defaultAddress.firstName")}
-              onChangeLastName={form.handleChange("defaultAddress.lastName")}
+              firstName={currentCustomer?.addressPost?.firstName}
+              lastName={currentCustomer?.addressPost?.lastName}
+              onChangeFirstName={form.handleChange("addressPost.firstName")}
+              onChangeLastName={form.handleChange("addressPost.lastName")}
             />
 
             <FormTitle label={t("Addresses")} />

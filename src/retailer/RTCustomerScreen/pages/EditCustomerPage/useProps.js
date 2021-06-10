@@ -24,6 +24,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   const dispatch = useDispatch();
 
   const [errorMsg, setErrorMsg] = React.useState(null);
+  const [currentCustomer, setCurrentCustomer] = React.useState(null);
   /**
   |--------------------------------------------------
   | CALL API
@@ -45,13 +46,13 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
       lastName: item?.lastName ?? "",
       phone: item?.phone ?? "",
       email: item?.email ?? "",
-      birthDate: dateToString(
+      birthdate: dateToString(
         item?.birthDate ?? new Date(),
         BIRTH_DAY_DATE_FORMAT_STRING
       ),
       gender: "Male",
       IsVip: 0,
-      addressPost: {
+      defaultAddress: {
         firstName: "",
         lastName: "",
         phone: "",
@@ -64,15 +65,16 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
       },
     },
     validationSchema: Yup.object().shape({
-      lastName: Yup.string().required(t("FirstName is required!")),
+      lastName: Yup.string().required(t("LastName is required!")),
+      firstName: Yup.string().required(t("FirstName is required!")),
       phone: Yup.string().required(t("Phone is required")),
       email: Yup.string(),
-      birthDate: Yup.string(),
+      birthdate: Yup.string(),
       gender: Yup.string(),
       IsVip: Yup.number(),
       addressPost: Yup.object().shape({
         firstName: Yup.string().required(t("FirstName is required!")),
-        lastName: Yup.string().required(t("FirstName is required!")),
+        lastName: Yup.string().required(t("LastName is required!")),
         phone: Yup.string().required(t("Phone is required")),
         street: Yup.string(),
         state: Yup.number(),
@@ -83,11 +85,27 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
       }),
     }),
     onSubmit: (values) => {
-      // alert(JSON.stringify(values));
       if (isNew) {
         createCustomer(values);
       } else if (isEdit) {
-        editCustomer(values, values.customerId);
+        const { addressPost, addresses, defaultAddress, ...customer } =
+          values || {};
+        editCustomer(
+          Object.assign({}, customer, {
+            addressPost: {
+              firstName: addressPost.firstName,
+              lastName: addressPost.lastName,
+              phone: addressPost.phone,
+              street: addressPost.street,
+              state: addressPost.state,
+              city: addressPost.city,
+              zip: addressPost.zip,
+              defaultBillingAddress: addressPost.defaultBillingAddress,
+              defaultShippingAddress: addressPost.defaultShippingAddress,
+            },
+          }),
+          values.customerId
+        );
       }
     },
   });
@@ -129,23 +147,34 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     const { codeStatus, message, data } = customerGet;
 
     if (statusSuccess(codeStatus)) {
-      form?.setValues(data);
+      const customer = Object.assign({}, data, {
+        addressPost: {
+          ...data?.defaultAddress,
+          firstName: data?.defaultAddress?.addressFirstName,
+          lastName: data?.defaultAddress?.addressLastName,
+          phone: data?.defaultAddress?.addressPhone,
+          zip: data?.defaultAddress?.zipCode,
+          state: data?.defaultAddress?.stateId,
+        },
+      });
+      form.setValues(customer);
+      setCurrentCustomer(customer);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customerGet]);
 
   // React.useEffect(() => {
-  //   const { email, password, terminalId } = formik.errors;
-  //   if (email) {
-  //     setErrorMsg(email);
-  //   } else if (password) {
-  //     setErrorMsg(password);
-  //   } else if (terminalId) {
-  //     setErrorMsg(terminalId);
+  //   const { firstName, lastName, phone } = form.errors;
+  //   if (firstName) {
+  //     setErrorMsg(firstName);
+  //   } else if (lastName) {
+  //     setErrorMsg(lastName);
+  //   } else if (phone) {
+  //     setErrorMsg(phone);
   //   } else {
   //     setErrorMsg(null);
   //   }
-  // }, [formik.errors]);
+  // }, [form?.errors]);
 
   return {
     form,
@@ -155,5 +184,6 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     },
     isEdit,
     isNew,
+    currentCustomer,
   };
 };
