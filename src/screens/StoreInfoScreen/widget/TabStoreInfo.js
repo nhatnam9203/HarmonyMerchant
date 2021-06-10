@@ -62,7 +62,7 @@ class TabAdminInfo extends React.Component {
         const { businessHour } = this.state;
         const { businessName, address, city, zip, taxId, phone, email,
             state, businessBank
-        } = profile;
+        } = profile || {};
 
         return (
             <View style={styles.body} >
@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-    profile: state.dataLocal.profile,
+    profile: state.authMerchant.merchant,
     language: state.dataLocal.language,
     loading: state.app.loading,
     isUpdateMerchantSetting: state.app.isUpdateMerchantSetting

@@ -156,7 +156,7 @@ class PopupPayCompleted extends React.Component {
 
 const mapStateToProps = state => ({
     visiblePaymentCompleted: state.appointment.visiblePaymentCompleted,
-    profile: state.dataLocal.profile,
+    profile: state.authMerchant.merchant,
     groupAppointment: state.appointment.groupAppointment
 });
 

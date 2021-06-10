@@ -13,7 +13,7 @@ class TabCustomMarketing extends Layout {
 }
 
 const mapStateToProps = state => ({
-    profile: state.dataLocal.profile,
+    profile: state.authMerchant.merchant,
 })
 
 

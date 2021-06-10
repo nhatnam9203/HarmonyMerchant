@@ -1954,7 +1954,7 @@ const mapStateToProps = state => ({
     appointmentDetail: state.appointment.appointmentDetail,
     loading: state.app.loading,
     isGetAppointmentSucces: state.appointment.isGetAppointmentSucces,
-    profile: state.dataLocal.profile,
+    profile: state.authMerchant.merchant,
     isDonePayment: state.appointment.isDonePayment,
     connectionSignalR: state.appointment.connectionSignalR,
     flagSignInAppointment: state.appointment.flagSignInAppointment,

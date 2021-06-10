@@ -150,7 +150,7 @@ class GiftCardScreen extends Layout {
 }
 
 const mapStateToProps = (state) => ({
-  profile: state.dataLocal.profile,
+  profile: state.authMerchant.merchant,
   language: state.dataLocal.language,
   listCustomersByMerchant: state.customer.listCustomersByMerchant,
   listCustomersSearch: state.customer.listCustomersSearch,

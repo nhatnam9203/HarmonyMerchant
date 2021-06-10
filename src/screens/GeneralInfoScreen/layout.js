@@ -20,7 +20,7 @@ export default class Layout extends React.Component {
         const {
             businessName, doingBusiness, tax, businessAddress, businessPhone, email,
             firstName, lastName, position, contactPhone, dbaAddress
-        } = generalInfo;
+        } = generalInfo || {};
         const { prefix, suffix } = tax;
         const { address, city, state, zip } = businessAddress;
         const { address: addressDBA, city: cityDBA, state: stateDBA, zip: zipDBA } = dbaAddress;

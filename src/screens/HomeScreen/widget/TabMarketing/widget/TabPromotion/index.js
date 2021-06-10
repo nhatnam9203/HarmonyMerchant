@@ -121,7 +121,7 @@ class TabPromotion extends Layout {
 }
 
 const mapStateToProps = state => ({
-  profile: state.dataLocal.profile,
+  profile: state.authMerchant.merchant,
   language: state.dataLocal.language,
   promotions: state.marketing.promotions,
   servicesByMerchant: state.service.servicesByMerchant,

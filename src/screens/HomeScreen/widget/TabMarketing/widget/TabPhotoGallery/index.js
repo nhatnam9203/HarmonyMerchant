@@ -170,7 +170,7 @@ class TabPhotoGallery extends Layout {
 
 const mapStateToProps = (state) => ({
   language: state.dataLocal.language,
-  profile: state.dataLocal.profile,
+  profile: state.authMerchant.merchant,
   listBanners: state.marketing.listBanners,
   isUploadBanner: state.marketing.isUploadBanner,
   loading: state.app.loading,

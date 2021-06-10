@@ -15,7 +15,7 @@ class TabReview extends Layout {
       indexImage: 0,
     };
     this.onEndReachedCalledDuringMomentum = true;
-    this.flatListRef =  React.createRef();
+    this.flatListRef = React.createRef();
   }
 
   componentDidMount() {
@@ -25,7 +25,6 @@ class TabReview extends Layout {
       this.state.isStatus,
       this.state.isReview
     );
-
   }
 
   openImage = (ratingImages, index) => {
@@ -177,7 +176,7 @@ class TabReview extends Layout {
 
   setStateFromParent = async () => {
     await this.setState({ isReview: "all", isStatus: "all" });
-    if(this.flatListRef?.current){
+    if (this.flatListRef?.current) {
       this.flatListRef?.current?.scrollToOffset({ y: 0, animated: false });
     }
   };
@@ -200,7 +199,7 @@ class TabReview extends Layout {
 }
 
 const mapStateToProps = (state) => ({
-  merchantId: state.dataLocal.profile?.merchantId,
+  merchantId: state.authMerchant.merchant?.merchantId,
   summaryReview: state.review.summaryReview,
   listReview: state.review.listReview,
   isLoadMoreReviewList: state.review.isLoadMoreReviewList,

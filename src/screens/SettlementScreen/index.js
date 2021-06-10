@@ -126,7 +126,7 @@ class SettlementScreen extends Layout {
 }
 
 const mapStateToProps = state => ({
-    profile: state.dataLocal.profile,
+    profile: state.authMerchant.merchant,
     language: state.dataLocal.language,
     connectPAXStatus: state.app.connectPAXStatus,
     settlementTabPermission: state.invoice.settlementTabPermission,

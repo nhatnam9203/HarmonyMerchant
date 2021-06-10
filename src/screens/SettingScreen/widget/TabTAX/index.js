@@ -29,11 +29,11 @@ class TabTAX extends Layout {
         this.props.actions.app.setupMerchantTAX({
             taxService: formatNumberFromCurrency(serviceTAX),
             taxProduct: formatNumberFromCurrency(productTAX),
-            webLink: profile.webLink ? profile.webLink : "",
-            latitude: profile.latitude ? profile.latitude : "",
-            longitude: profile.longitude ? profile.longitude : "",
-            timezone: profile.timezone ? profile.timezone : "",
-            autoCloseAt: profile.autoCloseAt ? profile.autoCloseAt : ""
+            webLink: profile?.webLink ? profile?.webLink : "",
+            latitude: profile?.latitude ? profile?.latitude : "",
+            longitude: profile?.longitude ? profile?.longitude : "",
+            timezone: profile?.timezone ? profile?.timezone : "",
+            autoCloseAt: profile?.autoCloseAt ? profile?.autoCloseAt : ""
         });
     }
 
@@ -57,7 +57,7 @@ class TabTAX extends Layout {
 }
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    profile: state.dataLocal.profile,
+    profile: state.authMerchant.merchant,
     isSubmitTax: state.app.isSubmitTax
 })
 

@@ -159,7 +159,7 @@ class InventoryHome extends Layout {
 
 const mapStateToProps = (state) => ({
   language: state.dataLocal.language,
-  profile: state.dataLocal.profile,
+  profile: state.authMerchant.merchant,
   token: state.dataLocal.token,
   profileStaffLogin: state.dataLocal.profileStaffLogin,
 

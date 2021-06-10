@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-    profile: state.dataLocal.profile,
+    profile: state.authMerchant.merchant,
     productsByMerchantId: state.product.productsByMerchantId,
     categoriesByMerchant: state.category.categoriesByMerchant,
     refreshListProducts: state.product.refreshListProducts,
