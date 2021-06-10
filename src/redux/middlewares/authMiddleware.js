@@ -1,8 +1,8 @@
-import configs from '@configs';
-import { getDeviceId, getDeviceName } from '@shared/services/Device';
-import { getAuthToken } from '@shared/storages/authToken';
+import configs from "@configs";
+import { getDeviceId, getDeviceName } from "@shared/services/Device";
+import { getAuthToken } from "@shared/storages/authToken";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[authMiddleware] ${message}`, obj);
 };
 const authMiddleware = (store) => (next) => async (action) => {
@@ -13,19 +13,26 @@ const authMiddleware = (store) => (next) => async (action) => {
   const deviceName = appState?.appMerchant?.deviceName;
   const action_tempt = { ...action, versionApp, deviceId, deviceName };
 
-  if (token) {
+  if (action.token) {
     return next({
       ...action_tempt,
-      token: token,
+      token: appState?.dataLocal?.profileStaffLogin?.token ?? token,
     });
+  } else {
+    if (token) {
+      return next({
+        ...action_tempt,
+        token: token,
+      });
+    }
   }
 
-  if (action.type && action.type.includes('_SUCCESS')) {
-    return next({ ...action_tempt, typeNetwork: 'IS_CONNECTED_INTERNET' });
+  if (action.type && action.type.includes("_SUCCESS")) {
+    return next({ ...action_tempt, typeNetwork: "IS_CONNECTED_INTERNET" });
   }
 
-  if (action.type && action.type.includes('NET_WORK_REQUEST_FAIL')) {
-    return next({ ...action_tempt, typeNetwork: 'NET_WORK_REQUEST_FAIL' });
+  if (action.type && action.type.includes("NET_WORK_REQUEST_FAIL")) {
+    return next({ ...action_tempt, typeNetwork: "NET_WORK_REQUEST_FAIL" });
   }
 
   return next(action_tempt);
