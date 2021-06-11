@@ -36,7 +36,7 @@ export const useProps = ({ params: { item, reload, customerId } }) => {
     React.useCallback(() => {
       if (customerItem || customerId || item)
         getCustomer(customerItem?.id ?? customerId ?? item?.customerId);
-    }, [reload, item])
+    }, [reload, item, customerId])
   );
 
   React.useEffect(() => {
@@ -78,12 +78,14 @@ export const useProps = ({ params: { item, reload, customerId } }) => {
     onEditBillingAddress: () => {
       NavigationServices.navigate("retailer.customer.address", {
         item: customerItem?.defaultBillingAddress,
+        customerId: customerItem?.customerId,
         isEdit: true,
       });
     },
     onEditShippingAddress: () => {
       NavigationServices.navigate("retailer.customer.address", {
         item: customerItem?.defaultShippingAddress,
+        customerId: customerItem?.customerId,
         isEdit: true,
       });
     },

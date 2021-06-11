@@ -42,11 +42,11 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
   const form = useFormik({
     initialValues: item
       ? Object.assign({}, item, {
-          firstName: item.addressFirstName,
-          lastName: item.addressLastName,
-          zip: item.zipCode,
-          state: item.stateId,
-          phone: item.addressPhone,
+          firstName: item?.addressFirstName,
+          lastName: item?.addressLastName,
+          zip: item?.zipCode,
+          state: item?.stateId,
+          phone: item?.addressPhone,
         })
       : {},
     validationSchema: Yup.object().shape({
@@ -97,15 +97,16 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
   }, [addressCreate, addressEdit]);
 
   React.useEffect(() => {
-    setCurrentAddress(
-      Object.assign({}, item, {
-        firstName: item.addressFirstName,
-        lastName: item.addressLastName,
-        zip: item.zipCode,
-        state: item.stateId,
-        phone: item.addressPhone,
-      })
-    );
+    if (item)
+      setCurrentAddress(
+        Object.assign({}, item, {
+          firstName: item?.addressFirstName,
+          lastName: item?.addressLastName,
+          zip: item?.zipCode,
+          state: item?.stateId,
+          phone: item?.addressPhone,
+        })
+      );
   }, [item]);
 
   return {
