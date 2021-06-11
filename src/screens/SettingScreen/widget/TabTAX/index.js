@@ -57,7 +57,7 @@ class TabTAX extends Layout {
 }
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    profile: state.authMerchant.merchant,
+    profile: state.dataLocal.profile,
     isSubmitTax: state.app.isSubmitTax
 })
 

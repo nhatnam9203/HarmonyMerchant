@@ -6,41 +6,39 @@
  *  + SalonNavigator (POS finished)
  *  + RestaurantNavigator (coming)
  */
-import NavigationServices from '@navigators/NavigatorServices';
-import { createStackNavigator } from '@react-navigation/stack';
-import { SplashScreen } from '@src/merchant/SplashScreen';
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { AuthNavigator } from './AuthNavigator';
-import { RetailerNavigator } from './RetailerNavigator';
-import { SalonNavigator } from './SalonNavigator';
+import NavigationServices from "@navigators/NavigatorServices";
+import { createStackNavigator } from "@react-navigation/stack";
+import { SplashScreen } from "@src/merchant/SplashScreen";
+import React from "react";
+import { useSelector } from "react-redux";
+import { AuthNavigator } from "./AuthNavigator";
+import { RetailerNavigator } from "./RetailerNavigator";
+import { SalonNavigator } from "./SalonNavigator";
 
 const { Screen, Navigator } = createStackNavigator();
 
 export const MerchantNavigator = () => {
   // redux
-  const merchant = useSelector((state) => state.authMerchant.merchant);
+  const merchant = useSelector((state) => state.dataLocal.profile);
   const isPlash = useSelector((state) => state.appMerchant.isPlash);
 
   React.useEffect(() => {
     if (isPlash) {
       return;
     }
+    const { type } = merchant || {};
 
-    if (merchant) {
-      const { type } = merchant;
-      switch (type) {
-        case Constants.APP_TYPE.POS:
-          NavigationServices.replace('SalonNavigator');
-          break;
-        case Constants.APP_TYPE.RETAILER:
-          NavigationServices.replace('RetailerNavigator');
-          break;
-        default:
-          break;
-      }
-    } else {
-      NavigationServices.replace('AuthNavigator');
+    switch (type) {
+      case Constants.APP_TYPE.POS:
+        NavigationServices.replace("SalonNavigator");
+        break;
+      case Constants.APP_TYPE.RETAILER:
+        NavigationServices.replace("RetailerNavigator");
+        break;
+      default:
+        NavigationServices.replace("AuthNavigator");
+
+        break;
     }
   }, [merchant, isPlash]);
 
@@ -61,7 +59,7 @@ export const MerchantNavigator = () => {
             opacity: progress.interpolate({
               inputRange: [0, 1],
               outputRange: [0, 0.5],
-              extrapolate: 'clamp',
+              extrapolate: "clamp",
             }),
           },
         }),

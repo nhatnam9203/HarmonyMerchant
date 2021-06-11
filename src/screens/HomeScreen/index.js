@@ -611,7 +611,7 @@ class HomeScreen extends Layout {
 }
 
 const mapStateToProps = (state) => ({
-  profile: state.authMerchant.merchant,
+  profile: state.dataLocal.profile,
   language: state.dataLocal.language,
   token: state.dataLocal.token,
   appointmentIdOffline: state.appointment.appointmentIdOffline,

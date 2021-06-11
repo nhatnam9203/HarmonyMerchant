@@ -175,7 +175,7 @@ class TabGaneral extends Layout {
 }
 
 const mapStateToProps = state => ({
-    profile: state.authMerchant.merchant,
+    profile: state.dataLocal.profile,
     language: state.dataLocal.language,
     autoCloseAt: state.dataLocal.autoCloseAt,
     autoLockScreenAfter: state.dataLocal.autoLockScreenAfter,

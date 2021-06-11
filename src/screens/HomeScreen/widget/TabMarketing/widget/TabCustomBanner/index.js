@@ -157,7 +157,7 @@ class TabCustomBanner extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    profile: state.authMerchant.merchant,
+    profile: state.dataLocal.profile,
     listBanners: state.marketing.listBanners,
     isUploadBanner: state.marketing.isUploadBanner,
     loading: state.app.loading,

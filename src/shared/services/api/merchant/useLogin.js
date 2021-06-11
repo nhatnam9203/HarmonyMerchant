@@ -1,8 +1,8 @@
-import useAxios from 'axios-hooks';
-import { MERCHANT_LOGIN } from '../route';
-import { appMerchant } from '@redux/slices';
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import useAxios from "axios-hooks";
+import { MERCHANT_LOGIN } from "../route";
+import { appMerchant } from "@redux/slices";
+import React from "react";
+import { useDispatch } from "react-redux";
 
 export const useSignIn = () => {
   const dispatch = useDispatch();
@@ -10,7 +10,7 @@ export const useSignIn = () => {
     MERCHANT_LOGIN,
     {
       manual: true,
-    },
+    }
   );
 
   React.useEffect(() => {

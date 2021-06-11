@@ -312,7 +312,7 @@ class StoreInfoScreen extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    profile: state.authMerchant.merchant,
+    profile: state.dataLocal.profile,
     stateCity: state.dataLocal.stateCity,
     isResetInfoAdmin: state.staff.isResetInfoAdmin
 })

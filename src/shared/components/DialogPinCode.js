@@ -1,13 +1,13 @@
 import { authMerchant } from "@redux/slices";
 import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
-import { useStaffLogin } from "@shared/services/api/merchant";
 import { colors, fonts } from "@shared/themes";
 import { statusSuccess } from "@shared/utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import actions from "@redux/actions";
 
 const log = (obj, message = "") => {
   Logger.log(`[DialogPincode] ${message}`, obj);
@@ -36,7 +36,10 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
   const dialogRef = React.useRef(null);
 
   const merchantID = useSelector(
-    (state) => state.authMerchant?.merchant?.merchantCode
+    (state) => state.dataLocal?.profile?.merchantCode
+  );
+  const isShowButtonEnterPinCode = useSelector(
+    (state) => state.staff.isShowButtonEnterPinCode
   );
   const [value, setValue] = React.useState("");
 
@@ -46,8 +49,7 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
 
   |--------------------------------------------------
   */
-  const [staffLogin, loginStaff] = useStaffLogin();
-
+  // !! call login staff
   React.useImperativeHandle(ref, () => ({
     show: () => {
       setValue("");
@@ -59,10 +61,7 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
   }));
 
   const onHandleSubmit = () => {
-    loginStaff({
-      staffPin: value,
-      merchantCode: merchantID,
-    });
+    dispatch(actions.staff.loginStaff(merchantID, value));
   };
 
   /**
@@ -70,17 +69,21 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
   | useEffect
   |--------------------------------------------------
   */
-  React.useEffect(() => {
-    if (!staffLogin) {
-      return;
-    }
+  // React.useEffect(() => {
+  //   if (!staffLogin) {
+  //     return;
+  //   }
 
-    const { codeStatus, message, data } = staffLogin || {};
-    if (statusSuccess(codeStatus)) {
-      dispatch(authMerchant.staffSignIn(data));
-      dialogRef.current?.hide();
-    }
-  }, [staffLogin]);
+  //   const { codeStatus, message, data } = staffLogin || {};
+  //   if (statusSuccess(codeStatus)) {
+  //     dispatch(authMerchant.staffSignIn(data));
+  //     dialogRef.current?.hide();
+  //   }
+  // }, [staffLogin]);
+
+  React.useEffect(() => {
+    dialogRef.current?.hide();
+  }, [isShowButtonEnterPinCode]);
 
   const renderItem = ({ item }) => {
     const onPressItem = () => {

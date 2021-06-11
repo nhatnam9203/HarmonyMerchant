@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-    profile: state.authMerchant.merchant,
+    profile: state.dataLocal.profile,
     servicesByMerchant: state.service.servicesByMerchant,
     categoriesByMerchant: state.category.categoriesByMerchant,
     refreshListServices: state.service.refreshListServices,

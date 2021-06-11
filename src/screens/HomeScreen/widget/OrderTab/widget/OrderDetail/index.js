@@ -49,7 +49,7 @@ class OrderDetail extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    profile: state.authMerchant.merchant,
+    profile: state.dataLocal.profile,
     token: state.dataLocal.token,
     profileStaffLogin: state.dataLocal.profileStaffLogin,
 

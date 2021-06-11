@@ -241,7 +241,7 @@ class CustomerScreen extends Layout {
 }
 
 const mapStateToProps = state => ({
-    profile: state.authMerchant.merchant,
+    profile: state.dataLocal.profile,
     language: state.dataLocal.language,
     listCustomersByMerchant: state.customer.listCustomersByMerchant,
     listCustomersSearch: state.customer.listCustomersSearch,

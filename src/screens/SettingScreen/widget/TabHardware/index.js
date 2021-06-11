@@ -72,7 +72,7 @@ class TabHardware extends Layout {
 }
 
 const mapStateToProps = state => ({
-    profile: state.authMerchant.merchant,
+    profile: state.dataLocal.profile,
     language: state.dataLocal.language,
     printerPortType: state.dataLocal.printerPortType
 })

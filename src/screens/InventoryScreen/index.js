@@ -360,7 +360,7 @@ class InventoryScreen extends Layout {
 }
 
 const mapStateToProps = state => ({
-    profile: state.authMerchant.merchant,
+    profile: state.dataLocal.profile,
     language: state.dataLocal.language,
     productsByMerchantId: state.product.productsByMerchantId,
     categoriesByMerchant: state.category.categoriesByMerchant,
