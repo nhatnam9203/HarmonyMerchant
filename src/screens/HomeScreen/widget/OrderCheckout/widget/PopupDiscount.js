@@ -7,7 +7,8 @@ import {
     Alert,
     TextInput,
     Image,
-    StyleSheet
+    StyleSheet,
+    TouchableHighlight,
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
@@ -33,7 +34,8 @@ class PopupDiscount extends React.Component {
             customDiscountFixedLocal: 0,
             promotionNotes: "",
             isDiscountByOwner: true,
-            discountByOwner: 1
+            discountByOwner: 1,
+            isDiscountByPercent: true,
         };
         this.customDiscountRef = React.createRef();
         this.customFixedAmountRef = React.createRef();
@@ -47,7 +49,8 @@ class PopupDiscount extends React.Component {
             discountTotal: discountTotal,
             temptTotalLocal: discountTotal,
             customDiscountPercentLocal: customDiscountPercent,
-            customDiscountFixedLocal
+            customDiscountFixedLocal,
+            isDiscountByPercent: customDiscountPercent > 0 ? true : false,
         });
     }
 
@@ -143,6 +146,10 @@ class PopupDiscount extends React.Component {
         this.setState(prevState => ({ isDiscountByOwner: !prevState.isDiscountByOwner }))
     }
 
+    changeTypeManualDiscount(){
+
+    }
+
     // ------ Render -----
 
     render() {
@@ -230,8 +237,27 @@ class PopupDiscount extends React.Component {
                                     </View>
                                     <View style={{ height: 1, backgroundColor: "#707070" }} />
 
+                                    {/* ----------- Manual Discount ----------- */}
+                                    <Text style={styles.textNormal}>{localize('Manual Discount', language)}</Text>
+                                    <View style={styles.viewRowContainer}>
+                                        <View>
+                                            <TouchableHighlight
+                                                style={styles.discountTypeButton}
+                                                onPress={() => this.changeTypeManualDiscount()}
+                                                underlayColor='#fff'>
+                                                    <Text style={styles.discountManualText}>{"%"}</Text>
+                                            </TouchableHighlight>
+                                            <TouchableHighlight
+                                                style={styles.discountTypeButton}
+                                                onPress={() => this.changeTypeManualDiscount()}
+                                                underlayColor='#fff'>
+                                                    <Text style={styles.discountManualText}>{"$"}</Text>
+                                            </TouchableHighlight>
+                                        </View>
+                                    </View>
+
                                     {/* -----------  Discount by Owner, Discount by staff  ----------- */}
-                                    <View style={styles.viewDiscountByOwner}>
+                                    <View style={styles.viewRowContainer}>
                                         <Text style={styles.textNormal}>{localize('Discount by Owner', language)}</Text>
                                         <Text style={styles.textNormal}>{localize('Discount by Staff', language)}</Text>
                                     </View>
@@ -256,7 +282,7 @@ class PopupDiscount extends React.Component {
                                         }}
                                         minimumTrackTintColor="#0764B0"
                                     />
-                                    <View style={styles.viewDiscountByOwner}>
+                                    <View style={styles.viewRowContainer}>
                                         <Text style={styles.textNormal}>{"50%"}</Text>
                                         <Text style={styles.textNormal}>{"50%"}</Text>
                                     </View>
@@ -509,7 +535,7 @@ class CustomDiscountFixed extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    viewDiscountByOwner: {
+    viewRowContainer: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -517,7 +543,22 @@ const styles = StyleSheet.create({
     textNormal: {
         color: colors.BROWNISH_GREY, 
         fontSize: scaleSize(14)
-    }
+    },
+    discountTypeButton:{
+        marginRight:10,
+        marginLeft:10,
+        marginTop:10,
+        paddingTop:10,
+        paddingBottom:10,
+        backgroundColor:'#68a0cf',
+        borderRadius:10,
+        borderWidth: 1,
+        borderColor: '#fff'
+      },
+      discountManualText:{
+          color:'#fff',
+          textAlign:'center',
+      }
 })
 
 const mapStateToProps = state => ({

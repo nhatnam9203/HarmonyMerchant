@@ -218,6 +218,7 @@ const localization = {
     "Apply Discount": "Apply Discount",
     "Discount by Owner": "Discount by Owner",
     "Discount by Staff": "Discount by Staff",
+    "Manual Discount": "Manual Discount",
     "Total": "Total",
     "BOOK": "BOOK",
     "Are you sure you want to exit Check-Out? ": "Are you sure you want to exit Check-Out? ",
