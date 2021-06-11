@@ -45,7 +45,6 @@ class TabAppointment extends Layout {
     const tempDeviceId = deviceId ? deviceId : "";
     const roleName = profileStaffLogin?.roleName || "Admin";
     const url = `${Configs.CALENDAR_URL}${staffColumn}/index.html?role=${roleName}&token=${staffToken}&merchantid=${merchantId}&staffId=${staffId}&deviceId=${tempDeviceId}`;
-    console.log(url);
     return url;
   }
 

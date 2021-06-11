@@ -1,26 +1,25 @@
-import { FirebaseNotificationProvider } from '@firebase';
-import '@shared/services/translation';
-import React from 'react';
-import { View } from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/es/integration/react';
+import { FirebaseNotificationProvider } from "@firebase";
+import "@shared/services/translation";
+import React from "react";
+import { View } from "react-native";
+import SplashScreen from "react-native-splash-screen";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/es/integration/react";
 import {
-  Loading,
   PopupConnected,
   PopupDisconnected,
   PopupInfomationCodePush,
-} from './components';
-import { RootNavigator } from './navigators/RootNavigator';
-import configureStore from './redux/store';
-import codePush from 'react-native-code-push';
-import { CodePushProvider } from '@shared/providers/CodePushProvider';
-import { AppStateProvider } from '@shared/providers/AppStateProvider';
-import { isDevelopmentMode } from '@shared/utils/app';
-import '@shared/services/api/axiosClient';
+} from "./components";
+import { RootNavigator } from "./navigators/RootNavigator";
+import configureStore from "./redux/store";
+import codePush from "react-native-code-push";
+import { CodePushProvider } from "@shared/providers/CodePushProvider";
+import { AppStateProvider } from "@shared/providers/AppStateProvider";
+import { isDevelopmentMode } from "@shared/utils/app";
+import "@shared/services/api/axiosClient";
 if (isDevelopmentMode) {
-  import('../ReactotronConfig').then(() =>
-    console.log('Reactotron Configured'),
+  import("../ReactotronConfig").then(() =>
+    console.log("Reactotron Configured")
   );
 }
 
@@ -37,7 +36,6 @@ const App: () => React$Node = () => {
         <CodePushProvider>
           <AppStateProvider>
             <RootNavigator />
-            <Loading />
             <PopupDisconnected />
             <PopupConnected />
             <FirebaseNotificationProvider />

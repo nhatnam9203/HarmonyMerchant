@@ -86,6 +86,7 @@ function* getStaffByMerchantId(action) {
   } catch (error) {
     yield put({ type: "GET_STAFF_BY_MERCHANR_ID_FAIL" });
     yield put({ type: error });
+    yield put({ type: "STOP_LOADING_ROOT" });
   } finally {
     yield put({ type: "STOP_LOADING_ROOT" });
     if (action.isCreateAdmin) {
@@ -158,6 +159,7 @@ function* searchStaffByName(action) {
     }
   } catch (error) {
     yield put({ type: error });
+    yield put({ type: "STOP_LOADING_ROOT" });
   } finally {
     yield put({ type: "STOP_LOADING_ROOT" });
   }
@@ -320,6 +322,7 @@ function* editStaff(action) {
     yield put({ type: "STOP_LOADING_ROOT" });
     yield put({ type: error });
   } finally {
+    yield put({ type: "STOP_LOADING_ROOT" });
   }
 }
 
