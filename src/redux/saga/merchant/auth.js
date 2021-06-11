@@ -1,8 +1,8 @@
-import { appMerchant, authMerchant } from '@redux/slices';
-import { request } from '@shared/services/api';
-import { getFcmToken } from '@shared/storages/fcmToken';
-import { all, call, takeLatest, put } from 'redux-saga/effects';
-import { saveAuthToken } from '@shared/storages/authToken';
+import { appMerchant, authMerchant } from "@redux/slices";
+import { request } from "@shared/services/api";
+import { getFcmToken } from "@shared/storages/fcmToken";
+import { all, call, takeLatest, put } from "redux-saga/effects";
+import { saveAuthToken } from "@shared/storages/authToken";
 
 /**
 |--------------------------------------------------
@@ -36,6 +36,13 @@ import { saveAuthToken } from '@shared/storages/authToken';
 function* signInSuccess(actions) {
   try {
     let { payload } = actions;
+    yield put({
+      type: "SAVE_PROFILE_LOCAL",
+      payload: {
+        profile: payload?.merchant,
+        token: payload?.token,
+      },
+    });
     yield call(saveAuthToken, payload?.token);
     delete payload.token;
   } catch (e) {
@@ -47,6 +54,7 @@ function* staffSignInSuccess(actions) {
   try {
     let { payload } = actions;
     yield call(saveAuthToken, payload?.token);
+
     delete payload.token;
   } catch (e) {
     console.log(e);
@@ -55,6 +63,7 @@ function* staffSignInSuccess(actions) {
 
 function* signOutApp(actions) {
   try {
+    yield put({ type: "LOGOUT_APP" });
     yield call(saveAuthToken, null);
   } catch (e) {
     console.log(e);

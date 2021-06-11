@@ -619,7 +619,7 @@ const styleInvoice = StyleSheet.create({
 const mapStateToProps = (state) => ({
   language: state.dataLocal.language,
   profileStaffLogin: state.dataLocal.profileStaffLogin,
-  profile: state.authMerchant.merchant,
+  profile: state.dataLocal.profile,
   groupAppointment: state.appointment.groupAppointment,
   paymentDetailInfo: state.appointment.paymentDetailInfo,
   printerSelect: state.dataLocal.printerSelect,

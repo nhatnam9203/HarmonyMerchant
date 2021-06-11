@@ -1,14 +1,14 @@
-import AsyncStorage from '@react-native-community/async-storage';
-import DeviceInfo from 'react-native-device-info';
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
-import Configs from '@configs';
-import NavigationServices from '../../navigators/NavigatorServices';
-import { requestAPI } from '../../utils';
+import AsyncStorage from "@react-native-community/async-storage";
+import DeviceInfo from "react-native-device-info";
+import { all, call, put, select, takeLatest } from "redux-saga/effects";
+import Configs from "@configs";
+import NavigationServices from "../../navigators/NavigatorServices";
+import { requestAPI } from "../../utils";
 
 const getAsyncStoreToken = async () => {
   let token = null;
   try {
-    token = await AsyncStorage.getItem('fcmToken');
+    token = await AsyncStorage.getItem("fcmToken");
   } catch (error) {}
 
   return token;
@@ -31,12 +31,12 @@ const getFcmToken = async () => {
     clearTimeout(waiting);
   });
 };
-const getDeviceId = async () => DeviceInfo.getUniqueId() || 'simulator';
+const getDeviceId = async () => DeviceInfo.getUniqueId() || "simulator";
 
 function* login(action) {
   let responses = {};
   try {
-    yield put({ type: 'LOADING_ROOT' });
+    yield put({ type: "LOADING_ROOT" });
 
     const fcmToken = yield call(getFcmToken);
     const deviceUniqueId = yield call(getDeviceId);
@@ -49,85 +49,85 @@ function* login(action) {
     action.body = body;
 
     responses = yield requestAPI(action);
-    yield put({ type: 'STOP_LOADING_ROOT' });
+    yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
       yield put({
-        type: 'SAVE_PROFILE_LOCAL',
+        type: "SAVE_PROFILE_LOCAL",
         payload: {
           profile: responses?.data?.merchant,
           token: responses?.data?.token,
         },
       });
       yield put({
-        type: 'LOGIN_APP_SUCCESS',
-        payload: action?.body?.email || '',
+        type: "LOGIN_APP_SUCCESS",
+        payload: action?.body?.email || "",
         isRememberMID: action.isRememberMID,
       });
-      yield put({ type: 'STOP_LOADING_ROOT' });
-      NavigationServices.navigate('Splash');
+      yield put({ type: "STOP_LOADING_ROOT" });
+      NavigationServices.navigate("Splash");
     } else {
       yield put({
-        type: 'LOGIN_APP_FAIL',
+        type: "LOGIN_APP_FAIL",
         payload: responses,
       });
     }
   } catch (error) {
     yield put({
-      type: 'LOGIN_APP_FAIL',
+      type: "LOGIN_APP_FAIL",
       payload: responses,
     });
     yield put({ type: error });
   } finally {
-    yield put({ type: 'STOP_LOADING_ROOT' });
+    yield put({ type: "STOP_LOADING_ROOT" });
   }
 }
 
 function* forgotPassword(action) {
   try {
-    yield put({ type: 'LOADING_ROOT' });
+    yield put({ type: "LOADING_ROOT" });
     const responses = yield requestAPI(action);
-    yield put({ type: 'STOP_LOADING_ROOT' });
+    yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
-      NavigationServices.navigate('SignIn');
+      NavigationServices.navigate("SignIn");
       setTimeout(() => {
         alert(`Please check your email`);
       }, 300);
     } else if (parseInt(codeNumber) === 401) {
       yield put({
-        type: 'UNAUTHORIZED',
+        type: "UNAUTHORIZED",
       });
     } else {
       yield put({
-        type: 'SHOW_ERROR_MESSAGE',
+        type: "SHOW_ERROR_MESSAGE",
         message: responses?.message,
       });
     }
   } catch (error) {
     yield put({ type: error });
   } finally {
-    yield put({ type: 'STOP_LOADING_ROOT' });
+    yield put({ type: "STOP_LOADING_ROOT" });
   }
 }
 
 function* checkStaffPermission(action) {
   try {
     const responses = yield requestAPI(action);
-    yield put({ type: 'STOP_LOADING_ROOT' });
+    yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
       yield put({
-        type: 'CHECK_STAFF_PERMISSION_SUCCESS',
+        type: "CHECK_STAFF_PERMISSION_SUCCESS",
       });
-      if (action.tabName === 'Invoice') {
+      if (action.tabName === "Invoice") {
         yield put({
-          type: 'TOGGLE_INVOICE_TAB_PERMISSION',
+          type: "TOGGLE_INVOICE_TAB_PERMISSION",
           payload: false,
         });
         yield put({
-          type: 'GET_LIST_INVOICE_BY_MERCHANT',
-          method: 'GET',
+          type: "GET_LIST_INVOICE_BY_MERCHANT",
+          method: "GET",
           api: `checkout?page=1&method=&status=&timeStart=&timeEnd=&key=&quickFilter=`,
           token: true,
           isShowLoading: true,
@@ -135,100 +135,100 @@ function* checkStaffPermission(action) {
           isLoadMore: true,
         });
         yield put({
-          type: 'UPDATE_PROFILE_LOGIN_INVOICE',
+          type: "UPDATE_PROFILE_LOGIN_INVOICE",
           payload: responses?.data || {},
         });
-      } else if (action.tabName === 'Settlement') {
+      } else if (action.tabName === "Settlement") {
         yield put({
-          type: 'TOGGLE_SETTLEMENT_TAB_PERMISSION',
+          type: "TOGGLE_SETTLEMENT_TAB_PERMISSION",
           payload: false,
         });
 
         yield put({
-          type: 'HANDLE_INTERNAL_FIRST_SETTLEMENT_STATE',
+          type: "HANDLE_INTERNAL_FIRST_SETTLEMENT_STATE",
           payload: true,
         });
-      } else if (action.tabName === 'Customer') {
+      } else if (action.tabName === "Customer") {
         yield put({
-          type: 'TOGGLE_CUSTOMER_TAB_PERMISSION',
+          type: "TOGGLE_CUSTOMER_TAB_PERMISSION",
           payload: false,
         });
         yield put({
-          type: 'GET_LIST_CUSTOMER_BY_MERCHANT',
-          method: 'GET',
+          type: "GET_LIST_CUSTOMER_BY_MERCHANT",
+          method: "GET",
           api: `customer/search?key=&page=1`,
           token: true,
           isShowLoading: true,
           currentPage: 1,
         });
-      } else if (action.tabName === 'Inventory') {
+      } else if (action.tabName === "Inventory") {
         yield put({
-          type: 'TOGGLE_PRODUCT_TAB_PERMISSION',
+          type: "TOGGLE_PRODUCT_TAB_PERMISSION",
           payload: false,
         });
         yield put({
-          type: 'GET_PRODUCTS_BY_MERCHANR_ID',
-          method: 'GET',
+          type: "GET_PRODUCTS_BY_MERCHANR_ID",
+          method: "GET",
           token: true,
           api: `product/search?name=&category=`,
           isShowLoading: true,
         });
-      } else if (action.tabName === 'Reports') {
+      } else if (action.tabName === "Reports") {
         yield put({
-          type: 'TOGGLE_REPORT_TAB_PERMISSION',
+          type: "TOGGLE_REPORT_TAB_PERMISSION",
           payload: false,
         });
         yield put({
-          type: 'TOGGLE_REPORT_TAB_PERMISSION_SUCCESS',
+          type: "TOGGLE_REPORT_TAB_PERMISSION_SUCCESS",
         });
-      } else if (action.tabName === 'Settings') {
+      } else if (action.tabName === "Settings") {
         const state = yield select();
         yield put({
-          type: 'TOGGLE_SETTING_TAB_PERMISSION',
+          type: "TOGGLE_SETTING_TAB_PERMISSION",
           payload: false,
         });
         yield put({
-          type: 'GET_MERCHANT_BY_ID',
-          method: 'GET',
+          type: "GET_MERCHANT_BY_ID",
+          method: "GET",
           token: true,
           api: `merchant/${state?.dataLocal?.profile?.merchantId}`,
           isRefresh: false,
         });
-      } else if (action.tabName === 'Marketing') {
+      } else if (action.tabName === "Marketing") {
         yield put({
-          type: 'TOGGLE_MAKETING_TAB_PERMISSION',
+          type: "TOGGLE_MAKETING_TAB_PERMISSION",
           payload: false,
           isGoToTabMarketing: true,
         });
       } else if (
-        action.tabName === 'CheckDiscountPermission' ||
-        action.tabName === 'CheckDiscountPermissionInHome'
+        action.tabName === "CheckDiscountPermission" ||
+        action.tabName === "CheckDiscountPermissionInHome"
       ) {
         const appointmentId = action?.appointmentId || 0;
         const type =
-          action?.tabName === 'CheckDiscountPermission'
-            ? 'SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION'
-            : 'SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION_IN_HOME';
+          action?.tabName === "CheckDiscountPermission"
+            ? "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION"
+            : "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION_IN_HOME";
         yield put({
           type,
           payload: false,
         });
         yield put({
-          type: 'GET_PROMOTION_BY_APPOINTMENT',
-          method: 'GET',
+          type: "GET_PROMOTION_BY_APPOINTMENT",
+          method: "GET",
           token: true,
           api: `appointment/promotion/${appointmentId}`,
           appointmentId,
           isBlock: action?.isBlock,
         });
-      } else if (action.tabName === 'GiftCard') {
+      } else if (action.tabName === "GiftCard") {
         yield put({
-          type: 'SWITCH_GIFT_CARD_TAB_PERMISSION',
+          type: "SWITCH_GIFT_CARD_TAB_PERMISSION",
           payload: false,
         });
         yield put({
-          type: 'GET_GIFT_CARDS_ACTIVE_LIST',
-          method: 'GET',
+          type: "GET_GIFT_CARDS_ACTIVE_LIST",
+          method: "GET",
           token: true,
           api: `giftcard/getByMerchant?keySearch=&page=1`,
           currentPage: 1,
@@ -239,55 +239,58 @@ function* checkStaffPermission(action) {
       }
     } else if (parseInt(codeNumber) === 401) {
       yield put({
-        type: 'UNAUTHORIZED',
+        type: "UNAUTHORIZED",
       });
     } else {
       yield put({
-        type: 'CHECK_STAFF_PERMISSION_FAIL',
+        type: "CHECK_STAFF_PERMISSION_FAIL",
         message: responses?.message,
       });
       yield put({
-        type: 'SHOW_ERROR_MESSAGE',
+        type: "SHOW_ERROR_MESSAGE",
         message: responses?.message,
       });
     }
   } catch (error) {
     yield put({
-      type: 'CHECK_STAFF_PERMISSION_FAIL',
+      type: "CHECK_STAFF_PERMISSION_FAIL",
       message: responses?.message,
     });
     yield put({ type: error });
   } finally {
-    yield put({ type: 'STOP_LOADING_ROOT' });
+    yield put({ type: "STOP_LOADING_ROOT" });
   }
 }
 
 function* expiredToken(action) {
   // NavigationServices.navigate("SignIn"); // Of PHI
-  NavigationServices.replace('AuthNavigator');
-  yield put({ type: 'LOGOUT_APP' });
+  NavigationServices.replace("AuthNavigator");
+  yield put({ type: "LOGOUT_APP" });
 }
 
 function* requestLogout(action) {
   try {
-    yield put({ type: 'LOADING_ROOT' });
+    yield put({ type: "LOADING_ROOT" });
     const deviceUniqueId = yield call(getDeviceId);
     let body = action.body || {};
     body = Object.assign({}, body, {
-      firebaseToken: '',
+      firebaseToken: "",
       deviceId: deviceUniqueId,
     });
     action.body = body;
 
     const responses = yield requestAPI(action);
-    yield put({ type: 'STOP_LOADING_ROOT' });
+    yield put({ type: "STOP_LOADING_ROOT" });
 
-    NavigationServices.navigate('SignIn');
-    yield put({ type: 'LOGOUT_APP' });
+    // NavigationServices.navigate('SignIn');
+
+    NavigationServices.replace("AuthNavigator");
+
+    yield put({ type: "LOGOUT_APP" });
   } catch (error) {
     yield put({ type: error });
   } finally {
-    yield put({ type: 'STOP_LOADING_ROOT' });
+    yield put({ type: "STOP_LOADING_ROOT" });
   }
 }
 
@@ -305,17 +308,17 @@ function* activeFirebase(action) {
   } catch (error) {
     yield put({ type: error });
   } finally {
-    yield put({ type: 'STOP_LOADING_ROOT' });
+    yield put({ type: "STOP_LOADING_ROOT" });
   }
 }
 
 export default function* saga() {
   yield all([
-    takeLatest('LOGIN_APP', login),
-    takeLatest('UNAUTHORIZED', expiredToken),
-    takeLatest('FORGOT_PASSWORD', forgotPassword),
-    takeLatest('CHECK_STAFF_PERMISSION', checkStaffPermission),
-    takeLatest('REQUEST_LOGOUT_APP', requestLogout),
-    takeLatest('ACTIVE_FIREBASE', activeFirebase),
+    takeLatest("LOGIN_APP", login),
+    takeLatest("UNAUTHORIZED", expiredToken),
+    takeLatest("FORGOT_PASSWORD", forgotPassword),
+    takeLatest("CHECK_STAFF_PERMISSION", checkStaffPermission),
+    takeLatest("REQUEST_LOGOUT_APP", requestLogout),
+    takeLatest("ACTIVE_FIREBASE", activeFirebase),
   ]);
 }

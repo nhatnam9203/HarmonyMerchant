@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     language: state.dataLocal.language,
-    profile: state.authMerchant.merchant,
+    profile: state.dataLocal.profile,
     categoriesByMerchant: state.category.categoriesByMerchant,
     servicesByMerchant: state.service.servicesByMerchant,
     staffDetail: state.staff.staffDetail,

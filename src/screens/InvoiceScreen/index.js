@@ -614,7 +614,7 @@ class InvoiceScreen extends Layout {
 }
 
 const mapStateToProps = state => ({
-    profile: state.authMerchant.merchant,
+    profile: state.dataLocal.profile,
     language: state.dataLocal.language,
     listInvoicesByMerchant: state.invoice.listInvoicesByMerchant,
     refreshListInvoice: state.invoice.refreshListInvoice,

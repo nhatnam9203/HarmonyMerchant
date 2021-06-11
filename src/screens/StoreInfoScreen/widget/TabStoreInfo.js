@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-    profile: state.authMerchant.merchant,
+    profile: state.dataLocal.profile,
     language: state.dataLocal.language,
     loading: state.app.loading,
     isUpdateMerchantSetting: state.app.isUpdateMerchantSetting
