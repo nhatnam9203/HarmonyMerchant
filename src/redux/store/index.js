@@ -66,9 +66,11 @@ const store = configureStore({
   middleware: [
     ...getDefaultMiddleware({
       thunk: false,
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      // serializableCheck: {
+      //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      // },
+      serializableCheck: false
+
     }),
     ...middleware,
   ],

@@ -1,45 +1,45 @@
-import AsyncStorage from '@react-native-community/async-storage';
-import { persistReducer } from 'redux-persist';
+import AsyncStorage from "@react-native-community/async-storage";
+import { persistReducer } from "redux-persist";
 
 const initialState = {
-  errorLogin: '',
+  errorLogin: null,
   isLoadingCheckStaffPermission: false,
   visiblePopupCheckStaffPermission: false,
 };
 
 function authReducer(state = initialState, action) {
   switch (action.type) {
-    case 'LOGIN_APP_SUCCESS':
+    case "LOGIN_APP_SUCCESS":
       return {
         ...state,
-        errorLogin: '',
+        errorLogin: null,
       };
-    case 'LOGIN_APP_FAIL':
+    case "LOGIN_APP_FAIL":
       return {
         ...state,
-        errorLogin: action?.payload?.message || '',
+        errorLogin: action?.payload?.message || null,
       };
-    case 'CHECK_STAFF_PERMISSION':
+    case "CHECK_STAFF_PERMISSION":
       return {
         ...state,
         isLoadingCheckStaffPermission: true,
       };
-    case 'CHECK_STAFF_PERMISSION_SUCCESS':
+    case "CHECK_STAFF_PERMISSION_SUCCESS":
       return {
         ...state,
         isLoadingCheckStaffPermission: false,
       };
-    case 'CHECK_STAFF_PERMISSION_FAIL':
+    case "CHECK_STAFF_PERMISSION_FAIL":
       return {
         ...state,
         isLoadingCheckStaffPermission: false,
       };
-    case 'TOGGLE_VISIBLE_POPUP_CHECK_STAFF_PERMISSION':
+    case "TOGGLE_VISIBLE_POPUP_CHECK_STAFF_PERMISSION":
       return {
         ...state,
         visiblePopupCheckStaffPermission: action.payload,
       };
-    case 'LOGOUT_APP':
+    case "LOGOUT_APP":
       return {
         ...initialState,
       };

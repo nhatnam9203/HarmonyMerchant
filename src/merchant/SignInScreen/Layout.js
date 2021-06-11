@@ -1,10 +1,10 @@
-import IMAGE from '@resources';
-import { CustomCheckBox } from '@shared/components/CustomCheckBox';
-import { PasswordInput } from '@shared/components/PasswordInput';
-import { CustomInput } from '@shared/components/CustomInput';
-import { colors, fonts, layouts } from '@shared/themes';
-import React from 'react';
-import { useTranslation, withTranslation } from 'react-i18next';
+import IMAGE from "@resources";
+import { CustomCheckBox } from "@shared/components/CustomCheckBox";
+import { PasswordInput } from "@shared/components/PasswordInput";
+import { CustomInput } from "@shared/components/CustomInput";
+import { colors, fonts, layouts } from "@shared/themes";
+import React from "react";
+import { useTranslation, withTranslation } from "react-i18next";
 import {
   Image,
   ImageBackground,
@@ -13,13 +13,13 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+} from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-DropDownPicker.setListMode('SCROLLVIEW');
+DropDownPicker.setListMode("SCROLLVIEW");
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[SigInScreen] ${message}`, obj);
 };
 
@@ -52,10 +52,10 @@ export const Layout = ({
           <View style={styles.content}>
             <View style={[layouts.horizontal, layouts.center]}>
               <Text style={[styles.signUpText, { color: colors.WHITE }]}>
-                {t('No account')}
+                {t("No account")}
               </Text>
               <TouchableOpacity activeOpacity={0.5}>
-                <Text style={styles.signUpText}>{t('Sign Up')}</Text>
+                <Text style={styles.signUpText}>{t("Sign Up")}</Text>
               </TouchableOpacity>
             </View>
 
@@ -72,7 +72,7 @@ export const Layout = ({
               ]}
             >
               <CustomCheckBox
-                label={t('Remember MID')}
+                label={t("Remember MID")}
                 value={toggleCheckBox}
                 onValueChange={setToggleCheckBox}
               />
@@ -81,7 +81,7 @@ export const Layout = ({
                 activeOpacity={0.5}
               >
                 <Text style={styles.textForgotPassword}>
-                  {t('Forgot password')}
+                  {t("Forgot password")}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -91,8 +91,8 @@ export const Layout = ({
               value={signInFormik.values.terminalId}
               onChangeValue={(callback) => {
                 return signInFormik.setFieldValue(
-                  'terminalId',
-                  callback(signInFormik.values.terminalId),
+                  "terminalId",
+                  callback(signInFormik.values.terminalId)
                 );
               }}
             />
@@ -101,16 +101,16 @@ export const Layout = ({
               submit={inputPassSubmit}
               iRef={inputPassRef}
               value={signInFormik.values.password}
-              onChangeValue={signInFormik.handleChange('password')}
-              onBlur={signInFormik.handleBlur('password')}
+              onChangeValue={signInFormik.handleChange("password")}
+              onBlur={signInFormik.handleBlur("password")}
             />
 
             <InputMerchantID
               submit={inputIdSubmit}
               iRef={inputIdRef}
               value={signInFormik.values.email}
-              onChangeValue={signInFormik.handleChange('email')}
-              onBlur={signInFormik.handleBlur('email')}
+              onChangeValue={signInFormik.handleChange("email")}
+              onBlur={signInFormik.handleBlur("email")}
             />
           </View>
         </KeyboardAwareScrollView>
@@ -130,12 +130,12 @@ let InputMerchantID = ({ submit, iRef, t, value, onChangeValue, onBlur }) => (
     textInputProps={{
       onSubmitEditing: submit,
       ref: iRef,
-      returnKeyType: 'next',
-      clearButtonMode: 'while-editing',
+      returnKeyType: "next",
+      clearButtonMode: "while-editing",
       value: value,
       defaultValue: value,
       onChangeText: onChangeValue,
-      placeholder: t('Merchant ID'),
+      placeholder: t("Merchant ID"),
       onBlur: onBlur,
     }}
   />
@@ -149,9 +149,9 @@ let InputPassword = ({ submit, iRef, t, value, onChangeValue, onBlur }) => (
     textInputProps={{
       onSubmitEditing: submit,
       ref: iRef,
-      returnKeyType: 'send',
-      clearButtonMode: 'never',
-      placeholder: t('Password'),
+      returnKeyType: "send",
+      clearButtonMode: "never",
+      placeholder: t("Password"),
       value: value,
       onChangeText: onChangeValue,
       onBlur: onBlur,
@@ -180,7 +180,7 @@ let ButtonSignIn = ({ t, disable, onPress }) => (
         { color: disable ? colors.BROWNISH_GREY : colors.WHITE },
       ]}
     >
-      {t('SIGN IN')}
+      {t("SIGN IN")}
     </Text>
   </Pressable>
 );
@@ -204,7 +204,7 @@ let DropdownTerminalId = ({ t, terminalIDList, value, onChangeValue }) => {
         placeholderStyle={styles.dropdownTerminalPlaceholder}
         dropDownDirection="AUTO"
         scrollViewProps={{
-          decelerationRate: 'fast',
+          decelerationRate: "fast",
         }}
         itemKey="label"
         closeAfterSelecting={true}
@@ -217,19 +217,19 @@ DropdownTerminalId = withTranslation()(DropdownTerminalId);
 
 const styles = StyleSheet.create({
   logo: {
-    position: 'absolute',
+    position: "absolute",
     top: scaleHeight(64),
-    alignSelf: 'center',
+    alignSelf: "center",
     flex: 0,
   },
 
   content: {
-    alignSelf: 'center',
-    justifyContent: 'center',
+    alignSelf: "center",
+    justifyContent: "center",
     width: scaleWidth(400),
     marginTop: scaleHeight(245),
     flex: 1,
-    flexDirection: 'column-reverse',
+    flexDirection: "column-reverse",
   },
 
   textInput: {
@@ -244,10 +244,10 @@ const styles = StyleSheet.create({
   textForgotPassword: {
     fontFamily: fonts.ITALIC,
     fontSize: scaleFont(20),
-    fontWeight: 'normal',
-    fontStyle: 'italic',
+    fontWeight: "normal",
+    fontStyle: "italic",
     letterSpacing: 0,
-    textAlign: 'right',
+    textAlign: "right",
     color: colors.WHITE,
   },
 
@@ -257,33 +257,33 @@ const styles = StyleSheet.create({
     borderRadius: scaleWidth(3),
     backgroundColor: colors.VERY_LIGHT_PINK_1,
     marginBottom: scaleHeight(55),
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   signInText: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(25),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.BROWNISH_GREY,
   },
 
   signUpText: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(24),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.ROBIN_S_EGG,
     marginHorizontal: scaleWidth(6),
   },
 
   dropdownTerminal: {
-    flexDirection: 'row',
+    flexDirection: "row",
     height: scaleHeight(50),
     width: scaleWidth(400),
     marginBottom: scaleHeight(25),
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
   },
 
   dropdownTerminalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: scaleWidth(3),
     borderWidth: 0,
   },
@@ -303,16 +303,16 @@ const styles = StyleSheet.create({
   dropdownTerminalText: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: '400',
-    fontStyle: 'normal',
+    fontWeight: "400",
+    fontStyle: "normal",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.GREYISH_BROWN,
   },
 
   dropdownTerminalPlaceholder: {
-    fontFamily: 'Roboto-Light',
-    fontWeight: '300',
+    fontFamily: "Roboto-Light",
+    fontWeight: "300",
     letterSpacing: 0,
     color: colors.INACTIVE,
   },
@@ -320,38 +320,38 @@ const styles = StyleSheet.create({
   selectedItemLabelStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: '400',
-    fontStyle: 'normal',
+    fontWeight: "400",
+    fontStyle: "normal",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.ROBIN_S_EGG,
   },
 
   itemLabelStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: '400',
-    fontStyle: 'normal',
+    fontWeight: "400",
+    fontStyle: "normal",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.GREYISH_BROWN,
   },
 
   errorContent: {
     width: scaleWidth(400),
-    position: 'absolute',
+    position: "absolute",
     top: scaleHeight(200),
-    alignSelf: 'center',
+    alignSelf: "center",
     flex: 0,
   },
 
   errorText: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.ORANGEY_RED,
   },
 });

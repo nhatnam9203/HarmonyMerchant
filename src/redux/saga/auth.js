@@ -4,6 +4,7 @@ import { all, call, put, select, takeLatest } from "redux-saga/effects";
 import Configs from "@configs";
 import NavigationServices from "../../navigators/NavigatorServices";
 import { requestAPI } from "../../utils";
+import { saveAuthToken } from "@shared/storages/authToken";
 
 const getAsyncStoreToken = async () => {
   let token = null;
@@ -36,6 +37,10 @@ const getDeviceId = async () => DeviceInfo.getUniqueId() || "simulator";
 function* login(action) {
   let responses = {};
   try {
+    yield put({
+      type: "LOGIN_APP_FAIL",
+      payload: null,
+    });
     yield put({ type: "LOADING_ROOT" });
 
     const fcmToken = yield call(getFcmToken);
@@ -64,8 +69,11 @@ function* login(action) {
         payload: action?.body?.email || "",
         isRememberMID: action.isRememberMID,
       });
+
+      yield call(saveAuthToken, responses?.data?.token);
+
       yield put({ type: "STOP_LOADING_ROOT" });
-      NavigationServices.navigate("Splash");
+      // NavigationServices.navigate("Splash");
     } else {
       yield put({
         type: "LOGIN_APP_FAIL",
@@ -75,7 +83,7 @@ function* login(action) {
   } catch (error) {
     yield put({
       type: "LOGIN_APP_FAIL",
-      payload: responses,
+      payload: error,
     });
     yield put({ type: error });
   } finally {
@@ -265,6 +273,7 @@ function* checkStaffPermission(action) {
 function* expiredToken(action) {
   // NavigationServices.navigate("SignIn"); // Of PHI
   NavigationServices.replace("AuthNavigator");
+  yield call(saveAuthToken, null);
   yield put({ type: "LOGOUT_APP" });
 }
 
@@ -285,6 +294,7 @@ function* requestLogout(action) {
     // NavigationServices.navigate('SignIn');
 
     NavigationServices.replace("AuthNavigator");
+    yield call(saveAuthToken, null);
 
     yield put({ type: "LOGOUT_APP" });
   } catch (error) {
