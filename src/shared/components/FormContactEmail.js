@@ -1,30 +1,39 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { fonts, colors } from '@shared/themes';
-import { CustomInput } from './CustomInput';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { fonts, colors } from "@shared/themes";
+import { CustomInput } from "./CustomInput";
+import { useTranslation } from "react-i18next";
 
 export const FormContactEmail = ({ onChangeEmail, defaultValue }) => {
   const [t] = useTranslation();
-  const [email, setEmail] = React.useState(defaultValue);
+  const [email, setEmail] = React.useState(null);
+
   const onHandleChange = (value) => {
     setEmail(value);
-    if (onChangeEmail && typeof onChangeEmail === 'function') {
+    if (onChangeEmail && typeof onChangeEmail === "function") {
       onChangeEmail(value);
     }
   };
+
+  React.useEffect(() => {
+    if (defaultValue) {
+      setEmail(defaultValue);
+    }
+  }, [defaultValue]);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.textStyle}>{t('Contact Email')}</Text>
+      <Text style={styles.textStyle}>{t("Contact Email")}</Text>
       <View style={styles.content}>
         <CustomInput
           style={styles.customInput}
           textInputProps={{
-            placeholder: t('Email Address'),
+            placeholder: t("Email Address"),
             fontSize: scaleFont(17),
-            textAlign: 'left',
+            textAlign: "left",
             defaultValue: email,
             onChangeText: onHandleChange,
+            autoCapitalize: "none",
           }}
         />
       </View>
@@ -38,18 +47,18 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingVertical: scaleHeight(10),
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
 
   textStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 

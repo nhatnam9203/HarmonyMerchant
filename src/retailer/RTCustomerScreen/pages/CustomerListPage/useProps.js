@@ -1,12 +1,12 @@
-import React from 'react';
-import { useGetCustomerList } from '@shared/services/api/retailer';
-import { CustomerGroupTypes, SORT_TYPE } from '@shared/utils/app';
-import { useTranslation } from 'react-i18next';
-import _ from 'lodash';
-import NavigationServices from '@navigators/NavigatorServices';
-import { useFocusEffect } from '@react-navigation/native';
+import React from "react";
+import { useGetCustomerList } from "@shared/services/api/retailer";
+import { CustomerGroupTypes, SORT_TYPE } from "@shared/utils/app";
+import { useTranslation } from "react-i18next";
+import _ from "lodash";
+import NavigationServices from "@navigators/NavigatorServices";
+import { useFocusEffect } from "@react-navigation/native";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[CustomerListPage] ${message}`, obj);
 };
 
@@ -30,7 +30,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
   const [customerList, getCustomerList] = useGetCustomerList();
   const callGetCustomerList = React.useCallback(() => {
     getCustomerList({
-      key: searchVal ?? '',
+      key: searchVal ?? "",
       page: page,
       groupdId: groupType,
       sort: { CustomerName: sortName, PhoneNumber: sortPhoneNumber },
@@ -46,7 +46,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       if (reload) callGetCustomerList();
-    }, [reload]),
+    }, [reload])
   );
 
   React.useEffect(() => {
@@ -56,17 +56,17 @@ export const useProps = ({ params: { reload }, navigation }) => {
 
   const getCustomerGroupLabel = (value) => {
     const group = CustomerGroupTypes.find((x) => x.value === value);
-    return t(group?.label) || 'None';
+    return t(group?.label) || "None";
   };
 
   const onSortWithKey = (sortKey) => {
     switch (sortKey) {
-      case 'customerName':
+      case "customerName":
         const sortedName =
           sortName === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
         setSortName(sortedName);
         break;
-      case 'phone':
+      case "phone":
         const sortedPhone =
           sortName === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
         setSortPhoneNumber(sortedPhone);
@@ -77,9 +77,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
   };
 
   const onChangeValueSearch = (text) => {
-    if (text) {
-      setSearchVal(text);
-    }
+    setSearchVal(text);
   };
 
   const onButtonSearchPress = () => {
@@ -87,7 +85,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
   };
 
   const onButtonNewCustomerPress = () => {
-    NavigationServices.navigate('retailer.customer', {
+    NavigationServices.navigate("retailer.customer.edit", {
       isNew: true,
     });
   };
@@ -105,12 +103,15 @@ export const useProps = ({ params: { reload }, navigation }) => {
     onButtonSearchPress,
     onButtonNewCustomerPress,
     onSelectRow: ({ item }) => {
-      NavigationServices.navigate('retailer.customer.detail', {
+      NavigationServices.navigate("retailer.customer.detail", {
         item: item,
       });
     },
     onEditCustomer: (item) => {
-      NavigationServices.navigate('retailer.customer', { item, isEdit: true });
+      NavigationServices.navigate("retailer.customer.edit", {
+        item,
+        isEdit: true,
+      });
     },
   };
 };

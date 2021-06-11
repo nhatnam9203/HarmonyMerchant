@@ -1,12 +1,12 @@
-import { basketRetailer } from '@redux/slices';
-import { colors, fonts, layouts } from '@shared/themes';
+import { basketRetailer } from "@redux/slices";
+import { colors, fonts, layouts } from "@shared/themes";
 import {
   calcTotalPriceOfProduct,
   createSubmitAppointment,
-} from '@shared/utils';
-import { formatMoneyWithUnit } from '@utils';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+} from "@shared/utils";
+import { formatMoneyWithUnit } from "@utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Animated,
   FlatList,
@@ -14,13 +14,14 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import FastImage from 'react-native-fast-image';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { useDispatch, useSelector } from 'react-redux';
-import { ButtonGradient } from '@shared/components';
+} from "react-native";
+import FastImage from "react-native-fast-image";
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import { useDispatch, useSelector } from "react-redux";
+import { ButtonGradient } from "@shared/components";
+import IMAGE from "@resources";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[BasketContentView] ${message}`, obj);
 };
 
@@ -36,9 +37,12 @@ export const BasketContentView = React.forwardRef(({ onHadSubmitted }, ref) => {
   */
 
   const calcTotalPrice = () => {
-    return basketProducts?.reduce(
-      (accumulator, product) => accumulator + calcTotalPriceOfProduct(product),
-      0,
+    return (
+      basketProducts?.reduce(
+        (accumulator, product) =>
+          accumulator + calcTotalPriceOfProduct(product),
+        0
+      ) ?? 0
     );
   };
 
@@ -59,24 +63,29 @@ export const BasketContentView = React.forwardRef(({ onHadSubmitted }, ref) => {
     };
 
     return (
-      <ProductItem key={item.id + ''} handleDelete={onHandleDeleteItem}>
+      <ProductItem key={item.id + ""} handleDelete={onHandleDeleteItem}>
         <View style={styles.productItem}>
           <FastImage
             style={styles.imageStyle}
-            source={{
-              uri: item?.imageUrl,
-              priority: FastImage.priority.high,
-              cache: FastImage.cacheControl.immutable,
-            }}
+            source={
+              item?.imageUrl
+                ? {
+                    uri: item?.imageUrl,
+                    priority: FastImage.priority.high,
+                    cache: FastImage.cacheControl.immutable,
+                  }
+                : IMAGE.product_holder
+            }
             resizeMode="contain"
           />
+
           <View style={layouts.marginHorizontal} />
           <View style={styles.productItemContent}>
             <Text style={styles.totalText}>{item?.name}</Text>
             <Text style={styles.totalInfoText}>{item?.description}</Text>
           </View>
           <Text style={styles.productItemQuantity}>{`${item.quantity} ${t(
-            'items',
+            "items"
           )}`}</Text>
           <View style={layouts.marginHorizontal} />
           <View style={layouts.marginHorizontal} />
@@ -95,21 +104,21 @@ export const BasketContentView = React.forwardRef(({ onHadSubmitted }, ref) => {
         data={basketProducts}
         renderItem={renderItem}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
-        keyExtractor={(item) => item.id + ''}
+        keyExtractor={(item) => item.id + ""}
       />
       <View style={styles.totalContent}>
         <View style={layouts.marginVertical} />
         <TotalInfo
-          label={t('Subtotal')}
+          label={t("Subtotal")}
           value={formatMoneyWithUnit(calcTotalPrice())}
         />
-        <TotalInfo label={t('Tax')} />
-        <TotalInfo label={t('Discount')} />
+        <TotalInfo label={t("Tax")} />
+        <TotalInfo label={t("Discount")} />
         <View style={layouts.marginVertical} />
         <View style={styles.line} />
         <View style={layouts.marginVertical} />
         <TotalInfo
-          label={t('Total')}
+          label={t("Total")}
           value={formatMoneyWithUnit(calcTotalPrice())}
           isBold
         />
@@ -119,7 +128,7 @@ export const BasketContentView = React.forwardRef(({ onHadSubmitted }, ref) => {
       <View style={layouts.center}>
         <ButtonGradient
           disable={basketProducts?.length <= 0}
-          label={t('CREATE ORDER')}
+          label={t("CREATE ORDER")}
           width={scaleWidth(400)}
           height={scaleHeight(60)}
           fontSize={scaleFont(25)}
@@ -131,7 +140,7 @@ export const BasketContentView = React.forwardRef(({ onHadSubmitted }, ref) => {
   );
 });
 
-const TotalInfo = ({ label, value = '$ 0.00', isBold = false }) => (
+const TotalInfo = ({ label, value = "$ 0.00", isBold = false }) => (
   <View style={styles.totalInfoContent}>
     <Text style={isBold ? styles.totalText : styles.totalInfoText}>
       {label}
@@ -147,7 +156,7 @@ const ProductItem = ({ children, handleDelete }) => {
     const scale = dragX.interpolate({
       inputRange: [0, 20],
       outputRange: [0, 1],
-      extrapolate: 'clamp',
+      extrapolate: "clamp",
     });
     return (
       <TouchableOpacity
@@ -184,56 +193,56 @@ const styles = StyleSheet.create({
   },
 
   totalInfoContent: {
-    flexDirection: 'row',
+    flexDirection: "row",
     height: scaleHeight(25),
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 
   totalInfoText: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   totalText: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(17),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   priceInfoText: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'right',
+    textAlign: "right",
     color: colors.WEIRD_GREEN,
   },
 
   priceText: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(17),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'right',
+    textAlign: "right",
     color: colors.WEIRD_GREEN,
   },
 
   line: {
     height: 1,
     borderRadius: 1,
-    backgroundColor: '#dddddd',
+    backgroundColor: "#dddddd",
   },
 
   imageStyle: {
@@ -242,12 +251,12 @@ const styles = StyleSheet.create({
   },
 
   productItem: {
-    flexDirection: 'row',
+    flexDirection: "row",
     height: scaleHeight(60),
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
     padding: scaleWidth(12),
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
 
   productItemContent: {
@@ -257,41 +266,41 @@ const styles = StyleSheet.create({
   productItemPrice: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(14),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: -0.34,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   productItemQuantity: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(14),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
-  separator: { height: scaleHeight(1), backgroundColor: '#eeeeee' },
+  separator: { height: scaleHeight(1), backgroundColor: "#eeeeee" },
 
   rightAction: {
-    backgroundColor: '#FF3B30',
+    backgroundColor: "#FF3B30",
     width: scaleWidth(40),
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   actionText: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(17),
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.WHITE,
   },
 
   rightSwipe: {
     paddingRight: scaleWidth(4),
-    backgroundColor: '#FF3B30',
+    backgroundColor: "#FF3B30",
   },
 });

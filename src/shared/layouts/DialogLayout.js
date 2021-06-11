@@ -118,7 +118,6 @@ const styles = StyleSheet.create({
     fontSize: scaleFont(20),
     fontWeight: '500',
     fontStyle: 'normal',
-    lineHeight: 36,
     letterSpacing: 0,
     textAlign: 'center',
     color: colors.GREYISH_BROWN,

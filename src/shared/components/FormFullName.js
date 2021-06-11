@@ -1,8 +1,8 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { fonts, colors } from '@shared/themes';
-import { CustomInput } from './CustomInput';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { fonts, colors } from "@shared/themes";
+import { CustomInput } from "./CustomInput";
+import { useTranslation } from "react-i18next";
 
 export const FormFullName = ({
   firstName,
@@ -17,31 +17,31 @@ export const FormFullName = ({
   const [lastNameValue, setLastName] = React.useState(lastName);
 
   const onHandleChangeFirstName = (txt) => {
-    setFirstName(txt);
-    if (onChangeFirstName && typeof onChangeFirstName === 'function') {
+    // setFirstName(txt);
+    if (onChangeFirstName && typeof onChangeFirstName === "function") {
       onChangeFirstName(txt);
     }
   };
 
   const onHandleChangeLastName = (txt) => {
-    setLastName(txt);
-    if (onChangeLastName && typeof onChangeLastName === 'function') {
+    // setLastName(txt);
+    if (onChangeLastName && typeof onChangeLastName === "function") {
       onChangeLastName(txt);
     }
   };
   return (
     <View style={styles.container}>
       <Text style={styles.textStyle}>
-        {title ?? t('Full Name')} <Text style={styles.requiredStyle}>*</Text>
+        {title ?? t("Full Name")} <Text style={styles.requiredStyle}>*</Text>
       </Text>
       <View style={styles.content}>
         <CustomInput
           style={styles.customInput}
           textInputProps={{
-            placeholder: t('First Name'),
+            placeholder: t("First Name"),
             fontSize: scaleFont(17),
-            textAlign: 'left',
-            defaultValue: firstNameValue,
+            textAlign: "left",
+            defaultValue: firstName,
             onChangeText: onHandleChangeFirstName,
           }}
         />
@@ -49,10 +49,10 @@ export const FormFullName = ({
         <CustomInput
           style={styles.customInput}
           textInputProps={{
-            placeholder: t('Last Name'),
+            placeholder: t("Last Name"),
             fontSize: scaleFont(17),
-            textAlign: 'left',
-            defaultValue: lastNameValue,
+            textAlign: "left",
+            defaultValue: lastName,
             onChangeText: onHandleChangeLastName,
           }}
         />
@@ -67,28 +67,28 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingVertical: scaleHeight(10),
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
 
   textStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   requiredStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.ORANGEY_RED,
   },
 

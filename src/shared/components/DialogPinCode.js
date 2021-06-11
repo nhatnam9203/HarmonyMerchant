@@ -1,52 +1,31 @@
-import { basketRetailer } from '@redux/slices';
-import {
-  ButtonGradient,
-  FormAddress,
-  FormContactEmail,
-  FormFullName,
-  FormPhoneNumber,
-  FormTitle,
-  ButtonGradientWhite,
-} from '@shared/components';
-import { DialogLayout } from '@shared/layouts';
-import { useStaffLogin } from '@shared/services/api/merchant';
-import { colors, fonts, layouts } from '@shared/themes';
-import { statusSuccess } from '@shared/utils';
-import { useFormik } from 'formik';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import {
-  StyleSheet,
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useDispatch, useSelector } from 'react-redux';
-import * as Yup from 'yup';
-import { CustomInput } from './CustomInput';
-import { appMerchant, authMerchant } from '@redux/slices';
-import { saveAuthToken } from '@shared/storages/authToken';
+import { authMerchant } from "@redux/slices";
+import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
+import { DialogLayout } from "@shared/layouts";
+import { useStaffLogin } from "@shared/services/api/merchant";
+import { colors, fonts } from "@shared/themes";
+import { statusSuccess } from "@shared/utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[DialogPincode] ${message}`, obj);
 };
 
 const PIN_CODE_CHARS = [
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '.',
-  '0',
-  'del',
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  ".",
+  "0",
+  "del",
 ];
 
 const MAX_LENGTH = 4;
@@ -56,8 +35,10 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
   const [t] = useTranslation();
   const dialogRef = React.useRef(null);
 
-  const merchantID = useSelector((state) => state.appMerchant?.merchantID);
-  const [value, setValue] = React.useState('');
+  const merchantID = useSelector(
+    (state) => state.authMerchant?.merchant?.merchantCode
+  );
+  const [value, setValue] = React.useState("");
 
   /**
   |--------------------------------------------------
@@ -69,7 +50,7 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
 
   React.useImperativeHandle(ref, () => ({
     show: () => {
-      setValue('');
+      setValue("");
       dialogRef.current?.show();
     },
     hide: () => {
@@ -82,7 +63,6 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
       staffPin: value,
       merchantCode: merchantID,
     });
-    dialogRef.current?.hide();
   };
 
   /**
@@ -98,12 +78,13 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
     const { codeStatus, message, data } = staffLogin || {};
     if (statusSuccess(codeStatus)) {
       dispatch(authMerchant.staffSignIn(data));
+      dialogRef.current?.hide();
     }
   }, [staffLogin]);
 
   const renderItem = ({ item }) => {
     const onPressItem = () => {
-      if (item === 'del') {
+      if (item === "del") {
         if (value?.length > 0) setValue((prev) => prev.slice(0, -1));
       } else if (!value || value?.length < MAX_LENGTH) {
         setValue((prev) => prev + item);
@@ -125,12 +106,12 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
   return (
     <View>
       <DialogLayout
-        title={t('Lock Screen')}
+        title={t("Lock Screen")}
         ref={dialogRef}
         bottomChildren={() => (
           <View style={styles.bottomStyle}>
             <ButtonGradient
-              label={t('Submit')}
+              label={t("Submit")}
               width={scaleWidth(140)}
               height={scaleHeight(40)}
               borderRadius={scaleWidth(3)}
@@ -143,7 +124,7 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
       >
         <View style={styles.container}>
           <View style={styles.marginVertical} />
-          <Text style={styles.title}>{t('Enter your PIN code')}</Text>
+          <Text style={styles.title}>{t("Enter your PIN code")}</Text>
           <View style={styles.marginVertical} />
           {/* <CustomInput
             style={styles.input}
@@ -192,39 +173,39 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
-  row: { flexDirection: 'row', alignItems: 'center' },
+  row: { flexDirection: "row", alignItems: "center" },
 
   bottomStyle: {
-    width: '100%',
+    width: "100%",
     height: scaleHeight(80),
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    flexDirection: "row",
     borderTopWidth: 1,
-    borderTopColor: '#ddd',
+    borderTopColor: "#ddd",
   },
 
   title: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.GREYISH_BROWN,
   },
 
   textStyle: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(17),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.VERY_LIGHT_PINK_C_5,
   },
 
@@ -233,18 +214,18 @@ const styles = StyleSheet.create({
     height: scaleHeight(48),
     borderRadius: scaleWidth(3),
     backgroundColor: colors.WHITE,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: scaleWidth(1),
-    borderColor: '#dddddd',
+    borderColor: "#dddddd",
   },
 
   textInput: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(37),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.GREYISH_BROWN,
   },
 
@@ -258,13 +239,13 @@ const styles = StyleSheet.create({
     width: scaleWidth(72),
     height: scaleHeight(54),
     borderRadius: scaleWidth(3),
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: scaleWidth(1),
-    borderColor: '#eeeeee',
+    borderColor: "#eeeeee",
   },
 
   columnWrapper: {
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
 
   itemSeparator: {

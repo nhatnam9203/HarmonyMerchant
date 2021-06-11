@@ -22,7 +22,7 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   const [categoriesList, getCategoriesList] = useGetCategoriesList();
   const callGetCategoriesList = React.useCallback(() => {
     getCategoriesList({
-      key: searchVal ?? "",
+      name: searchVal ?? "",
       page: page,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,9 +54,7 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   }, [page, searchVal]);
 
   const onChangeValueSearch = (text) => {
-    if (text) {
-      setSearchVal(text);
-    }
+    setSearchVal(text);
   };
 
   const onButtonSearchPress = () => {

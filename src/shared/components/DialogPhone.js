@@ -1,11 +1,11 @@
-import { ButtonGradient } from '@shared/components';
-import { DialogLayout } from '@shared/layouts';
-import { colors, fonts, layouts } from '@shared/themes';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { FormPhoneNumber } from './FormPhoneNumber';
+import { ButtonGradient } from "@shared/components";
+import { DialogLayout } from "@shared/layouts";
+import { colors, fonts, layouts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
+import { FormPhoneNumber } from "./FormPhoneNumber";
 
 export const DialogPhone = React.forwardRef(({ title, onPhoneSubmit }, ref) => {
   const [t] = useTranslation();
@@ -14,7 +14,7 @@ export const DialogPhone = React.forwardRef(({ title, onPhoneSubmit }, ref) => {
 
   React.useImperativeHandle(ref, () => ({
     show: () => {
-      console.log('show');
+      console.log("show");
       dialogRef.current?.show();
     },
     hide: () => {
@@ -23,7 +23,7 @@ export const DialogPhone = React.forwardRef(({ title, onPhoneSubmit }, ref) => {
   }));
 
   const onHandleSubmitPhone = () => {
-    if (onPhoneSubmit && typeof onPhoneSubmit === 'function') {
+    if (onPhoneSubmit && typeof onPhoneSubmit === "function") {
       onPhoneSubmit(phone);
     }
   };
@@ -31,14 +31,14 @@ export const DialogPhone = React.forwardRef(({ title, onPhoneSubmit }, ref) => {
   return (
     <View>
       <DialogLayout
-        title={title ?? t('Customer detail')}
+        title={title ?? t("Customer detail")}
         ref={dialogRef}
         style={styles.dialog}
       >
         <View style={styles.container}>
           <View style={styles.bottomStyle}>
             <ButtonGradient
-              label={t('Next')}
+              label={t("Next")}
               width={scaleWidth(140)}
               height={scaleHeight(40)}
               borderRadius={scaleWidth(3)}
@@ -48,11 +48,11 @@ export const DialogPhone = React.forwardRef(({ title, onPhoneSubmit }, ref) => {
           <View style={layouts.marginHorizontal} />
           <FormPhoneNumber
             hasTitle={false}
-            phoneNumber={phone}
+            // defaultPhone={phone}
             onChangePhoneNumber={setPhone}
           />
           <View style={styles.marginVertical} />
-          <Text style={styles.title}>{t('Customer phone number')}</Text>
+          <Text style={styles.title}>{t("Customer phone number")}</Text>
         </View>
       </DialogLayout>
     </View>
@@ -65,23 +65,23 @@ const styles = StyleSheet.create({
     width: scaleWidth(480),
   },
 
-  container: { flex: 0, flexDirection: 'column-reverse' },
+  container: { flex: 0, flexDirection: "column-reverse" },
 
   bottomStyle: {
-    width: '100%',
+    width: "100%",
     height: scaleHeight(80),
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    flexDirection: "row",
   },
 
   title: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.GREYISH_BROWN,
   },
 });
