@@ -120,6 +120,9 @@ export const useProps = ({ navigation }) => {
     onForgotPasswordPress: () => {
       NavigationServices.navigate('merchant.forgotpassword');
     },
+    onSignUpdPress: () => {
+      NavigationServices.navigate('merchant.terms');
+    },
     terminalIDs: terminalIDs,
     loginData,
     errorMsg,

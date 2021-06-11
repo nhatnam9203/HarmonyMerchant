@@ -77,7 +77,7 @@ let InputEmail = ({ submit, iRef, t, value, onChangeValue }) => (
       defaultValue: value,
       onChangeText: onChangeValue,
       autoFocus: true,
-      autoCapitalize: false,
+      autoCapitalize: 'none',
     }}
   />
 );
