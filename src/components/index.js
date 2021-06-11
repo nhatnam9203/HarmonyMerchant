@@ -53,8 +53,10 @@ import {FooterTwoButton} from  "./FormInfoParent";
 import PopupInfomationCodePush from "./PopupInfomationCodePush";
 import DropdownSearchable from "./DropdownSearchable";
 import GradientButton from "./GradientButton";
+import Slider from "./Slider";
 
 module.exports = {
+    Slider,
     Button,
     Text,
     ButtonCustom,

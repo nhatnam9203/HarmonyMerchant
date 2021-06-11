@@ -6,15 +6,17 @@ import {
     TouchableOpacity,
     Alert,
     TextInput,
-    Image
+    Image,
+    StyleSheet
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
-import { ButtonCustom, PopupParent, Button } from '@components';
+import { ButtonCustom, PopupParent, Button, Slider } from '@components';
 import { scaleSize, formatNumberFromCurrency, formatMoney, localize, roundNumber, checkIsTablet } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
+import { colors } from '@shared/themes';
 
 class PopupDiscount extends React.Component {
 
@@ -30,7 +32,8 @@ class PopupDiscount extends React.Component {
             customDiscountPercentLocal: 0,
             customDiscountFixedLocal: 0,
             promotionNotes: "",
-            isDiscountByOwner: true
+            isDiscountByOwner: true,
+            discountByOwner: 1
         };
         this.customDiscountRef = React.createRef();
         this.customFixedAmountRef = React.createRef();
@@ -46,6 +49,10 @@ class PopupDiscount extends React.Component {
             customDiscountPercentLocal: customDiscountPercent,
             customDiscountFixedLocal
         });
+    }
+
+    hanldeSliderValue = (value) => {
+        this.setState({discountByOwner: value})
     }
 
     submitCustomPromotion = () => {
@@ -223,6 +230,36 @@ class PopupDiscount extends React.Component {
                                     </View>
                                     <View style={{ height: 1, backgroundColor: "#707070" }} />
 
+                                    {/* -----------  Discount by Owner, Discount by staff  ----------- */}
+                                    <View style={styles.viewDiscountByOwner}>
+                                        <Text style={styles.textNormal}>{localize('Discount by Owner', language)}</Text>
+                                        <Text style={styles.textNormal}>{localize('Discount by Staff', language)}</Text>
+                                    </View>
+                                    <Slider
+                                        value={this.state.discountByOwner}
+                                        onValueChange={hanldeSliderValue}
+                                        trackStyle={{ height: scaleSize(10), backgroundColor: "#F1F1F1", borderRadius: scaleSize(6) }}
+                                        thumbStyle={{
+                                            height: scaleSize(24), width: scaleSize(24), borderRadius: scaleSize(12), backgroundColor: "#fff",
+                                            ...Platform.select({
+                                                ios: {
+                                                    shadowColor: 'rgba(0, 0, 0,0.3)',
+                                                    shadowOffset: { width: 1, height: 0 },
+                                                    shadowOpacity: 1,
+
+                                                },
+
+                                                android: {
+                                                    elevation: 2,
+                                                },
+                                            })
+                                        }}
+                                        minimumTrackTintColor="#0764B0"
+                                    />
+                                    <View style={styles.viewDiscountByOwner}>
+                                        <Text style={styles.textNormal}>{"50%"}</Text>
+                                        <Text style={styles.textNormal}>{"50%"}</Text>
+                                    </View>
 
                                     {/* ----------- Note  ----------- */}
                                     <View style={{}} >
@@ -470,6 +507,18 @@ class CustomDiscountFixed extends React.Component {
     }
 
 }
+
+const styles = StyleSheet.create({
+    viewDiscountByOwner: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    textNormal: {
+        color: colors.BROWNISH_GREY, 
+        fontSize: scaleSize(14)
+    }
+})
 
 const mapStateToProps = state => ({
     discount: state.marketing.discount,

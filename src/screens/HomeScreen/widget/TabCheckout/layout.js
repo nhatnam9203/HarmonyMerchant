@@ -873,7 +873,7 @@ class Layout extends React.Component {
                 {this.renderBodyCheckout()}
                 <PopupDiscount
                     ref={this.popupDiscountRef}
-                    title={localize('Discount', language)}
+                    title={localize('Apply Discount', language)}
                 />
                 <PopupBlockDiscount
                     title={localize('Discount', language)}

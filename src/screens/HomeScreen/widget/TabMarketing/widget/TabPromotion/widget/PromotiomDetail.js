@@ -335,8 +335,6 @@ const PromotiomDetail = forwardRef(({ cancelCampaign, language, updatePromotionB
         // calculatorsmsMoney(value);
     }
 
-
-
     return (
         <View style={{ flex: 1, backgroundColor: "#fff", paddingHorizontal: scaleSize(14) }} >
             <ScrollView
