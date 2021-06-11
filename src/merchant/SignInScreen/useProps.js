@@ -78,8 +78,8 @@ export const useProps = ({ navigation }) => {
       dispatch(authMerchant.signInSuccess(data));
       dispatch(
         appMerchant.saveMerchantID(
-          toggleCheckBox ? data?.merchant?.merchantCode : null,
-        ),
+          toggleCheckBox ? data?.merchant?.merchantCode : null
+        )
       );
 
       return;
@@ -118,7 +118,7 @@ export const useProps = ({ navigation }) => {
     inputPassRef,
 
     onForgotPasswordPress: () => {
-      // NavigationServices.navigate('merchant.forgotpassword');
+      NavigationServices.navigate('merchant.forgotpassword');
     },
     terminalIDs: terminalIDs,
     loginData,
