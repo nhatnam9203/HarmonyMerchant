@@ -34,6 +34,7 @@ export const Layout = ({
   toggleCheckBox,
   setToggleCheckBox,
   signInFormik,
+  onSignUpdPress,
 }) => {
   const { t } = useTranslation();
   return (
@@ -54,8 +55,8 @@ export const Layout = ({
               <Text style={[styles.signUpText, { color: colors.WHITE }]}>
                 {t("No account")}
               </Text>
-              <TouchableOpacity activeOpacity={0.5}>
-                <Text style={styles.signUpText}>{t("Sign Up")}</Text>
+              <TouchableOpacity activeOpacity={0.5} onPress={onSignUpdPress}>
+                <Text style={styles.signUpText}>{t('Sign Up')}</Text>
               </TouchableOpacity>
             </View>
 
@@ -91,7 +92,7 @@ export const Layout = ({
               value={signInFormik.values.terminalId}
               onChangeValue={(callback) => {
                 return signInFormik.setFieldValue(
-                  "terminalId",
+                  'terminalId',
                   callback(signInFormik.values.terminalId)
                 );
               }}

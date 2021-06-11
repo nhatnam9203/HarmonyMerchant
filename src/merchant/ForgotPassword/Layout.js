@@ -1,8 +1,7 @@
 import IMAGE from '@resources';
 import { CustomInput } from '@shared/components/CustomInput';
-import { colors, layouts } from '@shared/themes';
+import { colors, layouts, fonts } from '@shared/themes';
 import React from 'react';
-import { useTranslation, withTranslation } from 'react-i18next';
 import {
   Image,
   ImageBackground,
@@ -13,8 +12,14 @@ import {
   View,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useTranslation, withTranslation } from 'react-i18next';
 
-export const Layout = ({ inputPassSubmit, inputPassRef, onSubmitPress }) => {
+export const Layout = ({
+  inputIdSubmit,
+  inputEmailRef,
+  forgotPassFormik,
+  errorMsg,
+}) => {
   return (
     <View style={layouts.fill}>
       <ImageBackground style={styles.imageBg} source={IMAGE.MerchantBackground}>
@@ -25,10 +30,29 @@ export const Layout = ({ inputPassSubmit, inputPassRef, onSubmitPress }) => {
             <SpacingVertical />
             <TextDescription />
             <SpacingVertical />
-            <InputPassword submit={inputPassSubmit} iRef={inputPassRef} />
             <SpacingVertical />
             <SpacingVertical />
-            <ButtonSignIn disable={false} onPress={onSubmitPress} />
+            <InputEmail
+              submit={inputIdSubmit}
+              iRef={inputEmailRef}
+              value={forgotPassFormik.values.email}
+              onChangeValue={forgotPassFormik.handleChange('email')}
+              onBlur={forgotPassFormik.handleBlur('email')}
+            />
+
+            <SpacingVertical />
+            <SpacingVertical />
+            {!!errorMsg && (
+              <View style={styles.errorContent}>
+                <Text style={styles.errorText}>{errorMsg}</Text>
+              </View>
+            )}
+            <SpacingVertical />
+            <SpacingVertical />
+            <ButtonSignIn
+              disable={!forgotPassFormik.isValid || !forgotPassFormik.dirty}
+              onPress={forgotPassFormik.handleSubmit}
+            />
           </View>
         </KeyboardAwareScrollView>
       </ImageBackground>
@@ -40,11 +64,11 @@ const ImageLogo = () => (
   <Image source={IMAGE.MerchantLogo} style={styles.logo} />
 );
 
-let InputPassword = ({ submit, iRef, t, value, onChangeValue }) => (
+let InputEmail = ({ submit, iRef, t, value, onChangeValue }) => (
   <CustomInput
-    key="txt-input-password"
+    key="txt-input-email"
     style={styles.textInput}
-    textInputProp={{
+    textInputProps={{
       onSubmitEditing: submit,
       ref: iRef,
       returnKeyType: 'send',
@@ -52,10 +76,12 @@ let InputPassword = ({ submit, iRef, t, value, onChangeValue }) => (
       placeholder: t('Email address'),
       defaultValue: value,
       onChangeText: onChangeValue,
+      autoFocus: true,
+      autoCapitalize: 'none',
     }}
   />
 );
-InputPassword = withTranslation()(InputPassword);
+InputEmail = withTranslation()(InputEmail);
 
 let ButtonSignIn = ({ t, disable, onPress }) => (
   <Pressable
@@ -91,7 +117,7 @@ let TextDescription = ({ t }) => {
   return (
     <Text style={styles.textDescription}>
       {t(
-        "Please enter your email address and we'll send you \n instructions on how to reset your password",
+        "Please enter your email address and we'll send you \n instructions on how to reset your password"
       )}
     </Text>
   );
@@ -162,5 +188,22 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: 'center',
     color: colors.WHITE,
+  },
+  errorContent: {
+    width: scaleWidth(400),
+    position: 'absolute',
+    top: scaleHeight(200),
+    alignSelf: 'center',
+    flex: 0,
+  },
+
+  errorText: {
+    fontFamily: fonts.MEDIUM,
+    fontSize: scaleFont(20),
+    fontWeight: '500',
+    fontStyle: 'normal',
+    letterSpacing: 0,
+    textAlign: 'center',
+    color: colors.ORANGEY_RED,
   },
 });
