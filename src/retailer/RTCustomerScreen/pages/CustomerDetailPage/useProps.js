@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 import {
   useGetCustomer,
   useDeleteCustomer,
   useBlacklistCustomer,
   useEditAddress,
   useCreateAddress,
-} from '@shared/services/api/retailer';
-import { useTranslation } from 'react-i18next';
-import NavigationServices from '@navigators/NavigatorServices';
-import { VIP_TYPE } from '@shared/utils';
-import { useFocusEffect } from '@react-navigation/native';
+} from "@shared/services/api/retailer";
+import { useTranslation } from "react-i18next";
+import NavigationServices from "@navigators/NavigatorServices";
+import { VIP_TYPE } from "@shared/utils";
+import { useFocusEffect } from "@react-navigation/native";
 
 export const useProps = ({ params: { item, reload, customerId } }) => {
   const [t] = useTranslation();
@@ -22,7 +22,7 @@ export const useProps = ({ params: { item, reload, customerId } }) => {
   */
   const [customer, getCustomer] = useGetCustomer();
   const [, deleteCustomer] = useDeleteCustomer(() => {
-    NavigationServices.navigate('retailer.customer.list', { reload: true });
+    NavigationServices.navigate("retailer.customer.list", { reload: true });
   });
   const [customerBlacklist, blacklistCustomer] = useBlacklistCustomer();
 
@@ -36,7 +36,7 @@ export const useProps = ({ params: { item, reload, customerId } }) => {
     React.useCallback(() => {
       if (customerItem || customerId || item)
         getCustomer(customerItem?.id ?? customerId ?? item?.customerId);
-    }, [reload, item]),
+    }, [reload, item, customerId])
   );
 
   React.useEffect(() => {
@@ -54,7 +54,7 @@ export const useProps = ({ params: { item, reload, customerId } }) => {
   return {
     customer: customerItem,
     onEditAddress: (itemAddress) => {
-      NavigationServices.navigate('retailer.customer.address', {
+      NavigationServices.navigate("retailer.customer.address", {
         item: itemAddress,
         isEdit: true,
         customerId: customerItem?.customerId,
@@ -62,12 +62,12 @@ export const useProps = ({ params: { item, reload, customerId } }) => {
     },
     onEditRow: () => {},
     onGoBack: () => {
-      NavigationServices.navigate('retailer.customer.list', {
+      NavigationServices.navigate("retailer.customer.list", {
         reload: true,
       });
     },
     onEditCustomer: () => {
-      NavigationServices.navigate('retailer.customer', {
+      NavigationServices.navigate("retailer.customer.edit", {
         isEdit: true,
         item: customerItem,
       });
@@ -76,19 +76,21 @@ export const useProps = ({ params: { item, reload, customerId } }) => {
     onButtonSearchPress: () => {},
     onButtonNewOrderPress: () => {},
     onEditBillingAddress: () => {
-      NavigationServices.navigate('retailer.customer.address', {
+      NavigationServices.navigate("retailer.customer.address", {
         item: customerItem?.defaultBillingAddress,
+        customerId: customerItem?.customerId,
         isEdit: true,
       });
     },
     onEditShippingAddress: () => {
-      NavigationServices.navigate('retailer.customer.address', {
+      NavigationServices.navigate("retailer.customer.address", {
         item: customerItem?.defaultShippingAddress,
+        customerId: customerItem?.customerId,
         isEdit: true,
       });
     },
     onNewCustomerAddress: () => {
-      NavigationServices.navigate('retailer.customer.address', {
+      NavigationServices.navigate("retailer.customer.address", {
         customerId: customerItem?.customerId,
         isNew: true,
       });
@@ -98,9 +100,9 @@ export const useProps = ({ params: { item, reload, customerId } }) => {
     },
     onBlacklistCustomer: () => {
       if (customerItem?.isVip === VIP_TYPE.BLACK_LIST) {
-        blacklistCustomer(customerItem.customerId, 'remove-blacklist');
+        blacklistCustomer(customerItem.customerId, "remove-blacklist");
       } else {
-        blacklistCustomer(customerItem.customerId, 'add-blacklist');
+        blacklistCustomer(customerItem.customerId, "add-blacklist");
       }
     },
   };

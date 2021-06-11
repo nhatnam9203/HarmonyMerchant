@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
+import React from "react";
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import {
   ButtonGradient,
   ButtonGradientWhite,
@@ -7,25 +7,25 @@ import {
   ButtonCalendarFilter,
   ButtonRightPanelFilter,
   FormSelect,
-} from '@shared/components';
-import { InputSearch } from '@shared/components/InputSearch';
-import { ButtonFilter } from '@shared/components/ButtonFilter';
-import { useTranslation } from 'react-i18next';
-import { layouts, fonts, colors } from '@shared/themes';
-import { HeaderToolBarTitle } from '@shared/components/HeaderToolBarTitle';
-import { Table } from '@shared/components/CustomTable';
-import IMAGE from '@resources';
+} from "@shared/components";
+import { InputSearch } from "@shared/components/InputSearch";
+import { ButtonFilter } from "@shared/components/ButtonFilter";
+import { useTranslation } from "react-i18next";
+import { layouts, fonts, colors } from "@shared/themes";
+import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
+import { Table } from "@shared/components/CustomTable";
+import IMAGE from "@resources";
 import {
   dateToString,
   DATE_TIME_SHOW_FORMAT_STRING,
   PURCHASE_POINTS,
   PAYMENTS,
   ORDER_STATUS,
-} from '@shared/utils';
-import { getUniqueId } from '@shared/components/CustomTable/helpers';
-import { CustomTableCheckBox } from '@shared/components/CustomCheckBox';
-import { OrderStatusView, FormFilter } from '../../widget';
-import { formatMoneyWithUnit } from '@utils';
+} from "@shared/utils";
+import { getUniqueId } from "@shared/components/CustomTable/helpers";
+import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
+import { OrderStatusView, FormFilter } from "../../widget";
+import { formatMoneyWithUnit } from "@utils";
 
 export const Layout = ({
   onChangeValueSearch,
@@ -47,7 +47,7 @@ export const Layout = ({
   const { t } = useTranslation();
 
   const onRenderTableCell = ({ item, columnKey, rowIndex, cellWidth }) => {
-    if (columnKey === 'appointmentId') {
+    if (columnKey === "appointmentId") {
       const handleCheckRow = (val) => {
         // onCheckedRow(item, val);
       };
@@ -56,7 +56,7 @@ export const Layout = ({
         <TouchableOpacity
           onPress={() => {}}
           style={[layouts.horizontal, { width: cellWidth }, styles.cellStyle]}
-          key={getUniqueId(columnKey, rowIndex, 'cell-code')}
+          key={getUniqueId(columnKey, rowIndex, "cell-code")}
         >
           <CustomTableCheckBox
           //  value={defaultValue}
@@ -67,11 +67,11 @@ export const Layout = ({
       );
     }
 
-    if (columnKey === 'status') {
+    if (columnKey === "status") {
       return (
         <View
           style={[{ width: cellWidth }, styles.cellStyle]}
-          key={getUniqueId(columnKey, rowIndex, 'cell-status')}
+          key={getUniqueId(columnKey, rowIndex, "cell-status")}
         >
           <OrderStatusView status={item.status} />
         </View>
@@ -87,36 +87,36 @@ export const Layout = ({
         <Table
           items={items}
           headerKeyLabels={{
-            appointmentId: t('ID'),
-            purchasePoint: t('Purchase Point'),
-            createdDate: t('Purchase Date'),
-            billToName: t('Bill-to Name'),
-            shipToName: t('Ship-to Name'),
-            status: t('Status'),
-            total: t('Grand Total'),
+            appointmentId: t("ID"),
+            purchasePoint: t("Purchase Point"),
+            createdDate: t("Purchase Date"),
+            billToName: t("Bill-to Name"),
+            shipToName: t("Ship-to Name"),
+            status: t("Status"),
+            total: t("Grand Total"),
           }}
           whiteListKeys={[
-            'appointmentId',
-            'purchasePoint',
-            'createdDate',
-            'billToName',
-            'shipToName',
-            'status',
-            'total',
+            "appointmentId",
+            "purchasePoint",
+            "createdDate",
+            "billToName",
+            "shipToName",
+            "status",
+            "total",
           ]}
           // sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
           primaryKey="appointmentId"
           // unitKeys={{ totalDuration: 'hrs' }}
           widthForKeys={{
-            appointmentId: scaleWidth(120),
-            purchasePoint: scaleWidth(150),
-            createdDate: scaleWidth(170),
+            appointmentId: scaleWidth(110),
+            purchasePoint: scaleWidth(130),
+            createdDate: scaleWidth(200),
             billToName: scaleWidth(160),
             shipToName: scaleWidth(160),
             status: scaleWidth(150),
             total: scaleWidth(150),
           }}
-          emptyDescription={t('No Orders')}
+          emptyDescription={t("No Orders")}
           styleTextKeys={{ total: styles.textName }}
           onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
@@ -129,10 +129,10 @@ export const Layout = ({
         />
       </View>
       <View style={styles.rowContent}>
-        <HeaderToolBarTitle label={t('Orders')} style={styles.textTitle} />
+        <HeaderToolBarTitle label={t("Orders")} style={styles.textTitle} />
         <View style={layouts.horizontal}>
           <ButtonGradientWhite
-            label={t('Clean')}
+            label={t("Clean")}
             width={scaleWidth(86)}
             height={scaleHeight(32)}
             fontSize={scaleFont(15)}
@@ -162,21 +162,21 @@ export const Layout = ({
           >
             <View style={styles.filterContent}>
               <FormSelect
-                label={t('Payment method')}
+                label={t("Payment method")}
                 filterItems={PAYMENTS}
                 defaultValue={payment}
                 onChangeValue={setPayment}
               />
 
               <FormSelect
-                label={t('Purchase point')}
+                label={t("Purchase point")}
                 filterItems={PURCHASE_POINTS}
                 defaultValue={purchasePoint}
                 onChangeValue={setPurchasePoint}
               />
 
               <FormSelect
-                label={t('Status')}
+                label={t("Status")}
                 filterItems={ORDER_STATUS}
                 defaultValue={orderStatus}
                 onChangeValue={setOrderStatus}
@@ -211,14 +211,14 @@ export const Layout = ({
           <InputSearch onSearch={onChangeValueSearch} width={scaleWidth(280)} />
           <View style={layouts.marginHorizontal} />
           <ButtonGradientWhite
-            label={t('Search')}
+            label={t("Search")}
             width={scaleWidth(120)}
             onPress={onButtonSearchPress}
           />
         </View>
         <ButtonGradient
           onPress={onButtonNewOrderPress}
-          label={t('New Order')}
+          label={t("New Order")}
           width={scaleWidth(140)}
         />
       </View>
@@ -229,39 +229,39 @@ export const Layout = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column-reverse',
+    flexDirection: "column-reverse",
   },
 
   rowContent: {
     marginTop: scaleHeight(20),
     paddingHorizontal: scaleWidth(16),
     height: scaleHeight(40),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 
   leftContent: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
 
   textTitle: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(26),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.OCEAN_BLUE,
   },
 
   textName: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(15),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
   },
 
   filterContent: {
-    flexDirection: 'column-reverse',
+    flexDirection: "column-reverse",
   },
 
   icon: {

@@ -1,18 +1,19 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   FlatList,
   StyleSheet,
   Text,
   TouchableOpacity,
-} from 'react-native';
-import { colors, fonts, layouts } from '@shared/themes';
-import FastImage from 'react-native-fast-image';
+} from "react-native";
+import { colors, fonts, layouts } from "@shared/themes";
+import FastImage from "react-native-fast-image";
+import IMAGE from "@resources";
 
 export const CUSTOM_LIST_TYPES = {
-  CAT: 'Categories',
-  SUB: 'Subcategories',
-  PRO: 'Products',
+  CAT: "Categories",
+  SUB: "Subcategories",
+  PRO: "Products",
 };
 
 export const CustomList = ({
@@ -35,12 +36,27 @@ export const CustomList = ({
     switch (type) {
       case CUSTOM_LIST_TYPES.PRO:
         return (
-          <View style={styles.productContent}>
-            <Text style={styles.productName} numberOfLines={3}>
-              {item?.name}
-            </Text>
-            <Text style={styles.productPrice}>{item?.price}</Text>
-          </View>
+          <>
+            <FastImage
+              style={styles.imageStyle}
+              source={
+                item?.imageUrl
+                  ? {
+                      uri: item?.imageUrl,
+                      priority: FastImage.priority.high,
+                      cache: FastImage.cacheControl.immutable,
+                    }
+                  : IMAGE.product_holder
+              }
+              resizeMode="contain"
+            />
+            <View style={styles.productContent}>
+              <Text style={styles.productName} numberOfLines={3}>
+                {item?.name}
+              </Text>
+              <Text style={styles.productPrice}>{item?.price}</Text>
+            </View>
+          </>
         );
       case CUSTOM_LIST_TYPES.CAT:
       default:
@@ -53,7 +69,7 @@ export const CustomList = ({
                 : { color: colors.BROWNISH_GREY },
             ]}
           >
-            {item.name}
+            {item?.name}
           </Text>
         );
     }
@@ -61,7 +77,7 @@ export const CustomList = ({
 
   const renderItem = ({ item }) => {
     const onHandlePress = () => {
-      if (onPressRow && typeof onPressRow === 'function') {
+      if (onPressRow && typeof onPressRow === "function") {
         onPressRow(item);
       }
     };
@@ -78,17 +94,6 @@ export const CustomList = ({
         ]}
         onPress={onHandlePress}
       >
-        {item?.imageUrl && (
-          <FastImage
-            style={styles.imageStyle}
-            source={{
-              uri: item?.imageUrl,
-              priority: FastImage.priority.high,
-              cache: FastImage.cacheControl.immutable,
-            }}
-            resizeMode="contain"
-          />
-        )}
         {renderContent(item, isFocus)}
       </TouchableOpacity>
     );
@@ -124,7 +129,7 @@ const styles = StyleSheet.create({
   content: { flex: 1, backgroundColor: colors.WHITE },
 
   shadow: {
-    shadowColor: '#40404080',
+    shadowColor: "#40404080",
     shadowOffset: {
       width: 0,
       height: 10,
@@ -135,11 +140,11 @@ const styles = StyleSheet.create({
   },
 
   border: {
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: scaleWidth(1),
-    borderRightColor: '#dddddd',
-    borderLeftColor: '#fff',
-    borderTopColor: '#dddddd',
+    borderRightColor: "#dddddd",
+    borderLeftColor: "#fff",
+    borderTopColor: "#dddddd",
   },
 
   listContent: { flex: 1 },
@@ -147,41 +152,41 @@ const styles = StyleSheet.create({
   header: {
     height: scaleHeight(48),
     backgroundColor: colors.VERY_LIGHT_PINK_1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   headerTitle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   itemContent: {
     height: scaleHeight(80),
     backgroundColor: colors.WHITE,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderBottomWidth: 1,
-    borderBottomColor: '#fff',
+    borderBottomColor: "#fff",
     borderTopWidth: 1,
-    borderTopColor: '#ddd',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
+    borderTopColor: "#ddd",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
     paddingHorizontal: scaleWidth(10),
   },
 
   itemText: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(17),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.BROWNISH_GREY,
   },
 
@@ -193,21 +198,20 @@ const styles = StyleSheet.create({
   productName: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(15),
-    fontWeight: '500',
-    fontStyle: 'normal',
-    lineHeight: 20,
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.OCEAN_BLUE,
   },
 
   productPrice: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(14),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: -0.34,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 

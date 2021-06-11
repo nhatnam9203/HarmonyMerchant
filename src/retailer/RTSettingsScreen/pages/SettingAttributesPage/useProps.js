@@ -69,9 +69,8 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   };
 
   const onChangeValueSearch = (text) => {
-    if (text) {
-      setSearchVal(text);
-    }
+    setSearchVal(text);
+
   };
 
   const onButtonSearchPress = () => {

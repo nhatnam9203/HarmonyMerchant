@@ -1,24 +1,25 @@
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import NavigationServices from '@navigators/NavigatorServices';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import NavigationServices from "@navigators/NavigatorServices";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 import {
   BIRTH_DAY_DATE_FORMAT_STRING,
   statusSuccess,
   dateToString,
-} from '@shared/utils';
+} from "@shared/utils";
 import {
   useEditAddress,
   useCreateAddress,
   useDeleteAddress,
-} from '@shared/services/api/retailer';
+} from "@shared/services/api/retailer";
 
 export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [errorMsg, setErrorMsg] = React.useState(null);
+  const [currentAddress, setCurrentAddress] = React.useState(null);
 
   /**
   |--------------------------------------------------
@@ -28,7 +29,7 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
   const [addressEdit, editAddress] = useEditAddress();
   const [addressCreate, createAddress] = useCreateAddress();
   const [, deleteAddress] = useDeleteAddress(() => {
-    NavigationServices.navigate('retailer.customer.detail', {
+    NavigationServices.navigate("retailer.customer.detail", {
       reload: true,
       customerId,
     });
@@ -41,17 +42,17 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
   const form = useFormik({
     initialValues: item
       ? Object.assign({}, item, {
-          firstName: item.addressFirstName,
-          lastName: item.addressLastName,
-          zip: item.zipCode,
-          state: item.stateId,
-          phone: item.addressPhone,
+          firstName: item?.addressFirstName,
+          lastName: item?.addressLastName,
+          zip: item?.zipCode,
+          state: item?.stateId,
+          phone: item?.addressPhone,
         })
       : {},
     validationSchema: Yup.object().shape({
-      firstName: Yup.string().required(t('FirstName is required!')),
-      lastName: Yup.string().required(t('FirstName is required!')),
-      phone: Yup.string().required(t('Phone is required')),
+      firstName: Yup.string().required(t("FirstName is required!")),
+      lastName: Yup.string().required(t("FirstName is required!")),
+      phone: Yup.string().required(t("Phone is required")),
       street: Yup.string(),
       city: Yup.string(),
       zip: Yup.string(),
@@ -82,7 +83,7 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
     if (statusSuccess(codeStatus)) {
       setErrorMsg(null);
       // NavigationServices.goBack();
-      NavigationServices.navigate('retailer.customer.detail', {
+      NavigationServices.navigate("retailer.customer.detail", {
         reload: true,
         customerId,
       });
@@ -95,6 +96,19 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
     }
   }, [addressCreate, addressEdit]);
 
+  React.useEffect(() => {
+    if (item)
+      setCurrentAddress(
+        Object.assign({}, item, {
+          firstName: item?.addressFirstName,
+          lastName: item?.addressLastName,
+          zip: item?.zipCode,
+          state: item?.stateId,
+          phone: item?.addressPhone,
+        })
+      );
+  }, [item]);
+
   return {
     isNew,
     isEdit,
@@ -105,5 +119,6 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
     onHandleDeleteAddress: () => {
       deleteAddress(form.values?.id, customerId);
     },
+    currentAddress,
   };
 };

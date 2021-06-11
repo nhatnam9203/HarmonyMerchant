@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Image,
@@ -6,7 +6,7 @@ import {
   FlatList,
   ActivityIndicator,
   StyleSheet,
-} from 'react-native';
+} from "react-native";
 
 import {
   Text,
@@ -17,7 +17,7 @@ import {
   ButtonCustom,
   PopupCheckStaffPermission,
   Dropdown,
-} from '@components';
+} from "@components";
 import {
   HeaderTableCustomer,
   RowTableCustomer,
@@ -25,23 +25,23 @@ import {
   CustomerDetailTab,
   EditOrCreateCustomerTab,
   PopupFilterCustomer,
-} from './widget';
-import configs from '@configs';
-import ICON from '@resources';
-import { HeaderToolBar } from '@shared/components/HeaderToolBar';
-import { ButtonDrawer } from '@shared/components/ButtonDrawer';
-import { HeaderToolBarTitle } from '@shared/components/HeaderToolBarTitle';
-import { useTranslation, withTranslation } from 'react-i18next';
+} from "./widget";
+import configs from "@configs";
+import ICON from "@resources";
+import { HeaderToolBar } from "@shared/components/HeaderToolBar";
+import { ButtonDrawer } from "@shared/components/ButtonDrawer";
+import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
+import { useTranslation, withTranslation } from "react-i18next";
 import {
   CustomerListPage,
   EditCustomerPage,
   CustomerDetailPage,
   EditCustomerAddressPage,
-} from './pages';
-import { createStackNavigator } from '@react-navigation/stack';
+} from "./pages";
+import { createStackNavigator } from "@react-navigation/stack";
 
-import { Block, Pagination } from './components';
-import { layouts, colors } from '@shared/themes';
+import { Block, Pagination } from "./components";
+import { layouts, colors } from "@shared/themes";
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -68,7 +68,7 @@ export const Layout = ({ openDrawer }) => {
               <Block flex style={styles.padRight}>
                 <TextInput
                   style={styles.inputSearch}
-                  placeholder={t('Search')}
+                  placeholder={t("Search")}
                   // value={keySearch}
                   // onChangeText={onChangeKeySearch}
                   //onSubmitEditing={() => searchCustomer(1, true, false)}
@@ -81,10 +81,10 @@ export const Layout = ({ openDrawer }) => {
             {/* ----------- Search Button ------------ */}
             <Block width={scaleWidth(120)}>
               <ButtonCustom
-                width={'95%'}
+                width={"95%"}
                 height={40}
                 backgroundColor="#F1F1F1"
-                title={t('Search')}
+                title={t("Search")}
                 textColor="#6A6A6A"
                 // onPress={() => searchCustomer(1, true, false)}
                 style={styles.btnBorderStyle}
@@ -96,10 +96,10 @@ export const Layout = ({ openDrawer }) => {
           {/* ----------- Add New Button ------------ */}
           <Block width={scaleWidth(140)} right>
             <ButtonCustom
-              width={'95%'}
+              width={"95%"}
               height={40}
               backgroundColor="#0764B0"
-              title={t('New Customer')}
+              title={t("New Customer")}
               textColor="#fff"
               // onPress={addNewCustomer}
               style={styles.btnBorderStyle}
@@ -113,13 +113,13 @@ export const Layout = ({ openDrawer }) => {
 
   function renderFilter() {
     const txtStyle = {
-      color: '#6A6A6A',
+      color: "#6A6A6A",
       fontSize: scaleWidth(17),
     };
     const iconStyle = {
       width: scaleWidth(24),
       height: scaleWidth(24),
-      resizeMode: 'contain',
+      resizeMode: "contain",
     };
 
     return (
@@ -140,7 +140,7 @@ export const Layout = ({ openDrawer }) => {
           space="space-evenly"
           width={scaleWidth(100)}
         >
-          <Text style={txtStyle}>{t('Filters')}</Text>
+          <Text style={txtStyle}>{t("Filters")}</Text>
           <Image source={ICON.filter} style={iconStyle} />
         </Block>
       </Button>
@@ -149,19 +149,19 @@ export const Layout = ({ openDrawer }) => {
 
   function renderPagination() {
     const txtStyle = {
-      color: '#0764B0',
+      color: "#0764B0",
       fontSize: scaleWidth(15),
     };
     const iconStyle = {
       width: scaleWidth(15),
       height: scaleWidth(15),
-      resizeMode: 'contain',
-      tintColor: '#0764B0',
+      resizeMode: "contain",
+      tintColor: "#0764B0",
     };
     const txtPageStyle = {
       fontSize: scaleWidth(15),
-      color: '#404040',
-      fontWeight: '500',
+      color: "#404040",
+      fontWeight: "500",
     };
     return (
       <Block
@@ -199,7 +199,7 @@ export const Layout = ({ openDrawer }) => {
 
           <Block right>
             <Dropdown
-              data={[{ value: 'PDF' }, { value: 'Excel' }]}
+              data={[{ value: "PDF" }, { value: "Excel" }]}
               fontSize={scaleWidth(15)}
               renderBase={() => (
                 <Button>
@@ -211,7 +211,7 @@ export const Layout = ({ openDrawer }) => {
                     width={scaleWidth(100)}
                     space="space-evenly"
                   >
-                    <Text style={txtStyle}>{t('Export')}</Text>
+                    <Text style={txtStyle}>{t("Export")}</Text>
                     <Image source={ICON.Report_Export} style={iconStyle} />
                   </Block>
                 </Button>
@@ -260,8 +260,8 @@ export const Layout = ({ openDrawer }) => {
             <View
               style={{
                 height: scaleWidth(30),
-                alignItems: 'center',
-                justifyContent: 'center',
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
               {isLoadMoreCustomerList ? (
@@ -286,11 +286,10 @@ export const Layout = ({ openDrawer }) => {
         <HeaderToolBar
           leftComponent={() => <ButtonDrawer onPress={openDrawer} />}
         >
-          <HeaderToolBarTitle label={t('Customer')} />
+          <HeaderToolBarTitle label={t("Customer")} />
         </HeaderToolBar>
 
         <Navigator
-          initialRouteName="merchant.customer"
           headerMode="none"
           screenOptions={{
             cardStyle: {
@@ -314,24 +313,24 @@ const styles = StyleSheet.create({
   },
   borderStyle: {
     borderWidth: 1,
-    borderColor: '#C5C5C5',
+    borderColor: "#C5C5C5",
     borderRadius: scaleWidth(4),
-    backgroundColor: '#F1F1F1',
+    backgroundColor: "#F1F1F1",
   },
   iconSearch: {
     width: scaleWidth(22),
     height: scaleWidth(22),
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
   inputSearch: { flex: 1, fontSize: scaleWidth(17) },
   padRight: {
     paddingRight: scaleWidth(8),
   },
   btnBorderStyle: {
-    borderColor: '#C5C5C5',
+    borderColor: "#C5C5C5",
     borderWidth: 1,
     borderRadius: scaleWidth(4),
   },
 
-  btnTextStyle: { fontSize: scaleWidth(15), fontWeight: '500' },
+  btnTextStyle: { fontSize: scaleWidth(15), fontWeight: "500" },
 });

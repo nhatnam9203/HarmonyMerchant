@@ -1,11 +1,11 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { colors, fonts, layouts } from '@shared/themes';
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
+import { colors, fonts, layouts } from "@shared/themes";
 
 const CountryCodes = [
-  { label: 'US 🇺🇸', value: '+1' },
-  { label: 'VN 🇻🇳', value: '+84' },
+  { label: "🇺🇸 US", code: "+1", value: "+1" },
+  { label: "🇻🇳 VN", code: "+84", value: "+84" },
 ];
 
 export const ButtonCountryCode = ({
@@ -19,10 +19,17 @@ export const ButtonCountryCode = ({
   const [item, setItem] = React.useState(defaultValue);
 
   const onHandleChange = (value) => {
-    if (onChangeValue && typeof onChangeValue === 'function') {
+    // !! tim item === value change nguyen cuc item de xu li
+    if (onChangeValue && typeof onChangeValue === "function") {
       onChangeValue(value);
     }
   };
+
+  React.useEffect(() => {
+    if (defaultValue) {
+      setItem(defaultValue);
+    }
+  }, [defaultValue]);
 
   return (
     <View style={[styles.container, { width, height }]}>
@@ -39,9 +46,9 @@ export const ButtonCountryCode = ({
         listItemLabelStyle={styles.itemLabelStyle}
         dropDownContainerStyle={styles.dropDownContainerStyle}
         placeholderStyle={styles.dropdownTerminalPlaceholder}
-        dropDownDirection={dropDownDirection ?? 'AUTO'}
+        dropDownDirection={dropDownDirection ?? "AUTO"}
         scrollViewProps={{
-          decelerationRate: 'fast',
+          decelerationRate: "fast",
         }}
         itemKey="label"
         closeAfterSelecting={true}
@@ -53,59 +60,59 @@ export const ButtonCountryCode = ({
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    height: '100%',
+    flexDirection: "row",
+    height: "100%",
   },
 
   dropdownContent: {
     borderRadius: scaleWidth(1),
-    height: '100%',
-    borderStyle: 'solid',
+    height: "100%",
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: '#cccccc',
+    borderColor: "#cccccc",
   },
 
   dropDownContainerStyle: {
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: '#cccccc',
+    borderColor: "#cccccc",
   },
 
   dropdownTerminalText: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '400',
-    fontStyle: 'normal',
+    fontWeight: "400",
+    fontStyle: "normal",
     letterSpacing: 1,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   dropdownTerminalPlaceholder: {
-    fontFamily: 'Roboto-Light',
-    fontWeight: '300',
+    fontFamily: "Roboto-Light",
+    fontWeight: "300",
     letterSpacing: 0,
     color: colors.INACTIVE,
-    textAlign: 'left',
+    textAlign: "left",
   },
 
   selectedItemLabelStyle: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(17),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.ROBIN_S_EGG,
   },
 
   itemLabelStyle: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(17),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 });
