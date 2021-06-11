@@ -195,7 +195,7 @@ class PopupCheckStaffPermission extends React.Component {
 const mapStateToProps = (state) => ({
   language: state.dataLocal.language,
   isLoadingCheckStaffPermission: state.auth.isLoadingCheckStaffPermission,
-  profile: state.authMerchant.merchant,
+  profile: state.dataLocal.profile,
 });
 
 export default connectRedux(mapStateToProps, PopupCheckStaffPermission);

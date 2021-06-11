@@ -167,7 +167,7 @@ class SplashScreen extends Layout {
 }
 
 const mapStateToProps = (state) => ({
-  profile: state.authMerchant.merchant,
+  profile: state.dataLocal.profile,
   token: state.dataLocal.token,
   deviceId: state.dataLocal.deviceId,
   deviceName: state.dataLocal.deviceName,

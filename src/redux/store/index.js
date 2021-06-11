@@ -1,9 +1,9 @@
-import Configs from '@configs';
-import AsyncStorage from '@react-native-community/async-storage';
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { isDevelopmentMode } from '@shared/utils/app';
-import { combineReducers } from 'redux';
-import { createLogger } from 'redux-logger';
+import Configs from "@configs";
+import AsyncStorage from "@react-native-community/async-storage";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { isDevelopmentMode } from "@shared/utils/app";
+import { combineReducers } from "redux";
+import { createLogger } from "redux-logger";
 import {
   FLUSH,
   PAUSE,
@@ -13,13 +13,13 @@ import {
   PURGE,
   REGISTER,
   REHYDRATE,
-} from 'redux-persist';
-import createSagaMiddleware from 'redux-saga';
-import Reactotron from '../../../ReactotronConfig';
-import { authMiddleware } from '../middlewares';
-import rootReducers from '../reducers';
-import sagaRoot from '../saga';
-import { rootReducers as toolKitReducers } from '../slices';
+} from "redux-persist";
+import createSagaMiddleware from "redux-saga";
+import Reactotron from "../../../ReactotronConfig";
+import { authMiddleware } from "../middlewares";
+import rootReducers from "../reducers";
+import sagaRoot from "../saga";
+import { rootReducers as toolKitReducers } from "../slices";
 
 const middleware = [];
 
@@ -36,15 +36,15 @@ if (Configs.CHROME_DEBUG_LOGGER && isDevelopmentMode) {
 }
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   version: 1,
   storage: AsyncStorage,
-  blacklist: ['appMerchant'],
+  blacklist: ["appMerchant"],
   debug: isDevelopmentMode, //to get useful logging
 };
 
 const reducers = combineReducers(
-  Object.assign({}, rootReducers, toolKitReducers),
+  Object.assign({}, rootReducers, toolKitReducers)
 );
 const persistedReducer = persistReducer(persistConfig, reducers);
 

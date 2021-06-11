@@ -199,7 +199,7 @@ class TabReview extends Layout {
 }
 
 const mapStateToProps = (state) => ({
-  merchantId: state.authMerchant.merchant?.merchantId,
+  merchantId: state.dataLocal.profile?.merchantId,
   summaryReview: state.review.summaryReview,
   listReview: state.review.listReview,
   isLoadMoreReviewList: state.review.isLoadMoreReviewList,

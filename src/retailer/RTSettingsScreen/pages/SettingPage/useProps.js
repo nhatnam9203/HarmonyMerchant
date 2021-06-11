@@ -1,19 +1,20 @@
-import { useTranslation } from 'react-i18next';
-import React from 'react';
-import { useSignOut } from '@shared/services/api/merchant';
+import { useTranslation } from "react-i18next";
+import React from "react";
+import actions from "@redux/actions";
+import { useDispatch } from "react-redux";
 
 export const useProps = ({ navigation, params: { reload } }) => {
+  const dispatch = useDispatch();
   const { i18n } = useTranslation();
-  const [, merchantLogout] = useSignOut();
 
   return {
-    changeLanguage: (locale = 'vi') => i18n.changeLanguage(locale),
+    changeLanguage: (locale = "vi") => i18n.changeLanguage(locale),
     openDrawer: () => {
       navigation.openDrawer();
     },
     reload,
     logOut: () => {
-      merchantLogout({});
+      dispatch(actions.auth?.requestLogout());
     },
   };
 };

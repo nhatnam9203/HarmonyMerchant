@@ -139,7 +139,7 @@ class BusinessInfoScreen extends Layout {
 }
 
 const mapStateToProps = state => ({
-    profile: state.authMerchant.merchant,
+    profile: state.dataLocal.profile,
     language: state.dataLocal.language,
     question: state.app.question,
     loading: state.app.loading,

@@ -24,7 +24,7 @@ class ForgotPasswordScreen extends Layout {
 
 const mapStateToProps = state => ({
     language: state.dataLocal.language,
-    profile: state.authMerchant.merchant,
+    profile: state.dataLocal.profile,
   })
 
 export default connectRedux(mapStateToProps, ForgotPasswordScreen);

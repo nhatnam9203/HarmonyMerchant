@@ -30,7 +30,7 @@ class TermsScreen extends Layout {
 }
 
 const mapStateToProps = state => ({
-    profile: state.authMerchant.merchant,
+    profile: state.dataLocal.profile,
     isAgreeTerm: state.app.isAgreeTerm,
     language: state.dataLocal.language,
     stateCity : state.dataLocal.stateCity
