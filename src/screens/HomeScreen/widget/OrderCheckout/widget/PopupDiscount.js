@@ -7,17 +7,14 @@ import {
     Alert,
     TextInput,
     Image,
-    StyleSheet,
-    TouchableHighlight,
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
-import { ButtonCustom, PopupParent, Button, Slider } from '@components';
+import { ButtonCustom, PopupParent, Button } from '@components';
 import { scaleSize, formatNumberFromCurrency, formatMoney, localize, roundNumber, checkIsTablet } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
-import { colors } from '@shared/themes';
 
 class PopupDiscount extends React.Component {
 
@@ -34,8 +31,6 @@ class PopupDiscount extends React.Component {
             customDiscountFixedLocal: 0,
             promotionNotes: "",
             isDiscountByOwner: true,
-            discountByOwner: 1,
-            isDiscountByPercent: true,
         };
         this.customDiscountRef = React.createRef();
         this.customFixedAmountRef = React.createRef();
@@ -50,12 +45,7 @@ class PopupDiscount extends React.Component {
             temptTotalLocal: discountTotal,
             customDiscountPercentLocal: customDiscountPercent,
             customDiscountFixedLocal,
-            isDiscountByPercent: customDiscountPercent > 0 ? true : false,
         });
-    }
-
-    hanldeSliderValue = (value) => {
-        this.setState({discountByOwner: value})
     }
 
     submitCustomPromotion = () => {
@@ -146,12 +136,7 @@ class PopupDiscount extends React.Component {
         this.setState(prevState => ({ isDiscountByOwner: !prevState.isDiscountByOwner }))
     }
 
-    changeTypeManualDiscount(){
-
-    }
-
     // ------ Render -----
-
     render() {
         try {
             const { title, discount, visibleModalDiscount,
@@ -184,7 +169,8 @@ class PopupDiscount extends React.Component {
             const tempCheckBoxIcon = isDiscountByOwner ? ICON.checkBox : ICON.checkBoxEmpty;
 
             const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
-
+            customDiscountPercent={temptCustomDiscountPercent}
+            
             return (
                 <PopupParent
                     title={title}
@@ -237,56 +223,7 @@ class PopupDiscount extends React.Component {
                                     </View>
                                     <View style={{ height: 1, backgroundColor: "#707070" }} />
 
-                                    {/* ----------- Manual Discount ----------- */}
-                                    <Text style={styles.textNormal}>{localize('Manual Discount', language)}</Text>
-                                    <View style={styles.viewRowContainer}>
-                                        <View>
-                                            <TouchableHighlight
-                                                style={styles.discountTypeButton}
-                                                onPress={() => this.changeTypeManualDiscount()}
-                                                underlayColor='#fff'>
-                                                    <Text style={styles.discountManualText}>{"%"}</Text>
-                                            </TouchableHighlight>
-                                            <TouchableHighlight
-                                                style={styles.discountTypeButton}
-                                                onPress={() => this.changeTypeManualDiscount()}
-                                                underlayColor='#fff'>
-                                                    <Text style={styles.discountManualText}>{"$"}</Text>
-                                            </TouchableHighlight>
-                                        </View>
-                                    </View>
-
-                                    {/* -----------  Discount by Owner, Discount by staff  ----------- */}
-                                    <View style={styles.viewRowContainer}>
-                                        <Text style={styles.textNormal}>{localize('Discount by Owner', language)}</Text>
-                                        <Text style={styles.textNormal}>{localize('Discount by Staff', language)}</Text>
-                                    </View>
-                                    <Slider
-                                        value={this.state.discountByOwner}
-                                        onValueChange={hanldeSliderValue}
-                                        trackStyle={{ height: scaleSize(10), backgroundColor: "#F1F1F1", borderRadius: scaleSize(6) }}
-                                        thumbStyle={{
-                                            height: scaleSize(24), width: scaleSize(24), borderRadius: scaleSize(12), backgroundColor: "#fff",
-                                            ...Platform.select({
-                                                ios: {
-                                                    shadowColor: 'rgba(0, 0, 0,0.3)',
-                                                    shadowOffset: { width: 1, height: 0 },
-                                                    shadowOpacity: 1,
-
-                                                },
-
-                                                android: {
-                                                    elevation: 2,
-                                                },
-                                            })
-                                        }}
-                                        minimumTrackTintColor="#0764B0"
-                                    />
-                                    <View style={styles.viewRowContainer}>
-                                        <Text style={styles.textNormal}>{"50%"}</Text>
-                                        <Text style={styles.textNormal}>{"50%"}</Text>
-                                    </View>
-
+                                   
                                     {/* ----------- Note  ----------- */}
                                     <View style={{}} >
                                         <Text style={[{
@@ -420,7 +357,7 @@ class CustomDiscount extends React.Component {
             }} >
                 <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
                     <Text style={{ color: '#404040', fontSize: scaleSize(18) }} >
-                        {localize('Custom Discount by', language)}
+                        {localize('Apply Discount', language)}
                     </Text>
                     {/* ------- Text percent ----- */}
                     <View style={{
@@ -533,33 +470,6 @@ class CustomDiscountFixed extends React.Component {
     }
 
 }
-
-const styles = StyleSheet.create({
-    viewRowContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    textNormal: {
-        color: colors.BROWNISH_GREY, 
-        fontSize: scaleSize(14)
-    },
-    discountTypeButton:{
-        marginRight:10,
-        marginLeft:10,
-        marginTop:10,
-        paddingTop:10,
-        paddingBottom:10,
-        backgroundColor:'#68a0cf',
-        borderRadius:10,
-        borderWidth: 1,
-        borderColor: '#fff'
-      },
-      discountManualText:{
-          color:'#fff',
-          textAlign:'center',
-      }
-})
 
 const mapStateToProps = state => ({
     discount: state.marketing.discount,
