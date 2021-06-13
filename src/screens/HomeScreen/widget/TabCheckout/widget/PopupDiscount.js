@@ -33,7 +33,6 @@ class PopupDiscount extends React.Component {
             customDiscountPercentLocal: 0,
             customDiscountFixedLocal: 0,
             promotionNotes: "",
-            isDiscountByOwner: true,
             discountByOwner: 1,
             isDiscountByPercent: true,
         };
@@ -84,8 +83,8 @@ class PopupDiscount extends React.Component {
                     { cancelable: false }
                 );
             } else {
-                const { promotionNotes, isDiscountByOwner } = this.state;
-                this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, isDiscountByOwner, appointmentIdUpdatePromotion, true);
+                const { promotionNotes } = this.state;
+                this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, appointmentIdUpdatePromotion, true);
                 this.props.actions.marketing.addPromotionNote(appointmentDetail.appointmentId, promotionNotes);
                 this.props.actions.marketing.closeModalDiscount();
                 this.resetState();
@@ -142,10 +141,6 @@ class PopupDiscount extends React.Component {
         this.scrollRef.current.scrollTo({ x: 0, y: num, animated: true })
     }
 
-    toggleCheckBox = () => {
-        this.setState(prevState => ({ isDiscountByOwner: !prevState.isDiscountByOwner }))
-    }
-
     changeTypeManualDiscount(appointmentDetail, customDiscountPercent){
         const total = formatNumberFromCurrency(!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0)
         const percent = customDiscountPercent ? customDiscountPercent : 0;
@@ -167,7 +162,6 @@ class PopupDiscount extends React.Component {
             const appointmentDetail = appointmentIdUpdatePromotion !== -1 && !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
             const { customDiscountPercent, customDiscountFixed } = appointmentDetail !== undefined && appointmentDetail && !_.isEmpty(appointmentDetail) ? appointmentDetail : { customDiscountPercent: 0, customDiscountFixed: 0 };
             const {
-                isDiscountByOwner,
                 customDiscountPercentLocal, customDiscountFixedLocal, promotionNotes
             } = this.state;
             const visible = visibleModalDiscount && !_.isEmpty(groupAppointment) ? true : false;
@@ -188,7 +182,6 @@ class PopupDiscount extends React.Component {
 
             const temptCustomDiscountPercent = _.isEmpty(appointmentDetail) ? customDiscountPercentLocal : customDiscountPercent;
             const temptCustomDiscountFixed = _.isEmpty(appointmentDetail) ? customDiscountFixedLocal : customDiscountFixed;
-            const tempCheckBoxIcon = isDiscountByOwner ? ICON.checkBox : ICON.checkBoxEmpty;
 
             const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
 
@@ -208,11 +201,14 @@ class PopupDiscount extends React.Component {
                                 ref={this.scrollRef}
                                 keyboardShouldPersistTaps="always" >
                                 <TouchableOpacity activeOpacity={1} style={{ paddingHorizontal: scaleSize(25) }} >
-                                    
-                                    <View style={[styles.viewRowContainer, {marginTop: 20}]}>
-                                        <Text style={styles.textNormal}>{localize('Discount Campaigns:', language)}</Text>
-                                        <Text style={styles.textNormal}>{localize('Apply Value', language)}</Text>
-                                    </View>
+                                    {
+                                        discount && discount.length > 0 &&
+                                        <View style={[styles.viewRowContainer, {marginTop: 20}]}>
+                                            <Text style={styles.textNormal}>{localize('Discount Campaigns:', language)}</Text>
+                                            <Text style={styles.textNormal}>{localize('Apply Value', language)}</Text>
+                                        </View>
+                                    }
+                                   
                                     {
                                         discount.map((promo, index) => <ItemCampaign
                                             key={index}
@@ -232,19 +228,8 @@ class PopupDiscount extends React.Component {
                                         language={language}
                                     />
 
-                                    {/* ------------ Check Box ----------- */}
-                                    {/* <View style={{ flexDirection: "row", marginTop: scaleSize(2), marginBottom: scaleSize(12), alignItems: "center" }} >
-                                        <Button onPress={this.toggleCheckBox} >
-                                            <Image source={tempCheckBoxIcon} style={{ width: scaleSize(20), height: scaleSize(20) }} />
-                                        </Button>
-                                        <Text style={{ color: '#404040', fontSize: scaleSize(14), marginLeft: scaleSize(15) }} >
-                                            {`Discount By Owner`}
-                                        </Text>
-                                    </View> */}
-                                    
-
-                                     {/* -----------  Discount by Owner, Discount by staff  ----------- */}
-                                     <View style={[styles.viewRowContainer, {marginTop: 20}]}>
+                                    {/* -----------  Discount by Owner, Discount by staff  ----------- */}
+                                    <View style={[styles.viewRowContainer, {marginTop: 25}]}>
                                         <Text style={styles.textNormal}>{localize('Discount by Owner', language)}</Text>
                                         <Text style={styles.textNormal}>{localize('Discount by Staff', language)}</Text>
                                     </View>
@@ -276,11 +261,8 @@ class PopupDiscount extends React.Component {
 
 
                                     {/* ----------- Note  ----------- */}
-                                    <View style={{}} >
-                                        <Text style={[{
-                                            color: "#404040", fontSize: scaleSize(16), fontWeight: "600",
-                                            marginBottom: scaleSize(5), marginTop: scaleSize(12)
-                                        }]} >
+                                    <View style={{marginTop: 20}} >
+                                        <Text style={styles.textNormal} >
                                             {`Note`}
                                         </Text>
                                         <View style={{
@@ -309,12 +291,12 @@ class PopupDiscount extends React.Component {
                             paddingHorizontal: scaleSize(25)
                         }} >
                             <View style={{ flex: 1, justifyContent: 'center' }} >
-                                <Text style={{ color: '#404040', fontSize: scaleSize(22), fontWeight: 'bold' }} >
+                                <Text style={{ color: '#404040', fontSize: scaleSize(18), fontWeight: 'bold' }} >
                                     {localize('Total Discount', language)}
                                 </Text>
                             </View>
                             <View style={{ justifyContent: 'center' }} >
-                                <Text style={{ color: '#4CD964', fontSize: scaleSize(22), fontWeight: 'bold' }} >
+                                <Text style={[styles.greenText, {fontWeight: 'bold' }]} >
                                     {`$ -${formatMoney(total)}`}
                                 </Text>
                             </View>
@@ -340,13 +322,12 @@ class PopupDiscount extends React.Component {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        const { visibleModalDiscount, groupAppointment, isGetPromotionOfAppointment, promotionNotes, isDiscountByOwner } = this.props;
+        const { visibleModalDiscount, groupAppointment, isGetPromotionOfAppointment, promotionNotes } = this.props;
         const visible = visibleModalDiscount && !_.isEmpty(groupAppointment) ? true : false;
         if (prevProps.isGetPromotionOfAppointment !== isGetPromotionOfAppointment && isGetPromotionOfAppointment === "success" && visible) {
             this.props.actions.marketing.resetStateGetPromotionOfAppointment();
             await this.setState({
                 promotionNotes: promotionNotes.note ? promotionNotes.note : "",
-                isDiscountByOwner: isDiscountByOwner
             });
 
         }
@@ -378,12 +359,16 @@ class CustomDiscount extends React.Component {
 
     constructor(props) {
         super(props);
-        const { total, customDiscountPercent } = this.props;
+        const { total, customDiscountPercent, customDiscountFixed } = this.props;
         const percent = customDiscountPercent ? customDiscountPercent : 0;
         this.state = {
             percent: percent,
             discount: roundNumber((formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100))
         }
+    }
+
+    changeTypeManualDiscount(){
+        
     }
 
     onChangeText = async (percent) => {
@@ -410,13 +395,13 @@ class CustomDiscount extends React.Component {
                         <View style={styles.viewGroupRow}>
                             <TouchableHighlight
                                 style={styles.discountTypeButton}
-                                onPress={() => this.changeTypeManualDiscount(appointmentDetail, temptCustomDiscountPercent)}
+                                onPress={() => this.changeTypeManualDiscount()}
                                 underlayColor='#fff'>
                                     <Text style={styles.discountManualText}>{"%"}</Text>
                             </TouchableHighlight>
                             <TouchableHighlight
                                 style={styles.discountTypeButton}
-                                onPress={() => this.changeTypeManualDiscount(appointmentDetail, temptCustomDiscountPercent)}
+                                onPress={() => this.changeTypeManualDiscount()}
                                 underlayColor='#fff'>
                                     <Text style={styles.discountManualText}>{"$"}</Text>
                             </TouchableHighlight>
@@ -550,23 +535,27 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         height: scaleSize(35),
         width: scaleSize(35),
-      },
-      discountManualText:{
-          color:'#000',
-          textAlign:'center',
-          fontSize: scaleSize(16),
-      },
-      viewGroupRow:{
+    },
+    discountManualText:{
+        color:'#000',
+        textAlign:'center',
+        fontSize: scaleSize(16),
+    },
+    viewGroupRow:{
         flexDirection: 'row',
-        
-      },
-      textInputView: {
+    
+    },
+    textInputView: {
         width: scaleSize(120), 
         height: scaleSize(35),
         borderColor: '#707070', 
         borderWidth: 1, marginLeft: scaleSize(20), 
         borderRadius: scaleSize(4),
         flexDirection: 'row'
+    },
+    greenText: { 
+        color: '#4CD964', 
+        fontSize: scaleSize(18) 
     }
 })
 
@@ -579,7 +568,6 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     isGetPromotionOfAppointment: state.marketing.isGetPromotionOfAppointment,
     promotionNotes: state.marketing.promotionNotes,
-    isDiscountByOwner: state.marketing.isDiscountByOwner
 })
 
 
