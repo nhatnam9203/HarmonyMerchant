@@ -1,24 +1,24 @@
-import React from 'react';
-import _ from 'ramda';
+import React from "react";
+import _ from "ramda";
 
-import Layout from './layout';
-import connectRedux from '@redux/ConnectRedux';
+import Layout from "./layout";
+import connectRedux from "@redux/ConnectRedux";
 import {
   getQuickFilterStringInvoice,
   getShortOrderRetailStatus,
   getShortOrderPurchasePoint,
-} from '@utils';
+} from "@utils";
 
 class InventoryHome extends Layout {
   constructor(props) {
     super(props);
     this.state = {
-      searchKeyword: '',
+      searchKeyword: "",
       visibleFilterModal: false,
-      purchansePointSelectedFilter: 'All Points',
-      statusSelectedFilter: 'All Status',
+      purchansePointSelectedFilter: "All Points",
+      statusSelectedFilter: "All Status",
       visibleCalendar: false,
-      titleRangeTime: 'Last Month',
+      titleRangeTime: "Last Month",
     };
     this.modalCalendarRef = React.createRef();
     this.onEndReachedCalledDuringMomentum = true;
@@ -39,12 +39,12 @@ class InventoryHome extends Layout {
     const { isCustomizeDate, startDate, endDate } =
       this.modalCalendarRef?.current?.state;
     let api = `page=${page}&status=${getShortOrderRetailStatus(
-      statusSelectedFilter,
+      statusSelectedFilter
     )}&purchasePoint=${getShortOrderPurchasePoint(
-      purchansePointSelectedFilter,
+      purchansePointSelectedFilter
     )}&key=${searchKeyword}`;
     if (isCustomizeDate) {
-      api = `${api}&timeStart=${startDate}&timeEnd=${endDate}`;
+      api = `${api}&timeStart=${startDate}&timeEnd=${endDate}&quickFilter=custom`;
     } else {
       api = `${api}&quickFilter=${getQuickFilterStringInvoice(titleRangeTime)}`;
     }
@@ -63,7 +63,7 @@ class InventoryHome extends Layout {
 
   changeTitleTimeRange = async (title) => {
     await this.setState({
-      titleRangeTime: title === 'Select' ? 'Today' : title,
+      titleRangeTime: title === "Select" ? "Today" : title,
       visibleCalendar: false,
     });
 
@@ -75,7 +75,7 @@ class InventoryHome extends Layout {
       const { purchansePointSelectedFilter, statusSelectedFilter } = this.state;
       this.setFilterStateToFilterModal(
         purchansePointSelectedFilter,
-        statusSelectedFilter,
+        statusSelectedFilter
       );
     }
     await this.setState({
@@ -90,7 +90,7 @@ class InventoryHome extends Layout {
   };
 
   resetFilter = () => {
-    alert('applyFilter');
+    alert("applyFilter");
   };
 
   applyFilter =
@@ -107,22 +107,22 @@ class InventoryHome extends Layout {
 
   clearPurchansePointFilter = async () => {
     await this.setState({
-      purchansePointSelectedFilter: 'All Points',
+      purchansePointSelectedFilter: "All Points",
     });
     this.getOrderListFromStore();
   };
 
   clearStatusFilter = async () => {
     await this.setState({
-      statusSelectedFilter: 'All Status',
+      statusSelectedFilter: "All Status",
     });
     this.getOrderListFromStore();
   };
 
   clearAllFilter = async () => {
     await this.setState({
-      purchansePointSelectedFilter: 'All Points',
-      statusSelectedFilter: 'All Status',
+      purchansePointSelectedFilter: "All Points",
+      statusSelectedFilter: "All Status",
     });
     this.getOrderListFromStore();
   };
@@ -137,7 +137,7 @@ class InventoryHome extends Layout {
         this.props;
       if (orderListOfRetailerCurrentPage < orderListOfRetailerTotalPages) {
         this.props.actions.orderRetail.getOrdersFromStore(
-          orderListOfRetailerCurrentPage + 1,
+          orderListOfRetailerCurrentPage + 1
         );
         this.onEndReachedCalledDuringMomentum = true;
       }

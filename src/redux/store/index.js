@@ -39,7 +39,7 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage: AsyncStorage,
-  blacklist: ["appMerchant"],
+  blacklist: ["appMerchant", "staff"],
   debug: isDevelopmentMode, //to get useful logging
 };
 
@@ -69,8 +69,7 @@ const store = configureStore({
       // serializableCheck: {
       //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       // },
-      serializableCheck: false
-
+      serializableCheck: false,
     }),
     ...middleware,
   ],

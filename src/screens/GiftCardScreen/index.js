@@ -27,7 +27,7 @@ class GiftCardScreen extends Layout {
 
   componentDidMount() {
     this.didBlurSubscription = this.props.navigation.addListener(
-      'didBlur',
+      "blur",
       (payload) => {
         this.setState({
           isFocus: false,
@@ -38,7 +38,7 @@ class GiftCardScreen extends Layout {
       },
     );
     this.didFocusSubscription = this.props.navigation.addListener(
-      'didFocus',
+      "focus",
       (payload) => {
         this.setState({
           isFocus: true,
@@ -98,6 +98,7 @@ class GiftCardScreen extends Layout {
   closePopupCheckGiftCardTabPermission = () => {
     this.props.actions.appointment.switchGiftCardTabPermission(false);
     this.props.navigation.navigate('Home');
+    console.log("dsds");
   };
 
   onRefreshGiftCardList = () => {

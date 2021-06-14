@@ -40,7 +40,7 @@ export const MerchantNavigator = () => {
 
         break;
     }
-  }, [merchant, isPlash]);
+  }, [merchant?.type, isPlash]);
 
   return (
     <Navigator

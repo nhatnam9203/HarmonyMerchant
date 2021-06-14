@@ -22,7 +22,7 @@ class SupportScreen extends Layout {
 
   componentDidMount() {
     this.didBlurSubscription = this.props.navigation.addListener(
-      "didBlur",
+      "blur",
       (payload) => {
         this.setState({
           isFocus: false,
@@ -30,7 +30,7 @@ class SupportScreen extends Layout {
       }
     );
     this.didFocusSubscription = this.props.navigation.addListener(
-      "didFocus",
+      "focus",
       (payload) => {
         this.setState({
           isFocus: true,
@@ -43,6 +43,7 @@ class SupportScreen extends Layout {
     const { isFocus } = this.state;
     if (isFocus) {
       this.props.navigation.navigate("Home");
+      console.log("CSScreen");
       this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     }
   };

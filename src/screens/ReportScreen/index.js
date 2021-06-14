@@ -22,8 +22,9 @@ class ReportScreen extends Layout {
   }
 
   componentDidMount() {
+
     this.didBlurSubscription = this.props.navigation.addListener(
-      "didBlur",
+      "blur",
       (payload) => {
         this.setState({
           isFocus: false,
@@ -33,19 +34,20 @@ class ReportScreen extends Layout {
         this.screenReportRef?.current?.didBlur();
       }
     );
+
     this.didFocusSubscription = this.props.navigation.addListener(
-      "didFocus",
+      "focus",
       (payload) => {
         this.setState({
           isFocus: true,
         });
         this.checkPermissionRef?.current?.setStateFromParent("");
-        this.screenReportRef?.current?.didFocus();
 
         const { profileStaffLogin } = this.props;
         const roleName = profileStaffLogin?.roleName || "Admin";
         if (roleName === "Admin") {
-          this.props.actions.staff.getListStaffsSalaryTop();
+          // this.props.actions.staff.getListStaffsSalaryTop();
+          this.screenReportRef?.current?.didFocus();
         } else {
           this.props.actions.staff.toggleReportTabPermission();
         }
@@ -129,7 +131,7 @@ class ReportScreen extends Layout {
       clearInterval(notiIntervalId);
       this.props.actions.app.resetNotiIntervalId();
     }
-  }
+  };
 
   componentWillUnmount() {
     this.didBlurSubscription();
@@ -145,7 +147,7 @@ const mapStateToProps = (state) => ({
   dx: state.staff.dx,
   reportTabPermission: state.staff.reportTabPermission,
   profileStaffLogin: state.dataLocal.profileStaffLogin,
-  notiIntervalId: state.app.notiIntervalId
+  notiIntervalId: state.app.notiIntervalId,
 });
 
 export default connectRedux(mapStateToProps, ReportScreen);

@@ -9,6 +9,7 @@ import {
   PopupConnected,
   PopupDisconnected,
   PopupInfomationCodePush,
+  Loading,
 } from "./components";
 import { RootNavigator } from "./navigators/RootNavigator";
 import configureStore from "./redux/store";
@@ -36,6 +37,7 @@ const App: () => React$Node = () => {
         <CodePushProvider>
           <AppStateProvider>
             <RootNavigator />
+            <Loading />
             <PopupDisconnected />
             <PopupConnected />
             <FirebaseNotificationProvider />

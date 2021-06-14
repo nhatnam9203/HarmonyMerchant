@@ -45,6 +45,7 @@ class TabAppointment extends Layout {
     const tempDeviceId = deviceId ? deviceId : "";
     const roleName = profileStaffLogin?.roleName || "Admin";
     const url = `${Configs.CALENDAR_URL}${staffColumn}/index.html?role=${roleName}&token=${staffToken}&merchantid=${merchantId}&staffId=${staffId}&deviceId=${tempDeviceId}`;
+
     return url;
   }
 
@@ -138,23 +139,26 @@ class TabAppointment extends Layout {
               arrayExtras,
               arrayGiftCards
             );
-            if (temptBasket.length > 0) {
-              this.props.checkoutAppointment(
-                appointmentId,
-                data?.appointment || {}
-              );
-              this.props.actions.appointment.checkoutAppointmentOffline(
-                appointmentId
-              );
-              this.setState({
-                appointmentIdOffline: appointmentId,
-              });
-            } else {
-              this.props.bookAppointment(
-                appointmentId,
-                data?.staffId ? data?.staffId : data?.appointment?.staffId || 0
-              );
-            }
+            // if (temptBasket.length > 0) {
+            //     this.props.checkoutAppointment(appointmentId, data?.appointment || {});
+            //     this.props.actions.appointment.checkoutAppointmentOffline(appointmentId);
+            //     this.setState({
+            //         appointmentIdOffline: appointmentId
+            //     })
+            // } else {
+            //     this.props.bookAppointment(appointmentId, data?.staffId ? data?.staffId : (data?.appointment?.staffId || 0));
+            // }
+
+            this.props.checkoutAppointment(
+              appointmentId,
+              data?.appointment || {}
+            );
+            this.props.actions.appointment.checkoutAppointmentOffline(
+              appointmentId
+            );
+            this.setState({
+              appointmentIdOffline: appointmentId,
+            });
           } else if (action == "signinAppointment") {
             this.props.bookAppointment(appointmentId, data?.staffId || 0);
           } else if (action === "addGroupAnyStaff") {

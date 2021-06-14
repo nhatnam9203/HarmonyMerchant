@@ -121,9 +121,10 @@ function StaffTab({ style, showBackButton }, ref) {
     },
     getListStaffsSalaryTop: () => getListStaffsSalaryTop(),
     didBlur: async () => {
-      //   setTitleRangeTime(RANGE_TIME_DEFAULT);
+      // await setTitleRangeTime(RANGE_TIME_DEFAULT);
     },
     didFocus: async () => {
+      // await setTitleRangeTime(RANGE_TIME_DEFAULT);
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
   }));
