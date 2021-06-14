@@ -61,8 +61,8 @@ class PopupDiscount extends React.Component {
 
     submitCustomPromotion = () => {
         const { groupAppointment, appointmentIdUpdatePromotion, discount } = this.props;
-        const customDiscountPercent = this.customDiscountRef.current.state.percent;
-        const customFixedAmount = this.customFixedAmountRef.current.state.discount;
+        const customDiscountPercent =  this.customDiscountRef.current.state.percent;
+        const customFixedAmount =  this.customDiscountRef.current.state.fixedAmount;
         if (!_.isEmpty(groupAppointment)) {
             const appointmentDetail = appointmentIdUpdatePromotion !== -1 && !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
             const subTotal = appointmentDetail?.subTotal || 0;
@@ -116,29 +116,29 @@ class PopupDiscount extends React.Component {
         });
     }
 
-    onChangeTextDiscountFixed = async (discountFixed) => {
-        const { totalLocal } = this.state;
-        const customDiscountPercent = this.customDiscountRef.current.state.percent;
-        const {
-            appointmentIdUpdatePromotion,
-            groupAppointment
-        } = this.props;
+    // onChangeTextDiscountFixed = async (discountFixed) => {
+    //     const { totalLocal } = this.state;
+    //     const customDiscountPercent = this.customDiscountRef.current.state.percent;
+    //     const {
+    //         appointmentIdUpdatePromotion,
+    //         groupAppointment
+    //     } = this.props;
 
-        const temptDiscount = formatNumberFromCurrency(discountFixed) + Number((formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(totalLocal) / 100).toFixed(2));
+    //     const temptDiscount = formatNumberFromCurrency(discountFixed) + Number((formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(totalLocal) / 100).toFixed(2));
 
-        if (_.isEmpty(groupAppointment)) {
-            await this.setState(prevState => ({
-                discountTotal: temptDiscount
-            }));
-        } else {
-            const appointmentDetail = !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
-            const subTotal = appointmentDetail?.subTotal || 0;
-            await this.setState({
-                moneyDiscountFixedAmout: discountFixed,
-                moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(subTotal) / 100)
-            })
-        }
-    }
+    //     if (_.isEmpty(groupAppointment)) {
+    //         await this.setState(prevState => ({
+    //             discountTotal: temptDiscount
+    //         }));
+    //     } else {
+    //         const appointmentDetail = !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
+    //         const subTotal = appointmentDetail?.subTotal || 0;
+    //         await this.setState({
+    //             moneyDiscountFixedAmout: discountFixed,
+    //             moneyDiscountCustom: (formatNumberFromCurrency(this.customDiscountRef.current.state.percent) * formatNumberFromCurrency(subTotal) / 100)
+    //         })
+    //     }
+    // }
 
     scrollTo = num => {
         this.scrollRef.current.scrollTo({ x: 0, y: num, animated: true })
@@ -164,9 +164,6 @@ class PopupDiscount extends React.Component {
 
             if (visible && this.customDiscountRef.current) {
                 total = formatNumberFromCurrency(total) + formatNumberFromCurrency(this.customDiscountRef.current.state.discount);
-            }
-            if (visible && this.customFixedAmountRef.current) {
-                total = formatNumberFromCurrency(total) + formatNumberFromCurrency(this.customFixedAmountRef.current.state.discount);
             }
 
             total = roundNumber(total);
@@ -375,42 +372,38 @@ class CustomDiscount extends React.Component {
                 manualTypeSelect: manualType.fixAmountType
             })
         }
-        this.calculateDiscount()
+        this.calculateDiscount(this.state.valueText)
     }
 
-    calculateDiscount(){
+    calculateDiscount = async(textNumber) => {
         const {total} = this.props
-        let discount = this.state.valueText
-        if(this.state.manualTypeSelect == manualType.percentType){
-            discount = roundNumber((formatNumberFromCurrency(this.state.valueText) * formatNumberFromCurrency(total) / 100));
-        }
-
-        this.setState({discount})
-    }
-
-    onChangeText = async (textNumber) => {
-        const { total } = this.props;
 
         let discount = textNumber
         if(this.state.manualTypeSelect == manualType.percentType){
             discount = roundNumber((formatNumberFromCurrency(textNumber) * formatNumberFromCurrency(total) / 100));
+            
             await this.setState({
                 discount,
-                percent: textNumber,
+                percent: this.state.valueText,
                 fixedAmount: 0,
-                valueText: textNumber
             });
+
             this.props.onChangeText(discount, 0);
         }else{
             await this.setState({
                 discount,
-                fixedAmount: textNumber,
+                fixedAmount: this.state.valueText,
                 percent: 0,
-                valueText: textNumber
             });
+
             this.props.onChangeText(0, discount);
         }
-        
+
+    }
+
+    onChangeText = async (textNumber) => {
+        await this.setState({valueText: textNumber})
+        this.calculateDiscount(textNumber)
         
     }
 
@@ -481,74 +474,6 @@ class CustomDiscount extends React.Component {
 
                     
                 </View>
-        );
-    }
-
-}
-
-class CustomDiscountFixed extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            discount: this.props.customDiscountFixed
-        }
-    }
-
-    onChangeText = async (discount) => {
-        await this.setState({
-            discount
-        });
-        this.props.onChangeText(discount);
-    }
-
-    render() {
-        const { onChangeText, language } = this.props;
-        return (
-            <View style={{
-                flexDirection: 'row', height: scaleSize(45),
-                paddingBottom: scaleSize(20)
-            }} >
-                <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
-                    <Text style={{ color: '#404040', fontSize: scaleSize(18) }} >
-                        {localize('Custom Discount by fixed amount', language)}
-                    </Text>
-                </View>
-                <View style={{ justifyContent: 'center' }} >
-                    {/* ------- Text discount ----- */}
-                    <View style={{
-                        width: scaleSize(120), height: scaleSize(40),
-                        borderColor: '#707070', borderWidth: 1, marginLeft: scaleSize(20), borderRadius: scaleSize(4),
-                        flexDirection: 'row',
-                    }} >
-                        <View style={{ justifyContent: 'center', paddingLeft: scaleSize(5) }} >
-                            <Text style={{ color: '#4CD964', fontSize: scaleSize(18) }} >
-                                $
-                            </Text>
-                        </View>
-                        <View style={{ flex: 1, paddingHorizontal: scaleSize(5) }} >
-                            <TextInputMask
-                                type={'money'}
-                                options={{
-                                    precision: 2,
-                                    separator: '.',
-                                    delimiter: ',',
-                                    unit: '',
-                                    suffixUnit: ''
-                                }}
-                                style={{ flex: 1, fontSize: scaleSize(16) }}
-                                value={`${this.state.discount}`}
-                                onChangeText={this.onChangeText}
-                                keyboardType="numeric"
-                                placeholderTextColor="#A9A9A9"
-                            // maxLength={6}
-                            />
-                        </View>
-
-                    </View>
-                    {/* -------  ----- */}
-                </View>
-            </View>
         );
     }
 
