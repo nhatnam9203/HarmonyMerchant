@@ -26,6 +26,7 @@ const CustomTimePicker = ({
   };
 
   React.useEffect(() => {
+    console.log(defaultValue);
     if (!defaultValue) return;
 
     if (defaultValue instanceof Date) {
