@@ -38,9 +38,7 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
   const merchantID = useSelector(
     (state) => state.dataLocal?.profile?.merchantCode
   );
-  const isShowButtonEnterPinCode = useSelector(
-    (state) => state.staff.isShowButtonEnterPinCode
-  );
+  const isLoginStaff = useSelector((state) => state.dataLocal.isLoginStaff);
   const [value, setValue] = React.useState("");
 
   /**
@@ -83,7 +81,11 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
 
   React.useEffect(() => {
     dialogRef.current?.hide();
-  }, [isShowButtonEnterPinCode]);
+  }, [isLoginStaff]);
+
+  React.useEffect(() => {
+    dialogRef.current?.show();
+  }, []);
 
   const renderItem = ({ item }) => {
     const onPressItem = () => {

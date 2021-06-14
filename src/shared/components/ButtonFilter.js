@@ -3,7 +3,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-DropDownPicker.setListMode("SCROLLVIEW");
+// DropDownPicker.setListMode("SCROLLVIEW");
 
 export const ButtonFilter = React.forwardRef(
   (
@@ -15,6 +15,7 @@ export const ButtonFilter = React.forwardRef(
       defaultValue,
       style,
       placeholder,
+      dropdown,
     },
     ref
   ) => {
@@ -28,6 +29,10 @@ export const ButtonFilter = React.forwardRef(
       if (onChangeValue && typeof onChangeValue === "function") {
         onChangeValue(value);
       }
+    };
+
+    const onHandleOpen = () => {
+      dropdown.current = ref;
     };
 
     React.useImperativeHandle(ref, () => ({
@@ -61,12 +66,13 @@ export const ButtonFilter = React.forwardRef(
       >
         <DropDownPicker
           items={items}
+          value={item}
+          open={open}
           setOpen={setOpen}
           setValue={setItem}
           setItems={setItems}
+          onOpen={onHandleOpen}
           onChangeValue={onHandleChange}
-          value={item}
-          open={open}
           style={styles.dropdownContent}
           textStyle={styles.dropdownTerminalText}
           selectedItemLabelStyle={styles.selectedItemLabelStyle}
@@ -81,7 +87,6 @@ export const ButtonFilter = React.forwardRef(
           closeAfterSelecting={true}
           showTickIcon={false}
           placeholder={placeholder}
-          listMode="SCROLLVIEW" // This line solved my issue.
         />
       </View>
     );
@@ -100,6 +105,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 1,
     borderColor: "#cccccc",
+    backgroundColor: "#fff",
   },
 
   dropDownContainerStyle: {

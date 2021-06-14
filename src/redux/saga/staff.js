@@ -349,10 +349,12 @@ function* loginStaff(action) {
             type: "UPDATE_PROFILE_STAFF_SUCCESS",
             payload: responses.data,
           });
+
       yield put({
         type: "RESET_STATE_LOGIN_STAFF",
         payload: true,
       });
+
     } else if (parseInt(codeNumber) === 401) {
       yield put({ type: "LOGIN_STAFF_FAIL" });
       yield put({
