@@ -18,6 +18,10 @@ import { scaleSize, formatNumberFromCurrency, formatMoney, localize, roundNumber
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
 import { colors } from '@shared/themes';
+const manualType = {
+    fixAmountType: 'fixAmountType',
+    percentType: 'percentType'
+}
 
 class PopupDiscount extends React.Component {
 
@@ -34,7 +38,6 @@ class PopupDiscount extends React.Component {
             customDiscountFixedLocal: 0,
             promotionNotes: "",
             discountByOwner: 1,
-            isDiscountByPercent: true,
         };
         this.customDiscountRef = React.createRef();
         this.customFixedAmountRef = React.createRef();
@@ -49,7 +52,6 @@ class PopupDiscount extends React.Component {
             temptTotalLocal: discountTotal,
             customDiscountPercentLocal: customDiscountPercent,
             customDiscountFixedLocal,
-            isDiscountByPercent: customDiscountPercent > 0 ? true : false,
         });
     }
 
@@ -106,10 +108,11 @@ class PopupDiscount extends React.Component {
         });
     }
 
-    onChangeTextCustomDiscount = async (discount) => {
+    onChangeTextCustomDiscount = async (moneyDiscountByPercent, moneyDiscountFixed) => {
         await this.setState({
-            moneyDiscountCustom: discount,
-            moneyDiscountFixedAmout: this.customFixedAmountRef.current.state.discount
+            moneyDiscountCustom: moneyDiscountByPercent,
+            moneyDiscountFixedAmout: moneyDiscountFixed,
+
         });
     }
 
@@ -140,18 +143,6 @@ class PopupDiscount extends React.Component {
     scrollTo = num => {
         this.scrollRef.current.scrollTo({ x: 0, y: num, animated: true })
     }
-
-    changeTypeManualDiscount(appointmentDetail, customDiscountPercent){
-        const total = formatNumberFromCurrency(!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0)
-        const percent = customDiscountPercent ? customDiscountPercent : 0;
-        if(this.state.isDiscountByPercent){
-            const discount = roundNumber((formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100))
-            this.setState({
-                isDiscountByPercent: true,
-            })
-        }
-    }
-
 
     // ------ Render -----
     render() {
@@ -224,7 +215,7 @@ class PopupDiscount extends React.Component {
                                         customDiscountPercent={temptCustomDiscountPercent}
                                         customDiscountFixed={temptCustomDiscountFixed}
                                         total={formatNumberFromCurrency(!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0)}
-                                        onChangeText={this.onChangeTextCustomDiscount}
+                                        onChangeText={(moneyDiscountByPercent, moneyDiscountFixed) => this.onChangeTextCustomDiscount(moneyDiscountByPercent, moneyDiscountFixed)}
                                         language={language}
                                     />
 
@@ -361,49 +352,97 @@ class CustomDiscount extends React.Component {
         super(props);
         const { total, customDiscountPercent, customDiscountFixed } = this.props;
         const percent = customDiscountPercent ? customDiscountPercent : 0;
+        const fixedAmount = customDiscountFixed ? customDiscountFixed: 0
+        const type = customDiscountFixed && customDiscountFixed > 0 ? manualType.fixAmountType : manualType.percentType
+        const discountTemp = type == manualType.fixAmountType ? customDiscountFixed 
+                            : roundNumber((formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100))
         this.state = {
             percent: percent,
-            discount: roundNumber((formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100))
+            discount: discountTemp,
+            manualTypeSelect: type,
+            fixedAmount,
+            valueText: type == manualType.fixAmountType ? fixedAmount : percent
         }
     }
 
-    changeTypeManualDiscount(){
+    changeTypeManualDiscount = async (type) =>{
+        if(type == manualType.percentType){
+            await this.setState({
+                manualTypeSelect: manualType.percentType
+            })
+        }else{
+            await this.setState({
+                manualTypeSelect: manualType.fixAmountType
+            })
+        }
+        this.calculateDiscount()
+    }
+
+    calculateDiscount(){
+        const {total} = this.props
+        let discount = this.state.valueText
+        if(this.state.manualTypeSelect == manualType.percentType){
+            discount = roundNumber((formatNumberFromCurrency(this.state.valueText) * formatNumberFromCurrency(total) / 100));
+        }
+
+        this.setState({discount})
+    }
+
+    onChangeText = async (textNumber) => {
+        const { total } = this.props;
+
+        let discount = textNumber
+        if(this.state.manualTypeSelect == manualType.percentType){
+            discount = roundNumber((formatNumberFromCurrency(textNumber) * formatNumberFromCurrency(total) / 100));
+            await this.setState({
+                discount,
+                percent: textNumber,
+                fixedAmount: 0,
+                valueText: textNumber
+            });
+            this.props.onChangeText(discount, 0);
+        }else{
+            await this.setState({
+                discount,
+                fixedAmount: textNumber,
+                percent: 0,
+                valueText: textNumber
+            });
+            this.props.onChangeText(0, discount);
+        }
+        
         
     }
 
-    onChangeText = async (percent) => {
-        await this.setState({ percent });
-        const { total } = this.props;
-        const discount = roundNumber((formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100));
-        this.setState({
-            discount
-        });
-        this.props.onChangeText(discount);
-    }
-
     render() {
-        const { percent } = this.state;
-        const { total, language } = this.props;
-        const discount = (formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100);
+        const { language } = this.props;
+        const stylePercentText = this.state.manualTypeSelect == manualType.percentType 
+        ? styles.colorSelectedText : styles.colorUnselectedText
+        const stylePercentButton = this.state.manualTypeSelect == manualType.percentType 
+        ? styles.backgroundButtonSelected : styles.backgroundButtonUnSelected
 
+        const styleFixText = this.state.manualTypeSelect == manualType.fixAmountType 
+        ? styles.colorSelectedText : styles.colorUnselectedText
+        const styleFixButton = this.state.manualTypeSelect == manualType.fixAmountType 
+        ? styles.backgroundButtonSelected : styles.backgroundButtonUnSelected
         return (
             <View>
                 <Text style={styles.textNormal}>{localize('Manual Discount', language)}</Text>
-              
-                    
                     <View style={styles.viewRowContainer}>
                         <View style={styles.viewGroupRow}>
                             <TouchableHighlight
-                                style={styles.discountTypeButton}
-                                onPress={() => this.changeTypeManualDiscount()}
+                                style={[styles.discountTypeButton, stylePercentButton]}
+                                onPress={() => this.changeTypeManualDiscount(manualType.percentType)}
                                 underlayColor='#fff'>
-                                    <Text style={styles.discountManualText}>{"%"}</Text>
+                                    <Text style={[styles.discountManualText, stylePercentText]}>
+                                        {"%"}
+                                    </Text>
                             </TouchableHighlight>
                             <TouchableHighlight
-                                style={styles.discountTypeButton}
-                                onPress={() => this.changeTypeManualDiscount()}
+                                style={[styles.discountTypeButton, styleFixButton]}
+                                onPress={() => this.changeTypeManualDiscount(manualType.fixAmountType)}
                                 underlayColor='#fff'>
-                                    <Text style={styles.discountManualText}>{"$"}</Text>
+                                    <Text style={[styles.discountManualText, styleFixText]}>{"$"}</Text>
                             </TouchableHighlight>
 
                             {/* ------- Text input ----- */}
@@ -419,7 +458,7 @@ class CustomDiscount extends React.Component {
                                             suffixUnit: ''
                                         }}
                                         style={{ flex: 1, fontSize: scaleSize(16) }}
-                                        value={`${this.state.percent}`}
+                                        value={`${this.state.valueText}`}
                                         onChangeText={this.onChangeText}
                                         keyboardType="numeric"
                                         placeholderTextColor="#A9A9A9"
@@ -434,7 +473,7 @@ class CustomDiscount extends React.Component {
 
                         <View style={{ justifyContent: 'center' }} >
                             <Text style={{ color: '#4CD964', fontSize: scaleSize(18) }} >
-                                {`$ ${formatMoney(roundNumber(discount))}`}
+                                {`$ ${formatMoney(roundNumber(this.state.discount))}`}
                             </Text>
                         </View>
                             
@@ -556,6 +595,18 @@ const styles = StyleSheet.create({
     greenText: { 
         color: '#4CD964', 
         fontSize: scaleSize(18) 
+    },
+    colorSelectedText: {
+        color: '#fff'
+    },
+    colorUnselectedText: {
+        color: '#000'
+    },
+    backgroundButtonSelected: {
+        backgroundColor: colors.OCEAN_BLUE
+    },
+    backgroundButtonUnSelected: {
+        backgroundColor: '#fff'
     }
 })
 
