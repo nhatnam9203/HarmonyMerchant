@@ -13,11 +13,12 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
-import { ButtonCustom, PopupParent, Button, Slider } from '@components';
+import { ButtonCustom, PopupParent, Button } from '@components';
 import { scaleSize, formatNumberFromCurrency, formatMoney, localize, roundNumber, checkIsTablet } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
 import { colors } from '@shared/themes';
+import Slider from '@react-native-community/slider';
 const manualType = {
     fixAmountType: 'fixAmountType',
     percentType: 'percentType'
@@ -221,27 +222,16 @@ class PopupDiscount extends React.Component {
                                         <Text style={styles.textNormal}>{localize('Discount by Owner', language)}</Text>
                                         <Text style={styles.textNormal}>{localize('Discount by Staff', language)}</Text>
                                     </View>
-                                    {/* <Slider
-                                        value={1}
-                                        onValueChange={hanldeSliderValue}
-                                        trackStyle={{ height: scaleSize(10), backgroundColor: "#F1F1F1", borderRadius: scaleSize(6) }}
-                                        thumbStyle={{
-                                            height: scaleSize(24), width: scaleSize(24), borderRadius: scaleSize(12), backgroundColor: "#fff",
-                                            ...Platform.select({
-                                                ios: {
-                                                    shadowColor: 'rgba(0, 0, 0,0.3)',
-                                                    shadowOffset: { width: 1, height: 0 },
-                                                    shadowOpacity: 1,
+                                    
+                                    {/* ----------Slider------------ */}
+                                    <Slider
+                                        style={styles.slider}
+                                        minimumValue={0}
+                                        maximumValue={1}
+                                        minimumTrackTintColor={colors.OCEAN_BLUE}
+                                        maximumTrackTintColor={colors.PALE_GREY}
+                                    />
 
-                                                },
-
-                                                android: {
-                                                    elevation: 2,
-                                                },
-                                            })
-                                        }}
-                                        minimumTrackTintColor="#0764B0"
-                                    /> */}
                                     <View style={styles.viewRowContainer}>
                                         <Text style={styles.textNormal}>{"50%"}</Text>
                                         <Text style={styles.textNormal}>{"50%"}</Text>
@@ -532,6 +522,10 @@ const styles = StyleSheet.create({
     },
     backgroundButtonUnSelected: {
         backgroundColor: '#fff'
+    },
+    slider: {
+        flex: 1,
+        marginTop: 10
     }
 })
 
