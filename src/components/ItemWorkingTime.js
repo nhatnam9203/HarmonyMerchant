@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import IMAGE from '@resources';
-import { Dropdown } from './react-native-material-dropdown';
+import { Dropdown } from './react-native-material-dropdown-clone';
 import Button from './Button';
 import { scaleSize, WorkingTime } from '@utils';
 
@@ -48,7 +48,7 @@ export default class ItemWorkingTime extends React.Component {
         const { title, dataInit } = this.props;
         const { isCheck, timeStart, timeEnd } = this.state;
         const temptIconCheck = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
-
+ 
         return (
             <View style={{
                 flexDirection: 'row',

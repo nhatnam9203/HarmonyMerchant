@@ -14,6 +14,7 @@ import {
   ButtonCustom,
   Text,
   Dropdown,
+  DropdownCustom,
   ItemWorkingTime,
   Button,
 } from "@components";
@@ -82,6 +83,7 @@ class Layout extends React.Component {
             value={autoCloseAt}
             onChangeText={(value) => this.setState({ autoCloseAt: value })}
             placeHolder="08:00 AM"
+            isCustomDropDown={true}
           />
 
           {/* ------- Staff Columns On Calendar  ------ */}
@@ -546,6 +548,7 @@ const ItemSetupGeneral = ({
   value = "",
   onChangeText,
   titStyle,
+  isCustomDropDown = false
 }) => {
   return (
     <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
@@ -564,18 +567,33 @@ const ItemSetupGeneral = ({
         </Text>
       </View>
       <View style={{ height: scaleSize(40), width: scaleSize(140) }}>
-        <Dropdown
-          label={placeHolder}
-          data={data}
-          value={value}
-          onChangeText={(value) => onChangeText(value)}
-          containerStyle={{
-            backgroundColor: "#F1F1F1",
-            borderWidth: 1,
-            borderColor: "#C5C5C5",
-            flex: 1,
-          }}
-        />
+        {
+          !isCustomDropDown ?
+            <Dropdown
+              label={placeHolder}
+              data={data}
+              value={value}
+              onChangeText={(value) => onChangeText(value)}
+              containerStyle={{
+                backgroundColor: "#F1F1F1",
+                borderWidth: 1,
+                borderColor: "#C5C5C5",
+                flex: 1,
+              }}
+            /> :
+            <DropdownCustom
+              label={placeHolder}
+              data={data}
+              value={value}
+              onChangeText={(value) => onChangeText(value)}
+              containerStyle={{
+                backgroundColor: "#F1F1F1",
+                borderWidth: 1,
+                borderColor: "#C5C5C5",
+                flex: 1,
+              }}
+            />
+        }
       </View>
     </View>
   );
