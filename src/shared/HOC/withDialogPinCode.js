@@ -1,13 +1,14 @@
-import React from 'react';
-import { View } from 'react-native';
-import { DialogPinCode } from '@shared/components/DialogPinCode';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { View } from "react-native";
+import { DialogPinCode } from "@shared/components/DialogPinCode";
+import { useSelector } from "react-redux";
 
 export const WithDialogPinCode = (WrappedComponent) => {
   return function WithDialogPinCodeComponent({ onPress, ...props }) {
     const dialogRef = React.useRef(null);
-    const staff = useSelector((state) => state.authMerchant?.staff);
-    const token = useSelector((state) => state.authMerchant?.token);
+    const isShowButtonEnterPinCode = useSelector(
+      (state) => state.staff?.isShowButtonEnterPinCode
+    );
 
     const showPinCodeDialog = () => {
       dialogRef.current?.show();
@@ -16,16 +17,16 @@ export const WithDialogPinCode = (WrappedComponent) => {
     const onHandlePinCodeSubmit = (value) => {
       dialogRef.current?.hide();
 
-      if (onPress && typeof onPress === 'function') {
+      if (onPress && typeof onPress === "function") {
         onPress(value);
       }
     };
 
     React.useEffect(() => {
-      if (!staff && token) {
+      if (isShowButtonEnterPinCode) {
         dialogRef.current?.show();
       }
-    }, [staff]);
+    }, [isShowButtonEnterPinCode]);
 
     return (
       <View>

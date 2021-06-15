@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { NavigationActions } from 'react-navigation';
-import { StackActions } from '@react-navigation/native';
+import * as React from "react";
+import { NavigationActions } from "react-navigation";
+import { StackActions } from "@react-navigation/native";
 
 let _container; // eslint-disable-line
 export const isReadyRef = React.createRef();
@@ -30,34 +30,34 @@ function reset(routeName: string, params?: NavigationParams) {
       index: 0,
       key: null,
       actions: [NavigationActions.navigate({ routeName })],
-    }),
+    })
   );
 }
 
-// function navigate(routeName: string, params?: NavigationParams) {
+// function navigate_old(routeName: string, params?: NavigationParams) {
 //   _container.dispatch(
 //     NavigationActions.navigate({
-//       type: 'Navigation/NAVIGATE',
+//       type: "Navigation/NAVIGATE",
 //       routeName,
 //       params,
-//     }),
+//     })
 //   );
 // }
 
 function navigateDeep(
-  actions: { routeName: string, params?: NavigationParams }[],
+  actions: { routeName: string, params?: NavigationParams }[]
 ) {
   _container.dispatch(
     actions.reduceRight(
       (prevAction, action): any =>
         NavigationActions.navigate({
-          type: 'Navigation/NAVIGATE',
+          type: "Navigation/NAVIGATE",
           routeName: action.routeName,
           params: action.params,
           action: prevAction,
         }),
-      undefined,
-    ),
+      undefined
+    )
   );
 }
 
@@ -81,6 +81,7 @@ export default {
   setContainer,
   navigateDeep,
   navigate,
+  // navigate_old,
   reset,
   getCurrentRoute,
   back,

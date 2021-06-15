@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Image } from 'react-native';
+import React from "react";
+import { View, Image } from "react-native";
 
 import {
   StatusBarHeader,
@@ -9,10 +9,10 @@ import {
   PopupLogout,
   PopupCheckStaffPermission,
   ScrollableTabView,
-} from '@components';
-import { scaleSize, localize } from '@utils';
-import styles from './style';
-import IMAGE from '@resources';
+} from "@components";
+import { scaleSize, localize } from "@utils";
+import styles from "./style";
+import IMAGE from "@resources";
 import {
   TabStaff,
   TabService,
@@ -21,19 +21,19 @@ import {
   TabGaneral,
   TabHardware,
   TabTAX,
-} from './widget';
-import configs from '@configs';
-import { WithLogout } from '@shared/HOC/withLogout';
+} from "./widget";
+import configs from "@configs";
+import { WithLogout } from "@shared/HOC/withLogout";
 
 const MENU = [
-  'General',
-  'Staff',
-  'Categories',
-  'Services',
-  'Extra',
-  'Tax',
-  'Hardware',
-  'Logout',
+  "General",
+  "Staff",
+  "Categories",
+  "Services",
+  "Extra",
+  "Tax",
+  "Hardware",
+  "Logout",
 ];
 
 const WithLogoutPopup = WithLogout(PopupLogout);
@@ -45,20 +45,20 @@ export default class Layout extends React.Component {
       <View
         style={{
           height: scaleSize(35),
-          borderBottomColor: '#0764B0',
+          borderBottomColor: "#0764B0",
           borderWidth: 3,
           paddingLeft: scaleSize(50),
-          justifyContent: 'center',
+          justifyContent: "center",
         }}
       >
         <Text
           style={{
             fontSize: scaleSize(16),
-            color: '#0764B0',
-            fontWeight: '600',
+            color: "#0764B0",
+            fontWeight: "600",
           }}
         >
-          {localize('Settings', language)}
+          {localize("Settings", language)}
         </Text>
       </View>
     );
@@ -79,7 +79,7 @@ export default class Layout extends React.Component {
         <View style={styles.container}>
           <StatusBarHeader />
           {this.renderHeader()}
-          <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{ flex: 1, flexDirection: "row" }}>
             <LeftMenuSetting
               ref={this.leftMenuSettingRef}
               selectMenu={this.selectMenu}
@@ -124,9 +124,9 @@ export default class Layout extends React.Component {
                 {
                   width: scaleSize(34),
                   height: scaleSize(34),
-                  backgroundColor: '#0764B0',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  backgroundColor: "#0764B0",
+                  justifyContent: "center",
+                  alignItems: "center",
                 },
               ]}
             >
@@ -139,8 +139,8 @@ export default class Layout extends React.Component {
         </View>
         <WithLogoutPopup
           visible={this.state.visibleLogout}
-          title={localize('Confirmation', language)}
-          message={`${localize('Are you sure you want to Log out', language)}?`}
+          title={localize("Confirmation", language)}
+          message={`${localize("Are you sure you want to Log out", language)}?`}
           onRequestClose={() => this.setState({ visibleLogout: false })}
           confimYes={this.logout}
           language={language}
@@ -148,7 +148,7 @@ export default class Layout extends React.Component {
         <PopupCheckStaffPermission
           ref={this.checkPermissionRef}
           visiblePopupCheckStaffPermission={settingTabPermission}
-          title={localize('Input PIN Number', language)}
+          title={localize("Input PIN Number", language)}
           tabName="Settings"
           onRequestClose={this.closePopupCheckSettingTabPermission}
         />
@@ -179,7 +179,7 @@ class LeftMenuSetting extends React.Component {
       <View
         style={{
           width: scaleSize(140),
-          backgroundColor: 'rgb(250,250,250)',
+          backgroundColor: "rgb(250,250,250)",
           zIndex: 1,
         }}
       >
@@ -188,13 +188,13 @@ class LeftMenuSetting extends React.Component {
           const temptBackground =
             index === indexTab
               ? {
-                  backgroundColor: '#fff',
-                  borderLeftColor: '#0764B0',
+                  backgroundColor: "#fff",
+                  borderLeftColor: "#0764B0",
                   borderLeftWidth: 7,
                 }
               : {};
           const temptTextColorSelect =
-            index === indexTab ? { color: '#0764B0' } : {};
+            index === indexTab ? { color: "#0764B0" } : {};
           return (
             <Button
               onPress={() => selectMenu(index)}
@@ -202,10 +202,10 @@ class LeftMenuSetting extends React.Component {
               style={[
                 {
                   height: scaleSize(50),
-                  borderBottomColor: 'rgb(241,241,241)',
+                  borderBottomColor: "rgb(241,241,241)",
                   borderBottomWidth: 3,
-                  flexDirection: 'row',
-                  alignItems: 'center',
+                  flexDirection: "row",
+                  alignItems: "center",
                   paddingLeft: scaleSize(10),
                 },
                 temptBackground,
@@ -221,7 +221,7 @@ class LeftMenuSetting extends React.Component {
               />
               <Text
                 style={[
-                  { color: '#404040', fontSize: scaleSize(16) },
+                  { color: "#404040", fontSize: scaleSize(16) },
                   temptTextColorSelect,
                 ]}
               >

@@ -12,9 +12,8 @@ const FirebaseNotificationProvider = () => {
     AppState.currentState
   );
   let notifyService;
-  const token = useSelector(state => state.dataLocal.token);
-  const visibleEnterPin = useSelector(state => state?.app?.visibleEnterPin);
-  // console.log("----- visibleEnterPin: ",visibleEnterPin);
+  const token = useSelector((state) => state.dataLocal.token);
+  const visibleEnterPin = useSelector((state) => state?.app?.visibleEnterPin);
 
   React.useEffect(() => {
     notifyService = new NotifService(onClickedNotifyMessage);
@@ -23,8 +22,8 @@ const FirebaseNotificationProvider = () => {
   const onForegroundMessage = (data) => {
     // TODO: process message on foreground state
     dispatch({
-      type:"HANDLE_NOTIFICATION_WHEN_HAVE_A_APPOINTMENT",
-      payload: data
+      type: "HANDLE_NOTIFICATION_WHEN_HAVE_A_APPOINTMENT",
+      payload: data,
     });
     notifyService?.firebaseNotify(data);
   };
@@ -43,10 +42,11 @@ const FirebaseNotificationProvider = () => {
 
   const onClickedNotifyMessage = () => {
     if (token) {
-      if(!visibleEnterPin){
+      if (!visibleEnterPin) {
         dispatch(actions.app.closeAllPopupPincode());
       }
       NavigationServices.navigate("Home");
+
       notifyService?.resetBadgeNumber();
     } else {
       NavigationServices.navigate("SignIn");
@@ -78,10 +78,10 @@ const FirebaseNotificationProvider = () => {
 
   // call server update token when firebase token change
   React.useEffect(() => {
-    if(firebaseToken && token){
+    if (firebaseToken && token) {
       dispatch(actions.auth.activeFirebase(firebaseToken));
     }
-  }, [firebaseToken,token]);
+  }, [firebaseToken, token]);
 
   return null;
 };

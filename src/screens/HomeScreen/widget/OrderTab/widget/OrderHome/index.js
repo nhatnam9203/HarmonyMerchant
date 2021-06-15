@@ -44,7 +44,7 @@ class OrderHome extends Layout {
       purchansePointSelectedFilter,
     )}&key=${searchKeyword}`;
     if (isCustomizeDate) {
-      api = `${api}&timeStart=${startDate}&timeEnd=${endDate}`;
+      api = `${api}&timeStart=${startDate}&timeEnd=${endDate}&quickFilter=custom`;
     } else {
       api = `${api}&quickFilter=${getQuickFilterStringInvoice(titleRangeTime)}`;
     }

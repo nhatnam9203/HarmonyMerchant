@@ -1,9 +1,9 @@
-import React from 'react';
-import { Keyboard } from 'react-native';
+import React from "react";
+import { Keyboard } from "react-native";
 
-import Layout from './layout';
-import connectRedux from '@redux/ConnectRedux';
-import { checkStatusPrint } from '@utils';
+import Layout from "./layout";
+import connectRedux from "@redux/ConnectRedux";
+import { checkStatusPrint } from "@utils";
 
 class SettingScreen extends Layout {
   constructor(props) {
@@ -26,40 +26,39 @@ class SettingScreen extends Layout {
 
   componentDidMount() {
     this.didBlurSubscription = this.props.navigation.addListener(
-      'didBlur',
+      "blur",
       (payload) => {
         this.setState({
           isFocus: false,
         });
-        this.checkPermissionRef.current.setStateFromParent('');
+        this.checkPermissionRef.current.setStateFromParent("");
         this.resetSettingTab();
-      },
+      }
     );
-
     this.didFocusSubscription = this.props.navigation.addListener(
-      'didFocus',
+      "focus",
       (payload) => {
         this.setState({
           isFocus: true,
         });
-        this.checkPermissionRef?.current?.setStateFromParent('');
+        this.checkPermissionRef?.current?.setStateFromParent("");
 
         const { profileStaffLogin } = this.props;
-        const roleName = profileStaffLogin?.roleName || 'Admin';
-        if (roleName === 'Admin') {
+        const roleName = profileStaffLogin?.roleName || "Admin";
+        if (roleName === "Admin") {
           const { profile } = this.props;
           this.props.actions.app.getMerchantByID(profile?.merchantId);
         } else {
           this.props.actions.app.toggleSettingTabPermission();
         }
-      },
+      }
     );
   }
 
   handleLockScreen = () => {
     const { isFocus } = this.state;
     if (isFocus) {
-      this.props.navigation.navigate('Home');
+      this.props.navigation.navigate("Home");
       this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     }
   };
@@ -100,51 +99,51 @@ class SettingScreen extends Layout {
       case 1:
         this.resetStateStaffSetting();
         this.props.actions.category.getCategoriesByMerchantId(
-          '',
-          '',
-          '',
+          "",
+          "",
+          "",
           false,
-          false,
+          false
         );
         this.props.actions.service.getServicesByMerchant(
-          '',
-          '',
-          '',
+          "",
+          "",
+          "",
           false,
-          false,
+          false
         );
         return this.props.actions.staff.getStaffByMerchantId(
-          '',
-          '',
-          '',
+          "",
+          "",
+          "",
           false,
-          false,
+          false
         );
       case 2:
         this.resetStateCategoriesSetting();
         return this.props.actions.category.getCategoriesByMerchantId(
-          '',
-          '',
-          '',
+          "",
+          "",
+          "",
           false,
-          false,
+          false
         );
       case 3:
         this.resetStateServiceSetting();
         return this.props.actions.service.getServicesByMerchant(
-          '',
-          '',
-          '',
+          "",
+          "",
+          "",
           false,
-          false,
+          false
         );
       case 4:
         this.resetStateExtraSetting();
         return this.props.actions.extra.getExtraByMerchant(
-          '',
-          '',
+          "",
+          "",
           false,
-          false,
+          false
         );
       case 5:
         return this.updateTaxFromParent();
@@ -180,8 +179,8 @@ class SettingScreen extends Layout {
 
   updateTaxFromParent = () => {
     const { profile } = this.props;
-    const productTAX = profile?.taxProduct || '';
-    const serviceTAX = profile?.taxService || '';
+    const productTAX = profile?.taxProduct || "";
+    const serviceTAX = profile?.taxService || "";
     if (this.taxTabRef.current) {
       this.taxTabRef.current.setStateFromParent(productTAX, serviceTAX);
     } else {
@@ -192,8 +191,8 @@ class SettingScreen extends Layout {
   };
 
   logout = () => {
-    // this.props.actions.auth.requestLogout();
-    // this.props.navigation.navigate("SigninStack");
+    this.props.actions.auth.requestLogout();
+    this.props.navigation.navigate("SigninStack");
   };
 
   backTab = () => {
@@ -205,18 +204,18 @@ class SettingScreen extends Layout {
 
   closePopupCheckSettingTabPermission = () => {
     this.props.actions.app.toggleSettingTabPermission(false);
-    this.props.navigation.navigate('Home');
+    this.props.navigation.navigate("Home");
   };
 
   getPrinters = async () => {
     const { printerPortType } = this.props;
     try {
       if (!printerPortType) {
-        this.props.actions.dataLocal.updatePrinterPortType('Bluetooth');
+        this.props.actions.dataLocal.updatePrinterPortType("Bluetooth");
       }
       this.props.actions.app.loadingApp();
       const printMachine = await checkStatusPrint(
-        printerPortType ? printerPortType : 'Bluetooth',
+        printerPortType ? printerPortType : "Bluetooth"
       );
       this.props.actions.dataLocal.updatePrinterList(printMachine);
       this.props.actions.app.stopLoadingApp();
@@ -237,27 +236,27 @@ class SettingScreen extends Layout {
     } = this.props;
     if (isShowSearchCategories) {
       this.props.actions.category.getCategoriesByMerchantId(
-        '',
-        '',
-        '',
+        "",
+        "",
+        "",
         false,
-        false,
+        false
       );
     }
     if (isShowSearchExtra) {
-      this.props.actions.extra.getExtraByMerchant('', '', false, false);
+      this.props.actions.extra.getExtraByMerchant("", "", false, false);
     }
     if (isShowSearchService) {
       this.props.actions.service.getServicesByMerchant(
-        '',
-        '',
-        '',
+        "",
+        "",
+        "",
         false,
-        false,
+        false
       );
     }
     if (isShowSearchStaff) {
-      this.props.actions.staff.getStaffByMerchantId('', '', '', false, false);
+      this.props.actions.staff.getStaffByMerchantId("", "", "", false, false);
     }
     this.scrollTabRef.current.goToPage(0);
 
@@ -288,15 +287,15 @@ class SettingScreen extends Layout {
     ) {
       // ------- External Update -----
       this.generalTabRef.current.setStateFromParent(
-        profile?.webLink || '',
-        profile?.timezone || '',
-        profile?.autoCloseAt || '',
+        profile?.webLink || "",
+        profile?.timezone || "",
+        profile?.autoCloseAt || "",
         profile?.turnAmount || 0,
         profile?.staffColumn || 8,
-        profile?.signinAppStyle || '',
-        profile?.sendReviewLinkOption || '',
+        profile?.signinAppStyle || "",
+        profile?.sendReviewLinkOption || "",
         profile?.isUsingTurn || false,
-        profile?.giftForNewEnabled || false,
+        profile?.giftForNewEnabled || false
       );
     }
   }

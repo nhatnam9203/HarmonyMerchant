@@ -1,14 +1,15 @@
-import NavigationServices from '@navigators/NavigatorServices';
-import { appMerchant, authMerchant } from '@redux/slices';
-import { useSignIn } from '@shared/services/api/merchant';
-import { getTerminalIds, statusSuccess } from '@shared/utils/app';
-import { useFormik } from 'formik';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import * as Yup from 'yup';
+import NavigationServices from "@navigators/NavigatorServices";
+import { appMerchant, authMerchant } from "@redux/slices";
+// import { useSignIn } from '@shared/services/api/merchant';
+import { getTerminalIds, statusSuccess } from "@shared/utils/app";
+import { useFormik } from "formik";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import * as Yup from "yup";
+import actions from "@redux/actions";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[SiginScreen] ${message}`, obj);
 };
 
@@ -22,12 +23,12 @@ export const useProps = ({ navigation }) => {
   */
   const { t } = useTranslation();
   const SignInSchema = Yup.object().shape({
-    email: Yup.string().required(t('Email is required!')),
+    email: Yup.string().required(t("Email is required!")),
     password: Yup.string()
-      .min(1, t('Password is short!'))
-      .max(30, t('Password is long!'))
-      .required(t('Password is required')),
-    terminalId: Yup.string().required(t('Terminal is required')),
+      .min(1, t("Password is short!"))
+      .max(30, t("Password is long!"))
+      .required(t("Password is required")),
+    terminalId: Yup.string().required(t("Terminal is required")),
   });
   const inputIdRef = React.useRef(null);
   const inputPassRef = React.useRef(null);
@@ -36,13 +37,14 @@ export const useProps = ({ navigation }) => {
   const [errorMsg, setErrorMsg] = React.useState(null);
   const toggleCheckBox = useSelector((state) => state.appMerchant.rememberMID);
   const merchantID = useSelector((state) => state.appMerchant.merchantID);
+  const errorLogin = useSelector((state) => state.auth.errorLogin);
 
   /**
   |--------------------------------------------------
   | CALL API
   |--------------------------------------------------
   */
-  const [loginData, merchantLogin] = useSignIn();
+  // const [loginData, merchantLogin] = useSignIn();
 
   /**
   |--------------------------------------------------
@@ -52,12 +54,12 @@ export const useProps = ({ navigation }) => {
   const signInFormik = useFormik({
     initialValues: {
       email: merchantID,
-      password: '',
+      password: "",
       terminalId: terminalIDs[1].value,
     },
     validationSchema: SignInSchema,
-    onSubmit: (values) => {
-      merchantLogin(values);
+    onSubmit: ({ email, password, terminalId }) => {
+      dispatch(actions.auth.login(email, password, terminalId, toggleCheckBox));
     },
   });
 
@@ -66,29 +68,28 @@ export const useProps = ({ navigation }) => {
   | useEffect
   |--------------------------------------------------
   */
-  React.useEffect(() => {
-    if (!loginData) {
-      return;
-    }
+  // React.useEffect(() => {
+  //   if (!loginData) {
+  //     return;
+  //   }
+  //   const { codeStatus, message, data } = loginData;
+  //   console.log(codeStatus);
+  //   if (statusSuccess(codeStatus)) {
+  //     setErrorMsg(null);
+  //     dispatch(authMerchant.signInSuccess(data));
+  //     dispatch(
+  //       appMerchant.saveMerchantID(
+  //         toggleCheckBox ? data?.merchant?.merchantCode : null
+  //       )
+  //     );
 
-    const { codeStatus, message, data } = loginData;
-    console.log(codeStatus);
-    if (statusSuccess(codeStatus)) {
-      setErrorMsg(null);
-      dispatch(authMerchant.signInSuccess(data));
-      dispatch(
-        appMerchant.saveMerchantID(
-          toggleCheckBox ? data?.merchant?.merchantCode : null
-        )
-      );
+  //     return;
+  //   }
 
-      return;
-    }
-
-    if (message) {
-      setErrorMsg(message);
-    }
-  }, [loginData]);
+  //   if (message) {
+  //     setErrorMsg(message);
+  //   }
+  // }, [loginData]);
 
   React.useEffect(() => {
     const { email, password, terminalId } = signInFormik.errors;
@@ -102,6 +103,10 @@ export const useProps = ({ navigation }) => {
       setErrorMsg(null);
     }
   }, [signInFormik.errors]);
+
+  React.useEffect(() => {
+    if (errorLogin) alert(errorLogin);
+  }, [errorLogin]);
 
   return {
     inputIdSubmit: () => {
@@ -124,7 +129,6 @@ export const useProps = ({ navigation }) => {
       NavigationServices.navigate('merchant.terms');
     },
     terminalIDs: terminalIDs,
-    loginData,
     errorMsg,
     toggleCheckBox,
     setToggleCheckBox: (value) => {

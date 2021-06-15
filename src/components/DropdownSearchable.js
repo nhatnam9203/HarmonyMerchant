@@ -102,7 +102,7 @@ class DropdownSearchable extends Component {
     this.onEndEditing = this.onEndEditing.bind(this);
   }
 
-  componentWillReceiveProps({ data }) {
+  UNSAFE_componentWillReceiveProps({ data }) {
     this.setState({ data });
   }
 
@@ -156,9 +156,9 @@ class DropdownSearchable extends Component {
     } = this.props;
 
     return (
-      <ScrollView 
-      keyboardShouldPersistTaps="always" 
-     
+      <ScrollView
+      keyboardShouldPersistTaps="always"
+
       >
         {
           data.map((item,index) => renderItem({item,index}))

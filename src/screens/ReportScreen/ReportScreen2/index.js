@@ -83,10 +83,33 @@ function ReportScreen2({ showBackButton }, ref) {
           overallRef?.current?.didBlur();
 
           break;
-      };
-      scrollTabRef?.current?.goToFirstTab()
+      }
+      scrollTabRef?.current?.goToFirstTab();
     },
-    didFocus: () => { },
+    didFocus: () => {
+      switch (tabIndex) {
+        case 0:
+          staffRef.current.didFocus();
+          break;
+        case 1:
+          giftCardRef.current.didFocus();
+          break;
+        case 2:
+          customerRef.current.didFocus();
+          break;
+        case 3:
+          serviceRef.current.didFocus();
+          break;
+        case 4:
+          productRef.current.didFocus();
+          break;
+        case 5:
+          overallRef.current.didFocus();
+          break;
+        default:
+          break;
+      }
+    },
   }));
 
   const onTabChange = (index) => {
@@ -156,6 +179,28 @@ function ReportScreen2({ showBackButton }, ref) {
   // ------------- New Code ---------------
 
   handleOnChangeTab = (i) => {
+    // switch (i) {
+    //   case 0:
+    //     staffRef.current.didFocus();
+    //     break;
+    //   case 1:
+    //     giftCardRef.current.didFocus();
+    //     break;
+    //   case 2:
+    //     customerRef.current.didFocus();
+    //     break;
+    //   case 3:
+    //     serviceRef.current.didFocus();
+    //     break;
+    //   case 4:
+    //     productRef.current.didFocus();
+    //     break;
+    //   case 5:
+    //     overallRef.current.didFocus();
+    //     break;
+    //   default:
+    //     break;
+    // }
     switch (i) {
       case 0:
         staffRef?.current?.getListStaffsSalaryTop();
@@ -172,8 +217,8 @@ function ReportScreen2({ showBackButton }, ref) {
 
       default:
         break;
-    };
-  }
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -209,7 +254,7 @@ function ReportScreen2({ showBackButton }, ref) {
           showBackButton={onShowBackButton}
         />
         <ServiceTab
-           ref={serviceRef}
+          ref={serviceRef}
           style={styles.content}
           tabLabel={localize("Services", language)}
           showBackButton={onShowBackButton}
