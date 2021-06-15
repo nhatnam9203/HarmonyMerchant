@@ -55,11 +55,11 @@ const AppConfigs = {
   CHROME_DEBUG_LOGGER: false, // true -> active hight debug with chrome -> log
 };
 
-// const Configs = Object.assign(EvnConfigs, AppConfigs, {
-//   API_URL: 'https://dev.harmonypayment.com/api/',
-//   SOCKET_URL: 'https://dev.harmonypayment.com/',
-// });
+const Configs = Object.assign(EvnConfigs, AppConfigs, {
+  API_URL: 'https://dev.harmonypayment.com/api/',
+  SOCKET_URL: 'https://dev.harmonypayment.com/',
+});
 
-const Configs = Object.assign({}, AppConfigs, EvnConfigs);
+//const Configs = Object.assign({}, AppConfigs, EvnConfigs);
 
 export default Configs;

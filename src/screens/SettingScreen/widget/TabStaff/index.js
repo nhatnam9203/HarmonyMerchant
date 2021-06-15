@@ -254,6 +254,10 @@ class TabStaff extends Layout {
     );
   };
 
+  componentDidMount() {
+    this.props.actions.staff.getStaffByMerchantId('', '', '', false, false);
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const { isEditStaffByIdSuccess } = this.props;
     if (
