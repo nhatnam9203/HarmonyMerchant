@@ -125,7 +125,6 @@ const styles = StyleSheet.create({
 
   content: {
     flex: 1,
-    backgroundColor: "red",
     marginTop: scaleHeight(20),
   },
 

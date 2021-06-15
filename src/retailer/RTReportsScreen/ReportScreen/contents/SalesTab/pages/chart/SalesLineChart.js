@@ -1,14 +1,10 @@
-import React from "react";
-import { StyleSheet, processColor, View, Text } from "react-native";
-import { LineChart } from "react-native-charts-wrapper";
+import { colors } from "@shared/themes";
+import { dateToString } from "@shared/utils";
 import { formatNumberFromCurrency } from "@utils";
-import {
-  dateToString,
-  DATE_TIME_SHOW_FORMAT_STRING,
-  PURCHASE_POINTS,
-  PAYMENTS,
-  ORDER_STATUS,
-} from "@shared/utils";
+import React from "react";
+import { processColor, StyleSheet, View } from "react-native";
+import { LineChart } from "react-native-charts-wrapper";
+import { fonts } from "../../../../../../../shared/themes";
 
 /**chart info */
 const legend = {
@@ -47,20 +43,10 @@ const yAxis = {
     granularity: 1,
     labelCount: 10,
     valueFormatter: "###,###,###.##",
+    color: colors.WHITE_TWO,
   },
   right: {
-    drawLabels: false,
-    drawAxisLine: false,
-    drawGridLines: false,
-    axisMinimum: 0,
-    // axisMaximum: 1500,
-    textSize: 14,
-    formSize: 14,
-    textColor: processColor("#E5B960"),
-    granularityEnabled: true,
-    granularity: 1,
-    labelCount: 10,
-    // valueFormatter: "###,###,###.##",
+    enabled: false,
   },
 };
 
@@ -71,15 +57,21 @@ const xAxisDefault = {
   position: "BOTTOM",
   drawAxisLine: false,
   drawGridLines: true,
-  fontFamily: "HelveticaNeue-Medium",
-  fontWeight: "bold",
-  textSize: 12,
-  textColor: processColor("gray"),
+  fontFamily: fonts.REGULAR,
+  fontWeight: "normal",
+  textSize: scaleFont(12),
+  textColor: processColor(colors.GREYISH_BROWN),
   granularityEnabled: true,
   // centerAxisLabels: true,
-  axisMaximum: 5,
+  // axisMaximum: 5,
   axisMinimum: 0,
-  yOffset: 30,
+  // yOffset: 30,
+  color: colors.WHITE_TWO,
+  axisLineWidth: 1,
+};
+
+const log = (obj, message = "") => {
+  Logger.log(`[ SalesLineChart] ${message}`, obj);
 };
 
 const formatValuesForKey = (array, pickKey) => {
@@ -91,7 +83,7 @@ const formatValuesForKey = (array, pickKey) => {
     let result = {};
     if (itemDate) {
       const [key, value] = itemDate[0];
-      result = Object.assign({}, result, { x: dateToString(value, "DD, MMM") });
+      result = Object.assign({}, result, { x: dateToString(value, "DD MMM") });
     }
 
     if (item) {
@@ -113,21 +105,26 @@ const pickValuesForKey = (array, forKey, format, unit = "") => {
 
       return parseFloat(ft.toFixed(2));
     }
+
+    if (format === "date") {
+      const ft = dateToString(value, "DD MMM");
+      return ft;
+    }
     return value + unit;
   });
 };
 
 export default function SalesLineChart({ data }) {
   /**state store */
-  const [dataChart, setDataChart] = React.useState({});
+  const [dataChart, setDataChart] = React.useState({ dataSets: null });
   const [xAxis, setXAxis] = React.useState(xAxisDefault);
 
   /**useEffect */
   // add listener data change, map to chart data set
   React.useEffect(() => {
-    if (data) {
+    if (data?.length > 0) {
       // ======= map values =======
-      const formatterValues = pickValuesForKey(data, "date", "string");
+      const formatterValues = pickValuesForKey(data, "date", "date");
       const revenueValues = formatValuesForKey(data, "revenue");
       const profitValues = formatValuesForKey(data, "profit");
 
@@ -174,25 +171,26 @@ export default function SalesLineChart({ data }) {
             },
           },
         ],
+        backgroundColor: "transparent",
         config: {
           // BarData
-          barWidth: 0.4,
-          group: {
-            fromX: 0,
-            groupSpace: 0.2,
-            barSpace: 0,
-          },
+          // barWidth: 0.4,
+          // group: {
+          //   fromX: 0,
+          //   groupSpace: 0.2,
+          //   barSpace: 0,
+          // },
         },
       };
-
       setDataChart(createDataSet);
-
-      const createXAxis = {
-        valueFormatter: formatterValues,
-        ...xAxis,
-      };
-
-      setXAxis(createXAxis);
+      log(createDataSet);
+      setXAxis(
+        Object.assign({}, xAxis, {
+          valueFormatter: formatterValues,
+        })
+      );
+    } else {
+      setDataChart({ dataSets: null });
     }
 
     // ======= map formatter =======
@@ -221,7 +219,7 @@ export default function SalesLineChart({ data }) {
         scaleXEnabled={true}
         scaleYEnabled={true}
         pinchZoom={true}
-        doubleTapToZoomEnabled={true}
+        doubleTapToZoomEnabled={false}
         highlightPerTapEnabled={true}
         highlightPerDragEnabled={false}
         // visibleRange={this.state.visibleRange}
@@ -239,9 +237,10 @@ export default function SalesLineChart({ data }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5FCFF",
+    backgroundColor: "white",
   },
   chart: {
     flex: 1,
+    paddingHorizontal: scaleWidth(16),
   },
 });
