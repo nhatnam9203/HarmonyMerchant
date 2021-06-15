@@ -18,10 +18,10 @@ class TabBatchHistory extends Layout {
 
   setStateFromParent = () => {
     if (this.batchHistoryListRef.current) {
-      this.batchHistoryListRef.current.setStateFromParent();
+      this.batchHistoryListRef.current?.setStateFromParent();
     } else {
       setTimeout(() => {
-        this.batchHistoryListRef.current.setStateFromParent();
+        this.batchHistoryListRef.current?.setStateFromParent();
       }, 300);
     }
   };
@@ -33,29 +33,29 @@ class TabBatchHistory extends Layout {
   };
 
   goToBatchHistoryDetail = (settlementDetail) => {
-    this.scrollTabRef.current.goToPage(1);
+    this.scrollTabRef.current?.goToPage(1);
     if (!this.batchHistoryDetailRef.current) {
       setTimeout(() => {
-        this.batchHistoryDetailRef.current.setStateFromParent(settlementDetail);
+        this.batchHistoryDetailRef.current?.setStateFromParent(settlementDetail);
       }, 300);
     } else {
-      this.batchHistoryDetailRef.current.setStateFromParent(settlementDetail);
+      this.batchHistoryDetailRef.current?.setStateFromParent(settlementDetail);
     }
   };
 
   onPressStaff = (staffId) => {
-    this.scrollTabRef.current.goToPage(2);
+    this.scrollTabRef.current?.goToPage(2);
     if (!this.staffIncomDetailsRef.current) {
       setTimeout(() => {
-        this.staffIncomDetailsRef.current.setStateFromParent(staffId);
+        this.staffIncomDetailsRef.current?.setStateFromParent(staffId);
       }, 300);
     } else {
-      this.staffIncomDetailsRef.current.setStateFromParent(staffId);
+      this.staffIncomDetailsRef.current?.setStateFromParent(staffId);
     }
   };
 
   onPressGiftCardTotal = () => {
-    this.scrollTabRef.current.goToPage(3);
+    this.scrollTabRef.current?.goToPage(3);
   };
 
   gotoCreditPaymentDetail = (settlementDetail) => {
@@ -67,13 +67,13 @@ class TabBatchHistory extends Layout {
       : 0.0;
     this.scrollTabRef?.current?.goToPage(4);
     if (this.creditPaymentDetailRef.current) {
-      this.creditPaymentDetailRef.current.setStateFromParent(
+      this.creditPaymentDetailRef.current?.setStateFromParent(
         paymentTransaction,
         paymentByCreditCard
       );
     } else {
       setTimeout(() => {
-        this.creditPaymentDetailRef.current.setStateFromParent(
+        this.creditPaymentDetailRef.current?.setStateFromParent(
           paymentTransaction,
           paymentByCreditCard
         );
@@ -88,7 +88,7 @@ class TabBatchHistory extends Layout {
       prevProps.isGetCreditBatchDetailById !== isGetCreditBatchDetailById
     ) {
       this.props.actions.invoice.resetStateCreditBatchDetailById();
-      this.scrollTabRef.current.goToPage(4);
+      this.scrollTabRef.current?.goToPage(4);
     }
   }
 

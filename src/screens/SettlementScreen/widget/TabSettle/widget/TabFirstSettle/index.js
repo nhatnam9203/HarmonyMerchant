@@ -60,7 +60,7 @@ class TabFirstSettle extends Layout {
 
   keyboardDidShow = async () => {
     if (this.scrollRef.current) {
-      this.scrollRef.current.scrollToEnd();
+      this.scrollRef.current?.scrollToEnd();
     }
   };
 
@@ -70,7 +70,7 @@ class TabFirstSettle extends Layout {
 
   scrollTo = (number) => {
     if (this.scrollRef.current) {
-      this.scrollRef.current.scrollTo({
+      this.scrollRef.current?.scrollTo({
         x: 0,
         y: scaleSize(number),
         animated: true,
@@ -447,7 +447,7 @@ class TabFirstSettle extends Layout {
     this.setState({
       isEditCashAmount: true,
     });
-    this.cashAmountRef.current.setStateFromParent(this.state.editPaymentByCash);
+    this.cashAmountRef.current?.setStateFromParent(this.state.editPaymentByCash);
   };
 
   cancelEditCashAmount = () => {
@@ -458,7 +458,7 @@ class TabFirstSettle extends Layout {
   };
 
   saveEditCashAmount = () => {
-    const changeAmount = this.cashAmountRef.current.state.amount;
+    const changeAmount = this.cashAmountRef.current?.state.amount;
     this.setState({
       isEditCashAmount: false,
       editPaymentByCash: changeAmount,
@@ -471,7 +471,7 @@ class TabFirstSettle extends Layout {
     this.setState({
       isEditOtherAmount: true,
     });
-    this.otherAmountRef.current.setStateFromParent(this.state.editOtherPayment);
+    this.otherAmountRef.current?.setStateFromParent(this.state.editOtherPayment);
   };
 
   cancelEditOtherAmount = () => {
@@ -482,7 +482,7 @@ class TabFirstSettle extends Layout {
   };
 
   saveEditOtherAmount = () => {
-    const changeAmount = this.otherAmountRef.current.state.amount;
+    const changeAmount = this.otherAmountRef.current?.state.amount;
     this.setState({
       isEditOtherAmount: false,
       editOtherPayment: changeAmount,

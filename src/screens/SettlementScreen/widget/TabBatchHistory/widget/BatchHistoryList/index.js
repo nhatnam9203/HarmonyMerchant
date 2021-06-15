@@ -39,7 +39,7 @@ class BatchHistoryList extends Layout {
     const { batchHistoryPagesCurrent } = this.props;
     const { keySearch } = this.state;
     const { isCustomizeDate, startDate, endDate, quickFilter } =
-      this.modalCalendarRef.current.state;
+      this.modalCalendarRef.current?.state;
 
     this.props.actions.upload.exportBatchHistory(
       keySearch ? keySearch : "",
@@ -69,7 +69,7 @@ class BatchHistoryList extends Layout {
   ) => {
     const { keySearch } = this.state;
     const { isCustomizeDate, startDate, endDate, quickFilter } =
-      this.modalCalendarRef.current.state;
+      this.modalCalendarRef.current?.state;
 
     this.props.actions.invoice.getBatchHistory(
       keySearch ? keySearch : "",

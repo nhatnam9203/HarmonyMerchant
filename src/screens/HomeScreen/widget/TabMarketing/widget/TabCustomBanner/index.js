@@ -30,7 +30,7 @@ class TabCustomBanner extends Layout {
   }
 
   scrollInputTo = (index) => {
-    this.scrollInputRef.current.scrollTo({
+    this.scrollInputRef.current?.scrollTo({
       x: 0,
       y: scaleSize(index),
       animated: true,
@@ -120,7 +120,7 @@ class TabCustomBanner extends Layout {
   gotoPageUploadToServer = () => {
     const { bannerUpload } = this.state;
     if (bannerUpload.uri) {
-      this.scrollTabRef.current.goToPage(1);
+      this.scrollTabRef.current?.goToPage(1);
     } else {
       alert("Please upload a photo");
     }
@@ -155,7 +155,7 @@ class TabCustomBanner extends Layout {
         titleBanner: "",
         descriptionBanner: "",
       });
-      this.scrollTabRef.current.goToPage(0);
+      this.scrollTabRef.current?.goToPage(0);
       this.props.actions.marketing.resetStateUploadBanner();
     }
   }

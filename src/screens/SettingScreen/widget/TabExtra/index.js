@@ -103,7 +103,7 @@ class TabExtra extends Layout {
 
 
     showModalAddExtra = () => {
-        this.addExtraRef.current.setStateDefaultFromParent();
+        this.addExtraRef.current?.setStateDefaultFromParent();
         this.setState({ visibleAdd: true })
     }
 
@@ -130,13 +130,13 @@ class TabExtra extends Layout {
     }
 
     async showModalEditExtra(extra) {
-        this.editExtraRef.current.setExtraFromParent(extra);
+        this.editExtraRef.current?.setExtraFromParent(extra);
         this.setState({
             visibleEdit: true
         })
     }
 
-    
+
     restoreExtra(extra) {
         this.setState({
             visibleRestore: true,

@@ -21,7 +21,7 @@ class PackageAndPricing extends Layout {
     }
 
     startFreeTrial = (packageId = 1) => {
-        const pricingType = this.billRef.current.state.toogle ? "annually" : "monthly";
+        const pricingType = this.billRef.current?.state.toogle ? "annually" : "monthly";
         const packagePricing = packageId;
         this.props.actions.app.setPackagePricing({
             pricingType,

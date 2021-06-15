@@ -33,7 +33,7 @@ class CustomerScreen extends Layout {
           isFocus: false,
           keySearch: "",
         });
-        this.checkPermissionRef.current.setStateFromParent("");
+        this.checkPermissionRef.current?.setStateFromParent("");
         this.props.actions.customer.clearSearCustomer();
       }
     );
@@ -43,7 +43,7 @@ class CustomerScreen extends Layout {
         this.setState({
           isFocus: true,
         });
-        this.checkPermissionRef.current.setStateFromParent("");
+        this.checkPermissionRef.current?.setStateFromParent("");
         this.scrollTabRef?.current?.goToPage(0);
 
         const { profileStaffLogin } = this.props;
@@ -72,14 +72,14 @@ class CustomerScreen extends Layout {
   };
 
   showModalAddCustomer = () => {
-    this.modalAddRef.current.setStateDefaultFromParent();
+    this.modalAddRef.current?.setStateDefaultFromParent();
     this.setState({
       visibleAdd: true,
     });
   };
 
   showModalEditCustomer = (customer) => {
-    this.modalEditRef.current.setStateFromParent(customer);
+    this.modalEditRef.current?.setStateFromParent(customer);
     this.setState({
       visibleDetail: false,
       visibleEdit: true,
@@ -109,7 +109,7 @@ class CustomerScreen extends Layout {
   };
 
   gotoCustomerDetailTab = (customer) => {
-    this.scrollTabRef.current.goToPage(1);
+    this.scrollTabRef.current?.goToPage(1);
     this.props.actions.customer.getCustomerInfoById(customer?.customerId || 0);
     this.props.actions.customer.getPastAppointments(customer?.customerId || 0);
     if (this.customerDetailTabRef?.current) {
@@ -122,7 +122,7 @@ class CustomerScreen extends Layout {
   };
 
   backCustomerListTab = () => {
-    this.scrollTabRef.current.goToPage(0);
+    this.scrollTabRef.current?.goToPage(0);
   };
 
   handleLockScreen = () => {
@@ -181,25 +181,25 @@ class CustomerScreen extends Layout {
 
   addNewCustomer = () => {
     if (this.edtitCustomerRef?.current) {
-      this.edtitCustomerRef.current.setStateFromListCusomterTab();
+      this.edtitCustomerRef.current?.setStateFromListCusomterTab();
     } else {
       setTimeout(() => {
-        this.edtitCustomerRef.current.setStateFromListCusomterTab();
+        this.edtitCustomerRef.current?.setStateFromListCusomterTab();
       });
     }
-    this.scrollTabRef.current.goToPage(2);
+    this.scrollTabRef.current?.goToPage(2);
   };
 
   editCustomer = (customer) => {
     if (this.edtitCustomerRef?.current) {
-      this.edtitCustomerRef.current.setStateFromParent(customer);
+      this.edtitCustomerRef.current?.setStateFromParent(customer);
     } else {
       setTimeout(() => {
-        this.edtitCustomerRef.current.setStateFromParent(customer);
+        this.edtitCustomerRef.current?.setStateFromParent(customer);
       });
     }
 
-    this.scrollTabRef.current.goToPage(2);
+    this.scrollTabRef.current?.goToPage(2);
   };
 
   deleteCustomer = (customer) => {
@@ -211,11 +211,11 @@ class CustomerScreen extends Layout {
   };
 
   cancelEditCustomerInfo = () => {
-    this.scrollTabRef.current.goToPage(1);
+    this.scrollTabRef.current?.goToPage(1);
   };
 
   cancelAddCustomerInfo = () => {
-    this.scrollTabRef.current.goToPage(0);
+    this.scrollTabRef.current?.goToPage(0);
   };
 
   addCustomer = async (customer) => {
@@ -232,7 +232,7 @@ class CustomerScreen extends Layout {
       isEditCustomerSuccess &&
       isEditCustomerSuccess !== prevProps.isEditCustomerSuccess
     ) {
-      this.scrollTabRef.current.goToPage(1);
+      this.scrollTabRef.current?.goToPage(1);
       this.props.actions.customer.resetEditCustomerState();
     }
 
@@ -240,7 +240,7 @@ class CustomerScreen extends Layout {
       isAddCustomerSuccess &&
       isAddCustomerSuccess !== prevProps.isAddCustomerSuccess
     ) {
-      this.scrollTabRef.current.goToPage(0);
+      this.scrollTabRef.current?.goToPage(0);
       this.props.actions.customer.resetAddCustomerState();
     }
 
@@ -248,7 +248,7 @@ class CustomerScreen extends Layout {
       isDeleteCustomerSuccess &&
       isDeleteCustomerSuccess !== prevProps.isDeleteCustomerSuccess
     ) {
-      this.scrollTabRef.current.goToPage(0);
+      this.scrollTabRef.current?.goToPage(0);
       this.props.actions.customer.resetDeleteCustomerState();
     }
   }

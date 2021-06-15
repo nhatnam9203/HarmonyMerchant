@@ -31,7 +31,7 @@ class SettingScreen extends Layout {
         this.setState({
           isFocus: false,
         });
-        this.checkPermissionRef.current.setStateFromParent("");
+        this.checkPermissionRef.current?.setStateFromParent("");
         this.resetSettingTab();
       }
     );
@@ -73,8 +73,8 @@ class SettingScreen extends Layout {
         visibleLogout: true,
       });
     } else {
-      this.leftMenuSettingRef.current.setStateFromParent(index);
-      this.scrollTabRef.current.goToPage(index);
+      this.leftMenuSettingRef.current?.setStateFromParent(index);
+      this.scrollTabRef.current?.goToPage(index);
       if (index === 6) {
         setTimeout(() => {
           this.fetchAPIsInSettingTab(index);
@@ -155,25 +155,25 @@ class SettingScreen extends Layout {
 
   resetStateExtraSetting = () => {
     if (this.tabExtraRef.current) {
-      this.tabExtraRef.current.setStateFromParent();
+      this.tabExtraRef.current?.setStateFromParent();
     }
   };
 
   resetStateServiceSetting = () => {
     if (this.tabServiceRef.current) {
-      this.tabServiceRef.current.setStateFromParent();
+      this.tabServiceRef.current?.setStateFromParent();
     }
   };
 
   resetStateCategoriesSetting = () => {
     if (this.tabCategoriesRef.current) {
-      this.tabCategoriesRef.current.setStateFromParent();
+      this.tabCategoriesRef.current?.setStateFromParent();
     }
   };
 
   resetStateStaffSetting = () => {
     if (this.tabStaffRef.current) {
-      this.tabStaffRef.current.setStateFromParent();
+      this.tabStaffRef.current?.setStateFromParent();
     }
   };
 
@@ -182,10 +182,10 @@ class SettingScreen extends Layout {
     const productTAX = profile?.taxProduct || "";
     const serviceTAX = profile?.taxService || "";
     if (this.taxTabRef.current) {
-      this.taxTabRef.current.setStateFromParent(productTAX, serviceTAX);
+      this.taxTabRef.current?.setStateFromParent(productTAX, serviceTAX);
     } else {
       setTimeout(() => {
-        this.taxTabRef.current.setStateFromParent(productTAX, serviceTAX);
+        this.taxTabRef.current?.setStateFromParent(productTAX, serviceTAX);
       }, 500);
     }
   };
@@ -198,7 +198,7 @@ class SettingScreen extends Layout {
   backTab = () => {
     this.props.actions.staff.switchAddStaff(false);
     if (this.tabStaffRef?.current) {
-      this.tabStaffRef?.current.backAddStaff();
+      this.tabStaffRef?.current?.backAddStaff();
     }
   };
 
@@ -258,10 +258,10 @@ class SettingScreen extends Layout {
     if (isShowSearchStaff) {
       this.props.actions.staff.getStaffByMerchantId("", "", "", false, false);
     }
-    this.scrollTabRef.current.goToPage(0);
+    this.scrollTabRef.current?.goToPage(0);
 
     if (this.leftMenuSettingRef.current) {
-      this.leftMenuSettingRef.current.setStateFromParent(0);
+      this.leftMenuSettingRef.current?.setStateFromParent(0);
     }
     this.setState({
       indexTab: 0,
@@ -282,11 +282,11 @@ class SettingScreen extends Layout {
       prevProps.loading !== loading &&
       prevProps.loading &&
       !loading &&
-      !this.generalTabRef.current.state.isUpdateInternal &&
+      !this.generalTabRef.current?.state.isUpdateInternal &&
       this.state.indexTab === 0
     ) {
       // ------- External Update -----
-      this.generalTabRef.current.setStateFromParent(
+      this.generalTabRef.current?.setStateFromParent(
         profile?.webLink || "",
         profile?.timezone || "",
         profile?.autoCloseAt || "",

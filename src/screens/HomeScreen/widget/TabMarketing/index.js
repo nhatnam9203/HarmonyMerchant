@@ -42,15 +42,15 @@ class TabMarketing extends Layout {
           profile.merchantId,
           true
         );
-        this.photoGalleryRef.current.setStateFromParent();
+        this.photoGalleryRef.current?.setStateFromParent();
         break;
       case 2:
         this.props.actions.review.getListReview();
-        this.reviewRef.current.setStateFromParent();
+        this.reviewRef.current?.setStateFromParent();
         break;
       case 3:
         this.props.actions.review.getListMarketPlace();
-        this.marketPlace.current.setStateFromParent();
+        this.marketPlace.current?.setStateFromParent();
         break;
       default:
 

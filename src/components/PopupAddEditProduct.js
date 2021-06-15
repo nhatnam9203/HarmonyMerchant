@@ -199,7 +199,7 @@ class PopupAddEditProduct extends React.Component {
   };
 
   scrollProductTo(position) {
-    this.scrollProductRef.current.scrollTo({
+    this.scrollProductRef.current?.scrollTo({
       x: 0,
       y: scaleSize(position),
       animated: true,

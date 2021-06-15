@@ -37,7 +37,7 @@ class PopupChangePriceAmountProduct extends React.Component {
     handleKeyboardWillHide = async () => {
 
         if (this.scrollRef.current) {
-            this.scrollRef.current.scrollTo({ x: 0, y: 0, animated: true })
+            this.scrollRef.current?.scrollTo({ x: 0, y: 0, animated: true })
         }
 
     }
@@ -89,7 +89,7 @@ class PopupChangePriceAmountProduct extends React.Component {
     }
 
     onFocusToScroll = (number) => {
-        this.scrollRef.current.scrollTo({ x: 0, y: scaleSize(number), animated: true })
+        this.scrollRef.current?.scrollTo({ x: 0, y: scaleSize(number), animated: true })
     }
 
     splitZeroNumber = (str) => {

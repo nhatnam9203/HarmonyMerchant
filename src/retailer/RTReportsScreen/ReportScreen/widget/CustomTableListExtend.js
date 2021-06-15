@@ -329,7 +329,7 @@ function TableListExtended({
         if (x > value - cellWidth && x <= value) {
           x = x <= value - cellWidth / 2 ? value - cellWidth : value;
 
-          stickyFormRef.current.scrollTo({ x: x, y: y });
+          stickyFormRef.current?.scrollTo({ x: x, y: y });
           return;
         }
       });
@@ -561,7 +561,7 @@ function TableListExtended({
 
   React.useEffect(() => {
     if (!isRefreshing) {
-      stickyFormRef.current.endRefresh();
+      stickyFormRef.current?.endRefresh();
     }
   }, [isRefreshing]);
 
@@ -599,7 +599,7 @@ function TableListExtended({
         onRefresh={() => {
           onRefresh();
           setTimeout(() => {
-            stickyFormRef.current.endRefresh();
+            stickyFormRef.current?.endRefresh();
           }, 2000);
         }}
         refreshHeader={NormalHeader}

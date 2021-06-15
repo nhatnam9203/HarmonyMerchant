@@ -53,7 +53,7 @@ class EnterCustomerPhonePopup extends React.Component {
     handleKeyboardWillHide = async () => {
 
         if (this.scrollRef.current) {
-            this.scrollRef.current.scrollTo({ x: 0, y: 0, animated: true })
+            this.scrollRef.current?.scrollTo({ x: 0, y: 0, animated: true })
         }
 
     }
@@ -85,7 +85,7 @@ class EnterCustomerPhonePopup extends React.Component {
     }
 
     onFocusToScroll = (number) => {
-        this.scrollRef.current.scrollTo({ x: 0, y: scaleSize(number), animated: true })
+        this.scrollRef.current?.scrollTo({ x: 0, y: scaleSize(number), animated: true })
     }
 
     onRequestClose = () => {

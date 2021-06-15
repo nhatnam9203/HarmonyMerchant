@@ -14,15 +14,15 @@ class TabServiceProduct extends Layout {
     }
 
     gotoTabServices = () => {
-        this.scrollTabRef.current.goToPage(1);
+        this.scrollTabRef.current?.goToPage(1);
     }
 
     gotoTabExtra = () => {
-        this.scrollTabRef.current.goToPage(2);
+        this.scrollTabRef.current?.goToPage(2);
     }
 
     gotoTabProduct =() =>{
-        this.scrollTabRef.current.goToPage(3);
+        this.scrollTabRef.current?.goToPage(3);
     }
 
     gotoCongratulation =() =>{

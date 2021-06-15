@@ -118,7 +118,7 @@ class ReportScreen extends Layout {
   };
 
   onBackButtonPressed = () => {
-    this.screenReportRef?.current.onBack();
+    this.screenReportRef?.current?.onBack();
   };
 
   onShowBackButton = (value) => {

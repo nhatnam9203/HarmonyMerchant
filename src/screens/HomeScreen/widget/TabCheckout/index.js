@@ -139,7 +139,7 @@ class TabCheckout extends Layout {
           products: [
             {
               productId: productSeleted.productId,
-              quantity: this.amountRef.current.state.quanlity,
+              quantity: this.amountRef.current?.state.quanlity,
             },
           ],
           giftCards: [],
@@ -169,7 +169,7 @@ class TabCheckout extends Layout {
       }
 
       if (appointments.length > 1) {
-        this.popupAddItemIntoAppointmentsRef.current.setStateFromParent(
+        this.popupAddItemIntoAppointmentsRef.current?.setStateFromParent(
           body,
           mainAppointmentId
         );
@@ -289,7 +289,7 @@ class TabCheckout extends Layout {
     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } =
       dataAnymousAppoitment;
     const moneyUserGiveForStaff = parseFloat(
-      formatNumberFromCurrency(this.modalBillRef.current.state.quality)
+      formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
     );
     const method = this.getPaymentString(paymentSelected);
 
@@ -434,7 +434,7 @@ class TabCheckout extends Layout {
         }),
         () => {
           if (this.state.paymentSelected === "Gift Card") {
-            this.activeGiftCardRef.current.setStateFromParent();
+            this.activeGiftCardRef.current?.setStateFromParent();
             this.props.actions.appointment.handleVisibleActiveGiftCard();
           }
         }
@@ -499,7 +499,7 @@ class TabCheckout extends Layout {
   };
 
   selectPayment = () => {
-    this.scrollTabRef.current.goToPage(1);
+    this.scrollTabRef.current?.goToPage(1);
   };
 
   closeModalDiscount = () => {
@@ -534,7 +534,7 @@ class TabCheckout extends Layout {
 
     this.props.gotoPageCurentParent(isDrawer);
     await this.setState({ ...initState, isInitBasket: true });
-    this.scrollTabRef.current.goToPage(0);
+    this.scrollTabRef.current?.goToPage(0);
     this.props.actions.appointment.resetBasketEmpty();
     this.props.actions.appointment.resetPayment();
     this.props.actions.appointment.changeFlagSigninAppointment(false);
@@ -717,14 +717,14 @@ class TabCheckout extends Layout {
 
       if (portName) {
         this.openCashDrawer(portName);
-        this.scrollTabRef.current.goToPage(0);
+        this.scrollTabRef.current?.goToPage(0);
         this.props.actions.appointment.closeModalPaymentCompleted();
         this.props.gotoAppoitmentScreen();
         this.props.actions.appointment.resetBasketEmpty();
         this.setState(initState);
         this.props.actions.appointment.resetPayment();
       } else {
-        this.scrollTabRef.current.goToPage(0);
+        this.scrollTabRef.current?.goToPage(0);
         this.props.actions.appointment.closeModalPaymentCompleted();
         this.props.gotoAppoitmentScreen();
         this.props.actions.appointment.resetBasketEmpty();
@@ -736,7 +736,7 @@ class TabCheckout extends Layout {
         }, 700);
       }
     } else {
-      this.scrollTabRef.current.goToPage(0);
+      this.scrollTabRef.current?.goToPage(0);
       this.props.actions.appointment.closeModalPaymentCompleted();
       this.props.gotoAppoitmentScreen();
       this.props.actions.appointment.resetBasketEmpty();
@@ -794,7 +794,7 @@ class TabCheckout extends Layout {
     const temptTip = _.isEmpty(groupAppointment) ? tipLocal : tipAmount;
     const temptTax = _.isEmpty(groupAppointment) ? taxLocal : tax;
 
-    this.invoicePrintRef.current.setStateFromParent(
+    this.invoicePrintRef.current?.setStateFromParent(
       basket,
       temptSubTotal,
       temptTax,
@@ -814,7 +814,7 @@ class TabCheckout extends Layout {
   cancelInvoicePrint = async (isPrintTempt) => {
     await this.setState({ visiblePrintInvoice: false });
     if (!isPrintTempt) {
-      this.scrollTabRef.current.goToPage(0);
+      this.scrollTabRef.current?.goToPage(0);
       this.props.gotoAppoitmentScreen();
       this.props.actions.appointment.resetBasketEmpty();
       this.setState(initState);
@@ -984,7 +984,7 @@ class TabCheckout extends Layout {
   }
 
   doneAddBasketSignInAppointment = () => {
-    this.scrollTabRef.current.goToPage(0);
+    this.scrollTabRef.current?.goToPage(0);
     const { connectionSignalR } = this.props;
     if (!_.isEmpty(connectionSignalR)) {
       connectionSignalR.stop();
@@ -1008,7 +1008,7 @@ class TabCheckout extends Layout {
             formatNumberFromCurrency(taxLocal) -
             formatNumberFromCurrency(discountTotalLocal)
         ).toFixed(2);
-        this.modalBillRef.current.setStateFromParent(`${temptTotal}`);
+        this.modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       } else {
         const temptTotal = _.isEmpty(groupAppointment)
           ? Number(
@@ -1018,13 +1018,13 @@ class TabCheckout extends Layout {
                 formatNumberFromCurrency(discountTotalLocal)
             ).toFixed(2)
           : groupAppointment.total;
-        this.modalBillRef.current.setStateFromParent(`${temptTotal}`);
+        this.modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       }
     } else {
       const totalExact = paymentDetailInfo.dueAmount
         ? paymentDetailInfo.dueAmount
         : 0;
-      this.modalBillRef.current.setStateFromParent(`${totalExact}`);
+      this.modalBillRef.current?.setStateFromParent(`${totalExact}`);
     }
   };
 
@@ -1087,7 +1087,7 @@ class TabCheckout extends Layout {
     const method = this.getPaymentString(paymentSelected);
 
     if (isOfflineMode && method === "harmony") {
-      this.scrollTabRef.current.goToPage(2);
+      this.scrollTabRef.current?.goToPage(2);
       this.addAppointmentOfflineMode(true);
       return;
     }
@@ -1101,7 +1101,7 @@ class TabCheckout extends Layout {
     }
 
     if (method === "harmony" && _.isEmpty(groupAppointment)) {
-      this.popupSendLinkInstallRef.current.setStateFromParent("");
+      this.popupSendLinkInstallRef.current?.setStateFromParent("");
       this.setState({
         visibleSendLinkPopup: true,
       });
@@ -1143,14 +1143,14 @@ class TabCheckout extends Layout {
 
   backAddBasket = async () => {
     this.cancelHarmonyPayment();
-    this.scrollTabRef.current.goToPage(0);
+    this.scrollTabRef.current?.goToPage(0);
   };
 
   handlePaymentOffLineMode = async () => {
     const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } =
       this.state;
     const moneyUserGiveForStaff = parseFloat(
-      formatNumberFromCurrency(this.modalBillRef.current.state.quality)
+      formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
     );
     const totalLocal = Number(
       formatNumberFromCurrency(subTotalLocal) +
@@ -1168,7 +1168,7 @@ class TabCheckout extends Layout {
       await this.setState({
         visibleBillOfPayment: false,
       });
-      this.modalBillRef.current.setStateFromParent(`0`);
+      this.modalBillRef.current?.setStateFromParent(`0`);
       this.props.actions.appointment.showModalPrintReceipt();
     }
   };
@@ -1195,7 +1195,7 @@ class TabCheckout extends Layout {
       amountPayment !== false
         ? amountPayment
         : parseFloat(
-            formatNumberFromCurrency(this.modalBillRef.current.state.quality)
+            formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
           );
     const method = this.getPaymentString(paymentSelected);
     const total = groupAppointment.total
@@ -1224,7 +1224,7 @@ class TabCheckout extends Layout {
         visibleBillOfPayment: false,
       });
 
-      this.modalBillRef.current.setStateFromParent(`0`);
+      this.modalBillRef.current?.setStateFromParent(`0`);
       if (!_.isEmpty(groupAppointment)) {
         if (method === "harmony") {
           this.props.actions.app.loadingApp();
@@ -1264,7 +1264,7 @@ class TabCheckout extends Layout {
         if (method === "credit_card" || method === "debit_card") {
           this.hanleCreditCardProcess(false, moneyUserGiveForStaff);
         } else if (method === "harmony") {
-          this.popupSendLinkInstallRef.current.setStateFromParent("");
+          this.popupSendLinkInstallRef.current?.setStateFromParent("");
           this.setState({
             visibleSendLinkPopup: true,
           });
@@ -1511,7 +1511,7 @@ class TabCheckout extends Layout {
   };
 
   changeStylist = async (service, appointmentId) => {
-    this.changeStylistRef.current.setStateFromParent(service, appointmentId);
+    this.changeStylistRef.current?.setStateFromParent(service, appointmentId);
 
     // setTimeout(() => {
     this.setState({
@@ -1521,7 +1521,7 @@ class TabCheckout extends Layout {
   };
 
   changeProduct = async (product, appointmentId) => {
-    this.changePriceAmountProductRef.current.setStateFromParent(
+    this.changePriceAmountProductRef.current?.setStateFromParent(
       product,
       appointmentId
     );
@@ -1561,7 +1561,7 @@ class TabCheckout extends Layout {
         isShowColAmount: false,
         arrSelectedExtra: [],
       });
-      this.activeGiftCardRef.current.setStateFromParent();
+      this.activeGiftCardRef.current?.setStateFromParent();
       this.props.actions.appointment.handleVisibleActiveGiftCard();
     } else {
       await this.setState({
@@ -1681,7 +1681,7 @@ class TabCheckout extends Layout {
         }
       } else {
         // ----------- Offline ------------
-        this.popupDiscountLocalRef.current.setStateFromParent(
+        this.popupDiscountLocalRef.current?.setStateFromParent(
           subTotalLocal,
           discountTotalLocal,
           customDiscountPercentLocal,
@@ -1704,7 +1704,7 @@ class TabCheckout extends Layout {
   ) => {
     const { connectionSignalR } = this.props;
     if (_.isEmpty(connectionSignalR)) {
-      this.changeTipRef.current.setStateFromParent(
+      this.changeTipRef.current?.setStateFromParent(
         appointmentId,
         tip,
         subTotal,
@@ -1731,9 +1731,9 @@ class TabCheckout extends Layout {
   }
 
   sendLinkInstallApp = async () => {
-    const phone = this.popupSendLinkInstallRef.current.state.value;
+    const phone = this.popupSendLinkInstallRef.current?.state.value;
     const codeAreaPhone =
-      this.popupSendLinkInstallRef.current.state.codeAreaPhone;
+      this.popupSendLinkInstallRef.current?.state.codeAreaPhone;
 
     if (phone.length > 6) {
       await this.setState({
@@ -1854,7 +1854,7 @@ class TabCheckout extends Layout {
       }
     } else {
       const moneyUserGiveForStaff = parseFloat(
-        formatNumberFromCurrency(this.modalBillRef.current.state.quality)
+        formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
       );
       const method = this.getPaymentString(paymentSelected);
 
@@ -2000,7 +2000,7 @@ class TabCheckout extends Layout {
           products: [
             {
               productId: productSeleted.productId,
-              quantity: this.amountRef.current.state.quanlity,
+              quantity: this.amountRef.current?.state.quanlity,
             },
           ],
           giftCards: [],
@@ -2132,7 +2132,7 @@ class TabCheckout extends Layout {
     const firstName = customerInfoBuyAppointment?.firstName || "";
     const lastName = customerInfoBuyAppointment?.lastName || "";
     const phone = customerInfoBuyAppointment?.phone || "";
-    this.popupCustomerInfoRef.current.setStateFromParent(
+    this.popupCustomerInfoRef.current?.setStateFromParent(
       firstName,
       lastName,
       phone
@@ -2268,7 +2268,7 @@ class TabCheckout extends Layout {
     const firstName = customerInfoBuyAppointment?.firstName || "";
     const lastName = customerInfoBuyAppointment?.lastName || "";
     const phone = customerInfoBuyAppointment?.phone || "";
-    this.popupCustomerInfoRef.current.setStateFromParent(
+    this.popupCustomerInfoRef.current?.setStateFromParent(
       firstName,
       lastName,
       phone

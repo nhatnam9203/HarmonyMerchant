@@ -34,10 +34,10 @@ function ServiceTab({ style, showBackButton }, ref) {
   const onGoBack = () => {
     switch (currentTab) {
       case 0:
-        salesByCategoryTabRef.current.goBack();
+        salesByCategoryTabRef.current?.goBack();
         break;
       case 1:
-        salesByServiceTabRef.current.goBack();
+        salesByServiceTabRef.current?.goBack();
         break;
       default:
         break;

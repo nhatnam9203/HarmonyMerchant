@@ -39,7 +39,7 @@ function HeaderTabLayout({ children, tabIcons, onHeaderTabChanged, handleOnChang
   };
 
   useImperativeHandle(ref,()=>({
-    goToFirstTab : () =>  scrollableTabRef?.current.goToPage(0)
+    goToFirstTab : () =>  scrollableTabRef?.current?.goToPage(0)
   }));
 
   return (

@@ -89,7 +89,7 @@ class StaffInfo extends Layout {
     }
 
     scrollStaffTo(position) {
-        this.scrollStaffRef.current.scrollTo({ x: 0, y: scaleSize(position), animated: true })
+        this.scrollStaffRef.current?.scrollTo({ x: 0, y: scaleSize(position), animated: true })
     }
 
     async componentDidMount() {
@@ -124,8 +124,8 @@ class StaffInfo extends Layout {
                 imageUrl: infoStaffHandle.imageUrl,
                 rowsSalaryIncome: infoStaffHandle?.salaries?.commission?.value.length || 1
             });
-            this.browserFileRef.current.setImageUrlFromParent(infoStaffHandle.imageUrl);
-            this.cellphoneRef.current.setcodeAreaPhoneFromParent(getCodeAreaPhone(infoStaffHandle.phone).areaCode);
+            this.browserFileRef.current?.setImageUrlFromParent(infoStaffHandle.imageUrl);
+            this.cellphoneRef.current?.setcodeAreaPhoneFromParent(getCodeAreaPhone(infoStaffHandle.phone).areaCode);
         }
 
     }
@@ -304,7 +304,7 @@ class StaffInfo extends Layout {
             const temptAddress = { ...address, state: getIdStateByName(stateCity, address.state) };
             const temptStaff = {
                 ...user,
-                cellphone: `${this.cellphoneRef.current.state.codeAreaPhone}${user.cellphone}`,
+                cellphone: `${this.cellphoneRef.current?.state.codeAreaPhone}${user.cellphone}`,
                 isDisabled: (user.isDisabled === 'Active' ? 0 : 1),
                 address: temptAddress,
                 workingTime: objWorkingTime,
@@ -397,19 +397,19 @@ class StaffInfo extends Layout {
     }
 
     disableCommisionServiceSalary = () => {
-        this.commissionSalaryRef.current.setStateFromParent();
+        this.commissionSalaryRef.current?.setStateFromParent();
     }
 
     disablePerHourSalary = () => {
-        this.perHourServiceSalaryRef.current.setStateFromParent();
+        this.perHourServiceSalaryRef.current?.setStateFromParent();
     }
 
     disableFixedAmountTip = () => {
-        this.fixedAmountTipFeeRef.current.setStateFromParent();
+        this.fixedAmountTipFeeRef.current?.setStateFromParent();
     }
 
     disablePercentTip = () => {
-        this.percentTipFeeRef.current.setStateFromParent();
+        this.percentTipFeeRef.current?.setStateFromParent();
     }
 
     componentWillUnmount(){

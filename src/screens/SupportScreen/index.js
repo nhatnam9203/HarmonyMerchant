@@ -61,7 +61,7 @@ class SupportScreen extends Layout {
       this.setState({
         indexTab: index,
       });
-      this.scrollTabRef.current.goToPage(index);
+      this.scrollTabRef.current?.goToPage(index);
       Keyboard.dismiss();
     }
   }

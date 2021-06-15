@@ -109,7 +109,7 @@ class TabCategories extends Layout {
 
 
     showModalAddCategory = () => {
-        this.addCategoryRef.current.setStateDefaultFromParent();
+        this.addCategoryRef.current?.setStateDefaultFromParent();
         this.setState({ visibleAdd: true });
     }
 
@@ -130,7 +130,7 @@ class TabCategories extends Layout {
     }
 
     async showModalEditcategory(category) {
-        this.editCategoryRef.current.setCategoryFromParent(category);
+        this.editCategoryRef.current?.setCategoryFromParent(category);
         this.setState({
             visibleEdit: true
         })

@@ -131,7 +131,7 @@ class EditOrCreateCustomerTab extends React.Component {
   };
 
   scrollLeftContentTo = (position) => {
-    this.scrollLeftCustomerRef.current.scrollTo({
+    this.scrollLeftCustomerRef.current?.scrollTo({
       x: 0,
       y: scaleSize(position),
       animated: true,
@@ -139,7 +139,7 @@ class EditOrCreateCustomerTab extends React.Component {
   };
 
   scrollRightContentTo = (position) => {
-    this.scrollRightCustomerRef.current.scrollTo({
+    this.scrollRightCustomerRef.current?.scrollTo({
       x: 0,
       y: scaleSize(position),
       animated: true,
@@ -226,12 +226,12 @@ class EditOrCreateCustomerTab extends React.Component {
       } else {
         this.props.addCustomer(temptCustomerInfo);
       }
-      this.scrollLeftCustomerRef.current.scrollTo({
+      this.scrollLeftCustomerRef.current?.scrollTo({
         x: 0,
         y: 0,
         animated: false,
       });
-      this.scrollRightCustomerRef.current.scrollTo({
+      this.scrollRightCustomerRef.current?.scrollTo({
         x: 0,
         y: 0,
         animated: false,
@@ -251,12 +251,12 @@ class EditOrCreateCustomerTab extends React.Component {
 
   cancelCustomer = () => {
     const { isEditCustomerInfo } = this.state;
-    this.scrollLeftCustomerRef.current.scrollTo({
+    this.scrollLeftCustomerRef.current?.scrollTo({
       x: 0,
       y: 0,
       animated: false,
     });
-    this.scrollRightCustomerRef.current.scrollTo({
+    this.scrollRightCustomerRef.current?.scrollTo({
       x: 0,
       y: 0,
       animated: false,

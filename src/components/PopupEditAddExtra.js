@@ -82,7 +82,7 @@ class PopupEditAddExtra extends React.Component {
     doneAddExtra = () => {
         const { extraInfo } = this.state;
         const temptExtraInfo = {
-            ...extraInfo, duration: this.durationRef.current.state.value,
+            ...extraInfo, duration: this.durationRef.current?.state.value,
             isDisable: extraInfo.isDisable === 'Active' ? 0 : 1
         };
         const arrayKey = Object.keys(temptExtraInfo);
@@ -134,7 +134,7 @@ class PopupEditAddExtra extends React.Component {
     }
 
     scrollExtraTo(position) {
-        this.scrollExtraRef.current.scrollTo({ x: 0, y: scaleSize(position), animated: true })
+        this.scrollExtraRef.current?.scrollTo({ x: 0, y: scaleSize(position), animated: true })
     }
 
 

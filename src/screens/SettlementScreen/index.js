@@ -25,10 +25,10 @@ class SettlementScreen extends Layout {
           isFocus: false,
           currentPage: 0,
         });
-        this.scrollTabRef.current.goToPage(0);
-        this.checkPermissionRef.current.setStateFromParent("");
+        this.scrollTabRef.current?.goToPage(0);
+        this.checkPermissionRef.current?.setStateFromParent("");
         if (this.transactionTabRef.current) {
-          this.transactionTabRef.current.resetStateFromParent();
+          this.transactionTabRef.current?.resetStateFromParent();
         }
       }
     );
@@ -38,12 +38,12 @@ class SettlementScreen extends Layout {
         this.setState({
           isFocus: true,
         });
-        this.tabSettleRef.current.onDidFocus();
+        this.tabSettleRef.current?.onDidFocus();
         // reset time range
         this.transactionTabRef?.current?.didFocus();
         this.batchHistoryTabRef?.current?.didFocus();
 
-        this.checkPermissionRef.current.setStateFromParent("");
+        this.checkPermissionRef.current?.setStateFromParent("");
         const { profileStaffLogin } = this.props;
         const roleName = profileStaffLogin?.roleName || "Admin";
         if (roleName === "Admin") {
@@ -62,24 +62,24 @@ class SettlementScreen extends Layout {
     });
     if (currentIndex === 1) {
       if (this.transactionTabRef?.current) {
-        this.transactionTabRef.current.searchTransactions();
+        this.transactionTabRef.current?.searchTransactions();
       }
     } else if (currentIndex === 2) {
       this.props.actions.invoice.getBatchHistory();
       if (this.batchHistoryTabRef?.current) {
-        this.batchHistoryTabRef?.current.setStateFromParent();
-        this.batchHistoryTabRef?.current.scrollTabFromParent(0);
+        this.batchHistoryTabRef?.current?.setStateFromParent();
+        this.batchHistoryTabRef?.current?.scrollTabFromParent(0);
         this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(false);
       } else {
         setTimeout(() => {
-          this.batchHistoryTabRef.current.setStateFromParent();
+          this.batchHistoryTabRef.current?.setStateFromParent();
         }, 300);
       }
     }
   };
 
   reviewBatchHistory = () => {
-    this.scrollTabRef.current.goToPage(2);
+    this.scrollTabRef.current?.goToPage(2);
   };
 
   handleLockScreen = () => {
@@ -102,7 +102,7 @@ class SettlementScreen extends Layout {
   };
 
   backSettlementTab = () => {
-    this.tabSettleRef.current.scrollTabFromParent();
+    this.tabSettleRef.current?.scrollTabFromParent();
     this.props.actions.invoice.toggleDisplayBackSettleIcon(false);
   };
 
@@ -110,7 +110,7 @@ class SettlementScreen extends Layout {
     const { isShowBackBatchHistory } = this.props;
     const page = isShowBackBatchHistory == 1 ? 1 : 0;
     const isShowIcon = isShowBackBatchHistory == 1 ? "0" : false;
-    this.batchHistoryTabRef.current.scrollTabFromParent(page);
+    this.batchHistoryTabRef.current?.scrollTabFromParent(page);
     this.props.actions.invoice.toggleDisplayBackBatchHistoryIcon(isShowIcon);
   };
 

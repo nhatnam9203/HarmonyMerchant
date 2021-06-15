@@ -118,7 +118,7 @@ class CustomerNewScreen extends Layout {
           isFocus: false,
           keySearch: "",
         });
-        this.checkPermissionRef.current.setStateFromParent("");
+        this.checkPermissionRef.current?.setStateFromParent("");
         this.props.actions.customer.clearSearCustomer();
       }
     );
@@ -128,7 +128,7 @@ class CustomerNewScreen extends Layout {
         this.setState({
           isFocus: true,
         });
-        this.checkPermissionRef.current.setStateFromParent("");
+        this.checkPermissionRef.current?.setStateFromParent("");
         this.scrollTabRef?.current?.goToPage(0);
 
         const { profileStaffLogin } = this.props;
@@ -157,14 +157,14 @@ class CustomerNewScreen extends Layout {
   };
 
   showModalAddCustomer = () => {
-    this.modalAddRef.current.setStateDefaultFromParent();
+    this.modalAddRef.current?.setStateDefaultFromParent();
     this.setState({
       visibleAdd: true,
     });
   };
 
   showModalEditCustomer = (customer) => {
-    this.modalEditRef.current.setStateFromParent(customer);
+    this.modalEditRef.current?.setStateFromParent(customer);
     this.setState({
       visibleDetail: false,
       visibleEdit: true,
@@ -199,7 +199,7 @@ class CustomerNewScreen extends Layout {
   };
 
   gotoCustomerDetailTab = (customer) => {
-    this.scrollTabRef.current.goToPage(1);
+    this.scrollTabRef.current?.goToPage(1);
     this.props.actions.customer.getCustomerInfoById(customer?.customerId || 0);
     this.props.actions.customer.getPastAppointments(customer?.customerId || 0);
     if (this.customerDetailTabRef?.current) {
@@ -212,7 +212,7 @@ class CustomerNewScreen extends Layout {
   };
 
   backCustomerListTab = () => {
-    this.scrollTabRef.current.goToPage(0);
+    this.scrollTabRef.current?.goToPage(0);
   };
 
   handleLockScreen = () => {
@@ -270,25 +270,25 @@ class CustomerNewScreen extends Layout {
 
   addNewCustomer = () => {
     // if (this.editCustomerRef?.current) {
-    //   this.editCustomerRef.current.setStateFromListCusomterTab();
+    //   this.editCustomerRef.current?.setStateFromListCusomterTab();
     // } else {
     //   setTimeout(() => {
-    //     this.editCustomerRef.current.setStateFromListCusomterTab();
+    //     this.editCustomerRef.current?.setStateFromListCusomterTab();
     //   }, 250);
     // }
-    this.scrollTabRef.current.goToPage(2);
+    this.scrollTabRef.current?.goToPage(2);
   };
 
   editCustomer = (customer) => {
     if (this.editCustomerRef?.current) {
-      this.editCustomerRef.current.setStateFromParent(customer);
+      this.editCustomerRef.current?.setStateFromParent(customer);
     } else {
       setTimeout(() => {
-        this.editCustomerRef.current.setStateFromParent(customer);
+        this.editCustomerRef.current?.setStateFromParent(customer);
       }, 250);
     }
 
-    this.scrollTabRef.current.goToPage(2);
+    this.scrollTabRef.current?.goToPage(2);
   };
 
   submitEditCustomer = async (customer) => {
@@ -296,11 +296,11 @@ class CustomerNewScreen extends Layout {
   };
 
   cancelEditCustomerInfo = () => {
-    this.scrollTabRef.current.goToPage(1);
+    this.scrollTabRef.current?.goToPage(1);
   };
 
   cancelAddCustomerInfo = () => {
-    this.scrollTabRef.current.goToPage(0);
+    this.scrollTabRef.current?.goToPage(0);
   };
 
   addCustomer = async (customer) => {
@@ -313,7 +313,7 @@ class CustomerNewScreen extends Layout {
       isEditCustomerSuccess &&
       isEditCustomerSuccess !== prevProps.isEditCustomerSuccess
     ) {
-      this.scrollTabRef.current.goToPage(1);
+      this.scrollTabRef.current?.goToPage(1);
       this.props.actions.customer.resetEditCustomerState();
     }
 
@@ -321,7 +321,7 @@ class CustomerNewScreen extends Layout {
       isAddCustomerSuccess &&
       isAddCustomerSuccess !== prevProps.isAddCustomerSuccess
     ) {
-      this.scrollTabRef.current.goToPage(0);
+      this.scrollTabRef.current?.goToPage(0);
       this.props.actions.customer.resetAddCustomerState();
     }
   }

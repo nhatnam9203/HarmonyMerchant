@@ -70,7 +70,7 @@ function StaffTab({ style, showBackButton }, ref) {
 
   const onGoStatistics = async (item) => {
     await setFilterNameItem(item.name);
-    layoutRef.current.goNext();
+    layoutRef.current?.goNext();
   };
 
   const onShowPopupExport = (title) => {
@@ -110,13 +110,13 @@ function StaffTab({ style, showBackButton }, ref) {
   };
 
   const onHandleTheDownloadedFile = (filePath) => {
-    layoutRef.current.handleTheDownloadedFile(filePath);
+    layoutRef.current?.handleTheDownloadedFile(filePath);
   };
 
   // public function
   useImperativeHandle(ref, () => ({
     goBack: () => {
-      layoutRef.current.goBack();
+      layoutRef.current?.goBack();
       dispatch(actions.staff.resetDownloadExportFiles());
     },
     getListStaffsSalaryTop: () => getListStaffsSalaryTop(),

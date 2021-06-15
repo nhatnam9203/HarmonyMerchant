@@ -78,7 +78,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
 
   const onGoStatistics = async (item) => {
     await setFilterNameItem(item.type);
-    layoutRef.current.goNext();
+    layoutRef.current?.goNext();
   };
 
   const onShowPopupExport = (title) => {
@@ -120,13 +120,13 @@ function GiftCardTab({ style, showBackButton }, ref) {
   };
 
   const onHandleTheDownloadedFile = (filePath) => {
-    layoutRef.current.handleTheDownloadedFile(filePath);
+    layoutRef.current?.handleTheDownloadedFile(filePath);
   };
 
   // public function
   useImperativeHandle(ref, () => ({
     goBack: () => {
-      layoutRef.current.goBack();
+      layoutRef.current?.goBack();
     },
     didBlur: () => {
     },

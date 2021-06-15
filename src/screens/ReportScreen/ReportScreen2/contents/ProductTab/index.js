@@ -34,10 +34,10 @@ function ProductTab({ style, showBackButton }, ref) {
   const onGoBack = () => {
     switch (currentTab) {
       case 0:
-        salesByCategoryTabRef.current.goBack();
+        salesByCategoryTabRef.current?.goBack();
         break;
       case 1:
-        salesByProductTabRef.current.goBack();
+        salesByProductTabRef.current?.goBack();
         break;
       default:
         break;

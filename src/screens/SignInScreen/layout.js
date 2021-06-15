@@ -56,7 +56,7 @@ export default class Layout extends React.Component {
                     ref={this.idInputRef}
                     value={MIDStorage}
                     placeholder="merchant ID"
-                    onSubmitEditing={() => this.passwordInputRef.current.onFocusTexInput()}
+                    onSubmitEditing={() => this.passwordInputRef.current?.onFocusTexInput()}
                 />
                 <View style={{ height: scaleSize(20) }} />
                 <InputAuth

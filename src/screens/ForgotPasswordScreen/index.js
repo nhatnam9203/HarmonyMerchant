@@ -13,7 +13,7 @@ class ForgotPasswordScreen extends Layout {
 
     forgotPass = () => {
         const { profile, isForgotPin } = this.props;
-        const email = this.idInputRef.current.state.value;
+        const email = this.idInputRef.current?.state.value;
         if (isForgotPin) {
             this.props.actions.staff.forgotPin(profile.merchantCode, email);
         } else {

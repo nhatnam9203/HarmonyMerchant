@@ -255,7 +255,7 @@ class Layout extends React.Component {
                         multiline={true}
                         value={note}
                         onChangeText={(note) => this.setState({ note })}
-                        onFocus={() => this.scrollRef.current.scrollToEnd()}
+                        onFocus={() => this.scrollRef.current?.scrollToEnd()}
                         onBlur={() => this.scrollTo(0)}
                     />
                 </View>

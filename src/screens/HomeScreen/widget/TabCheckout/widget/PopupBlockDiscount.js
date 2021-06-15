@@ -74,7 +74,7 @@ class PopupBlockDiscount extends React.Component {
     }
 
     scrollTo = num => {
-        this.scrollRef.current.scrollTo({ x: 0, y: num, animated: true })
+        this.scrollRef.current?.scrollTo({ x: 0, y: num, animated: true })
     }
 
     toggleCheckBox = () => {
@@ -250,7 +250,7 @@ class PopupBlockDiscount extends React.Component {
                                                 multiline={true}
                                                 value={promotionNotes}
                                                 onChangeText={(promotionNotes) => this.setState({ promotionNotes })}
-                                                onFocus={() => this.scrollRef.current.scrollToEnd()}
+                                                onFocus={() => this.scrollRef.current?.scrollToEnd()}
                                                 onBlur={() => this.scrollTo(0)}
                                             />
                                         </View>

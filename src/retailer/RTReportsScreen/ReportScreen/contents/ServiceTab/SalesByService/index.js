@@ -101,7 +101,7 @@ function SalesByServiceTab({ style, showBackButton, showHeader }, ref) {
 
   const onGoStatistics = async (item) => {
     await setFilterNameItem(item.name);
-    layoutRef.current.goNext();
+    layoutRef.current?.goNext();
     showHeader(false);
   };
 
@@ -143,7 +143,7 @@ function SalesByServiceTab({ style, showBackButton, showHeader }, ref) {
   };
 
   const onHandleTheDownloadedFile = (filePath) => {
-    layoutRef.current.handleTheDownloadedFile(filePath);
+    layoutRef.current?.handleTheDownloadedFile(filePath);
   };
 
   const onChangeTab = (tabIndex) => {
@@ -155,7 +155,7 @@ function SalesByServiceTab({ style, showBackButton, showHeader }, ref) {
   // public function
   useImperativeHandle(ref, () => ({
     goBack: () => {
-      layoutRef.current.goBack();
+      layoutRef.current?.goBack();
     },
     didBlur: () => {
       // setTitleRangeTime("This week");
