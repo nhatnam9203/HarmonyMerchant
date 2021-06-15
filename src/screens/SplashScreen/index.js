@@ -1,13 +1,13 @@
-import _ from 'ramda';
-import CodePush from 'react-native-code-push';
-import { Alert, Linking } from 'react-native';
-import DeviceInfo from 'react-native-device-info';
-import env from 'react-native-config';
-import VersionCheck from 'react-native-version-check';
+import _ from "ramda";
+import CodePush from "react-native-code-push";
+import { Alert, Linking } from "react-native";
+import DeviceInfo from "react-native-device-info";
+import env from "react-native-config";
+import VersionCheck from "react-native-version-check";
 
-import Layout from './layout';
-import connectRedux from '@redux/ConnectRedux';
-import configs from '@configs';
+import Layout from "./layout";
+import connectRedux from "@redux/ConnectRedux";
+import configs from "@configs";
 
 class SplashScreen extends Layout {
   constructor(props) {
@@ -20,27 +20,27 @@ class SplashScreen extends Layout {
   async componentDidMount() {
     try {
       let version = await DeviceInfo.getVersion();
-      const latestVersion = await VersionCheck.getLatestVersion({
-        provider: 'appStore',
-      });
+      // const latestVersion = await VersionCheck.getLatestVersion({
+      //   provider: 'appStore',
+      // });
 
-      const tempLatestVersion = latestVersion
-        ? latestVersion
-        : configs.APPSTORE_VERSION;
+      // const tempLatestVersion = latestVersion
+      //   ? latestVersion
+      //   : configs.APPSTORE_VERSION;
 
-      const res = await VersionCheck.needUpdate({
-        currentVersion: version,
-        latestVersion: tempLatestVersion,
-        forceUpdate: true,
-      });
+      // const res = await VersionCheck.needUpdate({
+      //   currentVersion: version,
+      //   latestVersion: tempLatestVersion,
+      //   forceUpdate: true,
+      // });
 
-      if (res && res.isNeeded) {
+      if (res && res?.isNeeded) {
         Alert.alert(
-          'Notification!',
+          "Notification!",
           `The HarmonyPay Salon POS had a new version on Apple Store. Press OK to update!`,
           [
             {
-              text: 'OK',
+              text: "OK",
               onPress: () => {
                 Linking.openURL(res.storeUrl);
                 setTimeout(() => {
@@ -49,32 +49,32 @@ class SplashScreen extends Layout {
               },
             },
           ],
-          { cancelable: false },
+          { cancelable: false }
         );
       } else {
         const { deviceId, versionApp, deviceName } = this.props;
         if (!deviceId) {
           const uniqueId = await DeviceInfo.getUniqueId();
-          this.props.actions.dataLocal.updateDeviceId(uniqueId || 'simulator');
+          this.props.actions.dataLocal.updateDeviceId(uniqueId || "simulator");
         }
 
         const tempDeviceName = await DeviceInfo.getDeviceName();
         if (tempDeviceName !== deviceName) {
           this.props.actions.dataLocal.updateDeviceName(
-            tempDeviceName || 'simulator',
+            tempDeviceName || "simulator"
           );
         }
 
         if (version !== versionApp) {
           this.props.actions.dataLocal.updateVersionApp(
-            version ? version : latestVersion,
+            version ? version : latestVersion
           );
         }
 
         const tempEnv = env.ENV;
-        if (tempEnv == 'Production' || tempEnv == 'Staging') {
+        if (tempEnv == "Production" || tempEnv == "Staging") {
           const deploymentKey =
-            tempEnv == 'Production'
+            tempEnv == "Production"
               ? configs.codePushKeyIOS.production
               : configs.codePushKeyIOS.staging;
           this.checkForUpdateCodepush(deploymentKey);
@@ -83,7 +83,7 @@ class SplashScreen extends Layout {
         }
       }
     } catch (error) {
-      alert('error ssss:', error);
+      alert("error ssss:", error);
     }
   }
 
@@ -92,11 +92,11 @@ class SplashScreen extends Layout {
       const result = await Promise.race([
         CodePush.checkForUpdate(deploymentKey),
         new Promise((resolve, reject) =>
-          setTimeout(() => resolve('TIME_OUT'), 10000),
+          setTimeout(() => resolve("TIME_OUT"), 10000)
         ),
       ]);
 
-      if (result === 'TIME_OUT') {
+      if (result === "TIME_OUT") {
         this.controlFlowInitApp();
       } else {
         if (result) {
@@ -112,7 +112,7 @@ class SplashScreen extends Layout {
             CodePush.sync(
               codePushOptions,
               this.codePushStatusDidChange.bind(this),
-              this.codePushDownloadDidProgress.bind(this),
+              this.codePushDownloadDidProgress.bind(this)
             );
           }
         } else {
@@ -120,19 +120,19 @@ class SplashScreen extends Layout {
         }
       }
     } catch (error) {
-      if (`${error}`.includes('Network request failed')) {
+      if (`${error}`.includes("Network request failed")) {
         Alert.alert(
-          'Please check your internet!',
-          'Restart application!',
+          "Please check your internet!",
+          "Restart application!",
           [
             {
-              text: 'OK',
+              text: "OK",
               onPress: () => {
                 CodePush.restartApp();
               },
             },
           ],
-          { cancelable: false },
+          { cancelable: false }
         );
       }
     }
@@ -154,13 +154,13 @@ class SplashScreen extends Layout {
     }
 
     if (!token) {
-      this.props.navigation.navigate('Auth');
+      this.props.navigation.navigate("Auth");
     } else {
       if (profile.needSetting) {
-        this.props.actions.staff.loginStaff(profile.merchantCode, '0000');
-        this.props.navigation.navigate('SetupStore');
+        this.props.actions.staff.loginStaff(profile.merchantCode, "0000");
+        this.props.navigation.navigate("SetupStore");
       } else {
-        this.props.navigation.navigate('Drawer');
+        this.props.navigation.navigate("Drawer");
       }
     }
   }

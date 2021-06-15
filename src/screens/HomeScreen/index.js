@@ -1,17 +1,17 @@
-import React from 'react';
-import _, { not } from 'ramda';
-import { Alert, BackHandler, AppState, NativeModules } from 'react-native';
-import NetInfo from '@react-native-community/netinfo';
-import { Subject } from 'rxjs';
-import { distinctUntilChanged, finalize } from 'rxjs/operators';
-import CodePush from 'react-native-code-push';
-import env from 'react-native-config';
-import SoundPlayer from 'react-native-sound-player';
+import React from "react";
+import _, { not } from "ramda";
+import { Alert, BackHandler, AppState, NativeModules } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
+import { Subject } from "rxjs";
+import { distinctUntilChanged, finalize } from "rxjs/operators";
+import CodePush from "react-native-code-push";
+import env from "react-native-config";
+import SoundPlayer from "react-native-sound-player";
 
-import Layout from './layout';
-import connectRedux from '@redux/ConnectRedux';
-import { getPosotion } from '@utils';
-import configs from '@configs';
+import Layout from "./layout";
+import connectRedux from "@redux/ConnectRedux";
+import { getPosotion } from "@utils";
+import configs from "@configs";
 
 const initialState = {
   isFocus: true,
@@ -47,19 +47,19 @@ class HomeScreen extends Layout {
     this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
 
     // ----------- Add Listener Back Action On Android --------------
-    BackHandler.addEventListener('hardwareBackPress', this.backAction);
+    BackHandler.addEventListener("hardwareBackPress", this.backAction);
 
     this.didBlurSubscription = this.props.navigation.addListener(
-      'didBlur',
+      "blur",
       (payload) => {
         this.setState({
           isFocus: false,
         });
-        this.popupEnterPinRef?.current?.setStateFromParent('');
-      },
+        this.popupEnterPinRef?.current?.setStateFromParent("");
+      }
     );
     this.didFocusSubscription = this.props.navigation.addListener(
-      'didFocus',
+      "focus",
       (payload) => {
         this.setState({
           isFocus: true,
@@ -67,7 +67,7 @@ class HomeScreen extends Layout {
         if (this.tabAppointmentRef?.current) {
           this.tabAppointmentRef?.current?.updateLinkOfCalendar();
         }
-      },
+      }
     );
 
     this.initWatcherNetwork();
@@ -77,13 +77,13 @@ class HomeScreen extends Layout {
       this.watcherNetwork.next(isConnected);
     });
 
-    AppState.addEventListener('change', this.handleAppStateChange);
+    AppState.addEventListener("change", this.handleAppStateChange);
   }
 
   handleAppStateChange = (nextAppState) => {
     if (
       this.state.appState.match(/inactive|background/) &&
-      nextAppState === 'active'
+      nextAppState === "active"
     ) {
       this.checkUpdateCodePush();
     } else {
@@ -95,22 +95,22 @@ class HomeScreen extends Layout {
   };
 
   async checkUpdateCodePush() {
-    const tempEnv = env.ENV;
+    const tempEnv = env.IS_PRODUCTION;
     const deploymentKey =
-      tempEnv == 'Production'
+      tempEnv == "Production"
         ? configs.codePushKeyIOS.production
         : configs.codePushKeyIOS.staging;
 
     Promise.race([
       CodePush.checkForUpdate(deploymentKey),
       new Promise((resolve, reject) =>
-        setTimeout(() => reject('TIME_OUT'), 10000),
+        setTimeout(() => reject("TIME_OUT"), 10000)
       ),
     ])
       .then((result) => {
-        if (result && result !== 'TIME_OUT' && !result.failedInstall) {
+        if (result && result !== "TIME_OUT" && !result.failedInstall) {
           this.props.actions.app.closeAllPopupPincode();
-          const description = result.description ? `${result.description}` : '';
+          const description = result.description ? `${result.description}` : "";
           setTimeout(() => {
             this.props.actions.app.tooglePopupCodePush(true, description);
           }, 500);
@@ -126,16 +126,16 @@ class HomeScreen extends Layout {
   backAction = () => {
     if (this.state.isFocus) {
       Alert.alert(
-        'Hold on!',
-        'Are you sure you want to exit the application?',
+        "Hold on!",
+        "Are you sure you want to exit the application?",
         [
           {
-            text: 'Cancel',
+            text: "Cancel",
             onPress: () => null,
-            style: 'cancel',
+            style: "cancel",
           },
-          { text: 'YES', onPress: () => BackHandler.exitApp() },
-        ],
+          { text: "YES", onPress: () => BackHandler.exitApp() },
+        ]
       );
       return true;
     } else {
@@ -266,11 +266,11 @@ class HomeScreen extends Layout {
 
   tooglePopupMarketingPermission = () => {
     const { profileStaffLogin } = this.props;
-    const roleName = profileStaffLogin?.roleName || 'Admin';
-    if (roleName === 'Admin') {
+    const roleName = profileStaffLogin?.roleName || "Admin";
+    if (roleName === "Admin") {
       this.scrollTabParentRef.current.goToPage(0);
     } else {
-      this.checkMarketingPermissionRef.current.setStateFromParent('');
+      this.checkMarketingPermissionRef.current.setStateFromParent("");
       this.props.actions.marketing.toggleMarketingTabPermission();
       this.tabCheckoutRef?.current?.resetStateFromParent();
     }
@@ -280,7 +280,7 @@ class HomeScreen extends Layout {
     const { isFocus } = this.state;
     if (isFocus) {
       this.scrollTabParentRef.current.goToPage(1);
-      this.popupEnterPinRef.current.setStateFromParent('');
+      this.popupEnterPinRef.current.setStateFromParent("");
       this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     }
   };
@@ -298,7 +298,7 @@ class HomeScreen extends Layout {
   };
 
   showLockScreen = () => {
-    this.popupEnterPinRef.current.setStateFromParent('');
+    this.popupEnterPinRef.current.setStateFromParent("");
     this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     this.scrollTabParentRef.current.goToPage(1);
   };
@@ -320,7 +320,7 @@ class HomeScreen extends Layout {
       const checkoutGroupId = groupAppointment?.checkoutGroupId || 0;
       this.props.actions.appointment.checkoutAppointment(
         appointmentId,
-        checkoutGroupId,
+        checkoutGroupId
       );
     }
     this.scrollTabParentRef.current.goToPage(2);
@@ -344,7 +344,7 @@ class HomeScreen extends Layout {
       appointmentId,
       true,
       false,
-      false,
+      false
     );
     this.scrollTabParentRef.current.goToPage(2);
     if (this.tabCheckoutRef?.current) {
@@ -367,7 +367,7 @@ class HomeScreen extends Layout {
       appointmentId,
       false,
       true,
-      false,
+      false
     );
     this.scrollTabParentRef.current.goToPage(2);
 
@@ -392,7 +392,7 @@ class HomeScreen extends Layout {
 
   createABlockAppointment = (appointmentId, fromTime) => {
     this.props.actions.appointment.updateFromTimeBlockAppointment(
-      fromTime ? fromTime : new Date(),
+      fromTime ? fromTime : new Date()
     );
     this.props.actions.appointment.getBlockAppointmentById(appointmentId, true);
 
@@ -410,7 +410,7 @@ class HomeScreen extends Layout {
     const password = this.popupEnterPinRef.current.state.value;
     const { profile } = this.props;
     if (password.length === 4) {
-      this.props.actions.staff.loginStaff(profile?.merchantCode, password);
+      this.props.actions.staff.loginStaff(profile.merchantCode, password);
     } else {
       Alert.alert(`PIN must be 4 digits.`);
     }
@@ -426,7 +426,7 @@ class HomeScreen extends Layout {
 
     if (listAppointmentsOfflineMode && listAppointmentsOfflineMode.length > 0) {
       this.props.actions.appointment.submitAppointmentOffline(
-        listAppointmentsOfflineMode,
+        listAppointmentsOfflineMode
       );
     }
 
@@ -438,7 +438,7 @@ class HomeScreen extends Layout {
       this.props.actions.product.getProductsByMerchant(),
       this.props.actions.staff.getStaffByMerchantId(),
       this.props.actions.appointment.getStaffListByCurrentDate(
-        profile?.merchantId,
+        profile?.merchantId
       ),
       this.props.actions.app.getNotificationList(),
       this.props.actions.app.getCountUnReadOfNotification(),
@@ -446,6 +446,7 @@ class HomeScreen extends Layout {
       .then((data) => {
         this.props.actions.staff.reloadButtonEnterPincode();
         if (data.length >= 5) {
+          console.log("loginStaffSuccess");
           this.props.actions.app.changeFlagVisibleEnteerPinCode(false);
         }
       })
@@ -473,7 +474,7 @@ class HomeScreen extends Layout {
       this.props.actions.marketing.getPromotionByMerchant();
     } else if (page === 2) {
       this.props.actions.appointment.getStaffListByCurrentDate(
-        profile?.merchantId,
+        profile?.merchantId
       );
     }
   };
@@ -486,7 +487,7 @@ class HomeScreen extends Layout {
     if (!this.props?.notiIntervalId) {
       const intervalId = setInterval(() => {
         try {
-          SoundPlayer.playSoundFile('harmony', 'mp3');
+          SoundPlayer.playSoundFile("harmony", "mp3");
         } catch (e) {}
       }, 5000);
       this.props.actions.app.handleNotifiIntervalId(intervalId);
@@ -533,7 +534,7 @@ class HomeScreen extends Layout {
       visible: false,
     });
     this.props.actions.app.maskNotiAsReadById(
-      noti?.merchantNotificationId || 0,
+      noti?.merchantNotificationId || 0
     );
   };
 
@@ -602,10 +603,11 @@ class HomeScreen extends Layout {
   componentWillUnmount() {
     this.didBlurSubscription();
     this.didFocusSubscription();
+
     this.unsubscribeNetInfo();
     this.watcherNetwork?.pipe(finalize(() => {}));
-    BackHandler.removeEventListener('hardwareBackPress', this.backAction);
-    AppState.removeEventListener('change', this.handleAppStateChange);
+    BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+    AppState.removeEventListener("change", this.handleAppStateChange);
     this.clearIntervalById();
   }
 }
@@ -636,7 +638,6 @@ const mapStateToProps = (state) => ({
   notificationContUnread: state.app.notificationContUnread,
   notiCurrentPage: state.app.notiCurrentPage,
   notiTotalPages: state.app.notiTotalPages,
-  currentAppMode: state.app.currentAppMode,
 });
 
 let codePushOptions = {

@@ -12,7 +12,7 @@ import {
   View,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { launchImageLibrary } from 'react-native-image-picker';
+import { launchImageLibrary } from "react-native-image-picker";
 import { useUploadFile } from '../services/api/app/useUploadFile';
 
 export const FormUploadImage = ({

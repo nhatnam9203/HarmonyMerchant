@@ -32,6 +32,12 @@ export const MERCHANT_LOGOUT = {
   api: 'merchant/logout',
 };
 
+export const MERCHANT_FORGOT_PASSWORD = {
+  method: 'GET',
+  url: 'merchant/forgotpassword',
+  api: 'merchant/forgotpassword',
+};
+
 /**
 |--------------------------------------------------
 | RETAILER

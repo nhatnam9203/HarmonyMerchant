@@ -426,8 +426,8 @@ class EditOrCreateCustomerTab extends React.Component {
                                         value={zip}
                                         onChangeText={value => this.updateCustomerInfo('zip', value, 'addressPost')}
                                         onFocus={() => this.scrollRightContentTo(120)}
-                                        keyboardType={"numeric"}
-                                        maxLength={5}
+                                        // keyboardType={"numeric"}
+                                        // maxLength={10}
                                     />
                                     {
                                         zip ? <Button

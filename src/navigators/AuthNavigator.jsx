@@ -19,6 +19,10 @@ import {
   TransitionPresets,
 } from '@react-navigation/stack';
 import { Animated } from 'react-native';
+import {
+  TermsScreen,
+  SignUpScreen
+} from '../screens';
 
 const forSlide = ({ current, next, inverted, layouts: { screen } }) => {
   const progress = Animated.add(
@@ -69,6 +73,8 @@ export const AuthNavigator = () => {
     >
       <Screen {...SignInScreen} />
       <Screen {...ForgotPassword} />
+      <Screen name='merchant.signup' component={SignUpScreen} />
+      <Screen name='merchant.terms' component={TermsScreen} />
     </Navigator>
   );
 };

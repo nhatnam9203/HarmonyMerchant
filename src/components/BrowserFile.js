@@ -1,12 +1,10 @@
-import React from 'react';
-import { View, Text, StyleSheet, Platform, Image } from 'react-native';
-import ImagePicker from 'react-native-image-picker';
-
-import ButtonCustom from './ButtonCustom';
-import IMAGE from '@resources';
-import connectRedux from '@redux/ConnectRedux';
-
-import { scaleSize, gotoSettingsDevice } from '@utils';
+import connectRedux from "@redux/ConnectRedux";
+import IMAGE from "@resources";
+import { gotoSettingsDevice, scaleSize } from "@utils";
+import React from "react";
+import { Image, Platform, StyleSheet, Text, View } from "react-native";
+import * as ImagePicker from "react-native-image-picker";
+import ButtonCustom from "./ButtonCustom";
 
 class BrowserFile extends React.PureComponent {
   constructor(props) {
@@ -24,7 +22,7 @@ class BrowserFile extends React.PureComponent {
   };
 
   handleImagePicker = async (response) => {
-    if (response.error === 'Photo library permissions not granted') {
+    if (response.error === "Photo library permissions not granted") {
       gotoSettingsDevice();
     } else if (response.uri) {
       this.props.editButtonSubmit(false);
@@ -35,17 +33,17 @@ class BrowserFile extends React.PureComponent {
       let fileName = response.fileName;
       if (fileName) {
         if (
-          Platform.OS === 'ios' &&
-          (fileName.endsWith('.heic') || fileName.endsWith('.HEIC'))
+          Platform.OS === "ios" &&
+          (fileName.endsWith(".heic") || fileName.endsWith(".HEIC"))
         ) {
-          fileName = `${fileName.split('.')[0]}.JPG`;
+          fileName = `${fileName.split(".")[0]}.JPG`;
         }
       }
 
       this.props.actions.upload.uploadAvatar([
         {
           uri: response.uri,
-          fileName: fileName ? fileName : '',
+          fileName: fileName ? fileName : "",
           type: response.type,
         },
       ]);
@@ -58,7 +56,7 @@ class BrowserFile extends React.PureComponent {
         {
           quality: 0.2,
         },
-        (response) => this.handleImagePicker(response),
+        (response) => this.handleImagePicker(response)
       );
     } catch (error) {
       alert(error);
@@ -68,13 +66,13 @@ class BrowserFile extends React.PureComponent {
   render() {
     const { uriUpload } = this.state;
     const temptImage =
-      uriUpload === '' ? IMAGE.imagePlaceHolder : { uri: uriUpload };
+      uriUpload === "" ? IMAGE.imagePlaceHolder : { uri: uriUpload };
     return (
       <View style={{ marginBottom: scaleSize(10), marginTop: scaleSize(10) }}>
         <Text
           style={[
             {
-              color: '#404040',
+              color: "#404040",
               fontSize: scaleSize(12),
               marginBottom: scaleSize(10),
             },
@@ -83,7 +81,7 @@ class BrowserFile extends React.PureComponent {
         >
           Image
         </Text>
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: "row" }}>
           <View style={{ width: scaleSize(80), height: scaleSize(80) }}>
             <Image
               source={temptImage}
@@ -91,13 +89,13 @@ class BrowserFile extends React.PureComponent {
             />
           </View>
           <View
-            style={{ justifyContent: 'flex-end', marginLeft: scaleSize(16) }}
+            style={{ justifyContent: "flex-end", marginLeft: scaleSize(16) }}
           >
             <ButtonCustom
               width={scaleSize(150)}
               height={38}
               backgroundColor="#F1F1F1"
-              title={'Browse File'}
+              title={"Browse File"}
               textColor="#6A6A6A"
               onPress={this.showPicker}
               style={[{ borderRadius: scaleSize(2) }, styles.shadowBtn]}
@@ -137,7 +135,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: {
         borderRadius: scaleSize(2),
-        shadowColor: 'rgba(0, 0, 0, 0.5)',
+        shadowColor: "rgba(0, 0, 0, 0.5)",
         shadowOpacity: 0.54,
         shadowOffset: { width: 0, height: 0 },
       },

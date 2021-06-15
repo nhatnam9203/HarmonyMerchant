@@ -1,13 +1,13 @@
-import React from 'react';
-import { createScreenComponent } from '@shared/helpers/createScreenComponent';
-import { Layout } from './Layout';
-import { useProps } from './useProps';
-import { CustomDrawerIcon } from '@shared/components/CustomDrawerContent';
-import IMAGE from '@resources';
+import React from "react";
+import { createScreenComponent } from "@shared/helpers/createScreenComponent";
+import { Layout } from "./Layout";
+import { useProps } from "./useProps";
+import { CustomDrawerIcon } from "@shared/components/CustomDrawerContent";
+import IMAGE from "@resources";
 
-const SCREEN_KEY = 'Reports';
+const SCREEN_KEY = "Reports";
 export const RTReportsScreen = createScreenComponent(
-  'retailer.reports',
+  "retailer.reports",
   (props) => <Layout {...useProps(props)} />,
   {
     drawerIcon: ({ focused }) => (
@@ -16,5 +16,5 @@ export const RTReportsScreen = createScreenComponent(
       />
     ),
     title: SCREEN_KEY,
-  },
+  }
 );

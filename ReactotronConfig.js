@@ -9,7 +9,7 @@ import { reactotronRedux } from 'reactotron-redux';
 const reactotron = Reactotron.configure({ name: 'Harmony Pay' }) // AsyncStorage would either come from `react-native` or `@react-native-community/async-storage` depending on where you get it from // controls connection & communication settings
   .useReactNative() // add all built-in react native plugins
   .use(asyncStorage()) // <--- here we go!
-  // .use(openInEditor()) // <--- here we go!
+  //.use(openInEditor()) // <--- here we go!
   .use(networking()) // <--- here we go!
   .use(sagaPlugin())
   .use(

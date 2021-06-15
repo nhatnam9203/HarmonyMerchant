@@ -18,6 +18,9 @@ import {
   formatPhoneNumber,
 } from "@shared/utils";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
+import { withDropdown } from "@shared/helpers/dropdown";
+
+const DropdownCategory = withDropdown(ButtonFilter);
 
 export const Layout = ({
   items,
@@ -114,7 +117,7 @@ export const Layout = ({
       </View>
 
       <View style={styles.rowContent}>
-        <ButtonFilter
+        <DropdownCategory
           filterItems={customerGroups}
           defaultValue={groupType}
           onChangeValue={setGroupType}

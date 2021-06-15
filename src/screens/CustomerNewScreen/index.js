@@ -1,88 +1,88 @@
-import React from 'react';
+import React from "react";
 
-import Layout from './layout';
-import connectRedux from '@redux/ConnectRedux';
+import Layout from "./layout";
+import connectRedux from "@redux/ConnectRedux";
 
 const FAKE_CUSTOMERS = [
   {
-    firstName: 'Abida',
-    lastName: 'Chester',
-    phone: '+1 865-776-5484',
-    email: 'qglover@hahn.info',
-    group: 'VIP',
-    sinceDate: 'March 8, 2021',
+    firstName: "Abida",
+    lastName: "Chester",
+    phone: "+1 865-776-5484",
+    email: "qglover@hahn.info",
+    group: "VIP",
+    sinceDate: "March 8, 2021",
   },
   {
-    firstName: 'Ada',
-    lastName: 'Pope',
-    phone: '+1 330-839-6052',
-    email: 'qglover@hahn.info',
-    group: 'VIP',
-    sinceDate: 'February 5, 2021',
+    firstName: "Ada",
+    lastName: "Pope",
+    phone: "+1 330-839-6052",
+    email: "qglover@hahn.info",
+    group: "VIP",
+    sinceDate: "February 5, 2021",
   },
   {
-    firstName: 'Abida',
-    lastName: 'Chester',
-    phone: '+1 865-776-5484',
-    email: 'qglover@hahn.info',
-    group: 'VIP',
-    sinceDate: 'March 8, 2021',
+    firstName: "Abida",
+    lastName: "Chester",
+    phone: "+1 865-776-5484",
+    email: "qglover@hahn.info",
+    group: "VIP",
+    sinceDate: "March 8, 2021",
   },
   {
-    firstName: 'Ada',
-    lastName: 'Pope',
-    phone: '+1 330-839-6052',
-    email: 'qglover@hahn.info',
-    group: 'VIP',
-    sinceDate: 'February 5, 2021',
+    firstName: "Ada",
+    lastName: "Pope",
+    phone: "+1 330-839-6052",
+    email: "qglover@hahn.info",
+    group: "VIP",
+    sinceDate: "February 5, 2021",
   },
   {
-    firstName: 'Abida',
-    lastName: 'Chester',
-    phone: '+1 865-776-5484',
-    email: 'qglover@hahn.info',
-    group: 'VIP',
-    sinceDate: 'March 8, 2021',
+    firstName: "Abida",
+    lastName: "Chester",
+    phone: "+1 865-776-5484",
+    email: "qglover@hahn.info",
+    group: "VIP",
+    sinceDate: "March 8, 2021",
   },
   {
-    firstName: 'Ada',
-    lastName: 'Pope',
-    phone: '+1 330-839-6052',
-    email: 'qglover@hahn.info',
-    group: 'VIP',
-    sinceDate: 'February 5, 2021',
+    firstName: "Ada",
+    lastName: "Pope",
+    phone: "+1 330-839-6052",
+    email: "qglover@hahn.info",
+    group: "VIP",
+    sinceDate: "February 5, 2021",
   },
   {
-    firstName: 'Abida',
-    lastName: 'Chester',
-    phone: '+1 865-776-5484',
-    email: 'qglover@hahn.info',
-    group: 'VIP',
-    sinceDate: 'March 8, 2021',
+    firstName: "Abida",
+    lastName: "Chester",
+    phone: "+1 865-776-5484",
+    email: "qglover@hahn.info",
+    group: "VIP",
+    sinceDate: "March 8, 2021",
   },
   {
-    firstName: 'Ada',
-    lastName: 'Pope',
-    phone: '+1 330-839-6052',
-    email: 'qglover@hahn.info',
-    group: 'VIP',
-    sinceDate: 'February 5, 2021',
+    firstName: "Ada",
+    lastName: "Pope",
+    phone: "+1 330-839-6052",
+    email: "qglover@hahn.info",
+    group: "VIP",
+    sinceDate: "February 5, 2021",
   },
   {
-    firstName: 'Abida',
-    lastName: 'Chester',
-    phone: '+1 865-776-5484',
-    email: 'qglover@hahn.info',
-    group: 'VIP',
-    sinceDate: 'March 8, 2021',
+    firstName: "Abida",
+    lastName: "Chester",
+    phone: "+1 865-776-5484",
+    email: "qglover@hahn.info",
+    group: "VIP",
+    sinceDate: "March 8, 2021",
   },
   {
-    firstName: 'Ada',
-    lastName: 'Pope',
-    phone: '+1 330-839-6052',
-    email: 'qglover@hahn.info',
-    group: 'VIP',
-    sinceDate: 'February 5, 2021',
+    firstName: "Ada",
+    lastName: "Pope",
+    phone: "+1 330-839-6052",
+    email: "qglover@hahn.info",
+    group: "VIP",
+    sinceDate: "February 5, 2021",
   },
 ];
 
@@ -95,7 +95,7 @@ class CustomerNewScreen extends Layout {
       visibleAdd: false,
       visibleDetail: false,
       visibleEdit: false,
-      keySearch: '',
+      keySearch: "",
       currentTab: 0,
       customerList: FAKE_CUSTOMERS,
       slideViewVisible: false,
@@ -112,46 +112,46 @@ class CustomerNewScreen extends Layout {
 
   componentDidMount() {
     this.didBlurSubscription = this.props.navigation.addListener(
-      'didBlur',
+      "blur",
       (payload) => {
         this.setState({
           isFocus: false,
-          keySearch: '',
+          keySearch: "",
         });
-        this.checkPermissionRef.current.setStateFromParent('');
+        this.checkPermissionRef.current.setStateFromParent("");
         this.props.actions.customer.clearSearCustomer();
-      },
+      }
     );
     this.didFocusSubscription = this.props.navigation.addListener(
-      'didFocus',
+      "focus",
       (payload) => {
         this.setState({
           isFocus: true,
         });
-        this.checkPermissionRef.current.setStateFromParent('');
+        this.checkPermissionRef.current.setStateFromParent("");
         this.scrollTabRef?.current?.goToPage(0);
 
         const { profileStaffLogin } = this.props;
-        const roleName = profileStaffLogin?.roleName || 'Admin';
-        if (roleName === 'Admin') {
+        const roleName = profileStaffLogin?.roleName || "Admin";
+        if (roleName === "Admin") {
           // this.searchCustomer(1, true, false);
         } else {
           this.props.actions.customer.toggleCustomerTabPermission();
         }
-      },
+      }
     );
   }
 
   onChangeKeySearch = async (keySearch) => {
     await this.setState({ keySearch });
-    if (keySearch == '') {
+    if (keySearch == "") {
       this.searchCustomer(1, false, false);
     }
   };
 
   clearSearchText = async () => {
     await this.setState({
-      keySearch: '',
+      keySearch: "",
     });
     this.searchCustomer(1, true, false);
   };
@@ -218,7 +218,7 @@ class CustomerNewScreen extends Layout {
   handleLockScreen = () => {
     const { isFocus } = this.state;
     if (isFocus) {
-      this.props.navigation.navigate('Home');
+      this.props.navigation.navigate("Home");
       this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     }
   };
@@ -233,11 +233,11 @@ class CustomerNewScreen extends Layout {
 
   closePopupCheckCustomerTabPermission = () => {
     this.props.actions.customer.toggleCustomerTabPermission(false);
-    this.props.navigation.navigate('Home');
+    this.props.navigation.navigate("Home");
   };
 
   showAppointmentDetail = () => {
-    alert('dd');
+    alert("dd");
   };
 
   onRefreshCustomer = () => {
@@ -247,14 +247,14 @@ class CustomerNewScreen extends Layout {
   searchCustomer = (
     currentPage = 1,
     isShowLoading = false,
-    isShowLoadMore = false,
+    isShowLoadMore = false
   ) => {
     const { keySearch } = this.state;
     this.props.actions.customer.getListCustomersByMerchant(
       keySearch,
       currentPage,
       isShowLoading,
-      isShowLoadMore,
+      isShowLoadMore
     );
   };
 

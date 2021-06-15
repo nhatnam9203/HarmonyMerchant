@@ -24,7 +24,7 @@ class TermsScreen extends Layout {
 
     nextScreen = () => {
         if (this.props.isAgreeTerm) {
-            this.props.navigation.navigate('SignUp');
+            this.props.navigation.navigate('merchant.signup');
         }
     }
 }

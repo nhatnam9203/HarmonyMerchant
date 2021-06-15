@@ -39,7 +39,7 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage: AsyncStorage,
-  blacklist: ["appMerchant"],
+  blacklist: ["appMerchant", "staff"],
   debug: isDevelopmentMode, //to get useful logging
 };
 
@@ -66,9 +66,10 @@ const store = configureStore({
   middleware: [
     ...getDefaultMiddleware({
       thunk: false,
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      // serializableCheck: {
+      //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      // },
+      serializableCheck: false,
     }),
     ...middleware,
   ],

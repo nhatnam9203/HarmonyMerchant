@@ -1,26 +1,23 @@
-import _ from 'ramda';
+import _ from "ramda";
 
-import Layout from './layout';
-import connectRedux from '@redux/ConnectRedux';
-import NavigatorServices from '@navigators/NavigatorServices';
-
+import Layout from "./layout";
+import connectRedux from "@redux/ConnectRedux";
+import NavigatorServices from "@navigators/NavigatorServices";
 
 class SlideDrawer extends Layout {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
-    }
-
-    changeLanguage =(item)=>{
-        NavigatorServices.navigate(item)
-    }
+  changeLanguage = (item) => {
+    NavigatorServices.navigate(item);
+  };
 }
 
-const mapStateToProps = state => ({
-    profile: state.dataLocal.profile,
-    language: state.dataLocal.language
-})
+const mapStateToProps = (state) => ({
+  profile: state.dataLocal.profile,
+  language: state.dataLocal.language,
+});
 
 export default connectRedux(mapStateToProps, SlideDrawer);

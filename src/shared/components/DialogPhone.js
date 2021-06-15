@@ -14,7 +14,6 @@ export const DialogPhone = React.forwardRef(({ title, onPhoneSubmit }, ref) => {
 
   React.useImperativeHandle(ref, () => ({
     show: () => {
-      console.log("show");
       dialogRef.current?.show();
     },
     hide: () => {

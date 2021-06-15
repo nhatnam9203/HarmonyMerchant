@@ -2,9 +2,14 @@
  * SalonNavigator (POS App)
  *
  */
-import { scaleSize } from '../utils';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import React from 'react';
+import { scaleSize } from "../utils";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import React from "react";
+import {
+  CustomDrawerContent,
+  CustomDrawerIcon,
+} from "@shared/components/CustomDrawerContent";
+import IMAGE from "@resources";
 
 import {
   SlideDrawer,
@@ -19,24 +24,117 @@ import {
   GiftCardScreen,
   InventoryOfRetail,
   CustomerNewScreen,
-} from '../screens';
+} from "../screens";
 
 const { Screen, Navigator } = createDrawerNavigator();
 export const SalonNavigator = () => {
   return (
     <Navigator
       initialRouteName="Home"
-      drawerContent={(props) => <SlideDrawer {...props} />}
+      drawerContent={CustomDrawerContent}
+      drawerStyle={{
+        width: scaleSize(200),
+      }}
     >
-      <Screen name="Home" component={HomeScreen} />
-      <Screen name="Setting" component={SettingScreen} />
-      <Screen name="Inventory" component={InventoryScreen} />
-      <Screen name="Customer" component={CustomerScreen} />
-      <Screen name="Invoice" component={InvoiceScreen} />
-      <Screen name="Support" component={SupportScreen} />
-      <Screen name="Settlement" component={SettlementScreen} />
-      <Screen name="Reports" component={ReportScreen} />
-      <Screen name="GiftCard" component={GiftCardScreen} />
+      <Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <CustomDrawerIcon
+              source={focused ? IMAGE["Se_Home"] : IMAGE["Home"]}
+            />
+          ),
+        }}
+      />
+      <Screen
+        name="Invoice"
+        component={InvoiceScreen}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <CustomDrawerIcon
+              source={focused ? IMAGE["Se_Invoice"] : IMAGE["Invoice"]}
+            />
+          ),
+        }}
+      />
+      <Screen
+        name="Settlement"
+        component={SettlementScreen}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <CustomDrawerIcon
+              source={focused ? IMAGE["Se_Settlement"] : IMAGE["Settlement"]}
+            />
+          ),
+        }}
+      />
+      <Screen
+        name="Customer"
+        component={CustomerScreen}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <CustomDrawerIcon
+              source={focused ? IMAGE["Se_Customer"] : IMAGE["Customer"]}
+            />
+          ),
+        }}
+      />
+      <Screen
+        name="Inventory"
+        component={InventoryScreen}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <CustomDrawerIcon
+              source={focused ? IMAGE["Se_Inventory"] : IMAGE["Inventory"]}
+            />
+          ),
+        }}
+      />
+      <Screen
+        name="GiftCard"
+        component={GiftCardScreen}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <CustomDrawerIcon
+              source={focused ? IMAGE["Se_GiftCard"] : IMAGE["GiftCard"]}
+            />
+          ),
+        }}
+      />
+      <Screen
+        name="Reports"
+        component={ReportScreen}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <CustomDrawerIcon
+              source={focused ? IMAGE["Se_Reports"] : IMAGE["Reports"]}
+            />
+          ),
+        }}
+      />
+      <Screen
+        name="Setting"
+        component={SettingScreen}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <CustomDrawerIcon
+              source={focused ? IMAGE["Se_Setting"] : IMAGE["Setting"]}
+            />
+          ),
+        }}
+      />
+      <Screen
+        name="Support"
+        component={SupportScreen}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <CustomDrawerIcon
+              source={focused ? IMAGE["Se_Support"] : IMAGE["Support"]}
+            />
+          ),
+        }}
+      />
     </Navigator>
   );
 };

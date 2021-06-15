@@ -1,9 +1,9 @@
-import React from "react";
-import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
-import { gotoSettingsDevice, scaleSize } from "@utils";
-import ImagePicker from "react-native-image-picker";
+import { gotoSettingsDevice } from "@utils";
+import React from "react";
 import { Platform } from "react-native";
+import * as ImagePicker from "react-native-image-picker";
+import Layout from "./layout";
 
 class TabPhotoGallery extends Layout {
   constructor(props) {
@@ -162,7 +162,7 @@ class TabPhotoGallery extends Layout {
 
   setStateFromParent = () => {
     this.setState({ isSelected: false, imageSelect: [] });
-    if(this.flatListRef?.current){
+    if (this.flatListRef?.current) {
       this.flatListRef?.current?.scrollToOffset({ y: 0, animated: false });
     }
   };

@@ -36,13 +36,7 @@ import { saveAuthToken } from "@shared/storages/authToken";
 function* signInSuccess(actions) {
   try {
     let { payload } = actions;
-    yield put({
-      type: "SAVE_PROFILE_LOCAL",
-      payload: {
-        profile: payload?.merchant,
-        token: payload?.token,
-      },
-    });
+
     yield call(saveAuthToken, payload?.token);
     delete payload.token;
   } catch (e) {
