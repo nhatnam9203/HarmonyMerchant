@@ -446,7 +446,6 @@ class HomeScreen extends Layout {
       .then((data) => {
         this.props.actions.staff.reloadButtonEnterPincode();
         if (data.length >= 5) {
-          console.log("loginStaffSuccess");
           this.props.actions.app.changeFlagVisibleEnteerPinCode(false);
         }
       })

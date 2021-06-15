@@ -86,10 +86,10 @@ function productReducer(state = initialState, action) {
   }
 }
 
-// module.exports = persistReducer({
-//     key: 'product',
-//     storage: AsyncStorage,
-//     whitelist: ['productsByMerchantId']
-// }, productReducer);
+module.exports = persistReducer({
+    key: 'product',
+    storage: AsyncStorage,
+    whitelist: ['productsByMerchantId']
+}, productReducer);
 
 export default productReducer;

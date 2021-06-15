@@ -1,9 +1,9 @@
-import { PopupCalendar } from '@components';
-import React from 'react';
-import { View, TouchableOpacity, StyleSheet, Text, Image } from 'react-native';
-import { colors } from '@shared/themes';
-import IMAGE from '@resources';
-import { fonts, layouts } from '../themes';
+import { PopupCalendar } from "@components";
+import React from "react";
+import { View, TouchableOpacity, StyleSheet, Text, Image } from "react-native";
+import { colors } from "@shared/themes";
+import IMAGE from "@resources";
+import { fonts, layouts } from "../themes";
 
 export const ButtonCalendarFilter = ({ onChangeTimeValue }) => {
   const calendarRef = React.useRef(null);
@@ -13,9 +13,8 @@ export const ButtonCalendarFilter = ({ onChangeTimeValue }) => {
   const onChangeTime = (time) => {
     setTextTime(time);
     setVisible(false);
-    // console.log(time);
-    // console.log(calendarRef.current?.state);
-    if (onChangeTimeValue && typeof onChangeTimeValue === 'function') {
+
+    if (onChangeTimeValue && typeof onChangeTimeValue === "function") {
       onChangeTimeValue(time, calendarRef.current?.state);
     }
   };
@@ -25,7 +24,7 @@ export const ButtonCalendarFilter = ({ onChangeTimeValue }) => {
   };
 
   React.useEffect(() => {
-    calendarRef.current?.selectQuickFilter('This Week');
+    calendarRef.current?.selectQuickFilter("This Week");
   }, []);
 
   return (
@@ -50,14 +49,14 @@ export const ButtonCalendarFilter = ({ onChangeTimeValue }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.WHITE,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: '#cccccc',
-    flexDirection: 'row',
+    borderColor: "#cccccc",
+    flexDirection: "row",
     height: scaleHeight(40),
-    alignItems: 'center',
+    alignItems: "center",
     minWidth: scaleWidth(128),
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     paddingHorizontal: scaleWidth(10),
     flex: 0,
   },
@@ -71,10 +70,10 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(17),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 });

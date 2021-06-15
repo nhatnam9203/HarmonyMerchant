@@ -302,11 +302,11 @@ function invoiceReducer(state = initialState, action) {
     }
 }
 
-// module.exports = persistReducer({
-//     key: 'invoice',
-//     storage: AsyncStorage,
-//     whitelist: ['listInvoicesByMerchant']
-// }, invoiceReducer);
+module.exports = persistReducer({
+    key: 'invoice',
+    storage: AsyncStorage,
+    whitelist: ['listInvoicesByMerchant']
+}, invoiceReducer);
 
 
-export default invoiceReducer;
+// export default invoiceReducer;

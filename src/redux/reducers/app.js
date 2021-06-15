@@ -337,13 +337,13 @@ function getErrorMessagePaxMachine(error) {
   }
 }
 
-// module.exports = persistReducer(
-//   {
-//     key: "app",
-//     storage: AsyncStorage,
-//     whitelist: ["isInitialApp"],
-//   },
-//   appReducer
-// );
+module.exports = persistReducer(
+  {
+    key: "app",
+    storage: AsyncStorage,
+    whitelist: ["isInitialApp"],
+  },
+  appReducer
+);
 
-export default appReducer;
+// export default appReducer;

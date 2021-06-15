@@ -78,10 +78,10 @@ function categoriesReducer(state = initialState, action) {
     }
 }
 
-// module.exports = persistReducer({
-//     key: "category",
-//     storage: AsyncStorage,
-//     whitelist: ["categoriesByMerchant"]
-// }, categoriesReducer);
+module.exports = persistReducer({
+    key: "category",
+    storage: AsyncStorage,
+    whitelist: ["categoriesByMerchant"]
+}, categoriesReducer);
 
-export default categoriesReducer;
+// export default categoriesReducer;

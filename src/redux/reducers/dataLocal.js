@@ -208,12 +208,12 @@ function dataLocalReducer(state = initialState, action) {
   }
 }
 
-// module.exports = persistReducer(
-//   {
-//     key: 'dataLocal',
-//     storage: AsyncStorage,
-//     // blacklist: []
-//   },
-//   dataLocalReducer,
-// );
-export default dataLocalReducer;
+module.exports = persistReducer(
+  {
+    key: 'dataLocal',
+    storage: AsyncStorage,
+    // blacklist: []
+  },
+  dataLocalReducer,
+);
+// export default dataLocalReducer;

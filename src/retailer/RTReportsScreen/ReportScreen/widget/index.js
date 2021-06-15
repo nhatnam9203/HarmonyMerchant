@@ -11,6 +11,7 @@ import ReportTabLayout from "./ReportTabLayout";
 import ReportLayout from "./ReportLayout";
 import TableListExtended from "./CustomTableListExtend";
 import CalendarRangePicker from "./CalendarRangePicker";
+import { ButtonOverall } from "./ButtonOverall";
 
 module.exports = {
   HeaderTabLayout,
@@ -26,4 +27,5 @@ module.exports = {
   ReportLayout,
   TableListExtended,
   CalendarRangePicker,
+  ButtonOverall,
 };

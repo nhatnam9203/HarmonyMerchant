@@ -913,7 +913,7 @@ class TabCheckout extends Layout {
       // const tempURI = tempEnv == "Staging" ? 'https://signalr-stage.harmonypayment.com/' : apiConfigs.BASE_URL;
       const connection = new signalR.HubConnectionBuilder()
         .withUrl(
-          `${Configs.API_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app&deviceId=${deviceId}&token=${token}`,
+          `${Configs.SOCKET_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app&deviceId=${deviceId}&token=${token}`,
           {
             transport:
               signalR.HttpTransportType.LongPolling |
