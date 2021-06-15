@@ -10,7 +10,7 @@ import { SettingHardwarePage } from '../SettingHardwarePage';
 import { SettingPaymentPage } from '../SettingPaymentPage';
 import { SettingStaffPage } from '../SettingStaffPage';
 import { SettingTaxPage } from '../SettingTaxPage';
-
+import { SettingAboutPage } from '../SettingAboutPage';
 import {
   TabStaff,
   TabService,
@@ -43,6 +43,8 @@ export const Layout = ({ openDrawer, reload, logOut }) => {
         return <TabTAX reloadPage={reload} />;
       case SettingHardwarePage.name:
         return <TabHardware reloadPage={reload} />;
+      case SettingAboutPage.name:
+        return <SettingAboutPage.component reloadPage={reload} />;
       default:
         return null;
     }
@@ -81,6 +83,12 @@ export const Layout = ({ openDrawer, reload, logOut }) => {
           <ItemDrawer {...SettingTaxPage} active={active} onPress={setActive} />
           <ItemDrawer
             {...SettingHardwarePage}
+            active={active}
+            onPress={setActive}
+          />
+
+          <ItemDrawer
+            {...SettingAboutPage}
             active={active}
             onPress={setActive}
           />

@@ -23,5 +23,6 @@ export * from './ButtonRightPanelFilter';
 export * from './FormInputAmount';
 export * from './CustomRadioSelect';
 export * from './DialogPinCode';
-export * from './CustomSwitch'
+export * from './CustomSwitch';
 export * from './DialogAddNewPaymentMethod';
+export * from './CustomLink';

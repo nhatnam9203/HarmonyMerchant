@@ -114,4 +114,20 @@ export const layouts = StyleSheet.create({
     textAlign: 'left',
     color: colors.GREYISH_BROWN,
   },
+  fontLightBrown: {
+    fontSize: scaleFont(17),
+    color: colors.GREYISH_BROWN,
+    fontFamily: fonts.LIGHT,
+    lineHeight: scaleHeight(22),
+  },
+  fontMediumBlue: {
+    fontSize: scaleFont(24),
+    color: colors.OCEAN_BLUE,
+    fontFamily: fonts.MEDIUM,
+  },
+  fontLightBlue: {
+    fontSize: scaleFont(20),
+    color: colors.OCEAN_BLUE,
+    fontFamily: fonts.LIGHT,
+  },
 });

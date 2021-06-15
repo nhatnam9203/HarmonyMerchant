@@ -11,8 +11,15 @@ import { useTranslation } from 'react-i18next';
 import { colors, layouts, fonts } from '@shared/themes';
 import { CustomSwitch, DialogAddNewPaymentMethod } from '@shared/components';
 import { getPaymentLogoByName } from '@shared/utils';
+import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import IMAGE from '@resources';
-export const Layout = ({ payments, refDialog, openAddNewPayment }) => {
+export const Layout = ({
+  payments,
+  refDialog,
+  openAddNewPayment,
+  onValueChange,
+  isEnabled,
+}) => {
   const { t } = useTranslation();
   const RowHeaderPayment = ({ name }) => (
     <View style={[layouts.horizontal, styles.layoutRowHeader]}>
@@ -40,7 +47,7 @@ export const Layout = ({ payments, refDialog, openAddNewPayment }) => {
           layouts.horizontal,
         ]}
       >
-        <CustomSwitch />
+        <CustomSwitch defaultValue={isEnabled}  />
       </View>
     </View>
   );

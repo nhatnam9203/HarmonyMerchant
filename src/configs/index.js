@@ -1,10 +1,11 @@
 import { Dimensions, Platform } from 'react-native';
 import EvnConfigs from 'react-native-config';
-
+import { getVersion } from 'react-native-device-info';
 const AppConfigs = {
-  VERSION: '1.1.8',
+  VERSION: getVersion(),
   BUILD: '70',
   CODEPUSH_VERSION: '1',
+  DOMAIN: 'www.harmonypay.com',
   DEFAULT_WIDTH: Platform.OS === 'ios' ? 768 : 780,
   // DEFAULT_WIDTH: 736, mobile
   DEFAULT_HEIGHT: 736,
