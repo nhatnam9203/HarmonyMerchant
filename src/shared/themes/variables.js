@@ -30,6 +30,8 @@ export const colors = {
   OCEAN_BLUE: '#0764b0',
   TOMATO: '#e6362b',
   PALE_GREY: '#f1f1f2',
+  WHITE_FA: '#fafafa',
+  WHITE_TWO: '#eeeeee',
 };
 
 export const fonts = {

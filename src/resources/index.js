@@ -269,6 +269,11 @@ export default {
   Clean: require("../assets/images/MaskGroup293.png"),
   IconButtonStatusClose: require("../assets/images/btn_status_close.png"),
 
+  cash_retailer: require("../assets/images/cash.png"),
+  check_retailer: require("../assets/images/check.png"),
+  credit_card_retailer: require("../assets/images/credit_card.png"),
+
+
   // Settings
   IconSettingGeneral: require("../assets/images/ic_setting_general.png"),
   IconSettingAttributes: require("../assets/images/ic_setting_attributes.png"),
