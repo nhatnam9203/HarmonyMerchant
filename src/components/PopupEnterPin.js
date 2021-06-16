@@ -172,7 +172,7 @@ class PopupEnterPin extends React.Component {
                             }} >
                                 {
                                     isShowButtonEnterPinCode ? <View style={{
-                                        width: '30%', height: scaleSize(35), backgroundColor: '#0764B0',
+                                        width: '35%', height: scaleSize(40), backgroundColor: '#0764B0',
                                         justifyContent: 'center', alignItems: 'center',
                                         marginTop: scaleSize(15)
                                     }} >
