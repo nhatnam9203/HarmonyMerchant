@@ -19,63 +19,22 @@ const filterItems = [
   { label: "All products", value: "top" },
 ];
 
-export default function SalesByProduct({}) {
+export default function SalesByProduct({ onChangeTimeValue, data, timeValue }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const calendarRef = React.useRef(null);
 
-  const [timeVal, setTimeVal] = React.useState(null);
-  const [data, setData] = React.useState([]);
   const [filterProduct, setFilterProduct] = React.useState(filterItems);
 
-  /**
-  |--------------------------------------------------
-  | CALL API
-  |--------------------------------------------------
-  */
-  const [reportSaleProduct, getReportSaleProduct] = useReportSaleProduct();
-  const callGetReportSaleProduct = React.useCallback(() => {
-    getReportSaleProduct({
-      ...timeVal,
-      sort: {},
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal]);
-
-  /**
-  |--------------------------------------------------
-  | useEffect
-  |--------------------------------------------------
-  */
-
   React.useEffect(() => {
-    callGetReportSaleProduct();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal]);
-
-  /**effect */
-  React.useEffect(() => {
-    const { codeStatus, message, data, summary } = reportSaleProduct || {};
-    if (statusSuccess(codeStatus)) {
-      setData(data);
+    if (timeValue) {
+      calendarRef.current?.setTimeValue(timeValue);
     }
-  }, [reportSaleProduct]);
-
-  const onChangeTimeValue = (quickFilter, timeState) => {
-    if (quickFilter === "Customize Date") {
-      setTimeVal({
-        quickFilter: "custom",
-        timeStart: timeState.startDate,
-        timeEnd: timeState.endDate,
-      });
-    } else {
-      setTimeVal({ quickFilter: getQuickFilterTimeRange(quickFilter) });
-    }
-  };
+  }, [timeValue]);
 
   const onSelectRow = ({ item }) => {
     NavigationServices.navigate("ReportSaleProduct_Detail", {
       detailName: item?.name,
-      details: item.details,
     });
   };
 
@@ -88,9 +47,11 @@ export default function SalesByProduct({}) {
       <View style={styles.rowContent}>
         <View style={layouts.horizontal}>
           <ButtonCalendarFilter
+            ref={calendarRef}
             onChangeTimeValue={onChangeTimeValue}
             paddingLeft={scaleWidth(105)}
             paddingTop={scaleHeight(170)}
+            defaultValue={timeValue}
           />
           <View style={layouts.marginHorizontal} />
           <DropdownMenu

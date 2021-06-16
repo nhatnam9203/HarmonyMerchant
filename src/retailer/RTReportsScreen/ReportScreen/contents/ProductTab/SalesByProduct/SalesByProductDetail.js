@@ -34,16 +34,20 @@ const log = (obj, message = "") => {
 
 export default function SalesByProductDetail({
   route: {
-    params: { detailName = "Product", details },
+    params: { detailName },
   },
   navigation,
   showBackButton,
-  setTimeVal = () => {},
+  onChangeTimeValue,
+  data,
+  timeValue,
 }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const calendarRef = React.useRef(null);
 
   const [viewMode, setViewMode] = useState(VIEW_MODE.LIST);
+  const [details, setDetails] = React.useState(null);
 
   React.useEffect(() => {
     const unsubscribeFocus = navigation.addListener("focus", () => {
@@ -60,17 +64,14 @@ export default function SalesByProductDetail({
     };
   }, [navigation]);
 
-  const onChangeTimeValue = (quickFilter, timeState) => {
-    if (quickFilter === "Customize Date") {
-      setTimeVal({
-        quickFilter: "custom",
-        timeStart: timeState.startDate,
-        timeEnd: timeState.endDate,
-      });
+  React.useEffect(() => {
+    if (detailName && data?.length > 0) {
+      const itemSelect = data.find((detail) => detail.name === detailName);
+      setDetails(itemSelect?.details || []);
     } else {
-      setTimeVal({ quickFilter: getQuickFilterTimeRange(quickFilter) });
+      setDetails([]);
     }
-  };
+  }, [detailName, data]);
 
   const viewModeList = () => setViewMode(VIEW_MODE.LIST);
   const viewModeChart = () => setViewMode(VIEW_MODE.CHART);
@@ -84,9 +85,11 @@ export default function SalesByProductDetail({
       <View style={styles.rowContent}>
         <View style={layouts.horizontal}>
           <ButtonCalendarFilter
+            ref={calendarRef}
             onChangeTimeValue={onChangeTimeValue}
             paddingLeft={scaleWidth(105)}
             paddingTop={scaleHeight(170)}
+            defaultValue={timeValue}
           />
         </View>
         <View style={layouts.horizontal}>

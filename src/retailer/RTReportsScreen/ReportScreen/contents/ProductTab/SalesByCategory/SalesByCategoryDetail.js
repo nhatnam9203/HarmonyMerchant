@@ -1,25 +1,15 @@
-import {
-  ButtonCalendarFilter,
-  FormTitle,
-  ExportModal,
-} from "@shared/components";
-import { useReportSaleCategory } from "@shared/services/api/retailer";
-import { getQuickFilterTimeRange } from "@utils";
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { StyleSheet, View, ScrollView, Text } from "react-native";
-import { useDispatch } from "react-redux";
-import { Table } from "@shared/components/CustomTable";
-import {
-  dateToString,
-  DATE_SHOW_FORMAT_STRING,
-  statusSuccess,
-} from "@shared/utils";
-import { layouts } from "@shared/themes";
-import { DropdownMenu } from "@shared/components";
-import SalesCategoryLineChart from "./chart/SaleCategoryLineChart";
-import { PopupButton, TableList, ReportTabLayout } from "../../../widget";
 import IMAGE from "@resources";
+import { ButtonCalendarFilter, ExportModal } from "@shared/components";
+import { Table } from "@shared/components/CustomTable";
+import { layouts } from "@shared/themes";
+import { dateToString, DATE_SHOW_FORMAT_STRING } from "@shared/utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
+import { PopupButton } from "../../../widget";
+import SalesCategoryLineChart from "./chart/SaleCategoryLineChart";
+
 const VIEW_MODE = {
   LIST: "LIST",
   CHART: "CHART",

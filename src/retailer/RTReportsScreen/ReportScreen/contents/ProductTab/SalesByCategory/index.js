@@ -37,7 +37,6 @@ function SalesByCategoryTab({
   */
   const [reportSaleCategory, getReportSaleCategory] = useReportSaleCategory();
   const callGetReportSaleCategory = React.useCallback(() => {
-    console.log(timeVal);
     getReportSaleCategory({
       ...timeVal,
       sort: {},
