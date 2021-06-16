@@ -17,6 +17,7 @@ import {
 } from "@shared/utils";
 import { layouts } from "@shared/themes";
 import { DropdownMenu } from "@shared/components";
+import NavigationServices from "@navigators/NavigatorServices";
 
 const filterItems = [
   { label: "Top categories", value: "all" },
@@ -144,6 +145,13 @@ export default function SalesByCategory({
     }
   };
 
+  const onSelectRow = ({ item }) => {
+    NavigationServices.navigate("ReportSaleCategory_Detail", {
+      detailName: item?.name,
+      details: item.details,
+    });
+  };
+
   /**render */
   //callback render action cell
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
@@ -212,7 +220,7 @@ export default function SalesByCategory({
             }
           }
           renderCell={onRenderCell}
-          //   onRowPress={onSelectRow}
+          onRowPress={onSelectRow}
         />
       </View>
     </View>

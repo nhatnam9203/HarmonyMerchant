@@ -1,10 +1,10 @@
 import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 
-const BOX_DEFAULT_WIDTH = 80;
-const BOX_DEFAULT_HEIGHT = 45;
+const BOX_DEFAULT_WIDTH = scaleWidth(40);
+const BOX_DEFAULT_HEIGHT = scaleWidth(40);
 
-const ICON_DEFAULT_SIZE = 30;
+const ICON_DEFAULT_SIZE = scaleWidth(24);
 
 const TEXT_DEFAULT_FONT_SIZE = 17;
 

@@ -69,7 +69,7 @@ function ProductTab({ style, showBackButton }, ref) {
         <SalesByCategory
           style={{ flex: 1 }}
           ref={salesByCategoryTabRef}
-          tabLabel="Sales By Category"
+          tabLabel="Sales by category"
           showBackButton={showBackButton}
           showHeader={onShowHeader}
         />
@@ -77,7 +77,7 @@ function ProductTab({ style, showBackButton }, ref) {
         <SalesByProduct
           style={{ flex: 1 }}
           ref={salesByProductTabRef}
-          tabLabel="Sales By Product"
+          tabLabel="Sales by product"
           showBackButton={showBackButton}
           showHeader={onShowHeader}
         />

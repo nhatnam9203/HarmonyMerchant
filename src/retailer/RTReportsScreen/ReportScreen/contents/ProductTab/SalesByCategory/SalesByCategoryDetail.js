@@ -17,44 +17,48 @@ import {
 } from "@shared/utils";
 import { layouts } from "@shared/themes";
 import { DropdownMenu } from "@shared/components";
+import SalesCategoryLineChart from "./chart/SaleCategoryLineChart";
+import { PopupButton, TableList, ReportTabLayout } from "../../../widget";
+import IMAGE from "@resources";
+const VIEW_MODE = {
+  LIST: "LIST",
+  CHART: "CHART",
+};
+
+const ACTIVE_COLOR = "#0764B0";
+const INACTIVE_COLOR = "#6A6A6A";
+
+const log = (obj, message = "") => {
+  Logger.log(`[SalesByCategoryDetail] ${message}`, obj);
+};
 
 export default function SalesByCategoryDetail({
-  style,
-  onGoStatistics,
-  titleRangeTime,
-  showCalendar,
-  onChangeFilterNames,
-  onChangeFilterId,
-  showExportFile,
-  pathFileExport,
-  handleTheDownloadedFile,
-  defaultFilterList,
-  defaultFilterName,
-  onRefresh,
-  isRefreshing,
-  resetTab,
+  route: {
+    params: { detailName = "Category", details },
+  },
 }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const [timeVal, setTimeVal] = React.useState(null);
-  const [data, setData] = React.useState([]);
+  const [data, setData] = React.useState();
   const [filterCategory, setFilterCategory] = React.useState({});
+  const [viewMode, setViewMode] = useState(VIEW_MODE.LIST);
 
   /**
     |--------------------------------------------------
     | CALL API
     |--------------------------------------------------
     */
-  const [reportSaleCategory, getReportSaleCategory] = useReportSaleCategory();
-  const callGetReportSaleCategory = React.useCallback(() => {
-    console.log(timeVal);
-    getReportSaleCategory({
-      ...timeVal,
-      sort: {},
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal]);
+  //   const [reportSaleCategory, getReportSaleCategory] = useReportSaleCategory();
+  //   const callGetReportSaleCategory = React.useCallback(() => {
+  //     console.log(timeVal);
+  //     getReportSaleCategory({
+  //       ...timeVal,
+  //       sort: {},
+  //     });
+  //     // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   }, [timeVal]);
 
   /**
     |--------------------------------------------------
@@ -62,18 +66,17 @@ export default function SalesByCategoryDetail({
     |--------------------------------------------------
     */
 
-  React.useEffect(() => {
-    callGetReportSaleCategory();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal]);
+  //   React.useEffect(() => {
+  //     callGetReportSaleCategory();
+  //     // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   }, [timeVal]);
 
-  /**effect */
-  useEffect(() => {
-    const { codeStatus, message, data, summary } = reportSaleCategory || {};
-    if (statusSuccess(codeStatus)) {
-      setData(data);
-    }
-  }, [reportSaleCategory]);
+  //   useEffect(() => {
+  //     const { codeStatus, message, data, summary } = reportSaleCategory || {};
+  //     if (statusSuccess(codeStatus)) {
+  //       setData(data);
+  //     }
+  //   }, [reportSaleCategory]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
     if (quickFilter === "Customize Date") {
@@ -86,6 +89,9 @@ export default function SalesByCategoryDetail({
       setTimeVal({ quickFilter: getQuickFilterTimeRange(quickFilter) });
     }
   };
+
+  const viewModeList = () => setViewMode(VIEW_MODE.LIST);
+  const viewModeChart = () => setViewMode(VIEW_MODE.CHART);
 
   /**render */
   //callback render action cell
@@ -103,51 +109,74 @@ export default function SalesByCategoryDetail({
             paddingTop={scaleHeight(170)}
           />
         </View>
+        <View style={layouts.horizontal}>
+          <PopupButton
+            imageSrc={IMAGE.Report_Chart}
+            imageStyle={{
+              tintColor:
+                viewMode === VIEW_MODE.CHART ? ACTIVE_COLOR : INACTIVE_COLOR,
+            }}
+            onPress={viewModeChart}
+          />
+          <View style={layouts.marginHorizontal} />
+          <PopupButton
+            imageSrc={IMAGE.Report_Grid}
+            imageStyle={{
+              tintColor:
+                viewMode === VIEW_MODE.LIST ? ACTIVE_COLOR : INACTIVE_COLOR,
+            }}
+            onPress={viewModeList}
+          />
+        </View>
       </View>
       <View style={styles.rowContent}>
-        <Text style={layouts.title}>{t("Top Performing Categories")}</Text>
+        <Text style={layouts.title}>{detailName}</Text>
         <ExportModal />
       </View>
       <View style={styles.content}>
-        <Table
-          items={data}
-          headerKeyLabels={{
-            name: t("Category name"),
-            quantity: t("Qty sold"),
-            totalRevenue: t("Total revenue"),
-            totalCost: t("Total cost"),
-            totalTax: t("Total tax"),
-            totalProfit: t("Total profit"),
-          }}
-          whiteListKeys={[
-            "name",
-            "quantity",
-            "totalRevenue",
-            "totalCost",
-            "totalTax",
-            "totalProfit",
-          ]}
-          //   sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
-          primaryKey="name"
-          //   unitKeys={{ totalDuration: "hrs" }}
-          widthForKeys={{
-            name: scaleWidth(250),
-            quantity: scaleWidth(120),
-            totalRevenue: scaleWidth(180),
-            totalCost: scaleWidth(180),
-            totalTax: scaleWidth(180),
-          }}
-          emptyDescription={t("No Report Data")}
-          //   styleTextKeys={{ customerName: styles.textName }}
-          //   onSortWithKey={onSortWithKey}
-          formatFunctionKeys={
-            {
-              // date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
-            }
-          }
-          renderCell={onRenderCell}
-          //   onRowPress={onSelectRow}
-        />
+        {viewMode === VIEW_MODE.LIST && (
+          <Table
+            items={details}
+            headerKeyLabels={{
+              date: t("Category name"),
+              quantity: t("Qty sold"),
+              totalRevenue: t("Total revenue"),
+              totalCost: t("Total cost"),
+              totalTax: t("Total tax"),
+              totalProfit: t("Total profit"),
+            }}
+            whiteListKeys={[
+              "date",
+              "quantity",
+              "totalRevenue",
+              "totalCost",
+              "totalTax",
+              "totalProfit",
+            ]}
+            //   sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
+            primaryKey="date"
+            //   unitKeys={{ totalDuration: "hrs" }}
+            widthForKeys={{
+              date: scaleWidth(250),
+              quantity: scaleWidth(120),
+              totalRevenue: scaleWidth(180),
+              totalCost: scaleWidth(180),
+              totalTax: scaleWidth(180),
+            }}
+            emptyDescription={t("No Report Data")}
+            //   styleTextKeys={{ customerName: styles.textName }}
+            //   onSortWithKey={onSortWithKey}
+            formatFunctionKeys={{
+              date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
+            }}
+            renderCell={onRenderCell}
+            //   onRowPress={onSelectRow}
+          />
+        )}
+
+        {viewMode === VIEW_MODE.CHART && (
+          <SalesCategoryLineChart data={details} />
+        )}
       </View>
     </View>
   );

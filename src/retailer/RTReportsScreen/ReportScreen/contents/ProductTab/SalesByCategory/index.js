@@ -7,13 +7,15 @@ import React, {
 } from "react";
 import { View, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-
+import { createStackNavigator } from "@react-navigation/stack";
 import actions from "@actions";
-
+import { colors } from "@shared/themes";
 import { ReportLayout } from "../../../widget";
 
 import SalesByCategory from "./SalesByCategory";
-import SalesByCategoryStatistic from "./SalesByCategoryStatistic";
+import SalesByCategoryDetail from "./SalesByCategoryDetail";
+
+const { Screen, Navigator } = createStackNavigator();
 
 const FILTER_NAME_DEFAULT_LIST = [
   { value: "All Category", id: "all" },
@@ -188,55 +190,30 @@ function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
   }, [productSaleByCategoryList]);
 
   return (
-    <View style={[styles.container, style]}>
-      <ReportLayout
-        ref={layoutRef}
-        style={style}
-        showBackButton={showBackButton}
-        onChangeTimeTitle={onChangeTimeTitle}
-        onRequestExportFileToServer={onRequestExportFileToServer}
-        isDownloadReport={isDownloadReport}
-        tabChange={onChangeTab}
+    <View style={styles.container}>
+      <Navigator
+        headerMode="none"
+        screenOptions={{
+          cardStyle: {
+            backgroundColor: colors.WHITE_FA,
+          },
+        }}
       >
-        <SalesByCategory
-          style={{ flex: 1, paddingTop: 10 }}
-          tabLabel="Sales By Category"
-          onGoStatistics={onGoStatistics}
-          showCalendar={() => showCalendar(true)}
-          titleRangeTime={titleRangeTime}
-          onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("SalesByCategory")}
-          pathFileExport={exportFilePath}
-          handleTheDownloadedFile={onHandleTheDownloadedFile}
-          onChangeFilterId={onChangeFilterId}
-          defaultFilterList={FILTER_NAME_DEFAULT_LIST}
-          defaultFilterName={FILTER_NAME_DEFAULT}
-          resetTab={resetTab}
-          onRefresh={refreshData}
-          isRefreshing={refreshing}
+        <Screen name="ReportSaleCategory" component={SalesByCategory} />
+        <Screen
+          name="ReportSaleCategory_Detail"
+          component={SalesByCategoryDetail}
         />
-        <SalesByCategoryStatistic
-          style={{ flex: 1, paddingTop: 10 }}
-          tabLabel="Sales By Category Statistics"
-          title="Sales By Category Statistics"
-          titleRangeTime={titleRangeTime}
-          showCalendar={() => showCalendar(true)}
-          dataFilters={filterNames}
-          filterId={filterNameItem}
-          onChangeFilter={onChangeFilterId}
-          showExportFile={() => onShowPopupExport("SalesByCategoryStatistic")}
-          pathFileExport={statisticExportFilePath}
-          handleTheDownloadedFile={onHandleTheDownloadedFile}
-          onRefresh={refreshData}
-          isRefreshing={refreshing}
-        />
-      </ReportLayout>
+      </Navigator>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    backgroundColor: colors.WHITE_FA,
+  },
 });
 
 export default SalesByCategoryTab = forwardRef(SalesByCategoryTab);
