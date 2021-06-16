@@ -27,3 +27,4 @@ export * from './CustomSwitch';
 export * from './CustomSwitchButton';
 export * from './DialogAddNewPaymentMethod';
 export * from './CustomLink';
+export * from './FormPinCode';

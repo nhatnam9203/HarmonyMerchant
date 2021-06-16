@@ -36,7 +36,7 @@ export const Layout = ({ openDrawer, reload, logOut }) => {
       case SettingCategoriesPage.name:
         return <SettingCategoriesPage.component reloadPage={reload} />;
       case SettingStaffPage.name:
-        return <TabStaff reloadPage={reload} />;
+        return <SettingStaffPage.component reloadPage={reload} />;
       case SettingPaymentPage.name:
         return <SettingPaymentPage.component reloadPage={reload} />;
       case SettingTaxPage.name:
