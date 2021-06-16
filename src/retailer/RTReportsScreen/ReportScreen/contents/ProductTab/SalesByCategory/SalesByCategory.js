@@ -134,6 +134,8 @@ export default function SalesByCategory({}) {
     NavigationServices.navigate("ReportSaleCategory_Detail", {
       detailName: item?.name,
       details: item.details,
+      timeVal,
+      setTimeVal,
     });
   };
 

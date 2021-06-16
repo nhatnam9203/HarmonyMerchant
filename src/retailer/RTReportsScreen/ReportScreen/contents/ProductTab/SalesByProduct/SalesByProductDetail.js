@@ -36,47 +36,29 @@ export default function SalesByProductDetail({
   route: {
     params: { detailName = "Product", details },
   },
+  navigation,
+  showBackButton,
+  setTimeVal = () => {},
 }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const [timeVal, setTimeVal] = React.useState(null);
-  const [data, setData] = React.useState();
-  const [filterProduct, setFilterProduct] = React.useState({});
   const [viewMode, setViewMode] = useState(VIEW_MODE.LIST);
 
-  /**
-      |--------------------------------------------------
-      | CALL API
-      |--------------------------------------------------
-      */
-  //   const [reportSaleProduct, getReportSaleProduct] = useReportSaleProduct();
-  //   const callGetReportSaleProduct = React.useCallback(() => {
-  //     console.log(timeVal);
-  //     getReportSaleProduct({
-  //       ...timeVal,
-  //       sort: {},
-  //     });
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, [timeVal]);
+  React.useEffect(() => {
+    const unsubscribeFocus = navigation.addListener("focus", () => {
+      showBackButton(true);
+    });
 
-  /**
-      |--------------------------------------------------
-      | useEffect
-      |--------------------------------------------------
-      */
+    const unsubscribeBlur = navigation.addListener("blur", () => {
+      showBackButton(false);
+    });
 
-  //   React.useEffect(() => {
-  //     callGetReportSaleProduct();
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, [timeVal]);
-
-  //   useEffect(() => {
-  //     const { codeStatus, message, data, summary } = reportSaleProduct || {};
-  //     if (statusSuccess(codeStatus)) {
-  //       setData(data);
-  //     }
-  //   }, [reportSaleProduct]);
+    return () => {
+      unsubscribeFocus();
+      unsubscribeBlur();
+    };
+  }, [navigation]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
     if (quickFilter === "Customize Date") {
@@ -93,8 +75,6 @@ export default function SalesByProductDetail({
   const viewModeList = () => setViewMode(VIEW_MODE.LIST);
   const viewModeChart = () => setViewMode(VIEW_MODE.CHART);
 
-  /**render */
-  //callback render action cell
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
     return null;
   };

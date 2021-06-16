@@ -34,7 +34,7 @@ const log = (obj, message = "") => {
 
 export default function SalesByCategoryDetail({
   route: {
-    params: { detailName = "Category", details },
+    params: { detailName = "Category", details, timeVal, setTimeVal },
   },
   navigation,
   showBackButton,
@@ -42,43 +42,7 @@ export default function SalesByCategoryDetail({
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const [timeVal, setTimeVal] = React.useState(null);
-  const [data, setData] = React.useState();
-  const [filterCategory, setFilterCategory] = React.useState({});
   const [viewMode, setViewMode] = useState(VIEW_MODE.LIST);
-
-  /**
-    |--------------------------------------------------
-    | CALL API
-    |--------------------------------------------------
-    */
-  //   const [reportSaleCategory, getReportSaleCategory] = useReportSaleCategory();
-  //   const callGetReportSaleCategory = React.useCallback(() => {
-  //     console.log(timeVal);
-  //     getReportSaleCategory({
-  //       ...timeVal,
-  //       sort: {},
-  //     });
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, [timeVal]);
-
-  /**
-    |--------------------------------------------------
-    | useEffect
-    |--------------------------------------------------
-    */
-
-  //   React.useEffect(() => {
-  //     callGetReportSaleCategory();
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, [timeVal]);
-
-  //   useEffect(() => {
-  //     const { codeStatus, message, data, summary } = reportSaleCategory || {};
-  //     if (statusSuccess(codeStatus)) {
-  //       setData(data);
-  //     }
-  //   }, [reportSaleCategory]);
 
   React.useEffect(() => {
     const unsubscribeFocus = navigation.addListener("focus", () => {
@@ -110,8 +74,6 @@ export default function SalesByCategoryDetail({
   const viewModeList = () => setViewMode(VIEW_MODE.LIST);
   const viewModeChart = () => setViewMode(VIEW_MODE.CHART);
 
-  /**render */
-  //callback render action cell
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
     return null;
   };
@@ -121,6 +83,7 @@ export default function SalesByCategoryDetail({
       <View style={styles.rowContent}>
         <View style={layouts.horizontal}>
           <ButtonCalendarFilter
+            defaultValue={timeVal}
             onChangeTimeValue={onChangeTimeValue}
             paddingLeft={scaleWidth(105)}
             paddingTop={scaleHeight(170)}

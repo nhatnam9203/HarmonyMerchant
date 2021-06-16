@@ -23,10 +23,11 @@ function SalesByProductTab({
         }}
       >
         <Screen name="ReportSaleProduct" component={SalesByProduct} />
-        <Screen
-          name="ReportSaleProduct_Detail"
-          component={SalesByProductDetail}
-        />
+        <Screen name="ReportSaleProduct_Detail">
+          {(props) => (
+            <SalesByProductDetail {...props} showBackButton={showBackButton} />
+          )}
+        </Screen>
       </Navigator>
     </View>
   );

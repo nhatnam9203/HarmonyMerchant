@@ -5,7 +5,11 @@ import { colors } from "@shared/themes";
 import IMAGE from "@resources";
 import { fonts, layouts } from "../themes";
 
-export const ButtonCalendarFilter = ({ onChangeTimeValue, paddingLeft, paddingTop }) => {
+export const ButtonCalendarFilter = ({
+  onChangeTimeValue,
+  paddingLeft,
+  paddingTop,
+}) => {
   const calendarRef = React.useRef(null);
 
   const [visible, setVisible] = React.useState(false);
