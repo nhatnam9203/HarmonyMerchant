@@ -92,3 +92,15 @@ export const RETAILER_REPORT_SALES = {
 export const RETAILER_REPORT_PRODUCT = {
   url: "product/report",
 };
+
+export const RETAILER_APPOINTMENT_REPORT = {
+  url: "retailer/appointment/report",
+};
+
+export const RETAILER_OVERALL = {
+  url: "overall",
+};
+
+export const RETAILER_STAFF = {
+  url: "staff",
+};

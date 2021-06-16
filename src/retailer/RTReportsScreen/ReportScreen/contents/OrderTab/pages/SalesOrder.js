@@ -15,6 +15,7 @@ import { ButtonOverall } from "../../../widget";
 const log = (obj, message = "") => {
   Logger.log(`[SalesOrder] ${message}`, obj);
 };
+const RANGE_TIME_DEFAULT = "This Week";
 
 export const SalesOrder = () => {
   const { t } = useTranslation();
@@ -97,7 +98,10 @@ export const SalesOrder = () => {
   return (
     <View style={styles.container}>
       <View style={styles.rowContent}>
-        <ButtonCalendarFilter onChangeTimeValue={onChangeTimeValue} />
+        <ButtonCalendarFilter
+          onChangeTimeValue={onChangeTimeValue}
+          defaultValue={RANGE_TIME_DEFAULT}
+        />
       </View>
       <View style={styles.rowContent}>
         <ButtonOverall

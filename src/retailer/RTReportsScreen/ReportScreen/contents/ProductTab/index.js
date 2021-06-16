@@ -20,22 +20,9 @@ function ProductTab({ showBackButton }, ref) {
   const salesByCategoryTabRef = useRef(null);
   const salesByProductTabRef = useRef(null);
 
-  const onGoBack = () => {
-    switch (currentTab) {
-      case 0:
-        salesByCategoryTabRef.current?.goBack();
-        break;
-      case 1:
-        salesByProductTabRef.current?.goBack();
-        break;
-      default:
-        break;
-    }
-  };
-
   // public func
   useImperativeHandle(ref, () => ({
-    goBack: onGoBack,
+    goBack: () => {},
     didBlur: () => {
       salesByCategoryTabRef?.current?.didBlur();
       salesByProductTabRef?.current?.didBlur();

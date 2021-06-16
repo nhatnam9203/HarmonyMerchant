@@ -1,196 +1,122 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
-import { View, StyleSheet } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-
-import actions from "@actions";
-
-import { ReportLayout } from "../../widget";
-
-import CustomerReportTab from "./CustomerReportTab";
-import CustomerStatistic from "./CustomerStatistic";
+import { createStackNavigator } from "@react-navigation/stack";
+import { useReportCustomer } from "@shared/services/api/retailer";
+import { colors } from "@shared/themes";
+import { statusSuccess } from "@shared/utils";
+import { getQuickFilterTimeRange } from "@utils";
+import { StyleSheet, View } from "react-native";
+import { useDispatch } from "react-redux";
+import CustomerDetail from "./CustomerDetail";
+import CustomerOverall from "./CustomerOverall";
+import React from "react";
 
 const RANGE_TIME_DEFAULT = "This Week";
+const { Screen, Navigator } = createStackNavigator();
 
-function CustomerTab({ style, showBackButton }, ref) {
-  /**redux store*/
-  const dispatch = useDispatch();
-  const language = useSelector((state) => state.dataLocal.language);
+export const CustomerTab = React.forwardRef(
+  (
+    {
+      route: {
+        params: { showBackButton },
+      },
+    },
+    ref
+  ) => {
+    const dispatch = useDispatch();
 
-  const exportFilePath = useSelector((state) => state.report.exportFilePath);
+    const [timeVal, setTimeVal] = React.useState(null);
+    const [data, setData] = React.useState([]);
 
-  // const statisticExportFilePath = useSelector(
-  //   (state) => state.report.statisticExportFilePath
-  // );
+    /**
+  |--------------------------------------------------
+  | CALL API
+  |--------------------------------------------------
+  */
+    const [reportCustomer, getReportCustomer] = useReportCustomer();
+    const callGetReportCustomer = React.useCallback(() => {
+      getReportCustomer({
+        ...timeVal,
+        sort: {},
+      });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [timeVal]);
 
-  const customerReportList = useSelector(
-    (state) => state.report.customerReportList
-  );
+    /**
+  |--------------------------------------------------
+  | useEffect
+  |--------------------------------------------------
+  */
 
-  const isDownloadReport = useSelector(
-    (state) => state.report.isDownloadReport
-  );
+    React.useEffect(() => {
+      callGetReportCustomer();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [timeVal]);
 
-  /**state */
-  const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
-  const [filterNameItem, setFilterNameItem] = useState(undefined);
-  const [filterNames, setFilterNames] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
+    /**effect */
+    React.useEffect(() => {
+      const { codeStatus, message, data, summary } = reportCustomer || {};
+      if (statusSuccess(codeStatus)) {
+        setData(data);
+      }
+    }, [reportCustomer]);
 
-  /**ref */
-  const layoutRef = useRef(null);
+    const onChangeTimeValue = (quickFilter, timeState) => {
+      if (quickFilter === "Customize Date") {
+        setTimeVal({
+          quickFilter: "custom",
+          quickFilterText: quickFilter,
+          timeStart: timeState.startDate,
+          timeEnd: timeState.endDate,
+        });
+      } else {
+        setTimeVal({
+          quickFilter: getQuickFilterTimeRange(quickFilter),
+          quickFilterText: quickFilter,
+        });
+      }
+    };
 
-  /**function */
-  const getCustomerReportSales = async () => {
-    await dispatch(
-      actions.report.getCustomerSales(true, layoutRef?.current?.getTimeUrl())
+    return (
+      <View style={styles.container}>
+        <Navigator
+          headerMode="none"
+          screenOptions={{
+            cardStyle: {
+              backgroundColor: colors.WHITE_FA,
+            },
+          }}
+        >
+          <Screen name="ReportCustomerOverall">
+            {(props) => (
+              <CustomerOverall
+                {...props}
+                onChangeTimeValue={onChangeTimeValue}
+                timeValue={timeVal}
+                data={data}
+              />
+            )}
+          </Screen>
+          <Screen name="ReportCustomerDetail">
+            {(props) => (
+              <CustomerDetail
+                {...props}
+                showBackButton={showBackButton}
+                onChangeTimeValue={onChangeTimeValue}
+                timeValue={timeVal}
+                data={data}
+              />
+            )}
+          </Screen>
+        </Navigator>
+      </View>
     );
-  };
-
-  const showCalendar = (isShow) => {
-    layoutRef?.current?.showCalendar(isShow);
-  };
-
-  //callback
-  const onChangeTimeTitle = async (titmeTitle) => {
-    await setTitleRangeTime(titmeTitle);
-    await getCustomerReportSales();
-
-    // TODO: call reload list
-  };
-
-  const onChangeFilterNames = (names) => {
-    setFilterNames(names);
-  };
-
-  const onChangeFilterId = async (filterId) => {
-    await setFilterNameItem(filterId);
-  };
-
-  const onGoStatistics = async (item) => {
-    await setFilterNameItem(item.name);
-    layoutRef.current?.goNext();
-  };
-
-  const onShowPopupExport = (title) => {
-    layoutRef?.current?.showPopupExport(title);
-  };
-
-  const onRequestExportFileToServer = (currentTab, titleExportFile) => {
-    switch (currentTab) {
-      case 0:
-        dispatch(
-          actions.report.exportCustomerSalesSales(
-            layoutRef?.current?.getTimeUrl(),
-            true,
-            "excel",
-            titleExportFile
-          )
-        );
-        break;
-      case 1:
-        // const filterItem = customerReportList.find(
-        //   (item) => item.type === filterNameItem
-        // );
-        // if (!filterItem) return;
-        // dispatch(
-        //   actions.report.exportGiftCardReportSalesStatistics(
-        //     filterItem.giftCardGeneralId,
-        //     layoutRef?.current?.getTimeUrl(),
-        //     true,
-        //     "excel",
-        //     titleExportFile
-        //   )
-        // );
-        break;
-      default:
-        break;
-    }
-  };
-
-  const onHandleTheDownloadedFile = (filePath) => {
-    layoutRef.current?.handleTheDownloadedFile(filePath);
-  };
-
-  // public function
-  useImperativeHandle(ref, () => ({
-    goBack: () => {
-      layoutRef.current?.goBack();
-    },
-    didBlur: () => {
-      // getCustomerReportSales();
-    },
-    didFocus: () => {
-      layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
-    },
-    getCustomerReportSales: () => getCustomerReportSales()
-  }));
-
-  /**effect */
-  useEffect(() => {
-    getCustomerReportSales();
-  }, []);
-
-  const refreshData = () => {
-    setRefreshing(true);
-    getCustomerReportSales();
-  };
-
-  React.useEffect(() => {
-    setRefreshing(false);
-  }, [customerReportList]);
-
-  return (
-    <View style={[styles.container, style]}>
-      <ReportLayout
-        ref={layoutRef}
-        style={style}
-        showBackButton={showBackButton}
-        onChangeTimeTitle={onChangeTimeTitle}
-        onRequestExportFileToServer={onRequestExportFileToServer}
-        isDownloadReport={isDownloadReport}
-      >
-        <CustomerReportTab
-          style={{ flex: 1 }}
-          tabLabel="Customer"
-          onGoStatistics={onGoStatistics}
-          showCalendar={() => showCalendar(true)}
-          titleRangeTime={titleRangeTime}
-          onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("Customer")}
-          pathFileExport={exportFilePath}
-          handleTheDownloadedFile={onHandleTheDownloadedFile}
-          onChangeFilter={onChangeFilterId}
-          onRefresh={refreshData}
-          isRefreshing={refreshing}
-        />
-        <CustomerStatistic
-          style={{ flex: 1 }}
-          tabLabel="Customer Statistics"
-          title="Customer Statistics"
-          titleRangeTime={titleRangeTime}
-          showCalendar={() => showCalendar(true)}
-          dataFilters={null}
-          filterId={filterNameItem}
-          onChangeFilter={onChangeFilterId}
-          showExportFile={() => onShowPopupExport("CustomerStatistic")}
-          // pathFileExport={statisticExportFilePath}
-          handleTheDownloadedFile={onHandleTheDownloadedFile}
-          onRefresh={refreshData}
-          isRefreshing={refreshing}
-        />
-      </ReportLayout>
-    </View>
-  );
-}
+  }
+);
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    backgroundColor: colors.WHITE_FA,
+  },
 });
 
-export default CustomerTab = forwardRef(CustomerTab);
+export default CustomerTab;

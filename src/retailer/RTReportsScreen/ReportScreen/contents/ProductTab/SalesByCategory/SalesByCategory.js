@@ -194,42 +194,4 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-
-  cellAction: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-around",
-    width: "100%",
-    flex: 1,
-  },
-  txtSalary: {
-    fontWeight: "bold",
-    fontSize: 15,
-    color: "#6A6A6A",
-    marginRight: 5,
-  },
-  imgDetail: {
-    tintColor: "#6A6A6A",
-    width: 20,
-    height: 20,
-  },
-  btnInCell: {
-    height: "100%",
-    width: 35,
-    marginLeft: 4,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  chartDetail: {
-    justifyContent: "center",
-    alignItems: "flex-start",
-    flex: 1,
-  },
-  chartDetailItem: {
-    flexDirection: "row",
-    margin: 10,
-    paddingLeft: 20,
-    justifyContent: "flex-start",
-    alignItems: "center",
-  },
 });
