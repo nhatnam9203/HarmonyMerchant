@@ -83,7 +83,10 @@ export const SalesOverall = () => {
   return (
     <View style={styles.container}>
       <View style={styles.rowContent}>
-        <ButtonCalendarFilter onChangeTimeValue={onChangeTimeValue} />
+        <ButtonCalendarFilter
+          onChangeTimeValue={onChangeTimeValue}
+          defaultValue={"This Week"}
+        />
       </View>
       <View style={styles.rowContent}>
         <ButtonOverall

@@ -26,6 +26,12 @@ export const DropdownMenu = React.forwardRef(
 
     React.useImperativeHandle(ref, () => ({}));
 
+    React.useEffect(() => {
+      if (defaultIndex >= 0) {
+        setItem(options[defaultIndex]);
+      }
+    }, []);
+
     const onSelect = (idx, value) => {
       setItem(value);
       if (onChangeValue && typeof onChangeValue === "function") {
@@ -71,8 +77,8 @@ export const DropdownMenu = React.forwardRef(
         ]}
       >
         <ModalDropdown
-          defaultIndex={defaultIndex}
           options={options}
+          defaultIndex={defaultIndex}
           style={[width && { width }]}
           dropdownStyle={[styles.dropDownContainerStyle, width && { width }]}
           renderRow={renderRow}

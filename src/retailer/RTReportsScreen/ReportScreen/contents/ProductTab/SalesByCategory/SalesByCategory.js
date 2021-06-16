@@ -19,8 +19,8 @@ import { DropdownMenu } from "@shared/components";
 import NavigationServices from "@navigators/NavigatorServices";
 
 const filterItems = [
-  { label: "Top categories", value: "all" },
-  { label: "All categories", value: "top" },
+  { label: "Top categories", value: "top" },
+  { label: "All categories", value: "all" },
 ];
 
 export default function SalesByCategory({
@@ -28,12 +28,11 @@ export default function SalesByCategory({
   data,
   timeValue,
   navigation,
+  setFilterCategory,
 }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const calendarRef = React.useRef(null);
-
-  const [filterCategory, setFilterCategory] = React.useState({});
 
   // create filter name data
   // const bindFilterName = () => {
@@ -93,13 +92,14 @@ export default function SalesByCategory({
 
   React.useEffect(() => {
     if (timeValue) {
-      calendarRef.current?.setTimeValue(timeValue);
+      calendarRef.current?.updateTimeValue(timeValue);
     }
   }, [timeValue]);
 
   const onSelectRow = ({ item }) => {
     NavigationServices.navigate("ReportSaleCategory_Detail", {
       detailName: item?.name,
+      timeValue: timeValue,
     });
   };
 
@@ -114,9 +114,9 @@ export default function SalesByCategory({
           <ButtonCalendarFilter
             ref={calendarRef}
             onChangeTimeValue={onChangeTimeValue}
-            paddingLeft={scaleWidth(105)}
+            paddingLeft={scaleWidth(100)}
             paddingTop={scaleHeight(170)}
-            defaultValue={timeValue}
+            defaultValue={"This Week"}
           />
           <View style={layouts.marginHorizontal} />
           <DropdownMenu

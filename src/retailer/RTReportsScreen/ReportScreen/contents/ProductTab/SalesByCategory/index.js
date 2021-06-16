@@ -28,6 +28,7 @@ function SalesByCategoryTab({
   const dispatch = useDispatch();
 
   const [timeVal, setTimeVal] = React.useState(null);
+  const [filterCategory, setFilterCategory] = React.useState(null);
   const [data, setData] = React.useState([]);
 
   /**
@@ -39,10 +40,11 @@ function SalesByCategoryTab({
   const callGetReportSaleCategory = React.useCallback(() => {
     getReportSaleCategory({
       ...timeVal,
+      category: filterCategory?.value ?? "top",
       sort: {},
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal]);
+  }, [timeVal, filterCategory]);
 
   /**
   |--------------------------------------------------
@@ -51,9 +53,10 @@ function SalesByCategoryTab({
   */
 
   React.useEffect(() => {
+    console.log(filterCategory);
     callGetReportSaleCategory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal]);
+  }, [timeVal, filterCategory]);
 
   /**effect */
   React.useEffect(() => {
@@ -94,8 +97,9 @@ function SalesByCategoryTab({
             <SalesByCategory
               {...props}
               onChangeTimeValue={onChangeTimeValue}
-              timeValue={timeVal?.quickFilterText}
+              timeValue={timeVal}
               data={data}
+              setFilterCategory={setFilterCategory}
             />
           )}
         </Screen>
@@ -105,7 +109,7 @@ function SalesByCategoryTab({
               {...props}
               showBackButton={showBackButton}
               onChangeTimeValue={onChangeTimeValue}
-              timeValue={timeVal?.quickFilterText}
+              timeValue={timeVal}
               data={data}
             />
           )}

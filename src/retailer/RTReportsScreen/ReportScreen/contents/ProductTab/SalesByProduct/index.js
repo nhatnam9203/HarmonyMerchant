@@ -16,6 +16,7 @@ function SalesByProductTab({
   },
 }) {
   const [timeVal, setTimeVal] = React.useState(null);
+  const [filterProduct, setFilterProduct] = React.useState(null);
   const [data, setData] = React.useState([]);
 
   /**
@@ -27,10 +28,11 @@ function SalesByProductTab({
   const callGetReportSaleProduct = React.useCallback(() => {
     getReportSaleProduct({
       ...timeVal,
+      product: filterProduct?.value ?? "top",
       sort: {},
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal]);
+  }, [timeVal, filterProduct]);
 
   /**
   |--------------------------------------------------
@@ -41,7 +43,7 @@ function SalesByProductTab({
   React.useEffect(() => {
     callGetReportSaleProduct();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal]);
+  }, [timeVal, filterProduct]);
 
   /**effect */
   React.useEffect(() => {
@@ -82,8 +84,9 @@ function SalesByProductTab({
             <SalesByProduct
               {...props}
               onChangeTimeValue={onChangeTimeValue}
-              timeValue={timeVal?.quickFilterText}
+              timeValue={timeVal}
               data={data}
+              setFilterProduct={setFilterProduct}
             />
           )}
         </Screen>

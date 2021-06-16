@@ -15,26 +15,30 @@ import { useDispatch } from "react-redux";
 import React from "react";
 
 const filterItems = [
-  { label: "Top products", value: "all" },
-  { label: "All products", value: "top" },
+  { label: "Top products", value: "top" },
+  { label: "All products", value: "all" },
 ];
 
-export default function SalesByProduct({ onChangeTimeValue, data, timeValue }) {
+export default function SalesByProduct({
+  onChangeTimeValue,
+  data,
+  timeValue,
+  setFilterProduct,
+}) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const calendarRef = React.useRef(null);
 
-  const [filterProduct, setFilterProduct] = React.useState(filterItems);
-
   React.useEffect(() => {
     if (timeValue) {
-      calendarRef.current?.setTimeValue(timeValue);
+      calendarRef.current?.updateTimeValue(timeValue);
     }
   }, [timeValue]);
 
   const onSelectRow = ({ item }) => {
     NavigationServices.navigate("ReportSaleProduct_Detail", {
       detailName: item?.name,
+      timeValue: timeValue,
     });
   };
 
@@ -51,7 +55,7 @@ export default function SalesByProduct({ onChangeTimeValue, data, timeValue }) {
             onChangeTimeValue={onChangeTimeValue}
             paddingLeft={scaleWidth(105)}
             paddingTop={scaleHeight(170)}
-            defaultValue={timeValue}
+            defaultValue={"This Week"}
           />
           <View style={layouts.marginHorizontal} />
           <DropdownMenu

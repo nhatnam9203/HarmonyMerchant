@@ -34,13 +34,12 @@ const log = (obj, message = "") => {
 
 export default function SalesByProductDetail({
   route: {
-    params: { detailName },
+    params: { detailName, timeValue },
   },
   navigation,
   showBackButton,
   onChangeTimeValue,
   data,
-  timeValue,
 }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -73,6 +72,10 @@ export default function SalesByProductDetail({
     }
   }, [detailName, data]);
 
+  React.useEffect(() => {
+    calendarRef.current?.updateTimeValue(timeValue);
+  }, [timeValue]);
+
   const viewModeList = () => setViewMode(VIEW_MODE.LIST);
   const viewModeChart = () => setViewMode(VIEW_MODE.CHART);
 
@@ -89,7 +92,7 @@ export default function SalesByProductDetail({
             onChangeTimeValue={onChangeTimeValue}
             paddingLeft={scaleWidth(105)}
             paddingTop={scaleHeight(170)}
-            defaultValue={timeValue}
+            // defaultValue={timeValue}
           />
         </View>
         <View style={layouts.horizontal}>

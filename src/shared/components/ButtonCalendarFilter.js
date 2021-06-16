@@ -26,15 +26,22 @@ export const ButtonCalendarFilter = React.forwardRef(
     };
 
     React.useImperativeHandle(ref, () => ({
-      setTimeValue: (timeValue) => {
-        if (timeValue !== textTime)
-          calendarRef.current?.selectQuickFilter(timeValue);
+      updateTimeValue: (timeValue) => {
+        if (timeValue) {
+          setTextTime(timeValue?.quickFilterText);
+
+          calendarRef.current?.setState({
+            startDate: timeValue?.timeStart,
+            endDate: timeValue?.timeEnd,
+            quickFilter: timeValue?.quickFilterText,
+          });
+        }
       },
     }));
 
     React.useEffect(() => {
-      calendarRef.current?.selectQuickFilter(defaultValue ?? "This Week");
-    }, []);
+      if (defaultValue) calendarRef.current?.selectQuickFilter(defaultValue);
+    }, [defaultValue]);
 
     return (
       <View>
