@@ -10,10 +10,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { ReportLayout } from "../../widget";
 import StaffReportTab from "./StaffReportTab";
 import StaffStatistic from "./StaffStatistic";
+import { colors } from "@shared/themes";
 
 const RANGE_TIME_DEFAULT = "This Week";
 
-function StaffTab({ style, showBackButton }, ref) {
+function StaffTab(
+  {
+    route: {
+      params: { showBackButton },
+    },
+  },
+  ref
+) {
   /**redux store*/
   const dispatch = useDispatch();
 
@@ -140,10 +148,10 @@ function StaffTab({ style, showBackButton }, ref) {
   }, [listStaffsSalary]);
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={styles.container}>
       <ReportLayout
         ref={layoutRef}
-        style={style}
+        style={styles.container}
         showBackButton={showBackButton}
         onChangeTimeTitle={onChangeTimeTitle}
         onRequestExportFileToServer={onRequestExportFileToServer}
@@ -182,8 +190,8 @@ function StaffTab({ style, showBackButton }, ref) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {},
-});
-
 export default StaffTab = forwardRef(StaffTab);
+
+const styles = StyleSheet.create({
+  container: { backgroundColor: colors.WHITE, flex: 1 },
+});

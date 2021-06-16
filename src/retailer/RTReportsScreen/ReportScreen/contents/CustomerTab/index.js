@@ -115,7 +115,7 @@ export const CustomerTab = React.forwardRef(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.WHITE_FA,
+    backgroundColor: colors.WHITE,
   },
 });
 

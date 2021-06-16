@@ -1,13 +1,13 @@
 import Configs from "@configs";
 
-export function addStaffByMerchant(body,searchFilter = false) {
+export function addStaffByMerchant(body, searchFilter = false) {
   return {
     type: "ADD_STAFF_BY_MERCHANT",
     body,
     method: "POST",
     token: true,
     api: `staff?api-version=1.1`,
-    searchFilter
+    searchFilter,
   };
 }
 
@@ -21,14 +21,20 @@ export function createAdmin(body) {
   };
 }
 
-export function getStaffByMerchantId(name = "", role = "", status = "",searchFilter = false,isShowLoading = true) {
+export function getStaffByMerchantId(
+  name = "",
+  role = "",
+  status = "",
+  searchFilter = false,
+  isShowLoading = true
+) {
   return {
     type: "GET_STAFF_BY_MERCHANR_ID",
     method: "GET",
     token: true,
     api: `staff/search?name=${name}&role=${role}&status=${status}`,
     isShowLoading,
-    searchFilter
+    searchFilter,
   };
 }
 
@@ -64,34 +70,34 @@ export function clearSearch() {
   };
 }
 
-export function archiveStaff(id,searchFilter = false) {
+export function archiveStaff(id, searchFilter = false) {
   return {
     type: "ARCHICVE_STAFF",
     method: "PUT",
     token: true,
     api: `staff/archive/${id}`,
-    searchFilter
+    searchFilter,
   };
 }
 
-export function restoreStaff(id,searchFilter =false) {
+export function restoreStaff(id, searchFilter = false) {
   return {
     type: "RESTORE_STAFF",
     method: "PUT",
     token: true,
     api: `staff/restore/${id}`,
-    searchFilter
+    searchFilter,
   };
 }
 
-export function editStaff(body, id = "",searchFilter =false) {
+export function editStaff(body, id = "", searchFilter = false) {
   return {
     type: "EDIT_STAFF_BY_MERCHANT",
     body,
     method: "PUT",
     token: true,
     api: `staff/${id}?api-version=1.1`,
-    searchFilter
+    searchFilter,
   };
 }
 
@@ -153,7 +159,6 @@ export function updateStaffsPosition(body) {
 export function reloadButtonEnterPincode() {
   return {
     type: "RELOAD_BUTTON_ENTER_PIN_CODE",
-
   };
 }
 
@@ -219,23 +224,20 @@ export function getExportStaffStatistics(
   };
 }
 
-
 export function resetDownloadExportFiles() {
   return {
-    type: "RESET_DOWNLOAD_FILE_REPORT_STAFF"
-  }
+    type: "RESET_DOWNLOAD_FILE_REPORT_STAFF",
+  };
 }
 
 export function resetStateGetStaffDetail() {
   return {
-    type: "RESET_STATE_GET_STAFF_DETAIL"
-  }
+    type: "RESET_STATE_GET_STAFF_DETAIL",
+  };
 }
 
 export function resetStateIsEditStaffById() {
   return {
-    type: "RESET_STATE_IS_EDIT_STAFF_BY_ID"
-  }
+    type: "RESET_STATE_IS_EDIT_STAFF_BY_ID",
+  };
 }
-
-

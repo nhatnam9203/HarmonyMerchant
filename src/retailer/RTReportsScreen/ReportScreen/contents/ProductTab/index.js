@@ -14,7 +14,14 @@ import SalesByProduct from "./SalesByProduct";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
-function ProductTab({ showBackButton }, ref) {
+function ProductTab(
+  {
+    route: {
+      params: { showBackButton },
+    },
+  },
+  ref
+) {
   const { t } = useTranslation();
 
   const salesByCategoryTabRef = useRef(null);

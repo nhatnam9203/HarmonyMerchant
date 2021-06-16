@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 
 import IMAGE from "@resources";
 import { colors } from "@shared/themes";
-import { HeaderTabLayout } from "./widget";
 import {
   StaffTab,
   OrderTab,
@@ -266,6 +265,7 @@ function ReportScreen({ showBackButton }, ref) {
           },
         }}
         lazy={true}
+        swipeEnabled={false}
         tabBar={(props) => <CustomTopBarScreenReport {...props} />}
       >
         <Screen

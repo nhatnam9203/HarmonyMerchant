@@ -4,15 +4,22 @@ import React, {
   useImperativeHandle,
   useRef,
 } from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
-
+import { colors } from "@shared/themes";
 import { CustomScrollTab } from "../../widget";
 
 import MarketingEfficiencyTab from "./MarketingEfficiency";
 import PaymentMethodTab from "./PaymentMethod";
 
-function OverallTab({ style, showBackButton }, ref) {
+function OverallTab(
+  {
+    route: {
+      params: { showBackButton },
+    },
+  },
+  ref
+) {
   /**redux store */
   const language = useSelector((state) => state.dataLocal.language);
 
@@ -65,11 +72,11 @@ function OverallTab({ style, showBackButton }, ref) {
     callAPIForTwoTabs: () => {
       paymentTabRef?.current?.getOverallPaymentMethod();
       efficiencyTabRef?.current?.getMarketingEfficiencyMethod();
-    }
+    },
   }));
 
   return (
-    <View style={[style, { paddingTop: 10 }]}>
+    <View style={styles.container}>
       <CustomScrollTab onHeaderTabChanged={onChangeTab} showHeader={showHeader}>
         <PaymentMethodTab
           style={{ flex: 1 }}
@@ -92,3 +99,11 @@ function OverallTab({ style, showBackButton }, ref) {
 }
 
 export default OverallTab = forwardRef(OverallTab);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.WHITE,
+    paddingTop: scaleHeight(15),
+  },
+});
