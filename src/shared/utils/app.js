@@ -248,7 +248,7 @@ export const getPaymentLogoByName = (name) => {
       logo = 'other_payment';
       break;
     default:
-      logo = 'harmony_payment';
+      logo = 'custom_payment';
   }
   return logo;
 };

@@ -9,23 +9,23 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { colors, layouts, fonts } from '@shared/themes';
-import { CustomSwitch, DialogAddNewPaymentMethod } from '@shared/components';
+import {
+  CustomSwitchButton,
+  DialogAddNewPaymentMethod,
+} from '@shared/components';
 import { getPaymentLogoByName } from '@shared/utils';
-import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import IMAGE from '@resources';
-export const Layout = ({
-  payments,
-  refDialog,
-  openAddNewPayment,
-  onValueChange,
-  isEnabled,
-}) => {
+import { WithDialogConfirm } from '@shared/HOC/withDialogConfirm';
+const SwitchConfirmButton = WithDialogConfirm(CustomSwitchButton);
+
+export const Layout = ({ payments, refDialog, openAddNewPayment }) => {
   const { t } = useTranslation();
   const RowHeaderPayment = ({ name }) => (
     <View style={[layouts.horizontal, styles.layoutRowHeader]}>
       <Text style={styles.txtTitle}>{name}</Text>
     </View>
   );
+
   const RowItemPayment = (item, index) => (
     <View
       key={index + ''}
@@ -47,7 +47,12 @@ export const Layout = ({
           layouts.horizontal,
         ]}
       >
-        <CustomSwitch defaultValue={isEnabled}  />
+        <SwitchConfirmButton
+          defaultValue={true}
+          description={t(
+            'Are you sure you want to Delete this payment method ?'
+          )}
+        />
       </View>
     </View>
   );

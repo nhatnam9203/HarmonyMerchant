@@ -24,5 +24,6 @@ export * from './FormInputAmount';
 export * from './CustomRadioSelect';
 export * from './DialogPinCode';
 export * from './CustomSwitch';
+export * from './CustomSwitchButton';
 export * from './DialogAddNewPaymentMethod';
 export * from './CustomLink';
