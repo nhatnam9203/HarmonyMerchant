@@ -24,22 +24,7 @@ const filterItems = [
   { label: "All categories", value: "top" },
 ];
 
-export default function SalesByCategory({
-  style,
-  onGoStatistics,
-  titleRangeTime,
-  showCalendar,
-  onChangeFilterNames,
-  onChangeFilterId,
-  showExportFile,
-  pathFileExport,
-  handleTheDownloadedFile,
-  defaultFilterList,
-  defaultFilterName,
-  onRefresh,
-  isRefreshing,
-  resetTab,
-}) {
+export default function SalesByCategory({}) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 

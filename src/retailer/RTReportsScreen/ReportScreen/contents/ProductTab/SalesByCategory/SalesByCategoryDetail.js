@@ -36,6 +36,8 @@ export default function SalesByCategoryDetail({
   route: {
     params: { detailName = "Category", details },
   },
+  navigation,
+  showBackButton,
 }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -77,6 +79,21 @@ export default function SalesByCategoryDetail({
   //       setData(data);
   //     }
   //   }, [reportSaleCategory]);
+
+  React.useEffect(() => {
+    const unsubscribeFocus = navigation.addListener("focus", () => {
+      showBackButton(true);
+    });
+
+    const unsubscribeBlur = navigation.addListener("blur", () => {
+      showBackButton(false);
+    });
+
+    return () => {
+      unsubscribeFocus();
+      unsubscribeBlur();
+    };
+  }, [navigation]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
     if (quickFilter === "Customize Date") {

@@ -1,34 +1,29 @@
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { colors } from "@shared/themes";
 import React, {
-  useState,
   forwardRef,
   useImperativeHandle,
   useRef,
+  useState,
 } from "react";
-import { View, StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
-import { colors } from "@shared/themes";
-import { CustomScrollTab, CustomTopTab } from "../../widget";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTranslation } from "react-i18next";
-
+import { StyleSheet, View } from "react-native";
+import { CustomTopTab } from "../../widget";
 import SalesByCategory from "./SalesByCategory";
 import SalesByProduct from "./SalesByProduct";
+
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
 function ProductTab({ style, showBackButton }, ref) {
-  /**redux store */
-  const language = useSelector((state) => state.dataLocal.language);
   const { t } = useTranslation();
 
   /**state store */
   const [currentTab, setCurrentTab] = useState(0);
   const [showHeader, setShowHeader] = useState(true);
 
-  /**refs */
   const salesByCategoryTabRef = useRef(null);
   const salesByProductTabRef = useRef(null);
 
-  /**function */
   const onChangeTab = (tabIndex) => {
     salesByCategoryTabRef?.current?.goBack();
     salesByProductTabRef?.current?.goBack();
@@ -57,7 +52,6 @@ function ProductTab({ style, showBackButton }, ref) {
   useImperativeHandle(ref, () => ({
     goBack: onGoBack,
     didBlur: () => {
-      // setTitleRangeTime("This week");
       salesByCategoryTabRef?.current?.didBlur();
       salesByProductTabRef?.current?.didBlur();
     },
@@ -69,25 +63,7 @@ function ProductTab({ style, showBackButton }, ref) {
 
   return (
     <View style={styles.container}>
-      {/* <CustomScrollTab onHeaderTabChanged={onChangeTab} showHeader={showHeader}>
-        <SalesByCategory
-          style={{ flex: 1 }}
-          ref={salesByCategoryTabRef}
-          tabLabel="Sales by category"
-          showBackButton={showBackButton}
-          showHeader={onShowHeader}
-        />
-
-        <SalesByProduct
-          style={{ flex: 1 }}
-          ref={salesByProductTabRef}
-          tabLabel="Sales by product"
-          showBackButton={showBackButton}
-          showHeader={onShowHeader}
-        />
-      </CustomScrollTab> */}
       <Navigator
-        // initialRouteName="retailer.home.order"
         headerMode="none"
         screenOptions={{
           cardStyle: {
@@ -96,17 +72,21 @@ function ProductTab({ style, showBackButton }, ref) {
         }}
         tabBar={(props) => <CustomTopTab {...props} />}
       >
-        {/* <Screen {...MarketingTabPage} /> */}
-        {/* <TabMarketing tabLabel={'MARKETING'} /> */}
         <Screen
           name={"ReportSaleCategoryTab"}
           component={SalesByCategory}
-          options={{ title: t("Sales by category") }}
+          options={{
+            title: t("Sales by category"),
+          }}
+          initialParams={{ showBackButton }}
         />
         <Screen
           name={"ReportSaleProductTab"}
           component={SalesByProduct}
-          options={{ title: t("Sales by product") }}
+          options={{
+            title: t("Sales by product"),
+          }}
+          initialParams={{ showBackButton }}
         />
       </Navigator>
     </View>

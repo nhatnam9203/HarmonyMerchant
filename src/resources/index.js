@@ -259,6 +259,7 @@ export default {
   // retailers
   MenuButtonIcon: require("../assets/images/maskGroup87.png"),
   LockButtonIcon: require("../assets/images/maskGroup88.png"),
+  BackButtonIcon: require("../assets/images/ic_header_back.png"),
   MerchantBackground: require("../assets/images/bg.png"),
   MerchantLogo: require("../assets/images/maskGroup86.png"),
   EmptyList: require("../assets/images/emptyList.png"),
