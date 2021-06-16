@@ -5,6 +5,18 @@ import { StyleSheet, View } from "react-native";
 import { useDispatch } from "react-redux";
 import SalesByCategory from "./SalesByCategory";
 import SalesByCategoryDetail from "./SalesByCategoryDetail";
+import {
+  ButtonCalendarFilter,
+  FormTitle,
+  ExportModal,
+} from "@shared/components";
+import { useReportSaleCategory } from "@shared/services/api/retailer";
+import { getQuickFilterTimeRange } from "@utils";
+import {
+  dateToString,
+  DATE_SHOW_FORMAT_STRING,
+  statusSuccess,
+} from "@shared/utils";
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -13,25 +25,60 @@ function SalesByCategoryTab({
     params: { showBackButton },
   },
 }) {
-  /**redux store*/
   const dispatch = useDispatch();
 
-  // public function
-  // useImperativeHandle(ref, () => ({
-  //   goBack: () => {
-  //     layoutRef.current?.goBack();
-  //   },
-  //   didBlur: () => {
-  //     // setTitleRangeTime("This week");
-  //   },
-  //   didFocus: () => {
-  //     layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
-  //   },
-  // }));
+  const [timeVal, setTimeVal] = React.useState(null);
+  const [data, setData] = React.useState([]);
 
-  // React.useEffect(() => {
-  //   setRefreshing(false);
-  // }, [productSaleByCategoryList]);
+  /**
+  |--------------------------------------------------
+  | CALL API
+  |--------------------------------------------------
+  */
+  const [reportSaleCategory, getReportSaleCategory] = useReportSaleCategory();
+  const callGetReportSaleCategory = React.useCallback(() => {
+    console.log(timeVal);
+    getReportSaleCategory({
+      ...timeVal,
+      sort: {},
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeVal]);
+
+  /**
+  |--------------------------------------------------
+  | useEffect
+  |--------------------------------------------------
+  */
+
+  React.useEffect(() => {
+    callGetReportSaleCategory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeVal]);
+
+  /**effect */
+  React.useEffect(() => {
+    const { codeStatus, message, data, summary } = reportSaleCategory || {};
+    if (statusSuccess(codeStatus)) {
+      setData(data);
+    }
+  }, [reportSaleCategory]);
+
+  const onChangeTimeValue = (quickFilter, timeState) => {
+    if (quickFilter === "Customize Date") {
+      setTimeVal({
+        quickFilter: "custom",
+        quickFilterText: quickFilter,
+        timeStart: timeState.startDate,
+        timeEnd: timeState.endDate,
+      });
+    } else {
+      setTimeVal({
+        quickFilter: getQuickFilterTimeRange(quickFilter),
+        quickFilterText: quickFilter,
+      });
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -43,10 +90,25 @@ function SalesByCategoryTab({
           },
         }}
       >
-        <Screen name="ReportSaleCategory" component={SalesByCategory} />
+        <Screen name="ReportSaleCategory">
+          {(props) => (
+            <SalesByCategory
+              {...props}
+              onChangeTimeValue={onChangeTimeValue}
+              timeValue={timeVal?.quickFilterText}
+              data={data}
+            />
+          )}
+        </Screen>
         <Screen name="ReportSaleCategory_Detail">
           {(props) => (
-            <SalesByCategoryDetail {...props} showBackButton={showBackButton} />
+            <SalesByCategoryDetail
+              {...props}
+              showBackButton={showBackButton}
+              onChangeTimeValue={onChangeTimeValue}
+              timeValue={timeVal?.quickFilterText}
+              data={data}
+            />
           )}
         </Screen>
       </Navigator>

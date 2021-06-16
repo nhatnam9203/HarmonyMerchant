@@ -17,18 +17,8 @@ const { Screen, Navigator } = createMaterialTopTabNavigator();
 function ProductTab({ showBackButton }, ref) {
   const { t } = useTranslation();
 
-  /**state store */
-  const [currentTab, setCurrentTab] = useState(0);
-  const [showHeader, setShowHeader] = useState(true);
-
   const salesByCategoryTabRef = useRef(null);
   const salesByProductTabRef = useRef(null);
-
-  const onChangeTab = (tabIndex) => {
-    salesByCategoryTabRef?.current?.goBack();
-    salesByProductTabRef?.current?.goBack();
-    setCurrentTab(tabIndex);
-  };
 
   const onGoBack = () => {
     switch (currentTab) {

@@ -3,7 +3,6 @@ import {
   FormTitle,
   ExportModal,
 } from "@shared/components";
-import { useReportSaleCategory } from "@shared/services/api/retailer";
 import { getQuickFilterTimeRange } from "@utils";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -24,47 +23,17 @@ const filterItems = [
   { label: "All categories", value: "top" },
 ];
 
-export default function SalesByCategory({}) {
+export default function SalesByCategory({
+  onChangeTimeValue,
+  data,
+  timeValue,
+  navigation,
+}) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const calendarRef = React.useRef(null);
 
-  const [timeVal, setTimeVal] = React.useState(null);
-  const [data, setData] = React.useState([]);
   const [filterCategory, setFilterCategory] = React.useState({});
-
-  /**
-  |--------------------------------------------------
-  | CALL API
-  |--------------------------------------------------
-  */
-  const [reportSaleCategory, getReportSaleCategory] = useReportSaleCategory();
-  const callGetReportSaleCategory = React.useCallback(() => {
-    console.log(timeVal);
-    getReportSaleCategory({
-      ...timeVal,
-      sort: {},
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal]);
-
-  /**
-  |--------------------------------------------------
-  | useEffect
-  |--------------------------------------------------
-  */
-
-  React.useEffect(() => {
-    callGetReportSaleCategory();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal]);
-
-  // React.useEffect(() => {
-  //   if (resetTab) {
-  //     if (onChangeFilterId) {
-  //       onChangeFilterId(filterNameItem);
-  //     }
-  //   }
-  // }, [resetTab]);
 
   // create filter name data
   // const bindFilterName = () => {
@@ -109,33 +78,28 @@ export default function SalesByCategory({}) {
 
   //   await onGoStatistics(item);
   // };
+  // React.useEffect(() => {
+  //   const unsubscribeFocus = navigation.addListener("focus", (props) => {
+  //     if (timeValue) calendarRef.current?.setTimeValue(timeValue);
+  //   });
 
-  /**effect */
-  useEffect(() => {
-    const { codeStatus, message, data, summary } = reportSaleCategory || {};
-    if (statusSuccess(codeStatus)) {
-      setData(data);
-    }
-  }, [reportSaleCategory]);
+  //   const unsubscribeBlur = navigation.addListener("blur", () => {});
 
-  const onChangeTimeValue = (quickFilter, timeState) => {
-    if (quickFilter === "Customize Date") {
-      setTimeVal({
-        quickFilter: "custom",
-        timeStart: timeState.startDate,
-        timeEnd: timeState.endDate,
-      });
-    } else {
-      setTimeVal({ quickFilter: getQuickFilterTimeRange(quickFilter) });
+  //   return () => {
+  //     unsubscribeFocus();
+  //     unsubscribeBlur();
+  //   };
+  // }, [navigation]);
+
+  React.useEffect(() => {
+    if (timeValue) {
+      calendarRef.current?.setTimeValue(timeValue);
     }
-  };
+  }, [timeValue]);
 
   const onSelectRow = ({ item }) => {
     NavigationServices.navigate("ReportSaleCategory_Detail", {
       detailName: item?.name,
-      details: item.details,
-      timeVal,
-      setTimeVal,
     });
   };
 
@@ -148,9 +112,11 @@ export default function SalesByCategory({}) {
       <View style={styles.rowContent}>
         <View style={layouts.horizontal}>
           <ButtonCalendarFilter
+            ref={calendarRef}
             onChangeTimeValue={onChangeTimeValue}
             paddingLeft={scaleWidth(105)}
             paddingTop={scaleHeight(170)}
+            defaultValue={timeValue}
           />
           <View style={layouts.marginHorizontal} />
           <DropdownMenu
