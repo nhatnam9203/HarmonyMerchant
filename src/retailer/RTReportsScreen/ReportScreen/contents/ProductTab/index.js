@@ -7,14 +7,18 @@ import React, {
 import { View, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import { colors } from "@shared/themes";
-import { CustomScrollTab } from "../../widget";
+import { CustomScrollTab, CustomTopTab } from "../../widget";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useTranslation } from "react-i18next";
 
 import SalesByCategory from "./SalesByCategory";
 import SalesByProduct from "./SalesByProduct";
+const { Screen, Navigator } = createMaterialTopTabNavigator();
 
 function ProductTab({ style, showBackButton }, ref) {
   /**redux store */
   const language = useSelector((state) => state.dataLocal.language);
+  const { t } = useTranslation();
 
   /**state store */
   const [currentTab, setCurrentTab] = useState(0);
@@ -64,8 +68,8 @@ function ProductTab({ style, showBackButton }, ref) {
   }));
 
   return (
-    <View style={[style, { paddingTop: 10 }, styles.container]}>
-      <CustomScrollTab onHeaderTabChanged={onChangeTab} showHeader={showHeader}>
+    <View style={styles.container}>
+      {/* <CustomScrollTab onHeaderTabChanged={onChangeTab} showHeader={showHeader}>
         <SalesByCategory
           style={{ flex: 1 }}
           ref={salesByCategoryTabRef}
@@ -81,7 +85,30 @@ function ProductTab({ style, showBackButton }, ref) {
           showBackButton={showBackButton}
           showHeader={onShowHeader}
         />
-      </CustomScrollTab>
+      </CustomScrollTab> */}
+      <Navigator
+        // initialRouteName="retailer.home.order"
+        headerMode="none"
+        screenOptions={{
+          cardStyle: {
+            backgroundColor: colors.WHITE_FA,
+          },
+        }}
+        tabBar={(props) => <CustomTopTab {...props} />}
+      >
+        {/* <Screen {...MarketingTabPage} /> */}
+        {/* <TabMarketing tabLabel={'MARKETING'} /> */}
+        <Screen
+          name={"ReportSaleCategoryTab"}
+          component={SalesByCategory}
+          options={{ title: t("Sales by category") }}
+        />
+        <Screen
+          name={"ReportSaleProductTab"}
+          component={SalesByProduct}
+          options={{ title: t("Sales by product") }}
+        />
+      </Navigator>
     </View>
   );
 }
@@ -92,5 +119,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.WHITE,
+    paddingTop: scaleHeight(15),
   },
 });

@@ -113,7 +113,7 @@ const pickValuesForKey = (array, forKey, format, unit = "") => {
   });
 };
 
-export default function SalesCategoryLineChart({ data }) {
+export default function SalesProductLineChart({ data }) {
   /**state store */
   const [dataChart, setDataChart] = React.useState({ dataSets: null });
   const [xAxis, setXAxis] = React.useState(xAxisDefault);

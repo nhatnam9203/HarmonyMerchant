@@ -1,171 +1,174 @@
-import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import NavigationServices from "@navigators/NavigatorServices";
+import {
+  ButtonCalendarFilter,
+  DropdownMenu,
+  ExportModal,
+} from "@shared/components";
+import { Table } from "@shared/components/CustomTable";
+import { useReportSaleProduct } from "@shared/services/api/retailer";
+import { layouts } from "@shared/themes";
+import { statusSuccess } from "@shared/utils";
+import { getQuickFilterTimeRange } from "@utils";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
+import React from "react";
 
-import IMAGE from "@resources";
-import { localize } from "@utils";
+const filterItems = [
+  { label: "Top products", value: "all" },
+  { label: "All products", value: "top" },
+];
 
-import { TableList, ReportTabLayout } from "../../../widget";
-
-export default function SalesByProduct({
-  style,
-  onGoStatistics,
-  titleRangeTime,
-  showCalendar,
-  onChangeFilterNames,
-  onChangeFilterId,
-  showExportFile,
-  pathFileExport,
-  handleTheDownloadedFile,
-  defaultFilterList,
-  defaultFilterName,
-  onRefresh,
-  isRefreshing,
-  resetTab,
-}) {
-  /**redux store*/
+export default function SalesByProduct({}) {
   const dispatch = useDispatch();
-  const language = useSelector((state) => state.dataLocal.language);
+  const { t } = useTranslation();
 
-  const productSaleByProductList = useSelector(
-    (state) => state.report.productSaleByProductList
-  );
+  const [timeVal, setTimeVal] = React.useState(null);
+  const [data, setData] = React.useState([]);
+  const [filterProduct, setFilterProduct] = React.useState(filterItems);
 
-  /**state */
-  const [filterNameItem, setFilterNameItem] = useState(defaultFilterName);
-  const [filterNames, setFilterNames] = useState([]);
+  /**
+  |--------------------------------------------------
+  | CALL API
+  |--------------------------------------------------
+  */
+  const [reportSaleProduct, getReportSaleProduct] = useReportSaleProduct();
+  const callGetReportSaleProduct = React.useCallback(() => {
+    getReportSaleProduct({
+      ...timeVal,
+      sort: {},
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeVal]);
 
-  /**function */
-
-  // create filter name data
-  const bindFilterName = () => {
-    if (!productSaleByProductList) return [];
-
-    let array = [];
-
-    const arrMap = productSaleByProductList.map((item) => ({
-      value: item.name,
-      ...item,
-    }));
-    array.push(...arrMap);
-
-    setFilterNames(array);
-
-    if (onChangeFilterNames) {
-      onChangeFilterNames(array);
-    }
-  };
-
-  // binding data list for name filter
-
-  const filterDataTable = () => {
-    return filterNameItem &&
-      !defaultFilterList?.find((x) => x.value === filterNameItem)
-      ? productSaleByProductList.filter((item) => item.name === filterNameItem)
-      : productSaleByProductList;
-  };
-
-  // callback
-  const onChangeFilterName = (filterName) => {
-    setFilterNameItem(filterName);
-    if (onChangeFilterId) {
-      onChangeFilterId(filterName);
-    }
-  };
-
-  const goStatistics = async (item) => {
-    if (!item) return;
-    // change to statistic tab
-
-    await onGoStatistics(item);
-  };
-
-  /**effect */
-  useEffect(() => {
-    bindFilterName();
-  }, [productSaleByProductList]);
+  /**
+  |--------------------------------------------------
+  | useEffect
+  |--------------------------------------------------
+  */
 
   React.useEffect(() => {
-    if (resetTab) {
-      if (onChangeFilterId) {
-        onChangeFilterId(filterNameItem);
-      }
-    }
-  }, [resetTab]);
+    callGetReportSaleProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeVal]);
 
-  /**render */
-  //callback render action cell
-  const renderActionCell = ({ key, row, column, item }) => {
-    return (
-      <View style={styles.cellAction}>
-        <TouchableOpacity onPress={() => goStatistics(item)}>
-          <View style={styles.btnInCell}>
-            <Image style={styles.imgDetail} source={IMAGE.Report_Detail} />
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
+  /**effect */
+  React.useEffect(() => {
+    const { codeStatus, message, data, summary } = reportSaleProduct || {};
+    if (statusSuccess(codeStatus)) {
+      setData(data);
+    }
+  }, [reportSaleProduct]);
+
+  const onChangeTimeValue = (quickFilter, timeState) => {
+    if (quickFilter === "Customize Date") {
+      setTimeVal({
+        quickFilter: "custom",
+        timeStart: timeState.startDate,
+        timeEnd: timeState.endDate,
+      });
+    } else {
+      setTimeVal({ quickFilter: getQuickFilterTimeRange(quickFilter) });
+    }
   };
 
-  const renderCell = ({ key, row, column, item }) => {
+  const onSelectRow = ({ item }) => {
+    NavigationServices.navigate("ReportSaleProduct_Detail", {
+      detailName: item?.name,
+      details: item.details,
+    });
+  };
+
+  const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
     return null;
   };
 
   return (
-    <View style={style}>
-      <ReportTabLayout
-        style={styles.container}
-        onChangeFilterName={onChangeFilterName}
-        isShowExportButton={true}
-        isShowFilterButton={true}
-        filterNames={filterNames}
-        filterNameItem={filterNameItem}
-        showCalendar={showCalendar}
-        titleRangeTime={titleRangeTime}
-        showExportFile={showExportFile}
-        pathFileExport={pathFileExport}
-        handleTheDownloadedFile={handleTheDownloadedFile}
-        filterNameDefaultList={defaultFilterList}
-        rightTooltip={<></>}
-      >
-        <TableList
-          tableData={filterDataTable()}
-          tableHead={{
-            name: localize("Product Name", language),
-            stockOnHand: localize("Stock On Hand", language),
-            quantity: localize("Qty Sold", language),
-            avgPrice: localize("Av. Price", language),
-            totalSales: localize("Total Sales", language),
+    <View style={styles.container}>
+      <View style={styles.rowContent}>
+        <View style={layouts.horizontal}>
+          <ButtonCalendarFilter
+            onChangeTimeValue={onChangeTimeValue}
+            paddingLeft={scaleWidth(105)}
+            paddingTop={scaleHeight(170)}
+          />
+          <View style={layouts.marginHorizontal} />
+          <DropdownMenu
+            items={filterItems}
+            onChangeValue={setFilterProduct}
+            defaultIndex={0}
+            width={scaleWidth(208)}
+            height={scaleHeight(40)}
+            placeholder={t("Select Product")}
+          />
+        </View>
+      </View>
+      <View style={styles.rowContent}>
+        <Text style={layouts.title}>{t("Top Performing Products")}</Text>
+        <ExportModal />
+      </View>
+      <View style={styles.content}>
+        <Table
+          items={data}
+          headerKeyLabels={{
+            name: t("Product name"),
+            quantity: t("Qty sold"),
+            totalRevenue: t("Total revenue"),
+            totalCost: t("Total cost"),
+            totalTax: t("Total tax"),
+            totalProfit: t("Total profit"),
           }}
-          whiteKeys={[
+          whiteListKeys={[
             "name",
-            "stockOnHand",
             "quantity",
-            "avgPrice",
-            "totalSales",
-            "action",
+            "totalRevenue",
+            "totalCost",
+            "totalTax",
+            "totalProfit",
           ]}
-          primaryId="productId"
-          sumTotalKey="name"
-          calcSumKeys={["stockOnHand", "quantity", "totalSales"]}
-          priceKeys={["avgPrice", "totalSales"]}
-          sortKey="name"
-          tableCellWidth={{
-            name: 180,
-            totalSales: 200,
+          //   sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
+          primaryKey="name"
+          //   unitKeys={{ totalDuration: "hrs" }}
+          widthForKeys={{
+            name: scaleWidth(250),
+            quantity: scaleWidth(120),
+            totalRevenue: scaleWidth(180),
+            totalCost: scaleWidth(180),
+            totalTax: scaleWidth(180),
           }}
-          renderCell={renderCell}
-          renderActionCell={renderActionCell}
-          onRefresh={onRefresh}
-          isRefreshing={isRefreshing}
+          emptyDescription={t("No Report Data")}
+          //   styleTextKeys={{ customerName: styles.textName }}
+          //   onSortWithKey={onSortWithKey}
+          formatFunctionKeys={
+            {
+              // date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
+            }
+          }
+          renderCell={onRenderCell}
+          onRowPress={onSelectRow}
         />
-      </ReportTabLayout>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: {
+    flex: 1,
+  },
+
+  content: {
+    flex: 1,
+    marginTop: scaleHeight(20),
+  },
+
+  rowContent: {
+    marginTop: scaleHeight(20),
+    paddingHorizontal: scaleWidth(16),
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
   cellAction: {
     flexDirection: "row",
     alignItems: "center",
