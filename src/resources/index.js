@@ -140,6 +140,8 @@ export default {
   add_option_btn: require("./img/add_option_btn.png"),
   upload_file_icon: require("./img/upload_file_icon.png"),
   danger: require("./img/danger.png"),
+  number_delete: require("./img/number_delete.png"),
+  number_delete_white: require("./img/number_delete_white.png"),
 
   // --- Payment ---
   cash_payment_se: require("./payment/cash_payment_se.png"),
