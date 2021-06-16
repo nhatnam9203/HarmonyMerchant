@@ -14,7 +14,7 @@ import SalesByProduct from "./SalesByProduct";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
-function ProductTab({ style, showBackButton }, ref) {
+function ProductTab({ showBackButton }, ref) {
   const { t } = useTranslation();
 
   /**state store */
@@ -41,11 +41,6 @@ function ProductTab({ style, showBackButton }, ref) {
       default:
         break;
     }
-    setShowHeader(true);
-  };
-
-  const onShowHeader = (bl) => {
-    setShowHeader(bl);
   };
 
   // public func
@@ -78,7 +73,7 @@ function ProductTab({ style, showBackButton }, ref) {
           options={{
             title: t("Sales by category"),
           }}
-          initialParams={{ showBackButton }}
+          initialParams={{ showBackButton: showBackButton }}
         />
         <Screen
           name={"ReportSaleProductTab"}
@@ -86,7 +81,7 @@ function ProductTab({ style, showBackButton }, ref) {
           options={{
             title: t("Sales by product"),
           }}
-          initialParams={{ showBackButton }}
+          initialParams={{ showBackButton: showBackButton }}
         />
       </Navigator>
     </View>

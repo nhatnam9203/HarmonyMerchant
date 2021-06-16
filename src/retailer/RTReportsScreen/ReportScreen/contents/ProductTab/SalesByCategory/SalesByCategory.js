@@ -137,8 +137,6 @@ export default function SalesByCategory({}) {
     });
   };
 
-  /**render */
-  //callback render action cell
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
     return null;
   };
