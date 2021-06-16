@@ -4,9 +4,9 @@ import React, {
   useImperativeHandle,
   useRef,
 } from "react";
-import { View, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
-
+import { colors } from "@shared/themes";
 import { CustomScrollTab } from "../../widget";
 
 import SalesByCategory from "./SalesByCategory";
@@ -64,7 +64,7 @@ function ProductTab({ style, showBackButton }, ref) {
   }));
 
   return (
-    <View style={[style, { paddingTop: 10 }]}>
+    <View style={[style, { paddingTop: 10 }, styles.container]}>
       <CustomScrollTab onHeaderTabChanged={onChangeTab} showHeader={showHeader}>
         <SalesByCategory
           style={{ flex: 1 }}
@@ -87,3 +87,10 @@ function ProductTab({ style, showBackButton }, ref) {
 }
 
 export default ProductTab = forwardRef(ProductTab);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.WHITE,
+  },
+});

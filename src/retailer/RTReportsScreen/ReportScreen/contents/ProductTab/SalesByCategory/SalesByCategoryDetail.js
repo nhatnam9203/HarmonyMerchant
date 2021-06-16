@@ -18,12 +18,7 @@ import {
 import { layouts } from "@shared/themes";
 import { DropdownMenu } from "@shared/components";
 
-const filterItems = [
-  { label: "Top categories", value: "all" },
-  { label: "All categories", value: "top" },
-];
-
-export default function SalesByCategory({
+export default function SalesByCategoryDetail({
   style,
   onGoStatistics,
   titleRangeTime,
@@ -47,10 +42,10 @@ export default function SalesByCategory({
   const [filterCategory, setFilterCategory] = React.useState({});
 
   /**
-  |--------------------------------------------------
-  | CALL API
-  |--------------------------------------------------
-  */
+    |--------------------------------------------------
+    | CALL API
+    |--------------------------------------------------
+    */
   const [reportSaleCategory, getReportSaleCategory] = useReportSaleCategory();
   const callGetReportSaleCategory = React.useCallback(() => {
     console.log(timeVal);
@@ -62,67 +57,15 @@ export default function SalesByCategory({
   }, [timeVal]);
 
   /**
-  |--------------------------------------------------
-  | useEffect
-  |--------------------------------------------------
-  */
+    |--------------------------------------------------
+    | useEffect
+    |--------------------------------------------------
+    */
 
   React.useEffect(() => {
     callGetReportSaleCategory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeVal]);
-
-  // React.useEffect(() => {
-  //   if (resetTab) {
-  //     if (onChangeFilterId) {
-  //       onChangeFilterId(filterNameItem);
-  //     }
-  //   }
-  // }, [resetTab]);
-
-  // create filter name data
-  // const bindFilterName = () => {
-  //   if (!productSaleByCategoryList) return [];
-
-  //   let array = [];
-
-  //   const arrMap = productSaleByCategoryList.map((item) => ({
-  //     value: item.categoryName,
-  //     ...item,
-  //   }));
-  //   array.push(...arrMap);
-
-  //   setFilterNames(array);
-
-  //   if (onChangeFilterNames) {
-  //     onChangeFilterNames(array);
-  //   }
-  // };
-
-  // binding data list for name filter
-  // const filterDataTable = () => {
-  //   return filterNameItem &&
-  //     !defaultFilterList?.find((x) => x.value === filterNameItem)
-  //     ? productSaleByCategoryList.filter(
-  //         (item) => item.categoryName === filterNameItem
-  //       )
-  //     : productSaleByCategoryList;
-  // };
-
-  // callback
-  // const onChangeFilterName = (filterName) => {
-  //   setFilterNameItem(filterName);
-  //   if (onChangeFilterId) {
-  //     onChangeFilterId(filterName);
-  //   }
-  // };
-
-  // const goStatistics = async (item) => {
-  //   if (!item) return;
-  //   // change to statistic tab
-
-  //   await onGoStatistics(item);
-  // };
 
   /**effect */
   useEffect(() => {
@@ -158,15 +101,6 @@ export default function SalesByCategory({
             onChangeTimeValue={onChangeTimeValue}
             paddingLeft={scaleWidth(105)}
             paddingTop={scaleHeight(170)}
-          />
-          <View style={layouts.marginHorizontal} />
-          <DropdownMenu
-            items={filterItems}
-            onChangeValue={setFilterCategory}
-            defaultIndex={0}
-            width={scaleWidth(208)}
-            height={scaleHeight(40)}
-            placeholder={t("Select Category")}
           />
         </View>
       </View>

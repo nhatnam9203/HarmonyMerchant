@@ -5,8 +5,9 @@ import { colors } from "@shared/themes";
 import IMAGE from "@resources";
 import { fonts, layouts } from "../themes";
 
-export const ButtonCalendarFilter = ({ onChangeTimeValue }) => {
+export const ButtonCalendarFilter = ({ onChangeTimeValue, paddingLeft, paddingTop }) => {
   const calendarRef = React.useRef(null);
+
   const [visible, setVisible] = React.useState(false);
   const [textTime, setTextTime] = React.useState(null);
 
@@ -37,8 +38,8 @@ export const ButtonCalendarFilter = ({ onChangeTimeValue }) => {
       <PopupCalendar
         ref={calendarRef}
         visible={visible}
-        paddingLeft={scaleWidth(100)}
-        paddingTop={scaleHeight(137)}
+        paddingLeft={paddingLeft ?? scaleWidth(100)}
+        paddingTop={paddingTop ?? scaleHeight(137)}
         onRequestClose={setVisible}
         changeTitleTimeRange={onChangeTime}
       />

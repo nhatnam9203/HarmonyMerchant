@@ -88,3 +88,7 @@ export const STAFF_LOGIN = {
 export const RETAILER_REPORT_SALES = {
   url: "retailer/Appointment/report/sale",
 };
+
+export const RETAILER_REPORT_PRODUCT = {
+  url: "product/report",
+};

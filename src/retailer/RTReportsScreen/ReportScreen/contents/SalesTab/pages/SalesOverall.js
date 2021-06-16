@@ -69,7 +69,7 @@ export const SalesOverall = () => {
   }, [reportSalesOverall]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
-    if (timeState === "Customize Date") {
+    if (quickFilter === "Customize Date") {
       setTimeVal({
         quickFilter: "custom",
         timeStart: timeState.startDate,
