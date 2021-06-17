@@ -84,7 +84,8 @@ function ReportScreen2({ showBackButton }, ref) {
 
           break;
       }
-      scrollTabRef?.current?.goToFirstTab();
+      // scrollTabRef?.current?.goToFirstTab();
+      // setTabIndex(0);
     },
     didFocus: () => {
       switch (tabIndex) {
@@ -179,28 +180,6 @@ function ReportScreen2({ showBackButton }, ref) {
   // ------------- New Code ---------------
 
   handleOnChangeTab = (i) => {
-    // switch (i) {
-    //   case 0:
-    //     staffRef.current?.didFocus();
-    //     break;
-    //   case 1:
-    //     giftCardRef.current?.didFocus();
-    //     break;
-    //   case 2:
-    //     customerRef.current?.didFocus();
-    //     break;
-    //   case 3:
-    //     serviceRef.current?.didFocus();
-    //     break;
-    //   case 4:
-    //     productRef.current?.didFocus();
-    //     break;
-    //   case 5:
-    //     overallRef.current?.didFocus();
-    //     break;
-    //   default:
-    //     break;
-    // }
     switch (i) {
       case 0:
         staffRef?.current?.getListStaffsSalaryTop();
