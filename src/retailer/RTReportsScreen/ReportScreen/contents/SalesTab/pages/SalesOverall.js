@@ -86,6 +86,8 @@ export const SalesOverall = () => {
         <ButtonCalendarFilter
           onChangeTimeValue={onChangeTimeValue}
           defaultValue={"This Week"}
+          paddingLeft={scaleWidth(15)}
+          paddingTop={scaleHeight(120)}
         />
       </View>
       <View style={styles.rowContent}>

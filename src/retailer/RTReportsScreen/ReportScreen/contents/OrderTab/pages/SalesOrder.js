@@ -101,6 +101,8 @@ export const SalesOrder = () => {
         <ButtonCalendarFilter
           onChangeTimeValue={onChangeTimeValue}
           defaultValue={RANGE_TIME_DEFAULT}
+          paddingLeft={scaleWidth(15)}
+          paddingTop={scaleHeight(120)}
         />
       </View>
       <View style={styles.rowContent}>

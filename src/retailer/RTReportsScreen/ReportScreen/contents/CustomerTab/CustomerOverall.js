@@ -11,6 +11,7 @@ import {
   DATE_SHOW_FORMAT_STRING,
   statusSuccess,
 } from "@shared/utils";
+import { formatMoneyWithUnit } from "@utils";
 
 export default function CustomerOverall({
   onChangeTimeValue,
@@ -47,8 +48,8 @@ export default function CustomerOverall({
           <ButtonCalendarFilter
             ref={calendarRef}
             onChangeTimeValue={onChangeTimeValue}
-            paddingLeft={scaleWidth(100)}
-            paddingTop={scaleHeight(170)}
+            paddingLeft={scaleWidth(15)}
+            paddingTop={scaleHeight(125)}
             defaultValue={"This Week"}
           />
         </View>
@@ -78,7 +79,7 @@ export default function CustomerOverall({
           primaryKey="customerId"
           //   unitKeys={{ totalDuration: "hrs" }}
           widthForKeys={{
-            name: scaleWidth(250),
+            name: scaleWidth(300),
             appointmentCount: scaleWidth(150),
             lastVisitDate: scaleWidth(180),
             lastVisitSale: scaleWidth(180),
@@ -90,6 +91,7 @@ export default function CustomerOverall({
           formatFunctionKeys={{
             lastVisitDate: (value) =>
               dateToString(value, DATE_SHOW_FORMAT_STRING),
+            total: (value) => `${formatMoneyWithUnit(value)}`,
           }}
           renderCell={onRenderCell}
           onRowPress={onSelectRow}

@@ -9,6 +9,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { useDispatch } from "react-redux";
 import { PopupButton } from "../../../widget";
 import SalesCategoryLineChart from "./chart/SaleCategoryLineChart";
+import { formatMoneyWithUnit } from "@utils";
 
 const VIEW_MODE = {
   LIST: "LIST",
@@ -80,8 +81,8 @@ export default function SalesByCategoryDetail({
           <ButtonCalendarFilter
             ref={calendarRef}
             onChangeTimeValue={onChangeTimeValue}
-            paddingLeft={scaleWidth(105)}
-            paddingTop={scaleHeight(170)}
+            paddingLeft={scaleWidth(15)}
+            paddingTop={scaleHeight(165)}
             // defaultValue={timeValue}
           />
         </View>
@@ -144,6 +145,10 @@ export default function SalesByCategoryDetail({
             //   onSortWithKey={onSortWithKey}
             formatFunctionKeys={{
               date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
+              totalRevenue: (value) => `${formatMoneyWithUnit(value)}`,
+              totalCost: (value) => `${formatMoneyWithUnit(value)}`,
+              totalTax: (value) => `${formatMoneyWithUnit(value)}`,
+              totalProfit: (value) => `${formatMoneyWithUnit(value)}`,
             }}
             renderCell={onRenderCell}
             //   onRowPress={onSelectRow}

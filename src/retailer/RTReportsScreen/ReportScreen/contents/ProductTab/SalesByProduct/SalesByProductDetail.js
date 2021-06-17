@@ -20,6 +20,8 @@ import { DropdownMenu } from "@shared/components";
 import SalesProductLineChart from "./chart/SaleProductLineChart";
 import { PopupButton, TableList, ReportTabLayout } from "../../../widget";
 import IMAGE from "@resources";
+import { formatMoneyWithUnit } from "@utils";
+
 const VIEW_MODE = {
   LIST: "LIST",
   CHART: "CHART",
@@ -90,8 +92,8 @@ export default function SalesByProductDetail({
           <ButtonCalendarFilter
             ref={calendarRef}
             onChangeTimeValue={onChangeTimeValue}
-            paddingLeft={scaleWidth(105)}
-            paddingTop={scaleHeight(170)}
+            paddingLeft={scaleWidth(15)}
+            paddingTop={scaleHeight(165)}
             // defaultValue={timeValue}
           />
         </View>
@@ -154,6 +156,10 @@ export default function SalesByProductDetail({
             //   onSortWithKey={onSortWithKey}
             formatFunctionKeys={{
               date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
+              totalRevenue: (value) => `${formatMoneyWithUnit(value)}`,
+              totalCost: (value) => `${formatMoneyWithUnit(value)}`,
+              totalTax: (value) => `${formatMoneyWithUnit(value)}`,
+              totalProfit: (value) => `${formatMoneyWithUnit(value)}`,
             }}
             renderCell={onRenderCell}
             //   onRowPress={onSelectRow}
