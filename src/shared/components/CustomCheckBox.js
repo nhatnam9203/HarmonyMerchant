@@ -32,7 +32,7 @@ export const CustomCheckBox = ({
   }, [defaultValue]);
 
   return (
-    <View style={[style, styles.layout]}>
+    <View style={[styles.layout, style]}>
       <CheckBox
         style={Platform.OS === 'ios' && [styles.checkBoxStyle, checkBoxStyle]}
         boxType="square"

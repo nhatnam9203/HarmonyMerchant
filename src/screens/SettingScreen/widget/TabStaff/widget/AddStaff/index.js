@@ -336,8 +336,8 @@ class AddStaff extends Layout {
     }
     // ------- Check Service Salary Income ------------
     const resultSalaryIncome = this.checkSalaryIncomeService();
-    const isCheckIncomeSalary = this.commissionSalaryRef?.current?.state
-      ?.isCheck;
+    const isCheckIncomeSalary =
+      this.commissionSalaryRef?.current?.state?.isCheck;
     if (isCheckIncomeSalary && !resultSalaryIncome.status) {
       keyError = resultSalaryIncome?.message || '';
     }
@@ -379,8 +379,10 @@ class AddStaff extends Layout {
       };
 
       if (this.state.isEditStaff) {
+        console.log('temptStaff', temptStaff);
         this.props.editStaff(temptStaff, this.state.staffId);
       } else {
+        console.log(JSON.stringify(temptStaff));
         this.props.addStaff(temptStaff);
       }
     }
