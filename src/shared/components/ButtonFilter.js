@@ -62,6 +62,7 @@ export const ButtonFilter = React.forwardRef(
           style,
           width && { width },
           height && { height },
+          { zIndex: 100 },
         ]}
       >
         <DropDownPicker
@@ -87,6 +88,9 @@ export const ButtonFilter = React.forwardRef(
           closeAfterSelecting={true}
           showTickIcon={false}
           placeholder={placeholder}
+          zIndex={3000}
+          zIndexInverse={1000}
+          defaultIndex={0}
         />
       </View>
     );

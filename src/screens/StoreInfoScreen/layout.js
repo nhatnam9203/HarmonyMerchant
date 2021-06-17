@@ -37,22 +37,22 @@ export default class Layout extends React.Component {
                     // onChangeTab={this.onChangeTab}
                 >
                     <TabStoreInfo tabLabel={`1. ${localize('Store Info', language)}`}
-                        nextTab={() => this.scrollTabRef.current.goToPage(1)}
+                        nextTab={() => this.scrollTabRef.current?.goToPage(1)}
                         tabCurrent={tabCurrent}
                     />
                     <TabAdminInfo
                         tabLabel={`2. ${localize('Admin Info', language)}`}
-                        backTab={() => this.scrollTabRef.current.goToPage(0)}
+                        backTab={() => this.scrollTabRef.current?.goToPage(0)}
                         nextTab={this.gotoTabStaffManagement}
                     />
                     <TabStaffManagement
                         tabLabel={`3. ${localize('Staff Management', language)}`}
-                        backTab={() => this.scrollTabRef.current.goToPage(1)}
+                        backTab={() => this.scrollTabRef.current?.goToPage(1)}
                         nextTab={this.gotoTabService}
                     />
                     <TabServiceProduct
                         tabLabel={`4. ${localize('Services/Products', language)}`}
-                        backTab={() => this.scrollTabRef.current.goToPage(2)}
+                        backTab={() => this.scrollTabRef.current?.goToPage(2)}
                     />
                 </ScrollableTabView>
                 <Button onPress={this.signOut} style={configs.btn_right_position} >

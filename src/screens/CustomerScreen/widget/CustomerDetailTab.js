@@ -61,7 +61,7 @@ class CustomerDetailTab extends React.Component {
   };
 
   showAppointmentDetail = (appointment) => {
-    this.popupAppointmentDetailRef.current.setStateFromParent(appointment);
+    this.popupAppointmentDetailRef.current?.setStateFromParent(appointment);
     this.setState({
       visible: true,
     });

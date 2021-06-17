@@ -181,21 +181,21 @@ class HomeScreen extends Layout {
   }
 
   gotoAppoitmentScreen = () => {
-    this.scrollTabParentRef.current.goToPage(1);
+    this.scrollTabParentRef.current?.goToPage(1);
   };
 
   gotoPageCurentParent = (isDrawer = false) => {
     if (isDrawer) {
-      this.scrollTabParentRef.current.goToPage(1);
+      this.scrollTabParentRef.current?.goToPage(1);
       this.props.navigation.openDrawer();
     } else {
       const { temptCurrentTap } = this.state;
-      this.scrollTabParentRef.current.goToPage(1);
+      this.scrollTabParentRef.current?.goToPage(1);
     }
   };
 
   gotoTabAppointment = () => {
-    this.scrollTabParentRef.current.goToPage(1);
+    this.scrollTabParentRef.current?.goToPage(1);
   };
 
   onPressHandlerChangeTab = async (index) => {
@@ -249,7 +249,7 @@ class HomeScreen extends Layout {
               this.tooglePopupMarketingPermission();
             } else {
               this.tabCheckoutRef?.current?.resetStateFromParent();
-              this.scrollTabParentRef.current.goToPage(index);
+              this.scrollTabParentRef.current?.goToPage(index);
             }
           }
         } else {
@@ -257,7 +257,7 @@ class HomeScreen extends Layout {
           if (index === 0) {
             this.tooglePopupMarketingPermission();
           } else {
-            this.scrollTabParentRef.current.goToPage(index);
+            this.scrollTabParentRef.current?.goToPage(index);
           }
         }
       }
@@ -268,9 +268,9 @@ class HomeScreen extends Layout {
     const { profileStaffLogin } = this.props;
     const roleName = profileStaffLogin?.roleName || "Admin";
     if (roleName === "Admin") {
-      this.scrollTabParentRef.current.goToPage(0);
+      this.scrollTabParentRef.current?.goToPage(0);
     } else {
-      this.checkMarketingPermissionRef.current.setStateFromParent("");
+      this.checkMarketingPermissionRef.current?.setStateFromParent("");
       this.props.actions.marketing.toggleMarketingTabPermission();
       this.tabCheckoutRef?.current?.resetStateFromParent();
     }
@@ -279,8 +279,8 @@ class HomeScreen extends Layout {
   handleLockScreen = async () => {
     const { isFocus } = this.state;
     if (isFocus) {
-      this.scrollTabParentRef.current.goToPage(1);
-      this.popupEnterPinRef.current.setStateFromParent("");
+      this.scrollTabParentRef.current?.goToPage(1);
+      this.popupEnterPinRef.current?.setStateFromParent("");
       this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     }
   };
@@ -298,14 +298,14 @@ class HomeScreen extends Layout {
   };
 
   showLockScreen = () => {
-    this.popupEnterPinRef.current.setStateFromParent("");
+    this.popupEnterPinRef.current?.setStateFromParent("");
     this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
-    this.scrollTabParentRef.current.goToPage(1);
+    this.scrollTabParentRef.current?.goToPage(1);
   };
 
   clearDataTabCheckout = () => {
     if (this.tabCheckoutRef?.current) {
-      this.tabCheckoutRef?.current.resetStateFromParent();
+      this.tabCheckoutRef?.current?.resetStateFromParent();
     }
   };
 
@@ -323,7 +323,7 @@ class HomeScreen extends Layout {
         checkoutGroupId
       );
     }
-    this.scrollTabParentRef.current.goToPage(2);
+    this.scrollTabParentRef.current?.goToPage(2);
 
     const staffId = appointment?.staffId || false;
     if (staffId) {
@@ -346,7 +346,7 @@ class HomeScreen extends Layout {
       false,
       false
     );
-    this.scrollTabParentRef.current.goToPage(2);
+    this.scrollTabParentRef.current?.goToPage(2);
     if (this.tabCheckoutRef?.current) {
       this.tabCheckoutRef?.current?.resetStateFromParent();
       if (staffId) {
@@ -369,7 +369,7 @@ class HomeScreen extends Layout {
       true,
       false
     );
-    this.scrollTabParentRef.current.goToPage(2);
+    this.scrollTabParentRef.current?.goToPage(2);
 
     if (staffId) {
       if (this.tabCheckoutRef?.current) {
@@ -396,7 +396,7 @@ class HomeScreen extends Layout {
     );
     this.props.actions.appointment.getBlockAppointmentById(appointmentId, true);
 
-    this.scrollTabParentRef.current.goToPage(2);
+    this.scrollTabParentRef.current?.goToPage(2);
     if (this.tabCheckoutRef?.current) {
       this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
     } else {
@@ -407,7 +407,7 @@ class HomeScreen extends Layout {
   };
 
   submitPincode = () => {
-    const password = this.popupEnterPinRef.current.state.value;
+    const password = this.popupEnterPinRef.current?.state.value;
     const { profile } = this.props;
     if (password.length === 4) {
       this.props.actions.staff.loginStaff(profile.merchantCode, password);
@@ -446,7 +446,6 @@ class HomeScreen extends Layout {
       .then((data) => {
         this.props.actions.staff.reloadButtonEnterPincode();
         if (data.length >= 5) {
-          console.log("loginStaffSuccess");
           this.props.actions.app.changeFlagVisibleEnteerPinCode(false);
         }
       })
@@ -458,7 +457,7 @@ class HomeScreen extends Layout {
   // ----------- Handle group appointment -------
 
   gotoAppointmentTabToGroup = () => {
-    this.scrollTabParentRef.current.goToPage(1);
+    this.scrollTabParentRef.current?.goToPage(1);
   };
 
   pushAppointmentIdOfflineIntoWebview = () => {
@@ -575,7 +574,7 @@ class HomeScreen extends Layout {
     ) {
       this.props.actions.appointment.checkAppointmentBeforOffline(false);
       this.tabCheckoutRef?.current?.resetStateFromParent();
-      this.scrollTabParentRef.current.goToPage(1);
+      this.scrollTabParentRef.current?.goToPage(1);
       this.props.actions.appointment.resetGroupAppointment();
     }
 
@@ -584,7 +583,7 @@ class HomeScreen extends Layout {
       isGoToTabMarketing
     ) {
       this.props.actions.marketing.toggleMarketingTabPermission(false);
-      this.scrollTabParentRef.current.goToPage(0);
+      this.scrollTabParentRef.current?.goToPage(0);
     }
 
     if (

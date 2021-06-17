@@ -28,7 +28,7 @@ class SetupHardware extends React.Component {
             name,
             ip,
             port,
-            timeout: 90000,
+            timeout: 300000,//5 minutes
             bluetoothAddr,
             peripherals: [],
             scanLoading: false
@@ -51,7 +51,7 @@ class SetupHardware extends React.Component {
 
     handleKeyboardWillHide = async () => {
         if (this.scrollRef.current) {
-            this.scrollRef.current.scrollTo({ x: 0, y: 0, animated: true })
+            this.scrollRef.current?.scrollTo({ x: 0, y: 0, animated: true })
         }
     }
 
@@ -92,7 +92,7 @@ class SetupHardware extends React.Component {
     }
 
     scrollTo = (number) => {
-        this.scrollRef.current.scrollTo({ x: 0, y: scaleSize(number), animated: true });
+        this.scrollRef.current?.scrollTo({ x: 0, y: scaleSize(number), animated: true });
     }
 
     setCommType = (commType) => () => {
@@ -131,7 +131,7 @@ class SetupHardware extends React.Component {
         });
 
         // this.props.actions.app.loadingApp();
-        // this.bluetoothScannerRef.current.startScan();
+        // this.bluetoothScannerRef.current?.startScan();
 
         setTimeout(() => {
             // this.props.actions.app.stopLoadingApp();

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
-import {ScrollableTabView} from "@components";
+import { ScrollableTabView } from "@components";
+import { fonts } from "@shared/themes";
 
 import IMAGE from "@resources";
 
@@ -103,22 +104,27 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flex: 0,
     height: "100%",
-    paddingVertical: 5,
-    paddingHorizontal: 20,
+    paddingVertical: scaleWidth(5),
+    paddingHorizontal: scaleWidth(20),
   },
   tabs: {
     height: TAB_DEFAULT_HEIGHT,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 2,
+    borderWidth: scaleHeight(2),
     borderColor: "#0764B0",
-    borderRadius: 10,
+    borderRadius: scaleWidth(9),
     overflow: "hidden",
     alignSelf: "center",
   },
   text: {
-    fontSize: FONT_TEXT_SIZE,
+    fontFamily: fonts.REGULAR,
+    fontSize: scaleFont(20),
+    fontWeight: "normal",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "center",
   },
   scrollTab: { flex: 1 },
 });

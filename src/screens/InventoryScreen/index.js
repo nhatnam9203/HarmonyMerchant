@@ -48,7 +48,7 @@ class InventoryScreen extends Layout {
                     ...initState,
                     isFocus: false
                 });
-                this.checkPermissionRef.current.setStateFromParent('');
+                this.checkPermissionRef.current?.setStateFromParent('');
                 this.props.actions.product.getProductsByMerchant("", "", false);
 
             }
@@ -59,7 +59,7 @@ class InventoryScreen extends Layout {
                 this.setState({
                     isFocus: true
                 });
-                this.checkPermissionRef.current.setStateFromParent('');
+                this.checkPermissionRef.current?.setStateFromParent('');
 
                 const { profileStaffLogin } = this.props;
                 const roleName = profileStaffLogin?.roleName || "Admin";
@@ -90,7 +90,7 @@ class InventoryScreen extends Layout {
     requestExportFileToServer = async () => {
         const { profile } = this.props;
         const fileName = this.modalExportRef?.current?.state?.value || 'Inventory';
-        const isExportAll = !this.modalExportRef.current.state.isExportAll;
+        const isExportAll = !this.modalExportRef.current?.state.isExportAll;
 
         await this.setState({
             visiblePopupExport: false,
@@ -212,7 +212,7 @@ class InventoryScreen extends Layout {
             }
         }
         if (arrayProductRestock.length > 0) {
-            this.restockRef.current.setStateFromParent(0);
+            this.restockRef.current?.setStateFromParent(0);
             this.setState({
                 arrayProductRestock,
                 visibleRestock: true
@@ -233,7 +233,7 @@ class InventoryScreen extends Layout {
     }
 
     showDetailProduct = (product) => {
-        this.productDetailRef.current.setProductInfoFromParent(product);
+        this.productDetailRef.current?.setProductInfoFromParent(product);
         this.setState({
             visiblePopupDetail: true
         })
@@ -280,7 +280,7 @@ class InventoryScreen extends Layout {
             }
         }
 
-        this.editProductRef.current.setProductInfoFromParent(temptProductEdit);
+        this.editProductRef.current?.setProductInfoFromParent(temptProductEdit);
         this.setState({
             visibleEdit: true
         })
@@ -299,7 +299,7 @@ class InventoryScreen extends Layout {
         const { categoriesByMerchant } = this.props;
         if (getArrayNameCategories(categoriesByMerchant, 'Product').length > 0) {
             this.setState({ visibleAdd: true });
-            this.addProductRef.current.setDefaultStateFromParent();
+            this.addProductRef.current?.setDefaultStateFromParent();
         } else {
             alert('Create category before add product please !')
         }

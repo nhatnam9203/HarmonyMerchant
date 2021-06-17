@@ -2,7 +2,7 @@
  * Provides universal color configs used in the app.
  * Provides universal fonts used in the app.
  */
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const colors = {
   WEIRD_GREEN: '#4cd964',
@@ -35,11 +35,11 @@ export const colors = {
 };
 
 export const fonts = {
-  REGULAR: 'Roboto-Regular',
-  MEDIUM: 'Roboto-Medium',
-  LIGHT: 'Roboto-Light',
-  ITALIC: 'Roboto-Italic',
-  BOLD: 'Roboto-Bold',
+  REGULAR: "Roboto-Regular",
+  MEDIUM: "Roboto-Medium",
+  LIGHT: "Roboto-Light",
+  ITALIC: "Roboto-Italic",
+  BOLD: "Roboto-Bold",
 };
 
 export const layouts = StyleSheet.create({
@@ -47,40 +47,40 @@ export const layouts = StyleSheet.create({
     flex: 1,
   },
   fullSize: {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
   },
   fullWidth: {
-    width: '100%',
+    width: "100%",
   },
   fullHeight: {
-    height: '100%',
+    height: "100%",
   },
   center: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   horizontal: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   vertical: {
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   horizontalSpaceBetween: {
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   verticalCenterLeft: {
-    alignItems: 'flex-start',
-    justifyContent: 'center',
+    alignItems: "flex-start",
+    justifyContent: "center",
   },
   horizontalCenterLeft: {
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
   horizontalCenterRight: {
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
   marginVertical: {
     height: scaleHeight(8),
@@ -91,10 +91,10 @@ export const layouts = StyleSheet.create({
   formTitle: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(23),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
   formRow: {
@@ -102,16 +102,25 @@ export const layouts = StyleSheet.create({
     marginBottom: scaleHeight(10),
     paddingHorizontal: scaleWidth(16),
     height: scaleHeight(40),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   tableName: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(15),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
+    color: colors.GREYISH_BROWN,
+  },
+  title: {
+    fontFamily: fonts.BOLD,
+    fontSize: scaleFont(23),
+    fontWeight: "bold",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
   fontLightBrown: {

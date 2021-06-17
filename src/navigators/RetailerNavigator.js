@@ -25,7 +25,7 @@ export const RetailerNavigator = () => {
     <DropdownProvider>
       <Navigator
         headerMode="none"
-        //initialRouteName={'retailer.setting'} //!! add to developer, remove when finished
+        initialRouteName={"retailer.reports"} //!! add to developer, remove when finished
         drawerContent={CustomDrawerContent}
         drawerStyle={{
           width: scaleSize(200),

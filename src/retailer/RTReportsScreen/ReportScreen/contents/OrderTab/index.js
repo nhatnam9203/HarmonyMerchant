@@ -8,6 +8,8 @@ import React, {
 import { StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { ReportLayout } from "../../widget";
+import { SalesOrder } from "./pages";
+import { colors } from "@shared/themes";
 
 const RANGE_TIME_DEFAULT = "This Week";
 
@@ -66,7 +68,7 @@ function OrderTab({ style, showBackButton }, ref) {
 
   const onGoStatistics = async (item) => {
     await setFilterNameItem(item.name);
-    layoutRef.current.goNext();
+    layoutRef.current?.goNext();
   };
 
   const onShowPopupExport = (title) => {
@@ -106,14 +108,14 @@ function OrderTab({ style, showBackButton }, ref) {
   };
 
   const onHandleTheDownloadedFile = (filePath) => {
-    layoutRef.current.handleTheDownloadedFile(filePath);
+    layoutRef.current?.handleTheDownloadedFile(filePath);
   };
 
   // public function
   useImperativeHandle(ref, () => ({
     goBack: () => {
-      layoutRef.current.goBack();
-      dispatch(actions.staff.resetDownloadExportFiles());
+      layoutRef.current?.goBack();
+      // dispatch(actions.staff.resetDownloadExportFiles());
     },
     getListStaffsSalaryTop: () => getListStaffsSalaryTop(),
     didBlur: async () => {
@@ -136,23 +138,14 @@ function OrderTab({ style, showBackButton }, ref) {
   }, [listStaffsSalary]);
 
   return (
-    <View style={[styles.container, style]}>
-      <ReportLayout
-        ref={layoutRef}
-        style={style}
-        showBackButton={showBackButton}
-        onChangeTimeTitle={onChangeTimeTitle}
-        onRequestExportFileToServer={onRequestExportFileToServer}
-        isDownloadReport={isDownloadReportStaff}
-      >
-        <View />
-      </ReportLayout>
+    <View style={styles.container}>
+      <SalesOrder />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { backgroundColor: colors.WHITE, flex: 1 },
 });
 
 export default OrderTab = forwardRef(OrderTab);

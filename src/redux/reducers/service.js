@@ -76,10 +76,10 @@ function serviceReducer(state = initialState, action) {
   }
 }
 
-// module.exports = persistReducer({
-//     key: 'service',
-//     storage: AsyncStorage,
-//     whitelist: ['servicesByMerchant']
-// }, serviceReducer);
+module.exports = persistReducer({
+    key: 'service',
+    storage: AsyncStorage,
+    whitelist: ['servicesByMerchant']
+}, serviceReducer);
 
-export default serviceReducer;
+// export default serviceReducer;

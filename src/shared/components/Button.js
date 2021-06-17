@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 import {
   TouchableOpacity,
   Text,
   StyleSheet,
   View,
   Pressable,
-} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import { colors, fonts, layouts } from '@shared/themes';
+} from "react-native";
+import LinearGradient from "react-native-linear-gradient";
+import { colors, fonts, layouts } from "@shared/themes";
 
 export const ButtonNormal = ({
   width,
@@ -18,7 +18,7 @@ export const ButtonNormal = ({
   textStyle,
   textColor,
   onPress,
-  borderColor = '#ccc',
+  borderColor = "#ccc",
   fontSize,
   fontWeight,
 }) => {
@@ -55,7 +55,7 @@ export const ButtonNormal = ({
 export const ButtonGradient = ({
   width,
   height,
-  borderRadius,
+  borderRadius = 1,
   label,
   textStyle,
   textColor,
@@ -75,7 +75,7 @@ export const ButtonGradient = ({
       onPress={onPress}
       style={({ pressed }) => [
         styles.button,
-        borderRadius && { borderRadius },
+        { borderRadius },
         width && { width },
         height && { height },
         { borderColor },
@@ -113,7 +113,7 @@ export const ButtonGradient = ({
 export const ButtonGradientWhite = ({
   textColor,
   borderRadius = scaleHeight(1),
-  borderColor = '#ccc',
+  borderColor = "#ccc",
   ...props
 }) => (
   <ButtonGradient
@@ -146,24 +146,24 @@ export const ButtonGradientRed = ({
 
 const styles = StyleSheet.create({
   button: {
-    height: '100%',
+    height: "100%",
     borderRadius: scaleHeight(3),
-    overflow: 'hidden',
+    overflow: "hidden",
   },
 
   buttonText: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.WHITE,
   },
 
   linear: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: scaleWidth(6),
   },
 });

@@ -48,7 +48,7 @@ class GeneralInfoScreen extends Layout {
     }
 
     scrollGeneralTo(position) {
-        this.srollGeneralRef.current.scrollTo({ x: 0, y: scaleSize(position), animated: true })
+        this.srollGeneralRef.current?.scrollTo({ x: 0, y: scaleSize(position), animated: true })
     }
 
     updateGeneralInfo(key, value, keyParent = '') {
@@ -164,8 +164,8 @@ class GeneralInfoScreen extends Layout {
             const temptGeneralInfo = {
                 ...generalInfo,
                 tax: `${generalInfo.tax.prefix}-${generalInfo.tax.suffix}`,
-                businessPhone: `${this.businessPhoneRef.current.state.codeAreaPhone}${generalInfo.businessPhone}`,
-                contactPhone: `${this.contactPhoneRef.current.state.codeAreaPhone}${generalInfo.contactPhone}`,
+                businessPhone: `${this.businessPhoneRef.current?.state.codeAreaPhone}${generalInfo.businessPhone}`,
+                contactPhone: `${this.contactPhoneRef.current?.state.codeAreaPhone}${generalInfo.contactPhone}`,
                 businessAddress: temptBusinessAddress,
                 dbaAddress: temptDBAAddress
             };

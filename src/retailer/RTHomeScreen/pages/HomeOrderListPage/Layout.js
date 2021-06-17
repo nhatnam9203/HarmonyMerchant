@@ -153,7 +153,10 @@ export const Layout = ({
 
       <View style={styles.rowContent}>
         <View style={layouts.horizontal}>
-          <ButtonCalendarFilter onChangeTimeValue={onChangeTimeValue} />
+          <ButtonCalendarFilter
+            onChangeTimeValue={onChangeTimeValue}
+            defaultValue={"This Week"}
+          />
 
           <View style={layouts.marginHorizontal} />
           <ButtonRightPanelFilter

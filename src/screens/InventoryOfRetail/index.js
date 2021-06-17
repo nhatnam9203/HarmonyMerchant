@@ -22,11 +22,11 @@ class InventoryOfRetail extends Layout {
     }
 
     handleNewOrder = () => {
-        this.scrollableTabViewRef.current.goToPage(2);
+        this.scrollableTabViewRef.current?.goToPage(2);
     }
 
     backOrderHome =( ) =>{
-        this.scrollableTabViewRef.current.goToPage(0);
+        this.scrollableTabViewRef.current?.goToPage(0);
     }
 
     onChangeTab = (index) => {
@@ -37,7 +37,7 @@ class InventoryOfRetail extends Layout {
         const {isGetOrderRetailDetail} = this.props;
         if(isGetOrderRetailDetail && prevProps?.isGetOrderRetailDetail !== isGetOrderRetailDetail){
             this.props.actions.orderRetail.resetStateIsGetOrderRetailDetail();
-            this.scrollableTabViewRef.current.goToPage(1);
+            this.scrollableTabViewRef.current?.goToPage(1);
 
         }
     }

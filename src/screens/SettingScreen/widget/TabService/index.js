@@ -116,7 +116,7 @@ class TabService extends Layout {
     showModalAddService = () => {
         const { categoriesByMerchant } = this.props;
         if (getArrayNameCategories(categoriesByMerchant, 'Service').length > 0) {
-            this.addServiceRef.current.setDefaultStateFromParent();
+            this.addServiceRef.current?.setDefaultStateFromParent();
             this.setState({ visibleAdd: true });
         } else {
             alert('Create service category before add service please !')
@@ -139,7 +139,7 @@ class TabService extends Layout {
     }
 
     async showModalEditService(service) {
-        this.editServiceRef.current.setServiceFromParent(service);
+        this.editServiceRef.current?.setServiceFromParent(service);
         this.setState({
             visibleEdit: true
         })

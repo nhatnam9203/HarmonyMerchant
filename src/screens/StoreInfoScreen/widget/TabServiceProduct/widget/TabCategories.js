@@ -80,7 +80,7 @@ class TabCategories extends React.Component {
     }
 
     async showModalEditcategory(category) {
-        this.refEditCategory.current.setCategoryFromParent(category);
+        this.refEditCategory.current?.setCategoryFromParent(category);
         this.setState({
             visibleEdit: true
         })
@@ -146,7 +146,7 @@ class TabCategories extends React.Component {
                 {this.renderTable()}
                 <FooterTab
                     addNew={() => {
-                        this.refAddCategory.current.setStateDefaultFromParent();
+                        this.refAddCategory.current?.setStateDefaultFromParent();
                         this.setState({ visibleAdd: true });
                     }}
                     backTab={() => this.props.backTab()}

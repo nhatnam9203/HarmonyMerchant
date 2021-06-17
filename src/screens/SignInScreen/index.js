@@ -41,8 +41,8 @@ class SignInScreen extends Layout {
     signIn = () => {
         const {isRememberMID} =this.props;
         const {terminalId} = this.state;
-        const email = this.idInputRef.current.state.value;
-        const password = this.passwordInputRef.current.state.value;
+        const email = this.idInputRef.current?.state.value;
+        const password = this.passwordInputRef.current?.state.value;
         if (email === '' || password === '' || terminalId === '') {
             alert('Please enter full information!');
         } else {

@@ -64,7 +64,7 @@ class TabAppointment extends Layout {
       nextAppState === "active"
     ) {
       if (this.webviewRef.current) {
-        this.webviewRef.current.postMessage(
+        this.webviewRef.current?.postMessage(
           JSON.stringify({
             action: "resetWeb",
           })
@@ -75,7 +75,7 @@ class TabAppointment extends Layout {
   };
 
   reloadWebviewFromParent = () => {
-    this.webviewRef.current.postMessage(
+    this.webviewRef.current?.postMessage(
       JSON.stringify({
         action: "reloadWed",
       })
@@ -83,7 +83,7 @@ class TabAppointment extends Layout {
   };
 
   connectWebview = () => {
-    this.webviewRef.current.postMessage(
+    this.webviewRef.current?.postMessage(
       JSON.stringify({
         action: "PaidOffline",
         idAppointment: this.state.appointmentIdOffline,
@@ -92,7 +92,7 @@ class TabAppointment extends Layout {
   };
 
   pushNotiDataToWebView = (data) => {
-    this.webviewRef.current.postMessage(
+    this.webviewRef.current?.postMessage(
       JSON.stringify({
         action: "appointmentNotification",
         data: data,
@@ -109,7 +109,7 @@ class TabAppointment extends Layout {
   };
 
   onLoadStartWebview = () => {
-    this.webviewRef.current.reload();
+    this.webviewRef.current?.reload();
   };
 
   onMessageFromWebview = async (event) => {

@@ -162,20 +162,23 @@ export function updateStaffsPosition(body) {
 
 export function reloadButtonEnterPincode() {
   return {
-    type: 'RELOAD_BUTTON_ENTER_PIN_CODE',
+    type: "RELOAD_BUTTON_ENTER_PIN_CODE",
   };
 }
 
 export function getListStaffsSalaryTop(
-  params = 'quickFilter=thisWeek',
-  isShowLoading = true
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  page = 1
 ) {
   return {
     type: 'GET_LIST_STAFFS_SALARY_TOP',
     method: 'GET',
     token: true,
-    api: `staff/salary?${params}`,
+    api: `staff/salary?${params}&page=${page}`,
     isShowLoading,
+    timeOut: 120000,
+    page,
   };
 }
 
@@ -230,18 +233,18 @@ export function getExportStaffStatistics(
 
 export function resetDownloadExportFiles() {
   return {
-    type: 'RESET_DOWNLOAD_FILE_REPORT_STAFF',
+    type: "RESET_DOWNLOAD_FILE_REPORT_STAFF",
   };
 }
 
 export function resetStateGetStaffDetail() {
   return {
-    type: 'RESET_STATE_GET_STAFF_DETAIL',
+    type: "RESET_STATE_GET_STAFF_DETAIL",
   };
 }
 
 export function resetStateIsEditStaffById() {
   return {
-    type: 'RESET_STATE_IS_EDIT_STAFF_BY_ID',
+    type: "RESET_STATE_IS_EDIT_STAFF_BY_ID",
   };
 }

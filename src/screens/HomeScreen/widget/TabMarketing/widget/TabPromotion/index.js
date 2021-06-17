@@ -73,15 +73,15 @@ class TabPromotion extends Layout {
   }
 
   cancelCampaign = () => {
-    this.scrollTabParentRef?.current.goToPage(0);
+    this.scrollTabParentRef?.current?.goToPage(0);
   }
 
   goToPage = (page = 1) => {
     if (this.scrollTabParentRef?.current) {
-      this.scrollTabParentRef?.current.goToPage(page);
+      this.scrollTabParentRef?.current?.goToPage(page);
     } else {
       setTimeout(() => {
-        this.scrollTabParentRef?.current.goToPage(page);
+        this.scrollTabParentRef?.current?.goToPage(page);
       }, 300)
     }
   }

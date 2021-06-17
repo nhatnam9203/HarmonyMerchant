@@ -33,7 +33,7 @@ class GiftCardScreen extends Layout {
           isFocus: false,
           keySearch: '',
         });
-        this.checkPermissionRef.current.setStateFromParent('');
+        this.checkPermissionRef.current?.setStateFromParent('');
         this.props.actions.customer.clearSearCustomer();
       },
     );
@@ -43,7 +43,7 @@ class GiftCardScreen extends Layout {
         this.setState({
           isFocus: true,
         });
-        this.checkPermissionRef.current.setStateFromParent('');
+        this.checkPermissionRef.current?.setStateFromParent('');
         this.scrollTabRef?.current?.goToPage(0);
 
         const { profileStaffLogin } = this.props;
@@ -83,12 +83,12 @@ class GiftCardScreen extends Layout {
         this.giftCardDetailTabRef?.current?.setStateFromParent(giftCard);
       }, 300);
     }
-    this.scrollTabRef.current.goToPage(1);
+    this.scrollTabRef.current?.goToPage(1);
     this.props.actions.appointment.getGiftCardLogs(giftCard?.giftCardId);
   };
 
   backCustomerListTab = () => {
-    this.scrollTabRef.current.goToPage(0);
+    this.scrollTabRef.current?.goToPage(0);
   };
 
   openDrawer = () => {

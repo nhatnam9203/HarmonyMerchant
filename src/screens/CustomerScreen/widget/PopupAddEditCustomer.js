@@ -149,7 +149,7 @@ class PopupAddEditCustomer extends React.Component {
     }
 
     scrollCustomerTo(position) {
-        this.scrollCustomerRef.current.scrollTo({ x: 0, y: scaleSize(position), animated: true })
+        this.scrollCustomerRef.current?.scrollTo({ x: 0, y: scaleSize(position), animated: true })
     }
 
     onChangeText = (value, count = 0) => {

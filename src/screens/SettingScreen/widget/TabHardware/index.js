@@ -22,24 +22,24 @@ class TabHardware extends Layout {
     }
 
     gotoListDevices = (type) => {
-        this.scrollTabHardwareRef.current.goToPage(1);
+        this.scrollTabHardwareRef.current?.goToPage(1);
     }
 
     backHomeHardware = () => {
-        this.scrollTabHardwareRef.current.goToPage(0);
+        this.scrollTabHardwareRef.current?.goToPage(0);
     }
 
     gotoSetupDevice = () => {
-        this.scrollTabHardwareRef.current.goToPage(2);
+        this.scrollTabHardwareRef.current?.goToPage(2);
     }
 
     backListDevices = () => {
-        this.scrollTabHardwareRef.current.goToPage(1);
+        this.scrollTabHardwareRef.current?.goToPage(1);
     }
 
     goToPrinterList = async () => {
         const { printerPortType } = this.props
-        this.scrollTabHardwareRef.current.goToPage(3);
+        this.scrollTabHardwareRef.current?.goToPage(3);
         try {
             this.props.actions.app.loadingApp()
             const printMachine = await checkStatusPrint(printerPortType);

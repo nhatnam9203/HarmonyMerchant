@@ -206,11 +206,11 @@ function marketingReducer(state = initialState, action) {
     }
 }
 
-// module.exports = persistReducer({
-//     key: 'marketing',
-//     storage: AsyncStorage,
-//     whitelist: ['listBanners', 'promotions']
-// }, marketingReducer);
+module.exports = persistReducer({
+    key: 'marketing',
+    storage: AsyncStorage,
+    whitelist: ['listBanners', 'promotions']
+}, marketingReducer);
 
 
-export default marketingReducer;
+// export default marketingReducer;

@@ -110,7 +110,7 @@ class AddStaff extends Layout {
   }
 
   scrollStaffTo(position) {
-    this.scrollStaffRef.current.scrollTo({
+    this.scrollStaffRef.current?.scrollTo({
       x: 0,
       y: scaleSize(position),
       animated: true,
@@ -172,10 +172,10 @@ class AddStaff extends Layout {
         tipFee: infoStaffHandle?.tipFees,
         cashPercent: infoStaffHandle?.cashPercent,
       });
-      this.browserFileRef.current.setImageUrlFromParent(
+      this.browserFileRef.current?.setImageUrlFromParent(
         infoStaffHandle.imageUrl
       );
-      this.cellphoneRef.current.setcodeAreaPhoneFromParent(
+      this.cellphoneRef.current?.setcodeAreaPhoneFromParent(
         getCodeAreaPhone(infoStaffHandle.phone).areaCode
       );
     } else {
@@ -427,19 +427,19 @@ class AddStaff extends Layout {
   }
 
   disableFixedAmountTip = () => {
-    this.fixedAmountTipFeeRef.current.setStateFromParent();
+    this.fixedAmountTipFeeRef.current?.setStateFromParent();
   };
 
   disablePercentTip = () => {
-    this.percentTipFeeRef.current.setStateFromParent();
+    this.percentTipFeeRef.current?.setStateFromParent();
   };
 
   disableCommisionServiceSalary = () => {
-    this.commissionSalaryRef.current.setStateFromParent();
+    this.commissionSalaryRef.current?.setStateFromParent();
   };
 
   disablePerHourSalary = () => {
-    this.perHourServiceSalaryRef.current.setStateFromParent();
+    this.perHourServiceSalaryRef.current?.setStateFromParent();
   };
 
   selectCheckbox = (day, isCheck) => async () => {

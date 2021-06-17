@@ -42,7 +42,7 @@ class InventoryDetail extends Layout {
     }
 
     handleScrollToNum = (num) => () => {
-        this.scrollRef.current.scrollTo({ x: 0, y: scaleSize(num), animated: true })
+        this.scrollRef.current?.scrollTo({ x: 0, y: scaleSize(num), animated: true })
     }
 
 }

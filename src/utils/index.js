@@ -67,7 +67,7 @@ export const requestAPI = async (action, header = {}) => {
     baseURL: Configs.API_URL,
     url: `${action.api}`,
     headers: headers,
-    timeout: action?.timeoutIncrease ? 60000 : 30000,
+    timeout: action?.timeOut ?? action?.timeoutIncrease ? 60000 : 30000,
     validateStatus: (status) => status >= 200 && status < 600,
   };
 
@@ -411,6 +411,10 @@ export const getCodeAreaPhone = (phone) => {
     phone: phone,
     areaCode: "+1",
   };
+};
+
+export const round2 = (value) => {
+  return +(Math.round(value + "e+2") + "e-2");
 };
 
 export const formatNumberFromCurrency = (currency) => {

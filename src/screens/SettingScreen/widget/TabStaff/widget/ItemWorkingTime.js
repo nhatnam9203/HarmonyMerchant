@@ -7,15 +7,17 @@ import {
 } from 'react-native';
 
 import IMAGE from '@resources';
-import { Dropdown, Button } from '@components';
+import { DropdownCustom, Button } from '@components';
 import { scaleSize, WorkingTime } from '@utils';
 
 
-export const ItemWorkingTime = ({ title, data,selectCheckbox, onChangeTimeOfWorkingTime }) => {
+export const ItemWorkingTime = ({ title, data, selectCheckbox, onChangeTimeOfWorkingTime, isEdit }) => {
     const isCheck = data?.isCheck;
     const timeStart = data?.timeStart;
     const timeEnd = data?.timeEnd
     const temptIconCheck = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
+
+    console.log({ isEdit })
 
     return (
         <View style={{
@@ -39,17 +41,18 @@ export const ItemWorkingTime = ({ title, data,selectCheckbox, onChangeTimeOfWork
             </View>
 
             <View style={{ width: scaleSize(150) }} >
-                <Dropdown
+                <DropdownCustom
                     label={'08:00 AM'}
                     data={WorkingTime}
                     value={timeStart}
-                    onChangeText={(value) => onChangeTimeOfWorkingTime(value,title,"timeStart")}
+                    onChangeText={(value) => onChangeTimeOfWorkingTime(value, title, "timeStart")}
                     containerStyle={{
                         backgroundColor: '#F1F1F1',
                         borderWidth: 1,
                         borderColor: '#C5C5C5',
                         flex: 1
                     }}
+                    isScrollNow={!isEdit}
                 />
             </View>
             <View style={{ justifyContent: 'center', paddingHorizontal: scaleSize(8) }} >
@@ -61,19 +64,20 @@ export const ItemWorkingTime = ({ title, data,selectCheckbox, onChangeTimeOfWork
                 </View>
             </View>
             <View style={{ width: scaleSize(150) }} >
-                <Dropdown
+                <DropdownCustom
                     label={'09:00 AM'}
                     data={WorkingTime}
                     value={timeEnd}
-                    onChangeText={(value) => onChangeTimeOfWorkingTime(value,title,"timeEnd")}
+                    onChangeText={(value) => onChangeTimeOfWorkingTime(value, title, "timeEnd")}
                     containerStyle={{
                         backgroundColor: '#F1F1F1',
                         borderWidth: 1,
                         borderColor: '#C5C5C5',
                         flex: 1
                     }}
+                    isScrollNow={!isEdit}
                 />
             </View>
-        </View >
+        </View>
     );
 }

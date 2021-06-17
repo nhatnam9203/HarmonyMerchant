@@ -39,7 +39,22 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage: AsyncStorage,
-  blacklist: ["appMerchant", "staff"],
+  blacklist: [
+    "appMerchant",
+    "staff",
+    "app",
+    "appointment",
+    "auth",
+    "category",
+    "customer",
+    "dataLocal",
+    "extrasByMerchant",
+    "invoice",
+    "marketing",
+    "network",
+    "product",
+    "service"
+  ],
   debug: isDevelopmentMode, //to get useful logging
 };
 

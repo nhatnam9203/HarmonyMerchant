@@ -43,8 +43,8 @@ class PopupDiscountLocal extends React.Component {
 
     submitCustomPromotion() {
         const { groupAppointment } = this.props;
-        const customDiscountPercent = this.customDiscountRef.current.state.percent;
-        const customFixedAmount = this.customFixedAmountRef.current.state.discount;
+        const customDiscountPercent = this.customDiscountRef.current?.state.percent;
+        const customFixedAmount = this.customFixedAmountRef.current?.state.discount;
         if (_.isEmpty(groupAppointment)) {
             const { discountTotal } = this.state;
             this.props.callbackDiscountToParent(customDiscountPercent, customFixedAmount, Number(discountTotal).toFixed(2));
@@ -69,7 +69,7 @@ class PopupDiscountLocal extends React.Component {
 
     onChangeTextCustomDiscount = async (discount) => {
         const { groupAppointment } = this.props;
-        const customFixedAmount = this.customFixedAmountRef.current.state.discount;
+        const customFixedAmount = this.customFixedAmountRef.current?.state.discount;
         const temptDiscount = formatNumberFromCurrency(discount) + formatNumberFromCurrency(customFixedAmount)
 
         if (_.isEmpty(groupAppointment)) {
@@ -81,7 +81,7 @@ class PopupDiscountLocal extends React.Component {
 
     onChangeTextDiscountFixed = async (discountFixed) => {
         const { totalLocal } = this.state;
-        const customDiscountPercent = this.customDiscountRef.current.state.percent;
+        const customDiscountPercent = this.customDiscountRef.current?.state.percent;
         const { groupAppointment } = this.props;
 
         const temptDiscount = formatNumberFromCurrency(discountFixed) + Number((formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(totalLocal) / 100).toFixed(2));
@@ -155,7 +155,7 @@ class PopupDiscountLocal extends React.Component {
                     }} >
                         <View style={{ flex: 1, justifyContent: 'center' }} >
                             <Text style={{ color: '#404040', fontSize: scaleSize(30), fontWeight: 'bold' }} >
-                                {localize('Total Discount', language)}
+                                {localize('Discount', language)}
                             </Text>
                         </View>
                         <View style={{ justifyContent: 'center' }} >

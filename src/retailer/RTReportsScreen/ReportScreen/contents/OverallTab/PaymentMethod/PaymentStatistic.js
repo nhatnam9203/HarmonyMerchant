@@ -25,7 +25,7 @@ export default function PaymentStatistic(props, ref) {
     );
 
     setTable({
-      tableData: item.statistics,
+      tableData: item?.statistics,
       tableHead: {
         dateString: localize("Date", language),
         transactions: localize("Transactions", language),

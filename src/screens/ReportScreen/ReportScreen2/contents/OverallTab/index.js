@@ -34,10 +34,10 @@ function OverallTab({ style, showBackButton }, ref) {
   const onGoBack = () => {
     switch (currentTab) {
       case 0:
-        paymentTabRef.current.goBack();
+        paymentTabRef.current?.goBack();
         break;
       case 1:
-        efficiencyTabRef.current.goBack();
+        efficiencyTabRef.current?.goBack();
         break;
       default:
         break;

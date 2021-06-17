@@ -29,3 +29,5 @@ export * from './DialogAddNewPaymentMethod';
 export * from './CustomLink';
 export * from './FormPinCode';
 export * from './FormInputSalary';
+export * from "./DialogPinCode";
+export * from "./DropdownMenu";

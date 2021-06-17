@@ -53,7 +53,7 @@ export const useProps = ({ navigation }) => {
   */
   const signInFormik = useFormik({
     initialValues: {
-      email: merchantID,
+      email: merchantID ?? "",
       password: "",
       terminalId: terminalIDs[1].value,
     },
@@ -123,10 +123,10 @@ export const useProps = ({ navigation }) => {
     inputPassRef,
 
     onForgotPasswordPress: () => {
-      NavigationServices.navigate('merchant.forgotpassword');
+      NavigationServices.navigate("merchant.forgotpassword");
     },
     onSignUpdPress: () => {
-      NavigationServices.navigate('merchant.terms');
+      NavigationServices.navigate("merchant.terms");
     },
     terminalIDs: terminalIDs,
     errorMsg,
