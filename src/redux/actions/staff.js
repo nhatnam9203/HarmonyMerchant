@@ -171,10 +171,10 @@ export function getListStaffsSalaryTop(
     type: "GET_LIST_STAFFS_SALARY_TOP",
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}staff/salary?${params}`,
+    api: `${apiConfigs.BASE_API}staff/salary?${params}&page=${page}`,
     isShowLoading,
-    timeoutIncrease2p: true,
-    page: page,
+    timeOut: 60000,
+    page,
   };
 }
 
@@ -206,7 +206,6 @@ export function getExportStaffSalary(
     isShowLoading,
     fileName,
     extention: type ?? "pdf",
-    timeoutIncrease2p: true,
   };
 }
 
@@ -225,7 +224,6 @@ export function getExportStaffStatistics(
     isShowLoading,
     fileName,
     extention: type ?? "pdf",
-    timeoutIncrease2p: true,
   };
 }
 

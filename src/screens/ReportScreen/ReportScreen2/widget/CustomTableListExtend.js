@@ -120,6 +120,7 @@ function TableListExtended({
   onRefresh,
   isRefreshing,
   onLoadMore = () => {},
+  endLoadMore = false,
 }) {
   /**state */
   const [headerContent, setHeaderContent] = useState({});
@@ -326,7 +327,7 @@ function TableListExtended({
         if (x > value - cellWidth && x <= value) {
           x = x <= value - cellWidth / 2 ? value - cellWidth : value;
 
-          stickyFormRef.current.scrollTo({ x: x, y: y });
+          stickyFormRef.current?.scrollTo({ x: x, y: y });
           return;
         }
       });
@@ -490,6 +491,7 @@ function TableListExtended({
 
   // render header
   const renderSection = () => {
+    return <></>;
     return (
       <TableRow
         style={{
@@ -558,9 +560,20 @@ function TableListExtended({
 
   React.useEffect(() => {
     if (!isRefreshing) {
-      stickyFormRef.current.endRefresh();
+      stickyFormRef.current?.endRefresh();
     }
   }, [isRefreshing]);
+
+  const onHandleLoadMore = () => {
+    if (endLoadMore) {
+      stickyFormRef.current.endLoading();
+      return;
+    }
+    onLoadMore();
+    setTimeout(() => {
+      stickyFormRef.current.endLoading();
+    }, 2000);
+  };
 
   return (
     <View style={styles.container}>
@@ -576,7 +589,7 @@ function TableListExtended({
         }}
         // onLayout={(e) => setVisibleScrollPartWidth(e.nativeEvent.layout.width)}
         data={dataFactory}
-        heightForSection={() => TABLE_ROW_HEIGHT}
+        heightForSection={() => 0}
         heightForIndexPath={() => TABLE_ROW_HEIGHT}
         renderHeader={renderHeader}
         renderSection={renderSection}
@@ -596,16 +609,11 @@ function TableListExtended({
         onRefresh={() => {
           onRefresh();
           setTimeout(() => {
-            stickyFormRef.current.endRefresh();
+            stickyFormRef.current?.endRefresh();
           }, 2000);
         }}
         refreshHeader={NormalHeader}
-        onLoading={() => {
-          onLoadMore();
-          setTimeout(() => {
-            stickyFormRef.current.endLoading();
-          }, 2000);
-        }}
+        onLoading={onHandleLoadMore}
       />
       {!isContentSmallerThanScrollView && (
         <Animated.View

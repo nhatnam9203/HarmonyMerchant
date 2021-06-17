@@ -70,11 +70,7 @@ export const requestAPI = async (action, header = {}) => {
     baseURL: encodeURI(baseURL),
     url: "",
     headers: headers,
-    timeout: action?.timeoutIncrease2p
-      ? 120000
-      : action?.timeoutIncrease
-      ? 60000
-      : 30000,
+    timeout: action?.timeOut ?? action?.timeoutIncrease ? 60000 : 30000,
     validateStatus: (status) => status >= 200 && status < 600,
   };
   if (

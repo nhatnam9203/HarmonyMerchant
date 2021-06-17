@@ -18,6 +18,7 @@ function StaffTab({ style, showBackButton }, ref) {
   const dispatch = useDispatch();
 
   const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
+  const nextPage = useSelector((state) => state.staff.listStaffsSalaryNextPage);
 
   const pathFileReportStaff = useSelector(
     (state) => state.staff.pathFileReportStaffSalary
@@ -36,18 +37,19 @@ function StaffTab({ style, showBackButton }, ref) {
   const [filterNameItem, setFilterNameItem] = useState(undefined);
   const [filterNames, setFilterNames] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  const [page, setPage] = useState(1);
 
   /**ref */
   const layoutRef = useRef(null);
 
   /**function */
-  const getListStaffsSalaryTop = async (paging = 1) => {
+  const getListStaffsSalaryTop = async (page = 1) => {
+    if (page <= 0) return;
+
     await dispatch(
       actions.staff.getListStaffsSalaryTop(
         layoutRef?.current?.getTimeUrl(),
         true,
-        paging
+        page
       )
     );
   };
@@ -59,7 +61,6 @@ function StaffTab({ style, showBackButton }, ref) {
   //callback
   const onChangeTimeTitle = async (timeTitle) => {
     await setTitleRangeTime(timeTitle);
-    setPage(1);
     await getListStaffsSalaryTop(1);
   };
 
@@ -73,7 +74,7 @@ function StaffTab({ style, showBackButton }, ref) {
 
   const onGoStatistics = async (item) => {
     await setFilterNameItem(item.name);
-    layoutRef.current.goNext();
+    layoutRef.current?.goNext();
   };
 
   const onShowPopupExport = (title) => {
@@ -113,16 +114,16 @@ function StaffTab({ style, showBackButton }, ref) {
   };
 
   const onHandleTheDownloadedFile = (filePath) => {
-    layoutRef.current.handleTheDownloadedFile(filePath);
+    layoutRef.current?.handleTheDownloadedFile(filePath);
   };
 
   // public function
   useImperativeHandle(ref, () => ({
     goBack: () => {
-      layoutRef.current.goBack();
+      layoutRef.current?.goBack();
       dispatch(actions.staff.resetDownloadExportFiles());
     },
-    getListStaffsSalaryTop: () => getListStaffsSalaryTop(page),
+    getListStaffsSalaryTop: () => getListStaffsSalaryTop(),
     didBlur: async () => {
       // await setTitleRangeTime(RANGE_TIME_DEFAULT);
     },
@@ -135,13 +136,11 @@ function StaffTab({ style, showBackButton }, ref) {
   /**effect */
   const refreshData = () => {
     setRefreshing(true);
-    setPage(1);
     getListStaffsSalaryTop(1);
   };
 
   const loadMoreData = () => {
-    setPage((prev) => prev + 1);
-    getListStaffsSalaryTop(page + 1);
+    getListStaffsSalaryTop(nextPage);
   };
 
   React.useEffect(() => {
@@ -171,6 +170,7 @@ function StaffTab({ style, showBackButton }, ref) {
           onRefresh={refreshData}
           isRefreshing={refreshing}
           onLoadMore={loadMoreData}
+          endLoadMore={nextPage <= 0}
         />
         <StaffStatistic
           style={{ flex: 1 }}
