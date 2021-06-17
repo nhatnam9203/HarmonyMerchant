@@ -155,7 +155,7 @@ class PopupDiscountLocal extends React.Component {
                     }} >
                         <View style={{ flex: 1, justifyContent: 'center' }} >
                             <Text style={{ color: '#404040', fontSize: scaleSize(30), fontWeight: 'bold' }} >
-                                {localize('Total Discount', language)}
+                                {localize('Discount', language)}
                             </Text>
                         </View>
                         <View style={{ justifyContent: 'center' }} >

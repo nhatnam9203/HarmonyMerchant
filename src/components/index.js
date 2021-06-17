@@ -5,6 +5,7 @@ import InputAuth from "./InputAuth";
 import Loading from "./Loading";
 import DefaultTabBar from "./DefaultTabBar";
 import { Dropdown } from "./react-native-material-dropdown";
+import { Dropdown as DropdownCustom } from "./react-native-material-dropdown-clone";
 import ModalCustom from "./ModalCustom";
 import PopupParent from "./PopupParent";
 import CustomTabBar from "./CustomTabBar";
@@ -53,9 +54,11 @@ import { FooterTwoButton } from "./FormInfoParent";
 import PopupInfomationCodePush from "./PopupInfomationCodePush";
 import DropdownSearchable from "./DropdownSearchable";
 import GradientButton from "./GradientButton";
+import Slider from "./Slider";
 import CustomTimePicker from "./CustomTimePicker";
 
 module.exports = {
+  Slider,
   Button,
   Text,
   ButtonCustom,
@@ -63,6 +66,7 @@ module.exports = {
   Loading,
   DefaultTabBar,
   Dropdown,
+  DropdownCustom,
   ModalCustom,
   PopupParent,
   CustomTabBar,

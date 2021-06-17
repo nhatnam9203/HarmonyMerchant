@@ -28,7 +28,7 @@ class SetupHardware extends React.Component {
             name,
             ip,
             port,
-            timeout: 90000,
+            timeout: 300000,//5 minutes
             bluetoothAddr,
             peripherals: [],
             scanLoading: false

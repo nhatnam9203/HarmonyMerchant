@@ -413,6 +413,10 @@ export const getCodeAreaPhone = (phone) => {
   };
 };
 
+export const round2 = (value) => {
+  return +(Math.round(value + "e+2")  + "e-2");
+}
+
 export const formatNumberFromCurrency = (currency) => {
   return Number(`${currency}`.replace(/[^0-9.-]+/g, ""));
 };

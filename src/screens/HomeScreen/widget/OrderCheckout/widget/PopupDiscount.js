@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     Alert,
     TextInput,
-    Image
+    Image,
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
@@ -30,7 +30,7 @@ class PopupDiscount extends React.Component {
             customDiscountPercentLocal: 0,
             customDiscountFixedLocal: 0,
             promotionNotes: "",
-            isDiscountByOwner: true
+            isDiscountByOwner: true,
         };
         this.customDiscountRef = React.createRef();
         this.customFixedAmountRef = React.createRef();
@@ -44,7 +44,7 @@ class PopupDiscount extends React.Component {
             discountTotal: discountTotal,
             temptTotalLocal: discountTotal,
             customDiscountPercentLocal: customDiscountPercent,
-            customDiscountFixedLocal
+            customDiscountFixedLocal,
         });
     }
 
@@ -137,7 +137,6 @@ class PopupDiscount extends React.Component {
     }
 
     // ------ Render -----
-
     render() {
         try {
             const { title, discount, visibleModalDiscount,
@@ -170,7 +169,8 @@ class PopupDiscount extends React.Component {
             const tempCheckBoxIcon = isDiscountByOwner ? ICON.checkBox : ICON.checkBoxEmpty;
 
             const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
-
+            customDiscountPercent={temptCustomDiscountPercent}
+            
             return (
                 <PopupParent
                     title={title}
@@ -223,7 +223,7 @@ class PopupDiscount extends React.Component {
                                     </View>
                                     <View style={{ height: 1, backgroundColor: "#707070" }} />
 
-
+                                   
                                     {/* ----------- Note  ----------- */}
                                     <View style={{}} >
                                         <Text style={[{
@@ -357,7 +357,7 @@ class CustomDiscount extends React.Component {
             }} >
                 <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
                     <Text style={{ color: '#404040', fontSize: scaleSize(18) }} >
-                        {localize('Custom Discount by', language)}
+                        {localize('Apply Discount', language)}
                     </Text>
                     {/* ------- Text percent ----- */}
                     <View style={{
