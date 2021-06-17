@@ -85,6 +85,7 @@ export const CustomTopBarScreenReport = ({
   navigation,
   position,
   width,
+  onChangeTab,
 }) => {
   const renderTab = (name, icon, page, isTabActive, onPress) => {
     const activeTextColor = isTabActive
@@ -140,6 +141,9 @@ export const CustomTopBarScreenReport = ({
 
           if (!isFocused && !event.defaultPrevented) {
             navigation.navigate(route.name);
+            if (onChangeTab && typeof onChangeTab === "function") {
+              onChangeTab(index);
+            }
           }
         };
 

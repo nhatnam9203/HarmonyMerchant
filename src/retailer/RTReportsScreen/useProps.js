@@ -1,5 +1,4 @@
 import React from "react";
-import NavigationServices from "@navigators/NavigatorServices";
 export const useProps = ({ navigation }) => {
   const screenReportRef = React.useRef(null);
 
@@ -19,8 +18,6 @@ export const useProps = ({ navigation }) => {
     onHandleBack: () => {
       if (screenReportRef.current?.goBack) {
         screenReportRef.current?.goBack();
-      } else {
-        NavigationServices.goBack();
       }
     },
   };

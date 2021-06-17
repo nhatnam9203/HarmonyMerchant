@@ -22,6 +22,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { useTranslation } from "react-i18next";
 import { CustomTopBarScreenReport } from "./widget";
 import { useNavigationState } from "@react-navigation/native";
+import NavigationServices from "@navigators/NavigatorServices";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
@@ -31,8 +32,6 @@ const log = (obj, message = "") => {
 
 function ReportScreen({ showBackButton }, ref) {
   const { t } = useTranslation();
-  const navigationState = useNavigationState((state) => state);
-  log(navigationState, "navigationState");
 
   const reportTabPermission = useSelector(
     (state) => state.staff.reportTabPermission
@@ -50,33 +49,39 @@ function ReportScreen({ showBackButton }, ref) {
   // const giftCardRef = useRef(null);
   // const serviceRef = useRef(null);
 
-  // const salesRef = useRef(null);
-  // const orderRef = useRef(null);
-  // const productRef = useRef(null);
-  // const customerRef = useRef(null);
+  const salesRef = useRef(null);
+  const orderRef = useRef(null);
+  const productRef = useRef(null);
+  const customerRef = useRef(null);
   const overallRef = useRef(null);
   const staffRef = useRef(null);
 
   /**public function  */
   useImperativeHandle(ref, () => ({
     goBack: () => {
-      overallRef.current?.goBack();
-      return;
-
       switch (tabIndex) {
         case 0:
-          salesRef.current?.goBack();
+          // salesRef.current?.goBack();
+          NavigationServices.goBack();
+
           break;
         case 1:
-          orderRef.current?.goBack();
+          // orderRef.current?.goBack();
+          NavigationServices.goBack();
+
           break;
         case 2:
-          productRef.current?.goBack();
+          // productRef.current?.goBack();
+          NavigationServices.goBack();
+
           break;
         case 3:
-          customerRef.current?.goBack();
+          // customerRef.current?.goBack();
+          NavigationServices.goBack();
+
           break;
         case 4:
+          overallRef.current?.goBack();
           break;
         case 5:
           staffRef.current?.goBack();
@@ -127,32 +132,35 @@ function ReportScreen({ showBackButton }, ref) {
     },
   }));
 
-  const onTabChange = (index) => {
+  const onChangeTab = (index) => {
     switch (tabIndex) {
       case 0:
-        salesRef.current?.goBack();
+        // salesRef.current?.goBack();
         break;
       case 1:
-        orderRef.current?.goBack();
+        // orderRef.current?.goBack();
         break;
       case 2:
-        productRef.current?.goBack();
+        // productRef.current?.goBack();
         break;
       case 3:
-        customerRef.current?.goBack();
+        // customerRef.current?.goBack();
         break;
       case 4:
         overallRef.current?.goBack();
+        showBackButton(false);
+
         break;
       case 5:
         staffRef.current?.goBack();
+        showBackButton(false);
+
         break;
       default:
         break;
     }
 
     setTabIndex(index);
-    showBackButton(false);
   };
 
   const onShowBackButton = (bl) => {
@@ -277,7 +285,9 @@ function ReportScreen({ showBackButton }, ref) {
         optimizationsEnabled={true}
         swipeEnabled={false}
         lazyPreloadDistance={1}
-        tabBar={(props) => <CustomTopBarScreenReport {...props} />}
+        tabBar={(props) => (
+          <CustomTopBarScreenReport {...props} onChangeTab={onChangeTab} />
+        )}
       >
         <Screen
           name={"ReportSalesTab"}
