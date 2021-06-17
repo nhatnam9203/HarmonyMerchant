@@ -164,7 +164,8 @@ export function reloadButtonEnterPincode() {
 
 export function getListStaffsSalaryTop(
   params = "quickFilter=thisWeek",
-  isShowLoading = true
+  isShowLoading = true,
+  page = 1
 ) {
   return {
     type: "GET_LIST_STAFFS_SALARY_TOP",
@@ -173,6 +174,7 @@ export function getListStaffsSalaryTop(
     api: `${apiConfigs.BASE_API}staff/salary?${params}`,
     isShowLoading,
     timeoutIncrease2p: true,
+    page: page,
   };
 }
 
