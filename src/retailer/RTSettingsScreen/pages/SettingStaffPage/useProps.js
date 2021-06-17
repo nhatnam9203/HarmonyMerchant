@@ -129,6 +129,7 @@ export const useProps = (props) => {
     onButtonNewStaffPress,
     onButtonEditStaffPress,
     onSortWithKey,
+    onSelectRow: ({ item }) => onButtonEditStaffPress(item),
     sortLabel,
   };
 };

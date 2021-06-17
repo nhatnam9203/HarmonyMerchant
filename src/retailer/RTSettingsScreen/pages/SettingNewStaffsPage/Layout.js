@@ -87,7 +87,7 @@ export const Layout = ({
               <View style={[layouts.fill, { paddingRight: scaleWidth(16) }]}>
                 <FormBirthDay
                   defaultDateString={dateToString(
-                    new Date(),
+                    current_staff?.birthdate ?? new Date(),
                     BIRTH_DAY_DATE_FORMAT_STRING
                   )}
                   onChangeDate={(date) =>
