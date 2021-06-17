@@ -18,6 +18,7 @@ function StaffTab({ style, showBackButton }, ref) {
   const dispatch = useDispatch();
 
   const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
+  const nextPage = useSelector((state) => state.staff.listStaffsSalaryNextPage);
 
   const pathFileReportStaff = useSelector(
     (state) => state.staff.pathFileReportStaffSalary
@@ -41,11 +42,14 @@ function StaffTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getListStaffsSalaryTop = async () => {
+  const getListStaffsSalaryTop = async (page = 1) => {
+    if (page <= 0) return;
+
     await dispatch(
       actions.staff.getListStaffsSalaryTop(
         layoutRef?.current?.getTimeUrl(),
-        true
+        true,
+        page
       )
     );
   };
@@ -57,7 +61,7 @@ function StaffTab({ style, showBackButton }, ref) {
   //callback
   const onChangeTimeTitle = async (timeTitle) => {
     await setTitleRangeTime(timeTitle);
-    await getListStaffsSalaryTop();
+    await getListStaffsSalaryTop(1);
   };
 
   const onChangeFilterNames = (names) => {
@@ -132,7 +136,11 @@ function StaffTab({ style, showBackButton }, ref) {
   /**effect */
   const refreshData = () => {
     setRefreshing(true);
-    getListStaffsSalaryTop();
+    getListStaffsSalaryTop(1);
+  };
+
+  const loadMoreData = () => {
+    getListStaffsSalaryTop(nextPage);
   };
 
   React.useEffect(() => {
@@ -161,6 +169,8 @@ function StaffTab({ style, showBackButton }, ref) {
           handleTheDownloadedFile={onHandleTheDownloadedFile}
           onRefresh={refreshData}
           isRefreshing={refreshing}
+          onLoadMore={loadMoreData}
+          endLoadMore={nextPage <= 0}
         />
         <StaffStatistic
           style={{ flex: 1 }}

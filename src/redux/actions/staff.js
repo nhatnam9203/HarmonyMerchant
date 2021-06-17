@@ -164,14 +164,17 @@ export function reloadButtonEnterPincode() {
 
 export function getListStaffsSalaryTop(
   params = "quickFilter=thisWeek",
-  isShowLoading = true
+  isShowLoading = true,
+  page = 1
 ) {
   return {
     type: "GET_LIST_STAFFS_SALARY_TOP",
     method: "GET",
     token: true,
-    api: `staff/salary?${params}`,
+    api: `staff/salary?${params}&page=${page}`,
     isShowLoading,
+    timeOut: 120000,
+    page,
   };
 }
 
