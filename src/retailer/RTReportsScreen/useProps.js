@@ -17,7 +17,11 @@ export const useProps = ({ navigation }) => {
     },
     isShowBackButton,
     onHandleBack: () => {
-      NavigationServices.goBack();
+      if (screenReportRef.current?.goBack) {
+        screenReportRef.current?.goBack();
+      } else {
+        NavigationServices.goBack();
+      }
     },
   };
 };

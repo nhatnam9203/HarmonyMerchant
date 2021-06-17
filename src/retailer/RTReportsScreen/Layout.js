@@ -49,7 +49,10 @@ export const Layout = ({
       >
         <HeaderToolBarTitle label={t("Reports")} />
       </HeaderToolBar>
-      <ReportScreen ref={screenReportRef} showBackButton={onShowBackButton} />
+      <ReportScreen
+        ref={screenReportRef}
+        showBackButton={onShowBackButton}
+      />
     </View>
   );
 };

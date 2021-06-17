@@ -16,7 +16,10 @@ import PaymentStatistic from "./PaymentStatistic";
 
 const RANGE_TIME_DEFAULT = "This Week";
 
-function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
+function PaymentMethodTab(
+  { style, showBackButton, showHeader },
+  ref
+) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
@@ -134,8 +137,7 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
     goBack: () => {
       layoutRef.current?.goBack();
     },
-    didBlur: () => {
-    },
+    didBlur: () => {},
     didFocus: () => {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
@@ -166,7 +168,6 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
         onRequestExportFileToServer={onRequestExportFileToServer}
         isDownloadReport={isDownloadReport}
         tabChange={onChangeTab}
-
       >
         <PaymentMethod
           style={{ flex: 1 }}

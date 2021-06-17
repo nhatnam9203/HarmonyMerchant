@@ -16,7 +16,10 @@ import MarketingEfficiencyStatistic from "./MarketingEfficiencyStatistic";
 
 const RANGE_TIME_DEFAULT = "This Week";
 
-function MarketingEfficiencyTab({ style, showBackButton, showHeader }, ref) {
+function MarketingEfficiencyTab(
+  { style, showBackButton, showHeader },
+  ref
+) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
@@ -137,12 +140,11 @@ function MarketingEfficiencyTab({ style, showBackButton, showHeader }, ref) {
     goBack: () => {
       layoutRef.current?.goBack();
     },
-    didBlur: () => {
-    },
+    didBlur: () => {},
     didFocus: () => {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
-    getMarketingEfficiencyMethod: () => getMarketingEfficiencyMethod()
+    getMarketingEfficiencyMethod: () => getMarketingEfficiencyMethod(),
   }));
 
   /**effect */

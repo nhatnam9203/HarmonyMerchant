@@ -4,8 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { ReportStatisticLayout } from "../../../widget";
 import { localize } from "@utils";
 
-
-
 export default function MarketingEfficiencyStatistic(props, ref) {
   const { filterId } = props;
   /**redux store*/
@@ -25,7 +23,7 @@ export default function MarketingEfficiencyStatistic(props, ref) {
     const item = marketingEfficiencyList.find((item) => item.name === filterId);
 
     setTable({
-      tableData: item.statistics,
+      tableData: item?.statistics,
       tableHead: {
         dateString: localize("Date", language),
         revenue: localize("Revenue", language),

@@ -49,6 +49,8 @@ function ProductTab(
             backgroundColor: colors.WHITE_FA,
           },
         }}
+        lazy={true}
+        optimizationsEnabled={true}
         tabBar={(props) => <CustomTopTab {...props} />}
       >
         <Screen

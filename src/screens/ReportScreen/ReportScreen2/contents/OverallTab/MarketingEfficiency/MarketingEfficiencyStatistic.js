@@ -25,7 +25,7 @@ export default function MarketingEfficiencyStatistic(props, ref) {
     const item = marketingEfficiencyList.find((item) => item.name === filterId);
 
     setTable({
-      tableData: item.statistics,
+      tableData: item?.statistics,
       tableHead: {
         dateString: localize("Date", language),
         revenue: localize("Revenue", language),
