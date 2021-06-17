@@ -8,12 +8,15 @@
     "build:ios": "react-native bundle --entry-file='./index.js' --bundle-output='./ios/Hpmerchant/main.jsbundle' --dev=false --platform='ios'",
     "codepush:ios:staging": "code-push release-react NhatPhi2201/HpMerchant-IOS ios -d \"Staging\" -k private.pem -m --plistFile ./ios/staging.plist --description \"Update Application build 70\" -t \"1.2.0\"",
     "codepush:android:staging": "code-push release-react HpMerchant-ANDROID ios -d \"Staging\" -k private.pem -m --plistFile ./ios/staging.plist --description \"Test printer\" -t \"1.0.8\"",
-    "codepush:ios:product": "code-push release-react NhatPhi2201/HpMerchant-IOS ios -d \"Production\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info.plist --description \"Update Application\" -t \"1.1.8\" ",
+    "codepush:ios:product": "code-push release-react NhatPhi2201/HpMerchant-IOS ios -d \"Production\" -k private.pem -m --plistFile ./ios/Hpmerchant/Info.plist --description \"Update Application\" -t \"1.1.9\" ",
     "android-dev": "adb reverse tcp:8081 tcp:8081",
     "reload-android": "adb shell input text RR",
     "scan": "sonar-scanner",
-    "clean": "rm -rf node_modules && rm -rf yarn.lock && watchman watch-del-all",
-    "push:ios-staging": "appcenter codepush release-react -a NhatPhi2201/HpMerchant-IOS -d Staging -t 1.2.4 --description update -k private.pem"
+    "clean": "rm -rf node_modules && rm -rf yarn.lock && rm -rf package-lock.json && watchman watch-del-all",
+    "push:ios-staging": "appcenter codepush release-react -a NhatPhi2201/HpMerchant-IOS -d Staging -t 1.2.4 --description update -k private.pem",
+    "push:ios-production": "appcenter codepush release-react -a NhatPhi2201/HpMerchant-IOS -d Production -t 1.1.9 --description update -k private.pem",
+    "clean:ios": "cd ios && xcodebuild clean && cd ../",
+    "pod:clean": "cd ios && pod deintegrate && rm -rf ~/Library/Caches/CocoaPods && rm -rf Pods && rm -rf ~/Library/Developer/Xcode/DerivedData/* && rm -rf Podfile.lock"
   },
   "dependencies": {
     "@microsoft/signalr": "^3.1.4",

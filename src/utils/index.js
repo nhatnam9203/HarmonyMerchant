@@ -55,8 +55,12 @@ export const requestAPI = async (action, header = {}) => {
     headers["Authorization"] = `Bearer ${action.token}`;
   }
 
-//   headers["User-Agent"] = `HarmonyMerchant/1.1.8.1/ios`;
-  headers['User-Agent'] = `HarmonyMerchant/${action.versionApp ? `${action.versionApp}.${Configs.CODEPUSH_VERSION}` : `${Configs.VERSION}.${Configs.CODEPUSH_VERSION}`}/${Platform.OS}`;
+  //   headers["User-Agent"] = `HarmonyMerchant/1.1.8.1/ios`;
+  headers["User-Agent"] = `HarmonyMerchant/${
+    action.versionApp
+      ? `${action.versionApp}.${Configs.CODEPUSH_VERSION}`
+      : `${Configs.VERSION}.${Configs.CODEPUSH_VERSION}`
+  }/${Platform.OS}`;
   headers["DeviceID"] = `${encodeURIComponent(action?.deviceName)}_${
     action?.deviceId
   }`;
@@ -66,7 +70,11 @@ export const requestAPI = async (action, header = {}) => {
     baseURL: encodeURI(baseURL),
     url: "",
     headers: headers,
-    timeout: action?.timeoutIncrease ? 60000 : 30000,
+    timeout: action?.timeoutIncrease2p
+      ? 120000
+      : action?.timeoutIncrease
+      ? 60000
+      : 30000,
     validateStatus: (status) => status >= 200 && status < 600,
   };
   if (
