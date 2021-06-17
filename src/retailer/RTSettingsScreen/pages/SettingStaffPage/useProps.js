@@ -94,9 +94,22 @@ export const useProps = (props) => {
     });
   };
   const onButtonEditStaffPress = (item) => {
+    const staff = Object.assign({}, item, {
+      cellphone: item.phone,
+      address: {
+        street: item.address ?? '',
+        city: item.city ?? '',
+        state: item.stateId ?? 0,
+        zip: item.zip ?? '',
+      },
+      productSalary: item.productSalaries,
+      salary: item.salaries,
+      tipFee: item.tipFees,
+      workingTime: item.workingTimes,
+    });
     NavigationServices.navigate('retailer.settings.staffs.new', {
       isEdit: true,
-      item,
+      item: staff ?? {},
     });
   };
 

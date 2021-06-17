@@ -77,16 +77,16 @@ export const Layout = ({
           sortedKeys={{ displayName: sortLabel }}
           primaryKey="staffId"
           widthForKeys={{
-            displayName: '25%',
-            phone: '30%',
-            email: '30%',
+            displayName: scaleWidth(230),
+            phone: scaleWidth(286),
+            email: scaleWidth(250),
           }}
           emptyDescription={t('No Staffs')}
           styleTextKeys={{ displayName: layouts.tableName }}
           onSortWithKey={onSortWithKey}
           renderCell={onRenderCell}
           onRowPress={onSelectRow}
-          draggable={true}
+          draggable={false}
           onRefresh={getStaffListByMerchant}
         />
       </View>

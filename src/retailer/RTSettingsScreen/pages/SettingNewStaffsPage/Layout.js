@@ -11,12 +11,12 @@ import {
   FormContactEmail,
   FormBirthDay,
   FormGender,
+  FormInputSalary,
   ButtonGradient,
   ButtonGradientWhite,
   FormPinCode,
   CustomCheckBox,
 } from '@shared/components';
-import { PasswordInput } from '@shared/components/PasswordInput';
 import { dateToString, BIRTH_DAY_DATE_FORMAT_STRING } from '@shared/utils';
 
 export const Layout = ({
@@ -24,7 +24,7 @@ export const Layout = ({
   buttonCancelPress,
   isEdit,
   isNew,
-  currentCustomer,
+  current_staff,
 }) => {
   const [t] = useTranslation();
 
@@ -35,54 +35,59 @@ export const Layout = ({
         {isEdit && <Text style={styles.headTitle}>{t('Edit Staff')}</Text>}
         {isNew && <Text style={styles.headTitle}>{t('New Staff')}</Text>}
       </View>
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <View style={{ ...layouts.fill, margin: scaleWidth(16) }}>
           <FormTitle label={t('General Informations')} />
         </View>
+
         <View style={styles.container}>
           <View style={styles.content}>
             <View style={styles.bottomContent}>
               <FormContactEmail
                 onChangeEmail={form.handleChange('email')}
-                defaultValue={currentCustomer?.email}
+                defaultValue={current_staff?.email}
               />
 
               <FormAddress
                 onChangeCityValue={(value) =>
-                  form.setFieldValue('addressPost.city', value)
+                  form.setFieldValue('address.city', value)
                 }
                 onChangeStateValue={(value) =>
-                  form.setFieldValue('addressPost.state', value)
+                  form.setFieldValue('address.state', value)
                 }
                 onChangeZipCodeValue={(value) =>
-                  form.setFieldValue('addressPost.zip', value)
+                  form.setFieldValue('address.zip', value)
                 }
                 onChangeStreetValue={(value) =>
-                  form.setFieldValue('addressPost.street', value)
+                  form.setFieldValue('address.street', value)
                 }
-                defaultStateValue={currentCustomer?.addressPost?.stateId}
-                defaultStreetValue={currentCustomer?.addressPost?.street}
-                defaultCityValue={currentCustomer?.addressPost?.city}
-                defaultZipCodeValue={currentCustomer?.addressPost?.zipCode}
+                defaultStateValue={current_staff?.address?.state}
+                defaultStreetValue={current_staff?.address?.street}
+                defaultCityValue={current_staff?.address?.city}
+                defaultZipCodeValue={current_staff?.address?.zip}
+                // reverse={true}
               />
             </View>
 
             <FormFullName
-              firstName={currentCustomer?.firstName}
-              lastName={currentCustomer?.lastName}
+              firstName={current_staff?.firstName}
+              lastName={current_staff?.lastName}
               onChangeFirstName={form?.handleChange('firstName')}
               onChangeLastName={form?.handleChange('lastName')}
             />
           </View>
 
           <View style={styles.content}>
-            <FormPinCode />
+            <FormPinCode
+              defaultValue={current_staff?.pin}
+              onChangePinCode={form?.handleChange('pin')}
+            />
 
             <View style={[layouts.horizontal, { alignItems: 'center' }]}>
               <View style={[layouts.fill, { paddingRight: scaleWidth(16) }]}>
                 <FormBirthDay
                   defaultDateString={dateToString(
-                    currentCustomer?.birthdate ?? new Date(),
+                    new Date(),
                     BIRTH_DAY_DATE_FORMAT_STRING
                   )}
                   onChangeDate={(date) =>
@@ -94,7 +99,7 @@ export const Layout = ({
                 />
               </View>
               <FormGender
-                defaultValue={currentCustomer?.gender}
+                defaultValue={current_staff?.gender}
                 onChangeValue={form.handleChange('gender')}
                 height={scaleHeight(40)}
                 style={layouts.fill}
@@ -102,8 +107,8 @@ export const Layout = ({
             </View>
 
             <FormPhoneNumber
-              defaultPhone={currentCustomer?.defaultAddress?.addressPhone}
-              onChangePhoneNumber={form.handleChange('addressPost.phone')}
+              defaultPhone={current_staff?.cellphone}
+              onChangePhoneNumber={form.handleChange('cellphone')}
             />
           </View>
         </View>
@@ -113,6 +118,7 @@ export const Layout = ({
             ...layouts.fill,
             marginHorizontal: scaleWidth(16),
             marginBottom: scaleHeight(12),
+            // flexDirection: 'column-reverse',
           }}
         >
           <FormTitle label={t('Salary settings')} />
@@ -120,25 +126,49 @@ export const Layout = ({
 
         <View style={styles.container}>
           <View style={styles.content}>
+            <FormInputSalary
+              label={t('Commission (%)')}
+              onChangeText={form?.handleChange(
+                'productSalary.commission.value'
+              )}
+              editable={form?.values?.productSalary?.commission?.isCheck}
+              defaultValue={current_staff?.productSalary?.commission?.value}
+            />
             <CustomCheckBox
               selectedColor={colors.OCEAN_BLUE}
               onCheckColor={'#FFFF'}
               label={t('Product Salary')}
+              style={{ height: '30%' }}
               textStyle={{
                 ...layouts.fontLightBrown,
                 fontFamily: fonts.MEDIUM,
               }}
+              defaultValue={current_staff?.productSalary?.commission?.isCheck}
+              onValueChange={(value) =>
+                form?.setFieldValue('productSalary.commission.isCheck', value)
+              }
             />
           </View>
           <View style={styles.content}>
+            <FormInputSalary
+              label={t('Salary per hour ($)')}
+              onChangeText={form?.handleChange('salary.perHour.value')}
+              editable={form?.values?.salary?.perHour?.isCheck}
+              defaultValue={current_staff?.salary?.perHour?.value}
+            />
             <CustomCheckBox
               selectedColor={colors.OCEAN_BLUE}
               onCheckColor={'#FFFF'}
-              label={t('Product Salary')}
+              label={t('Hourly Wages')}
+              style={{ height: '30%' }}
               textStyle={{
                 ...layouts.fontLightBrown,
                 fontFamily: fonts.MEDIUM,
               }}
+              onValueChange={(value) =>
+                form?.setFieldValue('salary.perHour.isCheck', value)
+              }
+              defaultValue={current_staff?.salary?.perHour?.isCheck}
             />
           </View>
         </View>
@@ -218,5 +248,12 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: 'left',
     color: colors.GREYISH_BROWN,
+  },
+  containerInputSalary: {
+    ...layouts.horizontal,
+    ...layouts.horizontalSpaceBetween,
+    width: scaleWidth(440),
+    marginTop: scaleHeight(10),
+    marginBottom: scaleHeight(25),
   },
 });

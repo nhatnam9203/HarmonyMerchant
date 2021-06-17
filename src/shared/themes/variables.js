@@ -118,7 +118,6 @@ export const layouts = StyleSheet.create({
     fontSize: scaleFont(17),
     color: colors.GREYISH_BROWN,
     fontFamily: fonts.LIGHT,
-    lineHeight: scaleHeight(22),
   },
   fontMediumBlue: {
     fontSize: scaleFont(24),

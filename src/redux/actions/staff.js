@@ -1,7 +1,7 @@
 import Configs from '@configs';
 import { sort } from 'ramda';
 
-export function addStaffByMerchant(body, searchFilter = false) {
+export function addStaffByMerchant(body, searchFilter = false, callBack) {
   return {
     type: 'ADD_STAFF_BY_MERCHANT',
     body,
@@ -9,6 +9,7 @@ export function addStaffByMerchant(body, searchFilter = false) {
     token: true,
     api: `staff?api-version=1.1`,
     searchFilter,
+    callBack,
   };
 }
 
@@ -92,7 +93,7 @@ export function restoreStaff(id, searchFilter = false) {
   };
 }
 
-export function editStaff(body, id = '', searchFilter = false) {
+export function editStaff(body, id = '', searchFilter = false, callBack) {
   return {
     type: 'EDIT_STAFF_BY_MERCHANT',
     body,
@@ -100,6 +101,7 @@ export function editStaff(body, id = '', searchFilter = false) {
     token: true,
     api: `staff/${id}?api-version=1.1`,
     searchFilter,
+    callBack,
   };
 }
 

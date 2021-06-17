@@ -33,10 +33,11 @@ export const FormPinCode = ({ onChangePinCode, defaultValue, onBlur }) => {
             returnKeyType: 'send',
             clearButtonMode: 'never',
             placeholder: t('PIN code'),
-            value: pincode,
+            defaultValue: pincode,
             onChangeText: onHandleChange,
             onBlur: onBlur,
             keyboardType: 'numeric',
+            maxLength: 4,
           }}
         />
       </View>
