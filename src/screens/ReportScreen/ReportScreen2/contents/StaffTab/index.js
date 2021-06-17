@@ -59,7 +59,8 @@ function StaffTab({ style, showBackButton }, ref) {
   //callback
   const onChangeTimeTitle = async (timeTitle) => {
     await setTitleRangeTime(timeTitle);
-    await getListStaffsSalaryTop();
+    setPage(1);
+    await getListStaffsSalaryTop(1);
   };
 
   const onChangeFilterNames = (names) => {
@@ -121,7 +122,7 @@ function StaffTab({ style, showBackButton }, ref) {
       layoutRef.current.goBack();
       dispatch(actions.staff.resetDownloadExportFiles());
     },
-    getListStaffsSalaryTop: () => getListStaffsSalaryTop(),
+    getListStaffsSalaryTop: () => getListStaffsSalaryTop(page),
     didBlur: async () => {
       // await setTitleRangeTime(RANGE_TIME_DEFAULT);
     },
@@ -135,7 +136,7 @@ function StaffTab({ style, showBackButton }, ref) {
   const refreshData = () => {
     setRefreshing(true);
     setPage(1);
-    getListStaffsSalaryTop();
+    getListStaffsSalaryTop(1);
   };
 
   const loadMoreData = () => {
