@@ -54,7 +54,7 @@ function* registerUser(action) {
       yield put({
         type: "REGISTER_USER_SUCCESS",
       });
-      NavigationServices.navigate("SignIn");
+      NavigationServices.navigate("merchant.signin");
     } else {
       yield put({
         type: "REGISTER_USER_FAIL",
