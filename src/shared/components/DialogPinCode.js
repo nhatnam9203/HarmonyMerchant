@@ -25,7 +25,7 @@ const PIN_CODE_CHARS = [
   "9",
   ".",
   "0",
-  "del",
+  "⇦",
 ];
 
 const MAX_LENGTH = 4;
@@ -89,7 +89,7 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
 
   const renderItem = ({ item }) => {
     const onPressItem = () => {
-      if (item === "del") {
+      if (item === "⇦") {
         if (value?.length > 0) setValue((prev) => prev.slice(0, -1));
       } else if (!value || value?.length < MAX_LENGTH) {
         setValue((prev) => prev + item);
@@ -174,7 +174,7 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
 const styles = StyleSheet.create({
   dialog: {
     flex: 0,
-    width: scaleWidth(500),
+    width: scaleWidth(480),
   },
 
   container: {
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    width: scaleWidth(225),
+    width: scaleWidth(236),
     height: scaleHeight(48),
     borderRadius: scaleWidth(3),
     backgroundColor: colors.WHITE,
