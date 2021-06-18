@@ -37,7 +37,9 @@ export const FormAddress = ({
 
   const onHandleChangeSate = (value) => {
     if (onChangeStateValue && typeof onChangeStateValue === 'function') {
-      onChangeStateValue(value);
+      if (useDropDownMenu) {
+        onChangeStateValue(value?.stateId);
+      } else onChangeStateValue(value);
     }
   };
 
