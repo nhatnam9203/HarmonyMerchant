@@ -26,6 +26,7 @@ import {
     PopupEnterAmountGiftCard, EnterCustomerPhonePopup, PopupAddEditCustomer,
     ErrorMessagePaxModal
 } from './widget';
+import * as l from 'lodash'
 
 import { StaffItem } from "./widget/NewCheckoutComponent";
 
@@ -504,9 +505,24 @@ class Layout extends React.Component {
         const { isShowColAmount } = this.state;
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         const length_blockAppointments = blockAppointments ? blockAppointments.length : 0;
-        const isShowAddBlock = length_blockAppointments > 0 && blockAppointments[length_blockAppointments - 1].total != "0.00" ? true : false;
+        const isShowAddBlock = length_blockAppointments > 0 
+                                && blockAppointments[length_blockAppointments - 1].total != "0.00" 
+                                ? true : false;
         const tempStyle = !isShowColAmount ? { borderLeftWidth: 3, borderLeftColor: "#EEEEEE" } : {};
-
+        // let isAddForAnyStaff = false
+        // if(!_.isEmpty(groupAppointment) && checkoutPayments.length === 0){
+        //     //find index of staff is not anystaff, if set appointment to any staff, will open add button
+        //     const result = l.findIndex(l.get(groupAppointment, 'appointments', []), (item)=>{
+        //         return l.get(item, 'staff') 
+        //     })
+        //     if(result == -1){
+        //         isAddForAnyStaff = true
+        //     }
+        // }
+        const isShowAddButton = !isBookingFromCalendar 
+                                && ((!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) 
+                                || (blockAppointments.length && isShowAddBlock) > 0)
+                                // || isAddForAnyStaff
         return (
             <View style={[styles.basket_box, tempStyle]} >
                 {/* -------- Header Basket -------- */}
@@ -520,8 +536,8 @@ class Layout extends React.Component {
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         {
-                            !isBookingFromCalendar && ((!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) || (blockAppointments.length && isShowAddBlock) > 0)
-                                ? <Button onPress={this.addAppointmentCheckout} >
+                            isShowAddButton
+                                ? <Button onPress={() => this.addAppointmentCheckout()} >
                                     <Image
                                         source={ICON.add_appointment_checkout}
                                         style={{ width: scaleSize(25), height: scaleSize(25) }}
@@ -533,8 +549,10 @@ class Layout extends React.Component {
                     </View>
                 </View>
                 {/* -------- Content Basket -------- */}
-                {
-                    blockAppointments.length > 0 ? this.renderBlocksAppointments() : this.renderGroupAppointments()
+                {     
+                    blockAppointments.length > 0 ? 
+                    this.renderBlocksAppointments() 
+                    : this.renderGroupAppointments()
                 }
 
                 {/* -------- Footer Basket -------- */}
