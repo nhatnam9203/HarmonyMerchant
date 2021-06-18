@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 import {
   useGetAttributesList,
   useDeleteAttributes,
-} from "@shared/services/api/retailer";
-import { SORT_TYPE } from "@shared/utils/app";
-import { useTranslation } from "react-i18next";
-import _ from "lodash";
-import NavigationServices from "@navigators/NavigatorServices";
-import { useFocusEffect } from "@react-navigation/native";
+} from '@shared/services/api/retailer';
+import { SORT_TYPE } from '@shared/utils/app';
+import { useTranslation } from 'react-i18next';
+import _ from 'lodash';
+import NavigationServices from '@navigators/NavigatorServices';
+import { useFocusEffect } from '@react-navigation/native';
 
 export const useProps = ({ params: { reload }, reloadPage }) => {
   const [t] = useTranslation();
@@ -23,7 +23,7 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   const [attributesList, getAttributesList] = useGetAttributesList();
   const callGetAttributesList = React.useCallback(() => {
     getAttributesList({
-      key: searchVal ?? "",
+      key: searchVal ?? '',
       page: page,
       sort: { label: sortLabel },
     });
@@ -57,7 +57,7 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
 
   const onSortWithKey = (sortKey) => {
     switch (sortKey) {
-      case "label":
+      case 'label':
         const sorted =
           sortLabel === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
         setSortLabel(sorted);
@@ -70,7 +70,6 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
 
   const onChangeValueSearch = (text) => {
     setSearchVal(text);
-
   };
 
   const onButtonSearchPress = () => {
@@ -78,12 +77,12 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   };
 
   const onButtonNewAttributePress = () => {
-    NavigationServices.navigate("retailer.settings.attributes.new", {
+    NavigationServices.navigate('retailer.settings.attributes.new', {
       isNew: true,
     });
   };
   const onButtonEditAttributePress = (item) => {
-    NavigationServices.navigate("retailer.settings.attributes.new", {
+    NavigationServices.navigate('retailer.settings.attributes.new', {
       isEdit: true,
       item,
     });
@@ -92,6 +91,8 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
     if (!item) return;
     deleteAttributes(item.id);
   };
+
+  const onRefresh = () => callGetAttributesList();
 
   return {
     items: attributesList?.data,
@@ -103,5 +104,6 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
     onButtonEditAttributePress,
     onButtonDeleteAttributePress,
     onSelectRow: () => {},
+    onRefresh,
   };
 };

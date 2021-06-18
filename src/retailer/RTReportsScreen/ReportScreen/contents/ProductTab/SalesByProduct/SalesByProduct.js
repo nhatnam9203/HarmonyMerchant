@@ -24,6 +24,7 @@ export default function SalesByProduct({
   data,
   timeValue,
   setFilterProduct,
+  onRefresh
 }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -111,6 +112,7 @@ export default function SalesByProduct({
           }
           renderCell={onRenderCell}
           onRowPress={onSelectRow}
+          onRefresh={onRefresh}
         />
       </View>
     </View>

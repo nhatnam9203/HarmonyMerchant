@@ -15,7 +15,7 @@ export const useProps = ({ params: { reload } }) => {
 
   const needToOrderRef = React.useRef(null);
   const categories = useSelector(
-    (state) => state.inventoryRetailer?.categories,
+    (state) => state.inventoryRetailer?.categories
   );
 
   const [searchVal, setSearchVal] = React.useState();
@@ -64,12 +64,11 @@ export const useProps = ({ params: { reload } }) => {
   useFocusEffect(
     React.useCallback(() => {
       if (reload) callGetProductList();
-    }, [reload]),
+    }, [reload])
   );
 
   const onChangeValueSearch = (text) => {
     setSearchVal(text);
-
   };
 
   const onButtonSearchPress = () => {
@@ -131,5 +130,6 @@ export const useProps = ({ params: { reload } }) => {
       }
     },
     onCheckedRow,
+    onRefresh: () => callGetProductList(),
   };
 };

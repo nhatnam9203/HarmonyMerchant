@@ -1,21 +1,21 @@
-import { ButtonCalendarFilter } from "@shared/components";
-import { Table } from "@shared/components/CustomTable";
-import { useReportSaleOrder } from "@shared/services/api/retailer";
+import { ButtonCalendarFilter } from '@shared/components';
+import { Table } from '@shared/components/CustomTable';
+import { useReportSaleOrder } from '@shared/services/api/retailer';
 import {
   dateToString,
   DATE_SHOW_FORMAT_STRING,
   statusSuccess,
-} from "@shared/utils";
-import { getQuickFilterTimeRange } from "@utils";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
-import { ButtonOverall } from "../../../widget";
+} from '@shared/utils';
+import { getQuickFilterTimeRange } from '@utils';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet, View } from 'react-native';
+import { ButtonOverall } from '../../../widget';
 
-const log = (obj, message = "") => {
+const log = (obj, message = '') => {
   Logger.log(`[SalesOrder] ${message}`, obj);
 };
-const RANGE_TIME_DEFAULT = "This Week";
+const RANGE_TIME_DEFAULT = 'This Week';
 
 export const SalesOrder = () => {
   const { t } = useTranslation();
@@ -52,16 +52,16 @@ export const SalesOrder = () => {
   React.useEffect(() => {
     const { codeStatus, message, data, summary } = reportSalesOrder || {};
     if (statusSuccess(codeStatus)) {
-      log(data, "response data");
+      log(data, 'response data');
       setData(data);
       setSummary(summary);
     }
   }, [reportSalesOrder]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
-    if (quickFilter === "Customize Date") {
+    if (quickFilter === 'Customize Date') {
       setTimeVal({
-        quickFilter: "custom",
+        quickFilter: 'custom',
         timeStart: timeState.startDate,
         timeEnd: timeState.endDate,
       });
@@ -95,6 +95,8 @@ export const SalesOrder = () => {
     return null;
   };
 
+  const onRefresh = () => callGetReportSalesOrder();
+
   return (
     <View style={styles.container}>
       <View style={styles.rowContent}>
@@ -105,23 +107,23 @@ export const SalesOrder = () => {
       </View>
       <View style={styles.rowContent}>
         <ButtonOverall
-          label={t("total orders").toUpperCase()}
+          label={t('total orders').toUpperCase()}
           amount={summary?.total}
         />
         <ButtonOverall
-          label={t("completed orders").toUpperCase()}
+          label={t('completed orders').toUpperCase()}
           amount={summary?.completed}
         />
         <ButtonOverall
-          label={t("uncompleted orders").toUpperCase()}
+          label={t('uncompleted orders').toUpperCase()}
           amount={summary?.unCompleted}
         />
         <ButtonOverall
-          label={t("canceled orders").toUpperCase()}
+          label={t('canceled orders').toUpperCase()}
           amount={summary?.canceled}
         />
         <ButtonOverall
-          label={t("returned orders").toUpperCase()}
+          label={t('returned orders').toUpperCase()}
           amount={summary?.returned}
         />
       </View>
@@ -129,20 +131,20 @@ export const SalesOrder = () => {
         <Table
           items={data}
           headerKeyLabels={{
-            date: t("Date"),
-            completed: t("Completed orders"),
-            unCompleted: t("Uncompleted  orders"),
-            canceled: t("Canceled orders"),
-            returned: t("Returned orders"),
-            total: t("Total orders"),
+            date: t('Date'),
+            completed: t('Completed orders'),
+            unCompleted: t('Uncompleted  orders'),
+            canceled: t('Canceled orders'),
+            returned: t('Returned orders'),
+            total: t('Total orders'),
           }}
           whiteListKeys={[
-            "date",
-            "completed",
-            "unCompleted",
-            "canceled",
-            "returned",
-            "total",
+            'date',
+            'completed',
+            'unCompleted',
+            'canceled',
+            'returned',
+            'total',
           ]}
           //   sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
           primaryKey="date"
@@ -154,13 +156,14 @@ export const SalesOrder = () => {
             canceled: scaleWidth(180),
             returned: scaleWidth(180),
           }}
-          emptyDescription={t("No Report Data")}
+          emptyDescription={t('No Report Data')}
           //   styleTextKeys={{ customerName: styles.textName }}
           //   onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
             date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
           }}
           renderCell={onRenderCell}
+          onRefresh={onRefresh}
           //   onRowPress={onSelectRow}
         />
       </View>
@@ -181,7 +184,7 @@ const styles = StyleSheet.create({
   rowContent: {
     marginTop: scaleHeight(20),
     paddingHorizontal: scaleWidth(16),
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });

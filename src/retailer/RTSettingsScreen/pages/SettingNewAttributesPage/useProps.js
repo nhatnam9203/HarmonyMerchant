@@ -46,7 +46,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
           label: Yup.string(),
           value: Yup.string(),
           position: Yup.number(),
-        }),
+        })
       ),
     }),
     onSubmit: (values) => {
@@ -85,7 +85,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   React.useEffect(() => {
     if (attributesGet?.data) {
       const formatValues = attributesGet?.data.values?.map((v) =>
-        Object.assign({}, _.pickBy(v), { key: v.id }),
+        Object.assign({}, _.pickBy(v), { key: v.id })
       );
 
       const attribute = Object.assign({}, attributesGet?.data, {
@@ -162,7 +162,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
           return Object.assign({}, v, obj);
         }
         return v;
-      }),
+      })
     );
   };
 
@@ -171,7 +171,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
 
     form.setFieldValue(
       'values',
-      values.filter((v) => v.key !== key),
+      values.filter((v) => v.key !== key)
     );
   };
 
@@ -183,8 +183,14 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     form?.setFieldValue('inputType', val);
     form.setFieldValue(
       'values',
-      backupAttribute?.inputType === val ? backupAttribute.values : [],
+      backupAttribute?.inputType === val ? backupAttribute.values : []
     );
+  };
+
+  const onRefresh = () => {
+    if (item?.id) {
+      getAttributes(item.id);
+    }
   };
 
   return {
@@ -201,5 +207,6 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     editAttribute,
     deleteAttribute,
     onChangeInputType,
+    onRefresh,
   };
 };

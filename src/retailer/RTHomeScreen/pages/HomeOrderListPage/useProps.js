@@ -73,6 +73,10 @@ export const useProps = ({ params: { reload } }) => {
     callGetOrderList();
   };
 
+  const onRefresh = () => {
+    callGetOrderList();
+  };
+
   const onCheckedRow = (item, selected) => {
     const cloneList =
       itemSelected?.filter((v) => v.productId !== item.productId) || [];
@@ -120,5 +124,6 @@ export const useProps = ({ params: { reload } }) => {
     setPayment,
     orderStatus,
     setOrderStatus,
+    onRefresh
   };
 };

@@ -2,25 +2,25 @@ import {
   ButtonCalendarFilter,
   FormTitle,
   ExportModal,
-} from "@shared/components";
-import { getQuickFilterTimeRange } from "@utils";
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { StyleSheet, View, ScrollView, Text } from "react-native";
-import { useDispatch } from "react-redux";
-import { Table } from "@shared/components/CustomTable";
+} from '@shared/components';
+import { getQuickFilterTimeRange } from '@utils';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet, View, ScrollView, Text } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { Table } from '@shared/components/CustomTable';
 import {
   dateToString,
   DATE_SHOW_FORMAT_STRING,
   statusSuccess,
-} from "@shared/utils";
-import { layouts } from "@shared/themes";
-import { DropdownMenu } from "@shared/components";
-import NavigationServices from "@navigators/NavigatorServices";
+} from '@shared/utils';
+import { layouts } from '@shared/themes';
+import { DropdownMenu } from '@shared/components';
+import NavigationServices from '@navigators/NavigatorServices';
 
 const filterItems = [
-  { label: "Top categories", value: "top" },
-  { label: "All categories", value: "all" },
+  { label: 'Top categories', value: 'top' },
+  { label: 'All categories', value: 'all' },
 ];
 
 export default function SalesByCategory({
@@ -29,6 +29,7 @@ export default function SalesByCategory({
   timeValue,
   navigation,
   setFilterCategory,
+  onRefresh,
 }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -97,7 +98,7 @@ export default function SalesByCategory({
   }, [timeValue]);
 
   const onSelectRow = ({ item }) => {
-    NavigationServices.navigate("ReportSaleCategory_Detail", {
+    NavigationServices.navigate('ReportSaleCategory_Detail', {
       detailName: item?.name,
       timeValue: timeValue,
     });
@@ -116,7 +117,7 @@ export default function SalesByCategory({
             onChangeTimeValue={onChangeTimeValue}
             paddingLeft={scaleWidth(100)}
             paddingTop={scaleHeight(170)}
-            defaultValue={"This Week"}
+            defaultValue={'This Week'}
           />
           <View style={layouts.marginHorizontal} />
           <DropdownMenu
@@ -125,32 +126,32 @@ export default function SalesByCategory({
             defaultIndex={0}
             width={scaleWidth(208)}
             height={scaleHeight(40)}
-            placeholder={t("Select Category")}
+            placeholder={t('Select Category')}
           />
         </View>
       </View>
       <View style={styles.rowContent}>
-        <Text style={layouts.title}>{t("Top Performing Categories")}</Text>
+        <Text style={layouts.title}>{t('Top Performing Categories')}</Text>
         <ExportModal />
       </View>
       <View style={styles.content}>
         <Table
           items={data}
           headerKeyLabels={{
-            name: t("Category name"),
-            quantity: t("Qty sold"),
-            totalRevenue: t("Total revenue"),
-            totalCost: t("Total cost"),
-            totalTax: t("Total tax"),
-            totalProfit: t("Total profit"),
+            name: t('Category name'),
+            quantity: t('Qty sold'),
+            totalRevenue: t('Total revenue'),
+            totalCost: t('Total cost'),
+            totalTax: t('Total tax'),
+            totalProfit: t('Total profit'),
           }}
           whiteListKeys={[
-            "name",
-            "quantity",
-            "totalRevenue",
-            "totalCost",
-            "totalTax",
-            "totalProfit",
+            'name',
+            'quantity',
+            'totalRevenue',
+            'totalCost',
+            'totalTax',
+            'totalProfit',
           ]}
           //   sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
           primaryKey="name"
@@ -162,7 +163,7 @@ export default function SalesByCategory({
             totalCost: scaleWidth(180),
             totalTax: scaleWidth(180),
           }}
-          emptyDescription={t("No Report Data")}
+          emptyDescription={t('No Report Data')}
           //   styleTextKeys={{ customerName: styles.textName }}
           //   onSortWithKey={onSortWithKey}
           formatFunctionKeys={
@@ -172,6 +173,7 @@ export default function SalesByCategory({
           }
           renderCell={onRenderCell}
           onRowPress={onSelectRow}
+          onRefresh={onRefresh}
         />
       </View>
     </View>
@@ -191,7 +193,7 @@ const styles = StyleSheet.create({
   rowContent: {
     marginTop: scaleHeight(20),
     paddingHorizontal: scaleWidth(16),
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });

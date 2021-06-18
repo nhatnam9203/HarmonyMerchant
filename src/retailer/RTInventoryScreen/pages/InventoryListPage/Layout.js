@@ -40,6 +40,7 @@ export const Layout = ({
   setNeedToOrder,
   onSubmitRestock,
   onCheckedRow,
+  onRefresh,
 }) => {
   const { t } = useTranslation();
 
@@ -133,6 +134,7 @@ export const Layout = ({
           }}
           renderCell={onRenderTableCell}
           onRowPress={onLoadProductDetail}
+          onRefresh={onRefresh}
         />
       </View>
 
