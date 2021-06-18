@@ -60,7 +60,9 @@ export const Layout = ({
                       label: x.name,
                     }))}
                   defaultValue={null}
-                  onChangeValue={(val) => form.setFieldValue('parentId', val)}
+                  onChangeValue={(val) => {
+                    form.setFieldValue('parentId', val);
+                  }}
                 />
 
                 <FormInput

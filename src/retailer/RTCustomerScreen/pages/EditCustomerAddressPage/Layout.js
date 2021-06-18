@@ -83,6 +83,7 @@ export const Layout = ({
               defaultZipCodeValue={
                 currentAddress?.zip ?? currentAddress?.zipCode
               }
+              useDropDownMenu
             />
 
             <FormFullName

@@ -36,7 +36,6 @@ export const Layout = ({ ...props }) => {
     onRefresh,
   } = props;
   const { t } = useTranslation();
-
   const onRenderTableCell = ({ item, columnKey, rowIndex, cellWidth }) => {
     if (columnKey === 'label') {
       const onHandleChange = (text) => {

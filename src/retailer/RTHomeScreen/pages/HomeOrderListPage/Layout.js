@@ -169,21 +169,21 @@ export const Layout = ({
               <FormSelect
                 label={t('Payment method')}
                 filterItems={PAYMENTS}
-                defaultValue={payment}
+                defaultValue={0}
                 onChangeValue={setPayment}
               />
 
               <FormSelect
                 label={t('Purchase point')}
                 filterItems={PURCHASE_POINTS}
-                defaultValue={purchasePoint}
+                defaultValue={0}
                 onChangeValue={setPurchasePoint}
               />
 
               <FormSelect
                 label={t('Status')}
                 filterItems={ORDER_STATUS}
-                defaultValue={orderStatus}
+                defaultValue={0}
                 onChangeValue={setOrderStatus}
               />
             </View>

@@ -28,6 +28,15 @@ export const FormAddress = ({
   const [city, setCity] = React.useState(defaultCityValue);
   const [zipCode, setZipCode] = React.useState(defaultZipCodeValue);
 
+  const [index, setIndex] = React.useState(-1);
+
+  React.useEffect(() => {
+    let defaultIndex = stateList.findIndex((item) => {
+      return item?.stateId === defaultStateValue;
+    });
+    setIndex(defaultIndex);
+  }, [stateList, defaultStateValue]);
+
   const onHandleChangeCity = (value) => {
     setCity(value);
     if (onChangeCityValue && typeof onChangeCityValue === 'function') {
@@ -117,7 +126,7 @@ export const FormAddress = ({
                 Object.assign({}, x, { label: x.name, value: x.stateId })
               )}
               onChangeValue={onHandleChangeSate}
-              defaultIndex={defaultStateValue}
+              defaultIndex={index}
               style={styles.customInput}
               width={scaleWidth(widthMenu)}
               height={scaleHeight(40)}
@@ -192,7 +201,7 @@ export const FormAddress = ({
                 Object.assign({}, x, { label: x.name, value: x.stateId })
               )}
               onChangeValue={onHandleChangeSate}
-              defaultIndex={defaultStateValue}
+              defaultIndex={index}
               style={styles.customInput}
               width={scaleWidth(widthMenu)}
               height={scaleHeight(40)}

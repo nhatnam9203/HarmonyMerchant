@@ -223,6 +223,8 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
               defaultStreetValue={currentCustomer?.addressPost?.street}
               defaultCityValue={currentCustomer?.addressPost?.city}
               defaultZipCodeValue={currentCustomer?.addressPost?.zip}
+              useDropDownMenu
+              widthMenu={302}
             />
 
             <FormTitle label={t("Address")} />
