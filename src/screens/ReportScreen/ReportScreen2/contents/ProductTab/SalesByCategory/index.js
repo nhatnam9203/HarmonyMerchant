@@ -103,7 +103,7 @@ function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
 
   const onGoStatistics = async (item) => {
     await setFilterNameItem(item.categoryName);
-    layoutRef.current.goNext();
+    layoutRef.current?.goNext();
     showHeader(false);
   };
 
@@ -146,7 +146,7 @@ function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
   };
 
   const onHandleTheDownloadedFile = (filePath) => {
-    layoutRef.current.handleTheDownloadedFile(filePath);
+    layoutRef.current?.handleTheDownloadedFile(filePath);
   };
 
   const onChangeTab = (tabIndex) => {
@@ -158,7 +158,7 @@ function SalesByCategoryTab({ style, showBackButton, showHeader }, ref) {
   // public function
   useImperativeHandle(ref, () => ({
     goBack: () => {
-      layoutRef.current.goBack();
+      layoutRef.current?.goBack();
     },
     didBlur: () => {
       // setTitleRangeTime("This week");

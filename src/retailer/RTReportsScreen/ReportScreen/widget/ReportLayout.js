@@ -49,7 +49,7 @@ function ReportLayout(
   /**function */
   // go to statistics page
   const goNext = () => {
-    scrollPage.current.goToPage(1);
+    scrollPage.current?.goToPage(1);
     if (tabChange) tabChange(1);
   };
 
@@ -59,7 +59,7 @@ function ReportLayout(
     //   await setFilterStaffItem(null);
     // scroll to staff salary
     await dispatch(actions.report.resetExportFiles());
-    scrollPage.current.goToPage(0);
+    scrollPage.current?.goToPage(0);
     if (tabChange) tabChange(0);
   };
 
@@ -82,7 +82,7 @@ function ReportLayout(
   // create time range params
   const getFilterTimeParams = () => {
     const { isCustomizeDate, startDate, endDate, quickFilter } =
-      modalCalendarRef.current.state;
+      modalCalendarRef.current?.state;
     console.log("getFilterTimeParams > quickFilter", quickFilter);
 
     let url;
@@ -101,7 +101,7 @@ function ReportLayout(
   // create title for time, to set default title print
   const getTimeTitle = () => {
     const { isCustomizeDate, startDate, endDate, quickFilter } =
-      modalCalendarRef.current.state;
+      modalCalendarRef.current?.state;
     console.log("getFilterTimeParams > getTimeTitle", quickFilter);
 
     const filter = quickFilter === false ? "This Week" : quickFilter;

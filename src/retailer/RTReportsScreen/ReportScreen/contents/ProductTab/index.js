@@ -1,59 +1,36 @@
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { colors } from "@shared/themes";
 import React, {
-  useState,
   forwardRef,
   useImperativeHandle,
   useRef,
+  useState,
 } from "react";
-import { View, Text } from "react-native";
-import { useSelector } from "react-redux";
-
-import { CustomScrollTab } from "../../widget";
-
+import { useTranslation } from "react-i18next";
+import { StyleSheet, View } from "react-native";
+import { CustomTopTab } from "../../widget";
 import SalesByCategory from "./SalesByCategory";
 import SalesByProduct from "./SalesByProduct";
 
-function ProductTab({ style, showBackButton }, ref) {
-  /**redux store */
-  const language = useSelector((state) => state.dataLocal.language);
+const { Screen, Navigator } = createMaterialTopTabNavigator();
 
-  /**state store */
-  const [currentTab, setCurrentTab] = useState(0);
-  const [showHeader, setShowHeader] = useState(true);
+function ProductTab(
+  {
+    route: {
+      params: { showBackButton },
+    },
+  },
+  ref
+) {
+  const { t } = useTranslation();
 
-  /**refs */
   const salesByCategoryTabRef = useRef(null);
   const salesByProductTabRef = useRef(null);
 
-  /**function */
-  const onChangeTab = (tabIndex) => {
-    salesByCategoryTabRef?.current?.goBack();
-    salesByProductTabRef?.current?.goBack();
-    setCurrentTab(tabIndex);
-  };
-
-  const onGoBack = () => {
-    switch (currentTab) {
-      case 0:
-        salesByCategoryTabRef.current.goBack();
-        break;
-      case 1:
-        salesByProductTabRef.current.goBack();
-        break;
-      default:
-        break;
-    }
-    setShowHeader(true);
-  };
-
-  const onShowHeader = (bl) => {
-    setShowHeader(bl);
-  };
-
   // public func
   useImperativeHandle(ref, () => ({
-    goBack: onGoBack,
+    goBack: () => {},
     didBlur: () => {
-      // setTitleRangeTime("This week");
       salesByCategoryTabRef?.current?.didBlur();
       salesByProductTabRef?.current?.didBlur();
     },
@@ -64,26 +41,45 @@ function ProductTab({ style, showBackButton }, ref) {
   }));
 
   return (
-    <View style={[style, { paddingTop: 10 }]}>
-      <CustomScrollTab onHeaderTabChanged={onChangeTab} showHeader={showHeader}>
-        <SalesByCategory
-          style={{ flex: 1 }}
-          ref={salesByCategoryTabRef}
-          tabLabel="Sales By Category"
-          showBackButton={showBackButton}
-          showHeader={onShowHeader}
+    <View style={styles.container}>
+      <Navigator
+        headerMode="none"
+        screenOptions={{
+          cardStyle: {
+            backgroundColor: colors.WHITE_FA,
+          },
+        }}
+        lazy={true}
+        optimizationsEnabled={true}
+        tabBar={(props) => <CustomTopTab {...props} />}
+      >
+        <Screen
+          name={"ReportSaleCategoryTab"}
+          component={SalesByCategory}
+          options={{
+            title: t("Sales by category"),
+          }}
+          initialParams={{ showBackButton: showBackButton }}
         />
-
-        <SalesByProduct
-          style={{ flex: 1 }}
-          ref={salesByProductTabRef}
-          tabLabel="Sales By Product"
-          showBackButton={showBackButton}
-          showHeader={onShowHeader}
+        <Screen
+          name={"ReportSaleProductTab"}
+          component={SalesByProduct}
+          options={{
+            title: t("Sales by product"),
+          }}
+          initialParams={{ showBackButton: showBackButton }}
         />
-      </CustomScrollTab>
+      </Navigator>
     </View>
   );
 }
 
 export default ProductTab = forwardRef(ProductTab);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.WHITE,
+    paddingTop: scaleHeight(15),
+  },
+});

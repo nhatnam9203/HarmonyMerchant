@@ -286,6 +286,7 @@ class Layout extends React.Component {
                 data={workingTime[day]}
                 selectCheckbox={this.selectCheckbox(day, workingTime[day]?.isCheck)}
                 onChangeTimeOfWorkingTime={this.onChangeTimeOfWorkingTime}
+                isEdit={this.state.isEditStaff}
               />
             );
           })}

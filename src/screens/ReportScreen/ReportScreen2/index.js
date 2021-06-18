@@ -49,22 +49,22 @@ function ReportScreen2({ showBackButton }, ref) {
     onBack: () => {
       switch (tabIndex) {
         case 0:
-          staffRef.current.goBack();
+          staffRef.current?.goBack();
           break;
         case 1:
-          giftCardRef.current.goBack();
+          giftCardRef.current?.goBack();
           break;
         case 2:
-          customerRef.current.goBack();
+          customerRef.current?.goBack();
           break;
         case 3:
-          serviceRef.current.goBack();
+          serviceRef.current?.goBack();
           break;
         case 4:
-          productRef.current.goBack();
+          productRef.current?.goBack();
           break;
         case 5:
-          overallRef.current.goBack();
+          overallRef.current?.goBack();
           break;
         default:
           break;
@@ -84,27 +84,28 @@ function ReportScreen2({ showBackButton }, ref) {
 
           break;
       }
-      scrollTabRef?.current?.goToFirstTab();
+      // scrollTabRef?.current?.goToFirstTab();
+      // setTabIndex(0);
     },
     didFocus: () => {
       switch (tabIndex) {
         case 0:
-          staffRef.current.didFocus();
+          staffRef.current?.didFocus();
           break;
         case 1:
-          giftCardRef.current.didFocus();
+          giftCardRef.current?.didFocus();
           break;
         case 2:
-          customerRef.current.didFocus();
+          customerRef.current?.didFocus();
           break;
         case 3:
-          serviceRef.current.didFocus();
+          serviceRef.current?.didFocus();
           break;
         case 4:
-          productRef.current.didFocus();
+          productRef.current?.didFocus();
           break;
         case 5:
-          overallRef.current.didFocus();
+          overallRef.current?.didFocus();
           break;
         default:
           break;
@@ -115,22 +116,22 @@ function ReportScreen2({ showBackButton }, ref) {
   const onTabChange = (index) => {
     switch (tabIndex) {
       case 0:
-        staffRef.current.goBack();
+        staffRef.current?.goBack();
         break;
       case 1:
-        giftCardRef.current.goBack();
+        giftCardRef.current?.goBack();
         break;
       case 2:
-        customerRef.current.goBack();
+        customerRef.current?.goBack();
         break;
       case 3:
-        serviceRef.current.goBack();
+        serviceRef.current?.goBack();
         break;
       case 4:
-        productRef.current.goBack();
+        productRef.current?.goBack();
         break;
       case 5:
-        overallRef.current.goBack();
+        overallRef.current?.goBack();
         break;
       default:
         break;
@@ -149,22 +150,22 @@ function ReportScreen2({ showBackButton }, ref) {
     if (reportTabPermissionSuccess === true && isMount) {
       switch (tabIndex) {
         case 0:
-          staffRef.current.didFocus();
+          staffRef.current?.didFocus();
           break;
         case 1:
-          giftCardRef.current.didFocus();
+          giftCardRef.current?.didFocus();
           break;
         case 2:
-          customerRef.current.didFocus();
+          customerRef.current?.didFocus();
           break;
         case 3:
-          serviceRef.current.didFocus();
+          serviceRef.current?.didFocus();
           break;
         case 4:
-          productRef.current.didFocus();
+          productRef.current?.didFocus();
           break;
         case 5:
-          overallRef.current.didFocus();
+          overallRef.current?.didFocus();
           break;
         default:
           break;
@@ -179,28 +180,6 @@ function ReportScreen2({ showBackButton }, ref) {
   // ------------- New Code ---------------
 
   handleOnChangeTab = (i) => {
-    // switch (i) {
-    //   case 0:
-    //     staffRef.current.didFocus();
-    //     break;
-    //   case 1:
-    //     giftCardRef.current.didFocus();
-    //     break;
-    //   case 2:
-    //     customerRef.current.didFocus();
-    //     break;
-    //   case 3:
-    //     serviceRef.current.didFocus();
-    //     break;
-    //   case 4:
-    //     productRef.current.didFocus();
-    //     break;
-    //   case 5:
-    //     overallRef.current.didFocus();
-    //     break;
-    //   default:
-    //     break;
-    // }
     switch (i) {
       case 0:
         staffRef?.current?.getListStaffsSalaryTop();

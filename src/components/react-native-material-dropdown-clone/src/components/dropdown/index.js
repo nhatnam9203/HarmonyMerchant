@@ -473,13 +473,13 @@ class Dropdown extends PureComponent {
   scrollToIndex = () => {
 
     const now = moment();
-    let nearestFuture5min = this.nearestFutureMinutes(15, now);
+    let nearestFuture5min = this.nearestFutureMinutes(30, now);
     nearestFuture5min = moment(nearestFuture5min).format("hh:mm A");
 
-    const { data, value } = this.props;
+    const { data, value , isScrollNow } = this.props;
     let filterValue = value;
 
-    if (isEmpty(value)) {
+    if (isEmpty(value) || isScrollNow) {
       filterValue = nearestFuture5min;
     }
     const findIndex = data.findIndex(obj => obj.value == filterValue);

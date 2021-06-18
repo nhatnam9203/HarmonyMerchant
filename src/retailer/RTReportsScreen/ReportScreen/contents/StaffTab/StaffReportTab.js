@@ -128,7 +128,7 @@ export default function StaffReportTab({
         rightTooltip={<></>}
         title={localize("Staff Salary", language)}
       >
-        {/* <TableListExtended
+        <TableListExtended
           tableData={filterDataTable()}
           tableHead={{
             name: localize("Name ", language),
@@ -196,7 +196,7 @@ export default function StaffReportTab({
           onRowPress={onRowPress}
           onRefresh={onRefresh}
           isRefreshing={isRefreshing}
-        /> */}
+        />
       </ReportTabLayout>
 
       {/* <PopupStaffInvoicePrint

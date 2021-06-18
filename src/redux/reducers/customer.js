@@ -201,10 +201,10 @@ function customerReducer(state = initialState, action) {
   }
 }
 
-// module.exports = persistReducer({
-//     key: 'customer',
-//     storage: AsyncStorage,
-//     whitelist: ['listCustomersByMerchant']
-// }, customerReducer);
+module.exports = persistReducer({
+    key: 'customer',
+    storage: AsyncStorage,
+    whitelist: ['listCustomersByMerchant']
+}, customerReducer);
 
-export default customerReducer;
+// export default customerReducer;

@@ -126,7 +126,7 @@ class TabStaff extends Layout {
       }, 500);
     }
 
-    this.scrollTabParentRef?.current.goToPage(1);
+    this.scrollTabParentRef?.current?.goToPage(1);
   };
 
   archiveStaff = (staff) => async () => {
@@ -150,7 +150,7 @@ class TabStaff extends Layout {
         this.addStaffRef?.current?.setStateFromParent(staff, true);
       }, 500);
     }
-    this.scrollTabParentRef?.current.goToPage(1);
+    this.scrollTabParentRef?.current?.goToPage(1);
   };
 
   restoreStaff = (staff) => () => {
@@ -162,7 +162,7 @@ class TabStaff extends Layout {
 
   backAddStaff = () => {
     if (this.scrollTabParentRef?.current) {
-      this.scrollTabParentRef?.current.goToPage(0);
+      this.scrollTabParentRef?.current?.goToPage(0);
     }
   };
 
@@ -254,13 +254,17 @@ class TabStaff extends Layout {
     );
   };
 
+  // componentDidMount() {
+  //   this.props.actions.staff.getStaffByMerchantId('', '', '', false, false);
+  // }
+
   componentDidUpdate(prevProps, prevState) {
     const { isEditStaffByIdSuccess } = this.props;
     if (
       isEditStaffByIdSuccess &&
       prevProps.isEditStaffByIdSuccess !== isEditStaffByIdSuccess
     ) {
-      this.scrollTabParentRef?.current.goToPage(0);
+      this.scrollTabParentRef?.current?.goToPage(0);
       this.props.actions.staff.resetStateIsEditStaffById();
     }
   }

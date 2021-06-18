@@ -2,9 +2,15 @@ import IMAGE from '@resources';
 import { colors, fonts, layouts } from '@shared/themes';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  KeyboardAvoidingView,
+} from 'react-native';
 import Modal from 'react-native-modal';
-
 export const DialogLayout = React.forwardRef(
   ({ bottomChildren, children, title, style }, ref) => {
     const [t] = useTranslation();
@@ -25,28 +31,34 @@ export const DialogLayout = React.forwardRef(
 
     return (
       <Modal style={styles.modal} visible={open} onRequestClose={hideModal}>
-        <View style={[styles.container, style]}>
-          <View style={styles.header}>
-            {title && (
-              <Text style={[layouts.fill, styles.txtTitle]}>{title}</Text>
-            )}
-            <TouchableOpacity style={styles.buttonClose} onPress={hideModal}>
-              <Image source={IMAGE.closePopup} style={styles.iconButtonClose} />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.content}>
-            <View style={layouts.marginVertical} />
-            {children}
-            <View style={layouts.marginVertical} />
+        <KeyboardAvoidingView behavior="position">
+          <View style={[styles.container, style]}>
+            <View style={styles.header}>
+              {title && (
+                <Text style={[layouts.fill, styles.txtTitle]}>{title}</Text>
+              )}
+              <TouchableOpacity style={styles.buttonClose} onPress={hideModal}>
+                <Image
+                  source={IMAGE.closePopup}
+                  style={styles.iconButtonClose}
+                />
+              </TouchableOpacity>
+            </View>
 
-            {bottomChildren && (
-              <View style={styles.bottomStyle}>{bottomChildren()}</View>
-            )}
+            <View style={styles.content}>
+              <View style={layouts.marginVertical} />
+              {children}
+              <View style={layouts.marginVertical} />
+
+              {bottomChildren && (
+                <View style={styles.bottomStyle}>{bottomChildren()}</View>
+              )}
+            </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     );
-  },
+  }
 );
 
 const styles = StyleSheet.create({

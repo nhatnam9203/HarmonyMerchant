@@ -84,7 +84,7 @@ class TabProducts extends React.Component {
         await   this.setState({
             visibleEdit: true
         })
-        this.editProductRef.current.setProductInfoFromParent(product);
+        this.editProductRef.current?.setProductInfoFromParent(product);
 
     }
 
@@ -92,7 +92,7 @@ class TabProducts extends React.Component {
         const { categoriesByMerchant } = this.props;
         if (getArrayNameCategories(categoriesByMerchant,'Product').length > 0) {
             this.setState({ visibleAdd: true });
-            this.addProductRef.current.setDefaultStateFromParent();
+            this.addProductRef.current?.setDefaultStateFromParent();
         } else {
             alert('Create category before add service please !')
         }

@@ -33,7 +33,7 @@ class PopupGiftCardDetail extends React.Component {
 
     keyboardDidHide = async () => {
         if (this.scrollRef.current) {
-            this.scrollRef.current.scrollTo({ x: 0, y: 0, animated: true });
+            this.scrollRef.current?.scrollTo({ x: 0, y: 0, animated: true });
         }
     }
 
@@ -42,7 +42,7 @@ class PopupGiftCardDetail extends React.Component {
     }
 
     onScroll = () => {
-        this.scrollRef.current.scrollTo({ x: 0, y: scaleSize(200), animated: true });
+        this.scrollRef.current?.scrollTo({ x: 0, y: scaleSize(200), animated: true });
     }
 
     cancelPayment = () => {

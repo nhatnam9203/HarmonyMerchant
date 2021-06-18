@@ -16,7 +16,10 @@ import PaymentStatistic from "./PaymentStatistic";
 
 const RANGE_TIME_DEFAULT = "This Week";
 
-function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
+function PaymentMethodTab(
+  { style, showBackButton, showHeader },
+  ref
+) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
@@ -78,7 +81,7 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
 
   const onGoStatistics = async (item) => {
     await setFilterNameItem(item.displayMethod);
-    layoutRef.current.goNext();
+    layoutRef.current?.goNext();
     showHeader(false);
   };
 
@@ -120,7 +123,7 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
   };
 
   const onHandleTheDownloadedFile = (filePath) => {
-    layoutRef.current.handleTheDownloadedFile(filePath);
+    layoutRef.current?.handleTheDownloadedFile(filePath);
   };
 
   const onChangeTab = (tabIndex) => {
@@ -132,10 +135,9 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
   // public function
   useImperativeHandle(ref, () => ({
     goBack: () => {
-      layoutRef.current.goBack();
+      layoutRef.current?.goBack();
     },
-    didBlur: () => {
-    },
+    didBlur: () => {},
     didFocus: () => {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
@@ -166,7 +168,6 @@ function PaymentMethodTab({ style, showBackButton, showHeader }, ref) {
         onRequestExportFileToServer={onRequestExportFileToServer}
         isDownloadReport={isDownloadReport}
         tabChange={onChangeTab}
-
       >
         <PaymentMethod
           style={{ flex: 1 }}

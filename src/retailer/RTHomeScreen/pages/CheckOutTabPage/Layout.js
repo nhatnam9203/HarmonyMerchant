@@ -10,8 +10,8 @@ import {
   CustomList,
   CUSTOM_LIST_TYPES,
   DialogProductDetail,
+  CheckOutCustomerInfo
 } from '../../widget';
-import { CheckOutCustomerInfo } from './widget';
 
 const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
 

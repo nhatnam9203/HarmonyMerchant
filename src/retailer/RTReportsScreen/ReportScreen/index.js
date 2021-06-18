@@ -9,9 +9,7 @@ import { View, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 
 import IMAGE from "@resources";
-import { localize } from "@utils";
-
-import { HeaderTabLayout } from "./widget";
+import { colors } from "@shared/themes";
 import {
   StaffTab,
   OrderTab,
@@ -20,10 +18,20 @@ import {
   ProductTab,
   OverallTab,
 } from "./contents";
-import styles from "./style";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useTranslation } from "react-i18next";
+import { CustomTopBarScreenReport } from "./widget";
+import { useNavigationState } from "@react-navigation/native";
+import NavigationServices from "@navigators/NavigatorServices";
+
+const { Screen, Navigator } = createMaterialTopTabNavigator();
+
+const log = (obj, message = "") => {
+  Logger.log(`[Report Screen] ${message}`, obj);
+};
 
 function ReportScreen({ showBackButton }, ref) {
-  const language = useSelector((state) => state.dataLocal.language);
+  const { t } = useTranslation();
 
   const reportTabPermission = useSelector(
     (state) => state.staff.reportTabPermission
@@ -50,19 +58,27 @@ function ReportScreen({ showBackButton }, ref) {
 
   /**public function  */
   useImperativeHandle(ref, () => ({
-    onBack: () => {
+    goBack: () => {
       switch (tabIndex) {
         case 0:
-          salesRef.current?.goBack();
+          // salesRef.current?.goBack();
+          NavigationServices.goBack();
+
           break;
         case 1:
-          orderRef.current?.goBack();
+          // orderRef.current?.goBack();
+          NavigationServices.goBack();
+
           break;
         case 2:
-          productRef.current?.goBack();
+          // productRef.current?.goBack();
+          NavigationServices.goBack();
+
           break;
         case 3:
-          customerRef.current?.goBack();
+          // customerRef.current?.goBack();
+          NavigationServices.goBack();
+
           break;
         case 4:
           overallRef.current?.goBack();
@@ -116,32 +132,35 @@ function ReportScreen({ showBackButton }, ref) {
     },
   }));
 
-  const onTabChange = (index) => {
+  const onChangeTab = (index) => {
     switch (tabIndex) {
       case 0:
-        salesRef.current?.goBack();
+        // salesRef.current?.goBack();
         break;
       case 1:
-        orderRef.current?.goBack();
+        // orderRef.current?.goBack();
         break;
       case 2:
-        productRef.current?.goBack();
+        // productRef.current?.goBack();
         break;
       case 3:
-        customerRef.current?.goBack();
+        // customerRef.current?.goBack();
         break;
       case 4:
         overallRef.current?.goBack();
+        showBackButton(false);
+
         break;
       case 5:
         staffRef.current?.goBack();
+        showBackButton(false);
+
         break;
       default:
         break;
     }
 
     setTabIndex(index);
-    showBackButton(false);
   };
 
   const onShowBackButton = (bl) => {
@@ -204,7 +223,7 @@ function ReportScreen({ showBackButton }, ref) {
 
   return (
     <View style={styles.container}>
-      <HeaderTabLayout
+      {/* <HeaderTabLayout
         ref={scrollTabRef}
         tabIcons={[
           IMAGE.Report_Sales,
@@ -253,9 +272,93 @@ function ReportScreen({ showBackButton }, ref) {
           tabLabel={localize("Staff Salary", language)}
           showBackButton={onShowBackButton}
         />
-      </HeaderTabLayout>
+      </HeaderTabLayout> */}
+
+      <Navigator
+        headerMode="none"
+        screenOptions={{
+          cardStyle: {
+            backgroundColor: colors.WHITE_FA,
+          },
+        }}
+        lazy={true}
+        optimizationsEnabled={true}
+        swipeEnabled={false}
+        lazyPreloadDistance={1}
+        tabBar={(props) => (
+          <CustomTopBarScreenReport {...props} onChangeTab={onChangeTab} />
+        )}
+      >
+        <Screen
+          name={"ReportSalesTab"}
+          component={SalesTab}
+          options={{
+            title: t("Sales"),
+            tabBarIcon: IMAGE.Report_Sales,
+          }}
+          initialParams={{ showBackButton: showBackButton }}
+        />
+        <Screen
+          name={"ReportOrderTab"}
+          component={OrderTab}
+          options={{
+            title: t("Order"),
+            tabBarIcon: IMAGE.Report_Order,
+          }}
+          initialParams={{ showBackButton: showBackButton }}
+        />
+        <Screen
+          name={"ReportProductTab"}
+          component={ProductTab}
+          options={{
+            title: t("Product"),
+            tabBarIcon: IMAGE.Report_Product,
+          }}
+          initialParams={{ showBackButton: showBackButton }}
+        />
+        <Screen
+          name={"ReportCustomerTab"}
+          component={CustomerTab}
+          options={{
+            title: t("Customer"),
+            tabBarIcon: IMAGE.Customer,
+          }}
+          initialParams={{ showBackButton: showBackButton }}
+        />
+        <Screen
+          name={"ReportOverallTab"}
+          options={{
+            title: t("Overall"),
+            tabBarIcon: IMAGE.Report_Overall,
+          }}
+          initialParams={{
+            showBackButton: showBackButton,
+          }}
+        >
+          {(props) => <OverallTab {...props} ref={overallRef} />}
+        </Screen>
+        <Screen
+          name={"ReportStaffTab"}
+          options={{
+            title: t("Staff"),
+            tabBarIcon: IMAGE.Staff,
+          }}
+          initialParams={{
+            showBackButton: showBackButton,
+          }}
+        >
+          {(props) => <StaffTab {...props} ref={staffRef} />}
+        </Screen>
+      </Navigator>
     </View>
   );
 }
 
 export default ReportScreen = forwardRef(ReportScreen);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.WHITE,
+  },
+});

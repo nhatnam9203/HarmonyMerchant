@@ -1,16 +1,16 @@
-import IMAGE from "@resources";
-import { colors, fonts, layouts } from "@shared/themes";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { SettingAttributesPage } from "../SettingAttributesPage";
-import { SettingCategoriesPage } from "../SettingCategoriesPage";
-import { SettingGeneralPage } from "../SettingGeneralPage";
-import { SettingHardwarePage } from "../SettingHardwarePage";
-import { SettingPaymentPage } from "../SettingPaymentPage";
-import { SettingStaffPage } from "../SettingStaffPage";
-import { SettingTaxPage } from "../SettingTaxPage";
-
+import IMAGE from '@resources';
+import { colors, fonts, layouts } from '@shared/themes';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SettingAttributesPage } from '../SettingAttributesPage';
+import { SettingCategoriesPage } from '../SettingCategoriesPage';
+import { SettingGeneralPage } from '../SettingGeneralPage';
+import { SettingHardwarePage } from '../SettingHardwarePage';
+import { SettingPaymentPage } from '../SettingPaymentPage';
+import { SettingStaffPage } from '../SettingStaffPage';
+import { SettingTaxPage } from '../SettingTaxPage';
+import { SettingAboutPage } from '../SettingAboutPage';
 import {
   TabStaff,
   TabService,
@@ -19,30 +19,32 @@ import {
   TabGaneral,
   TabHardware,
   TabTAX,
-} from "@src/screens/SettingScreen/widget";
+} from '@src/screens/SettingScreen/widget';
 
-import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
+import { WithDialogConfirm } from '@shared/HOC/withDialogConfirm';
 
 export const Layout = ({ openDrawer, reload, logOut }) => {
   const { t } = useTranslation();
-  const [active, setActive] = React.useState(SettingAttributesPage.name);
+  const [active, setActive] = React.useState(SettingGeneralPage.name);
 
   const renderContentDrawer = () => {
     switch (active) {
       case SettingGeneralPage.name:
-        return <SettingGeneralPage.component reloadPage={reload} />;
+        return <TabGaneral />;
       case SettingAttributesPage.name:
         return <SettingAttributesPage.component reloadPage={reload} />;
       case SettingCategoriesPage.name:
         return <SettingCategoriesPage.component reloadPage={reload} />;
       case SettingStaffPage.name:
-        return <TabStaff reloadPage={reload} />;
+        return <SettingStaffPage.component reloadPage={reload} />;
       case SettingPaymentPage.name:
         return <SettingPaymentPage.component reloadPage={reload} />;
       case SettingTaxPage.name:
-        return <SettingTaxPage.component reloadPage={reload} />;
+        return <TabTAX reloadPage={reload} />;
       case SettingHardwarePage.name:
-        return <SettingHardwarePage.component reloadPage={reload} />;
+        return <TabHardware reloadPage={reload} />;
+      case SettingAboutPage.name:
+        return <SettingAboutPage.component reloadPage={reload} />;
       default:
         return null;
     }
@@ -85,14 +87,20 @@ export const Layout = ({ openDrawer, reload, logOut }) => {
             onPress={setActive}
           />
 
+          <ItemDrawer
+            {...SettingAboutPage}
+            active={active}
+            onPress={setActive}
+          />
+
           <ConfirmLogOut
             options={{
               icon: IMAGE.IconSettingLogOut,
-              title: t("LogOut"),
+              title: t('LogOut'),
             }}
             onPress={logOut}
             active={active}
-            description={t("Are you sure you want to Log out ?")}
+            description={t('Are you sure you want to Log out ?')}
           />
         </View>
 
@@ -110,7 +118,7 @@ let ItemDrawer = ({ name, options, active, onPress }) => {
     name === active ? styles.drawerTextActive : styles.drawerTextInActive;
   const tintColor = name === active ? colors.WHITE : colors.BROWNISH_GREY;
   const onHandleSelect = () => {
-    if (onPress && typeof onPress === "function") {
+    if (onPress && typeof onPress === 'function') {
       onPress(name);
     }
   };
@@ -143,22 +151,22 @@ const styles = StyleSheet.create({
 
   content: {
     flex: 1,
-    backgroundColor: "white",
-    flexDirection: "row",
+    backgroundColor: 'white',
+    flexDirection: 'row',
   },
 
   drawer: {
     width: scaleWidth(160),
     backgroundColor: colors.WHITE_FA,
-    height: "100%",
+    height: '100%',
   },
 
   drawerItem: {
     width: scaleWidth(160),
     height: scaleHeight(60),
-    alignItems: "center",
+    alignItems: 'center',
     paddingHorizontal: scaleWidth(8),
-    flexDirection: "row",
+    flexDirection: 'row',
     borderLeftWidth: scaleWidth(4),
   },
 
@@ -175,10 +183,10 @@ const styles = StyleSheet.create({
   drawerText: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(17),
-    fontWeight: "normal",
-    fontStyle: "normal",
+    fontWeight: 'normal',
+    fontStyle: 'normal',
     letterSpacing: 0,
-    textAlign: "left",
+    textAlign: 'left',
   },
 
   drawerTextInActive: {

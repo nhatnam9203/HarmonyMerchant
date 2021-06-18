@@ -62,7 +62,7 @@ class StoreInfoScreen extends Layout {
     }
 
     scrollStaffTo(position) {
-        this.scrollStaffRef.current.scrollTo({ x: 0, y: scaleSize(position), animated: true })
+        this.scrollStaffRef.current?.scrollTo({ x: 0, y: scaleSize(position), animated: true })
     }
 
     editButtonSubmit = async (isSubmit) => {
@@ -194,7 +194,7 @@ class StoreInfoScreen extends Layout {
             const temptAddress = { ...address, state: getIdStateByName(stateCity, address.state) };
             const temptStaff = {
                 ...user,
-                cellphone: `${this.cellphoneRef.current.state.codeAreaPhone}${user.cellphone}`,
+                cellphone: `${this.cellphoneRef.current?.state.codeAreaPhone}${user.cellphone}`,
                 isDisabled: (user.isDisabled === 'Active' ? 0 : 1),
                 address: temptAddress,
                 workingTime: objWorkingTime,
@@ -211,15 +211,15 @@ class StoreInfoScreen extends Layout {
                 productSalary: objProjectSalary,
                 tipFee: {
                     percent: {
-                        value: parseFloat(this.percentTipFeeRef.current.state.value ? this.percentTipFeeRef.current.state.value : 0),
-                        isCheck: this.percentTipFeeRef.current.state.isCheck
+                        value: parseFloat(this.percentTipFeeRef.current?.state.value ? this.percentTipFeeRef.current?.state.value : 0),
+                        isCheck: this.percentTipFeeRef.current?.state.isCheck
                     },
                     fixedAmount: {
-                        value: parseFloat(this.fixedAmountTipFeeRef.current.state.value ? this.fixedAmountTipFeeRef.current.state.value : 0),
-                        isCheck: this.fixedAmountTipFeeRef.current.state.isCheck
+                        value: parseFloat(this.fixedAmountTipFeeRef.current?.state.value ? this.fixedAmountTipFeeRef.current?.state.value : 0),
+                        isCheck: this.fixedAmountTipFeeRef.current?.state.isCheck
                     }
                 },
-                cashPercent : parseFloat(this.cashPercentRef.current.state.value ? this.cashPercentRef.current.state.value: 0),
+                cashPercent : parseFloat(this.cashPercentRef.current?.state.value ? this.cashPercentRef.current?.state.value: 0),
                 fileId: this.state.fileId
             };
             this.props.actions.staff.createAdmin(temptStaff);
@@ -269,28 +269,28 @@ class StoreInfoScreen extends Layout {
         this.inputRefproductSalary.forEach(ref => {
             ref.setStateFromParent();
         });
-        this.fixedAmountTipFeeRef.current.setStateFromParent();
-        this.percentTipFeeRef.current.setStateFromParent();
-        this.cashPercentRef.current.setStateFromParent("0", true);
+        this.fixedAmountTipFeeRef.current?.setStateFromParent();
+        this.percentTipFeeRef.current?.setStateFromParent();
+        this.cashPercentRef.current?.setStateFromParent("0", true);
 
-        this.commissionSalaryRef.current.setStateFromParent();
-        this.perHourServiceSalaryRef.current.setStateFromParent();
+        this.commissionSalaryRef.current?.setStateFromParent();
+        this.perHourServiceSalaryRef.current?.setStateFromParent();
     }
 
     disableFixedAmountTip = () => {
-        this.fixedAmountTipFeeRef.current.setStateFromParent();
+        this.fixedAmountTipFeeRef.current?.setStateFromParent();
     }
 
     disablePercentTip = () => {
-        this.percentTipFeeRef.current.setStateFromParent();
+        this.percentTipFeeRef.current?.setStateFromParent();
     }
 
     disableCommisionServiceSalary = () => {
-        this.commissionSalaryRef.current.setStateFromParent();
+        this.commissionSalaryRef.current?.setStateFromParent();
     }
 
     disablePerHourSalary = () => {
-        this.perHourServiceSalaryRef.current.setStateFromParent();
+        this.perHourServiceSalaryRef.current?.setStateFromParent();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -298,7 +298,7 @@ class StoreInfoScreen extends Layout {
         if (!loading && isResetInfoAdmin) {
             this.setState(initState);
             this.props.actions.staff.resetFlagCreateAdmin();
-            this.browserFileRef.current.setImageUrlFromParent('');
+            this.browserFileRef.current?.setImageUrlFromParent('');
             this.resetStateRefs();
         }
     }

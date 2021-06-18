@@ -28,7 +28,7 @@ class BankInfoScreen extends Layout {
   }
 
   scrollBankInfoTo(position) {
-    this.srollBankInfoRef.current.scrollTo({
+    this.srollBankInfoRef.current?.scrollTo({
       x: 0,
       y: scaleSize(position),
       animated: true,
@@ -113,7 +113,7 @@ class BankInfoScreen extends Layout {
           fileName = `${fileName.split(".")[0]}.JPG`;
         }
       }
-      this.uploadVoidCheckRef.current.setStateFromparent({
+      this.uploadVoidCheckRef.current?.setStateFromparent({
         uri: response.uri,
         fileName: fileName,
         type: response.type,

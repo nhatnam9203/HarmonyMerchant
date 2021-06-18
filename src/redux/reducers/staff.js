@@ -145,9 +145,30 @@ function staffReducer(state = initialState, action) {
         refreshListStaffsSalary: !action.isShowLoading,
       };
     case "GET_LIST_STAFFS_SALARY_TOP_SUCCESS":
+      const { data, pages, count, page } = action.payload;
+      if (page === 1) {
+        return {
+          ...state,
+          listStaffsSalary: data,
+          listStaffsSalaryCount: count,
+          listStaffsSalaryNextPage: page >= pages ? -1 : page + 1,
+          refreshListStaffsSalary: false,
+        };
+      }
+
+      if (data.length > 0) {
+        return {
+          ...state,
+          listStaffsSalary: [...state.listStaffsSalary, ...data],
+          listStaffsSalaryCount: count,
+          listStaffsSalaryNextPage: page >= pages ? -1 : page + 1,
+          refreshListStaffsSalary: false,
+        };
+      }
+
       return {
         ...state,
-        listStaffsSalary: action.payload,
+        listStaffsSalaryNextPage: page >= pages ? -1 : page + 1,
         refreshListStaffsSalary: false,
       };
     case "GET_LIST_STAFFS_SALARY_TOP_FAIL":

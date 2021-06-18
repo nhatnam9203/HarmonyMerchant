@@ -21,8 +21,8 @@ export default class Layout extends React.Component {
     }
 
     getAreaPhoneCode = () => {
-        const homePhone = this.homePhoneRef.current.state.codeAreaPhone;
-        const mobilePhone = this.mobilePhoneRef.current.state.codeAreaPhone;
+        const homePhone = this.homePhoneRef.current?.state.codeAreaPhone;
+        const mobilePhone = this.mobilePhoneRef.current?.state.codeAreaPhone;
         return {
             homePhone,
             mobilePhone
@@ -31,8 +31,8 @@ export default class Layout extends React.Component {
 
     componentDidMount() {
         const { homePhone, mobilePhone } = this.props.phoneCodePrincipal;
-        this.homePhoneRef.current.setStateFromParent(homePhone);
-        this.mobilePhoneRef.current.setStateFromParent(mobilePhone);
+        this.homePhoneRef.current?.setStateFromParent(homePhone);
+        this.mobilePhoneRef.current?.setStateFromParent(mobilePhone);
     }
 
 

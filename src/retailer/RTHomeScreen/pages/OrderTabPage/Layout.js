@@ -1,11 +1,13 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { createStackNavigator } from '@react-navigation/stack';
-import { HomeOrderListPage } from '../HomeOrderListPage';
-import { HomeOrderDetailPage } from '../HomeOrderDetailPage';
-import { CheckOutTabPage } from '../CheckOutTabPage';
-import { colors } from '@shared/themes';
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
+import { createStackNavigator } from "@react-navigation/stack";
+import { HomeOrderListPage } from "../HomeOrderListPage";
+import { HomeOrderDetailPage } from "../HomeOrderDetailPage";
+import { CheckOutTabPage } from "../CheckOutTabPage";
+import { HomeOrderPayPage } from "../HomeOrderPayPage";
+
+import { colors } from "@shared/themes";
 // import {
 //   OrderCheckout,
 //   OrderTab,
@@ -28,6 +30,7 @@ export const Layout = ({}) => {
         <Screen {...HomeOrderListPage} />
         <Screen {...HomeOrderDetailPage} />
         <Screen {...CheckOutTabPage} />
+        <Screen {...HomeOrderPayPage} />
       </Navigator>
     </View>
   );

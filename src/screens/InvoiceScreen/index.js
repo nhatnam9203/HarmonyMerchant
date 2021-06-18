@@ -61,7 +61,7 @@ class InvoiceScreen extends Layout {
       "blur",
       (payload) => {
         this.setState(initalState);
-        this.checkInvoicePermissionRef.current.setStateFromParent("");
+        this.checkInvoicePermissionRef.current?.setStateFromParent("");
         this.props.actions.invoice.resetInvoiceDetailState();
         this.virtualizedListRef?.current?.scrollToOffset({
           x: 0,
@@ -76,7 +76,7 @@ class InvoiceScreen extends Layout {
         this.setState({
           isFocus: true,
         });
-        this.checkInvoicePermissionRef.current.setStateFromParent("");
+        this.checkInvoicePermissionRef.current?.setStateFromParent("");
         this.modalCalendarRef?.current?.selectQuickFilter("Time Range");
 
         const { profileStaffLogin } = this.props;
@@ -123,19 +123,19 @@ class InvoiceScreen extends Layout {
   }
 
   gotoTabPaymentInfomation = () => {
-    this.scrollTabInvoiceRef.current.goToPage(1);
+    this.scrollTabInvoiceRef.current?.goToPage(1);
   };
 
   gotoBasket = () => {
-    this.scrollTabInvoiceRef.current.goToPage(2);
+    this.scrollTabInvoiceRef.current?.goToPage(2);
   };
 
   gotoHistory = () => {
-    this.scrollTabInvoiceRef.current.goToPage(1);
+    this.scrollTabInvoiceRef.current?.goToPage(1);
   };
 
   backTab = () => {
-    this.scrollTabInvoiceRef.current.goToPage(0);
+    this.scrollTabInvoiceRef.current?.goToPage(0);
   };
 
   showCalendar = () => {
@@ -209,7 +209,7 @@ class InvoiceScreen extends Layout {
     const { searchFilter } = this.state;
     const { keySearch, paymentMethod, status } = searchFilter;
     const { isCustomizeDate, startDate, endDate, quickFilter } =
-      this.modalCalendarRef.current.state;
+      this.modalCalendarRef.current?.state;
 
     this.props.actions.invoice.getListInvoicesByMerchant(
       searchKeyword === keySearch ? keySearch : "",
@@ -249,7 +249,7 @@ class InvoiceScreen extends Layout {
 
   changeStatustransaction = async () => {
     const { invoiceDetail } = this.props;
-    this.confirmInvoiceStatusRef.current.setStateFromParent(invoiceDetail);
+    this.confirmInvoiceStatusRef.current?.setStateFromParent(invoiceDetail);
 
     await this.setState({
       visibleConfirmInvoiceStatus: true,
@@ -273,7 +273,7 @@ class InvoiceScreen extends Layout {
         if (Platform.OS === "android") {
           // ------------------ REFUND ----------------
           if (invoiceDetail?.status === "paid") {
-            this.popupProcessingCreditRef.current.setStateFromParent(false);
+            this.popupProcessingCreditRef.current?.setStateFromParent(false);
             setTimeout(() => {
               PoslinkAndroid.refundTransaction(
                 ip,
@@ -303,7 +303,7 @@ class InvoiceScreen extends Layout {
             const transactionId = paymentInformation.RefNum
               ? paymentInformation.RefNum
               : 0;
-            this.popupProcessingCreditRef.current.setStateFromParent(
+            this.popupProcessingCreditRef.current?.setStateFromParent(
               transactionId
             );
             setTimeout(() => {
@@ -340,7 +340,7 @@ class InvoiceScreen extends Layout {
           const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
 
           if (invoiceDetail?.status === "paid") {
-            this.popupProcessingCreditRef.current.setStateFromParent(false);
+            this.popupProcessingCreditRef.current?.setStateFromParent(false);
             PosLink.sendTransaction(
               {
                 tenderType: "CREDIT",
@@ -358,7 +358,7 @@ class InvoiceScreen extends Layout {
               (data) => this.handleResultRefundTransaction(data)
             );
           } else if (invoiceDetail?.status === "complete") {
-            this.popupProcessingCreditRef.current.setStateFromParent(
+            this.popupProcessingCreditRef.current?.setStateFromParent(
               transactionId
             );
             PosLink.sendTransaction(
@@ -397,7 +397,7 @@ class InvoiceScreen extends Layout {
     const { searchFilter } = this.state;
     const { keySearch, paymentMethod, status } = searchFilter;
     const { isCustomizeDate, startDate, endDate, quickFilter } =
-      this.modalCalendarRef.current.state;
+      this.modalCalendarRef.current?.state;
 
     return `page=1&method=${getPaymentStringInvoice(
       paymentMethod
@@ -585,7 +585,7 @@ class InvoiceScreen extends Layout {
           invoiceDetail;
         const promotionNotes = invoiceDetail?.promotionNotes?.note || "";
 
-        this.invoicePrintRef.current.setStateFromParent(
+        this.invoicePrintRef.current?.setStateFromParent(
           basket,
           subTotal,
           tax,

@@ -11,6 +11,7 @@ import {
   SettingPage,
   SettingNewAttributesPage,
   SettingNewCategoriesPage,
+  SettingNewStaffsPage
 } from './pages';
 
 const { Screen, Navigator } = createStackNavigator();
@@ -38,6 +39,7 @@ export const Layout = ({ openDrawer }) => {
         <Screen {...SettingPage} />
         <Screen {...SettingNewAttributesPage} />
         <Screen {...SettingNewCategoriesPage} />
+        <Screen {...SettingNewStaffsPage} />
       </Navigator>
     </View>
   );

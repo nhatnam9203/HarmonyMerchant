@@ -29,7 +29,7 @@ class TabTransaction extends Layout {
     const { searchFilter } = this.state;
     const { keySearch, status } = searchFilter;
     const { isCustomizeDate, startDate, endDate, quickFilter } =
-      this.modalCalendarRef.current.state;
+      this.modalCalendarRef.current?.state;
 
     this.props.actions.invoice.getTransactionSettlement(
       status,

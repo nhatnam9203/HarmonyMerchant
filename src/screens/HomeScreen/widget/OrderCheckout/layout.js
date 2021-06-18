@@ -707,7 +707,7 @@ class Layout extends React.Component {
                         title={localize('BACK', language)}
                         backgroundColor="#0764B0"
                         textColor="#fff"
-                        onPress={() => this.scrollTabRef.current.goToPage(1)}
+                        onPress={() => this.scrollTabRef.current?.goToPage(1)}
                         style={styles.btn_back}
                         styleText={styles.txt_btn_basket}
                     />

@@ -125,7 +125,7 @@ class PrincipalScreen extends Layout {
           },
           () => {
             if (!this.state.isShowPrincipal1 && this.state.isShowPrincipal2) {
-              this.srollPrincipalRef.current.scrollTo({
+              this.srollPrincipalRef.current?.scrollTo({
                 x: 0,
                 y: 0,
                 animated: false,
@@ -138,7 +138,7 @@ class PrincipalScreen extends Layout {
   };
 
   scrollPrincipalTo = (position) => {
-    this.srollPrincipalRef.current.scrollTo({
+    this.srollPrincipalRef.current?.scrollTo({
       x: 0,
       y: scaleSize(position),
       animated: true,
@@ -441,7 +441,7 @@ class PrincipalScreen extends Layout {
         }
       }
 
-      this.uploadVoidCheckRef.current.setStateFromparent({
+      this.uploadVoidCheckRef.current?.setStateFromparent({
         uri: response.uri,
         fileName: fileName,
         type: response.type,

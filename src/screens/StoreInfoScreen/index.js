@@ -18,11 +18,11 @@ class StoreInfoScreen extends Layout {
     }
 
     gotoTabStaffManagement = () => {
-        this.scrollTabRef.current.goToPage(2);
+        this.scrollTabRef.current?.goToPage(2);
     }
 
     gotoTabService = () => {
-        this.scrollTabRef.current.goToPage(3);
+        this.scrollTabRef.current?.goToPage(3);
     }
 
     signOut = () => {

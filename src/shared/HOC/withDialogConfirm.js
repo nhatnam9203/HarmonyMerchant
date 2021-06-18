@@ -21,7 +21,7 @@ export const WithDialogConfirm = (WrappedComponent) => {
 
     return (
       <View>
-        <WrappedComponent {...props} onPress={showConfirmDialog} />
+        <WrappedComponent {...props} onPress={showConfirmDialog} onValueChange={showConfirmDialog} />
         <DialogConfirm
           ref={dialogRef}
           onConfirmYes={onHandleConfirmYes}

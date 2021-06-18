@@ -2,23 +2,23 @@ import {
   ParentContainer,
   ScrollableTabView,
   StatusBarHeader,
-} from '@components';
+} from "@components";
 // import HomeTabBar from '@components/HomeTabBar2020';
-import { ButtonLock } from '@shared/components/ButtonLock';
-import { ButtonDrawer } from '@shared/components/ButtonDrawer';
+import { ButtonLock } from "@shared/components/ButtonLock";
+import { ButtonDrawer } from "@shared/components/ButtonDrawer";
 import {
   OrderCheckout,
   OrderTab,
   TabMarketing,
-} from '@src/screens/HomeScreen/widget';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { OrderTabPage, MarketingTabPage, CheckOutTabPage } from './pages';
-import { colors } from '@shared/themes';
-import { HomeTabBar } from './widget';
-import { useTranslation } from 'react-i18next';
+} from "@src/screens/HomeScreen/widget";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { OrderTabPage, MarketingTabPage, CheckOutTabPage } from "./pages";
+import { colors } from "@shared/themes";
+import { HomeTabBar } from "./widget";
+import { useTranslation } from "react-i18next";
 
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
@@ -63,11 +63,13 @@ export const Layout = ({
             backgroundColor: colors.WHITE_FA,
           },
         }}
+        lazy={true}
+        optimizationsEnabled={true}
         tabBar={(props) => <HomeTabBar {...props} />}
       >
         {/* <Screen {...MarketingTabPage} /> */}
         {/* <TabMarketing tabLabel={'MARKETING'} /> */}
-        <Screen name={t('Marketing')} component={TabMarketing} />
+        <Screen name={t("Marketing")} component={TabMarketing} />
         <Screen {...OrderTabPage} />
         <Screen {...CheckOutTabPage} />
         {/* <Screen name={t('Check Out')} component={OrderCheckout} /> */}
@@ -84,6 +86,6 @@ const styles = StyleSheet.create({
 
   textStyle: {
     fontSize: scaleFont(16),
-    fontWeight: '500',
+    fontWeight: "500",
   },
 });

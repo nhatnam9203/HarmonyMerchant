@@ -16,7 +16,7 @@ export default class InputAuth extends React.PureComponent {
     }
 
     onFocusTexInput() {
-        this.textinputRef.current.focus();
+        this.textinputRef.current?.focus();
     }
 
     render() {

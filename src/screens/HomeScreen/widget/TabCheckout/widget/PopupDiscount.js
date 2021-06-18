@@ -126,7 +126,7 @@ class PopupDiscount extends React.Component {
     }
 
     scrollTo = num => {
-        this.scrollRef.current.scrollTo({ x: 0, y: num, animated: true })
+        this.scrollRef.current?.scrollTo({ x: 0, y: num, animated: true })
     }
 
     // ------ Render -----
@@ -148,7 +148,7 @@ class PopupDiscount extends React.Component {
             }
 
             if (visible && this.customDiscountRef.current) {
-                total = formatNumberFromCurrency(total) + formatNumberFromCurrency(this.customDiscountRef.current.state.discount);
+                total = formatNumberFromCurrency(total) + formatNumberFromCurrency(this.customDiscountRef.current?.state.discount);
             }
 
             total = roundNumber(total);
@@ -257,7 +257,7 @@ class PopupDiscount extends React.Component {
                                                 multiline={true}
                                                 value={promotionNotes}
                                                 onChangeText={(promotionNotes) => this.setState({ promotionNotes })}
-                                                onFocus={() => this.scrollRef.current.scrollToEnd()}
+                                                onFocus={() => this.scrollRef.current?.scrollToEnd()}
                                                 onBlur={() => this.scrollTo(0)}
                                             />
                                         </View>

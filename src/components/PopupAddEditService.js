@@ -121,9 +121,9 @@ class PopupAddEditService extends React.Component {
 
     done = () => {
         const { serviceInfo, isEditSecondTime } = this.state;
-        const duration = this.durationRef.current.state.value;
-        const openTime = this.openTimeRef.current.state.value;
-        const secondTime = this.secondTimeRef.current.state.value;
+        const duration = this.durationRef.current?.state.value;
+        const openTime = this.openTimeRef.current?.state.value;
+        const secondTime = this.secondTimeRef.current?.state.value;
         const temptServiceInfo = {
             ...serviceInfo,
             duration,
@@ -241,7 +241,7 @@ class PopupAddEditService extends React.Component {
             await this.setState({
                 isEditSecondTime: false
             })
-            this.secondTimeRef.current.setStateFromParent('');
+            this.secondTimeRef.current?.setStateFromParent('');
         } else {
             await this.setState({
                 isEditSecondTime: true
@@ -250,7 +250,7 @@ class PopupAddEditService extends React.Component {
     }
 
     scrollServiceTo(position) {
-        this.scrollServiceRef.current.scrollTo({ x: 0, y: scaleSize(position), animated: true })
+        this.scrollServiceRef.current?.scrollTo({ x: 0, y: scaleSize(position), animated: true })
     }
 
     // ------- Render -----
@@ -562,13 +562,13 @@ class ItemExtra extends React.Component {
                     isDisabled: extraInfo.isDisabled === 0 ? 'Active' : 'Disable'
                 }
             });
-            this.durationExtraRef.current.setStateFromParent(extraInfo.duration);
+            this.durationExtraRef.current?.setStateFromParent(extraInfo.duration);
         }
     }
 
     getInfoExtraFromParent = () => {
         const { extraInfo } = this.state;
-        const duration = this.durationExtraRef.current.state.value;
+        const duration = this.durationExtraRef.current?.state.value;
         const temptExtra = {
             ...extraInfo,
             duration: duration,

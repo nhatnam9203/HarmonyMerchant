@@ -16,7 +16,10 @@ import MarketingEfficiencyStatistic from "./MarketingEfficiencyStatistic";
 
 const RANGE_TIME_DEFAULT = "This Week";
 
-function MarketingEfficiencyTab({ style, showBackButton, showHeader }, ref) {
+function MarketingEfficiencyTab(
+  { style, showBackButton, showHeader },
+  ref
+) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
@@ -80,7 +83,7 @@ function MarketingEfficiencyTab({ style, showBackButton, showHeader }, ref) {
 
   const onGoStatistics = async (item) => {
     await setFilterNameItem(item.name);
-    layoutRef.current.goNext();
+    layoutRef.current?.goNext();
     showHeader(false);
   };
 
@@ -123,7 +126,7 @@ function MarketingEfficiencyTab({ style, showBackButton, showHeader }, ref) {
   };
 
   const onHandleTheDownloadedFile = (filePath) => {
-    layoutRef.current.handleTheDownloadedFile(filePath);
+    layoutRef.current?.handleTheDownloadedFile(filePath);
   };
 
   const onChangeTab = (tabIndex) => {
@@ -135,14 +138,13 @@ function MarketingEfficiencyTab({ style, showBackButton, showHeader }, ref) {
   // public function
   useImperativeHandle(ref, () => ({
     goBack: () => {
-      layoutRef.current.goBack();
+      layoutRef.current?.goBack();
     },
-    didBlur: () => {
-    },
+    didBlur: () => {},
     didFocus: () => {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
-    getMarketingEfficiencyMethod: () => getMarketingEfficiencyMethod()
+    getMarketingEfficiencyMethod: () => getMarketingEfficiencyMethod(),
   }));
 
   /**effect */

@@ -15,17 +15,17 @@ class SignUpScreen extends Layout {
     }
 
     goToPage = (page = 1) => {
-        this.scrollTabRef.current.goToPage(page);
+        this.scrollTabRef.current?.goToPage(page);
         if (page === 2 && this.bankInfoRef.current) {
-            this.bankInfoRef.current.setStateFromparent(true);
+            this.bankInfoRef.current?.setStateFromparent(true);
         } else if (page === 3 && this.principalInfoRef.current) {
-            this.principalInfoRef.current.setStateFromparent(true);
+            this.principalInfoRef.current?.setStateFromparent(true);
         } else {
             if (this.bankInfoRef.current) {
-                this.bankInfoRef.current.setStateFromparent(false);
+                this.bankInfoRef.current?.setStateFromparent(false);
             }
             if (this.principalInfoRef.current) {
-                this.principalInfoRef.current.setStateFromparent(false);
+                this.principalInfoRef.current?.setStateFromparent(false);
             }
         }
     }
@@ -34,7 +34,7 @@ class SignUpScreen extends Layout {
         const {registerMerchantError} = this.props;
         if(prevProps.registerMerchantError !== registerMerchantError && registerMerchantError){
             this.props.actions.app.resetStateRegisterMerchantError();
-            this.scrollTabRef.current.goToPage(0);
+            this.scrollTabRef.current?.goToPage(0);
         }
     }
 

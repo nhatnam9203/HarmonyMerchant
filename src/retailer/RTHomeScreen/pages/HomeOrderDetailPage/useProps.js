@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   useGetAppointment,
   useCancelAppointment,
@@ -7,20 +7,20 @@ import {
   useCompleteAppointment,
   useReturnAppointment,
   useEditNotes,
-} from '@shared/services/api/retailer';
-import { CustomerGroupTypes, NEED_TO_ORDER } from '@shared/utils/app';
-import { useTranslation } from 'react-i18next';
-import _ from 'lodash';
-import NavigationServices from '@navigators/NavigatorServices';
-import { useSelector } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+} from "@shared/services/api/retailer";
+import { CustomerGroupTypes, NEED_TO_ORDER } from "@shared/utils/app";
+import { useTranslation } from "react-i18next";
+import _ from "lodash";
+import NavigationServices from "@navigators/NavigatorServices";
+import { useSelector } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   BIRTH_DAY_DATE_FORMAT_STRING,
   statusSuccess,
   dateToString,
-} from '@shared/utils';
+} from "@shared/utils";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[HomeOrderDetail] ${message}`, obj);
 };
 
@@ -52,7 +52,7 @@ export const useProps = ({ params: { order, orderId } }) => {
     React.useCallback(() => {
       if (orderId || order?.appointmentId)
         getAppointment(orderId || order.appointmentId);
-    }, [orderId, order]),
+    }, [orderId, order])
   );
 
   React.useEffect(() => {
@@ -65,24 +65,56 @@ export const useProps = ({ params: { order, orderId } }) => {
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentCancel || {};
     if (statusSuccess(codeStatus)) {
-      NavigationServices.navigate('retailer.home.order.list', { reload: true });
-
-      return;
+      NavigationServices.navigate("retailer.home.order.list", { reload: true });
     }
   }, [appointmentCancel]);
 
   React.useEffect(() => {
     const { codeStatus, message, data } =
-      appointmentConfirm || appointmentShipping || appointmentComplete || {};
+      appointmentShipping || appointmentComplete || {};
     if (statusSuccess(codeStatus)) {
       getAppointment(appointmentDetail?.appointmentId);
     }
-  }, [appointmentShipping, appointmentConfirm, appointmentComplete]);
+  }, [appointmentShipping, appointmentComplete]);
+
+  React.useEffect(() => {
+    const { codeStatus, message, data } = appointmentConfirm || {};
+    if (statusSuccess(codeStatus)) {
+      NavigationServices.navigate("retailer.home.order.pay", {
+        orderItem: appointmentDetail,
+      });
+    }
+  }, [appointmentConfirm]);
+
+  const getPaymentString = (type) => {
+    let method = "";
+    switch (type) {
+      case "harmony":
+        method = "HarmonyPay";
+        break;
+      case "cash":
+        method = "Cash";
+        break;
+      case "credit_card":
+        method = "Credit Cards";
+        break;
+      case "other":
+        method = "Other - Check";
+        break;
+      case "giftcard":
+        method = "Gift Card";
+        break;
+
+      default:
+        method = "Debit Cards";
+    }
+    return method;
+  };
 
   return {
     item: appointmentDetail,
     goBack: () => {
-      NavigationServices.navigate('retailer.home.order.list', { reload: true });
+      NavigationServices.navigate("retailer.home.order.list", { reload: true });
     },
     cancel: () => {
       cancelAppointment(appointmentDetail?.appointmentId);
@@ -91,13 +123,19 @@ export const useProps = ({ params: { order, orderId } }) => {
       shippingAppointment(appointmentDetail?.appointmentId);
     },
     confirm: () => {
-      const params = Object.assign({}, shippingMethod, {
-        shippingAmount: 0,
-        billingAddressId: appointmentDetail?.billingAddress?.id,
-        shippingAddressId: appointmentDetail?.shippingAddress?.id,
-        didNotPay: false,
-      });
-      confirmAppointment(params, appointmentDetail?.appointmentId);
+      if (appointmentDetail?.payment?.length <= 0) {
+        NavigationServices.navigate("retailer.home.order.pay", {
+          orderItem: appointmentDetail,
+        });
+      } else {
+        const params = Object.assign({}, shippingMethod, {
+          shippingAmount: 0,
+          billingAddressId: appointmentDetail?.billingAddress?.id,
+          shippingAddressId: appointmentDetail?.shippingAddress?.id,
+          didNotPay: false,
+        });
+        confirmAppointment(params, appointmentDetail?.appointmentId);
+      }
     },
     complete: () => {
       completeAppointment(appointmentDetail?.appointmentId);
@@ -108,5 +146,6 @@ export const useProps = ({ params: { order, orderId } }) => {
     onSubmitNotes: (noteText) => {
       editNote({ notes: noteText }, appointmentDetail?.appointmentId);
     },
+    getPaymentString
   };
 };

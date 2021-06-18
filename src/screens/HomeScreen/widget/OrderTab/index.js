@@ -16,11 +16,11 @@ class OrderTab extends Layout {
   componentDidMount() {}
 
   handleNewOrder = () => {
-    this.scrollableTabViewRef.current.goToPage(2);
+    this.scrollableTabViewRef.current?.goToPage(2);
   };
 
   backOrderHome = () => {
-    this.scrollableTabViewRef.current.goToPage(0);
+    this.scrollableTabViewRef.current?.goToPage(0);
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -30,7 +30,7 @@ class OrderTab extends Layout {
       prevProps?.isGetOrderRetailDetail !== isGetOrderRetailDetail
     ) {
       this.props.actions.orderRetail.resetStateIsGetOrderRetailDetail();
-      this.scrollableTabViewRef.current.goToPage(1);
+      this.scrollableTabViewRef.current?.goToPage(1);
     }
   }
 }

@@ -33,15 +33,15 @@ class Layout extends React.Component {
                         nextTab={this.gotoTabServices}
                     />
                     <TabServices tabLabel={localize('Services', language)}
-                        backTab={() => this.scrollTabRef.current.goToPage(0)}
+                        backTab={() => this.scrollTabRef.current?.goToPage(0)}
                         nextTab={this.gotoTabExtra}
                     />
                     <TabExtra tabLabel={localize('Extra', language)}
-                        backTab={() => this.scrollTabRef.current.goToPage(1)}
+                        backTab={() => this.scrollTabRef.current?.goToPage(1)}
                         nextTab={this.gotoTabProduct}
                     />
                     <TabProducts tabLabel={localize('Products', language)}
-                        backTab={() => this.scrollTabRef.current.goToPage(2)}
+                        backTab={() => this.scrollTabRef.current?.goToPage(2)}
                         nextTab={this.gotoCongratulation}
                     />
 
