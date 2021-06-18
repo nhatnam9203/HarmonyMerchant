@@ -65,6 +65,7 @@ export const Layout = ({
                 defaultStreetValue={current_staff?.address?.street}
                 defaultCityValue={current_staff?.address?.city}
                 defaultZipCodeValue={current_staff?.address?.zip}
+                useDropDownMenu
                 // reverse={true}
               />
             </View>
