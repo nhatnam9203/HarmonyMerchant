@@ -1,17 +1,17 @@
-import useAxios from 'axios-hooks';
-import { RETAILER_ORDER } from '../../route';
-import { appMerchant } from '@redux/slices';
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import useAxios from "axios-hooks";
+import { RETAILER_ORDER } from "../../route";
+import { appMerchant } from "@redux/slices";
+import React from "react";
+import { useDispatch } from "react-redux";
 
 export const useGetAppointment = () => {
   const dispatch = useDispatch();
 
   const [{ data: appointment, loading, error, response }, execute] = useAxios(
-    { method: 'GET' },
+    { method: "GET" },
     {
       manual: true,
-    },
+    }
   );
 
   React.useEffect(() => {
@@ -20,8 +20,16 @@ export const useGetAppointment = () => {
     }
     if (!loading && response) {
       dispatch(appMerchant.hideLoading());
+      // !! chua xu li truong hop get loi
+      // dispatch({
+      //   type: "GET_APPOINTMENT_BY_ID_FAIL",
+      // });
+      dispatch({
+        type: "GET_APPOINTMENT_BY_ID_SUCCESS",
+        payload: appointment?.data
+      });
     }
-  }, [appointment?.data, dispatch, loading, response]);
+  }, [ dispatch, loading, response]);
 
   const getAppointment = (appointmentId) => {
     execute({
