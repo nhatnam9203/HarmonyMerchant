@@ -1,18 +1,18 @@
-import useAxios from 'axios-hooks';
-import { RETAILER_ORDER } from '../../route';
-import { appMerchant } from '@redux/slices';
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import useAxios from "axios-hooks";
+import { RETAILER_ORDER } from "../../route";
+import { appMerchant } from "@redux/slices";
+import React from "react";
+import { useDispatch } from "react-redux";
 
 export const useReturnAppointment = () => {
   const dispatch = useDispatch();
 
   const [{ data: appointmentReturn, loading, error, response }, execute] =
     useAxios(
-      { method: 'PUT' },
+      { method: "PUT" },
       {
         manual: true,
-      },
+      }
     );
 
   React.useEffect(() => {
@@ -24,9 +24,10 @@ export const useReturnAppointment = () => {
     }
   }, [dispatch, loading, response]);
 
-  const returnAppointment = (id) => {
+  const returnAppointment = (id, params) => {
     execute({
       url: `${RETAILER_ORDER.url}/return/${id}`,
+      data: params,
     });
   };
 
