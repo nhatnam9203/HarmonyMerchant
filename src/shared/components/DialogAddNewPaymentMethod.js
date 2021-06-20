@@ -1,4 +1,3 @@
-import { authMerchant } from '@redux/slices';
 import { ButtonGradient, ButtonGradientWhite } from '@shared/components';
 import { DialogLayout } from '@shared/layouts';
 import { colors, fonts } from '@shared/themes';
@@ -6,7 +5,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import actions from '@redux/actions';
 
 export const DialogAddNewPaymentMethod = React.forwardRef((props, ref) => {
   const dispatch = useDispatch();

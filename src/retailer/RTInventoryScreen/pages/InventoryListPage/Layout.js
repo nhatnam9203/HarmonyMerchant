@@ -155,7 +155,7 @@ export const Layout = ({
       <View style={[styles.rowContent, { justifyContent: 'flex-start' }]}>
         <ButtonFilter
           filterItems={categories}
-          defaultValue={category}
+          defaultValue={null}
           onChangeValue={setCategory}
           width={scaleWidth(208)}
           placeholder={t('Select Category')}
@@ -165,7 +165,7 @@ export const Layout = ({
         <ButtonFilter
           ref={needToOrderRef}
           filterItems={NEED_TO_ORDER}
-          defaultValue={needToOrder}
+          defaultValue={null}
           onChangeValue={setNeedToOrder}
           placeholder={t('Need to order')}
           width={scaleWidth(160)}

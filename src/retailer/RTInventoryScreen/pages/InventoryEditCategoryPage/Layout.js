@@ -68,7 +68,7 @@ export const Layout = ({
                   placeholder={t('Enter category name')}
                   required={true}
                   onChangeValue={form.handleChange('name')}
-                  defaultValue={form.values?.name}
+                  defaultValue={categoryItem?.name}
                 />
               </>
             ) : (
@@ -77,7 +77,7 @@ export const Layout = ({
                   label={t('Category name')}
                   placeholder={t('Enter category name')}
                   required={true}
-                  defaultValue={form.values?.name}
+                  defaultValue={categoryItem?.name}
                   onChangeValue={form.handleChange('name')}
                 />
                 <View style={layouts.marginVertical} />

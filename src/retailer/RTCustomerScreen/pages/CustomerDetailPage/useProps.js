@@ -5,16 +5,23 @@ import {
   useBlacklistCustomer,
   useEditAddress,
   useCreateAddress,
+  useGetAppointmentByCustomer,
 } from "@shared/services/api/retailer";
 import { useTranslation } from "react-i18next";
 import NavigationServices from "@navigators/NavigatorServices";
 import { VIP_TYPE } from "@shared/utils";
 import { useFocusEffect } from "@react-navigation/native";
+import {
+  BIRTH_DAY_DATE_FORMAT_STRING,
+  statusSuccess,
+  dateToString,
+} from "@shared/utils";
 
 export const useProps = ({ params: { item, reload, customerId } }) => {
   const [t] = useTranslation();
 
   const [customerItem, setCustomer] = React.useState(item);
+  const [orders, setOrders] = React.useState(null);
   /**
   |--------------------------------------------------
   | CALL API
@@ -25,7 +32,8 @@ export const useProps = ({ params: { item, reload, customerId } }) => {
     NavigationServices.navigate("retailer.customer.list", { reload: true });
   });
   const [customerBlacklist, blacklistCustomer] = useBlacklistCustomer();
-
+  const [appointmentByCustomer, getAppointmentByCustomer] =
+    useGetAppointmentByCustomer();
   /**
   |--------------------------------------------------
   | USE EFFECT
@@ -40,7 +48,11 @@ export const useProps = ({ params: { item, reload, customerId } }) => {
   );
 
   React.useEffect(() => {
-    setCustomer(customer?.data);
+    if (customer?.data) {
+      setCustomer(customer?.data);
+      getAppointmentByCustomer(customer?.data?.customerId);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customer]);
 
@@ -50,6 +62,13 @@ export const useProps = ({ params: { item, reload, customerId } }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customerBlacklist]);
+
+  React.useEffect(() => {
+    const { codeStatus, message, data } = appointmentByCustomer || {};
+    if (statusSuccess(codeStatus)) {
+      setOrders(data);
+    }
+  }, [appointmentByCustomer]);
 
   return {
     customer: customerItem,
@@ -105,5 +124,6 @@ export const useProps = ({ params: { item, reload, customerId } }) => {
         blacklistCustomer(customerItem.customerId, "add-blacklist");
       }
     },
+    orders
   };
 };

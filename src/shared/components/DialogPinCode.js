@@ -1,13 +1,12 @@
-import { authMerchant } from "@redux/slices";
+import actions from "@redux/actions";
 import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
+import { useGetCategoriesList } from "@shared/services/api/retailer";
 import { colors, fonts } from "@shared/themes";
-import { statusSuccess } from "@shared/utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import actions from "@redux/actions";
 
 const log = (obj, message = "") => {
   Logger.log(`[DialogPincode] ${message}`, obj);
@@ -47,6 +46,7 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
 
   |--------------------------------------------------
   */
+  const [, getCategoriesList] = useGetCategoriesList();
   // !! call login staff
   React.useImperativeHandle(ref, () => ({
     show: () => {
@@ -79,8 +79,15 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
   //   }
   // }, [staffLogin]);
 
+  const onLoadApps = React.useCallback(() => {
+    if (isLoginStaff) {
+      getCategoriesList();
+    }
+  }, [isLoginStaff]);
+
   React.useEffect(() => {
     dialogRef.current?.hide();
+    onLoadApps();
   }, [isLoginStaff]);
 
   React.useEffect(() => {

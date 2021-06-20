@@ -201,5 +201,6 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     editAttribute,
     deleteAttribute,
     onChangeInputType,
+    item
   };
 };

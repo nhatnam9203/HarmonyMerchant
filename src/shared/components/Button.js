@@ -1,13 +1,7 @@
-import React from "react";
-import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  View,
-  Pressable,
-} from "react-native";
-import LinearGradient from "react-native-linear-gradient";
 import { colors, fonts, layouts } from "@shared/themes";
+import React from "react";
+import { Pressable, StyleSheet, Text, TouchableOpacity } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 
 export const ButtonNormal = ({
   width,

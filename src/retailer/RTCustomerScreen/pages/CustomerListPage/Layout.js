@@ -119,7 +119,7 @@ export const Layout = ({
       <View style={styles.rowContent}>
         <DropdownCategory
           filterItems={customerGroups}
-          defaultValue={groupType}
+          defaultValue={null}
           onChangeValue={setGroupType}
           width={scaleWidth(208)}
         />

@@ -1,14 +1,15 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { CustomTableCheckBox } from './CustomCheckBox';
-import FastImage from 'react-native-fast-image';
-import IMAGE from '@resources';
+import IMAGE from "@resources";
+import React from "react";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import FastImage from "react-native-fast-image";
+import { CustomTableCheckBox } from "./CustomCheckBox";
 
 export const TableImageCell = ({
   imageUrl,
   width,
   onValueChange,
   defaultValue,
+  Í,
 }) => {
   return (
     <TouchableOpacity
@@ -36,11 +37,11 @@ export const TableImageCell = ({
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
+    height: "100%",
     paddingHorizontal: scaleWidth(15),
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
 
   imageStyle: {

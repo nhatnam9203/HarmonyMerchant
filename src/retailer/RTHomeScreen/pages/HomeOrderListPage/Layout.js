@@ -1,31 +1,31 @@
-import React from "react";
-import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
+import IMAGE from "@resources";
 import {
+  ButtonCalendarFilter,
   ButtonGradient,
   ButtonGradientWhite,
-  ExportModal,
-  ButtonCalendarFilter,
   ButtonRightPanelFilter,
+  ExportModal,
   FormSelect,
 } from "@shared/components";
-import { InputSearch } from "@shared/components/InputSearch";
-import { ButtonFilter } from "@shared/components/ButtonFilter";
-import { useTranslation } from "react-i18next";
-import { layouts, fonts, colors } from "@shared/themes";
-import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
+import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
 import { Table } from "@shared/components/CustomTable";
-import IMAGE from "@resources";
+import { getUniqueId } from "@shared/components/CustomTable/helpers";
+import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
+import { InputSearch } from "@shared/components/InputSearch";
+import { OrderStatusView } from "@shared/components/OrderStatusView";
+import { colors, fonts, layouts } from "@shared/themes";
 import {
   dateToString,
   DATE_TIME_SHOW_FORMAT_STRING,
-  PURCHASE_POINTS,
-  PAYMENTS,
   ORDER_STATUS,
+  PAYMENTS,
+  PURCHASE_POINTS,
 } from "@shared/utils";
-import { getUniqueId } from "@shared/components/CustomTable/helpers";
-import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
-import { OrderStatusView, FormFilter } from "../../widget";
 import { formatMoneyWithUnit } from "@utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FormFilter } from "../../widget";
 
 export const Layout = ({
   onChangeValueSearch,
@@ -169,21 +169,21 @@ export const Layout = ({
               <FormSelect
                 label={t("Payment method")}
                 filterItems={PAYMENTS}
-                defaultValue={payment}
+                defaultValue={null}
                 onChangeValue={setPayment}
               />
 
               <FormSelect
                 label={t("Purchase point")}
                 filterItems={PURCHASE_POINTS}
-                defaultValue={purchasePoint}
+                defaultValue={null}
                 onChangeValue={setPurchasePoint}
               />
 
               <FormSelect
                 label={t("Status")}
                 filterItems={ORDER_STATUS}
-                defaultValue={orderStatus}
+                defaultValue={null}
                 onChangeValue={setOrderStatus}
               />
             </View>

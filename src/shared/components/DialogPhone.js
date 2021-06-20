@@ -4,7 +4,6 @@ import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
-import { useDispatch } from "react-redux";
 import { FormPhoneNumber } from "./FormPhoneNumber";
 
 export const DialogPhone = React.forwardRef(({ title, onPhoneSubmit }, ref) => {

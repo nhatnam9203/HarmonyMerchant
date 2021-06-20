@@ -11,6 +11,10 @@ import {
   dateToString,
 } from "@shared/utils";
 
+const log = (obj, message = "") => {
+  Logger.log(`[EditCategory] ${message}`, obj);
+};
+
 export const useProps = ({ params: { isNew, isEdit, item } }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -18,6 +22,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   const categories = useSelector(
     (state) => state.inventoryRetailer?.categories
   );
+  log(categories, "categories");
   const [isSubCategory, setIsSubCategory] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState(null);
   /**

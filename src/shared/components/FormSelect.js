@@ -1,9 +1,8 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { ButtonFilter } from './ButtonFilter';
-import { ButtonGradient } from './Button';
-import { colors, layouts, fonts } from '@shared/themes';
-import { useTranslation } from 'react-i18next';
+import { colors, fonts, layouts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, View } from "react-native";
+import { ButtonFilter } from "./ButtonFilter";
 
 export const FormSelect = ({
   filterItems,
@@ -14,13 +13,6 @@ export const FormSelect = ({
   required = true,
   children,
 }) => {
-  const [t] = useTranslation();
-  // const [items, setItems] = React.useState(filterItems);
-
-  // React.useEffect(() => {
-  //   setItems(filterItems);
-  // }, [filterItems]);
-
   return (
     <View style={[styles.container, style]}>
       {!!label && (
@@ -50,29 +42,29 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     paddingVertical: scaleHeight(10),
   },
 
   textStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   requiredStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.ORANGEY_RED,
   },
 });

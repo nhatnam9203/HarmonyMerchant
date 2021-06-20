@@ -57,7 +57,7 @@ export const Layout = ({
               onChangeValue={(value) => {
                 if (value) form.setFieldValue("costPrice", parseFloat(value));
               }}
-              defaultValue={form.values?.costPrice}
+              defaultValue={productItem?.costPrice}
             />
 
             <FormInput
@@ -67,7 +67,7 @@ export const Layout = ({
               onChangeValue={(value) => {
                 if (value) form.setFieldValue("price", parseFloat(value));
               }}
-              defaultValue={form.values?.price}
+              defaultValue={productItem?.price}
             />
 
             <FormInput
@@ -75,7 +75,7 @@ export const Layout = ({
               placeholder={t("Enter or scan barcode")}
               required={true}
               onChangeValue={form.handleChange("barCode")}
-              defaultValue={form.values?.barCode}
+              defaultValue={productItem?.barCode}
             />
 
             <FormInput
@@ -83,13 +83,13 @@ export const Layout = ({
               placeholder={t("Enter SKU number")}
               required={true}
               onChangeValue={form.handleChange("sku")}
-              defaultValue={form.values?.sku}
+              defaultValue={productItem?.sku}
             />
 
             <FormSelect
               label={t("Subcategory")}
               filterItems={listSelectCategories}
-              defaultValue={form?.values?.categoryId}
+              defaultValue={productItem?.categoryId}
               onChangeValue={(val) => form.setFieldValue("categoryId", val)}
             >
               <ButtonGradient
@@ -108,7 +108,7 @@ export const Layout = ({
               placeholder={t("Enter product name")}
               required={true}
               onChangeValue={form.handleChange("name")}
-              defaultValue={form.values?.name}
+              defaultValue={productItem?.name}
             />
           </View>
           <View style={styles.content}>
@@ -117,7 +117,7 @@ export const Layout = ({
               onSetFileId={(fileId) =>
                 form.setFieldValue("fileId", parseInt(fileId))
               }
-              defaultValue={form.values?.imageUrl}
+              defaultValue={productItem?.imageUrl}
             />
 
             <View style={[layouts.horizontal]}>
@@ -130,7 +130,7 @@ export const Layout = ({
                   if (value)
                     form.setFieldValue("minThreshold", parseInt(value));
                 }}
-                defaultValue={`${form.values?.minThreshold ?? ""}`}
+                defaultValue={`${productItem?.minThreshold ?? ""}`}
               />
               <View style={layouts.marginHorizontal} />
               <FormInput
@@ -142,7 +142,7 @@ export const Layout = ({
                   if (value)
                     form.setFieldValue("maxThreshold", parseInt(value));
                 }}
-                defaultValue={`${form.values?.maxThreshold ?? ""}`}
+                defaultValue={`${productItem?.maxThreshold ?? ""}`}
               />
             </View>
 
@@ -153,7 +153,7 @@ export const Layout = ({
               onChangeValue={(value) => {
                 if (value) form.setFieldValue("quantity", parseInt(value));
               }}
-              defaultValue={`${form.values?.quantity ?? ""}`}
+              defaultValue={`${productItem?.quantity ?? ""}`}
             />
           </View>
         </View>

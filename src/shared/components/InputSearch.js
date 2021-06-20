@@ -1,9 +1,9 @@
-import { CustomInput } from './CustomInput';
 import IMAGE from '@resources';
-import React from 'react';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { colors } from '@shared/themes';
 import _ from 'lodash';
+import React from 'react';
+import { Image, StyleSheet } from 'react-native';
+import { CustomInput } from './CustomInput';
 
 export const InputSearch = ({ width, height, onSearch, textInputProps }) => {
   const [value, setValue] = React.useState();

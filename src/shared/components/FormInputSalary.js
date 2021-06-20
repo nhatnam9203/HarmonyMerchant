@@ -1,7 +1,7 @@
+import { layouts } from '@shared/themes';
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { fonts, colors, layouts } from '@shared/themes';
 import { useTranslation } from 'react-i18next';
+import { StyleSheet, Text, View } from 'react-native';
 import { CustomInputMask } from './CustomInput';
 export const FormInputSalary = ({
   label,
