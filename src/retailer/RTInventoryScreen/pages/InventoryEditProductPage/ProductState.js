@@ -23,12 +23,11 @@ export const productReducer = (state = initState, action) => {
       return Object.assign({}, state, action.payload);
 
     case PRODUCT_ADD_OPTION:
-      const mergeOptions = state?.options.concat(actions.payload);
+      const mergeOptions = state?.options.concat(action.payload);
 
       return Object.assign({}, state, { options: mergeOptions });
 
     case PRODUCT_REMOVE_OPTION:
-
       const filterOptions = state?.options.filter(
         (opt) => opt.attributeId !== action.payload?.attributeId
       );
@@ -36,7 +35,7 @@ export const productReducer = (state = initState, action) => {
 
     case PRODUCT_UPDATE_OPTIONS:
       const optionsItem = action.payload;
-      const values =  action.payload?.values;
+      const values = action.payload?.values;
 
       let updateOption = state?.options?.find(
         (x) => x.attributeId === optionsItem.attributeId
