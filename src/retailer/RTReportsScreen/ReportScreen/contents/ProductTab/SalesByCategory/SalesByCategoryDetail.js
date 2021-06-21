@@ -1,15 +1,16 @@
-import IMAGE from '@resources';
-import { ButtonCalendarFilter, ExportModal } from '@shared/components';
-import { Table } from '@shared/components/CustomTable';
-import { layouts } from '@shared/themes';
-import { dateToString, DATE_SHOW_FORMAT_STRING } from '@shared/utils';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { PopupButton } from '../../../widget';
-import SalesCategoryLineChart from './chart/SaleCategoryLineChart';
-import { formatMoneyWithUnit } from '@utils';
+import IMAGE from "@resources";
+import { ButtonCalendarFilter, ExportModal } from "@shared/components";
+import { Table } from "@shared/components/CustomTable";
+import { layouts } from "@shared/themes";
+import { dateToString, DATE_SHOW_FORMAT_STRING } from "@shared/utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
+import { PopupButton } from "../../../widget";
+import SalesCategoryLineChart from "./chart/SaleCategoryLineChart";
+import { formatMoneyWithUnit } from "@utils";
+
 const VIEW_MODE = {
   LIST: 'LIST',
   CHART: 'CHART',
@@ -81,8 +82,8 @@ export default function SalesByCategoryDetail({
           <ButtonCalendarFilter
             ref={calendarRef}
             onChangeTimeValue={onChangeTimeValue}
-            paddingLeft={scaleWidth(105)}
-            paddingTop={scaleHeight(170)}
+            paddingLeft={scaleWidth(15)}
+            paddingTop={scaleHeight(165)}
             // defaultValue={timeValue}
           />
         </View>

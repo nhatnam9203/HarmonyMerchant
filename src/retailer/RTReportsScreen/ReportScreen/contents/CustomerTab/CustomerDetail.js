@@ -1,15 +1,13 @@
-import IMAGE from '@resources';
-import { ButtonCalendarFilter, ExportModal } from '@shared/components';
-import { Table } from '@shared/components/CustomTable';
-import { layouts } from '@shared/themes';
-import { dateToString, DATE_SHOW_FORMAT_STRING } from '@shared/utils';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { formatMoneyWithUnit } from '@utils';
-const ACTIVE_COLOR = '#0764B0';
-const INACTIVE_COLOR = '#6A6A6A';
+import IMAGE from "@resources";
+import { ButtonCalendarFilter, ExportModal } from "@shared/components";
+import { Table } from "@shared/components/CustomTable";
+import { layouts } from "@shared/themes";
+import { dateToString, DATE_SHOW_FORMAT_STRING } from "@shared/utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
+import { formatMoneyWithUnit } from "@utils";
 
 const log = (obj, message = '') => {
   Logger.log(`[CustomerDetail] ${message}`, obj);
@@ -121,6 +119,7 @@ export default function CustomerDetail({
           formatFunctionKeys={{
             date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
             total: (value) => `${formatMoneyWithUnit(value)}`,
+
           }}
           renderCell={onRenderCell}
           onRefresh={onRefresh}

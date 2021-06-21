@@ -13,10 +13,12 @@ import {
   dateToString,
   DATE_SHOW_FORMAT_STRING,
   statusSuccess,
-} from '@shared/utils';
-import { layouts } from '@shared/themes';
-import { DropdownMenu } from '@shared/components';
-import NavigationServices from '@navigators/NavigatorServices';
+} from "@shared/utils";
+import { layouts } from "@shared/themes";
+import { DropdownMenu } from "@shared/components";
+import NavigationServices from "@navigators/NavigatorServices";
+import { formatMoneyWithUnit } from "@utils";
+
 const filterItems = [
   { label: 'Top categories', value: 'top' },
   { label: 'All categories', value: 'all' },
@@ -114,9 +116,9 @@ export default function SalesByCategory({
           <ButtonCalendarFilter
             ref={calendarRef}
             onChangeTimeValue={onChangeTimeValue}
-            paddingLeft={scaleWidth(100)}
-            paddingTop={scaleHeight(170)}
-            defaultValue={'This Week'}
+            paddingLeft={scaleWidth(15)}
+            paddingTop={scaleHeight(165)}
+            defaultValue={"This Week"}
           />
           <View style={layouts.marginHorizontal} />
           <DropdownMenu
@@ -165,15 +167,13 @@ export default function SalesByCategory({
           emptyDescription={t('No Report Data')}
           //   styleTextKeys={{ customerName: styles.textName }}
           //   onSortWithKey={onSortWithKey}
-          formatFunctionKeys={
-            {
-              // date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
-              totalRevenue: (value) => `${formatMoneyWithUnit(value)}`,
-              totalCost: (value) => `${formatMoneyWithUnit(value)}`,
-              totalTax: (value) => `${formatMoneyWithUnit(value)}`,
-              totalProfit: (value) => `${formatMoneyWithUnit(value)}`,
-            }
-          }
+          formatFunctionKeys={{
+            // date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
+            totalRevenue: (value) => `${formatMoneyWithUnit(value)}`,
+            totalCost: (value) => `${formatMoneyWithUnit(value)}`,
+            totalTax: (value) => `${formatMoneyWithUnit(value)}`,
+            totalProfit: (value) => `${formatMoneyWithUnit(value)}`,
+          }}
           renderCell={onRenderCell}
           onRowPress={onSelectRow}
           onRefresh={onRefresh}

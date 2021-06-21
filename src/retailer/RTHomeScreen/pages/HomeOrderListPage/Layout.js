@@ -157,7 +157,9 @@ export const Layout = ({
         <View style={layouts.horizontal}>
           <ButtonCalendarFilter
             onChangeTimeValue={onChangeTimeValue}
-            defaultValue={'This Week'}
+            defaultValue={"This Week"}
+            paddingLeft={scaleWidth(15)}
+            paddingTop={scaleHeight(135)}
           />
 
           <View style={layouts.marginHorizontal} />

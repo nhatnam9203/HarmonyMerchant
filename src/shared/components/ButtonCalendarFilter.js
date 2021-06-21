@@ -55,7 +55,7 @@ export const ButtonCalendarFilter = React.forwardRef(
           visible={visible}
           paddingLeft={paddingLeft ?? scaleWidth(100)}
           paddingTop={paddingTop ?? scaleHeight(137)}
-          onRequestClose={setVisible}
+          onRequestClose={() => setVisible(false)}
           changeTitleTimeRange={onChangeTime}
         />
       </View>

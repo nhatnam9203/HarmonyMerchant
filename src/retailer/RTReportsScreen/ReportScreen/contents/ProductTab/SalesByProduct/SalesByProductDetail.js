@@ -14,12 +14,14 @@ import {
   dateToString,
   DATE_SHOW_FORMAT_STRING,
   statusSuccess,
-} from '@shared/utils';
-import { layouts } from '@shared/themes';
-import { DropdownMenu } from '@shared/components';
-import SalesProductLineChart from './chart/SaleProductLineChart';
-import { PopupButton, TableList, ReportTabLayout } from '../../../widget';
-import IMAGE from '@resources';
+} from "@shared/utils";
+import { layouts } from "@shared/themes";
+import { DropdownMenu } from "@shared/components";
+import SalesProductLineChart from "./chart/SaleProductLineChart";
+import { PopupButton, TableList, ReportTabLayout } from "../../../widget";
+import IMAGE from "@resources";
+import { formatMoneyWithUnit } from "@utils";
+
 const VIEW_MODE = {
   LIST: 'LIST',
   CHART: 'CHART',
@@ -91,8 +93,8 @@ export default function SalesByProductDetail({
           <ButtonCalendarFilter
             ref={calendarRef}
             onChangeTimeValue={onChangeTimeValue}
-            paddingLeft={scaleWidth(105)}
-            paddingTop={scaleHeight(170)}
+            paddingLeft={scaleWidth(15)}
+            paddingTop={scaleHeight(165)}
             // defaultValue={timeValue}
           />
         </View>

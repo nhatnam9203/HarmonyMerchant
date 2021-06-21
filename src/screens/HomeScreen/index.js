@@ -363,15 +363,15 @@ class HomeScreen extends Layout {
   };
 
   addMoreAppointmentFromCalendar = (appointmentId, staffId = 0) => {
-    this.props.actions.appointment.getGroupAppointmentById(
-      appointmentId,
-      false,
-      true,
-      false
-    );
-    this.scrollTabParentRef.current?.goToPage(2);
-
     if (staffId) {
+      this.props.actions.appointment.getGroupAppointmentById(
+        appointmentId,
+        false,
+        true,
+        false
+      );
+      this.scrollTabParentRef.current.goToPage(2);
+
       if (this.tabCheckoutRef?.current) {
         this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
       } else {
@@ -380,6 +380,9 @@ class HomeScreen extends Layout {
         }, 200);
       }
     } else {
+      this.props.actions.appointment.getBlockAppointmentById(appointmentId, true);
+      this.scrollTabParentRef.current.goToPage(2);
+
       if (this.tabCheckoutRef?.current) {
         this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
       } else {

@@ -3,16 +3,18 @@ import {
   ButtonCalendarFilter,
   DropdownMenu,
   ExportModal,
-} from '@shared/components';
-import { Table } from '@shared/components/CustomTable';
-import { useReportSaleProduct } from '@shared/services/api/retailer';
-import { layouts } from '@shared/themes';
-import { statusSuccess } from '@shared/utils';
-import { getQuickFilterTimeRange, formatMoneyWithUnit } from '@utils';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
-import { useDispatch } from 'react-redux';
-import React from 'react';
+} from "@shared/components";
+import { Table } from "@shared/components/CustomTable";
+import { useReportSaleProduct } from "@shared/services/api/retailer";
+import { layouts } from "@shared/themes";
+import { statusSuccess } from "@shared/utils";
+import { getQuickFilterTimeRange } from "@utils";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
+import React from "react";
+import { formatMoneyWithUnit } from "@utils";
+
 const filterItems = [
   { label: 'Top products', value: 'top' },
   { label: 'All products', value: 'all' },
@@ -53,9 +55,9 @@ export default function SalesByProduct({
           <ButtonCalendarFilter
             ref={calendarRef}
             onChangeTimeValue={onChangeTimeValue}
-            paddingLeft={scaleWidth(105)}
-            paddingTop={scaleHeight(170)}
-            defaultValue={'This Week'}
+            paddingLeft={scaleWidth(15)}
+            paddingTop={scaleHeight(165)}
+            defaultValue={"This Week"}
           />
           <View style={layouts.marginHorizontal} />
           <DropdownMenu

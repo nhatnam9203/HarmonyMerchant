@@ -1,11 +1,11 @@
 import {
   DrawerContentScrollView,
   DrawerItemList,
-} from '@react-navigation/drawer';
-import { scaleSize } from '@utils';
-import React from 'react';
-import { Image, StyleSheet } from 'react-native';
-import { colors, fonts } from '@shared/themes';
+} from "@react-navigation/drawer";
+import { scaleSize } from "@utils";
+import React from "react";
+import { Image, StyleSheet } from "react-native";
+import { colors, fonts } from "@shared/themes";
 
 export const CustomDrawerContent = (props) => {
   return (
@@ -42,7 +42,7 @@ export const CustomDrawerSetting = (props) => {
         labelStyle={styles.drawerSettingLabelStyle}
         activeBackgroundColor={colors.OCEAN_BLUE}
         inActiveBackgroundColor={colors.WHITE_FA}
-        activeTintColor={'#fff'}
+        activeTintColor={"#fff"}
         inactiveTintColor={colors.BROWNISH_GREY}
       />
     </DrawerContentScrollView>
@@ -54,46 +54,60 @@ export const CustomDrawerIcon = ({ source }) => (
 );
 
 const styles = StyleSheet.create({
-  drawer: { backgroundColor: '#0764B0' },
+  drawer: { backgroundColor: "#0764B0", flex: 1 },
   drawerSetting: { backgroundColor: colors.WHITE_FA },
   drawerContainer: {
     margin: 0,
+    paddingHorizontal: 0,
+    paddingLeft: 0,
+    marginTop: scaleHeight(50),
+    width: "100%",
+    flex: 1,
   },
 
   itemStyle: {
-    marginLeft: scaleSize(20),
-    height: scaleSize(54),
-    width: '100%',
-    justifyContent: 'center',
-    padding: 0,
+    height: scaleHeight(60),
+    justifyContent: "center",
+    marginLeft: 0, // !important
+    borderRadius: 0, // !important
     margin: 0,
+    marginVertical: 0, // !important
   },
 
   drawerSettingItemStyle: {
-    marginLeft: scaleSize(0),
+    marginLeft: 0,
     height: scaleHeight(60),
-    width: '100%',
-    justifyContent: 'center',
+    width: "100%",
+    justifyContent: "center",
     padding: 0,
     margin: 0,
     borderRadius: 0,
   },
 
   labelStyle: {
-    fontSize: scaleSize(18),
+    fontSize: scaleFont(18),
+    fontFamily: fonts.REGULAR,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+
+    width: scaleWidth(191),
   },
 
   drawerSettingLabelStyle: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(17),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
   },
 
   iconStyle: {
-    width: scaleSize(20),
-    height: scaleSize(20),
+    width: scaleWidth(22),
+    height: scaleHeight(22),
+    resizeMode: "center",
+    marginLeft: scaleWidth(8),
   },
 });

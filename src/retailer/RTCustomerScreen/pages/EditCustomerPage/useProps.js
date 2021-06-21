@@ -46,10 +46,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
       lastName: item?.lastName ?? "",
       phone: item?.phone ?? "",
       email: item?.email ?? "",
-      birthdate: dateToString(
-        item?.birthDate ?? new Date(),
-        BIRTH_DAY_DATE_FORMAT_STRING
-      ),
+      birthdate: dateToString(new Date(), BIRTH_DAY_DATE_FORMAT_STRING),
       gender: "Male",
       IsVip: 0,
       defaultAddress: {
@@ -148,6 +145,8 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
 
     if (statusSuccess(codeStatus)) {
       const customer = Object.assign({}, data, {
+        birthdate: dateToString(new Date(), BIRTH_DAY_DATE_FORMAT_STRING),
+        gender: "Male",
         addressPost: {
           ...data?.defaultAddress,
           firstName: data?.defaultAddress?.addressFirstName,
