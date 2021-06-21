@@ -23,7 +23,10 @@ export const productReducer = (state = initState, action) => {
       return Object.assign({}, state, action.payload);
 
     case PRODUCT_ADD_OPTION:
-      const mergeOptions = state?.options.concat(action.payload);
+      const mergeOptions =
+        state?.options?.length > 0
+          ? state?.options.concat(action.payload)
+          : action.payload;
 
       return Object.assign({}, state, { options: mergeOptions });
 

@@ -1,11 +1,11 @@
-import React from "react";
-import { View, StyleSheet, Text, FlatList } from "react-native";
-import { DialogLayout } from "@shared/layouts";
-import { useTranslation } from "react-i18next";
 import { ButtonGradient, CustomCheckBox } from "@shared/components";
-import { fonts, colors, layouts } from "@shared/themes";
+import { DialogLayout } from "@shared/layouts";
 import { useGetAttributesList } from "@shared/services/api/retailer";
-import { updateOption, removeOption, addOption } from "./ProductState";
+import { colors, fonts, layouts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { addOption } from "./ProductState";
 
 const log = (obj, message = "") => {
   Logger.log(`[AddProductOptionDialog] ${message}`, obj);

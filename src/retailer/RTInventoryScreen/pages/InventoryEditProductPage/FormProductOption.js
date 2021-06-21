@@ -2,7 +2,7 @@ import IMAGE from "@resources";
 import {
   CustomCheckBox,
   DialogColorPicker,
-  FormUploadImage,
+  FormUploadImage
 } from "@shared/components";
 import { CustomInput } from "@shared/components/CustomInput";
 import { Table } from "@shared/components/CustomTable";
@@ -10,11 +10,10 @@ import { getUniqueId } from "@shared/components/CustomTable/helpers";
 import {
   useCreateAttributes,
   useEditAttributes,
-  useGetAttributes,
+  useGetAttributes
 } from "@shared/services/api/retailer";
 import { colors, fonts, layouts } from "@shared/themes";
-import { AttributesInputTypes, INPUT_TYPE } from "@shared/utils";
-import { useFormik } from "formik";
+import { INPUT_TYPE, statusSuccess } from "@shared/utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -23,15 +22,9 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
-import * as Yup from "yup";
-import {
-  BIRTH_DAY_DATE_FORMAT_STRING,
-  statusSuccess,
-  dateToString,
-} from "@shared/utils";
-import { updateOption, removeOption, addOption } from "./ProductState";
+import { removeOption, updateOption } from "./ProductState";
 
 const log = (obj, message = "") => {
   Logger.log(`[FormProductOption] ${message}`, obj);
@@ -244,7 +237,6 @@ export const FormProductOption = React.forwardRef(
           );
         };
 
-        log(cellItem);
         return (
           <View
             style={{ width: cellWidth }}

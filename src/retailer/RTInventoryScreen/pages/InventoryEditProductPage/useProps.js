@@ -1,22 +1,17 @@
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import NavigationServices from "@navigators/NavigatorServices";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   useCreateProducts,
   useEditProducts,
   useGetCategoriesList,
 } from "@shared/services/api/retailer";
-import {
-  BIRTH_DAY_DATE_FORMAT_STRING,
-  statusSuccess,
-  dateToString,
-} from "@shared/utils";
-import { merge } from "lodash";
-import { useFocusEffect } from "@react-navigation/native";
-import { productReducer, updateOption, updateProduct } from "./ProductState";
+import { statusSuccess } from "@shared/utils";
+import { useFormik } from "formik";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import * as Yup from "yup";
+import { productReducer } from "./ProductState";
 
 const log = (obj, message = "") => {
   Logger.log(`[InventoryEditProduct] ${message}`, obj);
