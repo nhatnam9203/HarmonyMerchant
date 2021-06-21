@@ -9,7 +9,6 @@ import {
   FormSelect,
 } from "@shared/components";
 import { InputSearch } from "@shared/components/InputSearch";
-import { ButtonFilter } from "@shared/components/ButtonFilter";
 import { useTranslation } from "react-i18next";
 import { layouts, fonts, colors } from "@shared/themes";
 import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
@@ -24,8 +23,9 @@ import {
 } from "@shared/utils";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
 import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
-import { OrderStatusView, FormFilter } from "../../widget";
+import { FormFilter } from "../../widget";
 import { formatMoneyWithUnit } from "@utils";
+import { OrderStatusView } from "@shared/components/OrderStatusView";
 
 export const Layout = ({
   onChangeValueSearch,

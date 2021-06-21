@@ -1,32 +1,22 @@
-import IMAGE from "@resources";
+import { colors, fonts } from "@shared/themes";
 import {
   formatMoney,
   formatNumberFromCurrency,
-  roundFloatNumber,
-  scaleSize,
+  roundFloatNumber
 } from "@utils";
+import moment from "moment";
 import _ from "ramda";
 import React, { useEffect, useState } from "react";
 import {
-  Image,
-  StyleSheet,
-  Text,
-  FlatList,
-  View,
-  RefreshControl,
+  FlatList, RefreshControl, StyleSheet,
+  Text, View
 } from "react-native";
-import moment from "moment";
-import { Row, Cell, Header, EmptyList } from "./widget";
+import DraggableFlatList from "react-native-draggable-flatlist";
 import {
-  getValueForColumnKey,
-  getUniqueId,
-  TABLE_SPECIAL_KEYS,
+  getUniqueId, getValueForColumnKey
 } from "./helpers";
-import DraggableFlatList, {
-  RenderItemParams,
-} from "react-native-draggable-flatlist";
+import { Cell, EmptyList, Header, Row } from "./widget";
 
-import { fonts, colors } from "@shared/themes";
 
 const TABLE_ROW_HEIGHT = 50;
 const TABLE_CELL_DEFAULT_WIDTH = 150;

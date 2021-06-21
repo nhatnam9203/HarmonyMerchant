@@ -29,11 +29,11 @@ import {
   BasketContentView,
   FormEditNotes,
   FormShippingCarrier,
-  ORDERED_STATUS,
 } from "../../widget";
 import FastImage from "react-native-fast-image";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { formatMoneyWithUnit } from "@utils";
+import { ORDERED_STATUS } from "@shared/components/OrderStatusView";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
