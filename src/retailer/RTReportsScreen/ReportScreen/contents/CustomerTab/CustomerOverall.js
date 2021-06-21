@@ -11,7 +11,7 @@ import {
   DATE_SHOW_FORMAT_STRING,
   statusSuccess,
 } from '@shared/utils';
-
+import { formatMoneyWithUnit } from '@utils';
 export default function CustomerOverall({
   onChangeTimeValue,
   data,
@@ -91,6 +91,7 @@ export default function CustomerOverall({
           formatFunctionKeys={{
             lastVisitDate: (value) =>
               dateToString(value, DATE_SHOW_FORMAT_STRING),
+            total: (value) => `${formatMoneyWithUnit(value)}`,
           }}
           renderCell={onRenderCell}
           onRowPress={onSelectRow}

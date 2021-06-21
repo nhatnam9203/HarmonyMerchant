@@ -3,7 +3,7 @@ import {
   FormTitle,
   ExportModal,
 } from '@shared/components';
-import { getQuickFilterTimeRange } from '@utils';
+import { getQuickFilterTimeRange, formatMoneyWithUnit } from '@utils';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
@@ -17,7 +17,6 @@ import {
 import { layouts } from '@shared/themes';
 import { DropdownMenu } from '@shared/components';
 import NavigationServices from '@navigators/NavigatorServices';
-
 const filterItems = [
   { label: 'Top categories', value: 'top' },
   { label: 'All categories', value: 'all' },
@@ -169,6 +168,10 @@ export default function SalesByCategory({
           formatFunctionKeys={
             {
               // date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
+              totalRevenue: (value) => `${formatMoneyWithUnit(value)}`,
+              totalCost: (value) => `${formatMoneyWithUnit(value)}`,
+              totalTax: (value) => `${formatMoneyWithUnit(value)}`,
+              totalProfit: (value) => `${formatMoneyWithUnit(value)}`,
             }
           }
           renderCell={onRenderCell}

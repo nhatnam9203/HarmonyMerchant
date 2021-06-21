@@ -7,7 +7,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-
+import { formatMoneyWithUnit } from '@utils';
 const ACTIVE_COLOR = '#0764B0';
 const INACTIVE_COLOR = '#6A6A6A';
 
@@ -120,6 +120,7 @@ export default function CustomerDetail({
           //   onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
             date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
+            total: (value) => `${formatMoneyWithUnit(value)}`,
           }}
           renderCell={onRenderCell}
           onRefresh={onRefresh}

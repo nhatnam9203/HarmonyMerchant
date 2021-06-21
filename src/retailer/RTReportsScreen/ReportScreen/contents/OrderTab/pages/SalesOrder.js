@@ -11,7 +11,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import { ButtonOverall } from '../../../widget';
-
+import { formatMoneyWithUnit } from '@utils';
 const log = (obj, message = '') => {
   Logger.log(`[SalesOrder] ${message}`, obj);
 };
@@ -161,6 +161,7 @@ export const SalesOrder = () => {
           //   onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
             date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
+            total: (value) => `${formatMoneyWithUnit(value)}`,
           }}
           renderCell={onRenderCell}
           onRefresh={onRefresh}

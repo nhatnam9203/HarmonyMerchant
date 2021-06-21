@@ -4,7 +4,7 @@ import {
   ExportModal,
 } from '@shared/components';
 import { useReportSaleProduct } from '@shared/services/api/retailer';
-import { getQuickFilterTimeRange } from '@utils';
+import { getQuickFilterTimeRange,formatMoneyWithUnit } from '@utils';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
@@ -155,6 +155,10 @@ export default function SalesByProductDetail({
             //   onSortWithKey={onSortWithKey}
             formatFunctionKeys={{
               date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
+              totalRevenue: (value) => `${formatMoneyWithUnit(value)}`,
+              totalCost: (value) => `${formatMoneyWithUnit(value)}`,
+              totalTax: (value) => `${formatMoneyWithUnit(value)}`,
+              totalProfit: (value) => `${formatMoneyWithUnit(value)}`,
             }}
             renderCell={onRenderCell}
             onRefresh={onRefresh}
