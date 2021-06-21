@@ -17,7 +17,6 @@ import {
 import { layouts } from "@shared/themes";
 import { DropdownMenu } from "@shared/components";
 import NavigationServices from "@navigators/NavigatorServices";
-import { formatMoneyWithUnit } from "@utils";
 
 const filterItems = [
   { label: 'Top categories', value: 'top' },

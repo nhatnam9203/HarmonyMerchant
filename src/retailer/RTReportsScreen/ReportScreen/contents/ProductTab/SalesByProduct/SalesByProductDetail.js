@@ -20,7 +20,6 @@ import { DropdownMenu } from "@shared/components";
 import SalesProductLineChart from "./chart/SaleProductLineChart";
 import { PopupButton, TableList, ReportTabLayout } from "../../../widget";
 import IMAGE from "@resources";
-import { formatMoneyWithUnit } from "@utils";
 
 const VIEW_MODE = {
   LIST: 'LIST',
