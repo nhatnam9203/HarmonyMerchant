@@ -14,6 +14,7 @@ export const AddProductOptionDialog = ({
   renderButton,
   onApplyOptions,
   defaultOptionsId = [],
+  dispatchProduct
 }) => {
   const [t] = useTranslation();
   const dialogRef = React.useRef(null);
