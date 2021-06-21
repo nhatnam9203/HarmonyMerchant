@@ -27,6 +27,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   const categories = useSelector(
     (state) => state.inventoryRetailer?.categories
   );
+  const filterCategoryRef = React.useRef(null);
 
   const [errorMsg, setErrorMsg] = React.useState(null);
   const [listSelectCategories, setListSelectCategories] = React.useState([]);
@@ -78,11 +79,13 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
       const formatOptions = values?.options.map((x) => ({
         attributeId: x.attributeId,
         // id: x.id,
-        values: x.values?.map((v) => ({
-          attributeValueId: v.attributeValueId,
-          valueAdd: v.valueAdd ?? 0,
-          fileId: v.fileId ?? 0,
-        })),
+        values: x.values
+          ?.filter((v) => v.checked)
+          ?.map((v) => ({
+            attributeValueId: v.attributeValueId,
+            valueAdd: v.valueAdd ?? 0,
+            fileId: v.fileId ?? 0,
+          })),
       }));
 
       if (isNew) {
@@ -137,6 +140,21 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   //   setListSelectCategories(list);
   // }, [categories]);
 
+  const reloadCategory = React.useCallback(() => {
+    filterCategoryRef.current?.setFilterItems(
+      categories
+        ?.filter((x) => x.isSubCategory)
+        .map((x) => ({
+          value: x.categoryId,
+          label: x.name,
+        }))
+    );
+  }, [categories?.length]);
+
+  React.useEffect(() => {
+    reloadCategory();
+  }, [categories]);
+
   return {
     isEdit,
     isNew,
@@ -158,28 +176,43 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
       })),
     onAddAttributes: (attributes) => {
       const currentOptions = form?.values?.options || [];
-      const mergeOptions = currentOptions.concat(
-        attributes?.filter(
-          (v) =>
-            currentOptions.findIndex((x) => v.attributeId === x.attributeId) < 0
-        )
-      );
-      log(mergeOptions);
+      const mergeOptions = currentOptions.concat(attributes);
       form.setFieldValue("options", mergeOptions);
     },
-
     updateAttributeOptions: (optValue) => {
       log(optValue, "optValue");
-      let values = optValue?.values?.filter((v) => v.checked);
-      const opt = Object.assign({}, optValue, { values });
-      let options = form.values?.options?.map((v) => {
-        if (v.id === opt.id) {
-          return opt;
-        } else {
-          return v;
-        }
-      });
+      const values = optValue?.values;
+      const currentOptions = form.values?.options || [];
+
+      let updateOption = currentOptions?.find(
+        (x) => x.attributeId === optValue.attributeId
+      );
+
+      if (updateOption) {
+        updateOption = Object.assign({}, updateOption, { values });
+      } else {
+        updateOption = optValue;
+      }
+
+      const replaceIndex = form.values?.options?.findIndex(
+        (x) => x.attributeId === updateOption.attributeId
+      );
+
+      let options = form.values?.options;
+      if (replaceIndex >= 0) {
+        options[replaceIndex] = updateOption;
+      }
+      log(options, "options");
+
       form.setFieldValue("options", options);
+    },
+    filterCategoryRef,
+    onRemoveOptionValues: (optValue) => {
+      const currentOptions = form?.values?.options || [];
+      const mergeOptions = currentOptions.filter(
+        (opt) => opt.attributeId !== optValue.attributeId
+      );
+      form.setFieldValue("options", mergeOptions);
     },
   };
 };

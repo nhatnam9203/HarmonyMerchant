@@ -39,11 +39,14 @@ export const ButtonFilter = React.forwardRef(
       closePicker: () => {
         setOpen(false);
       },
+      setFilterItems: (its) => {
+        setItems(its);
+      },
     }));
 
     // React.useEffect(() => {
     //   if (filterItems?.length) {
-    //     setItems(filterItems?.map((x) => ({ ...x, label: t(x.label) }), []));
+    //     setItems(filterItems?.map((x) => ({ ...x, label: t(x.label) })));
     //   } else {
     //     setItems([]);
     //   }

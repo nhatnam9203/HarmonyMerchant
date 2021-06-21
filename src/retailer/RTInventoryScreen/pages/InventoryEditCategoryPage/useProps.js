@@ -22,7 +22,6 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   const categories = useSelector(
     (state) => state.inventoryRetailer?.categories
   );
-  log(categories, "categories");
   const [isSubCategory, setIsSubCategory] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState(null);
   /**
@@ -60,7 +59,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
       return;
     }
 
-    const { codeStatus, message, data } = categoryData;
+    const { codeStatus, message, data } = categoryData || {};
     if (statusSuccess(codeStatus)) {
       setErrorMsg(null);
       // NavigationServices.goBack();
@@ -76,6 +75,8 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     }
   }, [categoryData]);
 
+
+
   return {
     isEdit,
     isNew,
@@ -88,6 +89,11 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
       setIsSubCategory(isSub);
     },
     form,
-    categories,
+    categories: categories
+      ?.filter((x) => x.parentId === 0)
+      .map((x) => ({
+        value: x.categoryId,
+        label: x.name,
+      })),
   };
 };

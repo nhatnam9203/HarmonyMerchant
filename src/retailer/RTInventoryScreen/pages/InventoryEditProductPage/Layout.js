@@ -1,5 +1,12 @@
 import React from "react";
-import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { layouts, colors, fonts } from "@shared/themes";
@@ -25,8 +32,21 @@ export const Layout = ({
   listSelectCategories,
   onAddAttributes,
   updateAttributeOptions,
+  filterCategoryRef,
+  onRemoveOptionValues,
 }) => {
   const [t] = useTranslation();
+
+  const renderOptionsItem = ({ item, index }) => {
+    return (
+      <FormProductOption
+        key={item.attributeId + ""}
+        item={item}
+        onUpdateOptionValues={updateAttributeOptions}
+        onRemoveOptionValues={onRemoveOptionValues}
+      />
+    );
+  };
 
   return (
     <View style={layouts.fill}>
@@ -87,6 +107,7 @@ export const Layout = ({
             />
 
             <FormSelect
+              filterRef={filterCategoryRef}
               label={t("Subcategory")}
               filterItems={listSelectCategories}
               defaultValue={productItem?.categoryId}
@@ -158,13 +179,11 @@ export const Layout = ({
           </View>
         </View>
         <View style={styles.content}>
-          {form.values?.options?.map((v) => (
-            <FormProductOption
-              key={v.attributeId + ""}
-              item={v}
-              onUpdateOptionValues={updateAttributeOptions}
-            />
-          ))}
+          <FlatList
+            data={form.values?.options}
+            style={layouts.fill}
+            renderItem={renderOptionsItem}
+          />
 
           <FormTitle label={t("Product Options")}>
             <View style={styles.headerOptions}>

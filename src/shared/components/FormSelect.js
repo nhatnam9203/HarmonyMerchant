@@ -12,6 +12,7 @@ export const FormSelect = ({
   style,
   required = true,
   children,
+  filterRef,
 }) => {
   return (
     <View style={[styles.container, style]}>
@@ -23,6 +24,7 @@ export const FormSelect = ({
       )}
       <View style={styles.content}>
         <ButtonFilter
+          ref={filterRef}
           filterItems={filterItems}
           defaultValue={defaultValue}
           onChangeValue={onChangeValue}
