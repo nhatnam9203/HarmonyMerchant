@@ -208,5 +208,6 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     deleteAttribute,
     onChangeInputType,
     onRefresh,
+    item
   };
 };

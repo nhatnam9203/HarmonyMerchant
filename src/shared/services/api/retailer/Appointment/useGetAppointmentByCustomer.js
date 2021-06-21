@@ -4,12 +4,12 @@ import { appMerchant } from "@redux/slices";
 import React from "react";
 import { useDispatch } from "react-redux";
 
-export const useReturnAppointment = () => {
+export const useGetAppointmentByCustomer = () => {
   const dispatch = useDispatch();
 
-  const [{ data: appointmentReturn, loading, error, response }, execute] =
+  const [{ data: appointmentByCustomer, loading, error, response }, execute] =
     useAxios(
-      { method: "PUT" },
+      { method: "GET" },
       {
         manual: true,
       }
@@ -24,12 +24,12 @@ export const useReturnAppointment = () => {
     }
   }, [dispatch, loading, response]);
 
-  const returnAppointment = (id, params) => {
+  const getAppointmentByCustomer = (customerId, params) => {
     execute({
-      url: `${RETAILER_ORDER.url}/return/${id}`,
-      data: params,
+      url: `${RETAILER_ORDER.url}/getByCustomer/${customerId}`,
+      params: params,
     });
   };
 
-  return [appointmentReturn, returnAppointment];
+  return [appointmentByCustomer, getAppointmentByCustomer];
 };

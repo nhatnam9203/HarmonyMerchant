@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Spinner from 'react-native-spinkit';
 
 const LOADING_TIME_OUT = 10000;

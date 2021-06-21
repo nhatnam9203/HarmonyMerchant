@@ -1,8 +1,15 @@
-import React from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { layouts, colors, fonts } from '@shared/themes';
+import React from "react";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
+import { useTranslation } from "react-i18next";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { layouts, colors, fonts } from "@shared/themes";
 import {
   FormTitle,
   ButtonGradient,
@@ -25,8 +32,22 @@ export const Layout = ({
   listSelectCategories,
   onAddAttributes,
   updateAttributeOptions,
+  filterCategoryRef,
+  onRemoveOptionValues,
 }) => {
   const [t] = useTranslation();
+
+  const renderOptionsItem = ({ item, index }) => {
+    return (
+      <FormProductOption
+        key={item.attributeId + ""}
+        item={item}
+        onUpdateOptionValues={updateAttributeOptions}
+        onRemoveOptionValues={onRemoveOptionValues}
+      />
+    );
+  };
+
   return (
     <View style={layouts.fill}>
       <View style={styles.headContent}>
@@ -56,7 +77,7 @@ export const Layout = ({
               onChangeValue={(value) => {
                 if (value) form.setFieldValue('costPrice', parseFloat(value));
               }}
-              defaultValue={form.values?.costPrice}
+              defaultValue={productItem?.costPrice}
             />
 
             <FormInput
@@ -66,32 +87,31 @@ export const Layout = ({
               onChangeValue={(value) => {
                 if (value) form.setFieldValue('price', parseFloat(value));
               }}
-              defaultValue={form.values?.price}
+              defaultValue={productItem?.price}
             />
 
             <FormInput
               label={t('Barcode')}
               placeholder={t('Enter or scan barcode')}
               required={true}
-              onChangeValue={form.handleChange('barCode')}
-              defaultValue={form.values?.barCode}
+              onChangeValue={form.handleChange("barCode")}
+              defaultValue={productItem?.barCode}
             />
 
             <FormInput
               label={t('SKU')}
               placeholder={t('Enter SKU number')}
               required={true}
-              onChangeValue={form.handleChange('sku')}
-              defaultValue={form.values?.sku}
+              onChangeValue={form.handleChange("sku")}
+              defaultValue={productItem?.sku}
             />
 
             <FormSelect
-              label={t('Subcategory')}
+              filterRef={filterCategoryRef}
+              label={t("Subcategory")}
               filterItems={listSelectCategories}
-              defaultValue={form?.values?.categoryId}
-              onChangeValue={(val) => {
-                form.setFieldValue('categoryId', val);
-              }}
+              defaultValue={productItem?.categoryId}
+              onChangeValue={(val) => form.setFieldValue("categoryId", val)}
             >
               <ButtonGradient
                 label={t('New Category')}
@@ -108,8 +128,8 @@ export const Layout = ({
               label={t('Product Name')}
               placeholder={t('Enter product name')}
               required={true}
-              onChangeValue={form.handleChange('name')}
-              defaultValue={form.values?.name}
+              onChangeValue={form.handleChange("name")}
+              defaultValue={productItem?.name}
             />
           </View>
           <View style={styles.content}>
@@ -118,7 +138,7 @@ export const Layout = ({
               onSetFileId={(fileId) =>
                 form.setFieldValue('fileId', parseInt(fileId))
               }
-              defaultValue={form.values?.imageUrl}
+              defaultValue={productItem?.imageUrl}
             />
 
             <View style={[layouts.horizontal]}>
@@ -131,7 +151,7 @@ export const Layout = ({
                   if (value)
                     form.setFieldValue('minThreshold', parseInt(value));
                 }}
-                defaultValue={`${form.values?.minThreshold ?? ''}`}
+                defaultValue={`${productItem?.minThreshold ?? ""}`}
               />
               <View style={layouts.marginHorizontal} />
               <FormInput
@@ -143,7 +163,7 @@ export const Layout = ({
                   if (value)
                     form.setFieldValue('maxThreshold', parseInt(value));
                 }}
-                defaultValue={`${form.values?.maxThreshold ?? ''}`}
+                defaultValue={`${productItem?.maxThreshold ?? ""}`}
               />
             </View>
 
@@ -154,18 +174,16 @@ export const Layout = ({
               onChangeValue={(value) => {
                 if (value) form.setFieldValue('quantity', parseInt(value));
               }}
-              defaultValue={`${form.values?.quantity ?? ''}`}
+              defaultValue={`${productItem?.quantity ?? ""}`}
             />
           </View>
         </View>
         <View style={styles.content}>
-          {form.values?.options?.map((v) => (
-            <FormProductOption
-              key={v.attributeId + ''}
-              item={v}
-              onUpdateOptionValues={updateAttributeOptions}
-            />
-          ))}
+          <FlatList
+            data={form.values?.options}
+            style={layouts.fill}
+            renderItem={renderOptionsItem}
+          />
 
           <FormTitle label={t('Product Options')}>
             <View style={styles.headerOptions}>

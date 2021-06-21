@@ -1,12 +1,12 @@
-import React from 'react';
-import { useGetOrderList } from '@shared/services/api/retailer';
-import { CustomerGroupTypes, NEED_TO_ORDER } from '@shared/utils/app';
-import { useTranslation } from 'react-i18next';
-import _ from 'lodash';
-import NavigationServices from '@navigators/NavigatorServices';
-import { useSelector } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
-import { getQuickFilterTimeRange } from '@utils';
+import React from "react";
+import { useGetOrderList } from "@shared/services/api/retailer";
+import { CustomerGroupTypes, NEED_TO_ORDER } from "@shared/utils/app";
+import { useTranslation } from "react-i18next";
+import _ from "lodash";
+import NavigationServices from "@navigators/NavigatorServices";
+import { useSelector } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
+import { getQuickFilterTimeRange } from "@utils";
 
 export const useProps = ({ params: { reload } }) => {
   const { t } = useTranslation();
@@ -15,9 +15,9 @@ export const useProps = ({ params: { reload } }) => {
   const [searchVal, setSearchVal] = React.useState();
   const [timeVal, setTimeVal] = React.useState();
   const [itemSelected, setItemSelected] = React.useState(null);
-  const [purchasePoint, setPurchasePoint] = React.useState('');
-  const [payment, setPayment] = React.useState('');
-  const [orderStatus, setOrderStatus] = React.useState('');
+  const [purchasePoint, setPurchasePoint] = React.useState(null);
+  const [payment, setPayment] = React.useState(null);
+  const [orderStatus, setOrderStatus] = React.useState(null);
   /**
   |--------------------------------------------------
   | CALL API
@@ -30,13 +30,13 @@ export const useProps = ({ params: { reload } }) => {
       ...timeVal,
       key: searchVal,
       sort: {},
-      ...((orderStatus.length > 0 ||
-        payment.length > 0 ||
-        purchasePoint.length > 0) && {
+      ...((orderStatus?.length > 0 ||
+        payment?.length > 0 ||
+        purchasePoint?.length > 0) && {
         filters: {
-          ...(orderStatus.length > 0 && { status: orderStatus }),
-          ...(purchasePoint.length > 0 && { purchasePoint: purchasePoint }),
-          ...(payment.length > 0 && { payment: payment }),
+          ...(orderStatus?.length > 0 && { status: orderStatus }),
+          ...(purchasePoint?.length > 0 && { purchasePoint: purchasePoint }),
+          ...(payment?.length > 0 && { payment: payment }),
         },
       }),
     });
@@ -61,12 +61,11 @@ export const useProps = ({ params: { reload } }) => {
   useFocusEffect(
     React.useCallback(() => {
       if (reload) callGetOrderList();
-    }, [reload]),
+    }, [reload])
   );
 
   const onChangeValueSearch = (text) => {
     setSearchVal(text);
-
   };
 
   const onButtonSearchPress = () => {
@@ -91,10 +90,10 @@ export const useProps = ({ params: { reload } }) => {
     onChangeValueSearch,
     onButtonSearchPress,
     onButtonNewOrderPress: () => {
-      NavigationServices.navigate('retailer.home.checkout', {});
+      NavigationServices.navigate("retailer.home.checkout", {});
     },
     onSelectRow: ({ item }) => {
-      NavigationServices.navigate('retailer.home.order.detail', {
+      NavigationServices.navigate("retailer.home.order.detail", {
         order: item,
       });
     },
@@ -102,9 +101,9 @@ export const useProps = ({ params: { reload } }) => {
     onSortWithKey: () => {},
     items: orderList?.data,
     onChangeTimeValue: (quickFilter, timeState) => {
-      if (timeState === 'Customize Date') {
+      if (timeState === "Customize Date") {
         setTimeVal({
-          quickFilter: 'custom',
+          quickFilter: "custom",
           timeStart: timeState.startDate,
           timeEnd: timeState.endDate,
         });
@@ -113,9 +112,9 @@ export const useProps = ({ params: { reload } }) => {
       }
     },
     onResetFilter: () => {
-      setPayment('');
-      setPurchasePoint('');
-      setOrderStatus('');
+      setPayment("");
+      setPurchasePoint("");
+      setOrderStatus("");
     },
     onApplyFilter: () => {},
     purchasePoint,

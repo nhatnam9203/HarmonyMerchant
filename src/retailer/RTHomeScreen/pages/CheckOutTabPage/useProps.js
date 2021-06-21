@@ -1,22 +1,16 @@
-import React from 'react';
+import NavigationServices from "@navigators/NavigatorServices";
+import { basketRetailer } from "@redux/slices";
 import {
+  useCreateAppointment,
+  useCreateAppointmentTemp,
   useGetCategoriesList,
   useGetProductsByCategory,
-  useCreateAppointmentTemp,
-  useCreateAppointment,
-} from '@shared/services/api/retailer';
-import { CustomerGroupTypes, SORT_TYPE } from '@shared/utils/app';
-import { useTranslation } from 'react-i18next';
-import _ from 'lodash';
-import NavigationServices from '@navigators/NavigatorServices';
-import { useFocusEffect } from '@react-navigation/native';
-import { CustomList, CUSTOM_LIST_TYPES } from '../../widget';
-import { useGetCustomerByPhone } from '@shared/services/api/retailer';
-import { splitCodeAndPhone } from '@shared/utils';
-import { basketRetailer } from '@redux/slices';
-import { useDispatch, useSelector } from 'react-redux';
+} from "@shared/services/api/retailer";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { CUSTOM_LIST_TYPES } from "../../widget";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[CheckOutTabPage > useProps] ${message}`, obj);
 };
 
@@ -83,7 +77,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
 
   React.useEffect(() => {
     if (appointmentCreate?.data) {
-      NavigationServices.navigate('retailer.home.order.detail', {
+      NavigationServices.navigate("retailer.home.order.detail", {
         orderId: appointmentCreate?.data,
       });
     }
@@ -134,7 +128,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
       if (customer?.customerId) {
         createAppointmentTemp({
           customerId: customer?.customerId,
-          purchasePoint: 'Store',
+          purchasePoint: "Store",
           products: productValue,
         });
 
@@ -147,7 +141,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
       }
     },
     onGoBack: () => {
-      NavigationServices.navigate('retailer.home.order.list', {});
+      NavigationServices.navigate("retailer.home.order.list", {});
     },
     customerRef,
   };

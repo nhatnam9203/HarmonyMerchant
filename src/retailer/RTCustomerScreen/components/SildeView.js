@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Animated, StyleSheet, Dimensions } from 'react-native';
-import { scaleSize } from '@utils';
+import React, { useState, useEffect, useRef } from "react";
+import { Animated, StyleSheet, Dimensions } from "react-native";
+import { scaleSize } from "@utils";
 const DEFAULT_WITDH = 240;
 const VALUE_X = DEFAULT_WITDH * 2;
 export const SildeView = ({
@@ -23,7 +23,7 @@ export const SildeView = ({
     };
     Animated.spring(x, config).start();
     setSlide(true);
-    if (typeof onOpened === 'function') {
+    if (typeof onOpened === "function") {
       onOpened();
     }
   };
@@ -37,7 +37,7 @@ export const SildeView = ({
     setTimeout(() => {
       setSlide(false);
     }, 250);
-    if (typeof onClosed === 'function') {
+    if (typeof onClosed === "function") {
       onClosed();
     }
   };
@@ -74,16 +74,16 @@ export const SildeView = ({
 };
 const styles = StyleSheet.create({
   defaultStyle: {
-    position: 'absolute',
+    position: "absolute",
     right: 0,
     zIndex: 1000000,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
   },
 });
 
 SildeView.defaultProps = {
   width: scaleSize(DEFAULT_WITDH),
-  height: Dimensions.get('window').height,
+  height: Dimensions.get("window").height,
   visible: false,
   onOpened: null,
   onClosed: null,

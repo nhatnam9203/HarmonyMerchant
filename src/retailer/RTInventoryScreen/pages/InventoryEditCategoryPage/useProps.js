@@ -11,6 +11,10 @@ import {
   dateToString,
 } from "@shared/utils";
 
+const log = (obj, message = "") => {
+  Logger.log(`[EditCategory] ${message}`, obj);
+};
+
 export const useProps = ({ params: { isNew, isEdit, item } }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -55,7 +59,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
       return;
     }
 
-    const { codeStatus, message, data } = categoryData;
+    const { codeStatus, message, data } = categoryData || {};
     if (statusSuccess(codeStatus)) {
       setErrorMsg(null);
       // NavigationServices.goBack();
@@ -71,6 +75,8 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     }
   }, [categoryData]);
 
+
+
   return {
     isEdit,
     isNew,
@@ -83,6 +89,11 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
       setIsSubCategory(isSub);
     },
     form,
-    categories,
+    categories: categories
+      ?.filter((x) => x.parentId === 0)
+      .map((x) => ({
+        value: x.categoryId,
+        label: x.name,
+      })),
   };
 };

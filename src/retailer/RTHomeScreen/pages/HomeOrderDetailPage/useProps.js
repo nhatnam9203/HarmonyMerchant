@@ -39,7 +39,6 @@ export const useProps = ({ params: { order, orderId } }) => {
   const [appointmentConfirm, confirmAppointment] = useConfirmAppointment();
   const [appointmentShipping, shippingAppointment] = useShippingAppointment();
   const [appointmentComplete, completeAppointment] = useCompleteAppointment();
-  const [appointmentReturn, returnAppointment] = useReturnAppointment();
   const [, editNote] = useEditNotes();
 
   /**
@@ -140,12 +139,17 @@ export const useProps = ({ params: { order, orderId } }) => {
     complete: () => {
       completeAppointment(appointmentDetail?.appointmentId);
     },
+    refund: () => {
+      NavigationServices.navigate("retailer.home.order.return", {
+        item: appointmentDetail,
+      });
+    },
     onChangeShippingMethod: (shipping) => {
       setShippingMethod(shipping);
     },
     onSubmitNotes: (noteText) => {
       editNote({ notes: noteText }, appointmentDetail?.appointmentId);
     },
-    getPaymentString
+    getPaymentString,
   };
 };

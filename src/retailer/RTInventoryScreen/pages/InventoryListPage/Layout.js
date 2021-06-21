@@ -170,7 +170,7 @@ export const Layout = ({
         {/* <ButtonFilter
           ref={needToOrderRef}
           filterItems={NEED_TO_ORDER}
-          defaultValue={needToOrder}
+          defaultValue={null}
           onChangeValue={setNeedToOrder}
           placeholder={t('Need to order')}
           width={scaleWidth(160)}

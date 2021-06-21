@@ -1,11 +1,10 @@
 import {
   DrawerContentScrollView,
-  DrawerItemList,
+  DrawerItemList
 } from "@react-navigation/drawer";
-import { scaleSize } from "@utils";
+import { colors, fonts } from "@shared/themes";
 import React from "react";
 import { Image, StyleSheet } from "react-native";
-import { colors, fonts } from "@shared/themes";
 
 export const CustomDrawerContent = (props) => {
   return (

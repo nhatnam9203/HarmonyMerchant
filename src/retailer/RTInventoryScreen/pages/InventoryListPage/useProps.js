@@ -1,21 +1,20 @@
-import React from 'react';
+import NavigationServices from "@navigators/NavigatorServices";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   useGetProductsList,
   useRestockProducts,
-} from '@shared/services/api/retailer';
-import { CustomerGroupTypes, NEED_TO_ORDER } from '@shared/utils/app';
-import { useTranslation } from 'react-i18next';
-import _ from 'lodash';
-import NavigationServices from '@navigators/NavigatorServices';
-import { useSelector } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+} from "@shared/services/api/retailer";
+import { NEED_TO_ORDER } from "@shared/utils/app";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 export const useProps = ({ params: { reload } }) => {
   const { t } = useTranslation();
 
   const needToOrderRef = React.useRef(null);
   const categories = useSelector(
-    (state) => state.inventoryRetailer?.categories,
+    (state) => state.inventoryRetailer?.categories
   );
 
   const [searchVal, setSearchVal] = React.useState();
@@ -32,7 +31,7 @@ export const useProps = ({ params: { reload } }) => {
   const [productListData, getInventoryList] = useGetProductsList();
   const callGetProductList = React.useCallback(() => {
     getInventoryList({
-      key: searchVal ?? '',
+      key: searchVal ?? "",
       page: page,
       sort: {},
       ...((category >= 0 || needToOrder) && {
@@ -64,12 +63,11 @@ export const useProps = ({ params: { reload } }) => {
   useFocusEffect(
     React.useCallback(() => {
       if (reload) callGetProductList();
-    }, [reload]),
+    }, [reload])
   );
 
   const onChangeValueSearch = (text) => {
     setSearchVal(text);
-
   };
 
   const onButtonSearchPress = () => {
@@ -89,38 +87,38 @@ export const useProps = ({ params: { reload } }) => {
   return {
     items: productListData?.data,
     onButtonNewProductPress: () => {
-      NavigationServices.navigate('retailer.inventory.product.edit', {
+      NavigationServices.navigate("retailer.inventory.product.edit", {
         isNew: true,
       });
     },
     onEditProduct: (item) => {
-      NavigationServices.navigate('retailer.inventory.product.edit', {
+      NavigationServices.navigate("retailer.inventory.product.edit", {
         isEdit: true,
         item,
       });
     },
     onLoadProductDetail: ({ item }) => {
-      NavigationServices.navigate('retailer.inventory.product.detail', {
+      NavigationServices.navigate("retailer.inventory.product.detail", {
         item,
       });
     },
     needToOrderRef,
     categories: categories
       ? [
-          { value: -1, label: 'All Categories' },
+          { value: -1, label: "All Categories" },
           ...categories?.map((x) => ({
             value: x.categoryId,
             label: x.name,
           })),
         ]
-      : [{ value: -1, label: 'All Categories' }],
+      : [{ value: -1, label: "All Categories" }],
     onChangeValueSearch,
     onButtonSearchPress,
     category,
     setCategory,
     needToOrder,
     setNeedToOrder,
-    onSubmitRestock: (value, reason = t('New stock')) => {
+    onSubmitRestock: (value, reason = t("New stock")) => {
       if (itemSelected?.length > 0) {
         const productIds = itemSelected.map((v) => v.productId);
         restockProducts({
