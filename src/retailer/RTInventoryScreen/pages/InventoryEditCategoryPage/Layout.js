@@ -55,7 +55,9 @@ export const Layout = ({
                   label={t("Parent category")}
                   filterItems={categories}
                   defaultValue={null}
-                  onChangeValue={(val) => form.setFieldValue("parentId", val)}
+                  onChangeValue={(val) => {
+                    form.setFieldValue('parentId', val);
+                  }}
                 />
 
                 <FormInput

@@ -1,22 +1,22 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import { colors } from "@shared/themes";
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import { useDispatch } from "react-redux";
-import SalesByCategory from "./SalesByCategory";
-import SalesByCategoryDetail from "./SalesByCategoryDetail";
+import { createStackNavigator } from '@react-navigation/stack';
+import { colors } from '@shared/themes';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import SalesByCategory from './SalesByCategory';
+import SalesByCategoryDetail from './SalesByCategoryDetail';
 import {
   ButtonCalendarFilter,
   FormTitle,
   ExportModal,
-} from "@shared/components";
-import { useReportSaleCategory } from "@shared/services/api/retailer";
-import { getQuickFilterTimeRange } from "@utils";
+} from '@shared/components';
+import { useReportSaleCategory } from '@shared/services/api/retailer';
+import { getQuickFilterTimeRange } from '@utils';
 import {
   dateToString,
   DATE_SHOW_FORMAT_STRING,
   statusSuccess,
-} from "@shared/utils";
+} from '@shared/utils';
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -40,7 +40,7 @@ function SalesByCategoryTab({
   const callGetReportSaleCategory = React.useCallback(() => {
     getReportSaleCategory({
       ...timeVal,
-      category: filterCategory?.value ?? "top",
+      category: filterCategory?.value ?? 'top',
       sort: {},
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,9 +67,9 @@ function SalesByCategoryTab({
   }, [reportSaleCategory]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
-    if (quickFilter === "Customize Date") {
+    if (quickFilter === 'Customize Date') {
       setTimeVal({
-        quickFilter: "custom",
+        quickFilter: 'custom',
         quickFilterText: quickFilter,
         timeStart: timeState.startDate,
         timeEnd: timeState.endDate,
@@ -81,6 +81,8 @@ function SalesByCategoryTab({
       });
     }
   };
+
+  const onRefresh = () => callGetReportSaleCategory();
 
   return (
     <View style={styles.container}>
@@ -100,6 +102,7 @@ function SalesByCategoryTab({
               timeValue={timeVal}
               data={data}
               setFilterCategory={setFilterCategory}
+              onRefresh={onRefresh}
             />
           )}
         </Screen>
@@ -111,6 +114,7 @@ function SalesByCategoryTab({
               onChangeTimeValue={onChangeTimeValue}
               timeValue={timeVal}
               data={data}
+              onRefresh={onRefresh}
             />
           )}
         </Screen>

@@ -1,23 +1,23 @@
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import NavigationServices from "@navigators/NavigatorServices";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import NavigationServices from '@navigators/NavigatorServices';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   useCreateProducts,
   useEditProducts,
   useGetCategoriesList,
-} from "@shared/services/api/retailer";
+} from '@shared/services/api/retailer';
 import {
   BIRTH_DAY_DATE_FORMAT_STRING,
   statusSuccess,
   dateToString,
-} from "@shared/utils";
-import { merge } from "lodash";
-import { useFocusEffect } from "@react-navigation/native";
+} from '@shared/utils';
+import { merge } from 'lodash';
+import { useFocusEffect } from '@react-navigation/native';
 
-const log = (obj, message = "") => {
+const log = (obj, message = '') => {
   Logger.log(`[InventoryEditProduct] ${message}`, obj);
 };
 
@@ -45,10 +45,11 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   | VALIDATE
   |--------------------------------------------------
   */
+  console.log('item', item);
   const form = useFormik({
     initialValues: item ?? {},
     validationSchema: Yup.object().shape({
-      name: Yup.string().required(t("Product name is required")),
+      name: Yup.string().required(t('Product name is required')),
       // categoryId: Yup.number(),
       // description: Yup.string(),
       // sku: Yup.string(),
@@ -119,7 +120,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
     const { codeStatus, message, data } = productData || productEdit;
     if (statusSuccess(codeStatus)) {
       setErrorMsg(null);
-      NavigationServices.navigate("retailer.inventory.list", { reload: true });
+      NavigationServices.navigate('retailer.inventory.list', { reload: true });
 
       return;
     }
@@ -163,7 +164,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
     },
     productItem: item, // form
     onNewCategory: () => {
-      NavigationServices.navigate("retailer.inventory.product.category", {
+      NavigationServices.navigate('retailer.inventory.product.category', {
         isNew: true,
       });
     },

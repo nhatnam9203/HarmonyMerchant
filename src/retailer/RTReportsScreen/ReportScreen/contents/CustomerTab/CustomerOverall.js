@@ -1,11 +1,11 @@
-import NavigationServices from "@navigators/NavigatorServices";
-import { ButtonCalendarFilter, ExportModal } from "@shared/components";
-import { Table } from "@shared/components/CustomTable";
-import { layouts } from "@shared/themes";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, View } from "react-native";
-import { useDispatch } from "react-redux";
+import NavigationServices from '@navigators/NavigatorServices';
+import { ButtonCalendarFilter, ExportModal } from '@shared/components';
+import { Table } from '@shared/components/CustomTable';
+import { layouts } from '@shared/themes';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet, Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import {
   dateToString,
   DATE_SHOW_FORMAT_STRING,
@@ -17,6 +17,7 @@ export default function CustomerOverall({
   onChangeTimeValue,
   data,
   timeValue,
+  onRefresh,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ export default function CustomerOverall({
   }, [timeValue]);
 
   const onSelectRow = ({ item }) => {
-    NavigationServices.navigate("ReportCustomerDetail", {
+    NavigationServices.navigate('ReportCustomerDetail', {
       customerId: item?.customerId,
       name: item?.name,
       timeValue: timeValue,
@@ -55,25 +56,25 @@ export default function CustomerOverall({
         </View>
       </View>
       <View style={styles.rowContent}>
-        <Text style={layouts.title}>{t("Customer report")}</Text>
+        <Text style={layouts.title}>{t('Customer report')}</Text>
         <ExportModal />
       </View>
       <View style={styles.content}>
         <Table
           items={data}
           headerKeyLabels={{
-            name: t("Customer name"),
-            appointmentCount: t("Orders"),
-            lastVisitDate: t("Last order"),
-            lastVisitSale: t("Last order sales"),
-            total: t("Total sales"),
+            name: t('Customer name'),
+            appointmentCount: t('Orders'),
+            lastVisitDate: t('Last order'),
+            lastVisitSale: t('Last order sales'),
+            total: t('Total sales'),
           }}
           whiteListKeys={[
-            "name",
-            "appointmentCount",
-            "lastVisitDate",
-            "lastVisitSale",
-            "total",
+            'name',
+            'appointmentCount',
+            'lastVisitDate',
+            'lastVisitSale',
+            'total',
           ]}
           //   sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
           primaryKey="customerId"
@@ -85,7 +86,7 @@ export default function CustomerOverall({
             lastVisitSale: scaleWidth(180),
             total: scaleWidth(180),
           }}
-          emptyDescription={t("No Report Data")}
+          emptyDescription={t('No Report Data')}
           //   styleTextKeys={{ customerName: styles.textName }}
           //   onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
@@ -95,6 +96,7 @@ export default function CustomerOverall({
           }}
           renderCell={onRenderCell}
           onRowPress={onSelectRow}
+          onRefresh={onRefresh}
         />
       </View>
     </View>
@@ -114,7 +116,7 @@ const styles = StyleSheet.create({
   rowContent: {
     marginTop: scaleHeight(20),
     paddingHorizontal: scaleWidth(16),
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });

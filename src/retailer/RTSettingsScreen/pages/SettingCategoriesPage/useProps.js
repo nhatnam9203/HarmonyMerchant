@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 import {
   useGetCategoriesList,
   useDeleteCategories,
-} from "@shared/services/api/retailer";
-import { SORT_TYPE } from "@shared/utils/app";
-import { useTranslation } from "react-i18next";
-import _ from "lodash";
-import NavigationServices from "@navigators/NavigatorServices";
-import { useFocusEffect } from "@react-navigation/native";
+} from '@shared/services/api/retailer';
+import { SORT_TYPE } from '@shared/utils/app';
+import { useTranslation } from 'react-i18next';
+import _ from 'lodash';
+import NavigationServices from '@navigators/NavigatorServices';
+import { useFocusEffect } from '@react-navigation/native';
 
 export const useProps = ({ params: { reload }, reloadPage }) => {
   const [t] = useTranslation();
@@ -22,7 +22,7 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   const [categoriesList, getCategoriesList] = useGetCategoriesList();
   const callGetCategoriesList = React.useCallback(() => {
     getCategoriesList({
-      name: searchVal ?? "",
+      name: searchVal ?? '',
       page: page,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -62,7 +62,7 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   };
 
   const onButtonNewCategoriesPress = () => {
-    NavigationServices.navigate("retailer.settings.categories.new", {
+    NavigationServices.navigate('retailer.settings.categories.new', {
       isNew: true,
     });
   };
@@ -73,11 +73,16 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   };
 
   const onButtonEditCategoriesPress = (item) => {
-    NavigationServices.navigate("retailer.settings.categories.new", {
+    NavigationServices.navigate('retailer.settings.categories.new', {
       isEdit: true,
       item,
     });
   };
+
+  const onRefresh = () => {
+    callGetCategoriesList();
+  };
+
   return {
     items: categoriesList?.data,
     onChangeValueSearch,
@@ -86,5 +91,6 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
     onButtonDeleteCategoriesPress,
     onButtonEditCategoriesPress,
     onSelectRow: () => {},
+    onRefresh,
   };
 };

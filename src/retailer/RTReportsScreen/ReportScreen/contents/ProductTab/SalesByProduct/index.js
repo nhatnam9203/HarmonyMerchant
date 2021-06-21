@@ -1,12 +1,12 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import { useReportSaleProduct } from "@shared/services/api/retailer";
-import { colors } from "@shared/themes";
-import { statusSuccess } from "@shared/utils";
-import { getQuickFilterTimeRange } from "@utils";
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import SalesByProduct from "./SalesByProduct";
-import SalesByProductDetail from "./SalesByProductDetail";
+import { createStackNavigator } from '@react-navigation/stack';
+import { useReportSaleProduct } from '@shared/services/api/retailer';
+import { colors } from '@shared/themes';
+import { statusSuccess } from '@shared/utils';
+import { getQuickFilterTimeRange } from '@utils';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import SalesByProduct from './SalesByProduct';
+import SalesByProductDetail from './SalesByProductDetail';
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -28,7 +28,7 @@ function SalesByProductTab({
   const callGetReportSaleProduct = React.useCallback(() => {
     getReportSaleProduct({
       ...timeVal,
-      product: filterProduct?.value ?? "top",
+      product: filterProduct?.value ?? 'top',
       sort: {},
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,9 +54,9 @@ function SalesByProductTab({
   }, [reportSaleProduct]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
-    if (quickFilter === "Customize Date") {
+    if (quickFilter === 'Customize Date') {
       setTimeVal({
-        quickFilter: "custom",
+        quickFilter: 'custom',
         quickFilterText: quickFilter,
         timeStart: timeState.startDate,
         timeEnd: timeState.endDate,
@@ -68,6 +68,8 @@ function SalesByProductTab({
       });
     }
   };
+
+  const onRefresh = () => callGetReportSaleProduct();
 
   return (
     <View style={styles.container}>
@@ -87,6 +89,7 @@ function SalesByProductTab({
               timeValue={timeVal}
               data={data}
               setFilterProduct={setFilterProduct}
+              onRefresh={onRefresh}
             />
           )}
         </Screen>
@@ -98,6 +101,7 @@ function SalesByProductTab({
               onChangeTimeValue={onChangeTimeValue}
               timeValue={timeVal?.quickFilterText}
               data={data}
+              onRefresh={onRefresh}
             />
           )}
         </Screen>

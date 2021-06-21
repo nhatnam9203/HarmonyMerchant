@@ -1,15 +1,15 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import { useReportCustomer } from "@shared/services/api/retailer";
-import { colors } from "@shared/themes";
-import { statusSuccess } from "@shared/utils";
-import { getQuickFilterTimeRange } from "@utils";
-import { StyleSheet, View } from "react-native";
-import { useDispatch } from "react-redux";
-import CustomerDetail from "./CustomerDetail";
-import CustomerOverall from "./CustomerOverall";
-import React from "react";
+import { createStackNavigator } from '@react-navigation/stack';
+import { useReportCustomer } from '@shared/services/api/retailer';
+import { colors } from '@shared/themes';
+import { statusSuccess } from '@shared/utils';
+import { getQuickFilterTimeRange } from '@utils';
+import { StyleSheet, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import CustomerDetail from './CustomerDetail';
+import CustomerOverall from './CustomerOverall';
+import React from 'react';
 
-const RANGE_TIME_DEFAULT = "This Week";
+const RANGE_TIME_DEFAULT = 'This Week';
 const { Screen, Navigator } = createStackNavigator();
 
 export const CustomerTab = React.forwardRef(
@@ -60,9 +60,9 @@ export const CustomerTab = React.forwardRef(
     }, [reportCustomer]);
 
     const onChangeTimeValue = (quickFilter, timeState) => {
-      if (quickFilter === "Customize Date") {
+      if (quickFilter === 'Customize Date') {
         setTimeVal({
-          quickFilter: "custom",
+          quickFilter: 'custom',
           quickFilterText: quickFilter,
           timeStart: timeState.startDate,
           timeEnd: timeState.endDate,
@@ -73,6 +73,10 @@ export const CustomerTab = React.forwardRef(
           quickFilterText: quickFilter,
         });
       }
+    };
+
+    const onRefresh = () => {
+      callGetReportCustomer();
     };
 
     return (
@@ -92,6 +96,7 @@ export const CustomerTab = React.forwardRef(
                 onChangeTimeValue={onChangeTimeValue}
                 timeValue={timeVal}
                 data={data}
+                onRefresh={onRefresh}
               />
             )}
           </Screen>
@@ -103,6 +108,7 @@ export const CustomerTab = React.forwardRef(
                 onChangeTimeValue={onChangeTimeValue}
                 timeValue={timeVal}
                 data={data}
+                onRefresh={onRefresh}
               />
             )}
           </Screen>

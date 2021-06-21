@@ -33,10 +33,10 @@ export const Layout = ({ ...props }) => {
     editAttribute,
     deleteAttribute,
     onChangeInputType,
+    onRefresh,
     item,
   } = props;
   const { t } = useTranslation();
-
   const onRenderTableCell = ({ item, columnKey, rowIndex, cellWidth }) => {
     if (columnKey === "label") {
       const onHandleChange = (text) => {
@@ -125,6 +125,7 @@ export const Layout = ({ ...props }) => {
           renderCell={onRenderTableCell}
           onRowPress={() => {}}
           draggable={true}
+          onRefresh={onRefresh}
         />
       </View>
 
