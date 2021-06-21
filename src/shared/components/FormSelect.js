@@ -1,10 +1,10 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { ButtonFilter } from './ButtonFilter';
-import { ButtonGradient } from './Button';
-import { DropdownMenu } from './DropdownMenu';
-import { colors, layouts, fonts } from '@shared/themes';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { ButtonFilter } from "./ButtonFilter";
+import { ButtonGradient } from "./Button";
+import { DropdownMenu } from "./DropdownMenu";
+import { colors, layouts, fonts } from "@shared/themes";
+import { useTranslation } from "react-i18next";
 
 export const FormSelect = ({
   filterItems,
@@ -43,6 +43,7 @@ export const FormSelect = ({
           height={scaleHeight(40)}
         /> */}
         <DropdownMenu
+          ref={filterRef}
           items={filterItems}
           defaultIndex={index}
           onChangeValue={(item) => {

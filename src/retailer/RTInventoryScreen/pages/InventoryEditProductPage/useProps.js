@@ -45,7 +45,6 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   | VALIDATE
   |--------------------------------------------------
   */
-  console.log('item', item);
   const form = useFormik({
     initialValues: item ?? {},
     validationSchema: Yup.object().shape({

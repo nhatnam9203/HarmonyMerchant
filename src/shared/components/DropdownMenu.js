@@ -24,7 +24,15 @@ export const DropdownMenu = React.forwardRef(
     const [item, setItem] = React.useState();
     const [open, setOpen] = React.useState(false);
     const [widthItemDropDown, setWidthItemDropDown] = React.useState(null);
-    React.useImperativeHandle(ref, () => ({}));
+
+    React.useImperativeHandle(ref, () => ({
+      closePicker: () => {
+        setOpen(false);
+      },
+      setFilterItems: (its) => {
+        setOptions(its);
+      },
+    }));
 
     React.useEffect(() => {
       if (defaultIndex >= 0) {
@@ -66,11 +74,8 @@ export const DropdownMenu = React.forwardRef(
         </View>
       );
     };
-    const styleWidthItemDropDown = widthItemDropDown
-      ? { width: widthItemDropDown }
-      : width
-      ? { width }
-      : {};
+    const styleWidthItemDropDown = { width: widthItemDropDown ?? width };
+
     return (
       <View
         style={[
