@@ -87,8 +87,8 @@ export const FormProductOption = React.forwardRef(
             );
 
             if (existItem) {
-              return Object.assign({}, v, {
-                position: existItem.position,
+              return Object.assign({}, existItem, {
+                ...v,
                 checked: true,
               });
             } else {
@@ -231,19 +231,20 @@ export const FormProductOption = React.forwardRef(
 
       if (columnKey === "valueAdd") {
         const onHandleChange = async (text) => {
-          // let values = item.values?.map((v) => {
-          //   if (v.attributeValueId === cellItem.attributeValueId) {
-          //     return Object.assign({}, v, { valueAdd: parseFloat(text, 2) });
-          //   } else {
-          //     return v;
-          //   }
-          // });
-          // log(updates, "values updates valueAdd");
-          // await form.setFieldValue("values", values);
-          // // onUpdateOptionValues(item);
-          // onUpdate();
+          const values = item.values?.map((v) => {
+            if (v.attributeValueId === cellItem.attributeValueId) {
+              return Object.assign({}, v, { valueAdd: parseFloat(text, 2) });
+            } else {
+              return v;
+            }
+          });
+
+          dispatchProduct(
+            updateOption(Object.assign({}, item, { values: values }))
+          );
         };
 
+        log(cellItem);
         return (
           <View
             style={{ width: cellWidth }}
@@ -267,20 +268,19 @@ export const FormProductOption = React.forwardRef(
 
     const onRenderOptionsImage = ({ item: cellItem }) => {
       const onChangeFile = async (fileId) => {
-        // if (fileId) {
-        //   log(item, "item");
-        //   let values = item.values?.map((v) => {
-        //     if (v.attributeValueId === cellItem.attributeValueId) {
-        //       return Object.assign({}, v, { fileId: fileId });
-        //     } else {
-        //       return v;
-        //     }
-        //   });
-        //   log(updates, "values updates onRenderOptionsImage");
-        //   await form.setFieldValue("values", values);
-        //   // onUpdateOptionValues(item);
-        //   onUpdate();
-        // }
+        if (fileId) {
+          let values = item.values?.map((v) => {
+            if (v.attributeValueId === cellItem.attributeValueId) {
+              return Object.assign({}, v, { fileId: fileId });
+            } else {
+              return v;
+            }
+          });
+
+          dispatchProduct(
+            updateOption(Object.assign({}, item, { values: values }))
+          );
+        }
       };
       return (
         <FormUploadImage
