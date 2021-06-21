@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { ButtonFilter } from './ButtonFilter';
 import { ButtonGradient } from './Button';
+import { DropdownMenu } from './DropdownMenu';
 import { colors, layouts, fonts } from '@shared/themes';
 import { useTranslation } from 'react-i18next';
 
@@ -15,11 +16,14 @@ export const FormSelect = ({
   children,
 }) => {
   const [t] = useTranslation();
-  // const [items, setItems] = React.useState(filterItems);
+  const [index, setIndex] = React.useState(0);
 
-  // React.useEffect(() => {
-  //   setItems(filterItems);
-  // }, [filterItems]);
+  React.useEffect(() => {
+    let defaultIndex = filterItems.findIndex((item, index) => {
+      return filterItems[index]?.value === defaultValue;
+    });
+    setIndex(defaultIndex);
+  }, [filterItems]);
 
   return (
     <View style={[styles.container, style]}>
@@ -30,11 +34,21 @@ export const FormSelect = ({
         </Text>
       )}
       <View style={styles.content}>
-        <ButtonFilter
+        {/* <ButtonFilter
           filterItems={filterItems}
           defaultValue={defaultValue}
           onChangeValue={onChangeValue}
           style={layouts.fill}
+          height={scaleHeight(40)}
+        /> */}
+        <DropdownMenu
+          items={filterItems}
+          defaultIndex={index}
+          onChangeValue={(item) => {
+            onChangeValue(item?.value);
+          }}
+          style={layouts.fill}
+          // width={scaleWidth(208)}
           height={scaleHeight(40)}
         />
         <View style={layouts.marginHorizontal} />

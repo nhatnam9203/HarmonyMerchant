@@ -131,5 +131,6 @@ export const useProps = ({ params: { reload } }) => {
       }
     },
     onCheckedRow,
+    onRefresh: () => callGetProductList(),
   };
 };

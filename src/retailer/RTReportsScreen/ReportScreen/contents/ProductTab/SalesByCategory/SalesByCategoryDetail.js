@@ -12,14 +12,14 @@ import SalesCategoryLineChart from "./chart/SaleCategoryLineChart";
 import { formatMoneyWithUnit } from "@utils";
 
 const VIEW_MODE = {
-  LIST: "LIST",
-  CHART: "CHART",
+  LIST: 'LIST',
+  CHART: 'CHART',
 };
 
-const ACTIVE_COLOR = "#0764B0";
-const INACTIVE_COLOR = "#6A6A6A";
+const ACTIVE_COLOR = '#0764B0';
+const INACTIVE_COLOR = '#6A6A6A';
 
-const log = (obj, message = "") => {
+const log = (obj, message = '') => {
   Logger.log(`[SalesByCategoryDetail] ${message}`, obj);
 };
 
@@ -31,6 +31,7 @@ export default function SalesByCategoryDetail({
   showBackButton,
   onChangeTimeValue,
   data,
+  onRefresh,
 }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -40,11 +41,11 @@ export default function SalesByCategoryDetail({
   const [details, setDetails] = React.useState(null);
 
   React.useEffect(() => {
-    const unsubscribeFocus = navigation.addListener("focus", () => {
+    const unsubscribeFocus = navigation.addListener('focus', () => {
       showBackButton(true);
     });
 
-    const unsubscribeBlur = navigation.addListener("blur", () => {
+    const unsubscribeBlur = navigation.addListener('blur', () => {
       showBackButton(false);
     });
 
@@ -115,20 +116,20 @@ export default function SalesByCategoryDetail({
           <Table
             items={details}
             headerKeyLabels={{
-              date: t("Category name"),
-              quantity: t("Qty sold"),
-              totalRevenue: t("Total revenue"),
-              totalCost: t("Total cost"),
-              totalTax: t("Total tax"),
-              totalProfit: t("Total profit"),
+              date: t('Category name'),
+              quantity: t('Qty sold'),
+              totalRevenue: t('Total revenue'),
+              totalCost: t('Total cost'),
+              totalTax: t('Total tax'),
+              totalProfit: t('Total profit'),
             }}
             whiteListKeys={[
-              "date",
-              "quantity",
-              "totalRevenue",
-              "totalCost",
-              "totalTax",
-              "totalProfit",
+              'date',
+              'quantity',
+              'totalRevenue',
+              'totalCost',
+              'totalTax',
+              'totalProfit',
             ]}
             //   sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
             primaryKey="date"
@@ -140,7 +141,7 @@ export default function SalesByCategoryDetail({
               totalCost: scaleWidth(180),
               totalTax: scaleWidth(180),
             }}
-            emptyDescription={t("No Report Data")}
+            emptyDescription={t('No Report Data')}
             //   styleTextKeys={{ customerName: styles.textName }}
             //   onSortWithKey={onSortWithKey}
             formatFunctionKeys={{
@@ -151,6 +152,7 @@ export default function SalesByCategoryDetail({
               totalProfit: (value) => `${formatMoneyWithUnit(value)}`,
             }}
             renderCell={onRenderCell}
+            onRefresh={onRefresh}
             //   onRowPress={onSelectRow}
           />
         )}
@@ -176,45 +178,45 @@ const styles = StyleSheet.create({
   rowContent: {
     marginTop: scaleHeight(20),
     paddingHorizontal: scaleWidth(16),
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 
   cellAction: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-around",
-    width: "100%",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    width: '100%',
     flex: 1,
   },
   txtSalary: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 15,
-    color: "#6A6A6A",
+    color: '#6A6A6A',
     marginRight: 5,
   },
   imgDetail: {
-    tintColor: "#6A6A6A",
+    tintColor: '#6A6A6A',
     width: 20,
     height: 20,
   },
   btnInCell: {
-    height: "100%",
+    height: '100%',
     width: 35,
     marginLeft: 4,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   chartDetail: {
-    justifyContent: "center",
-    alignItems: "flex-start",
+    justifyContent: 'center',
+    alignItems: 'flex-start',
     flex: 1,
   },
   chartDetailItem: {
-    flexDirection: "row",
+    flexDirection: 'row',
     margin: 10,
     paddingLeft: 20,
-    justifyContent: "flex-start",
-    alignItems: "center",
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
 });

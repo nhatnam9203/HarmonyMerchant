@@ -4,6 +4,7 @@ import {
   ButtonGradientWhite,
   ExportModal,
   TableImageCell,
+  DropdownMenu,
 } from '@shared/components';
 import { ButtonFilter } from '@shared/components/ButtonFilter';
 import { Table } from '@shared/components/CustomTable';
@@ -40,6 +41,7 @@ export const Layout = ({
   setNeedToOrder,
   onSubmitRestock,
   onCheckedRow,
+  onRefresh,
 }) => {
   const { t } = useTranslation();
 
@@ -133,6 +135,7 @@ export const Layout = ({
           }}
           renderCell={onRenderTableCell}
           onRowPress={onLoadProductDetail}
+          onRefresh={onRefresh}
         />
       </View>
 
@@ -153,20 +156,32 @@ export const Layout = ({
       </View>
 
       <View style={[styles.rowContent, { justifyContent: 'flex-start' }]}>
-        <ButtonFilter
-          filterItems={categories}
-          defaultValue={category}
-          onChangeValue={setCategory}
+        <DropdownMenu
+          items={categories}
+          defaultIndex={0}
+          onChangeValue={(item) => {
+            setCategory(item?.value);
+          }}
           width={scaleWidth(208)}
           placeholder={t('Select Category')}
         />
         <View style={layouts.marginHorizontal} />
 
-        <ButtonFilter
+        {/* <ButtonFilter
           ref={needToOrderRef}
           filterItems={NEED_TO_ORDER}
           defaultValue={needToOrder}
           onChangeValue={setNeedToOrder}
+          placeholder={t('Need to order')}
+          width={scaleWidth(160)}
+        /> */}
+        <DropdownMenu
+          ref={needToOrderRef}
+          items={NEED_TO_ORDER}
+          defaultValue={needToOrder}
+          onChangeValue={(item) => {
+            setNeedToOrder(item?.value);
+          }}
           placeholder={t('Need to order')}
           width={scaleWidth(160)}
         />

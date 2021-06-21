@@ -23,14 +23,14 @@ export const DropdownMenu = React.forwardRef(
     const [options, setOptions] = React.useState(items);
     const [item, setItem] = React.useState();
     const [open, setOpen] = React.useState(false);
-
+    const [widthItemDropDown, setWidthItemDropDown] = React.useState(null);
     React.useImperativeHandle(ref, () => ({}));
 
     React.useEffect(() => {
       if (defaultIndex >= 0) {
         setItem(options[defaultIndex]);
       }
-    }, []);
+    }, [defaultIndex]);
 
     const onSelect = (idx, value) => {
       setItem(value);
@@ -66,7 +66,11 @@ export const DropdownMenu = React.forwardRef(
         </View>
       );
     };
-
+    const styleWidthItemDropDown = widthItemDropDown
+      ? { width: widthItemDropDown }
+      : width
+      ? { width }
+      : {};
     return (
       <View
         style={[
@@ -75,12 +79,18 @@ export const DropdownMenu = React.forwardRef(
           width && { width },
           height && { height },
         ]}
+        onLayout={(event) => {
+          setWidthItemDropDown(event.nativeEvent.layout.width);
+        }}
       >
         <ModalDropdown
           options={options}
           defaultIndex={defaultIndex}
           style={[width && { width }]}
-          dropdownStyle={[styles.dropDownContainerStyle, width && { width }]}
+          dropdownStyle={[
+            styles.dropDownContainerStyle,
+            styleWidthItemDropDown,
+          ]}
           renderRow={renderRow}
           onDropdownWillShow={onDropdownWillShow}
           onDropdownWillHide={onDropdownWillHide}

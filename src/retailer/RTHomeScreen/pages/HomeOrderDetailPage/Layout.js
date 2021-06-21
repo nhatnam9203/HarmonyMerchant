@@ -340,9 +340,7 @@ export const Layout = ({
                     item.payment.map((payItem) => (
                       <View style={styles.personContent}>
                         <Text style={styles.boldText}>
-                          {payItem?.paymentMethod
-                            ? getPaymentString(payItem?.paymentMethod)
-                            : t("Harmony Pay")}
+                          {`${getPaymentString(payItem?.paymentMethod)} - ${formatMoneyWithUnit(payItem?.amount)}`}
                         </Text>
                       </View>
                     ))}
