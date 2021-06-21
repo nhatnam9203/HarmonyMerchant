@@ -138,6 +138,15 @@ RCT_EXPORT_METHOD(cancelTransaction){
   [myapp.poslink cancelTrans];
 }
 
+RCT_EXPORT_METHOC(getReport){
+  MyApp *myapp = [MyApp sharedSigleton];
+
+  ReportRequest reportRequest = new ReportRequest();
+  reportRequest.TransType = reportRequest.ParseTransType("LOCALTOTALREPORT");
+  reportRequest.
+  myapp.poslink.reportRequest = reportRequest;
+}
+
 
 RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amount tipAmount:(NSString *)tipAmount extData:(NSString *)extData callback:(RCTResponseSenderBlock)callback)
 {
@@ -164,7 +173,7 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amou
   paymentRequest.SurchargeAmt = @"";
   paymentRequest.PONum = @"";
   paymentRequest.OrigRefNum = @"";
-  paymentRequest.InvNum = @"";
+  paymentRequest.InvNum = @""; //invoice num of pos
   paymentRequest.ECRRefNum = @"1";
   paymentRequest.ECRTransID = @"";
   paymentRequest.AuthCode = @"";
