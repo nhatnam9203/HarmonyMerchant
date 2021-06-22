@@ -15,6 +15,7 @@ export const FormSelect = ({
   required = true,
   children,
   filterRef,
+  isDropdown = true,
 }) => {
   const [t] = useTranslation();
   const [index, setIndex] = React.useState(0);
@@ -37,24 +38,28 @@ export const FormSelect = ({
         </Text>
       )}
       <View style={styles.content}>
-        {/* <ButtonFilter
-          filterItems={filterItems}
-          defaultValue={defaultValue}
-          onChangeValue={onChangeValue}
-          style={layouts.fill}
-          height={scaleHeight(40)}
-        /> */}
-        <DropdownMenu
-          ref={filterRef}
-          items={filterItems}
-          defaultIndex={index}
-          onChangeValue={(item) => {
-            onChangeValue(item?.value);
-          }}
-          style={layouts.fill}
-          // width={scaleWidth(208)}
-          height={scaleHeight(40)}
-        />
+        {isDropdown ? (
+          <DropdownMenu
+            ref={filterRef}
+            items={filterItems}
+            defaultIndex={index}
+            onChangeValue={(item) => {
+              onChangeValue(item?.value);
+            }}
+            style={layouts.fill}
+            // width={scaleWidth(208)}
+            height={scaleHeight(40)}
+          />
+        ) : (
+          <ButtonFilter
+            ref={filterRef}
+            filterItems={filterItems}
+            defaultValue={defaultValue}
+            onChangeValue={onChangeValue}
+            style={layouts.fill}
+            height={scaleHeight(40)}
+          />
+        )}
         <View style={layouts.marginHorizontal} />
         {children}
       </View>

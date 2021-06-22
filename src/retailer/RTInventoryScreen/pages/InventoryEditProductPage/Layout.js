@@ -32,7 +32,7 @@ export const Layout = ({
   form,
   filterCategoryRef,
   dispatchProduct,
-  categoriesFilter
+  categoriesFilter,
 }) => {
   const [t] = useTranslation();
 
@@ -105,6 +105,7 @@ export const Layout = ({
             />
 
             <FormSelect
+              isDropdown={false}
               filterRef={filterCategoryRef}
               filterItems={categoriesFilter}
               label={t("Subcategory")}
