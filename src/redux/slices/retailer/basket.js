@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-const reducerName = 'retailer.basket';
-const initialState = { customer: null, purchasePoint: 'Store', products: [] };
+const reducerName = "retailer.basket";
+const initialState = { customer: null, purchasePoint: "Store", products: [] };
 const slices = createSlice({
   name: reducerName,
   initialState: initialState,
@@ -25,7 +25,7 @@ const slices = createSlice({
       // },
     },
     clearBasket: (state, action) => {
-      state.products = [];
+      return initialState;
     },
     setCustomer: (state, action) => {
       state.customer = action.payload;

@@ -2,7 +2,7 @@ import IMAGE from "@resources";
 import {
   CustomCheckBox,
   DialogColorPicker,
-  FormUploadImage
+  FormUploadImage,
 } from "@shared/components";
 import { CustomInput } from "@shared/components/CustomInput";
 import { Table } from "@shared/components/CustomTable";
@@ -10,7 +10,7 @@ import { getUniqueId } from "@shared/components/CustomTable/helpers";
 import {
   useCreateAttributes,
   useEditAttributes,
-  useGetAttributes
+  useGetAttributes,
 } from "@shared/services/api/retailer";
 import { colors, fonts, layouts } from "@shared/themes";
 import { INPUT_TYPE, statusSuccess } from "@shared/utils";
@@ -22,7 +22,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import { removeOption, updateOption } from "./ProductState";
 
@@ -132,12 +132,12 @@ export const FormProductOption = React.forwardRef(
             active: t("Active"),
             value: t("Swatch"),
             label: t("Value Label"),
-            valueAdd: t("Value Add"),
+            valueAdd: t("Additional Price"),
           }
         : {
             active: t("Active"),
             label: t("Value Label"),
-            valueAdd: t("Value Add"),
+            valueAdd: t("Additional Price"),
           };
     };
 
