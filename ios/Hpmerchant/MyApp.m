@@ -138,16 +138,6 @@ RCT_EXPORT_METHOD(cancelTransaction){
   [myapp.poslink cancelTrans];
 }
 
-RCT_EXPORT_METHOC(getReport){
-  MyApp *myapp = [MyApp sharedSigleton];
-
-  ReportRequest reportRequest = new ReportRequest();
-  reportRequest.TransType = reportRequest.ParseTransType("LOCALTOTALREPORT");
-  reportRequest.
-  myapp.poslink.reportRequest = reportRequest;
-}
-
-
 RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amount tipAmount:(NSString *)tipAmount extData:(NSString *)extData callback:(RCTResponseSenderBlock)callback)
 {
   MyApp *myapp = [MyApp sharedSigleton];
@@ -349,7 +339,11 @@ RCT_EXPORT_METHOD(batchTransaction:(RCTResponseSenderBlock)callback)
 }
 
 //---------------- Handle Report -------------
-RCT_EXPORT_METHOD(reportTransaction:(NSString *)transType edcType:(NSString *)edcType cardType:(NSString *)cardType paymentType:(NSString *)paymentType findEventsWithResolver:(RCTPromiseResolveBlock)resolve  rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(reportTransaction:(NSString *)transType edcType:(NSString *)edcType 
+                  cardType:(NSString *)cardType paymentType:(NSString *)paymentType 
+                  findEventsWithResolver:(RCTPromiseResolveBlock)resolve  
+                  rejecter:(RCTPromiseRejectBlock)reject
+                  isLastTransaction:(NSString *)i)
 //                  callback:(RCTResponseSenderBlock)callback
 {
   MyApp *myapp = [MyApp sharedSigleton];

@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { persistReducer } from 'redux-persist';
+import _ from "lodash";
 
 const initialState = {
     appointmentDetail: {},
@@ -26,6 +27,7 @@ const initialState = {
     isLoadingRemoveBlockAppointment: false,
     idNextToAppointmentRemove: -1,
     fromTimeBlockAppointment: new Date(),
+    isCancelPayment: false,
 
     customerInfoBuyAppointment: {
         customerId: 0,
@@ -72,6 +74,11 @@ function appointmentReducer(state = initialState, action) {
                 paymentDetailInfo: action.payload,
                 visiblePopupPaymentDetails: action?.visiblePopupPaymentDetails || false
             }
+        case 'CANCEL_HARMONY_PAYMENT':
+            return {
+                ...state,
+                isCancelPayment: true
+            }
         case 'CLOSE_POPUP_PAYMENT_DETAIL':
             return {
                 ...state,
@@ -88,6 +95,7 @@ function appointmentReducer(state = initialState, action) {
                 ...state,
                 groupAppointment: action.payload,
                 paymentDetailInfo: action.paymentDetailInfo,
+                isCancelPayment: _.get(action, 'payload.isCancelPayment', false)
             }
         case 'BOOKING_A_APPOINTMENT_FROM_CALENDAR_SUCCESS':
             return {

@@ -16,11 +16,14 @@ import {
   formatWithMoment,
   getInfoFromModelNameOfPrinter,
   getArrayGiftCardsFromAppointment,
+  getPAXReport,
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
 import Configs from "@configs";
 import initState from "./widget/initState";
+import * as l from "lodash";
 
+const PosLinkReport = NativeModules.report;
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
@@ -1291,7 +1294,7 @@ class TabCheckout extends Layout {
 
   async hanleCreditCardProcess(online = true, moneyUserGiveForStaff) {
     const { paxMachineInfo, isTipOnPaxMachine } = this.props;
-    const { paymentSelected } = this.state;
+    const { paymentSelected, isCancelAppointment } = this.state;
     const { ip, port, timeout } = paxMachineInfo;
     const moneyCreditCard = Number(
       formatNumberFromCurrency(moneyUserGiveForStaff) * 100
@@ -1336,6 +1339,59 @@ class TabCheckout extends Layout {
     }
   }
 
+  getPAXReport = async (paxMachineInfo, isLastTransaction = 0) => {
+    const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
+      paxMachineInfo;
+  
+    if (isSetup) {
+      let isError = false;
+  
+      try {
+        const tempIpPax = commType == "TCP" ? ip : "";
+        const tempPortPax = commType == "TCP" ? port : "";
+        const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+        
+        let data = await PosLinkReport.reportTransaction({
+          transType: "LOCALDETAILREPORT",
+          edcType: "ALL",
+          cardType: "",
+          paymentType: "",
+          commType: commType,
+          destIp: tempIpPax,
+          portDevice: tempPortPax,
+          timeoutConnect: "90000",
+          bluetoothAddr: idBluetooth,
+          refNum: "",
+          isLastTransaction
+        });
+        let result = JSON.parse(data);
+        const ExtData = result?.ExtData || "";
+        const xmlExtData =
+          "<xml>" + ExtData.replace("\\n", "").replace("\\/", "/") + "</xml>";
+  
+        if (result?.ResultCode && result?.ResultCode == "000000") {
+          // if (tempEnv == "Production" && result?.Message === "DEMO APPROVED") {
+          //   setTimeout(() => {
+          //     alert("You're running your Pax on DEMO MODE!");
+          //   }, 500);
+  
+          //   return {}
+          // } else {
+            return result
+          // }
+        } else {
+          console.log('error1')
+          return {}
+        }
+      } catch (error) {
+        console.log('error2', error)
+        return {}
+      }
+  
+    }
+  };
+
+
   sendTransToPaxMachine = async () => {
     const {
       paxMachineInfo,
@@ -1344,6 +1400,7 @@ class TabCheckout extends Layout {
       amountCredtitForSubmitToServer,
       bluetoothPaxInfo,
       groupAppointment,
+      isCancelPayment,
     } = this.props;
     const { paymentSelected } = this.state;
     const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
@@ -1355,6 +1412,18 @@ class TabCheckout extends Layout {
     await this.setState({
       visibleProcessingCredit: true,
     });
+
+    //Check if isCancelPayment = true
+    if(isCancelPayment){
+      const result = await this.getPAXReport(paxMachineInfo, "1")
+      if(!l.isEmpty(result) && l.get(result, 'InvNum') == groupAppointment?.checkoutGroupId){
+        this.handleResponseCreditCard(
+          result,
+          true,
+          amountCredtitForSubmitToServer
+        )
+      }
+    }
 
     const tempIpPax = commType == "TCP" ? ip : "";
     const tempPortPax = commType == "TCP" ? port : "";
@@ -2399,6 +2468,7 @@ const mapStateToProps = (state) => ({
   appointmentIdBookingFromCalendar:
     state.appointment.appointmentIdBookingFromCalendar,
   isBookingFromCalendar: state.appointment.isBookingFromCalendar,
+  isCancelPayment: state.appointment.isCancelPayment,
 });
 
 export default connectRedux(mapStateToProps, TabCheckout);

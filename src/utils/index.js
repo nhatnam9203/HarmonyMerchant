@@ -6,6 +6,7 @@ import {
   Alert,
   Text,
   StyleSheet,
+  NativeModules,
 } from "react-native";
 import axios from "axios";
 import { openSettings } from "react-native-permissions";
@@ -16,6 +17,7 @@ import Configs from "@configs";
 import Localization from "../localization";
 import ICON from "../resources";
 
+const PosLinkReport = NativeModules.report;
 const { width, height } = Dimensions.get("window");
 
 export const checkIsTablet = () => {
@@ -1598,3 +1600,5 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
 
   return shortPurchasePoint;
 };
+
+
