@@ -17,11 +17,11 @@ import {
   FormInput,
   FormSelect,
   FormUploadImage,
-  FormInputMask,
-} from '@shared/components';
-import { dateToString, BIRTH_DAY_DATE_FORMAT_STRING } from '@shared/utils';
-import IMAGE from '@resources';
-import { AddProductOptionDialog, FormProductOption } from '../../widget';
+} from "@shared/components";
+import { dateToString, BIRTH_DAY_DATE_FORMAT_STRING } from "@shared/utils";
+import IMAGE from "@resources";
+import { FormProductOption } from "./FormProductOption";
+import { AddProductOptionDialog } from "./AddProductOptionDialog";
 
 export const Layout = ({
   isEdit,
@@ -31,11 +31,9 @@ export const Layout = ({
   productItem,
   onNewCategory,
   form,
-  listSelectCategories,
-  onAddAttributes,
-  updateAttributeOptions,
   filterCategoryRef,
-  onRemoveOptionValues,
+  dispatchProduct,
+  categoriesFilter,
 }) => {
   const [t] = useTranslation();
 
@@ -44,8 +42,7 @@ export const Layout = ({
       <FormProductOption
         key={item.attributeId + ''}
         item={item}
-        onUpdateOptionValues={updateAttributeOptions}
-        onRemoveOptionValues={onRemoveOptionValues}
+        dispatchProduct={dispatchProduct}
       />
     );
   };
@@ -55,8 +52,8 @@ export const Layout = ({
       <View style={styles.headContent}>
         {isEdit && (
           <Text style={styles.headTitle}>
-            {t('Edit Product')}
-            {' - '}
+            {t("Edit Product")}
+            {" - "}
             {
               <Text style={[styles.headTitle, { color: colors.OCEAN_BLUE }]}>
                 {productItem?.name}
@@ -64,11 +61,11 @@ export const Layout = ({
             }
           </Text>
         )}
-        {isNew && <Text style={styles.headTitle}>{t('New Product')}</Text>}
+        {isNew && <Text style={styles.headTitle}>{t("New Product")}</Text>}
       </View>
       <KeyboardAwareScrollView bounces={false}>
         <View style={styles.content}>
-          <FormTitle label={t('General Details')} />
+          <FormTitle label={t("General Details")} />
         </View>
         <View style={styles.container}>
           <View style={styles.content}>
@@ -77,7 +74,7 @@ export const Layout = ({
               placeholder={t('Enter cost price')}
               required={true}
               onChangeValue={(value) => {
-                if (value) form.setFieldValue('costPrice', parseFloat(value));
+                if (value) form.setFieldValue("costPrice", parseFloat(value));
               }}
               defaultValue={productItem?.costPrice}
               keyboardType="numeric"
@@ -88,7 +85,7 @@ export const Layout = ({
               placeholder={t('Enter price')}
               required={true}
               onChangeValue={(value) => {
-                if (value) form.setFieldValue('price', parseFloat(value));
+                if (value) form.setFieldValue("price", parseFloat(value));
               }}
               defaultValue={productItem?.price}
               keyboardType="numeric"
@@ -103,22 +100,23 @@ export const Layout = ({
             />
 
             <FormInput
-              label={t('SKU')}
-              placeholder={t('Enter SKU number')}
+              label={t("SKU")}
+              placeholder={t("Enter SKU number")}
               required={true}
               onChangeValue={form.handleChange('sku')}
               defaultValue={productItem?.sku}
             />
 
             <FormSelect
+              isDropdown={false}
               filterRef={filterCategoryRef}
-              label={t('Subcategory')}
-              filterItems={listSelectCategories}
+              filterItems={categoriesFilter}
+              label={t("Subcategory")}
               defaultValue={productItem?.categoryId}
               onChangeValue={(val) => form.setFieldValue('categoryId', val)}
             >
               <ButtonGradient
-                label={t('New Category')}
+                label={t("New Category")}
                 width={scaleWidth(120)}
                 height={scaleHeight(40)}
                 fontSize={scaleFont(17)}
@@ -129,8 +127,8 @@ export const Layout = ({
             </FormSelect>
 
             <FormInput
-              label={t('Product Name')}
-              placeholder={t('Enter product name')}
+              label={t("Product Name")}
+              placeholder={t("Enter product name")}
               required={true}
               onChangeValue={form.handleChange('name')}
               defaultValue={productItem?.name}
@@ -138,9 +136,9 @@ export const Layout = ({
           </View>
           <View style={styles.content}>
             <FormUploadImage
-              label={t('Default Image')}
+              label={t("Default Image")}
               onSetFileId={(fileId) =>
-                form.setFieldValue('fileId', parseInt(fileId))
+                form.setFieldValue("fileId", parseInt(fileId))
               }
               defaultValue={productItem?.imageUrl}
             />
@@ -153,7 +151,7 @@ export const Layout = ({
                 style={layouts.fill}
                 onChangeValue={(value) => {
                   if (value)
-                    form.setFieldValue('minThreshold', parseInt(value));
+                    form.setFieldValue("minThreshold", parseInt(value));
                 }}
                 defaultValue={`${productItem?.minThreshold ?? ''}`}
                 keyboardType="numeric"
@@ -166,7 +164,7 @@ export const Layout = ({
                 style={layouts.fill}
                 onChangeValue={(value) => {
                   if (value)
-                    form.setFieldValue('maxThreshold', parseInt(value));
+                    form.setFieldValue("maxThreshold", parseInt(value));
                 }}
                 defaultValue={`${productItem?.maxThreshold ?? ''}`}
                 keyboardType="numeric"
@@ -174,11 +172,11 @@ export const Layout = ({
             </View>
 
             <FormInput
-              label={t('Item in stock')}
-              placeholder={t('100')}
+              label={t("Item in stock")}
+              placeholder={t("100")}
               required={true}
               onChangeValue={(value) => {
-                if (value) form.setFieldValue('quantity', parseInt(value));
+                if (value) form.setFieldValue("quantity", parseInt(value));
               }}
               defaultValue={`${productItem?.quantity ?? ''}`}
               keyboardType="numeric"
@@ -187,15 +185,15 @@ export const Layout = ({
         </View>
         <View style={styles.content}>
           <FlatList
-            data={form.values?.options}
+            data={productItem?.options}
             style={layouts.fill}
             renderItem={renderOptionsItem}
           />
 
-          <FormTitle label={t('Product Options')}>
+          <FormTitle label={t("Product Options")}>
             <View style={styles.headerOptions}>
               <AddProductOptionDialog
-                onApplyOptions={onAddAttributes}
+                dispatchProduct={dispatchProduct}
                 defaultOptionsId={form.values?.options}
                 renderButton={(onShowDialog) => (
                   <View
@@ -219,7 +217,7 @@ export const Layout = ({
                     </ButtonGradientWhite>
                     <View style={layouts.marginHorizontal} />
                     <Text style={styles.headerOptionsLabel}>
-                      {t('Add new options')}
+                      {t("Add new options")}
                     </Text>
                   </View>
                 )}
@@ -231,7 +229,7 @@ export const Layout = ({
       <View style={styles.buttonContent}>
         <ButtonGradientWhite
           onPress={buttonCancelPress}
-          label={t('Cancel').toUpperCase()}
+          label={t("Cancel").toUpperCase()}
           width={scaleWidth(400)}
           height={scaleHeight(60)}
           textColor={colors.GREYISH_BROWN}
@@ -239,12 +237,13 @@ export const Layout = ({
           fontWeight="500"
         />
         <ButtonGradient
-          label={t('Save').toUpperCase()}
+          label={t("Save").toUpperCase()}
           width={scaleWidth(400)}
           height={scaleHeight(60)}
           fontSize={scaleFont(25)}
           textColor={colors.WHITE}
           fontWeight="500"
+          disable={!form.isValid}
           // disable={!form.isValid || !form.dirty}
           onPress={form?.handleSubmit}
         />
@@ -258,36 +257,36 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: scaleWidth(16),
     // paddingVertical: scaleHeight(16),
-    flexDirection: 'row',
-    alignItems: 'flex-start',
+    flexDirection: "row",
+    alignItems: "flex-start",
   },
 
   content: {
     flex: 1,
     marginHorizontal: scaleWidth(16),
-    flexDirection: 'column-reverse',
+    flexDirection: "column-reverse",
   },
 
   buttonContent: {
     height: scaleHeight(84),
     backgroundColor: colors.WHITE,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "space-around",
+    alignItems: "center",
+    flexDirection: "row",
   },
 
   headContent: {
     height: scaleHeight(50),
     backgroundColor: colors.WHITE,
-    shadowColor: '#0000001a',
+    shadowColor: "#0000001a",
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowRadius: 2,
     shadowOpacity: 0.32,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    justifyContent: "center",
+    alignItems: "flex-start",
     paddingLeft: scaleWidth(16),
   },
 
@@ -298,27 +297,27 @@ const styles = StyleSheet.create({
   headTitle: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(23),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   headerOptions: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
 
   headerOptionsLabel: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.OCEAN_BLUE,
   },
   errorText: {

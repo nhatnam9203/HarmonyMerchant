@@ -1,15 +1,15 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { colors, fonts } from '@shared/themes';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { colors, fonts } from "@shared/themes";
 
 export const ORDERED_STATUS = {
-  COMPLETE: 'Complete',
-  PROCESS: 'Processing',
-  SHIP: 'Shipped',
-  PENDING: 'Pending',
-  CANCEL: 'Canceled',
-  CLOSED: 'Closed',
-  RETURN: 'Return',
+  COMPLETE: "Complete",
+  PROCESS: "Processing",
+  SHIP: "Shipped",
+  PENDING: "Pending",
+  CANCEL: "Canceled",
+  CLOSED: "Closed",
+  RETURN: "Return",
 };
 
 export const OrderStatusView = ({ status }) => {
@@ -62,18 +62,18 @@ const styles = StyleSheet.create({
     width: scaleWidth(88),
     height: scaleHeight(28),
     borderRadius: scaleWidth(14),
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   textStyle: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(13),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.WHITE,
   },
 });

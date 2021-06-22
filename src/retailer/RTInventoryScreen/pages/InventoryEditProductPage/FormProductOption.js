@@ -11,12 +11,11 @@ import {
   useCreateAttributes,
   useEditAttributes,
   useGetAttributes,
-} from '@shared/services/api/retailer';
-import { colors, fonts, layouts } from '@shared/themes';
-import { AttributesInputTypes, INPUT_TYPE } from '@shared/utils';
-import { useFormik } from 'formik';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+} from "@shared/services/api/retailer";
+import { colors, fonts, layouts } from "@shared/themes";
+import { INPUT_TYPE, statusSuccess } from "@shared/utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   FlatList,
   Image,
@@ -24,43 +23,16 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import * as Yup from 'yup';
-import {
-  BIRTH_DAY_DATE_FORMAT_STRING,
-  statusSuccess,
-  dateToString,
-} from '@shared/utils';
+} from "react-native";
+import { removeOption, updateOption } from "./ProductState";
 
 const log = (obj, message = '') => {
   Logger.log(`[FormProductOption] ${message}`, obj);
 };
 
 export const FormProductOption = React.forwardRef(
-  ({ item, onUpdateOptionValues, onRemoveOptionValues }, ref) => {
+  ({ item, dispatchProduct }, ref) => {
     const [t] = useTranslation();
-
-    let form = useFormik({
-      initialValues: item ?? {
-        inputType: AttributesInputTypes[0].value,
-        updateProductImage: false,
-      },
-      validationSchema: Yup.object().shape({
-        label: Yup.string().required(t('Label Value is required')),
-        inputType: Yup.string(),
-        updateProductImage: Yup.boolean(),
-        values: Yup.array().of(
-          Yup.object().shape({
-            label: Yup.string(),
-            value: Yup.string(),
-            position: Yup.number(),
-          })
-        ),
-      }),
-      onSubmit: (values) => {
-        // alert(JSON.stringify(values));
-      },
-    });
 
     /**
   |--------------------------------------------------
@@ -79,11 +51,7 @@ export const FormProductOption = React.forwardRef(
   |--------------------------------------------------
   */
 
-    React.useImperativeHandle(ref, () => ({
-      getOptions: () => {
-        return form.values;
-      },
-    }));
+    React.useImperativeHandle(ref, () => ({}));
 
     React.useEffect(() => {
       if (!attributesGet) {
@@ -92,6 +60,7 @@ export const FormProductOption = React.forwardRef(
 
       const { codeStatus, message, data } = attributesGet || {};
       if (statusSuccess(codeStatus)) {
+        let optionItem = item;
         const options = data?.values?.map((v) =>
           Object.assign({}, v, {
             attributeValueId: v.id,
@@ -100,22 +69,19 @@ export const FormProductOption = React.forwardRef(
           })
         );
 
-        form.setFieldValue('inputType', data?.inputType);
-        form.setFieldValue(
-          'updateProductImage',
-          attributesGet?.data?.updateProductImage
-        );
-        form.setFieldValue('attributeId', data?.id);
+        optionItem["inputType"] = data?.inputType;
+        optionItem["updateProductImage"] = data?.updateProductImage;
+        optionItem["attributeId"] = data?.id;
 
         if (item) {
           let values = options?.map((v) => {
-            const existItem = item?.values?.find(
+            const existItem = optionItem?.values?.find(
               (x) => x.attributeValueId === v.attributeValueId
             );
 
             if (existItem) {
-              return Object.assign({}, v, {
-                position: existItem.position,
+              return Object.assign({}, existItem, {
+                ...v,
                 checked: true,
               });
             } else {
@@ -123,65 +89,62 @@ export const FormProductOption = React.forwardRef(
             }
           });
 
-          form.setFieldValue('values', values);
+          optionItem["values"] = values;
         } else {
-          form.setFieldValue('values', options);
+          optionItem["values"] = options;
         }
+
+        dispatchProduct(updateOption(optionItem));
       }
-      onUpdate();
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [attributesGet]);
 
     React.useEffect(() => {
       if (item?.attributeId && !attributesGet?.data) {
-        // tranh truong hop goi lai
-        form.setValues(item);
         getAttributes(item.attributeId);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const onUpdate = React.useCallback(() => {
-      if (onUpdateOptionValues && typeof onUpdateOptionValues === 'function') {
-        onUpdateOptionValues(form.values);
-      }
-    }, [form.values]);
+    // const onUpdate = React.useCallback(() => {
+    //   if (onUpdateOptionValues && typeof onUpdateOptionValues === "function") {
+    //     onUpdateOptionValues(item);
+    //   }
+    // }, [item]);
 
     // React.useEffect(() => {
     //   onUpdate();
     //   // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [form.values]);
+    // }, [item]);
 
     const updateAttributes = (attributes) => {
       // update lai thu tu options
     };
 
     const onRemoveOptionsPress = () => {
-      if (onRemoveOptionValues && typeof onRemoveOptionValues === 'function') {
-        onRemoveOptionValues(form.values);
-      }
+      dispatchProduct(removeOption(item));
     };
 
     const getHeaderKeys = () => {
-      return form.values?.inputType === INPUT_TYPE.VISUAL_SWATCH
+      return item?.inputType === INPUT_TYPE.VISUAL_SWATCH
         ? {
-            active: t('Active'),
-            value: t('Swatch'),
-            label: t('Value Label'),
-            valueAdd: t('Value Add'),
+            active: t("Active"),
+            value: t("Swatch"),
+            label: t("Value Label"),
+            valueAdd: t("Additional Price"),
           }
         : {
-            active: t('Active'),
-            label: t('Value Label'),
-            valueAdd: t('Value Add'),
+            active: t("Active"),
+            label: t("Value Label"),
+            valueAdd: t("Additional Price"),
           };
     };
 
     const getTableKeys = () => {
-      return form.values?.inputType === INPUT_TYPE.VISUAL_SWATCH
-        ? ['active', 'value', 'label', 'valueAdd']
-        : ['active', 'label', 'valueAdd'];
+      return item?.inputType === INPUT_TYPE.VISUAL_SWATCH
+        ? ["active", "value", "label", "valueAdd"]
+        : ["active", "label", "valueAdd"];
     };
 
     const onRenderTableCell = ({
@@ -192,7 +155,7 @@ export const FormProductOption = React.forwardRef(
     }) => {
       if (columnKey === 'active') {
         const setToggleCheckBox = (val) => {
-          const updates = form.values.values?.map((v) => {
+          const updatesSelectOptions = item.values?.map((v) => {
             if (v?.attributeValueId === cellItem?.attributeValueId) {
               return Object.assign({}, v, { checked: val });
             } else {
@@ -200,8 +163,11 @@ export const FormProductOption = React.forwardRef(
             }
           });
 
-          log(updates, 'values updates');
-          form.setFieldValue('values', updates);
+          dispatchProduct(
+            updateOption(
+              Object.assign({}, item, { values: updatesSelectOptions })
+            )
+          );
         };
         return (
           <View
@@ -258,7 +224,7 @@ export const FormProductOption = React.forwardRef(
 
       if (columnKey === 'valueAdd') {
         const onHandleChange = async (text) => {
-          let values = form.values.values?.map((v) => {
+          const values = item.values?.map((v) => {
             if (v.attributeValueId === cellItem.attributeValueId) {
               return Object.assign({}, v, { valueAdd: parseFloat(text, 2) });
             } else {
@@ -266,11 +232,11 @@ export const FormProductOption = React.forwardRef(
             }
           });
 
-          log(updates, 'values updates valueAdd');
-          await form.setFieldValue('values', values);
-          // onUpdateOptionValues(form.values);
-          onUpdate();
+          dispatchProduct(
+            updateOption(Object.assign({}, item, { values: values }))
+          );
         };
+
         return (
           <View
             style={{ width: cellWidth }}
@@ -303,9 +269,7 @@ export const FormProductOption = React.forwardRef(
     const onRenderOptionsImage = ({ item: cellItem }) => {
       const onChangeFile = async (fileId) => {
         if (fileId) {
-          log(form.values, 'form.values');
-
-          let values = form.values.values?.map((v) => {
+          let values = item.values?.map((v) => {
             if (v.attributeValueId === cellItem.attributeValueId) {
               return Object.assign({}, v, { fileId: fileId });
             } else {
@@ -313,11 +277,9 @@ export const FormProductOption = React.forwardRef(
             }
           });
 
-          log(updates, 'values updates onRenderOptionsImage');
-
-          await form.setFieldValue('values', values);
-          // onUpdateOptionValues(form.values);
-          onUpdate();
+          dispatchProduct(
+            updateOption(Object.assign({}, item, { values: values }))
+          );
         }
       };
       return (
@@ -332,7 +294,7 @@ export const FormProductOption = React.forwardRef(
 
     return (
       <View style={styles.container}>
-        <InfoHeading label={form.values?.label}>
+        <InfoHeading label={item?.label}>
           <TouchableOpacity onPress={onRemoveOptionsPress}>
             <Image
               style={{
@@ -344,9 +306,9 @@ export const FormProductOption = React.forwardRef(
           </TouchableOpacity>
         </InfoHeading>
         <View style={styles.content}>
-          {form.values?.values?.length > 0 && (
+          {item?.values?.length > 0 && (
             <Table
-              items={form.values?.values}
+              items={item?.values}
               headerKeyLabels={getHeaderKeys()}
               whiteListKeys={getTableKeys()}
               primaryKey="attributeValueId"
@@ -364,7 +326,7 @@ export const FormProductOption = React.forwardRef(
             />
           )}
         </View>
-        {form.values?.updateProductImage && (
+        {item?.updateProductImage && (
           <View>
             <InfoHeading label={t('Option Image')} fontSize={scaleWidth(17)} />
 
@@ -372,7 +334,7 @@ export const FormProductOption = React.forwardRef(
               <FlatList
                 style={styles.flatList}
                 numColumns={10}
-                data={form.values?.values}
+                data={item?.values}
                 renderItem={onRenderOptionsImage}
                 keyExtractor={(v) => v?.id}
                 contentContainerStyle={styles.flatListContainer}

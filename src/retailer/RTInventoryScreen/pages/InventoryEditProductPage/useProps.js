@@ -1,23 +1,19 @@
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import NavigationServices from '@navigators/NavigatorServices';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import NavigationServices from "@navigators/NavigatorServices";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   useCreateProducts,
   useEditProducts,
   useGetCategoriesList,
-} from '@shared/services/api/retailer';
-import {
-  BIRTH_DAY_DATE_FORMAT_STRING,
-  statusSuccess,
-  dateToString,
-} from '@shared/utils';
-import { merge } from 'lodash';
-import { useFocusEffect } from '@react-navigation/native';
+} from "@shared/services/api/retailer";
+import { statusSuccess } from "@shared/utils";
+import { useFormik } from "formik";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import * as Yup from "yup";
+import { productReducer } from "./ProductState";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[InventoryEditProduct] ${message}`, obj);
 };
 
@@ -30,7 +26,8 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   const filterCategoryRef = React.useRef(null);
 
   const [errorMsg, setErrorMsg] = React.useState(null);
-  const [listSelectCategories, setListSelectCategories] = React.useState([]);
+  const [categoriesFilter, setCategoriesFilter] = React.useState([]);
+  const [productItem, dispatchProduct] = React.useReducer(productReducer, item);
   /**
   |--------------------------------------------------
   | CALL API
@@ -46,9 +43,9 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   |--------------------------------------------------
   */
   const form = useFormik({
-    initialValues: item ?? {},
+    initialValues: productItem ?? {},
     validationSchema: Yup.object().shape({
-      name: Yup.string().required(t('Product name is required')),
+      name: Yup.string().required(t("Product name is required")),
       // categoryId: Yup.number(),
       // description: Yup.string(),
       // sku: Yup.string(),
@@ -116,7 +113,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      if (reload) getCategoriesList({ page: 1 });
+      if (reload) getCategoriesList();
     }, [reload])
   );
 
@@ -128,7 +125,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
     const { codeStatus, message, data } = productData || productEdit;
     if (statusSuccess(codeStatus)) {
       setErrorMsg(null);
-      NavigationServices.navigate('retailer.inventory.list', { reload: true });
+      NavigationServices.navigate("retailer.inventory.list", { reload: true });
 
       return;
     }
@@ -158,19 +155,26 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   // }, [categories]);
 
   const reloadCategory = React.useCallback(() => {
-    filterCategoryRef.current?.setFilterItems(
-      categories
-        ?.filter((x) => x.isSubCategory)
-        .map((x) => ({
-          value: x.categoryId,
-          label: x.name,
-        }))
-    );
-  }, [categories?.length]);
+    const list = categories
+      ?.filter((x) => x.isSubCategory)
+      .map((x) => ({
+        value: x.categoryId,
+        label: x.name,
+      }));
+
+    setCategoriesFilter(list);
+    filterCategoryRef.current?.setFilterItems(list);
+  }, [categories]);
 
   React.useEffect(() => {
     reloadCategory();
   }, [categories]);
+
+  React.useEffect(() => {
+    if (productItem) {
+      form.setFieldValue("options", productItem?.options);
+    }
+  }, [productItem]);
 
   return {
     isEdit,
@@ -179,58 +183,15 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
     buttonCancelPress: () => {
       NavigationServices.goBack();
     },
-    productItem: item, // form
+    productItem,
     onNewCategory: () => {
-      NavigationServices.navigate('retailer.inventory.product.category', {
+      NavigationServices.navigate("retailer.inventory.product.category", {
         isNew: true,
       });
     },
     form,
-    listSelectCategories: categories
-      ?.filter((x) => x.isSubCategory)
-      .map((x) => ({
-        value: x.categoryId,
-        label: x.name,
-      })),
-    onAddAttributes: (attributes) => {
-      const currentOptions = form?.values?.options || [];
-      const mergeOptions = currentOptions.concat(attributes);
-      form.setFieldValue('options', mergeOptions);
-    },
-    updateAttributeOptions: (optValue) => {
-      log(optValue, 'optValue');
-      const values = optValue?.values;
-      const currentOptions = form.values?.options || [];
-
-      let updateOption = currentOptions?.find(
-        (x) => x.attributeId === optValue.attributeId
-      );
-
-      if (updateOption) {
-        updateOption = Object.assign({}, updateOption, { values });
-      } else {
-        updateOption = optValue;
-      }
-
-      const replaceIndex = form.values?.options?.findIndex(
-        (x) => x.attributeId === updateOption.attributeId
-      );
-
-      let options = form.values?.options;
-      if (replaceIndex >= 0) {
-        options[replaceIndex] = updateOption;
-      }
-      log(options, 'options');
-
-      form.setFieldValue('options', options);
-    },
     filterCategoryRef,
-    onRemoveOptionValues: (optValue) => {
-      const currentOptions = form?.values?.options || [];
-      const mergeOptions = currentOptions.filter(
-        (opt) => opt.attributeId !== optValue.attributeId
-      );
-      form.setFieldValue('options', mergeOptions);
-    },
+    dispatchProduct,
+    categoriesFilter: categoriesFilter,
   };
 };

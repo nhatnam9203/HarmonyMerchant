@@ -20,14 +20,14 @@ export const FormPhoneNumber = ({
     // !! format phone input here
     setPhoneNumber(value);
     if (onChangePhoneNumber && typeof onChangePhoneNumber === "function") {
-      onChangePhoneNumber(`${phoneCodeValue}${value}`);
+      onChangePhoneNumber(`${phoneCodeValue}${value?.trim()}`);
     }
   };
 
   const onHandleChangeCountryCode = (code) => {
     setPhoneCode(code);
     if (onChangePhoneNumber && typeof onChangePhoneNumber === "function") {
-      onChangePhoneNumber(`${code}${phoneNumberValue}`);
+      onChangePhoneNumber(`${code}${phoneNumberValue?.trim()}`);
     }
   };
 

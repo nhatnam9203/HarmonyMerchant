@@ -145,7 +145,7 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
   return (
     <View>
       <DialogLayout
-        title={t("New customer")}
+        title={isEdit ? t("Edit customer") : t("New customer")}
         ref={dialogRef}
         bottomChildren={() => (
           <View style={styles.bottomStyle}>
