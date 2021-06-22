@@ -2,14 +2,15 @@ import {
   ButtonGradient,
   ButtonGradientRed,
   SearchBar,
-} from '@shared/components';
-import { Table } from '@shared/components/CustomTable';
-import { getUniqueId } from '@shared/components/CustomTable/helpers';
-import { colors, layouts } from '@shared/themes';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
-import { WithDialogConfirm } from '@shared/HOC/withDialogConfirm';
+} from "@shared/components";
+import { Table } from "@shared/components/CustomTable";
+import { getUniqueId } from "@shared/components/CustomTable/helpers";
+import { OrderStatusView } from "@shared/components/OrderStatusView";
+import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
+import { colors, layouts, fonts } from "@shared/themes";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
 
@@ -24,7 +25,13 @@ export const Layout = ({
   onRefresh,
 }) => {
   const { t } = useTranslation();
-  const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
+  const onRenderCell = ({
+    columnKey,
+    rowIndex,
+    columnIndex,
+    item,
+    cellWidth,
+  }) => {
     const onHandleEdit = () => {
       onButtonEditCategoriesPress(item);
     };
@@ -32,14 +39,36 @@ export const Layout = ({
       onButtonDeleteCategoriesPress(item);
     };
 
-    if (columnKey === 'actions') {
+    if (columnKey === "name") {
+      return (
+        <View
+          style={[{ width: cellWidth }, styles.cellStyle]}
+          key={getUniqueId(columnKey, rowIndex, "cell-name")}
+        >
+          <Text
+            style={[
+              styles.nameStyle,
+              item?.isSubCategory && {
+                fontWeight: "500",
+                fontFamily: fonts.REGULAR,
+                fontSize: scaleFont(15),
+              },
+            ]}
+          >
+            {item?.name}
+          </Text>
+        </View>
+      );
+    }
+
+    if (columnKey === "actions") {
       return (
         <View
           style={[layouts.fill, layouts.horizontal]}
-          key={getUniqueId(columnKey, rowIndex, 'cell-action')}
+          key={getUniqueId(columnKey, rowIndex, "cell-action")}
         >
           <DeleteConfirmButton
-            label={t('Delete')}
+            label={t("Delete")}
             width={scaleWidth(72)}
             height={scaleHeight(28)}
             fontSize={scaleFont(15)}
@@ -50,7 +79,7 @@ export const Layout = ({
           />
           <View style={layouts.marginHorizontal} />
           <ButtonGradient
-            label={t('Edit')}
+            label={t("Edit")}
             width={scaleWidth(72)}
             height={scaleHeight(28)}
             fontSize={scaleFont(15)}
@@ -68,18 +97,18 @@ export const Layout = ({
   return (
     <View style={styles.container}>
       <SearchBar
-        labelNewButton={t('New Categories')}
+        labelNewButton={t("New Categories")}
         onNewButtonPress={onButtonNewCategoriesPress}
         onButtonSearchPress={onButtonSearchPress}
         onChangeValueSearch={onChangeValueSearch}
       />
       <View style={layouts.formRow}>
-        <Text style={layouts.formTitle}>{t('Categories')}</Text>
+        <Text style={layouts.formTitle}>{t("Categories")}</Text>
       </View>
       <View style={styles.tableHeader}>
-        <Text style={layouts.formTitle}>{t('Menu')}</Text>
+        <Text style={layouts.formTitle}>{t("Menu")}</Text>
         <ButtonGradient
-          label={t('Edit')}
+          label={t("Edit")}
           width={scaleWidth(72)}
           height={scaleHeight(28)}
           fontSize={scaleFont(15)}
@@ -91,12 +120,12 @@ export const Layout = ({
       <View style={layouts.fill}>
         <Table
           items={items}
-          whiteListKeys={['name', 'actions']}
+          whiteListKeys={["name", "actions"]}
           primaryKey="categoryId"
           widthForKeys={{
-            name: '75%',
+            name: "75%",
           }}
-          emptyDescription={t('No Attributes')}
+          emptyDescription={t("No Attributes")}
           styleTextKeys={{ name: layouts.tableName }}
           renderCell={onRenderCell}
           onRowPress={onSelectRow}
@@ -115,13 +144,25 @@ const styles = StyleSheet.create({
   tableHeader: {
     height: scaleHeight(60),
     backgroundColor: colors.WHITE_F_6,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: scaleWidth(1),
-    borderColor: '#dddddd',
-    width: '100%',
+    borderColor: "#dddddd",
+    width: "100%",
     paddingHorizontal: scaleWidth(18),
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+
+  paddingHorizontal: scaleWidth(10),
+
+  nameStyle: {
+    fontFamily: fonts.BOLD,
+    fontSize: scaleFont(17),
+    fontWeight: "bold",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.GREYISH_BROWN,
   },
 });

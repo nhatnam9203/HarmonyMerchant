@@ -1,5 +1,4 @@
-import React from "react";
-import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
+import IMAGE from "@resources";
 import {
   ButtonCalendarFilter,
   ButtonGradient,
@@ -8,12 +7,13 @@ import {
   ExportModal,
   FormSelect,
 } from "@shared/components";
-import { InputSearch } from "@shared/components/InputSearch";
-import { useTranslation } from "react-i18next";
-import { layouts, fonts, colors } from "@shared/themes";
-import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
+import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
 import { Table } from "@shared/components/CustomTable";
-import IMAGE from "@resources";
+import { getUniqueId } from "@shared/components/CustomTable/helpers";
+import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
+import { InputSearch } from "@shared/components/InputSearch";
+import { OrderStatusView } from "@shared/components/OrderStatusView";
+import { colors, fonts, layouts } from "@shared/themes";
 import {
   dateToString,
   DATE_TIME_SHOW_FORMAT_STRING,
@@ -21,11 +21,11 @@ import {
   PAYMENTS,
   PURCHASE_POINTS,
 } from "@shared/utils";
-import { getUniqueId } from "@shared/components/CustomTable/helpers";
-import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
-import { FormFilter } from "../../widget";
 import { formatMoneyWithUnit } from "@utils";
-import { OrderStatusView } from "@shared/components/OrderStatusView";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FormFilter } from "../../widget";
 
 export const Layout = ({
   onChangeValueSearch,

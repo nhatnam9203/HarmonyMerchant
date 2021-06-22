@@ -53,7 +53,7 @@ const slices = createSlice({
       state.hasSubmit = false;
     },
     deleteCustomer: (state, action) => {
-      if (state.appointmentId) return initialState;
+      return initialState;
 
       // state.customer = null;
       // state.hasSubmit = false;
