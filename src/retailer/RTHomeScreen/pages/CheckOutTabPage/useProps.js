@@ -49,7 +49,20 @@ export const useProps = ({ params: { reload }, navigation }) => {
   };
 
   React.useEffect(() => {
-    getCategoriesList({ groupSubIntoMain: true });
+    const unsubscribeFocus = navigation.addListener("focus", () => {
+      getCategoriesList({ groupSubIntoMain: true });
+    });
+
+    const unsubscribeBlur = navigation.addListener("blur", () => {});
+
+    return () => {
+      unsubscribeFocus();
+      unsubscribeBlur();
+    };
+  }, [navigation]);
+
+  React.useEffect(() => {
+    // getCategoriesList({ groupSubIntoMain: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -102,6 +115,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
         setActiveTab(CUSTOM_LIST_TYPES.SUB);
         setSubCategories(categoryItem?.subCategories);
       }
+
       setSubCategoryId(null);
       setProducts(null);
     },
@@ -109,8 +123,14 @@ export const useProps = ({ params: { reload }, navigation }) => {
       if (!subCategoryItem) {
         return;
       }
-      setSubCategoryId(subCategoryItem?.categoryId);
-      getProductsByCategory(subCategoryItem?.categoryId);
+
+      if (subCategoryItem?.categoryId === subCategoryId) {
+        setSubCategoryId(null);
+        setActiveTab(CUSTOM_LIST_TYPES.SUB);
+      } else {
+        setSubCategoryId(subCategoryItem?.categoryId);
+        getProductsByCategory(subCategoryItem?.categoryId);
+      }
     },
     onPressProductItem: (productItem) => {
       if (!productItem) {

@@ -20,10 +20,12 @@ export const FormSelect = ({
   const [index, setIndex] = React.useState(0);
 
   React.useEffect(() => {
-    let defaultIndex = filterItems.findIndex((item, index) => {
-      return filterItems[index]?.value === defaultValue;
-    });
-    setIndex(defaultIndex);
+    if (filterItems?.length > 0) {
+      let defaultIndex = filterItems.findIndex((item, index) => {
+        return filterItems[index]?.value === defaultValue;
+      });
+      setIndex(defaultIndex);
+    }
   }, [filterItems]);
 
   return (

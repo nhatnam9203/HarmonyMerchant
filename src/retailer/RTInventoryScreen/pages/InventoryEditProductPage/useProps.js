@@ -26,7 +26,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   const filterCategoryRef = React.useRef(null);
 
   const [errorMsg, setErrorMsg] = React.useState(null);
-  const [listSelectCategories, setListSelectCategories] = React.useState([]);
+  const [categoriesFilter, setCategoriesFilter] = React.useState([]);
   const [productItem, dispatchProduct] = React.useReducer(productReducer, item);
   /**
   |--------------------------------------------------
@@ -103,7 +103,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      if (reload) getCategoriesList({ page: 1 });
+      if (reload) getCategoriesList();
     }, [reload])
   );
 
@@ -125,27 +125,17 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
     }
   }, [productData, productEdit]);
 
-  // React.useEffect(() => {
-  //   const list = categories
-  //     ?.filter((x) => x.isSubCategory)
-  //     .map((x) => ({
-  //       value: x.categoryId,
-  //       label: x.name,
-  //     }));
-
-  //   setListSelectCategories(list);
-  // }, [categories]);
-
   const reloadCategory = React.useCallback(() => {
-    filterCategoryRef.current?.setFilterItems(
-      categories
-        ?.filter((x) => x.isSubCategory)
-        .map((x) => ({
-          value: x.categoryId,
-          label: x.name,
-        }))
-    );
-  }, [categories?.length]);
+    const list = categories
+      ?.filter((x) => x.isSubCategory)
+      .map((x) => ({
+        value: x.categoryId,
+        label: x.name,
+      }));
+
+    setCategoriesFilter(list);
+    filterCategoryRef.current?.setFilterItems(list);
+  }, [categories]);
 
   React.useEffect(() => {
     reloadCategory();
@@ -170,13 +160,8 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
       });
     },
     form,
-    listSelectCategories: categories
-      ?.filter((x) => x.isSubCategory)
-      .map((x) => ({
-        value: x.categoryId,
-        label: x.name,
-      })),
     filterCategoryRef,
     dispatchProduct,
+    categoriesFilter: categoriesFilter,
   };
 };

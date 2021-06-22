@@ -5,6 +5,10 @@ import { StyleSheet, View, Text, Image } from "react-native";
 import ModalDropdown from "react-native-modal-dropdown";
 import IMAGE from "@resources";
 
+const log = (obj, message = "") => {
+  Logger.log(`[DropdownMenu] ${message}`, obj);
+};
+
 export const DropdownMenu = React.forwardRef(
   (
     {
@@ -19,9 +23,10 @@ export const DropdownMenu = React.forwardRef(
     ref
   ) => {
     const [t] = useTranslation();
+    const modalRef = React.useRef(null);
 
     const [options, setOptions] = React.useState(items);
-    const [item, setItem] = React.useState();
+    const [item, setItem] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const [widthItemDropDown, setWidthItemDropDown] = React.useState(null);
 
@@ -35,10 +40,11 @@ export const DropdownMenu = React.forwardRef(
     }));
 
     React.useEffect(() => {
-      if (defaultIndex >= 0) {
+      if (defaultIndex >= 0 && options?.length > defaultIndex && !item) {
         setItem(options[defaultIndex]);
+        modalRef.current?.select(defaultIndex);
       }
-    }, [defaultIndex]);
+    }, [defaultIndex, options]);
 
     const onSelect = (idx, value) => {
       setItem(value);
@@ -58,6 +64,7 @@ export const DropdownMenu = React.forwardRef(
     const renderRow = (option, index, isSelected) => {
       return (
         <View
+          key={option?.value + ""}
           style={[
             styles.dropDownItemContent,
             width && { width },
@@ -89,6 +96,7 @@ export const DropdownMenu = React.forwardRef(
         }}
       >
         <ModalDropdown
+          ref={modalRef}
           options={options}
           defaultIndex={defaultIndex}
           style={[width && { width }]}

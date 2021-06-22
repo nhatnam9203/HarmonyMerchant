@@ -30,9 +30,9 @@ export const Layout = ({
   productItem,
   onNewCategory,
   form,
-  listSelectCategories,
   filterCategoryRef,
   dispatchProduct,
+  categoriesFilter
 }) => {
   const [t] = useTranslation();
 
@@ -106,8 +106,8 @@ export const Layout = ({
 
             <FormSelect
               filterRef={filterCategoryRef}
+              filterItems={categoriesFilter}
               label={t("Subcategory")}
-              filterItems={listSelectCategories}
               defaultValue={productItem?.categoryId}
               onChangeValue={(val) => form.setFieldValue("categoryId", val)}
             >
