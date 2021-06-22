@@ -37,8 +37,8 @@ export const Layout = ({ openDrawer, reload, logOut }) => {
         return <SettingCategoriesPage.component reloadPage={reload} />;
       case SettingStaffPage.name:
         return <SettingStaffPage.component reloadPage={reload} />;
-      case SettingPaymentPage.name:
-        return <SettingPaymentPage.component reloadPage={reload} />;
+      // case SettingPaymentPage.name:
+      //   return <SettingPaymentPage.component reloadPage={reload} />;
       case SettingTaxPage.name:
         return <TabTAX reloadPage={reload} />;
       case SettingHardwarePage.name:
@@ -75,11 +75,11 @@ export const Layout = ({ openDrawer, reload, logOut }) => {
             active={active}
             onPress={setActive}
           />
-          <ItemDrawer
+          {/* <ItemDrawer
             {...SettingPaymentPage}
             active={active}
             onPress={setActive}
-          />
+          /> */}
           <ItemDrawer {...SettingTaxPage} active={active} onPress={setActive} />
           <ItemDrawer
             {...SettingHardwarePage}
