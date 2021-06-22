@@ -53,7 +53,8 @@ const persistConfig = {
     "marketing",
     "network",
     "product",
-    "service"
+    "service",
+    "basketRetailer",
   ],
   debug: isDevelopmentMode, //to get useful logging
 };

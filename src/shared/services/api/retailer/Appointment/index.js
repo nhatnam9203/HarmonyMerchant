@@ -11,3 +11,6 @@ export * from "./useCompleteAppointment";
 export * from "./useReturnAppointment";
 export * from "./useEditNotes";
 export * from "./useGetAppointmentByCustomer";
+export * from "./useAddItemAppointment";
+export * from "./useGetAppointmentTemp";
+export * from "./useRemoveItemAppointment";

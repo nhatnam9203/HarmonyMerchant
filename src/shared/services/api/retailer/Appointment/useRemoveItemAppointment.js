@@ -2,14 +2,18 @@ import useAxios from "axios-hooks";
 import { RETAILER_ORDER } from "../../route";
 import { appMerchant } from "@redux/slices";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-export const useCreateAppointmentTemp = () => {
+export const useRemoveItemAppointment = () => {
   const dispatch = useDispatch();
 
-  const [{ data: appointmentTempCreate, loading, error, response }, execute] =
+  const appointmentId = useSelector(
+    (state) => state.basketRetailer.appointmentId
+  );
+
+  const [{ data: appointmentRemove, loading, error, response }, execute] =
     useAxios(
-      { method: "POST", url: `${RETAILER_ORDER.url}/temp` },
+      { method: "PUT" },
       {
         manual: true,
       }
@@ -24,11 +28,11 @@ export const useCreateAppointmentTemp = () => {
     }
   }, [dispatch, loading, response]);
 
-  const createAppointmentTemp = (params) => {
+  const removeItemAppointment = (itemId) => {
     execute({
-      data: params,
+      url: `${RETAILER_ORDER.url}/temp/${appointmentId}/removeitem/${itemId}`,
     });
   };
 
-  return [appointmentTempCreate, createAppointmentTemp];
+  return [appointmentRemove, removeItemAppointment];
 };

@@ -25,120 +25,136 @@ const log = (obj, message = "") => {
   Logger.log(`[BasketContentView] ${message}`, obj);
 };
 
-export const BasketContentView = React.forwardRef(({ onHadSubmitted }, ref) => {
-  const [t] = useTranslation();
-  const dispatch = useDispatch();
-  const basketProducts = useSelector((state) => state.basketRetailer.products);
+export const BasketContentView = React.forwardRef(
+  ({ onHadSubmitted, onRemoveItem }, ref) => {
+    const [t] = useTranslation();
+    const dispatch = useDispatch();
+    const basketProducts = useSelector(
+      (state) => state.basketRetailer.products
+    );
+    const appointment = useSelector(
+      (state) => state.basketRetailer.appointment
+    );
 
-  /**
+    /**
   |--------------------------------------------------
   | API
   |--------------------------------------------------
   */
 
-  const calcTotalPrice = () => {
-    return (
-      basketProducts?.reduce(
-        (accumulator, product) =>
-          accumulator + calcTotalPriceOfProduct(product),
-        0
-      ) ?? 0
-    );
-  };
+    const calcTotalPrice = () => {
+      return (
+        basketProducts?.reduce(
+          (accumulator, product) =>
+            accumulator + calcTotalPriceOfProduct(product),
+          0
+        ) ?? 0
+      );
+    };
 
-  const onHandleCreateOrder = () => {
-    const submitValues = createSubmitAppointment(basketProducts);
-    onHadSubmitted(submitValues);
-  };
+    const onHandleCreateOrder = () => {
+      const submitValues = createSubmitAppointment(basketProducts);
+      onHadSubmitted(submitValues);
+    };
 
-  React.useImperativeHandle(ref, () => ({
-    canCreateOrder: () => {
-      return basketProducts?.length > 0;
-    },
-  }));
+    React.useImperativeHandle(ref, () => ({
+      canCreateOrder: () => {
+        return basketProducts?.length > 0;
+      },
+    }));
 
-  const renderItem = ({ item }) => {
-    const onHandleDeleteItem = () => {
-      dispatch(basketRetailer.removeBasketItem(item.id));
+    const renderItem = ({ item }) => {
+      const onHandleDeleteItem = () => {
+        // dispatch(basketRetailer.removeBasketItem(item.id));
+        if (onRemoveItem && typeof onRemoveItem === "function") {
+          onRemoveItem(item);
+        }
+      };
+
+      return (
+        <ProductItem key={item.id + ""} handleDelete={onHandleDeleteItem}>
+          <View style={styles.productItem}>
+            <FastImage
+              style={styles.imageStyle}
+              source={
+                item?.imageUrl
+                  ? {
+                      uri: item?.imageUrl,
+                      priority: FastImage.priority.high,
+                      cache: FastImage.cacheControl.immutable,
+                    }
+                  : IMAGE.product_holder
+              }
+              resizeMode="contain"
+            />
+
+            <View style={layouts.marginHorizontal} />
+            <View style={styles.productItemContent}>
+              <Text style={styles.totalText}>{item?.productName}</Text>
+              <Text style={styles.totalInfoText}>{item?.description}</Text>
+            </View>
+            <Text style={styles.productItemQuantity}>{`${item.quantity} ${t(
+              "items"
+            )}`}</Text>
+            <View style={layouts.marginHorizontal} />
+            <View style={layouts.marginHorizontal} />
+            <Text style={styles.productItemPrice}>
+              {formatMoneyWithUnit(item.price)}
+            </Text>
+          </View>
+        </ProductItem>
+      );
     };
 
     return (
-      <ProductItem key={item.id + ""} handleDelete={onHandleDeleteItem}>
-        <View style={styles.productItem}>
-          <FastImage
-            style={styles.imageStyle}
-            source={
-              item?.imageUrl
-                ? {
-                    uri: item?.imageUrl,
-                    priority: FastImage.priority.high,
-                    cache: FastImage.cacheControl.immutable,
-                  }
-                : IMAGE.product_holder
-            }
-            resizeMode="contain"
+      <View style={styles.container}>
+        <FlatList
+          style={styles.flatList}
+          data={appointment?.products}
+          renderItem={renderItem}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
+          keyExtractor={(item) => item.id + ""}
+        />
+        <View style={styles.totalContent}>
+          <View style={layouts.marginVertical} />
+          <TotalInfo
+            label={t("Subtotal")}
+            value={formatMoneyWithUnit(appointment?.subTotal)}
           />
-
-          <View style={layouts.marginHorizontal} />
-          <View style={styles.productItemContent}>
-            <Text style={styles.totalText}>{item?.name}</Text>
-            <Text style={styles.totalInfoText}>{item?.description}</Text>
-          </View>
-          <Text style={styles.productItemQuantity}>{`${item.quantity} ${t(
-            "items"
-          )}`}</Text>
-          <View style={layouts.marginHorizontal} />
-          <View style={layouts.marginHorizontal} />
-          <Text style={styles.productItemPrice}>
-            {formatMoneyWithUnit(item.price)}
-          </Text>
+          <TotalInfo
+            label={t("Tax")}
+            value={formatMoneyWithUnit(appointment?.tax)}
+          />
+          <TotalInfo
+            label={t("Discount")}
+            value={formatMoneyWithUnit(appointment?.discount)}
+          />
+          <View style={layouts.marginVertical} />
+          <View style={styles.line} />
+          <View style={layouts.marginVertical} />
+          <TotalInfo
+            label={t("Total")}
+            value={formatMoneyWithUnit(appointment?.total)}
+            isBold
+          />
+          <View style={layouts.marginVertical} />
         </View>
-      </ProductItem>
+        <View style={layouts.marginVertical} />
+        <View style={layouts.center}>
+          <ButtonGradient
+            disable={appointment?.products?.length <= 0}
+            label={t("CREATE ORDER")}
+            width={scaleWidth(400)}
+            height={scaleHeight(60)}
+            fontSize={scaleFont(25)}
+            textColor={colors.WHITE}
+            onPress={onHandleCreateOrder}
+          />
+        </View>
+      </View>
     );
-  };
-
-  return (
-    <View style={styles.container}>
-      <FlatList
-        style={styles.flatList}
-        data={basketProducts}
-        renderItem={renderItem}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
-        keyExtractor={(item) => item.id + ""}
-      />
-      <View style={styles.totalContent}>
-        <View style={layouts.marginVertical} />
-        <TotalInfo
-          label={t("Subtotal")}
-          value={formatMoneyWithUnit(calcTotalPrice())}
-        />
-        <TotalInfo label={t("Tax")} />
-        <TotalInfo label={t("Discount")} />
-        <View style={layouts.marginVertical} />
-        <View style={styles.line} />
-        <View style={layouts.marginVertical} />
-        <TotalInfo
-          label={t("Total")}
-          value={formatMoneyWithUnit(calcTotalPrice())}
-          isBold
-        />
-        <View style={layouts.marginVertical} />
-      </View>
-      <View style={layouts.marginVertical} />
-      <View style={layouts.center}>
-        <ButtonGradient
-          disable={basketProducts?.length <= 0}
-          label={t("CREATE ORDER")}
-          width={scaleWidth(400)}
-          height={scaleHeight(60)}
-          fontSize={scaleFont(25)}
-          textColor={colors.WHITE}
-          onPress={onHandleCreateOrder}
-        />
-      </View>
-    </View>
-  );
-});
+  }
+);
 
 const TotalInfo = ({ label, value = "$ 0.00", isBold = false }) => (
   <View style={styles.totalInfoContent}>

@@ -2,14 +2,18 @@ import useAxios from "axios-hooks";
 import { RETAILER_ORDER } from "../../route";
 import { appMerchant } from "@redux/slices";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-export const useCreateAppointmentTemp = () => {
+export const useAddItemAppointment = () => {
   const dispatch = useDispatch();
 
-  const [{ data: appointmentTempCreate, loading, error, response }, execute] =
+  const appointmentId = useSelector(
+    (state) => state.basketRetailer.appointmentId
+  );
+
+  const [{ data: appointmentAdd, loading, error, response }, execute] =
     useAxios(
-      { method: "POST", url: `${RETAILER_ORDER.url}/temp` },
+      { method: "POST" },
       {
         manual: true,
       }
@@ -24,11 +28,12 @@ export const useCreateAppointmentTemp = () => {
     }
   }, [dispatch, loading, response]);
 
-  const createAppointmentTemp = (params) => {
+  const addItemAppointment = (productItem) => {
     execute({
-      data: params,
+      url: `${RETAILER_ORDER.url}/temp/${appointmentId}/additem`,
+      data: productItem,
     });
   };
 
-  return [appointmentTempCreate, createAppointmentTemp];
+  return [appointmentAdd, addItemAppointment];
 };
