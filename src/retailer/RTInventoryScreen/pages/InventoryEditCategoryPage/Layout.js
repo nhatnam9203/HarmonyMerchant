@@ -1,8 +1,8 @@
-import React from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { layouts, colors, fonts } from '@shared/themes';
+import React from "react";
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
+import { useTranslation } from "react-i18next";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { layouts, colors, fonts } from "@shared/themes";
 import {
   FormTitle,
   ButtonGradient,
@@ -10,10 +10,10 @@ import {
   FormInput,
   FormSelect,
   FormLabelSwitch,
-} from '@shared/components';
-import { dateToString, BIRTH_DAY_DATE_FORMAT_STRING } from '@shared/utils';
-import IMAGE from '@resources';
-import { filter } from 'rxjs/operators';
+} from "@shared/components";
+import { dateToString, BIRTH_DAY_DATE_FORMAT_STRING } from "@shared/utils";
+import IMAGE from "@resources";
+import { filter } from "rxjs/operators";
 
 export const Layout = ({
   isEdit,
@@ -32,7 +32,7 @@ export const Layout = ({
       <View style={styles.headContent}>
         {isEdit && (
           <Text style={styles.headTitle}>
-            {t('Edit Category')}
+            {t("Edit Category")}
             {
               <Text style={[styles.headTitle, { color: colors.OCEAN_BLUE }]}>
                 {categoryItem?.name}
@@ -40,25 +40,20 @@ export const Layout = ({
             }
           </Text>
         )}
-        {isNew && <Text style={styles.headTitle}>{t('New Category')}</Text>}
+        {isNew && <Text style={styles.headTitle}>{t("New Category")}</Text>}
       </View>
 
       <KeyboardAwareScrollView>
         <View style={styles.content}>
-          <FormTitle label={t('Category Properties')} />
+          <FormTitle label={t("Category Properties")} />
         </View>
         <View style={styles.container}>
           <View style={styles.content}>
             {isSubCategory ? (
               <>
                 <FormSelect
-                  label={t('Parent category')}
-                  filterItems={categories
-                    ?.filter((x) => x.parentId === 0)
-                    .map((x) => ({
-                      value: x.categoryId,
-                      label: x.name,
-                    }))}
+                  label={t("Parent category")}
+                  filterItems={categories}
                   defaultValue={null}
                   onChangeValue={(val) => {
                     form.setFieldValue('parentId', val);
@@ -66,41 +61,41 @@ export const Layout = ({
                 />
 
                 <FormInput
-                  label={t('Category name')}
-                  placeholder={t('Enter category name')}
+                  label={t("Category name")}
+                  placeholder={t("Enter category name")}
                   required={true}
-                  onChangeValue={form.handleChange('name')}
-                  defaultValue={form.values?.name}
+                  onChangeValue={form.handleChange("name")}
+                  defaultValue={categoryItem?.name}
                 />
               </>
             ) : (
               <>
                 <FormInput
-                  label={t('Category name')}
-                  placeholder={t('Enter category name')}
+                  label={t("Category name")}
+                  placeholder={t("Enter category name")}
                   required={true}
-                  defaultValue={form.values?.name}
-                  onChangeValue={form.handleChange('name')}
+                  defaultValue={categoryItem?.name}
+                  onChangeValue={form.handleChange("name")}
                 />
                 <View style={layouts.marginVertical} />
                 <Text
                   style={[styles.noteProduct, { color: colors.ORANGEY_RED }]}
                 >
-                  {t('Note ')}
+                  {t("Note ")}
                   <Text
                     style={[
                       styles.noteProduct,
                       { color: colors.GREYISH_BROWN },
                     ]}
                   >
-                    {t('Products can only be added to subcategories.')}
+                    {t("Products can only be added to subcategories.")}
                   </Text>
                 </Text>
               </>
             )}
 
             <FormLabelSwitch
-              label={t('Is Subcategory')}
+              label={t("Is Subcategory")}
               style={[layouts.vertical, layouts.verticalCenterLeft]}
               textStyle={styles.textStyle}
               onValueChange={onIsSubcategory}
@@ -112,7 +107,7 @@ export const Layout = ({
       <View style={styles.buttonContent}>
         <ButtonGradientWhite
           onPress={buttonCancelPress}
-          label={t('Cancel').toUpperCase()}
+          label={t("Cancel").toUpperCase()}
           width={scaleWidth(400)}
           height={scaleHeight(60)}
           textColor={colors.GREYISH_BROWN}
@@ -120,7 +115,7 @@ export const Layout = ({
           fontWeight="500"
         />
         <ButtonGradient
-          label={t('Save').toUpperCase()}
+          label={t("Save").toUpperCase()}
           width={scaleWidth(400)}
           height={scaleHeight(60)}
           fontSize={scaleFont(25)}
@@ -139,56 +134,56 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: scaleWidth(16),
     // paddingVertical: scaleHeight(16),
-    flexDirection: 'row',
-    alignItems: 'flex-start',
+    flexDirection: "row",
+    alignItems: "flex-start",
   },
 
   content: {
     flex: 1,
     marginHorizontal: scaleWidth(16),
-    flexDirection: 'column-reverse',
+    flexDirection: "column-reverse",
   },
 
   buttonContent: {
     height: scaleHeight(84),
     backgroundColor: colors.WHITE,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "space-around",
+    alignItems: "center",
+    flexDirection: "row",
   },
 
   headContent: {
     height: scaleHeight(50),
     backgroundColor: colors.WHITE,
-    shadowColor: '#0000001a',
+    shadowColor: "#0000001a",
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowRadius: 2,
     shadowOpacity: 0.32,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    justifyContent: "center",
+    alignItems: "flex-start",
     paddingLeft: scaleWidth(16),
   },
 
   headTitle: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(23),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   textStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
     height: scaleHeight(24),
   },
@@ -196,8 +191,8 @@ const styles = StyleSheet.create({
   noteProduct: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(17),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-    textAlign: 'left',
+    fontWeight: "normal",
+    fontStyle: "normal",
+    textAlign: "left",
   },
 });

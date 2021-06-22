@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { layouts, colors, fonts } from '@shared/themes';
+import React from "react";
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
+import { useTranslation } from "react-i18next";
+import { layouts, colors, fonts } from "@shared/themes";
 import {
   FormFullName,
   FormTitle,
@@ -15,13 +15,23 @@ import {
   ButtonGradient,
   ButtonGradientWhite,
   ButtonNormal,
-} from '@shared/components';
-import IMAGE from '@resources';
-import { Table } from '@shared/components/CustomTable';
-import { getUniqueId } from '@shared/components/CustomTable/helpers';
-import { InputSearch } from '@shared/components/InputSearch';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { VIP_TYPE } from '@shared/utils';
+} from "@shared/components";
+import IMAGE from "@resources";
+import { Table } from "@shared/components/CustomTable";
+import { getUniqueId } from "@shared/components/CustomTable/helpers";
+import { InputSearch } from "@shared/components/InputSearch";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { VIP_TYPE } from "@shared/utils";
+import { OrderStatusView } from "@shared/components/OrderStatusView";
+import { formatMoneyWithUnit } from "@utils";
+
+import {
+  dateToString,
+  DATE_TIME_SHOW_FORMAT_STRING,
+  PURCHASE_POINTS,
+  PAYMENTS,
+  ORDER_STATUS,
+} from "@shared/utils";
 
 export const Layout = ({
   customer,
@@ -36,18 +46,19 @@ export const Layout = ({
   onNewCustomerAddress,
   onDeleteCustomer,
   onBlacklistCustomer,
+  orders,
 }) => {
   const [t] = useTranslation();
 
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
-    if (columnKey === 'actions') {
+    if (columnKey === "actions") {
       const onHandleAddress = () => {
         onEditAddress(item);
       };
       return (
         <View
           style={layouts.fill}
-          key={getUniqueId(columnKey, rowIndex, 'cell-action')}
+          key={getUniqueId(columnKey, rowIndex, "cell-action")}
         >
           <TouchableOpacity
             style={[layouts.fill, layouts.center]}
@@ -64,6 +75,37 @@ export const Layout = ({
     return null;
   };
 
+  const onRenderTableCell = ({ item, columnKey, rowIndex, cellWidth }) => {
+    if (columnKey === "appointmentId") {
+      const handleCheckRow = (val) => {
+        // onCheckedRow(item, val);
+      };
+
+      return (
+        <TouchableOpacity
+          onPress={() => {}}
+          style={[layouts.horizontal, { width: cellWidth }, styles.cellStyle]}
+          key={getUniqueId(columnKey, rowIndex, "cell-code")}
+        >
+          <Text style={styles.textName}>{item.appointmentId}</Text>
+        </TouchableOpacity>
+      );
+    }
+
+    if (columnKey === "status") {
+      return (
+        <View
+          style={[{ width: cellWidth }, styles.cellStyle]}
+          key={getUniqueId(columnKey, rowIndex, "cell-status")}
+        >
+          <OrderStatusView status={item.status} />
+        </View>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <View style={layouts.fill}>
       <View style={styles.headContent}>
@@ -74,8 +116,8 @@ export const Layout = ({
           <ButtonGradientWhite
             label={
               customer?.isVip !== VIP_TYPE.BLACK_LIST
-                ? t('Add to blacklist')
-                : t('Removed from blacklist')
+                ? t("Add to blacklist")
+                : t("Removed from blacklist")
             }
             width={
               customer?.isVip !== VIP_TYPE.BLACK_LIST
@@ -91,14 +133,14 @@ export const Layout = ({
           <View style={layouts.marginHorizontal} />
           <ButtonNormal
             backgroundColor={colors.ORANGEY_RED}
-            label={t('Delete')}
+            label={t("Delete")}
             width={scaleWidth(120)}
             height={scaleHeight(40)}
             onPress={onDeleteCustomer}
           />
           <View style={layouts.marginHorizontal} />
           <ButtonGradient
-            label={t('Edit')}
+            label={t("Edit")}
             width={scaleWidth(120)}
             height={scaleHeight(40)}
             fontSize={scaleFont(17)}
@@ -120,50 +162,50 @@ export const Layout = ({
       </View>
       <KeyboardAwareScrollView>
         <View style={styles.container}>
-          <FormTitle label={t('Personal Information')} />
+          <FormTitle label={t("Personal Information")} />
           <View style={layouts.horizontal}>
             <View style={styles.personContent}>
               <PersonalInfoLine
-                label={t('Phone')}
+                label={t("Phone")}
                 infoValue={customer?.phone}
               />
               <PersonalInfoLine
-                label={t('Email')}
+                label={t("Email")}
                 infoValue={customer?.email}
               />
               <PersonalInfoLine
-                label={t('Gender')}
+                label={t("Gender")}
                 infoValue={customer?.gender}
               />
               <PersonalInfoLine
-                label={t('Birthday')}
+                label={t("Birthday")}
                 infoValue={customer?.birthdate}
               />
               <PersonalInfoLine
-                label={t('Group')}
+                label={t("Group")}
                 infoValue={customer?.isVip}
               />
               <PersonalInfoLine
-                label={t('Customer Since')}
+                label={t("Customer Since")}
                 infoValue={customer?.createdDate}
               />
             </View>
             <View style={layouts.marginHorizontal} />
             <View style={styles.personContent}>
               <PersonalInfoAddress
-                label={t('Default Billing Address')}
+                label={t("Default Billing Address")}
                 addressInfo={customer?.defaultBillingAddress}
                 onPress={onEditBillingAddress}
               />
               <PersonalInfoAddress
-                label={t('Default Shipping Address')}
+                label={t("Default Shipping Address")}
                 addressInfo={customer?.defaultShippingAddress}
                 onPress={onEditShippingAddress}
               />
             </View>
           </View>
 
-          <FormTitle label={t('Addresses')}>
+          <FormTitle label={t("Addresses")}>
             <View style={styles.headerAddress}>
               <ButtonGradientWhite
                 width={scaleWidth(30)}
@@ -180,7 +222,7 @@ export const Layout = ({
               </ButtonGradientWhite>
               <View style={layouts.marginHorizontal} />
               <Text style={styles.headerAddressLabel}>
-                {t('Add new address')}
+                {t("Add new address")}
               </Text>
             </View>
           </FormTitle>
@@ -188,24 +230,24 @@ export const Layout = ({
             <Table
               items={customer?.addresses}
               headerKeyLabels={{
-                addressFirstName: t('First Name'),
-                addressLastName: t('Last Name'),
-                street: t('Street Address'),
-                city: t('City'),
-                stateId: t('State'),
-                zipCode: t('ZipCode'),
-                addressPhone: t('Phone'),
-                actions: t('Actions'),
+                addressFirstName: t("First Name"),
+                addressLastName: t("Last Name"),
+                street: t("Street Address"),
+                city: t("City"),
+                stateId: t("State"),
+                zipCode: t("ZipCode"),
+                addressPhone: t("Phone"),
+                actions: t("Actions"),
               }}
               whiteListKeys={[
-                'addressFirstName',
-                'addressLastName',
-                'street',
-                'city',
-                'stateId',
-                'zipCode',
-                'addressPhone',
-                'actions',
+                "addressFirstName",
+                "addressLastName",
+                "street",
+                "city",
+                "stateId",
+                "zipCode",
+                "addressPhone",
+                "actions",
               ]}
               widthForKeys={{
                 addressFirstName: scaleWidth(150),
@@ -217,14 +259,13 @@ export const Layout = ({
                 addressPhone: scaleWidth(150),
               }}
               primaryKey="id"
-              emptyDescription={t('No Addresses')}
+              emptyDescription={t("No Addresses")}
               // renderActionCell={onRenderActionCell}
               renderCell={onRenderCell}
             />
           )}
 
-          <FormTitle label={t('Orders')} />
-
+          <FormTitle label={t("Orders")} />
           <View style={styles.rowContent}>
             <View style={styles.leftContent}>
               <InputSearch
@@ -233,17 +274,64 @@ export const Layout = ({
               />
               <View style={layouts.marginHorizontal} />
               <ButtonGradientWhite
-                label={t('Search')}
+                label={t("Search")}
                 width={scaleWidth(120)}
                 onPress={onButtonSearchPress}
               />
             </View>
             <ButtonGradient
               onPress={onButtonNewOrderPress}
-              label={t('New Order')}
+              label={t("New Order")}
               width={scaleWidth(140)}
             />
           </View>
+
+          <View style={layouts.marginVertical} />
+          <View style={layouts.marginVertical} />
+
+          <Table
+            items={orders}
+            headerKeyLabels={{
+              appointmentId: t("ID"),
+              purchasePoint: t("Purchase Point"),
+              createdDate: t("Purchase Date"),
+              billToName: t("Bill-to Name"),
+              shipToName: t("Ship-to Name"),
+              status: t("Status"),
+              total: t("Grand Total"),
+            }}
+            whiteListKeys={[
+              "appointmentId",
+              "purchasePoint",
+              "createdDate",
+              "billToName",
+              "shipToName",
+              "status",
+              "total",
+            ]}
+            // sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
+            primaryKey="appointmentId"
+            // unitKeys={{ totalDuration: 'hrs' }}
+            widthForKeys={{
+              appointmentId: scaleWidth(110),
+              purchasePoint: scaleWidth(130),
+              createdDate: scaleWidth(200),
+              billToName: scaleWidth(160),
+              shipToName: scaleWidth(160),
+              status: scaleWidth(120),
+              total: scaleWidth(150),
+            }}
+            emptyDescription={t("No Orders")}
+            styleTextKeys={{ total: styles.textName }}
+            // onSortWithKey={onSortWithKey}
+            formatFunctionKeys={{
+              createdDate: (value) =>
+                dateToString(value, DATE_TIME_SHOW_FORMAT_STRING),
+              total: (value) => `${formatMoneyWithUnit(value)}`,
+            }}
+            renderCell={onRenderTableCell}
+            // onRowPress={onSelectRow}
+          />
         </View>
       </KeyboardAwareScrollView>
     </View>
@@ -298,39 +386,39 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     marginHorizontal: scaleWidth(16),
-    flexDirection: 'column-reverse',
+    flexDirection: "column-reverse",
   },
 
   headContent: {
     height: scaleHeight(50),
     backgroundColor: colors.WHITE,
-    shadowColor: '#0000001a',
+    shadowColor: "#0000001a",
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowRadius: 2,
     shadowOpacity: 0.32,
-    alignItems: 'center',
+    alignItems: "center",
     paddingLeft: scaleWidth(16),
-    flexDirection: 'row',
+    flexDirection: "row",
   },
 
   headTitle: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(23),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 1.15,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.OCEAN_BLUE,
   },
 
   headerRightContent: {
-    flexDirection: 'row',
+    flexDirection: "row",
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    justifyContent: "flex-end",
+    alignItems: "center",
     paddingHorizontal: scaleWidth(16),
   },
 
@@ -345,35 +433,35 @@ const styles = StyleSheet.create({
 
   headerAddress: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
 
   headerAddressLabel: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.OCEAN_BLUE,
   },
 
   infoLineContent: {
-    flexDirection: 'row',
+    flexDirection: "row",
     // justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: scaleHeight(7),
   },
 
   infoLabelText: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
     flex: 1,
   },
@@ -381,10 +469,10 @@ const styles = StyleSheet.create({
   infoHeaderText: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(15),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
     marginRight: scaleWidth(10),
   },
@@ -392,10 +480,10 @@ const styles = StyleSheet.create({
   infoText: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'right',
+    textAlign: "right",
     color: colors.GREYISH_BROWN,
     flex: 1,
   },
@@ -405,15 +493,15 @@ const styles = StyleSheet.create({
   },
 
   rowContent: {
-    marginTop: scaleHeight(20),
+    marginTop: scaleHeight(16),
     paddingHorizontal: scaleWidth(16),
     height: scaleHeight(40),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 
   leftContent: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
 });

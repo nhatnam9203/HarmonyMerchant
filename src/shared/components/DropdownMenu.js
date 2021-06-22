@@ -1,9 +1,9 @@
-import { colors, fonts } from '@shared/themes';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet, View, Text, Image } from 'react-native';
-import ModalDropdown from 'react-native-modal-dropdown';
-import IMAGE from '@resources';
+import { colors, fonts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, View, Text, Image } from "react-native";
+import ModalDropdown from "react-native-modal-dropdown";
+import IMAGE from "@resources";
 
 export const DropdownMenu = React.forwardRef(
   (
@@ -14,7 +14,7 @@ export const DropdownMenu = React.forwardRef(
       items,
       defaultIndex = -1,
       style,
-      placeholder = 'Select ...',
+      placeholder = "Select ...",
     },
     ref
   ) => {
@@ -24,7 +24,15 @@ export const DropdownMenu = React.forwardRef(
     const [item, setItem] = React.useState();
     const [open, setOpen] = React.useState(false);
     const [widthItemDropDown, setWidthItemDropDown] = React.useState(null);
-    React.useImperativeHandle(ref, () => ({}));
+
+    React.useImperativeHandle(ref, () => ({
+      closePicker: () => {
+        setOpen(false);
+      },
+      setFilterItems: (its) => {
+        setOptions(its);
+      },
+    }));
 
     React.useEffect(() => {
       if (defaultIndex >= 0) {
@@ -34,7 +42,7 @@ export const DropdownMenu = React.forwardRef(
 
     const onSelect = (idx, value) => {
       setItem(value);
-      if (onChangeValue && typeof onChangeValue === 'function') {
+      if (onChangeValue && typeof onChangeValue === "function") {
         onChangeValue(value);
       }
     };
@@ -66,11 +74,8 @@ export const DropdownMenu = React.forwardRef(
         </View>
       );
     };
-    const styleWidthItemDropDown = widthItemDropDown
-      ? { width: widthItemDropDown }
-      : width
-      ? { width }
-      : {};
+    const styleWidthItemDropDown = { width: widthItemDropDown ?? width };
+
     return (
       <View
         style={[
@@ -92,6 +97,7 @@ export const DropdownMenu = React.forwardRef(
             styleWidthItemDropDown,
           ]}
           renderRow={renderRow}
+          renderSeparator={() => <View />}
           onDropdownWillShow={onDropdownWillShow}
           onDropdownWillHide={onDropdownWillHide}
           onSelect={onSelect}
@@ -109,7 +115,7 @@ export const DropdownMenu = React.forwardRef(
               source={IMAGE.dropdown}
               style={[
                 styles.imageStyle,
-                open && { transform: [{ rotate: '180deg' }] },
+                open && { transform: [{ rotate: "180deg" }] },
               ]}
             />
           </View>
@@ -123,55 +129,56 @@ const styles = StyleSheet.create({
   container: {},
 
   dropdownContent: {
-    borderRadius: scaleWidth(1),
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: '#cccccc',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    height: '100%',
-    width: '100%',
+    borderRadius: scaleWidth(2),
+    borderStyle: "solid",
+    borderWidth: scaleWidth(1),
+    borderColor: "#cccccc",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    height: "100%",
+    width: "100%",
     paddingHorizontal: scaleWidth(16),
   },
 
   dropDownContainerStyle: {
     borderRadius: scaleWidth(3),
     backgroundColor: colors.WHITE,
-    borderWidth: scaleWidth(0),
-    borderLeftWidth: scaleWidth(1),
-    borderRightWidth: scaleWidth(1),
-    borderBottomWidth: scaleWidth(1),
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: '#cccccc',
-    backgroundColor: '#fff',
+    borderWidth: scaleWidth(1),
+    // borderLeftWidth: scaleWidth(1),
+    // borderRightWidth: scaleWidth(1),
+    // borderBottomWidth: scaleWidth(1),
+    borderStyle: "solid",
+    borderColor: "#fff",
     flex: 1,
-    shadowColor: '#0006',
+    shadowColor: "#0006",
     shadowOffset: {
-      width: 2,
+      width: 1,
       height: 3,
     },
-    shadowOpacity: 0.5,
+    shadowOpacity: 0.3,
     shadowRadius: 3,
-
     elevation: 3,
+    marginTop: scaleHeight(1),
   },
 
   dropDownItemContent: {
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    justifyContent: "center",
+    alignItems: "flex-start",
     paddingHorizontal: scaleWidth(16),
+    borderWidth: scaleWidth(0),
+    borderTopWidth: 0,
+    borderColor: "#fff",
   },
 
   dropdownTerminalText: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.INACTIVE,
     flex: 1,
   },
@@ -179,26 +186,26 @@ const styles = StyleSheet.create({
   selectedItemLabelStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '400',
-    fontStyle: 'normal',
+    fontWeight: "400",
+    fontStyle: "normal",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.ROBIN_S_EGG,
   },
 
   itemLabelStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '400',
-    fontStyle: 'normal',
+    fontWeight: "400",
+    fontStyle: "normal",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.GREYISH_BROWN,
   },
 
   imageStyle: {
     width: scaleWidth(20),
     height: scaleHeight(8),
-    resizeMode: 'center',
+    resizeMode: "center",
   },
 });

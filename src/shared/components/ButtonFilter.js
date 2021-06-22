@@ -39,6 +39,9 @@ export const ButtonFilter = React.forwardRef(
       closePicker: () => {
         setOpen(false);
       },
+      setFilterItems: (its) => {
+        setItems(its);
+      },
     }));
 
     // React.useEffect(() => {
@@ -47,13 +50,20 @@ export const ButtonFilter = React.forwardRef(
     //   } else {
     //     setItems([]);
     //   }
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
     // }, [filterItems]);
 
-    React.useEffect(() => {
-      setItem(defaultValue);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [defaultValue]);
+    // React.useEffect(() => {
+    //   reloadItems();
+    // }, [filterItems]);
+
+    // const reloadItem = React.useMemo(() => {
+    //   setItem(defaultValue);
+    // }, [defaultValue]);
+
+    // React.useEffect(() => {
+    //   reloadItem();
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [defaultValue]);
 
     return (
       <View

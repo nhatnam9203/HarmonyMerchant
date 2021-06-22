@@ -1,5 +1,4 @@
 export * from './HomeTabBar';
-export * from './OrderStatusView';
 export * from './CustomList';
 export * from './DialogProductDetail';
 export * from './BasketContentView';

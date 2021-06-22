@@ -1,13 +1,12 @@
-import { authMerchant } from "@redux/slices";
+import actions from "@redux/actions";
 import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
+import { useGetCategoriesList } from "@shared/services/api/retailer";
 import { colors, fonts } from "@shared/themes";
-import { statusSuccess } from "@shared/utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import actions from "@redux/actions";
 
 const log = (obj, message = "") => {
   Logger.log(`[DialogPincode] ${message}`, obj);
@@ -25,7 +24,7 @@ const PIN_CODE_CHARS = [
   "9",
   ".",
   "0",
-  "del",
+  "⇦",
 ];
 
 const MAX_LENGTH = 4;
@@ -47,6 +46,7 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
 
   |--------------------------------------------------
   */
+  const [, getCategoriesList] = useGetCategoriesList();
   // !! call login staff
   React.useImperativeHandle(ref, () => ({
     show: () => {
@@ -79,8 +79,15 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
   //   }
   // }, [staffLogin]);
 
+  const onLoadApps = React.useCallback(() => {
+    if (isLoginStaff) {
+      getCategoriesList();
+    }
+  }, [isLoginStaff]);
+
   React.useEffect(() => {
     dialogRef.current?.hide();
+    onLoadApps();
   }, [isLoginStaff]);
 
   React.useEffect(() => {
@@ -89,7 +96,7 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
 
   const renderItem = ({ item }) => {
     const onPressItem = () => {
-      if (item === "del") {
+      if (item === "⇦") {
         if (value?.length > 0) setValue((prev) => prev.slice(0, -1));
       } else if (!value || value?.length < MAX_LENGTH) {
         setValue((prev) => prev + item);
@@ -174,7 +181,7 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
 const styles = StyleSheet.create({
   dialog: {
     flex: 0,
-    width: scaleWidth(500),
+    width: scaleWidth(480),
   },
 
   container: {
@@ -215,7 +222,7 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    width: scaleWidth(225),
+    width: scaleWidth(236),
     height: scaleHeight(48),
     borderRadius: scaleWidth(3),
     backgroundColor: colors.WHITE,

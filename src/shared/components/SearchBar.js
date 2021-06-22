@@ -1,10 +1,9 @@
-import IMAGE from '@resources';
 import { ButtonGradient, ButtonGradientWhite } from '@shared/components';
 import { InputSearch } from '@shared/components/InputSearch';
 import { layouts } from '@shared/themes';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 export const SearchBar = ({
   onNewButtonPress,

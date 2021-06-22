@@ -1,11 +1,11 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { fonts, colors } from '@shared/themes';
-import { CustomInput, CustomInputMask } from './CustomInput';
-import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import { ButtonFilter } from './ButtonFilter';
-import { DropdownMenu } from './DropdownMenu';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { fonts, colors } from "@shared/themes";
+import { CustomInput, CustomInputMask } from "./CustomInput";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { ButtonFilter } from "./ButtonFilter";
+import { DropdownMenu } from "./DropdownMenu";
 
 export const FormAddress = ({
   onChangeCityValue,
@@ -39,13 +39,13 @@ export const FormAddress = ({
 
   const onHandleChangeCity = (value) => {
     setCity(value);
-    if (onChangeCityValue && typeof onChangeCityValue === 'function') {
+    if (onChangeCityValue && typeof onChangeCityValue === "function") {
       onChangeCityValue(value);
     }
   };
 
   const onHandleChangeSate = (value) => {
-    if (onChangeStateValue && typeof onChangeStateValue === 'function') {
+    if (onChangeStateValue && typeof onChangeStateValue === "function") {
       if (useDropDownMenu) {
         onChangeStateValue(value?.stateId);
       } else onChangeStateValue(value);
@@ -54,14 +54,14 @@ export const FormAddress = ({
 
   const onHandleChangeZipCode = (value) => {
     setZipCode(value);
-    if (onChangeZipCodeValue && typeof onChangeZipCodeValue === 'function') {
+    if (onChangeZipCodeValue && typeof onChangeZipCodeValue === "function") {
       onChangeZipCodeValue(value);
     }
   };
 
   const onHandleChangeStreet = (value) => {
     setStreetAddress(value);
-    if (onChangeStreetValue && typeof onChangeStreetValue === 'function') {
+    if (onChangeStreetValue && typeof onChangeStreetValue === "function") {
       onChangeStreetValue(value);
     }
   };
@@ -86,14 +86,14 @@ export const FormAddress = ({
 
   return reverse ? (
     <View style={styles.container}>
-      <Text style={styles.textStyle}>{t('Address')}</Text>
-      <View style={[styles.content, { flexDirection: 'column' }]}>
+      <Text style={styles.textStyle}>{t("Address")}</Text>
+      <View style={[styles.content, { flexDirection: "column" }]}>
         <CustomInput
           style={styles.customInput}
           textInputProps={{
-            placeholder: t('Street Address'),
+            placeholder: t("Street Address"),
             fontSize: scaleFont(17),
-            textAlign: 'left',
+            textAlign: "left",
             defaultValue: streetAddress,
             onChangeText: onHandleChangeStreet,
           }}
@@ -103,9 +103,9 @@ export const FormAddress = ({
           <CustomInput
             style={styles.customInput}
             textInputProps={{
-              placeholder: t('City'),
+              placeholder: t("City"),
               fontSize: scaleFont(17),
-              textAlign: 'left',
+              textAlign: "left",
               defaultValue: city,
               onChangeText: onHandleChangeCity,
             }}
@@ -130,7 +130,7 @@ export const FormAddress = ({
               style={styles.customInput}
               width={scaleWidth(widthMenu)}
               height={scaleHeight(40)}
-              placeholder={t('Select State')}
+              placeholder={t("Select State")}
             />
           )}
         </View>
@@ -139,12 +139,12 @@ export const FormAddress = ({
 
         <View style={styles.rowContent}>
           <CustomInputMask
-            type={'zip-code'}
+            type={"zip-code"}
             style={styles.customInput}
             textInputProps={{
-              placeholder: t('Zip Code'),
+              placeholder: t("Zip Code"),
               fontSize: scaleFont(17),
-              textAlign: 'left',
+              textAlign: "left",
               defaultValue: zipCode,
               onChangeText: onHandleChangeZipCode,
             }}
@@ -155,16 +155,16 @@ export const FormAddress = ({
     </View>
   ) : (
     <View style={styles.container}>
-      <Text style={styles.textStyle}>{t('Address')}</Text>
+      <Text style={styles.textStyle}>{t("Address")}</Text>
       <View style={styles.content}>
         <View style={styles.rowContent}>
           <CustomInputMask
-            type={'zip-code'}
+            type={"zip-code"}
             style={styles.customInput}
             textInputProps={{
-              placeholder: t('Zip Code'),
+              placeholder: t("Zip Code"),
               fontSize: scaleFont(17),
-              textAlign: 'left',
+              textAlign: "left",
               defaultValue: zipCode,
               onChangeText: onHandleChangeZipCode,
             }}
@@ -178,9 +178,9 @@ export const FormAddress = ({
           <CustomInput
             style={styles.customInput}
             textInputProps={{
-              placeholder: t('City'),
+              placeholder: t("City"),
               fontSize: scaleFont(17),
-              textAlign: 'left',
+              textAlign: "left",
               defaultValue: city,
               onChangeText: onHandleChangeCity,
             }}
@@ -205,7 +205,7 @@ export const FormAddress = ({
               style={styles.customInput}
               width={scaleWidth(widthMenu)}
               height={scaleHeight(40)}
-              placeholder={t('Select State')}
+              placeholder={t("Select State")}
             />
           )}
         </View>
@@ -215,9 +215,9 @@ export const FormAddress = ({
         <CustomInput
           style={styles.customInput}
           textInputProps={{
-            placeholder: t('Street Address'),
+            placeholder: t("Street Address"),
             fontSize: scaleFont(17),
-            textAlign: 'left',
+            textAlign: "left",
             defaultValue: streetAddress,
             onChangeText: onHandleChangeStreet,
           }}
@@ -234,18 +234,18 @@ const styles = StyleSheet.create({
 
   content: {
     paddingVertical: scaleHeight(10),
-    flexDirection: 'column-reverse',
+    flexDirection: "column-reverse",
   },
 
   rowContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 
   customInput: {
     flex: 1,
     height: scaleHeight(40),
-    width: '100%',
+    width: "100%",
   },
 
   verticalPadding: {
@@ -259,10 +259,10 @@ const styles = StyleSheet.create({
   textStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 });

@@ -1,4 +1,4 @@
-import IMAGE from '@resources';
+import IMAGE from "@resources";
 import {
   ButtonGradientRed,
   ButtonGradientWhite,
@@ -7,17 +7,17 @@ import {
   FormSelect,
   FormTitle,
   DialogColorPicker,
-} from '@shared/components';
-import { CustomInput } from '@shared/components/CustomInput';
-import { Table } from '@shared/components/CustomTable';
-import { getUniqueId } from '@shared/components/CustomTable/helpers';
-import { WithDialogConfirm } from '@shared/HOC/withDialogConfirm';
-import { EditPageLayout } from '@shared/layouts';
-import { colors, fonts, layouts } from '@shared/themes';
-import { AttributesInputTypes } from '@shared/utils';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, Text, View } from 'react-native';
+} from "@shared/components";
+import { CustomInput } from "@shared/components/CustomInput";
+import { Table } from "@shared/components/CustomTable";
+import { getUniqueId } from "@shared/components/CustomTable/helpers";
+import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
+import { EditPageLayout } from "@shared/layouts";
+import { colors, fonts, layouts } from "@shared/themes";
+import { AttributesInputTypes } from "@shared/utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 const IMAGE_WIDTH = scaleWidth(120);
 
@@ -34,24 +34,25 @@ export const Layout = ({ ...props }) => {
     deleteAttribute,
     onChangeInputType,
     onRefresh,
+    item,
   } = props;
   const { t } = useTranslation();
   const onRenderTableCell = ({ item, columnKey, rowIndex, cellWidth }) => {
-    if (columnKey === 'label') {
+    if (columnKey === "label") {
       const onHandleChange = (text) => {
         editAttribute(item.key, { label: text });
       };
       return (
         <View
           style={{ width: cellWidth }}
-          key={getUniqueId(columnKey, rowIndex, 'cell-label')}
+          key={getUniqueId(columnKey, rowIndex, "cell-label")}
         >
           <CustomInput
             style={[styles.customInput, { width: scaleWidth(230) }]}
             textInputProps={{
-              placeholder: 'Label',
+              placeholder: "Label",
               fontSize: scaleFont(17),
-              textAlign: 'left',
+              textAlign: "left",
               defaultValue: item?.label,
               onChangeText: onHandleChange,
             }}
@@ -60,14 +61,14 @@ export const Layout = ({ ...props }) => {
       );
     }
 
-    if (columnKey === 'value') {
+    if (columnKey === "value") {
       const onHandleUpdateSwatch = (color) => {
         editAttribute(item.key, { value: color });
       };
       return (
         <View
           style={{ width: cellWidth }}
-          key={getUniqueId(columnKey, rowIndex, 'cell-label')}
+          key={getUniqueId(columnKey, rowIndex, "cell-label")}
         >
           <DialogColorPicker
             onApplyColor={onHandleUpdateSwatch}
@@ -77,17 +78,17 @@ export const Layout = ({ ...props }) => {
       );
     }
 
-    if (columnKey === 'actions') {
+    if (columnKey === "actions") {
       const onHandleDeleteAttribute = () => {
         deleteAttribute(item.key);
       };
       return (
         <View
           style={layouts.fill}
-          key={getUniqueId(columnKey, rowIndex, 'cell-action')}
+          key={getUniqueId(columnKey, rowIndex, "cell-action")}
         >
           <DeleteConfirmButton
-            label={t('Delete')}
+            label={t("Delete")}
             width={scaleWidth(72)}
             height={scaleHeight(28)}
             fontSize={scaleFont(15)}
@@ -105,8 +106,8 @@ export const Layout = ({ ...props }) => {
   return (
     <EditPageLayout
       {...props}
-      contentStyle={{ flexDirection: 'column-reverse' }}
-      pageName={t('Attributes')}
+      contentStyle={{ flexDirection: "column-reverse" }}
+      pageName={t("Attributes")}
     >
       <View style={styles.content}>
         <Table
@@ -115,12 +116,12 @@ export const Layout = ({ ...props }) => {
           headerKeyLabels={getHeaderKeys()}
           whiteListKeys={getTableKeys()}
           primaryKey="key"
-          unitKeys={{ totalDuration: 'hrs' }}
+          unitKeys={{ totalDuration: "hrs" }}
           widthForKeys={{
-            value: '10%',
-            label: '75%',
+            value: "10%",
+            label: "75%",
           }}
-          emptyDescription={t('No Values')}
+          emptyDescription={t("No Values")}
           renderCell={onRenderTableCell}
           onRowPress={() => {}}
           draggable={true}
@@ -129,7 +130,7 @@ export const Layout = ({ ...props }) => {
       </View>
 
       <View style={styles.content}>
-        <FormTitle label={t('Values of Your Attribute')}>
+        <FormTitle label={t("Values of Your Attribute")}>
           <View style={styles.headerOptions}>
             <ButtonGradientWhite
               width={scaleWidth(32)}
@@ -145,7 +146,7 @@ export const Layout = ({ ...props }) => {
               />
             </ButtonGradientWhite>
             <View style={layouts.marginHorizontal} />
-            <Text style={styles.headerOptionsLabel}>{t('Add Value')}</Text>
+            <Text style={styles.headerOptionsLabel}>{t("Add Value")}</Text>
           </View>
         </FormTitle>
       </View>
@@ -161,35 +162,35 @@ export const Layout = ({ ...props }) => {
           /> */}
 
           <FormInput
-            label={t('Attribute Label')}
-            placeholder={t('Enter attribute label')}
+            label={t("Attribute Label")}
+            placeholder={t("Enter attribute label")}
             required={true}
-            onChangeValue={form?.handleChange('label')}
-            defaultValue={form?.values?.label}
+            onChangeValue={form?.handleChange("label")}
+            defaultValue={item?.label}
           />
         </View>
         <View style={styles.content}>
           <FormLabelSwitch
-            label={t('Update product image')}
+            label={t("Update product image")}
             style={[layouts.vertical, layouts.verticalCenterLeft]}
             textStyle={styles.textStyle}
             onValueChange={(val) =>
-              form?.setFieldValue('updateProductImage', val)
+              form?.setFieldValue("updateProductImage", val)
             }
-            defaultValue={form?.values?.updateProductImage}
+            defaultValue={item?.updateProductImage}
           />
 
           <FormSelect
-            label={t('Input type')}
+            label={t("Input type")}
             filterItems={AttributesInputTypes}
-            defaultValue={form?.values?.inputType}
+            defaultValue={item?.inputType}
             onChangeValue={onChangeInputType}
           />
         </View>
       </View>
 
       <View style={styles.content}>
-        <FormTitle label={t('Attribute Properties')} />
+        <FormTitle label={t("Attribute Properties")} />
       </View>
     </EditPageLayout>
   );
@@ -200,41 +201,41 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: scaleWidth(0),
     paddingVertical: scaleHeight(16),
-    flexDirection: 'row',
-    alignItems: 'flex-start',
+    flexDirection: "row",
+    alignItems: "flex-start",
   },
 
   content: {
     flex: 1,
     marginHorizontal: scaleWidth(16),
-    flexDirection: 'column-reverse',
+    flexDirection: "column-reverse",
   },
 
   textStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
     height: scaleHeight(24),
   },
 
   headerOptions: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
 
   headerOptionsLabel: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.OCEAN_BLUE,
   },
 

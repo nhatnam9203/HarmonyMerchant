@@ -1,5 +1,5 @@
-import React from 'react';
-import { useGetCategoriesList } from '@shared/services/api/retailer';
+import React from "react";
+import { useGetCategoriesList } from "@shared/services/api/retailer";
 
 export const useProps = ({ navigation }) => {
   /**
@@ -10,7 +10,7 @@ export const useProps = ({ navigation }) => {
   const [, getCategoriesList] = useGetCategoriesList();
 
   React.useEffect(() => {
-    getCategoriesList();
+    // getCategoriesList(); // !! login staff đã gọi rồi ko cần gọi lại
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

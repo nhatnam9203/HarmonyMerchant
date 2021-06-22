@@ -4,8 +4,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Modal from 'react-native-modal';
-import { ButtonGradient, ButtonGradientWhite } from './Button';
 import ColorPicker from 'react-native-wheel-color-picker';
+import { ButtonGradient } from './Button';
 
 export const DialogColorPicker = React.forwardRef(
   ({ onApplyColor, defaultValue = '#ffffff', disabled }, ref) => {

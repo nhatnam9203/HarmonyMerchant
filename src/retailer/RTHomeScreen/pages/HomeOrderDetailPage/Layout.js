@@ -29,11 +29,11 @@ import {
   BasketContentView,
   FormEditNotes,
   FormShippingCarrier,
-  ORDERED_STATUS,
 } from "../../widget";
 import FastImage from "react-native-fast-image";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { formatMoneyWithUnit } from "@utils";
+import { ORDERED_STATUS } from "@shared/components/OrderStatusView";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
@@ -47,6 +47,7 @@ export const Layout = ({
   complete,
   onSubmitNotes,
   getPaymentString,
+  refund,
 }) => {
   const [t] = useTranslation();
 
@@ -55,15 +56,15 @@ export const Layout = ({
       case ORDERED_STATUS.COMPLETE:
         return (
           <>
-            {/* <ButtonGradient
+            <ButtonGradient
               label={t("Return")}
               width={scaleWidth(120)}
               height={scaleHeight(40)}
               fontSize={scaleFont(17)}
               textColor={colors.WHITE}
               textWeight="normal"
-              // onPress={onEditProduct}
-            /> */}
+              onPress={refund}
+            />
           </>
         );
       case ORDERED_STATUS.SHIP:
@@ -340,7 +341,9 @@ export const Layout = ({
                     item.payment.map((payItem) => (
                       <View style={styles.personContent}>
                         <Text style={styles.boldText}>
-                          {`${getPaymentString(payItem?.paymentMethod)} - ${formatMoneyWithUnit(payItem?.amount)}`}
+                          {`${getPaymentString(
+                            payItem?.paymentMethod
+                          )} - ${formatMoneyWithUnit(payItem?.amount)}`}
                         </Text>
                       </View>
                     ))}
