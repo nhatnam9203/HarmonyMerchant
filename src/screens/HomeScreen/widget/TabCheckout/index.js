@@ -1380,11 +1380,9 @@ class TabCheckout extends Layout {
             return result
           // }
         } else {
-          console.log('error1')
           return {}
         }
       } catch (error) {
-        console.log('error2', error)
         return {}
       }
   
@@ -1416,42 +1414,42 @@ class TabCheckout extends Layout {
     //Check if isCancelPayment = true
     if(isCancelPayment){
       const result = await this.getPAXReport(paxMachineInfo, "1")
-      if(!l.isEmpty(result) && l.get(result, 'InvNum') == groupAppointment?.checkoutGroupId){
+      if(!l.isEmpty(result) && l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()){
         this.handleResponseCreditCard(
-          result,
+          JSON.stringify(result),
           true,
           amountCredtitForSubmitToServer
         )
       }
+    }else{
+      const tempIpPax = commType == "TCP" ? ip : "";
+      const tempPortPax = commType == "TCP" ? port : "";
+      const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+      const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
+  
+      // 2. Send Trans to pax
+      PosLink.sendTransaction(
+        {
+          tenderType: tenderType,
+          transType: "SALE",
+          amount: `${parseFloat(paxAmount)}`,
+          transactionId: "1",
+          extData: extData,
+          commType: commType,
+          destIp: tempIpPax,
+          portDevice: tempPortPax,
+          timeoutConnect: "90000",
+          bluetoothAddr: idBluetooth,
+          invNum: `${groupAppointment?.checkoutGroupId || 0}`,
+        },
+        (message) =>
+          this.handleResponseCreditCard(
+            message,
+            true,
+            amountCredtitForSubmitToServer
+          )
+      );
     }
-
-    const tempIpPax = commType == "TCP" ? ip : "";
-    const tempPortPax = commType == "TCP" ? port : "";
-    const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
-    const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
-
-    // 2. Send Trans to pax
-    PosLink.sendTransaction(
-      {
-        tenderType: tenderType,
-        transType: "SALE",
-        amount: `${parseFloat(paxAmount)}`,
-        transactionId: "1",
-        extData: extData,
-        commType: commType,
-        destIp: tempIpPax,
-        portDevice: tempPortPax,
-        timeoutConnect: "90000",
-        bluetoothAddr: idBluetooth,
-        invNum: `${groupAppointment?.checkoutGroupId || 0}`,
-      },
-      (message) =>
-        this.handleResponseCreditCard(
-          message,
-          true,
-          amountCredtitForSubmitToServer
-        )
-    );
   };
 
   async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
@@ -1462,7 +1460,7 @@ class TabCheckout extends Layout {
     try {
       const result = JSON.parse(message);
       const tempEnv = env.IS_PRODUCTION;
-      if (result.status == 0) {
+      if (l.get(result, 'status', 1) == 0) {
         PosLink.cancelTransaction();
         if (payAppointmentId) {
           this.props.actions.appointment.cancelHarmonyPayment(
