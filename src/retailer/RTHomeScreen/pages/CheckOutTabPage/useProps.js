@@ -235,6 +235,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
 
         if (!customer) {
           customerRef.current?.showPhoneInput();
+          return;
         }
 
         if (!appointment) {
