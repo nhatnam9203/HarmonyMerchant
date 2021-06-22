@@ -55,7 +55,7 @@ export const useProps = ({ params: { item } }) => {
     item,
     onHandleReturn: () => {
       if (itemSelected?.length > 0) {
-        const productIds = itemSelected.map((v) => v.productId);
+        const productIds = itemSelected.map((v) => v.bookingProductId);
         returnAppointment(item?.appointmentId, {
           bookingProductIds: productIds,
           notes: notes,

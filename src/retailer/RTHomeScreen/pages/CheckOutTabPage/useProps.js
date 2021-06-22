@@ -43,13 +43,15 @@ export const useProps = ({ params: { reload }, navigation }) => {
   const resetAll = () => {
     setCategoryId(null);
     setActiveTab(CUSTOM_LIST_TYPES.CAT);
-    setSubCategories(null);
     setSubCategoryId(null);
+    setSubCategories(null);
+
     setProducts(null);
   };
 
   React.useEffect(() => {
     const unsubscribeFocus = navigation.addListener("focus", () => {
+      resetAll();
       getCategoriesList({ groupSubIntoMain: true });
     });
 
