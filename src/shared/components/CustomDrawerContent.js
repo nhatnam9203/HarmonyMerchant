@@ -26,7 +26,7 @@ export const CustomDrawerContent = (props) => {
         activeTintColor="#FFC130"
         inactiveTintColor="#FFFFFF"
       />
-      <TimeKeeping
+      {/* <TimeKeeping
         {...props}
         label="Timekeeping"
         icon={() => <CustomDrawerIcon source={IMAGE['Timekeeping']} />}
@@ -36,7 +36,7 @@ export const CustomDrawerContent = (props) => {
         activeBackgroundColor="#0764B0"
         inActiveBackgroundColor="#0764B0"
         inactiveTintColor="#FFFFFF"
-      />
+      /> */}
     </DrawerContentScrollView>
   );
 };
