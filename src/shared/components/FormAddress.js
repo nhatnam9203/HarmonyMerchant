@@ -203,7 +203,7 @@ export const FormAddress = ({
               onChangeValue={onHandleChangeSate}
               defaultIndex={index}
               style={styles.customInput}
-              width={scaleWidth(widthMenu)}
+              // width={scaleWidth(widthMenu)}
               height={scaleHeight(40)}
               placeholder={t("Select State")}
             />

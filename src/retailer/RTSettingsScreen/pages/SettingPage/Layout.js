@@ -11,12 +11,9 @@ import { SettingPaymentPage } from '../SettingPaymentPage';
 import { SettingStaffPage } from '../SettingStaffPage';
 import { SettingTaxPage } from '../SettingTaxPage';
 import { SettingAboutPage } from '../SettingAboutPage';
+import TabGaneral from '../../../RTGeneral';
 import {
-  TabStaff,
-  TabService,
-  TabExtra,
-  TabCategories,
-  TabGaneral,
+  // TabGaneral,
   TabHardware,
   TabTAX,
 } from '@src/screens/SettingScreen/widget';
@@ -30,15 +27,15 @@ export const Layout = ({ openDrawer, reload, logOut }) => {
   const renderContentDrawer = () => {
     switch (active) {
       case SettingGeneralPage.name:
-        return <TabGaneral />;
+        return <TabGaneral currentTab={active} />;
       case SettingAttributesPage.name:
         return <SettingAttributesPage.component reloadPage={reload} />;
       case SettingCategoriesPage.name:
         return <SettingCategoriesPage.component reloadPage={reload} />;
       case SettingStaffPage.name:
         return <SettingStaffPage.component reloadPage={reload} />;
-      case SettingPaymentPage.name:
-        return <SettingPaymentPage.component reloadPage={reload} />;
+      // case SettingPaymentPage.name:
+      //   return <SettingPaymentPage.component reloadPage={reload} />;
       case SettingTaxPage.name:
         return <TabTAX reloadPage={reload} />;
       case SettingHardwarePage.name:
@@ -75,11 +72,11 @@ export const Layout = ({ openDrawer, reload, logOut }) => {
             active={active}
             onPress={setActive}
           />
-          <ItemDrawer
+          {/* <ItemDrawer
             {...SettingPaymentPage}
             active={active}
             onPress={setActive}
-          />
+          /> */}
           <ItemDrawer {...SettingTaxPage} active={active} onPress={setActive} />
           <ItemDrawer
             {...SettingHardwarePage}

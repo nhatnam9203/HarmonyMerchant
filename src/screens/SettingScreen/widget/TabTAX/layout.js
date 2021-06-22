@@ -17,8 +17,42 @@ import connectRedux from '@redux/ConnectRedux';
 
 class Layout extends React.Component {
   render() {
-    const { isSubmitTax } = this.props;
+    const { isSubmitTax, profile } = this.props;
     const { serviceTAX, productTAX } = this.state;
+    const { type } = profile || {};
+
+    const renderItemSetupByTypeMerchant = () => {
+      switch (type) {
+        case Constants.APP_TYPE.RETAILER:
+          return (
+            <ItemSetup
+              title={'Product Tax (%) :'}
+              placeholder={'10'}
+              value={productTAX}
+              onChangeText={this.onChangeProductTax}
+            />
+          );
+        case Constants.APP_TYPE.POS:
+        default:
+          return (
+            <>
+              <ItemSetup
+                title={'Service Tax (%) :'}
+                placeholder={'10'}
+                value={serviceTAX}
+                onChangeText={this.onChangeServiceTax}
+              />
+
+              <ItemSetup
+                title={'Product Tax (%) :'}
+                placeholder={'10'}
+                value={productTAX}
+                onChangeText={this.onChangeProductTax}
+              />
+            </>
+          );
+      }
+    };
     return (
       <View
         style={{
@@ -37,19 +71,7 @@ class Layout extends React.Component {
           {`Tax Settings`}
         </Text>
         <ScrollView keyboardShouldPersistTaps="always">
-          <ItemSetup
-            title={'Service Tax (%) :'}
-            placeholder={'10'}
-            value={serviceTAX}
-            onChangeText={this.onChangeServiceTax}
-          />
-
-          <ItemSetup
-            title={'Product Tax (%) :'}
-            placeholder={'10'}
-            value={productTAX}
-            onChangeText={this.onChangeProductTax}
-          />
+          {renderItemSetupByTypeMerchant()}
           <View style={{ height: scaleSize(300) }} />
         </ScrollView>
         {/* ------- Footer -------- */}
