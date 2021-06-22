@@ -138,7 +138,6 @@ RCT_EXPORT_METHOD(cancelTransaction){
   [myapp.poslink cancelTrans];
 }
 
-
 RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amount tipAmount:(NSString *)tipAmount extData:(NSString *)extData callback:(RCTResponseSenderBlock)callback)
 {
   MyApp *myapp = [MyApp sharedSigleton];
@@ -164,7 +163,7 @@ RCT_EXPORT_METHOD(sendTransaction:(NSString *)tenderType amount:(NSString *)amou
   paymentRequest.SurchargeAmt = @"";
   paymentRequest.PONum = @"";
   paymentRequest.OrigRefNum = @"";
-  paymentRequest.InvNum = @"";
+  paymentRequest.InvNum = @""; //invoice num of pos
   paymentRequest.ECRRefNum = @"1";
   paymentRequest.ECRTransID = @"";
   paymentRequest.AuthCode = @"";
@@ -340,7 +339,11 @@ RCT_EXPORT_METHOD(batchTransaction:(RCTResponseSenderBlock)callback)
 }
 
 //---------------- Handle Report -------------
-RCT_EXPORT_METHOD(reportTransaction:(NSString *)transType edcType:(NSString *)edcType cardType:(NSString *)cardType paymentType:(NSString *)paymentType findEventsWithResolver:(RCTPromiseResolveBlock)resolve  rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(reportTransaction:(NSString *)transType edcType:(NSString *)edcType 
+                  cardType:(NSString *)cardType paymentType:(NSString *)paymentType 
+                  findEventsWithResolver:(RCTPromiseResolveBlock)resolve  
+                  rejecter:(RCTPromiseRejectBlock)reject
+                  isLastTransaction:(NSString *)i)
 //                  callback:(RCTResponseSenderBlock)callback
 {
   MyApp *myapp = [MyApp sharedSigleton];

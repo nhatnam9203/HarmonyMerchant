@@ -55,6 +55,12 @@ RCT_EXPORT_METHOD(reportTransaction:(NSDictionary *)reportInfo findEventsWithRes
   reportRequest.SAFIndicator = @"";
   reportRequest.LASTTRANSACTION = @"";
   reportRequest.ExtData = @"";
+  if([reportInfo objectForKey:@"isLastTransaction"] == nil
+     || [reportInfo objectForKey:@"isLastTransaction"] == [NSNull null]){
+    reportRequest.LASTTRANSACTION = @"0";
+  }else{
+    reportRequest.LASTTRANSACTION = reportInfo[@"isLastTransaction"];
+  }
   
   poslink.reportRequest = reportRequest;
   
