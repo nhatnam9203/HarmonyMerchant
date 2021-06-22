@@ -11,7 +11,6 @@ import {
 } from "@shared/services/api/retailer";
 import { INPUT_TYPE, calcTotalPriceOfOption } from "@shared/utils";
 import { basketRetailer } from "@redux/slices";
-import { map } from "rxjs/operators";
 import { useDispatch } from "react-redux";
 import IMAGE from "@resources";
 
@@ -27,6 +26,7 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
   const [product, setProduct] = React.useState(null);
   const [options, setOptions] = React.useState({});
   const [quantity, setQuantity] = React.useState(1);
+  const [imageUrl, setImageUrl] = React.useState(null);
 
   /**
   |--------------------------------------------------
@@ -39,10 +39,10 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
     if (!products) return 0;
     let price = parseFloat(product?.price);
     price += product?.options?.reduce((accumulator, currentItem) => {
-      if (!options[currentItem.inputType]) return accumulator;
+      if (!options[currentItem?.id]) return accumulator;
 
       const findItem = currentItem?.values?.find(
-        (v) => v.id === options[currentItem.inputType]
+        (v) => v.id === options[currentItem?.id]
       );
       if (findItem) {
         return accumulator + parseFloat(findItem.valueAdd);
@@ -58,8 +58,8 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
     // !! tạm  dùng inputType
     const filterOptions = product?.options?.map((v) => {
       let temp;
-      if (options && options[v.inputType]) {
-        temp = v?.values.filter((i) => i.id === options[v.inputType]);
+      if (options && options[v?.id]) {
+        temp = v?.values.filter((i) => i.id === options[v?.id]);
       }
       const { values, ...pro } = v;
       return Object.assign({}, pro, { values: temp });
@@ -91,21 +91,28 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
   React.useEffect(() => {
     if (products?.data) {
       setProduct(products?.data);
+      setImageUrl(products?.data?.imageUrl);
     }
   }, [products?.data]);
 
   const renderOption = (itemOption) => {
     const onHandlePress = (optionValue) => {
       setOptions((prev) =>
-        Object.assign({}, prev, { [itemOption?.inputType]: optionValue.id })
+        Object.assign({}, prev, { [itemOption?.id]: optionValue.id })
       );
+
+      if (optionValue?.imageUrl) {
+        setImageUrl(optionValue?.imageUrl);
+      } else {
+        setImageUrl(product?.imageUrl);
+      }
     };
 
-    const defaultOption = options[itemOption?.inputType];
+    const defaultOption = options[itemOption?.id];
     if (!defaultOption && itemOption?.values?.length > 0) {
       setOptions((prev) =>
         Object.assign({}, prev, {
-          [itemOption?.inputType]: itemOption?.values[0].id,
+          [itemOption?.id]: itemOption?.values[0].id,
         })
       );
     }
@@ -122,8 +129,7 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
                   key={v.id + ""}
                   style={[
                     styles.buttonColor,
-                    options[itemOption?.inputType] === v.id &&
-                      styles.selectBorder,
+                    options[itemOption?.id] === v.id && styles.selectBorder,
                   ]}
                   onPress={() => onHandlePress(v)}
                 >
@@ -145,8 +151,7 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
                   key={v.id + ""}
                   style={[
                     styles.buttonSize,
-                    options[itemOption?.inputType] === v.id &&
-                      styles.selectBorder,
+                    options[itemOption?.id] === v.id && styles.selectBorder,
                   ]}
                   onPress={() => onHandlePress(v)}
                 >
@@ -169,8 +174,7 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
                   style={[
                     styles.buttonColor,
                     { backgroundColor: v.value },
-                    options[itemOption?.inputType] === v.id &&
-                      styles.selectBorder,
+                    options[itemOption?.id] === v.id && styles.selectBorder,
                   ]}
                   onPress={() => onHandlePress(v)}
                 />
@@ -206,9 +210,9 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
           <FastImage
             style={styles.imageStyle}
             source={
-              product?.imageUrl
+              imageUrl
                 ? {
-                    uri: product?.imageUrl,
+                    uri: imageUrl,
                     priority: FastImage.priority.high,
                     cache: FastImage.cacheControl.immutable,
                   }

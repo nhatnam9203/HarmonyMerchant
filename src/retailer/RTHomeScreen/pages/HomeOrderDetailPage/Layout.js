@@ -441,7 +441,7 @@ export const Layout = ({
               <View style={styles.personContent}>
                 <InfoLine
                   label={t("Invoice ID")}
-                  infoValue={item?.invoice?.code}
+                  infoValue={item?.invoice?.checkoutId}
                   infoTextStyle={styles.highInfoTextStyle}
                 />
                 <InfoLine
