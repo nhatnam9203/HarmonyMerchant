@@ -1,22 +1,22 @@
-import IMAGE from "@resources";
+import IMAGE from '@resources';
 import {
   CustomCheckBox,
   DialogColorPicker,
   FormUploadImage,
-} from "@shared/components";
-import { CustomInput } from "@shared/components/CustomInput";
-import { Table } from "@shared/components/CustomTable";
-import { getUniqueId } from "@shared/components/CustomTable/helpers";
+} from '@shared/components';
+import { CustomInput, CustomInputMask } from '@shared/components/CustomInput';
+import { Table } from '@shared/components/CustomTable';
+import { getUniqueId } from '@shared/components/CustomTable/helpers';
 import {
   useCreateAttributes,
   useEditAttributes,
   useGetAttributes,
-} from "@shared/services/api/retailer";
-import { colors, fonts, layouts } from "@shared/themes";
-import { AttributesInputTypes, INPUT_TYPE } from "@shared/utils";
-import { useFormik } from "formik";
-import React from "react";
-import { useTranslation } from "react-i18next";
+} from '@shared/services/api/retailer';
+import { colors, fonts, layouts } from '@shared/themes';
+import { AttributesInputTypes, INPUT_TYPE } from '@shared/utils';
+import { useFormik } from 'formik';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   FlatList,
   Image,
@@ -24,15 +24,15 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import * as Yup from "yup";
+} from 'react-native';
+import * as Yup from 'yup';
 import {
   BIRTH_DAY_DATE_FORMAT_STRING,
   statusSuccess,
   dateToString,
-} from "@shared/utils";
+} from '@shared/utils';
 
-const log = (obj, message = "") => {
+const log = (obj, message = '') => {
   Logger.log(`[FormProductOption] ${message}`, obj);
 };
 
@@ -46,7 +46,7 @@ export const FormProductOption = React.forwardRef(
         updateProductImage: false,
       },
       validationSchema: Yup.object().shape({
-        label: Yup.string().required(t("Label Value is required")),
+        label: Yup.string().required(t('Label Value is required')),
         inputType: Yup.string(),
         updateProductImage: Yup.boolean(),
         values: Yup.array().of(
@@ -100,12 +100,12 @@ export const FormProductOption = React.forwardRef(
           })
         );
 
-        form.setFieldValue("inputType", data?.inputType);
+        form.setFieldValue('inputType', data?.inputType);
         form.setFieldValue(
-          "updateProductImage",
+          'updateProductImage',
           attributesGet?.data?.updateProductImage
         );
-        form.setFieldValue("attributeId", data?.id);
+        form.setFieldValue('attributeId', data?.id);
 
         if (item) {
           let values = options?.map((v) => {
@@ -123,9 +123,9 @@ export const FormProductOption = React.forwardRef(
             }
           });
 
-          form.setFieldValue("values", values);
+          form.setFieldValue('values', values);
         } else {
-          form.setFieldValue("values", options);
+          form.setFieldValue('values', options);
         }
       }
       onUpdate();
@@ -143,7 +143,7 @@ export const FormProductOption = React.forwardRef(
     }, []);
 
     const onUpdate = React.useCallback(() => {
-      if (onUpdateOptionValues && typeof onUpdateOptionValues === "function") {
+      if (onUpdateOptionValues && typeof onUpdateOptionValues === 'function') {
         onUpdateOptionValues(form.values);
       }
     }, [form.values]);
@@ -158,7 +158,7 @@ export const FormProductOption = React.forwardRef(
     };
 
     const onRemoveOptionsPress = () => {
-      if (onRemoveOptionValues && typeof onRemoveOptionValues === "function") {
+      if (onRemoveOptionValues && typeof onRemoveOptionValues === 'function') {
         onRemoveOptionValues(form.values);
       }
     };
@@ -166,22 +166,22 @@ export const FormProductOption = React.forwardRef(
     const getHeaderKeys = () => {
       return form.values?.inputType === INPUT_TYPE.VISUAL_SWATCH
         ? {
-            active: t("Active"),
-            value: t("Swatch"),
-            label: t("Value Label"),
-            valueAdd: t("Value Add"),
+            active: t('Active'),
+            value: t('Swatch'),
+            label: t('Value Label'),
+            valueAdd: t('Value Add'),
           }
         : {
-            active: t("Active"),
-            label: t("Value Label"),
-            valueAdd: t("Value Add"),
+            active: t('Active'),
+            label: t('Value Label'),
+            valueAdd: t('Value Add'),
           };
     };
 
     const getTableKeys = () => {
       return form.values?.inputType === INPUT_TYPE.VISUAL_SWATCH
-        ? ["active", "value", "label", "valueAdd"]
-        : ["active", "label", "valueAdd"];
+        ? ['active', 'value', 'label', 'valueAdd']
+        : ['active', 'label', 'valueAdd'];
     };
 
     const onRenderTableCell = ({
@@ -190,7 +190,7 @@ export const FormProductOption = React.forwardRef(
       rowIndex,
       cellWidth,
     }) => {
-      if (columnKey === "active") {
+      if (columnKey === 'active') {
         const setToggleCheckBox = (val) => {
           const updates = form.values.values?.map((v) => {
             if (v?.attributeValueId === cellItem?.attributeValueId) {
@@ -200,13 +200,13 @@ export const FormProductOption = React.forwardRef(
             }
           });
 
-          log(updates, "values updates");
-          form.setFieldValue("values", updates);
+          log(updates, 'values updates');
+          form.setFieldValue('values', updates);
         };
         return (
           <View
             style={[{ width: cellWidth }, layouts.center]}
-            key={getUniqueId(columnKey, rowIndex, "cell-checkbox")}
+            key={getUniqueId(columnKey, rowIndex, 'cell-checkbox')}
           >
             <CustomCheckBox
               defaultValue={cellItem?.checked}
@@ -218,19 +218,19 @@ export const FormProductOption = React.forwardRef(
         );
       }
 
-      if (columnKey === "label") {
+      if (columnKey === 'label') {
         const onHandleChange = (text) => {};
         return (
           <View
             style={{ width: cellWidth }}
-            key={getUniqueId(columnKey, rowIndex, "cell-label")}
+            key={getUniqueId(columnKey, rowIndex, 'cell-label')}
           >
             <CustomInput
               style={[styles.customInput, { width: scaleWidth(230) }]}
               textInputProps={{
-                placeholder: "Label",
+                placeholder: 'Label',
                 fontSize: scaleFont(17),
-                textAlign: "left",
+                textAlign: 'left',
                 defaultValue: cellItem?.label,
                 onChangeText: onHandleChange,
                 editable: false,
@@ -240,12 +240,12 @@ export const FormProductOption = React.forwardRef(
         );
       }
 
-      if (columnKey === "value") {
+      if (columnKey === 'value') {
         const onHandleUpdateSwatch = (color) => {};
         return (
           <View
             style={{ width: cellWidth }}
-            key={getUniqueId(columnKey, rowIndex, "cell-value")}
+            key={getUniqueId(columnKey, rowIndex, 'cell-value')}
           >
             <DialogColorPicker
               onApplyColor={onHandleUpdateSwatch}
@@ -256,7 +256,7 @@ export const FormProductOption = React.forwardRef(
         );
       }
 
-      if (columnKey === "valueAdd") {
+      if (columnKey === 'valueAdd') {
         const onHandleChange = async (text) => {
           let values = form.values.values?.map((v) => {
             if (v.attributeValueId === cellItem.attributeValueId) {
@@ -266,22 +266,30 @@ export const FormProductOption = React.forwardRef(
             }
           });
 
-          log(updates, "values updates valueAdd");
-          await form.setFieldValue("values", values);
+          log(updates, 'values updates valueAdd');
+          await form.setFieldValue('values', values);
           // onUpdateOptionValues(form.values);
           onUpdate();
         };
         return (
           <View
             style={{ width: cellWidth }}
-            key={getUniqueId(columnKey, rowIndex, "cell-value-add")}
+            key={getUniqueId(columnKey, rowIndex, 'cell-value-add')}
           >
-            <CustomInput
+            <CustomInputMask
               style={[styles.customInput, { width: scaleWidth(230) }]}
+              options={{
+                precision: 2,
+                separator: '.',
+                delimiter: ',',
+                unit: '',
+                suffixUnit: '',
+              }}
+              type="money"
               textInputProps={{
-                placeholder: "Label",
+                placeholder: 'Label',
                 fontSize: scaleFont(17),
-                textAlign: "left",
+                textAlign: 'left',
                 defaultValue: cellItem?.valueAdd,
                 onChangeText: onHandleChange,
               }}
@@ -295,7 +303,7 @@ export const FormProductOption = React.forwardRef(
     const onRenderOptionsImage = ({ item: cellItem }) => {
       const onChangeFile = async (fileId) => {
         if (fileId) {
-          log(form.values, "form.values");
+          log(form.values, 'form.values');
 
           let values = form.values.values?.map((v) => {
             if (v.attributeValueId === cellItem.attributeValueId) {
@@ -305,9 +313,9 @@ export const FormProductOption = React.forwardRef(
             }
           });
 
-          log(updates, "values updates onRenderOptionsImage");
+          log(updates, 'values updates onRenderOptionsImage');
 
-          await form.setFieldValue("values", values);
+          await form.setFieldValue('values', values);
           // onUpdateOptionValues(form.values);
           onUpdate();
         }
@@ -345,10 +353,10 @@ export const FormProductOption = React.forwardRef(
               // unitKeys={{ totalDuration: "hrs" }}
               widthForKeys={{
                 active: scaleWidth(100),
-                value: "10%",
-                label: "45%",
+                value: '10%',
+                label: '45%',
               }}
-              emptyDescription={t("No Values")}
+              emptyDescription={t('No Values')}
               renderCell={onRenderTableCell}
               onRowPress={() => {}}
               draggable={true}
@@ -358,7 +366,7 @@ export const FormProductOption = React.forwardRef(
         </View>
         {form.values?.updateProductImage && (
           <View>
-            <InfoHeading label={t("Option Image")} fontSize={scaleWidth(17)} />
+            <InfoHeading label={t('Option Image')} fontSize={scaleWidth(17)} />
 
             <View style={styles.content}>
               <FlatList
@@ -413,29 +421,29 @@ const styles = StyleSheet.create({
   infoHeaderText: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(20),
-    fontWeight: "bold",
-    fontStyle: "normal",
+    fontWeight: 'bold',
+    fontStyle: 'normal',
     letterSpacing: 0,
-    textAlign: "left",
+    textAlign: 'left',
     color: colors.GREYISH_BROWN,
     marginRight: scaleWidth(10),
   },
 
   infoLineContent: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingVertical: scaleHeight(7),
   },
 
   flatList: {
-    width: "100%",
+    width: '100%',
     height: scaleHeight(200),
   },
 
   flatListContainer: {
-    justifyContent: "flex-start",
-    flexDirection: "row",
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
     // flexWrap: 'wrap',
   },
 

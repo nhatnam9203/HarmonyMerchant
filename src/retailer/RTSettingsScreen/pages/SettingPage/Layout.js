@@ -11,12 +11,9 @@ import { SettingPaymentPage } from '../SettingPaymentPage';
 import { SettingStaffPage } from '../SettingStaffPage';
 import { SettingTaxPage } from '../SettingTaxPage';
 import { SettingAboutPage } from '../SettingAboutPage';
+import TabGaneral from '../../../RTGeneral';
 import {
-  TabStaff,
-  TabService,
-  TabExtra,
-  TabCategories,
-  TabGaneral,
+  // TabGaneral,
   TabHardware,
   TabTAX,
 } from '@src/screens/SettingScreen/widget';
@@ -30,7 +27,7 @@ export const Layout = ({ openDrawer, reload, logOut }) => {
   const renderContentDrawer = () => {
     switch (active) {
       case SettingGeneralPage.name:
-        return <TabGaneral />;
+        return <TabGaneral currentTab={active} />;
       case SettingAttributesPage.name:
         return <SettingAttributesPage.component reloadPage={reload} />;
       case SettingCategoriesPage.name:

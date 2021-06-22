@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   StyleSheet,
@@ -6,10 +6,10 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
-} from "react-native";
-import { useTranslation } from "react-i18next";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { layouts, colors, fonts } from "@shared/themes";
+} from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { layouts, colors, fonts } from '@shared/themes';
 import {
   FormTitle,
   ButtonGradient,
@@ -17,6 +17,7 @@ import {
   FormInput,
   FormSelect,
   FormUploadImage,
+  FormInputMask,
 } from '@shared/components';
 import { dateToString, BIRTH_DAY_DATE_FORMAT_STRING } from '@shared/utils';
 import IMAGE from '@resources';
@@ -25,6 +26,7 @@ import { AddProductOptionDialog, FormProductOption } from '../../widget';
 export const Layout = ({
   isEdit,
   isNew,
+  errorMsg,
   buttonCancelPress,
   productItem,
   onNewCategory,
@@ -40,7 +42,7 @@ export const Layout = ({
   const renderOptionsItem = ({ item, index }) => {
     return (
       <FormProductOption
-        key={item.attributeId + ""}
+        key={item.attributeId + ''}
         item={item}
         onUpdateOptionValues={updateAttributeOptions}
         onRemoveOptionValues={onRemoveOptionValues}
@@ -70,7 +72,7 @@ export const Layout = ({
         </View>
         <View style={styles.container}>
           <View style={styles.content}>
-            <FormInput
+            <FormInputMask
               label={t('Cost Price ($)')}
               placeholder={t('Enter cost price')}
               required={true}
@@ -78,9 +80,10 @@ export const Layout = ({
                 if (value) form.setFieldValue('costPrice', parseFloat(value));
               }}
               defaultValue={productItem?.costPrice}
+              keyboardType="numeric"
             />
 
-            <FormInput
+            <FormInputMask
               label={t('Price ($)')}
               placeholder={t('Enter price')}
               required={true}
@@ -88,13 +91,14 @@ export const Layout = ({
                 if (value) form.setFieldValue('price', parseFloat(value));
               }}
               defaultValue={productItem?.price}
+              keyboardType="numeric"
             />
 
             <FormInput
               label={t('Barcode')}
               placeholder={t('Enter or scan barcode')}
-              required={true}
-              onChangeValue={form.handleChange("barCode")}
+              //required={true}
+              onChangeValue={form.handleChange('barCode')}
               defaultValue={productItem?.barCode}
             />
 
@@ -102,16 +106,16 @@ export const Layout = ({
               label={t('SKU')}
               placeholder={t('Enter SKU number')}
               required={true}
-              onChangeValue={form.handleChange("sku")}
+              onChangeValue={form.handleChange('sku')}
               defaultValue={productItem?.sku}
             />
 
             <FormSelect
               filterRef={filterCategoryRef}
-              label={t("Subcategory")}
+              label={t('Subcategory')}
               filterItems={listSelectCategories}
               defaultValue={productItem?.categoryId}
-              onChangeValue={(val) => form.setFieldValue("categoryId", val)}
+              onChangeValue={(val) => form.setFieldValue('categoryId', val)}
             >
               <ButtonGradient
                 label={t('New Category')}
@@ -128,7 +132,7 @@ export const Layout = ({
               label={t('Product Name')}
               placeholder={t('Enter product name')}
               required={true}
-              onChangeValue={form.handleChange("name")}
+              onChangeValue={form.handleChange('name')}
               defaultValue={productItem?.name}
             />
           </View>
@@ -140,30 +144,32 @@ export const Layout = ({
               }
               defaultValue={productItem?.imageUrl}
             />
-
+            <Text style={styles.errorText}>{errorMsg}</Text>
             <View style={[layouts.horizontal]}>
               <FormInput
                 label={t('Low threshold')}
                 placeholder={t('10')}
-                required={true}
+                //required={true}
                 style={layouts.fill}
                 onChangeValue={(value) => {
                   if (value)
                     form.setFieldValue('minThreshold', parseInt(value));
                 }}
-                defaultValue={`${productItem?.minThreshold ?? ""}`}
+                defaultValue={`${productItem?.minThreshold ?? ''}`}
+                keyboardType="numeric"
               />
               <View style={layouts.marginHorizontal} />
               <FormInput
                 label={t('High threshold')}
                 placeholder={t('20')}
-                required={true}
+                //required={true}
                 style={layouts.fill}
                 onChangeValue={(value) => {
                   if (value)
                     form.setFieldValue('maxThreshold', parseInt(value));
                 }}
-                defaultValue={`${productItem?.maxThreshold ?? ""}`}
+                defaultValue={`${productItem?.maxThreshold ?? ''}`}
+                keyboardType="numeric"
               />
             </View>
 
@@ -174,7 +180,8 @@ export const Layout = ({
               onChangeValue={(value) => {
                 if (value) form.setFieldValue('quantity', parseInt(value));
               }}
-              defaultValue={`${productItem?.quantity ?? ""}`}
+              defaultValue={`${productItem?.quantity ?? ''}`}
+              keyboardType="numeric"
             />
           </View>
         </View>
@@ -313,5 +320,13 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: 'left',
     color: colors.OCEAN_BLUE,
+  },
+  errorText: {
+    fontFamily: fonts.MEDIUM,
+    fontSize: scaleFont(14),
+    fontWeight: '500',
+    fontStyle: 'normal',
+    letterSpacing: 0,
+    color: colors.ORANGEY_RED,
   },
 });

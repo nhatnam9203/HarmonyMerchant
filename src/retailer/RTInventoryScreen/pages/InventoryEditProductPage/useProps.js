@@ -45,7 +45,6 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   | VALIDATE
   |--------------------------------------------------
   */
-  console.log('item', item);
   const form = useFormik({
     initialValues: item ?? {},
     validationSchema: Yup.object().shape({
@@ -57,8 +56,16 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
       // price: Yup.number(),
       // costPrice: Yup.number(),
       // quantity: Yup.number(),
-      // minThreshold: Yup.number(),
-      // maxThreshold: Yup.number(),
+      // minThreshold: Yup.number().max(
+      //   Yup.ref(
+      //     'maxThreshold',
+      //     'minThreshold should be small than maxThreshold'
+      //   )
+      // ),
+      maxThreshold: Yup.number().min(
+        Yup.ref('minThreshold'),
+        t('High threshold should be high than Low threshold')
+      ),
       // fileId: Yup.number(),
       // options: Yup.array().of(
       //   Yup.object().shape({
@@ -73,10 +80,11 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
       //   }),
       // ),
     }),
+
     onSubmit: (values) => {
       // alert(JSON.stringify(values));
       // log(values, 'edit ======> ');
-
+      values.barCode = values.barCode || values.sku;
       const formatOptions = values?.options.map((x) => ({
         attributeId: x.attributeId,
         // id: x.id,
@@ -130,6 +138,14 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
     }
   }, [productData, productEdit]);
 
+  React.useEffect(() => {
+    const { maxThreshold } = form.errors;
+    if (maxThreshold) {
+      setErrorMsg(maxThreshold);
+    } else {
+      setErrorMsg(null);
+    }
+  }, [form.errors]);
   // React.useEffect(() => {
   //   const list = categories
   //     ?.filter((x) => x.isSubCategory)
@@ -159,6 +175,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   return {
     isEdit,
     isNew,
+    errorMsg,
     buttonCancelPress: () => {
       NavigationServices.goBack();
     },
@@ -178,10 +195,10 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
     onAddAttributes: (attributes) => {
       const currentOptions = form?.values?.options || [];
       const mergeOptions = currentOptions.concat(attributes);
-      form.setFieldValue("options", mergeOptions);
+      form.setFieldValue('options', mergeOptions);
     },
     updateAttributeOptions: (optValue) => {
-      log(optValue, "optValue");
+      log(optValue, 'optValue');
       const values = optValue?.values;
       const currentOptions = form.values?.options || [];
 
@@ -203,9 +220,9 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
       if (replaceIndex >= 0) {
         options[replaceIndex] = updateOption;
       }
-      log(options, "options");
+      log(options, 'options');
 
-      form.setFieldValue("options", options);
+      form.setFieldValue('options', options);
     },
     filterCategoryRef,
     onRemoveOptionValues: (optValue) => {
@@ -213,7 +230,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
       const mergeOptions = currentOptions.filter(
         (opt) => opt.attributeId !== optValue.attributeId
       );
-      form.setFieldValue("options", mergeOptions);
+      form.setFieldValue('options', mergeOptions);
     },
   };
 };
