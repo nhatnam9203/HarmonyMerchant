@@ -31,6 +31,7 @@ export const Layout = ({
   onHadSubmitted,
   onGoBack,
   customerRef,
+  onRefreshCategory
 }) => {
   const [t] = useTranslation();
 
@@ -61,6 +62,7 @@ export const Layout = ({
             isActive={activeTab === CUSTOM_LIST_TYPES.CAT}
             onPressRow={onPressCategoryItem}
             activeId={categoryId}
+            refreshData={onRefreshCategory}
           />
           <CustomList
             title={t('Subcategories')}

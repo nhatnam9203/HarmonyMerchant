@@ -164,5 +164,8 @@ export const useProps = ({ params: { reload }, navigation }) => {
       NavigationServices.navigate("retailer.home.order.list", {});
     },
     customerRef,
+    onRefreshCategory: () => {
+      getCategoriesList({ groupSubIntoMain: true });
+    },
   };
 };

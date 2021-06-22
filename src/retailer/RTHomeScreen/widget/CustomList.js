@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native";
 import { colors, fonts, layouts } from "@shared/themes";
 import FastImage from "react-native-fast-image";
@@ -24,7 +25,22 @@ export const CustomList = ({
   onPressRow,
   activeId,
   type,
+  refreshData,
 }) => {
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
+
+  const onRefresh = () => {
+    if (refreshData && typeof refreshData === "function") {
+      setIsRefreshing(true);
+
+      refreshData();
+
+      setTimeout(() => {
+        setIsRefreshing(false);
+      }, 200);
+    }
+  };
+
   const renderHeader = () =>
     items ? (
       <View style={styles.header}>
@@ -108,6 +124,9 @@ export const CustomList = ({
           ListHeaderComponent={renderHeader}
           renderItem={renderItem}
           keyExtractor={(item, index) => `${index}`}
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+          }
         />
       </View>
     </View>
