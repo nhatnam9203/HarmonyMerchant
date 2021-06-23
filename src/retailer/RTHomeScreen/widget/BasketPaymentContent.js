@@ -14,6 +14,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from "react-native";
 import FastImage from "react-native-fast-image";
 import Swipeable from "react-native-gesture-handler/Swipeable";
@@ -175,44 +176,45 @@ export const BasketPaymentContent = React.forwardRef(
       <View style={styles.container}>
         <FlatList
           style={styles.flatList}
-          containerStyle={styles.flatListContainer}
           data={orderItem?.products}
           renderItem={renderItem}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           keyExtractor={(item) => item.id + ""}
-          ListFooterComponent={() => (
-            <>
-              <View style={styles.line} />
-              <View style={styles.totalContent}>
-                <View style={layouts.marginVertical} />
-                <View style={layouts.marginVertical} />
-                <TotalInfo
-                  label={t("Subtotal")}
-                  value={formatMoneyWithUnit(orderItem?.subTotal)}
-                />
-                <TotalInfo
-                  label={t("Tax")}
-                  value={formatMoneyWithUnit(orderItem?.tax)}
-                />
-                <TotalInfo
-                  label={t("Discount")}
-                  value={formatMoneyWithUnit(orderItem?.discount)}
-                />
-                <View style={layouts.marginVertical} />
-                <View style={styles.line} />
-                <View style={layouts.marginVertical} />
-                <TotalInfo
-                  label={t("Total")}
-                  value={formatMoneyWithUnit(orderItem?.total)}
-                  isBold
-                />
-                <View style={layouts.marginVertical} />
-              </View>
-            </>
-          )}
         />
-
-        <View style={layouts.marginVertical} />
+        <View style={styles.line} />
+        <View style={styles.totalContent}>
+          <View style={layouts.marginVertical} />
+          <View style={layouts.marginVertical} />
+          <TotalInfo
+            label={t("Subtotal")}
+            value={formatMoneyWithUnit(orderItem?.subTotal)}
+          />
+          <TotalInfo
+            label={t("Tax")}
+            value={formatMoneyWithUnit(orderItem?.tax)}
+          />
+          <TotalInfo
+            label={t("Discount")}
+            value={formatMoneyWithUnit(orderItem?.discount)}
+          >
+            <View style={layouts.marginHorizontal} />
+            <TouchableOpacity>
+              <Image
+                source={IMAGE.add_discount_checkout}
+                style={styles.iconStyle}
+              />
+            </TouchableOpacity>
+          </TotalInfo>
+          <View style={layouts.marginVertical} />
+          <View style={styles.line} />
+          <View style={layouts.marginVertical} />
+          <TotalInfo
+            label={t("Total")}
+            value={formatMoneyWithUnit(orderItem?.total)}
+            isBold
+          />
+          <View style={layouts.marginVertical} />
+        </View>
         <View style={layouts.center}>
           <ButtonGradient
             disable={disable}
@@ -229,11 +231,14 @@ export const BasketPaymentContent = React.forwardRef(
   }
 );
 
-const TotalInfo = ({ label, value = "$ 0.00", isBold = false }) => (
+const TotalInfo = ({ label, value = "$ 0.00", isBold = false, children }) => (
   <View style={styles.totalInfoContent}>
-    <Text style={isBold ? styles.totalText : styles.totalInfoText}>
-      {label}
-    </Text>
+    <View style={styles.totalLabel}>
+      <Text style={isBold ? styles.totalText : styles.totalInfoText}>
+        {label}
+      </Text>
+      {children}
+    </View>
     <Text style={isBold ? styles.priceText : styles.priceInfoText}>
       {value}
     </Text>
@@ -274,24 +279,16 @@ const styles = StyleSheet.create({
   },
 
   flatList: {
-    flex: 0,
-    width: "100%",
-  },
-
-  flatListContainer: {
-    flex: 0,
-    width: "100%",
-    backgroundColor: "red",
+    flex: 1,
   },
 
   totalContent: {
     marginHorizontal: scaleWidth(12),
-    flex: 1,
   },
 
   totalInfoContent: {
     flexDirection: "row",
-    height: scaleHeight(25),
+    height: scaleHeight(30),
     alignItems: "center",
     justifyContent: "space-between",
   },
@@ -347,6 +344,11 @@ const styles = StyleSheet.create({
     height: scaleHeight(36),
   },
 
+  iconStyle: {
+    width: scaleWidth(24),
+    height: scaleHeight(24),
+  },
+
   productItem: {
     flexDirection: "row",
     height: scaleHeight(60),
@@ -399,5 +401,11 @@ const styles = StyleSheet.create({
   rightSwipe: {
     paddingRight: scaleWidth(4),
     backgroundColor: "#FF3B30",
+  },
+
+  totalLabel: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
   },
 });
