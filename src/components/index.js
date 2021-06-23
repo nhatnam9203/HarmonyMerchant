@@ -53,9 +53,11 @@ import ScrollableTabView from "./react-native-scrollable-tab-view";
 import { FooterTwoButton } from "./FormInfoParent";
 import PopupInfomationCodePush from "./PopupInfomationCodePush";
 import DropdownSearchable from "./DropdownSearchable";
+import Slider from "./Slider";
 import CustomTimePicker from "./CustomTimePicker";
 
 module.exports = {
+  Slider,
   Button,
   Text,
   ButtonCustom,

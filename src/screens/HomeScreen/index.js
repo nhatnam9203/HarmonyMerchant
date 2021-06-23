@@ -348,28 +348,36 @@ class HomeScreen extends Layout {
         }
     }
 
-    addMoreAppointmentFromCalendar = (appointmentId, staffId = 0) => {
-        this.props.actions.appointment.getGroupAppointmentById(appointmentId, false, true, false);
-        this.scrollTabParentRef.current.goToPage(2);
+  addMoreAppointmentFromCalendar = (appointmentId, staffId = 0) => {
+    if (staffId) {
+      this.props.actions.appointment.getGroupAppointmentById(
+        appointmentId,
+        false,
+        true,
+        false
+      );
+      this.scrollTabParentRef.current.goToPage(2);
 
-        if (staffId) {
-            if (this.tabCheckoutRef?.current) {
-                this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
-            } else {
-                setTimeout(() => {
-                    this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
-                }, 200)
-            }
-        } else {
-            if (this.tabCheckoutRef?.current) {
-                this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
-            } else {
-                setTimeout(() => {
-                    this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
-                }, 200)
-            }
-        }
+      if (this.tabCheckoutRef?.current) {
+        this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+      } else {
+        setTimeout(() => {
+          this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
+        }, 200);
+      }
+    } else {
+      this.props.actions.appointment.getBlockAppointmentById(appointmentId, true);
+      this.scrollTabParentRef.current.goToPage(2);
+
+      if (this.tabCheckoutRef?.current) {
+        this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
+      } else {
+        setTimeout(() => {
+          this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
+        }, 200);
+      }
     }
+  };
 
     createABlockAppointment = (appointmentId, fromTime) => {
         this.props.actions.appointment.updateFromTimeBlockAppointment(fromTime ? fromTime : new Date());

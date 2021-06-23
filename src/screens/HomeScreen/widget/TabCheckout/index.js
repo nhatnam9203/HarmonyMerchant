@@ -16,11 +16,14 @@ import {
   formatWithMoment,
   getInfoFromModelNameOfPrinter,
   getArrayGiftCardsFromAppointment,
-} from '@utils';
-import PrintManager from '@lib/PrintManager';
-import apiConfigs from '@configs/api';
-import initState from './widget/initState';
+  getPAXReport,
+} from "@utils";
+import PrintManager from "@lib/PrintManager";
+import Configs from "@configs";
+import initState from "./widget/initState";
+import * as l from "lodash";
 
+const PosLinkReport = NativeModules.report;
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
@@ -60,14 +63,14 @@ class TabCheckout extends Layout {
     const { categorySelected, categoryTypeSelected } = this.state;
     const { productsByMerchantId, servicesByMerchant, extrasByMerchant } =
       this.props;
-    if (categoryTypeSelected === 'Extra') {
+    if (categoryTypeSelected === "Extra") {
       const dataExtra = extrasByMerchant.filter((extra, index) => {
         return extra?.isDisabled === 0;
       });
       return dataExtra;
     } else {
       const data =
-        categoryTypeSelected === 'Service'
+        categoryTypeSelected === "Service"
           ? servicesByMerchant
           : productsByMerchantId;
       if (data?.length > 0) {
@@ -93,15 +96,15 @@ class TabCheckout extends Layout {
     await this.setState({
       basket: temptBasket,
       staffIdOfline: appointment?.staffId || 0,
-      fromTime: appointment?.fromTime || '',
+      fromTime: appointment?.fromTime || "",
       subTotalLocal: appointment?.subTotal || 0,
       taxLocal: appointment?.tax || 0,
       tipLocal: appointment?.tipAmount || 0,
       discountTotalLocal: appointment?.discount || 0,
       infoUser: {
-        firstName: appointment?.firstName || '',
-        lastName: appointment?.lastName || '',
-        phoneNumber: appointment?.phoneNumber || '',
+        firstName: appointment?.firstName || "",
+        lastName: appointment?.lastName || "",
+        phoneNumber: appointment?.phoneNumber || "",
       },
     });
   };
@@ -132,14 +135,14 @@ class TabCheckout extends Layout {
       const mainAppointmentId = groupAppointment?.mainAppointmentId || 0;
       let body = {};
       // -------------  Add Product  ------------
-      if (categoryTypeSelected === 'Product') {
+      if (categoryTypeSelected === "Product") {
         body = {
           services: [],
           extras: [],
           products: [
             {
               productId: productSeleted.productId,
-              quantity: this.amountRef.current.state.quanlity,
+              quantity: this.amountRef.current?.state.quanlity,
             },
           ],
           giftCards: [],
@@ -169,7 +172,7 @@ class TabCheckout extends Layout {
       }
 
       if (appointments.length > 1) {
-        this.popupAddItemIntoAppointmentsRef.current.setStateFromParent(
+        this.popupAddItemIntoAppointmentsRef.current?.setStateFromParent(
           body,
           mainAppointmentId
         );
@@ -184,13 +187,13 @@ class TabCheckout extends Layout {
     // ------------- Create  Group Appointment  ------------
     else {
       // -------------  Add Product  ------------
-      if (categoryTypeSelected === 'Product') {
+      if (categoryTypeSelected === "Product") {
         const temptBasket = [];
         temptBasket.unshift({
-          type: 'Product',
+          type: "Product",
           id: `${productSeleted.productId}_pro`,
           data: {
-            name: productSeleted?.name || '',
+            name: productSeleted?.name || "",
             productId: productSeleted?.productId || 0,
             price: productSeleted?.price || 0,
           },
@@ -214,7 +217,7 @@ class TabCheckout extends Layout {
         //  -------------Add Extra , Service ---------
         const temptBasket = [];
         temptBasket.unshift({
-          type: 'Service',
+          type: "Service",
           id: `${productSeleted.serviceId}_ser`,
           data: {
             name: productSeleted.name,
@@ -232,7 +235,7 @@ class TabCheckout extends Layout {
 
         for (let i = 0; i < arrSelectedExtra.length; i++) {
           temptBasket.unshift({
-            type: 'Extra',
+            type: "Extra",
             id: `${arrSelectedExtra[i]?.extraId}_extra`,
             data: {
               name: arrSelectedExtra[i]?.name,
@@ -265,12 +268,12 @@ class TabCheckout extends Layout {
       isShowColAmount: false,
       categorySelected: {
         categoryId: -1,
-        categoryType: '',
+        categoryType: "",
       },
       productSeleted: {
-        name: '',
+        name: "",
       },
-      categoryTypeSelected: '',
+      categoryTypeSelected: "",
       arrSelectedExtra: [],
     });
   };
@@ -289,7 +292,7 @@ class TabCheckout extends Layout {
     const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } =
       dataAnymousAppoitment;
     const moneyUserGiveForStaff = parseFloat(
-      formatNumberFromCurrency(this.modalBillRef.current.state.quality)
+      formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
     );
     const method = this.getPaymentString(paymentSelected);
 
@@ -306,9 +309,9 @@ class TabCheckout extends Layout {
       true,
       customDiscountFixedLocal,
       customDiscountPercentLocal,
-      customerInfoBuyAppointment?.firstName || '',
-      customerInfoBuyAppointment?.lastName || '',
-      customerInfoBuyAppointment?.phone || '',
+      customerInfoBuyAppointment?.firstName || "",
+      customerInfoBuyAppointment?.lastName || "",
+      customerInfoBuyAppointment?.phone || "",
       moneyUserGiveForStaff,
       false,
       false
@@ -324,7 +327,7 @@ class TabCheckout extends Layout {
   getPriceOfline(basket) {
     let total = 0;
     for (let i = 0; i < basket.length; i++) {
-      if (basket[i].type === 'Product') {
+      if (basket[i].type === "Product") {
         total =
           total + parseFloat(basket[i].data.price) * basket[i].quanlitySet;
       } else {
@@ -344,14 +347,14 @@ class TabCheckout extends Layout {
       : 0;
     let taxTotal = 0;
     for (let i = 0; i < basket.length; i++) {
-      if (basket[i].type === 'Product') {
+      if (basket[i].type === "Product") {
         taxTotal =
           taxTotal +
           (parseFloat(basket[i].data.price) *
             basket[i].quanlitySet *
             taxProduct) /
             100;
-      } else if (basket[i].type === 'Service') {
+      } else if (basket[i].type === "Service") {
         taxTotal =
           taxTotal +
           (formatNumberFromCurrency(basket[i].data.price) * taxService) / 100;
@@ -367,28 +370,28 @@ class TabCheckout extends Layout {
       // ----- Remove With Appointmnet
       let dataRemove = {};
       switch (item.type) {
-        case 'Product':
+        case "Product":
           dataRemove = {
             services: [],
             extras: [],
             products: [{ bookingProductId: item.data.bookingProductId }],
           };
           break;
-        case 'Service':
+        case "Service":
           dataRemove = {
             services: [{ bookingServiceId: item.data.bookingServiceId }],
             extras: [],
             products: [],
           };
           break;
-        case 'Extra':
+        case "Extra":
           dataRemove = {
             services: [],
             extras: [{ bookingExtraId: item.data.bookingExtraId }],
             products: [],
           };
           break;
-        case 'GiftCards':
+        case "GiftCards":
           dataRemove = {
             services: [],
             extras: [{ bookingExtraId: item.data.bookingExtraId }],
@@ -425,16 +428,16 @@ class TabCheckout extends Layout {
     if (
       changeButtonDone &&
       !isDonePayment &&
-      paymentSelected === 'HarmonyPay'
+      paymentSelected === "HarmonyPay"
     ) {
     } else {
       this.setState(
         (prevState) => ({
-          paymentSelected: payment === prevState.paymentSelected ? '' : payment,
+          paymentSelected: payment === prevState.paymentSelected ? "" : payment,
         }),
         () => {
-          if (this.state.paymentSelected === 'Gift Card') {
-            this.activeGiftCardRef.current.setStateFromParent();
+          if (this.state.paymentSelected === "Gift Card") {
+            this.activeGiftCardRef.current?.setStateFromParent();
             this.props.actions.appointment.handleVisibleActiveGiftCard();
           }
         }
@@ -447,12 +450,12 @@ class TabCheckout extends Layout {
     const categoryType = categorySelected?.categoryType;
     let isExist = false;
     if (
-      categoryType === 'Service' &&
+      categoryType === "Service" &&
       productSeleted?.serviceId === item?.serviceId
     ) {
       isExist = true;
     } else if (
-      categoryType === 'Product' &&
+      categoryType === "Product" &&
       productSeleted?.productId === item?.productId
     ) {
       isExist = true;
@@ -467,7 +470,7 @@ class TabCheckout extends Layout {
     } else {
       this.setState({
         productSeleted: {
-          name: '',
+          name: "",
         },
         isShowColAmount: false,
         arrSelectedExtra: [],
@@ -499,7 +502,7 @@ class TabCheckout extends Layout {
   };
 
   selectPayment = () => {
-    this.scrollTabRef.current.goToPage(1);
+    this.scrollTabRef.current?.goToPage(1);
   };
 
   closeModalDiscount = () => {
@@ -534,7 +537,7 @@ class TabCheckout extends Layout {
 
     this.props.gotoPageCurentParent(isDrawer);
     await this.setState({ ...initState, isInitBasket: true });
-    this.scrollTabRef.current.goToPage(0);
+    this.scrollTabRef.current?.goToPage(0);
     this.props.actions.appointment.resetBasketEmpty();
     this.props.actions.appointment.resetPayment();
     this.props.actions.appointment.changeFlagSigninAppointment(false);
@@ -565,28 +568,28 @@ class TabCheckout extends Layout {
   };
 
   getPaymentString(type) {
-    let method = '';
+    let method = "";
     switch (type) {
-      case 'HarmonyPay':
-        method = 'harmony';
+      case "HarmonyPay":
+        method = "harmony";
         break;
-      case 'Cash':
-        method = 'cash';
+      case "Cash":
+        method = "cash";
         break;
-      case 'Credit Card':
-        method = 'credit_card';
+      case "Credit Card":
+        method = "credit_card";
         break;
-      case 'Debit Card':
-        method = 'credit_card';
+      case "Debit Card":
+        method = "credit_card";
         break;
-      case 'Gift Card':
-        method = 'giftcard';
+      case "Gift Card":
+        method = "giftcard";
         break;
-      case 'Other':
-        method = 'other';
+      case "Other":
+        method = "other";
         break;
       default:
-        method = '';
+        method = "";
     }
     return method;
   }
@@ -598,20 +601,20 @@ class TabCheckout extends Layout {
     const arryaServicesBuy = [];
     const arrayExtrasBuy = [];
     for (let i = 0; i < basket.length; i++) {
-      if (basket[i].type === 'Product') {
+      if (basket[i].type === "Product") {
         arrayProductBuy.push({
           ...basket[i],
           productId: basket[i].data.productId,
           quantity: basket[i].quanlitySet,
         });
-      } else if (basket[i].type === 'Service') {
+      } else if (basket[i].type === "Service") {
         arryaServicesBuy.push({
           ...basket[i],
           serviceId: basket[i].data.serviceId,
           staffId: selectedStaff?.staffId,
           tipAmount: 0,
         });
-      } else if (basket[i].type === 'Extra') {
+      } else if (basket[i].type === "Extra") {
         arrayExtrasBuy.push({
           ...basket[i],
           extraId: basket[i].data.extraId,
@@ -633,42 +636,42 @@ class TabCheckout extends Layout {
     const arrayGiftCards = [];
     const promotionNotes = [];
     appointments.forEach((appointment) => {
-      const note = appointment?.promotionNotes?.note || '';
+      const note = appointment?.promotionNotes?.note || "";
       if (note) {
         promotionNotes.push(note);
       }
       // ------ Push Service -------
       appointment.services.forEach((service) => {
         arryaServicesBuy.push({
-          type: 'Service',
+          type: "Service",
           data: {
-            name: service?.serviceName || '',
-            price: service?.price || '',
+            name: service?.serviceName || "",
+            price: service?.price || "",
           },
           staff: service?.staff || false,
-          note: service?.note || '',
+          note: service?.note || "",
         });
       });
 
       // ------ Push Product -------
       appointment.products.forEach((product) => {
         arrayProductBuy.push({
-          type: 'Product',
+          type: "Product",
           data: {
-            name: product?.productName || '',
-            price: product?.price || '',
+            name: product?.productName || "",
+            price: product?.price || "",
           },
-          quanlitySet: product?.quantity || '',
+          quanlitySet: product?.quantity || "",
         });
       });
 
       // ------ Push Product -------
       appointment.extras.forEach((extra) => {
         arrayExtrasBuy.push({
-          type: 'Extra',
+          type: "Extra",
           data: {
-            name: extra?.extraName || '',
-            price: extra?.price || '',
+            name: extra?.extraName || "",
+            price: extra?.price || "",
           },
         });
       });
@@ -676,12 +679,12 @@ class TabCheckout extends Layout {
       // ------ Push Gift Card -------
       appointment.giftCards.forEach((gift) => {
         arrayGiftCards.push({
-          type: 'GiftCards',
+          type: "GiftCards",
           data: {
-            name: gift?.name || 'Gift Card',
-            price: gift?.price || '',
+            name: gift?.name || "Gift Card",
+            price: gift?.price || "",
           },
-          quanlitySet: gift?.quantity || '',
+          quanlitySet: gift?.quantity || "",
         });
       });
     });
@@ -708,7 +711,7 @@ class TabCheckout extends Layout {
     if (!_.isEmpty(connectionSignalR)) {
       connectionSignalR.stop();
     }
-    if (paymentSelected === 'Cash' || paymentSelected === 'Other') {
+    if (paymentSelected === "Cash" || paymentSelected === "Other") {
       const { printerSelect, printerList } = this.props;
       const { portName } = getInfoFromModelNameOfPrinter(
         printerList,
@@ -717,14 +720,14 @@ class TabCheckout extends Layout {
 
       if (portName) {
         this.openCashDrawer(portName);
-        this.scrollTabRef.current.goToPage(0);
+        this.scrollTabRef.current?.goToPage(0);
         this.props.actions.appointment.closeModalPaymentCompleted();
         this.props.gotoAppoitmentScreen();
         this.props.actions.appointment.resetBasketEmpty();
         this.setState(initState);
         this.props.actions.appointment.resetPayment();
       } else {
-        this.scrollTabRef.current.goToPage(0);
+        this.scrollTabRef.current?.goToPage(0);
         this.props.actions.appointment.closeModalPaymentCompleted();
         this.props.gotoAppoitmentScreen();
         this.props.actions.appointment.resetBasketEmpty();
@@ -732,11 +735,11 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.resetPayment();
 
         setTimeout(() => {
-          alert('Please connect to your cash drawer.');
+          alert("Please connect to your cash drawer.");
         }, 700);
       }
     } else {
-      this.scrollTabRef.current.goToPage(0);
+      this.scrollTabRef.current?.goToPage(0);
       this.props.actions.appointment.closeModalPaymentCompleted();
       this.props.gotoAppoitmentScreen();
       this.props.actions.appointment.resetBasketEmpty();
@@ -794,7 +797,7 @@ class TabCheckout extends Layout {
     const temptTip = _.isEmpty(groupAppointment) ? tipLocal : tipAmount;
     const temptTax = _.isEmpty(groupAppointment) ? taxLocal : tax;
 
-    this.invoicePrintRef.current.setStateFromParent(
+    this.invoicePrintRef.current?.setStateFromParent(
       basket,
       temptSubTotal,
       temptTax,
@@ -804,7 +807,7 @@ class TabCheckout extends Layout {
       paymentSelected,
       isTemptPrint,
       printMachine,
-      promotionNotes.join(',')
+      promotionNotes.join(",")
     );
     await this.setState({
       visiblePrintInvoice: true,
@@ -814,7 +817,7 @@ class TabCheckout extends Layout {
   cancelInvoicePrint = async (isPrintTempt) => {
     await this.setState({ visiblePrintInvoice: false });
     if (!isPrintTempt) {
-      this.scrollTabRef.current.goToPage(0);
+      this.scrollTabRef.current?.goToPage(0);
       this.props.gotoAppoitmentScreen();
       this.props.actions.appointment.resetBasketEmpty();
       this.setState(initState);
@@ -835,12 +838,12 @@ class TabCheckout extends Layout {
       if (!_.isEmpty(connectionSignalR)) {
         connectionSignalR.stop();
       }
-      if (paymentSelected === 'Cash' || paymentSelected === 'Other') {
+      if (paymentSelected === "Cash" || paymentSelected === "Other") {
         this.openCashDrawer(portName);
       }
       this.showInvoicePrint(portName, false);
     } else {
-      alert('Please connect to your printer!');
+      alert("Please connect to your printer!");
     }
   };
 
@@ -850,10 +853,10 @@ class TabCheckout extends Layout {
       printerList,
       printerSelect
     );
-    if (portName !== '') {
+    if (portName !== "") {
       this.showInvoicePrint(portName);
     } else {
-      alert('Please connect to your printer! ');
+      alert("Please connect to your printer! ");
     }
   };
 
@@ -866,7 +869,7 @@ class TabCheckout extends Layout {
     if (portName) {
       this.openCashDrawer(portName);
     } else {
-      alert('Please connect to your cash drawer.');
+      alert("Please connect to your cash drawer.");
     }
   };
 
@@ -878,7 +881,7 @@ class TabCheckout extends Layout {
     await this.setState({
       changeButtonDone: false,
       isCancelHarmonyPay: false,
-      paymentSelected: '',
+      paymentSelected: "",
     });
 
     const dueAmount =
@@ -924,7 +927,7 @@ class TabCheckout extends Layout {
         .configureLogging(signalR.LogLevel.Information)
         .build();
 
-      connection.on('ListWaNotification', (data) => {
+      connection.on("ListWaNotification", (data) => {
         const temptData = JSON.parse(data);
         if (
           temptData.data &&
@@ -984,7 +987,7 @@ class TabCheckout extends Layout {
   }
 
   doneAddBasketSignInAppointment = () => {
-    this.scrollTabRef.current.goToPage(0);
+    this.scrollTabRef.current?.goToPage(0);
     const { connectionSignalR } = this.props;
     if (!_.isEmpty(connectionSignalR)) {
       connectionSignalR.stop();
@@ -1008,7 +1011,7 @@ class TabCheckout extends Layout {
             formatNumberFromCurrency(taxLocal) -
             formatNumberFromCurrency(discountTotalLocal)
         ).toFixed(2);
-        this.modalBillRef.current.setStateFromParent(`${temptTotal}`);
+        this.modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       } else {
         const temptTotal = _.isEmpty(groupAppointment)
           ? Number(
@@ -1018,13 +1021,13 @@ class TabCheckout extends Layout {
                 formatNumberFromCurrency(discountTotalLocal)
             ).toFixed(2)
           : groupAppointment.total;
-        this.modalBillRef.current.setStateFromParent(`${temptTotal}`);
+        this.modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       }
     } else {
       const totalExact = paymentDetailInfo.dueAmount
         ? paymentDetailInfo.dueAmount
         : 0;
-      this.modalBillRef.current.setStateFromParent(`${totalExact}`);
+      this.modalBillRef.current?.setStateFromParent(`${totalExact}`);
     }
   };
 
@@ -1061,9 +1064,9 @@ class TabCheckout extends Layout {
       extras: arrayExtrasBuy,
       products: arrayProductBuy,
       fromTime:
-        fromTime !== ''
+        fromTime !== ""
           ? fromTime
-          : formatWithMoment(new Date(), 'MM/DD/YYYY hh:mm A'),
+          : formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
       staffId: staffIdOfline !== 0 ? staffIdOfline : profileStaffLogin.staffId,
       customDiscountFixed: customDiscountPercentLocal,
       customDiscountPercent: customDiscountFixedLocal,
@@ -1086,27 +1089,27 @@ class TabCheckout extends Layout {
     const { groupAppointment, isOfflineMode, paymentDetailInfo } = this.props;
     const method = this.getPaymentString(paymentSelected);
 
-    if (isOfflineMode && method === 'harmony') {
-      this.scrollTabRef.current.goToPage(2);
+    if (isOfflineMode && method === "harmony") {
+      this.scrollTabRef.current?.goToPage(2);
       this.addAppointmentOfflineMode(true);
       return;
     }
 
     if (
       isOfflineMode &&
-      (method === 'credit_card' || method === 'debit_card')
+      (method === "credit_card" || method === "debit_card")
     ) {
-      alert('Not Support Offline Mode');
+      alert("Not Support Offline Mode");
       return;
     }
 
-    if (method === 'harmony' && _.isEmpty(groupAppointment)) {
-      this.popupSendLinkInstallRef.current.setStateFromParent('');
+    if (method === "harmony" && _.isEmpty(groupAppointment)) {
+      this.popupSendLinkInstallRef.current?.setStateFromParent("");
       this.setState({
         visibleSendLinkPopup: true,
       });
     } else {
-      if (method === 'harmony' || method === 'credit_card') {
+      if (method === "harmony" || method === "credit_card") {
         const dueAmount = paymentDetailInfo?.dueAmount || 0;
         this.modalBillRef?.current?.setStateFromParent(`${dueAmount}`);
       }
@@ -1129,7 +1132,7 @@ class TabCheckout extends Layout {
     await this.setState({
       changeButtonDone: false,
       isCancelHarmonyPay: false,
-      paymentSelected: '',
+      paymentSelected: "",
     });
     const { connectionSignalR, payAppointmentId } = this.props;
 
@@ -1143,14 +1146,14 @@ class TabCheckout extends Layout {
 
   backAddBasket = async () => {
     this.cancelHarmonyPayment();
-    this.scrollTabRef.current.goToPage(0);
+    this.scrollTabRef.current?.goToPage(0);
   };
 
   handlePaymentOffLineMode = async () => {
     const { subTotalLocal, tipLocal, discountTotalLocal, taxLocal } =
       this.state;
     const moneyUserGiveForStaff = parseFloat(
-      formatNumberFromCurrency(this.modalBillRef.current.state.quality)
+      formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
     );
     const totalLocal = Number(
       formatNumberFromCurrency(subTotalLocal) +
@@ -1160,15 +1163,15 @@ class TabCheckout extends Layout {
     ).toFixed(2);
 
     if (moneyUserGiveForStaff == 0) {
-      alert('Enter amount!');
+      alert("Enter amount!");
     } else if (moneyUserGiveForStaff - totalLocal < 0) {
-      alert('Payment amount must be greater : ' + totalLocal);
+      alert("Payment amount must be greater : " + totalLocal);
     } else {
       this.addAppointmentOfflineMode();
       await this.setState({
         visibleBillOfPayment: false,
       });
-      this.modalBillRef.current.setStateFromParent(`0`);
+      this.modalBillRef.current?.setStateFromParent(`0`);
       this.props.actions.appointment.showModalPrintReceipt();
     }
   };
@@ -1195,7 +1198,7 @@ class TabCheckout extends Layout {
       amountPayment !== false
         ? amountPayment
         : parseFloat(
-            formatNumberFromCurrency(this.modalBillRef.current.state.quality)
+            formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
           );
     const method = this.getPaymentString(paymentSelected);
     const total = groupAppointment.total
@@ -1211,22 +1214,22 @@ class TabCheckout extends Layout {
     }
 
     if (moneyUserGiveForStaff == 0 && groupAppointment && total != 0) {
-      alert('Enter amount!');
+      alert("Enter amount!");
     } else if (
-      (method === 'harmony' ||
-        method === 'credit_card' ||
-        method === 'debit_card') &&
+      (method === "harmony" ||
+        method === "credit_card" ||
+        method === "debit_card") &&
       moneyUserGiveForStaff > dueAmount
     ) {
-      alert('The change not bigger than total money!');
+      alert("The change not bigger than total money!");
     } else {
       await this.setState({
         visibleBillOfPayment: false,
       });
 
-      this.modalBillRef.current.setStateFromParent(`0`);
+      this.modalBillRef.current?.setStateFromParent(`0`);
       if (!_.isEmpty(groupAppointment)) {
-        if (method === 'harmony') {
+        if (method === "harmony") {
           this.props.actions.app.loadingApp();
           this.setupSignalR(
             profile,
@@ -1236,21 +1239,21 @@ class TabCheckout extends Layout {
             method,
             moneyUserGiveForStaff
           );
-        } else if (method === 'credit_card' || method === 'debit_card') {
+        } else if (method === "credit_card" || method === "debit_card") {
           if (paxMachineInfo.isSetup) {
             if (moneyUserGiveForStaff == 0) {
-              alert('Enter amount!');
+              alert("Enter amount!");
             } else {
               this.hanleCreditCardProcess(true, moneyUserGiveForStaff);
             }
           } else {
             setTimeout(() => {
-              alert('Please connect your Pax to take payment.');
+              alert("Please connect your Pax to take payment.");
             }, 300);
           }
-        } else if (method === 'giftcard') {
+        } else if (method === "giftcard") {
           setTimeout(() => {
-            alert('giftcard');
+            alert("giftcard");
           }, 500);
         } else {
           this.props.actions.appointment.paymentAppointment(
@@ -1261,10 +1264,10 @@ class TabCheckout extends Layout {
         }
       } else {
         // ------ Handle Buy at store -------
-        if (method === 'credit_card' || method === 'debit_card') {
+        if (method === "credit_card" || method === "debit_card") {
           this.hanleCreditCardProcess(false, moneyUserGiveForStaff);
-        } else if (method === 'harmony') {
-          this.popupSendLinkInstallRef.current.setStateFromParent('');
+        } else if (method === "harmony") {
+          this.popupSendLinkInstallRef.current?.setStateFromParent("");
           this.setState({
             visibleSendLinkPopup: true,
           });
@@ -1291,14 +1294,14 @@ class TabCheckout extends Layout {
 
   async hanleCreditCardProcess(online = true, moneyUserGiveForStaff) {
     const { paxMachineInfo, isTipOnPaxMachine } = this.props;
-    const { paymentSelected } = this.state;
+    const { paymentSelected, isCancelAppointment } = this.state;
     const { ip, port, timeout } = paxMachineInfo;
     const moneyCreditCard = Number(
       formatNumberFromCurrency(moneyUserGiveForStaff) * 100
     ).toFixed(2);
-    const tenderType = paymentSelected === 'Credit Card' ? 'CREDIT' : 'DEBIT';
+    const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
 
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       // 1. Show modal processing
       await this.setState({
         visibleProcessingCredit: true,
@@ -1307,10 +1310,10 @@ class TabCheckout extends Layout {
         PoslinkAndroid.sendTransaction(
           ip,
           port,
-          '',
+          "",
           tenderType,
           `${parseInt(moneyCreditCard)}`,
-          'SALE',
+          "SALE",
           (err) => {
             const errorTrans = JSON.parse(err);
             this.setState({
@@ -1336,6 +1339,57 @@ class TabCheckout extends Layout {
     }
   }
 
+  getPAXReport = async (paxMachineInfo, isLastTransaction = 0) => {
+    const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
+      paxMachineInfo;
+  
+    if (isSetup) {
+      let isError = false;
+  
+      try {
+        const tempIpPax = commType == "TCP" ? ip : "";
+        const tempPortPax = commType == "TCP" ? port : "";
+        const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+        
+        let data = await PosLinkReport.reportTransaction({
+          transType: "LOCALDETAILREPORT",
+          edcType: "ALL",
+          cardType: "",
+          paymentType: "",
+          commType: commType,
+          destIp: tempIpPax,
+          portDevice: tempPortPax,
+          timeoutConnect: "90000",
+          bluetoothAddr: idBluetooth,
+          refNum: "",
+          isLastTransaction
+        });
+        let result = JSON.parse(data);
+        const ExtData = result?.ExtData || "";
+        const xmlExtData =
+          "<xml>" + ExtData.replace("\\n", "").replace("\\/", "/") + "</xml>";
+  
+        if (result?.ResultCode && result?.ResultCode == "000000") {
+          // if (tempEnv == "Production" && result?.Message === "DEMO APPROVED") {
+          //   setTimeout(() => {
+          //     alert("You're running your Pax on DEMO MODE!");
+          //   }, 500);
+  
+          //   return {}
+          // } else {
+            return result
+          // }
+        } else {
+          return {}
+        }
+      } catch (error) {
+        return {}
+      }
+  
+    }
+  };
+
+
   sendTransToPaxMachine = async () => {
     const {
       paxMachineInfo,
@@ -1344,11 +1398,12 @@ class TabCheckout extends Layout {
       amountCredtitForSubmitToServer,
       bluetoothPaxInfo,
       groupAppointment,
+      isCancelPayment,
     } = this.props;
     const { paymentSelected } = this.state;
     const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
       paxMachineInfo;
-    const tenderType = paymentSelected === 'Credit Card' ? 'CREDIT' : 'DEBIT';
+    const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
 
     // console.log("------ groupAppointment: ", JSON.stringify(groupAppointment));
     // 1. Show modal processing
@@ -1356,33 +1411,45 @@ class TabCheckout extends Layout {
       visibleProcessingCredit: true,
     });
 
-    const tempIpPax = commType == 'TCP' ? ip : '';
-    const tempPortPax = commType == 'TCP' ? port : '';
-    const idBluetooth = commType === 'TCP' ? '' : bluetoothAddr;
-    const extData = isTipOnPaxMachine ? '<TipRequest>1</TipRequest>' : '';
-
-    // 2. Send Trans to pax
-    PosLink.sendTransaction(
-      {
-        tenderType: tenderType,
-        transType: 'SALE',
-        amount: `${parseFloat(paxAmount)}`,
-        transactionId: '1',
-        extData: extData,
-        commType: commType,
-        destIp: tempIpPax,
-        portDevice: tempPortPax,
-        timeoutConnect: '90000',
-        bluetoothAddr: idBluetooth,
-        invNum: `${groupAppointment?.checkoutGroupId || 0}`,
-      },
-      (message) =>
+    //Check if isCancelPayment = true
+    if(isCancelPayment){
+      const result = await this.getPAXReport(paxMachineInfo, "1")
+      if(!l.isEmpty(result) && l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()){
         this.handleResponseCreditCard(
-          message,
+          JSON.stringify(result),
           true,
           amountCredtitForSubmitToServer
         )
-    );
+      }
+    }else{
+      const tempIpPax = commType == "TCP" ? ip : "";
+      const tempPortPax = commType == "TCP" ? port : "";
+      const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+      const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
+  
+      // 2. Send Trans to pax
+      PosLink.sendTransaction(
+        {
+          tenderType: tenderType,
+          transType: "SALE",
+          amount: `${parseFloat(paxAmount)}`,
+          transactionId: "1",
+          extData: extData,
+          commType: commType,
+          destIp: tempIpPax,
+          portDevice: tempPortPax,
+          timeoutConnect: "90000",
+          bluetoothAddr: idBluetooth,
+          invNum: `${groupAppointment?.checkoutGroupId || 0}`,
+        },
+        (message) =>
+          this.handleResponseCreditCard(
+            message,
+            true,
+            amountCredtitForSubmitToServer
+          )
+      );
+    }
   };
 
   async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
@@ -1393,16 +1460,16 @@ class TabCheckout extends Layout {
     try {
       const result = JSON.parse(message);
       const tempEnv = env.IS_PRODUCTION;
-      if (result.status == 0) {
+      if (l.get(result, 'status', 1) == 0) {
         PosLink.cancelTransaction();
         if (payAppointmentId) {
           this.props.actions.appointment.cancelHarmonyPayment(
             payAppointmentId,
-            'transaction fail',
+            "transaction fail",
             result?.message
           );
         }
-        if (result?.message === 'ABORTED') {
+        if (result?.message === "ABORTED") {
           return;
         }
         setTimeout(() => {
@@ -1412,8 +1479,8 @@ class TabCheckout extends Layout {
             errorMessageFromPax: `${result.message}`,
           });
         }, 300);
-      } else if (result.ResultCode && result.ResultCode == '000000') {
-        if (tempEnv == 'Production' && result.Message === 'DEMO APPROVED') {
+      } else if (result.ResultCode && result.ResultCode == "000000") {
+        if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
           if (payAppointmentId) {
             this.props.actions.appointment.cancelHarmonyPayment(
               payAppointmentId
@@ -1450,11 +1517,11 @@ class TabCheckout extends Layout {
           // }
         }
       } else {
-        const resultTxt = result?.ResultTxt || 'Transaction failed:';
+        const resultTxt = result?.ResultTxt || "Transaction failed:";
         if (payAppointmentId) {
           this.props.actions.appointment.cancelHarmonyPayment(
             payAppointmentId,
-            'transaction fail',
+            "transaction fail",
             resultTxt
           );
         }
@@ -1471,7 +1538,7 @@ class TabCheckout extends Layout {
 
   cancelTransaction = async () => {
     const { payAppointmentId } = this.props;
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       PoslinkAndroid.cancelTransaction((data) => {});
     } else {
       PosLink.cancelTransaction();
@@ -1511,7 +1578,7 @@ class TabCheckout extends Layout {
   };
 
   changeStylist = async (service, appointmentId) => {
-    this.changeStylistRef.current.setStateFromParent(service, appointmentId);
+    this.changeStylistRef.current?.setStateFromParent(service, appointmentId);
 
     // setTimeout(() => {
     this.setState({
@@ -1521,7 +1588,7 @@ class TabCheckout extends Layout {
   };
 
   changeProduct = async (product, appointmentId) => {
-    this.changePriceAmountProductRef.current.setStateFromParent(
+    this.changePriceAmountProductRef.current?.setStateFromParent(
       product,
       appointmentId
     );
@@ -1537,14 +1604,14 @@ class TabCheckout extends Layout {
       isShowColAmount: false,
       categorySelected: {
         categoryId: -1,
-        categoryType: '',
+        categoryType: "",
       },
       productSeleted: {
-        name: '',
+        name: "",
       },
-      categoryTypeSelected: '',
+      categoryTypeSelected: "",
       arrSelectedExtra: [],
-      paymentSelected: '',
+      paymentSelected: "",
     });
   };
 
@@ -1555,13 +1622,13 @@ class TabCheckout extends Layout {
         categorySelected: category,
         categoryTypeSelected: category?.categoryType,
         productSeleted: {
-          name: '',
+          name: "",
         },
         isShowColProduct: false,
         isShowColAmount: false,
         arrSelectedExtra: [],
       });
-      this.activeGiftCardRef.current.setStateFromParent();
+      this.activeGiftCardRef.current?.setStateFromParent();
       this.props.actions.appointment.handleVisibleActiveGiftCard();
     } else {
       await this.setState({
@@ -1569,12 +1636,12 @@ class TabCheckout extends Layout {
         isShowColAmount: false,
         categorySelected: {
           categoryId: -1,
-          categoryType: '',
+          categoryType: "",
         },
         productSeleted: {
-          name: '',
+          name: "",
         },
-        categoryTypeSelected: '',
+        categoryTypeSelected: "",
         arrSelectedExtra: [],
       });
     }
@@ -1589,7 +1656,7 @@ class TabCheckout extends Layout {
         isShowColProduct: true,
         isShowColAmount: false,
         productSeleted: {
-          name: '',
+          name: "",
         },
         arrSelectedExtra: [],
       });
@@ -1599,12 +1666,12 @@ class TabCheckout extends Layout {
         isShowColAmount: false,
         categorySelected: {
           categoryId: -1,
-          categoryType: '',
+          categoryType: "",
         },
         productSeleted: {
-          name: '',
+          name: "",
         },
-        categoryTypeSelected: '',
+        categoryTypeSelected: "",
         arrSelectedExtra: [],
       });
     }
@@ -1618,7 +1685,7 @@ class TabCheckout extends Layout {
     if (staffId) {
       const temptStaff = getStaffInfoById(listStaffByMerchant, staffId);
       const temptBasket = basket.map((item, index) => {
-        if (item.type === 'Service' && item.data.serviceId === serviceId) {
+        if (item.type === "Service" && item.data.serviceId === serviceId) {
           return {
             ...item,
             data: {
@@ -1627,8 +1694,8 @@ class TabCheckout extends Layout {
             },
             staff: {
               staffId: staffId,
-              imageUrl: temptStaff?.imageUrl || '',
-              displayName: temptStaff?.displayName || '',
+              imageUrl: temptStaff?.imageUrl || "",
+              displayName: temptStaff?.displayName || "",
               tip: tip,
             },
           };
@@ -1637,7 +1704,7 @@ class TabCheckout extends Layout {
       });
       let temptTip = 0;
       for (let i = 0; i < temptBasket.length; i++) {
-        if (temptBasket[i].type === 'Service') {
+        if (temptBasket[i].type === "Service") {
           if (temptBasket[i].staff && temptBasket[i].staff.tip) {
             temptTip =
               temptTip + formatNumberFromCurrency(temptBasket[i].staff.tip);
@@ -1681,7 +1748,7 @@ class TabCheckout extends Layout {
         }
       } else {
         // ----------- Offline ------------
-        this.popupDiscountLocalRef.current.setStateFromParent(
+        this.popupDiscountLocalRef.current?.setStateFromParent(
           subTotalLocal,
           discountTotalLocal,
           customDiscountPercentLocal,
@@ -1692,7 +1759,7 @@ class TabCheckout extends Layout {
         });
       }
     } else {
-      alert('You are paying by Harmony Payment!');
+      alert("You are paying by Harmony Payment!");
     }
   };
 
@@ -1704,7 +1771,7 @@ class TabCheckout extends Layout {
   ) => {
     const { connectionSignalR } = this.props;
     if (_.isEmpty(connectionSignalR)) {
-      this.changeTipRef.current.setStateFromParent(
+      this.changeTipRef.current?.setStateFromParent(
         appointmentId,
         tip,
         subTotal,
@@ -1714,7 +1781,7 @@ class TabCheckout extends Layout {
         visibleChangeTip: true,
       });
     } else {
-      alert('You are paying by Harmony Payment!');
+      alert("You are paying by Harmony Payment!");
     }
   };
 
@@ -1731,9 +1798,9 @@ class TabCheckout extends Layout {
   }
 
   sendLinkInstallApp = async () => {
-    const phone = this.popupSendLinkInstallRef.current.state.value;
+    const phone = this.popupSendLinkInstallRef.current?.state.value;
     const codeAreaPhone =
-      this.popupSendLinkInstallRef.current.state.codeAreaPhone;
+      this.popupSendLinkInstallRef.current?.state.codeAreaPhone;
 
     if (phone.length > 6) {
       await this.setState({
@@ -1741,7 +1808,7 @@ class TabCheckout extends Layout {
       });
       this.props.actions.app.sendLinkInstallApp(`${codeAreaPhone}${phone}`);
     } else {
-      alert('Phone is invalid !');
+      alert("Phone is invalid !");
     }
   };
 
@@ -1754,7 +1821,7 @@ class TabCheckout extends Layout {
   onRequestCloseBillModal = async () => {
     await this.setState({
       changeButtonDone: false,
-      paymentSelected: '',
+      paymentSelected: "",
       visibleBillOfPayment: false,
     });
     this.props.actions.appointment.resetPayment();
@@ -1842,7 +1909,7 @@ class TabCheckout extends Layout {
     }
 
     if (!_.isEmpty(groupAppointment)) {
-      if (paymentSelected === 'Gift Card') {
+      if (paymentSelected === "Gift Card") {
         this.props.actions.appointment.checkSerialNumber(
           code,
           false,
@@ -1854,28 +1921,28 @@ class TabCheckout extends Layout {
       }
     } else {
       const moneyUserGiveForStaff = parseFloat(
-        formatNumberFromCurrency(this.modalBillRef.current.state.quality)
+        formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
       );
       const method = this.getPaymentString(paymentSelected);
 
       const bodyAction = {
         merchantId: profile.merchantId,
         userId: customerInfoBuyAppointment?.userId || 0,
-        status: 'checkin',
+        status: "checkin",
         services: [],
         extras: [],
         products: [],
-        fromTime: formatWithMoment(new Date(), 'MM/DD/YYYY hh:mm A'),
+        fromTime: formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
         staffId: profileStaffLogin?.staffId || 0,
         customDiscountFixed: customDiscountFixedLocal,
         customDiscountPercent: customDiscountPercentLocal,
-        firstName: customerInfoBuyAppointment?.firstName || '',
-        lastName: customerInfoBuyAppointment?.lastName || '',
-        phoneNumber: customerInfoBuyAppointment?.phone || '',
+        firstName: customerInfoBuyAppointment?.firstName || "",
+        lastName: customerInfoBuyAppointment?.lastName || "",
+        phoneNumber: customerInfoBuyAppointment?.phone || "",
         customerId: customerInfoBuyAppointment?.customerId || 0,
       };
       const optionAction = {
-        method: 'POST',
+        method: "POST",
         token: true,
         api: `${apiConfigs.BASE_API}appointment`,
         paymentMethod: method,
@@ -1898,12 +1965,12 @@ class TabCheckout extends Layout {
       isShowColAmount: false,
       categorySelected: {
         categoryId: -1,
-        categoryType: '',
+        categoryType: "",
       },
       productSeleted: {
-        name: '',
+        name: "",
       },
-      categoryTypeSelected: '',
+      categoryTypeSelected: "",
       arrSelectedExtra: [],
     });
   };
@@ -1966,9 +2033,9 @@ class TabCheckout extends Layout {
       fromTimeBlockAppointment,
       customerInfoBuyAppointment?.userId || 0,
       customerInfoBuyAppointment?.customerId || 0,
-      customerInfoBuyAppointment?.firstName || '',
-      customerInfoBuyAppointment?.lastName || '',
-      customerInfoBuyAppointment?.phone || '',
+      customerInfoBuyAppointment?.firstName || "",
+      customerInfoBuyAppointment?.lastName || "",
+      customerInfoBuyAppointment?.phone || "",
       bookingGroupId
     );
   };
@@ -1978,7 +2045,7 @@ class TabCheckout extends Layout {
     const { categoryTypeSelected, productSeleted, arrSelectedExtra } =
       this.state;
 
-    let isAppointmentIdOpen = '';
+    let isAppointmentIdOpen = "";
 
     for (let i = 0; i < this.blockAppointmentRef.length; i++) {
       if (!this.blockAppointmentRef[i].state.isCollapsed) {
@@ -1992,7 +2059,7 @@ class TabCheckout extends Layout {
       ? isAppointmentIdOpen
       : isOpenBlockAppointmentId;
 
-    if (categoryTypeSelected === 'Product') {
+    if (categoryTypeSelected === "Product") {
       this.props.actions.appointment.addItemIntoAppointment(
         {
           services: [],
@@ -2000,7 +2067,7 @@ class TabCheckout extends Layout {
           products: [
             {
               productId: productSeleted.productId,
-              quantity: this.amountRef.current.state.quanlity,
+              quantity: this.amountRef.current?.state.quanlity,
             },
           ],
           giftCards: [],
@@ -2038,19 +2105,19 @@ class TabCheckout extends Layout {
       isShowColAmount: false,
       categorySelected: {
         categoryId: -1,
-        categoryType: '',
+        categoryType: "",
       },
       productSeleted: {
-        name: '',
+        name: "",
       },
-      categoryTypeSelected: '',
+      categoryTypeSelected: "",
       arrSelectedExtra: [],
     });
   };
 
   addGiftCardIntoBlockAppointment = (code) => {
     const { isOpenBlockAppointmentId } = this.props;
-    let isAppointmentIdOpen = '';
+    let isAppointmentIdOpen = "";
     for (let i = 0; i < this.blockAppointmentRef.length; i++) {
       if (!this.blockAppointmentRef[i].state.isCollapsed) {
         isAppointmentIdOpen =
@@ -2070,7 +2137,7 @@ class TabCheckout extends Layout {
 
   removeItemInBlockAppointment = (dataRemove) => {
     const { blockAppointments } = this.props;
-    let isAppointmentIdOpen = '';
+    let isAppointmentIdOpen = "";
     for (let i = 0; i < this.blockAppointmentRef.length; i++) {
       if (!this.blockAppointmentRef[i].state.isCollapsed) {
         isAppointmentIdOpen =
@@ -2129,10 +2196,10 @@ class TabCheckout extends Layout {
   // ------------------ Change Customer Info buy appointment ----------
   displayPopupCustomerInfo = async () => {
     const { customerInfoBuyAppointment } = this.props;
-    const firstName = customerInfoBuyAppointment?.firstName || '';
-    const lastName = customerInfoBuyAppointment?.lastName || '';
-    const phone = customerInfoBuyAppointment?.phone || '';
-    this.popupCustomerInfoRef.current.setStateFromParent(
+    const firstName = customerInfoBuyAppointment?.firstName || "";
+    const lastName = customerInfoBuyAppointment?.lastName || "";
+    const phone = customerInfoBuyAppointment?.phone || "";
+    this.popupCustomerInfoRef.current?.setStateFromParent(
       firstName,
       lastName,
       phone
@@ -2199,13 +2266,13 @@ class TabCheckout extends Layout {
   cancelGiftCardPayment = () => {
     this.props.actions.appointment.togglePopupGiftCardPaymentDetail(false);
     this.setState({
-      paymentSelected: '',
+      paymentSelected: "",
     });
   };
 
   showModalCheckPermission = (appointmentId, isBlock = false) => {
     this.popupCheckDiscountPermissionRef?.current?.setStateFromParent(
-      '',
+      "",
       appointmentId,
       isBlock
     );
@@ -2252,12 +2319,12 @@ class TabCheckout extends Layout {
       isShowColAmount: false,
       categorySelected: {
         categoryId: -1,
-        categoryType: '',
+        categoryType: "",
       },
       productSeleted: {
-        name: '',
+        name: "",
       },
-      categoryTypeSelected: '',
+      categoryTypeSelected: "",
       arrSelectedExtra: [],
     });
     // this.scrollFlatListToStaffIndex(staff?.staffId);
@@ -2265,10 +2332,10 @@ class TabCheckout extends Layout {
 
   displayEnterUserPhonePopup = () => {
     const { customerInfoBuyAppointment } = this.props;
-    const firstName = customerInfoBuyAppointment?.firstName || '';
-    const lastName = customerInfoBuyAppointment?.lastName || '';
-    const phone = customerInfoBuyAppointment?.phone || '';
-    this.popupCustomerInfoRef.current.setStateFromParent(
+    const firstName = customerInfoBuyAppointment?.firstName || "";
+    const lastName = customerInfoBuyAppointment?.lastName || "";
+    const phone = customerInfoBuyAppointment?.phone || "";
+    this.popupCustomerInfoRef.current?.setStateFromParent(
       firstName,
       lastName,
       phone
@@ -2399,6 +2466,7 @@ const mapStateToProps = (state) => ({
   appointmentIdBookingFromCalendar:
     state.appointment.appointmentIdBookingFromCalendar,
   isBookingFromCalendar: state.appointment.isBookingFromCalendar,
+  isCancelPayment: state.appointment.isCancelPayment,
 });
 
 export default connectRedux(mapStateToProps, TabCheckout);
