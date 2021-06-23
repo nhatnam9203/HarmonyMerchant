@@ -8,7 +8,7 @@ import {
 
 import IMAGE from '@resources';
 import { Dropdown, Button } from '@components';
-import { scaleSize, WorkingTime } from '@utils';
+import { ScaleSzie, WorkingTime } from '@utils';
 
 
 export const ItemWorkingTime = ({ title, data,selectCheckbox, onChangeTimeOfWorkingTime }) => {
@@ -20,25 +20,25 @@ export const ItemWorkingTime = ({ title, data,selectCheckbox, onChangeTimeOfWork
     return (
         <View style={{
             flexDirection: 'row',
-            height: scaleSize(36),
-            paddingHorizontal: scaleSize(25),
-            marginTop: scaleSize(14)
+            height: ScaleSzie(36),
+            paddingHorizontal: ScaleSzie(25),
+            marginTop: ScaleSzie(14)
         }} >
-            <Button onPress={selectCheckbox} style={{ width: scaleSize(30), justifyContent: 'center' }} >
-                <Image source={temptIconCheck} style={{ width: scaleSize(15), height: scaleSize(15) }} />
+            <Button onPress={selectCheckbox} style={{ width: ScaleSzie(30), justifyContent: 'center' }} >
+                <Image source={temptIconCheck} style={{ width: ScaleSzie(15), height: ScaleSzie(15) }} />
             </Button>
 
-            <View style={{ width: scaleSize(120), justifyContent: 'center' }} >
+            <View style={{ width: ScaleSzie(120), justifyContent: 'center' }} >
                 <Text style={{
                     color: '#404040',
-                    fontSize: scaleSize(14),
+                    fontSize: ScaleSzie(14),
                     fontWeight: '600',
                 }}  >
                     {`${title}`}
                 </Text>
             </View>
 
-            <View style={{ width: scaleSize(150) }} >
+            <View style={{ width: ScaleSzie(150) }} >
                 <Dropdown
                     label={'08:00 AM'}
                     data={WorkingTime}
@@ -52,15 +52,15 @@ export const ItemWorkingTime = ({ title, data,selectCheckbox, onChangeTimeOfWork
                     }}
                 />
             </View>
-            <View style={{ justifyContent: 'center', paddingHorizontal: scaleSize(8) }} >
+            <View style={{ justifyContent: 'center', paddingHorizontal: ScaleSzie(8) }} >
                 <View style={{
                     backgroundColor: '#404040',
-                    width: scaleSize(12),
+                    width: ScaleSzie(12),
                     height: 1
                 }}  >
                 </View>
             </View>
-            <View style={{ width: scaleSize(150) }} >
+            <View style={{ width: ScaleSzie(150) }} >
                 <Dropdown
                     label={'09:00 AM'}
                     data={WorkingTime}

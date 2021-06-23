@@ -7,7 +7,7 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 
 import PopupParent from './PopupParent';
-import { scaleSize, } from '../utils';
+import { ScaleSzie, } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
 import Button from "./Button";
@@ -49,10 +49,10 @@ class PopupScanCode extends React.Component {
                 width={500}
             >
                 <View style={{
-                    height: scaleSize(400),
-                    width: scaleSize(500),
+                    height: ScaleSzie(400),
+                    width: ScaleSzie(500),
                     backgroundColor: "#fff",
-                    borderBottomLeftRadius: scaleSize(15), borderBottomRightRadius: scaleSize(15),
+                    borderBottomLeftRadius: ScaleSzie(15), borderBottomRightRadius: ScaleSzie(15),
                     overflow: "hidden",
                 }} >
                     <QRCodeScanner
@@ -62,24 +62,24 @@ class PopupScanCode extends React.Component {
                         showMarker={true}
                         reactivateTimeout={3000}
                         containerStyle={{
-                            height: scaleSize(400),
-                            width: scaleSize(500),
+                            height: ScaleSzie(400),
+                            width: ScaleSzie(500),
                         }}
 
                         cameraStyle={{
-                            height: scaleSize(400),
-                            width: scaleSize(500),
+                            height: ScaleSzie(400),
+                            width: ScaleSzie(500),
                         }}
                         cameraType={this.state.cameraType}
                     />
                     <View style={{
                         backgroundColor: "transparent", alignItems: "center",
-                        position: "absolute", bottom: scaleSize(15), right: 0, left: 0,
+                        position: "absolute", bottom: ScaleSzie(15), right: 0, left: 0,
                     }} >
                         <Button
                             onPress={this.switchCamera}
                             style={{
-                                width: scaleSize(40), height: scaleSize(40), backgroundColor: "transparent",
+                                width: ScaleSzie(40), height: ScaleSzie(40), backgroundColor: "transparent",
                                 justifyContent: "center", alignItems: "center"
                             }} >
                             <Image

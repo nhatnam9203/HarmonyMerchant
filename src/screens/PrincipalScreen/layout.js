@@ -9,7 +9,7 @@ import {
 import {
     FormInfoParent, Text, Button, PopupUpload, DatePicker,
 } from '@components';
-import { scaleSize, localize } from '@utils';
+import { ScaleSzie, localize } from '@utils';
 import IMAGE from '@resources';
 import BodyPrincipal from './widget/bodyPrincipal';
 
@@ -45,42 +45,42 @@ export default class Layout extends React.Component {
                 >
                     {/* ------ Header ------ */}
                     <View style={{
-                        width, paddingHorizontal: scaleSize(15),
-                        marginTop: scaleSize(8)
+                        width, paddingHorizontal: ScaleSzie(15),
+                        marginTop: ScaleSzie(8)
                     }}  >
-                        <Text style={{ color: '#0764B0', fontWeight: 'bold', fontSize: scaleSize(18) }} >
+                        <Text style={{ color: '#0764B0', fontWeight: 'bold', fontSize: ScaleSzie(18) }} >
                             {localize('Please fill the form below', language)}
                         </Text>
                         <View style={{
-                            height: scaleSize(38), backgroundColor: '#0764B0', justifyContent: 'center',
-                            paddingLeft: scaleSize(5), marginTop: scaleSize(5)
+                            height: ScaleSzie(38), backgroundColor: '#0764B0', justifyContent: 'center',
+                            paddingLeft: ScaleSzie(5), marginTop: ScaleSzie(5)
                         }} >
-                            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: scaleSize(18) }} >
+                            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: ScaleSzie(18) }} >
                                 {localize('Principal Information', language)}
                             </Text>
                         </View>
                     </View>
                     {/* ------------------------- */}
-                    <View style={{ paddingHorizontal: scaleSize(16), marginTop: scaleSize(10) }} >
-                        <Text style={{ color: '#404040', fontSize: scaleSize(18) }} >
+                    <View style={{ paddingHorizontal: ScaleSzie(16), marginTop: ScaleSzie(10) }} >
+                        <Text style={{ color: '#404040', fontSize: ScaleSzie(18) }} >
                             {localize('Principal Des', language)}
                         </Text>
                     </View>
 
-                    <View style={{ flex: 1, paddingHorizontal: scaleSize(25) }} >
-                        <View style={{ height: scaleSize(16) }} />
+                    <View style={{ flex: 1, paddingHorizontal: ScaleSzie(25) }} >
+                        <View style={{ height: ScaleSzie(16) }} />
                         {/* ------------------   Principal 1 ---------------- */}
                         <View style={{ flexDirection: "row" }} >
-                            <View style={{ marginTop: scaleSize(10), width: scaleSize(100) }} >
+                            <View style={{ marginTop: ScaleSzie(10), width: ScaleSzie(100) }} >
                                 <Text style={{
-                                    color: '#404040', fontSize: scaleSize(18), fontWeight: 'bold',
-                                    marginBottom: scaleSize(10)
+                                    color: '#404040', fontSize: ScaleSzie(18), fontWeight: 'bold',
+                                    marginBottom: ScaleSzie(10)
                                 }} >
                                     {`${localize('Principal', language)} 1*`}
                                 </Text>
                             </View>
                             <Button onPress={this.showPrincipal1} style={{
-                                width: scaleSize(30), justifyContent: "center", alignItems: "center",
+                                width: ScaleSzie(30), justifyContent: "center", alignItems: "center",
                             }} >
                                 <Image
                                     source={iconPrincipal1}
@@ -116,16 +116,16 @@ export default class Layout extends React.Component {
 
                         {/* ------------------   Principal 2 ---------------- */}
                         <View style={{ flexDirection: "row" }} >
-                            <View style={{ marginTop: scaleSize(10), width: scaleSize(100) }} >
+                            <View style={{ marginTop: ScaleSzie(10), width: ScaleSzie(100) }} >
                                 <Text style={{
-                                    color: '#404040', fontSize: scaleSize(18), fontWeight: 'bold',
-                                    marginBottom: scaleSize(10)
+                                    color: '#404040', fontSize: ScaleSzie(18), fontWeight: 'bold',
+                                    marginBottom: ScaleSzie(10)
                                 }} >
                                     {`${localize('Principal', language)} 2`}
                                 </Text>
                             </View>
                             <Button onPress={this.showPrincipal2} style={{
-                                width: scaleSize(30), justifyContent: "center", alignItems: "center"
+                                width: ScaleSzie(30), justifyContent: "center", alignItems: "center"
                             }} >
                                 <Image
                                     source={iconPrincipal2}
@@ -178,9 +178,9 @@ export default class Layout extends React.Component {
                         title={localize('Date of Birth ', language)}
                         dateCalendar={isShowPrincipal1 ? dateOfBirth : dateOfBirthPrincipal2}
                         setDateSelected={this.setDateSelected}
-                        heightPicker={scaleSize(190)}
+                        heightPicker={ScaleSzie(190)}
                     />
-                    <View style={{ height: scaleSize(250) }} />
+                    <View style={{ height: ScaleSzie(250) }} />
                 </ScrollView>
             </FormInfoParent>
 

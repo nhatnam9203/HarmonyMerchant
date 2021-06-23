@@ -2,17 +2,17 @@ import {
     StyleSheet,
 } from 'react-native';
 
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 
 export default StyleSheet.create({
     txt_top_title: {
         color: '#404040',
-        fontSize: scaleSize(14),
+        fontSize: ScaleSzie(14),
         fontWeight: "600"
     },
     txt_table: {
         color: '#0764B0',
-        fontSize: scaleSize(14),
+        fontSize: ScaleSzie(14),
         fontWeight: "600"
     },
     box_scale_by_staffs: {

@@ -12,7 +12,7 @@ import {
 import { BleManager } from 'react-native-ble-plx';
 
 import { ButtonCustom, Text, Button } from '@components';
-import { scaleSize, localize } from '@utils';
+import { ScaleSzie, localize } from '@utils';
 import ICON from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 import BluetoothScanner from "@lib/BluetoothScanner";
@@ -92,7 +92,7 @@ class SetupHardware extends React.Component {
     }
 
     scrollTo = (number) => {
-        this.scrollRef.current.scrollTo({ x: 0, y: scaleSize(number), animated: true });
+        this.scrollRef.current.scrollTo({ x: 0, y: ScaleSzie(number), animated: true });
     }
 
     setCommType = (commType) => () => {
@@ -175,47 +175,47 @@ class SetupHardware extends React.Component {
         const tempCheckBluetoothIcon = commType === "BLUETOOTH" ? ICON.radioExportSe : ICON.radioExport;
 
         return (
-            <View style={{ flex: 1, paddingHorizontal: scaleSize(14), paddingTop: scaleSize(20) }} >
+            <View style={{ flex: 1, paddingHorizontal: ScaleSzie(14), paddingTop: ScaleSzie(20) }} >
                 <Text style={{
-                    fontSize: scaleSize(16),
+                    fontSize: ScaleSzie(16),
                     fontWeight: '600',
                     color: '#0764B0'
                 }} >
                     {localize('Payment Terminal', language)}
                 </Text>
                 <Text style={{
-                    fontSize: scaleSize(16),
+                    fontSize: ScaleSzie(16),
                     fontWeight: '600',
                     color: 'rgb(81,81,81)',
-                    marginTop: scaleSize(26),
-                    marginBottom: scaleSize(10)
+                    marginTop: ScaleSzie(26),
+                    marginBottom: ScaleSzie(10)
                 }} >
 
                     {localize('Terminal Configuration', language)}
                 </Text>
 
                 {/* ----------- Line ------------ */}
-                <View style={{ height: scaleSize(1), backgroundColor: 'rgb(227,227,227)', }} />
+                <View style={{ height: ScaleSzie(1), backgroundColor: 'rgb(227,227,227)', }} />
                 <ScrollView
                     ref={this.scrollRef}
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="always"
                 >
                     {/* --------------- Communication Type ----------------- */}
-                    <View style={{ flexDirection: 'row', marginTop: scaleSize(20), }} >
-                        <View style={{ width: scaleSize(140), justifyContent: 'center', }} >
-                            <Text style={{ fontSize: scaleSize(13), color: 'rgb(42,42,42)' }} >
+                    <View style={{ flexDirection: 'row', marginTop: ScaleSzie(20), }} >
+                        <View style={{ width: ScaleSzie(140), justifyContent: 'center', }} >
+                            <Text style={{ fontSize: ScaleSzie(13), color: 'rgb(42,42,42)' }} >
                                 {`Communication Type`}
                             </Text>
                         </View>
-                        <View style={{ flex: 1, flexDirection: "row", paddingHorizontal: scaleSize(20) }} >
+                        <View style={{ flex: 1, flexDirection: "row", paddingHorizontal: ScaleSzie(20) }} >
                             <View style={{ flex: 1, }} >
                                 <Button onPress={this.setCommType("TCP")} style={{ flexDirection: "row" }} >
                                     <Image
                                         source={tempCheckEthernetIcon}
-                                        style={{ marginRight: scaleSize(10) }}
+                                        style={{ marginRight: ScaleSzie(10) }}
                                     />
-                                    <Text style={{ fontSize: scaleSize(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
+                                    <Text style={{ fontSize: ScaleSzie(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
                                         {`Ethernet`}
                                     </Text>
                                 </Button>
@@ -224,9 +224,9 @@ class SetupHardware extends React.Component {
                                 <Button onPress={this.setCommType("BLUETOOTH")} style={{ flexDirection: "row" }} >
                                     <Image
                                         source={tempCheckBluetoothIcon}
-                                        style={{ marginRight: scaleSize(10) }}
+                                        style={{ marginRight: ScaleSzie(10) }}
                                     />
-                                    <Text style={{ fontSize: scaleSize(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
+                                    <Text style={{ fontSize: ScaleSzie(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
                                         {`Bluetooth`}
                                     </Text>
                                 </Button>
@@ -281,17 +281,17 @@ class SetupHardware extends React.Component {
                         commType === "BLUETOOTH" ?
                             <>
                                 <Button onPress={this.scanDevices} style={{
-                                    flexDirection: 'row', alignItems: 'center', width: scaleSize(120),
-                                    marginTop: scaleSize(20), marginLeft: scaleSize(15)
+                                    flexDirection: 'row', alignItems: 'center', width: ScaleSzie(120),
+                                    marginTop: ScaleSzie(20), marginLeft: ScaleSzie(15)
                                 }} >
                                     <View style={{
-                                        width: scaleSize(20), height: scaleSize(20),
-                                        borderRadius: scaleSize(4), borderColor: '#0764B0', borderWidth: 3,
+                                        width: ScaleSzie(20), height: ScaleSzie(20),
+                                        borderRadius: ScaleSzie(4), borderColor: '#0764B0', borderWidth: 3,
                                         justifyContent: 'center',
                                         alignItems: 'center',
                                     }} >
                                         <Text style={{
-                                            fontSize: scaleSize(14),
+                                            fontSize: ScaleSzie(14),
                                             color: '#0764B0',
                                             fontWeight: 'bold'
                                         }} >
@@ -300,14 +300,14 @@ class SetupHardware extends React.Component {
                                     </View>
 
                                     <Text style={{
-                                        fontSize: scaleSize(14),
+                                        fontSize: ScaleSzie(14),
                                         color: '#0764B0',
-                                        marginLeft: scaleSize(8), fontWeight: "600"
+                                        marginLeft: ScaleSzie(8), fontWeight: "600"
                                     }} >
 
                                         {localize('Scan devices', language)}
                                     </Text>
-                                    <View style={{width: scaleSize(15)}} />
+                                    <View style={{width: ScaleSzie(15)}} />
                                     {
                                         this.state.scanLoading && <ActivityIndicator size="small" color="#0000ff" />
                                     }
@@ -315,7 +315,7 @@ class SetupHardware extends React.Component {
                                 </Button>
 
                                 {/* ------------- Bluetooth devices list ----------- */}
-                                <View style={{ marginTop: scaleSize(15) }} >
+                                <View style={{ marginTop: ScaleSzie(15) }} >
                                     <ScrollView>
                                         {
                                             this.state.peripherals.map((peripheral, index) => <ItemBluetooth
@@ -334,31 +334,31 @@ class SetupHardware extends React.Component {
 
 
 
-                    <View style={{ height: scaleSize(400) }} />
+                    <View style={{ height: ScaleSzie(400) }} />
                 </ScrollView>
                 {/* ------- Footer -------- */}
-                <View style={{ position: 'absolute', bottom: 0, width: '100%', justifyContent: 'flex-end', paddingBottom: scaleSize(30) }} >
+                <View style={{ position: 'absolute', bottom: 0, width: '100%', justifyContent: 'flex-end', paddingBottom: ScaleSzie(30) }} >
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }} >
                         <ButtonCustom
-                            width={scaleSize(130)}
+                            width={ScaleSzie(130)}
                             height={50}
                             backgroundColor="#F1F1F1"
                             title={localize('CANCEL', language)}
                             textColor="#6A6A6A"
                             onPress={this.cancelSetupPax}
                             style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
-                            styleText={{ fontSize: scaleSize(20), fontWeight: '500' }}
+                            styleText={{ fontSize: ScaleSzie(20), fontWeight: '500' }}
                         />
-                        <View style={{ width: scaleSize(100) }} />
+                        <View style={{ width: ScaleSzie(100) }} />
                         <ButtonCustom
-                            width={scaleSize(130)}
+                            width={ScaleSzie(130)}
                             height={50}
                             backgroundColor="#0764B0"
                             title={localize('SAVE', language)}
                             textColor="#fff"
                             onPress={this.setupPax}
                             style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
-                            styleText={{ fontSize: scaleSize(20), fontWeight: '500' }}
+                            styleText={{ fontSize: ScaleSzie(20), fontWeight: '500' }}
                         />
                     </View>
                 </View>
@@ -382,19 +382,19 @@ class SetupHardware extends React.Component {
 
 const ItemSetup = ({ title, value, placeholder, onChangeText, keyboardType, onFocus, editable, style }) => {
     return (
-        <View style={[{ flexDirection: 'row', marginTop: scaleSize(20), }]} >
-            <View style={{ width: scaleSize(140), justifyContent: 'center', }} >
-                <Text style={{ fontSize: scaleSize(13), color: 'rgb(42,42,42)' }} >
+        <View style={[{ flexDirection: 'row', marginTop: ScaleSzie(20), }]} >
+            <View style={{ width: ScaleSzie(140), justifyContent: 'center', }} >
+                <Text style={{ fontSize: ScaleSzie(13), color: 'rgb(42,42,42)' }} >
                     {title}
                 </Text>
             </View>
             <View style={[{ flex: 1, },]} >
                 <View style={[{
-                    height: scaleSize(35), width: '85%', borderColor: 'rgb(227,227,227)',
-                    borderWidth: scaleSize(1), paddingHorizontal: scaleSize(10)
+                    height: ScaleSzie(35), width: '85%', borderColor: 'rgb(227,227,227)',
+                    borderWidth: ScaleSzie(1), paddingHorizontal: ScaleSzie(10)
                 }, style]} >
                     <TextInput
-                        style={{ flex: 1, fontSize: scaleSize(14) }}
+                        style={{ flex: 1, fontSize: ScaleSzie(14) }}
                         placeholder={placeholder}
                         value={value}
                         onChangeText={(value) => onChangeText(value)}
@@ -415,20 +415,20 @@ const ItemBluetooth = ({ peripheral, bluetoothPaxInfo, onPress }) => {
 
     return (
         <Button onPress={() => onPress(peripheral)} style={{
-            height: scaleSize(45), backgroundColor: "rgb(250,250,250)", borderRadius: 6,
-            flexDirection: "row", alignItems: "center", paddingLeft: scaleSize(15),
-            paddingRight: scaleSize(40), justifyContent: "space-between",
-            marginBottom: scaleSize(13)
+            height: ScaleSzie(45), backgroundColor: "rgb(250,250,250)", borderRadius: 6,
+            flexDirection: "row", alignItems: "center", paddingLeft: ScaleSzie(15),
+            paddingRight: ScaleSzie(40), justifyContent: "space-between",
+            marginBottom: ScaleSzie(13)
         }} >
             <View>
                 <Text style={{
-                    fontSize: scaleSize(14),
+                    fontSize: ScaleSzie(14),
                     fontWeight: '600',
                 }} >
                     {peripheral?.name || "No Name"}
                 </Text>
                 <Text style={{
-                    fontSize: scaleSize(8),
+                    fontSize: ScaleSzie(8),
                     fontWeight: '300',
                 }} >
                     {peripheral?.id || ""}
@@ -436,7 +436,7 @@ const ItemBluetooth = ({ peripheral, bluetoothPaxInfo, onPress }) => {
             </View>
 
             <Text style={{
-                fontSize: scaleSize(12),
+                fontSize: ScaleSzie(12),
                 fontWeight: '600',
                 color: '#0764B0',
             }} >

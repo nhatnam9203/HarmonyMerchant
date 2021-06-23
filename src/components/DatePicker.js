@@ -10,7 +10,7 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
-import { scaleSize } from '../utils';
+import { ScaleSzie } from '../utils';
 import Modal from "./ModalCustom"
 import Button from "./Button";
 import connectRedux from '@redux/ConnectRedux';
@@ -29,7 +29,7 @@ class DatePicker extends Component {
             heightPicker, title,
             dateCalendar, loading
         } = this.props;
-        const height = heightPicker ? heightPicker : scaleSize(180);
+        const height = heightPicker ? heightPicker : ScaleSzie(180);
 
         const tempVisible = loading ? false : visible;
 
@@ -44,8 +44,8 @@ class DatePicker extends Component {
                 }}
             >
                 <View style={{ width, height, backgroundColor: '#fff' }} >
-                    <View style={{ alignItems: "center", paddingVertical: scaleSize(12), }} >
-                        <Text style={{ fontSize: scaleSize(18), color: '#0764B0', fontWeight: '500' }} >
+                    <View style={{ alignItems: "center", paddingVertical: ScaleSzie(12), }} >
+                        <Text style={{ fontSize: ScaleSzie(18), color: '#0764B0', fontWeight: '500' }} >
                             {title}
                         </Text>
                     </View>
@@ -63,11 +63,11 @@ class DatePicker extends Component {
                     <Button
                         onPress={() => onRequestClose()}
                         style={{
-                            width: scaleSize(60), height: scaleSize(40),
+                            width: ScaleSzie(60), height: ScaleSzie(40),
                             position: "absolute", top: 0, right: 0, justifyContent: "center",
                             alignItems: "center"
                         }} >
-                        <Text style={{ fontSize: scaleSize(14), color: '#0764B0', fontWeight: "bold" }} >
+                        <Text style={{ fontSize: ScaleSzie(14), color: '#0764B0', fontWeight: "bold" }} >
                             {`Done`}
                         </Text>
                     </Button>

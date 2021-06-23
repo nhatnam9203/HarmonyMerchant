@@ -10,7 +10,7 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import IMAGE from '@resources';
 import { Button } from '@components';
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 
 export default class ItemScalary extends React.Component {
 
@@ -23,25 +23,25 @@ export default class ItemScalary extends React.Component {
         return (
             <View style={{
                 flexDirection: 'row',
-                height: scaleSize(36),
-                paddingHorizontal: scaleSize(25),
-                marginTop: scaleSize(14)
+                height: ScaleSzie(36),
+                paddingHorizontal: ScaleSzie(25),
+                marginTop: ScaleSzie(14)
             }} >
-                <Button onPress={onPressCheckBox} style={{ width: scaleSize(30), justifyContent: 'center' }} >
-                    <Image source={temptIconCheck} style={{ width: scaleSize(15), height: scaleSize(15) }} />
+                <Button onPress={onPressCheckBox} style={{ width: ScaleSzie(30), justifyContent: 'center' }} >
+                    <Image source={temptIconCheck} style={{ width: ScaleSzie(15), height: ScaleSzie(15) }} />
                 </Button>
 
-                <View style={{ width: scaleSize(120), justifyContent: 'center' }} >
+                <View style={{ width: ScaleSzie(120), justifyContent: 'center' }} >
                     <Text style={{
                         color: '#404040',
-                        fontSize: scaleSize(14),
+                        fontSize: ScaleSzie(14),
                         fontWeight: '600',
                     }}  >
                         {`${title}`}
                     </Text>
                 </View>
 
-                <View style={[{ width: scaleSize(150), paddingLeft: scaleSize(5) }, styles.borderTextInput]} >
+                <View style={[{ width: ScaleSzie(150), paddingLeft: ScaleSzie(5) }, styles.borderTextInput]} >
                     <TextInputMask
                         type={'money'}
                         options={{
@@ -52,7 +52,7 @@ export default class ItemScalary extends React.Component {
                             suffixUnit: ''
                         }}
                         // placeholder="$ 0.00"
-                        style={{ flex: 1, fontSize: scaleSize(14), color: '#404040', }}
+                        style={{ flex: 1, fontSize: ScaleSzie(14), color: '#404040', }}
                         placeholder={placeholder}
                         value={value}
                         onChangeText={onChangeValue}

@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions, Platform } from "react-native";
-import { scaleSize } from "@utils";
+import { ScaleSzie } from "@utils";
 const { width, height } = Dimensions.get("window");
 
 export default StyleSheet.create({
@@ -8,28 +8,28 @@ export default StyleSheet.create({
   },
   containerAddAppoitment: {
     width: width,
-    height: height - scaleSize(45),
+    height: height - ScaleSzie(45),
     position: "absolute",
     // bottom: 0,
     left: 0,
     right: 0,
-    // top:scaleSize(1),
+    // top:ScaleSzie(1),
     backgroundColor: "#fff",
   },
   headerContainer: {
-    height: scaleSize(45),
+    height: ScaleSzie(45),
     flexDirection: "row",
     borderColor: "rgb(197,197,197)",
     borderWidth: 1,
-    paddingHorizontal: scaleSize(14),
+    paddingHorizontal: ScaleSzie(14),
     alignItems: "center",
   },
   textHeader: {
-    fontSize: scaleSize(20),
+    fontSize: ScaleSzie(20),
     color: "#404040",
   },
   categoriesHeader: {
-    height: scaleSize(46),
+    height: ScaleSzie(46),
     borderWidth: 1,
     borderColor: "#404040",
     justifyContent: "center",
@@ -60,7 +60,7 @@ export default StyleSheet.create({
     shadowOffset: { width: 3.5, height: 2 },
   },
   headerBasket: {
-    height: scaleSize(46),
+    height: ScaleSzie(46),
     borderWidth: 1,
     borderColor: "rgb(197,197,197)",
     borderRightColor: "rgb(223,223,223)",
@@ -73,10 +73,10 @@ export default StyleSheet.create({
   payNumberTextContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: scaleSize(6),
+    marginBottom: ScaleSzie(6),
   },
   textPay: {
-    fontSize: scaleSize(16),
+    fontSize: ScaleSzie(16),
     color: "#404040",
   },
 });

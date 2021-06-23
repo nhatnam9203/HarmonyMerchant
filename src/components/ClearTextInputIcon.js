@@ -5,15 +5,15 @@ import {
 } from 'react-native';
 
 import ICON from "@resources";
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 
 export default ClearTextInputIcon = () => {
     return (
         <View style={{
-            width: scaleSize(22), height: scaleSize(22), alignItems: 'center', justifyContent: 'center',
-            borderRadius: scaleSize(11), borderColor: '#0764B0', borderWidth: 2
+            width: ScaleSzie(22), height: ScaleSzie(22), alignItems: 'center', justifyContent: 'center',
+            borderRadius: ScaleSzie(11), borderColor: '#0764B0', borderWidth: 2
         }} >
-            <Image source={ICON.clear_text_input} style={{ width: scaleSize(10), height: scaleSize(10) }} />
+            <Image source={ICON.clear_text_input} style={{ width: ScaleSzie(10), height: ScaleSzie(10) }} />
         </View>
 
     );

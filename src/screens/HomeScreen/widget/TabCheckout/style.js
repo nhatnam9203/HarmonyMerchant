@@ -3,7 +3,7 @@ import {
     Platform
 } from 'react-native';
 
-import { scaleSize, checkIsTablet } from '@utils';
+import { ScaleSzie, checkIsTablet } from '@utils';
 
 const TXT_COLOR = "#404040";
 const BULE_SKY = "#0764B0"
@@ -13,21 +13,21 @@ export default StyleSheet.create({
         flex: 1,
     },
     headerContainer: {
-        height: scaleSize(60),
+        height: ScaleSzie(60),
         flexDirection: 'row',
         borderColor: 'rgb(197,197,197)',
         borderWidth: 1,
-        paddingHorizontal: scaleSize(14),
+        paddingHorizontal: ScaleSzie(14),
     },
     textHeader: {
-        fontSize: scaleSize(18),
+        fontSize: ScaleSzie(18),
         color: '#404040'
     },
     categoriesBody: {
         flex: 1,
     },
     headerBasket: {
-        height: scaleSize(38),
+        height: ScaleSzie(38),
         // borderWidth: 1,
         // borderColor: 'rgb(197,197,197)',
         // borderRightColor: 'rgb(223,223,223)',
@@ -42,15 +42,15 @@ export default StyleSheet.create({
     payNumberTextContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: scaleSize(6)
+        marginBottom: ScaleSzie(6)
     },
     textPay: {
-        fontSize: scaleSize(16),
+        fontSize: ScaleSzie(16),
         color: '#404040'
     },
     containerQrcode: {
-        width: scaleSize(220),
-        height: scaleSize(220),
+        width: ScaleSzie(220),
+        height: ScaleSzie(220),
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: 'rgb(230,236,242)',
@@ -69,23 +69,23 @@ export default StyleSheet.create({
         })
     },
     btnCashier: {
-        height: scaleSize(26),
-        width: scaleSize(100),
+        height: ScaleSzie(26),
+        width: ScaleSzie(100),
         backgroundColor: '#0764B0',
-        borderRadius: scaleSize(3),
+        borderRadius: ScaleSzie(3),
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center"
     },
     textBtnCashier: {
         fontWeight: 'bold',
-        fontSize: scaleSize(10),
+        fontSize: ScaleSzie(10),
         color: "#fff",
-        marginLeft: scaleSize(4),
+        marginLeft: ScaleSzie(4),
     },
     payment_header: {
         backgroundColor: "#F1F1F1",
-        height: scaleSize(37),
+        height: ScaleSzie(37),
         justifyContent: 'center',
         borderBottomWidth: 1,
         borderBottomColor: 'rgb(197, 197, 197)',
@@ -93,16 +93,16 @@ export default StyleSheet.create({
     box_payment_container: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingHorizontal: scaleSize(20),
-        marginTop: checkIsTablet() ? scaleSize(15) : scaleSize(30)
+        paddingHorizontal: ScaleSzie(20),
+        marginTop: checkIsTablet() ? ScaleSzie(15) : ScaleSzie(30)
     },
     box_payment_singular_container: {
-        marginTop: checkIsTablet() ? scaleSize(15) : scaleSize(30),
-        paddingHorizontal: scaleSize(20),
+        marginTop: checkIsTablet() ? ScaleSzie(15) : ScaleSzie(30),
+        paddingHorizontal: ScaleSzie(20),
     },
     txt_category_header_extra: {
         color: "#404040",
-        fontSize: scaleSize(15),
+        fontSize: ScaleSzie(15),
         fontWeight: "500"
     },
 
@@ -132,7 +132,7 @@ export default StyleSheet.create({
         borderRightWidth: 0,
     },
     staff_column_header: {
-        height: scaleSize(38),
+        height: ScaleSzie(38),
         backgroundColor: "#F1F1F1",
         borderBottomColor: "#EEEEEE",
         borderBottomWidth: 1,
@@ -140,7 +140,7 @@ export default StyleSheet.create({
         alignItems: "center"
     },
     categoriesHeader: {
-        height: scaleSize(38),
+        height: ScaleSzie(38),
         // borderBottomWidth: 2,
         // borderColor: '#DDDDDD',
         justifyContent: 'center',
@@ -148,49 +148,49 @@ export default StyleSheet.create({
         backgroundColor: "#F1F1F1",
         borderBottomColor: "#DDDDDD",
         borderBottomWidth: 1,
-        paddingLeft: scaleSize(8)
+        paddingLeft: ScaleSzie(8)
     },
     txt_staff_column_header: {
         color: TXT_COLOR,
-        fontSize: scaleSize(18),
+        fontSize: ScaleSzie(18),
         fontWeight: "600"
     },
     staff_item: {
-        height: scaleSize(70),
+        height: ScaleSzie(70),
         borderBottomWidth: 1,
         borderBottomColor: "#EEEEEE",
         justifyContent: "center",
         alignItems: "center"
     },
     staff_avatar_box: {
-        width: scaleSize(34),
-        height: scaleSize(34),
-        borderRadius: scaleSize(17),
+        width: ScaleSzie(34),
+        height: ScaleSzie(34),
+        borderRadius: ScaleSzie(17),
         overflow: "hidden"
     },
     staff_avatar: {
-        width: scaleSize(34),
-        height: scaleSize(34),
+        width: ScaleSzie(34),
+        height: ScaleSzie(34),
     },
     txt_staff_name: {
         color: TXT_COLOR,
-        fontSize: scaleSize(12),
-        marginTop: scaleSize(4)
+        fontSize: ScaleSzie(12),
+        marginTop: ScaleSzie(4)
     },
     number_staff_appointment_box: {
-        width: scaleSize(20),
-        height: scaleSize(20),
-        borderRadius: scaleSize(10),
+        width: ScaleSzie(20),
+        height: ScaleSzie(20),
+        borderRadius: ScaleSzie(10),
         backgroundColor: BULE_SKY,
         position: "absolute",
-        top: scaleSize(6),
-        left: scaleSize(6),
+        top: ScaleSzie(6),
+        left: ScaleSzie(6),
         justifyContent: "center",
         alignItems: "center"
     },
     number_staff_appointment: {
         color: "#fff",
-        fontSize: scaleSize(12),
+        fontSize: ScaleSzie(12),
         fontWeight: "600"
     },
 
@@ -271,19 +271,19 @@ export default StyleSheet.create({
         borderRadius: 4
     },
     txt_btn_basket: {
-        fontSize: scaleSize(19),
+        fontSize: ScaleSzie(19),
         fontWeight: '600'
     },
     btn_back: {
         borderWidth: 1,
         borderColor: '#C5C5C5',
         borderRadius: 4,
-        height: scaleSize(44)
+        height: ScaleSzie(44)
     },
     avatar_box: {
-        width: scaleSize(40),
-        height: scaleSize(40),
-        borderRadius: scaleSize(20),
+        width: ScaleSzie(40),
+        height: ScaleSzie(40),
+        borderRadius: ScaleSzie(20),
         overflow: "hidden",
         backgroundColor: "#E5E5E5",
         justifyContent: "center",
@@ -291,24 +291,24 @@ export default StyleSheet.create({
     },
     txt_avatar: {
         color: "#404040",
-        fontSize: scaleSize(18),
+        fontSize: ScaleSzie(18),
         fontWeight: "bold"
     },
     txt_customer_name:{
         color:"#0764B0",
-        fontSize:scaleSize(16),
+        fontSize:ScaleSzie(16),
         fontWeight:"600"
     },
     txt_customer_phone:{
         color:"#404040",
-        fontSize:scaleSize(14),
+        fontSize:ScaleSzie(14),
         fontWeight:"400",
         marginTop:5,
     },
     txt_enter_other_phone_number:{ 
         textDecorationLine:"underline",  
         color:"#0764B0",
-        fontSize:scaleSize(12),
-        marginLeft:scaleSize(10)
+        fontSize:ScaleSzie(12),
+        marginLeft:ScaleSzie(10)
     }
 })

@@ -14,7 +14,7 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import { Dropdown } from './react-native-material-dropdown';
 import BrowserFile from './BrowserFile';
-import { scaleSize, localize ,checkIsTablet} from '@utils';
+import { ScaleSzie, localize ,checkIsTablet} from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupEditAddExtra extends React.Component {
@@ -134,7 +134,7 @@ class PopupEditAddExtra extends React.Component {
     }
 
     scrollExtraTo(position) {
-        this.scrollExtraRef.current.scrollTo({ x: 0, y: scaleSize(position), animated: true })
+        this.scrollExtraRef.current.scrollTo({ x: 0, y: ScaleSzie(position), animated: true })
     }
 
 
@@ -153,17 +153,17 @@ class PopupEditAddExtra extends React.Component {
                     title={temptTitleButton}
                     textColor="#fff"
                     onPress={this.doneAddExtra}
-                    style={{ borderRadius: scaleSize(2) }}
+                    style={{ borderRadius: ScaleSzie(2) }}
                     styleText={{
-                        fontSize: scaleSize(14)
+                        fontSize: ScaleSzie(14)
                     }}
                 />
             );
         } else {
             return (
                 <View style={{
-                    width: 150, height: scaleSize(35), backgroundColor: '#0764B0',
-                    borderRadius: scaleSize(2), justifyContent: 'center', alignItems: 'center'
+                    width: 150, height: ScaleSzie(35), backgroundColor: '#0764B0',
+                    borderRadius: ScaleSzie(2), justifyContent: 'center', alignItems: 'center'
                 }} >
                     < ActivityIndicator
                         size="large"
@@ -178,19 +178,19 @@ class PopupEditAddExtra extends React.Component {
     render() {
         const { title, visible, language } = this.props;
         const { name, description, price, isDisable ,supplyFee} = this.state.extraInfo;
-        const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(480);
+        const tempHeight = checkIsTablet() ? ScaleSzie(390) : ScaleSzie(480);
 
         return (
             <PopupParent
                 title={title}
                 visible={visible}
                 onRequestClose={this.onRequestClose}
-                // style={{ justifyContent: 'flex-start', paddingTop: scaleSize(20) }}
+                // style={{ justifyContent: 'flex-start', paddingTop: ScaleSzie(20) }}
             >
                 <View style={{
                     height:tempHeight, backgroundColor: '#fff',
-                    borderBottomLeftRadius: scaleSize(15), borderBottomRightRadius: scaleSize(15),
-                    paddingHorizontal: scaleSize(30)
+                    borderBottomLeftRadius: ScaleSzie(15), borderBottomRightRadius: ScaleSzie(15),
+                    paddingHorizontal: ScaleSzie(30)
                 }} >
                     <View style={{ flex: 1, }} >
                         <ScrollView
@@ -200,30 +200,30 @@ class PopupEditAddExtra extends React.Component {
                         >
                             <TouchableOpacity activeOpacity={1}>
                                 {/* ------ Extra ---- */}
-                                <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(10), marginTop: scaleSize(20) }} >
+                                <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(10), marginTop: ScaleSzie(20) }} >
                                     {`${localize('Extra Name', language)}*`}
                                 </Text>
                                 <View style={{
-                                    height: scaleSize(30), borderWidth: 1, borderColor: '#C5C5C5',
-                                    paddingLeft: scaleSize(10),
+                                    height: ScaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
+                                    paddingLeft: ScaleSzie(10),
                                 }} >
                                     <TextInput
                                         placeholder={`${localize('Extra Name', language)}`}
-                                        style={{ flex: 1, fontSize: scaleSize(16), padding: 0 }}
+                                        style={{ flex: 1, fontSize: ScaleSzie(16), padding: 0 }}
                                         value={name}
                                         onChangeText={(value) => this.updateExtraInfo('name', value)}
                                     />
                                 </View>
-                                <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(10), marginTop: scaleSize(7) }} >
+                                <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(10), marginTop: ScaleSzie(7) }} >
                                     {localize('Description', language)}
                                 </Text>
                                 <View style={{
-                                    height: scaleSize(60), borderWidth: 1, borderColor: '#C5C5C5',
-                                    paddingLeft: scaleSize(10), backgroundColor: '#FAFAFA', paddingTop: scaleSize(5)
+                                    height: ScaleSzie(60), borderWidth: 1, borderColor: '#C5C5C5',
+                                    paddingLeft: ScaleSzie(10), backgroundColor: '#FAFAFA', paddingTop: ScaleSzie(5)
                                 }} >
                                     <TextInput
                                         placeholder=""
-                                        style={{ flex: 1, fontSize: scaleSize(16), padding: 0,
+                                        style={{ flex: 1, fontSize: ScaleSzie(16), padding: 0,
                                         textAlignVertical:"top"
                                         }}
                                         multiline={true}
@@ -233,7 +233,7 @@ class PopupEditAddExtra extends React.Component {
                                     />
                                 </View>
                                 {/* -------------------------- */}
-                                <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(10), marginTop: scaleSize(7) }} >
+                                <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(10), marginTop: ScaleSzie(7) }} >
 
                                     {`${localize('Duration', language)}*`}
                                 </Text>
@@ -244,20 +244,20 @@ class PopupEditAddExtra extends React.Component {
                                         value={this.state.extraInfo.duration}
                                         onFocus={() => this.scrollExtraTo(200)}
                                     />
-                                    <View style={{ width: scaleSize(10) }} />
+                                    <View style={{ width: ScaleSzie(10) }} />
                                     <View style={{ flex: 1 }} />
-                                    <View style={{ width: scaleSize(10) }} />
+                                    <View style={{ width: ScaleSzie(10) }} />
                                     <View style={{ flex: 1 }} />
                                 </View>
 
-                                <View style={{ height: scaleSize(70), flexDirection: 'row', marginTop: scaleSize(6) }} >
+                                <View style={{ height: ScaleSzie(70), flexDirection: 'row', marginTop: ScaleSzie(6) }} >
                                     {/* ------------- Price ------------ */}
                                     <View style={{ flex: 1, }}  >
-                                        <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(10), marginTop: scaleSize(7) }} >
+                                        <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(10), marginTop: ScaleSzie(7) }} >
                                             {`${localize('Price', language)}*`}
                                         </Text>
                                         <View style={{
-                                            height: scaleSize(30), paddingHorizontal: scaleSize(5),
+                                            height: ScaleSzie(30), paddingHorizontal: ScaleSzie(5),
                                             borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
                                         }} >
                                             <TextInputMask
@@ -269,7 +269,7 @@ class PopupEditAddExtra extends React.Component {
                                                     unit: '',
                                                     suffixUnit: ''
                                                 }}
-                                                style={{ flex: 1, fontSize: scaleSize(16) , padding: 0 }}
+                                                style={{ flex: 1, fontSize: ScaleSzie(16) , padding: 0 }}
                                                 placeholder="$ 100"
                                                 value={price}
                                                 onChangeText={value => this.updateExtraInfo('price', value)}
@@ -278,14 +278,14 @@ class PopupEditAddExtra extends React.Component {
                                         </View>
                                     </View>
 
-                                    <View style={{ width: scaleSize(10) }} />
+                                    <View style={{ width: ScaleSzie(10) }} />
                                     {/* ------------- Supply ------------ */}
                                     <View style={{ flex: 1, }}  >
-                                        <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(10), marginTop: scaleSize(7) }} >
+                                        <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(10), marginTop: ScaleSzie(7) }} >
                                             {`${localize('Surcharged', language)}`}
                                         </Text>
                                         <View style={{
-                                            height: scaleSize(30), paddingHorizontal: scaleSize(5),
+                                            height: ScaleSzie(30), paddingHorizontal: ScaleSzie(5),
                                             borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
                                         }} >
                                             <TextInputMask
@@ -297,7 +297,7 @@ class PopupEditAddExtra extends React.Component {
                                                     unit: '',
                                                     suffixUnit: ''
                                                 }}
-                                                style={{ flex: 1, fontSize: scaleSize(16), padding: 0  }}
+                                                style={{ flex: 1, fontSize: ScaleSzie(16), padding: 0  }}
                                                 placeholder="$ 100"
                                                 value={supplyFee}
                                                 onChangeText={value => this.updateExtraInfo('supplyFee', value)}
@@ -306,15 +306,15 @@ class PopupEditAddExtra extends React.Component {
                                         </View>
                                     </View>
 
-                                    <View style={{ width: scaleSize(10) }} />
+                                    <View style={{ width: ScaleSzie(10) }} />
                                     {/* ------------- Status ------------ */}
                                     <View style={{ flex: 1 }} >
-                                        <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(10), marginTop: scaleSize(7) }} >
+                                        <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(10), marginTop: ScaleSzie(7) }} >
                                             {`${localize('Status', language)}*`}
                                         </Text>
                                         <View style={{
                                             width: "100%",
-                                            height: scaleSize(30),
+                                            height: ScaleSzie(30),
 
                                         }} >
                                             <Dropdown
@@ -338,12 +338,12 @@ class PopupEditAddExtra extends React.Component {
                                     imageUrl={this.state.imageUrl}
                                     editButtonSubmit={this.editButtonSubmit}
                                 />
-                                <View style={{ height: scaleSize(250) }} />
+                                <View style={{ height: ScaleSzie(250) }} />
                             </TouchableOpacity>
                         </ScrollView>
                     </View>
                     {/* ---- Footer ---- */}
-                    <View style={{ height: scaleSize(50), alignItems: 'center' }} >
+                    <View style={{ height: ScaleSzie(50), alignItems: 'center' }} >
                         {this.renderButtonSubmit()}
                     </View>
                 </View>
@@ -367,26 +367,26 @@ class ItemTime extends React.Component {
         const { value } = this.state;
         return (
             <View style={{  flex: 1,}} >
-                <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(10), marginTop: scaleSize(7) }} >
+                <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(10), marginTop: ScaleSzie(7) }} >
                     {title}
                 </Text>
                 <View style={{
-                    height: scaleSize(30),
+                    height: ScaleSzie(30),
                     flex: 1,
                     borderWidth: 1, borderColor: '#C5C5C5', flexDirection: 'row'
                 }} >
-                    <View style={{ flex: 1, paddingLeft: scaleSize(5) }} >
+                    <View style={{ flex: 1, paddingLeft: ScaleSzie(5) }} >
                         <TextInputMask
                             type="only-numbers"
                             placeholder='10'
-                            style={{ flex: 1, fontSize: scaleSize(16) , padding: 0 }}
+                            style={{ flex: 1, fontSize: ScaleSzie(16) , padding: 0 }}
                             value={value}
                             onChangeText={(value) => this.setState({ value })}
                             onFocus={() => onFocus()}
                         />
                     </View>
                     <View style={{ justifyContent: 'flex-end', paddingRight: 4 }} >
-                        <Text style={{ color: '#C5C5C5', fontSize: scaleSize(14) }} >
+                        <Text style={{ color: '#C5C5C5', fontSize: ScaleSzie(14) }} >
                             min
                 </Text>
                     </View>

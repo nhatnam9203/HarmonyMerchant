@@ -40,6 +40,10 @@ export const isPlatformIOS = (_) => {
   return Platform.OS === "ios";
 };
 
+export const ScaleSzie = (size) => {
+  return (width * size) / Configs.DEFAULT_WIDTH;
+};
+
 export const scaleSize = (size) => {
   return (width * size) / Configs.DEFAULT_WIDTH;
 };
@@ -1446,7 +1450,7 @@ export const getColorTitleByNotiType = (isRead, type) => {
 const styles = StyleSheet.create({
   txt_content: {
     color: "#404040",
-    fontSize: scaleSize(14),
+    fontSize: ScaleSzie(14),
     fontWeight: "300",
   },
 });

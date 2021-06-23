@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import { StatusBarHeader, Button, ParentContainer, Text, ScrollableTabView } from '@components';
-import { scaleSize, localize } from '@utils';
+import { ScaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import { TabContactUs, TabVideos } from './widget';
@@ -19,10 +19,10 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         return (
             <View style={{
-                height: scaleSize(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSize(50),
+                height: ScaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: ScaleSzie(50),
                 justifyContent: 'center'
             }} >
-                <Text style={{ fontSize: scaleSize(16), color: '#0764B0' }} >
+                <Text style={{ fontSize: ScaleSzie(16), color: '#0764B0' }} >
                     {localize('Support', language)}
                 </Text>
             </View>
@@ -32,7 +32,7 @@ export default class Layout extends React.Component {
     renderMenu() {
         const { indexTab } = this.state;
         return (
-            <View style={{ width: scaleSize(150), backgroundColor: 'rgb(250,250,250)' }} >
+            <View style={{ width: ScaleSzie(150), backgroundColor: 'rgb(250,250,250)' }} >
                 {
                     MENU.map((title, index) => {
                         let temptIcon;
@@ -50,14 +50,14 @@ export default class Layout extends React.Component {
                         const temptTextColorSelect = index === indexTab ? { color: '#0764B0' } : {}
                         return (
                             <Button onPress={() => this.selectMenu(index)} key={index} style={[{
-                                height: scaleSize(50), borderBottomColor: 'rgb(241,241,241)', borderBottomWidth: 3,
-                                flexDirection: 'row', alignItems: "center", paddingLeft: scaleSize(10)
+                                height: ScaleSzie(50), borderBottomColor: 'rgb(241,241,241)', borderBottomWidth: 3,
+                                flexDirection: 'row', alignItems: "center", paddingLeft: ScaleSzie(10)
                             }, temptBackground]} >
                                 <Image source={IMAGE[temptIcon]} style={{
-                                    width: scaleSize(18), height: scaleSize(18),
-                                    marginRight: scaleSize(10)
+                                    width: ScaleSzie(18), height: ScaleSzie(18),
+                                    marginRight: ScaleSzie(10)
                                 }} />
-                                <Text style={[{ color: '#404040', fontSize: scaleSize(16) }, temptTextColorSelect]} >
+                                <Text style={[{ color: '#404040', fontSize: ScaleSzie(16) }, temptTextColorSelect]} >
                                     {title}
                                 </Text>
                             </Button>
@@ -104,13 +104,13 @@ export default class Layout extends React.Component {
                     </View>
 
                     <Button onPress={this.openDrawer} style={configs.btn_left_position} >
-                        <Image source={IMAGE.openDrawer} style={{ width: scaleSize(34), height: scaleSize(34) }} />
+                        <Image source={IMAGE.openDrawer} style={{ width: ScaleSzie(34), height: ScaleSzie(34) }} />
                     </Button>
 
                     <Button onPress={this.backTab} style={[configs.btn_right_position, {
-                        width: scaleSize(34), height: scaleSize(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
+                        width: ScaleSzie(34), height: ScaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                     }]} >
-                        <Image source={IMAGE.arrowRight} style={{ width: scaleSize(22), height: scaleSize(17) }} />
+                        <Image source={IMAGE.arrowRight} style={{ width: ScaleSzie(22), height: ScaleSzie(17) }} />
                     </Button>
                 </View>
             </ParentContainer>

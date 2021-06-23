@@ -12,7 +12,7 @@ import {
   FlatList,
 } from "react-native";
 
-import { scaleSize, localize } from "@utils";
+import { ScaleSzie, localize } from "@utils";
 import styles from "./style";
 import { DatePicker, Dropdown } from "@components";
 import { ItemReview, ItemHeader } from "./widget";
@@ -83,7 +83,7 @@ class Layout extends React.Component {
             styles.row,
             {
               justifyContent: "space-between",
-              paddingHorizontal: scaleSize(15),
+              paddingHorizontal: ScaleSzie(15),
             },
           ]}
         >
@@ -115,16 +115,16 @@ class Layout extends React.Component {
           style={[
             styles.row,
             {
-              paddingHorizontal: scaleSize(15),
-              paddingTop: scaleSize(15),
+              paddingHorizontal: ScaleSzie(15),
+              paddingTop: ScaleSzie(15),
               alignItems: "center",
             },
           ]}
         >
-          <Text style={{ color: "#6A6A6A", fontSize: scaleSize(17) }}>
+          <Text style={{ color: "#6A6A6A", fontSize: ScaleSzie(17) }}>
             Filters
           </Text>
-          <View style={[styles.itemDropdown, { width: scaleSize(135) }]}>
+          <View style={[styles.itemDropdown, { width: ScaleSzie(135) }]}>
             <Dropdown
               label={"All reviews"}
               data={dataReview}
@@ -162,10 +162,10 @@ class Layout extends React.Component {
             styles.row,
             {
               justifyContent: "space-between",
-              paddingHorizontal: scaleSize(15),
+              paddingHorizontal: ScaleSzie(15),
               paddingVertical: 10,
               backgroundColor: "#F1F1F1",
-              marginTop: scaleSize(10),
+              marginTop: ScaleSzie(10),
               alignItems: "center",
             },
           ]}
@@ -229,7 +229,7 @@ class Layout extends React.Component {
           ListFooterComponent={() => (
             <View
               style={{
-                height: scaleSize(30),
+                height: ScaleSzie(30),
                 alignItems: "center",
                 justifyContent: "center",
               }}

@@ -9,7 +9,7 @@ import {
 import FastImage from 'react-native-fast-image';
 
 import { ButtonCustom } from '@components';
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 import IMAGE from '@resources';
 
 const RowTableExtra = ({ extra, index, archiveExtra, editService, restoreExtra, move, moveEnd }) => {
@@ -37,13 +37,13 @@ const RowTableExtra = ({ extra, index, archiveExtra, editService, restoreExtra, 
             style={styles.tableHeader} >
             {/* ----- 1 ------ */}
             <View style={[{
-                width: scaleSize(50),
+                width: ScaleSzie(50),
                 flexDirection: 'row',
                 justifyContent: 'space-around',
                 alignItems: 'center'
             }]} >
                 <Image source={IMAGE.indicate}
-                    style={{ width: scaleSize(12), height: scaleSize(29) }}
+                    style={{ width: ScaleSzie(12), height: ScaleSzie(29) }}
                 />
                 <Text style={styles.textTableHeader} >
                     {`${parseInt(index) + 1}.`}
@@ -51,49 +51,49 @@ const RowTableExtra = ({ extra, index, archiveExtra, editService, restoreExtra, 
             </View>
             {/* ----- 2 ------ */}
             <View style={{
-                width: scaleSize(160), flexDirection: 'row',
+                width: ScaleSzie(160), flexDirection: 'row',
             }} >
-                <View style={{ justifyContent: 'center', marginRight: scaleSize(8) }} >
+                <View style={{ justifyContent: 'center', marginRight: ScaleSzie(8) }} >
                 {
                         extra?.imageUrl ? <FastImage
-                            style={{ width: scaleSize(30), height: scaleSize(30) }}
+                            style={{ width: ScaleSzie(30), height: ScaleSzie(30) }}
                             source={{
                                 uri: extra?.imageUrl,
                                 priority: FastImage.priority.low,
                                 cache: FastImage.cacheControl.immutable
                             }}
                             // onError={() => setSource(IMAGE.extra_holder)}
-                        /> : <FastImage source={IMAGE.extra_holder} style={{ width: scaleSize(30), height: scaleSize(30) }} />
+                        /> : <FastImage source={IMAGE.extra_holder} style={{ width: ScaleSzie(30), height: ScaleSzie(30) }} />
                     }
                 </View>
 
-                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(5) }} >
+                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(5) }} >
                     <Text style={styles.textTableHeader} numberOfLines={1} >
                         {extra.name}
                     </Text>
                 </View>
-                <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                     <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                 </View>
             </View>
             {/* ----- 3 ------ */}
             <View style={{
-                width: scaleSize(140), flexDirection: 'row',
+                width: ScaleSzie(140), flexDirection: 'row',
             }} >
-                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
+                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
                     <Text style={styles.textTableHeader} >
                         {`${extra.price}`}
                     </Text>
                 </View>
-                <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                     <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                 </View>
             </View>
             {/* ----- 4 ----- */}
             <View style={{
-                width: scaleSize(110), flexDirection: 'row',
+                width: ScaleSzie(110), flexDirection: 'row',
             }} >
-                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
+                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
                     <Text style={styles.textTableHeader} >
 
                         {
@@ -101,7 +101,7 @@ const RowTableExtra = ({ extra, index, archiveExtra, editService, restoreExtra, 
                         }
                     </Text>
                 </View>
-                <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                     <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                 </View>
             </View>
@@ -118,9 +118,9 @@ const RowTableExtra = ({ extra, index, archiveExtra, editService, restoreExtra, 
                         title="Edit"
                         textColor="#fff"
                         onPress={() => editService()}
-                        style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSize(2) }}
+                        style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: ScaleSzie(2) }}
                         styleText={{
-                            fontSize: scaleSize(14)
+                            fontSize: ScaleSzie(14)
                         }}
                     />
                 </View>
@@ -133,9 +133,9 @@ const RowTableExtra = ({ extra, index, archiveExtra, editService, restoreExtra, 
                             title="Archive"
                             textColor="#fff"
                             onPress={() => archiveExtra()}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSize(2) }}
+                            style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: ScaleSzie(2) }}
                             styleText={{
-                                fontSize: scaleSize(14)
+                                fontSize: ScaleSzie(14)
                             }}
                         /> :
                             <ButtonCustom
@@ -145,9 +145,9 @@ const RowTableExtra = ({ extra, index, archiveExtra, editService, restoreExtra, 
                                 title="Restore"
                                 textColor="#6A6A6A"
                                 onPress={() => restoreExtra()}
-                                style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSize(2) }}
+                                style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: ScaleSzie(2) }}
                                 styleText={{
-                                    fontSize: scaleSize(14)
+                                    fontSize: ScaleSzie(14)
                                 }}
                             />
                     }
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: scaleSize(55),
+        height: ScaleSzie(55),
         backgroundColor: '#FAFAFA',
         borderBottomWidth: 1,
         borderBottomColor: '#C5C5C5',
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#6A6A6A',
-        fontSize: scaleSize(14)
+        fontSize: ScaleSzie(14)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',

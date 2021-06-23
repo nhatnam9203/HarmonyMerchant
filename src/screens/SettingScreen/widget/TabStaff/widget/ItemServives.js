@@ -4,7 +4,7 @@ import Collapsible from "react-native-collapsible";
 
 import IMAGE from "@resources";
 import { Dropdown, Button } from "@components";
-import { scaleSize, WorkingTime } from "@utils";
+import { ScaleSzie, WorkingTime } from "@utils";
 import connectRedux from "@redux/ConnectRedux";
 // import Test from "./Test";
 
@@ -215,7 +215,7 @@ class ItemServives extends React.Component {
     const { isSelectAll } = this.state;
     return this.state.services.map((item, index) => (
       <View
-        style={{ paddingHorizontal: scaleSize(25), marginBottom: scaleSize(5) }}
+        style={{ paddingHorizontal: ScaleSzie(25), marginBottom: ScaleSzie(5) }}
         key={index}
       >
         <TouchableOpacity
@@ -225,17 +225,17 @@ class ItemServives extends React.Component {
         >
           <Button
             onPress={() => this.selectItem(item.categoryId)}
-            style={{ width: scaleSize(30), justifyContent: "center" }}
+            style={{ width: ScaleSzie(30), justifyContent: "center" }}
           >
             {item.selected || isSelectAll ? (
               <Image
                 source={IMAGE.checkBox}
-                style={{ width: scaleSize(15), height: scaleSize(15) }}
+                style={{ width: ScaleSzie(15), height: ScaleSzie(15) }}
               />
             ) : (
               <Image
                 source={IMAGE.checkBoxEmpty}
-                style={{ width: scaleSize(15), height: scaleSize(15) }}
+                style={{ width: ScaleSzie(15), height: ScaleSzie(15) }}
               />
             )}
           </Button>
@@ -243,7 +243,7 @@ class ItemServives extends React.Component {
             <Text
               style={{
                 color: "#0764B0",
-                fontSize: scaleSize(14),
+                fontSize: ScaleSzie(14),
                 fontWeight: "600",
               }}
             >
@@ -254,12 +254,12 @@ class ItemServives extends React.Component {
           {item.isCollap ? (
             <Image
               source={IMAGE.Arrow_up}
-              style={{ width: scaleSize(18), height: scaleSize(18) }}
+              style={{ width: ScaleSzie(18), height: ScaleSzie(18) }}
             />
           ) : (
             <Image
               source={IMAGE.Arrow_down}
-              style={{ width: scaleSize(18), height: scaleSize(18) }}
+              style={{ width: ScaleSzie(18), height: ScaleSzie(18) }}
             />
           )}
         </TouchableOpacity>
@@ -271,17 +271,17 @@ class ItemServives extends React.Component {
                 onPress={() =>
                   this.selectItemChild(item.categoryId, index, items.categoryId)
                 }
-                style={{ width: scaleSize(30), justifyContent: "center" }}
+                style={{ width: ScaleSzie(30), justifyContent: "center" }}
               >
                 {items.selected || isSelectAll ? (
                   <Image
                     source={IMAGE.checkBox}
-                    style={{ width: scaleSize(15), height: scaleSize(15) }}
+                    style={{ width: ScaleSzie(15), height: ScaleSzie(15) }}
                   />
                 ) : (
                   <Image
                     source={IMAGE.checkBoxEmpty}
-                    style={{ width: scaleSize(15), height: scaleSize(15) }}
+                    style={{ width: ScaleSzie(15), height: ScaleSzie(15) }}
                   />
                 )}
               </Button>
@@ -291,18 +291,18 @@ class ItemServives extends React.Component {
                     uri: items?.imageUrl,
                   }}
                   style={{
-                    width: scaleSize(30),
-                    height: scaleSize(30),
-                    marginRight: scaleSize(10),
+                    width: ScaleSzie(30),
+                    height: ScaleSzie(30),
+                    marginRight: ScaleSzie(10),
                   }}
                 />
               ) : (
                 <Image
                   source={IMAGE.Gallery_ic}
                   style={{
-                    width: scaleSize(30),
-                    height: scaleSize(30),
-                    marginRight: scaleSize(10),
+                    width: ScaleSzie(30),
+                    height: ScaleSzie(30),
+                    marginRight: ScaleSzie(10),
                   }}
                 />
               )}
@@ -369,17 +369,17 @@ class ItemServives extends React.Component {
         <View style={styles.select_all}>
           <Button
             onPress={this.selectAllItem}
-            style={{ width: scaleSize(30), justifyContent: "center" }}
+            style={{ width: ScaleSzie(30), justifyContent: "center" }}
           >
             <Image
               source={temptIconCheck}
-              style={{ width: scaleSize(15), height: scaleSize(15) }}
+              style={{ width: ScaleSzie(15), height: ScaleSzie(15) }}
             />
           </Button>
 
           <View
             style={{
-              width: scaleSize(120),
+              width: ScaleSzie(120),
               justifyContent: "center",
             }}
           >
@@ -397,34 +397,34 @@ const styles = StyleSheet.create({
   title_services: {
     width: "100%",
     justifyContent: "center",
-    paddingHorizontal: scaleSize(25),
-    marginTop: scaleSize(14),
+    paddingHorizontal: ScaleSzie(25),
+    marginTop: ScaleSzie(14),
   },
   select_all: {
     flexDirection: "row",
-    paddingHorizontal: scaleSize(25),
-    marginTop: scaleSize(14),
-    marginBottom: scaleSize(15),
+    paddingHorizontal: ScaleSzie(25),
+    marginTop: ScaleSzie(14),
+    marginBottom: ScaleSzie(15),
   },
   text: {
     color: "#404040",
-    fontSize: scaleSize(14),
+    fontSize: ScaleSzie(14),
   },
   item: {
     flexDirection: "row",
     alignItems: "center",
-    paddingLeft: scaleSize(15),
-    paddingVertical: scaleSize(15),
+    paddingLeft: ScaleSzie(15),
+    paddingVertical: ScaleSzie(15),
     backgroundColor: "#f4f3f4",
-    marginTop: scaleSize(3),
+    marginTop: ScaleSzie(3),
   },
   item_collap: {
     flexDirection: "row",
     alignItems: "center",
-    paddingLeft: scaleSize(15),
-    paddingVertical: scaleSize(10),
+    paddingLeft: ScaleSzie(15),
+    paddingVertical: ScaleSzie(10),
     backgroundColor: "#f4f3f4",
-    marginVertical: scaleSize(1),
+    marginVertical: ScaleSzie(1),
   },
   container: {
     flex: 1,

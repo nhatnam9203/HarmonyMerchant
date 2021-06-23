@@ -9,7 +9,7 @@ import {
   PopupCheckStaffPermission,
   PopupCalendar,
 } from "@components";
-import { scaleSize, localize } from "@utils";
+import { ScaleSzie, localize } from "@utils";
 import styles from "./style";
 import IMAGE from "@resources";
 import {PopupStaffInvoicePrint} from "./widget";
@@ -23,14 +23,14 @@ export default class Layout extends React.Component {
     return (
       <View
         style={{
-          height: scaleSize(35),
+          height: ScaleSzie(35),
           borderBottomColor: "#0764B0",
           borderWidth: 3,
-          paddingLeft: scaleSize(50),
+          paddingLeft: ScaleSzie(50),
           justifyContent: "center",
         }}
       >
-        <Text style={{ fontSize: scaleSize(16), color: "#0764B0",fontWeight:"600" }}>
+        <Text style={{ fontSize: ScaleSzie(16), color: "#0764B0",fontWeight:"600" }}>
           {localize("Reports", language)}
         </Text>
       </View>
@@ -71,7 +71,7 @@ export default class Layout extends React.Component {
           >
             <Image
               source={IMAGE.openDrawer}
-              style={{ width: scaleSize(34), height: scaleSize(34) }}
+              style={{ width: ScaleSzie(34), height: ScaleSzie(34) }}
             />
           </Button>
           {/**button back on top-right */}
@@ -81,8 +81,8 @@ export default class Layout extends React.Component {
                 position: "absolute",
                 top: 20,
                 right: 0,
-                width: scaleSize(34),
-                height: scaleSize(34),
+                width: ScaleSzie(34),
+                height: ScaleSzie(34),
                 backgroundColor: "#0764B0",
                 justifyContent: "center",
                 alignItems: "center",
@@ -91,7 +91,7 @@ export default class Layout extends React.Component {
             >
               <Image
                 source={IMAGE.arrowRight}
-                style={{ width: scaleSize(22), height: scaleSize(17) }}
+                style={{ width: ScaleSzie(22), height: ScaleSzie(17) }}
               />
             </Button>
           )}

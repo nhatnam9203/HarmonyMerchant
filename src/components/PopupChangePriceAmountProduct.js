@@ -13,7 +13,7 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import connectRedux from '@redux/ConnectRedux';
 
-import { scaleSize } from '../utils';
+import { ScaleSzie } from '../utils';
 
 class PopupChangePriceAmountProduct extends React.Component {
 
@@ -89,7 +89,7 @@ class PopupChangePriceAmountProduct extends React.Component {
     }
 
     onFocusToScroll = (number) => {
-        this.scrollRef.current.scrollTo({ x: 0, y: scaleSize(number), animated: true })
+        this.scrollRef.current.scrollTo({ x: 0, y: ScaleSzie(number), animated: true })
     }
 
     splitZeroNumber = (str) => {
@@ -123,14 +123,14 @@ class PopupChangePriceAmountProduct extends React.Component {
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
-                width={scaleSize(260)}
-                // style={{ justifyContent: 'flex-start', paddingTop: scaleSize(50) }}
-                styleTitle={{ fontSize: scaleSize(22), fontWeight: "bold" }}
+                width={ScaleSzie(260)}
+                // style={{ justifyContent: 'flex-start', paddingTop: ScaleSzie(50) }}
+                styleTitle={{ fontSize: ScaleSzie(22), fontWeight: "bold" }}
             >
                 <View style={{
-                    height: scaleSize(320), backgroundColor: '#FAFAFA',
-                    borderBottomLeftRadius: scaleSize(15), borderBottomRightRadius: scaleSize(15),
-                    paddingHorizontal: scaleSize(16),
+                    height: ScaleSzie(320), backgroundColor: '#FAFAFA',
+                    borderBottomLeftRadius: ScaleSzie(15), borderBottomRightRadius: ScaleSzie(15),
+                    paddingHorizontal: ScaleSzie(16),
 
                 }} >
                     <View style={{ flex: 1 }} >
@@ -139,17 +139,17 @@ class PopupChangePriceAmountProduct extends React.Component {
                             showsVerticalScrollIndicator={false}
                             keyboardShouldPersistTaps="always"
                         >
-                            <View style={{ height: scaleSize(20) }} />
-                            <Text style={{ color: '#6A6A6A', fontSize: scaleSize(16), marginBottom: scaleSize(5) }} >
+                            <View style={{ height: ScaleSzie(20) }} />
+                            <Text style={{ color: '#6A6A6A', fontSize: ScaleSzie(16), marginBottom: ScaleSzie(5) }} >
                                 Name
                             </Text>
                             {/* ------- Box Name -------- */}
                             <View style={{
-                                height: scaleSize(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
-                                paddingHorizontal: scaleSize(10), marginBottom: scaleSize(10)
+                                height: ScaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
+                                paddingHorizontal: ScaleSzie(10), marginBottom: ScaleSzie(10)
                             }} >
                                 <TextInput
-                                    style={{ flex: 1, fontSize: scaleSize(16), color: '#6A6A6A' }}
+                                    style={{ flex: 1, fontSize: ScaleSzie(16), color: '#6A6A6A' }}
                                     value={name}
                                     // onChangeText={(price) => this.setState({ price })}
                                     // onFocus={() => this.onFocusToScroll(90)}
@@ -157,13 +157,13 @@ class PopupChangePriceAmountProduct extends React.Component {
                                 />
                             </View>
                             {/* ------- Price -------- */}
-                            <Text style={{ color: '#6A6A6A', fontSize: scaleSize(16), marginBottom: scaleSize(5) }} >
+                            <Text style={{ color: '#6A6A6A', fontSize: ScaleSzie(16), marginBottom: ScaleSzie(5) }} >
                                 Price ($)
                         </Text>
                             {/* ------- Box Price -------- */}
                             <View style={{
-                                height: scaleSize(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
-                                paddingHorizontal: scaleSize(10), marginBottom: scaleSize(10)
+                                height: ScaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
+                                paddingHorizontal: ScaleSzie(10), marginBottom: ScaleSzie(10)
                             }} >
                                 <TextInputMask
                                     // type="only-numbers"
@@ -175,35 +175,35 @@ class PopupChangePriceAmountProduct extends React.Component {
                                         unit: '',
                                         suffixUnit: ''
                                     }}
-                                    style={{ flex: 1, fontSize: scaleSize(16), color: '#6A6A6A' }}
+                                    style={{ flex: 1, fontSize: ScaleSzie(16), color: '#6A6A6A' }}
                                     value={price}
                                     onChangeText={(price) => this.setState({ price })}
                                     onFocus={() => this.onFocusToScroll(90)}
                                 />
                             </View>
                             {/* ------- Tip -------- */}
-                            <Text style={{ color: '#6A6A6A', fontSize: scaleSize(16), marginBottom: scaleSize(5) }} >
+                            <Text style={{ color: '#6A6A6A', fontSize: ScaleSzie(16), marginBottom: ScaleSzie(5) }} >
                                 Quantity
                         </Text>
                             {/* ------- Box Tip -------- */}
                             <View style={{
-                                height: scaleSize(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
-                                paddingHorizontal: scaleSize(10)
+                                height: ScaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
+                                paddingHorizontal: ScaleSzie(10)
                             }} >
                                 <TextInputMask
                                     type="only-numbers"
                                     placeholder={`0`}
                                     placeholderTextColor="#6A6A6A"
-                                    style={{ flex: 1, fontSize: scaleSize(16), color: '#6A6A6A' }}
+                                    style={{ flex: 1, fontSize: ScaleSzie(16), color: '#6A6A6A' }}
                                     value={quantity}
                                     onChangeText={this.updateQuantity}
                                     onFocus={() => this.onFocusToScroll(160)}
                                 />
                             </View>
                             {/* ------- Button -------- */}
-                            <View style={{ marginTop: scaleSize(20), alignItems: 'center', }} >
+                            <View style={{ marginTop: ScaleSzie(20), alignItems: 'center', }} >
                                 <ButtonCustom
-                                    width={scaleSize(120)}
+                                    width={ScaleSzie(120)}
                                     height={45}
                                     backgroundColor="#0764B0"
                                     title="Submit"
@@ -215,7 +215,7 @@ class PopupChangePriceAmountProduct extends React.Component {
                                     }}
                                 />
                             </View>
-                            <View style={{ height: scaleSize(200) }} />
+                            <View style={{ height: ScaleSzie(200) }} />
                         </ScrollView>
                     </View>
                 </View>

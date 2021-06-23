@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import {  Button } from '@components';
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 import IMAGE from '@resources';
 
 class HeaderTableProducts extends React.Component {
@@ -56,52 +56,52 @@ class HeaderTableProducts extends React.Component {
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={{
-                    width: scaleSize(230), flexDirection: 'row',
+                    width: ScaleSzie(230), flexDirection: 'row',
                 }} >
-                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(20) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(20) }} >
                         <Text style={styles.textTableHeader} >
                             Product Name
                             </Text>
                     </View>
-                    {/* <Button onPress={this.sortStaffName} style={{ width: scaleSize(30), alignItems: 'center', justifyContent: 'center' }} >
+                    {/* <Button onPress={this.sortStaffName} style={{ width: ScaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
                         <Image source={iconSortStaffName} style={styles.iconSort} />
                     </Button> */}
-                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
-                    width: scaleSize(180), flexDirection: 'row',
+                    width: ScaleSzie(180), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                             Categories
                             </Text>
                     </View>
-                    {/* <Button onPress={this.sortRole} style={{ width: scaleSize(30), alignItems: 'center', justifyContent: 'center' }} >
+                    {/* <Button onPress={this.sortRole} style={{ width: ScaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
                         <Image source={iconSortRole} style={styles.iconSort} />
                     </Button> */}
-                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 3 ------ */}
                 <View style={{
-                    width: scaleSize(180), flexDirection: 'row',
+                    width: ScaleSzie(180), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                             Prices ($)
                             </Text>
                     </View>
-                    {/* <Button onPress={this.sortRole} style={{ width: scaleSize(30), alignItems: 'center', justifyContent: 'center' }} >
+                    {/* <Button onPress={this.sortRole} style={{ width: ScaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
                         <Image source={iconSortRole} style={styles.iconSort} />
                     </Button> */}
-                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: scaleSize(35),
+        height: ScaleSzie(35),
         backgroundColor: '#FAFAFA',
         borderWidth: 0.5,
         borderColor: '#C5C5C5',
@@ -132,15 +132,15 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#0764B0',
-        fontSize: scaleSize(16)
+        fontSize: ScaleSzie(16)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',
         alignItems: 'center'
     },
     iconSort: {
-        width: scaleSize(8),
-        height: scaleSize(12)
+        width: ScaleSzie(8),
+        height: ScaleSzie(12)
     }
 
 })

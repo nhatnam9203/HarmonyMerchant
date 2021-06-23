@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 
-import { scaleSize, getTotalProductByQuantity, formatMoney } from '@utils';
+import { ScaleSzie, getTotalProductByQuantity, formatMoney } from '@utils';
 import { Text, Button } from '@components';
 import ICON from '@resources';
 
@@ -25,7 +25,7 @@ const ItemBasket = ({
         >
           <Image
             source={ICON.removeItemBasket}
-            style={{ width: scaleSize(24), height: scaleSize(24) }}
+            style={{ width: ScaleSzie(24), height: ScaleSzie(24) }}
           />
         </Button>
       ),
@@ -35,7 +35,7 @@ const ItemBasket = ({
   return (
     <Swipeout
       right={swipeoutBtns}
-      buttonWidth={scaleSize(45)}
+      buttonWidth={ScaleSzie(45)}
       disabled={disabled}
       close={true}
     >
@@ -48,7 +48,7 @@ const ItemBasket = ({
           }
         }}
         style={{
-          minHeight: scaleSize(35),
+          minHeight: ScaleSzie(35),
           backgroundColor: '#fff',
           borderBottomColor: '#DDDDDD',
           borderBottomWidth: 1,
@@ -56,20 +56,20 @@ const ItemBasket = ({
       >
         <View
           style={{
-            height: scaleSize(35),
+            height: ScaleSzie(35),
             flexDirection: 'row',
           }}
         >
           {/* -------- Avatar ------- */}
           <View
             style={{
-              width: scaleSize(45),
+              width: ScaleSzie(45),
               justifyContent: 'center',
               alignItems: 'center',
             }}
           >
             {item.type === 'Service' ? (
-              <View style={{ width: scaleSize(30), height: scaleSize(30) }}>
+              <View style={{ width: ScaleSzie(30), height: ScaleSzie(30) }}>
                 {item.staff && item.staff.imageUrl ? (
                   <Image
                     source={
@@ -77,21 +77,21 @@ const ItemBasket = ({
                         ? { uri: item.imageUrl }
                         : ICON.service_holder
                     }
-                    style={{ width: scaleSize(30), height: scaleSize(30) }}
+                    style={{ width: ScaleSzie(30), height: ScaleSzie(30) }}
                   />
                 ) : (
                   <Image
                     source={ICON.staff_basket}
-                    style={{ width: scaleSize(30), height: scaleSize(30) }}
+                    style={{ width: ScaleSzie(30), height: ScaleSzie(30) }}
                   />
                 )}
               </View>
             ) : item.type === 'Extra' ? (
               <View
                 style={{
-                  width: scaleSize(30),
-                  height: scaleSize(30),
-                  borderRadius: scaleSize(20),
+                  width: ScaleSzie(30),
+                  height: ScaleSzie(30),
+                  borderRadius: ScaleSzie(20),
                   justifyContent: 'center',
                   alignItems: 'center',
                   overflow: 'hidden',
@@ -99,7 +99,7 @@ const ItemBasket = ({
               >
                 <Image
                   source={ICON.extra_holder}
-                  style={{ width: scaleSize(22), height: scaleSize(20) }}
+                  style={{ width: ScaleSzie(22), height: ScaleSzie(20) }}
                 />
               </View>
             ) : item.type === 'GiftCards' ? (
@@ -107,7 +107,7 @@ const ItemBasket = ({
             ) : (
               <Image
                 source={ICON.blue_productBasket}
-                style={{ width: scaleSize(22), height: scaleSize(20) }}
+                style={{ width: ScaleSzie(22), height: ScaleSzie(20) }}
               />
             )}
           </View>
@@ -119,7 +119,7 @@ const ItemBasket = ({
                 numberOfLines={1}
                 style={{
                   color: '#0764B0',
-                  fontSize: scaleSize(13),
+                  fontSize: ScaleSzie(13),
                   fontWeight: '500',
                 }}
               >
@@ -141,7 +141,7 @@ const ItemBasket = ({
                 numberOfLines={1}
                 style={{
                   color: '#6A6A6A',
-                  fontSize: scaleSize(13),
+                  fontSize: ScaleSzie(13),
                   fontWeight: '500',
                 }}
               >
@@ -156,13 +156,13 @@ const ItemBasket = ({
                 flex: 1.2,
                 justifyContent: 'center',
                 alignItems: 'flex-end',
-                paddingRight: scaleSize(10),
+                paddingRight: ScaleSzie(10),
               }}
             >
               <Text
                 style={{
                   color: '#404040',
-                  fontSize: scaleSize(14),
+                  fontSize: ScaleSzie(14),
                   fontWeight: '500',
                 }}
               >
@@ -183,22 +183,22 @@ const ItemBasket = ({
                 key={extra?.id}
                 style={{
                   alignItems: 'center',
-                  paddingLeft: scaleSize(45),
-                  paddingRight: scaleSize(10),
+                  paddingLeft: ScaleSzie(45),
+                  paddingRight: ScaleSzie(10),
                   flexDirection: 'row',
-                  marginBottom: scaleSize(8),
+                  marginBottom: ScaleSzie(8),
                 }}
               >
                 <Image
                   source={ICON.extra_mini}
-                  style={{ height: scaleSize(15), width: scaleSize(15) }}
+                  style={{ height: ScaleSzie(15), width: ScaleSzie(15) }}
                 />
                 <Text
                   style={{
                     color: '#6A6A6A',
-                    fontSize: scaleSize(12),
+                    fontSize: ScaleSzie(12),
                     fontWeight: '500',
-                    marginHorizontal: scaleSize(6),
+                    marginHorizontal: ScaleSzie(6),
                   }}
                   numberOfLines={1}
                 >
@@ -208,7 +208,7 @@ const ItemBasket = ({
                 <Button onPress={() => removeExtra(extra)}>
                   <Image
                     source={ICON.delete_extra_mini}
-                    style={{ height: scaleSize(15), width: scaleSize(15) }}
+                    style={{ height: ScaleSzie(15), width: ScaleSzie(15) }}
                   />
                 </Button>
 
@@ -218,7 +218,7 @@ const ItemBasket = ({
                     flex: 1,
                     textAlign: 'right',
                     color: '#6A6A6A',
-                    fontSize: scaleSize(12),
+                    fontSize: ScaleSzie(12),
                     fontWeight: '600',
                   }}
                   numberOfLines={1}

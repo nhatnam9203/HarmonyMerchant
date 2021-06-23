@@ -2,7 +2,7 @@ import {
     StyleSheet,
 } from 'react-native';
 
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 
 export default StyleSheet.create({
     container: {
@@ -11,7 +11,7 @@ export default StyleSheet.create({
     borderStyle:{
         borderWidth:1,
         borderColor:'#C5C5C5',
-        borderRadius:scaleSize(4),
+        borderRadius:ScaleSzie(4),
         backgroundColor:'#F1F1F1',
     }
 })

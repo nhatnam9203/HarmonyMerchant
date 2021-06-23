@@ -5,7 +5,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { scaleSize, localize } from '@utils';
+import { ScaleSzie, localize } from '@utils';
 
 class HeaderTableCategories extends React.Component {
 
@@ -16,7 +16,7 @@ class HeaderTableCategories extends React.Component {
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={[{
-                    width: scaleSize(50),
+                    width: ScaleSzie(50),
                 }, styles.itemTableHeaderContainer]} >
                     <Text style={styles.textTableHeader} >
                         {`${localize('No', language)}.`}
@@ -24,9 +24,9 @@ class HeaderTableCategories extends React.Component {
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
-                    width: scaleSize(150), flexDirection: 'row',
+                    width: ScaleSzie(150), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(5) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(5) }} >
                         <Text style={styles.textTableHeader} >
 
                             {localize('Name', language)}
@@ -35,9 +35,9 @@ class HeaderTableCategories extends React.Component {
                 </View>
                 {/* ----- 3 ------ */}
                 <View style={{
-                    width: scaleSize(100), flexDirection: 'row',
+                    width: ScaleSzie(100), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
 
                             {localize('Type', language)}
@@ -46,9 +46,9 @@ class HeaderTableCategories extends React.Component {
                 </View>
                 {/* ----- 4 ------ */}
                 <View style={{
-                    width: scaleSize(170), flexDirection: 'row',
+                    width: ScaleSzie(170), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                             {localize('Display on Sign In App', language)}
                         </Text>
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: scaleSize(35),
+        height: ScaleSzie(35),
         backgroundColor: '#fff',
         borderBottomWidth: 0.5,
         borderBottomColor: '#C5C5C5',
@@ -82,15 +82,15 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#0764B0',
-        fontSize: scaleSize(14)
+        fontSize: ScaleSzie(14)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',
         alignItems: 'center'
     },
     iconSort: {
-        width: scaleSize(8),
-        height: scaleSize(12)
+        width: ScaleSzie(8),
+        height: ScaleSzie(12)
     }
 
 })

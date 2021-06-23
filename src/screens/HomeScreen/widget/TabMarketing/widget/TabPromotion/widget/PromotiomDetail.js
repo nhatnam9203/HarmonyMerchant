@@ -27,7 +27,7 @@ import IMAGE from "@resources";
 import moment from "moment";
 
 import {
-  scaleSize,
+  ScaleSzie,
   localize,
   WorkingTime,
   formatWithMoment,
@@ -440,7 +440,7 @@ const PromotiomDetail = forwardRef(
       () => {
         scrollRef?.current?.scrollTo({
           x: 0,
-          y: scaleSize(number),
+          y: ScaleSzie(number),
           animated: animated,
         });
       };
@@ -479,7 +479,7 @@ const PromotiomDetail = forwardRef(
         style={{
           flex: 1,
           backgroundColor: "#fff",
-          paddingHorizontal: scaleSize(14),
+          paddingHorizontal: ScaleSzie(14),
         }}
       >
         <ScrollView
@@ -491,9 +491,9 @@ const PromotiomDetail = forwardRef(
           <Text
             style={{
               color: "#404040",
-              fontSize: scaleSize(16),
+              fontSize: ScaleSzie(16),
               fontWeight: "600",
-              marginBottom: scaleSize(20),
+              marginBottom: ScaleSzie(20),
             }}
           >
             {`New campaign`}
@@ -505,20 +505,20 @@ const PromotiomDetail = forwardRef(
             placeholder="Campaign name"
             value={title}
             onChangeText={handleSetCampaignName}
-            style={{ marginBottom: scaleSize(10) }}
+            style={{ marginBottom: ScaleSzie(10) }}
             styleTitle={{
-              fontSize: scaleSize(14),
+              fontSize: ScaleSzie(14),
               fontWeight: "600",
-              marginBottom: scaleSize(5),
+              marginBottom: ScaleSzie(5),
             }}
-            styleInputText={{ fontSize: scaleSize(13) }}
+            styleInputText={{ fontSize: ScaleSzie(13) }}
           />
 
           {/* ------------------- Date ------------------- */}
           <Text
             style={[
               styles.txt_tit,
-              { marginBottom: scaleSize(10), marginTop: scaleSize(12) },
+              { marginBottom: ScaleSzie(10), marginTop: ScaleSzie(12) },
             ]}
           >
             {`Date:`}
@@ -528,16 +528,16 @@ const PromotiomDetail = forwardRef(
           <View style={{ flexDirection: "row" }}>
             {/* ------------------- Start Date ------------------- */}
             <View style={{ flex: 1 }}>
-              <Text style={[styles.txt_date, { marginBottom: scaleSize(10) }]}>
+              <Text style={[styles.txt_date, { marginBottom: ScaleSzie(10) }]}>
                 {`Start Date`}
               </Text>
-              <View style={{ flexDirection: "row", height: scaleSize(30) }}>
+              <View style={{ flexDirection: "row", height: ScaleSzie(30) }}>
                 <SelectPromotionDate
                   value={startDate}
                   onChangeText={setStartDate}
                   showDatePicker={showDatePicker("start")}
                 />
-                <View style={{ width: scaleSize(25) }} />
+                <View style={{ width: ScaleSzie(25) }} />
                 {/* ---------  Start Time ------ */}
                 {/* <Dropdown
                   label={"h:mm"}
@@ -560,12 +560,12 @@ const PromotiomDetail = forwardRef(
                   renderBase={(showPicker) => (
                     <View
                       style={{
-                        width: scaleSize(135),
+                        width: ScaleSzie(135),
                         height: "100%",
                         borderWidth: 1,
                         borderColor: "#ccc",
                         flexDirection: "row",
-                        paddingHorizontal: scaleSize(10),
+                        paddingHorizontal: ScaleSzie(10),
                       }}
                     >
                       <TextInput
@@ -578,14 +578,14 @@ const PromotiomDetail = forwardRef(
                         // }}
                         style={{
                           flex: 1,
-                          fontSize: scaleSize(14),
+                          fontSize: ScaleSzie(14),
                           color: "#1f1f1f",
                           padding: 0,
                         }}
                       />
                       <TouchableOpacity
                         style={{
-                          width: scaleSize(40),
+                          width: ScaleSzie(40),
                           height: "100%",
                           justifyContent: "center",
                           alignItems: "flex-end",
@@ -601,7 +601,7 @@ const PromotiomDetail = forwardRef(
                   )}
                 />
 
-                <View style={{ width: scaleSize(28) }} />
+                <View style={{ width: ScaleSzie(28) }} />
               </View>
 
               {/* ---------  Specific Condition ------ */}
@@ -620,17 +620,17 @@ const PromotiomDetail = forwardRef(
                   <Text
                     style={[
                       styles.txt_date,
-                      { marginBottom: scaleSize(8), marginTop: scaleSize(5) },
+                      { marginBottom: ScaleSzie(8), marginTop: ScaleSzie(5) },
                     ]}
                   >
                     {`Select services/products`}
                   </Text>
                   <View
                     style={{
-                      height: scaleSize(30),
-                      width: scaleSize(330),
+                      height: ScaleSzie(30),
+                      width: ScaleSzie(330),
                       paddingHorizontal: 1,
-                      marginBottom: scaleSize(
+                      marginBottom: ScaleSzie(
                         dynamicConditionMarginBottom === 24 &&
                           conditionServiceProductTags.length > 0
                           ? 5
@@ -664,16 +664,16 @@ const PromotiomDetail = forwardRef(
                   isOnlyNumber={true}
                   onChangeText={setNumberOfTimesApply}
                   style={{
-                    marginBottom: scaleSize(10),
-                    marginTop: scaleSize(5),
-                    width: scaleSize(200),
+                    marginBottom: ScaleSzie(10),
+                    marginTop: ScaleSzie(5),
+                    width: ScaleSzie(200),
                   }}
                   styleTitle={{
-                    fontSize: scaleSize(12),
+                    fontSize: ScaleSzie(12),
                     fontWeight: "400",
-                    marginBottom: scaleSize(2),
+                    marginBottom: ScaleSzie(2),
                   }}
-                  styleInputText={{ fontSize: scaleSize(13) }}
+                  styleInputText={{ fontSize: ScaleSzie(13) }}
                   onFocus={handleScroll(280)}
                 />
               )}
@@ -682,18 +682,18 @@ const PromotiomDetail = forwardRef(
               <Text
                 style={[
                   styles.txt_tit,
-                  { marginBottom: scaleSize(15), marginTop: scaleSize(20) },
+                  { marginBottom: ScaleSzie(15), marginTop: ScaleSzie(20) },
                 ]}
               >
                 {`Promotion type:`}
               </Text>
 
-              <View style={{ flexDirection: "row", height: scaleSize(30) }}>
+              <View style={{ flexDirection: "row", height: ScaleSzie(30) }}>
                 {/* ---------  Specific ------ */}
                 <Button
                   onPress={handleSetPromotionType("percent")}
                   style={[
-                    { width: scaleSize(30) },
+                    { width: ScaleSzie(30) },
                     styles.centered_box,
                     promotionType === "percent"
                       ? styles.border_select
@@ -715,9 +715,9 @@ const PromotiomDetail = forwardRef(
                   onPress={handleSetPromotionType("fixed")}
                   style={[
                     {
-                      width: scaleSize(30),
-                      marginLeft: scaleSize(4),
-                      marginRight: scaleSize(10),
+                      width: ScaleSzie(30),
+                      marginLeft: ScaleSzie(4),
+                      marginRight: ScaleSzie(10),
                     },
                     styles.centered_box,
                     promotionType === "fixed"
@@ -738,12 +738,12 @@ const PromotiomDetail = forwardRef(
 
                 <View
                   style={[
-                    { flexDirection: "row", width: scaleSize(140) },
+                    { flexDirection: "row", width: ScaleSzie(140) },
                     styles.border_comm,
                   ]}
                 >
                   {/* --------- Input Promotion type ------ */}
-                  <View style={{ flex: 1, paddingHorizontal: scaleSize(10) }}>
+                  <View style={{ flex: 1, paddingHorizontal: ScaleSzie(10) }}>
                     <TextInputMask
                       type={"money"}
                       options={{
@@ -759,7 +759,7 @@ const PromotiomDetail = forwardRef(
                       style={[
                         {
                           flex: 1,
-                          fontSize: scaleSize(12),
+                          fontSize: ScaleSzie(12),
                           color: "#404040",
                           padding: 0,
                         },
@@ -769,7 +769,7 @@ const PromotiomDetail = forwardRef(
                   </View>
                   <View
                     onPress={showDatePicker}
-                    style={[{ width: scaleSize(25) }, styles.centered_box]}
+                    style={[{ width: ScaleSzie(25) }, styles.centered_box]}
                   >
                     <Text style={styles.txt_date}>
                       {promotionType === "percent" ? `%` : `$`}
@@ -782,7 +782,7 @@ const PromotiomDetail = forwardRef(
               <Text
                 style={[
                   styles.txt_tit,
-                  { marginBottom: scaleSize(10), marginTop: scaleSize(20) },
+                  { marginBottom: ScaleSzie(10), marginTop: ScaleSzie(20) },
                 ]}
               >
                 {`Active`}
@@ -801,19 +801,19 @@ const PromotiomDetail = forwardRef(
               <Text
                 style={[
                   styles.txt_date,
-                  { marginLeft: scaleSize(18), marginBottom: scaleSize(10) },
+                  { marginLeft: ScaleSzie(18), marginBottom: ScaleSzie(10) },
                 ]}
               >
                 {`End Date`}
               </Text>
-              <View style={{ flexDirection: "row", height: scaleSize(30) }}>
-                <View style={{ width: scaleSize(18) }} />
+              <View style={{ flexDirection: "row", height: ScaleSzie(30) }}>
+                <View style={{ width: ScaleSzie(18) }} />
                 <SelectPromotionDate
                   value={endDate}
                   onChangeText={setEndDate}
                   showDatePicker={showDatePicker("end")}
                 />
-                <View style={{ width: scaleSize(25) }} />
+                <View style={{ width: ScaleSzie(25) }} />
                 {/* ---------  End Time ------ */}
                 {/* <Dropdown
                   label={"h:mm"}
@@ -835,12 +835,12 @@ const PromotiomDetail = forwardRef(
                   renderBase={(showPicker) => (
                     <View
                       style={{
-                        width: scaleSize(135),
+                        width: ScaleSzie(135),
                         height: "100%",
                         borderWidth: 1,
                         borderColor: "#ccc",
                         flexDirection: "row",
-                        paddingHorizontal: scaleSize(10),
+                        paddingHorizontal: ScaleSzie(10),
                       }}
                     >
                       <TextInput
@@ -851,14 +851,14 @@ const PromotiomDetail = forwardRef(
                         // }}
                         style={{
                           flex: 1,
-                          fontSize: scaleSize(14),
+                          fontSize: ScaleSzie(14),
                           color: "#1f1f1f",
                           padding: 0,
                         }}
                       />
                       <TouchableOpacity
                         style={{
-                          width: scaleSize(40),
+                          width: ScaleSzie(40),
                           height: "100%",
                           justifyContent: "center",
                           alignItems: "flex-end",
@@ -873,7 +873,7 @@ const PromotiomDetail = forwardRef(
                     </View>
                   )}
                 />
-                <View style={{ width: scaleSize(10) }} />
+                <View style={{ width: ScaleSzie(10) }} />
               </View>
 
               {/* ---------  Actions Condition ------ */}
@@ -892,17 +892,17 @@ const PromotiomDetail = forwardRef(
                   <Text
                     style={[
                       styles.txt_date,
-                      { marginBottom: scaleSize(8), marginTop: scaleSize(5) },
+                      { marginBottom: ScaleSzie(8), marginTop: ScaleSzie(5) },
                     ]}
                   >
                     {`Select services/products`}
                   </Text>
                   <View
                     style={{
-                      height: scaleSize(30),
-                      width: scaleSize(330),
+                      height: ScaleSzie(30),
+                      width: ScaleSzie(330),
                       paddingHorizontal: 1,
-                      marginBottom: scaleSize(
+                      marginBottom: ScaleSzie(
                         dynamicActionTagsMarginBottom === 24 &&
                           actionTags.length > 0
                           ? 5
@@ -928,9 +928,9 @@ const PromotiomDetail = forwardRef(
               <Text
                 style={{
                   color: "#404040",
-                  fontSize: scaleSize(16),
+                  fontSize: ScaleSzie(16),
                   fontWeight: "600",
-                  marginTop: scaleSize(20),
+                  marginTop: ScaleSzie(20),
                 }}
               >
                 {`SMS configuration`}
@@ -938,9 +938,9 @@ const PromotiomDetail = forwardRef(
               <Text
                 style={{
                   color: "#404040",
-                  fontSize: scaleSize(14),
+                  fontSize: ScaleSzie(14),
                   fontWeight: "400",
-                  marginTop: scaleSize(8),
+                  marginTop: ScaleSzie(8),
                 }}
               >
                 {`Number of messages`}
@@ -949,16 +949,16 @@ const PromotiomDetail = forwardRef(
               {/* -------------- Range Of Slider ----------------- */}
               <View
                 style={{
-                  paddingRight: scaleSize(26),
-                  marginVertical: scaleSize(30),
+                  paddingRight: ScaleSzie(26),
+                  marginVertical: ScaleSzie(30),
                 }}
               >
                 {/* -------------- Min Of Slider ----------------- */}
 
                 <View
                   style={{
-                    height: scaleSize(20),
-                    marginTop: scaleSize(8),
+                    height: ScaleSzie(20),
+                    marginTop: ScaleSzie(8),
                     flexDirection: "row",
                     justifyContent: "space-between",
                   }}
@@ -966,7 +966,7 @@ const PromotiomDetail = forwardRef(
                   <Text
                     style={{
                       color: "#404040",
-                      fontSize: scaleSize(14),
+                      fontSize: ScaleSzie(14),
                       fontWeight: "400",
                     }}
                   >
@@ -976,7 +976,7 @@ const PromotiomDetail = forwardRef(
                   <Text
                     style={{
                       color: "#404040",
-                      fontSize: scaleSize(14),
+                      fontSize: ScaleSzie(14),
                       fontWeight: "400",
                     }}
                   >
@@ -988,14 +988,14 @@ const PromotiomDetail = forwardRef(
                   value={value}
                   onValueChange={hanldeSliderValue}
                   trackStyle={{
-                    height: scaleSize(10),
+                    height: ScaleSzie(10),
                     backgroundColor: "#F1F1F1",
-                    borderRadius: scaleSize(6),
+                    borderRadius: ScaleSzie(6),
                   }}
                   thumbStyle={{
-                    height: scaleSize(24),
-                    width: scaleSize(24),
-                    borderRadius: scaleSize(12),
+                    height: ScaleSzie(24),
+                    width: ScaleSzie(24),
+                    borderRadius: ScaleSzie(12),
                     backgroundColor: "#fff",
                     ...Platform.select({
                       ios: {
@@ -1019,8 +1019,8 @@ const PromotiomDetail = forwardRef(
                 {/* -------------- Max Of Slider ----------------- */}
                 <View
                   style={{
-                    height: scaleSize(20),
-                    marginTop: scaleSize(8),
+                    height: ScaleSzie(20),
+                    marginTop: ScaleSzie(8),
                     alignItems: "flex-end",
                     flexDirection: "row",
                     justifyContent: "space-between",
@@ -1029,7 +1029,7 @@ const PromotiomDetail = forwardRef(
                   <Text
                     style={{
                       color: "#404040",
-                      fontSize: scaleSize(14),
+                      fontSize: ScaleSzie(14),
                       fontWeight: "600",
                     }}
                   >
@@ -1039,7 +1039,7 @@ const PromotiomDetail = forwardRef(
                   <Text
                     style={{
                       color: "#404040",
-                      fontSize: scaleSize(14),
+                      fontSize: ScaleSzie(14),
                       fontWeight: "600",
                     }}
                   >
@@ -1050,17 +1050,17 @@ const PromotiomDetail = forwardRef(
             </View>
           </View>
 
-          <View style={{ height: scaleSize(300) }} />
+          <View style={{ height: ScaleSzie(300) }} />
         </ScrollView>
 
         {/* --------------- Footer ---------------- */}
         <View
           style={{
-            width: scaleSize(250),
-            height: scaleSize(35),
+            width: ScaleSzie(250),
+            height: ScaleSzie(35),
             position: "absolute",
-            bottom: scaleSize(20),
-            left: (width - scaleSize(280)) / 2,
+            bottom: ScaleSzie(20),
+            left: (width - ScaleSzie(280)) / 2,
             flexDirection: "row",
           }}
         >
@@ -1073,7 +1073,7 @@ const PromotiomDetail = forwardRef(
           >
             <Text style={styles.txt_footer}>{`CANCEL`}</Text>
           </Button>
-          <View style={{ width: scaleSize(25) }} />
+          <View style={{ width: ScaleSzie(25) }} />
           <Button
             onPress={handleCampaign}
             style={[
@@ -1105,12 +1105,12 @@ const SelectPromotionDate = ({ value, onChangeText, showDatePicker }) => {
   return (
     <View
       style={[
-        { flexDirection: "row", width: scaleSize(190) },
+        { flexDirection: "row", width: ScaleSzie(190) },
         styles.border_comm,
       ]}
     >
       {/* --------- Input Start Date ------ */}
-      <View style={{ flex: 1, paddingHorizontal: scaleSize(10) }}>
+      <View style={{ flex: 1, paddingHorizontal: ScaleSzie(10) }}>
         <TextInputMask
           type={"custom"}
           options={{
@@ -1120,18 +1120,18 @@ const SelectPromotionDate = ({ value, onChangeText, showDatePicker }) => {
           value={value}
           onChangeText={onChangeText}
           style={[
-            { flex: 1, fontSize: scaleSize(12), color: "#404040", padding: 0 },
+            { flex: 1, fontSize: ScaleSzie(12), color: "#404040", padding: 0 },
           ]}
           editable={false}
         />
       </View>
-      <View style={{ width: 1, paddingVertical: scaleSize(3) }}>
+      <View style={{ width: 1, paddingVertical: ScaleSzie(3) }}>
         <View style={{ flex: 1, backgroundColor: "#CCCCCC" }} />
       </View>
       <Button
         onPress={showDatePicker}
         style={{
-          width: scaleSize(35),
+          width: ScaleSzie(35),
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -1171,7 +1171,7 @@ const ConditionSpecific = ({
       <Text
         style={[
           styles.txt_tit,
-          { marginBottom: scaleSize(15), marginTop: scaleSize(16) },
+          { marginBottom: ScaleSzie(15), marginTop: ScaleSzie(16) },
         ]}
       >
         {`${title}:`}
@@ -1180,9 +1180,9 @@ const ConditionSpecific = ({
       {/* ---------  Condition Dropdown ------ */}
       <View
         style={{
-          width: scaleSize(330),
-          height: scaleSize(30),
-          marginBottom: scaleSize(10),
+          width: ScaleSzie(330),
+          height: ScaleSzie(30),
+          marginBottom: ScaleSzie(10),
         }}
       >
         <Dropdown
@@ -1203,7 +1203,7 @@ const ConditionSpecific = ({
 
 const Tags = ({ tags, removeTag }) => {
   return (
-    <View style={{ flexDirection: "row", marginTop: scaleSize(10) }}>
+    <View style={{ flexDirection: "row", marginTop: ScaleSzie(10) }}>
       <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
         {tags.map((tag, index) => (
           <Tag
@@ -1213,7 +1213,7 @@ const Tags = ({ tags, removeTag }) => {
           />
         ))}
       </View>
-      <View style={[{ width: scaleSize(85), marginLeft: scaleSize(15) }]} />
+      <View style={[{ width: ScaleSzie(85), marginLeft: ScaleSzie(15) }]} />
     </View>
   );
 };
@@ -1224,15 +1224,15 @@ const Tag = ({ name, removeTag }) => {
       onPress={removeTag}
       style={{
         flexDirection: "row",
-        marginRight: scaleSize(18),
+        marginRight: ScaleSzie(18),
         alignItems: "center",
-        marginBottom: scaleSize(4),
+        marginBottom: ScaleSzie(4),
       }}
     >
       <Text style={[styles.txt_condition_select, { fontWeight: "600" }]}>
         {name}
       </Text>
-      <Image source={ICON.remove_tag} style={{ marginLeft: scaleSize(5) }} />
+      <Image source={ICON.remove_tag} style={{ marginLeft: ScaleSzie(5) }} />
     </Button>
   );
 };
@@ -1252,17 +1252,17 @@ const styles = StyleSheet.create({
   },
   txt_condition_select: {
     color: "#0764B0",
-    fontSize: scaleSize(14),
+    fontSize: ScaleSzie(14),
     fontWeight: "600",
   },
   txt_condition_unselect: {
     color: "#A9A9A9",
-    fontSize: scaleSize(14),
+    fontSize: ScaleSzie(14),
     fontWeight: "600",
   },
   txt_date: {
     color: "#6A6A6A",
-    fontSize: scaleSize(12),
+    fontSize: ScaleSzie(12),
     fontWeight: "400",
   },
   border_comm: {
@@ -1271,11 +1271,11 @@ const styles = StyleSheet.create({
   },
   txt_tit: {
     color: "#404040",
-    fontSize: scaleSize(14),
+    fontSize: ScaleSzie(14),
     fontWeight: "600",
   },
   txt_footer: {
-    fontSize: scaleSize(14),
+    fontSize: ScaleSzie(14),
     color: "#404040",
     fontWeight: "400",
   },

@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import _ from 'ramda';
 
-import { scaleSize, } from '@utils';
+import { ScaleSzie, } from '@utils';
 import {
     Text,
     Button
@@ -17,11 +17,11 @@ import { formatMoney } from '@utils';
 export const StaffsHeaderTable = () => {
     return (
         <View style={{
-            height: scaleSize(30), backgroundColor: "#F1F1F1", borderBottomColor: "#DDDDDD", borderBottomWidth: 1,
+            height: ScaleSzie(30), backgroundColor: "#F1F1F1", borderBottomColor: "#DDDDDD", borderBottomWidth: 1,
             flexDirection: "row"
         }} >
             {/* ---------- Name -------- */}
-            <View style={[{ flex: 1, paddingLeft: scaleSize(13) }, styles.container]} >
+            <View style={[{ flex: 1, paddingLeft: ScaleSzie(13) }, styles.container]} >
                 <Text style={styles.txt_normal} >
                     {`Name`}
                 </Text>
@@ -58,11 +58,11 @@ export const StaffsItem = ({ staff, onPress }) => {
 
     return (
         <Button onPress={() => onPress(staff?.staffId || 0)} style={{
-            height: scaleSize(32), borderBottomColor: "#DDDDDD", borderBottomWidth: 1,
+            height: ScaleSzie(32), borderBottomColor: "#DDDDDD", borderBottomWidth: 1,
             flexDirection: "row", backgroundColor: "#FAFAFA"
         }} >
             {/* ---------- Name -------- */}
-            <View style={[{ flex: 1, paddingLeft: scaleSize(13) }, styles.container]} >
+            <View style={[{ flex: 1, paddingLeft: ScaleSzie(13) }, styles.container]} >
                 <Text style={[styles.txt_item, { fontWeight: "500" }]} >
                     {staff?.name || ""}
                 </Text>
@@ -91,7 +91,7 @@ export const StaffsItem = ({ staff, onPress }) => {
                 <Text style={[styles.txt_item, { fontWeight: "600" }]} >
                     {`$  ${staff?.total || 0.00}`}
                 </Text>
-                <Image source={ICON.staff_invoice} style={{ marginRight: scaleSize(8) }} />
+                <Image source={ICON.staff_invoice} style={{ marginRight: ScaleSzie(8) }} />
             </View>
         </Button>
     );
@@ -101,11 +101,11 @@ export const GiftCardItem = ({ total, onPress }) => {
 
     return (
         <Button onPress={() => onPress()} style={{
-            height: scaleSize(32), borderBottomColor: "#DDDDDD", borderBottomWidth: 1,
+            height: ScaleSzie(32), borderBottomColor: "#DDDDDD", borderBottomWidth: 1,
             flexDirection: "row", backgroundColor: "#FAFAFA"
         }} >
             {/* ---------- Name -------- */}
-            <View style={[{ flex: 1, paddingLeft: scaleSize(13) }, styles.container]} >
+            <View style={[{ flex: 1, paddingLeft: ScaleSzie(13) }, styles.container]} >
                 <Text style={[styles.txt_item, { fontWeight: "500", color: "#0764B0" }]} >
                     {`Gift Card Sold`}
                 </Text>
@@ -121,7 +121,7 @@ export const GiftCardItem = ({ total, onPress }) => {
                 <Text style={[styles.txt_item, { fontWeight: "600", color: "#0764B0" }]} >
                     {`$  ${total ? total : 0.00}`}
                 </Text>
-                <Image source={ICON.staff_invoice_blue} style={{ marginRight: scaleSize(8) }} />
+                <Image source={ICON.staff_invoice_blue} style={{ marginRight: ScaleSzie(8) }} />
             </View>
         </Button>
     );
@@ -131,18 +131,18 @@ export const TotalItem = ({ total }) => {
 
     return (
         <View style={{
-            height: scaleSize(35),
-            flexDirection: "row", backgroundColor: "#DCF7FF", paddingHorizontal: scaleSize(13)
+            height: ScaleSzie(35),
+            flexDirection: "row", backgroundColor: "#DCF7FF", paddingHorizontal: ScaleSzie(13)
         }} >
             {/* ---------- Name -------- */}
             <View style={[{ flex: 1 }, styles.container]} >
-                <Text style={[styles.txt_item, { fontWeight: "600", color: "#404040", fontSize: scaleSize(14) }]} >
+                <Text style={[styles.txt_item, { fontWeight: "600", color: "#404040", fontSize: ScaleSzie(14) }]} >
                     {"Total"}
                 </Text>
             </View>
             {/* ---------- Total Sales -------- */}
             <View style={[{ flex: 0.8, justifyContent: "center", alignItems: "flex-end" }]} >
-                <Text style={[styles.txt_item, { fontWeight: "600", color: "#4CD964", fontSize: scaleSize(14) }]} >
+                <Text style={[styles.txt_item, { fontWeight: "600", color: "#4CD964", fontSize: ScaleSzie(14) }]} >
                     {`$  ${total ? total : 0.00}`}
                 </Text>
             </View>
@@ -154,11 +154,11 @@ export const HeaderPaymentsReport = ({ total }) => {
 
     return (
         <View style={{
-            height: scaleSize(33),
+            height: ScaleSzie(33),
             flexDirection: "row", backgroundColor: "#F1F1F1"
         }} >
             <View style={{ justifyContent: "center" }} >
-                <Text style={[styles.txt_normal, { marginLeft: scaleSize(15) }]} >
+                <Text style={[styles.txt_normal, { marginLeft: ScaleSzie(15) }]} >
                     {`Payments`}
                 </Text>
             </View>
@@ -168,7 +168,7 @@ export const HeaderPaymentsReport = ({ total }) => {
                         {`Amount`}
                     </Text>
                 </View>
-                <View style={{ width: scaleSize(45) }} >
+                <View style={{ width: ScaleSzie(45) }} >
 
                 </View>
             </View>
@@ -195,11 +195,11 @@ export default class ItemPaymentsReport extends React.Component {
                 activeOpacity={tempActiveOpacity}
                 onPress={this.onPress}
                 style={{
-                    height: scaleSize(29),
+                    height: ScaleSzie(29),
                     flexDirection: "row", backgroundColor: backgroundColor
                 }} >
                 <View style={{ justifyContent: "center" }} >
-                    <Text style={[styles.txt_item, { marginLeft: scaleSize(15), color: "#fff", fontWeight: "400" }, txtStyle, titStyle]} >
+                    <Text style={[styles.txt_item, { marginLeft: ScaleSzie(15), color: "#fff", fontWeight: "400" }, txtStyle, titStyle]} >
                         {title}
                     </Text>
                 </View>
@@ -213,14 +213,14 @@ export default class ItemPaymentsReport extends React.Component {
                                 isChange && amountStatistic != value ?
                                     <Text style={{
                                         color: "#FFFFFF", fontWeight: "500", textDecorationLine: "line-through",
-                                        fontSize: scaleSize(8)
+                                        fontSize: ScaleSzie(8)
                                     }} >
                                         {`   $ ${amountStatistic} `}
                                     </Text> : null
                             }
 
                         </View>
-                        <View style={{ width: scaleSize(45), justifyContent: "center" }} />
+                        <View style={{ width: ScaleSzie(45), justifyContent: "center" }} />
                     </View>
                 }
             </TouchableOpacity>
@@ -239,12 +239,12 @@ const styles = ({
     },
     txt_normal: {
         color: "#404040",
-        fontSize: scaleSize(12),
+        fontSize: ScaleSzie(12),
         fontWeight: "500"
     },
     txt_item: {
         color: "#404040",
-        fontSize: scaleSize(10),
+        fontSize: ScaleSzie(10),
     }
 
 })

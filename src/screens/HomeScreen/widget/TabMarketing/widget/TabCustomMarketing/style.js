@@ -5,13 +5,13 @@ import {
 } from 'react-native';
 
 import Configs from '@configs';
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 
 const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop:scaleSize(12)
+        paddingTop:ScaleSzie(12)
     },
 })

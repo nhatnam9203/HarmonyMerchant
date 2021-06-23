@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import { PopupParent, Button } from '@components';
-import { scaleSize, formatNumberFromCurrency, formatMoney } from '@utils';
+import { ScaleSzie, formatNumberFromCurrency, formatMoney } from '@utils';
 import IMAGE from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 
@@ -137,35 +137,35 @@ class PopupEnterAmountGiftCard extends React.Component {
                 style={{}}
                 width={350}
                 styleTitle={{
-                    fontSize: scaleSize(18),
+                    fontSize: ScaleSzie(18),
                     fontWeight: "bold"
                 }}
             >
                 <View style={{
-                    minHeight: scaleSize(360), backgroundColor: '#fff',
-                    borderBottomLeftRadius: scaleSize(15),
-                    borderBottomRightRadius: scaleSize(15),
-                    paddingHorizontal: scaleSize(12)
+                    minHeight: ScaleSzie(360), backgroundColor: '#fff',
+                    borderBottomLeftRadius: ScaleSzie(15),
+                    borderBottomRightRadius: ScaleSzie(15),
+                    paddingHorizontal: ScaleSzie(12)
                 }} >
                     <View style={{ flex: 1 }} >
                         {/* ------ Display Box --- */}
-                        <Text style={{ textAlign: "center", marginTop: scaleSize(20), fontSize: scaleSize(16), fontWeight: "600" }} >
+                        <Text style={{ textAlign: "center", marginTop: ScaleSzie(20), fontSize: ScaleSzie(16), fontWeight: "600" }} >
                             {`${tempDescription}`}
                         </Text>
 
                         {/* ------ Display Box --- */}
-                        <View style={{ flexDirection: 'row', height: scaleSize(50), marginTop: scaleSize(14) }} >
+                        <View style={{ flexDirection: 'row', height: ScaleSzie(50), marginTop: ScaleSzie(14) }} >
                             {/* ------ Box Left --- */}
                             <View style={{
                                 flex: 1, backgroundColor: '#FAFAFA', borderWidth: 2,
                                 borderColor: '#6A6A6A',
-                                justifyContent: 'space-between', paddingHorizontal: scaleSize(8), borderRadius: 4,
+                                justifyContent: 'space-between', paddingHorizontal: ScaleSzie(8), borderRadius: 4,
                                 flexDirection: 'row', alignItems: 'center',
                             }} >
-                                <Text style={{ fontSize: scaleSize(28), color: '#8BC53F', fontWeight: "600" }} >
+                                <Text style={{ fontSize: ScaleSzie(28), color: '#8BC53F', fontWeight: "600" }} >
                                     {`$`}
                                 </Text>
-                                <Text style={{ fontSize: scaleSize(28), color: '#8BC53F', fontWeight: "600" }} >
+                                <Text style={{ fontSize: ScaleSzie(28), color: '#8BC53F', fontWeight: "600" }} >
                                     {`${amount}`}
                                 </Text>
                             </View>
@@ -209,7 +209,7 @@ class PopupEnterAmountGiftCard extends React.Component {
                                 {/* ---- Row 4 ----- */}
                                 <View style={styles.rowKeyboard} >
                                     <Button onPress={this.addDotInNumber} style={styles.keyContainer} >
-                                        <Text style={{ fontSize: scaleSize(26), color: '#404040', fontWeight: '500' }} >
+                                        <Text style={{ fontSize: ScaleSzie(26), color: '#404040', fontWeight: '500' }} >
                                             {`.`}
                                         </Text>
                                     </Button>
@@ -225,17 +225,17 @@ class PopupEnterAmountGiftCard extends React.Component {
 
                             </View>
                             {/* ---- Line ----- */}
-                            <View style={{ width: scaleSize(18), paddingBottom: scaleSize(2), paddingTop: scaleSize(9), alignItems: 'center' }} >
+                            <View style={{ width: ScaleSzie(18), paddingBottom: ScaleSzie(2), paddingTop: ScaleSzie(9), alignItems: 'center' }} >
                                 <View style={{ height: '100%', width: 4, backgroundColor: '#D0D2D3' }} />
                             </View>
                             {/* -------------- */}
-                            <View style={{ width: scaleSize(70) }} >
+                            <View style={{ width: ScaleSzie(70) }} >
                                 {
                                     [10, 20, 50, 100].map((number, index) => <Key
                                         key={number}
                                         number={number}
                                         onPressNumber={this.onPressAddNumber}
-                                        style={{ marginTop: scaleSize(9), }}
+                                        style={{ marginTop: ScaleSzie(9), }}
                                         txtStyle={{
                                             color: "#0764B0"
                                         }}
@@ -246,10 +246,10 @@ class PopupEnterAmountGiftCard extends React.Component {
 
                         {/* ------------- Add To Basket Button -------- */}
                         <Button onPress={this.addGiftCardAmount} style={{
-                            height: scaleSize(50), width: "100%", backgroundColor: '#0764B0', marginVertical: scaleSize(15),
-                            borderRadius: scaleSize(2), alignItems: "center", justifyContent: "center"
+                            height: ScaleSzie(50), width: "100%", backgroundColor: '#0764B0', marginVertical: ScaleSzie(15),
+                            borderRadius: ScaleSzie(2), alignItems: "center", justifyContent: "center"
                         }} >
-                            <Text style={{ color: "#fff", fontSize: scaleSize(20), fontWeight: "600" }} >
+                            <Text style={{ color: "#fff", fontSize: ScaleSzie(20), fontWeight: "600" }} >
                                 {`ADD TO BASKET`}
                             </Text>
                         </Button>
@@ -285,7 +285,7 @@ class PopupEnterAmountGiftCard extends React.Component {
 const Key = ({ number, onPressNumber, style, txtStyle }) => {
     return (
         <TouchableOpacity onPress={() => onPressNumber(number)} style={[styles.keyContainer, style]} >
-            <Text style={[{ fontSize: scaleSize(26), color: '#404040', fontWeight: '500' }, txtStyle]} >
+            <Text style={[{ fontSize: ScaleSzie(26), color: '#404040', fontWeight: '500' }, txtStyle]} >
                 {number}
             </Text>
         </TouchableOpacity>
@@ -295,15 +295,15 @@ const Key = ({ number, onPressNumber, style, txtStyle }) => {
 
 const styles = StyleSheet.create({
     keyContainer: {
-        width: scaleSize(70),
-        height: scaleSize(35),
+        width: ScaleSzie(70),
+        height: ScaleSzie(35),
         backgroundColor: '#fff',
-        borderRadius: scaleSize(4),
+        borderRadius: ScaleSzie(4),
         justifyContent: 'center',
         alignItems: 'center',
         ...Platform.select({
             ios: {
-                borderRadius: scaleSize(4),
+                borderRadius: ScaleSzie(4),
                 shadowColor: 'rgba(0, 0, 0, 0.5)',
                 shadowOpacity: 0.54,
                 shadowOffset: { width: 0, height: 0 },
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: scaleSize(9),
+        marginTop: ScaleSzie(9),
     }
 })
 

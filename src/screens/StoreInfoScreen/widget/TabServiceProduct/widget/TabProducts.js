@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { FooterTab, PopupConfirm,PopupAddEditProduct} from '@components';
-import { scaleSize, getCategoryName ,getArrayNameCategories,localize} from '@utils';
+import { ScaleSzie, getCategoryName ,getArrayNameCategories,localize} from '@utils';
 import HeaderTableProducts from './HeaderTableProducts';
 import RowTableProducts from './RowTableProducts';
 import RowEmptyTableProducts from './RowEmptyTableProducts';
@@ -193,7 +193,7 @@ class TabProducts extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: scaleSize(12)
+        paddingTop: ScaleSzie(12)
     },
 })
 

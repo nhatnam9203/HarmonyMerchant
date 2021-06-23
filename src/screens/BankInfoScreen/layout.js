@@ -8,7 +8,7 @@ import {
 import FastImage from "react-native-fast-image";
 
 import { InputForm, FormInfoParent, Text, Button, PopupUpload } from '@components';
-import { scaleSize, localize } from '@utils';
+import { ScaleSzie, localize } from '@utils';
 import IMAGE from '@resources';
 
 const { width } = Dimensions.get('window');
@@ -30,24 +30,24 @@ export default class Layout extends React.Component {
                 >
                     {/* ------ Header ------ */}
                     <View style={{
-                        width, paddingHorizontal: scaleSize(15),
-                        marginTop: scaleSize(8)
+                        width, paddingHorizontal: ScaleSzie(15),
+                        marginTop: ScaleSzie(8)
                     }}  >
-                        <Text style={{ color: '#0764B0', fontWeight: 'bold', fontSize: scaleSize(18) }} >
+                        <Text style={{ color: '#0764B0', fontWeight: 'bold', fontSize: ScaleSzie(18) }} >
                             {localize('Please fill the form below', language)}
                         </Text>
                         <View style={{
-                            height: scaleSize(38), backgroundColor: '#0764B0', justifyContent: 'center',
-                            paddingLeft: scaleSize(5), marginTop: scaleSize(5)
+                            height: ScaleSzie(38), backgroundColor: '#0764B0', justifyContent: 'center',
+                            paddingLeft: ScaleSzie(5), marginTop: ScaleSzie(5)
                         }} >
-                            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: scaleSize(18) }} >
+                            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: ScaleSzie(18) }} >
                                 {localize('Bank Information', language)}
                             </Text>
                         </View>
                     </View>
                     {/* ------------------------- */}
-                    <View style={{ flex: 1, paddingHorizontal: scaleSize(25) }} >
-                        <View style={{ height: scaleSize(16) }} />
+                    <View style={{ flex: 1, paddingHorizontal: ScaleSzie(25) }} >
+                        <View style={{ height: ScaleSzie(16) }} />
                         <InputForm
                             title={`${localize('Account Holder Name', language)}*`}
                             subTitle=""
@@ -87,22 +87,22 @@ export default class Layout extends React.Component {
                             onFocus={() => this.scrollBankInfoTo(310)}
                         />
 
-                        <Text style={{ color: '#404040', fontSize: scaleSize(14), fontWeight: "600" }} >
+                        <Text style={{ color: '#404040', fontSize: ScaleSzie(14), fontWeight: "600" }} >
                             {`${localize('Void Check', language)}*`}
                         </Text>
-                        <Text style={{ color: '#404040', fontSize: scaleSize(14), marginTop: scaleSize(10) }} >
+                        <Text style={{ color: '#404040', fontSize: ScaleSzie(14), marginTop: ScaleSzie(10) }} >
                             {`${localize('Please take or upload photos of void check', language)}`}
                         </Text>
 
                         <View style={{
                             alignItems: 'center',
-                            padding: scaleSize(10), marginTop: scaleSize(18),
+                            padding: ScaleSzie(10), marginTop: ScaleSzie(18),
                         }} >
                             {
                                 this.state.uriUpload ?
                                     <View style={{
-                                        width: scaleSize(400), height: scaleSize(300),
-                                        overflow: 'hidden', marginBottom: scaleSize(10)
+                                        width: ScaleSzie(400), height: ScaleSzie(300),
+                                        overflow: 'hidden', marginBottom: ScaleSzie(10)
                                     }} >
                                         <FastImage
                                             style={{ width: null, height: null, flex: 1 }}
@@ -118,11 +118,11 @@ export default class Layout extends React.Component {
                             }
 
                             <View style={{
-                                width: scaleSize(400), height: scaleSize(200),
+                                width: ScaleSzie(400), height: ScaleSzie(200),
                                 borderWidth: 2, borderColor: '#C5C5C5', borderStyle: "dashed",
-                                borderRadius: scaleSize(14),
+                                borderRadius: ScaleSzie(14),
                                 alignItems: 'center',
-                                paddingTop: scaleSize(5)
+                                paddingTop: ScaleSzie(5)
 
                             }} >
                                 <Button onPress={this.takePhoto} >
@@ -133,24 +133,24 @@ export default class Layout extends React.Component {
 
                                 <View style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center' }} >
                                     <Text style={{
-                                        color: '#C5C5C5', fontSize: scaleSize(20), fontWeight: 'bold',
+                                        color: '#C5C5C5', fontSize: ScaleSzie(20), fontWeight: 'bold',
                                     }} >
                                         {`${localize('Take a Photo', language)}`}
                                     </Text>
 
                                     <Text style={{
-                                        color: '#C5C5C5', fontSize: scaleSize(20),
+                                        color: '#C5C5C5', fontSize: ScaleSzie(20),
                                     }} >
                                         {`${localize('Or', language)}`}
                                     </Text>
                                     <Button
                                         onPress={this.openImageLibrary}
                                         style={{
-                                            width: scaleSize(180), height: scaleSize(40), backgroundColor: '#F1F1F1',
+                                            width: ScaleSzie(180), height: ScaleSzie(40), backgroundColor: '#F1F1F1',
                                             borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4, justifyContent: "center", alignItems: 'center'
                                         }} >
                                         <Text style={{
-                                            color: '#C5C5C5', fontSize: scaleSize(20),
+                                            color: '#C5C5C5', fontSize: ScaleSzie(20),
                                         }} >
                                             {`${localize('Browse File', language)}`}
                                         </Text>
@@ -160,7 +160,7 @@ export default class Layout extends React.Component {
 
                         </View>
                     </View>
-                    <View style={{ height: scaleSize(250) }} />
+                    <View style={{ height: ScaleSzie(250) }} />
                 </ScrollView>
                 <PopupUpload
                     ref={this.uploadVoidCheckRef}

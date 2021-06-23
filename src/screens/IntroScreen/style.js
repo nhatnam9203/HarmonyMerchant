@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import Configs from '@configs';
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 
 const { width, height } = Dimensions.get('window');
 
@@ -21,18 +21,18 @@ export default StyleSheet.create({
     headerLeft: {
         flex: 1,
         justifyContent: 'flex-end',
-        paddingLeft:scaleSize(38)
+        paddingLeft:ScaleSzie(38)
     },
     headerRigth: {
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
-        paddingRight:scaleSize(56),
-        paddingBottom :scaleSize(20)
+        paddingRight:ScaleSzie(56),
+        paddingBottom :ScaleSzie(20)
     },
     textSkip: {
         color: '#0A88C1',
-        fontSize: scaleSize(16),
+        fontSize: ScaleSzie(16),
         fontWeight: '600'
     },
     body: {
@@ -51,16 +51,16 @@ export default StyleSheet.create({
         flex: 1
     },
     dotStyle: {
-        width: scaleSize(20),
-        height: scaleSize(5),
-        borderRadius: scaleSize(8),
+        width: ScaleSzie(20),
+        height: ScaleSzie(5),
+        borderRadius: ScaleSzie(8),
         marginBottom: 0,
         backgroundColor: "#656581"
     },
     activeDotStyle: {
-        width: scaleSize(20),
-        height: scaleSize(5),
-        borderRadius: scaleSize(8),
+        width: ScaleSzie(20),
+        height: ScaleSzie(5),
+        borderRadius: ScaleSzie(8),
         marginBottom: 0,
         backgroundColor: "white"
     },
@@ -70,7 +70,7 @@ export default StyleSheet.create({
     },
     slideImage: {
         flex: 1,
-        paddingHorizontal: scaleSize(20),
+        paddingHorizontal: ScaleSzie(20),
     },
     slideText: {
         flex: 0.8,
@@ -80,10 +80,10 @@ export default StyleSheet.create({
     slideTextTitle: {
         color: "#fff",
         fontWeight: "bold",
-        fontSize: scaleSize(16)
+        fontSize: ScaleSzie(16)
     },
     slideTextDesc: {
         color: '#fff',
-        fontSize: scaleSize(12)
+        fontSize: ScaleSzie(12)
     }
 })

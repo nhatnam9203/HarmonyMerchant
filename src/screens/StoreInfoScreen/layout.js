@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import { DefaultTabBar, Button, StatusBarHeader,ScrollableTabView } from '@components';
-import { scaleSize, localize } from '@utils';
+import { ScaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import { TabStoreInfo, TabAdminInfo, TabStaffManagement, TabServiceProduct } from './widget';
@@ -31,7 +31,7 @@ export default class Layout extends React.Component {
                         inactiveTextColor="#6A6A6A"
                         backgroundTabActive="#0764B0"
                         textStyle={{
-                            fontSize: scaleSize(14)
+                            fontSize: ScaleSzie(14)
                         }}
                     />}
                     // onChangeTab={this.onChangeTab}
@@ -56,7 +56,7 @@ export default class Layout extends React.Component {
                     />
                 </ScrollableTabView>
                 <Button onPress={this.signOut} style={configs.btn_right_position} >
-                    <Image source={IMAGE.signOut} style={{ width: scaleSize(35), height: scaleSize(35) }} />
+                    <Image source={IMAGE.signOut} style={{ width: ScaleSzie(35), height: ScaleSzie(35) }} />
                 </Button>
 
             </View>

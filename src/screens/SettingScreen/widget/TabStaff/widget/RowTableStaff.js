@@ -10,7 +10,7 @@ import {
 import FastImage from 'react-native-fast-image';
 
 import { ButtonCustom } from '@components';
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 import IMAGE from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 
@@ -43,13 +43,13 @@ const RowTable = ({ staff, index, archiveStaff, editStaff, restoreStaff, move, m
             style={styles.tableHeader} >
             {/* ----- 1 ------ */}
             <View style={[{
-                width: scaleSize(50),
+                width: ScaleSzie(50),
                 flexDirection: 'row',
                 justifyContent: 'space-around',
                 alignItems: 'center'
             }]} >
                 <Image source={IMAGE.indicate}
-                    style={{ width: scaleSize(12), height: scaleSize(29) }}
+                    style={{ width: ScaleSzie(12), height: ScaleSzie(29) }}
                 />
                 <Text style={styles.textTableHeader} >
                     {`${parseInt(index) + 1}.`}
@@ -57,47 +57,47 @@ const RowTable = ({ staff, index, archiveStaff, editStaff, restoreStaff, move, m
             </View>
             {/* ----- 2 ------ */}
             <View style={{
-                width: scaleSize(200), flexDirection: 'row',
+                width: ScaleSzie(200), flexDirection: 'row',
             }} >
                 <View style={{ justifyContent: 'center' }} >
                     {
                         staff?.imageUrl ? <FastImage
-                            style={{ width: scaleSize(30), height: scaleSize(30) }}
+                            style={{ width: ScaleSzie(30), height: ScaleSzie(30) }}
                             source={{
                                 uri: staff?.imageUrl,
                                 priority: FastImage.priority.low,
                                 cache: FastImage.cacheControl.immutable
                             }}
                             // onError={() => setSource(IMAGE.staff_holder)}
-                        /> : <FastImage source={IMAGE.staff_holder} style={{ width: scaleSize(30), height: scaleSize(30) }} />
+                        /> : <FastImage source={IMAGE.staff_holder} style={{ width: ScaleSzie(30), height: ScaleSzie(30) }} />
                     }
                 </View>
-                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(5) }} >
+                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(5) }} >
                     <Text style={styles.textTableHeader}  >
                         {staff.displayName}
                     </Text>
                 </View>
-                <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                     <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                 </View>
             </View>
             {/* ----- 3 ------ */}
             {/* ----- 4 ------ */}
             <View style={{
-                width: scaleSize(110), flexDirection: 'row',
+                width: ScaleSzie(110), flexDirection: 'row',
             }} >
-                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
+                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
                     <Text style={styles.textTableHeader} >
                         {staff.roleName}
                     </Text>
                 </View>
-                <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                     <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                 </View>
             </View>
             {/* ----- 5 ----- */}
             <View style={{
-                width: scaleSize(90), flexDirection: 'row',
+                width: ScaleSzie(90), flexDirection: 'row',
             }} >
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: "center" }} >
                     <Switch
@@ -107,7 +107,7 @@ const RowTable = ({ staff, index, archiveStaff, editStaff, restoreStaff, move, m
                         value={staff.isActive}
                     />
                 </View>
-                <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                     <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                 </View>
             </View>
@@ -124,9 +124,9 @@ const RowTable = ({ staff, index, archiveStaff, editStaff, restoreStaff, move, m
                         title="Edit"
                         textColor="#fff"
                         onPress={() => editStaff()}
-                        style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSize(2) }}
+                        style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: ScaleSzie(2) }}
                         styleText={{
-                            fontSize: scaleSize(14)
+                            fontSize: ScaleSzie(14)
                         }}
                     />
                 </View>
@@ -139,9 +139,9 @@ const RowTable = ({ staff, index, archiveStaff, editStaff, restoreStaff, move, m
                             title="Archive"
                             textColor="#fff"
                             onPress={() => archiveStaff()}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSize(2) }}
+                            style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: ScaleSzie(2) }}
                             styleText={{
-                                fontSize: scaleSize(14)
+                                fontSize: ScaleSzie(14)
                             }}
                         /> :
                             <ButtonCustom
@@ -151,9 +151,9 @@ const RowTable = ({ staff, index, archiveStaff, editStaff, restoreStaff, move, m
                                 title="Restore"
                                 textColor="#6A6A6A"
                                 onPress={() => restoreStaff()}
-                                style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSize(2) }}
+                                style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: ScaleSzie(2) }}
                                 styleText={{
-                                    fontSize: scaleSize(14)
+                                    fontSize: ScaleSzie(14)
                                 }}
                             />
                     }
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: scaleSize(55),
+        height: ScaleSzie(55),
         backgroundColor: '#FAFAFA',
         borderBottomWidth: 1,
         borderBottomColor: '#C5C5C5',
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#6A6A6A',
-        fontSize: scaleSize(14)
+        fontSize: ScaleSzie(14)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',

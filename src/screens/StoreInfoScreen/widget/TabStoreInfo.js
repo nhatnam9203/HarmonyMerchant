@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, Text, ItemWorkingTime } from '@components';
-import { scaleSize, localize, BusinessWorkingTime, hideCharactes } from '@utils';
+import { ScaleSzie, localize, BusinessWorkingTime, hideCharactes } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class TabAdminInfo extends React.Component {
@@ -111,10 +111,10 @@ class TabAdminInfo extends React.Component {
                     />
 
                     {/* -------- Business Hours --------- */}
-                    <View style={{ paddingLeft: scaleSize(90), marginTop: scaleSize(25) }} >
+                    <View style={{ paddingLeft: ScaleSzie(90), marginTop: ScaleSzie(25) }} >
                         <Text style={{
                             color: '#404040',
-                            fontSize: scaleSize(16),
+                            fontSize: ScaleSzie(16),
                             fontWeight: '600',
                         }}  >
                             {`${localize('Business Hours', language)}`}
@@ -123,8 +123,8 @@ class TabAdminInfo extends React.Component {
 
 
                     <View style={{
-                        paddingLeft: scaleSize(100),
-                        marginTop: scaleSize(15)
+                        paddingLeft: ScaleSzie(100),
+                        marginTop: ScaleSzie(15)
                     }} >
                         {/* ---------- List Business Time -------- */}
                         {
@@ -140,31 +140,31 @@ class TabAdminInfo extends React.Component {
 
                     </View>
                     {/* --------------- End -------------- */}
-                    <View style={{ paddingLeft: scaleSize(90), marginTop: scaleSize(25) }} >
+                    <View style={{ paddingLeft: ScaleSzie(90), marginTop: ScaleSzie(25) }} >
                         <Text style={{
                             color: '#404040',
-                            fontSize: scaleSize(16),
+                            fontSize: ScaleSzie(16),
                             fontWeight: '600',
                         }}  >
                             {`${localize('Void Check', language)}`}
                         </Text>
                     </View>
-                    <View style={{ height: scaleSize(20) }} />
+                    <View style={{ height: ScaleSzie(20) }} />
                     {/* -------- Business Hours --------- */}
 
                     {
-                        businessBank && businessBank.imageUrl ? <View style={{ height: scaleSize(200), alignItems: 'center' }} >
-                            <View style={{ height: scaleSize(200), width: scaleSize(200) }} >
+                        businessBank && businessBank.imageUrl ? <View style={{ height: ScaleSzie(200), alignItems: 'center' }} >
+                            <View style={{ height: ScaleSzie(200), width: ScaleSzie(200) }} >
                                 <Image
                                     source={{ uri: businessBank.imageUrl }}
                                     resizeMode="stretch"
-                                    style={{ height: scaleSize(200), width: scaleSize(200) }}
+                                    style={{ height: ScaleSzie(200), width: ScaleSzie(200) }}
                                 />
                             </View>
                         </View> : <View />
                     }
 
-                    <View style={{ height: scaleSize(200) }} />
+                    <View style={{ height: ScaleSzie(200) }} />
                 </ScrollView>
             </View>
         );
@@ -176,7 +176,7 @@ class TabAdminInfo extends React.Component {
         return (
             <View style={styles.footer} >
                 <ButtonCustom
-                    width={scaleSize(220)}
+                    width={ScaleSzie(220)}
                     height={40}
                     backgroundColor="#0764B0"
                     title={localize('NEXT', language)}
@@ -216,33 +216,33 @@ const ItemTextStoreInfoNotTilte = ({ city, state, zipcode }) => {
     return (
         <View style={{
             flexDirection: 'row',
-            paddingLeft: scaleSize(90),
-            paddingRight: scaleSize(52), marginTop: scaleSize(25)
+            paddingLeft: ScaleSzie(90),
+            paddingRight: ScaleSzie(52), marginTop: ScaleSzie(25)
         }} >
             <Text style={{
                 color: '#404040',
-                fontSize: scaleSize(16),
+                fontSize: ScaleSzie(16),
                 fontWeight: '600',
-                width: scaleSize(150)
+                width: ScaleSzie(150)
             }}  >
                 {''}
             </Text>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }} >
                 <Text style={{
                     color: '#404040',
-                    fontSize: scaleSize(16),
+                    fontSize: ScaleSzie(16),
                 }}  >
                     {`City: ${city}`}
                 </Text>
                 <Text style={{
                     color: '#404040',
-                    fontSize: scaleSize(16),
+                    fontSize: ScaleSzie(16),
                 }}  >
                     {`State: ${state}`}
                 </Text>
                 <Text style={{
                     color: '#404040',
-                    fontSize: scaleSize(16),
+                    fontSize: ScaleSzie(16),
                 }}  >
                     {`Zip Code: ${zipcode}`}
                 </Text>
@@ -257,21 +257,21 @@ const ItemTextStoreInfo = ({ title, value }) => {
     return (
         <View style={{
             flexDirection: 'row',
-            paddingLeft: scaleSize(90),
-            paddingRight: scaleSize(52),
-            marginTop: scaleSize(25)
+            paddingLeft: ScaleSzie(90),
+            paddingRight: ScaleSzie(52),
+            marginTop: ScaleSzie(25)
         }} >
             <Text style={{
                 color: '#404040',
-                fontSize: scaleSize(16),
+                fontSize: ScaleSzie(16),
                 fontWeight: '600',
-                width: scaleSize(150)
+                width: ScaleSzie(150)
             }}  >
                 {title}
             </Text>
             <Text style={{
                 color: '#404040',
-                fontSize: scaleSize(16),
+                fontSize: ScaleSzie(16),
             }}  >
                 {value}
             </Text>
@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     footer: {
-        height: scaleSize(60),
+        height: ScaleSzie(60),
         alignItems: 'center'
     }
 })

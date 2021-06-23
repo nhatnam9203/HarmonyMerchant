@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import _ from 'ramda';
 
-import { scaleSize, formatMoney, formatWithMoment, getCredicardIcon } from '@utils';
+import { ScaleSzie, formatMoney, formatWithMoment, getCredicardIcon } from '@utils';
 import {
     Text
 } from '@components';
@@ -34,8 +34,8 @@ class Layout extends React.Component {
                 </View>
                 {/* --------- Footer Table  ---------- */}
                 <View style={{
-                    height: scaleSize(32),  backgroundColor: "#0764B0", marginTop: scaleSize(20), flexDirection: "row",
-                    paddingHorizontal: scaleSize(10)
+                    height: ScaleSzie(32),  backgroundColor: "#0764B0", marginTop: ScaleSzie(20), flexDirection: "row",
+                    paddingHorizontal: ScaleSzie(10)
                 }} >
                     <View style={{ flex: 1.2, justifyContent: "center", }} >
                         <Text style={[styles.txt_header_table,{color:"#fff"}]} >
@@ -62,8 +62,8 @@ class Layout extends React.Component {
 const HeaderTable = () => {
     return (
         <View style={{
-            height: scaleSize(32), backgroundColor: "#F1F1F1", marginTop: scaleSize(20), flexDirection: "row",
-            paddingHorizontal: scaleSize(10)
+            height: ScaleSzie(32), backgroundColor: "#F1F1F1", marginTop: ScaleSzie(20), flexDirection: "row",
+            paddingHorizontal: ScaleSzie(10)
         }} >
             {/* --------- Trans ID  ---------- */}
             <View style={{ flex: 1.2, justifyContent: "center" }} >
@@ -109,7 +109,7 @@ const RowTable = ({ data }) => {
 
     return (
         <View style={{
-            height: scaleSize(35), backgroundColor: "#FAFAFA", flexDirection: "row", paddingHorizontal: scaleSize(10), marginBottom: 2
+            height: ScaleSzie(35), backgroundColor: "#FAFAFA", flexDirection: "row", paddingHorizontal: ScaleSzie(10), marginBottom: 2
         }} >
             {/* --------- Trans ID  ---------- */}
             <View style={{ flex: 1.2, justifyContent: "center" }} >
@@ -125,11 +125,11 @@ const RowTable = ({ data }) => {
             </View>
             {/* --------- Payments  ---------- */}
             <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
-                <Image source={creditCardLogo} style={{ width: scaleSize(30), height: scaleSize(20) }} />
+                <Image source={creditCardLogo} style={{ width: ScaleSzie(30), height: ScaleSzie(20) }} />
                 <View style={{ width: 10 }} />
                 <Text style={{
                     color: '#404040',
-                    fontSize: scaleSize(12)
+                    fontSize: ScaleSzie(12)
                 }} >
                     {cardNumber}
                 </Text>

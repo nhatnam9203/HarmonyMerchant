@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { Button, } from '@components';
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 
 const RowEmptyTableCustomer = () => {
     return (
@@ -19,15 +19,15 @@ const RowEmptyTableCustomer = () => {
                     flex: 1,
                     flexDirection: 'row',
                     alignItems: 'center',
-                    paddingLeft: scaleSize(12)
+                    paddingLeft: ScaleSzie(12)
                 }]} >
-                    <Button onPress={this.selectCheckBox} style={{ marginRight: scaleSize(12) }} >
+                    <Button onPress={this.selectCheckBox} style={{ marginRight: ScaleSzie(12) }} >
                     </Button>
                     <Text style={styles.textTableHeader} >
                         {/* {product.name} */}
                     </Text>
                 </View>
-                <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                     <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                 </View>
             </View>
@@ -35,12 +35,12 @@ const RowEmptyTableCustomer = () => {
             <View style={{
                 flex:1.2, flexDirection: 'row',
             }} >
-                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
+                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
                     <Text style={styles.textTableHeader} >
                         {/* {product.status} */}
                     </Text>
                 </View>
-                <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                     <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                 </View>
             </View>
@@ -48,12 +48,12 @@ const RowEmptyTableCustomer = () => {
             <View style={{
                flex:1, flexDirection: 'row',
             }} >
-                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
+                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
                     <Text style={styles.textTableHeader} >
                         {/* {product.price} */}
                     </Text>
                 </View>
-                <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                     <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                 </View>
             </View>
@@ -63,12 +63,12 @@ const RowEmptyTableCustomer = () => {
             <View style={{
                flex:1, flexDirection: 'row',
             }} >
-                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
+                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
                     <Text style={styles.textTableHeader} >
                         {/* {product.price} */}
                     </Text>
                 </View>
-                <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                     <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                 </View>
             </View>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: scaleSize(50),
+        height: ScaleSzie(50),
         backgroundColor: '#FAFAFA',
         borderWidth: 0.5,
         borderColor: '#C5C5C5',
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#C5C5C5',
-        fontSize: scaleSize(14)
+        fontSize: ScaleSzie(14)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',

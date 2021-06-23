@@ -13,7 +13,7 @@ import {
     Dropdown,
     ButtonCustom, Text, BrowserFile, TextInputSuggestion,FooterTwoButton
 } from '@components';
-import { scaleSize, localize } from '@utils';
+import { ScaleSzie, localize } from '@utils';
 import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
 import ItemWorkingTime from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
@@ -50,7 +50,7 @@ class Layout extends React.Component {
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="always"
                 >
-                    <View style={{ height: scaleSize(30) }} />
+                    <View style={{ height: ScaleSzie(30) }} />
                     <ItemAdminInfoDoubleItem
                         title={`${localize('Name', language)} *`}
                         placeholder={localize('First Name', language)}
@@ -58,10 +58,10 @@ class Layout extends React.Component {
                         onChangeText={(value) => this.updateUserInfo('firstName', value)}
                     >
                         <View style={{
-                            flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSize(5),
+                            flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: ScaleSzie(5),
                         }} >
                             <TextInput
-                                style={{ flex: 1, fontSize: scaleSize(14), color: '#404040', }}
+                                style={{ flex: 1, fontSize: ScaleSzie(14), color: '#404040', }}
                                 placeholder={localize('Last Name', language)}
                                 value={lastName}
                                 onChangeText={value => this.updateUserInfo('lastName', value)}
@@ -91,11 +91,11 @@ class Layout extends React.Component {
                         onChangeText={(value) => this.updateUserInfo('city', value, 'address')}
                     >
                         <View style={{
-                            flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSize(5)
+                            flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: ScaleSzie(5)
                         }} >
                             <TextInput
                        
-                                style={{ flex: 1, fontSize: scaleSize(14), color: '#404040', }}
+                                style={{ flex: 1, fontSize: ScaleSzie(14), color: '#404040', }}
                                 placeholder={localize('Zip Code', language)}
                                 value={zip}
                                 onChangeText={(value) => this.updateUserInfo('zip', value, 'address')}
@@ -109,13 +109,13 @@ class Layout extends React.Component {
                     {/* ------------ Zip code ----------- */}
                     <View style={{
                         flexDirection: 'row',
-                        height: scaleSize(36),
-                        paddingLeft: scaleSize(90),
-                        paddingRight: scaleSize(90),
-                        marginTop: scaleSize(14),
-                        marginBottom: scaleSize(dynamicMarginBottomState)
+                        height: ScaleSzie(36),
+                        paddingLeft: ScaleSzie(90),
+                        paddingRight: ScaleSzie(90),
+                        marginTop: ScaleSzie(14),
+                        marginBottom: ScaleSzie(dynamicMarginBottomState)
                     }} >
-                        <View style={{ width: scaleSize(150), }} />
+                        <View style={{ width: ScaleSzie(150), }} />
                         <View style={{ flex: 1, flexDirection: 'row' }} >
                             <View style={{ flex: 1, }} >
                                 <TextInputSuggestion
@@ -129,7 +129,7 @@ class Layout extends React.Component {
                                     resetMarginState={() => this.setState({ dynamicMarginBottomState: 24 })}
                                     onFocus={() => { }}
                                     inputContainerStyle={{
-                                        height: scaleSize(35),
+                                        height: ScaleSzie(35),
                                     }}
                                     onFocus={() => this.scrollStaffTo(240)}
                                 />
@@ -145,7 +145,7 @@ class Layout extends React.Component {
                         value={cellphone}
                         onChangeText={(value) => this.updateUserInfo('cellphone', value)}
                         onFocus={() => this.scrollStaffTo(310)}
-                        style={scaleSize(10)}
+                        style={ScaleSzie(10)}
                     />
                     <ItemAdminInfo
                         title={`${localize('Contact email', language)}`}
@@ -194,15 +194,15 @@ class Layout extends React.Component {
                     {/* ----------- Active -------- */}
                     <View style={{
                         flexDirection: 'row',
-                        height: scaleSize(36),
-                        paddingLeft: scaleSize(90),
-                        paddingRight: scaleSize(90),
-                        marginTop: scaleSize(25)
+                        height: ScaleSzie(36),
+                        paddingLeft: ScaleSzie(90),
+                        paddingRight: ScaleSzie(90),
+                        marginTop: ScaleSzie(25)
                     }} >
-                        <View style={{ width: scaleSize(150), justifyContent: 'center' }} >
+                        <View style={{ width: ScaleSzie(150), justifyContent: 'center' }} >
                             <Text style={{
                                 color: '#404040',
-                                fontSize: scaleSize(14),
+                                fontSize: ScaleSzie(14),
                                 fontWeight: '600',
 
                             }}  >
@@ -222,14 +222,14 @@ class Layout extends React.Component {
                     </View>
 
                     {/* ------- Upload Image ----- */}
-                    <View style={{ paddingHorizontal: scaleSize(90) }} >
+                    <View style={{ paddingHorizontal: ScaleSzie(90) }} >
                         <BrowserFile
                             ref={this.browserFileRef}
                             updateFileId={this.updateFileId}
                             imageUrl={this.state.imageUrl}
                             styleText={{
                                 color: '#404040',
-                                fontSize: scaleSize(14),
+                                fontSize: ScaleSzie(14),
                                 fontWeight: '600',
                             }}
                             editButtonSubmit={this.editButtonSubmit}
@@ -360,7 +360,7 @@ class Layout extends React.Component {
                         typeSocial="custom"
                         mark="999-99-9999"
                         style={{
-                            fontSize: scaleSize(12),
+                            fontSize: ScaleSzie(12),
                             fontWeight: "bold"
                         }}
                     />
@@ -373,12 +373,12 @@ class Layout extends React.Component {
                         onFocus={() => this.scrollStaffTo(2000 + rowsSalaryIncome * 35)}
                     />
                     <View style={{
-                        height: scaleSize(70), paddingHorizontal: scaleSize(90),
+                        height: ScaleSzie(70), paddingHorizontal: ScaleSzie(90),
                         justifyContent: 'center', alignItems: 'flex-end'
                     }} >
                         {this.renderButtonSubmit()}
                     </View>
-                    <View style={{ height: scaleSize(300) }} />
+                    <View style={{ height: ScaleSzie(300) }} />
                 </ScrollView>
             </View>
         );
@@ -391,7 +391,7 @@ class Layout extends React.Component {
         if (isSubmitButton) {
             return (
                 <ButtonCustom
-                    width={scaleSize(120)}
+                    width={ScaleSzie(120)}
                     height={40}
                     backgroundColor="#F1F1F1"
                     title={localize(titleButton, language)}
@@ -401,14 +401,14 @@ class Layout extends React.Component {
                         borderWidth: 1, borderColor: '#C5C5C5',
                         backgroundColor: '#0764B0'
                     }}
-                    styleText={{ fontSize: scaleSize(15), fontWeight: '500', color: '#fff' }}
+                    styleText={{ fontSize: ScaleSzie(15), fontWeight: '500', color: '#fff' }}
                 />
             );
         } else {
             return (
                 <View style={{
-                    width: scaleSize(120), height: scaleSize(40), backgroundColor: '#0764B0',
-                    borderRadius: scaleSize(2), justifyContent: 'center', alignItems: 'center'
+                    width: ScaleSzie(120), height: ScaleSzie(40), backgroundColor: '#0764B0',
+                    borderRadius: ScaleSzie(2), justifyContent: 'center', alignItems: 'center'
                 }} >
                     < ActivityIndicator
                         size="large"
@@ -425,7 +425,7 @@ class Layout extends React.Component {
             <View style={styles.footer} >
                 <View style={styles.buttonContainer} >
                     <ButtonCustom
-                        width={scaleSize(250)}
+                        width={ScaleSzie(250)}
                         height={40}
                         backgroundColor="#F1F1F1"
                         title="BACK"
@@ -436,7 +436,7 @@ class Layout extends React.Component {
                 </View>
                 <View style={styles.buttonContainer} >
                     <ButtonCustom
-                        width={scaleSize(250)}
+                        width={ScaleSzie(250)}
                         height={40}
                         backgroundColor="#0764B0"
                         title="NEXT"
@@ -469,15 +469,15 @@ const ItemAdminInfoDoubleItem = ({ title, placeholder, children, value, onChange
     return (
         <View style={{
             flexDirection: 'row',
-            height: scaleSize(36),
-            paddingLeft: scaleSize(90),
-            paddingRight: scaleSize(90),
-            marginTop: scaleSize(14)
+            height: ScaleSzie(36),
+            paddingLeft: ScaleSzie(90),
+            paddingRight: ScaleSzie(90),
+            marginTop: ScaleSzie(14)
         }} >
-            <View style={{ width: scaleSize(150), justifyContent: 'center' }} >
+            <View style={{ width: ScaleSzie(150), justifyContent: 'center' }} >
                 <Text style={{
                     color: '#404040',
-                    fontSize: scaleSize(14),
+                    fontSize: ScaleSzie(14),
                     fontWeight: '600',
 
                 }}  >
@@ -486,15 +486,15 @@ const ItemAdminInfoDoubleItem = ({ title, placeholder, children, value, onChange
             </View>
 
             <View style={{ flex: 1, flexDirection: 'row' }} >
-                <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: scaleSize(5) }} >
+                <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingLeft: ScaleSzie(5) }} >
                     <TextInput
-                        style={{ flex: 1, fontSize: scaleSize(14), color: '#404040', }}
+                        style={{ flex: 1, fontSize: ScaleSzie(14), color: '#404040', }}
                         placeholder={placeholder}
                         value={value}
                         onChangeText={(value => onChangeText(value))}
                     />
                 </View>
-                <View style={{ width: scaleSize(5) }} />
+                <View style={{ width: ScaleSzie(5) }} />
                 <View style={{ flex: 1, }} >
                     {children}
                 </View>
@@ -507,15 +507,15 @@ const ItemAdminInfoRole = ({ DropdowAdmin, DropdowStatusAdmin }) => {
     return (
         <View style={{
             flexDirection: 'row',
-            height: scaleSize(36),
-            paddingLeft: scaleSize(90),
-            paddingRight: scaleSize(90),
-            marginTop: scaleSize(14)
+            height: ScaleSzie(36),
+            paddingLeft: ScaleSzie(90),
+            paddingRight: ScaleSzie(90),
+            marginTop: ScaleSzie(14)
         }} >
-            <View style={{ width: scaleSize(150), justifyContent: 'center' }} >
+            <View style={{ width: ScaleSzie(150), justifyContent: 'center' }} >
                 <Text style={{
                     color: '#404040',
-                    fontSize: scaleSize(14),
+                    fontSize: ScaleSzie(14),
                     fontWeight: '600',
 
                 }}  >
@@ -535,7 +535,7 @@ const ItemAdminInfoRole = ({ DropdowAdmin, DropdowStatusAdmin }) => {
                     <View style={{ justifyContent: 'center' }} >
                         <Text style={{
                             color: '#404040',
-                            fontSize: scaleSize(14),
+                            fontSize: ScaleSzie(14),
                             fontWeight: '600',
 
                         }}  >
@@ -554,13 +554,13 @@ const ItemAdminInfoRole = ({ DropdowAdmin, DropdowStatusAdmin }) => {
 const TitleTabAdminInfo = ({ title }) => {
     return (
         <View style={{
-            paddingLeft: scaleSize(90),
-            paddingRight: scaleSize(90),
-            marginTop: scaleSize(14)
+            paddingLeft: ScaleSzie(90),
+            paddingRight: ScaleSzie(90),
+            marginTop: ScaleSzie(14)
         }} >
             <Text style={{
                 color: '#404040',
-                fontSize: scaleSize(14),
+                fontSize: ScaleSzie(14),
                 fontWeight: '600',
 
             }}  >
@@ -579,7 +579,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     footer: {
-        height: scaleSize(50),
+        height: ScaleSzie(50),
         flexDirection: 'row',
     },
     buttonContainer: {

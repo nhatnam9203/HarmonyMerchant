@@ -11,7 +11,7 @@ import {
 
 import { Button, Text } from "@components";
 import {
-  scaleSize,
+  ScaleSzie,
   formatWithMoment,
   getArrayProductsFromAppointment,
   getArrayServicesFromAppointment,
@@ -107,8 +107,8 @@ class CustomerDetailTab extends React.Component {
     const upcomings = customerHistory?.upcomings || [];
 
     return (
-      <View style={{ marginTop: scaleSize(15) }}>
-        <View style={{ minHeight: scaleSize(130 - 35) }}>
+      <View style={{ marginTop: ScaleSzie(15) }}>
+        <View style={{ minHeight: ScaleSzie(130 - 35) }}>
           <View style={{ flex: 1, flexDirection: "row" }}>
             <View
               style={{
@@ -120,8 +120,8 @@ class CustomerDetailTab extends React.Component {
               <Text style={styles.booking_txt}>
                 {`${customerHistory?.allBooking || 0}`}
               </Text>
-              <View style={{ height: scaleSize(10) }} />
-              <Text style={{ color: "#404040", fontSize: scaleSize(14) }}>
+              <View style={{ height: ScaleSzie(10) }} />
+              <Text style={{ color: "#404040", fontSize: ScaleSzie(14) }}>
                 {`All bookings`}
               </Text>
             </View>
@@ -135,8 +135,8 @@ class CustomerDetailTab extends React.Component {
               <Text style={styles.booking_txt}>
                 {`${customerHistory?.upcoming || 0}`}
               </Text>
-              <View style={{ height: scaleSize(10) }} />
-              <Text style={{ color: "#404040", fontSize: scaleSize(14) }}>
+              <View style={{ height: ScaleSzie(10) }} />
+              <Text style={{ color: "#404040", fontSize: ScaleSzie(14) }}>
                 {`Upcoming`}
               </Text>
             </View>
@@ -150,8 +150,8 @@ class CustomerDetailTab extends React.Component {
               <Text style={styles.booking_txt}>
                 {`${customerHistory?.completed || 0}`}
               </Text>
-              <View style={{ height: scaleSize(10) }} />
-              <Text style={{ color: "#404040", fontSize: scaleSize(14) }}>
+              <View style={{ height: ScaleSzie(10) }} />
+              <Text style={{ color: "#404040", fontSize: ScaleSzie(14) }}>
                 {`Completed`}
               </Text>
             </View>
@@ -165,8 +165,8 @@ class CustomerDetailTab extends React.Component {
               <Text style={styles.booking_txt}>
                 {`${customerHistory?.cancelled || 0}`}
               </Text>
-              <View style={{ height: scaleSize(10) }} />
-              <Text style={{ color: "#404040", fontSize: scaleSize(14) }}>
+              <View style={{ height: ScaleSzie(10) }} />
+              <Text style={{ color: "#404040", fontSize: ScaleSzie(14) }}>
                 {`Cancelled`}
               </Text>
             </View>
@@ -175,15 +175,15 @@ class CustomerDetailTab extends React.Component {
           {upcomings.length > 0 ? (
             <View
               style={{
-                height: scaleSize(40),
-                paddingLeft: scaleSize(14),
+                height: ScaleSzie(40),
+                paddingLeft: ScaleSzie(14),
                 justifyContent: "center",
               }}
             >
               <Text
                 style={{
                   color: "#404040",
-                  fontSize: scaleSize(14),
+                  fontSize: ScaleSzie(14),
                   fontWeight: "600",
                 }}
               >
@@ -195,7 +195,7 @@ class CustomerDetailTab extends React.Component {
           )}
         </View>
         {/* --------------- Line ----------- */}
-        <View style={{ height: scaleSize(1), backgroundColor: "#EEEEEE" }} />
+        <View style={{ height: ScaleSzie(1), backgroundColor: "#EEEEEE" }} />
 
         {/* -------------- Appointment Item ------------ */}
         {upcomings.map((appointment) => (
@@ -212,15 +212,15 @@ class CustomerDetailTab extends React.Component {
           <>
             <View
               style={{
-                height: scaleSize(40),
-                paddingLeft: scaleSize(14),
+                height: ScaleSzie(40),
+                paddingLeft: ScaleSzie(14),
                 justifyContent: "center",
               }}
             >
               <Text
                 style={{
                   color: "#404040",
-                  fontSize: scaleSize(14),
+                  fontSize: ScaleSzie(14),
                   fontWeight: "600",
                 }}
               >
@@ -229,7 +229,7 @@ class CustomerDetailTab extends React.Component {
             </View>
             {/* --------------- Line ----------- */}
             <View
-              style={{ height: scaleSize(1), backgroundColor: "#EEEEEE" }}
+              style={{ height: ScaleSzie(1), backgroundColor: "#EEEEEE" }}
             />
           </>
         ) : (
@@ -251,23 +251,23 @@ class CustomerDetailTab extends React.Component {
     const upcomings = customerHistory?.upcomings || [];
 
     return (
-      <View style={{ flex: 1, padding: scaleSize(10) }}>
+      <View style={{ flex: 1, padding: ScaleSzie(10) }}>
         <View style={{ flex: 1, flexDirection: "row" }}>
           {/* --------------- Left Content ----------- */}
           <View style={{ flex: 1, ...styles.SHADOW }}>
             {/* ------------- Customer Avatar ---------- */}
             <View
               style={{
-                height: scaleSize(90),
+                height: ScaleSzie(90),
                 alignItems: "center",
                 justifyContent: "flex-end",
               }}
             >
               <View
                 style={{
-                  width: scaleSize(80),
-                  height: scaleSize(80),
-                  borderRadius: scaleSize(40),
+                  width: ScaleSzie(80),
+                  height: ScaleSzie(80),
+                  borderRadius: ScaleSzie(40),
                   overflow: "hidden",
                   backgroundColor: "#E5E5E5",
                   justifyContent: "center",
@@ -277,7 +277,7 @@ class CustomerDetailTab extends React.Component {
                 <Text
                   style={{
                     color: "#404040",
-                    fontSize: scaleSize(40),
+                    fontSize: ScaleSzie(40),
                     fontWeight: "bold",
                   }}
                 >
@@ -290,10 +290,10 @@ class CustomerDetailTab extends React.Component {
             <Text
               style={{
                 color: "#404040",
-                fontSize: scaleSize(14),
+                fontSize: ScaleSzie(14),
                 fontWeight: "600",
                 textAlign: "center",
-                marginVertical: scaleSize(8),
+                marginVertical: ScaleSzie(8),
               }}
             >
               {`${customer?.firstName || ""} ${customer?.lastName || ""}`}
@@ -303,17 +303,17 @@ class CustomerDetailTab extends React.Component {
             {customer?.isVip ? (
               <View
                 style={{
-                  height: scaleSize(28),
+                  height: ScaleSzie(28),
                   alignItems: "center",
-                  marginBottom: scaleSize(10),
+                  marginBottom: ScaleSzie(10),
                 }}
               >
                 <View
                   style={{
-                    height: scaleSize(28),
-                    width: scaleSize(80),
+                    height: ScaleSzie(28),
+                    width: ScaleSzie(80),
                     backgroundColor: "rgb(76,217,100)",
-                    borderRadius: scaleSize(30),
+                    borderRadius: ScaleSzie(30),
                     justifyContent: "center",
                     alignItems: "center",
                     flexDirection: "row",
@@ -321,13 +321,13 @@ class CustomerDetailTab extends React.Component {
                 >
                   <Image
                     source={ICON.vip_icon}
-                    style={{ width: scaleSize(18), height: scaleSize(18) }}
+                    style={{ width: ScaleSzie(18), height: ScaleSzie(18) }}
                   />
                   <Text
                     style={{
                       color: "#fff",
-                      fontSize: scaleSize(12),
-                      marginLeft: scaleSize(4),
+                      fontSize: ScaleSzie(12),
+                      marginLeft: ScaleSzie(4),
                     }}
                   >
                     {`VIP`}
@@ -337,44 +337,44 @@ class CustomerDetailTab extends React.Component {
             ) : (
               <View
                 style={{
-                  height: scaleSize(28),
+                  height: ScaleSzie(28),
                   alignItems: "center",
-                  marginBottom: scaleSize(10),
+                  marginBottom: ScaleSzie(10),
                 }}
               >
                 <View
                   style={{
-                    height: scaleSize(28),
-                    width: scaleSize(80),
+                    height: ScaleSzie(28),
+                    width: ScaleSzie(80),
                     backgroundColor: "#0764B0",
-                    borderRadius: scaleSize(30),
+                    borderRadius: ScaleSzie(30),
                     justifyContent: "center",
                     alignItems: "center",
                   }}
                 >
-                  <Text style={{ color: "#fff", fontSize: scaleSize(12) }}>
+                  <Text style={{ color: "#fff", fontSize: ScaleSzie(12) }}>
                     {`Normal`}
                   </Text>
                 </View>
               </View>
             )}
 
-            <View style={{ flex: 1, paddingHorizontal: scaleSize(12) }}>
+            <View style={{ flex: 1, paddingHorizontal: ScaleSzie(12) }}>
               {/* ------------- Customer Note  ---------- */}
               <View
                 style={{
                   flexDirection: "row",
-                  paddingRight: scaleSize(10),
+                  paddingRight: ScaleSzie(10),
                   alignItems: "center",
-                  maxHeight: scaleSize(70),
+                  maxHeight: ScaleSzie(70),
                 }}
               >
-                <View style={{ width: scaleSize(26) }}>
+                <View style={{ width: ScaleSzie(26) }}>
                   <Image source={ICON.note_customer} />
                 </View>
                 <View style={{ flex: 1 }}>
                   <ScrollView>
-                    <Text style={{ color: "#A9A9A9", fontSize: scaleSize(12) }}>
+                    <Text style={{ color: "#A9A9A9", fontSize: ScaleSzie(12) }}>
                       {`${customer?.note || ""}`}
                     </Text>
                   </ScrollView>
@@ -384,9 +384,9 @@ class CustomerDetailTab extends React.Component {
               {/* ------------- Line  ---------- */}
               <View
                 style={{
-                  height: scaleSize(1),
+                  height: ScaleSzie(1),
                   backgroundColor: "#EEEEEE",
-                  marginVertical: scaleSize(14),
+                  marginVertical: ScaleSzie(14),
                 }}
               />
 
@@ -448,8 +448,8 @@ class CustomerDetailTab extends React.Component {
             <View
               style={{
                 position: "absolute",
-                top: scaleSize(0),
-                right: scaleSize(14),
+                top: ScaleSzie(0),
+                right: ScaleSzie(14),
               }}
             >
               <Dropdown
@@ -478,10 +478,10 @@ class CustomerDetailTab extends React.Component {
                 }
                 renderBase={() => (
                   <View>
-                    {/* <Image source={ICON.edit_customer_icon} style={{ width: scaleSize(20), height: scaleSize(20) }} /> */}
+                    {/* <Image source={ICON.edit_customer_icon} style={{ width: ScaleSzie(20), height: ScaleSzie(20) }} /> */}
                     <Text
                       style={{
-                        fontSize: scaleSize(25),
+                        fontSize: ScaleSzie(25),
                         fontWeight: "600",
                         color: "#404040",
                       }}
@@ -495,23 +495,23 @@ class CustomerDetailTab extends React.Component {
           </View>
 
           {/* --------------- Line ----------- */}
-          <View style={{ width: scaleSize(12) }} />
+          <View style={{ width: ScaleSzie(12) }} />
 
           {/* --------------- Right Content ----------- */}
           <View style={{ flex: 1.6 }}>
             {/* --------------- Top Right Content ----------- */}
-            <View style={{ height: scaleSize(130), ...styles.SHADOW }}>
+            <View style={{ height: ScaleSzie(130), ...styles.SHADOW }}>
               <View
                 style={{
-                  height: scaleSize(40),
-                  paddingLeft: scaleSize(14),
+                  height: ScaleSzie(40),
+                  paddingLeft: ScaleSzie(14),
                   justifyContent: "center",
                 }}
               >
                 <Text
                   style={{
                     color: "#0764B0",
-                    fontSize: scaleSize(14),
+                    fontSize: ScaleSzie(14),
                     fontWeight: "600",
                   }}
                 >
@@ -521,47 +521,47 @@ class CustomerDetailTab extends React.Component {
 
               {/* --------------- Line ----------- */}
               <View
-                style={{ height: scaleSize(1), backgroundColor: "#EEEEEE" }}
+                style={{ height: ScaleSzie(1), backgroundColor: "#EEEEEE" }}
               />
 
               <View style={{ flex: 1, flexDirection: "row" }}>
                 <View
                   style={{
                     flex: 1,
-                    paddingLeft: scaleSize(14),
-                    paddingVertical: scaleSize(5),
+                    paddingLeft: ScaleSzie(14),
+                    paddingVertical: ScaleSzie(5),
                     justifyContent: "space-around",
                   }}
                 >
                   <Text
                     style={{
                       color: "#404040",
-                      fontSize: scaleSize(20),
+                      fontSize: ScaleSzie(20),
                       fontWeight: "bold",
                     }}
                   >
                     {`$  ${customerHistory?.totalSales || "0.00"}`}
                   </Text>
-                  <Text style={{ color: "#404040", fontSize: scaleSize(13) }}>
+                  <Text style={{ color: "#404040", fontSize: ScaleSzie(13) }}>
                     {`Total sales`}
                   </Text>
                 </View>
                 {/* --------------- Line ----------- */}
                 <View
-                  style={{ width: scaleSize(1), backgroundColor: "#EEEEEE" }}
+                  style={{ width: ScaleSzie(1), backgroundColor: "#EEEEEE" }}
                 />
                 <View
                   style={{
                     flex: 1,
-                    paddingHorizontal: scaleSize(14),
-                    paddingVertical: scaleSize(5),
+                    paddingHorizontal: ScaleSzie(14),
+                    paddingVertical: ScaleSzie(5),
                     justifyContent: "space-around",
                   }}
                 >
                   <Text
                     style={{
                       color: "#404040",
-                      fontSize: scaleSize(20),
+                      fontSize: ScaleSzie(20),
                       fontWeight: "bold",
                     }}
                   >
@@ -573,14 +573,14 @@ class CustomerDetailTab extends React.Component {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Text style={{ color: "#404040", fontSize: scaleSize(13) }}>
+                    <Text style={{ color: "#404040", fontSize: ScaleSzie(13) }}>
                       {`Last visit sales`}
                     </Text>
 
                     <Text
                       style={{
                         color: "#404040",
-                        fontSize: scaleSize(13),
+                        fontSize: ScaleSzie(13),
                         fontWeight: "300",
                       }}
                     >
@@ -594,20 +594,20 @@ class CustomerDetailTab extends React.Component {
               </View>
             </View>
             {/* --------------- Line ----------- */}
-            <View style={{ height: scaleSize(12) }} />
+            <View style={{ height: ScaleSzie(12) }} />
             {/* --------------- Bottom Right Content ----------- */}
             <View style={{ flex: 1, ...styles.SHADOW }}>
               <View
                 style={{
-                  height: scaleSize(40),
-                  paddingLeft: scaleSize(14),
+                  height: ScaleSzie(40),
+                  paddingLeft: ScaleSzie(14),
                   justifyContent: "center",
                 }}
               >
                 <Text
                   style={{
                     color: "#0764B0",
-                    fontSize: scaleSize(14),
+                    fontSize: ScaleSzie(14),
                     fontWeight: "600",
                   }}
                 >
@@ -617,7 +617,7 @@ class CustomerDetailTab extends React.Component {
 
               {/* --------------- Line ----------- */}
               <View
-                style={{ height: scaleSize(1), backgroundColor: "#EEEEEE" }}
+                style={{ height: ScaleSzie(1), backgroundColor: "#EEEEEE" }}
               />
 
               {/* --------------- Past Appointments ----------- */}
@@ -648,7 +648,7 @@ class CustomerDetailTab extends React.Component {
                   ListFooterComponent={() => (
                     <View
                       style={{
-                        height: scaleSize(30),
+                        height: ScaleSzie(30),
                         alignItems: "center",
                         justifyContent: "center",
                       }}
@@ -710,23 +710,23 @@ const AppointmentItem = ({
     <Button
       onPress={showAppointmentDetail}
       style={{
-        paddingHorizontal: scaleSize(10),
+        paddingHorizontal: ScaleSzie(10),
         borderBottomColor: "#EEEEEE",
-        borderBottomWidth: scaleSize(1),
+        borderBottomWidth: ScaleSzie(1),
       }}
     >
       <View
         style={{
-          minHeight: scaleSize(100),
+          minHeight: ScaleSzie(100),
           flexDirection: "row",
-          paddingVertical: scaleSize(14),
+          paddingVertical: ScaleSzie(14),
         }}
       >
-        <View style={{ width: scaleSize(55), alignItems: "center" }}>
+        <View style={{ width: ScaleSzie(55), alignItems: "center" }}>
           <Text
             style={{
               color: "#0764B0",
-              fontSize: scaleSize(16),
+              fontSize: ScaleSzie(16),
               fontWeight: "600",
             }}
           >
@@ -735,9 +735,9 @@ const AppointmentItem = ({
           <Text
             style={{
               color: "#0764B0",
-              fontSize: scaleSize(16),
+              fontSize: ScaleSzie(16),
               fontWeight: "600",
-              marginVertical: scaleSize(3),
+              marginVertical: ScaleSzie(3),
             }}
           >
             {`${formatWithMoment(fromTime, "MMM")}`}
@@ -746,7 +746,7 @@ const AppointmentItem = ({
             <Text
               style={{
                 color: "#0764B0",
-                fontSize: scaleSize(16),
+                fontSize: ScaleSzie(16),
                 fontWeight: "600",
               }}
             >
@@ -758,8 +758,8 @@ const AppointmentItem = ({
           <Text
             style={{
               color: "#404040",
-              fontSize: scaleSize(14),
-              marginBottom: scaleSize(10),
+              fontSize: ScaleSzie(14),
+              marginBottom: ScaleSzie(10),
               fontWeight: "600",
             }}
           >
@@ -774,8 +774,8 @@ const AppointmentItem = ({
               key={service?.id}
               style={{
                 color: "#404040",
-                fontSize: scaleSize(14),
-                marginTop: scaleSize(12),
+                fontSize: ScaleSzie(14),
+                marginTop: ScaleSzie(12),
               }}
             >
               {`${service?.data?.name || ""}- `}
@@ -791,8 +791,8 @@ const AppointmentItem = ({
               key={extra?.id}
               style={{
                 color: "#404040",
-                fontSize: scaleSize(14),
-                marginTop: scaleSize(12),
+                fontSize: ScaleSzie(14),
+                marginTop: ScaleSzie(12),
               }}
             >
               {`${extra?.data?.name || ""} `}
@@ -806,8 +806,8 @@ const AppointmentItem = ({
               key={product?.id}
               style={{
                 color: "#404040",
-                fontSize: scaleSize(14),
-                marginTop: scaleSize(12),
+                fontSize: ScaleSzie(14),
+                marginTop: ScaleSzie(12),
               }}
             >
               {`${product?.data?.name || ""} `}
@@ -821,8 +821,8 @@ const AppointmentItem = ({
               key={giftcard?.id}
               style={{
                 color: "#404040",
-                fontSize: scaleSize(14),
-                marginTop: scaleSize(12),
+                fontSize: ScaleSzie(14),
+                marginTop: ScaleSzie(12),
               }}
             >
               {`${giftcard?.data?.name || ""} `}
@@ -832,8 +832,8 @@ const AppointmentItem = ({
         </View>
         <View
           style={{
-            width: scaleSize(140),
-            paddingRight: scaleSize(12),
+            width: ScaleSzie(140),
+            paddingRight: ScaleSzie(12),
             alignItems: "flex-end",
             justifyContent: "space-between",
           }}
@@ -841,7 +841,7 @@ const AppointmentItem = ({
           <Text
             style={{
               color: getColorStatus(appointment?.status),
-              fontSize: scaleSize(14),
+              fontSize: ScaleSzie(14),
             }}
           >
             {`${`${status ? status : ""}`.toUpperCase() || ""}`}
@@ -849,7 +849,7 @@ const AppointmentItem = ({
           <Text
             style={{
               color: "#0764B0",
-              fontSize: scaleSize(16),
+              fontSize: ScaleSzie(16),
               fontWeight: "600",
             }}
           >
@@ -866,15 +866,15 @@ const ItemCustomerInfo = ({ icon, title }) => {
     <View
       style={{
         flexDirection: "row",
-        paddingRight: scaleSize(20),
+        paddingRight: ScaleSzie(20),
         alignItems: "center",
-        marginBottom: scaleSize(25),
+        marginBottom: ScaleSzie(25),
       }}
     >
-      <View style={{ width: scaleSize(26) }}>
+      <View style={{ width: ScaleSzie(26) }}>
         <Image source={icon} />
       </View>
-      <Text style={{ color: "#404040", fontSize: scaleSize(10) }}>{title}</Text>
+      <Text style={{ color: "#404040", fontSize: ScaleSzie(10) }}>{title}</Text>
     </View>
   );
 };
@@ -882,7 +882,7 @@ const ItemCustomerInfo = ({ icon, title }) => {
 const styles = StyleSheet.create({
   SHADOW: {
     backgroundColor: "#fff",
-    borderRadius: scaleSize(4),
+    borderRadius: ScaleSzie(4),
     ...Platform.select({
       ios: {
         shadowRadius: 2,
@@ -899,7 +899,7 @@ const styles = StyleSheet.create({
   booking_txt: {
     color: "#0764B0",
     fontWeight: "bold",
-    fontSize: scaleSize(18),
+    fontSize: ScaleSzie(18),
   },
 });
 

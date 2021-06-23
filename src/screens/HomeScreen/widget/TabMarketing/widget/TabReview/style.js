@@ -1,47 +1,47 @@
 import { StyleSheet, Dimensions, Platform } from "react-native";
 
 import Configs from "@configs";
-import { scaleSize } from "@utils";
+import { ScaleSzie } from "@utils";
 
 const { width, height } = Dimensions.get("window");
 
 export default StyleSheet.create({
   container: {
     // flex: 1,
-    paddingTop: scaleSize(15),
+    paddingTop: ScaleSzie(15),
   },
   textNormal: {
     color: "#404040",
-    fontSize: scaleSize(14),
+    fontSize: ScaleSzie(14),
   },
   row: {
     flexDirection: "row",
   },
   itemDropdown: {
-    width: scaleSize(120),
-    height: scaleSize(38),
-    paddingLeft: scaleSize(15),
+    width: ScaleSzie(120),
+    height: ScaleSzie(38),
+    paddingLeft: ScaleSzie(15),
   },
   titletabar: {
     color: "#404040",
-    fontSize: scaleSize(17),
+    fontSize: ScaleSzie(17),
     fontWeight: "500",
   },
   closeBtn: {
     position: 'absolute',
-    top: scaleSize(20),
-    right: scaleSize(10),
-    width: scaleSize(30),
-    height: scaleSize(30),
+    top: ScaleSzie(20),
+    right: ScaleSzie(10),
+    width: ScaleSzie(30),
+    height: ScaleSzie(30),
     justifyContent: "center",
     alignItems: "center",
   },
   close:{
-    width: scaleSize(30),
-    height: scaleSize(30),
+    width: ScaleSzie(30),
+    height: ScaleSzie(30),
   },
   headerView: {
     position: 'absolute',
-    right: scaleSize(10)
+    right: ScaleSzie(10)
   }
 });

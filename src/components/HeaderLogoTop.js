@@ -6,7 +6,7 @@ import {
     Platform,
 } from 'react-native';
 
-import { scaleSize } from '../utils';
+import { ScaleSzie } from '../utils';
 import IMAGE from '../resources';
 
 const { width } = Dimensions.get('window');
@@ -18,7 +18,7 @@ export default class HeaderLogoTop extends React.PureComponent {
         return (
             <View style={{
                 width,
-                height: scaleSize(85),
+                height: ScaleSzie(85),
                 backgroundColor: "#fff",
                 ...Platform.select({
                     ios: {
@@ -38,7 +38,7 @@ export default class HeaderLogoTop extends React.PureComponent {
                     source={IMAGE.logoTop}
                     style={{
                         width,
-                        height: scaleSize(85),
+                        height: ScaleSzie(85),
                     }}
                     resizeMode="stretch"
                 />

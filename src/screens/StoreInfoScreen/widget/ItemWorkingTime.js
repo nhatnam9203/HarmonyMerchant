@@ -8,7 +8,7 @@ import {
 
 import IMAGE from '@resources';
 import { Dropdown, Button } from '@components';
-import { scaleSize,WorkingTime } from '@utils';
+import { ScaleSzie,WorkingTime } from '@utils';
 
 
 export default class ItemWorkingTime extends React.Component {
@@ -36,26 +36,26 @@ export default class ItemWorkingTime extends React.Component {
         return (
             <View style={{
                 flexDirection: 'row',
-                height: scaleSize(36),
-                paddingLeft: scaleSize(90),
-                paddingRight: scaleSize(90),
-                marginTop: scaleSize(14)
+                height: ScaleSzie(36),
+                paddingLeft: ScaleSzie(90),
+                paddingRight: ScaleSzie(90),
+                marginTop: ScaleSzie(14)
             }} >
-                <Button onPress={this.onPress} style={{ width: scaleSize(30), justifyContent: 'center' }} >
-                    <Image source={temptIconCheck} style={{ width: scaleSize(15), height: scaleSize(15) }} />
+                <Button onPress={this.onPress} style={{ width: ScaleSzie(30), justifyContent: 'center' }} >
+                    <Image source={temptIconCheck} style={{ width: ScaleSzie(15), height: ScaleSzie(15) }} />
                 </Button>
 
-                <View style={{ width: scaleSize(120), justifyContent: 'center' }} >
+                <View style={{ width: ScaleSzie(120), justifyContent: 'center' }} >
                     <Text style={{
                         color: '#404040',
-                        fontSize: scaleSize(14),
+                        fontSize: ScaleSzie(14),
                         fontWeight: '600',
                     }}  >
                         {`${title}`}
                     </Text>
                 </View>
 
-                <View style={{ width: scaleSize(150) }} >
+                <View style={{ width: ScaleSzie(150) }} >
                     <Dropdown
                         label={'08:00 AM'}
                         data={WorkingTime}
@@ -69,15 +69,15 @@ export default class ItemWorkingTime extends React.Component {
                         }}
                     />
                 </View>
-                <View style={{ justifyContent: 'center', paddingHorizontal: scaleSize(8) }} >
+                <View style={{ justifyContent: 'center', paddingHorizontal: ScaleSzie(8) }} >
                     <View style={{
                         backgroundColor: '#404040',
-                        width: scaleSize(12),
+                        width: ScaleSzie(12),
                         height: 1
                     }}  >
                     </View>
                 </View>
-                <View style={{ width: scaleSize(150) }} >
+                <View style={{ width: ScaleSzie(150) }} >
                     <Dropdown
                         label={'09:00 AM'}
                         data={WorkingTime}

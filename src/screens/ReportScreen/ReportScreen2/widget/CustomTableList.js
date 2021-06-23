@@ -3,7 +3,7 @@ import {
   formatMoney,
   formatNumberFromCurrency,
   roundFloatNumber,
-  scaleSize,
+  ScaleSzie,
 } from "@utils";
 import _ from "ramda";
 import React, { useEffect, useState } from "react";
@@ -343,7 +343,7 @@ function TableList({
                 >
                   <View>
                     <Image
-                      style={{ width: scaleSize(18), height: scaleSize(18) }}
+                      style={{ width: ScaleSzie(18), height: ScaleSzie(18) }}
                       source={
                         sortState === SORT_STATE.asc
                           ? IMAGE.sortUp

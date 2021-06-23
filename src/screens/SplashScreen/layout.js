@@ -8,7 +8,7 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis';
 import styles from './style';
 import IMAGE from '../../resources';
 import { Text } from '@components';
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 
 export default class Layout extends React.Component {
 
@@ -20,9 +20,9 @@ export default class Layout extends React.Component {
             >
 
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: "center", }} >
-                    <View style={{ paddingTop: scaleSize(200) }} >
+                    <View style={{ paddingTop: ScaleSzie(200) }} >
                         <Text style={{
-                            color: '#fff', fontSize: scaleSize(20), fontWeight: '500', marginBottom: scaleSize(6),
+                            color: '#fff', fontSize: ScaleSzie(20), fontWeight: '500', marginBottom: ScaleSzie(6),
                             textAlign: "center"
                         }} >
                             {`Checking Version`}
@@ -34,11 +34,11 @@ export default class Layout extends React.Component {
                                 color: '#fff',
                                 fontSize: 100,
                                 backgroundColor: '#fff',
-                                height: scaleSize(5)
+                                height: ScaleSzie(5)
                             }}
                         />
                         <Text style={{
-                            color: '#fff', fontSize: scaleSize(14), marginBottom: scaleSize(6), marginTop: scaleSize(10),
+                            color: '#fff', fontSize: ScaleSzie(14), marginBottom: ScaleSzie(6), marginTop: ScaleSzie(10),
                             textAlign: "center", fontWeight: "600"
                         }} >
                             {`${this.state.progress}%`}

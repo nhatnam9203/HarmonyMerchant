@@ -2,17 +2,17 @@ import {
     StyleSheet,
 } from 'react-native';
 
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
         alignItems:'center',
-        paddingTop:scaleSize(30)
+        paddingTop:ScaleSzie(30)
     },
     logo:{
-        width: scaleSize(284),
-        height: scaleSize(65)
+        width: ScaleSzie(284),
+        height: ScaleSzie(65)
     },
-    desc:{ color: '#fff', fontSize: scaleSize(20) },
+    desc:{ color: '#fff', fontSize: ScaleSzie(20) },
 })

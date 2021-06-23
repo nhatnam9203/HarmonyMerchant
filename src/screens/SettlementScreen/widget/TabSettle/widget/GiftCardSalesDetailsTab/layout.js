@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import _ from 'ramda';
 
-import { scaleSize, formatMoney, formatWithMoment ,formatNumberFromCurrency} from '@utils';
+import { ScaleSzie, formatMoney, formatWithMoment ,formatNumberFromCurrency} from '@utils';
 import {
     Text, Button, Dropdown
 } from '@components';
@@ -35,8 +35,8 @@ class Layout extends React.Component {
 
                 {/* --------- Dropdown ---------- */}
                 <View style={{
-                    height: scaleSize(35), width: scaleSize(180),
-                    marginLeft: scaleSize(10), marginTop: scaleSize(20)
+                    height: ScaleSzie(35), width: ScaleSzie(180),
+                    marginLeft: ScaleSzie(10), marginTop: ScaleSzie(20)
                 }} >
                     <Dropdown
                         label={""}
@@ -63,8 +63,8 @@ class Layout extends React.Component {
                 </View>
                 {/* --------- Footer Table  ---------- */}
                 <View style={{
-                    height: scaleSize(40), backgroundColor: "#0764B0", flexDirection: "row", alignItems: "center", justifyContent: "space-between",
-                    paddingHorizontal: scaleSize(10)
+                    height: ScaleSzie(40), backgroundColor: "#0764B0", flexDirection: "row", alignItems: "center", justifyContent: "space-between",
+                    paddingHorizontal: ScaleSzie(10)
                 }} >
                     <Text style={[styles.txt_header_table, { color: "#fff" }]} >
                         {`Total`}
@@ -83,8 +83,8 @@ class Layout extends React.Component {
 const HeaderTable = () => {
     return (
         <View style={{
-            height: scaleSize(32), backgroundColor: "#F1F1F1", marginTop: scaleSize(20), flexDirection: "row",
-            paddingHorizontal: scaleSize(10)
+            height: ScaleSzie(32), backgroundColor: "#F1F1F1", marginTop: ScaleSzie(20), flexDirection: "row",
+            paddingHorizontal: ScaleSzie(10)
         }} >
             <View style={{ flex: 0.9, justifyContent: "center" }} >
                 <Text style={styles.txt_header_table} >
@@ -118,7 +118,7 @@ const HeaderTable = () => {
 const RowTable = ({ data }) => {
     return (
         <View style={{
-            height: scaleSize(35), backgroundColor: "#FAFAFA", flexDirection: "row", paddingHorizontal: scaleSize(10), marginBottom: 2
+            height: ScaleSzie(35), backgroundColor: "#FAFAFA", flexDirection: "row", paddingHorizontal: ScaleSzie(10), marginBottom: 2
         }} >
             <View style={{ flex: 0.9, justifyContent: "center" }} >
                 <Text style={styles.txt_row_table} >

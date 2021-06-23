@@ -20,7 +20,7 @@ import {
   TextInputSuggestion,
 } from '@components';
 import {
-  scaleSize,
+  ScaleSzie,
   ListCodeAreaPhone,
   formatWithMoment,
   getNameStateById,
@@ -133,7 +133,7 @@ class EditOrCreateCustomerTab extends React.Component {
   scrollLeftContentTo = (position) => {
     this.scrollLeftCustomerRef.current.scrollTo({
       x: 0,
-      y: scaleSize(position),
+      y: ScaleSzie(position),
       animated: true,
     });
   };
@@ -141,7 +141,7 @@ class EditOrCreateCustomerTab extends React.Component {
   scrollRightContentTo = (position) => {
     this.scrollRightCustomerRef.current.scrollTo({
       x: 0,
-      y: scaleSize(position),
+      y: ScaleSzie(position),
       animated: true,
     });
   };
@@ -293,21 +293,21 @@ class EditOrCreateCustomerTab extends React.Component {
     const title = isEditCustomerInfo ? 'Edit Customer' : 'New customer';
 
     return (
-      <View style={{ flex: 1, paddingHorizontal: scaleSize(10) }}>
+      <View style={{ flex: 1, paddingHorizontal: ScaleSzie(10) }}>
         {/* ------------- Header ------------ */}
         <View
           style={{
-            height: scaleSize(45),
+            height: ScaleSzie(45),
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            marginTop: scaleSize(10),
+            marginTop: ScaleSzie(10),
           }}
         >
           <Text
             style={{
               color: '#0764B0',
-              fontSize: scaleSize(20),
+              fontSize: ScaleSzie(20),
               fontWeight: '600',
             }}
           >
@@ -317,10 +317,10 @@ class EditOrCreateCustomerTab extends React.Component {
             <Button
               onPress={this.changeCustomerStatus}
               style={{
-                width: scaleSize(85),
-                height: scaleSize(28),
+                width: ScaleSzie(85),
+                height: ScaleSzie(28),
                 backgroundColor: 'rgb(76,217,100)',
-                borderRadius: scaleSize(20),
+                borderRadius: ScaleSzie(20),
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'row',
@@ -328,13 +328,13 @@ class EditOrCreateCustomerTab extends React.Component {
             >
               <Image
                 source={ICON.vip_icon}
-                style={{ width: scaleSize(18), height: scaleSize(18) }}
+                style={{ width: ScaleSzie(18), height: ScaleSzie(18) }}
               />
               <Text
                 style={{
                   color: '#fff',
-                  fontSize: scaleSize(13),
-                  marginLeft: scaleSize(6),
+                  fontSize: ScaleSzie(13),
+                  marginLeft: ScaleSzie(6),
                 }}
               >
                 {`VIP`}
@@ -342,12 +342,12 @@ class EditOrCreateCustomerTab extends React.Component {
               {visibleChangeStatus ? (
                 <Image
                   source={ICON.white_drpup_status_customer}
-                  style={{ width: scaleSize(18), height: scaleSize(18) }}
+                  style={{ width: ScaleSzie(18), height: ScaleSzie(18) }}
                 />
               ) : (
                 <Image
                   source={ICON.white_drpdown_status_customer}
-                  style={{ width: scaleSize(18), height: scaleSize(18) }}
+                  style={{ width: ScaleSzie(18), height: ScaleSzie(18) }}
                 />
               )}
             </Button>
@@ -355,10 +355,10 @@ class EditOrCreateCustomerTab extends React.Component {
             <Button
               onPress={this.changeCustomerStatus}
               style={{
-                width: scaleSize(85),
-                height: scaleSize(28),
+                width: ScaleSzie(85),
+                height: ScaleSzie(28),
                 backgroundColor: '#0764B0',
-                borderRadius: scaleSize(20),
+                borderRadius: ScaleSzie(20),
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'row',
@@ -367,8 +367,8 @@ class EditOrCreateCustomerTab extends React.Component {
               <Text
                 style={{
                   color: '#fff',
-                  fontSize: scaleSize(13),
-                  marginLeft: scaleSize(6),
+                  fontSize: ScaleSzie(13),
+                  marginLeft: ScaleSzie(6),
                 }}
               >
                 {`Normal`}
@@ -376,12 +376,12 @@ class EditOrCreateCustomerTab extends React.Component {
               {visibleChangeStatus ? (
                 <Image
                   source={ICON.white_drpup_status_customer}
-                  style={{ width: scaleSize(18), height: scaleSize(18) }}
+                  style={{ width: ScaleSzie(18), height: ScaleSzie(18) }}
                 />
               ) : (
                 <Image
                   source={ICON.white_drpdown_status_customer}
-                  style={{ width: scaleSize(18), height: scaleSize(18) }}
+                  style={{ width: ScaleSzie(18), height: ScaleSzie(18) }}
                 />
               )}
             </Button>
@@ -398,7 +398,7 @@ class EditOrCreateCustomerTab extends React.Component {
               ref={this.scrollLeftCustomerRef}
               showsVerticalScrollIndicator={false}
             >
-              <View style={{ height: scaleSize(18) }} />
+              <View style={{ height: ScaleSzie(18) }} />
               {/* --------- Item -------- */}
               <FromItem
                 title={`First Name`}
@@ -448,7 +448,7 @@ class EditOrCreateCustomerTab extends React.Component {
 
               <Text
                 style={{
-                  fontSize: scaleSize(14),
+                  fontSize: ScaleSzie(14),
                   color: '#404040',
                   fontWeight: '600',
                 }}
@@ -457,9 +457,9 @@ class EditOrCreateCustomerTab extends React.Component {
               </Text>
               <View
                 style={{
-                  width: scaleSize(150),
-                  height: scaleSize(35),
-                  marginTop: scaleSize(10),
+                  width: ScaleSzie(150),
+                  height: ScaleSzie(35),
+                  marginTop: ScaleSzie(10),
                 }}
               >
                 <Dropdown
@@ -477,12 +477,12 @@ class EditOrCreateCustomerTab extends React.Component {
                 />
               </View>
 
-              <View style={{ height: scaleSize(400) }} />
+              <View style={{ height: ScaleSzie(400) }} />
             </ScrollView>
           </View>
 
           {/* ----------------- Padding ------------ */}
-          <View style={{ width: scaleSize(30) }} />
+          <View style={{ width: ScaleSzie(30) }} />
 
           {/* ------------------ Right Content ------------------ */}
           <View style={{ flex: 1 }}>
@@ -490,10 +490,10 @@ class EditOrCreateCustomerTab extends React.Component {
               ref={this.scrollRightCustomerRef}
               showsVerticalScrollIndicator={false}
             >
-              <View style={{ height: scaleSize(18) }} />
+              <View style={{ height: ScaleSzie(18) }} />
               <Text
                 style={{
-                  fontSize: scaleSize(14),
+                  fontSize: ScaleSzie(14),
                   color: '#404040',
                   fontWeight: '600',
                 }}
@@ -503,15 +503,15 @@ class EditOrCreateCustomerTab extends React.Component {
 
               <View
                 style={{
-                  height: scaleSize(35),
-                  marginTop: scaleSize(10),
-                  marginBottom: scaleSize(14),
+                  height: ScaleSzie(35),
+                  marginTop: ScaleSzie(10),
+                  marginBottom: ScaleSzie(14),
                 }}
               >
                 <View
                   style={{
                     flex: 1,
-                    paddingHorizontal: scaleSize(10),
+                    paddingHorizontal: ScaleSzie(10),
                     borderWidth: 1,
                     borderColor: '#CCCCCC',
                     flexDirection: 'row',
@@ -520,7 +520,7 @@ class EditOrCreateCustomerTab extends React.Component {
                   <TextInputMask
                     style={{
                       flex: 1,
-                      fontSize: scaleSize(14),
+                      fontSize: ScaleSzie(14),
                       color: '#404040',
                     }}
                     type={'custom'}
@@ -537,14 +537,14 @@ class EditOrCreateCustomerTab extends React.Component {
                     <Button
                       onPress={() => this.updateCustomerInfo('birthdate', '')}
                       style={{
-                        width: scaleSize(22),
+                        width: ScaleSzie(22),
                         justifyContent: 'center',
                         alignItems: 'center',
                       }}
                     >
                       <Image
                         source={ICON.clear_input_customer_info}
-                        style={{ width: scaleSize(20), height: scaleSize(20) }}
+                        style={{ width: ScaleSzie(20), height: ScaleSzie(20) }}
                       />
                     </Button>
                   ) : null}
@@ -556,7 +556,7 @@ class EditOrCreateCustomerTab extends React.Component {
                 title={`Address`}
                 placeholder="Street"
                 style={{
-                  marginBottom: scaleSize(10),
+                  marginBottom: ScaleSzie(10),
                 }}
                 value={street}
                 onChangeText={(value) =>
@@ -568,8 +568,8 @@ class EditOrCreateCustomerTab extends React.Component {
               {/* ----------- City + Zip  ------------- */}
               <View
                 style={{
-                  height: scaleSize(35),
-                  marginBottom: scaleSize(10),
+                  height: ScaleSzie(35),
+                  marginBottom: ScaleSzie(10),
                   flexDirection: 'row',
                 }}
               >
@@ -579,13 +579,13 @@ class EditOrCreateCustomerTab extends React.Component {
                     flexDirection: 'row',
                     borderColor: '#CCCCCC',
                     borderWidth: 1,
-                    paddingHorizontal: scaleSize(10),
+                    paddingHorizontal: ScaleSzie(10),
                   }}
                 >
                   <TextInput
                     style={{
                       flex: 1,
-                      fontSize: scaleSize(14),
+                      fontSize: ScaleSzie(14),
                       color: '#404040',
                     }}
                     placeholder={'City'}
@@ -601,33 +601,33 @@ class EditOrCreateCustomerTab extends React.Component {
                         this.updateCustomerInfo('city', '', 'addressPost')
                       }
                       style={{
-                        width: scaleSize(22),
+                        width: ScaleSzie(22),
                         justifyContent: 'center',
                         alignItems: 'center',
                       }}
                     >
                       <Image
                         source={ICON.clear_input_customer_info}
-                        style={{ width: scaleSize(20), height: scaleSize(20) }}
+                        style={{ width: ScaleSzie(20), height: ScaleSzie(20) }}
                       />
                     </Button>
                   ) : null}
                 </View>
-                <View style={{ width: scaleSize(35) }} />
+                <View style={{ width: ScaleSzie(35) }} />
                 <View
                   style={{
                     flex: 1,
                     flexDirection: 'row',
                     borderColor: '#CCCCCC',
                     borderWidth: 1,
-                    paddingHorizontal: scaleSize(10),
+                    paddingHorizontal: ScaleSzie(10),
                   }}
                 >
                   <TextInput
                     //type="only-numbers"
                     style={{
                       flex: 1,
-                      fontSize: scaleSize(14),
+                      fontSize: ScaleSzie(14),
                       color: '#404040',
                     }}
                     placeholder={'Zip'}
@@ -645,14 +645,14 @@ class EditOrCreateCustomerTab extends React.Component {
                         this.updateCustomerInfo('zip', '', 'addressPost')
                       }
                       style={{
-                        width: scaleSize(22),
+                        width: ScaleSzie(22),
                         justifyContent: 'center',
                         alignItems: 'center',
                       }}
                     >
                       <Image
                         source={ICON.clear_input_customer_info}
-                        style={{ width: scaleSize(20), height: scaleSize(20) }}
+                        style={{ width: ScaleSzie(20), height: ScaleSzie(20) }}
                       />
                     </Button>
                   ) : null}
@@ -662,9 +662,9 @@ class EditOrCreateCustomerTab extends React.Component {
               {/* ----------- State  ------------- */}
               <View
                 style={{
-                  height: scaleSize(35),
+                  height: ScaleSzie(35),
                   flexDirection: 'row',
-                  marginBottom: scaleSize(dynamicMarginBottomState),
+                  marginBottom: ScaleSzie(dynamicMarginBottomState),
                 }}
               >
                 <View style={{ flex: 1 }}>
@@ -678,7 +678,7 @@ class EditOrCreateCustomerTab extends React.Component {
                     onFocus={() => this.scrollRightContentTo(200)}
                   />
                 </View>
-                <View style={{ width: scaleSize(35) }} />
+                <View style={{ width: ScaleSzie(35) }} />
                 <View style={{ flex: 1 }} />
               </View>
 
@@ -687,7 +687,7 @@ class EditOrCreateCustomerTab extends React.Component {
                 title={`Referrer By`}
                 placeholder="Referrer By"
                 style={{
-                  marginBottom: scaleSize(10),
+                  marginBottom: ScaleSzie(10),
                 }}
                 value={referrerBy ? referrerBy : ''}
                 onChangeText={(value) =>
@@ -714,27 +714,27 @@ class EditOrCreateCustomerTab extends React.Component {
               {/* ------------ Note --------- */}
               <Text
                 style={{
-                  fontSize: scaleSize(14),
+                  fontSize: ScaleSzie(14),
                   color: '#404040',
                   fontWeight: '600',
-                  marginBottom: scaleSize(10),
+                  marginBottom: ScaleSzie(10),
                 }}
               >
                 {`Note:`}
               </Text>
               <View
                 style={{
-                  height: scaleSize(70),
+                  height: ScaleSzie(70),
                   borderColor: '#CCCCCC',
                   borderWidth: 1,
-                  paddingHorizontal: scaleSize(10),
-                  paddingVertical: scaleSize(5),
+                  paddingHorizontal: ScaleSzie(10),
+                  paddingVertical: ScaleSzie(5),
                 }}
               >
                 <TextInput
                   style={{
                     flex: 1,
-                    fontSize: scaleSize(12),
+                    fontSize: ScaleSzie(12),
                     padding: 0,
                     textAlignVertical: 'top',
                   }}
@@ -747,7 +747,7 @@ class EditOrCreateCustomerTab extends React.Component {
                 />
               </View>
 
-              <View style={{ height: scaleSize(400) }} />
+              <View style={{ height: ScaleSzie(400) }} />
             </ScrollView>
           </View>
         </View>
@@ -755,17 +755,17 @@ class EditOrCreateCustomerTab extends React.Component {
         {/* ------------- Footer ---------------- */}
         <View
           style={{
-            height: scaleSize(75),
+            height: ScaleSzie(75),
             width: width,
             position: 'absolute',
             bottom: 0,
             flexDirection: 'row',
-            paddingHorizontal: scaleSize(45),
+            paddingHorizontal: ScaleSzie(45),
             justifyContent: 'space-between',
           }}
         >
           <ButtonCustom
-            width={scaleSize(300)}
+            width={ScaleSzie(300)}
             height={55}
             backgroundColor="#F1F1F1"
             title="CANCEL"
@@ -773,12 +773,12 @@ class EditOrCreateCustomerTab extends React.Component {
             onPress={this.cancelCustomer}
             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4 }}
             styleText={{
-              fontSize: scaleSize(22),
+              fontSize: ScaleSzie(22),
             }}
           />
 
           <ButtonCustom
-            width={scaleSize(300)}
+            width={ScaleSzie(300)}
             height={55}
             backgroundColor="#0764B0"
             title="SAVE"
@@ -786,7 +786,7 @@ class EditOrCreateCustomerTab extends React.Component {
             onPress={this.saveCustomerInfo}
             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4 }}
             styleText={{
-              fontSize: scaleSize(22),
+              fontSize: ScaleSzie(22),
             }}
           />
         </View>
@@ -814,9 +814,9 @@ const PhoneItem = ({
   onFocus,
 }) => {
   return (
-    <View style={[{ marginBottom: scaleSize(14) }, style]}>
+    <View style={[{ marginBottom: ScaleSzie(14) }, style]}>
       <Text
-        style={{ fontSize: scaleSize(14), color: '#404040', fontWeight: '600' }}
+        style={{ fontSize: ScaleSzie(14), color: '#404040', fontWeight: '600' }}
       >
         {`${title}`}
         {isRequired ? <Text style={{ color: '#FF3B30' }}>{` *`}</Text> : null}
@@ -824,12 +824,12 @@ const PhoneItem = ({
 
       <View
         style={{
-          height: scaleSize(35),
-          marginTop: scaleSize(10),
+          height: ScaleSzie(35),
+          marginTop: ScaleSzie(10),
           flexDirection: 'row',
         }}
       >
-        <View style={{ width: scaleSize(65) }}>
+        <View style={{ width: ScaleSzie(65) }}>
           <Dropdown
             label={'+1'}
             data={ListCodeAreaPhone}
@@ -843,11 +843,11 @@ const PhoneItem = ({
             }}
           />
         </View>
-        <View style={{ width: scaleSize(8) }} />
+        <View style={{ width: ScaleSzie(8) }} />
         <View
           style={{
             flex: 1,
-            paddingHorizontal: scaleSize(10),
+            paddingHorizontal: ScaleSzie(10),
             borderWidth: 1,
             borderColor: '#CCCCCC',
             flexDirection: 'row',
@@ -856,7 +856,7 @@ const PhoneItem = ({
           <TextInputMask
             style={{
               flex: 1,
-              fontSize: scaleSize(14),
+              fontSize: ScaleSzie(14),
               color: '#404040',
             }}
             type={'custom'}
@@ -872,14 +872,14 @@ const PhoneItem = ({
             <Button
               onPress={() => onChangeText('')}
               style={{
-                width: scaleSize(22),
+                width: ScaleSzie(22),
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
             >
               <Image
                 source={ICON.clear_input_customer_info}
-                style={{ width: scaleSize(20), height: scaleSize(20) }}
+                style={{ width: ScaleSzie(20), height: ScaleSzie(20) }}
               />
             </Button>
           ) : null}
@@ -899,9 +899,9 @@ const FromItem = ({
   onFocus,
 }) => {
   return (
-    <View style={[{ marginBottom: scaleSize(14) }, style]}>
+    <View style={[{ marginBottom: ScaleSzie(14) }, style]}>
       <Text
-        style={{ fontSize: scaleSize(14), color: '#404040', fontWeight: '600' }}
+        style={{ fontSize: ScaleSzie(14), color: '#404040', fontWeight: '600' }}
       >
         {`${title}`}
         {isRequired ? <Text style={{ color: '#FF3B30' }}>{` *`}</Text> : null}
@@ -909,18 +909,18 @@ const FromItem = ({
 
       <View
         style={{
-          height: scaleSize(35),
+          height: ScaleSzie(35),
           borderWidth: 1,
           borderColor: '#CCCCCC',
-          marginTop: scaleSize(10),
-          paddingHorizontal: scaleSize(10),
+          marginTop: ScaleSzie(10),
+          paddingHorizontal: ScaleSzie(10),
           flexDirection: 'row',
         }}
       >
         <TextInput
           style={{
             flex: 1,
-            fontSize: scaleSize(14),
+            fontSize: ScaleSzie(14),
             color: '#404040',
           }}
           placeholder={placeholder ? placeholder : ''}
@@ -933,14 +933,14 @@ const FromItem = ({
           <Button
             onPress={() => onChangeText('')}
             style={{
-              width: scaleSize(22),
+              width: ScaleSzie(22),
               justifyContent: 'center',
               alignItems: 'center',
             }}
           >
             <Image
               source={ICON.clear_input_customer_info}
-              style={{ width: scaleSize(20), height: scaleSize(20) }}
+              style={{ width: ScaleSzie(20), height: ScaleSzie(20) }}
             />
           </Button>
         ) : null}

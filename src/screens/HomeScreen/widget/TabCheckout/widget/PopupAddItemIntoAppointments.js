@@ -9,7 +9,7 @@ import _, { } from 'ramda';
 
 import { ButtonCustom, PopupParent, Button } from '@components';
 import connectRedux from '@redux/ConnectRedux';
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 import ICON from "@resources"
 
 const initalState = {
@@ -101,24 +101,24 @@ class PopupAddItemIntoAppointments extends React.Component {
                 title={title}
                 visible={visible}
                 onRequestClose={this.onRequestClose}
-                width={scaleSize(250)}
-                styleTitle={{ fontSize: scaleSize(22), fontWeight: "bold" }}
+                width={ScaleSzie(250)}
+                styleTitle={{ fontSize: ScaleSzie(22), fontWeight: "bold" }}
             >
                 <View style={{
-                    height: scaleSize(320), backgroundColor: '#FAFAFA',
-                    borderBottomLeftRadius: scaleSize(15), borderBottomRightRadius: scaleSize(15),
-                    paddingHorizontal: scaleSize(16),
+                    height: ScaleSzie(320), backgroundColor: '#FAFAFA',
+                    borderBottomLeftRadius: ScaleSzie(15), borderBottomRightRadius: ScaleSzie(15),
+                    paddingHorizontal: ScaleSzie(16),
 
                 }} >
                     <Text style={{
-                        textAlign: "center", marginTop: scaleSize(15),
-                        fontWeight: "600", fontSize: scaleSize(14), color: "#404040"
+                        textAlign: "center", marginTop: ScaleSzie(15),
+                        fontWeight: "600", fontSize: ScaleSzie(14), color: "#404040"
                     }} >
                         {`Please choose the client to add`}
                     </Text>
                     <Text style={{
-                        textAlign: "center", marginBottom: scaleSize(15),
-                        fontWeight: "600", fontSize: scaleSize(14), color: "#404040"
+                        textAlign: "center", marginBottom: ScaleSzie(15),
+                        fontWeight: "600", fontSize: ScaleSzie(14), color: "#404040"
                     }} >
                         {`this service/product.`}
                     </Text>
@@ -133,15 +133,15 @@ class PopupAddItemIntoAppointments extends React.Component {
                                 index={index + 1}
                             />}
                             keyExtractor={(item, index) => `${item.appointmentId}_${index}`}
-                            ListFooterComponent={() => <View style={{ height: scaleSize(50) }} />}
+                            ListFooterComponent={() => <View style={{ height: ScaleSzie(50) }} />}
                             showsVerticalScrollIndicator={false}
                         />
                     </View>
 
 
-                    <View style={{ alignItems: "center", paddingBottom: scaleSize(15) }} >
+                    <View style={{ alignItems: "center", paddingBottom: ScaleSzie(15) }} >
                         <ButtonCustom
-                            width={scaleSize(130)}
+                            width={ScaleSzie(130)}
                             height={40}
                             backgroundColor="#0764B0"
                             title="Add"
@@ -149,9 +149,9 @@ class PopupAddItemIntoAppointments extends React.Component {
                             onPress={this.addItemIntoAppointments}
                             style={{
                                 borderWidth: 1, borderColor: '#C5C5C5',
-                                borderRadius: scaleSize(4)
+                                borderRadius: ScaleSzie(4)
                             }}
-                            styleText={{ fontWeight: '600', fontSize: scaleSize(18) }}
+                            styleText={{ fontWeight: '600', fontSize: ScaleSzie(18) }}
                         />
                     </View>
                 </View>
@@ -197,19 +197,19 @@ class ItemAppointment extends React.Component {
 
         return (
             <Button onPress={this.toogleIsCheck} style={{
-                height: scaleSize(45), flexDirection: "row",
-                borderBottomColor: '#C5C5C5', borderBottomWidth: 1, paddingHorizontal: scaleSize(10),
+                height: ScaleSzie(45), flexDirection: "row",
+                borderBottomColor: '#C5C5C5', borderBottomWidth: 1, paddingHorizontal: ScaleSzie(10),
             }} >
-                <View style={{ justifyContent: "center", paddingRight: scaleSize(10) }} >
-                    <Text style={{ fontWeight: "bold", fontSize: scaleSize(12), color: "#404040" }} >
+                <View style={{ justifyContent: "center", paddingRight: ScaleSzie(10) }} >
+                    <Text style={{ fontWeight: "bold", fontSize: ScaleSzie(12), color: "#404040" }} >
                         {`${index}.`}
                     </Text>
                 </View>
                 <View style={{ flex: 1, justifyContent: "center" }} >
-                    <Text style={{ fontWeight: "500", fontSize: scaleSize(14), color: "#404040", marginBottom: scaleSize(2) }} >
+                    <Text style={{ fontWeight: "500", fontSize: ScaleSzie(14), color: "#404040", marginBottom: ScaleSzie(2) }} >
                         {`${firstName} ${lastName}`}
                     </Text>
-                    <Text style={{ fontWeight: "300", fontSize: scaleSize(13), color: "#6A6A6A" }} >
+                    <Text style={{ fontWeight: "300", fontSize: ScaleSzie(13), color: "#6A6A6A" }} >
                         {`#${code}`}
                     </Text>
                 </View>

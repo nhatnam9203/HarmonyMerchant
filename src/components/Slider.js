@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import PropTypes from 'prop-types';
 
-import { scaleSize,formatNumberFromCurrency } from "@utils";
+import { ScaleSzie,formatNumberFromCurrency } from "@utils";
 
 var TRACK_SIZE = 4;
 var THUMB_SIZE = 20;
@@ -295,11 +295,11 @@ export default class Slider extends PureComponent {
                 >
                     {
                         this.props.smsCount != "0" && this.props.smsCount != this.props.smsMaxCount && <View style={{
-                            position: "absolute", top: -scaleSize(45), minWidth: scaleSize(60),
-                            left: scaleSize(this.getLeftPositionOfCount(this.props.smsCount)),
+                            position: "absolute", top: -ScaleSzie(45), minWidth: ScaleSzie(60),
+                            left: ScaleSzie(this.getLeftPositionOfCount(this.props.smsCount)),
                         }} >
                             <Text style={{
-                                color: "#0764B0", fontSize: scaleSize(14), fontWeight: "400",
+                                color: "#0764B0", fontSize: ScaleSzie(14), fontWeight: "400",
                             }} >
                                 {`${this.props.smsCount}`}
                             </Text>
@@ -311,10 +311,10 @@ export default class Slider extends PureComponent {
 
                     {
                        formatNumberFromCurrency(this.props.smsMoney) != 0 && formatNumberFromCurrency(this.props.smsMoney) != formatNumberFromCurrency(this.props.smsMaxMoney) && <View style={{
-                            position: "absolute", top: scaleSize(56), left: -scaleSize(6), minWidth: scaleSize(60)
+                            position: "absolute", top: ScaleSzie(56), left: -ScaleSzie(6), minWidth: ScaleSzie(60)
                         }} >
                             <Text style={{
-                                color: "#0764B0", fontSize: scaleSize(14), fontWeight: "600",
+                                color: "#0764B0", fontSize: ScaleSzie(14), fontWeight: "600",
                             }} >
                                 {`$${this.props.smsMoney}`}
                             </Text>

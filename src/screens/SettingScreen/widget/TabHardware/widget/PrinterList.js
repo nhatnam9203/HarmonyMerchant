@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Button, Text, ButtonCustom } from '@components';
-import { scaleSize, localize, checkStatusPrint } from '@utils';
+import { ScaleSzie, localize, checkStatusPrint } from '@utils';
 import ICON from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 
@@ -49,26 +49,26 @@ class PrinterList extends React.Component {
         return (
             <View>
                 <Text style={{
-                    fontSize: scaleSize(12),
+                    fontSize: ScaleSzie(12),
                     color: 'rgb(131,131,131)',
-                    marginTop: scaleSize(10),
-                    marginBottom: scaleSize(7)
+                    marginTop: ScaleSzie(10),
+                    marginBottom: ScaleSzie(7)
                 }} >
                     {localize('No connected device', language)}
 
                 </Text>
 
                 <Button onPress={this.addDevice} style={{
-                    flexDirection: 'row', alignItems: 'center', width: scaleSize(120)
+                    flexDirection: 'row', alignItems: 'center', width: ScaleSzie(120)
                 }} >
                     <View style={{
-                        width: scaleSize(20), height: scaleSize(20),
-                        borderRadius: scaleSize(4), borderColor: '#0764B0', borderWidth: 3,
+                        width: ScaleSzie(20), height: ScaleSzie(20),
+                        borderRadius: ScaleSzie(4), borderColor: '#0764B0', borderWidth: 3,
                         justifyContent: 'center',
                         alignItems: 'center',
                     }} >
                         <Text style={{
-                            fontSize: scaleSize(14),
+                            fontSize: ScaleSzie(14),
                             color: '#0764B0',
                             fontWeight: 'bold'
                         }} >
@@ -77,9 +77,9 @@ class PrinterList extends React.Component {
                     </View>
 
                     <Text style={{
-                        fontSize: scaleSize(12),
+                        fontSize: ScaleSzie(12),
                         color: '#0764B0',
-                        marginLeft: scaleSize(8)
+                        marginLeft: ScaleSzie(8)
                     }} >
 
                         {localize('Add device', language)}
@@ -93,15 +93,15 @@ class PrinterList extends React.Component {
         const { paxMachineInfo } = this.props;
         return (
             <Button onPress={this.addDevice} style={{
-                flexDirection: 'row', alignItems: 'center', width: scaleSize(120),
-                marginTop: scaleSize(12)
+                flexDirection: 'row', alignItems: 'center', width: ScaleSzie(120),
+                marginTop: ScaleSzie(12)
 
             }} >
                 <Text style={{
-                    fontSize: scaleSize(14),
+                    fontSize: ScaleSzie(14),
                     fontWeight: 'bold',
                     color: '#0764B0',
-                    marginLeft: scaleSize(8),
+                    marginLeft: ScaleSzie(8),
                     textDecorationLine: 'underline'
                 }} >
                     {paxMachineInfo.name}
@@ -113,15 +113,15 @@ class PrinterList extends React.Component {
     render() {
         const { printerPortType, language, printerList, printerSelect } = this.props;
         return (
-            <View style={{ flex: 1, paddingHorizontal: scaleSize(14), paddingTop: scaleSize(20) }} >
+            <View style={{ flex: 1, paddingHorizontal: ScaleSzie(14), paddingTop: ScaleSzie(20) }} >
                 <Text style={{
-                    fontSize: scaleSize(16),
+                    fontSize: ScaleSzie(16),
                     fontWeight: '600',
                     color: '#0764B0'
                 }} >
                     {localize('Connect Printer By', language)}
                 </Text>
-                <View style={{ paddingLeft: scaleSize(15) }} >
+                <View style={{ paddingLeft: ScaleSzie(15) }} >
                     <ItemConnect
                         title="Bluetooth"
                         isSelect={printerPortType === "Bluetooth" ? true : false}
@@ -140,9 +140,9 @@ class PrinterList extends React.Component {
                 </View>
 
                 <Text style={{
-                    fontSize: scaleSize(16),
+                    fontSize: ScaleSzie(16),
                     fontWeight: '600',
-                    color: '#0764B0', marginTop: scaleSize(20), marginBottom: scaleSize(10)
+                    color: '#0764B0', marginTop: ScaleSzie(20), marginBottom: ScaleSzie(10)
                 }} >
                     {localize('My Printer Devices', language)}
                 </Text>
@@ -157,17 +157,17 @@ class PrinterList extends React.Component {
 
 
                 {/* ------- Footer -------- */}
-                <View style={{ position: 'absolute', bottom: 0, width: '100%', justifyContent: 'flex-end', paddingBottom: scaleSize(30) }} >
+                <View style={{ position: 'absolute', bottom: 0, width: '100%', justifyContent: 'flex-end', paddingBottom: ScaleSzie(30) }} >
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }} >
                         <ButtonCustom
-                            width={scaleSize(130)}
+                            width={ScaleSzie(130)}
                             height={50}
                             backgroundColor="#F1F1F1"
                             title={localize('BACK', language)}
                             textColor="#6A6A6A"
                             onPress={this.backHomeHardware}
                             style={{ borderWidth: 2, borderColor: 'rgb(227,227,227)', borderRadius: 2, }}
-                            styleText={{ fontSize: scaleSize(20), fontWeight: '500' }}
+                            styleText={{ fontSize: ScaleSzie(20), fontWeight: '500' }}
                         />
                     </View>
                 </View>
@@ -181,9 +181,9 @@ const ItemConnect = ({ title, isSelect, onPress }) => {
     const tempIconSelect = isSelect ? ICON.radioExportSe : ICON.radioExport;
 
     return (
-        <Button onPress={() => onPress(title)} style={{ flexDirection: "row", alignItems: "center", marginTop: scaleSize(10) }} >
+        <Button onPress={() => onPress(title)} style={{ flexDirection: "row", alignItems: "center", marginTop: ScaleSzie(10) }} >
             <Image source={tempIconSelect} />
-            <Text style={{ fontSize: scaleSize(14), color: "rgb(131,131,131)", marginLeft: scaleSize(10) }} >
+            <Text style={{ fontSize: ScaleSzie(14), color: "rgb(131,131,131)", marginLeft: ScaleSzie(10) }} >
                 {title}
             </Text>
         </Button>
@@ -194,20 +194,20 @@ const ItemPrinter = ({ modelName, isConnected, onPress }) => {
 
     return (
         <Button onPress={() => onPress(modelName)} style={{
-            height: scaleSize(40), backgroundColor: "rgb(250,250,250)", borderRadius: 6,
-            flexDirection: "row", alignItems: "center", paddingLeft: scaleSize(15),
-            paddingRight: scaleSize(40), justifyContent: "space-between",
-            marginBottom: scaleSize(13)
+            height: ScaleSzie(40), backgroundColor: "rgb(250,250,250)", borderRadius: 6,
+            flexDirection: "row", alignItems: "center", paddingLeft: ScaleSzie(15),
+            paddingRight: ScaleSzie(40), justifyContent: "space-between",
+            marginBottom: ScaleSzie(13)
         }} >
             <Text style={{
-                fontSize: scaleSize(14),
+                fontSize: ScaleSzie(14),
                 fontWeight: '600',
             }} >
                 {modelName}
             </Text>
 
             <Text style={{
-                fontSize: scaleSize(12),
+                fontSize: ScaleSzie(12),
                 fontWeight: '600',
                 color: '#0764B0',
             }} >

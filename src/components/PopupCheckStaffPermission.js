@@ -10,7 +10,7 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import { scaleSize } from '../utils';
+import { ScaleSzie } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupCheckStaffPermission extends React.Component {
@@ -42,7 +42,7 @@ class PopupCheckStaffPermission extends React.Component {
         await this.setState({
             customStyle: {
                 justifyContent: 'flex-start',
-                paddingTop: scaleSize(50)
+                paddingTop: ScaleSzie(50)
             }
         });
     }
@@ -85,23 +85,23 @@ class PopupCheckStaffPermission extends React.Component {
                 style={customStyle}
             >
                 <View style={{
-                    height: scaleSize(150), backgroundColor: '#fff',
-                    borderBottomLeftRadius: scaleSize(15), borderBottomRightRadius: scaleSize(15)
+                    height: ScaleSzie(150), backgroundColor: '#fff',
+                    borderBottomLeftRadius: ScaleSzie(15), borderBottomRightRadius: ScaleSzie(15)
                 }} >
-                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: scaleSize(10), marginBottom: scaleSize(4) }} >
-                        <Text style={{ color: '#404040', fontSize: scaleSize(18) }} >
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: ScaleSzie(10), marginBottom: ScaleSzie(4) }} >
+                        <Text style={{ color: '#404040', fontSize: ScaleSzie(18) }} >
                             {'Please enter the authorized PIN number'}
                         </Text>
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <View style={{
-                            width: '90%', height: scaleSize(45),
+                            width: '90%', height: ScaleSzie(45),
                             borderColor: 'rgb(231,231,231)', borderWidth: 3
                         }} >
                             <TextInputMask
                                 type="only-numbers"
                                 style={{
-                                    flex: 1, fontSize: scaleSize(18), textAlign: 'center',
+                                    flex: 1, fontSize: ScaleSzie(18), textAlign: 'center',
                                     padding: 0, margin: 0
                                 }}
                                 placeholder="Your PIN"
@@ -115,11 +115,11 @@ class PopupCheckStaffPermission extends React.Component {
                         </View>
                     </View>
                     <View style={{
-                        height: scaleSize(45), alignItems: 'center'
+                        height: ScaleSzie(45), alignItems: 'center'
                     }} >
                         {
                             isLoadingCheckStaffPermission ? <View style={{
-                                width: '30%', height: scaleSize(35), backgroundColor: '#0764B0',
+                                width: '30%', height: ScaleSzie(35), backgroundColor: '#0764B0',
                                 justifyContent: 'center', alignItems: 'center'
                             }} >
                                 <ActivityIndicator
@@ -134,10 +134,10 @@ class PopupCheckStaffPermission extends React.Component {
                                     textColor="#fff"
                                     onPress={this.submitPin}
                                     styleText={{
-                                        fontSize: scaleSize(14)
+                                        fontSize: ScaleSzie(14)
                                     }}
                                     style={{
-                                        borderRadius: scaleSize(4)
+                                        borderRadius: ScaleSzie(4)
                                     }}
                                 />
                         }

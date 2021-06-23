@@ -2,7 +2,7 @@ import {
     StyleSheet,
 } from 'react-native';
 
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 
 export default StyleSheet.create({
     container: {
@@ -11,6 +11,6 @@ export default StyleSheet.create({
     },
     txtPricing:{
         color:"#fff",
-        fontSize:scaleSize(14)
+        fontSize:ScaleSzie(14)
     }
 })

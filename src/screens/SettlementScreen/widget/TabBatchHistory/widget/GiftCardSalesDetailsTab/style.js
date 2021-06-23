@@ -2,24 +2,24 @@ import {
     StyleSheet,
 } from 'react-native';
 
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 
 export default StyleSheet.create({
     txt_top_title: {
         color: '#404040',
-        fontSize: scaleSize(14),
+        fontSize: ScaleSzie(14),
         fontWeight: "600",
-        marginTop:scaleSize(6),
-        marginLeft:scaleSize(10)
+        marginTop:ScaleSzie(6),
+        marginLeft:ScaleSzie(10)
     },
     txt_header_table: {
         color: '#404040',
-        fontSize: scaleSize(12),
+        fontSize: ScaleSzie(12),
         fontWeight: "600"
     },
     txt_row_table: {
         color: '#404040',
-        fontSize: scaleSize(10),
+        fontSize: ScaleSzie(10),
         fontWeight: "400"
     },
 

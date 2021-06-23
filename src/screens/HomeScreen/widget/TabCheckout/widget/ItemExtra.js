@@ -5,7 +5,7 @@ import {
 import FastImage from 'react-native-fast-image';
 import _ from "ramda";
 
-import { scaleSize, msToTime } from '@utils';
+import { ScaleSzie, msToTime } from '@utils';
 import { Text, Button } from '@components';
 import ICON from "@resources";
 
@@ -69,16 +69,16 @@ const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra, groupAppointme
     return (
         <Button
             onPress={() => onPressSelectExtra(extra)} style={[{
-                height: scaleSize(70), justifyContent: 'center',
+                height: ScaleSzie(70), justifyContent: 'center',
                 alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#DDDDDD',
-                backgroundColor: "#fff", flexDirection: "row", padding: scaleSize(8)
+                backgroundColor: "#fff", flexDirection: "row", padding: ScaleSzie(8)
             }, temtemptBackgrounColorSelectOnServer, temptBackgrounColor]} >
 
-            <View style={{ width: scaleSize(50), justifyContent: "center", alignItems: "center" }} >
-                <View style={{ width: scaleSize(50), height: scaleSize(50), borderRadius: scaleSize(3), overflow: "hidden" }} >
+            <View style={{ width: ScaleSzie(50), justifyContent: "center", alignItems: "center" }} >
+                <View style={{ width: ScaleSzie(50), height: ScaleSzie(50), borderRadius: ScaleSzie(3), overflow: "hidden" }} >
                     {
                         extra?.imageUrl ? <FastImage
-                            style={{ width: scaleSize(50), height: scaleSize(50) }}
+                            style={{ width: ScaleSzie(50), height: ScaleSzie(50) }}
                             source={{
                                 uri: extra.imageUrl,
                                 priority: FastImage.priority.low,
@@ -86,29 +86,29 @@ const ItemExtra = ({ extra, onPressSelectExtra, arrSelectedExtra, groupAppointme
                             }}
                             // onError={() => setSource(ICON.extra_holder)}
                         /> : <FastImage
-                                style={{ width: scaleSize(50), height: scaleSize(50) }}
+                                style={{ width: ScaleSzie(50), height: ScaleSzie(50) }}
                                 source={ICON.extra_holder}
                             />
                     }
                 </View>
             </View>
 
-            <View style={{ flex: 1, paddingLeft: scaleSize(8) }} >
-                <View style={{ height: scaleSize(40), }} >
-                    <Text numberOflines={2} style={[{ fontSize: scaleSize(12), color: '#0764B0', fontWeight: "600", },
+            <View style={{ flex: 1, paddingLeft: ScaleSzie(8) }} >
+                <View style={{ height: ScaleSzie(40), }} >
+                    <Text numberOflines={2} style={[{ fontSize: ScaleSzie(12), color: '#0764B0', fontWeight: "600", },
                         temptTextColor
                     ]} >
                         {extra?.name || ""}
                     </Text>
                 </View>
                 <View style={{ flex: 1, alignItems: "flex-end", flexDirection: "row", justifyContent: "space-between" }} >
-                    <Text numberOflines={2} style={[{ fontSize: scaleSize(10), color: '#6A6A6A', fontWeight: "300" },
+                    <Text numberOflines={2} style={[{ fontSize: ScaleSzie(10), color: '#6A6A6A', fontWeight: "300" },
                     ], temptTextColor} >
                         {`${msToTime(extra?.duration || 0)}`}
                     </Text>
 
-                    <Text numberOflines={2} style={[{ color: '#6A6A6A', fontSize: scaleSize(10), fontWeight: "600" },
-                    ], {...temptTextColor, fontSize: scaleSize(10), fontWeight: "600" }} >
+                    <Text numberOflines={2} style={[{ color: '#6A6A6A', fontSize: ScaleSzie(10), fontWeight: "600" },
+                    ], {...temptTextColor, fontSize: ScaleSzie(10), fontWeight: "600" }} >
                         {`$ ${extra?.price || ""}`}
                     </Text>
                 </View>

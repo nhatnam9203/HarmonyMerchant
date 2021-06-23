@@ -7,7 +7,7 @@ import {
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import NavigationServices from "@navigators/NavigatorServices";
-import { gotoSettingsDevice ,scaleSize} from '@utils';
+import { gotoSettingsDevice ,ScaleSzie} from '@utils';
 
 
 
@@ -37,7 +37,7 @@ class TabCustomBanner extends Layout {
     }
 
     scrollInputTo = (index) =>{
-        this.scrollInputRef.current.scrollTo({x: 0, y: scaleSize(index), animated: true})
+        this.scrollInputRef.current.scrollTo({x: 0, y: ScaleSzie(index), animated: true})
     }
 
     onRefreshBannerList = () =>{

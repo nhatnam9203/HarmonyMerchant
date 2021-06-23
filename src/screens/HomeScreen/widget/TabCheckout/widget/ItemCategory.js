@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 import { Text, Button } from '@components';
 
 const ItemCategory = ({ category, onPressSelectCategory, colorText, categorySelected }) => {
@@ -12,11 +12,11 @@ const ItemCategory = ({ category, onPressSelectCategory, colorText, categorySele
 
     return (
         <Button onPress={() => onPressSelectCategory(category)} style={{
-            minHeight: scaleSize(70), justifyContent: 'center',
+            minHeight: ScaleSzie(70), justifyContent: 'center',
             borderBottomWidth: 2, borderBottomColor: '#DDDDDD',
-            backgroundColor: temptBackgrounColor,paddingLeft:scaleSize(8)
+            backgroundColor: temptBackgrounColor,paddingLeft:ScaleSzie(8)
         }} >
-            <Text numberOfLines={2} style={[{ fontSize: scaleSize(12), color: '#6A6A6A',fontWeight:"500" }, colorText, temptTextColor]} >
+            <Text numberOfLines={2} style={[{ fontSize: ScaleSzie(12), color: '#6A6A6A',fontWeight:"500" }, colorText, temptTextColor]} >
                 {category.name}
             </Text>
         </Button>

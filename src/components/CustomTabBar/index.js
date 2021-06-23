@@ -12,7 +12,7 @@ const {
 const Button = require('./Button');
 const { width } = Dimensions.get('window');
 
-import { scaleSize } from '../../utils';
+import { ScaleSzie } from '../../utils';
 
 const DefaultTabBar = createReactClass({
   propTypes: {
@@ -47,8 +47,8 @@ const DefaultTabBar = createReactClass({
 
     const numberOfTabs = this.props.tabs.length;
     const temptborder = page != parseInt(numberOfTabs - 1) ? { borderRightWidth: 2, borderRightColor: '#0764B0' } : {};
-    const temptRadiusTabFirst = page == 0 ? { borderTopLeftRadius: scaleSize(8.5), borderBottomLeftRadius: scaleSize(8.5) } : {};
-    const temptRadiusTabLast = page == parseInt(numberOfTabs - 1) ? { borderTopRightRadius: scaleSize(8.5), borderBottomRightRadius: scaleSize(8.5) } : {};
+    const temptRadiusTabFirst = page == 0 ? { borderTopLeftRadius: ScaleSzie(8.5), borderBottomLeftRadius: ScaleSzie(8.5) } : {};
+    const temptRadiusTabLast = page == parseInt(numberOfTabs - 1) ? { borderTopRightRadius: ScaleSzie(8.5), borderBottomRightRadius: ScaleSzie(8.5) } : {};
     return <Button
       style={{ flex: 1, }}
       key={name}
@@ -103,10 +103,10 @@ const styles = StyleSheet.create({
 
   },
   container: {
-    height: scaleSize(34),
+    height: ScaleSzie(34),
     width: width,
-    paddingHorizontal: scaleSize(15),
-    borderRadius: scaleSize(10),
+    paddingHorizontal: ScaleSzie(15),
+    borderRadius: ScaleSzie(10),
   },
   tabs: {
     flex: 1,
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     borderWidth: 2,
     borderColor: '#0764B0',
-    borderRadius: scaleSize(10)
+    borderRadius: ScaleSzie(10)
   },
 });
 

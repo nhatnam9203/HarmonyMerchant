@@ -10,7 +10,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import ButtonCustom from './ButtonCustom';
 import {Dropdown} from './react-native-material-dropdown';
 import PopupParent from './PopupParent';
-import { scaleSize, ListCodeAreaPhone } from '../utils';
+import { ScaleSzie, ListCodeAreaPhone } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupSendLinkInstall extends React.Component {
@@ -40,7 +40,7 @@ class PopupSendLinkInstall extends React.Component {
         await this.setState({
             customStyle: {
                 justifyContent: 'flex-start',
-                paddingTop: scaleSize(80)
+                paddingTop: ScaleSzie(80)
             }
         });
     }
@@ -64,20 +64,20 @@ class PopupSendLinkInstall extends React.Component {
                 style={customStyle}
             >
                 <View style={{
-                    height: scaleSize(150), backgroundColor: '#fff',
-                    borderBottomLeftRadius: scaleSize(15), borderBottomRightRadius: scaleSize(15)
+                    height: ScaleSzie(150), backgroundColor: '#fff',
+                    borderBottomLeftRadius: ScaleSzie(15), borderBottomRightRadius: ScaleSzie(15)
                 }} >
-                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: scaleSize(10), marginBottom: scaleSize(4) }} >
-                        <Text style={{ color: '#404040', fontSize: scaleSize(18) }} >
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: ScaleSzie(10), marginBottom: ScaleSzie(4) }} >
+                        <Text style={{ color: '#404040', fontSize: ScaleSzie(18) }} >
                             {'Are you want to install app ?'}
                         </Text>
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <View style={{
-                            width: '90%', height: scaleSize(45),
+                            width: '90%', height: ScaleSzie(45),
                             flexDirection: 'row'
                         }} >
-                            <View style={{ width: scaleSize(70), marginRight: scaleSize(10) }} >
+                            <View style={{ width: ScaleSzie(70), marginRight: ScaleSzie(10) }} >
                                 <Dropdown
                                     label={'+1'}
                                     data={ListCodeAreaPhone}
@@ -93,7 +93,7 @@ class PopupSendLinkInstall extends React.Component {
                             </View>
                             <View style={{
                                 flex: 1, borderColor: 'rgb(231,231,231)', borderWidth: 3,
-                                paddingHorizontal: scaleSize(10),
+                                paddingHorizontal: ScaleSzie(10),
                             }} >
                                 <TextInputMask
                                     type={'custom'}
@@ -101,7 +101,7 @@ class PopupSendLinkInstall extends React.Component {
                                         mask: '999-999-9999'
                                     }}
                                     style={{
-                                        flex: 1, fontSize: scaleSize(18),
+                                        flex: 1, fontSize: ScaleSzie(18),
                                         padding: 0, margin: 0
                                     }}
                                     placeholder="Your phone number"
@@ -118,11 +118,11 @@ class PopupSendLinkInstall extends React.Component {
                         </View>
                     </View>
                     <View style={{
-                        height: scaleSize(45), alignItems: 'center'
+                        height: ScaleSzie(45), alignItems: 'center'
                     }} >
                         {
                             isShowButtonEnterPinCode ? <View style={{
-                                width: '30%', height: scaleSize(35), backgroundColor: '#0764B0',
+                                width: '30%', height: ScaleSzie(35), backgroundColor: '#0764B0',
                                 justifyContent: 'center', alignItems: 'center'
                             }} >
                                 <ActivityIndicator
@@ -137,10 +137,10 @@ class PopupSendLinkInstall extends React.Component {
                                     textColor="#fff"
                                     onPress={() => confimYes()}
                                     styleText={{
-                                        fontSize: scaleSize(14)
+                                        fontSize: ScaleSzie(14)
                                     }}
                                     style={{
-                                        borderRadius: scaleSize(4)
+                                        borderRadius: ScaleSzie(4)
                                     }}
                                 />
                         }

@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import { Text, Button } from '@components';
-import { scaleSize, localize } from '@utils';
+import { ScaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
@@ -19,17 +19,17 @@ export default class Layout extends React.Component {
 
         return (
             <View style={styles.container} >
-                <View style={{ height: scaleSize(10) }} />
+                <View style={{ height: ScaleSzie(10) }} />
                 {
                     dataDrawer.map((item, index) => <ItemDrawer
                         key={index}
                         title={localize(item, language)}
                         icon={item === activeItemKey ? IMAGE[`Se_${item}`] : IMAGE[item]}
                         onPress={() => this.changeLanguage(item)}
-                        style={item === activeItemKey ? { fontWeight: "bold", color: "orange", fontSize: scaleSize(20) } : {}}
+                        style={item === activeItemKey ? { fontWeight: "bold", color: "orange", fontSize: ScaleSzie(20) } : {}}
                     />)
                 }
-                <View style={{ height: scaleSize(10) }} />
+                <View style={{ height: ScaleSzie(10) }} />
             </View>
 
         );
@@ -40,15 +40,15 @@ const ItemDrawer = ({ title, icon, onPress, style }) => {
     return (
         <Button onPress={() => onPress()} style={{
             flexDirection: 'row',
-            alignItems: 'center', height: scaleSize(40)
+            alignItems: 'center', height: ScaleSzie(40)
         }} >
             <Image source={icon}
                 style={{
-                    width: scaleSize(22), height: scaleSize(22),
-                    marginRight: scaleSize(23), marginLeft: scaleSize(18)
+                    width: ScaleSzie(22), height: ScaleSzie(22),
+                    marginRight: ScaleSzie(23), marginLeft: ScaleSzie(18)
                 }}
             />
-            <Text style={[{ color: '#fff', fontSize: scaleSize(17) }, style]} >
+            <Text style={[{ color: '#fff', fontSize: ScaleSzie(17) }, style]} >
                 {title !== "GiftCard" ? title : "Gift Card"}
             </Text>
         </Button>

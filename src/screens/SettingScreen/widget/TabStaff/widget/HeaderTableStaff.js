@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Button } from '@components';
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 import IMAGE from '@resources';
 
 class HeaderTableStaff extends React.Component {
@@ -52,7 +52,7 @@ class HeaderTableStaff extends React.Component {
             <View style={[styles.tableHeader,{}]} >
                 {/* ----- 1 ------ */}
                 <View style={[{
-                    width: scaleSize(50),
+                    width: ScaleSzie(50),
                 }, styles.itemTableHeaderContainer]} >
                     <Text style={styles.textTableHeader} >
                         No.
@@ -60,43 +60,43 @@ class HeaderTableStaff extends React.Component {
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
-                    width: scaleSize(200), flexDirection: 'row',
+                    width: ScaleSzie(200), flexDirection: 'row',
                 }} >
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                    {/* <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                             <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                         </View> */}
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(5) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(5) }} >
                         <Text style={styles.textTableHeader} >
                             Staff Name
                             </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                    {/* <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                             <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                         </View> */}
                 </View>
                 {/* ----- 3 ------ */}
                 <View style={{
-                    width: scaleSize(110), flexDirection: 'row',
+                    width: ScaleSzie(110), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                             Role
                             </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                    {/* <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                             <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                         </View> */}
                 </View>
                 {/* ----- 4 ----- */}
                 <View style={{
-                    width: scaleSize(90), flexDirection: 'row',
+                    width: ScaleSzie(90), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: "center" }} >
                         <Text style={styles.textTableHeader} >
                             Status
                             </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                    {/* <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                             <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                         </View> */}
                 </View>
@@ -119,21 +119,21 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: scaleSize(35),
+        height: ScaleSzie(35),
         backgroundColor: '#fff',
         flexDirection: 'row'
     },
     textTableHeader: {
         color: '#0764B0',
-        fontSize: scaleSize(16)
+        fontSize: ScaleSzie(16)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',
         alignItems: 'center'
     },
     iconSort: {
-        width: scaleSize(8),
-        height: scaleSize(12)
+        width: ScaleSzie(8),
+        height: ScaleSzie(12)
     }
 
 })

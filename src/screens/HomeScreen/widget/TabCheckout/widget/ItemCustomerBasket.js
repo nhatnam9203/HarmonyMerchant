@@ -10,7 +10,7 @@ import _ from 'ramda';
 
 import { Button } from '@components';
 import {
-    scaleSize, localize, formatNumberFromCurrency, formatMoney, getArrayProductsFromAppointment,
+    ScaleSzie, localize, formatNumberFromCurrency, formatMoney, getArrayProductsFromAppointment,
     getArrayServicesFromAppointment, getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment
 } from '@utils';
 import IMAGE from '@resources';
@@ -121,7 +121,7 @@ class ItemCustomerBasket extends React.Component {
             {
                 backgroundColor: '#fff',
                 component: <Button onPress={() => this.props.actions.appointment.removeAppointmentInGroup(appointmentId)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                    <Image source={IMAGE.removeItemBasket} style={{ width: scaleSize(24), height: scaleSize(24) }} />
+                    <Image source={IMAGE.removeItemBasket} style={{ width: ScaleSzie(24), height: ScaleSzie(24) }} />
                 </Button>,
             }
         ];
@@ -132,25 +132,25 @@ class ItemCustomerBasket extends React.Component {
         return (
             <Swipeout
                 right={swipeoutBtns}
-                buttonWidth={scaleSize(45)}
+                buttonWidth={ScaleSzie(45)}
                 disabled={isMain === 1 || isOfflineMode ? true : disabledRemoveItemCustomerBasket}
                 close={true}
             >
                 <View style={{
-                    height: scaleSize(35), backgroundColor: "#0764B0", paddingLeft: scaleSize(10),
+                    height: ScaleSzie(35), backgroundColor: "#0764B0", paddingLeft: ScaleSzie(10),
                     flexDirection: "row", alignItems: "center",
                 }} >
-                    <Text style={{ color: "#fff", fontSize: scaleSize(12), fontWeight: "600" }} >
+                    <Text style={{ color: "#fff", fontSize: ScaleSzie(12), fontWeight: "600" }} >
                         {`#${codeAppointment} - ${firstName} ${lastName}`}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         <Button onPress={this.toggleCollaps} >
                             <Image source={iconCollaps}
-                                style={{ width: scaleSize(22), height: scaleSize(22) }}
+                                style={{ width: ScaleSzie(22), height: ScaleSzie(22) }}
                             />
                         </Button>
                     </View>
-                    <View style={{ width: scaleSize(5), height: scaleSize(35), backgroundColor: temptColor, marginLeft: scaleSize(8) }} />
+                    <View style={{ width: ScaleSzie(5), height: ScaleSzie(35), backgroundColor: temptColor, marginLeft: ScaleSzie(8) }} />
                 </View>
                 <View style={{ height: 2, borderBottomColor: "#fff", borderBottomWidth: 2 }} />
             </Swipeout>
@@ -209,8 +209,8 @@ class ItemCustomerBasket extends React.Component {
                         />)
                     }
                     {/* ----------- Payment Number --------- */}
-                    <View style={{ flexDirection: 'row', marginTop: scaleSize(10) }} >
-                        <View style={{ flex: 1, paddingHorizontal: scaleSize(10) }} >
+                    <View style={{ flexDirection: 'row', marginTop: ScaleSzie(10) }} >
+                        <View style={{ flex: 1, paddingHorizontal: ScaleSzie(10) }} >
                             {/* ---------- Price ------ */}
                             <View style={styles.payNumberTextContainer} >
                                 <Text style={styles.textPay} >
@@ -229,7 +229,7 @@ class ItemCustomerBasket extends React.Component {
                                     {
                                         checkoutPayments.length === 0 ?
                                             <Image source={IMAGE.add_discount_checkout}
-                                                style={{ width: scaleSize(20), height: scaleSize(20) }}
+                                                style={{ width: ScaleSzie(20), height: ScaleSzie(20) }}
                                             /> : null
                                     }
                                 </Button>
@@ -247,7 +247,7 @@ class ItemCustomerBasket extends React.Component {
                                     {
                                         isExistService ?
                                             <Image source={IMAGE.add_discount_checkout}
-                                                style={{ width: scaleSize(20), height: scaleSize(20) }}
+                                                style={{ width: ScaleSzie(20), height: ScaleSzie(20) }}
                                             /> : null
                                     }
                                 </Button>
@@ -267,15 +267,15 @@ class ItemCustomerBasket extends React.Component {
                             </View>
                             {/* ---------- Line ------ */}
                             <View style={{
-                                height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSize(2),
-                                marginBottom: scaleSize(6)
+                                height: 2, backgroundColor: "#DDDDDD", marginTop: ScaleSzie(2),
+                                marginBottom: ScaleSzie(6)
                             }} />
                             {/* ---------- Total ------ */}
                             <View style={styles.payNumberTextContainer} >
-                                <Text style={[styles.textPay, { fontSize: scaleSize(18) }]} >
+                                <Text style={[styles.textPay, { fontSize: ScaleSzie(18) }]} >
                                     {`${localize('Total', language)}:`}
                                 </Text>
-                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSize(18), fontWeight: "600" }]} >
+                                <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: ScaleSzie(18), fontWeight: "600" }]} >
                                     {`$ ${formatMoney(`${temptTotal}`)}`}
                                 </Text>
                             </View>

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom } from '@components';
-import { scaleSize } from '@utils';
+import { ScaleSzie } from '@utils';
 import IMAGE from '@resources';
 
 class RowTableCategories extends React.Component {
@@ -37,13 +37,13 @@ class RowTableCategories extends React.Component {
                 style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={[{
-                    width: scaleSize(50),
+                    width: ScaleSzie(50),
                     flexDirection: 'row',
                     justifyContent: 'space-around',
                     alignItems: 'center'
                 }]} >
                     <Image source={IMAGE.indicate}
-                        style={{ width: scaleSize(12), height: scaleSize(29) }}
+                        style={{ width: ScaleSzie(12), height: ScaleSzie(29) }}
                     />
                     <Text style={styles.textTableHeader} >
                         {`${parseInt(index) + 1}.`}
@@ -51,35 +51,35 @@ class RowTableCategories extends React.Component {
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
-                    width: scaleSize(150), flexDirection: 'row',
+                    width: ScaleSzie(150), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(5) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(5) }} >
                         <Text style={styles.textTableHeader} numberOfLines={2} >
                             {category.name}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 3 ------ */}
                 <View style={{
-                    width: scaleSize(100), flexDirection: 'row',
+                    width: ScaleSzie(100), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                             {category.categoryType}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 4 ------ */}
                 <View style={{
-                    width: scaleSize(170), flexDirection: 'row',
+                    width: ScaleSzie(170), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
                         {
                             category?.categoryType === "Service" ? <Switch
                                 trackColor={{ false: "#767577", true: "#0764B0" }}
@@ -90,7 +90,7 @@ class RowTableCategories extends React.Component {
                         }
 
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
+                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
@@ -107,9 +107,9 @@ class RowTableCategories extends React.Component {
                             title="Edit"
                             textColor="#fff"
                             onPress={() => editCategory()}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSize(2) }}
+                            style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: ScaleSzie(2) }}
                             styleText={{
-                                fontSize: scaleSize(14)
+                                fontSize: ScaleSzie(14)
                             }}
                         />
                     </View>
@@ -122,9 +122,9 @@ class RowTableCategories extends React.Component {
                                 title="Archive"
                                 textColor="#fff"
                                 onPress={() => archiveCategory()}
-                                style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSize(2) }}
+                                style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: ScaleSzie(2) }}
                                 styleText={{
-                                    fontSize: scaleSize(13)
+                                    fontSize: ScaleSzie(13)
                                 }}
                             /> :
                                 <ButtonCustom
@@ -134,9 +134,9 @@ class RowTableCategories extends React.Component {
                                     title="Restore"
                                     textColor="#6A6A6A"
                                     onPress={() => restoreCategory()}
-                                    style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSize(2) }}
+                                    style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: ScaleSzie(2) }}
                                     styleText={{
-                                        fontSize: scaleSize(13)
+                                        fontSize: ScaleSzie(13)
                                     }}
                                 />
                         }
@@ -155,14 +155,14 @@ const styles = StyleSheet.create({
     },
     tableHeader: {
         flexDirection: 'row',
-        height: scaleSize(55),
+        height: ScaleSzie(55),
         backgroundColor: '#FAFAFA',
         borderBottomWidth: 1,
         borderBottomColor: '#C5C5C5'
     },
     textTableHeader: {
         color: '#6A6A6A',
-        fontSize: scaleSize(13)
+        fontSize: ScaleSzie(13)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',

@@ -12,7 +12,7 @@ import _ from 'ramda';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
 import connectRedux from '@redux/ConnectRedux';
-import { scaleSize, ListCodeAreaPhone, getCodeAreaPhone } from '@utils';
+import { ScaleSzie, ListCodeAreaPhone, getCodeAreaPhone } from '@utils';
 
 const initalState = {
     codeAreaPhone: '+1',
@@ -39,7 +39,7 @@ class EnterCustomerPhonePopup extends React.Component {
         await this.setState({
             customStyle: {
                 justifyContent: 'flex-start',
-                paddingTop: scaleSize(80)
+                paddingTop: ScaleSzie(80)
             }
         });
     }
@@ -85,7 +85,7 @@ class EnterCustomerPhonePopup extends React.Component {
     }
 
     onFocusToScroll = (number) => {
-        this.scrollRef.current.scrollTo({ x: 0, y: scaleSize(number), animated: true })
+        this.scrollRef.current.scrollTo({ x: 0, y: ScaleSzie(number), animated: true })
     }
 
     onRequestClose = () => {
@@ -105,19 +105,19 @@ class EnterCustomerPhonePopup extends React.Component {
                 visible={visibleEnterCustmerPhonePopup}
                 onRequestClose={this.onRequestClose}
                 width={420}
-                styleTitle={{ fontSize: scaleSize(18), fontWeight: "600" }}
+                styleTitle={{ fontSize: ScaleSzie(18), fontWeight: "600" }}
                 style={customStyle}
             >
                 <View style={{
-                    // height: scaleSize(320),
+                    // height: ScaleSzie(320),
                     backgroundColor: '#FAFAFA',
-                    borderBottomLeftRadius: scaleSize(15), borderBottomRightRadius: scaleSize(15),
-                    paddingHorizontal: scaleSize(22),
-                    paddingTop: scaleSize(30), paddingBottom: scaleSize(20)
+                    borderBottomLeftRadius: ScaleSzie(15), borderBottomRightRadius: ScaleSzie(15),
+                    paddingHorizontal: ScaleSzie(22),
+                    paddingTop: ScaleSzie(30), paddingBottom: ScaleSzie(20)
                 }} >
                     {/* ----------- Enter Phone ---------- */}
-                    <View style={{ height: scaleSize(45), flexDirection: 'row' }} >
-                        <View style={{ width: scaleSize(70), marginRight: scaleSize(10) }} >
+                    <View style={{ height: ScaleSzie(45), flexDirection: 'row' }} >
+                        <View style={{ width: ScaleSzie(70), marginRight: ScaleSzie(10) }} >
                             <Dropdown
                                 label={'+1'}
                                 data={ListCodeAreaPhone}
@@ -133,7 +133,7 @@ class EnterCustomerPhonePopup extends React.Component {
                         </View>
                         <View style={{
                             flex: 1, borderColor: 'rgb(231,231,231)', borderWidth: 3,
-                            paddingHorizontal: scaleSize(10), backgroundColor: "#fff"
+                            paddingHorizontal: ScaleSzie(10), backgroundColor: "#fff"
                         }} >
                             <TextInputMask
                                 type={'custom'}
@@ -141,7 +141,7 @@ class EnterCustomerPhonePopup extends React.Component {
                                     mask: '999-999-9999'
                                 }}
                                 style={{
-                                    flex: 1, fontSize: scaleSize(18),
+                                    flex: 1, fontSize: ScaleSzie(18),
                                     padding: 0, margin: 0,
                                 }}
                                 placeholder={'Phone number'}
@@ -154,10 +154,10 @@ class EnterCustomerPhonePopup extends React.Component {
 
                     </View>
                     {/* ------- Button -------- */}
-                    <View style={{ marginTop: scaleSize(20), alignItems: 'center', }} >
+                    <View style={{ marginTop: ScaleSzie(20), alignItems: 'center', }} >
                         {
                             loading ? <View style={{
-                                width: scaleSize(120), height: scaleSize(45), backgroundColor: '#0764B0',
+                                width: ScaleSzie(120), height: ScaleSzie(45), backgroundColor: '#0764B0',
                                 justifyContent: 'center', alignItems: 'center'
                             }} >
                                 <ActivityIndicator
@@ -165,7 +165,7 @@ class EnterCustomerPhonePopup extends React.Component {
                                     color="#fff"
                                 />
                             </View> : <ButtonCustom
-                                width={scaleSize(120)}
+                                width={ScaleSzie(120)}
                                 height={40}
                                 backgroundColor="#0764B0"
                                 title="NEXT"
@@ -175,7 +175,7 @@ class EnterCustomerPhonePopup extends React.Component {
                                     borderWidth: 1, borderColor: '#C5C5C5',
                                     borderRadius: 5
                                 }}
-                                styleText={{ fontWeight: "600", fontSize: scaleSize(16) }}
+                                styleText={{ fontWeight: "600", fontSize: ScaleSzie(16) }}
                             />
                         }
 

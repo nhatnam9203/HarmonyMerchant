@@ -12,7 +12,7 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent, Dropdown, TextInputSuggestion,Loading } from '@components';
 import {
-    scaleSize, localize, getIdStateByName, getNameStateById, ListCodeAreaPhone,
+    ScaleSzie, localize, getIdStateByName, getNameStateById, ListCodeAreaPhone,
     getCodeAreaPhone, checkStateIsValid, checkIsTablet
 } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
@@ -159,7 +159,7 @@ class PopupAddEditCustomer extends React.Component {
     }
 
     scrollCustomerTo = (position) => () => {
-        this.scrollCustomerRef.current.scrollTo({ x: 0, y: scaleSize(position), animated: true })
+        this.scrollCustomerRef.current.scrollTo({ x: 0, y: ScaleSzie(position), animated: true })
     }
 
     onChangeText = (value, count = 0) => {
@@ -183,7 +183,7 @@ class PopupAddEditCustomer extends React.Component {
         const { dynamicMarginBottomState } = this.state;
         const { firstName, lastName, phone, email, referrerPhone, favourite, addressPost, isVip } = this.state.customerInfo;
         const { street, city, state, zip } = addressPost;
-        const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(480);
+        const tempHeight = checkIsTablet() ? ScaleSzie(390) : ScaleSzie(480);
 
         return (
             <PopupParent
@@ -191,15 +191,15 @@ class PopupAddEditCustomer extends React.Component {
                 visible={visibleAddEditCustomerPopup}
                 onRequestClose={this.onRequestClose}
                 styleTitle={{
-                    fontSize: scaleSize(20), fontWeight: '600'
+                    fontSize: ScaleSzie(20), fontWeight: '600'
                 }}
             >
                 <View style={{
                     height: tempHeight,
                     backgroundColor: '#fff',
-                    borderBottomLeftRadius: scaleSize(15),
-                    borderBottomRightRadius: scaleSize(15),
-                    paddingHorizontal: scaleSize(30)
+                    borderBottomLeftRadius: ScaleSzie(15),
+                    borderBottomRightRadius: ScaleSzie(15),
+                    paddingHorizontal: ScaleSzie(30)
                 }} >
                     <View style={{ flex: 1, }} >
                         <ScrollView
@@ -209,32 +209,32 @@ class PopupAddEditCustomer extends React.Component {
                         >
                             <TouchableOpacity activeOpacity={1}>
                                 {/* ----- */}
-                                <View style={{ flexDirection: 'row', marginTop: scaleSize(10), marginBottom: scaleSize(10) }} >
+                                <View style={{ flexDirection: 'row', marginTop: ScaleSzie(10), marginBottom: ScaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
-                                        <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(6) }} >
+                                        <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(6) }} >
                                             {`${localize('First Name', language)}*`}
                                         </Text>
-                                        <View style={{ height: scaleSize(30) }} >
-                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSize(5) }} >
+                                        <View style={{ height: ScaleSzie(30) }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: ScaleSzie(5) }} >
                                                 <TextInput
                                                     placeholder="Jerry"
-                                                    style={{ flex: 1, fontSize: scaleSize(16), padding: 0, }}
+                                                    style={{ flex: 1, fontSize: ScaleSzie(16), padding: 0, }}
                                                     value={firstName}
                                                     onChangeText={value => this.updateCustomerInfo('firstName', value)}
                                                 />
                                             </View>
                                         </View>
                                     </View>
-                                    <View style={{ width: scaleSize(10) }} />
+                                    <View style={{ width: ScaleSzie(10) }} />
                                     <View style={{ flex: 1 }} >
-                                        <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(6) }} >
+                                        <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(6) }} >
                                             {`${localize('Last Name', language)}*`}
                                         </Text>
-                                        <View style={{ height: scaleSize(30), }} >
-                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSize(5) }} >
+                                        <View style={{ height: ScaleSzie(30), }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: ScaleSzie(5) }} >
                                                 <TextInput
                                                     placeholder="Nguyen"
-                                                    style={{ flex: 1, fontSize: scaleSize(16), padding: 0 }}
+                                                    style={{ flex: 1, fontSize: ScaleSzie(16), padding: 0 }}
                                                     value={lastName}
                                                     onChangeText={value => this.updateCustomerInfo('lastName', value)}
                                                 />
@@ -243,11 +243,11 @@ class PopupAddEditCustomer extends React.Component {
                                     </View>
                                 </View>
                                 {/* ---- */}
-                                <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(6), marginTop: scaleSize(7) }} >
+                                <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(6), marginTop: ScaleSzie(7) }} >
                                     {`${localize('Phone Number', language)}*`}
                                 </Text>
-                                <View style={{ height: scaleSize(30), flexDirection: 'row', marginBottom: scaleSize(10) }} >
-                                    <View style={{ width: scaleSize(70) }} >
+                                <View style={{ height: ScaleSzie(30), flexDirection: 'row', marginBottom: ScaleSzie(10) }} >
+                                    <View style={{ width: ScaleSzie(70) }} >
                                         <Dropdown
                                             label={'+1'}
                                             data={ListCodeAreaPhone}
@@ -261,15 +261,15 @@ class PopupAddEditCustomer extends React.Component {
                                             }}
                                         />
                                     </View>
-                                    <View style={{ width: scaleSize(8) }} />
-                                    <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSize(10) }} >
+                                    <View style={{ width: ScaleSzie(8) }} />
+                                    <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: ScaleSzie(10) }} >
                                         <TextInputMask
                                             type={'custom'}
                                             options={{
                                                 mask: '999-999-9999'
                                             }}
                                             placeholder="012-345-6456"
-                                            style={{ flex: 1, fontSize: scaleSize(16), padding: 0 }}
+                                            style={{ flex: 1, fontSize: ScaleSzie(16), padding: 0 }}
                                             value={phone}
                                             onChangeText={value => this.updateCustomerInfo('phone', value)}
                                             onFocus={this.scrollCustomerTo(60)}
@@ -279,45 +279,45 @@ class PopupAddEditCustomer extends React.Component {
 
                                 </View>
                                 {/* ---- */}
-                                <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(6), marginTop: scaleSize(7) }} >
+                                <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(6), marginTop: ScaleSzie(7) }} >
                                     {localize('Contact Email', language)}
                                 </Text>
                                 <View style={{
-                                    height: scaleSize(30), borderWidth: 1, borderColor: '#C5C5C5',
-                                    paddingLeft: scaleSize(10)
+                                    height: ScaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
+                                    paddingLeft: ScaleSzie(10)
                                 }} >
                                     <TextInput
                                         placeholder="example@gmail.com"
-                                        style={{ flex: 1, fontSize: scaleSize(16), padding: 0 }}
+                                        style={{ flex: 1, fontSize: ScaleSzie(16), padding: 0 }}
                                         value={email}
                                         onChangeText={value => this.updateCustomerInfo('email', value)}
                                         onFocus={this.scrollCustomerTo(140)}
                                     />
                                 </View>
                                 {/* ------- */}
-                                <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(6), marginTop: scaleSize(7) }} >
+                                <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(6), marginTop: ScaleSzie(7) }} >
                                     {localize('Address', language)}
                                 </Text>
                                 <View style={{
-                                    height: scaleSize(30), borderWidth: 1, borderColor: '#C5C5C5',
-                                    paddingLeft: scaleSize(10),
+                                    height: ScaleSzie(30), borderWidth: 1, borderColor: '#C5C5C5',
+                                    paddingLeft: ScaleSzie(10),
                                 }} >
                                     <TextInput
                                         placeholder="Street"
-                                        style={{ flex: 1, fontSize: scaleSize(16), padding: 0 }}
+                                        style={{ flex: 1, fontSize: ScaleSzie(16), padding: 0 }}
                                         value={street}
                                         onChangeText={value => this.updateCustomerInfo('street', value, 'addressPost')}
                                         onFocus={this.scrollCustomerTo(195)}
                                     />
                                 </View>
                                 {/* ----- */}
-                                <View style={{ flexDirection: 'row', marginTop: scaleSize(10) }} >
+                                <View style={{ flexDirection: 'row', marginTop: ScaleSzie(10) }} >
                                     <View style={{ flex: 1 }} >
-                                        <View style={{ height: scaleSize(30), }} >
-                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSize(5) }} >
+                                        <View style={{ height: ScaleSzie(30), }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: ScaleSzie(5) }} >
                                                 <TextInput
                                                     placeholder={localize('City', language)}
-                                                    style={{ flex: 1, fontSize: scaleSize(16), padding: 0 }}
+                                                    style={{ flex: 1, fontSize: ScaleSzie(16), padding: 0 }}
                                                     value={city}
                                                     onChangeText={value => this.updateCustomerInfo('city', value, 'addressPost')}
                                                     onFocus={this.scrollCustomerTo(195)}
@@ -326,14 +326,14 @@ class PopupAddEditCustomer extends React.Component {
                                         </View>
                                     </View>
 
-                                    <View style={{ width: scaleSize(10) }} />
+                                    <View style={{ width: ScaleSzie(10) }} />
                                     {/* -------  */}
                                     <View style={{ flex: 1 }} >
-                                        <View style={{ height: scaleSize(30), }} >
-                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSize(5) }} >
+                                        <View style={{ height: ScaleSzie(30), }} >
+                                            <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: ScaleSzie(5) }} >
                                                 <TextInput
                                                     placeholder={localize('Zip Code', language)}
-                                                    style={{ flex: 1, fontSize: scaleSize(16), padding: 0 }}
+                                                    style={{ flex: 1, fontSize: ScaleSzie(16), padding: 0 }}
                                                     value={zip}
                                                     onChangeText={value => this.updateCustomerInfo('zip', value, 'addressPost')}
                                                     onFocus={this.scrollCustomerTo(198)}
@@ -346,9 +346,9 @@ class PopupAddEditCustomer extends React.Component {
                                 </View>
 
                                 {/* ----------------- Zip Code --------------- */}
-                                <View style={{ flexDirection: 'row', marginTop: scaleSize(10), }} >
+                                <View style={{ flexDirection: 'row', marginTop: ScaleSzie(10), }} >
                                     <View style={{ flex: 1 }} >
-                                        <View style={{ height: scaleSize(30), marginBottom: scaleSize(dynamicMarginBottomState) }} >
+                                        <View style={{ height: ScaleSzie(30), marginBottom: ScaleSzie(dynamicMarginBottomState) }} >
                                             <View style={{ flex: 1 }} >
                                                 <TextInputSuggestion
                                                     value={state}
@@ -359,17 +359,17 @@ class PopupAddEditCustomer extends React.Component {
                                             </View>
                                         </View>
                                     </View>
-                                    <View style={{ width: scaleSize(10) }} />
+                                    <View style={{ width: ScaleSzie(10) }} />
                                     <View style={{ flex: 1 }} />
                                 </View>
 
 
                                 {/* ---- Referrer Phone Number */}
-                                <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(6), marginTop: scaleSize(7) }} >
+                                <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(6), marginTop: ScaleSzie(7) }} >
                                     {localize('Referral Phone', language)}
                                 </Text>
-                                <View style={{ height: scaleSize(30), flexDirection: 'row' }} >
-                                    <View style={{ width: scaleSize(70) }} >
+                                <View style={{ height: ScaleSzie(30), flexDirection: 'row' }} >
+                                    <View style={{ width: ScaleSzie(70) }} >
                                         <Dropdown
                                             label={'+1'}
                                             data={ListCodeAreaPhone}
@@ -383,15 +383,15 @@ class PopupAddEditCustomer extends React.Component {
                                             }}
                                         />
                                     </View>
-                                    <View style={{ width: scaleSize(8) }} />
-                                    <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: scaleSize(10) }} >
+                                    <View style={{ width: ScaleSzie(8) }} />
+                                    <View style={{ flex: 1, borderWidth: 1, borderColor: '#C5C5C5', paddingHorizontal: ScaleSzie(10) }} >
                                         <TextInputMask
                                             type={'custom'}
                                             options={{
                                                 mask: '999-999-9999'
                                             }}
                                             placeholder="0123 456 456"
-                                            style={{ flex: 1, fontSize: scaleSize(16), padding: 0 }}
+                                            style={{ flex: 1, fontSize: ScaleSzie(16), padding: 0 }}
                                             value={referrerPhone}
                                             onChangeText={value => this.updateCustomerInfo('referrerPhone', value)}
                                             onFocus={this.scrollCustomerTo(350)}
@@ -401,12 +401,12 @@ class PopupAddEditCustomer extends React.Component {
 
                                 </View>
                                 {/* ----- Attribute Level ------- */}
-                                <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(2), marginTop: scaleSize(15) }} >
+                                <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(2), marginTop: ScaleSzie(15) }} >
                                     {localize('Attribute Level', language)}
                                 </Text>
-                                <View style={{ flexDirection: 'row', marginTop: scaleSize(5), marginBottom: scaleSize(10) }} >
-                                    <View style={{ flex: 1, paddingRight: scaleSize(10) }} >
-                                        <View style={{ height: scaleSize(30), }} >
+                                <View style={{ flexDirection: 'row', marginTop: ScaleSzie(5), marginBottom: ScaleSzie(10) }} >
+                                    <View style={{ flex: 1, paddingRight: ScaleSzie(10) }} >
+                                        <View style={{ height: ScaleSzie(30), }} >
                                             <View style={{ flex: 1 }} >
                                                 <Dropdown
                                                     label={""}
@@ -428,28 +428,28 @@ class PopupAddEditCustomer extends React.Component {
                                 </View>
 
                                 {/* ---- */}
-                                <Text style={{ color: '#404040', fontSize: scaleSize(12), marginBottom: scaleSize(10), marginTop: scaleSize(7) }} >
+                                <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(10), marginTop: ScaleSzie(7) }} >
                                     {localize('Note', language)}
                                 </Text>
                                 <View style={{
-                                    height: scaleSize(110),
+                                    height: ScaleSzie(110),
                                     backgroundColor: '#F1F1F1',
-                                    paddingHorizontal: scaleSize(10),
-                                    paddingBottom: scaleSize(8),
-                                    paddingTop: scaleSize(8)
+                                    paddingHorizontal: ScaleSzie(10),
+                                    paddingBottom: ScaleSzie(8),
+                                    paddingTop: ScaleSzie(8)
                                 }} >
-                                    <Text style={{ color: '#404040', fontSize: scaleSize(14), marginBottom: scaleSize(8) }} >
+                                    <Text style={{ color: '#404040', fontSize: ScaleSzie(14), marginBottom: ScaleSzie(8) }} >
                                         {localize("Note about customer's favourite", language)}
                                     </Text>
                                     <View style={{ flex: 1, justifyContent: 'flex-end' }} >
                                         <View style={{
                                             flex: 1, backgroundColor: '#fff',
                                             borderWidth: 1, borderColor: '#C5C5C5', borderTopLeftRadius: 4, borderBottomLeftRadius: 4,
-                                            paddingHorizontal: scaleSize(10), paddingVertical: 4
+                                            paddingHorizontal: ScaleSzie(10), paddingVertical: 4
                                         }} >
                                             <TextInput
                                                 style={{
-                                                    flex: 1, fontSize: scaleSize(12),
+                                                    flex: 1, fontSize: ScaleSzie(12),
                                                     padding: 0,
                                                     textAlignVertical: "top"
                                                 }}
@@ -462,12 +462,12 @@ class PopupAddEditCustomer extends React.Component {
                                     </View>
                                 </View>
                                 {/* -----  */}
-                                <View style={{ height: scaleSize(250) }} />
+                                <View style={{ height: ScaleSzie(250) }} />
                             </TouchableOpacity>
                         </ScrollView>
                     </View>
                     {/* ---- Footer ---- */}
-                    <View style={{ height: scaleSize(50), alignItems: 'center' }} >
+                    <View style={{ height: ScaleSzie(50), alignItems: 'center' }} >
                         <ButtonCustom
                             width={150}
                             height={35}
@@ -475,9 +475,9 @@ class PopupAddEditCustomer extends React.Component {
                             title={temptTitleButton}
                             textColor="#fff"
                             onPress={this.doneAddProduct}
-                            style={{ borderRadius: scaleSize(2) }}
+                            style={{ borderRadius: ScaleSzie(2) }}
                             styleText={{
-                                fontSize: scaleSize(14)
+                                fontSize: ScaleSzie(14)
                             }}
                         />
                     </View>

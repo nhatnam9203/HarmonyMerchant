@@ -8,7 +8,7 @@ import { parseString } from "react-native-xml2js";
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import {
-    formatNumberFromCurrency, formatMoney, scaleSize, roundFloatNumber, requestAPI, formatWithMoment
+    formatNumberFromCurrency, formatMoney, ScaleSzie, roundFloatNumber, requestAPI, formatWithMoment
 } from '@utils';
 import apiConfigs from '@configs/api';
 
@@ -67,7 +67,7 @@ class TabFirstSettle extends Layout {
 
     scrollTo = (number) => {
         if (this.scrollRef.current) {
-            this.scrollRef.current.scrollTo({ x: 0, y: scaleSize(number), animated: true });
+            this.scrollRef.current.scrollTo({ x: 0, y: ScaleSzie(number), animated: true });
         }
 
     }

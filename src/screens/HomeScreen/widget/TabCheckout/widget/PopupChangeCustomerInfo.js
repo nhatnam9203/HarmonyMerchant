@@ -12,7 +12,7 @@ import _ from 'ramda';
 
 import { ButtonCustom, PopupParent, Dropdown } from '@components';
 import connectRedux from '@redux/ConnectRedux';
-import { scaleSize, ListCodeAreaPhone, getCodeAreaPhone } from '@utils';
+import { ScaleSzie, ListCodeAreaPhone, getCodeAreaPhone } from '@utils';
 
 const initalState = {
     codeAreaPhone: '+1',
@@ -68,7 +68,7 @@ class PopupChangeCustomerInfo extends React.Component {
     }
 
     onFocusToScroll = (number) => {
-        this.scrollRef.current.scrollTo({ x: 0, y: scaleSize(number), animated: true })
+        this.scrollRef.current.scrollTo({ x: 0, y: ScaleSzie(number), animated: true })
     }
 
     onRequestClose = () => {
@@ -87,13 +87,13 @@ class PopupChangeCustomerInfo extends React.Component {
                 title={title}
                 visible={visibleEnterCustmerPhonePopup}
                 onRequestClose={this.onRequestClose}
-                width={scaleSize(260)}
-                styleTitle={{ fontSize: scaleSize(22), fontWeight: "bold" }}
+                width={ScaleSzie(260)}
+                styleTitle={{ fontSize: ScaleSzie(22), fontWeight: "bold" }}
             >
                 <View style={{
-                    height: scaleSize(320), backgroundColor: '#FAFAFA',
-                    borderBottomLeftRadius: scaleSize(15), borderBottomRightRadius: scaleSize(15),
-                    paddingHorizontal: scaleSize(16),
+                    height: ScaleSzie(320), backgroundColor: '#FAFAFA',
+                    borderBottomLeftRadius: ScaleSzie(15), borderBottomRightRadius: ScaleSzie(15),
+                    paddingHorizontal: ScaleSzie(16),
 
                 }} >
                     <View style={{ flex: 1 }} >
@@ -102,34 +102,34 @@ class PopupChangeCustomerInfo extends React.Component {
                             showsVerticalScrollIndicator={false}
                             keyboardShouldPersistTaps="always"
                         >
-                            <View style={{ height: scaleSize(20) }} />
+                            <View style={{ height: ScaleSzie(20) }} />
                             {/* ------- Price -------- */}
-                            <Text style={{ color: '#6A6A6A', fontSize: scaleSize(14), marginBottom: scaleSize(5), fontWeight: "600" }} >
+                            <Text style={{ color: '#6A6A6A', fontSize: ScaleSzie(14), marginBottom: ScaleSzie(5), fontWeight: "600" }} >
                                 {`First Name`}
                             </Text>
                             {/* ------- Box Price -------- */}
                             <View style={{
-                                height: scaleSize(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
-                                paddingHorizontal: scaleSize(10), marginBottom: scaleSize(10)
+                                height: ScaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
+                                paddingHorizontal: ScaleSzie(10), marginBottom: ScaleSzie(10)
                             }} >
                                 <TextInput
-                                    style={{ flex: 1, fontSize: scaleSize(16), color: '#6A6A6A' }}
+                                    style={{ flex: 1, fontSize: ScaleSzie(16), color: '#6A6A6A' }}
                                     value={firstName}
                                     onChangeText={(firstName) => this.setState({ firstName })}
                                     placeholder=""
                                 />
                             </View>
                             {/* ------- Tip -------- */}
-                            <Text style={{ color: '#6A6A6A', fontSize: scaleSize(14), marginBottom: scaleSize(5), fontWeight: "600" }} >
+                            <Text style={{ color: '#6A6A6A', fontSize: ScaleSzie(14), marginBottom: ScaleSzie(5), fontWeight: "600" }} >
                                 {`Last Name`}
                             </Text>
                             {/* ------- Box Tip -------- */}
                             <View style={{
-                                height: scaleSize(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
-                                paddingHorizontal: scaleSize(10), marginBottom: scaleSize(10)
+                                height: ScaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
+                                paddingHorizontal: ScaleSzie(10), marginBottom: ScaleSzie(10)
                             }} >
                                 <TextInput
-                                    style={{ flex: 1, fontSize: scaleSize(16), color: '#6A6A6A' }}
+                                    style={{ flex: 1, fontSize: ScaleSzie(16), color: '#6A6A6A' }}
                                     value={lastName}
                                     onChangeText={(lastName) => this.setState({ lastName })}
                                     onFocus={() => this.onFocusToScroll(80)}
@@ -137,15 +137,15 @@ class PopupChangeCustomerInfo extends React.Component {
                                 />
                             </View>
 
-                            <Text style={{ color: '#6A6A6A', fontSize: scaleSize(14), marginBottom: scaleSize(5), fontWeight: "600" }} >
+                            <Text style={{ color: '#6A6A6A', fontSize: ScaleSzie(14), marginBottom: ScaleSzie(5), fontWeight: "600" }} >
                                 {`Phone Number`}
                             </Text>
 
                             {/* ----------- Enter Phone ---------- */}
                             <View style={{
-                                height: scaleSize(45), flexDirection: 'row'
+                                height: ScaleSzie(45), flexDirection: 'row'
                             }} >
-                                <View style={{ width: scaleSize(70), marginRight: scaleSize(10) }} >
+                                <View style={{ width: ScaleSzie(70), marginRight: ScaleSzie(10) }} >
                                     <Dropdown
                                         label={'+1'}
                                         data={ListCodeAreaPhone}
@@ -161,7 +161,7 @@ class PopupChangeCustomerInfo extends React.Component {
                                 </View>
                                 <View style={{
                                     flex: 1, borderColor: 'rgb(231,231,231)', borderWidth: 3,
-                                    paddingHorizontal: scaleSize(10), backgroundColor: "#fff"
+                                    paddingHorizontal: ScaleSzie(10), backgroundColor: "#fff"
                                 }} >
                                     <TextInputMask
                                         type={'custom'}
@@ -169,7 +169,7 @@ class PopupChangeCustomerInfo extends React.Component {
                                             mask: '999-999-9999'
                                         }}
                                         style={{
-                                            flex: 1, fontSize: scaleSize(18),
+                                            flex: 1, fontSize: ScaleSzie(18),
                                             padding: 0, margin: 0,
                                         }}
                                         placeholder={'Phone number'}
@@ -183,10 +183,10 @@ class PopupChangeCustomerInfo extends React.Component {
 
                             </View>
                             {/* ------- Button -------- */}
-                            <View style={{ marginTop: scaleSize(20), alignItems: 'center', }} >
+                            <View style={{ marginTop: ScaleSzie(20), alignItems: 'center', }} >
                                 {
                                     loading ? <View style={{
-                                        width: scaleSize(120), height: scaleSize(45), backgroundColor: '#0764B0',
+                                        width: ScaleSzie(120), height: ScaleSzie(45), backgroundColor: '#0764B0',
                                         justifyContent: 'center', alignItems: 'center'
                                     }} >
                                         <ActivityIndicator
@@ -194,7 +194,7 @@ class PopupChangeCustomerInfo extends React.Component {
                                             color="#fff"
                                         />
                                     </View> : <ButtonCustom
-                                            width={scaleSize(120)}
+                                            width={ScaleSzie(120)}
                                             height={45}
                                             backgroundColor="#0764B0"
                                             title="Submit"
@@ -202,13 +202,13 @@ class PopupChangeCustomerInfo extends React.Component {
                                             onPress={this.submitCustomerInfo}
                                             style={{
                                                 borderWidth: 1, borderColor: '#C5C5C5',
-                                                borderRadius: scaleSize(4)
+                                                borderRadius: ScaleSzie(4)
                                             }}
                                         />
                                 }
 
                             </View>
-                            <View style={{ height: scaleSize(200) }} />
+                            <View style={{ height: ScaleSzie(200) }} />
                         </ScrollView>
                     </View>
                 </View>

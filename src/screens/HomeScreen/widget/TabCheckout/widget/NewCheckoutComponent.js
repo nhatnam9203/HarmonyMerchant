@@ -5,7 +5,7 @@ import {
 import FastImage from 'react-native-fast-image';
 import _ from "ramda";
 
-import { scaleSize, msToTime } from '@utils';
+import { ScaleSzie, msToTime } from '@utils';
 import { Text, Button } from '@components';
 import ICON from "@resources";
 import styles from "../style";
