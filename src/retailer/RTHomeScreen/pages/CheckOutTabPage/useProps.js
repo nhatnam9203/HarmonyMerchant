@@ -190,6 +190,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
       if (subCategoryItem?.categoryId === subCategoryId) {
         setSubCategoryId(null);
         setActiveTab(CUSTOM_LIST_TYPES.SUB);
+        setProducts(null);
       } else {
         setSubCategoryId(subCategoryItem?.categoryId);
         getProductsByCategory(subCategoryItem?.categoryId);

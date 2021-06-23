@@ -191,7 +191,7 @@ let InfoContent = ({
     <View
       style={styles.infoContent}
       pointerEvents={disabled ? "none" : "auto"}
-      opacity={disabled ? 0.25 : 1}
+      opacity={disabled ? 0.3 : 1}
     >
       <InfoHeading label={label} onPress={onPress} editable={editable} />
       <View style={layouts.marginVertical} />

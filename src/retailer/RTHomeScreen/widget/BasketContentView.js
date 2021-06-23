@@ -138,7 +138,6 @@ export const BasketContentView = React.forwardRef(
           />
           <View style={layouts.marginVertical} />
         </View>
-        <View style={layouts.marginVertical} />
         <View style={layouts.center}>
           <ButtonGradient
             disable={appointment?.products?.length <= 0}
@@ -206,7 +205,6 @@ const styles = StyleSheet.create({
   totalContent: {
     marginHorizontal: scaleWidth(12),
   },
-
   totalInfoContent: {
     flexDirection: "row",
     height: scaleHeight(25),

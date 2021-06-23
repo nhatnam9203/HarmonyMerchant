@@ -53,7 +53,7 @@ export const BasketPaymentContent = React.forwardRef(
   | API
   |--------------------------------------------------
   */
-
+    log(orderItem, "orderItem");
     const calcTotalPrice = () => {
       return (
         orderItem?.products?.reduce(
@@ -175,29 +175,43 @@ export const BasketPaymentContent = React.forwardRef(
       <View style={styles.container}>
         <FlatList
           style={styles.flatList}
+          containerStyle={styles.flatListContainer}
           data={orderItem?.products}
           renderItem={renderItem}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           keyExtractor={(item) => item.id + ""}
+          ListFooterComponent={() => (
+            <>
+              <View style={styles.line} />
+              <View style={styles.totalContent}>
+                <View style={layouts.marginVertical} />
+                <View style={layouts.marginVertical} />
+                <TotalInfo
+                  label={t("Subtotal")}
+                  value={formatMoneyWithUnit(orderItem?.subTotal)}
+                />
+                <TotalInfo
+                  label={t("Tax")}
+                  value={formatMoneyWithUnit(orderItem?.tax)}
+                />
+                <TotalInfo
+                  label={t("Discount")}
+                  value={formatMoneyWithUnit(orderItem?.discount)}
+                />
+                <View style={layouts.marginVertical} />
+                <View style={styles.line} />
+                <View style={layouts.marginVertical} />
+                <TotalInfo
+                  label={t("Total")}
+                  value={formatMoneyWithUnit(orderItem?.total)}
+                  isBold
+                />
+                <View style={layouts.marginVertical} />
+              </View>
+            </>
+          )}
         />
-        <View style={styles.totalContent}>
-          <View style={layouts.marginVertical} />
-          <TotalInfo
-            label={t("Subtotal")}
-            value={formatMoneyWithUnit(calcTotalPrice())}
-          />
-          <TotalInfo label={t("Tax")} />
-          <TotalInfo label={t("Discount")} />
-          <View style={layouts.marginVertical} />
-          <View style={styles.line} />
-          <View style={layouts.marginVertical} />
-          <TotalInfo
-            label={t("Total")}
-            value={formatMoneyWithUnit(calcTotalPrice())}
-            isBold
-          />
-          <View style={layouts.marginVertical} />
-        </View>
+
         <View style={layouts.marginVertical} />
         <View style={layouts.center}>
           <ButtonGradient
@@ -260,11 +274,19 @@ const styles = StyleSheet.create({
   },
 
   flatList: {
-    flex: 1,
+    flex: 0,
+    width: "100%",
+  },
+
+  flatListContainer: {
+    flex: 0,
+    width: "100%",
+    backgroundColor: "red",
   },
 
   totalContent: {
     marginHorizontal: scaleWidth(12),
+    flex: 1,
   },
 
   totalInfoContent: {
