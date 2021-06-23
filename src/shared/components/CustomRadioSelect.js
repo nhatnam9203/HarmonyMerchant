@@ -5,8 +5,8 @@ import { colors } from "@shared/themes";
 import { fonts } from "../themes";
 
 export const CustomRadioSelect = React.forwardRef(
-  ({ data, onSelect, onRenderLabel, required = false }, ref) => {
-    const [value, setValue] = React.useState();
+  ({ data, onSelect, onRenderLabel, required = false, defaultValue }, ref) => {
+    const [value, setValue] = React.useState(defaultValue);
 
     const onHandleRenderLabel = (x) => {
       if (onRenderLabel && typeof onRenderLabel === "function") {

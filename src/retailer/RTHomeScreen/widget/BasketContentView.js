@@ -1,4 +1,5 @@
-import { basketRetailer } from "@redux/slices";
+import IMAGE from "@resources";
+import { ButtonGradient } from "@shared/components";
 import { colors, fonts, layouts } from "@shared/themes";
 import {
   calcTotalPriceOfProduct,
@@ -18,8 +19,6 @@ import {
 import FastImage from "react-native-fast-image";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { useDispatch, useSelector } from "react-redux";
-import { ButtonGradient } from "@shared/components";
-import IMAGE from "@resources";
 
 const log = (obj, message = "") => {
   Logger.log(`[BasketContentView] ${message}`, obj);
