@@ -6,7 +6,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 import IMAGE from '@resources';
 
 class RowEmptyTableCategories extends React.Component {
@@ -35,25 +35,25 @@ class RowEmptyTableCategories extends React.Component {
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={{
-                    width: scaleSzie(250), flexDirection: 'row',
+                    width: scaleSize(250), flexDirection: 'row',
                 }} >
                     <View style={[{
                         flex: 1,
                         flexDirection: 'row',
                         alignItems: 'center',
-                        paddingLeft: scaleSzie(12)
+                        paddingLeft: scaleSize(12)
                     }]} >
                         <Image source={IMAGE.indicate}
-                            style={{ width: scaleSzie(12), height: scaleSzie(29), marginRight: scaleSzie(12) }}
+                            style={{ width: scaleSize(12), height: scaleSize(29), marginRight: scaleSize(12) }}
                         />
                     </View>
                 </View>
                 {/* ----- 2 ----- */}
                 <View style={{
-                    width: scaleSzie(350), flexDirection:'row',
+                    width: scaleSize(350), flexDirection:'row',
                 }} >
                     <View style={{flex:1}} />
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: scaleSzie(60),
+        height: scaleSize(60),
         backgroundColor: '#fff',
         borderWidth: 0.5,
         borderColor: '#C5C5C5',
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#C5C5C5',
-        fontSize: scaleSzie(14)
+        fontSize: scaleSize(14)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',

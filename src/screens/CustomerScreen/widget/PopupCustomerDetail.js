@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, PopupParent } from '@components';
-import { scaleSzie, localize,checkIsTablet } from '@utils';
+import { scaleSize, localize,checkIsTablet } from '@utils';
 
 class PopupCustomerDetail extends React.Component {
 
@@ -41,7 +41,7 @@ class PopupCustomerDetail extends React.Component {
         const { title, visible, onRequestClose, language} = this.props;
         const {firstName,lastName,phone,email,referrerPhone,favourite,addressPost,isVip} = this.state.customerInfo;
         const {street,city} = addressPost;
-        const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(480);
+        const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(480);
 
         return (
             <PopupParent
@@ -52,9 +52,9 @@ class PopupCustomerDetail extends React.Component {
                 <View style={{
                      height:  tempHeight,
                     backgroundColor: '#fff',
-                    borderBottomLeftRadius: scaleSzie(15),
-                    borderBottomRightRadius: scaleSzie(15),
-                    paddingHorizontal: scaleSzie(30)
+                    borderBottomLeftRadius: scaleSize(15),
+                    borderBottomRightRadius: scaleSize(15),
+                    paddingHorizontal: scaleSize(30)
                 }} >
                     <View style={{ flex: 1 }} >
                         <ScrollView
@@ -63,7 +63,7 @@ class PopupCustomerDetail extends React.Component {
                         >
                             <TouchableOpacity activeOpacity={1}>
                                 {/* -------------------- */}
-                                <View style={{ marginTop: scaleSzie(14), flexDirection: 'row' }} >
+                                <View style={{ marginTop: scaleSize(14), flexDirection: 'row' }} >
                                     <View style={{ flex: 1 }} >
                                         <ItemDetail
                                             title={`${localize('First Name', language)}*`}
@@ -79,54 +79,54 @@ class PopupCustomerDetail extends React.Component {
                                 </View>
                                 {/* -------------------- */}
                                 <ItemDetail
-                                    style={{ marginTop: scaleSzie(12) }}
+                                    style={{ marginTop: scaleSize(12) }}
                                     title={`${localize('Phone Number', language)}*`}
                                     value={phone ? phone : ""}
                                 />
 
                                 {/* -------------------- */}
                                 <ItemDetail
-                                    style={{ marginTop: scaleSzie(12) }}
+                                    style={{ marginTop: scaleSize(12) }}
                                     title={`${localize('Contact Email', language)}:`}
                                     value={email ? email : ""}
                                 />
 
                                 {/* -------------------- */}
                                 <ItemDetail
-                                    style={{ marginTop: scaleSzie(12) }}
+                                    style={{ marginTop: scaleSize(12) }}
                                     title={`${localize('Address', language)}`}
                                     value={`${street} ${city}`}
                                 />
 
                                 {/* -------------------- */}
                                 <ItemDetail
-                                    style={{ marginTop: scaleSzie(12) }}
+                                    style={{ marginTop: scaleSize(12) }}
                                     title={`${localize('Referral Phone', language)}`}
                                     value={referrerPhone ? referrerPhone : ""}
                                 />
 
                                 {/* -------------------- */}
                                 <ItemDetail
-                                    style={{ marginTop: scaleSzie(12) }}
+                                    style={{ marginTop: scaleSize(12) }}
                                     title={`${localize('Attribute Level', language)}:`}
                                     value={isVip === 0  ? "Normal" : "VIP"  }
                                 />
 
                                 {/* -------------------- */}
                                 <ItemDetail
-                                    style={{ marginTop: scaleSzie(12) }}
+                                    style={{ marginTop: scaleSize(12) }}
                                     title={`${localize('Note', language)}`}
                                     value={favourite ? favourite : ""}
                                 />
 
 
                                 {/* -----  */}
-                                <View style={{ height: scaleSzie(250) }} />
+                                <View style={{ height: scaleSize(250) }} />
                             </TouchableOpacity>
                         </ScrollView>
                     </View>
                     {/* ---- Footer ---- */}
-                    <View style={{ height: scaleSzie(50), alignItems: 'center' }} >
+                    <View style={{ height: scaleSize(50), alignItems: 'center' }} >
                         <ButtonCustom
                             width={150}
                             height={35}
@@ -134,9 +134,9 @@ class PopupCustomerDetail extends React.Component {
                             title={`${localize('Edit', language)}`}
                             textColor="#fff"
                             onPress={() => this.props.showModalEditCustomer(this.state.customerInfo)}
-                            style={{ borderRadius: scaleSzie(2) }}
+                            style={{ borderRadius: scaleSize(2) }}
                             styleText={{
-                                fontSize: scaleSzie(14)
+                                fontSize: scaleSize(14)
                             }}
                         />
                     </View>
@@ -150,10 +150,10 @@ class PopupCustomerDetail extends React.Component {
 const ItemDetail = ({ title, value, style }) => {
     return (
         <View style={style} >
-            <Text style={{ color: '#404040', fontSize: scaleSzie(16), marginBottom: scaleSzie(10) }} >
+            <Text style={{ color: '#404040', fontSize: scaleSize(16), marginBottom: scaleSize(10) }} >
                 {title}
             </Text>
-            <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
+            <Text style={{ color: '#404040', fontSize: scaleSize(20) }} >
                 {value}
             </Text>
         </View>

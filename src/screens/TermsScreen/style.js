@@ -4,7 +4,7 @@ import {
     Platform
 } from 'react-native';
 
-import { scaleSzie, checkIsTablet } from '@utils';
+import { scaleSize, checkIsTablet } from '@utils';
 
 const { width } = Dimensions.get('window');
 
@@ -14,7 +14,7 @@ export default StyleSheet.create({
     },
     logoTopContainer: {
         width,
-        height: scaleSzie(100),
+        height: scaleSize(100),
         ...Platform.select({
             ios: {
                 shadowRadius: 2,
@@ -30,24 +30,24 @@ export default StyleSheet.create({
     },
     textTitle: {
         color: '#0764B0',
-        fontSize:checkIsTablet() ?scaleSzie(22) :  scaleSzie(28),
-        marginTop: scaleSzie(5)
+        fontSize:checkIsTablet() ?scaleSize(22) :  scaleSize(28),
+        marginTop: scaleSize(5)
     },
     termContainer: {
-        width: scaleSzie(500),
-        height: checkIsTablet() ? scaleSzie(230) : scaleSzie(300),
+        width: scaleSize(500),
+        height: checkIsTablet() ? scaleSize(230) : scaleSize(300),
         borderWidth: 1,
         borderColor: '#0764B0',
-        paddingLeft: scaleSzie(15),
-        paddingRight: scaleSzie(10),
-        paddingTop: scaleSzie(2),
-        paddingBottom: scaleSzie(2),
+        paddingLeft: scaleSize(15),
+        paddingRight: scaleSize(10),
+        paddingTop: scaleSize(2),
+        paddingBottom: scaleSize(2),
         backgroundColor: 'rgb(246,246,246)'
     },
     buttonContainer: {
         flex: 1,
         justifyContent: 'flex-end',
-        paddingBottom: scaleSzie(5)
+        paddingBottom: scaleSize(5)
     },
     contentTerms: {
         marginTop: 10,
@@ -55,9 +55,9 @@ export default StyleSheet.create({
         lineHeight: 25
     },
     checkboxContainer: {
-        width: scaleSzie(500),
+        width: scaleSize(500),
         flexDirection: 'row',
-        marginTop: checkIsTablet() ? scaleSzie(8) : scaleSzie(10)
+        marginTop: checkIsTablet() ? scaleSize(8) : scaleSize(10)
     }
 
 })

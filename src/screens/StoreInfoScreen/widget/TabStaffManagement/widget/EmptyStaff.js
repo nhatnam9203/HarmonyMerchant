@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 
 class EmptyStaff extends React.Component {
 
@@ -16,7 +16,7 @@ class EmptyStaff extends React.Component {
             <View style={styles.footer} >
                 <View style={styles.buttonContainer} >
                     <ButtonCustom
-                        width={scaleSzie(250)}
+                        width={scaleSize(250)}
                         height={40}
                         backgroundColor="#F1F1F1"
                         title="BACK"
@@ -27,7 +27,7 @@ class EmptyStaff extends React.Component {
                 </View>
                 <View style={styles.buttonContainer} >
                     <ButtonCustom
-                        width={scaleSzie(250)}
+                        width={scaleSize(250)}
                         height={40}
                         backgroundColor="#F1F1F1"
                         title="SKIP"
@@ -43,13 +43,13 @@ class EmptyStaff extends React.Component {
     renderBody() {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                <Text style={{ fontSize: scaleSzie(40), color: '#A6A8AB', fontWeight: '500',
-            marginBottom:scaleSzie(35)
+                <Text style={{ fontSize: scaleSize(40), color: '#A6A8AB', fontWeight: '500',
+            marginBottom:scaleSize(35)
             }} >
                     THIS LIST IS EMPTY
                 </Text>
                 <ButtonCustom
-                    width={scaleSzie(300)}
+                    width={scaleSize(300)}
                     height={55}
                     backgroundColor="#0764B0"
                     title="ADD"
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     footer: {
-        height: scaleSzie(50),
+        height: scaleSize(50),
         flexDirection: 'row',
     },
     buttonContainer: {

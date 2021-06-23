@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import Configs from '@configs';
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 
 const { width, height } = Dimensions.get('window');
 
@@ -15,6 +15,6 @@ export default StyleSheet.create({
     },
     textNormal:{
         color: '#404040', 
-        fontSize: scaleSzie(14)
+        fontSize: scaleSize(14)
     }
 })

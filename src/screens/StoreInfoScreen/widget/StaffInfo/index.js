@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 
 import Layout from './layout';
 import strings from './strings';
-import { validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone, scaleSzie, checkStateIsValid ,
+import { validateEmail, getIdStateByName, getNameStateById, getCodeAreaPhone, scaleSize, checkStateIsValid ,
     BusinessWorkingTime,formatNumberFromCurrency
 } from '@utils';
 
@@ -89,7 +89,7 @@ class StaffInfo extends Layout {
     }
 
     scrollStaffTo(position) {
-        this.scrollStaffRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
+        this.scrollStaffRef.current.scrollTo({ x: 0, y: scaleSize(position), animated: true })
     }
 
     async componentDidMount() {

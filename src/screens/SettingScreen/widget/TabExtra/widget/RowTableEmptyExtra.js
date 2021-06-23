@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 import IMAGE from '@resources';
 
 class RowTableEmptyExtra extends React.Component {
@@ -38,13 +38,13 @@ class RowTableEmptyExtra extends React.Component {
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={[{
-                    width: scaleSzie(50),
+                    width: scaleSize(50),
                     flexDirection: 'row',
                     justifyContent: 'space-around',
                     alignItems: 'center'
                 }]} >
                     <Image source={IMAGE.indicate}
-                        style={{ width: scaleSzie(12), height: scaleSzie(29) }}
+                        style={{ width: scaleSize(12), height: scaleSize(29) }}
                     />
                     <Text style={styles.textTableHeader} >
                         {/* {`${index}.`} */}
@@ -52,44 +52,44 @@ class RowTableEmptyExtra extends React.Component {
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
-                    width: scaleSzie(160), flexDirection: 'row',
+                    width: scaleSize(160), flexDirection: 'row',
                 }} >
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(5) }} >
                         <Text style={styles.textTableHeader} >
                             {/* {staff.displayName} */}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 3 ------ */}
                 {/* ----- 4 ------ */}
                 <View style={{
-                    width: scaleSzie(140), flexDirection: 'row',
+                    width: scaleSize(140), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={styles.textTableHeader} >
                             {/* {staff.role} */}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 5 ----- */}
                 <View style={{
-                    width: scaleSzie(110), flexDirection: 'row',
+                    width: scaleSize(110), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={styles.textTableHeader} >
                             {/* {staff.status} */}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: scaleSzie(55),
+        height: scaleSize(55),
         backgroundColor: '#FAFAFA',
         borderWidth: 0.5,
         borderColor: '#C5C5C5',
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#C5C5C5',
-        fontSize: scaleSzie(14)
+        fontSize: scaleSize(14)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',

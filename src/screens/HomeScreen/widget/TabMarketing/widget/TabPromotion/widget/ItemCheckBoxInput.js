@@ -4,7 +4,7 @@ import {
     Image,
 } from 'react-native';
 
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 import IMAGE from '@resources';
 import { InputForm, Button } from '@components';
 
@@ -24,17 +24,17 @@ class ItemCheckBoxInput extends React.Component {
         const { title, placeholder, isSelectCheckBox, value, onChangeText, onFocus } = this.props;
         const temptIconCheckbox = isSelectCheckBox ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
         return (
-            <View style={{ height: scaleSzie(55), flexDirection: 'row', marginTop: scaleSzie(8) }} >
+            <View style={{ height: scaleSize(55), flexDirection: 'row', marginTop: scaleSize(8) }} >
                 <View style={{
-                    justifyContent: 'flex-start', width: scaleSzie(80), paddingRight: scaleSzie(10),
+                    justifyContent: 'flex-start', width: scaleSize(80), paddingRight: scaleSize(10),
                     alignItems: 'flex-end'
                 }} >
                     <Button onPress={this.selectCheckbox} >
-                        <Image source={temptIconCheckbox} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
+                        <Image source={temptIconCheckbox} style={{ width: scaleSize(20), height: scaleSize(20) }} />
                     </Button>
                 </View>
                 <View style={{
-                    width: scaleSzie(180),
+                    width: scaleSize(180),
                 }} >
                     <InputForm
                         typeInputMask={'money'}
@@ -50,7 +50,7 @@ class ItemCheckBoxInput extends React.Component {
                         placeholder={placeholder}
                         value={value}
                         onChangeText={(value) => onChangeText(value)}
-                        style={{ marginBottom: scaleSzie(10) }}
+                        style={{ marginBottom: scaleSize(10) }}
                         isOnlyNumber={true}
                         editable={isSelectCheckBox}
                         keyboardType="numeric"

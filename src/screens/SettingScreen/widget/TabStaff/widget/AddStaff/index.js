@@ -9,7 +9,7 @@ import {
   getIdStateByName,
   getNameStateById,
   getCodeAreaPhone,
-  scaleSzie,
+  scaleSize,
   checkStateIsValid,
   BusinessWorkingTime,
   formatNumberFromCurrency,
@@ -112,7 +112,7 @@ class AddStaff extends Layout {
   scrollStaffTo(position) {
     this.scrollStaffRef.current.scrollTo({
       x: 0,
-      y: scaleSzie(position),
+      y: scaleSize(position),
       animated: true,
     });
   }

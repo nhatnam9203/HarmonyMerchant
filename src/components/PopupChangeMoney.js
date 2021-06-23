@@ -8,7 +8,7 @@ import {
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import { scaleSzie,formatMoney } from '../utils';
+import { scaleSize,formatMoney } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupChangeMoney extends React.Component {
@@ -41,16 +41,16 @@ class PopupChangeMoney extends React.Component {
                 hideCloseButton={true}
             >
                 <View style={{
-                    height: scaleSzie(130), backgroundColor: '#fff',
-                    borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
+                    height: scaleSize(130), backgroundColor: '#fff',
+                    borderBottomLeftRadius: scaleSize(15), borderBottomRightRadius: scaleSize(15)
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSize(18) }} >
                             {`Change : $ ${formatMoney(moneyChanged)}`}
                         </Text>
                     </View>
                     <View style={{
-                        height: scaleSzie(45), alignItems: 'center'
+                        height: scaleSize(45), alignItems: 'center'
                     }} >
                         <ButtonCustom
                             width={'30%'}
@@ -60,7 +60,7 @@ class PopupChangeMoney extends React.Component {
                             textColor="#fff"
                             onPress={this.confimOK}
                             styleText={{
-                                fontSize: scaleSzie(14)
+                                fontSize: scaleSize(14)
                             }}
                         />
                     </View>

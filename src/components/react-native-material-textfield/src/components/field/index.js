@@ -21,7 +21,7 @@ import Counter from '../counter';
 
 import styles from './styles.js';
 
-import { scaleSzie } from '../../../../../utils';
+import { scaleSize } from '../../../../../utils';
 
 export default class TextField extends PureComponent {
   static defaultProps = {
@@ -391,9 +391,9 @@ export default class TextField extends PureComponent {
       });
 
     let inputContainerStyle = {
-      paddingTop: scaleSzie(10),
-      paddingBottom: scaleSzie(10),
-      paddingLeft: scaleSzie(10),
+      paddingTop: scaleSize(10),
+      paddingBottom: scaleSize(10),
+      paddingLeft: scaleSize(10),
 
       // ...(disabled?
       // { overflow: 'hidden' }:
@@ -529,7 +529,7 @@ export default class TextField extends PureComponent {
           <TextInput
             style={[styles.input,
             //  inputStyle, inputStyleOverrides, 
-            { fontSize: scaleSzie(14) },
+            { fontSize: scaleSize(14) },
             this.props.styleInput
           ]}
             selectionColor={tintColor}
@@ -563,7 +563,7 @@ export default class TextField extends PureComponent {
         <View style={{
           width: "100%", height: "100%", position: "absolute", top: 0, bottom: 0, left: 0, right: 0,
           justifyContent: "center", 
-          paddingLeft:scaleSzie(10)
+          paddingLeft:scaleSize(10)
           // alignItems: "center"
         }} >
           {value === '' ? <Label {...labelProps}>{label}</Label> : <View />}

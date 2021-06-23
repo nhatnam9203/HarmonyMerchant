@@ -5,7 +5,7 @@ import {
     Platform
 } from 'react-native';
 
-import { scaleSzie } from '../utils';
+import { scaleSize } from '../utils';
 import HeaderLogoTop from './HeaderLogoTop';
 import ButtonCustom from './ButtonCustom';
 import StatusBarHeader from './StatusBar';
@@ -66,10 +66,10 @@ class FooterTwoButton extends React.PureComponent {
             return null;
         }
         return (
-            <View style={{ height: scaleSzie(50), flexDirection: 'row', backgroundColor: "transparent" }} >
+            <View style={{ height: scaleSize(50), flexDirection: 'row', backgroundColor: "transparent" }} >
                 <View style={{ flex: 1, alignItems: 'center' }} >
                     <ButtonCustom
-                        width={scaleSzie(250)}
+                        width={scaleSize(250)}
                         height={40}
                         backgroundColor="#F1F1F1"
                         title="BACK"
@@ -80,7 +80,7 @@ class FooterTwoButton extends React.PureComponent {
                 </View>
                 <View style={{ flex: 1, alignItems: 'center' }} >
                     <ButtonCustom
-                        width={scaleSzie(250)}
+                        width={scaleSize(250)}
                         height={40}
                         backgroundColor="#0764B0"
                         title="NEXT"

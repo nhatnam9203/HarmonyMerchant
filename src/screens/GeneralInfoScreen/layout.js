@@ -9,7 +9,7 @@ import {
   TextInputSuggestion,
   Button,
 } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSize, localize } from '@utils';
 import ICON from '@resources';
 
 const { width } = Dimensions.get('window');
@@ -61,33 +61,33 @@ export default class Layout extends React.Component {
           <View
             style={{
               width,
-              paddingHorizontal: scaleSzie(15),
-              marginTop: scaleSzie(8),
+              paddingHorizontal: scaleSize(15),
+              marginTop: scaleSize(8),
             }}
           >
             <Text
               style={{
                 color: '#0764B0',
                 fontWeight: 'bold',
-                fontSize: scaleSzie(18),
+                fontSize: scaleSize(18),
               }}
             >
               {localize('Please fill the form below', language)}
             </Text>
             <View
               style={{
-                height: scaleSzie(38),
+                height: scaleSize(38),
                 backgroundColor: '#0764B0',
                 justifyContent: 'center',
-                paddingLeft: scaleSzie(5),
-                marginTop: scaleSzie(5),
+                paddingLeft: scaleSize(5),
+                marginTop: scaleSize(5),
               }}
             >
               <Text
                 style={{
                   color: '#fff',
                   fontWeight: 'bold',
-                  fontSize: scaleSzie(18),
+                  fontSize: scaleSize(18),
                 }}
               >
                 {localize('General Information', language)}
@@ -95,8 +95,8 @@ export default class Layout extends React.Component {
             </View>
           </View>
           {/* ------------------------- */}
-          <View style={{ flex: 1, paddingHorizontal: scaleSzie(25) }}>
-            <View style={{ height: scaleSzie(16) }} />
+          <View style={{ flex: 1, paddingHorizontal: scaleSize(25) }}>
+            <View style={{ height: scaleSize(16) }} />
             <InputForm
               title={`${localize('Legal Business Name', language)}* `}
               subTitle={``}
@@ -122,16 +122,16 @@ export default class Layout extends React.Component {
               style={[
                 {
                   color: '#404040',
-                  fontSize: scaleSzie(14),
+                  fontSize: scaleSize(14),
                   fontWeight: '600',
-                  marginBottom: scaleSzie(5),
+                  marginBottom: scaleSize(5),
                 },
               ]}
             >
               {'Federal Tax ID*'}
             </Text>
-            <View style={{ flexDirection: 'row', marginBottom: scaleSzie(24) }}>
-              <View style={{ width: scaleSzie(100) }}>
+            <View style={{ flexDirection: 'row', marginBottom: scaleSize(24) }}>
+              <View style={{ width: scaleSize(100) }}>
                 <InputForm
                   subTitle=""
                   placeholder=""
@@ -148,14 +148,14 @@ export default class Layout extends React.Component {
               </View>
               <View
                 style={{
-                  width: scaleSzie(20),
+                  width: scaleSize(20),
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}
               >
-                <Text style={{ fontSize: scaleSzie(20) }}>-</Text>
+                <Text style={{ fontSize: scaleSize(20) }}>-</Text>
               </View>
-              <View style={{ width: scaleSzie(250) }}>
+              <View style={{ width: scaleSize(250) }}>
                 <InputForm
                   subTitle=""
                   placeholder=""
@@ -178,7 +178,7 @@ export default class Layout extends React.Component {
               subTitle="(no P.O. Boxes)"
               placeholder={localize('Street Address', language)}
               style={{
-                marginBottom: scaleSzie(10),
+                marginBottom: scaleSize(10),
               }}
               value={address}
               onChangeText={(value) =>
@@ -189,14 +189,14 @@ export default class Layout extends React.Component {
 
             <View
               style={{
-                height: scaleSzie(30),
+                height: scaleSize(30),
                 justifyContent: 'space-between',
                 flexDirection: 'row',
                 alignItems: 'flex-end',
-                marginBottom: scaleSzie(dynamicMarginBottomBA),
+                marginBottom: scaleSize(dynamicMarginBottomBA),
               }}
             >
-              <View style={{ width: scaleSzie(180) }}>
+              <View style={{ width: scaleSize(180) }}>
                 <InputForm
                   title=""
                   subTitle=""
@@ -211,7 +211,7 @@ export default class Layout extends React.Component {
                   onFocus={() => this.scrollGeneralTo(310)}
                 />
               </View>
-              <View style={{ width: scaleSzie(180), height: '100%' }}>
+              <View style={{ width: scaleSize(180), height: '100%' }}>
                 <TextInputSuggestion
                   value={state}
                   onChangeText={(value, count) => {
@@ -226,7 +226,7 @@ export default class Layout extends React.Component {
                   onFocus={() => this.scrollGeneralTo(310)}
                 />
               </View>
-              <View style={{ width: scaleSzie(180) }}>
+              <View style={{ width: scaleSize(180) }}>
                 <InputForm
                   title=""
                   subTitle=""
@@ -247,12 +247,12 @@ export default class Layout extends React.Component {
             </View>
 
             {/* ---------------  DBA Address --------------- */}
-            <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }}>
+            <View style={{ flexDirection: 'row', marginTop: scaleSize(10) }}>
               <Text
                 style={[
                   {
                     color: '#404040',
-                    fontSize: scaleSzie(14),
+                    fontSize: scaleSize(14),
                     fontWeight: '600',
                   },
                 ]}
@@ -262,14 +262,14 @@ export default class Layout extends React.Component {
               <Button
                 onPress={this.toggleDBAAddress}
                 style={{
-                  marginLeft: scaleSzie(15),
-                  marginRight: scaleSzie(5),
+                  marginLeft: scaleSize(15),
+                  marginRight: scaleSize(5),
                 }}
               >
                 <Image source={temptIconCheck} />
               </Button>
 
-              <Text style={[{ color: '#404040', fontSize: scaleSzie(12) }]}>
+              <Text style={[{ color: '#404040', fontSize: scaleSize(12) }]}>
                 {`Same as Business Address`}
               </Text>
             </View>
@@ -279,7 +279,7 @@ export default class Layout extends React.Component {
               subTitle={null}
               placeholder={localize('Street Address', language)}
               style={{
-                marginBottom: scaleSzie(10),
+                marginBottom: scaleSize(10),
               }}
               value={addressDBA}
               onChangeText={(value) =>
@@ -290,14 +290,14 @@ export default class Layout extends React.Component {
             />
             <View
               style={{
-                height: scaleSzie(30),
-                marginBottom: scaleSzie(dynamicMarginBottomDA),
+                height: scaleSize(30),
+                marginBottom: scaleSize(dynamicMarginBottomDA),
                 justifyContent: 'space-between',
                 flexDirection: 'row',
                 alignItems: 'flex-end',
               }}
             >
-              <View style={{ width: scaleSzie(180) }}>
+              <View style={{ width: scaleSize(180) }}>
                 <InputForm
                   title=""
                   subTitle=""
@@ -313,7 +313,7 @@ export default class Layout extends React.Component {
                   editable={!isDBAAddress}
                 />
               </View>
-              <View style={{ width: scaleSzie(180), height: '100%' }}>
+              <View style={{ width: scaleSize(180), height: '100%' }}>
                 <TextInputSuggestion
                   value={stateDBA}
                   onChangeText={(value, count) => {
@@ -329,7 +329,7 @@ export default class Layout extends React.Component {
                   editable={!isDBAAddress}
                 />
               </View>
-              <View style={{ width: scaleSzie(180) }}>
+              <View style={{ width: scaleSize(180) }}>
                 <InputForm
                   title=""
                   subTitle=""
@@ -350,7 +350,7 @@ export default class Layout extends React.Component {
               </View>
             </View>
 
-            <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }}>
+            <View style={{ flexDirection: 'row', marginTop: scaleSize(10) }}>
               <View style={{ flex: 1 }}>
                 <InputFormPhone
                   ref={this.businessPhoneRef}
@@ -390,7 +390,7 @@ export default class Layout extends React.Component {
                   onFocus={() => this.scrollGeneralTo(590 + 120)}
                 />
               </View>
-              <View style={{ flex: 1, paddingLeft: scaleSzie(20) }}>
+              <View style={{ flex: 1, paddingLeft: scaleSize(20) }}>
                 <InputForm
                   title="   "
                   subTitle=""
@@ -432,7 +432,7 @@ export default class Layout extends React.Component {
               <View style={{ flex: 1 }} />
             </View>
           </View>
-          <View style={{ height: scaleSzie(350) }} />
+          <View style={{ height: scaleSize(350) }} />
         </ScrollView>
       </FormInfoParent>
     );

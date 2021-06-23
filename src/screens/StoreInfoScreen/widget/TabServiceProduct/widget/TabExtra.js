@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { FooterTab, PopupConfirm, PopupEditAddExtra } from '@components';
-import { scaleSzie ,localize} from '@utils';
+import { scaleSize ,localize} from '@utils';
 import HeaderTableExtra from './HeaderTableExtra';
 import RowTableExtra from './RowTableExtra';
 import RowEmptyTableExtra from './RowEmptyTableExtra';
@@ -188,7 +188,7 @@ class TabExtra extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: scaleSzie(12)
+        paddingTop: scaleSize(12)
     },
 })
 

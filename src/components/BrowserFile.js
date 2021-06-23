@@ -6,7 +6,7 @@ import ButtonCustom from "./ButtonCustom";
 import IMAGE from "@resources";
 import connectRedux from "@redux/ConnectRedux";
 
-import { scaleSzie, gotoSettingsDevice } from "@utils";
+import { scaleSize, gotoSettingsDevice } from "@utils";
 
 class BrowserFile extends React.PureComponent {
   constructor(props) {
@@ -76,13 +76,13 @@ class BrowserFile extends React.PureComponent {
     const temptImage =
       uriUpload === "" ? IMAGE.imagePlaceHolder : { uri: uriUpload };
     return (
-      <View style={{ marginBottom: scaleSzie(10), marginTop: scaleSzie(10) }}>
+      <View style={{ marginBottom: scaleSize(10), marginTop: scaleSize(10) }}>
         <Text
           style={[
             {
               color: "#404040",
-              fontSize: scaleSzie(12),
-              marginBottom: scaleSzie(10),
+              fontSize: scaleSize(12),
+              marginBottom: scaleSize(10),
             },
             this.props.styleText,
           ]}
@@ -90,25 +90,25 @@ class BrowserFile extends React.PureComponent {
           Image
         </Text>
         <View style={{ flexDirection: "row" }}>
-          <View style={{ width: scaleSzie(80), height: scaleSzie(80) }}>
+          <View style={{ width: scaleSize(80), height: scaleSize(80) }}>
             <Image
               source={temptImage}
-              style={{ width: scaleSzie(80), height: scaleSzie(80) }}
+              style={{ width: scaleSize(80), height: scaleSize(80) }}
             />
           </View>
           <View
-            style={{ justifyContent: "flex-end", marginLeft: scaleSzie(16) }}
+            style={{ justifyContent: "flex-end", marginLeft: scaleSize(16) }}
           >
             <ButtonCustom
-              width={scaleSzie(150)}
+              width={scaleSize(150)}
               height={38}
               backgroundColor="#F1F1F1"
               title={"Browse File"}
               textColor="#6A6A6A"
               onPress={this.showPicker}
-              style={[{ borderRadius: scaleSzie(2) }, styles.shadowBtn]}
+              style={[{ borderRadius: scaleSize(2) }, styles.shadowBtn]}
               styleText={{
-                fontSize: scaleSzie(16),
+                fontSize: scaleSize(16),
               }}
             />
           </View>
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   shadowBtn: {
     ...Platform.select({
       ios: {
-        borderRadius: scaleSzie(2),
+        borderRadius: scaleSize(2),
         shadowColor: "rgba(0, 0, 0, 0.5)",
         shadowOpacity: 0.54,
         shadowOffset: { width: 0, height: 0 },

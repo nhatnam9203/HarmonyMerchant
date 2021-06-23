@@ -9,7 +9,7 @@ import {
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import { scaleSzie, formatWithMoment,getPaymentString ,checkIsTablet} from '@utils';
+import { scaleSize, formatWithMoment,getPaymentString ,checkIsTablet} from '@utils';
 
 
 class PopupConfirmInvoiceStatus extends React.Component {
@@ -53,45 +53,45 @@ class PopupConfirmInvoiceStatus extends React.Component {
         const { title, visible, onRequestClose, language, confirmChangeInvoiceStatus, profileLoginInvoice } = this.props;
         const { invoiceDetail } = this.state;
         const temptStatus = invoiceDetail.status === 'paid' ? 'Refund' : 'VOID';
-        const tempHeight = checkIsTablet() ? scaleSzie(360) : scaleSzie(480);
+        const tempHeight = checkIsTablet() ? scaleSize(360) : scaleSize(480);
 
         return (
             <PopupParent
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
-                style={{ justifyContent: 'flex-start', paddingTop: scaleSzie(20) }}
+                style={{ justifyContent: 'flex-start', paddingTop: scaleSize(20) }}
             >
                 <View style={{
                     height: tempHeight, backgroundColor: '#fff',
-                    borderBottomLeftRadius: scaleSzie(15),
-                    borderBottomRightRadius: scaleSzie(15),
-                    paddingHorizontal: scaleSzie(30)
+                    borderBottomLeftRadius: scaleSize(15),
+                    borderBottomRightRadius: scaleSize(15),
+                    paddingHorizontal: scaleSize(30)
                 }} >
                     <View style={{ flex: 1 }} >
-                        <View style={{ alignItems: 'center', marginTop: scaleSzie(12), marginBottom: scaleSzie(20) }} >
-                            <Text style={{ color: '#000', fontSize: scaleSzie(20), fontWeight: 'bold' }} >
+                        <View style={{ alignItems: 'center', marginTop: scaleSize(12), marginBottom: scaleSize(20) }} >
+                            <Text style={{ color: '#000', fontSize: scaleSize(20), fontWeight: 'bold' }} >
                                 {`Please confirm you want to ${temptStatus}`}
                             </Text>
-                            <Text style={{ color: '#000', fontSize: scaleSzie(20), fontWeight: 'bold' }} >
+                            <Text style={{ color: '#000', fontSize: scaleSize(20), fontWeight: 'bold' }} >
                                 {`this invoice!`}
                             </Text>
                         </View>
-                        <Text style={{ color: '#000', fontSize: scaleSzie(20), textAlign: 'center', }} >
+                        <Text style={{ color: '#000', fontSize: scaleSize(20), textAlign: 'center', }} >
                             INVOICE DETAIL
                         </Text>
                         {/* ----------- Line --------- */}
-                        <View style={{ paddingHorizontal: scaleSzie(0), height: scaleSzie(1.5), marginTop: scaleSzie(16) }} >
+                        <View style={{ paddingHorizontal: scaleSize(0), height: scaleSize(1.5), marginTop: scaleSize(16) }} >
                             <View style={{ flex: 1, backgroundColor: 'rgb(186,186,186)' }} />
                         </View>
                         {/* ---------- Body ----------- */}
-                        <View style={{ flex: 1, paddingHorizontal: scaleSzie(0) }} >
+                        <View style={{ flex: 1, paddingHorizontal: scaleSize(0) }} >
                             <ScrollView
                                 showsVerticalScrollIndicator={false}
                                 keyboardShouldPersistTaps="always"
                             >
                                 <TouchableOpacity activeOpacity={1}>
-                                    <View style={{ height: scaleSzie(10) }} />
+                                    <View style={{ height: scaleSize(10) }} />
                                     <ItemDetail
                                         title={'Invoice No:'}
                                         value={invoiceDetail.checkoutId ? `# ${invoiceDetail.checkoutId}` : ''}
@@ -99,7 +99,7 @@ class PopupConfirmInvoiceStatus extends React.Component {
                                     <ItemDetail
                                         title={'Customer Name:'}
                                         value={invoiceDetail.user ? `${invoiceDetail.user.firstName} ${invoiceDetail.user.lastName}` : ''}
-                                        // valueStyle={{fontSize:scaleSzie(14)}}
+                                        // valueStyle={{fontSize:scaleSize(14)}}
                                     />
                                     <ItemDetail
                                         title={'Phone Number:'}
@@ -133,14 +133,14 @@ class PopupConfirmInvoiceStatus extends React.Component {
                                         title={'Modified By:'}
                                         value={profileLoginInvoice && profileLoginInvoice.displayName ? profileLoginInvoice.displayName : ''}
                                     />
-                                    <View style={{ height: scaleSzie(200) }} />
+                                    <View style={{ height: scaleSize(200) }} />
                                 </TouchableOpacity>
                             </ScrollView>
 
                         </View>
                     </View>
                     {/* ---- Footer ---- */}
-                    <View style={{ height: scaleSzie(60), flexDirection: 'row', justifyContent: 'space-evenly' }} >
+                    <View style={{ height: scaleSize(60), flexDirection: 'row', justifyContent: 'space-evenly' }} >
                         <ButtonCustom
                             width={200}
                             height={45}
@@ -149,12 +149,12 @@ class PopupConfirmInvoiceStatus extends React.Component {
                             textColor="#fff"
                             onPress={() => confirmChangeInvoiceStatus()}
                             style={{
-                                borderRadius: scaleSzie(4),
+                                borderRadius: scaleSize(4),
                                 borderColor: '#C5C5C5',
                                 borderWidth: 1,
                             }}
                             styleText={{
-                                fontSize: scaleSzie(16),
+                                fontSize: scaleSize(16),
                                 fontWeight: '500'
                             }}
                         />
@@ -166,12 +166,12 @@ class PopupConfirmInvoiceStatus extends React.Component {
                             textColor="#6A6A6A"
                             onPress={() => onRequestClose()}
                             style={{
-                                borderRadius: scaleSzie(4),
+                                borderRadius: scaleSize(4),
                                 borderColor: '#C5C5C5',
                                 borderWidth: 1,
                             }}
                             styleText={{
-                                fontSize: scaleSzie(16),
+                                fontSize: scaleSize(16),
                                 fontWeight: '500'
                             }}
                         />
@@ -184,7 +184,7 @@ class PopupConfirmInvoiceStatus extends React.Component {
 
 const ItemDetail = ({ title, value,titleStyle,valueStyle }) => {
     return (
-        <View style={{ height: scaleSzie(26), flexDirection: 'row' }} >
+        <View style={{ height: scaleSize(26), flexDirection: 'row' }} >
             <View style={{ flex: 1, justifyContent: 'center' }} >
                 <Text style={[styles.textCommon,titleStyle]} >
                     {title}
@@ -202,11 +202,11 @@ const ItemDetail = ({ title, value,titleStyle,valueStyle }) => {
 const styles = StyleSheet.create({
     textCommon: {
         color: '#707070',
-        fontSize: scaleSzie(15)
+        fontSize: scaleSize(15)
     },
     textValue: {
         color: '#404040',
-        fontSize: scaleSzie(16)
+        fontSize: scaleSize(16)
     }
 })
 

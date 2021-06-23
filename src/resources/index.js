@@ -128,7 +128,8 @@ export default {
   customer_checkin_is_read: require('./img/customer_checkin_is_read.png'),
   read_all_noti: require('./img/read_all_noti.png'),
   danger: require('./img/danger.png'),
-
+  number_delete: require("./img/number_delete.png"),
+  number_delete_white: require("./img/number_delete_white.png"),
   // --- Payment ---
   cash_payment_se: require('./payment/cash_payment_se.png'),
   cash_payment: require('./payment/cash_payment.png'),

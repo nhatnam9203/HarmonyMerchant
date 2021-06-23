@@ -7,7 +7,7 @@ import {
     RefreshControl
 } from 'react-native';
 
-import { scaleSzie, localize } from '@utils';
+import { scaleSize, localize } from '@utils';
 import styles from './style';
 import { DatePicker, ScrollableTabView } from '@components';
 import {
