@@ -1,28 +1,29 @@
-import NavigationServices from "@navigators/NavigatorServices";
-import { useFocusEffect } from "@react-navigation/native";
+import NavigationServices from '@navigators/NavigatorServices';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   useGetProductsList,
   useRestockProducts,
-} from "@shared/services/api/retailer";
-import { NEED_TO_ORDER } from "@shared/utils/app";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+  useExportProducts,
+} from '@shared/services/api/retailer';
+import { NEED_TO_ORDER, statusSuccess } from '@shared/utils/app';
+
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 export const useProps = ({ params: { reload } }) => {
   const { t } = useTranslation();
-
+  const exportRef = React.useRef(null);
   const needToOrderRef = React.useRef(null);
   const categories = useSelector(
     (state) => state.inventoryRetailer?.categories
   );
-
+  const merchant = useSelector((state) => state.dataLocal.profile);
   const [searchVal, setSearchVal] = React.useState();
   const [category, setCategory] = React.useState(-1);
   const [needToOrder, setNeedToOrder] = React.useState(NEED_TO_ORDER[0].value);
   const [page, setPage] = React.useState(1);
   const [itemSelected, setItemSelected] = React.useState(null);
-
   /**
   |--------------------------------------------------
   | CALL API
@@ -31,7 +32,7 @@ export const useProps = ({ params: { reload } }) => {
   const [productListData, getInventoryList] = useGetProductsList();
   const callGetProductList = React.useCallback(() => {
     getInventoryList({
-      key: searchVal ?? "",
+      key: searchVal ?? '',
       page: page,
       sort: {},
       ...((category >= 0 || needToOrder) && {
@@ -44,6 +45,26 @@ export const useProps = ({ params: { reload } }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, page, needToOrder, searchVal, productsRestock?.data]);
   const [productsRestock, restockProducts] = useRestockProducts();
+
+  /**
+  |--------------------------------------------------
+  |  API EXPORT
+  |--------------------------------------------------
+  */
+  const [productsExport, exportProducts] = useExportProducts();
+  const callExportProduct = React.useCallback((values) => {
+    const params = Object.assign({}, values, {
+      merchantId: merchant?.merchantId,
+    });
+    exportProducts(params);
+  }, []);
+
+  React.useEffect(() => {
+    const { codeStatus, data } = productsExport || {};
+    if (statusSuccess(codeStatus)) {
+      exportRef.current?.onCreateFile(data?.path);
+    }
+  }, [productsExport]);
 
   /**
   |--------------------------------------------------
@@ -87,38 +108,38 @@ export const useProps = ({ params: { reload } }) => {
   return {
     items: productListData?.data,
     onButtonNewProductPress: () => {
-      NavigationServices.navigate("retailer.inventory.product.edit", {
+      NavigationServices.navigate('retailer.inventory.product.edit', {
         isNew: true,
       });
     },
     onEditProduct: (item) => {
-      NavigationServices.navigate("retailer.inventory.product.edit", {
+      NavigationServices.navigate('retailer.inventory.product.edit', {
         isEdit: true,
         item,
       });
     },
     onLoadProductDetail: ({ item }) => {
-      NavigationServices.navigate("retailer.inventory.product.detail", {
+      NavigationServices.navigate('retailer.inventory.product.detail', {
         item,
       });
     },
     needToOrderRef,
     categories: categories
       ? [
-          { value: -1, label: "All Categories" },
+          { value: -1, label: 'All Categories' },
           ...categories?.map((x) => ({
             value: x.categoryId,
             label: x.name,
           })),
         ]
-      : [{ value: -1, label: "All Categories" }],
+      : [{ value: -1, label: 'All Categories' }],
     onChangeValueSearch,
     onButtonSearchPress,
     category,
     setCategory,
     needToOrder,
     setNeedToOrder,
-    onSubmitRestock: (value, reason = t("New stock")) => {
+    onSubmitRestock: (value, reason = t('New stock')) => {
       if (itemSelected?.length > 0) {
         const productIds = itemSelected.map((v) => v.productId);
         restockProducts({
@@ -130,5 +151,7 @@ export const useProps = ({ params: { reload } }) => {
     },
     onCheckedRow,
     onRefresh: () => callGetProductList(),
+    callExportProduct,
+    exportRef,
   };
 };

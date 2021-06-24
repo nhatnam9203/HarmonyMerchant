@@ -271,7 +271,8 @@ export default {
   DeleteOutline: require("../assets/images/delete_outline-24px.png"),
   Clean: require("../assets/images/MaskGroup293.png"),
   IconButtonStatusClose: require("../assets/images/btn_status_close.png"),
-
+  ExportPdfFileImage: require("../assets/images/MaskGroup286.png"),
+  
   cash_retailer: require('../assets/images/cash.png'),
   check_retailer: require('../assets/images/check.png'),
   credit_card_retailer: require('../assets/images/credit_card.png'),

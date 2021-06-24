@@ -8,7 +8,11 @@ import Modal from 'react-native-modal';
 import { ButtonGradient, ButtonGradientWhite } from './Button';
 import { CustomInput } from './CustomInput';
 import { CustomRadioSelect } from './CustomRadioSelect';
-import { createFilePath, getInfoPathFile,handleTheDownloadedFile } from '@shared/utils/files';
+import {
+  createFilePath,
+  getInfoPathFile,
+  handleTheDownloadedFile,
+} from '@shared/utils/files';
 const EXPORT_FUNCTION = [
   { value: 'pdf', label: 'PDF' },
   { value: 'excel', label: 'EXCEL' },
@@ -16,8 +20,8 @@ const EXPORT_FUNCTION = [
 
 const EXPORT_LAYOUT = ['preview', 'export', 'processing'];
 
-export const ExportModal = React.forwardRef(
-  ({ onExportFile, needToEditFile }, ref) => {
+export const ExportModalInventory = React.forwardRef(
+  ({ onExportFile, title }, ref) => {
     const [t] = useTranslation();
     const [open, setOpen] = React.useState(false);
     const [items, setItems] = React.useState(EXPORT_FUNCTION);
@@ -25,7 +29,7 @@ export const ExportModal = React.forwardRef(
     const [mode, setMode] = React.useState(null);
     const [show_modal, setShowModal] = React.useState(false);
     const [files, setFiles] = React.useState({});
-    const [fileName, setFileName] = React.useState('');
+    const [fileName, setFileName] = React.useState(title);
     const [isNeedToOrder, setNeedToOrder] = React.useState(0);
     const [layout, setLayout] = React.useState(EXPORT_LAYOUT[1]);
     React.useImperativeHandle(ref, () => ({
@@ -35,27 +39,41 @@ export const ExportModal = React.forwardRef(
       hide: () => {
         setShowModal(false);
       },
-      onSelectFiles: (files) => {
-        setFiles(files);
-        setLayout(EXPORT_LAYOUT[0]);
-      },
+
+      onCreateFile: (url) => onHandleCreateFile(url),
     }));
+
+    const resetState = () => {
+      setMode(null);
+      setValue(null);
+      setLayout(EXPORT_LAYOUT[1]);
+      setFileName(title);
+    };
 
     const onHandleChange = (val) => {
       setMode(val); // !! select type export => call server get file here follow type select, set callback
-      if (typeof onExportFile === 'function' && val && !needToEditFile) {
-        onHandleCreateFile();
-      } else {
-        val && setShowModal(true);
-      }
+      val && setShowModal(true);
     };
 
-    const onHandleCreateFile = () => {
+    const onRequestFileFromServer = () => {
       onExportFile({
         type: mode,
         fileName,
         isNeedToOrder: Boolean(isNeedToOrder),
       });
+      setShowModal(false);
+    };
+
+    const onHandleCreateFile = async (url) => {
+      let filePath = await createFilePath({
+        fileName: fileName,
+        extention: mode,
+        url,
+      });
+      let files = await getInfoPathFile(filePath);
+      setFiles(files);
+      setShowModal(true);
+      setLayout(EXPORT_LAYOUT[0]);
     };
 
     const onExportButtonPress = () => {
@@ -63,8 +81,7 @@ export const ExportModal = React.forwardRef(
     };
 
     const hideModal = () => {
-      setMode(null);
-      setValue(null);
+      resetState();
       setShowModal(false);
     };
 
@@ -82,15 +99,6 @@ export const ExportModal = React.forwardRef(
       setNeedToOrder(item.value);
     };
 
-    // React.useEffect(() => {
-    //   const getInfoFile = async () => {
-    //     let files = await getInfoPathFile(filePath);
-    //     await setFileInfo(files ?? {});
-    //   };
-
-    //   getInfoFile();
-    // }, [filePath]);
-
     const renderLayoutPreview = () => {
       return (
         <View style={styles.content}>
@@ -100,7 +108,11 @@ export const ExportModal = React.forwardRef(
           <View style={layouts.marginVertical} />
           <TouchableOpacity style={styles.fileInfo}>
             <Image
-              source={IMAGE.ExportCsvFileImage}
+              source={
+                mode === 'excel'
+                  ? IMAGE.ExportCsvFileImage
+                  : IMAGE.ExportPdfFileImage
+              }
               style={{ width: scaleWidth(39), height: scaleHeight(44) }}
             />
             <View style={styles.pdfFileContent}>
@@ -120,7 +132,8 @@ export const ExportModal = React.forwardRef(
         </View>
       );
     };
-    const renderLayoutExport = () => {
+
+    const renderContent = () => {
       switch (layout) {
         case EXPORT_LAYOUT[1]:
           return (
@@ -142,13 +155,12 @@ export const ExportModal = React.forwardRef(
                   { label: t('The products need to order more'), value: 1 },
                   { label: t('All product'), value: 0 },
                 ]}
-                
                 selected={onHandleChangeSelect}
               />
 
               <View style={styles.bottomStyle}>
                 <ButtonGradient
-                  onPress={onHandleCreateFile}
+                  onPress={onRequestFileFromServer}
                   label={t('Next')}
                   width={scaleWidth(140)}
                   height={scaleHeight(40)}
@@ -160,14 +172,6 @@ export const ExportModal = React.forwardRef(
           return renderLayoutPreview();
         default:
           return null;
-      }
-    };
-
-    const renderContent = () => {
-      if (needToEditFile) {
-        return renderLayoutExport();
-      } else {
-        return renderLayoutPreview();
       }
     };
 

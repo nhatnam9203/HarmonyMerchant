@@ -1,6 +1,14 @@
 import React from 'react';
-import { useGetCustomerList } from '@shared/services/api/retailer';
-import { CustomerGroupTypes, SORT_TYPE } from '@shared/utils/app';
+import {
+  useGetCustomerList,
+  useReportCustomer,
+} from '@shared/services/api/retailer';
+import {
+  CustomerGroupTypes,
+  SORT_TYPE,
+  statusSuccess,
+} from '@shared/utils/app';
+import { createFilePath, getInfoPathFile } from '@shared/utils/files';
 import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 import NavigationServices from '@navigators/NavigatorServices';
@@ -15,12 +23,14 @@ const log = (obj, message = '') => {
  */
 export const useProps = ({ params: { reload }, navigation }) => {
   const [t] = useTranslation();
-
+  const exportRef = React.useRef();
   const [groupType, setGroupType] = React.useState(CustomerGroupTypes[0].value);
   const [page, setPage] = React.useState(1);
   const [sortName, setSortName] = React.useState(SORT_TYPE.ASC);
   const [sortPhoneNumber, setSortPhoneNumber] = React.useState(SORT_TYPE.DESC);
   const [searchVal, setSearchVal] = React.useState();
+  const [files, setFiles] = React.useState('');
+  const [typeExport, setTypeExport] = React.useState('');
   /**
   |--------------------------------------------------
   | CALL API
@@ -52,6 +62,40 @@ export const useProps = ({ params: { reload }, navigation }) => {
     callGetCustomerList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [groupType, sortName, sortPhoneNumber, searchVal]);
+
+  /**
+  |--------------------------------------------------
+  |  API EXPORT
+  |--------------------------------------------------
+  */
+  const [reportCustomer, getReportCustomer] = useReportCustomer();
+  const callGetReportCustomer = React.useCallback((values) => {
+    const params = Object.assign({}, values, {
+      quickFilter: 'thisWeek',
+    });
+    setTypeExport(values.type);
+    getReportCustomer(params, true);
+  }, []);
+
+  const saveFilePath = async (url) => {
+    let filePath = await createFilePath({
+      fileName: 'Customer',
+      extention: typeExport,
+      url,
+    });
+    if (filePath) {
+      let files = await getInfoPathFile(filePath);
+      setFiles(files);
+      exportRef.current.show();
+    }
+  };
+
+  React.useEffect(() => {
+    const { codeStatus, data } = reportCustomer || {};
+    if (statusSuccess(codeStatus)) {
+      saveFilePath(data);
+    }
+  }, [reportCustomer]);
 
   const getCustomerGroupLabel = (value) => {
     const group = CustomerGroupTypes.find((x) => x.value === value);
@@ -96,6 +140,8 @@ export const useProps = ({ params: { reload }, navigation }) => {
   return {
     items: customerList?.data,
     groupType,
+    files,
+    exportRef,
     setGroupType,
     customerGroups: CustomerGroupTypes,
     getCustomerGroupLabel,
@@ -106,6 +152,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
     onButtonSearchPress,
     onButtonNewCustomerPress,
     onRefresh,
+    callGetReportCustomer,
     onSelectRow: ({ item }) => {
       NavigationServices.navigate('retailer.customer.detail', {
         item: item,
