@@ -1,5 +1,5 @@
 import { Text } from "@components";
-import { ScaleSzie, openBrowser } from "@utils";
+import { scaleSzie, openBrowser } from "@utils";
 import React from "react";
 import {
   Dimensions,
@@ -52,8 +52,8 @@ const ItemBrand = ({ item }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFF",
-    width: ScaleSzie(126),
-    minHeight: ScaleSzie(150),
+    width: scaleSzie(126),
+    minHeight: scaleSzie(150),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -63,18 +63,18 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
-    margin: ScaleSzie(13),
-    borderRadius: ScaleSzie(5),
+    margin: scaleSzie(13),
+    borderRadius: scaleSzie(5),
   },
   image: {
-    borderTopLeftRadius: ScaleSzie(5),
-    borderTopRightRadius: ScaleSzie(5),
+    borderTopLeftRadius: scaleSzie(5),
+    borderTopRightRadius: scaleSzie(5),
     width: "100%",
-    height: ScaleSzie(120),
+    height: scaleSzie(120),
   },
   img: {
     width: "100%",
-    height: ScaleSzie(120),
+    height: scaleSzie(120),
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -83,17 +83,17 @@ const styles = StyleSheet.create({
     height: "30%",
   },
   brandName: {
-    paddingVertical: ScaleSzie(13),
+    paddingVertical: scaleSzie(13),
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
   },
   name: {
-    fontSize: ScaleSzie(12),
+    fontSize: scaleSzie(12),
     fontWeight: "600",
     color: "#0764B0",
     textAlign: 'center',
-    paddingHorizontal: ScaleSzie(2)
+    paddingHorizontal: scaleSzie(2)
   },
 });
 

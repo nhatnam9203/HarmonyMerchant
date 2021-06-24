@@ -9,7 +9,7 @@ import * as Progress from 'react-native-progress';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import { ScaleSzie } from '../utils';
+import { scaleSzie } from '../utils';
 import IMAGE from '../resources';
 
 class PopupUpload extends React.Component {
@@ -63,10 +63,10 @@ class PopupUpload extends React.Component {
                 }}
             >
                 <View style={{
-                    height: ScaleSzie(350), backgroundColor: '#fff',
-                    borderBottomLeftRadius: ScaleSzie(15), borderBottomRightRadius: ScaleSzie(15)
+                    height: scaleSzie(350), backgroundColor: '#fff',
+                    borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
                 }} >
-                    <View style={{ height: ScaleSzie(200), paddingHorizontal: ScaleSzie(30), paddingVertical: ScaleSzie(15) }} >
+                    <View style={{ height: scaleSzie(200), paddingHorizontal: scaleSzie(30), paddingVertical: scaleSzie(15) }} >
                         <View style={{
                             flex: 1, backgroundColor: '#FAFAFA',
                             borderWidth: 1, borderColor: '#C5C5C5'
@@ -78,25 +78,25 @@ class PopupUpload extends React.Component {
                             />
                         </View>
                     </View>
-                    <View style={{ flex: 1, paddingHorizontal: ScaleSzie(30) }} >
-                        <Text style={{ color: '#404040', fontSize: ScaleSzie(14) }} >
+                    <View style={{ flex: 1, paddingHorizontal: scaleSzie(30) }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
                             Uploading
                         </Text>
                         <View style={{
-                            height: ScaleSzie(60),
+                            height: scaleSzie(60),
                             flexDirection: 'row'
                         }} >
-                            <Image source={IMAGE.iconUpload} style={{ height: ScaleSzie(45), width: ScaleSzie(45), marginTop: ScaleSzie(5) }} />
-                            <View style={{ flex: 1, paddingLeft: ScaleSzie(30) }} >
+                            <Image source={IMAGE.iconUpload} style={{ height: scaleSzie(45), width: scaleSzie(45), marginTop: scaleSzie(5) }} />
+                            <View style={{ flex: 1, paddingLeft: scaleSzie(30) }} >
                                 <View style={{ flex: 1 }} >
-                                    <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(12) }} >
+                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(12) }} >
                                        
                                         {
                                             isPricipal ? "DriverLicense.jpg" : "VoidCheck.jpg"
                                         }
                                     </Text>
-                                    <Progress.Bar progress={this.state.progress} width={ScaleSzie(265)} color="#4CD964" />
-                                    <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginTop: ScaleSzie(8) }} >
+                                    <Progress.Bar progress={this.state.progress} width={scaleSzie(265)} color="#4CD964" />
+                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginTop: scaleSzie(8) }} >
                                         {`${this.state.progress}%`}
                                     </Text>
                                 </View>
@@ -104,14 +104,14 @@ class PopupUpload extends React.Component {
                         </View>
                         <View style={{
                             flex: 1, alignItems: 'center', justifyContent: 'flex-end',
-                            paddingBottom: ScaleSzie(10)
+                            paddingBottom: scaleSzie(10)
                         }} >
                             {
                                 loadingUpload ? <ActivityIndicator
                                     color="#4CD964"
                                     size="large"
                                 /> : <ButtonCustom
-                                        width={ScaleSzie(100)}
+                                        width={scaleSzie(100)}
                                         height={35}
                                         backgroundColor={temtpColorBtnSave}
                                         title="Save"
@@ -119,10 +119,10 @@ class PopupUpload extends React.Component {
                                         onPress={this.saveVoidCheck}
                                         style={{
                                             borderWidth: 1, borderColor: '#C5C5C5',
-                                            borderRadius: ScaleSzie(4)
+                                            borderRadius: scaleSzie(4)
                                         }}
                                         styleText={{
-                                            fontSize: ScaleSzie(14),
+                                            fontSize: scaleSzie(14),
                                             fontWeight: '500'
                                         }}
                                     />

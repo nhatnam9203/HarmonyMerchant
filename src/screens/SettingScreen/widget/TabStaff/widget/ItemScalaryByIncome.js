@@ -5,7 +5,7 @@ import _ from 'ramda';
 
 import ICON from '@resources';
 import { Button } from '@components';
-import { ScaleSzie } from '@utils';
+import { scaleSzie } from '@utils';
 
 export const ItemScalaryByIncome = ({
   title,
@@ -24,30 +24,30 @@ export const ItemScalaryByIncome = ({
     <View
       style={{
         flexDirection: 'row',
-        paddingHorizontal: ScaleSzie(25),
-        marginTop: ScaleSzie(20),
+        paddingHorizontal: scaleSzie(25),
+        marginTop: scaleSzie(20),
       }}
     >
-      <Button onPress={onPressIncomesCheckbox} style={{ width: ScaleSzie(30) }}>
+      <Button onPress={onPressIncomesCheckbox} style={{ width: scaleSzie(30) }}>
         <Image
           source={temptIconCheck}
-          style={{ width: ScaleSzie(15), height: ScaleSzie(15) }}
+          style={{ width: scaleSzie(15), height: scaleSzie(15) }}
         />
       </Button>
-      <View style={{ width: ScaleSzie(120) }}>
+      <View style={{ width: scaleSzie(120) }}>
         <Text
           style={{
             color: '#404040',
-            fontSize: ScaleSzie(14),
+            fontSize: scaleSzie(14),
             fontWeight: '600',
           }}
         >
           {`${title}`}
         </Text>
       </View>
-      <View style={[{ width: ScaleSzie(420) }]}>
+      <View style={[{ width: scaleSzie(420) }]}>
         {/* ------------------- Header Staff Salary Income ---------------------- */}
-        <View style={{ height: ScaleSzie(32), flexDirection: 'row' }}>
+        <View style={{ height: scaleSzie(32), flexDirection: 'row' }}>
           <View style={{ flex: 1 }}>
             <Text style={styles.title}>{`From ($)`}</Text>
           </View>
@@ -79,8 +79,8 @@ export const ItemScalaryByIncome = ({
               style={{
                 color: '#0764B0',
                 fontWeight: '700',
-                fontSize: ScaleSzie(14),
-                marginTop: ScaleSzie(5),
+                fontSize: scaleSzie(14),
+                marginTop: scaleSzie(5),
               }}
             >
               {`+ Add more`}
@@ -109,9 +109,9 @@ const RowSalaryIncome = ({
   return (
     <View
       style={{
-        height: ScaleSzie(32),
+        height: scaleSzie(32),
         flexDirection: 'row',
-        marginBottom: ScaleSzie(20),
+        marginBottom: scaleSzie(20),
       }}
     >
       <ItemSalaryIncome
@@ -140,13 +140,13 @@ const RowSalaryIncome = ({
           onPress={() => removeSalaryByIndex(index)}
           style={{
             justifyContent: 'center',
-            width: ScaleSzie(20),
+            width: scaleSzie(20),
           }}
         >
           <Image source={ICON.trash_icon} />
         </Button>
       ) : (
-        <View style={{ width: ScaleSzie(20) }} />
+        <View style={{ width: scaleSzie(20) }} />
       )}
     </View>
   );
@@ -172,7 +172,7 @@ const ItemSalaryIncome = ({
             unit: '',
             suffixUnit: '',
           }}
-          style={{ flex: 1, fontSize: ScaleSzie(14), color: '#404040' }}
+          style={{ flex: 1, fontSize: scaleSzie(14), color: '#404040' }}
           placeholder={placeholder}
           value={value}
           onChangeText={(value) => onChangeText(value)}
@@ -189,16 +189,16 @@ const styles = StyleSheet.create({
   title: {
     color: '#404040',
     fontWeight: '500',
-    fontSize: ScaleSzie(13),
+    fontSize: scaleSzie(13),
   },
   box_input_border: {
     flex: 1,
-    paddingRight: ScaleSzie(20),
+    paddingRight: scaleSzie(20),
   },
   input_border: {
     flex: 1,
     borderColor: '#C5C5C5',
     borderWidth: 1,
-    paddingHorizontal: ScaleSzie(5),
+    paddingHorizontal: scaleSzie(5),
   },
 });

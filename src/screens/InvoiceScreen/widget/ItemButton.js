@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Button } from '@components';
-import { ScaleSzie } from '@utils';
+import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
 class ItemButton extends React.Component {
@@ -22,17 +22,17 @@ class ItemButton extends React.Component {
         const {title,onPress} = this.props;
         return (
             <Button onPress={() =>onPress() } style={{
-                height: ScaleSzie(34), backgroundColor: '#F1F1F1',
+                height: scaleSzie(34), backgroundColor: '#F1F1F1',
                 borderColor: '#C5C5C5', borderWidth: 1, borderRadius: 6,
-                flexDirection: 'row',marginBottom:ScaleSzie(3)
+                flexDirection: 'row',marginBottom:scaleSzie(3)
             }} >
-                <View style={{ flex: 1 ,justifyContent:'center',paddingLeft:ScaleSzie(10)}} >
-                    <Text style={{ fontSize: ScaleSzie(14), color: '#0764B0', }} >
+                <View style={{ flex: 1 ,justifyContent:'center',paddingLeft:scaleSzie(10)}} >
+                    <Text style={{ fontSize: scaleSzie(14), color: '#0764B0', }} >
                    {title}
                     </Text>
                 </View>
-                <View style={{ justifyContent: 'center', paddingRight: ScaleSzie(12) }} >
-                    <Image source={IMAGE.arrowRightButton} style={{ width: ScaleSzie(6), height: ScaleSzie(13) }} />
+                <View style={{ justifyContent: 'center', paddingRight: scaleSzie(12) }} >
+                    <Image source={IMAGE.arrowRightButton} style={{ width: scaleSzie(6), height: scaleSzie(13) }} />
                 </View>
             </Button>
         );

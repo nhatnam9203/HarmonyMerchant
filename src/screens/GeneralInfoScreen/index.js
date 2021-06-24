@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateEmail, getIdStateByName, ScaleSzie, checkStateIsValid } from '@utils';
+import { validateEmail, getIdStateByName, scaleSzie, checkStateIsValid } from '@utils';
 
 
 class GeneralInfoScreen extends Layout {
@@ -48,7 +48,7 @@ class GeneralInfoScreen extends Layout {
     }
 
     scrollGeneralTo(position) {
-        this.srollGeneralRef.current.scrollTo({ x: 0, y: ScaleSzie(position), animated: true })
+        this.srollGeneralRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
     updateGeneralInfo(key, value, keyParent = '') {

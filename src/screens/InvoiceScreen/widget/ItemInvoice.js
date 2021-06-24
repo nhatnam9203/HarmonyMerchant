@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import { Button } from '@components';
-import { ScaleSzie, formatWithMoment } from '@utils';
+import { scaleSzie, formatWithMoment } from '@utils';
 
 class ItemInvoice extends React.Component {
 
@@ -46,7 +46,7 @@ class ItemInvoice extends React.Component {
 
         return (
             <Button onPress={() => onPress()} style={[{
-                height: ScaleSzie(62), paddingHorizontal: ScaleSzie(10),
+                height: scaleSzie(62), paddingHorizontal: scaleSzie(10),
                 borderBottomColor: '#C5C5C5', borderBottomWidth: 1,
                 backgroundColor: '#FAFAFA',
                 flexDirection: "row"
@@ -54,16 +54,16 @@ class ItemInvoice extends React.Component {
                 {/* ----------- Col 1 --------- */}
                 <View style={{ flex:2}} >
                     <View style={{ flex: 1, justifyContent: 'center' }} >
-                        <Text style={{ fontSize: ScaleSzie(14), color: '#404040' }} >
+                        <Text style={{ fontSize: scaleSzie(14), color: '#404040' }} >
                             {`${temptFirstName} ${temptLastName}`}
                         </Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
-                        <Text style={{ fontSize: ScaleSzie(14), color: '#6A6A6A', marginRight: ScaleSzie(20) }} >
+                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', marginRight: scaleSzie(20) }} >
                             {`# ${invoice.code}`}
                         </Text>
                         <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: colorStaus }} />
-                        <Text style={{ fontSize: ScaleSzie(11), color: colorStaus, marginLeft: ScaleSzie(5),fontWeight:"600" }} >
+                        <Text style={{ fontSize: scaleSzie(11), color: colorStaus, marginLeft: scaleSzie(5),fontWeight:"600" }} >
                             {invoice.status}
                         </Text>
 
@@ -72,12 +72,12 @@ class ItemInvoice extends React.Component {
                 {/* ----------- Col 2 --------- */}
                 <View style={{ flex: 1 }} >
                     <View style={{ flex: 1, justifyContent: 'center' }} >
-                        <Text style={{ fontSize: ScaleSzie(14), color: '#6A6A6A' }} >
+                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A' }} >
                             {tempDate}
                         </Text>
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', }} >
-                        <Text style={{ fontSize: ScaleSzie(14), color: '#6A6A6A', fontWeight: "bold" }} >
+                        <Text style={{ fontSize: scaleSzie(14), color: '#6A6A6A', fontWeight: "bold" }} >
                             {`${formatWithMoment(invoice.createdDate, 'hh:mm A')}`}
                         </Text>
                     </View>
@@ -85,12 +85,12 @@ class ItemInvoice extends React.Component {
                 {/* ----------- Col 3 --------- */}
                 <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'flex-end' }} >
                     {
-                        settlementId ? <Text style={{ fontSize: ScaleSzie(12), color: '#404040', fontWeight: "400", marginBottom: ScaleSzie(2) }} >
+                        settlementId ? <Text style={{ fontSize: scaleSzie(12), color: '#404040', fontWeight: "400", marginBottom: scaleSzie(2) }} >
                             {`Batch ID: #${settlementId}`}
                         </Text> : null
                     }
 
-                    <Text style={{ fontSize: ScaleSzie(14), color: '#404040', fontWeight: "600" }} >
+                    <Text style={{ fontSize: scaleSzie(14), color: '#404040', fontWeight: "600" }} >
                         {`$ ${invoice.total}`}
                     </Text>
                 </View>

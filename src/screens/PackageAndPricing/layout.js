@@ -8,7 +8,7 @@ import {
 import styles from './style';
 import ICON from '@resources';
 import { Text, ButtonCustom } from '@components';
-import { ScaleSzie, formatMoney, checkIsTablet } from '@utils';
+import { scaleSzie, formatMoney, checkIsTablet } from '@utils';
 import Svg from 'react-native-svg';
 
 export default class Layout extends React.Component {
@@ -17,7 +17,7 @@ export default class Layout extends React.Component {
         const firstPackage = this.findPackage(1);
         const secondPackage = this.findPackage(2);
         const thirstPackage = this.findPackage(3);
-        const temp_height_header = checkIsTablet() ? ScaleSzie(40) : ScaleSzie(45);
+        const temp_height_header = checkIsTablet() ? scaleSzie(40) : scaleSzie(45);
 
         return (
             <View style={{ height: temp_height_header, flexDirection: "row" }} >
@@ -29,7 +29,7 @@ export default class Layout extends React.Component {
                     }}
                     textStyle={{
                         color: "#404040",
-                        marginLeft: ScaleSzie(12)
+                        marginLeft: scaleSzie(12)
                     }}
                 />
                 <ItemHeader
@@ -79,7 +79,7 @@ export default class Layout extends React.Component {
         const firstPackage = this.findPackage(1);
         const secondPackage = this.findPackage(2);
         const thirstPackage = this.findPackage(3);
-        const tempHeight = checkIsTablet() ? ScaleSzie(240) : ScaleSzie(280);
+        const tempHeight = checkIsTablet() ? scaleSzie(240) : scaleSzie(280);
 
         return (
             <View style={{ height: tempHeight, flexDirection: "row", }} >
@@ -224,21 +224,21 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const temp_title_style = checkIsTablet() ? { fontSize: ScaleSzie(22), marginTop: ScaleSzie(12) } : {};
-        const temp_des_style = checkIsTablet() ? { fontSize: ScaleSzie(14), marginTop: ScaleSzie(2) } : {};
-        const temp_table_padding = checkIsTablet() ? { padding: ScaleSzie(10), paddingBottom: 0 } : {};
+        const temp_title_style = checkIsTablet() ? { fontSize: scaleSzie(22), marginTop: scaleSzie(12) } : {};
+        const temp_des_style = checkIsTablet() ? { fontSize: scaleSzie(14), marginTop: scaleSzie(2) } : {};
+        const temp_table_padding = checkIsTablet() ? { padding: scaleSzie(10), paddingBottom: 0 } : {};
 
         return (
             <View style={{ flex: 1 }} >
                 <Text style={[{
-                    color: "#404040", fontSize: ScaleSzie(30), fontWeight: "600",
-                    alignSelf: "center", marginTop: ScaleSzie(25)
+                    color: "#404040", fontSize: scaleSzie(30), fontWeight: "600",
+                    alignSelf: "center", marginTop: scaleSzie(25)
                 }, temp_title_style]} >
                     {`Packages & Pricing`}
                 </Text>
                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }} >
                     <Text style={[{
-                        color: "#6A6A6A", fontSize: ScaleSzie(17), alignSelf: "center", marginTop: ScaleSzie(6)
+                        color: "#6A6A6A", fontSize: scaleSzie(17), alignSelf: "center", marginTop: scaleSzie(6)
                     }, temp_des_style]} >
                         {`Try HarmonyPay apps free for 30 days! No payment information required `}
                     </Text>
@@ -247,12 +247,12 @@ export default class Layout extends React.Component {
 
 
                 {/* ------------------ Table ---------------- */}
-                <View style={[{ flex: 1, padding: ScaleSzie(18) }, temp_table_padding]} >
+                <View style={[{ flex: 1, padding: scaleSzie(18) }, temp_table_padding]} >
                     <View style={{ flex: 1 }} >
                         {this.renderHeaderTable()}
                         {this.renderBodyTable()}
                         {this.renderFooterTable()}
-                        <View style={{ height: ScaleSzie(10) }} />
+                        <View style={{ height: scaleSzie(10) }} />
                     </View>
                 </View>
             </View>
@@ -262,17 +262,17 @@ export default class Layout extends React.Component {
 
 
 const ItemHeader = ({ title, style, textStyle, icon }) => {
-    const temp_title_style = checkIsTablet() ? { fontSize: ScaleSzie(16) } : {};
+    const temp_title_style = checkIsTablet() ? { fontSize: scaleSzie(16) } : {};
 
     return (
         <View style={[{ flex: 1 }, style]} >
             {
                 icon ? <Image source={icon} style={{
-                    width: ScaleSzie(20), height: ScaleSzie(20),
-                    marginRight: ScaleSzie(8)
+                    width: scaleSzie(20), height: scaleSzie(20),
+                    marginRight: scaleSzie(8)
                 }} /> : null
             }
-            <Text style={[{ fontSize: ScaleSzie(18), fontWeight: "500", }, textStyle, temp_title_style]} >
+            <Text style={[{ fontSize: scaleSzie(18), fontWeight: "500", }, textStyle, temp_title_style]} >
                 {title}
             </Text>
         </View>
@@ -280,11 +280,11 @@ const ItemHeader = ({ title, style, textStyle, icon }) => {
 }
 
 const ItemTextPackage = ({ title }) => {
-    const temp_title_style = checkIsTablet() ? { fontSize: ScaleSzie(15) } : {};
+    const temp_title_style = checkIsTablet() ? { fontSize: scaleSzie(15) } : {};
 
     return (
         <View style={[{ flex: 1, justifyContent: "center" }]} >
-            <Text style={[{ color: "#404040", fontSize: ScaleSzie(16), marginLeft: ScaleSzie(12) }, temp_title_style]} >
+            <Text style={[{ color: "#404040", fontSize: scaleSzie(16), marginLeft: scaleSzie(12) }, temp_title_style]} >
                 {title}
             </Text>
         </View>
@@ -294,13 +294,13 @@ const ItemTextPackage = ({ title }) => {
 
 const ItemValuePackage = ({ title, isDisabled }) => {
     const icon = isDisabled === 0 ? ICON.not_support : ICON.check_package_pricing;
-    const temp_title_style = checkIsTablet() ? { fontSize: ScaleSzie(15) } : {};
-    const temp_icon_style = checkIsTablet() ? { width: ScaleSzie(15), height: ScaleSzie(15) } : {};
+    const temp_title_style = checkIsTablet() ? { fontSize: scaleSzie(15) } : {};
+    const temp_icon_style = checkIsTablet() ? { width: scaleSzie(15), height: scaleSzie(15) } : {};
 
     return (
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
             {
-                title ? <Text style={[{ color: "#0764B0", fontSize: ScaleSzie(16), fontWeight: "500" }, temp_title_style]} >
+                title ? <Text style={[{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "500" }, temp_title_style]} >
                     {title}
                 </Text> : <Image
                         source={icon}
@@ -312,23 +312,23 @@ const ItemValuePackage = ({ title, isDisabled }) => {
 }
 
 const ItemPricing = ({ price, onPress }) => {
-    const temp_price_style = checkIsTablet() ? { fontSize: ScaleSzie(16) } : {};
+    const temp_price_style = checkIsTablet() ? { fontSize: scaleSzie(16) } : {};
     const temp_btn_height = checkIsTablet() ? 34 : 36;
-    const tempt_height_btn = checkIsTablet() ? ScaleSzie(45) : ScaleSzie(52);
-    const tempt_txt_btn = checkIsTablet() ? ScaleSzie(15) : ScaleSzie(16);
+    const tempt_height_btn = checkIsTablet() ? scaleSzie(45) : scaleSzie(52);
+    const tempt_txt_btn = checkIsTablet() ? scaleSzie(15) : scaleSzie(16);
 
     return (
         <View style={{ flex: 1, backgroundColor: "#0764B0" }} >
             <View style={{ flex: 1, justifyContent: "center" }} >
                 <View style={{
-                    flexDirection: "row", height: ScaleSzie(26),
+                    flexDirection: "row", height: scaleSzie(26),
                     justifyContent: "center"
                 }} >
-                    <Text style={[{ color: "#fff", fontSize: ScaleSzie(18), fontWeight: "600" }, temp_price_style]} >
+                    <Text style={[{ color: "#fff", fontSize: scaleSzie(18), fontWeight: "600" }, temp_price_style]} >
                         {`$ ${price}`}
                     </Text>
                     <View style={{ justifyContent: "flex-end" }} >
-                        <Text style={{ color: "#fff", fontSize: ScaleSzie(12), fontWeight: "600" }} >
+                        <Text style={{ color: "#fff", fontSize: scaleSzie(12), fontWeight: "600" }} >
                             {`/month`}
                         </Text>
                     </View>
@@ -337,7 +337,7 @@ const ItemPricing = ({ price, onPress }) => {
 
             </View>
             <View style={{
-                height: tempt_height_btn, paddingHorizontal: ScaleSzie(13)
+                height: tempt_height_btn, paddingHorizontal: scaleSzie(13)
             }} >
                 <ButtonCustom
                     width={'100%'}
@@ -374,7 +374,7 @@ class ItemFirstPricing extends React.Component {
         return (
             <View style={{ flex: 1, backgroundColor: "#0764B0", justifyContent: "center" }} >
                 <View style={{
-                    paddingHorizontal: ScaleSzie(12), flexDirection: "row",
+                    paddingHorizontal: scaleSzie(12), flexDirection: "row",
                     justifyContent: "space-between",
                 }} >
                     <View>

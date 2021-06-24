@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 
 import { CustomTabBar, ScrollableTabView } from '@components';
-import { ScaleSzie, localize } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import { TabPromotion, TabCustomBanner, TabReview, TabMarketPlace, TabPhotoGallery } from './widget';
 
@@ -27,7 +27,7 @@ class Layout extends React.Component {
                         inactiveTextColor="#0764B0"
                         backgroundTabActive="#0764B0"
                         textStyle={{
-                            fontSize: ScaleSzie(16)
+                            fontSize: scaleSzie(16)
                         }}
                     />}
                     onChangeTab={this.onChangeTab}

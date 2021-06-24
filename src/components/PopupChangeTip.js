@@ -12,7 +12,7 @@ import Button from "./Button";
 import PopupParent from './PopupParent';
 import connectRedux from '@redux/ConnectRedux';
 
-import { ScaleSzie, roundFloatNumber, formatNumberFromCurrency } from '../utils';
+import { scaleSzie, roundFloatNumber, formatNumberFromCurrency } from '../utils';
 
 class PopupChangeTip extends React.Component {
 
@@ -46,7 +46,7 @@ class PopupChangeTip extends React.Component {
         await this.setState({
             customStyle: {
                 justifyContent: 'flex-start',
-                paddingTop: ScaleSzie(40)
+                paddingTop: scaleSzie(40)
             }
         });
     }
@@ -99,25 +99,25 @@ class PopupChangeTip extends React.Component {
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
-                width={ScaleSzie(360)}
-                styleTitle={{ fontSize: ScaleSzie(22), fontWeight: "bold" }}
+                width={scaleSzie(360)}
+                styleTitle={{ fontSize: scaleSzie(22), fontWeight: "bold" }}
                 style={customStyle}
             >
                 <View style={{
-                    height: ScaleSzie(270), backgroundColor: '#FAFAFA',
-                    borderBottomLeftRadius: ScaleSzie(15), borderBottomRightRadius: ScaleSzie(15),
+                    height: scaleSzie(270), backgroundColor: '#FAFAFA',
+                    borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                 }} >
                     <View style={{ flex: 1 }} >
                         {/* -------------- Input ------------ */}
-                        <View style={{ paddingHorizontal: ScaleSzie(40) }} >
-                            <View style={{ height: ScaleSzie(25) }} />
-                            <Text style={{ color: '#6A6A6A', fontSize: ScaleSzie(16), marginBottom: ScaleSzie(15), fontWeight: "600" }} >
+                        <View style={{ paddingHorizontal: scaleSzie(40) }} >
+                            <View style={{ height: scaleSzie(25) }} />
+                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(15), fontWeight: "600" }} >
                                 {`Tip Amount ($)`}
                             </Text>
                             {/* ------- Box Price -------- */}
                             <View style={{
-                                height: ScaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
-                                paddingHorizontal: ScaleSzie(10),
+                                height: scaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
+                                paddingHorizontal: scaleSzie(10),
                             }} >
                                 <TextInputMask
                                     // type="only-numbers"
@@ -129,7 +129,7 @@ class PopupChangeTip extends React.Component {
                                         unit: '',
                                         suffixUnit: ''
                                     }}
-                                    style={{ flex: 1, fontSize: ScaleSzie(16), color: '#6A6A6A' }}
+                                    style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
                                     value={tip}
                                     onChangeText={this.onChangeTip}
                                 />
@@ -139,7 +139,7 @@ class PopupChangeTip extends React.Component {
 
                         {/* -------------- Percent Row ------------ */}
                         <View style={{
-                            flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: ScaleSzie(40),
+                            flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: scaleSzie(40),
                         }} >
                             {
                                 [15, 18, 20, 25].map((data, index) => {
@@ -148,11 +148,11 @@ class PopupChangeTip extends React.Component {
 
                                     return (
                                         <Button onPress={this.selectPercent.bind(this, data)} key={`percent_${data}_${index}`} style={[{
-                                            width: ScaleSzie(75), height: ScaleSzie(35),
-                                            borderColor: "#0764B0", borderWidth: 2, borderRadius: ScaleSzie(4),
+                                            width: scaleSzie(75), height: scaleSzie(35),
+                                            borderColor: "#0764B0", borderWidth: 2, borderRadius: scaleSzie(4),
                                             justifyContent: "center", alignItems: "center"
                                         }, bg_select]}  >
-                                            <Text style={[{ color: "#0764B0", fontSize: ScaleSzie(16), fontWeight: "500" }, txt_color]}  >
+                                            <Text style={[{ color: "#0764B0", fontSize: scaleSzie(16), fontWeight: "500" }, txt_color]}  >
                                                 {`${data} %`}
                                             </Text>
                                         </Button>
@@ -168,7 +168,7 @@ class PopupChangeTip extends React.Component {
                             borderTopWidth: 1, borderTopColor: '#C5C5C5',
                         }} >
                             <ButtonCustom
-                                width={ScaleSzie(150)}
+                                width={scaleSzie(150)}
                                 height={45}
                                 backgroundColor="#0764B0"
                                 title="Submit"
@@ -176,7 +176,7 @@ class PopupChangeTip extends React.Component {
                                 onPress={this.submitChangeStylist}
                                 style={{
                                     borderWidth: 1, borderColor: '#C5C5C5',
-                                    borderRadius: ScaleSzie(4)
+                                    borderRadius: scaleSzie(4)
                                 }}
                             />
                         </View>

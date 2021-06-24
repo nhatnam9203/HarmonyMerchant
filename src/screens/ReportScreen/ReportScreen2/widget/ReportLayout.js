@@ -1,6 +1,6 @@
 import actions from "@actions";
 import { PopupCalendar } from "@components";
-import { getQuickFilterTimeRange, localize, ScaleSzie } from "@utils";
+import { getQuickFilterTimeRange, localize, scaleSzie } from "@utils";
 import React, {
   forwardRef,
   useEffect,
@@ -202,7 +202,7 @@ function ReportLayout(
         visible={visibleCalendar}
         onRequestClose={() => setVisibleCalendar(false)}
         changeTitleTimeRange={changeTitleTimeRange}
-        paddingLeft={ScaleSzie(60)}
+        paddingLeft={scaleSzie(60)}
       />
 
       <PopupExportReport

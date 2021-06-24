@@ -12,7 +12,7 @@ import {
 } from "react-native";
 
 import { ButtonCustom, PopupParent, Button, ModalCustom } from "@components";
-import { ScaleSzie, localize, getCategoryName } from "@utils";
+import { scaleSzie, localize, getCategoryName } from "@utils";
 import IMAGE from "@resources";
 
 const { width } = Dimensions.get("window");
@@ -28,18 +28,18 @@ function PopupLoadingExportReport({
     <ModalCustom transparent={true} visible={visible} onRequestClose={() => {}}>
       <View
         style={{
-          height: ScaleSzie(280),
-          width: ScaleSzie(420),
+          height: scaleSzie(280),
+          width: scaleSzie(420),
           backgroundColor: "#fff",
-          borderRadius: ScaleSzie(15),
-          paddingTop: ScaleSzie(16),
+          borderRadius: scaleSzie(15),
+          paddingTop: scaleSzie(16),
         }}
       >
         <View style={{ flex: 1, alignItems: "center" }}>
           <Text
             style={{
               color: "#0764B0",
-              fontSize: ScaleSzie(24),
+              fontSize: scaleSzie(24),
               fontWeight: "bold",
             }}
           >
@@ -48,8 +48,8 @@ function PopupLoadingExportReport({
           <Text
             style={{
               color: "#404040",
-              fontSize: ScaleSzie(18),
-              marginTop: ScaleSzie(4),
+              fontSize: scaleSzie(18),
+              marginTop: scaleSzie(4),
             }}
           >
             {`${localize(`${typeFile} file is being created`, language)} ...`}
@@ -66,9 +66,9 @@ function PopupLoadingExportReport({
             <ActivityIndicator size={"large"} color="rgb(83,157,209)" />
           </View>
 
-          <View style={{ paddingVertical: ScaleSzie(14) }}>
+          <View style={{ paddingVertical: scaleSzie(14) }}>
             <ButtonCustom
-              width={ScaleSzie(120)}
+              width={scaleSzie(120)}
               height={40}
               backgroundColor="#F1F1F1"
               title={localize("Cancel", language)}
@@ -79,7 +79,7 @@ function PopupLoadingExportReport({
                 borderColor: "#C5C5C5",
                 borderRadius: 0,
               }}
-              styleText={{ fontSize: ScaleSzie(15), fontWeight: "normal" }}
+              styleText={{ fontSize: scaleSzie(15), fontWeight: "normal" }}
             />
           </View>
         </View>

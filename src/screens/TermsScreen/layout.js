@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { Text, HeaderLogoTop, ButtonCustom, Button, StatusBarHeader } from '@components';
-import { ScaleSzie, localize, checkIsTablet } from '@utils';
+import { scaleSzie, localize, checkIsTablet } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
@@ -32,17 +32,17 @@ export default class Layout extends React.Component {
                                 showsVerticalScrollIndicato={false}
                                 keyboardShouldPersistTaps="always"
                             >
-                                <View style={{ alignItems: 'center', marginVertical: ScaleSzie(10) }} >
-                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: ScaleSzie(14) }]}>
+                                <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
+                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
                                         HARMONY PAY, INC.
                                     </Text>
                                 </View>
-                                <View style={{ alignItems: 'center', marginVertical: ScaleSzie(10) }} >
-                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: ScaleSzie(14) }]}>
+                                <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
+                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
                                         MERCHANT TERMS OF SERVICE
                                     </Text>
                                 </View>
-                                <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: ScaleSzie(14) }]}>
+                                <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
                                     Effective: May 1, 2020
                                 </Text>
                                 <Text style={styles.contentTerms}>
@@ -67,8 +67,8 @@ export default class Layout extends React.Component {
                                     ACCEPT THE UPDATED TERMS OF SERVICE IS TO CEASE YOUR ACCESS TO AND USE OF THE SERVICES.
                                 </Text>
                                 {/* --------- Row ------- */}
-                                <View style={{ alignItems: 'center', marginVertical: ScaleSzie(10) }} >
-                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: ScaleSzie(14) }]}>
+                                <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
+                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
                                         DESCRIPTION OF SERVICES
                                     </Text>
                                 </View>
@@ -91,8 +91,8 @@ export default class Layout extends React.Component {
                                     illegal or violate these Terms or Harmony Pay policies.
                                     </Text>
                                 {/* --------- Row ------- */}
-                                <View style={{ alignItems: 'center', marginVertical: ScaleSzie(10) }} >
-                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: ScaleSzie(14) }]}>
+                                <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
+                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
                                         Use of the Platform
                                     </Text>
                                 </View>
@@ -125,8 +125,8 @@ export default class Layout extends React.Component {
                                     the user interface.
                                     </Text>
                                 {/* --------- Row ------- */}
-                                <View style={{ alignItems: 'center', marginVertical: ScaleSzie(10) }} >
-                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: ScaleSzie(14) }]}>
+                                <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
+                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
                                         Fees
                                     </Text>
                                 </View>
@@ -153,8 +153,8 @@ export default class Layout extends React.Component {
                                     </Text>
 
                                 {/* --------- Row ------- */}
-                                <View style={{ alignItems: 'center', marginVertical: ScaleSzie(10) }} >
-                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: ScaleSzie(14) }]}>
+                                <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
+                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
                                         OWNERSHIP OF CONTENT, USE OF TRADEMARKS
                                     </Text>
                                 </View>
@@ -237,8 +237,8 @@ export default class Layout extends React.Component {
                                     Pay’s, or the applicable Third Party’s benefit, as applicable.
                                 </Text>
                                 {/* --------- Row ------- */}
-                                <View style={{ alignItems: 'center', marginVertical: ScaleSzie(10) }} >
-                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: ScaleSzie(14) }]}>
+                                <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
+                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
                                         Privacy
                                     </Text>
                                 </View>
@@ -249,8 +249,8 @@ export default class Layout extends React.Component {
                                     and contains important information about your rights.
                                 </Text>
                                 {/* --------- Row ------- */}
-                                <View style={{ alignItems: 'center', marginVertical: ScaleSzie(10) }} >
-                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: ScaleSzie(14) }]}>
+                                <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
+                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
                                         Limitation of Liability and Disclaimer of Warranties
                                     </Text>
                                 </View>
@@ -288,8 +288,8 @@ export default class Layout extends React.Component {
                                     PAY PARTIES WILL BE LIMITED TO THE MAXIMUM EXTENT PERMITTED BY LAW.
                                 </Text>
                                 {/* --------- Row ------- */}
-                                <View style={{ alignItems: 'center', marginVertical: ScaleSzie(10) }} >
-                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: ScaleSzie(14) }]}>
+                                <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
+                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
                                         Indemnification
                                     </Text>
                                 </View>
@@ -303,8 +303,8 @@ export default class Layout extends React.Component {
                                     In such case, you agree to cooperate with any reasonable requests assisting Harmony Pay’s defense of such matter.
                                 </Text>
                                 {/* --------- Row ------- */}
-                                <View style={{ alignItems: 'center', marginVertical: ScaleSzie(10) }} >
-                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: ScaleSzie(14) }]}>
+                                <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
+                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
                                         Termination of the Agreement
                                     </Text>
                                 </View>
@@ -321,8 +321,8 @@ export default class Layout extends React.Component {
                                     Terms of Service.
                                 </Text>
                                 {/* --------- Row ------- */}
-                                <View style={{ alignItems: 'center', marginVertical: ScaleSzie(10) }} >
-                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: ScaleSzie(14) }]}>
+                                <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
+                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
                                         Arbitration
                                     </Text>
                                 </View>
@@ -401,8 +401,8 @@ export default class Layout extends React.Component {
                                     The remainder of these Terms of Service will continue to apply.
                                 </Text>
                                 {/* --------- Row ------- */}
-                                <View style={{ alignItems: 'center', marginVertical: ScaleSzie(10) }} >
-                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: ScaleSzie(14) }]}>
+                                <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
+                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
                                         Compliance with Laws
                                     </Text>
                                 </View>
@@ -421,8 +421,8 @@ export default class Layout extends React.Component {
                                     the laws of your specific jurisdiction regarding the import, export or re-export of the Services.
                                 </Text>
                                 {/* --------- Row ------- */}
-                                <View style={{ alignItems: 'center', marginVertical: ScaleSzie(10) }} >
-                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: ScaleSzie(14) }]}>
+                                <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
+                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
                                         Consent to Electronic Communication
                                     </Text>
                                 </View>
@@ -431,8 +431,8 @@ export default class Layout extends React.Component {
                                     and telephone calls, from Harmony Pay, its affiliates and its third party sales contractors and/or agents.
                                 </Text>
                                 {/* --------- Row ------- */}
-                                <View style={{ alignItems: 'center', marginVertical: ScaleSzie(10) }} >
-                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: ScaleSzie(14) }]}>
+                                <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
+                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
                                         Miscellaneous
                                     </Text>
                                 </View>
@@ -453,8 +453,8 @@ export default class Layout extends React.Component {
                                     accessible. Important and private information should be protected by you.
                                 </Text>
                                 {/* --------- Row ------- */}
-                                <View style={{ alignItems: 'center', marginVertical: ScaleSzie(10) }} >
-                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: ScaleSzie(14) }]}>
+                                <View style={{ alignItems: 'center', marginVertical: scaleSzie(10) }} >
+                                    <Text style={[styles.contentTerms, { fontWeight: "bold", fontSize: scaleSzie(14) }]}>
                                         Contacting Harmony Pay
                                     </Text>
                                 </View>
@@ -468,18 +468,18 @@ export default class Layout extends React.Component {
 
                     </View>
                     <View style={styles.checkboxContainer} >
-                        <Button onPress={this.agreeTerm} style={{ width: ScaleSzie(30), justifyContent: 'center' }} >
-                            <Image source={temptIconCheck} style={{ width: ScaleSzie(20), height: ScaleSzie(20) }} />
+                        <Button onPress={this.agreeTerm} style={{ width: scaleSzie(30), justifyContent: 'center' }} >
+                            <Image source={temptIconCheck} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                         </Button>
                         <View style={{ justifyContent: 'center' }} >
-                            <Text style={{ color: '#0764B0', fontSize: ScaleSzie(16) }} >
+                            <Text style={{ color: '#0764B0', fontSize: scaleSzie(16) }} >
                                 {localize('I agree to the Terms of Service.', language)}
                             </Text>
                         </View>
                     </View>
                     <View style={styles.buttonContainer} >
                         <ButtonCustom
-                            width={ScaleSzie(250)}
+                            width={scaleSzie(250)}
                             height={60}
                             backgroundColor={temptBackgroundButton}
                             title={localize('ACCEPT', language)}
@@ -496,15 +496,15 @@ export default class Layout extends React.Component {
                 {/* ------------- Back Button --------------- */}
 
                 <Button onPress={() => this.props.navigation.goBack()} style={{
-                    width: ScaleSzie(50), height: ScaleSzie(50),
+                    width: scaleSzie(50), height: scaleSzie(50),
                     justifyContent: 'center', alignItems: 'center',
                     position: 'absolute',
-                    top: checkIsTablet() ? ScaleSzie(90) : ScaleSzie(110),
-                    left: ScaleSzie(20)
+                    top: checkIsTablet() ? scaleSzie(90) : scaleSzie(110),
+                    left: scaleSzie(20)
 
                 }} >
                     <Text style={{
-                        color: 'rgb(128,150,180)', fontSize: ScaleSzie(18), fontWeight: 'bold',
+                        color: 'rgb(128,150,180)', fontSize: scaleSzie(18), fontWeight: 'bold',
                         textDecorationLine: 'underline'
                     }} >
                         {localize('Back', language)}

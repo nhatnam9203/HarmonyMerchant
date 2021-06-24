@@ -6,7 +6,7 @@ import {
 import Swiper from 'react-native-swiper';
 
 import { Text, ButtonCustom, Button } from '@components';
-import { ScaleSzie, localize } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
@@ -19,8 +19,8 @@ export default class Layout extends React.Component {
                 <View style={styles.headerLeft} >
                     <Image source={IMAGE.logo_small}
                         style={{
-                            height: ScaleSzie(50),
-                            width: ScaleSzie(222)
+                            height: scaleSzie(50),
+                            width: scaleSzie(222)
                         }}
                     />
                 </View>
@@ -95,8 +95,8 @@ export default class Layout extends React.Component {
                         title={localize('APPLICATION', language)}
                         textColor="#fff"
                         onPress={this.gotoApplication}
-                        styleText={{fontSize :ScaleSzie(26)}}
-                        style={{borderRadius:ScaleSzie(4)}}
+                        styleText={{fontSize :scaleSzie(26)}}
+                        style={{borderRadius:scaleSzie(4)}}
                     />
                 </View>
             </View>

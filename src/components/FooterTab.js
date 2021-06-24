@@ -9,7 +9,7 @@ import {
 
 import ButtonCustom from './ButtonCustom';
 import Button from './Button';
-import { ScaleSzie } from '../utils';
+import { scaleSzie } from '../utils';
 import IMAGE from '../resources';
 
 export default class FooterTab extends React.PureComponent {
@@ -43,18 +43,18 @@ export default class FooterTab extends React.PureComponent {
     renderButtonAdd() {
         return (
             <View style={{
-                height: ScaleSzie(45),
-                paddingHorizontal: ScaleSzie(15), paddingVertical: ScaleSzie(4)
+                height: scaleSzie(45),
+                paddingHorizontal: scaleSzie(15), paddingVertical: scaleSzie(4)
             }} >
                 <Button onPress={() => this.props.addNew()} style={{
                     flex: 1, backgroundColor: '#4CD964',
-                    borderWidth: 1, borderColor: '#707070', borderRadius: ScaleSzie(4),
+                    borderWidth: 1, borderColor: '#707070', borderRadius: scaleSzie(4),
                     justifyContent: 'center', alignItems: 'center', flexDirection: 'row'
                 }} >
-                    <Image source={IMAGE.addStaff} style={{ width: ScaleSzie(18), height: ScaleSzie(18) }} />
+                    <Image source={IMAGE.addStaff} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
                     <Text style={{
-                        color: '#fff', fontSize: ScaleSzie(18), fontWeight: 'bold',
-                        marginLeft: ScaleSzie(8)
+                        color: '#fff', fontSize: scaleSzie(18), fontWeight: 'bold',
+                        marginLeft: scaleSzie(8)
                     }} >
                         ADD NEW
                 </Text>
@@ -65,10 +65,10 @@ export default class FooterTab extends React.PureComponent {
 
     renderFooter() {
         return (
-            <View style={{ height: ScaleSzie(50), flexDirection: 'row', }} >
+            <View style={{ height: scaleSzie(50), flexDirection: 'row', }} >
                 <View style={{ flex: 1, alignItems: 'center' }} >
                     <ButtonCustom
-                        width={ScaleSzie(250)}
+                        width={scaleSzie(250)}
                         height={40}
                         backgroundColor="#F1F1F1"
                         title="BACK"
@@ -79,7 +79,7 @@ export default class FooterTab extends React.PureComponent {
                 </View>
                 <View style={{ flex: 1, alignItems: 'center' }} >
                     <ButtonCustom
-                        width={ScaleSzie(250)}
+                        width={scaleSzie(250)}
                         height={40}
                         backgroundColor="#0764B0"
                         title="NEXT"

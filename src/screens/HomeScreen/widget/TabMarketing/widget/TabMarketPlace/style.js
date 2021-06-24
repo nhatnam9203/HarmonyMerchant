@@ -1,30 +1,30 @@
 import { StyleSheet, Dimensions, Platform } from "react-native";
 
 import Configs from "@configs";
-import { ScaleSzie } from "@utils";
+import { scaleSzie } from "@utils";
 
 const { width, height } = Dimensions.get("window");
 
 export default StyleSheet.create({
   container: {
-    paddingTop: ScaleSzie(15),
+    paddingTop: scaleSzie(15),
   },
   row: {
     flexDirection: "row",
   },
   tabName: {
-    width: ScaleSzie(110),
-    paddingHorizontal: ScaleSzie(5),
+    width: scaleSzie(110),
+    paddingHorizontal: scaleSzie(5),
     backgroundColor: '#FFF',
-    padding: ScaleSzie(12),
-    marginLeft: ScaleSzie(15),
+    padding: scaleSzie(12),
+    marginLeft: scaleSzie(15),
     justifyContent: 'center',
     alignItems: 'center',
-    borderTopLeftRadius: ScaleSzie(10),
-    borderTopRightRadius: ScaleSzie(10),
+    borderTopLeftRadius: scaleSzie(10),
+    borderTopRightRadius: scaleSzie(10),
   },
   title: {
-    fontSize: ScaleSzie(15),
+    fontSize: scaleSzie(15),
     fontWeight: "600",
     color: "#0764B0",
   },

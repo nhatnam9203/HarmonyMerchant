@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { FooterTab, PopupConfirm, PopupAddEditService } from '@components';
-import { ScaleSzie, getCategoryName, getArrayNameCategories,localize } from '@utils';
+import { scaleSzie, getCategoryName, getArrayNameCategories,localize } from '@utils';
 import HeaderTableServices from './HeaderTableServices';
 import RowTableServices from './RowTableServices';
 import RowEmptyTableServices from './RowEmptyTableServices';
@@ -207,7 +207,7 @@ class TabServices extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: ScaleSzie(12)
+        paddingTop: scaleSzie(12)
     },
 })
 

@@ -9,7 +9,7 @@ import {
     PopupCheckStaffPermission, DefaultTabBar,
     ScrollableTabView
 } from '@components';
-import { ScaleSzie, localize } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import ICON from '@resources';
 import {
@@ -27,12 +27,12 @@ export default class Layout extends React.Component {
 
         return (
             <View style={{
-                height: ScaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: ScaleSzie(50),
+                height: scaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSzie(50),
                 justifyContent: 'center'
             }} >
-                <Text style={{ fontSize: ScaleSzie(16), color: '#0764B0' ,fontWeight:"600"}} >
+                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0' ,fontWeight:"600"}} >
                     {localize('Batch Settlements', language)}
-                    <Text numberOflines={1} style={{ fontSize: ScaleSzie(11), color: statusConnectColor, fontWeight: "600", fontStyle: 'italic' }} >
+                    <Text numberOflines={1} style={{ fontSize: scaleSzie(11), color: statusConnectColor, fontWeight: "600", fontStyle: 'italic' }} >
                         {/* {`  ${connectPAXStatus.message} ${terminalID ? `TerminalID: #${terminalID}` : ""}`} */}
                         {`  ${connectPAXStatus.message}`}
                     </Text>
@@ -55,7 +55,7 @@ export default class Layout extends React.Component {
                         inactiveTextColor="#6A6A6A"
                         backgroundTabActive="#0764B0"
                         textStyle={{
-                            fontSize: ScaleSzie(16)
+                            fontSize: scaleSzie(16)
                         }}
                     />}
                     onChangeTab={this.onChangeTab}
@@ -94,22 +94,22 @@ export default class Layout extends React.Component {
                     {this.renderHeader()}
                     {this.renderTabContainer()}
                     <Button onPress={this.openDrawer} style={configs.btn_left_position} >
-                        <Image source={ICON.openDrawer} style={{ width: ScaleSzie(34), height: ScaleSzie(34) }} />
+                        <Image source={ICON.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
 
                     {
                         isShowBackSettlement && currentPage === 0 ? <Button onPress={this.backSettlementTab} style={[configs.btn_right_position, {
-                            width: ScaleSzie(34), height: ScaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
+                            width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                         }]} >
-                            <Image source={ICON.arrowRight} style={{ width: ScaleSzie(22), height: ScaleSzie(17) }} />
+                            <Image source={ICON.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                         </Button> : <View />
                     }
 
                     {
                         isShowBackBatchHistory && currentPage === 2 ? <Button onPress={this.backBatchHistoryTab} style={[configs.btn_right_position, {
-                            width: ScaleSzie(34), height: ScaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
+                            width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                         }]} >
-                            <Image source={ICON.arrowRight} style={{ width: ScaleSzie(22), height: ScaleSzie(17) }} />
+                            <Image source={ICON.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                         </Button> : <View />
                     }
 

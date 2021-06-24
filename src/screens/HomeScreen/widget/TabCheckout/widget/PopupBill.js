@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import { PopupParent, Button } from '@components';
-import { ScaleSzie, localize, formatMoney } from '@utils';
+import { scaleSzie, localize, formatMoney } from '@utils';
 import IMAGE from '@resources';
 
 class PopupBill extends React.Component {
@@ -100,25 +100,25 @@ class PopupBill extends React.Component {
                 width={470}
             >
                 <View style={{
-                    height: ScaleSzie(297), backgroundColor: '#fff',
-                    borderBottomLeftRadius: ScaleSzie(15),
-                    borderBottomRightRadius: ScaleSzie(15),
-                    paddingHorizontal: ScaleSzie(12)
+                    height: scaleSzie(297), backgroundColor: '#fff',
+                    borderBottomLeftRadius: scaleSzie(15),
+                    borderBottomRightRadius: scaleSzie(15),
+                    paddingHorizontal: scaleSzie(12)
                 }} >
                     <View style={{ flex: 1 }} >
                         {/* ------ Display Box --- */}
-                        <View style={{ flexDirection: 'row', height: ScaleSzie(85), marginTop: ScaleSzie(14) }} >
+                        <View style={{ flexDirection: 'row', height: scaleSzie(85), marginTop: scaleSzie(14) }} >
                             {/* ------ Box Left --- */}
                             <View style={{
                                 flex: 1, backgroundColor: '#FAFAFA', borderWidth: 3,
                                 borderColor: '#6A6A6A',
-                                justifyContent: 'space-between', paddingHorizontal: ScaleSzie(8), borderRadius: 4,
+                                justifyContent: 'space-between', paddingHorizontal: scaleSzie(8), borderRadius: 4,
                                 flexDirection: 'row', alignItems: 'center'
                             }} >
-                                <Text style={{ fontSize: ScaleSzie(60), color: '#8BC53F' }} >
+                                <Text style={{ fontSize: scaleSzie(60), color: '#8BC53F' }} >
                                     {`$`}
                                 </Text>
-                                <Text style={{ fontSize: ScaleSzie(60), color: '#8BC53F' }} >
+                                <Text style={{ fontSize: scaleSzie(60), color: '#8BC53F' }} >
                                     {`${formatMoney(this.state.quality)}`}
                                 </Text>
                             </View>
@@ -162,7 +162,7 @@ class PopupBill extends React.Component {
                                 {/* ---- Row 4 ----- */}
                                 <View style={styles.rowKeyboard} >
                                     <Button onPress={this.addDotInNumber} style={styles.keyContainer} >
-                                        <Text style={{ fontSize: ScaleSzie(26), color: '#404040', fontWeight: '500' }} >
+                                        <Text style={{ fontSize: scaleSzie(26), color: '#404040', fontWeight: '500' }} >
                                             {`.`}
                                         </Text>
                                     </Button>
@@ -178,51 +178,51 @@ class PopupBill extends React.Component {
 
                             </View>
                             {/* ---- Line ----- */}
-                            <View style={{ width: ScaleSzie(18), paddingBottom: ScaleSzie(23), paddingTop: ScaleSzie(9), alignItems: 'center' }} >
+                            <View style={{ width: scaleSzie(18), paddingBottom: scaleSzie(23), paddingTop: scaleSzie(9), alignItems: 'center' }} >
                                 <View style={{ height: '100%', width: 4, backgroundColor: '#D0D2D3' }} />
                             </View>
                             {/* -------------- */}
-                            <View style={{ width: ScaleSzie(70) }} >
+                            <View style={{ width: scaleSzie(70) }} >
                                 {
                                     [10, 20, 50, 100].map((number, index) => <Key
                                         key={number}
                                         number={number}
                                         onPressNumber={this.onPressAddNumber}
-                                        style={{ marginTop: ScaleSzie(9) }}
+                                        style={{ marginTop: scaleSzie(9) }}
                                     />)
                                 }
                             </View>
                             {/* ---- Line ----- */}
-                            <View style={{ width: ScaleSzie(18), paddingBottom: ScaleSzie(23), alignItems: 'center', paddingTop: ScaleSzie(9) }} >
+                            <View style={{ width: scaleSzie(18), paddingBottom: scaleSzie(23), alignItems: 'center', paddingTop: scaleSzie(9) }} >
                                 <View style={{ height: '100%', width: 4, backgroundColor: '#D0D2D3' }} />
                             </View>
                             {/* ------- Extract  ------- */}
-                            <View style={{ width: ScaleSzie(110), marginTop: ScaleSzie(9) }} >
+                            <View style={{ width: scaleSzie(110), marginTop: scaleSzie(9) }} >
                                 {/* -------- Btn Extract ------ */}
                                 <Button onPress={this.extract} style={{
-                                    width: '100%', height: ScaleSzie(35), backgroundColor: '#4CD964',
-                                    justifyContent: 'center', alignItems: 'center', borderRadius: ScaleSzie(4),
+                                    width: '100%', height: scaleSzie(35), backgroundColor: '#4CD964',
+                                    justifyContent: 'center', alignItems: 'center', borderRadius: scaleSzie(4),
                                 }} >
-                                    <Text style={{ color: '#fff', fontSize: ScaleSzie(20), fontWeight: '600' }} >
+                                    <Text style={{ color: '#fff', fontSize: scaleSzie(20), fontWeight: '600' }} >
                                         {localize('Exact', language)}
                                     </Text>
                                 </Button>
                                 {/* -------- CLEAR BUTTON ------ */}
                                 <Button onPress={this.cancel} style={{
-                                    width: '100%', height: ScaleSzie(35), backgroundColor: '#F1F1F1',
-                                    justifyContent: 'center', alignItems: 'center', borderRadius: ScaleSzie(4),
-                                    borderColor: '#C5C5C5', borderWidth: 1, marginTop: ScaleSzie(9)
+                                    width: '100%', height: scaleSzie(35), backgroundColor: '#F1F1F1',
+                                    justifyContent: 'center', alignItems: 'center', borderRadius: scaleSzie(4),
+                                    borderColor: '#C5C5C5', borderWidth: 1, marginTop: scaleSzie(9)
                                 }} >
-                                    <Text style={{ color: '#6A6A6A', fontSize: ScaleSzie(20), fontWeight: '600' }} >
+                                    <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(20), fontWeight: '600' }} >
                                         {localize('Clear', language)}
                                     </Text>
                                 </Button>
                                 {/* -------- Btn Done ------ */}
                                 <Button onPress={this.done} style={{
-                                    width: '100%', height: ScaleSzie(79), backgroundColor: '#0764B0',
-                                    justifyContent: 'center', alignItems: 'center', borderRadius: ScaleSzie(4), marginTop: ScaleSzie(9)
+                                    width: '100%', height: scaleSzie(79), backgroundColor: '#0764B0',
+                                    justifyContent: 'center', alignItems: 'center', borderRadius: scaleSzie(4), marginTop: scaleSzie(9)
                                 }} >
-                                    <Text style={{ color: '#fff', fontSize: ScaleSzie(20), fontWeight: '600' }} >
+                                    <Text style={{ color: '#fff', fontSize: scaleSzie(20), fontWeight: '600' }} >
                                         {localize('Done', language)}
                                     </Text>
                                 </Button>
@@ -238,7 +238,7 @@ class PopupBill extends React.Component {
 const Key = ({ number, onPressNumber, style }) => {
     return (
         <Button onPress={() => onPressNumber(number)} style={[styles.keyContainer, style]} >
-            <Text style={{ fontSize: ScaleSzie(26), color: '#404040', fontWeight: '500' }} >
+            <Text style={{ fontSize: scaleSzie(26), color: '#404040', fontWeight: '500' }} >
                 {number}
             </Text>
         </Button>
@@ -248,15 +248,15 @@ const Key = ({ number, onPressNumber, style }) => {
 
 const styles = StyleSheet.create({
     keyContainer: {
-        width: ScaleSzie(70),
-        height: ScaleSzie(35),
+        width: scaleSzie(70),
+        height: scaleSzie(35),
         backgroundColor: '#fff',
-        borderRadius: ScaleSzie(4),
+        borderRadius: scaleSzie(4),
         justifyContent: 'center',
         alignItems: 'center',
         ...Platform.select({
             ios: {
-                borderRadius: ScaleSzie(4),
+                borderRadius: scaleSzie(4),
                 shadowColor: 'rgba(0, 0, 0, 0.5)',
                 shadowOpacity: 0.54,
                 shadowOffset: { width: 0, height: 0 },
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: ScaleSzie(9),
+        marginTop: scaleSzie(9),
     }
 })
 

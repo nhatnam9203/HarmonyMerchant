@@ -10,7 +10,7 @@ const {
 } = ReactNative;
 const Button = require('./Button');
 
-import { ScaleSzie } from '../../utils';
+import { scaleSzie } from '../../utils';
 
 const SettingTabBar = createReactClass({
   propTypes: {
@@ -90,15 +90,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-end',
-    paddingBottom: ScaleSzie(5),
+    paddingBottom: scaleSzie(5),
     borderRightWidth: 0.5,
     borderRightColor: '#404040'
   },
   tabs: {
-    height: ScaleSzie(34),
+    height: scaleSzie(34),
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderBottomWidth: ScaleSzie(1),
+    borderBottomWidth: scaleSzie(1),
     borderBottomColor: '#0764B0'
   },
 });

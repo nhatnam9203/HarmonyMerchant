@@ -8,7 +8,7 @@ import {
 import IMAGE from '@resources';
 import { Dropdown } from './react-native-material-dropdown-clone';
 import Button from './Button';
-import { ScaleSzie, WorkingTime } from '@utils';
+import { scaleSzie, WorkingTime } from '@utils';
 
 export default class ItemWorkingTime extends React.Component {
 
@@ -52,25 +52,25 @@ export default class ItemWorkingTime extends React.Component {
         return (
             <View style={{
                 flexDirection: 'row',
-                height: ScaleSzie(36),
-                paddingHorizontal: ScaleSzie(25),
-                marginTop: ScaleSzie(14)
+                height: scaleSzie(36),
+                paddingHorizontal: scaleSzie(25),
+                marginTop: scaleSzie(14)
             }} >
-                <Button onPress={this.onPress} style={{ width: ScaleSzie(30), justifyContent: 'center' }} >
-                    <Image source={temptIconCheck} style={{ width: ScaleSzie(15), height: ScaleSzie(15) }} />
+                <Button onPress={this.onPress} style={{ width: scaleSzie(30), justifyContent: 'center' }} >
+                    <Image source={temptIconCheck} style={{ width: scaleSzie(15), height: scaleSzie(15) }} />
                 </Button>
 
-                <View style={{ width: ScaleSzie(120), justifyContent: 'center' }} >
+                <View style={{ width: scaleSzie(120), justifyContent: 'center' }} >
                     <Text style={{
                         color: '#404040',
-                        fontSize: ScaleSzie(14),
+                        fontSize: scaleSzie(14),
                         fontWeight: '600',
                     }}  >
                         {`${title}`}
                     </Text>
                 </View>
 
-                <View style={{ width: ScaleSzie(150) }} >
+                <View style={{ width: scaleSzie(150) }} >
                     <Dropdown
                         label={'08:00 AM'}
                         data={WorkingTime}
@@ -84,15 +84,15 @@ export default class ItemWorkingTime extends React.Component {
                         }}
                     />
                 </View>
-                <View style={{ justifyContent: 'center', paddingHorizontal: ScaleSzie(8) }} >
+                <View style={{ justifyContent: 'center', paddingHorizontal: scaleSzie(8) }} >
                     <View style={{
                         backgroundColor: '#404040',
-                        width: ScaleSzie(12),
+                        width: scaleSzie(12),
                         height: 1
                     }}  >
                     </View>
                 </View>
-                <View style={{ width: ScaleSzie(150) }} >
+                <View style={{ width: scaleSzie(150) }} >
                     <Dropdown
                         label={'09:00 AM'}
                         data={WorkingTime}

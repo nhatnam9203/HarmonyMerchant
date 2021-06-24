@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Button } from '@components';
-import { ScaleSzie } from '@utils';
+import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
 class HeaderTableCategories extends React.Component {
@@ -56,36 +56,36 @@ class HeaderTableCategories extends React.Component {
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={{
-                    width: ScaleSzie(300), flexDirection: 'row',
+                    width: scaleSzie(300), flexDirection: 'row',
                 }} >
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(20) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(20) }} >
                         <Text style={styles.textTableHeader} >
                             Category Name
                             </Text>
                     </View>
-                    {/* <Button onPress={this.sortStaffName} style={{ width: ScaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
+                    {/* <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
                         <Image source={iconSortStaffName} style={styles.iconSort} />
                     </Button> */}
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 2 ------ */}
                 <View style={{
-                    width: ScaleSzie(300), flexDirection: 'row',
+                    width: scaleSzie(300), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                             Type
                             </Text>
                     </View>
-                    {/* <Button onPress={this.sortRole} style={{ width: ScaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
+                    {/* <Button onPress={this.sortRole} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
                         <Image source={iconSortRole} style={styles.iconSort} />
                     </Button> */}
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: ScaleSzie(35),
+        height: scaleSzie(35),
         backgroundColor: '#FAFAFA',
         borderWidth: 0.5,
         borderColor: '#C5C5C5',
@@ -116,15 +116,15 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#0764B0',
-        fontSize: ScaleSzie(16)
+        fontSize: scaleSzie(16)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',
         alignItems: 'center'
     },
     iconSort: {
-        width: ScaleSzie(8),
-        height: ScaleSzie(12)
+        width: scaleSzie(8),
+        height: scaleSzie(12)
     }
 
 })

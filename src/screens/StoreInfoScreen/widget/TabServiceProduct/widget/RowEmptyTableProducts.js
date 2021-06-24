@@ -6,7 +6,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { ScaleSzie } from '@utils';
+import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
 class RowEmptyTableProducts extends React.Component {
@@ -37,39 +37,39 @@ class RowEmptyTableProducts extends React.Component {
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={{
-                    width: ScaleSzie(230), flexDirection: 'row',
+                    width: scaleSzie(230), flexDirection: 'row',
                 }} >
                     <View style={[{
                         flex: 1,
                         flexDirection: 'row',
                         alignItems: 'center',
-                        paddingLeft: ScaleSzie(12)
+                        paddingLeft: scaleSzie(12)
                     }]} >
                         <Image source={IMAGE.indicate}
-                            style={{ width: ScaleSzie(12), height: ScaleSzie(29), marginRight: ScaleSzie(12) }}
+                            style={{ width: scaleSzie(12), height: scaleSzie(29), marginRight: scaleSzie(12) }}
                         />
                     </View>
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 2 ----- */}
                 <View style={{
-                    width: ScaleSzie(180), flexDirection: 'row',
+                    width: scaleSzie(180), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                     </View>
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 3 ----- */}
                 <View style={{
-                    width: ScaleSzie(180), flexDirection: 'row',
+                    width: scaleSzie(180), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                     </View>
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: ScaleSzie(60),
+        height: scaleSzie(60),
         backgroundColor: '#FAFAFA',
         borderWidth: 0.5,
         borderColor: '#C5C5C5',
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#C5C5C5',
-        fontSize: ScaleSzie(14)
+        fontSize: scaleSzie(14)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',

@@ -8,7 +8,7 @@ import {
     InputForm, Text, Button,
     InputFormPhone, TextInputSuggestion
 } from '@components';
-import { ScaleSzie, localize, formatWithMoment } from '@utils';
+import { scaleSzie, localize, formatWithMoment } from '@utils';
 import IMAGE from '@resources';
 import styles from '../style';
 
@@ -50,7 +50,7 @@ export default class Layout extends React.Component {
         } = addressPrincipal;
         return (
             <View accessibilityElementsHidden={true} style={{ flex: 1 }} >
-                <View style={{ height: ScaleSzie(16) }} />
+                <View style={{ height: scaleSzie(16) }} />
 
 
                 <View style={{ flexDirection: 'row' }} >
@@ -64,7 +64,7 @@ export default class Layout extends React.Component {
                             onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 230 : 190)}
                         />
                     </View>
-                    <View style={{ flex: 1, paddingLeft: ScaleSzie(20) }} >
+                    <View style={{ flex: 1, paddingLeft: scaleSzie(20) }} >
                         <InputForm
                             title="   "
                             subTitle=""
@@ -108,7 +108,7 @@ export default class Layout extends React.Component {
                             onChangePhoneCode={(codeAreaPhone) => updatePhoneCode(codeAreaPhone, 'homePhone', isPrincipalSecond)}
                         />
                     </View>
-                    <View style={{ flex: 1, paddingLeft: ScaleSzie(20) }} >
+                    <View style={{ flex: 1, paddingLeft: scaleSzie(20) }} >
                         <InputFormPhone
                             ref={this.mobilePhoneRef}
                             title={`${localize('Mobile Phone', language)}*`}
@@ -128,17 +128,17 @@ export default class Layout extends React.Component {
                     subTitle=""
                     placeholder={localize('Home Address', language)}
                     style={{
-                        marginBottom: ScaleSzie(10)
+                        marginBottom: scaleSzie(10)
                     }}
                     value={address}
                     onChangeText={(value) => updatePrincipalInfo('address', value, 'addressPrincipal', isPrincipalSecond)}
                     onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 540 : 500)}
                 />
                 <View style={{
-                    height: ScaleSzie(30), marginBottom: ScaleSzie(dynamicMarginBottomStatePrincipal), justifyContent: 'space-between',
+                    height: scaleSzie(30), marginBottom: scaleSzie(dynamicMarginBottomStatePrincipal), justifyContent: 'space-between',
                     flexDirection: 'row', alignItems: 'flex-end'
                 }} >
-                    <View style={{ width: ScaleSzie(180) }} >
+                    <View style={{ width: scaleSzie(180) }} >
                         <InputForm
                             title=""
                             subTitle=""
@@ -151,7 +151,7 @@ export default class Layout extends React.Component {
                             onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 540 : 500)}
                         />
                     </View>
-                    <View style={{ width: ScaleSzie(180), height: "100%" }} >
+                    <View style={{ width: scaleSzie(180), height: "100%" }} >
                         <TextInputSuggestion
                             value={state}
                             onChangeText={(value, count) => {
@@ -162,7 +162,7 @@ export default class Layout extends React.Component {
                             onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 540 : 500)}
                         />
                     </View>
-                    <View style={{ width: ScaleSzie(180) }} >
+                    <View style={{ width: scaleSzie(180) }} >
                         <InputForm
                             title=""
                             subTitle=""
@@ -178,7 +178,7 @@ export default class Layout extends React.Component {
                         />
                     </View>
                 </View>
-                <View style={{ height: ScaleSzie(15) }} />
+                <View style={{ height: scaleSzie(15) }} />
                 <InputForm
                     isOnlyNumber={true}
                     title={`${localize('Years at This Address')}*`}
@@ -202,29 +202,29 @@ export default class Layout extends React.Component {
                     onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 745 : 705)}
                 />
                 {/* ------ Date of Birth ----- */}
-                <Text style={{ color: '#404040', fontSize: ScaleSzie(14), marginBottom: ScaleSzie(6), fontWeight: "600" }} >
+                <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(6), fontWeight: "600" }} >
                     {`${localize('Date of Birth', language)} (mm/dd/yyyy)*`}
                 </Text>
 
                 <View style={{
-                    height: ScaleSzie(30), flexDirection: 'row', marginTop: ScaleSzie(8), marginBottom: ScaleSzie(20),
+                    height: scaleSzie(30), flexDirection: 'row', marginTop: scaleSzie(8), marginBottom: scaleSzie(20),
                 }} >
                     <Button
                         onPress={() => showCalendar()}
                         style={{
-                            width: ScaleSzie(180), backgroundColor: '#F1F1F1', borderWidth: 1, borderColor: '#C5C5C5',
+                            width: scaleSzie(180), backgroundColor: '#F1F1F1', borderWidth: 1, borderColor: '#C5C5C5',
                             flexDirection: 'row'
                         }} >
-                        <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: ScaleSzie(8) }} >
+                        <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(8) }} >
                             <Text style={styles.textNormal} >
                                 {`${formatWithMoment(dateOfBirth, 'MM/DD/YYYY')}`}
                             </Text>
                         </View>
-                        <View style={{ width: 1, paddingVertical: ScaleSzie(2) }} >
+                        <View style={{ width: 1, paddingVertical: scaleSzie(2) }} >
                             <View style={{ flex: 1, backgroundColor: '#C5C5C5' }} />
                         </View>
-                        <View style={{ width: ScaleSzie(40), justifyContent: 'center', alignItems: 'center' }} >
-                            <Image source={IMAGE.calendar} style={{ height: ScaleSzie(20), width: ScaleSzie(20) }} />
+                        <View style={{ width: scaleSzie(40), justifyContent: 'center', alignItems: 'center' }} >
+                            <Image source={IMAGE.calendar} style={{ height: scaleSzie(20), width: scaleSzie(20) }} />
                         </View>
                     </Button>
                 </View>
@@ -240,9 +240,9 @@ export default class Layout extends React.Component {
 
                 />
                 <View style={{
-                    flexDirection: 'row', marginBottom: ScaleSzie(dynamicMarginBottomDAStateIssuedPrincipal),
+                    flexDirection: 'row', marginBottom: scaleSzie(dynamicMarginBottomDAStateIssuedPrincipal),
                 }} >
-                    <View style={{ flex: 1, paddingRight: ScaleSzie(20) }} >
+                    <View style={{ flex: 1, paddingRight: scaleSzie(20) }} >
                         <InputForm
                             title={`${localize('Driver License Number', language)}*`}
                             subTitle=""
@@ -252,11 +252,11 @@ export default class Layout extends React.Component {
                             onFocus={() => scrollPrincipalTo(isPrincipalSecond ? 980 : 940)}
                         />
                     </View>
-                    <View style={{ width: ScaleSzie(180), }} >
-                        <Text style={[{ color: '#404040', fontSize: ScaleSzie(14), marginBottom: ScaleSzie(5), fontWeight: "600" }]} >
+                    <View style={{ width: scaleSzie(180), }} >
+                        <Text style={[{ color: '#404040', fontSize: scaleSzie(14), marginBottom: scaleSzie(5), fontWeight: "600" }]} >
                             {`${localize('State Issued', language)}*`}
                         </Text>
-                        <View style={{ height: ScaleSzie(30) }} >
+                        <View style={{ height: scaleSzie(30) }} >
                             <TextInputSuggestion
                                 value={stateIssued}
                                 onChangeText={(value, count) => {
@@ -272,18 +272,18 @@ export default class Layout extends React.Component {
 
                 {/* ------ Take Photo ---- */}
 
-                <Text style={{ color: '#404040', fontSize: ScaleSzie(14), fontWeight: "600" }} >
+                <Text style={{ color: '#404040', fontSize: scaleSzie(14), fontWeight: "600" }} >
                     {`${localize('Please take or upload photos of Driver License', language)}*`}
                 </Text>
                 <View style={{
                     alignItems: 'center',
-                    padding: ScaleSzie(10), marginTop: ScaleSzie(18)
+                    padding: scaleSzie(10), marginTop: scaleSzie(18)
                 }} >
                     {
                         uriUpload ?
                             <View style={{
-                                width: ScaleSzie(400), height: ScaleSzie(300),
-                                overflow: 'hidden', marginBottom: ScaleSzie(10)
+                                width: scaleSzie(400), height: scaleSzie(300),
+                                overflow: 'hidden', marginBottom: scaleSzie(10)
                             }} >
                                 <Image
                                     source={{ uri: uriUpload }}
@@ -293,11 +293,11 @@ export default class Layout extends React.Component {
                     }
 
                     <View style={{
-                        width: ScaleSzie(400), height: ScaleSzie(200),
+                        width: scaleSzie(400), height: scaleSzie(200),
                         borderWidth: 2, borderColor: '#C5C5C5', borderStyle: "dashed",
-                        borderRadius: ScaleSzie(14),
+                        borderRadius: scaleSzie(14),
                         alignItems: 'center',
-                        paddingTop: ScaleSzie(5)
+                        paddingTop: scaleSzie(5)
 
                     }} >
                         <Button onPress={() => takePhoto()} >
@@ -308,24 +308,24 @@ export default class Layout extends React.Component {
 
                         <View style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center' }} >
                             <Text style={{
-                                color: '#C5C5C5', fontSize: ScaleSzie(20), fontWeight: 'bold',
+                                color: '#C5C5C5', fontSize: scaleSzie(20), fontWeight: 'bold',
                             }} >
                                 {localize('Take a Photo', language)}
                             </Text>
 
                             <Text style={{
-                                color: '#C5C5C5', fontSize: ScaleSzie(20),
+                                color: '#C5C5C5', fontSize: scaleSzie(20),
                             }} >
                                 {localize('Or', language)}
                             </Text>
                             <Button
                                 onPress={() => openImageLibrary()}
                                 style={{
-                                    width: ScaleSzie(180), height: ScaleSzie(40), backgroundColor: '#F1F1F1',
+                                    width: scaleSzie(180), height: scaleSzie(40), backgroundColor: '#F1F1F1',
                                     borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 4, justifyContent: "center", alignItems: 'center'
                                 }} >
                                 <Text style={{
-                                    color: '#C5C5C5', fontSize: ScaleSzie(20),
+                                    color: '#C5C5C5', fontSize: scaleSzie(20),
                                 }} >
                                     {localize('Browse File', language)}
                                 </Text>

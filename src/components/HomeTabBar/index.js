@@ -11,7 +11,7 @@ const {
 } = ReactNative;
 const Button = require('./Button');
 
-import { ScaleSzie } from '@utils';
+import { scaleSzie } from '@utils';
 import ICON from "@resources";
 
 const HomeTabBar = createReactClass({
@@ -61,15 +61,15 @@ const HomeTabBar = createReactClass({
 
       {
         page === 1 && isTabActive && <Button onPress={() => this.props.displayNotifiPopup()} style={{
-          position: "absolute", height: ScaleSzie(34), with: 80,
-          right: ScaleSzie(10), justifyContent: "center", alignItems: "center"
+          position: "absolute", height: scaleSzie(34), with: 80,
+          right: scaleSzie(10), justifyContent: "center", alignItems: "center"
         }} >
-          <Image source={ICON.noti_bell} style={{ height: ScaleSzie(28), width: ScaleSzie(28) }} />
+          <Image source={ICON.noti_bell} style={{ height: scaleSzie(28), width: scaleSzie(28) }} />
           <View style={{
-            width: ScaleSzie(14), height: ScaleSzie(14), backgroundColor: "#EE2F24",
-            position: "absolute", top: ScaleSzie(2), right: 0, borderRadius: ScaleSzie(7), justifyContent: "center", alignItems: "center"
+            width: scaleSzie(14), height: scaleSzie(14), backgroundColor: "#EE2F24",
+            position: "absolute", top: scaleSzie(2), right: 0, borderRadius: scaleSzie(7), justifyContent: "center", alignItems: "center"
           }} >
-            <Text style={{ color: "#fff", fontSize: ScaleSzie(6), fontWeight: "600" }} >
+            <Text style={{ color: "#fff", fontSize: scaleSzie(6), fontWeight: "600" }} >
               {`${notificationContUnread}`}
             </Text>
           </View>
@@ -123,15 +123,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-end',
-    paddingBottom: ScaleSzie(5),
+    paddingBottom: scaleSzie(5),
     borderRightWidth: 0.5,
     borderRightColor: '#404040'
   },
   tabs: {
-    height: ScaleSzie(34),
+    height: scaleSzie(34),
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderBottomWidth: ScaleSzie(1),
+    borderBottomWidth: scaleSzie(1),
     borderBottomColor: '#0764B0'
   },
 });

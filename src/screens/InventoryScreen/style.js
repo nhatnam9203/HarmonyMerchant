@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import Configs from '@configs';
-import { ScaleSzie } from '@utils';
+import { scaleSzie } from '@utils';
 
 const { width, height } = Dimensions.get('window');
 
@@ -16,14 +16,14 @@ export default StyleSheet.create({
     borderStyle: {
         borderWidth: 1,
         borderColor: '#C5C5C5',
-        borderRadius: ScaleSzie(4),
+        borderRadius: scaleSzie(4),
         backgroundColor: '#F1F1F1',
     },
     containerDropdownExport: {
-        width: ScaleSzie(110),
-         height: ScaleSzie(50),
-        backgroundColor: '#fff', borderRadius: ScaleSzie(4),
-        paddingLeft:ScaleSzie(10),
+        width: scaleSzie(110),
+         height: scaleSzie(50),
+        backgroundColor: '#fff', borderRadius: scaleSzie(4),
+        paddingLeft:scaleSzie(10),
         ...Platform.select({
             ios: {
                 shadowColor: 'rgba(0, 0, 0,0.3)',

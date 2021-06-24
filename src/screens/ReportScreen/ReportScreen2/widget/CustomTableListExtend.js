@@ -3,7 +3,7 @@ import {
   formatMoney,
   formatNumberFromCurrency,
   roundFloatNumber,
-  ScaleSzie,
+  scaleSzie,
 } from "@utils";
 import PropTypes from "prop-types";
 import _ from "ramda";
@@ -441,7 +441,7 @@ function TableListExtended({
                 >
                   <View>
                     <Image
-                      style={{ width: ScaleSzie(18), height: ScaleSzie(18) }}
+                      style={{ width: scaleSzie(18), height: scaleSzie(18) }}
                       source={
                         sortState === SORT_STATE.asc
                           ? IMAGE.sortUp
@@ -470,7 +470,7 @@ function TableListExtended({
               <TouchableOpacity style={styles.btnSort} onPress={changeSortData}>
                 <View>
                   <Image
-                    style={{ width: ScaleSzie(18), height: ScaleSzie(18) }}
+                    style={{ width: scaleSzie(18), height: scaleSzie(18) }}
                     source={
                       sortState === SORT_STATE.asc
                         ? IMAGE.sortUp

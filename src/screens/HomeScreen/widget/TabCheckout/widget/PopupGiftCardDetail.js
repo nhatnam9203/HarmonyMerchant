@@ -10,7 +10,7 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 
 import { ButtonCustom, PopupParent } from '@components';
-import { ScaleSzie, localize, formatMoney, formatNumberFromCurrency } from '@utils';
+import { scaleSzie, localize, formatMoney, formatNumberFromCurrency } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 
@@ -42,7 +42,7 @@ class PopupGiftCardDetail extends React.Component {
     }
 
     onScroll = () => {
-        this.scrollRef.current.scrollTo({ x: 0, y: ScaleSzie(200), animated: true });
+        this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(200), animated: true });
     }
 
     cancelPayment = () => {
@@ -107,9 +107,9 @@ class PopupGiftCardDetail extends React.Component {
                 hideCloseButton={true}
             >
                 <View style={{
-                    height: ScaleSzie(410), backgroundColor: '#fff',
-                    borderBottomLeftRadius: ScaleSzie(15),
-                    borderBottomRightRadius: ScaleSzie(15),
+                    height: scaleSzie(410), backgroundColor: '#fff',
+                    borderBottomLeftRadius: scaleSzie(15),
+                    borderBottomRightRadius: scaleSzie(15),
                 }} >
                     <View style={{ flex: 1 }} >
                         <ScrollView
@@ -117,8 +117,8 @@ class PopupGiftCardDetail extends React.Component {
                             showsVerticalScrollIndicator={false}
                             keyboardShouldPersistTaps='always'
                         >
-                            <View style={{ height: ScaleSzie(15) }} />
-                            <View style={{ paddingHorizontal: ScaleSzie(30) }} >
+                            <View style={{ height: scaleSzie(15) }} />
+                            <View style={{ paddingHorizontal: scaleSzie(30) }} >
 
                                 {/* ---- start ---- */}
                                 <ItemDetail
@@ -131,7 +131,7 @@ class PopupGiftCardDetail extends React.Component {
                                     value={`$ ${giftcardPaymentInfo.amount ? giftcardPaymentInfo.amount : ''}`}
                                     subText={""}
                                 />
-                                <View style={{ height: 3, backgroundColor: "rgb(238,238,238)", marginVertical: ScaleSzie(10) }} />
+                                <View style={{ height: 3, backgroundColor: "rgb(238,238,238)", marginVertical: scaleSzie(10) }} />
                                 <ItemDetail
                                     title={`${localize('Payment details', language)}`}
                                     value={``}
@@ -149,18 +149,18 @@ class PopupGiftCardDetail extends React.Component {
                                     }}
                                     styleValueContent={{
                                         alignItems: "flex-end",
-                                        paddingRight: ScaleSzie(10)
+                                        paddingRight: scaleSzie(10)
                                     }}
                                 />
                                 {/* --------------- */}
-                                <View style={{ height: ScaleSzie(45), flexDirection: 'row' }} >
+                                <View style={{ height: scaleSzie(45), flexDirection: 'row' }} >
                                     <View style={{ flex: 1, justifyContent: 'center' }} >
                                         <Text style={[styles.textCommon]} >
                                             {`${localize('Pay amount', language)}:`}
                                         </Text>
                                     </View>
                                     <View style={[{
-                                        flex: 1.1, borderColor: "#DDDDDD", borderWidth: 1, paddingRight: ScaleSzie(9)
+                                        flex: 1.1, borderColor: "#DDDDDD", borderWidth: 1, paddingRight: scaleSzie(9)
                                     }]} >
 
                                         <TextInputMask
@@ -176,7 +176,7 @@ class PopupGiftCardDetail extends React.Component {
                                                 flex: 1,
                                                 textAlign: "right",
                                                 padding: 0, color: 'rgb(73,73,73)',
-                                                fontSize: ScaleSzie(18), fontWeight: "bold",
+                                                fontSize: scaleSzie(18), fontWeight: "bold",
                                             }}
                                             placeholder="$ 0.00"
                                             value={amount}
@@ -197,21 +197,21 @@ class PopupGiftCardDetail extends React.Component {
                                     }}
                                     styleValueContent={{
                                         alignItems: "flex-end",
-                                        paddingRight: ScaleSzie(10)
+                                        paddingRight: scaleSzie(10)
                                     }}
                                     styleValue={{
                                         fontWeight: "bold"
                                     }}
                                 />
                             </View>
-                            <View style={{ height: 3, backgroundColor: "rgb(238,238,238)", marginVertical: ScaleSzie(10) }} />
-                            <View style={{ height: ScaleSzie(190) }} />
+                            <View style={{ height: 3, backgroundColor: "rgb(238,238,238)", marginVertical: scaleSzie(10) }} />
+                            <View style={{ height: scaleSzie(190) }} />
                         </ScrollView>
                     </View>
                     {/* ---- Footer ---- */}
                     <View style={{
-                        height: ScaleSzie(70), flexDirection: 'row',
-                        justifyContent: "space-between", paddingHorizontal: ScaleSzie(50)
+                        height: scaleSzie(70), flexDirection: 'row',
+                        justifyContent: "space-between", paddingHorizontal: scaleSzie(50)
                     }} >
                         <ButtonCustom
                             width={250}
@@ -221,12 +221,12 @@ class PopupGiftCardDetail extends React.Component {
                             textColor="#404040"
                             onPress={this.cancelPayment}
                             style={{
-                                borderRadius: ScaleSzie(2),
+                                borderRadius: scaleSzie(2),
                                 borderColor: '#CCCCCC',
                                 borderWidth: 1,
                             }}
                             styleText={{
-                                fontSize: ScaleSzie(21),
+                                fontSize: scaleSzie(21),
                                 fontWeight: '400'
                             }}
                         />
@@ -239,12 +239,12 @@ class PopupGiftCardDetail extends React.Component {
                             textColor="#fff"
                             onPress={this.payGiftCardPayment}
                             style={{
-                                borderRadius: ScaleSzie(2),
+                                borderRadius: scaleSzie(2),
                                 borderColor: '#C5C5C5',
                                 borderWidth: 1,
                             }}
                             styleText={{
-                                fontSize: ScaleSzie(21),
+                                fontSize: scaleSzie(21),
                                 fontWeight: '400'
                             }}
                         />
@@ -281,7 +281,7 @@ class PopupGiftCardDetail extends React.Component {
 const ItemDetail = ({ title, value, isBold, subText, style, styleValueContent, styleValue }) => {
     const temptWeight = isBold ? "bold" : "500";
     return (
-        <View style={{ height: ScaleSzie(45), flexDirection: 'row' }} >
+        <View style={{ height: scaleSzie(45), flexDirection: 'row' }} >
             <View style={{ flex: 1, justifyContent: 'center' }} >
                 <Text style={[styles.textCommon, style]} >
                     {title}
@@ -302,11 +302,11 @@ const ItemDetail = ({ title, value, isBold, subText, style, styleValueContent, s
 const styles = StyleSheet.create({
     textCommon: {
         color: 'rgb(73,73,73)',
-        fontSize: ScaleSzie(18)
+        fontSize: scaleSzie(18)
     },
     textValue: {
         color: 'rgb(73,73,73)',
-        fontSize: ScaleSzie(18),
+        fontSize: scaleSzie(18),
     }
 })
 

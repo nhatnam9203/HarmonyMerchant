@@ -2,7 +2,7 @@ import {
     StyleSheet,
 } from 'react-native';
 
-import { ScaleSzie } from '@utils';
+import { scaleSzie } from '@utils';
 
 export default StyleSheet.create({
     container: {

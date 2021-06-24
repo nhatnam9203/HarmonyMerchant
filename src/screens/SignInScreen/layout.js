@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { Text, InputAuth, ButtonCustom, Button, Dropdown } from '@components';
-import { ScaleSzie, localize, checkIsTablet } from '@utils';
+import { scaleSzie, localize, checkIsTablet } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
@@ -37,16 +37,16 @@ export default class Layout extends React.Component {
             >
                 <Image source={IMAGE.logo} style={styles.logo} />
                 {
-                    isTablet && !isShowKeyboard ? <View style={{ height: ScaleSzie(60), justifyContent: 'center', alignItems: 'center' }} >
-                        <Text style={{ color: 'red', fontSize: ScaleSzie(16), fontWeight: '600' }} >
+                    isTablet && !isShowKeyboard ? <View style={{ height: scaleSzie(60), justifyContent: 'center', alignItems: 'center' }} >
+                        <Text style={{ color: 'red', fontSize: scaleSzie(16), fontWeight: '600' }} >
                             {errorLogin}
                         </Text>
-                    </View> : <View style={{ height: ScaleSzie(15) }} />
+                    </View> : <View style={{ height: scaleSzie(15) }} />
                 }
 
                 {
-                    !isTablet ? <View style={{ height: ScaleSzie(40), justifyContent: 'center', alignItems: 'center' }} >
-                        <Text style={{ color: 'red', fontSize: ScaleSzie(16), fontWeight: '600' }} >
+                    !isTablet ? <View style={{ height: scaleSzie(40), justifyContent: 'center', alignItems: 'center' }} >
+                        <Text style={{ color: 'red', fontSize: scaleSzie(16), fontWeight: '600' }} >
                             {errorLogin}
                         </Text>
                     </View> : <View />
@@ -58,7 +58,7 @@ export default class Layout extends React.Component {
                     placeholder="merchant ID"
                     onSubmitEditing={() => this.passwordInputRef.current.onFocusTexInput()}
                 />
-                <View style={{ height: ScaleSzie(20) }} />
+                <View style={{ height: scaleSzie(20) }} />
                 <InputAuth
                     ref={this.passwordInputRef}
                     placeholder={localize('password', language)}
@@ -69,9 +69,9 @@ export default class Layout extends React.Component {
                     iconShowPass={iconShowPass}
                 />
 
-                <View style={{ height: ScaleSzie(20) }} />
+                <View style={{ height: scaleSzie(20) }} />
                 {/* ---------------- Terminal ID Dropdown -------------- */}
-                <View style={{ flexDirection: 'row', height: ScaleSzie(45), width: ScaleSzie(400), }} >
+                <View style={{ flexDirection: 'row', height: scaleSzie(45), width: scaleSzie(400), }} >
                     <View style={{ flex: 1, }} >
                         <Dropdown
                             label={'Select Terminal ID'}
@@ -84,26 +84,26 @@ export default class Layout extends React.Component {
                                 borderColor: '#C5C5C5',
                                 flex: 1
                             }}
-                            styleInput={{ fontSize: ScaleSzie(18) }}
+                            styleInput={{ fontSize: scaleSzie(18) }}
                         />
                     </View>
                 </View>
 
                 <View style={{
-                    width: ScaleSzie(400), height: ScaleSzie(60),
-                    flexDirection: "row", paddingLeft: ScaleSzie(10)
+                    width: scaleSzie(400), height: scaleSzie(60),
+                    flexDirection: "row", paddingLeft: scaleSzie(10)
                 }} >
                     <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }} >
                         <Button onPress={this.toggleRememberMID} style={{
-                            width: ScaleSzie(30), height: ScaleSzie(30),
+                            width: scaleSzie(30), height: scaleSzie(30),
                             justifyContent: "center", alignItems: "center"
                         }} >
-                            <Image source={temptIconCheck} style={{ width: ScaleSzie(22), height: ScaleSzie(22) }} />
+                            <Image source={temptIconCheck} style={{ width: scaleSzie(22), height: scaleSzie(22) }} />
                         </Button>
 
                         <Text style={{
-                            color: '#fff', fontSize: ScaleSzie(16), fontWeight: 'bold',
-                            marginLeft: ScaleSzie(10)
+                            color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold',
+                            marginLeft: scaleSzie(10)
                         }} >
                             {localize('Remember MID', language)}
                         </Text>
@@ -111,7 +111,7 @@ export default class Layout extends React.Component {
 
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }} >
                         <Button onPress={this.forgotPassword} >
-                            <Text style={{ color: '#fff', fontSize: ScaleSzie(16), fontWeight: 'bold' }} >
+                            <Text style={{ color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold' }} >
                                 {localize('Forgot password', language)}
                             </Text>
                         </Button>
@@ -120,18 +120,18 @@ export default class Layout extends React.Component {
 
                 </View>
                 <ButtonCustom
-                    width={ScaleSzie(400)}
+                    width={scaleSzie(400)}
                     backgroundColor="#4CD964"
                     title={localize('SIGN IN', language)}
                     textColor="#fff"
                     onPress={this.signIn}
                 />
-                <Button onPress={this.signUp} style={{ marginTop: ScaleSzie(18) }} >
+                <Button onPress={this.signUp} style={{ marginTop: scaleSzie(18) }} >
                     <Text style={{
-                        color: '#fff', fontSize: ScaleSzie(16), fontWeight: 'bold',
+                        color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold',
                     }} >
                         {`${localize('Don’t have an account', language)}? `}<Text style={{
-                            color: '#5AC8FA', fontSize: ScaleSzie(16), fontWeight: 'bold',
+                            color: '#5AC8FA', fontSize: scaleSzie(16), fontWeight: 'bold',
                         }} > {localize('Sign up')}</Text>
                     </Text>
                 </Button>

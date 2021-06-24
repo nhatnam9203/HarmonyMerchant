@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Button } from '@components';
-import { ScaleSzie } from '@utils';
+import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 import { FlatList } from 'react-native-gesture-handler';
 
@@ -55,22 +55,22 @@ class RowEmptyTableStaffSalary extends React.Component {
             <View style={styles.tableHeader} >
                 {/* ----- 0 ------ */}
                 <View style={{
-                    width: ScaleSzie(40), flexDirection: 'row',
+                    width: scaleSzie(40), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                         </Text>
                     </View>
                 </View>
                 {/* ----- 1 ------ */}
                 <View style={{
-                    flexDirection: 'row', width: ScaleSzie(120)
+                    flexDirection: 'row', width: scaleSzie(120)
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} numberOfLines={1} >
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
@@ -80,13 +80,13 @@ class RowEmptyTableStaffSalary extends React.Component {
                         data={calendar}
                         keyExtractor={(item, index) => index + ''}
                         renderItem={({ item }) => <View style={{
-                            width: ScaleSzie(120), flexDirection: 'row',
+                            width: scaleSzie(120), flexDirection: 'row',
                         }} >
-                            <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
+                            <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                                 <Text style={styles.textTableHeader} >
                                 </Text>
                             </View>
-                            <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                            <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                                 <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                             </View>
                         </View>
@@ -95,37 +95,37 @@ class RowEmptyTableStaffSalary extends React.Component {
                 </View>
                 {/* ----- 4 ------ */}
                 <View style={{
-                    width: ScaleSzie(120), flexDirection: 'row',
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 5 ------ */}
                 <View style={{
-                    width: ScaleSzie(120), flexDirection: 'row',
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 6 ------ */}
                 <View style={{
-                    width: ScaleSzie(120), flexDirection: 'row',
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: ScaleSzie(35),
+        height: scaleSzie(35),
         backgroundColor: '#FAFAFA',
         borderWidth: 0.5,
         borderColor: '#C5C5C5',
@@ -148,15 +148,15 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#6A6A6A',
-        fontSize: ScaleSzie(13)
+        fontSize: scaleSzie(13)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',
         alignItems: 'center'
     },
     iconSort: {
-        width: ScaleSzie(8),
-        height: ScaleSzie(12)
+        width: scaleSzie(8),
+        height: scaleSzie(12)
     }
 
 })

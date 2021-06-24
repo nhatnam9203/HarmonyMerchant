@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import _ from 'ramda';
 
-import { ScaleSzie, localize, formatNumberFromCurrency, formatMoney, formatWithMoment } from '@utils';
+import { scaleSzie, localize, formatNumberFromCurrency, formatMoney, formatWithMoment } from '@utils';
 import { Text, Button } from '@components';
 import styles from "./style";
 import ItemPaymentsReport, { StaffsHeaderTable, StaffsItem, GiftCardItem, TotalItem, HeaderPaymentsReport } from "./widget/ItemsSettlement";
@@ -23,26 +23,26 @@ class Layout extends React.Component {
         const total = settlementDetail?.total || "0.00";
 
         return (
-            <View style={{ height: ScaleSzie(40), flexDirection: 'row', alignItems: 'center' }} >
-                <Text style={[styles.txt_top_title, { marginLeft: ScaleSzie(10), marginRight: ScaleSzie(20), fontWeight: "400" }]} >
+            <View style={{ height: scaleSzie(40), flexDirection: 'row', alignItems: 'center' }} >
+                <Text style={[styles.txt_top_title, { marginLeft: scaleSzie(10), marginRight: scaleSzie(20), fontWeight: "400" }]} >
                     {`${localize('Batch ID', language)}: `}
-                    <Text style={[styles.txt_top_title, { marginLeft: ScaleSzie(10), marginRight: ScaleSzie(20), }]} >
+                    <Text style={[styles.txt_top_title, { marginLeft: scaleSzie(10), marginRight: scaleSzie(20), }]} >
                         {`${localize(`#${batchId}`, language)}`}
                     </Text>
                 </Text>
-                <Text style={[styles.txt_top_title, { fontWeight: '400', marginRight: ScaleSzie(20) }]}  >
+                <Text style={[styles.txt_top_title, { fontWeight: '400', marginRight: scaleSzie(20) }]}  >
                     {`${formatWithMoment(settlementDate, "MM/DD/YYYY hh:mm A")}`}
                 </Text>
-                <Text style={[styles.txt_top_title, { fontWeight: 'bold', marginRight: ScaleSzie(20) }]}  >
+                <Text style={[styles.txt_top_title, { fontWeight: 'bold', marginRight: scaleSzie(20) }]}  >
                     {`$ ${total}`}
                 </Text>
 
                 <Button onPress={this.shareBatchHistoryDetail} style={{
-                    position: "absolute", top: ScaleSzie(10), right: ScaleSzie(10),
+                    position: "absolute", top: scaleSzie(10), right: scaleSzie(10),
                     justifyContent: "center"
                 }} >
                     <Image source={ICON.share_batch_history}
-                        style={{ width: ScaleSzie(30), height: ScaleSzie(30) }}
+                        style={{ width: scaleSzie(30), height: scaleSzie(30) }}
                     />
                 </Button>
             </View>
@@ -52,13 +52,13 @@ class Layout extends React.Component {
     renderHeaderStaffList() {
         const { language } = this.props;
         return (
-            <View style={{ height: ScaleSzie(35), flexDirection: 'row', paddingHorizontal: ScaleSzie(10) }} >
+            <View style={{ height: scaleSzie(35), flexDirection: 'row', paddingHorizontal: scaleSzie(10) }} >
                 <View style={{ flex: 1.3, justifyContent: 'center' }} >
                     <Text style={styles.txt_table} >
                         {localize('Sales By Staffs', language)}
                     </Text>
                 </View>
-                <View style={{ width: ScaleSzie(15) }} />
+                <View style={{ width: scaleSzie(15) }} />
                 <View style={{ flex: 1, justifyContent: 'center' }} >
                     <Text style={styles.txt_table} >
                         {localize('Income By Payment Methods', language)}
@@ -103,7 +103,7 @@ class Layout extends React.Component {
                         />}
                     />
                 </View>
-                <View style={{ height: ScaleSzie(10) }} />
+                <View style={{ height: scaleSzie(10) }} />
                 <TotalItem total={formatMoney(totalAmount + giftCardTotal)} />
             </View>
         );
@@ -177,7 +177,7 @@ class Layout extends React.Component {
                 </View>
                 {this.renderNote()}
 
-                <View style={{ height: ScaleSzie(10) }} />
+                <View style={{ height: scaleSzie(10) }} />
                 <TotalItem total={formatMoney(total)} />
             </View>
         );
@@ -190,17 +190,17 @@ class Layout extends React.Component {
         return (
             <View style={{}} >
                 <Text style={[{
-                    color: "#404040", fontSize: ScaleSzie(10), fontWeight: "600",
-                    marginBottom: ScaleSzie(5), marginTop: ScaleSzie(12)
+                    color: "#404040", fontSize: scaleSzie(10), fontWeight: "600",
+                    marginBottom: scaleSzie(5), marginTop: scaleSzie(12)
                 }]} >
                     {`Note`}
                 </Text>
                 <View style={{
-                    height: ScaleSzie(54), borderColor: "#DDDDDD", borderWidth: 1, borderRadius: 4, paddingVertical: 5,
-                    paddingHorizontal: ScaleSzie(10)
+                    height: scaleSzie(54), borderColor: "#DDDDDD", borderWidth: 1, borderRadius: 4, paddingVertical: 5,
+                    paddingHorizontal: scaleSzie(10)
                 }} >
                     <ScrollView>
-                        <Text style={{ fontSize: ScaleSzie(12) }} >
+                        <Text style={{ fontSize: scaleSzie(12) }} >
                             {note}
                         </Text>
                     </ScrollView>
@@ -216,9 +216,9 @@ class Layout extends React.Component {
                     {this.renderLastSettlement()}
                     {this.renderHeaderStaffList()}
                     {/* ------------- Two tables ----------  */}
-                    <View style={{ height: ScaleSzie(310 + 30), flexDirection: "row", paddingHorizontal: ScaleSzie(10) }} >
+                    <View style={{ height: scaleSzie(310 + 30), flexDirection: "row", paddingHorizontal: scaleSzie(10) }} >
                         {this.renderStaffsTable()}
-                        <View style={{ width: ScaleSzie(10), }} />
+                        <View style={{ width: scaleSzie(10), }} />
                         {this.renderPaymentMethodsReport()}
                     </View>
                 </View>

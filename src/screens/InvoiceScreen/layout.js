@@ -28,7 +28,7 @@ import {
   ScrollableTabView,
 } from '@components';
 import {
-  ScaleSzie,
+  scaleSzie,
   localize,
   formatWithMoment,
   getStaffNameForInvoice,
@@ -47,16 +47,16 @@ export default class Layout extends React.Component {
     return (
       <View
         style={{
-          height: ScaleSzie(35),
+          height: scaleSzie(35),
           borderBottomColor: '#0764B0',
           borderWidth: 3,
-          paddingLeft: ScaleSzie(50),
+          paddingLeft: scaleSzie(50),
           justifyContent: 'center',
         }}
       >
         <Text
           style={{
-            fontSize: ScaleSzie(16),
+            fontSize: scaleSzie(16),
             color: '#0764B0',
             fontWeight: '600',
           }}
@@ -72,7 +72,7 @@ export default class Layout extends React.Component {
     const { searchFilter } = this.state;
     const { keySearch } = searchFilter;
     return (
-      <View style={{ height: ScaleSzie(40), paddingHorizontal: ScaleSzie(12) }}>
+      <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }}>
         <View style={{ flex: 1, flexDirection: 'row' }}>
           <View style={{ flex: 1, flexDirection: 'row' }}>
             <View
@@ -80,13 +80,13 @@ export default class Layout extends React.Component {
                 flex: 1,
                 borderColor: '#C5C5C5',
                 borderWidth: 1,
-                borderRadius: ScaleSzie(4),
+                borderRadius: scaleSzie(4),
                 flexDirection: 'row',
               }}
             >
-              <View style={{ flex: 1, paddingHorizontal: ScaleSzie(12) }}>
+              <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }}>
                 <TextInput
-                  style={{ flex: 1, fontSize: ScaleSzie(16) }}
+                  style={{ flex: 1, fontSize: scaleSzie(16) }}
                   placeholder={`${localize(
                     'Invoice No /Phone Number/ Customer Name',
                     language
@@ -103,7 +103,7 @@ export default class Layout extends React.Component {
                 <Button
                   onPress={this.clearSearchText}
                   style={{
-                    width: ScaleSzie(35),
+                    width: scaleSzie(35),
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
@@ -113,7 +113,7 @@ export default class Layout extends React.Component {
               ) : null}
             </View>
           </View>
-          <View style={{ width: ScaleSzie(120), alignItems: 'flex-end' }}>
+          <View style={{ width: scaleSzie(120), alignItems: 'flex-end' }}>
             <ButtonCustom
               width={'90%'}
               height={40}
@@ -122,7 +122,7 @@ export default class Layout extends React.Component {
               textColor="#6A6A6A"
               onPress={this.searchInvoiceWithKeyword}
               style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-              styleText={{ fontSize: ScaleSzie(15), fontWeight: '500' }}
+              styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
             />
           </View>
         </View>
@@ -137,18 +137,18 @@ export default class Layout extends React.Component {
     const temptColorTextTimeRange =
       titleRangeTime === 'Time Range' ? 'rgb(155,155,155)' : 'rgb(38,38,38)';
     return (
-      <View style={{ height: ScaleSzie(40), paddingHorizontal: ScaleSzie(12) }}>
+      <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }}>
         <View style={{ flex: 1, flexDirection: 'row' }}>
-          <View style={{ width: ScaleSzie(70), justifyContent: 'center' }}>
-            <Text style={{ fontSize: ScaleSzie(18), color: '#6A6A6A' }}>
+          <View style={{ width: scaleSzie(70), justifyContent: 'center' }}>
+            <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A' }}>
               {localize('Filters', language)}
             </Text>
           </View>
           {/* ------------- */}
-          <Button onPress={this.showCalendar} style={{ width: ScaleSzie(180) }}>
+          <Button onPress={this.showCalendar} style={{ width: scaleSzie(180) }}>
             <View
               style={[
-                { height: ScaleSzie(40), width: '90%', flexDirection: 'row' },
+                { height: scaleSzie(40), width: '90%', flexDirection: 'row' },
                 styles.borderStyle,
               ]}
             >
@@ -156,8 +156,8 @@ export default class Layout extends React.Component {
                 <Text
                   style={{
                     color: temptColorTextTimeRange,
-                    fontSize: ScaleSzie(15),
-                    marginLeft: ScaleSzie(10),
+                    fontSize: scaleSzie(15),
+                    marginLeft: scaleSzie(10),
                   }}
                 >
                   {localize(titleRangeTime, language)}
@@ -169,18 +169,18 @@ export default class Layout extends React.Component {
                   flex: 1,
                   justifyContent: 'center',
                   alignItems: 'flex-end',
-                  paddingRight: ScaleSzie(6),
+                  paddingRight: scaleSzie(6),
                 }}
               >
                 <Image
                   source={IMAGE.dropdown}
-                  style={{ width: ScaleSzie(6), height: ScaleSzie(3) }}
+                  style={{ width: scaleSzie(6), height: scaleSzie(3) }}
                 />
               </View>
             </View>
           </Button>
           {/* ------------- */}
-          <View style={{ width: ScaleSzie(170), marginLeft: ScaleSzie(16) }}>
+          <View style={{ width: scaleSzie(170), marginLeft: scaleSzie(16) }}>
             <Dropdown
               label={localize('Payment Method', language)}
               data={PAYMENT_METHODS}
@@ -193,12 +193,12 @@ export default class Layout extends React.Component {
                 borderWidth: 1,
                 borderColor: '#C5C5C5',
                 flex: 1,
-                borderRadius: ScaleSzie(4),
+                borderRadius: scaleSzie(4),
               }}
             />
           </View>
           {/* ------------- */}
-          <View style={{ width: ScaleSzie(140), marginLeft: ScaleSzie(16) }}>
+          <View style={{ width: scaleSzie(140), marginLeft: scaleSzie(16) }}>
             <Dropdown
               label={localize('Status', language)}
               data={[
@@ -220,7 +220,7 @@ export default class Layout extends React.Component {
                 borderWidth: 1,
                 borderColor: '#C5C5C5',
                 flex: 1,
-                borderRadius: ScaleSzie(4),
+                borderRadius: scaleSzie(4),
               }}
             />
           </View>
@@ -262,7 +262,7 @@ export default class Layout extends React.Component {
           textColor="#fff"
           onPress={this.changeStatustransaction}
           style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-          styleText={{ fontSize: ScaleSzie(20), fontWeight: 'bold' }}
+          styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
         />
       );
     } else if (status === 'complete' && !isDebitPayment) {
@@ -275,7 +275,7 @@ export default class Layout extends React.Component {
           textColor="#fff"
           onPress={this.changeStatustransaction}
           style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-          styleText={{ fontSize: ScaleSzie(20), fontWeight: 'bold' }}
+          styleText={{ fontSize: scaleSzie(20), fontWeight: 'bold' }}
         />
       );
     } else {
@@ -292,8 +292,8 @@ export default class Layout extends React.Component {
     const promotionNotes = invoiceDetail?.promotionNotes?.note || '';
     const tempStyle =
       Platform.OS === 'android'
-        ? { paddingHorizontal: ScaleSzie(10), backgroundColor: '#FFFFFF' }
-        : { paddingHorizontal: ScaleSzie(10) };
+        ? { paddingHorizontal: scaleSzie(10), backgroundColor: '#FFFFFF' }
+        : { paddingHorizontal: scaleSzie(10) };
     const status = invoiceDetail?.status || '';
     const checkoutId = invoiceDetail?.checkoutId || '';
 
@@ -302,8 +302,8 @@ export default class Layout extends React.Component {
         <View
           style={{
             flex: 1,
-            paddingHorizontal: ScaleSzie(20),
-            paddingTop: ScaleSzie(8),
+            paddingHorizontal: scaleSzie(20),
+            paddingTop: scaleSzie(8),
           }}
         >
           <ScrollView
@@ -316,7 +316,7 @@ export default class Layout extends React.Component {
               <Text
                 style={[
                   styles.txt_normal,
-                  { fontSize: 24, fontWeight: '600', marginTop: ScaleSzie(8) },
+                  { fontSize: 24, fontWeight: '600', marginTop: scaleSzie(8) },
                 ]}
               >
                 {profile?.businessName || ''}
@@ -326,7 +326,7 @@ export default class Layout extends React.Component {
                 numberOfLines={1}
                 style={[
                   styles.txt_normal,
-                  { paddingHorizontal: ScaleSzie(10), marginTop: ScaleSzie(4) },
+                  { paddingHorizontal: scaleSzie(10), marginTop: scaleSzie(4) },
                 ]}
               >
                 {profile?.addressFull || ''}
@@ -335,7 +335,7 @@ export default class Layout extends React.Component {
               <Text
                 style={[
                   styles.txt_normal,
-                  { paddingHorizontal: ScaleSzie(10) },
+                  { paddingHorizontal: scaleSzie(10) },
                 ]}
               >
                 {`Tel : ${profile?.phone || ''}`}
@@ -345,7 +345,7 @@ export default class Layout extends React.Component {
                 <Text
                   style={[
                     styles.txt_normal,
-                    { paddingHorizontal: ScaleSzie(10) },
+                    { paddingHorizontal: scaleSzie(10) },
                   ]}
                 >
                   {profile?.webLink || ''}
@@ -360,8 +360,8 @@ export default class Layout extends React.Component {
                   {
                     fontSize: 20,
                     fontWeight: '600',
-                    marginTop: ScaleSzie(6),
-                    marginBottom: ScaleSzie(6),
+                    marginTop: scaleSzie(6),
+                    marginBottom: scaleSzie(6),
                   },
                 ]}
               >
@@ -381,12 +381,12 @@ export default class Layout extends React.Component {
                 dashGap={5}
                 dashLength={8}
                 dashThickness={1}
-                style={{ marginBottom: ScaleSzie(10) }}
+                style={{ marginBottom: scaleSzie(10) }}
               />
 
               {/* ------------- Invoice Date ----------- */}
               <View style={{ flexDirection: 'row' }}>
-                <View style={{ width: ScaleSzie(90) }}>
+                <View style={{ width: scaleSzie(90) }}>
                   <Text style={styles.txt_info}>{`Invoice Date `}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
@@ -405,7 +405,7 @@ export default class Layout extends React.Component {
 
               {/* ------------- Staff ----------- */}
               <View style={{ flexDirection: 'row' }}>
-                <View style={{ width: ScaleSzie(90) }}>
+                <View style={{ width: scaleSzie(90) }}>
                   <Text style={styles.txt_info}>{`Staff Name`}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
@@ -417,7 +417,7 @@ export default class Layout extends React.Component {
 
               {/* ------------- Invoice No ----------- */}
               <View style={{ flexDirection: 'row' }}>
-                <View style={{ width: ScaleSzie(90) }}>
+                <View style={{ width: scaleSzie(90) }}>
                   <Text style={styles.txt_info}>{`Invoice No`}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
@@ -433,11 +433,11 @@ export default class Layout extends React.Component {
                 dashGap={5}
                 dashLength={8}
                 dashThickness={1}
-                style={{ marginBottom: ScaleSzie(4), marginTop: ScaleSzie(10) }}
+                style={{ marginBottom: scaleSzie(4), marginTop: scaleSzie(10) }}
               />
 
               {/* ------------- Header  ----------- */}
-              <View style={{ flexDirection: 'row', marginTop: ScaleSzie(6) }}>
+              <View style={{ flexDirection: 'row', marginTop: scaleSzie(6) }}>
                 <View style={{ flex: 0.8, justifyContent: 'center' }}>
                   <Text
                     style={[
@@ -449,7 +449,7 @@ export default class Layout extends React.Component {
                   </Text>
                 </View>
                 <View
-                  style={{ justifyContent: 'center', width: ScaleSzie(70) }}
+                  style={{ justifyContent: 'center', width: scaleSzie(70) }}
                 >
                   <Text
                     style={[
@@ -462,7 +462,7 @@ export default class Layout extends React.Component {
                 </View>
                 <View
                   style={{
-                    width: ScaleSzie(30),
+                    width: scaleSzie(30),
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
@@ -500,7 +500,7 @@ export default class Layout extends React.Component {
                 dashGap={5}
                 dashLength={8}
                 dashThickness={1}
-                style={{ marginBottom: ScaleSzie(4), marginTop: ScaleSzie(10) }}
+                style={{ marginBottom: scaleSzie(4), marginTop: scaleSzie(10) }}
               />
 
               {/* ------------- Item Invoice   ----------- */}
@@ -513,7 +513,7 @@ export default class Layout extends React.Component {
                 style={{
                   height: 2,
                   backgroundColor: '#000',
-                  marginVertical: ScaleSzie(10),
+                  marginVertical: scaleSzie(10),
                 }}
               />
               {/* ------------- SubTotal   ----------- */}
@@ -538,7 +538,7 @@ export default class Layout extends React.Component {
               {
                 <View>
                   {checkoutPayments.map((data, index) => (
-                    <View key={index} style={{ marginBottom: ScaleSzie(4) }}>
+                    <View key={index} style={{ marginBottom: scaleSzie(4) }}>
                       <View style={{ flexDirection: 'row' }}>
                         <Text style={[styles.txt_total]}>
                           {`- Entry method: ${getPaymentString(
@@ -556,7 +556,7 @@ export default class Layout extends React.Component {
                           <Text
                             style={[
                               styles.txt_total,
-                              { fontSize: ScaleSzie(10) },
+                              { fontSize: scaleSzie(10) },
                             ]}
                           >
                             {`$${data?.amount || ''}`}
@@ -565,11 +565,11 @@ export default class Layout extends React.Component {
                       </View>
                       {data.paymentMethod === 'credit_card' ||
                       data.paymentMethod === 'debit_card' ? (
-                        <View style={{ marginTop: ScaleSzie(5) }}>
+                        <View style={{ marginTop: scaleSzie(5) }}>
                           <Text
                             style={[
                               styles.txt_total,
-                              { fontSize: ScaleSzie(10) },
+                              { fontSize: scaleSzie(10) },
                             ]}
                           >
                             {` ${
@@ -581,7 +581,7 @@ export default class Layout extends React.Component {
                           <Text
                             style={[
                               styles.txt_total,
-                              { fontSize: ScaleSzie(10) },
+                              { fontSize: scaleSzie(10) },
                             ]}
                           >
                             {` ${data?.paymentInformation?.name || ''}`}
@@ -589,7 +589,7 @@ export default class Layout extends React.Component {
                           <Text
                             style={[
                               styles.txt_total,
-                              { fontSize: ScaleSzie(10) },
+                              { fontSize: scaleSzie(10) },
                             ]}
                           >
                             {` ${
@@ -601,7 +601,7 @@ export default class Layout extends React.Component {
                           <Text
                             style={[
                               styles.txt_total,
-                              { fontSize: ScaleSzie(10) },
+                              { fontSize: scaleSzie(10) },
                             ]}
                           >
                             {` ${
@@ -617,9 +617,9 @@ export default class Layout extends React.Component {
                 </View>
               }
 
-              <View style={{ height: ScaleSzie(16) }} />
+              <View style={{ height: scaleSzie(16) }} />
               {parseFloat(refundAmount) > 0 ? (
-                <Text style={{ fontSize: ScaleSzie(10), fontWeight: 'bold' }}>
+                <Text style={{ fontSize: scaleSzie(10), fontWeight: 'bold' }}>
                   {`Change : $ ${invoiceDetail?.refundAmount || 0.0}`}
                 </Text>
               ) : null}
@@ -634,20 +634,20 @@ export default class Layout extends React.Component {
               ) : null}
 
               {/* ----------- Thanks , see you again -------- */}
-              <View style={{ height: ScaleSzie(20) }} />
+              <View style={{ height: scaleSzie(20) }} />
               <Text style={[styles.txt_total, { alignSelf: 'center' }]}>
                 {`Thank you !`}
               </Text>
               <Text style={[styles.txt_total, { alignSelf: 'center' }]}>
                 {`Please come again`}
               </Text>
-              <View style={{ height: ScaleSzie(8) }} />
+              <View style={{ height: scaleSzie(8) }} />
               {/* ------------- This is not a bill   ----------- */}
               <Text
                 style={[
                   styles.txt_total,
                   {
-                    fontSize: ScaleSzie(10),
+                    fontSize: scaleSzie(10),
                     fontWeight: '300',
                     alignSelf: 'center',
                   },
@@ -656,15 +656,15 @@ export default class Layout extends React.Component {
                 {`*********** Customer's Receipt ***********`}
               </Text>
             </View>
-            <View style={{ height: ScaleSzie(90) }} />
+            <View style={{ height: scaleSzie(90) }} />
           </ScrollView>
         </View>
 
         {/* ------- button void  ------ */}
         <View
           style={{
-            marginBottom: ScaleSzie(5),
-            paddingHorizontal: ScaleSzie(10),
+            marginBottom: scaleSzie(5),
+            paddingHorizontal: scaleSzie(10),
           }}
         >
           {invoiceDetail?.checkoutId ? (
@@ -685,13 +685,13 @@ export default class Layout extends React.Component {
       <View
         style={{
           flex: 1,
-          paddingHorizontal: ScaleSzie(10),
-          paddingTop: ScaleSzie(8),
+          paddingHorizontal: scaleSzie(10),
+          paddingTop: scaleSzie(8),
         }}
       >
         {/* ---------------- Header ---------------- */}
         <View style={{ flexDirection: 'row' }}>
-          <View style={{ flex: 1, paddingTop: ScaleSzie(2) }}>
+          <View style={{ flex: 1, paddingTop: scaleSzie(2) }}>
             <Button
               onPress={this.backTab}
               style={{ flexDirection: 'row', alignItems: 'center' }}
@@ -699,18 +699,18 @@ export default class Layout extends React.Component {
               <Image
                 source={IMAGE.back}
                 style={{
-                  width: ScaleSzie(7),
-                  height: ScaleSzie(13),
-                  marginRight: ScaleSzie(6),
+                  width: scaleSzie(7),
+                  height: scaleSzie(13),
+                  marginRight: scaleSzie(6),
                 }}
               />
-              <Text style={{ color: '#0764B0', fontSize: ScaleSzie(14) }}>
+              <Text style={{ color: '#0764B0', fontSize: scaleSzie(14) }}>
                 {localize('Back', language)}
               </Text>
             </Button>
           </View>
           <View style={{}}>
-            <Text style={{ color: '#404040', fontSize: ScaleSzie(16) }}>
+            <Text style={{ color: '#404040', fontSize: scaleSzie(16) }}>
               {localize('History', language)}
             </Text>
           </View>
@@ -718,7 +718,7 @@ export default class Layout extends React.Component {
         </View>
         {/* ----------- Body --------- */}
         <View style={{ flex: 1 }}>
-          <View style={{ height: ScaleSzie(16) }} />
+          <View style={{ height: scaleSzie(16) }} />
           <View style={{ flex: 1 }}>
             <ScrollView
               showsVerticalScrollIndicator={false}
@@ -727,7 +727,7 @@ export default class Layout extends React.Component {
               {history.map((item, index) => (
                 <ItemHistory key={index} data={item} />
               ))}
-              <View style={{ height: ScaleSzie(16) }} />
+              <View style={{ height: scaleSzie(16) }} />
               {promotionNotes ? (
                 <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
                   {`Discount note: `}
@@ -737,7 +737,7 @@ export default class Layout extends React.Component {
                 </Text>
               ) : null}
 
-              <View style={{ height: ScaleSzie(16) }} />
+              <View style={{ height: scaleSzie(16) }} />
             </ScrollView>
           </View>
         </View>
@@ -760,13 +760,13 @@ export default class Layout extends React.Component {
         <View style={{ flex: 1.4 }}>
           <View
             style={{
-              paddingLeft: ScaleSzie(12),
+              paddingLeft: scaleSzie(12),
               borderBottomColor: '#C5C5C5',
               borderBottomWidth: 1,
-              paddingBottom: ScaleSzie(6),
+              paddingBottom: scaleSzie(6),
             }}
           >
-            <Text style={{ color: '#404040', fontSize: ScaleSzie(18) }}>
+            <Text style={{ color: '#404040', fontSize: scaleSzie(18) }}>
               {localize('Invoice List', language)}
             </Text>
           </View>
@@ -792,10 +792,10 @@ export default class Layout extends React.Component {
                   style={{
                     width: '100%',
                     alignItems: 'center',
-                    paddingTop: ScaleSzie(20),
+                    paddingTop: scaleSzie(20),
                   }}
                 >
-                  <Text style={{ color: '#404040', fontSize: ScaleSzie(20) }}>
+                  <Text style={{ color: '#404040', fontSize: scaleSzie(20) }}>
                     {localize('List Empty', language)}
                   </Text>
                 </View>
@@ -811,7 +811,7 @@ export default class Layout extends React.Component {
               ListFooterComponent={() => (
                 <View
                   style={{
-                    height: ScaleSzie(30),
+                    height: scaleSzie(30),
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
@@ -830,13 +830,13 @@ export default class Layout extends React.Component {
         <View style={{ flex: 1 }}>
           <View
             style={{
-              paddingLeft: ScaleSzie(12),
+              paddingLeft: scaleSzie(12),
               borderBottomColor: '#C5C5C5',
               borderBottomWidth: 1,
-              paddingBottom: ScaleSzie(6),
+              paddingBottom: scaleSzie(6),
             }}
           >
-            <Text style={{ color: '#404040', fontSize: ScaleSzie(18) }}>
+            <Text style={{ color: '#404040', fontSize: scaleSzie(18) }}>
               {localize('Invoice Detail', language)}
             </Text>
           </View>
@@ -862,19 +862,19 @@ export default class Layout extends React.Component {
               onPress={this.shareCustomerInvoice}
               style={{
                 position: 'absolute',
-                top: ScaleSzie(-12),
-                right: ScaleSzie(50),
-                width: ScaleSzie(35),
-                height: ScaleSzie(35),
+                top: scaleSzie(-12),
+                right: scaleSzie(50),
+                width: scaleSzie(35),
+                height: scaleSzie(35),
                 backgroundColor: '#0764B0',
                 justifyContent: 'center',
                 alignItems: 'center',
-                borderRadius: ScaleSzie(4),
+                borderRadius: scaleSzie(4),
               }}
             >
               <Image
                 source={IMAGE.share_icon}
-                style={{ width: ScaleSzie(18), height: ScaleSzie(18) }}
+                style={{ width: scaleSzie(18), height: scaleSzie(18) }}
               />
             </Button>
           ) : null}
@@ -884,19 +884,19 @@ export default class Layout extends React.Component {
               onPress={this.printCustomerInvoice}
               style={{
                 position: 'absolute',
-                top: ScaleSzie(-12),
-                right: ScaleSzie(8),
-                width: ScaleSzie(35),
-                height: ScaleSzie(35),
+                top: scaleSzie(-12),
+                right: scaleSzie(8),
+                width: scaleSzie(35),
+                height: scaleSzie(35),
                 backgroundColor: '#0764B0',
                 justifyContent: 'center',
                 alignItems: 'center',
-                borderRadius: ScaleSzie(4),
+                borderRadius: scaleSzie(4),
               }}
             >
               <Image
                 source={IMAGE.print_btn}
-                style={{ width: ScaleSzie(20), height: ScaleSzie(20) }}
+                style={{ width: scaleSzie(20), height: scaleSzie(20) }}
               />
             </Button>
           ) : null}
@@ -930,17 +930,17 @@ export default class Layout extends React.Component {
         <View style={styles.container}>
           <StatusBarHeader />
           {this.renderHeader()}
-          <View style={{ height: ScaleSzie(18) }} />
+          <View style={{ height: scaleSzie(18) }} />
           {this.renderSearch()}
-          <View style={{ height: ScaleSzie(16) }} />
+          <View style={{ height: scaleSzie(16) }} />
           {this.renderFilter()}
-          <View style={{ height: ScaleSzie(18) }} />
+          <View style={{ height: scaleSzie(18) }} />
           {this.renderInvoice()}
 
           <Button onPress={this.openDrawer} style={configs.btn_left_position}>
             <Image
               source={IMAGE.openDrawer}
-              style={{ width: ScaleSzie(34), height: ScaleSzie(34) }}
+              style={{ width: scaleSzie(34), height: scaleSzie(34) }}
             />
           </Button>
         </View>
@@ -999,7 +999,7 @@ const ItemPrintBasket = ({ item, index }) => {
   const note = item.note ? item.note : '';
 
   return (
-    <View style={{ flexDirection: 'row', marginTop: ScaleSzie(3) }}>
+    <View style={{ flexDirection: 'row', marginTop: scaleSzie(3) }}>
       <View style={{ flex: 0.8, justifyContent: 'center' }}>
         <Text style={[styles.txt_info]}>
           {`${index + 1}. ${item.data && item.data.name ? item.data.name : ''}`}
@@ -1011,14 +1011,14 @@ const ItemPrintBasket = ({ item, index }) => {
           </Text>
         ) : null}
       </View>
-      <View style={{ justifyContent: 'center', width: ScaleSzie(70) }}>
+      <View style={{ justifyContent: 'center', width: scaleSzie(70) }}>
         <Text style={[styles.txt_info]}>{`$ ${price}`}</Text>
       </View>
       <View
         style={{
-          width: ScaleSzie(30),
+          width: scaleSzie(30),
           justifyContent: 'center',
-          paddingLeft: ScaleSzie(6),
+          paddingLeft: scaleSzie(6),
         }}
       >
         <Text style={[styles.txt_info]}>{quanlitySet}</Text>
@@ -1038,7 +1038,7 @@ const ItemPrintBasket = ({ item, index }) => {
 
 const ItemTotal = ({ title, value, style }) => {
   return (
-    <View style={{ flexDirection: 'row', marginBottom: ScaleSzie(4) }}>
+    <View style={{ flexDirection: 'row', marginBottom: scaleSzie(4) }}>
       <Text
         style={[
           styles.txt_total,

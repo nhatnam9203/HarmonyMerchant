@@ -10,7 +10,7 @@ import _ from 'ramda';
 
 import { Button } from '@components';
 import {
-    ScaleSzie, localize, formatNumberFromCurrency, formatMoney, getArrayProductsFromAppointment,
+    scaleSzie, localize, formatNumberFromCurrency, formatMoney, getArrayProductsFromAppointment,
     getArrayServicesFromAppointment, getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment
 } from '@utils';
 import IMAGE from '@resources';
@@ -153,7 +153,7 @@ class ItemBlockBasket extends React.Component {
             {
                 backgroundColor: '#fff',
                 component: <Button onPress={this.removeAppointment.bind(this, appointmentId)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                    <Image source={IMAGE.removeItemBasket} style={{ width: ScaleSzie(24), height: ScaleSzie(24) }} />
+                    <Image source={IMAGE.removeItemBasket} style={{ width: scaleSzie(24), height: scaleSzie(24) }} />
                 </Button>,
             }
         ];
@@ -166,25 +166,25 @@ class ItemBlockBasket extends React.Component {
         return (
             <Swipeout
                 right={swipeoutBtns}
-                buttonWidth={ScaleSzie(45)}
+                buttonWidth={scaleSzie(45)}
                 disabled={blockIndex === 0 ? true : false}
                 close={true}
             >
                 <View style={[{
-                    height: ScaleSzie(35), paddingLeft: ScaleSzie(10),
+                    height: scaleSzie(35), paddingLeft: scaleSzie(10),
                     flexDirection: "row", alignItems: "center",
                 }, temptBackground]} >
-                    <Text style={[{ fontSize: ScaleSzie(16), fontWeight: "bold" }, temptTextColor]} >
+                    <Text style={[{ fontSize: scaleSzie(16), fontWeight: "bold" }, temptTextColor]} >
                         {`Client ${blockIndex + 1}`}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         <Button onPress={this.toggleCollaps} >
                             <Image source={iconCollaps}
-                                style={{ width: ScaleSzie(22), height: ScaleSzie(22) }}
+                                style={{ width: scaleSzie(22), height: scaleSzie(22) }}
                             />
                         </Button>
                     </View>
-                    <View style={{ width: ScaleSzie(5), height: ScaleSzie(35), backgroundColor: temptColor, marginLeft: ScaleSzie(8) }} />
+                    <View style={{ width: scaleSzie(5), height: scaleSzie(35), backgroundColor: temptColor, marginLeft: scaleSzie(8) }} />
                 </View>
                 <View style={{ height: 2, borderBottomColor: "#fff", borderBottomWidth: 2 }} />
             </Swipeout>
@@ -219,8 +219,8 @@ class ItemBlockBasket extends React.Component {
                         {/* ----------- Payment Number --------- */}
                         {
                             this.getBasket().length > 0 ?
-                                <View style={{ flexDirection: 'row', marginTop: ScaleSzie(10) }} >
-                                    <View style={{ flex: 1, paddingHorizontal: ScaleSzie(10) }} >
+                                <View style={{ flexDirection: 'row', marginTop: scaleSzie(10) }} >
+                                    <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
                                         {/* ---------- Price ------ */}
                                         <View style={styles.payNumberTextContainer} >
                                             <Text style={styles.textPay} >
@@ -239,7 +239,7 @@ class ItemBlockBasket extends React.Component {
                                                 {
                                                     checkoutPayments.length === 0 ?
                                                         <Image source={IMAGE.add_discount_checkout}
-                                                            style={{ width: ScaleSzie(20), height: ScaleSzie(20) }}
+                                                            style={{ width: scaleSzie(20), height: scaleSzie(20) }}
                                                         /> : null
                                                 }
                                             </Button>
@@ -272,15 +272,15 @@ class ItemBlockBasket extends React.Component {
                                         </View>
                                         {/* ---------- Line ------ */}
                                         <View style={{
-                                            height: 2, backgroundColor: "#DDDDDD", marginTop: ScaleSzie(2),
-                                            marginBottom: ScaleSzie(6)
+                                            height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSzie(2),
+                                            marginBottom: scaleSzie(6)
                                         }} />
                                         {/* ---------- Total ------ */}
                                         <View style={styles.payNumberTextContainer} >
-                                            <Text style={[styles.textPay, { fontSize: ScaleSzie(18) }]} >
+                                            <Text style={[styles.textPay, { fontSize: scaleSzie(18) }]} >
                                                 {`${localize('Total', language)}:`}
                                             </Text>
-                                            <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: ScaleSzie(18), fontWeight: "600" }]} >
+                                            <Text style={[styles.textPay, { color: 'rgb(65,184,85)', fontSize: scaleSzie(18), fontWeight: "600" }]} >
                                                 {`$ ${formatMoney(`${temptTotal}`)}`}
                                             </Text>
                                         </View>

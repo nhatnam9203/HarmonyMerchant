@@ -1,5 +1,5 @@
 import { createDrawerNavigator } from "react-navigation";
-import { ScaleSzie } from "../utils";
+import { scaleSzie } from "../utils";
 
 import {
   SlideDrawer,
@@ -28,7 +28,7 @@ const DrawerStack = createDrawerNavigator(
   }, {
   initialRouteName: "Home",
   contentComponent: SlideDrawer,
-  drawerWidth: ScaleSzie(220),
+  drawerWidth: scaleSzie(220),
   overlayColor: "rgba(0, 0, 0, 0.5) ",
 }
 );

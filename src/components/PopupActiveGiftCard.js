@@ -13,7 +13,7 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import Button from './Button';
 import PopupScanCode from './PopupScanCode';
-import { ScaleSzie } from '../utils';
+import { scaleSzie } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import IMAGE from '../resources';
 
@@ -47,7 +47,7 @@ class PopupActiveGiftCard extends React.Component {
         await this.setState({
             customStyle: {
                 justifyContent: 'flex-start',
-                paddingTop: ScaleSzie(80)
+                paddingTop: scaleSzie(80)
             }
         });
     }
@@ -102,26 +102,26 @@ class PopupActiveGiftCard extends React.Component {
                 style={customStyle}
             >
                 <View style={{
-                    height: ScaleSzie(150), backgroundColor: '#fff',
-                    borderBottomLeftRadius: ScaleSzie(15), borderBottomRightRadius: ScaleSzie(15)
+                    height: scaleSzie(150), backgroundColor: '#fff',
+                    borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
                 }} >
-                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: ScaleSzie(10), marginBottom: ScaleSzie(4) }} >
-                        <Text style={{ color: '#404040', fontSize: ScaleSzie(18) }} >
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: scaleSzie(10), marginBottom: scaleSzie(4) }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
                             {'Enter gift card serial number'}
                         </Text>
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                         <View style={{
-                            width: '80%', height: ScaleSzie(45),
+                            width: '80%', height: scaleSzie(45),
                             flexDirection: 'row'
                         }} >
                             <View style={{
                                 flex: 1, borderColor: 'rgb(231,231,231)', borderWidth: 2,
-                                paddingHorizontal: ScaleSzie(10),
+                                paddingHorizontal: scaleSzie(10),
                             }} >
                                 <TextInput
                                     style={{
-                                        flex: 1, fontSize: ScaleSzie(15),
+                                        flex: 1, fontSize: scaleSzie(15),
                                         fontWeight: '500',
                                         textAlign: 'center',
                                         padding: 0, margin: 0
@@ -136,7 +136,7 @@ class PopupActiveGiftCard extends React.Component {
                             <Button
                                 onPress={this.scanCodeGiftCard}
                                 style={{
-                                    width: ScaleSzie(50), backgroundColor: "#F1F1F1", borderColor: 'rgb(231,231,231)', borderWidth: 2,
+                                    width: scaleSzie(50), backgroundColor: "#F1F1F1", borderColor: 'rgb(231,231,231)', borderWidth: 2,
                                     borderLeftWidth: 0, justifyContent: "center", alignItems: "center"
                                 }} >
                                 <Image source={IMAGE.scancode} />
@@ -146,11 +146,11 @@ class PopupActiveGiftCard extends React.Component {
                         </View>
                     </View>
                     <View style={{
-                        height: ScaleSzie(45), alignItems: 'center'
+                        height: scaleSzie(45), alignItems: 'center'
                     }} >
                         {
                             loading ? <View style={{
-                                width: '30%', height: ScaleSzie(35), backgroundColor: '#0764B0',
+                                width: '30%', height: scaleSzie(35), backgroundColor: '#0764B0',
                                 justifyContent: 'center', alignItems: 'center'
                             }} >
                                 <ActivityIndicator
@@ -165,10 +165,10 @@ class PopupActiveGiftCard extends React.Component {
                                     textColor="#fff"
                                     onPress={this.submitSerialCode}
                                     styleText={{
-                                        fontSize: ScaleSzie(14)
+                                        fontSize: scaleSzie(14)
                                     }}
                                     style={{
-                                        borderRadius: ScaleSzie(4)
+                                        borderRadius: scaleSzie(4)
                                     }}
                                 />
                         }

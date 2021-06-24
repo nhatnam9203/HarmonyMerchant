@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import { FooterTab, PopupConfirm, Text } from '@components';
-import { ScaleSzie, localize } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import StaffInfo from '../StaffInfo';
 import { TableHeader, RowTable, RowEmptyTable } from './widget';
@@ -19,10 +19,10 @@ class Layout extends React.Component {
         return (
             <View style={{ flex: 1 }}>
                 <View style={{
-                    height: ScaleSzie(55), justifyContent: 'flex-end', paddingLeft: ScaleSzie(15),
-                    paddingBottom: ScaleSzie(8)
+                    height: scaleSzie(55), justifyContent: 'flex-end', paddingLeft: scaleSzie(15),
+                    paddingBottom: scaleSzie(8)
                 }} >
-                    <Text style={{ color: '#0764B0', fontSize: ScaleSzie(18) }} >
+                    <Text style={{ color: '#0764B0', fontSize: scaleSzie(18) }} >
                         {localize('Staff List', language)}
                     </Text>
                 </View>

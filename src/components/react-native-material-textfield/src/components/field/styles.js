@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import {ScaleSzie} from '../../../../../utils';
+import {scaleSzie} from '../../../../../utils';
 
 export default StyleSheet.create({
   inputContainer: {
@@ -16,10 +16,10 @@ export default StyleSheet.create({
 
   row: {
     flexDirection: 'row',
-    // height:ScaleSzie(20),
+    // height:scaleSzie(20),
     // flex:1,
     // backgroundColor:"red",
-    paddingLeft:ScaleSzie(10)
+    paddingLeft:scaleSzie(10)
 
   },
 

@@ -11,7 +11,7 @@ import {
 
 import { Button, Text } from '@components';
 import {
-    ScaleSzie, formatWithMoment, getArrayProductsFromAppointment, getArrayServicesFromAppointment, getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment,
+    scaleSzie, formatWithMoment, getArrayProductsFromAppointment, getArrayServicesFromAppointment, getArrayExtrasFromAppointment, getArrayGiftCardsFromAppointment,
     getColorStatus, getNameStateById
 } from '@utils';
 import Configs from "@configs";
@@ -48,8 +48,8 @@ class GiftCardDetailTab extends React.Component {
         const { giftCardDetail } = this.state;
 
         return (
-            <View style={{ flex: 1, paddingHorizontal: ScaleSzie(15), paddingTop: ScaleSzie(20) }} >
-                <Text style={{ fontSize: ScaleSzie(14), fontWeight: "600", color: TXT_COLOR, marginBottom: ScaleSzie(10) }} >
+            <View style={{ flex: 1, paddingHorizontal: scaleSzie(15), paddingTop: scaleSzie(20) }} >
+                <Text style={{ fontSize: scaleSzie(14), fontWeight: "600", color: TXT_COLOR, marginBottom: scaleSzie(10) }} >
                     {`Gift Card Detail`}
                 </Text>
 
@@ -74,21 +74,21 @@ class GiftCardDetailTab extends React.Component {
                 />
 
                 {/* ------------------- Line -------------------- */}
-                <View style={{ height: 2, backgroundColor: TXT_COLOR_2, marginTop: ScaleSzie(5), marginBottom: ScaleSzie(10) }} />
+                <View style={{ height: 2, backgroundColor: TXT_COLOR_2, marginTop: scaleSzie(5), marginBottom: scaleSzie(10) }} />
 
-                <Text style={{ fontSize: ScaleSzie(14), fontWeight: "600", color: TXT_COLOR, marginBottom: ScaleSzie(15) }} >
+                <Text style={{ fontSize: scaleSzie(14), fontWeight: "600", color: TXT_COLOR, marginBottom: scaleSzie(15) }} >
                     {`Logs`}
                 </Text>
 
                 {/* ----------------- Header Table ------------------ */}
-                <View style={{ flexDirection: "row", height: ScaleSzie(25) }} >
-                    <Text style={{ width: ScaleSzie(140), fontSize: ScaleSzie(14), fontWeight: "500", color: TXT_COLOR, }} >
+                <View style={{ flexDirection: "row", height: scaleSzie(25) }} >
+                    <Text style={{ width: scaleSzie(140), fontSize: scaleSzie(14), fontWeight: "500", color: TXT_COLOR, }} >
                         {`Time`}
                     </Text>
-                    <Text style={{ width: ScaleSzie(160), fontSize: ScaleSzie(14), fontWeight: "500", color: TXT_COLOR, }} >
+                    <Text style={{ width: scaleSzie(160), fontSize: scaleSzie(14), fontWeight: "500", color: TXT_COLOR, }} >
                         {`Date`}
                     </Text>
-                    <Text style={{ flex: 1, fontSize: ScaleSzie(13), fontWeight: "600", color: TXT_COLOR, }} >
+                    <Text style={{ flex: 1, fontSize: scaleSzie(13), fontWeight: "600", color: TXT_COLOR, }} >
                         {`Message`}
                     </Text>
                 </View>
@@ -96,14 +96,14 @@ class GiftCardDetailTab extends React.Component {
                 {/* ----------------- Rows Table ------------------ */}
                 <FlatList
                     data={giftCardLogs}
-                    renderItem={({ item, index }) => <View style={{ flexDirection: "row", minHeight: ScaleSzie(30) }} >
-                        <Text style={{ width: ScaleSzie(140), fontSize: ScaleSzie(12), fontWeight: "500", color: TXT_COLOR_3, }} >
+                    renderItem={({ item, index }) => <View style={{ flexDirection: "row", minHeight: scaleSzie(30) }} >
+                        <Text style={{ width: scaleSzie(140), fontSize: scaleSzie(12), fontWeight: "500", color: TXT_COLOR_3, }} >
                             {`${formatWithMoment(item?.createdDate, "hh:mm ss A")}`}
                         </Text>
-                        <Text style={{ width: ScaleSzie(160), fontSize: ScaleSzie(12), fontWeight: "500", color: TXT_COLOR_3, }} >
+                        <Text style={{ width: scaleSzie(160), fontSize: scaleSzie(12), fontWeight: "500", color: TXT_COLOR_3, }} >
                             {`${formatWithMoment(item?.createdDate, "MMM DD, YYYY")}`}
                         </Text>
-                        <Text style={{ flex: 1, fontSize: ScaleSzie(12), fontWeight: "600", color: TXT_COLOR_3, }} >
+                        <Text style={{ flex: 1, fontSize: scaleSzie(12), fontWeight: "600", color: TXT_COLOR_3, }} >
                             {`${item?.message || ""}`}
                         </Text>
                     </View>}
@@ -121,12 +121,12 @@ class GiftCardDetailTab extends React.Component {
 const GiftCardDetailInfo = ({ title, value }) => {
 
     return (
-        <View style={{ flexDirection: "row", height: ScaleSzie(25) }} >
-            <Text style={{ width: ScaleSzie(150), fontSize: ScaleSzie(12), color: TXT_COLOR, fontWeight: "500" }} >
+        <View style={{ flexDirection: "row", height: scaleSzie(25) }} >
+            <Text style={{ width: scaleSzie(150), fontSize: scaleSzie(12), color: TXT_COLOR, fontWeight: "500" }} >
                 {`${title}`}
             </Text>
 
-            <Text style={{ fontSize: ScaleSzie(12), color: TXT_COLOR, fontWeight: "500" }} >
+            <Text style={{ fontSize: scaleSzie(12), color: TXT_COLOR, fontWeight: "500" }} >
                 {`${value}`}
             </Text>
         </View>
@@ -136,7 +136,7 @@ const GiftCardDetailInfo = ({ title, value }) => {
 const styles = StyleSheet.create({
     SHADOW: {
         backgroundColor: "#fff",
-        borderRadius: ScaleSzie(4),
+        borderRadius: scaleSzie(4),
         ...Platform.select({
             ios: {
                 shadowRadius: 2,
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     booking_txt: {
         color: "#0764B0",
         fontWeight: "bold",
-        fontSize: ScaleSzie(18)
+        fontSize: scaleSzie(18)
     }
 
 })

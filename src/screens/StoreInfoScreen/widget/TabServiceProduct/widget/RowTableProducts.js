@@ -7,7 +7,7 @@ import {
 import FastImage from 'react-native-fast-image';
 
 import { ButtonCustom, Text, } from '@components';
-import { ScaleSzie } from '@utils';
+import { scaleSzie } from '@utils';
 import IMAGE from '@resources';
 
 class RowTableExtra extends React.Component {
@@ -38,27 +38,27 @@ class RowTableExtra extends React.Component {
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
                 <View style={{
-                    width: ScaleSzie(230), flexDirection: 'row',
+                    width: scaleSzie(230), flexDirection: 'row',
                 }} >
                     <View style={[{
                         flex: 1,
                         flexDirection: 'row',
                         alignItems: 'center',
-                        paddingLeft: ScaleSzie(12)
+                        paddingLeft: scaleSzie(12)
                     }]} >
                         <Image source={IMAGE.indicate}
-                            style={{ width: ScaleSzie(12), height: ScaleSzie(29), marginRight: ScaleSzie(12) }}
+                            style={{ width: scaleSzie(12), height: scaleSzie(29), marginRight: scaleSzie(12) }}
                         />
-                        <View style={{justifyContent:'center',marginRight:ScaleSzie(8)}} >
+                        <View style={{justifyContent:'center',marginRight:scaleSzie(8)}} >
                         {
                             product.imageUrl ? <FastImage
-                                style={{ width: ScaleSzie(30), height: ScaleSzie(30) }}
+                                style={{ width: scaleSzie(30), height: scaleSzie(30) }}
                                 source={{
                                     uri: product.imageUrl,
                                     priority: FastImage.priority.low,
                                     cache:FastImage.cacheControl.immutable
                                 }}
-                            /> : <Image source={IMAGE.product_holder} style={{ width: ScaleSzie(30), height: ScaleSzie(30) }} />
+                            /> : <Image source={IMAGE.product_holder} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
                         }
                         </View>
                         <View style={{flex:1}} >
@@ -68,33 +68,33 @@ class RowTableExtra extends React.Component {
                         </View>
                        
                     </View>
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 2 ----- */}
                 <View style={{
-                    width: ScaleSzie(180), flexDirection: 'row',
+                    width: scaleSzie(180), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                             {categoryName}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 3 ----- */}
                 <View style={{
-                    width: ScaleSzie(180), flexDirection: 'row',
+                    width: scaleSzie(180), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                             {product.price}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
@@ -111,9 +111,9 @@ class RowTableExtra extends React.Component {
                             title="Edit"
                             textColor="#fff"
                             onPress={() => editService()}
-                            style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: ScaleSzie(2) }}
+                            style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
                             styleText={{
-                                fontSize: ScaleSzie(14)
+                                fontSize: scaleSzie(14)
                             }}
                         />
                     </View>
@@ -126,9 +126,9 @@ class RowTableExtra extends React.Component {
                                 title="Archive"
                                 textColor="#fff"
                                 onPress={() => archiveService()}
-                                style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: ScaleSzie(2) }}
+                                style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
                                 styleText={{
-                                    fontSize: ScaleSzie(14)
+                                    fontSize: scaleSzie(14)
                                 }}
                             /> :
                                 <ButtonCustom
@@ -138,9 +138,9 @@ class RowTableExtra extends React.Component {
                                     title="Restore"
                                     textColor="#6A6A6A"
                                     onPress={() => restoreService()}
-                                    style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: ScaleSzie(2) }}
+                                    style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(2) }}
                                     styleText={{
-                                        fontSize: ScaleSzie(14)
+                                        fontSize: scaleSzie(14)
                                     }}
                                 />
                         }
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: ScaleSzie(60),
+        height: scaleSzie(60),
         backgroundColor: '#FAFAFA',
         borderBottomWidth: 1,
         borderBottomColor: '#C5C5C5',
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#6A6A6A',
-        fontSize: ScaleSzie(14)
+        fontSize: scaleSzie(14)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',

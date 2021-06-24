@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TextInput, Image } from 'react-native';
 
-import { ScaleSzie } from '../utils';
+import { scaleSzie } from '../utils';
 import IMAGE from '@resources';
 import Button from './Button';
 
@@ -25,14 +25,14 @@ export default class InputAuth extends React.PureComponent {
         } = this.props;
         return (
             <View style={{
-                width: ScaleSzie(400), height: ScaleSzie(45),
-                backgroundColor: '#fff', paddingHorizontal: ScaleSzie(15)
+                width: scaleSzie(400), height: scaleSzie(45),
+                backgroundColor: '#fff', paddingHorizontal: scaleSzie(15)
             }} >
                 <TextInput
                     ref={this.textinputRef}
                     style={[{
                         flex: 1,
-                        fontSize: ScaleSzie(20)
+                        fontSize: scaleSzie(20)
                     }, style]}
                     placeholder={placeholder}
                     value={this.state.value}
@@ -46,12 +46,12 @@ export default class InputAuth extends React.PureComponent {
                     isShowPass ? <Button 
                     onPress={() =>changeShowPass()}
                     style={{
-                        position: 'absolute', right: 0, width: ScaleSzie(30), height: ScaleSzie(45),
+                        position: 'absolute', right: 0, width: scaleSzie(30), height: scaleSzie(45),
                      justifyContent: 'center'
                     }} >
                         <Image
                             source={iconShowPass}
-                            style={{ width: ScaleSzie(25), height: ScaleSzie(18) }}
+                            style={{ width: scaleSzie(25), height: scaleSzie(18) }}
                         />
                     </Button> : <View />
                 }

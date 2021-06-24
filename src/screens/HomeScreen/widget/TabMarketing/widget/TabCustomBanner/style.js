@@ -4,7 +4,7 @@ import {
     Platform
 } from 'react-native';
 
-import { ScaleSzie } from '@utils';
+import { scaleSzie } from '@utils';
 
 const { width, height } = Dimensions.get('window');
 
@@ -13,7 +13,7 @@ export default StyleSheet.create({
         flex: 1,
     },
     header:{
-        height:ScaleSzie(50),
+        height:scaleSzie(50),
         flexDirection:'row',
     },
     content:{ 
@@ -23,7 +23,7 @@ export default StyleSheet.create({
     },
     leftContent:{
         flex:1,
-        paddingTop:ScaleSzie(15)
+        paddingTop:scaleSzie(15)
     },
     rightContent:{
         flex:0.8,

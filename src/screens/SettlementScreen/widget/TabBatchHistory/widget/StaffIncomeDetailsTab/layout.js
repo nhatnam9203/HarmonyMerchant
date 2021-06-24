@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import _ from 'ramda';
 
-import { ScaleSzie, formatMoney, formatWithMoment } from '@utils';
+import { scaleSzie, formatMoney, formatWithMoment } from '@utils';
 import {
     Text, Button, Dropdown
 } from '@components';
@@ -26,8 +26,8 @@ class Layout extends React.Component {
 
                 {/* --------- Dropdown ---------- */}
                 <View style={{
-                    height: ScaleSzie(35), width: ScaleSzie(180),
-                    marginLeft: ScaleSzie(10), marginTop: ScaleSzie(20)
+                    height: scaleSzie(35), width: scaleSzie(180),
+                    marginLeft: scaleSzie(10), marginTop: scaleSzie(20)
                 }} >
                     <Dropdown
                         label={""}
@@ -54,7 +54,7 @@ class Layout extends React.Component {
                 </View>
                 {/* --------- Footer Table  ---------- */}
                 <View style={{
-                    height: ScaleSzie(40), backgroundColor: "#0764B0", flexDirection: "row", paddingHorizontal: ScaleSzie(10)
+                    height: scaleSzie(40), backgroundColor: "#0764B0", flexDirection: "row", paddingHorizontal: scaleSzie(10)
                 }} >
                     <View style={{ flex: 1, justifyContent: "center" }} >
                         <Text style={[styles.txt_header_table, { color: "#fff" }]} >
@@ -95,8 +95,8 @@ class Layout extends React.Component {
 const HeaderTable = () => {
     return (
         <View style={{
-            height: ScaleSzie(32), backgroundColor: "#F1F1F1", marginTop: ScaleSzie(20), flexDirection: "row",
-            paddingHorizontal: ScaleSzie(10)
+            height: scaleSzie(32), backgroundColor: "#F1F1F1", marginTop: scaleSzie(20), flexDirection: "row",
+            paddingHorizontal: scaleSzie(10)
         }} >
             {/* --------- Services / Products  ---------- */}
             <View style={{ flex: 1, justifyContent: "center" }} >
@@ -147,7 +147,7 @@ const HeaderTable = () => {
 const RowTable = ({ data }) => {
     return (
         <View style={{
-            height: ScaleSzie(35), backgroundColor: "#FAFAFA", flexDirection: "row", paddingHorizontal: ScaleSzie(10), marginBottom: 2
+            height: scaleSzie(35), backgroundColor: "#FAFAFA", flexDirection: "row", paddingHorizontal: scaleSzie(10), marginBottom: 2
         }} >
             {/* --------- Services / Products  ---------- */}
             <View style={{ flex: 1, justifyContent: "center" }} >

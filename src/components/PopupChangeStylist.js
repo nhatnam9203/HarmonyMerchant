@@ -16,7 +16,7 @@ import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import { Dropdown } from './react-native-material-dropdown';
 import connectRedux from '@redux/ConnectRedux';
-import { ScaleSzie, formatWithMoment } from '../utils';
+import { scaleSzie, formatWithMoment } from '../utils';
 import ICON from '@resources';
 import Button from './Button';
 
@@ -178,7 +178,7 @@ class PopupChangeStylist extends React.Component {
   onFocusToScroll = (number) => () => {
     this.scrollRef.current.scrollTo({
       x: 0,
-      y: ScaleSzie(number),
+      y: scaleSzie(number),
       animated: true,
     });
   };
@@ -214,15 +214,15 @@ class PopupChangeStylist extends React.Component {
         visible={visible}
         onRequestClose={this.onRequestClose}
         width={440}
-        styleTitle={{ fontSize: ScaleSzie(20), fontWeight: '600' }}
+        styleTitle={{ fontSize: scaleSzie(20), fontWeight: '600' }}
       >
         <View
           style={{
-            height: ScaleSzie(420),
+            height: scaleSzie(420),
             backgroundColor: '#fff',
-            borderBottomLeftRadius: ScaleSzie(15),
-            borderBottomRightRadius: ScaleSzie(15),
-            paddingHorizontal: ScaleSzie(30),
+            borderBottomLeftRadius: scaleSzie(15),
+            borderBottomRightRadius: scaleSzie(15),
+            paddingHorizontal: scaleSzie(30),
           }}
         >
           <View style={{ flex: 1 }}>
@@ -232,11 +232,11 @@ class PopupChangeStylist extends React.Component {
               keyboardShouldPersistTaps="always"
             >
               <TouchableOpacity activeOpacity={1}>
-                <View style={{ height: ScaleSzie(20) }} />
+                <View style={{ height: scaleSzie(20) }} />
                 <Text style={[styles.txt_title]}>{`Staff`}</Text>
                 {/* ------- Dropdown -------- */}
                 <View
-                  style={{ height: ScaleSzie(40), marginBottom: ScaleSzie(10) }}
+                  style={{ height: scaleSzie(40), marginBottom: scaleSzie(10) }}
                 >
                   <Dropdown
                     label="Name"
@@ -251,8 +251,8 @@ class PopupChangeStylist extends React.Component {
                       borderColor: '#C5C5C5',
                       flex: 1,
                     }}
-                    fontSize={ScaleSzie(20)}
-                    // extraHeight={ScaleSzie(90)}
+                    fontSize={scaleSzie(20)}
+                    // extraHeight={scaleSzie(90)}
                   />
                 </View>
                 {/* ------- Price -------- */}
@@ -260,12 +260,12 @@ class PopupChangeStylist extends React.Component {
                 {/* ------- Box Price -------- */}
                 <View
                   style={{
-                    height: ScaleSzie(40),
+                    height: scaleSzie(40),
                     backgroundColor: '#fff',
                     borderWidth: 1,
                     borderColor: '#C5C5C5',
-                    paddingHorizontal: ScaleSzie(10),
-                    marginBottom: ScaleSzie(10),
+                    paddingHorizontal: scaleSzie(10),
+                    marginBottom: scaleSzie(10),
                   }}
                 >
                   <TextInputMask
@@ -279,7 +279,7 @@ class PopupChangeStylist extends React.Component {
                     }}
                     style={{
                       flex: 1,
-                      fontSize: ScaleSzie(16),
+                      fontSize: scaleSzie(16),
                       color: '#6A6A6A',
                     }}
                     value={price}
@@ -292,11 +292,11 @@ class PopupChangeStylist extends React.Component {
                 {/* ------- Box Tip -------- */}
                 <View
                   style={{
-                    height: ScaleSzie(40),
+                    height: scaleSzie(40),
                     backgroundColor: '#fff',
                     borderWidth: 1,
                     borderColor: '#C5C5C5',
-                    paddingHorizontal: ScaleSzie(10),
+                    paddingHorizontal: scaleSzie(10),
                   }}
                 >
                   <TextInputMask
@@ -310,7 +310,7 @@ class PopupChangeStylist extends React.Component {
                     }}
                     style={{
                       flex: 1,
-                      fontSize: ScaleSzie(16),
+                      fontSize: scaleSzie(16),
                       color: '#6A6A6A',
                     }}
                     value={tip}
@@ -322,7 +322,7 @@ class PopupChangeStylist extends React.Component {
                 {/* ----------- Extra ----------- */}
                 {!isEmpty(extras) && (
                   <Text
-                    style={[styles.txt_title, { marginTop: ScaleSzie(10) }]}
+                    style={[styles.txt_title, { marginTop: scaleSzie(10) }]}
                   >
                     {`Extra`}
                   </Text>
@@ -337,22 +337,22 @@ class PopupChangeStylist extends React.Component {
                 ))}
 
                 {/* ------- Note -------- */}
-                <Text style={[styles.txt_title, { marginTop: ScaleSzie(10) }]}>
+                <Text style={[styles.txt_title, { marginTop: scaleSzie(10) }]}>
                   {`Note`}
                 </Text>
                 <View
                   style={{
-                    height: ScaleSzie(70),
+                    height: scaleSzie(70),
                     backgroundColor: '#fff',
                     borderWidth: 1,
                     borderColor: '#C5C5C5',
-                    paddingHorizontal: ScaleSzie(10),
+                    paddingHorizontal: scaleSzie(10),
                   }}
                 >
                   <TextInput
                     style={{
                       flex: 1,
-                      fontSize: ScaleSzie(16),
+                      fontSize: scaleSzie(16),
                       color: '#6A6A6A',
                     }}
                     multiline={true}
@@ -363,16 +363,16 @@ class PopupChangeStylist extends React.Component {
                 </View>
 
                 {/* ------- Button -------- */}
-                {/* <View style={{ marginTop: ScaleSzie(20), alignItems: 'center', backgroundColor: "red" }} >  */}
+                {/* <View style={{ marginTop: scaleSzie(20), alignItems: 'center', backgroundColor: "red" }} >  */}
 
                 {/* </View> */}
-                <View style={{ height: ScaleSzie(250) }} />
+                <View style={{ height: scaleSzie(250) }} />
               </TouchableOpacity>
             </ScrollView>
           </View>
 
           <ButtonCustom
-            width={ScaleSzie(140)}
+            width={scaleSzie(140)}
             height={38}
             backgroundColor="#0764B0"
             title="SUBMIT"
@@ -383,10 +383,10 @@ class PopupChangeStylist extends React.Component {
               borderColor: '#C5C5C5',
               borderRadius: 4,
               position: 'absolute',
-              bottom: ScaleSzie(15),
-              marginLeft: ScaleSzie((440 - 140) / 2),
+              bottom: scaleSzie(15),
+              marginLeft: scaleSzie((440 - 140) / 2),
             }}
-            styleText={{ fontWeight: '600', fontSize: ScaleSzie(14) }}
+            styleText={{ fontWeight: '600', fontSize: scaleSzie(14) }}
           />
         </View>
       </PopupParent>
@@ -403,37 +403,37 @@ const ExtraItem = ({ extra, selectExtra }) => {
     <View
       style={{
         flexDirection: 'row',
-        marginBottom: ScaleSzie(10),
+        marginBottom: scaleSzie(10),
         alignItems: 'center',
       }}
     >
       <Button
         onPress={() => selectExtra(extra)}
-        style={{ width: ScaleSzie(18), height: ScaleSzie(18) }}
+        style={{ width: scaleSzie(18), height: scaleSzie(18) }}
       >
         <Image
           source={extra?.isSelect ? ICON.checkBox : ICON.checkBoxEmpty}
-          style={{ width: ScaleSzie(18), height: ScaleSzie(18) }}
+          style={{ width: scaleSzie(18), height: scaleSzie(18) }}
         />
       </Button>
 
       <View
         style={{
-          width: ScaleSzie(36),
-          height: ScaleSzie(36),
-          marginLeft: ScaleSzie(14),
-          marginRight: ScaleSzie(10),
+          width: scaleSzie(36),
+          height: scaleSzie(36),
+          marginLeft: scaleSzie(14),
+          marginRight: scaleSzie(10),
         }}
       >
         {extra?.imageUrl ? (
           <Image
             source={{ uri: extra?.imageUrl }}
-            style={{ width: ScaleSzie(36), height: ScaleSzie(36) }}
+            style={{ width: scaleSzie(36), height: scaleSzie(36) }}
           />
         ) : (
           <Image
             source={ICON.extra_holder}
-            style={{ width: ScaleSzie(36), height: ScaleSzie(36) }}
+            style={{ width: scaleSzie(36), height: scaleSzie(36) }}
           />
         )}
       </View>
@@ -442,7 +442,7 @@ const ExtraItem = ({ extra, selectExtra }) => {
           flex: 1,
           color: '#404040',
           fontWeight: '600',
-          fontSize: ScaleSzie(14),
+          fontSize: scaleSzie(14),
         }}
       >
         {extra?.name}
@@ -450,7 +450,7 @@ const ExtraItem = ({ extra, selectExtra }) => {
       <View style={{ width: 10 }} />
       <View
         style={{
-          width: ScaleSzie(100),
+          width: scaleSzie(100),
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -460,7 +460,7 @@ const ExtraItem = ({ extra, selectExtra }) => {
           numberOfLines={2}
           style={{
             color: '#404040',
-            fontSize: ScaleSzie(12),
+            fontSize: scaleSzie(12),
             fontWeight: '300',
           }}
         >
@@ -470,7 +470,7 @@ const ExtraItem = ({ extra, selectExtra }) => {
         <Text
           style={{
             color: '#404040',
-            fontSize: ScaleSzie(12),
+            fontSize: scaleSzie(12),
             fontWeight: '600',
           }}
         >
@@ -484,10 +484,10 @@ const ExtraItem = ({ extra, selectExtra }) => {
 const styles = StyleSheet.create({
   txt_title: {
     color: '#404040',
-    fontSize: ScaleSzie(15),
+    fontSize: scaleSzie(15),
     fontWeight: '500',
-    marginBottom: ScaleSzie(8),
-    marginTop: ScaleSzie(8),
+    marginBottom: scaleSzie(8),
+    marginTop: scaleSzie(8),
   },
 });
 

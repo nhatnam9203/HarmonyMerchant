@@ -2,7 +2,7 @@ import React from "react";
 import { Modal, ActivityIndicator, View } from "react-native";
 
 import connectRedux from "../redux/ConnectRedux";
-import { ScaleSzie } from '@utils';
+import { scaleSzie } from '@utils';
 
 class Loading extends React.PureComponent {
 
@@ -25,10 +25,10 @@ class Loading extends React.PureComponent {
                     ]}
                 >
                     <View style={{
-                        width: ScaleSzie(70), height: ScaleSzie(70), backgroundColor: "rgba(54,64,69,0.7)",
+                        width: scaleSzie(70), height: scaleSzie(70), backgroundColor: "rgba(54,64,69,0.7)",
                         justifyContent: "center",
                         alignItems: "center",
-                        borderRadius: ScaleSzie(10)
+                        borderRadius: scaleSzie(10)
                     }} >
                         <ActivityIndicator color="#fff" size="large" />
                     </View>

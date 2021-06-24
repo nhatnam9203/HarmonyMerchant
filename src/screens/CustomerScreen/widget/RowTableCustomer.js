@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { Button, } from '@components';
-import { ScaleSzie } from '@utils';
+import { scaleSzie } from '@utils';
 
 class RowTableCustomer extends React.Component {
 
@@ -25,61 +25,61 @@ class RowTableCustomer extends React.Component {
                         flex: 1,
                         flexDirection: 'row',
                         alignItems: 'center',
-                        paddingHorizontal: ScaleSzie(12)
+                        paddingHorizontal: scaleSzie(12)
                     }]} >
                         <Text style={styles.textTableHeader} numberOfLines={1} >
                             {`${customer?.firstName || ""} ${customer?.lastName || ""}`}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View> */}
                 </View>
 
                 {/* ----- 2 ----- */}
                 <View style={{flex:1,  flexDirection: 'row' }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} numberOfLines={1} >
                             {customer?.phone || ""}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View> */}
                 </View>
 
                 {/* ----- 3 ----- */}
                 <View style={{flex:1.3, flexDirection: 'row',}} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} numberOfLines={1} >
                             {customer?.email || ""}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View> */}
                 </View>
 
                 {/* ----- 4 ----- */}
                 <View style={{ flex: 1, flexDirection: 'row' }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} numberOfLines={1} >
                             {customer?.referrerBy || ""}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View> */}
                 </View>
 
                 {/* ----- 5 ----- */}
                 <View style={{ flex: 1, flexDirection: 'row' }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} numberOfLines={1} >
                             {customer?.referrerPhone || ""}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View> */}
                 </View>
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: ScaleSzie(50),
+        height: scaleSzie(50),
         backgroundColor: '#FAFAFA',
         borderBottomWidth: 1,
         borderBottomColor: '#EEEEEE',
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#6A6A6A',
-        fontSize: ScaleSzie(14)
+        fontSize: scaleSzie(14)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { Animated } from 'react-native';
 
-import {ScaleSzie} from '../../../../../utils';
+import {scaleSzie} from '../../../../../utils';
 
 export default class Label extends PureComponent {
   static defaultProps = {
@@ -123,14 +123,14 @@ export default class Label extends PureComponent {
 
     let containerStyle = {
       // position: 'absolute',
-      // top : ScaleSzie(9),
-      // left: ScaleSzie(10),
-      // bottom:ScaleSzie(10),
+      // top : scaleSzie(9),
+      // left: scaleSzie(10),
+      // bottom:scaleSzie(10),
     };
 
     return (
       <Animated.View style={containerStyle}>
-        <Animated.Text style={[style, textStyle,{fontSize:ScaleSzie(16)}]} {...props}>
+        <Animated.Text style={[style, textStyle,{fontSize:scaleSzie(16)}]} {...props}>
           {children}
         </Animated.Text>
       </Animated.View>

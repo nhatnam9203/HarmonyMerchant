@@ -2,7 +2,7 @@ import React from 'react';
 
 import Button from './Button';
 import Text from './Text';
-import { ScaleSzie } from '../utils';
+import { scaleSzie } from '../utils';
 
 export default class ButtonCustom extends React.PureComponent {
 
@@ -12,15 +12,15 @@ export default class ButtonCustom extends React.PureComponent {
         return (
             <Button onPress={() => this.props.onPress()} style={[{
                 width,
-                height: ScaleSzie(temtpHeight),
+                height: scaleSzie(temtpHeight),
                 backgroundColor,
-                borderRadius: ScaleSzie(6),
+                borderRadius: scaleSzie(6),
                 justifyContent: 'center',
                 alignItems: 'center'
             },style]}
             activeOpacity={activeOpacity}
             >
-                <Text style={[{color :textColor,fontWeight:'bold',fontSize :ScaleSzie(18)},
+                <Text style={[{color :textColor,fontWeight:'bold',fontSize :scaleSzie(18)},
             styleText]} >
                     {title}
                 </Text>

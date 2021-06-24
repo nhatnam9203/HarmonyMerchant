@@ -7,7 +7,7 @@ import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
 import {
     validateIsNumber, getIdStateByName, gotoSettingsDevice,
-    validateEmail, ScaleSzie, checkStateIsValid, formatWithMoment, validBirthday
+    validateEmail, scaleSzie, checkStateIsValid, formatWithMoment, validBirthday
 } from '@utils';
 
 const initalStatePrincipal2 = {
@@ -119,7 +119,7 @@ class PrincipalScreen extends Layout {
     }
 
     scrollPrincipalTo = (position) => {
-        this.srollPrincipalRef.current.scrollTo({ x: 0, y: ScaleSzie(position), animated: true })
+        this.srollPrincipalRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
 

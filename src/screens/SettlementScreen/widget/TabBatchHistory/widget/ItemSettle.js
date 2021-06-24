@@ -7,7 +7,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { ScaleSzie, formatWithMoment } from '@utils';
+import { scaleSzie, formatWithMoment } from '@utils';
 import { Text, Button } from '@components';
 
 class ItemSettle extends React.Component {
@@ -38,10 +38,10 @@ class ItemSettle extends React.Component {
         const { isSelected } = this.state;
         const temptColorSelected = !isSelected ? {} : { backgroundColor: '#F1F1F1' };
         return (
-            <Button onPress={() => onPress(batchHistory)} style={[{ height: ScaleSzie(58), borderBottomColor: '#C5C5C5', borderBottomWidth: 1 }, temptColorSelected]} >
+            <Button onPress={() => onPress(batchHistory)} style={[{ height: scaleSzie(58), borderBottomColor: '#C5C5C5', borderBottomWidth: 1 }, temptColorSelected]} >
                 <View style={{ flex: 1, flexDirection: 'row',  }} >
                     <View style={{ flex: 0.7,justifyContent:"center" }} >
-                        <Text style={[styles.textTitleLefConten, { marginLeft: ScaleSzie(12) }]} >
+                        <Text style={[styles.textTitleLefConten, { marginLeft: scaleSzie(12) }]} >
                             {`# ${batchHistory.settlementId}`}
                         </Text>
                     </View>
@@ -75,7 +75,7 @@ class ItemSettle extends React.Component {
 const styles = StyleSheet.create({
     textTitleLefConten: {
         color: '#404040',
-        fontSize: ScaleSzie(14)
+        fontSize: scaleSzie(14)
     },
 });
 

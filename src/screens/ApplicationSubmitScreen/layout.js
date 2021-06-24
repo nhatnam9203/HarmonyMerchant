@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Text, ButtonCustom } from '@components';
-import { ScaleSzie, localize } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
@@ -21,22 +21,22 @@ export default class Layout extends React.Component {
                 source={IMAGE.backgroundLogin}
             >
                 <Image source={IMAGE.logo} style={styles.logo} />
-                <View style={{ height: ScaleSzie(80) }} />
+                <View style={{ height: scaleSzie(80) }} />
                 <Text style={{
-                    color: '#fff', fontSize: ScaleSzie(20), fontWeight: 'bold',
-                    marginBottom: ScaleSzie(10)
+                    color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold',
+                    marginBottom: scaleSzie(10)
                 }} >
                     {`${localize('Thank for submitting your application! One of our agents will ', language)}`}
                 </Text>
                 <Text style={{
-                    color: '#fff', fontSize: ScaleSzie(20), fontWeight: 'bold',
-                    marginBottom: ScaleSzie(10)
+                    color: '#fff', fontSize: scaleSzie(20), fontWeight: 'bold',
+                    marginBottom: scaleSzie(10)
                 }} >
                     {`${localize('contact you within the next business day', language)}.`}
                 </Text>
-                <View style={{ height: ScaleSzie(60) }} />
+                <View style={{ height: scaleSzie(60) }} />
                 <ButtonCustom
-                    width={ScaleSzie(400)}
+                    width={scaleSzie(400)}
                     backgroundColor="#4CD964"
                     title={`${localize('FINISH', language)}`}
                     textColor="#fff"

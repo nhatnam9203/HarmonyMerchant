@@ -1,4 +1,4 @@
-import { ScaleSzie, localize } from "@utils";
+import { scaleSzie, localize } from "@utils";
 import React from "react";
 import {
   ActivityIndicator,
@@ -35,7 +35,7 @@ class Layout extends React.Component {
                 style={{
                   backgroundColor: "#FFF",
                   marginTop: -1,
-                  paddingLeft: ScaleSzie(15),
+                  paddingLeft: scaleSzie(15),
                   height: "100%",
                 }}
               >
@@ -73,9 +73,9 @@ class Layout extends React.Component {
                   ListFooterComponent={() => (
                     <View
                       style={{
-                        height: ScaleSzie(50),
+                        height: scaleSzie(50),
                         justifyContent: "center",
-                        marginBottom: ScaleSzie(50),
+                        marginBottom: scaleSzie(50),
                       }}
                     >
                       {/* {isLoadMoreMarketList ? (
@@ -100,7 +100,7 @@ class Layout extends React.Component {
                 {this.state.isSelected ? (
                   <TouchableOpacity
                     onPress={this.deleteBanner}
-                    style={[styles.btn, { marginRight: ScaleSzie(15) }]}
+                    style={[styles.btn, { marginRight: scaleSzie(15) }]}
                   >
                     <Image source={IMAGE.Trash} />
                   </TouchableOpacity>
@@ -110,11 +110,11 @@ class Layout extends React.Component {
           ) : (
             //  RENDER WHEN LENGTH ITEM = 0
             <View style={styles.upload}>
-              <View style={{ height: ScaleSzie(70) }} />
+              <View style={{ height: scaleSzie(70) }} />
               <Text style={styles.text}>
                 You have not uploaded any images yet
               </Text>
-              <View style={{ height: ScaleSzie(40) }} />
+              <View style={{ height: scaleSzie(40) }} />
               <View style={{ flexDirection: "row" }}>
                 <TouchableOpacity
                   style={styles.btn_upload}
@@ -124,7 +124,7 @@ class Layout extends React.Component {
                   <Image style={styles.ic} source={IMAGE.Ic_Camera} />
                   <Text style={styles.text}>Take a Photo</Text>
                 </TouchableOpacity>
-                <View style={{ width: ScaleSzie(30) }} />
+                <View style={{ width: scaleSzie(30) }} />
                 <TouchableOpacity
                   style={styles.btn_upload}
                   onPress={this.openImageLibrary}

@@ -1,4 +1,4 @@
-import { ScaleSzie, localize } from "@utils";
+import { scaleSzie, localize } from "@utils";
 import React from "react";
 import {
   ActivityIndicator,
@@ -25,7 +25,7 @@ class Layout extends React.Component {
           style={{
             backgroundColor: "#FFF",
             marginTop: -1,
-            paddingLeft: ScaleSzie(4),
+            paddingLeft: scaleSzie(4),
             height: "95%",
           }}
         >
@@ -54,9 +54,9 @@ class Layout extends React.Component {
             ListFooterComponent={() => (
               <View
                 style={{
-                  height: ScaleSzie(20),
+                  height: scaleSzie(20),
                   justifyContent: "center",
-                  marginBottom: ScaleSzie(40),
+                  marginBottom: scaleSzie(40),
                 }}
               >
                 {isLoadMoreMarketList ? (

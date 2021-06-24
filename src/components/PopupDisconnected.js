@@ -6,7 +6,7 @@ import {
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import { ScaleSzie } from '../utils';
+import { scaleSzie } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupDisconnected extends React.Component {
@@ -26,19 +26,19 @@ class PopupDisconnected extends React.Component {
                 hideCloseButton={true}
             >
                 <View style={{
-                    height: ScaleSzie(130), backgroundColor: '#fff',
-                    borderBottomLeftRadius: ScaleSzie(15), borderBottomRightRadius: ScaleSzie(15)
+                    height: scaleSzie(130), backgroundColor: '#fff',
+                    borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                        <Text style={{ color: '#404040', fontSize: ScaleSzie(18) }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
                             Your internet is disconnected !
                         </Text>
-                        <Text style={{ color: '#404040', fontSize: ScaleSzie(18) }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
                             You will use offline mode.
                         </Text>
                     </View>
                     <View style={{
-                        height: ScaleSzie(45), flexDirection: 'row',
+                        height: scaleSzie(45), flexDirection: 'row',
                     }} >
                         <View style={{ flex: 1, alignItems: 'center' }} >
                             <ButtonCustom
@@ -53,7 +53,7 @@ class PopupDisconnected extends React.Component {
                                     borderColor: '#C5C5C5'
                                 }}
                                 styleText={{
-                                    fontSize: ScaleSzie(14)
+                                    fontSize: scaleSzie(14)
                                 }}
                             />
                         </View>

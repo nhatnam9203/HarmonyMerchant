@@ -1,5 +1,5 @@
 import { Text } from "@components";
-import { ScaleSzie } from "@utils";
+import { scaleSzie } from "@utils";
 import React from "react";
 import {
   Dimensions,
@@ -50,7 +50,7 @@ const ItemPhoto = ({ index, item, selectImage, openImage, isSelected }) => {
         )}
 
       <View style={styles.photo}>
-        <Image style={{ marginTop: ScaleSzie(1) }} source={IMAGE.Gallery_ic} />
+        <Image style={{ marginTop: scaleSzie(1) }} source={IMAGE.Gallery_ic} />
         <Text numberOfLines={2} style={styles.name}>{title}</Text>
       </View>
       {selected && (
@@ -65,7 +65,7 @@ const ItemPhoto = ({ index, item, selectImage, openImage, isSelected }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFF",
-    width: ScaleSzie(140),
+    width: scaleSzie(140),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -75,16 +75,16 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
-    margin: ScaleSzie(4),
-    marginVertical: ScaleSzie(10),
+    margin: scaleSzie(4),
+    marginVertical: scaleSzie(10),
   },
   image: {
     width: "100%",
-    height: ScaleSzie(100),
+    height: scaleSzie(100),
   },
   img: {
     width: "100%",
-    height: ScaleSzie(100),
+    height: scaleSzie(100),
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -93,27 +93,27 @@ const styles = StyleSheet.create({
     height: "30%",
   },
   photo: {
-    marginLeft: ScaleSzie(10),
-    paddingVertical: ScaleSzie(10),
+    marginLeft: scaleSzie(10),
+    paddingVertical: scaleSzie(10),
     width: "100%",
     flexDirection: "row",
   },
   name: {
     width: "80%",
-    marginLeft: ScaleSzie(5),
-    fontSize: ScaleSzie(11),
+    marginLeft: scaleSzie(5),
+    fontSize: scaleSzie(11),
     color: "#9A9A9A",
   },
   ic: {
-    width: ScaleSzie(20),
-    height: ScaleSzie(20),
+    width: scaleSzie(20),
+    height: scaleSzie(20),
   },
   tick: {
     position: "absolute",
-    top: ScaleSzie(3),
-    right: ScaleSzie(3),
+    top: scaleSzie(3),
+    right: scaleSzie(3),
     backgroundColor: "#FFF",
-    borderRadius: ScaleSzie(5),
+    borderRadius: scaleSzie(5),
   },
 });
 

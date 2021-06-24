@@ -8,7 +8,7 @@ import {
 
 import { CustomTabBar ,ScrollableTabView} from '@components';
 
-import { ScaleSzie } from '@utils';
+import { scaleSzie } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 
@@ -26,7 +26,7 @@ class Layout extends React.Component {
                         inactiveTextColor="#0764B0"
                         backgroundTabActive="#0764B0"
                         textStyle={{
-                            fontSize: ScaleSzie(16)
+                            fontSize: scaleSzie(16)
                         }}
                     />}
                 >

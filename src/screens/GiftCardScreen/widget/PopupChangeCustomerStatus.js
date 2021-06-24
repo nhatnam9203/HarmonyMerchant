@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import { Button, PopupParent, ModalCustom } from '@components';
-import { ScaleSzie, localize, checkIsTablet } from '@utils';
+import { scaleSzie, localize, checkIsTablet } from '@utils';
 import ICON from "@resources";
 
 const { width, height } = Dimensions.get("window");
@@ -40,13 +40,13 @@ class PopupChangeCustomerStatus extends React.Component {
                             onPress={() => updateCustomerStatus(0)}
                             style={{
                                 position: "absolute",
-                                top: ScaleSzie(35) + 20 + ScaleSzie(28) + ScaleSzie(20),
-                                right: ScaleSzie(10),
-                                width: ScaleSzie(85), height: ScaleSzie(28), backgroundColor: "#0764B0", borderRadius: ScaleSzie(20),
+                                top: scaleSzie(35) + 20 + scaleSzie(28) + scaleSzie(20),
+                                right: scaleSzie(10),
+                                width: scaleSzie(85), height: scaleSzie(28), backgroundColor: "#0764B0", borderRadius: scaleSzie(20),
                                 justifyContent: "center", alignItems: "center", flexDirection: "row"
                             }} >
-                            {/* <Image source={ICON.vip_icon} style={{ width: ScaleSzie(18), height: ScaleSzie(18) }} /> */}
-                            <Text style={{ color: "#fff", fontSize: ScaleSzie(13), marginLeft: ScaleSzie(6) }} >
+                            {/* <Image source={ICON.vip_icon} style={{ width: scaleSzie(18), height: scaleSzie(18) }} /> */}
+                            <Text style={{ color: "#fff", fontSize: scaleSzie(13), marginLeft: scaleSzie(6) }} >
                                 {`Normal`}
                             </Text>
                         </Button>
@@ -55,13 +55,13 @@ class PopupChangeCustomerStatus extends React.Component {
                                 onPress={() => updateCustomerStatus(1)}
                                 style={{
                                     position: "absolute",
-                                    top: ScaleSzie(35) + 20 + ScaleSzie(28) + ScaleSzie(20),
-                                    right: ScaleSzie(10),
-                                    width: ScaleSzie(85), height: ScaleSzie(28), backgroundColor: "rgb(76,217,100)", borderRadius: ScaleSzie(20),
+                                    top: scaleSzie(35) + 20 + scaleSzie(28) + scaleSzie(20),
+                                    right: scaleSzie(10),
+                                    width: scaleSzie(85), height: scaleSzie(28), backgroundColor: "rgb(76,217,100)", borderRadius: scaleSzie(20),
                                     justifyContent: "center", alignItems: "center", flexDirection: "row"
                                 }} >
-                                <Image source={ICON.vip_icon} style={{ width: ScaleSzie(18), height: ScaleSzie(18) }} />
-                                <Text style={{ color: "#fff", fontSize: ScaleSzie(13), marginLeft: ScaleSzie(6) }} >
+                                <Image source={ICON.vip_icon} style={{ width: scaleSzie(18), height: scaleSzie(18) }} />
+                                <Text style={{ color: "#fff", fontSize: scaleSzie(13), marginLeft: scaleSzie(6) }} >
                                     {`VIP`}
                                 </Text>
                             </Button>

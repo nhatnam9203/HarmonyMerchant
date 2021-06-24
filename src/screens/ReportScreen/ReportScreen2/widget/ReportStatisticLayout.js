@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Dropdown } from "react-native-material-dropdown";
 
 import IMAGE from "@resources";
-import { localize, ScaleSzie, getQuickFilterTimeRange } from "@utils";
+import { localize, scaleSzie, getQuickFilterTimeRange } from "@utils";
 import { PopupCalendar } from "@components";
 
 import HeaderTitle from "./HeaderTitle";

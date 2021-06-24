@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { TextInputMask } from 'react-native-masked-text';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-import { ScaleSzie, localize, WorkingTime, formatWithMoment, MARKETING_CONDITIONS } from '@utils';
+import { scaleSzie, localize, WorkingTime, formatWithMoment, MARKETING_CONDITIONS } from '@utils';
 import ICON from '@resources';
 import { Button, Text, InputForm, Dropdown } from '@components';
 const { width } = Dimensions.get('window');
@@ -22,15 +22,15 @@ const RewardDetail = ({ cancelRewardPoints,saveRewardPoints }) => {
     const language = useSelector(state => state?.dataLocal?.language || "en");
 
     return (
-        <View style={{ flex: 1, backgroundColor: "#fff", paddingHorizontal: ScaleSzie(14) }} >
+        <View style={{ flex: 1, backgroundColor: "#fff", paddingHorizontal: scaleSzie(14) }} >
                 {/* ------------------- New Campaigns ------------------- */}
-                <Text style={{ color: "#404040", fontSize: ScaleSzie(16), fontWeight: "600" }} >
+                <Text style={{ color: "#404040", fontSize: scaleSzie(16), fontWeight: "600" }} >
                     {`Reward points`}
                 </Text>
 
-                <View style={{height:2,backgroundColor:"#EEEEEE",marginVertical:ScaleSzie(20)}} />
+                <View style={{height:2,backgroundColor:"#EEEEEE",marginVertical:scaleSzie(20)}} />
 
-                <Text style={{ color: "#6A6A6A", fontSize: ScaleSzie(12), fontWeight: "400",marginBottom:ScaleSzie(15) }} >
+                <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(12), fontWeight: "400",marginBottom:scaleSzie(15) }} >
                     {`Receive reward points according to the payment value`}
                 </Text>
 
@@ -40,9 +40,9 @@ const RewardDetail = ({ cancelRewardPoints,saveRewardPoints }) => {
                     placeholder="100"
                     value={""}
                     onChangeText={(value) => { }}
-                    style={{ marginBottom: ScaleSzie(10),width:ScaleSzie(220) }}
-                    styleTitle={{ fontSize: ScaleSzie(12), fontWeight: "400", marginBottom: ScaleSzie(5),color:"#404040" }}
-                    styleInputText={{ fontSize: ScaleSzie(13) }}
+                    style={{ marginBottom: scaleSzie(10),width:scaleSzie(220) }}
+                    styleTitle={{ fontSize: scaleSzie(12), fontWeight: "400", marginBottom: scaleSzie(5),color:"#404040" }}
+                    styleInputText={{ fontSize: scaleSzie(13) }}
                 />
 
                 {/* ------------------- Date ------------------- */}
@@ -55,10 +55,10 @@ const RewardDetail = ({ cancelRewardPoints,saveRewardPoints }) => {
 
             {/* --------------- Footer ---------------- */}
             <View style={{
-                width: ScaleSzie(250), height: ScaleSzie(35),
+                width: scaleSzie(250), height: scaleSzie(35),
                 position: "absolute",
-                bottom: ScaleSzie(20),
-                left: (width - ScaleSzie(280)) / 2,
+                bottom: scaleSzie(20),
+                left: (width - scaleSzie(280)) / 2,
                 flexDirection: "row"
             }} >
                 <Button onPress={cancelRewardPoints} style={[{ flex: 1, backgroundColor: "#F1F1F1", borderRadius: 2 }, styles.centered_box]} >
@@ -66,7 +66,7 @@ const RewardDetail = ({ cancelRewardPoints,saveRewardPoints }) => {
                         {`CANCEL`}
                     </Text>
                 </Button>
-                <View style={{ width: ScaleSzie(25) }} />
+                <View style={{ width: scaleSzie(25) }} />
                 <Button onPress={saveRewardPoints} style={[{ flex: 1, backgroundColor: "#0764B0", borderRadius: 2 }, styles.centered_box]} >
                     <Text style={[styles.txt_footer, { color: "#fff" }]} >
                         {`ADD`}
@@ -90,12 +90,12 @@ const styles = StyleSheet.create({
     },
     txt_condition_select: {
         color: "#0764B0",
-        fontSize: ScaleSzie(14),
+        fontSize: scaleSzie(14),
         fontWeight: "600"
     },
     txt_date: {
         color: "#6A6A6A",
-        fontSize: ScaleSzie(12),
+        fontSize: scaleSzie(12),
         fontWeight: "400"
     },
     border_comm: {
@@ -104,11 +104,11 @@ const styles = StyleSheet.create({
     },
     txt_tit: {
         color: "#404040",
-        fontSize: ScaleSzie(14),
+        fontSize: scaleSzie(14),
         fontWeight: "600"
     },
     txt_footer: {
-        fontSize: ScaleSzie(14),
+        fontSize: scaleSzie(14),
         color: "#404040",
         fontWeight: "400"
     }

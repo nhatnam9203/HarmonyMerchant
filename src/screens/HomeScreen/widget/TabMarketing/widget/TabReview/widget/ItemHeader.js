@@ -2,7 +2,7 @@ import React from "react";
 import { View, Image, Dimensions, StyleSheet } from "react-native";
 import Collapsible from "react-native-collapsible";
 
-import { ScaleSzie } from "@utils";
+import { scaleSzie } from "@utils";
 import IMAGE from "@resources";
 import { Button, Text } from "@components";
 import StarRating from "react-native-star-rating";
@@ -19,7 +19,7 @@ const ItemHeader = ({ title = "", content = "", rating = "", isRating }) => {
         <View style={styles.row}>
           <Text style={styles.rating}>{isRating ? parseFloat(rating/1).toFixed(1) : rating/1}</Text>
           {isRating && (
-            <View style={{ marginLeft: ScaleSzie(10) }}>
+            <View style={{ marginLeft: scaleSzie(10) }}>
               <StarRating
                 disabled={false}
                 maxStars={5}
@@ -39,8 +39,8 @@ const ItemHeader = ({ title = "", content = "", rating = "", isRating }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: ScaleSzie(160),
-    height: ScaleSzie(90),
+    width: scaleSzie(160),
+    height: scaleSzie(90),
     borderRadius: 6,
     backgroundColor: "#FFF",
     shadowColor: "#000",
@@ -54,23 +54,23 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   padding: {
-    padding: ScaleSzie(10),
+    padding: scaleSzie(10),
   },
   title: {
-    fontSize: ScaleSzie(15),
+    fontSize: scaleSzie(15),
     fontWeight: "600",
     color: "#0764B0",
   },
   content: {
-    fontSize: ScaleSzie(10),
+    fontSize: scaleSzie(10),
     color: "#6A6A6A",
-    paddingVertical: ScaleSzie(3),
+    paddingVertical: scaleSzie(3),
   },
   rating: {
-    fontSize: ScaleSzie(25),
+    fontSize: scaleSzie(25),
     fontWeight: "bold",
     color: "#404040",
-    paddingVertical: ScaleSzie(4),
+    paddingVertical: scaleSzie(4),
   },
   row: {
     flexDirection: "row",

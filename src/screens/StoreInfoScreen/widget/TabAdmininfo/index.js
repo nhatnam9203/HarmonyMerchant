@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { getIdStateByName, ScaleSzie, BusinessWorkingTime,formatNumberFromCurrency } from '@utils';
+import { getIdStateByName, scaleSzie, BusinessWorkingTime,formatNumberFromCurrency } from '@utils';
 
 const initState = {
     user: {
@@ -62,7 +62,7 @@ class StoreInfoScreen extends Layout {
     }
 
     scrollStaffTo(position) {
-        this.scrollStaffRef.current.scrollTo({ x: 0, y: ScaleSzie(position), animated: true })
+        this.scrollStaffRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
     }
 
     editButtonSubmit = async (isSubmit) => {

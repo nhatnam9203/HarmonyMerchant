@@ -7,7 +7,7 @@ import {
 
 import ModalCustom from './ModalCustom';
 import ButtonCustom from './ButtonCustom';
-import { ScaleSzie, getTitleSendLinkGoogle } from '../utils';
+import { scaleSzie, getTitleSendLinkGoogle } from '../utils';
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
 import Button from "./Button";
@@ -69,15 +69,15 @@ class PopupPayCompleted extends React.Component {
                 style={style}
             >
                 <View style={{
-                    width: ScaleSzie(450), height: ScaleSzie(230), backgroundColor: "#fff",
-                    borderRadius: ScaleSzie(16)
+                    width: scaleSzie(450), height: scaleSzie(230), backgroundColor: "#fff",
+                    borderRadius: scaleSzie(16)
                 }} >
                     <View style={{ flex: 1 }} >
                         {/* ---------- header ------ */}
                         <View style={{
-                            alignItems: 'center', paddingTop: ScaleSzie(16), paddingBottom: ScaleSzie(12),
+                            alignItems: 'center', paddingTop: scaleSzie(16), paddingBottom: scaleSzie(12),
                         }} >
-                            <Text style={{ color: '#0764B0', fontSize: ScaleSzie(28), fontWeight: 'bold' }}  >
+                            <Text style={{ color: '#0764B0', fontSize: scaleSzie(28), fontWeight: 'bold' }}  >
                                 {`Transaction completed!`}
                             </Text>
                         </View>
@@ -85,7 +85,7 @@ class PopupPayCompleted extends React.Component {
                         <View style={{
                             alignItems: 'center'
                         }} >
-                            <Text style={{ color: '#404040', fontSize: ScaleSzie(20) }}  >
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(20) }}  >
                                 {`Do you want to print receipt?`}
                             </Text>
                         </View>
@@ -100,7 +100,7 @@ class PopupPayCompleted extends React.Component {
                                     <Button onPress={this.switchSendLink} style={{ justifyContent: "center" }} >
                                         <Image source={checkIcon} />
                                     </Button>
-                                    <Text style={{ color: 'rgb(130,130,130)', fontSize: ScaleSzie(18), marginLeft: ScaleSzie(12) }}  >
+                                    <Text style={{ color: 'rgb(130,130,130)', fontSize: scaleSzie(18), marginLeft: scaleSzie(12) }}  >
                                         {`Send Google Review Link`}
                                     </Text>
                                 </View> :
@@ -108,7 +108,7 @@ class PopupPayCompleted extends React.Component {
                                     flex: 1,
                                     justifyContent: "center", alignItems: "center"
                                 }} >
-                                    <Text style={{ color: 'rgb(130,130,130)', fontSize: ScaleSzie(16), marginLeft: ScaleSzie(12) }}  >
+                                    <Text style={{ color: 'rgb(130,130,130)', fontSize: scaleSzie(16), marginLeft: scaleSzie(12) }}  >
                                         {`You Are Choosing ${getTitleSendLinkGoogle(profile.sendReviewLinkOption)} Send Google Review Link`}
                                     </Text>
                                 </View>
@@ -118,12 +118,12 @@ class PopupPayCompleted extends React.Component {
 
 
                     <View style={{
-                        height: ScaleSzie(75), flexDirection: 'row', paddingHorizontal: ScaleSzie(70),
+                        height: scaleSzie(75), flexDirection: 'row', paddingHorizontal: scaleSzie(70),
                         alignItems: 'center', justifyContent: 'space-between',
                         borderTopWidth: 1, borderTopColor: "rgb(212,211,211)"
                     }} >
                         <ButtonCustom
-                            width={ScaleSzie(100)}
+                            width={scaleSzie(100)}
                             height={40}
                             backgroundColor="#0764B0"
                             // title={localize('Search', language)}
@@ -131,18 +131,18 @@ class PopupPayCompleted extends React.Component {
                             textColor="#fff"
                             onPress={this.printBill}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                            styleText={{ fontSize: ScaleSzie(18), fontWeight: 'normal' }}
+                            styleText={{ fontSize: scaleSzie(18), fontWeight: 'normal' }}
                         />
 
                         <ButtonCustom
-                            width={ScaleSzie(100)}
+                            width={scaleSzie(100)}
                             height={40}
                             backgroundColor="#F1F1F1"
                             title="No"
                             textColor="#6A6A6A"
                             onPress={this.donotPrintBill}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                            styleText={{ fontSize: ScaleSzie(18), fontWeight: 'normal' }}
+                            styleText={{ fontSize: scaleSzie(18), fontWeight: 'normal' }}
                         />
                     </View>
 

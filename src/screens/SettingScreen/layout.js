@@ -9,7 +9,7 @@ import {
     PopupCheckStaffPermission,
     ScrollableTabView
 } from '@components';
-import { ScaleSzie, localize } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import { TabStaff, TabService, TabExtra, TabCategories, TabGaneral, TabHardware, TabTAX } from './widget';
@@ -23,10 +23,10 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         return (
             <View style={{
-                height: ScaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: ScaleSzie(50),
+                height: scaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSzie(50),
                 justifyContent: 'center'
             }} >
-                <Text style={{ fontSize: ScaleSzie(16), color: '#0764B0', fontWeight: "600" }} >
+                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0', fontWeight: "600" }} >
                     {localize('Settings', language)}
                 </Text>
             </View>
@@ -85,13 +85,13 @@ export default class Layout extends React.Component {
                     </View>
 
                     <Button onPress={this.openDrawer} style={configs.btn_left_position} >
-                        <Image source={IMAGE.openDrawer} style={{ width: ScaleSzie(34), height: ScaleSzie(34) }} />
+                        <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
                     {
                         isAddStaff ? <Button onPress={this.backTab} style={[configs.btn_right_position, {
-                            width: ScaleSzie(34), height: ScaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
+                            width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                         }]} >
-                            <Image source={IMAGE.arrowRight} style={{ width: ScaleSzie(22), height: ScaleSzie(17) }} />
+                            <Image source={IMAGE.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                         </Button> : null
                     }
 
@@ -137,7 +137,7 @@ class LeftMenuSetting extends React.Component {
         const { indexTab } = this.state;
 
         return (
-            <View style={{ width: ScaleSzie(140), backgroundColor: 'rgb(250,250,250)', zIndex: 1 }} >
+            <View style={{ width: scaleSzie(140), backgroundColor: 'rgb(250,250,250)', zIndex: 1 }} >
                 {
                     MENU.map((title, index) => {
                         const temptIcon = index === indexTab ? title : `${title}_in`;
@@ -145,14 +145,14 @@ class LeftMenuSetting extends React.Component {
                         const temptTextColorSelect = index === indexTab ? { color: '#0764B0' } : {}
                         return (
                             <Button onPress={() => selectMenu(index)} key={index} style={[{
-                                height: ScaleSzie(50), borderBottomColor: 'rgb(241,241,241)', borderBottomWidth: 3,
-                                flexDirection: 'row', alignItems: "center", paddingLeft: ScaleSzie(10)
+                                height: scaleSzie(50), borderBottomColor: 'rgb(241,241,241)', borderBottomWidth: 3,
+                                flexDirection: 'row', alignItems: "center", paddingLeft: scaleSzie(10)
                             }, temptBackground]} >
                                 <Image source={IMAGE[temptIcon]} style={{
-                                    width: ScaleSzie(18), height: ScaleSzie(18),
-                                    marginRight: ScaleSzie(10)
+                                    width: scaleSzie(18), height: scaleSzie(18),
+                                    marginRight: scaleSzie(10)
                                 }} />
-                                <Text style={[{ color: '#404040', fontSize: ScaleSzie(16) }, temptTextColorSelect]} >
+                                <Text style={[{ color: '#404040', fontSize: scaleSzie(16) }, temptTextColorSelect]} >
                                     {title}
                                 </Text>
                             </Button>

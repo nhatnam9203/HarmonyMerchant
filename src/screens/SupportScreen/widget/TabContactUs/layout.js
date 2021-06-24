@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, Text, Dropdown, Button } from '@components';
-import { ScaleSzie, localize, WorkingTime, getNameLanguage } from '@utils';
+import { scaleSzie, localize, WorkingTime, getNameLanguage } from '@utils';
 import IMAGE from '@resources';
 import styles from './style';
 
@@ -42,27 +42,27 @@ class Layout extends React.Component {
                         </Text>
                          {/* ----------- */}
                         <Button onPress={this.callPhone} style={{
-                            width: ScaleSzie(45), height: ScaleSzie(45),
+                            width: scaleSzie(45), height: scaleSzie(45),
                         }} >
                             <Image source={IMAGE.phoneContact}
-                                style={{ width: ScaleSzie(45), height: ScaleSzie(45) }}
+                                style={{ width: scaleSzie(45), height: scaleSzie(45) }}
                             />
                         </Button>
                         {/* ----------- */}
-                        <Text style={[styles.textCopy, { marginVertical: ScaleSzie(10) }]} >
+                        <Text style={[styles.textCopy, { marginVertical: scaleSzie(10) }]} >
                             
                             {localize('Email', language)}
                         </Text>
                         {/* ----------- */}
-                        <Text style={[styles.textPhone,{marginTop:ScaleSzie(5),marginBottom:ScaleSzie(15)}]} >
+                        <Text style={[styles.textPhone,{marginTop:scaleSzie(5),marginBottom:scaleSzie(15)}]} >
                         team@harmonypayment.com
                         </Text>
                          {/* ----------- */}
                          <Button onPress={this.sendEmail} style={{
-                            width: ScaleSzie(45), height: ScaleSzie(45),
+                            width: scaleSzie(45), height: scaleSzie(45),
                         }} >
                             <Image source={IMAGE.emailContact}
-                                style={{ width: ScaleSzie(45), height: ScaleSzie(45) }}
+                                style={{ width: scaleSzie(45), height: scaleSzie(45) }}
                             />
                         </Button>
                     </View>

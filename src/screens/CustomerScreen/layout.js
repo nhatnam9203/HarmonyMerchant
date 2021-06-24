@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import { Text, StatusBarHeader, ScrollableTabView, Button, ParentContainer, ButtonCustom, PopupCheckStaffPermission, ClearTextInputIcon } from '@components';
-import { ScaleSzie, localize } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
@@ -24,10 +24,10 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         return (
             <View style={{
-                height: ScaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: ScaleSzie(50),
+                height: scaleSzie(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSzie(50),
                 justifyContent: 'center'
             }} >
-                <Text style={{ fontSize: ScaleSzie(16), color: '#0764B0',fontWeight:"600" }} >
+                <Text style={{ fontSize: scaleSzie(16), color: '#0764B0',fontWeight:"600" }} >
                     {localize('Customer', language)}
                 </Text>
             </View>
@@ -38,13 +38,13 @@ export default class Layout extends React.Component {
         const { language } = this.props;
         const { keySearch } = this.state;
         return (
-            <View style={{ height: ScaleSzie(40), paddingHorizontal: ScaleSzie(12) }} >
+            <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row' }} >
-                        <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: ScaleSzie(4), flexDirection: 'row' }} >
-                            <View style={{ flex: 1, paddingHorizontal: ScaleSzie(12) }} >
+                        <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: scaleSzie(4), flexDirection: 'row' }} >
+                            <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
                                 <TextInput
-                                    style={{ flex: 1, fontSize: ScaleSzie(18) }}
+                                    style={{ flex: 1, fontSize: scaleSzie(18) }}
                                     placeholder={localize('Search', language)}
                                     value={keySearch}
                                     onChangeText={this.onChangeKeySearch}
@@ -53,7 +53,7 @@ export default class Layout extends React.Component {
                             </View>
                             {
                                 keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
-                                    width: ScaleSzie(35), alignItems: 'center', justifyContent: 'center',
+                                    width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
 
                                 }} >
                                     <ClearTextInputIcon />
@@ -63,7 +63,7 @@ export default class Layout extends React.Component {
                     </View>
 
                     {/* ----------- Search Button ------------ */}
-                    <View style={{ width: ScaleSzie(130), alignItems: 'flex-end' }} >
+                    <View style={{ width: scaleSzie(130), alignItems: 'flex-end' }} >
                         <ButtonCustom
                             width={'95%'}
                             height={40}
@@ -72,12 +72,12 @@ export default class Layout extends React.Component {
                             textColor="#6A6A6A"
                             onPress={() => this.searchCustomer(1, true, false)}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
-                            styleText={{ fontSize: ScaleSzie(15), fontWeight: '500' }}
+                            styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
                     </View>
 
                     {/* ----------- Add New Button ------------ */}
-                    <View style={{ width: ScaleSzie(130), alignItems: 'flex-end' }} >
+                    <View style={{ width: scaleSzie(130), alignItems: 'flex-end' }} >
                         <ButtonCustom
                             width={'95%'}
                             height={40}
@@ -86,7 +86,7 @@ export default class Layout extends React.Component {
                             textColor="#fff"
                             onPress={this.addNewCustomer}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: 6 }}
-                            styleText={{ fontSize: ScaleSzie(15), fontWeight: '500' }}
+                            styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
                         />
                     </View>
                 </View>
@@ -120,7 +120,7 @@ export default class Layout extends React.Component {
                     removeClippedSubviews={true}
                     initialNumToRender={20}
                     maxToRenderPerBatch={5}
-                    ListFooterComponent={() => <View style={{ height: ScaleSzie(30), alignItems: "center", justifyContent: "center" }} >
+                    ListFooterComponent={() => <View style={{ height: scaleSzie(30), alignItems: "center", justifyContent: "center" }} >
                         {
                             isLoadMoreCustomerList ? <ActivityIndicator
                                 size="large"
@@ -156,9 +156,9 @@ export default class Layout extends React.Component {
                     >
                         {/* --------- List Customer Tab -------- */}
                         <View style={{ flex: 1 }} >
-                            <View style={{ height: ScaleSzie(25) }} />
+                            <View style={{ height: scaleSzie(25) }} />
                             {this.renderSearch()}
-                            <View style={{ height: ScaleSzie(25) }} />
+                            <View style={{ height: scaleSzie(25) }} />
                             {this.renderTable()}
                         </View>
 
@@ -182,15 +182,15 @@ export default class Layout extends React.Component {
 
                     </ScrollableTabView>
                     <Button onPress={this.openDrawer} style={configs.btn_left_position} >
-                        <Image source={IMAGE.openDrawer} style={{ width: ScaleSzie(34), height: ScaleSzie(34) }} />
+                        <Image source={IMAGE.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
                     </Button>
 
                     {
                         currentTab === 1 ? <Button onPress={this.backCustomerListTab}
                             style={[configs.btn_right_position, {
-                                width: ScaleSzie(34), height: ScaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
+                                width: scaleSzie(34), height: scaleSzie(34), backgroundColor: '#0764B0', justifyContent: 'center', alignItems: 'center'
                             }]} >
-                            <Image source={ICON.arrowRight} style={{ width: ScaleSzie(22), height: ScaleSzie(17) }} />
+                            <Image source={ICON.arrowRight} style={{ width: scaleSzie(22), height: scaleSzie(17) }} />
                         </Button> : <View />
                     }
                 </View>

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import { Button } from '@components';
-import { ScaleSzie, formatNumberFromCurrency, formatMoney, roundFloatNumber } from '@utils';
+import { scaleSzie, formatNumberFromCurrency, formatMoney, roundFloatNumber } from '@utils';
 
 class RowFooterStaffSalary extends React.Component {
 
@@ -65,21 +65,21 @@ class RowFooterStaffSalary extends React.Component {
             <View style={styles.tableHeader} >
                 {/* ----- 0 ------ */}
                 <View style={{
-                    width: ScaleSzie(40), flexDirection: 'row',
+                    width: scaleSzie(40), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                     </View>
                 </View>
                 {/* ----- 1 ------ */}
                 <View style={{
                     flex: 1, flexDirection: 'row'
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: scaleSzie(10) }} >
                         <Text style={[styles.textTableHeader, { fontWeight: 'bold' }]} numberOfLines={1} >
                             Total
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
@@ -87,53 +87,53 @@ class RowFooterStaffSalary extends React.Component {
 
                 {/* ----- 5 ------ */}
                 <View style={{
-                    width: ScaleSzie(120), flexDirection: 'row',
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                             {`$ ${formatMoney(split)}`}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 6 ------ */}
                 <View style={{
-                    width: ScaleSzie(120), flexDirection: 'row',
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                             {`$ ${formatMoney(tipAmount)}`}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- product ------ */}
                 <View style={{
-                    width: ScaleSzie(120), flexDirection: 'row',
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                             {`$ ${formatMoney(product)}`}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- total ------ */}
                 <View style={{
-                    width: ScaleSzie(120), flexDirection: 'row',
+                    width: scaleSzie(120), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: ScaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
                         <Text style={styles.textTableHeader} >
                             {`$ ${formatMoney(totalAmount)}`}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: ScaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
@@ -148,24 +148,24 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: ScaleSzie(40),
+        height: scaleSzie(40),
         backgroundColor: '#E5E5E5',
         borderWidth: 0.5,
         borderColor: '#C5C5C5',
         flexDirection: 'row',
-        marginBottom:ScaleSzie(7)
+        marginBottom:scaleSzie(7)
     },
     textTableHeader: {
         color: '#6A6A6A',
-        fontSize: ScaleSzie(13)
+        fontSize: scaleSzie(13)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',
         alignItems: 'center'
     },
     iconSort: {
-        width: ScaleSzie(8),
-        height: ScaleSzie(12)
+        width: scaleSzie(8),
+        height: scaleSzie(12)
     }
 
 })

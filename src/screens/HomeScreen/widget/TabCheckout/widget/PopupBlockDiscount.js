@@ -12,7 +12,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
 import { ButtonCustom, PopupParent, Button } from '@components';
-import { ScaleSzie, formatNumberFromCurrency, formatMoney, localize, roundNumber, checkIsTablet } from '@utils';
+import { scaleSzie, formatNumberFromCurrency, formatMoney, localize, roundNumber, checkIsTablet } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
 
@@ -102,7 +102,7 @@ class PopupBlockDiscount extends React.Component {
             total = roundNumber(total);
 
             const tempCheckBoxIcon = isDiscountByOwner ? ICON.checkBox : ICON.checkBoxEmpty;
-            const tempHeight = checkIsTablet() ? ScaleSzie(390) : ScaleSzie(400);
+            const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(400);
 
             return (
                 <PopupParent
@@ -113,14 +113,14 @@ class PopupBlockDiscount extends React.Component {
                 >
                     <View style={{
                         height: tempHeight, backgroundColor: '#fff',
-                        borderBottomLeftRadius: ScaleSzie(15), borderBottomRightRadius: ScaleSzie(15),
+                        borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     }} >
-                        <View style={{ height: ScaleSzie(280) }} >
+                        <View style={{ height: scaleSzie(280) }} >
                             <ScrollView
                                 ref={this.scrollRef}
                                 keyboardShouldPersistTaps="always"
                             >
-                                <TouchableOpacity activeOpacity={1} style={{ paddingHorizontal: ScaleSzie(25) }} >
+                                <TouchableOpacity activeOpacity={1} style={{ paddingHorizontal: scaleSzie(25) }} >
                                     {
                                         discount.map((promo, index) => <ItemCampaign
                                             key={index}
@@ -129,22 +129,22 @@ class PopupBlockDiscount extends React.Component {
                                         />
                                         )
                                     }
-                                    <View style={{ height: ScaleSzie(10) }} />
+                                    <View style={{ height: scaleSzie(10) }} />
                                     {/* ----------- Row 1 ----------- */}
                                     <View style={{
-                                        flexDirection: 'row', height: ScaleSzie(45),
+                                        flexDirection: 'row', height: scaleSzie(45),
                                     }} >
                                         <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
-                                            <Text style={{ color: '#404040', fontSize: ScaleSzie(20) }} >
+                                            <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
                                                 {localize('Custom Discount by', language)}
                                             </Text>
                                             {/* ------- Text percent ----- */}
                                             <View style={{
-                                                width: ScaleSzie(120), height: ScaleSzie(40),
-                                                borderColor: '#707070', borderWidth: 1, marginLeft: ScaleSzie(20), borderRadius: ScaleSzie(4),
+                                                width: scaleSzie(120), height: scaleSzie(40),
+                                                borderColor: '#707070', borderWidth: 1, marginLeft: scaleSzie(20), borderRadius: scaleSzie(4),
                                                 flexDirection: 'row'
                                             }} >
-                                                <View style={{ flex: 1, paddingHorizontal: ScaleSzie(10) }} >
+                                                <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
                                                     <TextInputMask
                                                         type={'money'}
                                                         options={{
@@ -154,7 +154,7 @@ class PopupBlockDiscount extends React.Component {
                                                             unit: '',
                                                             suffixUnit: ''
                                                         }}
-                                                        style={{ flex: 1, fontSize: ScaleSzie(16) }}
+                                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
                                                         value={`${percentDiscountCustom}`}
                                                         onChangeText={(percentDiscountCustom) => this.setState({ percentDiscountCustom })}
                                                         keyboardType="numeric"
@@ -163,8 +163,8 @@ class PopupBlockDiscount extends React.Component {
 
                                                     />
                                                 </View>
-                                                <View style={{ justifyContent: 'center', paddingRight: ScaleSzie(5) }} >
-                                                    <Text style={{ color: '#404040', fontSize: ScaleSzie(18) }} >
+                                                <View style={{ justifyContent: 'center', paddingRight: scaleSzie(5) }} >
+                                                    <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
                                                         %
                                                     </Text>
                                                 </View>
@@ -172,33 +172,33 @@ class PopupBlockDiscount extends React.Component {
                                             {/* -------  ----- */}
                                         </View>
                                         <View style={{ justifyContent: 'center' }} >
-                                            <Text style={{ color: '#4CD964', fontSize: ScaleSzie(20) }} >
+                                            <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
                                                 {`$ ${formatMoney(roundNumber(moneyDiscountCustom))}`}
                                             </Text>
                                         </View>
                                     </View>
                                     {/* ----------- Row 2 ----------- */}
                                     <View style={{
-                                        flexDirection: 'row', height: ScaleSzie(45), paddingBottom: ScaleSzie(20)
+                                        flexDirection: 'row', height: scaleSzie(45), paddingBottom: scaleSzie(20)
                                     }} >
                                         <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
-                                            <Text style={{ color: '#404040', fontSize: ScaleSzie(18) }} >
+                                            <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
                                                 {localize('Custom Discount by fixed amount', language)}
                                             </Text>
                                         </View>
                                         <View style={{ justifyContent: 'center' }} >
                                             {/* ------- Text discount ----- */}
                                             <View style={{
-                                                width: ScaleSzie(120), height: ScaleSzie(40),
-                                                borderColor: '#707070', borderWidth: 1, marginLeft: ScaleSzie(20), borderRadius: ScaleSzie(4),
+                                                width: scaleSzie(120), height: scaleSzie(40),
+                                                borderColor: '#707070', borderWidth: 1, marginLeft: scaleSzie(20), borderRadius: scaleSzie(4),
                                                 flexDirection: 'row',
                                             }} >
-                                                <View style={{ justifyContent: 'center', paddingLeft: ScaleSzie(5) }} >
-                                                    <Text style={{ color: '#4CD964', fontSize: ScaleSzie(20) }} >
+                                                <View style={{ justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
+                                                    <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
                                                         $
                                                     </Text>
                                                 </View>
-                                                <View style={{ flex: 1, paddingHorizontal: ScaleSzie(5) }} >
+                                                <View style={{ flex: 1, paddingHorizontal: scaleSzie(5) }} >
                                                     <TextInputMask
                                                         type={'money'}
                                                         options={{
@@ -208,7 +208,7 @@ class PopupBlockDiscount extends React.Component {
                                                             unit: '',
                                                             suffixUnit: ''
                                                         }}
-                                                        style={{ flex: 1, fontSize: ScaleSzie(16) }}
+                                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
                                                         value={`${moneyDiscountFixedAmout}`}
                                                         onChangeText={moneyDiscountFixedAmout => { this.setState({ moneyDiscountFixedAmout }); }}
                                                         keyboardType="numeric"
@@ -223,11 +223,11 @@ class PopupBlockDiscount extends React.Component {
                                     </View>
 
                                     {/* ------------ Check Box ----------- */}
-                                    <View style={{ flexDirection: "row", marginTop: ScaleSzie(2), marginBottom: ScaleSzie(12), alignItems: "center" }} >
+                                    <View style={{ flexDirection: "row", marginTop: scaleSzie(2), marginBottom: scaleSzie(12), alignItems: "center" }} >
                                         <Button onPress={this.toggleCheckBox} >
-                                            <Image source={tempCheckBoxIcon} style={{ width: ScaleSzie(20), height: ScaleSzie(20) }} />
+                                            <Image source={tempCheckBoxIcon} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                                         </Button>
-                                        <Text style={{ color: '#404040', fontSize: ScaleSzie(14), marginLeft: ScaleSzie(15) }} >
+                                        <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginLeft: scaleSzie(15) }} >
                                             {`Discount By Owner`}
                                         </Text>
                                     </View>
@@ -236,17 +236,17 @@ class PopupBlockDiscount extends React.Component {
                                     {/* ----------- Note  ----------- */}
                                     <View style={{}} >
                                         <Text style={[{
-                                            color: "#404040", fontSize: ScaleSzie(16), fontWeight: "600",
-                                            marginBottom: ScaleSzie(5), marginTop: ScaleSzie(12)
+                                            color: "#404040", fontSize: scaleSzie(16), fontWeight: "600",
+                                            marginBottom: scaleSzie(5), marginTop: scaleSzie(12)
                                         }]} >
                                             {`Note`}
                                         </Text>
                                         <View style={{
-                                            height: ScaleSzie(70), borderColor: "#DDDDDD", borderWidth: 2, borderRadius: 4, paddingVertical: 5,
-                                            paddingHorizontal: ScaleSzie(10)
+                                            height: scaleSzie(70), borderColor: "#DDDDDD", borderWidth: 2, borderRadius: 4, paddingVertical: 5,
+                                            paddingHorizontal: scaleSzie(10)
                                         }} >
                                             <TextInput
-                                                style={{ flex: 1, fontSize: ScaleSzie(12), padding: 0, textAlignVertical: "top" }}
+                                                style={{ flex: 1, fontSize: scaleSzie(12), padding: 0, textAlignVertical: "top" }}
                                                 multiline={true}
                                                 value={promotionNotes}
                                                 onChangeText={(promotionNotes) => this.setState({ promotionNotes })}
@@ -256,32 +256,32 @@ class PopupBlockDiscount extends React.Component {
                                         </View>
                                     </View>
 
-                                    <View style={{ height: ScaleSzie(130) }} />
+                                    <View style={{ height: scaleSzie(130) }} />
                                 </TouchableOpacity>
                             </ScrollView>
 
                         </View>
                         {/* ---------- Total ------- */}
                         <View style={{
-                            flexDirection: 'row', height: ScaleSzie(40),
-                            paddingHorizontal: ScaleSzie(25)
+                            flexDirection: 'row', height: scaleSzie(40),
+                            paddingHorizontal: scaleSzie(25)
                         }} >
                             <View style={{ flex: 1, justifyContent: 'center' }} >
-                                <Text style={{ color: '#404040', fontSize: ScaleSzie(22), fontWeight: 'bold' }} >
+                                <Text style={{ color: '#404040', fontSize: scaleSzie(22), fontWeight: 'bold' }} >
                                     {localize('Total Discount', language)}
                                 </Text>
                             </View>
                             <View style={{ justifyContent: 'center' }} >
-                                <Text style={{ color: '#4CD964', fontSize: ScaleSzie(22), fontWeight: 'bold' }} >
+                                <Text style={{ color: '#4CD964', fontSize: scaleSzie(22), fontWeight: 'bold' }} >
                                     {`$ -${formatMoney(total)}`}
                                 </Text>
                             </View>
                         </View>
 
                         {/* ----------- Button Add ---- */}
-                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: ScaleSzie(12) }} >
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(12) }} >
                             <ButtonCustom
-                                width={ScaleSzie(180)}
+                                width={scaleSzie(180)}
                                 height={45}
                                 backgroundColor="#0764B0"
                                 title={localize('Done', language)}
@@ -321,16 +321,16 @@ class PopupBlockDiscount extends React.Component {
 const ItemCampaign = ({ title, discount }) => {
     return (
         <View style={{
-            flexDirection: 'row', height: ScaleSzie(55),
+            flexDirection: 'row', height: scaleSzie(55),
             borderBottomColor: '#707070', borderBottomWidth: 1
         }} >
             <View style={{ flex: 1, justifyContent: 'center' }} >
-                <Text style={{ color: '#404040', fontSize: ScaleSzie(18) }} >
+                <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
                     {title}
                 </Text>
             </View>
             <View style={{ justifyContent: 'center' }} >
-                <Text style={{ color: '#4CD964', fontSize: ScaleSzie(18) }} >
+                <Text style={{ color: '#4CD964', fontSize: scaleSzie(18) }} >
                     {`$ ${discount}`}
                 </Text>
             </View>

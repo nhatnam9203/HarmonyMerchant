@@ -2,14 +2,14 @@ import {
     StyleSheet,
 } from 'react-native';
 
-import { ScaleSzie } from '@utils';
+import { scaleSzie } from '@utils';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
     },
     footer: {
-        height: ScaleSzie(50),
+        height: scaleSzie(50),
         flexDirection: 'row',
     },
     buttonContainer: {

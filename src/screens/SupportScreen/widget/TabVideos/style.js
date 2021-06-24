@@ -3,7 +3,7 @@ import {
     Platform
 } from 'react-native';
 
-import { ScaleSzie } from '@utils';
+import { scaleSzie } from '@utils';
 
 export default StyleSheet.create({
     container: {
@@ -11,40 +11,40 @@ export default StyleSheet.create({
     },
     containerAbout: {
         flex: 1,
-        paddingHorizontal: ScaleSzie(24),
-        paddingTop: ScaleSzie(25)
+        paddingHorizontal: scaleSzie(24),
+        paddingTop: scaleSzie(25)
     },
     textTitle: { 
         color: 'rgb(64,64,64)',
-         fontSize: ScaleSzie(26), 
+         fontSize: scaleSzie(26), 
          fontWeight: 'bold'
          },
     logo: {
-        marginVertical: ScaleSzie(20)
+        marginVertical: scaleSzie(20)
     },
     text2: {
         color: 'rgb(25,107,176)',
         fontWeight: '600',
-        fontSize: ScaleSzie(16)
+        fontSize: scaleSzie(16)
     },
     textVersion: {
         color: 'rgb(129,129,129)',
-        fontSize: ScaleSzie(16),
-        marginVertical: ScaleSzie(16)
+        fontSize: scaleSzie(16),
+        marginVertical: scaleSzie(16)
     },
     textCopy: {
         color: '#0764B0',
-        fontSize: ScaleSzie(16),
-        marginVertical: ScaleSzie(18)
+        fontSize: scaleSzie(16),
+        marginVertical: scaleSzie(18)
     },
     textDesc: {
         color: 'rgb(150,150,150)',
-        fontSize: ScaleSzie(16),
+        fontSize: scaleSzie(16),
     },
     textPhone: {
         color: '#404040',
-        fontSize: ScaleSzie(16),
-        marginBottom:ScaleSzie(10)
+        fontSize: scaleSzie(16),
+        marginBottom:scaleSzie(10)
 
     }
 })

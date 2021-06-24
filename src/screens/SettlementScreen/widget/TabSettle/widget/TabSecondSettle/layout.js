@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import * as Progress from 'react-native-progress';
 
-import { ScaleSzie, localize, formatMoney, getCredicardIcon } from '@utils';
+import { scaleSzie, localize, formatMoney, getCredicardIcon } from '@utils';
 import {
     Text, ButtonCustom,
 } from '@components';
@@ -23,32 +23,32 @@ class Layout extends React.Component {
         const { language } = this.props;
         const { progress, errorMessage } = this.state;
         return (
-            <View style={{ height: ScaleSzie(130), padding: ScaleSzie(10), }} >
+            <View style={{ height: scaleSzie(130), padding: scaleSzie(10), }} >
                 <View style={{ alignItems: 'center' }} >
-                    <Text style={{ color: '#DB7D2A', fontSize: ScaleSzie(16) }} >
+                    <Text style={{ color: '#DB7D2A', fontSize: scaleSzie(16) }} >
                         {/* {progress === 1 ? 'Batch Settlement Successful' : ''} */}
                         {`Batch Slettlement is in progressing`}
                     </Text>
                 </View>
-                <Text style={{ color: '#404040', fontSize: ScaleSzie(14), marginTop: ScaleSzie(5), marginBottom: ScaleSzie(4) }} >
+                <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(5), marginBottom: scaleSzie(4) }} >
                     {localize('Open Batch', language)}
                 </Text>
                 <Progress.Bar
                     progress={this.state.progress}
-                    width={width - ScaleSzie(20)}
+                    width={width - scaleSzie(20)}
                     height={38}
                     color="#4CD964"
                     borderRadius={10}
                     showsText={true}
                 />
-                <View style={{ flex: 1, marginTop: ScaleSzie(12), flexDirection: 'row' }} >
-                    <View style={{ width: ScaleSzie(140) }} >
-                        <Text style={{ color: '#404040', fontSize: ScaleSzie(14), }} >
+                <View style={{ flex: 1, marginTop: scaleSzie(12), flexDirection: 'row' }} >
+                    <View style={{ width: scaleSzie(140) }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(14), }} >
                             {localize('Log message', language)}
                         </Text>
                     </View>
                     <View style={{ flex: 1 }} >
-                        <Text style={{ color: '#404040', fontSize: ScaleSzie(14), }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSzie(14), }} >
                             {`${errorMessage}`}
                         </Text>
                     </View>
@@ -62,13 +62,13 @@ class Layout extends React.Component {
     renderDoneFooter() {
         const { language } = this.props;
         return (
-            <View style={{ paddingHorizontal: ScaleSzie(10), paddingBottom: ScaleSzie(10) }} >
-                <View style={{ alignItems: 'center', marginBottom: ScaleSzie(10) }} >
-                    <Text style={{ color: '#4CD964', fontSize: ScaleSzie(16) }} >
+            <View style={{ paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(10) }} >
+                <View style={{ alignItems: 'center', marginBottom: scaleSzie(10) }} >
+                    <Text style={{ color: '#4CD964', fontSize: scaleSzie(16) }} >
                         {localize('Batch Settlement Successful', language)}
                     </Text>
                 </View>
-                <View style={{ flexDirection: 'row', height: ScaleSzie(55) }} >
+                <View style={{ flexDirection: 'row', height: scaleSzie(55) }} >
                     <View style={{ flex: 1, alignItems: "center" }} >
                         <ButtonCustom
                             width={'80%'}
@@ -78,10 +78,10 @@ class Layout extends React.Component {
                             textColor="#fff"
                             onPress={this.reviewBatchHistory}
                             style={{ borderWidth: 0.5, borderColor: '#C5C5C5', borderRadius: 6 }}
-                            styleText={{ fontSize: ScaleSzie(14), fontWeight: '600' }}
+                            styleText={{ fontSize: scaleSzie(14), fontWeight: '600' }}
                         />
                     </View>
-                    <View style={{ width: ScaleSzie(25) }} />
+                    <View style={{ width: scaleSzie(25) }} />
                     <View style={{ flex: 1, alignItems: "center" }} >
                         <ButtonCustom
                             width={'80%'}
@@ -91,7 +91,7 @@ class Layout extends React.Component {
                             textColor="#fff"
                             onPress={this.finishBatch}
                             style={{ borderWidth: 0.5, borderColor: '#C5C5C5', borderRadius: 6 }}
-                            styleText={{ fontSize: ScaleSzie(14), fontWeight: '600' }}
+                            styleText={{ fontSize: scaleSzie(14), fontWeight: '600' }}
                         />
                     </View>
                 </View>
@@ -103,7 +103,7 @@ class Layout extends React.Component {
     renderSettleFooter() {
         const { language } = this.props;
         return (
-            <View style={{ height: ScaleSzie(55), flexDirection: 'row', paddingHorizontal: ScaleSzie(10), paddingBottom: ScaleSzie(15) }} >
+            <View style={{ height: scaleSzie(55), flexDirection: 'row', paddingHorizontal: scaleSzie(10), paddingBottom: scaleSzie(15) }} >
                 <View style={{ flex: 1, alignItems: "center" }} >
                     <ButtonCustom
                         width={'80%'}
@@ -113,10 +113,10 @@ class Layout extends React.Component {
                         textColor="#404040"
                         onPress={this.backTabFirstSettle}
                         style={{ borderWidth: 0.5, borderColor: '#707070', borderRadius: 6 }}
-                        styleText={{ fontSize: ScaleSzie(14), fontWeight: '600' }}
+                        styleText={{ fontSize: scaleSzie(14), fontWeight: '600' }}
                     />
                 </View>
-                <View style={{ width: ScaleSzie(25) }} />
+                <View style={{ width: scaleSzie(25) }} />
                 <View style={{ flex: 1, alignItems: "center" }} >
                     <ButtonCustom
                         width={'80%'}
@@ -126,7 +126,7 @@ class Layout extends React.Component {
                         textColor="#fff"
                         onPress={this.settle}
                         style={{ borderWidth: 0.5, borderColor: '#C5C5C5', borderRadius: 6 }}
-                        styleText={{ fontSize: ScaleSzie(14), fontWeight: '600' }}
+                        styleText={{ fontSize: scaleSzie(14), fontWeight: '600' }}
                     />
                 </View>
             </View >
@@ -202,7 +202,7 @@ class Layout extends React.Component {
                     txtStyle={{
                         color: "#4CD964",
                         fontWeight: "bold",
-                        fontSize: ScaleSzie(12)
+                        fontSize: scaleSzie(12)
                     }}
                     txtTitle={{
                         color: "#404040",
@@ -263,8 +263,8 @@ class Layout extends React.Component {
 
         return (
             <View style={[styles.container]} >
-                <View style={{ height: ScaleSzie(10) }} />
-                <View style={{ flex: 1, paddingHorizontal: ScaleSzie(10), flexDirection: 'row' }} >
+                <View style={{ height: scaleSzie(10) }} />
+                <View style={{ flex: 1, paddingHorizontal: scaleSzie(10), flexDirection: 'row' }} >
                     {/* --------- Actual Amount --------- */}
                     <View style={{ flex: 1, }} >
                         <Text style={styles.txt_top_title} >
@@ -273,7 +273,7 @@ class Layout extends React.Component {
                         {this.renderActualAmount()}
                     </View>
 
-                    <View style={{ width: ScaleSzie(25) }} />
+                    <View style={{ width: scaleSzie(25) }} />
 
                     {/* --------- Open Batch --------- */}
                     <View style={{ flex: 1, }} >
@@ -284,9 +284,9 @@ class Layout extends React.Component {
                     </View>
                 </View>
                 <View style={{
-                    height: ScaleSzie(40), alignItems: 'center', justifyContent: 'center',
+                    height: scaleSzie(40), alignItems: 'center', justifyContent: 'center',
                 }} >
-                    <Text style={{ fontSize: ScaleSzie(18), fontWeight: 'bold' }} >
+                    <Text style={{ fontSize: scaleSzie(18), fontWeight: 'bold' }} >
                         {paxErrorMessage}
                     </Text>
                 </View>
@@ -302,9 +302,9 @@ const ItemPaymentsReport = ({ backgroundColor, title, value, txtStyle, txtTitle,
 
     return (
         <View style={{
-            height: ScaleSzie(29),
+            height: scaleSzie(29),
             flexDirection: "row", backgroundColor: backgroundColor,
-            justifyContent: "space-between", alignItems: "center", paddingHorizontal: ScaleSzie(12)
+            justifyContent: "space-between", alignItems: "center", paddingHorizontal: scaleSzie(12)
         }} >
             <Text style={[styles.txt_item, { color: "#fff", fontWeight: "400" }, txtStyle, txtTitle]} >
                 {title}
@@ -322,7 +322,7 @@ const ItemPaymentsReport = ({ backgroundColor, title, value, txtStyle, txtTitle,
             {
                 staticValue && staticValue != value ? <Text style={{
                     color: "#FFFFFF", fontWeight: "500", textDecorationLine: "line-through",
-                    fontSize: ScaleSzie(8)
+                    fontSize: scaleSzie(8)
                 }} >
                     {`   $ ${staticValue} `}
                 </Text> : null
@@ -335,8 +335,8 @@ const ItemPaymentsReport = ({ backgroundColor, title, value, txtStyle, txtTitle,
 const HeaderOpenBatchTable = () => {
     return (
         <View style={{
-            height: ScaleSzie(22), backgroundColor: "#F1F1F1", flexDirection: "row",
-            paddingHorizontal: ScaleSzie(10)
+            height: scaleSzie(22), backgroundColor: "#F1F1F1", flexDirection: "row",
+            paddingHorizontal: scaleSzie(10)
         }} >
             <View style={{ flex: 0.9, justifyContent: "center" }} >
                 <Text style={styles.txt_header_open_batch_table} >
@@ -371,8 +371,8 @@ const ItemOpenBatchTable = ({ data }) => {
 
     return (
         <View style={{
-            height: ScaleSzie(22), backgroundColor: "#FAFAFA", flexDirection: "row",
-            paddingHorizontal: ScaleSzie(10), marginBottom: 1
+            height: scaleSzie(22), backgroundColor: "#FAFAFA", flexDirection: "row",
+            paddingHorizontal: scaleSzie(10), marginBottom: 1
         }} >
             <View style={{ flex: 0.9, justifyContent: "center" }} >
                 <Text style={styles.txt_item_open_batch_table} >
@@ -386,7 +386,7 @@ const ItemOpenBatchTable = ({ data }) => {
             </View>
             <View style={{ flex: 0.9, alignItems: "center", flexDirection: "row" }} >
                 <Image source={getCredicardIcon(data.paymentData && data.paymentData.card_type ? `${data.paymentData.card_type}`.toLowerCase() : "")}
-                    style={{ width: ScaleSzie(17), height: ScaleSzie(12), marginRight: ScaleSzie(5) }}
+                    style={{ width: scaleSzie(17), height: scaleSzie(12), marginRight: scaleSzie(5) }}
                 />
                 <Text style={styles.txt_item_open_batch_table} >
                     {`x${data.paymentData && data.paymentData.card_number ? data.paymentData.card_number : ""}`}

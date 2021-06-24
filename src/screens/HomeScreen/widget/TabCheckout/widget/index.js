@@ -5,7 +5,7 @@ import {
     Image
 } from 'react-native';
 
-import { ScaleSzie, checkIsTablet } from '@utils';
+import { scaleSzie, checkIsTablet } from '@utils';
 import {
     Text, Button,
 } from '@components';
@@ -66,13 +66,13 @@ const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
     const tempLogo = title === paymentSelected ? `${logo}_se` : logo;
 
     const isTablet = checkIsTablet();
-    const tempHeight = isTablet ? ScaleSzie(65) : ScaleSzie(80);
-    const icon_style = isTablet ? { width: ScaleSzie(30), height: ScaleSzie(30) } : {};
-    const tempTitleMarginTop = isTablet ? ScaleSzie(2) : ScaleSzie(8);
+    const tempHeight = isTablet ? scaleSzie(65) : scaleSzie(80);
+    const icon_style = isTablet ? { width: scaleSzie(30), height: scaleSzie(30) } : {};
+    const tempTitleMarginTop = isTablet ? scaleSzie(2) : scaleSzie(8);
 
     return (
         <Button onPress={() => selectedPayment(title)} style={[{
-            width: ScaleSzie(190), height: tempHeight,
+            width: scaleSzie(190), height: tempHeight,
             backgroundColor: "#fff",
             justifyContent: 'center', alignItems: 'center',
             borderRadius: 8,
@@ -93,7 +93,7 @@ const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
                 style={icon_style}
             />
             <Text style={[{
-                fontSize: ScaleSzie(13),
+                fontSize: scaleSzie(13),
                 color: '#404040', marginTop: tempTitleMarginTop
             }, temptTextColor]} >
                 {title}

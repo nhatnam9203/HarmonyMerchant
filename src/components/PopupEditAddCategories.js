@@ -11,7 +11,7 @@ import {
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
 import { Dropdown } from './react-native-material-dropdown';
-import { ScaleSzie, localize } from '@utils';
+import { scaleSzie, localize } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 
 class PopupEditAddCategories extends React.Component {
@@ -37,7 +37,7 @@ class PopupEditAddCategories extends React.Component {
         await this.setState({
             customStyle: {
                 justifyContent: 'flex-start',
-                paddingTop: ScaleSzie(50)
+                paddingTop: scaleSzie(50)
             }
         });
     }
@@ -100,7 +100,7 @@ class PopupEditAddCategories extends React.Component {
         const { title, visible, titleButton, onRequestClose, language } = this.props;
         const { categoryType, name } = this.state.category;
 
-        const tempHeight = categoryType === "Service" ? ScaleSzie(250) : ScaleSzie(200);
+        const tempHeight = categoryType === "Service" ? scaleSzie(250) : scaleSzie(200);
 
         return (
             <PopupParent
@@ -111,17 +111,17 @@ class PopupEditAddCategories extends React.Component {
             >
                 <View style={{
                     height: tempHeight, backgroundColor: '#fff',
-                    borderBottomLeftRadius: ScaleSzie(15), borderBottomRightRadius: ScaleSzie(15)
+                    borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
                 }} >
                     <View style={{
-                        flex: 1, paddingHorizontal: ScaleSzie(20),
-                        paddingVertical: ScaleSzie(12)
+                        flex: 1, paddingHorizontal: scaleSzie(20),
+                        paddingVertical: scaleSzie(12)
                     }} >
                         <View style={{ flex: 1 }} >
-                            <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(10) }} >
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10) }} >
                                 {`${localize('Category Type', language)}*`}
                             </Text>
-                            <View style={{ width: ScaleSzie(200), height: ScaleSzie(35), }} >
+                            <View style={{ width: scaleSzie(200), height: scaleSzie(35), }} >
                                 <Dropdown
                                     label='Type'
                                     data={[{ value: 'Product' }, { value: 'Service' }]}
@@ -135,16 +135,16 @@ class PopupEditAddCategories extends React.Component {
                                     }}
                                 />
                             </View>
-                            <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(10), marginTop: ScaleSzie(7) }} >
+                            <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                 {`${localize('Category Name', language)}*`}
                             </Text>
                             <View style={{
-                                height: ScaleSzie(35), borderWidth: 1, borderColor: '#C5C5C5',
-                                paddingLeft: ScaleSzie(10)
+                                height: scaleSzie(35), borderWidth: 1, borderColor: '#C5C5C5',
+                                paddingLeft: scaleSzie(10)
                             }} >
                                 <TextInput
                                     placeholder={localize('Gel Nails', language)}
-                                    style={{ flex: 1, fontSize: ScaleSzie(16), padding: 0, }}
+                                    style={{ flex: 1, fontSize: scaleSzie(16), padding: 0, }}
                                     value={name}
                                     onChangeText={(value) => this.updateCategoryInfo('name', value)}
                                 />
@@ -152,7 +152,7 @@ class PopupEditAddCategories extends React.Component {
                             {/* ------------------ Display on Sign In App ---------------  */}
                             {categoryType === "Service" ?
                                 <>
-                                    <Text style={{ color: '#404040', fontSize: ScaleSzie(12), marginBottom: ScaleSzie(10), marginTop: ScaleSzie(7) }} >
+                                    <Text style={{ color: '#404040', fontSize: scaleSzie(12), marginBottom: scaleSzie(10), marginTop: scaleSzie(7) }} >
                                         {localize('Display on Sign In App', language)}
                                     </Text>
                                     <Switch
@@ -167,7 +167,7 @@ class PopupEditAddCategories extends React.Component {
                         </View>
                     </View>
                     <View style={{
-                        height: ScaleSzie(45), alignItems: 'center'
+                        height: scaleSzie(45), alignItems: 'center'
                     }} >
 
                         <ButtonCustom
@@ -177,9 +177,9 @@ class PopupEditAddCategories extends React.Component {
                             title={titleButton}
                             textColor="#fff"
                             onPress={this.checkInputCategory}
-                            style={{ borderRadius: ScaleSzie(2) }}
+                            style={{ borderRadius: scaleSzie(2) }}
                             styleText={{
-                                fontSize: ScaleSzie(14)
+                                fontSize: scaleSzie(14)
                             }}
                         />
 

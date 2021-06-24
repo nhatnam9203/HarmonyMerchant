@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
-import { gotoSettingsDevice, ScaleSzie } from "@utils";
+import { gotoSettingsDevice, scaleSzie } from "@utils";
 import ImagePicker from "react-native-image-picker";
 import { Platform } from "react-native";
 

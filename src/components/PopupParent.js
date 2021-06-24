@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import ModalCustom from './ModalCustom';
-import { ScaleSzie } from '../utils';
+import { scaleSzie } from '../utils';
 import IMAGE from '../resources';
 import Button from './Button';
 
@@ -27,28 +27,28 @@ class PopupParent extends React.Component {
                 onRequestClose={() => { }}
                 style={style}
             >
-                <View style={{ width: ScaleSzie(temptWidth) }} >
+                <View style={{ width: scaleSzie(temptWidth) }} >
                     <View style={{
-                        height: ScaleSzie(55), backgroundColor: '#0764B0',
-                        borderTopRightRadius: ScaleSzie(15), borderTopLeftRadius: ScaleSzie(15), flexDirection: 'row'
+                        height: scaleSzie(55), backgroundColor: '#0764B0',
+                        borderTopRightRadius: scaleSzie(15), borderTopLeftRadius: scaleSzie(15), flexDirection: 'row'
                     }} >
-                        {/* <View style={{ width: ScaleSzie(70) }} /> */}
+                        {/* <View style={{ width: scaleSzie(70) }} /> */}
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                            <Text style={[{ color: '#fff', fontSize: ScaleSzie(22), fontWeight: 'bold' }, styleTitle]} >
+                            <Text style={[{ color: '#fff', fontSize: scaleSzie(22), fontWeight: 'bold' }, styleTitle]} >
                                 {title}
                             </Text>
                         </View>
                         <View style={{
-                            height: ScaleSzie(55), width: ScaleSzie(70), justifyContent: 'center', alignItems: 'flex-end',
-                            // paddingRight: ScaleSzie(12),
-                            position: "absolute", right: ScaleSzie(12), top: 0
+                            height: scaleSzie(55), width: scaleSzie(70), justifyContent: 'center', alignItems: 'flex-end',
+                            // paddingRight: scaleSzie(12),
+                            position: "absolute", right: scaleSzie(12), top: 0
                         }} >
                             {
                                 hideCloseButton ? <View /> : <Button onPress={this.onPress} style={{
-                                    width: ScaleSzie(30), height: ScaleSzie(30), backgroundColor: '#fff',
-                                    borderRadius: ScaleSzie(15), justifyContent: 'center', alignItems: 'center'
+                                    width: scaleSzie(30), height: scaleSzie(30), backgroundColor: '#fff',
+                                    borderRadius: scaleSzie(15), justifyContent: 'center', alignItems: 'center'
                                 }} >
-                                    <Image source={IMAGE.closePopup} style={{ width: ScaleSzie(14), height: ScaleSzie(14) }} />
+                                    <Image source={IMAGE.closePopup} style={{ width: scaleSzie(14), height: scaleSzie(14) }} />
                                 </Button>
                             }
 

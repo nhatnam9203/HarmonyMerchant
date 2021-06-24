@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { ScaleSzie, formatWithMoment } from "@utils";
+import { scaleSzie, formatWithMoment } from "@utils";
 import IMAGE from "@resources";
 import { Button, Text } from "@components";
 import StarRating from "react-native-star-rating";
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     marginBottom: 1,
   },
   padding: {
-    padding: ScaleSzie(15),
+    padding: scaleSzie(15),
     flexDirection: "row",
   },
   row: {
@@ -149,28 +149,28 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#6A6A6A",
-    fontSize: ScaleSzie(12),
+    fontSize: scaleSzie(12),
   },
   btn: {
-    width: ScaleSzie(60),
-    height: ScaleSzie(25),
+    width: scaleSzie(60),
+    height: scaleSzie(25),
     backgroundColor: "#0764B0",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 1,
   },
   img: {
-    width: ScaleSzie(25),
-    height: ScaleSzie(25),
+    width: scaleSzie(25),
+    height: scaleSzie(25),
   },
   extImg: {
     position: "absolute",
-    top: ScaleSzie(5),
-    left: ScaleSzie(4),
+    top: scaleSzie(5),
+    left: scaleSzie(4),
   },
   extText: {
     color: "#000",
-    fontSize: ScaleSzie(12),
+    fontSize: scaleSzie(12),
   },
 });
 

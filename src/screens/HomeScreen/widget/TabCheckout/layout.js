@@ -9,7 +9,7 @@ import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
 import {
-    ScaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, checkCategoryIsNotExist,
+    scaleSzie, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, checkCategoryIsNotExist,
 } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
@@ -50,7 +50,7 @@ class Layout extends React.Component {
                                 {`${firstLetter}`}
                             </Text>
                         </View>
-                        <View style={{ marginLeft: ScaleSzie(12) }} >
+                        <View style={{ marginLeft: scaleSzie(12) }} >
                             <Text style={styles.txt_customer_name} >
                                 {`${displayName}`}
                             </Text>
@@ -68,11 +68,11 @@ class Layout extends React.Component {
 
                     </Button> :
                         <Button onPress={this.displayEnterUserPhonePopup} style={{ flexDirection: 'row', alignItems: 'center' }} >
-                            <Image source={ICON.checkout_customer_icon} style={{ width: ScaleSzie(30), height: ScaleSzie(30) }} />
-                            <Text style={{ color: "#404040", fontSize: ScaleSzie(12), fontWeight: "600", marginHorizontal: ScaleSzie(8) }} >
+                            <Image source={ICON.checkout_customer_icon} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
+                            <Text style={{ color: "#404040", fontSize: scaleSzie(12), fontWeight: "600", marginHorizontal: scaleSzie(8) }} >
                                 {`Walking Customer`}
                             </Text>
-                            <Image source={ICON.add_customer_info_checkout_tab} style={{ width: ScaleSzie(20), height: ScaleSzie(20) }} />
+                            <Image source={ICON.add_customer_info_checkout_tab} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
                         </Button>
                 }
 
@@ -81,11 +81,11 @@ class Layout extends React.Component {
                 {/* -------- Button open cash -------- */}
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'row' }} >
                     {
-                        !_.isEmpty(groupAppointment) ? <Button onPress={this.printTemptInvoice} style={[styles.btnCashier, { marginRight: ScaleSzie(8) }]} >
+                        !_.isEmpty(groupAppointment) ? <Button onPress={this.printTemptInvoice} style={[styles.btnCashier, { marginRight: scaleSzie(8) }]} >
                             <Image source={ICON.print_btn}
-                                style={{ width: ScaleSzie(14), height: ScaleSzie(16) }}
+                                style={{ width: scaleSzie(14), height: scaleSzie(16) }}
                             />
-                            <Text style={[styles.textBtnCashier, { fontSize: ScaleSzie(9), fontWeight: "500" }]} >
+                            <Text style={[styles.textBtnCashier, { fontSize: scaleSzie(9), fontWeight: "500" }]} >
                                 {localize('Print receipt', language)}
                             </Text>
                         </Button> : <View />
@@ -94,9 +94,9 @@ class Layout extends React.Component {
 
                     <Button onPress={this.checkStatusCashier} style={styles.btnCashier} >
                         <Image source={ICON.cashier_btn}
-                            style={{ width: ScaleSzie(16), height: ScaleSzie(13) }}
+                            style={{ width: scaleSzie(16), height: scaleSzie(13) }}
                         />
-                        <Text style={[styles.textBtnCashier, { fontSize: ScaleSzie(9), fontWeight: "500" }]} >
+                        <Text style={[styles.textBtnCashier, { fontSize: scaleSzie(9), fontWeight: "500" }]} >
                             {localize('Open Cashier', language)}
                         </Text>
                     </Button>
@@ -114,7 +114,7 @@ class Layout extends React.Component {
         const tempStyleBox = isShowCategoriesColumn ? styles.staff_column_box_small : {};
 
         return (
-            <View style={[{ width: ScaleSzie(tempWidth) }, styles.staff_column_box, tempStyleBox]} >
+            <View style={[{ width: scaleSzie(tempWidth) }, styles.staff_column_box, tempStyleBox]} >
                 {/* ----------  StaffColumn Header ----------  */}
                 <View style={styles.staff_column_header} >
                     <Text style={styles.txt_staff_column_header, styles.txt_category_header_extra} >
@@ -191,7 +191,7 @@ class Layout extends React.Component {
         }
 
         return (
-            <View style={[{ width: ScaleSzie(tempWidth) }, styles.categories_column_box]} >
+            <View style={[{ width: scaleSzie(tempWidth) }, styles.categories_column_box]} >
                 {/* ------- Header ----- */}
                 <View style={[styles.categoriesHeader,]} >
                     <Text style={[styles.textHeader, temptColorHeader, styles.txt_category_header_extra]} >
@@ -242,7 +242,7 @@ class Layout extends React.Component {
         const tempTitle = categorySelected?.categoryType === "Service" ? "Services" : "Products";
 
         return (
-            <View style={[{ width: ScaleSzie(tempWidth) }, styles.product_column_box]} >
+            <View style={[{ width: scaleSzie(tempWidth) }, styles.product_column_box]} >
                 {/* ----- Header ---- */}
                 <View style={[styles.categoriesHeader,]} >
                     <Text style={[styles.textHeader, temptColorHeader, styles.txt_category_header_extra]} >
@@ -319,7 +319,7 @@ class Layout extends React.Component {
 
                     </View>
                     {/* ------- Footer -------- */}
-                    <View style={{ height: ScaleSzie(52), paddingHorizontal: ScaleSzie(6), paddingBottom: ScaleSzie(8) }} >
+                    <View style={{ height: scaleSzie(52), paddingHorizontal: scaleSzie(6), paddingBottom: scaleSzie(8) }} >
                         <ButtonCustom
                             width={`100%`}
                             backgroundColor="#F1F1F1"
@@ -332,7 +332,7 @@ class Layout extends React.Component {
                                 flex: 1,
                                 borderRadius: 4
                             }}
-                            styleText={{ fontSize: ScaleSzie(19), fontWeight: 'bold', color: '#fff' }}
+                            styleText={{ fontSize: scaleSzie(19), fontWeight: 'bold', color: '#fff' }}
                         />
                     </View>
 
@@ -394,13 +394,13 @@ class Layout extends React.Component {
                     }
                     {/* ----------- Grand Total ----------- */}
                     {
-                        parseFloat(tempTotal) > 0 ? <View style={{ paddingHorizontal: ScaleSzie(10) }} >
-                            <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: ScaleSzie(10), marginBottom: ScaleSzie(15) }} />
+                        parseFloat(tempTotal) > 0 ? <View style={{ paddingHorizontal: scaleSzie(10) }} >
+                            <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
                             <View style={styles.payNumberTextContainer} >
-                                <Text style={[styles.textPay, { fontSize: ScaleSzie(18), fontWeight: "600", color: "#0764B0" }]} >
+                                <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#0764B0" }]} >
                                     {`${localize('Grand Total', language)}:`}
                                 </Text>
-                                <Text style={[styles.textPay, { fontSize: ScaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
+                                <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
                                     {`$ ${formatMoney(tempTotal)}`}
                                 </Text>
                             </View>
@@ -410,18 +410,18 @@ class Layout extends React.Component {
 
                     {/* ----------- Paid Amount ----------- */}
                     {
-                        !isBookingFromCalendar && !_.isEmpty(paymentDetailInfo) ? <View style={{ paddingHorizontal: ScaleSzie(10), marginBottom: ScaleSzie(8) }} >
-                            <View style={{ height: 2, backgroundColor: "#DDDDDD", marginTop: ScaleSzie(10), marginBottom: ScaleSzie(15) }} />
+                        !isBookingFromCalendar && !_.isEmpty(paymentDetailInfo) ? <View style={{ paddingHorizontal: scaleSzie(10), marginBottom: scaleSzie(8) }} >
+                            <View style={{ height: 2, backgroundColor: "#DDDDDD", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
                             {/* ---------- Paid amount ------ */}
                             {
-                                paidAmounts.map((paidAmountInfo, index) => <View key={index} style={[styles.payNumberTextContainer, { justifyContent: 'space-between', marginBottom: ScaleSzie(8) }]} >
-                                    <Text style={[styles.textPay, { fontSize: ScaleSzie(18), fontWeight: "600", color: "#404040" }]} >
+                                paidAmounts.map((paidAmountInfo, index) => <View key={index} style={[styles.payNumberTextContainer, { justifyContent: 'space-between', marginBottom: scaleSzie(8) }]} >
+                                    <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#404040" }]} >
                                         {`${localize('Paid ', language)}`}
-                                        <Text style={[styles.textPay, { fontSize: ScaleSzie(18), fontWeight: "300", color: '#404040' }]} >
+                                        <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "300", color: '#404040' }]} >
                                             {` (${paidAmountInfo.paymentMethod})`}
                                         </Text>
                                     </Text>
-                                    <Text style={[styles.textPay, { fontSize: ScaleSzie(18), fontWeight: "600", color: '#404040' }]} >
+                                    <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: '#404040' }]} >
                                         {`  $ ${formatMoney(paidAmountInfo.amount)}`}
                                     </Text>
 
@@ -432,10 +432,10 @@ class Layout extends React.Component {
                             {/* ---------- Due amount ------ */}
                             {
                                 !isBookingFromCalendar && paymentDetailInfo.dueAmount ? <View style={[styles.payNumberTextContainer, { justifyContent: 'space-between', }]} >
-                                    <Text style={[styles.textPay, { fontSize: ScaleSzie(18), fontWeight: "600", color: "#FF3B30" }]} >
+                                    <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#FF3B30" }]} >
                                         {`${localize('Amount Due', language)}:`}
                                     </Text>
-                                    <Text style={[styles.textPay, { fontSize: ScaleSzie(18), fontWeight: "600", color: '#FF3B30' }]} >
+                                    <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: '#FF3B30' }]} >
                                         {`   $ ${formatMoney(paymentDetailInfo.dueAmount)}`}
 
                                     </Text>
@@ -443,7 +443,7 @@ class Layout extends React.Component {
                             }
                         </View> : <View />
                     }
-                    <View style={{ height: ScaleSzie(50) }} />
+                    <View style={{ height: scaleSzie(50) }} />
                 </ScrollView>
             </View>
         );
@@ -487,21 +487,21 @@ class Layout extends React.Component {
                     />)}
 
                     {/* ----------- Grand Total ----------- */}
-                    <View style={{ paddingHorizontal: ScaleSzie(10), marginTop: ScaleSzie(15) }} >
-                        <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: ScaleSzie(10), marginBottom: ScaleSzie(15) }} />
+                    <View style={{ paddingHorizontal: scaleSzie(10), marginTop: scaleSzie(15) }} >
+                        <View style={{ height: 2, backgroundColor: "#0764B0", marginTop: scaleSzie(10), marginBottom: scaleSzie(15) }} />
                         {/* ---------- Tip ------ */}
                         <View style={styles.payNumberTextContainer} >
-                            <Text style={[styles.textPay, { fontSize: ScaleSzie(18), fontWeight: "600", color: "#0764B0" }]} >
+                            <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: "#0764B0" }]} >
                                 {`${localize('Grand Total', language)}:`}
                             </Text>
-                            <Text style={[styles.textPay, { fontSize: ScaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
+                            <Text style={[styles.textPay, { fontSize: scaleSzie(18), fontWeight: "600", color: 'rgb(65,184,85)' }]} >
                                 {`$ ${formatMoney(temptGrandTotal)}`}
                             </Text>
                         </View>
                     </View>
 
 
-                    <View style={{ height: ScaleSzie(70) }} />
+                    <View style={{ height: scaleSzie(70) }} />
                 </ScrollView>
             </View>
         );
@@ -524,11 +524,11 @@ class Layout extends React.Component {
             <View style={[styles.basket_box, tempStyle]} >
                 {/* -------- Header Basket -------- */}
                 <View style={[styles.headerBasket, {
-                    flexDirection: "row", paddingHorizontal: ScaleSzie(8),
+                    flexDirection: "row", paddingHorizontal: scaleSzie(8),
                     backgroundColor: "#F1F1F1"
                 },]} >
                     <View style={{ flex: 1 }} />
-                    <Text style={[styles.textHeader, { fontWeight: "600", fontSize: ScaleSzie(16) }]} >
+                    <Text style={[styles.textHeader, { fontWeight: "600", fontSize: scaleSzie(16) }]} >
                         {localize('Basket', language)}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
@@ -537,7 +537,7 @@ class Layout extends React.Component {
                                 ? <Button onPress={() => this.addAppointmentCheckout()} >
                                     <Image
                                         source={ICON.add_appointment_checkout}
-                                        style={{ width: ScaleSzie(25), height: ScaleSzie(25) }}
+                                        style={{ width: scaleSzie(25), height: scaleSzie(25) }}
                                     />
                                 </Button> : <View />
                         }
@@ -553,7 +553,7 @@ class Layout extends React.Component {
                 }
 
                 {/* -------- Footer Basket -------- */}
-                <View style={{ height: ScaleSzie(52), paddingHorizontal: ScaleSzie(8), paddingBottom: ScaleSzie(8) }} >
+                <View style={{ height: scaleSzie(52), paddingHorizontal: scaleSzie(8), paddingBottom: scaleSzie(8) }} >
                     {this.renderButtonChekout()}
                 </View>
             </View>
@@ -564,8 +564,8 @@ class Layout extends React.Component {
         const { language } = this.props;
         return (
             <View style={{ flex: 1, }} >
-                <View style={[styles.payment_header, { paddingLeft: ScaleSzie(20) }]} >
-                    <Text style={[styles.textHeader, { fontWeight: "600", fontSize: ScaleSzie(15) }]} >
+                <View style={[styles.payment_header, { paddingLeft: scaleSzie(20) }]} >
+                    <Text style={[styles.textHeader, { fontWeight: "600", fontSize: scaleSzie(15) }]} >
                         {localize('Select payment method', language)}
                     </Text>
                 </View>
@@ -605,9 +605,9 @@ class Layout extends React.Component {
                 </View>
 
                 {/* ------ Footer ----- */}
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: ScaleSzie(8) }} >
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
                     <ButtonCustom
-                        width={ScaleSzie(300)}
+                        width={scaleSzie(300)}
                         title={localize('BACK', language)}
                         backgroundColor="#0764B0"
                         textColor="#fff"
@@ -795,12 +795,12 @@ class Layout extends React.Component {
         const { appointmentOfflineMode } = this.state;
 
         return (
-            <View style={{ flex: 1, paddingHorizontal: ScaleSzie(22) }} >
-                <Text style={[styles.textHeader, { fontSize: ScaleSzie(19), marginTop: ScaleSzie(10), marginBottom: ScaleSzie(12) }]} >
+            <View style={{ flex: 1, paddingHorizontal: scaleSzie(22) }} >
+                <Text style={[styles.textHeader, { fontSize: scaleSzie(19), marginTop: scaleSzie(10), marginBottom: scaleSzie(12) }]} >
                     {localize('Offline mode', language)}
                 </Text>
-                <View style={{ alignItems: 'center', marginBottom: ScaleSzie(30) }} >
-                    <Text style={[styles.textHeader, { fontSize: ScaleSzie(18) }]} >
+                <View style={{ alignItems: 'center', marginBottom: scaleSzie(30) }} >
+                    <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
 
                         {localize('Use consumer app to scan QR code below', language)}
                     </Text>
@@ -809,24 +809,24 @@ class Layout extends React.Component {
                     <View style={styles.containerQrcode} >
                         <QRCode
                             value={JSON.stringify(appointmentOfflineMode)}
-                            size={ScaleSzie(200)}
+                            size={scaleSzie(200)}
                         />
                     </View>
                 </View>
-                <View style={{ alignItems: 'center', marginTop: ScaleSzie(25) }} >
-                    <Text style={[styles.textHeader, { fontSize: ScaleSzie(18) }]} >
+                <View style={{ alignItems: 'center', marginTop: scaleSzie(25) }} >
+                    <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
                         {localize('Then scan the QR code on the phone', language)}
 
                     </Text>
-                    <Text style={[styles.textHeader, { fontSize: ScaleSzie(18) }]} >
+                    <Text style={[styles.textHeader, { fontSize: scaleSzie(18) }]} >
                         {localize('to complete the transaction', language)}
 
                     </Text>
                 </View>
                 {/* ------ Footer ----- */}
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: ScaleSzie(8) }} >
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(8) }} >
                     <ButtonCustom
-                        width={ScaleSzie(300)}
+                        width={scaleSzie(300)}
                         title={localize('BACK', language)}
                         backgroundColor="#0764B0"
                         textColor="#fff"
@@ -844,7 +844,7 @@ class Layout extends React.Component {
 
         return (
             <View style={{ flex: 1, flexDirection: 'row' }} >
-                <View style={{ width: ScaleSzie(480) }} >
+                <View style={{ width: scaleSzie(480) }} >
                     <ScrollableTabView
                         ref={this.scrollTabRef}
                         style={{
@@ -862,7 +862,7 @@ class Layout extends React.Component {
                             {isShowCategoriesColumn ? this.renderCategoriesCheckout() : null}
                             {isShowColProduct ? this.renderProductCheckout() : null}
                             {isShowColAmount ? this.renderAmountCheckout() : null}
-                            <View style={{ width: ScaleSzie(4) }} />
+                            <View style={{ width: scaleSzie(4) }} />
                         </View>
                         {this.renderPaymetsMethod()}
                         {this.renderOfflineMode()}
