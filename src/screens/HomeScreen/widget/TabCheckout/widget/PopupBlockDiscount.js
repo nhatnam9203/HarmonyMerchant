@@ -1,20 +1,28 @@
 import React from 'react';
 import {
     View,
-    Image,
     Text,
     ScrollView,
     TouchableOpacity,
     Alert,
-    TextInput
+    TextInput,
+    Image,
+    StyleSheet,
+    TouchableHighlight,
+    Slider
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
 import { ButtonCustom, PopupParent, Button } from '@components';
-import { scaleSzie, formatNumberFromCurrency, formatMoney, localize, roundNumber, checkIsTablet } from '@utils';
+import { scaleSzie, scaleSize, formatNumberFromCurrency, formatMoney, localize, roundNumber, checkIsTablet } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
+import { colors } from '@shared/themes';
+const manualType = {
+    fixAmountType: 'fixAmountType',
+    percentType: 'percentType'
+}
 
 class PopupBlockDiscount extends React.Component {
 
@@ -25,7 +33,7 @@ class PopupBlockDiscount extends React.Component {
             moneyDiscountFixedAmout: 0,
             isReload: false,
             promotionNotes: "",
-            isDiscountByOwner: true
+            discountByOwner: 100,
         };
         this.customDiscountRef = React.createRef();
         this.customFixedAmountRef = React.createRef();
@@ -62,11 +70,15 @@ class PopupBlockDiscount extends React.Component {
                 { cancelable: false }
             );
         } else {
-            const { promotionNotes, isDiscountByOwner } = this.state;
-            this.props.actions.marketing.customPromotion(percentDiscountCustom, moneyDiscountFixedAmout, isDiscountByOwner, appointmentIdUpdatePromotion, true, true);
+            const { promotionNotes, discountByOwner } = this.state;
+            this.props.actions.marketing.customPromotion(percentDiscountCustom, moneyDiscountFixedAmout, discountByOwner, appointmentIdUpdatePromotion, true, true);
             this.props.actions.marketing.addPromotionNote(appointmentDetail.appointmentId, promotionNotes);
             this.props.actions.marketing.closeModalDiscount();
         }
+    }
+
+    handelSliderValue = async(value) => {
+        this.setState({discountByOwner: value})
     }
 
     onRequestClose = async () => {
@@ -77,8 +89,8 @@ class PopupBlockDiscount extends React.Component {
         this.scrollRef.current.scrollTo({ x: 0, y: num, animated: true })
     }
 
-    toggleCheckBox = () => {
-        this.setState(prevState => ({ isDiscountByOwner: !prevState.isDiscountByOwner }))
+    handelSliderValue = async(value) => {
+        this.setState({discountByOwner: value})
     }
 
     // ------ Render -----
@@ -103,25 +115,34 @@ class PopupBlockDiscount extends React.Component {
 
             const tempCheckBoxIcon = isDiscountByOwner ? ICON.checkBox : ICON.checkBoxEmpty;
             const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(400);
+            const discountByStaff = (100 - this.state.discountByOwner)
 
             return (
                 <PopupParent
                     title={title}
                     visible={visibleModalBlockDiscount}
                     onRequestClose={this.onRequestClose}
-                    width={600}
+                    width={500}
+                    height={45}
                 >
                     <View style={{
                         height: tempHeight, backgroundColor: '#fff',
                         borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
                     }} >
-                        <View style={{ height: scaleSzie(280) }} >
+                        <View style={{ height: scaleSzie(300) }} >
                             <ScrollView
                                 ref={this.scrollRef}
                                 keyboardShouldPersistTaps="always"
                             >
                                 <TouchableOpacity activeOpacity={1} style={{ paddingHorizontal: scaleSzie(25) }} >
                                     {
+                                        discount && discount.length > 0 &&
+                                        <View style={[styles.viewRowContainer, {marginTop: 20}]}>
+                                            <Text style={styles.textNormal}>{localize('Discount Campaigns:', language)}</Text>
+                                            <Text style={styles.textNormal}>{localize('Apply Value', language)}</Text>
+                                        </View>
+                                    }
+                                   {
                                         discount.map((promo, index) => <ItemCampaign
                                             key={index}
                                             title={promo.merchantPromotion.campaignName}
@@ -222,35 +243,45 @@ class PopupBlockDiscount extends React.Component {
                                         </View>
                                     </View>
 
-                                    {/* ------------ Check Box ----------- */}
-                                    <View style={{ flexDirection: "row", marginTop: scaleSzie(2), marginBottom: scaleSzie(12), alignItems: "center" }} >
-                                        <Button onPress={this.toggleCheckBox} >
-                                            <Image source={tempCheckBoxIcon} style={{ width: scaleSzie(20), height: scaleSzie(20) }} />
-                                        </Button>
-                                        <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginLeft: scaleSzie(15) }} >
-                                            {`Discount By Owner`}
-                                        </Text>
+                                    {/* -----------  Discount by Owner, Discount by staff  ----------- */}
+                                    <View style={[styles.viewRowContainer, {marginTop: 25}]}>
+                                        <Text style={styles.textNormal}>{localize('Discount by Owner', language)}</Text>
+                                        <Text style={styles.textNormal}>{localize('Discount by Staff', language)}</Text>
                                     </View>
-                                    <View style={{ height: 1, backgroundColor: "#707070" }} />
+                                    
+                                    {/* ----------Slider------------ */}
+                                    <Slider
+                                        style={styles.slider}
+                                        minimumValue={0}
+                                        maximumValue={100}
+                                        minimumTrackTintColor={colors.OCEAN_BLUE}
+                                        maximumTrackTintColor={colors.PALE_GREY}
+                                        onValueChange={(value)=>this.handelSliderValue(value)}
+                                        value={this.state.discountByOwner}
+                                      
+                                        step={1}
+                                    />
+
+                                    <View style={styles.viewRowContainer}>
+                                        <Text style={styles.textNormal}>{`${this.state.discountByOwner}%`}</Text>
+                                        <Text style={styles.textNormal}>{`${discountByStaff}%`}</Text>
+                                    </View> 
 
                                     {/* ----------- Note  ----------- */}
-                                    <View style={{}} >
-                                        <Text style={[{
-                                            color: "#404040", fontSize: scaleSzie(16), fontWeight: "600",
-                                            marginBottom: scaleSzie(5), marginTop: scaleSzie(12)
-                                        }]} >
+                                    <View style={{marginTop: 20}} >
+                                        <Text style={[styles.textNormal,{marginBottom: 5}]} >
                                             {`Note`}
                                         </Text>
                                         <View style={{
-                                            height: scaleSzie(70), borderColor: "#DDDDDD", borderWidth: 2, borderRadius: 4, paddingVertical: 5,
-                                            paddingHorizontal: scaleSzie(10)
+                                            height: scaleSize(40), borderColor: "#DDDDDD", borderWidth: 2, borderRadius: 4, paddingVertical: 5,
+                                            paddingHorizontal: scaleSize(10)
                                         }} >
                                             <TextInput
-                                                style={{ flex: 1, fontSize: scaleSzie(12), padding: 0, textAlignVertical: "top" }}
+                                                style={[{ flex: 1, padding: 0, textAlignVertical: "top" }, styles.textNormal]}
                                                 multiline={true}
                                                 value={promotionNotes}
                                                 onChangeText={(promotionNotes) => this.setState({ promotionNotes })}
-                                                onFocus={() => this.scrollRef.current.scrollToEnd()}
+                                                onFocus={() => this.scrollRef.current?.scrollToEnd()}
                                                 onBlur={() => this.scrollTo(0)}
                                             />
                                         </View>
@@ -263,28 +294,28 @@ class PopupBlockDiscount extends React.Component {
                         </View>
                         {/* ---------- Total ------- */}
                         <View style={{
-                            flexDirection: 'row', height: scaleSzie(40),
-                            paddingHorizontal: scaleSzie(25)
+                            flexDirection: 'row', height: scaleSize(40),
+                            paddingHorizontal: scaleSize(25)
                         }} >
                             <View style={{ flex: 1, justifyContent: 'center' }} >
-                                <Text style={{ color: '#404040', fontSize: scaleSzie(22), fontWeight: 'bold' }} >
+                                <Text style={{ color: '#404040', fontSize: scaleSize(18), fontWeight: 'bold' }} >
                                     {localize('Total Discount', language)}
                                 </Text>
                             </View>
                             <View style={{ justifyContent: 'center' }} >
-                                <Text style={{ color: '#4CD964', fontSize: scaleSzie(22), fontWeight: 'bold' }} >
+                                <Text style={[styles.greenText, {fontWeight: 'bold' }]} >
                                     {`$ -${formatMoney(total)}`}
                                 </Text>
                             </View>
                         </View>
 
-                        {/* ----------- Button Add ---- */}
-                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSzie(12) }} >
+                         {/* ----------- Button Add ---- */}
+                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSize(12) }} >
                             <ButtonCustom
-                                width={scaleSzie(180)}
-                                height={45}
-                                backgroundColor="#0764B0"
-                                title={localize('Done', language)}
+                                width={scaleSize(160)}
+                                height={40}
+                                backgroundColor={colors.OCEAN_BLUE}
+                                title={localize('Submit', language)}
                                 textColor="#fff"
                                 onPress={this.submitCustomPromotion}
                                 style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
@@ -298,7 +329,7 @@ class PopupBlockDiscount extends React.Component {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        const { visibleModalBlockDiscount, blockAppointments, appointmentIdUpdatePromotion, isGetPromotionOfAppointment, promotionNotes, isDiscountByOwner } = this.props;
+        const { visibleModalBlockDiscount, blockAppointments, appointmentIdUpdatePromotion, isGetPromotionOfAppointment, promotionNotes, discountByOwner } = this.props;
         if (!prevProps.visibleModalBlockDiscount && visibleModalBlockDiscount && prevProps.visibleModalBlockDiscount !== visibleModalBlockDiscount) {
             const appointmentDetail = blockAppointments.find((appointment) => appointment.appointmentId === appointmentIdUpdatePromotion);
             await this.setState({
@@ -311,7 +342,7 @@ class PopupBlockDiscount extends React.Component {
             this.props.actions.marketing.resetStateGetPromotionOfAppointment();
             await this.setState({
                 promotionNotes: promotionNotes?.note || "",
-                isDiscountByOwner: isDiscountByOwner
+                discountByOwner: discountByOwner ? parseFloat(discountByOwner) : 100,
             })
         }
     }
@@ -321,22 +352,81 @@ class PopupBlockDiscount extends React.Component {
 const ItemCampaign = ({ title, discount }) => {
     return (
         <View style={{
-            flexDirection: 'row', height: scaleSzie(55),
-            borderBottomColor: '#707070', borderBottomWidth: 1
+            flexDirection: 'row', height: scaleSize(35)
         }} >
             <View style={{ flex: 1, justifyContent: 'center' }} >
-                <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
+                <Text style={{ color: '#404040', fontSize: scaleSize(16) }} >
                     {title}
                 </Text>
             </View>
             <View style={{ justifyContent: 'center' }} >
-                <Text style={{ color: '#4CD964', fontSize: scaleSzie(18) }} >
+                <Text style={{ color: '#4CD964', fontSize: scaleSize(18) }} >
                     {`$ ${discount}`}
                 </Text>
             </View>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    viewRowContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 10,
+    },
+    textNormal: {
+        color: colors.BROWNISH_GREY, 
+        fontSize: scaleSize(16)
+    },
+    discountTypeButton:{
+        paddingTop:10,
+        paddingBottom:10,
+        backgroundColor: '#fff',
+        borderWidth: 1,
+        borderColor: colors.BROWNISH_GREY,
+        justifyContent:'center',
+        height: scaleSize(35),
+        width: scaleSize(35),
+    },
+    discountManualText:{
+        color:'#000',
+        textAlign:'center',
+        fontSize: scaleSize(16),
+    },
+    viewGroupRow:{
+        flexDirection: 'row',
+    
+    },
+    textInputView: {
+        width: scaleSize(120), 
+        height: scaleSize(35),
+        borderColor: '#707070', 
+        borderWidth: 1, marginLeft: scaleSize(20), 
+        borderRadius: scaleSize(4),
+        flexDirection: 'row'
+    },
+    greenText: { 
+        color: '#4CD964', 
+        fontSize: scaleSize(18) 
+    },
+    colorSelectedText: {
+        color: '#fff'
+    },
+    colorUnselectedText: {
+        color: '#000'
+    },
+    backgroundButtonSelected: {
+        backgroundColor: colors.OCEAN_BLUE
+    },
+    backgroundButtonUnSelected: {
+        backgroundColor: '#fff'
+    },
+    slider: {
+        flex: 1,
+        marginTop: 10
+    }
+})
 
 const mapStateToProps = state => ({
     discount: state.marketing.discount,
@@ -348,7 +438,7 @@ const mapStateToProps = state => ({
     isOpenBlockAppointmentId: state.appointment.isOpenBlockAppointmentId,
     isGetPromotionOfAppointment: state.marketing.isGetPromotionOfAppointment,
     promotionNotes: state.marketing.promotionNotes,
-    isDiscountByOwner: state.marketing.isDiscountByOwner
+    discountByOwner: state.marketing.discountByOwner
 })
 
 

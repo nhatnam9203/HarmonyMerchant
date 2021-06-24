@@ -300,7 +300,7 @@ class PopupDiscount extends React.Component {
             this.props.actions.marketing.resetStateGetPromotionOfAppointment();
             await this.setState({
                 promotionNotes: promotionNotes.note ? promotionNotes.note : "",
-                discountByOwner: parseFloat(discountByOwner),
+                discountByOwner: discountByOwner ? parseFloat(discountByOwner) : 100,
             });
 
         }
