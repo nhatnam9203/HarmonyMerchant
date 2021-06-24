@@ -34,6 +34,8 @@ class PopupBlockDiscount extends React.Component {
             isReload: false,
             promotionNotes: "",
             discountByOwner: 100,
+            manualTypeSelect: manualType.percentType,
+            valueText: 0,
         };
         this.customDiscountRef = React.createRef();
         this.customFixedAmountRef = React.createRef();
@@ -93,6 +95,43 @@ class PopupBlockDiscount extends React.Component {
         this.setState({discountByOwner: value})
     }
 
+    changeTypeManualDiscount = async (type) =>{
+        if(type == manualType.percentType){
+            await this.setState({
+                manualTypeSelect: manualType.percentType
+            })
+        }else{
+            await this.setState({
+                manualTypeSelect: manualType.fixAmountType
+            })
+        }
+
+        this.calculateDiscount(this.state.valueText)
+    }
+
+    calculateDiscount = async(textNumber) => {
+        if(this.state.manualTypeSelect == manualType.percentType){
+            this.setState({
+                percentDiscountCustom: textNumber,
+                moneyDiscountFixedAmout: 0,
+            });
+
+        }else{
+            this.setState({
+                percentDiscountCustom: 0,
+                moneyDiscountFixedAmout: textNumber,
+            });
+
+        }
+
+    }
+
+    onChangeText = async (textNumber) => {
+        this.setState({valueText: textNumber})
+        this.calculateDiscount(textNumber)
+        
+    }
+
     // ------ Render -----
 
     render() {
@@ -113,9 +152,21 @@ class PopupBlockDiscount extends React.Component {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountCustom);
             total = roundNumber(total);
 
-            const tempCheckBoxIcon = isDiscountByOwner ? ICON.checkBox : ICON.checkBoxEmpty;
             const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(400);
             const discountByStaff = (100 - this.state.discountByOwner)
+
+            const stylePercentText = this.state.manualTypeSelect == manualType.percentType 
+            ? styles.colorSelectedText : styles.colorUnselectedText
+            const stylePercentButton = this.state.manualTypeSelect == manualType.percentType 
+            ? styles.backgroundButtonSelected : styles.backgroundButtonUnSelected
+
+            const styleFixText = this.state.manualTypeSelect == manualType.fixAmountType 
+            ? styles.colorSelectedText : styles.colorUnselectedText
+            const styleFixButton = this.state.manualTypeSelect == manualType.fixAmountType 
+            ? styles.backgroundButtonSelected : styles.backgroundButtonUnSelected
+
+            const moneyDiscountManual = this.state.manualTypeSelect == manualType.percentType 
+                                        ? moneyDiscountCustom : moneyDiscountFixedAmout
 
             return (
                 <PopupParent
@@ -152,96 +203,58 @@ class PopupBlockDiscount extends React.Component {
                                     }
                                     <View style={{ height: scaleSzie(10) }} />
                                     {/* ----------- Row 1 ----------- */}
-                                    <View style={{
-                                        flexDirection: 'row', height: scaleSzie(45),
-                                    }} >
-                                        <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
-                                            <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
-                                                {localize('Custom Discount by', language)}
-                                            </Text>
-                                            {/* ------- Text percent ----- */}
-                                            <View style={{
-                                                width: scaleSzie(120), height: scaleSzie(40),
-                                                borderColor: '#707070', borderWidth: 1, marginLeft: scaleSzie(20), borderRadius: scaleSzie(4),
-                                                flexDirection: 'row'
-                                            }} >
-                                                <View style={{ flex: 1, paddingHorizontal: scaleSzie(10) }} >
-                                                    <TextInputMask
-                                                        type={'money'}
-                                                        options={{
-                                                            precision: 2,
-                                                            separator: '.',
-                                                            delimiter: ',',
-                                                            unit: '',
-                                                            suffixUnit: ''
-                                                        }}
-                                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                        value={`${percentDiscountCustom}`}
-                                                        onChangeText={(percentDiscountCustom) => this.setState({ percentDiscountCustom })}
-                                                        keyboardType="numeric"
-                                                        placeholderTextColor="#A9A9A9"
-                                                        maxLength={6}
+                                    <View>
+                                        <Text style={styles.textNormal}>{localize('Manual Discount', language)}</Text>
+                                            <View style={styles.viewRowContainer}>
+                                                <View style={styles.viewGroupRow}>
+                                                    <TouchableHighlight
+                                                        style={[styles.discountTypeButton, stylePercentButton]}
+                                                        onPress={() => this.changeTypeManualDiscount(manualType.percentType)}
+                                                        underlayColor='#fff'>
+                                                            <Text style={[styles.discountManualText, stylePercentText]}>
+                                                                {"%"}
+                                                            </Text>
+                                                    </TouchableHighlight>
+                                                    <TouchableHighlight
+                                                        style={[styles.discountTypeButton, styleFixButton]}
+                                                        onPress={() => this.changeTypeManualDiscount(manualType.fixAmountType)}
+                                                        underlayColor='#fff'>
+                                                            <Text style={[styles.discountManualText, styleFixText]}>{"$"}</Text>
+                                                    </TouchableHighlight>
 
-                                                    />
-                                                </View>
-                                                <View style={{ justifyContent: 'center', paddingRight: scaleSzie(5) }} >
-                                                    <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
-                                                        %
-                                                    </Text>
-                                                </View>
-                                            </View>
-                                            {/* -------  ----- */}
-                                        </View>
-                                        <View style={{ justifyContent: 'center' }} >
-                                            <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
-                                                {`$ ${formatMoney(roundNumber(moneyDiscountCustom))}`}
-                                            </Text>
-                                        </View>
-                                    </View>
-                                    {/* ----------- Row 2 ----------- */}
-                                    <View style={{
-                                        flexDirection: 'row', height: scaleSzie(45), paddingBottom: scaleSzie(20)
-                                    }} >
-                                        <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }} >
-                                            <Text style={{ color: '#404040', fontSize: scaleSzie(18) }} >
-                                                {localize('Custom Discount by fixed amount', language)}
-                                            </Text>
-                                        </View>
-                                        <View style={{ justifyContent: 'center' }} >
-                                            {/* ------- Text discount ----- */}
-                                            <View style={{
-                                                width: scaleSzie(120), height: scaleSzie(40),
-                                                borderColor: '#707070', borderWidth: 1, marginLeft: scaleSzie(20), borderRadius: scaleSzie(4),
-                                                flexDirection: 'row',
-                                            }} >
-                                                <View style={{ justifyContent: 'center', paddingLeft: scaleSzie(5) }} >
-                                                    <Text style={{ color: '#4CD964', fontSize: scaleSzie(20) }} >
-                                                        $
-                                                    </Text>
-                                                </View>
-                                                <View style={{ flex: 1, paddingHorizontal: scaleSzie(5) }} >
-                                                    <TextInputMask
-                                                        type={'money'}
-                                                        options={{
-                                                            precision: 2,
-                                                            separator: '.',
-                                                            delimiter: ',',
-                                                            unit: '',
-                                                            suffixUnit: ''
-                                                        }}
-                                                        style={{ flex: 1, fontSize: scaleSzie(16) }}
-                                                        value={`${moneyDiscountFixedAmout}`}
-                                                        onChangeText={moneyDiscountFixedAmout => { this.setState({ moneyDiscountFixedAmout }); }}
-                                                        keyboardType="numeric"
-                                                        placeholderTextColor="#A9A9A9"
-                                                        // maxLength={3}
-                                                    />
+                                                    {/* ------- Text input ----- */}
+                                                    <View style={styles.textInputView} >
+                                                        <View style={{ flex: 1, paddingHorizontal: scaleSize(10) }} >
+                                                            <TextInputMask
+                                                                type={'money'}
+                                                                options={{
+                                                                    precision: 2,
+                                                                    separator: '.',
+                                                                    delimiter: ',',
+                                                                    unit: '',
+                                                                    suffixUnit: ''
+                                                                }}
+                                                                style={{ flex: 1, fontSize: scaleSize(16) }}
+                                                                value={`${this.state.valueText}`}
+                                                                onChangeText={this.onChangeText}
+                                                                keyboardType="numeric"
+                                                                placeholderTextColor="#A9A9A9"
+                                                                maxLength={6}
+
+                                                            />
+                                                        </View>
+                                                    
+                                                    </View>
                                                 </View>
 
-                                            </View>
-                                            {/* -------  ----- */}
-                                        </View>
+                                                <View style={{ justifyContent: 'center' }} >
+                                                    <Text style={{ color: '#4CD964', fontSize: scaleSize(18) }} >
+                                                        {`$ ${formatMoney(roundNumber(moneyDiscountManual))}`}
+                                                    </Text>
+                                                </View>
+                                            </View> 
                                     </View>
+                                    
 
                                     {/* -----------  Discount by Owner, Discount by staff  ----------- */}
                                     <View style={[styles.viewRowContainer, {marginTop: 25}]}>
@@ -332,9 +345,17 @@ class PopupBlockDiscount extends React.Component {
         const { visibleModalBlockDiscount, blockAppointments, appointmentIdUpdatePromotion, isGetPromotionOfAppointment, promotionNotes, discountByOwner } = this.props;
         if (!prevProps.visibleModalBlockDiscount && visibleModalBlockDiscount && prevProps.visibleModalBlockDiscount !== visibleModalBlockDiscount) {
             const appointmentDetail = blockAppointments.find((appointment) => appointment.appointmentId === appointmentIdUpdatePromotion);
+            
+            const percentDiscountCustom = appointmentDetail?.customDiscountPercent || 0
+            const moneyDiscountFixedAmout = appointmentDetail?.customDiscountFixed || 0
+            const manualTypeSelect = moneyDiscountFixedAmout > 0 
+                                    ? manualType.fixAmountType : manualType.percentType
+            const valueText = manualTypeSelect == manualType.fixAmountType ? moneyDiscountFixedAmout : percentDiscountCustom
             await this.setState({
-                percentDiscountCustom: appointmentDetail?.customDiscountPercent || 0,
-                moneyDiscountFixedAmout: appointmentDetail?.customDiscountFixed || 0,
+                percentDiscountCustom,
+                moneyDiscountFixedAmout,
+                manualTypeSelect,
+                valueText,
             })
         }
 
