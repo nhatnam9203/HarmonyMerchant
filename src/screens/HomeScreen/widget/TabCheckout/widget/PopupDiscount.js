@@ -9,15 +9,15 @@ import {
     Image,
     StyleSheet,
     TouchableHighlight,
-    Slider
+    Platform,
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
-import { ButtonCustom, PopupParent, } from '@components';
+import { ButtonCustom, PopupParent, Slider } from '@components';
 import { scaleSize, formatNumberFromCurrency,
      formatMoney, localize, roundNumber, 
-     checkIsTablet, round2 } from '@utils';
+     checkIsTablet, scaleSzie } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
 import { colors } from '@shared/themes';
@@ -212,15 +212,37 @@ class PopupDiscount extends React.Component {
                                     {/* ----------Slider------------ */}
                                     <Slider
                                         style={styles.slider}
+                                        value={this.state.discountByOwner}
                                         minimumValue={0}
                                         maximumValue={100}
-                                        minimumTrackTintColor={colors.OCEAN_BLUE}
-                                        maximumTrackTintColor={colors.PALE_GREY}
                                         onValueChange={(value)=>this.handelSliderValue(value)}
-                                        value={this.state.discountByOwner}
-                                      
-                                        step={1}
-                                    />
+                                        trackStyle={{
+                                            height: scaleSzie(10),
+                                            backgroundColor: "#F1F1F1",
+                                            borderRadius: scaleSzie(6),
+                                          }}
+                                          thumbStyle={{
+                                            height: scaleSzie(24),
+                                            width: scaleSzie(24),
+                                            borderRadius: scaleSzie(12),
+                                            backgroundColor: "#fff",
+                                            ...Platform.select({
+                                              ios: {
+                                                shadowColor: "rgba(0, 0, 0,0.3)",
+                                                shadowOffset: { width: 1, height: 0 },
+                                                shadowOpacity: 1,
+                                              },
+                        
+                                              android: {
+                                                elevation: 2,
+                                              },
+                                            }),
+                                          }}
+                                        
+                                          minimumTrackTintColor={colors.OCEAN_BLUE}
+                                          maximumTrackTintColor={colors.PALE_GREY}
+                                          step={1}
+                                        />
 
                                     <View style={styles.viewRowContainer}>
                                         <Text style={styles.textNormal}>{`${this.state.discountByOwner}%`}</Text>
