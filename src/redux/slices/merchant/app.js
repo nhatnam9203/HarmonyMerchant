@@ -19,6 +19,7 @@ const initialState = {
   merchantID: null,
   rememberMID: false,
   exportLoading: false,
+  exportType: '',
 };
 let appSlice = createSlice({
   name: reducerName,
@@ -62,6 +63,11 @@ let appSlice = createSlice({
     hideExportLoading: {
       reducer: (state, action) => {
         state.exportLoading = false;
+      },
+    },
+    saveExportType: {
+      reducer: (state, action) => {
+        state.exportType = action.payload;
       },
     },
   },

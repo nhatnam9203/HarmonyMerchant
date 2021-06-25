@@ -1,6 +1,6 @@
 import RNFetchBlob from 'rn-fetch-blob';
 import { Platform } from 'react-native';
-import { formatBytes } from './format';
+import { formatBytes, uppercaseFirstLetter } from './format';
 
 export const createFilePath = async (body) => {
   const dirs = RNFetchBlob.fs.dirs;
@@ -57,7 +57,7 @@ export const getTimeTitleFile = (initTitle, values) => {
         .join('')}`;
     }
   } else {
-    title = quickFilterText ?? 'ThisWeek';
+    title = uppercaseFirstLetter(quickFilter) ?? 'ThisWeek';
   }
   return initTitle + (title?.replaceAll(' ', '') ?? '');
 };

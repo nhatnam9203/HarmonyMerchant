@@ -1,16 +1,19 @@
-import React from "react";
-import { useGetOrderList } from "@shared/services/api/retailer";
-import { CustomerGroupTypes, NEED_TO_ORDER } from "@shared/utils/app";
-import { useTranslation } from "react-i18next";
-import _ from "lodash";
-import NavigationServices from "@navigators/NavigatorServices";
-import { useSelector } from "react-redux";
-import { useFocusEffect } from "@react-navigation/native";
-import { getQuickFilterTimeRange } from "@utils";
+import React from 'react';
+import {
+  useGetOrderList,
+  useExportOrderList,
+} from '@shared/services/api/retailer';
+import { getTimeTitleFile, statusSuccess } from '@shared/utils';
+import { useTranslation } from 'react-i18next';
+import _ from 'lodash';
+import NavigationServices from '@navigators/NavigatorServices';
+import { useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
+import { getQuickFilterTimeRange } from '@utils';
 
 export const useProps = ({ params: { reload } }) => {
   const { t } = useTranslation();
-
+  const exportRef = React.useRef();
   const [page, setPage] = React.useState(1);
   const [searchVal, setSearchVal] = React.useState();
   const [timeVal, setTimeVal] = React.useState();
@@ -42,6 +45,27 @@ export const useProps = ({ params: { reload } }) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, searchVal, timeVal, orderStatus, payment, purchasePoint]);
+
+  /**
+  |--------------------------------------------------
+  |  API EXPORT
+  |--------------------------------------------------
+  */
+  const [exportOrderList, ExportOrderList] = useExportOrderList();
+  const callExportOrderList = (values) => {
+    const params = Object.assign({}, values, {
+      ...timeVal,
+    });
+    exportRef.current?.onSetFileName(getTimeTitleFile('ReportOrder', params));
+    ExportOrderList(params);
+  };
+
+  React.useEffect(() => {
+    const { codeStatus, data } = exportOrderList || {};
+    if (statusSuccess(codeStatus)) {
+      exportRef.current?.onCreateFile(data);
+    }
+  }, [exportOrderList]);
 
   /**
   |--------------------------------------------------
@@ -90,10 +114,10 @@ export const useProps = ({ params: { reload } }) => {
     onChangeValueSearch,
     onButtonSearchPress,
     onButtonNewOrderPress: () => {
-      NavigationServices.navigate("retailer.home.checkout", {});
+      NavigationServices.navigate('retailer.home.checkout', {});
     },
     onSelectRow: ({ item }) => {
-      NavigationServices.navigate("retailer.home.order.detail", {
+      NavigationServices.navigate('retailer.home.order.detail', {
         order: item,
       });
     },
@@ -101,9 +125,9 @@ export const useProps = ({ params: { reload } }) => {
     onSortWithKey: () => {},
     items: orderList?.data,
     onChangeTimeValue: (quickFilter, timeState) => {
-      if (timeState === "Customize Date") {
+      if (timeState === 'Customize Date') {
         setTimeVal({
-          quickFilter: "custom",
+          quickFilter: 'custom',
           timeStart: timeState.startDate,
           timeEnd: timeState.endDate,
         });
@@ -112,9 +136,9 @@ export const useProps = ({ params: { reload } }) => {
       }
     },
     onResetFilter: () => {
-      setPayment("");
-      setPurchasePoint("");
-      setOrderStatus("");
+      setPayment('');
+      setPurchasePoint('');
+      setOrderStatus('');
     },
     onApplyFilter: () => {},
     purchasePoint,
@@ -123,6 +147,8 @@ export const useProps = ({ params: { reload } }) => {
     setPayment,
     orderStatus,
     setOrderStatus,
-    onRefresh
+    onRefresh,
+    exportRef,
+    callExportOrderList,
   };
 };

@@ -66,12 +66,12 @@ export const useProps = ({ params: { reload }, navigation }) => {
   |--------------------------------------------------
   */
   const [customerExport, ExportCustomer] = useExportCustomer();
-  const callExportCustomer = React.useCallback((values) => {
+  const callExportCustomer =(values) => {
     const params = Object.assign({}, values, {
       quickFilter: 'thisWeek',
     });
     ExportCustomer(params);
-  }, []);
+  }
 
   React.useEffect(() => {
     const { codeStatus, data } = customerExport || {};

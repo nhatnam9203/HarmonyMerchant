@@ -1,10 +1,14 @@
-import { ButtonCalendarFilter } from '@shared/components';
+import { ButtonCalendarFilter, ExportModal } from '@shared/components';
 import { Table } from '@shared/components/CustomTable';
-import { useReportSaleOrder } from '@shared/services/api/retailer';
+import {
+  useReportSaleOrder,
+  useExportSaleOrder,
+} from '@shared/services/api/retailer';
 import {
   dateToString,
   DATE_SHOW_FORMAT_STRING,
   statusSuccess,
+  getTimeTitleFile,
 } from '@shared/utils';
 import { getQuickFilterTimeRange } from '@utils';
 import React from 'react';
@@ -19,7 +23,7 @@ const RANGE_TIME_DEFAULT = 'This Week';
 
 export const SalesOrder = () => {
   const { t } = useTranslation();
-
+  const exportRef = React.useRef();
   const [timeVal, setTimeVal] = React.useState();
   const [data, setData] = React.useState();
   const [summary, setSummary] = React.useState();
@@ -37,6 +41,30 @@ export const SalesOrder = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeVal]);
+
+  /**
+  |--------------------------------------------------
+  |  API EXPORT
+  |--------------------------------------------------
+  */
+  const [exportSalesOrder, ExportSalesOrder] = useExportSaleOrder();
+  const callExportSalesOrder = (values) => {
+    const params = Object.assign({}, values, {
+      ...timeVal,
+    });
+    console.log('params', params);
+    exportRef.current?.onSetFileName(
+      getTimeTitleFile('ReportSaleOrder', params)
+    );
+    ExportSalesOrder(params);
+  };
+
+  React.useEffect(() => {
+    const { codeStatus, data } = exportSalesOrder || {};
+    if (statusSuccess(codeStatus)) {
+      exportRef.current?.onCreateFile(data);
+    }
+  }, [exportSalesOrder]);
 
   /**
   |--------------------------------------------------
@@ -99,36 +127,6 @@ export const SalesOrder = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.rowContent}>
-        <ButtonCalendarFilter
-          onChangeTimeValue={onChangeTimeValue}
-          defaultValue={RANGE_TIME_DEFAULT}
-          paddingLeft={scaleWidth(15)}
-          paddingTop={scaleHeight(120)}
-        />
-      </View>
-      <View style={styles.rowContent}>
-        <ButtonOverall
-          label={t('total orders').toUpperCase()}
-          amount={summary?.total}
-        />
-        <ButtonOverall
-          label={t('completed orders').toUpperCase()}
-          amount={summary?.completed}
-        />
-        <ButtonOverall
-          label={t('uncompleted orders').toUpperCase()}
-          amount={summary?.unCompleted}
-        />
-        <ButtonOverall
-          label={t('canceled orders').toUpperCase()}
-          amount={summary?.canceled}
-        />
-        <ButtonOverall
-          label={t('returned orders').toUpperCase()}
-          amount={summary?.returned}
-        />
-      </View>
       <View style={styles.content}>
         <Table
           items={data}
@@ -170,6 +168,41 @@ export const SalesOrder = () => {
           //   onRowPress={onSelectRow}
         />
       </View>
+
+      <View style={styles.rowContent}>
+        <View style={{ flex: 1 }} />
+        <ExportModal ref={exportRef} onExportFile={callExportSalesOrder} />
+      </View>
+      <View style={styles.rowContent}>
+        <ButtonOverall
+          label={t('total orders').toUpperCase()}
+          amount={summary?.total}
+        />
+        <ButtonOverall
+          label={t('completed orders').toUpperCase()}
+          amount={summary?.completed}
+        />
+        <ButtonOverall
+          label={t('uncompleted orders').toUpperCase()}
+          amount={summary?.unCompleted}
+        />
+        <ButtonOverall
+          label={t('canceled orders').toUpperCase()}
+          amount={summary?.canceled}
+        />
+        <ButtonOverall
+          label={t('returned orders').toUpperCase()}
+          amount={summary?.returned}
+        />
+      </View>
+      <View style={styles.rowContent}>
+        <ButtonCalendarFilter
+          onChangeTimeValue={onChangeTimeValue}
+          defaultValue={RANGE_TIME_DEFAULT}
+          paddingLeft={scaleWidth(15)}
+          paddingTop={scaleHeight(120)}
+        />
+      </View>
     </View>
   );
 };
@@ -177,6 +210,7 @@ export const SalesOrder = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column-reverse',
   },
 
   content: {

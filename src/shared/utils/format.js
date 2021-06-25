@@ -84,3 +84,8 @@ export const formatBytes = (bytes) => {
   const i = Math.floor(Math.log(bytes) / Math.log(byte));
   return parseFloat((bytes / Math.pow(byte, i)).toFixed(2)) + sizes[i];
 };
+
+export const uppercaseFirstLetter = (string = '') => {
+  let firstLetter = string.charAt(0).toUpperCase();
+  return firstLetter + string?.slice(1);
+};

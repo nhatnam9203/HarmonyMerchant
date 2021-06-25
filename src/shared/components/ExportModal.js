@@ -2,6 +2,8 @@ import IMAGE from '@resources';
 import { colors, fonts, layouts } from '@shared/themes';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { appMerchant } from '@redux/slices';
 import {
   Image,
   StyleSheet,
@@ -18,6 +20,7 @@ import {
   getInfoPathFile,
   handleTheDownloadedFile,
 } from '@shared/utils/files';
+
 const EXPORT_FUNCTION = [
   { value: 'pdf', label: 'PDF' },
   { value: 'excel', label: 'EXCEL' },
@@ -25,6 +28,7 @@ const EXPORT_FUNCTION = [
 
 export const ExportModal = React.forwardRef(({ onExportFile, title }, ref) => {
   const [t] = useTranslation();
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [items, setItems] = React.useState(EXPORT_FUNCTION);
   const [value, setValue] = React.useState(null);
@@ -55,6 +59,7 @@ export const ExportModal = React.forwardRef(({ onExportFile, title }, ref) => {
     val && onRequestFileFromServer(val);
   };
 
+  // Gọi API lấy url từ server khi chọn kiểu file hoặc khi nhấn nút Next
   const onRequestFileFromServer = (type) => {
     if (typeof onExportFile === 'function') {
       onExportFile({
@@ -63,7 +68,7 @@ export const ExportModal = React.forwardRef(({ onExportFile, title }, ref) => {
     }
     setShowModal(false);
   };
-
+  // Tạo file từ url của server trả về và show thông tin file lên
   const onHandleCreateFile = async (url) => {
     let filePath = await createFilePath({
       fileName: fileName,
@@ -84,6 +89,7 @@ export const ExportModal = React.forwardRef(({ onExportFile, title }, ref) => {
     setShowModal(false);
   };
 
+  // Tải file đã tạo từ url
   const onDownloadFile = () => {
     hideModal();
     setTimeout(() => {
@@ -91,6 +97,20 @@ export const ExportModal = React.forwardRef(({ onExportFile, title }, ref) => {
     }, 250);
   };
 
+  /**
+  |--------------------------------------------------
+  | useEffect
+  |--------------------------------------------------
+  */
+  React.useEffect(() => {
+    mode && dispatch(appMerchant.saveExportType(mode));
+  }, [mode]);
+
+  /**
+  |--------------------------------------------------
+  | LAYOUT
+  |--------------------------------------------------
+  */
   const renderImageFile = () => {
     switch (mode) {
       case 'excel':

@@ -52,12 +52,21 @@ export const useProps = ({ params: { reload } }) => {
   |--------------------------------------------------
   */
   const [productsExport, exportProducts] = useExportProducts();
-  const callExportProduct = React.useCallback((values) => {
+  const callExportProduct = (values) => {
     const params = Object.assign({}, values, {
       merchantId: merchant?.merchantId,
+      key: searchVal ?? '',
+      page: page,
+      sort: {},
+      ...((category >= 0 || needToOrder) && {
+        filters: {
+          ...(category >= 0 && { categoryId: category }),
+          ...(needToOrder && { needToOrder }),
+        },
+      }),
     });
     exportProducts(params);
-  }, []);
+  };
 
   React.useEffect(() => {
     const { codeStatus, data } = productsExport || {};

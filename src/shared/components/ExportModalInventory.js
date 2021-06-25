@@ -10,6 +10,8 @@ import {
   View,
   KeyboardAvoidingView,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { appMerchant } from '@redux/slices';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Modal from 'react-native-modal';
 import { ButtonGradient, ButtonGradientWhite } from './Button';
@@ -30,6 +32,7 @@ const EXPORT_PAGE = ['preview', 'export'];
 export const ExportModalInventory = React.forwardRef(
   ({ onExportFile, title }, ref) => {
     const [t] = useTranslation();
+    const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
     const [items, setItems] = React.useState(EXPORT_FUNCTION);
     const [value, setValue] = React.useState(null);
@@ -106,6 +109,21 @@ export const ExportModalInventory = React.forwardRef(
     const onHandleChangeSelect = (item) => {
       setNeedToOrder(item.value);
     };
+
+    /**
+  |--------------------------------------------------
+  | useEffect
+  |--------------------------------------------------
+  */
+    React.useEffect(() => {
+      mode && dispatch(appMerchant.saveExportType(mode));
+    }, [mode]);
+
+    /**
+  |--------------------------------------------------
+  | LAYOUT
+  |--------------------------------------------------
+  */
 
     const renderImageFile = () => {
       switch (mode) {

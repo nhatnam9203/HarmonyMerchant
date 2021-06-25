@@ -10,14 +10,16 @@ import {
   dateToString,
   DATE_SHOW_FORMAT_STRING,
   statusSuccess,
-} from "@shared/utils";
-import { formatMoneyWithUnit } from "@utils";
+} from '@shared/utils';
+import { formatMoneyWithUnit } from '@utils';
 
 export default function CustomerOverall({
   onChangeTimeValue,
   data,
   timeValue,
   onRefresh,
+  callExportCustomer,
+  exportRef,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -44,21 +46,6 @@ export default function CustomerOverall({
 
   return (
     <View style={styles.container}>
-      <View style={styles.rowContent}>
-        <View style={layouts.horizontal}>
-          <ButtonCalendarFilter
-            ref={calendarRef}
-            onChangeTimeValue={onChangeTimeValue}
-            paddingLeft={scaleWidth(15)}
-            paddingTop={scaleHeight(125)}
-            defaultValue={"This Week"}
-          />
-        </View>
-      </View>
-      <View style={styles.rowContent}>
-        <Text style={layouts.title}>{t('Customer report')}</Text>
-        <ExportModal />
-      </View>
       <View style={styles.content}>
         <Table
           items={data}
@@ -99,6 +86,21 @@ export default function CustomerOverall({
           onRefresh={onRefresh}
         />
       </View>
+      <View style={styles.rowContent}>
+        <View style={layouts.horizontal}>
+          <ButtonCalendarFilter
+            ref={calendarRef}
+            onChangeTimeValue={onChangeTimeValue}
+            paddingLeft={scaleWidth(15)}
+            paddingTop={scaleHeight(125)}
+            defaultValue={'This Week'}
+          />
+        </View>
+      </View>
+      <View style={styles.rowContent}>
+        <Text style={layouts.title}>{t('Customer report')}</Text>
+        <ExportModal ref={exportRef} onExportFile={callExportCustomer} />
+      </View>
     </View>
   );
 }
@@ -106,6 +108,7 @@ export default function CustomerOverall({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column-reverse',
   },
 
   content: {

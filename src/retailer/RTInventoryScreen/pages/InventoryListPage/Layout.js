@@ -157,7 +157,7 @@ export const Layout = ({
           <ExportModalInventory
             ref={exportRef}
             onExportFile={callExportProduct}
-            title={t('Inventory')}
+            title={t('ReportInventory')}
           />
         </View>
       </View>

@@ -4,11 +4,12 @@ import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import Modal from 'react-native-modal';
 import { ButtonGradientWhite } from './Button';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 export const ExportLoading = ({ loading = false, onCancelLoading }) => {
   const [isLoading, setLoading] = React.useState(false);
   const [t] = useTranslation();
-
+  const exportType = useSelector((state) => state.appMerchant.exportType);
   React.useEffect(() => {
     setLoading(loading);
   }, [loading]);
@@ -29,7 +30,7 @@ export const ExportLoading = ({ loading = false, onCancelLoading }) => {
           <View style={layouts.marginVertical} />
           <View style={layouts.marginVertical} />
           <Text style={styles.titleContent}>
-            {t('CSV file is being created ...')}
+            {t(`${exportType?.toUpperCase()} file is being created ...`)}
           </Text>
           <View style={layouts.marginVertical} />
           <View style={styles.loadingContent}>

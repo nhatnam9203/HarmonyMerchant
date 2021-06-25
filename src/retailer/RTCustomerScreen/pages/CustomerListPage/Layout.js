@@ -120,7 +120,7 @@ export const Layout = ({
         <HeaderToolBarTitle label={t('Customer')} style={styles.textTitle} />
         <ExportModal
           onExportFile={callExportCustomer}
-          title={t('Customer')}
+          title={t('ReportCustomer')}
           ref={exportRef}
         />
       </View>

@@ -182,7 +182,6 @@ export default function SalesByCategory({
         <ExportModal
           ref={exportRef}
           onExportFile={callExportSaleByCategory}
-          title={t(titleFile)}
         />
       </View>
     </View>
