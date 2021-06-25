@@ -1393,18 +1393,12 @@ class TabCheckout extends Layout {
   sendTransToPaxMachine = async () => {
     const {
       paxMachineInfo,
-      isTipOnPaxMachine,
-      paxAmount,
       amountCredtitForSubmitToServer,
-      bluetoothPaxInfo,
       groupAppointment,
       isCancelPayment,
     } = this.props;
     const { paymentSelected } = this.state;
-    const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
-      paxMachineInfo;
-    const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
-
+  
     // console.log("------ groupAppointment: ", JSON.stringify(groupAppointment));
     // 1. Show modal processing
     await this.setState({
@@ -1420,12 +1414,32 @@ class TabCheckout extends Layout {
           true,
           amountCredtitForSubmitToServer
         )
+      }else{
+        this.sendTransaction()
       }
     }else{
-      const tempIpPax = commType == "TCP" ? ip : "";
-      const tempPortPax = commType == "TCP" ? port : "";
-      const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
-      const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
+      this.sendTransaction()
+    }
+  };
+
+  sendTransaction(){
+    const {
+      paxMachineInfo,
+      isTipOnPaxMachine,
+      paxAmount,
+      amountCredtitForSubmitToServer,
+      bluetoothPaxInfo,
+      groupAppointment,
+      isCancelPayment,
+    } = this.props;
+    const { paymentSelected } = this.state;
+    const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
+      paxMachineInfo;
+    const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
+    const tempIpPax = commType == "TCP" ? ip : "";
+    const tempPortPax = commType == "TCP" ? port : "";
+    const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+    const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
   
       // 2. Send Trans to pax
       PosLink.sendTransaction(
@@ -1449,8 +1463,7 @@ class TabCheckout extends Layout {
             amountCredtitForSubmitToServer
           )
       );
-    }
-  };
+  }
 
   async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
     const { profile, payAppointmentId } = this.props;
