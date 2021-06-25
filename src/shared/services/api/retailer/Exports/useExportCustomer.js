@@ -4,10 +4,10 @@ import { appMerchant } from '@redux/slices';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-export const useReportCustomer = () => {
+export const useExportCustomer = () => {
   const dispatch = useDispatch();
 
-  const [{ data: reportCustomer, loading, error, response }, execute] =
+  const [{ data: customerExport, loading, error, response }, execute] =
     useAxios(
       { method: 'GET' },
       {
@@ -17,19 +17,19 @@ export const useReportCustomer = () => {
 
   React.useEffect(() => {
     if (loading) {
-      dispatch(appMerchant.showLoading());
+      dispatch(appMerchant.showExportLoading());
     }
     if (!loading && response) {
-      dispatch(appMerchant.hideLoading());
+      dispatch(appMerchant.hideExportLoading());
     }
   }, [dispatch, loading, response]);
 
-  const getReportCustomer = (params) => {
+  const ExportCustomer = (params) => {
     execute({
       params: params,
-      url: `${RETAILER_APPOINTMENT_REPORT.url}/customerSales`,
+      url: `${RETAILER_APPOINTMENT_REPORT.url}/customerSales/export`,
     });
   };
 
-  return [reportCustomer, getReportCustomer];
+  return [customerExport, ExportCustomer];
 };

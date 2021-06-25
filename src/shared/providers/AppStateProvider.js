@@ -2,6 +2,7 @@ import React, { createContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { appMerchant } from '@redux/slices';
 import { AppLoading } from '@shared/components/AppLoading';
+import { ExportLoading } from '@shared/components/ExportLoading';
 import { getDeviceId, getDeviceName } from '@shared/services/Device';
 
 const log = (obj, message = '') => {
@@ -13,8 +14,13 @@ export const AppStateContext = createContext({});
 export const AppStateProvider = ({ children }) => {
   const dispatch = useDispatch();
   const appLoading = useSelector((state) => state.appMerchant.appLoading);
+  const exportLoading = useSelector((state) => state.appMerchant.exportLoading);
   const onCancelLoading = () => {
     dispatch(appMerchant.hideLoading());
+  };
+
+  const onCancelExportLoading = () => {
+    dispatch(appMerchant.hideExportLoading());
   };
 
   const loadDeviceInfo = async () => {
@@ -34,6 +40,10 @@ export const AppStateProvider = ({ children }) => {
     <AppStateContext.Provider value={{}}>
       {children}
       <AppLoading loading={appLoading} onCancelLoading={onCancelLoading} />
+      <ExportLoading
+        loading={exportLoading}
+        onCancelLoading={onCancelExportLoading}
+      />
     </AppStateContext.Provider>
   );
 };

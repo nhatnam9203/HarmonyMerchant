@@ -38,8 +38,7 @@ export const Layout = ({
   onSelectRow,
   onEditCustomer,
   onRefresh,
-  callGetReportCustomer,
-  files,
+  callExportCustomer,
   exportRef,
 }) => {
   const { t } = useTranslation();
@@ -120,8 +119,8 @@ export const Layout = ({
       <View style={styles.rowContent}>
         <HeaderToolBarTitle label={t('Customer')} style={styles.textTitle} />
         <ExportModal
-          onExportFile={callGetReportCustomer}
-          files={files}
+          onExportFile={callExportCustomer}
+          title={t('Customer')}
           ref={exportRef}
         />
       </View>

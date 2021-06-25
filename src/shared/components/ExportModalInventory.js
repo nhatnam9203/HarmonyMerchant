@@ -2,7 +2,14 @@ import IMAGE from '@resources';
 import { colors, fonts, layouts } from '@shared/themes';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  KeyboardAvoidingView,
+} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Modal from 'react-native-modal';
 import { ButtonGradient, ButtonGradientWhite } from './Button';
@@ -18,7 +25,7 @@ const EXPORT_FUNCTION = [
   { value: 'excel', label: 'EXCEL' },
 ];
 
-const EXPORT_LAYOUT = ['preview', 'export', 'processing'];
+const EXPORT_PAGE = ['preview', 'export'];
 
 export const ExportModalInventory = React.forwardRef(
   ({ onExportFile, title }, ref) => {
@@ -31,7 +38,7 @@ export const ExportModalInventory = React.forwardRef(
     const [files, setFiles] = React.useState({});
     const [fileName, setFileName] = React.useState(title);
     const [isNeedToOrder, setNeedToOrder] = React.useState(0);
-    const [layout, setLayout] = React.useState(EXPORT_LAYOUT[1]);
+    const [page, setPage] = React.useState(EXPORT_PAGE[1]);
     React.useImperativeHandle(ref, () => ({
       show: () => {
         setShowModal(true);
@@ -46,7 +53,7 @@ export const ExportModalInventory = React.forwardRef(
     const resetState = () => {
       setMode(null);
       setValue(null);
-      setLayout(EXPORT_LAYOUT[1]);
+      setPage(EXPORT_PAGE[1]);
       setFileName(title);
     };
 
@@ -56,11 +63,12 @@ export const ExportModalInventory = React.forwardRef(
     };
 
     const onRequestFileFromServer = () => {
-      onExportFile({
-        type: mode,
-        fileName,
-        isNeedToOrder: Boolean(isNeedToOrder),
-      });
+      if (typeof onExportFile === 'function') {
+        onExportFile({
+          type: mode,
+          isNeedToOrder: Boolean(isNeedToOrder),
+        });
+      }
       setShowModal(false);
     };
 
@@ -73,7 +81,7 @@ export const ExportModalInventory = React.forwardRef(
       let files = await getInfoPathFile(filePath);
       setFiles(files);
       setShowModal(true);
-      setLayout(EXPORT_LAYOUT[0]);
+      setPage(EXPORT_PAGE[0]);
     };
 
     const onExportButtonPress = () => {
@@ -99,6 +107,17 @@ export const ExportModalInventory = React.forwardRef(
       setNeedToOrder(item.value);
     };
 
+    const renderImageFile = () => {
+      switch (mode) {
+        case 'excel':
+          return IMAGE.ExportCsvFileImage;
+        case 'pdf':
+          return IMAGE.ExportPdfFileImage;
+        default:
+          return '';
+      }
+    };
+
     const renderLayoutPreview = () => {
       return (
         <View style={styles.content}>
@@ -108,11 +127,7 @@ export const ExportModalInventory = React.forwardRef(
           <View style={layouts.marginVertical} />
           <TouchableOpacity style={styles.fileInfo}>
             <Image
-              source={
-                mode === 'excel'
-                  ? IMAGE.ExportCsvFileImage
-                  : IMAGE.ExportPdfFileImage
-              }
+              source={renderImageFile()}
               style={{ width: scaleWidth(39), height: scaleHeight(44) }}
             />
             <View style={styles.pdfFileContent}>
@@ -134,8 +149,8 @@ export const ExportModalInventory = React.forwardRef(
     };
 
     const renderContent = () => {
-      switch (layout) {
-        case EXPORT_LAYOUT[1]:
+      switch (page) {
+        case EXPORT_PAGE[1]:
           return (
             <View style={styles.content}>
               <Text style={styles.exportTextStyle}>{t('Save as')}</Text>
@@ -168,7 +183,7 @@ export const ExportModalInventory = React.forwardRef(
               </View>
             </View>
           );
-        case EXPORT_LAYOUT[0]:
+        case EXPORT_PAGE[0]:
           return renderLayoutPreview();
         default:
           return null;
@@ -225,18 +240,25 @@ export const ExportModalInventory = React.forwardRef(
           visible={show_modal}
           onRequestClose={hideModal}
         >
-          <View style={styles.container}>
-            <View style={styles.header}>
-              <Text style={[layouts.fill, styles.txtTitle]}>{t('Export')}</Text>
-              <TouchableOpacity style={styles.buttonClose} onPress={hideModal}>
-                <Image
-                  source={IMAGE.closePopup}
-                  style={styles.iconButtonClose}
-                />
-              </TouchableOpacity>
+          <KeyboardAvoidingView behavior="position">
+            <View style={styles.container}>
+              <View style={styles.header}>
+                <Text style={[layouts.fill, styles.txtTitle]}>
+                  {t('Export')}
+                </Text>
+                <TouchableOpacity
+                  style={styles.buttonClose}
+                  onPress={hideModal}
+                >
+                  <Image
+                    source={IMAGE.closePopup}
+                    style={styles.iconButtonClose}
+                  />
+                </TouchableOpacity>
+              </View>
+              {renderContent()}
             </View>
-            {renderContent()}
-          </View>
+          </KeyboardAvoidingView>
         </Modal>
       </View>
     );

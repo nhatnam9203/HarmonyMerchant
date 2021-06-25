@@ -5,4 +5,3 @@ export * from './useGetProducts';
 export * from './useEditProducts';
 export * from './useRestockProducts';
 export * from './useGetProductsByCategory';
-export * from './useExportProducts';

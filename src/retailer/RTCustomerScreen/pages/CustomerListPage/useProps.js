@@ -1,14 +1,13 @@
 import React from 'react';
 import {
   useGetCustomerList,
-  useReportCustomer,
+  useExportCustomer,
 } from '@shared/services/api/retailer';
 import {
   CustomerGroupTypes,
   SORT_TYPE,
   statusSuccess,
 } from '@shared/utils/app';
-import { createFilePath, getInfoPathFile } from '@shared/utils/files';
 import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 import NavigationServices from '@navigators/NavigatorServices';
@@ -29,8 +28,6 @@ export const useProps = ({ params: { reload }, navigation }) => {
   const [sortName, setSortName] = React.useState(SORT_TYPE.ASC);
   const [sortPhoneNumber, setSortPhoneNumber] = React.useState(SORT_TYPE.DESC);
   const [searchVal, setSearchVal] = React.useState();
-  const [files, setFiles] = React.useState('');
-  const [typeExport, setTypeExport] = React.useState('');
   /**
   |--------------------------------------------------
   | CALL API
@@ -68,34 +65,20 @@ export const useProps = ({ params: { reload }, navigation }) => {
   |  API EXPORT
   |--------------------------------------------------
   */
-  const [reportCustomer, getReportCustomer] = useReportCustomer();
-  const callGetReportCustomer = React.useCallback((values) => {
+  const [customerExport, ExportCustomer] = useExportCustomer();
+  const callExportCustomer = React.useCallback((values) => {
     const params = Object.assign({}, values, {
       quickFilter: 'thisWeek',
     });
-    setTypeExport(values.type);
-    getReportCustomer(params, true);
+    ExportCustomer(params);
   }, []);
 
-  const saveFilePath = async (url) => {
-    let filePath = await createFilePath({
-      fileName: 'Customer',
-      extention: typeExport,
-      url,
-    });
-    if (filePath) {
-      let files = await getInfoPathFile(filePath);
-      setFiles(files);
-      exportRef.current.show();
-    }
-  };
-
   React.useEffect(() => {
-    const { codeStatus, data } = reportCustomer || {};
+    const { codeStatus, data } = customerExport || {};
     if (statusSuccess(codeStatus)) {
-      saveFilePath(data);
+      exportRef.current?.onCreateFile(data);
     }
-  }, [reportCustomer]);
+  }, [customerExport]);
 
   const getCustomerGroupLabel = (value) => {
     const group = CustomerGroupTypes.find((x) => x.value === value);
@@ -140,7 +123,6 @@ export const useProps = ({ params: { reload }, navigation }) => {
   return {
     items: customerList?.data,
     groupType,
-    files,
     exportRef,
     setGroupType,
     customerGroups: CustomerGroupTypes,
@@ -152,7 +134,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
     onButtonSearchPress,
     onButtonNewCustomerPress,
     onRefresh,
-    callGetReportCustomer,
+    callExportCustomer,
     onSelectRow: ({ item }) => {
       NavigationServices.navigate('retailer.customer.detail', {
         item: item,

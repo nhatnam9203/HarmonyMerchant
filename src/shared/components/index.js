@@ -33,3 +33,4 @@ export * from './DialogPinCode';
 export * from './DropdownMenu';
 export * from './DialogTimeKeeping';
 export * from './ExportModalInventory';
+export * from './ExportLoading';

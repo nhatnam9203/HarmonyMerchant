@@ -17,10 +17,10 @@ export const useExportProducts = () => {
 
   React.useEffect(() => {
     if (loading) {
-      dispatch(appMerchant.showLoading());
+      dispatch(appMerchant.showExportLoading());
     }
     if (!loading && response) {
-      dispatch(appMerchant.hideLoading());
+      dispatch(appMerchant.hideExportLoading());
     }
   }, [productsExport?.data, dispatch, loading, response]);
 

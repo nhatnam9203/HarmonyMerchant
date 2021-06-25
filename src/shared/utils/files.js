@@ -45,3 +45,19 @@ export const getInfoPathFile = async (pathFile) => {
     return null;
   }
 };
+
+// create title for time, to set default title print
+export const getTimeTitleFile = (initTitle, values) => {
+  const { timeStart, timeEnd, quickFilterText, quickFilter } = values || {};
+  let title = '';
+  if (quickFilter === 'custom') {
+    if (timeEnd && timeStart) {
+      title = ` ${timeStart.split('/').join('')} - ${timeEnd
+        .split('/')
+        .join('')}`;
+    }
+  } else {
+    title = quickFilterText ?? 'ThisWeek';
+  }
+  return initTitle + (title?.replaceAll(' ', '') ?? '');
+};
