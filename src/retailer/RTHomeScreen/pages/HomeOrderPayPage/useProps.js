@@ -50,6 +50,9 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   const modalBillRef = React.useRef(null);
   const popupSendLinkInstallRef = React.useRef(null);
   const popupEnterAmountGiftCardRef = React.useRef(null);
+  const popupDiscountRef = React.useRef(null);
+  const popupDiscountLocalRef = React.useRef(null);
+
   const dispatch = useDispatch();
 
   const isOfflineMode = useSelector((state) => state.network.isOfflineMode);
@@ -99,6 +102,8 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   });
   const [visibleSendLinkPopup, setVisibleSendLinkPopup] = React.useState(false);
   const [isCancelHarmonyPay, setIsCancelHarmonyPay] = React.useState(false);
+  const [visiblePopupDiscountLocal, setVisiblePopupDiscountLocal] =
+    React.useState(false);
 
   const [infoUser, setInfoUser] = React.useState({
     firstName: "",
@@ -865,5 +870,15 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     printBill,
     popupEnterAmountGiftCardRef,
     navigation,
+    popupDiscountRef,
+    visiblePopupDiscountLocal,
+    popupDiscountLocalRef,
+    onRequestClosePopupDiscountLocal: () => {
+      setVisiblePopupDiscountLocal(false);
+    },
+    callbackDiscountToParent: () => {},
+    onDiscountAdd: () => {
+      setVisiblePopupDiscountLocal(true);
+    },
   };
 };

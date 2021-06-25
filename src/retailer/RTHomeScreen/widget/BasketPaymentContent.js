@@ -40,6 +40,7 @@ export const BasketPaymentContent = React.forwardRef(
       payBasket,
       groupAppointment,
       finishedHandle,
+      onDiscountAdd
     },
     ref
   ) => {
@@ -198,7 +199,7 @@ export const BasketPaymentContent = React.forwardRef(
             value={formatMoneyWithUnit(orderItem?.discount)}
           >
             <View style={layouts.marginHorizontal} />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onDiscountAdd}>
               <Image
                 source={IMAGE.add_discount_checkout}
                 style={styles.iconStyle}

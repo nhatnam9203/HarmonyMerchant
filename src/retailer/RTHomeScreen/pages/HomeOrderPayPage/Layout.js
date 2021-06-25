@@ -13,8 +13,13 @@ import {
   CheckOutCustomerInfo,
   ButtonPaymentMethod,
 } from "../../widget";
-import PopupBill from "./widget/PopupBill";
-import PopupEnterAmountGiftCard from "./widget/PopupEnterAmountGiftCard";
+
+import {
+  PopupBill,
+  PopupEnterAmountGiftCard,
+  PopupDiscount,
+  PopupDiscountLocal,
+} from "@shared/components/payment";
 import {
   PopupPayCompleted,
   PopupChangeStylist,
@@ -75,6 +80,12 @@ export const Layout = ({
   printBill,
   popupEnterAmountGiftCardRef,
   navigation,
+  popupDiscountRef,
+  popupDiscountLocalRef,
+  visiblePopupDiscountLocal,
+  onRequestClosePopupDiscountLocal,
+  callbackDiscountToParent,
+  onDiscountAdd
 }) => {
   const [t] = useTranslation();
 
@@ -114,9 +125,8 @@ export const Layout = ({
                 <ButtonPaymentMethod
                   key={"HarmonyPay"}
                   title={"HarmonyPay"}
-                  // selectedPayment={selectedPayment}
+                  selectedPayment={selectedPayment}
                   paymentSelected={paymentSelected}
-                  selectedPayment={() => {}}
                 />
 
                 <ButtonPaymentMethod
@@ -178,6 +188,7 @@ export const Layout = ({
                 isCancelHarmonyPay={isCancelHarmonyPay}
                 groupAppointment={groupAppointment}
                 finishedHandle={onGoBack}
+                onDiscountAdd={onDiscountAdd}
               />
             </View>
           </View>
@@ -228,6 +239,27 @@ export const Layout = ({
         language={language}
         extractBill={extractBill}
         doneBill={doneBill}
+      />
+
+      {/* <PopupDiscount ref={popupDiscountRef} title={t("Discount")} /> */}
+
+      {/* <PopupBlockDiscount title={localize("Discount", language)} /> */}
+      <PopupDiscountLocal
+        ref={popupDiscountLocalRef}
+        visible={visiblePopupDiscountLocal}
+        title={t("Discount")}
+        onRequestClose={onRequestClosePopupDiscountLocal}
+        callbackDiscountToParent={(
+          customDiscountPercentLocal,
+          customDiscountFixedLocal,
+          discountTotalLocal
+        ) =>
+          callbackDiscountToParent(
+            customDiscountPercentLocal,
+            customDiscountFixedLocal,
+            discountTotalLocal
+          )
+        }
       />
     </ParentContainer>
   );
