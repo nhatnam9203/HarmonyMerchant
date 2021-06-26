@@ -19,49 +19,49 @@ class SplashScreen extends Layout {
     }
 
     async componentDidMount() {
-        // try {
-            // let version = await DeviceInfo.getVersion();
-            // const latestVersion = await VersionCheck.getLatestVersion({ provider: 'appStore' });
-            // const tempLatestVersion = latestVersion ? latestVersion : configs.APPSTORE_VERSION;
-            // const res = await VersionCheck.needUpdate({
-            //     currentVersion: version,
-            //     latestVersion: tempLatestVersion,
-            //     forceUpdate: true
-            // });
-            // if (res && res.isNeeded) {
-                // Alert.alert(
-                //     'Notification!',
-                //     `The HarmonyPay Salon POS had a new version on Apple Store. Press OK to update!`,
-                //     [
-                //         {
-                //             text: 'OK', onPress: () => {
-                //                 Linking.openURL(res.storeUrl);
-                //                 setTimeout(() => {
-                //                     CodePush.restartApp();
-                //                 }, 3000)
+        try {
+            let version = await DeviceInfo.getVersion();
+            const latestVersion = await VersionCheck.getLatestVersion({ provider: 'appStore' });
+            const tempLatestVersion = latestVersion ? latestVersion : configs.APPSTORE_VERSION;
+            const res = await VersionCheck.needUpdate({
+                currentVersion: version,
+                latestVersion: tempLatestVersion,
+                forceUpdate: true
+            });
+            if (res && res.isNeeded) {
+                Alert.alert(
+                    'Notification!',
+                    `The HarmonyPay Salon POS had a new version on Apple Store. Press OK to update!`,
+                    [
+                        {
+                            text: 'OK', onPress: () => {
+                                Linking.openURL(res.storeUrl);
+                                setTimeout(() => {
+                                    CodePush.restartApp();
+                                }, 3000)
 
-                //             }
-                //         },
-                //     ],
-                //     { cancelable: false },
-                // );
+                            }
+                        },
+                    ],
+                    { cancelable: false },
+                );
 
-            // } else {
-                // const { deviceId, versionApp, deviceName } = this.props;
-                // if (!deviceId) {
-                //     const uniqueId = await DeviceInfo.getUniqueId();
-                //     this.props.actions.dataLocal.updateDeviceId(uniqueId || 'simulator');
-                // }
+            } else {
+                const { deviceId, versionApp, deviceName } = this.props;
+                if (!deviceId) {
+                    const uniqueId = await DeviceInfo.getUniqueId();
+                    this.props.actions.dataLocal.updateDeviceId(uniqueId || 'simulator');
+                }
 
 
-                // const tempDeviceName = await DeviceInfo.getDeviceName();
-                // if (tempDeviceName !== deviceName) {
-                //     this.props.actions.dataLocal.updateDeviceName(tempDeviceName || 'simulator');
-                // }
+                const tempDeviceName = await DeviceInfo.getDeviceName();
+                if (tempDeviceName !== deviceName) {
+                    this.props.actions.dataLocal.updateDeviceName(tempDeviceName || 'simulator');
+                }
 
-                // if (version !== versionApp) {
-                //     this.props.actions.dataLocal.updateVersionApp(version ? version : latestVersion);
-                // }
+                if (version !== versionApp) {
+                    this.props.actions.dataLocal.updateVersionApp(version ? version : latestVersion);
+                }
 
                 const tempEnv = env.IS_PRODUCTION;
                 if (tempEnv == "Production" || tempEnv == "Staging") {
@@ -70,11 +70,11 @@ class SplashScreen extends Layout {
                 } else {
                     this.controlFlowInitApp();
                 }
-            // }
+            }
 
-        // } catch (error) {
-        //     alert("error :", error)
-        // }
+        } catch (error) {
+            alert("error :", error)
+        }
 
     }
 
