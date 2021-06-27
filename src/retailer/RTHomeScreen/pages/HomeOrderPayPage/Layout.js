@@ -15,10 +15,24 @@ import {
 } from "../../widget";
 
 import {
-  PopupBill,
-  PopupEnterAmountGiftCard,
+  ItemCategory,
+  ItemProductService,
+  ItemAmount,
+  ItemExtra,
   PopupDiscount,
+  PopupBill,
   PopupDiscountLocal,
+  ItemCustomerBasket,
+  PopupPaymentDetails,
+  ItemBlockBasket,
+  PopupBlockDiscount,
+  ItemPaymentMethod,
+  PopupAddItemIntoAppointments,
+  PopupGiftCardDetail,
+  PopupEnterAmountGiftCard,
+  EnterCustomerPhonePopup,
+  PopupAddEditCustomer,
+  ErrorMessagePaxModal,
 } from "@shared/components/payment";
 import {
   PopupPayCompleted,
@@ -34,6 +48,7 @@ import {
   ScrollableTabView,
   PopupCheckStaffPermission,
   ParentContainer,
+  PopupConfirm
 } from "@components";
 
 const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
@@ -85,7 +100,11 @@ export const Layout = ({
   visiblePopupDiscountLocal,
   onRequestClosePopupDiscountLocal,
   callbackDiscountToParent,
-  onDiscountAdd
+  onDiscountAdd,
+  clearDataConfirm,
+  titleExitCheckoutTab,
+  visibleConfirm,
+  setVisibleConfirm,
 }) => {
   const [t] = useTranslation();
 
@@ -197,6 +216,35 @@ export const Layout = ({
         <DialogProductDetail ref={productDetailRef} />
       </View>
 
+      <PopupDiscount ref={popupDiscountRef} title={t("Discount")} />
+
+      <PopupBlockDiscount title={t("Discount")} />
+      <PopupDiscountLocal
+        ref={popupDiscountLocalRef}
+        visible={visiblePopupDiscountLocal}
+        title={t("Discount")}
+        onRequestClose={onRequestClosePopupDiscountLocal}
+        callbackDiscountToParent={(
+          customDiscountPercentLocal,
+          customDiscountFixedLocal,
+          discountTotalLocal
+        ) =>
+          callbackDiscountToParent(
+            customDiscountPercentLocal,
+            customDiscountFixedLocal,
+            discountTotalLocal
+          )
+        }
+      />
+
+      <PopupConfirm
+        visible={visibleConfirm}
+        title={t("Confirmation")}
+        message={titleExitCheckoutTab}
+        onRequestClose={setVisibleConfirm}
+        confimYes={clearDataConfirm}
+      />
+
       <PopupProcessingCredit
         visible={visibleProcessingCredit}
         onRequestClose={cancelTransaction}
@@ -239,27 +287,6 @@ export const Layout = ({
         language={language}
         extractBill={extractBill}
         doneBill={doneBill}
-      />
-
-      {/* <PopupDiscount ref={popupDiscountRef} title={t("Discount")} /> */}
-
-      {/* <PopupBlockDiscount title={localize("Discount", language)} /> */}
-      <PopupDiscountLocal
-        ref={popupDiscountLocalRef}
-        visible={visiblePopupDiscountLocal}
-        title={t("Discount")}
-        onRequestClose={onRequestClosePopupDiscountLocal}
-        callbackDiscountToParent={(
-          customDiscountPercentLocal,
-          customDiscountFixedLocal,
-          discountTotalLocal
-        ) =>
-          callbackDiscountToParent(
-            customDiscountPercentLocal,
-            customDiscountFixedLocal,
-            discountTotalLocal
-          )
-        }
       />
     </ParentContainer>
   );

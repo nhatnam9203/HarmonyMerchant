@@ -522,6 +522,7 @@ class TabCheckout extends Layout {
       customerInfoBuyAppointment,
       appointmentIdBookingFromCalendar,
     } = this.props;
+
     const { isDrawer } = this.state;
     const temptBlockAppointments = blockAppointments
       ? [...blockAppointments]
@@ -1342,15 +1343,15 @@ class TabCheckout extends Layout {
   getPAXReport = async (paxMachineInfo, isLastTransaction = 0) => {
     const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
       paxMachineInfo;
-  
+
     if (isSetup) {
       let isError = false;
-  
+
       try {
         const tempIpPax = commType == "TCP" ? ip : "";
         const tempPortPax = commType == "TCP" ? port : "";
         const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
-        
+
         let data = await PosLinkReport.reportTransaction({
           transType: "LOCALDETAILREPORT",
           edcType: "ALL",
@@ -1368,13 +1369,13 @@ class TabCheckout extends Layout {
         const ExtData = result?.ExtData || "";
         const xmlExtData =
           "<xml>" + ExtData.replace("\\n", "").replace("\\/", "/") + "</xml>";
-  
+
         if (result?.ResultCode && result?.ResultCode == "000000") {
           // if (tempEnv == "Production" && result?.Message === "DEMO APPROVED") {
           //   setTimeout(() => {
           //     alert("You're running your Pax on DEMO MODE!");
           //   }, 500);
-  
+
           //   return {}
           // } else {
             return result
@@ -1385,7 +1386,7 @@ class TabCheckout extends Layout {
       } catch (error) {
         return {}
       }
-  
+
     }
   };
 
@@ -1426,7 +1427,7 @@ class TabCheckout extends Layout {
       const tempPortPax = commType == "TCP" ? port : "";
       const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
       const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
-  
+
       // 2. Send Trans to pax
       PosLink.sendTransaction(
         {

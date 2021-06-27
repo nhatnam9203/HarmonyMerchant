@@ -33,6 +33,7 @@ import {
   PopupChangePriceAmountProduct,
   ScrollableTabView,
   PopupCheckStaffPermission,
+  PopupConfirm,
 } from "@components";
 
 const signalR = require("@microsoft/signalr");
@@ -85,6 +86,9 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   const isDonePayment = useSelector((state) => state.appointment.isDonePayment);
   const printerList = useSelector((state) => state.dataLocal.printerList);
   const printerSelect = useSelector((state) => state.dataLocal.printerSelect);
+  const isCancelAppointment = useSelector(
+    (state) => state.appointment.isCancelAppointment
+  );
 
   const [paymentSelected, setPaymentSelected] = React.useState("");
   const [visibleBillOfPayment, setVisibleBillOfPayment] = React.useState(false);
@@ -115,6 +119,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   const [basket, setBasket] = React.useState();
   const [visibleProcessingCredit, setVisibleProcessingCredit] =
     React.useState(false);
+  const [visibleConfirm, setVisibleConfirm] = React.useState(false);
 
   const onGoBack = () => {
     NavigationServices.navigate("retailer.home.order.list", { reload: true });
@@ -878,7 +883,52 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     },
     callbackDiscountToParent: () => {},
     onDiscountAdd: () => {
-      setVisiblePopupDiscountLocal(true);
+      if (_.isEmpty(connectionSignalR)) {
+        if (orderItem?.appointmentId !== -1) {
+          const appointment = groupAppointment.appointments.find(
+            (appointment) =>
+              appointment.appointmentId === orderItem?.appointmentId
+          );
+
+          const { services, products, extras, giftCards } = appointment;
+          const arrayProducts = getArrayProductsFromAppointment(products);
+          const arryaServices = getArrayServicesFromAppointment(services);
+          const arrayExtras = getArrayExtrasFromAppointment(extras);
+          const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
+
+          const temptBasket = arrayProducts.concat(
+            arryaServices,
+            arrayExtras,
+            arrayGiftCards
+          );
+
+          if (temptBasket.length > 0) {
+            dispatch(
+              actions.marketing.getPromotionByAppointment(
+                orderItem?.appointmentId
+              )
+            );
+          }
+        } else {
+          // ----------- Offline ------------
+          popupDiscountLocalRef.current?.setStateFromParent(
+            subTotalLocal,
+            discountTotalLocal,
+            customDiscountPercentLocal,
+            customDiscountFixedLocal
+          );
+
+          setVisiblePopupDiscountLocal(true);
+        }
+      } else {
+        alert("You are paying by Harmony Payment!");
+      }
     },
+    titleExitCheckoutTab: isCancelAppointment
+      ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? "
+      : "Are you sure you want to exit Check-Out?",
+    clearDataConfirm: () => {},
+    visibleConfirm,
+    setVisibleConfirm,
   };
 };

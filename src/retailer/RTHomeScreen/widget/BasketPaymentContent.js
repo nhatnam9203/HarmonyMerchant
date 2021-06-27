@@ -55,7 +55,6 @@ export const BasketPaymentContent = React.forwardRef(
   | API
   |--------------------------------------------------
   */
-    log(orderItem, "orderItem");
     const calcTotalPrice = () => {
       return (
         orderItem?.products?.reduce(
@@ -188,15 +187,15 @@ export const BasketPaymentContent = React.forwardRef(
           <View style={layouts.marginVertical} />
           <TotalInfo
             label={t("Subtotal")}
-            value={formatMoneyWithUnit(orderItem?.subTotal)}
+            value={formatMoneyWithUnit(groupAppointment?.subTotal)}
           />
           <TotalInfo
             label={t("Tax")}
-            value={formatMoneyWithUnit(orderItem?.tax)}
+            value={formatMoneyWithUnit(groupAppointment?.tax)}
           />
           <TotalInfo
             label={t("Discount")}
-            value={formatMoneyWithUnit(orderItem?.discount)}
+            value={formatMoneyWithUnit(groupAppointment?.discount)}
           >
             <View style={layouts.marginHorizontal} />
             <TouchableOpacity onPress={onDiscountAdd}>
@@ -211,7 +210,7 @@ export const BasketPaymentContent = React.forwardRef(
           <View style={layouts.marginVertical} />
           <TotalInfo
             label={t("Total")}
-            value={formatMoneyWithUnit(orderItem?.total)}
+            value={formatMoneyWithUnit(groupAppointment?.total)}
             isBold
           />
           <View style={layouts.marginVertical} />
