@@ -1,7 +1,10 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { useReportSaleProduct } from '@shared/services/api/retailer';
+import {
+  useReportSaleProduct,
+  useExportSaleByProduct,
+} from '@shared/services/api/retailer';
 import { colors } from '@shared/themes';
-import { statusSuccess } from '@shared/utils';
+import { statusSuccess, getTimeTitleFile } from '@shared/utils';
 import { getQuickFilterTimeRange } from '@utils';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -15,6 +18,7 @@ function SalesByProductTab({
     params: { showBackButton },
   },
 }) {
+  const exportRef = React.useRef();
   const [timeVal, setTimeVal] = React.useState(null);
   const [filterProduct, setFilterProduct] = React.useState(null);
   const [data, setData] = React.useState([]);
@@ -33,6 +37,32 @@ function SalesByProductTab({
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeVal, filterProduct]);
+
+  /**
+  |--------------------------------------------------
+  | API EXPORT
+  |--------------------------------------------------
+  */
+  const [saleByProductExport, ExportSaleByProduct] = useExportSaleByProduct();
+
+  const callExportSaleByProduct = (values) => {
+    const params = Object.assign({}, values, {
+      ...timeVal,
+      product: filterProduct?.value ?? 'top',
+    });
+    exportRef.current?.onSetFileName(
+      getTimeTitleFile('SaleByProduct', params)
+    );
+
+    ExportSaleByProduct(params);
+  };
+
+  React.useEffect(() => {
+    const { codeStatus, data } = saleByProductExport || {};
+    if (statusSuccess(codeStatus)) {
+      exportRef.current?.onCreateFile(data);
+    }
+  }, [saleByProductExport]);
 
   /**
   |--------------------------------------------------
@@ -90,6 +120,8 @@ function SalesByProductTab({
               data={data}
               setFilterProduct={setFilterProduct}
               onRefresh={onRefresh}
+              exportRef={exportRef}
+              callExportSaleByProduct={callExportSaleByProduct}
             />
           )}
         </Screen>

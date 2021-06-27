@@ -3,17 +3,17 @@ import {
   ButtonCalendarFilter,
   DropdownMenu,
   ExportModal,
-} from "@shared/components";
-import { Table } from "@shared/components/CustomTable";
-import { useReportSaleProduct } from "@shared/services/api/retailer";
-import { layouts } from "@shared/themes";
-import { statusSuccess } from "@shared/utils";
-import { getQuickFilterTimeRange } from "@utils";
-import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, View } from "react-native";
-import { useDispatch } from "react-redux";
-import React from "react";
-import { formatMoneyWithUnit } from "@utils";
+} from '@shared/components';
+import { Table } from '@shared/components/CustomTable';
+import { useReportSaleProduct } from '@shared/services/api/retailer';
+import { layouts } from '@shared/themes';
+import { statusSuccess } from '@shared/utils';
+import { getQuickFilterTimeRange } from '@utils';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet, Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import React from 'react';
+import { formatMoneyWithUnit } from '@utils';
 
 const filterItems = [
   { label: 'Top products', value: 'top' },
@@ -26,6 +26,8 @@ export default function SalesByProduct({
   timeValue,
   setFilterProduct,
   onRefresh,
+  exportRef,
+  callExportSaleByProduct,
 }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -50,30 +52,6 @@ export default function SalesByProduct({
 
   return (
     <View style={styles.container}>
-      <View style={styles.rowContent}>
-        <View style={layouts.horizontal}>
-          <ButtonCalendarFilter
-            ref={calendarRef}
-            onChangeTimeValue={onChangeTimeValue}
-            paddingLeft={scaleWidth(15)}
-            paddingTop={scaleHeight(165)}
-            defaultValue={"This Week"}
-          />
-          <View style={layouts.marginHorizontal} />
-          <DropdownMenu
-            items={filterItems}
-            onChangeValue={setFilterProduct}
-            defaultIndex={0}
-            width={scaleWidth(208)}
-            height={scaleHeight(40)}
-            placeholder={t('Select Product')}
-          />
-        </View>
-      </View>
-      <View style={styles.rowContent}>
-        <Text style={layouts.title}>{t('Top Performing Products')}</Text>
-        <ExportModal />
-      </View>
       <View style={styles.content}>
         <Table
           items={data}
@@ -118,6 +96,33 @@ export default function SalesByProduct({
           onRefresh={onRefresh}
         />
       </View>
+      <View style={styles.rowContent}>
+        <View style={layouts.horizontal}>
+          <ButtonCalendarFilter
+            ref={calendarRef}
+            onChangeTimeValue={onChangeTimeValue}
+            paddingLeft={scaleWidth(15)}
+            paddingTop={scaleHeight(165)}
+            defaultValue={'This Week'}
+          />
+          <View style={layouts.marginHorizontal} />
+          <DropdownMenu
+            items={filterItems}
+            onChangeValue={setFilterProduct}
+            defaultIndex={0}
+            width={scaleWidth(208)}
+            height={scaleHeight(40)}
+            placeholder={t('Select Product')}
+          />
+        </View>
+      </View>
+      <View style={styles.rowContent}>
+        <Text style={layouts.title}>{t('Top Performing Products')}</Text>
+        <ExportModal
+          ref={exportRef}
+          onExportFile={callExportSaleByProduct}
+        />
+      </View>
     </View>
   );
 }
@@ -125,6 +130,7 @@ export default function SalesByProduct({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column-reverse',
   },
 
   content: {

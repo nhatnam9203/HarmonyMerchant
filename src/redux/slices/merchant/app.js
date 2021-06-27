@@ -18,6 +18,8 @@ const initialState = {
   isPlash: true,
   merchantID: null,
   rememberMID: false,
+  exportLoading: false,
+  exportType: '',
 };
 let appSlice = createSlice({
   name: reducerName,
@@ -53,6 +55,21 @@ let appSlice = createSlice({
         state.rememberMID = action.payload;
       },
     },
+    showExportLoading: {
+      reducer: (state, action) => {
+        state.exportLoading = true;
+      },
+    },
+    hideExportLoading: {
+      reducer: (state, action) => {
+        state.exportLoading = false;
+      },
+    },
+    saveExportType: {
+      reducer: (state, action) => {
+        state.exportType = action.payload;
+      },
+    },
   },
 });
 
@@ -64,7 +81,7 @@ let appMerchantReducer = persistReducer(
     storage: AsyncStorage,
     whitelist: ['merchantID', 'rememberMID'],
   },
-  reducer,
+  reducer
 );
 
 module.exports = {

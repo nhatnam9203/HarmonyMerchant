@@ -2,27 +2,82 @@ import IMAGE from '@resources';
 import { colors, fonts, layouts } from '@shared/themes';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { appMerchant } from '@redux/slices';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  KeyboardAvoidingView,
+} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Modal from 'react-native-modal';
-import { ButtonGradient, ButtonGradientWhite } from './Button';
-import { CustomInput } from './CustomInput';
-import { CustomRadioSelect } from './CustomRadioSelect';
+import { ButtonGradientWhite } from './Button';
+import {
+  createFilePath,
+  getInfoPathFile,
+  handleTheDownloadedFile,
+} from '@shared/utils/files';
 
 const EXPORT_FUNCTION = [
   { value: 'pdf', label: 'PDF' },
-  { value: 'csv', label: 'EXCEL' },
+  { value: 'excel', label: 'EXCEL' },
 ];
 
-export const ExportModal = ({}) => {
+export const ExportModal = React.forwardRef(({ onExportFile, title }, ref) => {
   const [t] = useTranslation();
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [items, setItems] = React.useState(EXPORT_FUNCTION);
   const [value, setValue] = React.useState(null);
   const [mode, setMode] = React.useState(null);
+  const [show_modal, setShowModal] = React.useState(false);
+  const [files, setFiles] = React.useState({});
+  const [fileName, setFileName] = React.useState(title);
+  React.useImperativeHandle(ref, () => ({
+    show: () => {
+      setShowModal(true);
+    },
+    hide: () => {
+      setShowModal(false);
+    },
 
-  const onHandleChange = (val) => {
-    setMode(val); // !! select type export => call server get file here follow type select, set callback
+    onCreateFile: (url) => onHandleCreateFile(url),
+    onSetFileName: (name) => setFileName(name),
+  }));
+
+  const resetState = () => {
+    setMode(null);
+    setValue(null);
+    setFileName(title);
+  };
+
+  const onHandleChange = async (val) => {
+    await setMode(val); // !! select type export => call server get file here follow type select, set callback
+    val && onRequestFileFromServer(val);
+  };
+
+  // Gọi API lấy url từ server khi chọn kiểu file hoặc khi nhấn nút Next
+  const onRequestFileFromServer = (type) => {
+    if (typeof onExportFile === 'function') {
+      onExportFile({
+        type,
+      });
+    }
+    setShowModal(false);
+  };
+  // Tạo file từ url của server trả về và show thông tin file lên
+  const onHandleCreateFile = async (url) => {
+    let filePath = await createFilePath({
+      fileName: fileName,
+      extention: mode,
+      url,
+    });
+    let files = await getInfoPathFile(filePath);
+    setFiles(files);
+    setShowModal(true);
   };
 
   const onExportButtonPress = () => {
@@ -30,76 +85,71 @@ export const ExportModal = ({}) => {
   };
 
   const hideModal = () => {
-    setMode(null);
-    setValue(null);
+    resetState();
+    setShowModal(false);
+  };
+
+  // Tải file đã tạo từ url
+  const onDownloadFile = () => {
+    hideModal();
+    setTimeout(() => {
+      handleTheDownloadedFile(files?.path);
+    }, 250);
+  };
+
+  /**
+  |--------------------------------------------------
+  | useEffect
+  |--------------------------------------------------
+  */
+  React.useEffect(() => {
+    mode && dispatch(appMerchant.saveExportType(mode));
+  }, [mode]);
+
+  /**
+  |--------------------------------------------------
+  | LAYOUT
+  |--------------------------------------------------
+  */
+  const renderImageFile = () => {
+    switch (mode) {
+      case 'excel':
+        return IMAGE.ExportCsvFileImage;
+      case 'pdf':
+        return IMAGE.ExportPdfFileImage;
+      default:
+        return '';
+    }
   };
 
   const renderContent = () => {
-    switch (mode) {
-      case 'csv':
-        return (
-          <View style={styles.content}>
-            <Text style={styles.exportTextStyle}>{t('Save as')}</Text>
-            <CustomInput
-              style={styles.customInput}
-              textInputProps={{
-                placeholder: t('Untittle.csv'),
-                fontSize: scaleFont(17),
-                textAlign: 'left',
-                // defaultValue: value,
-                // onChangeText: onHandleChange,
-              }}
-            />
-            <View style={layouts.marginVertical} />
-            <CustomRadioSelect
-              data={[
-                { label: t('The products need to order more'), value: 1 },
-                { label: t('All product'), value: 0 },
-              ]}
-              selected={() => {}}
-            />
-
-            <View style={styles.bottomStyle}>
-              <ButtonGradient
-                // onPress={onButtonNewOrderPress}
-                label={t('Next')}
-                width={scaleWidth(140)}
-                height={scaleHeight(40)}
-              />
-            </View>
+    return (
+      <View style={styles.content}>
+        <Text style={styles.titleContent}>
+          {t('File created successfully')}
+        </Text>
+        <View style={layouts.marginVertical} />
+        <TouchableOpacity style={styles.fileInfo}>
+          <Image
+            source={renderImageFile()}
+            style={{ width: scaleWidth(39), height: scaleHeight(44) }}
+          />
+          <View style={styles.pdfFileContent}>
+            <Text style={styles.pdfFileTitle}>{files?.filename}</Text>
+            <Text style={styles.pdfFileText}>{files?.size}</Text>
           </View>
-        );
-      case 'pdf':
-        return (
-          <View style={styles.content}>
-            <Text style={styles.titleContent}>
-              {t('File created successfully')}
-            </Text>
-            <View style={layouts.marginVertical} />
-            <TouchableOpacity style={styles.fileInfo}>
-              <Image
-                source={IMAGE.ExportCsvFileImage}
-                style={{ width: scaleWidth(39), height: scaleHeight(44) }}
-              />
-              <View style={styles.pdfFileContent}>
-                <Text style={styles.pdfFileTitle}>{'Products.pdf'}</Text>
-                <Text style={styles.pdfFileText}>{'152Kb'}</Text>
-              </View>
-            </TouchableOpacity>
-            <View style={styles.pdfBottom}>
-              <TouchableOpacity>
-                <Image source={IMAGE.ExportShareIcon} />
-              </TouchableOpacity>
-              <View style={layouts.marginHorizontal} />
-              <TouchableOpacity>
-                <Image source={IMAGE.ExportDownloadIcon} />
-              </TouchableOpacity>
-            </View>
-          </View>
-        );
-      default:
-        return null;
-    }
+        </TouchableOpacity>
+        <View style={styles.pdfBottom}>
+          <TouchableOpacity>
+            <Image source={IMAGE.ExportShareIcon} />
+          </TouchableOpacity>
+          <View style={layouts.marginHorizontal} />
+          <TouchableOpacity onPress={onDownloadFile}>
+            <Image source={IMAGE.ExportDownloadIcon} />
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
   };
 
   return (
@@ -147,20 +197,29 @@ export const ExportModal = ({}) => {
         />
       </ButtonGradientWhite>
 
-      <Modal style={styles.modal} visible={!!mode} onRequestClose={hideModal}>
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <Text style={[layouts.fill, styles.txtTitle]}>{t('Export')}</Text>
-            <TouchableOpacity style={styles.buttonClose} onPress={hideModal}>
-              <Image source={IMAGE.closePopup} style={styles.iconButtonClose} />
-            </TouchableOpacity>
+      <Modal
+        style={styles.modal}
+        visible={show_modal}
+        onRequestClose={hideModal}
+      >
+        <KeyboardAvoidingView behavior="position">
+          <View style={styles.container}>
+            <View style={styles.header}>
+              <Text style={[layouts.fill, styles.txtTitle]}>{t('Export')}</Text>
+              <TouchableOpacity style={styles.buttonClose} onPress={hideModal}>
+                <Image
+                  source={IMAGE.closePopup}
+                  style={styles.iconButtonClose}
+                />
+              </TouchableOpacity>
+            </View>
+            {renderContent()}
           </View>
-          {renderContent()}
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   modal: {

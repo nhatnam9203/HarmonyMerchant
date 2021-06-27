@@ -1,7 +1,10 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { useReportCustomer } from '@shared/services/api/retailer';
+import {
+  useReportCustomer,
+  useExportCustomer,
+} from '@shared/services/api/retailer';
 import { colors } from '@shared/themes';
-import { statusSuccess } from '@shared/utils';
+import { statusSuccess, getTimeTitleFile } from '@shared/utils';
 import { getQuickFilterTimeRange } from '@utils';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -22,7 +25,7 @@ export const CustomerTab = React.forwardRef(
     ref
   ) => {
     const dispatch = useDispatch();
-
+    const exportRef = React.useRef();
     const [timeVal, setTimeVal] = React.useState(null);
     const [data, setData] = React.useState([]);
 
@@ -39,6 +42,29 @@ export const CustomerTab = React.forwardRef(
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [timeVal]);
+
+    /**
+  |--------------------------------------------------
+  |  API EXPORT
+  |--------------------------------------------------
+  */
+    const [customerExport, ExportCustomer] = useExportCustomer();
+    const callExportCustomer = (values) => {
+      const params = Object.assign({}, values, {
+        ...timeVal,
+      });
+      exportRef.current?.onSetFileName(
+        getTimeTitleFile('ReportCustomer', params)
+      );
+      ExportCustomer(params);
+    };
+
+    React.useEffect(() => {
+      const { codeStatus, data } = customerExport || {};
+      if (statusSuccess(codeStatus)) {
+        exportRef.current?.onCreateFile(data);
+      }
+    }, [customerExport]);
 
     /**
   |--------------------------------------------------
@@ -97,6 +123,8 @@ export const CustomerTab = React.forwardRef(
                 timeValue={timeVal}
                 data={data}
                 onRefresh={onRefresh}
+                callExportCustomer={callExportCustomer}
+                exportRef={exportRef}
               />
             )}
           </Screen>

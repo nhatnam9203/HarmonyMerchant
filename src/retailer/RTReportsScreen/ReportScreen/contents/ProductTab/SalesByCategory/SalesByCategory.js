@@ -13,11 +13,11 @@ import {
   dateToString,
   DATE_SHOW_FORMAT_STRING,
   statusSuccess,
-} from "@shared/utils";
-import { layouts } from "@shared/themes";
-import { DropdownMenu } from "@shared/components";
-import NavigationServices from "@navigators/NavigatorServices";
-
+} from '@shared/utils';
+import { layouts } from '@shared/themes';
+import { DropdownMenu } from '@shared/components';
+import NavigationServices from '@navigators/NavigatorServices';
+import { useExportSaleByCategory } from '@shared/services/api/retailer';
 const filterItems = [
   { label: 'Top categories', value: 'top' },
   { label: 'All categories', value: 'all' },
@@ -30,6 +30,8 @@ export default function SalesByCategory({
   navigation,
   setFilterCategory,
   onRefresh,
+  exportRef,
+  callExportSaleByCategory,
 }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -110,30 +112,6 @@ export default function SalesByCategory({
 
   return (
     <View style={styles.container}>
-      <View style={styles.rowContent}>
-        <View style={layouts.horizontal}>
-          <ButtonCalendarFilter
-            ref={calendarRef}
-            onChangeTimeValue={onChangeTimeValue}
-            paddingLeft={scaleWidth(15)}
-            paddingTop={scaleHeight(165)}
-            defaultValue={"This Week"}
-          />
-          <View style={layouts.marginHorizontal} />
-          <DropdownMenu
-            items={filterItems}
-            onChangeValue={setFilterCategory}
-            defaultIndex={0}
-            width={scaleWidth(208)}
-            height={scaleHeight(40)}
-            placeholder={t('Select Category')}
-          />
-        </View>
-      </View>
-      <View style={styles.rowContent}>
-        <Text style={layouts.title}>{t('Top Performing Categories')}</Text>
-        <ExportModal />
-      </View>
       <View style={styles.content}>
         <Table
           items={data}
@@ -178,6 +156,34 @@ export default function SalesByCategory({
           onRefresh={onRefresh}
         />
       </View>
+
+      <View style={styles.rowContent}>
+        <View style={layouts.horizontal}>
+          <ButtonCalendarFilter
+            ref={calendarRef}
+            onChangeTimeValue={onChangeTimeValue}
+            paddingLeft={scaleWidth(15)}
+            paddingTop={scaleHeight(165)}
+            defaultValue={'This Week'}
+          />
+          <View style={layouts.marginHorizontal} />
+          <DropdownMenu
+            items={filterItems}
+            onChangeValue={setFilterCategory}
+            defaultIndex={0}
+            width={scaleWidth(208)}
+            height={scaleHeight(40)}
+            placeholder={t('Select Category')}
+          />
+        </View>
+      </View>
+      <View style={styles.rowContent}>
+        <Text style={layouts.title}>{t('Top Performing Categories')}</Text>
+        <ExportModal
+          ref={exportRef}
+          onExportFile={callExportSaleByCategory}
+        />
+      </View>
     </View>
   );
 }
@@ -185,6 +191,7 @@ export default function SalesByCategory({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column-reverse',
   },
 
   content: {

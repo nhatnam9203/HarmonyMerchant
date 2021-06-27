@@ -38,6 +38,8 @@ export const Layout = ({
   onSelectRow,
   onEditCustomer,
   onRefresh,
+  callExportCustomer,
+  exportRef,
 }) => {
   const { t } = useTranslation();
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
@@ -116,7 +118,11 @@ export const Layout = ({
       </View>
       <View style={styles.rowContent}>
         <HeaderToolBarTitle label={t('Customer')} style={styles.textTitle} />
-        <ExportModal />
+        <ExportModal
+          onExportFile={callExportCustomer}
+          title={t('ReportCustomer')}
+          ref={exportRef}
+        />
       </View>
 
       <View style={styles.rowContent}>

@@ -1,6 +1,13 @@
 import React from 'react';
-import { useGetCustomerList } from '@shared/services/api/retailer';
-import { CustomerGroupTypes, SORT_TYPE } from '@shared/utils/app';
+import {
+  useGetCustomerList,
+  useExportCustomer,
+} from '@shared/services/api/retailer';
+import {
+  CustomerGroupTypes,
+  SORT_TYPE,
+  statusSuccess,
+} from '@shared/utils/app';
 import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 import NavigationServices from '@navigators/NavigatorServices';
@@ -15,7 +22,7 @@ const log = (obj, message = '') => {
  */
 export const useProps = ({ params: { reload }, navigation }) => {
   const [t] = useTranslation();
-
+  const exportRef = React.useRef();
   const [groupType, setGroupType] = React.useState(CustomerGroupTypes[0].value);
   const [page, setPage] = React.useState(1);
   const [sortName, setSortName] = React.useState(SORT_TYPE.ASC);
@@ -52,6 +59,26 @@ export const useProps = ({ params: { reload }, navigation }) => {
     callGetCustomerList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [groupType, sortName, sortPhoneNumber, searchVal]);
+
+  /**
+  |--------------------------------------------------
+  |  API EXPORT
+  |--------------------------------------------------
+  */
+  const [customerExport, ExportCustomer] = useExportCustomer();
+  const callExportCustomer =(values) => {
+    const params = Object.assign({}, values, {
+      quickFilter: 'thisWeek',
+    });
+    ExportCustomer(params);
+  }
+
+  React.useEffect(() => {
+    const { codeStatus, data } = customerExport || {};
+    if (statusSuccess(codeStatus)) {
+      exportRef.current?.onCreateFile(data);
+    }
+  }, [customerExport]);
 
   const getCustomerGroupLabel = (value) => {
     const group = CustomerGroupTypes.find((x) => x.value === value);
@@ -96,6 +123,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
   return {
     items: customerList?.data,
     groupType,
+    exportRef,
     setGroupType,
     customerGroups: CustomerGroupTypes,
     getCustomerGroupLabel,
@@ -106,6 +134,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
     onButtonSearchPress,
     onButtonNewCustomerPress,
     onRefresh,
+    callExportCustomer,
     onSelectRow: ({ item }) => {
       NavigationServices.navigate('retailer.customer.detail', {
         item: item,

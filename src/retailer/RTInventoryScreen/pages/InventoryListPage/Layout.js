@@ -2,7 +2,8 @@ import IMAGE from '@resources';
 import {
   ButtonGradient,
   ButtonGradientWhite,
-  ExportModal,
+  // ExportModal,
+  ExportModalInventory,
   TableImageCell,
   DropdownMenu,
 } from '@shared/components';
@@ -42,6 +43,8 @@ export const Layout = ({
   onSubmitRestock,
   onCheckedRow,
   onRefresh,
+  callExportProduct,
+  exportRef,
 }) => {
   const { t } = useTranslation();
 
@@ -151,7 +154,11 @@ export const Layout = ({
             onPress={onSubmitRestock}
           />
           <View style={layouts.marginHorizontal} />
-          <ExportModal />
+          <ExportModalInventory
+            ref={exportRef}
+            onExportFile={callExportProduct}
+            title={t('ReportInventory')}
+          />
         </View>
       </View>
 

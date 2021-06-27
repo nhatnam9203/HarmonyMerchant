@@ -10,12 +10,17 @@ import {
   FormTitle,
   ExportModal,
 } from '@shared/components';
-import { useReportSaleCategory } from '@shared/services/api/retailer';
+import {
+  useReportSaleCategory,
+  useExportSaleByCategory,
+} from '@shared/services/api/retailer';
+
 import { getQuickFilterTimeRange } from '@utils';
 import {
   dateToString,
   DATE_SHOW_FORMAT_STRING,
   statusSuccess,
+  getTimeTitleFile,
 } from '@shared/utils';
 
 const { Screen, Navigator } = createStackNavigator();
@@ -25,12 +30,10 @@ function SalesByCategoryTab({
     params: { showBackButton },
   },
 }) {
-  const dispatch = useDispatch();
-
+  const exportRef = React.useRef();
   const [timeVal, setTimeVal] = React.useState(null);
   const [filterCategory, setFilterCategory] = React.useState(null);
   const [data, setData] = React.useState([]);
-
   /**
   |--------------------------------------------------
   | CALL API
@@ -48,12 +51,36 @@ function SalesByCategoryTab({
 
   /**
   |--------------------------------------------------
+  | API EXPORT
+  |--------------------------------------------------
+  */
+  const [saleByCategoryExport, ExportSaleByCategory] =
+    useExportSaleByCategory();
+
+  const callExportSaleByCategory = (values) => {
+    const params = Object.assign({}, values, {
+      ...timeVal,
+      category: filterCategory?.value ?? 'top',
+    });
+    exportRef.current?.onSetFileName(
+      getTimeTitleFile('SaleByCategory', params)
+    );
+    ExportSaleByCategory(params);
+  };
+
+  React.useEffect(() => {
+    const { codeStatus, data } = saleByCategoryExport || {};
+    if (statusSuccess(codeStatus)) {
+      exportRef.current?.onCreateFile(data);
+    }
+  }, [saleByCategoryExport]);
+  /**
+  |--------------------------------------------------
   | useEffect
   |--------------------------------------------------
   */
 
   React.useEffect(() => {
-    console.log(filterCategory);
     callGetReportSaleCategory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeVal, filterCategory]);
@@ -103,6 +130,8 @@ function SalesByCategoryTab({
               data={data}
               setFilterCategory={setFilterCategory}
               onRefresh={onRefresh}
+              exportRef={exportRef}
+              callExportSaleByCategory={callExportSaleByCategory}
             />
           )}
         </Screen>
