@@ -1060,9 +1060,9 @@
     "@babel/types" "^7.0.0"
 
 "@types/babel__traverse@*", "@types/babel__traverse@^7.0.6":
-  version "7.11.1"
-  resolved "https://registry.yarnpkg.com/@types/babel__traverse/-/babel__traverse-7.11.1.tgz#654f6c4f67568e24c23b367e947098c6206fa639"
-  integrity sha512-Vs0hm0vPahPMYi9tDjtP66llufgO3ST16WXaSTtDGEl9cewAl3AibmxWw6TINOqHPT9z0uABKAYjT9jNSg4npw==
+  version "7.14.0"
+  resolved "https://registry.yarnpkg.com/@types/babel__traverse/-/babel__traverse-7.14.0.tgz#a34277cf8acbd3185ea74129e1f100491eb1da7f"
+  integrity sha512-IilJZ1hJBUZwMOVDNTdflOOLzJB/ZtljYVa7k3gEZN/jqIJIPkWHC6dvbX+DD2CwZDHB9wAKzZPzzqMIkW37/w==
   dependencies:
     "@babel/types" "^7.3.0"
 
@@ -7460,9 +7460,9 @@ react-native-button@^2.3.0:
     prop-types "^15.5.10"
 
 react-native-calendars@^1.314.0:
-  version "1.1263.0"
-  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.1263.0.tgz#f69f1696629fd9b7c0222ecd1e5a6647041616e3"
-  integrity sha512-O9Pl9YeV3SVeXoXnuxgf4itl+hhJceLu4cCvxX+rcI/2FgIDGD30R/cblxGmSXznbLGj9SZtuJDXmG9Bnd7TEA==
+  version "1.1264.0"
+  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.1264.0.tgz#98d1905b7bfe9f44cba80c9c34a0b8441fe1c1a1"
+  integrity sha512-MX9Dy9xDtdmvGEA9rQWas1NVxvC2T6tEYrx7NvX8w0pWpYqsq5sVS4N+Y/vHBmcbiykStgrHTcWCP1bBLee3yg==
   dependencies:
     hoist-non-react-statics "^3.3.1"
     immutable "^4.0.0-rc.12"

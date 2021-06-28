@@ -22,6 +22,7 @@ import PrintManager from "@lib/PrintManager";
 import Configs from "@configs";
 import initState from "./widget/initState";
 import * as l from "lodash";
+import apiConfigs from '@configs/api';
 
 const PosLinkReport = NativeModules.report;
 const PosLink = NativeModules.payment;

@@ -14,7 +14,7 @@
     "scan": "sonar-scanner",
     "clean": "rm -rf node_modules && rm -rf yarn.lock && rm -rf package-lock.json && watchman watch-del-all",
     "push:ios-staging": "appcenter codepush release-react -a NhatPhi2201/HpMerchant-IOS -d Staging -t 1.2.6 --description update -k private.pem",
-    "push:ios-production": "appcenter codepush release-react -a NhatPhi2201/HpMerchant-IOS -d Production -t 1.1.9 --description update -k private.pem",
+    "push:ios-production": "appcenter codepush release-react -a NhatPhi2201/HpMerchant-IOS -d Production -t 1.1.10 --description update -k private.pem",
     "clean:ios": "cd ios && xcodebuild clean && cd ../",
     "pod:clean": "cd ios && pod deintegrate && rm -rf ~/Library/Caches/CocoaPods && rm -rf Pods && rm -rf ~/Library/Developer/Xcode/DerivedData/* && rm -rf Podfile.lock"
   },
