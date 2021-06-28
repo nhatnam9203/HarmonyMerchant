@@ -5,7 +5,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 import { Text } from '@components';
 import IMAGE from '@resources';
 
@@ -43,7 +43,7 @@ class ItemAmount extends React.Component {
         const { price } = this.props
         return (
             <View style={{
-                height: scaleSzie(68),
+                height: scaleSize(68),
                 borderBottomWidth: 3, borderBottomColor: '#fff',
                 backgroundColor: '#0764B0',
             }} >
@@ -51,33 +51,33 @@ class ItemAmount extends React.Component {
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-around',
-                    paddingTop: scaleSzie(10),
+                    paddingTop: scaleSize(10),
                 }} >
                     <TouchableOpacity onPress={this.subQuanlity} >
                         <Image
                             source={IMAGE.subAmount}
-                            style={{ width: scaleSzie(25), height: scaleSzie(25) }}
+                            style={{ width: scaleSize(25), height: scaleSize(25) }}
                         />
                     </TouchableOpacity>
                     <View style={{
-                        width: scaleSzie(90), borderColor: '#fff',
-                        borderWidth: 3, borderRadius: scaleSzie(8), height: scaleSzie(30),
+                        width: scaleSize(90), borderColor: '#fff',
+                        borderWidth: 3, borderRadius: scaleSize(8), height: scaleSize(30),
                         justifyContent: 'center', alignItems: 'center'
                     }} >
-                        <Text style={{ color: '#fff', fontSize: scaleSzie(16), fontWeight: 'bold' }} >
+                        <Text style={{ color: '#fff', fontSize: scaleSize(16), fontWeight: 'bold' }} >
                             {quanlity}
                         </Text>
                     </View>
                     <TouchableOpacity onPress={this.plusQuanlity} >
                         <Image
                             source={IMAGE.plusAmount}
-                            style={{ width: scaleSzie(25), height: scaleSzie(25) }}
+                            style={{ width: scaleSize(25), height: scaleSize(25) }}
                         />
                     </TouchableOpacity>
                 </View>
 
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                    <Text style={{ color: '#fff', fontSize: scaleSzie(12), fontWeight: "bold" }} >
+                    <Text style={{ color: '#fff', fontSize: scaleSize(12), fontWeight: "bold" }} >
                         {`$ ${price}`}
                     </Text>
                 </View>

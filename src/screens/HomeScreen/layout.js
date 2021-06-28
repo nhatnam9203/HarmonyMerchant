@@ -13,7 +13,7 @@ import {
     PopupEnterPin, PopupCheckStaffPermission,
     ScrollableTabView, Loading
 } from '@components';
-import { scaleSzie, localize, getIconByNotiType, getColorTitleByNotiType, getNotiContentByType, formatWithMoment } from '@utils';
+import { scaleSize, localize, getIconByNotiType, getColorTitleByNotiType, getNotiContentByType, formatWithMoment } from '@utils';
 import styles from './style';
 import ICON from '@resources';
 import { TabMarketing, TabAppointment, TabCheckout } from './widget';
@@ -28,24 +28,24 @@ export default class Layout extends React.Component {
         const content = getNotiContentByType(noti);
 
         return (
-            <Button onPress={this.handlePushNotiDataToWebView(noti)} style={{ minHeight: scaleSzie(110), }} >
-                <View style={{ flex: 1, flexDirection: "row", paddingTop: scaleSzie(10), paddingBottom: scaleSzie(6) }} >
+            <Button onPress={this.handlePushNotiDataToWebView(noti)} style={{ minHeight: scaleSize(110), }} >
+                <View style={{ flex: 1, flexDirection: "row", paddingTop: scaleSize(10), paddingBottom: scaleSize(6) }} >
                     {/* ------------ Icon ------------ */}
-                    <View style={{ width: scaleSzie(50) }} >
-                        <Image source={ICON[icon]} style={{ width: scaleSzie(30), height: scaleSzie(30) }} />
+                    <View style={{ width: scaleSize(50) }} >
+                        <Image source={ICON[icon]} style={{ width: scaleSize(30), height: scaleSize(30) }} />
                     </View>
                     {/* ------------ Information ------------ */}
                     <View style={{ flex: 1 }} >
                         <Text style={{
-                            color: getColorTitleByNotiType(noti?.view, noti?.type), fontSize: scaleSzie(16), fontWeight: "600",
-                            marginBottom: scaleSzie(6)
+                            color: getColorTitleByNotiType(noti?.view, noti?.type), fontSize: scaleSize(16), fontWeight: "600",
+                            marginBottom: scaleSize(6)
                         }} >
                             {noti?.title || ""}
                         </Text>
                         {content}
 
                         <View style={{ flex: 1, justifyContent: "flex-end", }} >
-                            <Text style={{ color: "#585858", fontSize: scaleSzie(12), marginTop: scaleSzie(10) }} >
+                            <Text style={{ color: "#585858", fontSize: scaleSize(12), marginTop: scaleSize(10) }} >
                                 {formatWithMoment(noti?.createdDate, "MM/DD/YYYY   hh:mm A")}
                             </Text>
                         </View>
@@ -80,7 +80,7 @@ export default class Layout extends React.Component {
                             inactiveTextColor="#0764B0"
                             backgroundTabActive="#0764B0"
                             textStyle={{
-                                fontSize: scaleSzie(16),
+                                fontSize: scaleSize(16),
                                 fontWeight: '500'
                             }}
                             onPressHandlerChangeTab={this.onPressHandlerChangeTab}
@@ -117,11 +117,11 @@ export default class Layout extends React.Component {
                         />
                     </ScrollableTabView>
                     <Button onPress={this.openDrawer} style={configs.btn_left_position} >
-                        <Image source={ICON.openDrawer} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
+                        <Image source={ICON.openDrawer} style={{ width: scaleSize(34), height: scaleSize(34) }} />
                     </Button>
 
                     <Button onPress={this.showLockScreen} style={configs.btn_right_position} >
-                        <Image source={ICON.signOut} style={{ width: scaleSzie(34), height: scaleSzie(34) }} />
+                        <Image source={ICON.signOut} style={{ width: scaleSize(34), height: scaleSize(34) }} />
                     </Button>
 
                     <PopupEnterPin
@@ -145,19 +145,19 @@ export default class Layout extends React.Component {
                         visible={visible}
                         animationType={"fade"}
                     >
-                        <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.6)", alignItems: "center", paddingTop: scaleSzie(48) }} >
+                        <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.6)", alignItems: "center", paddingTop: scaleSize(48) }} >
                             <View style={{
-                                height: height - scaleSzie(48), width: scaleSzie(300), backgroundColor: "#fff",
-                                paddingHorizontal: scaleSzie(10)
+                                height: height - scaleSize(48), width: scaleSize(300), backgroundColor: "#fff",
+                                paddingHorizontal: scaleSize(10)
                             }} >
                                 {/* -------------- Header ----------- */}
-                                <View style={{ height: scaleSzie(50) }}>
-                                    <Text style={{ color: "#404040", fontSize: scaleSzie(14), fontWeight: "600", marginTop: scaleSzie(10) }} >
+                                <View style={{ height: scaleSize(50) }}>
+                                    <Text style={{ color: "#404040", fontSize: scaleSize(14), fontWeight: "600", marginTop: scaleSize(10) }} >
                                         {`Notifications`}
                                     </Text>
 
                                     <Button onPress={this.closeNotiPopup} style={{
-                                        height: scaleSzie(30), width: scaleSzie(30),
+                                        height: scaleSize(30), width: scaleSize(30),
                                         justifyContent: "center", alignItems: "flex-end",
                                         position: "absolute", top: 0, right: 0
                                     }} >
@@ -166,11 +166,11 @@ export default class Layout extends React.Component {
 
                                     <Button onPress={this.readAllNotification}
                                         style={{
-                                            position: "absolute", top: 0, right: scaleSzie(16), height: scaleSzie(30), width: scaleSzie(30),
+                                            position: "absolute", top: 0, right: scaleSize(16), height: scaleSize(30), width: scaleSize(30),
                                             justifyContent: "center",
                                         }}
                                     >
-                                        <Image style={{ width: scaleSzie(22), height: scaleSzie(22) }}
+                                        <Image style={{ width: scaleSize(22), height: scaleSize(22) }}
                                             source={ICON.read_all_noti} />
                                     </Button>
                                 </View>

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, PopupParent, PopupConfirm } from '@components';
-import { scaleSzie, localize, getCategoryName, checkIsTablet } from '@utils';
+import { scaleSize, localize, getCategoryName, checkIsTablet } from '@utils';
 
 
 class PopupDetailProduct extends React.Component {
@@ -87,10 +87,10 @@ class PopupDetailProduct extends React.Component {
         const { categoryId, name, description, sku,
             quantity, minThreshold, maxThreshold, price, isDisabled, needToorDer
         } = this.state.productInfo;
-        const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(480);
+        const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(480);
         const tempBtnHieght = checkIsTablet() ? 35 : 45;
         const tempBtnWidth = checkIsTablet() ? 150 : 200;
-        const tempFooterHieght = checkIsTablet() ? scaleSzie(55) : scaleSzie(70);
+        const tempFooterHieght = checkIsTablet() ? scaleSize(55) : scaleSize(70);
 
         return (
             <PopupParent
@@ -100,16 +100,16 @@ class PopupDetailProduct extends React.Component {
             >
                 <View style={{
                     height: tempHeight, backgroundColor: '#fff',
-                    borderBottomLeftRadius: scaleSzie(15),
-                    borderBottomRightRadius: scaleSzie(15),
-                    paddingHorizontal: scaleSzie(30)
+                    borderBottomLeftRadius: scaleSize(15),
+                    borderBottomRightRadius: scaleSize(15),
+                    paddingHorizontal: scaleSize(30)
                 }} >
                     <View style={{ flex: 1 }} >
                         <ScrollView
                             showsVerticalScrollIndicator={false}
                             keyboardShouldPersistTaps="always"
                         >
-                            <View style={{ height: scaleSzie(13) }} />
+                            <View style={{ height: scaleSize(13) }} />
                             {/* ---- start ---- */}
                             <TouchableOpacity activeOpacity={1}>
                                 <ItemDetail
@@ -153,13 +153,13 @@ class PopupDetailProduct extends React.Component {
                                     value={''}
                                 />
                                 <View style={{
-                                    height: scaleSzie(70), borderWidth: 1, borderColor: '#C5C5C5',
-                                    paddingLeft: scaleSzie(10), backgroundColor: '#FAFAFA', paddingTop: scaleSzie(5)
+                                    height: scaleSize(70), borderWidth: 1, borderColor: '#C5C5C5',
+                                    paddingLeft: scaleSize(10), backgroundColor: '#FAFAFA', paddingTop: scaleSize(5)
                                 }} >
                                     <TextInput
                                         placeholder=""
                                         style={{
-                                            flex: 1, fontSize: scaleSzie(16), color: "#000",
+                                            flex: 1, fontSize: scaleSize(16), color: "#000",
                                             padding: 0,
                                             textAlignVertical: "top"
                                         }}
@@ -171,7 +171,7 @@ class PopupDetailProduct extends React.Component {
                             </TouchableOpacity>
 
                             {/* -----  */}
-                            <TouchableOpacity activeOpacity={1} style={{ height: scaleSzie(250), }} />
+                            <TouchableOpacity activeOpacity={1} style={{ height: scaleSize(250), }} />
                         </ScrollView>
                     </View>
                     {/* ---- Footer ---- */}
@@ -184,12 +184,12 @@ class PopupDetailProduct extends React.Component {
                             textColor="#6A6A6A"
                             onPress={this.showModalEditProduct}
                             style={{
-                                borderRadius: scaleSzie(2),
+                                borderRadius: scaleSize(2),
                                 borderColor: '#C5C5C5',
                                 borderWidth: 1,
                             }}
                             styleText={{
-                                fontSize: scaleSzie(16),
+                                fontSize: scaleSize(16),
                                 fontWeight: '500'
                             }}
                         />
@@ -203,12 +203,12 @@ class PopupDetailProduct extends React.Component {
                                     textColor="#6A6A6A"
                                     onPress={this.showModalArchive}
                                     style={{
-                                        borderRadius: scaleSzie(2),
+                                        borderRadius: scaleSize(2),
                                         borderColor: '#C5C5C5',
                                         borderWidth: 1,
                                     }}
                                     styleText={{
-                                        fontSize: scaleSzie(16),
+                                        fontSize: scaleSize(16),
                                         fontWeight: '500'
                                     }}
                                 /> : <ButtonCustom
@@ -219,12 +219,12 @@ class PopupDetailProduct extends React.Component {
                                     textColor="#6A6A6A"
                                     onPress={this.showModalRestore}
                                     style={{
-                                        borderRadius: scaleSzie(2),
+                                        borderRadius: scaleSize(2),
                                         borderColor: '#C5C5C5',
                                         borderWidth: 1,
                                     }}
                                     styleText={{
-                                        fontSize: scaleSzie(16),
+                                        fontSize: scaleSize(16),
                                         fontWeight: '500'
                                     }}
                                 />
@@ -253,7 +253,7 @@ class PopupDetailProduct extends React.Component {
 
 const ItemDetail = ({ title, value }) => {
     return (
-        <View style={{ minHeight: scaleSzie(30), flexDirection: 'row', marginBottom: scaleSzie(10) }} >
+        <View style={{ minHeight: scaleSize(30), flexDirection: 'row', marginBottom: scaleSize(10) }} >
             <View style={{ flex: 1, }} >
                 <Text style={styles.textCommon} >
                     {title}
@@ -271,11 +271,11 @@ const ItemDetail = ({ title, value }) => {
 const styles = StyleSheet.create({
     textCommon: {
         color: '#707070',
-        fontSize: scaleSzie(16)
+        fontSize: scaleSize(16)
     },
     textValue: {
         color: '#404040',
-        fontSize: scaleSzie(18)
+        fontSize: scaleSize(18)
     }
 })
 

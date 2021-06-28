@@ -17,7 +17,7 @@ import _ from 'ramda';
 import { ButtonCustom, PopupParent, Slider } from '@components';
 import { scaleSize, formatNumberFromCurrency,
      formatMoney, localize, roundNumber, 
-     checkIsTablet, scaleSzie } from '@utils';
+     checkIsTablet } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
 import { colors } from '@shared/themes';
@@ -217,14 +217,14 @@ class PopupDiscount extends React.Component {
                                         maximumValue={100}
                                         onValueChange={(value)=>this.handelSliderValue(value)}
                                         trackStyle={{
-                                            height: scaleSzie(10),
+                                            height: scaleSize(10),
                                             backgroundColor: "#F1F1F1",
-                                            borderRadius: scaleSzie(6),
+                                            borderRadius: scaleSize(6),
                                           }}
                                           thumbStyle={{
-                                            height: scaleSzie(24),
-                                            width: scaleSzie(24),
-                                            borderRadius: scaleSzie(12),
+                                            height: scaleSize(24),
+                                            width: scaleSize(24),
+                                            borderRadius: scaleSize(12),
                                             backgroundColor: "#fff",
                                             ...Platform.select({
                                               ios: {

@@ -5,7 +5,7 @@ import { Alert, Platform } from 'react-native';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import strings from './strings';
-import { validateIsNumber, scaleSzie, gotoSettingsDevice } from '@utils';
+import { validateIsNumber, scaleSize, gotoSettingsDevice } from '@utils';
 
 class BankInfoScreen extends Layout {
 
@@ -30,7 +30,7 @@ class BankInfoScreen extends Layout {
     }
 
     scrollBankInfoTo(position) {
-        this.srollBankInfoRef.current.scrollTo({ x: 0, y: scaleSzie(position), animated: true })
+        this.srollBankInfoRef.current.scrollTo({ x: 0, y: scaleSize(position), animated: true })
     }
 
     setStateFromparent = async (isActiveScreen) => {

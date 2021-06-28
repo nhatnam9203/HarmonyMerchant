@@ -6,7 +6,7 @@ import {
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import { scaleSzie } from '../utils';
+import { scaleSize } from '../utils';
 
 class PopupConfirm extends React.Component {
 
@@ -20,16 +20,16 @@ class PopupConfirm extends React.Component {
                 hideCloseButton={hideCloseButton}
             >
                 <View style={{
-                    height: scaleSzie(130), backgroundColor: '#fff',
-                    borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
+                    height: scaleSize(130), backgroundColor: '#fff',
+                    borderBottomLeftRadius: scaleSize(15), borderBottomRightRadius: scaleSize(15)
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(18),textAlign:"center" }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSize(18),textAlign:"center" }} >
                             {message}
                         </Text>
                     </View>
                     <View style={{
-                        height: scaleSzie(45), flexDirection: 'row',
+                        height: scaleSize(45), flexDirection: 'row',
                     }} >
                         <View style={{ flex: 1, alignItems: 'center' }} >
                             <ButtonCustom
@@ -44,7 +44,7 @@ class PopupConfirm extends React.Component {
                                     borderColor: '#C5C5C5'
                                 }}
                                 styleText={{
-                                    fontSize: scaleSzie(14)
+                                    fontSize: scaleSize(14)
                                 }}
                             />
                         </View>
@@ -57,7 +57,7 @@ class PopupConfirm extends React.Component {
                                 textColor="#fff"
                                 onPress={() => confimYes()}
                                 styleText={{
-                                    fontSize: scaleSzie(14)
+                                    fontSize: scaleSize(14)
                                 }}
                             />
                         </View>

@@ -3,7 +3,7 @@ import React from 'react';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import { getServiceIdByName } from '@utils';
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 
 class TabPromotion extends Layout {
   constructor(props) {

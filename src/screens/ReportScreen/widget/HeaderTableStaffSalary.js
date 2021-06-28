@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { Button } from '@components';
-import { scaleSzie, formatDateApi ,localize} from '@utils';
+import { scaleSize, formatDateApi ,localize} from '@utils';
 import IMAGE from '@resources';
 import { FlatList } from 'react-native-gesture-handler';
 
@@ -56,35 +56,35 @@ class HeaderTableStaffSalary extends React.Component {
             <View style={styles.tableHeader} >
                 {/* ----- 0 ------ */}
                 <View style={{
-                    width: scaleSzie(40), flexDirection: 'row',
+                    width: scaleSize(40), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={styles.textTableHeader} >
                         
                             {`${localize('No', language)}.`}
                         </Text>
                     </View>
-                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View> */}
                 </View>
                 {/* ----- 1 ------ */}
                 <View style={{
-                    width: scaleSzie(120), flexDirection: 'row'
+                    width: scaleSize(120), flexDirection: 'row'
                 }} >
-                    {/* <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View> */}
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={styles.textTableHeader} >
                             
                             {localize('Name', language)}
                         </Text>
                     </View>
-                    {/* <Button onPress={this.sortStaffName} style={{ width: scaleSzie(30), alignItems: 'center', justifyContent: 'center' }} >
+                    {/* <Button onPress={this.sortStaffName} style={{ width: scaleSize(30), alignItems: 'center', justifyContent: 'center' }} >
                         <Image source={iconSortStaffName} style={styles.iconSort} />
                     </Button> */}
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
@@ -99,9 +99,9 @@ class HeaderTableStaffSalary extends React.Component {
                            
                             return (
                                 <View style={{
-                                    width: scaleSzie(120), flexDirection: 'row',
+                                    width: scaleSize(120), flexDirection: 'row',
                                 }} >
-                                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                                         <View style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
                                             <Text style={[styles.textTableHeader]} >
                                                 {item.dateInWeek}
@@ -111,7 +111,7 @@ class HeaderTableStaffSalary extends React.Component {
                                             </Text>
                                         </View>
                                     </View>
-                                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                                     </View>
                                 </View>
@@ -121,57 +121,57 @@ class HeaderTableStaffSalary extends React.Component {
                 </View>
                 {/* ----- 4 ------ */}
                 <View style={{
-                    width: scaleSzie(120), flexDirection: 'row',
+                    width: scaleSize(120), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={styles.textTableHeader} >
                             
                             {localize('Split', language)}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 5 ------ */}
                 <View style={{
-                    width: scaleSzie(120), flexDirection: 'row',
+                    width: scaleSize(120), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={styles.textTableHeader} >
                             
                             {localize('Tip', language)}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
 
                 <View style={{
-                    width: scaleSzie(120), flexDirection: 'row',
+                    width: scaleSize(120), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={styles.textTableHeader} >
                             
                             {localize('Product', language)}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
                 {/* ----- 6 ------ */}
                 <View style={{
-                    width: scaleSzie(120), flexDirection: 'row',
+                    width: scaleSize(120), flexDirection: 'row',
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={styles.textTableHeader} >
                             
                             {localize('Total', language)}
                         </Text>
                     </View>
-                    <View style={{ width: 1, paddingVertical: scaleSzie(3) }} >
+                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View>
                 </View>
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     tableHeader: {
-        height: scaleSzie(35),
+        height: scaleSize(35),
         backgroundColor: '#FAFAFA',
         borderWidth: 0.5,
         borderColor: '#C5C5C5',
@@ -195,15 +195,15 @@ const styles = StyleSheet.create({
     },
     textTableHeader: {
         color: '#0764B0',
-        fontSize: scaleSzie(13)
+        fontSize: scaleSize(13)
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',
         alignItems: 'center'
     },
     iconSort: {
-        width: scaleSzie(8),
-        height: scaleSzie(12)
+        width: scaleSize(8),
+        height: scaleSize(12)
     }
 
 })

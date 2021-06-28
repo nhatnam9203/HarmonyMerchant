@@ -7,7 +7,7 @@ import {
 
 import Button from './Button';
 import Text from './Text';
-import { scaleSzie } from '../utils';
+import { scaleSize } from '../utils';
 import IMAGE from '../resources';
 
 export default class InputQuestionBusiness extends React.PureComponent {
@@ -37,46 +37,46 @@ export default class InputQuestionBusiness extends React.PureComponent {
         const temptIconYes = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
 
         return (
-            <View style={[{ marginBottom: scaleSzie(30) }]} >
-                <Text style={{ color: '#404040', fontSize: scaleSzie(14) }} >
+            <View style={[{ marginBottom: scaleSize(30) }]} >
+                <Text style={{ color: '#404040', fontSize: scaleSize(14) }} >
                     {question}
                 </Text>
                 <View style={{
-                    height: scaleSzie(30),
-                    marginTop: scaleSzie(5), paddingLeft: scaleSzie(8), flexDirection: 'row',
+                    height: scaleSize(30),
+                    marginTop: scaleSize(5), paddingLeft: scaleSize(8), flexDirection: 'row',
                 }} >
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} >
                         <Button onPress={this.onPress} >
                             <Image source={temptIconNo}
-                                style={{ width: scaleSzie(15), height: scaleSzie(15) }}
+                                style={{ width: scaleSize(15), height: scaleSize(15) }}
                             />
                         </Button>
                         <Text style={{
-                            color: "#404040", fontSize: scaleSzie(14),
-                            marginLeft: scaleSzie(10), marginRight: scaleSzie(15)
+                            color: "#404040", fontSize: scaleSize(14),
+                            marginLeft: scaleSize(10), marginRight: scaleSize(15)
                         }} >
                             No
                 </Text>
                         <Button onPress={this.onPress} >
                             <Image source={temptIconYes}
-                                style={{ width: scaleSzie(15), height: scaleSzie(15) }}
+                                style={{ width: scaleSize(15), height: scaleSize(15) }}
                             />
                         </Button>
                         <Text style={{
-                            color: "#404040", fontSize: scaleSzie(14), marginLeft: scaleSzie(10),
-                            marginRight: scaleSzie(8)
+                            color: "#404040", fontSize: scaleSize(14), marginLeft: scaleSize(10),
+                            marginRight: scaleSize(8)
                         }} >
                             {`Yes (${subYes})`}
                         </Text>
                     </View>
 
                     <View style={{
-                        width: scaleSzie(320), borderColor: '#C5C5C5', borderWidth: 1,
-                        paddingLeft: scaleSzie(10)
+                        width: scaleSize(320), borderColor: '#C5C5C5', borderWidth: 1,
+                        paddingLeft: scaleSize(10)
                     }} >
                         <TextInput
                             ref={this.inputRef}
-                            style={{ flex: 1, fontSize: scaleSzie(16) }}
+                            style={{ flex: 1, fontSize: scaleSize(16) }}
                             placeholder={''}
                             editable={isCheck}
                             value={value}

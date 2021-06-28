@@ -8,7 +8,7 @@ import {
     Platform
 } from 'react-native';
 
-import { scaleSzie, localize } from '@utils';
+import { scaleSize, localize } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import { Text, Button, ButtonCustom, PopupConfirm,ScrollableTabView } from '@components';
@@ -22,17 +22,17 @@ class Layout extends React.Component {
             <View style={styles.header} >
                 <View style={{
                     flex: 1, justifyContent: 'flex-end',
-                    paddingLeft: scaleSzie(15), paddingBottom: scaleSzie(10)
+                    paddingLeft: scaleSize(15), paddingBottom: scaleSize(10)
                 }} >
-                    <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
+                    <Text style={{ color: '#404040', fontSize: scaleSize(20) }} >
                         {localize('Media List', language)}
                     </Text>
                 </View>
                 <View style={{
                     flex: 0.8,
-                    paddingBottom: scaleSzie(10), justifyContent: 'flex-end'
+                    paddingBottom: scaleSize(10), justifyContent: 'flex-end'
                 }} >
-                    <Text style={{ color: '#404040', fontSize: scaleSzie(20) }} >
+                    <Text style={{ color: '#404040', fontSize: scaleSize(20) }} >
                         {localize('Create new media', language)}
                     </Text>
                 </View>
@@ -64,32 +64,32 @@ class Layout extends React.Component {
         const { bannerUpload } = this.state;
         return (
             <View style={{ flex: 1 }} >
-                <View style={{ flex: 1, paddingTop: scaleSzie(40) }} >
+                <View style={{ flex: 1, paddingTop: scaleSize(40) }} >
                     {
                         bannerUpload.uri !== '' ?
                             // --------- avatar upload -----
                             <View>
                                 <View style={{
-                                    height: scaleSzie(140), width: scaleSzie(220),
-                                    marginLeft: scaleSzie(40), marginTop: scaleSzie(12)
+                                    height: scaleSize(140), width: scaleSize(220),
+                                    marginLeft: scaleSize(40), marginTop: scaleSize(12)
                                 }} >
                                     <Image
                                         source={{ uri: bannerUpload.uri }}
-                                        style={{ height: scaleSzie(140), width: scaleSzie(220), }}
+                                        style={{ height: scaleSize(140), width: scaleSize(220), }}
                                         resizeMode="stretch"
                                     />
                                 </View>
                                 {/* -------- Btn Cancel ------ */}
-                                <View style={{ paddingLeft: scaleSzie(80), marginTop: scaleSzie(20) }} >
+                                <View style={{ paddingLeft: scaleSize(80), marginTop: scaleSize(20) }} >
                                     <ButtonCustom
-                                        width={scaleSzie(140)}
+                                        width={scaleSize(140)}
                                         height={40}
                                         backgroundColor="#F1F1F1"
                                         title={localize('Cancel', language)}
                                         textColor="#C5C5C5"
                                         onPress={this.cancelUploadBannerLocal}
                                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                                        styleText={{ fontSize: scaleSzie(16), fontWeight: '500' }}
+                                        styleText={{ fontSize: scaleSize(16), fontWeight: '500' }}
                                     />
                                 </View>
 
@@ -97,12 +97,12 @@ class Layout extends React.Component {
 
                             :
                             <View style={{
-                                width: scaleSzie(300), height: scaleSzie(240),
+                                width: scaleSize(300), height: scaleSize(240),
                                 borderWidth: 2, borderColor: '#C5C5C5',
                                 borderStyle: "dashed",
-                                borderRadius: scaleSzie(14),
+                                borderRadius: scaleSize(14),
                                 alignItems: 'center',
-                                paddingTop: scaleSzie(30)
+                                paddingTop: scaleSize(30)
 
                             }} >
                                 <Button onPress={this.takePhoto} >
@@ -111,43 +111,43 @@ class Layout extends React.Component {
                                     />
                                 </Button>
 
-                                <View style={{ flex: 1, alignItems: 'center', marginTop: scaleSzie(10) }} >
+                                <View style={{ flex: 1, alignItems: 'center', marginTop: scaleSize(10) }} >
                                     <Text style={{
-                                        color: '#C5C5C5', fontSize: scaleSzie(20), fontWeight: 'bold',
+                                        color: '#C5C5C5', fontSize: scaleSize(20), fontWeight: 'bold',
                                     }} >
                                         {localize('Take a Photo', language)}
                                     </Text>
                                     <Text style={{
-                                        color: '#C5C5C5', fontSize: scaleSzie(20),
-                                        marginVertical: scaleSzie(15)
+                                        color: '#C5C5C5', fontSize: scaleSize(20),
+                                        marginVertical: scaleSize(15)
                                     }} >
 
                                         {localize('Or', language)}
                                     </Text>
                                     <ButtonCustom
-                                        width={scaleSzie(140)}
+                                        width={scaleSize(140)}
                                         height={40}
                                         backgroundColor="#F1F1F1"
                                         title={localize('Browse File', language)}
                                         textColor="#C5C5C5"
                                         onPress={this.openImageLibrary}
                                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                                        styleText={{ fontSize: scaleSzie(16), fontWeight: '500' }}
+                                        styleText={{ fontSize: scaleSize(16), fontWeight: '500' }}
                                     />
                                 </View>
                             </View>
                     }
                 </View>
-                <View style={{ height: scaleSzie(70), }} >
+                <View style={{ height: scaleSize(70), }} >
                     <ButtonCustom
-                        width={scaleSzie(290)}
+                        width={scaleSize(290)}
                         height={60}
                         backgroundColor="#0764B0"
                         title={localize('NEXT', language)}
                         textColor="#fff"
                         onPress={this.gotoPageUploadToServer}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                        styleText={{ fontSize: scaleSzie(24), fontWeight: 'bold' }}
+                        styleText={{ fontSize: scaleSize(24), fontWeight: 'bold' }}
                     />
                 </View>
             </View>
@@ -165,29 +165,29 @@ class Layout extends React.Component {
                         keyboardShouldPersistTaps="always"
                     >
                         <View style={{
-                            height: scaleSzie(140), width: scaleSzie(220),
-                            marginLeft: scaleSzie(40), marginTop: scaleSzie(12)
+                            height: scaleSize(140), width: scaleSize(220),
+                            marginLeft: scaleSize(40), marginTop: scaleSize(12)
                         }} >
                             <Image
                                 source={{ uri: bannerUpload.uri }}
-                                style={{ height: scaleSzie(140), width: scaleSzie(220), }}
+                                style={{ height: scaleSize(140), width: scaleSize(220), }}
                                 resizeMode="stretch"
                             />
                         </View>
                         {/* ------- title ----- */}
-                        <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), paddingRight: scaleSzie(20) }} >
-                            <View style={{ width: scaleSzie(100), justifyContent: 'center' }} >
-                                <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
+                        <View style={{ flexDirection: 'row', marginTop: scaleSize(20), paddingRight: scaleSize(20) }} >
+                            <View style={{ width: scaleSize(100), justifyContent: 'center' }} >
+                                <Text style={{ color: '#404040', fontSize: scaleSize(16) }} >
                                     {`${localize('Title', language)}:`}
                                 </Text>
                             </View>
 
                             <View style={{
-                                flex: 1, height: scaleSzie(40), borderColor: '#58595B', borderWidth: 2,
-                                borderRadius: 4, paddingHorizontal: scaleSzie(10)
+                                flex: 1, height: scaleSize(40), borderColor: '#58595B', borderWidth: 2,
+                                borderRadius: 4, paddingHorizontal: scaleSize(10)
                             }} >
                                 <TextInput
-                                    style={{ flex: 1, fontSize: scaleSzie(16) }}
+                                    style={{ flex: 1, fontSize: scaleSize(16) }}
                                     value={titleBanner}
                                     onChangeText={titleBanner => this.setState({ titleBanner })}
                                     onFocus={this.scrollInputTo.bind(this, 170)}
@@ -195,21 +195,21 @@ class Layout extends React.Component {
                             </View>
                         </View>
                         {/* ------- Description ----- */}
-                        <View style={{ flexDirection: 'row', marginTop: scaleSzie(20), paddingRight: scaleSzie(20) }} >
-                            <View style={{ width: scaleSzie(100), paddingTop: scaleSzie(14) }} >
-                                <Text style={{ color: '#404040', fontSize: scaleSzie(16) }} >
+                        <View style={{ flexDirection: 'row', marginTop: scaleSize(20), paddingRight: scaleSize(20) }} >
+                            <View style={{ width: scaleSize(100), paddingTop: scaleSize(14) }} >
+                                <Text style={{ color: '#404040', fontSize: scaleSize(16) }} >
                                     {`${localize('Description', language)}:`}
                                 </Text>
                             </View>
 
                             <View style={{
-                                flex: 1, height: scaleSzie(90), borderColor: '#58595B', borderWidth: 2,
-                                borderRadius: 4, paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10)
+                                flex: 1, height: scaleSize(90), borderColor: '#58595B', borderWidth: 2,
+                                borderRadius: 4, paddingHorizontal: scaleSize(10), paddingVertical: scaleSize(10)
                             }} >
                                 <TextInput
                                     style={{
                                         flex: 1,
-                                        fontSize: scaleSzie(16),
+                                        fontSize: scaleSize(16),
                                         textAlignVertical: "top"
                                     }}
                                     multiline={true}
@@ -220,20 +220,20 @@ class Layout extends React.Component {
                                 />
                             </View>
                         </View>
-                        <View style={{ height: scaleSzie(300) }} />
+                        <View style={{ height: scaleSize(300) }} />
                     </ScrollView>
                 </View >
                 {/* ----------- Button  ------ */}
-                <View style={{ height: scaleSzie(70), }} >
+                <View style={{ height: scaleSize(70), }} >
                     <ButtonCustom
-                        width={scaleSzie(290)}
+                        width={scaleSize(290)}
                         height={60}
                         backgroundColor="#0764B0"
                         title={localize('SAVE', language)}
                         textColor="#fff"
                         onPress={this.uploadBannerToServer}
                         style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                        styleText={{ fontSize: scaleSzie(24), fontWeight: 'bold' }}
+                        styleText={{ fontSize: scaleSize(24), fontWeight: 'bold' }}
                     />
                 </View>
             </View>

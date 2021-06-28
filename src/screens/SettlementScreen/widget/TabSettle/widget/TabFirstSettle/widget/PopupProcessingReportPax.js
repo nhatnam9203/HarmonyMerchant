@@ -8,7 +8,7 @@ import {
 import {
     ButtonCustom, ModalCustom
 } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSize, localize } from '@utils';
 
 class PopupProcessingReportPax extends React.Component {
 
@@ -37,17 +37,17 @@ class PopupProcessingReportPax extends React.Component {
                 onRequestClose={() => { }}
             >
                 <View style={{
-                    height: scaleSzie(200),
-                    width: scaleSzie(420),
+                    height: scaleSize(200),
+                    width: scaleSize(420),
                     backgroundColor: '#fff',
-                    borderRadius: scaleSzie(15),
-                    paddingTop: scaleSzie(16)
+                    borderRadius: scaleSize(15),
+                    paddingTop: scaleSize(16)
                 }} >
                     <View style={{ flex: 1, alignItems: 'center' }} >
-                        <Text style={{ color: '#0764B0', fontSize: scaleSzie(24), fontWeight: 'bold' }} >
+                        <Text style={{ color: '#0764B0', fontSize: scaleSize(24), fontWeight: 'bold' }} >
                             {`${localize('Please wait', language)}!`}
                         </Text>
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(14), marginTop: scaleSzie(4),textAlign:"center" }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSize(14), marginTop: scaleSize(4),textAlign:"center" }} >
                             {`${localize(`The system is getting reports from your Pax machine. Don't use Pax machine while getting!`, language)} ...`}
                         </Text>
 

@@ -10,7 +10,7 @@ import {
 import YouTube from 'react-native-youtube';
 
 import { ButtonCustom, Text, Dropdown, Button } from '@components';
-import { scaleSzie, localize, YOUTUBE_DATA } from '@utils';
+import { scaleSize, localize, YOUTUBE_DATA } from '@utils';
 import IMAGE from '@resources';
 import styles from './style';
 
@@ -30,8 +30,8 @@ class Layout extends React.Component {
                     numColumns={3}
                     columnWrapperStyle={{
                         justifyContent: 'space-between',
-                        paddingHorizontal: scaleSzie(20),
-                        marginTop: scaleSzie(20)
+                        paddingHorizontal: scaleSize(20),
+                        marginTop: scaleSize(20)
                     }}
                 />
 
@@ -74,8 +74,8 @@ class YouTubeItem extends React.Component {
     render() {
         const { data} = this.props
         return (
-            <View style={{ width: scaleSzie(180) }} >
-                <View style={{ width: scaleSzie(180), height: scaleSzie(120) }} >
+            <View style={{ width: scaleSize(180) }} >
+                <View style={{ width: scaleSize(180), height: scaleSize(120) }} >
                     <YouTube
                         videoId={data.videoId}
                         // play={true}
@@ -85,17 +85,17 @@ class YouTubeItem extends React.Component {
                         onChangeState={this.onChangeState }
                         onChangeQuality={this.onChangeQuality}
                         onError={this.onError}
-                        style={{ width: scaleSzie(180), height: scaleSzie(120) }}
+                        style={{ width: scaleSize(180), height: scaleSize(120) }}
                     />
                     <Button onPress={this.showFullScreeen} style={{
-                        width: scaleSzie(30), height: scaleSzie(20),
+                        width: scaleSize(30), height: scaleSize(20),
                         position: 'absolute', bottom: 0, right: 0
                     }} >
 
                     </Button>
                 </View>
-                <View style={{ paddingRight: scaleSzie(10), marginTop: scaleSzie(10) }} >
-                    <Text style={{ color: '#404040', fontSize: scaleSzie(12) }} >
+                <View style={{ paddingRight: scaleSize(10), marginTop: scaleSize(10) }} >
+                    <Text style={{ color: '#404040', fontSize: scaleSize(12) }} >
                         {data.description}
                     </Text>
                 </View>

@@ -15,7 +15,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
 
 import { ButtonCustom, PopupParent, Slider } from '@components';
-import { scaleSzie, scaleSize, formatNumberFromCurrency, formatMoney, localize, roundNumber, checkIsTablet } from '@utils';
+import { scaleSize, formatNumberFromCurrency, formatMoney, localize, roundNumber, checkIsTablet } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
 import { colors } from '@shared/themes';
@@ -152,7 +152,7 @@ class PopupBlockDiscount extends React.Component {
             total = formatNumberFromCurrency(total) + formatNumberFromCurrency(moneyDiscountCustom);
             total = roundNumber(total);
 
-            const tempHeight = checkIsTablet() ? scaleSzie(390) : scaleSzie(400);
+            const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
             const discountByStaff = (100 - this.state.discountByOwner)
 
             const stylePercentText = this.state.manualTypeSelect == manualType.percentType 
@@ -178,14 +178,14 @@ class PopupBlockDiscount extends React.Component {
                 >
                     <View style={{
                         height: tempHeight, backgroundColor: '#fff',
-                        borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
+                        borderBottomLeftRadius: scaleSize(15), borderBottomRightRadius: scaleSize(15),
                     }} >
-                        <View style={{ height: scaleSzie(300) }} >
+                        <View style={{ height: scaleSize(300) }} >
                             <ScrollView
                                 ref={this.scrollRef}
                                 keyboardShouldPersistTaps="always"
                             >
-                                <TouchableOpacity activeOpacity={1} style={{ paddingHorizontal: scaleSzie(25) }} >
+                                <TouchableOpacity activeOpacity={1} style={{ paddingHorizontal: scaleSize(25) }} >
                                     {
                                         discount && discount.length > 0 &&
                                         <View style={[styles.viewRowContainer, {marginTop: 20}]}>
@@ -201,7 +201,7 @@ class PopupBlockDiscount extends React.Component {
                                         />
                                         )
                                     }
-                                    <View style={{ height: scaleSzie(10) }} />
+                                    <View style={{ height: scaleSize(10) }} />
                                     {/* ----------- Row 1 ----------- */}
                                     <View>
                                         <Text style={styles.textNormal}>{localize('Manual Discount', language)}</Text>
@@ -270,14 +270,14 @@ class PopupBlockDiscount extends React.Component {
                                         maximumValue={100}
                                         onValueChange={(value)=>this.handelSliderValue(value)}
                                         trackStyle={{
-                                            height: scaleSzie(10),
+                                            height: scaleSize(10),
                                             backgroundColor: "#F1F1F1",
-                                            borderRadius: scaleSzie(6),
+                                            borderRadius: scaleSize(6),
                                           }}
                                           thumbStyle={{
-                                            height: scaleSzie(24),
-                                            width: scaleSzie(24),
-                                            borderRadius: scaleSzie(12),
+                                            height: scaleSize(24),
+                                            width: scaleSize(24),
+                                            borderRadius: scaleSize(12),
                                             backgroundColor: "#fff",
                                             ...Platform.select({
                                               ios: {
@@ -322,7 +322,7 @@ class PopupBlockDiscount extends React.Component {
                                         </View>
                                     </View>
 
-                                    <View style={{ height: scaleSzie(130) }} />
+                                    <View style={{ height: scaleSize(130) }} />
                                 </TouchableOpacity>
                             </ScrollView>
 

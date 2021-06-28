@@ -3,7 +3,7 @@ import {
     View,
 } from 'react-native';
 
-import { scaleSzie, localize, updateStateChildren, formatWithMoment } from '@utils';
+import { scaleSize, localize, updateStateChildren, formatWithMoment } from '@utils';
 import { Text, InputForm, ButtonCustom } from '@components';
 import ItemCalendar from './ItemCalendar';
 import ItemPromo from './ItemPromo';
@@ -78,7 +78,7 @@ class PromotionFirst extends React.Component {
                 checkSelectPromotion={this.checkSelectPromotion}
                 showContent={this.showContent}
             >
-                <View style={{ paddingHorizontal: scaleSzie(10), paddingVertical: scaleSzie(10) }} >
+                <View style={{ paddingHorizontal: scaleSize(10), paddingVertical: scaleSize(10) }} >
                     <InputForm
                         title={`${localize('Campaign Name', language)}:`}
                         subTitle=""
@@ -90,12 +90,12 @@ class PromotionFirst extends React.Component {
                             });
                             this.props.actions.marketing.setStatusApplyButton(true, 1);
                         }}
-                        style={{ marginBottom: scaleSzie(10) }}
+                        style={{ marginBottom: scaleSize(10) }}
                         styleTitle={{ fontWeight: "600" }}
                     />
                     <Text style={{
                         color: '#404040',
-                        fontSize: scaleSzie(14),
+                        fontSize: scaleSize(14),
                         fontWeight: "600"
                     }} >
                         {`${localize('Campaign Time', language)}:`}
@@ -107,7 +107,7 @@ class PromotionFirst extends React.Component {
                             value={`${formatWithMoment(data.fromDate, 'MM/DD/YYYY')}`}
                             onPress={() => showCalendar('fromDate', data.fromDate, 1)}
                         />
-                        <View style={{ width: scaleSzie(50) }} />
+                        <View style={{ width: scaleSize(50) }} />
                         <ItemCalendar
                             title={localize('End Date', language)}
                             value={`${formatWithMoment(data.toDate, 'MM/DD/YYYY')}`}
@@ -117,7 +117,7 @@ class PromotionFirst extends React.Component {
                     </View>
                     {/* ---- Row ---- */}
                     <View style={{
-                        flexDirection: 'row', marginTop: scaleSzie(2), marginBottom: scaleSzie(20),
+                        flexDirection: 'row', marginTop: scaleSize(2), marginBottom: scaleSize(20),
                     }} >
                         <ItemDropdown
                             ref={this.dropdownFromRef}
@@ -132,7 +132,7 @@ class PromotionFirst extends React.Component {
                                 this.props.actions.marketing.setStatusApplyButton(true, 1);
                             }}
                         />
-                        <View style={{ width: scaleSzie(50) }} />
+                        <View style={{ width: scaleSize(50) }} />
                         <ItemDropdown
                             ref={this.dropdownToRef}
                             title={localize('To', language)}
@@ -150,7 +150,7 @@ class PromotionFirst extends React.Component {
                     {/* ---- Row ---- */}
                     <Text style={{
                         color: '#404040',
-                        fontSize: scaleSzie(14),
+                        fontSize: scaleSize(14),
                         fontWeight: "600"
                     }} >
                         {`${localize('Promotion form', language)}:`}
@@ -185,7 +185,7 @@ class PromotionFirst extends React.Component {
                             }}
                             onFocus={() => onFocus(250)}
                         />
-                        <View style={{ width: scaleSzie(50) }} />
+                        <View style={{ width: scaleSize(50) }} />
                         <ItemCheckBoxInput
                             title={`${localize('Discount fix amount', language)} ($)`}
                             placeholder="100"
@@ -214,26 +214,26 @@ class PromotionFirst extends React.Component {
                             onFocus={() => onFocus(250)}
                         />
                     </View>
-                    <View style={{ alignItems: 'center', marginTop: scaleSzie(20) }} >
+                    <View style={{ alignItems: 'center', marginTop: scaleSize(20) }} >
                         {
                             isApplyFirstPromotion ? <ButtonCustom
-                                width={scaleSzie(150)}
+                                width={scaleSize(150)}
                                 height={40}
                                 backgroundColor="#4CD964"
                                 title={localize('Apply', language)}
                                 textColor="#fff"
                                 onPress={this.applyPromotion}
-                                styleText={{ fontSize: scaleSzie(17), fontWeight: 'bold' }}
-                                style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSzie(4) }}
+                                styleText={{ fontSize: scaleSize(17), fontWeight: 'bold' }}
+                                style={{ borderWidth: 1, borderColor: '#C5C5C5', borderRadius: scaleSize(4) }}
                             /> : <ButtonCustom
-                                    width={scaleSzie(150)}
+                                    width={scaleSize(150)}
                                     height={40}
                                     backgroundColor="#E5E5E5"
                                     title={localize('APPLY', language)}
                                     textColor="#404040"
                                     onPress={() => { }}
                                     style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                                    styleText={{ fontSize: scaleSzie(17), fontWeight: 'bold' }}
+                                    styleText={{ fontSize: scaleSize(17), fontWeight: 'bold' }}
                                     activeOpacity={1}
                                 />
                         }
