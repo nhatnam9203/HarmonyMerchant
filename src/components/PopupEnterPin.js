@@ -222,3 +222,4 @@ const mapStateToProps = state => ({
 });
 
 export default connectRedux(mapStateToProps, PopupEnterPin);
+

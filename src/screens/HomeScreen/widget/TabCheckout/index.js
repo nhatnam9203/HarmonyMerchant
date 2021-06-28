@@ -1,12 +1,12 @@
-import React from "react";
-import _ from "ramda";
-const signalR = require("@microsoft/signalr");
-import { NativeModules, Platform } from "react-native";
-import env from "react-native-config";
-import BleManager from "react-native-ble-manager";
+import React from 'react';
+import _ from 'ramda';
+const signalR = require('@microsoft/signalr');
+import { NativeModules, Platform } from 'react-native';
+import env from 'react-native-config';
+import BleManager from 'react-native-ble-manager';
 
-import Layout from "./layout";
-import connectRedux from "@redux/ConnectRedux";
+import Layout from './layout';
+import connectRedux from '@redux/ConnectRedux';
 import {
   getArrayProductsFromAppointment,
   getArrayServicesFromAppointment,
@@ -916,7 +916,7 @@ class TabCheckout extends Layout {
       // const tempURI = tempEnv == "Staging" ? 'https://signalr-stage.harmonypayment.com/' : apiConfigs.BASE_URL;
       const connection = new signalR.HubConnectionBuilder()
         .withUrl(
-          `${Configs.SOCKET_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app&deviceId=${deviceId}&token=${token}`,
+          `${apiConfigs.BASE_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app&deviceId=${deviceId}&token=${token}`,
           {
             transport:
               signalR.HttpTransportType.LongPolling |
@@ -1339,7 +1339,7 @@ class TabCheckout extends Layout {
     }
   }
 
-  getPAXReport = async (paxMachineInfo, isLastTransaction = 0) => {
+  getPAXReport = async (paxMachineInfo, isLastTransaction) => {
     const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
       paxMachineInfo;
   
@@ -1378,6 +1378,7 @@ class TabCheckout extends Layout {
           //   return {}
           // } else {
             return result
+            
           // }
         } else {
           return {}
@@ -1393,6 +1394,56 @@ class TabCheckout extends Layout {
   sendTransToPaxMachine = async () => {
     const {
       paxMachineInfo,
+      amountCredtitForSubmitToServer,
+      groupAppointment,
+      isCancelPayment,
+      payAppointmentId
+    } = this.props;
+    const { paymentSelected } = this.state;
+  
+    // console.log("------ groupAppointment: ", JSON.stringify(groupAppointment));
+    // 1. Show modal processing
+    await this.setState({
+      visibleProcessingCredit: true,
+    });
+
+    //Check if isCancelPayment = true
+    if(isCancelPayment){
+      const result = await this.getPAXReport(paxMachineInfo, "1")
+      if(!l.isEmpty(result)){
+        if(l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()){
+          this.handleResponseCreditCard(
+            JSON.stringify(result),
+            true,
+            amountCredtitForSubmitToServer
+          )
+        }else{
+          this.sendTransaction()
+        }
+        
+      }else{
+        if (payAppointmentId) {
+          this.props.actions.appointment.cancelHarmonyPayment(
+            payAppointmentId
+          );
+        }
+        setTimeout(() => {
+          // alert(result.message);
+          this.setState({
+            visibleProcessingCredit: false,
+            visibleErrorMessageFromPax: true,
+            errorMessageFromPax: 'transaction fail',
+          });
+        }, 300);
+      }
+    }else{
+      this.sendTransaction()
+    }
+  };
+
+  sendTransaction(){
+    const {
+      paxMachineInfo,
       isTipOnPaxMachine,
       paxAmount,
       amountCredtitForSubmitToServer,
@@ -1404,28 +1455,10 @@ class TabCheckout extends Layout {
     const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
       paxMachineInfo;
     const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
-
-    // console.log("------ groupAppointment: ", JSON.stringify(groupAppointment));
-    // 1. Show modal processing
-    await this.setState({
-      visibleProcessingCredit: true,
-    });
-
-    //Check if isCancelPayment = true
-    if(isCancelPayment){
-      const result = await this.getPAXReport(paxMachineInfo, "1")
-      if(!l.isEmpty(result) && l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()){
-        this.handleResponseCreditCard(
-          JSON.stringify(result),
-          true,
-          amountCredtitForSubmitToServer
-        )
-      }
-    }else{
-      const tempIpPax = commType == "TCP" ? ip : "";
-      const tempPortPax = commType == "TCP" ? port : "";
-      const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
-      const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
+    const tempIpPax = commType == "TCP" ? ip : "";
+    const tempPortPax = commType == "TCP" ? port : "";
+    const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+    const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
   
       // 2. Send Trans to pax
       PosLink.sendTransaction(
@@ -1449,8 +1482,7 @@ class TabCheckout extends Layout {
             amountCredtitForSubmitToServer
           )
       );
-    }
-  };
+  }
 
   async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
     const { profile, payAppointmentId } = this.props;
@@ -1460,7 +1492,7 @@ class TabCheckout extends Layout {
     try {
       const result = JSON.parse(message);
       const tempEnv = env.IS_PRODUCTION;
-      if (l.get(result, 'status', 1) == 0) {
+      if (l.get(result, 'status', 0) == 0) {
         PosLink.cancelTransaction();
         if (payAppointmentId) {
           this.props.actions.appointment.cancelHarmonyPayment(
@@ -1470,6 +1502,7 @@ class TabCheckout extends Layout {
           );
         }
         if (result?.message === "ABORTED") {
+          console.log('ABORTED')
           return;
         }
         setTimeout(() => {
@@ -1944,7 +1977,7 @@ class TabCheckout extends Layout {
       const optionAction = {
         method: "POST",
         token: true,
-        api: `${Configs.API_URL}appointment`,
+        api: `${apiConfigs.BASE_API}appointment`,
         paymentMethod: method,
         isLoading: true,
         paidAmount: moneyUserGiveForStaff,

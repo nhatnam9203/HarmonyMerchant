@@ -3,7 +3,7 @@ import {
     View,
     Text,
     Image,
-    LayoutAnimation, Platform, UIManager
+    LayoutAnimation, Platform, 
 } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 import _ from 'ramda';
@@ -31,7 +31,7 @@ class ItemBlockBasket extends React.Component {
             contentHeight: 0,
         };
         if (Platform.OS === 'android') {
-            UIManager.setLayoutAnimationEnabledExperimental(true);
+            // UIManager.setLayoutAnimationEnabledExperimental(true);
         }
     }
 
