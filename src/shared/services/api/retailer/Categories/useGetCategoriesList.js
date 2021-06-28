@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 
 export const useGetCategoriesList = () => {
   const dispatch = useDispatch();
+  const [paramsBackup, setParamsBackup] = React.useState(null);
 
   const [{ data: categoriesList, loading, error, response }, execute] =
     useAxios(
@@ -20,12 +21,18 @@ export const useGetCategoriesList = () => {
       dispatch(appMerchant.showLoading());
     }
     if (!loading && response) {
-      dispatch(inventoryRetailer.saveCategories(categoriesList?.data));
+      if (!paramsBackup) {
+        dispatch(inventoryRetailer.saveCategories(categoriesList?.data));
+      }
       dispatch(appMerchant.hideLoading());
     }
   }, [categoriesList?.data, dispatch, loading, response]);
 
   const getCategoriesList = (params) => {
+    if (params) {
+      setParamsBackup(params);
+    } else setParamsBackup(null);
+
     execute({
       params: params,
     });

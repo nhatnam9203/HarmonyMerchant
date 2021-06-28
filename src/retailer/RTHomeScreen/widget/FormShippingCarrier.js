@@ -1,48 +1,66 @@
-import React from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
+import React from "react";
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import {
   ButtonGradient,
   CustomRadioSelect,
   FormInput,
-} from '@shared/components';
-import { useTranslation } from 'react-i18next';
-import { layouts, colors, fonts } from '@shared/themes';
-import IMAGE from '@resources';
+} from "@shared/components";
+import { useTranslation } from "react-i18next";
+import { layouts, colors, fonts } from "@shared/themes";
+import IMAGE from "@resources";
 import {
   SHIPPING_CARRIER,
   STORE_PICKUPS,
   FLAT_RATE_SHIPPING,
   FREE_SHIPPING,
-} from '@shared/utils';
-import { formatMoneyWithUnit } from '@utils';
-
-const SHIPPING_METHOD_GROUP = {
-  FLAT_RATE: 'Flat rate shipping',
-  FREE: 'Free shipping',
-};
+  SHIPPING_METHOD_GROUP,
+} from "@shared/utils";
+import { formatMoneyWithUnit } from "@utils";
 
 export const FormShippingCarrier = ({ onChangeValue }) => {
   const [t] = useTranslation();
 
   const freeSwitchRef = React.useRef(null);
   const flatRateSwitchRef = React.useRef(null);
+  const storePickupSwitchRef = React.useRef(null);
+  const shippingCarrierRef = React.useRef(null);
 
   const [shippingCarrier, setShippingCarrier] = React.useState();
   const [trackingNumber, setTrackingNumber] = React.useState();
+
   const [shippingMethodGroup, setShippingMethodGroup] = React.useState(
-    SHIPPING_METHOD_GROUP.FREE,
+    SHIPPING_METHOD_GROUP.STORE_PICKUP
   );
   const [shippingMethodLabel, setShippingMethodLabel] = React.useState();
 
   const onHandleChangeMethod = (item) => {
-    if (item.label === 'Free shipping') {
-      setShippingMethodGroup(SHIPPING_METHOD_GROUP.FREE);
-      setShippingMethodLabel(item.label);
-      flatRateSwitchRef.current?.reset();
-    } else {
-      setShippingMethodGroup(SHIPPING_METHOD_GROUP.FLAT_RATE);
-      setShippingMethodLabel(item.label);
-      freeSwitchRef.current?.reset();
+    setShippingMethodLabel(item.label);
+
+    switch (item.group) {
+      case SHIPPING_METHOD_GROUP.STORE_PICKUP:
+        setShippingMethodGroup(SHIPPING_METHOD_GROUP.STORE_PICKUP);
+
+        freeSwitchRef.current?.reset();
+        flatRateSwitchRef.current?.reset();
+        shippingCarrierRef.current?.reset();
+        setShippingCarrier(null);
+        setTrackingNumber(null);
+        break;
+      case SHIPPING_METHOD_GROUP.FLAT_RATE:
+        setShippingMethodGroup(SHIPPING_METHOD_GROUP.FLAT_RATE);
+
+        freeSwitchRef.current?.reset();
+        storePickupSwitchRef.current?.reset();
+        break;
+      case SHIPPING_METHOD_GROUP.FREE:
+        setShippingMethodGroup(SHIPPING_METHOD_GROUP.FREE);
+
+        flatRateSwitchRef.current?.reset();
+        storePickupSwitchRef.current?.reset();
+
+        break;
+      default:
+        break;
     }
   };
 
@@ -51,7 +69,7 @@ export const FormShippingCarrier = ({ onChangeValue }) => {
   };
 
   React.useEffect(() => {
-    if (onChangeValue && typeof onChangeValue === 'function') {
+    if (onChangeValue && typeof onChangeValue === "function") {
       onChangeValue({
         shippingCarrier,
         trackingNumber,
@@ -68,29 +86,35 @@ export const FormShippingCarrier = ({ onChangeValue }) => {
 
   return (
     <View style={layouts.horizontal}>
-      <InfoContent label={t('Shipping carrier')}>
+      <InfoContent
+        label={t("Shipping carrier")}
+        disabled={shippingMethodGroup === SHIPPING_METHOD_GROUP.STORE_PICKUP}
+      >
         <CustomRadioSelect
+          ref={shippingCarrierRef}
           data={SHIPPING_CARRIER}
           onSelect={onHandleSetShippingCarrier}
         />
-        <InfoHeading label={t('Tracking number')} fontSize={scaleWidth(15)} />
+        <InfoHeading label={t("Tracking number")} fontSize={scaleWidth(15)} />
         <FormInput
           style={styles.input}
-          placeholder={t('Enter tracking number')}
+          placeholder={t("Enter tracking number")}
           onChangeValue={setTrackingNumber}
           defaultValue={trackingNumber}
         />
       </InfoContent>
-      <InfoContent label={t('Shipping method')}>
-        <InfoHeading label={t('Store Pickup')} fontSize={scaleWidth(15)} />
+      <InfoContent label={t("Shipping method")} editable={true}>
+        <InfoHeading label={t("Store Pickup")} fontSize={scaleWidth(15)} />
         <CustomRadioSelect
+          ref={storePickupSwitchRef}
           data={STORE_PICKUPS}
-          required={true}
+          onSelect={onHandleChangeMethod}
+          defaultValue={0}
           onRenderLabel={(x) => (
             <Text style={styles.textStyle}>
               {x?.label}
               <Text style={styles.textBoldStyle}>
-                {' - '}
+                {" - "}
                 {formatMoneyWithUnit(x?.value)}
               </Text>
             </Text>
@@ -98,7 +122,7 @@ export const FormShippingCarrier = ({ onChangeValue }) => {
         />
 
         <InfoHeading
-          label={t('Flat rate shipping')}
+          label={t("Flat rate shipping")}
           fontSize={scaleWidth(15)}
         />
         <CustomRadioSelect
@@ -109,14 +133,14 @@ export const FormShippingCarrier = ({ onChangeValue }) => {
             <Text style={styles.textStyle}>
               {x?.label}
               <Text style={styles.textBoldStyle}>
-                {' - '}
+                {" - "}
                 {formatMoneyWithUnit(x?.value)}
               </Text>
             </Text>
           )}
         />
 
-        <InfoHeading label={t('Free shipping')} fontSize={scaleWidth(15)} />
+        <InfoHeading label={t("Free shipping")} fontSize={scaleWidth(15)} />
         <CustomRadioSelect
           ref={freeSwitchRef}
           data={FREE_SHIPPING}
@@ -125,7 +149,7 @@ export const FormShippingCarrier = ({ onChangeValue }) => {
             <Text style={styles.textStyle}>
               {x?.label}
               <Text style={styles.textBoldStyle}>
-                {' - '}
+                {" - "}
                 {formatMoneyWithUnit(x?.value)}
               </Text>
             </Text>
@@ -156,9 +180,19 @@ let InfoHeading = ({ label, onPress, editable = false, fontSize }) => {
   );
 };
 
-let InfoContent = ({ label, onPress, children, editable = false }) => {
+let InfoContent = ({
+  label,
+  onPress,
+  children,
+  editable = false,
+  disabled = false,
+}) => {
   return (
-    <View style={styles.infoContent}>
+    <View
+      style={styles.infoContent}
+      pointerEvents={disabled ? "none" : "auto"}
+      opacity={disabled ? 0.3 : 1}
+    >
       <InfoHeading label={label} onPress={onPress} editable={editable} />
       <View style={layouts.marginVertical} />
       <View style={[layouts.fill]}>{children}</View>
@@ -170,24 +204,24 @@ const styles = StyleSheet.create({
   textInput: {
     height: scaleHeight(80),
     borderWidth: scaleWidth(1),
-    borderColor: '#C5C5C5',
-    textAlignVertical: 'top',
+    borderColor: "#C5C5C5",
+    textAlignVertical: "top",
     padding: scaleWidth(16),
   },
 
   infoLineContent: {
-    flexDirection: 'row',
+    flexDirection: "row",
     // justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: "center",
   },
 
   infoHeaderText: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(17),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
     marginRight: scaleWidth(10),
   },
@@ -203,20 +237,20 @@ const styles = StyleSheet.create({
   textStyle: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   textBoldStyle: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(15),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 });

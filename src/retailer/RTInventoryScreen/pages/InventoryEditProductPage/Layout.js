@@ -181,7 +181,7 @@ export const Layout = ({
                 if (value) form.setFieldValue('quantity', parseInt(value));
               }}
               defaultValue={`${productItem?.quantity ?? ''}`}
-              keyboardType="numeric"
+              keyboardType="number-pad"
             />
           </View>
         </View>
@@ -246,7 +246,7 @@ export const Layout = ({
           textColor={colors.WHITE}
           fontWeight="500"
           disable={!form.isValid}
-          // disable={!form.isValid || !form.dirty}
+          disable={!form.isValid || !form.dirty}
           onPress={form?.handleSubmit}
         />
       </View>

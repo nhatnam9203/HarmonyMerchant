@@ -12,7 +12,7 @@ const CONTENT_HEIGHT = scaleHeight(47);
 
 const ButtonLockScreen = WithDialogPinCode(ButtonLock);
 
-export const HomeTabBar = ({ state, descriptors, navigation, position }) => {
+export const HomeTabBar = ({ state, descriptors, navigation, position, onOpenDrawer }) => {
   const renderTab = (name, page, isTabActive, onPress) => {
     const textColor = isTabActive ? "#FFFFFF" : "#0872C9";
     const fontWeight = isTabActive ? "bold" : "normal";
@@ -97,7 +97,7 @@ export const HomeTabBar = ({ state, descriptors, navigation, position }) => {
 
   return (
     <View style={styles.container}>
-      <ButtonDrawer onPress={() => navigation.openDrawer()} />
+      <ButtonDrawer onPress={onOpenDrawer} />
       <View style={[styles.tabContainer, styles.shadow]}>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];

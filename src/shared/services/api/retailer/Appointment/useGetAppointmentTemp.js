@@ -3,17 +3,17 @@ import { RETAILER_ORDER } from "../../route";
 import { appMerchant } from "@redux/slices";
 import React from "react";
 import { useDispatch } from "react-redux";
+import { basketRetailer } from "@redux/slices";
 
-export const useCreateAppointmentTemp = () => {
+export const useGetAppointmentTemp = () => {
   const dispatch = useDispatch();
 
-  const [{ data: appointmentTempCreate, loading, error, response }, execute] =
-    useAxios(
-      { method: "POST", url: `${RETAILER_ORDER.url}/temp` },
-      {
-        manual: true,
-      }
-    );
+  const [{ data: appointment, loading, error, response }, execute] = useAxios(
+    { method: "GET" },
+    {
+      manual: true,
+    }
+  );
 
   React.useEffect(() => {
     if (loading) {
@@ -21,14 +21,16 @@ export const useCreateAppointmentTemp = () => {
     }
     if (!loading && response) {
       dispatch(appMerchant.hideLoading());
+
+      dispatch(basketRetailer.setAppointmentTemp(appointment?.data));
     }
   }, [dispatch, loading, response]);
 
-  const createAppointmentTemp = (params) => {
+  const getAppointmentTemp = (appointmentId) => {
     execute({
-      data: params,
+      url: `${RETAILER_ORDER.url}/temp/${appointmentId}`,
     });
   };
 
-  return [appointmentTempCreate, createAppointmentTemp];
+  return [appointment, getAppointmentTemp];
 };

@@ -521,6 +521,7 @@ class TabCheckout extends Layout {
       customerInfoBuyAppointment,
       appointmentIdBookingFromCalendar,
     } = this.props;
+
     const { isDrawer } = this.state;
     const temptBlockAppointments = blockAppointments
       ? [...blockAppointments]
@@ -1346,9 +1347,9 @@ class TabCheckout extends Layout {
       let isError = false;
 
       try {
-        const tempIpPax = commType == 'TCP' ? ip : '';
-        const tempPortPax = commType == 'TCP' ? port : '';
-        const idBluetooth = commType === 'TCP' ? '' : bluetoothAddr;
+        const tempIpPax = commType == "TCP" ? ip : "";
+        const tempPortPax = commType == "TCP" ? port : "";
+        const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
 
         let data = await PosLinkReport.reportTransaction({
           transType: 'LOCALDETAILREPORT',
@@ -1366,9 +1367,9 @@ class TabCheckout extends Layout {
         let result = JSON.parse(data);
         const ExtData = result?.ExtData || '';
         const xmlExtData =
-          '<xml>' + ExtData.replace('\\n', '').replace('\\/', '/') + '</xml>';
+          "<xml>" + ExtData.replace("\\n", "").replace("\\/", "/") + "</xml>";
 
-        if (result?.ResultCode && result?.ResultCode == '000000') {
+        if (result?.ResultCode && result?.ResultCode == "000000") {
           // if (tempEnv == "Production" && result?.Message === "DEMO APPROVED") {
           //   setTimeout(() => {
           //     alert("You're running your Pax on DEMO MODE!");
@@ -1385,6 +1386,7 @@ class TabCheckout extends Layout {
       } catch (error) {
         return {};
       }
+
     }
   };
 

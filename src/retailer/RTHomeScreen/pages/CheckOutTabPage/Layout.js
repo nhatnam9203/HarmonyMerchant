@@ -31,7 +31,9 @@ export const Layout = ({
   onHadSubmitted,
   onGoBack,
   customerRef,
-  onRefreshCategory
+  onRefreshCategory,
+  onAddProduct,
+  onRemoveItem
 }) => {
   const [t] = useTranslation();
 
@@ -90,11 +92,12 @@ export const Layout = ({
             <BasketContentView
               ref={basketRef}
               onHadSubmitted={onHadSubmitted}
+              onRemoveItem={onRemoveItem}
             />
           </View>
         </View>
       </View>
-      <DialogProductDetail ref={productDetailRef} />
+      <DialogProductDetail ref={productDetailRef} onAddProduct={onAddProduct} />
     </View>
   );
 };

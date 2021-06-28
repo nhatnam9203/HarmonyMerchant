@@ -33,7 +33,9 @@ import {
   PopupChangePriceAmountProduct,
   ScrollableTabView,
   PopupCheckStaffPermission,
+  PopupConfirm,
 } from "@components";
+import { useIsPayment } from "../../hooks";
 
 const signalR = require("@microsoft/signalr");
 
@@ -50,7 +52,13 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   const modalBillRef = React.useRef(null);
   const popupSendLinkInstallRef = React.useRef(null);
   const popupEnterAmountGiftCardRef = React.useRef(null);
+  const popupDiscountRef = React.useRef(null);
+  const popupDiscountLocalRef = React.useRef(null);
+  const activeGiftCardRef = React.useRef(null);
+  const connectSignalR = React.useRef(null);
+
   const dispatch = useDispatch();
+  const isPayment = useIsPayment();
 
   const isOfflineMode = useSelector((state) => state.network.isOfflineMode);
   const groupAppointment = useSelector(
@@ -70,9 +78,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   const customerInfoBuyAppointment = useSelector(
     (state) => state.appointment.customerInfoBuyAppointment
   );
-  const connectionSignalR = useSelector(
-    (state) => state.appointment.connectionSignalR
-  );
+
   const payAppointmentId = useSelector(
     (state) => state.appointment.payAppointmentId
   );
@@ -82,6 +88,15 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   const isDonePayment = useSelector((state) => state.appointment.isDonePayment);
   const printerList = useSelector((state) => state.dataLocal.printerList);
   const printerSelect = useSelector((state) => state.dataLocal.printerSelect);
+  const isCancelAppointment = useSelector(
+    (state) => state.appointment.isCancelAppointment
+  );
+  const visiblePopupPaymentDetails = useSelector(
+    (state) => state.appointment.visiblePopupPaymentDetails
+  );
+  const visibleConfirm = useSelector(
+    (state) => state.appointment.visiblePopupPaymentConfirm
+  );
 
   const [paymentSelected, setPaymentSelected] = React.useState("");
   const [visibleBillOfPayment, setVisibleBillOfPayment] = React.useState(false);
@@ -99,6 +114,8 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   });
   const [visibleSendLinkPopup, setVisibleSendLinkPopup] = React.useState(false);
   const [isCancelHarmonyPay, setIsCancelHarmonyPay] = React.useState(false);
+  const [visiblePopupDiscountLocal, setVisiblePopupDiscountLocal] =
+    React.useState(false);
 
   const [infoUser, setInfoUser] = React.useState({
     firstName: "",
@@ -110,6 +127,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   const [basket, setBasket] = React.useState();
   const [visibleProcessingCredit, setVisibleProcessingCredit] =
     React.useState(false);
+  // const [visibleConfirm, setVisibleConfirm] = React.useState(false);
 
   const onGoBack = () => {
     NavigationServices.navigate("retailer.home.order.list", { reload: true });
@@ -171,7 +189,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
         const dueAmount = paymentDetailInfo?.dueAmount || 0;
         modalBillRef?.current?.setStateFromParent(`${dueAmount}`);
       }
-      setVisibleBillOfPayment(true);
+      await setVisibleBillOfPayment(true);
 
       // if (method === 'harmony' || method === 'credit_card') {
       //     const dueAmount = parseFloat(formatNumberFromCurrency(paymentDetailInfo?.dueAmount || 0));
@@ -185,15 +203,15 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   };
 
   const cancelHarmonyPayment = async () => {
-    setChangeButtonDone(false);
-    setIsCancelHarmonyPay(false);
-    setPaymentSelected("");
+    await setChangeButtonDone(false);
+    await setIsCancelHarmonyPay(false);
+    await setPaymentSelected("");
 
     if (payAppointmentId) {
       dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
     }
-    if (!_.isEmpty(connectionSignalR)) {
-      connectionSignalR.stop();
+    if (!_.isEmpty(connectSignalR.current)) {
+      await connectSignalR.current?.stop();
     }
   };
 
@@ -442,7 +460,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     moneyUserGiveForStaff
   ) => {
     try {
-      const connection = new signalR.HubConnectionBuilder()
+      connectSignalR.current = new signalR.HubConnectionBuilder()
         .withUrl(
           `${Configs.SOCKET_URL}notification/?merchantId=${profile.merchantId}&Title=Merchant&kind=app&deviceId=${deviceId}&token=${token}`,
           {
@@ -455,7 +473,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
         .configureLogging(signalR.LogLevel.Information)
         .build();
 
-      connection.on("ListWaNotification", (data) => {
+      connectSignalR.current.on("ListWaNotification", (data) => {
         const temptData = JSON.parse(data);
         if (
           temptData.data &&
@@ -483,24 +501,39 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
         }
       });
 
-      connection.onclose(async (error) => {
-        dispatch(actions.appointment.resetConnectSignalR());
+      connectSignalR.current.onclose(async (error) => {
+        console.log(error);
+        await dispatch(actions.appointment.resetConnectSignalR());
       });
 
-      connection
+      connectSignalR.current
         .start()
         .then(() => {
-          dispatch(actions.app.stopLoadingApp());
-          dispatch(actions.appointment.referenceConnectionSignalR(connection));
-          setIsCancelHarmonyPay(true);
-          setChangeButtonDone(true);
-          dispatch(
-            actions.appointment.paymentAppointment(
-              checkoutGroupId,
-              method,
-              moneyUserGiveForStaff
-            )
-          );
+          console.log("action connection");
+
+          try {
+            dispatch(actions.app.stopLoadingApp());
+
+            setIsCancelHarmonyPay(true);
+            setChangeButtonDone(true);
+
+            dispatch(
+              actions.appointment.paymentAppointment(
+                checkoutGroupId,
+                method,
+                moneyUserGiveForStaff
+              )
+            );
+
+            // dispatch(
+            //   actions.appointment.referenceConnectionSignalR(connection)
+            // );
+          } catch (error) {
+            dispatch(actions.app.stopLoadingApp());
+            setTimeout(() => {
+              alert(error);
+            }, 1000);
+          }
         })
         .catch((error) => {
           dispatch(actions.app.stopLoadingApp());
@@ -644,8 +677,6 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
       handlePaymentOffLineMode();
       return;
     }
-    console.log("moneyUserGiveForStaff" + moneyUserGiveForStaff);
-    console.log("total" + total);
 
     if (moneyUserGiveForStaff == 0 && groupAppointment && total != 0) {
       alert("Enter amount!");
@@ -757,8 +788,8 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
       printerSelect
     );
     if (portName) {
-      if (!_.isEmpty(connectionSignalR)) {
-        connectionSignalR.stop();
+      if (!_.isEmpty(connectSignalR.current)) {
+        await connectSignalR.current?.stop();
       }
       // if (paymentSelected === "Cash" || paymentSelected === "Other") {
       //   this.openCashDrawer(portName);
@@ -770,10 +801,8 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   };
 
   const donotPrintBill = async () => {
-    // this.props.pushAppointmentIdOfflineIntoWebview();
-
-    if (!_.isEmpty(connectionSignalR)) {
-      connectionSignalR.stop();
+    if (!_.isEmpty(connectSignalR.current)) {
+      await connectSignalR.current?.stop();
     }
     if (paymentSelected === "Cash" || paymentSelected === "Other") {
       const { portName } = getInfoFromModelNameOfPrinter(
@@ -825,10 +854,9 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
 
   React.useEffect(() => {
     return () => {
-      if (!_.isEmpty(connectionSignalR)) {
-        connectionSignalR.stop();
+      if (connectSignalR.current) {
+        connectSignalR.current.stop();
       }
-      // cancelTransaction();
     };
   }, []);
 
@@ -836,9 +864,22 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     customerRef,
     basketRef,
     onHadSubmitted: () => {},
-    onGoBack: onGoBack,
+    onGoBack: () => {
+      if (isPayment) {
+        dispatch({
+          type: "VISIBLE_POPUP_PAYMENT_CONFIRM",
+          payload: { visible: true, func: null },
+        });
+      } else {
+        onGoBack();
+      }
+    },
     selectedPayment: (title) => {
       setPaymentSelected(title);
+      if (title === "Gift Card") {
+        activeGiftCardRef.current?.setStateFromParent();
+        dispatch(actions.appointment.handleVisibleActiveGiftCard());
+      }
     },
     paymentSelected: paymentSelected,
     orderItem,
@@ -865,5 +906,100 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     printBill,
     popupEnterAmountGiftCardRef,
     navigation,
+    popupDiscountRef,
+    visiblePopupDiscountLocal,
+    popupDiscountLocalRef,
+    onRequestClosePopupDiscountLocal: () => {
+      setVisiblePopupDiscountLocal(false);
+    },
+    callbackDiscountToParent: () => {},
+    onDiscountAdd: () => {
+      if (_.isEmpty(connectSignalR.current)) {
+        if (orderItem?.appointmentId !== -1) {
+          const appointment = groupAppointment.appointments.find(
+            (appointment) =>
+              appointment.appointmentId === orderItem?.appointmentId
+          );
+
+          const { services, products, extras, giftCards } = appointment;
+          const arrayProducts = getArrayProductsFromAppointment(products);
+          const arryaServices = getArrayServicesFromAppointment(services);
+          const arrayExtras = getArrayExtrasFromAppointment(extras);
+          const arrayGiftCards = getArrayGiftCardsFromAppointment(giftCards);
+
+          const temptBasket = arrayProducts.concat(
+            arryaServices,
+            arrayExtras,
+            arrayGiftCards
+          );
+
+          if (temptBasket.length > 0) {
+            dispatch(
+              actions.marketing.getPromotionByAppointment(
+                orderItem?.appointmentId
+              )
+            );
+          }
+        } else {
+          // ----------- Offline ------------
+          popupDiscountLocalRef.current?.setStateFromParent(
+            subTotalLocal,
+            discountTotalLocal,
+            customDiscountPercentLocal,
+            customDiscountFixedLocal
+          );
+
+          setVisiblePopupDiscountLocal(true);
+        }
+      } else {
+        alert("You are paying by Harmony Payment!");
+      }
+    },
+    titleExitCheckoutTab: isCancelAppointment
+      ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? "
+      : "Are you sure you want to exit Check-Out?",
+    clearDataConfirm: () => {
+      if (!_.isEmpty(connectSignalR.current)) {
+        connectSignalR.current?.stop();
+      }
+
+      if (payAppointmentId) {
+        dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
+      }
+
+      dispatch(actions.appointment.resetBasketEmpty());
+      dispatch(actions.appointment.resetPayment());
+      dispatch(actions.appointment.changeFlagSigninAppointment(false));
+      dispatch(actions.appointment.resetGroupAppointment());
+
+      onGoBack();
+      if (visibleConfirm?.func && typeof visibleConfirm?.func === "function") {
+        visibleConfirm?.func();
+      }
+
+      dispatch({
+        type: "VISIBLE_POPUP_PAYMENT_CONFIRM",
+        payload: { visible: false, func: null },
+      });
+    },
+    visibleConfirm: visibleConfirm?.visible ?? false,
+    setVisibleConfirm: () => {
+      dispatch({
+        type: "VISIBLE_POPUP_PAYMENT_CONFIRM",
+        payload: { visible: false, func: null },
+      });
+    },
+    activeGiftCardRef,
+    submitSerialCode: (code) => {},
+    closePopupActiveGiftCard: async () => {
+      dispatch(actions.appointment.handleVisibleActiveGiftCard(false));
+    },
+    visiblePopupPaymentDetails,
+    closePopupProductPaymentDetails: () => {
+      setVisiblePopupPaymentDetails(false);
+    },
+    nextPayment: () => {
+      setVisiblePopupPaymentDetails(false);
+    },
   };
 };

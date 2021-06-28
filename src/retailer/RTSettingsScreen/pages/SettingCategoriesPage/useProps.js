@@ -25,6 +25,8 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
       name: searchVal ?? '',
       page: page,
     });
+
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, searchVal]);
 

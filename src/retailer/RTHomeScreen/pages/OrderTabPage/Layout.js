@@ -9,18 +9,14 @@ import { HomeOrderPayPage } from "../HomeOrderPayPage";
 import { HomeOrderReturnPage } from "../HomeOrderReturnPage";
 
 import { colors } from "@shared/themes";
-// import {
-//   OrderCheckout,
-//   OrderTab,
-//   TabMarketing,
-// } from '@src/screens/HomeScreen/widget';
+
 const { Screen, Navigator } = createStackNavigator();
 
 export const Layout = ({}) => {
   return (
     <View style={styles.container}>
       <Navigator
-        // initialRouteName="merchant.inventory"
+        initialRouteName="retailer.home.order.list"
         headerMode="none"
         screenOptions={{
           cardStyle: {

@@ -13,8 +13,27 @@ import {
   CheckOutCustomerInfo,
   ButtonPaymentMethod,
 } from "../../widget";
-import PopupBill from "./widget/PopupBill";
-import PopupEnterAmountGiftCard from "./widget/PopupEnterAmountGiftCard";
+
+import {
+  ItemCategory,
+  ItemProductService,
+  ItemAmount,
+  ItemExtra,
+  PopupDiscount,
+  PopupBill,
+  PopupDiscountLocal,
+  ItemCustomerBasket,
+  PopupPaymentDetails,
+  ItemBlockBasket,
+  PopupBlockDiscount,
+  ItemPaymentMethod,
+  PopupAddItemIntoAppointments,
+  PopupGiftCardDetail,
+  PopupEnterAmountGiftCard,
+  EnterCustomerPhonePopup,
+  PopupAddEditCustomer,
+  ErrorMessagePaxModal,
+} from "@shared/components/payment";
 import {
   PopupPayCompleted,
   PopupChangeStylist,
@@ -29,6 +48,7 @@ import {
   ScrollableTabView,
   PopupCheckStaffPermission,
   ParentContainer,
+  PopupConfirm,
 } from "@components";
 
 const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
@@ -75,6 +95,22 @@ export const Layout = ({
   printBill,
   popupEnterAmountGiftCardRef,
   navigation,
+  popupDiscountRef,
+  popupDiscountLocalRef,
+  visiblePopupDiscountLocal,
+  onRequestClosePopupDiscountLocal,
+  callbackDiscountToParent,
+  onDiscountAdd,
+  clearDataConfirm,
+  titleExitCheckoutTab,
+  visibleConfirm,
+  setVisibleConfirm,
+  activeGiftCardRef,
+  submitSerialCode,
+  closePopupActiveGiftCard,
+  visiblePopupPaymentDetails,
+  closePopupProductPaymentDetails,
+  nextPayment
 }) => {
   const [t] = useTranslation();
 
@@ -114,9 +150,8 @@ export const Layout = ({
                 <ButtonPaymentMethod
                   key={"HarmonyPay"}
                   title={"HarmonyPay"}
-                  // selectedPayment={selectedPayment}
+                  selectedPayment={selectedPayment}
                   paymentSelected={paymentSelected}
-                  selectedPayment={() => {}}
                 />
 
                 <ButtonPaymentMethod
@@ -178,6 +213,7 @@ export const Layout = ({
                 isCancelHarmonyPay={isCancelHarmonyPay}
                 groupAppointment={groupAppointment}
                 finishedHandle={onGoBack}
+                onDiscountAdd={onDiscountAdd}
               />
             </View>
           </View>
@@ -185,6 +221,35 @@ export const Layout = ({
 
         <DialogProductDetail ref={productDetailRef} />
       </View>
+
+      <PopupDiscount ref={popupDiscountRef} title={t("Discount")} />
+
+      <PopupBlockDiscount title={t("Discount")} />
+      <PopupDiscountLocal
+        ref={popupDiscountLocalRef}
+        visible={visiblePopupDiscountLocal}
+        title={t("Discount")}
+        onRequestClose={onRequestClosePopupDiscountLocal}
+        callbackDiscountToParent={(
+          customDiscountPercentLocal,
+          customDiscountFixedLocal,
+          discountTotalLocal
+        ) =>
+          callbackDiscountToParent(
+            customDiscountPercentLocal,
+            customDiscountFixedLocal,
+            discountTotalLocal
+          )
+        }
+      />
+
+      <PopupConfirm
+        visible={visibleConfirm}
+        title={t("Confirmation")}
+        message={titleExitCheckoutTab}
+        onRequestClose={setVisibleConfirm}
+        confimYes={clearDataConfirm}
+      />
 
       <PopupProcessingCredit
         visible={visibleProcessingCredit}
@@ -208,6 +273,21 @@ export const Layout = ({
         title={t("Confirmation")}
         onRequestClose={() => setVisibleSendLinkPopup(false)}
         confimYes={sendLinkInstallApp}
+      />
+
+      <PopupActiveGiftCard
+        ref={activeGiftCardRef}
+        title={t("Active Gift Card")}
+        onRequestClose={closePopupActiveGiftCard}
+        submitSerialCode={submitSerialCode}
+      />
+
+      <PopupPaymentDetails
+        title={t("Payment Details")}
+        visible={visiblePopupPaymentDetails}
+        onRequestClose={closePopupProductPaymentDetails}
+        language={language}
+        nextPayment={nextPayment}
       />
 
       <PopupPayCompleted

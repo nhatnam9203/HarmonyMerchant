@@ -14,6 +14,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from "react-native";
 import FastImage from "react-native-fast-image";
 import Swipeable from "react-native-gesture-handler/Swipeable";
@@ -39,6 +40,7 @@ export const BasketPaymentContent = React.forwardRef(
       payBasket,
       groupAppointment,
       finishedHandle,
+      onDiscountAdd
     },
     ref
   ) => {
@@ -53,7 +55,6 @@ export const BasketPaymentContent = React.forwardRef(
   | API
   |--------------------------------------------------
   */
-
     const calcTotalPrice = () => {
       return (
         orderItem?.products?.reduce(
@@ -180,25 +181,40 @@ export const BasketPaymentContent = React.forwardRef(
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           keyExtractor={(item) => item.id + ""}
         />
+        <View style={styles.line} />
         <View style={styles.totalContent}>
+          <View style={layouts.marginVertical} />
           <View style={layouts.marginVertical} />
           <TotalInfo
             label={t("Subtotal")}
-            value={formatMoneyWithUnit(calcTotalPrice())}
+            value={formatMoneyWithUnit(groupAppointment?.subTotal)}
           />
-          <TotalInfo label={t("Tax")} />
-          <TotalInfo label={t("Discount")} />
+          <TotalInfo
+            label={t("Tax")}
+            value={formatMoneyWithUnit(groupAppointment?.tax)}
+          />
+          <TotalInfo
+            label={t("Discount")}
+            value={formatMoneyWithUnit(groupAppointment?.discount)}
+          >
+            <View style={layouts.marginHorizontal} />
+            <TouchableOpacity onPress={onDiscountAdd}>
+              <Image
+                source={IMAGE.add_discount_checkout}
+                style={styles.iconStyle}
+              />
+            </TouchableOpacity>
+          </TotalInfo>
           <View style={layouts.marginVertical} />
           <View style={styles.line} />
           <View style={layouts.marginVertical} />
           <TotalInfo
             label={t("Total")}
-            value={formatMoneyWithUnit(calcTotalPrice())}
+            value={formatMoneyWithUnit(groupAppointment?.total)}
             isBold
           />
           <View style={layouts.marginVertical} />
         </View>
-        <View style={layouts.marginVertical} />
         <View style={layouts.center}>
           <ButtonGradient
             disable={disable}
@@ -215,11 +231,14 @@ export const BasketPaymentContent = React.forwardRef(
   }
 );
 
-const TotalInfo = ({ label, value = "$ 0.00", isBold = false }) => (
+const TotalInfo = ({ label, value = "$ 0.00", isBold = false, children }) => (
   <View style={styles.totalInfoContent}>
-    <Text style={isBold ? styles.totalText : styles.totalInfoText}>
-      {label}
-    </Text>
+    <View style={styles.totalLabel}>
+      <Text style={isBold ? styles.totalText : styles.totalInfoText}>
+        {label}
+      </Text>
+      {children}
+    </View>
     <Text style={isBold ? styles.priceText : styles.priceInfoText}>
       {value}
     </Text>
@@ -269,7 +288,7 @@ const styles = StyleSheet.create({
 
   totalInfoContent: {
     flexDirection: "row",
-    height: scaleHeight(25),
+    height: scaleHeight(30),
     alignItems: "center",
     justifyContent: "space-between",
   },
@@ -325,6 +344,11 @@ const styles = StyleSheet.create({
     height: scaleHeight(36),
   },
 
+  iconStyle: {
+    width: scaleWidth(24),
+    height: scaleHeight(24),
+  },
+
   productItem: {
     flexDirection: "row",
     height: scaleHeight(60),
@@ -377,5 +401,11 @@ const styles = StyleSheet.create({
   rightSwipe: {
     paddingRight: scaleWidth(4),
     backgroundColor: "#FF3B30",
+  },
+
+  totalLabel: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
   },
 });

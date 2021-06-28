@@ -1,24 +1,24 @@
-import { DialogLayout } from "@shared/layouts";
-import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { useTranslation } from "react-i18next";
-import { colors, fonts, layouts } from "@shared/themes";
-import { ButtonGradient, FormInputAmount } from "@shared/components";
-import FastImage from "react-native-fast-image";
-import {
-  useGetProducts,
-  useCreateAppointmentTemp,
-} from "@shared/services/api/retailer";
-import { INPUT_TYPE, calcTotalPriceOfOption } from "@shared/utils";
 import { basketRetailer } from "@redux/slices";
-import { useDispatch } from "react-redux";
 import IMAGE from "@resources";
+import { ButtonGradient, FormInputAmount } from "@shared/components";
+import { DialogLayout } from "@shared/layouts";
+import {
+  useCreateAppointmentTemp,
+  useGetProducts,
+} from "@shared/services/api/retailer";
+import { colors, fonts, layouts } from "@shared/themes";
+import { INPUT_TYPE } from "@shared/utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import FastImage from "react-native-fast-image";
+import { useDispatch, useSelector } from "react-redux";
 
 const log = (obj, message = "") => {
   Logger.log(`[DialogProductDetail] ${message}`, obj);
 };
 
-export const DialogProductDetail = React.forwardRef((props, ref) => {
+export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const dialogRef = React.useRef(null);
@@ -65,15 +65,15 @@ export const DialogProductDetail = React.forwardRef((props, ref) => {
       return Object.assign({}, pro, { values: temp });
     });
 
-    dispatch(
-      basketRetailer.addBasketItem(
+    if (onAddProduct && typeof onAddProduct === "function") {
+      onAddProduct(
         Object.assign({}, product, {
           id: Date.now(),
           options: filterOptions,
           quantity: quantity,
         })
-      )
-    );
+      );
+    }
 
     dialogRef.current?.hide();
   };
