@@ -55,6 +55,7 @@ import PopupInfomationCodePush from "./PopupInfomationCodePush";
 import DropdownSearchable from "./DropdownSearchable";
 import Slider from "./Slider";
 import CustomTimePicker from "./CustomTimePicker";
+import KeyboardNumeric from "./KeyboardNumeric";
 
 module.exports = {
   Slider,
@@ -114,4 +115,5 @@ module.exports = {
   PopupInfomationCodePush,
   DropdownSearchable,
   CustomTimePicker,
+  KeyboardNumeric
 };
