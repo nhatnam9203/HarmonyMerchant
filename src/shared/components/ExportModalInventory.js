@@ -58,6 +58,7 @@ export const ExportModalInventory = React.forwardRef(
       setValue(null);
       setPage(EXPORT_PAGE[1]);
       setFileName(title);
+      setNeedToOrder(0);
     };
 
     const onHandleChange = (val) => {
@@ -69,7 +70,7 @@ export const ExportModalInventory = React.forwardRef(
       if (typeof onExportFile === 'function') {
         onExportFile({
           type: mode,
-          isNeedToOrder: Boolean(isNeedToOrder),
+          isNeedToOrder: isNeedToOrder === 0 ? true : false,
         });
       }
       setShowModal(false);
@@ -189,6 +190,7 @@ export const ExportModalInventory = React.forwardRef(
                   { label: t('All product'), value: 0 },
                 ]}
                 selected={onHandleChangeSelect}
+                required={true}
               />
 
               <View style={styles.bottomStyle}>

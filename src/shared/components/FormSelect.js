@@ -23,7 +23,7 @@ export const FormSelect = ({
   React.useEffect(() => {
     if (filterItems?.length > 0) {
       let defaultIndex = filterItems.findIndex((item, index) => {
-        return filterItems[index]?.value === defaultValue;
+        return item?.value === defaultValue;
       });
       setIndex(defaultIndex);
     }

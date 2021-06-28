@@ -115,6 +115,7 @@ export const Layout = ({
               label={t('Subcategory')}
               defaultValue={productItem?.categoryId}
               onChangeValue={(val) => form.setFieldValue('categoryId', val)}
+              isDropdown
             >
               <ButtonGradient
                 label={t('New Category')}

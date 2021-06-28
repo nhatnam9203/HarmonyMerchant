@@ -89,3 +89,11 @@ export const uppercaseFirstLetter = (string = '') => {
   let firstLetter = string.charAt(0).toUpperCase();
   return firstLetter + string?.slice(1);
 };
+
+export const formatFullAddress = ({ city, stateName, street, zipCode }) => {
+  let addressInfo = { street, city, stateName, zipCode };
+  let addressNotEmpty = Object.values(addressInfo).filter((item) => item);
+
+  if (addressNotEmpty.length > 0) return addressNotEmpty.join(', ');
+  return '';
+};
