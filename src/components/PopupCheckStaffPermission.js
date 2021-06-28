@@ -191,3 +191,4 @@ const mapStateToProps = (state) => ({
 });
 
 export default connectRedux(mapStateToProps, PopupCheckStaffPermission);
+

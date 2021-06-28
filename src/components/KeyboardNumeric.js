@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
-import { scaleSize } from '../utils';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import { scaleSize } from '@utils';
 import ICONS from "@resources";
 
 const data = ["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0"];
@@ -9,9 +9,13 @@ export default class KeyboardNumeric extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            pressed: false
+        }
     }
 
     render() {
+        const {pressed} = this.state;
         const { onPress = () => { } } = this.props;
         return (
             <>
@@ -28,23 +32,21 @@ export default class KeyboardNumeric extends Component {
                     }
 
                     {/* -------- BUTTON DELETE -------- */}
-                    <Pressable
+                    <TouchableOpacity
                         onPress={() => onPress("x")}
-                        style={({ pressed }) => styles.numPad(pressed)}
+                        style={styles.numPad(pressed)}
+                        onPressIn={() => this.setState({ pressed: true })}
+                        onPressOut={() => this.setState({ pressed: false })}
                     >
-                        {
-                            ({ pressed }) => (
-                                <Image
-                                    resizeMode='contain'
-                                    style={styles.iconDelete}
-                                    source={
-                                        pressed ? ICONS.number_delete_white :
-                                            ICONS.number_delete
-                                    }
-                                />
-                            )
-                        }
-                    </Pressable>
+                        <Image
+                            resizeMode='contain'
+                            style={styles.iconDelete}
+                            source={
+                                pressed ? ICONS.number_delete_white :
+                                ICONS.number_delete
+                            }
+                        />
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.line} />
             </>
@@ -53,21 +55,29 @@ export default class KeyboardNumeric extends Component {
 }
 
 class NumPad extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            pressed: false
+        }
+    }
+
     render() {
+        const { pressed } = this.state;
         const { number = "", onPress = () => { } } = this.props;
         return (
-            <Pressable
+            <TouchableOpacity
                 onPress={onPress}
-                style={({ pressed }) => styles.numPad(pressed)}
+                style={styles.numPad(pressed)}
+                onPressIn={() => this.setState({ pressed: true })}
+                onPressOut={() => this.setState({ pressed: false })}
+                activeOpacity={1}
             >
-                {
-                    ({ pressed }) => (
-                        <Text style={styles.numpadText(pressed)}>
-                            {number}
-                        </Text>
-                    )
-                }
-            </Pressable>
+                <Text style={styles.numpadText(pressed)}>
+                    {number}
+                </Text>
+            </TouchableOpacity>
         )
     }
 }
@@ -77,7 +87,7 @@ const styles = StyleSheet.create({
         width: '100%',
         // height: scaleSize(300),
         paddingHorizontal: scaleSize(18),
-        marginTop : scaleSize(15),
+        marginTop: scaleSize(15),
         flexDirection: 'row',
         justifyContent: 'space-between',
         flexWrap: 'wrap',
@@ -111,10 +121,11 @@ const styles = StyleSheet.create({
         width: scaleSize(35),
         height: scaleSize(35),
     },
-    line : {
+    line: {
         width: '100%',
         height: 2,
-        backgroundColor : '#eeeeee',
-        marginTop : scaleSize(10)
+        backgroundColor: '#eeeeee',
+        marginTop: scaleSize(10)
     }
 });
+

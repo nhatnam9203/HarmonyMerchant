@@ -303,7 +303,7 @@ export default class Slider extends PureComponent {
                             }} >
                                 {`${this.props.smsCount}`}
                             </Text>
-                        </View>
+                        </View> 
                     }
 
 
