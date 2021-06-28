@@ -68,7 +68,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
   const [customerExport, ExportCustomer] = useExportCustomer();
   const callExportCustomer =(values) => {
     const params = Object.assign({}, values, {
-      quickFilter: 'thisWeek',
+      quickFilter: 'thisMonth',
     });
     ExportCustomer(params);
   }
