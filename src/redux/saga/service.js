@@ -240,6 +240,32 @@ function* updateSerivePosition(action) {
     }
 }
 
+function* getServiceByStaff(action) {
+    try {
+        const responses = yield requestAPI(action);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            if (action.callBack) {
+                action.callBack(responses.data ? responses.data : [])
+            }
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+
 
 export default function* saga() {
     yield all([
@@ -250,5 +276,6 @@ export default function* saga() {
         takeLatest('EDIT_SERVICE', editService),
         takeLatest('SEARCH_SERVICE', searchService),
         takeLatest('UPDATE_SERVICE_POSITION', updateSerivePosition),
+        takeLatest('GET_SERVICE_BY_STAFF', getServiceByStaff),
     ])
 }

@@ -20,7 +20,8 @@ const initialState = {
     temptCurrentTap: -1,
     visibleEnterPin: true,
     isConnectedInternet: true,
-    visible: false
+    visible: false,
+    categoryStaffId : null
 }
 
 const PosLink = NativeModules.payment;
@@ -42,6 +43,14 @@ class HomeScreen extends Layout {
         this.checkMarketingPermissionRef = React.createRef();
 
         this.onEndReachedCalledDuringMomentum = true;
+    }
+
+    getCategoryStaff = (staffId) => {
+        if (this.tabCheckoutRef?.current?.getCategory) {
+            this.tabCheckoutRef?.current?.getCategory(staffId);
+        }else{
+            this.setState({ categoryStaffId : staffId });
+        }
     }
 
     componentDidMount() {
@@ -325,6 +334,7 @@ class HomeScreen extends Layout {
                     this.tabCheckoutRef?.current?.setSelectStaffFromCalendar(staffId);
                 }, 200);
             }
+            //gọi hàm load category ở đây , lưu ý trường hợp checkout group appointment
         }
     }
 
@@ -448,8 +458,11 @@ class HomeScreen extends Layout {
     }
 
     onChangeTab = (index) => {
-        const { profile } = this.props;
+        const { profile  } = this.props;
         const page = index?.i || 0;
+        if(page === 2){
+            this.tabCheckoutRef?.current?.setStatusIsCheckout(true);
+        }
 
         this.setState({ currentTab: page });
         if (page === 0) {

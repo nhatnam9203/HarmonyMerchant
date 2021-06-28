@@ -72,5 +72,12 @@ export default {
     isBlockBookingFromCalendar: false,
 
     visibleErrorMessageFromPax: false,
-    errorMessageFromPax: ''
+    errorMessageFromPax: '',
+
+    isGotoCheckout : false,
+    isLoadingCategory : false,
+    categoryStaff : [],
+    isLoadingService : false,
+    serviceStaff : [],
+    productStaff : []
 }
