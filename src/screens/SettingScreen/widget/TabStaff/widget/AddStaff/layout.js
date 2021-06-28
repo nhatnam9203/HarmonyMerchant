@@ -6,6 +6,7 @@ import {
   TextInput,
   ActivityIndicator,
   Switch,
+  FlatList
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -16,6 +17,7 @@ import {
   BrowserFile,
   TextInputSuggestion,
   Button,
+
 } from '@components';
 import { scaleSize, localize, hideCharactes } from '@utils';
 import { ItemAdminInfo, ItemAdminCellPhone } from '../componentTab';
@@ -23,8 +25,21 @@ import { ItemWorkingTime } from '../ItemWorkingTime';
 import ItemScalary from '../ItemScalary';
 import { ItemScalaryByIncome } from '../ItemScalaryByIncome';
 import AssignSevices from '../AssignSevices';
+import { colors } from '@shared/themes';
+import _ from 'lodash';
 
 class Layout extends React.Component {
+
+  renderItemPermission = ({item}) => {
+    return(
+      <View style={styles.rowPermissioin}>
+        <Text>
+          {_.get(item, 'label')}
+        </Text>
+      </View>
+    )
+  }
+
   renderBody() {
     const {
       address,
@@ -41,6 +56,7 @@ class Layout extends React.Component {
       professionalLicense,
       isDisabled,
       isActive,
+      permission,
     } = this.state.user;
     const { street, city, state, zip } = address;
     const { nameRole } = roles;
@@ -230,6 +246,23 @@ class Layout extends React.Component {
               />
             )}
           />
+
+          <View>
+            <Text>
+              {localize("Accessibility", language)}
+            </Text>
+            <View style={styles.greyView}>
+              <Text>
+                {localize("Tabs", language)}
+              </Text>
+            </View>
+            <FlatList
+              data={permission}
+              renderItem={renderItemPermission}
+              keyExtractor={item => _.get(item, 'key', '')}
+            />
+          </View>
+
 
           {/* ----------- Active -------- */}
           <View
@@ -689,6 +722,10 @@ const styles = StyleSheet.create({
     borderColor: '#C5C5C5',
     flex: 1,
   },
+  rowPermissioin:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  }
 });
 
 export default Layout;

@@ -13,7 +13,72 @@ import {
   checkStateIsValid,
   BusinessWorkingTime,
   formatNumberFromCurrency,
+  localize,
 } from '@utils';
+
+const permissionList = [
+  {
+      "key": "MENU_HOME_TAB_MARKETING",
+      "label": localize("Marketing", language),
+      "isChecked": true
+  },
+  {
+      "key": "MENU_HOME_TAB_CALENDAR",
+      "label": localize("Calendar", language),
+      "isChecked": true
+  },
+  {
+      "key": "MENU_HOME_TAB_CHECKOUT",
+      "label": localize("Checkout", language),
+      "isChecked": true
+  },
+  {
+      "key": "MENU_HOME_TAB_CHECKOUT_DISCOUNT",
+      "label": localize("Change Discount", language),
+      "isChecked": true
+  },
+  {
+      "key": "MENU_INVOICE",
+      "label": localize("Invoice", language),
+      "isChecked": true
+  },
+  {
+      "key": "MENU_SETTLEMENT",
+      "label": localize("Settlement", language),
+      "isChecked": true
+  },
+  {
+      "key": "MENU_CUSTOMER",
+      "label": localize("Customer", language),
+      "isChecked": true
+  },
+  {
+      "key": "MENU_GIFTCARD",
+      "label": localize("Gift card", language),
+      "isChecked": true
+  },
+  {
+      "key": "MENU_INVENTORY",
+      "label": localize("Inventory", language),
+      "isChecked": true
+  },
+  {
+      "key": "MENU_REPORT",
+      "label": localize("Report", language),
+      "isChecked": true
+  },
+  {
+      "key": "MENU_SETTING",
+      "label": localize("Setting", language),
+      "isChecked": true
+  },
+  {
+      "key": "MENU_SUPPORT",
+      "label": localize("Support", language),
+      "isChecked": true
+  }
+]
+
 
 const initState = {
   user: {
@@ -35,6 +100,7 @@ const initState = {
     roles: {
       nameRole: 'Admin',
     },
+    permission: permissionList,
     driverlicense: '',
     socialSecurityNumber: '',
     professionalLicense: '',
