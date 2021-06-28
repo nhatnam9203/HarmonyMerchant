@@ -195,7 +195,7 @@ function* getPromotionByAppointment(action) {
                     payload: responses?.data?.promotions || [],
                     appointmentId: action.appointmentId,
                     promotionNotes: responses?.data?.notes || {},
-                    isDiscountByOwner: responses?.data.isDiscountByOwner || true,
+                    discountByOwner: responses?.data.discountByOwner || true,
                 })
             } else {
                 yield put({
@@ -203,7 +203,7 @@ function* getPromotionByAppointment(action) {
                     payload: responses?.data?.promotions || [],
                     appointmentId: action.appointmentId,
                     promotionNotes: responses?.data?.notes || {},
-                    isDiscountByOwner: responses?.data.isDiscountByOwner || true,
+                    discountByOwner: responses?.data.discountByOwner || true,
                 })
             }
         } else if (parseInt(codeNumber) === 401) {

@@ -56,6 +56,7 @@ import DropdownSearchable from "./DropdownSearchable";
 import GradientButton from "./GradientButton";
 import Slider from "./Slider";
 import CustomTimePicker from "./CustomTimePicker";
+import KeyboardNumeric from "./KeyboardNumeric";
 
 module.exports = {
   Slider,
@@ -116,4 +117,5 @@ module.exports = {
   DropdownSearchable,
   GradientButton,
   CustomTimePicker,
+  KeyboardNumeric
 };

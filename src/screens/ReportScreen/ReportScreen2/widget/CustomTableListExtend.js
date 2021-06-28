@@ -491,6 +491,7 @@ function TableListExtended({
 
   // render header
   const renderSection = () => {
+    return <></>;
     return (
       <TableRow
         style={{
@@ -588,7 +589,7 @@ function TableListExtended({
         }}
         // onLayout={(e) => setVisibleScrollPartWidth(e.nativeEvent.layout.width)}
         data={dataFactory}
-        heightForSection={() => TABLE_ROW_HEIGHT}
+        heightForSection={() => 0}
         heightForIndexPath={() => TABLE_ROW_HEIGHT}
         renderHeader={renderHeader}
         renderSection={renderSection}

@@ -93,7 +93,7 @@ function marketingReducer(state = initialState, action) {
                 appointmentIdUpdatePromotion: action.appointmentId,
                 isGetPromotionOfAppointment: "success",
                 promotionNotes: action.promotionNotes,
-                isDiscountByOwner: action.isDiscountByOwner
+                discountByOwner: action.discountByOwner,
             }
         case 'GET_PROMOTION_BY_APPOINTMENT_FAIL':
             return {
@@ -113,7 +113,7 @@ function marketingReducer(state = initialState, action) {
                 appointmentIdUpdatePromotion: action.appointmentId,
                 promotionNotes: action.promotionNotes,
                 isGetPromotionOfAppointment: "success",
-                isDiscountByOwner: action.isDiscountByOwner
+                discountByOwner: action.discountByOwner
             }
 
         case 'CLOSE_MODAL_DISCOUNT':
