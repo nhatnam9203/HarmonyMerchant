@@ -1,6 +1,6 @@
 import apiConfigs from '../../configs/api';
 
-export function addCategory(body,searchFilter =false) {
+export function addCategory(body, searchFilter = false) {
     return {
         type: 'ADD_CATEGORY',
         body,
@@ -11,7 +11,7 @@ export function addCategory(body,searchFilter =false) {
     }
 }
 
-export function getCategoriesByMerchantId(name = '', status = '', type = '',searchFilter =false,isShowLoading = true) {
+export function getCategoriesByMerchantId(name = '', status = '', type = '', searchFilter = false, isShowLoading = true) {
     return {
         type: 'GET_CATEGORIES_BY_MERCHANR_ID',
         method: 'GET',
@@ -22,7 +22,7 @@ export function getCategoriesByMerchantId(name = '', status = '', type = '',sear
     }
 }
 
-export function archiveCategory(id,searchFilter = false) {
+export function archiveCategory(id, searchFilter = false) {
     return {
         type: 'ARCHIVE_CATEGORY',
         body: {},
@@ -33,7 +33,7 @@ export function archiveCategory(id,searchFilter = false) {
     }
 }
 
-export function restoreCategory(id,searchFilter = false) {
+export function restoreCategory(id, searchFilter = false) {
     return {
         type: 'RESTORE_CATEGORY',
         body: {},
@@ -44,7 +44,7 @@ export function restoreCategory(id,searchFilter = false) {
     }
 }
 
-export function editCategory(body, id,searchFilter = false) {
+export function editCategory(body, id, searchFilter = false) {
     return {
         type: 'EDIT_CATEGORY',
         body,
@@ -89,9 +89,19 @@ export function updatePositionCategories(body) {
     }
 }
 
-export function updateListCategoryLocal(data){
+export function updateListCategoryLocal(data) {
     return {
         type: "UPDATE_LIST_CATEGORY_LOCAL",
         payload: data
+    }
+}
+
+export function getCategoriesByStaff(staffId, callBack) {
+    return {
+        type: 'GET_CATEGORIES_BY_STAFF',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}category/getByStaff/${staffId}`,
+        callBack
     }
 }

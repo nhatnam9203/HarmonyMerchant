@@ -3,7 +3,8 @@ import {
     View,
     Image,
     ScrollView,
-    FlatList
+    FlatList,
+    ActivityIndicator,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
@@ -150,8 +151,8 @@ class Layout extends React.Component {
     }
 
     renderCategoriesCheckout() {
-        const { language, categoriesByMerchant, groupAppointment } = this.props;
-        const { isShowColProduct } = this.state;
+        const { language, categoriesByMerchant, groupAppointment, isOfflineMode } = this.props;
+        const { isShowColProduct, isBlockBookingFromCalendar, categoryStaff, isLoadingCategory } = this.state;
         let tempWidth = 180;
         tempWidth = isShowColProduct ? 100 : tempWidth;
 
@@ -170,7 +171,7 @@ class Layout extends React.Component {
         const IdCategoriesList = [...new Set(tempIdCategoriesList)];
         let selectCategories = [];
         let notSelectCategories = [];
-        let tempCategories;
+        let tempCategories = [];
 
         if (IdCategoriesList.length > 0) {
             for (let i = 0; i < IdCategoriesList.length; i++) {
@@ -184,10 +185,18 @@ class Layout extends React.Component {
                     }
                 }
             }
-            notSelectCategories = categoriesFilter.filter((category, index) => checkCategoryIsNotExist(category, IdCategoriesList));
-            tempCategories = [...selectCategories, ...notSelectCategories];
+            if (isOfflineMode || isBlockBookingFromCalendar) {
+                notSelectCategories = categoriesFilter.filter((category, index) => checkCategoryIsNotExist(category, IdCategoriesList));
+                tempCategories = [...selectCategories, ...notSelectCategories];
+            } else {
+                tempCategories = [...selectCategories, ...categoryStaff];
+            }
         } else {
-            tempCategories = [...categoriesFilter];
+            if (isOfflineMode || isBlockBookingFromCalendar) {
+                tempCategories = [...categoriesFilter];
+            } else {
+                tempCategories = [...categoryStaff];
+            }
         }
 
         return (
@@ -199,33 +208,40 @@ class Layout extends React.Component {
                     </Text>
                 </View>
                 {/* ------- Body ----- */}
-                <View style={styles.categoriesBody} >
-                    <ScrollView
-                        showsVerticalScrollIndicator={false}
-                        keyboardShouldPersistTaps="always"
-                    >
-                        {
-                            tempCategories.map((category, index) => <ItemCategory
-                                key={index}
-                                category={category}
-                                onPressSelectCategory={this.onPressSelectCategory}
-                                colorText={temptColorHeader}
-                                categorySelected={this.state.categorySelected}
-                            />)
-                        }
+                {
+                    isLoadingCategory ?
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                            <ActivityIndicator size='large' color='grey' />
+                        </View>
+                        :
+                        <View style={styles.categoriesBody} >
+                            <ScrollView
+                                showsVerticalScrollIndicator={false}
+                                keyboardShouldPersistTaps="always"
+                            >
+                                {
+                                    tempCategories.map((category, index) => <ItemCategory
+                                        key={index}
+                                        category={category}
+                                        onPressSelectCategory={this.onPressSelectCategory}
+                                        colorText={temptColorHeader}
+                                        categorySelected={this.state.categorySelected}
+                                    />)
+                                }
 
-                        {/* --------- Gift Card --------  */}
-                        <ItemCategory
-                            category={{
-                                name: "Gift Card",
-                                categoryId: 1
-                            }}
-                            onPressSelectCategory={this.onSelectGiftCard}
-                            colorText={temptColorHeader}
-                            categorySelected={this.state.categorySelected}
-                        />
-                    </ScrollView>
-                </View>
+                                {/* --------- Gift Card --------  */}
+                                <ItemCategory
+                                    category={{
+                                        name: "Gift Card",
+                                        categoryId: 1
+                                    }}
+                                    onPressSelectCategory={this.onSelectGiftCard}
+                                    colorText={temptColorHeader}
+                                    categorySelected={this.state.categorySelected}
+                                />
+                            </ScrollView>
+                        </View>
+                }
             </View>
         );
     }
@@ -234,6 +250,7 @@ class Layout extends React.Component {
         const { language, groupAppointment } = this.props;
         const { isShowColAmount, categorySelected, productSeleted,
             categoryTypeSelected,
+            isLoadingService,
         } = this.state;
         let tempWidth = 200
         tempWidth = isShowColAmount ? 120 : tempWidth;
@@ -251,23 +268,30 @@ class Layout extends React.Component {
                 </View>
                 {/* --------- List ------- */}
                 <View style={{ flex: 1 }} >
-                    <ScrollView
-                        showsVerticalScrollIndicator={false}
-                        keyboardShouldPersistTaps="always"
-                    >
-                        {
-                            data.map((item, index) => <ItemProductService
-                                key={index}
-                                item={item}
-                                showColAmount={this.showColAmount}
-                                colorText={temptColorHeader}
-                                itemSelected={productSeleted}
-                                categoryTypeSelected={categoryTypeSelected}
-                                isShowColAmount={isShowColAmount}
-                                groupAppointment={groupAppointment}
-                            />)
-                        }
-                    </ScrollView>
+                    {
+                        isLoadingService ?
+                            <View style={{ flex: 1 , justifyContent : 'center', alignItems : 'center' }}>
+                                <ActivityIndicator size='large' color='grey' />
+                            </View> :
+                            <ScrollView
+                                showsVerticalScrollIndicator={false}
+                                keyboardShouldPersistTaps="always"
+                            >
+                                {
+                                    data.map((item, index) => <ItemProductService
+                                        key={index}
+                                        item={item}
+                                        showColAmount={this.showColAmount}
+                                        colorText={temptColorHeader}
+                                        itemSelected={productSeleted}
+                                        categoryTypeSelected={categoryTypeSelected}
+                                        isShowColAmount={isShowColAmount}
+                                        groupAppointment={groupAppointment}
+                                    />)
+                                }
+                            </ScrollView>
+
+                    }
                 </View>
             </View>
 
@@ -305,16 +329,16 @@ class Layout extends React.Component {
                                 ref={this.amountRef}
                                 price={productSeleted.price}
                             /> : <ScrollView keyboardShouldPersistTaps="always" >
-                                {
-                                    (this.getExtrasFromRedux(productSeleted)).map((extra, index) => <ItemExtra
-                                        key={index}
-                                        extra={extra}
-                                        onPressSelectExtra={this.onPressSelectExtra}
-                                        arrSelectedExtra={arrSelectedExtra}
-                                        groupAppointment={groupAppointment}
-                                    />)
-                                }
-                            </ScrollView>
+                                    {
+                                        (this.getExtrasFromRedux(productSeleted)).map((extra, index) => <ItemExtra
+                                            key={index}
+                                            extra={extra}
+                                            onPressSelectExtra={this.onPressSelectExtra}
+                                            arrSelectedExtra={arrSelectedExtra}
+                                            groupAppointment={groupAppointment}
+                                        />)
+                                    }
+                                </ScrollView>
                         }
 
                     </View>
@@ -512,14 +536,14 @@ class Layout extends React.Component {
         const { isShowColAmount } = this.state;
         const checkoutPayments = !_.isEmpty(paymentDetailInfo) && paymentDetailInfo.checkoutPayments ? paymentDetailInfo.checkoutPayments : [];
         const length_blockAppointments = blockAppointments ? blockAppointments.length : 0;
-        const isShowAddBlock = length_blockAppointments > 0 
-                                && blockAppointments[length_blockAppointments - 1].total != "0.00" 
-                                ? true : false;
+        const isShowAddBlock = length_blockAppointments > 0
+            && blockAppointments[length_blockAppointments - 1].total != "0.00"
+            ? true : false;
         const tempStyle = !isShowColAmount ? { borderLeftWidth: 3, borderLeftColor: "#EEEEEE" } : {};
-       
-        const isShowAddButton = !isBookingFromCalendar 
-                                && ((!_.isEmpty(groupAppointment) && checkoutPayments.length === 0) 
-                                || (blockAppointments.length && isShowAddBlock) > 0)
+
+        const isShowAddButton = !isBookingFromCalendar
+            && ((!_.isEmpty(groupAppointment) && checkoutPayments.length === 0)
+                || (blockAppointments.length && isShowAddBlock) > 0)
         return (
             <View style={[styles.basket_box, tempStyle]} >
                 {/* -------- Header Basket -------- */}
@@ -546,10 +570,10 @@ class Layout extends React.Component {
                     </View>
                 </View>
                 {/* -------- Content Basket -------- */}
-                {     
-                    blockAppointments.length > 0 ? 
-                    this.renderBlocksAppointments() 
-                    : this.renderGroupAppointments()
+                {
+                    blockAppointments.length > 0 ?
+                        this.renderBlocksAppointments()
+                        : this.renderGroupAppointments()
                 }
 
                 {/* -------- Footer Basket -------- */}
@@ -877,7 +901,8 @@ class Layout extends React.Component {
         const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission, isCancelAppointment } = this.props;
         const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
             visiblePopupAddItemIntoBasket, visibleAddEditCustomerPopup,
-            visibleErrorMessageFromPax, errorMessageFromPax
+            visibleErrorMessageFromPax, errorMessageFromPax,
+            selectedStaff,
         } = this.state;
 
         const titleExitCheckoutTab = isCancelAppointment ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? " : 'Are you sure you want to exit Check-Out?';

@@ -37,6 +37,7 @@ export default class KeyboardNumeric extends Component {
                         style={styles.numPad(pressed)}
                         onPressIn={() => this.setState({ pressed: true })}
                         onPressOut={() => this.setState({ pressed: false })}
+                        activeOpacity={1}
                     >
                         <Image
                             resizeMode='contain'

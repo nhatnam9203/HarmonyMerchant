@@ -297,6 +297,32 @@ function* checkSKUIsExist(action) {
     }
 }
 
+function* getProductByStaff(action) {
+    try {
+        const responses = yield requestAPI(action);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            if (action.callBack) {
+                action.callBack(responses.data ? responses.data : [])
+            }
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+
 
 export default function* saga() {
     yield all([
@@ -310,5 +336,6 @@ export default function* saga() {
         takeLatest('EXPORT_INVENTORY', exportInventory),
         takeLatest('UPDATE_PRODUCTS_POSITION', updateProductsPosition),
         takeLatest('CHECK_SKU_IS_EXIST', checkSKUIsExist),
+        takeLatest('GET_PRODUCT_BY_STAFF', getProductByStaff),
     ])
 } 
