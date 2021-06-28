@@ -110,7 +110,19 @@ export const Layout = ({
   closePopupActiveGiftCard,
   visiblePopupPaymentDetails,
   closePopupProductPaymentDetails,
-  nextPayment
+  nextPayment,
+  visibleErrorMessageFromPax,
+  errorMessageFromPax,
+  setVisibleErrorMessageFromPax,
+  cashBackRef,
+  setVisibleChangeMoney,
+  doneBillByCash,
+  visibleScanCode,
+  onRequestCloseScanCode,
+  resultScanCode,
+  invoicePrintRef,
+  visiblePrintInvoice,
+  cancelInvoicePrint,
 }) => {
   const [t] = useTranslation();
 
@@ -251,6 +263,27 @@ export const Layout = ({
         confimYes={clearDataConfirm}
       />
 
+      <ErrorMessagePaxModal
+        visible={visibleErrorMessageFromPax}
+        title={t("Trasaction Fail")}
+        message={errorMessageFromPax}
+        onRequestClose={() => {
+          setVisibleErrorMessageFromPax(false);
+        }}
+        confimYes={() => {
+          setVisibleErrorMessageFromPax(false);
+        }}
+      />
+
+      <PopupChangeMoney
+        ref={cashBackRef}
+        title={t("Confirmation")}
+        onRequestClose={() => {
+          setVisibleChangeMoney(false);
+        }}
+        confimOK={doneBillByCash}
+      />
+
       <PopupProcessingCredit
         visible={visibleProcessingCredit}
         onRequestClose={cancelTransaction}
@@ -288,6 +321,18 @@ export const Layout = ({
         onRequestClose={closePopupProductPaymentDetails}
         language={language}
         nextPayment={nextPayment}
+      />
+
+      <PopupScanCode
+        visible={visibleScanCode}
+        onRequestClose={onRequestCloseScanCode}
+        resultScanCode={resultScanCode}
+      />
+
+      <PopupInvoicePrint
+        ref={invoicePrintRef}
+        visiblePrintInvoice={visiblePrintInvoice}
+        onRequestClose={cancelInvoicePrint}
       />
 
       <PopupPayCompleted
