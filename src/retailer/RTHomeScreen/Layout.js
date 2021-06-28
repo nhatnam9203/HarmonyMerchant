@@ -11,7 +11,7 @@ import {
   OrderTab,
   TabMarketing,
 } from "@src/screens/HomeScreen/widget";
-import React from "react";
+import React, { createContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { OrderTabPage, MarketingTabPage, CheckOutTabPage } from "./pages";
 import { colors } from "@shared/themes";
@@ -20,29 +20,23 @@ import { useTranslation } from "react-i18next";
 
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
+export const HomeStateContext = createContext({});
+
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
 export const Layout = ({
-  onChangeTab,
   openDrawer,
   displayNotifiPopup,
   notificationContUnread,
   showLockScreen = () => {},
+  isPayment,
+  showPopupConfirm,
+  navigation,
 }) => {
   const [t] = useTranslation();
-  // const renderTab = () => (
-  //   <HomeTabBar
-  //     activeTextColor="#fff"
-  //     inactiveTextColor="#0764B0"
-  //     backgroundTabActive="#0764B0"
-  //     textStyle={styles.textStyle}
-  //     renderRightItem={() => <ButtonLock onPress={showLockScreen} />}
-  //     renderLeftItem={() => <ButtonDrawer onPress={openDrawer} />}
-  //   />
-  // );
 
   return (
-    <View style={styles.container}>
+    <HomeStateContext.Provider style={styles.container} value={{}}>
       <StatusBarHeader />
 
       {/* <ScrollableTabView
@@ -65,16 +59,52 @@ export const Layout = ({
         }}
         lazy={true}
         optimizationsEnabled={true}
-        tabBar={(props) => <HomeTabBar {...props} />}
+        tabBar={(props) => <HomeTabBar {...props} onOpenDrawer={openDrawer} />}
       >
         {/* <Screen {...MarketingTabPage} /> */}
         {/* <TabMarketing tabLabel={'MARKETING'} /> */}
-        <Screen name={t("Marketing")} component={TabMarketing} />
-        <Screen {...OrderTabPage} />
-        <Screen {...CheckOutTabPage} />
+        <Screen
+          name={t("Marketing")}
+          component={TabMarketing}
+          listeners={{
+            tabPress: (e) => {
+              if (isPayment) {
+                showPopupConfirm(() => {
+                  navigation.navigate("Marketing");
+                });
+                // Prevent default action
+                e.preventDefault();
+              }
+            },
+          }}
+        />
+        <Screen
+          {...OrderTabPage}
+          listeners={{
+            tabPress: (e) => {
+              if (isPayment) {
+                // Prevent default action
+                e.preventDefault();
+              }
+            },
+          }}
+        />
+        <Screen
+          {...CheckOutTabPage}
+          listeners={{
+            tabPress: (e) => {
+              if (isPayment) {
+                showPopupConfirm(() => {
+                  navigation.navigate(CheckOutTabPage.name);
+                }); // Prevent default action
+                e.preventDefault();
+              }
+            },
+          }}
+        />
         {/* <Screen name={t('Check Out')} component={OrderCheckout} /> */}
       </Navigator>
-    </View>
+    </HomeStateContext.Provider>
   );
 };
 

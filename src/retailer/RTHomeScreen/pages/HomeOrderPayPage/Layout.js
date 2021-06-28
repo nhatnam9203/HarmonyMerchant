@@ -48,7 +48,7 @@ import {
   ScrollableTabView,
   PopupCheckStaffPermission,
   ParentContainer,
-  PopupConfirm
+  PopupConfirm,
 } from "@components";
 
 const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
@@ -105,6 +105,12 @@ export const Layout = ({
   titleExitCheckoutTab,
   visibleConfirm,
   setVisibleConfirm,
+  activeGiftCardRef,
+  submitSerialCode,
+  closePopupActiveGiftCard,
+  visiblePopupPaymentDetails,
+  closePopupProductPaymentDetails,
+  nextPayment
 }) => {
   const [t] = useTranslation();
 
@@ -267,6 +273,21 @@ export const Layout = ({
         title={t("Confirmation")}
         onRequestClose={() => setVisibleSendLinkPopup(false)}
         confimYes={sendLinkInstallApp}
+      />
+
+      <PopupActiveGiftCard
+        ref={activeGiftCardRef}
+        title={t("Active Gift Card")}
+        onRequestClose={closePopupActiveGiftCard}
+        submitSerialCode={submitSerialCode}
+      />
+
+      <PopupPaymentDetails
+        title={t("Payment Details")}
+        visible={visiblePopupPaymentDetails}
+        onRequestClose={closePopupProductPaymentDetails}
+        language={language}
+        nextPayment={nextPayment}
       />
 
       <PopupPayCompleted
