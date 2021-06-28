@@ -151,7 +151,7 @@ export const Layout = ({
             />
           </ButtonGradientWhite>
           <View style={layouts.marginHorizontal} />
-          <ExportModal ref={exportRef} onExportFile={callExportOrderList} />
+          {/* <ExportModal ref={exportRef} onExportFile={callExportOrderList} /> */}
         </View>
       </View>
 
