@@ -4,7 +4,7 @@ import { TextInputMask } from 'react-native-masked-text';
 
 import ButtonCustom from './ButtonCustom';
 import PopupParent from './PopupParent';
-import { scaleSzie } from '../utils';
+import { scaleSize } from '../utils';
 import KeyboardNumeric from "./KeyboardNumeric";
 import connectRedux from '@redux/ConnectRedux';
 
@@ -86,31 +86,31 @@ class PopupCheckStaffPermission extends React.Component {
       >
         <View
           style={{
-            minHeight: scaleSzie(460),
-            maxHeight: scaleSzie(530),
+            minHeight: scaleSize(460),
+            maxHeight: scaleSize(530),
             backgroundColor: '#fff',
-            borderBottomLeftRadius: scaleSzie(15),
-            borderBottomRightRadius: scaleSzie(15),
+            borderBottomLeftRadius: scaleSize(15),
+            borderBottomRightRadius: scaleSize(15),
           }}
         >
           <View
             style={{
               alignItems: 'center',
-              marginTop: scaleSzie(18),
-              marginBottom: scaleSzie(4),
+              marginTop: scaleSize(18),
+              marginBottom: scaleSize(4),
             }}
           >
-            <Text style={{ color: '#404040', fontSize: scaleSzie(18), fontWeight: '500', marginTop: scaleSzie(5) }}>
+            <Text style={{ color: '#404040', fontSize: scaleSize(18), fontWeight: '500', marginTop: scaleSize(5) }}>
               {'Please enter the authorized PIN number'}
             </Text>
           </View>
           <View
-            style={{ flex: 1, marginVertical: scaleSzie(15), alignItems: 'center' }}
+            style={{ flex: 1, marginVertical: scaleSize(15), alignItems: 'center' }}
           >
             <View
               style={{
                 width: '90%',
-                height: scaleSzie(45),
+                height: scaleSize(45),
                 borderColor: '#dddddd',
                 borderWidth: 2,
               }}
@@ -119,7 +119,7 @@ class PopupCheckStaffPermission extends React.Component {
                 type="only-numbers"
                 style={{
                   flex: 1,
-                  fontSize: scaleSzie(18),
+                  fontSize: scaleSize(18),
                   textAlign: 'center',
                   padding: 0,
                   margin: 0,
@@ -139,16 +139,16 @@ class PopupCheckStaffPermission extends React.Component {
           </View>
           <View
             style={{
-              height: scaleSzie(45),
+              height: scaleSize(45),
               alignItems: 'center',
-              marginBottom : scaleSzie(15)
+              marginBottom : scaleSize(15)
             }}
           >
             {isLoadingCheckStaffPermission ? (
               <View
                 style={{
                   width: '35%',
-                  height: scaleSzie(40),
+                  height: scaleSize(40),
                   backgroundColor: '#0764B0',
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -165,10 +165,10 @@ class PopupCheckStaffPermission extends React.Component {
                   textColor="#fff"
                   onPress={this.submitPin}
                   styleText={{
-                    fontSize: scaleSzie(14),
+                    fontSize: scaleSize(14),
                   }}
                   style={{
-                    borderRadius: scaleSzie(4),
+                    borderRadius: scaleSize(4),
                   }}
                 />
               )}

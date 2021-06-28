@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 
-import { scaleSzie, localize, getCategoryName, getArrayNameCategories } from '@utils';
+import { scaleSize, localize, getCategoryName, getArrayNameCategories } from '@utils';
 import { Text, Button, ButtonCustom, Dropdown, PopupConfirm, PopupAddEditService, ClearTextInputIcon } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -19,18 +19,18 @@ class Layout extends React.Component {
         const { searchFilter } = this.state;
         const { keySearch } = searchFilter;
         return (
-            <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
+            <View style={{ height: scaleSize(40), paddingHorizontal: scaleSize(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row' }} >
-                        <View style={{ width: scaleSzie(70), justifyContent: 'center' }} >
-                            <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A' }} >
+                        <View style={{ width: scaleSize(70), justifyContent: 'center' }} >
+                            <Text style={{ fontSize: scaleSize(18), color: '#6A6A6A' }} >
                                 {localize('Search', language)}
                             </Text>
                         </View>
-                        <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: scaleSzie(4), flexDirection: 'row' }} >
-                            <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
+                        <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: scaleSize(4), flexDirection: 'row' }} >
+                            <View style={{ flex: 1, paddingHorizontal: scaleSize(12) }} >
                                 <TextInput
-                                    style={{ flex: 1, fontSize: scaleSzie(18) }}
+                                    style={{ flex: 1, fontSize: scaleSize(18) }}
                                     placeholder={localize('Service', language)}
                                     value={keySearch}
                                     onChangeText={(value) => this.updateSearchFilterInfo('keySearch', value)}
@@ -39,7 +39,7 @@ class Layout extends React.Component {
                             </View>
                             {
                                 keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
-                                    width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
+                                    width: scaleSize(35), alignItems: 'center', justifyContent: 'center',
 
                                 }} >
                                     <ClearTextInputIcon />
@@ -47,7 +47,7 @@ class Layout extends React.Component {
                             }
                         </View>
                     </View>
-                    <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >
+                    <View style={{ width: scaleSize(170), alignItems: 'flex-end' }} >
                         <ButtonCustom
                             width={'90%'}
                             height={40}
@@ -56,7 +56,7 @@ class Layout extends React.Component {
                             textColor="#6A6A6A"
                             onPress={this.searchService}
                             style={{ borderWidth: 1, borderColor: '#6A6A6A' }}
-                            styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
+                            styleText={{ fontSize: scaleSize(15), fontWeight: '500' }}
                         />
                     </View>
                 </View>
@@ -72,16 +72,16 @@ class Layout extends React.Component {
         dataServicesCategory.unshift({ value: '' });
 
         return (
-            <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
+            <View style={{ height: scaleSize(40), paddingHorizontal: scaleSize(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row' }} >
-                        <View style={{ width: scaleSzie(70), justifyContent: 'center' }} >
-                            <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A' }} >
+                        <View style={{ width: scaleSize(70), justifyContent: 'center' }} >
+                            <Text style={{ fontSize: scaleSize(18), color: '#6A6A6A' }} >
                                 {localize('Filters', language)}
                             </Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }} >
-                            <View style={{ width: scaleSzie(120) }} >
+                            <View style={{ width: scaleSize(120) }} >
                                 <Dropdown
                                     label={localize('Categories', language)}
                                     data={dataServicesCategory}
@@ -92,12 +92,12 @@ class Layout extends React.Component {
                                         borderWidth: 1,
                                         borderColor: '#C5C5C5',
                                         flex: 1,
-                                        borderRadius: scaleSzie(4)
+                                        borderRadius: scaleSize(4)
                                     }}
                                 />
                             </View>
-                            <View style={{ width: scaleSzie(12) }} />
-                            <View style={{ width: scaleSzie(120) }} >
+                            <View style={{ width: scaleSize(12) }} />
+                            <View style={{ width: scaleSize(120) }} >
                                 <Dropdown
                                     label={localize('Status', language)}
                                     data={[{ value: '' }, { value: 'Active' }, { value: 'Disable' }]}
@@ -108,13 +108,13 @@ class Layout extends React.Component {
                                         borderWidth: 1,
                                         borderColor: '#C5C5C5',
                                         flex: 1,
-                                        borderRadius: scaleSzie(4)
+                                        borderRadius: scaleSize(4)
                                     }}
                                 />
                             </View>
                         </View>
                     </View>
-                    <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >
+                    <View style={{ width: scaleSize(170), alignItems: 'flex-end' }} >
                         <ButtonCustom
                             width={'90%'}
                             height={40}
@@ -126,7 +126,7 @@ class Layout extends React.Component {
                                 borderWidth: 1, borderColor: '#6A6A6A',
                                 backgroundColor: '#0764B0'
                             }}
-                            styleText={{ fontSize: scaleSzie(15), fontWeight: '500', color: '#fff' }}
+                            styleText={{ fontSize: scaleSize(15), fontWeight: '500', color: '#fff' }}
                         />
                     </View>
                 </View>
@@ -151,9 +151,9 @@ class Layout extends React.Component {
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
-                <View style={{ height: scaleSzie(10) }} />
+                <View style={{ height: scaleSize(10) }} />
                 {this.renderFilter()}
-                <View style={{ height: scaleSzie(10) }} />
+                <View style={{ height: scaleSize(10) }} />
                 <View style={{ flex: 1 }} >
                     <HeaderTableService
                         language={language}

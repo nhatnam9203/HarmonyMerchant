@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { InputQuestionBusiness, FormInfoParent, Text, ButtonCustom } from '@components';
-import { scaleSzie, localize } from '@utils';
+import { scaleSize, localize } from '@utils';
 
 const { width } = Dimensions.get('window');
 
@@ -19,8 +19,8 @@ export default class Layout extends React.Component {
         const { language } = this.props;
 
         return (
-            <View style={{ flex: 1, paddingHorizontal: scaleSzie(25) }} >
-                <View style={{ height: scaleSzie(16) }} />
+            <View style={{ flex: 1, paddingHorizontal: scaleSize(25) }} >
+                <View style={{ height: scaleSize(16) }} />
                 <InputQuestionBusiness
                     question={`${localize(question1.question, language)}`}
                     subYes={`${localize('if yes, who was the processor', language)}`}
@@ -75,7 +75,7 @@ export default class Layout extends React.Component {
 
         return (
             <View style={{ flex: 1 ,alignItems:"center",}} >
-                <Text style={{fontSize:scaleSzie(22),fontWeight:"600",marginTop:scaleSzie(50),color:"red"}} >
+                <Text style={{fontSize:scaleSize(22),fontWeight:"600",marginTop:scaleSize(50),color:"red"}} >
                     The questions is empty!
                 </Text>
                 <ButtonCustom
@@ -87,9 +87,9 @@ export default class Layout extends React.Component {
                     style={{
                         borderWidth: 1, borderColor: '#C5C5C5',
                         backgroundColor: '#0764B0',
-                        flex: 1,marginTop:scaleSzie(30)
+                        flex: 1,marginTop:scaleSize(30)
                     }}
-                    styleText={{ fontSize: scaleSzie(20), fontWeight: '600', color: '#fff' }}
+                    styleText={{ fontSize: scaleSize(20), fontWeight: '600', color: '#fff' }}
                 />
             </View>
         );
@@ -110,17 +110,17 @@ export default class Layout extends React.Component {
                 >
                     {/* ------ Header ------ */}
                     <View style={{
-                        width, paddingHorizontal: scaleSzie(15),
-                        marginTop: scaleSzie(8)
+                        width, paddingHorizontal: scaleSize(15),
+                        marginTop: scaleSize(8)
                     }}  >
-                        <Text style={{ color: '#0764B0', fontWeight: 'bold', fontSize: scaleSzie(18) }} >
+                        <Text style={{ color: '#0764B0', fontWeight: 'bold', fontSize: scaleSize(18) }} >
                             {localize('Please fill the form below', language)}
                         </Text>
                         <View style={{
-                            height: scaleSzie(38), backgroundColor: '#0764B0', justifyContent: 'center',
-                            paddingLeft: scaleSzie(5), marginTop: scaleSzie(5)
+                            height: scaleSize(38), backgroundColor: '#0764B0', justifyContent: 'center',
+                            paddingLeft: scaleSize(5), marginTop: scaleSize(5)
                         }} >
-                            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: scaleSzie(18) }} >
+                            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: scaleSize(18) }} >
                                 {localize('Business Information', language)}
                             </Text>
                         </View>
@@ -130,7 +130,7 @@ export default class Layout extends React.Component {
                         question.length > 0 ? this.renderQuestions() : this.renderEmptyQuestion()
                     }
 
-                    <View style={{ height: scaleSzie(250) }} />
+                    <View style={{ height: scaleSize(250) }} />
                 </ScrollView>
             </FormInfoParent>
 

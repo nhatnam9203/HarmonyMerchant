@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, View } from "react-native";
 import Autocomplete from 'react-native-autocomplete-input';
 
 import connectRedux from "../redux/ConnectRedux";
-import { scaleSzie, removeAccent, checkIsTablet } from '@utils';
+import { scaleSize, removeAccent, checkIsTablet } from '@utils';
 
 
 class TextInputSuggestion extends React.PureComponent {
@@ -72,8 +72,8 @@ class TextInputSuggestion extends React.PureComponent {
                 defaultValue={value}
                 onChangeText={this.onChangeText}
                 renderItem={({ item, index }) => <TouchableOpacity style={{
-                    height: scaleSzie(25),
-                    paddingHorizontal: scaleSzie(8),
+                    height: scaleSize(25),
+                    paddingHorizontal: scaleSize(8),
                     justifyContent: "center",
                 }} onPress={() => this.selectSuggestion(item)}>
                     <Text>{item}</Text>
@@ -84,12 +84,12 @@ class TextInputSuggestion extends React.PureComponent {
                     // color:"#000"
                 }}
                 inputContainerStyle={{
-                    paddingHorizontal: scaleSzie(8),
+                    paddingHorizontal: scaleSize(8),
                     height: "100%",
                     justifyContent: "center",
                     ...inputContainerStyle
                 }}
-                style={{ flex: 1, fontSize: scaleSzie(16), padding: 0,color:"#000" }}
+                style={{ flex: 1, fontSize: scaleSize(16), padding: 0,color:"#000" }}
                 onFocus={onFocus && this.onFocus}
                 keyExtractor={(item, index) => `${item}_${index}`}
                 listStyle={temp_list_style}

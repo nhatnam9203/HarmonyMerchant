@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, PopupParent } from '@components';
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 import ICON from '@resources';
 
 class ErrorMessagePaxModal extends React.Component {
@@ -21,29 +21,29 @@ class ErrorMessagePaxModal extends React.Component {
                 hideCloseButton={hideCloseButton}
             >
                 <View style={{
-                    minHeight: scaleSzie(180), backgroundColor: '#fff',
-                    borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15)
+                    minHeight: scaleSize(180), backgroundColor: '#fff',
+                    borderBottomLeftRadius: scaleSize(15), borderBottomRightRadius: scaleSize(15)
                 }} >
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: scaleSzie(10) }} >
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: scaleSize(10) }} >
                         <Image source={ICON.danger} />
-                        <Text style={{ color: '#404040', fontSize: scaleSzie(14), textAlign: "center", marginVertical: scaleSzie(12) }} >
+                        <Text style={{ color: '#404040', fontSize: scaleSize(14), textAlign: "center", marginVertical: scaleSize(12) }} >
                             {message}
                         </Text>
                     </View>
                     <View style={{
-                        height: scaleSzie(65), flexDirection: 'row',
+                        height: scaleSize(65), flexDirection: 'row',
                         borderTopColor: '#EEEEEE', borderTopWidth: 1, alignItems: 'center', justifyContent: 'center'
                     }} >
 
                         <ButtonCustom
-                            width={scaleSzie(130)}
+                            width={scaleSize(130)}
                             height={35}
                             backgroundColor="#0764B0"
                             title="OK"
                             textColor="#fff"
                             onPress={() => confimYes()}
                             styleText={{
-                                fontSize: scaleSzie(14)
+                                fontSize: scaleSize(14)
                             }}
                         />
 

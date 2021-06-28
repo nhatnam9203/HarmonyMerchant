@@ -11,7 +11,7 @@ import Accordion from 'react-native-collapsible/Accordion';
 
 import connectRedux from "@redux/ConnectRedux";
 import ICON from "@resources";
-import { scaleSzie } from "@utils";
+import { scaleSize } from "@utils";
 import { Button } from "@components";
 
 class AssignSevices extends Component {
@@ -185,22 +185,22 @@ class AssignSevices extends Component {
 
         return (
             <View>
-                <View style={{ height: scaleSzie(6), backgroundColor: "#FAFAFA" }} />
+                <View style={{ height: scaleSize(6), backgroundColor: "#FAFAFA" }} />
 
                 <View style={{
-                    height: scaleSzie(50), flexDirection: "row", alignItems: "center", backgroundColor: "#fff",
-                    paddingHorizontal: scaleSzie(20)
+                    height: scaleSize(50), flexDirection: "row", alignItems: "center", backgroundColor: "#fff",
+                    paddingHorizontal: scaleSize(20)
                 }} >
                     <Button onPress={this.selectCategory(section)}  >
-                        <Image source={selected ? ICON.checkBox : ICON.checkBoxEmpty} style={{ width: scaleSzie(15), height: scaleSzie(15) }} />
+                        <Image source={selected ? ICON.checkBox : ICON.checkBoxEmpty} style={{ width: scaleSize(15), height: scaleSize(15) }} />
                     </Button>
-                    <Text style={{ color: "#0764B0", fontSize: scaleSzie(14), fontWeight: "600", marginLeft: scaleSzie(8) }} >
+                    <Text style={{ color: "#0764B0", fontSize: scaleSize(14), fontWeight: "600", marginLeft: scaleSize(8) }} >
                         {`${section?.name} (${section?.staffServices?.length || 0})`}
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }} >
                         <Image
                             source={isActive ? ICON.Arrow_up : ICON.Arrow_down}
-                            style={{ width: scaleSzie(18), height: scaleSzie(18) }}
+                            style={{ width: scaleSize(18), height: scaleSize(18) }}
                         />
                     </View>
                 </View>
@@ -215,15 +215,15 @@ class AssignSevices extends Component {
                 {
                     section?.staffServices.map((service, key) =>
                         <View key={`${service?.serviceId}_${key}`} >
-                            <View style={{ height: scaleSzie(3), backgroundColor: "#FAFAFA" }} />
+                            <View style={{ height: scaleSize(3), backgroundColor: "#FAFAFA" }} />
                             <View  style={{
-                                height: scaleSzie(50), flexDirection: "row", alignItems: "center", backgroundColor: "#fff",
-                                paddingHorizontal: scaleSzie(40)
+                                height: scaleSize(50), flexDirection: "row", alignItems: "center", backgroundColor: "#fff",
+                                paddingHorizontal: scaleSize(40)
                             }} >
                                 <Button onPress={this.selectService(service)} >
-                                    <Image source={service?.selected ? ICON.checkBox : ICON.checkBoxEmpty} style={{ width: scaleSzie(15), height: scaleSzie(15) }} />
+                                    <Image source={service?.selected ? ICON.checkBox : ICON.checkBoxEmpty} style={{ width: scaleSize(15), height: scaleSize(15) }} />
                                 </Button>
-                                <Text style={{ color: "#6A6A6A", fontSize: scaleSzie(14), marginLeft: scaleSzie(8) }} >
+                                <Text style={{ color: "#6A6A6A", fontSize: scaleSize(14), marginLeft: scaleSize(8) }} >
                                     {service?.name}
                                 </Text>
 
@@ -246,17 +246,17 @@ class AssignSevices extends Component {
                 <View style={styles.select_all}>
                     <Button
                         onPress={this.selectAllServices}
-                        style={{ width: scaleSzie(30), justifyContent: "center" }}
+                        style={{ width: scaleSize(30), justifyContent: "center" }}
                     >
                         <Image
                             source={isSelectAll ? ICON.checkBox : ICON.checkBoxEmpty}
-                            style={{ width: scaleSzie(15), height: scaleSzie(15) }}
+                            style={{ width: scaleSize(15), height: scaleSize(15) }}
                         />
                     </Button>
 
                     <View
                         style={{
-                            width: scaleSzie(120),
+                            width: scaleSize(120),
                             justifyContent: "center",
                         }}
                     >
@@ -292,17 +292,17 @@ class AssignSevices extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: scaleSzie(25),
-        marginTop: scaleSzie(15)
+        paddingHorizontal: scaleSize(25),
+        marginTop: scaleSize(15)
     },
     txt_title: {
         color: "#404040",
-        fontSize: scaleSzie(14),
+        fontSize: scaleSize(14),
     },
     select_all: {
         flexDirection: "row",
-        marginTop: scaleSzie(14),
-        marginBottom: scaleSzie(15),
+        marginTop: scaleSize(14),
+        marginBottom: scaleSize(15),
     },
 
 });

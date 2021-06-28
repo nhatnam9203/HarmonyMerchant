@@ -5,7 +5,7 @@ import {
 import FastImage from 'react-native-fast-image';
 import _ from "ramda";
 
-import { scaleSzie, msToTime } from '@utils';
+import { scaleSize, msToTime } from '@utils';
 import { Text, Button } from '@components';
 import ICON from "@resources";
 
@@ -91,15 +91,15 @@ const ItemProductService = ({ item, showColAmount, itemSelected, categoryTypeSel
 
     return (
         <Button onPress={() => showColAmount(item)} style={[{
-            height: scaleSzie(70), borderBottomWidth: 1, borderBottomColor: '#DDDDDD', backgroundColor: '#fff',
-            padding: scaleSzie(8), flexDirection: "row"
+            height: scaleSize(70), borderBottomWidth: 1, borderBottomColor: '#DDDDDD', backgroundColor: '#fff',
+            padding: scaleSize(8), flexDirection: "row"
         }, temtemptBackgrounColorSelectOnServer, temptBackgrounColor]} >
 
-            <View style={{ width: scaleSzie(50), justifyContent: "center", alignItems: "center" }} >
-                <View style={{ width: scaleSzie(50), height: scaleSzie(50), borderRadius: scaleSzie(3), overflow: "hidden" }} >
+            <View style={{ width: scaleSize(50), justifyContent: "center", alignItems: "center" }} >
+                <View style={{ width: scaleSize(50), height: scaleSize(50), borderRadius: scaleSize(3), overflow: "hidden" }} >
                     {
                         item?.imageUrl ? <FastImage
-                            style={{ width: scaleSzie(50), height: scaleSzie(50) }}
+                            style={{ width: scaleSize(50), height: scaleSize(50) }}
                             source={{
                                     uri: item?.imageUrl,
                                     priority: FastImage.priority.low,
@@ -107,17 +107,17 @@ const ItemProductService = ({ item, showColAmount, itemSelected, categoryTypeSel
                             }}
                             // onError={() => setSource(categoryTypeSelected === 'Service' ? ICON.service_holder : ICON.product_holder)}
                         /> : <FastImage
-                                style={{ width: scaleSzie(50), height: scaleSzie(50) }}
+                                style={{ width: scaleSize(50), height: scaleSize(50) }}
                                 source={placeHolder}
                             />
                     }
                 </View>
             </View>
 
-            <View style={{ flex: 1, paddingLeft: scaleSzie(8) }} >
-                <View style={{ height: scaleSzie(40) }} >
+            <View style={{ flex: 1, paddingLeft: scaleSize(8) }} >
+                <View style={{ height: scaleSize(40) }} >
                     <Text numberOflines={2} style={[{
-                        fontSize: scaleSzie(12), color: '#0764B0', fontWeight: "600",
+                        fontSize: scaleSize(12), color: '#0764B0', fontWeight: "600",
                     },
                         temptTextColor
                     ]} >
@@ -126,14 +126,14 @@ const ItemProductService = ({ item, showColAmount, itemSelected, categoryTypeSel
                 </View>
                 <View style={{ flex: 1, flexDirection: "row", alignItems: "flex-end", justifyContent: "space-between" }} >
                     {
-                        categoryTypeSelected === 'Service' ? <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A', fontWeight: "300" }, temptTextPriceColor]} >
+                        categoryTypeSelected === 'Service' ? <Text numberOflines={2} style={[{ fontSize: scaleSize(10), color: '#6A6A6A', fontWeight: "300" }, temptTextPriceColor]} >
                             {`${msToTime(item?.duration || 0)}`}
-                        </Text> : <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A', fontWeight: "700", }, temptTextPriceColor]} >
+                        </Text> : <Text numberOflines={2} style={[{ fontSize: scaleSize(10), color: '#6A6A6A', fontWeight: "700", }, temptTextPriceColor]} >
                                 {`$ ${item?.price || ""}`}
                             </Text>
                     }
                     {
-                        !isShowColAmount && categoryTypeSelected === 'Service' && <Text numberOflines={2} style={[{ fontSize: scaleSzie(10), color: '#6A6A6A', fontWeight: "700", }, temptTextPriceColor]} >
+                        !isShowColAmount && categoryTypeSelected === 'Service' && <Text numberOflines={2} style={[{ fontSize: scaleSize(10), color: '#6A6A6A', fontWeight: "700", }, temptTextPriceColor]} >
                             {`$ ${item?.price || ""}`}
                         </Text>
                     }

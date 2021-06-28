@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import { ButtonCustom, PopupParent, Button } from '@components';
-import { scaleSzie, localize, getCategoryName } from '@utils';
+import { scaleSize, localize, getCategoryName } from '@utils';
 import IMAGE from '@resources';
 
 const { width } = Dimensions.get('window');
@@ -82,24 +82,24 @@ class PopupRestock extends React.Component {
                 width={330}
             >
                 <View style={{
-                    height: scaleSzie(420), backgroundColor: '#fff',
-                    borderBottomLeftRadius: scaleSzie(15),
-                    borderBottomRightRadius: scaleSzie(15),
-                    paddingHorizontal: scaleSzie(12)
+                    height: scaleSize(420), backgroundColor: '#fff',
+                    borderBottomLeftRadius: scaleSize(15),
+                    borderBottomRightRadius: scaleSize(15),
+                    paddingHorizontal: scaleSize(12)
                 }} >
                     <View style={{ flex: 1 }} >
                         {/* ------- Title ----- */}
-                        <View style={{ paddingTop: scaleSzie(14), paddingBottom: scaleSzie(8), alignItems: 'center' }} >
-                            <Text style={{ fontSize: scaleSzie(16), color: '#0764B0' }} >
+                        <View style={{ paddingTop: scaleSize(14), paddingBottom: scaleSize(8), alignItems: 'center' }} >
+                            <Text style={{ fontSize: scaleSize(16), color: '#0764B0' }} >
                                 {localize('Enter the amount of product added', language)}
                             </Text>
                         </View>
                         {/* ------ Display Box --- */}
                         <View style={{
-                            height: scaleSzie(65), backgroundColor: '#FAFAFA', borderWidth: 1, borderColor: '#C5C5C5',
-                            justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(10), marginBottom: scaleSzie(3)
+                            height: scaleSize(65), backgroundColor: '#FAFAFA', borderWidth: 1, borderColor: '#C5C5C5',
+                            justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSize(10), marginBottom: scaleSize(3)
                         }} >
-                            <Text style={{ fontSize: scaleSzie(40), color: '#0764B0' }} >
+                            <Text style={{ fontSize: scaleSize(40), color: '#0764B0' }} >
                                 {this.state.quality}
                             </Text>
                         </View>
@@ -140,7 +140,7 @@ class PopupRestock extends React.Component {
                                 {/* ---- Row 4 ----- */}
                                 <View style={styles.rowKeyboard} >
                                     <Button onPress={this.convertNagativeNumber} style={styles.keyContainer} >
-                                        <Text style={{ fontSize: scaleSzie(26), color: '#404040', fontWeight: '500' }} >
+                                        <Text style={{ fontSize: scaleSize(26), color: '#404040', fontWeight: '500' }} >
                                             {`AC`}
                                         </Text>
                                     </Button>
@@ -156,24 +156,24 @@ class PopupRestock extends React.Component {
 
                             </View>
                             {/* ---- Center ----- */}
-                            <View style={{ width: scaleSzie(18), paddingBottom: scaleSzie(38), paddingTop: scaleSzie(9), alignItems: 'center' }} >
-                                <View style={{ height: '100%', width: scaleSzie(4), backgroundColor: '#D0D2D3' }} />
+                            <View style={{ width: scaleSize(18), paddingBottom: scaleSize(38), paddingTop: scaleSize(9), alignItems: 'center' }} >
+                                <View style={{ height: '100%', width: scaleSize(4), backgroundColor: '#D0D2D3' }} />
                             </View>
                             {/* ---- Right ----- */}
-                            <View style={{ width: scaleSzie(70) }} >
+                            <View style={{ width: scaleSize(70) }} >
                                 {
                                     [10, 20, 50, 100].map((number, index) => <Key
                                         key={number}
                                         number={number}
                                         onPressNumber={this.onPressAddNumber}
-                                        style={{ marginTop: scaleSzie(9) }}
+                                        style={{ marginTop: scaleSize(9) }}
                                     />)
                                 }
                             </View>
                         </View>
                         {/* ---- Footer ------ */}
                         <View style={{
-                            height: scaleSzie(60), flexDirection: 'row',
+                            height: scaleSize(60), flexDirection: 'row',
                             justifyContent: 'center'
                         }} >
                             <ButtonCustom
@@ -184,16 +184,16 @@ class PopupRestock extends React.Component {
                                 textColor="#6A6A6A"
                                 onPress={() => onRequestClose()}
                                 style={{
-                                    borderRadius: scaleSzie(2),
+                                    borderRadius: scaleSize(2),
                                     borderColor: '#C5C5C5',
                                     borderWidth: 1,
                                 }}
                                 styleText={{
-                                    fontSize: scaleSzie(16),
+                                    fontSize: scaleSize(16),
                                     fontWeight: 'normal'
                                 }}
                             />
-                            <View style={{ width: scaleSzie(15) }} />
+                            <View style={{ width: scaleSize(15) }} />
                             <ButtonCustom
                                 width={200}
                                 height={45}
@@ -202,12 +202,12 @@ class PopupRestock extends React.Component {
                                 textColor="#fff"
                                 onPress={this.submitStock}
                                 style={{
-                                    borderRadius: scaleSzie(2),
+                                    borderRadius: scaleSize(2),
                                     borderColor: '#C5C5C5',
                                     borderWidth: 1,
                                 }}
                                 styleText={{
-                                    fontSize: scaleSzie(16),
+                                    fontSize: scaleSize(16),
                                     fontWeight: 'normal'
                                 }}
                             />
@@ -222,7 +222,7 @@ class PopupRestock extends React.Component {
 const Key = ({ number, onPressNumber, style }) => {
     return (
         <Button onPress={() => onPressNumber(number)} style={[styles.keyContainer, style]} >
-            <Text style={{ fontSize: scaleSzie(26), color: '#404040', fontWeight: '500' }} >
+            <Text style={{ fontSize: scaleSize(26), color: '#404040', fontWeight: '500' }} >
                 {number}
             </Text>
         </Button>
@@ -232,15 +232,15 @@ const Key = ({ number, onPressNumber, style }) => {
 
 const styles = StyleSheet.create({
     keyContainer: {
-        width: scaleSzie(67),
-        height: scaleSzie(45),
+        width: scaleSize(67),
+        height: scaleSize(45),
         backgroundColor: '#fff',
-        borderRadius: scaleSzie(4),
+        borderRadius: scaleSize(4),
         justifyContent: 'center',
         alignItems: 'center',
         ...Platform.select({
             ios: {
-                borderRadius: scaleSzie(4),
+                borderRadius: scaleSize(4),
                 shadowColor: 'rgba(0, 0, 0, 0.5)',
                 shadowOpacity: 0.54,
                 shadowOffset: { width: 0, height: 0 },
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: scaleSzie(9)
+        marginTop: scaleSize(9)
     }
 })
 

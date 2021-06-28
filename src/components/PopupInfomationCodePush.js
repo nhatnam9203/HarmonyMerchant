@@ -10,7 +10,7 @@ import env from 'react-native-config';
 
 import ButtonCustom from './ButtonCustom';
 import connectRedux from '@redux/ConnectRedux';
-import { scaleSzie } from '../utils';
+import { scaleSize } from '../utils';
 import ModalCustom from './ModalCustom';
 import ICON from "@resources";
 import configs from "@configs";
@@ -66,22 +66,22 @@ class PopupInfomationCodePush extends React.Component {
                 transparent={true}
             >
                 <View style={{
-                    height: scaleSzie(450),
-                    width: scaleSzie(380)
+                    height: scaleSize(450),
+                    width: scaleSize(380)
                 }} >
-                    <View style={{ height: scaleSzie(80) }} />
+                    <View style={{ height: scaleSize(80) }} />
 
                     {/* --------- White Box ------- */}
                     <View style={[{
                         flex: 1, backgroundColor: '#fff',
-                        borderRadius: scaleSzie(10)
+                        borderRadius: scaleSize(10)
                     }, configs.SHADOW]} >
                         {/* --------- Content Update ------- */}
-                        <View style={{ flex: 1, paddingTop: scaleSzie(100), paddingHorizontal: scaleSzie(30) }} >
+                        <View style={{ flex: 1, paddingTop: scaleSize(100), paddingHorizontal: scaleSize(30) }} >
                             {
-                                descriptions.map((desc, key) => <View key={`${desc}_${key}`} style={{ flexDirection: "row", alignItems: "center", marginBottom: scaleSzie(10) }} >
-                                    <View style={{ height: scaleSzie(8), width: scaleSzie(8), backgroundColor: "#4CD964", borderRadius: scaleSzie(4) }} />
-                                    <Text style={{ color: "#404040", fontSize: scaleSzie(16), fontWeight: "600", marginLeft: scaleSzie(10) }} >
+                                descriptions.map((desc, key) => <View key={`${desc}_${key}`} style={{ flexDirection: "row", alignItems: "center", marginBottom: scaleSize(10) }} >
+                                    <View style={{ height: scaleSize(8), width: scaleSize(8), backgroundColor: "#4CD964", borderRadius: scaleSize(4) }} />
+                                    <Text style={{ color: "#404040", fontSize: scaleSize(16), fontWeight: "600", marginLeft: scaleSize(10) }} >
                                         {`${desc}`}
                                     </Text>
                                 </View>)
@@ -92,11 +92,11 @@ class PopupInfomationCodePush extends React.Component {
                         {/* --------- Line ------- */}
                         <View style={{ height: 1, backgroundColor: "rgba(112,112,112,0.4)" }} />
                         {/* --------- Footer ------- */}
-                        <View style={{ height: scaleSzie(73), justifyContent: "center", alignItems: "center" }} >
+                        <View style={{ height: scaleSize(73), justifyContent: "center", alignItems: "center" }} >
                             {
                                 isLoading ? <View style={{
-                                    width: scaleSzie(150), height: scaleSzie(46), backgroundColor: "#0764B0",
-                                    borderRadius: scaleSzie(2), justifyContent: "center", alignItems: "center"
+                                    width: scaleSize(150), height: scaleSize(46), backgroundColor: "#0764B0",
+                                    borderRadius: scaleSize(2), justifyContent: "center", alignItems: "center"
                                 }} >
                                     <ActivityIndicator
                                         color="#fff"
@@ -104,15 +104,15 @@ class PopupInfomationCodePush extends React.Component {
                                     />
                                 </View>
                                     : <ButtonCustom
-                                        width={scaleSzie(150)}
+                                        width={scaleSize(150)}
                                         height={46}
                                         backgroundColor="#0764B0"
                                         title={'UPDATE'}
                                         textColor="#fff"
                                         onPress={this.updateAppByCodePush}
-                                        style={[{ borderRadius: scaleSzie(2) },]}
+                                        style={[{ borderRadius: scaleSize(2) },]}
                                         styleText={{
-                                            fontSize: scaleSzie(16)
+                                            fontSize: scaleSize(16)
                                         }}
                                     />
                             }
@@ -124,22 +124,22 @@ class PopupInfomationCodePush extends React.Component {
 
                     {/* --------- Blue Box ------- */}
                     <View style={[{
-                        width: scaleSzie(380), height: scaleSzie(150),
+                        width: scaleSize(380), height: scaleSize(150),
                         position: "absolute", top: 0, right: 0, left: 0, alignItems: "center"
                     }, configs.SHADOW]} >
                         <View style={{
-                            flex: 1, width: scaleSzie(200), backgroundColor: "#0764B0",
-                            borderRadius: scaleSzie(10), alignItems: "center", paddingVertical: scaleSzie(17)
+                            flex: 1, width: scaleSize(200), backgroundColor: "#0764B0",
+                            borderRadius: scaleSize(10), alignItems: "center", paddingVertical: scaleSize(17)
                         }} >
                             <Image
                                 source={ICON.update_code_push}
-                                style={{ height: scaleSzie(55), width: scaleSzie(55) }}
+                                style={{ height: scaleSize(55), width: scaleSize(55) }}
                             />
-                            <Text style={{ color: "#fff", fontSize: scaleSzie(14), fontWeight: "bold", marginTop: scaleSzie(18) }} >
+                            <Text style={{ color: "#fff", fontSize: scaleSize(14), fontWeight: "bold", marginTop: scaleSize(18) }} >
                                 {`What's new?`}
                             </Text>
                             <View style={{ flex: 1, justifyContent: "flex-end" }} >
-                                <Text style={{ color: "#fff", fontSize: scaleSzie(12), fontWeight: "300" }} >
+                                <Text style={{ color: "#fff", fontSize: scaleSize(12), fontWeight: "300" }} >
                                     {`Version: ${versionApp}`}
                                 </Text>
                             </View>

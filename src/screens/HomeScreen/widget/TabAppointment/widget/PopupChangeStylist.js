@@ -11,7 +11,7 @@ import _ from 'ramda';
 
 import { Dropdown, PopupParent, ButtonCustom } from '@components';
 import connectRedux from '@redux/ConnectRedux';
-import { scaleSzie, localize, formatWithMoment } from '@utils';
+import { scaleSize, localize, formatWithMoment } from '@utils';
 
 class PopupChangeStylist extends React.Component {
 
@@ -91,7 +91,7 @@ class PopupChangeStylist extends React.Component {
     }
 
     onFocusToScroll = (number) => {
-        this.scrollRef.current.scrollTo({ x: 0, y: scaleSzie(number), animated: true })
+        this.scrollRef.current.scrollTo({ x: 0, y: scaleSize(number), animated: true })
     }
 
     // --------------- Render -----------
@@ -104,13 +104,13 @@ class PopupChangeStylist extends React.Component {
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
-                width={scaleSzie(260)}
-                styleTitle={{ fontSize: scaleSzie(22), fontWeight: "bold" }}
+                width={scaleSize(260)}
+                styleTitle={{ fontSize: scaleSize(22), fontWeight: "bold" }}
             >
                 <View style={{
-                    height: scaleSzie(420), backgroundColor: '#FAFAFA',
-                    borderBottomLeftRadius: scaleSzie(15), borderBottomRightRadius: scaleSzie(15),
-                    paddingHorizontal: scaleSzie(16),
+                    height: scaleSize(420), backgroundColor: '#FAFAFA',
+                    borderBottomLeftRadius: scaleSize(15), borderBottomRightRadius: scaleSize(15),
+                    paddingHorizontal: scaleSize(16),
                 }} >
                     <View style={{ flex: 1 }} >
                         <ScrollView
@@ -118,12 +118,12 @@ class PopupChangeStylist extends React.Component {
                             showsVerticalScrollIndicator={false}
                             keyboardShouldPersistTaps="always"
                         >
-                            <View style={{ height: scaleSzie(20) }} />
-                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
+                            <View style={{ height: scaleSize(20) }} />
+                            <Text style={{ color: '#6A6A6A', fontSize: scaleSize(16), marginBottom: scaleSize(5) }} >
                                 {`${localize('Staff', language)}`}
                             </Text>
                             {/* ------- Dropdown -------- */}
-                            <View style={{ height: scaleSzie(40), marginBottom: scaleSzie(10) }} >
+                            <View style={{ height: scaleSize(40), marginBottom: scaleSize(10) }} >
                                 <Dropdown
                                     label={`${localize('Name', language)}`}
                                     data={dataDropdown}
@@ -135,18 +135,18 @@ class PopupChangeStylist extends React.Component {
                                         borderColor: '#C5C5C5',
                                         flex: 1
                                     }}
-                                    fontSize={scaleSzie(14)}
-                                    extraHeight={scaleSzie(90)}
+                                    fontSize={scaleSize(14)}
+                                    extraHeight={scaleSize(90)}
                                 />
                             </View>
                             {/* ------- Price -------- */}
-                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
+                            <Text style={{ color: '#6A6A6A', fontSize: scaleSize(16), marginBottom: scaleSize(5) }} >
                                 Price ($)
                         </Text>
                             {/* ------- Box Price -------- */}
                             <View style={{
-                                height: scaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
-                                paddingHorizontal: scaleSzie(10), marginBottom: scaleSzie(10)
+                                height: scaleSize(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
+                                paddingHorizontal: scaleSize(10), marginBottom: scaleSize(10)
                             }} >
                                 <TextInputMask
                                     type={'money'}
@@ -157,21 +157,21 @@ class PopupChangeStylist extends React.Component {
                                         unit: '',
                                         suffixUnit: ''
                                     }}
-                                    style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
+                                    style={{ flex: 1, fontSize: scaleSize(16), color: '#6A6A6A' }}
                                     value={price}
                                     onChangeText={(price) => this.setState({ price })}
                                     onFocus={() => this.onFocusToScroll(90)}
                                 />
                             </View>
                             {/* ------- Tip -------- */}
-                            <Text style={{ color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5) }} >
+                            <Text style={{ color: '#6A6A6A', fontSize: scaleSize(16), marginBottom: scaleSize(5) }} >
 
                                 {`${localize('Tip ($)', language)}`}
                             </Text>
                             {/* ------- Box -------- */}
                             <View style={{
-                                height: scaleSzie(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
-                                paddingHorizontal: scaleSzie(10)
+                                height: scaleSize(40), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
+                                paddingHorizontal: scaleSize(10)
                             }} >
                                 <TextInputMask
                                     type={'money'}
@@ -182,7 +182,7 @@ class PopupChangeStylist extends React.Component {
                                         unit: '',
                                         suffixUnit: ''
                                     }}
-                                    style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
+                                    style={{ flex: 1, fontSize: scaleSize(16), color: '#6A6A6A' }}
                                     value={tip}
                                     onChangeText={(tip) => this.setState({ tip })}
                                     onFocus={() => this.onFocusToScroll(160)}
@@ -190,17 +190,17 @@ class PopupChangeStylist extends React.Component {
                             </View>
                             {/* ------- Note -------- */}
                             <Text style={{
-                                color: '#6A6A6A', fontSize: scaleSzie(16), marginBottom: scaleSzie(5),
-                                marginTop: scaleSzie(10)
+                                color: '#6A6A6A', fontSize: scaleSize(16), marginBottom: scaleSize(5),
+                                marginTop: scaleSize(10)
                             }} >
                                 {`Note`}
                             </Text>
                             <View style={{
-                                height: scaleSzie(70), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
-                                paddingHorizontal: scaleSzie(10)
+                                height: scaleSize(70), backgroundColor: '#fff', borderWidth: 1, borderColor: '#C5C5C5',
+                                paddingHorizontal: scaleSize(10)
                             }} >
                                 <TextInput
-                                    style={{ flex: 1, fontSize: scaleSzie(16), color: '#6A6A6A' }}
+                                    style={{ flex: 1, fontSize: scaleSize(16), color: '#6A6A6A' }}
                                     multiline={true}
                                     value={note}
                                     onChangeText={note => this.setState({ note })}
@@ -208,9 +208,9 @@ class PopupChangeStylist extends React.Component {
                                 />
                             </View>
                             {/* ------- Button -------- */}
-                            <View style={{ marginTop: scaleSzie(20), alignItems: 'center', }} >
+                            <View style={{ marginTop: scaleSize(20), alignItems: 'center', }} >
                                 <ButtonCustom
-                                    width={scaleSzie(120)}
+                                    width={scaleSize(120)}
                                     height={45}
                                     backgroundColor="#0764B0"
                                     title={`${localize('Submit', language)}`}
@@ -223,7 +223,7 @@ class PopupChangeStylist extends React.Component {
                                 />
                             </View>
 
-                            <View style={{ height: scaleSzie(200) }} />
+                            <View style={{ height: scaleSize(200) }} />
                         </ScrollView>
                     </View>
                 </View>

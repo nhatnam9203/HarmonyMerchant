@@ -1,55 +1,55 @@
 import { StyleSheet, Dimensions, Platform } from "react-native";
 
 import Configs from "@configs";
-import { scaleSzie } from "@utils";
+import { scaleSize } from "@utils";
 
 const { width, height } = Dimensions.get("window");
 
 export default StyleSheet.create({
   container: {
-    paddingTop: scaleSzie(15),
+    paddingTop: scaleSize(15),
   },
   row: {
     flexDirection: "row",
   },
   tabName: {
-    width: scaleSzie(110),
-    paddingHorizontal: scaleSzie(5),
+    width: scaleSize(110),
+    paddingHorizontal: scaleSize(5),
     backgroundColor: "#FFF",
-    padding: scaleSzie(12),
-    marginLeft: scaleSzie(15),
+    padding: scaleSize(12),
+    marginLeft: scaleSize(15),
     justifyContent: "center",
     alignItems: "center",
-    borderTopLeftRadius: scaleSzie(10),
-    borderTopRightRadius: scaleSzie(10),
+    borderTopLeftRadius: scaleSize(10),
+    borderTopRightRadius: scaleSize(10),
   },
   title: {
-    fontSize: scaleSzie(15),
+    fontSize: scaleSize(15),
     fontWeight: "600",
     color: "#0764B0",
   },
   btn: {
-    width: scaleSzie(45),
-    height: scaleSzie(45),
-    borderRadius: scaleSzie(3),
+    width: scaleSize(45),
+    height: scaleSize(45),
+    borderRadius: scaleSize(3),
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#F6F6F6",
-    marginLeft: scaleSzie(15),
+    marginLeft: scaleSize(15),
   },
   ic: {
-    width: scaleSzie(30),
-    height: scaleSzie(30)
+    width: scaleSize(30),
+    height: scaleSize(30)
   },
   footer: {
-    height: scaleSzie(75),
+    height: scaleSize(75),
     width: "100%",
     position: "absolute",
     bottom: 0,
     backgroundColor: "#FFF",
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingTop: scaleSzie(10),
+    paddingTop: scaleSize(10),
   },
   upload: { 
     height: "95%", 
@@ -59,8 +59,8 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   btn_upload: {
-    width: scaleSzie(120),
-    height: scaleSzie(120),
+    width: scaleSize(120),
+    height: scaleSize(120),
     backgroundColor: "#F6F6F6",
     justifyContent: "center",
     alignItems: "center",
@@ -70,15 +70,15 @@ export default StyleSheet.create({
   },
   text: {
     color: '#6A6A6A',
-    fontSize: scaleSzie(12),
-    marginTop: scaleSzie(10)
+    fontSize: scaleSize(12),
+    marginTop: scaleSize(10)
   },
   closeBtn: {
     position: 'absolute',
-    top: scaleSzie(20),
-    right: scaleSzie(10),
-    width: scaleSzie(30),
-    height: scaleSzie(30),
+    top: scaleSize(20),
+    right: scaleSize(10),
+    width: scaleSize(30),
+    height: scaleSize(30),
     justifyContent: "center",
     alignItems: "center",
   },

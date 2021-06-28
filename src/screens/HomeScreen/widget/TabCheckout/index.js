@@ -1348,7 +1348,7 @@ class TabCheckout extends Layout {
     }
   }
 
-  getPAXReport = async (paxMachineInfo, isLastTransaction = 0) => {
+  getPAXReport = async (paxMachineInfo, isLastTransaction) => {
     const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
       paxMachineInfo;
 
@@ -1386,7 +1386,9 @@ class TabCheckout extends Layout {
 
           //   return {}
           // } else {
+
           return result
+
           // }
         } else {
           return {}
@@ -1405,6 +1407,7 @@ class TabCheckout extends Layout {
       amountCredtitForSubmitToServer,
       groupAppointment,
       isCancelPayment,
+      payAppointmentId
     } = this.props;
     const { paymentSelected } = this.state;
 
@@ -1417,14 +1420,31 @@ class TabCheckout extends Layout {
     //Check if isCancelPayment = true
     if (isCancelPayment) {
       const result = await this.getPAXReport(paxMachineInfo, "1")
-      if (!l.isEmpty(result) && l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()) {
-        this.handleResponseCreditCard(
-          JSON.stringify(result),
-          true,
-          amountCredtitForSubmitToServer
-        )
-      } else {
-        this.sendTransaction()
+      if(!l.isEmpty(result)){
+        if(l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()){
+          this.handleResponseCreditCard(
+            JSON.stringify(result),
+            true,
+            amountCredtitForSubmitToServer
+          )
+        }else{
+          this.sendTransaction()
+        }
+        
+      }else{
+        if (payAppointmentId) {
+          this.props.actions.appointment.cancelHarmonyPayment(
+            payAppointmentId
+          );
+        }
+        setTimeout(() => {
+          // alert(result.message);
+          this.setState({
+            visibleProcessingCredit: false,
+            visibleErrorMessageFromPax: true,
+            errorMessageFromPax: 'transaction fail',
+          });
+        }, 300);
       }
     } else {
       this.sendTransaction()
@@ -1482,7 +1502,7 @@ class TabCheckout extends Layout {
     try {
       const result = JSON.parse(message);
       const tempEnv = env.IS_PRODUCTION;
-      if (l.get(result, 'status', 1) == 0) {
+      if (l.get(result, 'status', 0) == 0) {
         PosLink.cancelTransaction();
         if (payAppointmentId) {
           this.props.actions.appointment.cancelHarmonyPayment(
@@ -1492,6 +1512,7 @@ class TabCheckout extends Layout {
           );
         }
         if (result?.message === "ABORTED") {
+          console.log('ABORTED')
           return;
         }
         setTimeout(() => {

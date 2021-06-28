@@ -7,7 +7,7 @@ import {
     ActivityIndicator
 } from 'react-native';
 
-import { scaleSzie, localize, } from '@utils';
+import { scaleSize, localize, } from '@utils';
 import { Text, Button, ButtonCustom, Dropdown, PopupCalendar, ClearTextInputIcon } from '@components';
 import styles from './style';
 import IMAGE from '@resources';
@@ -20,18 +20,18 @@ class Layout extends React.Component {
         const { searchFilter } = this.state;
         const { keySearch } = searchFilter;
         return (
-            <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
+            <View style={{ height: scaleSize(40), paddingHorizontal: scaleSize(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, flexDirection: 'row' }} >
-                        <View style={{ width: scaleSzie(70), justifyContent: 'center' }} >
-                            <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A' }} >
+                        <View style={{ width: scaleSize(70), justifyContent: 'center' }} >
+                            <Text style={{ fontSize: scaleSize(18), color: '#6A6A6A' }} >
                                 {localize('Search', language)}
                             </Text>
                         </View>
-                        <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: scaleSzie(4), flexDirection: 'row' }} >
-                            <View style={{ flex: 1, paddingHorizontal: scaleSzie(12) }} >
+                        <View style={{ flex: 1, borderColor: '#C5C5C5', borderWidth: 1, borderRadius: scaleSize(4), flexDirection: 'row' }} >
+                            <View style={{ flex: 1, paddingHorizontal: scaleSize(12) }} >
                                 <TextInput
-                                    style={{ flex: 1, fontSize: scaleSzie(18) }}
+                                    style={{ flex: 1, fontSize: scaleSize(18) }}
                                     placeholder={localize('Invoice/SKU/Customer Phone/Batch/Last 4-Digits', language)}
                                     value={keySearch}
                                     onChangeText={(value) => this.updateSearchFilterInfo('keySearch', value)}
@@ -40,7 +40,7 @@ class Layout extends React.Component {
                             </View>
                             {
                                 keySearch.length > 0 ? <Button onPress={this.clearSearchText} style={{
-                                    width: scaleSzie(35), alignItems: 'center', justifyContent: 'center',
+                                    width: scaleSize(35), alignItems: 'center', justifyContent: 'center',
 
                                 }} >
                                     <ClearTextInputIcon />
@@ -49,7 +49,7 @@ class Layout extends React.Component {
 
                         </View>
                     </View>
-                    <View style={{ width: scaleSzie(170), alignItems: 'flex-end' }} >
+                    <View style={{ width: scaleSize(170), alignItems: 'flex-end' }} >
                         <ButtonCustom
                             width={'90%'}
                             height={40}
@@ -58,7 +58,7 @@ class Layout extends React.Component {
                             textColor="#6A6A6A"
                             onPress={this.searchTransactions}
                             style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-                            styleText={{ fontSize: scaleSzie(15), fontWeight: '500' }}
+                            styleText={{ fontSize: scaleSize(15), fontWeight: '500' }}
                         />
                     </View>
                 </View>
@@ -72,29 +72,29 @@ class Layout extends React.Component {
         const { status } = searchFilter;
         const temptColorTextTimeRange = titleRangeTime === 'Time Range' ? 'rgb(155,155,155)' : 'rgb(38,38,38)';
         return (
-            <View style={{ height: scaleSzie(40), paddingHorizontal: scaleSzie(12) }} >
+            <View style={{ height: scaleSize(40), paddingHorizontal: scaleSize(12) }} >
                 <View style={{ flex: 1, flexDirection: 'row' }} >
-                    <View style={{ width: scaleSzie(70), justifyContent: 'center' }} >
-                        <Text style={{ fontSize: scaleSzie(18), color: '#6A6A6A' }} >
+                    <View style={{ width: scaleSize(70), justifyContent: 'center' }} >
+                        <Text style={{ fontSize: scaleSize(18), color: '#6A6A6A' }} >
                             {localize('Filters', language)}
                         </Text>
                     </View>
                     {/* ------------- */}
-                    <Button onPress={this.showCalendar} style={{ width: scaleSzie(220) }} >
-                        <View style={[{ height: scaleSzie(40), width: '90%', flexDirection: 'row' }, styles.borderStyle]} >
+                    <Button onPress={this.showCalendar} style={{ width: scaleSize(220) }} >
+                        <View style={[{ height: scaleSize(40), width: '90%', flexDirection: 'row' }, styles.borderStyle]} >
                             <View style={{ alignItems: 'center', flexDirection: 'row' }} >
-                                <Text style={{ color: temptColorTextTimeRange, fontSize: scaleSzie(15), marginLeft: scaleSzie(10) }} >
+                                <Text style={{ color: temptColorTextTimeRange, fontSize: scaleSize(15), marginLeft: scaleSize(10) }} >
                                     {localize(titleRangeTime, language)}
                                 </Text>
                             </View>
 
-                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSzie(6) }} >
-                                <Image source={IMAGE.dropdown} style={{ width: scaleSzie(6), height: scaleSzie(3) }} />
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end', paddingRight: scaleSize(6) }} >
+                                <Image source={IMAGE.dropdown} style={{ width: scaleSize(6), height: scaleSize(3) }} />
                             </View>
                         </View>
                     </Button>
                     {/* ------------- */}
-                    <View style={{ width: scaleSzie(170) }} >
+                    <View style={{ width: scaleSize(170) }} >
                         <Dropdown
                             label={localize('Status', language)}
                             data={[{ value: '' }, { value: 'Complete' }, { value: 'Pending' }, { value: 'Paid' }, { value: 'Void' },
@@ -107,7 +107,7 @@ class Layout extends React.Component {
                                 borderWidth: 1,
                                 borderColor: '#C5C5C5',
                                 flex: 1,
-                                borderRadius: scaleSzie(4)
+                                borderRadius: scaleSize(4)
                             }}
                         />
                     </View>
@@ -127,7 +127,7 @@ class Layout extends React.Component {
                 <HeaderTableTransaction
                     language={language}
                 />
-                <View style={{ height: scaleSzie(6) }} />
+                <View style={{ height: scaleSize(6) }} />
                 {/* ---------- Table ------- */}
                 <View style={styles.tableContainer} >
                     <FlatList
@@ -143,7 +143,7 @@ class Layout extends React.Component {
                         removeClippedSubviews={true}
                         initialNumToRender={20}
                         maxToRenderPerBatch={5}
-                        ListFooterComponent={() => <View style={{ height: scaleSzie(30), alignItems: "center", justifyContent: "center" }} >
+                        ListFooterComponent={() => <View style={{ height: scaleSize(30), alignItems: "center", justifyContent: "center" }} >
                             {
                                 isLoadMoreTransSettlement ? <ActivityIndicator
                                     size="large"
@@ -154,7 +154,7 @@ class Layout extends React.Component {
                     />
 
                 </View>
-                <View style={{ height: scaleSzie(6) }} />
+                <View style={{ height: scaleSize(6) }} />
             </View>
         );
     }
@@ -164,9 +164,9 @@ class Layout extends React.Component {
         return (
             <View style={styles.container} >
                 {this.renderSearch()}
-                <View style={{ height: scaleSzie(10) }} />
+                <View style={{ height: scaleSize(10) }} />
                 {this.renderFilter()}
-                <View style={{ height: scaleSzie(6) }} />
+                <View style={{ height: scaleSize(6) }} />
                 {this.renderContent()}
                 <PopupCalendar
                     ref={this.modalCalendarRef}

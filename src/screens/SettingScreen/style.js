@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import Configs from '@configs';
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 
 const { width, height } = Dimensions.get('window');
 
@@ -15,34 +15,34 @@ export default StyleSheet.create({
     },
     containerAbout: {
         flex: 1,
-        paddingHorizontal: scaleSzie(24),
-        paddingTop: scaleSzie(25)
+        paddingHorizontal: scaleSize(24),
+        paddingTop: scaleSize(25)
     },
-    textTitle: { color: 'rgb(64,64,64)', fontSize: scaleSzie(26), fontWeight: 'bold' },
+    textTitle: { color: 'rgb(64,64,64)', fontSize: scaleSize(26), fontWeight: 'bold' },
     logo: {
-        marginVertical: scaleSzie(20)
+        marginVertical: scaleSize(20)
     },
     text2: {
         color: 'rgb(25,107,176)',
         fontWeight: '600',
-        fontSize: scaleSzie(16)
+        fontSize: scaleSize(16)
     },
     textVersion: {
         color: 'rgb(129,129,129)',
-        fontSize: scaleSzie(16),
-        marginVertical: scaleSzie(16)
+        fontSize: scaleSize(16),
+        marginVertical: scaleSize(16)
     },
     textCopy: {
         color: 'rgb(104,158,203)',
-        fontSize: scaleSzie(16),
+        fontSize: scaleSize(16),
     },
     textDesc: {
         color: 'rgb(150,150,150)',
-        fontSize: scaleSzie(16),
+        fontSize: scaleSize(16),
     },
     textFooter: {
         color: 'rgb(104,158,203)',
-        fontSize: scaleSzie(16),
+        fontSize: scaleSize(16),
 
     }
 })

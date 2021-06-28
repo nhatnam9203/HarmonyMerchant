@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
-import { scaleSzie } from '@utils';
+import { scaleSize } from '@utils';
 import ICONS from "@resources";
 
 const data = ["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0"];
@@ -86,9 +86,9 @@ class NumPad extends Component {
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        // height: scaleSzie(300),
-        paddingHorizontal: scaleSzie(18),
-        marginTop: scaleSzie(15),
+        // height: scaleSize(300),
+        paddingHorizontal: scaleSize(18),
+        marginTop: scaleSize(15),
         flexDirection: 'row',
         justifyContent: 'space-between',
         flexWrap: 'wrap',
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     numPad: (pressed) => {
         return {
             width: '32%',
-            height: scaleSzie(55),
+            height: scaleSize(55),
             borderWidth: 1,
             borderStyle: 'solid',
             borderColor: "#dddddd",
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            marginBottom: scaleSzie(7),
+            marginBottom: scaleSize(7),
             backgroundColor: pressed ? "#1B68AC" : "white",
             borderWidth: pressed ? 0 : 1,
         }
@@ -114,19 +114,19 @@ const styles = StyleSheet.create({
         return {
             fontWeight: '600',
             color: "#404040",
-            fontSize: scaleSzie(22),
+            fontSize: scaleSize(22),
             color: pressed ? "white" : "#404040",
         }
     },
     iconDelete: {
-        width: scaleSzie(35),
-        height: scaleSzie(35),
+        width: scaleSize(35),
+        height: scaleSize(35),
     },
     line: {
         width: '100%',
         height: 2,
         backgroundColor: '#eeeeee',
-        marginTop: scaleSzie(10)
+        marginTop: scaleSize(10)
     }
 });
 
