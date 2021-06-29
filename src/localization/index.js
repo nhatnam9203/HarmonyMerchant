@@ -415,6 +415,7 @@ const localization = {
     ProductPayout: "Product Payout",
     ServicePayout: "Service Payout",
     Tippayout: "Tip Payout",
+    DiscountByStaff: "Discount By Staff",
     "Staff Salary": "Staff Salary"
   },
   vi: {},
