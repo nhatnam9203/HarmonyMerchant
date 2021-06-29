@@ -460,6 +460,47 @@ class PopupStaffInvoicePrint extends React.Component {
                               />
                             </React.Fragment>
                           );
+                        case "DiscountByStaff":
+                          totalDesc =
+                            totalDesc +
+                            (totalDesc.length > 0
+                              ? "+" + (index + 1)
+                              : index + 1);
+                          return (
+                            <React.Fragment key={x.receiptType}>
+                              <ItemStaffInvoice
+                                title={`${index + 1}. ${localize(
+                                  x.receiptType,
+                                  language
+                                )}`}
+                                value={`$ ${x.total}`}
+                              />
+                              <ItemStaffInvoice
+                                title="Cash"
+                                value={`$ ${x.cash}`}
+                                styleTilte={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                                styleValue={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                              />
+                              <ItemStaffInvoice
+                                title="Check"
+                                value={`$ ${x.check}`}
+                                styleTilte={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                                styleValue={{
+                                  fontSize: scaleSzie(13),
+                                  fontWeight: "200",
+                                }}
+                              />
+                            </React.Fragment>
+                          );
                         default:
                           totalDesc =
                             totalDesc +
