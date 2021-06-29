@@ -24,9 +24,8 @@ function* addStaffByMerchant(action) {
         type: "GET_STAFF_BY_MERCHANR_ID",
         method: "GET",
         token: true,
-        api: `${apiConfigs.BASE_API}staff/search?name=${
-          keySearch ? keySearch : ""
-        }&role=${role ? role : ""}&status=${status ? status : ""}`,
+        api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : ""
+          }&role=${role ? role : ""}&status=${status ? status : ""}`,
         isShowLoading: true,
         searchFilter: action?.searchFilter || false,
       });
@@ -95,7 +94,7 @@ function* getStaffByMerchantId(action) {
           [
             {
               text: "OK",
-              onPress: () => {},
+              onPress: () => { },
             },
           ],
           { cancelable: false }
@@ -179,9 +178,8 @@ function* archiveStaff(action) {
         type: "GET_STAFF_BY_MERCHANR_ID",
         method: "GET",
         token: true,
-        api: `${apiConfigs.BASE_API}staff/search?name=${
-          keySearch ? keySearch : ""
-        }&role=${role ? role : ""}&status=${status ? status : ""}`,
+        api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : ""
+          }&role=${role ? role : ""}&status=${status ? status : ""}`,
         isShowLoading: true,
         searchFilter: action.searchFilter ? action.searchFilter : false,
       });
@@ -219,9 +217,8 @@ function* restoreStaff(action) {
         type: "GET_STAFF_BY_MERCHANR_ID",
         method: "GET",
         token: true,
-        api: `${apiConfigs.BASE_API}staff/search?name=${
-          keySearch ? keySearch : ""
-        }&role=${role ? role : ""}&status=${status ? status : ""}`,
+        api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : ""
+          }&role=${role ? role : ""}&status=${status ? status : ""}`,
         isShowLoading: true,
         searchFilter: action?.searchFilter || false,
       });
@@ -296,9 +293,8 @@ function* editStaff(action) {
         type: "GET_STAFF_BY_MERCHANR_ID",
         method: "GET",
         token: true,
-        api: `${apiConfigs.BASE_API}staff/search?name=${
-          keySearch ? keySearch : ""
-        }&role=${role ? role : ""}&status=${status ? status : ""}`,
+        api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : ""
+          }&role=${role ? role : ""}&status=${status ? status : ""}`,
         isShowLoading: true,
         searchFilter: action?.searchFilter || false,
       });
@@ -331,18 +327,18 @@ function* loginStaff(action) {
       yield put({ ...action, type: "LOGIN_STAFF_SUCCESS" });
       action.isPincodeInvoice
         ? yield put({
-            type: "GET_LIST_INVOICE_BY_MERCHANT",
-            method: "GET",
-            api: `${apiConfigs.BASE_API}checkout?page=1&method=&status=&timeStart=&timeEnd=&key=&quickFilter=api-version=1.1`,
-            token: true,
-            isShowLoading: true,
-            currentPage: 1,
-            isLoadMore: true,
-          })
+          type: "GET_LIST_INVOICE_BY_MERCHANT",
+          method: "GET",
+          api: `${apiConfigs.BASE_API}checkout?page=1&method=&status=&timeStart=&timeEnd=&key=&quickFilter=api-version=1.1`,
+          token: true,
+          isShowLoading: true,
+          currentPage: 1,
+          isLoadMore: true,
+        })
         : yield put({
-            type: "UPDATE_PROFILE_STAFF_SUCCESS",
-            payload: responses.data,
-          });
+          type: "UPDATE_PROFILE_STAFF_SUCCESS",
+          payload: responses.data,
+        });
       yield put({
         type: "RESET_STATE_LOGIN_STAFF",
         payload: true,
@@ -514,6 +510,32 @@ function* exportReportStaff(action) {
   }
 }
 
+function* getStaffService(action) {
+  try {
+    yield put({ type: 'LOADING_ROOT' })
+    const responses = yield requestAPI(action);
+    const { codeNumber } = responses;
+    if (parseInt(codeNumber) == 200) {
+      if (action.callBack) {
+        action.callBack(responses.data ? responses.data : [])
+      }
+    } else if (parseInt(codeNumber) === 401) {
+      yield put({
+        type: 'UNAUTHORIZED'
+      })
+    } else {
+      yield put({
+        type: 'SHOW_ERROR_MESSAGE',
+        message: responses?.message
+      })
+    }
+  } catch (error) {
+    yield put({ type: error });
+  } finally {
+    yield put({ type: 'STOP_LOADING_ROOT' });
+  }
+}
+
 export default function* saga() {
   yield all([
     takeLatest("ADD_STAFF_BY_MERCHANT", addStaffByMerchant),
@@ -530,5 +552,6 @@ export default function* saga() {
     takeLatest("EXPORT_STAFFS_SALARY", exportReportStaff),
     takeLatest("EXPORT_STAFFS_STATISTICS", exportReportStaff),
     takeLatest("GET_STAFF_DETAIL_BY_ID", getStaffDetailByMerchantId),
+    takeLatest("GET_STAFF_SERVICE", getStaffService),
   ]);
 }

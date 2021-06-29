@@ -124,7 +124,6 @@ class TabAppointment extends Layout {
           const { action, appointmentId } = data;
           // console.log("onMessageFromWebview: ", JSON.stringify(data));
           if (action === "checkout") {
-            //checkgroup appointment khong co && online : gọi get category
             if (!isOfflineMode && isEmpty(groupAppointment)) {
               this.props.getCategoryStaff(data?.appointment?.staffId || data?.staffId);
             }
