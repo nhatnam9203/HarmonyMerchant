@@ -19,6 +19,7 @@ import {
   createFilePath,
   getInfoPathFile,
   handleTheDownloadedFile,
+  handleShareFile,
 } from '@shared/utils/files';
 
 const EXPORT_FUNCTION = [
@@ -97,6 +98,13 @@ export const ExportModal = React.forwardRef(({ onExportFile, title }, ref) => {
     }, 250);
   };
 
+  const onShareFile = () => {
+    hideModal();
+    setTimeout(() => {
+      handleShareFile(fileName, files?.path);
+    }, 250);
+  };
+
   /**
   |--------------------------------------------------
   | useEffect
@@ -140,7 +148,7 @@ export const ExportModal = React.forwardRef(({ onExportFile, title }, ref) => {
           </View>
         </TouchableOpacity>
         <View style={styles.pdfBottom}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onShareFile}>
             <Image source={IMAGE.ExportShareIcon} />
           </TouchableOpacity>
           <View style={layouts.marginHorizontal} />

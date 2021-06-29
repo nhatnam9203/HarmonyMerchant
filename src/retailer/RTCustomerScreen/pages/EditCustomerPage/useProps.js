@@ -77,7 +77,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
         lastName: Yup.string().required(t('LastName is required!')),
         phone: Yup.string().required(t('Phone is required')),
         street: Yup.string(),
-        state: Yup.number(),
+        state: Yup.number().required(),
         city: Yup.string(),
         zip: Yup.string(),
         defaultBillingAddress: Yup.boolean(),
@@ -162,7 +162,6 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
           state: data?.defaultAddress?.stateId,
         },
       });
-      console.log('data', data);
       form.setValues(customer);
       setCurrentCustomer(customer);
     }

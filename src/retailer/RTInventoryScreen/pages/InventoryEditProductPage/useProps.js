@@ -46,9 +46,9 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
     initialValues: productItem ?? {},
     validationSchema: Yup.object().shape({
       name: Yup.string().required(t('Product name is required')),
-      price: Yup.string().required(t('Product name is required')),
-      sku: Yup.string().required(t('Product name is required')),
-      costPrice: Yup.string().required(t('Product name is required')),
+      price: Yup.string().required(),
+      sku: Yup.string().required(),
+      costPrice: Yup.string().required(),
       categoryId: Yup.number().required(),
       quantity: Yup.number().required(),
       maxThreshold: Yup.number()

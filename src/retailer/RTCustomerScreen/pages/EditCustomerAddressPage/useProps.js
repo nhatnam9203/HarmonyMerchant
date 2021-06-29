@@ -77,7 +77,7 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
       street: Yup.string(),
       city: Yup.string(),
       zip: Yup.string(),
-      state: Yup.number(),
+      state: Yup.number().required(),
       defaultShippingAddress: Yup.boolean(),
       defaultBillingAddress: Yup.boolean(),
     }),

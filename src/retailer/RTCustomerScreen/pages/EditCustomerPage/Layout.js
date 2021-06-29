@@ -136,6 +136,7 @@ export const Layout = ({
               defaultCityValue={currentCustomer?.addressPost?.city}
               defaultZipCodeValue={currentCustomer?.addressPost?.zipCode}
               useDropDownMenu
+              required={true}
             />
 
             <FormFullName

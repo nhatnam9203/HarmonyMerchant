@@ -1,7 +1,7 @@
 import RNFetchBlob from 'rn-fetch-blob';
 import { Platform } from 'react-native';
 import { formatBytes, uppercaseFirstLetter } from './format';
-
+import Share from 'react-native-share';
 export const createFilePath = async (body) => {
   const dirs = RNFetchBlob.fs.dirs;
   try {
@@ -33,6 +33,23 @@ export const handleTheDownloadedFile = (pathFile) => {
       pathFile,
       'application/vnd.android.package-archive'
     );
+  }
+};
+
+export const handleShareFile = async (title, url) => {
+  const shareOptions = {
+    title,
+    failOnCancel: false,
+    saveToFiles: true,
+    url,
+  };
+  // If you want, you can use a try catch, to parse
+  // the share response. If the user cancels, etc.
+  try {
+    const ShareResponse = await Share.open(shareOptions);
+    // console.log('ShareResponse', JSON.stringify(ShareResponse, null, 2));
+  } catch (error) {
+    // console.log('Error =>', error);
   }
 };
 
