@@ -80,5 +80,5 @@ export default {
     isLoadingService : false,
     serviceStaff : [],
     productStaff : [],
-    staffServicePopup : [],
+    staffOfService : [],
 }

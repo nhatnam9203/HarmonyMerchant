@@ -41,10 +41,10 @@ class PopupChangeStylist extends React.Component {
 
 
   convertStaffService = () => {
-    const { listStaffByMerchant, staffServicePopup } = this.props;
+    const { listStaffByMerchant, staffOfService } = this.props;
     let tempt = [];
     for (let i = 0; i < listStaffByMerchant.length; i++) {
-      let temptStaff = staffServicePopup.find((s) => s.staffId == listStaffByMerchant[i].staffId);
+      let temptStaff = staffOfService.find((s) => s.staffId == listStaffByMerchant[i].staffId);
       if (temptStaff) tempt.push(listStaffByMerchant[i]);
     }
     return tempt;

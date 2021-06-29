@@ -1634,7 +1634,7 @@ class TabCheckout extends Layout {
   callBackGetStaffService = (data = []) => {
     this.setState({
       visibleChangeStylist: true,
-      staffServicePopup: data,
+      staffOfService: data,
     });
   }
 

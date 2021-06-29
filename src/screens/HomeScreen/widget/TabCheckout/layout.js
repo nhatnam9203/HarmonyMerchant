@@ -903,7 +903,7 @@ class Layout extends React.Component {
             visiblePopupAddItemIntoBasket, visibleAddEditCustomerPopup,
             visibleErrorMessageFromPax, errorMessageFromPax,
             selectedStaff,
-            staffServicePopup
+            staffOfService
         } = this.state;
 
         const titleExitCheckoutTab = isCancelAppointment ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? " : 'Are you sure you want to exit Check-Out?';
@@ -952,9 +952,9 @@ class Layout extends React.Component {
                     ref={this.changeStylistRef}
                     visible={visibleChangeStylist}
                     title={localize('Modify Service', language)}
-                    onRequestClose={() => { this.setState({ visibleChangeStylist: false, staffServicePopup: [] }) }}
+                    onRequestClose={() => { this.setState({ visibleChangeStylist: false, staffOfService: [] }) }}
                     changeStylistBasketLocal={this.changeStylistBasketLocal}
-                    staffServicePopup={staffServicePopup}
+                    staffOfService={staffOfService}
                     isOfflineMode={isOfflineMode}
                 />
                 <PopupChangePriceAmountProduct
