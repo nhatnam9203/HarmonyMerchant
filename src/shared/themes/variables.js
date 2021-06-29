@@ -32,6 +32,7 @@ export const colors = {
   PALE_GREY: '#f1f1f2',
   WHITE_FA: '#fafafa',
   WHITE_TWO: '#eeeeee',
+  LIGHT_GREY: '#F8F8F8',
 };
 
 export const fonts = {

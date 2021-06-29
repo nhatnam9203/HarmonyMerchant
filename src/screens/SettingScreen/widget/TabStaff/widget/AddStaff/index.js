@@ -15,70 +15,7 @@ import {
   formatNumberFromCurrency,
   localize,
 } from '@utils';
-
-const permissionList = [
-  {
-      "key": "MENU_HOME_TAB_MARKETING",
-      "label": localize("Marketing", language),
-      "isChecked": true
-  },
-  {
-      "key": "MENU_HOME_TAB_CALENDAR",
-      "label": localize("Calendar", language),
-      "isChecked": true
-  },
-  {
-      "key": "MENU_HOME_TAB_CHECKOUT",
-      "label": localize("Checkout", language),
-      "isChecked": true
-  },
-  {
-      "key": "MENU_HOME_TAB_CHECKOUT_DISCOUNT",
-      "label": localize("Change Discount", language),
-      "isChecked": true
-  },
-  {
-      "key": "MENU_INVOICE",
-      "label": localize("Invoice", language),
-      "isChecked": true
-  },
-  {
-      "key": "MENU_SETTLEMENT",
-      "label": localize("Settlement", language),
-      "isChecked": true
-  },
-  {
-      "key": "MENU_CUSTOMER",
-      "label": localize("Customer", language),
-      "isChecked": true
-  },
-  {
-      "key": "MENU_GIFTCARD",
-      "label": localize("Gift card", language),
-      "isChecked": true
-  },
-  {
-      "key": "MENU_INVENTORY",
-      "label": localize("Inventory", language),
-      "isChecked": true
-  },
-  {
-      "key": "MENU_REPORT",
-      "label": localize("Report", language),
-      "isChecked": true
-  },
-  {
-      "key": "MENU_SETTING",
-      "label": localize("Setting", language),
-      "isChecked": true
-  },
-  {
-      "key": "MENU_SUPPORT",
-      "label": localize("Support", language),
-      "isChecked": true
-  }
-]
-
+import * as l from 'lodash';
 
 const initState = {
   user: {
@@ -100,7 +37,7 @@ const initState = {
     roles: {
       nameRole: 'Admin',
     },
-    permission: permissionList,
+    permission: [],
     driverlicense: '',
     socialSecurityNumber: '',
     professionalLicense: '',
@@ -175,6 +112,8 @@ class AddStaff extends Layout {
     this.assignSevices = React.createRef();
   }
 
+  
+
   scrollStaffTo(position) {
     this.scrollStaffRef.current.scrollTo({
       x: 0,
@@ -198,6 +137,73 @@ class AddStaff extends Layout {
           commission: '0.0',
         });
       }
+
+      const permissionInitList = [
+        {
+            "key": "MENU_HOME_TAB_MARKETING",
+            "label": "Marketing",
+            "isChecked": true
+        },
+        {
+            "key": "MENU_HOME_TAB_CALENDAR",
+            "label": "Calendar",
+            "isChecked": true
+        },
+        {
+            "key": "MENU_HOME_TAB_CHECKOUT",
+            "label": "Checkout",
+            "isChecked": true
+        },
+        {
+            "key": "MENU_HOME_TAB_CHECKOUT_DISCOUNT",
+            "label": "Change Discount",
+            "isChecked": true
+        },
+        {
+            "key": "MENU_INVOICE",
+            "label": "Invoice",
+            "isChecked": true
+        },
+        {
+            "key": "MENU_SETTLEMENT",
+            "label": "Settlement",
+            "isChecked": true
+        },
+        {
+            "key": "MENU_CUSTOMER",
+            "label": "Customer",
+            "isChecked": true
+        },
+        {
+            "key": "MENU_GIFTCARD",
+            "label": "Gift card",
+            "isChecked": true
+        },
+        {
+            "key": "MENU_INVENTORY",
+            "label": "Inventory",
+            "isChecked": true
+        },
+        {
+            "key": "MENU_REPORT",
+            "label": "Report",
+            "isChecked": true
+        },
+        {
+            "key": "MENU_SETTING",
+            "label": "Setting",
+            "isChecked": true
+        },
+        {
+            "key": "MENU_SUPPORT",
+            "label": "Support",
+            "isChecked": true
+        }
+      ]
+
+      const permission = l.get(infoStaffHandle, 'permission', []) 
+                        ? l.get(infoStaffHandle, 'permission')
+                        : permissionInitList
 
       await this.setState({
         user: {
@@ -224,6 +230,7 @@ class AddStaff extends Layout {
           driverlicense: infoStaffHandle?.driverLicense,
           socialSecurityNumber: infoStaffHandle?.ssn,
           professionalLicense: infoStaffHandle?.professionalLicense,
+          permission,
         },
         staffId: infoStaffHandle?.staffId || '',
         fileId: infoStaffHandle?.fileId || 0,
@@ -237,6 +244,7 @@ class AddStaff extends Layout {
         productSalary: infoStaffHandle?.productSalaries,
         tipFee: infoStaffHandle?.tipFees,
         cashPercent: infoStaffHandle?.cashPercent,
+        
       });
       this.browserFileRef.current.setImageUrlFromParent(
         infoStaffHandle.imageUrl
@@ -471,6 +479,22 @@ class AddStaff extends Layout {
         name = 'commission1';
     }
     return name;
+  }
+
+  switchPermission(key, isEnable){
+    const { user } = this.state;
+    let permission = l.map(l.get(user, 'permission', []), (item) => {
+      let itemUpdate = item
+      if(l.get(item, 'key') == key){
+        itemUpdate.isChecked = isEnable
+      }
+      return itemUpdate
+    })
+    const temptUpdate = { ...user, permission };
+    this.setState({
+      user: temptUpdate,
+    })
+
   }
 
   updateUserInfo(key, value, keyParent = '') {
