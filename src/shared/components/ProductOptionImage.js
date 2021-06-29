@@ -1,7 +1,7 @@
-import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
-import FastImage from "react-native-fast-image";
-import IMAGE from "@resources";
+import React from 'react';
+import { View, StyleSheet, FlatList } from 'react-native';
+import FastImage from 'react-native-fast-image';
+import IMAGE from '@resources';
 
 export const ProductOptionImage = ({
   width = scaleWidth(300),
@@ -14,7 +14,7 @@ export const ProductOptionImage = ({
     if (!options?.length) {
       return;
     }
-    const colorOpt = options?.find((x) => x.label === "Color");
+    const colorOpt = options?.find((x) => x.label === 'Color');
     // console.log(colorOpt);
     if (colorOpt) {
       setColorOptions(colorOpt?.values);
@@ -24,11 +24,15 @@ export const ProductOptionImage = ({
     <View style={[styles.container, { width }]}>
       <FastImage
         style={[styles.imageStyle, { width: width, height: width }]}
-        source={{
-          uri: imageUrl,
-          priority: FastImage.priority.high,
-          cache: FastImage.cacheControl.immutable,
-        }}
+        source={
+          imageUrl
+            ? {
+                uri: imageUrl,
+                priority: FastImage.priority.high,
+                cache: FastImage.cacheControl.immutable,
+              }
+            : IMAGE.product_holder
+        }
         resizeMode="contain"
       />
       {colorOptions && (
@@ -63,6 +67,6 @@ export const ProductOptionImage = ({
 };
 
 const styles = StyleSheet.create({
-  container: { justifyContent: "flex-start" },
+  container: { justifyContent: 'flex-start' },
   imageStyle: {},
 });
