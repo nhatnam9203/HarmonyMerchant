@@ -88,4 +88,12 @@ export function updateServicePositionLocal(services) {
     }
 }
 
-
+export function getServiceByStaff(categoryId, staffId, callBack) {
+    return {
+        type: 'GET_SERVICE_BY_STAFF',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}service/getbycategory/${categoryId}?staffIf=${staffId}`,
+        callBack
+    }
+}

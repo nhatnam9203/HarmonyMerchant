@@ -60,7 +60,7 @@ export default class Layout extends React.Component {
 
     render() {
         const { language, navigation, marketingTabPermission, visibleEnterPin, notificationList, notificationContUnread } = this.props;
-        const { isFocus, visible } = this.state;
+        const { isFocus, visible , categoryStaffId } = this.state;
         return (
             <ParentContainer
                 handleLockScreen={this.handleLockScreen}
@@ -103,6 +103,7 @@ export default class Layout extends React.Component {
                             createABlockAppointment={this.createABlockAppointment}
                             addMoreAppointmentFromCalendar={this.addMoreAppointmentFromCalendar}
                             navigation={this.props.navigation}
+                            getCategoryStaff={this.getCategoryStaff}
                         />
                         <TabCheckout
                             ref={this.tabCheckoutRef}
@@ -114,6 +115,7 @@ export default class Layout extends React.Component {
                             currentTabParent={this.state.currentTab}
                             gotoAppointmentTabToGroup={this.gotoAppointmentTabToGroup}
                             pushAppointmentIdOfflineIntoWebview={this.pushAppointmentIdOfflineIntoWebview}
+                            categoryStaffId={categoryStaffId}
                         />
                     </ScrollableTabView>
                     <Button onPress={this.openDrawer} style={configs.btn_left_position} >

@@ -22,6 +22,7 @@ import PrintManager from "@lib/PrintManager";
 import Configs from "@configs";
 import initState from "./widget/initState";
 import * as l from "lodash";
+import apiConfigs from '@configs/api';
 
 const PosLinkReport = NativeModules.report;
 const PosLink = NativeModules.payment;
@@ -60,8 +61,8 @@ class TabCheckout extends Layout {
   };
 
   getDataColProduct() {
-    const { categorySelected, categoryTypeSelected } = this.state;
-    const { productsByMerchantId, servicesByMerchant, extrasByMerchant } =
+    const { categorySelected, categoryTypeSelected, isBlockBookingFromCalendar, serviceStaff, productStaff } = this.state;
+    const { productsByMerchantId, servicesByMerchant, extrasByMerchant, isOfflineMode } =
       this.props;
     if (categoryTypeSelected === "Extra") {
       const dataExtra = extrasByMerchant.filter((extra, index) => {
@@ -74,12 +75,21 @@ class TabCheckout extends Layout {
           ? servicesByMerchant
           : productsByMerchantId;
       if (data?.length > 0) {
-        const temptData = data.filter((item) => {
+        let temptData = data.filter((item) => {
           return (
             item?.categoryId === categorySelected?.categoryId &&
             item?.isDisabled === 0
           );
         });
+
+        if (!isOfflineMode && !isBlockBookingFromCalendar) {
+          if (categoryTypeSelected === "Service") {
+            temptData = [...serviceStaff];
+          } else if (categoryTypeSelected === "Product") {
+            temptData = [...productStaff]
+          }
+        }
+
         return temptData;
       } else {
         return [];
@@ -353,7 +363,7 @@ class TabCheckout extends Layout {
           (parseFloat(basket[i].data.price) *
             basket[i].quanlitySet *
             taxProduct) /
-            100;
+          100;
       } else if (basket[i].type === "Service") {
         taxTotal =
           taxTotal +
@@ -770,10 +780,10 @@ class TabCheckout extends Layout {
     const basket = isOfflineMode
       ? this.state.basket
       : arryaServicesBuy.concat(
-          arrayExtrasBuy,
-          arrayProductBuy,
-          arrayGiftCards
-        );
+        arrayExtrasBuy,
+        arrayProductBuy,
+        arrayGiftCards
+      );
     const tipAmount = groupAppointment?.tipAmount || 0;
     const subTotal = groupAppointment?.subTotal || 0;
     const discount = groupAppointment?.discount || 0;
@@ -785,11 +795,11 @@ class TabCheckout extends Layout {
       : subTotal;
     const temptTotal = _.isEmpty(groupAppointment)
       ? Number(
-          formatNumberFromCurrency(subTotalLocal) +
-            formatNumberFromCurrency(tipLocal) +
-            formatNumberFromCurrency(taxLocal) -
-            formatNumberFromCurrency(discountTotalLocal)
-        ).toFixed(2)
+        formatNumberFromCurrency(subTotalLocal) +
+        formatNumberFromCurrency(tipLocal) +
+        formatNumberFromCurrency(taxLocal) -
+        formatNumberFromCurrency(discountTotalLocal)
+      ).toFixed(2)
       : total;
     const temptDiscount = _.isEmpty(groupAppointment)
       ? discountTotalLocal
@@ -1007,19 +1017,19 @@ class TabCheckout extends Layout {
       if (isOfflineMode) {
         const temptTotal = Number(
           formatNumberFromCurrency(subTotalLocal) +
-            formatNumberFromCurrency(tipLocal) +
-            formatNumberFromCurrency(taxLocal) -
-            formatNumberFromCurrency(discountTotalLocal)
+          formatNumberFromCurrency(tipLocal) +
+          formatNumberFromCurrency(taxLocal) -
+          formatNumberFromCurrency(discountTotalLocal)
         ).toFixed(2);
         this.modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       } else {
         const temptTotal = _.isEmpty(groupAppointment)
           ? Number(
-              formatNumberFromCurrency(subTotalLocal) +
-                formatNumberFromCurrency(tipLocal) +
-                formatNumberFromCurrency(taxLocal) -
-                formatNumberFromCurrency(discountTotalLocal)
-            ).toFixed(2)
+            formatNumberFromCurrency(subTotalLocal) +
+            formatNumberFromCurrency(tipLocal) +
+            formatNumberFromCurrency(taxLocal) -
+            formatNumberFromCurrency(discountTotalLocal)
+          ).toFixed(2)
           : groupAppointment.total;
         this.modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       }
@@ -1157,9 +1167,9 @@ class TabCheckout extends Layout {
     );
     const totalLocal = Number(
       formatNumberFromCurrency(subTotalLocal) +
-        formatNumberFromCurrency(tipLocal) +
-        formatNumberFromCurrency(taxLocal) -
-        formatNumberFromCurrency(discountTotalLocal)
+      formatNumberFromCurrency(tipLocal) +
+      formatNumberFromCurrency(taxLocal) -
+      formatNumberFromCurrency(discountTotalLocal)
     ).toFixed(2);
 
     if (moneyUserGiveForStaff == 0) {
@@ -1198,8 +1208,8 @@ class TabCheckout extends Layout {
       amountPayment !== false
         ? amountPayment
         : parseFloat(
-            formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
-          );
+          formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
+        );
     const method = this.getPaymentString(paymentSelected);
     const total = groupAppointment.total
       ? parseFloat(formatNumberFromCurrency(groupAppointment.total))
@@ -1342,15 +1352,15 @@ class TabCheckout extends Layout {
   getPAXReport = async (paxMachineInfo, isLastTransaction) => {
     const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
       paxMachineInfo;
-  
+
     if (isSetup) {
       let isError = false;
-  
+
       try {
         const tempIpPax = commType == "TCP" ? ip : "";
         const tempPortPax = commType == "TCP" ? port : "";
         const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
-        
+
         let data = await PosLinkReport.reportTransaction({
           transType: "LOCALDETAILREPORT",
           edcType: "ALL",
@@ -1368,17 +1378,18 @@ class TabCheckout extends Layout {
         const ExtData = result?.ExtData || "";
         const xmlExtData =
           "<xml>" + ExtData.replace("\\n", "").replace("\\/", "/") + "</xml>";
-  
+
         if (result?.ResultCode && result?.ResultCode == "000000") {
           // if (tempEnv == "Production" && result?.Message === "DEMO APPROVED") {
           //   setTimeout(() => {
           //     alert("You're running your Pax on DEMO MODE!");
           //   }, 500);
-  
+
           //   return {}
           // } else {
-            return result
-            
+
+          return result
+
           // }
         } else {
           return {}
@@ -1386,7 +1397,7 @@ class TabCheckout extends Layout {
       } catch (error) {
         return {}
       }
-  
+
     }
   };
 
@@ -1400,7 +1411,7 @@ class TabCheckout extends Layout {
       payAppointmentId
     } = this.props;
     const { paymentSelected } = this.state;
-  
+
     // console.log("------ groupAppointment: ", JSON.stringify(groupAppointment));
     // 1. Show modal processing
     await this.setState({
@@ -1408,7 +1419,7 @@ class TabCheckout extends Layout {
     });
 
     //Check if isCancelPayment = true
-    if(isCancelPayment){
+    if (isCancelPayment) {
       const result = await this.getPAXReport(paxMachineInfo, "1")
       if(!l.isEmpty(result)){
         if(l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()){
@@ -1436,12 +1447,12 @@ class TabCheckout extends Layout {
           });
         }, 300);
       }
-    }else{
+    } else {
       this.sendTransaction()
     }
   };
 
-  sendTransaction(){
+  sendTransaction() {
     const {
       paxMachineInfo,
       isTipOnPaxMachine,
@@ -1459,29 +1470,29 @@ class TabCheckout extends Layout {
     const tempPortPax = commType == "TCP" ? port : "";
     const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
     const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
-  
-      // 2. Send Trans to pax
-      PosLink.sendTransaction(
-        {
-          tenderType: tenderType,
-          transType: "SALE",
-          amount: `${parseFloat(paxAmount)}`,
-          transactionId: "1",
-          extData: extData,
-          commType: commType,
-          destIp: tempIpPax,
-          portDevice: tempPortPax,
-          timeoutConnect: "90000",
-          bluetoothAddr: idBluetooth,
-          invNum: `${groupAppointment?.checkoutGroupId || 0}`,
-        },
-        (message) =>
-          this.handleResponseCreditCard(
-            message,
-            true,
-            amountCredtitForSubmitToServer
-          )
-      );
+
+    // 2. Send Trans to pax
+    PosLink.sendTransaction(
+      {
+        tenderType: tenderType,
+        transType: "SALE",
+        amount: `${parseFloat(paxAmount)}`,
+        transactionId: "1",
+        extData: extData,
+        commType: commType,
+        destIp: tempIpPax,
+        portDevice: tempPortPax,
+        timeoutConnect: "90000",
+        bluetoothAddr: idBluetooth,
+        invNum: `${groupAppointment?.checkoutGroupId || 0}`,
+      },
+      (message) =>
+        this.handleResponseCreditCard(
+          message,
+          true,
+          amountCredtitForSubmitToServer
+        )
+    );
   }
 
   async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
@@ -1566,13 +1577,13 @@ class TabCheckout extends Layout {
           });
         }, 300);
       }
-    } catch (error) {}
+    } catch (error) { }
   }
 
   cancelTransaction = async () => {
     const { payAppointmentId } = this.props;
     if (Platform.OS === "android") {
-      PoslinkAndroid.cancelTransaction((data) => {});
+      PoslinkAndroid.cancelTransaction((data) => { });
     } else {
       PosLink.cancelTransaction();
       if (payAppointmentId) {
@@ -1681,8 +1692,18 @@ class TabCheckout extends Layout {
   };
 
   onPressSelectCategory = async (category) => {
-    const { categorySelected } = this.state;
+    const { categorySelected, isBlockBookingFromCalendar, selectedStaff } = this.state;
+    const { isOfflineMode } = this.props;
     if (categorySelected?.categoryId !== category?.categoryId) {
+
+      if (!isOfflineMode && !isBlockBookingFromCalendar) {
+        if (category?.categoryType?.toString().toLowerCase() === "service") {
+          this.getService(category?.categoryId, selectedStaff?.staffId)
+        } else if (category?.categoryType?.toString().toLowerCase() === "product") {
+          this.getProduct(category?.categoryId)
+        }
+      }
+
       await this.setState({
         categorySelected: category,
         categoryTypeSelected: category?.categoryType,
@@ -1710,7 +1731,7 @@ class TabCheckout extends Layout {
     }
   };
 
-  changeProductBasketLocal = async (productIdLocal, price, quantity) => {};
+  changeProductBasketLocal = async (productIdLocal, price, quantity) => { };
 
   changeStylistBasketLocal = async (serviceId, staffId, tip, price) => {
     const { basket } = this.state;
@@ -1867,8 +1888,8 @@ class TabCheckout extends Layout {
       : 0;
     const subTotal =
       !_.isEmpty(appointmentDetail) &&
-      appointmentDetail &&
-      appointmentDetail.subTotal
+        appointmentDetail &&
+        appointmentDetail.subTotal
         ? appointmentDetail.subTotal
         : 0;
     const discount = appointmentDetail?.discount || 0;
@@ -1880,11 +1901,11 @@ class TabCheckout extends Layout {
       : subTotal;
     const temptTotal = _.isEmpty(appointmentDetail)
       ? Number(
-          formatNumberFromCurrency(subTotalLocal) +
-            formatNumberFromCurrency(tipLocal) +
-            formatNumberFromCurrency(taxLocal) -
-            formatNumberFromCurrency(discountTotalLocal)
-        ).toFixed(2)
+        formatNumberFromCurrency(subTotalLocal) +
+        formatNumberFromCurrency(tipLocal) +
+        formatNumberFromCurrency(taxLocal) -
+        formatNumberFromCurrency(discountTotalLocal)
+      ).toFixed(2)
       : total;
     const temptDiscount = _.isEmpty(appointmentDetail)
       ? discountTotalLocal
@@ -2343,6 +2364,11 @@ class TabCheckout extends Layout {
   };
 
   displayCategoriesColumn = (staff) => async () => {
+    const { isOfflineMode } = this.props;
+    if (!isOfflineMode) {
+      this.getCategory(staff.staffId);
+    }
+
     const { selectedStaff } = this.state;
     const isExist = selectedStaff?.staffId === staff?.staffId ? true : false;
     await this.setState({
@@ -2362,6 +2388,42 @@ class TabCheckout extends Layout {
     });
     // this.scrollFlatListToStaffIndex(staff?.staffId);
   };
+
+  getCategory = (staffId) => {
+    this.setState({ isLoadingCategory: true });
+    this.props.actions.category.getCategoriesByStaff(staffId, this.callBackGetCategory);
+  }
+
+  callBackGetCategory = (data = []) => {
+    this.setState({
+      isLoadingCategory: false,
+      categoryStaff: data
+    });
+  }
+
+  getProduct = (categoryId) => {
+    this.setState({ isLoadingService: true });
+    this.props.actions.product.getProductByStaff(categoryId, this.callBackGetProduct);
+  }
+
+  getService = (categoryId, staffId) => {
+    this.setState({ isLoadingService: true });
+    this.props.actions.service.getServiceByStaff(categoryId, staffId, this.callBackGetService);
+  }
+
+  callBackGetService = (data = []) => {
+    this.setState({
+      isLoadingService: false,
+      serviceStaff: data
+    });
+  }
+
+  callBackGetProduct = (data = []) => {
+    this.setState({
+      isLoadingService: false,
+      productStaff: data
+    });
+  }
 
   displayEnterUserPhonePopup = () => {
     const { customerInfoBuyAppointment } = this.props;
@@ -2411,6 +2473,10 @@ class TabCheckout extends Layout {
     });
   };
 
+  setStatusIsCheckout = (status) => {
+    this.setState({ isGotoCheckout: status });
+  }
+
   async componentDidUpdate(prevProps, prevState) {
     const {
       isLoadingGetBlockAppointment,
@@ -2421,7 +2487,7 @@ class TabCheckout extends Layout {
     if (
       blockAppointments.length > 0 &&
       prevProps.isLoadingRemoveBlockAppointment !=
-        isLoadingRemoveBlockAppointment &&
+      isLoadingRemoveBlockAppointment &&
       !isLoadingRemoveBlockAppointment
     ) {
       this.updateBlockAppointmentRef();
@@ -2444,6 +2510,14 @@ class TabCheckout extends Layout {
       this.sendTransToPaxMachine();
     }
   }
+
+  componentDidMount() {
+    const { categoryStaffId } = this.props;
+    if (categoryStaffId) {
+      this.getCategory(categoryStaffId)
+    }
+  }
+
 }
 
 const mapStateToProps = (state) => ({

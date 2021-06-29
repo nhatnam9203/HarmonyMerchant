@@ -422,7 +422,7 @@ const localization = {
     "Checkout": "Checkout",
     "Change Discount": "Change Discount",
     "Gift card": "Gift card",
-
+    DiscountByStaff: "Discount By Staff",
   },
   vi: {},
 };

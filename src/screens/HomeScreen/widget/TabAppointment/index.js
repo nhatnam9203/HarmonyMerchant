@@ -11,6 +11,7 @@ import {
   getArrayExtrasFromAppointment,
   getArrayGiftCardsFromAppointment,
 } from "@utils";
+import { isEmpty } from 'lodash';
 import apiConfigs from "@configs/api";
 
 const initState = {
@@ -113,6 +114,7 @@ class TabAppointment extends Layout {
   };
 
   onMessageFromWebview = async (event) => {
+    const { groupAppointment, isOfflineMode } = this.props;
     try {
       if (event.nativeEvent && event.nativeEvent.data) {
         const data = JSON.parse(event.nativeEvent.data);
@@ -122,6 +124,11 @@ class TabAppointment extends Layout {
           const { action, appointmentId } = data;
           // console.log("onMessageFromWebview: ", JSON.stringify(data));
           if (action === "checkout") {
+            //checkgroup appointment khong co && online : gọi get category
+            if (!isOfflineMode && isEmpty(groupAppointment)) {
+              this.props.getCategoryStaff(data?.appointment?.staffId || data?.staffId);
+            }
+
             const arrayProducts = getArrayProductsFromAppointment(
               data?.appointment?.products || []
             );
@@ -160,7 +167,12 @@ class TabAppointment extends Layout {
               appointmentIdOffline: appointmentId,
             });
           } else if (action == "signinAppointment") {
+
             this.props.bookAppointment(appointmentId, data?.staffId || 0);
+            if (!isOfflineMode && isEmpty(groupAppointment) && data?.staffId !== 0) {
+              this.props.getCategoryStaff(data?.appointment?.staffId || data?.staffId);
+            }
+            
           } else if (action === "addGroupAnyStaff") {
             this.props.createABlockAppointment(
               appointmentId,
@@ -181,6 +193,9 @@ class TabAppointment extends Layout {
               data?.appointmentId,
               data?.staffId || 0
             );
+            if (!isOfflineMode && isEmpty(groupAppointment)) {
+              this.props.getCategoryStaff(data?.appointment?.staffId || data?.staffId);
+            }
           } else if (action == "addMoreAnyStaff") {
             this.props.addMoreAppointmentFromCalendar(
               data?.appointmentId,
@@ -189,7 +204,7 @@ class TabAppointment extends Layout {
           }
         }
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   async componentDidUpdate(prevProps, prevState, snapshot) {
@@ -223,6 +238,8 @@ const mapStateToProps = (state) => ({
 
   visiblePopupCheckDiscountPermissionInHome:
     state.marketing.visiblePopupCheckDiscountPermissionInHome,
+  groupAppointment: state.appointment.groupAppointment,
+  isOfflineMode: state.network.isOfflineMode,
 });
 
 export default connectRedux(mapStateToProps, TabAppointment);

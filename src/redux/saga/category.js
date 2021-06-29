@@ -18,7 +18,7 @@ function* addCategory(action) {
                 token: true,
                 api: `${apiConfigs.BASE_API}category/search?name=${keySearch}&status=${status}&type=${category}`,
                 isShowLoading: true,
-                searchFilter:  action?.searchFilter || false
+                searchFilter: action?.searchFilter || false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -39,7 +39,7 @@ function* addCategory(action) {
 
 function* getCategoriesByMerchantId(action) {
     try {
-        if( action.isShowLoading){
+        if (action.isShowLoading) {
             yield put({ type: 'LOADING_ROOT' })
         }
         const responses = yield requestAPI(action);
@@ -113,7 +113,7 @@ function* restoreCategory(action) {
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            const searchFilter =  action?.searchFilter || { keySearch: "", category: "", status: "" };
+            const searchFilter = action?.searchFilter || { keySearch: "", category: "", status: "" };
             const { keySearch, category, status } = searchFilter;
             yield put({ type: 'IS_GET_LIST_SEARCH_CATEGORIES' });
             yield put({
@@ -122,7 +122,7 @@ function* restoreCategory(action) {
                 token: true,
                 api: `${apiConfigs.BASE_API}category/search?name=${keySearch}&status=${status}&type=${category}`,
                 isShowLoading: true,
-                searchFilter:  action?.searchFilter || false
+                searchFilter: action?.searchFilter || false
             })
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -208,7 +208,32 @@ function* updatePositionCategories(action) {
         const responses = yield requestAPI(action);
         const { codeNumber } = responses;
         if (parseInt(codeNumber) == 200) {
-            
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* getCategoriesByStaff(action) {
+    try {
+        const responses = yield requestAPI(action);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+            if (action.callBack) {
+                action.callBack(responses.data ? responses.data : [])
+            }
         } else if (parseInt(codeNumber) === 401) {
             yield put({
                 type: 'UNAUTHORIZED'
@@ -236,6 +261,6 @@ export default function* saga() {
         takeLatest('EDIT_CATEGORY', editCategory),
         takeLatest('SEARCH_CATEGORIES', searchCategories),
         takeLatest('UPDATE_POSITION_CATEGORIES', updatePositionCategories),
-
+        takeLatest('GET_CATEGORIES_BY_STAFF', getCategoriesByStaff),
     ])
 }
