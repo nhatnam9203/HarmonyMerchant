@@ -244,3 +244,13 @@ export function resetStateIsEditStaffById() {
     type: "RESET_STATE_IS_EDIT_STAFF_BY_ID",
   };
 }
+
+export function getStaffService(serviceId,callBack) {
+  return {
+    type: "GET_STAFF_SERVICE",
+    method: "GET",
+    token: true,
+    api: `${apiConfigs.BASE_API}staff/byService/${serviceId}`,
+    callBack,
+  };
+}

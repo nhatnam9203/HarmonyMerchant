@@ -1421,18 +1421,18 @@ class TabCheckout extends Layout {
     //Check if isCancelPayment = true
     if (isCancelPayment) {
       const result = await this.getPAXReport(paxMachineInfo, "1")
-      if(!l.isEmpty(result)){
-        if(l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()){
+      if (!l.isEmpty(result)) {
+        if (l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()) {
           this.handleResponseCreditCard(
             JSON.stringify(result),
             true,
             amountCredtitForSubmitToServer
           )
-        }else{
+        } else {
           this.sendTransaction()
         }
-        
-      }else{
+
+      } else {
         if (payAppointmentId) {
           this.props.actions.appointment.cancelHarmonyPayment(
             payAppointmentId
@@ -1622,14 +1622,21 @@ class TabCheckout extends Layout {
   };
 
   changeStylist = async (service, appointmentId) => {
+    const { isOfflineMode } = this.props;
     this.changeStylistRef.current?.setStateFromParent(service, appointmentId);
+    if (!isOfflineMode) {
+      this.props.actions.staff.getStaffService(service?.data?.serviceId, this.callBackGetStaffService);
+    } else {
+      this.setState({ visibleChangeStylist: true })
+    }
+  };
 
-    // setTimeout(() => {
+  callBackGetStaffService = (data = []) => {
     this.setState({
       visibleChangeStylist: true,
+      staffServicePopup: data,
     });
-    // }, 500)
-  };
+  }
 
   changeProduct = async (product, appointmentId) => {
     this.changePriceAmountProductRef.current?.setStateFromParent(

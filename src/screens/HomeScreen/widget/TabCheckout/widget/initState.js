@@ -79,5 +79,6 @@ export default {
     categoryStaff : [],
     isLoadingService : false,
     serviceStaff : [],
-    productStaff : []
+    productStaff : [],
+    staffServicePopup : [],
 }

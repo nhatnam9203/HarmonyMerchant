@@ -270,7 +270,7 @@ class Layout extends React.Component {
                 <View style={{ flex: 1 }} >
                     {
                         isLoadingService ?
-                            <View style={{ flex: 1 , justifyContent : 'center', alignItems : 'center' }}>
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                 <ActivityIndicator size='large' color='grey' />
                             </View> :
                             <ScrollView
@@ -898,11 +898,12 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission, isCancelAppointment } = this.props;
+        const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission, isCancelAppointment , isOfflineMode } = this.props;
         const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
             visiblePopupAddItemIntoBasket, visibleAddEditCustomerPopup,
             visibleErrorMessageFromPax, errorMessageFromPax,
             selectedStaff,
+            staffServicePopup
         } = this.state;
 
         const titleExitCheckoutTab = isCancelAppointment ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? " : 'Are you sure you want to exit Check-Out?';
@@ -951,8 +952,10 @@ class Layout extends React.Component {
                     ref={this.changeStylistRef}
                     visible={visibleChangeStylist}
                     title={localize('Modify Service', language)}
-                    onRequestClose={() => { this.setState({ visibleChangeStylist: false }) }}
+                    onRequestClose={() => { this.setState({ visibleChangeStylist: false, staffServicePopup: [] }) }}
                     changeStylistBasketLocal={this.changeStylistBasketLocal}
+                    staffServicePopup={staffServicePopup}
+                    isOfflineMode={isOfflineMode}
                 />
                 <PopupChangePriceAmountProduct
                     ref={this.changePriceAmountProductRef}

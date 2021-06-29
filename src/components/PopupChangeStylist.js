@@ -39,6 +39,17 @@ class PopupChangeStylist extends React.Component {
     this.scrollRef = React.createRef();
   }
 
+
+  convertStaffService = () => {
+    const { listStaffByMerchant, staffServicePopup } = this.props;
+    let tempt = [];
+    for (let i = 0; i < listStaffByMerchant.length; i++) {
+      let temptStaff = staffServicePopup.find((s) => s.staffId == listStaffByMerchant[i].staffId);
+      if (temptStaff) tempt.push(listStaffByMerchant[i]);
+    }
+    return tempt;
+  };
+
   componentDidMount() {
     // this.keyboardWillHide = Keyboard.addListener('keyboardWillHide', this.handleKeyboardWillHide);
   }
@@ -205,9 +216,13 @@ class PopupChangeStylist extends React.Component {
   // --------------- Render -----------
 
   render() {
-    const { title, visible, listStaffByMerchant, confimYes } = this.props;
+    const { title, visible, listStaffByMerchant, confimYes, isOfflineMode } = this.props;
     const { name, tip, price, note, extras } = this.state;
-    const dataDropdown = this.getStaffDataDropdown(listStaffByMerchant);
+    const staffMerchant = this.getStaffDataDropdown(listStaffByMerchant);
+    let staffService = this.convertStaffService();
+    staffService = this.getStaffDataDropdown(staffService);
+    let dataDropdown = isOfflineMode ? staffMerchant : staffService;
+
     return (
       <PopupParent
         title={title}
@@ -252,7 +267,7 @@ class PopupChangeStylist extends React.Component {
                       flex: 1,
                     }}
                     fontSize={scaleSize(20)}
-                    // extraHeight={scaleSize(90)}
+                  // extraHeight={scaleSize(90)}
                   />
                 </View>
                 {/* ------- Price -------- */}
@@ -431,11 +446,11 @@ const ExtraItem = ({ extra, selectExtra }) => {
             style={{ width: scaleSize(36), height: scaleSize(36) }}
           />
         ) : (
-          <Image
-            source={ICON.extra_holder}
-            style={{ width: scaleSize(36), height: scaleSize(36) }}
-          />
-        )}
+            <Image
+              source={ICON.extra_holder}
+              style={{ width: scaleSize(36), height: scaleSize(36) }}
+            />
+          )}
       </View>
       <Text
         style={{
