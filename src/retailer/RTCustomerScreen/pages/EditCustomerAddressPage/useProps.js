@@ -39,6 +39,27 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
   | VALIDATE
   |--------------------------------------------------
   */
+
+  Yup.addMethod(Yup.object, 'requiredIf', function (list) {
+    return this.test({
+      name: 'requiredIf',
+      message: '${path} must have at least one of these keys: ${keys}',
+      exclusive: true,
+      params: { keys: list.join(', ') },
+      test: (value) => value == null || list.some((f) => value[f] != null),
+    });
+  });
+
+  Yup.addMethod(Yup.object, 'atLeastOneOf', function (list) {
+    return this.test({
+      name: 'atLeastOneOf',
+      message: '${path} must have at least one of these keys: ${keys}',
+      exclusive: true,
+      params: { keys: list.join(', ') },
+      test: (value) => value == null || list.some((f) => value[f] != null),
+    });
+  });
+
   const form = useFormik({
     initialValues: item
       ? Object.assign({}, item, {
@@ -61,7 +82,7 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
       defaultBillingAddress: Yup.boolean(),
     }),
     onSubmit: (values) => {
-      if (isNew) {
+      if (isNew || !values?.id) {
         createAddress(values, customerId);
       } else if (isEdit) {
         editAddress(values, customerId);

@@ -38,7 +38,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
     getCustomerList({
       key: searchVal ?? '',
       page: page,
-      groupdId: groupType,
+      groupId: groupType,
       sort: { CustomerName: sortName, PhoneNumber: sortPhoneNumber },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,12 +66,16 @@ export const useProps = ({ params: { reload }, navigation }) => {
   |--------------------------------------------------
   */
   const [customerExport, ExportCustomer] = useExportCustomer();
-  const callExportCustomer =(values) => {
+  const callExportCustomer = (values) => {
     const params = Object.assign({}, values, {
       quickFilter: 'thisMonth',
+      key: searchVal ?? '',
+      page: page,
+      groupId: groupType,
+      sort: { CustomerName: sortName, PhoneNumber: sortPhoneNumber },
     });
     ExportCustomer(params);
-  }
+  };
 
   React.useEffect(() => {
     const { codeStatus, data } = customerExport || {};
