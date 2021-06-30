@@ -13,6 +13,8 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
 import { useDispatch, useSelector } from "react-redux";
+import { formatMoneyWithUnit } from "@utils";
+import { getTimeTitleFile, statusSuccess } from "@shared/utils";
 
 const log = (obj, message = "") => {
   Logger.log(`[DialogProductDetail] ${message}`, obj);
@@ -33,11 +35,14 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   | API
   |--------------------------------------------------
   */
-  const [products, getProducts] = useGetProducts();
+  const [productsGet, getProducts] = useGetProducts();
 
   const calcTotalPrice = React.useCallback(() => {
-    if (!products) return 0;
-    let price = parseFloat(product?.price);
+    if (!product) return 0;
+
+    const productPrice = product?.price ?? 0;
+
+    let price = parseFloat(productPrice);
     price += product?.options?.reduce((accumulator, currentItem) => {
       if (!options[currentItem?.id]) return accumulator;
 
@@ -45,7 +50,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
         (v) => v.id === options[currentItem?.id]
       );
       if (findItem) {
-        return accumulator + parseFloat(findItem.valueAdd);
+        return accumulator + parseFloat(findItem?.valueAdd ?? 0);
       }
       return accumulator;
     }, 0);
@@ -89,16 +94,36 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   }));
 
   React.useEffect(() => {
-    if (products?.data) {
-      setProduct(products?.data);
-      setImageUrl(products?.data?.imageUrl);
+    const { codeStatus, data } = productsGet || {};
+    if (statusSuccess(codeStatus)) {
+      setProduct(data);
+      setImageUrl(data?.imageUrl);
+
+      data?.options?.map((item) => {
+        const defaultOptionId = options[item?.id];
+        if (!defaultOptionId && item?.values?.length > 0) {
+          setOptions((prev) =>
+            Object.assign({}, prev, {
+              [item?.id]: item?.values[0].id,
+            })
+          );
+        }
+      });
     }
-  }, [products?.data]);
+  }, [productsGet]);
 
   const renderOption = (itemOption) => {
+    if (
+      !itemOption ||
+      !itemOption?.values ||
+      itemOption?.values?.length <= 0 ||
+      !product
+    )
+      return null;
+
     const onHandlePress = (optionValue) => {
       setOptions((prev) =>
-        Object.assign({}, prev, { [itemOption?.id]: optionValue.id })
+        Object.assign({}, prev, { [itemOption?.id]: optionValue?.id })
       );
 
       if (optionValue?.imageUrl) {
@@ -108,14 +133,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
       }
     };
 
-    const defaultOption = options[itemOption?.id];
-    if (!defaultOption && itemOption?.values?.length > 0) {
-      setOptions((prev) =>
-        Object.assign({}, prev, {
-          [itemOption?.id]: itemOption?.values[0].id,
-        })
-      );
-    }
+    const defaultOptionId = options[itemOption?.id];
 
     switch (itemOption?.inputType) {
       case INPUT_TYPE.TEXT_SWATCH:
@@ -123,58 +141,64 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
           <View key={itemOption.id + ""}>
             <Text style={styles.itemText}>{itemOption?.label}</Text>
             <View style={layouts.marginVertical} />
-            <View style={layouts.horizontal}>
-              {itemOption?.values?.map((v, index) => (
-                <TouchableOpacity
-                  key={v.id + ""}
-                  style={[
-                    styles.buttonColor,
-                    options[itemOption?.id] === v.id && styles.selectBorder,
-                  ]}
-                  onPress={() => onHandlePress(v)}
-                >
-                  <Text>{v.label}</Text>
-                </TouchableOpacity>
-              ))}
+            <View style={styles.optionsItemsLayout}>
+              {itemOption?.values?.map((v) => {
+                const onSelectOption = () => {
+                  onHandlePress(v);
+                };
+
+                return (
+                  <TouchableOpacity key={v?.id + ""} onPress={onSelectOption}>
+                    <View
+                      style={[
+                        defaultOptionId === v?.id && styles.selectBorder,
+                        styles.optionsItem,
+                      ]}
+                    >
+                      <Text>{v.label}</Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
             </View>
             <View style={styles.marginVertical} />
           </View>
         );
       case INPUT_TYPE.DROP_DOWN:
         return (
-          <View key={itemOption.id + ""}>
+          <View key={itemOption?.id + ""}>
             <Text style={styles.itemText}>{itemOption?.label}</Text>
             <View style={layouts.marginVertical} />
-            <View style={layouts.horizontal}>
-              {itemOption?.values?.map((v) => (
+            <View style={styles.optionsItemsLayout}>
+              {/* {itemOption?.values?.map((v, index) => (
                 <TouchableOpacity
-                  key={v.id + ""}
+                  key={v?.id + ""}
                   style={[
-                    styles.buttonSize,
-                    options[itemOption?.id] === v.id && styles.selectBorder,
+                    styles.buttonOptions,
+                    defaultOptionId === v.id && styles.selectBorder,
                   ]}
                   onPress={() => onHandlePress(v)}
                 >
-                  <Text>{v.label}</Text>
+                  <Text>{v?.label}</Text>
                 </TouchableOpacity>
-              ))}
+              ))} */}
             </View>
             <View style={styles.marginVertical} />
           </View>
         );
       case INPUT_TYPE.VISUAL_SWATCH:
         return (
-          <View key={itemOption.id + ""}>
+          <View key={itemOption?.id + ""}>
             <Text style={styles.itemText}>{itemOption?.label}</Text>
             <View style={layouts.marginVertical} />
-            <View style={layouts.horizontal}>
+            <View style={styles.optionsItemsLayout}>
               {itemOption?.values?.map((v) => (
                 <TouchableOpacity
                   key={v.id + ""}
                   style={[
-                    styles.buttonColor,
+                    styles.optionsItem,
                     { backgroundColor: v.value },
-                    options[itemOption?.id] === v.id && styles.selectBorder,
+                    defaultOptionId === v.id && styles.selectBorder,
                   ]}
                   onPress={() => onHandlePress(v)}
                 />
@@ -184,7 +208,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
           </View>
         );
       default:
-        break;
+        return null;
     }
   };
 
@@ -229,7 +253,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
             <View style={styles.line} />
             <View style={styles.marginVertical} />
 
-            {product?.options?.map((item) => renderOption(item))}
+            {product?.options?.map(renderOption)}
 
             <FormInputAmount
               label={t("Amount")}
@@ -333,22 +357,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#dddddd",
   },
 
-  buttonColor: {
-    width: scaleWidth(40),
-    height: scaleHeight(40),
-    marginRight: scaleWidth(15),
-  },
-
   buttonSize: {
-    width: scaleWidth(48),
-    height: scaleHeight(32),
-    marginRight: scaleWidth(15),
     backgroundColor: colors.WHITE,
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderColor: "#cccccc",
-    justifyContent: "center",
-    alignItems: "center",
   },
 
   selectBorder: {
@@ -359,5 +369,22 @@ const styles = StyleSheet.create({
 
   marginVertical: {
     height: scaleHeight(18),
+  },
+
+  optionsItemsLayout: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+
+  optionsItem: {
+    width: scaleWidth(48),
+    height: scaleHeight(32),
+    marginRight: scaleWidth(15),
+    marginBottom: scaleWidth(15),
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: "#cccccc",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
