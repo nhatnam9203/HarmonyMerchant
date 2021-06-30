@@ -16,7 +16,8 @@ import Configs from "../configs";
 import apiConfigs from "../configs/api";
 import Localization from "../localization";
 import ICON from "../resources";
-export * from './enums'
+export * from './enums';
+import * as l from 'lodash';
 
 const { width, height } = Dimensions.get("window");
 

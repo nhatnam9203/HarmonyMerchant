@@ -140,6 +140,7 @@ class TabStaff extends Layout {
     await this.setState({
       staffHandle: staff,
     });
+
     this.props.actions.staff.getDetailStaffByMerchantId(staff?.staffId);
     this.props.actions.staff.switchAddStaff(true);
 
@@ -278,6 +279,7 @@ const mapStateToProps = (state) => ({
   isGetListSearchStaff: state.staff.isGetListSearchStaff,
   isShowSearchResult: state.staff.isShowSearchResult,
   isEditStaffByIdSuccess: state.staff.isEditStaffByIdSuccess,
+  staffDetail: state.staff.staffDetail,
 });
 
 export default connectRedux(mapStateToProps, TabStaff);
