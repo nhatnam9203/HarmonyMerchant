@@ -457,6 +457,7 @@ export const Layout = ({
                 />
               </View>
               <InfoContent label={t("Note for in Order ")}>
+
                 <FormEditNotes
                   defaultValue={item?.note}
                   onSubmitNotes={onSubmitNotes}
