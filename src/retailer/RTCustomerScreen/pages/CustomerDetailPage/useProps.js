@@ -98,14 +98,18 @@ export const useProps = ({ params: { item, reload, customerId } }) => {
       NavigationServices.navigate("retailer.customer.address", {
         item: customerItem?.defaultBillingAddress,
         customerId: customerItem?.customerId,
-        isEdit: true,
+        isEdit: customerItem?.defaultBillingAddress,
+        isNew: !customerItem?.defaultBillingAddress,
+        isBillingAddress: true,
       });
     },
     onEditShippingAddress: () => {
       NavigationServices.navigate("retailer.customer.address", {
         item: customerItem?.defaultShippingAddress,
         customerId: customerItem?.customerId,
-        isEdit: true,
+        isEdit: customerItem?.defaultShippingAddress,
+        isNew: !customerItem?.defaultShippingAddress,
+        isShippingAddress: true,
       });
     },
     onNewCustomerAddress: () => {
@@ -124,6 +128,6 @@ export const useProps = ({ params: { item, reload, customerId } }) => {
         blacklistCustomer(customerItem.customerId, "add-blacklist");
       }
     },
-    orders
+    orders,
   };
 };

@@ -1,25 +1,33 @@
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import NavigationServices from '@navigators/NavigatorServices';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import NavigationServices from "@navigators/NavigatorServices";
 import {
-  BIRTH_DAY_DATE_FORMAT_STRING,
-  statusSuccess,
-  dateToString,
-} from '@shared/utils';
-import {
-  useEditAddress,
   useCreateAddress,
   useDeleteAddress,
-} from '@shared/services/api/retailer';
+  useEditAddress,
+} from "@shared/services/api/retailer";
+import { statusSuccess } from "@shared/utils";
+import { useFormik } from "formik";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import * as Yup from "yup";
 
-export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
+export const useProps = ({
+  params: {
+    isNew,
+    isEdit,
+    item,
+    customerId,
+    isBillingAddress = false,
+    isShippingAddress = false,
+  },
+}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [errorMsg, setErrorMsg] = React.useState(null);
-  const [currentAddress, setCurrentAddress] = React.useState(null);
+  const [currentAddress, setCurrentAddress] = React.useState({
+    defaultShippingAddress: isShippingAddress,
+    defaultBillingAddress: isBillingAddress,
+  });
 
   /**
   |--------------------------------------------------
@@ -29,7 +37,7 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
   const [addressEdit, editAddress] = useEditAddress();
   const [addressCreate, createAddress] = useCreateAddress();
   const [, deleteAddress] = useDeleteAddress(() => {
-    NavigationServices.navigate('retailer.customer.detail', {
+    NavigationServices.navigate("retailer.customer.detail", {
       reload: true,
       customerId,
     });
@@ -40,22 +48,22 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
   |--------------------------------------------------
   */
 
-  Yup.addMethod(Yup.object, 'requiredIf', function (list) {
+  Yup.addMethod(Yup.object, "requiredIf", function (list) {
     return this.test({
-      name: 'requiredIf',
-      message: '${path} must have at least one of these keys: ${keys}',
+      name: "requiredIf",
+      message: "${path} must have at least one of these keys: ${keys}",
       exclusive: true,
-      params: { keys: list.join(', ') },
+      params: { keys: list.join(", ") },
       test: (value) => value == null || list.some((f) => value[f] != null),
     });
   });
 
-  Yup.addMethod(Yup.object, 'atLeastOneOf', function (list) {
+  Yup.addMethod(Yup.object, "atLeastOneOf", function (list) {
     return this.test({
-      name: 'atLeastOneOf',
-      message: '${path} must have at least one of these keys: ${keys}',
+      name: "atLeastOneOf",
+      message: "${path} must have at least one of these keys: ${keys}",
       exclusive: true,
-      params: { keys: list.join(', ') },
+      params: { keys: list.join(", ") },
       test: (value) => value == null || list.some((f) => value[f] != null),
     });
   });
@@ -71,15 +79,15 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
         })
       : {},
     validationSchema: Yup.object().shape({
-      firstName: Yup.string().required(t('FirstName is required!')),
-      lastName: Yup.string().required(t('FirstName is required!')),
-      phone: Yup.string().required(t('Phone is required')),
+      firstName: Yup.string().required(t("FirstName is required!")),
+      lastName: Yup.string().required(t("FirstName is required!")),
+      phone: Yup.string().required(t("Phone is required")),
       street: Yup.string(),
       city: Yup.string(),
       zip: Yup.string(),
       state: Yup.number().required(),
-      defaultShippingAddress: Yup.boolean(),
-      defaultBillingAddress: Yup.boolean(),
+      defaultShippingAddress: Yup.boolean().default(isShippingAddress),
+      defaultBillingAddress: Yup.boolean().default(isBillingAddress),
     }),
     onSubmit: (values) => {
       if (isNew || !values?.id) {
@@ -104,7 +112,7 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
     if (statusSuccess(codeStatus)) {
       setErrorMsg(null);
       // NavigationServices.goBack();
-      NavigationServices.navigate('retailer.customer.detail', {
+      NavigationServices.navigate("retailer.customer.detail", {
         reload: true,
         customerId,
       });
@@ -118,7 +126,9 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
   }, [addressCreate, addressEdit]);
 
   React.useEffect(() => {
-    if (item)
+    console.log(item);
+
+    if (item) {
       setCurrentAddress(
         Object.assign({}, item, {
           firstName: item?.addressFirstName,
@@ -128,6 +138,7 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
           phone: item?.addressPhone,
         })
       );
+    }
   }, [item]);
 
   return {

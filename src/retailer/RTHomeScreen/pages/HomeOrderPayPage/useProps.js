@@ -881,13 +881,13 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
       );
   }, [orderItem?.appointmentId]);
 
-  React.useEffect(() => {
-    return () => {
-      if (connectSignalR.current) {
-        connectSignalR.current.stop();
-      }
-    };
-  }, []);
+  // React.useEffect(() => {
+  //   return () => {
+  //     if (connectSignalR.current) {
+  //       connectSignalR.current.stop();
+  //     }
+  //   };
+  // }, []);
 
   return {
     customerRef,

@@ -6,13 +6,13 @@ import {
   FormLabelSwitch,
   FormPhoneNumber,
   ButtonGradientRed,
-} from '@shared/components';
-import { colors, fonts, layouts } from '@shared/themes';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { WithDialogConfirm } from '@shared/HOC/withDialogConfirm';
+} from "@shared/components";
+import { colors, fonts, layouts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
 
@@ -29,20 +29,22 @@ export const Layout = ({
   return (
     <View style={layouts.fill}>
       <View style={styles.headContent}>
-        {isEdit && <Text style={styles.headTitle}>{t('Edit Address')}</Text>}
-        {isNew && <Text style={styles.headTitle}>{t('New Address')}</Text>}
+        {isEdit && <Text style={styles.headTitle}>{t("Edit Address")}</Text>}
+        {isNew && <Text style={styles.headTitle}>{t("New Address")}</Text>}
 
-        <DeleteConfirmButton
-          backgroundColor={colors.ORANGEY_RED}
-          label={t('Delete')}
-          width={scaleWidth(120)}
-          height={scaleHeight(40)}
-          textColor={colors.WHITE}
-          borderRadius={scaleWidth(2)}
-          fontWeight="normal"
-          onPress={onHandleDeleteAddress}
-          description={t('Are you sure you want to Delete this Address ?')}
-        />
+        {isEdit && (
+          <DeleteConfirmButton
+            backgroundColor={colors.ORANGEY_RED}
+            label={t("Delete")}
+            width={scaleWidth(120)}
+            height={scaleHeight(40)}
+            textColor={colors.WHITE}
+            borderRadius={scaleWidth(2)}
+            fontWeight="normal"
+            onPress={onHandleDeleteAddress}
+            description={t("Are you sure you want to Delete this Address ?")}
+          />
+        )}
       </View>
       <KeyboardAwareScrollView>
         <View style={styles.container}>
@@ -50,31 +52,31 @@ export const Layout = ({
             <FormLabelSwitch
               defaultValue={currentAddress?.defaultShippingAddress}
               onValueChange={(value) =>
-                form.setFieldValue('defaultShippingAddress', value)
+                form.setFieldValue("defaultShippingAddress", value)
               }
-              label={t('Default Shipping Address')}
+              label={t("Default Shipping Address")}
             />
 
             <FormLabelSwitch
               defaultValue={currentAddress?.defaultBillingAddress}
               onValueChange={(value) =>
-                form.setFieldValue('defaultBillingAddress', value)
+                form.setFieldValue("defaultBillingAddress", value)
               }
-              label={t('Default Billing Address')}
+              label={t("Default Billing Address")}
             />
 
             <FormPhoneNumber
               defaultPhone={
                 currentAddress?.phone ?? currentAddress?.addressPhone
               }
-              onChangePhoneNumber={form.handleChange('phone')}
+              onChangePhoneNumber={form.handleChange("phone")}
             />
 
             <FormAddress
-              onChangeCityValue={form.handleChange('city')}
-              onChangeStateValue={(value) => form.setFieldValue('state', value)}
-              onChangeZipCodeValue={form.handleChange('zip')}
-              onChangeStreetValue={form.handleChange('street')}
+              onChangeCityValue={form.handleChange("city")}
+              onChangeStateValue={(value) => form.setFieldValue("state", value)}
+              onChangeZipCodeValue={form.handleChange("zip")}
+              onChangeStreetValue={form.handleChange("street")}
               defaultStateValue={
                 currentAddress?.state ?? currentAddress?.stateId
               }
@@ -94,8 +96,8 @@ export const Layout = ({
               lastName={
                 currentAddress?.lastName ?? currentAddress?.addressLastName
               }
-              onChangeFirstName={form.handleChange('firstName')}
-              onChangeLastName={form.handleChange('lastName')}
+              onChangeFirstName={form.handleChange("firstName")}
+              onChangeLastName={form.handleChange("lastName")}
             />
 
             {/* <FormTitle label={t('Addresses')} /> */}
@@ -105,7 +107,7 @@ export const Layout = ({
       <View style={styles.buttonContent}>
         <ButtonGradientWhite
           onPress={buttonCancelPress}
-          label={t('Cancel').toUpperCase()}
+          label={t("Cancel").toUpperCase()}
           width={scaleWidth(400)}
           height={scaleHeight(60)}
           textColor={colors.GREYISH_BROWN}
@@ -113,7 +115,7 @@ export const Layout = ({
           fontWeight="500"
         />
         <ButtonGradient
-          label={t('Save').toUpperCase()}
+          label={t("Save").toUpperCase()}
           width={scaleWidth(400)}
           height={scaleHeight(60)}
           fontSize={scaleFont(25)}
@@ -132,47 +134,47 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: scaleWidth(0),
     paddingVertical: scaleHeight(16),
-    flexDirection: 'row',
-    alignItems: 'flex-start',
+    flexDirection: "row",
+    alignItems: "flex-start",
   },
 
   content: {
     flex: 1,
     marginHorizontal: scaleWidth(16),
-    flexDirection: 'column-reverse',
+    flexDirection: "column-reverse",
   },
 
   headContent: {
     height: scaleHeight(50),
     backgroundColor: colors.WHITE,
-    shadowColor: '#0000001a',
+    shadowColor: "#0000001a",
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowRadius: 2,
     shadowOpacity: 0.32,
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: scaleWidth(16),
-    flexDirection: 'row',
+    flexDirection: "row",
   },
 
   headTitle: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(23),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   buttonContent: {
     height: scaleHeight(84),
     backgroundColor: colors.WHITE,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "space-around",
+    alignItems: "center",
+    flexDirection: "row",
   },
 });
