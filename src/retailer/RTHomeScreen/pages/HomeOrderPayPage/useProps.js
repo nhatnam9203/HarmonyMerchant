@@ -469,6 +469,8 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     method,
     moneyUserGiveForStaff
   ) => {
+    console.log("setupSignalR");
+
     try {
       connectSignalR.current = new signalR.HubConnectionBuilder()
         .withUrl(
@@ -902,10 +904,17 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
       }
     },
     selectedPayment: (title) => {
-      setPaymentSelected(title);
-      if (title === "Gift Card") {
-        activeGiftCardRef.current?.setStateFromParent();
-        dispatch(actions.appointment.handleVisibleActiveGiftCard());
+      if (
+        changeButtonDone &&
+        !isDonePayment &&
+        paymentSelected === "HarmonyPay"
+      ) {
+      } else {
+        setPaymentSelected(title);
+        if (title === "Gift Card") {
+          activeGiftCardRef.current?.setStateFromParent();
+          dispatch(actions.appointment.handleVisibleActiveGiftCard());
+        }
       }
     },
     paymentSelected: paymentSelected,
