@@ -2,6 +2,8 @@ import React from "react";
 
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
+import { role, menuTabs, isPermissionToTab } from '@utils';
+import * as l from 'lodash';
 
 class SettlementScreen extends Layout {
   constructor(props) {
@@ -45,9 +47,16 @@ class SettlementScreen extends Layout {
         this.batchHistoryTabRef?.current?.didFocus();
 
         const { profileStaffLogin } = this.props;
-        const roleName = profileStaffLogin?.roleName || "Admin";
-        if (roleName === "Admin") {
+        const roleName = profileStaffLogin?.roleName || role.Admin;
+        const permission = l.get(profileStaffLogin, 'permission', [])
+        if (roleName === role.Admin) {
           this.tabSettleRef?.current?.callReportFromChildren();
+        } else if (roleName === role.Manager) {
+          if (isPermissionToTab(permission, menuTabs.MENU_SETTLEMENT)) {
+            this.tabSettleRef?.current?.callReportFromChildren();
+          }else {
+            this.props.actions.invoice.toggleSettlementTabPermission();
+          }
         } else {
           this.props.actions.invoice.toggleSettlementTabPermission();
         }

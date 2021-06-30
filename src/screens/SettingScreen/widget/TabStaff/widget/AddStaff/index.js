@@ -14,6 +14,7 @@ import {
   BusinessWorkingTime,
   formatNumberFromCurrency,
   localize,
+  menuTabs,
 } from '@utils';
 import * as l from 'lodash';
 
@@ -140,62 +141,52 @@ class AddStaff extends Layout {
 
       const permissionInitList = [
         {
-            "key": "MENU_HOME_TAB_MARKETING",
+            "key": menuTabs.MARKETING,
             "label": "Marketing",
             "isChecked": true
         },
         {
-            "key": "MENU_HOME_TAB_CALENDAR",
-            "label": "Calendar",
-            "isChecked": true
-        },
-        {
-            "key": "MENU_HOME_TAB_CHECKOUT",
-            "label": "Checkout",
-            "isChecked": true
-        },
-        {
-            "key": "MENU_HOME_TAB_CHECKOUT_DISCOUNT",
+            "key": menuTabs.CHECKOUT_DISCOUNT,
             "label": "Change Discount",
             "isChecked": true
         },
         {
-            "key": "MENU_INVOICE",
+            "key": menuTabs.MENU_INVOICE,
             "label": "Invoice",
             "isChecked": true
         },
         {
-            "key": "MENU_SETTLEMENT",
+            "key": menuTabs.MENU_SETTLEMENT,
             "label": "Settlement",
             "isChecked": true
         },
         {
-            "key": "MENU_CUSTOMER",
+            "key": menuTabs.MENU_CUSTOMER,
             "label": "Customer",
             "isChecked": true
         },
         {
-            "key": "MENU_GIFTCARD",
+            "key": menuTabs.MENU_GIFTCARD,
             "label": "Gift card",
             "isChecked": true
         },
         {
-            "key": "MENU_INVENTORY",
+            "key": menuTabs.MENU_INVENTORY,
             "label": "Inventory",
             "isChecked": true
         },
         {
-            "key": "MENU_REPORT",
+            "key": menuTabs.MENU_REPORT,
             "label": "Report",
             "isChecked": true
         },
         {
-            "key": "MENU_SETTING",
+            "key": menuTabs.MENU_SETTING,
             "label": "Setting",
             "isChecked": true
         },
         {
-            "key": "MENU_SUPPORT",
+            "key": menuTabs.MENU_SUPPORT,
             "label": "Support",
             "isChecked": true
         }

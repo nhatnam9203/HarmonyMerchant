@@ -10,8 +10,9 @@ import SoundPlayer from 'react-native-sound-player'
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
-import { getPosotion } from '@utils';
+import { getPosotion, role, menuTabs, isPermissionToTab } from '@utils';
 import configs from '@configs';
+import * as l from 'lodash';
 
 const initialState = {
     isFocus: true,
@@ -270,14 +271,24 @@ class HomeScreen extends Layout {
     tooglePopupMarketingPermission = () => {
         const { profileStaffLogin } = this.props;
         const roleName = profileStaffLogin?.roleName || "Admin";
-        if (roleName === "Admin") {
+        const permission = l.get(profileStaffLogin, 'permission', [])
+        if (roleName === role.Admin) {
             this.scrollTabParentRef.current.goToPage(0);
+        } else if (roleName === role.Manager) {
+            if (isPermissionToTab(permission, menuTabs.MARKETING)) {
+                this.scrollTabParentRef.current.goToPage(0);
+            }else {
+                this.handleNotPermission()
+            }
         } else {
-            this.checkMarketingPermissionRef.current.setStateFromParent('');
-            this.props.actions.marketing.toggleMarketingTabPermission();
-            this.tabCheckoutRef?.current?.resetStateFromParent();
+            this.handleNotPermission()
         }
+    }
 
+    handleNotPermission() {
+        this.checkMarketingPermissionRef.current.setStateFromParent('');
+        this.props.actions.marketing.toggleMarketingTabPermission();
+        this.tabCheckoutRef?.current?.resetStateFromParent();
     }
 
 

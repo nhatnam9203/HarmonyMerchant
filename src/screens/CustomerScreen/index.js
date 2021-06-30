@@ -2,6 +2,8 @@ import React from "react";
 
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
+import { role, menuTabs, isPermissionToTab } from '@utils';
+import * as l from 'lodash';
 
 class CustomerScreen extends Layout {
   constructor(props) {
@@ -47,13 +49,20 @@ class CustomerScreen extends Layout {
         this.scrollTabRef?.current?.goToPage(0);
 
         const { profileStaffLogin } = this.props;
-        const roleName = profileStaffLogin?.roleName || "Admin";
-        if (roleName === "Admin") {
+        const roleName = profileStaffLogin?.roleName || role.Admin;
+        const permission = l.get(profileStaffLogin, 'permission', [])
+        if (roleName === role.Admin) {
           this.searchCustomer(1, true, false);
+        } else if (roleName === role.Manager) {
+          if (isPermissionToTab(permission, menuTabs.MENU_CUSTOMER)) {
+            this.searchCustomer(1, true, false);
+          }else {
+            this.props.actions.customer.toggleCustomerTabPermission();
+          }
         } else {
-          this.props.actions.customer.toggleCustomerTabPermission();
+            this.props.actions.customer.toggleCustomerTabPermission();
+          }
         }
-      }
     );
   }
 

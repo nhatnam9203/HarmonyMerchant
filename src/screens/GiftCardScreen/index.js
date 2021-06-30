@@ -2,6 +2,8 @@ import React from 'react';
 
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
+import { role, menuTabs, isPermissionToTab } from '@utils';
+import * as l from 'lodash';
 
 class GiftCardScreen extends Layout {
 
@@ -48,9 +50,16 @@ class GiftCardScreen extends Layout {
                 this.scrollTabRef?.current?.goToPage(0);
 
                 const { profileStaffLogin } = this.props;
-                const roleName = profileStaffLogin?.roleName || "Admin";
-                if (roleName === "Admin") {
+                const roleName = profileStaffLogin?.roleName || role.Admin;
+                const permission = l.get(profileStaffLogin, 'permission', [])
+                if (roleName === role.Admin) {
                     this.searchGiftCardsList(1, true, false, false);
+                } else if (roleName === role.Manager) {
+                    if (isPermissionToTab(permission, menuTabs.MENU_GIFTCARD)) {
+                        this.searchGiftCardsList(1, true, false, false);
+                    }else {
+                        this.props.actions.appointment.switchGiftCardTabPermission();
+                    }
                 } else {
                     this.props.actions.appointment.switchGiftCardTabPermission();
                 }

@@ -16,6 +16,7 @@ import Configs from "../configs";
 import apiConfigs from "../configs/api";
 import Localization from "../localization";
 import ICON from "../resources";
+export * from './enums'
 
 const { width, height } = Dimensions.get("window");
 
@@ -1426,6 +1427,17 @@ export const getIconByNotiType = (type) => {
   }
   return icon;
 };
+
+export const isPermissionToTab = (permission, tabMenu) => {
+  const tabItem = l.find(permission, (item) => {
+    return l.get(item, 'key') == tabMenu
+  })
+  if (l.get(tabItem, 'isChecked', true)) {
+      return true
+  }else {
+      return false
+  }
+}
 
 export const getColorTitleByNotiType = (isRead, type) => {
   let color;

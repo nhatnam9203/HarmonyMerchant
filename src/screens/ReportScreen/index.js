@@ -3,6 +3,8 @@ import _ from "ramda";
 
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
+import { role, menuTabs, isPermissionToTab } from '@utils';
+import * as l from 'lodash';
 
 class ReportScreen extends Layout {
   constructor(props) {
@@ -43,12 +45,19 @@ class ReportScreen extends Layout {
         // this.screenReportRef?.current?.didFocus();
 
         const { profileStaffLogin } = this.props;
-        const roleName = profileStaffLogin?.roleName || "Admin";
-        if (roleName === "Admin") {
+        const roleName = profileStaffLogin?.roleName || role.Admin;
+        const permission = l.get(profileStaffLogin, 'permission', [])
+        if (roleName === role.Admin) {
           // this.props.actions.staff.getListStaffsSalaryTop();
           this.screenReportRef?.current?.didFocus();
+        } else if (roleName === role.Manager) {
+          if (isPermissionToTab(permission, menuTabs.MENU_REPORT)) {
+            this.screenReportRef?.current?.didFocus();
+          }else {
+            this.props.actions.staff.toggleReportTabPermission();
+          }
         } else {
-          this.props.actions.staff.toggleReportTabPermission();
+            this.props.actions.staff.toggleReportTabPermission();
         }
       }
     );
