@@ -1,20 +1,15 @@
-import { basketRetailer } from "@redux/slices";
 import IMAGE from "@resources";
 import { ButtonGradient, FormInputAmount } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
-import {
-  useCreateAppointmentTemp,
-  useGetProducts,
-} from "@shared/services/api/retailer";
+import { useGetProducts } from "@shared/services/api/retailer";
 import { colors, fonts, layouts } from "@shared/themes";
-import { INPUT_TYPE } from "@shared/utils";
+import { INPUT_TYPE, statusSuccess } from "@shared/utils";
+import { formatMoneyWithUnit } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
-import { useDispatch, useSelector } from "react-redux";
-import { formatMoneyWithUnit } from "@utils";
-import { getTimeTitleFile, statusSuccess } from "@shared/utils";
+import { useDispatch } from "react-redux";
 
 const log = (obj, message = "") => {
   Logger.log(`[DialogProductDetail] ${message}`, obj);
@@ -43,19 +38,22 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     const productPrice = product?.price ?? 0;
 
     let price = parseFloat(productPrice);
-    price += product?.options?.reduce((accumulator, currentItem) => {
-      if (!options[currentItem?.id]) return accumulator;
+    if (options?.length > 0) {
+      price += product?.options?.reduce((accumulator, currentItem) => {
+        if (!options[currentItem?.id]) return accumulator;
 
-      const findItem = currentItem?.values?.find(
-        (v) => v.id === options[currentItem?.id]
-      );
-      if (findItem) {
-        return accumulator + parseFloat(findItem?.valueAdd ?? 0);
-      }
-      return accumulator;
-    }, 0);
+        const findItem = currentItem?.values?.find(
+          (v) => v.id === options[currentItem?.id]
+        );
+        if (findItem) {
+          return accumulator + parseFloat(findItem?.valueAdd ?? 0);
+        }
 
-    return parseFloat(price).toFixed(2);
+        return accumulator;
+      }, 0);
+    }
+
+    return formatMoneyWithUnit(price);
   }, [options, product]);
 
   const onHandleAddBasket = () => {
@@ -87,6 +85,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     show: (item) => {
       dialogRef.current?.show();
       setOptions({});
+      setImageUrl(null);
       setQuantity(1);
       setProduct(item);
       getProducts(item.productId);
@@ -151,17 +150,16 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
                   <TouchableOpacity key={v?.id + ""} onPress={onSelectOption}>
                     <View
                       style={[
-                        defaultOptionId === v?.id && styles.selectBorder,
                         styles.optionsItem,
+                        defaultOptionId === v?.id && styles.selectBorder,
                       ]}
                     >
-                      <Text>{v.label}</Text>
+                      <Text style={styles.itemText}>{v?.label}</Text>
                     </View>
                   </TouchableOpacity>
                 );
               })}
             </View>
-            <View style={styles.marginVertical} />
           </View>
         );
       case INPUT_TYPE.DROP_DOWN:
@@ -170,20 +168,19 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
             <Text style={styles.itemText}>{itemOption?.label}</Text>
             <View style={layouts.marginVertical} />
             <View style={styles.optionsItemsLayout}>
-              {/* {itemOption?.values?.map((v, index) => (
+              {itemOption?.values?.map((v) => (
                 <TouchableOpacity
                   key={v?.id + ""}
                   style={[
-                    styles.buttonOptions,
-                    defaultOptionId === v.id && styles.selectBorder,
+                    styles.optionsItem,
+                    defaultOptionId === v?.id && styles.selectBorder,
                   ]}
                   onPress={() => onHandlePress(v)}
                 >
-                  <Text>{v?.label}</Text>
+                  <Text style={styles.itemText}>{v?.label}</Text>
                 </TouchableOpacity>
-              ))} */}
+              ))}
             </View>
-            <View style={styles.marginVertical} />
           </View>
         );
       case INPUT_TYPE.VISUAL_SWATCH:
@@ -204,7 +201,6 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
                 />
               ))}
             </View>
-            <View style={styles.marginVertical} />
           </View>
         );
       default:
@@ -368,7 +364,7 @@ const styles = StyleSheet.create({
   },
 
   marginVertical: {
-    height: scaleHeight(18),
+    height: scaleHeight(15),
   },
 
   optionsItemsLayout: {
