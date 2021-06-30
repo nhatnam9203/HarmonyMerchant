@@ -53,7 +53,7 @@ export const DialogRestock = React.forwardRef(({ onRestockSubmit }, ref) => {
           />
 
           <FormInput
-            label={t("Reasont")}
+            label={t("Reason")}
             placeholder={t("Adjustment reason")}
             onChangeValue={setReason}
             defaultValue={reason}

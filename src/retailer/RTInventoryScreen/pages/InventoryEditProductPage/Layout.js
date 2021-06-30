@@ -109,7 +109,7 @@ export const Layout = ({
             />
 
             <FormSelect
-              isDropdown={false}
+              //isDropdown={false}
               filterRef={filterCategoryRef}
               filterItems={categoriesFilter}
               label={t('Subcategory')}
@@ -146,9 +146,10 @@ export const Layout = ({
             />
             <Text style={styles.errorText}>{errorMsg}</Text>
             <View style={[layouts.horizontal]}>
-              <FormInput
+              <FormInputMask
                 label={t('Low threshold')}
                 placeholder={t('10')}
+                type={'only-numbers'}
                 //required={true}
                 style={layouts.fill}
                 onChangeValue={(value) => {
@@ -159,9 +160,10 @@ export const Layout = ({
                 keyboardType="numeric"
               />
               <View style={layouts.marginHorizontal} />
-              <FormInput
+              <FormInputMask
                 label={t('High threshold')}
                 placeholder={t('20')}
+                type={'only-numbers'}
                 //required={true}
                 style={layouts.fill}
                 onChangeValue={(value) => {
@@ -187,6 +189,7 @@ export const Layout = ({
         </View>
         <View style={styles.content}>
           <FlatList
+            scrollEnabled={false}
             data={productItem?.options}
             style={layouts.fill}
             renderItem={renderOptionsItem}
@@ -245,7 +248,7 @@ export const Layout = ({
           fontSize={scaleFont(25)}
           textColor={colors.WHITE}
           fontWeight="500"
-          disable={!form.isValid}
+          //disable={!form.isValid}
           disable={!form.isValid || !form.dirty}
           onPress={form?.handleSubmit}
         />

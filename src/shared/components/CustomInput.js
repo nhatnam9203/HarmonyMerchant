@@ -1,4 +1,5 @@
 import { colors } from '@shared/themes';
+import { isEmpty } from 'ramda';
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
@@ -99,7 +100,7 @@ export const CustomInputMask = ({
         style={[
           styles.textInput,
           textAlign && { textAlign },
-          value?.length > 0
+          !isEmpty(value)
             ? [styles.textEditStyle, fontSize && { fontSize }]
             : [styles.textPlaceholderStyle, fontSize && { fontSize }],
         ]}

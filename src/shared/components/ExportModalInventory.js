@@ -21,6 +21,7 @@ import {
   createFilePath,
   getInfoPathFile,
   handleTheDownloadedFile,
+  handleShareFile
 } from '@shared/utils/files';
 const EXPORT_FUNCTION = [
   { value: 'pdf', label: 'PDF' },
@@ -104,6 +105,13 @@ export const ExportModalInventory = React.forwardRef(
       }, 250);
     };
 
+    const onShareFile = () => {
+      hideModal();
+      setTimeout(() => {
+        handleShareFile(fileName, files?.path);
+      }, 250);
+    };
+
     const onHandleChangeFileName = (value) => {
       setFileName(value);
     };
@@ -155,7 +163,7 @@ export const ExportModalInventory = React.forwardRef(
             </View>
           </TouchableOpacity>
           <View style={styles.pdfBottom}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onShareFile}>
               <Image source={IMAGE.ExportShareIcon} />
             </TouchableOpacity>
             <View style={layouts.marginHorizontal} />

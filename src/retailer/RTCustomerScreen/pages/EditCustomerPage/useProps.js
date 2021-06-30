@@ -1,21 +1,21 @@
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import NavigationServices from "@navigators/NavigatorServices";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import NavigationServices from '@navigators/NavigatorServices';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   useGetCustomer,
   useCreateCustomer,
   useEditCustomer,
-} from "@shared/services/api/retailer";
+} from '@shared/services/api/retailer';
 import {
   BIRTH_DAY_DATE_FORMAT_STRING,
   statusSuccess,
   dateToString,
-} from "@shared/utils";
+} from '@shared/utils';
 
-const log = (obj, message = "") => {
+const log = (obj, message = '') => {
   Logger.log(`[EditCustomerPage] ${message}`, obj);
 };
 
@@ -42,39 +42,42 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   */
   const form = useFormik({
     initialValues: {
-      firstName: item?.firstName ?? "",
-      lastName: item?.lastName ?? "",
-      phone: item?.phone ?? "",
-      email: item?.email ?? "",
-      birthdate: dateToString(new Date(), BIRTH_DAY_DATE_FORMAT_STRING),
-      gender: "Male",
+      firstName: item?.firstName ?? '',
+      lastName: item?.lastName ?? '',
+      phone: item?.phone ?? '',
+      email: item?.email ?? '',
+      birthdate: dateToString(
+        item?.birthdate ?? new Date(),
+        BIRTH_DAY_DATE_FORMAT_STRING
+      ),
+      gender: 'Male',
       IsVip: 0,
       defaultAddress: {
-        firstName: "",
-        lastName: "",
-        phone: "",
-        street: "",
+        firstName: '',
+        lastName: '',
+        phone: '',
+        street: '',
         state: 1,
-        city: "",
-        zip: "",
+        city: '',
+        zip: '',
         defaultBillingAddress: true,
         defaultShippingAddress: true,
       },
     },
     validationSchema: Yup.object().shape({
-      lastName: Yup.string().required(t("LastName is required!")),
-      firstName: Yup.string().required(t("FirstName is required!")),
-      phone: Yup.string().required(t("Phone is required")),
+      lastName: Yup.string().required(t('LastName is required!')),
+      firstName: Yup.string().required(t('FirstName is required!')),
+      phone: Yup.string().required(t('Phone is required')),
       email: Yup.string(),
       birthdate: Yup.string(),
       gender: Yup.string(),
       IsVip: Yup.number(),
       addressPost: Yup.object().shape({
-        firstName: Yup.string().required(t("FirstName is required!")),
-        lastName: Yup.string().required(t("LastName is required!")),
-        phone: Yup.string().required(t("Phone is required")),
+        firstName: Yup.string().required(t('FirstName is required!')),
+        lastName: Yup.string().required(t('LastName is required!')),
+        phone: Yup.string().required(t('Phone is required')),
         street: Yup.string(),
-        state: Yup.number(),
+        state: Yup.number().required(),
         city: Yup.string(),
         zip: Yup.string(),
         defaultBillingAddress: Yup.boolean(),
@@ -121,7 +124,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     if (statusSuccess(codeStatus)) {
       setErrorMsg(null);
       // NavigationServices.goBack();
-      NavigationServices.navigate("retailer.customer.list", { reload: true });
+      NavigationServices.navigate('retailer.customer.list', { reload: true });
 
       return;
     }
@@ -145,8 +148,11 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
 
     if (statusSuccess(codeStatus)) {
       const customer = Object.assign({}, data, {
-        birthdate: dateToString(new Date(), BIRTH_DAY_DATE_FORMAT_STRING),
-        gender: "Male",
+        birthdate: dateToString(
+          data?.birthdate ?? new Date(),
+          BIRTH_DAY_DATE_FORMAT_STRING
+        ),
+        gender: data?.gender ?? 'Male',
         addressPost: {
           ...data?.defaultAddress,
           firstName: data?.defaultAddress?.addressFirstName,
