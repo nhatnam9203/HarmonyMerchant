@@ -311,22 +311,41 @@ export const Layout = ({
             // draggable={true}
           />
 
-          <FormTitle label={t("Address Information")} />
-          <FormAddressInformation
-            customerId={item?.customerId}
-            shippingAddress={item?.shippingAddress}
-            billingAddress={item?.billingAddress}
-            onChangeShippingAddress={onEditShippingAddress}
-            onChangeBillingAddress={onEditBillingAddress}
-          />
-
           {item?.status === ORDERED_STATUS.PENDING ? (
             <>
               <FormTitle label={t("Shipping Method")} />
               <FormShippingCarrier onChangeValue={onChangeShippingMethod} />
+
+              <FormTitle label={t("Address Information")} />
+              <FormAddressInformation
+                customerId={item?.customerId}
+                shippingAddress={item?.shippingAddress}
+                billingAddress={item?.billingAddress}
+                onChangeShippingAddress={onEditShippingAddress}
+                onChangeBillingAddress={onEditBillingAddress}
+              />
             </>
           ) : (
             <>
+              <FormTitle label={t("Address Information")} />
+              <View style={layouts.horizontal}>
+                <InfoContent label={t("Billing Address")}>
+                  {item?.billingAddress && (
+                    <View style={styles.personContent}>
+                      <Text>{`${item?.billingAddress?.addressFirstName} ${item?.billingAddress?.addressLastName}\n${item?.billingAddress?.street} ${item?.billingAddress?.city} ${item?.billingAddress?.stateName}\n${item?.billingAddress?.addressPhone}`}</Text>
+                    </View>
+                  )}
+                </InfoContent>
+                <View style={layouts.marginHorizontal} />
+                <InfoContent label={t("Shipping Address")}>
+                  {item?.shippingAddress && (
+                    <View style={styles.personContent}>
+                      <Text>{`${item?.shippingAddress?.addressFirstName} ${item?.shippingAddress?.addressLastName}\n${item?.shippingAddress?.street} ${item?.shippingAddress?.city} ${item?.shippingAddress?.stateName}\n${item?.shippingAddress?.addressPhone}`}</Text>
+                    </View>
+                  )}
+                </InfoContent>
+              </View>
+
               <FormTitle label={t("Payment & Shipping Method")} />
               <View style={layouts.horizontal}>
                 <InfoContent label={t("Payment Informations")}>
