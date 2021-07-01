@@ -21,17 +21,21 @@ const ITEMS_COUNTER = [
   { value: 100, label: "100" },
 ];
 
+const DEFAULT_ITEMS_PER_PAGE = 20;
+
 export const Pagination = ({
   onChangePage,
   onChangeItemsPerPage,
   visibleItemsPerPage = false,
   defaultPage = 1,
+  defaultItemsPerPage = DEFAULT_ITEMS_PER_PAGE,
   pages = 0,
   count = 0,
   length = 0,
 }) => {
   const { t } = useTranslation();
   const [currentPage, setCurrentPage] = React.useState(defaultPage);
+  const [itemsPerPage, setItemsPerPage] = React.useState(defaultItemsPerPage);
 
   const onHandleNextPage = () => {
     const next = currentPage + 1;
@@ -50,10 +54,17 @@ export const Pagination = ({
   };
 
   const onHandleChangeItemPerPage = (item) => {
+    setItemsPerPage(item.value);
     if (onChangeItemsPerPage && typeof onChangeItemsPerPage === "function") {
       onChangeItemsPerPage(item.value);
     }
   };
+
+  React.useEffect(() => {
+    if (defaultItemsPerPage) {
+      // !! tim index của value ròi set defaultIndex
+    }
+  }, [defaultItemsPerPage]);
 
   return (
     <View style={styles.container}>
@@ -93,9 +104,9 @@ export const Pagination = ({
         />
       </Pressable>
       <View style={styles.marginHorizontal} />
-      <Text style={styles.textItemStyle}>{`${t(
-        "Items"
-      )} ${1} - ${length} of ${count}`}</Text>
+      <Text style={styles.textItemStyle}>{`${t("Item")} ${
+        (currentPage - 1) * itemsPerPage + 1
+      } - ${(currentPage - 1) * itemsPerPage + length} of ${count}`}</Text>
       <View style={styles.marginHorizontal} />
       {visibleItemsPerPage && (
         <>
@@ -103,7 +114,7 @@ export const Pagination = ({
           <View style={styles.marginHorizontal} />
           <DropdownMenu
             items={ITEMS_COUNTER}
-            defaultIndex={0}
+            defaultIndex={1}
             onChangeValue={onHandleChangeItemPerPage}
             width={scaleWidth(80)}
             height={scaleHeight(32)}

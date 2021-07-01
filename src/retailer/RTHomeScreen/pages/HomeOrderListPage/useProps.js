@@ -9,16 +9,23 @@ import { getQuickFilterTimeRange } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
+const DEFAULT_PAGE = 1;
+
 export const useProps = ({ params: { reload } }) => {
   const { t } = useTranslation();
   const exportRef = React.useRef();
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = React.useState(DEFAULT_PAGE);
   const [searchVal, setSearchVal] = React.useState();
   const [timeVal, setTimeVal] = React.useState();
   const [itemSelected, setItemSelected] = React.useState(null);
   const [purchasePoint, setPurchasePoint] = React.useState(null);
   const [payment, setPayment] = React.useState(null);
   const [orderStatus, setOrderStatus] = React.useState(null);
+  const [pagination, setPagination] = React.useState({
+    pages: 0,
+    count: 0,
+  });
+  const [items, setItems] = React.useState(null);
   /**
   |--------------------------------------------------
   | CALL API
@@ -70,6 +77,18 @@ export const useProps = ({ params: { reload } }) => {
   | useEffect
   |--------------------------------------------------
   */
+
+  React.useEffect(() => {
+    const { codeStatus, data, pages = 0, count = 0 } = orderList || {};
+    if (statusSuccess(codeStatus)) {
+      setItems(data);
+      setPagination({
+        pages,
+        count,
+      });
+    }
+  }, [orderList]);
+
   React.useEffect(() => {
     callGetOrderList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -121,7 +140,7 @@ export const useProps = ({ params: { reload } }) => {
     },
     onRenderCell: () => {},
     onSortWithKey: () => {},
-    items: orderList?.data,
+    items,
     onChangeTimeValue: (quickFilter, timeState) => {
       if (timeState === "Customize Date") {
         setTimeVal({
@@ -148,5 +167,8 @@ export const useProps = ({ params: { reload } }) => {
     onRefresh,
     exportRef,
     callExportOrderList,
+    setPage,
+    DEFAULT_PAGE,
+    pagination,
   };
 };

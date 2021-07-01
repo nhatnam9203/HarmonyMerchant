@@ -6,6 +6,7 @@ import {
   ButtonRightPanelFilter,
   ExportModal,
   FormSelect,
+  Pagination,
 } from "@shared/components";
 import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
 import { Table } from "@shared/components/CustomTable";
@@ -46,11 +47,14 @@ export const Layout = ({
   onRefresh,
   exportRef,
   callExportOrderList,
+  setPage,
+  DEFAULT_PAGE,
+  pagination,
 }) => {
   const { t } = useTranslation();
 
   const onRenderTableCell = ({ item, columnKey, rowIndex, cellWidth }) => {
-    if (columnKey === 'appointmentId') {
+    if (columnKey === "appointmentId") {
       const handleCheckRow = (val) => {
         // onCheckedRow(item, val);
       };
@@ -59,7 +63,7 @@ export const Layout = ({
         <TouchableOpacity
           onPress={() => {}}
           style={[layouts.horizontal, { width: cellWidth }, styles.cellStyle]}
-          key={getUniqueId(columnKey, rowIndex, 'cell-code')}
+          key={getUniqueId(columnKey, rowIndex, "cell-code")}
         >
           <CustomTableCheckBox
           //  value={defaultValue}
@@ -70,11 +74,11 @@ export const Layout = ({
       );
     }
 
-    if (columnKey === 'status') {
+    if (columnKey === "status") {
       return (
         <View
           style={[{ width: cellWidth }, styles.cellStyle]}
-          key={getUniqueId(columnKey, rowIndex, 'cell-status')}
+          key={getUniqueId(columnKey, rowIndex, "cell-status")}
         >
           <OrderStatusView status={item.status} />
         </View>
@@ -90,22 +94,22 @@ export const Layout = ({
         <Table
           items={items}
           headerKeyLabels={{
-            appointmentId: t('ID'),
-            purchasePoint: t('Purchase Point'),
-            createdDate: t('Purchase Date'),
-            billToName: t('Bill-to Name'),
-            shipToName: t('Ship-to Name'),
-            status: t('Status'),
-            total: t('Grand Total'),
+            appointmentId: t("ID"),
+            purchasePoint: t("Purchase Point"),
+            createdDate: t("Purchase Date"),
+            billToName: t("Bill-to Name"),
+            shipToName: t("Ship-to Name"),
+            status: t("Status"),
+            total: t("Grand Total"),
           }}
           whiteListKeys={[
-            'appointmentId',
-            'purchasePoint',
-            'createdDate',
-            'billToName',
-            'shipToName',
-            'status',
-            'total',
+            "appointmentId",
+            "purchasePoint",
+            "createdDate",
+            "billToName",
+            "shipToName",
+            "status",
+            "total",
           ]}
           // sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
           primaryKey="appointmentId"
@@ -119,7 +123,7 @@ export const Layout = ({
             status: scaleWidth(150),
             total: scaleWidth(150),
           }}
-          emptyDescription={t('No Orders')}
+          emptyDescription={t("No Orders")}
           styleTextKeys={{ total: styles.textName }}
           onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
@@ -133,10 +137,19 @@ export const Layout = ({
         />
       </View>
       <View style={styles.rowContent}>
-        <HeaderToolBarTitle label={t('Orders')} style={styles.textTitle} />
+        <HeaderToolBarTitle label={t("Orders")} style={styles.textTitle} />
         <View style={layouts.horizontal}>
+          <Pagination
+            onChangePage={setPage}
+            onChangeItemsPerPage={() => {}}
+            visibleItemsPerPage={false}
+            defaultPage={DEFAULT_PAGE}
+            {...pagination}
+            length={items?.length}
+          />
+          <View style={layouts.marginHorizontal} />
           <ButtonGradientWhite
-            label={t('Clean')}
+            label={t("Clean")}
             width={scaleWidth(86)}
             height={scaleHeight(32)}
             fontSize={scaleFont(15)}
@@ -150,7 +163,7 @@ export const Layout = ({
               style={styles.icon}
             />
           </ButtonGradientWhite>
-          <View style={layouts.marginHorizontal} />
+          {/* <View style={layouts.marginHorizontal} /> */}
           {/* <ExportModal ref={exportRef} onExportFile={callExportOrderList} /> */}
         </View>
       </View>
@@ -159,7 +172,7 @@ export const Layout = ({
         <View style={layouts.horizontal}>
           <ButtonCalendarFilter
             onChangeTimeValue={onChangeTimeValue}
-            defaultValue={'This Week'}
+            defaultValue={"This Week"}
             paddingLeft={scaleWidth(15)}
             paddingTop={scaleHeight(135)}
           />
@@ -171,21 +184,21 @@ export const Layout = ({
           >
             <View style={styles.filterContent}>
               <FormSelect
-                label={t('Payment method')}
+                label={t("Payment method")}
                 filterItems={PAYMENTS}
                 defaultValue={0}
                 onChangeValue={setPayment}
               />
 
               <FormSelect
-                label={t('Purchase point')}
+                label={t("Purchase point")}
                 filterItems={PURCHASE_POINTS}
                 defaultValue={0}
                 onChangeValue={setPurchasePoint}
               />
 
               <FormSelect
-                label={t('Status')}
+                label={t("Status")}
                 filterItems={ORDER_STATUS}
                 defaultValue={0}
                 onChangeValue={setOrderStatus}
@@ -220,14 +233,14 @@ export const Layout = ({
           <InputSearch onSearch={onChangeValueSearch} width={scaleWidth(280)} />
           <View style={layouts.marginHorizontal} />
           <ButtonGradientWhite
-            label={t('Search')}
+            label={t("Search")}
             width={scaleWidth(120)}
             onPress={onButtonSearchPress}
           />
         </View>
         <ButtonGradient
           onPress={onButtonNewOrderPress}
-          label={t('New Order')}
+          label={t("New Order")}
           width={scaleWidth(140)}
         />
       </View>
@@ -238,39 +251,39 @@ export const Layout = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column-reverse',
+    flexDirection: "column-reverse",
   },
 
   rowContent: {
     marginTop: scaleHeight(20),
     paddingHorizontal: scaleWidth(16),
     height: scaleHeight(40),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 
   leftContent: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
 
   textTitle: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(26),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.OCEAN_BLUE,
   },
 
   textName: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(15),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
@@ -279,7 +292,7 @@ const styles = StyleSheet.create({
   },
 
   filterContent: {
-    flexDirection: 'column-reverse',
+    flexDirection: "column-reverse",
   },
 
   icon: {
