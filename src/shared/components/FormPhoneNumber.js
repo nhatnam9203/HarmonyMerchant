@@ -11,6 +11,7 @@ export const FormPhoneNumber = ({
   onChangePhoneNumber,
   hasTitle = true,
   dropDownDirection,
+  editable = true,
 }) => {
   const [t] = useTranslation();
   const [phoneNumberValue, setPhoneNumber] = React.useState();
@@ -56,6 +57,7 @@ export const FormPhoneNumber = ({
           width={scaleWidth(120)}
           height={scaleHeight(40)}
           dropDownDirection={dropDownDirection}
+          editable={editable}
         />
         <View style={styles.horizontalPadding} />
         <CustomInputMask
@@ -71,6 +73,7 @@ export const FormPhoneNumber = ({
             defaultValue: phoneNumberValue,
             onChangeText: onHandleChangeValue,
             keyboardType: "phone-pad",
+            editable: editable,
           }}
         />
       </View>

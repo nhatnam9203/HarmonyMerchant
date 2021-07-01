@@ -37,6 +37,7 @@ import {
   dateToString,
 } from "@shared/utils";
 import { withDropdown } from "@shared/helpers/dropdown";
+import NavigationServices from "@navigators/NavigatorServices";
 
 export const FormAddressInformation = ({
   onChangeValue,
@@ -47,7 +48,12 @@ export const FormAddressInformation = ({
   customerId,
 }) => {
   const billingSelectRef = React.useRef(null);
+  const billingRef = React.useRef(null);
+  const billingNameRef = React.useRef(null);
+
   const shippingSelectRef = React.useRef(null);
+  const shippingRef = React.useRef(null);
+  const shippingNameRef = React.useRef(null);
 
   const [t] = useTranslation();
   const [addresses, setAddress] = React.useState([]);
@@ -107,18 +113,6 @@ export const FormAddressInformation = ({
   }, [customerId]);
 
   React.useEffect(() => {
-    if (billingAddress) {
-      setSelectedBilling(billingAddress);
-    }
-  }, [billingAddress]);
-
-  React.useEffect(() => {
-    if (shippingAddress) {
-      setSelectedShipping(shippingAddress);
-    }
-  }, [shippingAddress]);
-
-  React.useEffect(() => {
     const { codeStatus, message, data } = customer || {};
 
     if (statusSuccess(codeStatus)) {
@@ -134,24 +128,86 @@ export const FormAddressInformation = ({
           })
         );
         setAddress(temps);
+
         billingSelectRef.current?.setFilterItems([...temps, newSelectItem]);
         shippingSelectRef.current?.setFilterItems([...temps, newSelectItem]);
+
+        if (billingAddress) {
+          // !! nhung dong code met moi
+          const findItemIndex =
+            temps.findIndex((x) => x.id === billingAddress?.id) || 0;
+          const t = temps[findItemIndex];
+          setSelectedBilling(t);
+          setTimeout(() => {
+            billingSelectRef.current?.selectIndex(findItemIndex);
+          }, 500);
+          // setDefaultBilling(t.id);
+        }
+
+        if (shippingAddress) {
+          const findItemIndex =
+            temps.findIndex((x) => x.id === shippingAddress?.id) || 0;
+          const t = temps[findItemIndex];
+          setSelectedShipping(t);
+          setTimeout(() => {
+            shippingSelectRef.current?.selectIndex(findItemIndex);
+          }, 500);
+        }
       }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customer]);
 
-  const onEditBillingAddress = (item) => {
-    if (item.value === -1) {
+  const onEditBillingAddress = () => {
+    NavigationServices.navigate("retailer.address.edit", {
+      isEdit: true,
+      item: selectedBilling,
+      isBillingAddress: true,
+      customerId,
+    });
+  };
+
+  const onSelectBillingAddress = (item) => {
+    if (item === -1) {
+      NavigationServices.navigate("retailer.address.edit", {
+        isNew: true,
+        isBillingAddress: true,
+        customerId,
+      });
     } else {
-      setSelectedBilling(item);
+      const findItem = addresses.find((x) => x.id === item);
+      billingRef.current?.updateAddress(findItem);
+      billingNameRef.current?.updateFirstName(findItem?.addressFirstName);
+      billingNameRef.current?.updateLastName(findItem?.addressLastName);
+
+      setSelectedBilling(findItem);
     }
   };
-  const onEditShippingAddress = (item) => {
-    if (item.value === -1) {
+
+  const onEditShippingAddress = () => {
+    NavigationServices.navigate("retailer.address.edit", {
+      isEdit: true,
+      item: selectedShipping,
+      isShippingAddress: true,
+      customerId,
+    });
+  };
+
+  const onSelectShippingAddress = (item) => {
+    if (item === -1) {
+      NavigationServices.navigate("retailer.address.edit", {
+        isNew: true,
+        isShippingAddress: true,
+        customerId,
+      });
     } else {
-      setSelectedShipping(item);
+      const findItem = addresses.find((x) => x.id === item);
+      shippingRef.current?.updateAddress(findItem);
+      shippingNameRef.current?.updateFirstName(findItem?.addressFirstName);
+      shippingNameRef.current?.updateLastName(findItem?.addressLastName);
+
+      setSelectedShipping(findItem);
     }
   };
 
@@ -159,6 +215,7 @@ export const FormAddressInformation = ({
     <View style={layouts.horizontal}>
       <InfoContent label={t("Billing Address")}>
         <FormAddress
+          ref={billingRef}
           reverse={true}
           onChangeCityValue={billingAddressForm.handleChange(
             "billingAddressForm.city"
@@ -177,9 +234,11 @@ export const FormAddressInformation = ({
           defaultCityValue={selectedBilling?.city}
           defaultZipCodeValue={selectedBilling?.zipCode}
           useDropDownMenu
+          editable={false}
         />
 
         <FormFullName
+          ref={billingNameRef}
           firstName={selectedBilling?.addressFirstName}
           lastName={selectedBilling?.addressLastName}
           onChangeFirstName={billingAddressForm.handleChange(
@@ -188,6 +247,7 @@ export const FormAddressInformation = ({
           onChangeLastName={billingAddressForm.handleChange(
             "billingAddress.lastName"
           )}
+          editable={false}
         />
 
         <FormPhoneNumber
@@ -195,19 +255,30 @@ export const FormAddressInformation = ({
           onChangePhoneNumber={billingAddressForm.handleChange(
             "billingAddressForm.phone"
           )}
+          editable={false}
         />
 
-        <FormSelect
-          isDropdown
-          filterRef={billingSelectRef}
-          filterItems={addresses}
-          defaultValue={defaultBilling}
-          onChangeValue={onEditBillingAddress}
-        />
+        <View style={[layouts.horizontal, layouts.center]}>
+          <FormSelect
+            isDropdown
+            filterRef={billingSelectRef}
+            filterItems={addresses}
+            defaultValue={defaultBilling}
+            onChangeValue={onSelectBillingAddress}
+            style={{ flex: 1 }}
+          />
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={onEditBillingAddress}
+          >
+            <Image source={IMAGE.edit_customer_icon} style={styles.icon} />
+          </TouchableOpacity>
+        </View>
       </InfoContent>
       <View style={layouts.marginHorizontal} />
       <InfoContent label={t("Shipping Address")}>
         <FormAddress
+          ref={shippingRef}
           reverse={true}
           onChangeCityValue={shippingAddressForm.handleChange(
             "shippingAddressForm.city"
@@ -229,9 +300,11 @@ export const FormAddressInformation = ({
           defaultCityValue={selectedShipping?.city}
           defaultZipCodeValue={selectedShipping?.zipCode}
           useDropDownMenu
+          editable={false}
         />
 
         <FormFullName
+          ref={shippingNameRef}
           firstName={selectedShipping?.addressFirstName}
           lastName={selectedShipping?.addressLastName}
           onChangeFirstName={shippingAddressForm.handleChange(
@@ -240,6 +313,7 @@ export const FormAddressInformation = ({
           onChangeLastName={shippingAddressForm.handleChange(
             "billingAddress.lastName"
           )}
+          editable={false}
         />
 
         <FormPhoneNumber
@@ -247,15 +321,25 @@ export const FormAddressInformation = ({
           onChangePhoneNumber={shippingAddressForm.handleChange(
             "shippingAddressForm.phone"
           )}
+          editable={false}
         />
 
-        <FormSelect
-          isDropdown
-          filterRef={shippingSelectRef}
-          filterItems={addresses}
-          defaultValue={defaultShipping}
-          onChangeValue={onEditShippingAddress}
-        />
+        <View style={[layouts.horizontal, layouts.center]}>
+          <FormSelect
+            isDropdown
+            filterRef={shippingSelectRef}
+            filterItems={addresses}
+            defaultValue={defaultShipping}
+            onChangeValue={onSelectShippingAddress}
+            style={{ flex: 1 }}
+          />
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={onEditShippingAddress}
+          >
+            <Image source={IMAGE.edit_customer_icon} style={styles.icon} />
+          </TouchableOpacity>
+        </View>
       </InfoContent>
     </View>
   );
@@ -354,5 +438,23 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: colors.GREYISH_BROWN,
+  },
+
+  editButton: {
+    width: scaleWidth(40),
+    height: scaleHeight(40),
+    backgroundColor: colors.WHITE_FA,
+    borderStyle: "solid",
+    borderWidth: scaleWidth(1),
+    borderColor: "#ccc",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  icon: {
+    width: scaleWidth(18),
+    height: scaleHeight(18),
+    resizeMode: "contain",
+    tintColor: colors.GREYISH_BROWN,
   },
 });
