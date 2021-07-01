@@ -316,8 +316,9 @@ class AddStaff extends Layout {
     } else {
       // ----------- Create New Staff -----------
       const { profile } = this.props;
+      const initStateTemp = JSON.parse(JSON.stringify(initState))
       await this.setState({
-        ...initState,
+        ...initStateTemp,
         workingTime: profile.businessHour
           ? profile.businessHour
           : BusinessWorkingTime,
