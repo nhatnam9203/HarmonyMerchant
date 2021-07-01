@@ -1,15 +1,13 @@
-import React from 'react';
+import NavigationServices from "@navigators/NavigatorServices";
+import { useFocusEffect } from "@react-navigation/native";
 import {
-  useGetOrderList,
   useExportOrderList,
-} from '@shared/services/api/retailer';
-import { getTimeTitleFile, statusSuccess } from '@shared/utils';
-import { useTranslation } from 'react-i18next';
-import _ from 'lodash';
-import NavigationServices from '@navigators/NavigatorServices';
-import { useSelector } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
-import { getQuickFilterTimeRange } from '@utils';
+  useGetOrderList,
+} from "@shared/services/api/retailer";
+import { getTimeTitleFile, statusSuccess } from "@shared/utils";
+import { getQuickFilterTimeRange } from "@utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 export const useProps = ({ params: { reload } }) => {
   const { t } = useTranslation();
@@ -56,7 +54,7 @@ export const useProps = ({ params: { reload } }) => {
     const params = Object.assign({}, values, {
       ...timeVal,
     });
-    exportRef.current?.onSetFileName(getTimeTitleFile('ReportOrder', params));
+    exportRef.current?.onSetFileName(getTimeTitleFile("ReportOrder", params));
     ExportOrderList(params);
   };
 
@@ -114,10 +112,10 @@ export const useProps = ({ params: { reload } }) => {
     onChangeValueSearch,
     onButtonSearchPress,
     onButtonNewOrderPress: () => {
-      NavigationServices.navigate('retailer.home.checkout', {});
+      NavigationServices.navigate("retailer.home.checkout", {});
     },
     onSelectRow: ({ item }) => {
-      NavigationServices.navigate('retailer.home.order.detail', {
+      NavigationServices.navigate("retailer.home.order.detail", {
         order: item,
       });
     },
@@ -125,9 +123,9 @@ export const useProps = ({ params: { reload } }) => {
     onSortWithKey: () => {},
     items: orderList?.data,
     onChangeTimeValue: (quickFilter, timeState) => {
-      if (timeState === 'Customize Date') {
+      if (timeState === "Customize Date") {
         setTimeVal({
-          quickFilter: 'custom',
+          quickFilter: "custom",
           timeStart: timeState.startDate,
           timeEnd: timeState.endDate,
         });
@@ -136,9 +134,9 @@ export const useProps = ({ params: { reload } }) => {
       }
     },
     onResetFilter: () => {
-      setPayment('');
-      setPurchasePoint('');
-      setOrderStatus('');
+      setPayment("");
+      setPurchasePoint("");
+      setOrderStatus("");
     },
     onApplyFilter: () => {},
     purchasePoint,

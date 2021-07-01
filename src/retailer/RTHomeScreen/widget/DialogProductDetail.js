@@ -7,7 +7,13 @@ import { INPUT_TYPE, statusSuccess } from "@shared/utils";
 import { formatMoneyWithUnit } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ScrollView,
+} from "react-native";
 import FastImage from "react-native-fast-image";
 import { useDispatch } from "react-redux";
 
@@ -226,39 +232,41 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
         )}
         style={styles.dialog}
       >
-        <View style={styles.container}>
-          <FastImage
-            style={styles.imageStyle}
-            source={
-              imageUrl
-                ? {
-                    uri: imageUrl,
-                    priority: FastImage.priority.high,
-                    cache: FastImage.cacheControl.immutable,
-                  }
-                : IMAGE.product_holder
-            }
-            resizeMode="contain"
-          />
-          <View style={layouts.marginHorizontal} />
-          <View style={styles.content}>
-            <Text style={styles.title}>{product?.name}</Text>
-            <View style={styles.marginVertical} />
-            <Text style={styles.price}>{calcTotalPrice()}</Text>
-            <View style={styles.marginVertical} />
-            <View style={styles.line} />
-            <View style={styles.marginVertical} />
-
-            {product?.options?.map(renderOption)}
-
-            <FormInputAmount
-              label={t("Amount")}
-              defaultValue={quantity}
-              onChangeValue={setQuantity}
+        <ScrollView>
+          <View style={styles.container}>
+            <FastImage
+              style={styles.imageStyle}
+              source={
+                imageUrl
+                  ? {
+                      uri: imageUrl,
+                      priority: FastImage.priority.high,
+                      cache: FastImage.cacheControl.immutable,
+                    }
+                  : IMAGE.product_holder
+              }
+              resizeMode="contain"
             />
-            <View style={styles.marginVertical} />
+            <View style={layouts.marginHorizontal} />
+            <View style={styles.content}>
+              <Text style={styles.title}>{product?.name}</Text>
+              <View style={styles.marginVertical} />
+              <Text style={styles.price}>{calcTotalPrice()}</Text>
+              <View style={styles.marginVertical} />
+              <View style={styles.line} />
+              <View style={styles.marginVertical} />
+
+              {product?.options?.map(renderOption)}
+
+              <FormInputAmount
+                label={t("Amount")}
+                defaultValue={quantity}
+                onChangeValue={setQuantity}
+              />
+              <View style={styles.marginVertical} />
+            </View>
           </View>
-        </View>
+        </ScrollView>
       </DialogLayout>
     </View>
   );
