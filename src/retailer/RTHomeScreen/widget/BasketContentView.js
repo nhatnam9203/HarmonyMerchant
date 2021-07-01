@@ -140,7 +140,7 @@ export const BasketContentView = React.forwardRef(
         </View>
         <View style={layouts.center}>
           <ButtonGradient
-            disable={appointment?.products?.length <= 0}
+            disable={!appointment || appointment?.products?.length <= 0}
             label={t("CREATE ORDER")}
             width={scaleWidth(400)}
             height={scaleHeight(60)}

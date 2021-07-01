@@ -56,6 +56,8 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   const popupDiscountLocalRef = React.useRef(null);
   const activeGiftCardRef = React.useRef(null);
   const connectSignalR = React.useRef(null);
+  const cashBackRef = React.useRef(null);
+  const invoicePrintRef = React.useRef(null);
 
   const dispatch = useDispatch();
   const isPayment = useIsPayment();
@@ -97,6 +99,9 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   const visibleConfirm = useSelector(
     (state) => state.appointment.visiblePopupPaymentConfirm
   );
+  const visibleChangeMoney = useSelector(
+    (state) => state.appointment.visibleChangeMoney
+  );
 
   const [paymentSelected, setPaymentSelected] = React.useState("");
   const [visibleBillOfPayment, setVisibleBillOfPayment] = React.useState(false);
@@ -127,7 +132,12 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   const [basket, setBasket] = React.useState();
   const [visibleProcessingCredit, setVisibleProcessingCredit] =
     React.useState(false);
-  // const [visibleConfirm, setVisibleConfirm] = React.useState(false);
+  const [visibleErrorMessageFromPax, setVisibleErrorMessageFromPax] =
+    React.useState(false);
+
+  const [errorMessageFromPax, setErrorMessageFromPax] = React.useState("");
+  const [visibleScanCode, setVisibleScanCode] = React.useState(false);
+  const [visiblePrintInvoice, setVisiblePrintInvoice] = React.useState(false);
 
   const onGoBack = () => {
     NavigationServices.navigate("retailer.home.order.list", { reload: true });
@@ -459,6 +469,8 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     method,
     moneyUserGiveForStaff
   ) => {
+    console.log("setupSignalR");
+
     try {
       connectSignalR.current = new signalR.HubConnectionBuilder()
         .withUrl(
@@ -562,13 +574,21 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
       if (result.status == 0) {
         PosLink.cancelTransaction();
         if (payAppointmentId) {
-          dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
+          dispatch(
+            actions.appointment.cancelHarmonyPayment(
+              payAppointmentId,
+              "transaction fail",
+              result?.message
+            )
+          );
         }
         if (result.message === "ABORTED") {
           return;
         }
         setTimeout(() => {
-          alert(result.message);
+          // alert(result.message);
+          setVisibleErrorMessageFromPax(true);
+          setErrorMessageFromPax(`${result.message}`);
         }, 300);
       } else if (result.ResultCode && result.ResultCode == "000000") {
         if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
@@ -600,11 +620,20 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
           }
         }
       } else {
+        const resultTxt = result?.ResultTxt || "Transaction failed:";
+
         if (payAppointmentId) {
-          dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
+          dispatch(
+            actions.appointment.cancelHarmonyPayment(
+              payAppointmentId,
+              "transaction fail",
+              resultTxt
+            )
+          );
         }
         setTimeout(() => {
-          alert(result?.ResultTxt || "Transaction failed:");
+          setVisibleErrorMessageFromPax(true);
+          setErrorMessageFromPax(`${resultTxt}`);
         }, 300);
       }
     } catch (error) {}
@@ -875,10 +904,17 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
       }
     },
     selectedPayment: (title) => {
-      setPaymentSelected(title);
-      if (title === "Gift Card") {
-        activeGiftCardRef.current?.setStateFromParent();
-        dispatch(actions.appointment.handleVisibleActiveGiftCard());
+      if (
+        changeButtonDone &&
+        !isDonePayment &&
+        paymentSelected === "HarmonyPay"
+      ) {
+      } else {
+        setPaymentSelected(title);
+        if (title === "Gift Card") {
+          activeGiftCardRef.current?.setStateFromParent();
+          dispatch(actions.appointment.handleVisibleActiveGiftCard());
+        }
       }
     },
     paymentSelected: paymentSelected,
@@ -1000,6 +1036,50 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     },
     nextPayment: () => {
       setVisiblePopupPaymentDetails(false);
+    },
+    visibleErrorMessageFromPax,
+    errorMessageFromPax,
+    setVisibleErrorMessageFromPax,
+    cashBackRef,
+    setVisibleChangeMoney: () => {},
+    doneBillByCash: () => {
+      if (isOfflineMode) {
+        dispatch(actions.appointment.showModalPrintReceipt());
+      } else {
+        const temptAppointmentId = _.isEmpty(appointmentDetail)
+          ? appointmentIdOffline
+          : appointmentDetail.appointmentId;
+
+        dispatch(actions.appointment.checkoutSubmit(temptAppointmentId));
+        dispatch(actions.appointment.showModalPrintReceipt());
+      }
+    },
+    visibleScanCode,
+    onRequestCloseScanCode: () => {
+      setVisibleScanCode(false);
+    },
+    resultScanCode: async (e) => {
+      setVisibleScanCode(false);
+      const tempDate = {
+        ...appointmentOfflineMode,
+        paymentTransactionId: e.data,
+      };
+
+      dispatch(actions.dataLocal.addAppointmentOfflineMode(tempDate));
+      dispatch(actions.appointment.showModalPrintReceipt());
+    },
+    confimPayOfflinemode: () => {
+      setVisibleScanCode(true);
+    },
+    invoicePrintRef,
+    visiblePrintInvoice,
+    cancelInvoicePrint: async (isPrintTempt) => {
+      setVisiblePrintInvoice(false);
+      if (!isPrintTempt) {
+        onGoBack();
+        dispatch(actions.appointment.resetBasketEmpty());
+        dispatch(actions.appointment.resetPayment());
+      }
     },
   };
 };
