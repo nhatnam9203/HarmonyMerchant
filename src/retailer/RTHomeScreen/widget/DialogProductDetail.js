@@ -221,7 +221,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
             <View style={styles.optionsItemsLayout}>
               {itemOption?.values?.map((v) => (
                 <TouchableOpacity
-                  key={v.id + ''}
+                  key={v.id + ""}
                   style={[
                     styles.optionsItem,
                     { backgroundColor: v.value },
@@ -229,13 +229,13 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
                   ]}
                   onPress={() => onHandlePress(v)}
                 />
-              ))} */}
-              <ItemRowOptions
+              ))}
+              {/* <ItemRowOptions
                 rows={rows}
                 pagination={pagination}
                 onPress={onHandlePress}
                 itemOption={itemOption}
-              />
+              /> */}
             </View>
           </View>
         );
