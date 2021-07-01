@@ -39,311 +39,345 @@ import {
 import { withDropdown } from "@shared/helpers/dropdown";
 import NavigationServices from "@navigators/NavigatorServices";
 
-export const FormAddressInformation = ({
-  onChangeValue,
-  billingAddress,
-  shippingAddress,
-  onChangeShippingAddress,
-  onChangeBillingAddress,
-  customerId,
-}) => {
-  const billingSelectRef = React.useRef(null);
-  const billingRef = React.useRef(null);
-  const billingNameRef = React.useRef(null);
-
-  const shippingSelectRef = React.useRef(null);
-  const shippingRef = React.useRef(null);
-  const shippingNameRef = React.useRef(null);
-
-  const [t] = useTranslation();
-  const [addresses, setAddress] = React.useState([]);
-  const [defaultBilling, setDefaultBilling] = React.useState(-1);
-  const [defaultShipping, setDefaultShipping] = React.useState(-1);
-
-  const [selectedBilling, setSelectedBilling] = React.useState(null);
-  const [selectedShipping, setSelectedShipping] = React.useState(null);
-
-  const billingAddressForm = useFormik({
-    initialValues: {
-      defaultBillingAddress: true,
-      defaultShippingAddress: false,
+export const FormAddressInformation = React.forwardRef(
+  (
+    {
+      onChangeValue,
+      billingAddress,
+      shippingAddress,
+      onChangeShippingAddress,
+      onChangeBillingAddress,
+      customerId,
     },
-    validationSchema: Yup.object().shape({
-      firstName: Yup.string().required(t("FirstName is required!")),
-      lastName: Yup.string().required(t("LastName is required!")),
-      phone: Yup.string().required(t("Phone Number is required")),
-      street: Yup.string(),
-      state: Yup.number(),
-      city: Yup.string(),
-      zip: Yup.string(),
-      defaultBillingAddress: Yup.boolean(),
-      defaultShippingAddress: Yup.boolean(),
-    }),
-    onSubmit: (values) => {},
-  });
+    ref
+  ) => {
+    const billingSelectRef = React.useRef(null);
+    const billingRef = React.useRef(null);
+    const billingNameRef = React.useRef(null);
 
-  const shippingAddressForm = useFormik({
-    initialValues: {
-      defaultBillingAddress: true,
-      defaultShippingAddress: false,
-    },
-    validationSchema: Yup.object().shape({
-      firstName: Yup.string().required(t("FirstName is required!")),
-      lastName: Yup.string().required(t("LastName is required!")),
-      phone: Yup.string().required(t("Phone Number is required")),
-      street: Yup.string(),
-      state: Yup.number(),
-      city: Yup.string(),
-      zip: Yup.string(),
-      defaultBillingAddress: Yup.boolean(),
-      defaultShippingAddress: Yup.boolean(),
-    }),
-    onSubmit: (values) => {},
-  });
+    const shippingSelectRef = React.useRef(null);
+    const shippingRef = React.useRef(null);
+    const shippingNameRef = React.useRef(null);
 
-  /**
+    const [t] = useTranslation();
+    const [addresses, setAddress] = React.useState([]);
+    const [defaultBilling, setDefaultBilling] = React.useState(-1);
+    const [defaultShipping, setDefaultShipping] = React.useState(-1);
+
+    const [selectedBilling, setSelectedBilling] = React.useState(null);
+    const [selectedShipping, setSelectedShipping] = React.useState(null);
+
+    const billingAddressForm = useFormik({
+      initialValues: {
+        defaultBillingAddress: true,
+        defaultShippingAddress: false,
+      },
+      validationSchema: Yup.object().shape({
+        firstName: Yup.string().required(t("FirstName is required!")),
+        lastName: Yup.string().required(t("LastName is required!")),
+        phone: Yup.string().required(t("Phone Number is required")),
+        street: Yup.string(),
+        state: Yup.number(),
+        city: Yup.string(),
+        zip: Yup.string(),
+        defaultBillingAddress: Yup.boolean(),
+        defaultShippingAddress: Yup.boolean(),
+      }),
+      onSubmit: (values) => {},
+    });
+
+    const shippingAddressForm = useFormik({
+      initialValues: {
+        defaultBillingAddress: true,
+        defaultShippingAddress: false,
+      },
+      validationSchema: Yup.object().shape({
+        firstName: Yup.string().required(t("FirstName is required!")),
+        lastName: Yup.string().required(t("LastName is required!")),
+        phone: Yup.string().required(t("Phone Number is required")),
+        street: Yup.string(),
+        state: Yup.number(),
+        city: Yup.string(),
+        zip: Yup.string(),
+        defaultBillingAddress: Yup.boolean(),
+        defaultShippingAddress: Yup.boolean(),
+      }),
+      onSubmit: (values) => {},
+    });
+
+    /**
   |--------------------------------------------------
   | CALL API
   |--------------------------------------------------
   */
-  const [customer, getCustomer] = useGetCustomer();
+    const [customer, getCustomer] = useGetCustomer();
 
-  React.useEffect(() => {
-    if (customerId) getCustomer(customerId);
-  }, [customerId]);
+    React.useImperativeHandle(ref, () => ({
+      reload: () => {
+        if (customerId) getCustomer(customerId);
+      },
+      updateAddress: (addressId) => {},
+    }));
 
-  React.useEffect(() => {
-    const { codeStatus, message, data } = customer || {};
+    React.useEffect(() => {
+      if (customerId) getCustomer(customerId);
+    }, [customerId]);
 
-    if (statusSuccess(codeStatus)) {
-      if (data.addresses) {
-        const newSelectItem = Object.create({
-          label: t("Add new address"),
-          value: -1,
-        });
-        const temps = data?.addresses?.map((address) =>
-          Object.assign({}, address, {
-            label: `${address?.addressFirstName} ${address?.addressLastName}, ${address?.street}, ${address?.city}, ${address?.stateName}`,
-            value: address.id,
-          })
-        );
-        setAddress(temps);
+    React.useEffect(() => {
+      const { codeStatus, message, data } = customer || {};
 
-        billingSelectRef.current?.setFilterItems([...temps, newSelectItem]);
-        shippingSelectRef.current?.setFilterItems([...temps, newSelectItem]);
+      if (statusSuccess(codeStatus)) {
+        if (data.addresses) {
+          const newSelectItem = Object.create({
+            label: t("Add new address"),
+            value: -1,
+          });
+          const temps = data?.addresses?.map((address) =>
+            Object.assign({}, address, {
+              label: `${address?.addressFirstName} ${address?.addressLastName}, ${address?.street}, ${address?.city}, ${address?.stateName}`,
+              value: address.id,
+            })
+          );
+          setAddress(temps);
 
-        if (billingAddress) {
-          // !! nhung dong code met moi
-          const findItemIndex =
-            temps.findIndex((x) => x.id === billingAddress?.id) || 0;
-          const t = temps[findItemIndex];
-          setSelectedBilling(t);
-          setTimeout(() => {
-            billingSelectRef.current?.selectIndex(findItemIndex);
-          }, 500);
-          // setDefaultBilling(t.id);
-        }
+          billingSelectRef.current?.setFilterItems([...temps, newSelectItem]);
+          shippingSelectRef.current?.setFilterItems([...temps, newSelectItem]);
 
-        if (shippingAddress) {
-          const findItemIndex =
-            temps.findIndex((x) => x.id === shippingAddress?.id) || 0;
-          const t = temps[findItemIndex];
-          setSelectedShipping(t);
-          setTimeout(() => {
-            shippingSelectRef.current?.selectIndex(findItemIndex);
-          }, 500);
+          if (billingAddress && !selectedBilling) {
+            // !! nhung dong code met moi
+            const findItemIndex =
+              temps.findIndex((x) => x.id === billingAddress?.id) || 0;
+            const t = temps[findItemIndex];
+            setSelectedBilling(t);
+            setTimeout(() => {
+              billingSelectRef.current?.selectIndex(findItemIndex);
+            }, 500);
+            setDefaultBilling(t.id);
+          } else if (selectedBilling) {
+            const findItemIndex =
+              temps.findIndex((x) => x.id === selectedBilling?.id) || 0;
+            const t = temps[findItemIndex];
+            setSelectedBilling(t);
+          }
+
+          if (shippingAddress && !selectedShipping) {
+            const findItemIndex =
+              temps.findIndex((x) => x.id === shippingAddress?.id) || 0;
+            const t = temps[findItemIndex];
+            setSelectedShipping(t);
+            setTimeout(() => {
+              shippingSelectRef.current?.selectIndex(findItemIndex);
+            }, 500);
+            setDefaultShipping(t.id);
+          } else if (selectedShipping) {
+            const findItemIndex =
+              temps.findIndex((x) => x.id === shippingAddress?.id) || 0;
+            const t = temps[findItemIndex];
+            setSelectedShipping(t);
+          }
         }
       }
-    }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [customer]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customer]);
 
-  const onEditBillingAddress = () => {
-    NavigationServices.navigate("retailer.address.edit", {
-      isEdit: true,
-      item: selectedBilling,
-      isBillingAddress: true,
-      customerId,
-    });
-  };
-
-  const onSelectBillingAddress = (item) => {
-    if (item === -1) {
+    const onEditBillingAddress = () => {
       NavigationServices.navigate("retailer.address.edit", {
-        isNew: true,
-        isBillingAddress: true,
+        isEdit: true,
+        item: selectedBilling,
         customerId,
       });
-    } else {
-      const findItem = addresses.find((x) => x.id === item);
-      billingRef.current?.updateAddress(findItem);
-      billingNameRef.current?.updateFirstName(findItem?.addressFirstName);
-      billingNameRef.current?.updateLastName(findItem?.addressLastName);
+    };
 
-      setSelectedBilling(findItem);
-    }
-  };
+    const onSelectBillingAddress = (item) => {
+      if (item === -1) {
+        NavigationServices.navigate("retailer.address.edit", {
+          isNew: true,
+          customerId,
+        });
+      } else {
+        const findItem = addresses.find((x) => x.id === item);
+        billingRef.current?.updateAddress(findItem);
+        billingNameRef.current?.updateFirstName(findItem?.addressFirstName);
+        billingNameRef.current?.updateLastName(findItem?.addressLastName);
 
-  const onEditShippingAddress = () => {
-    NavigationServices.navigate("retailer.address.edit", {
-      isEdit: true,
-      item: selectedShipping,
-      isShippingAddress: true,
-      customerId,
-    });
-  };
+        setSelectedBilling(findItem);
+        if (
+          onChangeBillingAddress &&
+          typeof onChangeBillingAddress === "function"
+        ) {
+          onChangeBillingAddress(item);
+        }
+      }
+    };
 
-  const onSelectShippingAddress = (item) => {
-    if (item === -1) {
+    const onEditShippingAddress = () => {
       NavigationServices.navigate("retailer.address.edit", {
-        isNew: true,
-        isShippingAddress: true,
+        isEdit: true,
+        item: selectedShipping,
         customerId,
       });
-    } else {
-      const findItem = addresses.find((x) => x.id === item);
-      shippingRef.current?.updateAddress(findItem);
-      shippingNameRef.current?.updateFirstName(findItem?.addressFirstName);
-      shippingNameRef.current?.updateLastName(findItem?.addressLastName);
+    };
 
-      setSelectedShipping(findItem);
-    }
-  };
+    const onSelectShippingAddress = (item) => {
+      if (item === -1) {
+        NavigationServices.navigate("retailer.address.edit", {
+          isNew: true,
+          customerId,
+        });
+      } else {
+        const findItem = addresses.find((x) => x.id === item);
+        shippingRef.current?.updateAddress(findItem);
+        shippingNameRef.current?.updateFirstName(findItem?.addressFirstName);
+        shippingNameRef.current?.updateLastName(findItem?.addressLastName);
 
-  return (
-    <View style={layouts.horizontal}>
-      <InfoContent label={t("Billing Address")}>
-        <FormAddress
-          ref={billingRef}
-          reverse={true}
-          onChangeCityValue={billingAddressForm.handleChange(
-            "billingAddressForm.city"
-          )}
-          onChangeStateValue={(value) =>
-            billingAddressForm.setFieldValue("billingAddressForm.state", value)
-          }
-          onChangeZipCodeValue={billingAddressForm.handleChange(
-            "billingAddressForm.zip"
-          )}
-          onChangeStreetValue={billingAddressForm.handleChange(
-            "billingAddressForm.street"
-          )}
-          defaultStateValue={selectedBilling?.stateId}
-          defaultStreetValue={selectedBilling?.street}
-          defaultCityValue={selectedBilling?.city}
-          defaultZipCodeValue={selectedBilling?.zipCode}
-          useDropDownMenu
-          editable={false}
-        />
+        setSelectedShipping(findItem);
+        if (
+          onChangeShippingAddress &&
+          typeof onChangeShippingAddress === "function"
+        ) {
+          onChangeShippingAddress(item);
+        }
+      }
+    };
 
-        <FormFullName
-          ref={billingNameRef}
-          firstName={selectedBilling?.addressFirstName}
-          lastName={selectedBilling?.addressLastName}
-          onChangeFirstName={billingAddressForm.handleChange(
-            "billingAddress.firstName"
-          )}
-          onChangeLastName={billingAddressForm.handleChange(
-            "billingAddress.lastName"
-          )}
-          editable={false}
-        />
-
-        <FormPhoneNumber
-          defaultPhone={selectedBilling?.addressPhone}
-          onChangePhoneNumber={billingAddressForm.handleChange(
-            "billingAddressForm.phone"
-          )}
-          editable={false}
-        />
-
-        <View style={[layouts.horizontal, layouts.center]}>
-          <FormSelect
-            isDropdown
-            filterRef={billingSelectRef}
-            filterItems={addresses}
-            defaultValue={defaultBilling}
-            onChangeValue={onSelectBillingAddress}
-            style={{ flex: 1 }}
+    return (
+      <View style={layouts.horizontal}>
+        <InfoContent label={t("Billing Address")}>
+          <FormAddress
+            ref={billingRef}
+            reverse={true}
+            onChangeCityValue={billingAddressForm.handleChange(
+              "billingAddressForm.city"
+            )}
+            onChangeStateValue={(value) =>
+              billingAddressForm.setFieldValue(
+                "billingAddressForm.state",
+                value
+              )
+            }
+            onChangeZipCodeValue={billingAddressForm.handleChange(
+              "billingAddressForm.zip"
+            )}
+            onChangeStreetValue={billingAddressForm.handleChange(
+              "billingAddressForm.street"
+            )}
+            defaultStateValue={selectedBilling?.stateId}
+            defaultStreetValue={selectedBilling?.street}
+            defaultCityValue={selectedBilling?.city}
+            defaultZipCodeValue={selectedBilling?.zipCode}
+            useDropDownMenu
+            editable={false}
           />
-          <TouchableOpacity
-            style={styles.editButton}
-            onPress={onEditBillingAddress}
-          >
-            <Image source={IMAGE.edit_customer_icon} style={styles.icon} />
-          </TouchableOpacity>
-        </View>
-      </InfoContent>
-      <View style={layouts.marginHorizontal} />
-      <InfoContent label={t("Shipping Address")}>
-        <FormAddress
-          ref={shippingRef}
-          reverse={true}
-          onChangeCityValue={shippingAddressForm.handleChange(
-            "shippingAddressForm.city"
-          )}
-          onChangeStateValue={(value) =>
-            shippingAddressForm.setFieldValue(
-              "shippingAddressForm.state",
-              value
-            )
-          }
-          onChangeZipCodeValue={shippingAddressForm.handleChange(
-            "shippingAddressForm.zip"
-          )}
-          onChangeStreetValue={shippingAddressForm.handleChange(
-            "shippingAddressForm.street"
-          )}
-          defaultStateValue={selectedShipping?.stateId}
-          defaultStreetValue={selectedShipping?.street}
-          defaultCityValue={selectedShipping?.city}
-          defaultZipCodeValue={selectedShipping?.zipCode}
-          useDropDownMenu
-          editable={false}
-        />
 
-        <FormFullName
-          ref={shippingNameRef}
-          firstName={selectedShipping?.addressFirstName}
-          lastName={selectedShipping?.addressLastName}
-          onChangeFirstName={shippingAddressForm.handleChange(
-            "billingAddress.firstName"
-          )}
-          onChangeLastName={shippingAddressForm.handleChange(
-            "billingAddress.lastName"
-          )}
-          editable={false}
-        />
-
-        <FormPhoneNumber
-          defaultPhone={selectedShipping?.addressPhone}
-          onChangePhoneNumber={shippingAddressForm.handleChange(
-            "shippingAddressForm.phone"
-          )}
-          editable={false}
-        />
-
-        <View style={[layouts.horizontal, layouts.center]}>
-          <FormSelect
-            isDropdown
-            filterRef={shippingSelectRef}
-            filterItems={addresses}
-            defaultValue={defaultShipping}
-            onChangeValue={onSelectShippingAddress}
-            style={{ flex: 1 }}
+          <FormFullName
+            ref={billingNameRef}
+            firstName={selectedBilling?.addressFirstName}
+            lastName={selectedBilling?.addressLastName}
+            onChangeFirstName={billingAddressForm.handleChange(
+              "billingAddress.firstName"
+            )}
+            onChangeLastName={billingAddressForm.handleChange(
+              "billingAddress.lastName"
+            )}
+            editable={false}
           />
-          <TouchableOpacity
-            style={styles.editButton}
-            onPress={onEditShippingAddress}
-          >
-            <Image source={IMAGE.edit_customer_icon} style={styles.icon} />
-          </TouchableOpacity>
-        </View>
-      </InfoContent>
-    </View>
-  );
-};
+
+          <FormPhoneNumber
+            defaultPhone={selectedBilling?.addressPhone}
+            onChangePhoneNumber={billingAddressForm.handleChange(
+              "billingAddressForm.phone"
+            )}
+            editable={false}
+          />
+
+          <View style={[layouts.horizontal, layouts.center]}>
+            <FormSelect
+              isDropdown
+              filterRef={billingSelectRef}
+              filterItems={addresses}
+              defaultValue={defaultBilling}
+              onChangeValue={onSelectBillingAddress}
+              style={{ flex: 1 }}
+            />
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={onEditBillingAddress}
+            >
+              <Image source={IMAGE.edit_customer_icon} style={styles.icon} />
+            </TouchableOpacity>
+          </View>
+        </InfoContent>
+        <View style={layouts.marginHorizontal} />
+        <InfoContent label={t("Shipping Address")}>
+          <FormAddress
+            ref={shippingRef}
+            reverse={true}
+            onChangeCityValue={shippingAddressForm.handleChange(
+              "shippingAddressForm.city"
+            )}
+            onChangeStateValue={(value) =>
+              shippingAddressForm.setFieldValue(
+                "shippingAddressForm.state",
+                value
+              )
+            }
+            onChangeZipCodeValue={shippingAddressForm.handleChange(
+              "shippingAddressForm.zip"
+            )}
+            onChangeStreetValue={shippingAddressForm.handleChange(
+              "shippingAddressForm.street"
+            )}
+            defaultStateValue={selectedShipping?.stateId}
+            defaultStreetValue={selectedShipping?.street}
+            defaultCityValue={selectedShipping?.city}
+            defaultZipCodeValue={selectedShipping?.zipCode}
+            useDropDownMenu
+            editable={false}
+          />
+
+          <FormFullName
+            ref={shippingNameRef}
+            firstName={selectedShipping?.addressFirstName}
+            lastName={selectedShipping?.addressLastName}
+            onChangeFirstName={shippingAddressForm.handleChange(
+              "billingAddress.firstName"
+            )}
+            onChangeLastName={shippingAddressForm.handleChange(
+              "billingAddress.lastName"
+            )}
+            editable={false}
+          />
+
+          <FormPhoneNumber
+            defaultPhone={selectedShipping?.addressPhone}
+            onChangePhoneNumber={shippingAddressForm.handleChange(
+              "shippingAddressForm.phone"
+            )}
+            editable={false}
+          />
+
+          <View style={[layouts.horizontal, layouts.center]}>
+            <FormSelect
+              isDropdown
+              filterRef={shippingSelectRef}
+              filterItems={addresses}
+              defaultValue={defaultShipping}
+              onChangeValue={onSelectShippingAddress}
+              style={{ flex: 1 }}
+            />
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={onEditShippingAddress}
+            >
+              <Image source={IMAGE.edit_customer_icon} style={styles.icon} />
+            </TouchableOpacity>
+          </View>
+        </InfoContent>
+      </View>
+    );
+  }
+);
 
 let InfoHeading = ({ label, onPress, editable = false, fontSize }) => {
   return (

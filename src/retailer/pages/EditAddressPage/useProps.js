@@ -19,6 +19,7 @@ export const useProps = ({
     customerId,
     isBillingAddress = false,
     isShippingAddress = false,
+    screenId,
   },
 }) => {
   const { t } = useTranslation();
@@ -94,11 +95,15 @@ export const useProps = ({
     const { codeStatus, message, data } = addressCreate || addressEdit;
     if (statusSuccess(codeStatus)) {
       setErrorMsg(null);
-      NavigationServices.goBack();
-      // NavigationServices.navigate("retailer.customer.detail", {
-      //   reload: true,
-      //   customerId,
-      // });
+      if (screenId) {
+        NavigationServices.navigate(screenId, {
+          reload: true,
+          customerId,
+          addressId: data,
+        });
+      } else {
+        NavigationServices.goBack();
+      }
 
       return;
     }

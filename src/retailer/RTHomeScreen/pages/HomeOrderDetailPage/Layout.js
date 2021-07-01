@@ -51,6 +51,7 @@ export const Layout = ({
   refund,
   onEditShippingAddress,
   onEditBillingAddress,
+  formAddressRef,
 }) => {
   const [t] = useTranslation();
 
@@ -318,6 +319,7 @@ export const Layout = ({
 
               <FormTitle label={t("Address Information")} />
               <FormAddressInformation
+                ref={formAddressRef}
                 customerId={item?.customerId}
                 shippingAddress={item?.shippingAddress}
                 billingAddress={item?.billingAddress}
