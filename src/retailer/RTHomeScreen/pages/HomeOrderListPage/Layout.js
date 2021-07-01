@@ -1,4 +1,4 @@
-import IMAGE from "@resources";
+import IMAGE from '@resources';
 import {
   ButtonCalendarFilter,
   ButtonGradient,
@@ -6,26 +6,26 @@ import {
   ButtonRightPanelFilter,
   ExportModal,
   FormSelect,
-} from "@shared/components";
-import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
-import { Table } from "@shared/components/CustomTable";
-import { getUniqueId } from "@shared/components/CustomTable/helpers";
-import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
-import { InputSearch } from "@shared/components/InputSearch";
-import { OrderStatusView } from "@shared/components/OrderStatusView";
-import { colors, fonts, layouts } from "@shared/themes";
+} from '@shared/components';
+import { CustomTableCheckBox } from '@shared/components/CustomCheckBox';
+import { Table } from '@shared/components/CustomTable';
+import { getUniqueId } from '@shared/components/CustomTable/helpers';
+import { HeaderToolBarTitle } from '@shared/components/HeaderToolBarTitle';
+import { InputSearch } from '@shared/components/InputSearch';
+import { OrderStatusView } from '@shared/components/OrderStatusView';
+import { colors, fonts, layouts } from '@shared/themes';
 import {
   dateToString,
   DATE_TIME_SHOW_FORMAT_STRING,
   ORDER_STATUS,
   PAYMENTS,
   PURCHASE_POINTS,
-} from "@shared/utils";
-import { formatMoneyWithUnit } from "@utils";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { FormFilter } from "../../widget";
+} from '@shared/utils';
+import { formatMoneyWithUnit } from '@utils';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FormFilter } from '../../widget';
 
 export const Layout = ({
   onChangeValueSearch,
@@ -151,7 +151,7 @@ export const Layout = ({
             />
           </ButtonGradientWhite>
           <View style={layouts.marginHorizontal} />
-          {/* <ExportModal ref={exportRef} onExportFile={callExportOrderList} /> */}
+          <ExportModal ref={exportRef} onExportFile={callExportOrderList} />
         </View>
       </View>
 

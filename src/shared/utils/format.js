@@ -9,7 +9,7 @@ export const pad_ = (n, len) =>
   (0).toFixed(len).slice(2, -n.toString().length) + n.toString();
 
 export const DATE_FORMAT_STRING = 'MM/DD/YYYY';
-export const BIRTH_DAY_DATE_FORMAT_STRING = 'YYYY-MM-DD';
+export const BIRTH_DAY_DATE_FORMAT_STRING = 'MM/DD/YYYY';
 export const DATE_SHOW_FORMAT_STRING = 'LL';
 export const DATE_TIME_SHOW_FORMAT_STRING = 'LLL';
 

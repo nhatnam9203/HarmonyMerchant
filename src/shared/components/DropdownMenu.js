@@ -1,11 +1,11 @@
-import { colors, fonts } from "@shared/themes";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { StyleSheet, View, Text, Image } from "react-native";
-import ModalDropdown from "react-native-modal-dropdown";
-import IMAGE from "@resources";
+import { colors, fonts } from '@shared/themes';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet, View, Text, Image } from 'react-native';
+import ModalDropdown from 'react-native-modal-dropdown';
+import IMAGE from '@resources';
 
-const log = (obj, message = "") => {
+const log = (obj, message = '') => {
   Logger.log(`[DropdownMenu] ${message}`, obj);
 };
 
@@ -18,7 +18,7 @@ export const DropdownMenu = React.forwardRef(
       items,
       defaultIndex = -1,
       style,
-      placeholder = "Select ...",
+      placeholder = 'Select ...',
     },
     ref
   ) => {
@@ -48,7 +48,7 @@ export const DropdownMenu = React.forwardRef(
 
     const onSelect = (idx, value) => {
       setItem(value);
-      if (onChangeValue && typeof onChangeValue === "function") {
+      if (onChangeValue && typeof onChangeValue === 'function') {
         onChangeValue(value);
       }
     };
@@ -64,7 +64,7 @@ export const DropdownMenu = React.forwardRef(
     const renderRow = (option, index, isSelected) => {
       return (
         <View
-          key={option?.value + ""}
+          key={option?.value + ''}
           style={[
             styles.dropDownItemContent,
             width && { width },
@@ -82,7 +82,6 @@ export const DropdownMenu = React.forwardRef(
       );
     };
     const styleWidthItemDropDown = { width: widthItemDropDown ?? width };
-
     return (
       <View
         style={[
@@ -123,7 +122,7 @@ export const DropdownMenu = React.forwardRef(
               source={IMAGE.dropdown}
               style={[
                 styles.imageStyle,
-                open && { transform: [{ rotate: "180deg" }] },
+                open && { transform: [{ rotate: '180deg' }] },
               ]}
             />
           </View>
@@ -138,15 +137,15 @@ const styles = StyleSheet.create({
 
   dropdownContent: {
     borderRadius: scaleWidth(2),
-    borderStyle: "solid",
+    borderStyle: 'solid',
     borderWidth: scaleWidth(1),
-    borderColor: "#cccccc",
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
-    height: "100%",
-    width: "100%",
+    borderColor: '#cccccc',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    height: '100%',
+    width: '100%',
     paddingHorizontal: scaleWidth(16),
   },
 
@@ -157,10 +156,10 @@ const styles = StyleSheet.create({
     // borderLeftWidth: scaleWidth(1),
     // borderRightWidth: scaleWidth(1),
     // borderBottomWidth: scaleWidth(1),
-    borderStyle: "solid",
-    borderColor: "#fff",
+    borderStyle: 'solid',
+    borderColor: '#fff',
     flex: 1,
-    shadowColor: "#0006",
+    shadowColor: '#0006',
     shadowOffset: {
       width: 1,
       height: 3,
@@ -172,21 +171,21 @@ const styles = StyleSheet.create({
   },
 
   dropDownItemContent: {
-    justifyContent: "center",
-    alignItems: "flex-start",
+    justifyContent: 'center',
+    alignItems: 'flex-start',
     paddingHorizontal: scaleWidth(16),
     borderWidth: scaleWidth(0),
     borderTopWidth: 0,
-    borderColor: "#fff",
+    borderColor: '#fff',
   },
 
   dropdownTerminalText: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: "normal",
-    fontStyle: "normal",
+    fontWeight: 'normal',
+    fontStyle: 'normal',
     letterSpacing: 0,
-    textAlign: "left",
+    textAlign: 'left',
     color: colors.INACTIVE,
     flex: 1,
   },
@@ -194,26 +193,26 @@ const styles = StyleSheet.create({
   selectedItemLabelStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: "400",
-    fontStyle: "normal",
+    fontWeight: '400',
+    fontStyle: 'normal',
     letterSpacing: 1,
-    textAlign: "center",
+    textAlign: 'center',
     color: colors.ROBIN_S_EGG,
   },
 
   itemLabelStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: "400",
-    fontStyle: "normal",
+    fontWeight: '400',
+    fontStyle: 'normal',
     letterSpacing: 1,
-    textAlign: "center",
+    textAlign: 'center',
     color: colors.GREYISH_BROWN,
   },
 
   imageStyle: {
     width: scaleWidth(20),
     height: scaleHeight(8),
-    resizeMode: "center",
+    resizeMode: 'center',
   },
 });

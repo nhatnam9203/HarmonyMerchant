@@ -21,7 +21,7 @@ import { Table } from '@shared/components/CustomTable';
 import { getUniqueId } from '@shared/components/CustomTable/helpers';
 import { InputSearch } from '@shared/components/InputSearch';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { VIP_TYPE } from '@shared/utils';
+import { VIP_TYPE, getGroupCustomer } from '@shared/utils';
 import { OrderStatusView } from '@shared/components/OrderStatusView';
 import { formatMoneyWithUnit } from '@utils';
 
@@ -186,7 +186,7 @@ export const Layout = ({
               />
               <PersonalInfoLine
                 label={t('Group')}
-                infoValue={customer?.isVip}
+                infoValue={getGroupCustomer(customer?.isVip)}
               />
               <PersonalInfoLine
                 label={t('Customer Since')}
@@ -261,7 +261,7 @@ export const Layout = ({
                 addressLastName: scaleWidth(150),
                 street: scaleWidth(150),
                 city: scaleWidth(100),
-                stateName : scaleWidth(100),
+                stateName: scaleWidth(100),
                 zipCode: scaleWidth(120),
                 addressPhone: scaleWidth(150),
               }}

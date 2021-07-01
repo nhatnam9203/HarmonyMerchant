@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import {
   useReportCustomer,
-  useExportCustomer,
+  useExportSaleCustomer,
 } from '@shared/services/api/retailer';
 import { colors } from '@shared/themes';
 import { statusSuccess, getTimeTitleFile } from '@shared/utils';
@@ -48,7 +48,7 @@ export const CustomerTab = React.forwardRef(
   |  API EXPORT
   |--------------------------------------------------
   */
-    const [customerExport, ExportCustomer] = useExportCustomer();
+    const [saleCustomerExport, ExportCustomerSale] = useExportSaleCustomer();
     const callExportCustomer = (values) => {
       const params = Object.assign({}, values, {
         ...timeVal,
@@ -56,15 +56,15 @@ export const CustomerTab = React.forwardRef(
       exportRef.current?.onSetFileName(
         getTimeTitleFile('ReportCustomer', params)
       );
-      ExportCustomer(params);
+      ExportCustomerSale(params);
     };
 
     React.useEffect(() => {
-      const { codeStatus, data } = customerExport || {};
+      const { codeStatus, data } = saleCustomerExport || {};
       if (statusSuccess(codeStatus)) {
         exportRef.current?.onCreateFile(data);
       }
-    }, [customerExport]);
+    }, [saleCustomerExport]);
 
     /**
   |--------------------------------------------------

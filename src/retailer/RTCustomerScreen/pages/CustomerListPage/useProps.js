@@ -41,7 +41,6 @@ export const useProps = ({ params: { reload }, navigation }) => {
       groupId: groupType,
       sort: { CustomerName: sortName, PhoneNumber: sortPhoneNumber },
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [groupType, page, sortName, sortPhoneNumber, searchVal]);
 
   React.useEffect(() => {
@@ -49,16 +48,16 @@ export const useProps = ({ params: { reload }, navigation }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  React.useEffect(() => {
+    callGetCustomerList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [groupType, sortName, sortPhoneNumber, searchVal]);
+
   useFocusEffect(
     React.useCallback(() => {
       if (reload) callGetCustomerList();
     }, [reload])
   );
-
-  React.useEffect(() => {
-    callGetCustomerList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [groupType, sortName, sortPhoneNumber, searchVal]);
 
   /**
   |--------------------------------------------------
@@ -68,7 +67,6 @@ export const useProps = ({ params: { reload }, navigation }) => {
   const [customerExport, ExportCustomer] = useExportCustomer();
   const callExportCustomer = (values) => {
     const params = Object.assign({}, values, {
-      quickFilter: 'thisMonth',
       key: searchVal ?? '',
       page: page,
       groupId: groupType,

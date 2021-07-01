@@ -270,3 +270,9 @@ export const getPaymentLogoByName = (name) => {
   }
   return logo;
 };
+
+export const getGroupCustomer = (groupId = -1) => {
+  return (
+    CustomerGroupTypes.find((group) => group.value === groupId)?.label ?? ''
+  );
+};

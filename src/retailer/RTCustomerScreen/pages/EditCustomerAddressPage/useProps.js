@@ -46,27 +46,7 @@ export const useProps = ({
   |--------------------------------------------------
   | VALIDATE
   |--------------------------------------------------
-  */
-
-  Yup.addMethod(Yup.object, "requiredIf", function (list) {
-    return this.test({
-      name: "requiredIf",
-      message: "${path} must have at least one of these keys: ${keys}",
-      exclusive: true,
-      params: { keys: list.join(", ") },
-      test: (value) => value == null || list.some((f) => value[f] != null),
-    });
-  });
-
-  Yup.addMethod(Yup.object, "atLeastOneOf", function (list) {
-    return this.test({
-      name: "atLeastOneOf",
-      message: "${path} must have at least one of these keys: ${keys}",
-      exclusive: true,
-      params: { keys: list.join(", ") },
-      test: (value) => value == null || list.some((f) => value[f] != null),
-    });
-  });
+  */  
 
   const form = useFormik({
     initialValues: item

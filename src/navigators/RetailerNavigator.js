@@ -2,21 +2,21 @@
  * RetailerNavigator (App Retailer)
  *
  */
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import IMAGE from "@resources";
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import IMAGE from '@resources';
 import {
   CustomDrawerContent,
   CustomDrawerIcon,
-} from "@shared/components/CustomDrawerContent";
-import { DropdownProvider } from "@shared/helpers/dropdown";
-import { RTCustomerScreen } from "@src/retailer/RTCustomerScreen";
-import { RTHomeScreen } from "@src/retailer/RTHomeScreen";
-import { RTInventoryScreen } from "@src/retailer/RTInventoryScreen";
-import { RTReportsScreen } from "@src/retailer/RTReportsScreen";
-import { RTSettingsScreen } from "@src/retailer/RTSettingsScreen";
-import { scaleSize } from "@utils";
-import React from "react";
-import { SettlementScreen, SupportScreen } from "../screens";
+} from '@shared/components/CustomDrawerContent';
+import { DropdownProvider } from '@shared/helpers/dropdown';
+import { RTCustomerScreen } from '@src/retailer/RTCustomerScreen';
+import { RTHomeScreen } from '@src/retailer/RTHomeScreen';
+import { RTInventoryScreen } from '@src/retailer/RTInventoryScreen';
+import { RTReportsScreen } from '@src/retailer/RTReportsScreen';
+import { RTSettingsScreen } from '@src/retailer/RTSettingsScreen';
+import { scaleSize } from '@utils';
+import React from 'react';
+import { SettlementScreen, SupportScreen } from '../screens';
 
 const { Screen, Navigator } = createDrawerNavigator();
 
@@ -39,7 +39,7 @@ export const RetailerNavigator = () => {
           options={{
             drawerIcon: ({ focused }) => (
               <CustomDrawerIcon
-                source={focused ? IMAGE["Se_Settlement"] : IMAGE["Settlement"]}
+                source={focused ? IMAGE['Se_Settlement'] : IMAGE['Settlement']}
               />
             ),
           }}
@@ -55,7 +55,7 @@ export const RetailerNavigator = () => {
           options={{
             drawerIcon: ({ focused }) => (
               <CustomDrawerIcon
-                source={focused ? IMAGE["Se_Support"] : IMAGE["Support"]}
+                source={focused ? IMAGE['Se_Support'] : IMAGE['Support']}
               />
             ),
           }}
