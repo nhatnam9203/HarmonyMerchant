@@ -23,18 +23,7 @@ import {
 import { NativeModules, Platform } from "react-native";
 import PrintManager from "@lib/PrintManager";
 import Configs from "@configs";
-import {
-  PopupPayCompleted,
-  PopupChangeMoney,
-  PopupActiveGiftCard,
-  PopupScanCode,
-  PopupProcessingCredit,
-  PopupInvoicePrint,
-  PopupChangePriceAmountProduct,
-  ScrollableTabView,
-  PopupCheckStaffPermission,
-  PopupConfirm,
-} from "@components";
+
 import { useIsPayment } from "../../hooks";
 
 const signalR = require("@microsoft/signalr");

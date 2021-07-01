@@ -24,6 +24,7 @@ export const useProps = ({
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [errorMsg, setErrorMsg] = React.useState(null);
+
   const [currentAddress, setCurrentAddress] = React.useState({
     defaultShippingAddress: isShippingAddress,
     defaultBillingAddress: isBillingAddress,
@@ -127,8 +128,6 @@ export const useProps = ({
   }, [addressCreate, addressEdit]);
 
   React.useEffect(() => {
-    console.log(item);
-
     if (item) {
       setCurrentAddress(
         Object.assign({}, item, {
