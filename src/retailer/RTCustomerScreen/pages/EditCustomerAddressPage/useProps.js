@@ -85,11 +85,11 @@ export const useProps = ({
     const { codeStatus, message, data } = addressCreate || addressEdit;
     if (statusSuccess(codeStatus)) {
       setErrorMsg(null);
-      NavigationServices.goBack();
-      // NavigationServices.navigate('retailer.customer.detail', {
-      //   reload: true,
-      //   customerId,
-      // });
+     // NavigationServices.goBack();
+      NavigationServices.navigate('retailer.customer.detail', {
+        reload: true,
+        customerId,
+      });
 
       return;
     }
