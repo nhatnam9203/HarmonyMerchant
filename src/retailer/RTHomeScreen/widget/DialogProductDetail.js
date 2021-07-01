@@ -1,20 +1,26 @@
-import { basketRetailer } from "@redux/slices";
-import IMAGE from "@resources";
-import { ButtonGradient, FormInputAmount } from "@shared/components";
-import { DialogLayout } from "@shared/layouts";
+import { basketRetailer } from '@redux/slices';
+import IMAGE from '@resources';
+import { ButtonGradient, FormInputAmount } from '@shared/components';
+import { DialogLayout } from '@shared/layouts';
 import {
   useCreateAppointmentTemp,
   useGetProducts,
-} from "@shared/services/api/retailer";
-import { colors, fonts, layouts } from "@shared/themes";
-import { INPUT_TYPE } from "@shared/utils";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import FastImage from "react-native-fast-image";
-import { useDispatch, useSelector } from "react-redux";
+} from '@shared/services/api/retailer';
+import { colors, fonts, layouts } from '@shared/themes';
+import { INPUT_TYPE, paginator } from '@shared/utils';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ScrollView,
+} from 'react-native';
+import FastImage from 'react-native-fast-image';
+import { useDispatch, useSelector } from 'react-redux';
 
-const log = (obj, message = "") => {
+const log = (obj, message = '') => {
   Logger.log(`[DialogProductDetail] ${message}`, obj);
 };
 
@@ -65,7 +71,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
       return Object.assign({}, pro, { values: temp });
     });
 
-    if (onAddProduct && typeof onAddProduct === "function") {
+    if (onAddProduct && typeof onAddProduct === 'function') {
       onAddProduct(
         Object.assign({}, product, {
           id: Date.now(),
@@ -95,7 +101,32 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     }
   }, [products?.data]);
 
+  const ItemRowOptions = ({ rows, pagination, onPress, itemOption }) => {
+    return rows?.map((row, index) => {
+      const page = index + 1;
+      const data = pagination(page);
+      return (
+        <View key={row} style={layouts.horizontal}>
+          {data?.map((v) => (
+            <TouchableOpacity
+              key={v.id + ''}
+              style={[
+                styles.buttonSize,
+                options[itemOption?.id] === v.id && styles.selectBorder,
+                index > 0 && { marginTop: scaleHeight(15) },
+              ]}
+              onPress={() => onPress(v)}
+            >
+              <Text>{v.label}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      );
+    });
+  };
+
   const renderOption = (itemOption) => {
+    const { rows, pagination } = paginator(itemOption?.values);
     const onHandlePress = (optionValue) => {
       setOptions((prev) =>
         Object.assign({}, prev, { [itemOption?.id]: optionValue.id })
@@ -120,57 +151,43 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     switch (itemOption?.inputType) {
       case INPUT_TYPE.TEXT_SWATCH:
         return (
-          <View key={itemOption.id + ""}>
+          <View key={itemOption.id + ''}>
             <Text style={styles.itemText}>{itemOption?.label}</Text>
             <View style={layouts.marginVertical} />
             <View style={layouts.horizontal}>
-              {itemOption?.values?.map((v, index) => (
-                <TouchableOpacity
-                  key={v.id + ""}
-                  style={[
-                    styles.buttonColor,
-                    options[itemOption?.id] === v.id && styles.selectBorder,
-                  ]}
-                  onPress={() => onHandlePress(v)}
-                >
-                  <Text>{v.label}</Text>
-                </TouchableOpacity>
-              ))}
+              <ItemRowOptions
+                rows={rows}
+                pagination={pagination}
+                onPress={onHandlePress}
+                itemOption={itemOption}
+              />
             </View>
             <View style={styles.marginVertical} />
           </View>
         );
       case INPUT_TYPE.DROP_DOWN:
         return (
-          <View key={itemOption.id + ""}>
+          <View key={itemOption.id + ''}>
             <Text style={styles.itemText}>{itemOption?.label}</Text>
             <View style={layouts.marginVertical} />
-            <View style={layouts.horizontal}>
-              {itemOption?.values?.map((v) => (
-                <TouchableOpacity
-                  key={v.id + ""}
-                  style={[
-                    styles.buttonSize,
-                    options[itemOption?.id] === v.id && styles.selectBorder,
-                  ]}
-                  onPress={() => onHandlePress(v)}
-                >
-                  <Text>{v.label}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
+            <ItemRowOptions
+              rows={rows}
+              pagination={pagination}
+              onPress={onHandlePress}
+              itemOption={itemOption}
+            />
             <View style={styles.marginVertical} />
           </View>
         );
       case INPUT_TYPE.VISUAL_SWATCH:
         return (
-          <View key={itemOption.id + ""}>
+          <View key={itemOption.id + ''}>
             <Text style={styles.itemText}>{itemOption?.label}</Text>
             <View style={layouts.marginVertical} />
             <View style={layouts.horizontal}>
-              {itemOption?.values?.map((v) => (
+              {/* {itemOption?.values?.map((v) => (
                 <TouchableOpacity
-                  key={v.id + ""}
+                  key={v.id + ''}
                   style={[
                     styles.buttonColor,
                     { backgroundColor: v.value },
@@ -178,7 +195,13 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
                   ]}
                   onPress={() => onHandlePress(v)}
                 />
-              ))}
+              ))} */}
+              <ItemRowOptions
+                rows={rows}
+                pagination={pagination}
+                onPress={onHandlePress}
+                itemOption={itemOption}
+              />
             </View>
             <View style={styles.marginVertical} />
           </View>
@@ -191,12 +214,12 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   return (
     <View>
       <DialogLayout
-        title={t("Product details")}
+        title={t('Product details')}
         ref={dialogRef}
         bottomChildren={() => (
           <View style={styles.bottomStyle}>
             <ButtonGradient
-              label={t("Add to basket")}
+              label={t('Add to basket')}
               width={scaleWidth(140)}
               height={scaleHeight(40)}
               borderRadius={scaleWidth(3)}
@@ -206,7 +229,10 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
         )}
         style={styles.dialog}
       >
-        <View style={styles.container}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.container}
+        >
           <FastImage
             style={styles.imageStyle}
             source={
@@ -232,13 +258,13 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
             {product?.options?.map((item) => renderOption(item))}
 
             <FormInputAmount
-              label={t("Amount")}
+              label={t('Amount')}
               defaultValue={quantity}
               onChangeValue={setQuantity}
             />
             <View style={styles.marginVertical} />
           </View>
-        </View>
+        </ScrollView>
       </DialogLayout>
     </View>
   );
@@ -251,37 +277,37 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
 
   bottomStyle: {
-    width: "100%",
+    width: '100%',
     height: scaleHeight(80),
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    flexDirection: "row",
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    flexDirection: 'row',
     borderTopWidth: 1,
-    borderTopColor: "#ddd",
+    borderTopColor: '#ddd',
   },
 
   title: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(23),
-    fontWeight: "500",
-    fontStyle: "normal",
+    fontWeight: '500',
+    fontStyle: 'normal',
     letterSpacing: 0,
-    textAlign: "left",
+    textAlign: 'left',
     color: colors.OCEAN_BLUE,
   },
 
   price: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: "500",
-    fontStyle: "normal",
+    fontWeight: '500',
+    fontStyle: 'normal',
     letterSpacing: 0,
-    textAlign: "left",
+    textAlign: 'left',
     color: colors.GREYISH_BROWN,
   },
 
@@ -289,7 +315,7 @@ const styles = StyleSheet.create({
     // height: scaleHeight(400),
     maxHeight: scaleHeight(400),
     minHeight: scaleHeight(100),
-    width: "100%",
+    width: '100%',
     marginVertical: scaleHeight(20),
   },
 
@@ -297,27 +323,27 @@ const styles = StyleSheet.create({
     width: scaleWidth(440),
     height: scaleHeight(48),
     backgroundColor: colors.WHITE,
-    borderStyle: "solid",
+    borderStyle: 'solid',
     borderRightWidth: scaleWidth(1),
     borderLeftWidth: scaleWidth(1),
-    borderColor: "#dddddd",
-    alignItems: "center",
+    borderColor: '#dddddd',
+    alignItems: 'center',
     paddingHorizontal: scaleWidth(16),
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
 
   itemSeparator: {
-    backgroundColor: "#dddddd",
+    backgroundColor: '#dddddd',
     height: scaleHeight(1),
   },
 
   itemText: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: "normal",
-    fontStyle: "normal",
+    fontWeight: 'normal',
+    fontStyle: 'normal',
     letterSpacing: 0,
-    textAlign: "left",
+    textAlign: 'left',
     color: colors.GREYISH_BROWN,
   },
 
@@ -330,13 +356,15 @@ const styles = StyleSheet.create({
 
   line: {
     height: 1,
-    backgroundColor: "#dddddd",
+    backgroundColor: '#dddddd',
   },
 
   buttonColor: {
     width: scaleWidth(40),
     height: scaleHeight(40),
     marginRight: scaleWidth(15),
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   buttonSize: {
@@ -344,15 +372,15 @@ const styles = StyleSheet.create({
     height: scaleHeight(32),
     marginRight: scaleWidth(15),
     backgroundColor: colors.WHITE,
-    borderStyle: "solid",
+    borderStyle: 'solid',
     borderWidth: 1,
-    borderColor: "#cccccc",
-    justifyContent: "center",
-    alignItems: "center",
+    borderColor: '#cccccc',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   selectBorder: {
-    borderStyle: "solid",
+    borderStyle: 'solid',
     borderWidth: scaleWidth(2),
     borderColor: colors.OCEAN_BLUE,
   },

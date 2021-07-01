@@ -97,3 +97,23 @@ export const formatFullAddress = ({ city, stateName, street, zipCode }) => {
   if (addressNotEmpty.length > 0) return addressNotEmpty.join(', ');
   return '';
 };
+
+export const paginator = (list = [], per_page_items) => {
+  let per_page = per_page_items || 5,
+    total_pages = Math.ceil(list.length / per_page),
+    rows=[];
+  for (let index = 0; index < total_pages; index++) {
+    const element = `row_${index}`;
+    rows = [...element];
+  }
+  const pagination = (current_page) => {
+    let page = current_page || 1,
+      offset = (page - 1) * per_page,
+      paginatedItems = list.slice(offset).slice(0, per_page);
+    return paginatedItems ?? [];
+  };
+  return {
+    rows,
+    pagination,
+  };
+};

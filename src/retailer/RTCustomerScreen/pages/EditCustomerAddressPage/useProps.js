@@ -15,12 +15,13 @@ import {
   useDeleteAddress,
 } from '@shared/services/api/retailer';
 
-export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
+export const useProps = ({
+  params: { isNew, isEdit, item, customerId },
+}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [errorMsg, setErrorMsg] = React.useState(null);
   const [currentAddress, setCurrentAddress] = React.useState(null);
-
   /**
   |--------------------------------------------------
   | CALL API
@@ -39,26 +40,6 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
   | VALIDATE
   |--------------------------------------------------
   */
-
-  Yup.addMethod(Yup.object, 'requiredIf', function (list) {
-    return this.test({
-      name: 'requiredIf',
-      message: '${path} must have at least one of these keys: ${keys}',
-      exclusive: true,
-      params: { keys: list.join(', ') },
-      test: (value) => value == null || list.some((f) => value[f] != null),
-    });
-  });
-
-  Yup.addMethod(Yup.object, 'atLeastOneOf', function (list) {
-    return this.test({
-      name: 'atLeastOneOf',
-      message: '${path} must have at least one of these keys: ${keys}',
-      exclusive: true,
-      params: { keys: list.join(', ') },
-      test: (value) => value == null || list.some((f) => value[f] != null),
-    });
-  });
 
   const form = useFormik({
     initialValues: item
@@ -95,6 +76,7 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
   | useEffect
   |--------------------------------------------------
   */
+
   React.useEffect(() => {
     if (!addressCreate && !addressEdit) {
       return;
@@ -103,11 +85,11 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
     const { codeStatus, message, data } = addressCreate || addressEdit;
     if (statusSuccess(codeStatus)) {
       setErrorMsg(null);
-      // NavigationServices.goBack();
-      NavigationServices.navigate('retailer.customer.detail', {
-        reload: true,
-        customerId,
-      });
+      NavigationServices.goBack();
+      // NavigationServices.navigate('retailer.customer.detail', {
+      //   reload: true,
+      //   customerId,
+      // });
 
       return;
     }
@@ -135,6 +117,7 @@ export const useProps = ({ params: { isNew, isEdit, item, customerId } }) => {
     isEdit,
     form,
     buttonCancelPress: () => {
+      setCurrentAddress(null);
       NavigationServices.goBack();
     },
     onHandleDeleteAddress: () => {

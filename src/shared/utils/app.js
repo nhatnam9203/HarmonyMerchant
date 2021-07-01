@@ -220,8 +220,8 @@ export const ORDER_STATUS = [
     value: 'Canceled',
   },
   {
-    label: 'Completed',
-    value: 'Completed',
+    label: 'Complete',
+    value: 'Complete',
   },
   {
     label: 'Pending',

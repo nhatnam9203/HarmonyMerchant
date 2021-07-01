@@ -25,7 +25,7 @@ export const CustomInput = ({
   };
 
   React.useEffect(() => {
-    if (!value && defaultValue) {
+    if (defaultValue) {
       if (typeof defaultValue === 'string') {
         setValue(defaultValue);
       } else setValue(defaultValue + '');
