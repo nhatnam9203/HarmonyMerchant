@@ -50,11 +50,12 @@ export const Layout = ({
   setPage,
   DEFAULT_PAGE,
   pagination,
+  sortById,
 }) => {
   const { t } = useTranslation();
 
   const onRenderTableCell = ({ item, columnKey, rowIndex, cellWidth }) => {
-    if (columnKey === "appointmentId") {
+    if (columnKey === "code") {
       const handleCheckRow = (val) => {
         // onCheckedRow(item, val);
       };
@@ -69,7 +70,7 @@ export const Layout = ({
           //  value={defaultValue}
           //  onValueChange={onValueChange}
           />
-          <Text style={styles.textName}>{item.appointmentId}</Text>
+          <Text style={styles.textName}>{item.code}</Text>
         </TouchableOpacity>
       );
     }
@@ -94,7 +95,7 @@ export const Layout = ({
         <Table
           items={items}
           headerKeyLabels={{
-            appointmentId: t("ID"),
+            code: t("ID"),
             purchasePoint: t("Purchase Point"),
             createdDate: t("Purchase Date"),
             billToName: t("Bill-to Name"),
@@ -103,7 +104,7 @@ export const Layout = ({
             total: t("Grand Total"),
           }}
           whiteListKeys={[
-            "appointmentId",
+            "code",
             "purchasePoint",
             "createdDate",
             "billToName",
@@ -111,16 +112,16 @@ export const Layout = ({
             "status",
             "total",
           ]}
-          // sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
-          primaryKey="appointmentId"
+          sortedKeys={{ code: sortById }}
+          primaryKey="code"
           // unitKeys={{ totalDuration: 'hrs' }}
           widthForKeys={{
-            appointmentId: scaleWidth(110),
-            purchasePoint: scaleWidth(130),
-            createdDate: scaleWidth(200),
+            code: scaleWidth(180),
+            purchasePoint: scaleWidth(120),
+            createdDate: scaleWidth(175),
             billToName: scaleWidth(160),
             shipToName: scaleWidth(160),
-            status: scaleWidth(150),
+            status: scaleWidth(120),
             total: scaleWidth(150),
           }}
           emptyDescription={t("No Orders")}

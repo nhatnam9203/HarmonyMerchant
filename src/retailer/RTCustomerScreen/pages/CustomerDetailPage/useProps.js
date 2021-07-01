@@ -20,7 +20,7 @@ import {
 export const useProps = ({ params: { item, reload, customerId } }) => {
   const [t] = useTranslation();
 
-  const [customerItem, setCustomer] = React.useState(item);
+  const [customerItem, setCustomer] = React.useState(null);
   const [orders, setOrders] = React.useState(null);
   /**
   |--------------------------------------------------
@@ -42,13 +42,14 @@ export const useProps = ({ params: { item, reload, customerId } }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      if (customerItem || customerId || item)
-        getCustomer(customerItem?.id ?? customerId ?? item?.customerId);
+      if (customerId || item) getCustomer(customerId ?? item?.customerId);
     }, [reload, item, customerId])
   );
 
   React.useEffect(() => {
-    if (customer?.data) {
+    const { codeStatus, message, data } = customer || {};
+
+    if (statusSuccess(codeStatus)) {
       setCustomer(customer?.data);
       getAppointmentByCustomer(customer?.data?.customerId);
     }

@@ -22,46 +22,44 @@ const { Screen, Navigator } = createDrawerNavigator();
 
 export const RetailerNavigator = () => {
   return (
-    <DropdownProvider>
-      <Navigator
-        headerMode="none"
-        // initialRouteName={"retailer.reports"} //!! add to developer, remove when finished
-        drawerContent={CustomDrawerContent}
-        drawerStyle={{
-          width: scaleWidth(191),
+    <Navigator
+      headerMode="none"
+      // initialRouteName={"retailer.reports"} //!! add to developer, remove when finished
+      drawerContent={CustomDrawerContent}
+      drawerStyle={{
+        width: scaleWidth(191),
+      }}
+    >
+      <Screen {...RTHomeScreen} />
+      {/* <Screen {...RTSettlementScreen} /> */}
+      <Screen
+        name="Settlement"
+        component={SettlementScreen}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <CustomDrawerIcon
+              source={focused ? IMAGE["Se_Settlement"] : IMAGE["Settlement"]}
+            />
+          ),
         }}
-      >
-        <Screen {...RTHomeScreen} />
-        {/* <Screen {...RTSettlementScreen} /> */}
-        <Screen
-          name="Settlement"
-          component={SettlementScreen}
-          options={{
-            drawerIcon: ({ focused }) => (
-              <CustomDrawerIcon
-                source={focused ? IMAGE["Se_Settlement"] : IMAGE["Settlement"]}
-              />
-            ),
-          }}
-        />
-        <Screen {...RTCustomerScreen} />
-        <Screen {...RTInventoryScreen} />
-        <Screen {...RTReportsScreen} />
-        <Screen {...RTSettingsScreen} />
-        {/* <Screen {...RTSupportScreen} /> */}
-        <Screen
-          name="Support"
-          component={SupportScreen}
-          options={{
-            drawerIcon: ({ focused }) => (
-              <CustomDrawerIcon
-                source={focused ? IMAGE["Se_Support"] : IMAGE["Support"]}
-              />
-            ),
-          }}
-        />
-        {/* <Screen {...RTTimekeepingScreen} /> */}
-      </Navigator>
-    </DropdownProvider>
+      />
+      <Screen {...RTCustomerScreen} />
+      <Screen {...RTInventoryScreen} />
+      <Screen {...RTReportsScreen} />
+      <Screen {...RTSettingsScreen} />
+      {/* <Screen {...RTSupportScreen} /> */}
+      <Screen
+        name="Support"
+        component={SupportScreen}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <CustomDrawerIcon
+              source={focused ? IMAGE["Se_Support"] : IMAGE["Support"]}
+            />
+          ),
+        }}
+      />
+      {/* <Screen {...RTTimekeepingScreen} /> */}
+    </Navigator>
   );
 };

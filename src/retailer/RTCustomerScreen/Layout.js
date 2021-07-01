@@ -290,7 +290,7 @@ export const Layout = ({ openDrawer }) => {
         </HeaderToolBar>
 
         <Navigator
-          headerMode="none"
+          headerMode="retailer.customer.list"
           screenOptions={{
             cardStyle: {
               backgroundColor: colors.WHITE_FA,

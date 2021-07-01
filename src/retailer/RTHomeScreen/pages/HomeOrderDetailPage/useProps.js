@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   useGetAppointment,
   useCancelAppointment,
@@ -7,24 +7,24 @@ import {
   useCompleteAppointment,
   useReturnAppointment,
   useEditNotes,
-} from '@shared/services/api/retailer';
-import { CustomerGroupTypes, NEED_TO_ORDER } from '@shared/utils/app';
-import { useTranslation } from 'react-i18next';
-import _ from 'lodash';
-import NavigationServices from '@navigators/NavigatorServices';
-import { useSelector } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+} from "@shared/services/api/retailer";
+import { CustomerGroupTypes, NEED_TO_ORDER } from "@shared/utils/app";
+import { useTranslation } from "react-i18next";
+import _ from "lodash";
+import NavigationServices from "@navigators/NavigatorServices";
+import { useSelector } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   BIRTH_DAY_DATE_FORMAT_STRING,
   statusSuccess,
   dateToString,
-} from '@shared/utils';
+} from "@shared/utils";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[HomeOrderDetail] ${message}`, obj);
 };
 
-export const useProps = ({ params: { order, orderId } }) => {
+export const useProps = ({ params: { order, orderId }, navigation }) => {
   const [appointmentDetail, setAppointmentDetail] = React.useState(null);
   const [shippingMethod, setShippingMethod] = React.useState(null);
 
@@ -46,6 +46,16 @@ export const useProps = ({ params: { order, orderId } }) => {
   | USE EFFECT
   |--------------------------------------------------
   */
+  React.useEffect(() => {
+    const unsubscribeFocus = navigation.addListener("focus", () => {});
+
+    const unsubscribeBlur = navigation.addListener("blur", () => {});
+
+    return () => {
+      unsubscribeFocus();
+      unsubscribeBlur();
+    };
+  }, [navigation]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -55,16 +65,18 @@ export const useProps = ({ params: { order, orderId } }) => {
   );
 
   React.useEffect(() => {
-    if (appointment?.data) {
-      setAppointmentDetail(appointment?.data);
+    const { codeStatus, message, data } = appointment || {};
+    if (statusSuccess(codeStatus)) {
+      setAppointmentDetail(data);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appointment]);
 
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentCancel || {};
     if (statusSuccess(codeStatus)) {
-      NavigationServices.navigate('retailer.home.order.list', { reload: true });
+      NavigationServices.navigate("retailer.home.order.list", { reload: true });
     }
   }, [appointmentCancel]);
 
@@ -79,40 +91,40 @@ export const useProps = ({ params: { order, orderId } }) => {
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentConfirm || {};
     if (statusSuccess(codeStatus)) {
-      NavigationServices.navigate('retailer.home.order.pay', {
+      NavigationServices.navigate("retailer.home.order.pay", {
         orderItem: appointmentDetail,
       });
     }
   }, [appointmentConfirm]);
 
   const getPaymentString = (type) => {
-    let method = '';
+    let method = "";
     switch (type) {
-      case 'harmony':
-        method = 'HarmonyPay';
+      case "harmony":
+        method = "HarmonyPay";
         break;
-      case 'cash':
-        method = 'Cash';
+      case "cash":
+        method = "Cash";
         break;
-      case 'credit_card':
-        method = 'Credit Cards';
+      case "credit_card":
+        method = "Credit Cards";
         break;
-      case 'other':
-        method = 'Other - Check';
+      case "other":
+        method = "Other - Check";
         break;
-      case 'giftcard':
-        method = 'Gift Card';
+      case "giftcard":
+        method = "Gift Card";
         break;
 
       default:
-        method = 'Debit Cards';
+        method = "Debit Cards";
     }
     return method;
   };
   return {
     item: appointmentDetail,
     goBack: () => {
-      NavigationServices.navigate('retailer.home.order.list', { reload: true });
+      NavigationServices.navigate("retailer.home.order.list", { reload: true });
     },
     cancel: () => {
       cancelAppointment(appointmentDetail?.appointmentId);
@@ -122,7 +134,7 @@ export const useProps = ({ params: { order, orderId } }) => {
     },
     confirm: () => {
       if (appointmentDetail?.payment?.length <= 0) {
-        NavigationServices.navigate('retailer.home.order.pay', {
+        NavigationServices.navigate("retailer.home.order.pay", {
           orderItem: appointmentDetail,
         });
       } else {
@@ -139,7 +151,7 @@ export const useProps = ({ params: { order, orderId } }) => {
       completeAppointment(appointmentDetail?.appointmentId);
     },
     refund: () => {
-      NavigationServices.navigate('retailer.home.order.return', {
+      NavigationServices.navigate("retailer.home.order.return", {
         item: appointmentDetail,
       });
     },
@@ -150,25 +162,7 @@ export const useProps = ({ params: { order, orderId } }) => {
       editNote({ notes: noteText }, appointmentDetail?.appointmentId);
     },
     getPaymentString,
-    onEditShippingAddress: () => {
-      NavigationServices.navigate('retailer.customer', {
-        screen: 'retailer.customer.address',
-        params: {
-          item: appointmentDetail?.shippingAddress,
-          customerId: appointmentDetail?.customer?.customerId,
-          isEdit: true,
-        },
-      });
-    },
-    onEditBillingAddress: () => {
-      NavigationServices.navigate('retailer.customer', {
-        screen: 'retailer.customer.address',
-        params: {
-          item: appointmentDetail?.billingAddress,
-          customerId: appointmentDetail?.customer?.customerId,
-          isEdit: true,
-        },
-      });
-    },
+    onEditShippingAddress: (addressId) => {},
+    onEditBillingAddress: (addressId) => {},
   };
 };

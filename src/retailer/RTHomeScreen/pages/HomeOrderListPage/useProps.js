@@ -4,7 +4,7 @@ import {
   useExportOrderList,
   useGetOrderList,
 } from "@shared/services/api/retailer";
-import { getTimeTitleFile, statusSuccess } from "@shared/utils";
+import { getTimeTitleFile, SORT_TYPE, statusSuccess } from "@shared/utils";
 import { getQuickFilterTimeRange } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -26,6 +26,8 @@ export const useProps = ({ params: { reload } }) => {
     count: 0,
   });
   const [items, setItems] = React.useState(null);
+  const [sortById, setSortById] = React.useState(SORT_TYPE.ASC);
+
   /**
   |--------------------------------------------------
   | CALL API
@@ -37,7 +39,7 @@ export const useProps = ({ params: { reload } }) => {
       page: page,
       ...timeVal,
       key: searchVal,
-      sort: {},
+      sorts: { code: sortById },
       ...((orderStatus?.length > 0 ||
         payment?.length > 0 ||
         purchasePoint?.length > 0) && {
@@ -49,7 +51,7 @@ export const useProps = ({ params: { reload } }) => {
       }),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, searchVal, timeVal, orderStatus, payment, purchasePoint]);
+  }, [page, searchVal, timeVal, orderStatus, payment, purchasePoint, sortById]);
 
   /**
   |--------------------------------------------------
@@ -97,7 +99,7 @@ export const useProps = ({ params: { reload } }) => {
   React.useEffect(() => {
     callGetOrderList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, searchVal, timeVal, orderStatus, payment, purchasePoint]);
+  }, [page, searchVal, timeVal, orderStatus, payment, purchasePoint, sortById]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -139,7 +141,18 @@ export const useProps = ({ params: { reload } }) => {
       });
     },
     onRenderCell: () => {},
-    onSortWithKey: () => {},
+    onSortWithKey: (sortKey) => {
+      switch (sortKey) {
+        case "code":
+          const sortedById =
+            sortById === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
+          setSortById(sortedById);
+          break;
+
+        default:
+          break;
+      }
+    },
     items,
     onChangeTimeValue: (quickFilter, timeState) => {
       if (timeState === "Customize Date") {
@@ -170,5 +183,6 @@ export const useProps = ({ params: { reload } }) => {
     setPage,
     DEFAULT_PAGE,
     pagination,
+    sortById,
   };
 };
