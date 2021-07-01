@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import { Text, StatusBarHeader, ScrollableTabView, Button, ParentContainer, ButtonCustom, PopupCheckStaffPermission, ClearTextInputIcon } from '@components';
-import { scaleSize, localize } from '@utils';
+import { scaleSize, localize, menuTabs } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
@@ -198,7 +198,7 @@ export default class Layout extends React.Component {
                     ref={this.checkPermissionRef}
                     visiblePopupCheckStaffPermission={customerTabPermission}
                     title={localize('Input PIN Number', language)}
-                    tabName="Customer"
+                    tabName={menuTabs.MENU_CUSTOMER}
                     onRequestClose={this.closePopupCheckCustomerTabPermission}
                 />
 

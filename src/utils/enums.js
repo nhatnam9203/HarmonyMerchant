@@ -14,3 +14,4 @@ export const menuTabs = {
     MENU_REPORT: 'MENU_REPORT',
     MENU_SETTING: 'MENU_SETTING',
 }
+

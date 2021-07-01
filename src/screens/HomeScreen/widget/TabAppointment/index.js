@@ -234,9 +234,6 @@ const mapStateToProps = (state) => ({
   isReloadWebview: state.app.isReloadWebview,
   deviceId: state.dataLocal.deviceId,
   extrasByMerchant: state.extra.extrasByMerchant,
-
-  visiblePopupCheckDiscountPermissionInHome:
-    state.marketing.visiblePopupCheckDiscountPermissionInHome,
   groupAppointment: state.appointment.groupAppointment,
   isOfflineMode: state.network.isOfflineMode,
 });

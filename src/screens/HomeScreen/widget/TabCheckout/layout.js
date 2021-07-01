@@ -10,7 +10,9 @@ import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
 import {
-    scaleSize, localize, formatNumberFromCurrency, formatMoney, roundFloatNumber, checkCategoryIsNotExist,
+    scaleSize, localize, formatNumberFromCurrency, 
+    formatMoney, roundFloatNumber, checkCategoryIsNotExist,
+    menuTabs,
 } from '@utils';
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
@@ -1055,7 +1057,7 @@ class Layout extends React.Component {
                     ref={this.popupCheckDiscountPermissionRef}
                     visiblePopupCheckStaffPermission={visiblePopupCheckDiscountPermission}
                     title={localize('Input PIN Number', language)}
-                    tabName="CheckDiscountPermission"
+                    tabName={menuTabs.CHECKOUT_DISCOUNT}
                     onRequestClose={this.closePopupCheckDiscountPermission}
                 />
 

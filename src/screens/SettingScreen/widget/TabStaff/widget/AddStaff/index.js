@@ -37,7 +37,62 @@ const initState = {
     roles: {
       nameRole: 'Admin',
     },
-    permission: [],
+    permission: [
+      {
+          "id": 0,
+          "key": menuTabs.MARKETING,
+          "label": "Marketing",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.CHECKOUT_DISCOUNT,
+          "label": "Change Discount",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_INVOICE,
+          "label": "Invoice",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_SETTLEMENT,
+          "label": "Settlement",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_CUSTOMER,
+          "label": "Customer",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_GIFTCARD,
+          "label": "Gift card",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_INVENTORY,
+          "label": "Inventory",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_REPORT,
+          "label": "Report",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_SETTING,
+          "label": "Setting",
+          "isChecked": true
+      },
+    ],
     driverlicense: '',
     socialSecurityNumber: '',
     professionalLicense: '',
@@ -92,6 +147,7 @@ class AddStaff extends Layout {
   constructor(props) {
     super(props);
     const { profile } = this.props;
+    
     this.state = {
       ...initState,
       staffDetail: {},
@@ -135,6 +191,62 @@ class AddStaff extends Layout {
 
   setStateFromParent = async (infoStaffHandle, isEditStaff) => {
     this.isEditStaff = isEditStaff
+    const permissionInit = [
+      {
+          "id": 0,
+          "key": menuTabs.MARKETING,
+          "label": "Marketing",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.CHECKOUT_DISCOUNT,
+          "label": "Change Discount",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_INVOICE,
+          "label": "Invoice",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_SETTLEMENT,
+          "label": "Settlement",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_CUSTOMER,
+          "label": "Customer",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_GIFTCARD,
+          "label": "Gift card",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_INVENTORY,
+          "label": "Inventory",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_REPORT,
+          "label": "Report",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_SETTING,
+          "label": "Setting",
+          "isChecked": true
+      },
+    ]
     if (isEditStaff) {
       const { stateCity } = this.props;
 
@@ -150,66 +262,9 @@ class AddStaff extends Layout {
         });
       }
 
-      const permissionInitList = [
-        {
-            "id": 0,
-            "key": menuTabs.MARKETING,
-            "label": "Marketing",
-            "isChecked": true
-        },
-        {
-            "id": 0,
-            "key": menuTabs.CHECKOUT_DISCOUNT,
-            "label": "Change Discount",
-            "isChecked": true
-        },
-        {
-            "id": 0,
-            "key": menuTabs.MENU_INVOICE,
-            "label": "Invoice",
-            "isChecked": true
-        },
-        {
-            "id": 0,
-            "key": menuTabs.MENU_SETTLEMENT,
-            "label": "Settlement",
-            "isChecked": true
-        },
-        {
-            "id": 0,
-            "key": menuTabs.MENU_CUSTOMER,
-            "label": "Customer",
-            "isChecked": true
-        },
-        {
-            "id": 0,
-            "key": menuTabs.MENU_GIFTCARD,
-            "label": "Gift card",
-            "isChecked": true
-        },
-        {
-            "id": 0,
-            "key": menuTabs.MENU_INVENTORY,
-            "label": "Inventory",
-            "isChecked": true
-        },
-        {
-            "id": 0,
-            "key": menuTabs.MENU_REPORT,
-            "label": "Report",
-            "isChecked": true
-        },
-        {
-            "id": 0,
-            "key": menuTabs.MENU_SETTING,
-            "label": "Setting",
-            "isChecked": true
-        },
-      ]
-
       const permission = !l.isEmpty(l.get(infoStaffHandle, 'permission'))
                         ? l.get(infoStaffHandle, 'permission')
-                        : permissionInitList
+                        : permissionInit
 
       await this.setState({
         user: {
@@ -487,6 +542,11 @@ class AddStaff extends Layout {
     return name;
   }
 
+  /**
+   * change permission list of manager role
+   * @param {*} key 
+   * @param {*} isEnable 
+   */
   switchPermission(key, isEnable){
     const { user } = this.state;
     let permission = l.map(l.get(user, 'permission', []), (item) => {

@@ -13,7 +13,9 @@ import {
     PopupEnterPin, PopupCheckStaffPermission,
     ScrollableTabView, Loading
 } from '@components';
-import { scaleSize, localize, getIconByNotiType, getColorTitleByNotiType, getNotiContentByType, formatWithMoment } from '@utils';
+import { scaleSize, localize, getIconByNotiType,
+         getColorTitleByNotiType, getNotiContentByType,
+         formatWithMoment, menuTabs } from '@utils';
 import styles from './style';
 import ICON from '@resources';
 import { TabMarketing, TabAppointment, TabCheckout } from './widget';
@@ -138,7 +140,7 @@ export default class Layout extends React.Component {
                         ref={this.checkMarketingPermissionRef}
                         visiblePopupCheckStaffPermission={marketingTabPermission}
                         title={localize('Input PIN Number', language)}
-                        tabName="Marketing"
+                        tabName={menuTabs.MARKETING}
                         onRequestClose={this.closePopupCheckMarketingTabPermission}
                     />
                     {/* --------- Notification Popup  ------ */}

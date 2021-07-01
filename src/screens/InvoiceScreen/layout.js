@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import _ from 'ramda';
 import Dash from 'react-native-dash';
+import { menuTabs } from '@utils';
 
 import {
   Text,
@@ -954,7 +955,7 @@ export default class Layout extends React.Component {
           ref={this.checkInvoicePermissionRef}
           visiblePopupCheckStaffPermission={invoiceTabPermission}
           title={localize('Input PIN Number', language)}
-          tabName="Invoice"
+          tabName={menuTabs.MENU_INVOICE}
           onRequestClose={this.closePopupCheckInvoiceTabPermission}
         />
         <PopupConfirmInvoiceStatus

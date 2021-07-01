@@ -9,7 +9,7 @@ import {
   PopupCheckStaffPermission,
   PopupCalendar,
 } from "@components";
-import { scaleSize, localize } from "@utils";
+import { scaleSize, localize, menuTabs } from "@utils";
 import styles from "./style";
 import IMAGE from "@resources";
 import {PopupStaffInvoicePrint} from "./widget";
@@ -115,7 +115,7 @@ export default class Layout extends React.Component {
           ref={this.checkPermissionRef}
           visiblePopupCheckStaffPermission={reportTabPermission}
           title={localize("Input PIN Number", language)}
-          tabName="Reports"
+          tabName={menuTabs.MENU_REPORT}
           onRequestClose={this.closePopupCheckReportTabPermission}
         />
       </ParentContainer>

@@ -9,7 +9,7 @@ import {
     PopupCheckStaffPermission,
     ScrollableTabView
 } from '@components';
-import { scaleSize, localize } from '@utils';
+import { scaleSize, localize, menuTabs } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import { TabStaff, TabService, TabExtra, TabCategories, TabGaneral, TabHardware, TabTAX } from './widget';
@@ -109,7 +109,7 @@ export default class Layout extends React.Component {
                     ref={this.checkPermissionRef}
                     visiblePopupCheckStaffPermission={settingTabPermission}
                     title={localize('Input PIN Number', language)}
-                    tabName="Settings"
+                    tabName={menuTabs.MENU_SETTING}
                     onRequestClose={this.closePopupCheckSettingTabPermission}
                 />
             </ParentContainer>
