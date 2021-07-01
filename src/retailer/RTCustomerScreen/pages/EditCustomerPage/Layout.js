@@ -34,7 +34,7 @@ export const Layout = ({
         {isEdit && <Text style={styles.headTitle}>{t('Edit Customer')}</Text>}
         {isNew && <Text style={styles.headTitle}>{t('New Customer')}</Text>}
       </View>
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView extraHeight={20}>
         <View style={styles.container}>
           <View style={styles.content}>
             <View style={styles.bottomContent}>

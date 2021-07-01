@@ -1,5 +1,5 @@
-import NavigationServices from "@navigators/NavigatorServices";
-import { useFocusEffect } from "@react-navigation/native";
+import NavigationServices from '@navigators/NavigatorServices';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   useExportOrderList,
   useGetOrderList,
@@ -61,9 +61,21 @@ export const useProps = ({ params: { reload } }) => {
   const [exportOrderList, ExportOrderList] = useExportOrderList();
   const callExportOrderList = (values) => {
     const params = Object.assign({}, values, {
+      page: page,
       ...timeVal,
+      key: searchVal,
+      sort: {},
+      ...((orderStatus?.length > 0 ||
+        payment?.length > 0 ||
+        purchasePoint?.length > 0) && {
+        filters: {
+          ...(orderStatus?.length > 0 && { status: orderStatus }),
+          ...(purchasePoint?.length > 0 && { purchasePoint: purchasePoint }),
+          ...(payment?.length > 0 && { payment: payment }),
+        },
+      }),
     });
-    exportRef.current?.onSetFileName(getTimeTitleFile("ReportOrder", params));
+    exportRef.current?.onSetFileName(getTimeTitleFile('ReportOrder', params));
     ExportOrderList(params);
   };
 
@@ -133,10 +145,10 @@ export const useProps = ({ params: { reload } }) => {
     onChangeValueSearch,
     onButtonSearchPress,
     onButtonNewOrderPress: () => {
-      NavigationServices.navigate("retailer.home.checkout", {});
+      NavigationServices.navigate('retailer.home.checkout', {});
     },
     onSelectRow: ({ item }) => {
-      NavigationServices.navigate("retailer.home.order.detail", {
+      NavigationServices.navigate('retailer.home.order.detail', {
         order: item,
       });
     },
@@ -155,9 +167,9 @@ export const useProps = ({ params: { reload } }) => {
     },
     items,
     onChangeTimeValue: (quickFilter, timeState) => {
-      if (timeState === "Customize Date") {
+      if (timeState === 'Customize Date') {
         setTimeVal({
-          quickFilter: "custom",
+          quickFilter: 'custom',
           timeStart: timeState.startDate,
           timeEnd: timeState.endDate,
         });
@@ -166,9 +178,9 @@ export const useProps = ({ params: { reload } }) => {
       }
     },
     onResetFilter: () => {
-      setPayment("");
-      setPurchasePoint("");
-      setOrderStatus("");
+      setPayment('');
+      setPurchasePoint('');
+      setOrderStatus('');
     },
     onApplyFilter: () => {},
     purchasePoint,

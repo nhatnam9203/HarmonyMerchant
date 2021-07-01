@@ -68,7 +68,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
       lastName: Yup.string().required(t('LastName is required!')),
       firstName: Yup.string().required(t('FirstName is required!')),
       phone: Yup.string().required(t('Phone is required')),
-      email: Yup.string(),
+      email: Yup.string().email(t("Email is not valid")),
       birthdate: Yup.string(),
       gender: Yup.string(),
       IsVip: Yup.number(),

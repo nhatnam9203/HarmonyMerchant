@@ -23,8 +23,9 @@ import {
 } from '@shared/utils/files';
 
 const EXPORT_FUNCTION = [
-  { value: 'pdf', label: 'PDF' },
+  // { value: 'pdf', label: 'PDF' },
   { value: 'excel', label: 'EXCEL' },
+  { value: 'csv', label: 'CSV' },
 ];
 
 export const ExportModal = React.forwardRef(({ onExportFile, title }, ref) => {
@@ -64,7 +65,7 @@ export const ExportModal = React.forwardRef(({ onExportFile, title }, ref) => {
   const onRequestFileFromServer = (type) => {
     if (typeof onExportFile === 'function') {
       onExportFile({
-        type,
+        type: type,
       });
     }
     setShowModal(false);
@@ -122,6 +123,7 @@ export const ExportModal = React.forwardRef(({ onExportFile, title }, ref) => {
   const renderImageFile = () => {
     switch (mode) {
       case 'excel':
+      case 'csv':
         return IMAGE.ExportCsvFileImage;
       case 'pdf':
         return IMAGE.ExportPdfFileImage;
@@ -369,9 +371,9 @@ const styles = StyleSheet.create({
 
   pdfBottom: {
     height: scaleHeight(80),
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
   },
 
   pdfFileTitle: {

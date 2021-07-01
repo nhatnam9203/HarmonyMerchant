@@ -1,4 +1,4 @@
-import IMAGE from "@resources";
+import IMAGE from '@resources';
 import {
   ButtonCalendarFilter,
   ButtonGradient,
@@ -21,12 +21,12 @@ import {
   ORDER_STATUS,
   PAYMENTS,
   PURCHASE_POINTS,
-} from "@shared/utils";
-import { formatMoneyWithUnit } from "@utils";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { FormFilter } from "../../widget";
+} from '@shared/utils';
+import { formatMoneyWithUnit } from '@utils';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FormFilter } from '../../widget';
 
 export const Layout = ({
   onChangeValueSearch,
@@ -164,8 +164,8 @@ export const Layout = ({
               style={styles.icon}
             />
           </ButtonGradientWhite>
-          {/* <View style={layouts.marginHorizontal} /> */}
-          {/* <ExportModal ref={exportRef} onExportFile={callExportOrderList} /> */}
+          <View style={layouts.marginHorizontal} />
+          <ExportModal ref={exportRef} onExportFile={callExportOrderList} />
         </View>
       </View>
 

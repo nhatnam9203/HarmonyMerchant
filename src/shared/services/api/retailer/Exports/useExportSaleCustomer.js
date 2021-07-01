@@ -1,13 +1,13 @@
 import useAxios from 'axios-hooks';
-import { RETAILER_CUSTOMER } from '../../route';
+import { RETAILER_APPOINTMENT_REPORT } from '../../route';
 import { appMerchant } from '@redux/slices';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-export const useExportCustomer = () => {
+export const useExportSaleCustomer = () => {
   const dispatch = useDispatch();
 
-  const [{ data: customerExport, loading, error, response }, execute] =
+  const [{ data: saleCustomerExport, loading, error, response }, execute] =
     useAxios(
       { method: 'GET' },
       {
@@ -24,12 +24,12 @@ export const useExportCustomer = () => {
     }
   }, [dispatch, loading, response]);
 
-  const ExportCustomer = (params) => {
+  const ExportCustomerSale = (params) => {
     execute({
       params: params,
-      url: `${RETAILER_CUSTOMER.url}/export`,
+      url: `${RETAILER_APPOINTMENT_REPORT.url}/customerSales/export`,
     });
   };
 
-  return [customerExport, ExportCustomer];
+  return [saleCustomerExport, ExportCustomerSale];
 };
