@@ -1,7 +1,7 @@
-import React from "react";
-import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
-import { useTranslation } from "react-i18next";
-import { layouts, colors, fonts } from "@shared/themes";
+import React from 'react';
+import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { layouts, colors, fonts } from '@shared/themes';
 import {
   FormFullName,
   FormTitle,
@@ -17,23 +17,23 @@ import {
   ButtonNormal,
   ProductOptionImage,
   ButtonGradientRed,
-} from "@shared/components";
-import IMAGE from "@resources";
-import { Table } from "@shared/components/CustomTable";
-import { getUniqueId } from "@shared/components/CustomTable/helpers";
-import { InputSearch } from "@shared/components/InputSearch";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { dateToString, DATE_TIME_SHOW_FORMAT_STRING } from "@shared/utils";
+} from '@shared/components';
+import IMAGE from '@resources';
+import { Table } from '@shared/components/CustomTable';
+import { getUniqueId } from '@shared/components/CustomTable/helpers';
+import { InputSearch } from '@shared/components/InputSearch';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { dateToString, DATE_TIME_SHOW_FORMAT_STRING } from '@shared/utils';
 import {
   DialogProductDetail,
   BasketContentView,
   FormEditNotes,
   FormShippingCarrier,
-} from "../../widget";
-import FastImage from "react-native-fast-image";
-import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
-import { formatMoneyWithUnit } from "@utils";
-import { ORDERED_STATUS } from "@shared/components/OrderStatusView";
+} from '../../widget';
+import FastImage from 'react-native-fast-image';
+import { WithDialogConfirm } from '@shared/HOC/withDialogConfirm';
+import { formatMoneyWithUnit } from '@utils';
+import { ORDERED_STATUS } from '@shared/components/OrderStatusView';
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
@@ -48,6 +48,8 @@ export const Layout = ({
   onSubmitNotes,
   getPaymentString,
   refund,
+  onEditShippingAddress,
+  onEditBillingAddress,
 }) => {
   const [t] = useTranslation();
 
@@ -57,7 +59,7 @@ export const Layout = ({
         return (
           <>
             <ButtonGradient
-              label={t("Return")}
+              label={t('Return')}
               width={scaleWidth(120)}
               height={scaleHeight(40)}
               fontSize={scaleFont(17)}
@@ -71,17 +73,17 @@ export const Layout = ({
         return (
           <>
             <CancelConfirmButton
-              label={t("Cancel")}
+              label={t('Cancel')}
               width={scaleWidth(120)}
               height={scaleHeight(40)}
               fontSize={scaleFont(17)}
               textWeight="normal"
               onPress={cancel}
-              description={t("Are you sure you want to Cancel this order ?")}
+              description={t('Are you sure you want to Cancel this order ?')}
             />
             <View style={layouts.marginHorizontal} />
             <ButtonGradient
-              label={t("Complete")}
+              label={t('Complete')}
               width={scaleWidth(120)}
               height={scaleHeight(40)}
               fontSize={scaleFont(17)}
@@ -95,17 +97,17 @@ export const Layout = ({
         return (
           <>
             <CancelConfirmButton
-              label={t("Cancel")}
+              label={t('Cancel')}
               width={scaleWidth(120)}
               height={scaleHeight(40)}
               fontSize={scaleFont(17)}
               textWeight="normal"
               onPress={cancel}
-              description={t("Are you sure you want to Cancel this order ?")}
+              description={t('Are you sure you want to Cancel this order ?')}
             />
             <View style={layouts.marginHorizontal} />
             <ButtonGradient
-              label={t("Confirm")}
+              label={t('Confirm')}
               width={scaleWidth(120)}
               height={scaleHeight(40)}
               fontSize={scaleFont(17)}
@@ -119,17 +121,17 @@ export const Layout = ({
         return (
           <>
             <CancelConfirmButton
-              label={t("Cancel")}
+              label={t('Cancel')}
               width={scaleWidth(120)}
               height={scaleHeight(40)}
               fontSize={scaleFont(17)}
               textWeight="normal"
               onPress={cancel}
-              description={t("Are you sure you want to Cancel this order ?")}
+              description={t('Are you sure you want to Cancel this order ?')}
             />
             <View style={layouts.marginHorizontal} />
             <ButtonGradient
-              label={t("Ship")}
+              label={t('Ship')}
               width={scaleWidth(120)}
               height={scaleHeight(40)}
               fontSize={scaleFont(17)}
@@ -160,10 +162,10 @@ export const Layout = ({
   };
 
   const onRenderCell = ({ item, columnKey, rowIndex, cellWidth }) => {
-    if (columnKey === "productName") {
+    if (columnKey === 'productName') {
       return (
         <View
-          key={getUniqueId(columnKey, rowIndex, "cell-product-name")}
+          key={getUniqueId(columnKey, rowIndex, 'cell-product-name')}
           style={[layouts.horizontal, { width: cellWidth }, styles.cellStyle]}
         >
           <FastImage
@@ -192,7 +194,7 @@ export const Layout = ({
     <View style={layouts.fill}>
       <View style={styles.headContent}>
         <Text style={styles.headTitle}>
-          {t("Order")}{" "}
+          {t('Order')}{' '}
           {
             <Text style={[styles.headTitle, { color: colors.OCEAN_BLUE }]}>
               {`#${item?.appointmentId}`}
@@ -216,73 +218,73 @@ export const Layout = ({
       </View>
       <KeyboardAwareScrollView>
         <View style={styles.container}>
-          <FormTitle label={t("Order & Account Information")} />
+          <FormTitle label={t('Order & Account Information')} />
           <View style={layouts.horizontal}>
-            <InfoContent label={t("Order Information")}>
+            <InfoContent label={t('Order Information')}>
               <View style={styles.personContent}>
                 <InfoLine
-                  label={t("ID")}
+                  label={t('ID')}
                   infoValue={`#${item?.appointmentId}`}
                 />
                 <InfoLine
-                  label={t("Purcharse Point")}
+                  label={t('Purcharse Point')}
                   infoValue={item?.purchasePoint}
                 />
                 <InfoLine
-                  label={t("Order Date")}
+                  label={t('Order Date')}
                   infoValue={dateToString(
                     item?.createdDate,
                     DATE_TIME_SHOW_FORMAT_STRING
                   )}
                 />
-                <InfoLine label={t("Order Status")} infoValue={item?.status} />
+                <InfoLine label={t('Order Status')} infoValue={item?.status} />
               </View>
             </InfoContent>
 
             <View style={layouts.marginHorizontal} />
-            <InfoContent label={t("Account Information")}>
+            <InfoContent label={t('Account Information')}>
               <View style={styles.personContent}>
                 <InfoLine
-                  label={t("Customer Name")}
+                  label={t('Customer Name')}
                   infoValue={`${item?.customer?.firstName} ${item?.customer?.lastName}`}
                   infoTextStyle={styles.highInfoTextStyle}
                 />
                 <InfoLine
-                  label={t("Phone Number")}
+                  label={t('Phone Number')}
                   infoValue={item?.customer?.phone}
                 />
                 <InfoLine
-                  label={t("Email")}
+                  label={t('Email')}
                   infoValue={item?.customer?.email}
                 />
                 <InfoLine
-                  label={t("Address")}
+                  label={t('Address')}
                   infoValue={item?.customer?.address}
                 />
               </View>
             </InfoContent>
           </View>
 
-          <FormTitle label={t("Items Ordered")} />
+          <FormTitle label={t('Items Ordered')} />
           <Table
             items={item?.products || []}
             headerKeyLabels={{
-              productName: t("Product"),
-              price: t("Price"),
-              quantity: t("Qty"),
-              subTotal: t("Subtotal"),
-              tax: t("Tax"),
-              discount: t("Discount"),
-              total: t("Total"),
+              productName: t('Product'),
+              price: t('Price'),
+              quantity: t('Qty'),
+              subTotal: t('Subtotal'),
+              tax: t('Tax'),
+              discount: t('Discount'),
+              total: t('Total'),
             }}
             whiteListKeys={[
-              "productName",
-              "price",
-              "quantity",
-              "subTotal",
-              "tax",
-              "discount",
-              "total",
+              'productName',
+              'price',
+              'quantity',
+              'subTotal',
+              'tax',
+              'discount',
+              'total',
             ]}
             primaryKey="productId"
             widthForKeys={{
@@ -294,7 +296,7 @@ export const Layout = ({
               discount: scaleWidth(120),
               total: scaleWidth(150),
             }}
-            emptyDescription={t("No Products")}
+            emptyDescription={t('No Products')}
             styleTextKeys={{ total: styles.highLabelTextStyle }}
             formatFunctionKeys={{
               price: (value) => `${formatMoneyWithUnit(value)}`,
@@ -308,9 +310,13 @@ export const Layout = ({
             // draggable={true}
           />
 
-          <FormTitle label={t("Address Information")} />
+          <FormTitle label={t('Address Information')} />
           <View style={layouts.horizontal}>
-            <InfoContent label={t("Billing Address")} editable={true}>
+            <InfoContent
+              label={t('Billing Address')}
+              editable={true}
+              onPress={onEditBillingAddress}
+            >
               {item?.billingAddress && (
                 <View style={styles.personContent}>
                   <Text>{`${item?.billingAddress?.addressFirstName} ${item?.billingAddress?.addressLastName}\n${item?.billingAddress?.street} ${item?.billingAddress?.city} ${item?.billingAddress?.stateName}\n${item?.billingAddress?.addressPhone}`}</Text>
@@ -318,7 +324,11 @@ export const Layout = ({
               )}
             </InfoContent>
             <View style={layouts.marginHorizontal} />
-            <InfoContent label={t("Shipping Address")} editable={true}>
+            <InfoContent
+              label={t('Shipping Address')}
+              editable={true}
+              onPress={onEditShippingAddress}
+            >
               {item?.shippingAddress && (
                 <View style={styles.personContent}>
                   <Text>{`${item?.shippingAddress?.addressFirstName} ${item?.shippingAddress?.addressLastName}\n${item?.shippingAddress?.street} ${item?.shippingAddress?.city} ${item?.shippingAddress?.stateName}\n${item?.shippingAddress?.addressPhone}`}</Text>
@@ -329,14 +339,14 @@ export const Layout = ({
 
           {item?.status === ORDERED_STATUS.PENDING ? (
             <>
-              <FormTitle label={t("Shipping Method")} />
+              <FormTitle label={t('Shipping Method')} />
               <FormShippingCarrier onChangeValue={onChangeShippingMethod} />
             </>
           ) : (
             <>
-              <FormTitle label={t("Payment & Shipping Method")} />
+              <FormTitle label={t('Payment & Shipping Method')} />
               <View style={layouts.horizontal}>
-                <InfoContent label={t("Payment Informations")}>
+                <InfoContent label={t('Payment Informations')}>
                   {item?.payment?.length > 0 &&
                     item.payment.map((payItem) => (
                       <View style={styles.personContent}>
@@ -349,9 +359,9 @@ export const Layout = ({
                     ))}
                 </InfoContent>
                 <View style={layouts.marginHorizontal} />
-                <InfoContent label={t("Shipping & Handling Infomation")}>
+                <InfoContent label={t('Shipping & Handling Infomation')}>
                   <View style={styles.personContent}>
-                    <Text>{t("Shipping carrier")}</Text>
+                    <Text>{t('Shipping carrier')}</Text>
                     <View style={layouts.horizontal}>
                       {item?.shipping?.shippingCarrier && (
                         <Text
@@ -360,18 +370,18 @@ export const Layout = ({
                       )}
                       {item?.shipping?.shippingCarrier &&
                         item?.shipping?.trackingNumber && (
-                          <Text style={styles.boldText}>{" - "}</Text>
+                          <Text style={styles.boldText}>{' - '}</Text>
                         )}
                       {item?.shipping?.trackingNumber && (
                         <Text style={styles.boldText}>{`${
                           item?.shipping?.trackingNumber
-                        } (${t("Tracking number")})`}</Text>
+                        } (${t('Tracking number')})`}</Text>
                       )}
                     </View>
                   </View>
 
                   <View style={styles.personContent}>
-                    <Text>{t("Shipping method")}</Text>
+                    <Text>{t('Shipping method')}</Text>
                     <View style={layouts.horizontal}>
                       {item?.shipping?.shippingMethodGroup && (
                         <Text
@@ -390,69 +400,69 @@ export const Layout = ({
             </>
           )}
 
-          <FormTitle label={t("Order Total")} />
+          <FormTitle label={t('Order Total')} />
           <View style={layouts.horizontal}>
-            <InfoContent label={t("Order Total")}>
+            <InfoContent label={t('Order Total')}>
               <View style={styles.personContent}>
                 <InfoLine
-                  label={t("Subtotal")}
+                  label={t('Subtotal')}
                   infoValue={formatMoneyWithUnit(item?.subTotal)}
                 />
                 <InfoLine
-                  label={t("Shipping & Handling")}
+                  label={t('Shipping & Handling')}
                   infoValue={formatMoneyWithUnit(item?.shippingAmount)}
                 />
                 <InfoLine
-                  label={t("Tax")}
+                  label={t('Tax')}
                   infoValue={formatMoneyWithUnit(item?.tax)}
                 />
                 <InfoLine
-                  label={t("Discount")}
+                  label={t('Discount')}
                   infoValue={formatMoneyWithUnit(item?.discount)}
                 />
               </View>
               <InfoLine
-                label={t("Grand Total")}
+                label={t('Grand Total')}
                 infoValue={formatMoneyWithUnit(item?.total)}
                 labelTextStyle={styles.highLabelTextStyle}
                 infoTextStyle={styles.highInfoTextStyle}
               />
               <InfoLine
-                label={t("Total Paid")}
+                label={t('Total Paid')}
                 infoValue={formatMoneyWithUnit(item?.paidTotal)}
                 labelTextStyle={styles.highLabelTextStyle}
                 infoTextStyle={styles.highInfoTextStyle}
               />
               <InfoLine
-                label={t("Total Return")}
+                label={t('Total Return')}
                 infoValue={formatMoneyWithUnit(item?.returnAmount)}
                 labelTextStyle={styles.highLabelTextStyle}
                 infoTextStyle={styles.highInfoTextStyle}
               />
               <InfoLine
-                label={t("Total Due")}
+                label={t('Total Due')}
                 infoValue={formatMoneyWithUnit(item?.dueAmount)}
                 labelTextStyle={styles.highLabelTextStyle}
                 infoTextStyle={styles.highInfoTextStyle}
               />
             </InfoContent>
             <View style={layouts.marginHorizontal} />
-            <InfoContent label={t("Invoice")}>
+            <InfoContent label={t('Invoice')}>
               <View style={styles.personContent}>
                 <InfoLine
-                  label={t("Invoice ID")}
+                  label={t('Invoice ID')}
                   infoValue={item?.invoice?.checkoutId}
                   infoTextStyle={styles.highInfoTextStyle}
                 />
                 <InfoLine
-                  label={t("Invoice Date")}
+                  label={t('Invoice Date')}
                   infoValue={dateToString(
                     item?.invoice?.createdDate,
                     DATE_TIME_SHOW_FORMAT_STRING
                   )}
                 />
                 <InfoLine
-                  label={t("Status")}
+                  label={t('Status')}
                   infoValue={item?.invoice?.status}
                 />
               </View>
@@ -519,50 +529,50 @@ const styles = StyleSheet.create({
   headContent: {
     height: scaleHeight(50),
     backgroundColor: colors.WHITE,
-    shadowColor: "#0000001a",
+    shadowColor: '#0000001a',
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowRadius: 2,
     shadowOpacity: 0.32,
-    alignItems: "center",
+    alignItems: 'center',
     paddingLeft: scaleWidth(16),
-    flexDirection: "row",
+    flexDirection: 'row',
   },
 
   headTitle: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(23),
-    fontWeight: "bold",
-    fontStyle: "normal",
+    fontWeight: 'bold',
+    fontStyle: 'normal',
     letterSpacing: 1.15,
-    textAlign: "left",
+    textAlign: 'left',
     color: colors.GREYISH_BROWN,
   },
 
   headerRightContent: {
-    flexDirection: "row",
+    flexDirection: 'row',
     flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
+    justifyContent: 'flex-end',
+    alignItems: 'center',
     paddingHorizontal: scaleWidth(16),
   },
 
   infoLineContent: {
-    flexDirection: "row",
+    flexDirection: 'row',
     // justifyContent: 'space-between',
-    alignItems: "center",
+    alignItems: 'center',
     paddingVertical: scaleHeight(7),
   },
 
   infoLabelText: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: "normal",
-    fontStyle: "normal",
+    fontWeight: 'normal',
+    fontStyle: 'normal',
     letterSpacing: 0,
-    textAlign: "left",
+    textAlign: 'left',
     color: colors.GREYISH_BROWN,
     flex: 1,
   },
@@ -570,10 +580,10 @@ const styles = StyleSheet.create({
   infoHeaderText: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(15),
-    fontWeight: "bold",
-    fontStyle: "normal",
+    fontWeight: 'bold',
+    fontStyle: 'normal',
     letterSpacing: 0,
-    textAlign: "left",
+    textAlign: 'left',
     color: colors.GREYISH_BROWN,
     marginRight: scaleWidth(10),
   },
@@ -581,10 +591,10 @@ const styles = StyleSheet.create({
   infoText: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: "normal",
-    fontStyle: "normal",
+    fontWeight: 'normal',
+    fontStyle: 'normal',
     letterSpacing: 0,
-    textAlign: "right",
+    textAlign: 'right',
     color: colors.GREYISH_BROWN,
     flex: 1,
   },
@@ -607,16 +617,16 @@ const styles = StyleSheet.create({
 
   cellStyle: {
     paddingHorizontal: scaleWidth(5),
-    alignItems: "center",
+    alignItems: 'center',
   },
 
   productName: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(15),
-    fontWeight: "500",
-    fontStyle: "normal",
+    fontWeight: '500',
+    fontStyle: 'normal',
     letterSpacing: 0,
-    textAlign: "left",
+    textAlign: 'left',
     color: colors.GREYISH_BROWN,
     flex: 1,
   },
@@ -624,31 +634,31 @@ const styles = StyleSheet.create({
   highLabelTextStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(15),
-    fontWeight: "500",
-    fontStyle: "normal",
+    fontWeight: '500',
+    fontStyle: 'normal',
     letterSpacing: 0,
-    textAlign: "left",
+    textAlign: 'left',
     color: colors.OCEAN_BLUE,
-    textAlignVertical: "center",
+    textAlignVertical: 'center',
   },
 
   highInfoTextStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(15),
-    fontWeight: "500",
-    fontStyle: "normal",
+    fontWeight: '500',
+    fontStyle: 'normal',
     letterSpacing: 0,
     color: colors.OCEAN_BLUE,
-    textAlign: "right",
+    textAlign: 'right',
     flex: 1,
   },
 
   boldText: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(15),
-    fontWeight: "bold",
-    fontStyle: "normal",
-    textAlign: "left",
+    fontWeight: 'bold',
+    fontStyle: 'normal',
+    textAlign: 'left',
     color: colors.GREYISH_BROWN,
   },
 });

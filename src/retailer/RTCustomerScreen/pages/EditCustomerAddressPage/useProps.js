@@ -103,6 +103,7 @@ export const useProps = ({
   | useEffect
   |--------------------------------------------------
   */
+
   React.useEffect(() => {
     if (!addressCreate && !addressEdit) {
       return;
@@ -146,6 +147,7 @@ export const useProps = ({
     isEdit,
     form,
     buttonCancelPress: () => {
+      setCurrentAddress(null);
       NavigationServices.goBack();
     },
     onHandleDeleteAddress: () => {
