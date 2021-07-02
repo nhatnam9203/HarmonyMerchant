@@ -16,6 +16,7 @@ import { useFocusEffect } from "@react-navigation/native";
 const log = (obj, message = "") => {
   Logger.log(`[CustomerListPage] ${message}`, obj);
 };
+const DEFAULT_PAGE = 1;
 
 /**
  * reload: call api lai khi truyen them reload
@@ -25,10 +26,16 @@ export const useProps = ({ params: { reload }, navigation }) => {
   const exportRef = React.useRef();
   const dropdownRef = React.useRef();
   const [groupType, setGroupType] = React.useState(CustomerGroupTypes[0].value);
-  const [page, setPage] = React.useState(1);
-  const [sortName, setSortName] = React.useState(SORT_TYPE.ASC);
+  const [page, setPage] = React.useState(DEFAULT_PAGE);
+  const [sortName, setSortName] = React.useState(SORT_TYPE.DESC);
   const [sortPhoneNumber, setSortPhoneNumber] = React.useState(SORT_TYPE.DESC);
   const [searchVal, setSearchVal] = React.useState();
+  const [items, setItems] = React.useState(null);
+  const [pagination, setPagination] = React.useState({
+    pages: 0,
+    count: 0,
+  });
+
   /**
   |--------------------------------------------------
   | CALL API
@@ -36,15 +43,13 @@ export const useProps = ({ params: { reload }, navigation }) => {
   */
   const [customerList, getCustomerList] = useGetCustomerList();
   const callGetCustomerList = React.useCallback(() => {
-    console.log(groupType);
-
     getCustomerList({
       key: searchVal ?? "",
       page: page,
       groupId: groupType,
       sort: { CustomerName: sortName, PhoneNumber: sortPhoneNumber },
     });
-  }, [groupType, page, sortName, sortPhoneNumber, searchVal]);
+  }, [groupType, page, sortName, sortPhoneNumber, searchVal, page]);
 
   React.useEffect(() => {
     callGetCustomerList();
@@ -54,15 +59,24 @@ export const useProps = ({ params: { reload }, navigation }) => {
   React.useEffect(() => {
     callGetCustomerList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [groupType, sortName, sortPhoneNumber, searchVal]);
+  }, [groupType, sortName, sortPhoneNumber, searchVal, page]);
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log(groupType);
-
       if (reload) callGetCustomerList();
     }, [reload])
   );
+
+  React.useEffect(() => {
+    const { codeStatus, data, pages = 0, count = 0 } = customerList || {};
+    if (statusSuccess(codeStatus)) {
+      setItems(data);
+      setPagination({
+        pages,
+        count,
+      });
+    }
+  }, [customerList]);
 
   /**
   |--------------------------------------------------
@@ -105,7 +119,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
         break;
       case "phone":
         const sortedPhone =
-          sortName === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
+          sortPhoneNumber === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
         setSortPhoneNumber(sortedPhone);
         break;
       default:
@@ -128,7 +142,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
   };
 
   return {
-    items: customerList?.data,
+    items,
     groupType,
     exportRef,
     dropdownRef,
@@ -154,5 +168,8 @@ export const useProps = ({ params: { reload }, navigation }) => {
         isEdit: true,
       });
     },
+    pagination,
+    setPage,
+    DEFAULT_PAGE,
   };
 };
