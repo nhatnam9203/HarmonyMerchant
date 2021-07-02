@@ -64,7 +64,7 @@ export const Layout = ({
         )}
         {isNew && <Text style={styles.headTitle}>{t('New Product')}</Text>}
       </View>
-      <KeyboardAwareScrollView extraHeight={scaleHeight(130)}>
+      <KeyboardAwareScrollView bounces={false} extraHeight={scaleHeight(150)}>
         <View style={styles.content}>
           <FormTitle label={t('General Details')} />
         </View>
