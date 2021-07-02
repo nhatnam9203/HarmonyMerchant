@@ -246,8 +246,8 @@ export const Layout = ({
           fontSize={scaleFont(25)}
           textColor={colors.WHITE}
           fontWeight="500"
-          //disable={!form.isValid}
-          disable={!form.isValid || !form.dirty}
+          disable={!form.isValid}
+          // disable={!form.isValid || !form.dirty} // doi option no ko tinh
           onPress={form?.handleSubmit}
         />
       </View>

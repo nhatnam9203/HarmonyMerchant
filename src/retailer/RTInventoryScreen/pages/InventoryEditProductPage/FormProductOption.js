@@ -1,12 +1,12 @@
-import IMAGE from '@resources';
+import IMAGE from "@resources";
 import {
   CustomCheckBox,
   DialogColorPicker,
   FormUploadImage,
-} from '@shared/components';
-import { CustomInput, CustomInputMask } from '@shared/components/CustomInput';
-import { Table } from '@shared/components/CustomTable';
-import { getUniqueId } from '@shared/components/CustomTable/helpers';
+} from "@shared/components";
+import { CustomInput, CustomInputMask } from "@shared/components/CustomInput";
+import { Table } from "@shared/components/CustomTable";
+import { getUniqueId } from "@shared/components/CustomTable/helpers";
 import {
   useCreateAttributes,
   useEditAttributes,
@@ -26,7 +26,7 @@ import {
 } from "react-native";
 import { removeOption, updateOption } from "./ProductState";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[FormProductOption] ${message}`, obj);
 };
 
@@ -65,7 +65,7 @@ export const FormProductOption = React.forwardRef(
           Object.assign({}, v, {
             attributeValueId: v.id,
             id: 0,
-            checked: false,
+            checked: true,
           })
         );
 
@@ -82,7 +82,7 @@ export const FormProductOption = React.forwardRef(
             if (existItem) {
               return Object.assign({}, existItem, {
                 ...v,
-                checked: true,
+                // checked: true,
               });
             } else {
               return v;
@@ -153,7 +153,7 @@ export const FormProductOption = React.forwardRef(
       rowIndex,
       cellWidth,
     }) => {
-      if (columnKey === 'active') {
+      if (columnKey === "active") {
         const setToggleCheckBox = (val) => {
           const updatesSelectOptions = item.values?.map((v) => {
             if (v?.attributeValueId === cellItem?.attributeValueId) {
@@ -172,7 +172,7 @@ export const FormProductOption = React.forwardRef(
         return (
           <View
             style={[{ width: cellWidth }, layouts.center]}
-            key={getUniqueId(columnKey, rowIndex, 'cell-checkbox')}
+            key={getUniqueId(columnKey, rowIndex, "cell-checkbox")}
           >
             <CustomCheckBox
               defaultValue={cellItem?.checked}
@@ -184,19 +184,19 @@ export const FormProductOption = React.forwardRef(
         );
       }
 
-      if (columnKey === 'label') {
+      if (columnKey === "label") {
         const onHandleChange = (text) => {};
         return (
           <View
             style={{ width: cellWidth }}
-            key={getUniqueId(columnKey, rowIndex, 'cell-label')}
+            key={getUniqueId(columnKey, rowIndex, "cell-label")}
           >
             <CustomInput
               style={[styles.customInput, { width: scaleWidth(230) }]}
               textInputProps={{
-                placeholder: 'Label',
+                placeholder: "Label",
                 fontSize: scaleFont(17),
-                textAlign: 'left',
+                textAlign: "left",
                 defaultValue: cellItem?.label,
                 onChangeText: onHandleChange,
                 editable: false,
@@ -206,12 +206,12 @@ export const FormProductOption = React.forwardRef(
         );
       }
 
-      if (columnKey === 'value') {
+      if (columnKey === "value") {
         const onHandleUpdateSwatch = (color) => {};
         return (
           <View
             style={{ width: cellWidth }}
-            key={getUniqueId(columnKey, rowIndex, 'cell-value')}
+            key={getUniqueId(columnKey, rowIndex, "cell-value")}
           >
             <DialogColorPicker
               onApplyColor={onHandleUpdateSwatch}
@@ -222,11 +222,11 @@ export const FormProductOption = React.forwardRef(
         );
       }
 
-      if (columnKey === 'valueAdd') {
+      if (columnKey === "valueAdd") {
         const onHandleChange = async (text) => {
           const values = item.values?.map((v) => {
             if (v.attributeValueId === cellItem.attributeValueId) {
-              return Object.assign({}, v, { valueAdd: parseFloat(text, 2) });
+              return Object.assign({}, v, { valueAdd: text });
             } else {
               return v;
             }
@@ -240,23 +240,23 @@ export const FormProductOption = React.forwardRef(
         return (
           <View
             style={{ width: cellWidth }}
-            key={getUniqueId(columnKey, rowIndex, 'cell-value-add')}
+            key={getUniqueId(columnKey, rowIndex, "cell-value-add")}
           >
             <CustomInputMask
               style={[styles.customInput, { width: scaleWidth(230) }]}
+              type={"money"}
               options={{
                 precision: 2,
-                separator: '.',
-                delimiter: ',',
-                unit: '',
-                suffixUnit: '',
+                separator: ".",
+                delimiter: ",",
+                unit: "",
+                suffixUnit: "",
               }}
-              type="money"
               textInputProps={{
-                placeholder: 'Label',
+                placeholder: "Price",
                 fontSize: scaleFont(17),
-                textAlign: 'left',
-                defaultValue: cellItem?.valueAdd,
+                textAlign: "left",
+                defaultValue: cellItem?.valueAdd ?? 0,
                 onChangeText: onHandleChange,
               }}
             />
@@ -315,10 +315,10 @@ export const FormProductOption = React.forwardRef(
               // unitKeys={{ totalDuration: "hrs" }}
               widthForKeys={{
                 active: scaleWidth(100),
-                value: '10%',
-                label: '45%',
+                value: "10%",
+                label: "45%",
               }}
-              emptyDescription={t('No Values')}
+              emptyDescription={t("No Values")}
               renderCell={onRenderTableCell}
               onRowPress={() => {}}
               draggable={true}
@@ -328,7 +328,7 @@ export const FormProductOption = React.forwardRef(
         </View>
         {item?.updateProductImage && (
           <View>
-            <InfoHeading label={t('Option Image')} fontSize={scaleWidth(17)} />
+            <InfoHeading label={t("Option Image")} fontSize={scaleWidth(17)} />
 
             <View style={styles.content}>
               <FlatList
@@ -383,29 +383,29 @@ const styles = StyleSheet.create({
   infoHeaderText: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(20),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
     marginRight: scaleWidth(10),
   },
 
   infoLineContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: scaleHeight(7),
   },
 
   flatList: {
-    width: '100%',
+    width: "100%",
     height: scaleHeight(200),
   },
 
   flatListContainer: {
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
+    justifyContent: "flex-start",
+    flexDirection: "row",
     // flexWrap: 'wrap',
   },
 

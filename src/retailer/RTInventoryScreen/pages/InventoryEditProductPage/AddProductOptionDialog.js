@@ -59,19 +59,18 @@ export const AddProductOptionDialog = ({
           )
           .map((x) => Object.assign({}, x, { attributeId: x.id, id: 0 }))
       );
-
-      setItems(null);
     }
   }, [attributesList]);
 
   const onShowDialog = () => {
+    setItems(null);
+
     getAttributesList();
     dialogRef.current?.show();
   };
 
   const onHandleApplyButtonPress = () => {
     dialogRef.current?.hide();
-
     dispatchProduct(addOption(items));
   };
 

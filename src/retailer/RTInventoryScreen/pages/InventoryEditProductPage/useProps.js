@@ -1,19 +1,19 @@
-import NavigationServices from '@navigators/NavigatorServices';
-import { useFocusEffect } from '@react-navigation/native';
+import NavigationServices from "@navigators/NavigatorServices";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   useCreateProducts,
   useEditProducts,
   useGetCategoriesList,
-} from '@shared/services/api/retailer';
-import { statusSuccess } from '@shared/utils';
-import { useFormik } from 'formik';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import * as Yup from 'yup';
-import { productReducer } from './ProductState';
+} from "@shared/services/api/retailer";
+import { statusSuccess } from "@shared/utils";
+import { useFormik } from "formik";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import * as Yup from "yup";
+import { productReducer } from "./ProductState";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[InventoryEditProduct] ${message}`, obj);
 };
 
@@ -45,7 +45,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   const form = useFormik({
     initialValues: productItem ?? {},
     validationSchema: Yup.object().shape({
-      name: Yup.string().required(t('Product name is required')),
+      name: Yup.string().required(t("Product name is required")),
       price: Yup.string().required(),
       sku: Yup.string().required(),
       costPrice: Yup.string().required(),
@@ -55,8 +55,8 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
       maxThreshold: Yup.number()
         .default(0)
         .min(
-          Yup.ref('minThreshold'),
-          t('High threshold should be high than Low threshold')
+          Yup.ref("minThreshold"),
+          t("High threshold should be high than Low threshold")
         )
         .notRequired(),
     }),
@@ -70,11 +70,14 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
         // id: x.id,
         values: x.values
           ?.filter((v) => v.checked)
-          ?.map((v) => ({
-            attributeValueId: v.attributeValueId,
-            valueAdd: v.valueAdd ?? 0,
-            fileId: v.fileId ?? 0,
-          })),
+          ?.map((v) => {
+            console.log(v);
+            return {
+              attributeValueId: v?.attributeValueId,
+              valueAdd: v?.valueAdd ?? 0,
+              fileId: v?.fileId ?? 0,
+            };
+          }),
       }));
 
       if (isNew) {
@@ -108,7 +111,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
     const { codeStatus, message, data } = productData || productEdit;
     if (statusSuccess(codeStatus)) {
       setErrorMsg(null);
-      NavigationServices.navigate('retailer.inventory.list', { reload: true });
+      NavigationServices.navigate("retailer.inventory.list", { reload: true });
 
       return;
     }
@@ -145,7 +148,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
 
   React.useEffect(() => {
     if (productItem) {
-      form.setFieldValue('options', productItem?.options);
+      form.setFieldValue("options", productItem?.options);
     }
   }, [productItem]);
 
@@ -158,7 +161,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
     },
     productItem,
     onNewCategory: () => {
-      NavigationServices.navigate('retailer.inventory.product.category', {
+      NavigationServices.navigate("retailer.inventory.product.category", {
         isNew: true,
       });
     },
