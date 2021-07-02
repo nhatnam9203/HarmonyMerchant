@@ -127,7 +127,7 @@ export const Layout = ({
 
       <View style={styles.rowContent}>
         <DropdownCategory
-          ref={dropdownRef}
+          // ref={dropdownRef}
           items={customerGroups}
           onChangeValue={(item) => {
             setGroupType(item?.value);
