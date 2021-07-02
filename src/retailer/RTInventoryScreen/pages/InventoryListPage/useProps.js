@@ -41,7 +41,7 @@ export const useProps = ({ params: { reload } }) => {
     getInventoryList({
       key: searchVal ?? "",
       page: page,
-      sort: {},
+      sorts: {},
       ...((category >= 0 || needToOrder) && {
         filters: {
           ...(category >= 0 && { categoryId: category }),
@@ -50,7 +50,7 @@ export const useProps = ({ params: { reload } }) => {
       }),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, page, needToOrder, searchVal, productsRestock?.data]);
+  }, [category, page, needToOrder, searchVal]);
   const [productsRestock, restockProducts] = useRestockProducts();
 
   /**
@@ -99,6 +99,13 @@ export const useProps = ({ params: { reload } }) => {
   }, [productsExport]);
 
   React.useEffect(() => {
+    const { codeStatus, data } = productsRestock || {};
+    if (statusSuccess(codeStatus)) {
+      callGetProductList();
+    }
+  }, [productsRestock]);
+
+  React.useEffect(() => {
     callGetProductList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -106,7 +113,7 @@ export const useProps = ({ params: { reload } }) => {
   React.useEffect(() => {
     callGetProductList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, page, searchVal, needToOrder, productsRestock?.data]);
+  }, [category, page, searchVal, needToOrder]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -182,6 +189,6 @@ export const useProps = ({ params: { reload } }) => {
     exportRef,
     setPage,
     DEFAULT_PAGE,
-    pagination
+    pagination,
   };
 };

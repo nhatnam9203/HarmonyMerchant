@@ -2,21 +2,15 @@ import { colors, fonts } from "@shared/themes";
 import {
   formatMoney,
   formatNumberFromCurrency,
-  roundFloatNumber
+  roundFloatNumber,
 } from "@utils";
 import moment from "moment";
 import _ from "ramda";
 import React, { useEffect, useState } from "react";
-import {
-  FlatList, RefreshControl, StyleSheet,
-  Text, View
-} from "react-native";
+import { FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
-import {
-  getUniqueId, getValueForColumnKey
-} from "./helpers";
+import { getUniqueId, getValueForColumnKey } from "./helpers";
 import { Cell, EmptyList, Header, Row } from "./widget";
-
 
 const TABLE_ROW_HEIGHT = 50;
 const TABLE_CELL_DEFAULT_WIDTH = 150;
@@ -426,7 +420,7 @@ export function Table({
           whiteListKeys={whiteListKeys}
           sortedKeys={sortedKeys}
           getWidthForKey={getCellWidth}
-          height={scaleHeight(40)}
+          height={scaleHeight(42)}
           onSortWithKey={onSortWithKey}
           draggable={draggable}
         />

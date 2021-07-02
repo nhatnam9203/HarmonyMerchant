@@ -1,40 +1,26 @@
-import React from "react";
-import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
-import { useTranslation } from "react-i18next";
-import { layouts, colors, fonts } from "@shared/themes";
+import IMAGE from "@resources";
 import {
-  FormFullName,
-  FormTitle,
-  FormPhoneNumber,
-  FormAddress,
-  FormContactEmail,
-  FormBirthDay,
-  FormGender,
-  FormCustomerGroup,
-  FormLabelSwitch,
   ButtonGradient,
   ButtonGradientWhite,
-  ButtonNormal,
-  ProductOptionImage,
-  ButtonGradientRed,
+  FormTitle,
 } from "@shared/components";
-import IMAGE from "@resources";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
-import { InputSearch } from "@shared/components/InputSearch";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { ORDERED_STATUS } from "@shared/components/OrderStatusView";
+import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
+import { colors, fonts, layouts } from "@shared/themes";
 import { dateToString, DATE_TIME_SHOW_FORMAT_STRING } from "@shared/utils";
+import { formatMoneyWithUnit } from "@utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import FastImage from "react-native-fast-image";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
-  DialogProductDetail,
-  BasketContentView,
+  FormAddressInformation,
   FormEditNotes,
   FormShippingCarrier,
-  FormAddressInformation,
 } from "../../widget";
-import FastImage from "react-native-fast-image";
-import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
-import { formatMoneyWithUnit } from "@utils";
-import { ORDERED_STATUS } from "@shared/components/OrderStatusView";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
@@ -52,6 +38,7 @@ export const Layout = ({
   onEditShippingAddress,
   onEditBillingAddress,
   formAddressRef,
+  onDidNotPayCheck,
 }) => {
   const [t] = useTranslation();
 
@@ -173,9 +160,9 @@ export const Layout = ({
           <FastImage
             style={styles.imageStyle}
             source={
-              item.imageUrl
+              item?.imageUrl
                 ? {
-                    uri: item.imageUrl,
+                    uri: item?.imageUrl,
                     priority: FastImage.priority.high,
                     cache: FastImage.cacheControl.immutable,
                   }
@@ -184,7 +171,11 @@ export const Layout = ({
             resizeMode="contain"
           />
           <View style={layouts.marginHorizontal} />
-          <Text style={styles.productName}>{item?.productName}</Text>
+          <View style={styles.productNameContent}>
+            <Text style={styles.productName}>{item?.productName}</Text>
+            <View style={styles.productNameMarginVertical} />
+            <Text style={styles.productName}>{`SKU: ${item?.sku}`}</Text>
+          </View>
         </View>
       );
     }
@@ -352,7 +343,7 @@ export const Layout = ({
               <View style={layouts.horizontal}>
                 <InfoContent label={t("Payment Informations")}>
                   {item?.payment?.length > 0 &&
-                    item.payment.map((payItem) => (
+                    item?.payment.map((payItem) => (
                       <View style={styles.personContent}>
                         <Text style={styles.boldText}>
                           {`${getPaymentString(
@@ -361,44 +352,59 @@ export const Layout = ({
                         </Text>
                       </View>
                     ))}
+                  {item?.didNotPay && (
+                    <View style={styles.personContent}>
+                      <Text style={styles.boldText}>
+                        {`${t("Did not pay")}`}
+                      </Text>
+                    </View>
+                  )}
                 </InfoContent>
                 <View style={layouts.marginHorizontal} />
                 <InfoContent label={t("Shipping & Handling Infomation")}>
-                  <View style={styles.personContent}>
-                    <Text>{t("Shipping carrier")}</Text>
-                    <View style={layouts.horizontal}>
-                      {item?.shipping?.shippingCarrier && (
-                        <Text
-                          style={styles.boldText}
-                        >{`${item?.shipping?.shippingCarrier}`}</Text>
-                      )}
-                      {item?.shipping?.shippingCarrier &&
-                        item?.shipping?.trackingNumber && (
-                          <Text style={styles.boldText}>{" - "}</Text>
-                        )}
-                      {item?.shipping?.trackingNumber && (
-                        <Text style={styles.boldText}>{`${
-                          item?.shipping?.trackingNumber
-                        } (${t("Tracking number")})`}</Text>
-                      )}
-                    </View>
-                  </View>
+                  {item?.shipping?.shippingCarrier && (
+                    <View style={styles.personContent}>
+                      <Text>{t("Shipping carrier")}</Text>
+                      <View style={layouts.marginVertical} />
 
-                  <View style={styles.personContent}>
-                    <Text>{t("Shipping method")}</Text>
-                    <View style={layouts.horizontal}>
-                      {item?.shipping?.shippingMethodGroup && (
-                        <Text
-                          style={styles.boldText}
-                        >{`${item?.shipping?.shippingMethodGroup}/`}</Text>
-                      )}
-                      {item?.shipping?.shippingMethodLabel && (
-                        <Text
-                          style={styles.boldText}
-                        >{`${item?.shipping?.shippingMethodLabel}`}</Text>
-                      )}
+                      <View style={layouts.horizontal}>
+                        {item?.shipping?.shippingCarrier && (
+                          <Text
+                            style={styles.boldText}
+                          >{`${item?.shipping?.shippingCarrier}`}</Text>
+                        )}
+                        {item?.shipping?.shippingCarrier &&
+                          item?.shipping?.trackingNumber && (
+                            <Text style={styles.boldText}>{" - "}</Text>
+                          )}
+                        {item?.shipping?.trackingNumber && (
+                          <Text style={styles.boldText}>{`${
+                            item?.shipping?.trackingNumber
+                          } (${t("Tracking number")})`}</Text>
+                        )}
+                      </View>
                     </View>
-                  </View>
+                  )}
+
+                  {item?.shipping?.shippingMethodGroup && (
+                    <View style={styles.personContent}>
+                      <Text>{t("Shipping method")}</Text>
+                      <View style={layouts.marginVertical} />
+
+                      <View style={layouts.horizontal}>
+                        {item?.shipping?.shippingMethodGroup && (
+                          <Text
+                            style={styles.boldText}
+                          >{`${item?.shipping?.shippingMethodGroup}`}</Text>
+                        )}
+                        {item?.shipping?.shippingMethodLabel && (
+                          <Text
+                            style={styles.boldText}
+                          >{`/${item?.shipping?.shippingMethodLabel}`}</Text>
+                        )}
+                      </View>
+                    </View>
+                  )}
                 </InfoContent>
               </View>
             </>
@@ -472,8 +478,10 @@ export const Layout = ({
               </View>
               <InfoContent label={t("Note for in Order ")}>
                 <FormEditNotes
+                  orderStatus={item?.status}
                   defaultValue={item?.note}
                   onSubmitNotes={onSubmitNotes}
+                  onDidNotPayCheck={onDidNotPayCheck}
                 />
               </InfoContent>
             </InfoContent>
@@ -631,7 +639,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: colors.GREYISH_BROWN,
-    flex: 1,
   },
 
   highLabelTextStyle: {
@@ -664,4 +671,10 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
+
+  productNameContent: {
+    flex: 1,
+  },
+
+  productNameMarginVertical: { height: scaleHeight(4) },
 });

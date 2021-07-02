@@ -1,10 +1,9 @@
+import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { ButtonFilter } from "./ButtonFilter";
-import { ButtonGradient } from "./Button";
-import { DropdownMenu } from "./DropdownMenu";
-import { colors, layouts, fonts } from "@shared/themes";
 import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, View } from "react-native";
+import { ButtonFilter } from "./ButtonFilter";
+import { DropdownMenu } from "./DropdownMenu";
 
 export const FormSelect = ({
   filterItems,

@@ -1,25 +1,16 @@
-import React from "react";
-import {
-  useGetAppointment,
-  useCancelAppointment,
-  useConfirmAppointment,
-  useShippingAppointment,
-  useCompleteAppointment,
-  useReturnAppointment,
-  useEditNotes,
-} from "@shared/services/api/retailer";
-import { CustomerGroupTypes, NEED_TO_ORDER } from "@shared/utils/app";
-import { useTranslation } from "react-i18next";
-import _ from "lodash";
 import NavigationServices from "@navigators/NavigatorServices";
-import { useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
-import {
-  BIRTH_DAY_DATE_FORMAT_STRING,
-  statusSuccess,
-  dateToString,
-} from "@shared/utils";
 import { ORDERED_STATUS } from "@shared/components/OrderStatusView";
+import {
+  useCancelAppointment,
+  useCompleteAppointment,
+  useConfirmAppointment,
+  useEditNotes,
+  useGetAppointment,
+  useShippingAppointment,
+} from "@shared/services/api/retailer";
+import { statusSuccess } from "@shared/utils";
+import React from "react";
 
 const log = (obj, message = "") => {
   Logger.log(`[HomeOrderDetail] ${message}`, obj);
@@ -35,6 +26,7 @@ export const useProps = ({
 
   const [shippingAddressId, setShippingAddressId] = React.useState(null);
   const [billingAddressId, setBillingAddressId] = React.useState(null);
+  const [isDidNotPay, setDidNotPay] = React.useState(false);
 
   /**
   |--------------------------------------------------
@@ -119,9 +111,15 @@ export const useProps = ({
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentConfirm || {};
     if (statusSuccess(codeStatus)) {
-      NavigationServices.navigate("retailer.home.order.pay", {
-        orderItem: appointmentDetail,
-      });
+      if (isDidNotPay) {
+        NavigationServices.navigate("retailer.home.order.list", {
+          reload: true,
+        });
+      } else {
+        NavigationServices.navigate("retailer.home.order.pay", {
+          orderItem: appointmentDetail,
+        });
+      }
     }
   }, [appointmentConfirm]);
 
@@ -166,7 +164,7 @@ export const useProps = ({
           billingAddressId ?? appointmentDetail?.billingAddress?.id,
         shippingAddressId:
           shippingAddressId ?? appointmentDetail?.shippingAddress?.id,
-        didNotPay: false,
+        didNotPay: isDidNotPay,
       });
       confirmAppointment(params, appointmentDetail?.appointmentId);
     },
@@ -192,5 +190,8 @@ export const useProps = ({
       setBillingAddressId(addressId);
     },
     formAddressRef,
+    onDidNotPayCheck: (checked) => {
+      setDidNotPay(checked);
+    },
   };
 };

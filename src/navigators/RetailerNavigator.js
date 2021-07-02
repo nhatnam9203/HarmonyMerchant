@@ -6,15 +6,13 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import IMAGE from "@resources";
 import {
   CustomDrawerContent,
-  CustomDrawerIcon,
+  CustomDrawerIcon
 } from "@shared/components/CustomDrawerContent";
-import { DropdownProvider } from "@shared/helpers/dropdown";
 import { RTCustomerScreen } from "@src/retailer/RTCustomerScreen";
 import { RTHomeScreen } from "@src/retailer/RTHomeScreen";
 import { RTInventoryScreen } from "@src/retailer/RTInventoryScreen";
 import { RTReportsScreen } from "@src/retailer/RTReportsScreen";
 import { RTSettingsScreen } from "@src/retailer/RTSettingsScreen";
-import { scaleSize } from "@utils";
 import React from "react";
 import { SettlementScreen, SupportScreen } from "../screens";
 

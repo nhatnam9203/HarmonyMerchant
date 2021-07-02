@@ -1,47 +1,39 @@
-import React from "react";
 import {
-  View,
-  Image,
-  TextInput,
-  FlatList,
-  ActivityIndicator,
-  StyleSheet,
-} from "react-native";
-
-import {
-  Text,
-  StatusBarHeader,
-  ScrollableTabView,
   Button,
-  ParentContainer,
   ButtonCustom,
-  PopupCheckStaffPermission,
   Dropdown,
+  ParentContainer,
+  StatusBarHeader,
+  Text,
 } from "@components";
+import { createStackNavigator } from "@react-navigation/stack";
+import ICON from "@resources";
+import { ButtonDrawer } from "@shared/components/ButtonDrawer";
+import { HeaderToolBar } from "@shared/components/HeaderToolBar";
+import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
+import { colors } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  StyleSheet,
+  TextInput,
+  View,
+} from "react-native";
+import { Block } from "./components";
+import {
+  CustomerDetailPage,
+  CustomerListPage,
+  EditCustomerAddressPage,
+  EditCustomerPage,
+} from "./pages";
 import {
   HeaderTableCustomer,
-  RowTableCustomer,
   RowEmptyTableCustomer,
-  CustomerDetailTab,
-  EditOrCreateCustomerTab,
-  PopupFilterCustomer,
+  RowTableCustomer,
 } from "./widget";
-import configs from "@configs";
-import ICON from "@resources";
-import { HeaderToolBar } from "@shared/components/HeaderToolBar";
-import { ButtonDrawer } from "@shared/components/ButtonDrawer";
-import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
-import { useTranslation, withTranslation } from "react-i18next";
-import {
-  CustomerListPage,
-  EditCustomerPage,
-  CustomerDetailPage,
-  EditCustomerAddressPage,
-} from "./pages";
-import { createStackNavigator } from "@react-navigation/stack";
-
-import { Block, Pagination } from "./components";
-import { layouts, colors } from "@shared/themes";
 
 const { Screen, Navigator } = createStackNavigator();
 

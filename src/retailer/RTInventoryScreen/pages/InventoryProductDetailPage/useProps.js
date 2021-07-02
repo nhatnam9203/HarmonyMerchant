@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
 import {
   useGetProducts,
   useDeleteProducts,
   useRestockProducts,
-} from '@shared/services/api/retailer';
-import { useTranslation } from 'react-i18next';
-import NavigationServices from '@navigators/NavigatorServices';
+} from "@shared/services/api/retailer";
+import { useTranslation } from "react-i18next";
+import NavigationServices from "@navigators/NavigatorServices";
+import { NEED_TO_ORDER, statusSuccess } from "@shared/utils/app";
 
 export const useProps = ({ params: { item } }) => {
   const { t } = useTranslation();
@@ -19,7 +20,7 @@ export const useProps = ({ params: { item } }) => {
   */
   const [product, getProduct] = useGetProducts();
   const [, deleteProducts] = useDeleteProducts(() => {
-    NavigationServices.navigate('retailer.inventory.list', { reload: true });
+    NavigationServices.navigate("retailer.inventory.list", { reload: true });
   });
   const [productsRestock, restockProducts] = useRestockProducts();
 
@@ -35,14 +36,17 @@ export const useProps = ({ params: { item } }) => {
   }, []);
 
   React.useEffect(() => {
-    getProduct(item?.productId);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productsRestock?.data]);
+    const { codeStatus } = productsRestock || {};
+    if (statusSuccess(codeStatus)) {
+      getProduct(item?.productId);
+    }
+  }, [productsRestock]);
 
   React.useEffect(() => {
-    setProduct(product?.data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const { codeStatus, data } = product || {};
+    if (statusSuccess(codeStatus)) {
+      setProduct(data);
+    }
   }, [product]);
 
   return {
@@ -51,7 +55,7 @@ export const useProps = ({ params: { item } }) => {
       NavigationServices.goBack();
     },
     onEditProduct: () => {
-      NavigationServices.navigate('retailer.inventory.product.edit', {
+      NavigationServices.navigate("retailer.inventory.product.edit", {
         isEdit: true,
         item: productItem,
       });
@@ -59,7 +63,7 @@ export const useProps = ({ params: { item } }) => {
     onHandleDeleteProduct: () => {
       deleteProducts(productItem?.productId);
     },
-    onSubmitRestock: (value, reason = t('New stock')) => {
+    onSubmitRestock: (value, reason = t("New stock")) => {
       restockProducts({
         ids: [productItem?.productId],
         quantity: value || 0,
