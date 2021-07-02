@@ -90,6 +90,17 @@ export function restoreStaff(id, searchFilter = false) {
   };
 }
 
+export function updateStaffStatus(isActive, id = "", searchFilter = false) {
+  return {
+    type: "UPDATE_STAFF_STATUS",
+    body:{},
+    method: "PUT",
+    token: true,
+    api: `${apiConfigs.BASE_API}staff/active/${id}/${isActive}`,
+    searchFilter,
+  };
+}
+
 export function editStaff(body, id = "", searchFilter = false) {
   return {
     type: "EDIT_STAFF_BY_MERCHANT",

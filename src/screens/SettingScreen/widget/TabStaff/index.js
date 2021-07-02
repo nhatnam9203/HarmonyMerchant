@@ -232,27 +232,8 @@ class TabStaff extends Layout {
       }
     }
     this.props.actions.staff.updateStaffsPositionLocal(tempStaffList);
-    this.props.actions.staff.editStaff(
-      {
-        ...staff,
-        workingTime: staff.workingTimes,
-        salary: staff.salaries,
-        tipFee: staff.tipFees,
-        productSalary: staff.productSalaries,
-        address: {
-          street: staff?.address || '',
-          city: staff?.city || '',
-          state: staff?.stateId || 0,
-          zip: staff?.zip || '',
-        },
-        roles: {
-          nameRole: staff?.roleName || '',
-        },
-        isActive,
-      },
-      staff.staffId ? staff.staffId : 0,
-      searchFilter
-    );
+    this.props.actions.staff.updateStaffStatus(isActive, staff.staffId ? staff.staffId : 0,
+                                                searchFilter)
   };
 
   componentDidUpdate(prevProps, prevState) {

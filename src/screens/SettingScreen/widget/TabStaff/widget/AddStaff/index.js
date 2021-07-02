@@ -313,6 +313,8 @@ class AddStaff extends Layout {
       this.cellphoneRef.current.setcodeAreaPhoneFromParent(
         getCodeAreaPhone(infoStaffHandle.phone).areaCode
       );
+
+      this.assignSevices?.current?.setStateFromParent(infoStaffHandle)
     } else {
       // ----------- Create New Staff -----------
       const { profile } = this.props;
