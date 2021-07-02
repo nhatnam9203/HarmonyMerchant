@@ -14,6 +14,7 @@ export const ButtonCountryCode = ({
   onChangeValue,
   defaultValue = CountryCodes[0].value,
   dropDownDirection,
+  editable,
 }) => {
   const [open, setOpen] = React.useState(false);
   const [item, setItem] = React.useState(defaultValue);
@@ -53,6 +54,7 @@ export const ButtonCountryCode = ({
         itemKey="label"
         closeAfterSelecting={true}
         showTickIcon={false}
+        disabled={!editable}
       />
     </View>
   );

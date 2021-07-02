@@ -7,6 +7,7 @@ import { HomeOrderDetailPage } from "../HomeOrderDetailPage";
 import { CheckOutTabPage } from "../CheckOutTabPage";
 import { HomeOrderPayPage } from "../HomeOrderPayPage";
 import { HomeOrderReturnPage } from "../HomeOrderReturnPage";
+import { EditAddressPage } from "../../../pages";
 
 import { colors } from "@shared/themes";
 
@@ -29,6 +30,7 @@ export const Layout = ({}) => {
         <Screen {...CheckOutTabPage} />
         <Screen {...HomeOrderPayPage} />
         <Screen {...HomeOrderReturnPage} />
+        <Screen {...EditAddressPage} />
       </Navigator>
     </View>
   );

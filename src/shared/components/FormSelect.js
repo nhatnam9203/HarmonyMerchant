@@ -18,16 +18,20 @@ export const FormSelect = ({
   isDropdown = true,
 }) => {
   const [t] = useTranslation();
-  const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = React.useState(-1);
 
   React.useEffect(() => {
     if (filterItems?.length > 0) {
-      let defaultIndex = filterItems.findIndex((item, index) => {
-        return item?.value === defaultValue;
-      });
-      setIndex(defaultIndex);
+      if (defaultValue) {
+        let defaultIndex = filterItems.findIndex((item, index) => {
+          return item?.value === defaultValue;
+        });
+        setIndex(defaultIndex);
+      } else {
+        setIndex(-1);
+      }
     }
-  }, [filterItems]);
+  }, [filterItems, defaultValue]);
 
   return (
     <View style={[styles.container, style]}>

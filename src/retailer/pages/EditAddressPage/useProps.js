@@ -19,6 +19,7 @@ export const useProps = ({
     customerId,
     isBillingAddress = false,
     isShippingAddress = false,
+    screenId,
   },
 }) => {
   const { t } = useTranslation();
@@ -38,16 +39,17 @@ export const useProps = ({
   const [addressEdit, editAddress] = useEditAddress();
   const [addressCreate, createAddress] = useCreateAddress();
   const [, deleteAddress] = useDeleteAddress(() => {
-    NavigationServices.navigate("retailer.customer.detail", {
-      reload: true,
-      customerId,
-    });
+    // NavigationServices.navigate("retailer.customer.detail", {
+    //   reload: true,
+    //   customerId,
+    // });
+    NavigationServices.goBack();
   });
   /**
   |--------------------------------------------------
   | VALIDATE
   |--------------------------------------------------
-  */  
+  */
 
   const form = useFormik({
     initialValues: item
@@ -93,11 +95,15 @@ export const useProps = ({
     const { codeStatus, message, data } = addressCreate || addressEdit;
     if (statusSuccess(codeStatus)) {
       setErrorMsg(null);
-      // NavigationServices.goBack();
-      NavigationServices.navigate("retailer.customer.detail", {
-        reload: true,
-        customerId,
-      });
+      if (screenId) {
+        NavigationServices.navigate(screenId, {
+          reload: true,
+          customerId,
+          addressId: data,
+        });
+      } else {
+        NavigationServices.goBack();
+      }
 
       return;
     }
@@ -109,6 +115,7 @@ export const useProps = ({
 
   React.useEffect(() => {
     if (item) {
+      console.log(item);
       setCurrentAddress(
         Object.assign({}, item, {
           firstName: item?.addressFirstName,

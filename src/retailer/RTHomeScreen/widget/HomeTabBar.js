@@ -12,7 +12,14 @@ const CONTENT_HEIGHT = scaleHeight(47);
 
 const ButtonLockScreen = WithDialogPinCode(ButtonLock);
 
-export const HomeTabBar = ({ state, descriptors, navigation, position, onOpenDrawer }) => {
+export const HomeTabBar = ({
+  state,
+  descriptors,
+  navigation,
+  position,
+  onOpenDrawer,
+  notificationContUnread = 0,
+}) => {
   const renderTab = (name, page, isTabActive, onPress) => {
     const textColor = isTabActive ? "#FFFFFF" : "#0872C9";
     const fontWeight = isTabActive ? "bold" : "normal";
@@ -55,40 +62,42 @@ export const HomeTabBar = ({ state, descriptors, navigation, position, onOpenDra
             // onPress={() => this.props.displayNotifiPopup()}
             style={{
               position: "absolute",
-              height: scaleHeight(34),
               with: scaleWidth(80),
               right: scaleWidth(10),
               justifyContent: "center",
               alignItems: "center",
+              height: "100%",
             }}
           >
             <Image
               source={ICON.noti_bell}
               style={{ height: scaleWidth(28), width: scaleHeight(28) }}
             />
-            <View
-              style={{
-                width: scaleWidth(14),
-                height: scaleHeight(14),
-                backgroundColor: "#EE2F24",
-                position: "absolute",
-                top: scaleHeight(2),
-                right: 0,
-                borderRadius: scaleHeight(7),
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text
+            {notificationContUnread > 0 && (
+              <View
                 style={{
-                  color: "#fff",
-                  fontSize: scaleFont(6),
-                  fontWeight: "600",
+                  width: scaleWidth(16),
+                  height: scaleHeight(16),
+                  backgroundColor: "#EE2F24",
+                  position: "absolute",
+                  top: scaleHeight(2),
+                  right: 0,
+                  borderRadius: scaleHeight(8),
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                {/* {`${notificationContUnread ?? '0'}`} */}
-              </Text>
-            </View>
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: scaleFont(10),
+                    fontWeight: "600",
+                  }}
+                >
+                  {`${notificationContUnread ?? "0"}`}
+                </Text>
+              </View>
+            )}
           </TouchableOpacity>
         )}
       </TouchableOpacity>
