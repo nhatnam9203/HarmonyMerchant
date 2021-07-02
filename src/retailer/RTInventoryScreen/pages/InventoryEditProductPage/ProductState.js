@@ -31,7 +31,7 @@ export const productReducer = (state = initState, action) => {
       return Object.assign({}, state, { options: mergeOptions });
 
     case PRODUCT_REMOVE_OPTION:
-      const filterOptions = state?.options.filter(
+      const filterOptions = state?.options?.filter(
         (opt) => opt.attributeId !== action.payload?.attributeId
       );
       return Object.assign({}, state, { options: filterOptions });
