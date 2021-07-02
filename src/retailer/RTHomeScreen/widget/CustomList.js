@@ -10,6 +10,7 @@ import {
 import { colors, fonts, layouts } from "@shared/themes";
 import FastImage from "react-native-fast-image";
 import IMAGE from "@resources";
+import { formatMoneyWithUnit } from "@utils";
 
 export const CUSTOM_LIST_TYPES = {
   CAT: "Categories",
@@ -70,7 +71,9 @@ export const CustomList = ({
               <Text style={styles.productName} numberOfLines={3}>
                 {item?.name}
               </Text>
-              <Text style={styles.productPrice}>{item?.price}</Text>
+              <Text style={styles.productPrice}>{`${formatMoneyWithUnit(
+                item?.price
+              )}`}</Text>
             </View>
           </>
         );

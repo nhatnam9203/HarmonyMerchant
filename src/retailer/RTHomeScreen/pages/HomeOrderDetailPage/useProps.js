@@ -35,6 +35,7 @@ export const useProps = ({
 
   const [shippingAddressId, setShippingAddressId] = React.useState(null);
   const [billingAddressId, setBillingAddressId] = React.useState(null);
+  const [isDidNotPay, setDidNotPay] = React.useState(false);
 
   /**
   |--------------------------------------------------
@@ -119,9 +120,15 @@ export const useProps = ({
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentConfirm || {};
     if (statusSuccess(codeStatus)) {
-      NavigationServices.navigate("retailer.home.order.pay", {
-        orderItem: appointmentDetail,
-      });
+      if (isDidNotPay) {
+        NavigationServices.navigate("retailer.home.order.list", {
+          reload: true,
+        });
+      } else {
+        NavigationServices.navigate("retailer.home.order.pay", {
+          orderItem: appointmentDetail,
+        });
+      }
     }
   }, [appointmentConfirm]);
 
@@ -166,7 +173,7 @@ export const useProps = ({
           billingAddressId ?? appointmentDetail?.billingAddress?.id,
         shippingAddressId:
           shippingAddressId ?? appointmentDetail?.shippingAddress?.id,
-        didNotPay: false,
+        didNotPay: isDidNotPay,
       });
       confirmAppointment(params, appointmentDetail?.appointmentId);
     },
@@ -192,5 +199,8 @@ export const useProps = ({
       setBillingAddressId(addressId);
     },
     formAddressRef,
+    onDidNotPayCheck: (checked) => {
+      setDidNotPay(checked);
+    },
   };
 };

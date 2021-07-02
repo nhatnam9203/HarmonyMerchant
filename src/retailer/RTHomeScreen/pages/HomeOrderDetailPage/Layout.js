@@ -52,6 +52,7 @@ export const Layout = ({
   onEditShippingAddress,
   onEditBillingAddress,
   formAddressRef,
+  onDidNotPayCheck
 }) => {
   const [t] = useTranslation();
 
@@ -472,8 +473,10 @@ export const Layout = ({
               </View>
               <InfoContent label={t("Note for in Order ")}>
                 <FormEditNotes
+                  orderStatus={item?.status}
                   defaultValue={item?.note}
                   onSubmitNotes={onSubmitNotes}
+                  onDidNotPayCheck={onDidNotPayCheck}
                 />
               </InfoContent>
             </InfoContent>
