@@ -102,6 +102,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: colors.OCEAN_BLUE,
-    textDecorationLine: "underline",
+    // textDecorationLine: "underline",
   },
 });

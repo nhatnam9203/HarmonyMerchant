@@ -52,7 +52,7 @@ export const Layout = ({
   onEditShippingAddress,
   onEditBillingAddress,
   formAddressRef,
-  onDidNotPayCheck
+  onDidNotPayCheck,
 }) => {
   const [t] = useTranslation();
 
@@ -185,7 +185,11 @@ export const Layout = ({
             resizeMode="contain"
           />
           <View style={layouts.marginHorizontal} />
-          <Text style={styles.productName}>{item?.productName}</Text>
+          <View style={styles.productNameContent}>
+            <Text style={styles.productName}>{item?.productName}</Text>
+            <View style={styles.productNameMarginVertical} />
+            <Text style={styles.productName}>{`SKU: ${item?.sku}`}</Text>
+          </View>
         </View>
       );
     }
@@ -362,44 +366,59 @@ export const Layout = ({
                         </Text>
                       </View>
                     ))}
+                  {item.didNotPay && (
+                    <View style={styles.personContent}>
+                      <Text style={styles.boldText}>
+                        {`${t("Did not pay")}`}
+                      </Text>
+                    </View>
+                  )}
                 </InfoContent>
                 <View style={layouts.marginHorizontal} />
                 <InfoContent label={t("Shipping & Handling Infomation")}>
-                  <View style={styles.personContent}>
-                    <Text>{t("Shipping carrier")}</Text>
-                    <View style={layouts.horizontal}>
-                      {item?.shipping?.shippingCarrier && (
-                        <Text
-                          style={styles.boldText}
-                        >{`${item?.shipping?.shippingCarrier}`}</Text>
-                      )}
-                      {item?.shipping?.shippingCarrier &&
-                        item?.shipping?.trackingNumber && (
-                          <Text style={styles.boldText}>{" - "}</Text>
-                        )}
-                      {item?.shipping?.trackingNumber && (
-                        <Text style={styles.boldText}>{`${
-                          item?.shipping?.trackingNumber
-                        } (${t("Tracking number")})`}</Text>
-                      )}
-                    </View>
-                  </View>
+                  {item?.shipping?.shippingCarrier && (
+                    <View style={styles.personContent}>
+                      <Text>{t("Shipping carrier")}</Text>
+                      <View style={layouts.marginVertical} />
 
-                  <View style={styles.personContent}>
-                    <Text>{t("Shipping method")}</Text>
-                    <View style={layouts.horizontal}>
-                      {item?.shipping?.shippingMethodGroup && (
-                        <Text
-                          style={styles.boldText}
-                        >{`${item?.shipping?.shippingMethodGroup}/`}</Text>
-                      )}
-                      {item?.shipping?.shippingMethodLabel && (
-                        <Text
-                          style={styles.boldText}
-                        >{`${item?.shipping?.shippingMethodLabel}`}</Text>
-                      )}
+                      <View style={layouts.horizontal}>
+                        {item?.shipping?.shippingCarrier && (
+                          <Text
+                            style={styles.boldText}
+                          >{`${item?.shipping?.shippingCarrier}`}</Text>
+                        )}
+                        {item?.shipping?.shippingCarrier &&
+                          item?.shipping?.trackingNumber && (
+                            <Text style={styles.boldText}>{" - "}</Text>
+                          )}
+                        {item?.shipping?.trackingNumber && (
+                          <Text style={styles.boldText}>{`${
+                            item?.shipping?.trackingNumber
+                          } (${t("Tracking number")})`}</Text>
+                        )}
+                      </View>
                     </View>
-                  </View>
+                  )}
+
+                  {item?.shipping?.shippingMethodGroup && (
+                    <View style={styles.personContent}>
+                      <Text>{t("Shipping method")}</Text>
+                      <View style={layouts.marginVertical} />
+
+                      <View style={layouts.horizontal}>
+                        {item?.shipping?.shippingMethodGroup && (
+                          <Text
+                            style={styles.boldText}
+                          >{`${item?.shipping?.shippingMethodGroup}`}</Text>
+                        )}
+                        {item?.shipping?.shippingMethodLabel && (
+                          <Text
+                            style={styles.boldText}
+                          >{`/${item?.shipping?.shippingMethodLabel}`}</Text>
+                        )}
+                      </View>
+                    </View>
+                  )}
                 </InfoContent>
               </View>
             </>
@@ -634,7 +653,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: colors.GREYISH_BROWN,
-    flex: 1,
   },
 
   highLabelTextStyle: {
@@ -667,4 +685,10 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
+
+  productNameContent: {
+    flex: 1,
+  },
+
+  productNameMarginVertical: { height: scaleHeight(4) },
 });
