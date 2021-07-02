@@ -31,11 +31,11 @@ export const useProps = ({ params: { reload }, navigation }) => {
   const [sortPhoneNumber, setSortPhoneNumber] = React.useState(SORT_TYPE.DESC);
   const [searchVal, setSearchVal] = React.useState();
   const [items, setItems] = React.useState(null);
+
   const [pagination, setPagination] = React.useState({
     pages: 0,
     count: 0,
   });
-
   /**
   |--------------------------------------------------
   | CALL API
@@ -49,12 +49,12 @@ export const useProps = ({ params: { reload }, navigation }) => {
       groupId: groupType,
       sort: { CustomerName: sortName, PhoneNumber: sortPhoneNumber },
     });
-  }, [groupType, page, sortName, sortPhoneNumber, searchVal, page]);
+  }, [groupType, page, sortName, sortPhoneNumber, searchVal]);
 
-  React.useEffect(() => {
-    callGetCustomerList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // React.useEffect(() => {
+  //   callGetCustomerList();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   React.useEffect(() => {
     callGetCustomerList();
@@ -63,8 +63,10 @@ export const useProps = ({ params: { reload }, navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      if (reload) callGetCustomerList();
-    }, [reload])
+      if (reload) {
+        callGetCustomerList();
+      }
+    }, [reload, groupType, page, sortName, sortPhoneNumber, searchVal])
   );
 
   React.useEffect(() => {
@@ -146,7 +148,9 @@ export const useProps = ({ params: { reload }, navigation }) => {
     groupType,
     exportRef,
     dropdownRef,
-    setGroupType,
+    setGroupType: (filter) => {
+      setGroupType(filter?.value);
+    },
     customerGroups: CustomerGroupTypes,
     getCustomerGroupLabel,
     sortName,

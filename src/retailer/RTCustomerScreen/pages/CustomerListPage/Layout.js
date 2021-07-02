@@ -143,10 +143,8 @@ export const Layout = ({
         <DropdownMenu
           ref={dropdownRef}
           items={customerGroups}
-          onChangeValue={(item) => {
-            setGroupType(item?.value);
-          }}
-          defaultIndex={customerGroups.findIndex((x) => x.value === groupType)}
+          onChangeValue={setGroupType}
+          defaultIndex={0}
           width={scaleWidth(208)}
           height={scaleHeight(40)}
         />
