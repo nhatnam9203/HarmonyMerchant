@@ -64,7 +64,6 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
 
   const onHandleAddBasket = () => {
     // product, options, quantity
-    // !! tạm  dùng inputType
     const filterOptions = product?.options?.map((v) => {
       let temp;
       if (options && options[v?.id]) {
@@ -117,29 +116,6 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     }
   }, [productsGet]);
 
-  const ItemRowOptions = ({ rows, pagination, onPress, itemOption }) => {
-    return rows?.map((row, index) => {
-      const page = index + 1;
-      const data = pagination(page);
-      return (
-        <View key={row} style={layouts.horizontal}>
-          {data?.map((v) => (
-            <TouchableOpacity
-              key={v.id + ''}
-              style={[
-                styles.buttonSize,
-                options[itemOption?.id] === v.id && styles.selectBorder,
-                index > 0 && { marginTop: scaleHeight(15) },
-              ]}
-              onPress={() => onPress(v)}
-            >
-              <Text>{v.label}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      );
-    });
-  };
 
   const renderOption = (itemOption) => {
     if (
