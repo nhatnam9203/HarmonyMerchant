@@ -1,25 +1,16 @@
-import React from "react";
-import {
-  useGetAppointment,
-  useCancelAppointment,
-  useConfirmAppointment,
-  useShippingAppointment,
-  useCompleteAppointment,
-  useReturnAppointment,
-  useEditNotes,
-} from "@shared/services/api/retailer";
-import { CustomerGroupTypes, NEED_TO_ORDER } from "@shared/utils/app";
-import { useTranslation } from "react-i18next";
-import _ from "lodash";
 import NavigationServices from "@navigators/NavigatorServices";
-import { useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
-import {
-  BIRTH_DAY_DATE_FORMAT_STRING,
-  statusSuccess,
-  dateToString,
-} from "@shared/utils";
 import { ORDERED_STATUS } from "@shared/components/OrderStatusView";
+import {
+  useCancelAppointment,
+  useCompleteAppointment,
+  useConfirmAppointment,
+  useEditNotes,
+  useGetAppointment,
+  useShippingAppointment,
+} from "@shared/services/api/retailer";
+import { statusSuccess } from "@shared/utils";
+import React from "react";
 
 const log = (obj, message = "") => {
   Logger.log(`[HomeOrderDetail] ${message}`, obj);

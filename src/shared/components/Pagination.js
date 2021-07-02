@@ -1,17 +1,9 @@
-import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Image,
-  Pressable,
-} from "react-native";
-import { colors, fonts, layouts } from "@shared/themes";
 import IMAGE from "@resources";
+import { colors, fonts } from "@shared/themes";
+import React from "react";
 import { useTranslation } from "react-i18next";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { DropdownMenu } from "./DropdownMenu";
-import { ButtonFilter } from "./ButtonFilter";
 
 const ITEMS_COUNTER = [
   { value: 10, label: "10" },

@@ -1,40 +1,26 @@
-import React from "react";
-import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
-import { useTranslation } from "react-i18next";
-import { layouts, colors, fonts } from "@shared/themes";
+import IMAGE from "@resources";
 import {
-  FormFullName,
-  FormTitle,
-  FormPhoneNumber,
-  FormAddress,
-  FormContactEmail,
-  FormBirthDay,
-  FormGender,
-  FormCustomerGroup,
-  FormLabelSwitch,
   ButtonGradient,
   ButtonGradientWhite,
-  ButtonNormal,
-  ProductOptionImage,
-  ButtonGradientRed,
+  FormTitle,
 } from "@shared/components";
-import IMAGE from "@resources";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
-import { InputSearch } from "@shared/components/InputSearch";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { ORDERED_STATUS } from "@shared/components/OrderStatusView";
+import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
+import { colors, fonts, layouts } from "@shared/themes";
 import { dateToString, DATE_TIME_SHOW_FORMAT_STRING } from "@shared/utils";
+import { formatMoneyWithUnit } from "@utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import FastImage from "react-native-fast-image";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
-  DialogProductDetail,
-  BasketContentView,
+  FormAddressInformation,
   FormEditNotes,
   FormShippingCarrier,
-  FormAddressInformation,
 } from "../../widget";
-import FastImage from "react-native-fast-image";
-import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
-import { formatMoneyWithUnit } from "@utils";
-import { ORDERED_STATUS } from "@shared/components/OrderStatusView";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
