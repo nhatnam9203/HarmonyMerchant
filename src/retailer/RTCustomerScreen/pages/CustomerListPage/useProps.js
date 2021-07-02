@@ -57,7 +57,6 @@ export const useProps = ({ params: { reload }, navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       if (reload) callGetCustomerList();
-      dropdownRef.current?.setFilterItems(null);
     }, [reload])
   );
 
