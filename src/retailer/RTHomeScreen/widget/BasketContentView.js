@@ -90,15 +90,15 @@ export const BasketContentView = React.forwardRef(
             <View style={layouts.marginHorizontal} />
             <View style={styles.productItemContent}>
               <Text style={styles.totalText}>{item?.productName}</Text>
-              <Text style={styles.totalInfoText}>{item?.description}</Text>
+              <Text style={styles.totalInfoText}>{item?.value}</Text>
             </View>
-            <Text style={styles.productItemQuantity}>{`${item.quantity} ${t(
+            <Text style={styles.productItemQuantity}>{`${item?.quantity} ${t(
               "items"
             )}`}</Text>
             <View style={layouts.marginHorizontal} />
             <View style={layouts.marginHorizontal} />
             <Text style={styles.productItemPrice}>
-              {formatMoneyWithUnit(item.price)}
+              {formatMoneyWithUnit(item?.price)}
             </Text>
           </View>
         </ProductItem>

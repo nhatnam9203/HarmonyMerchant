@@ -19,6 +19,7 @@ import {
   statusSuccess,
   dateToString,
 } from "@shared/utils";
+import { ORDERED_STATUS } from "@shared/components/OrderStatusView";
 
 const log = (obj, message = "") => {
   Logger.log(`[HomeOrderDetail] ${message}`, obj);
@@ -80,8 +81,21 @@ export const useProps = ({
   React.useEffect(() => {
     const { codeStatus, message, data } = appointment || {};
     if (statusSuccess(codeStatus)) {
-      setAppointmentDetail(data);
-      formAddressRef.current?.reload();
+      // !! Kiểm tra xem appointment đã pay chưa.
+      log(data);
+      const { status, didNotPay, payment } = data || {};
+      if (
+        status === ORDERED_STATUS.PROCESS &&
+        !didNotPay &&
+        payment?.length <= 0
+      ) {
+        NavigationServices.navigate("retailer.home.order.pay", {
+          orderItem: data,
+        });
+      } else {
+        setAppointmentDetail(data);
+        formAddressRef.current?.reload();
+      }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,7 +143,6 @@ export const useProps = ({
       case "giftcard":
         method = "Gift Card";
         break;
-
       default:
         method = "Debit Cards";
     }
