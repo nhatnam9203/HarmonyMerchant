@@ -18,6 +18,7 @@ function* getListCustomersByMerchant(action) {
         payload: responses?.data || [],
         totalPages: responses?.pages || 0,
         currentPage: action.currentPage,
+        totalCustomerMerchant : responses?.count || 0
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({

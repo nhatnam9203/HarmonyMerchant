@@ -13,7 +13,7 @@ import styles from './style';
 import IMAGE from '@resources';
 import {
     HeaderTableCustomer, RowTableCustomer, RowEmptyTableCustomer,
-   CustomerDetailTab,EditOrCreateCustomerTab
+    CustomerDetailTab, EditOrCreateCustomerTab
 } from './widget';
 import configs from "@configs";
 import ICON from "@resources"
@@ -27,7 +27,7 @@ export default class Layout extends React.Component {
                 height: scaleSize(35), borderBottomColor: '#0764B0', borderWidth: 3, paddingLeft: scaleSize(50),
                 justifyContent: 'center'
             }} >
-                <Text style={{ fontSize: scaleSize(16), color: '#0764B0',fontWeight:"600" }} >
+                <Text style={{ fontSize: scaleSize(16), color: '#0764B0', fontWeight: "600" }} >
                     {localize('Customer', language)}
                 </Text>
             </View>
@@ -96,7 +96,6 @@ export default class Layout extends React.Component {
 
     renderTable() {
         const { listCustomersByMerchant, refreshListCustomer, language, isLoadMoreCustomerList } = this.props;
-
         return (
             <View style={{ flex: 1 }} >
                 <HeaderTableCustomer
@@ -107,6 +106,7 @@ export default class Layout extends React.Component {
                     renderItem={({ item, index }) => <RowTableCustomer
                         key={index}
                         customer={item}
+                        index={index}
                         unSelectAll={this.unSelectAll}
                         showModalDetail={this.gotoCustomerDetailTab}
                     />}
@@ -134,7 +134,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        const { language, stateCity, navigation, customerTabPermission } = this.props;
+        const { language, stateCity, navigation, customerTabPermission, totalCustomerMerchant } = this.props;
         const { visibleAdd, visibleDetail, visibleEdit, isFocus, currentTab } = this.state;
         return (
             <ParentContainer
@@ -159,6 +159,9 @@ export default class Layout extends React.Component {
                             <View style={{ height: scaleSize(25) }} />
                             {this.renderSearch()}
                             <View style={{ height: scaleSize(25) }} />
+                            <Text style={{ fontSize: scaleSize(16), color: '#585858', fontWeight: "500" , marginLeft: scaleSize(15) , marginBottom: scaleSize(18) }} >
+                                {`Total customer: ${totalCustomerMerchant}`}
+                            </Text>
                             {this.renderTable()}
                         </View>
 
@@ -202,7 +205,7 @@ export default class Layout extends React.Component {
                     onRequestClose={this.closePopupCheckCustomerTabPermission}
                 />
 
-            </ParentContainer >
+            </ParentContainer>
         );
     }
 }

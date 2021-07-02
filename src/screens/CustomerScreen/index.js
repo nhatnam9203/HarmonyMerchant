@@ -292,6 +292,7 @@ const mapStateToProps = (state) => ({
   isDeleteCustomerSuccess: state.customer.isDeleteCustomerSuccess,
   profileStaffLogin: state.dataLocal.profileStaffLogin,
   notiIntervalId: state.app.notiIntervalId,
+  totalCustomerMerchant: state.customer.totalCustomerMerchant,
 });
 
 export default connectRedux(mapStateToProps, CustomerScreen);

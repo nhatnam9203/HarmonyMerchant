@@ -21,6 +21,7 @@ const initialState = {
   isDeleteCustomerSuccess: false,
   isAddCustomerSuccess: false,
   customerInfoInCheckoutTab: {},
+  totalCustomerMerchant : 0,
 };
 
 function customerReducer(state = initialState, action) {
@@ -152,6 +153,7 @@ function customerReducer(state = initialState, action) {
         currentPage: action.currentPage,
         refreshListCustomer: false,
         isLoadMoreCustomerList: false,
+        totalCustomerMerchant : action.totalCustomerMerchant
       };
     case "GET_PAST_APPOINTMENT":
       return {
