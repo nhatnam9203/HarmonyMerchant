@@ -51,7 +51,9 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
       costPrice: Yup.string().required(),
       categoryId: Yup.number().required(),
       quantity: Yup.number().required(),
+      minThreshold: Yup.number().default(0),
       maxThreshold: Yup.number()
+        .default(0)
         .min(
           Yup.ref('minThreshold'),
           t('High threshold should be high than Low threshold')
@@ -61,6 +63,8 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
 
     onSubmit: (values) => {
       values.barCode = values.barCode || values.sku;
+      values.maxThreshold = values.maxThreshold || 0;
+      values.minThreshold = values.minThreshold || 0;
       const formatOptions = values?.options?.map((x) => ({
         attributeId: x.attributeId,
         // id: x.id,
