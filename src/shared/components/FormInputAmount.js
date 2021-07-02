@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native';
 import { fonts, colors } from '@shared/themes';
 import { layouts } from '../themes';
-
+import { TextInputMask } from 'react-native-masked-text';
 const MIN = 1;
 
 export const FormInputAmount = ({
@@ -13,14 +13,22 @@ export const FormInputAmount = ({
   const [amount, setAmount] = React.useState(defaultValue);
 
   const increment = () => {
-    setAmount(amount + 1);
+    setAmount(+amount + 1);
   };
 
   const decrement = () => {
-    if (amount <= MIN) {
+    if (+amount <= MIN) {
       setAmount(MIN);
     } else {
       setAmount(amount - 1);
+    }
+  };
+
+  const onHandleChange = (text) => {
+    console.log('text', text);
+    if (onChangeValue && typeof onChangeValue === 'function') {
+      setAmount(text);
+      onChangeValue(text);
     }
   };
 
@@ -43,7 +51,13 @@ export const FormInputAmount = ({
           <Text style={styles.textStyle}>-</Text>
         </Pressable>
         <View style={layouts.marginHorizontal} />
-        <TextInput style={styles.input} value={amount + ''} />
+        <TextInputMask
+          type="only-numbers"
+          keyboardType="numeric"
+          style={styles.input}
+          value={amount + ''}
+          onChangeText={onHandleChange}
+        />
         <View style={layouts.marginHorizontal} />
         <Pressable style={[styles.button, styles.border]} onPress={increment}>
           <Text style={styles.textStyle}>+</Text>

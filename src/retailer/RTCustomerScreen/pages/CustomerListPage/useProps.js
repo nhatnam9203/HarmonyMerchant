@@ -1,19 +1,19 @@
-import React from "react";
+import React from 'react';
 import {
   useGetCustomerList,
   useExportCustomer,
-} from "@shared/services/api/retailer";
+} from '@shared/services/api/retailer';
 import {
   CustomerGroupTypes,
   SORT_TYPE,
   statusSuccess,
-} from "@shared/utils/app";
-import { useTranslation } from "react-i18next";
-import _ from "lodash";
-import NavigationServices from "@navigators/NavigatorServices";
-import { useFocusEffect } from "@react-navigation/native";
+} from '@shared/utils/app';
+import { useTranslation } from 'react-i18next';
+import _ from 'lodash';
+import NavigationServices from '@navigators/NavigatorServices';
+import { useFocusEffect } from '@react-navigation/native';
 
-const log = (obj, message = "") => {
+const log = (obj, message = '') => {
   Logger.log(`[CustomerListPage] ${message}`, obj);
 };
 const DEFAULT_PAGE = 1;
@@ -44,7 +44,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
   const [customerList, getCustomerList] = useGetCustomerList();
   const callGetCustomerList = React.useCallback(() => {
     getCustomerList({
-      key: searchVal ?? "",
+      key: searchVal ?? '',
       page: page,
       groupId: groupType,
       sort: { CustomerName: sortName, PhoneNumber: sortPhoneNumber },
@@ -64,7 +64,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       if (reload) callGetCustomerList();
-    }, [reload])
+    }, [reload, groupType, sortName, sortPhoneNumber, searchVal, page])
   );
 
   React.useEffect(() => {
@@ -86,7 +86,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
   const [customerExport, ExportCustomer] = useExportCustomer();
   const callExportCustomer = (values) => {
     const params = Object.assign({}, values, {
-      key: searchVal ?? "",
+      key: searchVal ?? '',
       page: page,
       groupId: groupType,
       sort: { CustomerName: sortName, PhoneNumber: sortPhoneNumber },
@@ -103,7 +103,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
 
   const getCustomerGroupLabel = (value) => {
     const group = CustomerGroupTypes.find((x) => x.value === value);
-    return t(group?.label) || "None";
+    return t(group?.label) || 'None';
   };
 
   const onRefresh = () => {
@@ -112,12 +112,12 @@ export const useProps = ({ params: { reload }, navigation }) => {
 
   const onSortWithKey = (sortKey) => {
     switch (sortKey) {
-      case "customerName":
+      case 'customerName':
         const sortedName =
           sortName === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
         setSortName(sortedName);
         break;
-      case "phone":
+      case 'phone':
         const sortedPhone =
           sortPhoneNumber === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
         setSortPhoneNumber(sortedPhone);
@@ -136,7 +136,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
   };
 
   const onButtonNewCustomerPress = () => {
-    NavigationServices.navigate("retailer.customer.edit", {
+    NavigationServices.navigate('retailer.customer.edit', {
       isNew: true,
     });
   };
@@ -158,12 +158,12 @@ export const useProps = ({ params: { reload }, navigation }) => {
     onRefresh,
     callExportCustomer,
     onSelectRow: ({ item }) => {
-      NavigationServices.navigate("retailer.customer.detail", {
+      NavigationServices.navigate('retailer.customer.detail', {
         item: item,
       });
     },
     onEditCustomer: (item) => {
-      NavigationServices.navigate("retailer.customer.edit", {
+      NavigationServices.navigate('retailer.customer.edit', {
         item,
         isEdit: true,
       });

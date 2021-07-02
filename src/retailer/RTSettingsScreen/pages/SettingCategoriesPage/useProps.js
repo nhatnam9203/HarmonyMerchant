@@ -26,7 +26,6 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
       page: page,
     });
 
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, searchVal]);
 
@@ -47,7 +46,7 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   useFocusEffect(
     React.useCallback(() => {
       if (reload || reloadPage) callGetCategoriesList();
-    }, [reload, reloadPage])
+    }, [reload, reloadPage, page, searchVal])
   );
 
   React.useEffect(() => {

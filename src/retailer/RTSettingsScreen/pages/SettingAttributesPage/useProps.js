@@ -47,7 +47,7 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   useFocusEffect(
     React.useCallback(() => {
       if (reload || reloadPage) callGetAttributesList();
-    }, [reload, reloadPage])
+    }, [reload, reloadPage, page, sortLabel, searchVal])
   );
 
   React.useEffect(() => {
