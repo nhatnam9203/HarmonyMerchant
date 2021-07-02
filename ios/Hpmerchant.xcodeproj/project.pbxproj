@@ -935,7 +935,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n";
+			shellScript = "
+";
 		};
 		2388BF55253FEC34007B4A7A /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -966,7 +967,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n";
+			shellScript = "
+";
 		};
 		23A6A60C22ACDBDF00739B1A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -983,7 +985,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n";
+			shellScript = "
+";
 		};
 		5BC5317933CE82F7A95FCDE6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1304,7 +1307,7 @@
 				CODE_SIGN_ENTITLEMENTS = Staing.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
@@ -1331,7 +1334,7 @@
 					"$(PROJECT_DIR)/20191125",
 					"$(PROJECT_DIR)/trans/sdk",
 				);
-				MARKETING_VERSION = 1.2.5;
+				MARKETING_VERSION = 1.2.7;
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1358,7 +1361,7 @@
 				CODE_SIGN_ENTITLEMENTS = Staing.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1384,7 +1387,7 @@
 					"$(PROJECT_DIR)/20191125",
 					"$(PROJECT_DIR)/trans/sdk",
 				);
-				MARKETING_VERSION = 1.2.5;
+				MARKETING_VERSION = 1.2.7;
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

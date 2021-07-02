@@ -1,5 +1,5 @@
-import NavigationServices from '@navigators/NavigatorServices';
-import { useFocusEffect } from '@react-navigation/native';
+import NavigationServices from "@navigators/NavigatorServices";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   useExportOrderList,
   useGetOrderList,
@@ -26,7 +26,7 @@ export const useProps = ({ params: { reload } }) => {
     count: 0,
   });
   const [items, setItems] = React.useState(null);
-  const [sortById, setSortById] = React.useState(SORT_TYPE.ASC);
+  const [sortById, setSortById] = React.useState(SORT_TYPE.DESC);
 
   /**
   |--------------------------------------------------
@@ -75,7 +75,7 @@ export const useProps = ({ params: { reload } }) => {
         },
       }),
     });
-    exportRef.current?.onSetFileName(getTimeTitleFile('ReportOrder', params));
+    exportRef.current?.onSetFileName(getTimeTitleFile("ReportOrder", params));
     ExportOrderList(params);
   };
 
@@ -145,10 +145,10 @@ export const useProps = ({ params: { reload } }) => {
     onChangeValueSearch,
     onButtonSearchPress,
     onButtonNewOrderPress: () => {
-      NavigationServices.navigate('retailer.home.checkout', {});
+      NavigationServices.navigate("retailer.home.checkout", {});
     },
     onSelectRow: ({ item }) => {
-      NavigationServices.navigate('retailer.home.order.detail', {
+      NavigationServices.navigate("retailer.home.order.detail", {
         order: item,
       });
     },
@@ -167,9 +167,9 @@ export const useProps = ({ params: { reload } }) => {
     },
     items,
     onChangeTimeValue: (quickFilter, timeState) => {
-      if (timeState === 'Customize Date') {
+      if (timeState === "Customize Date") {
         setTimeVal({
-          quickFilter: 'custom',
+          quickFilter: "custom",
           timeStart: timeState.startDate,
           timeEnd: timeState.endDate,
         });
@@ -178,9 +178,9 @@ export const useProps = ({ params: { reload } }) => {
       }
     },
     onResetFilter: () => {
-      setPayment('');
-      setPurchasePoint('');
-      setOrderStatus('');
+      setPayment("");
+      setPurchasePoint("");
+      setOrderStatus("");
     },
     onApplyFilter: () => {},
     purchasePoint,
