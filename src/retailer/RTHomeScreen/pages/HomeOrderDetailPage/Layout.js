@@ -174,9 +174,9 @@ export const Layout = ({
           <FastImage
             style={styles.imageStyle}
             source={
-              item.imageUrl
+              item?.imageUrl
                 ? {
-                    uri: item.imageUrl,
+                    uri: item?.imageUrl,
                     priority: FastImage.priority.high,
                     cache: FastImage.cacheControl.immutable,
                   }
@@ -357,7 +357,7 @@ export const Layout = ({
               <View style={layouts.horizontal}>
                 <InfoContent label={t("Payment Informations")}>
                   {item?.payment?.length > 0 &&
-                    item.payment.map((payItem) => (
+                    item?.payment.map((payItem) => (
                       <View style={styles.personContent}>
                         <Text style={styles.boldText}>
                           {`${getPaymentString(
@@ -366,7 +366,7 @@ export const Layout = ({
                         </Text>
                       </View>
                     ))}
-                  {item.didNotPay && (
+                  {item?.didNotPay && (
                     <View style={styles.personContent}>
                       <Text style={styles.boldText}>
                         {`${t("Did not pay")}`}
