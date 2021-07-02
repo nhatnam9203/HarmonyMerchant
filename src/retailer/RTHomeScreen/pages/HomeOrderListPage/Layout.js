@@ -1,4 +1,4 @@
-import IMAGE from '@resources';
+import IMAGE from "@resources";
 import {
   ButtonCalendarFilter,
   ButtonGradient,
@@ -21,12 +21,12 @@ import {
   ORDER_STATUS,
   PAYMENTS,
   PURCHASE_POINTS,
-} from '@shared/utils';
-import { formatMoneyWithUnit } from '@utils';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { FormFilter } from '../../widget';
+} from "@shared/utils";
+import { formatMoneyWithUnit } from "@utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FormFilter } from "../../widget";
 
 export const Layout = ({
   onChangeValueSearch,
@@ -187,21 +187,21 @@ export const Layout = ({
               <FormSelect
                 label={t("Payment method")}
                 filterItems={PAYMENTS}
-                defaultValue={0}
+                defaultValue={payment}
                 onChangeValue={setPayment}
               />
 
               <FormSelect
                 label={t("Purchase point")}
                 filterItems={PURCHASE_POINTS}
-                defaultValue={0}
+                defaultValue={purchasePoint}
                 onChangeValue={setPurchasePoint}
               />
 
               <FormSelect
                 label={t("Status")}
                 filterItems={ORDER_STATUS}
-                defaultValue={0}
+                defaultValue={orderStatus}
                 onChangeValue={setOrderStatus}
               />
             </View>
