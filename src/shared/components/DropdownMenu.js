@@ -36,6 +36,7 @@ export const DropdownMenu = React.forwardRef(
       },
       setFilterItems: (its) => {
         setOptions(its);
+        console.log('sdsadsa')
       },
     }));
 

@@ -40,6 +40,7 @@ export const Layout = ({
   onRefresh,
   callExportCustomer,
   exportRef,
+  dropdownRef
 }) => {
   const { t } = useTranslation();
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
@@ -127,7 +128,7 @@ export const Layout = ({
 
       <View style={styles.rowContent}>
         <DropdownCategory
-          // ref={dropdownRef}
+          ref={dropdownRef}
           items={customerGroups}
           onChangeValue={(item) => {
             setGroupType(item?.value);

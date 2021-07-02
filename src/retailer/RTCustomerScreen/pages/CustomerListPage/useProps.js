@@ -23,6 +23,7 @@ const log = (obj, message = '') => {
 export const useProps = ({ params: { reload }, navigation }) => {
   const [t] = useTranslation();
   const exportRef = React.useRef();
+  const dropdownRef = React.useRef();
   const [groupType, setGroupType] = React.useState(CustomerGroupTypes[0].value);
   const [page, setPage] = React.useState(1);
   const [sortName, setSortName] = React.useState(SORT_TYPE.ASC);
@@ -56,6 +57,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       if (reload) callGetCustomerList();
+      dropdownRef.current?.setFilterItems(null);
     }, [reload])
   );
 
@@ -126,6 +128,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
     items: customerList?.data,
     groupType,
     exportRef,
+    dropdownRef,
     setGroupType,
     customerGroups: CustomerGroupTypes,
     getCustomerGroupLabel,
