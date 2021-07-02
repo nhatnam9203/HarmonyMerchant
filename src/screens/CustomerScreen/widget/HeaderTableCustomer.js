@@ -19,7 +19,7 @@ class HeaderTableCustomer extends React.Component {
         return (
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
-                <View style={{ width : scaleSize(45), flexDirection: 'row' }} >
+                <View style={{ width : scaleSize(60), flexDirection: 'row' }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={styles.textTableHeader} >
                             {localize('No.', language)}

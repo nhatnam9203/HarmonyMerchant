@@ -21,7 +21,7 @@ class RowTableCustomer extends React.Component {
         return (
             <Button onPress={() => this.props.showModalDetail(customer)} style={styles.tableHeader} >
 
-                <View style={{ width: scaleSize(45), flexDirection: 'row' }} >
+                <View style={{ width: scaleSize(60), flexDirection: 'row' }} >
                     <View style={[{
                         flex: 1,
                         flexDirection: 'row',
