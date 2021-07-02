@@ -1,13 +1,18 @@
-import { ButtonGradient, CustomCheckBox } from '@shared/components';
-import { DialogLayout } from '@shared/layouts';
-import { useGetAttributesList } from '@shared/services/api/retailer';
-import { colors, fonts, layouts } from '@shared/themes';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
-import { addOption } from './ProductState';
+import { ButtonGradient, CustomCheckBox } from "@shared/components";
+import { DialogLayout } from "@shared/layouts";
+import { useGetAttributesList } from "@shared/services/api/retailer";
+import { colors, fonts, layouts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { addOption } from "./ProductState";
+import {
+  CustomerGroupTypes,
+  SORT_TYPE,
+  statusSuccess,
+} from "@shared/utils/app";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[AddProductOptionDialog] ${message}`, obj);
 };
 
@@ -29,8 +34,10 @@ export const AddProductOptionDialog = ({
   const [attributesList, getAttributesList] = useGetAttributesList();
 
   // chỗ này parent sẽ gọi
+
   React.useEffect(() => {
-    if (attributesList?.data) {
+    const { codeStatus, data } = attributesList || {};
+    if (statusSuccess(codeStatus)) {
       // setOptions(
       //   attributesList?.data?.map((v) => {
       //     const existItem = defaultOptionsId.find(
@@ -52,9 +59,10 @@ export const AddProductOptionDialog = ({
           )
           .map((x) => Object.assign({}, x, { attributeId: x.id, id: 0 }))
       );
+
+      setItems(null);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [attributesList?.data]);
+  }, [attributesList]);
 
   const onShowDialog = () => {
     getAttributesList();
@@ -96,12 +104,12 @@ export const AddProductOptionDialog = ({
     <View>
       {renderButton && renderButton(onShowDialog)}
       <DialogLayout
-        title={t('Add attribute')}
+        title={t("Add attribute")}
         ref={dialogRef}
         bottomChildren={() => (
           <View style={styles.bottomStyle}>
             <ButtonGradient
-              label={t('Add selected')}
+              label={t("Add selected")}
               width={scaleWidth(140)}
               height={scaleHeight(40)}
               borderRadius={scaleWidth(3)}
@@ -112,7 +120,7 @@ export const AddProductOptionDialog = ({
       >
         <View style={styles.container}>
           <Text style={styles.title}>
-            {t('Select customize options attribute')}
+            {t("Select customize options attribute")}
           </Text>
 
           <FlatList
@@ -140,22 +148,22 @@ const styles = StyleSheet.create({
   },
 
   bottomStyle: {
-    width: '100%',
+    width: "100%",
     height: scaleHeight(80),
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    flexDirection: "row",
     borderTopWidth: 1,
-    borderTopColor: '#ddd',
+    borderTopColor: "#ddd",
   },
 
   title: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
@@ -163,7 +171,7 @@ const styles = StyleSheet.create({
     // height: scaleHeight(400),
     maxHeight: scaleHeight(400),
     minHeight: scaleHeight(100),
-    width: '100%',
+    width: "100%",
     marginVertical: scaleHeight(20),
   },
 
@@ -171,27 +179,27 @@ const styles = StyleSheet.create({
     width: scaleWidth(440),
     height: scaleHeight(48),
     backgroundColor: colors.WHITE,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderRightWidth: scaleWidth(1),
     borderLeftWidth: scaleWidth(1),
-    borderColor: '#dddddd',
-    alignItems: 'center',
+    borderColor: "#dddddd",
+    alignItems: "center",
     paddingHorizontal: scaleWidth(16),
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
 
   itemSeparator: {
-    backgroundColor: '#dddddd',
+    backgroundColor: "#dddddd",
     height: scaleHeight(1),
   },
 
   itemText: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 });
