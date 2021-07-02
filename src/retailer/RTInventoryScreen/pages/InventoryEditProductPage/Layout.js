@@ -64,7 +64,7 @@ export const Layout = ({
         )}
         {isNew && <Text style={styles.headTitle}>{t('New Product')}</Text>}
       </View>
-      <KeyboardAwareScrollView bounces={false}>
+      <KeyboardAwareScrollView bounces={false} extraHeight={scaleHeight(150)}>
         <View style={styles.content}>
           <FormTitle label={t('General Details')} />
         </View>
@@ -153,8 +153,7 @@ export const Layout = ({
                 //required={true}
                 style={layouts.fill}
                 onChangeValue={(value) => {
-                  if (value)
-                    form.setFieldValue('minThreshold', parseInt(value));
+                  form.setFieldValue('minThreshold', value);
                 }}
                 defaultValue={`${productItem?.minThreshold ?? ''}`}
                 keyboardType="numeric"
@@ -167,8 +166,7 @@ export const Layout = ({
                 //required={true}
                 style={layouts.fill}
                 onChangeValue={(value) => {
-                  if (value)
-                    form.setFieldValue('maxThreshold', parseInt(value));
+                  form.setFieldValue('maxThreshold', value);
                 }}
                 defaultValue={`${productItem?.maxThreshold ?? ''}`}
                 keyboardType="numeric"
@@ -180,7 +178,7 @@ export const Layout = ({
               placeholder={t('100')}
               required={true}
               onChangeValue={(value) => {
-                if (value) form.setFieldValue('quantity', parseInt(value));
+                form.setFieldValue('quantity', parseInt(value));
               }}
               defaultValue={`${productItem?.quantity ?? ''}`}
               keyboardType="number-pad"
