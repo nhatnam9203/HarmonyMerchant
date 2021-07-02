@@ -57,6 +57,8 @@ export const useProps = ({ params: { reload }, navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      console.log(groupType);
+
       if (reload) callGetCustomerList();
     }, [reload])
   );
