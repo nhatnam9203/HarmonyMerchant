@@ -62,7 +62,7 @@ export const Layout = ({
         <TableImageCell
           width={IMAGE_WIDTH}
           imageUrl={item?.imageUrl}
-          key={getUniqueId(columnKey, rowIndex, "cell-image")}
+          key={getUniqueId(columnKey, rowIndex, "cell-image-checked")}
           onPress={() => {}}
           // value={item?.checked}
           onValueChange={handleCheckRow}
