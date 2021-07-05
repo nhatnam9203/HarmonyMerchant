@@ -53,7 +53,7 @@ export const ButtonRightPanelFilter = ({ children, onReset, onApply }) => {
         // animationOutTiming={10000}
         useNativeDriver={true}
         hasBackdrop={true}
-        backdropOpacity={0.2}
+        backdropOpacity={0}
         onBackdropPress={hideModal}
       >
         <View style={styles.panel}>

@@ -46,23 +46,36 @@ export const ButtonNormal = ({
   );
 };
 
+export const BlueButtonStyle = {
+  textColor: colors.WHITE,
+  pressTextColor: colors.PALE_GREY,
+  firstColor: colors.OCEAN_BLUE,
+  pressFirstColor: colors.VERY_LIGHT_PINK_1,
+  lastColor: colors.CERULEAN,
+  pressLastColor: colors.WHITE,
+};
+
 export const ButtonGradient = ({
   width,
   height,
   borderRadius = 1,
   label,
   textStyle,
-  textColor,
   onPress,
-  lastColor = colors.CERULEAN,
-  firstColor = colors.OCEAN_BLUE,
-  borderColor = colors.OCEAN_BLUE,
-  borderWidth,
+  borderWidth = scaleWidth(1),
   fontSize,
   fontWeight,
   children,
   disable,
   leftChildren,
+  textColor = colors.WHITE,
+  pressTextColor = colors.GREYISH_BROWN,
+  firstColor = colors.OCEAN_BLUE,
+  pressFirstColor = colors.VERY_LIGHT_PINK_1,
+  lastColor = colors.CERULEAN,
+  pressLastColor = colors.WHITE,
+  borderColor = colors.OCEAN_BLUE,
+  pressBorderColor = "#ccc",
 }) => {
   return (
     <Pressable
@@ -72,34 +85,39 @@ export const ButtonGradient = ({
         { borderRadius },
         width && { width },
         height && { height },
-        { borderColor },
+        { borderColor: pressed ? pressBorderColor : borderColor },
         borderWidth && { borderWidth },
-        { opacity: pressed ? 0.8 : 1 },
         disable && { opacity: 0.6 },
       ]}
       disabled={disable}
     >
-      <LinearGradient
-        style={[styles.linear, layouts.center]}
-        colors={[lastColor, firstColor]}
-      >
-        {leftChildren && leftChildren()}
+      {({ pressed }) => (
+        <LinearGradient
+          style={[styles.linear, layouts.center]}
+          colors={
+            pressed
+              ? [pressLastColor, pressFirstColor]
+              : [lastColor, firstColor]
+          }
+        >
+          {leftChildren && leftChildren()}
 
-        {label && (
-          <Text
-            style={[
-              styles.buttonText,
-              textStyle,
-              textColor && { color: textColor },
-              fontSize && { fontSize },
-              fontWeight && { fontWeight },
-            ]}
-          >
-            {label}
-          </Text>
-        )}
-        {children}
-      </LinearGradient>
+          {label && (
+            <Text
+              style={[
+                styles.buttonText,
+                textStyle,
+                { color: pressed ? pressTextColor : textColor },
+                fontSize && { fontSize },
+                fontWeight && { fontWeight },
+              ]}
+            >
+              {label}
+            </Text>
+          )}
+          {children}
+        </LinearGradient>
+      )}
     </Pressable>
   );
 };
@@ -113,9 +131,13 @@ export const ButtonGradientWhite = ({
   <ButtonGradient
     {...props}
     firstColor={colors.VERY_LIGHT_PINK_1}
+    pressFirstColor={colors.OCEAN_BLUE}
     lastColor={colors.WHITE}
+    pressLastColor={colors.CERULEAN}
     textColor={textColor ?? colors.GREYISH_BROWN}
+    pressTextColor={colors.WHITE}
     borderColor={borderColor}
+    pressBorderColor={colors.OCEAN_BLUE}
     borderWidth={scaleHeight(1)}
     borderRadius={borderRadius}
   />
