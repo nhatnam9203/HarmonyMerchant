@@ -16,7 +16,7 @@ import {
   formatWithMoment,
   getInfoFromModelNameOfPrinter,
   getArrayGiftCardsFromAppointment,
-  getPAXReport,
+  requestAPI,
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
 import Configs from "@configs";
@@ -1408,7 +1408,9 @@ class TabCheckout extends Layout {
       amountCredtitForSubmitToServer,
       groupAppointment,
       isCancelPayment,
-      payAppointmentId
+      payAppointmentId,
+      profileStaffLogin,
+      versionApp,
     } = this.props;
     const { paymentSelected } = this.state;
 
@@ -1423,12 +1425,29 @@ class TabCheckout extends Layout {
       const result = await this.getPAXReport(paxMachineInfo, "1")
       if (!l.isEmpty(result)) {
         if (l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()) {
-          
-          this.handleResponseCreditCard(
-            JSON.stringify(result),
-            true,
-            amountCredtitForSubmitToServer
-          )
+          //Call server to check auth number
+          const resultGroupAppointment = await requestAPI({
+              type: 'GET_GROUP_APPOINTMENT_BY_ID',
+              method: 'GET',
+              api: `${apiConfigs.BASE_API}appointment/getGroupById/${payAppointmentId}`,
+              token: profileStaffLogin.token,
+              versionApp: versionApp
+            });
+
+          if(l.get(resultGroupAppointment, 'lastAuthCode') == null 
+            || l.get(resultGroupAppointment, 'lastAuthCode') == undefined
+            || l.get(resultGroupAppointment, 'lastAuthCode') == l.get(result, 'AuthCode')){
+              //have not pay yet || multi pay
+              this.sendTransaction()
+          }else{
+            //missing transaction
+            //call to server previous response
+            this.handleResponseCreditCard(
+              JSON.stringify(result),
+              true,
+              amountCredtitForSubmitToServer
+            )
+          }
         } else {
           this.sendTransaction()
         }
