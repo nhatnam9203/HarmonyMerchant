@@ -17,7 +17,10 @@ export const TableImageCell = ({
       onPress={() => {}}
       activeOpacity={1}
     >
-      <CustomTableCheckBox value={defaultValue} onValueChange={onValueChange} />
+      <CustomTableCheckBox
+        defaultValue={defaultValue}
+        onValueChange={onValueChange}
+      />
       <FastImage
         style={styles.imageStyle}
         source={

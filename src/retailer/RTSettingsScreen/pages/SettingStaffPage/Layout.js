@@ -2,15 +2,15 @@ import {
   ButtonGradient,
   ButtonGradientRed,
   SearchBar,
-} from '@shared/components';
-import { Table } from '@shared/components/CustomTable';
-import { getUniqueId } from '@shared/components/CustomTable/helpers';
-import { colors, layouts } from '@shared/themes';
-import { dateToString, DATE_SHOW_FORMAT_STRING } from '@shared/utils';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
-import { WithDialogConfirm } from '@shared/HOC/withDialogConfirm';
+} from "@shared/components";
+import { Table } from "@shared/components/CustomTable";
+import { getUniqueId } from "@shared/components/CustomTable/helpers";
+import { colors, layouts } from "@shared/themes";
+import { dateToString, DATE_SHOW_FORMAT_STRING } from "@shared/utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, View } from "react-native";
+import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
 
@@ -30,19 +30,19 @@ export const Layout = ({
     const onHandleEdit = () => {
       onButtonEditStaffPress(item);
     };
-    if (columnKey === 'actions') {
+    if (columnKey === "actions") {
       return (
         <View
           style={[layouts.fill, layouts.horizontal]}
-          key={getUniqueId(columnKey, rowIndex, 'cell-action')}
+          key={getUniqueId(columnKey, rowIndex, "cell-action")}
         >
           <ButtonGradient
-            label={t('Edit')}
+            label={t("Edit")}
             width={scaleWidth(72)}
-            height={scaleHeight(28)}
+            height={scaleHeight(30)}
+            borderRadius={scaleWidth(3)}
             fontSize={scaleFont(15)}
             textColor={colors.WHITE}
-            borderRadius={scaleWidth(2)}
             fontWeight="normal"
             onPress={onHandleEdit}
           />
@@ -55,25 +55,25 @@ export const Layout = ({
   return (
     <View style={styles.container}>
       <SearchBar
-        labelNewButton={t('New Staff')}
+        labelNewButton={t("New Staff")}
         onNewButtonPress={onButtonNewStaffPress}
         onButtonSearchPress={onButtonSearchPress}
-        onChangeValueSearch={(value) => onChangeValueSearch('keySearch', value)}
+        onChangeValueSearch={(value) => onChangeValueSearch("keySearch", value)}
       />
       <View style={layouts.formRow}>
-        <Text style={layouts.formTitle}>{t('Staffs')}</Text>
+        <Text style={layouts.formTitle}>{t("Staffs")}</Text>
       </View>
       <View style={layouts.fill}>
         <Table
           items={items}
           headerKeyLabels={{
-            displayName: t('Staff name'),
-            phone: t('Phone Number'),
-            email: t('Email'),
+            displayName: t("Staff name"),
+            phone: t("Phone Number"),
+            email: t("Email"),
             // inputType: t('Input Type'),
-            actions: t('Actions'),
+            actions: t("Actions"),
           }}
-          whiteListKeys={['displayName', 'phone', 'email', 'actions']}
+          whiteListKeys={["displayName", "phone", "email", "actions"]}
           sortedKeys={{ displayName: sortLabel }}
           primaryKey="staffId"
           widthForKeys={{
@@ -81,7 +81,7 @@ export const Layout = ({
             phone: scaleWidth(286),
             email: scaleWidth(250),
           }}
-          emptyDescription={t('No Staffs')}
+          emptyDescription={t("No Staffs")}
           styleTextKeys={{ displayName: layouts.tableName }}
           onSortWithKey={onSortWithKey}
           renderCell={onRenderCell}

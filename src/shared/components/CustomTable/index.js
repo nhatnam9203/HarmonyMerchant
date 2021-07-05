@@ -423,6 +423,7 @@ export function Table({
           height={scaleHeight(42)}
           onSortWithKey={onSortWithKey}
           draggable={draggable}
+          renderHeaderCell={renderHeaderCell}
         />
       )}
       {draggable ? (
