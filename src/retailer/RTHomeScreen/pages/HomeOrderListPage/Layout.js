@@ -58,7 +58,6 @@ export const Layout = ({
   onCheckedRow,
 }) => {
   const { t } = useTranslation();
-  const [visibleFilter, setVisibleFilter] = React.useState(false);
 
   const onRenderTableCell = ({ item, columnKey, rowIndex, cellWidth }) => {
     if (columnKey === "code") {
