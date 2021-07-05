@@ -97,6 +97,12 @@ function* addCustomer(action) {
           isShowLoadMore: false,
         });
       }
+      yield put({
+        type: "COUNT_CUSTOMER",
+        method: "GET",
+        api: `${apiConfigs.BASE_API}customer/count`,
+        token: true,
+      })
     } else if (parseInt(codeNumber) === 401) {
       yield put({
         type: "UNAUTHORIZED",
