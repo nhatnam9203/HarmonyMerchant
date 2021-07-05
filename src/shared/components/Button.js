@@ -69,13 +69,13 @@ export const ButtonGradient = ({
   disable,
   leftChildren,
   textColor = colors.WHITE,
-  pressTextColor = colors.GREYISH_BROWN,
+  pressTextColor = colors.WHITE,
   firstColor = colors.OCEAN_BLUE,
-  pressFirstColor = colors.VERY_LIGHT_PINK_1,
+  pressFirstColor = colors.OCEAN_BLUE,
   lastColor = colors.CERULEAN,
-  pressLastColor = colors.WHITE,
+  pressLastColor = colors.PEACOCK_BLUE,
   borderColor = colors.OCEAN_BLUE,
-  pressBorderColor = "#ccc",
+  pressBorderColor = colors.OCEAN_BLUE,
 }) => {
   return (
     <Pressable
@@ -131,13 +131,13 @@ export const ButtonGradientWhite = ({
   <ButtonGradient
     {...props}
     firstColor={colors.VERY_LIGHT_PINK_1}
-    pressFirstColor={colors.OCEAN_BLUE}
+    pressFirstColor={colors.VERY_LIGHT_PINK_1}
     lastColor={colors.WHITE}
-    pressLastColor={colors.CERULEAN}
+    pressLastColor={colors.WHITE_TWO}
     textColor={textColor ?? colors.GREYISH_BROWN}
-    pressTextColor={colors.WHITE}
+    pressTextColor={colors.GREYISH_BROWN}
     borderColor={borderColor}
-    pressBorderColor={colors.OCEAN_BLUE}
+    pressBorderColor={borderColor}
     borderWidth={scaleHeight(1)}
     borderRadius={borderRadius}
   />
