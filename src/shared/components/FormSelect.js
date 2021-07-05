@@ -15,6 +15,7 @@ export const FormSelect = ({
   children,
   filterRef,
   isDropdown = true,
+  titleStyle,
 }) => {
   const [t] = useTranslation();
   const [index, setIndex] = React.useState(-1);
@@ -35,7 +36,7 @@ export const FormSelect = ({
   return (
     <View style={[styles.container, style]}>
       {!!label && (
-        <Text style={styles.textStyle}>
+        <Text style={titleStyle ?? styles.textStyle}>
           {label}
           {required && <Text style={styles.requiredStyle}> *</Text>}
         </Text>
@@ -63,7 +64,6 @@ export const FormSelect = ({
             height={scaleHeight(40)}
           />
         )}
-        <View style={layouts.marginHorizontal} />
         {children}
       </View>
     </View>

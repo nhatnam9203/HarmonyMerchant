@@ -35,3 +35,4 @@ export * from "./DialogTimeKeeping";
 export * from "./ExportModalInventory";
 export * from "./ExportLoading";
 export * from "./Pagination";
+export * from "./SlideInRightModal";

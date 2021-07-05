@@ -7,6 +7,7 @@ import {
   ExportModal,
   FormSelect,
   Pagination,
+  SlideInRightModal,
 } from "@shared/components";
 import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
 import { Table } from "@shared/components/CustomTable";
@@ -51,8 +52,10 @@ export const Layout = ({
   DEFAULT_PAGE,
   pagination,
   sortById,
+  isShowClearFilter,
 }) => {
   const { t } = useTranslation();
+  const [visibleFilter, setVisibleFilter] = React.useState(false);
 
   const onRenderTableCell = ({ item, columnKey, rowIndex, cellWidth }) => {
     if (columnKey === "code") {
@@ -179,33 +182,41 @@ export const Layout = ({
           />
 
           <View style={layouts.marginHorizontal} />
+
           <ButtonRightPanelFilter
             onReset={onResetFilter}
             onApply={onApplyFilter}
           >
             <View style={styles.filterContent}>
               <FormSelect
+                required={false}
                 label={t("Payment method")}
                 filterItems={PAYMENTS}
                 defaultValue={payment}
                 onChangeValue={setPayment}
+                titleStyle={styles.filterTitle}
               />
 
               <FormSelect
+                required={false}
                 label={t("Purchase point")}
                 filterItems={PURCHASE_POINTS}
                 defaultValue={purchasePoint}
                 onChangeValue={setPurchasePoint}
+                titleStyle={styles.filterTitle}
               />
 
               <FormSelect
+                required={false}
                 label={t("Status")}
                 filterItems={ORDER_STATUS}
                 defaultValue={orderStatus}
                 onChangeValue={setOrderStatus}
+                titleStyle={styles.filterTitle}
               />
             </View>
           </ButtonRightPanelFilter>
+          <View style={layouts.marginHorizontal} />
 
           {payment?.length > 0 && (
             <FormFilter
@@ -228,6 +239,11 @@ export const Layout = ({
             />
           )}
         </View>
+        {isShowClearFilter() && (
+          <TouchableOpacity style={styles.clearAll} onPress={onResetFilter}>
+            <Text style={styles.clearAllText}>{t("Clear All")}</Text>
+          </TouchableOpacity>
+        )}
       </View>
       <View style={styles.rowContent}>
         <View style={styles.leftContent}>
@@ -300,5 +316,31 @@ const styles = StyleSheet.create({
     tintColor: colors.GREYISH_BROWN,
     width: scaleWidth(20),
     height: scaleHeight(20),
+  },
+
+  filterTitle: {
+    fontFamily: fonts.REGULAR,
+    fontSize: scaleFont(15),
+    fontWeight: "normal",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.OCEAN_BLUE,
+  },
+  clearAll: {
+    paddingRight: scaleWidth(10),
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  clearAllText: {
+    fontFamily: fonts.MEDIUM,
+    fontSize: scaleFont(17),
+    fontWeight: "500",
+    fontStyle: "normal",
+    lineHeight: 31,
+    letterSpacing: 0,
+    textAlign: "right",
+    color: colors.ORANGEY_RED,
   },
 });

@@ -205,5 +205,12 @@ export const useProps = ({ params: { reload } }) => {
     DEFAULT_PAGE,
     pagination,
     sortById,
+    isShowClearFilter: () => {
+      return (
+        payment?.length > 0 ||
+        purchasePoint?.length > 0 ||
+        orderStatus?.length > 0
+      );
+    },
   };
 };
