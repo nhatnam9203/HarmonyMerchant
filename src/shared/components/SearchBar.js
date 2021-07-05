@@ -1,9 +1,9 @@
-import { ButtonGradient, ButtonGradientWhite } from '@shared/components';
-import { InputSearch } from '@shared/components/InputSearch';
-import { layouts } from '@shared/themes';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
+import { InputSearch } from "@shared/components/InputSearch";
+import { layouts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, View } from "react-native";
 
 export const SearchBar = ({
   onNewButtonPress,
@@ -19,7 +19,7 @@ export const SearchBar = ({
         <InputSearch onSearch={onChangeValueSearch} width={scaleWidth(280)} />
         <View style={layouts.marginHorizontal} />
         <ButtonGradientWhite
-          label={t('Search')}
+          label={t("Search")}
           width={scaleWidth(120)}
           onPress={onButtonSearchPress}
         />
@@ -29,6 +29,7 @@ export const SearchBar = ({
         onPress={onNewButtonPress}
         label={labelNewButton}
         width={scaleWidth(140)}
+        borderRadius={scaleWidth(3)}
       />
     </View>
   );
@@ -40,12 +41,12 @@ const styles = StyleSheet.create({
     marginBottom: scaleHeight(10),
     paddingHorizontal: scaleWidth(16),
     height: scaleHeight(40),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 
   leftContent: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
 });

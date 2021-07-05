@@ -237,6 +237,7 @@ export const Layout = ({
           onPress={onButtonNewProductPress}
           label={t("Add Product")}
           width={scaleWidth(140)}
+          borderRadius={scaleWidth(3)}
         />
       </View>
     </View>

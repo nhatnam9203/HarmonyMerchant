@@ -259,6 +259,7 @@ export const Layout = ({
           onPress={onButtonNewOrderPress}
           label={t("New Order")}
           width={scaleWidth(140)}
+          borderRadius={scaleWidth(3)}
         />
       </View>
     </View>
