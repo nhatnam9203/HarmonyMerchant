@@ -29,6 +29,7 @@ export default function MarketingEfficiency({
   onRefresh,
   isRefreshing,
   resetTab,
+  onSortWithKey
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -191,6 +192,8 @@ export default function MarketingEfficiency({
             renderActionCell={renderActionCell}
             onRefresh={onRefresh}
             isRefreshing={isRefreshing}
+            sortKey='revenue'
+            onSortWithKey={onSortWithKey}
           />
         ) : (
           <View

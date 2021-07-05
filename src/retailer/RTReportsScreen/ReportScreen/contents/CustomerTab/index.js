@@ -4,7 +4,7 @@ import {
   useExportSaleCustomer,
 } from '@shared/services/api/retailer';
 import { colors } from '@shared/themes';
-import { statusSuccess, getTimeTitleFile } from '@shared/utils';
+import { statusSuccess, getTimeTitleFile, SORT_TYPE } from '@shared/utils';
 import { getQuickFilterTimeRange } from '@utils';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -28,7 +28,7 @@ export const CustomerTab = React.forwardRef(
     const exportRef = React.useRef();
     const [timeVal, setTimeVal] = React.useState(null);
     const [data, setData] = React.useState([]);
-
+    const [sortName, setSortName] = React.useState(SORT_TYPE.DESC);
     /**
   |--------------------------------------------------
   | CALL API
@@ -38,10 +38,10 @@ export const CustomerTab = React.forwardRef(
     const callGetReportCustomer = React.useCallback(() => {
       getReportCustomer({
         ...timeVal,
-        sort: {},
+        sort: { name: sortName },
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [timeVal]);
+    }, [timeVal, sortName]);
 
     /**
   |--------------------------------------------------
@@ -52,6 +52,7 @@ export const CustomerTab = React.forwardRef(
     const callExportCustomer = (values) => {
       const params = Object.assign({}, values, {
         ...timeVal,
+        sort: { name: sortName },
       });
       exportRef.current?.onSetFileName(
         getTimeTitleFile('ReportCustomer', params)
@@ -75,7 +76,7 @@ export const CustomerTab = React.forwardRef(
     React.useEffect(() => {
       callGetReportCustomer();
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [timeVal]);
+    }, [timeVal, sortName]);
 
     /**effect */
     React.useEffect(() => {
@@ -98,6 +99,19 @@ export const CustomerTab = React.forwardRef(
           quickFilter: getQuickFilterTimeRange(quickFilter),
           quickFilterText: quickFilter,
         });
+      }
+    };
+
+    const onSortWithKey = (sortKey) => {
+      switch (sortKey) {
+        case 'name':
+          const sortedName =
+            sortName === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
+          setSortName(sortedName);
+          break;
+
+        default:
+          break;
       }
     };
 
@@ -125,6 +139,8 @@ export const CustomerTab = React.forwardRef(
                 onRefresh={onRefresh}
                 callExportCustomer={callExportCustomer}
                 exportRef={exportRef}
+                sortName={sortName}
+                onSortWithKey={onSortWithKey}
               />
             )}
           </Screen>

@@ -4,7 +4,7 @@ import {
   useExportSaleByProduct,
 } from '@shared/services/api/retailer';
 import { colors } from '@shared/themes';
-import { statusSuccess, getTimeTitleFile } from '@shared/utils';
+import { statusSuccess, getTimeTitleFile, SORT_TYPE } from '@shared/utils';
 import { getQuickFilterTimeRange } from '@utils';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -22,7 +22,7 @@ function SalesByProductTab({
   const [timeVal, setTimeVal] = React.useState(null);
   const [filterProduct, setFilterProduct] = React.useState(null);
   const [data, setData] = React.useState([]);
-
+  const [sortTotalProfit, setSortTotalProfit] = React.useState(SORT_TYPE.DESC);
   /**
   |--------------------------------------------------
   | CALL API
@@ -33,10 +33,10 @@ function SalesByProductTab({
     getReportSaleProduct({
       ...timeVal,
       product: filterProduct?.value ?? 'top',
-      sort: {},
+      sort: { totalProfit: sortTotalProfit?.toUpperCase() },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal, filterProduct]);
+  }, [timeVal, filterProduct, sortTotalProfit]);
 
   /**
   |--------------------------------------------------
@@ -49,10 +49,9 @@ function SalesByProductTab({
     const params = Object.assign({}, values, {
       ...timeVal,
       product: filterProduct?.value ?? 'top',
+      sort: { totalProfit: sortTotalProfit?.toUpperCase() },
     });
-    exportRef.current?.onSetFileName(
-      getTimeTitleFile('SaleByProduct', params)
-    );
+    exportRef.current?.onSetFileName(getTimeTitleFile('SaleByProduct', params));
 
     ExportSaleByProduct(params);
   };
@@ -73,7 +72,7 @@ function SalesByProductTab({
   React.useEffect(() => {
     callGetReportSaleProduct();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal, filterProduct]);
+  }, [timeVal, filterProduct, sortTotalProfit]);
 
   /**effect */
   React.useEffect(() => {
@@ -96,6 +95,18 @@ function SalesByProductTab({
         quickFilter: getQuickFilterTimeRange(quickFilter),
         quickFilterText: quickFilter,
       });
+    }
+  };
+
+  const onSortWithKey = (sortKey) => {
+    switch (sortKey) {
+      case 'totalProfit':
+        const totalProfit =
+          sortTotalProfit === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
+        setSortTotalProfit(totalProfit);
+        break;
+      default:
+        break;
     }
   };
 
@@ -122,6 +133,8 @@ function SalesByProductTab({
               onRefresh={onRefresh}
               exportRef={exportRef}
               callExportSaleByProduct={callExportSaleByProduct}
+              sortTotalProfit={sortTotalProfit}
+              onSortWithKey={onSortWithKey}
             />
           )}
         </Screen>

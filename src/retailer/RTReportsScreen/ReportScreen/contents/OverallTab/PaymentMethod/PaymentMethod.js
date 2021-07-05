@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
-import IMAGE from "@resources";
-import { localize } from "@utils";
+import IMAGE from '@resources';
+import { localize } from '@utils';
 
-import { PopupButton, TableList, ReportTabLayout } from "../../../widget";
-import PaymentBarChart from "./chart/PaymentBarChart";
-import PaymentPieChart from "./chart/PaymentPieChart";
+import { PopupButton, TableList, ReportTabLayout } from '../../../widget';
+import PaymentBarChart from './chart/PaymentBarChart';
+import PaymentPieChart from './chart/PaymentPieChart';
 
 const VIEW_MODE = {
-  LIST: "LIST",
-  CHART: "CHART",
+  LIST: 'LIST',
+  CHART: 'CHART',
 };
-const FILTER_NAME_DEFAULT = "All Method";
-const ACTIVE_COLOR = "#0764B0";
-const INACTIVE_COLOR = "#6A6A6A";
+const FILTER_NAME_DEFAULT = 'All Method';
+const ACTIVE_COLOR = '#0764B0';
+const INACTIVE_COLOR = '#6A6A6A';
 
 export default function PaymentMethod({
   style,
@@ -29,7 +29,9 @@ export default function PaymentMethod({
   handleTheDownloadedFile,
   onRefresh,
   isRefreshing,
-  resetTab
+  resetTab,
+  sortPayment,
+  onSortWithKey,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -173,29 +175,29 @@ export default function PaymentMethod({
           <TableList
             tableData={filterDataTable()}
             tableHead={{
-              displayMethod: localize("Payment", language),
-              transactions: localize("Transactions", language),
-              grossPayment: localize("Gross Payments", language),
-              refund: localize("Refunds", language),
-              netPayment: localize("Net Payments", language),
+              displayMethod: localize('Payment', language),
+              transactions: localize('Transactions', language),
+              grossPayment: localize('Gross Payments', language),
+              refund: localize('Refunds', language),
+              netPayment: localize('Net Payments', language),
             }}
             whiteKeys={[
-              "displayMethod",
-              "transactions",
-              "grossPayment",
-              "refund",
-              "netPayment",
-              "action",
+              'displayMethod',
+              'transactions',
+              'grossPayment',
+              'refund',
+              'netPayment',
+              'action',
             ]}
             primaryId="method"
             sumTotalKey="displayMethod"
             calcSumKeys={[
-              "transactions",
-              "grossPayment",
-              "refund",
-              "netPayment",
+              'transactions',
+              'grossPayment',
+              'refund',
+              'netPayment',
             ]}
-            priceKeys={["grossPayment", "refund", "netPayment"]}
+            priceKeys={['grossPayment', 'refund', 'netPayment']}
             tableCellWidth={{
               displayMethod: 200,
               transactions: 150,
@@ -207,9 +209,11 @@ export default function PaymentMethod({
             renderActionCell={renderActionCell}
             onRefresh={onRefresh}
             isRefreshing={isRefreshing}
+            sortKey='displayMethod'
+            onSortWithKey={onSortWithKey}
           />
         ) : (
-          <View style={{ flex: 1, flexDirection: "row", margin: 20 }}>
+          <View style={{ flex: 1, flexDirection: 'row', margin: 20 }}>
             <PaymentBarChart data={chartData} />
             <PaymentPieChart data={chartData} />
           </View>
@@ -222,40 +226,40 @@ export default function PaymentMethod({
 const styles = StyleSheet.create({
   container: { flex: 1 },
   cellAction: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-around",
-    width: "100%",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    width: '100%',
     flex: 1,
   },
   txtSalary: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 15,
-    color: "#6A6A6A",
+    color: '#6A6A6A',
     marginRight: 5,
   },
   imgDetail: {
-    tintColor: "#6A6A6A",
+    tintColor: '#6A6A6A',
     width: 20,
     height: 20,
   },
   btnInCell: {
-    height: "100%",
+    height: '100%',
     width: 35,
     marginLeft: 4,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   chartDetail: {
-    justifyContent: "center",
-    alignItems: "flex-start",
+    justifyContent: 'center',
+    alignItems: 'flex-start',
     flex: 1,
   },
   chartDetailItem: {
-    flexDirection: "row",
+    flexDirection: 'row',
     margin: 10,
     paddingLeft: 20,
-    justifyContent: "flex-start",
-    alignItems: "center",
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
 });

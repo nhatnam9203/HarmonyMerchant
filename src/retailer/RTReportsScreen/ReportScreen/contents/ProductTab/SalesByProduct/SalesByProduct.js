@@ -28,6 +28,8 @@ export default function SalesByProduct({
   onRefresh,
   exportRef,
   callExportSaleByProduct,
+  sortTotalProfit,
+  onSortWithKey,
 }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -71,11 +73,11 @@ export default function SalesByProduct({
             'totalTax',
             'totalProfit',
           ]}
-          //   sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
+          sortedKeys={{ totalProfit: sortTotalProfit }}
           primaryKey="name"
           //   unitKeys={{ totalDuration: "hrs" }}
           widthForKeys={{
-            name: scaleWidth(250),
+            name: scaleWidth(200),
             quantity: scaleWidth(120),
             totalRevenue: scaleWidth(180),
             totalCost: scaleWidth(180),
@@ -83,7 +85,7 @@ export default function SalesByProduct({
           }}
           emptyDescription={t('No Report Data')}
           //   styleTextKeys={{ customerName: styles.textName }}
-          //   onSortWithKey={onSortWithKey}
+          onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
             // date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
             totalRevenue: (value) => `${formatMoneyWithUnit(value)}`,
@@ -118,10 +120,7 @@ export default function SalesByProduct({
       </View>
       <View style={styles.rowContent}>
         <Text style={layouts.title}>{t('Top Performing Products')}</Text>
-        <ExportModal
-          ref={exportRef}
-          onExportFile={callExportSaleByProduct}
-        />
+        <ExportModal ref={exportRef} onExportFile={callExportSaleByProduct} />
       </View>
     </View>
   );

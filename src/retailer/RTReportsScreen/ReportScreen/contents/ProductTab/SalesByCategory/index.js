@@ -21,6 +21,7 @@ import {
   DATE_SHOW_FORMAT_STRING,
   statusSuccess,
   getTimeTitleFile,
+  SORT_TYPE,
 } from '@shared/utils';
 
 const { Screen, Navigator } = createStackNavigator();
@@ -34,6 +35,7 @@ function SalesByCategoryTab({
   const [timeVal, setTimeVal] = React.useState(null);
   const [filterCategory, setFilterCategory] = React.useState(null);
   const [data, setData] = React.useState([]);
+  const [sortTotalProfit, setSortTotalProfit] = React.useState(SORT_TYPE.DESC);
   /**
   |--------------------------------------------------
   | CALL API
@@ -44,10 +46,10 @@ function SalesByCategoryTab({
     getReportSaleCategory({
       ...timeVal,
       category: filterCategory?.value ?? 'top',
-      sort: {},
+      sort: { totalProfit: sortTotalProfit?.toUpperCase() },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal, filterCategory]);
+  }, [timeVal, filterCategory, sortTotalProfit]);
 
   /**
   |--------------------------------------------------
@@ -61,6 +63,7 @@ function SalesByCategoryTab({
     const params = Object.assign({}, values, {
       ...timeVal,
       category: filterCategory?.value ?? 'top',
+      sort: { totalProfit: sortTotalProfit },
     });
     exportRef.current?.onSetFileName(
       getTimeTitleFile('SaleByCategory', params)
@@ -83,7 +86,7 @@ function SalesByCategoryTab({
   React.useEffect(() => {
     callGetReportSaleCategory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal, filterCategory]);
+  }, [timeVal, filterCategory, sortTotalProfit]);
 
   /**effect */
   React.useEffect(() => {
@@ -106,6 +109,18 @@ function SalesByCategoryTab({
         quickFilter: getQuickFilterTimeRange(quickFilter),
         quickFilterText: quickFilter,
       });
+    }
+  };
+
+  const onSortWithKey = (sortKey) => {
+    switch (sortKey) {
+      case 'totalProfit':
+        const totalProfit =
+          sortTotalProfit === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
+        setSortTotalProfit(totalProfit);
+        break;
+      default:
+        break;
     }
   };
 
@@ -132,6 +147,8 @@ function SalesByCategoryTab({
               onRefresh={onRefresh}
               exportRef={exportRef}
               callExportSaleByCategory={callExportSaleByCategory}
+              sortTotalProfit={sortTotalProfit}
+              onSortWithKey={onSortWithKey}
             />
           )}
         </Screen>
