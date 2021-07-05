@@ -21,7 +21,7 @@ const initialState = {
   isDeleteCustomerSuccess: false,
   isAddCustomerSuccess: false,
   customerInfoInCheckoutTab: {},
-  totalCustomerMerchant : 0,
+  totalCustomerMerchant: 0,
 };
 
 function customerReducer(state = initialState, action) {
@@ -153,7 +153,6 @@ function customerReducer(state = initialState, action) {
         currentPage: action.currentPage,
         refreshListCustomer: false,
         isLoadMoreCustomerList: false,
-        totalCustomerMerchant : action.totalCustomerMerchant
       };
     case "GET_PAST_APPOINTMENT":
       return {
@@ -171,6 +170,13 @@ function customerReducer(state = initialState, action) {
         currentPastAppointmentPage: action?.currentPastAppointmentPage || 1,
         isLoadMorePastAppointment: false,
       };
+
+    case "SET_COUNT_CUSTOMER":
+      return {
+        ...state,
+        totalCustomerMerchant: action.payload
+      }
+
     case "GET_PAST_APPOINTMENT_FAIL":
       return {
         ...state,
