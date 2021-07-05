@@ -1418,11 +1418,12 @@ class TabCheckout extends Layout {
       visibleProcessingCredit: true,
     });
 
-    //Check if isCancelPayment = true
+    //2. Check if isCancelPayment = true
     if (isCancelPayment) {
       const result = await this.getPAXReport(paxMachineInfo, "1")
       if (!l.isEmpty(result)) {
         if (l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()) {
+          
           this.handleResponseCreditCard(
             JSON.stringify(result),
             true,
@@ -1471,7 +1472,7 @@ class TabCheckout extends Layout {
     const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
     const extData = isTipOnPaxMachine ? "<TipRequest>1</TipRequest>" : "";
 
-    // 2. Send Trans to pax
+    // Send Trans to pax
     PosLink.sendTransaction(
       {
         tenderType: tenderType,

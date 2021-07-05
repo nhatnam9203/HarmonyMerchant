@@ -279,7 +279,7 @@ class AssignSevices extends Component {
 
     setStateFromParent = async (staffDetail) => {
         const tempcategories = staffDetail?.categories || [];
-        this.setState({
+        await this.setState({
             content: [...tempcategories],
         }, () => this.checkIsSelectAll());
     }
