@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { ReportStatisticLayout } from "../../../widget";
-import { localize } from "@utils";
+import { ReportStatisticLayout } from '../../../widget';
+import { localize } from '@utils';
 
 export default function PaymentStatistic(props, ref) {
   const { filterId } = props;
@@ -27,23 +27,23 @@ export default function PaymentStatistic(props, ref) {
     setTable({
       tableData: item?.statistics,
       tableHead: {
-        dateString: localize("Date", language),
-        transactions: localize("Transactions", language),
-        grossPayment: localize("Gross Payments", language),
-        refund: localize("Refunds", language),
-        netPayment: localize("Net Payments", language),
+        dateString: localize('Date', language),
+        transactions: localize('Transactions', language),
+        grossPayment: localize('Gross Payments', language),
+        refund: localize('Refunds', language),
+        netPayment: localize('Net Payments', language),
       },
       whiteKeys: [
-        "dateString",
-        "transactions",
-        "grossPayment",
-        "refund",
-        "netPayment",
+        'dateString',
+        'transactions',
+        'grossPayment',
+        'refund',
+        'netPayment',
       ],
-      primaryId: "date",
-      calcSumKeys: ["transactions", "grossPayment", "refund", "netPayment"],
-      sumTotalKey: "dateString",
-      priceKeys: ["grossPayment", "refund", "netPayment"],
+      primaryId: 'date',
+      calcSumKeys: ['transactions', 'grossPayment', 'refund', 'netPayment'],
+      sumTotalKey: 'dateString',
+      priceKeys: ['grossPayment', 'refund', 'netPayment'],
       tableCellWidth: { grossPayment: 180 },
     });
   }, [filterId, overallPaymentMethodList]);
@@ -54,7 +54,7 @@ export default function PaymentStatistic(props, ref) {
     <ReportStatisticLayout
       {...props}
       {...table}
-      title={"Payment Method Statistics"}
+      title={'Payment Method Statistics'}
     />
   );
 }

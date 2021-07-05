@@ -20,6 +20,8 @@ export default function CustomerOverall({
   onRefresh,
   callExportCustomer,
   exportRef,
+  sortName,
+  onSortWithKey,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -63,7 +65,7 @@ export default function CustomerOverall({
             'lastVisitSale',
             'total',
           ]}
-          //   sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
+          sortedKeys={{ name: sortName }}
           primaryKey="customerId"
           //   unitKeys={{ totalDuration: "hrs" }}
           widthForKeys={{
@@ -75,7 +77,7 @@ export default function CustomerOverall({
           }}
           emptyDescription={t('No Report Data')}
           //   styleTextKeys={{ customerName: styles.textName }}
-          //   onSortWithKey={onSortWithKey}
+          onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
             lastVisitDate: (value) =>
               dateToString(value, DATE_SHOW_FORMAT_STRING),

@@ -13,7 +13,7 @@ import actions from "@actions";
 import { ReportLayout } from "../../../widget";
 import PaymentMethod from "./PaymentMethod";
 import PaymentStatistic from "./PaymentStatistic";
-
+import { SORT_TYPE } from '@shared/utils';
 const RANGE_TIME_DEFAULT = "This Week";
 
 function PaymentMethodTab(
@@ -46,7 +46,7 @@ function PaymentMethodTab(
   const [filterNames, setFilterNames] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [resetTab, setResetTab] = useState(false);
-
+  const [sortPayment, setSortPayment] = useState(SORT_TYPE.DESC);
   /**ref */
   const layoutRef = useRef(null);
 
@@ -158,6 +158,19 @@ function PaymentMethodTab(
     setRefreshing(false);
   }, [overallPaymentMethodList]);
 
+  const onSortWithKey = (sortKey) => {
+    switch (sortKey) {
+      case 'date':
+        const sortedPayment =
+        sortPayment === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
+        setSortPayment(sortedPayment);
+        break;
+
+      default:
+        break;
+    }
+  };
+
   return (
     <View style={[styles.container, style]}>
       <ReportLayout
@@ -183,6 +196,9 @@ function PaymentMethodTab(
           onRefresh={refreshData}
           resetTab={resetTab}
           isRefreshing={refreshing}
+          sortPayment={sortPayment}
+          onSortWithKey={onSortWithKey}
+
         />
         <PaymentStatistic
           style={{ flex: 1 }}
@@ -198,6 +214,8 @@ function PaymentMethodTab(
           handleTheDownloadedFile={onHandleTheDownloadedFile}
           onRefresh={refreshData}
           isRefreshing={refreshing}
+          sortPayment={sortPayment}
+          onSortWithKey={onSortWithKey}
         />
       </ReportLayout>
     </View>

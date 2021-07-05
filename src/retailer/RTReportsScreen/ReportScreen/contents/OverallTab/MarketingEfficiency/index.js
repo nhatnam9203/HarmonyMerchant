@@ -4,22 +4,19 @@ import React, {
   useRef,
   forwardRef,
   useImperativeHandle,
-} from "react";
-import { View, StyleSheet } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+} from 'react';
+import { View, StyleSheet } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
-import actions from "@actions";
+import actions from '@actions';
 
-import { ReportLayout } from "../../../widget";
-import MarketingEfficiency from "./MarketingEfficiency";
-import MarketingEfficiencyStatistic from "./MarketingEfficiencyStatistic";
+import { ReportLayout } from '../../../widget';
+import MarketingEfficiency from './MarketingEfficiency';
+import MarketingEfficiencyStatistic from './MarketingEfficiencyStatistic';
+import { SORT_TYPE } from '@shared/utils';
+const RANGE_TIME_DEFAULT = 'This Week';
 
-const RANGE_TIME_DEFAULT = "This Week";
-
-function MarketingEfficiencyTab(
-  { style, showBackButton, showHeader },
-  ref
-) {
+function MarketingEfficiencyTab({ style, showBackButton, showHeader }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
@@ -46,7 +43,7 @@ function MarketingEfficiencyTab(
   const [filterNames, setFilterNames] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [resetTab, setResetTab] = useState(false);
-
+  const [sortRevenue, setSortRevenue] = useState(SORT_TYPE.DESC);
   /**ref */
   const layoutRef = useRef(null);
 
@@ -102,7 +99,7 @@ function MarketingEfficiencyTab(
           actions.report.exportMarketingEfficiency(
             layoutRef?.current?.getTimeUrl(),
             true,
-            "excel",
+            'excel',
             titleExportFile,
             promotion?.promotionId
           )
@@ -115,7 +112,7 @@ function MarketingEfficiencyTab(
             promotion.promotionId,
             layoutRef?.current?.getTimeUrl(),
             true,
-            "excel",
+            'excel',
             titleExportFile
           )
         );
@@ -132,6 +129,19 @@ function MarketingEfficiencyTab(
   const onChangeTab = (tabIndex) => {
     if (tabIndex === 0) {
       setResetTab(true);
+    }
+  };
+
+  const onSortWithKey = (sortKey) => {
+    switch (sortKey) {
+      case 'Revenue':
+        const sortedRevenue =
+          sortRevenue === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
+        setSortRevenue(sortedRevenue);
+        break;
+
+      default:
+        break;
     }
   };
 
@@ -179,13 +189,14 @@ function MarketingEfficiencyTab(
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("MarketingEfficiency")}
+          showExportFile={() => onShowPopupExport('MarketingEfficiency')}
           pathFileExport={meExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
           onChangeFilterId={onChangeFilterId}
           onRefresh={refreshData}
           resetTab={resetTab}
           isRefreshing={refreshing}
+          onSortWithKey={onSortWithKey}
         />
         <MarketingEfficiencyStatistic
           style={{ flex: 1 }}
@@ -197,7 +208,7 @@ function MarketingEfficiencyTab(
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
           showExportFile={() =>
-            onShowPopupExport("MarketingEfficiencyStatistic")
+            onShowPopupExport('MarketingEfficiencyStatistic')
           }
           pathFileExport={meStatisticExportFilePath}
           handleTheDownloadedFile={onHandleTheDownloadedFile}

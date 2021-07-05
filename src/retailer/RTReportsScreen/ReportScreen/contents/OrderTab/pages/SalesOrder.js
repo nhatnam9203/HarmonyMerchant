@@ -9,6 +9,7 @@ import {
   DATE_SHOW_FORMAT_STRING,
   statusSuccess,
   getTimeTitleFile,
+  SORT_TYPE,
 } from '@shared/utils';
 import { getQuickFilterTimeRange } from '@utils';
 import React from 'react';
@@ -27,7 +28,7 @@ export const SalesOrder = () => {
   const [timeVal, setTimeVal] = React.useState();
   const [data, setData] = React.useState();
   const [summary, setSummary] = React.useState();
-
+  const [sortDate, setSortDate] = React.useState(SORT_TYPE.DESC);
   /**
   |--------------------------------------------------
   | CALL API
@@ -37,10 +38,10 @@ export const SalesOrder = () => {
   const callGetReportSalesOrder = React.useCallback(() => {
     getReportSalesOrder({
       ...timeVal,
-      sort: {},
+      sort: { date: sortDate },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal]);
+  }, [timeVal, sortDate]);
 
   /**
   |--------------------------------------------------
@@ -51,8 +52,8 @@ export const SalesOrder = () => {
   const callExportSalesOrder = (values) => {
     const params = Object.assign({}, values, {
       ...timeVal,
+      sort: { date: sortDate },
     });
-    console.log('params', params);
     exportRef.current?.onSetFileName(
       getTimeTitleFile('ReportSaleOrder', params)
     );
@@ -75,7 +76,7 @@ export const SalesOrder = () => {
   React.useEffect(() => {
     callGetReportSalesOrder();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal]);
+  }, [timeVal,sortDate]);
 
   React.useEffect(() => {
     const { codeStatus, message, data, summary } = reportSalesOrder || {};
@@ -95,6 +96,19 @@ export const SalesOrder = () => {
       });
     } else {
       setTimeVal({ quickFilter: getQuickFilterTimeRange(quickFilter) });
+    }
+  };
+
+  const onSortWithKey = (sortKey) => {
+    switch (sortKey) {
+      case 'date':
+        const sortedDate =
+          sortDate === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
+        setSortDate(sortedDate);
+        break;
+
+      default:
+        break;
     }
   };
 
@@ -146,7 +160,7 @@ export const SalesOrder = () => {
             'returned',
             'total',
           ]}
-          //   sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
+          sortedKeys={{ date: sortDate }}
           primaryKey="date"
           //   unitKeys={{ totalDuration: "hrs" }}
           widthForKeys={{
@@ -158,10 +172,10 @@ export const SalesOrder = () => {
           }}
           emptyDescription={t('No Report Data')}
           //   styleTextKeys={{ customerName: styles.textName }}
-          //   onSortWithKey={onSortWithKey}
+          onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
             date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
-            total: (value) => `${formatMoneyWithUnit(value)}`,
+            // total: (value) => `${formatMoneyWithUnit(value)}`,
           }}
           renderCell={onRenderCell}
           onRefresh={onRefresh}

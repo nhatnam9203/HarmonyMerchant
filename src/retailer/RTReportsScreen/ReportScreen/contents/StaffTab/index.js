@@ -1,18 +1,18 @@
-import actions from "@actions";
+import actions from '@actions';
 import React, {
   forwardRef,
   useImperativeHandle,
   useRef,
   useState,
-} from "react";
-import { StyleSheet, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { ReportLayout } from "../../widget";
-import StaffReportTab from "./StaffReportTab";
-import StaffStatistic from "./StaffStatistic";
-import { colors } from "@shared/themes";
+} from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { ReportLayout } from '../../widget';
+import StaffReportTab from './StaffReportTab';
+import StaffStatistic from './StaffStatistic';
+import { colors } from '@shared/themes';
 
-const RANGE_TIME_DEFAULT = "This Week";
+const RANGE_TIME_DEFAULT = 'This Week';
 
 function StaffTab(
   {
@@ -92,7 +92,7 @@ function StaffTab(
           actions.staff.getExportStaffSalary(
             layoutRef?.current?.getTimeUrl(),
             true,
-            "csv",
+            'csv',
             titleExportFile
           )
         );
@@ -107,7 +107,7 @@ function StaffTab(
             filterItem.staffId,
             layoutRef?.current?.getTimeUrl(),
             true,
-            "csv",
+            'csv',
             titleExportFile
           )
         );
@@ -144,6 +144,10 @@ function StaffTab(
   };
 
   React.useEffect(() => {
+    getListStaffsSalaryTop();
+  }, []);
+
+  React.useEffect(() => {
     setRefreshing(false);
   }, [listStaffsSalary]);
 
@@ -164,7 +168,7 @@ function StaffTab(
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("StaffSalary")}
+          showExportFile={() => onShowPopupExport('StaffSalary')}
           pathFileExport={pathFileReportStaff}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
           onRefresh={refreshData}
@@ -179,7 +183,7 @@ function StaffTab(
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() => onShowPopupExport("StaffStatistic")}
+          showExportFile={() => onShowPopupExport('StaffStatistic')}
           pathFileExport={pathFileReportStaffStatistic}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
           onRefresh={refreshData}

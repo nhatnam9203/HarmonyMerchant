@@ -1,17 +1,17 @@
-import actions from "@actions";
+import actions from '@actions';
 import React, {
   forwardRef,
   useImperativeHandle,
   useRef,
   useState,
-} from "react";
-import { StyleSheet, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { ReportLayout } from "../../widget";
-import { SalesOrder } from "./pages";
-import { colors } from "@shared/themes";
-
-const RANGE_TIME_DEFAULT = "This Week";
+} from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { ReportLayout } from '../../widget';
+import { SalesOrder } from './pages';
+import { colors } from '@shared/themes';
+import { SORT_TYPE } from '@shared/utils';
+const RANGE_TIME_DEFAULT = 'This Week';
 
 function OrderTab({ style, showBackButton }, ref) {
   /**redux store*/
@@ -82,7 +82,7 @@ function OrderTab({ style, showBackButton }, ref) {
           actions.staff.getExportStaffSalary(
             layoutRef?.current?.getTimeUrl(),
             true,
-            "csv",
+            'csv',
             titleExportFile
           )
         );
@@ -97,7 +97,7 @@ function OrderTab({ style, showBackButton }, ref) {
             filterItem.staffId,
             layoutRef?.current?.getTimeUrl(),
             true,
-            "csv",
+            'csv',
             titleExportFile
           )
         );
