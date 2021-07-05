@@ -116,6 +116,13 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     }
   }, [productsGet]);
 
+  const onModalWillHide = () => {
+    setOptions({});
+    setImageUrl(null);
+    setQuantity(1);
+    setProduct(null);
+  };
+
   const renderOption = (itemOption) => {
     if (
       !itemOption ||
@@ -218,6 +225,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
       <DialogLayout
         title={t("Product details")}
         ref={dialogRef}
+        onModalWillHide={onModalWillHide}
         bottomChildren={() => (
           <View style={styles.bottomStyle}>
             <ButtonGradient
