@@ -131,12 +131,12 @@ export const ButtonGradientWhite = ({
   <ButtonGradient
     {...props}
     firstColor={colors.VERY_LIGHT_PINK_1}
-    pressFirstColor={colors.VERY_LIGHT_PINK_1}
     lastColor={colors.WHITE}
-    pressLastColor={colors.WHITE_TWO}
     textColor={textColor ?? colors.GREYISH_BROWN}
-    pressTextColor={colors.GREYISH_BROWN}
     borderColor={borderColor}
+    pressFirstColor={colors.VERY_LIGHT_PINK_1}
+    pressLastColor={colors.WHITE_TWO}
+    pressTextColor={colors.GREYISH_BROWN}
     pressBorderColor={borderColor}
     borderWidth={scaleHeight(1)}
     borderRadius={borderRadius}
@@ -151,10 +151,14 @@ export const ButtonGradientRed = ({
 }) => (
   <ButtonGradient
     {...props}
-    firstColor={colors.ORANGEY_RED}
-    lastColor={colors.TOMATO}
+    firstColor={colors.TOMATO}
+    lastColor={colors.ORANGEY_RED}
     textColor={textColor ?? colors.PALE_GREY}
     borderColor
+    pressFirstColor={colors.TOMATO}
+    pressLastColor={colors.TOMATO}
+    pressTextColor={colors.PALE_GREY}
+    pressBorderColor={borderColor}
     borderWidth={0}
     borderRadius={borderRadius}
   />
