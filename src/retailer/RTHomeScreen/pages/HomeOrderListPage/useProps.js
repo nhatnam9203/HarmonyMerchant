@@ -212,5 +212,22 @@ export const useProps = ({ params: { reload } }) => {
         orderStatus?.length > 0
       );
     },
+    onCheckedAll: (checked) => {
+      if (checked) {
+        setItemSelected(items);
+      } else {
+        setItemSelected(null);
+      }
+    },
+    getCheckedValue: (item) => {
+      if (!item) {
+        return itemSelected?.length > 0;
+      }
+
+      return (
+        itemSelected?.findIndex((x) => item.productId === x.productId) >= 0
+      );
+    },
+    onCheckedRow,
   };
 };

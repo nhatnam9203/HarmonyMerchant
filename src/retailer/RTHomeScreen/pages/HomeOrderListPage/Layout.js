@@ -53,6 +53,9 @@ export const Layout = ({
   pagination,
   sortById,
   isShowClearFilter,
+  onCheckedAll,
+  getCheckedValue,
+  onCheckedRow,
 }) => {
   const { t } = useTranslation();
   const [visibleFilter, setVisibleFilter] = React.useState(false);
@@ -60,7 +63,11 @@ export const Layout = ({
   const onRenderTableCell = ({ item, columnKey, rowIndex, cellWidth }) => {
     if (columnKey === "code") {
       const handleCheckRow = (val) => {
-        // onCheckedRow(item, val);
+        onCheckedRow(item, val);
+      };
+
+      const onGetCheckedValue = () => {
+        return getCheckedValue(item);
       };
 
       return (
@@ -70,8 +77,8 @@ export const Layout = ({
           key={getUniqueId(columnKey, rowIndex, "cell-code")}
         >
           <CustomTableCheckBox
-          //  value={defaultValue}
-          //  onValueChange={onValueChange}
+            defaultValue={onGetCheckedValue}
+            onValueChange={handleCheckRow}
           />
           <Text style={styles.textName}>{item.code}</Text>
         </TouchableOpacity>
@@ -92,11 +99,40 @@ export const Layout = ({
     return null;
   };
 
+  const onRenderHeaderCell = ({ key, index, cellWidth, text, textStyle }) => {
+    if (key === "code") {
+      const onValueChange = (bl) => {
+        onCheckedAll(bl);
+      };
+
+      const onGetCheckedValue = () => {
+        return getCheckedValue(null);
+      };
+
+      return (
+        <TouchableOpacity
+          onPress={() => {}}
+          style={[{ width: cellWidth }, styles.cellStyle]}
+          key={getUniqueId(key, index, "header-code")}
+          activeOpacity={1}
+        >
+          <CustomTableCheckBox
+            defaultValue={onGetCheckedValue}
+            onValueChange={onValueChange}
+          />
+          <Text style={textStyle}>{text}</Text>
+        </TouchableOpacity>
+      );
+    }
+    return null;
+  };
+
   return (
     <View style={styles.container}>
       <View style={layouts.fill}>
         <Table
           items={items}
+          renderHeaderCell={onRenderHeaderCell}
           headerKeyLabels={{
             code: t("ID"),
             purchasePoint: t("Purchase Point"),
@@ -305,10 +341,6 @@ const styles = StyleSheet.create({
     color: colors.GREYISH_BROWN,
   },
 
-  cellStyle: {
-    paddingHorizontal: scaleWidth(10),
-  },
-
   filterContent: {
     flexDirection: "column-reverse",
   },
@@ -343,5 +375,12 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: "right",
     color: colors.ORANGEY_RED,
+  },
+
+  cellStyle: {
+    paddingHorizontal: scaleWidth(15),
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
   },
 });
