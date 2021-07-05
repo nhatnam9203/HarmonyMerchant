@@ -130,6 +130,15 @@ export function getPastAppointments(
   };
 }
 
+export function countCustomer() {
+  return {
+    type: "COUNT_CUSTOMER",
+    method: "GET",
+    api: `${apiConfigs.BASE_API}customer/count`,
+    token: true,
+  };
+}
+
 export function resetIsGetCustomerInfoByIdState(visible = false) {
   return {
     type: "RESET_IS_GET_CUSTOMER_INFO_BY_ID_STATE",

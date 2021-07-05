@@ -130,6 +130,7 @@ export default {
   danger: require('./img/danger.png'),
   number_delete: require("./img/number_delete.png"),
   number_delete_white: require("./img/number_delete_white.png"),
+  checkboxGrey: require("./img/checkboxGrey.png"), 
   // --- Payment ---
   cash_payment_se: require('./payment/cash_payment_se.png'),
   cash_payment: require('./payment/cash_payment.png'),

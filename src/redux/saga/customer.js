@@ -18,6 +18,7 @@ function* getListCustomersByMerchant(action) {
         payload: responses?.data || [],
         totalPages: responses?.pages || 0,
         currentPage: action.currentPage,
+        totalCustomerMerchant: responses?.count || 0
       });
     } else if (parseInt(codeNumber) === 401) {
       yield put({
@@ -333,6 +334,32 @@ function* getPastAppointments(action) {
   }
 }
 
+function* countCustomer(action) {
+  try {
+    const responses = yield requestAPI(action);
+    const { codeNumber } = responses;
+    if (parseInt(codeNumber) == 200) {
+      yield put({ 
+        type : "SET_COUNT_CUSTOMER",
+        payload : responses?.data || 0,
+      })
+    } else if (parseInt(codeNumber) === 401) {
+      yield put({
+        type: "UNAUTHORIZED",
+      });
+    } else {
+      yield put({
+        type: "SHOW_ERROR_MESSAGE",
+        message: responses?.message,
+      });
+    }
+  } catch (error) {
+    yield put({ type: error });
+  } finally {
+  }
+}
+
+
 export default function* saga() {
   yield all([
     takeLatest("GET_LIST_CUSTOMER_BY_MERCHANT", getListCustomersByMerchant),
@@ -344,5 +371,6 @@ export default function* saga() {
     takeEvery("SEND_GOOGLE_REVIEW_LIINK", sendGoogleReviewLink),
     takeLatest("GET_CUSTOMER_INFO_BY_ID", getCustomerInfoById),
     takeLatest("GET_PAST_APPOINTMENT", getPastAppointments),
+    takeLatest("COUNT_CUSTOMER", countCustomer),
   ]);
 }
