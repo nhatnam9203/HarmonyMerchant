@@ -139,6 +139,13 @@ export const useProps = ({ params: { reload } }) => {
     }
   };
 
+  const onResultScanCode = (data) => {
+    NavigationServices.navigate('retailer.inventory.product.edit', {
+      isNew: true,
+      item: data ?? {},
+    });
+  };
+
   return {
     items,
     onButtonNewProductPress: () => {
@@ -185,6 +192,7 @@ export const useProps = ({ params: { reload } }) => {
     },
     onCheckedRow,
     onRefresh: () => callGetProductList(),
+    onResultScanCode,
     callExportProduct,
     exportRef,
     setPage,
