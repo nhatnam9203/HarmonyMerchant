@@ -57,7 +57,8 @@ export const Layout = ({
           <ButtonGradient
             label={t("Edit")}
             width={scaleWidth(72)}
-            height={scaleHeight(28)}
+            height={scaleHeight(30)}
+            borderRadius={scaleWidth(3)}
             fontSize={scaleFont(15)}
             textColor={colors.WHITE}
             fontWeight="normal"
@@ -164,6 +165,7 @@ export const Layout = ({
           onPress={onButtonNewCustomerPress}
           label={t("New Customer")}
           width={scaleWidth(140)}
+          borderRadius={scaleWidth(3)}
         />
       </View>
     </View>

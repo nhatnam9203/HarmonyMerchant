@@ -1,10 +1,10 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import Modal from 'react-native-modal';
-import { fonts, layouts, colors } from '../themes';
-import IMAGE from '@resources';
-import { ButtonGradientWhite, ButtonGradient } from './Button';
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { useTranslation } from "react-i18next";
+import Modal from "react-native-modal";
+import { fonts, layouts, colors } from "../themes";
+import IMAGE from "@resources";
+import { ButtonGradientWhite, ButtonGradient } from "./Button";
 
 export const ButtonRightPanelFilter = ({ children, onReset, onApply }) => {
   const [t] = useTranslation();
@@ -19,14 +19,14 @@ export const ButtonRightPanelFilter = ({ children, onReset, onApply }) => {
   };
 
   const onResetButtonPressed = () => {
-    if (onReset && typeof onReset === 'function') {
+    if (onReset && typeof onReset === "function") {
       onReset();
     }
     hideModal();
   };
 
   const onApplyButtonPressed = () => {
-    if (onApply && typeof onApply === 'function') {
+    if (onApply && typeof onApply === "function") {
       onApply();
     }
     hideModal();
@@ -35,7 +35,7 @@ export const ButtonRightPanelFilter = ({ children, onReset, onApply }) => {
   return (
     <View>
       <TouchableOpacity style={styles.buttonContainer} onPress={showModal}>
-        <Text style={styles.text}>{t('Filters')}</Text>
+        <Text style={styles.text}>{t("Filters")}</Text>
         <View style={layouts.marginHorizontal} />
         <Image source={IMAGE.filter} style={styles.icon} />
       </TouchableOpacity>
@@ -43,44 +43,44 @@ export const ButtonRightPanelFilter = ({ children, onReset, onApply }) => {
       <Modal
         transparent={true}
         style={styles.modal}
-        visible={open}
-        testID={'ButtonRightPanelFilter'}
+        isVisible={open}
+        testID={"modal"}
         onRequestClose={hideModal}
+        backdropTransitionOutTiming={0}
         animationIn="slideInRight"
-        animationOut="slideOutLeft"
-        animationInTiming={1000}
-        animationOutTiming={1000}
+        animationOut="slideOutRight"
+        // animationInTiming={10000}
+        // animationOutTiming={10000}
         useNativeDriver={true}
+        hasBackdrop={true}
+        backdropOpacity={0}
+        onBackdropPress={hideModal}
       >
-        <TouchableOpacity style={styles.container} onPress={hideModal}>
-          <TouchableOpacity
-            style={styles.panel}
-            onPress={() => {}}
-            activeOpacity={1}
-          >
-            <View style={styles.header}>
-              <Text style={styles.title}>{t('Filters')}</Text>
-              <TouchableOpacity onPress={hideModal}>
-                <Image source={IMAGE.close_noti_popup} style={styles.close} />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.content}>{children}</View>
-            <View style={styles.bottom}>
-              <ButtonGradientWhite
-                label={t('Reset')}
-                width={scaleWidth(100)}
-                height={scaleHeight(32)}
-                onPress={onResetButtonPressed}
-              />
-              <ButtonGradient
-                label={t('Apply')}
-                width={scaleWidth(100)}
-                height={scaleHeight(32)}
-                onPress={onApplyButtonPressed}
-              />
-            </View>
-          </TouchableOpacity>
-        </TouchableOpacity>
+        <View style={styles.panel}>
+          <View style={styles.header}>
+            <Text style={styles.title}>{t("Filters")}</Text>
+            <TouchableOpacity onPress={hideModal}>
+              <Image source={IMAGE.close_noti_popup} style={styles.close} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.content}>{children}</View>
+          <View style={styles.bottom}>
+            <ButtonGradientWhite
+              label={t("Reset")}
+              width={scaleWidth(100)}
+              height={scaleHeight(35)}
+              onPress={onResetButtonPressed}
+              borderRadius={scaleWidth(3)}
+            />
+            {/* <ButtonGradient
+              label={t("Apply")}
+              width={scaleWidth(100)}
+              height={scaleHeight(35)}
+              onPress={onApplyButtonPressed}
+              borderRadius={scaleWidth(3)}
+            /> */}
+          </View>
+        </View>
       </Modal>
     </View>
   );
@@ -90,24 +90,20 @@ const styles = StyleSheet.create({
   modal: {
     margin: 0,
     padding: 0,
-  },
-
-  container: {
-    flex: 1,
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
   },
 
   buttonContainer: {
     backgroundColor: colors.WHITE,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: '#cccccc',
-    flexDirection: 'row',
+    borderColor: "#cccccc",
+    flexDirection: "row",
     height: scaleHeight(40),
-    alignItems: 'center',
+    alignItems: "center",
     minWidth: scaleWidth(128),
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     paddingHorizontal: scaleWidth(10),
     flex: 0,
   },
@@ -121,10 +117,10 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(17),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
@@ -132,7 +128,7 @@ const styles = StyleSheet.create({
     width: scaleWidth(240),
     height: scaleHeight(700),
     backgroundColor: colors.WHITE,
-    shadowColor: '#40404040',
+    shadowColor: "#40404040",
     shadowOffset: {
       width: -3,
       height: 3,
@@ -143,30 +139,30 @@ const styles = StyleSheet.create({
 
   header: {
     backgroundColor: colors.WHITE,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderBottomWidth: 1,
-    borderBottomColor: '#eeeeee',
+    borderBottomColor: "#eeeeee",
     height: scaleHeight(52),
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
     paddingHorizontal: scaleWidth(16),
   },
 
   title: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   close: {
     width: scaleWidth(16),
     height: scaleHeight(16),
-    tintColor: '#00001d',
+    tintColor: "#00001d",
   },
 
   content: {
@@ -176,9 +172,9 @@ const styles = StyleSheet.create({
 
   bottom: {
     height: scaleHeight(40),
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: scaleWidth(12),
     marginBottom: scaleHeight(10),
   },

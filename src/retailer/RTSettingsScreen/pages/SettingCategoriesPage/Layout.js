@@ -70,10 +70,10 @@ export const Layout = ({
           <DeleteConfirmButton
             label={t("Delete")}
             width={scaleWidth(72)}
-            height={scaleHeight(28)}
+            height={scaleHeight(30)}
+            borderRadius={scaleWidth(3)}
             fontSize={scaleFont(15)}
             textColor={colors.WHITE}
-            borderRadius={scaleWidth(2)}
             fontWeight="normal"
             onPress={onHandleDelete}
           />
@@ -81,10 +81,10 @@ export const Layout = ({
           <ButtonGradient
             label={t("Edit")}
             width={scaleWidth(72)}
-            height={scaleHeight(28)}
+            height={scaleHeight(30)}
+            borderRadius={scaleWidth(3)}
             fontSize={scaleFont(15)}
             textColor={colors.WHITE}
-            borderRadius={scaleWidth(2)}
             fontWeight="normal"
             onPress={onHandleEdit}
           />
@@ -110,10 +110,10 @@ export const Layout = ({
         <ButtonGradient
           label={t("Edit")}
           width={scaleWidth(72)}
-          height={scaleHeight(28)}
+          height={scaleHeight(30)}
+          borderRadius={scaleWidth(3)}
           fontSize={scaleFont(15)}
           textColor={colors.WHITE}
-          borderRadius={scaleWidth(2)}
           fontWeight="normal"
         />
       </View>

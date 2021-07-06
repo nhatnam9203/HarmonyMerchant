@@ -67,7 +67,9 @@ export const CheckOutCustomerInfo = React.forwardRef(
             onPress={onHandleEditCustomer}
           >
             <View style={styles.avatar}>
-              <Text style={styles.avatarText}>A</Text>
+              <Text style={styles.avatarText}>
+                {customer.firstName?.charAt(0)?.toUpperCase()}
+              </Text>
             </View>
             <View style={layouts.marginHorizontal} />
             <View style={styles.nameContent}>

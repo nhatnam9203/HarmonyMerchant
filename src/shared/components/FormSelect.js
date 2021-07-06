@@ -15,13 +15,14 @@ export const FormSelect = ({
   children,
   filterRef,
   isDropdown = true,
+  titleStyle,
 }) => {
   const [t] = useTranslation();
   const [index, setIndex] = React.useState(-1);
 
   React.useEffect(() => {
     if (filterItems?.length > 0) {
-      if (defaultValue) {
+      if (defaultValue != null) {
         let defaultIndex = filterItems.findIndex((item, index) => {
           return item?.value === defaultValue;
         });
@@ -35,7 +36,7 @@ export const FormSelect = ({
   return (
     <View style={[styles.container, style]}>
       {!!label && (
-        <Text style={styles.textStyle}>
+        <Text style={titleStyle ?? styles.textStyle}>
           {label}
           {required && <Text style={styles.requiredStyle}> *</Text>}
         </Text>
@@ -63,7 +64,6 @@ export const FormSelect = ({
             height={scaleHeight(40)}
           />
         )}
-        <View style={layouts.marginHorizontal} />
         {children}
       </View>
     </View>

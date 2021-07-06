@@ -1,4 +1,4 @@
-import IMAGE from '@resources';
+import IMAGE from "@resources";
 import {
   ButtonCalendarFilter,
   ButtonGradient,
@@ -7,6 +7,7 @@ import {
   ExportModal,
   FormSelect,
   Pagination,
+  SlideInRightModal,
 } from "@shared/components";
 import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
 import { Table } from "@shared/components/CustomTable";
@@ -21,12 +22,12 @@ import {
   ORDER_STATUS,
   PAYMENTS,
   PURCHASE_POINTS,
-} from '@shared/utils';
-import { formatMoneyWithUnit } from '@utils';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { FormFilter } from '../../widget';
+} from "@shared/utils";
+import { formatMoneyWithUnit } from "@utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FormFilter } from "../../widget";
 
 export const Layout = ({
   onChangeValueSearch,
@@ -51,13 +52,21 @@ export const Layout = ({
   DEFAULT_PAGE,
   pagination,
   sortById,
+  isShowClearFilter,
+  onCheckedAll,
+  getCheckedValue,
+  onCheckedRow,
 }) => {
   const { t } = useTranslation();
 
   const onRenderTableCell = ({ item, columnKey, rowIndex, cellWidth }) => {
     if (columnKey === "code") {
       const handleCheckRow = (val) => {
-        // onCheckedRow(item, val);
+        onCheckedRow(item, val);
+      };
+
+      const onGetCheckedValue = () => {
+        return getCheckedValue(item);
       };
 
       return (
@@ -67,8 +76,8 @@ export const Layout = ({
           key={getUniqueId(columnKey, rowIndex, "cell-code")}
         >
           <CustomTableCheckBox
-          //  value={defaultValue}
-          //  onValueChange={onValueChange}
+            defaultValue={onGetCheckedValue}
+            onValueChange={handleCheckRow}
           />
           <Text style={styles.textName}>{item.code}</Text>
         </TouchableOpacity>
@@ -89,11 +98,40 @@ export const Layout = ({
     return null;
   };
 
+  const onRenderHeaderCell = ({ key, index, cellWidth, text, textStyle }) => {
+    if (key === "code") {
+      const onValueChange = (bl) => {
+        onCheckedAll(bl);
+      };
+
+      const onGetCheckedValue = () => {
+        return getCheckedValue(null);
+      };
+
+      return (
+        <TouchableOpacity
+          onPress={() => {}}
+          style={[{ width: cellWidth }, styles.cellStyle]}
+          key={getUniqueId(key, index, "header-code")}
+          activeOpacity={1}
+        >
+          <CustomTableCheckBox
+            defaultValue={onGetCheckedValue}
+            onValueChange={onValueChange}
+          />
+          <Text style={textStyle}>{text}</Text>
+        </TouchableOpacity>
+      );
+    }
+    return null;
+  };
+
   return (
     <View style={styles.container}>
       <View style={layouts.fill}>
         <Table
           items={items}
+          renderHeaderCell={onRenderHeaderCell}
           headerKeyLabels={{
             code: t("ID"),
             purchasePoint: t("Purchase Point"),
@@ -179,33 +217,41 @@ export const Layout = ({
           />
 
           <View style={layouts.marginHorizontal} />
+
           <ButtonRightPanelFilter
             onReset={onResetFilter}
             onApply={onApplyFilter}
           >
             <View style={styles.filterContent}>
               <FormSelect
+                required={false}
                 label={t("Payment method")}
                 filterItems={PAYMENTS}
-                defaultValue={0}
+                defaultValue={payment}
                 onChangeValue={setPayment}
+                titleStyle={styles.filterTitle}
               />
 
               <FormSelect
+                required={false}
                 label={t("Purchase point")}
                 filterItems={PURCHASE_POINTS}
-                defaultValue={0}
+                defaultValue={purchasePoint}
                 onChangeValue={setPurchasePoint}
+                titleStyle={styles.filterTitle}
               />
 
               <FormSelect
+                required={false}
                 label={t("Status")}
                 filterItems={ORDER_STATUS}
-                defaultValue={0}
+                defaultValue={orderStatus}
                 onChangeValue={setOrderStatus}
+                titleStyle={styles.filterTitle}
               />
             </View>
           </ButtonRightPanelFilter>
+          <View style={layouts.marginHorizontal} />
 
           {payment?.length > 0 && (
             <FormFilter
@@ -228,6 +274,11 @@ export const Layout = ({
             />
           )}
         </View>
+        {isShowClearFilter() && (
+          <TouchableOpacity style={styles.clearAll} onPress={onResetFilter}>
+            <Text style={styles.clearAllText}>{t("Clear All")}</Text>
+          </TouchableOpacity>
+        )}
       </View>
       <View style={styles.rowContent}>
         <View style={styles.leftContent}>
@@ -243,6 +294,7 @@ export const Layout = ({
           onPress={onButtonNewOrderPress}
           label={t("New Order")}
           width={scaleWidth(140)}
+          borderRadius={scaleWidth(3)}
         />
       </View>
     </View>
@@ -288,10 +340,6 @@ const styles = StyleSheet.create({
     color: colors.GREYISH_BROWN,
   },
 
-  cellStyle: {
-    paddingHorizontal: scaleWidth(10),
-  },
-
   filterContent: {
     flexDirection: "column-reverse",
   },
@@ -300,5 +348,38 @@ const styles = StyleSheet.create({
     tintColor: colors.GREYISH_BROWN,
     width: scaleWidth(20),
     height: scaleHeight(20),
+  },
+
+  filterTitle: {
+    fontFamily: fonts.REGULAR,
+    fontSize: scaleFont(15),
+    fontWeight: "normal",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.OCEAN_BLUE,
+  },
+  clearAll: {
+    paddingRight: scaleWidth(10),
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  clearAllText: {
+    fontFamily: fonts.MEDIUM,
+    fontSize: scaleFont(17),
+    fontWeight: "500",
+    fontStyle: "normal",
+    lineHeight: 31,
+    letterSpacing: 0,
+    textAlign: "right",
+    color: colors.ORANGEY_RED,
+  },
+
+  cellStyle: {
+    paddingHorizontal: scaleWidth(15),
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
   },
 });

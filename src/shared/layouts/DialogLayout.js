@@ -1,7 +1,7 @@
-import IMAGE from '@resources';
-import { colors, fonts, layouts } from '@shared/themes';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import IMAGE from "@resources";
+import { colors, fonts, layouts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Image,
   StyleSheet,
@@ -9,10 +9,10 @@ import {
   TouchableOpacity,
   View,
   KeyboardAvoidingView,
-} from 'react-native';
-import Modal from 'react-native-modal';
+} from "react-native";
+import Modal from "react-native-modal";
 export const DialogLayout = React.forwardRef(
-  ({ bottomChildren, children, title, style }, ref) => {
+  ({ bottomChildren, children, title, style, onModalWillHide }, ref) => {
     const [t] = useTranslation();
 
     const [open, setOpen] = React.useState(false);
@@ -30,7 +30,21 @@ export const DialogLayout = React.forwardRef(
     }));
 
     return (
-      <Modal style={styles.modal} visible={open} onRequestClose={hideModal}>
+      <Modal
+        transparent={true}
+        style={styles.modal}
+        testID={"dialogLayout"}
+        isVisible={open}
+        useNativeDriver={true}
+        hasBackdrop={true}
+        backdropOpacity={0.25}
+        onRequestClose={hideModal}
+        backdropTransitionOutTiming={0}
+        backdropTransitionInTiming={0}
+        animationIn="zoomIn"
+        animationOut="fadeOut"
+        onModalWillHide={onModalWillHide}
+      >
         <KeyboardAvoidingView behavior="position">
           <View style={[styles.container, style]}>
             <View style={styles.header}>
@@ -63,13 +77,13 @@ export const DialogLayout = React.forwardRef(
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
     width: scaleWidth(480),
     borderRadius: scaleHeight(20),
-    shadowColor: '#004080bf',
+    shadowColor: "#004080bf",
     shadowOffset: {
       width: 0,
       height: 0,
@@ -79,23 +93,23 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    width: '100%',
+    width: "100%",
     paddingHorizontal: scaleWidth(20),
     maxHeight: scaleHeight(640),
   },
 
   modal: {
-    backgroundColor: '#40404050',
+    // backgroundColor: "#40404050",
     margin: 0,
   },
 
   header: {
     height: scaleWidth(48),
-    width: '100%',
+    width: "100%",
     backgroundColor: colors.OCEAN_BLUE,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
     borderTopLeftRadius: scaleHeight(20),
     borderTopRightRadius: scaleHeight(20),
   },
@@ -103,10 +117,10 @@ const styles = StyleSheet.create({
   txtTitle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(23),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.WHITE,
   },
 
@@ -114,9 +128,9 @@ const styles = StyleSheet.create({
     width: scaleWidth(28),
     height: scaleHeight(28),
     borderRadius: scaleWidth(14),
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
     marginRight: scaleWidth(10),
   },
 
@@ -128,18 +142,18 @@ const styles = StyleSheet.create({
   titleContent: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.GREYISH_BROWN,
   },
 
   bottomStyle: {
-    width: '100%',
+    width: "100%",
     height: scaleHeight(80),
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    flexDirection: "row",
   },
 });

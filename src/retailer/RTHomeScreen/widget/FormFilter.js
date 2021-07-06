@@ -26,14 +26,14 @@ export const FormFilter = ({ filterValue, onClearFilter }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    paddingHorizontal: scaleWidth(5),
+    paddingRight: scaleWidth(10),
     height: "100%",
     alignItems: "center",
   },
 
   textStyle: {
     fontFamily: fonts.MEDIUM,
-    fontSize: scaleFont(17),
+    fontSize: scaleFont(16),
     fontWeight: "500",
     fontStyle: "normal",
     letterSpacing: 0,
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 
   imageStyle: {
     marginHorizontal: scaleWidth(5),
-    width: scaleWidth(28),
-    height: scaleHeight(28),
+    width: scaleWidth(26),
+    height: scaleHeight(26),
   },
 });

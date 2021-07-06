@@ -18,13 +18,14 @@ import {
   dateToString,
   DATE_SHOW_FORMAT_STRING,
   NEED_TO_ORDER,
-} from '@shared/utils';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, View } from 'react-native';
-import { WithDialogRestock } from '@shared/HOC/withDialogRestock';
+} from "@shared/utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, View, TouchableOpacity, Text } from "react-native";
+import { WithDialogRestock } from "@shared/HOC/withDialogRestock";
 import { WithDialogScanQR } from '@shared/HOC/withDialogScanQR';
-import { formatMoneyWithUnit } from '@utils';
+import { formatMoneyWithUnit } from "@utils";
+import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
 
 const RestockButton = WithDialogRestock(ButtonGradientWhite);
 const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
@@ -50,7 +51,9 @@ export const Layout = ({
   setPage,
   DEFAULT_PAGE,
   pagination,
-  onResultScanCode
+  onResultScanCode,
+  onCheckedAll,
+  getCheckedValue,
 }) => {
   const { t } = useTranslation();
 
@@ -60,13 +63,17 @@ export const Layout = ({
         onCheckedRow(item, val);
       };
 
+      const onGetCheckedValue = () => {
+        return getCheckedValue(item);
+      };
+
       return (
         <TableImageCell
           width={IMAGE_WIDTH}
           imageUrl={item?.imageUrl}
           key={getUniqueId(columnKey, rowIndex, 'cell-image-checked')}
           onPress={() => {}}
-          // value={item?.checked}
+          defaultValue={onGetCheckedValue}
           onValueChange={handleCheckRow}
         />
       );
@@ -84,13 +91,42 @@ export const Layout = ({
           <ButtonGradient
             label={t('Edit')}
             width={scaleWidth(72)}
-            height={scaleHeight(28)}
+            height={scaleHeight(30)}
+            borderRadius={scaleWidth(3)}
             fontSize={scaleFont(15)}
             textColor={colors.WHITE}
             fontWeight="normal"
             onPress={onHandleEdit}
           />
         </View>
+      );
+    }
+    return null;
+  };
+
+  const onRenderHeaderCell = ({ key, index, cellWidth, text, textStyle }) => {
+    if (key === "imageUrl") {
+      const onValueChange = (bl) => {
+        onCheckedAll(bl);
+      };
+
+      const onGetCheckedValue = () => {
+        return getCheckedValue(null);
+      };
+
+      return (
+        <TouchableOpacity
+          onPress={() => {}}
+          style={[{ width: cellWidth }, styles.cellStyle]}
+          key={getUniqueId(key, index, "header-image")}
+          activeOpacity={1}
+        >
+          <CustomTableCheckBox
+            defaultValue={onGetCheckedValue}
+            onValueChange={onValueChange}
+          />
+          <Text style={textStyle}>{text}</Text>
+        </TouchableOpacity>
       );
     }
     return null;
@@ -104,6 +140,7 @@ export const Layout = ({
       <View style={layouts.fill}>
         <Table
           items={items}
+          renderHeaderCell={onRenderHeaderCell}
           headerKeyLabels={{
             imageUrl: t('Image'),
             name: t('Product Name'),
@@ -232,6 +269,7 @@ export const Layout = ({
           onPress={onButtonNewProductPress}
           label={t('Add Product')}
           width={scaleWidth(140)}
+          borderRadius={scaleWidth(3)}
         />
       </View>
     </View>
@@ -276,5 +314,12 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: 'left',
     color: colors.GREYISH_BROWN,
+  },
+
+  cellStyle: {
+    paddingHorizontal: scaleWidth(15),
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
 });

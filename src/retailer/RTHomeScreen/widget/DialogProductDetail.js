@@ -1,23 +1,23 @@
-import IMAGE from '@resources';
-import { ButtonGradient, FormInputAmount } from '@shared/components';
-import { DialogLayout } from '@shared/layouts';
-import { useGetProducts } from '@shared/services/api/retailer';
-import { colors, fonts, layouts } from '@shared/themes';
-import { INPUT_TYPE, statusSuccess } from '@shared/utils';
-import { formatMoneyWithUnit } from '@utils';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import IMAGE from "@resources";
+import { ButtonGradient, FormInputAmount } from "@shared/components";
+import { DialogLayout } from "@shared/layouts";
+import { useGetProducts } from "@shared/services/api/retailer";
+import { colors, fonts, layouts } from "@shared/themes";
+import { INPUT_TYPE, statusSuccess } from "@shared/utils";
+import { formatMoneyWithUnit } from "@utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   ScrollView,
-} from 'react-native';
-import FastImage from 'react-native-fast-image';
-import { useDispatch } from 'react-redux';
+} from "react-native";
+import FastImage from "react-native-fast-image";
+import { useDispatch } from "react-redux";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[DialogProductDetail] ${message}`, obj);
 };
 
@@ -73,7 +73,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
       return Object.assign({}, pro, { values: temp });
     });
 
-    if (onAddProduct && typeof onAddProduct === 'function') {
+    if (onAddProduct && typeof onAddProduct === "function") {
       onAddProduct(
         Object.assign({}, product, {
           id: Date.now(),
@@ -116,6 +116,13 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     }
   }, [productsGet]);
 
+  const onModalWillHide = () => {
+    setOptions({});
+    setImageUrl(null);
+    setQuantity(1);
+    setProduct(null);
+  };
+
   const renderOption = (itemOption) => {
     if (
       !itemOption ||
@@ -142,7 +149,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     switch (itemOption?.inputType) {
       case INPUT_TYPE.TEXT_SWATCH:
         return (
-          <View key={itemOption.id + ''}>
+          <View key={itemOption.id + ""}>
             <Text style={styles.itemText}>{itemOption?.label}</Text>
             <View style={layouts.marginVertical} />
             <View style={styles.optionsItemsLayout}>
@@ -152,7 +159,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
                 };
 
                 return (
-                  <TouchableOpacity key={v?.id + ''} onPress={onSelectOption}>
+                  <TouchableOpacity key={v?.id + ""} onPress={onSelectOption}>
                     <View
                       style={[
                         styles.optionsItem,
@@ -169,13 +176,13 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
         );
       case INPUT_TYPE.DROP_DOWN:
         return (
-          <View key={itemOption?.id + ''}>
+          <View key={itemOption?.id + ""}>
             <Text style={styles.itemText}>{itemOption?.label}</Text>
             <View style={layouts.marginVertical} />
             <View style={styles.optionsItemsLayout}>
               {itemOption?.values?.map((v) => (
                 <TouchableOpacity
-                  key={v?.id + ''}
+                  key={v?.id + ""}
                   style={[
                     styles.optionsItem,
                     defaultOptionId === v?.id && styles.selectBorder,
@@ -190,13 +197,13 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
         );
       case INPUT_TYPE.VISUAL_SWATCH:
         return (
-          <View key={itemOption?.id + ''}>
+          <View key={itemOption?.id + ""}>
             <Text style={styles.itemText}>{itemOption?.label}</Text>
             <View style={layouts.marginVertical} />
             <View style={styles.optionsItemsLayout}>
               {itemOption?.values?.map((v) => (
                 <TouchableOpacity
-                  key={v.id + ''}
+                  key={v.id + ""}
                   style={[
                     styles.optionsItem,
                     { backgroundColor: v.value },
@@ -216,12 +223,13 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   return (
     <View>
       <DialogLayout
-        title={t('Product details')}
+        title={t("Product details")}
         ref={dialogRef}
+        onModalWillHide={onModalWillHide}
         bottomChildren={() => (
           <View style={styles.bottomStyle}>
             <ButtonGradient
-              label={t('Add to basket')}
+              label={t("Add to basket")}
               width={scaleWidth(140)}
               height={scaleHeight(40)}
               borderRadius={scaleWidth(3)}
@@ -259,7 +267,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
               {product?.options?.map(renderOption)}
 
               <FormInputAmount
-                label={t('Amount')}
+                label={t("Amount")}
                 defaultValue={quantity}
                 onChangeValue={(value) => {
                   setQuantity(value);
@@ -281,37 +289,37 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
 
   bottomStyle: {
-    width: '100%',
+    width: "100%",
     height: scaleHeight(80),
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    flexDirection: "row",
     borderTopWidth: 1,
-    borderTopColor: '#ddd',
+    borderTopColor: "#ddd",
   },
 
   title: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(23),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.OCEAN_BLUE,
   },
 
   price: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
@@ -319,7 +327,7 @@ const styles = StyleSheet.create({
     // height: scaleHeight(400),
     maxHeight: scaleHeight(400),
     minHeight: scaleHeight(100),
-    width: '100%',
+    width: "100%",
     marginVertical: scaleHeight(20),
   },
 
@@ -327,27 +335,27 @@ const styles = StyleSheet.create({
     width: scaleWidth(440),
     height: scaleHeight(48),
     backgroundColor: colors.WHITE,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderRightWidth: scaleWidth(1),
     borderLeftWidth: scaleWidth(1),
-    borderColor: '#dddddd',
-    alignItems: 'center',
+    borderColor: "#dddddd",
+    alignItems: "center",
     paddingHorizontal: scaleWidth(16),
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
 
   itemSeparator: {
-    backgroundColor: '#dddddd',
+    backgroundColor: "#dddddd",
     height: scaleHeight(1),
   },
 
   itemText: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
@@ -360,7 +368,7 @@ const styles = StyleSheet.create({
 
   line: {
     height: 1,
-    backgroundColor: '#dddddd',
+    backgroundColor: "#dddddd",
   },
 
   buttonSize: {
@@ -368,7 +376,7 @@ const styles = StyleSheet.create({
   },
 
   selectBorder: {
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: scaleWidth(2),
     borderColor: colors.OCEAN_BLUE,
   },
@@ -378,19 +386,20 @@ const styles = StyleSheet.create({
   },
 
   optionsItemsLayout: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
 
   optionsItem: {
-    width: scaleWidth(48),
+    minWidth: scaleWidth(48),
     height: scaleHeight(32),
     marginRight: scaleWidth(15),
     marginBottom: scaleWidth(15),
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: '#cccccc',
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderColor: "#cccccc",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: scaleWidth(6),
   },
 });

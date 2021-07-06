@@ -90,10 +90,10 @@ export const Layout = ({ ...props }) => {
           <DeleteConfirmButton
             label={t("Delete")}
             width={scaleWidth(72)}
-            height={scaleHeight(28)}
+            height={scaleHeight(30)}
+            borderRadius={scaleWidth(3)}
             fontSize={scaleFont(15)}
             textColor={colors.WHITE}
-            borderRadius={scaleWidth(2)}
             fontWeight="normal"
             onPress={onHandleDeleteAttribute}
           />
