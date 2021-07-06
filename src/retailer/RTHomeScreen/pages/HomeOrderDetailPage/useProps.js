@@ -39,7 +39,7 @@ export const useProps = ({
   const [appointmentConfirm, confirmAppointment] = useConfirmAppointment();
   const [appointmentShipping, shippingAppointment] = useShippingAppointment();
   const [appointmentComplete, completeAppointment] = useCompleteAppointment();
-  const [, editNote] = useEditNotes();
+  const [editNoteResponse, editNote] = useEditNotes();
 
   /**
   |--------------------------------------------------
@@ -102,11 +102,11 @@ export const useProps = ({
 
   React.useEffect(() => {
     const { codeStatus, message, data } =
-      appointmentShipping || appointmentComplete || {};
+      appointmentShipping || appointmentComplete || editNoteResponse || {};
     if (statusSuccess(codeStatus)) {
       getAppointment(appointmentDetail?.appointmentId);
     }
-  }, [appointmentShipping, appointmentComplete]);
+  }, [appointmentShipping, appointmentComplete, editNoteResponse]);
 
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentConfirm || {};

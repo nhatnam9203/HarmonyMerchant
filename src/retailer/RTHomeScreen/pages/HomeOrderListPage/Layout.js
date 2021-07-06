@@ -7,7 +7,6 @@ import {
   ExportModal,
   FormSelect,
   Pagination,
-  SlideInRightModal,
 } from "@shared/components";
 import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
 import { Table } from "@shared/components/CustomTable";
