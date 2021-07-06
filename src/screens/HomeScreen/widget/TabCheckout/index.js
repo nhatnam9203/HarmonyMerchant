@@ -1401,20 +1401,74 @@ class TabCheckout extends Layout {
     }
   };
 
+  sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  }
 
-  sendTransToPaxMachine = async () => {
+  handleMissingTransaction = async () => {
     const {
       paxMachineInfo,
       amountCredtitForSubmitToServer,
       groupAppointment,
-      isCancelPayment,
-      payAppointmentId,
       profileStaffLogin,
       versionApp,
     } = this.props;
-    const { paymentSelected } = this.state;
+  
+    let result = await this.getPAXReport(paxMachineInfo, "1")
 
-    // console.log("------ groupAppointment: ", JSON.stringify(groupAppointment));
+    if(l.isEmpty(result)) {
+      setTimeout(()=>{ 
+        result = this.getPAXReport(paxMachineInfo, "1")
+      }, 90000)
+    }
+
+    if (!l.isEmpty(result)) {
+      if (l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()) {
+        //Call server to check auth number
+        const resultGroupAppointment = await requestAPI({
+            type: 'GET_GROUP_APPOINTMENT_BY_ID',
+            method: 'GET',
+            api: `${apiConfigs.BASE_API}appointment/getGroupById/${l.get(groupAppointment, 'mainAppointmentId', '0')}`,
+            token: profileStaffLogin.token,
+            versionApp: versionApp
+          });
+
+        if(l.get(resultGroupAppointment, 'codeNumber', 0) != 200){
+          this.cancelPayment()
+          return
+        }
+
+        if (l.get(resultGroupAppointment, 'data.lastAuthCode') == l.get(result, 'AuthCode')){
+            //have not pay yet || multi pay
+            this.sendTransaction()
+        }else{
+          //missing transaction
+          //call to server previous response
+          this.handleResponseCreditCard(
+            JSON.stringify(result),
+            true,
+            amountCredtitForSubmitToServer
+          )
+        }
+      } else {
+        this.sendTransaction()
+      }
+
+    } else {
+      //can not get report
+      // batch close or pax inprocess
+      this.sendTransaction()
+    }
+  }
+
+
+  sendTransToPaxMachine = async () => {
+    const {
+      paxMachineInfo,
+      isCancelPayment,
+     
+    } = this.props;
+
     // 1. Show modal processing
     await this.setState({
       visibleProcessingCredit: true,
@@ -1422,55 +1476,30 @@ class TabCheckout extends Layout {
 
     //2. Check if isCancelPayment = true
     if (isCancelPayment) {
-      const result = await this.getPAXReport(paxMachineInfo, "1")
-      if (!l.isEmpty(result)) {
-        if (l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()) {
-          //Call server to check auth number
-          const resultGroupAppointment = await requestAPI({
-              type: 'GET_GROUP_APPOINTMENT_BY_ID',
-              method: 'GET',
-              api: `${apiConfigs.BASE_API}appointment/getGroupById/${payAppointmentId}`,
-              token: profileStaffLogin.token,
-              versionApp: versionApp
-            });
+      this.handleMissingTransaction()
 
-          if(l.get(resultGroupAppointment, 'lastAuthCode') == null 
-            || l.get(resultGroupAppointment, 'lastAuthCode') == undefined
-            || l.get(resultGroupAppointment, 'lastAuthCode') == l.get(result, 'AuthCode')){
-              //have not pay yet || multi pay
-              this.sendTransaction()
-          }else{
-            //missing transaction
-            //call to server previous response
-            this.handleResponseCreditCard(
-              JSON.stringify(result),
-              true,
-              amountCredtitForSubmitToServer
-            )
-          }
-        } else {
-          this.sendTransaction()
-        }
-
-      } else {
-        if (payAppointmentId) {
-          this.props.actions.appointment.cancelHarmonyPayment(
-            payAppointmentId
-          );
-        }
-        setTimeout(() => {
-          // alert(result.message);
-          this.setState({
-            visibleProcessingCredit: false,
-            visibleErrorMessageFromPax: true,
-            errorMessageFromPax: 'transaction fail',
-          });
-        }, 300);
-      }
     } else {
       this.sendTransaction()
     }
   };
+
+  cancelPayment(){
+    const {
+      payAppointmentId,
+    } = this.props;
+    if (payAppointmentId) {
+      this.props.actions.appointment.cancelHarmonyPayment(
+        payAppointmentId
+      );
+    }
+    setTimeout(() => {
+      this.setState({
+        visibleProcessingCredit: false,
+        visibleErrorMessageFromPax: true,
+        errorMessageFromPax: 'Transaction fail',
+      });
+    }, 300);
+  }
 
   sendTransaction() {
     const {
@@ -1524,7 +1553,8 @@ class TabCheckout extends Layout {
       const result = JSON.parse(message);
       const tempEnv = env.IS_PRODUCTION;
       if (l.get(result, 'status', 0) == 0) {
-        PosLink.cancelTransaction();
+        // setTimeout(()=>{ PosLink.cancelTransaction()}, 100)
+        
         if (payAppointmentId) {
           this.props.actions.appointment.cancelHarmonyPayment(
             payAppointmentId,
