@@ -314,7 +314,8 @@ class AddStaff extends Layout {
         getCodeAreaPhone(infoStaffHandle.phone).areaCode
       );
 
-      this.assignSevices?.current?.setStateFromParent(infoStaffHandle)
+      this.assignSevices?.current?.setStateFromParent(JSON.parse(
+        JSON.stringify(infoStaffHandle)))
     } else {
       // ----------- Create New Staff -----------
       const { profile } = this.props;
