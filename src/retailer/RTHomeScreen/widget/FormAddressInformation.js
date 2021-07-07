@@ -300,6 +300,7 @@ export const FormAddressInformation = React.forwardRef(
               onChangeValue={onSelectBillingAddress}
               style={{ flex: 1 }}
             />
+            <View style={layouts.marginHorizontal} />
             <TouchableOpacity
               style={styles.editButton}
               onPress={onEditBillingAddress}
@@ -366,6 +367,7 @@ export const FormAddressInformation = React.forwardRef(
               onChangeValue={onSelectShippingAddress}
               style={{ flex: 1 }}
             />
+            <View style={layouts.marginHorizontal} />
             <TouchableOpacity
               style={styles.editButton}
               onPress={onEditShippingAddress}

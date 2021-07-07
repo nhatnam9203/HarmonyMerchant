@@ -23,6 +23,7 @@ import { dateToString, BIRTH_DAY_DATE_FORMAT_STRING } from "@shared/utils";
 import IMAGE from "@resources";
 import { FormProductOption } from "./FormProductOption";
 import { AddProductOptionDialog } from "./AddProductOptionDialog";
+import { FormProductOptionQty } from "./FormProductOptionQty";
 
 export const Layout = ({
   isEdit,
@@ -117,6 +118,7 @@ export const Layout = ({
               onChangeValue={(val) => form.setFieldValue("categoryId", val)}
               isDropdown
             >
+              <View style={layouts.marginHorizontal} />
               <ButtonGradient
                 label={t("New Category")}
                 width={scaleWidth(120)}
@@ -187,6 +189,11 @@ export const Layout = ({
           </View>
         </View>
         <View style={styles.content}>
+          <FormProductOptionQty
+            items={productItem?.quantities}
+            dispatchProduct={dispatchProduct}
+          />
+
           <FlatList
             scrollEnabled={false}
             data={productItem?.options}

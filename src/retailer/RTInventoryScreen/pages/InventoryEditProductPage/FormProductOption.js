@@ -80,10 +80,7 @@ export const FormProductOption = React.forwardRef(
             );
 
             if (existItem) {
-              return Object.assign({}, existItem, {
-                ...v,
-                // checked: true,
-              });
+              return Object.assign({}, v, existItem); // lấy thông từ tồn tại item làm thông tin chính
             } else {
               return v;
             }

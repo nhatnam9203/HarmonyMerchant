@@ -38,26 +38,13 @@ export const AddProductOptionDialog = ({
   React.useEffect(() => {
     const { codeStatus, data } = attributesList || {};
     if (statusSuccess(codeStatus)) {
-      // setOptions(
-      //   attributesList?.data?.map((v) => {
-      //     const existItem = defaultOptionsId.find(
-      //       (x) => x.attributeId === v.id,
-      //     );
-      //     return Object.assign({}, v, {
-      //       checked: !!existItem,
-      //       attributeId: v.id,
-      //       id: existItem?.id,
-      //     });
-      //   }),
-      // );
-
       setOptions(
         attributesList?.data
           ?.filter(
             (v) =>
               defaultOptionsId?.findIndex((x) => x.attributeId === v.id) < 0
           )
-          .map((x) => Object.assign({}, x, { attributeId: x.id, id: 0 }))
+          .map((x) => Object.assign({}, x, { attributeId: x.id, id: 0 })) // cái này lấy từ attribute list về
       );
     }
   }, [attributesList]);
