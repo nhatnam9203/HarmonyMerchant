@@ -1,31 +1,31 @@
-import { colors, fonts } from "@shared/themes";
+import { colors, fonts } from '@shared/themes';
 import {
   formatMoney,
   formatNumberFromCurrency,
   roundFloatNumber,
-} from "@utils";
-import moment from "moment";
-import _ from "ramda";
-import React, { useEffect, useState } from "react";
-import { FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
-import DraggableFlatList from "react-native-draggable-flatlist";
-import { getUniqueId, getValueForColumnKey } from "./helpers";
-import { Cell, EmptyList, Header, Row } from "./widget";
+} from '@utils';
+import moment from 'moment';
+import _ from 'ramda';
+import React, { useEffect, useState } from 'react';
+import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
+import DraggableFlatList from 'react-native-draggable-flatlist';
+import { getUniqueId, getValueForColumnKey } from './helpers';
+import { Cell, EmptyList, Header, Row } from './widget';
 
 const TABLE_ROW_HEIGHT = 50;
 const TABLE_CELL_DEFAULT_WIDTH = 150;
 const HEAD_FONT_SIZE = 17;
 const CELL_FONT_SIZE = 15;
 
-const TABLE_HEADER_KEY = "report-header";
-const TABLE_SUMMARY_KEY = "report-summary";
-const DATE_FORMAT = "MM/DD/YYYY";
+const TABLE_HEADER_KEY = 'report-header';
+const TABLE_SUMMARY_KEY = 'report-summary';
+const DATE_FORMAT = 'MM/DD/YYYY';
 
 /**server value string "345,666.89" */
 const formatServerNumber = (numStr) => {
   if (!numStr) return 0;
 
-  if (typeof numStr === "string") {
+  if (typeof numStr === 'string') {
     return formatNumberFromCurrency(numStr);
   }
 
@@ -56,9 +56,9 @@ const strCompare = (a, b) => {
 };
 
 const SORT_STATE = {
-  none: "NONE",
-  desc: "DESC",
-  asc: "ASC",
+  none: 'NONE',
+  desc: 'DESC',
+  asc: 'ASC',
 };
 
 export function Table({
@@ -142,7 +142,7 @@ export function Table({
     let value = item[key];
     if (formatFunctionKeys) {
       const formatFunc = formatFunctionKeys[key];
-      if (typeof formatFunc === "function") {
+      if (typeof formatFunc === 'function') {
         return formatFunc(value);
       }
     }
@@ -152,25 +152,25 @@ export function Table({
 
   const getHeaderCellValue = (value, key) => {
     const format = formatKeys[key];
-    if (format === "mins" && value > 0) {
+    if (format === 'mins' && value > 0) {
       const str = parseFloat(value).toFixed(2).toString();
-      const splits = str.split(".");
+      const splits = str.split('.');
       if (splits.length === 2) {
         return (
           parseInt(splits[0]) +
-          " hrs " +
+          ' hrs ' +
           Math.floor((parseInt(splits[1]) / 100) * 60) +
-          " mins"
+          ' mins'
         );
       }
 
-      return value + " hrs";
+      return value + ' hrs';
     }
 
     return isPriceCell(key)
       ? unitKeys && unitKeys[key]
-        ? formatServerNumber(sumObject[key]) + " " + unitKeys[key]
-        : "$ " + formatMoney(sumObject[key])
+        ? formatServerNumber(sumObject[key]) + ' ' + unitKeys[key]
+        : '$ ' + formatMoney(sumObject[key])
       : sumObject[key];
   };
 
@@ -250,7 +250,7 @@ export function Table({
   // custom render default cell
   const renderDefaultCell = (cellInfo) => {
     const { columnKey, rowIndex, columnIndex, item } = cellInfo;
-    if (renderCell && typeof renderCell === "function") {
+    if (renderCell && typeof renderCell === 'function') {
       const cell = renderCell(cellInfo);
       if (cell) {
         return cell;
@@ -263,7 +263,7 @@ export function Table({
         onPress={() =>
           onCellPress({ item, row: rowIndex, col: columnIndex, key: columnKey })
         }
-        key={getUniqueId(columnKey, rowIndex, "cell")}
+        key={getUniqueId(columnKey, rowIndex, 'cell')}
         columnKey={columnKey}
         index={cellInfo.column}
         getWidthForKey={getCellWidth}
@@ -308,21 +308,21 @@ export function Table({
         {/**sum row */}
         {calcSumKeys?.length > 0 && !showSumOnBottom && (
           <Row
-            style={{ ...styles.head, backgroundColor: "#E5E5E5" }}
+            style={{ ...styles.head, backgroundColor: '#E5E5E5' }}
             key={TABLE_SUMMARY_KEY}
           >
             {whiteListKeys.map((key, index) => (
               <Cell
-                key={getUniqueId(key, index, "summary")}
+                key={getUniqueId(key, index, 'summary')}
                 style={{
                   width: getCellWidth(index, key),
                   ...(isPriceCell(key) && {
-                    alignItems: "flex-end",
+                    alignItems: 'flex-end',
                   }),
                 }}
               >
                 {key === sumTotalKey && (
-                  <Text style={styles.txtSum}>{"Total"}</Text>
+                  <Text style={styles.txtSum}>{'Total'}</Text>
                 )}
 
                 {calcSumKeys?.indexOf(key) > -1 && (
@@ -336,9 +336,9 @@ export function Table({
                     {isPriceCell(key)
                       ? unitKeys && unitKeys[key]
                         ? formatServerNumber(sumObject[key]) +
-                          " " +
+                          ' ' +
                           unitKeys[key]
-                        : "$ " + formatMoney(sumObject[key])
+                        : '$ ' + formatMoney(sumObject[key])
                       : sumObject[key]}
                   </Text>
                 )}
@@ -371,7 +371,7 @@ export function Table({
       style={
         showSumOnBottom && {
           height: TABLE_ROW_HEIGHT,
-          backgroundColor: "transparent",
+          backgroundColor: 'transparent',
         }
       }
     />
@@ -384,7 +384,7 @@ export function Table({
 
   const onHandleChangeData = ({ data }) => {
     setData(data);
-    if (setItems && typeof setItems === "function") {
+    if (setItems && typeof setItems === 'function') {
       setItems(data);
     }
   };
@@ -433,6 +433,7 @@ export function Table({
           refreshControl={
             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
           }
+          onScrollToIndexFailed={() => {}}
         />
       )}
       {showSumOnBottom && onRenderFooter()}
@@ -457,45 +458,45 @@ const styles = StyleSheet.create({
 
   txtCell: {
     fontSize: CELL_FONT_SIZE,
-    color: "#6A6A6A",
-    textAlign: "center",
-    flexWrap: "wrap",
+    color: '#6A6A6A',
+    textAlign: 'center',
+    flexWrap: 'wrap',
   },
   txtHead: {
     fontSize: HEAD_FONT_SIZE,
-    color: "#0764B0",
-    fontWeight: "600",
-    flexWrap: "wrap",
-    textAlign: "center",
+    color: '#0764B0',
+    fontWeight: '600',
+    flexWrap: 'wrap',
+    textAlign: 'center',
   },
   separator: {
     height: 1,
-    backgroundColor: "#E5E5E5",
+    backgroundColor: '#E5E5E5',
   },
   txtSum: {
     fontSize: HEAD_FONT_SIZE,
-    color: "#404040",
-    fontWeight: "600",
-    flexWrap: "wrap",
-    textAlign: "center",
+    color: '#404040',
+    fontWeight: '600',
+    flexWrap: 'wrap',
+    textAlign: 'center',
   },
   btnSort: {
     width: 30,
-    position: "absolute",
+    position: 'absolute',
     right: 0,
     top: 0,
     bottom: 0,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   textStyle: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: "normal",
-    fontStyle: "normal",
+    fontWeight: 'normal',
+    fontStyle: 'normal',
     letterSpacing: 0,
-    textAlign: "left",
+    textAlign: 'left',
     color: colors.GREYISH_BROWN,
   },
 });

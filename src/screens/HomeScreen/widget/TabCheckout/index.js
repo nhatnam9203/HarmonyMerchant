@@ -15,7 +15,7 @@ import {
   formatWithMoment,
   getInfoFromModelNameOfPrinter,
   getArrayGiftCardsFromAppointment,
-  getPAXReport,
+  requestAPI,
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import Configs from '@configs';
@@ -59,8 +59,8 @@ class TabCheckout extends Layout {
   };
 
   getDataColProduct() {
-    const { categorySelected, categoryTypeSelected } = this.state;
-    const { productsByMerchantId, servicesByMerchant, extrasByMerchant } =
+    const { categorySelected, categoryTypeSelected, isBlockBookingFromCalendar, serviceStaff, productStaff } = this.state;
+    const { productsByMerchantId, servicesByMerchant, extrasByMerchant, isOfflineMode } =
       this.props;
     if (categoryTypeSelected === 'Extra') {
       const dataExtra = extrasByMerchant.filter((extra, index) => {
@@ -73,12 +73,21 @@ class TabCheckout extends Layout {
           ? servicesByMerchant
           : productsByMerchantId;
       if (data?.length > 0) {
-        const temptData = data.filter((item) => {
+        let temptData = data.filter((item) => {
           return (
             item?.categoryId === categorySelected?.categoryId &&
             item?.isDisabled === 0
           );
         });
+
+        if (!isOfflineMode && !isBlockBookingFromCalendar) {
+          if (categoryTypeSelected === "Service") {
+            temptData = [...serviceStaff];
+          } else if (categoryTypeSelected === "Product") {
+            temptData = [...productStaff]
+          }
+        }
+
         return temptData;
       } else {
         return [];
@@ -1390,55 +1399,99 @@ class TabCheckout extends Layout {
     }
   };
 
-  sendTransToPaxMachine = async () => {
+  sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  }
+
+  handleMissingTransaction = async () => {
     const {
       paxMachineInfo,
       amountCredtitForSubmitToServer,
       groupAppointment,
-      isCancelPayment,
-      payAppointmentId,
+      profileStaffLogin,
+      versionApp,
     } = this.props;
-    const { paymentSelected } = this.state;
+  
+    let result = await this.getPAXReport(paxMachineInfo, "1")
 
-    // console.log("------ groupAppointment: ", JSON.stringify(groupAppointment));
+    if (!l.isEmpty(result)) {
+      if (l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()) {
+        //Call server to check auth number
+        const resultGroupAppointment = await requestAPI({
+            type: 'GET_GROUP_APPOINTMENT_BY_ID',
+            method: 'GET',
+            api: `${Configs.API_URL}appointment/getGroupById/${l.get(groupAppointment, 'mainAppointmentId', '0')}`,
+            token: profileStaffLogin.token,
+            versionApp: versionApp
+          });
+
+        if(l.get(resultGroupAppointment, 'codeNumber', 0) != 200){
+          this.cancelPayment()
+          return
+        }
+
+        if (l.get(resultGroupAppointment, 'data.lastAuthCode') == l.get(result, 'AuthCode')){
+            //have not pay yet || multi pay
+            this.sendTransaction()
+        }else{
+          //missing transaction
+          //call to server previous response
+          this.handleResponseCreditCard(
+            JSON.stringify(result),
+            true,
+            amountCredtitForSubmitToServer
+          )
+        }
+      } else {
+        this.sendTransaction()
+      }
+
+    } else {
+      //can not get report
+      // batch close or pax inprocess
+      this.sendTransaction()
+    }
+  }
+
+
+  sendTransToPaxMachine = async () => {
+    const {
+      paxMachineInfo,
+      isCancelPayment,
+     
+    } = this.props;
+
     // 1. Show modal processing
     await this.setState({
       visibleProcessingCredit: true,
     });
 
-    //Check if isCancelPayment = true
+    //2. Check if isCancelPayment = true
     if (isCancelPayment) {
-      const result = await this.getPAXReport(paxMachineInfo, '1');
-      if (!l.isEmpty(result)) {
-        if (
-          l.get(result, 'InvNum') ==
-          l.get(groupAppointment, 'checkoutGroupId', -1).toString()
-        ) {
-          this.handleResponseCreditCard(
-            JSON.stringify(result),
-            true,
-            amountCredtitForSubmitToServer
-          );
-        } else {
-          this.sendTransaction();
-        }
-      } else {
-        if (payAppointmentId) {
-          this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
-        }
-        setTimeout(() => {
-          // alert(result.message);
-          this.setState({
-            visibleProcessingCredit: false,
-            visibleErrorMessageFromPax: true,
-            errorMessageFromPax: 'transaction fail',
-          });
-        }, 300);
-      }
+      this.handleMissingTransaction()
+
     } else {
-      this.sendTransaction();
+      this.sendTransaction()
     }
   };
+
+  cancelPayment(){
+    const {
+      payAppointmentId,
+    } = this.props;
+    if (payAppointmentId) {
+      this.props.actions.appointment.cancelHarmonyPayment(
+        payAppointmentId
+      );
+    }
+    setTimeout(() => {
+      this.setState({
+        visibleProcessingCredit: false,
+        visibleErrorMessageFromPax: true,
+        errorMessageFromPax: 'Transaction fail',
+      });
+    }, 300);
+  }
 
   sendTransaction() {
     const {
@@ -1459,7 +1512,7 @@ class TabCheckout extends Layout {
     const idBluetooth = commType === 'TCP' ? '' : bluetoothAddr;
     const extData = isTipOnPaxMachine ? '<TipRequest>1</TipRequest>' : '';
 
-    // 2. Send Trans to pax
+    // Send Trans to pax
     PosLink.sendTransaction(
       {
         tenderType: tenderType,
@@ -1492,7 +1545,8 @@ class TabCheckout extends Layout {
       const result = JSON.parse(message);
       const tempEnv = env.IS_PRODUCTION;
       if (l.get(result, 'status', 0) == 0) {
-        PosLink.cancelTransaction();
+        // setTimeout(()=>{ PosLink.cancelTransaction()}, 100)
+        
         if (payAppointmentId) {
           this.props.actions.appointment.cancelHarmonyPayment(
             payAppointmentId,
@@ -1610,14 +1664,21 @@ class TabCheckout extends Layout {
   };
 
   changeStylist = async (service, appointmentId) => {
+    const { isOfflineMode } = this.props;
     this.changeStylistRef.current?.setStateFromParent(service, appointmentId);
+    if (!isOfflineMode) {
+      this.props.actions.staff.getStaffService(service?.data?.serviceId, this.callBackGetStaffService);
+    } else {
+      this.setState({ visibleChangeStylist: true })
+    }
+  };
 
-    // setTimeout(() => {
+  callBackGetStaffService = (data = []) => {
     this.setState({
       visibleChangeStylist: true,
+      staffOfService: data,
     });
-    // }, 500)
-  };
+  }
 
   changeProduct = async (product, appointmentId) => {
     this.changePriceAmountProductRef.current?.setStateFromParent(
@@ -1680,8 +1741,18 @@ class TabCheckout extends Layout {
   };
 
   onPressSelectCategory = async (category) => {
-    const { categorySelected } = this.state;
+    const { categorySelected, isBlockBookingFromCalendar, selectedStaff } = this.state;
+    const { isOfflineMode } = this.props;
     if (categorySelected?.categoryId !== category?.categoryId) {
+
+      if (!isOfflineMode && !isBlockBookingFromCalendar) {
+        if (category?.categoryType?.toString().toLowerCase() === "service") {
+          this.getService(category?.categoryId, selectedStaff?.staffId)
+        } else if (category?.categoryType?.toString().toLowerCase() === "product") {
+          this.getProduct(category?.categoryId)
+        }
+      }
+
       await this.setState({
         categorySelected: category,
         categoryTypeSelected: category?.categoryType,
@@ -2342,6 +2413,11 @@ class TabCheckout extends Layout {
   };
 
   displayCategoriesColumn = (staff) => async () => {
+    const { isOfflineMode } = this.props;
+    if (!isOfflineMode) {
+      this.getCategory(staff.staffId);
+    }
+
     const { selectedStaff } = this.state;
     const isExist = selectedStaff?.staffId === staff?.staffId ? true : false;
     await this.setState({
@@ -2361,6 +2437,42 @@ class TabCheckout extends Layout {
     });
     // this.scrollFlatListToStaffIndex(staff?.staffId);
   };
+
+  getCategory = (staffId) => {
+    this.setState({ isLoadingCategory: true });
+    this.props.actions.category.getCategoriesByStaff(staffId, this.callBackGetCategory);
+  }
+
+  callBackGetCategory = (data = []) => {
+    this.setState({
+      isLoadingCategory: false,
+      categoryStaff: data
+    });
+  }
+
+  getProduct = (categoryId) => {
+    this.setState({ isLoadingService: true });
+    this.props.actions.product.getProductByStaff(categoryId, this.callBackGetProduct);
+  }
+
+  getService = (categoryId, staffId) => {
+    this.setState({ isLoadingService: true });
+    this.props.actions.service.getServiceByStaff(categoryId, staffId, this.callBackGetService);
+  }
+
+  callBackGetService = (data = []) => {
+    this.setState({
+      isLoadingService: false,
+      serviceStaff: data
+    });
+  }
+
+  callBackGetProduct = (data = []) => {
+    this.setState({
+      isLoadingService: false,
+      productStaff: data
+    });
+  }
 
   displayEnterUserPhonePopup = () => {
     const { customerInfoBuyAppointment } = this.props;
@@ -2410,6 +2522,10 @@ class TabCheckout extends Layout {
     });
   };
 
+  setStatusIsCheckout = (status) => {
+    this.setState({ isGotoCheckout: status });
+  }
+
   async componentDidUpdate(prevProps, prevState) {
     const {
       isLoadingGetBlockAppointment,
@@ -2443,6 +2559,14 @@ class TabCheckout extends Layout {
       this.sendTransToPaxMachine();
     }
   }
+
+  componentDidMount() {
+    const { categoryStaffId } = this.props;
+    if (categoryStaffId) {
+      this.getCategory(categoryStaffId)
+    }
+  }
+
 }
 
 const mapStateToProps = (state) => ({

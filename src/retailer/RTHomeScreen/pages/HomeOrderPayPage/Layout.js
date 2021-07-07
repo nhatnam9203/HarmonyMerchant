@@ -1,10 +1,10 @@
-import IMAGE from "@resources";
-import { ButtonGradientWhite } from "@shared/components";
-import { WithDialogPhone } from "@shared/HOC/withDialogPhone";
-import { colors, fonts, layouts } from "@shared/themes";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, Text, View } from "react-native";
+import IMAGE from '@resources';
+import { ButtonGradientWhite, ButtonGradient } from '@shared/components';
+import { WithDialogPhone } from '@shared/HOC/withDialogPhone';
+import { colors, fonts, layouts } from '@shared/themes';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import {
   BasketPaymentContent,
   CustomList,
@@ -12,7 +12,7 @@ import {
   DialogProductDetail,
   CheckOutCustomerInfo,
   ButtonPaymentMethod,
-} from "../../widget";
+} from '../../widget';
 
 import {
   ItemCategory,
@@ -33,7 +33,7 @@ import {
   EnterCustomerPhonePopup,
   PopupAddEditCustomer,
   ErrorMessagePaxModal,
-} from "@shared/components/payment";
+} from '@shared/components/payment';
 import {
   PopupPayCompleted,
   PopupChangeStylist,
@@ -49,7 +49,7 @@ import {
   PopupCheckStaffPermission,
   ParentContainer,
   PopupConfirm,
-} from "@components";
+} from '@components';
 
 const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
 
@@ -123,8 +123,42 @@ export const Layout = ({
   invoicePrintRef,
   visiblePrintInvoice,
   cancelInvoicePrint,
+  printTemptInvoice,
+  checkStatusCashier
 }) => {
   const [t] = useTranslation();
+
+  const renderButton = () => {
+    return (
+      <>
+        <View style={layouts.marginHorizontal} />
+        <ButtonGradient
+          width={scaleWidth(120)}
+          height={scaleHeight(32)}
+          fontSize={scaleFont(12)}
+          textWeight="normal"
+          label={t('Print receipt')}
+          onPress={printTemptInvoice}
+          leftChildren={() => (
+            <Image style={styles.icon} source={IMAGE.print_btn} />
+          )}
+        />
+        <View style={layouts.marginHorizontal} />
+        <ButtonGradient
+          width={scaleWidth(120)}
+          height={scaleHeight(32)}
+          fontSize={scaleFont(12)}
+          textWeight="normal"
+          label={t('Open Cashier')}
+          onPress={checkStatusCashier}
+          leftChildren={() => (
+            <Image style={styles.icon} source={IMAGE.cashier_btn} />
+          )}
+        />
+        <View style={layouts.marginHorizontal} />
+      </>
+    );
+  };
 
   return (
     <ParentContainer handleLockScreen={() => {}} navigation={navigation}>
@@ -135,7 +169,7 @@ export const Layout = ({
             customerInfo={orderItem?.customer}
           />
           <View style={styles.headerRightContent}>
-            <View style={layouts.marginHorizontal} />
+            {renderButton()}
             <ButtonGradientWhite
               width={scaleWidth(40)}
               height={scaleHeight(40)}
@@ -152,7 +186,7 @@ export const Layout = ({
           <View style={styles.listContent}>
             <View style={styles.basketHeader}>
               <Text style={styles.basketTitle}>
-                {t("Select payment method")}
+                {t('Select payment method')}
               </Text>
               <View style={layouts.fill} />
             </View>
@@ -160,38 +194,38 @@ export const Layout = ({
             <View style={layouts.fill}>
               <View style={styles.rowContent}>
                 <ButtonPaymentMethod
-                  key={"HarmonyPay"}
-                  title={"HarmonyPay"}
+                  key={'HarmonyPay'}
+                  title={'HarmonyPay'}
                   selectedPayment={selectedPayment}
                   paymentSelected={paymentSelected}
                 />
 
                 <ButtonPaymentMethod
-                  key={"Cash"}
-                  title={"Cash"}
+                  key={'Cash'}
+                  title={'Cash'}
                   selectedPayment={selectedPayment}
                   paymentSelected={paymentSelected}
                 />
               </View>
               <View style={styles.rowContent}>
                 <ButtonPaymentMethod
-                  key={"Credit Card"}
-                  title={"Credit Card"}
+                  key={'Credit Card'}
+                  title={'Credit Card'}
                   selectedPayment={selectedPayment}
                   paymentSelected={paymentSelected}
                 />
 
                 <ButtonPaymentMethod
-                  key={"Other"}
-                  title={"Other"}
+                  key={'Other'}
+                  title={'Other'}
                   selectedPayment={selectedPayment}
                   paymentSelected={paymentSelected}
                 />
               </View>
               <View style={styles.rowContent}>
                 <ButtonPaymentMethod
-                  key={"Gift Card"}
-                  title={"Gift Card"}
+                  key={'Gift Card'}
+                  title={'Gift Card'}
                   selectedPayment={selectedPayment}
                   paymentSelected={paymentSelected}
                 />
@@ -200,7 +234,7 @@ export const Layout = ({
 
             <View style={layouts.center}>
               <ButtonGradientWhite
-                label={t("BACK")}
+                label={t('BACK')}
                 width={scaleWidth(400)}
                 height={scaleHeight(60)}
                 fontSize={scaleFont(25)}
@@ -210,7 +244,7 @@ export const Layout = ({
           </View>
           <View style={styles.basketContent}>
             <View style={styles.basketHeader}>
-              <Text style={styles.basketTitle}>{t("Basket")}</Text>
+              <Text style={styles.basketTitle}>{t('Basket')}</Text>
             </View>
 
             <View style={styles.basketDetail}>
@@ -234,13 +268,13 @@ export const Layout = ({
         <DialogProductDetail ref={productDetailRef} />
       </View>
 
-      <PopupDiscount ref={popupDiscountRef} title={t("Discount")} />
+      <PopupDiscount ref={popupDiscountRef} title={t('Discount')} />
 
-      <PopupBlockDiscount title={t("Discount")} />
+      <PopupBlockDiscount title={t('Discount')} />
       <PopupDiscountLocal
         ref={popupDiscountLocalRef}
         visible={visiblePopupDiscountLocal}
-        title={t("Discount")}
+        title={t('Discount')}
         onRequestClose={onRequestClosePopupDiscountLocal}
         callbackDiscountToParent={(
           customDiscountPercentLocal,
@@ -257,7 +291,7 @@ export const Layout = ({
 
       <PopupConfirm
         visible={visibleConfirm}
-        title={t("Confirmation")}
+        title={t('Confirmation')}
         message={titleExitCheckoutTab}
         onRequestClose={setVisibleConfirm}
         confimYes={clearDataConfirm}
@@ -265,7 +299,7 @@ export const Layout = ({
 
       <ErrorMessagePaxModal
         visible={visibleErrorMessageFromPax}
-        title={t("Trasaction Fail")}
+        title={t('Trasaction Fail')}
         message={errorMessageFromPax}
         onRequestClose={() => {
           setVisibleErrorMessageFromPax(false);
@@ -277,7 +311,7 @@ export const Layout = ({
 
       <PopupChangeMoney
         ref={cashBackRef}
-        title={t("Confirmation")}
+        title={t('Confirmation')}
         onRequestClose={() => {
           setVisibleChangeMoney(false);
         }}
@@ -292,7 +326,7 @@ export const Layout = ({
 
       <PopupBill
         ref={modalBillRef}
-        title={t("Enter Amount")}
+        title={t('Enter Amount')}
         visible={visibleBillOfPayment}
         onRequestClose={onRequestCloseBillModal}
         language={language}
@@ -303,20 +337,20 @@ export const Layout = ({
       <PopupSendLinkInstall
         ref={popupSendLinkInstallRef}
         visible={visibleSendLinkPopup}
-        title={t("Confirmation")}
+        title={t('Confirmation')}
         onRequestClose={() => setVisibleSendLinkPopup(false)}
         confimYes={sendLinkInstallApp}
       />
 
       <PopupActiveGiftCard
         ref={activeGiftCardRef}
-        title={t("Active Gift Card")}
+        title={t('Active Gift Card')}
         onRequestClose={closePopupActiveGiftCard}
         submitSerialCode={submitSerialCode}
       />
 
       <PopupPaymentDetails
-        title={t("Payment Details")}
+        title={t('Payment Details')}
         visible={visiblePopupPaymentDetails}
         onRequestClose={closePopupProductPaymentDetails}
         language={language}
@@ -361,77 +395,77 @@ export const Layout = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
   },
 
   headContent: {
     height: scaleHeight(72),
     backgroundColor: colors.WHITE,
-    shadowColor: "#0000001a",
+    shadowColor: '#0000001a',
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowRadius: 2,
     shadowOpacity: 0.32,
-    alignItems: "center",
+    alignItems: 'center',
     paddingLeft: scaleWidth(16),
-    flexDirection: "row",
+    flexDirection: 'row',
   },
 
   rowContent: {
     marginVertical: scaleHeight(20),
     paddingHorizontal: scaleWidth(16),
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 
   headerRightContent: {
-    flexDirection: "row",
+    flexDirection: 'row',
     flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
+    justifyContent: 'flex-end',
+    alignItems: 'center',
     paddingHorizontal: scaleWidth(16),
   },
 
   basketContent: {
     flex: 4,
     paddingBottom: scaleHeight(16),
-    backgroundColor: "#fff",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    justifyContent: 'center',
   },
 
   listContent: {
     flex: 5,
-    backgroundColor: "#fff",
-    justifyContent: "flex-start",
+    backgroundColor: '#fff',
+    justifyContent: 'flex-start',
     paddingBottom: scaleHeight(16),
     borderRightWidth: scaleWidth(1),
-    borderStyle: "solid",
-    borderRightColor: "#dddddd",
+    borderStyle: 'solid',
+    borderRightColor: '#dddddd',
   },
 
   basketHeader: {
     height: scaleHeight(48),
     backgroundColor: colors.VERY_LIGHT_PINK_1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: scaleWidth(16),
 
     borderTopWidth: scaleWidth(1),
     borderBottomWidth: scaleWidth(1),
-    borderStyle: "solid",
-    borderColor: "#dddddd",
+    borderStyle: 'solid',
+    borderColor: '#dddddd',
   },
 
   basketTitle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: "500",
-    fontStyle: "normal",
+    fontWeight: '500',
+    fontStyle: 'normal',
     letterSpacing: 0,
-    textAlign: "center",
+    textAlign: 'center',
     color: colors.GREYISH_BROWN,
   },
 
@@ -439,25 +473,30 @@ const styles = StyleSheet.create({
     height: scaleHeight(60),
     borderRadius: scaleWidth(3),
     backgroundColor: colors.VERY_LIGHT_PINK_E_5,
-    borderStyle: "solid",
+    borderStyle: 'solid',
     borderWidth: 1,
-    borderColor: "#dddddd",
-    justifyContent: "center",
-    alignItems: "center",
+    borderColor: '#dddddd',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginHorizontal: scaleWidth(16),
   },
 
   basketButtonText: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(25),
-    fontWeight: "500",
-    fontStyle: "normal",
+    fontWeight: '500',
+    fontStyle: 'normal',
     letterSpacing: -0.6,
-    textAlign: "center",
+    textAlign: 'center',
     color: colors.BROWNISH_GREY,
   },
 
   basketDetail: {
     flex: 1,
+  },
+  icon: {
+    width: scaleWidth(20),
+    height: scaleHeight(20),
+    marginRight: scaleWidth(5),
   },
 });

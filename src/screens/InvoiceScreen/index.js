@@ -19,6 +19,8 @@ import {
   getInfoFromModelNameOfPrinter,
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
+import { role, menuTabs, isPermissionToTab } from '@utils';
+import * as l from 'lodash';
 
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
@@ -80,12 +82,20 @@ class InvoiceScreen extends Layout {
         this.modalCalendarRef?.current?.selectQuickFilter("Time Range");
 
         const { profileStaffLogin } = this.props;
-        const roleName = profileStaffLogin?.roleName || "Admin";
-        if (roleName === "Admin") {
+        const roleName = profileStaffLogin?.roleName || role.Admin;
+        const permission = l.get(profileStaffLogin, 'permission', [])
+        if (roleName === role.Admin) {
           this.props.actions.invoice.getListInvoicesByMerchant();
           this.props.actions.invoice.resetProfileInvoiceLogin();
+        } else if (roleName === role.Manager) {
+          if (isPermissionToTab(permission, menuTabs.MENU_INVOICE)) {
+            this.props.actions.invoice.getListInvoicesByMerchant();
+            this.props.actions.invoice.resetProfileInvoiceLogin();
+          }else {
+            this.props.actions.invoice.toggleInvoiceTabPermission();
+          }
         } else {
-          this.props.actions.invoice.toggleInvoiceTabPermission();
+            this.props.actions.invoice.toggleInvoiceTabPermission();
         }
       }
     );
