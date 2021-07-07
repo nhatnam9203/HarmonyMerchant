@@ -415,7 +415,14 @@ const localization = {
     ProductPayout: "Product Payout",
     ServicePayout: "Service Payout",
     Tippayout: "Tip Payout",
-    "Staff Salary": "Staff Salary"
+    "Staff Salary": "Staff Salary",
+    "Accessibility": "Accessibility",
+    "Tabs": "Tabs",
+    "Calendar": "Calendar",
+    "Checkout": "Checkout",
+    "Change Discount": "Change Discount",
+    "Gift card": "Gift card",
+    DiscountByStaff: "Discount By Staff",
   },
   vi: {},
 };

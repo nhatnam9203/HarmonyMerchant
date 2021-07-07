@@ -102,7 +102,7 @@ class Layout extends React.Component {
               <View style={{ width: scaleSize(120) }}>
                 <Dropdown
                   label={localize("Role", language)}
-                  data={[{ value: "" }, { value: "Admin" }, { value: "Staff" }]}
+                  data={[{ value: "" }, { value: "Admin" }, { value: "Manager" } ,{ value: "Staff" }]}
                   value={role}
                   onChangeText={(value) =>
                     this.updateSearchFilterInfo("role", value)
@@ -211,7 +211,7 @@ class Layout extends React.Component {
             refreshing={refreshListStaffs}
             scrollPercent={5}
             onMoveEnd={({ data }) =>
-              this.updateStaffsPosition(data, x)
+              this.updateStaffsPosition(data)
             }
           />
         </View>

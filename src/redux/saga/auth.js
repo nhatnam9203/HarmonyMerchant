@@ -3,7 +3,7 @@ import DeviceInfo from "react-native-device-info";
 import { all, call, put, select, takeLatest } from "redux-saga/effects";
 import Configs from "@configs";
 import NavigationServices from "../../navigators/NavigatorServices";
-import { requestAPI } from "../../utils";
+import { requestAPI, menuTabs } from "../../utils";
 import { saveAuthToken } from "@shared/storages/authToken";
 
 const getAsyncStoreToken = async () => {
@@ -128,7 +128,7 @@ function* checkStaffPermission(action) {
       yield put({
         type: "CHECK_STAFF_PERMISSION_SUCCESS",
       });
-      if (action.tabName === "Invoice") {
+      if (action.tabName === menuTabs.MENU_INVOICE) {
         yield put({
           type: "TOGGLE_INVOICE_TAB_PERMISSION",
           payload: false,
@@ -146,17 +146,18 @@ function* checkStaffPermission(action) {
           type: "UPDATE_PROFILE_LOGIN_INVOICE",
           payload: responses?.data || {},
         });
-      } else if (action.tabName === "Settlement") {
+      } else if (action.tabName === menuTabs.MENU_SETTLEMENT) {
         yield put({
           type: "TOGGLE_SETTLEMENT_TAB_PERMISSION",
           payload: false,
         });
-
         yield put({
-          type: "HANDLE_INTERNAL_FIRST_SETTLEMENT_STATE",
-          payload: true,
-        });
-      } else if (action.tabName === "Customer") {
+
+            type:"HANDLE_INTERNAL_FIRST_SETTLEMENT_STATE",
+            payload: true
+        })
+
+      } else if (action.tabName === menuTabs.MENU_CUSTOMER) {
         yield put({
           type: "TOGGLE_CUSTOMER_TAB_PERMISSION",
           payload: false,
@@ -169,7 +170,7 @@ function* checkStaffPermission(action) {
           isShowLoading: true,
           currentPage: 1,
         });
-      } else if (action.tabName === "Inventory") {
+      } else if (action.tabName === menuTabs.MENU_INVENTORY) {
         yield put({
           type: "TOGGLE_PRODUCT_TAB_PERMISSION",
           payload: false,
@@ -181,7 +182,7 @@ function* checkStaffPermission(action) {
           api: `product/search?name=&category=`,
           isShowLoading: true,
         });
-      } else if (action.tabName === "Reports") {
+      } else if (action.tabName === menuTabs.MENU_REPORT) {
         yield put({
           type: "TOGGLE_REPORT_TAB_PERMISSION",
           payload: false,
@@ -189,7 +190,7 @@ function* checkStaffPermission(action) {
         yield put({
           type: "TOGGLE_REPORT_TAB_PERMISSION_SUCCESS",
         });
-      } else if (action.tabName === "Settings") {
+      } else if (action.tabName === menuTabs.MENU_SETTING) {
         const state = yield select();
         yield put({
           type: "TOGGLE_SETTING_TAB_PERMISSION",
@@ -202,21 +203,15 @@ function* checkStaffPermission(action) {
           api: `merchant/${state?.dataLocal?.profile?.merchantId}`,
           isRefresh: false,
         });
-      } else if (action.tabName === "Marketing") {
+      } else if (action.tabName === menuTabs.MARKETING) {
         yield put({
           type: "TOGGLE_MAKETING_TAB_PERMISSION",
           payload: false,
           isGoToTabMarketing: true,
         });
-      } else if (
-        action.tabName === "CheckDiscountPermission" ||
-        action.tabName === "CheckDiscountPermissionInHome"
-      ) {
+      } else if (action.tabName === menuTabs.CHECKOUT_DISCOUNT) {
         const appointmentId = action?.appointmentId || 0;
-        const type =
-          action?.tabName === "CheckDiscountPermission"
-            ? "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION"
-            : "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION_IN_HOME";
+        const type = "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION"
         yield put({
           type,
           payload: false,
@@ -229,7 +224,7 @@ function* checkStaffPermission(action) {
           appointmentId,
           isBlock: action?.isBlock,
         });
-      } else if (action.tabName === "GiftCard") {
+      } else if (action.tabName === menuTabs.MENU_GIFTCARD) {
         yield put({
           type: "SWITCH_GIFT_CARD_TAB_PERMISSION",
           payload: false,

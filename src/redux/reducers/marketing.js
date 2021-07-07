@@ -25,7 +25,6 @@ const initialState = {
     promotionNotes: {},
     isDiscountByOwner: true,
     visiblePopupCheckDiscountPermission: false,
-    visiblePopupCheckDiscountPermissionInHome: false,
 
     promotionDetailById: {},
     isUpdatePromotionById: false,
@@ -160,11 +159,6 @@ function marketingReducer(state = initialState, action) {
             return {
                 ...state,
                 visiblePopupCheckDiscountPermission: action?.payload
-            }
-        case 'SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION_IN_HOME':
-            return {
-                ...state,
-                visiblePopupCheckDiscountPermissionInHome: action?.payload
             }
         case "GET_PROMOTION_DETAIL_BY_ID_SUCCESS":
             return {

@@ -277,15 +277,11 @@ class AssignSevices extends Component {
         );
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        const { isGetStaffDetailSuccess, staffDetail } = this.props;
-        if (isGetStaffDetailSuccess && prevProps.isGetStaffDetailSuccess !== isGetStaffDetailSuccess) {
-            const tempcategories = staffDetail?.categories || [];
-            this.setState({
-                content: [...tempcategories],
-            }, () => this.checkIsSelectAll());
-            this.props.actions.staff.resetStateGetStaffDetail();
-        }
+    setStateFromParent = async (staffDetail) => {
+        const tempcategories = staffDetail?.categories || [];
+        await this.setState({
+            content: [...tempcategories],
+        }, () => this.checkIsSelectAll());
     }
 
 }

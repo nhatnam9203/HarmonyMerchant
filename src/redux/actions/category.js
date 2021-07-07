@@ -95,3 +95,13 @@ export function updateListCategoryLocal(data) {
         payload: data
     }
 }
+
+export function getCategoriesByStaff(staffId, callBack) {
+    return {
+        type: 'GET_CATEGORIES_BY_STAFF',
+        method: 'GET',
+        token: true,
+        api: `category/getByStaff/${staffId}`,
+        callBack
+    }
+}
