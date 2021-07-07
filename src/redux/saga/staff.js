@@ -283,6 +283,49 @@ function* createAdmin(action) {
   }
 }
 
+function* updateStaffStatus(action) {
+  try {
+    yield put({ type: "LOADING_ROOT" });
+    const responses = yield requestAPI(action);
+    const { codeNumber } = responses;
+
+    if (parseInt(codeNumber) == 200) {
+      const searchFilter = action?.searchFilter || {
+        keySearch: "",
+        role: "",
+        status: "",
+      };
+      const { keySearch, role, status } = searchFilter;
+    
+      yield put({
+        type: "GET_STAFF_BY_MERCHANR_ID",
+        method: "GET",
+        token: true,
+        api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : ""
+          }&role=${role ? role : ""}&status=${status ? status : ""}`,
+        isShowLoading: true,
+        searchFilter: action?.searchFilter || false,
+      });
+      yield put({
+        type: "RESET_NEED_SETTING_STORE",
+      });
+    } else if (parseInt(codeNumber) === 401) {
+      yield put({
+        type: "UNAUTHORIZED",
+      });
+    } else {
+      yield put({
+        type: "SHOW_ERROR_MESSAGE",
+        message: responses?.message,
+      });
+    }
+  } catch (error) {
+    yield put({ type: "STOP_LOADING_ROOT" });
+    yield put({ type: error });
+  } finally {
+  }
+}
+
 function* editStaff(action) {
   try {
     yield put({ type: "LOADING_ROOT" });
@@ -529,21 +572,49 @@ function* exportReportStaff(action) {
   }
 }
 
+function* getStaffService(action) {
+  try {
+    yield put({ type: 'LOADING_ROOT' })
+    const responses = yield requestAPI(action);
+    const { codeNumber } = responses;
+    if (parseInt(codeNumber) == 200) {
+      if (action.callBack) {
+        action.callBack(responses.data ? responses.data : [])
+      }
+    } else if (parseInt(codeNumber) === 401) {
+      yield put({
+        type: 'UNAUTHORIZED'
+      })
+    } else {
+      yield put({
+        type: 'SHOW_ERROR_MESSAGE',
+        message: responses?.message
+      })
+    }
+  } catch (error) {
+    yield put({ type: error });
+  } finally {
+    yield put({ type: 'STOP_LOADING_ROOT' });
+  }
+}
+
 export default function* saga() {
   yield all([
-    takeLatest('ADD_STAFF_BY_MERCHANT', addStaffByMerchant),
-    takeLatest('GET_STAFF_BY_MERCHANR_ID', getStaffByMerchantId),
-    takeLatest('SEARCH_STAFF_BY_NAME', searchStaffByName),
-    takeLatest('ARCHICVE_STAFF', archiveStaff),
-    takeLatest('RESTORE_STAFF', restoreStaff),
-    takeLatest('CREATE_ADMIN', createAdmin),
-    takeLatest('EDIT_STAFF_BY_MERCHANT', editStaff),
-    takeLatest('LOGIN_STAFF', loginStaff),
-    takeLatest('FORGOT_PIN', forgotPin),
-    takeLatest('UPDATE_STAFFS_POSITION', updateStaffsPosition),
-    takeLatest('GET_LIST_STAFFS_SALARY_TOP', getListStaffsSalaryTop),
-    takeLatest('EXPORT_STAFFS_SALARY', exportReportStaff),
-    takeLatest('EXPORT_STAFFS_STATISTICS', exportReportStaff),
-    takeLatest('GET_STAFF_DETAIL_BY_ID', getStaffDetailByMerchantId),
+    takeLatest("ADD_STAFF_BY_MERCHANT", addStaffByMerchant),
+    takeLatest("GET_STAFF_BY_MERCHANR_ID", getStaffByMerchantId),
+    takeLatest("SEARCH_STAFF_BY_NAME", searchStaffByName),
+    takeLatest("ARCHICVE_STAFF", archiveStaff),
+    takeLatest("RESTORE_STAFF", restoreStaff),
+    takeLatest("CREATE_ADMIN", createAdmin),
+    takeLatest("EDIT_STAFF_BY_MERCHANT", editStaff),
+    takeLatest("LOGIN_STAFF", loginStaff),
+    takeLatest("FORGOT_PIN", forgotPin),
+    takeLatest("UPDATE_STAFFS_POSITION", updateStaffsPosition),
+    takeLatest("GET_LIST_STAFFS_SALARY_TOP", getListStaffsSalaryTop),
+    takeLatest("EXPORT_STAFFS_SALARY", exportReportStaff),
+    takeLatest("EXPORT_STAFFS_STATISTICS", exportReportStaff),
+    takeLatest("GET_STAFF_DETAIL_BY_ID", getStaffDetailByMerchantId),
+    takeLatest("GET_STAFF_SERVICE", getStaffService),
+    takeLatest("UPDATE_STAFF_STATUS", updateStaffStatus),
   ]);
 }

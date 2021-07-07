@@ -5,7 +5,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { scaleSize,localize } from '@utils';
+import { scaleSize, localize } from '@utils';
 
 class HeaderTableCustomer extends React.Component {
 
@@ -14,18 +14,21 @@ class HeaderTableCustomer extends React.Component {
     }
 
     render() {
-        const {language} = this.props;
-
+        const { language } = this.props;
         return (
             <View style={styles.tableHeader} >
                 {/* ----- 1 ------ */}
-                <View style={{  flex:1, flexDirection: 'row'}} >
-                    <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
-                        <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
-                    </View>
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(20) }} >
+                <View style={{ width : scaleSize(60), flexDirection: 'row' }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={styles.textTableHeader} >
-                        {localize('Name', language)}
+                            {localize('No.', language)}
+                        </Text>
+                    </View>
+                </View>
+                <View style={{ flex: 1, flexDirection: 'row' }} >
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
+                        <Text style={styles.textTableHeader} >
+                            {localize('Name', language)}
                         </Text>
                     </View>
                     {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
@@ -33,35 +36,32 @@ class HeaderTableCustomer extends React.Component {
                     </View> */}
                 </View>
                 {/* ----- 2 ------ */}
-                <View style={{flex:1, flexDirection: 'row'}} >
-                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
+                <View style={{ flex: 1, flexDirection: 'row' }} >
+                    <View style={{ flex: 1, justifyContent: 'center'}} >
                         <Text style={styles.textTableHeader} >
-
-                        {localize('Phone Number', language)}
-                            </Text>
+                            {localize('Phone Number', language)}
+                        </Text>
                     </View>
                     {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View> */}
                 </View>
                 {/* ----- 3 ------ */}
-                <View style={{flex:1.3, flexDirection: 'row' }} >
+                <View style={{ flex: 1.3, flexDirection: 'row' }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={styles.textTableHeader} >
-
-                        {localize('Email', language)}
-                            </Text>
+                            {localize('Email', language)}
+                        </Text>
                     </View>
                     {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
                         <View style={{ flex: 1, backgroundColor: '#E5E5E5' }} />
                     </View> */}
                 </View>
                 {/* ----- 4 ------ */}
-                <View style={{ flex:1, flexDirection: 'row' }} >
+                <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={styles.textTableHeader} >
-
-                        {localize('Referrer', language)}
+                            {localize('Referrer', language)}
                         </Text>
                     </View>
                     {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
@@ -69,11 +69,10 @@ class HeaderTableCustomer extends React.Component {
                     </View> */}
                 </View>
                 {/* ----- 5 ------ */}
-                <View style={{ flex:1, flexDirection: 'row'}} >
+                <View style={{ flex: 1, flexDirection: 'row' }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={styles.textTableHeader} >
-
-                        {localize('Referrer phone', language)}
+                            {localize('Referrer phone', language)}
                         </Text>
                     </View>
                     {/* <View style={{ width: 1, paddingVertical: scaleSize(3) }} >
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
     textTableHeader: {
         color: '#0764B0',
         fontSize: scaleSize(15),
-        fontWeight:"600"
+        fontWeight: "600"
     },
     itemTableHeaderContainer: {
         justifyContent: 'center',

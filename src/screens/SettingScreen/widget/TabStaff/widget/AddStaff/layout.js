@@ -6,6 +6,7 @@ import {
   TextInput,
   ActivityIndicator,
   Switch,
+  FlatList,
 } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 
@@ -22,8 +23,31 @@ import { ItemWorkingTime } from "../ItemWorkingTime";
 import ItemScalary from "../ItemScalary";
 import { ItemScalaryByIncome } from "../ItemScalaryByIncome";
 import AssignSevices from "../AssignSevices";
+import { colors } from '@shared/themes';
+import _ from 'lodash';
 
 class Layout extends React.Component {
+
+  renderItemPermission = ({item}) => {
+    return(
+      <View style={{justifyContent: 'center',}}>
+        <View style={styles.rowPermission}>
+          <Text style={styles.textNormal}>
+            {_.get(item, 'label')}
+          </Text>
+          <Switch
+            trackColor={{ false: '#767577', true: '#0764B0' }}
+            ios_backgroundColor="#E5E5E5"
+            onValueChange={(isEnable) => {this.switchPermission(_.get(item, 'key'), isEnable)}
+            }
+            value={_.get(item, 'isChecked')}
+          />
+        </View>
+        <View style={styles.separateLine}/>
+      </View>
+    )
+  }
+
   renderBody() {
     const {
       address,
@@ -40,6 +64,7 @@ class Layout extends React.Component {
       professionalLicense,
       isDisabled,
       isActive,
+      permission,
     } = this.state.user;
     const { street, city, state, zip } = address;
     const { nameRole } = roles;
@@ -203,7 +228,7 @@ class Layout extends React.Component {
             DropdowAdmin={() => (
               <Dropdown
                 label={localize("Admin", language)}
-                data={[{ value: "Admin" }, { value: "Staff" }]}
+                data={[{ value: "Admin" }, {value: "Manager"}, { value: "Staff" }]}
                 value={nameRole}
                 onChangeText={(value) =>
                   this.updateUserInfo("nameRole", value, "roles")
@@ -223,6 +248,27 @@ class Layout extends React.Component {
               />
             )}
           />
+
+          {
+            nameRole == 'Manager' &&
+            <View style={styles.rowTitle}>
+              <Text style={styles.textNormal}>
+                {localize("Accessibility", language)}
+              </Text>
+              <View style={styles.greyView}>
+                <Text style={[styles.textNormal, {color: colors.OCEAN_BLUE}]}>
+                  {localize("Tabs", language)}
+                </Text>
+              </View>
+              <FlatList
+                data={permission}
+                renderItem={this.renderItemPermission}
+                keyExtractor={item => _.get(item, 'key', '')}
+              />
+            </View>
+          }
+          
+
 
           {/* ----------- Active -------- */}
           <View
@@ -667,6 +713,35 @@ const styles = StyleSheet.create({
     borderColor: "#C5C5C5",
     flex: 1,
   },
+  rowTitle:{
+    paddingHorizontal: scaleSize(25),
+    marginTop: scaleSize(25),
+    marginLeft: scaleSize(150),
+  },
+  greyView:{
+    backgroundColor: colors.LIGHT_GREY,
+    marginTop: scaleSize(10),
+    marginBottom: scaleSize(10),
+    height: scaleSize(25),
+    justifyContent: 'center',
+    paddingLeft: scaleSize(10),
+  },
+  textNormal:{
+    fontSize: scaleSize(14),
+  },
+  rowPermission:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flex: 1,
+    height: scaleSize(35),
+    marginRight: scaleSize(10),
+    alignItems: 'center',
+  },
+  separateLine:{
+    backgroundColor: colors.LIGHT_GREY,
+    height: 1,
+    flex: 1,
+  }
 });
 
 export default Layout;

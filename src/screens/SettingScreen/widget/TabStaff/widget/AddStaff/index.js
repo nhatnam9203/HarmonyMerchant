@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert } from 'react-native';
 import _, { isEmpty } from 'ramda';
-
+import connectRedux from "@redux/ConnectRedux";
 import Layout from './layout';
 import strings from './strings';
 import {
@@ -13,7 +13,9 @@ import {
   checkStateIsValid,
   BusinessWorkingTime,
   formatNumberFromCurrency,
+  menuTabs,
 } from '@utils';
+import * as l from 'lodash';
 
 const initState = {
   user: {
@@ -35,6 +37,62 @@ const initState = {
     roles: {
       nameRole: 'Admin',
     },
+    permission: [
+      {
+          "id": 0,
+          "key": menuTabs.MARKETING,
+          "label": "Marketing",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.CHECKOUT_DISCOUNT,
+          "label": "Change Discount",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_INVOICE,
+          "label": "Invoice",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_SETTLEMENT,
+          "label": "Settlement",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_CUSTOMER,
+          "label": "Customer",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_GIFTCARD,
+          "label": "Gift card",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_INVENTORY,
+          "label": "Inventory",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_REPORT,
+          "label": "Report",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_SETTING,
+          "label": "Setting",
+          "isChecked": true
+      },
+    ],
     driverlicense: '',
     socialSecurityNumber: '',
     professionalLicense: '',
@@ -89,8 +147,10 @@ class AddStaff extends Layout {
   constructor(props) {
     super(props);
     const { profile } = this.props;
+    
     this.state = {
       ...initState,
+      staffDetail: {},
       workingTime: profile.businessHour
         ? profile.businessHour
         : BusinessWorkingTime,
@@ -107,7 +167,19 @@ class AddStaff extends Layout {
     this.servivesRef = React.createRef();
 
     this.assignSevices = React.createRef();
+    this.isEditStaff = false
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { isGetStaffDetailSuccess, staffDetail } = this.props;
+    if (isGetStaffDetailSuccess && prevProps.isGetStaffDetailSuccess !== isGetStaffDetailSuccess) {
+        
+        this.setState({
+            staffDetail,
+        }, () => {this.setStateFromParent(staffDetail, this.isEditStaff)});
+        this.props.actions.staff.resetStateGetStaffDetail();
+    }
+}
 
   scrollStaffTo(position) {
     this.scrollStaffRef.current?.scrollTo({
@@ -118,6 +190,63 @@ class AddStaff extends Layout {
   }
 
   setStateFromParent = async (infoStaffHandle, isEditStaff) => {
+    this.isEditStaff = isEditStaff
+    const permissionInit = [
+      {
+          "id": 0,
+          "key": menuTabs.MARKETING,
+          "label": "Marketing",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.CHECKOUT_DISCOUNT,
+          "label": "Change Discount",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_INVOICE,
+          "label": "Invoice",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_SETTLEMENT,
+          "label": "Settlement",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_CUSTOMER,
+          "label": "Customer",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_GIFTCARD,
+          "label": "Gift card",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_INVENTORY,
+          "label": "Inventory",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_REPORT,
+          "label": "Report",
+          "isChecked": true
+      },
+      {
+          "id": 0,
+          "key": menuTabs.MENU_SETTING,
+          "label": "Setting",
+          "isChecked": true
+      },
+    ]
     if (isEditStaff) {
       const { stateCity } = this.props;
 
@@ -132,6 +261,10 @@ class AddStaff extends Layout {
           commission: '0.0',
         });
       }
+
+      const permission = !l.isEmpty(l.get(infoStaffHandle, 'permission'))
+                        ? l.get(infoStaffHandle, 'permission')
+                        : permissionInit
 
       await this.setState({
         user: {
@@ -158,6 +291,7 @@ class AddStaff extends Layout {
           driverlicense: infoStaffHandle?.driverLicense,
           socialSecurityNumber: infoStaffHandle?.ssn,
           professionalLicense: infoStaffHandle?.professionalLicense,
+          permission,
         },
         staffId: infoStaffHandle?.staffId || '',
         fileId: infoStaffHandle?.fileId || 0,
@@ -171,6 +305,7 @@ class AddStaff extends Layout {
         productSalary: infoStaffHandle?.productSalaries,
         tipFee: infoStaffHandle?.tipFees,
         cashPercent: infoStaffHandle?.cashPercent,
+        
       });
       this.browserFileRef.current?.setImageUrlFromParent(
         infoStaffHandle.imageUrl
@@ -178,11 +313,14 @@ class AddStaff extends Layout {
       this.cellphoneRef.current?.setcodeAreaPhoneFromParent(
         getCodeAreaPhone(infoStaffHandle.phone).areaCode
       );
+
+      this.assignSevices?.current?.setStateFromParent(infoStaffHandle)
     } else {
       // ----------- Create New Staff -----------
       const { profile } = this.props;
+      const initStateTemp = JSON.parse(JSON.stringify(initState))
       await this.setState({
-        ...initState,
+        ...initStateTemp,
         workingTime: profile.businessHour
           ? profile.businessHour
           : BusinessWorkingTime,
@@ -407,6 +545,27 @@ class AddStaff extends Layout {
         name = 'commission1';
     }
     return name;
+  }
+
+  /**
+   * change permission list of manager role
+   * @param {*} key 
+   * @param {*} isEnable 
+   */
+  switchPermission(key, isEnable){
+    const { user } = this.state;
+    let permission = l.map(l.get(user, 'permission', []), (item) => {
+      let itemUpdate = item
+      if(l.get(item, 'key') == key){
+        itemUpdate.isChecked = isEnable
+      }
+      return itemUpdate
+    })
+    const temptUpdate = { ...user, permission };
+    this.setState({
+      user: temptUpdate,
+    })
+
   }
 
   updateUserInfo(key, value, keyParent = '') {
@@ -634,4 +793,11 @@ class AddStaff extends Layout {
   };
 }
 
-export default AddStaff;
+const mapStateToProps = (state) => ({
+  language: state.dataLocal.language,
+  staffDetail: state.staff.staffDetail,
+  isGetStaffDetailSuccess: state.staff.isGetStaffDetailSuccess,
+});
+
+export default connectRedux(mapStateToProps, AddStaff);
+

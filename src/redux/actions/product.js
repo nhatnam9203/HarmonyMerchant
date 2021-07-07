@@ -138,3 +138,13 @@ export function toggleProductTabPermission(visible = true) {
         payload: visible
     }
 }
+
+export function getProductByStaff(categoryId, callBack) {
+    return {
+        type: 'GET_PRODUCT_BY_STAFF',
+        method: 'GET',
+        token: true,
+        api: `${apiConfigs.BASE_API}product/getbycategory/${categoryId}`,
+        callBack
+    }
+}
