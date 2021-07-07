@@ -74,7 +74,11 @@ export const CustomInputMask = ({
   };
 
   React.useEffect(() => {
-    setValue(defaultValue);
+    if (defaultValue != null) {
+      if (typeof defaultValue === "string") {
+        setValue(defaultValue);
+      } else setValue(defaultValue + "");
+    }
   }, [defaultValue]);
 
   return (

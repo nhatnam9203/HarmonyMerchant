@@ -11,6 +11,22 @@ export const PRODUCT_UPDATE_OPTION_QTY = "product-update-options_qty";
 const initState = {};
 
 /**
+ * compare two array
+ * @param {*} a is array
+ * @param {*} b is array
+ * @returns
+ */
+const arrayIsEqual = (a, b) => {
+  if (a?.length !== b?.length) return false;
+  for (var i = 0; i < a.length; i++) {
+    // if (a[i] != b[i]) return false;  // !! do thứ tự phần tử trong mảng ko cố định
+    if (!b.includes(a[i])) return false;
+  }
+
+  return true;
+};
+
+/**
  * Tạo một list quantities cho product  từ vaules của option đầu tiền
  * @param {*} optionValues options values của option đầu tiên
  * @returns quantities list
@@ -23,6 +39,8 @@ const createOptionsValuesQty = (optionValues) => {
     label: item.label,
     attributeIds: [item.attributeValueId],
     quantity: 0,
+    costPrice: 0,
+    additionalPrice: 0,
   }));
 };
 
@@ -62,9 +80,6 @@ const createQuantitiesItem = (product, options) => {
     return combineOptionsValuesQty(accumulator, currentValue?.values);
   }, []);
 
-  console.log("quantities");
-  console.log(quantities);
-
   return quantities?.map((quantity) =>
     Object.assign({}, quantity, { label: `${product.name} ${quantity.label}` })
   );
@@ -73,15 +88,6 @@ const createQuantitiesItem = (product, options) => {
 export const productReducer = (state = initState, action) => {
   switch (action.type) {
     case PRODUCT_SET:
-      if (action.payload) {
-        const { items } = action.payload;
-        if (items) {
-          const arr = [...items];
-          arr?.sort((a, b) => a.position - b.position);
-          return Object.assign({}, action.payload, { items: arr });
-        }
-        return action.payload;
-      }
       return action.payload;
     case PRODUCT_UPDATE:
       return Object.assign({}, state, action.payload);
@@ -128,19 +134,24 @@ export const productReducer = (state = initState, action) => {
         options[replaceIndex] = updateOption;
       }
 
-      // !!!chưa update cái qty cũ vào đc
       const oldList = state?.quantities;
+
       let newList = createQuantitiesItem(state, options)?.map((x) => {
-        const isExistItem = oldList.find(
-          (f) => f.label?.trim() === x.label?.trim()
-        ); // !! chỗ nếu đc so sánh 2 arr attributeIds chính xác hơn
+        const isExistItem = oldList.find((f) =>
+          arrayIsEqual(f?.attributeIds, x?.attributeIds)
+        );
+
         if (isExistItem) {
-          return Object.assign({}, x, { quantity: isExistItem.quantity });
+          // console.log(isExistItem);
+          return Object.assign({}, x, {
+            quantity: isExistItem.quantity,
+            costPrice: isExistItem.costPrice,
+            additionalPrice: isExistItem.additionalPrice,
+          });
         }
         return x;
       });
 
-      // !! cái chỗ này tìm trong quatities list cũ nếu giống name thì cập nhật quantity cho nó
       return Object.assign({}, state, {
         options: options,
         quantities: newList,

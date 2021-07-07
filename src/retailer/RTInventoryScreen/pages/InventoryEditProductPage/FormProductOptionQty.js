@@ -55,7 +55,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             key={getUniqueId(columnKey, rowIndex, "cell-quantity")}
           >
             <CustomInput
-              style={[styles.customInput, { width: scaleWidth(230) }]}
+              style={[styles.customInput, { width: scaleWidth(150) }]}
               textInputProps={{
                 placeholder: "Quantity",
                 fontSize: scaleFont(17),
@@ -66,6 +66,78 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             />
           </View>
         );
+
+      case "costPrice":
+        const onHandleChangeCostPrice = async (text) => {
+          dispatchProduct(
+            updateOptionsQty(
+              Object.assign({}, cellItem, { costPrice: parseFloat(text) ?? 0 })
+            )
+          );
+        };
+
+        return (
+          <View
+            style={{ width: cellWidth }}
+            key={getUniqueId(columnKey, rowIndex, "cell-value-cost")}
+          >
+            <CustomInputMask
+              style={[styles.customInput, { width: scaleWidth(180) }]}
+              type={"money"}
+              options={{
+                precision: 2,
+                separator: ".",
+                delimiter: ",",
+                unit: "",
+                suffixUnit: "",
+              }}
+              textInputProps={{
+                placeholder: "Price",
+                fontSize: scaleFont(17),
+                textAlign: "left",
+                defaultValue: cellItem?.costPrice || 0,
+                onChangeText: onHandleChangeCostPrice,
+              }}
+            />
+          </View>
+        );
+      case "additionalPrice":
+        const onHandleChangeAdditionalPrice = async (text) => {
+          dispatchProduct(
+            updateOptionsQty(
+              Object.assign({}, cellItem, {
+                additionalPrice: parseFloat(text) ?? 0,
+              })
+            )
+          );
+        };
+
+        return (
+          <View
+            style={{ width: cellWidth }}
+            key={getUniqueId(columnKey, rowIndex, "cell-value-addition")}
+          >
+            <CustomInputMask
+              style={[styles.customInput, { width: scaleWidth(180) }]}
+              type={"money"}
+              options={{
+                precision: 2,
+                separator: ".",
+                delimiter: ",",
+                unit: "",
+                suffixUnit: "",
+              }}
+              textInputProps={{
+                placeholder: "Price",
+                fontSize: scaleFont(17),
+                textAlign: "left",
+                defaultValue: cellItem?.additionalPrice || 0,
+                onChangeText: onHandleChangeAdditionalPrice,
+              }}
+            />
+          </View>
+        );
+
       case "label":
       default:
         return null;
@@ -81,14 +153,17 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
           items={optionsQty}
           headerKeyLabels={{
             label: t("Version"),
+            costPrice: t("Cost Price"),
+            additionalPrice: t("Additional Price"),
             quantity: t("Qty"),
           }}
-          whiteListKeys={["label", "quantity"]}
+          whiteListKeys={["label", "costPrice", "additionalPrice", "quantity"]}
           primaryKey="label"
-          // unitKeys={{ totalDuration: "hrs" }}
           widthForKeys={{
-            label: "60%",
-            quantity: "40%",
+            label: "40%",
+            costPrice: scaleWidth(220),
+            additionalPrice: scaleWidth(220),
+            quantity: scaleWidth(180),
           }}
           emptyDescription={t("No Options Qty")}
           renderCell={onRenderTableCell}

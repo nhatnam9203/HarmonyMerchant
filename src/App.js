@@ -18,6 +18,8 @@ import { CodePushProvider } from "@shared/providers/CodePushProvider";
 import { AppStateProvider } from "@shared/providers/AppStateProvider";
 import { isDevelopmentMode } from "@shared/utils/app";
 import "@shared/services/api/axiosClient";
+
+
 if (isDevelopmentMode) {
   import("../ReactotronConfig").then(() =>
     console.log("Reactotron Configured")
