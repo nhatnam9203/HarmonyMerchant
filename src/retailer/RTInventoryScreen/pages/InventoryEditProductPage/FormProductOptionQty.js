@@ -71,7 +71,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
         const onHandleChangeCostPrice = async (text) => {
           dispatchProduct(
             updateOptionsQty(
-              Object.assign({}, cellItem, { costPrice: parseFloat(text) ?? 0 })
+              Object.assign({}, cellItem, { costPrice: text ?? 0 })
             )
           );
         };
@@ -106,7 +106,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
           dispatchProduct(
             updateOptionsQty(
               Object.assign({}, cellItem, {
-                additionalPrice: parseFloat(text) ?? 0,
+                additionalPrice: text ?? 0,
               })
             )
           );

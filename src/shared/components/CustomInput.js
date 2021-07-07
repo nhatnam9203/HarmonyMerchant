@@ -16,7 +16,7 @@ export const CustomInput = ({
   },
   children,
 }) => {
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState(null);
   const onHandleChangeText = (text) => {
     setValue(text);
     if (onChangeText && typeof onChangeText === "function") {
@@ -25,7 +25,7 @@ export const CustomInput = ({
   };
 
   React.useEffect(() => {
-    if (defaultValue != null) {
+    if (defaultValue != null && defaultValue != value) {
       if (typeof defaultValue === "string") {
         setValue(defaultValue);
       } else setValue(defaultValue + "");
@@ -74,8 +74,8 @@ export const CustomInputMask = ({
   };
 
   React.useEffect(() => {
-    if (defaultValue != null) {
-      if (typeof defaultValue === "string") {
+    if (defaultValue != null && defaultValue !== value) {
+      if (typeof defaultValue == "string") {
         setValue(defaultValue);
       } else setValue(defaultValue + "");
     }

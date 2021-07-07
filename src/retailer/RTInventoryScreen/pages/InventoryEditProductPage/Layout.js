@@ -36,6 +36,7 @@ export const Layout = ({
   filterCategoryRef,
   dispatchProduct,
   categoriesFilter,
+  onHandleChangeProductName
 }) => {
   const [t] = useTranslation();
 
@@ -135,7 +136,7 @@ export const Layout = ({
               label={t("Product Name")}
               placeholder={t("Enter product name")}
               required={true}
-              onChangeValue={form.handleChange("name")}
+              onChangeValue={onHandleChangeProductName}
               defaultValue={productItem?.name}
             />
           </View>

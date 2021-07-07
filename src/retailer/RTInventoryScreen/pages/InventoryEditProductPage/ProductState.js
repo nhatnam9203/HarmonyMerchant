@@ -7,6 +7,7 @@ export const PRODUCT_ADD_OPTION = "product-add-options";
 export const PRODUCT_REMOVE_OPTION = "product-remove-options";
 export const PRODUCT_SET_OPTION_QTY = "product-set-options_qty";
 export const PRODUCT_UPDATE_OPTION_QTY = "product-update-options_qty";
+export const PRODUCT_UPDATE_NAME = "product-update-name";
 
 const initState = {};
 
@@ -32,9 +33,9 @@ const arrayIsEqual = (a, b) => {
  * @returns quantities list
  */
 const createOptionsValuesQty = (optionValues) => {
-  if (optionValues?.length <= 0) return null;
+  if (!optionValues || optionValues?.length <= 0) return null;
 
-  return optionValues.map((item) => ({
+  return optionValues?.map((item) => ({
     id: 0,
     label: item.label,
     attributeIds: [item.attributeValueId],
@@ -60,7 +61,7 @@ const combineOptionsValuesQty = (qtyArr, optionValues) => {
 
     const qtyArrOfOptions = qtyArr?.map((x) =>
       Object.assign({}, x, {
-        label: `${x.label}-${item.label}`,
+        label: `${x.label ?? ""}-${item.label ?? ""}`,
         attributeIds: [...x.attributeIds, item.attributeValueId],
       })
     );
@@ -72,16 +73,18 @@ const combineOptionsValuesQty = (qtyArr, optionValues) => {
 };
 
 const createQuantitiesItem = (product, options) => {
-  if (options?.length < 0) return null;
+  if (!options || options?.length < 0) return null;
 
-  const quantities = options.reduce((accumulator, currentValue, index) => {
+  const quantities = options?.reduce((accumulator, currentValue, index) => {
     if (index === 0) return createOptionsValuesQty(currentValue?.values);
 
     return combineOptionsValuesQty(accumulator, currentValue?.values);
   }, []);
 
   return quantities?.map((quantity) =>
-    Object.assign({}, quantity, { label: `${product.name} ${quantity.label}` })
+    Object.assign({}, quantity, {
+      label: `${product?.name ?? "New product"} ${quantity.label ?? ""}`,
+    })
   );
 };
 
@@ -134,10 +137,10 @@ export const productReducer = (state = initState, action) => {
         options[replaceIndex] = updateOption;
       }
 
-      const oldList = state?.quantities;
+      const oldList = state?.quantities || [];
 
       let newList = createQuantitiesItem(state, options)?.map((x) => {
-        const isExistItem = oldList.find((f) =>
+        const isExistItem = oldList?.find((f) =>
           arrayIsEqual(f?.attributeIds, x?.attributeIds)
         );
 
@@ -174,6 +177,29 @@ export const productReducer = (state = initState, action) => {
       }
 
       return Object.assign({}, state, { quantities: quantities });
+    case PRODUCT_UPDATE_NAME:
+      const quantitiesUpdateName = createQuantitiesItem(
+        state,
+        state?.options
+      )?.map((x) => {
+        const isExistItem = state?.quantities?.find((f) =>
+          arrayIsEqual(f?.attributeIds, x?.attributeIds)
+        );
+
+        if (isExistItem) {
+          return Object.assign({}, x, {
+            quantity: isExistItem.quantity,
+            costPrice: isExistItem.costPrice,
+            additionalPrice: isExistItem.additionalPrice,
+          });
+        }
+        return x;
+      });
+
+      return Object.assign({}, state, {
+        name: action.payload,
+        quantities: quantitiesUpdateName,
+      });
 
     default:
       break;
@@ -219,5 +245,12 @@ export const updateOptionsQty = (optionsQtyItem) => {
   return {
     type: PRODUCT_UPDATE_OPTION_QTY,
     payload: optionsQtyItem,
+  };
+};
+
+export const changeProductName = (productName) => {
+  return {
+    type: PRODUCT_UPDATE_NAME,
+    payload: productName,
   };
 };
