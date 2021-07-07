@@ -279,6 +279,7 @@ export default {
   custom_payment: require('../assets/images/custom_payment.png'),
   switch_button_active: require('../assets/images/switch_button.png'),
   switch_button_inactive: require('../assets/images/switch_button_inactive.png'),
+  scan_marker: require('../assets/images/scan_marker.png'),
   // Settings
   IconSettingGeneral: require('../assets/images/ic_setting_general.png'),
   IconSettingAttributes: require('../assets/images/ic_setting_attributes.png'),

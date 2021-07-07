@@ -36,3 +36,4 @@ export * from "./ExportModalInventory";
 export * from "./ExportLoading";
 export * from "./Pagination";
 export * from "./SlideInRightModal";
+export * from './DialogScanQR';

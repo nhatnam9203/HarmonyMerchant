@@ -134,7 +134,7 @@ export const Layout = ({
           <View style={layouts.marginHorizontal} />
           <ExportModal
             onExportFile={callExportCustomer}
-            title={t("ReportCustomer")}
+            title={t("Customer")}
             ref={exportRef}
           />
         </View>

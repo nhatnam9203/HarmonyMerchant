@@ -16,10 +16,12 @@ import {
   statusSuccess,
   dateToString,
 } from '@shared/utils';
+import { basketRetailer } from '@redux/slices';
+import { useDispatch } from 'react-redux';
 
 export const useProps = ({ params: { item, reload, customerId } }) => {
   const [t] = useTranslation();
-
+  const dispatch = useDispatch();
   const [customerItem, setCustomer] = React.useState(null);
   const [orders, setOrders] = React.useState(null);
   /**
@@ -128,6 +130,7 @@ export const useProps = ({ params: { item, reload, customerId } }) => {
       }
     },
     onButtonNewOrderPress: () => {
+      dispatch(basketRetailer.setCustomer(customerItem));
       NavigationServices.navigate('retailer.home.checkout', {});
     },
     orders,
