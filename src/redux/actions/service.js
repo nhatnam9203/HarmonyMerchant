@@ -93,7 +93,7 @@ export function getServiceByStaff(categoryId, staffId, callBack) {
         type: 'GET_SERVICE_BY_STAFF',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}service/getbycategory/${categoryId}?staffIf=${staffId}`,
+        api: `service/getbycategory/${categoryId}?staffIf=${staffId}`,
         callBack
     }
 }
