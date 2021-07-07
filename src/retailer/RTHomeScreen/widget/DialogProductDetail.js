@@ -13,9 +13,11 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  Pressable,
 } from "react-native";
 import FastImage from "react-native-fast-image";
 import { useDispatch } from "react-redux";
+import { arrayIsEqual } from "@shared/utils";
 
 const log = (obj, message = "") => {
   Logger.log(`[DialogProductDetail] ${message}`, obj);
@@ -27,10 +29,14 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   const dialogRef = React.useRef(null);
 
   const [product, setProduct] = React.useState(null);
-  const [options, setOptions] = React.useState({});
   const [quantity, setQuantity] = React.useState(1);
   const [imageUrl, setImageUrl] = React.useState(null);
 
+  const [optionsQty, setOptionsQty] = React.useState(null); // array [optionsValueId]
+  const [listFiltersOptionsQty, setListFiltersOptionsQty] =
+    React.useState(null);
+
+  const [optionsSelected, setOptionsSelected] = React.useState(null); // [{id: id, value: value}]
   /**
   |--------------------------------------------------
   | API
@@ -44,30 +50,36 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     const productPrice = product?.price ?? 0;
 
     let price = parseFloat(productPrice);
-    if (options?.length > 0) {
-      price += product?.options?.reduce((accumulator, currentItem) => {
-        if (!options[currentItem?.id]) return accumulator;
+    // if (options?.length > 0) {
+    //   price += product?.options?.reduce((accumulator, currentItem) => {
+    //     if (!options[currentItem?.id]) return accumulator;
 
-        const findItem = currentItem?.values?.find(
-          (v) => v.id === options[currentItem?.id]
-        );
-        if (findItem) {
-          return accumulator + parseFloat(findItem?.valueAdd ?? 0);
-        }
+    //     const findItem = currentItem?.values?.find(
+    //       (v) => v.id === options[currentItem?.id]
+    //     );
+    //     if (findItem) {
+    //       return accumulator + parseFloat(findItem?.valueAdd ?? 0);
+    //     }
 
-        return accumulator;
-      }, 0);
+    //     return accumulator;
+    //   }, 0);
+    // }
+
+    if (optionsQty) {
+      price += parseFloat(optionsQty?.additionalPrice);
     }
-
     return formatMoneyWithUnit(price);
-  }, [options, product]);
+  }, [optionsQty, product]);
 
+  // !! cho nay can sau lai
   const onHandleAddBasket = () => {
     // product, options, quantity
     const filterOptions = product?.options?.map((v) => {
       let temp;
-      if (options && options[v?.id]) {
-        temp = v?.values.filter((i) => i.id === options[v?.id]);
+      if (optionsSelected) {
+        const findItem = optionsSelected?.find((x) => x.id === v.id);
+
+        temp = v?.values.filter((i) => i.attributeValueId === findItem?.value);
       }
       const { values, ...pro } = v;
       return Object.assign({}, pro, { values: temp });
@@ -86,11 +98,41 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     dialogRef.current?.hide();
   };
 
+  /**
+   * Dùng để lấy trạng thái có thể chọn của option dựa vào những options values đã chọn trc đó
+   * @param {*} value
+   */
+  const canSelectOptionValue = (value, index) => {
+    if (!listFiltersOptionsQty || listFiltersOptionsQty?.length <= 0)
+      return false;
+
+    if (optionsSelected) {
+      const hadSelectIndex = optionsSelected?.length - 1 || 0;
+      if (index === 0) return true;
+    }
+
+    for (const x of listFiltersOptionsQty) {
+      if (x.attributeIds?.includes(value)) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  const disableAddBasket = () => {
+    if (quantity <= 0) return true;
+    if (!product) return true;
+    if (product?.options && !optionsQty) return true;
+    return false;
+  };
+
   React.useImperativeHandle(ref, () => ({
     show: (item) => {
       dialogRef.current?.show();
-      setOptions({});
+      setOptionsQty(null);
       setImageUrl(null);
+      setOptionsSelected(null);
       setQuantity(1);
       setProduct(item);
       getProducts(item.productId);
@@ -100,30 +142,126 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   React.useEffect(() => {
     const { codeStatus, data } = productsGet || {};
     if (statusSuccess(codeStatus)) {
+      // data?.options?.map((item) => {
+      //   const defaultOptionId = options[item?.id];
+      //   if (!defaultOptionId && item?.values?.length > 0) {
+      //     setOptions((prev) =>
+      //       Object.assign({}, prev, {
+      //         [item?.id]: item?.values[0].id,
+      //       })
+      //     );
+      //   }
+      // });
+
+      // const quantities = data?.quantities;
+      // if (quantities?.length > 0) {
+      //   const defaultSelectOption = quantities?.find((x) => x.quantity > 0);
+      //   // setOptionsSelected  // cbi set default
+      //   const options = data?.options;
+      //   let defaultOptionsQty = {};
+      //   options?.forEach((opt) => {
+      //     const findItem = opt?.values?.find((v) =>
+      //       defaultSelectOption?.attributeIds?.includes(v.attributeValueId)
+      //     );
+      //     if (findItem) {
+      //       defaultOptionsQty[opt?.id] = findItem?.attributeValueId;
+      //     }
+      //   });
+
+      //   updateOptionsValue(data, defaultOptionsQty);
+      // }
+
       setProduct(data);
       setImageUrl(data?.imageUrl);
-
-      data?.options?.map((item) => {
-        const defaultOptionId = options[item?.id];
-        if (!defaultOptionId && item?.values?.length > 0) {
-          setOptions((prev) =>
-            Object.assign({}, prev, {
-              [item?.id]: item?.values[0].id,
-            })
-          );
-        }
-      });
     }
   }, [productsGet]);
 
+  React.useEffect(() => {
+    if (product?.quantities)
+      setListFiltersOptionsQty(
+        product?.quantities?.filter((x) => {
+          if (x.quantity <= 0) return false;
+          return true;
+        })
+      );
+
+    // if (optionsSelected) {
+    //   // tính lại listFiltersOptionsQty
+    //   const arrOptionsValueSelected = Object.values(optionsSelected);
+    //   else {
+    //     setListFiltersOptionsQty(
+    //       product?.quantities?.filter((x) => {
+    //         if (x.quantity <= 0) return false;
+    //         return true;
+    //       })
+    //     );
+    //   }
+
+    //   // set option selected lai
+    //   setOptionsQty(
+    //     product?.quantities?.find((x) =>
+    //       arrayIsEqual(x.attributeIds, arrOptionsValueSelected)
+    //     )
+    //   );
+    // }
+  }, [product]);
+
+  const updateOptionsValue = (data, index, itemOption, optionValue) => {
+    let opt = { id: itemOption?.id, value: optionValue?.attributeValueId };
+
+    let newOptionsList = [];
+    if (index === 0) {
+      newOptionsList = [opt];
+    } else if (index < optionsSelected?.length) {
+      const temp = optionsSelected[index];
+      if (temp.value === opt.value) {
+        newOptionsList = [...optionsSelected.slice(0, index)];
+      } else {
+        newOptionsList = [...optionsSelected.slice(0, index), opt];
+      }
+    } else if (index > optionsSelected?.length) {
+      return;
+    } else {
+      // index === length
+      newOptionsList = [...optionsSelected, opt];
+    }
+    setOptionsSelected(newOptionsList);
+
+    const filtersQuantities = data?.quantities?.filter((x) => {
+      if (x.quantity <= 0) return false;
+      const temps = x?.attributeIds;
+      for (let i = 0; i < newOptionsList?.length; i++) {
+        if (!temps.includes(newOptionsList[i]?.value)) return false;
+      }
+
+      return true;
+    });
+
+    if (filtersQuantities?.length > 0) {
+      const optionQtyItem = filtersQuantities.find((x) =>
+        arrayIsEqual(
+          x.attributeIds,
+          newOptionsList?.map((x) => x.value)
+        )
+      );
+      if (optionQtyItem) {
+        setOptionsQty(optionQtyItem);
+      } else {
+        setListFiltersOptionsQty(filtersQuantities);
+        setOptionsQty(null);
+      }
+    }
+  };
+
   const onModalWillHide = () => {
-    setOptions({});
+    setOptionsQty(null);
     setImageUrl(null);
     setQuantity(1);
     setProduct(null);
+    setListFiltersOptionsQty(null);
   };
 
-  const renderOption = (itemOption) => {
+  const renderOption = (itemOption, index) => {
     if (
       !itemOption ||
       !itemOption?.values ||
@@ -132,10 +270,8 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     )
       return null;
 
-    const onHandlePress = (optionValue) => {
-      setOptions((prev) =>
-        Object.assign({}, prev, { [itemOption?.id]: optionValue?.id })
-      );
+    const onHandleSelectedOption = (optionValue) => {
+      updateOptionsValue(product, index, itemOption, optionValue);
 
       if (optionValue?.imageUrl) {
         setImageUrl(optionValue?.imageUrl);
@@ -144,7 +280,10 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
       }
     };
 
-    const defaultOptionId = options[itemOption?.id];
+    let defaultOptionId = null;
+    if (optionsSelected && optionsSelected?.length >= index) {
+      defaultOptionId = optionsSelected[index]?.value;
+    }
 
     switch (itemOption?.inputType) {
       case INPUT_TYPE.TEXT_SWATCH:
@@ -155,20 +294,31 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
             <View style={styles.optionsItemsLayout}>
               {itemOption?.values?.map((v) => {
                 const onSelectOption = () => {
-                  onHandlePress(v);
+                  onHandleSelectedOption(v);
                 };
 
+                const disabled = !canSelectOptionValue(
+                  v.attributeValueId,
+                  index
+                );
+
                 return (
-                  <TouchableOpacity key={v?.id + ""} onPress={onSelectOption}>
+                  <Pressable
+                    key={v?.id + ""}
+                    onPress={onSelectOption}
+                    disabled={disabled}
+                  >
                     <View
                       style={[
                         styles.optionsItem,
-                        defaultOptionId === v?.id && styles.selectBorder,
+                        disabled && styles.disabled,
+                        defaultOptionId === v?.attributeValueId &&
+                          styles.selectBorder,
                       ]}
                     >
                       <Text style={styles.itemText}>{v?.label}</Text>
                     </View>
-                  </TouchableOpacity>
+                  </Pressable>
                 );
               })}
             </View>
@@ -180,18 +330,28 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
             <Text style={styles.itemText}>{itemOption?.label}</Text>
             <View style={layouts.marginVertical} />
             <View style={styles.optionsItemsLayout}>
-              {itemOption?.values?.map((v) => (
-                <TouchableOpacity
-                  key={v?.id + ""}
-                  style={[
-                    styles.optionsItem,
-                    defaultOptionId === v?.id && styles.selectBorder,
-                  ]}
-                  onPress={() => onHandlePress(v)}
-                >
-                  <Text style={styles.itemText}>{v?.label}</Text>
-                </TouchableOpacity>
-              ))}
+              {itemOption?.values?.map((v) => {
+                const disabled = !canSelectOptionValue(
+                  v.attributeValueId,
+                  index
+                );
+
+                return (
+                  <Pressable
+                    key={v?.id + ""}
+                    style={[
+                      styles.optionsItem,
+                      disabled && styles.disabled,
+                      defaultOptionId === v?.attributeValueId &&
+                        styles.selectBorder,
+                    ]}
+                    onPress={() => onHandleSelectedOption(v)}
+                    disabled={disabled}
+                  >
+                    <Text style={styles.itemText}>{v?.label}</Text>
+                  </Pressable>
+                );
+              })}
             </View>
           </View>
         );
@@ -201,17 +361,27 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
             <Text style={styles.itemText}>{itemOption?.label}</Text>
             <View style={layouts.marginVertical} />
             <View style={styles.optionsItemsLayout}>
-              {itemOption?.values?.map((v) => (
-                <TouchableOpacity
-                  key={v.id + ""}
-                  style={[
-                    styles.optionsItem,
-                    { backgroundColor: v.value },
-                    defaultOptionId === v.id && styles.selectBorder,
-                  ]}
-                  onPress={() => onHandlePress(v)}
-                />
-              ))}
+              {itemOption?.values?.map((v) => {
+                const disabled = !canSelectOptionValue(
+                  v.attributeValueId,
+                  index
+                );
+
+                return (
+                  <Pressable
+                    key={v.id + ""}
+                    style={[
+                      styles.optionsItem,
+                      disabled && styles.disabled,
+                      { backgroundColor: v.value },
+                      defaultOptionId === v.attributeValueId &&
+                        styles.selectBorder,
+                    ]}
+                    onPress={() => onHandleSelectedOption(v)}
+                    disabled={disabled}
+                  />
+                );
+              })}
             </View>
           </View>
         );
@@ -234,7 +404,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
               height={scaleHeight(40)}
               borderRadius={scaleWidth(3)}
               onPress={onHandleAddBasket}
-              disable={!quantity || +quantity === 0}
+              disable={disableAddBasket()}
             />
           </View>
         )}
@@ -259,7 +429,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
             <View style={styles.content}>
               <Text style={styles.title}>{product?.name}</Text>
               <View style={styles.marginVertical} />
-              <Text style={styles.price}>{calcTotalPrice()}</Text>
+              <Text style={styles.price}>{`${calcTotalPrice()}`}</Text>
               <View style={styles.marginVertical} />
               <View style={styles.line} />
               <View style={styles.marginVertical} />
@@ -402,4 +572,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: scaleWidth(6),
   },
+
+  disabled: { opacity: 0.4 },
 });

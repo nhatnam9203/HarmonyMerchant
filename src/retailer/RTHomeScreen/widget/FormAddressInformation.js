@@ -127,7 +127,7 @@ export const FormAddressInformation = React.forwardRef(
       const { codeStatus, message, data } = customer || {};
 
       if (statusSuccess(codeStatus)) {
-        if (data.addresses) {
+        if (data?.addresses) {
           const newSelectItem = Object.create({
             label: t("Add new address"),
             value: -1,
@@ -146,16 +146,19 @@ export const FormAddressInformation = React.forwardRef(
           if (billingAddress && !selectedBilling) {
             // !! nhung dong code met moi
             const findItemIndex =
-              temps.findIndex((x) => x.id === billingAddress?.id) || 0;
-            const t = temps[findItemIndex];
-            setSelectedBilling(t);
-            setTimeout(() => {
-              billingSelectRef.current?.selectIndex(findItemIndex);
-            }, 500);
-            setDefaultBilling(t.id);
+              temps?.findIndex((x) => x.id === billingAddress?.id) || 0;
+            if (findItemIndex >= 0 && temps?.length > findItemIndex) {
+              const t = temps[findItemIndex];
+              setSelectedBilling(t);
+              setTimeout(() => {
+                billingSelectRef.current?.selectIndex(findItemIndex);
+              }, 500);
+              setDefaultBilling(t?.id);
+            }
           } else if (selectedBilling) {
             const findItemIndex =
               temps.findIndex((x) => x.id === selectedBilling?.id) || 0;
+
             const t = temps[findItemIndex];
             setSelectedBilling(t);
           }
@@ -163,12 +166,14 @@ export const FormAddressInformation = React.forwardRef(
           if (shippingAddress && !selectedShipping) {
             const findItemIndex =
               temps.findIndex((x) => x.id === shippingAddress?.id) || 0;
-            const t = temps[findItemIndex];
-            setSelectedShipping(t);
-            setTimeout(() => {
-              shippingSelectRef.current?.selectIndex(findItemIndex);
-            }, 500);
-            setDefaultShipping(t.id);
+            if (findItemIndex >= 0 && temps?.length > findItemIndex) {
+              const t = temps[findItemIndex];
+              setSelectedShipping(t);
+              setTimeout(() => {
+                shippingSelectRef.current?.selectIndex(findItemIndex);
+              }, 500);
+              setDefaultShipping(t?.id);
+            }
           } else if (selectedShipping) {
             const findItemIndex =
               temps.findIndex((x) => x.id === shippingAddress?.id) || 0;

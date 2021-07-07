@@ -167,10 +167,11 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   }, [productItem]);
 
   React.useEffect(() => {
-    if (item) {
-      getProducts(item.productId);
+    console.log("getProducts");
+    if (item?.productId) {
+      getProducts(item?.productId);
     }
-  }, [item]);
+  }, [item?.productId]);
 
   return {
     isEdit,

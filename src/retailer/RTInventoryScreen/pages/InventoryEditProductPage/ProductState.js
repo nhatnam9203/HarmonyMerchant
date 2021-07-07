@@ -1,4 +1,5 @@
 import actions from "../../../../redux/actions";
+import { arrayIsEqual } from "@shared/utils";
 
 export const PRODUCT_SET = "detail-product-set";
 export const PRODUCT_UPDATE = "detail-product-update";
@@ -10,22 +11,6 @@ export const PRODUCT_UPDATE_OPTION_QTY = "product-update-options_qty";
 export const PRODUCT_UPDATE_NAME = "product-update-name";
 
 const initState = {};
-
-/**
- * compare two array
- * @param {*} a is array
- * @param {*} b is array
- * @returns
- */
-const arrayIsEqual = (a, b) => {
-  if (a?.length !== b?.length) return false;
-  for (var i = 0; i < a.length; i++) {
-    // if (a[i] != b[i]) return false;  // !! do thứ tự phần tử trong mảng ko cố định
-    if (!b.includes(a[i])) return false;
-  }
-
-  return true;
-};
 
 /**
  * Tạo một list quantities cho product  từ vaules của option đầu tiền
@@ -91,6 +76,7 @@ const createQuantitiesItem = (product, options) => {
 export const productReducer = (state = initState, action) => {
   switch (action.type) {
     case PRODUCT_SET:
+      console.log("PRODUCT_SET");
       return action.payload;
     case PRODUCT_UPDATE:
       return Object.assign({}, state, action.payload);

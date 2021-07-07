@@ -1,16 +1,16 @@
-import NavigationServices from '@navigators/NavigatorServices';
-import { useFocusEffect } from '@react-navigation/native';
+import NavigationServices from "@navigators/NavigatorServices";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   useGetProductsList,
   useRestockProducts,
   useExportProducts,
   useGetProducts,
-} from '@shared/services/api/retailer';
-import { NEED_TO_ORDER, statusSuccess } from '@shared/utils/app';
+} from "@shared/services/api/retailer";
+import { NEED_TO_ORDER, statusSuccess } from "@shared/utils/app";
 
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const DEFAULT_PAGE = 1;
 
@@ -42,7 +42,7 @@ export const useProps = ({ params: { reload } }) => {
   const [productListData, getInventoryList] = useGetProductsList();
   const callGetProductList = React.useCallback(() => {
     getInventoryList({
-      key: searchVal ?? '',
+      key: searchVal ?? "",
       page: page,
       sorts: {},
       ...((category >= 0 || needToOrder) && {
@@ -65,7 +65,7 @@ export const useProps = ({ params: { reload } }) => {
   const callExportProduct = (values) => {
     const params = Object.assign({}, values, {
       merchantId: merchant?.merchantId,
-      key: searchVal ?? '',
+      key: searchVal ?? "",
       page: page,
       sort: {},
       ...((category >= 0 || needToOrder) && {
@@ -119,20 +119,20 @@ export const useProps = ({ params: { reload } }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, page, searchVal, needToOrder]);
 
-  React.useEffect(() => {
-    const { codeStatus, data } = product || {};
-    if (statusSuccess(codeStatus)) {
-      NavigationServices.navigate('retailer.inventory.product.edit', {
-        isEdit: true,
-        item: data ?? productSelected,
-      });
-    } else {
-      NavigationServices.navigate('retailer.inventory.product.edit', {
-        isEdit: true,
-        item: productSelected,
-      });
-    }
-  }, [product]);
+  // React.useEffect(() => {
+  //   const { codeStatus, data } = product || {};
+  //   if (statusSuccess(codeStatus)) {
+  //     NavigationServices.navigate("retailer.inventory.product.edit", {
+  //       isEdit: true,
+  //       item: data ?? productSelected,
+  //     });
+  //   } else {
+  //     NavigationServices.navigate("retailer.inventory.product.edit", {
+  //       isEdit: true,
+  //       item: productSelected,
+  //     });
+  //   }
+  // }, [product]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -159,7 +159,7 @@ export const useProps = ({ params: { reload } }) => {
   };
 
   const onResultScanCode = (data) => {
-    NavigationServices.navigate('retailer.inventory.product.edit', {
+    NavigationServices.navigate("retailer.inventory.product.edit", {
       isNew: true,
       item: data ?? {},
     });
@@ -168,36 +168,41 @@ export const useProps = ({ params: { reload } }) => {
   return {
     items,
     onButtonNewProductPress: () => {
-      NavigationServices.navigate('retailer.inventory.product.edit', {
+      NavigationServices.navigate("retailer.inventory.product.edit", {
         isNew: true,
       });
     },
     onEditProduct: (item) => {
-      setProductSelected(item);
-      getProduct(item?.productId);
+      // Hay lam :))
+      // setProductSelected(item);
+      // getProduct(item?.productId);
+      NavigationServices.navigate("retailer.inventory.product.edit", {
+        isEdit: true,
+        item,
+      });
     },
     onLoadProductDetail: ({ item }) => {
-      NavigationServices.navigate('retailer.inventory.product.detail', {
+      NavigationServices.navigate("retailer.inventory.product.detail", {
         item,
       });
     },
     needToOrderRef,
     categories: categories
       ? [
-          { value: -1, label: 'All Categories' },
+          { value: -1, label: "All Categories" },
           ...categories?.map((x) => ({
             value: x.categoryId,
             label: x.name,
           })),
         ]
-      : [{ value: -1, label: 'All Categories' }],
+      : [{ value: -1, label: "All Categories" }],
     onChangeValueSearch,
     onButtonSearchPress,
     category,
     setCategory,
     needToOrder,
     setNeedToOrder,
-    onSubmitRestock: (value, reason = t('New stock')) => {
+    onSubmitRestock: (value, reason = t("New stock")) => {
       if (itemSelected?.length > 0) {
         const productIds = itemSelected.map((v) => v.productId);
         restockProducts({

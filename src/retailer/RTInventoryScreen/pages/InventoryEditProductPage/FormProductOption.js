@@ -60,7 +60,7 @@ export const FormProductOption = React.forwardRef(
 
       const { codeStatus, message, data } = attributesGet || {};
       if (statusSuccess(codeStatus)) {
-        let optionItem = item;
+        let optionItem = item || {};
         const options = data?.values?.map((v) =>
           Object.assign({}, v, {
             attributeValueId: v.id,
@@ -75,22 +75,20 @@ export const FormProductOption = React.forwardRef(
 
         if (item) {
           let values = options?.map((v) => {
-            const existItem = optionItem?.values?.find(
+            const existItem = item?.values?.find(
               (x) => x.attributeValueId === v.attributeValueId
             );
 
             if (existItem) {
               return Object.assign({}, v, existItem); // lấy thông từ tồn tại item làm thông tin chính
             } else {
-              return v;
+              return Object.assign({}, v);
             }
           });
-
           optionItem["values"] = values;
         } else {
           optionItem["values"] = options;
         }
-
         dispatchProduct(updateOption(optionItem));
       }
 
@@ -98,11 +96,11 @@ export const FormProductOption = React.forwardRef(
     }, [attributesGet]);
 
     React.useEffect(() => {
-      if (item?.attributeId && !attributesGet?.data) {
-        getAttributes(item.attributeId);
+      if (item?.attributeId) {
+        getAttributes(item?.attributeId);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [item?.attributeId]);
 
     // const onUpdate = React.useCallback(() => {
     //   if (onUpdateOptionValues && typeof onUpdateOptionValues === "function") {
@@ -166,6 +164,7 @@ export const FormProductOption = React.forwardRef(
             )
           );
         };
+
         return (
           <View
             style={[{ width: cellWidth }, layouts.center]}
