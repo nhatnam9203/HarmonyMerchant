@@ -1,15 +1,15 @@
-import { CustomerGroupTypes, SORT_TYPE } from "@shared/utils/app";
-import { useTranslation } from "react-i18next";
-import _ from "lodash";
-import NavigationServices from "@navigators/NavigatorServices";
-import { useFocusEffect } from "@react-navigation/native";
-import { CustomList, CUSTOM_LIST_TYPES } from "../../widget";
-import { useGetCustomerByPhone } from "@shared/services/api/retailer";
-import { splitCodeAndPhone } from "@shared/utils";
-import { basketRetailer } from "@redux/slices";
-import { useDispatch, useSelector } from "react-redux";
-import React from "react";
-import actions from "@actions";
+import { CustomerGroupTypes, SORT_TYPE } from '@shared/utils/app';
+import { useTranslation } from 'react-i18next';
+import _ from 'lodash';
+import NavigationServices from '@navigators/NavigatorServices';
+import { useFocusEffect } from '@react-navigation/native';
+import { CustomList, CUSTOM_LIST_TYPES } from '../../widget';
+import { useGetCustomerByPhone } from '@shared/services/api/retailer';
+import { splitCodeAndPhone } from '@shared/utils';
+import { basketRetailer } from '@redux/slices';
+import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import actions from '@actions';
 import {
   getArrayProductsFromAppointment,
   getArrayServicesFromAppointment,
@@ -19,19 +19,19 @@ import {
   formatWithMoment,
   getInfoFromModelNameOfPrinter,
   getArrayGiftCardsFromAppointment,
-} from "@utils";
-import { NativeModules, Platform } from "react-native";
-import PrintManager from "@lib/PrintManager";
-import Configs from "@configs";
+} from '@utils';
+import { NativeModules, Platform } from 'react-native';
+import PrintManager from '@lib/PrintManager';
+import Configs from '@configs';
 
-import { useIsPayment } from "../../hooks";
+import { useIsPayment } from '../../hooks';
 
-const signalR = require("@microsoft/signalr");
+const signalR = require('@microsoft/signalr');
 
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 
-const log = (obj, message = "") => {
+const log = (obj, message = '') => {
   Logger.log(`[HomeOrderPayPage] ${message}`, obj);
 };
 
@@ -92,7 +92,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     (state) => state.appointment.visibleChangeMoney
   );
 
-  const [paymentSelected, setPaymentSelected] = React.useState("");
+  const [paymentSelected, setPaymentSelected] = React.useState('');
   const [visibleBillOfPayment, setVisibleBillOfPayment] = React.useState(false);
   const [changeButtonDone, setChangeButtonDone] = React.useState(false);
   const [subTotalLocal, setSubTotalLocal] = React.useState(0);
@@ -112,58 +112,58 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     React.useState(false);
 
   const [infoUser, setInfoUser] = React.useState({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
   });
   const [staffIdOfline, setStaffIdOfline] = React.useState(0);
-  const [fromTime, setFromTime] = React.useState("");
-  const [basket, setBasket] = React.useState();
+  const [fromTime, setFromTime] = React.useState('');
+  const [basket, setBasket] = React.useState([]);
   const [visibleProcessingCredit, setVisibleProcessingCredit] =
     React.useState(false);
   const [visibleErrorMessageFromPax, setVisibleErrorMessageFromPax] =
     React.useState(false);
 
-  const [errorMessageFromPax, setErrorMessageFromPax] = React.useState("");
+  const [errorMessageFromPax, setErrorMessageFromPax] = React.useState('');
   const [visibleScanCode, setVisibleScanCode] = React.useState(false);
   const [visiblePrintInvoice, setVisiblePrintInvoice] = React.useState(false);
 
   const onGoBack = () => {
-    NavigationServices.navigate("retailer.home.order.list", { reload: true });
+    NavigationServices.navigate('retailer.home.order.list', { reload: true });
   };
 
   const getPaymentString = (type) => {
-    let method = "";
+    let method = '';
     switch (type) {
-      case "HarmonyPay":
-        method = "harmony";
+      case 'HarmonyPay':
+        method = 'harmony';
         break;
-      case "Cash":
-        method = "cash";
+      case 'Cash':
+        method = 'cash';
         break;
-      case "Credit Card":
-        method = "credit_card";
+      case 'Credit Card':
+        method = 'credit_card';
         break;
-      case "Debit Card":
-        method = "credit_card";
+      case 'Debit Card':
+        method = 'credit_card';
         break;
-      case "Gift Card":
-        method = "giftcard";
+      case 'Gift Card':
+        method = 'giftcard';
         break;
-      case "Other":
-        method = "other";
+      case 'Other':
+        method = 'other';
         break;
       default:
-        method = "";
+        method = '';
     }
     return method;
   };
 
   const payBasket = async () => {
     const method = getPaymentString(paymentSelected);
-    console.log("isOfflineMode payBasket" + isOfflineMode);
+    console.log('isOfflineMode payBasket' + isOfflineMode);
 
-    if (isOfflineMode && method === "harmony") {
+    if (isOfflineMode && method === 'harmony') {
       // this.scrollTabRef.current?.goToPage(2);
       // this.addAppointmentOfflineMode(true);
       return;
@@ -171,20 +171,20 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
 
     if (
       isOfflineMode &&
-      (method === "credit_card" || method === "debit_card")
+      (method === 'credit_card' || method === 'debit_card')
     ) {
-      alert("Not Support Offline Mode");
+      alert('Not Support Offline Mode');
       return;
     }
 
-    console.log("first payBasket" + method);
+    console.log('first payBasket' + method);
 
-    if (method === "harmony" && _.isEmpty(groupAppointment)) {
-      popupSendLinkInstallRef.current?.setStateFromParent("");
+    if (method === 'harmony' && _.isEmpty(groupAppointment)) {
+      popupSendLinkInstallRef.current?.setStateFromParent('');
       setVisibleSendLinkPopup(true);
     } else {
-      if (method === "harmony" || method === "credit_card") {
-        console.log("payBasket");
+      if (method === 'harmony' || method === 'credit_card') {
+        console.log('payBasket');
         const dueAmount = paymentDetailInfo?.dueAmount || 0;
         modalBillRef?.current?.setStateFromParent(`${dueAmount}`);
       }
@@ -204,7 +204,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   const cancelHarmonyPayment = async () => {
     await setChangeButtonDone(false);
     await setIsCancelHarmonyPay(false);
-    await setPaymentSelected("");
+    await setPaymentSelected('');
 
     if (payAppointmentId) {
       dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
@@ -216,7 +216,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
 
   const onRequestCloseBillModal = async () => {
     setChangeButtonDone(false);
-    setPaymentSelected("");
+    setPaymentSelected('');
     setVisibleBillOfPayment(false);
 
     dispatch(actions.appointment.resetPayment());
@@ -225,7 +225,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   const extractBill = () => {
     if (_.isEmpty(paymentDetailInfo)) {
       if (isOfflineMode) {
-        console.log("2");
+        console.log('2');
 
         const temptTotal = Number(
           formatNumberFromCurrency(subTotalLocal) +
@@ -235,7 +235,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
         ).toFixed(2);
         modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       } else {
-        console.log("3");
+        console.log('3');
 
         const temptTotal = _.isEmpty(groupAppointment)
           ? Number(
@@ -249,7 +249,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
         modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       }
     } else {
-      console.log("4");
+      console.log('4');
 
       const totalExact = paymentDetailInfo?.dueAmount
         ? paymentDetailInfo.dueAmount
@@ -265,20 +265,21 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     const arryaServicesBuy = [];
     const arrayExtrasBuy = [];
     for (let i = 0; i < basket.length; i++) {
-      if (basket[i].type === "Product") {
+      if (basket[i].type === 'Product') {
         arrayProductBuy.push({
           ...basket[i],
           productId: basket[i].data.productId,
           quantity: basket[i].quanlitySet,
         });
-      } else if (basket[i].type === "Service") {
+      } 
+      else if (basket[i].type === 'Service') {
         arryaServicesBuy.push({
           ...basket[i],
           serviceId: basket[i].data.serviceId,
-          staffId: selectedStaff?.staffId,
+          //staffId: selectedStaff?.staffId,
           tipAmount: 0,
         });
-      } else if (basket[i].type === "Extra") {
+      } else if (basket[i].type === 'Extra') {
         arrayExtrasBuy.push({
           ...basket[i],
           extraId: basket[i].data.extraId,
@@ -289,54 +290,54 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
       arrayProductBuy,
       arryaServicesBuy,
       arrayExtrasBuy,
-      staffId: selectedStaff?.staffId,
+     // staffId: selectedStaff?.staffId,
     };
   };
 
   const getBasketOnline = (appointments) => {
     const arrayProductBuy = [];
-    const arryaServicesBuy = [];
+    // const arryaServicesBuy = [];
     const arrayExtrasBuy = [];
     const arrayGiftCards = [];
     const promotionNotes = [];
 
     appointments.forEach((appointment) => {
-      const note = appointment?.promotionNotes?.note || "";
+      const note = appointment?.promotionNotes?.note || '';
       if (note) {
         promotionNotes.push(note);
       }
       // ------ Push Service -------
       appointment.services.forEach((service) => {
         arryaServicesBuy.push({
-          type: "Service",
+          type: 'Service',
           data: {
-            name: service?.serviceName || "",
-            price: service?.price || "",
+            name: service?.serviceName || '',
+            price: service?.price || '',
           },
           staff: service?.staff || false,
-          note: service?.note || "",
+          note: service?.note || '',
         });
       });
 
       // ------ Push Product -------
       appointment.products.forEach((product) => {
         arrayProductBuy.push({
-          type: "Product",
+          type: 'Product',
           data: {
-            name: product?.productName || "",
-            price: product?.price || "",
+            name: product?.productName || '',
+            price: product?.price || '',
           },
-          quanlitySet: product?.quantity || "",
+          quanlitySet: product?.quantity || '',
         });
       });
 
       // ------ Push Product -------
       appointment.extras.forEach((extra) => {
         arrayExtrasBuy.push({
-          type: "Extra",
+          type: 'Extra',
           data: {
-            name: extra?.extraName || "",
-            price: extra?.price || "",
+            name: extra?.extraName || '',
+            price: extra?.price || '',
           },
         });
       });
@@ -344,12 +345,12 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
       // ------ Push Gift Card -------
       appointment.giftCards.forEach((gift) => {
         arrayGiftCards.push({
-          type: "GiftCards",
+          type: 'GiftCards',
           data: {
-            name: gift?.name || "Gift Card",
-            price: gift?.price || "",
+            name: gift?.name || 'Gift Card',
+            price: gift?.price || '',
           },
-          quanlitySet: gift?.quantity || "",
+          quanlitySet: gift?.quantity || '',
         });
       });
     });
@@ -384,9 +385,9 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
       extras: arrayExtrasBuy,
       products: arrayProductBuy,
       fromTime:
-        fromTime !== ""
+        fromTime !== ''
           ? fromTime
-          : formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
+          : formatWithMoment(new Date(), 'MM/DD/YYYY hh:mm A'),
       staffId: staffIdOfline !== 0 ? staffIdOfline : profileStaffLogin.staffId,
       customDiscountFixed: customDiscountPercentLocal,
       customDiscountPercent: customDiscountFixedLocal,
@@ -414,9 +415,9 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     ).toFixed(2);
 
     if (moneyUserGiveForStaff == 0) {
-      alert("Enter amount!");
+      alert('Enter amount!');
     } else if (moneyUserGiveForStaff - totalLocal < 0) {
-      alert("Payment amount must be greater : " + totalLocal);
+      alert('Payment amount must be greater : ' + totalLocal);
     } else {
       addAppointmentOfflineMode();
       setVisibleBillOfPayment(false);
@@ -428,7 +429,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   const handleHarmonyPayment = async (checkoutPaymentInfo) => {
     setChangeButtonDone(false);
     setIsCancelHarmonyPay(false);
-    setPaymentSelected("");
+    setPaymentSelected('');
 
     const dueAmount =
       checkoutPaymentInfo && checkoutPaymentInfo.dueAmount
@@ -458,7 +459,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     method,
     moneyUserGiveForStaff
   ) => {
-    console.log("setupSignalR");
+    console.log('setupSignalR');
 
     try {
       connectSignalR.current = new signalR.HubConnectionBuilder()
@@ -474,7 +475,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
         .configureLogging(signalR.LogLevel.Information)
         .build();
 
-      connectSignalR.current.on("ListWaNotification", (data) => {
+      connectSignalR.current.on('ListWaNotification', (data) => {
         const temptData = JSON.parse(data);
         if (
           temptData.data &&
@@ -510,7 +511,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
       connectSignalR.current
         .start()
         .then(() => {
-          console.log("action connection");
+          console.log('action connection');
 
           try {
             dispatch(actions.app.stopLoadingApp());
@@ -566,12 +567,12 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
           dispatch(
             actions.appointment.cancelHarmonyPayment(
               payAppointmentId,
-              "transaction fail",
+              'transaction fail',
               result?.message
             )
           );
         }
-        if (result.message === "ABORTED") {
+        if (result.message === 'ABORTED') {
           return;
         }
         setTimeout(() => {
@@ -579,8 +580,8 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
           setVisibleErrorMessageFromPax(true);
           setErrorMessageFromPax(`${result.message}`);
         }, 300);
-      } else if (result.ResultCode && result.ResultCode == "000000") {
-        if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
+      } else if (result.ResultCode && result.ResultCode == '000000') {
+        if (tempEnv == 'Production' && result.Message === 'DEMO APPROVED') {
           if (payAppointmentId) {
             dispatch(
               actions.appointment.cancelHarmonyPayment(payAppointmentId)
@@ -609,13 +610,13 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
           }
         }
       } else {
-        const resultTxt = result?.ResultTxt || "Transaction failed:";
+        const resultTxt = result?.ResultTxt || 'Transaction failed:';
 
         if (payAppointmentId) {
           dispatch(
             actions.appointment.cancelHarmonyPayment(
               payAppointmentId,
-              "transaction fail",
+              'transaction fail',
               resultTxt
             )
           );
@@ -636,9 +637,9 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     const moneyCreditCard = Number(
       formatNumberFromCurrency(moneyUserGiveForStaff) * 100
     ).toFixed(2);
-    const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
+    const tenderType = paymentSelected === 'Credit Card' ? 'CREDIT' : 'DEBIT';
 
-    if (Platform.OS === "android") {
+    if (Platform.OS === 'android') {
       // 1. Show modal processing
 
       setVisibleProcessingCredit(true);
@@ -646,10 +647,10 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
         PoslinkAndroid.sendTransaction(
           ip,
           port,
-          "",
+          '',
           tenderType,
           `${parseInt(moneyCreditCard)}`,
-          "SALE",
+          'SALE',
           (err) => {
             const errorTrans = JSON.parse(err);
             setVisibleProcessingCredit(false);
@@ -697,20 +698,20 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     }
 
     if (moneyUserGiveForStaff == 0 && groupAppointment && total != 0) {
-      alert("Enter amount!");
+      alert('Enter amount!');
     } else if (
-      (method === "harmony" ||
-        method === "credit_card" ||
-        method === "debit_card") &&
+      (method === 'harmony' ||
+        method === 'credit_card' ||
+        method === 'debit_card') &&
       moneyUserGiveForStaff > dueAmount
     ) {
-      alert("The change not bigger than total money!");
+      alert('The change not bigger than total money!');
     } else {
       setVisibleBillOfPayment(false);
 
       modalBillRef.current?.setStateFromParent(`0`);
       if (!_.isEmpty(groupAppointment)) {
-        if (method === "harmony") {
+        if (method === 'harmony') {
           dispatch(actions.app.loadingApp());
           setupSignalR(
             profile,
@@ -720,21 +721,21 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
             method,
             moneyUserGiveForStaff
           );
-        } else if (method === "credit_card" || method === "debit_card") {
+        } else if (method === 'credit_card' || method === 'debit_card') {
           if (paxMachineInfo.isSetup) {
             if (moneyUserGiveForStaff == 0) {
-              alert("Enter amount!");
+              alert('Enter amount!');
             } else {
               hanleCreditCardProcess(true, moneyUserGiveForStaff);
             }
           } else {
             setTimeout(() => {
-              alert("Please connect your Pax to take payment.");
+              alert('Please connect your Pax to take payment.');
             }, 300);
           }
-        } else if (method === "giftcard") {
+        } else if (method === 'giftcard') {
           setTimeout(() => {
-            alert("giftcard");
+            alert('giftcard');
           }, 500);
         } else {
           dispatch(
@@ -747,10 +748,10 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
         }
       } else {
         // ------ Handle Buy at store -------
-        if (method === "credit_card" || method === "debit_card") {
+        if (method === 'credit_card' || method === 'debit_card') {
           hanleCreditCardProcess(false, moneyUserGiveForStaff);
-        } else if (method === "harmony") {
-          popupSendLinkInstallRef.current?.setStateFromParent("");
+        } else if (method === 'harmony') {
+          popupSendLinkInstallRef.current?.setStateFromParent('');
           setVisibleSendLinkPopup(true);
         } else {
           // const dataAnymousAppoitment = this.getBasketOffline();
@@ -774,7 +775,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   };
 
   const cancelTransaction = async () => {
-    if (Platform.OS === "android") {
+    if (Platform.OS === 'android') {
       PoslinkAndroid.cancelTransaction((data) => {});
     } else {
       PosLink.cancelTransaction();
@@ -794,7 +795,31 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
       setVisibleSendLinkPopup(false);
       dispatch(actions.app.sendLinkInstallApp(`${codeAreaPhone}${phone}`));
     } else {
-      alert("Phone is invalid !");
+      alert('Phone is invalid !');
+    }
+  };
+
+  const printTemptInvoice = async () => {
+    const { portName } = getInfoFromModelNameOfPrinter(
+      printerList,
+      printerSelect
+    );
+    if (portName !== '') {
+      showInvoicePrint(portName);
+    } else {
+      alert('Please connect to your printer! ');
+    }
+  };
+
+  const checkStatusCashier = async () => {
+    const { portName } = getInfoFromModelNameOfPrinter(
+      printerList,
+      printerSelect
+    );
+    if (portName) {
+      openCashDrawer(portName);
+    } else {
+      alert('Please connect to your cash drawer.');
     }
   };
 
@@ -814,7 +839,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
       // }
       // this.showInvoicePrint(portName, false);
     } else {
-      alert("Please connect to your printer!");
+      alert('Please connect to your printer!');
     }
   };
 
@@ -822,14 +847,14 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     if (!_.isEmpty(connectSignalR.current)) {
       await connectSignalR.current?.stop();
     }
-    if (paymentSelected === "Cash" || paymentSelected === "Other") {
+    if (paymentSelected === 'Cash' || paymentSelected === 'Other') {
       const { portName } = getInfoFromModelNameOfPrinter(
         printerList,
         printerSelect
       );
 
       if (portName) {
-        // this.openCashDrawer(portName);
+        openCashDrawer(portName);
         onGoBack();
         dispatch(actions.appointment.closeModalPaymentCompleted());
         // this.props.gotoAppoitmentScreen();
@@ -845,7 +870,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
         dispatch(actions.appointment.resetPayment());
 
         setTimeout(() => {
-          alert("Please connect to your cash drawer.");
+          alert('Please connect to your cash drawer.');
         }, 700);
       }
     } else {
@@ -856,6 +881,67 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
       // this.setState(initState);
       dispatch(actions.appointment.resetPayment());
     }
+  };
+
+  const openCashDrawer = async (portName) => {
+    await PrintManager.getInstance().openCashDrawer(portName);
+  };
+
+  const showInvoicePrint = async (printMachine, isTemptPrint = true) => {
+    // -------- Pass data to Invoice --------
+    // this.props.actions.appointment.closeModalPaymentCompleted();
+
+    const appointments = groupAppointment?.appointments || [];
+    const {
+      arryaServicesBuy,
+      arrayProductBuy,
+      arrayExtrasBuy,
+      arrayGiftCards,
+      promotionNotes,
+    } = getBasketOnline(appointments);
+    const baskets = isOfflineMode
+      ? basket
+      : arryaServicesBuy.concat(
+          arrayExtrasBuy,
+          arrayProductBuy,
+          arrayGiftCards
+        );
+    const tipAmount = groupAppointment?.tipAmount || 0;
+    const subTotal = groupAppointment?.subTotal || 0;
+    const discount = groupAppointment?.discount || 0;
+    const tax = groupAppointment?.tax || 0;
+    const total = groupAppointment?.total || 0;
+
+    const temptSubTotal = _.isEmpty(groupAppointment)
+      ? subTotalLocal
+      : subTotal;
+    const temptTotal = _.isEmpty(groupAppointment)
+      ? Number(
+          formatNumberFromCurrency(subTotalLocal) +
+            formatNumberFromCurrency(tipLocal) +
+            formatNumberFromCurrency(taxLocal) -
+            formatNumberFromCurrency(discountTotalLocal)
+        ).toFixed(2)
+      : total;
+    const temptDiscount = _.isEmpty(groupAppointment)
+      ? discountTotalLocal
+      : discount;
+    const temptTip = _.isEmpty(groupAppointment) ? tipLocal : tipAmount;
+    const temptTax = _.isEmpty(groupAppointment) ? taxLocal : tax;
+
+    invoicePrintRef.current?.setStateFromParent(
+      baskets,
+      temptSubTotal,
+      temptTax,
+      temptDiscount,
+      temptTip,
+      temptTotal,
+      paymentSelected,
+      isTemptPrint,
+      printMachine,
+      promotionNotes.join(',')
+    );
+    await setVisiblePrintInvoice(true);
   };
 
   React.useEffect(() => {
@@ -885,7 +971,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     onGoBack: () => {
       if (isPayment) {
         dispatch({
-          type: "VISIBLE_POPUP_PAYMENT_CONFIRM",
+          type: 'VISIBLE_POPUP_PAYMENT_CONFIRM',
           payload: { visible: true, func: null },
         });
       } else {
@@ -896,11 +982,11 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
       if (
         changeButtonDone &&
         !isDonePayment &&
-        paymentSelected === "HarmonyPay"
+        paymentSelected === 'HarmonyPay'
       ) {
       } else {
         setPaymentSelected(title);
-        if (title === "Gift Card") {
+        if (title === 'Gift Card') {
           activeGiftCardRef.current?.setStateFromParent();
           dispatch(actions.appointment.handleVisibleActiveGiftCard());
         }
@@ -977,12 +1063,12 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
           setVisiblePopupDiscountLocal(true);
         }
       } else {
-        alert("You are paying by Harmony Payment!");
+        alert('You are paying by Harmony Payment!');
       }
     },
     titleExitCheckoutTab: isCancelAppointment
-      ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? "
-      : "Are you sure you want to exit Check-Out?",
+      ? 'The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? '
+      : 'Are you sure you want to exit Check-Out?',
     clearDataConfirm: () => {
       if (!_.isEmpty(connectSignalR.current)) {
         connectSignalR.current?.stop();
@@ -998,19 +1084,19 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
       dispatch(actions.appointment.resetGroupAppointment());
 
       onGoBack();
-      if (visibleConfirm?.func && typeof visibleConfirm?.func === "function") {
+      if (visibleConfirm?.func && typeof visibleConfirm?.func === 'function') {
         visibleConfirm?.func();
       }
 
       dispatch({
-        type: "VISIBLE_POPUP_PAYMENT_CONFIRM",
+        type: 'VISIBLE_POPUP_PAYMENT_CONFIRM',
         payload: { visible: false, func: null },
       });
     },
     visibleConfirm: visibleConfirm?.visible ?? false,
     setVisibleConfirm: () => {
       dispatch({
-        type: "VISIBLE_POPUP_PAYMENT_CONFIRM",
+        type: 'VISIBLE_POPUP_PAYMENT_CONFIRM',
         payload: { visible: false, func: null },
       });
     },
@@ -1062,6 +1148,8 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     },
     invoicePrintRef,
     visiblePrintInvoice,
+    printTemptInvoice,
+    checkStatusCashier,
     cancelInvoicePrint: async (isPrintTempt) => {
       setVisiblePrintInvoice(false);
       if (!isPrintTempt) {

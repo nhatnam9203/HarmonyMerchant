@@ -24,8 +24,9 @@ import {
   handleShareFile
 } from '@shared/utils/files';
 const EXPORT_FUNCTION = [
-  { value: 'pdf', label: 'PDF' },
+  // { value: 'pdf', label: 'PDF' },
   { value: 'excel', label: 'EXCEL' },
+  { value: 'csv', label: 'CSV' },
 ];
 
 const EXPORT_PAGE = ['preview', 'export'];
@@ -134,16 +135,17 @@ export const ExportModalInventory = React.forwardRef(
   |--------------------------------------------------
   */
 
-    const renderImageFile = () => {
-      switch (mode) {
-        case 'excel':
-          return IMAGE.ExportCsvFileImage;
-        case 'pdf':
-          return IMAGE.ExportPdfFileImage;
-        default:
-          return '';
-      }
-    };
+  const renderImageFile = () => {
+    switch (mode) {
+      case 'excel':
+      case 'csv':
+        return IMAGE.ExportCsvFileImage;
+      case 'pdf':
+        return IMAGE.ExportPdfFileImage;
+      default:
+        return '';
+    }
+  };
 
     const renderLayoutPreview = () => {
       return (
