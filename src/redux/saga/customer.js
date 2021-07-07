@@ -207,6 +207,12 @@ function* deleteCustomer(action) {
           isShowLoadMore: false,
         });
       }
+      yield put({
+        type: "COUNT_CUSTOMER",
+        method: "GET",
+        api: `${apiConfigs.BASE_API}customer/count`,
+        token: true,
+      })
     } else if (parseInt(codeNumber) === 401) {
       yield put({
         type: "UNAUTHORIZED",
@@ -345,9 +351,9 @@ function* countCustomer(action) {
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
-      yield put({ 
-        type : "SET_COUNT_CUSTOMER",
-        payload : responses?.data || 0,
+      yield put({
+        type: "SET_COUNT_CUSTOMER",
+        payload: responses?.data || 0,
       })
     } else if (parseInt(codeNumber) === 401) {
       yield put({
