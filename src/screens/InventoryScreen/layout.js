@@ -10,7 +10,8 @@ import {
     Text, StatusBarHeader, Button, ParentContainer, ButtonCustom, Dropdown, PopupAddEditProduct,
     ModalCustom, PopupCheckStaffPermission, ClearTextInputIcon
 } from '@components';
-import { scaleSize, localize, getCategoryName, getArrayNameCategories } from '@utils';
+import { scaleSize, localize, getCategoryName,
+         getArrayNameCategories, menuTabs } from '@utils';
 import styles from './style';
 import IMAGE from '@resources';
 import {
@@ -316,7 +317,7 @@ export default class Layout extends React.Component {
                     ref={this.checkPermissionRef}
                     visiblePopupCheckStaffPermission={inventoryTabPermission}
                     title={localize('Input PIN Number', language)}
-                    tabName="Inventory"
+                    tabName={menuTabs.MENU_INVENTORY}
                     onRequestClose={this.closePopupCheckProductTabPermission}
                 />
             </ParentContainer>

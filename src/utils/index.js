@@ -16,6 +16,8 @@ import PrintManager from "@lib/PrintManager";
 import Configs from "@configs";
 import Localization from "../localization";
 import ICON from "../resources";
+export * from './enums';
+import * as l from 'lodash';
 
 const PosLinkReport = NativeModules.report;
 const { width, height } = Dimensions.get("window");
@@ -1444,6 +1446,17 @@ export const getIconByNotiType = (type) => {
   }
   return icon;
 };
+
+export const isPermissionToTab = (permission, tabMenu) => {
+  const tabItem = l.find(permission, (item) => {
+    return l.get(item, 'key') == tabMenu
+  })
+  if (l.get(tabItem, 'isChecked', true)) {
+      return true
+  }else {
+      return false
+  }
+}
 
 export const getColorTitleByNotiType = (isRead, type) => {
   let color;

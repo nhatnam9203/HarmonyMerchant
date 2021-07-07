@@ -140,6 +140,7 @@ class TabStaff extends Layout {
     await this.setState({
       staffHandle: staff,
     });
+
     this.props.actions.staff.getDetailStaffByMerchantId(staff?.staffId);
     this.props.actions.staff.switchAddStaff(true);
 
@@ -231,27 +232,8 @@ class TabStaff extends Layout {
       }
     }
     this.props.actions.staff.updateStaffsPositionLocal(tempStaffList);
-    this.props.actions.staff.editStaff(
-      {
-        ...staff,
-        workingTime: staff.workingTimes,
-        salary: staff.salaries,
-        tipFee: staff.tipFees,
-        productSalary: staff.productSalaries,
-        address: {
-          street: staff?.address || '',
-          city: staff?.city || '',
-          state: staff?.stateId || 0,
-          zip: staff?.zip || '',
-        },
-        roles: {
-          nameRole: staff?.roleName || '',
-        },
-        isActive,
-      },
-      staff.staffId ? staff.staffId : 0,
-      searchFilter
-    );
+    this.props.actions.staff.updateStaffStatus(isActive, staff.staffId ? staff.staffId : 0,
+                                                searchFilter)
   };
 
   // componentDidMount() {
@@ -282,6 +264,7 @@ const mapStateToProps = (state) => ({
   isGetListSearchStaff: state.staff.isGetListSearchStaff,
   isShowSearchResult: state.staff.isShowSearchResult,
   isEditStaffByIdSuccess: state.staff.isEditStaffByIdSuccess,
+  staffDetail: state.staff.staffDetail,
 });
 
 export default connectRedux(mapStateToProps, TabStaff);

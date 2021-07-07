@@ -1,4 +1,5 @@
 import Configs from "@configs";
+import { menuTabs } from '@utils';
 
 export function login(email, password, terminalId, isRememberMID = false) {
   return {
@@ -29,7 +30,7 @@ export function forgotPassword(email) {
   };
 }
 
-export function checkStaffPermission(merchantCode, staffPin, tabName = "Invoice", appointmentId = "", isBlock = false) {
+export function checkStaffPermission(merchantCode, staffPin, tabName = menuTabs.MENU_INVOICE, appointmentId = "", isBlock = false) {
   return {
     type: "CHECK_STAFF_PERMISSION",
     body: {

@@ -3,7 +3,8 @@ import { Keyboard } from "react-native";
 
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
-import { checkStatusPrint } from "@utils";
+import { checkStatusPrint, role, menuTabs, isPermissionToTab } from "@utils";
+import * as l from 'lodash';
 
 class SettingScreen extends Layout {
   constructor(props) {
@@ -43,11 +44,17 @@ class SettingScreen extends Layout {
         });
         this.checkPermissionRef?.current?.setStateFromParent("");
 
-        const { profileStaffLogin } = this.props;
-        const roleName = profileStaffLogin?.roleName || "Admin";
-        if (roleName === "Admin") {
-          const { profile } = this.props;
+        const { profileStaffLogin, profile } = this.props;
+        const roleName = profileStaffLogin?.roleName || role.Admin;
+        const permission = l.get(profileStaffLogin, 'permission', [])
+        if (roleName === role.Admin) {
           this.props.actions.app.getMerchantByID(profile?.merchantId);
+        } else if (roleName === role.Manager) {
+          if (isPermissionToTab(permission, menuTabs.MENU_SETTING)) {
+            this.props.actions.app.getMerchantByID(profile?.merchantId);
+          }else {
+            this.props.actions.app.toggleSettingTabPermission();
+          }
         } else {
           this.props.actions.app.toggleSettingTabPermission();
         }

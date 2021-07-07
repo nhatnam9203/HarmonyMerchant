@@ -93,6 +93,17 @@ export function restoreStaff(id, searchFilter = false) {
   };
 }
 
+export function updateStaffStatus(isActive, id = "", searchFilter = false) {
+  return {
+    type: "UPDATE_STAFF_STATUS",
+    body:{},
+    method: "PUT",
+    token: true,
+    api: `staff/active/${id}/${isActive}`,
+    searchFilter,
+  };
+}
+
 export function editStaff(body, id = '', searchFilter = false, callBack) {
   return {
     type: 'EDIT_STAFF_BY_MERCHANT',
@@ -246,5 +257,15 @@ export function resetStateGetStaffDetail() {
 export function resetStateIsEditStaffById() {
   return {
     type: "RESET_STATE_IS_EDIT_STAFF_BY_ID",
+  };
+}
+
+export function getStaffService(serviceId,callBack) {
+  return {
+    type: "GET_STAFF_SERVICE",
+    method: "GET",
+    token: true,
+    api: `staff/byService/${serviceId}`,
+    callBack,
   };
 }

@@ -485,7 +485,7 @@ class Dropdown extends PureComponent {
     const findIndex = data.findIndex(obj => obj.value == filterValue);
 
     setTimeout(() => {
-      if (this.refScrollList) {
+      if (this.refScrollList && findIndex !== -1) {
         this.refScrollList?.scrollToIndex({ index: findIndex, animated: false });
       }
     }, 100);

@@ -5,6 +5,8 @@ import RNFetchBlob from 'rn-fetch-blob';
 import Layout from './layout';
 import connectRedux from '@redux/ConnectRedux';
 import { getCategoryIdByName, getArrayNameCategories } from '@utils';
+import { role, menuTabs, isPermissionToTab } from '@utils';
+import * as l from 'lodash';
 
 const initState = {
     isFocus: true,
@@ -62,9 +64,16 @@ class InventoryScreen extends Layout {
                 this.checkPermissionRef.current?.setStateFromParent('');
 
                 const { profileStaffLogin } = this.props;
-                const roleName = profileStaffLogin?.roleName || "Admin";
-                if (roleName === "Admin") {
+                const roleName = profileStaffLogin?.roleName || role.Admin;
+                const permission = l.get(profileStaffLogin, 'permission', [])
+                if (roleName === role.Admin) {
                     this.props.actions.product.getProductsByMerchant("", "", true);
+                } else if (roleName === role.Manager) {
+                    if (isPermissionToTab(permission, menuTabs.MENU_INVENTORY)) {
+                        this.props.actions.product.getProductsByMerchant("", "", true);
+                    }else {
+                        this.props.actions.product.toggleProductTabPermission();
+                    }
                 } else {
                     this.props.actions.product.toggleProductTabPermission();
                 }
