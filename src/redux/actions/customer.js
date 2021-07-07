@@ -134,7 +134,7 @@ export function countCustomer() {
   return {
     type: "COUNT_CUSTOMER",
     method: "GET",
-    api: `${apiConfigs.BASE_API}customer/count`,
+    api: `customer/count`,
     token: true,
   };
 }

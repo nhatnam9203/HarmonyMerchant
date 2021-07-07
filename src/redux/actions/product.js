@@ -144,7 +144,7 @@ export function getProductByStaff(categoryId, callBack) {
         type: 'GET_PRODUCT_BY_STAFF',
         method: 'GET',
         token: true,
-        api: `${apiConfigs.BASE_API}product/getbycategory/${categoryId}`,
+        api: `product/getbycategory/${categoryId}`,
         callBack
     }
 }

@@ -99,7 +99,7 @@ function* addCustomer(action) {
       yield put({
         type: "COUNT_CUSTOMER",
         method: "GET",
-        api: `${apiConfigs.BASE_API}customer/count`,
+        api: `customer/count`,
         token: true,
       })
     } else if (parseInt(codeNumber) === 401) {
@@ -209,7 +209,7 @@ function* deleteCustomer(action) {
       yield put({
         type: "COUNT_CUSTOMER",
         method: "GET",
-        api: `${apiConfigs.BASE_API}customer/count`,
+        api: `customer/count`,
         token: true,
       })
     } else if (parseInt(codeNumber) === 401) {

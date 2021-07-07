@@ -301,7 +301,7 @@ function* updateStaffStatus(action) {
         type: "GET_STAFF_BY_MERCHANR_ID",
         method: "GET",
         token: true,
-        api: `${apiConfigs.BASE_API}staff/search?name=${keySearch ? keySearch : ""
+        api: `staff/search?name=${keySearch ? keySearch : ""
           }&role=${role ? role : ""}&status=${status ? status : ""}`,
         isShowLoading: true,
         searchFilter: action?.searchFilter || false,

@@ -265,7 +265,7 @@ export function getStaffService(serviceId,callBack) {
     type: "GET_STAFF_SERVICE",
     method: "GET",
     token: true,
-    api: `${apiConfigs.BASE_API}staff/byService/${serviceId}`,
+    api: `staff/byService/${serviceId}`,
     callBack,
   };
 }
