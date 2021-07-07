@@ -124,6 +124,33 @@ export const Layout = ({
               />
             </View>
           </View>
+          <FormTitle label={t("Product versions")} />
+          {productItem?.quantities && (
+            <Table
+              items={productItem?.quantities}
+              headerKeyLabels={{
+                label: t("Versions"),
+                costPrice: t("Price"),
+                needToOrder: t("Need to order"),
+                quantity: t("Qty"),
+              }}
+              whiteListKeys={["label", "costPrice", "needToOrder", "quantity"]}
+              widthForKeys={{
+                label: "40%",
+                costPrice: scaleWidth(200),
+                needToOrder: scaleWidth(150),
+                quantity: scaleWidth(150),
+              }}
+              primaryKey="id"
+              emptyDescription={t("No product versions")}
+              formatFunctionKeys={{
+                costPrice: (value) => `${formatMoneyWithUnit(value)}`,
+                quantity: (value) => (value ? `${value}` : "0"),
+              }}
+              // renderActionCell={onRenderActionCell}
+            />
+          )}
+
           <FormTitle label={t("Restock History")}>
             <View style={styles.headLabelButton}>
               <RestockButton

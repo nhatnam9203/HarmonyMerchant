@@ -139,31 +139,8 @@ export function Table({
   };
 
   const getCellValue = (item, key) => {
-    // const format = formatKeys[key];
-    // let value = item[key];
-    // if (format === 'mins' && value > 0) {
-    //   const str = parseFloat(value).toFixed(2).toString();
-    //   const splits = str.split('.');
-    //   if (splits.length === 2) {
-    //     return (
-    //       parseInt(splits[0]) +
-    //       ' hrs ' +
-    //       Math.floor((parseInt(splits[1]) / 100) * 60) +
-    //       ' mins'
-    //     );
-    //   }
-
-    //   return value + ' hrs';
-    // }
-
-    // return isPriceCell(key)
-    //   ? unitKeys && unitKeys[key]
-    //     ? value + ' ' + unitKeys[key]
-    //     : '$ ' + value
-    //   : value;
-
     let value = item[key];
-    if (formatFunctionKeys && value) {
+    if (formatFunctionKeys) {
       const formatFunc = formatFunctionKeys[key];
       if (typeof formatFunc === "function") {
         return formatFunc(value);
