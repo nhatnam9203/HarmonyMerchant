@@ -229,7 +229,7 @@ export const useProps = ({ params: { reload } }) => {
     },
     getCheckedValue: (item) => {
       if (!item) {
-        return itemSelected?.length > 0;
+        return itemSelected && itemSelected?.length === items?.length;
       }
 
       return (
