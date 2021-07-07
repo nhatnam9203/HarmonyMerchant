@@ -1416,12 +1416,6 @@ class TabCheckout extends Layout {
   
     let result = await this.getPAXReport(paxMachineInfo, "1")
 
-    if(l.isEmpty(result)) {
-      setTimeout(()=>{ 
-        result = this.getPAXReport(paxMachineInfo, "1")
-      }, 90000)
-    }
-
     if (!l.isEmpty(result)) {
       if (l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()) {
         //Call server to check auth number
