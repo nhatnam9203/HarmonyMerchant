@@ -10,6 +10,7 @@ import {
   statusSuccess,
   getTimeTitleFile,
   SORT_TYPE,
+  dateCompare,
 } from '@shared/utils';
 import { getQuickFilterTimeRange } from '@utils';
 import React from 'react';
@@ -17,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import { ButtonOverall } from '../../../widget';
 import { formatMoneyWithUnit } from '@utils';
+import moment from 'moment';
 const log = (obj, message = '') => {
   Logger.log(`[SalesOrder] ${message}`, obj);
 };
@@ -28,7 +30,7 @@ export const SalesOrder = () => {
   const [timeVal, setTimeVal] = React.useState();
   const [data, setData] = React.useState();
   const [summary, setSummary] = React.useState();
-  const [sortDate, setSortDate] = React.useState(SORT_TYPE.DESC);
+  const [sortDate, setSortDate] = React.useState(SORT_TYPE.ASC);
   /**
   |--------------------------------------------------
   | CALL API
@@ -38,10 +40,9 @@ export const SalesOrder = () => {
   const callGetReportSalesOrder = React.useCallback(() => {
     getReportSalesOrder({
       ...timeVal,
-      sort: { date: sortDate },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal, sortDate]);
+  }, [timeVal]);
 
   /**
   |--------------------------------------------------
@@ -52,7 +53,6 @@ export const SalesOrder = () => {
   const callExportSalesOrder = (values) => {
     const params = Object.assign({}, values, {
       ...timeVal,
-      sort: { date: sortDate },
     });
     exportRef.current?.onSetFileName(
       getTimeTitleFile('ReportSaleOrder', params)
@@ -76,16 +76,20 @@ export const SalesOrder = () => {
   React.useEffect(() => {
     callGetReportSalesOrder();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal,sortDate]);
+  }, [timeVal]);
 
   React.useEffect(() => {
     const { codeStatus, message, data, summary } = reportSalesOrder || {};
     if (statusSuccess(codeStatus)) {
       log(data, 'response data');
-      setData(data);
+      setListData(data);
       setSummary(summary);
     }
   }, [reportSalesOrder]);
+
+  React.useEffect(() => {
+    setListData();
+  }, [sortDate]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
     if (quickFilter === 'Customize Date') {
@@ -110,6 +114,21 @@ export const SalesOrder = () => {
       default:
         break;
     }
+  };
+
+  const setListData = (list) => {
+    let sortList = list ?? data;
+    let sortKey = 'date';
+    if (sortDate && sortList?.length > 0) {
+      sortList.sort((a, b) => {
+        if (sortDate === SORT_TYPE.DESC) {
+          return dateCompare(b[sortKey], a[sortKey]);
+        } else if (sortDate === SORT_TYPE.ASC) {
+          return dateCompare(a[sortKey], b[sortKey]);
+        } else return 0;
+      });
+    }
+    setData(sortList);
   };
 
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {

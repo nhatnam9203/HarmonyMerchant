@@ -135,7 +135,6 @@ export default function SalesByCategory({
           ]}
           sortedKeys={{ totalProfit: sortTotalProfit }}
           primaryKey="name"
-          //   unitKeys={{ totalDuration: "hrs" }}
           widthForKeys={{
             name: scaleWidth(200),
             quantity: scaleWidth(120),
@@ -144,10 +143,8 @@ export default function SalesByCategory({
             totalTax: scaleWidth(180),
           }}
           emptyDescription={t('No Report Data')}
-          //   styleTextKeys={{ customerName: styles.textName }}
           onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
-            // date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
             totalRevenue: (value) => `${formatMoneyWithUnit(value)}`,
             totalCost: (value) => `${formatMoneyWithUnit(value)}`,
             totalTax: (value) => `${formatMoneyWithUnit(value)}`,

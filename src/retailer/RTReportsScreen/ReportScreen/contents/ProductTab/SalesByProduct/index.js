@@ -33,10 +33,9 @@ function SalesByProductTab({
     getReportSaleProduct({
       ...timeVal,
       product: filterProduct?.value ?? 'top',
-      sort: { totalProfit: sortTotalProfit?.toUpperCase() },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal, filterProduct, sortTotalProfit]);
+  }, [timeVal, filterProduct]);
 
   /**
   |--------------------------------------------------
@@ -49,7 +48,6 @@ function SalesByProductTab({
     const params = Object.assign({}, values, {
       ...timeVal,
       product: filterProduct?.value ?? 'top',
-      sort: { totalProfit: sortTotalProfit?.toUpperCase() },
     });
     exportRef.current?.onSetFileName(getTimeTitleFile('SaleByProduct', params));
 
@@ -72,15 +70,19 @@ function SalesByProductTab({
   React.useEffect(() => {
     callGetReportSaleProduct();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal, filterProduct, sortTotalProfit]);
+  }, [timeVal, filterProduct]);
 
   /**effect */
   React.useEffect(() => {
     const { codeStatus, message, data, summary } = reportSaleProduct || {};
     if (statusSuccess(codeStatus)) {
-      setData(data);
+      setListData(data);
     }
   }, [reportSaleProduct]);
+
+  React.useEffect(() => {
+    setListData();
+  }, [sortTotalProfit]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
     if (quickFilter === 'Customize Date') {
@@ -108,6 +110,21 @@ function SalesByProductTab({
       default:
         break;
     }
+  };
+
+  const setListData = (list) => {
+    let sortList = list ?? data ;
+    let sortKey = 'totalProfit';
+    if (sortTotalProfit && sortList?.length > 0) {
+      sortList.sort((a, b) => {
+        if (sortTotalProfit === SORT_TYPE.DESC) {
+          return b[sortKey] - a[sortKey]
+        } else if (sortTotalProfit === SORT_TYPE.ASC) {
+          return a[sortKey] - b[sortKey]
+        } else return 0;
+      });
+    }
+    setData(sortList);
   };
 
   const onRefresh = () => callGetReportSaleProduct();

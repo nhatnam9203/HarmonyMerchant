@@ -35,7 +35,7 @@ function SalesByCategoryTab({
   const [timeVal, setTimeVal] = React.useState(null);
   const [filterCategory, setFilterCategory] = React.useState(null);
   const [data, setData] = React.useState([]);
-  const [sortTotalProfit, setSortTotalProfit] = React.useState(SORT_TYPE.DESC);
+  const [sortTotalProfit, setSortTotalProfit] = React.useState(SORT_TYPE.ASC);
   /**
   |--------------------------------------------------
   | CALL API
@@ -46,10 +46,9 @@ function SalesByCategoryTab({
     getReportSaleCategory({
       ...timeVal,
       category: filterCategory?.value ?? 'top',
-      sort: { totalProfit: sortTotalProfit?.toUpperCase() },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal, filterCategory, sortTotalProfit]);
+  }, [timeVal, filterCategory]);
 
   /**
   |--------------------------------------------------
@@ -63,7 +62,6 @@ function SalesByCategoryTab({
     const params = Object.assign({}, values, {
       ...timeVal,
       category: filterCategory?.value ?? 'top',
-      sort: { totalProfit: sortTotalProfit },
     });
     exportRef.current?.onSetFileName(
       getTimeTitleFile('SaleByCategory', params)
@@ -86,15 +84,19 @@ function SalesByCategoryTab({
   React.useEffect(() => {
     callGetReportSaleCategory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal, filterCategory, sortTotalProfit]);
+  }, [timeVal, filterCategory]);
 
   /**effect */
   React.useEffect(() => {
     const { codeStatus, message, data, summary } = reportSaleCategory || {};
     if (statusSuccess(codeStatus)) {
-      setData(data);
+      setListData(data);
     }
   }, [reportSaleCategory]);
+
+  React.useEffect(() => {
+    setListData();
+  }, [sortTotalProfit]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
     if (quickFilter === 'Customize Date') {
@@ -122,6 +124,21 @@ function SalesByCategoryTab({
       default:
         break;
     }
+  };
+
+  const setListData = (list) => {
+    let sortList = list ?? data;
+    let sortKey = 'totalProfit';
+    if (sortTotalProfit && sortList?.length > 0) {
+      sortList.sort((a, b) => {
+        if (sortTotalProfit === SORT_TYPE.DESC) {
+          return b[sortKey] - a[sortKey];
+        } else if (sortTotalProfit === SORT_TYPE.ASC) {
+          return a[sortKey] - b[sortKey];
+        } else return 0;
+      });
+    }
+    setData(sortList);
   };
 
   const onRefresh = () => callGetReportSaleCategory();
