@@ -1,14 +1,14 @@
-import IMAGE from '@resources';
-import { colors, fonts, layouts } from '@shared/themes';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Modal from 'react-native-modal';
-import ColorPicker from 'react-native-wheel-color-picker';
-import { ButtonGradient } from './Button';
+import IMAGE from "@resources";
+import { colors, fonts, layouts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import Modal from "react-native-modal";
+import ColorPicker from "react-native-wheel-color-picker";
+import { ButtonGradient } from "./Button";
 
 export const DialogColorPicker = React.forwardRef(
-  ({ onApplyColor, defaultValue = '#ffffff', disabled }, ref) => {
+  ({ onApplyColor, defaultValue = "#ffffff", disabled }, ref) => {
     const [t] = useTranslation();
     const pickerRef = React.useRef(null);
     const [currentColor, setCurrentColor] = React.useState();
@@ -25,7 +25,7 @@ export const DialogColorPicker = React.forwardRef(
 
     const onHandleApplyButtonPress = () => {
       hideModal();
-      if (onApplyColor && typeof onApplyColor === 'function') {
+      if (onApplyColor && typeof onApplyColor === "function") {
         onApplyColor(currentColor);
       }
     };
@@ -54,11 +54,19 @@ export const DialogColorPicker = React.forwardRef(
           <View style={[styles.colorView, { backgroundColor: defaultValue }]} />
         </TouchableOpacity>
 
-        <Modal style={styles.modal} visible={open} onRequestClose={hideModal}>
+        <Modal
+          style={styles.modal}
+          isVisible={open}
+          onRequestClose={hideModal}
+          backdropTransitionOutTiming={0}
+          backdropTransitionInTiming={0}
+          animationIn="zoomIn"
+          animationOut="zoomOut"
+        >
           <View style={styles.container}>
             <View style={styles.header}>
               <Text style={[layouts.fill, styles.txtTitle]}>
-                {t('Color Picker')}
+                {t("Color Picker")}
               </Text>
               <TouchableOpacity style={styles.buttonClose} onPress={hideModal}>
                 <Image
@@ -94,7 +102,7 @@ export const DialogColorPicker = React.forwardRef(
 
               <View style={styles.bottomStyle}>
                 <ButtonGradient
-                  label={t('Apply')}
+                  label={t("Apply")}
                   width={scaleWidth(140)}
                   height={scaleHeight(40)}
                   borderRadius={scaleWidth(3)}
@@ -106,18 +114,18 @@ export const DialogColorPicker = React.forwardRef(
         </Modal>
       </View>
     );
-  },
+  }
 );
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
     width: scaleWidth(480),
     borderRadius: scaleHeight(20),
-    shadowColor: '#004080bf',
+    shadowColor: "#004080bf",
     shadowOffset: {
       width: 0,
       height: 0,
@@ -128,25 +136,25 @@ const styles = StyleSheet.create({
 
   content: {
     flex: 0,
-    width: '100%',
+    width: "100%",
     paddingHorizontal: scaleWidth(20),
     height: scaleHeight(420),
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   modal: {
-    backgroundColor: '#40404030',
+    backgroundColor: "#40404030",
     margin: 0,
   },
 
   header: {
     height: scaleWidth(48),
-    width: '100%',
+    width: "100%",
     backgroundColor: colors.OCEAN_BLUE,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
     borderTopLeftRadius: scaleHeight(20),
     borderTopRightRadius: scaleHeight(20),
   },
@@ -154,10 +162,10 @@ const styles = StyleSheet.create({
   txtTitle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(23),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.WHITE,
   },
 
@@ -165,9 +173,9 @@ const styles = StyleSheet.create({
     width: scaleWidth(28),
     height: scaleHeight(28),
     borderRadius: scaleWidth(14),
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
     marginRight: scaleWidth(10),
   },
 
@@ -179,38 +187,38 @@ const styles = StyleSheet.create({
   titleContent: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.GREYISH_BROWN,
   },
 
   bottomStyle: {
-    width: '100%',
+    width: "100%",
     height: scaleHeight(80),
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    flexDirection: "row",
     borderTopWidth: 1,
-    borderTopColor: '#ddd',
+    borderTopColor: "#ddd",
   },
 
   buttonSelectPicker: {
     width: scaleWidth(40),
     height: scaleHeight(40),
     backgroundColor: colors.WHITE,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: '#cccccc',
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderColor: "#cccccc",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   colorView: {
     width: scaleWidth(32),
     height: scaleHeight(32),
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
 
   swatchesContent: {
@@ -218,20 +226,20 @@ const styles = StyleSheet.create({
     height: scaleHeight(46),
     borderRadius: 3,
     backgroundColor: colors.WHITE_FA,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: '#cccccc',
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderColor: "#cccccc",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   swatchText: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(20),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.GREYISH_BROWN,
   },
 });

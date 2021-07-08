@@ -33,7 +33,15 @@ export const DialogConfirm = React.forwardRef(
     }));
 
     return (
-      <Modal style={styles.modal} isVisible={open} onRequestClose={hideModal}>
+      <Modal
+        style={styles.modal}
+        isVisible={open}
+        onRequestClose={hideModal}
+        backdropTransitionOutTiming={0}
+        backdropTransitionInTiming={0}
+        animationIn="zoomIn"
+        animationOut="zoomOut"
+      >
         <View style={styles.container}>
           <View style={styles.header}>
             <Text style={[layouts.fill, styles.txtTitle]}>
