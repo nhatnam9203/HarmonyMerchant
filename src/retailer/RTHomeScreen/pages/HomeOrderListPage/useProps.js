@@ -119,6 +119,7 @@ export const useProps = ({ params: { reload } }) => {
   React.useEffect(() => {
     const { codeStatus } = orderClean || {};
     if (statusSuccess(codeStatus)) {
+      setItemSelected([])
       callGetOrderList();
     }
   }, [orderClean]);
