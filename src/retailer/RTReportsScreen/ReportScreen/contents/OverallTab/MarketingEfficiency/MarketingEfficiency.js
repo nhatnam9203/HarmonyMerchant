@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
-import IMAGE from "@resources";
-import { localize } from "@utils";
+import IMAGE from '@resources';
+import { localize } from '@utils';
 
-import { PopupButton, TableList, ReportTabLayout } from "../../../widget";
-import MarketingBarGroupChart from "./chart/MarketingBarGroupChart";
+import { PopupButton, TableList, ReportTabLayout } from '../../../widget';
+import MarketingBarGroupChart from './chart/MarketingBarGroupChart';
 
 const VIEW_MODE = {
-  LIST: "LIST",
-  CHART: "CHART",
+  LIST: 'LIST',
+  CHART: 'CHART',
 };
-const FILTER_NAME_DEFAULT = "All Promotion";
-const ACTIVE_COLOR = "#0764B0";
-const INACTIVE_COLOR = "#6A6A6A";
+const FILTER_NAME_DEFAULT = 'All Promotion';
+const ACTIVE_COLOR = '#0764B0';
+const INACTIVE_COLOR = '#6A6A6A';
 
 export default function MarketingEfficiency({
   style,
@@ -29,7 +29,7 @@ export default function MarketingEfficiency({
   onRefresh,
   isRefreshing,
   resetTab,
-  onSortWithKey
+  onSortWithKey,
 }) {
   /**redux store*/
   const dispatch = useDispatch();
@@ -174,15 +174,15 @@ export default function MarketingEfficiency({
           <TableList
             tableData={filterDataTable()}
             tableHead={{
-              name: localize("Campaign Name", language),
-              revenue: localize("Revenue", language),
-              discount: localize("Discount", language),
+              name: localize('Campaign Name', language),
+              revenue: localize('Revenue', language),
+              discount: localize('Discount', language),
             }}
-            whiteKeys={["name", "revenue", "discount", "action"]}
+            whiteKeys={['name', 'revenue', 'discount', 'action']}
             primaryId="promotionId"
             sumTotalKey="name"
-            calcSumKeys={["revenue", "discount"]}
-            priceKeys={["revenue", "discount"]}
+            calcSumKeys={['revenue', 'discount']}
+            priceKeys={['revenue', 'discount']}
             tableCellWidth={{
               name: 300,
               revenue: 200,
@@ -192,14 +192,14 @@ export default function MarketingEfficiency({
             renderActionCell={renderActionCell}
             onRefresh={onRefresh}
             isRefreshing={isRefreshing}
-            sortKey='revenue'
+            sortKey="revenue"
             onSortWithKey={onSortWithKey}
           />
         ) : (
           <View
             style={{
               flex: 1,
-              flexDirection: "row",
+              flexDirection: 'row',
               margin: 20,
             }}
           >
@@ -208,10 +208,10 @@ export default function MarketingEfficiency({
               <View
                 style={{
                   height: 60,
-                  width: "100%",
-                  justifyContent: "center",
-                  alignItems: "flex-start",
-                  flexDirection: "row",
+                  width: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'flex-start',
+                  flexDirection: 'row',
                 }}
               >
                 <LegendChart color="#80C6FF" label="Revenue" />
@@ -235,31 +235,30 @@ export default function MarketingEfficiency({
   );
 }
 
-const DetailChart = ({ label = "1", desc = "..." }) => (
-  <View style={styles.chartDetailItem}>
+const DetailChart = ({ label = '1', desc = '...' }) => (
+  <View style={{ ...styles.chartDetailItem, paddingLeft: 0 }}>
     <View
       style={{
-        padding: 5,
-        width: 30,
-        height: 30,
-        justifyContent: "center",
-        alignItems: "center",
+        // width: scaleWidth(35),
+        // height: scaleWidth(35),
+        justifyContent: 'center',
+        alignItems: 'center',
         marginRight: 10,
-        borderRadius: 15,
-        backgroundColor: "transparent",
+        // borderRadius: scaleWidth(20),
+        // backgroundColor: '#0764B0',
       }}
     >
       <Text
         style={{
-          fontSize: 20,
-          color: "#0764B0",
-          fontWeight: "bold",
+          fontSize: scaleFont(20),
+          color: '#0764B0',
+          fontWeight: 'bold',
         }}
       >
         {label}
       </Text>
     </View>
-    <Text style={{ fontSize: 15, flex: 1, color: "#404040" }}>{desc}</Text>
+    <Text style={{ fontSize: 15, flex: 1, color: '#404040' }}>{desc}</Text>
   </View>
 );
 
@@ -276,7 +275,7 @@ const LegendChart = ({ color, label }) => (
     <Text
       style={{
         fontSize: 15,
-        color: "#404040",
+        color: '#404040',
       }}
     >
       {label}
@@ -287,40 +286,40 @@ const LegendChart = ({ color, label }) => (
 const styles = StyleSheet.create({
   container: { flex: 1 },
   cellAction: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-around",
-    width: "100%",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    width: '100%',
     flex: 1,
   },
   txtSalary: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 15,
-    color: "#6A6A6A",
+    color: '#6A6A6A',
     marginRight: 5,
   },
   imgDetail: {
-    tintColor: "#6A6A6A",
+    tintColor: '#6A6A6A',
     width: 20,
     height: 20,
   },
   btnInCell: {
-    height: "100%",
+    height: '100%',
     width: 35,
     marginLeft: 4,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   chartDetail: {
-    justifyContent: "center",
-    alignItems: "flex-start",
+   // justifyContent: 'center',
+    alignItems: 'flex-start',
     flex: 1,
   },
   chartDetailItem: {
-    flexDirection: "row",
+    flexDirection: 'row',
     margin: 10,
     paddingLeft: 20,
-    justifyContent: "flex-start",
-    alignItems: "center",
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
 });

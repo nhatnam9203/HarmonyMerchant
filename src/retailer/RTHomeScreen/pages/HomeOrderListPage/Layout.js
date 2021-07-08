@@ -55,6 +55,7 @@ export const Layout = ({
   onCheckedAll,
   getCheckedValue,
   onCheckedRow,
+  callCleanOrder
 }) => {
   const { t } = useTranslation();
 
@@ -188,7 +189,7 @@ export const Layout = ({
             width={scaleWidth(86)}
             height={scaleHeight(32)}
             fontSize={scaleFont(15)}
-            // onPress={onButtonSearchPress}
+             onPress={callCleanOrder}
           >
             <View style={layouts.marginHorizontal} />
             <Image

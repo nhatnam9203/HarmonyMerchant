@@ -150,7 +150,7 @@ export const Layout = ({
     }
   };
 
-  const onRenderCell = ({ item, columnKey, rowIndex, cellWidth }) => {
+  const onRenderCell = ({ item: cellItem, columnKey, rowIndex, cellWidth }) => {
     if (columnKey === "productName") {
       return (
         <View
@@ -160,9 +160,9 @@ export const Layout = ({
           <FastImage
             style={styles.imageStyle}
             source={
-              item?.imageUrl
+              cellItem?.imageUrl
                 ? {
-                    uri: item?.imageUrl,
+                    uri: cellItem?.imageUrl,
                     priority: FastImage.priority.high,
                     cache: FastImage.cacheControl.immutable,
                   }
@@ -172,9 +172,9 @@ export const Layout = ({
           />
           <View style={layouts.marginHorizontal} />
           <View style={styles.productNameContent}>
-            <Text style={styles.productName}>{item?.productName}</Text>
+            <Text style={styles.productName}>{cellItem?.productName}</Text>
             <View style={styles.productNameMarginVertical} />
-            <Text style={styles.productName}>{`SKU: ${item?.sku}`}</Text>
+            <Text style={styles.productName}>{`SKU: ${cellItem?.sku}`}</Text>
           </View>
         </View>
       );

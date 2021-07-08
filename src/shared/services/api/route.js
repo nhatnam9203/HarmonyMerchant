@@ -81,6 +81,10 @@ export const RETAILER_APPOINTMENT = {
   url: "appointment",
 };
 
+export const RETAILER_APPOINTMENT_CLEAN = {
+  url: "retailer/appointment/clean",
+};
+
 export const STAFF_LOGIN = {
   url: "staff/login",
 };
