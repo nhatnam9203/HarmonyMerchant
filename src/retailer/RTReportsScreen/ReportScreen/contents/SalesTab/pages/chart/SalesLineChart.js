@@ -187,7 +187,7 @@ export default function SalesLineChart({ data }) {
       setXAxis(
         Object.assign({}, xAxis, {
           valueFormatter: formatterValues,
-          axisMaximum: formatterValues?.length - 1 +0.07 ?? undefined,
+          axisMaximum: formatterValues?.length - 1 +0.1 ?? undefined,
         })
       );
     } else {
@@ -239,9 +239,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    padding: scaleWidth(10),
   },
   chart: {
     flex: 1,
-    paddingHorizontal: scaleWidth(16),
+    padding: scaleWidth(16),
   },
 });
