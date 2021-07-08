@@ -59,6 +59,7 @@ export const Layout = ({
         }}
         lazy={true}
         optimizationsEnabled={true}
+        swipeEnabled={false}
         tabBar={(props) => <HomeTabBar {...props} onOpenDrawer={openDrawer} />}
       >
         {/* <Screen {...MarketingTabPage} /> */}
