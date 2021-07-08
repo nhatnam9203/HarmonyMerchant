@@ -288,7 +288,7 @@ function* requestLogout(action) {
 
     // NavigationServices.navigate('SignIn');
 
-    NavigationServices.replace("AuthNavigator");
+    NavigationServices.navigate("AuthNavigator");
     yield call(saveAuthToken, null);
 
     yield put({ type: "LOGOUT_APP" });

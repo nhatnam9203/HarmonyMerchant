@@ -137,7 +137,7 @@ export default class Layout extends React.Component {
             </Button>
           ) : null}
         </View>
-        <WithLogoutPopup
+        <PopupLogout
           visible={this.state.visibleLogout}
           title={localize("Confirmation", language)}
           message={`${localize("Are you sure you want to Log out", language)}?`}
