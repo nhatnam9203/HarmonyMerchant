@@ -96,7 +96,7 @@ export const useProps = ({ params: { reload } }) => {
   const [orderClean, cleanOrder] = useCleanOrder();
   const callCleanOrder = () => {
     const ids = itemSelected?.map((id) => id.appointmentId) || [];
-    cleanOrder(ids);
+    ids?.length > 0 && cleanOrder(ids);
   };
 
   /**
@@ -115,6 +115,13 @@ export const useProps = ({ params: { reload } }) => {
       });
     }
   }, [orderList]);
+
+  React.useEffect(() => {
+    const { codeStatus } = orderClean || {};
+    if (statusSuccess(codeStatus)) {
+      callGetOrderList();
+    }
+  }, [orderClean]);
 
   React.useEffect(() => {
     callGetOrderList();
@@ -234,7 +241,7 @@ export const useProps = ({ params: { reload } }) => {
       }
     },
     getCheckedValue: (item) => {
-      if (item === "all") {
+      if (item === 'all') {
         return itemSelected && itemSelected?.length == items?.length;
       }
 
