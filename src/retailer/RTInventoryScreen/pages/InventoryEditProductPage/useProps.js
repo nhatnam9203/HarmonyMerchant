@@ -4,6 +4,7 @@ import {
   useCreateProducts,
   useEditProducts,
   useGetCategoriesList,
+  useGetProducts,
 } from "@shared/services/api/retailer";
 import { statusSuccess } from "@shared/utils";
 import { useFormik } from "formik";
@@ -11,7 +12,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { productReducer } from "./ProductState";
+import { productReducer, setProduct, changeProductName } from "./ProductState";
 
 const log = (obj, message = "") => {
   Logger.log(`[InventoryEditProduct] ${message}`, obj);
@@ -36,6 +37,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   const [productData, createProduct] = useCreateProducts();
   const [productEdit, editProduct] = useEditProducts();
   const [, getCategoriesList] = useGetCategoriesList();
+  const [productsGet, getProducts] = useGetProducts();
 
   /**
   |--------------------------------------------------
@@ -67,11 +69,9 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
       values.minThreshold = values.minThreshold || 0;
       const formatOptions = values?.options?.map((x) => ({
         attributeId: x.attributeId,
-        // id: x.id,
         values: x.values
           ?.filter((v) => v.checked)
           ?.map((v) => {
-            console.log(v);
             return {
               attributeValueId: v?.attributeValueId,
               valueAdd: v?.valueAdd ?? 0,
@@ -79,6 +79,8 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
             };
           }),
       }));
+
+      console.log(values);
 
       if (isNew) {
         createProduct(Object.assign({}, values, { options: formatOptions }));
@@ -122,6 +124,17 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   }, [productData, productEdit]);
 
   React.useEffect(() => {
+    if (!productsGet) {
+      return;
+    }
+
+    const { codeStatus, data } = productsGet || {};
+    if (statusSuccess(codeStatus)) {
+      dispatchProduct(setProduct(data));
+    }
+  }, [productsGet]);
+
+  React.useEffect(() => {
     const { maxThreshold } = form.errors;
     if (maxThreshold) {
       setErrorMsg(maxThreshold);
@@ -149,8 +162,16 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   React.useEffect(() => {
     if (productItem) {
       form.setFieldValue("options", productItem?.options);
+      form.setFieldValue("quantities", productItem?.quantities);
     }
   }, [productItem]);
+
+  React.useEffect(() => {
+    console.log("getProducts");
+    if (item?.productId) {
+      getProducts(item?.productId);
+    }
+  }, [item?.productId]);
 
   return {
     isEdit,
@@ -169,5 +190,9 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
     filterCategoryRef,
     dispatchProduct,
     categoriesFilter: categoriesFilter,
+    onHandleChangeProductName: (value) => {
+      form.setFieldValue("name", value);
+      dispatchProduct(changeProductName(value));
+    },
   };
 };

@@ -7,7 +7,6 @@ import {
   ExportModal,
   FormSelect,
   Pagination,
-  SlideInRightModal,
 } from "@shared/components";
 import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
 import { Table } from "@shared/components/CustomTable";
@@ -60,14 +59,15 @@ export const Layout = ({
 }) => {
   const { t } = useTranslation();
 
-  const onRenderTableCell = ({ item, columnKey, rowIndex, cellWidth }) => {
+  const onRenderTableCell = ({
+    item: cellItem,
+    columnKey,
+    rowIndex,
+    cellWidth,
+  }) => {
     if (columnKey === "code") {
       const handleCheckRow = (val) => {
-        onCheckedRow(item, val);
-      };
-
-      const onGetCheckedValue = () => {
-        return getCheckedValue(item);
+        if (cellItem) onCheckedRow(cellItem, val);
       };
 
       return (
@@ -77,10 +77,10 @@ export const Layout = ({
           key={getUniqueId(columnKey, rowIndex, "cell-code")}
         >
           <CustomTableCheckBox
-            defaultValue={onGetCheckedValue}
+            defaultValue={getCheckedValue(cellItem)}
             onValueChange={handleCheckRow}
           />
-          <Text style={styles.textName}>{item.code}</Text>
+          <Text style={styles.textName}>{cellItem.code}</Text>
         </TouchableOpacity>
       );
     }
@@ -91,7 +91,7 @@ export const Layout = ({
           style={[{ width: cellWidth }, styles.cellStyle]}
           key={getUniqueId(columnKey, rowIndex, "cell-status")}
         >
-          <OrderStatusView status={item.status} />
+          <OrderStatusView status={cellItem.status} />
         </View>
       );
     }
@@ -105,10 +105,6 @@ export const Layout = ({
         onCheckedAll(bl);
       };
 
-      const onGetCheckedValue = () => {
-        return getCheckedValue(null);
-      };
-
       return (
         <TouchableOpacity
           onPress={() => {}}
@@ -117,7 +113,7 @@ export const Layout = ({
           activeOpacity={1}
         >
           <CustomTableCheckBox
-            defaultValue={onGetCheckedValue}
+            defaultValue={getCheckedValue("all")}
             onValueChange={onValueChange}
           />
           <Text style={textStyle}>{text}</Text>

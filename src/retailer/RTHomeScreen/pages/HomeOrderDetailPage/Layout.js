@@ -479,7 +479,7 @@ export const Layout = ({
               <InfoContent label={t("Note for in Order ")}>
                 <FormEditNotes
                   orderStatus={item?.status}
-                  defaultValue={item?.note}
+                  notes={item?.note}
                   onSubmitNotes={onSubmitNotes}
                   onDidNotPayCheck={onDidNotPayCheck}
                 />

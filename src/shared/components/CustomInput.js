@@ -1,8 +1,8 @@
-import { colors } from '@shared/themes';
-import { isEmpty } from 'ramda';
-import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
-import { TextInputMask } from 'react-native-masked-text';
+import { colors } from "@shared/themes";
+import { isEmpty } from "ramda";
+import React from "react";
+import { StyleSheet, TextInput, View } from "react-native";
+import { TextInputMask } from "react-native-masked-text";
 
 export const CustomInput = ({
   style,
@@ -16,19 +16,19 @@ export const CustomInput = ({
   },
   children,
 }) => {
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState(null);
   const onHandleChangeText = (text) => {
     setValue(text);
-    if (onChangeText && typeof onChangeText === 'function') {
+    if (onChangeText && typeof onChangeText === "function") {
       onChangeText(text);
     }
   };
 
   React.useEffect(() => {
-    if (defaultValue) {
-      if (typeof defaultValue === 'string') {
+    if (defaultValue != null && defaultValue != value) {
+      if (typeof defaultValue === "string") {
         setValue(defaultValue);
-      } else setValue(defaultValue + '');
+      } else setValue(defaultValue + "");
     }
   }, [defaultValue]);
 
@@ -68,19 +68,23 @@ export const CustomInputMask = ({
   const [value, setValue] = React.useState(null);
   const onHandleChangeText = (text) => {
     setValue(text);
-    if (onChangeText && typeof onChangeText === 'function') {
+    if (onChangeText && typeof onChangeText === "function") {
       onChangeText(text);
     }
   };
 
   React.useEffect(() => {
-    setValue(defaultValue);
+    if (defaultValue != null && defaultValue !== value) {
+      if (typeof defaultValue == "string") {
+        setValue(defaultValue);
+      } else setValue(defaultValue + "");
+    }
   }, [defaultValue]);
 
   return (
     <View style={[styles.container, style]}>
       <TextInputMask
-        type={type ?? 'custom'}
+        type={type ?? "custom"}
         options={
           options ?? {
             /**
@@ -91,7 +95,7 @@ export const CustomInputMask = ({
              * S - accept alphanumeric.
              * * - accept all, EXCEPT white space.
              */
-            mask: '999-999-9999',
+            mask: "999-999-9999",
           }
         }
         {...textInputProps}
@@ -114,28 +118,28 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 1,
     backgroundColor: colors.WHITE,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: '#dddddd',
+    borderColor: "#dddddd",
     width: scaleWidth(400),
     height: scaleHeight(48),
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     padding: scaleWidth(8),
   },
 
   textInput: {
     height: scaleHeight(26),
     fontSize: scaleFont(20),
-    textAlign: 'center',
-    fontStyle: 'normal',
+    textAlign: "center",
+    fontStyle: "normal",
     flex: 1,
   },
 
   textPlaceholderStyle: {
-    fontFamily: 'Roboto-Light',
-    fontWeight: '300',
+    fontFamily: "Roboto-Light",
+    fontWeight: "300",
     letterSpacing: 0,
     color: colors.INACTIVE,
   },
@@ -143,7 +147,7 @@ const styles = StyleSheet.create({
   textEditStyle: {
     color: colors.GREYISH_BROWN,
     letterSpacing: 1,
-    fontWeight: '500',
-    fontFamily: 'Roboto-Medium',
+    fontWeight: "500",
+    fontFamily: "Roboto-Medium",
   },
 });

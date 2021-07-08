@@ -276,3 +276,13 @@ export const getGroupCustomer = (groupId = -1) => {
     CustomerGroupTypes.find((group) => group.value === groupId)?.label ?? ""
   );
 };
+
+export const arrayIsEqual = (a, b) => {
+  if (a?.length !== b?.length) return false;
+  for (var i = 0; i < a.length; i++) {
+    // if (a[i] != b[i]) return false;  // !! do thứ tự phần tử trong mảng ko cố định
+    if (!b.includes(a[i])) return false;
+  }
+
+  return true;
+};

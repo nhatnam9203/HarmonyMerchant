@@ -156,6 +156,7 @@ export const useProps = ({ params: { reload } }) => {
   const onCheckedRow = (item, selected) => {
     const cloneList =
       itemSelected?.filter((v) => v.appointmentId !== item.appointmentId) || [];
+
     if (selected) {
       setItemSelected([...cloneList, item]);
     } else {
@@ -233,8 +234,8 @@ export const useProps = ({ params: { reload } }) => {
       }
     },
     getCheckedValue: (item) => {
-      if (!item) {
-        return itemSelected?.length > 0;
+      if (item === "all") {
+        return itemSelected && itemSelected?.length == items?.length;
       }
 
       return (

@@ -27,7 +27,7 @@ export const Layout = ({}) => {
       >
         <Screen {...HomeOrderListPage} />
         <Screen {...HomeOrderDetailPage} />
-        <Screen {...CheckOutTabPage} />
+        {/* <Screen {...CheckOutTabPage} /> */}
         <Screen {...HomeOrderPayPage} />
         <Screen {...HomeOrderReturnPage} />
         <Screen {...EditAddressPage} />
