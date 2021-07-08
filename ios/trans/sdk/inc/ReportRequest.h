@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MultiMerchant.h"
 
 @interface ReportRequest : NSObject
 
@@ -22,7 +23,7 @@
  * User can assign the TransType by com.PAX.POSLink.ReportRequest.ParseTransType or assign an integer directly.<br>
  * Example:<br>
  *    ReportRequest report = new ReportRequest();<br>
- * 	  report.TransType = report.ParseTransType("LOCALTOTALREPORT");  //recommend<br>
+ *       report.TransType = report.ParseTransType("LOCALTOTALREPORT");  //recommend<br>
  *    or<br>
  *    report.TransType = 1;<br>
  *
@@ -45,7 +46,7 @@
  * User can assign the EDCType by com.PAX.POSLink.ReportRequest.ParseEDCType or assign an integer directly. <br>
  * Example:
  *     ReportRequest report = new ReportRequest(); <br>
- * 	   report.EDCType = report.ParseEDCType("CREDIT");  //recommend <br>
+ *        report.EDCType = report.ParseEDCType("CREDIT");  //recommend <br>
  *     or <br>
  *     report.EDCType = 1;<br>
  */
@@ -67,7 +68,7 @@
  * User can assign the CardType by com.PAX.POSLink.ReportRequest.ParseCardType or assign an integer directly. <br>
  * Example:
  *     ReportRequest report = new ReportRequest(); <br>
- * 	   report.CardType = report.ParseCardType("MASTERCARD");  //recommend <br>
+ *        report.CardType = report.ParseCardType("MASTERCARD");  //recommend <br>
  *     or <br>
  *     report.CardType = 2;<br>
  */
@@ -117,7 +118,7 @@
  * User can assign the PaymentType by com.PAX.POSLink.ReportRequest.ParseTransType or assign an integer directly.<br>
  * Example:<br>
  *    ReportRequest report = new ReportRequest();<br>
- * 	  report.PaymentType = report.ParseTransType("ADJUST");  //recommend<br>
+ *       report.PaymentType = report.ParseTransType("ADJUST");  //recommend<br>
  *    or<br>
  *    report.PaymentType = 10;<br>
  *
@@ -169,6 +170,21 @@
  * Extended data in XML format
  */
 @property (nonatomic) NSString* ExtData;
+
+/**
+ *MultiMerchant Information.
+ */
+@property (nonatomic) MultiMerchant* MultiMerchant;
+
+/**
+ * The ECR TransactionID, must be unique for each transaction sent to the host.
+ */
+@property (nonatomic) NSString* ECRTransID;
+
+/**
+ * Host reference number (Transaction UID). This field is host dependent; it can be used to run Void/Return transactions.
+ */
+@property (nonatomic, copy)NSString *HRefNum;
 
 /**
  * parse the String EDC type to integer type.
@@ -240,4 +256,5 @@
 -(int)pack:(NSArray**)packOutBuffer;
 
 @end
+
 

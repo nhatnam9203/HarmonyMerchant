@@ -118,6 +118,7 @@ typedef NS_ENUM(NSUInteger, TRANSFER){
 
 -(NSString*)appendWithFS:(NSString*)str;
 -(NSString*)appendWithUS:(NSString*)str;
+-(NSString*)appendWithUSByName:(NSString *)name andValue:(NSString *)value;
 -(NSString*)appendWithRS:(NSString*)str;
 -(NSString*)appendWithCOMMA:(NSString*)str;
 -(NSString*)appendWithGS;
@@ -138,6 +139,7 @@ typedef NS_ENUM(NSUInteger, TRANSFER){
     NSDictionary*BatchMap;
     NSDictionary*ReportMap;
     NSDictionary*PayTransMap;
+    NSDictionary*PayloadMap;
     
     NSArray*slTrend;
     NSArray*slTrend_x;
@@ -150,6 +152,7 @@ typedef NS_ENUM(NSUInteger, TRANSFER){
     NSArray*slManageTrans;
     NSArray*slBatchTrans;
     NSArray*slReportTrans;
+    NSArray*slPayloadTrans;
 }
 
 +(id)sharedInstance;
@@ -161,6 +164,7 @@ typedef NS_ENUM(NSUInteger, TRANSFER){
 
 -(int)parseEDCType:(NSString*)type;
 -(int)parseCardTypeType:(NSString*)type;
+-(int)parsePayloadTransType:(NSString*)type;
 
 -(NSString*)getPayType:(int)type;
 -(NSString*)getPayTypeString:(int)type;
@@ -173,6 +177,7 @@ typedef NS_ENUM(NSUInteger, TRANSFER){
 -(NSString*)getManageCommand:(int)type;
 -(NSString*)getReportCommand:(int)type;
 -(NSString*)getBatchCommand:(int)type;
+-(NSString*)getPayloadCommand:(int)type;
 
 -(NSString*)showPaymentCommand:(int)type;
 -(NSString*)showPaymentEDCType:(int)type;
@@ -189,6 +194,10 @@ typedef NS_ENUM(NSUInteger, TRANSFER){
 -(NSString*)showBatchCommand:(int)type;
 -(NSString*)showBatchEDCType:(int)type;
 
--(NSMutableDictionary*)parseExtData:(NSString*)extData;
+-(NSString*)showPayloadCommand:(int)type;
 
+-(NSMutableDictionary*)parseExtData:(NSString*)extData;
++ (NSString *)replaceXMLSpecialCharacter:(NSString *)string;
+
+- (NSString *)reMapTransTypeWithValue:(NSString *)value;
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MultiMerchant.h"
 
 @interface BatchRequest : NSObject
 
@@ -168,6 +169,11 @@
 @property (nonatomic) NSString* ExtData;
 
 /**
+ *MultiMerchant Information.
+ */
+@property (nonatomic) MultiMerchant* MultiMerchant;
+
+/**
  * parse the String transaction type to integer type.
  * @param type could be "BATCHCLOSE","FORCEBATCHCLOSE","BATCHCLEAR"
  * @return an integer identify the TransType, or -1 if parse error.
@@ -181,7 +187,12 @@
  */
 +(int) ParseEDCType:(NSString*) type;
 
++(int)ParseCardType:(NSString*)type;
+
++(int)ParsePaymentType:(NSString*)type;
 
 -(int)pack:(NSArray**)packOutBuffer;
+
+
 
 @end

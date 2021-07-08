@@ -10,6 +10,7 @@
 #import "GoogleSmartTapPushService.h"
 #import "ApplePayVAS.h"
 #import "GoogleSmartTap.h"
+#import "MultiMerchant.h"
 #if TARGET_OS_IOS
 #import <UIKit/UIKit.h>
 #else
@@ -51,13 +52,15 @@
  * CARD INSERT DETECTION = 31 -It is used to detect whether card inserted or not.<br>
  * TOKEN ADMINISTRATIVE  = 32 -It is used to do token administration with depending on hosts..<br>
  * SHOWDILOGFORM = 33 -Used to show screen with title and buttons or menuitems.<br>
- * CAMERA SCAN = 34 - This command only valid for the devices which have camera.<br>
- * VAS SET MERCHANT PARAMETERS = 35 - This command is used to configure the parameters of Apple VAS or Google SmartTap..<br>
- * VAS PUSH DATA = 36 - This command is used to configure the parameters of Google SmartTap to push data from terminal to mobile, such as merchant info.<br>
- * MIFARE CARD = 37 - This command is used to operate MIFARE card..<br>
- * Get SAF Parameters = 38-This command is used for getting the store and forward (SAF) related parameters.
- * SESSIONKEYINJECTION=40 This command is used to inject a session key to a terminal..
- * MACCALCULATION=41 This command is used for MAC Calculation..
+ * CAMERA SCAN = 34 -This command only valid for the devices which have camera.<br>
+ * VAS SET MERCHANT PARAMETERS = 35 -This command is used to configure the parameters of Apple VAS or Google SmartTap..<br>
+ * VAS PUSH DATA = 36 -This command is used to configure the parameters of Google SmartTap to push data from terminal to mobile, such as merchant info.<br>
+ * MIFARE CARD = 37 -This command is used to operate MIFARE card..<br>
+ * Get SAF Parameters = 38 -This command is used for getting the store and forward (SAF) related parameters.
+ * SESSIONKEYINJECTION = 40 -This command is used to inject a session key to a terminal..
+ * MACCALCULATION = 41 -This command is used for MAC Calculation..
+ * GETPEDINFORMATION = 42 -This command is used for getting PED Information.
+ * INCREASEKSN = 43 -This command is used to get increase KSN.
 
  * An Error will be returned  while invoking POSLink.ProcessTrans if user set other value.<br>
  * User can assign the TransType by com.PAX.POSLink.ManageRequest.ParseTransType or assign an integer directly.<br>
@@ -348,6 +351,11 @@
  */
 @property (nonatomic) NSString* ThankYouTimeOut;
 /**
+ * The pinpad type to display transaction approval/decline messages on the external reader.
+ * <p>Only valid while transType is SHOWTHANKYOU / GETPINBLOCK / AUTHORIZECARD / REMOVECARD<br>
+ */
+@property (nonatomic) NSString* PinpadType;
+/**
  * Account Number. Should be 13-19 digits.
  * <p>Required for "PIN Algorithm" as 0 or 3 for GETPINBLOCK<br>
  */
@@ -491,13 +499,13 @@
 @property (nonatomic) NSString* FileName;
 
 /**
- *Transaction total amount$$$$$$CC.
+ *Transaction total amount$$$$$$$CC.
  *<p>Valid for AUTHORIZECARD<br>
  */
 @property (nonatomic) NSString* Amount;
 
 /**
- *Cash back amount$$$$$$CC.
+ *Cash back amount$$$$$$$CC.
  *<p>Valid for AUTHORIZECARD<br>
  */
 @property (nonatomic) NSString* CashBackAmt;
@@ -512,13 +520,13 @@
 @property (nonatomic) NSString* SurchargeAmt;
 
 /**
- *Tip amount $$$$$$CC.
+ *Tip amount $$$$$$$CC.
  *<p>Valid for AUTHORIZECARD<br>
  */
 @property (nonatomic) NSString* TipAmt;
 
 /**
- *Tax amount $$$$$$CC.
+ *Tax amount $$$$$$$CC.
  *<p>Valid for AUTHORIZECARD<br>
  */
 @property (nonatomic) NSString* TaxAmt;
@@ -553,6 +561,11 @@
  *Extended data in XML format
  */
 @property (nonatomic) NSString* ExtData;
+
+/**
+ *MultiMerchant Information.
+ */
+@property (nonatomic) MultiMerchant* MultiMerchant;
 
 /**
  *Indicate the result of online authorization.
@@ -798,6 +811,20 @@
 @property (nonatomic) NSString* SignatureBox;
 
 /**
+ * It can be empty or 7 (QRCODE)
+ * If you specify Barcode Data, currently this field must be 7(QRCODE). Otherwise this field should be empty.
+ * Only valid when transType = SHOWTEXTBOX.
+ */
+@property (nonatomic) NSString* BarcodeType;
+
+/**
+ * If you specify Barcode Type, you must specify Barcode Data.
+ * For QRCODE, the recommended data length scope is [1, 126]
+ * Only valid when transType = SHOWTEXTBOX.
+ */
+@property (nonatomic) NSString* BarcodeData;
+
+/**
  * Transaction Time/date stamp<br>
  */
 @property (nonatomic) NSString* Timestamp;
@@ -832,6 +859,16 @@
  Only valid when TransType = REPRINT.
  */
 @property (nonatomic) NSString *ECRRefNum;
+
+/**
+ Receipt printing for current command, default as "3 – Both merchant /customer copy":
+ 0 – no receipt
+ 1 - merchant only
+ 2 - customer only
+ 3 - Both merchant /customer copy
+ Only valid when TransType = REPRINT.
+ */
+@property (nonatomic) NSString *ReceiptPrint;
 
 /**
  Indicate how many receipts want to print.
@@ -1298,9 +1335,23 @@ Google Smart Tap Push Service.
 @property (nonatomic) NSString *MACWorkMode;
 
 /**
- he key slot used to encrypt input data parts.
+ The key slot used to encrypt input data parts.
  */
 @property (nonatomic) NSString *EncryptionKeySlot;
+
+/**
+ The type of the key which is used to calculate MAC value.
+ Default MAC key type is 0(TAK)
+ 0: TAK
+ 1: DUKPT key
+ */
+@property (nonatomic) NSString *MACKeyType;
+
+/**
+ Indicate whether to increase KSN, when MAC key type is 1(DUKPT Key)
+ Default KSN flag is 0(Not increase)
+ */
+@property (nonatomic) NSString *KSNFlag;
 
 /**
  Whether fallback insert is allowed after reading contactless card failed. Default as 0.
@@ -1308,6 +1359,27 @@ Google Smart Tap Push Service.
  1 for allowed.
  */
 @property (nonatomic) NSString *FallbackInsertEntryFlag;
+
+/**
+ Configure the limit value of contactless CVM for current transaction. (Only for Visa payWave)
+ Only valid when TransType = INPUTACCOUNTWITHEMV
+ */
+@property (nonatomic) NSString *TransactionCVMLimit;
+
+/**
+ Empty value means all key information.
+ If you want to specify Key Slot, you need to specify key type first.
+ Only valid when TransType = GETPEDINFORMATION.1 = Master Key.2 = Session Key.3 = DES DUKPT Key
+ */
+@property (nonatomic,copy) NSString *KeyType;
+
+/**
+ Enable Luhn Check.
+ 0 Default. Disable Luhn checking(for manual and swipe only)
+ 1 Enable Luhn checking(for manual and swipe)
+ Only valid when TransType = INPUTACCOUNTWITHEMV.
+ */
+@property (nonatomic) NSString *EnableLuhnCheck;
 
 /**
  * Save signature data.
@@ -1336,3 +1408,6 @@ Google Smart Tap Push Service.
 -(BOOL)saveSigToPic:(NSImage *)image sigPath:(NSString *)sigPath type:(NSString *)type outFile:(NSString *)outFile;
 #endif
 @end
+
+
+

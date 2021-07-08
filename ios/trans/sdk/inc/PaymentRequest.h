@@ -8,7 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "CommercialInformation.h"
-
+#import "Restaurant.h"
+#import "Original.h"
+#import "TransactionBehavior.h"
+#import "HostGateWay.h"
+#import "FleetCard.h"
+#import "MultiMerchant.h"
+#import "LodgingInfo.h"
+#import "AutoRentalInfo.h"
 
 #if TARGET_OS_IOS
 #import <UIKit/UIKit.h>
@@ -90,20 +97,20 @@
  */
 @property (nonatomic)  int TransType;
 /**
- * Transaction total amount$$$$$$CC.
+ * Transaction total amount$$$$$$$CC.
  */
 @property (nonatomic) NSString* Amount;
 /**
- * Cash back amount$$$$$$CC.
+ * Cash back amount$$$$$$$CC.
  */
 @property (nonatomic) NSString*  CashBackAmt;
 /**
- * Fuel Amount $$$$$$CC.
+ * Fuel Amount $$$$$$$CC.
  */
 @property (nonatomic) NSString*  FuelAmt;
 
 /**
- Service Fee for Credit and Debit transactions, $$$$$$CC.
+ Service Fee for Credit and Debit transactions, $$$$$$$CC.
  */
 @property (nonatomic) NSString* ServiceFee;
 /**
@@ -114,11 +121,11 @@
 
 @property (nonatomic) NSString*  Zip;
 /**
- * Tip amount $$$$$$CC.
+ * Tip amount $$$$$$$CC.
  */
 @property (nonatomic) NSString*  TipAmt;
 /**
- * Tax amount  $$$$$$CC.
+ * Tax amount  $$$$$$$CC.
  */
 @property (nonatomic) NSString*  TaxAmt;
 /**
@@ -159,6 +166,10 @@
  */
 @property (nonatomic) NSString* ECRTransID;
 /**
+ * Original ECR reference number from POS system.
+ */
+@property (nonatomic) NSString* OrigECRRefNum;
+/**
  * Auth Code obtained via voice auth from payment host.
  */
 @property (nonatomic) NSString* AuthCode;
@@ -170,11 +181,50 @@
  * Extended data in XML format
  */
 @property (nonatomic) NSString* ExtData;
-
+/**
+ * Restaurant Information.
+ */
+@property (nonatomic) Restaurant* Restaurant;
+/**
+ * Original.
+ */
+@property (nonatomic) Original* Original;
+/**
+ * TransactionBehavior.
+ */
+@property (nonatomic) TransactionBehavior* TransactionBehavior;
+/**
+ * HostGateWay Information.
+ */
+@property (nonatomic) HostGateWay* HostGateWay;
+/**
+ * FleetCard Information.
+ */
+@property (nonatomic) FleetCard* FleetCard;
+/**
+ * MultiMerchant Information.
+ */
+@property (nonatomic) MultiMerchant* MultiMerchant;
+/**
+ * LodgingInfo Information.
+ */
+@property (nonatomic) LodgingInfo* LodgingInfo;
+/**
+ * AutoRentalInfo Information.
+ */
+@property (nonatomic) AutoRentalInfo* AutoRentalInfo;
 /**
  * Extended data in XML format
  */
 @property (nonatomic) NSString *ContinuousScreen;
+/**
+ * The reason why the CVV (for credit) or Gift Card PIN was not entered.
+ * 0: Unavailable/Not Provided
+ * 1: Bypassed
+ * 2: Not Present
+ * 3: Invalid Value
+ */
+@property (nonatomic) NSString *CVVBypassReason;
 /**
  * Commercial Information
  */

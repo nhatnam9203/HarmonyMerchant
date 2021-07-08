@@ -10,7 +10,12 @@
 #import "CommSetting.h"
 #import "MultipleCommandsResponse.h"
 #import "MultipleCommandsRequest.h"
-
+#import "PaymentResponse.h"
+#import "ManageResponse.h"
+#import "BatchResponse.h"
+#import "ReportResponse.h"
+#import "PayloadRequest.h"
+#import "PayloadResponse.h"
 typedef NS_ENUM(NSUInteger, processType)
 {
     UNKNOWN,
@@ -19,24 +24,14 @@ typedef NS_ENUM(NSUInteger, processType)
     REPORT,
     BATCH,
     MUTIPLE,
+    PAYLOAD,
 };
 
 @class PaymentRequest;
-@class PaymentResponse;
-
 @class ManageRequest;
-@class ManageResponse;
-
 @class BatchRequest;
-@class BatchResponse;
-
 @class ReportRequest;
-@class ReportResponse;
-
 @class ProcessTransResult;
-
-//@class MultipleCommandsRequest;
-//@class MultipleCommandsResponse;
 
 @interface PosLink : NSObject
 
@@ -96,6 +91,14 @@ typedef NS_ENUM(NSUInteger, processType)
  **/
 @property (nonatomic)MultipleCommandsRequest* mutipleRequest;
 @property (nonatomic,readonly) MultipleCommandsResponse* mutipleResponse;
+
+
+/**
+ * The ReportRequest object which need to be created before assign to this property.
+ **/
+@property (nonatomic)PayloadRequest* payloadRequest;
+@property (nonatomic,readonly) PayloadResponse* payloadResponse;
+
 
 /**
  * To cancel last process by sending command to terminal.

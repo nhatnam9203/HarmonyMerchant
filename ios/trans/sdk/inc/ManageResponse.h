@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "VASResponseInfo.h"
+#import "MultiMerchant.h"
+#import "DUKPTKeyInfo.h"
+#import "MasterSessionKeyInfo.h"
+
 #if TARGET_OS_IOS
 #import <UIKit/UIKit.h>
 #else
@@ -237,6 +241,10 @@
  */
 @property(nonatomic,copy) NSString*ExtData;
 /**
+ * MultiMerchant Information.
+ */
+@property (nonatomic) MultiMerchant* MultiMerchant;
+/**
  * signature data
  */
 @property NSString *signatureData;
@@ -346,6 +354,42 @@
 The MAC result, represented in hexadecimal
  */
 @property (nonatomic) NSString *ResultData;
+
+/**
+ Indicates whether terminal use a touchscreen
+ Y: Use
+ N: Not use
+ */
+@property (nonatomic, copy)NSString *Touchscreen;
+
+/**
+ 0: Internal Pinpad.
+ 1: External Pinpad.
+ */
+@property (nonatomic) NSString *PinpadType;
+
+/// Number of key slots remaining available for use, each Key type has its own key slot.
+/// DUKPT Available Key Slot Count.
+@property (nonatomic, copy)NSString *DUKPTAvailableKeySlotCount;
+/// Master Available Key Slot Count
+@property (nonatomic, copy)NSString *MasterAvailableKeySlotCount;
+/// Session Available Key Slot Count
+@property (nonatomic, copy)NSString *SessionAvailableKeySlotCount;
+
+/// DUKPT Key Info group
+@property (nonatomic, strong)DUKPTKeyInfo *DUKPTKey;
+/// Terminal Master Key info group
+@property (nonatomic, strong)MasterSessionKeyInfo *TMK;
+/// Terminal Pin Key info group
+@property (nonatomic, strong)MasterSessionKeyInfo *TPK;
+/// Terminal MAC Key info group
+@property (nonatomic, strong)MasterSessionKeyInfo *TAK;
+/// Terminal Des Key info group
+@property (nonatomic, strong)MasterSessionKeyInfo *TDK;
+
 -(int)unpack:(NSArray*)dataRespArry;
 
 @end
+
+
+

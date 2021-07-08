@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "TORResponseInfo.h"
+#import "MultiMerchant.h"
 
 @interface BatchResponse : NSObject
 
@@ -177,6 +178,12 @@
  * And there may be several elements named "Line".<br>
  */
 @property (nonatomic) NSString*ExtData;
+
+/**
+ *MultiMerchant Information.
+ */
+@property (nonatomic) MultiMerchant* MultiMerchant;
+
 /**
  * TORResponseInfo
  */

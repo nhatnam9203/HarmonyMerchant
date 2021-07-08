@@ -107,7 +107,7 @@ RCT_EXPORT_METHOD(reportTransaction:(NSDictionary *)reportInfo findEventsWithRes
           @"DebitAmount" : poslink.reportResponse.DebitAmount ? poslink.reportResponse.DebitAmount : @"" ,
           @"TransTotal" : poslink.reportResponse.TransTotal ? poslink.reportResponse.TransTotal : @"" ,
           @"TransactionIdentifier" : poslink.reportResponse.TransactionIdentifier ? poslink.reportResponse.TransactionIdentifier : @"" ,
-          @"TranIntgClass" : poslink.reportResponse.TranIntgClass ? poslink.reportResponse.TranIntgClass : @"" ,
+          @"TransactionIntegrityClass" : poslink.reportResponse.TransactionIntegrityClass ? poslink.reportResponse.TransactionIntegrityClass : @"" ,
           @"TransactionRemainingAmount" : poslink.reportResponse.TransactionRemainingAmount ? poslink.reportResponse.TransactionRemainingAmount : @"" ,
           
           
