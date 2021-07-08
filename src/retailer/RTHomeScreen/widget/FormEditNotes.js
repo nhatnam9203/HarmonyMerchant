@@ -44,7 +44,7 @@ export const FormEditNotes = ({
 
   const renderNoteItem = ({ item, index }) => {
     return (
-      <View>
+      <View key={`${item.createDate}`}>
         <Text style={styles.noteLabelText}>{`${dateToString(
           item?.createDate,
           DATE_TIME_SHOW_FORMAT_STRING

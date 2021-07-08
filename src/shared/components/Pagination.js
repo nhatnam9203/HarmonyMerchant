@@ -58,6 +58,13 @@ export const Pagination = ({
     }
   }, [defaultItemsPerPage]);
 
+  React.useEffect(() => {
+    setCurrentPage(1);
+    if (onChangePage && typeof onChangePage === "function") {
+      onChangePage(1);
+    }
+  }, [pages, count]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.textItemStyle}>{`${t("Page")}:`}</Text>

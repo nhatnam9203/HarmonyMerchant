@@ -51,6 +51,7 @@ function ProductTab(
         }}
         lazy={true}
         optimizationsEnabled={true}
+        swipeEnabled={false}
         tabBar={(props) => <CustomTopTab {...props} />}
       >
         <Screen
