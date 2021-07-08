@@ -3,3 +3,4 @@ export * from './useGetOrderList';
 export * from './useDeleteOrder';
 export * from './useGetOrder';
 export * from './useEditOrder';
+export * from './useCleanOrder';
