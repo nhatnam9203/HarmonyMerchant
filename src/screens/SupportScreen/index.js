@@ -67,7 +67,7 @@ class SupportScreen extends Layout {
   }
 
   logout = () => {
-    // this.props.actions.auth.requestLogout();
+    this.props.actions.auth.requestLogout();
     // this.props.navigation.navigate("SigninStack");
 
   };

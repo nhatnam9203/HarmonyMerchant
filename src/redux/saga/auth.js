@@ -98,7 +98,9 @@ function* forgotPassword(action) {
     yield put({ type: "STOP_LOADING_ROOT" });
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
-      NavigationServices.navigate("SignIn");
+      // NavigationServices.navigate("SignIn");
+      NavigationServices.navigate("AuthNavigator");
+
       setTimeout(() => {
         alert(`Please check your email`);
       }, 300);
@@ -152,11 +154,9 @@ function* checkStaffPermission(action) {
           payload: false,
         });
         yield put({
-
-            type:"HANDLE_INTERNAL_FIRST_SETTLEMENT_STATE",
-            payload: true
-        })
-
+          type: "HANDLE_INTERNAL_FIRST_SETTLEMENT_STATE",
+          payload: true,
+        });
       } else if (action.tabName === menuTabs.MENU_CUSTOMER) {
         yield put({
           type: "TOGGLE_CUSTOMER_TAB_PERMISSION",
@@ -211,7 +211,7 @@ function* checkStaffPermission(action) {
         });
       } else if (action.tabName === menuTabs.CHECKOUT_DISCOUNT) {
         const appointmentId = action?.appointmentId || 0;
-        const type = "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION"
+        const type = "SWITCH_POPUP_CHECK_DISCOUNT_PERMISSION";
         yield put({
           type,
           payload: false,
