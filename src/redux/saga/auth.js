@@ -99,7 +99,7 @@ function* forgotPassword(action) {
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
       // NavigationServices.navigate("SignIn");
-      NavigationServices.navigate("AuthNavigator");
+      NavigationServices.replace("AuthNavigator");
 
       setTimeout(() => {
         alert(`Please check your email`);
@@ -288,7 +288,7 @@ function* requestLogout(action) {
 
     // NavigationServices.navigate('SignIn');
 
-    NavigationServices.navigate("AuthNavigator");
+    NavigationServices.replace("AuthNavigator");
     yield call(saveAuthToken, null);
 
     yield put({ type: "LOGOUT_APP" });
