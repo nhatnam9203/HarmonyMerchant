@@ -74,6 +74,7 @@ export default function SalesByProduct({
             'totalProfit',
           ]}
           sortedKeys={{ totalProfit: sortTotalProfit }}
+          sortKey="totalProfit"
           primaryKey="name"
           //   unitKeys={{ totalDuration: "hrs" }}
           widthForKeys={{

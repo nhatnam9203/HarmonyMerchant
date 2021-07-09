@@ -17,7 +17,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import { ButtonOverall } from '../../../widget';
-import { formatMoneyWithUnit } from '@utils';
 import moment from 'moment';
 const log = (obj, message = '') => {
   Logger.log(`[SalesOrder] ${message}`, obj);
@@ -82,14 +81,10 @@ export const SalesOrder = () => {
     const { codeStatus, message, data, summary } = reportSalesOrder || {};
     if (statusSuccess(codeStatus)) {
       log(data, 'response data');
-      setListData(data);
+      setData(data);
       setSummary(summary);
     }
   }, [reportSalesOrder]);
-
-  React.useEffect(() => {
-    setListData();
-  }, [sortDate]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
     if (quickFilter === 'Customize Date') {
@@ -114,21 +109,6 @@ export const SalesOrder = () => {
       default:
         break;
     }
-  };
-
-  const setListData = (list) => {
-    let sortList = list ?? data;
-    let sortKey = 'date';
-    if (sortDate && sortList?.length > 0) {
-      sortList.sort((a, b) => {
-        if (sortDate === SORT_TYPE.DESC) {
-          return dateCompare(b[sortKey], a[sortKey]);
-        } else if (sortDate === SORT_TYPE.ASC) {
-          return dateCompare(a[sortKey], b[sortKey]);
-        } else return 0;
-      });
-    }
-    setData(sortList);
   };
 
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
@@ -192,6 +172,7 @@ export const SalesOrder = () => {
           emptyDescription={t('No Report Data')}
           //   styleTextKeys={{ customerName: styles.textName }}
           onSortWithKey={onSortWithKey}
+          sortKey="date"
           formatFunctionKeys={{
             date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
             // total: (value) => `${formatMoneyWithUnit(value)}`,

@@ -90,13 +90,9 @@ function SalesByCategoryTab({
   React.useEffect(() => {
     const { codeStatus, message, data, summary } = reportSaleCategory || {};
     if (statusSuccess(codeStatus)) {
-      setListData(data);
+      setData(data);
     }
   }, [reportSaleCategory]);
-
-  React.useEffect(() => {
-    setListData();
-  }, [sortTotalProfit]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
     if (quickFilter === 'Customize Date') {
@@ -124,21 +120,6 @@ function SalesByCategoryTab({
       default:
         break;
     }
-  };
-
-  const setListData = (list) => {
-    let sortList = list ?? data;
-    let sortKey = 'totalProfit';
-    if (sortTotalProfit && sortList?.length > 0) {
-      sortList.sort((a, b) => {
-        if (sortTotalProfit === SORT_TYPE.DESC) {
-          return b[sortKey] - a[sortKey];
-        } else if (sortTotalProfit === SORT_TYPE.ASC) {
-          return a[sortKey] - b[sortKey];
-        } else return 0;
-      });
-    }
-    setData(sortList);
   };
 
   const onRefresh = () => callGetReportSaleCategory();

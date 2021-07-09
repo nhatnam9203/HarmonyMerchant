@@ -22,7 +22,7 @@ function SalesByProductTab({
   const [timeVal, setTimeVal] = React.useState(null);
   const [filterProduct, setFilterProduct] = React.useState(null);
   const [data, setData] = React.useState([]);
-  const [sortTotalProfit, setSortTotalProfit] = React.useState(SORT_TYPE.DESC);
+  const [sortTotalProfit, setSortTotalProfit] = React.useState(SORT_TYPE.ASC);
   /**
   |--------------------------------------------------
   | CALL API
@@ -76,13 +76,9 @@ function SalesByProductTab({
   React.useEffect(() => {
     const { codeStatus, message, data, summary } = reportSaleProduct || {};
     if (statusSuccess(codeStatus)) {
-      setListData(data);
+      setData(data);
     }
   }, [reportSaleProduct]);
-
-  React.useEffect(() => {
-    setListData();
-  }, [sortTotalProfit]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
     if (quickFilter === 'Customize Date') {
@@ -110,21 +106,6 @@ function SalesByProductTab({
       default:
         break;
     }
-  };
-
-  const setListData = (list) => {
-    let sortList = list ?? data ;
-    let sortKey = 'totalProfit';
-    if (sortTotalProfit && sortList?.length > 0) {
-      sortList.sort((a, b) => {
-        if (sortTotalProfit === SORT_TYPE.DESC) {
-          return b[sortKey] - a[sortKey]
-        } else if (sortTotalProfit === SORT_TYPE.ASC) {
-          return a[sortKey] - b[sortKey]
-        } else return 0;
-      });
-    }
-    setData(sortList);
   };
 
   const onRefresh = () => callGetReportSaleProduct();

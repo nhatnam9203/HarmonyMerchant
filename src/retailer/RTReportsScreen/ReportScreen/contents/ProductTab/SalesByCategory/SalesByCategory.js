@@ -133,7 +133,6 @@ export default function SalesByCategory({
             'totalTax',
             'totalProfit',
           ]}
-          sortedKeys={{ totalProfit: sortTotalProfit }}
           primaryKey="name"
           widthForKeys={{
             name: scaleWidth(200),
@@ -143,7 +142,6 @@ export default function SalesByCategory({
             totalTax: scaleWidth(180),
           }}
           emptyDescription={t('No Report Data')}
-          onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
             totalRevenue: (value) => `${formatMoneyWithUnit(value)}`,
             totalCost: (value) => `${formatMoneyWithUnit(value)}`,
@@ -153,6 +151,9 @@ export default function SalesByCategory({
           renderCell={onRenderCell}
           onRowPress={onSelectRow}
           onRefresh={onRefresh}
+          sortedKeys={{ totalProfit: sortTotalProfit }}
+          sortKey="totalProfit"
+          onSortWithKey={onSortWithKey}
         />
       </View>
 
