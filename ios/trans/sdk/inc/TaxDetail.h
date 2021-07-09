@@ -61,6 +61,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic,copy) NSString* VATInvoiceNumber;
 
+/**
+ The alternate tax identifier description for the line item.
+ */
+@property (nonatomic,copy) NSString* AlternateTaxID;
 @end
 
 NS_ASSUME_NONNULL_END

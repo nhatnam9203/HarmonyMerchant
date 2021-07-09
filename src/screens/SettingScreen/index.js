@@ -199,7 +199,7 @@ class SettingScreen extends Layout {
 
   logout = () => {
     this.props.actions.auth.requestLogout();
-    this.props.navigation.navigate("SigninStack");
+    // this.props.navigation.navigate("SigninStack");
   };
 
   backTab = () => {

@@ -46,7 +46,7 @@ const combineOptionsValuesQty = (qtyArr, optionValues) => {
 
     const qtyArrOfOptions = qtyArr?.map((x) =>
       Object.assign({}, x, {
-        label: `${x.label ?? ""}-${item.label ?? ""}`,
+        label: `${x.label ?? ""} - ${item.label ?? ""}`,
         attributeIds: [...x.attributeIds, item.attributeValueId],
       })
     );
@@ -68,7 +68,7 @@ const createQuantitiesItem = (product, options) => {
 
   return quantities?.map((quantity) =>
     Object.assign({}, quantity, {
-      label: `${product?.name ?? "New product"} ${quantity.label ?? ""}`,
+      label: `${product?.name ?? "New product"} - ${quantity.label ?? ""}`,
     })
   );
 };

@@ -12,8 +12,35 @@
 #import "VASResponseInfo.h"
 
 #import "TORResponseInfo.h"
+#import "Restaurant.h"
+#import "CardInfo.h"
+#import "PaymentTransInfo.h"
+#import "PaymentEmvTag.h"
+#import "FleetCard.h"
+#import "MultiMerchant.h"
 
 @interface PaymentResponse : NSObject
+
+/**
+ * EDC Type
+ */
+@property (nonatomic, strong) NSString *EDCType;
+/**
+ * Masked PAN
+ */
+@property (nonatomic, strong) NSString *MaskedPAN;
+/**
+ * Track1 Data
+ */
+@property (nonatomic, strong) NSString *Track1Data;
+/**
+ * Track2 Data
+ */
+@property (nonatomic, strong) NSString *Track2Data;
+/**
+ * Track3 Data
+ */
+@property (nonatomic, strong) NSString *Track3Data;
 
 /**
  * Returns the transaction auth code from the payment processor .
@@ -77,12 +104,12 @@
 @property NSString* ExtraBalance;
 
 /**
- Service Fee for Credit and Debit transactions, $$$$$$CC.
+ Service Fee for Credit and Debit transactions, $$$$$$$CC.
  */
 @property NSString* ServiceFee;
 
 /**
- Any amount of the original authorization remaining after this void/refund, $$$$$$CC.
+ Any amount of the original authorization remaining after this void/refund, $$$$$$$CC.
  */
 @property NSString* TransactionRemainingAmount;
 /**
@@ -112,9 +139,42 @@
  */
 @property NSString* ExtData;
 /**
+ * Restaurant Information.
+ */
+@property (nonatomic) Restaurant* Restaurant;
+/**
+ * Response CardInfo.
+ */
+@property (nonatomic) CardInfo* CardInfo;
+/**
+ * Response PaymentTransInfo.
+ */
+@property (nonatomic) PaymentTransInfo* PaymentTransInfo;
+/**
+ * Response PaymentEmvTag.
+ */
+@property (nonatomic) PaymentEmvTag* PaymentEmvTag;
+/**
+ * FleetCard Information.
+ */
+@property (nonatomic) FleetCard* FleetCard;
+/**
+ * MultiMerchant Information.
+ */
+@property (nonatomic) MultiMerchant* MultiMerchant;
+/**
  *POS system invoice/tracking number
  */
 @property NSString* InvNum;
+/**
+ * Payment Service 2000
+ * Data returned as part of the original authorization response from the issuer, used in follow up transactions (token/card-on-file, reversals, incremental). Format varies by card scheme.
+ */
+@property NSString* PaymentService2000;
+/**
+ * Authorization data used in follow up transactions.
+ */
+@property NSString* AuthorizationResponse;
 /**
  * signature data
  */
@@ -150,9 +210,25 @@
 @property (nonatomic,strong) TORResponseInfo *TORResponseInfo;
 
 /**
- Transaction Integrity Class is assigned by MasterCard for a U.S. merchant in an authorization response message
+ * Additional detailed message or code returned from the host.
  */
-@property (nonatomic,copy) NSString *TranIntgClass;
+@property (nonatomic,copy) NSString *HostDetailedMessage;
+
+/**
+ * Transaction Integrity Class is assigned by MasterCard for a U.S. merchant in an authorization response message
+ */
+@property (nonatomic, copy) NSString *TransactionIntegrityClass;
+
+/**
+ * It's returned by BANA for transaction tracking.
+ */
+@property (nonatomic, copy) NSString *RetrievalReferenceNumber;
+
+/**
+ * This information is stored for the integrator for receipts, additional details on a transaction decline, reporting, etc.
+ */
+@property (nonatomic, copy) NSString *IssuerResponseCode;
+
 -(int)unpack:(NSArray*)data;
 
 @end

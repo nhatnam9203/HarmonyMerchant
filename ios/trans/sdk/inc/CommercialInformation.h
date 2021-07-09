@@ -93,6 +93,22 @@ NS_ASSUME_NONNULL_BEGIN
  See  Line Item Detail
  */
 @property (nonatomic,copy) NSArray<LineItemDetail *>* LineItemDetail;
+
+/**
+ The shipping company name or ID.
+ */
+@property (nonatomic,copy) NSString* ShippingCompany;
+
+
+/**
+ The shipment’s tracking number.
+ */
+@property (nonatomic,copy) NSString* ShippingTrackingNumber;
+
+/**
+ Additional fees.
+ */
+@property (nonatomic,copy) NSString* AdditionalFees;
 @end
 
 NS_ASSUME_NONNULL_END

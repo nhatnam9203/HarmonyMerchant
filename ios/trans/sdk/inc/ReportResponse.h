@@ -9,6 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "ADDLRspData.h"
 #import "TORResponseInfo.h"
+#import "Restaurant.h"
+#import "CardInfo.h"
+#import "FleetCard.h"
+#import "MultiMerchant.h"
+#import "AVSInformation.h"
+#import "MOTOECommerce.h"
 
 @interface ReportResponse : NSObject
 
@@ -216,6 +222,17 @@
  *POS system invoice/tracking number
  */
 @property (nonatomic) NSString*InvNum;
+
+/**
+ *Payment Service 2000
+ *Data returned as part of the original authorization response from the issuer, used in follow up transactions (token/card-on-file, reversals, incremental). Format varies by card scheme.
+ */
+@property (nonatomic) NSString*PaymentService2000;
+
+/**
+ *Authorization data used in follow up transactions.
+ */
+@property (nonatomic) NSString*AuthorizationResponse;
 
 /**
  *Employee/clerk id.
@@ -471,6 +488,36 @@
 @property (nonatomic) NSString*ExtData;
 
 /**
+ * Restaurant Information.
+ */
+@property (nonatomic) Restaurant* Restaurant;
+
+/**
+ * Response CardInfo.
+ */
+@property (nonatomic) CardInfo* CardInfo;
+
+/**
+ * FleetCard Information.
+ */
+@property (nonatomic) FleetCard* FleetCard;
+
+/**
+ * MultiMerchant Information.
+ */
+@property (nonatomic) MultiMerchant* MultiMerchant;
+
+/**
+ * Response AVSInformation.
+ */
+@property (nonatomic) AVSInformation* AVSInformation;
+
+/**
+ * Response MOTOECommerce.
+ */
+@property (nonatomic) MOTOECommerce* MOTOECommerce;
+
+/**
  *Catch all for additional transactional total amount and count information.
  *<p>Transaction total data in XML format<br>
  */
@@ -487,12 +534,26 @@
 /**
  Transaction Integrity Class is assigned by MasterCard for a U.S. merchant in an authorization response message
  */
-@property (nonatomic,copy) NSString *TranIntgClass;
+@property (nonatomic,copy) NSString *TransactionIntegrityClass;
 /**
- Any amount of the original authorization remaining after this void/refund, $$$$$$CC.
+ Any amount of the original authorization remaining after this void/refund, $$$$$$$CC.
  */
 @property NSString* TransactionRemainingAmount;
 
+/**
+ * It's returned by BANA for transaction tracking.
+ */
+@property (nonatomic, copy) NSString *RetrievalReferenceNumber;
+
+/**
+ * Additional detailed message or code returned from the host.
+ */
+@property (nonatomic,copy) NSString *HostDetailedMessage;
+
+/**
+ * This information is stored for the integrator for receipts, additional details on a transaction decline, reporting, etc.
+ */
+@property (nonatomic, copy) NSString *IssuerResponseCode;
 -(int)unpack:(NSArray*)dataRespArry;
 
 @end

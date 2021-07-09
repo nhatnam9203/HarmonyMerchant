@@ -28,7 +28,7 @@ class PopupDetailProduct extends React.Component {
                 maxThreshold: '',
                 price: '',
                 isDisabled: 'Active',
-                needToorDer: 0
+                needToOrder: 0
             },
             visibleArchive: false,
             visibleRestore: false
@@ -85,7 +85,7 @@ class PopupDetailProduct extends React.Component {
     render() {
         const { title, visible, onRequestClose, language } = this.props;
         const { categoryId, name, description, sku,
-            quantity, minThreshold, maxThreshold, price, isDisabled, needToorDer
+            quantity, minThreshold, maxThreshold, price, isDisabled, needToOrder
         } = this.state.productInfo;
         const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(480);
         const tempBtnHieght = checkIsTablet() ? 35 : 45;
@@ -130,7 +130,7 @@ class PopupDetailProduct extends React.Component {
                                 />
                                 <ItemDetail
                                     title={localize('Need To Order', language)}
-                                    value={needToorDer}
+                                    value={needToOrder}
                                 />
                                 <ItemDetail
                                     title={localize('Low Threshold', language)}

@@ -222,7 +222,7 @@ class InvoiceScreen extends Layout {
       this.modalCalendarRef.current?.state;
 
     this.props.actions.invoice.getListInvoicesByMerchant(
-      searchKeyword === keySearch ? keySearch : "",
+      searchKeyword === keySearch ? `${encodeURIComponent(keySearch)}` : "",
       getPaymentStringInvoice(paymentMethod),
       status,
       isCustomizeDate ? startDate : "",
