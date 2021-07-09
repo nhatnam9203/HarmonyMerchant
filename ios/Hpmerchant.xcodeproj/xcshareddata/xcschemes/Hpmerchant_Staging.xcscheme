@@ -90,8 +90,7 @@
             </ActionContent>
          </ExecutionAction>
       </PreActions>
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "230F1DB324D3DA2200A95898"
@@ -99,7 +98,7 @@
             BlueprintName = "Hpmerchant_Staging"
             ReferencedContainer = "container:Hpmerchant.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

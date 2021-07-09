@@ -214,7 +214,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
       }
     } else if (index > optionsSelected?.length) {
       return;
-    } else {
+    } else if (optionsSelected?.length) {
       // index === length
       newOptionsList = [...optionsSelected, opt];
     }
