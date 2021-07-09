@@ -3,21 +3,13 @@ import { ButtonGradient, FormInputAmount } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
 import { useGetProducts } from "@shared/services/api/retailer";
 import { colors, fonts, layouts } from "@shared/themes";
-import { INPUT_TYPE, statusSuccess } from "@shared/utils";
+import { arrayIsEqual, INPUT_TYPE, statusSuccess } from "@shared/utils";
 import { formatMoneyWithUnit } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ScrollView,
-  Pressable,
-} from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import FastImage from "react-native-fast-image";
 import { useDispatch } from "react-redux";
-import { arrayIsEqual } from "@shared/utils";
 
 const log = (obj, message = "") => {
   Logger.log(`[DialogProductDetail] ${message}`, obj);

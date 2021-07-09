@@ -1,21 +1,17 @@
-import React from "react";
-import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
-import {
-  ButtonGradient,
-  CustomRadioSelect,
-  FormInput,
-} from "@shared/components";
-import { useTranslation } from "react-i18next";
-import { layouts, colors, fonts } from "@shared/themes";
 import IMAGE from "@resources";
+import { CustomRadioSelect, FormInput } from "@shared/components";
+import { colors, fonts, layouts } from "@shared/themes";
 import {
-  SHIPPING_CARRIER,
-  STORE_PICKUPS,
   FLAT_RATE_SHIPPING,
   FREE_SHIPPING,
+  SHIPPING_CARRIER,
   SHIPPING_METHOD_GROUP,
+  STORE_PICKUPS,
 } from "@shared/utils";
 import { formatMoneyWithUnit } from "@utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export const FormShippingCarrier = ({ onChangeValue }) => {
   const [t] = useTranslation();

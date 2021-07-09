@@ -236,19 +236,16 @@ const DetailChart = ({ label = "1", desc = "..." }) => (
   <View style={styles.chartDetailItem}>
     <View
       style={{
-        padding: 5,
-        width: 30,
-        height: 30,
+        padding: scaleWidth(5),
         justifyContent: "center",
         alignItems: "center",
-        marginRight: 10,
-        borderRadius: 15,
+        marginRight: scaleWidth(8),
         backgroundColor: "transparent",
       }}
     >
       <Text
         style={{
-          fontSize: 20,
+          fontSize: scaleFont(18),
           color: "#0764B0",
           fontWeight: "bold",
         }}
