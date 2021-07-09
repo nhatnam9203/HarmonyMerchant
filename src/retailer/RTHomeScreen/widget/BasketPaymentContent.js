@@ -1,27 +1,23 @@
-import { basketRetailer } from "@redux/slices";
+import IMAGE from "@resources";
+import { ButtonGradient } from "@shared/components";
 import { colors, fonts, layouts } from "@shared/themes";
-import {
-  calcTotalPriceOfProduct,
-  createSubmitAppointment,
-} from "@shared/utils";
+import { calcTotalPriceOfProduct } from "@shared/utils";
 import { formatMoneyWithUnit } from "@utils";
+import _ from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
   Animated,
   FlatList,
+  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Image,
 } from "react-native";
 import FastImage from "react-native-fast-image";
 import Swipeable from "react-native-gesture-handler/Swipeable";
-import { useDispatch, useSelector } from "react-redux";
-import { ButtonGradient } from "@shared/components";
-import IMAGE from "@resources";
-import _ from "lodash";
+import { useDispatch } from "react-redux";
 
 const log = (obj, message = "") => {
   Logger.log(`[BasketContentView] ${message}`, obj);
@@ -40,7 +36,7 @@ export const BasketPaymentContent = React.forwardRef(
       payBasket,
       groupAppointment,
       finishedHandle,
-      onDiscountAdd
+      onDiscountAdd,
     },
     ref
   ) => {

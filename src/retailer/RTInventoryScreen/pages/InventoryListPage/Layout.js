@@ -1,31 +1,30 @@
-import IMAGE from '@resources';
+import IMAGE from "@resources";
 import {
   ButtonGradient,
   ButtonGradientWhite,
+  DropdownMenu,
   // ExportModal,
   ExportModalInventory,
-  TableImageCell,
-  DropdownMenu,
   Pagination,
-} from '@shared/components';
-import { ButtonFilter } from '@shared/components/ButtonFilter';
-import { Table } from '@shared/components/CustomTable';
-import { getUniqueId } from '@shared/components/CustomTable/helpers';
-import { HeaderToolBarTitle } from '@shared/components/HeaderToolBarTitle';
-import { InputSearch } from '@shared/components/InputSearch';
-import { colors, fonts, layouts } from '@shared/themes';
+  TableImageCell,
+} from "@shared/components";
+import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
+import { Table } from "@shared/components/CustomTable";
+import { getUniqueId } from "@shared/components/CustomTable/helpers";
+import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
+import { InputSearch } from "@shared/components/InputSearch";
+import { WithDialogRestock } from "@shared/HOC/withDialogRestock";
+import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
+import { colors, fonts, layouts } from "@shared/themes";
 import {
   dateToString,
   DATE_SHOW_FORMAT_STRING,
   NEED_TO_ORDER,
 } from "@shared/utils";
+import { formatMoneyWithUnit } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, View, TouchableOpacity, Text } from "react-native";
-import { WithDialogRestock } from "@shared/HOC/withDialogRestock";
-import { WithDialogScanQR } from '@shared/HOC/withDialogScanQR';
-import { formatMoneyWithUnit } from "@utils";
-import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const RestockButton = WithDialogRestock(ButtonGradientWhite);
 const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
@@ -58,7 +57,7 @@ export const Layout = ({
   const { t } = useTranslation();
 
   const onRenderTableCell = ({ item, columnKey, rowIndex }) => {
-    if (columnKey === 'imageUrl') {
+    if (columnKey === "imageUrl") {
       const handleCheckRow = (val) => {
         onCheckedRow(item, val);
       };
@@ -71,7 +70,7 @@ export const Layout = ({
         <TableImageCell
           width={IMAGE_WIDTH}
           imageUrl={item?.imageUrl}
-          key={getUniqueId(columnKey, rowIndex, 'cell-image-checked')}
+          key={getUniqueId(columnKey, rowIndex, "cell-image-checked")}
           onPress={() => {}}
           defaultValue={onGetCheckedValue}
           onValueChange={handleCheckRow}
@@ -79,17 +78,17 @@ export const Layout = ({
       );
     }
 
-    if (columnKey === 'actions') {
+    if (columnKey === "actions") {
       const onHandleEdit = () => {
         onEditProduct(item);
       };
       return (
         <View
           style={layouts.fill}
-          key={getUniqueId(columnKey, rowIndex, 'cell-action')}
+          key={getUniqueId(columnKey, rowIndex, "cell-action")}
         >
           <ButtonGradient
-            label={t('Edit')}
+            label={t("Edit")}
             width={scaleWidth(72)}
             height={scaleHeight(30)}
             borderRadius={scaleWidth(3)}
@@ -142,27 +141,27 @@ export const Layout = ({
           items={items}
           renderHeaderCell={onRenderHeaderCell}
           headerKeyLabels={{
-            imageUrl: t('Image'),
-            name: t('Product Name'),
-            categoryName: t('Category'),
-            sku: t('SKU'),
-            price: t('Price'),
-            quantity: t('Qty'),
-            needToorDer: t('Need To Order'),
-            actions: t('Actions'),
+            imageUrl: t("Image"),
+            name: t("Product Name"),
+            categoryName: t("Category"),
+            sku: t("SKU"),
+            price: t("Price"),
+            quantity: t("Qty"),
+            needToorDer: t("Need To Order"),
+            actions: t("Actions"),
           }}
           whiteListKeys={[
-            'imageUrl',
-            'name',
-            'categoryName',
-            'sku',
-            'price',
-            'quantity',
-            'needToorDer',
-            'actions',
+            "imageUrl",
+            "name",
+            "categoryName",
+            "sku",
+            "price",
+            "quantity",
+            "needToorDer",
+            "actions",
           ]}
           primaryKey="productId"
-          unitKeys={{ totalDuration: 'hrs' }}
+          unitKeys={{ totalDuration: "hrs" }}
           widthForKeys={{
             imageUrl: IMAGE_WIDTH,
             name: scaleWidth(220),
@@ -172,12 +171,13 @@ export const Layout = ({
             quantity: scaleWidth(60),
             needToorDer: scaleWidth(140),
           }}
-          emptyDescription={t('No Products')}
+          emptyDescription={t("No Products")}
           styleTextKeys={{ name: styles.textName }}
           formatFunctionKeys={{
             createdDate: (value) =>
               dateToString(value, DATE_SHOW_FORMAT_STRING),
             price: (value) => `${formatMoneyWithUnit(value)}`,
+            needToorDer: (value) => (value ? `${value}` : ""),
           }}
           renderCell={onRenderTableCell}
           onRowPress={onLoadProductDetail}
@@ -186,7 +186,7 @@ export const Layout = ({
       </View>
 
       <View style={styles.rowContent}>
-        <HeaderToolBarTitle label={t('Products')} style={styles.textTitle} />
+        <HeaderToolBarTitle label={t("Products")} style={styles.textTitle} />
         <View style={layouts.horizontal}>
           <Pagination
             onChangePage={setPage}
@@ -198,7 +198,7 @@ export const Layout = ({
           />
           <View style={layouts.marginHorizontal} />
           <RestockButton
-            label={t('Restock')}
+            label={t("Restock")}
             width={scaleWidth(100)}
             height={scaleHeight(32)}
             textColor={colors.BROWNISH_GREY}
@@ -209,12 +209,12 @@ export const Layout = ({
           <ExportModalInventory
             ref={exportRef}
             onExportFile={callExportProduct}
-            title={t('ReportInventory')}
+            title={t("ReportInventory")}
           />
         </View>
       </View>
 
-      <View style={[styles.rowContent, { justifyContent: 'flex-start' }]}>
+      <View style={[styles.rowContent, { justifyContent: "flex-start" }]}>
         <DropdownMenu
           items={categories}
           defaultIndex={0}
@@ -222,7 +222,7 @@ export const Layout = ({
             setCategory(item?.value);
           }}
           width={scaleWidth(208)}
-          placeholder={t('Select Category')}
+          placeholder={t("Select Category")}
         />
         <View style={layouts.marginHorizontal} />
 
@@ -233,7 +233,7 @@ export const Layout = ({
           onChangeValue={(item) => {
             setNeedToOrder(item?.value);
           }}
-          placeholder={t('Need to order')}
+          placeholder={t("Need to order")}
           width={scaleWidth(160)}
         />
       </View>
@@ -243,14 +243,14 @@ export const Layout = ({
           <InputSearch onSearch={onChangeValueSearch} width={scaleWidth(280)} />
           <View style={layouts.marginHorizontal} />
           <ButtonGradientWhite
-            label={t('Search')}
+            label={t("Search")}
             width={scaleWidth(120)}
             onPress={onButtonSearchPress}
           />
           <View style={layouts.marginHorizontal} />
           <ScanQRButton
-            label={t('Scan')}
-            title={t('Scan Barcode')}
+            label={t("Scan")}
+            title={t("Scan Barcode")}
             width={scaleWidth(160)}
             onResultScanCode={onResultScanCode}
             leftChildren={() => (
@@ -267,7 +267,7 @@ export const Layout = ({
         </View>
         <ButtonGradient
           onPress={onButtonNewProductPress}
-          label={t('Add Product')}
+          label={t("Add Product")}
           width={scaleWidth(140)}
           borderRadius={scaleWidth(3)}
         />
@@ -279,7 +279,7 @@ export const Layout = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column-reverse',
+    flexDirection: "column-reverse",
   },
 
   rowContent: {
@@ -287,32 +287,32 @@ const styles = StyleSheet.create({
     marginBottom: scaleHeight(10),
     paddingHorizontal: scaleWidth(16),
     height: scaleHeight(40),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 
   leftContent: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
 
   textTitle: {
     fontFamily: fonts.BOLD,
     fontSize: scaleFont(26),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.OCEAN_BLUE,
   },
 
   textName: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(15),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 

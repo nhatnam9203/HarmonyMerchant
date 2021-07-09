@@ -1,8 +1,8 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { useTranslation } from "react-i18next";
-import { layouts, fonts, colors } from "@shared/themes";
 import IMAGE from "@resources";
+import { colors, fonts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export const FormFilter = ({ filterValue, onClearFilter }) => {
   const [t] = useTranslation();

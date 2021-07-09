@@ -9,7 +9,7 @@ const legend = {
   enabled: false,
   textSize: 14,
   form: "SQUARE",
-  formSize: 22,
+  formSize: scaleFont(14),
   direction: "LEFT_TO_RIGHT",
   horizontalAlignment: "RIGHT",
   verticalAlignment: "TOP",
@@ -123,7 +123,7 @@ export default function MarketingBarGroupChart({ data }) {
         granularity: 1,
         centerAxisLabels: true,
         position: "BOTTOM",
-        textSize: 20,
+        textSize: scaleFont(18),
         formSize: 14,
         textColor: processColor("#0764B0"),
         fontWeight: "bold",
@@ -131,7 +131,7 @@ export default function MarketingBarGroupChart({ data }) {
         drawGridLines: false,
         axisMaximum: 5,
         axisMinimum: 0,
-        yOffset: 30
+        yOffset: 30,
       };
 
       setXAxis(createXAxis);
@@ -159,7 +159,7 @@ export default function MarketingBarGroupChart({ data }) {
         animation={{ durationX: 500 }}
         legend={legend}
         gridBackgroundColor={processColor("transparent")}
-        entryLabelTextSize={14}
+        entryLabelTextSize={scaleFont(14)}
       />
     </View>
   );

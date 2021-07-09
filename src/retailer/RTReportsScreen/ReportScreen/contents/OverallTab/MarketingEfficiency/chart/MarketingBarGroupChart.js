@@ -9,7 +9,7 @@ const legend = {
   enabled: false,
   textSize: 14,
   form: "SQUARE",
-  formSize: 22,
+  formSize: scaleFont(14),
   direction: "LEFT_TO_RIGHT",
   horizontalAlignment: "RIGHT",
   verticalAlignment: "TOP",
@@ -123,15 +123,15 @@ export default function MarketingBarGroupChart({ data }) {
         granularity: 1,
         centerAxisLabels: true,
         position: "BOTTOM",
-        textSize: 20,
-        formSize: 14,
+        textSize: scaleFont(12),
+        formSize: scaleFont(14),
         textColor: processColor("#0764B0"),
-        fontWeight: "bold",
+        fontWeight: "500",
         drawAxisLine: true,
         drawGridLines: false,
         axisMaximum: 5,
         axisMinimum: 0,
-        yOffset: 30
+        yOffset: 30,
       };
 
       setXAxis(createXAxis);

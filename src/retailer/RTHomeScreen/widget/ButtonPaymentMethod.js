@@ -1,9 +1,8 @@
-import React from "react";
-import { View, Platform, Image } from "react-native";
-
-import { scaleSize, checkIsTablet } from "@utils";
-import { Text, Button } from "@components";
+import { Button, Text } from "@components";
 import ICON from "@resources";
+import { checkIsTablet, scaleSize } from "@utils";
+import React from "react";
+import { Image, Platform } from "react-native";
 
 function getPaymentLogoByName(name) {
   let logo = "";

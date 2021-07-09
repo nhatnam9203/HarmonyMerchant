@@ -1,11 +1,10 @@
 import ICON from "@resources";
 import { ButtonDrawer } from "@shared/components/ButtonDrawer";
 import { ButtonLock } from "@shared/components/ButtonLock";
+import { WithDialogPinCode } from "@shared/HOC/withDialogPinCode";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import Animated from "react-native-reanimated";
-import { WithDialogPinCode } from "@shared/HOC/withDialogPinCode";
 
 const BAR_HEIGHT = scaleHeight(48);
 const CONTENT_HEIGHT = scaleHeight(47);
