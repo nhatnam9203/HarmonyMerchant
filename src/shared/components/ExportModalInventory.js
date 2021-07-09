@@ -21,7 +21,7 @@ import {
   createFilePath,
   getInfoPathFile,
   handleTheDownloadedFile,
-  handleShareFile
+  handleShareFile,
 } from '@shared/utils/files';
 const EXPORT_FUNCTION = [
   // { value: 'pdf', label: 'PDF' },
@@ -135,17 +135,17 @@ export const ExportModalInventory = React.forwardRef(
   |--------------------------------------------------
   */
 
-  const renderImageFile = () => {
-    switch (mode) {
-      case 'excel':
-      case 'csv':
-        return IMAGE.ExportCsvFileImage;
-      case 'pdf':
-        return IMAGE.ExportPdfFileImage;
-      default:
-        return '';
-    }
-  };
+    const renderImageFile = () => {
+      switch (mode) {
+        case 'excel':
+        case 'csv':
+          return IMAGE.ExportCsvFileImage;
+        case 'pdf':
+          return IMAGE.ExportPdfFileImage;
+        default:
+          return '';
+      }
+    };
 
     const renderLayoutPreview = () => {
       return (
@@ -196,10 +196,10 @@ export const ExportModalInventory = React.forwardRef(
               <View style={layouts.marginVertical} />
               <CustomRadioSelect
                 data={[
-                  { label: t('The products need to order more'), value: 1 },
-                  { label: t('All product'), value: 0 },
+                  { label: t('The products need to order more'), value: 0 },
+                  { label: t('All product'), value: 1 },
                 ]}
-                selected={onHandleChangeSelect}
+                onSelect={onHandleChangeSelect}
                 required={true}
               />
 
