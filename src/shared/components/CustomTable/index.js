@@ -11,7 +11,7 @@ import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import { getUniqueId, getValueForColumnKey } from './helpers';
 import { Cell, EmptyList, Header, Row } from './widget';
-
+import { dateCompare } from '@shared/utils';
 const TABLE_ROW_HEIGHT = 50;
 const TABLE_CELL_DEFAULT_WIDTH = 150;
 const HEAD_FONT_SIZE = 17;
@@ -47,16 +47,15 @@ const avgPropertiesKey = (array, key) => {
   return sum / array.length;
 };
 
-const strCompare = (a, b) => {
-  // check valid date -> sort date
-  if (moment(a).isValid() && moment(b).isValid()) {
-    return moment(a, DATE_FORMAT) <= moment(b, DATE_FORMAT);
-  }
-  return a.toString().localeCompare(b.toString());
-};
+// const strCompare = (a, b) => {
+//   // check valid date -> sort date
+//   if (moment(a).isValid() && moment(b).isValid()) {
+//     return moment(a, DATE_FORMAT) <= moment(b, DATE_FORMAT);
+//   }
+//   return a.toString().localeCompare(b.toString());
+// };
 
 const SORT_STATE = {
-  none: 'NONE',
   desc: 'DESC',
   asc: 'ASC',
 };
@@ -100,7 +99,7 @@ export function Table({
   const [headerContent, setHeaderContent] = useState(null);
   const [tableData, setData] = useState(null);
   const [sumObject, setSumObject] = useState({});
-  const [sortState, setSortState] = useState(SORT_STATE.none);
+  const [sortState, setSortState] = useState(SORT_STATE.desc);
 
   const setListData = (sort) => {
     let sortList = items;
@@ -109,23 +108,22 @@ export function Table({
         if (sort === SORT_STATE.desc) {
           return isPriceCell(sortKey)
             ? formatServerNumber(b[sortKey]) - formatServerNumber(a[sortKey])
-            : strCompare(a[sortKey], b[sortKey]);
+            : dateCompare(a[sortKey], b[sortKey]);
         } else if (sort === SORT_STATE.asc) {
           return isPriceCell(sortKey)
             ? formatServerNumber(a[sortKey]) - formatServerNumber(b[sortKey])
-            : strCompare(b[sortKey], a[sortKey]);
+            : dateCompare(b[sortKey], a[sortKey]);
         } else return 0;
       });
     }
-
     setData(sortList);
   };
 
   const changeSortData = () => {
-    if (!sortKey) {
-      setSortState(SORT_STATE.none);
-      return;
-    }
+    // if (!sortKey) {
+    //   setSortState(SORT_STATE.none);
+    //   return;
+    // }
 
     let sort = sortState;
     if (sortState === SORT_STATE.desc) {
@@ -399,6 +397,7 @@ export function Table({
           getWidthForKey={getCellWidth}
           height={scaleHeight(42)}
           onSortWithKey={onSortWithKey}
+          onSortDataLocal={sortKey && changeSortData}
           draggable={draggable}
           renderHeaderCell={renderHeaderCell}
         />

@@ -10,13 +10,14 @@ import {
   statusSuccess,
   getTimeTitleFile,
   SORT_TYPE,
+  dateCompare,
 } from '@shared/utils';
 import { getQuickFilterTimeRange } from '@utils';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import { ButtonOverall } from '../../../widget';
-import { formatMoneyWithUnit } from '@utils';
+import moment from 'moment';
 const log = (obj, message = '') => {
   Logger.log(`[SalesOrder] ${message}`, obj);
 };
@@ -28,7 +29,7 @@ export const SalesOrder = () => {
   const [timeVal, setTimeVal] = React.useState();
   const [data, setData] = React.useState();
   const [summary, setSummary] = React.useState();
-  const [sortDate, setSortDate] = React.useState(SORT_TYPE.DESC);
+  const [sortDate, setSortDate] = React.useState(SORT_TYPE.ASC);
   /**
   |--------------------------------------------------
   | CALL API
@@ -38,10 +39,9 @@ export const SalesOrder = () => {
   const callGetReportSalesOrder = React.useCallback(() => {
     getReportSalesOrder({
       ...timeVal,
-      sort: { date: sortDate },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal, sortDate]);
+  }, [timeVal]);
 
   /**
   |--------------------------------------------------
@@ -52,7 +52,6 @@ export const SalesOrder = () => {
   const callExportSalesOrder = (values) => {
     const params = Object.assign({}, values, {
       ...timeVal,
-      sort: { date: sortDate },
     });
     exportRef.current?.onSetFileName(
       getTimeTitleFile('ReportSaleOrder', params)
@@ -76,7 +75,7 @@ export const SalesOrder = () => {
   React.useEffect(() => {
     callGetReportSalesOrder();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal,sortDate]);
+  }, [timeVal]);
 
   React.useEffect(() => {
     const { codeStatus, message, data, summary } = reportSalesOrder || {};
@@ -173,6 +172,7 @@ export const SalesOrder = () => {
           emptyDescription={t('No Report Data')}
           //   styleTextKeys={{ customerName: styles.textName }}
           onSortWithKey={onSortWithKey}
+          sortKey="date"
           formatFunctionKeys={{
             date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
             // total: (value) => `${formatMoneyWithUnit(value)}`,

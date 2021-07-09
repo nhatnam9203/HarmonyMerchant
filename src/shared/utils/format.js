@@ -98,3 +98,10 @@ export const formatFullAddress = ({ city, stateName, street, zipCode }) => {
   return '';
 };
 
+export const dateCompare = (a, b) => {
+  // check valid date -> sort date
+  if (moment(a).isValid() && moment(b).isValid()) {
+    return new Date(a) - new Date(b) ;
+  }
+  return a.toString().localeCompare(b.toString());
+};

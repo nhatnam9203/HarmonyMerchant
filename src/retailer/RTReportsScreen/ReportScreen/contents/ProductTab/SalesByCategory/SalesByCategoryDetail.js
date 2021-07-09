@@ -1,15 +1,19 @@
-import IMAGE from "@resources";
-import { ButtonCalendarFilter, ExportModal } from "@shared/components";
-import { Table } from "@shared/components/CustomTable";
-import { layouts } from "@shared/themes";
-import { dateToString, DATE_SHOW_FORMAT_STRING } from "@shared/utils";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, View } from "react-native";
-import { useDispatch } from "react-redux";
-import { PopupButton } from "../../../widget";
-import SalesCategoryLineChart from "./chart/SaleCategoryLineChart";
-import { formatMoneyWithUnit } from "@utils";
+import IMAGE from '@resources';
+import { ButtonCalendarFilter, ExportModal } from '@shared/components';
+import { Table } from '@shared/components/CustomTable';
+import { layouts } from '@shared/themes';
+import {
+  dateToString,
+  DATE_SHOW_FORMAT_STRING,
+  SORT_TYPE,
+} from '@shared/utils';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet, Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { PopupButton } from '../../../widget';
+import SalesCategoryLineChart from './chart/SaleCategoryLineChart';
+import { formatMoneyWithUnit } from '@utils';
 
 const VIEW_MODE = {
   LIST: 'LIST',
@@ -36,7 +40,7 @@ export default function SalesByCategoryDetail({
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const calendarRef = React.useRef(null);
-
+  const [sortTotalProfit, setSortTotalProfit] = React.useState(SORT_TYPE.ASC);
   const [viewMode, setViewMode] = React.useState(VIEW_MODE.LIST);
   const [details, setDetails] = React.useState(null);
 
@@ -73,6 +77,18 @@ export default function SalesByCategoryDetail({
 
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
     return null;
+  };
+
+  const onSortWithKey = (sortKey) => {
+    switch (sortKey) {
+      case 'totalProfit':
+        const totalProfit =
+          sortTotalProfit === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
+        setSortTotalProfit(totalProfit);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -131,11 +147,13 @@ export default function SalesByCategoryDetail({
               'totalTax',
               'totalProfit',
             ]}
-            //   sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
+            sortedKeys={{ totalProfit: sortTotalProfit }}
+            sortKey="totalProfit"
+            onSortWithKey={onSortWithKey}
             primaryKey="date"
             //   unitKeys={{ totalDuration: "hrs" }}
             widthForKeys={{
-              date: scaleWidth(250),
+              date: scaleWidth(200),
               quantity: scaleWidth(120),
               totalRevenue: scaleWidth(180),
               totalCost: scaleWidth(180),

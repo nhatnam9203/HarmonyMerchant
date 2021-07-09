@@ -4,7 +4,7 @@ import {
   ExportModal,
 } from '@shared/components';
 import { useReportSaleProduct } from '@shared/services/api/retailer';
-import { getQuickFilterTimeRange,formatMoneyWithUnit } from '@utils';
+import { getQuickFilterTimeRange, formatMoneyWithUnit } from '@utils';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
@@ -14,12 +14,13 @@ import {
   dateToString,
   DATE_SHOW_FORMAT_STRING,
   statusSuccess,
-} from "@shared/utils";
-import { layouts } from "@shared/themes";
-import { DropdownMenu } from "@shared/components";
-import SalesProductLineChart from "./chart/SaleProductLineChart";
-import { PopupButton, TableList, ReportTabLayout } from "../../../widget";
-import IMAGE from "@resources";
+  SORT_TYPE,
+} from '@shared/utils';
+import { layouts } from '@shared/themes';
+import { DropdownMenu } from '@shared/components';
+import SalesProductLineChart from './chart/SaleProductLineChart';
+import { PopupButton, TableList, ReportTabLayout } from '../../../widget';
+import IMAGE from '@resources';
 
 const VIEW_MODE = {
   LIST: 'LIST',
@@ -46,7 +47,7 @@ export default function SalesByProductDetail({
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const calendarRef = React.useRef(null);
-
+  const [sortTotalProfit, setSortTotalProfit] = React.useState(SORT_TYPE.ASC);
   const [viewMode, setViewMode] = useState(VIEW_MODE.LIST);
   const [details, setDetails] = React.useState(null);
 
@@ -83,6 +84,18 @@ export default function SalesByProductDetail({
 
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
     return null;
+  };
+
+  const onSortWithKey = (sortKey) => {
+    switch (sortKey) {
+      case 'totalProfit':
+        const totalProfit =
+          sortTotalProfit === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
+        setSortTotalProfit(totalProfit);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -141,11 +154,13 @@ export default function SalesByProductDetail({
               'totalTax',
               'totalProfit',
             ]}
-            //   sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
+            sortedKeys={{ totalProfit: sortTotalProfit }}
+            onSortWithKey={onSortWithKey}
+            sortKey="totalProfit"
             primaryKey="date"
             //   unitKeys={{ totalDuration: "hrs" }}
             widthForKeys={{
-              date: scaleWidth(250),
+              date: scaleWidth(200),
               quantity: scaleWidth(120),
               totalRevenue: scaleWidth(180),
               totalCost: scaleWidth(180),

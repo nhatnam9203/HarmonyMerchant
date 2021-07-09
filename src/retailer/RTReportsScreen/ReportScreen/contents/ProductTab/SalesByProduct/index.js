@@ -22,7 +22,7 @@ function SalesByProductTab({
   const [timeVal, setTimeVal] = React.useState(null);
   const [filterProduct, setFilterProduct] = React.useState(null);
   const [data, setData] = React.useState([]);
-  const [sortTotalProfit, setSortTotalProfit] = React.useState(SORT_TYPE.DESC);
+  const [sortTotalProfit, setSortTotalProfit] = React.useState(SORT_TYPE.ASC);
   /**
   |--------------------------------------------------
   | CALL API
@@ -33,10 +33,9 @@ function SalesByProductTab({
     getReportSaleProduct({
       ...timeVal,
       product: filterProduct?.value ?? 'top',
-      sort: { totalProfit: sortTotalProfit?.toUpperCase() },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal, filterProduct, sortTotalProfit]);
+  }, [timeVal, filterProduct]);
 
   /**
   |--------------------------------------------------
@@ -49,7 +48,6 @@ function SalesByProductTab({
     const params = Object.assign({}, values, {
       ...timeVal,
       product: filterProduct?.value ?? 'top',
-      sort: { totalProfit: sortTotalProfit?.toUpperCase() },
     });
     exportRef.current?.onSetFileName(getTimeTitleFile('SaleByProduct', params));
 
@@ -72,7 +70,7 @@ function SalesByProductTab({
   React.useEffect(() => {
     callGetReportSaleProduct();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal, filterProduct, sortTotalProfit]);
+  }, [timeVal, filterProduct]);
 
   /**effect */
   React.useEffect(() => {
