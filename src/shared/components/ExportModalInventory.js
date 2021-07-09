@@ -165,11 +165,11 @@ export const ExportModalInventory = React.forwardRef(
             </View>
           </TouchableOpacity>
           <View style={styles.pdfBottom}>
-            <TouchableOpacity onPress={onShareFile}>
+            <TouchableOpacity onPress={onDownloadFile}>
               <Image source={IMAGE.ExportShareIcon} />
             </TouchableOpacity>
             <View style={layouts.marginHorizontal} />
-            <TouchableOpacity onPress={onDownloadFile}>
+            <TouchableOpacity onPress={onShareFile}>
               <Image source={IMAGE.ExportDownloadIcon} />
             </TouchableOpacity>
           </View>
