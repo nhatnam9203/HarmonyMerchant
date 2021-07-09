@@ -479,11 +479,11 @@ class PopupStaffInvoicePrint extends React.Component {
                                 title="Cash"
                                 value={`$ ${x.cash}`}
                                 styleTilte={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                                 styleValue={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                               />
@@ -491,11 +491,11 @@ class PopupStaffInvoicePrint extends React.Component {
                                 title="Check"
                                 value={`$ ${x.check}`}
                                 styleTilte={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                                 styleValue={{
-                                  fontSize: scaleSzie(13),
+                                  fontSize: scaleSize(13),
                                   fontWeight: "200",
                                 }}
                               />
