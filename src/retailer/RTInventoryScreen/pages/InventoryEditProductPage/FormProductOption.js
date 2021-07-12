@@ -73,7 +73,7 @@ export const FormProductOption = React.forwardRef(
         optionItem["updateProductImage"] = data?.updateProductImage;
         optionItem["attributeId"] = data?.id;
 
-        if (item) {
+        if (item?.values?.length > 0) {
           let values = options?.map((v) => {
             const existItem = item?.values?.find(
               (x) => x.attributeValueId === v.attributeValueId
@@ -82,7 +82,7 @@ export const FormProductOption = React.forwardRef(
             if (existItem) {
               return Object.assign({}, v, existItem); // lấy thông từ tồn tại item làm thông tin chính
             } else {
-              return Object.assign({}, v);
+              return Object.assign({}, v, { checked: false });
             }
           });
           optionItem["values"] = values;
