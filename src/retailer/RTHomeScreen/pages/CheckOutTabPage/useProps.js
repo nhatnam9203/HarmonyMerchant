@@ -145,19 +145,28 @@ export const useProps = ({ params: { reload }, navigation }) => {
 
   React.useEffect(() => {
     const { codeStatus, message, data } =
-      appointmentTempCreate || appointmentAdd || appointmentTempRemove || {};
+      appointmentAdd || appointmentTempRemove || {};
     if (statusSuccess(codeStatus)) {
       getAppointmentTemp(appointmentId);
     }
   }, [appointmentAdd, appointmentTempRemove]);
 
   React.useEffect(() => {
-    if (appointmentCreate?.data) {
-      NavigationServices.navigate("retailer.home.order.detail", {
-        orderId: appointmentCreate?.data,
+    const { codeStatus, message, data } = appointmentCreate || {};
+    if (statusSuccess(codeStatus)) {
+      NavigationServices.navigate("retailer.home.order.list", {
+        orderId: data,
+        reload: true,
       });
     }
-  }, [appointmentCreate?.data]);
+  }, [appointmentCreate]);
+
+  React.useEffect(() => {
+    const { codeStatus, message, data } = appointmentTempCreate || {};
+    if (statusSuccess(codeStatus)) {
+      getAppointmentTemp(data);
+    }
+  }, [appointmentTempCreate]);
 
   return {
     categories: categories,
@@ -227,13 +236,12 @@ export const useProps = ({ params: { reload }, navigation }) => {
       getCategoriesList({ groupSubIntoMain: true });
     },
     onAddProduct: (productItem) => {
+      log(productItem, "productItem");
       const submitProducts = createSubmitAppointment([productItem]);
 
       if (appointmentId) {
         addItemAppointment(submitProducts[0]);
       } else {
-        // dispatch(basketRetailer.addBasketItem(productItem));
-
         if (!customer) {
           customerRef.current?.showPhoneInput();
           return;

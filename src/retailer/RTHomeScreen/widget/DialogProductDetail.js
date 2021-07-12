@@ -63,7 +63,6 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     return formatMoneyWithUnit(price);
   }, [optionsQty, product]);
 
-  // !! cho nay can sau lai
   const onHandleAddBasket = () => {
     // product, options, quantity
     const filterOptions = product?.options?.map((v) => {
@@ -113,7 +112,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   };
 
   const disableAddBasket = () => {
-    console.log(product);
+    // console.log(product);
     if (quantity <= 0) return true;
     if (!product) return true;
     if (product?.quantities?.length > 0 && !optionsQty) return true;

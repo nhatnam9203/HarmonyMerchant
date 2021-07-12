@@ -59,8 +59,9 @@ export const useProps = ({
 
   useFocusEffect(
     React.useCallback(() => {
+      console.log("====> Order detail page ???", orderId);
       if (orderId || order?.appointmentId) {
-        getAppointment(orderId || order.appointmentId);
+        getAppointment(orderId ?? order.appointmentId);
       }
 
       if (addressId) {
@@ -73,7 +74,6 @@ export const useProps = ({
   React.useEffect(() => {
     const { codeStatus, message, data } = appointment || {};
     if (statusSuccess(codeStatus)) {
-      // !! Kiểm tra xem appointment đã pay chưa.
       log(data);
       const { status, didNotPay, payment } = data || {};
       if (
