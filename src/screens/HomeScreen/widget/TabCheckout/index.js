@@ -52,6 +52,7 @@ class TabCheckout extends Layout {
 
     this.addEditCustomerInfoRef = React.createRef();
     this.staffFlatListRef = React.createRef();
+    this.isGetResponsePaymentPax = false
   }
 
   resetStateFromParent = async () => {
@@ -1528,11 +1529,16 @@ class TabCheckout extends Layout {
         invNum: `${groupAppointment?.checkoutGroupId || 0}`,
       },
       (message) =>
-        this.handleResponseCreditCard(
-          message,
-          true,
-          amountCredtitForSubmitToServer
-        )
+        {
+          this.isGetResponsePaymentPax = true
+
+          this.handleResponseCreditCard(
+            message,
+            true,
+            amountCredtitForSubmitToServer
+          )
+        }
+        
     );
   }
 
@@ -1627,6 +1633,11 @@ class TabCheckout extends Layout {
     if (Platform.OS === 'android') {
       PoslinkAndroid.cancelTransaction((data) => {});
     } else {
+      if(!this.isGetResponsePaymentPax){
+        alert("Please wait!")
+        return
+      }
+      this.isGetResponsePaymentPax = false
       PosLink.cancelTransaction();
       if (payAppointmentId) {
         this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
