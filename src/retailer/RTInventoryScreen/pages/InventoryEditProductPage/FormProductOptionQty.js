@@ -150,6 +150,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
       <View style={layouts.marginVertical} />
       {optionsQty && (
         <Table
+          tableStyle={styles.content}
           items={optionsQty}
           headerKeyLabels={{
             label: t("Version"),
@@ -177,6 +178,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
 const styles = StyleSheet.create({
   container: {
     marginVertical: scaleHeight(8),
+    height: scaleHeight(380),
   },
 
   content: {

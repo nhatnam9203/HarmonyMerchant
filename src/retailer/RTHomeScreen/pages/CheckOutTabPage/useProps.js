@@ -154,6 +154,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentCreate || {};
     if (statusSuccess(codeStatus)) {
+      // !! tạm thời fix z, đi nó ko nagative qua order detail dc
       NavigationServices.navigate("retailer.home.order.list", {
         orderId: data,
         reload: true,

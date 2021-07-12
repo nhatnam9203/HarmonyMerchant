@@ -190,7 +190,7 @@ export const Layout = ({
           {t("Order")}{" "}
           {
             <Text style={[styles.headTitle, { color: colors.OCEAN_BLUE }]}>
-              {`#${item?.appointmentId}`}
+              {`#${item?.code}`}
             </Text>
           }
         </Text>
@@ -215,10 +215,7 @@ export const Layout = ({
           <View style={layouts.horizontal}>
             <InfoContent label={t("Order Information")}>
               <View style={styles.personContent}>
-                <InfoLine
-                  label={t("ID")}
-                  infoValue={`#${item?.appointmentId}`}
-                />
+                <InfoLine label={t("ID")} infoValue={`#${item?.code}`} />
                 <InfoLine
                   label={t("Purcharse Point")}
                   infoValue={item?.purchasePoint}

@@ -120,7 +120,7 @@ export const Layout = ({
               />
               <ProductInfoLine
                 label={t("Total items need to order")}
-                infoValue={productItem?.needToorDer + ""}
+                infoValue={productItem?.needToOrder + ""}
               />
             </View>
           </View>
