@@ -127,6 +127,7 @@ export const Layout = ({
           <FormTitle label={t("Product versions")} />
           {productItem?.quantities && (
             <Table
+              tableStyle={styles.tableProductVersion}
               items={productItem?.quantities}
               headerKeyLabels={{
                 label: t("Versions"),
@@ -315,5 +316,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
+  },
+
+  tableProductVersion: {
+    height: scaleHeight(380),
   },
 });
