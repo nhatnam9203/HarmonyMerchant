@@ -52,7 +52,7 @@ class TabCheckout extends Layout {
 
     this.addEditCustomerInfoRef = React.createRef();
     this.staffFlatListRef = React.createRef();
-    this.isGetResponsePaymentPax = false
+    this.isGetResponsePaymentPax = true
   }
 
   resetStateFromParent = async () => {
@@ -1513,6 +1513,7 @@ class TabCheckout extends Layout {
     const idBluetooth = commType === 'TCP' ? '' : bluetoothAddr;
     const extData = isTipOnPaxMachine ? '<TipRequest>1</TipRequest>' : '';
 
+    this.isGetResponsePaymentPax = false
     // Send Trans to pax
     PosLink.sendTransaction(
       {
@@ -1637,7 +1638,6 @@ class TabCheckout extends Layout {
         alert("Please wait!")
         return
       }
-      this.isGetResponsePaymentPax = false
       PosLink.cancelTransaction();
       if (payAppointmentId) {
         this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
