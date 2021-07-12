@@ -1,9 +1,9 @@
-import { ButtonCalendarFilter, ExportModal } from '@shared/components';
-import { Table } from '@shared/components/CustomTable';
+import { ButtonCalendarFilter, ExportModal } from "@shared/components";
+import { Table } from "@shared/components/CustomTable";
 import {
   useReportSaleOrder,
   useExportSaleOrder,
-} from '@shared/services/api/retailer';
+} from "@shared/services/api/retailer";
 import {
   dateToString,
   DATE_SHOW_FORMAT_STRING,
@@ -11,17 +11,17 @@ import {
   getTimeTitleFile,
   SORT_TYPE,
   dateCompare,
-} from '@shared/utils';
-import { getQuickFilterTimeRange } from '@utils';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
-import { ButtonOverall } from '../../../widget';
-import moment from 'moment';
-const log = (obj, message = '') => {
+} from "@shared/utils";
+import { getQuickFilterTimeRange } from "@utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, View } from "react-native";
+import { ButtonOverall } from "../../../widget";
+import moment from "moment";
+const log = (obj, message = "") => {
   Logger.log(`[SalesOrder] ${message}`, obj);
 };
-const RANGE_TIME_DEFAULT = 'This Week';
+const RANGE_TIME_DEFAULT = "This Week";
 
 export const SalesOrder = () => {
   const { t } = useTranslation();
@@ -54,7 +54,7 @@ export const SalesOrder = () => {
       ...timeVal,
     });
     exportRef.current?.onSetFileName(
-      getTimeTitleFile('ReportSaleOrder', params)
+      getTimeTitleFile("ReportSaleOrder", params)
     );
     ExportSalesOrder(params);
   };
@@ -80,16 +80,16 @@ export const SalesOrder = () => {
   React.useEffect(() => {
     const { codeStatus, message, data, summary } = reportSalesOrder || {};
     if (statusSuccess(codeStatus)) {
-      log(data, 'response data');
+      log(data, "response data");
       setData(data);
       setSummary(summary);
     }
   }, [reportSalesOrder]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
-    if (quickFilter === 'Customize Date') {
+    if (quickFilter === "Customize Date") {
       setTimeVal({
-        quickFilter: 'custom',
+        quickFilter: "custom",
         timeStart: timeState.startDate,
         timeEnd: timeState.endDate,
       });
@@ -100,7 +100,7 @@ export const SalesOrder = () => {
 
   const onSortWithKey = (sortKey) => {
     switch (sortKey) {
-      case 'date':
+      case "date":
         const sortedDate =
           sortDate === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
         setSortDate(sortedDate);
@@ -144,40 +144,45 @@ export const SalesOrder = () => {
         <Table
           items={data}
           headerKeyLabels={{
-            date: t('Date'),
-            completed: t('Completed orders'),
-            unCompleted: t('Uncompleted  orders'),
-            canceled: t('Canceled orders'),
-            returned: t('Returned orders'),
-            total: t('Total orders'),
+            date: t("Date"),
+            completed: t("Completed orders"),
+            unCompleted: t("Uncompleted  orders"),
+            canceled: t("Canceled orders"),
+            returned: t("Returned orders"),
+            total: t("Total orders"),
           }}
           whiteListKeys={[
-            'date',
-            'completed',
-            'unCompleted',
-            'canceled',
-            'returned',
-            'total',
+            "date",
+            "completed",
+            "unCompleted",
+            "canceled",
+            "returned",
+            "total",
           ]}
           sortedKeys={{ date: sortDate }}
           primaryKey="date"
           //   unitKeys={{ totalDuration: "hrs" }}
           widthForKeys={{
-            date: scaleWidth(120),
+            date: scaleWidth(180),
             completed: scaleWidth(180),
             unCompleted: scaleWidth(180),
             canceled: scaleWidth(180),
             returned: scaleWidth(180),
           }}
-          emptyDescription={t('No Report Data')}
+          emptyDescription={t("No Report Data")}
           //   styleTextKeys={{ customerName: styles.textName }}
           onSortWithKey={onSortWithKey}
           sortKey="date"
           formatFunctionKeys={{
             date: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
+            completed: (value) => (value ? `${value}` : "0"),
+            unCompleted: (value) => (value ? `${value}` : "0"),
+            canceled: (value) => (value ? `${value}` : "0"),
+            returned: (value) => (value ? `${value}` : "0"),
+            total: (value) => (value ? `${value}` : "0"),
             // total: (value) => `${formatMoneyWithUnit(value)}`,
           }}
-          renderCell={onRenderCell}
+          // renderCell={onRenderCell}
           onRefresh={onRefresh}
           //   onRowPress={onSelectRow}
         />
@@ -189,23 +194,23 @@ export const SalesOrder = () => {
       </View>
       <View style={styles.rowContent}>
         <ButtonOverall
-          label={t('total orders').toUpperCase()}
+          label={t("total orders").toUpperCase()}
           amount={summary?.total}
         />
         <ButtonOverall
-          label={t('completed orders').toUpperCase()}
+          label={t("completed orders").toUpperCase()}
           amount={summary?.completed}
         />
         <ButtonOverall
-          label={t('uncompleted orders').toUpperCase()}
+          label={t("uncompleted orders").toUpperCase()}
           amount={summary?.unCompleted}
         />
         <ButtonOverall
-          label={t('canceled orders').toUpperCase()}
+          label={t("canceled orders").toUpperCase()}
           amount={summary?.canceled}
         />
         <ButtonOverall
-          label={t('returned orders').toUpperCase()}
+          label={t("returned orders").toUpperCase()}
           amount={summary?.returned}
         />
       </View>
@@ -224,7 +229,7 @@ export const SalesOrder = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column-reverse',
+    flexDirection: "column-reverse",
   },
 
   content: {
@@ -235,7 +240,7 @@ const styles = StyleSheet.create({
   rowContent: {
     marginTop: scaleHeight(20),
     paddingHorizontal: scaleWidth(16),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });
