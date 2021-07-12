@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: colors.GREYISH_BROWN,
+    width: "100%",
   },
 
   verticalLine: {

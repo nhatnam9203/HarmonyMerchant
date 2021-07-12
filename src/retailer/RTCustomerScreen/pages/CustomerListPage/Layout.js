@@ -74,12 +74,7 @@ export const Layout = ({
     <View style={styles.container}>
       <View style={layouts.fill}>
         <Table
-          items={items?.map((x) =>
-            Object.assign({}, x, {
-              customerName: `${x.firstName} ${x.lastName}`,
-              group: getCustomerGroupLabel(x.isVip),
-            })
-          )}
+          items={items}
           headerKeyLabels={{
             customerName: t("Name"),
             phone: t("Phone Number"),
@@ -98,7 +93,7 @@ export const Layout = ({
           ]}
           sortedKeys={{ customerName: sortName, phone: sortPhoneNumber }}
           primaryKey="customerId"
-          unitKeys={{ totalDuration: "hrs" }}
+          // unitKeys={{ totalDuration: "hrs" }}
           widthForKeys={{
             customerName: scaleWidth(190),
             phone: scaleWidth(170),

@@ -154,8 +154,8 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
           items={optionsQty}
           headerKeyLabels={{
             label: t("Version"),
-            costPrice: t("Cost Price"),
-            additionalPrice: t("Additional Price"),
+            costPrice: t("Cost price"),
+            additionalPrice: t("Additional price"),
             quantity: t("Qty"),
           }}
           whiteListKeys={["label", "costPrice", "additionalPrice", "quantity"]}

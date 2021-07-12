@@ -396,7 +396,7 @@ export function Table({
           whiteListKeys={whiteListKeys}
           sortedKeys={sortedKeys}
           getWidthForKey={getCellWidth}
-          height={scaleHeight(42)}
+          height={scaleHeight(48)}
           onSortWithKey={onSortWithKey}
           onSortDataLocal={sortKey && changeSortData}
           draggable={draggable}
@@ -419,6 +419,7 @@ export function Table({
             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
           }
           onMoveEnd={onHandleChangeData}
+          onScrollToIndexFailed={() => {}}
         />
       ) : (
         <FlatList
@@ -435,6 +436,7 @@ export function Table({
           refreshControl={
             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
           }
+          initialNumToRender={20}
           onScrollToIndexFailed={() => {}}
         />
       )}

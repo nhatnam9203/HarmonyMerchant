@@ -44,7 +44,7 @@ export const useProps = ({ params: { reload }, navigation }) => {
   const [customerList, getCustomerList] = useGetCustomerList();
   const callGetCustomerList = React.useCallback(() => {
     getCustomerList({
-      key: searchVal ?? '',
+      key: searchVal ?? "",
       page: page,
       groupId: groupType,
       sort: { CustomerName: sortName, PhoneNumber: sortPhoneNumber },
@@ -72,7 +72,14 @@ export const useProps = ({ params: { reload }, navigation }) => {
   React.useEffect(() => {
     const { codeStatus, data, pages = 0, count = 0 } = customerList || {};
     if (statusSuccess(codeStatus)) {
-      setItems(data);
+      setItems(
+        data?.map((x) =>
+          Object.assign({}, x, {
+            customerName: `${x.firstName} ${x?.lastName}`,
+            group: getCustomerGroupLabel(x?.isVip),
+          })
+        )
+      );
       setPagination({
         pages,
         count,
@@ -104,8 +111,8 @@ export const useProps = ({ params: { reload }, navigation }) => {
   }, [customerExport]);
 
   const getCustomerGroupLabel = (value) => {
-    const group = CustomerGroupTypes.find((x) => x.value === value);
-    return t(group?.label) || "None";
+    const group = CustomerGroupTypes.find((x) => x?.value === value);
+    return t(group?.label ?? "No Group") || "None";
   };
 
   const onRefresh = () => {
