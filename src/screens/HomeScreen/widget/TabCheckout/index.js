@@ -16,6 +16,7 @@ import {
   getInfoFromModelNameOfPrinter,
   getArrayGiftCardsFromAppointment,
   requestAPI,
+  localize,
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import Configs from '@configs';
@@ -52,7 +53,7 @@ class TabCheckout extends Layout {
 
     this.addEditCustomerInfoRef = React.createRef();
     this.staffFlatListRef = React.createRef();
-    this.isGetResponsePaymentPax = true
+    this.isGetResponsePaymentPax = false
   }
 
   resetStateFromParent = async () => {
@@ -1437,6 +1438,7 @@ class TabCheckout extends Layout {
         }else{
           //missing transaction
           //call to server previous response
+          this.isGetResponsePaymentPax = true
           this.handleResponseCreditCard(
             JSON.stringify(result),
             true,
@@ -1462,6 +1464,8 @@ class TabCheckout extends Layout {
      
     } = this.props;
 
+    this.isGetResponsePaymentPax = false
+
     // 1. Show modal processing
     await this.setState({
       visibleProcessingCredit: true,
@@ -1485,6 +1489,7 @@ class TabCheckout extends Layout {
         payAppointmentId
       );
     }
+    this.isGetResponsePaymentPax = true
     setTimeout(() => {
       this.setState({
         visibleProcessingCredit: false,
@@ -1513,7 +1518,6 @@ class TabCheckout extends Layout {
     const idBluetooth = commType === 'TCP' ? '' : bluetoothAddr;
     const extData = isTipOnPaxMachine ? '<TipRequest>1</TipRequest>' : '';
 
-    this.isGetResponsePaymentPax = false
     // Send Trans to pax
     PosLink.sendTransaction(
       {
@@ -1630,14 +1634,16 @@ class TabCheckout extends Layout {
   }
 
   cancelTransaction = async () => {
-    const { payAppointmentId } = this.props;
+    const { payAppointmentId, language } = this.props;
     if (Platform.OS === 'android') {
       PoslinkAndroid.cancelTransaction((data) => {});
     } else {
+      console.log('is get result:', this.isGetResponsePaymentPax)
       if(!this.isGetResponsePaymentPax){
-        alert("Please wait!")
+        alert(localize('PleaseWait', language))
         return
       }
+
       PosLink.cancelTransaction();
       if (payAppointmentId) {
         this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
