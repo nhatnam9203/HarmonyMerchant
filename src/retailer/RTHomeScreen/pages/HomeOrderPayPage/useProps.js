@@ -891,6 +891,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   const showInvoicePrint = async (printMachine, isTemptPrint = true) => {
     // -------- Pass data to Invoice --------
     // this.props.actions.appointment.closeModalPaymentCompleted();
+    dispatch(actions.appointment.closeModalPaymentCompleted());
 
     const appointments = groupAppointment?.appointments || [];
     const {

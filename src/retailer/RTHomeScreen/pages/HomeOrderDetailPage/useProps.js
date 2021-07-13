@@ -59,7 +59,6 @@ export const useProps = ({
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log("====> Order detail page ???", orderId);
       if (orderId || order?.appointmentId) {
         getAppointment(orderId ?? order.appointmentId);
       }
