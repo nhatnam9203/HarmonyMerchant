@@ -862,6 +862,7 @@ class TabCheckout extends Layout {
       printerList,
       printerSelect
     );
+
     if (portName !== '') {
       this.showInvoicePrint(portName);
     } else {
@@ -1411,7 +1412,7 @@ class TabCheckout extends Layout {
       profileStaffLogin,
       versionApp,
     } = this.props;
-  
+
     let result = await this.getPAXReport(paxMachineInfo, "1")
 
     if (!l.isEmpty(result)) {
@@ -1458,7 +1459,7 @@ class TabCheckout extends Layout {
     const {
       paxMachineInfo,
       isCancelPayment,
-     
+
     } = this.props;
 
     // 1. Show modal processing
@@ -1546,7 +1547,7 @@ class TabCheckout extends Layout {
       const tempEnv = env.IS_PRODUCTION;
       if (l.get(result, 'status', 0) == 0) {
         // setTimeout(()=>{ PosLink.cancelTransaction()}, 100)
-        
+
         if (payAppointmentId) {
           this.props.actions.appointment.cancelHarmonyPayment(
             payAppointmentId,
