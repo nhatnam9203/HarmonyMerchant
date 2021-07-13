@@ -24,7 +24,10 @@ import _ from "ramda";
 import DropdownSearch from "./DropdownSearch";
 import Slider from "./Slider";
 import IMAGE from "@resources";
-import moment from "moment";
+import { CustomRadioSelect, FormUploadImage } from "@shared/components";
+import { useTranslation } from "react-i18next";
+import { colors, fonts, layouts } from "@shared/themes";
+import { dateToString } from "@shared/utils";
 
 import {
   scaleSize,
@@ -57,6 +60,8 @@ const { width } = Dimensions.get("window");
 
 const HOURS_FORMAT = "hh:mm A";
 
+const MESSAGE_END_DATE_FORMAT = "dddd, dd MMMM yyyy hh:mm a";
+
 const PromotiomDetail = forwardRef(
   (
     {
@@ -68,6 +73,8 @@ const PromotiomDetail = forwardRef(
     },
     ref
   ) => {
+    const [t] = useTranslation();
+
     const [promotionId, setPromotionId] = useState("");
     const [title, setTitle] = useState("");
     const [startDate, setStartDate] = useState("");
@@ -97,6 +104,7 @@ const PromotiomDetail = forwardRef(
     const [customerSendSMSQuantity, setCustomerSendSMSQuantity] = useState(0);
     const [smsAmount, setSmsAmount] = useState("0.00");
     const [smsMaxAmount, setSmsMaxAmount] = useState("0.00");
+    const [configMessageType, setConfigMessageType] = React.useState("sms"); // type configuration sms/mms
 
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(
@@ -364,7 +372,7 @@ const PromotiomDetail = forwardRef(
       setPromotionType(type);
     };
 
-    handleCampaign = () => {
+    const handleCampaign = () => {
       const tempConditionTags = getFormatTags(conditionServiceProductTags);
       const tempActionTags = getFormatTags(actionTags);
       const campaign = {
@@ -473,6 +481,36 @@ const PromotiomDetail = forwardRef(
       setTitle(title);
       // calculatorsmsMoney(value);
     };
+
+    const onHandleChangeSelect = (bl) => {
+      setConfigMessageType(bl?.value ?? "sms");
+    };
+
+    const onLoadDefaultMessageContent = () => {};
+
+    const getDefaultMessageContent = React.useCallback(() => {
+      switch (conditionId) {
+        case 1:
+          return `Look out! 👀 ${
+            merchant.BusinessName
+          } is waiting for you to claim their special ${name} promotion to get ${
+            discount == "$"
+              ? discount + merchantPromotion.PromotionValue.ToString("#,##0.00")
+              : merchantPromotion.PromotionValue.ToString("#,##0.00") + discount
+          }
+          ${specificTo.Length > 0 ? `off for ${specificTo}.` : ""}. ${
+            endDate
+              ? `This offer is ends on ${dateToString(
+                  endDate,
+                  MESSAGE_END_DATE_FORMAT
+                )} so hurry`
+              : "Hurry"
+          } 🏃🏻‍♀️ and book your appointment on HarmonyPay App now!`;
+
+        default:
+          return "No message content";
+      }
+    }, [title, endDate, actionCondition]);
 
     return (
       <View
@@ -933,8 +971,130 @@ const PromotiomDetail = forwardRef(
                   marginTop: scaleSize(20),
                 }}
               >
-                {`SMS configuration`}
+                {`SMS/MMS configuration`}
               </Text>
+              {/* ---------- New Content Configuration ----------- */}
+              <View style={{}}>
+                <View style={layouts.marginVertical} />
+
+                <View>
+                  <CustomRadioSelect
+                    horizontal={true}
+                    defaultValue={0}
+                    data={[
+                      { label: t("SMS"), value: "sms" },
+                      { label: t("MMS"), value: "mms" },
+                    ]}
+                    onSelect={onHandleChangeSelect}
+                  />
+                </View>
+                <View style={layouts.marginVertical} />
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Text>{`${t("Content")} :`}</Text>
+                  <TouchableOpacity
+                    onPress={onLoadDefaultMessageContent}
+                    activeOpacity={0.5}
+                    style={{ flexDirection: "row" }}
+                  >
+                    <Image
+                      source={IMAGE.refresh}
+                      style={{ width: scaleWidth(20), height: scaleHeight(20) }}
+                    />
+                    <Text
+                      style={{
+                        fontFamily: fonts.MEDIUM,
+                        fontSize: scaleFont(15),
+                        fontWeight: "normal",
+                        fontStyle: "italic",
+                        letterSpacing: 0,
+                        textAlign: "right",
+                        color: colors.OCEAN_BLUE,
+                        textDecorationLine: "underline",
+                      }}
+                    >
+                      {t("Use default content")}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={layouts.marginVertical} />
+                <TextInput
+                  style={{
+                    height: scaleHeight(60),
+                    borderWidth: scaleWidth(1),
+                    borderColor: "#C5C5C5",
+                    textAlignVertical: "top",
+                    padding: scaleWidth(16),
+                  }}
+                  placeholderTextColor="#C5C5C5"
+                  multiline={true}
+                  value={""}
+                  onChangeText={() => {}}
+                />
+                <View style={layouts.marginVertical} />
+                <Text
+                  style={{
+                    fontFamily: fonts.REGULAR,
+                    fontSize: scaleFont(12),
+                    fontWeight: "normal",
+                    fontStyle: "normal",
+                    letterSpacing: 0,
+                    color: colors.GREYISH_BROWN,
+                  }}
+                >
+                  {`${t("Message length limit")}:`}
+                  <Text
+                    style={{
+                      fontFamily: fonts.REGULAR,
+                      fontSize: scaleFont(12),
+                      fontWeight: "bold",
+                      fontStyle: "normal",
+                      letterSpacing: 0,
+                      textAlign: "left",
+                      color: colors.GREYISH_BROWN,
+                    }}
+                  >{`${t("1600 character")}`}</Text>
+                </Text>
+
+                {configMessageType === "mms" && (
+                  <View style={{ flex: 0 }}>
+                    {/* <Text>{`${t("Media")} :`}</Text> */}
+                    <FormUploadImage
+                      label={t("Media")}
+                      onSetFileId={(fileId) => {}}
+                    />
+                    <Text
+                      style={{
+                        fontFamily: fonts.REGULAR,
+                        fontSize: scaleFont(12),
+                        fontWeight: "normal",
+                        fontStyle: "normal",
+                        letterSpacing: 0,
+                        color: colors.GREYISH_BROWN,
+                      }}
+                    >
+                      {`${t("Image size less than ")}`}
+                      <Text
+                        style={{
+                          fontFamily: fonts.REGULAR,
+                          fontSize: scaleFont(12),
+                          fontWeight: "bold",
+                          fontStyle: "normal",
+                          letterSpacing: 0,
+                          textAlign: "left",
+                          color: colors.GREYISH_BROWN,
+                        }}
+                      >{`${t("5 MB")}`}</Text>
+                      {`${t(", support jpeg, png, gif")}`}
+                    </Text>
+                  </View>
+                )}
+              </View>
               <Text
                 style={{
                   color: "#404040",
@@ -950,7 +1110,7 @@ const PromotiomDetail = forwardRef(
               <View
                 style={{
                   paddingRight: scaleSize(26),
-                  marginVertical: scaleSize(30),
+                  marginVertical: scaleSize(15),
                 }}
               >
                 {/* -------------- Min Of Slider ----------------- */}

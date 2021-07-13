@@ -5,7 +5,17 @@ import { colors } from "@shared/themes";
 import { fonts } from "../themes";
 
 export const CustomRadioSelect = React.forwardRef(
-  ({ data, onSelect, onRenderLabel, required = false, defaultValue }, ref) => {
+  (
+    {
+      data,
+      onSelect,
+      onRenderLabel,
+      required = false,
+      defaultValue,
+      horizontal = false,
+    },
+    ref
+  ) => {
     const [value, setValue] = React.useState(defaultValue);
 
     const onHandleRenderLabel = (x) => {
@@ -39,12 +49,14 @@ export const CustomRadioSelect = React.forwardRef(
 
     return data ? (
       <RadioButton.Group onValueChange={onHandleSelect} value={value}>
-        {data?.map((x) => (
-          <View style={styles.rowContent} key={x?.value}>
-            <RadioButton.Android value={x?.value} color={colors.OCEAN_BLUE} />
-            {onHandleRenderLabel(x)}
-          </View>
-        ))}
+        <View style={[horizontal && { flexDirection: "row" }]}>
+          {data?.map((x) => (
+            <View style={styles.rowContent} key={x?.value}>
+              <RadioButton.Android value={x?.value} color={colors.OCEAN_BLUE} />
+              {onHandleRenderLabel(x)}
+            </View>
+          ))}
+        </View>
       </RadioButton.Group>
     ) : null;
   }
