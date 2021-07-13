@@ -138,6 +138,7 @@ class Layout extends React.Component {
                         extraData={selectedStaff}
                         keyExtractor={(item, index) => `${item?.staffId}_${index}`}
                         showsVerticalScrollIndicator={false}
+                        onScrollToIndexFailed={() => {}}
                     />
                 </View>
                 {

@@ -787,6 +787,7 @@ class Dropdown extends PureComponent {
                 keyExtractor={this.keyExtractor}
                 contentContainerStyle={styles.scrollContainer}
                 initialNumToRender={60}
+                onScrollToIndexFailed={() => {}}
               />
             </View>
           </Animated.View>
