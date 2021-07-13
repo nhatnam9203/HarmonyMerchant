@@ -471,25 +471,27 @@ class Dropdown extends PureComponent {
   }
 
   scrollToIndex = () => {
-
     const now = moment();
     let nearestFuture5min = this.nearestFutureMinutes(30, now);
     nearestFuture5min = moment(nearestFuture5min).format("hh:mm A");
 
-    const { data, value , isScrollNow } = this.props;
+    const { data, value, isScrollNow } = this.props;
     let filterValue = value;
 
     if (isEmpty(value) || isScrollNow) {
       filterValue = nearestFuture5min;
     }
-    const findIndex = data.findIndex(obj => obj.value == filterValue);
+    const findIndex = data.findIndex((obj) => obj.value == filterValue);
 
     setTimeout(() => {
       if (this.refScrollList && findIndex !== -1) {
-        this.refScrollList?.scrollToIndex({ index: findIndex, animated: false });
+        this.refScrollList?.scrollToIndex({
+          index: findIndex,
+          animated: false,
+        });
       }
     }, 100);
-  }
+  };
 
   updateRef(name, ref) {
     this[name] = ref;
@@ -633,10 +635,10 @@ class Dropdown extends PureComponent {
     let color = disabled
       ? disabledItemColor
       : ~selected
-        ? index === selected
-          ? selectedItemColor
-          : itemColor
-        : selectedItemColor;
+      ? index === selected
+        ? selectedItemColor
+        : itemColor
+      : selectedItemColor;
 
     color = selected === -1 ? "rgba(0, 0, 0, .54)" : color;
 
@@ -780,14 +782,19 @@ class Dropdown extends PureComponent {
               onStartShouldSetResponder={() => true}
             >
               <FlatList
-                ref={ref => this.refScrollList = ref}
+                ref={(ref) => (this.refScrollList = ref)}
                 data={data}
                 style={styles.scroll}
                 renderItem={this.renderItem}
                 keyExtractor={this.keyExtractor}
                 contentContainerStyle={styles.scrollContainer}
                 initialNumToRender={60}
-                onScrollToIndexFailed={() => {}}
+                onScrollToIndexFailed={(info) => {
+                  this.refScrollList?.scrollToIndex({
+                    index: info.highestMeasuredFrameIndex,
+                    animated: true,
+                  });
+                }}
               />
             </View>
           </Animated.View>
