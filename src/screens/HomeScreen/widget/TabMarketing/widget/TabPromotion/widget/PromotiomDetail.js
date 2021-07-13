@@ -59,9 +59,8 @@ import {
 const { width } = Dimensions.get("window");
 
 const HOURS_FORMAT = "hh:mm A";
-
 const MESSAGE_END_DATE_FORMAT = "dddd, dd MMMM yyyy hh:mm a";
-
+const MESSAGE_CONTENT_DEFAULT_TYPE = "sms";
 const PromotiomDetail = forwardRef(
   (
     {
@@ -104,7 +103,10 @@ const PromotiomDetail = forwardRef(
     const [customerSendSMSQuantity, setCustomerSendSMSQuantity] = useState(0);
     const [smsAmount, setSmsAmount] = useState("0.00");
     const [smsMaxAmount, setSmsMaxAmount] = useState("0.00");
-    const [configMessageType, setConfigMessageType] = React.useState("sms"); // type configuration sms/mms
+    const [configMessageType, setConfigMessageType] = React.useState(
+      MESSAGE_CONTENT_DEFAULT_TYPE
+    ); // type configuration sms/mms
+    const [messageContent, setMessageContent] = React.useState(null);
 
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(
@@ -124,6 +126,8 @@ const PromotiomDetail = forwardRef(
     const smsInfoMarketing = useSelector(
       (state) => state?.marketing?.smsInfoMarketing || {}
     );
+
+    const merchant = useSelector((state) => state.dataLocal?.profile);
 
     useImperativeHandle(ref, () => ({
       setStateFromParent: (data = {}) => {
@@ -486,19 +490,23 @@ const PromotiomDetail = forwardRef(
       setConfigMessageType(bl?.value ?? "sms");
     };
 
-    const onLoadDefaultMessageContent = () => {};
+    const onLoadDefaultMessageContent = () => {
+      const temp = getDefaultMessageContent();
+      console.log(temp);
+      setMessageContent(temp);
+    };
 
     const getDefaultMessageContent = React.useCallback(() => {
-      switch (conditionId) {
-        case 1:
+      switch (getConditionIdByTitle(condition)) {
+        case 0:
           return `Look out! 👀 ${
-            merchant.BusinessName
-          } is waiting for you to claim their special ${name} promotion to get ${
-            discount == "$"
-              ? discount + merchantPromotion.PromotionValue.ToString("#,##0.00")
-              : merchantPromotion.PromotionValue.ToString("#,##0.00") + discount
-          }
-          ${specificTo.Length > 0 ? `off for ${specificTo}.` : ""}. ${
+            merchant.businessName
+          } is waiting for you to claim their special ${title} promotion to get ${
+            promotionType !== "percent" ? "$" : "%"
+          }${promotionValue}
+          ${
+            actionTags?.length > 0 ? `off for ${actionTags?.join(", ")}.` : ""
+          }. ${
             endDate
               ? `This offer is ends on ${dateToString(
                   endDate,
@@ -506,11 +514,49 @@ const PromotiomDetail = forwardRef(
                 )} so hurry`
               : "Hurry"
           } 🏃🏻‍♀️ and book your appointment on HarmonyPay App now!`;
-
+        case 1:
+          return `More for less and all for you! During their ${title} promotion,choose any of ${conditionServiceProductTags} at ${
+            merchant.businessName
+          } to get ${promotionType !== "percent" ? "$" : "%"}${promotionValue}${
+            actionTags?.length > 0 ? ` off for ${actionTags?.join(", ")}.` : ""
+          }. Hurry and book your appointment on HarmonyPay App now to grab this deal!,`;
+        case 2:
+          return `Happy, happy birthday! Hurry onto your HarmonyPay App to claim a special gift from one of your favorite stores, ${
+            merchant.BusinessName
+          } to get ${promotionType !== "percent" ? "$" : "%"}${promotionValue}${
+            actionTags?.length > 0 ? ` off for ${actionTags?.join(", ")}.` : ""
+          }.`;
+        case 3:
+          return `Loyalty pays! Literally. Go onto your HarmonyPay App to grab this special gift from  ${
+            merchant.businessName
+          } to get ${promotionType !== "percent" ? "$" : "%"}${promotionValue}${
+            actionTags?.length > 0 ? ` off for ${actionTags?.join(", ")}.` : ""
+          }. Thanks for being one of our best customers!`;
+        case 4:
+          return (
+            `Aww, shucks! We think you're awesome too! Here's a sweet thank you gift from you from ${merchant.businessName} for your referral. Hurry to the HarmonyPay App to claim your exclusive deal!` +
+            `Hurry to your HarmonyPay App to claim your referral reward from ${
+              merchant.businessName
+            } to get ${
+              promotionType !== "percent" ? "$" : "%"
+            }${promotionValue}${
+              actionTags?.length > 0
+                ? ` off for ${actionTags?.join(", ")}.`
+                : ""
+            }`
+          );
         default:
           return "No message content";
       }
-    }, [title, endDate, actionCondition]);
+    }, [
+      title,
+      endDate,
+      actionTags,
+      condition,
+      merchant,
+      promotionType,
+      promotionValue,
+    ]);
 
     return (
       <View
@@ -980,7 +1026,7 @@ const PromotiomDetail = forwardRef(
                 <View>
                   <CustomRadioSelect
                     horizontal={true}
-                    defaultValue={0}
+                    defaultValue={MESSAGE_CONTENT_DEFAULT_TYPE}
                     data={[
                       { label: t("SMS"), value: "sms" },
                       { label: t("MMS"), value: "mms" },
@@ -1025,16 +1071,16 @@ const PromotiomDetail = forwardRef(
                 <View style={layouts.marginVertical} />
                 <TextInput
                   style={{
-                    height: scaleHeight(60),
+                    height: scaleHeight(80),
                     borderWidth: scaleWidth(1),
                     borderColor: "#C5C5C5",
                     textAlignVertical: "top",
-                    padding: scaleWidth(16),
+                    padding: scaleWidth(10),
                   }}
                   placeholderTextColor="#C5C5C5"
                   multiline={true}
-                  value={""}
-                  onChangeText={() => {}}
+                  value={messageContent}
+                  onChangeText={setMessageContent}
                 />
                 <View style={layouts.marginVertical} />
                 <Text
