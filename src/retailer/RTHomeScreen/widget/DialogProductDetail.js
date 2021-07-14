@@ -97,10 +97,10 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     if (!listFiltersOptionsQty || listFiltersOptionsQty?.length <= 0)
       return false;
 
-    if (optionsSelected) {
-      const hadSelectIndex = optionsSelected?.length - 1 || 0;
-      if (index === 0) return true;
-    }
+    // if (optionsSelected) {
+    //   const hadSelectIndex = optionsSelected?.length - 1 || 0;
+    //   if (index === 0) return true;
+    // }
 
     for (const x of listFiltersOptionsQty) {
       if (x.attributeIds?.includes(value)) {
