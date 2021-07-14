@@ -12,7 +12,7 @@ import {
   getArrayGiftCardsFromAppointment,
 } from "@utils";
 import Configs from "@configs";
-import { isEmpty } from 'lodash';
+import { isEmpty } from "lodash";
 
 const initState = {
   appointmentIdOffline: 0,
@@ -43,7 +43,7 @@ class TabAppointment extends Layout {
     const staffToken = profileStaffLogin?.token || "";
     const merchantId = profile?.merchantId || "";
     const staffId = profileStaffLogin?.staffId || 0;
-    const tempDeviceId = deviceId ? deviceId : "";
+    const tempDeviceId = deviceId ?? "";
     const roleName = profileStaffLogin?.roleName || "Admin";
     const url = `${Configs.CALENDAR_URL}${staffColumn}/index.html?role=${roleName}&token=${staffToken}&merchantid=${merchantId}&staffId=${staffId}&deviceId=${tempDeviceId}`;
 
@@ -125,7 +125,9 @@ class TabAppointment extends Layout {
           // console.log("onMessageFromWebview: ", JSON.stringify(data));
           if (action === "checkout") {
             if (!isOfflineMode && isEmpty(groupAppointment)) {
-              this.props.getCategoryStaff(data?.appointment?.staffId || data?.staffId);
+              this.props.getCategoryStaff(
+                data?.appointment?.staffId || data?.staffId
+              );
             }
 
             const arrayProducts = getArrayProductsFromAppointment(
@@ -166,12 +168,16 @@ class TabAppointment extends Layout {
               appointmentIdOffline: appointmentId,
             });
           } else if (action == "signinAppointment") {
-
             this.props.bookAppointment(appointmentId, data?.staffId || 0);
-            if (!isOfflineMode && isEmpty(groupAppointment) && data?.staffId !== 0) {
-              this.props.getCategoryStaff(data?.appointment?.staffId || data?.staffId);
+            if (
+              !isOfflineMode &&
+              isEmpty(groupAppointment) &&
+              data?.staffId !== 0
+            ) {
+              this.props.getCategoryStaff(
+                data?.appointment?.staffId || data?.staffId
+              );
             }
-            
           } else if (action === "addGroupAnyStaff") {
             this.props.createABlockAppointment(
               appointmentId,
@@ -193,7 +199,9 @@ class TabAppointment extends Layout {
               data?.staffId || 0
             );
             if (!isOfflineMode && isEmpty(groupAppointment)) {
-              this.props.getCategoryStaff(data?.appointment?.staffId || data?.staffId);
+              this.props.getCategoryStaff(
+                data?.appointment?.staffId || data?.staffId
+              );
             }
           } else if (action == "addMoreAnyStaff") {
             this.props.addMoreAppointmentFromCalendar(
@@ -203,7 +211,7 @@ class TabAppointment extends Layout {
           }
         }
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   async componentDidUpdate(prevProps, prevState, snapshot) {

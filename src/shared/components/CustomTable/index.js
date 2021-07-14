@@ -81,6 +81,7 @@ export function Table({
   onRowPress,
   draggable = false,
   tableStyle,
+  sortLocal = SORT_STATE.desc,
   // params olds
   sortKey,
   calcSumKeys,
@@ -134,7 +135,7 @@ export function Table({
     }
 
     setSortState(sort);
-    setListData(sort);
+    // setListData(sort);
   };
 
   const getCellValue = (item, key) => {
@@ -218,14 +219,16 @@ export function Table({
       setSumObject(sumObj);
     }
 
-    setListData(sortState);
+    // setListData(sortState);
+    setData(items);
   }, [items, whiteListKeys]);
 
   useEffect(() => {
     // set data and sort -> render
     if (!sortDefault) {
       setSortState(SORT_STATE.desc);
-      setListData(SORT_STATE.desc);
+      // setListData(SORT_STATE.desc);
+      setData(items);
     }
   }, [sortKey]);
 

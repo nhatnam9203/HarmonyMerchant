@@ -17,7 +17,7 @@ export const ItemWorkingTime = ({ title, data, selectCheckbox, onChangeTimeOfWor
     const timeEnd = data?.timeEnd
     const temptIconCheck = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
 
-    console.log({ isEdit })
+    // console.log({ isEdit })
 
     return (
         <View style={{

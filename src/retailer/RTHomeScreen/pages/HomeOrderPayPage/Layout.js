@@ -133,7 +133,7 @@ export const Layout = ({
       <>
         <View style={layouts.marginHorizontal} />
         <ButtonGradient
-          disable={true}
+          // disable={true}
           width={scaleWidth(120)}
           height={scaleHeight(32)}
           fontSize={scaleFont(12)}
@@ -146,7 +146,7 @@ export const Layout = ({
         />
         <View style={layouts.marginHorizontal} />
         <ButtonGradient
-          disable={true}
+          // disable={true}
           width={scaleWidth(120)}
           height={scaleHeight(32)}
           fontSize={scaleFont(12)}

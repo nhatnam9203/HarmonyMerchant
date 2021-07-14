@@ -1,29 +1,36 @@
-import React from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
-import FastImage from 'react-native-fast-image';
-import IMAGE from '@resources';
+import React from "react";
+import { View, StyleSheet, FlatList } from "react-native";
+import FastImage from "react-native-fast-image";
+import IMAGE from "@resources";
+import { layouts } from "@shared/themes";
 
 export const ProductOptionImage = ({
-  width = scaleWidth(300),
+  width = scaleWidth(350),
   imageUrl,
   options,
 }) => {
-  const [colorOptions, setColorOptions] = React.useState(null);
+  const [optionsImages, setOptionsImages] = React.useState(null);
 
   React.useEffect(() => {
     if (!options?.length) {
       return;
     }
-    const colorOpt = options?.find((x) => x.label === 'Color');
-    // console.log(colorOpt);
-    if (colorOpt) {
-      setColorOptions(colorOpt?.values);
+
+    let results = [];
+    for (const opt of options) {
+      const imageOpts = opt.values?.filter((x) => x.imageUrl) || [];
+      results = results.concat(imageOpts);
+    }
+
+    if (results?.length > 0) {
+      setOptionsImages(results);
     }
   }, [options]);
+
   return (
     <View style={[styles.container, { width }]}>
       <FastImage
-        style={[styles.imageStyle, { width: width, height: width }]}
+        style={styles.defaultImageStyle}
         source={
           imageUrl
             ? {
@@ -35,16 +42,14 @@ export const ProductOptionImage = ({
         }
         resizeMode="contain"
       />
-      {colorOptions && (
+      {optionsImages && (
         <FlatList
-          data={colorOptions}
+          contentContainerStyle={styles.listOptionsImage}
+          data={optionsImages}
           renderItem={({ item }) => (
             <View style={styles.itemContainer}>
               <FastImage
-                style={[
-                  styles.imageStyle,
-                  { width: width / 3, height: width / 3 },
-                ]}
+                style={styles.imageStyle}
                 source={
                   item?.imageUrl
                     ? {
@@ -59,7 +64,8 @@ export const ProductOptionImage = ({
             </View>
           )}
           keyExtractor={(item) => item.id}
-          numColumns={3}
+          ItemSeparatorComponent={() => <View style={layouts.marginVertical} />}
+          horizontal={true}
         />
       )}
     </View>
@@ -67,6 +73,23 @@ export const ProductOptionImage = ({
 };
 
 const styles = StyleSheet.create({
-  container: { justifyContent: 'flex-start' },
-  imageStyle: {},
+  container: {
+    // justifyContent: "flex-start",
+    // alignItems: "flex-start",
+  },
+
+  defaultImageStyle: { padding: scaleWidth(5), flex: 5 },
+  imageStyle: {
+    paddingHorizontal: scaleWidth(5),
+    flex: 1,
+  },
+  itemContainer: {
+    paddingHorizontal: scaleWidth(5),
+    width: scaleWidth(120),
+    height: scaleHeight(120),
+  },
+  listOptionsImage: {
+    flex: 1,
+    paddingHorizontal: scaleWidth(5),
+  },
 });

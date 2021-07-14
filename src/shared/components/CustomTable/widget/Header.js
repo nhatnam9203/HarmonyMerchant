@@ -45,6 +45,24 @@ export const Header = ({
         cellWidth: width,
         textStyle: styles.textStyle,
         text: headerKeyLabels[key] ?? " ",
+        sortComponent: () =>
+          sortedKeys &&
+          Object.keys(sortedKeys)?.includes(key) && (
+            <TouchableOpacity
+              style={styles.buttonSort}
+              onPress={() => handleSort(key)}
+            >
+              <Image
+                style={styles.imageSort}
+                source={
+                  sortedKeys[key] === SORT_TYPE.ASC
+                    ? IMAGE.sortUp
+                    : IMAGE.sortDown
+                }
+                resizeMode="center"
+              />
+            </TouchableOpacity>
+          ),
       });
       if (cell) return cell;
     }

@@ -11,6 +11,7 @@ import {
   getTimeTitleFile,
   SORT_TYPE,
   dateCompare,
+  sortByDate,
 } from "@shared/utils";
 import { getQuickFilterTimeRange } from "@utils";
 import React from "react";
@@ -27,7 +28,7 @@ export const SalesOrder = () => {
   const { t } = useTranslation();
   const exportRef = React.useRef();
   const [timeVal, setTimeVal] = React.useState();
-  const [data, setData] = React.useState();
+  const [items, setData] = React.useState();
   const [summary, setSummary] = React.useState();
   const [sortDate, setSortDate] = React.useState(SORT_TYPE.ASC);
   /**
@@ -80,8 +81,8 @@ export const SalesOrder = () => {
   React.useEffect(() => {
     const { codeStatus, message, data, summary } = reportSalesOrder || {};
     if (statusSuccess(codeStatus)) {
-      log(data, "response data");
-      setData(data);
+      setData(sortByDate(data, sortDate, "date"));
+
       setSummary(summary);
     }
   }, [reportSalesOrder]);
@@ -104,6 +105,8 @@ export const SalesOrder = () => {
         const sortedDate =
           sortDate === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
         setSortDate(sortedDate);
+        setData(sortByDate(items, sortedDate, sortKey));
+
         break;
 
       default:
@@ -142,7 +145,7 @@ export const SalesOrder = () => {
     <View style={styles.container}>
       <View style={styles.content}>
         <Table
-          items={data}
+          items={items}
           headerKeyLabels={{
             date: t("Date"),
             completed: t("Completed orders"),

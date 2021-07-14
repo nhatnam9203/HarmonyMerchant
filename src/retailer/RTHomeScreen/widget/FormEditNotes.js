@@ -44,7 +44,7 @@ export const FormEditNotes = ({
 
   const renderNoteItem = ({ item, index }) => {
     return (
-      <View key={`${item.createDate}`}>
+      <View key={`${item?.createDate ?? index}`}>
         <Text style={styles.noteLabelText}>{`${dateToString(
           item?.createDate,
           DATE_TIME_SHOW_FORMAT_STRING
@@ -82,7 +82,7 @@ export const FormEditNotes = ({
           style={styles.notesContainer}
           data={notes}
           renderItem={renderNoteItem}
-          keyExtractor={(item, index) => `${item.createDate}`}
+          keyExtractor={(item, index) => `${item?.createDate ?? index}`}
           ListFooterComponent={() => (
             <View style={{ height: scaleHeight(5) }} />
           )}

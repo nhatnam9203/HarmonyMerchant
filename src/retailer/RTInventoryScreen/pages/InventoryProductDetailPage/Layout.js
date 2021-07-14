@@ -85,7 +85,7 @@ export const Layout = ({
           <FormTitle label={t("General Details")} />
           <View style={layouts.horizontal}>
             <ProductOptionImage
-              width={scaleWidth(220)}
+              // width={scaleWidth(220)}
               imageUrl={productItem?.imageUrl}
               options={productItem?.options}
             />
@@ -127,6 +127,7 @@ export const Layout = ({
           <FormTitle label={t("Product versions")} />
           {productItem?.quantities && (
             <Table
+              key={"table-version"}
               tableStyle={styles.tableProductVersion}
               items={productItem?.quantities}
               headerKeyLabels={{
@@ -166,6 +167,8 @@ export const Layout = ({
           </FormTitle>
           {productItem?.restockHistory && (
             <Table
+              key={"table-restock"}
+              tableStyle={styles.tableProductVersion}
               items={productItem?.restockHistory}
               headerKeyLabels={{
                 createdDate: t("Date time"),

@@ -1,6 +1,6 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import Spinner from 'react-native-spinkit';
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import Spinner from "react-native-spinkit";
 
 const LOADING_TIME_OUT = 10000;
 export const AppLoading = ({
@@ -20,7 +20,7 @@ export const AppLoading = ({
 
   const startTimer = () => {
     timer.current = setTimeout(() => {
-      if (onCancelLoading && typeof onCancelLoading === 'function') {
+      if (onCancelLoading && typeof onCancelLoading === "function") {
         onCancelLoading();
         clearTimer();
       }
@@ -47,8 +47,8 @@ export const AppLoading = ({
         {/* <ActivityIndicator color="#fff" size="large" /> */}
         <Spinner
           style={styles.spinner}
-          type={'FadingCircle'}
-          size={scaleWidth(60)}
+          type={"FadingCircle"}
+          size={scaleWidth(40)}
           color="#fff"
         />
       </View>
@@ -58,26 +58,26 @@ export const AppLoading = ({
 
 const styles = StyleSheet.create({
   loadingBg: {
-    width: scaleWidth(100),
-    height: scaleHeight(100),
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: scaleWidth(80),
+    height: scaleHeight(80),
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: scaleWidth(10),
+    backgroundColor: "#0002",
   },
 
   container: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     bottom: 0,
     right: 0,
     left: 0,
-    backgroundColor: '#0002',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   spinner: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

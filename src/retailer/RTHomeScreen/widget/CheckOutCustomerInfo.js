@@ -43,7 +43,9 @@ export const CheckOutCustomerInfo = React.forwardRef(
 
     React.useImperativeHandle(ref, () => ({
       showPhoneInput: () => {
-        dialogPhoneRef.current?.show();
+        setTimeout(() => {
+          dialogPhoneRef.current?.show();
+        }, 500);
       },
     }));
 
@@ -52,7 +54,9 @@ export const CheckOutCustomerInfo = React.forwardRef(
         dispatch(basketRetailer.setCustomer(customerByPhone?.data));
       } else {
         if (phone) {
-          dialogNewRef.current?.show({ phone });
+          setTimeout(() => {
+            dialogNewRef.current?.show({ phone });
+          }, 200);
         }
       }
 

@@ -35,7 +35,6 @@ class ParentContainer extends Component {
   }
 
   handleInactive = (isActive) => {
-    console.log(isActive);
     const {
       activeScreen,
       visibleEnterPin,

@@ -237,7 +237,6 @@ export const useProps = ({ params: { reload }, navigation }) => {
       getCategoriesList({ groupSubIntoMain: true });
     },
     onAddProduct: (productItem) => {
-      log(productItem, "productItem");
       const submitProducts = createSubmitAppointment([productItem]);
 
       if (appointmentId) {

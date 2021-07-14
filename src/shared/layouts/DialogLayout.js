@@ -27,7 +27,8 @@ export const DialogLayout = React.forwardRef(
     const [t] = useTranslation();
 
     const [open, setOpen] = React.useState(false);
-    const hideModal = () => {
+
+    const onModalHide = () => {
       setOpen(false);
     };
 
@@ -49,11 +50,13 @@ export const DialogLayout = React.forwardRef(
         // useNativeDriver={true}
         hasBackdrop={true}
         backdropOpacity={0.2}
-        onRequestClose={hideModal}
+        onModalHide={onModalHide}
         backdropTransitionOutTiming={0}
         backdropTransitionInTiming={0}
         animationIn="zoomIn"
         animationOut="zoomOut"
+        backdropTransitionInTiming={250}
+        backdropTransitionOutTiming={150}
         onModalWillHide={onModalWillHide}
       >
         <KeyboardAvoidingView behavior={behavior}>
@@ -65,7 +68,7 @@ export const DialogLayout = React.forwardRef(
               {!hideCloseButton && (
                 <TouchableOpacity
                   style={styles.buttonClose}
-                  onPress={hideModal}
+                  onPress={onModalHide}
                 >
                   <Image
                     source={IMAGE.closePopup}
