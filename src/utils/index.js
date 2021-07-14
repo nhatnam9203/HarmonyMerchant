@@ -18,6 +18,7 @@ import Localization from "../localization";
 import ICON from "../resources";
 export * from './enums';
 import * as l from 'lodash';
+import PushNotification from "react-native-push-notification";
 
 const PosLinkReport = NativeModules.report;
 const { width, height } = Dimensions.get("window");
@@ -1613,5 +1614,15 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
 
   return shortPurchasePoint;
 };
+
+export const localNotificationForAutoClose = (notiInfo) => {
+  PushNotification.localNotification({
+    title: 'Auto close',
+    message: '',
+    userInfo: {},
+    repeatType: "day",
+    repeatTime: l.get(notiInfo, 'repeatTime'),
+  })
+}
 
 

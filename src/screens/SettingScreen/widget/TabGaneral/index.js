@@ -11,6 +11,7 @@ import {
   getValueSignInAppDisplay,
   getTitleSendLinkGoogle,
   getValueSendLinkGoogle,
+  localNotificationForAutoClose,
 } from "@utils";
 import _ from 'lodash'
 
@@ -129,9 +130,18 @@ class TabGaneral extends Layout {
       sendReviewLinkOption,
       isUsingTurn,
       giftForNewEnabled,
+      isTurnOnAutoClose,
     } = this.state;
     const temptLanguage = languageApp === "English" ? "en" : "vi";
     this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
+
+    //set local notification
+    if(isTurnOnAutoClose){
+      localNotificationForAutoClose({
+        repeatTime: autoCloseAt,
+      })
+    }
+    
     await this.setState({
       isUpdateInternal: true,
     });

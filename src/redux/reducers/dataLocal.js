@@ -30,6 +30,7 @@ const initialState = {
   },
 
   deviceName: '',
+  isTurnOnAutoClose: false,
 };
 
 function dataLocalReducer(state = initialState, action) {

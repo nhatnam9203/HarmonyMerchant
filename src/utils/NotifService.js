@@ -42,16 +42,6 @@ export default class NotifService {
     PushNotification.popInitialNotification((notification) => { });
   }
 
-  localNotificationForAutoClose(notiInfo) {
-    PushNotification.localNotification({
-      title: '',
-      message: '',
-      userInfo: {},
-      repeatType: "day",
-      repeatTime: l.get(notiInfo, 'repeatTime'),
-    })
-  }
-
   localNotif(soundName, appointment = {}) {
     this.lastId++;
     const firstName = appointment.FirstName ? appointment.FirstName : "";
