@@ -9,15 +9,21 @@ export const ProductOptionImage = ({
   imageUrl,
   options,
 }) => {
-  const [colorOptions, setColorOptions] = React.useState(null);
+  const [optionsImages, setOptionsImages] = React.useState(null);
 
   React.useEffect(() => {
     if (!options?.length) {
       return;
     }
-    const colorOpt = options?.find((x) => x.label === "Color");
-    if (colorOpt) {
-      setColorOptions(colorOpt?.values);
+
+    let results = [];
+    for (const opt of options) {
+      const imageOpts = opt.values?.filter((x) => x.imageUrl) || [];
+      results = results.concat(imageOpts);
+    }
+
+    if (results?.length > 0) {
+      setOptionsImages(results);
     }
   }, [options]);
 
@@ -36,11 +42,10 @@ export const ProductOptionImage = ({
         }
         resizeMode="contain"
       />
-      <View style={layouts.marginVertical} />
-      {colorOptions && (
+      {optionsImages && (
         <FlatList
-          style={styles.listOptionsImage}
-          data={colorOptions}
+          contentContainerStyle={styles.listOptionsImage}
+          data={optionsImages}
           renderItem={({ item }) => (
             <View style={styles.itemContainer}>
               <FastImage
@@ -59,7 +64,8 @@ export const ProductOptionImage = ({
             </View>
           )}
           keyExtractor={(item) => item.id}
-          numColumns={3}
+          ItemSeparatorComponent={() => <View style={layouts.marginVertical} />}
+          horizontal={true}
         />
       )}
     </View>
@@ -72,8 +78,18 @@ const styles = StyleSheet.create({
     // alignItems: "flex-start",
   },
 
-  defaultImageStyle: { paddingHorizontal: scaleWidth(5), flex: 2 },
-  imageStyle: { paddingHorizontal: scaleWidth(5), flex: 1 },
-  itemContainer: { paddingHorizontal: scaleWidth(5), flex: 1 },
-  listOptionsImage: { flex: 1, paddingHorizontal: scaleWidth(5) },
+  defaultImageStyle: { padding: scaleWidth(5), flex: 5 },
+  imageStyle: {
+    paddingHorizontal: scaleWidth(5),
+    flex: 1,
+  },
+  itemContainer: {
+    paddingHorizontal: scaleWidth(5),
+    width: scaleWidth(120),
+    height: scaleHeight(120),
+  },
+  listOptionsImage: {
+    flex: 1,
+    paddingHorizontal: scaleWidth(5),
+  },
 });

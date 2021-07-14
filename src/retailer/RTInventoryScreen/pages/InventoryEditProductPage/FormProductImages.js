@@ -1,25 +1,12 @@
-import { ButtonGradient, FormUploadImage } from "@shared/components";
-import { DialogLayout } from "@shared/layouts";
-import { useGetAttributesList } from "@shared/services/api/retailer";
+import IMAGE from "@resources";
+import { FormUploadImage } from "@shared/components";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
-import { useTranslation } from "react-i18next";
 import {
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
+    FlatList, Image, StyleSheet,
+    Text, TouchableOpacity, View
 } from "react-native";
-import { addOption } from "./ProductState";
-import {
-  CustomerGroupTypes,
-  SORT_TYPE,
-  statusSuccess,
-} from "@shared/utils/app";
 import FastImage from "react-native-fast-image";
-import IMAGE from "@resources";
 import { ImageViewPopup } from "./ImageViewPopup";
 
 export const FormProductImages = ({
