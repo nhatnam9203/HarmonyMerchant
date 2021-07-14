@@ -33,7 +33,7 @@ export const useProps = ({ params: { reload } }) => {
     pages: 0,
     count: 0,
   });
-  const [product, getProduct] = useGetProducts();
+  const [product, getProducts] = useGetProducts();
   /**
   |--------------------------------------------------
   | CALL API
@@ -175,7 +175,7 @@ export const useProps = ({ params: { reload } }) => {
     onEditProduct: (item) => {
       // Hay lam :))
       // setProductSelected(item);
-      // getProduct(item?.productId);
+      // getProducts(item?.productId);
       NavigationServices.navigate("retailer.inventory.product.edit", {
         isEdit: true,
         item,

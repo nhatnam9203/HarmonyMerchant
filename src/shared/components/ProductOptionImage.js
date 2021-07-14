@@ -1,10 +1,11 @@
-import React from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
-import FastImage from 'react-native-fast-image';
-import IMAGE from '@resources';
+import React from "react";
+import { View, StyleSheet, FlatList } from "react-native";
+import FastImage from "react-native-fast-image";
+import IMAGE from "@resources";
+import { layouts } from "@shared/themes";
 
 export const ProductOptionImage = ({
-  width = scaleWidth(300),
+  width = scaleWidth(350),
   imageUrl,
   options,
 }) => {
@@ -14,16 +15,16 @@ export const ProductOptionImage = ({
     if (!options?.length) {
       return;
     }
-    const colorOpt = options?.find((x) => x.label === 'Color');
-    // console.log(colorOpt);
+    const colorOpt = options?.find((x) => x.label === "Color");
     if (colorOpt) {
       setColorOptions(colorOpt?.values);
     }
   }, [options]);
+
   return (
     <View style={[styles.container, { width }]}>
       <FastImage
-        style={[styles.imageStyle, { width: width, height: width }]}
+        style={styles.defaultImageStyle}
         source={
           imageUrl
             ? {
@@ -35,16 +36,15 @@ export const ProductOptionImage = ({
         }
         resizeMode="contain"
       />
+      <View style={layouts.marginVertical} />
       {colorOptions && (
         <FlatList
+          style={styles.listOptionsImage}
           data={colorOptions}
           renderItem={({ item }) => (
             <View style={styles.itemContainer}>
               <FastImage
-                style={[
-                  styles.imageStyle,
-                  { width: width / 3, height: width / 3 },
-                ]}
+                style={styles.imageStyle}
                 source={
                   item?.imageUrl
                     ? {
@@ -67,6 +67,13 @@ export const ProductOptionImage = ({
 };
 
 const styles = StyleSheet.create({
-  container: { justifyContent: 'flex-start' },
-  imageStyle: {},
+  container: {
+    // justifyContent: "flex-start",
+    // alignItems: "flex-start",
+  },
+
+  defaultImageStyle: { paddingHorizontal: scaleWidth(5), flex: 2 },
+  imageStyle: { paddingHorizontal: scaleWidth(5), flex: 1 },
+  itemContainer: { paddingHorizontal: scaleWidth(5), flex: 1 },
+  listOptionsImage: { flex: 1, paddingHorizontal: scaleWidth(5) },
 });

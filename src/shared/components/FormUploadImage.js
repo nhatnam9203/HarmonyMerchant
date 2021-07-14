@@ -1,8 +1,8 @@
-import IMAGE from '@resources';
-import { colors, fonts, layouts } from '@shared/themes';
-import { gotoSettingsDevice } from '@utils';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import IMAGE from "@resources";
+import { colors, fonts, layouts } from "@shared/themes";
+import { gotoSettingsDevice } from "@utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   Image,
@@ -10,10 +10,11 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import FastImage from 'react-native-fast-image';
+} from "react-native";
+import FastImage from "react-native-fast-image";
 import { launchImageLibrary } from "react-native-image-picker";
-import { useUploadFile } from '../services/api/app/useUploadFile';
+import { useUploadFile } from "../services/api/app/useUploadFile";
+import * as Progress from "react-native-progress";
 
 export const FormUploadImage = ({
   required,
@@ -23,9 +24,16 @@ export const FormUploadImage = ({
   image,
   onSetFileId,
   defaultValue,
+  resetWhenDone = false,
 }) => {
   const [t] = useTranslation();
-  const [{ uploadData, uploadLoading }, uploadFile] = useUploadFile();
+  const [progress, setProgress] = React.useState(0);
+  const [{ uploadData, uploadLoading }, uploadFile] = useUploadFile(
+    ({ loaded = 0, total = 1 }) => {
+      const progress = loaded / total;
+      setProgress(progress);
+    }
+  );
   const [photo, setPhoto] = React.useState(null);
 
   const onHandleImagePicker = ({
@@ -38,12 +46,12 @@ export const FormUploadImage = ({
   }) => {
     if (errorCode) {
       switch (errorCode) {
-        case 'camera_unavailable':
+        case "camera_unavailable":
           break;
-        case 'permission':
+        case "permission":
           gotoSettingsDevice();
           break;
-        case 'others':
+        case "others":
           break;
         default:
           break;
@@ -60,7 +68,7 @@ export const FormUploadImage = ({
       const images = [
         {
           uri,
-          fileName: fileName?.replace(/.heic|.HEIC/gi, '.JPG'),
+          fileName: fileName?.replace(/.heic|.HEIC/gi, ".JPG"),
           type,
         },
       ];
@@ -79,7 +87,7 @@ export const FormUploadImage = ({
         {
           quality: 0.2,
         },
-        onHandleImagePicker,
+        onHandleImagePicker
       );
     } catch (error) {
       alert(error);
@@ -91,9 +99,15 @@ export const FormUploadImage = ({
   };
 
   React.useEffect(() => {
-    setPhoto(uploadData?.data);
-    if (uploadData?.data && onSetFileId && typeof onSetFileId === 'function') {
-      onSetFileId(uploadData?.data?.fileId);
+    if (uploadData?.data && onSetFileId && typeof onSetFileId === "function") {
+      onSetFileId(uploadData?.data?.fileId, uploadData?.data?.url);
+      setProgress(0);
+    }
+
+    if (resetWhenDone) {
+      setPhoto(null);
+    } else {
+      setPhoto(uploadData?.data);
     }
   }, [uploadData]);
 
@@ -109,6 +123,7 @@ export const FormUploadImage = ({
           {required && <Text style={styles.requiredStyle}> *</Text>}
         </Text>
       )}
+      <View style={layouts.marginVertical} />
       <View style={styles.content}>
         <View style={styles.imageContent}>
           <TouchableOpacity
@@ -120,6 +135,7 @@ export const FormUploadImage = ({
                 photo?.url
                   ? {
                       uri: photo?.url,
+                      priority: FastImage.priority.normal,
                     }
                   : IMAGE.upload_file_icon
               }
@@ -127,9 +143,11 @@ export const FormUploadImage = ({
               resizeMode="contain"
             />
 
-            {!photo?.url ? (
-              <Text style={styles.label}>{t('Upload image')}</Text>
-            ) : (
+            {!photo?.url && (
+              <Text style={styles.label}>{t("Upload image")}</Text>
+            )}
+
+            {photo?.url && !uploadLoading && (
               <TouchableOpacity
                 style={styles.deleteButton}
                 onPress={onRemovePhoto}
@@ -141,13 +159,23 @@ export const FormUploadImage = ({
             {uploadLoading && (
               <ActivityIndicator
                 style={styles.loadingIndicator}
-                // size="default"
-                color={colors.FLAT_BLUE}
+                size="large"
+                color="#4CD964"
               />
             )}
           </TouchableOpacity>
         </View>
       </View>
+
+      {uploadLoading && (
+        <Progress.Bar
+          progress={progress}
+          width={scaleWidth(120)}
+          height={scaleHeight(6)}
+          borderRadius={scaleHeight(3)}
+          color="#4CD964"
+        />
+      )}
     </View>
   );
 };
@@ -158,39 +186,39 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    flexDirection: 'row',
-    paddingVertical: scaleHeight(10),
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: scaleHeight(4),
   },
 
   textStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   imageContent: {
     height: scaleHeight(120),
     width: scaleWidth(120),
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderStyle: 'solid',
+    justifyContent: "center",
+    alignItems: "center",
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: '#dddddd',
+    borderColor: "#dddddd",
     borderRadius: scaleWidth(3),
   },
 
   requiredStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.ORANGEY_RED,
   },
 
@@ -201,33 +229,33 @@ const styles = StyleSheet.create({
   label: {
     fontFamily: fonts.LIGHT,
     fontSize: scaleWidth(17),
-    fontWeight: '300',
-    fontStyle: 'normal',
+    fontWeight: "300",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.GREYISH_BROWN,
   },
 
   deleteButton: {
-    position: 'absolute',
+    position: "absolute",
     right: 0,
     top: 0,
     width: scaleWidth(28),
     height: scaleHeight(28),
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     // borderRadius: scaleWidth(13),
-    backgroundColor: '#fff2',
+    backgroundColor: "#fff2",
   },
 
   deleteIcon: {
     width: scaleWidth(24),
     height: scaleHeight(24),
-    tintColor: '#6A6A6A',
+    tintColor: "#6A6A6A",
   },
 
   loadingIndicator: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
