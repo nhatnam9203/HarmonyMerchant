@@ -152,6 +152,8 @@ export function createAnymousAppointment(merchantId, userId = 0, customerId = 0,
 }
 
 export function createBlockAppointment(merchantId, fromTime = new Date(), userId = 0, customerId = 0, firstName = "", lastName = "", phoneNumber = "", bookingGroupId) {
+   console.log(fromTime)
+    console.log(moment.parseZone(fromTime).local().format('MM/DD/YYYY hh:mm A'))
     return {
         type: 'CREATE_BLOCK_APPOINTMENT',
         body: {
