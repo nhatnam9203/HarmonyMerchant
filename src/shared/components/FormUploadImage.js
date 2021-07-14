@@ -47,6 +47,10 @@ export const FormUploadImage = ({
     //type, // v 3.8.1
     assets, // v 4.0.5
   }) => {
+    console.log(errorMessage);
+    console.log(assets);
+    console.log(errorCode);
+
     if (errorCode) {
       switch (errorCode) {
         case "camera_unavailable":

@@ -97,16 +97,27 @@ export const FormProductImages = ({
   const renderButtonUploadImage = () => (
     <FormUploadImage
       onSetFileId={(fileId, photoUrl) => {
-        setImgArray([
-          ...imgArray,
-          {
-            id: 0,
-            fileId: fileId,
-            isDefault: imgArray?.length <= 0,
-            position: imgArray?.length ?? 0,
-            imageUrl: photoUrl,
-          },
-        ]);
+        if (imgArray?.length > 0)
+          setImgArray([
+            ...imgArray,
+            {
+              id: 0,
+              fileId: fileId,
+              isDefault: imgArray?.length <= 0,
+              position: imgArray?.length ?? 0,
+              imageUrl: photoUrl,
+            },
+          ]);
+        else
+          setImgArray([
+            {
+              id: 0,
+              fileId: fileId,
+              isDefault: imgArray?.length <= 0,
+              position: imgArray?.length ?? 0,
+              imageUrl: photoUrl,
+            },
+          ]);
       }}
       defaultImage={defaultImage}
       resetWhenDone={true}
