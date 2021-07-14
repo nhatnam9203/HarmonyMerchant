@@ -77,6 +77,7 @@ class Layout extends React.Component {
             placeHolder={localize("Language", language)}
           />
           {/* ------- Item Auto close at:  ------ */}
+          <View style={{flexDirection:'row', justifyContent:'space-between'}}>
           <ItemSetupGeneral
             title={`${localize("Auto close at", language)}:`}
             data={WorkingTime}
@@ -85,6 +86,13 @@ class Layout extends React.Component {
             placeHolder="08:00 AM"
             isCustomDropDown={true}
           />
+          <Switch
+                trackColor={{ false: "#767577", true: "#0764B0" }}
+                ios_backgroundColor="#E5E5E5"
+                onValueChange={(isUsingTurn) => this.setState({ isUsingTurn })}
+                value={isUsingTurn}
+              />
+          </View>
 
           {/* ------- Staff Columns On Calendar  ------ */}
           <ItemSetupGeneral

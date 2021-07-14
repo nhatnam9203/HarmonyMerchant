@@ -2,6 +2,7 @@ import PushNotification from "react-native-push-notification";
 
 import NotificationHandler from "./NotificationHandler";
 import { formatWithMoment } from "./index";
+import _ from 'lodash';
 
 export default class NotifService {
   constructor(onNotification) {
@@ -39,6 +40,16 @@ export default class NotifService {
 
   popInitialNotification() {
     PushNotification.popInitialNotification((notification) => { });
+  }
+
+  localNotificationForAutoClose(notiInfo) {
+    PushNotification.localNotification({
+      title: '',
+      message: '',
+      userInfo: {},
+      repeatType: "day",
+      repeatTime: l.get(notiInfo, 'repeatTime'),
+    })
   }
 
   localNotif(soundName, appointment = {}) {
