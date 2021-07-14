@@ -22,7 +22,7 @@ export default class Layout extends React.Component {
   render() {
     const { language } = this.props;
     const activeItemKey = this.props?.state?.index || 0;
-    console.log(this.props?.state?.index);
+    // console.log(this.props?.state?.index);
     return (
       <View style={styles.container}>
         <View style={{ height: scaleSize(10) }} />

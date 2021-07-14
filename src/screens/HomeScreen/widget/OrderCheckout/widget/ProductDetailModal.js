@@ -173,7 +173,7 @@ function ProductDetailModal({ onRequestClose, addProductInfoToBasket,visibleProd
                     />
                 </View>
             </View>
-            <Loading />
+            {/* <Loading /> */}
         </PopupParent>
     );
 }

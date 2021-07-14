@@ -76,7 +76,6 @@ const createQuantitiesItem = (product, options) => {
 export const productReducer = (state = initState, action) => {
   switch (action.type) {
     case PRODUCT_SET:
-      console.log("PRODUCT_SET");
       return action.payload;
     case PRODUCT_UPDATE:
       return Object.assign({}, state, action.payload);

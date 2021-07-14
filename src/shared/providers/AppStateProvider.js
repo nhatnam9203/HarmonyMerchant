@@ -1,11 +1,11 @@
-import React, { createContext } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { appMerchant } from '@redux/slices';
-import { AppLoading } from '@shared/components/AppLoading';
-import { ExportLoading } from '@shared/components/ExportLoading';
-import { getDeviceId, getDeviceName } from '@shared/services/Device';
+import React, { createContext } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { appMerchant } from "@redux/slices";
+import { AppLoading } from "@shared/components/AppLoading";
+import { ExportLoading } from "@shared/components/ExportLoading";
+import { getDeviceId, getDeviceName } from "@shared/services/Device";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[CodePushProvider] ${message}`, obj);
 };
 
@@ -13,10 +13,13 @@ export const AppStateContext = createContext({});
 
 export const AppStateProvider = ({ children }) => {
   const dispatch = useDispatch();
-  const appLoading = useSelector((state) => state.appMerchant.appLoading);
+  const appLoading = useSelector((state) => state.app.loading);
+  const merchantLoading = useSelector((state) => state.appMerchant.appLoading);
+
   const exportLoading = useSelector((state) => state.appMerchant.exportLoading);
   const onCancelLoading = () => {
-    dispatch(appMerchant.hideLoading());
+    dispatch(appMerchant.hideLoading()); // loading retailer
+    dispatch(actions.app.stopLoadingApp()); // loading salon
   };
 
   const onCancelExportLoading = () => {
@@ -39,7 +42,10 @@ export const AppStateProvider = ({ children }) => {
   return (
     <AppStateContext.Provider value={{}}>
       {children}
-      <AppLoading loading={appLoading} onCancelLoading={onCancelLoading} />
+      <AppLoading
+        loading={appLoading || merchantLoading}
+        onCancelLoading={onCancelLoading}
+      />
       <ExportLoading
         loading={exportLoading}
         onCancelLoading={onCancelExportLoading}
