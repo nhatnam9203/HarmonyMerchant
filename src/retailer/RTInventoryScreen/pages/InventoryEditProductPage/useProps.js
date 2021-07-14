@@ -80,7 +80,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
           }),
       }));
 
-      console.log(values);
+      // console.log(values);
 
       if (isNew) {
         createProduct(Object.assign({}, values, { options: formatOptions }));
@@ -167,7 +167,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   }, [productItem]);
 
   React.useEffect(() => {
-    console.log("getProducts");
+    // console.log("getProducts");
     if (item?.productId) {
       getProducts(item?.productId);
     }

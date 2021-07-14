@@ -560,7 +560,7 @@ class TabFirstSettle extends Layout {
       !_.isEmpty(settleWaiting) &&
       !isHandleInternalFirstSettlemetTab
     ) {
-      console.log("SettScreen");
+      // console.log("SettScreen");
       this.props.actions.app.changeFlagVisibleEnteerPinCode(false);
       this.props.actions.invoice.resetStateIsGettingSettlement();
       await this.setState({

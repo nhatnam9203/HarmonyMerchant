@@ -43,7 +43,7 @@ class SupportScreen extends Layout {
     const { isFocus } = this.state;
     if (isFocus) {
       this.props.navigation.navigate("Home");
-      console.log("CSScreen");
+      // console.log("CSScreen");
       this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     }
   };

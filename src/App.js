@@ -19,7 +19,6 @@ import { AppStateProvider } from "@shared/providers/AppStateProvider";
 import { isDevelopmentMode } from "@shared/utils/app";
 import "@shared/services/api/axiosClient";
 
-
 if (isDevelopmentMode) {
   import("../ReactotronConfig").then(() =>
     console.log("Reactotron Configured")
@@ -39,7 +38,7 @@ const App: () => React$Node = () => {
         <CodePushProvider>
           <AppStateProvider>
             <RootNavigator />
-            <Loading />
+            {/* <Loading /> */}
             <PopupDisconnected />
             <PopupConnected />
             <FirebaseNotificationProvider />

@@ -25,7 +25,6 @@ export const FormInputAmount = ({
   };
 
   const onHandleChange = (text) => {
-    console.log('text', text);
     if (onChangeValue && typeof onChangeValue === 'function') {
       setAmount(text);
       onChangeValue(text);

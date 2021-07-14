@@ -293,7 +293,7 @@ export default class Layout extends React.Component {
                 </View>
               </View>
             </View>
-            <Loading />
+            {/* <Loading /> */}
           </Modal>
         </View>
       </ParentContainer>

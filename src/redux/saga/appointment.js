@@ -43,7 +43,6 @@ function* getAppointmentById(action) {
 }
 
 function* getGroupAppointmentById(action) {
-  console.log(action);
   try {
     yield put({ type: "LOADING_ROOT" });
     const responses = yield requestAPI(action);
@@ -318,12 +317,10 @@ function* checkoutAppointment(action) {
 }
 
 function* paymentAppointment(action) {
-  console.log(action);
 
   try {
     yield put({ type: "LOADING_ROOT" });
     const responses = yield requestAPI(action);
-    console.log(responses);
 
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
