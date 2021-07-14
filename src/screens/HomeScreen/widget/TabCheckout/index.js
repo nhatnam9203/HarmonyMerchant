@@ -2135,7 +2135,7 @@ class TabCheckout extends Layout {
     } = this.props;
 
     let fromTime = fromTimeBlockAppointment
-    if(!fromTimeBlockAppointment && blockAppointments && blockAppointments.length > 0) {
+    if( blockAppointments && blockAppointments.length > 0 ) {
       fromTime = l.get(blockAppointments, '0.fromTime') 
                 ? l.get(blockAppointments, '0.fromTime')
                 : new Date()
