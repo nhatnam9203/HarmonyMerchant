@@ -21,6 +21,7 @@ import PrintManager from '@lib/PrintManager';
 import Configs from '@configs';
 import initState from './widget/initState';
 import * as l from 'lodash';
+import moment from 'moment';
 
 const PosLinkReport = NativeModules.report;
 const PosLink = NativeModules.payment;
@@ -2131,10 +2132,19 @@ class TabCheckout extends Layout {
       fromTimeBlockAppointment,
       customerInfoBuyAppointment,
       bookingGroupId,
+      blockAppointments
     } = this.props;
+
+    let fromTime = fromTimeBlockAppointment
+    if( blockAppointments && blockAppointments.length > 0 ) {
+      fromTime = l.get(blockAppointments, '0.fromTime')
+                ? moment(l.get(blockAppointments, '0.fromTime')).local().format()
+                : new Date()
+    }
+    
     this.props.actions.appointment.createBlockAppointment(
       profile.merchantId,
-      fromTimeBlockAppointment,
+      fromTime,
       customerInfoBuyAppointment?.userId || 0,
       customerInfoBuyAppointment?.customerId || 0,
       customerInfoBuyAppointment?.firstName || '',

@@ -18,7 +18,7 @@ export const useProps = ({ params: { item } }) => {
   | CALL API
   |--------------------------------------------------
   */
-  const [product, getProduct] = useGetProducts();
+  const [product, getProducts] = useGetProducts();
   const [, deleteProducts] = useDeleteProducts(() => {
     NavigationServices.navigate("retailer.inventory.list", { reload: true });
   });
@@ -30,7 +30,7 @@ export const useProps = ({ params: { item } }) => {
   |--------------------------------------------------
   */
   React.useEffect(() => {
-    getProduct(item?.productId);
+    getProducts(item?.productId);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -38,7 +38,7 @@ export const useProps = ({ params: { item } }) => {
   React.useEffect(() => {
     const { codeStatus } = productsRestock || {};
     if (statusSuccess(codeStatus)) {
-      getProduct(item?.productId);
+      getProducts(item?.productId);
     }
   }, [productsRestock]);
 
@@ -57,7 +57,7 @@ export const useProps = ({ params: { item } }) => {
     onEditProduct: () => {
       NavigationServices.navigate("retailer.inventory.product.edit", {
         isEdit: true,
-        item: productItem,
+        item: item,
       });
     },
     onHandleDeleteProduct: () => {

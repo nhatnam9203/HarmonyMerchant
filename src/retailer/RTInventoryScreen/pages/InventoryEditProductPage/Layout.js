@@ -24,6 +24,7 @@ import IMAGE from "@resources";
 import { FormProductOption } from "./FormProductOption";
 import { AddProductOptionDialog } from "./AddProductOptionDialog";
 import { FormProductOptionQty } from "./FormProductOptionQty";
+import { FormProductImages } from "./FormProductImages";
 
 export const Layout = ({
   isEdit,
@@ -36,7 +37,7 @@ export const Layout = ({
   filterCategoryRef,
   dispatchProduct,
   categoriesFilter,
-  onHandleChangeProductName
+  onHandleChangeProductName,
 }) => {
   const [t] = useTranslation();
 
@@ -141,12 +142,13 @@ export const Layout = ({
             />
           </View>
           <View style={styles.content}>
-            <FormUploadImage
+            <FormProductImages
               label={t("Default Image")}
-              onSetFileId={(fileId) =>
-                form.setFieldValue("fileId", parseInt(fileId))
-              }
-              defaultValue={productItem?.imageUrl}
+              onChangeValue={(values) => {
+                form.setFieldValue("images", values);
+              }}
+              images={productItem?.images}
+              defaultImage={productItem?.imageUrl}
             />
             <Text style={styles.errorText}>{errorMsg}</Text>
             <View style={[layouts.horizontal]}>
