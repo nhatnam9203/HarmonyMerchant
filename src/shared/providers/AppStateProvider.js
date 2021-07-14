@@ -4,6 +4,7 @@ import { appMerchant } from "@redux/slices";
 import { AppLoading } from "@shared/components/AppLoading";
 import { ExportLoading } from "@shared/components/ExportLoading";
 import { getDeviceId, getDeviceName } from "@shared/services/Device";
+import actions from "@actions";
 
 const log = (obj, message = "") => {
   Logger.log(`[CodePushProvider] ${message}`, obj);
@@ -29,6 +30,9 @@ export const AppStateProvider = ({ children }) => {
   const loadDeviceInfo = async () => {
     const deviceId = await getDeviceId();
     const deviceName = await getDeviceName();
+
+    await dispatch(actions.dataLocal.updateDeviceId(deviceId));
+    await dispatch(actions.dataLocal.updateDeviceName(deviceName));
     await dispatch(appMerchant.setDeviceInfo({ deviceId, deviceName }));
   };
 
