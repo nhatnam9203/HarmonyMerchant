@@ -20,6 +20,7 @@ import {
 } from "@shared/utils/app";
 import FastImage from "react-native-fast-image";
 import IMAGE from "@resources";
+import { ImageViewPopup } from "./ImageViewPopup";
 
 export const FormProductImages = ({
   images,
@@ -30,6 +31,7 @@ export const FormProductImages = ({
   required = false,
 }) => {
   const [imgArray, setImgArray] = React.useState([]);
+  const dialogRef = React.useRef(null);
 
   React.useEffect(() => {
     setImgArray(images?.sort((a, b) => a.position - b.position));
@@ -41,36 +43,62 @@ export const FormProductImages = ({
     }
   }, [imgArray]);
 
+  const onHandleSetDefaultImage = (img) => {
+    if (img)
+      setImgArray(
+        imgArray?.map((x) =>
+          Object.assign({}, x, { isDefault: x?.fileId === img.fileId })
+        )
+      );
+  };
+
   const onRenderItem = ({ item }) => {
     const onRemovePhoto = () => {
-      setImgArray(imgArray?.filter((x) => x.fileId !== item.fileId));
+      if (item?.isDefault) {
+        setImgArray(
+          imgArray
+            ?.filter((v) => v.fileId !== item.fileId)
+            .map((x, idx) => Object.assign({}, x, { isDefault: idx === 0 }))
+        );
+      } else {
+        setImgArray(imgArray?.filter((x) => x.fileId !== item.fileId));
+      }
+    };
+
+    const onHandleShowImage = () => {
+      dialogRef.current?.showImageItem(item);
     };
 
     return (
       <View style={styles.imageContent} key={item?.fileId + ""}>
-        <FastImage
-          source={
-            item?.imageUrl
-              ? {
-                  uri: item?.imageUrl,
-                  priority: FastImage.priority.normal,
-                }
-              : IMAGE.upload_file_icon
-          }
-          style={item?.imageUrl ? styles.image : styles.thumb}
-          resizeMode="contain"
-        />
-        <TouchableOpacity style={styles.deleteButton} onPress={onRemovePhoto}>
-          <Image source={IMAGE.DeleteOutline} style={styles.deleteIcon} />
-        </TouchableOpacity>
-
-        {item?.isDefault && (
-          <Image
-            source={IMAGE.ImageDefault}
-            style={styles.imageDefault}
+        <TouchableOpacity
+          style={[layouts.fill, layouts.center]}
+          onPress={onHandleShowImage}
+        >
+          <FastImage
+            source={
+              item?.imageUrl
+                ? {
+                    uri: item?.imageUrl,
+                    priority: FastImage.priority.normal,
+                  }
+                : IMAGE.upload_file_icon
+            }
+            style={item?.imageUrl ? styles.image : styles.thumb}
             resizeMode="contain"
           />
-        )}
+          <TouchableOpacity style={styles.deleteButton} onPress={onRemovePhoto}>
+            <Image source={IMAGE.DeleteOutline} style={styles.deleteIcon} />
+          </TouchableOpacity>
+
+          {item?.isDefault && (
+            <Image
+              source={IMAGE.ImageDefault}
+              style={styles.imageDefault}
+              resizeMode="contain"
+            />
+          )}
+        </TouchableOpacity>
       </View>
     );
   };
@@ -117,6 +145,11 @@ export const FormProductImages = ({
         )}
         {renderButtonUploadImage()}
       </View>
+
+      <ImageViewPopup
+        ref={dialogRef}
+        onSetDefaultImage={onHandleSetDefaultImage}
+      />
     </View>
   );
 };
