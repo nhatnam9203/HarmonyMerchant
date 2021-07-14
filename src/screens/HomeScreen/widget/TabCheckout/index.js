@@ -2136,11 +2136,11 @@ class TabCheckout extends Layout {
     } = this.props;
 
     let fromTime = fromTimeBlockAppointment
-    // if( blockAppointments && blockAppointments.length > 0 ) {
-    //   fromTime = l.get(blockAppointments, '0.fromTime')
-    //             ? moment(l.get(blockAppointments, '0.fromTime')).local()
-    //             : new Date()
-    // }
+    if( blockAppointments && blockAppointments.length > 0 ) {
+      fromTime = l.get(blockAppointments, '0.fromTime')
+                ? moment(l.get(blockAppointments, '0.fromTime')).local().format()
+                : new Date()
+    }
     
     this.props.actions.appointment.createBlockAppointment(
       profile.merchantId,
