@@ -108,6 +108,8 @@ const PromotiomDetail = forwardRef(
     ); // type configuration sms/mms
     const [messageContent, setMessageContent] = React.useState(null);
     const [useDefaultContent, setUseDefaultContent] = React.useState(false);
+    const [imageFileId, setImageFileId] = React.useState(null);
+    const [noEndDate, setNoEndDate] = React.useState(false);
 
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(
@@ -162,6 +164,8 @@ const PromotiomDetail = forwardRef(
 
         setMessageContent(null);
         setUseDefaultContent(false);
+        setImageFileId(null);
+
       },
     }));
 
@@ -264,7 +268,8 @@ const PromotiomDetail = forwardRef(
       const customerCount = parseInt(smsInfoMarketing?.customerCount || 0);
       const smsCount = Math.ceil(tempValue * customerCount);
 
-      const smsLength = smsInfoMarketing?.smsLength || 1;
+      // const smsLength = smsInfoMarketing?.smsLength || 1;
+      const smsLength = messageContent?.trim().length || 1;
       const segmentFee = smsInfoMarketing?.segmentFee || 1;
       const segmentLength = smsInfoMarketing?.segmentLength || 1;
       // const additionalFee = parseFloat(smsCount > 0 ? (smsInfoMarketing?.additionalFee || 0) : 0);
@@ -407,6 +412,10 @@ const PromotiomDetail = forwardRef(
         isDisabled: isDisabled ? 0 : 1,
         smsAmount: smsAmount,
         customerSendSMSQuantity: customerSendSMSQuantity,
+        fileId: imageFileId,
+        smsType: configMessageType,
+        content: messageContent,
+        noEndDate: noEndDate,
       };
 
       // ------------ Check Valid ---------
@@ -1157,7 +1166,7 @@ const PromotiomDetail = forwardRef(
                     {/* <Text>{`${t("Media")} :`}</Text> */}
                     <FormUploadImage
                       label={t("Media")}
-                      onSetFileId={(fileId) => {}}
+                      onSetFileId={setImageFileId}
                     />
                     <Text
                       style={{
