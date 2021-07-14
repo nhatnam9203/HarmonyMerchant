@@ -61,6 +61,7 @@ class Layout extends React.Component {
       sendReviewLinkOption,
       isUsingTurn,
       giftForNewEnabled,
+      isTurnOnAutoClose,
     } = this.state;
 
     return (
@@ -77,21 +78,22 @@ class Layout extends React.Component {
             placeHolder={localize("Language", language)}
           />
           {/* ------- Item Auto close at:  ------ */}
-          <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-          <ItemSetupGeneral
-            title={`${localize("Auto close at", language)}:`}
-            data={WorkingTime}
-            value={autoCloseAt}
-            onChangeText={(value) => this.setState({ autoCloseAt: value })}
-            placeHolder="08:00 AM"
-            isCustomDropDown={true}
-          />
-          <Switch
-                trackColor={{ false: "#767577", true: "#0764B0" }}
-                ios_backgroundColor="#E5E5E5"
-                onValueChange={(isUsingTurn) => this.setState({ isUsingTurn })}
-                value={isUsingTurn}
-              />
+          <View style={{flexDirection:'row', alignItems:'center'}}>
+            <ItemSetupGeneral
+              title={`${localize("Auto close at", language)}:`}
+              data={WorkingTime}
+              value={autoCloseAt}
+              onChangeText={(value) => this.setState({ autoCloseAt: value })}
+              placeHolder="08:00 AM"
+              isCustomDropDown={true}
+            />
+            <Switch
+                  style={{marginLeft: scaleSize(15), marginTop: 10}}
+                  trackColor={{ false: "#767577", true: "#0764B0" }}
+                  ios_backgroundColor="#E5E5E5"
+                  onValueChange={(isTurnOnAutoClose) => this.setState({ isTurnOnAutoClose })}
+                  value={isTurnOnAutoClose}
+                />
           </View>
 
           {/* ------- Staff Columns On Calendar  ------ */}

@@ -12,6 +12,7 @@ import {
   getTitleSendLinkGoogle,
   getValueSendLinkGoogle,
 } from "@utils";
+import _ from 'lodash'
 
 class TabGaneral extends Layout {
   constructor(props) {
@@ -37,6 +38,7 @@ class TabGaneral extends Layout {
       isUsingTurn: profile?.isUsingTurn || false,
 
       giftForNewEnabled: profile?.giftForNewEnabled || false,
+      isTurnOnAutoClose: profile?.isTurnOnAutoClose || false,
     };
     this.inputRefsTime = [];
   }
