@@ -29,7 +29,7 @@ const CustomTimePicker = ({
     if (!defaultValue) return;
     if (defaultValue instanceof Date) {
       setDate(defaultValue);
-    } else if (typeof defaultValue === "string") {
+    } else if (defaultValue && typeof defaultValue === "string") {
       setDate(new Date(defaultValue));
     }
   }, [defaultValue]);

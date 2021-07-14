@@ -107,6 +107,7 @@ const PromotiomDetail = forwardRef(
       MESSAGE_CONTENT_DEFAULT_TYPE
     ); // type configuration sms/mms
     const [messageContent, setMessageContent] = React.useState(null);
+    const [useDefaultContent, setUseDefaultContent] = React.useState(false);
 
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(
@@ -131,8 +132,6 @@ const PromotiomDetail = forwardRef(
 
     useImperativeHandle(ref, () => ({
       setStateFromParent: (data = {}) => {
-        // console.log('---- setStateFromParent: ', data?.customerSendSMSQuantity);
-
         setCustomerSendSMSQuantity(data?.customerSendSMSQuantity || 0);
         setIsHandleEdit(data?.id ? true : false);
         setPromotionId(data?.id || "");
@@ -144,14 +143,8 @@ const PromotiomDetail = forwardRef(
         setEndDate(formatWithMoment(data?.toDate, "MM/DD/YYYY"));
         if (data?.toDate && data?.fromDate) {
           setStartTime(data?.fromDate);
-          // setStartTime(formatWithMoment(data?.fromDate, "hh:mm A"));
           setEndTime(data?.toDate);
-          // setEndTime(formatWithMoment(data?.toDate || new Date(), "hh:mm A"));
         } else {
-          // const index = getCurrentIndexWorkingTime();
-          //   console.log(index);
-          // setStartTime(WorkingTime[index]?.value ?? "12:00 AM");
-          // setEndTime(WorkingTime[index + 1]?.value ?? "12:00 AM");
           setStartTime(new Date());
           setEndTime(new Date());
         }
@@ -166,6 +159,9 @@ const PromotiomDetail = forwardRef(
         if (_.isEmpty(data)) {
           setValue(0);
         }
+
+        setMessageContent(null);
+        setUseDefaultContent(false);
       },
     }));
 
@@ -176,33 +172,38 @@ const PromotiomDetail = forwardRef(
         originalId: service?.serviceId || 0,
         id: `${service?.serviceId}_Service`,
       }));
+
       const tempProduct = productsByMerchantId.map((product) => ({
         value: product?.name || "",
         type: "Product",
         originalId: product?.productId || 0,
         id: `${product?.productId}_Product`,
       }));
+
       const tempData = tempService.concat(tempProduct);
       setDataServiceProduct(tempData);
     }, [productsByMerchantId, servicesByMerchant]);
 
     useEffect(() => {
-      // console.log('----- useEffect 3 --------');
       if (promotionDetailById?.id) {
         const serviceConditionTag =
           promotionDetailById?.conditionDetail?.service || [];
+
         const productonditionTag =
           promotionDetailById?.conditionDetail?.product || [];
+
         const tempServiceConditionTag = getTagInfoById(
           "Service",
           serviceConditionTag,
           dataServiceProduct
         );
+
         const tempProductonditionTag = getTagInfoById(
           "Product",
           productonditionTag,
           dataServiceProduct
         );
+
         const tempConditionServiceProductTags = [
           ...tempServiceConditionTag,
           ...tempProductonditionTag,
@@ -210,6 +211,7 @@ const PromotiomDetail = forwardRef(
 
         const serviceActionConditionTag =
           promotionDetailById?.applyToDetail?.service || [];
+
         const productActionConditionTag =
           promotionDetailById?.applyToDetail?.product || [];
         const tempServiceActionConditionTag = getTagInfoById(
@@ -217,11 +219,13 @@ const PromotiomDetail = forwardRef(
           serviceActionConditionTag,
           dataServiceProduct
         );
+
         const tempProductActionConditionTag = getTagInfoById(
           "Product",
           productActionConditionTag,
           dataServiceProduct
         );
+
         const tempActionConditionTags = [
           ...tempServiceActionConditionTag,
           ...tempProductActionConditionTag,
@@ -239,7 +243,6 @@ const PromotiomDetail = forwardRef(
     }, [promotionDetailById]);
 
     useEffect(() => {
-      // console.log('----- useEffect 1 --------');
       if (!_.isEmpty(smsInfoMarketing)) {
         calculatorsmsMoney(value);
       }
@@ -247,16 +250,10 @@ const PromotiomDetail = forwardRef(
 
     useEffect(() => {
       if (!_.isEmpty(smsInfoMarketing)) {
-        // console.log('----- useEffect 4 --------');
-
         const customerCount = smsInfoMarketing?.customerCount || 0;
         const customerSendSMSQuantity =
           promotionDetailById?.customerSendSMSQuantity || 0;
         const tempValue = customerSendSMSQuantity / customerCount;
-
-        // console.log('--- customerCount: ', customerCount);
-        // console.log('--- customerSendSMSQuantity: ', customerSendSMSQuantity);
-        // console.log('--- tempValue: ', tempValue);
 
         setValue(tempValue);
         calculatorsmsMoney(tempValue);
@@ -350,6 +347,7 @@ const PromotiomDetail = forwardRef(
         alert("The item is exist");
       }
       setDynamicActionTagsMarginBottom(24);
+      // onLoadDefaultMessageContent();
     };
 
     removeConditionServiceProductTags = (tag) => {
@@ -360,6 +358,7 @@ const PromotiomDetail = forwardRef(
         }
       }
       setConditionServiceProductTags(tempData);
+      // onLoadDefaultMessageContent();
     };
 
     removeActionTags = (tag) => {
@@ -374,6 +373,7 @@ const PromotiomDetail = forwardRef(
 
     handleSetPromotionType = (type) => () => {
       setPromotionType(type);
+      // onLoadDefaultMessageContent();
     };
 
     const handleCampaign = () => {
@@ -486,25 +486,37 @@ const PromotiomDetail = forwardRef(
       // calculatorsmsMoney(value);
     };
 
+    const onHandleSetPromotionValue = (val) => {
+      setPromotionValue(val);
+    };
+
     const onHandleChangeSelect = (bl) => {
       setConfigMessageType(bl?.value ?? "sms");
     };
 
     const onLoadDefaultMessageContent = () => {
+      setUseDefaultContent(true);
+
       const temp = getDefaultMessageContent();
-      console.log(temp);
       setMessageContent(temp);
     };
 
+    const onHandleChangeMessageContent = (text) => {
+      setUseDefaultContent(false);
+      setMessageContent(text);
+    };
+
     const getDefaultMessageContent = React.useCallback(() => {
+      if (!useDefaultContent) return;
       switch (getConditionIdByTitle(condition)) {
-        case 0:
+        case 1:
           return `Look out! 👀 ${
             merchant.businessName
           } is waiting for you to claim their special ${title} promotion to get ${
-            promotionType !== "percent" ? "$" : "%"
-          }${promotionValue}
-          ${
+            promotionType === "percent"
+              ? promotionValue + " %"
+              : "$ " + promotionValue
+          } ${
             actionTags?.length > 0 ? `off for ${actionTags?.join(", ")}.` : ""
           }. ${
             endDate
@@ -514,32 +526,46 @@ const PromotiomDetail = forwardRef(
                 )} so hurry`
               : "Hurry"
           } 🏃🏻‍♀️ and book your appointment on HarmonyPay App now!`;
-        case 1:
+        case 2:
           return `More for less and all for you! During their ${title} promotion,choose any of ${conditionServiceProductTags} at ${
             merchant.businessName
-          } to get ${promotionType !== "percent" ? "$" : "%"}${promotionValue}${
+          } to get ${
+            promotionType === "percent"
+              ? promotionValue + " %"
+              : "$ " + promotionValue
+          }${
             actionTags?.length > 0 ? ` off for ${actionTags?.join(", ")}.` : ""
-          }. Hurry and book your appointment on HarmonyPay App now to grab this deal!,`;
-        case 2:
+          }. Hurry and book your appointment on HarmonyPay App now to grab this deal!`;
+        case 3:
           return `Happy, happy birthday! Hurry onto your HarmonyPay App to claim a special gift from one of your favorite stores, ${
-            merchant.BusinessName
-          } to get ${promotionType !== "percent" ? "$" : "%"}${promotionValue}${
+            merchant.businessName
+          } to get ${
+            promotionType === "percent"
+              ? promotionValue + " %"
+              : "$ " + promotionValue
+          }${
             actionTags?.length > 0 ? ` off for ${actionTags?.join(", ")}.` : ""
           }.`;
-        case 3:
+        case 4:
           return `Loyalty pays! Literally. Go onto your HarmonyPay App to grab this special gift from  ${
             merchant.businessName
-          } to get ${promotionType !== "percent" ? "$" : "%"}${promotionValue}${
+          } to get ${
+            promotionType === "percent"
+              ? promotionValue + " %"
+              : "$ " + promotionValue
+          }${
             actionTags?.length > 0 ? ` off for ${actionTags?.join(", ")}.` : ""
           }. Thanks for being one of our best customers!`;
-        case 4:
+        case 5:
           return (
             `Aww, shucks! We think you're awesome too! Here's a sweet thank you gift from you from ${merchant.businessName} for your referral. Hurry to the HarmonyPay App to claim your exclusive deal!` +
             `Hurry to your HarmonyPay App to claim your referral reward from ${
               merchant.businessName
             } to get ${
-              promotionType !== "percent" ? "$" : "%"
-            }${promotionValue}${
+              promotionType === "percent"
+                ? promotionValue + " %"
+                : "$ " + promotionValue
+            }${
               actionTags?.length > 0
                 ? ` off for ${actionTags?.join(", ")}.`
                 : ""
@@ -556,6 +582,25 @@ const PromotiomDetail = forwardRef(
       merchant,
       promotionType,
       promotionValue,
+      useDefaultContent,
+      conditionServiceProductTags,
+    ]);
+
+    React.useEffect(() => {
+      if (!useDefaultContent) return;
+
+      const temp = getDefaultMessageContent();
+      setMessageContent(temp);
+    }, [
+      title,
+      endDate,
+      actionTags,
+      condition,
+      merchant,
+      promotionType,
+      promotionValue,
+      useDefaultContent,
+      conditionServiceProductTags,
     ]);
 
     return (
@@ -839,7 +884,7 @@ const PromotiomDetail = forwardRef(
                       }}
                       placeholder="0.00"
                       value={promotionValue}
-                      onChangeText={setPromotionValue}
+                      onChangeText={onHandleSetPromotionValue}
                       style={[
                         {
                           flex: 1,
@@ -1080,7 +1125,7 @@ const PromotiomDetail = forwardRef(
                   placeholderTextColor="#C5C5C5"
                   multiline={true}
                   value={messageContent}
-                  onChangeText={setMessageContent}
+                  onChangeText={onHandleChangeMessageContent}
                 />
                 <View style={layouts.marginVertical} />
                 <Text
