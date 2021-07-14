@@ -126,16 +126,16 @@ class BankInfoScreen extends Layout {
 
   takePhoto = () => {
     ImagePicker.launchCamera({}, (response) => {
-      if (response.uri) {
-        this.handleVoidCheck(response);
+      if (response?.assets?.length > 0) {
+        this.handleVoidCheck(response?.assets[0]);
       }
     });
   };
 
   openImageLibrary = () => {
     ImagePicker.launchImageLibrary({}, (response) => {
-      if (response.uri) {
-        this.handleVoidCheck(response);
+      if (response?.assets?.length > 0) {
+        this.handleVoidCheck(response?.assets[0]);
       }
     });
   };

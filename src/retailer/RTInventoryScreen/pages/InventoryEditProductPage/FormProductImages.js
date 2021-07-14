@@ -3,8 +3,12 @@ import { FormUploadImage } from "@shared/components";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import {
-    FlatList, Image, StyleSheet,
-    Text, TouchableOpacity, View
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import FastImage from "react-native-fast-image";
 import { ImageViewPopup } from "./ImageViewPopup";
@@ -106,6 +110,7 @@ export const FormProductImages = ({
       }}
       defaultImage={defaultImage}
       resetWhenDone={true}
+      multiSelect={true}
     />
   );
 

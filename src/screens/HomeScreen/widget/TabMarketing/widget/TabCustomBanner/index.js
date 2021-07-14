@@ -74,16 +74,16 @@ class TabCustomBanner extends Layout {
 
   takePhoto = () => {
     ImagePicker.launchCamera({}, (response) => {
-      if (response.uri) {
-        this.handleUploadBannerLocal(response);
+      if (response?.assets?.length > 0) {
+        this.handleUploadBannerLocal(response?.assets[0]);
       }
     });
   };
 
   openImageLibrary = () => {
     ImagePicker.launchImageLibrary({}, (response) => {
-      if (response.uri) {
-        this.handleUploadBannerLocal(response);
+      if (response?.assets?.length > 0) {
+        this.handleUploadBannerLocal(response?.assets[0]);
       }
     });
   };
