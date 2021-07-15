@@ -45,6 +45,9 @@ export const CustomRadioSelect = React.forwardRef(
       reset: () => {
         setValue(null);
       },
+      setValue: (val) => {
+        setValue(val);
+      },
     }));
 
     return data ? (

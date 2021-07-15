@@ -73,6 +73,7 @@ const PromotiomDetail = forwardRef(
     ref
   ) => {
     const [t] = useTranslation();
+    const messageSelectRef = React.useRef(null);
 
     const [promotionId, setPromotionId] = useState("");
     const [title, setTitle] = useState("");
@@ -103,6 +104,7 @@ const PromotiomDetail = forwardRef(
     const [customerSendSMSQuantity, setCustomerSendSMSQuantity] = useState(0);
     const [smsAmount, setSmsAmount] = useState("0.00");
     const [smsMaxAmount, setSmsMaxAmount] = useState("0.00");
+
     const [configMessageType, setConfigMessageType] = React.useState(
       MESSAGE_CONTENT_DEFAULT_TYPE
     ); // type configuration sms/mms
@@ -110,6 +112,7 @@ const PromotiomDetail = forwardRef(
     const [useDefaultContent, setUseDefaultContent] = React.useState(false);
     const [imageFileId, setImageFileId] = React.useState(null);
     const [noEndDate, setNoEndDate] = React.useState(false);
+    const [mediaFilePath, setMediaFilePath] = React.useState(null);
 
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(
@@ -162,10 +165,16 @@ const PromotiomDetail = forwardRef(
           setValue(0);
         }
 
-        setMessageContent(null);
+        setMessageContent(data?.content);
         setUseDefaultContent(false);
-        setImageFileId(null);
-
+        // setUseDefaultContent(!!data?.content);
+        setImageFileId(data?.fileId);
+        messageSelectRef.current?.setValue(
+          data?.smsType ?? MESSAGE_CONTENT_DEFAULT_TYPE
+        );
+        setConfigMessageType(data?.smsType ?? MESSAGE_CONTENT_DEFAULT_TYPE);
+        setNoEndDate(data?.noEndDate);
+        setMediaFilePath(data?.smsMediaPath);
       },
     }));
 
@@ -1079,6 +1088,7 @@ const PromotiomDetail = forwardRef(
 
                 <View>
                   <CustomRadioSelect
+                    ref={messageSelectRef}
                     horizontal={true}
                     defaultValue={MESSAGE_CONTENT_DEFAULT_TYPE}
                     data={[
@@ -1163,10 +1173,10 @@ const PromotiomDetail = forwardRef(
 
                 {configMessageType === "mms" && (
                   <View style={{ flex: 0 }}>
-                    {/* <Text>{`${t("Media")} :`}</Text> */}
                     <FormUploadImage
                       label={t("Media")}
                       onSetFileId={setImageFileId}
+                      defaultValue={mediaFilePath}
                     />
                     <Text
                       style={{
