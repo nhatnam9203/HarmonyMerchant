@@ -143,7 +143,7 @@ export const Layout = ({
           </View>
           <View style={styles.content}>
             <FormProductImages
-              label={t("Default Image")}
+              label={t("Product Images")}
               onChangeValue={(values) => {
                 form.setFieldValue("images", values);
               }}
