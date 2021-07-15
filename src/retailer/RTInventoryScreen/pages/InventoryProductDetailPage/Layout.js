@@ -117,6 +117,11 @@ export const Layout = ({
               <ProductInfoLine
                 label={t("Total items in stock")}
                 infoValue={productItem?.quantity + ""}
+                textStyle={
+                  productItem?.quantity < productItem?.minThreshold && {
+                    color: "red",
+                  }
+                }
               />
               <ProductInfoLine
                 label={t("Total items need to order")}
@@ -206,11 +211,13 @@ export const Layout = ({
   );
 };
 
-let ProductInfoLine = ({ label, infoValue }) => {
+let ProductInfoLine = ({ label, infoValue, textStyle }) => {
   return (
     <View style={styles.infoLineContent}>
       {!!label && <Text style={styles.infoLabelText}>{label}</Text>}
-      {!!infoValue && <Text style={styles.infoText}>{infoValue}</Text>}
+      {!!infoValue && (
+        <Text style={[styles.infoText, textStyle]}>{infoValue}</Text>
+      )}
     </View>
   );
 };
