@@ -56,7 +56,11 @@ class BrowserFile extends React.PureComponent {
         {
           quality: 0.2,
         },
-        (response) => this.handleImagePicker(response)
+        (response) => {
+          if (response?.assets?.length > 0) {
+            this.handleImagePicker(response?.assets[0]);
+          }
+        }
       );
     } catch (error) {
       alert(error);
