@@ -10,7 +10,7 @@ import {
   Image,
   Dimensions,
   StyleSheet,
-  FlatList,
+  Pressable,
   ScrollView,
   Switch,
   Platform,
@@ -24,7 +24,11 @@ import _ from "ramda";
 import DropdownSearch from "./DropdownSearch";
 import Slider from "./Slider";
 import IMAGE from "@resources";
-import { CustomRadioSelect, FormUploadImage } from "@shared/components";
+import {
+  CustomRadioSelect,
+  FormUploadImage,
+  CustomCheckBox,
+} from "@shared/components";
 import { useTranslation } from "react-i18next";
 import { colors, fonts, layouts } from "@shared/themes";
 import { dateToString } from "@shared/utils";
@@ -145,7 +149,7 @@ const PromotiomDetail = forwardRef(
           formatWithMoment(data?.fromDate || new Date(), "MM/DD/YYYY")
         );
 
-        setEndDate(formatWithMoment(data?.toDate, "MM/DD/YYYY"));
+        setEndDate(formatWithMoment(data?.toDate || new Date(), "MM/DD/YYYY"));
         if (data?.toDate && data?.fromDate) {
           setStartTime(data?.fromDate);
           setEndTime(data?.toDate);
@@ -312,6 +316,9 @@ const PromotiomDetail = forwardRef(
     };
 
     const showDatePicker = (isChangeDate) => () => {
+      if (isChangeDate === "end" && noEndDate) {
+        return;
+      }
       setIsChangeDate(isChangeDate);
       setDatePickerVisibility(true);
     };
@@ -675,9 +682,25 @@ const PromotiomDetail = forwardRef(
           <View style={{ flexDirection: "row" }}>
             {/* ------------------- Start Date ------------------- */}
             <View style={{ flex: 1 }}>
-              <Text style={[styles.txt_date, { marginBottom: scaleSize(10) }]}>
-                {`Start Date`}
-              </Text>
+              <View
+                style={{
+                  height: scaleHeight(30),
+                  alignItems: "flex-start",
+                  justifyContent: "center",
+                }}
+              >
+                <Text
+                  style={[
+                    styles.txt_date,
+                    {
+                      marginBottom: scaleSize(0),
+                    },
+                  ]}
+                >
+                  {`Start Date`}
+                </Text>
+              </View>
+
               <View style={{ flexDirection: "row", height: scaleSize(30) }}>
                 <SelectPromotionDate
                   value={startDate}
@@ -945,18 +968,39 @@ const PromotiomDetail = forwardRef(
 
             {/* ------------------- End Date ------------------- */}
             <View style={{ flex: 1 }}>
-              <Text
-                style={[
-                  styles.txt_date,
-                  { marginLeft: scaleSize(18), marginBottom: scaleSize(10) },
-                ]}
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  height: scaleHeight(30),
+                }}
               >
-                {`End Date`}
-              </Text>
+                <Text
+                  style={[
+                    styles.txt_date,
+                    {
+                      marginLeft: scaleSize(18),
+                      // marginBottom: scaleSize(10),
+                    },
+                  ]}
+                >
+                  {`End Date`}
+                </Text>
+                <View style={layouts.marginHorizontal} />
+                <CustomCheckBox
+                  style={{ flexDirection: "row" }}
+                  textStyle={styles.txt_date}
+                  label={t("No end date")}
+                  value={noEndDate}
+                  onValueChange={setNoEndDate}
+                />
+              </View>
+
               <View style={{ flexDirection: "row", height: scaleSize(30) }}>
                 <View style={{ width: scaleSize(18) }} />
                 <SelectPromotionDate
-                  value={endDate}
+                  value={endDate ?? new Date()}
                   onChangeText={setEndDate}
                   showDatePicker={showDatePicker("end")}
                 />
@@ -974,13 +1018,14 @@ const PromotiomDetail = forwardRef(
                     }}
                   /> */}
                 <CustomTimePicker
-                  editable={false}
+                  editable={true}
                   defaultValue={endTime}
                   onChangeDate={(d) => {
                     setEndTime(d);
                   }}
                   renderBase={(showPicker) => (
-                    <View
+                    <Pressable
+                      disabled={noEndDate}
                       style={{
                         width: scaleSize(135),
                         height: "100%",
@@ -989,35 +1034,41 @@ const PromotiomDetail = forwardRef(
                         flexDirection: "row",
                         paddingHorizontal: scaleSize(10),
                       }}
+                      onPress={showPicker}
                     >
-                      <TextInput
-                        placeholder="--:--"
-                        value={getWorkingTime(endTime)}
-                        // onChangeText={(txt) => {
-                        //   setEndTime(txt);
-                        // }}
+                      <View
+                        pointerEvents="box-only"
                         style={{
                           flex: 1,
-                          fontSize: scaleSize(14),
-                          color: "#1f1f1f",
+
                           padding: 0,
                         }}
-                      />
-                      <TouchableOpacity
+                      >
+                        <TextInput
+                          placeholder="--:--"
+                          value={getWorkingTime(endTime)}
+                          style={{
+                            flex: 1,
+                            fontSize: scaleSize(14),
+                            color: "#1f1f1f",
+                            padding: 0,
+                          }}
+                        />
+                      </View>
+                      <View
                         style={{
                           width: scaleSize(40),
                           height: "100%",
                           justifyContent: "center",
                           alignItems: "flex-end",
                         }}
-                        onPress={showPicker}
                       >
                         <Image
                           source={IMAGE.dropdown}
                           style={{ resizeMode: "center" }}
                         />
-                      </TouchableOpacity>
-                    </View>
+                      </View>
+                    </Pressable>
                   )}
                 />
                 <View style={{ width: scaleSize(10) }} />
@@ -1534,6 +1585,8 @@ const styles = StyleSheet.create({
     color: "#6A6A6A",
     fontSize: scaleSize(12),
     fontWeight: "400",
+    textAlign: "left",
+    textAlignVertical: "center",
   },
   border_comm: {
     borderWidth: 1,
