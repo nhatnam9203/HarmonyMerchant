@@ -3,8 +3,12 @@ import { FormUploadImage } from "@shared/components";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import {
-    FlatList, Image, StyleSheet,
-    Text, TouchableOpacity, View
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import FastImage from "react-native-fast-image";
 import { ImageViewPopup } from "./ImageViewPopup";
@@ -93,19 +97,31 @@ export const FormProductImages = ({
   const renderButtonUploadImage = () => (
     <FormUploadImage
       onSetFileId={(fileId, photoUrl) => {
-        setImgArray([
-          ...imgArray,
-          {
-            id: 0,
-            fileId: fileId,
-            isDefault: imgArray?.length <= 0,
-            position: imgArray?.length ?? 0,
-            imageUrl: photoUrl,
-          },
-        ]);
+        if (imgArray?.length > 0)
+          setImgArray([
+            ...imgArray,
+            {
+              id: 0,
+              fileId: fileId,
+              isDefault: imgArray?.length <= 0,
+              position: imgArray?.length ?? 0,
+              imageUrl: photoUrl,
+            },
+          ]);
+        else
+          setImgArray([
+            {
+              id: 0,
+              fileId: fileId,
+              isDefault: imgArray?.length <= 0,
+              position: imgArray?.length ?? 0,
+              imageUrl: photoUrl,
+            },
+          ]);
       }}
       defaultImage={defaultImage}
       resetWhenDone={true}
+      multiSelect={true}
     />
   );
 

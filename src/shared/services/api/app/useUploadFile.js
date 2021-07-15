@@ -12,7 +12,7 @@ export const useUploadFile = (onUploadProgress) => {
 
     if (images) {
       images.forEach((image, i) => {
-        formData.append("files[]", {
+        formData.append("files[" + i + "]", {
           ...image,
           uri:
             Platform.OS === "android"

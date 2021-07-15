@@ -1,11 +1,12 @@
-import { appMerchant } from '@redux/slices';
-import { CodePushContext } from '@shared/providers/CodePushProvider';
-import { sleep } from '@shared/utils/app';
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useGetAddressStates } from '@shared/services/api/app';
+import { appMerchant } from "@redux/slices";
+import { CodePushContext } from "@shared/providers/CodePushProvider";
+import { sleep } from "@shared/utils/app";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { useGetAddressStates } from "@shared/services/api/app";
+import DeviceInfo from "react-native-device-info";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   Logger.log(`[SplashScreen] ${message}`, obj);
 };
 
@@ -29,13 +30,14 @@ export const useProps = (_params) => {
   // React useEffect
   React.useEffect(() => {
     getAddressStates(); // get list state
-    addPushCodeCompleteCallback('splashscreen', onPushCodeComplete);
+    addPushCodeCompleteCallback("splashscreen", onPushCodeComplete);
+
     init().finally(() => {
       return setLoadApp(true);
     }); // do navigation chưa ready, mà codepush xong thì start app
 
     return () => {
-      removePushCodeCompleteCallback('splashscreen');
+      removePushCodeCompleteCallback("splashscreen");
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

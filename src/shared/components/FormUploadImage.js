@@ -25,6 +25,7 @@ export const FormUploadImage = ({
   onSetFileId,
   defaultValue,
   resetWhenDone = false,
+  multiSelect = false,
 }) => {
   const [t] = useTranslation();
   const [progress, setProgress] = React.useState(0);
@@ -35,15 +36,21 @@ export const FormUploadImage = ({
     }
   );
   const [photo, setPhoto] = React.useState(null);
+  const [queues, setQueues] = React.useState(null);
 
-  const onHandleImagePicker = ({
+  const onHandleImagePicker = async ({
     errorMessage,
     errorCode,
     didCancel,
-    uri, // v 3.8.1
-    fileName, // v 3.8.1
-    type, // v 3.8.1
+    //uri, // v 3.8.1
+    //fileName, // v 3.8.1
+    //type, // v 3.8.1
+    assets, // v 4.0.5
   }) => {
+    console.log(errorMessage);
+    console.log(assets);
+    console.log(errorCode);
+
     if (errorCode) {
       switch (errorCode) {
         case "camera_unavailable":
@@ -63,19 +70,27 @@ export const FormUploadImage = ({
       }
     }
 
-    if (uri && fileName) {
+    let temp = null;
+    if (assets?.length) {
       // upload image here
-      const images = [
-        {
-          uri,
-          fileName: fileName?.replace(/.heic|.HEIC/gi, ".JPG"),
-          type,
-        },
-      ];
+      const images = assets?.map((x) => ({
+        uri: x.uri,
+        fileName: x.fileName?.replace(/.heic|.HEIC/gi, ".JPG"),
+        type: x.type,
+      }));
 
-      setPhoto({ url: uri });
-      uploadFile(images);
+      if (images?.length > 1) {
+        handleUploadMultiImages(images);
+      } else {
+        const img = images[0];
+        setPhoto({ url: img.uri });
+        await uploadFile([img]);
+      }
     }
+  };
+
+  const handleUploadMultiImages = (images) => {
+    setQueues(images);
   };
 
   const showImagePicker = () => {
@@ -86,6 +101,7 @@ export const FormUploadImage = ({
       launchImageLibrary(
         {
           quality: 0.2,
+          selectionLimit: multiSelect ? 0 : 1,
         },
         onHandleImagePicker
       );
@@ -99,15 +115,31 @@ export const FormUploadImage = ({
   };
 
   React.useEffect(() => {
+    if (queues?.length > 0) {
+      const temp = queues[0];
+      setPhoto({ url: temp.uri });
+      uploadFile([temp]);
+    } else {
+      if (resetWhenDone) {
+        setPhoto(null);
+      }
+    }
+  }, [queues]);
+
+  React.useEffect(() => {
     if (uploadData?.data && onSetFileId && typeof onSetFileId === "function") {
       onSetFileId(uploadData?.data?.fileId, uploadData?.data?.url);
       setProgress(0);
     }
 
-    if (resetWhenDone) {
-      setPhoto(null);
+    if (queues?.length > 0 && multiSelect) {
+      setQueues(queues.slice(1));
     } else {
-      setPhoto(uploadData?.data);
+      if (resetWhenDone) {
+        setPhoto(null);
+      } else {
+        setPhoto(uploadData?.data);
+      }
     }
   }, [uploadData]);
 
