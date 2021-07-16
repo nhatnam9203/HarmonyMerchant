@@ -127,19 +127,19 @@ export const FormProductOption = React.forwardRef(
             active: t("Active"),
             value: t("Swatch"),
             label: t("Value Label"),
-            valueAdd: t("Additional Price"),
+            // valueAdd: t("Additional Price"),
           }
         : {
             active: t("Active"),
             label: t("Value Label"),
-            valueAdd: t("Additional Price"),
+            // valueAdd: t("Additional Price"),
           };
     };
 
     const getTableKeys = () => {
       return item?.inputType === INPUT_TYPE.VISUAL_SWATCH
-        ? ["active", "value", "label", "valueAdd"]
-        : ["active", "label", "valueAdd"];
+        ? ["active", "value", "label"]
+        : ["active", "label"];
     };
 
     const onRenderTableCell = ({

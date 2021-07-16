@@ -147,7 +147,7 @@ export const Layout = ({
             sku: t("SKU"),
             price: t("Price"),
             quantity: t("Qty"),
-            needToorDer: t("Need To Order"),
+            needToOrder: t("Need To Order"),
             actions: t("Actions"),
           }}
           whiteListKeys={[
@@ -157,7 +157,7 @@ export const Layout = ({
             "sku",
             "price",
             "quantity",
-            "needToorDer",
+            "needToOrder",
             "actions",
           ]}
           primaryKey="productId"
@@ -169,7 +169,7 @@ export const Layout = ({
             sku: scaleWidth(130),
             price: scaleWidth(150),
             quantity: scaleWidth(60),
-            needToorDer: scaleWidth(140),
+            needToOrder: scaleWidth(140),
           }}
           emptyDescription={t("No Products")}
           styleTextKeys={{ name: styles.textName }}
@@ -177,7 +177,7 @@ export const Layout = ({
             createdDate: (value) =>
               dateToString(value, DATE_SHOW_FORMAT_STRING),
             price: (value) => `${formatMoneyWithUnit(value)}`,
-            needToorDer: (value) => (value ? `${value}` : ""),
+            needToOrder: (value) => (value ? `${value}` : "0"),
           }}
           renderCell={onRenderTableCell}
           onRowPress={onLoadProductDetail}
