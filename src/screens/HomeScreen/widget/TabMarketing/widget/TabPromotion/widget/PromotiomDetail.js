@@ -227,9 +227,18 @@ const PromotiomDetail = forwardRef(
           productActionConditionTag,
           dataServiceProduct
         );
+        const categoryActionConditionTag =
+          promotionDetailById?.applyToDetail?.category || [];
+        const tempCategoryActionConditionTag = getTagInfoById(
+          "Category",
+          categoryActionConditionTag,
+          dataCategory
+        );
+
         const tempActionConditionTags = [
           ...tempServiceActionConditionTag,
           ...tempProductActionConditionTag,
+          ...tempCategoryActionConditionTag,
         ];
 
         let tempNumberOfTimesApply =
@@ -238,41 +247,6 @@ const PromotiomDetail = forwardRef(
             : "";
 
         setConditionServiceProductTags(tempConditionServiceProductTags);
-        setActionTags(tempActionConditionTags);
-        setNumberOfTimesApply(tempNumberOfTimesApply);
-      }
-    }, [promotionDetailById]);
-
-    useEffect(() => {
-      if (promotionDetailById?.id) {
-        const categoryConditiontag = 
-        promotionDetailById?.conditionDetail?.category || [];
-      
-        const tempCategoryConditionTag = getTagInfoById(
-          "Category",
-          categoryConditiontag,
-          dataCategory
-        );
-
-        const tempConditionCategoryTags = [...tempCategoryConditionTag]
-
-        const categoryActionConditionTag =
-          promotionDetailById?.applyToDetail?.category || [];
-        const tempCategoryActionConditionTag = getTagInfoById(
-          "Category",
-          categoryActionConditionTag,
-          dataCategory
-        );
-        const tempActionConditionTags = [
-          ...tempCategoryActionConditionTag
-        ];
-
-        let tempNumberOfTimesApply =
-          promotionDetailById?.conditionId === 4
-            ? promotionDetailById?.conditionDetail
-            : "";
-
-        setConditionServiceProductTags(tempConditionCategoryTags);
         setActionTags(tempActionConditionTags);
         setNumberOfTimesApply(tempNumberOfTimesApply);
       }
@@ -441,7 +415,7 @@ const PromotiomDetail = forwardRef(
         applyToDetail: {
           service: tempActionTags?.services || [],
           product: tempActionTags?.products || [],
-          campaign: tempActionTags?.categories || [],
+          category: tempActionTags?.categories || [],
         },
         promotionType: promotionType,
         promotionValue: `${promotionValue || 0.0}`,
@@ -513,6 +487,9 @@ const PromotiomDetail = forwardRef(
     };
 
     handleSetActionCondition = (value) => {
+      if(value != actionCondition){
+        setActionTags([]);
+      }
       setActionCondition(value);
       setDynamicActionTagsMarginBottom(24);
     };
