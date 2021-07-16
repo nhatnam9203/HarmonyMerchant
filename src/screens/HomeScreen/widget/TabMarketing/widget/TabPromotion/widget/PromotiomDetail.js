@@ -98,6 +98,7 @@ const PromotiomDetail = forwardRef(
     const [customerSendSMSQuantity, setCustomerSendSMSQuantity] = useState(0);
     const [smsAmount, setSmsAmount] = useState("0.00");
     const [smsMaxAmount, setSmsMaxAmount] = useState("0.00");
+    const [isCheckNoEndDate, setIsCheckNoEndDate] = useState(false);
 
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(
@@ -249,6 +250,8 @@ const PromotiomDetail = forwardRef(
         setConditionServiceProductTags(tempConditionServiceProductTags);
         setActionTags(tempActionConditionTags);
         setNumberOfTimesApply(tempNumberOfTimesApply);
+
+        setIsCheckNoEndDate(promotionDetailById?.noEndDate);
       }
     }, [promotionDetailById]);
 
@@ -276,6 +279,11 @@ const PromotiomDetail = forwardRef(
         calculatorsmsMoney(tempValue);
       }
     }, [smsInfoMarketing]);
+
+
+    selectCheckBox = () => {
+      setIsCheckNoEndDate(!isCheckNoEndDate)
+    }
 
     calculatorsmsMoney = (tempValue) => {
       const customerCount = parseInt(smsInfoMarketing?.customerCount || 0);
@@ -503,6 +511,8 @@ const PromotiomDetail = forwardRef(
       setTitle(title);
       // calculatorsmsMoney(value);
     };
+
+    const temptIconCheckbox = isCheckNoEndDate ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
 
     return (
       <View
@@ -836,6 +846,19 @@ const PromotiomDetail = forwardRef(
                   ]}
                 >
                   {`End Date`}
+                </Text>
+
+                <Button 
+                  onPress={selectCheckBox} 
+                  style={{ marginRight: scaleSize(12), marginLeft: scaleSize(15) }} >
+                    <Image source={temptIconCheckbox}/>
+                </Button>
+                <Text
+                  style={[
+                    styles.txt_date,
+                    { marginLeft: scaleSize(15) },
+                  ]}>
+                  {localize("NoEndDate", language)}
                 </Text>
               </View>
               <View style={{ flexDirection: "row", height: scaleSize(30) }}>
