@@ -85,6 +85,7 @@ const PromotiomDetail = forwardRef(
     const [promotionType, setPromotionType] = useState("percent"); // fixed
     const [promotionValue, setPromotionValue] = useState("");
     const [dataServiceProduct, setDataServiceProduct] = useState([]);
+    const [dataCategory, setDataCategory] = useState([]);
     const [numberOfTimesApply, setNumberOfTimesApply] = useState("");
     const [actionTags, setActionTags] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true);
@@ -110,6 +111,11 @@ const PromotiomDetail = forwardRef(
     const servicesByMerchant = useSelector(
       (state) => state?.service?.servicesByMerchant || []
     );
+
+    const categoriesByMerchant = useSelector(
+      (state) => state?.category?.categoriesByMerchant || []
+    )
+
     const promotionDetailById = useSelector(
       (state) => state?.marketing?.promotionDetailById || {}
     );
@@ -175,6 +181,17 @@ const PromotiomDetail = forwardRef(
     }, [productsByMerchantId, servicesByMerchant]);
 
     useEffect(() => {
+      const tempCategory = categoriesByMerchant.map((category) => ({
+        value: category?.name || "",
+        type: "Category",
+        originalId: category?.categoryId || 0,
+        id: `${category?.categoryId}_Category`,
+      }));
+      
+      setDataCategory(tempCategory);
+    }, [categoriesByMerchant]);
+
+    useEffect(() => {
       // console.log('----- useEffect 3 --------');
       if (promotionDetailById?.id) {
         const serviceConditionTag =
@@ -221,6 +238,41 @@ const PromotiomDetail = forwardRef(
             : "";
 
         setConditionServiceProductTags(tempConditionServiceProductTags);
+        setActionTags(tempActionConditionTags);
+        setNumberOfTimesApply(tempNumberOfTimesApply);
+      }
+    }, [promotionDetailById]);
+
+    useEffect(() => {
+      if (promotionDetailById?.id) {
+        const categoryConditiontag = 
+        promotionDetailById?.conditionDetail?.category || [];
+      
+        const tempCategoryConditionTag = getTagInfoById(
+          "Category",
+          categoryConditiontag,
+          dataCategory
+        );
+
+        const tempConditionCategoryTags = [...tempCategoryConditionTag]
+
+        const categoryActionConditionTag =
+          promotionDetailById?.applyToDetail?.category || [];
+        const tempCategoryActionConditionTag = getTagInfoById(
+          "Category",
+          categoryActionConditionTag,
+          dataCategory
+        );
+        const tempActionConditionTags = [
+          ...tempCategoryActionConditionTag
+        ];
+
+        let tempNumberOfTimesApply =
+          promotionDetailById?.conditionId === 4
+            ? promotionDetailById?.conditionDetail
+            : "";
+
+        setConditionServiceProductTags(tempConditionCategoryTags);
         setActionTags(tempActionConditionTags);
         setNumberOfTimesApply(tempNumberOfTimesApply);
       }
@@ -389,6 +441,7 @@ const PromotiomDetail = forwardRef(
         applyToDetail: {
           service: tempActionTags?.services || [],
           product: tempActionTags?.products || [],
+          campaign: tempActionTags?.categories || [],
         },
         promotionType: promotionType,
         promotionValue: `${promotionValue || 0.0}`,
@@ -912,6 +965,43 @@ const PromotiomDetail = forwardRef(
                   >
                     <DropdownSearch
                       dataServiceProduct={dataServiceProduct}
+                      selectedTag={addActionTags}
+                      onFocus={handleScroll(450)}
+                      onChangeText={handleActionTagsDropdown}
+                    />
+                  </View>
+
+                  <View style={{ width: "100%" }}>
+                    <Tags tags={actionTags} removeTag={removeActionTags} />
+                  </View>
+                </>
+              )}
+
+              {actionCondition === "Discount by category" && (
+                <>
+                  <Text
+                    style={[
+                      styles.txt_date,
+                      { marginBottom: scaleSize(8), marginTop: scaleSize(5) },
+                    ]}
+                  >
+                    {`Select category`}
+                  </Text>
+                  <View
+                    style={{
+                      height: scaleSize(30),
+                      width: scaleSize(330),
+                      paddingHorizontal: 1,
+                      marginBottom: scaleSize(
+                        dynamicActionTagsMarginBottom === 24 &&
+                          actionTags.length > 0
+                          ? 5
+                          : dynamicActionTagsMarginBottom
+                      ),
+                    }}
+                  >
+                    <DropdownSearch
+                      dataServiceProduct={dataCategory}
                       selectedTag={addActionTags}
                       onFocus={handleScroll(450)}
                       onChangeText={handleActionTagsDropdown}

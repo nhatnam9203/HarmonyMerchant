@@ -1290,6 +1290,7 @@ export const MARKETING_CONDITIONS = [
 export const DISCOUNT_ACTION = [
   { value: "Discount for whole cart" },
   { value: "Discount for specific services" },
+  { value: "Discount by category" },
 ];
 
 export const formatHourMinute = (time) => {
@@ -1364,6 +1365,9 @@ export const getShortNameForDiscountAction = (title) => {
     case "Discount for whole cart":
       shortName = "all";
       break;
+    case "Discount by category":
+      shortName = "category";
+      break;
     default:
       shortName = "all";
   }
@@ -1380,6 +1384,9 @@ export const getDiscountActionByShortName = (shortName) => {
     case "all":
       actionDiscount = "Discount for whole cart";
       break;
+    case "category":
+      actionDiscount = "Discount by category";
+      break;
     default:
       actionDiscount = "Discount for whole cart";
   }
@@ -1390,18 +1397,22 @@ export const getDiscountActionByShortName = (shortName) => {
 export const getFormatTags = (data) => {
   const services = [];
   const products = [];
+  const categories = [];
 
   for (let i = 0; i < data.length; i++) {
     const tempData = data[i];
     if (tempData.type === "Service") {
       services.push(tempData?.originalId);
+    } else if (tempData.type === "Product"){
+      products.push(tempData?.originalId); 
     } else {
-      products.push(tempData?.originalId);
+      categories.push(tempData?.originalId);
     }
   }
   return {
     services,
     products,
+    categories,
   };
 };
 

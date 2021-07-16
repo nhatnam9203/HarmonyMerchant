@@ -125,6 +125,7 @@ const mapStateToProps = state => ({
   language: state.dataLocal.language,
   promotions: state.marketing.promotions,
   servicesByMerchant: state.service.servicesByMerchant,
+  categoriesByMerchant: state.category.categoriesByMerchant,
   isApplyPromotion: state.marketing.isApplyPromotion,
   refreshingPromotion: state.marketing.refreshingPromotion,
   isGetPromotionByMerchant: state.marketing.isGetPromotionByMerchant,
