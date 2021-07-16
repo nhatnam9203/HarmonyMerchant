@@ -193,5 +193,12 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
       form.setFieldValue("name", value);
       dispatchProduct(changeProductName(value));
     },
+    onHandleChangeProductImages: (values) => {
+      form.setFieldValue("images", values);
+      const defaultImage = values?.find((value) => value.isDefault);
+      if (defaultImage) {
+        form.setFieldValue("fileId", defaultImage.fileId);
+      }
+    },
   };
 };

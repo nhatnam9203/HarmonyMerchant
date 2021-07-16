@@ -41,6 +41,7 @@ export const FormProductImages = ({
           Object.assign({}, x, { isDefault: x?.fileId === img.fileId })
         )
       );
+
   };
 
   const onRenderItem = ({ item }) => {

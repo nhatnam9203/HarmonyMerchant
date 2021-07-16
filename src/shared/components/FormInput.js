@@ -1,8 +1,8 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { fonts, colors } from '@shared/themes';
-import { CustomInput,CustomInputMask } from './CustomInput';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { fonts, colors } from "@shared/themes";
+import { CustomInput, CustomInputMask } from "./CustomInput";
+import { useTranslation } from "react-i18next";
 export const FormInput = ({
   onChangeValue,
   defaultValue,
@@ -11,10 +11,11 @@ export const FormInput = ({
   label,
   style,
   keyboardType,
+  editable,
 }) => {
   const [t] = useTranslation();
   const onHandleChange = (text) => {
-    if (onChangeValue && typeof onChangeValue === 'function') {
+    if (onChangeValue && typeof onChangeValue === "function") {
       onChangeValue(text);
     }
   };
@@ -31,12 +32,13 @@ export const FormInput = ({
         <CustomInput
           style={styles.customInput}
           textInputProps={{
-            placeholder: placeholder ?? t('Input here'),
+            placeholder: placeholder ?? t("Input here"),
             fontSize: scaleFont(17),
-            textAlign: 'left',
+            textAlign: "left",
             defaultValue: defaultValue,
             onChangeText: onHandleChange,
             keyboardType: keyboardType,
+            editable: editable,
           }}
         />
       </View>
@@ -54,16 +56,16 @@ export const FormInputMask = ({
   keyboardType,
   options = {
     precision: 2,
-    separator: '.',
-    delimiter: ',',
-    unit: '',
-    suffixUnit: '',
+    separator: ".",
+    delimiter: ",",
+    unit: "",
+    suffixUnit: "",
   },
-  type = 'money',
+  type = "money",
 }) => {
   const [t] = useTranslation();
   const onHandleChange = (text) => {
-    if (onChangeValue && typeof onChangeValue === 'function') {
+    if (onChangeValue && typeof onChangeValue === "function") {
       onChangeValue(text);
     }
   };
@@ -82,9 +84,9 @@ export const FormInputMask = ({
           options={options}
           type={type}
           textInputProps={{
-            placeholder: placeholder ?? t('Input here'),
+            placeholder: placeholder ?? t("Input here"),
             fontSize: scaleFont(17),
-            textAlign: 'left',
+            textAlign: "left",
             defaultValue: defaultValue,
             onChangeText: onHandleChange,
             keyboardType: keyboardType,
@@ -101,18 +103,18 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingVertical: scaleHeight(10),
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
 
   textStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
@@ -124,10 +126,10 @@ const styles = StyleSheet.create({
   requiredStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.ORANGEY_RED,
   },
 });
