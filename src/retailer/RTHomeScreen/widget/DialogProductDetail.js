@@ -99,7 +99,8 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
 
     if (optionsSelected) {
       if (index === 0) {
-        for (const x of product?.quantities) {
+        const filterArr = product?.quantities?.filter((x) => x.quantity > 0);
+        for (const x of filterArr) {
           if (x.attributeIds?.includes(value)) {
             return true;
           }
@@ -208,8 +209,10 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   React.useEffect(() => {
     if (optionsQty) {
       setImageUrl(optionsQty?.imageUrl ?? product?.imageUrl);
+    } else {
+      setImageUrl(product?.imageUrl);
     }
-  }, [optionsQty])
+  }, [optionsQty]);
 
   const updateOptionsValue = (data, index, itemOption, optionValue) => {
     let opt = { id: itemOption?.id, value: optionValue?.attributeValueId };
