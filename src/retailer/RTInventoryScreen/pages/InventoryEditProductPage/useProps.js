@@ -131,6 +131,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
     const { codeStatus, data } = productsGet || {};
     if (statusSuccess(codeStatus)) {
       dispatchProduct(setProduct(data));
+
     }
   }, [productsGet]);
 

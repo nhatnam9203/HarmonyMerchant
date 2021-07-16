@@ -37,9 +37,9 @@ export const useProps = ({
 
   const customer = useSelector((state) => state.basketRetailer.customer);
   const basketProducts = useSelector((state) => state.basketRetailer.products);
-  const purchasePoint = useSelector(
-    (state) => state.basketRetailer.purchasePoint
-  );
+  // const purchasePoint = useSelector(
+  //   (state) => state.basketRetailer.purchasePoint
+  // );
   const appointmentId = useSelector(
     (state) => state.basketRetailer.appointmentId
   );
@@ -77,6 +77,11 @@ export const useProps = ({
     setProducts(null);
   };
 
+  const getPurchasePoint = () => {
+    if (isOrder) return "CallOrder";
+    return "Store";
+  };
+
   React.useEffect(() => {
     const unsubscribeFocus = navigation.addListener("focus", () => {
       resetAll();
@@ -111,7 +116,7 @@ export const useProps = ({
       const submitProducts = createSubmitAppointment(basketProducts);
       createAppointmentTemp({
         customerId: customer?.customerId,
-        purchasePoint: purchasePoint,
+        purchasePoint: getPurchasePoint(),
         products: submitProducts,
       });
     }
@@ -257,7 +262,7 @@ export const useProps = ({
         if (!appointment) {
           createAppointmentTemp({
             customerId: customer?.customerId,
-            purchasePoint: purchasePoint,
+            purchasePoint: getPurchasePoint(),
             products: submitProducts,
           });
         }
@@ -267,6 +272,6 @@ export const useProps = ({
     onRemoveItem: (item) => {
       removeItemAppointment(item?.bookingProductId);
     },
-    customer
+    customer,
   };
 };

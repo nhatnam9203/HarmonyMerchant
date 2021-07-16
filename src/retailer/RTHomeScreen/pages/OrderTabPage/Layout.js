@@ -7,6 +7,7 @@ import { HomeOrderDetailPage } from "../HomeOrderDetailPage";
 import { HomeOrderListPage } from "../HomeOrderListPage";
 import { HomeOrderPayPage } from "../HomeOrderPayPage";
 import { HomeOrderReturnPage } from "../HomeOrderReturnPage";
+import { HomeOrderCheckOutPage } from "../HomeOrderCheckOutPage";
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -23,6 +24,7 @@ export const Layout = ({}) => {
         }}
       >
         <Screen {...HomeOrderListPage} />
+        <Screen {...HomeOrderCheckOutPage} />
         <Screen {...HomeOrderDetailPage} />
         <Screen {...HomeOrderPayPage} />
         <Screen {...HomeOrderReturnPage} />
