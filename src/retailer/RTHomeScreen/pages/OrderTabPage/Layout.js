@@ -1,15 +1,12 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import { useTranslation } from "react-i18next";
 import { createStackNavigator } from "@react-navigation/stack";
-import { HomeOrderListPage } from "../HomeOrderListPage";
+import { colors } from "@shared/themes";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { EditAddressPage } from "../../../pages";
 import { HomeOrderDetailPage } from "../HomeOrderDetailPage";
-import { CheckOutTabPage } from "../CheckOutTabPage";
+import { HomeOrderListPage } from "../HomeOrderListPage";
 import { HomeOrderPayPage } from "../HomeOrderPayPage";
 import { HomeOrderReturnPage } from "../HomeOrderReturnPage";
-import { EditAddressPage } from "../../../pages";
-
-import { colors } from "@shared/themes";
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -27,7 +24,6 @@ export const Layout = ({}) => {
       >
         <Screen {...HomeOrderListPage} />
         <Screen {...HomeOrderDetailPage} />
-        {/* <Screen {...CheckOutTabPage} /> */}
         <Screen {...HomeOrderPayPage} />
         <Screen {...HomeOrderReturnPage} />
         <Screen {...EditAddressPage} />
