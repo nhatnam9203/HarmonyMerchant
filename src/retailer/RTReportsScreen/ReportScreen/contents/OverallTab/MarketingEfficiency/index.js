@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { useFocusEffect } from "@react-navigation/native";
 import actions from '@actions';
 
 import { ReportLayout } from '../../../widget';
@@ -158,9 +158,15 @@ function MarketingEfficiencyTab({ style, showBackButton, showHeader }, ref) {
   }));
 
   /**effect */
-  useEffect(() => {
-    getMarketingEfficiencyMethod();
-  }, []);
+  // useEffect(() => {
+  //   getMarketingEfficiencyMethod();
+  // }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getMarketingEfficiencyMethod();
+    }, [])
+  );
 
   const refreshData = () => {
     setRefreshing(true);

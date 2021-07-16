@@ -62,6 +62,8 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
                 textAlign: "left",
                 defaultValue: cellItem?.quantity || 0,
                 onChangeText: onHandleChange,
+                keyboardType: "numeric",
+                showSoftInputOnFocus: false,
               }}
             />
           </View>

@@ -19,6 +19,9 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { ButtonOverall } from "../../../widget";
 import moment from "moment";
+import { useFocusEffect } from "@react-navigation/native";
+
+
 const log = (obj, message = "") => {
   Logger.log(`[SalesOrder] ${message}`, obj);
 };
@@ -73,10 +76,15 @@ export const SalesOrder = () => {
   |--------------------------------------------------
   */
 
-  React.useEffect(() => {
-    callGetReportSalesOrder();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal]);
+  // React.useEffect(() => {
+  //   callGetReportSalesOrder();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [timeVal]);
+  useFocusEffect(
+    React.useCallback(() => {
+      callGetReportSalesOrder();
+    }, [timeVal])
+  );
 
   React.useEffect(() => {
     const { codeStatus, message, data, summary } = reportSalesOrder || {};

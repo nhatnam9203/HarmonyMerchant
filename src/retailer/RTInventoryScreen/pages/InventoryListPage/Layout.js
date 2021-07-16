@@ -161,7 +161,6 @@ export const Layout = ({
             "actions",
           ]}
           primaryKey="productId"
-          unitKeys={{ totalDuration: "hrs" }}
           widthForKeys={{
             imageUrl: IMAGE_WIDTH,
             name: scaleWidth(220),

@@ -116,6 +116,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     if (quantity <= 0) return true;
     if (!product) return true;
     if (product?.quantities?.length > 0 && !optionsQty) return true;
+    if (listFiltersOptionsQty?.length <= 0) return true;
     return false;
   };
 

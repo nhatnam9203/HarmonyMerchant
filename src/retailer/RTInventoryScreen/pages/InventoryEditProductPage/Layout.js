@@ -38,6 +38,7 @@ export const Layout = ({
   dispatchProduct,
   categoriesFilter,
   onHandleChangeProductName,
+  onHandleChangeProductImages,
 }) => {
   const [t] = useTranslation();
 
@@ -67,7 +68,7 @@ export const Layout = ({
         )}
         {isNew && <Text style={styles.headTitle}>{t("New Product")}</Text>}
       </View>
-      <KeyboardAwareScrollView bounces={false} extraHeight={scaleHeight(150)}>
+      <KeyboardAwareScrollView bounces={false} extraHeight={scaleHeight(100)}>
         <View style={styles.content}>
           <FormTitle label={t("General Details")} />
         </View>
@@ -144,9 +145,7 @@ export const Layout = ({
           <View style={styles.content}>
             <FormProductImages
               label={t("Product Images")}
-              onChangeValue={(values) => {
-                form.setFieldValue("images", values);
-              }}
+              onChangeValue={onHandleChangeProductImages}
               images={productItem?.images}
               defaultImage={productItem?.imageUrl}
             />
@@ -188,6 +187,7 @@ export const Layout = ({
               }}
               defaultValue={`${productItem?.quantity ?? ""}`}
               keyboardType="number-pad"
+              editable={!isEdit}
             />
           </View>
         </View>
