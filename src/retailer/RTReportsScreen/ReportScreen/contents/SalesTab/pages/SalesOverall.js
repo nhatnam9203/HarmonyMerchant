@@ -18,6 +18,7 @@ import {
 import { getQuickFilterTimeRange, formatMoneyWithUnit } from "@utils";
 import { useTranslation } from "react-i18next";
 import SalesLineChart from "./chart/SalesLineChart";
+import { useFocusEffect } from "@react-navigation/native";
 
 const log = (obj, message = "") => {
   Logger.log(`[SalesOverall] ${message}`, obj);
@@ -54,10 +55,16 @@ export const SalesOverall = () => {
   //     callGetReportSalesOverall();
   //   }, []);
 
-  React.useEffect(() => {
-    callGetReportSalesOverall();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal]);
+  // React.useEffect(() => {
+  //   callGetReportSalesOverall();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [timeVal]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      callGetReportSalesOverall();
+    }, [timeVal])
+  );
 
   React.useEffect(() => {
     const { codeStatus, message, data, summary } = reportSalesOverall || {};
