@@ -10,6 +10,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import SalesByProduct from './SalesByProduct';
 import SalesByProductDetail from './SalesByProductDetail';
+import { useFocusEffect } from "@react-navigation/native";
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -32,7 +33,7 @@ function SalesByProductTab({
   const callGetReportSaleProduct = React.useCallback(() => {
     getReportSaleProduct({
       ...timeVal,
-      product: filterProduct?.value ?? 'top',
+      product: filterProduct?.value ?? "top",
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeVal, filterProduct]);
@@ -47,9 +48,9 @@ function SalesByProductTab({
   const callExportSaleByProduct = (values) => {
     const params = Object.assign({}, values, {
       ...timeVal,
-      product: filterProduct?.value ?? 'top',
+      product: filterProduct?.value ?? "top",
     });
-    exportRef.current?.onSetFileName(getTimeTitleFile('SaleByProduct', params));
+    exportRef.current?.onSetFileName(getTimeTitleFile("SaleByProduct", params));
 
     ExportSaleByProduct(params);
   };
@@ -67,10 +68,16 @@ function SalesByProductTab({
   |--------------------------------------------------
   */
 
-  React.useEffect(() => {
-    callGetReportSaleProduct();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal, filterProduct]);
+  // React.useEffect(() => {
+  //   callGetReportSaleProduct();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [timeVal, filterProduct]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      callGetReportSaleProduct();
+    }, [timeVal, filterProduct])
+  );
 
   /**effect */
   React.useEffect(() => {
@@ -81,9 +88,9 @@ function SalesByProductTab({
   }, [reportSaleProduct]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
-    if (quickFilter === 'Customize Date') {
+    if (quickFilter === "Customize Date") {
       setTimeVal({
-        quickFilter: 'custom',
+        quickFilter: "custom",
         quickFilterText: quickFilter,
         timeStart: timeState.startDate,
         timeEnd: timeState.endDate,
@@ -98,7 +105,7 @@ function SalesByProductTab({
 
   const onSortWithKey = (sortKey) => {
     switch (sortKey) {
-      case 'totalProfit':
+      case "totalProfit":
         const totalProfit =
           sortTotalProfit === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
         setSortTotalProfit(totalProfit);

@@ -14,15 +14,14 @@ import { DialogNewCustomer } from "./DialogNewCustomer";
 const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
 
 export const CheckOutCustomerInfo = React.forwardRef(
-  ({ customerInfo }, ref) => {
+  ({ customerInfo, canDelete = false }, ref) => {
     const [t] = useTranslation();
     const dispatch = useDispatch();
     const dialogNewRef = React.useRef(null);
     const dialogPhoneRef = React.useRef(null);
 
-    const customer =
-      customerInfo ?? useSelector((state) => state.basketRetailer.customer);
     const [customerByPhone, getCustomerByPhone] = useGetCustomerByPhone();
+    const [customer, setCustomer] = React.useState(null);
 
     const [phone, setPhone] = React.useState();
 
@@ -47,6 +46,9 @@ export const CheckOutCustomerInfo = React.forwardRef(
           dialogPhoneRef.current?.show();
         }, 500);
       },
+      setCustomer: (info) => {
+        setCustomer(info);
+      },
     }));
 
     React.useEffect(() => {
@@ -62,6 +64,10 @@ export const CheckOutCustomerInfo = React.forwardRef(
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [customerByPhone]);
+
+    React.useEffect(() => {
+      setCustomer(customerInfo);
+    }, [customerInfo]);
 
     return (
       <>
@@ -82,7 +88,7 @@ export const CheckOutCustomerInfo = React.forwardRef(
               <Text style={styles.textStyle}>{customer.phone}</Text>
             </View>
             <View style={layouts.marginHorizontal} />
-            {!customerInfo && (
+            {canDelete && (
               <ButtonGradientWhite
                 width={scaleWidth(40)}
                 height={scaleHeight(40)}

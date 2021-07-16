@@ -93,10 +93,14 @@ export const Layout = ({
             <View style={styles.productInfo}>
               <Text style={styles.productName}>{productItem?.name}</Text>
               <View style={layouts.marginVertical} />
+              <View style={layouts.marginVertical} />
+
               <Text style={styles.productDescription}>
                 {productItem?.description}
               </Text>
               <View style={layouts.marginVertical} />
+              <View style={layouts.marginVertical} />
+
               <ProductInfoLine
                 label={t("Category")}
                 infoValue={productItem?.categoryName}

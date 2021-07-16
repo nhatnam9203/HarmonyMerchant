@@ -44,7 +44,6 @@ export const useProps = ({ params: { reload } }) => {
     getInventoryList({
       key: searchVal ?? "",
       page: page,
-      sorts: {},
       ...((category >= 0 || needToOrder) && {
         filters: {
           ...(category >= 0 && { categoryId: category }),
@@ -67,7 +66,7 @@ export const useProps = ({ params: { reload } }) => {
       merchantId: merchant?.merchantId,
       key: searchVal ?? "",
       page: page,
-      sort: {},
+      // sort: {},
       ...((category >= 0 || needToOrder) && {
         filters: {
           ...(category >= 0 && { categoryId: category }),

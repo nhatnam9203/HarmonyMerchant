@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { View, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-
+import { useFocusEffect } from "@react-navigation/native";
 import actions from "@actions";
 
 import { ReportLayout } from "../../../widget";
@@ -145,9 +145,14 @@ function PaymentMethodTab(
   }));
 
   /**effect */
-  useEffect(() => {
-    getOverallPaymentMethod();
-  }, []);
+  // useEffect(() => {
+  //   getOverallPaymentMethod();
+  // }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      getOverallPaymentMethod();
+    }, [])
+  );
 
   const refreshData = () => {
     setRefreshing(true);
@@ -160,9 +165,9 @@ function PaymentMethodTab(
 
   const onSortWithKey = (sortKey) => {
     switch (sortKey) {
-      case 'date':
+      case "date":
         const sortedPayment =
-        sortPayment === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
+          sortPayment === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
         setSortPayment(sortedPayment);
         break;
 
@@ -198,7 +203,6 @@ function PaymentMethodTab(
           isRefreshing={refreshing}
           sortPayment={sortPayment}
           onSortWithKey={onSortWithKey}
-
         />
         <PaymentStatistic
           style={{ flex: 1 }}
