@@ -1,57 +1,57 @@
-import NavigationServices from '@navigators/NavigatorServices';
+import NavigationServices from "@navigators/NavigatorServices";
 import {
   INPUT_TYPE,
   dateToString,
   BIRTH_DAY_DATE_FORMAT_STRING,
-} from '@shared/utils';
-import { useFormik } from 'formik';
-import _ from 'lodash';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
-import { addStaffByMerchant, editStaff } from '@redux/actions/staff';
-import { useDispatch, useSelector } from 'react-redux';
-import { BusinessWorkingTime } from '@utils';
+} from "@shared/utils";
+import { useFormik } from "formik";
+import _ from "lodash";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import * as Yup from "yup";
+import { addStaffByMerchant, editStaff } from "@redux/actions/staff";
+import { useDispatch, useSelector } from "react-redux";
+import { BusinessWorkingTime } from "@utils";
 let counter = -1000000;
 
 const INITIAL_VALUE_STAFF = {
-  firstName: '',
-  lastName: '',
-  displayName: '',
+  firstName: "",
+  lastName: "",
+  displayName: "",
   address: {
-    street: '',
-    city: '',
+    street: "",
+    city: "",
     state: 0,
-    zip: '',
+    zip: "",
   },
-  cellphone: '',
-  email: '',
-  pin: '',
-  confirmPin: '',
+  cellphone: "",
+  email: "",
+  pin: "",
+  confirmPin: "",
   isActive: true,
   isDisabled: 0,
   workingTime: BusinessWorkingTime,
-  birthdate: '',
-  gender: '',
+  birthdate: "",
+  gender: "",
   roles: {
-    nameRole: 'Admin',
+    nameRole: "Admin",
   },
   driverlicense: null,
   socialSecurityNumber: null,
   professionalLicense: null,
   tipFee: {
     percent: {
-      value: '0.0',
+      value: "0.0",
       isCheck: false,
     },
     fixedAmount: {
-      value: '0.0',
+      value: "0.0",
       isCheck: false,
     },
   },
   salary: {
     perHour: {
-      value: '0.00',
+      value: "0.00",
       isCheck: false,
     },
     commission: {
@@ -61,14 +61,19 @@ const INITIAL_VALUE_STAFF = {
   },
   productSalary: {
     commission: {
-      value: '0.00',
+      value: "0.00",
       isCheck: false,
     },
   },
   cashPercent: 0,
   fileId: 0,
-  imageUrl: '',
+  imageUrl: "",
   categories: [],
+};
+
+const SALARY_TYPE = {
+  COMMISSION: "commission",
+  PER_HOUR: "per Hour",
 };
 
 export const useProps = ({ params: { isNew, isEdit, item } }) => {
@@ -76,6 +81,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   const dispatch = useDispatch();
   const [errorMsg, setErrorMsg] = React.useState(null);
   const [current_staff, setCurrentStaff] = React.useState(item);
+  const [salary, setSalary] = React.useState(SALARY_TYPE.PER_HOUR);
 
   /**
   |--------------------------------------------------
@@ -108,16 +114,16 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   const form = useFormik({
     initialValues: item ?? INITIAL_VALUE_STAFF,
     validationSchema: Yup.object().shape({
-      lastName: Yup.string().required(t('LastName is required!')),
-      firstName: Yup.string().required(t('FirstName is required!')),
-      cellphone: Yup.string().required(t('Phone is required')),
-      email: Yup.string().email(t('Email not valid!')),
+      lastName: Yup.string().required(t("LastName is required!")),
+      firstName: Yup.string().required(t("FirstName is required!")),
+      cellphone: Yup.string().required(t("Phone is required")),
+      email: Yup.string().email(t("Email not valid!")),
       birthdate: Yup.string(),
       gender: Yup.string(),
-      pin: Yup.string().length(4, 'Pin code must have 4 digits'),
+      pin: Yup.string().length(4, "Pin code must have 4 digits"),
     }),
     onSubmit: (values) => {
-      const displayName = values.firstName + ' ' + values.lastName;
+      const displayName = values.firstName + " " + values.lastName;
       values.displayName = displayName;
       values.confirmPin = values.pin;
       if (isNew) {
@@ -138,8 +144,17 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   React.useEffect(() => {
     if (item) {
       setCurrentStaff(item);
+
+      if (item.salary?.perHour?.isCheck) {
+        setSalary(SALARY_TYPE.PER_HOUR);
+      } else if (item.productSalary?.commission?.isCheck) {
+        setSalary(SALARY_TYPE.COMMISSION);
+      } else {
+        setSalary(SALARY_TYPE.PER_HOUR);
+      }
     }
   }, [item]);
+
   const buttonCancelPress = () => {
     NavigationServices.goBack();
   };
@@ -150,5 +165,8 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     current_staff,
     buttonCancelPress,
     form,
+    salary,
+    setSalary,
+    SALARY_TYPE,
   };
 };
