@@ -26,6 +26,9 @@ export const FormUploadImage = ({
   defaultValue,
   resetWhenDone = false,
   multiSelect = false,
+  height = scaleHeight(120),
+  width = scaleWidth(120),
+  fontSize = scaleFont(17),
 }) => {
   const [t] = useTranslation();
   const [progress, setProgress] = React.useState(0);
@@ -47,10 +50,6 @@ export const FormUploadImage = ({
     //type, // v 3.8.1
     assets, // v 4.0.5
   }) => {
-    console.log(errorMessage);
-    console.log(assets);
-    console.log(errorCode);
-
     if (errorCode) {
       switch (errorCode) {
         case "camera_unavailable":
@@ -112,6 +111,9 @@ export const FormUploadImage = ({
 
   const onRemovePhoto = () => {
     setPhoto(null);
+    if (onSetFileId && typeof onSetFileId === "function") {
+      onSetFileId(0);
+    }
   };
 
   React.useEffect(() => {
@@ -157,7 +159,7 @@ export const FormUploadImage = ({
       )}
       <View style={layouts.marginVertical} />
       <View style={styles.content}>
-        <View style={styles.imageContent}>
+        <View style={[styles.imageContent, { height: height, width: width }]}>
           <TouchableOpacity
             style={[layouts.fill, layouts.center]}
             onPress={showImagePicker}
@@ -171,12 +173,18 @@ export const FormUploadImage = ({
                     }
                   : IMAGE.upload_file_icon
               }
-              style={photo?.url ? styles.image : styles.thumb}
+              style={
+                photo?.url
+                  ? [styles.image, { height: height, width: width }]
+                  : [styles.thumb, { height: height / 2, width: width / 2 }]
+              }
               resizeMode="contain"
             />
 
             {!photo?.url && (
-              <Text style={styles.label}>{t("Upload image")}</Text>
+              <Text style={[styles.label, { fontSize: fontSize }]}>
+                {t("Upload image")}
+              </Text>
             )}
 
             {photo?.url && !uploadLoading && (
@@ -184,13 +192,16 @@ export const FormUploadImage = ({
                 style={styles.deleteButton}
                 onPress={onRemovePhoto}
               >
-                <Image source={IMAGE.DeleteOutline} style={styles.deleteIcon} />
+                <Image
+                  source={IMAGE.DeleteOutline}
+                  style={[styles.deleteIcon]}
+                />
               </TouchableOpacity>
             )}
 
             {uploadLoading && (
               <ActivityIndicator
-                style={styles.loadingIndicator}
+                style={[styles.loadingIndicator]}
                 size="large"
                 color="#4CD964"
               />
@@ -202,7 +213,7 @@ export const FormUploadImage = ({
       {uploadLoading && (
         <Progress.Bar
           progress={progress}
-          width={scaleWidth(120)}
+          width={width}
           height={scaleHeight(6)}
           borderRadius={scaleHeight(3)}
           color="#4CD964"
@@ -254,9 +265,9 @@ const styles = StyleSheet.create({
     color: colors.ORANGEY_RED,
   },
 
-  thumb: { width: scaleWidth(48), height: scaleHeight(48) },
+  thumb: { width: "50%", height: "50%" },
 
-  image: { height: scaleHeight(120), width: scaleWidth(120) },
+  image: { height: "100%", width: "100%" },
 
   label: {
     fontFamily: fonts.LIGHT,
