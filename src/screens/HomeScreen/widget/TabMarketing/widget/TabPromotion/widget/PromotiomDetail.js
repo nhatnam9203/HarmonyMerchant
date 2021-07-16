@@ -828,14 +828,16 @@ const PromotiomDetail = forwardRef(
 
             {/* ------------------- End Date ------------------- */}
             <View style={{ flex: 1 }}>
-              <Text
-                style={[
-                  styles.txt_date,
-                  { marginLeft: scaleSize(18), marginBottom: scaleSize(10) },
-                ]}
-              >
-                {`End Date`}
-              </Text>
+              <View style={{ flexDirection:'row' }}>
+                <Text
+                  style={[
+                    styles.txt_date,
+                    { marginLeft: scaleSize(18), marginBottom: scaleSize(10) },
+                  ]}
+                >
+                  {`End Date`}
+                </Text>
+              </View>
               <View style={{ flexDirection: "row", height: scaleSize(30) }}>
                 <View style={{ width: scaleSize(18) }} />
                 <SelectPromotionDate
