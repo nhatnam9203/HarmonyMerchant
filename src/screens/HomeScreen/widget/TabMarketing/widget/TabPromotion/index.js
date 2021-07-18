@@ -25,8 +25,6 @@ class TabPromotion extends Layout {
     this.props.handleChangeBackgrounColor(currentIndex);
   }
 
-
-
   createNewCampaign = () => {
     this.props.actions.marketing.resetStatePromotionDetailById();
     this.props.actions.marketing.getSMSInformation(1);

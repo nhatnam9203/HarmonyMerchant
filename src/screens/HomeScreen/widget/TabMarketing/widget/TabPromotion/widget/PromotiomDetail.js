@@ -136,7 +136,7 @@ const PromotiomDetail = forwardRef(
           formatWithMoment(data?.fromDate || new Date(), "MM/DD/YYYY")
         );
 
-        setEndDate(formatWithMoment(data?.toDate, "MM/DD/YYYY"));
+        setEndDate(formatWithMoment(data?.toDate || new Date(), "MM/DD/YYYY"));
         if (data?.toDate && data?.fromDate) {
           setStartTime(data?.fromDate);
           // setStartTime(formatWithMoment(data?.fromDate, "hh:mm A"));
@@ -430,6 +430,7 @@ const PromotiomDetail = forwardRef(
         isDisabled: isDisabled ? 0 : 1,
         smsAmount: smsAmount,
         customerSendSMSQuantity: customerSendSMSQuantity,
+        noEndDate: isCheckNoEndDate,
       };
 
       // ------------ Check Valid ---------
@@ -440,8 +441,8 @@ const PromotiomDetail = forwardRef(
       if (!campaign?.name) {
         alert("Enter the campaign's name please!");
         isValid = false;
-      } else if (parseInt(fromDate) >= parseInt(toDate)) {
-        alert("The start date is not larger than the to date ");
+      } else if (parseInt(fromDate) >= parseInt(toDate) && !isCheckNoEndDate) {
+        alert("The start date is not larger than the end date ");
         isValid = false;
       } else if (
         campaign.conditionId === 2 &&
@@ -838,11 +839,11 @@ const PromotiomDetail = forwardRef(
 
             {/* ------------------- End Date ------------------- */}
             <View style={{ flex: 1 }}>
-              <View style={{ flexDirection:'row' }}>
+              <View style={styles.rowEndDate}>
                 <Text
                   style={[
                     styles.txt_date,
-                    { marginLeft: scaleSize(18), marginBottom: scaleSize(10) },
+                    { marginLeft: scaleSize(18) },
                   ]}
                 >
                   {`End Date`}
@@ -850,87 +851,88 @@ const PromotiomDetail = forwardRef(
 
                 <Button 
                   onPress={selectCheckBox} 
-                  style={{ marginRight: scaleSize(12), marginLeft: scaleSize(15) }} >
-                    <Image source={temptIconCheckbox}/>
+                  style={{ marginRight: scaleSize(5), marginLeft: scaleSize(15) }} >
+                    <Image 
+                      source={temptIconCheckbox}
+                      />
                 </Button>
                 <Text
-                  style={[
-                    styles.txt_date,
-                    { marginLeft: scaleSize(15) },
-                  ]}>
+                  style={styles.txt_date}>
                   {localize("NoEndDate", language)}
                 </Text>
               </View>
-              <View style={{ flexDirection: "row", height: scaleSize(30) }}>
-                <View style={{ width: scaleSize(18) }} />
-                <SelectPromotionDate
-                  value={endDate}
-                  onChangeText={setEndDate}
-                  showDatePicker={showDatePicker("end")}
-                />
-                <View style={{ width: scaleSize(25) }} />
-                {/* ---------  End Time ------ */}
-                {/* <Dropdown
-                    label={"h:mm"}
-                    data={WorkingTime}
-                    value={endTime}
-                    onChangeText={setEndTime}
-                    containerStyle={{
-                      borderWidth: 1,
-                      borderColor: "#DDDDDD",
-                      flex: 1,
-                    }}
-                  /> */}
-                <CustomTimePicker
-                  editable={false}
-                  defaultValue={endTime}
-                  onChangeDate={(d) => {
-                    setEndTime(d);
-                  }}
-                  renderBase={(showPicker) => (
-                    <View
-                      style={{
-                        width: scaleSize(135),
-                        height: "100%",
+              { !isCheckNoEndDate ?
+                <View style={{ flexDirection: "row", height: scaleSize(30) }}>
+                  <View style={{ width: scaleSize(18) }} />
+                  <SelectPromotionDate
+                    value={endDate}
+                    onChangeText={setEndDate}
+                    showDatePicker={showDatePicker("end")}
+                  />
+                  <View style={{ width: scaleSize(25) }} />
+                  {/* ---------  End Time ------ */}
+                  {/* <Dropdown
+                      label={"h:mm"}
+                      data={WorkingTime}
+                      value={endTime}
+                      onChangeText={setEndTime}
+                      containerStyle={{
                         borderWidth: 1,
-                        borderColor: "#ccc",
-                        flexDirection: "row",
-                        paddingHorizontal: scaleSize(10),
+                        borderColor: "#DDDDDD",
+                        flex: 1,
                       }}
-                    >
-                      <TextInput
-                        placeholder="--:--"
-                        value={getWorkingTime(endTime)}
-                        // onChangeText={(txt) => {
-                        //   setEndTime(txt);
-                        // }}
+                    /> */}
+                  <CustomTimePicker
+                    editable={false}
+                    defaultValue={endTime}
+                    onChangeDate={(d) => {
+                      setEndTime(d);
+                    }}
+                    renderBase={(showPicker) => (
+                      <View
                         style={{
-                          flex: 1,
-                          fontSize: scaleSize(14),
-                          color: "#1f1f1f",
-                          padding: 0,
-                        }}
-                      />
-                      <TouchableOpacity
-                        style={{
-                          width: scaleSize(40),
+                          width: scaleSize(135),
                           height: "100%",
-                          justifyContent: "center",
-                          alignItems: "flex-end",
+                          borderWidth: 1,
+                          borderColor: "#ccc",
+                          flexDirection: "row",
+                          paddingHorizontal: scaleSize(10),
                         }}
-                        onPress={showPicker}
                       >
-                        <Image
-                          source={IMAGE.dropdown}
-                          style={{ resizeMode: "center" }}
+                        <TextInput
+                          placeholder="--:--"
+                          value={getWorkingTime(endTime)}
+                          // onChangeText={(txt) => {
+                          //   setEndTime(txt);
+                          // }}
+                          style={{
+                            flex: 1,
+                            fontSize: scaleSize(14),
+                            color: "#1f1f1f",
+                            padding: 0,
+                          }}
                         />
-                      </TouchableOpacity>
-                    </View>
-                  )}
-                />
-                <View style={{ width: scaleSize(10) }} />
-              </View>
-
+                        <TouchableOpacity
+                          style={{
+                            width: scaleSize(40),
+                            height: "100%",
+                            justifyContent: "center",
+                            alignItems: "flex-end",
+                          }}
+                          onPress={showPicker}
+                        >
+                          <Image
+                            source={IMAGE.dropdown}
+                            style={{ resizeMode: "center" }}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    )}
+                  />
+                  <View style={{ width: scaleSize(10) }} />
+                </View>
+                : <View style={{ height: scaleSize(30) }}/>
+              }
               {/* ---------  Actions Condition ------ */}
               <ConditionSpecific
                 title={"Action"}
@@ -1371,6 +1373,11 @@ const styles = StyleSheet.create({
     color: "#404040",
     fontWeight: "400",
   },
+  rowEndDate: { 
+    flexDirection:'row', 
+    alignItems:'center', 
+    marginBottom: scaleSize(10) 
+  }
 });
 
 export default PromotiomDetail;
