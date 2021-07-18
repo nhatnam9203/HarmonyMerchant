@@ -1,29 +1,22 @@
-import { CustomerGroupTypes, SORT_TYPE } from "@shared/utils/app";
-import { useTranslation } from "react-i18next";
-import _ from "lodash";
-import NavigationServices from "@navigators/NavigatorServices";
-import { useFocusEffect } from "@react-navigation/native";
-import { CustomList, CUSTOM_LIST_TYPES } from "../../widget";
-import { useGetCustomerByPhone } from "@shared/services/api/retailer";
-import { splitCodeAndPhone } from "@shared/utils";
-import { basketRetailer } from "@redux/slices";
-import { useDispatch, useSelector } from "react-redux";
-import React from "react";
 import actions from "@actions";
+import Configs from "@configs";
+import PrintManager from "@lib/PrintManager";
+import NavigationServices from "@navigators/NavigatorServices";
+import { useGetAppointment } from "@shared/services/api/retailer";
+import { statusSuccess } from "@shared/utils";
 import {
+  formatNumberFromCurrency,
+  formatWithMoment,
+  getArrayExtrasFromAppointment,
+  getArrayGiftCardsFromAppointment,
   getArrayProductsFromAppointment,
   getArrayServicesFromAppointment,
-  getArrayExtrasFromAppointment,
-  formatNumberFromCurrency,
-  getStaffInfoById,
-  formatWithMoment,
   getInfoFromModelNameOfPrinter,
-  getArrayGiftCardsFromAppointment,
 } from "@utils";
+import _ from "lodash";
+import React from "react";
 import { NativeModules, Platform } from "react-native";
-import PrintManager from "@lib/PrintManager";
-import Configs from "@configs";
-
+import { useDispatch, useSelector } from "react-redux";
 import { useIsPayment } from "../../hooks";
 
 const signalR = require("@microsoft/signalr");
@@ -35,7 +28,10 @@ const log = (obj, message = "") => {
   Logger.log(`[HomeOrderPayPage] ${message}`, obj);
 };
 
-export const useProps = ({ params: { orderItem }, navigation }) => {
+export const useProps = ({
+  params: { orderItem, appointmentId },
+  navigation,
+}) => {
   const basketRef = React.useRef(null);
   const customerRef = React.useRef(null);
   const modalBillRef = React.useRef(null);
@@ -127,6 +123,10 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   const [errorMessageFromPax, setErrorMessageFromPax] = React.useState("");
   const [visibleScanCode, setVisibleScanCode] = React.useState(false);
   const [visiblePrintInvoice, setVisiblePrintInvoice] = React.useState(false);
+  const [appointmentDetail, setAppointmentDetail] = React.useState(null);
+
+  /** CALL API */
+  const [appointment, getAppointment] = useGetAppointment();
 
   const onGoBack = () => {
     NavigationServices.navigate("retailer.home.order.list", { reload: true });
@@ -948,7 +948,8 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
   };
 
   React.useEffect(() => {
-    if (orderItem?.appointmentId)
+    if (orderItem?.appointmentId) {
+      setAppointmentDetail(orderItem);
       dispatch(
         actions.appointment?.getGroupAppointmentById(
           orderItem?.appointmentId,
@@ -957,7 +958,34 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
           false
         )
       );
-  }, [orderItem?.appointmentId]);
+    }
+  }, [orderItem]);
+
+  React.useEffect(() => {
+    if (appointmentId) {
+      getAppointment(appointmentId);
+
+      dispatch(
+        actions.appointment?.getGroupAppointmentById(
+          appointmentId,
+          true,
+          false,
+          false
+        )
+      );
+    }
+  }, [appointmentId]);
+
+  React.useEffect(() => {
+    const { codeStatus, message, data } = appointment || {};
+    if (statusSuccess(codeStatus)) {
+      setAppointmentDetail(data);
+
+      // customerRef.current?.setCustomer(data?.customer);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appointment]);
 
   // React.useEffect(() => {
   //   return () => {
@@ -996,7 +1024,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
       }
     },
     paymentSelected: paymentSelected,
-    orderItem,
+    orderItem: appointmentDetail,
     modalBillRef,
     language,
     visibleBillOfPayment,
@@ -1029,10 +1057,10 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
     callbackDiscountToParent: () => {},
     onDiscountAdd: () => {
       if (_.isEmpty(connectSignalR.current)) {
-        if (orderItem?.appointmentId !== -1) {
+        if (appointmentDetail?.appointmentId !== -1) {
           const appointment = groupAppointment.appointments.find(
             (appointment) =>
-              appointment.appointmentId === orderItem?.appointmentId
+              appointment.appointmentId === appointmentDetail?.appointmentId
           );
 
           const { services, products, extras, giftCards } = appointment;
@@ -1050,7 +1078,7 @@ export const useProps = ({ params: { orderItem }, navigation }) => {
           if (temptBasket.length > 0) {
             dispatch(
               actions.marketing.getPromotionByAppointment(
-                orderItem?.appointmentId
+                appointmentDetail?.appointmentId
               )
             );
           }

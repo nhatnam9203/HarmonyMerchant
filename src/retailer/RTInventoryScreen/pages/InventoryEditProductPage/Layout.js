@@ -39,6 +39,7 @@ export const Layout = ({
   categoriesFilter,
   onHandleChangeProductName,
   onHandleChangeProductImages,
+  onHandleChangeProductDescription,
 }) => {
   const [t] = useTranslation();
 
@@ -133,6 +134,15 @@ export const Layout = ({
                 onPress={onNewCategory}
               />
             </FormSelect>
+
+            <FormInput
+              label={t("Product Description")}
+              placeholder={t("Enter product description")}
+              // required={true}
+              onChangeValue={onHandleChangeProductDescription}
+              defaultValue={productItem?.description}
+              multiline={true}
+            />
 
             <FormInput
               label={t("Product Name")}

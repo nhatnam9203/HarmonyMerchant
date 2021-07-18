@@ -8,6 +8,10 @@ import { useTranslation } from "react-i18next";
 import NavigationServices from "@navigators/NavigatorServices";
 import { NEED_TO_ORDER, statusSuccess } from "@shared/utils/app";
 
+const log = (obj, message = "") => {
+  Logger.log(`[Inventory Product Detail] ${message}`, obj);
+};
+
 export const useProps = ({ params: { item } }) => {
   const { t } = useTranslation();
 
@@ -46,6 +50,7 @@ export const useProps = ({ params: { item } }) => {
     const { codeStatus, data } = product || {};
     if (statusSuccess(codeStatus)) {
       setProduct(data);
+      log(data);
     }
   }, [product]);
 

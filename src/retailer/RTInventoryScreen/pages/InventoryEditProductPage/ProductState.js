@@ -9,6 +9,7 @@ export const PRODUCT_REMOVE_OPTION = "product-remove-options";
 export const PRODUCT_SET_OPTION_QTY = "product-set-options_qty";
 export const PRODUCT_UPDATE_OPTION_QTY = "product-update-options_qty";
 export const PRODUCT_UPDATE_NAME = "product-update-name";
+export const PRODUCT_UPDATE_ATTRIBUTE = "product-update-attribute";
 
 const initState = {};
 
@@ -186,6 +187,14 @@ export const productReducer = (state = initState, action) => {
         quantities: quantitiesUpdateName,
       });
 
+    case PRODUCT_UPDATE_ATTRIBUTE:
+      const { key, value } = action.payload;
+      if (key === "description") {
+        return Object.assign({}, state, {
+          description: value,
+        });
+      }
+      return state;
     default:
       break;
   }
@@ -237,5 +246,11 @@ export const changeProductName = (productName) => {
   return {
     type: PRODUCT_UPDATE_NAME,
     payload: productName,
+  };
+};
+export const changeProductAttribute = (key, value) => {
+  return {
+    type: PRODUCT_UPDATE_ATTRIBUTE,
+    payload: { key: key, value: value },
   };
 };

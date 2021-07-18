@@ -12,6 +12,7 @@ export const FormInput = ({
   style,
   keyboardType,
   editable,
+  multiline = false,
 }) => {
   const [t] = useTranslation();
   const onHandleChange = (text) => {
@@ -30,7 +31,7 @@ export const FormInput = ({
       )}
       <View style={styles.content}>
         <CustomInput
-          style={styles.customInput}
+          style={[styles.customInput, multiline && { height: scaleHeight(80) }]}
           textInputProps={{
             placeholder: placeholder ?? t("Input here"),
             fontSize: scaleFont(17),
@@ -39,6 +40,11 @@ export const FormInput = ({
             onChangeText: onHandleChange,
             keyboardType: keyboardType,
             editable: editable,
+            multiline: multiline,
+            ...(multiline && {
+              textAlignVertical: "top",
+              textInputStyle: { height: scaleHeight(70) },
+            }),
           }}
         />
       </View>
