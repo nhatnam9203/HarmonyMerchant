@@ -241,6 +241,12 @@ export const productReducer = (state = initState, action) => {
           description: value,
         });
       }
+
+      if (key === "barCode") {
+        return Object.assign({}, state, {
+          barCode: value,
+        });
+      }
       return state;
     case PRODUCT_REMOVE_VERSION:
       const qtyItem = action.payload;

@@ -86,10 +86,11 @@ export const FormProductOption = React.forwardRef(
             }
           });
           optionItem["values"] = values;
+          dispatchProduct(updateOption(optionItem));
         } else {
           optionItem["values"] = options;
+          dispatchProduct(changeOption(optionItem));
         }
-        dispatchProduct(updateOption(optionItem));
       }
 
       // eslint-disable-next-line react-hooks/exhaustive-deps

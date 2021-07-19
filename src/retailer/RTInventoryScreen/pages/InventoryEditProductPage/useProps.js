@@ -23,7 +23,9 @@ const log = (obj, message = "") => {
   Logger.log(`[InventoryEditProduct] ${message}`, obj);
 };
 
-export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
+export const useProps = ({
+  params: { isNew, isEdit, item, reload, productBarcode },
+}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const categories = useSelector(
@@ -106,8 +108,15 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      if (reload) getCategoriesList();
-    }, [reload])
+      if (reload) {
+        getCategoriesList();
+      }
+
+      if (productBarcode) {
+        form.setFieldValue("barCode", productBarcode);
+        dispatchProduct(changeProductAttribute("barCode", productBarcode));
+      }
+    }, [reload, productBarcode])
   );
 
   React.useEffect(() => {
