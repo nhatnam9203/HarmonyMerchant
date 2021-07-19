@@ -176,7 +176,8 @@ export const Layout = ({
               items={productItem?.quantities}
               headerKeyLabels={{
                 label: t("Versions"),
-                costPrice: t("Price"),
+                costPrice: t("Cost price"),
+                price: t("Price"),
                 needToOrder: t("Need to order"),
                 quantity: t("Qty"),
                 imageUrl: t("Image"),
@@ -184,14 +185,16 @@ export const Layout = ({
               whiteListKeys={[
                 "label",
                 "costPrice",
+                "price",
                 "needToOrder",
                 "quantity",
                 "imageUrl",
               ]}
               widthForKeys={{
-                label: "40%",
-                costPrice: scaleWidth(180),
-                needToOrder: scaleWidth(180),
+                label: "35%",
+                costPrice: scaleWidth(150),
+                price: scaleWidth(150),
+                needToOrder: scaleWidth(150),
                 quantity: scaleWidth(120),
                 imageUrl: scaleWidth(80),
               }}
