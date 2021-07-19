@@ -23,7 +23,7 @@ const initialState = {
   printerSelect: '',
   profileLoginInvoice: {},
   isTipOnPaxMachine: true,
-
+  isTurnOnAutoClose: false,
   bluetoothPaxInfo: {
     id: '',
     name: '',
@@ -162,6 +162,11 @@ function dataLocalReducer(state = initialState, action) {
       return {
         ...state,
         isTipOnPaxMachine: action.payload,
+      };
+    case 'SWITCH_AUTO_CLOSE':
+      return {
+        ...state,
+        isTurnOnAutoClose: action.payload,
       };
     case 'SAVE_BLUETOOTH_PAX_INFO':
       return {

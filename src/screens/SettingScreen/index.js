@@ -296,6 +296,7 @@ class SettingScreen extends Layout {
       this.generalTabRef.current?.setStateFromParent(
         profile?.webLink || "",
         profile?.timezone || "",
+        profile?.autoClose || false,
         profile?.autoCloseAt || "",
         profile?.turnAmount || 0,
         profile?.staffColumn || 8,

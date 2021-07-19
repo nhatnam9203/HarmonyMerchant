@@ -54,6 +54,7 @@ class TabGaneral extends Layout {
     webLink,
     timezone,
     autoCloseAt,
+    autoClose,
     turnAmount,
     staffColumn,
     signinAppStyle,
@@ -67,6 +68,7 @@ class TabGaneral extends Layout {
         webLink,
         timezone,
         autoCloseAt,
+        isTurnOnAutoClose: autoClose,
         turnAmount,
         isUpdateInternal: false,
         staffColumn,
@@ -167,6 +169,7 @@ class TabGaneral extends Layout {
         timezone,
         autoLockscreen: "",
         autoCloseAt,
+        autoClose: isTurnOnAutoClose,
         turnAmount,
         staffColumn,
         signinAppStyle: getValueSignInAppDisplay(signinAppStyle),
@@ -183,6 +186,13 @@ class TabGaneral extends Layout {
     this.props.actions.dataLocal.switchTipOnPaxMachine(visible);
   };
 
+  switchAuToClose = (visible) => {
+    if(visible && (!this.state.autoCloseAt || this.state.autoCloseAt == "")){
+      this.setState({autoCloseAt: "11:00 PM"})
+    }
+    this.props.actions.dataLocal.switchAuToClose(visible);
+  }
+
   async componentDidUpdate(prevProps, prevState) {
     const { profile, refreshingGeneral, loading, isFocus, currentTab } =
       this.props;
@@ -196,6 +206,7 @@ class TabGaneral extends Layout {
         webLink: profile?.webLink || "",
         timezone: profile?.timezone || "",
         autoCloseAt: profile?.autoCloseAt || "",
+        isTurnOnAutoClose: profile?.autoClose || false,
         turnAmount: profile?.turnAmount || 0,
         staffColumn: profile?.staffColumn || 8,
         signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || ""),
@@ -219,6 +230,7 @@ class TabGaneral extends Layout {
         webLink: profile?.webLink || "",
         timezone: profile?.timezone || "",
         autoCloseAt: profile?.autoCloseAt || "",
+        isTurnOnAutoClose: profile?.autoClose || false,
         turnAmount: profile?.turnAmount || 0,
         staffColumn: profile?.staffColumn || 8,
         isUpdateInternal: false,
@@ -248,6 +260,7 @@ const mapStateToProps = (state) => ({
   loading: state.app.loading,
   versionApp: state.dataLocal.versionApp,
   isTipOnPaxMachine: state.dataLocal.isTipOnPaxMachine,
+  isTurnOnAutoClose: state.dataLocal.isTurnOnAutoClose,
 });
 
 export default connectRedux(mapStateToProps, TabGaneral);
