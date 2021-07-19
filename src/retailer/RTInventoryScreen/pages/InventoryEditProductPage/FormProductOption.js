@@ -24,7 +24,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { removeOption, updateOption } from "./ProductState";
+import { removeOption, updateOption, changeOption } from "./ProductState";
 
 const log = (obj, message = "") => {
   Logger.log(`[FormProductOption] ${message}`, obj);
@@ -159,7 +159,7 @@ export const FormProductOption = React.forwardRef(
           });
 
           dispatchProduct(
-            updateOption(
+            changeOption(
               Object.assign({}, item, { values: updatesSelectOptions })
             )
           );
