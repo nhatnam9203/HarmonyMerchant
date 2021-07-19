@@ -25,8 +25,6 @@ class TabPromotion extends Layout {
     this.props.handleChangeBackgrounColor(currentIndex);
   }
 
-
-
   createNewCampaign = () => {
     this.props.actions.marketing.resetStatePromotionDetailById();
     this.props.actions.marketing.getSMSInformation(1);
@@ -125,6 +123,7 @@ const mapStateToProps = state => ({
   language: state.dataLocal.language,
   promotions: state.marketing.promotions,
   servicesByMerchant: state.service.servicesByMerchant,
+  categoriesByMerchant: state.category.categoriesByMerchant,
   isApplyPromotion: state.marketing.isApplyPromotion,
   refreshingPromotion: state.marketing.refreshingPromotion,
   isGetPromotionByMerchant: state.marketing.isGetPromotionByMerchant,

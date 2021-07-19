@@ -85,6 +85,7 @@ const PromotiomDetail = forwardRef(
     const [promotionType, setPromotionType] = useState("percent"); // fixed
     const [promotionValue, setPromotionValue] = useState("");
     const [dataServiceProduct, setDataServiceProduct] = useState([]);
+    const [dataCategory, setDataCategory] = useState([]);
     const [numberOfTimesApply, setNumberOfTimesApply] = useState("");
     const [actionTags, setActionTags] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true);
@@ -97,6 +98,7 @@ const PromotiomDetail = forwardRef(
     const [customerSendSMSQuantity, setCustomerSendSMSQuantity] = useState(0);
     const [smsAmount, setSmsAmount] = useState("0.00");
     const [smsMaxAmount, setSmsMaxAmount] = useState("0.00");
+    const [isCheckNoEndDate, setIsCheckNoEndDate] = useState(false);
 
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(
@@ -110,6 +112,11 @@ const PromotiomDetail = forwardRef(
     const servicesByMerchant = useSelector(
       (state) => state?.service?.servicesByMerchant || []
     );
+
+    const categoriesByMerchant = useSelector(
+      (state) => state?.category?.categoriesByMerchant || []
+    )
+
     const promotionDetailById = useSelector(
       (state) => state?.marketing?.promotionDetailById || {}
     );
@@ -129,7 +136,7 @@ const PromotiomDetail = forwardRef(
           formatWithMoment(data?.fromDate || new Date(), "MM/DD/YYYY")
         );
 
-        setEndDate(formatWithMoment(data?.toDate, "MM/DD/YYYY"));
+        setEndDate(formatWithMoment(data?.toDate || new Date(), "MM/DD/YYYY"));
         if (data?.toDate && data?.fromDate) {
           setStartTime(data?.fromDate);
           // setStartTime(formatWithMoment(data?.fromDate, "hh:mm A"));
@@ -175,6 +182,17 @@ const PromotiomDetail = forwardRef(
     }, [productsByMerchantId, servicesByMerchant]);
 
     useEffect(() => {
+      const tempCategory = categoriesByMerchant.map((category) => ({
+        value: category?.name || "",
+        type: "Category",
+        originalId: category?.categoryId || 0,
+        id: `${category?.categoryId}_Category`,
+      }));
+      
+      setDataCategory(tempCategory);
+    }, [categoriesByMerchant]);
+
+    useEffect(() => {
       // console.log('----- useEffect 3 --------');
       if (promotionDetailById?.id) {
         const serviceConditionTag =
@@ -210,9 +228,18 @@ const PromotiomDetail = forwardRef(
           productActionConditionTag,
           dataServiceProduct
         );
+        const categoryActionConditionTag =
+          promotionDetailById?.applyToDetail?.category || [];
+        const tempCategoryActionConditionTag = getTagInfoById(
+          "Category",
+          categoryActionConditionTag,
+          dataCategory
+        );
+
         const tempActionConditionTags = [
           ...tempServiceActionConditionTag,
           ...tempProductActionConditionTag,
+          ...tempCategoryActionConditionTag,
         ];
 
         let tempNumberOfTimesApply =
@@ -223,6 +250,8 @@ const PromotiomDetail = forwardRef(
         setConditionServiceProductTags(tempConditionServiceProductTags);
         setActionTags(tempActionConditionTags);
         setNumberOfTimesApply(tempNumberOfTimesApply);
+
+        setIsCheckNoEndDate(promotionDetailById?.noEndDate);
       }
     }, [promotionDetailById]);
 
@@ -250,6 +279,11 @@ const PromotiomDetail = forwardRef(
         calculatorsmsMoney(tempValue);
       }
     }, [smsInfoMarketing]);
+
+
+    selectCheckBox = () => {
+      setIsCheckNoEndDate(!isCheckNoEndDate)
+    }
 
     calculatorsmsMoney = (tempValue) => {
       const customerCount = parseInt(smsInfoMarketing?.customerCount || 0);
@@ -389,12 +423,14 @@ const PromotiomDetail = forwardRef(
         applyToDetail: {
           service: tempActionTags?.services || [],
           product: tempActionTags?.products || [],
+          category: tempActionTags?.categories || [],
         },
         promotionType: promotionType,
         promotionValue: `${promotionValue || 0.0}`,
         isDisabled: isDisabled ? 0 : 1,
         smsAmount: smsAmount,
         customerSendSMSQuantity: customerSendSMSQuantity,
+        noEndDate: isCheckNoEndDate,
       };
 
       // ------------ Check Valid ---------
@@ -405,8 +441,8 @@ const PromotiomDetail = forwardRef(
       if (!campaign?.name) {
         alert("Enter the campaign's name please!");
         isValid = false;
-      } else if (parseInt(fromDate) >= parseInt(toDate)) {
-        alert("The start date is not larger than the to date ");
+      } else if (parseInt(fromDate) >= parseInt(toDate) && !isCheckNoEndDate) {
+        alert("The start date is not larger than the end date ");
         isValid = false;
       } else if (
         campaign.conditionId === 2 &&
@@ -460,6 +496,9 @@ const PromotiomDetail = forwardRef(
     };
 
     handleSetActionCondition = (value) => {
+      if(value != actionCondition){
+        setActionTags([]);
+      }
       setActionCondition(value);
       setDynamicActionTagsMarginBottom(24);
     };
@@ -473,6 +512,8 @@ const PromotiomDetail = forwardRef(
       setTitle(title);
       // calculatorsmsMoney(value);
     };
+
+    const temptIconCheckbox = isCheckNoEndDate ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
 
     return (
       <View
@@ -798,84 +839,100 @@ const PromotiomDetail = forwardRef(
 
             {/* ------------------- End Date ------------------- */}
             <View style={{ flex: 1 }}>
-              <Text
-                style={[
-                  styles.txt_date,
-                  { marginLeft: scaleSize(18), marginBottom: scaleSize(10) },
-                ]}
-              >
-                {`End Date`}
-              </Text>
-              <View style={{ flexDirection: "row", height: scaleSize(30) }}>
-                <View style={{ width: scaleSize(18) }} />
-                <SelectPromotionDate
-                  value={endDate}
-                  onChangeText={setEndDate}
-                  showDatePicker={showDatePicker("end")}
-                />
-                <View style={{ width: scaleSize(25) }} />
-                {/* ---------  End Time ------ */}
-                {/* <Dropdown
-                    label={"h:mm"}
-                    data={WorkingTime}
-                    value={endTime}
-                    onChangeText={setEndTime}
-                    containerStyle={{
-                      borderWidth: 1,
-                      borderColor: "#DDDDDD",
-                      flex: 1,
-                    }}
-                  /> */}
-                <CustomTimePicker
-                  editable={false}
-                  defaultValue={endTime}
-                  onChangeDate={(d) => {
-                    setEndTime(d);
-                  }}
-                  renderBase={(showPicker) => (
-                    <View
-                      style={{
-                        width: scaleSize(135),
-                        height: "100%",
-                        borderWidth: 1,
-                        borderColor: "#ccc",
-                        flexDirection: "row",
-                        paddingHorizontal: scaleSize(10),
-                      }}
-                    >
-                      <TextInput
-                        placeholder="--:--"
-                        value={getWorkingTime(endTime)}
-                        // onChangeText={(txt) => {
-                        //   setEndTime(txt);
-                        // }}
-                        style={{
-                          flex: 1,
-                          fontSize: scaleSize(14),
-                          color: "#1f1f1f",
-                          padding: 0,
-                        }}
-                      />
-                      <TouchableOpacity
-                        style={{
-                          width: scaleSize(40),
-                          height: "100%",
-                          justifyContent: "center",
-                          alignItems: "flex-end",
-                        }}
-                        onPress={showPicker}
-                      >
-                        <Image
-                          source={IMAGE.dropdown}
-                          style={{ resizeMode: "center" }}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  )}
-                />
-                <View style={{ width: scaleSize(10) }} />
-              </View>
+              <View style={styles.rowEndDate}>
+                <Text
+                  style={[
+                    styles.txt_date,
+                    { marginLeft: scaleSize(18) },
+                  ]}
+                >
+                  {`End Date`}
+                </Text>
 
+                <Button 
+                  onPress={selectCheckBox} 
+                  style={{ marginRight: scaleSize(5), marginLeft: scaleSize(15) }} >
+                    <Image 
+                      source={temptIconCheckbox}
+                      />
+                </Button>
+                <Text
+                  style={styles.txt_date}>
+                  {localize("NoEndDate", language)}
+                </Text>
+              </View>
+              { !isCheckNoEndDate ?
+                <View style={{ flexDirection: "row", height: scaleSize(30) }}>
+                  <View style={{ width: scaleSize(18) }} />
+                  <SelectPromotionDate
+                    value={endDate}
+                    onChangeText={setEndDate}
+                    showDatePicker={showDatePicker("end")}
+                  />
+                  <View style={{ width: scaleSize(25) }} />
+                  {/* ---------  End Time ------ */}
+                  {/* <Dropdown
+                      label={"h:mm"}
+                      data={WorkingTime}
+                      value={endTime}
+                      onChangeText={setEndTime}
+                      containerStyle={{
+                        borderWidth: 1,
+                        borderColor: "#DDDDDD",
+                        flex: 1,
+                      }}
+                    /> */}
+                  <CustomTimePicker
+                    editable={false}
+                    defaultValue={endTime}
+                    onChangeDate={(d) => {
+                      setEndTime(d);
+                    }}
+                    renderBase={(showPicker) => (
+                      <View
+                        style={{
+                          width: scaleSize(135),
+                          height: "100%",
+                          borderWidth: 1,
+                          borderColor: "#ccc",
+                          flexDirection: "row",
+                          paddingHorizontal: scaleSize(10),
+                        }}
+                      >
+                        <TextInput
+                          placeholder="--:--"
+                          value={getWorkingTime(endTime)}
+                          // onChangeText={(txt) => {
+                          //   setEndTime(txt);
+                          // }}
+                          style={{
+                            flex: 1,
+                            fontSize: scaleSize(14),
+                            color: "#1f1f1f",
+                            padding: 0,
+                          }}
+                        />
+                        <TouchableOpacity
+                          style={{
+                            width: scaleSize(40),
+                            height: "100%",
+                            justifyContent: "center",
+                            alignItems: "flex-end",
+                          }}
+                          onPress={showPicker}
+                        >
+                          <Image
+                            source={IMAGE.dropdown}
+                            style={{ resizeMode: "center" }}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    )}
+                  />
+                  <View style={{ width: scaleSize(10) }} />
+                </View>
+                : <View style={{ height: scaleSize(30) }}/>
+              }
               {/* ---------  Actions Condition ------ */}
               <ConditionSpecific
                 title={"Action"}
@@ -912,6 +969,43 @@ const PromotiomDetail = forwardRef(
                   >
                     <DropdownSearch
                       dataServiceProduct={dataServiceProduct}
+                      selectedTag={addActionTags}
+                      onFocus={handleScroll(450)}
+                      onChangeText={handleActionTagsDropdown}
+                    />
+                  </View>
+
+                  <View style={{ width: "100%" }}>
+                    <Tags tags={actionTags} removeTag={removeActionTags} />
+                  </View>
+                </>
+              )}
+
+              {actionCondition === "Discount by category" && (
+                <>
+                  <Text
+                    style={[
+                      styles.txt_date,
+                      { marginBottom: scaleSize(8), marginTop: scaleSize(5) },
+                    ]}
+                  >
+                    {`Select category`}
+                  </Text>
+                  <View
+                    style={{
+                      height: scaleSize(30),
+                      width: scaleSize(330),
+                      paddingHorizontal: 1,
+                      marginBottom: scaleSize(
+                        dynamicActionTagsMarginBottom === 24 &&
+                          actionTags.length > 0
+                          ? 5
+                          : dynamicActionTagsMarginBottom
+                      ),
+                    }}
+                  >
+                    <DropdownSearch
+                      dataServiceProduct={dataCategory}
                       selectedTag={addActionTags}
                       onFocus={handleScroll(450)}
                       onChangeText={handleActionTagsDropdown}
@@ -1279,6 +1373,11 @@ const styles = StyleSheet.create({
     color: "#404040",
     fontWeight: "400",
   },
+  rowEndDate: { 
+    flexDirection:'row', 
+    alignItems:'center', 
+    marginBottom: scaleSize(10) 
+  }
 });
 
 export default PromotiomDetail;

@@ -9,6 +9,7 @@ export const PRODUCT_REMOVE_OPTION = "product-remove-options";
 export const PRODUCT_SET_OPTION_QTY = "product-set-options_qty";
 export const PRODUCT_UPDATE_OPTION_QTY = "product-update-options_qty";
 export const PRODUCT_UPDATE_NAME = "product-update-name";
+export const PRODUCT_UPDATE_ATTRIBUTE = "product-update-attribute";
 
 const initState = {};
 
@@ -122,7 +123,10 @@ export const productReducer = (state = initState, action) => {
         options[replaceIndex] = updateOption;
       }
 
-      const oldList = state?.quantities || [];
+      const oldList =
+        state?.quantities?.map((x, index) =>
+          Object.assign({}, x, { position: index })
+        ) || [];
 
       let newList = createQuantitiesItem(state, options)?.map((x) => {
         const isExistItem = oldList?.find((f) =>
@@ -135,6 +139,9 @@ export const productReducer = (state = initState, action) => {
             quantity: isExistItem.quantity,
             costPrice: isExistItem.costPrice,
             additionalPrice: isExistItem.additionalPrice,
+            imageUrl: isExistItem.imageUrl,
+            fileId: isExistItem.fileId,
+            position: isExistItem.position ?? 0,
           });
         }
         return x;
@@ -142,7 +149,7 @@ export const productReducer = (state = initState, action) => {
 
       return Object.assign({}, state, {
         options: options,
-        quantities: newList,
+        quantities: newList?.sort((a, b) => a.position - b.position),
       });
     case PRODUCT_SET_OPTION_QTY:
       return Object.assign({}, state, { quantities: actions.payload });
@@ -186,6 +193,14 @@ export const productReducer = (state = initState, action) => {
         quantities: quantitiesUpdateName,
       });
 
+    case PRODUCT_UPDATE_ATTRIBUTE:
+      const { key, value } = action.payload;
+      if (key === "description") {
+        return Object.assign({}, state, {
+          description: value,
+        });
+      }
+      return state;
     default:
       break;
   }
@@ -237,5 +252,11 @@ export const changeProductName = (productName) => {
   return {
     type: PRODUCT_UPDATE_NAME,
     payload: productName,
+  };
+};
+export const changeProductAttribute = (key, value) => {
+  return {
+    type: PRODUCT_UPDATE_ATTRIBUTE,
+    payload: { key: key, value: value },
   };
 };

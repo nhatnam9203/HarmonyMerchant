@@ -41,6 +41,30 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
     cellWidth,
   }) => {
     switch (columnKey) {
+      case "imageUrl":
+        const onChangeFile = (fileId) => {
+          dispatchProduct(
+            updateOptionsQty(Object.assign({}, cellItem, { fileId: fileId }))
+          );
+        };
+
+        return (
+          <View
+            style={{ width: cellWidth }}
+            key={getUniqueId(columnKey, rowIndex, "cell-quantity")}
+          >
+            <FormUploadImage
+              style={styles.optionImage}
+              height={scaleHeight(40)}
+              width={scaleWidth(40)}
+              fontSize={scaleWidth(9)}
+              // label={cellItem?.label}
+              onSetFileId={onChangeFile}
+              defaultValue={cellItem?.imageUrl}
+            />
+          </View>
+        );
+
       case "quantity":
         const onHandleChange = (text) => {
           dispatchProduct(
@@ -55,13 +79,14 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             key={getUniqueId(columnKey, rowIndex, "cell-quantity")}
           >
             <CustomInput
-              style={[styles.customInput, { width: scaleWidth(150) }]}
+              style={[styles.customInput, { width: scaleWidth(120) }]}
               textInputProps={{
                 placeholder: "Quantity",
                 fontSize: scaleFont(17),
                 textAlign: "left",
                 defaultValue: cellItem?.quantity || 0,
                 onChangeText: onHandleChange,
+                keyboardType: "numeric",
               }}
             />
           </View>
@@ -82,7 +107,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             key={getUniqueId(columnKey, rowIndex, "cell-value-cost")}
           >
             <CustomInputMask
-              style={[styles.customInput, { width: scaleWidth(180) }]}
+              style={[styles.customInput, { width: scaleWidth(150) }]}
               type={"money"}
               options={{
                 precision: 2,
@@ -118,7 +143,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             key={getUniqueId(columnKey, rowIndex, "cell-value-addition")}
           >
             <CustomInputMask
-              style={[styles.customInput, { width: scaleWidth(180) }]}
+              style={[styles.customInput, { width: scaleWidth(150) }]}
               type={"money"}
               options={{
                 precision: 2,
@@ -153,18 +178,26 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
           tableStyle={styles.content}
           items={optionsQty}
           headerKeyLabels={{
+            imageUrl: t("Image"),
             label: t("Version"),
             costPrice: t("Cost price"),
             additionalPrice: t("Additional price"),
             quantity: t("Qty"),
           }}
-          whiteListKeys={["label", "costPrice", "additionalPrice", "quantity"]}
+          whiteListKeys={[
+            "imageUrl",
+            "label",
+            "costPrice",
+            "additionalPrice",
+            "quantity",
+          ]}
           primaryKey="label"
           widthForKeys={{
+            imageUrl: scaleWidth(80),
             label: "40%",
-            costPrice: scaleWidth(220),
-            additionalPrice: scaleWidth(220),
-            quantity: scaleWidth(180),
+            costPrice: scaleWidth(180),
+            additionalPrice: scaleWidth(180),
+            quantity: scaleWidth(120),
           }}
           emptyDescription={t("No Options Qty")}
           renderCell={onRenderTableCell}
@@ -219,6 +252,11 @@ const styles = StyleSheet.create({
   },
 
   optionImage: {
-    marginHorizontal: scaleWidth(15),
+    // marginHorizontal: scaleWidth(15),
+  },
+
+  imageStyle: {
+    height: scaleHeight(80),
+    width: scaleWidth(80),
   },
 });

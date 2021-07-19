@@ -14,7 +14,7 @@ import {
   useReportSaleCategory,
   useExportSaleByCategory,
 } from '@shared/services/api/retailer';
-
+import { useFocusEffect } from "@react-navigation/native";
 import { getQuickFilterTimeRange } from '@utils';
 import {
   dateToString,
@@ -45,7 +45,7 @@ function SalesByCategoryTab({
   const callGetReportSaleCategory = React.useCallback(() => {
     getReportSaleCategory({
       ...timeVal,
-      category: filterCategory?.value ?? 'top',
+      category: filterCategory?.value ?? "top",
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeVal, filterCategory]);
@@ -61,10 +61,10 @@ function SalesByCategoryTab({
   const callExportSaleByCategory = (values) => {
     const params = Object.assign({}, values, {
       ...timeVal,
-      category: filterCategory?.value ?? 'top',
+      category: filterCategory?.value ?? "top",
     });
     exportRef.current?.onSetFileName(
-      getTimeTitleFile('SaleByCategory', params)
+      getTimeTitleFile("SaleByCategory", params)
     );
     ExportSaleByCategory(params);
   };
@@ -81,11 +81,15 @@ function SalesByCategoryTab({
   |--------------------------------------------------
   */
 
-  React.useEffect(() => {
-    callGetReportSaleCategory();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeVal, filterCategory]);
-
+  // React.useEffect(() => {
+  //   callGetReportSaleCategory();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [timeVal, filterCategory]);
+  useFocusEffect(
+    React.useCallback(() => {
+      callGetReportSaleCategory();
+    }, [timeVal, filterCategory])
+  );
   /**effect */
   React.useEffect(() => {
     const { codeStatus, message, data, summary } = reportSaleCategory || {};
@@ -95,9 +99,9 @@ function SalesByCategoryTab({
   }, [reportSaleCategory]);
 
   const onChangeTimeValue = (quickFilter, timeState) => {
-    if (quickFilter === 'Customize Date') {
+    if (quickFilter === "Customize Date") {
       setTimeVal({
-        quickFilter: 'custom',
+        quickFilter: "custom",
         quickFilterText: quickFilter,
         timeStart: timeState.startDate,
         timeEnd: timeState.endDate,
@@ -112,7 +116,7 @@ function SalesByCategoryTab({
 
   const onSortWithKey = (sortKey) => {
     switch (sortKey) {
-      case 'totalProfit':
+      case "totalProfit":
         const totalProfit =
           sortTotalProfit === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
         setSortTotalProfit(totalProfit);

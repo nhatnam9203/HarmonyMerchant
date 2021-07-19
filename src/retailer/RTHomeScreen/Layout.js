@@ -17,12 +17,13 @@ import { OrderTabPage, MarketingTabPage, CheckOutTabPage } from "./pages";
 import { colors } from "@shared/themes";
 import { HomeTabBar } from "./widget";
 import { useTranslation } from "react-i18next";
-
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { HomeTopTabNavigator } from "./HomeTopTabNavigator";
+import NavigationServices from "@navigators/NavigatorServices";
+import { createStackNavigator } from "@react-navigation/stack";
 
 export const HomeStateContext = createContext({});
 
-const { Screen, Navigator } = createMaterialTopTabNavigator();
+const { Screen, Navigator } = createStackNavigator();
 
 export const Layout = ({
   openDrawer,
@@ -39,71 +40,28 @@ export const Layout = ({
     <HomeStateContext.Provider style={styles.container} value={{}}>
       <StatusBarHeader />
 
-      {/* <ScrollableTabView
-        initialPage={1}
-        locked={true}
-        renderTabBar={renderTab}
-        onChangeTab={onChangeTab}
-      >
-        <TabMarketing tabLabel={'MARKETING'} />
-        <OrderTabPage tabLabel={'ORDER'} />
-        <OrderCheckout tabLabel={'CHECK-OUT'} />
-      </ScrollableTabView> */}
       <Navigator
-        initialRouteName="retailer.home.order"
+        initialRouteName="home.order.top_tab"
         headerMode="none"
         screenOptions={{
           cardStyle: {
             backgroundColor: colors.WHITE_FA,
           },
         }}
-        lazy={true}
-        optimizationsEnabled={true}
-        swipeEnabled={false}
-        tabBar={(props) => <HomeTabBar {...props} onOpenDrawer={openDrawer} />}
       >
-        {/* <Screen {...MarketingTabPage} /> */}
-        {/* <TabMarketing tabLabel={'MARKETING'} /> */}
-        <Screen
-          name={t("Marketing")}
-          component={TabMarketing}
-          listeners={{
-            tabPress: (e) => {
-              if (isPayment) {
-                showPopupConfirm(() => {
-                  navigation.navigate("Marketing");
-                });
-                // Prevent default action
-                e.preventDefault();
-              }
-            },
-          }}
-        />
-        <Screen
-          {...OrderTabPage}
-          listeners={{
-            tabPress: (e) => {
-              if (isPayment) {
-                // Prevent default action
-                e.preventDefault();
-              }
-            },
-          }}
-        />
-        <Screen
-          {...CheckOutTabPage}
-          listeners={{
-            tabPress: (e) => {
-              if (isPayment) {
-                showPopupConfirm(() => {
-                  navigation.navigate(CheckOutTabPage.name);
-                }); // Prevent default action
-                e.preventDefault();
-              }
-            },
-          }}
-        />
-        {/* <Screen name={t('Check Out')} component={OrderCheckout} /> */}
+        <Screen name={"home.order.top_tab"} initialParams={{}}>
+          {(props) => (
+            <HomeTopTabNavigator
+              {...props}
+              openDrawer={openDrawer}
+              isPayment={isPayment}
+              showPopupConfirm={showPopupConfirm}
+              navigation={navigation}
+            />
+          )}
+        </Screen>
+
+        {/* <Screen {...InventoryListPage} /> */}
       </Navigator>
     </HomeStateContext.Provider>
   );

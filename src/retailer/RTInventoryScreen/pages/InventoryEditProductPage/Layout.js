@@ -38,6 +38,8 @@ export const Layout = ({
   dispatchProduct,
   categoriesFilter,
   onHandleChangeProductName,
+  onHandleChangeProductImages,
+  onHandleChangeProductDescription,
 }) => {
   const [t] = useTranslation();
 
@@ -134,6 +136,15 @@ export const Layout = ({
             </FormSelect>
 
             <FormInput
+              label={t("Product Description")}
+              placeholder={t("Enter product description")}
+              // required={true}
+              onChangeValue={onHandleChangeProductDescription}
+              defaultValue={productItem?.description}
+              multiline={true}
+            />
+
+            <FormInput
               label={t("Product Name")}
               placeholder={t("Enter product name")}
               required={true}
@@ -143,10 +154,8 @@ export const Layout = ({
           </View>
           <View style={styles.content}>
             <FormProductImages
-              label={t("Default Image")}
-              onChangeValue={(values) => {
-                form.setFieldValue("images", values);
-              }}
+              label={t("Product Images")}
+              onChangeValue={onHandleChangeProductImages}
               images={productItem?.images}
               defaultImage={productItem?.imageUrl}
             />
@@ -188,6 +197,7 @@ export const Layout = ({
               }}
               defaultValue={`${productItem?.quantity ?? ""}`}
               keyboardType="number-pad"
+              editable={!isEdit}
             />
           </View>
         </View>

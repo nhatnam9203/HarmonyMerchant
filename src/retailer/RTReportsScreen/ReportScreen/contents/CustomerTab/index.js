@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import CustomerDetail from './CustomerDetail';
 import CustomerOverall from './CustomerOverall';
 import React from 'react';
+import { useFocusEffect } from "@react-navigation/native";
 
 const RANGE_TIME_DEFAULT = 'This Week';
 const { Screen, Navigator } = createStackNavigator();
@@ -55,7 +56,7 @@ export const CustomerTab = React.forwardRef(
         sort: { name: sortName },
       });
       exportRef.current?.onSetFileName(
-        getTimeTitleFile('ReportCustomer', params)
+        getTimeTitleFile("ReportCustomer", params)
       );
       ExportCustomerSale(params);
     };
@@ -73,10 +74,16 @@ export const CustomerTab = React.forwardRef(
   |--------------------------------------------------
   */
 
-    React.useEffect(() => {
-      callGetReportCustomer();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [timeVal, sortName]);
+    // React.useEffect(() => {
+    //   callGetReportCustomer();
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [timeVal, sortName]);
+
+    useFocusEffect(
+      React.useCallback(() => {
+        callGetReportCustomer();
+      }, [timeVal, sortName])
+    );
 
     /**effect */
     React.useEffect(() => {
@@ -87,9 +94,9 @@ export const CustomerTab = React.forwardRef(
     }, [reportCustomer]);
 
     const onChangeTimeValue = (quickFilter, timeState) => {
-      if (quickFilter === 'Customize Date') {
+      if (quickFilter === "Customize Date") {
         setTimeVal({
-          quickFilter: 'custom',
+          quickFilter: "custom",
           quickFilterText: quickFilter,
           timeStart: timeState.startDate,
           timeEnd: timeState.endDate,
@@ -104,7 +111,7 @@ export const CustomerTab = React.forwardRef(
 
     const onSortWithKey = (sortKey) => {
       switch (sortKey) {
-        case 'name':
+        case "name":
           const sortedName =
             sortName === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
           setSortName(sortedName);

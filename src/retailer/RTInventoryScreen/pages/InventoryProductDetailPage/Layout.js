@@ -93,10 +93,14 @@ export const Layout = ({
             <View style={styles.productInfo}>
               <Text style={styles.productName}>{productItem?.name}</Text>
               <View style={layouts.marginVertical} />
+              <View style={layouts.marginVertical} />
+
               <Text style={styles.productDescription}>
                 {productItem?.description}
               </Text>
               <View style={layouts.marginVertical} />
+              <View style={layouts.marginVertical} />
+
               <ProductInfoLine
                 label={t("Category")}
                 infoValue={productItem?.categoryName}
@@ -117,6 +121,11 @@ export const Layout = ({
               <ProductInfoLine
                 label={t("Total items in stock")}
                 infoValue={productItem?.quantity + ""}
+                textStyle={
+                  productItem?.quantity < productItem?.minThreshold && {
+                    color: "red",
+                  }
+                }
               />
               <ProductInfoLine
                 label={t("Total items need to order")}
@@ -206,11 +215,13 @@ export const Layout = ({
   );
 };
 
-let ProductInfoLine = ({ label, infoValue }) => {
+let ProductInfoLine = ({ label, infoValue, textStyle }) => {
   return (
     <View style={styles.infoLineContent}>
       {!!label && <Text style={styles.infoLabelText}>{label}</Text>}
-      {!!infoValue && <Text style={styles.infoText}>{infoValue}</Text>}
+      {!!infoValue && (
+        <Text style={[styles.infoText, textStyle]}>{infoValue}</Text>
+      )}
     </View>
   );
 };
