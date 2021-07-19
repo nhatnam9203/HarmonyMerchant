@@ -4,12 +4,14 @@ import { arrayIsEqual } from "@shared/utils";
 export const PRODUCT_SET = "detail-product-set";
 export const PRODUCT_UPDATE = "detail-product-update";
 export const PRODUCT_UPDATE_OPTIONS = "product-update-options";
+export const PRODUCT_CHANGE_OPTIONS = "product-change-options";
 export const PRODUCT_ADD_OPTION = "product-add-options";
 export const PRODUCT_REMOVE_OPTION = "product-remove-options";
 export const PRODUCT_SET_OPTION_QTY = "product-set-options_qty";
 export const PRODUCT_UPDATE_OPTION_QTY = "product-update-options_qty";
 export const PRODUCT_UPDATE_NAME = "product-update-name";
 export const PRODUCT_UPDATE_ATTRIBUTE = "product-update-attribute";
+export const PRODUCT_REMOVE_VERSION = "product-remove-version";
 
 const initState = {};
 
@@ -62,14 +64,21 @@ const createQuantitiesItem = (product, options) => {
   if (!options || options?.length < 0) return null;
 
   const quantities = options?.reduce((accumulator, currentValue, index) => {
-    if (index === 0) return createOptionsValuesQty(currentValue?.values);
+    if (index === 0)
+      return createOptionsValuesQty(
+        currentValue?.values?.filter((x) => x.checked)
+      );
 
-    return combineOptionsValuesQty(accumulator, currentValue?.values);
+    return combineOptionsValuesQty(
+      accumulator,
+      currentValue?.values?.filter((x) => x.checked)
+    );
   }, []);
 
   return quantities?.map((quantity) =>
     Object.assign({}, quantity, {
       label: `${product?.name ?? "New product"} - ${quantity.label ?? ""}`,
+      price: product?.price,
     })
   );
 };
@@ -77,7 +86,13 @@ const createQuantitiesItem = (product, options) => {
 export const productReducer = (state = initState, action) => {
   switch (action.type) {
     case PRODUCT_SET:
-      return action.payload;
+      const product = action.payload;
+      const list =
+        product?.quantities?.map((x, index) =>
+          Object.assign({}, x, { position: index })
+        ) || [];
+
+      return Object.assign({}, product, { quantities: list });
     case PRODUCT_UPDATE:
       return Object.assign({}, state, action.payload);
 
@@ -101,26 +116,27 @@ export const productReducer = (state = initState, action) => {
         quantities: createQuantitiesItem(state, filterOptions),
       });
 
-    case PRODUCT_UPDATE_OPTIONS:
+    case PRODUCT_CHANGE_OPTIONS:
       const optionsItem = action.payload;
-      const values = action.payload?.values;
 
-      let updateOption = state?.options?.find(
+      let changeOpt = state?.options?.find(
         (x) => x.attributeId === optionsItem.attributeId
       );
-      if (updateOption) {
-        updateOption = Object.assign({}, updateOption, { values });
+      if (changeOpt) {
+        changeOpt = Object.assign({}, changeOpt, {
+          values: action.payload?.values,
+        });
       } else {
-        updateOption = optionsItem;
+        changeOpt = optionsItem;
       }
 
       const replaceIndex = state?.options?.findIndex(
-        (x) => x.attributeId === updateOption.attributeId
+        (x) => x.attributeId === changeOpt.attributeId
       );
 
       let options = state?.options;
       if (replaceIndex >= 0) {
-        options[replaceIndex] = updateOption;
+        options[replaceIndex] = changeOpt;
       }
 
       const oldList = state?.quantities || [];
@@ -131,11 +147,15 @@ export const productReducer = (state = initState, action) => {
         );
 
         if (isExistItem) {
-          // console.log(isExistItem);
           return Object.assign({}, x, {
             quantity: isExistItem.quantity,
             costPrice: isExistItem.costPrice,
             additionalPrice: isExistItem.additionalPrice,
+            price: isExistItem.price,
+            imageUrl: isExistItem.imageUrl,
+            fileId: isExistItem.fileId,
+            position: isExistItem.position ?? 0,
+            id: isExistItem.id ?? 0,
           });
         }
         return x;
@@ -143,8 +163,35 @@ export const productReducer = (state = initState, action) => {
 
       return Object.assign({}, state, {
         options: options,
-        quantities: newList,
+        quantities: newList?.sort((a, b) => a.position - b.position),
       });
+    case PRODUCT_UPDATE_OPTIONS:
+      const opt = action.payload;
+
+      let optUpdate = state?.options?.find(
+        (x) => x.attributeId === opt.attributeId
+      );
+      if (optUpdate) {
+        optUpdate = Object.assign({}, optUpdate, {
+          values: action.payload?.values,
+        });
+      } else {
+        optUpdate = opt;
+      }
+
+      const replaceOptIdx = state?.options?.findIndex(
+        (x) => x.attributeId === optUpdate.attributeId
+      );
+
+      let optionsUpdate = state?.options;
+      if (replaceOptIdx >= 0) {
+        optionsUpdate[replaceOptIdx] = optUpdate;
+      }
+
+      return Object.assign({}, state, {
+        options: optionsUpdate,
+      });
+
     case PRODUCT_SET_OPTION_QTY:
       return Object.assign({}, state, { quantities: actions.payload });
     case PRODUCT_UPDATE_OPTION_QTY:
@@ -194,7 +241,20 @@ export const productReducer = (state = initState, action) => {
           description: value,
         });
       }
+
+      if (key === "barCode") {
+        return Object.assign({}, state, {
+          barCode: value,
+        });
+      }
       return state;
+    case PRODUCT_REMOVE_VERSION:
+      const qtyItem = action.payload;
+      const arr = state?.quantities?.filter(
+        (f) => !arrayIsEqual(f?.attributeIds, qtyItem?.attributeIds)
+      );
+      return Object.assign({}, state, { quantities: arr });
+
     default:
       break;
   }
@@ -217,6 +277,13 @@ export const updateProduct = (item) => {
 export const updateOption = (optionsItem) => {
   return {
     type: PRODUCT_UPDATE_OPTIONS,
+    payload: optionsItem,
+  };
+};
+
+export const changeOption = (optionsItem) => {
+  return {
+    type: PRODUCT_CHANGE_OPTIONS,
     payload: optionsItem,
   };
 };
@@ -252,5 +319,12 @@ export const changeProductAttribute = (key, value) => {
   return {
     type: PRODUCT_UPDATE_ATTRIBUTE,
     payload: { key: key, value: value },
+  };
+};
+
+export const deleteProductVersion = (item) => {
+  return {
+    type: PRODUCT_REMOVE_VERSION,
+    payload: item,
   };
 };

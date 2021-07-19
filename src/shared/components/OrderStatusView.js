@@ -10,6 +10,7 @@ export const ORDERED_STATUS = {
   CANCEL: "Canceled",
   CLOSED: "Closed",
   RETURN: "Return",
+  NOT_PAY: "Did Not Pay",
 };
 
 export const OrderStatusView = ({ status }) => {
@@ -41,6 +42,7 @@ export const OrderStatusView = ({ status }) => {
       case ORDERED_STATUS.CANCEL:
       case ORDERED_STATUS.CLOSED:
       case ORDERED_STATUS.RETURN:
+      case ORDERED_STATUS.NOT_PAY:
         return {
           content: { backgroundColor: colors.BROWNISH_GREY, borderWidth: 0 },
           text: { color: colors.VERY_LIGHT_PINK_E_5 },

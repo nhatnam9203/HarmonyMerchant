@@ -24,7 +24,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { removeOption, updateOption } from "./ProductState";
+import { removeOption, updateOption, changeOption } from "./ProductState";
 
 const log = (obj, message = "") => {
   Logger.log(`[FormProductOption] ${message}`, obj);
@@ -86,10 +86,11 @@ export const FormProductOption = React.forwardRef(
             }
           });
           optionItem["values"] = values;
+          dispatchProduct(updateOption(optionItem));
         } else {
           optionItem["values"] = options;
+          dispatchProduct(changeOption(optionItem));
         }
-        dispatchProduct(updateOption(optionItem));
       }
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -159,7 +160,7 @@ export const FormProductOption = React.forwardRef(
           });
 
           dispatchProduct(
-            updateOption(
+            changeOption(
               Object.assign({}, item, { values: updatesSelectOptions })
             )
           );
@@ -322,7 +323,7 @@ export const FormProductOption = React.forwardRef(
             />
           )}
         </View>
-        {item?.updateProductImage && (
+        {/* {item?.updateProductImage && (
           <View>
             <InfoHeading label={t("Option Image")} fontSize={scaleWidth(17)} />
 
@@ -348,7 +349,7 @@ export const FormProductOption = React.forwardRef(
               />
             </View>
           </View>
-        )}
+        )} */}
       </View>
     );
   }

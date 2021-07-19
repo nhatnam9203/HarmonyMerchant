@@ -3,8 +3,13 @@ import {
   CustomCheckBox,
   DialogColorPicker,
   FormUploadImage,
+  ButtonGradientRed,
 } from "@shared/components";
-import { CustomInput, CustomInputMask } from "@shared/components/CustomInput";
+import {
+  CustomInput,
+  CustomInputMask,
+  CustomInputMoney,
+} from "@shared/components/CustomInput";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
 import {
@@ -24,7 +29,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { removeOption, updateOptionsQty } from "./ProductState";
+import { deleteProductVersion, updateOptionsQty, changeOption } from "./ProductState";
+import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
+
+const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
 
 export const FormProductOptionQty = ({ dispatchProduct, items }) => {
   const [t] = useTranslation();
@@ -41,6 +49,31 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
     cellWidth,
   }) => {
     switch (columnKey) {
+      case "imageUrl":
+        const onChangeFile = (fileId) => {
+          dispatchProduct(
+            updateOptionsQty(Object.assign({}, cellItem, { fileId: fileId }))
+          );
+        };
+
+        return (
+          <View
+            style={{ width: cellWidth }}
+            key={getUniqueId(columnKey, rowIndex, "cell-quantity")}
+          >
+            <FormUploadImage
+              style={styles.optionImage}
+              height={scaleHeight(40)}
+              width={scaleWidth(40)}
+              fontSize={scaleWidth(9)}
+              iconSize={scaleWidth(18)}
+              // label={cellItem?.label}
+              onSetFileId={onChangeFile}
+              defaultValue={cellItem?.imageUrl}
+            />
+          </View>
+        );
+
       case "quantity":
         const onHandleChange = (text) => {
           dispatchProduct(
@@ -55,7 +88,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             key={getUniqueId(columnKey, rowIndex, "cell-quantity")}
           >
             <CustomInput
-              style={[styles.customInput, { width: scaleWidth(150) }]}
+              style={[styles.customInput, { width: scaleWidth(100) }]}
               textInputProps={{
                 placeholder: "Quantity",
                 fontSize: scaleFont(17),
@@ -63,7 +96,6 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
                 defaultValue: cellItem?.quantity || 0,
                 onChangeText: onHandleChange,
                 keyboardType: "numeric",
-                showSoftInputOnFocus: false,
               }}
             />
           </View>
@@ -83,32 +115,25 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             style={{ width: cellWidth }}
             key={getUniqueId(columnKey, rowIndex, "cell-value-cost")}
           >
-            <CustomInputMask
-              style={[styles.customInput, { width: scaleWidth(180) }]}
-              type={"money"}
-              options={{
-                precision: 2,
-                separator: ".",
-                delimiter: ",",
-                unit: "",
-                suffixUnit: "",
-              }}
+            <CustomInputMoney
+              style={[styles.customInput, { width: scaleWidth(150) }]}
               textInputProps={{
                 placeholder: "Price",
                 fontSize: scaleFont(17),
                 textAlign: "left",
                 defaultValue: cellItem?.costPrice || 0,
                 onChangeText: onHandleChangeCostPrice,
+                keyboardType: "numeric",
               }}
             />
           </View>
         );
-      case "additionalPrice":
+      case "price":
         const onHandleChangeAdditionalPrice = async (text) => {
           dispatchProduct(
             updateOptionsQty(
               Object.assign({}, cellItem, {
-                additionalPrice: text ?? 0,
+                price: text ?? 0,
               })
             )
           );
@@ -119,23 +144,37 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             style={{ width: cellWidth }}
             key={getUniqueId(columnKey, rowIndex, "cell-value-addition")}
           >
-            <CustomInputMask
-              style={[styles.customInput, { width: scaleWidth(180) }]}
-              type={"money"}
-              options={{
-                precision: 2,
-                separator: ".",
-                delimiter: ",",
-                unit: "",
-                suffixUnit: "",
-              }}
+            <CustomInputMoney
+              style={[styles.customInput, { width: scaleWidth(150) }]}
               textInputProps={{
                 placeholder: "Price",
                 fontSize: scaleFont(17),
                 textAlign: "left",
-                defaultValue: cellItem?.additionalPrice || 0,
+                defaultValue: cellItem?.price || 0,
                 onChangeText: onHandleChangeAdditionalPrice,
+                keyboardType: "numeric",
               }}
+            />
+          </View>
+        );
+      case "actions":
+        const onHandleDelete = () => {
+          dispatchProduct(deleteProductVersion(cellItem));
+        };
+        return (
+          <View
+            style={[layouts.fill, layouts.horizontal]}
+            key={getUniqueId(columnKey, rowIndex, "cell-action")}
+          >
+            <DeleteConfirmButton
+              label={t("Delete")}
+              width={scaleWidth(72)}
+              height={scaleHeight(30)}
+              borderRadius={scaleWidth(3)}
+              fontSize={scaleFont(15)}
+              textColor={colors.WHITE}
+              fontWeight="normal"
+              onPress={onHandleDelete}
             />
           </View>
         );
@@ -155,22 +194,36 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
           tableStyle={styles.content}
           items={optionsQty}
           headerKeyLabels={{
+            imageUrl: t("Image"),
             label: t("Version"),
             costPrice: t("Cost price"),
-            additionalPrice: t("Additional price"),
+            price: t("Price"),
             quantity: t("Qty"),
+            actions: t("Actions"),
           }}
-          whiteListKeys={["label", "costPrice", "additionalPrice", "quantity"]}
+          whiteListKeys={[
+            "imageUrl",
+            "label",
+            "costPrice",
+            "price",
+            "quantity",
+            "actions",
+          ]}
           primaryKey="label"
           widthForKeys={{
-            label: "40%",
-            costPrice: scaleWidth(220),
-            additionalPrice: scaleWidth(220),
-            quantity: scaleWidth(180),
+            imageUrl: scaleWidth(80),
+            label: "35%",
+            costPrice: scaleWidth(180),
+            price: scaleWidth(180),
+            quantity: scaleWidth(120),
+            actions: scaleWidth(80),
           }}
           emptyDescription={t("No Options Qty")}
           renderCell={onRenderTableCell}
           onRowPress={() => {}}
+          renderFooterComponent={() => (
+            <View style={{ height: scaleHeight(0) }} />
+          )}
         />
       )}
     </View>
@@ -221,6 +274,11 @@ const styles = StyleSheet.create({
   },
 
   optionImage: {
-    marginHorizontal: scaleWidth(15),
+    // marginHorizontal: scaleWidth(15),
+  },
+
+  imageStyle: {
+    height: scaleHeight(80),
+    width: scaleWidth(80),
   },
 });

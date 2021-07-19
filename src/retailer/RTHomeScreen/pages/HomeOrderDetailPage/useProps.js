@@ -74,11 +74,14 @@ export const useProps = ({
     const { codeStatus, message, data } = appointment || {};
     if (statusSuccess(codeStatus)) {
       log(data);
-      const { status, didNotPay, payment } = data || {};
+      const { status, didNotPay, payment, purchasePoint } = data || {};
+
       if (
-        status === ORDERED_STATUS.PROCESS &&
-        !didNotPay &&
-        payment?.length <= 0
+        payment?.length <= 0 &&
+        ((status === ORDERED_STATUS.PENDING && purchasePoint === "Store") ||
+          (status === ORDERED_STATUS.PROCESS &&
+            !didNotPay &&
+            purchasePoint !== "Store"))
       ) {
         NavigationServices.navigate("retailer.home.order.pay", {
           orderItem: data,

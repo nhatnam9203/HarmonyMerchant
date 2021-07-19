@@ -359,7 +359,7 @@ export const Layout = ({
                 </InfoContent>
                 <View style={layouts.marginHorizontal} />
                 <InfoContent label={t("Shipping & Handling Infomation")}>
-                  {item?.shipping?.shippingCarrier && (
+                  {!!item?.shipping?.shippingCarrier && (
                     <View style={styles.personContent}>
                       <Text>{t("Shipping carrier")}</Text>
                       <View style={layouts.marginVertical} />
