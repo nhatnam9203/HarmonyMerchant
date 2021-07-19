@@ -14,6 +14,8 @@ import {
   localNotificationForAutoClose,
 } from "@utils";
 import _ from 'lodash'
+import PushNotification from "react-native-push-notification";
+import moment from 'moment';
 
 class TabGaneral extends Layout {
   constructor(props) {
@@ -136,13 +138,6 @@ class TabGaneral extends Layout {
     } = this.state;
     const temptLanguage = languageApp === "English" ? "en" : "vi";
     this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
-
-    //set local notification
-    if(isTurnOnAutoClose){
-      localNotificationForAutoClose({
-        repeatTime: autoCloseAt,
-      })
-    }
     
     await this.setState({
       isUpdateInternal: true,
@@ -190,7 +185,8 @@ class TabGaneral extends Layout {
     if(visible && (!this.state.autoCloseAt || this.state.autoCloseAt == "")){
       this.setState({autoCloseAt: "11:00 PM"})
     }
-    this.props.actions.dataLocal.switchAuToClose(visible);
+
+    this.setState({isTurnOnAutoClose: visible})
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -242,6 +238,28 @@ class TabGaneral extends Layout {
         giftForNewEnabled: profile?.giftForNewEnabled || false,
       });
       this.updateWorkTime();
+      const dateObj = new Date();
+      const dateStr = dateObj.toISOString().split('T').shift();
+
+      const timeAndDate = moment(dateStr + ' ' + _.get(profile, 'autoCloseAt')).toDate();
+      if(_.get(profile, 'autoClose')){
+        PushNotification.getScheduledLocalNotifications((nots)=>{
+          console.log(nots);
+          if(!_.isEmpty(nots)){
+            PushNotification.cancelLocalNotifications({id: 'AutoClose'});
+          }
+          PushNotification.localNotificationSchedule({
+            id: "AutoClose",
+            title: 'Auto close',
+            message: '',
+            userInfo: {},
+            date: timeAndDate, 
+            repeatType: "day",
+          })
+        });
+        
+      }
+      
     }
   }
 

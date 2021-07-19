@@ -51,12 +51,12 @@ class Layout extends React.Component {
     const { language, 
             autoLockScreenAfter,
             isTipOnPaxMachine,
-            isTurnOnAutoClose
            } = this.props;
     const {
       languageApp,
       webLink,
       autoCloseAt,
+      isTurnOnAutoClose,
       timezone,
       businessHour,
       turnAmount,

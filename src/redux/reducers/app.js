@@ -320,7 +320,6 @@ function appReducer(state = initialState, action) {
         ...initialState,
         isInitialApp: false,
       };
-
     default:
       return state;
   }

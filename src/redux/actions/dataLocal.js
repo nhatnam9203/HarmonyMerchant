@@ -136,13 +136,6 @@ export function switchTipOnPaxMachine(toggle = true) {
     }
 }
 
-export function switchAuToClose(toggle = true) {
-    return {
-        type: 'SWITCH_AUTO_CLOSE',
-        payload: toggle
-    }
-}
-
 export function saveBluetoothPaxInfo(peripheral) {
     return {
         type: 'SAVE_BLUETOOTH_PAX_INFO',

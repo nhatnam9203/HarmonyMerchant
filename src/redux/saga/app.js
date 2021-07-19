@@ -2,10 +2,11 @@ import { put, takeLatest, all } from 'redux-saga/effects';
 import NavigationServices from '../../navigators/NavigatorServices';
 import { Alert } from 'react-native';
 
-import { requestAPI } from '../../utils';
+import { 
+  requestAPI,
+} from '../../utils';
 import actions from '../actions';
 import _ from 'lodash';
-import PushNotification from "react-native-push-notification";
 
 function* getMerchantByID(action) {
   try {
@@ -129,13 +130,6 @@ function* merchantSetting(action) {
         type: 'UPDATE_MERCHANT_PROFILE',
         payload: responses?.data,
       });
-
-      if(_.get(response, 'profile.autoClose')){
-        PushNotification.getScheduledLocalNotifications((nots)=>{
-          console.log(nots);
-        });
-      }
-
       if (action.isShowAlert) {
         setTimeout(() => {
           alert('Update Successfull!');
