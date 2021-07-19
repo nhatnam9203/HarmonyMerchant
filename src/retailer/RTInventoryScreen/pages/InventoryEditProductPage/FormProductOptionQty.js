@@ -58,6 +58,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
               height={scaleHeight(40)}
               width={scaleWidth(40)}
               fontSize={scaleWidth(9)}
+              iconSize={scaleWidth(18)}
               // label={cellItem?.label}
               onSetFileId={onChangeFile}
               defaultValue={cellItem?.imageUrl}
