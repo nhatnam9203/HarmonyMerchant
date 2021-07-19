@@ -322,7 +322,7 @@ export const FormProductOption = React.forwardRef(
             />
           )}
         </View>
-        {item?.updateProductImage && (
+        {/* {item?.updateProductImage && (
           <View>
             <InfoHeading label={t("Option Image")} fontSize={scaleWidth(17)} />
 
@@ -348,7 +348,7 @@ export const FormProductOption = React.forwardRef(
               />
             </View>
           </View>
-        )}
+        )} */}
       </View>
     );
   }

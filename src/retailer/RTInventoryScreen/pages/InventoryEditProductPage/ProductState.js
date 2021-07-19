@@ -123,7 +123,10 @@ export const productReducer = (state = initState, action) => {
         options[replaceIndex] = updateOption;
       }
 
-      const oldList = state?.quantities || [];
+      const oldList =
+        state?.quantities?.map((x, index) =>
+          Object.assign({}, x, { position: index })
+        ) || [];
 
       let newList = createQuantitiesItem(state, options)?.map((x) => {
         const isExistItem = oldList?.find((f) =>
@@ -136,6 +139,9 @@ export const productReducer = (state = initState, action) => {
             quantity: isExistItem.quantity,
             costPrice: isExistItem.costPrice,
             additionalPrice: isExistItem.additionalPrice,
+            imageUrl: isExistItem.imageUrl,
+            fileId: isExistItem.fileId,
+            position: isExistItem.position ?? 0,
           });
         }
         return x;
@@ -143,7 +149,7 @@ export const productReducer = (state = initState, action) => {
 
       return Object.assign({}, state, {
         options: options,
-        quantities: newList,
+        quantities: newList?.sort((a, b) => a.position - b.position),
       });
     case PRODUCT_SET_OPTION_QTY:
       return Object.assign({}, state, { quantities: actions.payload });

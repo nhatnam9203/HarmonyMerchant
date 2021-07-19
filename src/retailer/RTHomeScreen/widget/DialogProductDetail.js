@@ -97,10 +97,16 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     if (!listFiltersOptionsQty || listFiltersOptionsQty?.length <= 0)
       return false;
 
-    // if (optionsSelected) {
-    //   const hadSelectIndex = optionsSelected?.length - 1 || 0;
-    //   if (index === 0) return true;
-    // }
+    if (optionsSelected) {
+      if (index === 0) {
+        const filterArr = product?.quantities?.filter((x) => x.quantity > 0);
+        for (const x of filterArr) {
+          if (x.attributeIds?.includes(value)) {
+            return true;
+          }
+        }
+      }
+    }
 
     for (const x of listFiltersOptionsQty) {
       if (x.attributeIds?.includes(value)) {
@@ -200,6 +206,14 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     // }
   }, [product]);
 
+  React.useEffect(() => {
+    if (optionsQty) {
+      setImageUrl(optionsQty?.imageUrl ?? product?.imageUrl);
+    } else {
+      setImageUrl(product?.imageUrl);
+    }
+  }, [optionsQty]);
+
   const updateOptionsValue = (data, index, itemOption, optionValue) => {
     let opt = { id: itemOption?.id, value: optionValue?.attributeValueId };
 
@@ -267,11 +281,11 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     const onHandleSelectedOption = (optionValue) => {
       updateOptionsValue(product, index, itemOption, optionValue);
 
-      if (optionValue?.imageUrl) {
-        setImageUrl(optionValue?.imageUrl);
-      } else {
-        setImageUrl(product?.imageUrl);
-      }
+      // if (optionValue?.imageUrl) {
+      //   setImageUrl(optionValue?.imageUrl);
+      // } else {
+      //   setImageUrl(product?.imageUrl);
+      // }
     };
 
     let defaultOptionId = null;
