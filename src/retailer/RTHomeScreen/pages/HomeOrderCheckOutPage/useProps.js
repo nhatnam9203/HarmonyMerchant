@@ -86,9 +86,9 @@ export const useProps = ({
     const unsubscribeFocus = navigation.addListener("focus", () => {
       resetAll();
       getCategoriesList({ groupSubIntoMain: true });
-      if (!customer) {
-        customerRef.current?.showPhoneInput();
-      }
+
+      dispatch(basketRetailer.clearBasket());
+      customerRef.current?.showPhoneInput();
     });
 
     const unsubscribeBlur = navigation.addListener("blur", () => {});
