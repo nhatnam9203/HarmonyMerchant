@@ -423,6 +423,7 @@ const localization = {
     "Change Discount": "Change Discount",
     "Gift card": "Gift card",
     DiscountByStaff: "Discount By Staff",
+    "NoEndDate": "No end date",
   },
   vi: {},
 };

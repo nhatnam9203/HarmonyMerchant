@@ -96,6 +96,7 @@ const PromotiomDetail = forwardRef(
     const [promotionType, setPromotionType] = useState("percent"); // fixed
     const [promotionValue, setPromotionValue] = useState("");
     const [dataServiceProduct, setDataServiceProduct] = useState([]);
+    const [dataCategory, setDataCategory] = useState([]);
     const [numberOfTimesApply, setNumberOfTimesApply] = useState("");
     const [actionTags, setActionTags] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true);
@@ -108,6 +109,7 @@ const PromotiomDetail = forwardRef(
     const [customerSendSMSQuantity, setCustomerSendSMSQuantity] = useState(0);
     const [smsAmount, setSmsAmount] = useState("0.00");
     const [smsMaxAmount, setSmsMaxAmount] = useState("0.00");
+    const [isCheckNoEndDate, setIsCheckNoEndDate] = useState(false);
 
     const [configMessageType, setConfigMessageType] = React.useState(
       MESSAGE_CONTENT_DEFAULT_TYPE
@@ -130,6 +132,11 @@ const PromotiomDetail = forwardRef(
     const servicesByMerchant = useSelector(
       (state) => state?.service?.servicesByMerchant || []
     );
+
+    const categoriesByMerchant = useSelector(
+      (state) => state?.category?.categoriesByMerchant || []
+    )
+
     const promotionDetailById = useSelector(
       (state) => state?.marketing?.promotionDetailById || {}
     );
@@ -202,6 +209,18 @@ const PromotiomDetail = forwardRef(
     }, [productsByMerchantId, servicesByMerchant]);
 
     useEffect(() => {
+      const tempCategory = categoriesByMerchant.map((category) => ({
+        value: category?.name || "",
+        type: "Category",
+        originalId: category?.categoryId || 0,
+        id: `${category?.categoryId}_Category`,
+      }));
+      
+      setDataCategory(tempCategory);
+    }, [categoriesByMerchant]);
+
+    useEffect(() => {
+      // console.log('----- useEffect 3 --------');
       if (promotionDetailById?.id) {
         const serviceConditionTag =
           promotionDetailById?.conditionDetail?.service || [];
@@ -242,10 +261,18 @@ const PromotiomDetail = forwardRef(
           productActionConditionTag,
           dataServiceProduct
         );
+        const categoryActionConditionTag =
+          promotionDetailById?.applyToDetail?.category || [];
+        const tempCategoryActionConditionTag = getTagInfoById(
+          "Category",
+          categoryActionConditionTag,
+          dataCategory
+        );
 
         const tempActionConditionTags = [
           ...tempServiceActionConditionTag,
           ...tempProductActionConditionTag,
+          ...tempCategoryActionConditionTag,
         ];
 
         let tempNumberOfTimesApply =
@@ -256,6 +283,8 @@ const PromotiomDetail = forwardRef(
         setConditionServiceProductTags(tempConditionServiceProductTags);
         setActionTags(tempActionConditionTags);
         setNumberOfTimesApply(tempNumberOfTimesApply);
+
+        setIsCheckNoEndDate(promotionDetailById?.noEndDate);
       }
     }, [promotionDetailById]);
 
@@ -276,6 +305,11 @@ const PromotiomDetail = forwardRef(
         calculatorsmsMoney(tempValue);
       }
     }, [smsInfoMarketing]);
+
+
+    selectCheckBox = () => {
+      setIsCheckNoEndDate(!isCheckNoEndDate)
+    }
 
     calculatorsmsMoney = (tempValue) => {
       const customerCount = parseInt(smsInfoMarketing?.customerCount || 0);
@@ -422,6 +456,7 @@ const PromotiomDetail = forwardRef(
         applyToDetail: {
           service: tempActionTags?.services || [],
           product: tempActionTags?.products || [],
+          category: tempActionTags?.categories || [],
         },
         promotionType: promotionType,
         promotionValue: `${promotionValue || 0.0}`,
@@ -442,8 +477,8 @@ const PromotiomDetail = forwardRef(
       if (!campaign?.name) {
         alert("Enter the campaign's name please!");
         isValid = false;
-      } else if (parseInt(fromDate) >= parseInt(toDate)) {
-        alert("The start date is not larger than the to date ");
+      } else if (parseInt(fromDate) >= parseInt(toDate) && !isCheckNoEndDate) {
+        alert("The start date is not larger than the end date ");
         isValid = false;
       } else if (
         campaign.conditionId === 2 &&
@@ -497,6 +532,9 @@ const PromotiomDetail = forwardRef(
     };
 
     handleSetActionCondition = (value) => {
+      if(value != actionCondition){
+        setActionTags([]);
+      }
       setActionCondition(value);
       setDynamicActionTagsMarginBottom(24);
     };
@@ -1030,9 +1068,8 @@ const PromotiomDetail = forwardRef(
                         width: scaleSize(135),
                         height: "100%",
                         borderWidth: 1,
-                        borderColor: "#ccc",
-                        flexDirection: "row",
-                        paddingHorizontal: scaleSize(10),
+                        borderColor: "#DDDDDD",
+                        flex: 1,
                       }}
                       onPress={showPicker}
                     >
@@ -1057,15 +1094,26 @@ const PromotiomDetail = forwardRef(
                       </View>
                       <View
                         style={{
-                          width: scaleSize(40),
+                          width: scaleSize(135),
                           height: "100%",
-                          justifyContent: "center",
-                          alignItems: "flex-end",
+                          borderWidth: 1,
+                          borderColor: "#ccc",
+                          flexDirection: "row",
+                          paddingHorizontal: scaleSize(10),
                         }}
                       >
-                        <Image
-                          source={IMAGE.dropdown}
-                          style={{ resizeMode: "center" }}
+                        <TextInput
+                          placeholder="--:--"
+                          value={getWorkingTime(endTime)}
+                          // onChangeText={(txt) => {
+                          //   setEndTime(txt);
+                          // }}
+                          style={{
+                            flex: 1,
+                            fontSize: scaleSize(14),
+                            color: "#1f1f1f",
+                            padding: 0,
+                          }}
                         />
                       </View>
                     </Pressable>
@@ -1110,6 +1158,43 @@ const PromotiomDetail = forwardRef(
                   >
                     <DropdownSearch
                       dataServiceProduct={dataServiceProduct}
+                      selectedTag={addActionTags}
+                      onFocus={handleScroll(450)}
+                      onChangeText={handleActionTagsDropdown}
+                    />
+                  </View>
+
+                  <View style={{ width: "100%" }}>
+                    <Tags tags={actionTags} removeTag={removeActionTags} />
+                  </View>
+                </>
+              )}
+
+              {actionCondition === "Discount by category" && (
+                <>
+                  <Text
+                    style={[
+                      styles.txt_date,
+                      { marginBottom: scaleSize(8), marginTop: scaleSize(5) },
+                    ]}
+                  >
+                    {`Select category`}
+                  </Text>
+                  <View
+                    style={{
+                      height: scaleSize(30),
+                      width: scaleSize(330),
+                      paddingHorizontal: 1,
+                      marginBottom: scaleSize(
+                        dynamicActionTagsMarginBottom === 24 &&
+                          actionTags.length > 0
+                          ? 5
+                          : dynamicActionTagsMarginBottom
+                      ),
+                    }}
+                  >
+                    <DropdownSearch
+                      dataServiceProduct={dataCategory}
                       selectedTag={addActionTags}
                       onFocus={handleScroll(450)}
                       onChangeText={handleActionTagsDropdown}
@@ -1602,6 +1687,11 @@ const styles = StyleSheet.create({
     color: "#404040",
     fontWeight: "400",
   },
+  rowEndDate: { 
+    flexDirection:'row', 
+    alignItems:'center', 
+    marginBottom: scaleSize(10) 
+  }
 });
 
 export default PromotiomDetail;
