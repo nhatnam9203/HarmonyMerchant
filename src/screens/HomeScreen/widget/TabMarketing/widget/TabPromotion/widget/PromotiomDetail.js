@@ -135,7 +135,7 @@ const PromotiomDetail = forwardRef(
 
     const categoriesByMerchant = useSelector(
       (state) => state?.category?.categoriesByMerchant || []
-    )
+    );
 
     const promotionDetailById = useSelector(
       (state) => state?.marketing?.promotionDetailById || {}
@@ -215,7 +215,7 @@ const PromotiomDetail = forwardRef(
         originalId: category?.categoryId || 0,
         id: `${category?.categoryId}_Category`,
       }));
-      
+
       setDataCategory(tempCategory);
     }, [categoriesByMerchant]);
 
@@ -306,10 +306,9 @@ const PromotiomDetail = forwardRef(
       }
     }, [smsInfoMarketing]);
 
-
     selectCheckBox = () => {
-      setIsCheckNoEndDate(!isCheckNoEndDate)
-    }
+      setIsCheckNoEndDate(!isCheckNoEndDate);
+    };
 
     calculatorsmsMoney = (tempValue) => {
       const customerCount = parseInt(smsInfoMarketing?.customerCount || 0);
@@ -532,7 +531,7 @@ const PromotiomDetail = forwardRef(
     };
 
     handleSetActionCondition = (value) => {
-      if(value != actionCondition){
+      if (value != actionCondition) {
         setActionTags([]);
       }
       setActionCondition(value);
@@ -1068,8 +1067,9 @@ const PromotiomDetail = forwardRef(
                         width: scaleSize(135),
                         height: "100%",
                         borderWidth: 1,
-                        borderColor: "#DDDDDD",
-                        flex: 1,
+                        borderColor: "#ccc",
+                        flexDirection: "row",
+                        paddingHorizontal: scaleSize(10),
                       }}
                       onPress={showPicker}
                     >
@@ -1092,28 +1092,18 @@ const PromotiomDetail = forwardRef(
                           }}
                         />
                       </View>
+
                       <View
                         style={{
-                          width: scaleSize(135),
+                          width: scaleSize(40),
                           height: "100%",
-                          borderWidth: 1,
-                          borderColor: "#ccc",
-                          flexDirection: "row",
-                          paddingHorizontal: scaleSize(10),
+                          justifyContent: "center",
+                          alignItems: "flex-end",
                         }}
                       >
-                        <TextInput
-                          placeholder="--:--"
-                          value={getWorkingTime(endTime)}
-                          // onChangeText={(txt) => {
-                          //   setEndTime(txt);
-                          // }}
-                          style={{
-                            flex: 1,
-                            fontSize: scaleSize(14),
-                            color: "#1f1f1f",
-                            padding: 0,
-                          }}
+                        <Image
+                          source={IMAGE.dropdown}
+                          style={{ resizeMode: "center" }}
                         />
                       </View>
                     </Pressable>
@@ -1687,11 +1677,11 @@ const styles = StyleSheet.create({
     color: "#404040",
     fontWeight: "400",
   },
-  rowEndDate: { 
-    flexDirection:'row', 
-    alignItems:'center', 
-    marginBottom: scaleSize(10) 
-  }
+  rowEndDate: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: scaleSize(10),
+  },
 });
 
 export default PromotiomDetail;
