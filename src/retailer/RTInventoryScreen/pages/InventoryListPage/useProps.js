@@ -160,7 +160,7 @@ export const useProps = ({ params: { reload } }) => {
   const onResultScanCode = (data) => {
     NavigationServices.navigate("retailer.inventory.product.edit", {
       isNew: true,
-      item: data ?? {},
+      productBarcode: data,
     });
   };
 

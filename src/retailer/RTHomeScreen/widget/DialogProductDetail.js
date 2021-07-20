@@ -58,7 +58,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     // }
 
     if (optionsQty) {
-      price += parseFloat(optionsQty?.additionalPrice);
+      price = parseFloat(optionsQty?.price);
     }
     return formatMoneyWithUnit(price);
   }, [optionsQty, product]);

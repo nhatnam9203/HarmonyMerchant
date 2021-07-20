@@ -82,6 +82,7 @@ export function Table({
   draggable = false,
   tableStyle,
   sortLocal = SORT_STATE.desc,
+  renderFooterComponent,
   // params olds
   sortKey,
   calcSumKeys,
@@ -368,16 +369,19 @@ export function Table({
     );
   };
 
-  const onRenderFooterSpace = () => (
-    <View
-      style={
-        showSumOnBottom && {
-          height: TABLE_ROW_HEIGHT,
-          backgroundColor: "transparent",
+  const onRenderFooterSpace = () =>
+    renderFooterComponent ? (
+      renderFooterComponent()
+    ) : (
+      <View
+        style={
+          showSumOnBottom && {
+            height: 0,
+            backgroundColor: "transparent",
+          }
         }
-      }
-    />
-  );
+      />
+    );
 
   // render line spacing
   const renderSeparator = () => {

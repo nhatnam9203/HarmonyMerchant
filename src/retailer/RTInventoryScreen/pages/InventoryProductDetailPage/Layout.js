@@ -1,7 +1,9 @@
 import React from "react";
-import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, Image } from "react-native";
 import { useTranslation } from "react-i18next";
 import { layouts, colors, fonts } from "@shared/themes";
+import FastImage from "react-native-fast-image";
+
 import {
   FormFullName,
   FormTitle,
@@ -40,6 +42,39 @@ export const Layout = ({
   onSubmitRestock,
 }) => {
   const [t] = useTranslation();
+
+  const onRenderTableCell = ({
+    item: cellItem,
+    columnKey,
+    rowIndex,
+    cellWidth,
+  }) => {
+    switch (columnKey) {
+      case "imageUrl":
+        return (
+          <View
+            style={{ width: cellWidth }}
+            key={getUniqueId(columnKey, rowIndex, "cell-image")}
+          >
+            <FastImage
+              style={styles.imageStyle}
+              source={
+                cellItem?.imageUrl
+                  ? {
+                      uri: cellItem?.imageUrl,
+                      priority: FastImage.priority.high,
+                      cache: FastImage.cacheControl.immutable,
+                    }
+                  : IMAGE.product_holder
+              }
+              resizeMode="contain"
+            />
+          </View>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <View style={layouts.fill}>
@@ -141,16 +176,27 @@ export const Layout = ({
               items={productItem?.quantities}
               headerKeyLabels={{
                 label: t("Versions"),
-                costPrice: t("Price"),
+                costPrice: t("Cost price"),
+                price: t("Price"),
                 needToOrder: t("Need to order"),
                 quantity: t("Qty"),
+                imageUrl: t("Image"),
               }}
-              whiteListKeys={["label", "costPrice", "needToOrder", "quantity"]}
+              whiteListKeys={[
+                "label",
+                "costPrice",
+                "price",
+                "needToOrder",
+                "quantity",
+                "imageUrl",
+              ]}
               widthForKeys={{
-                label: "40%",
-                costPrice: scaleWidth(200),
+                label: "35%",
+                costPrice: scaleWidth(150),
+                price: scaleWidth(150),
                 needToOrder: scaleWidth(150),
-                quantity: scaleWidth(150),
+                quantity: scaleWidth(120),
+                imageUrl: scaleWidth(80),
               }}
               primaryKey="id"
               emptyDescription={t("No product versions")}
@@ -158,7 +204,8 @@ export const Layout = ({
                 costPrice: (value) => `${formatMoneyWithUnit(value)}`,
                 quantity: (value) => (value ? `${value}` : "0"),
               }}
-              // renderActionCell={onRenderActionCell}
+              renderCell={onRenderTableCell}
+              onRowPress={() => {}}
             />
           )}
 
@@ -206,7 +253,7 @@ export const Layout = ({
                 createdDate: (value) =>
                   dateToString(value, DATE_TIME_SHOW_FORMAT_STRING),
               }}
-              // renderActionCell={onRenderActionCell}
+              onRowPress={() => {}}
             />
           )}
         </View>
@@ -334,5 +381,10 @@ const styles = StyleSheet.create({
 
   tableProductVersion: {
     height: scaleHeight(380),
+  },
+
+  imageStyle: {
+    width: scaleWidth(44),
+    height: scaleHeight(44),
   },
 });

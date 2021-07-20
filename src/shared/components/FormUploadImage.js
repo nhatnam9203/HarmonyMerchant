@@ -29,6 +29,7 @@ export const FormUploadImage = ({
   height = scaleHeight(120),
   width = scaleWidth(120),
   fontSize = scaleFont(17),
+  iconSize = scaleWidth(28),
 }) => {
   const [t] = useTranslation();
   const [progress, setProgress] = React.useState(0);
@@ -189,12 +190,18 @@ export const FormUploadImage = ({
 
             {photo?.url && !uploadLoading && (
               <TouchableOpacity
-                style={styles.deleteButton}
+                style={[
+                  styles.deleteButton,
+                  { height: iconSize, width: iconSize },
+                ]}
                 onPress={onRemovePhoto}
               >
                 <Image
                   source={IMAGE.DeleteOutline}
-                  style={[styles.deleteIcon]}
+                  style={[
+                    styles.deleteIcon,
+                    { height: iconSize, width: iconSize },
+                  ]}
                 />
               </TouchableOpacity>
             )}

@@ -87,14 +87,6 @@ export const CustomInputMask = ({
         type={type ?? "custom"}
         options={
           options ?? {
-            /**
-             * mask: (String | required | default '')
-             * the mask pattern
-             * 9 - accept digit.
-             * A - accept alpha.
-             * S - accept alphanumeric.
-             * * - accept all, EXCEPT white space.
-             */
             mask: "999-999-9999",
           }
         }
@@ -107,6 +99,64 @@ export const CustomInputMask = ({
           !isEmpty(value)
             ? [styles.textEditStyle, fontSize && { fontSize }]
             : [styles.textPlaceholderStyle, fontSize && { fontSize }],
+        ]}
+      />
+      {children}
+    </View>
+  );
+};
+
+export const CustomInputMoney = ({
+  style,
+  textInputProps: {
+    defaultValue,
+    fontSize,
+    textAlign,
+    onChangeText,
+    textInputStyle,
+    ...textInputProps
+  },
+  children,
+}) => {
+  const [value, setValue] = React.useState(null);
+
+  const onHandleChangeText = (text) => {
+    let num = 0.0;
+    if (!text || text?.trim().length <= 0 || isNaN(text)) {
+      num = null;
+    } else {
+      num = parseFloat(text)
+        ?.toFixed(2)
+        .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+    }
+
+    setValue(num);
+    if (onChangeText && typeof onChangeText === "function") {
+      onChangeText(num);
+    }
+  };
+
+  React.useEffect(() => {
+    if (defaultValue != null && defaultValue != value) {
+      if (typeof defaultValue === "string") {
+        setValue(defaultValue);
+      } else setValue(defaultValue + "");
+    }
+  }, [defaultValue]);
+
+  return (
+    <View style={[styles.container, style]}>
+      <TextInput
+        onChangeText={onHandleChangeText}
+        {...textInputProps}
+        value={value}
+        style={[
+          styles.textInput,
+          textAlign && { textAlign },
+          value?.length > 0
+            ? [styles.textEditStyle, fontSize && { fontSize }]
+            : [styles.textPlaceholderStyle, fontSize && { fontSize }],
+          textInputStyle,
         ]}
       />
       {children}
