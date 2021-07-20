@@ -283,7 +283,7 @@ const PromotiomDetail = forwardRef(
         setActionTags(tempActionConditionTags);
         setNumberOfTimesApply(tempNumberOfTimesApply);
 
-        setNoEndDate(promotionDetailById?.noEndDate);
+        // setNoEndDate(promotionDetailById?.noEndDate);
       }
     }, [promotionDetailById]);
 
@@ -1024,7 +1024,7 @@ const PromotiomDetail = forwardRef(
                   style={{ flexDirection: "row" }}
                   textStyle={styles.txt_date}
                   label={t("No end date")}
-                  value={noEndDate}
+                  defaultValue={noEndDate}
                   onValueChange={setNoEndDate}
                 />
               </View>
