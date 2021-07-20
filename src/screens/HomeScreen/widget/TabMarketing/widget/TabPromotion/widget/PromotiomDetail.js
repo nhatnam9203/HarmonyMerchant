@@ -109,7 +109,6 @@ const PromotiomDetail = forwardRef(
     const [customerSendSMSQuantity, setCustomerSendSMSQuantity] = useState(0);
     const [smsAmount, setSmsAmount] = useState("0.00");
     const [smsMaxAmount, setSmsMaxAmount] = useState("0.00");
-    const [isCheckNoEndDate, setIsCheckNoEndDate] = useState(false);
 
     const [configMessageType, setConfigMessageType] = React.useState(
       MESSAGE_CONTENT_DEFAULT_TYPE
@@ -284,7 +283,7 @@ const PromotiomDetail = forwardRef(
         setActionTags(tempActionConditionTags);
         setNumberOfTimesApply(tempNumberOfTimesApply);
 
-        setIsCheckNoEndDate(promotionDetailById?.noEndDate);
+        setNoEndDate(promotionDetailById?.noEndDate);
       }
     }, [promotionDetailById]);
 
@@ -305,10 +304,6 @@ const PromotiomDetail = forwardRef(
         calculatorsmsMoney(tempValue);
       }
     }, [smsInfoMarketing]);
-
-    selectCheckBox = () => {
-      setIsCheckNoEndDate(!isCheckNoEndDate);
-    };
 
     calculatorsmsMoney = (tempValue) => {
       const customerCount = parseInt(smsInfoMarketing?.customerCount || 0);
@@ -476,7 +471,7 @@ const PromotiomDetail = forwardRef(
       if (!campaign?.name) {
         alert("Enter the campaign's name please!");
         isValid = false;
-      } else if (parseInt(fromDate) >= parseInt(toDate) && !isCheckNoEndDate) {
+      } else if (parseInt(fromDate) >= parseInt(toDate) && !noEndDate) {
         alert("The start date is not larger than the end date ");
         isValid = false;
       } else if (
