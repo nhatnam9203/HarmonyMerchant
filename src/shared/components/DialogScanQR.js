@@ -1,15 +1,15 @@
-import actions from '@redux/actions';
-import IMAGE from '@resources';
-import { DialogLayout } from '@shared/layouts';
-import { useGetCategoriesList } from '@shared/services/api/retailer';
-import { colors, fonts, layouts } from '@shared/themes';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet, Image, View, Text, Platform } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import QRCodeScanner from 'react-native-qrcode-scanner';
-import { RNCamera } from 'react-native-camera';
-const log = (obj, message = '') => {
+import actions from "@redux/actions";
+import IMAGE from "@resources";
+import { DialogLayout } from "@shared/layouts";
+import { useGetCategoriesList } from "@shared/services/api/retailer";
+import { colors, fonts, layouts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Image, View, Text, Platform } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import QRCodeScanner from "react-native-qrcode-scanner";
+import { RNCamera } from "react-native-camera";
+const log = (obj, message = "") => {
   Logger.log(`[DialogPincode] ${message}`, obj);
 };
 
@@ -24,9 +24,11 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
   |--------------------------------------------------
   */
   const onHandleSuccess = (e) => {
-    if (typeof onSuccess === 'function' && onSuccess) {
+    if (typeof onSuccess === "function" && onSuccess) {
       return onSuccess(e?.data);
     }
+
+    dialogRef.current?.hide();
   };
 
   React.useImperativeHandle(ref, () => ({
@@ -42,7 +44,7 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
   return (
     <View>
       <DialogLayout
-        title={title ?? t('Scan QR code')}
+        title={title ?? t("Scan QR code")}
         ref={dialogRef}
         style={styles.dialog}
       >
@@ -62,13 +64,13 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
               customMarker={
                 <Image
                   style={styles.markerStyle}
-                  source={IMAGE['scan_marker']}
+                  source={IMAGE["scan_marker"]}
                 />
               }
             />
 
             <Text style={styles.textCamera}>
-              {t('Focus Camera on Barcode Or QR Code to Scan SKU Number')}
+              {t("Focus Camera on Barcode Or QR Code to Scan SKU Number")}
             </Text>
           </View>
 
@@ -86,27 +88,27 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
-  row: { flexDirection: 'row', alignItems: 'center' },
+  row: { flexDirection: "row", alignItems: "center" },
 
   title: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.GREYISH_BROWN,
   },
 
   camera: {
     width: scaleWidth(480),
     height: scaleHeight(480),
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   qrStyle: {
     width: scaleWidth(450),
@@ -116,7 +118,7 @@ const styles = StyleSheet.create({
   markerStyle: {
     width: scaleWidth(340),
     height: scaleHeight(340),
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
 
   marginVertical: {
@@ -126,10 +128,10 @@ const styles = StyleSheet.create({
     ...layouts.fontLightBlue,
     color: colors.WHITE,
     fontSize: scaleFont(14),
-    position: 'absolute',
+    position: "absolute",
     bottom: scaleHeight(30),
     zIndex: 1000000,
-    fontStyle: 'italic',
-    fontWeight: '400',
+    fontStyle: "italic",
+    fontWeight: "400",
   },
 });
