@@ -113,15 +113,18 @@ export const createSubmitAppointment = (products) => {
   return products?.map((product) => ({
     productId: product.productId,
     quantity: product.quantity,
-    options: product.options?.map((option) => {
-      if (option?.values?.length > 0) {
-        return {
-          productAttributeId: option?.values[0]?.productAttributeId,
-          productAttributeValueId: option?.values[0]?.id,
-        };
-      }
-      return {};
-    }),
+    options:
+      product.options?.length <= 0
+        ? null
+        : product.options?.map((option) => {
+            if (option?.values?.length > 0) {
+              return {
+                productAttributeId: option?.values[0]?.productAttributeId,
+                productAttributeValueId: option?.values[0]?.id,
+              };
+            }
+            return {};
+          }),
   }));
 };
 

@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
 
   productItem: {
     flexDirection: "row",
-    height: scaleHeight(60),
+    minHeight: scaleHeight(60),
     alignItems: "flex-start",
     justifyContent: "flex-start",
     padding: scaleWidth(12),

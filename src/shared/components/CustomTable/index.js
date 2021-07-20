@@ -1,17 +1,16 @@
 import { colors, fonts } from "@shared/themes";
+import { dateCompare } from "@shared/utils";
 import {
   formatMoney,
   formatNumberFromCurrency,
   roundFloatNumber,
 } from "@utils";
-import moment from "moment";
 import _ from "ramda";
 import React, { useEffect, useState } from "react";
 import { FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { getUniqueId, getValueForColumnKey } from "./helpers";
 import { Cell, EmptyList, Header, Row } from "./widget";
-import { dateCompare } from "@shared/utils";
 const TABLE_ROW_HEIGHT = 50;
 const TABLE_CELL_DEFAULT_WIDTH = 150;
 const HEAD_FONT_SIZE = 17;
@@ -296,6 +295,7 @@ export function Table({
             columnIndex: keyIndex,
             item: item,
             cellWidth: getCellWidth(key),
+            textStyle: styles.textStyle,
           });
 
           return renderDefaultCell(cellInfo);

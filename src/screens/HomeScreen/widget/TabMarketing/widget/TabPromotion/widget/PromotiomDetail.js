@@ -114,7 +114,7 @@ const PromotiomDetail = forwardRef(
       MESSAGE_CONTENT_DEFAULT_TYPE
     ); // type configuration sms/mms
     const [messageContent, setMessageContent] = React.useState(null);
-    const [useDefaultContent, setUseDefaultContent] = React.useState(false);
+    const [useDefaultContent, setUseDefaultContent] = React.useState(true);
     const [imageFileId, setImageFileId] = React.useState(null);
     const [noEndDate, setNoEndDate] = React.useState(false);
     const [mediaFilePath, setMediaFilePath] = React.useState(null);
@@ -175,8 +175,14 @@ const PromotiomDetail = forwardRef(
           setValue(0);
         }
 
-        setMessageContent(data?.content);
-        setUseDefaultContent(false);
+        if (data?.content?.length > 0) {
+          setMessageContent(data?.content);
+          setUseDefaultContent(false);
+        } else {
+          setMessageContent(null);
+          setUseDefaultContent(true);
+        }
+
         // setUseDefaultContent(!!data?.content);
         setImageFileId(data?.fileId);
         messageSelectRef.current?.setValue(

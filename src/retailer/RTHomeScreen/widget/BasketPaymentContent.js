@@ -154,7 +154,7 @@ export const BasketPaymentContent = React.forwardRef(
           <View style={layouts.marginHorizontal} />
           <View style={styles.productItemContent}>
             <Text style={styles.totalText}>{item?.productName}</Text>
-            <Text style={styles.totalInfoText}>{item?.description}</Text>
+            <Text style={styles.totalInfoText}>{item?.value}</Text>
           </View>
           <Text style={styles.productItemQuantity}>{`${item.quantity} ${t(
             "items"
@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
 
   productItem: {
     flexDirection: "row",
-    height: scaleHeight(60),
+    minHeight: scaleHeight(60),
     alignItems: "flex-start",
     justifyContent: "flex-start",
     padding: scaleWidth(12),

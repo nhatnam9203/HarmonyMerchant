@@ -29,7 +29,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { deleteProductVersion, updateOptionsQty, changeOption } from "./ProductState";
+import {
+  deleteProductVersion,
+  updateOptionsQty,
+  changeOption,
+} from "./ProductState";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
@@ -88,7 +92,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             key={getUniqueId(columnKey, rowIndex, "cell-quantity")}
           >
             <CustomInput
-              style={[styles.customInput, { width: scaleWidth(100) }]}
+              style={[styles.customInput, { width: scaleWidth(60) }]}
               textInputProps={{
                 placeholder: "Quantity",
                 fontSize: scaleFont(17),
@@ -116,7 +120,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             key={getUniqueId(columnKey, rowIndex, "cell-value-cost")}
           >
             <CustomInputMoney
-              style={[styles.customInput, { width: scaleWidth(150) }]}
+              style={[styles.customInput, { width: scaleWidth(100) }]}
               textInputProps={{
                 placeholder: "Price",
                 fontSize: scaleFont(17),
@@ -145,7 +149,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             key={getUniqueId(columnKey, rowIndex, "cell-value-addition")}
           >
             <CustomInputMoney
-              style={[styles.customInput, { width: scaleWidth(150) }]}
+              style={[styles.customInput, { width: scaleWidth(100) }]}
               textInputProps={{
                 placeholder: "Price",
                 fontSize: scaleFont(17),
@@ -179,6 +183,38 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
           </View>
         );
 
+      case "description":
+        const onHandleChangeDesc = (text) => {
+          dispatchProduct(
+            updateOptionsQty(
+              Object.assign({}, cellItem, { description: text ?? null })
+            )
+          );
+        };
+        return (
+          <View
+            style={{ width: cellWidth }}
+            key={getUniqueId(columnKey, rowIndex, "cell-description")}
+          >
+            <CustomInput
+              style={{
+                height: "80%",
+                width: cellWidth - scaleWidth(20),
+              }}
+              textInputProps={{
+                placeholder: t("Description"),
+                fontSize: scaleFont(17),
+                textAlign: "left",
+                defaultValue: cellItem?.description,
+                onChangeText: onHandleChangeDesc,
+                editable: true,
+                multiline: true,
+                textAlignVertical: "top",
+                textInputStyle: { height: scaleHeight(50) },
+              }}
+            />
+          </View>
+        );
       case "label":
       default:
         return null;
@@ -196,6 +232,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
           headerKeyLabels={{
             imageUrl: t("Image"),
             label: t("Version"),
+            description: t("Description"),
             costPrice: t("Cost price"),
             price: t("Price"),
             quantity: t("Qty"),
@@ -204,6 +241,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
           whiteListKeys={[
             "imageUrl",
             "label",
+            "description",
             "costPrice",
             "price",
             "quantity",
@@ -211,11 +249,12 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
           ]}
           primaryKey="label"
           widthForKeys={{
-            imageUrl: scaleWidth(80),
-            label: "35%",
-            costPrice: scaleWidth(180),
-            price: scaleWidth(180),
-            quantity: scaleWidth(120),
+            imageUrl: scaleWidth(60),
+            label: scaleWidth(300),
+            description: scaleWidth(220),
+            costPrice: scaleWidth(120),
+            price: scaleWidth(120),
+            quantity: scaleWidth(80),
             actions: scaleWidth(80),
           }}
           emptyDescription={t("No Options Qty")}

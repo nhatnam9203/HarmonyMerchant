@@ -1,35 +1,23 @@
-import React from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
-import { useTranslation } from "react-i18next";
-import { layouts, colors, fonts } from "@shared/themes";
-import FastImage from "react-native-fast-image";
-
-import {
-  FormFullName,
-  FormTitle,
-  FormPhoneNumber,
-  FormAddress,
-  FormContactEmail,
-  FormBirthDay,
-  FormGender,
-  FormCustomerGroup,
-  FormLabelSwitch,
-  ButtonGradient,
-  ButtonGradientWhite,
-  ButtonNormal,
-  ProductOptionImage,
-  ButtonGradientRed,
-} from "@shared/components";
 import IMAGE from "@resources";
+import {
+  ButtonGradient,
+  ButtonGradientRed,
+  ButtonGradientWhite,
+  FormTitle,
+  ProductOptionImage,
+} from "@shared/components";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
-import { InputSearch } from "@shared/components/InputSearch";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { dateToString, DATE_TIME_SHOW_FORMAT_STRING } from "@shared/utils";
-import { formatMoneyWithUnit } from "@utils";
-
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { WithDialogRestock } from "@shared/HOC/withDialogRestock";
+import { colors, fonts, layouts } from "@shared/themes";
+import { dateToString, DATE_TIME_SHOW_FORMAT_STRING } from "@shared/utils";
+import { formatMoneyWithUnit } from "@utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, Text, View } from "react-native";
+import FastImage from "react-native-fast-image";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const RestockButton = WithDialogRestock(ButtonGradientWhite);
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
@@ -48,6 +36,7 @@ export const Layout = ({
     columnKey,
     rowIndex,
     cellWidth,
+    textStyle,
   }) => {
     switch (columnKey) {
       case "imageUrl":
@@ -69,6 +58,33 @@ export const Layout = ({
               }
               resizeMode="contain"
             />
+          </View>
+        );
+
+      case "description":
+        return (
+          <View
+            style={{ width: cellWidth, paddingVertical: scaleHeight(5) }}
+            key={getUniqueId(columnKey, rowIndex, "cell-image")}
+          >
+            <Text
+              style={[
+                textStyle,
+                {
+                  height: "100%",
+                  width: "100%",
+                  textAlign: "left",
+                  ellipsizeMode: "tail",
+                  textAlignVertical: "center",
+                },
+              ]}
+              numberOfLines={10}
+              minimumFontScale={0.8}
+              adjustsFontSizeToFit={true}
+              ellipsizeMode="tail"
+            >
+              {cellItem?.description}
+            </Text>
           </View>
         );
       default:
@@ -150,9 +166,13 @@ export const Layout = ({
                 infoValue={`${formatMoneyWithUnit(productItem?.price)}`}
               />
               <ProductInfoLine
+                label={t("Range")}
+                infoValue={productItem?.priceRange}
+              />
+              {/* <ProductInfoLine
                 label={t("Cost Price")}
                 infoValue={`${formatMoneyWithUnit(productItem?.costPrice)}`}
-              />
+              /> */}
               <ProductInfoLine
                 label={t("Total items in stock")}
                 infoValue={productItem?.quantity + ""}
@@ -176,6 +196,7 @@ export const Layout = ({
               items={productItem?.quantities}
               headerKeyLabels={{
                 label: t("Versions"),
+                description: t("Description"),
                 costPrice: t("Cost price"),
                 price: t("Price"),
                 needToOrder: t("Need to order"),
@@ -184,6 +205,7 @@ export const Layout = ({
               }}
               whiteListKeys={[
                 "label",
+                "description",
                 "costPrice",
                 "price",
                 "needToOrder",
@@ -191,12 +213,13 @@ export const Layout = ({
                 "imageUrl",
               ]}
               widthForKeys={{
-                label: "35%",
-                costPrice: scaleWidth(150),
-                price: scaleWidth(150),
-                needToOrder: scaleWidth(150),
-                quantity: scaleWidth(120),
-                imageUrl: scaleWidth(80),
+                label: scaleWidth(320),
+                description: scaleWidth(220),
+                costPrice: scaleWidth(120),
+                price: scaleWidth(120),
+                needToOrder: scaleWidth(80),
+                quantity: scaleWidth(80),
+                imageUrl: scaleWidth(60),
               }}
               primaryKey="id"
               emptyDescription={t("No product versions")}
