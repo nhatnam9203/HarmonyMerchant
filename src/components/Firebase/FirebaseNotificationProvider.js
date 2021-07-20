@@ -21,6 +21,7 @@ const FirebaseNotificationProvider = () => {
 
   const onForegroundMessage = (data) => {
     // TODO: process message on foreground state
+    console.log('onForegroundMessage')
     dispatch({
       type: "HANDLE_NOTIFICATION_WHEN_HAVE_A_APPOINTMENT",
       payload: data,

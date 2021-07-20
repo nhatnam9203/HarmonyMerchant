@@ -11,10 +11,10 @@ import {
   getValueSignInAppDisplay,
   getTitleSendLinkGoogle,
   getValueSendLinkGoogle,
-  localNotificationForAutoClose,
+  setLocalNotificationAutoClose,
 } from "@utils";
 import _ from 'lodash'
-import PushNotification from "react-native-push-notification";
+
 import moment from 'moment';
 
 class TabGaneral extends Layout {
@@ -242,24 +242,11 @@ class TabGaneral extends Layout {
       const dateStr = dateObj.toISOString().split('T').shift();
 
       const timeAndDate = moment(dateStr + ' ' + _.get(profile, 'autoCloseAt')).toDate();
-      if(_.get(profile, 'autoClose')){
-        PushNotification.getScheduledLocalNotifications((nots)=>{
-          console.log(nots);
-          if(!_.isEmpty(nots)){
-            PushNotification.cancelLocalNotifications({id: 'AutoClose'});
-          }
-          PushNotification.localNotificationSchedule({
-            id: "AutoClose",
-            title: 'Auto close',
-            message: '',
-            userInfo: {},
-            date: timeAndDate, 
-            repeatType: "day",
-          })
-        });
-        
-      }
       
+      //hard code for test
+      // setLocalNotificationAutoClose(new Date(Date.now() + 15 * 1000), _.get(profile, 'autoClose'))
+      ///////
+      // setLocalNotificationAutoClose(timeAndDate, _.get(profile, 'autoClose'))
     }
   }
 
