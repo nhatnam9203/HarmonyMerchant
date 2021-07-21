@@ -1630,27 +1630,6 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
   return shortPurchasePoint;
 };
 
-export const setLocalNotificationAutoClose = (date, isAutoClose) => {
-  PushNotification.getScheduledLocalNotifications((nots)=>{
-    console.log(nots);
-    if(!l.isEmpty(nots)){
-      PushNotification.cancelLocalNotifications({id: 'AutoClose'});
-    }
-
-    if(isAutoClose){
-      PushNotification.localNotificationSchedule({
-        id: "AutoClose",
-        title: 'Auto close',
-        message: '',
-        userInfo: {},
-        date: date, 
-        repeatType: "day",
-      })
-    }
-
-  });
-}
-
 export const handleAutoClose = async (paxMachineInfo, token) => {
   const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
     paxMachineInfo;

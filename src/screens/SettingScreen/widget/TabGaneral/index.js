@@ -11,7 +11,6 @@ import {
   getValueSignInAppDisplay,
   getTitleSendLinkGoogle,
   getValueSendLinkGoogle,
-  setLocalNotificationAutoClose,
 } from "@utils";
 import _ from 'lodash'
 
@@ -238,15 +237,6 @@ class TabGaneral extends Layout {
         giftForNewEnabled: profile?.giftForNewEnabled || false,
       });
       this.updateWorkTime();
-      const dateObj = new Date();
-      const dateStr = dateObj.toISOString().split('T').shift();
-
-      const timeAndDate = moment(dateStr + ' ' + _.get(profile, 'autoCloseAt')).toDate();
-      
-      //hard code for test
-      // setLocalNotificationAutoClose(new Date(Date.now() + 15 * 1000), _.get(profile, 'autoClose'))
-      ///////
-      // setLocalNotificationAutoClose(timeAndDate, _.get(profile, 'autoClose'))
     }
   }
 
