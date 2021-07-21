@@ -55,7 +55,7 @@ export const Layout = ({
   onCheckedAll,
   getCheckedValue,
   onCheckedRow,
-  callCleanOrder
+  callCleanOrder,
 }) => {
   const { t } = useTranslation();
 
@@ -99,7 +99,14 @@ export const Layout = ({
     return null;
   };
 
-  const onRenderHeaderCell = ({ key, index, cellWidth, text, textStyle }) => {
+  const onRenderHeaderCell = ({
+    key,
+    index,
+    cellWidth,
+    text,
+    textStyle,
+    sortComponent,
+  }) => {
     if (key === "code") {
       const onValueChange = (bl) => {
         onCheckedAll(bl);
@@ -108,15 +115,18 @@ export const Layout = ({
       return (
         <TouchableOpacity
           onPress={() => {}}
-          style={[{ width: cellWidth }, styles.cellStyle]}
+          style={[{ width: cellWidth, height: "100%" }, styles.cellStyle]}
           key={getUniqueId(key, index, "header-code")}
           activeOpacity={1}
         >
-          <CustomTableCheckBox
-            defaultValue={getCheckedValue("all")}
-            onValueChange={onValueChange}
-          />
-          <Text style={textStyle}>{text}</Text>
+          <View style={[layouts.horizontal, layouts.fill]}>
+            <CustomTableCheckBox
+              defaultValue={getCheckedValue("all")}
+              onValueChange={onValueChange}
+            />
+            <Text style={textStyle}>{text}</Text>
+          </View>
+          {sortComponent && sortComponent()}
         </TouchableOpacity>
       );
     }
@@ -189,7 +199,7 @@ export const Layout = ({
             width={scaleWidth(86)}
             height={scaleHeight(32)}
             fontSize={scaleFont(15)}
-             onPress={callCleanOrder}
+            onPress={callCleanOrder}
           >
             <View style={layouts.marginHorizontal} />
             <Image

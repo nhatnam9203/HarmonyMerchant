@@ -76,6 +76,7 @@ export const AttributesInputTypes = [
 ];
 
 export const SORT_TYPE = {
+  NONE: "none",
   ASC: "asc",
   DESC: "desc",
 };

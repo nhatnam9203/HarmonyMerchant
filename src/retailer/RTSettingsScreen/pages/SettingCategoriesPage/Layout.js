@@ -55,7 +55,7 @@ export const Layout = ({
               },
             ]}
           >
-            {item?.name}
+            {`${item?.isSubCategory ? "- " : ""}${item?.name}`}
           </Text>
         </View>
       );

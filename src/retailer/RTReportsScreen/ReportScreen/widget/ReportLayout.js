@@ -83,7 +83,7 @@ function ReportLayout(
   const getFilterTimeParams = () => {
     const { isCustomizeDate, startDate, endDate, quickFilter } =
       modalCalendarRef.current?.state;
-    console.log("getFilterTimeParams > quickFilter", quickFilter);
+    // console.log("getFilterTimeParams > quickFilter", quickFilter);
 
     let url;
 
@@ -92,7 +92,7 @@ function ReportLayout(
     } else {
       const filter = quickFilter === false ? "This Week" : quickFilter;
       url = `quickFilter=${getQuickFilterTimeRange(filter)}`;
-      console.log("getFilterTimeParams > url", url);
+      // console.log("getFilterTimeParams > url", url);
     }
 
     return url;
@@ -102,7 +102,7 @@ function ReportLayout(
   const getTimeTitle = () => {
     const { isCustomizeDate, startDate, endDate, quickFilter } =
       modalCalendarRef.current?.state;
-    console.log("getFilterTimeParams > getTimeTitle", quickFilter);
+    // console.log("getFilterTimeParams > getTimeTitle", quickFilter);
 
     const filter = quickFilter === false ? "This Week" : quickFilter;
     let title = `${filter}`;

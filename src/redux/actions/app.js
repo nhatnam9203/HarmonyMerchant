@@ -109,7 +109,6 @@ export function resetIsFlashScreen(isFocus = false) {
 }
 
 export function changeFlagVisibleEnteerPinCode(visible = true) {
-  console.log(visible);
   return {
     type: "CHANGE_FLAG_VISIBLE_ENTER_PIN_CODE",
     payload: visible,

@@ -74,16 +74,16 @@ class TabCustomBanner extends Layout {
 
   takePhoto = () => {
     ImagePicker.launchCamera({}, (response) => {
-      if (response.uri) {
-        this.handleUploadBannerLocal(response);
+      if (response?.assets?.length > 0) {
+        this.handleUploadBannerLocal(response?.assets[0]);
       }
     });
   };
 
   openImageLibrary = () => {
     ImagePicker.launchImageLibrary({}, (response) => {
-      if (response.uri) {
-        this.handleUploadBannerLocal(response);
+      if (response?.assets?.length > 0) {
+        this.handleUploadBannerLocal(response?.assets[0]);
       }
     });
   };
@@ -164,7 +164,7 @@ class TabCustomBanner extends Layout {
 const mapStateToProps = (state) => ({
   language: state.dataLocal.language,
   profile: state.dataLocal.profile,
-  listBanners: state.marketing.listBanners,
+  listBanners: state.marketing?.listBanners,
   isUploadBanner: state.marketing.isUploadBanner,
   loading: state.app.loading,
   refreshBannerList: state.marketing.refreshBannerList,

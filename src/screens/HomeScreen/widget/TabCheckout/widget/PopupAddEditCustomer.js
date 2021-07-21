@@ -482,7 +482,7 @@ class PopupAddEditCustomer extends React.Component {
                         />
                     </View>
                 </View>
-                <Loading />
+                {/* <Loading /> */}
             </PopupParent>
         );
     }

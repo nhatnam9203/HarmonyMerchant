@@ -8,6 +8,7 @@ import {
   useCreateCategories,
   useGetCategories,
   useEditCategories,
+  useGetCategoriesList,
 } from "@shared/services/api/retailer";
 import {
   BIRTH_DAY_DATE_FORMAT_STRING,
@@ -19,9 +20,6 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const categories = useSelector(
-    (state) => state.inventoryRetailer?.categories
-  );
   const [isSubCategory, setIsSubCategory] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState(null);
   /**
@@ -32,6 +30,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   const [categoryData, createCategory] = useCreateCategories();
   const [categoryEdit, editCategory] = useEditCategories();
   const [categoriesGet, getCategories] = useGetCategories();
+  const [categoriesList, getCategoriesList] = useGetCategoriesList();
 
   /**
   |--------------------------------------------------
@@ -87,6 +86,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   }, [categoriesGet?.data]);
 
   React.useEffect(() => {
+    getCategoriesList(null);
     if (isEdit && item) {
       getCategories(item.categoryId);
     }
@@ -105,6 +105,6 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
       setIsSubCategory(isSub);
     },
     form,
-    categories,
+    categories: categoriesList?.data ?? [],
   };
 };

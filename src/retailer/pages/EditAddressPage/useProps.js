@@ -115,7 +115,6 @@ export const useProps = ({
 
   React.useEffect(() => {
     if (item) {
-      console.log(item);
       setCurrentAddress(
         Object.assign({}, item, {
           firstName: item?.addressFirstName,

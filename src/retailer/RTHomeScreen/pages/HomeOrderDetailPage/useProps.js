@@ -60,7 +60,7 @@ export const useProps = ({
   useFocusEffect(
     React.useCallback(() => {
       if (orderId || order?.appointmentId) {
-        getAppointment(orderId || order.appointmentId);
+        getAppointment(orderId ?? order.appointmentId);
       }
 
       if (addressId) {
@@ -73,13 +73,15 @@ export const useProps = ({
   React.useEffect(() => {
     const { codeStatus, message, data } = appointment || {};
     if (statusSuccess(codeStatus)) {
-      // !! Kiểm tra xem appointment đã pay chưa.
       log(data);
-      const { status, didNotPay, payment } = data || {};
+      const { status, didNotPay, payment, purchasePoint } = data || {};
+
       if (
-        status === ORDERED_STATUS.PROCESS &&
-        !didNotPay &&
-        payment?.length <= 0
+        payment?.length <= 0 &&
+        ((status === ORDERED_STATUS.PENDING && purchasePoint === "Store") ||
+          (status === ORDERED_STATUS.PROCESS &&
+            !didNotPay &&
+            purchasePoint !== "Store"))
       ) {
         NavigationServices.navigate("retailer.home.order.pay", {
           orderItem: data,

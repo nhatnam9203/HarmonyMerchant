@@ -65,16 +65,17 @@ export const ExportModal = React.forwardRef(({ onExportFile, title }, ref) => {
   const onRequestFileFromServer = (type) => {
     if (typeof onExportFile === 'function') {
       onExportFile({
-        type: type,
+        type,
       });
     }
     setShowModal(false);
   };
   // Tạo file từ url của server trả về và show thông tin file lên
   const onHandleCreateFile = async (url) => {
+    let changeMode = mode === 'excel' ? 'xlsx' : mode;
     let filePath = await createFilePath({
       fileName: fileName,
-      extention: mode,
+      extention: changeMode,
       url,
     });
     let files = await getInfoPathFile(filePath);

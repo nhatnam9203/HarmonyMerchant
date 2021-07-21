@@ -341,8 +341,8 @@ const styles = StyleSheet.create({
   },
 
   iconStyle: {
-    width: scaleWidth(24),
-    height: scaleHeight(24),
+    width: scaleWidth(20),
+    height: scaleHeight(20),
   },
 
   productItem: {

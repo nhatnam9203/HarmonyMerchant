@@ -24,6 +24,7 @@ import IMAGE from "@resources";
 import { FormProductOption } from "./FormProductOption";
 import { AddProductOptionDialog } from "./AddProductOptionDialog";
 import { FormProductOptionQty } from "./FormProductOptionQty";
+import { FormProductImages } from "./FormProductImages";
 
 export const Layout = ({
   isEdit,
@@ -36,7 +37,9 @@ export const Layout = ({
   filterCategoryRef,
   dispatchProduct,
   categoriesFilter,
-  onHandleChangeProductName
+  onHandleChangeProductName,
+  onHandleChangeProductImages,
+  onHandleChangeProductDescription,
 }) => {
   const [t] = useTranslation();
 
@@ -66,7 +69,12 @@ export const Layout = ({
         )}
         {isNew && <Text style={styles.headTitle}>{t("New Product")}</Text>}
       </View>
-      <KeyboardAwareScrollView bounces={false} extraHeight={scaleHeight(150)}>
+      <KeyboardAwareScrollView
+        bounces={false}
+        extraHeight={scaleHeight(150)}
+        extraScrollHeight={scaleHeight(0)}
+        viewIsInsideTabBar={true}
+      >
         <View style={styles.content}>
           <FormTitle label={t("General Details")} />
         </View>
@@ -133,6 +141,15 @@ export const Layout = ({
             </FormSelect>
 
             <FormInput
+              label={t("Product Description")}
+              placeholder={t("Enter product description")}
+              // required={true}
+              onChangeValue={onHandleChangeProductDescription}
+              defaultValue={productItem?.description}
+              multiline={true}
+            />
+
+            <FormInput
               label={t("Product Name")}
               placeholder={t("Enter product name")}
               required={true}
@@ -141,12 +158,11 @@ export const Layout = ({
             />
           </View>
           <View style={styles.content}>
-            <FormUploadImage
-              label={t("Default Image")}
-              onSetFileId={(fileId) =>
-                form.setFieldValue("fileId", parseInt(fileId))
-              }
-              defaultValue={productItem?.imageUrl}
+            <FormProductImages
+              label={t("Product Images")}
+              onChangeValue={onHandleChangeProductImages}
+              images={productItem?.images}
+              defaultImage={productItem?.imageUrl}
             />
             <Text style={styles.errorText}>{errorMsg}</Text>
             <View style={[layouts.horizontal]}>
@@ -186,6 +202,7 @@ export const Layout = ({
               }}
               defaultValue={`${productItem?.quantity ?? ""}`}
               keyboardType="number-pad"
+              editable={!isEdit}
             />
           </View>
         </View>

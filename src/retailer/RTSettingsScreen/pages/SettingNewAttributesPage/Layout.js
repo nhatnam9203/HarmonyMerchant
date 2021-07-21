@@ -170,7 +170,7 @@ export const Layout = ({ ...props }) => {
           />
         </View>
         <View style={styles.content}>
-          <FormLabelSwitch
+          {/* <FormLabelSwitch
             label={t("Update product image")}
             style={[layouts.vertical, layouts.verticalCenterLeft]}
             textStyle={styles.textStyle}
@@ -178,7 +178,7 @@ export const Layout = ({ ...props }) => {
               form?.setFieldValue("updateProductImage", val)
             }
             defaultValue={item?.updateProductImage}
-          />
+          /> */}
 
           <FormSelect
             label={t("Input type")}

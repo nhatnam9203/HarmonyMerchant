@@ -79,9 +79,10 @@ export const ExportModalInventory = React.forwardRef(
     };
 
     const onHandleCreateFile = async (url) => {
+      let changeMode = mode === 'excel' ? 'xlsx' : mode;
       let filePath = await createFilePath({
         fileName: fileName,
-        extention: mode,
+        extention: changeMode,
         url,
       });
       let files = await getInfoPathFile(filePath);

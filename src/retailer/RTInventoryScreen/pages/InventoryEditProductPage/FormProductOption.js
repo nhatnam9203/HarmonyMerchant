@@ -24,7 +24,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { removeOption, updateOption } from "./ProductState";
+import { removeOption, updateOption, changeOption } from "./ProductState";
 
 const log = (obj, message = "") => {
   Logger.log(`[FormProductOption] ${message}`, obj);
@@ -73,7 +73,7 @@ export const FormProductOption = React.forwardRef(
         optionItem["updateProductImage"] = data?.updateProductImage;
         optionItem["attributeId"] = data?.id;
 
-        if (item) {
+        if (item?.values?.length > 0) {
           let values = options?.map((v) => {
             const existItem = item?.values?.find(
               (x) => x.attributeValueId === v.attributeValueId
@@ -82,14 +82,15 @@ export const FormProductOption = React.forwardRef(
             if (existItem) {
               return Object.assign({}, v, existItem); // lấy thông từ tồn tại item làm thông tin chính
             } else {
-              return Object.assign({}, v);
+              return Object.assign({}, v, { checked: false });
             }
           });
           optionItem["values"] = values;
+          dispatchProduct(updateOption(optionItem));
         } else {
           optionItem["values"] = options;
+          dispatchProduct(changeOption(optionItem));
         }
-        dispatchProduct(updateOption(optionItem));
       }
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -127,19 +128,19 @@ export const FormProductOption = React.forwardRef(
             active: t("Active"),
             value: t("Swatch"),
             label: t("Value Label"),
-            valueAdd: t("Additional Price"),
+            // valueAdd: t("Additional Price"),
           }
         : {
             active: t("Active"),
             label: t("Value Label"),
-            valueAdd: t("Additional Price"),
+            // valueAdd: t("Additional Price"),
           };
     };
 
     const getTableKeys = () => {
       return item?.inputType === INPUT_TYPE.VISUAL_SWATCH
-        ? ["active", "value", "label", "valueAdd"]
-        : ["active", "label", "valueAdd"];
+        ? ["active", "value", "label"]
+        : ["active", "label"];
     };
 
     const onRenderTableCell = ({
@@ -159,7 +160,7 @@ export const FormProductOption = React.forwardRef(
           });
 
           dispatchProduct(
-            updateOption(
+            changeOption(
               Object.assign({}, item, { values: updatesSelectOptions })
             )
           );
@@ -322,7 +323,7 @@ export const FormProductOption = React.forwardRef(
             />
           )}
         </View>
-        {item?.updateProductImage && (
+        {/* {item?.updateProductImage && (
           <View>
             <InfoHeading label={t("Option Image")} fontSize={scaleWidth(17)} />
 
@@ -348,7 +349,7 @@ export const FormProductOption = React.forwardRef(
               />
             </View>
           </View>
-        )}
+        )} */}
       </View>
     );
   }

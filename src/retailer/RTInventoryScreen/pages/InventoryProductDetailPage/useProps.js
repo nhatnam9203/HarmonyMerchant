@@ -8,6 +8,10 @@ import { useTranslation } from "react-i18next";
 import NavigationServices from "@navigators/NavigatorServices";
 import { NEED_TO_ORDER, statusSuccess } from "@shared/utils/app";
 
+const log = (obj, message = "") => {
+  Logger.log(`[Inventory Product Detail] ${message}`, obj);
+};
+
 export const useProps = ({ params: { item } }) => {
   const { t } = useTranslation();
 
@@ -18,7 +22,7 @@ export const useProps = ({ params: { item } }) => {
   | CALL API
   |--------------------------------------------------
   */
-  const [product, getProduct] = useGetProducts();
+  const [product, getProducts] = useGetProducts();
   const [, deleteProducts] = useDeleteProducts(() => {
     NavigationServices.navigate("retailer.inventory.list", { reload: true });
   });
@@ -30,7 +34,7 @@ export const useProps = ({ params: { item } }) => {
   |--------------------------------------------------
   */
   React.useEffect(() => {
-    getProduct(item?.productId);
+    getProducts(item?.productId);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -38,7 +42,7 @@ export const useProps = ({ params: { item } }) => {
   React.useEffect(() => {
     const { codeStatus } = productsRestock || {};
     if (statusSuccess(codeStatus)) {
-      getProduct(item?.productId);
+      getProducts(item?.productId);
     }
   }, [productsRestock]);
 
@@ -46,6 +50,7 @@ export const useProps = ({ params: { item } }) => {
     const { codeStatus, data } = product || {};
     if (statusSuccess(codeStatus)) {
       setProduct(data);
+      log(data);
     }
   }, [product]);
 
@@ -57,7 +62,7 @@ export const useProps = ({ params: { item } }) => {
     onEditProduct: () => {
       NavigationServices.navigate("retailer.inventory.product.edit", {
         isEdit: true,
-        item: productItem,
+        item: item,
       });
     },
     onHandleDeleteProduct: () => {

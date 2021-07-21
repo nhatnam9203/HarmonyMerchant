@@ -50,8 +50,8 @@ class RowTableProducts extends React.Component {
         const { product, nameCategory, showDetailProduct, move, moveEnd } = this.props;
         const { isCheck } = this.state;
         const temptIconCheckbox = isCheck ? IMAGE.checkBox : IMAGE.checkBoxEmpty;
-        const { minThreshold, quantity, needToorDer } = product;
-        const temptTextColor = quantity < needToorDer || quantity < minThreshold ? { color: '#FF3B30' } : { color: '#6A6A6A' };
+        const { minThreshold, quantity, needToOrder } = product;
+        const temptTextColor = quantity < needToOrder || quantity < minThreshold ? { color: '#FF3B30' } : { color: '#6A6A6A' };
         return (
             <TouchableOpacity
                 onLongPress={move}
@@ -142,7 +142,7 @@ class RowTableProducts extends React.Component {
                 }} >
                     <View style={{ flex: 1, justifyContent: 'center', paddingLeft: scaleSize(10) }} >
                         <Text style={[styles.textTableHeader, temptTextColor]} >
-                            {product.needToorDer}
+                            {product.needToOrder}
                         </Text>
                     </View>
                     <View style={{ width: 1, paddingVertical: scaleSize(3) }} >

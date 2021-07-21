@@ -1,7 +1,9 @@
 import React from "react";
-import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, Image } from "react-native";
 import { useTranslation } from "react-i18next";
 import { layouts, colors, fonts } from "@shared/themes";
+import FastImage from "react-native-fast-image";
+
 import {
   FormFullName,
   FormTitle,
@@ -40,6 +42,39 @@ export const Layout = ({
   onSubmitRestock,
 }) => {
   const [t] = useTranslation();
+
+  const onRenderTableCell = ({
+    item: cellItem,
+    columnKey,
+    rowIndex,
+    cellWidth,
+  }) => {
+    switch (columnKey) {
+      case "imageUrl":
+        return (
+          <View
+            style={{ width: cellWidth }}
+            key={getUniqueId(columnKey, rowIndex, "cell-image")}
+          >
+            <FastImage
+              style={styles.imageStyle}
+              source={
+                cellItem?.imageUrl
+                  ? {
+                      uri: cellItem?.imageUrl,
+                      priority: FastImage.priority.high,
+                      cache: FastImage.cacheControl.immutable,
+                    }
+                  : IMAGE.product_holder
+              }
+              resizeMode="contain"
+            />
+          </View>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <View style={layouts.fill}>
@@ -85,7 +120,7 @@ export const Layout = ({
           <FormTitle label={t("General Details")} />
           <View style={layouts.horizontal}>
             <ProductOptionImage
-              width={scaleWidth(220)}
+              // width={scaleWidth(220)}
               imageUrl={productItem?.imageUrl}
               options={productItem?.options}
             />
@@ -93,10 +128,14 @@ export const Layout = ({
             <View style={styles.productInfo}>
               <Text style={styles.productName}>{productItem?.name}</Text>
               <View style={layouts.marginVertical} />
+              <View style={layouts.marginVertical} />
+
               <Text style={styles.productDescription}>
                 {productItem?.description}
               </Text>
               <View style={layouts.marginVertical} />
+              <View style={layouts.marginVertical} />
+
               <ProductInfoLine
                 label={t("Category")}
                 infoValue={productItem?.categoryName}
@@ -117,29 +156,47 @@ export const Layout = ({
               <ProductInfoLine
                 label={t("Total items in stock")}
                 infoValue={productItem?.quantity + ""}
+                textStyle={
+                  productItem?.quantity < productItem?.minThreshold && {
+                    color: "red",
+                  }
+                }
               />
               <ProductInfoLine
                 label={t("Total items need to order")}
-                infoValue={productItem?.needToorDer + ""}
+                infoValue={productItem?.needToOrder + ""}
               />
             </View>
           </View>
           <FormTitle label={t("Product versions")} />
           {productItem?.quantities && (
             <Table
+              key={"table-version"}
+              tableStyle={styles.tableProductVersion}
               items={productItem?.quantities}
               headerKeyLabels={{
                 label: t("Versions"),
-                costPrice: t("Price"),
+                costPrice: t("Cost price"),
+                price: t("Price"),
                 needToOrder: t("Need to order"),
                 quantity: t("Qty"),
+                imageUrl: t("Image"),
               }}
-              whiteListKeys={["label", "costPrice", "needToOrder", "quantity"]}
+              whiteListKeys={[
+                "label",
+                "costPrice",
+                "price",
+                "needToOrder",
+                "quantity",
+                "imageUrl",
+              ]}
               widthForKeys={{
-                label: "40%",
-                costPrice: scaleWidth(200),
+                label: "35%",
+                costPrice: scaleWidth(150),
+                price: scaleWidth(150),
                 needToOrder: scaleWidth(150),
-                quantity: scaleWidth(150),
+                quantity: scaleWidth(120),
+                imageUrl: scaleWidth(80),
               }}
               primaryKey="id"
               emptyDescription={t("No product versions")}
@@ -147,7 +204,8 @@ export const Layout = ({
                 costPrice: (value) => `${formatMoneyWithUnit(value)}`,
                 quantity: (value) => (value ? `${value}` : "0"),
               }}
-              // renderActionCell={onRenderActionCell}
+              renderCell={onRenderTableCell}
+              onRowPress={() => {}}
             />
           )}
 
@@ -165,6 +223,8 @@ export const Layout = ({
           </FormTitle>
           {productItem?.restockHistory && (
             <Table
+              key={"table-restock"}
+              tableStyle={styles.tableProductVersion}
               items={productItem?.restockHistory}
               headerKeyLabels={{
                 createdDate: t("Date time"),
@@ -193,7 +253,7 @@ export const Layout = ({
                 createdDate: (value) =>
                   dateToString(value, DATE_TIME_SHOW_FORMAT_STRING),
               }}
-              // renderActionCell={onRenderActionCell}
+              onRowPress={() => {}}
             />
           )}
         </View>
@@ -202,11 +262,13 @@ export const Layout = ({
   );
 };
 
-let ProductInfoLine = ({ label, infoValue }) => {
+let ProductInfoLine = ({ label, infoValue, textStyle }) => {
   return (
     <View style={styles.infoLineContent}>
       {!!label && <Text style={styles.infoLabelText}>{label}</Text>}
-      {!!infoValue && <Text style={styles.infoText}>{infoValue}</Text>}
+      {!!infoValue && (
+        <Text style={[styles.infoText, textStyle]}>{infoValue}</Text>
+      )}
     </View>
   );
 };
@@ -315,5 +377,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
+  },
+
+  tableProductVersion: {
+    height: scaleHeight(380),
+  },
+
+  imageStyle: {
+    width: scaleWidth(44),
+    height: scaleHeight(44),
   },
 });

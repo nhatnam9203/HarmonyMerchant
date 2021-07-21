@@ -10,7 +10,7 @@ import {
   Image,
   Dimensions,
   StyleSheet,
-  FlatList,
+  Pressable,
   ScrollView,
   Switch,
   Platform,
@@ -24,7 +24,14 @@ import _ from "ramda";
 import DropdownSearch from "./DropdownSearch";
 import Slider from "./Slider";
 import IMAGE from "@resources";
-import moment from "moment";
+import {
+  CustomRadioSelect,
+  FormUploadImage,
+  CustomCheckBox,
+} from "@shared/components";
+import { useTranslation } from "react-i18next";
+import { colors, fonts, layouts } from "@shared/themes";
+import { dateToString } from "@shared/utils";
 
 import {
   scaleSize,
@@ -56,7 +63,8 @@ import {
 const { width } = Dimensions.get("window");
 
 const HOURS_FORMAT = "hh:mm A";
-
+const MESSAGE_END_DATE_FORMAT = "dddd, dd MMMM yyyy hh:mm a";
+const MESSAGE_CONTENT_DEFAULT_TYPE = "sms";
 const PromotiomDetail = forwardRef(
   (
     {
@@ -68,6 +76,9 @@ const PromotiomDetail = forwardRef(
     },
     ref
   ) => {
+    const [t] = useTranslation();
+    const messageSelectRef = React.useRef(null);
+
     const [promotionId, setPromotionId] = useState("");
     const [title, setTitle] = useState("");
     const [startDate, setStartDate] = useState("");
@@ -85,6 +96,7 @@ const PromotiomDetail = forwardRef(
     const [promotionType, setPromotionType] = useState("percent"); // fixed
     const [promotionValue, setPromotionValue] = useState("");
     const [dataServiceProduct, setDataServiceProduct] = useState([]);
+    const [dataCategory, setDataCategory] = useState([]);
     const [numberOfTimesApply, setNumberOfTimesApply] = useState("");
     const [actionTags, setActionTags] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true);
@@ -98,6 +110,15 @@ const PromotiomDetail = forwardRef(
     const [smsAmount, setSmsAmount] = useState("0.00");
     const [smsMaxAmount, setSmsMaxAmount] = useState("0.00");
 
+    const [configMessageType, setConfigMessageType] = React.useState(
+      MESSAGE_CONTENT_DEFAULT_TYPE
+    ); // type configuration sms/mms
+    const [messageContent, setMessageContent] = React.useState(null);
+    const [useDefaultContent, setUseDefaultContent] = React.useState(false);
+    const [imageFileId, setImageFileId] = React.useState(null);
+    const [noEndDate, setNoEndDate] = React.useState(false);
+    const [mediaFilePath, setMediaFilePath] = React.useState(null);
+
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(
       WorkingTime.map((x) => Object.assign({}, x, { label: x.value }))
@@ -110,6 +131,11 @@ const PromotiomDetail = forwardRef(
     const servicesByMerchant = useSelector(
       (state) => state?.service?.servicesByMerchant || []
     );
+
+    const categoriesByMerchant = useSelector(
+      (state) => state?.category?.categoriesByMerchant || []
+    );
+
     const promotionDetailById = useSelector(
       (state) => state?.marketing?.promotionDetailById || {}
     );
@@ -117,10 +143,10 @@ const PromotiomDetail = forwardRef(
       (state) => state?.marketing?.smsInfoMarketing || {}
     );
 
+    const merchant = useSelector((state) => state.dataLocal?.profile);
+
     useImperativeHandle(ref, () => ({
       setStateFromParent: (data = {}) => {
-        // console.log('---- setStateFromParent: ', data?.customerSendSMSQuantity);
-
         setCustomerSendSMSQuantity(data?.customerSendSMSQuantity || 0);
         setIsHandleEdit(data?.id ? true : false);
         setPromotionId(data?.id || "");
@@ -129,17 +155,11 @@ const PromotiomDetail = forwardRef(
           formatWithMoment(data?.fromDate || new Date(), "MM/DD/YYYY")
         );
 
-        setEndDate(formatWithMoment(data?.toDate, "MM/DD/YYYY"));
+        setEndDate(formatWithMoment(data?.toDate || new Date(), "MM/DD/YYYY"));
         if (data?.toDate && data?.fromDate) {
           setStartTime(data?.fromDate);
-          // setStartTime(formatWithMoment(data?.fromDate, "hh:mm A"));
           setEndTime(data?.toDate);
-          // setEndTime(formatWithMoment(data?.toDate || new Date(), "hh:mm A"));
         } else {
-          // const index = getCurrentIndexWorkingTime();
-          //   console.log(index);
-          // setStartTime(WorkingTime[index]?.value ?? "12:00 AM");
-          // setEndTime(WorkingTime[index + 1]?.value ?? "12:00 AM");
           setStartTime(new Date());
           setEndTime(new Date());
         }
@@ -154,6 +174,17 @@ const PromotiomDetail = forwardRef(
         if (_.isEmpty(data)) {
           setValue(0);
         }
+
+        setMessageContent(data?.content);
+        setUseDefaultContent(false);
+        // setUseDefaultContent(!!data?.content);
+        setImageFileId(data?.fileId);
+        messageSelectRef.current?.setValue(
+          data?.smsType ?? MESSAGE_CONTENT_DEFAULT_TYPE
+        );
+        setConfigMessageType(data?.smsType ?? MESSAGE_CONTENT_DEFAULT_TYPE);
+        setNoEndDate(data?.noEndDate);
+        setMediaFilePath(data?.smsMediaPath);
       },
     }));
 
@@ -164,33 +195,50 @@ const PromotiomDetail = forwardRef(
         originalId: service?.serviceId || 0,
         id: `${service?.serviceId}_Service`,
       }));
+
       const tempProduct = productsByMerchantId.map((product) => ({
         value: product?.name || "",
         type: "Product",
         originalId: product?.productId || 0,
         id: `${product?.productId}_Product`,
       }));
+
       const tempData = tempService.concat(tempProduct);
       setDataServiceProduct(tempData);
     }, [productsByMerchantId, servicesByMerchant]);
+
+    useEffect(() => {
+      const tempCategory = categoriesByMerchant.map((category) => ({
+        value: category?.name || "",
+        type: "Category",
+        originalId: category?.categoryId || 0,
+        id: `${category?.categoryId}_Category`,
+      }));
+
+      setDataCategory(tempCategory);
+    }, [categoriesByMerchant]);
 
     useEffect(() => {
       // console.log('----- useEffect 3 --------');
       if (promotionDetailById?.id) {
         const serviceConditionTag =
           promotionDetailById?.conditionDetail?.service || [];
+
         const productonditionTag =
           promotionDetailById?.conditionDetail?.product || [];
+
         const tempServiceConditionTag = getTagInfoById(
           "Service",
           serviceConditionTag,
           dataServiceProduct
         );
+
         const tempProductonditionTag = getTagInfoById(
           "Product",
           productonditionTag,
           dataServiceProduct
         );
+
         const tempConditionServiceProductTags = [
           ...tempServiceConditionTag,
           ...tempProductonditionTag,
@@ -198,6 +246,7 @@ const PromotiomDetail = forwardRef(
 
         const serviceActionConditionTag =
           promotionDetailById?.applyToDetail?.service || [];
+
         const productActionConditionTag =
           promotionDetailById?.applyToDetail?.product || [];
         const tempServiceActionConditionTag = getTagInfoById(
@@ -205,14 +254,24 @@ const PromotiomDetail = forwardRef(
           serviceActionConditionTag,
           dataServiceProduct
         );
+
         const tempProductActionConditionTag = getTagInfoById(
           "Product",
           productActionConditionTag,
           dataServiceProduct
         );
+        const categoryActionConditionTag =
+          promotionDetailById?.applyToDetail?.category || [];
+        const tempCategoryActionConditionTag = getTagInfoById(
+          "Category",
+          categoryActionConditionTag,
+          dataCategory
+        );
+
         const tempActionConditionTags = [
           ...tempServiceActionConditionTag,
           ...tempProductActionConditionTag,
+          ...tempCategoryActionConditionTag,
         ];
 
         let tempNumberOfTimesApply =
@@ -223,11 +282,12 @@ const PromotiomDetail = forwardRef(
         setConditionServiceProductTags(tempConditionServiceProductTags);
         setActionTags(tempActionConditionTags);
         setNumberOfTimesApply(tempNumberOfTimesApply);
+
+        // setNoEndDate(promotionDetailById?.noEndDate);
       }
     }, [promotionDetailById]);
 
     useEffect(() => {
-      // console.log('----- useEffect 1 --------');
       if (!_.isEmpty(smsInfoMarketing)) {
         calculatorsmsMoney(value);
       }
@@ -235,16 +295,10 @@ const PromotiomDetail = forwardRef(
 
     useEffect(() => {
       if (!_.isEmpty(smsInfoMarketing)) {
-        // console.log('----- useEffect 4 --------');
-
         const customerCount = smsInfoMarketing?.customerCount || 0;
         const customerSendSMSQuantity =
           promotionDetailById?.customerSendSMSQuantity || 0;
         const tempValue = customerSendSMSQuantity / customerCount;
-
-        // console.log('--- customerCount: ', customerCount);
-        // console.log('--- customerSendSMSQuantity: ', customerSendSMSQuantity);
-        // console.log('--- tempValue: ', tempValue);
 
         setValue(tempValue);
         calculatorsmsMoney(tempValue);
@@ -255,7 +309,8 @@ const PromotiomDetail = forwardRef(
       const customerCount = parseInt(smsInfoMarketing?.customerCount || 0);
       const smsCount = Math.ceil(tempValue * customerCount);
 
-      const smsLength = smsInfoMarketing?.smsLength || 1;
+      // const smsLength = smsInfoMarketing?.smsLength || 1;
+      const smsLength = messageContent?.trim().length || 1;
       const segmentFee = smsInfoMarketing?.segmentFee || 1;
       const segmentLength = smsInfoMarketing?.segmentLength || 1;
       // const additionalFee = parseFloat(smsCount > 0 ? (smsInfoMarketing?.additionalFee || 0) : 0);
@@ -289,6 +344,9 @@ const PromotiomDetail = forwardRef(
     };
 
     const showDatePicker = (isChangeDate) => () => {
+      if (isChangeDate === "end" && noEndDate) {
+        return;
+      }
       setIsChangeDate(isChangeDate);
       setDatePickerVisibility(true);
     };
@@ -338,6 +396,7 @@ const PromotiomDetail = forwardRef(
         alert("The item is exist");
       }
       setDynamicActionTagsMarginBottom(24);
+      // onLoadDefaultMessageContent();
     };
 
     removeConditionServiceProductTags = (tag) => {
@@ -348,6 +407,7 @@ const PromotiomDetail = forwardRef(
         }
       }
       setConditionServiceProductTags(tempData);
+      // onLoadDefaultMessageContent();
     };
 
     removeActionTags = (tag) => {
@@ -362,9 +422,10 @@ const PromotiomDetail = forwardRef(
 
     handleSetPromotionType = (type) => () => {
       setPromotionType(type);
+      // onLoadDefaultMessageContent();
     };
 
-    handleCampaign = () => {
+    const handleCampaign = () => {
       const tempConditionTags = getFormatTags(conditionServiceProductTags);
       const tempActionTags = getFormatTags(actionTags);
       const campaign = {
@@ -389,12 +450,17 @@ const PromotiomDetail = forwardRef(
         applyToDetail: {
           service: tempActionTags?.services || [],
           product: tempActionTags?.products || [],
+          category: tempActionTags?.categories || [],
         },
         promotionType: promotionType,
         promotionValue: `${promotionValue || 0.0}`,
         isDisabled: isDisabled ? 0 : 1,
         smsAmount: smsAmount,
         customerSendSMSQuantity: customerSendSMSQuantity,
+        fileId: imageFileId,
+        smsType: configMessageType,
+        content: messageContent,
+        noEndDate: noEndDate,
       };
 
       // ------------ Check Valid ---------
@@ -405,8 +471,8 @@ const PromotiomDetail = forwardRef(
       if (!campaign?.name) {
         alert("Enter the campaign's name please!");
         isValid = false;
-      } else if (parseInt(fromDate) >= parseInt(toDate)) {
-        alert("The start date is not larger than the to date ");
+      } else if (parseInt(fromDate) >= parseInt(toDate) && !noEndDate) {
+        alert("The start date is not larger than the end date ");
         isValid = false;
       } else if (
         campaign.conditionId === 2 &&
@@ -460,6 +526,9 @@ const PromotiomDetail = forwardRef(
     };
 
     handleSetActionCondition = (value) => {
+      if (value != actionCondition) {
+        setActionTags([]);
+      }
       setActionCondition(value);
       setDynamicActionTagsMarginBottom(24);
     };
@@ -473,6 +542,123 @@ const PromotiomDetail = forwardRef(
       setTitle(title);
       // calculatorsmsMoney(value);
     };
+
+    const onHandleSetPromotionValue = (val) => {
+      setPromotionValue(val);
+    };
+
+    const onHandleChangeSelect = (bl) => {
+      setConfigMessageType(bl?.value ?? "sms");
+    };
+
+    const onLoadDefaultMessageContent = () => {
+      setUseDefaultContent(true);
+
+      const temp = getDefaultMessageContent();
+      setMessageContent(temp);
+    };
+
+    const onHandleChangeMessageContent = (text) => {
+      setUseDefaultContent(false);
+      setMessageContent(text);
+    };
+
+    const getDefaultMessageContent = React.useCallback(() => {
+      if (!useDefaultContent) return;
+      switch (getConditionIdByTitle(condition)) {
+        case 1:
+          return `Look out! 👀 ${
+            merchant.businessName
+          } is waiting for you to claim their special ${title} promotion to get ${
+            promotionType === "percent"
+              ? promotionValue + " %"
+              : "$ " + promotionValue
+          } ${
+            actionTags?.length > 0 ? `off for ${actionTags?.join(", ")}.` : ""
+          }. ${
+            endDate
+              ? `This offer is ends on ${dateToString(
+                  endDate,
+                  MESSAGE_END_DATE_FORMAT
+                )} so hurry`
+              : "Hurry"
+          } 🏃🏻‍♀️ and book your appointment on HarmonyPay App now!`;
+        case 2:
+          return `More for less and all for you! During their ${title} promotion,choose any of ${conditionServiceProductTags} at ${
+            merchant.businessName
+          } to get ${
+            promotionType === "percent"
+              ? promotionValue + " %"
+              : "$ " + promotionValue
+          }${
+            actionTags?.length > 0 ? ` off for ${actionTags?.join(", ")}.` : ""
+          }. Hurry and book your appointment on HarmonyPay App now to grab this deal!`;
+        case 3:
+          return `Happy, happy birthday! Hurry onto your HarmonyPay App to claim a special gift from one of your favorite stores, ${
+            merchant.businessName
+          } to get ${
+            promotionType === "percent"
+              ? promotionValue + " %"
+              : "$ " + promotionValue
+          }${
+            actionTags?.length > 0 ? ` off for ${actionTags?.join(", ")}.` : ""
+          }.`;
+        case 4:
+          return `Loyalty pays! Literally. Go onto your HarmonyPay App to grab this special gift from  ${
+            merchant.businessName
+          } to get ${
+            promotionType === "percent"
+              ? promotionValue + " %"
+              : "$ " + promotionValue
+          }${
+            actionTags?.length > 0 ? ` off for ${actionTags?.join(", ")}.` : ""
+          }. Thanks for being one of our best customers!`;
+        case 5:
+          return (
+            `Aww, shucks! We think you're awesome too! Here's a sweet thank you gift from you from ${merchant.businessName} for your referral. Hurry to the HarmonyPay App to claim your exclusive deal!` +
+            `Hurry to your HarmonyPay App to claim your referral reward from ${
+              merchant.businessName
+            } to get ${
+              promotionType === "percent"
+                ? promotionValue + " %"
+                : "$ " + promotionValue
+            }${
+              actionTags?.length > 0
+                ? ` off for ${actionTags?.join(", ")}.`
+                : ""
+            }`
+          );
+        default:
+          return "No message content";
+      }
+    }, [
+      title,
+      endDate,
+      actionTags,
+      condition,
+      merchant,
+      promotionType,
+      promotionValue,
+      useDefaultContent,
+      conditionServiceProductTags,
+    ]);
+
+    React.useEffect(() => {
+      if (!useDefaultContent) return;
+
+      const temp = getDefaultMessageContent();
+      setMessageContent(temp);
+    }, [
+      title,
+      endDate,
+      actionTags,
+      condition,
+      merchant,
+      promotionType,
+      promotionValue,
+      useDefaultContent,
+      conditionServiceProductTags,
+    ]);
 
     return (
       <View
@@ -528,9 +714,25 @@ const PromotiomDetail = forwardRef(
           <View style={{ flexDirection: "row" }}>
             {/* ------------------- Start Date ------------------- */}
             <View style={{ flex: 1 }}>
-              <Text style={[styles.txt_date, { marginBottom: scaleSize(10) }]}>
-                {`Start Date`}
-              </Text>
+              <View
+                style={{
+                  height: scaleHeight(30),
+                  alignItems: "flex-start",
+                  justifyContent: "center",
+                }}
+              >
+                <Text
+                  style={[
+                    styles.txt_date,
+                    {
+                      marginBottom: scaleSize(0),
+                    },
+                  ]}
+                >
+                  {`Start Date`}
+                </Text>
+              </View>
+
               <View style={{ flexDirection: "row", height: scaleSize(30) }}>
                 <SelectPromotionDate
                   value={startDate}
@@ -755,7 +957,7 @@ const PromotiomDetail = forwardRef(
                       }}
                       placeholder="0.00"
                       value={promotionValue}
-                      onChangeText={setPromotionValue}
+                      onChangeText={onHandleSetPromotionValue}
                       style={[
                         {
                           flex: 1,
@@ -798,18 +1000,39 @@ const PromotiomDetail = forwardRef(
 
             {/* ------------------- End Date ------------------- */}
             <View style={{ flex: 1 }}>
-              <Text
-                style={[
-                  styles.txt_date,
-                  { marginLeft: scaleSize(18), marginBottom: scaleSize(10) },
-                ]}
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  height: scaleHeight(30),
+                }}
               >
-                {`End Date`}
-              </Text>
+                <Text
+                  style={[
+                    styles.txt_date,
+                    {
+                      marginLeft: scaleSize(18),
+                      // marginBottom: scaleSize(10),
+                    },
+                  ]}
+                >
+                  {`End Date`}
+                </Text>
+                <View style={layouts.marginHorizontal} />
+                <CustomCheckBox
+                  style={{ flexDirection: "row" }}
+                  textStyle={styles.txt_date}
+                  label={t("No end date")}
+                  defaultValue={noEndDate}
+                  onValueChange={setNoEndDate}
+                />
+              </View>
+
               <View style={{ flexDirection: "row", height: scaleSize(30) }}>
                 <View style={{ width: scaleSize(18) }} />
                 <SelectPromotionDate
-                  value={endDate}
+                  value={endDate ?? new Date()}
                   onChangeText={setEndDate}
                   showDatePicker={showDatePicker("end")}
                 />
@@ -827,13 +1050,14 @@ const PromotiomDetail = forwardRef(
                     }}
                   /> */}
                 <CustomTimePicker
-                  editable={false}
+                  editable={true}
                   defaultValue={endTime}
                   onChangeDate={(d) => {
                     setEndTime(d);
                   }}
                   renderBase={(showPicker) => (
-                    <View
+                    <Pressable
+                      disabled={noEndDate}
                       style={{
                         width: scaleSize(135),
                         height: "100%",
@@ -842,35 +1066,42 @@ const PromotiomDetail = forwardRef(
                         flexDirection: "row",
                         paddingHorizontal: scaleSize(10),
                       }}
+                      onPress={showPicker}
                     >
-                      <TextInput
-                        placeholder="--:--"
-                        value={getWorkingTime(endTime)}
-                        // onChangeText={(txt) => {
-                        //   setEndTime(txt);
-                        // }}
+                      <View
+                        pointerEvents="box-only"
                         style={{
                           flex: 1,
-                          fontSize: scaleSize(14),
-                          color: "#1f1f1f",
+
                           padding: 0,
                         }}
-                      />
-                      <TouchableOpacity
+                      >
+                        <TextInput
+                          placeholder="--:--"
+                          value={getWorkingTime(endTime)}
+                          style={{
+                            flex: 1,
+                            fontSize: scaleSize(14),
+                            color: "#1f1f1f",
+                            padding: 0,
+                          }}
+                        />
+                      </View>
+
+                      <View
                         style={{
                           width: scaleSize(40),
                           height: "100%",
                           justifyContent: "center",
                           alignItems: "flex-end",
                         }}
-                        onPress={showPicker}
                       >
                         <Image
                           source={IMAGE.dropdown}
                           style={{ resizeMode: "center" }}
                         />
-                      </TouchableOpacity>
-                    </View>
+                      </View>
+                    </Pressable>
                   )}
                 />
                 <View style={{ width: scaleSize(10) }} />
@@ -924,6 +1155,43 @@ const PromotiomDetail = forwardRef(
                 </>
               )}
 
+              {actionCondition === "Discount by category" && (
+                <>
+                  <Text
+                    style={[
+                      styles.txt_date,
+                      { marginBottom: scaleSize(8), marginTop: scaleSize(5) },
+                    ]}
+                  >
+                    {`Select category`}
+                  </Text>
+                  <View
+                    style={{
+                      height: scaleSize(30),
+                      width: scaleSize(330),
+                      paddingHorizontal: 1,
+                      marginBottom: scaleSize(
+                        dynamicActionTagsMarginBottom === 24 &&
+                          actionTags.length > 0
+                          ? 5
+                          : dynamicActionTagsMarginBottom
+                      ),
+                    }}
+                  >
+                    <DropdownSearch
+                      dataServiceProduct={dataCategory}
+                      selectedTag={addActionTags}
+                      onFocus={handleScroll(450)}
+                      onChangeText={handleActionTagsDropdown}
+                    />
+                  </View>
+
+                  <View style={{ width: "100%" }}>
+                    <Tags tags={actionTags} removeTag={removeActionTags} />
+                  </View>
+                </>
+              )}
+
               {/* ---------- SMS configuration ----------- */}
               <Text
                 style={{
@@ -933,8 +1201,131 @@ const PromotiomDetail = forwardRef(
                   marginTop: scaleSize(20),
                 }}
               >
-                {`SMS configuration`}
+                {`SMS/MMS configuration`}
               </Text>
+              {/* ---------- New Content Configuration ----------- */}
+              <View style={{}}>
+                <View style={layouts.marginVertical} />
+
+                <View>
+                  <CustomRadioSelect
+                    ref={messageSelectRef}
+                    horizontal={true}
+                    defaultValue={MESSAGE_CONTENT_DEFAULT_TYPE}
+                    data={[
+                      { label: t("SMS"), value: "sms" },
+                      { label: t("MMS"), value: "mms" },
+                    ]}
+                    onSelect={onHandleChangeSelect}
+                  />
+                </View>
+                <View style={layouts.marginVertical} />
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Text>{`${t("Content")} :`}</Text>
+                  <TouchableOpacity
+                    onPress={onLoadDefaultMessageContent}
+                    activeOpacity={0.5}
+                    style={{ flexDirection: "row" }}
+                  >
+                    <Image
+                      source={IMAGE.refresh}
+                      style={{ width: scaleWidth(20), height: scaleHeight(20) }}
+                    />
+                    <Text
+                      style={{
+                        fontFamily: fonts.MEDIUM,
+                        fontSize: scaleFont(15),
+                        fontWeight: "normal",
+                        fontStyle: "italic",
+                        letterSpacing: 0,
+                        textAlign: "right",
+                        color: colors.OCEAN_BLUE,
+                        textDecorationLine: "underline",
+                      }}
+                    >
+                      {t("Use default content")}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={layouts.marginVertical} />
+                <TextInput
+                  style={{
+                    height: scaleHeight(80),
+                    borderWidth: scaleWidth(1),
+                    borderColor: "#C5C5C5",
+                    textAlignVertical: "top",
+                    padding: scaleWidth(10),
+                  }}
+                  placeholderTextColor="#C5C5C5"
+                  multiline={true}
+                  value={messageContent}
+                  onChangeText={onHandleChangeMessageContent}
+                />
+                <View style={layouts.marginVertical} />
+                <Text
+                  style={{
+                    fontFamily: fonts.REGULAR,
+                    fontSize: scaleFont(12),
+                    fontWeight: "normal",
+                    fontStyle: "normal",
+                    letterSpacing: 0,
+                    color: colors.GREYISH_BROWN,
+                  }}
+                >
+                  {`${t("Message length limit")}:`}
+                  <Text
+                    style={{
+                      fontFamily: fonts.REGULAR,
+                      fontSize: scaleFont(12),
+                      fontWeight: "bold",
+                      fontStyle: "normal",
+                      letterSpacing: 0,
+                      textAlign: "left",
+                      color: colors.GREYISH_BROWN,
+                    }}
+                  >{`${t("1600 character")}`}</Text>
+                </Text>
+
+                {configMessageType === "mms" && (
+                  <View style={{ flex: 0 }}>
+                    <FormUploadImage
+                      label={t("Media")}
+                      onSetFileId={setImageFileId}
+                      defaultValue={mediaFilePath}
+                    />
+                    <Text
+                      style={{
+                        fontFamily: fonts.REGULAR,
+                        fontSize: scaleFont(12),
+                        fontWeight: "normal",
+                        fontStyle: "normal",
+                        letterSpacing: 0,
+                        color: colors.GREYISH_BROWN,
+                      }}
+                    >
+                      {`${t("Image size less than ")}`}
+                      <Text
+                        style={{
+                          fontFamily: fonts.REGULAR,
+                          fontSize: scaleFont(12),
+                          fontWeight: "bold",
+                          fontStyle: "normal",
+                          letterSpacing: 0,
+                          textAlign: "left",
+                          color: colors.GREYISH_BROWN,
+                        }}
+                      >{`${t("5 MB")}`}</Text>
+                      {`${t(", support jpeg, png, gif")}`}
+                    </Text>
+                  </View>
+                )}
+              </View>
               <Text
                 style={{
                   color: "#404040",
@@ -950,7 +1341,7 @@ const PromotiomDetail = forwardRef(
               <View
                 style={{
                   paddingRight: scaleSize(26),
-                  marginVertical: scaleSize(30),
+                  marginVertical: scaleSize(15),
                 }}
               >
                 {/* -------------- Min Of Slider ----------------- */}
@@ -1264,6 +1655,8 @@ const styles = StyleSheet.create({
     color: "#6A6A6A",
     fontSize: scaleSize(12),
     fontWeight: "400",
+    textAlign: "left",
+    textAlignVertical: "center",
   },
   border_comm: {
     borderWidth: 1,
@@ -1278,6 +1671,11 @@ const styles = StyleSheet.create({
     fontSize: scaleSize(14),
     color: "#404040",
     fontWeight: "400",
+  },
+  rowEndDate: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: scaleSize(10),
   },
 });
 

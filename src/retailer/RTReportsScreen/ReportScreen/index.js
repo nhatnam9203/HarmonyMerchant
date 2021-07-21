@@ -223,57 +223,6 @@ function ReportScreen({ showBackButton }, ref) {
 
   return (
     <View style={styles.container}>
-      {/* <HeaderTabLayout
-        ref={scrollTabRef}
-        tabIcons={[
-          IMAGE.Report_Sales,
-          IMAGE.Report_Order,
-          IMAGE.Report_Product,
-          IMAGE.Customer,
-          IMAGE.Report_Overall,
-          IMAGE.Staff,
-        ]}
-        onHeaderTabChanged={onTabChange}
-        handleOnChangeTab={handleOnChangeTab}
-      >
-        <SalesTab
-          style={styles.content}
-          tabLabel={localize("Sales", language)}
-          ref={salesRef}
-          showBackButton={onShowBackButton}
-        />
-        <OrderTab
-          style={styles.content}
-          tabLabel={localize("Order", language)}
-          ref={salesRef}
-          showBackButton={onShowBackButton}
-        />
-        <ProductTab
-          style={styles.content}
-          tabLabel={localize("Product", language)}
-          ref={productRef}
-          showBackButton={onShowBackButton}
-        />
-        <CustomerTab
-          ref={customerRef}
-          style={styles.content}
-          tabLabel={localize("Customer", language)}
-          showBackButton={onShowBackButton}
-        />
-        <OverallTab
-          ref={overallRef}
-          style={styles.content}
-          tabLabel={localize("Overall", language)}
-          showBackButton={onShowBackButton}
-        />
-        <StaffTab
-          ref={staffRef}
-          style={styles.content}
-          tabLabel={localize("Staff Salary", language)}
-          showBackButton={onShowBackButton}
-        />
-      </HeaderTabLayout> */}
-
       <Navigator
         headerMode="none"
         screenOptions={{

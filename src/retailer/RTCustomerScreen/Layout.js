@@ -267,35 +267,28 @@ export const Layout = ({ openDrawer }) => {
   }
 
   return (
-    <ParentContainer
-    // handleLockScreen={handleLockScreen}
-    // activeScreen={isFocus}
-    // navigation={navigation}
-    // clearIntervalById={clearIntervalById}
-    >
-      <View style={styles.container}>
-        <StatusBarHeader />
-        <HeaderToolBar
-          leftComponent={() => <ButtonDrawer onPress={openDrawer} />}
-        >
-          <HeaderToolBarTitle label={t("Customer")} />
-        </HeaderToolBar>
+    <View style={styles.container}>
+      <StatusBarHeader />
+      <HeaderToolBar
+        leftComponent={() => <ButtonDrawer onPress={openDrawer} />}
+      >
+        <HeaderToolBarTitle label={t("Customer")} />
+      </HeaderToolBar>
 
-        <Navigator
-          headerMode="retailer.customer.list"
-          screenOptions={{
-            cardStyle: {
-              backgroundColor: colors.WHITE_FA,
-            },
-          }}
-        >
-          <Screen {...CustomerListPage} />
-          <Screen {...EditCustomerPage} />
-          <Screen {...CustomerDetailPage} />
-          <Screen {...EditCustomerAddressPage} />
-        </Navigator>
-      </View>
-    </ParentContainer>
+      <Navigator
+        headerMode="retailer.customer.list"
+        screenOptions={{
+          cardStyle: {
+            backgroundColor: colors.WHITE_FA,
+          },
+        }}
+      >
+        <Screen {...CustomerListPage} />
+        <Screen {...EditCustomerPage} />
+        <Screen {...CustomerDetailPage} />
+        <Screen {...EditCustomerAddressPage} />
+      </Navigator>
+    </View>
   );
 };
 const styles = StyleSheet.create({

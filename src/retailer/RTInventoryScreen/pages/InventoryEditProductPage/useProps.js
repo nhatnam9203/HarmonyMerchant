@@ -12,13 +12,20 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { productReducer, setProduct, changeProductName } from "./ProductState";
+import {
+  productReducer,
+  setProduct,
+  changeProductName,
+  changeProductAttribute,
+} from "./ProductState";
 
 const log = (obj, message = "") => {
   Logger.log(`[InventoryEditProduct] ${message}`, obj);
 };
 
-export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
+export const useProps = ({
+  params: { isNew, isEdit, item, reload, productBarcode },
+}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const categories = useSelector(
@@ -80,7 +87,7 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
           }),
       }));
 
-      console.log(values);
+      // console.log(values);
 
       if (isNew) {
         createProduct(Object.assign({}, values, { options: formatOptions }));
@@ -101,8 +108,15 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      if (reload) getCategoriesList();
-    }, [reload])
+      if (reload) {
+        getCategoriesList();
+      }
+
+      if (productBarcode) {
+        form.setFieldValue("barCode", productBarcode);
+        dispatchProduct(changeProductAttribute("barCode", productBarcode));
+      }
+    }, [reload, productBarcode])
   );
 
   React.useEffect(() => {
@@ -167,7 +181,6 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
   }, [productItem]);
 
   React.useEffect(() => {
-    console.log("getProducts");
     if (item?.productId) {
       getProducts(item?.productId);
     }
@@ -193,6 +206,17 @@ export const useProps = ({ params: { isNew, isEdit, item, reload } }) => {
     onHandleChangeProductName: (value) => {
       form.setFieldValue("name", value);
       dispatchProduct(changeProductName(value));
+    },
+    onHandleChangeProductImages: (values) => {
+      form.setFieldValue("images", values);
+      const defaultImage = values?.find((value) => value.isDefault);
+      if (defaultImage) {
+        form.setFieldValue("fileId", defaultImage.fileId);
+      }
+    },
+    onHandleChangeProductDescription: (value) => {
+      form.setFieldValue("description", value);
+      dispatchProduct(changeProductAttribute("description", value));
     },
   };
 };

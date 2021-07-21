@@ -58,12 +58,11 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     // }
 
     if (optionsQty) {
-      price += parseFloat(optionsQty?.additionalPrice);
+      price = parseFloat(optionsQty?.price);
     }
     return formatMoneyWithUnit(price);
   }, [optionsQty, product]);
 
-  // !! cho nay can sau lai
   const onHandleAddBasket = () => {
     // product, options, quantity
     const filterOptions = product?.options?.map((v) => {
@@ -99,8 +98,14 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
       return false;
 
     if (optionsSelected) {
-      const hadSelectIndex = optionsSelected?.length - 1 || 0;
-      if (index === 0) return true;
+      if (index === 0) {
+        const filterArr = product?.quantities?.filter((x) => x.quantity > 0);
+        for (const x of filterArr) {
+          if (x.attributeIds?.includes(value)) {
+            return true;
+          }
+        }
+      }
     }
 
     for (const x of listFiltersOptionsQty) {
@@ -113,10 +118,12 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   };
 
   const disableAddBasket = () => {
-    console.log(product);
+    // console.log(product);
     if (quantity <= 0) return true;
     if (!product) return true;
     if (product?.quantities?.length > 0 && !optionsQty) return true;
+    if (product?.options?.length > 0 && listFiltersOptionsQty?.length <= 0)
+      return true;
     return false;
   };
 
@@ -199,6 +206,14 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     // }
   }, [product]);
 
+  React.useEffect(() => {
+    if (optionsQty) {
+      setImageUrl(optionsQty?.imageUrl ?? product?.imageUrl);
+    } else {
+      setImageUrl(product?.imageUrl);
+    }
+  }, [optionsQty]);
+
   const updateOptionsValue = (data, index, itemOption, optionValue) => {
     let opt = { id: itemOption?.id, value: optionValue?.attributeValueId };
 
@@ -266,11 +281,11 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     const onHandleSelectedOption = (optionValue) => {
       updateOptionsValue(product, index, itemOption, optionValue);
 
-      if (optionValue?.imageUrl) {
-        setImageUrl(optionValue?.imageUrl);
-      } else {
-        setImageUrl(product?.imageUrl);
-      }
+      // if (optionValue?.imageUrl) {
+      //   setImageUrl(optionValue?.imageUrl);
+      // } else {
+      //   setImageUrl(product?.imageUrl);
+      // }
     };
 
     let defaultOptionId = null;

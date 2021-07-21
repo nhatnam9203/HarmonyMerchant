@@ -1,12 +1,12 @@
-import React from 'react';
-import { TouchableOpacity, View, StyleSheet, Image } from 'react-native';
-import { Row } from './Row';
-import { Cell } from './Cell';
-import { colors, layouts, fonts } from '@shared/themes';
-import { getUniqueId, SORT_TYPE } from '../helpers';
-import IMAGE from '@resources';
+import React from "react";
+import { TouchableOpacity, View, StyleSheet, Image } from "react-native";
+import { Row } from "./Row";
+import { Cell } from "./Cell";
+import { colors, layouts, fonts } from "@shared/themes";
+import { getUniqueId, SORT_TYPE } from "../helpers";
+import IMAGE from "@resources";
 
-const DEFAULT_KEY = 'table.default-header';
+const DEFAULT_KEY = "table.default-header";
 /**
  * T
  *
@@ -14,7 +14,7 @@ const DEFAULT_KEY = 'table.default-header';
  */
 export const Header = ({
   style = styles.container,
-  height = scaleHeight(40),
+  height = scaleHeight(48),
   children,
   onPress,
   disabled,
@@ -28,33 +28,51 @@ export const Header = ({
   onSortDataLocal,
 }) => {
   const handleSort = (sortKey) => {
-    if (onSortWithKey && typeof onSortWithKey === 'function') {
+    if (onSortWithKey && typeof onSortWithKey === "function") {
       onSortWithKey(sortKey);
     }
-    if (onSortDataLocal && typeof onSortDataLocal === 'function') {
+    if (onSortDataLocal && typeof onSortDataLocal === "function") {
       onSortDataLocal();
     }
   };
 
   const onRenderHeaderCell = (key, index) => {
     const width = getWidthForKey(key);
-    if (renderHeaderCell && typeof renderHeaderCell === 'function') {
+    if (renderHeaderCell && typeof renderHeaderCell === "function") {
       const cell = renderHeaderCell({
         key,
         index,
         cellWidth: width,
         textStyle: styles.textStyle,
-        text: headerKeyLabels[key] ?? ' ',
+        text: headerKeyLabels[key] ?? " ",
+        sortComponent: () =>
+          sortedKeys &&
+          Object.keys(sortedKeys)?.includes(key) && (
+            <TouchableOpacity
+              style={styles.buttonSort}
+              onPress={() => handleSort(key)}
+            >
+              <Image
+                style={styles.imageSort}
+                source={
+                  sortedKeys[key] === SORT_TYPE.ASC
+                    ? IMAGE.sortUp
+                    : IMAGE.sortDown
+                }
+                resizeMode="center"
+              />
+            </TouchableOpacity>
+          ),
       });
       if (cell) return cell;
     }
 
     return (
       <Cell
-        key={getUniqueId(key, index, 'header')}
+        key={getUniqueId(key, index, "header")}
         columnKey={key}
         index={index}
-        text={headerKeyLabels[key] ?? ' '}
+        text={headerKeyLabels[key] ?? " "}
         textStyle={styles.textStyle}
         getWidthForKey={getWidthForKey}
       >
@@ -103,32 +121,32 @@ const styles = StyleSheet.create({
   },
 
   contentLayout: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: '100%',
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    height: "100%",
   },
 
   textStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.OCEAN_BLUE,
   },
 
   buttonSort: {
     width: scaleWidth(50),
-    position: 'absolute',
+    position: "absolute",
     right: 0,
     top: 0,
     bottom: 0,
     paddingHorizontal: scaleWidth(4),
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "flex-end",
   },
 
   imageSort: { width: scaleWidth(18), height: scaleHeight(18) },

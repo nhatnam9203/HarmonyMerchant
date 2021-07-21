@@ -33,7 +33,7 @@ export const useProps = ({ params: { reload } }) => {
     pages: 0,
     count: 0,
   });
-  const [product, getProduct] = useGetProducts();
+  const [product, getProducts] = useGetProducts();
   /**
   |--------------------------------------------------
   | CALL API
@@ -44,7 +44,6 @@ export const useProps = ({ params: { reload } }) => {
     getInventoryList({
       key: searchVal ?? "",
       page: page,
-      sorts: {},
       ...((category >= 0 || needToOrder) && {
         filters: {
           ...(category >= 0 && { categoryId: category }),
@@ -67,7 +66,7 @@ export const useProps = ({ params: { reload } }) => {
       merchantId: merchant?.merchantId,
       key: searchVal ?? "",
       page: page,
-      sort: {},
+      // sort: {},
       ...((category >= 0 || needToOrder) && {
         filters: {
           ...(category >= 0 && { categoryId: category }),
@@ -161,7 +160,7 @@ export const useProps = ({ params: { reload } }) => {
   const onResultScanCode = (data) => {
     NavigationServices.navigate("retailer.inventory.product.edit", {
       isNew: true,
-      item: data ?? {},
+      productBarcode: data,
     });
   };
 
@@ -175,7 +174,7 @@ export const useProps = ({ params: { reload } }) => {
     onEditProduct: (item) => {
       // Hay lam :))
       // setProductSelected(item);
-      // getProduct(item?.productId);
+      // getProducts(item?.productId);
       NavigationServices.navigate("retailer.inventory.product.edit", {
         isEdit: true,
         item,

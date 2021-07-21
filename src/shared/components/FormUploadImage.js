@@ -1,8 +1,8 @@
-import IMAGE from '@resources';
-import { colors, fonts, layouts } from '@shared/themes';
-import { gotoSettingsDevice } from '@utils';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import IMAGE from "@resources";
+import { colors, fonts, layouts } from "@shared/themes";
+import { gotoSettingsDevice } from "@utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   Image,
@@ -10,10 +10,11 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import FastImage from 'react-native-fast-image';
+} from "react-native";
+import FastImage from "react-native-fast-image";
 import { launchImageLibrary } from "react-native-image-picker";
-import { useUploadFile } from '../services/api/app/useUploadFile';
+import { useUploadFile } from "../services/api/app/useUploadFile";
+import * as Progress from "react-native-progress";
 
 export const FormUploadImage = ({
   required,
@@ -23,27 +24,41 @@ export const FormUploadImage = ({
   image,
   onSetFileId,
   defaultValue,
+  resetWhenDone = false,
+  multiSelect = false,
+  height = scaleHeight(120),
+  width = scaleWidth(120),
+  fontSize = scaleFont(17),
+  iconSize = scaleWidth(28),
 }) => {
   const [t] = useTranslation();
-  const [{ uploadData, uploadLoading }, uploadFile] = useUploadFile();
+  const [progress, setProgress] = React.useState(0);
+  const [{ uploadData, uploadLoading }, uploadFile] = useUploadFile(
+    ({ loaded = 0, total = 1 }) => {
+      const progress = loaded / total;
+      setProgress(progress);
+    }
+  );
   const [photo, setPhoto] = React.useState(null);
+  const [queues, setQueues] = React.useState(null);
 
-  const onHandleImagePicker = ({
+  const onHandleImagePicker = async ({
     errorMessage,
     errorCode,
     didCancel,
-    uri, // v 3.8.1
-    fileName, // v 3.8.1
-    type, // v 3.8.1
+    //uri, // v 3.8.1
+    //fileName, // v 3.8.1
+    //type, // v 3.8.1
+    assets, // v 4.0.5
   }) => {
     if (errorCode) {
       switch (errorCode) {
-        case 'camera_unavailable':
+        case "camera_unavailable":
           break;
-        case 'permission':
+        case "permission":
           gotoSettingsDevice();
           break;
-        case 'others':
+        case "others":
           break;
         default:
           break;
@@ -55,19 +70,27 @@ export const FormUploadImage = ({
       }
     }
 
-    if (uri && fileName) {
+    let temp = null;
+    if (assets?.length) {
       // upload image here
-      const images = [
-        {
-          uri,
-          fileName: fileName?.replace(/.heic|.HEIC/gi, '.JPG'),
-          type,
-        },
-      ];
+      const images = assets?.map((x) => ({
+        uri: x.uri,
+        fileName: x.fileName?.replace(/.heic|.HEIC/gi, ".JPG"),
+        type: x.type,
+      }));
 
-      setPhoto({ url: uri });
-      uploadFile(images);
+      if (images?.length > 1) {
+        handleUploadMultiImages(images);
+      } else {
+        const img = images[0];
+        setPhoto({ url: img.uri });
+        await uploadFile([img]);
+      }
     }
+  };
+
+  const handleUploadMultiImages = (images) => {
+    setQueues(images);
   };
 
   const showImagePicker = () => {
@@ -78,8 +101,9 @@ export const FormUploadImage = ({
       launchImageLibrary(
         {
           quality: 0.2,
+          selectionLimit: multiSelect ? 0 : 1,
         },
-        onHandleImagePicker,
+        onHandleImagePicker
       );
     } catch (error) {
       alert(error);
@@ -88,12 +112,37 @@ export const FormUploadImage = ({
 
   const onRemovePhoto = () => {
     setPhoto(null);
+    if (onSetFileId && typeof onSetFileId === "function") {
+      onSetFileId(0);
+    }
   };
 
   React.useEffect(() => {
-    setPhoto(uploadData?.data);
-    if (uploadData?.data && onSetFileId && typeof onSetFileId === 'function') {
-      onSetFileId(uploadData?.data?.fileId);
+    if (queues?.length > 0) {
+      const temp = queues[0];
+      setPhoto({ url: temp.uri });
+      uploadFile([temp]);
+    } else {
+      if (resetWhenDone) {
+        setPhoto(null);
+      }
+    }
+  }, [queues]);
+
+  React.useEffect(() => {
+    if (uploadData?.data && onSetFileId && typeof onSetFileId === "function") {
+      onSetFileId(uploadData?.data?.fileId, uploadData?.data?.url);
+      setProgress(0);
+    }
+
+    if (queues?.length > 0 && multiSelect) {
+      setQueues(queues.slice(1));
+    } else {
+      if (resetWhenDone) {
+        setPhoto(null);
+      } else {
+        setPhoto(uploadData?.data);
+      }
     }
   }, [uploadData]);
 
@@ -109,8 +158,9 @@ export const FormUploadImage = ({
           {required && <Text style={styles.requiredStyle}> *</Text>}
         </Text>
       )}
+      <View style={layouts.marginVertical} />
       <View style={styles.content}>
-        <View style={styles.imageContent}>
+        <View style={[styles.imageContent, { height: height, width: width }]}>
           <TouchableOpacity
             style={[layouts.fill, layouts.center]}
             onPress={showImagePicker}
@@ -120,34 +170,62 @@ export const FormUploadImage = ({
                 photo?.url
                   ? {
                       uri: photo?.url,
+                      priority: FastImage.priority.normal,
                     }
                   : IMAGE.upload_file_icon
               }
-              style={photo?.url ? styles.image : styles.thumb}
+              style={
+                photo?.url
+                  ? [styles.image, { height: height, width: width }]
+                  : [styles.thumb, { height: height / 2, width: width / 2 }]
+              }
               resizeMode="contain"
             />
 
-            {!photo?.url ? (
-              <Text style={styles.label}>{t('Upload image')}</Text>
-            ) : (
+            {!photo?.url && (
+              <Text style={[styles.label, { fontSize: fontSize }]}>
+                {t("Upload image")}
+              </Text>
+            )}
+
+            {photo?.url && !uploadLoading && (
               <TouchableOpacity
-                style={styles.deleteButton}
+                style={[
+                  styles.deleteButton,
+                  { height: iconSize, width: iconSize },
+                ]}
                 onPress={onRemovePhoto}
               >
-                <Image source={IMAGE.DeleteOutline} style={styles.deleteIcon} />
+                <Image
+                  source={IMAGE.DeleteOutline}
+                  style={[
+                    styles.deleteIcon,
+                    { height: iconSize, width: iconSize },
+                  ]}
+                />
               </TouchableOpacity>
             )}
 
             {uploadLoading && (
               <ActivityIndicator
-                style={styles.loadingIndicator}
-                // size="default"
-                color={colors.FLAT_BLUE}
+                style={[styles.loadingIndicator]}
+                size="large"
+                color="#4CD964"
               />
             )}
           </TouchableOpacity>
         </View>
       </View>
+
+      {uploadLoading && (
+        <Progress.Bar
+          progress={progress}
+          width={width}
+          height={scaleHeight(6)}
+          borderRadius={scaleHeight(3)}
+          color="#4CD964"
+        />
+      )}
     </View>
   );
 };
@@ -158,76 +236,76 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    flexDirection: 'row',
-    paddingVertical: scaleHeight(10),
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: scaleHeight(4),
   },
 
   textStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   imageContent: {
     height: scaleHeight(120),
     width: scaleWidth(120),
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderStyle: 'solid',
+    justifyContent: "center",
+    alignItems: "center",
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: '#dddddd',
+    borderColor: "#dddddd",
     borderRadius: scaleWidth(3),
   },
 
   requiredStyle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(17),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.ORANGEY_RED,
   },
 
-  thumb: { width: scaleWidth(48), height: scaleHeight(48) },
+  thumb: { width: "50%", height: "50%" },
 
-  image: { height: scaleHeight(120), width: scaleWidth(120) },
+  image: { height: "100%", width: "100%" },
 
   label: {
     fontFamily: fonts.LIGHT,
     fontSize: scaleWidth(17),
-    fontWeight: '300',
-    fontStyle: 'normal',
+    fontWeight: "300",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.GREYISH_BROWN,
   },
 
   deleteButton: {
-    position: 'absolute',
+    position: "absolute",
     right: 0,
     top: 0,
     width: scaleWidth(28),
     height: scaleHeight(28),
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     // borderRadius: scaleWidth(13),
-    backgroundColor: '#fff2',
+    backgroundColor: "#fff2",
   },
 
   deleteIcon: {
     width: scaleWidth(24),
     height: scaleHeight(24),
-    tintColor: '#6A6A6A',
+    tintColor: "#6A6A6A",
   },
 
   loadingIndicator: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
