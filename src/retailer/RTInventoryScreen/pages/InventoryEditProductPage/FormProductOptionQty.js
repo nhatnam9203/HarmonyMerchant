@@ -24,6 +24,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
     columnKey,
     rowIndex,
     cellWidth,
+    textStyle,
   }) => {
     switch (columnKey) {
       case "imageUrl":
@@ -176,14 +177,16 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
               }}
               textInputProps={{
                 placeholder: t("Description"),
-                fontSize: scaleFont(17),
+                fontSize: scaleFont(15),
                 textAlign: "left",
                 defaultValue: cellItem?.description,
                 onChangeText: onHandleChangeDesc,
                 editable: true,
                 multiline: true,
                 textAlignVertical: "top",
-                textInputStyle: { height: scaleHeight(50) },
+                textInputStyle: Object.assign({}, textStyle, {
+                  height: scaleHeight(45),
+                }),
               }}
             />
           </View>
@@ -223,8 +226,8 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
           primaryKey="label"
           widthForKeys={{
             imageUrl: scaleWidth(60),
-            label: scaleWidth(300),
-            description: scaleWidth(220),
+            label: scaleWidth(280),
+            description: scaleWidth(250),
             costPrice: scaleWidth(120),
             price: scaleWidth(120),
             quantity: scaleWidth(80),

@@ -264,7 +264,7 @@ export const Layout = ({
           textColor={colors.WHITE}
           fontWeight="500"
           disable={!form.isValid}
-          // disable={!form.isValid || !form.dirty} // doi option no ko tinh
+          // disable={!form.isValid || !form.dirty} //loi  doi option no ko tinh
           onPress={form?.handleSubmit}
         />
       </View>
@@ -340,6 +340,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: colors.OCEAN_BLUE,
   },
+
   errorText: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(14),

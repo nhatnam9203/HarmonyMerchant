@@ -30,7 +30,6 @@ export const AddProductOptionDialog = ({
   const [attributesList, getAttributesList] = useGetAttributesList();
 
   // chỗ này parent sẽ gọi
-
   React.useEffect(() => {
     const { codeStatus, data } = attributesList || {};
     if (statusSuccess(codeStatus)) {

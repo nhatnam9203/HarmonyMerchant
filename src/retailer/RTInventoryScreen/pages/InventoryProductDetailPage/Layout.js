@@ -64,7 +64,7 @@ export const Layout = ({
       case "description":
         return (
           <View
-            style={{ width: cellWidth, paddingVertical: scaleHeight(5) }}
+            style={{ width: cellWidth, paddingVertical: scaleHeight(2) }}
             key={getUniqueId(columnKey, rowIndex, "cell-image")}
           >
             <Text
@@ -74,13 +74,10 @@ export const Layout = ({
                   height: "100%",
                   width: "100%",
                   textAlign: "left",
-                  ellipsizeMode: "tail",
                   textAlignVertical: "center",
                 },
               ]}
-              numberOfLines={10}
-              minimumFontScale={0.8}
-              adjustsFontSizeToFit={true}
+              numberOfLines={5}
               ellipsizeMode="tail"
             >
               {cellItem?.description}
@@ -213,8 +210,8 @@ export const Layout = ({
                 "imageUrl",
               ]}
               widthForKeys={{
-                label: scaleWidth(320),
-                description: scaleWidth(220),
+                label: scaleWidth(280),
+                description: scaleWidth(250),
                 costPrice: scaleWidth(120),
                 price: scaleWidth(120),
                 needToOrder: scaleWidth(80),
