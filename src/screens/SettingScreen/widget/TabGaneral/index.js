@@ -12,6 +12,9 @@ import {
   getTitleSendLinkGoogle,
   getValueSendLinkGoogle,
 } from "@utils";
+import _ from 'lodash'
+
+import moment from 'moment';
 
 class TabGaneral extends Layout {
   constructor(props) {
@@ -37,6 +40,7 @@ class TabGaneral extends Layout {
       isUsingTurn: profile?.isUsingTurn || false,
 
       giftForNewEnabled: profile?.giftForNewEnabled || false,
+      isTurnOnAutoClose: profile?.isTurnOnAutoClose || false,
     };
     this.inputRefsTime = [];
   }
@@ -51,6 +55,7 @@ class TabGaneral extends Layout {
     webLink,
     timezone,
     autoCloseAt,
+    autoClose,
     turnAmount,
     staffColumn,
     signinAppStyle,
@@ -64,6 +69,7 @@ class TabGaneral extends Layout {
         webLink,
         timezone,
         autoCloseAt,
+        isTurnOnAutoClose: autoClose,
         turnAmount,
         isUpdateInternal: false,
         staffColumn,
@@ -127,9 +133,11 @@ class TabGaneral extends Layout {
       sendReviewLinkOption,
       isUsingTurn,
       giftForNewEnabled,
+      isTurnOnAutoClose,
     } = this.state;
     const temptLanguage = languageApp === "English" ? "en" : "vi";
     this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
+    
     await this.setState({
       isUpdateInternal: true,
     });
@@ -155,6 +163,7 @@ class TabGaneral extends Layout {
         timezone,
         autoLockscreen: "",
         autoCloseAt,
+        autoClose: isTurnOnAutoClose,
         turnAmount,
         staffColumn,
         signinAppStyle: getValueSignInAppDisplay(signinAppStyle),
@@ -171,6 +180,14 @@ class TabGaneral extends Layout {
     this.props.actions.dataLocal.switchTipOnPaxMachine(visible);
   };
 
+  switchAuToClose = (visible) => {
+    if(visible && (!this.state.autoCloseAt || this.state.autoCloseAt == "")){
+      this.setState({autoCloseAt: "11:00 PM"})
+    }
+
+    this.setState({isTurnOnAutoClose: visible})
+  }
+
   async componentDidUpdate(prevProps, prevState) {
     const { profile, refreshingGeneral, loading, isFocus, currentTab } =
       this.props;
@@ -184,6 +201,7 @@ class TabGaneral extends Layout {
         webLink: profile?.webLink || "",
         timezone: profile?.timezone || "",
         autoCloseAt: profile?.autoCloseAt || "",
+        isTurnOnAutoClose: profile?.autoClose || false,
         turnAmount: profile?.turnAmount || 0,
         staffColumn: profile?.staffColumn || 8,
         signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || ""),
@@ -207,6 +225,7 @@ class TabGaneral extends Layout {
         webLink: profile?.webLink || "",
         timezone: profile?.timezone || "",
         autoCloseAt: profile?.autoCloseAt || "",
+        isTurnOnAutoClose: profile?.autoClose || false,
         turnAmount: profile?.turnAmount || 0,
         staffColumn: profile?.staffColumn || 8,
         isUpdateInternal: false,
@@ -236,6 +255,7 @@ const mapStateToProps = (state) => ({
   loading: state.app.loading,
   versionApp: state.dataLocal.versionApp,
   isTipOnPaxMachine: state.dataLocal.isTipOnPaxMachine,
+  isTurnOnAutoClose: state.dataLocal.isTurnOnAutoClose,
 });
 
 export default connectRedux(mapStateToProps, TabGaneral);

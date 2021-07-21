@@ -16,6 +16,7 @@ import {
   getInfoFromModelNameOfPrinter,
   getArrayGiftCardsFromAppointment,
   requestAPI,
+  localize,
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import Configs from '@configs';
@@ -53,6 +54,7 @@ class TabCheckout extends Layout {
 
     this.addEditCustomerInfoRef = React.createRef();
     this.staffFlatListRef = React.createRef();
+    this.isGetResponsePaymentPax = false
   }
 
   resetStateFromParent = async () => {
@@ -1438,6 +1440,7 @@ class TabCheckout extends Layout {
         }else{
           //missing transaction
           //call to server previous response
+          this.isGetResponsePaymentPax = true
           this.handleResponseCreditCard(
             JSON.stringify(result),
             true,
@@ -1463,6 +1466,8 @@ class TabCheckout extends Layout {
 
     } = this.props;
 
+    this.isGetResponsePaymentPax = false
+
     // 1. Show modal processing
     await this.setState({
       visibleProcessingCredit: true,
@@ -1486,6 +1491,7 @@ class TabCheckout extends Layout {
         payAppointmentId
       );
     }
+    this.isGetResponsePaymentPax = true
     setTimeout(() => {
       this.setState({
         visibleProcessingCredit: false,
@@ -1530,11 +1536,16 @@ class TabCheckout extends Layout {
         invNum: `${groupAppointment?.checkoutGroupId || 0}`,
       },
       (message) =>
-        this.handleResponseCreditCard(
-          message,
-          true,
-          amountCredtitForSubmitToServer
-        )
+        {
+          this.isGetResponsePaymentPax = true
+
+          this.handleResponseCreditCard(
+            message,
+            true,
+            amountCredtitForSubmitToServer
+          )
+        }
+        
     );
   }
 
@@ -1557,7 +1568,6 @@ class TabCheckout extends Layout {
           );
         }
         if (result?.message === 'ABORTED') {
-          console.log('ABORTED');
           return;
         }
         setTimeout(() => {
@@ -1625,10 +1635,15 @@ class TabCheckout extends Layout {
   }
 
   cancelTransaction = async () => {
-    const { payAppointmentId } = this.props;
+    const { payAppointmentId, language } = this.props;
     if (Platform.OS === 'android') {
       PoslinkAndroid.cancelTransaction((data) => {});
     } else {
+      if(!this.isGetResponsePaymentPax){
+        alert(localize('PleaseWait', language))
+        return
+      }
+
       PosLink.cancelTransaction();
       if (payAppointmentId) {
         this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);

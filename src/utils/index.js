@@ -18,8 +18,13 @@ import Localization from "../localization";
 import ICON from "../resources";
 export * from './enums';
 import * as l from 'lodash';
+import PushNotification from "react-native-push-notification";
+import { parseString } from "react-native-xml2js";
+import env from "react-native-config";
 
+const PosLink = NativeModules.batch;
 const PosLinkReport = NativeModules.report;
+const PoslinkAndroid = NativeModules.PoslinkModule;
 const { width, height } = Dimensions.get("window");
 
 export const checkIsTablet = () => {
@@ -1624,5 +1629,170 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
 
   return shortPurchasePoint;
 };
+
+export const handleAutoClose = async (paxMachineInfo, token) => {
+  const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
+    paxMachineInfo;
+  if (isSetup) {
+    let totalRecord = 0;
+
+    try {
+      const tempEnv = env.ENV;
+      const tempIpPax = commType == "TCP" ? ip : "";
+      const tempPortPax = commType == "TCP" ? port : "";
+      const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+      // ----------- Total Amount --------
+      let data = await PosLinkReport.reportTransaction({
+        transType: "LOCALDETAILREPORT",
+        edcType: "ALL",
+        cardType: "",
+        paymentType: "",
+        commType: commType,
+        destIp: tempIpPax,
+        portDevice: tempPortPax,
+        timeoutConnect: "90000",
+        bluetoothAddr: idBluetooth,
+        refNum: "",
+      });
+      let result = JSON.parse(data);
+      const ExtData = result?.ExtData || "";
+      const xmlExtData =
+        "<xml>" + ExtData.replace("\\n", "").replace("\\/", "/") + "</xml>";
+
+      if (result?.ResultCode && result?.ResultCode == "000000") {
+        if (tempEnv == "Production" && result?.Message === "DEMO APPROVED") {
+          throw "You're running your Pax on DEMO MODE!";
+        } else {
+          totalRecord = parseInt(result?.TotalRecord || 0);
+          const creditCount = totalRecord
+          parseString(xmlExtData, (err, result) => {
+            if (!err) {
+              const terminalID = `${result?.xml?.SN || null}`;
+
+              requestAPI({
+                  type: 'GET_SETTLEMENT_WAITING',
+                  method: 'GET',
+                  api: `${Configs.API_URL}settlement/waiting?sn=${terminalID}}`,
+                  token,
+                }).then(settleWaitingResponse => {
+                  const settleWaiting = l.get(settleWaitingResponse, 'data')
+                  settle(paxMachineInfo, settleWaiting, creditCount, terminalID, token)
+                });
+            } 
+          });
+        }
+      } else {
+        throw `${result.ResultTxt}`;
+      }
+    } catch (error) {
+      
+    }
+  } 
+};
+
+export const settle = async (paxMachineInfo, settleWaiting, creditCount, terminalID, token ) => {
+  const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
+
+  if (isSetup && terminalID) {
+      if (Platform.OS === "android") {
+          PoslinkAndroid.batchTransaction(ip, port, "", "BATCHCLOSE",
+              (err) => {
+              },
+              (data) => {
+                  proccessingSettlement(data, settleWaiting, terminalID, token);
+              });
+      } else {
+          const tempIpPax = commType == "TCP" ? ip : "";
+          const tempPortPax = commType == "TCP" ? port : "";
+          const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+          const paymentTransaction = settleWaiting?.paymentTransaction?.length || 0;
+          const responseData = [];
+
+          if (creditCount != paymentTransaction) {
+            for (let i = 1; i <= creditCount; i++) {
+                let data = await PosLinkReport.reportTransaction({
+                    transType: "LOCALDETAILREPORT",
+                    edcType: "ALL",
+                    cardType: "",
+                    paymentType: "",
+                    commType: commType,
+                    destIp: tempIpPax,
+                    portDevice: tempPortPax,
+                    timeoutConnect: "90000",
+                    bluetoothAddr: idBluetooth,
+                    refNum: `${i}`
+                });
+                const result = JSON.parse(data);
+                responseData.push(result);
+            }
+          };
+
+          PosLink.batchTransaction({
+              transType: "BATCHCLOSE",
+              edcType: "ALL",
+              commType: commType,
+              destIp: tempIpPax,
+              portDevice: tempPortPax,
+              timeoutConnect: "90000",
+              bluetoothAddr: idBluetooth
+          },
+              message => {
+                const result = JSON.parse(message);
+                if (result.status != 0) {
+                  proccessingSettlement(responseData, settleWaiting, terminalID, token);
+                }
+              }
+          )
+      }
+
+  } 
+}
+
+export const proccessingSettlement = async (responseData, settleWaiting, terminalID, token) => {
+  const editPaymentByHarmony =settleWaiting?.paymentByHarmony || 0.0
+  const editPaymentByCash = settleWaiting?.paymentByCash || 0.0
+  const editOtherPayment = settleWaiting?.otherPayment || 0.0
+  const discountSettlement = settleWaiting?.discount || 0.0
+  const editPaymentByCreditCard = settleWaiting?.paymentByCreditCard || 0.0
+  const paymentByGiftcard = settleWaiting?.paymentByGiftcard || 0.0
+  const settleTotal = {
+    paymentByHarmony: editPaymentByHarmony,
+    paymentByCreditCard: editPaymentByCreditCard,
+    paymentByCash: editPaymentByCash,
+    otherPayment: editOtherPayment,
+    discount: discountSettlement,
+    paymentByCashStatistic: settleWaiting.paymentByCash
+      ? settleWaiting.paymentByCash
+      : 0.0,
+    otherPaymentStatistic: settleWaiting.otherPayment
+      ? settleWaiting.otherPayment
+      : 0.0,
+    paymentByGiftcard: paymentByGiftcard,
+    total: roundFloatNumber(
+      formatNumberFromCurrency(editPaymentByHarmony) +
+        formatNumberFromCurrency(editPaymentByCreditCard) +
+        formatNumberFromCurrency(editPaymentByCash) +
+        formatNumberFromCurrency(editOtherPayment) +
+        formatNumberFromCurrency(discountSettlement) +
+        formatNumberFromCurrency(paymentByGiftcard)
+    ),
+    note: '',
+    terminalID,
+  }
+  const body = { 
+    ...settleTotal, 
+    checkout: settleWaiting.checkout, 
+    isConnectPax: true, 
+    responseData 
+  };
+  requestAPI({
+    method: 'POST',
+    api: `${Configs.API_URL}settlement`,
+    body,
+    token,
+  })
+  
+}
+
 
 

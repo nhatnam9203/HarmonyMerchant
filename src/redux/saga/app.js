@@ -2,8 +2,11 @@ import { put, takeLatest, all } from 'redux-saga/effects';
 import NavigationServices from '../../navigators/NavigatorServices';
 import { Alert } from 'react-native';
 
-import { requestAPI } from '../../utils';
+import { 
+  requestAPI,
+} from '../../utils';
 import actions from '../actions';
+import _ from 'lodash';
 
 function* getMerchantByID(action) {
   try {
