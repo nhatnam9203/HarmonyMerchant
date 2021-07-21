@@ -16,15 +16,8 @@ import { colors, fonts, layouts } from "@shared/themes";
 import { INPUT_TYPE, statusSuccess } from "@shared/utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { removeOption, updateOption, changeOption } from "./ProductState";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { changeOption, removeOption, updateOption } from "./ProductState";
 
 const log = (obj, message = "") => {
   Logger.log(`[FormProductOption] ${message}`, obj);

@@ -1,30 +1,21 @@
-import React from "react";
+import IMAGE from "@resources";
 import {
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
-import { useTranslation } from "react-i18next";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { layouts, colors, fonts } from "@shared/themes";
-import {
-  FormTitle,
   ButtonGradient,
   ButtonGradientWhite,
   FormInput,
   FormInputMask,
   FormSelect,
-  FormUploadImage,
+  FormTitle,
 } from "@shared/components";
-import { dateToString, BIRTH_DAY_DATE_FORMAT_STRING } from "@shared/utils";
-import IMAGE from "@resources";
-import { FormProductOption } from "./FormProductOption";
+import { colors, fonts, layouts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { AddProductOptionDialog } from "./AddProductOptionDialog";
-import { FormProductOptionQty } from "./FormProductOptionQty";
 import { FormProductImages } from "./FormProductImages";
+import { FormProductOption } from "./FormProductOption";
+import { FormProductOptionQty } from "./FormProductOptionQty";
 
 export const Layout = ({
   isEdit,

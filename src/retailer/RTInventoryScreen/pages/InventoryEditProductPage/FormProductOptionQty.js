@@ -1,40 +1,13 @@
-import IMAGE from "@resources";
-import {
-  CustomCheckBox,
-  DialogColorPicker,
-  FormUploadImage,
-  ButtonGradientRed,
-} from "@shared/components";
-import {
-  CustomInput,
-  CustomInputMask,
-  CustomInputMoney,
-} from "@shared/components/CustomInput";
+import { ButtonGradientRed, FormUploadImage } from "@shared/components";
+import { CustomInput, CustomInputMoney } from "@shared/components/CustomInput";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
-import {
-  useCreateAttributes,
-  useEditAttributes,
-  useGetAttributes,
-} from "@shared/services/api/retailer";
+import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { colors, fonts, layouts } from "@shared/themes";
-import { INPUT_TYPE, statusSuccess } from "@shared/utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import {
-  deleteProductVersion,
-  updateOptionsQty,
-  changeOption,
-} from "./ProductState";
-import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
+import { StyleSheet, Text, View } from "react-native";
+import { deleteProductVersion, updateOptionsQty } from "./ProductState";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
 

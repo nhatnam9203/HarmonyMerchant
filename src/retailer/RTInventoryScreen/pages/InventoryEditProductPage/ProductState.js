@@ -1,4 +1,4 @@
-import actions from "../../../../redux/actions";
+import actions from "@actions";
 import { arrayIsEqual } from "@shared/utils";
 
 export const PRODUCT_SET = "detail-product-set";

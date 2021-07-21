@@ -161,7 +161,6 @@ export const useProps = ({
 
   const payBasket = async () => {
     const method = getPaymentString(paymentSelected);
-    console.log("isOfflineMode payBasket" + isOfflineMode);
 
     if (isOfflineMode && method === "harmony") {
       // this.scrollTabRef.current?.goToPage(2);
@@ -177,14 +176,12 @@ export const useProps = ({
       return;
     }
 
-    console.log("first payBasket" + method);
 
     if (method === "harmony" && _.isEmpty(groupAppointment)) {
       popupSendLinkInstallRef.current?.setStateFromParent("");
       setVisibleSendLinkPopup(true);
     } else {
       if (method === "harmony" || method === "credit_card") {
-        console.log("payBasket");
         const dueAmount = paymentDetailInfo?.dueAmount || 0;
         modalBillRef?.current?.setStateFromParent(`${dueAmount}`);
       }
@@ -225,7 +222,6 @@ export const useProps = ({
   const extractBill = () => {
     if (_.isEmpty(paymentDetailInfo)) {
       if (isOfflineMode) {
-        console.log("2");
 
         const temptTotal = Number(
           formatNumberFromCurrency(subTotalLocal) +
@@ -235,7 +231,6 @@ export const useProps = ({
         ).toFixed(2);
         modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       } else {
-        console.log("3");
 
         const temptTotal = _.isEmpty(groupAppointment)
           ? Number(
@@ -249,12 +244,10 @@ export const useProps = ({
         modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       }
     } else {
-      console.log("4");
 
       const totalExact = paymentDetailInfo?.dueAmount
         ? paymentDetailInfo.dueAmount
         : 0;
-      console.log(totalExact);
 
       modalBillRef.current?.setStateFromParent(`${totalExact}`);
     }
@@ -458,7 +451,6 @@ export const useProps = ({
     method,
     moneyUserGiveForStaff
   ) => {
-    console.log("setupSignalR");
 
     try {
       connectSignalR.current = new signalR.HubConnectionBuilder()
@@ -510,7 +502,6 @@ export const useProps = ({
       connectSignalR.current
         .start()
         .then(() => {
-          console.log("action connection");
 
           try {
             dispatch(actions.app.stopLoadingApp());
