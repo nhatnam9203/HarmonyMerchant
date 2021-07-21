@@ -290,3 +290,9 @@ export const arrayIsEqual = (a, b) => {
 
   return true;
 };
+
+export const PRODUCT_VISIBLE_TYPE = [
+  { label: "Web & App", value: "webApp" },
+  { label: "App", value: "app" },
+  { label: "Web", value: "web" },
+];

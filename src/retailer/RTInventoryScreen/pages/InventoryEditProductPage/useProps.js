@@ -32,6 +32,7 @@ export const useProps = ({
     (state) => state.inventoryRetailer?.categories
   );
   const filterCategoryRef = React.useRef(null);
+  const visibilitySelectRef = React.useRef(null);
 
   const [errorMsg, setErrorMsg] = React.useState(null);
   const [categoriesFilter, setCategoriesFilter] = React.useState([]);
@@ -145,6 +146,8 @@ export const useProps = ({
     const { codeStatus, data } = productsGet || {};
     if (statusSuccess(codeStatus)) {
       dispatchProduct(setProduct(data));
+      // visibilitySelectRef.current?.setFilterItems(list);
+
     }
   }, [productsGet]);
 

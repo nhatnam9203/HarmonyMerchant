@@ -20,9 +20,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
     setOptionsQty(items);
   }, [items]);
 
-  const onAddNewVersion = () => {
-
-  }
+  const onAddNewVersion = () => {};
 
   const onRenderTableCell = ({
     item: cellItem,
@@ -71,13 +69,40 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             key={getUniqueId(columnKey, rowIndex, "cell-quantity")}
           >
             <CustomInput
-              style={[styles.customInput, { width: scaleWidth(60) }]}
+              style={[styles.customInput, { width: scaleWidth(70) }]}
               textInputProps={{
                 placeholder: "Quantity",
-                fontSize: scaleFont(17),
+                fontSize: scaleFont(15),
                 textAlign: "left",
                 defaultValue: cellItem?.quantity || 0,
                 onChangeText: onHandleChange,
+                keyboardType: "numeric",
+              }}
+            />
+          </View>
+        );
+
+      case "tempQuantity":
+        const onHandleChangeTempQty = (text) => {
+          dispatchProduct(
+            updateOptionsQty(
+              Object.assign({}, cellItem, { tempQuantity: parseInt(text) ?? 0 })
+            )
+          );
+        };
+        return (
+          <View
+            style={{ width: cellWidth }}
+            key={getUniqueId(columnKey, rowIndex, "cell-temp-quantity")}
+          >
+            <CustomInput
+              style={[styles.customInput, { width: scaleWidth(70) }]}
+              textInputProps={{
+                placeholder: "Temp quantity",
+                fontSize: scaleFont(15),
+                textAlign: "left",
+                defaultValue: cellItem?.tempQuantity || 0,
+                onChangeText: onHandleChangeTempQty,
                 keyboardType: "numeric",
               }}
             />
@@ -99,10 +124,10 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             key={getUniqueId(columnKey, rowIndex, "cell-value-cost")}
           >
             <CustomInputMoney
-              style={[styles.customInput, { width: scaleWidth(100) }]}
+              style={[styles.customInput, { width: scaleWidth(110) }]}
               textInputProps={{
                 placeholder: "Price",
-                fontSize: scaleFont(17),
+                fontSize: scaleFont(15),
                 textAlign: "left",
                 defaultValue: cellItem?.costPrice || 0,
                 onChangeText: onHandleChangeCostPrice,
@@ -128,10 +153,10 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             key={getUniqueId(columnKey, rowIndex, "cell-value-addition")}
           >
             <CustomInputMoney
-              style={[styles.customInput, { width: scaleWidth(100) }]}
+              style={[styles.customInput, { width: scaleWidth(110) }]}
               textInputProps={{
                 placeholder: "Price",
-                fontSize: scaleFont(17),
+                fontSize: scaleFont(15),
                 textAlign: "left",
                 defaultValue: cellItem?.price || 0,
                 onChangeText: onHandleChangeAdditionalPrice,
@@ -178,7 +203,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             <CustomInput
               style={{
                 height: "80%",
-                width: cellWidth - scaleWidth(20),
+                width: cellWidth - scaleWidth(10),
               }}
               textInputProps={{
                 placeholder: t("Description"),
@@ -231,6 +256,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             costPrice: t("Cost price"),
             price: t("Price"),
             quantity: t("Qty"),
+            tempQuantity: t("Temp qty"),
             actions: t("Actions"),
           }}
           whiteListKeys={[
@@ -240,16 +266,18 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
             "costPrice",
             "price",
             "quantity",
+            "tempQuantity",
             "actions",
           ]}
           primaryKey="label"
           widthForKeys={{
             imageUrl: scaleWidth(60),
-            label: scaleWidth(280),
-            description: scaleWidth(250),
+            label: scaleWidth(250),
+            description: scaleWidth(200),
             costPrice: scaleWidth(120),
             price: scaleWidth(120),
             quantity: scaleWidth(80),
+            tempQuantity: scaleWidth(80),
             actions: scaleWidth(80),
           }}
           emptyDescription={t("No Options Qty")}

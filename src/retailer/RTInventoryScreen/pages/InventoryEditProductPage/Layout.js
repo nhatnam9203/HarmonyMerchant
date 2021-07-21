@@ -16,6 +16,7 @@ import { AddProductOptionDialog } from "./AddProductOptionDialog";
 import { FormProductImages } from "./FormProductImages";
 import { FormProductOption } from "./FormProductOption";
 import { FormProductOptionQty } from "./FormProductOptionQty";
+import { PRODUCT_VISIBLE_TYPE } from "@shared/utils";
 
 export const Layout = ({
   isEdit,
@@ -26,6 +27,7 @@ export const Layout = ({
   onNewCategory,
   form,
   filterCategoryRef,
+  visibilitySelectRef,
   dispatchProduct,
   categoriesFilter,
   onHandleChangeProductName,
@@ -71,7 +73,16 @@ export const Layout = ({
         </View>
         <View style={styles.container}>
           <View style={styles.content}>
-            <FormInputMask
+            <FormSelect
+              filterRef={visibilitySelectRef}
+              required={false}
+              label={t("Visibility")}
+              filterItems={PRODUCT_VISIBLE_TYPE}
+              defaultValue={productItem?.visibility}
+              onChangeValue={(val) => form.setFieldValue("visibility", val)}
+            />
+
+            {/* <FormInputMask
               label={t("Cost Price ($)")}
               placeholder={t("Enter cost price")}
               required={true}
@@ -80,18 +91,20 @@ export const Layout = ({
               }}
               defaultValue={productItem?.costPrice}
               keyboardType="numeric"
-            />
+            /> */}
 
-            <FormInputMask
-              label={t("Price ($)")}
-              placeholder={t("Enter price")}
-              required={true}
-              onChangeValue={(value) => {
-                if (value) form.setFieldValue("price", parseFloat(value));
-              }}
-              defaultValue={productItem?.price}
-              keyboardType="numeric"
-            />
+            {productItem?.quantities?.length <= 0 && (
+              <FormInputMask
+                label={t("Price ($)")}
+                placeholder={t("Enter price")}
+                required={true}
+                onChangeValue={(value) => {
+                  if (value) form.setFieldValue("price", parseFloat(value));
+                }}
+                defaultValue={productItem?.price}
+                keyboardType="numeric"
+              />
+            )}
 
             <FormInput
               label={t("Barcode")}
@@ -184,17 +197,19 @@ export const Layout = ({
               />
             </View>
 
-            <FormInput
-              label={t("Item in stock")}
-              placeholder={t("100")}
-              required={true}
-              onChangeValue={(value) => {
-                form.setFieldValue("quantity", parseInt(value));
-              }}
-              defaultValue={`${productItem?.quantity ?? ""}`}
-              keyboardType="number-pad"
-              editable={!isEdit}
-            />
+            {productItem?.quantities?.length <= 0 && (
+              <FormInput
+                label={t("Item in stock")}
+                placeholder={t("100")}
+                required={true}
+                onChangeValue={(value) => {
+                  form.setFieldValue("quantity", parseInt(value));
+                }}
+                defaultValue={`${productItem?.quantity ?? ""}`}
+                keyboardType="number-pad"
+                editable={!isEdit}
+              />
+            )}
           </View>
         </View>
         <View style={styles.content}>

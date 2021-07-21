@@ -158,14 +158,22 @@ export const Layout = ({
                 label={t("Barcode")}
                 infoValue={productItem?.barCode}
               />
-              <ProductInfoLine
+              {/* <ProductInfoLine
                 label={t("Price")}
                 infoValue={`${formatMoneyWithUnit(productItem?.price)}`}
-              />
-              <ProductInfoLine
-                label={t("Range")}
-                infoValue={productItem?.priceRange}
-              />
+              /> */}
+
+              {productItem?.quantities?.length > 0 ? (
+                <ProductInfoLine
+                  label={t("Price")}
+                  infoValue={productItem?.priceRange}
+                />
+              ) : (
+                <ProductInfoLine
+                  label={t("Price")}
+                  infoValue={`${formatMoneyWithUnit(productItem?.price)}`}
+                />
+              )}
               {/* <ProductInfoLine
                 label={t("Cost Price")}
                 infoValue={`${formatMoneyWithUnit(productItem?.costPrice)}`}
@@ -193,29 +201,35 @@ export const Layout = ({
               items={productItem?.quantities}
               headerKeyLabels={{
                 label: t("Versions"),
+                sku: t("SKU"),
                 description: t("Description"),
                 costPrice: t("Cost price"),
                 price: t("Price"),
                 needToOrder: t("Need to order"),
                 quantity: t("Qty"),
+                tempQuantity: t("Temp qty"),
                 imageUrl: t("Image"),
               }}
               whiteListKeys={[
                 "label",
+                "sku",
                 "description",
                 "costPrice",
                 "price",
                 "needToOrder",
                 "quantity",
+                "tempQuantity",
                 "imageUrl",
               ]}
               widthForKeys={{
-                label: scaleWidth(280),
-                description: scaleWidth(250),
-                costPrice: scaleWidth(120),
-                price: scaleWidth(120),
-                needToOrder: scaleWidth(80),
-                quantity: scaleWidth(80),
+                label: scaleWidth(230),
+                sku: scaleWidth(110),
+                description: scaleWidth(180),
+                costPrice: scaleWidth(100),
+                price: scaleWidth(100),
+                needToOrder: scaleWidth(70),
+                quantity: scaleWidth(70),
+                tempQuantity: scaleWidth(70),
                 imageUrl: scaleWidth(60),
               }}
               primaryKey="id"
