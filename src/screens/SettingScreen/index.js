@@ -297,6 +297,7 @@ class SettingScreen extends Layout {
         profile?.webLink || "",
         profile?.timezone || "",
         profile?.autoCloseAt || "",
+        profile?.autoClose || false,
         profile?.turnAmount || 0,
         profile?.staffColumn || 8,
         profile?.signinAppStyle || "",

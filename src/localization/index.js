@@ -170,6 +170,7 @@ const localization = {
     "Submit": "Submit",
     "Extra Name": "Extra Name",
     "Language": "Language",
+    "Auto close": "Auto close",
     "Auto close at": "Auto close at",
     "Auto lock screen after": "Auto lock screen after",
     "SAVE": "SAVE",
@@ -425,6 +426,7 @@ const localization = {
     DiscountByStaff: "Discount By Staff",
     "PleaseWait": "Please wait!",
     "NoEndDate": "No end date",
+
   },
   vi: {},
 };
