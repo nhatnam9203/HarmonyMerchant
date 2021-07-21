@@ -13,6 +13,7 @@ export const FormFullName = React.forwardRef(
       onChangeLastName,
       title,
       editable = true,
+      required = true,
     },
     ref
   ) => {
@@ -59,7 +60,8 @@ export const FormFullName = React.forwardRef(
     return (
       <View style={styles.container}>
         <Text style={styles.textStyle}>
-          {title ?? t("Full Name")} <Text style={styles.requiredStyle}>*</Text>
+          {title ?? t("Full Name")}{" "}
+          {required && <Text style={styles.requiredStyle}>*</Text>}
         </Text>
         <View style={styles.content}>
           <CustomInput

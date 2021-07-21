@@ -34,6 +34,10 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
 
   const [currentCustomer, setCurrentCustomer] = React.useState(null);
 
+  const [firstName, setFirstName] = React.useState(null);
+  const [lastName, setLastName] = React.useState(null);
+  const [phone, setPhone] = React.useState(null);
+
   /**
   |--------------------------------------------------
   | CALL API
@@ -48,7 +52,9 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
       if (phone) {
         setEdit(false);
         setCurrentCustomer({ phone });
+
         form.setFieldValue("phone", phone);
+        setPhone(phone);
       } else if (customer) {
         setEdit(true);
         const formatCustomer = Object.assign({}, customer, {
@@ -63,6 +69,10 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
         });
         form.setValues(formatCustomer);
         setCurrentCustomer(formatCustomer);
+
+        setPhone(formatCustomer.phone);
+        setFirstName(formatCustomer.firstName);
+        setLastName(formatCustomer.lastName);
       }
 
       dialogRef.current?.show();
@@ -71,6 +81,28 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
       dialogRef.current?.hide();
     },
   }));
+
+  const onHandleFirstNameChange = (text) => {
+    form?.setFieldValue("firstName", text);
+    if (!form.values.addressPost?.firstName) {
+      // form?.setFieldValue("addressPost.firstName", text);
+      setFirstName(text);
+    }
+  };
+  const onHandleLastNameChange = (text) => {
+    form?.setFieldValue("lastName", text);
+    if (!form.values.addressPost?.lastName)
+      // form?.setFieldValue("addressPost.lastName", text);
+      setLastName(text);
+  };
+
+  const onHandlePhoneChange = (phone) => {
+    form.setFieldValue("phone", phone);
+    if (!form.values.addressPost?.phone) {
+      // form?.setFieldValue("addressPost.phone", phone);
+      setPhone(phone);
+    }
+  };
 
   /**
   |--------------------------------------------------
@@ -85,9 +117,9 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
       phone: Yup.string().required(t("Phone Number is required")),
       email: Yup.string(),
       addressPost: Yup.object().shape({
-        firstName: Yup.string().required(t("FirstName is required!")),
-        lastName: Yup.string().required(t("LastName is required!")),
-        phone: Yup.string().required(t("Phone Number is required")),
+        firstName: Yup.string(),
+        lastName: Yup.string(),
+        phone: Yup.string(),
         street: Yup.string(),
         state: Yup.number(),
         city: Yup.string(),
@@ -98,7 +130,30 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
     }),
     onSubmit: (values) => {
       if (!isEdit) {
-        createCustomer(values);
+        let addressFirstName = form.values.addressPost?.firstName;
+        if (!addressFirstName) {
+          addressFirstName = firstName;
+        }
+
+        let addressLastName = form.values.addressPost?.lastName;
+        if (!addressLastName) {
+          addressLastName = lastName;
+        }
+
+        let addressPhone = form.values.addressPost?.phone;
+        if (!addressPhone) {
+          addressPhone = phone;
+        }
+
+        createCustomer(
+          Object.assign({}, values, {
+            addressPost: Object.assign({}, values.addressPost, {
+              firstName: addressFirstName,
+              lastName: addressLastName,
+              phone: addressPhone,
+            }),
+          })
+        );
       } else {
         const { addressPost, addresses, defaultAddress, ...customer } =
           values || {};
@@ -202,15 +257,17 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
             </View> */}
 
             <FormFullName
-              firstName={currentCustomer?.addressPost?.firstName}
-              lastName={currentCustomer?.addressPost?.lastName}
+              firstName={currentCustomer?.addressPost?.firstName ?? firstName}
+              lastName={currentCustomer?.addressPost?.lastName ?? lastName}
               onChangeFirstName={form.handleChange("addressPost.firstName")}
               onChangeLastName={form.handleChange("addressPost.lastName")}
+              required={false}
             />
 
             <FormPhoneNumber
-              defaultPhone={currentCustomer?.addressPost?.phone}
+              defaultPhone={currentCustomer?.addressPost?.phone ?? phone}
               onChangePhoneNumber={form.handleChange("addressPost.phone")}
+              required={false}
             />
 
             <FormAddress
@@ -235,7 +292,7 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
               <View style={layouts.fill}>
                 <FormPhoneNumber
                   defaultPhone={currentCustomer?.phone}
-                  onChangePhoneNumber={form.handleChange("phone")}
+                  onChangePhoneNumber={onHandlePhoneChange}
                 />
               </View>
               <View style={layouts.marginHorizontal} />
@@ -251,8 +308,8 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
               title={t("Customer Name")}
               firstName={currentCustomer?.firstName}
               lastName={currentCustomer?.lastName}
-              onChangeFirstName={form?.handleChange("firstName")}
-              onChangeLastName={form?.handleChange("lastName")}
+              onChangeFirstName={onHandleFirstNameChange}
+              onChangeLastName={onHandleLastNameChange}
             />
           </View>
         </KeyboardAwareScrollView>

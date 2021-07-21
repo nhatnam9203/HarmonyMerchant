@@ -6,8 +6,9 @@ import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Pressable, Image } from "react-native";
 import { deleteProductVersion, updateOptionsQty } from "./ProductState";
+import IMAGE from "@resources";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
 
@@ -18,6 +19,10 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
   React.useEffect(() => {
     setOptionsQty(items);
   }, [items]);
+
+  const onAddNewVersion = () => {
+
+  }
 
   const onRenderTableCell = ({
     item: cellItem,
@@ -199,7 +204,21 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.infoHeaderText}>{t("Product Versions")}</Text>
+      <View style={[layouts.horizontal, { justifyContent: "space-between" }]}>
+        <Text style={styles.infoHeaderText}>{t("Product Versions")}</Text>
+        {/* <Pressable style={[layouts.horizontal, layouts.horizontalCenterRight]} onPress={onAddNewVersion}>
+          <Image
+            source={IMAGE.plus}
+            style={{
+              width: scaleWidth(16),
+              height: scaleHeight(16),
+              marginHorizontal: scaleWidth(8),
+            }}
+            resizeMode="contain"
+          />
+          <Text style={styles.headerOptionsLabel}>{t("Add new version")}</Text>
+        </Pressable> */}
+      </View>
       <View style={layouts.marginVertical} />
       {optionsQty && (
         <Table
@@ -295,5 +314,15 @@ const styles = StyleSheet.create({
   imageStyle: {
     height: scaleHeight(80),
     width: scaleWidth(80),
+  },
+
+  headerOptionsLabel: {
+    fontFamily: fonts.REGULAR,
+    fontSize: scaleFont(15),
+    fontWeight: "normal",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.OCEAN_BLUE,
   },
 });

@@ -12,6 +12,7 @@ export const FormPhoneNumber = ({
   hasTitle = true,
   dropDownDirection,
   editable = true,
+  required = true,
 }) => {
   const [t] = useTranslation();
   const [phoneNumberValue, setPhoneNumber] = React.useState();
@@ -47,7 +48,8 @@ export const FormPhoneNumber = ({
     <View style={styles.container}>
       {hasTitle && (
         <Text style={styles.textStyle}>
-          {t("Phone Number")} <Text style={styles.requiredStyle}>*</Text>
+          {t("Phone Number")}{" "}
+          {required && <Text style={styles.requiredStyle}>*</Text>}
         </Text>
       )}
       <View style={styles.content}>
