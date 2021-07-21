@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import useFirebaseNotification from "./useFirebaseNotification";
 import NotifService from "@utils/NotifService";
 import NavigationServices from "../../navigators/NavigatorServices";
-
+import _ from 'lodash';
+import {
+  handleAutoClose,
+} from "@utils";
 const FirebaseNotificationProvider = () => {
   const dispatch = useDispatch();
   const [currentAppState, setCurrentAppState] = React.useState(
@@ -13,6 +16,7 @@ const FirebaseNotificationProvider = () => {
   );
   let notifyService;
   const token = useSelector((state) => state.dataLocal.token);
+  const paxMachineInfo = useSelector((state) => state.hardware.paxMachineInfo);
   const visibleEnterPin = useSelector((state) => state?.app?.visibleEnterPin);
 
   React.useEffect(() => {
@@ -21,6 +25,10 @@ const FirebaseNotificationProvider = () => {
 
   const onForegroundMessage = (data) => {
     // TODO: process message on foreground state
+    if(_.get(data, 'data.key') === 'AUTO_CLOSE'){
+      handleAutoClose(paxMachineInfo, token)
+      return
+    }
     dispatch({
       type: "HANDLE_NOTIFICATION_WHEN_HAVE_A_APPOINTMENT",
       payload: data,
@@ -30,6 +38,9 @@ const FirebaseNotificationProvider = () => {
 
   const onBackgroundMessage = ({ data }) => {
     // TODO: process message on background state
+    if(_.get(data, 'data.key') === 'AUTO_CLOSE'){
+      handleAutoClose(paxMachineInfo, token)
+    }
   };
 
   const onOpenedApp = ({ data }) => {

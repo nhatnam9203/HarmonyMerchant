@@ -2,6 +2,7 @@ import PushNotification from "react-native-push-notification";
 
 import NotificationHandler from "./NotificationHandler";
 import { formatWithMoment } from "./index";
+import _ from 'lodash';
 
 export default class NotifService {
   constructor(onNotification) {

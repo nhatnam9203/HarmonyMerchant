@@ -48,11 +48,15 @@ const SEND_LINK_DATA = [
 
 class Layout extends React.Component {
   renderSetup() {
-    const { language, autoLockScreenAfter, isTipOnPaxMachine } = this.props;
+    const { language, 
+            autoLockScreenAfter,
+            isTipOnPaxMachine,
+           } = this.props;
     const {
       languageApp,
       webLink,
       autoCloseAt,
+      isTurnOnAutoClose,
       timezone,
       businessHour,
       turnAmount,
@@ -76,15 +80,47 @@ class Layout extends React.Component {
             }}
             placeHolder={localize("Language", language)}
           />
+
           {/* ------- Item Auto close at:  ------ */}
-          <ItemSetupGeneral
-            title={`${localize("Auto close at", language)}:`}
-            data={WorkingTime}
-            value={autoCloseAt}
-            onChangeText={(value) => this.setState({ autoCloseAt: value })}
-            placeHolder="08:00 AM"
-            isCustomDropDown={true}
-          />
+          <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
+            <View style={{ width: scaleSize(180), justifyContent: "center" }}>
+              <Text
+                style={{
+                  color: "#404040",
+                  fontSize: scaleSize(16),
+                  fontWeight: "600",
+                }}
+              >
+                {localize("Auto close", language)}
+              </Text>
+            </View>
+            <View
+              style={{
+                height: scaleSize(40),
+                width: scaleSize(140),
+                justifyContent: "center",
+              }}
+            >
+              <Switch
+                trackColor={{ false: "#767577", true: "#0764B0" }}
+                ios_backgroundColor="#E5E5E5"
+                onValueChange={this.switchAuToClose}
+                value={isTurnOnAutoClose}
+              />
+            </View>
+          </View>
+          {
+            isTurnOnAutoClose &&
+            <ItemSetupGeneral
+              title={`${localize("Auto close at", language)}:`}
+              data={WorkingTime}
+              value={autoCloseAt}
+              onChangeText={(value) => this.setState({ autoCloseAt: value })}
+              placeHolder="11:00 PM"
+              isCustomDropDown={true}
+            />
+          }
+            
 
           {/* ------- Staff Columns On Calendar  ------ */}
           <ItemSetupGeneral
