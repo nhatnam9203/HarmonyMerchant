@@ -424,6 +424,7 @@ const localization = {
     "Change Discount": "Change Discount",
     "Gift card": "Gift card",
     DiscountByStaff: "Discount By Staff",
+    "PleaseWait": "Please wait!",
     "NoEndDate": "No end date",
 
   },

@@ -55,7 +55,7 @@ class TabPhotoGallery extends Layout {
   };
 
   nextImage = () => {
-    if (this.state.indexImage < this.props.listBanners.length - 1) {
+    if (this.state.indexImage < this.props.listBanners?.length - 1) {
       this.setState({ indexImage: this.state.indexImage + 1 });
     }
   };
@@ -171,7 +171,7 @@ class TabPhotoGallery extends Layout {
 const mapStateToProps = (state) => ({
   language: state.dataLocal.language,
   profile: state.dataLocal.profile,
-  listBanners: state.marketing.listBanners,
+  listBanners: state.marketing?.listBanners,
   isUploadBanner: state.marketing.isUploadBanner,
   loading: state.app.loading,
   refreshBannerList: state.marketing.refreshBannerList,
