@@ -1568,7 +1568,6 @@ class TabCheckout extends Layout {
           );
         }
         if (result?.message === 'ABORTED') {
-          console.log('ABORTED');
           return;
         }
         setTimeout(() => {
@@ -1640,7 +1639,6 @@ class TabCheckout extends Layout {
     if (Platform.OS === 'android') {
       PoslinkAndroid.cancelTransaction((data) => {});
     } else {
-      console.log('is get result:', this.isGetResponsePaymentPax)
       if(!this.isGetResponsePaymentPax){
         alert(localize('PleaseWait', language))
         return
