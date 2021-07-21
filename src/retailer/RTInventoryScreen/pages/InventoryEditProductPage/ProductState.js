@@ -64,7 +64,7 @@ const createQuantitiesItem = (product, options) => {
   if (!options || options?.length < 0) return null;
 
   const quantities = options?.reduce((accumulator, currentValue, index) => {
-    if (index === 0)
+    if (!accumulator || accumulator?.length <= 0)
       return createOptionsValuesQty(
         currentValue?.values?.filter((x) => x.checked)
       );
@@ -117,6 +117,7 @@ export const productReducer = (state = initState, action) => {
       });
 
     case PRODUCT_CHANGE_OPTIONS:
+      //!! dùng cho trường hợp cập nhật option bắt buộc renderer lại list versions
       const optionsItem = action.payload;
 
       let changeOpt = state?.options?.find(
@@ -148,10 +149,13 @@ export const productReducer = (state = initState, action) => {
 
         if (isExistItem) {
           return Object.assign({}, x, {
+            needToOrder: isExistItem.needToOrder,
             quantity: isExistItem.quantity,
+            tempQuantity: isExistItem.tempQuantity,
+            description: isExistItem.description,
             costPrice: isExistItem.costPrice,
-            additionalPrice: isExistItem.additionalPrice,
             price: isExistItem.price,
+            sku: isExistItem.sku,
             imageUrl: isExistItem.imageUrl,
             fileId: isExistItem.fileId,
             position: isExistItem.position ?? 0,
