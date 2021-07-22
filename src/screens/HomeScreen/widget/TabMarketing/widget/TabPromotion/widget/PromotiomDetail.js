@@ -570,6 +570,7 @@ const PromotiomDetail = forwardRef(
     };
 
     const getDefaultMessageContent = React.useCallback(() => {
+      console.log(conditionServiceProductTags);
       if (!useDefaultContent) return;
       switch (getConditionIdByTitle(condition)) {
         case 1:
@@ -580,7 +581,9 @@ const PromotiomDetail = forwardRef(
               ? promotionValue + " %"
               : "$ " + promotionValue
           } ${
-            actionTags?.length > 0 ? `off for ${actionTags?.join(", ")}.` : ""
+            actionTags?.length > 0
+              ? `off for ${actionTags?.map((x) => x.value || "").join(", ")}.`
+              : ""
           }. ${
             endDate
               ? `This offer is ends on ${dateToString(
@@ -590,14 +593,16 @@ const PromotiomDetail = forwardRef(
               : "Hurry"
           } 🏃🏻‍♀️ and book your appointment on HarmonyPay App now!`;
         case 2:
-          return `More for less and all for you! During their ${title} promotion,choose any of ${conditionServiceProductTags} at ${
-            merchant.businessName
-          } to get ${
+          return `More for less and all for you! During their ${title} promotion,choose any of ${conditionServiceProductTags
+            ?.map((x) => x.value || "")
+            .join(", ")} at ${merchant.businessName} to get ${
             promotionType === "percent"
               ? promotionValue + " %"
               : "$ " + promotionValue
           }${
-            actionTags?.length > 0 ? ` off for ${actionTags?.join(", ")}.` : ""
+            actionTags?.length > 0
+              ? ` off for ${actionTags?.map((x) => x.value || "").join(", ")}.`
+              : ""
           }. Hurry and book your appointment on HarmonyPay App now to grab this deal!`;
         case 3:
           return `Happy, happy birthday! Hurry onto your HarmonyPay App to claim a special gift from one of your favorite stores, ${
@@ -607,7 +612,9 @@ const PromotiomDetail = forwardRef(
               ? promotionValue + " %"
               : "$ " + promotionValue
           }${
-            actionTags?.length > 0 ? ` off for ${actionTags?.join(", ")}.` : ""
+            actionTags?.length > 0
+              ? ` off for ${actionTags?.map((x) => x.value || "")?.join(", ")}.`
+              : ""
           }.`;
         case 4:
           return `Loyalty pays! Literally. Go onto your HarmonyPay App to grab this special gift from  ${
@@ -617,7 +624,9 @@ const PromotiomDetail = forwardRef(
               ? promotionValue + " %"
               : "$ " + promotionValue
           }${
-            actionTags?.length > 0 ? ` off for ${actionTags?.join(", ")}.` : ""
+            actionTags?.length > 0
+              ? ` off for ${actionTags?.map((x) => x.value || "")?.join(", ")}.`
+              : ""
           }. Thanks for being one of our best customers!`;
         case 5:
           return (
@@ -630,7 +639,9 @@ const PromotiomDetail = forwardRef(
                 : "$ " + promotionValue
             }${
               actionTags?.length > 0
-                ? ` off for ${actionTags?.join(", ")}.`
+                ? ` off for ${actionTags
+                    ?.map((x) => x.value || "")
+                    ?.join(", ")}.`
                 : ""
             }`
           );
