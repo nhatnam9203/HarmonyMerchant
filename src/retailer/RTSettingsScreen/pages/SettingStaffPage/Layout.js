@@ -70,15 +70,22 @@ export const Layout = ({
             displayName: t("Staff name"),
             phone: t("Phone Number"),
             email: t("Email"),
-            // inputType: t('Input Type'),
+            roleName: t("Role"),
             actions: t("Actions"),
           }}
-          whiteListKeys={["displayName", "phone", "email", "actions"]}
+          whiteListKeys={[
+            "displayName",
+            "phone",
+            "email",
+            "roleName",
+            "actions",
+          ]}
           sortedKeys={{ displayName: sortLabel }}
           primaryKey="staffId"
           widthForKeys={{
             displayName: scaleWidth(230),
-            phone: scaleWidth(286),
+            roleName: scaleWidth(120),
+            phone: scaleWidth(180),
             email: scaleWidth(250),
           }}
           emptyDescription={t("No Staffs")}
