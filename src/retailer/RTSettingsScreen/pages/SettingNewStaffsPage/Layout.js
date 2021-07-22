@@ -16,8 +16,18 @@ import {
   ButtonGradientWhite,
   FormPinCode,
   CustomCheckBox,
+  FormSelect,
+  FormLabelSwitch,
+  CustomSwitch,
 } from "@shared/components";
-import { dateToString, BIRTH_DAY_DATE_FORMAT_STRING } from "@shared/utils";
+import {
+  dateToString,
+  BIRTH_DAY_DATE_FORMAT_STRING,
+  STAFF_PERMISSIONS,
+  STAFF_PERMISSIONS_ROLES,
+} from "@shared/utils";
+import { Table } from "@shared/components/CustomTable";
+import { getUniqueId } from "@shared/components/CustomTable/helpers";
 
 export const Layout = ({
   form,
@@ -28,8 +38,39 @@ export const Layout = ({
   salary,
   setSalary,
   SALARY_TYPE,
+  onChangeStaffPermissions,
+  staffPermission,
+  permission,
+  onChangePermissionRole,
 }) => {
   const [t] = useTranslation();
+
+  const onRenderCell = ({
+    columnKey,
+    rowIndex,
+    columnIndex,
+    cellWidth,
+    item: cellItem,
+  }) => {
+    if (columnKey === "isChecked") {
+      const onChangeSettingPermission = (val) => {
+        onChangePermissionRole(Object.assign({}, cellItem, { isChecked: val }));
+      };
+
+      return (
+        <View
+          style={{ width: cellWidth }}
+          key={getUniqueId(columnKey, rowIndex, "cell-role")}
+        >
+          <CustomSwitch
+            onValueChange={onChangeSettingPermission}
+            defaultValue={cellItem?.isChecked}
+          />
+        </View>
+      );
+    }
+    return null;
+  };
 
   return (
     <View style={layouts.fill}>
@@ -182,6 +223,62 @@ export const Layout = ({
             />
           </View>
         </View>
+
+        <View style={{ ...layouts.fill, margin: scaleWidth(16) }}>
+          <FormTitle label={t("Edit permission")} />
+        </View>
+
+        <View style={styles.container}>
+          <View style={styles.content}>
+            <FormSelect
+              // isDropdown
+              // filterRef={billingSelectRef}
+              label={t("Roles")}
+              required={false}
+              filterItems={STAFF_PERMISSIONS}
+              defaultValue={staffPermission}
+              onChangeValue={onChangeStaffPermissions}
+              style={{ flex: 1 }}
+            />
+          </View>
+          <View style={styles.content}>
+            {/* <FormLabelSwitch
+              defaultValue={true}
+              onValueChange={(value) => {}}
+              label={t("Is Active")}
+              textStyle={styles.textStyle}
+              style={{
+                width: "25%",
+                height: scaleHeight(40),
+                flex: 0,
+              }}
+            /> */}
+          </View>
+        </View>
+
+        {staffPermission === "Manager" && (
+          <View style={styles.container}>
+            <View style={styles.permission}>
+              <Table
+                items={current_staff?.permission ?? STAFF_PERMISSIONS_ROLES}
+                headerKeyLabels={{
+                  label: t("Tabs"),
+                  // inputType: t('Input Type'),
+                  isChecked: t("Active"),
+                }}
+                whiteListKeys={["label", "isChecked"]}
+                primaryKey="key"
+                widthForKeys={{
+                  label: "75%",
+                }}
+                emptyDescription={t("No Data")}
+                // styleTextKeys={{ label: layouts.tableName }}
+                renderCell={onRenderCell}
+                onRowPress={() => {}}
+              />
+            </View>
+          </View>
+        )}
       </KeyboardAwareScrollView>
       <View style={styles.buttonContent}>
         <ButtonGradientWhite
@@ -200,7 +297,7 @@ export const Layout = ({
           fontSize={scaleFont(25)}
           textColor={colors.WHITE}
           fontWeight="500"
-          disable={!form?.isValid || !form?.dirty}
+          disable={!form?.isValid} // || !form?.dirty
           onPress={form?.handleSubmit}
         />
       </View>
@@ -259,11 +356,27 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
+
   containerInputSalary: {
     ...layouts.horizontal,
     ...layouts.horizontalSpaceBetween,
     width: scaleWidth(440),
     marginTop: scaleHeight(10),
     marginBottom: scaleHeight(25),
+  },
+
+  textStyle: {
+    fontFamily: fonts.MEDIUM,
+    fontSize: scaleFont(17),
+    fontWeight: "500",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.GREYISH_BROWN,
+  },
+
+  permission: {
+    flex: 1,
+    paddingHorizontal: scaleWidth(16),
   },
 });

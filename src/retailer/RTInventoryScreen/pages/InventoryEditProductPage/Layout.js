@@ -35,7 +35,6 @@ export const Layout = ({
   onHandleChangeProductDescription,
 }) => {
   const [t] = useTranslation();
-  console.log(productItem);
 
   const renderOptionsItem = ({ item, index }) => {
     return (

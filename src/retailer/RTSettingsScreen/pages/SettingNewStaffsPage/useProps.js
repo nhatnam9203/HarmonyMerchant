@@ -12,6 +12,8 @@ import * as Yup from "yup";
 import { addStaffByMerchant, editStaff } from "@redux/actions/staff";
 import { useDispatch, useSelector } from "react-redux";
 import { BusinessWorkingTime } from "@utils";
+import { STAFF_PERMISSIONS_ROLES } from "@shared/utils";
+
 let counter = -1000000;
 
 const INITIAL_VALUE_STAFF = {
@@ -69,6 +71,7 @@ const INITIAL_VALUE_STAFF = {
   fileId: 0,
   imageUrl: "",
   categories: [],
+  permission: STAFF_PERMISSIONS_ROLES,
 };
 
 const SALARY_TYPE = {
@@ -82,6 +85,8 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   const [errorMsg, setErrorMsg] = React.useState(null);
   const [current_staff, setCurrentStaff] = React.useState(item);
   const [salary, setSalary] = React.useState(SALARY_TYPE.PER_HOUR);
+  const [staffPermission, setStaffPermission] = React.useState(null);
+  const [permission, setPermission] = React.useState(STAFF_PERMISSIONS_ROLES);
 
   /**
   |--------------------------------------------------
@@ -121,15 +126,23 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
       birthdate: Yup.string(),
       gender: Yup.string(),
       pin: Yup.string().length(4, "Pin code must have 4 digits"),
+      roleName: Yup.string(),
     }),
     onSubmit: (values) => {
       const displayName = values.firstName + " " + values.lastName;
       values.displayName = displayName;
       values.confirmPin = values.pin;
+
       if (isNew) {
         createStaff(values);
       } else if (isEdit) {
-        const newValues = updateObject(values);
+        let newValues = updateObject(values);
+        newValues.roles = {
+          nameRole: staffPermission,
+        };
+        if (staffPermission === "Manager") {
+          newValues.permission = permission;
+        }
         editStaffs(newValues, current_staff.staffId);
       }
     },
@@ -152,6 +165,9 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
       } else {
         setSalary(SALARY_TYPE.PER_HOUR);
       }
+
+      setStaffPermission(item?.roleName);
+      setPermission(item?.permission ?? STAFF_PERMISSIONS_ROLES);
     }
   }, [item]);
 
@@ -168,5 +184,16 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     salary,
     setSalary,
     SALARY_TYPE,
+    onChangeStaffPermissions: (val) => {
+      setStaffPermission(val);
+      form.setFieldValue("roleName", val);
+    },
+    staffPermission,
+    permission,
+    onChangePermissionRole: (it) => {
+      const index = permission?.findIndex((x) => x.key === it.key);
+      permission[index] = it;
+      setPermission(permission);
+    },
   };
 };
