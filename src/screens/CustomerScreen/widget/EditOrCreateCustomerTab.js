@@ -90,6 +90,12 @@ class EditOrCreateCustomerTab extends React.Component {
     updateCustomerInfo(key, value, keyParent = '') {
         const { customerInfo } = this.state;
         if (keyParent !== '') {
+            if(key === 'zip'){
+                
+                if (/[^a-zA-Z0-9]/.test(value)) {
+                    return
+                }
+            }
             const temptParent = customerInfo[keyParent];
             const temptChild = { ...temptParent, [key]: value };
             const temptUpdate = { ...customerInfo, [keyParent]: temptChild };
@@ -363,6 +369,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                             mask: '99/99/9999'
                                         }}
                                         placeholder="MM/DD/YYYY"
+                                        keyboardType="numeric"
                                         value={birthdate}
                                         onChangeText={value => this.updateCustomerInfo('birthdate', value)}
                                     />
@@ -414,8 +421,7 @@ class EditOrCreateCustomerTab extends React.Component {
                                 </View>
                                 <View style={{ width: scaleSize(35) }} />
                                 <View style={{ flex: 1, flexDirection: "row", borderColor: "#CCCCCC", borderWidth: 1, paddingHorizontal: scaleSize(10) }} >
-                                    < TextInputMask
-                                        type="only-numbers"
+                                    < TextInput
                                         style={{
                                             flex: 1,
                                             fontSize: scaleSize(14),
@@ -423,6 +429,7 @@ class EditOrCreateCustomerTab extends React.Component {
 
                                         }}
                                         placeholder={"Zip"}
+                                        keyboardType="numeric"
                                         value={zip}
                                         onChangeText={value => this.updateCustomerInfo('zip', value, 'addressPost')}
                                         onFocus={() => this.scrollRightContentTo(120)}
@@ -590,6 +597,7 @@ const PhoneItem = ({ title, isRequired, placeholder, style, value, onChangeText,
                         options={{
                             mask: '999-999-9999'
                         }}
+                        keyboardType="numeric"
                         placeholder="012-345-6456"
                         value={value}
                         onChangeText={onChangeText}
