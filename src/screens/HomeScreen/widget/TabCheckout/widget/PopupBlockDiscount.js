@@ -168,6 +168,8 @@ class PopupBlockDiscount extends React.Component {
             const moneyDiscountManual = this.state.manualTypeSelect == manualType.percentType 
                                         ? moneyDiscountCustom : moneyDiscountFixedAmout
 
+            const discountMoneyByStaff = roundNumber(formatNumberFromCurrency(discountByStaff) * formatNumberFromCurrency(moneyDiscountManual) /100)
+            const discountMoneyByOwner = roundNumber(moneyDiscountManual - discountMoneyByStaff)
             return (
                 <PopupParent
                     title={title}
@@ -262,6 +264,11 @@ class PopupBlockDiscount extends React.Component {
                                         <Text style={styles.textNormal}>{localize('Discount by Staff', language)}</Text>
                                     </View>
                                     
+                                     {/* ----------Money discount of staff, owner------------ */}
+                                     <View style={styles.viewRowContainer}>
+                                        <Text style={styles.textNormal}>{`$ ${discountMoneyByOwner}`}</Text>
+                                        <Text style={styles.textNormal}>{`$ ${discountMoneyByStaff}`}</Text>
+                                    </View> 
                                     {/* ----------Slider------------ */}
                                     <Slider
                                         style={styles.slider}

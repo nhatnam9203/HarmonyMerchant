@@ -114,6 +114,8 @@ class PopupDiscount extends React.Component {
             temptTotalLocal: 0,
             customDiscountPercentLocal: 0,
             customDiscountFixedLocal: 0,
+            moneyDiscountCustom: 0,
+            moneyDiscountFixedAmout: 0,
         });
     }
 
@@ -158,7 +160,11 @@ class PopupDiscount extends React.Component {
 
             const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
             const discountByStaff = (100 - this.state.discountByOwner)
-
+            const manualDiscount = this.state.moneyDiscountCustom > 0 
+                                    ? this.state.moneyDiscountCustom 
+                                    : this.state.moneyDiscountFixedAmout
+            const discountMoneyByStaff = roundNumber(formatNumberFromCurrency(discountByStaff) * formatNumberFromCurrency(manualDiscount) /100)
+            const discountMoneyByOwner = roundNumber(manualDiscount - discountMoneyByStaff)
             return (
                 <PopupParent
                     title={title}
@@ -209,6 +215,11 @@ class PopupDiscount extends React.Component {
                                         <Text style={styles.textNormal}>{localize('Discount by Staff', language)}</Text>
                                     </View>
                                     
+                                     {/* ----------Money discount of staff, owner------------ */}
+                                    <View style={styles.viewRowContainer}>
+                                        <Text style={styles.textNormal}>{`$ ${discountMoneyByOwner}`}</Text>
+                                        <Text style={styles.textNormal}>{`$ ${discountMoneyByStaff}`}</Text>
+                                    </View> 
                                     {/* ----------Slider------------ */}
                                     <Slider
                                         style={styles.slider}
@@ -359,7 +370,7 @@ class CustomDiscount extends React.Component {
         const fixedAmount = customDiscountFixed ? customDiscountFixed: 0
         const type = customDiscountFixed && customDiscountFixed > 0 ? manualType.fixAmountType : manualType.percentType
         const discountTemp = type == manualType.fixAmountType ? customDiscountFixed 
-                            : roundNumber((formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100))
+                            : roundNumber(formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100)
         this.state = {
             percent: percent,
             discount: discountTemp,

@@ -272,9 +272,16 @@ export default class Slider extends PureComponent {
         return (
             <View {...other} style={[mainStyles.container, style]} onLayout={this._measureContainer}>
                 <View
-                    style={[{ backgroundColor: maximumTrackTintColor, }, mainStyles.track, trackStyle]}
+                    style={[{ flexDirection: 'row', justifyContent: 'space-between' ,backgroundColor: maximumTrackTintColor, }, mainStyles.track, trackStyle]}
                     renderToHardwareTextureAndroid={true}
-                    onLayout={this._measureTrack} />
+                    onLayout={this._measureTrack} >
+                <View/>
+                <View style={defaultStyles.lineBetween}/>
+                <View style={defaultStyles.lineBetween}/>
+                <View style={defaultStyles.lineBetween}/>
+                <View/>
+                </View>
+                
                 <Animated.View
                     renderToHardwareTextureAndroid={true}
                     style={[mainStyles.track, trackStyle, minimumTrackStyle]} />
@@ -584,5 +591,10 @@ var defaultStyles = StyleSheet.create({
         position: 'absolute',
         backgroundColor: 'green',
         opacity: 0.5,
+    },
+    lineBetween: {
+        height: '100%', 
+        width: 1, 
+        backgroundColor: "#BDC3C7"
     }
 });
