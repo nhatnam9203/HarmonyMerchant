@@ -571,11 +571,12 @@ const PromotiomDetail = forwardRef(
 
     const getDefaultMessageContent = React.useCallback(() => {
       if (!useDefaultContent) return;
-      const mergeEndDate = `${formatWithMoment(
-        new Date(endDate),
-        "YYYY-MM-DD"
-      )}T${formatHourMinute(formatWithMoment(endTime, HOURS_FORMAT))}:00`;
-
+      const mergeEndDate = noEndDate
+        ? null
+        : `${formatWithMoment(
+            new Date(endDate),
+            "YYYY-MM-DD"
+          )}T${formatHourMinute(formatWithMoment(endTime, HOURS_FORMAT))}:00`;
 
       switch (getConditionIdByTitle(condition)) {
         case 1:
@@ -590,7 +591,7 @@ const PromotiomDetail = forwardRef(
               ? `off for ${actionTags?.map((x) => x.value || "").join(", ")}.`
               : ""
           }. ${
-            endDate
+            mergeEndDate
               ? `This offer is ends on ${dateToString(
                   mergeEndDate,
                   MESSAGE_END_DATE_FORMAT
@@ -664,6 +665,7 @@ const PromotiomDetail = forwardRef(
       promotionValue,
       useDefaultContent,
       conditionServiceProductTags,
+      noEndDate,
     ]);
 
     React.useEffect(() => {
@@ -682,6 +684,7 @@ const PromotiomDetail = forwardRef(
       promotionValue,
       useDefaultContent,
       conditionServiceProductTags,
+      noEndDate,
     ]);
 
     return (
