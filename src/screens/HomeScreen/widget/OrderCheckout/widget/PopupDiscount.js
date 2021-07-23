@@ -170,13 +170,13 @@ class PopupDiscount extends React.Component {
 
             const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
             customDiscountPercent={temptCustomDiscountPercent}
-            
+
             return (
                 <PopupParent
                     title={title}
                     visible={visible}
                     onRequestClose={this.onRequestClose}
-                    width={600}
+                    width={scaleSize(600)}
                 >
                     <View style={{
                         height: tempHeight, backgroundColor: '#fff',
@@ -223,7 +223,7 @@ class PopupDiscount extends React.Component {
                                     </View>
                                     <View style={{ height: 1, backgroundColor: "#707070" }} />
 
-                                   
+
                                     {/* ----------- Note  ----------- */}
                                     <View style={{}} >
                                         <Text style={[{

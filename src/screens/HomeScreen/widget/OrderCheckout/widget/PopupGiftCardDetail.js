@@ -103,7 +103,7 @@ class PopupGiftCardDetail extends React.Component {
                 title={title}
                 visible={visiblePopupGiftCardDetails}
                 onRequestClose={() => onRequestClose()}
-                width={500}
+                width={scaleSize(500)}
                 hideCloseButton={true}
             >
                 <View style={{

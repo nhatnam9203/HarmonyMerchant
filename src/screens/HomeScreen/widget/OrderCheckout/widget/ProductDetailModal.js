@@ -55,7 +55,7 @@ function ProductDetailModal({ onRequestClose, addProductInfoToBasket,visibleProd
             title={"Product Detail"}
             visible={visibleProductDetailModalRetail}
             onRequestClose={onRequestClose}
-            width={520}
+            width={scaleSize(520)}
             height={45}
             styleTitle={{ fontSize: scaleSize(17), fontWeight: "600" }}
             iconCloseStyle={{ width: scaleSize(10), height: scaleSize(10) }}

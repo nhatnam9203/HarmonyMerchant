@@ -135,7 +135,7 @@ class PopupEnterAmountGiftCard extends React.Component {
                 visible={visiblePopupGiftCardEnterAmount}
                 onRequestClose={this.onRequestClose}
                 style={{}}
-                width={350}
+                width={scaleSize(350)}
                 styleTitle={{
                     fontSize: scaleSize(18),
                     fontWeight: "bold"

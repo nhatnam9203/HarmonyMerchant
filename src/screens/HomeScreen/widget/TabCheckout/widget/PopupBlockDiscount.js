@@ -129,7 +129,7 @@ class PopupBlockDiscount extends React.Component {
     onChangeText = async (textNumber) => {
         this.setState({valueText: textNumber})
         this.calculateDiscount(textNumber)
-        
+
     }
 
     // ------ Render -----
@@ -155,17 +155,17 @@ class PopupBlockDiscount extends React.Component {
             const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
             const discountByStaff = (100 - this.state.discountByOwner)
 
-            const stylePercentText = this.state.manualTypeSelect == manualType.percentType 
+            const stylePercentText = this.state.manualTypeSelect == manualType.percentType
             ? styles.colorSelectedText : styles.colorUnselectedText
-            const stylePercentButton = this.state.manualTypeSelect == manualType.percentType 
+            const stylePercentButton = this.state.manualTypeSelect == manualType.percentType
             ? styles.backgroundButtonSelected : styles.backgroundButtonUnSelected
 
-            const styleFixText = this.state.manualTypeSelect == manualType.fixAmountType 
+            const styleFixText = this.state.manualTypeSelect == manualType.fixAmountType
             ? styles.colorSelectedText : styles.colorUnselectedText
-            const styleFixButton = this.state.manualTypeSelect == manualType.fixAmountType 
+            const styleFixButton = this.state.manualTypeSelect == manualType.fixAmountType
             ? styles.backgroundButtonSelected : styles.backgroundButtonUnSelected
 
-            const moneyDiscountManual = this.state.manualTypeSelect == manualType.percentType 
+            const moneyDiscountManual = this.state.manualTypeSelect == manualType.percentType
                                         ? moneyDiscountCustom : moneyDiscountFixedAmout
 
             const discountMoneyByStaff = roundNumber(formatNumberFromCurrency(discountByStaff) * formatNumberFromCurrency(moneyDiscountManual) /100)
@@ -175,7 +175,7 @@ class PopupBlockDiscount extends React.Component {
                     title={title}
                     visible={visibleModalBlockDiscount}
                     onRequestClose={this.onRequestClose}
-                    width={500}
+                    width={scaleSize(500)}
                     height={45}
                 >
                     <View style={{
@@ -245,7 +245,7 @@ class PopupBlockDiscount extends React.Component {
 
                                                             />
                                                         </View>
-                                                    
+
                                                     </View>
                                                 </View>
 
@@ -254,21 +254,21 @@ class PopupBlockDiscount extends React.Component {
                                                         {`$ ${formatMoney(roundNumber(moneyDiscountManual))}`}
                                                     </Text>
                                                 </View>
-                                            </View> 
+                                            </View>
                                     </View>
-                                    
+
 
                                     {/* -----------  Discount by Owner, Discount by staff  ----------- */}
                                     <View style={[styles.viewRowContainer, {marginTop: 25}]}>
                                         <Text style={styles.textNormal}>{localize('Discount by Owner', language)}</Text>
                                         <Text style={styles.textNormal}>{localize('Discount by Staff', language)}</Text>
                                     </View>
-                                    
+
                                      {/* ----------Money discount of staff, owner------------ */}
                                      <View style={styles.viewRowContainer}>
                                         <Text style={styles.textNormal}>{`$ ${discountMoneyByOwner}`}</Text>
                                         <Text style={styles.textNormal}>{`$ ${discountMoneyByStaff}`}</Text>
-                                    </View> 
+                                    </View>
                                     {/* ----------Slider------------ */}
                                     <Slider
                                         style={styles.slider}
@@ -292,13 +292,13 @@ class PopupBlockDiscount extends React.Component {
                                                 shadowOffset: { width: 1, height: 0 },
                                                 shadowOpacity: 1,
                                               },
-                        
+
                                               android: {
                                                 elevation: 2,
                                               },
                                             }),
                                           }}
-                                        
+
                                           minimumTrackTintColor={colors.OCEAN_BLUE}
                                           maximumTrackTintColor={colors.PALE_GREY}
                                           step={1}
@@ -307,7 +307,7 @@ class PopupBlockDiscount extends React.Component {
                                     <View style={styles.viewRowContainer}>
                                         <Text style={styles.textNormal}>{`${this.state.discountByOwner}%`}</Text>
                                         <Text style={styles.textNormal}>{`${discountByStaff}%`}</Text>
-                                    </View> 
+                                    </View>
 
                                     {/* ----------- Note  ----------- */}
                                     <View style={{marginTop: 20}} >
@@ -374,10 +374,10 @@ class PopupBlockDiscount extends React.Component {
         const { visibleModalBlockDiscount, blockAppointments, appointmentIdUpdatePromotion, isGetPromotionOfAppointment, promotionNotes, discountByOwner } = this.props;
         if (!prevProps.visibleModalBlockDiscount && visibleModalBlockDiscount && prevProps.visibleModalBlockDiscount !== visibleModalBlockDiscount) {
             const appointmentDetail = blockAppointments.find((appointment) => appointment.appointmentId === appointmentIdUpdatePromotion);
-            
+
             const percentDiscountCustom = appointmentDetail?.customDiscountPercent || 0
             const moneyDiscountFixedAmout = appointmentDetail?.customDiscountFixed || 0
-            const manualTypeSelect = moneyDiscountFixedAmout > 0 
+            const manualTypeSelect = moneyDiscountFixedAmout > 0
                                     ? manualType.fixAmountType : manualType.percentType
             const valueText = manualTypeSelect == manualType.fixAmountType ? moneyDiscountFixedAmout : percentDiscountCustom
             await this.setState({
@@ -426,7 +426,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     textNormal: {
-        color: colors.BROWNISH_GREY, 
+        color: colors.BROWNISH_GREY,
         fontSize: scaleSize(16)
     },
     discountTypeButton:{
@@ -446,19 +446,19 @@ const styles = StyleSheet.create({
     },
     viewGroupRow:{
         flexDirection: 'row',
-    
+
     },
     textInputView: {
-        width: scaleSize(120), 
+        width: scaleSize(120),
         height: scaleSize(35),
-        borderColor: '#707070', 
-        borderWidth: 1, marginLeft: scaleSize(20), 
+        borderColor: '#707070',
+        borderWidth: 1, marginLeft: scaleSize(20),
         borderRadius: scaleSize(4),
         flexDirection: 'row'
     },
-    greenText: { 
-        color: '#4CD964', 
-        fontSize: scaleSize(18) 
+    greenText: {
+        color: '#4CD964',
+        fontSize: scaleSize(18)
     },
     colorSelectedText: {
         color: '#fff'

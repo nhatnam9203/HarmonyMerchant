@@ -31,7 +31,7 @@ class PopupPaymentDetails extends React.Component {
                 title={title}
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
-                width={500}
+                width={scaleSize(500)}
                 hideCloseButton={true}
             >
                 <View style={{

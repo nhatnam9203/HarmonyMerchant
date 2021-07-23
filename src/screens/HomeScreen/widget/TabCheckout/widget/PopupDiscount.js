@@ -16,7 +16,7 @@ import _ from 'ramda';
 
 import { ButtonCustom, PopupParent, Slider } from '@components';
 import { scaleSize, formatNumberFromCurrency,
-     formatMoney, localize, roundNumber, 
+     formatMoney, localize, roundNumber,
      checkIsTablet } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
@@ -31,10 +31,10 @@ class PopupDiscount extends React.Component {
     constructor(props) {
         super(props);
         const { groupAppointment, appointmentIdUpdatePromotion } = this.props;
-        const appointmentDetail = appointmentIdUpdatePromotion !== -1 
-            && !_.isEmpty(groupAppointment) 
-            && groupAppointment.appointments ? 
-                groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) 
+        const appointmentDetail = appointmentIdUpdatePromotion !== -1
+            && !_.isEmpty(groupAppointment)
+            && groupAppointment.appointments ?
+                groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion)
                 : { subTotal: 0 };
         this.state = {
             discountTotal: 0,
@@ -46,7 +46,7 @@ class PopupDiscount extends React.Component {
             customDiscountPercentLocal: 0,
             customDiscountFixedLocal: 0,
             promotionNotes: "",
-            discountByOwner: appointmentDetail && appointmentDetail.discountByOwner 
+            discountByOwner: appointmentDetail && appointmentDetail.discountByOwner
                                                     ? parseFloat(appointmentDetail.discountByOwner) : 100
         };
         this.customDiscountRef = React.createRef();
@@ -160,8 +160,8 @@ class PopupDiscount extends React.Component {
 
             const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
             const discountByStaff = (100 - this.state.discountByOwner)
-            const manualDiscount = this.state.moneyDiscountCustom > 0 
-                                    ? this.state.moneyDiscountCustom 
+            const manualDiscount = this.state.moneyDiscountCustom > 0
+                                    ? this.state.moneyDiscountCustom
                                     : this.state.moneyDiscountFixedAmout
             const discountMoneyByStaff = roundNumber(formatNumberFromCurrency(discountByStaff) * formatNumberFromCurrency(manualDiscount) /100)
             const discountMoneyByOwner = roundNumber(manualDiscount - discountMoneyByStaff)
@@ -170,7 +170,7 @@ class PopupDiscount extends React.Component {
                     title={title}
                     visible={visible}
                     onRequestClose={this.onRequestClose}
-                    width={500}
+                    width={scaleSize(500)}
                     height={45}
                 >
                     <View style={{
@@ -189,7 +189,7 @@ class PopupDiscount extends React.Component {
                                             <Text style={styles.textNormal}>{localize('Apply Value', language)}</Text>
                                         </View>
                                     }
-                                   
+
                                     {
                                         discount.map((promo, index) => <ItemCampaign
                                             key={index}
@@ -214,12 +214,12 @@ class PopupDiscount extends React.Component {
                                         <Text style={styles.textNormal}>{localize('Discount by Owner', language)}</Text>
                                         <Text style={styles.textNormal}>{localize('Discount by Staff', language)}</Text>
                                     </View>
-                                    
+
                                      {/* ----------Money discount of staff, owner------------ */}
                                     <View style={styles.viewRowContainer}>
                                         <Text style={styles.textNormal}>{`$ ${discountMoneyByOwner}`}</Text>
                                         <Text style={styles.textNormal}>{`$ ${discountMoneyByStaff}`}</Text>
-                                    </View> 
+                                    </View>
                                     {/* ----------Slider------------ */}
                                     <Slider
                                         style={styles.slider}
@@ -243,13 +243,13 @@ class PopupDiscount extends React.Component {
                                                 shadowOffset: { width: 1, height: 0 },
                                                 shadowOpacity: 1,
                                               },
-                        
+
                                               android: {
                                                 elevation: 2,
                                               },
                                             }),
                                           }}
-                                        
+
                                           minimumTrackTintColor={colors.OCEAN_BLUE}
                                           maximumTrackTintColor={colors.PALE_GREY}
                                           step={1}
@@ -258,7 +258,7 @@ class PopupDiscount extends React.Component {
                                     <View style={styles.viewRowContainer}>
                                         <Text style={styles.textNormal}>{`${this.state.discountByOwner}%`}</Text>
                                         <Text style={styles.textNormal}>{`${discountByStaff}%`}</Text>
-                                    </View> 
+                                    </View>
 
 
                                     {/* ----------- Note  ----------- */}
@@ -323,9 +323,9 @@ class PopupDiscount extends React.Component {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        const { visibleModalDiscount, 
-            groupAppointment, 
-            isGetPromotionOfAppointment, 
+        const { visibleModalDiscount,
+            groupAppointment,
+            isGetPromotionOfAppointment,
             promotionNotes,
             discountByOwner } = this.props;
         const visible = visibleModalDiscount && !_.isEmpty(groupAppointment) ? true : false;
@@ -369,7 +369,7 @@ class CustomDiscount extends React.Component {
         const percent = customDiscountPercent ? customDiscountPercent : 0;
         const fixedAmount = customDiscountFixed ? customDiscountFixed: 0
         const type = customDiscountFixed && customDiscountFixed > 0 ? manualType.fixAmountType : manualType.percentType
-        const discountTemp = type == manualType.fixAmountType ? customDiscountFixed 
+        const discountTemp = type == manualType.fixAmountType ? customDiscountFixed
                             : roundNumber(formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100)
         this.state = {
             percent: percent,
@@ -399,7 +399,7 @@ class CustomDiscount extends React.Component {
         let discount = textNumber
         if(this.state.manualTypeSelect == manualType.percentType){
             discount = roundNumber((formatNumberFromCurrency(textNumber) * formatNumberFromCurrency(total) / 100));
-            
+
             await this.setState({
                 discount,
                 percent: this.state.valueText,
@@ -422,19 +422,19 @@ class CustomDiscount extends React.Component {
     onChangeText = async (textNumber) => {
         await this.setState({valueText: textNumber})
         this.calculateDiscount(textNumber)
-        
+
     }
 
     render() {
         const { language } = this.props;
-        const stylePercentText = this.state.manualTypeSelect == manualType.percentType 
+        const stylePercentText = this.state.manualTypeSelect == manualType.percentType
         ? styles.colorSelectedText : styles.colorUnselectedText
-        const stylePercentButton = this.state.manualTypeSelect == manualType.percentType 
+        const stylePercentButton = this.state.manualTypeSelect == manualType.percentType
         ? styles.backgroundButtonSelected : styles.backgroundButtonUnSelected
 
-        const styleFixText = this.state.manualTypeSelect == manualType.fixAmountType 
+        const styleFixText = this.state.manualTypeSelect == manualType.fixAmountType
         ? styles.colorSelectedText : styles.colorUnselectedText
-        const styleFixButton = this.state.manualTypeSelect == manualType.fixAmountType 
+        const styleFixButton = this.state.manualTypeSelect == manualType.fixAmountType
         ? styles.backgroundButtonSelected : styles.backgroundButtonUnSelected
         return (
             <View>
@@ -477,7 +477,7 @@ class CustomDiscount extends React.Component {
 
                                     />
                                 </View>
-                               
+
                             </View>
                             {/* -------  ----- */}
                         </View>
@@ -487,10 +487,10 @@ class CustomDiscount extends React.Component {
                                 {`$ ${formatMoney(roundNumber(this.state.discount))}`}
                             </Text>
                         </View>
-                            
-                    </View> 
 
-                    
+                    </View>
+
+
                 </View>
         );
     }
@@ -505,7 +505,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     textNormal: {
-        color: colors.BROWNISH_GREY, 
+        color: colors.BROWNISH_GREY,
         fontSize: scaleSize(16)
     },
     discountTypeButton:{
@@ -525,19 +525,19 @@ const styles = StyleSheet.create({
     },
     viewGroupRow:{
         flexDirection: 'row',
-    
+
     },
     textInputView: {
-        width: scaleSize(120), 
+        width: scaleSize(120),
         height: scaleSize(35),
-        borderColor: '#707070', 
-        borderWidth: 1, marginLeft: scaleSize(20), 
+        borderColor: '#707070',
+        borderWidth: 1, marginLeft: scaleSize(20),
         borderRadius: scaleSize(4),
         flexDirection: 'row'
     },
-    greenText: { 
-        color: '#4CD964', 
-        fontSize: scaleSize(18) 
+    greenText: {
+        color: '#4CD964',
+        fontSize: scaleSize(18)
     },
     colorSelectedText: {
         color: '#fff'

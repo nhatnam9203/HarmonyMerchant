@@ -110,7 +110,7 @@ class PopupDiscountLocal extends React.Component {
                 title={title}
                 visible={visible}
                 onRequestClose={this.onRequestClose}
-                width={600}
+                width={scaleSize(600)}
                 style={{ justifyContent: 'flex-start', paddingTop: scaleSize(20) }}
             >
                 <View style={{
