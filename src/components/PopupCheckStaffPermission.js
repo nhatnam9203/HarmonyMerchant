@@ -1,28 +1,28 @@
-import React from 'react';
-import { View, Text, ActivityIndicator, Alert } from 'react-native';
-import { TextInputMask } from 'react-native-masked-text';
+import React from "react";
+import { View, Text, ActivityIndicator, Alert } from "react-native";
+import { TextInputMask } from "react-native-masked-text";
 
-import ButtonCustom from './ButtonCustom';
-import PopupParent from './PopupParent';
-import { scaleSize } from '../utils';
+import ButtonCustom from "./ButtonCustom";
+import PopupParent from "./PopupParent";
+import { scaleSize } from "../utils";
 import KeyboardNumeric from "./KeyboardNumeric";
-import connectRedux from '@redux/ConnectRedux';
+import connectRedux from "@redux/ConnectRedux";
 
 class PopupCheckStaffPermission extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
+      value: "",
       customStyle: {},
-      appointmentId: '',
+      appointmentId: "",
       isBlock: false,
     };
   }
 
   setStateFromParent = async (
-    value = '',
-    appointmentId = '',
-    isBlock = false,
+    value = "",
+    appointmentId = "",
+    isBlock = false
   ) => {
     await this.setState({
       value,
@@ -41,8 +41,8 @@ class PopupCheckStaffPermission extends React.Component {
         value += number;
       }
     }
-    this.setState({ value })
-  }
+    this.setState({ value });
+  };
 
   submitPin = () => {
     const { profile, tabName } = this.props;
@@ -53,7 +53,7 @@ class PopupCheckStaffPermission extends React.Component {
         value,
         tabName,
         appointmentId,
-        isBlock,
+        isBlock
       );
     } else {
       Alert.alert(`PIN must be 4 digits.`);
@@ -62,7 +62,7 @@ class PopupCheckStaffPermission extends React.Component {
 
   onRequestClose = async () => {
     await this.setState({
-      value: '',
+      value: "",
     });
     this.props.onRequestClose();
   };
@@ -83,35 +83,48 @@ class PopupCheckStaffPermission extends React.Component {
         onRequestClose={this.onRequestClose}
         hideCloseButton={hideCloseButton}
         style={customStyle}
+        width={scaleWidth(380)}
       >
         <View
           style={{
-            minHeight: scaleSize(460),
-            maxHeight: scaleSize(530),
-            backgroundColor: '#fff',
+            // minHeight: scaleSize(460),
+            // maxHeight: scaleSize(530),
+            backgroundColor: "#fff",
             borderBottomLeftRadius: scaleSize(15),
             borderBottomRightRadius: scaleSize(15),
+            width: scaleWidth(380),
           }}
         >
           <View
             style={{
-              alignItems: 'center',
-              marginTop: scaleSize(18),
+              alignItems: "center",
+              marginTop: scaleSize(10),
               marginBottom: scaleSize(4),
+              paddingHorizontal: scaleWidth(10),
             }}
           >
-            <Text style={{ color: '#404040', fontSize: scaleSize(18), fontWeight: '500', marginTop: scaleSize(5) }}>
-              {'Please enter the authorized PIN number'}
+            <Text
+              style={{
+                color: "#404040",
+                fontSize: scaleSize(16),
+                fontWeight: "500",
+                marginTop: scaleSize(5),
+              }}
+            >
+              {"Please enter the authorized PIN number"}
             </Text>
           </View>
           <View
-            style={{ flex: 1, marginVertical: scaleSize(15), alignItems: 'center' }}
+            style={{
+              alignItems: "center",
+              paddingTop: scaleSize(10),
+            }}
           >
             <View
               style={{
-                width: '90%',
+                width: "90%",
                 height: scaleSize(45),
-                borderColor: '#dddddd',
+                borderColor: "#dddddd",
                 borderWidth: 2,
               }}
             >
@@ -120,7 +133,7 @@ class PopupCheckStaffPermission extends React.Component {
                 style={{
                   flex: 1,
                   fontSize: scaleSize(18),
-                  textAlign: 'center',
+                  textAlign: "center",
                   padding: 0,
                   margin: 0,
                 }}
@@ -139,39 +152,39 @@ class PopupCheckStaffPermission extends React.Component {
           </View>
           <View
             style={{
-              height: scaleSize(45),
-              alignItems: 'center',
-              marginBottom : scaleSize(15)
+              height: scaleSize(50),
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             {isLoadingCheckStaffPermission ? (
               <View
                 style={{
-                  width: '35%',
+                  width: "35%",
                   height: scaleSize(40),
-                  backgroundColor: '#0764B0',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  backgroundColor: "#0764B0",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
                 <ActivityIndicator size="large" color="#fff" />
               </View>
             ) : (
-                <ButtonCustom
-                  width={'35%'}
-                  height={40}
-                  backgroundColor="#0764B0"
-                  title="SUBMIT"
-                  textColor="#fff"
-                  onPress={this.submitPin}
-                  styleText={{
-                    fontSize: scaleSize(14),
-                  }}
-                  style={{
-                    borderRadius: scaleSize(4),
-                  }}
-                />
-              )}
+              <ButtonCustom
+                width={"35%"}
+                height={40}
+                backgroundColor="#0764B0"
+                title="SUBMIT"
+                textColor="#fff"
+                onPress={this.submitPin}
+                styleText={{
+                  fontSize: scaleSize(14),
+                }}
+                style={{
+                  borderRadius: scaleSize(4),
+                }}
+              />
+            )}
           </View>
         </View>
       </PopupParent>
@@ -191,4 +204,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connectRedux(mapStateToProps, PopupCheckStaffPermission);
-

@@ -28,7 +28,7 @@ class PopupParent extends React.Component {
                 onRequestClose={() => { }}
                 style={style}
             >
-                <View style={{ width: scaleSize(tempWidth) }} >
+                <View style={{ width: tempWidth }} >
                     <View style={{
                         height: scaleSize(tempHeight), backgroundColor: '#0764B0',
                         borderTopRightRadius: scaleSize(15), borderTopLeftRadius: scaleSize(15), flexDirection: 'row'
