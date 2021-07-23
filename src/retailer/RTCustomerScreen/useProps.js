@@ -3,10 +3,11 @@ import { role, menuTabs, isPermissionToTab } from "@utils";
 import { useSelector, useDispatch } from "react-redux";
 import * as l from "lodash";
 import actions from "@actions";
-import NavigatorServices from "../../navigators/NavigatorServices";
+import NavigatorServices from "@navigators/NavigatorServices";
 
 export const useProps = ({ navigation }) => {
   const dispatch = useDispatch();
+  const checkPermissionRef = React.useRef(null);
 
   const profileStaffLogin = useSelector(
     (state) => state.dataLocal?.profileStaffLogin
@@ -21,14 +22,11 @@ export const useProps = ({ navigation }) => {
 
   React.useEffect(() => {
     const unsubscribeFocus = navigation.addListener("focus", () => {
-      console.log(profileStaffLogin);
+      checkPermissionRef.current?.setStateFromParent("");
 
       const roleName = profileStaffLogin?.roleName || role.Admin;
       const permission = l.get(profileStaffLogin, "permission", []);
 
-      console.log(roleName);
-      console.log(permission);
-      // !! chỗ này show cái pincode lên nè
       if (roleName !== role.Admin) {
         if (roleName === role.Manager) {
           if (!isPermissionToTab(permission, menuTabs.MENU_CUSTOMER)) {
@@ -40,7 +38,9 @@ export const useProps = ({ navigation }) => {
       }
     });
 
-    const unsubscribeBlur = navigation.addListener("blur", () => {});
+    const unsubscribeBlur = navigation.addListener("blur", () => {
+      checkPermissionRef.current?.setStateFromParent("");
+    });
 
     return () => {
       unsubscribeFocus();
@@ -54,8 +54,9 @@ export const useProps = ({ navigation }) => {
     handleLockScreen: () => {},
     closePopupCheckCustomerTabPermission: () => {
       dispatch(actions.customer.toggleCustomerTabPermission(false));
-      navigation.reset("home.order.top_tab");
+      NavigatorServices.navigate("home.order.top_tab");
     },
     customerTabPermission,
+    checkPermissionRef,
   };
 };

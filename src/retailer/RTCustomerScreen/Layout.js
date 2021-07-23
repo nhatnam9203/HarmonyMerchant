@@ -45,6 +45,7 @@ export const Layout = ({
   handleLockScreen,
   customerTabPermission,
   closePopupCheckCustomerTabPermission,
+  checkPermissionRef
 }) => {
   const { t } = useTranslation();
 
@@ -298,7 +299,7 @@ export const Layout = ({
       </Navigator>
 
       <PopupCheckStaffPermission
-        // ref={this.checkPermissionRef}
+        ref={checkPermissionRef}
         visiblePopupCheckStaffPermission={customerTabPermission}
         title={t("Input PIN Number")}
         tabName={menuTabs.MENU_CUSTOMER}

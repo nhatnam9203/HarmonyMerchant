@@ -1,22 +1,29 @@
-import { StatusBarHeader } from '@components';
-import { createStackNavigator } from '@react-navigation/stack';
-import { ButtonDrawer } from '@shared/components/ButtonDrawer';
-import { HeaderToolBar } from '@shared/components/HeaderToolBar';
-import { HeaderToolBarTitle } from '@shared/components/HeaderToolBarTitle';
-import { colors } from '@shared/themes';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { StatusBarHeader } from "@components";
+import { createStackNavigator } from "@react-navigation/stack";
+import { PermissionChecker } from "@shared/components";
+import { ButtonDrawer } from "@shared/components/ButtonDrawer";
+import { HeaderToolBar } from "@shared/components/HeaderToolBar";
+import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
+import { colors } from "@shared/themes";
+import { menuTabs } from "@utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, View } from "react-native";
 import {
-  SettingPage,
   SettingNewAttributesPage,
   SettingNewCategoriesPage,
-  SettingNewStaffsPage
-} from './pages';
+  SettingNewStaffsPage,
+  SettingPage,
+} from "./pages";
 
 const { Screen, Navigator } = createStackNavigator();
 
-export const Layout = ({ openDrawer }) => {
+export const Layout = ({
+  openDrawer,
+  navigation,
+  tabPermission,
+  togglePopupPermission,
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -25,7 +32,7 @@ export const Layout = ({ openDrawer }) => {
       <HeaderToolBar
         leftComponent={() => <ButtonDrawer onPress={openDrawer} />}
       >
-        <HeaderToolBarTitle label={t('Settings')} />
+        <HeaderToolBarTitle label={t("Settings")} />
       </HeaderToolBar>
 
       <Navigator
@@ -41,6 +48,12 @@ export const Layout = ({ openDrawer }) => {
         <Screen {...SettingNewCategoriesPage} />
         <Screen {...SettingNewStaffsPage} />
       </Navigator>
+      <PermissionChecker
+        navigation={navigation}
+        tabName={menuTabs.MENU_SETTING}
+        tabPermission={tabPermission}
+        togglePopupPermission={togglePopupPermission}
+      />
     </View>
   );
 };
@@ -53,7 +66,7 @@ const styles = StyleSheet.create({
 
   content: {
     flex: 1,
-    backgroundColor: 'white',
-    flexDirection: 'row',
+    backgroundColor: "white",
+    flexDirection: "row",
   },
 });

@@ -1,22 +1,29 @@
-import { StatusBarHeader } from '@components';
-import { createStackNavigator } from '@react-navigation/stack';
-import { ButtonDrawer } from '@shared/components/ButtonDrawer';
-import { HeaderToolBar } from '@shared/components/HeaderToolBar';
-import { HeaderToolBarTitle } from '@shared/components/HeaderToolBarTitle';
-import { colors } from '@shared/themes';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { StatusBarHeader } from "@components";
+import { createStackNavigator } from "@react-navigation/stack";
+import { ButtonDrawer } from "@shared/components/ButtonDrawer";
+import { HeaderToolBar } from "@shared/components/HeaderToolBar";
+import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
+import { colors } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, View } from "react-native";
 import {
   InventoryEditCategoryPage,
   InventoryEditProductPage,
   InventoryListPage,
   InventoryProductDetailPage,
-} from './pages';
+} from "./pages";
+import { PermissionChecker } from "@shared/components";
+import { menuTabs } from "@utils";
 
 const { Screen, Navigator } = createStackNavigator();
 
-export const Layout = ({ openDrawer }) => {
+export const Layout = ({
+  openDrawer,
+  navigation,
+  tabPermission,
+  togglePopupPermission,
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -25,7 +32,7 @@ export const Layout = ({ openDrawer }) => {
       <HeaderToolBar
         leftComponent={() => <ButtonDrawer onPress={openDrawer} />}
       >
-        <HeaderToolBarTitle label={t('Inventory')} />
+        <HeaderToolBarTitle label={t("Inventory")} />
       </HeaderToolBar>
 
       <Navigator
@@ -42,6 +49,12 @@ export const Layout = ({ openDrawer }) => {
         <Screen {...InventoryEditCategoryPage} />
         <Screen {...InventoryEditProductPage} />
       </Navigator>
+      <PermissionChecker
+        navigation={navigation}
+        tabName={menuTabs.MENU_INVENTORY}
+        tabPermission={tabPermission}
+        togglePopupPermission={togglePopupPermission}
+      />
     </View>
   );
 };
