@@ -2,17 +2,17 @@ import {
   Button,
   ButtonCustom,
   Dropdown,
-  ParentContainer,
   StatusBarHeader,
   Text,
-  PopupCheckStaffPermission,
 } from "@components";
 import { createStackNavigator } from "@react-navigation/stack";
 import ICON from "@resources";
+import { PermissionChecker } from "@shared/components";
 import { ButtonDrawer } from "@shared/components/ButtonDrawer";
 import { HeaderToolBar } from "@shared/components/HeaderToolBar";
 import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
 import { colors } from "@shared/themes";
+import { menuTabs } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -35,7 +35,6 @@ import {
   RowEmptyTableCustomer,
   RowTableCustomer,
 } from "./widget";
-import { scaleSize, localize, menuTabs } from "@utils";
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -43,9 +42,8 @@ export const Layout = ({
   openDrawer,
   navigation,
   handleLockScreen,
-  customerTabPermission,
-  closePopupCheckCustomerTabPermission,
-  checkPermissionRef
+  tabPermission,
+  togglePopupPermission,
 }) => {
   const { t } = useTranslation();
 
@@ -297,13 +295,11 @@ export const Layout = ({
         <Screen {...CustomerDetailPage} />
         <Screen {...EditCustomerAddressPage} />
       </Navigator>
-
-      <PopupCheckStaffPermission
-        ref={checkPermissionRef}
-        visiblePopupCheckStaffPermission={customerTabPermission}
-        title={t("Input PIN Number")}
+      <PermissionChecker
+        navigation={navigation}
         tabName={menuTabs.MENU_CUSTOMER}
-        onRequestClose={closePopupCheckCustomerTabPermission}
+        tabPermission={tabPermission}
+        togglePopupPermission={togglePopupPermission}
       />
     </View>
   );
