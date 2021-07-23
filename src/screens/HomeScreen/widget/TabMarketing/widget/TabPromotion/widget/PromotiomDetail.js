@@ -570,7 +570,6 @@ const PromotiomDetail = forwardRef(
     };
 
     const getDefaultMessageContent = React.useCallback(() => {
-      console.log(conditionServiceProductTags);
       if (!useDefaultContent) return;
       switch (getConditionIdByTitle(condition)) {
         case 1:

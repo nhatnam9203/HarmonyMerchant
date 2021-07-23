@@ -5,6 +5,7 @@ import {
   ParentContainer,
   StatusBarHeader,
   Text,
+  PopupCheckStaffPermission,
 } from "@components";
 import { createStackNavigator } from "@react-navigation/stack";
 import ICON from "@resources";
@@ -34,10 +35,17 @@ import {
   RowEmptyTableCustomer,
   RowTableCustomer,
 } from "./widget";
+import { scaleSize, localize, menuTabs } from "@utils";
 
 const { Screen, Navigator } = createStackNavigator();
 
-export const Layout = ({ openDrawer }) => {
+export const Layout = ({
+  openDrawer,
+  navigation,
+  handleLockScreen,
+  customerTabPermission,
+  closePopupCheckCustomerTabPermission,
+}) => {
   const { t } = useTranslation();
 
   function renderSearch() {
@@ -288,6 +296,14 @@ export const Layout = ({ openDrawer }) => {
         <Screen {...CustomerDetailPage} />
         <Screen {...EditCustomerAddressPage} />
       </Navigator>
+
+      <PopupCheckStaffPermission
+        // ref={this.checkPermissionRef}
+        visiblePopupCheckStaffPermission={customerTabPermission}
+        title={t("Input PIN Number")}
+        tabName={menuTabs.MENU_CUSTOMER}
+        onRequestClose={closePopupCheckCustomerTabPermission}
+      />
     </View>
   );
 };
