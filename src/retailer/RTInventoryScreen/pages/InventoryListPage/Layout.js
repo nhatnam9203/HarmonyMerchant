@@ -164,14 +164,14 @@ export const Layout = ({
           widthForKeys={{
             imageUrl: IMAGE_WIDTH,
             name: scaleWidth(220),
-            categoryName: scaleWidth(100),
-            sku: scaleWidth(130),
-            price: scaleWidth(150),
-            quantity: scaleWidth(60),
-            needToOrder: scaleWidth(140),
+            categoryName: scaleWidth(120),
+            sku: scaleWidth(150),
+            price: scaleWidth(120),
+            quantity: scaleWidth(100),
+            needToOrder: scaleWidth(100),
           }}
           emptyDescription={t("No Products")}
-          styleTextKeys={{ name: styles.textName }}
+          styleTextKeys={{ name: styles.textName, sku: styles.textSku }}
           formatFunctionKeys={{
             createdDate: (value) =>
               dateToString(value, DATE_SHOW_FORMAT_STRING),
@@ -309,6 +309,15 @@ const styles = StyleSheet.create({
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(15),
     fontWeight: "500",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.GREYISH_BROWN,
+  },
+  textSku: {
+    fontFamily: fonts.MEDIUM,
+    fontSize: scaleFont(15),
+    fontWeight: "normal",
     fontStyle: "normal",
     letterSpacing: 0,
     textAlign: "left",
