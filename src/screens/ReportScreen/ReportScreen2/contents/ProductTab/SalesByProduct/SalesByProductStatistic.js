@@ -4,8 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { ReportStatisticLayout } from "../../../widget";
 import { localize } from "@utils";
 
-export default function SalesByProductStatistic(props, ref) {
+export const SalesByProductStatistic = React.forwardRef((props, ref) => {
   const { filterId } = props;
+
   /**redux store*/
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
@@ -19,12 +20,13 @@ export default function SalesByProductStatistic(props, ref) {
 
   /**process */
 
-  /**useEffect */
-  useEffect(() => {
-    const item = productSaleByProductList.find(
-      (item) => item.name === filterId
-    );
+  const reloadTable = React.useCallback(() => {
+    if (!filterId || !productSaleByProductList?.length > 0) {
+      setTable({});
+    }
 
+    const item = productSaleByProductList.find((x) => x.name === filterId);
+    // console.log(item.details);
     setTable({
       tableData: item?.details || [],
       tableHead: {
@@ -34,7 +36,7 @@ export default function SalesByProductStatistic(props, ref) {
         totalSales: localize("Total", language),
       },
       whiteKeys: ["dateString", "quantity", "avgPrice", "totalSales"],
-      primaryId: "date",
+      primaryId: "dateString",
       calcSumKeys: ["quantity", "totalSales"],
       sumTotalKey: "dateString",
       priceKeys: ["avgPrice", "totalSales"],
@@ -43,6 +45,16 @@ export default function SalesByProductStatistic(props, ref) {
     });
   }, [filterId, productSaleByProductList]);
 
+  /**useEffect */
+  useEffect(() => {
+    reloadTable();
+  }, [filterId, productSaleByProductList]);
+
+  React.useImperativeHandle(ref, () => ({
+    didFocus: () => {
+      reloadTable();
+    },
+  }));
   /**render */
 
   return (
@@ -52,4 +64,4 @@ export default function SalesByProductStatistic(props, ref) {
       title={"Sales by product statistics"}
     />
   );
-}
+});

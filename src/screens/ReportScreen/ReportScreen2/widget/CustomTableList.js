@@ -18,7 +18,6 @@ import {
 } from "react-native";
 import moment from "moment";
 
-
 const TABLE_HEADER_HEIGHT = 50;
 const TABLE_ROW_HEIGHT = 50;
 const TABLE_CELL_DEFAULT_WIDTH = 150;
@@ -69,8 +68,8 @@ const getCellKey = (item, primaryId) => {
 
 const strCompare = (a, b) => {
   // check valid date -> sort date
-  if (moment(a).isValid() && moment(b).isValid() ) {
-    return moment(a,DATE_FORMAT) <= moment(b,DATE_FORMAT);
+  if (moment(a).isValid() && moment(b).isValid()) {
+    return moment(a, DATE_FORMAT) <= moment(b, DATE_FORMAT);
   }
   return a.toString().localeCompare(b.toString());
 };
@@ -266,6 +265,7 @@ function TableList({
   /**render */
   // render cell
   const renderItem = ({ item, index }) => {
+    if (!item) return null;
     const cellKey = getCellKey(item, primaryId);
 
     return (

@@ -40,7 +40,7 @@ export default function PaymentStatistic(props, ref) {
         "refund",
         "netPayment",
       ],
-      primaryId: "date",
+      primaryId: "dateString",
       calcSumKeys: ["transactions", "grossPayment", "refund", "netPayment"],
       sumTotalKey: "dateString",
       priceKeys: ["grossPayment", "refund", "netPayment"],

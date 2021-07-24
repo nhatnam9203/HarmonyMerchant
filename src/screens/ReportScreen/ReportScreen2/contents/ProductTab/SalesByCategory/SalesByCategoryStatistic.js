@@ -34,13 +34,13 @@ export default function SalesByCategoryStatistic(props, ref) {
         totalSales: localize("Total Amount", language),
       },
       whiteKeys: ["dateString", "quantity", "avgPrice", "totalSales"],
-      primaryId: "date",
-      calcSumKeys: ["quantity",  "totalSales"],
+      primaryId: "dateString",
+      calcSumKeys: ["quantity", "totalSales"],
       sumTotalKey: "dateString",
       priceKeys: ["avgPrice", "totalSales"],
       sortKey: "dateString",
       tableCellWidth: { dateString: 180, totalSales: 180 },
-      detailOfItem: item
+      detailOfItem: item,
     });
   }, [filterId, productSaleByCategoryList]);
 

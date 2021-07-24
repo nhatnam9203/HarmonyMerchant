@@ -49,7 +49,9 @@ export default function ReportStatisticLayout({
   const language = useSelector((state) => state.dataLocal.language);
 
   /**render */
-  const onCellPress = ({ key, row, column, item }) => {};
+  const onCellPress = ({ key, row, column, item }) => {
+    // console.log(item);
+  };
 
   const renderCell = ({ key, row, column, item }) => {
     return null;
