@@ -49,6 +49,6 @@ const dataLocalPersistConfig = {
   storage: sensitiveStorage,
 };
 
-module.exports = persistReducer(dataLocalPersistConfig, hardwareReducer);
+// module.exports = persistReducer(dataLocalPersistConfig, hardwareReducer);
 
-// export default hardwareReducer;
+export default hardwareReducer;
