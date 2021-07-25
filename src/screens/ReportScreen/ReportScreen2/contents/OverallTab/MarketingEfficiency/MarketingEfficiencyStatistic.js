@@ -32,7 +32,7 @@ export default function MarketingEfficiencyStatistic(props, ref) {
         discount: localize("Discount", language),
       },
       whiteKeys: ["dateString", "revenue", "discount"],
-      primaryId: "date",
+      primaryId: "dateString",
       calcSumKeys: ["revenue", "discount"],
       sumTotalKey: "dateString",
       priceKeys: ["revenue", "discount"],

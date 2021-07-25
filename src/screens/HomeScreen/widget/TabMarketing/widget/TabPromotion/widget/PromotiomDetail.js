@@ -63,7 +63,7 @@ import {
 const { width } = Dimensions.get("window");
 
 const HOURS_FORMAT = "hh:mm A";
-const MESSAGE_END_DATE_FORMAT = "dddd, dd MMMM yyyy hh:mm a";
+const MESSAGE_END_DATE_FORMAT = "dddd, DD MMMM yyyy hh:mm a";
 const MESSAGE_CONTENT_DEFAULT_TYPE = "sms";
 const PromotiomDetail = forwardRef(
   (
@@ -571,6 +571,13 @@ const PromotiomDetail = forwardRef(
 
     const getDefaultMessageContent = React.useCallback(() => {
       if (!useDefaultContent) return;
+      const mergeEndDate = noEndDate
+        ? null
+        : `${formatWithMoment(
+            new Date(endDate),
+            "YYYY-MM-DD"
+          )}T${formatHourMinute(formatWithMoment(endTime, HOURS_FORMAT))}:00`;
+
       switch (getConditionIdByTitle(condition)) {
         case 1:
           return `Look out! 👀 ${
@@ -584,9 +591,9 @@ const PromotiomDetail = forwardRef(
               ? `off for ${actionTags?.map((x) => x.value || "").join(", ")}.`
               : ""
           }. ${
-            endDate
+            mergeEndDate
               ? `This offer is ends on ${dateToString(
-                  endDate,
+                  mergeEndDate,
                   MESSAGE_END_DATE_FORMAT
                 )} so hurry`
               : "Hurry"
@@ -650,6 +657,7 @@ const PromotiomDetail = forwardRef(
     }, [
       title,
       endDate,
+      endTime,
       actionTags,
       condition,
       merchant,
@@ -657,6 +665,7 @@ const PromotiomDetail = forwardRef(
       promotionValue,
       useDefaultContent,
       conditionServiceProductTags,
+      noEndDate,
     ]);
 
     React.useEffect(() => {
@@ -667,6 +676,7 @@ const PromotiomDetail = forwardRef(
     }, [
       title,
       endDate,
+      endTime,
       actionTags,
       condition,
       merchant,
@@ -674,6 +684,7 @@ const PromotiomDetail = forwardRef(
       promotionValue,
       useDefaultContent,
       conditionServiceProductTags,
+      noEndDate,
     ]);
 
     return (
