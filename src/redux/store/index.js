@@ -55,6 +55,7 @@ const persistConfig = {
     "product",
     "service",
     "basketRetailer",
+    "hardware",
   ],
   debug: isDevelopmentMode, //to get useful logging
 };
