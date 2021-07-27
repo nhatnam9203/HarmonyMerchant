@@ -360,3 +360,9 @@ export const STAFF_PERMISSIONS_ROLES = [
     isChecked: true,
   },
 ];
+
+export const MERCHANT_TYPES = [
+  { label: "Salon POS", value: "SalonPos" },
+  { label: "Retailer", value: "Retailer" },
+  { label: "Table Management", value: "Restaurant" },
+];

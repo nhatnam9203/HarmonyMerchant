@@ -320,6 +320,11 @@ function appReducer(state = initialState, action) {
         ...initialState,
         isInitialApp: false,
       };
+    case "SET_MERCHANT_TYPE":
+      return {
+        ...state,
+        type: action.payload,
+      };
     default:
       return state;
   }

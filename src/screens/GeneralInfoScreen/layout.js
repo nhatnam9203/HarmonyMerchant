@@ -1,16 +1,17 @@
-import React from "react";
-import { View, ScrollView, Dimensions, Image } from "react-native";
-
 import {
-  InputForm,
-  FormInfoParent,
-  Text,
-  InputFormPhone,
-  TextInputSuggestion,
   Button,
+  FormInfoParent,
+  InputForm,
+  InputFormPhone,
+  Text,
+  TextInputSuggestion,
 } from "@components";
-import { scaleSize, localize } from "@utils";
 import ICON from "@resources";
+import { FormSelect } from "@shared/components";
+import { MERCHANT_TYPES } from "@shared/utils";
+import { localize, scaleSize } from "@utils";
+import React from "react";
+import { Dimensions, Image, ScrollView, View } from "react-native";
 
 const { width } = Dimensions.get("window");
 
@@ -118,6 +119,19 @@ export default class Layout extends React.Component {
               onFocus={() => this.scrollGeneralTo(160)}
             />
 
+            {/**Merchant Type  */}
+            <View style={{ width: scaleWidth(300) }}>
+              <FormSelect
+                // filterRef={visibilitySelectRef}
+                required={false}
+                label={`${localize("Merchant type", language)}* `}
+                filterItems={MERCHANT_TYPES}
+                defaultValue={"SalonPos"}
+                onChangeValue={(val) => {
+                  this.setMerchantType(val);
+                }}
+              />
+            </View>
             <Text
               style={[
                 {

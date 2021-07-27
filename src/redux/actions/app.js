@@ -352,3 +352,11 @@ export function readAllNotification() {
     api: `notification/view/all`,
   };
 }
+
+
+export function setMerchantType(payload) {
+  return {
+    type: "SET_MERCHANT_TYPE",
+    payload,
+  };
+}
