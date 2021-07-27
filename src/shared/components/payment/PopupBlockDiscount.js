@@ -109,7 +109,7 @@ class PopupBlockDiscount extends React.Component {
                     title={title}
                     visible={visibleModalBlockDiscount}
                     onRequestClose={this.onRequestClose}
-                    width={600}
+                    width={scaleSize(600)}
                 >
                     <View style={{
                         height: tempHeight, backgroundColor: '#fff',

@@ -42,7 +42,7 @@ class PopupExport extends React.Component {
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
                 style={{}}
-                width={600}
+                width={scaleSize(600)}
             >
                 <View style={{
                     height: scaleSize(240), backgroundColor: '#fff',

@@ -10,6 +10,8 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View, Image } from "react-native";
 import ReportScreen from "./ReportScreen";
 import IMAGE from "@resources";
+import { PermissionChecker } from "@shared/components";
+import { menuTabs } from "@utils";
 
 export const Layout = ({
   openDrawer,
@@ -17,6 +19,9 @@ export const Layout = ({
   onShowBackButton,
   onHandleBack,
   isShowBackButton,
+  navigation,
+  tabPermission,
+  togglePopupPermission,
 }) => {
   const { t } = useTranslation();
 
@@ -49,9 +54,12 @@ export const Layout = ({
       >
         <HeaderToolBarTitle label={t("Reports")} />
       </HeaderToolBar>
-      <ReportScreen
-        ref={screenReportRef}
-        showBackButton={onShowBackButton}
+      <ReportScreen ref={screenReportRef} showBackButton={onShowBackButton} />
+      <PermissionChecker
+        navigation={navigation}
+        tabName={menuTabs.MENU_REPORT}
+        tabPermission={tabPermission}
+        togglePopupPermission={togglePopupPermission}
       />
     </View>
   );

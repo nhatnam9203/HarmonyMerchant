@@ -93,7 +93,8 @@ export const Layout = ({
               keyboardType="numeric"
             /> */}
 
-            {productItem?.quantities?.length <= 0 && (
+            {(!productItem?.quantities ||
+              productItem?.quantities?.length <= 0) && (
               <FormInputMask
                 label={t("Price ($)")}
                 placeholder={t("Enter price")}
@@ -197,7 +198,8 @@ export const Layout = ({
               />
             </View>
 
-            {productItem?.quantities?.length <= 0 && (
+            {(!productItem?.quantities ||
+              productItem?.quantities?.length <= 0) && (
               <FormInput
                 label={t("Item in stock")}
                 placeholder={t("100")}

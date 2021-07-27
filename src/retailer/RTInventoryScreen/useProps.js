@@ -1,7 +1,10 @@
-import React from "react";
+import actions from "@actions";
 import { useGetCategoriesList } from "@shared/services/api/retailer";
+import { useDispatch, useSelector } from "react-redux";
 
 export const useProps = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   /**
   |--------------------------------------------------
   | CALL API
@@ -9,14 +12,18 @@ export const useProps = ({ navigation }) => {
   */
   const [, getCategoriesList] = useGetCategoriesList();
 
-  React.useEffect(() => {
-    // getCategoriesList(); // !! login staff đã gọi rồi ko cần gọi lại
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const openDrawer = () => {
     navigation.openDrawer();
   };
 
-  return { openDrawer };
+  return {
+    openDrawer,
+    navigation,
+    tabPermission: useSelector(
+      (state) => state.product?.inventoryTabPermission
+    ),
+    togglePopupPermission: (bl) => {
+      dispatch(actions.product.toggleProductTabPermission(bl ?? true));
+    },
+  };
 };

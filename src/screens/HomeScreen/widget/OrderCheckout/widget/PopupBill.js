@@ -97,7 +97,7 @@ class PopupBill extends React.Component {
                     onRequestClose();
                 }}
                 style={{}}
-                width={470}
+                width={scaleSize(470)}
             >
                 <View style={{
                     height: scaleSize(297), backgroundColor: '#fff',

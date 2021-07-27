@@ -46,7 +46,7 @@ class PopupScanCode extends React.Component {
                 onRequestClose={() => onRequestClose()}
                 hideCloseButton={hideCloseButton}
                 style={customStyle}
-                width={500}
+                width={scaleSize(500)}
             >
                 <View style={{
                     height: scaleSize(400),

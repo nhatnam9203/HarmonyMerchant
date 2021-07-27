@@ -228,7 +228,7 @@ class PopupChangeStylist extends React.Component {
         title={title}
         visible={visible}
         onRequestClose={this.onRequestClose}
-        width={440}
+        width={scaleSize(440)}
         styleTitle={{ fontSize: scaleSize(20), fontWeight: '600' }}
       >
         <View

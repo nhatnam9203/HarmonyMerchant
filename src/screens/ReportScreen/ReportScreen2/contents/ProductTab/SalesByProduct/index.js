@@ -12,7 +12,7 @@ import actions from "@actions";
 import { ReportLayout } from "../../../widget";
 
 import SalesByProduct from "./SalesByProduct";
-import SalesByProductStatistic from "./SalesByProductStatistic";
+import { SalesByProductStatistic } from "./SalesByProductStatistic";
 
 const FILTER_NAME_DEFAULT_LIST = [
   { value: "All product", id: "all" },
@@ -27,6 +27,7 @@ const RANGE_TIME_DEFAULT = "This Week";
 function SalesByProductTab({ style, showBackButton, showHeader }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
+  const statisticsRef = React.useRef(null);
   const language = useSelector((state) => state.dataLocal.language);
 
   const exportFilePath = useSelector(
@@ -102,6 +103,7 @@ function SalesByProductTab({ style, showBackButton, showHeader }, ref) {
     await setFilterNameItem(item.name);
     layoutRef.current?.goNext();
     showHeader(false);
+    statisticsRef.current?.didFocus();
   };
 
   const onShowPopupExport = (title) => {
@@ -213,6 +215,7 @@ function SalesByProductTab({ style, showBackButton, showHeader }, ref) {
           isRefreshing={refreshing}
         />
         <SalesByProductStatistic
+          ref={statisticsRef}
           style={{ flex: 1, paddingTop: 10 }}
           tabLabel="Sales by product Statistics"
           title="Sales by product Statistics"

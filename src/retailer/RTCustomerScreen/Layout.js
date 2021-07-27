@@ -2,16 +2,17 @@ import {
   Button,
   ButtonCustom,
   Dropdown,
-  ParentContainer,
   StatusBarHeader,
   Text,
 } from "@components";
 import { createStackNavigator } from "@react-navigation/stack";
 import ICON from "@resources";
+import { PermissionChecker } from "@shared/components";
 import { ButtonDrawer } from "@shared/components/ButtonDrawer";
 import { HeaderToolBar } from "@shared/components/HeaderToolBar";
 import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
 import { colors } from "@shared/themes";
+import { menuTabs } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -37,7 +38,13 @@ import {
 
 const { Screen, Navigator } = createStackNavigator();
 
-export const Layout = ({ openDrawer }) => {
+export const Layout = ({
+  openDrawer,
+  navigation,
+  handleLockScreen,
+  tabPermission,
+  togglePopupPermission,
+}) => {
   const { t } = useTranslation();
 
   function renderSearch() {
@@ -288,6 +295,12 @@ export const Layout = ({ openDrawer }) => {
         <Screen {...CustomerDetailPage} />
         <Screen {...EditCustomerAddressPage} />
       </Navigator>
+      <PermissionChecker
+        navigation={navigation}
+        tabName={menuTabs.MENU_CUSTOMER}
+        tabPermission={tabPermission}
+        togglePopupPermission={togglePopupPermission}
+      />
     </View>
   );
 };

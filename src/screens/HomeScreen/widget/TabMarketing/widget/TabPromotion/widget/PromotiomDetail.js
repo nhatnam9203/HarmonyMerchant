@@ -63,7 +63,7 @@ import {
 const { width } = Dimensions.get("window");
 
 const HOURS_FORMAT = "hh:mm A";
-const MESSAGE_END_DATE_FORMAT = "dddd, dd MMMM yyyy hh:mm a";
+const MESSAGE_END_DATE_FORMAT = "dddd, DD MMMM yyyy hh:mm a";
 const MESSAGE_CONTENT_DEFAULT_TYPE = "sms";
 const PromotiomDetail = forwardRef(
   (
@@ -571,6 +571,13 @@ const PromotiomDetail = forwardRef(
 
     const getDefaultMessageContent = React.useCallback(() => {
       if (!useDefaultContent) return;
+      const mergeEndDate = noEndDate
+        ? null
+        : `${formatWithMoment(
+            new Date(endDate),
+            "YYYY-MM-DD"
+          )}T${formatHourMinute(formatWithMoment(endTime, HOURS_FORMAT))}:00`;
+
       switch (getConditionIdByTitle(condition)) {
         case 1:
           return `Look out! 👀 ${
@@ -580,24 +587,28 @@ const PromotiomDetail = forwardRef(
               ? promotionValue + " %"
               : "$ " + promotionValue
           } ${
-            actionTags?.length > 0 ? `off for ${actionTags?.join(", ")}.` : ""
+            actionTags?.length > 0
+              ? `off for ${actionTags?.map((x) => x.value || "").join(", ")}.`
+              : ""
           }. ${
-            endDate
+            mergeEndDate
               ? `This offer is ends on ${dateToString(
-                  endDate,
+                  mergeEndDate,
                   MESSAGE_END_DATE_FORMAT
                 )} so hurry`
               : "Hurry"
           } 🏃🏻‍♀️ and book your appointment on HarmonyPay App now!`;
         case 2:
-          return `More for less and all for you! During their ${title} promotion,choose any of ${conditionServiceProductTags} at ${
-            merchant.businessName
-          } to get ${
+          return `More for less and all for you! During their ${title} promotion,choose any of ${conditionServiceProductTags
+            ?.map((x) => x.value || "")
+            .join(", ")} at ${merchant.businessName} to get ${
             promotionType === "percent"
               ? promotionValue + " %"
               : "$ " + promotionValue
           }${
-            actionTags?.length > 0 ? ` off for ${actionTags?.join(", ")}.` : ""
+            actionTags?.length > 0
+              ? ` off for ${actionTags?.map((x) => x.value || "").join(", ")}.`
+              : ""
           }. Hurry and book your appointment on HarmonyPay App now to grab this deal!`;
         case 3:
           return `Happy, happy birthday! Hurry onto your HarmonyPay App to claim a special gift from one of your favorite stores, ${
@@ -607,7 +618,9 @@ const PromotiomDetail = forwardRef(
               ? promotionValue + " %"
               : "$ " + promotionValue
           }${
-            actionTags?.length > 0 ? ` off for ${actionTags?.join(", ")}.` : ""
+            actionTags?.length > 0
+              ? ` off for ${actionTags?.map((x) => x.value || "")?.join(", ")}.`
+              : ""
           }.`;
         case 4:
           return `Loyalty pays! Literally. Go onto your HarmonyPay App to grab this special gift from  ${
@@ -617,7 +630,9 @@ const PromotiomDetail = forwardRef(
               ? promotionValue + " %"
               : "$ " + promotionValue
           }${
-            actionTags?.length > 0 ? ` off for ${actionTags?.join(", ")}.` : ""
+            actionTags?.length > 0
+              ? ` off for ${actionTags?.map((x) => x.value || "")?.join(", ")}.`
+              : ""
           }. Thanks for being one of our best customers!`;
         case 5:
           return (
@@ -630,7 +645,9 @@ const PromotiomDetail = forwardRef(
                 : "$ " + promotionValue
             }${
               actionTags?.length > 0
-                ? ` off for ${actionTags?.join(", ")}.`
+                ? ` off for ${actionTags
+                    ?.map((x) => x.value || "")
+                    ?.join(", ")}.`
                 : ""
             }`
           );
@@ -640,6 +657,7 @@ const PromotiomDetail = forwardRef(
     }, [
       title,
       endDate,
+      endTime,
       actionTags,
       condition,
       merchant,
@@ -647,6 +665,7 @@ const PromotiomDetail = forwardRef(
       promotionValue,
       useDefaultContent,
       conditionServiceProductTags,
+      noEndDate,
     ]);
 
     React.useEffect(() => {
@@ -657,6 +676,7 @@ const PromotiomDetail = forwardRef(
     }, [
       title,
       endDate,
+      endTime,
       actionTags,
       condition,
       merchant,
@@ -664,6 +684,7 @@ const PromotiomDetail = forwardRef(
       promotionValue,
       useDefaultContent,
       conditionServiceProductTags,
+      noEndDate,
     ]);
 
     return (

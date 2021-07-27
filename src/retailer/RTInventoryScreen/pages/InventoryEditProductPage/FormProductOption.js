@@ -80,10 +80,19 @@ export const FormProductOption = React.forwardRef(
           });
           optionItem["values"] = values;
           dispatchProduct(updateOption(optionItem));
+        } else if (item?.values?.length === 0) {
+          optionItem["values"] = options?.map((x) =>
+            Object.assign({}, x, { checked: false })
+          );
+          dispatchProduct(changeOption(optionItem));
         } else {
-          optionItem["values"] = options;
+          optionItem["values"] = options?.map((x) =>
+            Object.assign({}, x, { checked: true })
+          );
           dispatchProduct(changeOption(optionItem));
         }
+
+        // dispatchProduct(updateOption(optionItem));
       }
 
       // eslint-disable-next-line react-hooks/exhaustive-deps

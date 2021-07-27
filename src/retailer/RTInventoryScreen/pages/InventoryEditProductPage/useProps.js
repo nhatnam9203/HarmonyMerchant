@@ -56,11 +56,11 @@ export const useProps = ({
     initialValues: productItem ?? {},
     validationSchema: Yup.object().shape({
       name: Yup.string().required(t("Product name is required")),
-      price: Yup.string().required(),
+      price: Yup.string(),
       sku: Yup.string().required(),
-      costPrice: Yup.string().required(),
+      costPrice: Yup.string(),
       categoryId: Yup.number().required(),
-      quantity: Yup.number().required(),
+      quantity: Yup.number(),
       minThreshold: Yup.number().default(0),
       maxThreshold: Yup.number()
         .default(0)
@@ -70,12 +70,12 @@ export const useProps = ({
         )
         .notRequired(),
     }),
-
     onSubmit: (values) => {
       values.barCode = values.barCode || values.sku;
       values.maxThreshold = values.maxThreshold || 0;
       values.minThreshold = values.minThreshold || 0;
-      const formatOptions = values?.options?.map((x) => ({
+
+      const formatOptions = productItem?.options?.map((x) => ({
         attributeId: x.attributeId,
         values: x.values
           ?.filter((v) => v.checked)
@@ -88,15 +88,13 @@ export const useProps = ({
           }),
       }));
 
-      // console.log(values);
+      values.options = formatOptions;
+      values.quantities = productItem?.quantities;
 
       if (isNew) {
-        createProduct(Object.assign({}, values, { options: formatOptions }));
+        createProduct(values);
       } else if (isEdit) {
-        editProduct(
-          Object.assign({}, values, { options: formatOptions }),
-          values.productId
-        );
+        editProduct(values, values.productId);
       }
     },
   });
@@ -147,7 +145,6 @@ export const useProps = ({
     if (statusSuccess(codeStatus)) {
       dispatchProduct(setProduct(data));
       // visibilitySelectRef.current?.setFilterItems(list);
-
     }
   }, [productsGet]);
 
@@ -175,13 +172,6 @@ export const useProps = ({
   React.useEffect(() => {
     reloadCategory();
   }, [categories]);
-
-  React.useEffect(() => {
-    if (productItem) {
-      form.setFieldValue("options", productItem?.options);
-      form.setFieldValue("quantities", productItem?.quantities);
-    }
-  }, [productItem]);
 
   React.useEffect(() => {
     if (item?.productId) {

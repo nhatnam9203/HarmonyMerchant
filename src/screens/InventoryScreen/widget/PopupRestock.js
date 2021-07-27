@@ -79,7 +79,7 @@ class PopupRestock extends React.Component {
                 visible={visible}
                 onRequestClose={() => onRequestClose()}
                 style={{}}
-                width={330}
+                width={scaleSize(330)}
             >
                 <View style={{
                     height: scaleSize(420), backgroundColor: '#fff',

@@ -2,8 +2,8 @@ import React from "react";
 
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
-import { role, menuTabs, isPermissionToTab } from '@utils';
-import * as l from 'lodash';
+import { role, menuTabs, isPermissionToTab } from "@utils";
+import * as l from "lodash";
 
 class SettlementScreen extends Layout {
   constructor(props) {
@@ -48,13 +48,13 @@ class SettlementScreen extends Layout {
         this.checkPermissionRef.current?.setStateFromParent("");
         const { profileStaffLogin } = this.props;
         const roleName = profileStaffLogin?.roleName || role.Admin;
-        const permission = l.get(profileStaffLogin, 'permission', [])
+        const permission = l.get(profileStaffLogin, "permission", []);
         if (roleName === role.Admin) {
           this.tabSettleRef?.current?.callReportFromChildren();
         } else if (roleName === role.Manager) {
           if (isPermissionToTab(permission, menuTabs.MENU_SETTLEMENT)) {
             this.tabSettleRef?.current?.callReportFromChildren();
-          }else {
+          } else {
             this.props.actions.invoice.toggleSettlementTabPermission();
           }
         } else {
@@ -93,8 +93,11 @@ class SettlementScreen extends Layout {
 
   handleLockScreen = () => {
     const { isFocus } = this.state;
+    const {profile} = this.props;
     if (isFocus) {
-      this.props.navigation.navigate("Home");
+      this.props.navigation.navigate(
+        profile.type === "Retailer" ? "retailer.home.order" : "Home"
+      );
 
       this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     }
@@ -105,9 +108,12 @@ class SettlementScreen extends Layout {
   };
 
   closePopupCheckSettementTabPermission = () => {
-    this.props.actions.invoice.toggleSettlementTabPermission(false);
-    this.props.navigation.navigate("Home");
+    const {profile} = this.props;
 
+    this.props.actions.invoice.toggleSettlementTabPermission(false);
+    this.props.navigation.navigate(
+      profile.type === "Retailer" ? "retailer.home.order" : "Home"
+    );
   };
 
   backSettlementTab = () => {

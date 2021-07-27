@@ -1,4 +1,5 @@
 import Configs from "@configs";
+import { menuTabs } from "@utils";
 
 export const getTerminalIds = () => {
   return [
@@ -295,4 +296,67 @@ export const PRODUCT_VISIBLE_TYPE = [
   { label: "Web & App", value: "webApp" },
   { label: "App", value: "app" },
   { label: "Web", value: "web" },
+];
+
+export const STAFF_PERMISSIONS = [
+  { label: "Admin", value: "Admin" },
+  { label: "Manager", value: "Manager" },
+  { label: "Staff", value: "Staff" },
+];
+
+export const STAFF_PERMISSIONS_ROLES = [
+  {
+    id: 0,
+    key: menuTabs.MARKETING,
+    label: "Marketing",
+    isChecked: true,
+  },
+  {
+    id: 0,
+    key: menuTabs.CHECKOUT_DISCOUNT,
+    label: "Change Discount",
+    isChecked: true,
+  },
+  // {
+  //   id: 0,
+  //   key: menuTabs.MENU_INVOICE,
+  //   label: "Invoice",
+  //   isChecked: true,
+  // },
+  {
+    id: 0,
+    key: menuTabs.MENU_SETTLEMENT,
+    label: "Settlement",
+    isChecked: true,
+  },
+  {
+    id: 0,
+    key: menuTabs.MENU_CUSTOMER,
+    label: "Customer",
+    isChecked: true,
+  },
+  {
+    id: 0,
+    key: menuTabs.MENU_GIFTCARD,
+    label: "Gift card",
+    isChecked: true,
+  },
+  {
+    id: 0,
+    key: menuTabs.MENU_INVENTORY,
+    label: "Inventory",
+    isChecked: true,
+  },
+  {
+    id: 0,
+    key: menuTabs.MENU_REPORT,
+    label: "Report",
+    isChecked: true,
+  },
+  {
+    id: 0,
+    key: menuTabs.MENU_SETTING,
+    label: "Setting",
+    isChecked: true,
+  },
 ];
