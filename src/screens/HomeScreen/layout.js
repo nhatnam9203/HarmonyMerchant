@@ -110,7 +110,7 @@ export default class Layout extends React.Component {
       notificationContUnread,
       currentAppMode,
     } = this.props;
-    const { isFocus, visible, categoryStaffId } = this.state;
+    const { isFocus, visible, categoryStaffId, staffIdSelected } = this.state;
     return (
       <ParentContainer
         handleLockScreen={this.handleLockScreen}
@@ -155,7 +155,7 @@ export default class Layout extends React.Component {
                   this.addMoreAppointmentFromCalendar
                 }
                 navigation={this.props.navigation}
-		getCategoryStaff={this.getCategoryStaff}
+                getCategoryStaff={this.getCategoryStaff}
               />
             }
 
@@ -172,7 +172,8 @@ export default class Layout extends React.Component {
                 pushAppointmentIdOfflineIntoWebview={
                   this.pushAppointmentIdOfflineIntoWebview
                 }
-		categoryStaffId={categoryStaffId}
+                categoryStaffId={categoryStaffId}
+                staffIdSelected={staffIdSelected}
               />
             }
           </ScrollableTabView>

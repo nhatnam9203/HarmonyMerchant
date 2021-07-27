@@ -364,7 +364,7 @@ class TabCheckout extends Layout {
           (parseFloat(basket[i].data.price) *
             basket[i].quanlitySet *
             taxProduct) /
-            100;
+          100;
       } else if (basket[i].type === 'Service') {
         taxTotal =
           taxTotal +
@@ -782,10 +782,10 @@ class TabCheckout extends Layout {
     const basket = isOfflineMode
       ? this.state.basket
       : arryaServicesBuy.concat(
-          arrayExtrasBuy,
-          arrayProductBuy,
-          arrayGiftCards
-        );
+        arrayExtrasBuy,
+        arrayProductBuy,
+        arrayGiftCards
+      );
     const tipAmount = groupAppointment?.tipAmount || 0;
     const subTotal = groupAppointment?.subTotal || 0;
     const discount = groupAppointment?.discount || 0;
@@ -797,11 +797,11 @@ class TabCheckout extends Layout {
       : subTotal;
     const temptTotal = _.isEmpty(groupAppointment)
       ? Number(
-          formatNumberFromCurrency(subTotalLocal) +
-            formatNumberFromCurrency(tipLocal) +
-            formatNumberFromCurrency(taxLocal) -
-            formatNumberFromCurrency(discountTotalLocal)
-        ).toFixed(2)
+        formatNumberFromCurrency(subTotalLocal) +
+        formatNumberFromCurrency(tipLocal) +
+        formatNumberFromCurrency(taxLocal) -
+        formatNumberFromCurrency(discountTotalLocal)
+      ).toFixed(2)
       : total;
     const temptDiscount = _.isEmpty(groupAppointment)
       ? discountTotalLocal
@@ -1020,19 +1020,19 @@ class TabCheckout extends Layout {
       if (isOfflineMode) {
         const temptTotal = Number(
           formatNumberFromCurrency(subTotalLocal) +
-            formatNumberFromCurrency(tipLocal) +
-            formatNumberFromCurrency(taxLocal) -
-            formatNumberFromCurrency(discountTotalLocal)
+          formatNumberFromCurrency(tipLocal) +
+          formatNumberFromCurrency(taxLocal) -
+          formatNumberFromCurrency(discountTotalLocal)
         ).toFixed(2);
         this.modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       } else {
         const temptTotal = _.isEmpty(groupAppointment)
           ? Number(
-              formatNumberFromCurrency(subTotalLocal) +
-                formatNumberFromCurrency(tipLocal) +
-                formatNumberFromCurrency(taxLocal) -
-                formatNumberFromCurrency(discountTotalLocal)
-            ).toFixed(2)
+            formatNumberFromCurrency(subTotalLocal) +
+            formatNumberFromCurrency(tipLocal) +
+            formatNumberFromCurrency(taxLocal) -
+            formatNumberFromCurrency(discountTotalLocal)
+          ).toFixed(2)
           : groupAppointment.total;
         this.modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       }
@@ -1170,9 +1170,9 @@ class TabCheckout extends Layout {
     );
     const totalLocal = Number(
       formatNumberFromCurrency(subTotalLocal) +
-        formatNumberFromCurrency(tipLocal) +
-        formatNumberFromCurrency(taxLocal) -
-        formatNumberFromCurrency(discountTotalLocal)
+      formatNumberFromCurrency(tipLocal) +
+      formatNumberFromCurrency(taxLocal) -
+      formatNumberFromCurrency(discountTotalLocal)
     ).toFixed(2);
 
     if (moneyUserGiveForStaff == 0) {
@@ -1211,8 +1211,8 @@ class TabCheckout extends Layout {
       amountPayment !== false
         ? amountPayment
         : parseFloat(
-            formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
-          );
+          formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
+        );
     const method = this.getPaymentString(paymentSelected);
     const total = groupAppointment.total
       ? parseFloat(formatNumberFromCurrency(groupAppointment.total))
@@ -1422,22 +1422,22 @@ class TabCheckout extends Layout {
       if (l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()) {
         //Call server to check auth number
         const resultGroupAppointment = await requestAPI({
-            type: 'GET_GROUP_APPOINTMENT_BY_ID',
-            method: 'GET',
-            api: `${Configs.API_URL}appointment/getGroupById/${l.get(groupAppointment, 'mainAppointmentId', '0')}`,
-            token: profileStaffLogin.token,
-            versionApp: versionApp
-          });
+          type: 'GET_GROUP_APPOINTMENT_BY_ID',
+          method: 'GET',
+          api: `${Configs.API_URL}appointment/getGroupById/${l.get(groupAppointment, 'mainAppointmentId', '0')}`,
+          token: profileStaffLogin.token,
+          versionApp: versionApp
+        });
 
-        if(l.get(resultGroupAppointment, 'codeNumber', 0) != 200){
+        if (l.get(resultGroupAppointment, 'codeNumber', 0) != 200) {
           this.cancelPayment()
           return
         }
 
-        if (l.get(resultGroupAppointment, 'data.lastAuthCode') == l.get(result, 'AuthCode')){
-            //have not pay yet || multi pay
-            this.sendTransaction()
-        }else{
+        if (l.get(resultGroupAppointment, 'data.lastAuthCode') == l.get(result, 'AuthCode')) {
+          //have not pay yet || multi pay
+          this.sendTransaction()
+        } else {
           //missing transaction
           //call to server previous response
           this.isGetResponsePaymentPax = true
@@ -1482,7 +1482,7 @@ class TabCheckout extends Layout {
     }
   };
 
-  cancelPayment(){
+  cancelPayment() {
     const {
       payAppointmentId,
     } = this.props;
@@ -1535,17 +1535,16 @@ class TabCheckout extends Layout {
         bluetoothAddr: idBluetooth,
         invNum: `${groupAppointment?.checkoutGroupId || 0}`,
       },
-      (message) =>
-        {
-          this.isGetResponsePaymentPax = true
+      (message) => {
+        this.isGetResponsePaymentPax = true
 
-          this.handleResponseCreditCard(
-            message,
-            true,
-            amountCredtitForSubmitToServer
-          )
-        }
-        
+        this.handleResponseCreditCard(
+          message,
+          true,
+          amountCredtitForSubmitToServer
+        )
+      }
+
     );
   }
 
@@ -1631,15 +1630,15 @@ class TabCheckout extends Layout {
           });
         }, 300);
       }
-    } catch (error) {}
+    } catch (error) { }
   }
 
   cancelTransaction = async () => {
     const { payAppointmentId, language } = this.props;
     if (Platform.OS === 'android') {
-      PoslinkAndroid.cancelTransaction((data) => {});
+      PoslinkAndroid.cancelTransaction((data) => { });
     } else {
-      if(!this.isGetResponsePaymentPax){
+      if (!this.isGetResponsePaymentPax) {
         alert(localize('PleaseWait', language))
         return
       }
@@ -1797,7 +1796,7 @@ class TabCheckout extends Layout {
     }
   };
 
-  changeProductBasketLocal = async (productIdLocal, price, quantity) => {};
+  changeProductBasketLocal = async (productIdLocal, price, quantity) => { };
 
   changeStylistBasketLocal = async (serviceId, staffId, tip, price) => {
     const { basket } = this.state;
@@ -1954,8 +1953,8 @@ class TabCheckout extends Layout {
       : 0;
     const subTotal =
       !_.isEmpty(appointmentDetail) &&
-      appointmentDetail &&
-      appointmentDetail.subTotal
+        appointmentDetail &&
+        appointmentDetail.subTotal
         ? appointmentDetail.subTotal
         : 0;
     const discount = appointmentDetail?.discount || 0;
@@ -1967,11 +1966,11 @@ class TabCheckout extends Layout {
       : subTotal;
     const temptTotal = _.isEmpty(appointmentDetail)
       ? Number(
-          formatNumberFromCurrency(subTotalLocal) +
-            formatNumberFromCurrency(tipLocal) +
-            formatNumberFromCurrency(taxLocal) -
-            formatNumberFromCurrency(discountTotalLocal)
-        ).toFixed(2)
+        formatNumberFromCurrency(subTotalLocal) +
+        formatNumberFromCurrency(tipLocal) +
+        formatNumberFromCurrency(taxLocal) -
+        formatNumberFromCurrency(discountTotalLocal)
+      ).toFixed(2)
       : total;
     const temptDiscount = _.isEmpty(appointmentDetail)
       ? discountTotalLocal
@@ -2151,12 +2150,12 @@ class TabCheckout extends Layout {
     } = this.props;
 
     let fromTime = fromTimeBlockAppointment
-    if( blockAppointments && blockAppointments.length > 0 ) {
+    if (blockAppointments && blockAppointments.length > 0) {
       fromTime = l.get(blockAppointments, '0.fromTime')
-                ? moment(l.get(blockAppointments, '0.fromTime')).local().format()
-                : new Date()
+        ? moment(l.get(blockAppointments, '0.fromTime')).local().format()
+        : new Date()
     }
-    
+
     this.props.actions.appointment.createBlockAppointment(
       profile.merchantId,
       fromTime,
@@ -2414,7 +2413,7 @@ class TabCheckout extends Layout {
 
   // ------------ New Code ----------
 
-  scrollFlatListToStaffIndex = (staffId) => {
+  scrollFlatListToStaffIndex = (staffId, isFirstPressCheckout) => {
     let index = -1;
     for (let i = 0; i < this.props.staffListCurrentDate.length; i++) {
       if (this.props.staffListCurrentDate[i]?.staffId === staffId) {
@@ -2425,9 +2424,17 @@ class TabCheckout extends Layout {
 
     if (index !== -1) {
       if (this.staffFlatListRef?.current) {
-        this.staffFlatListRef?.current?.scrollToIndex({
-          index,
-        });
+        if (isFirstPressCheckout) {
+          setTimeout(() => {
+            this.staffFlatListRef?.current?.scrollToIndex({
+              index,
+            });
+          }, 300);
+        } else {
+          this.staffFlatListRef?.current?.scrollToIndex({
+            index,
+          });
+        }
       } else {
         setTimeout(() => {
           this.staffFlatListRef?.current?.scrollToIndex({
@@ -2532,13 +2539,13 @@ class TabCheckout extends Layout {
     this.props.actions.appointment.resetGroupAppointment();
   };
 
-  setSelectStaffFromCalendar = async (staffId) => {
+  setSelectStaffFromCalendar = async (staffId, isFirstPressCheckout = null) => {
     await this.setState({
       selectedStaff: { staffId },
       isShowCategoriesColumn: true,
     });
 
-    this.scrollFlatListToStaffIndex(staffId);
+    this.scrollFlatListToStaffIndex(staffId, isFirstPressCheckout);
   };
 
   setBlockStateFromCalendar = async () => {
@@ -2562,7 +2569,7 @@ class TabCheckout extends Layout {
     if (
       blockAppointments.length > 0 &&
       prevProps.isLoadingRemoveBlockAppointment !=
-        isLoadingRemoveBlockAppointment &&
+      isLoadingRemoveBlockAppointment &&
       !isLoadingRemoveBlockAppointment
     ) {
       this.updateBlockAppointmentRef();
@@ -2587,7 +2594,10 @@ class TabCheckout extends Layout {
   }
 
   componentDidMount() {
-    const { categoryStaffId } = this.props;
+    const { categoryStaffId, staffIdSelected } = this.props;
+    if (staffIdSelected) {
+      this.setSelectStaffFromCalendar(staffIdSelected, true);
+    }
     if (categoryStaffId) {
       this.getCategory(categoryStaffId)
     }
