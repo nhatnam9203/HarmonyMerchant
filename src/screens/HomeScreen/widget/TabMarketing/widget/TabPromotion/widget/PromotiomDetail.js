@@ -1,70 +1,69 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
-import {
-  View,
-  Image,
-  Dimensions,
-  StyleSheet,
-  Pressable,
-  ScrollView,
-  Switch,
-  Platform,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-import { TextInputMask } from "react-native-masked-text";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import _ from "ramda";
-import DropdownSearch from "./DropdownSearch";
-import Slider from "./Slider";
-import IMAGE from "@resources";
-import {
-  CustomRadioSelect,
-  FormUploadImage,
-  CustomCheckBox,
-} from "@shared/components";
-import { useTranslation } from "react-i18next";
-import { colors, fonts, layouts } from "@shared/themes";
-import { dateToString } from "@shared/utils";
-
-import {
-  scaleSize,
-  localize,
-  WorkingTime,
-  formatWithMoment,
-  formatHourMinute,
-  MARKETING_CONDITIONS,
-  DISCOUNT_ACTION,
-  getConditionIdByTitle,
-  getShortNameForDiscountAction,
-  getFormatTags,
-  getConditionTitleIdById,
-  getDiscountActionByShortName,
-  getTagInfoById,
-  roundFloatNumber,
-  formatMoney,
-  getCurrentIndexWorkingTime,
-  getWorkingTime,
-} from "@utils";
-import ICON from "@resources";
 import {
   Button,
-  Text,
-  InputForm,
-  Dropdown,
   CustomTimePicker,
+  Dropdown,
+  InputForm,
+  Text,
 } from "@components";
+import { default as ICON, default as IMAGE } from "@resources";
+import {
+  CustomCheckBox,
+  CustomRadioSelect,
+  FormUploadImage,
+} from "@shared/components";
+import { colors, fonts, layouts } from "@shared/themes";
+import { dateToString } from "@shared/utils";
+import {
+  DISCOUNT_ACTION,
+  formatHourMinute,
+  formatMoney,
+  formatWithMoment,
+  getConditionIdByTitle,
+  getConditionTitleIdById,
+  getDiscountActionByShortName,
+  getFormatTags,
+  getShortNameForDiscountAction,
+  getTagInfoById,
+  getWorkingTime,
+  localize,
+  MARKETING_CONDITIONS,
+  scaleSize,
+  WorkingTime,
+} from "@utils";
+import _ from "ramda";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
+import { useTranslation } from "react-i18next";
+import {
+  Dimensions,
+  Image,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Switch,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { TextInputMask } from "react-native-masked-text";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useSelector } from "react-redux";
+import DropdownSearch from "./DropdownSearch";
+import Slider from "./Slider";
+
 const { width } = Dimensions.get("window");
 
 const HOURS_FORMAT = "hh:mm A";
 const MESSAGE_END_DATE_FORMAT = "dddd, DD MMMM yyyy hh:mm a";
 const MESSAGE_CONTENT_DEFAULT_TYPE = "sms";
+
+// PromotiomDetail
 const PromotiomDetail = forwardRef(
   (
     {
@@ -195,19 +194,23 @@ const PromotiomDetail = forwardRef(
     }));
 
     useEffect(() => {
-      const tempService = servicesByMerchant.map((service) => ({
-        value: service?.name || "",
-        type: "Service",
-        originalId: service?.serviceId || 0,
-        id: `${service?.serviceId}_Service`,
-      }));
+      const tempService = servicesByMerchant
+        ?.filter((service) => service.status === 1)
+        .map((service) => ({
+          value: service?.name || "",
+          type: "Service",
+          originalId: service?.serviceId || 0,
+          id: `${service?.serviceId}_Service`,
+        }));
 
-      const tempProduct = productsByMerchantId.map((product) => ({
-        value: product?.name || "",
-        type: "Product",
-        originalId: product?.productId || 0,
-        id: `${product?.productId}_Product`,
-      }));
+      const tempProduct = productsByMerchantId
+        ?.filter((product) => product.status === 1)
+        .map((product) => ({
+          value: product?.name || "",
+          type: "Product",
+          originalId: product?.productId || 0,
+          id: `${product?.productId}_Product`,
+        }));
 
       const tempData = tempService.concat(tempProduct);
       setDataServiceProduct(tempData);
@@ -341,8 +344,6 @@ const PromotiomDetail = forwardRef(
 
       const smsMaxMoney =
         customerCount == 0 ? 0 : parseFloat(customerCount * tempFee);
-      // console.log('----- tempValue: ', tempValue);
-      // console.log('----- smsMaxMoney: ', smsMaxMoney);
 
       setSmsAmount(formatMoney(smsMoney));
       setSmsMaxAmount(formatMoney(smsMaxMoney));
@@ -405,7 +406,7 @@ const PromotiomDetail = forwardRef(
       // onLoadDefaultMessageContent();
     };
 
-    removeConditionServiceProductTags = (tag) => {
+    const removeConditionServiceProductTags = (tag) => {
       const tempData = [];
       for (let i = 0; i < conditionServiceProductTags.length; i++) {
         if (conditionServiceProductTags[i]?.id !== tag?.id) {
@@ -416,7 +417,7 @@ const PromotiomDetail = forwardRef(
       // onLoadDefaultMessageContent();
     };
 
-    removeActionTags = (tag) => {
+    const removeActionTags = (tag) => {
       const tempData = [];
       for (let i = 0; i < actionTags.length; i++) {
         if (actionTags[i]?.id !== tag?.id) {
@@ -426,7 +427,7 @@ const PromotiomDetail = forwardRef(
       setActionTags(tempData);
     };
 
-    handleSetPromotionType = (type) => () => {
+    const handleSetPromotionType = (type) => () => {
       setPromotionType(type);
       // onLoadDefaultMessageContent();
     };
@@ -507,7 +508,7 @@ const PromotiomDetail = forwardRef(
       }
     };
 
-    handleScroll =
+    const handleScroll =
       (number, animated = true) =>
       () => {
         scrollRef?.current?.scrollTo({
@@ -517,21 +518,21 @@ const PromotiomDetail = forwardRef(
         });
       };
 
-    handleConditionDropdown = (count = 0) => {
+    const handleConditionDropdown = (count = 0) => {
       setDynamicConditionMarginBottom(count * 24);
     };
 
-    handleActionTagsDropdown = (count = 0) => {
+    const handleActionTagsDropdown = (count = 0) => {
       setDynamicActionTagsMarginBottom(count * 24);
     };
 
-    handleSetCondition = (value) => {
+    const handleSetCondition = (value) => {
       setCondition(value);
       setDynamicConditionMarginBottom(24);
       getSMSInformation(getConditionIdByTitle(value));
     };
 
-    handleSetActionCondition = (value) => {
+    const handleSetActionCondition = (value) => {
       if (value != actionCondition) {
         setActionTags([]);
       }
@@ -539,12 +540,12 @@ const PromotiomDetail = forwardRef(
       setDynamicActionTagsMarginBottom(24);
     };
 
-    hanldeSliderValue = (value) => {
+    const hanldeSliderValue = (value) => {
       setValue(value);
       calculatorsmsMoney(value);
     };
 
-    handleSetCampaignName = (title) => {
+    const handleSetCampaignName = (title) => {
       setTitle(title);
       // calculatorsmsMoney(value);
     };
@@ -571,85 +572,58 @@ const PromotiomDetail = forwardRef(
 
     const getDefaultMessageContent = React.useCallback(() => {
       if (!useDefaultContent) return;
-      const mergeEndDate = noEndDate
-        ? null
-        : `${formatWithMoment(
-            new Date(endDate),
-            "YYYY-MM-DD"
-          )}T${formatHourMinute(formatWithMoment(endTime, HOURS_FORMAT))}:00`;
+      console.log("loop 1");
+      const actionMsg =
+        actionTags?.length > 0
+          ? `off for ${actionTags?.map((x) => x.value || "").join(", ")}.`
+          : "";
+
+      const promotionMsg =
+        promotionType === "percent"
+          ? promotionValue + " %"
+          : "$ " + promotionValue;
+
+      const businessName = merchant?.businessName ?? "";
 
       switch (getConditionIdByTitle(condition)) {
         case 1:
-          return `Look out! 👀 ${
-            merchant.businessName
-          } is waiting for you to claim their special ${title} promotion to get ${
-            promotionType === "percent"
-              ? promotionValue + " %"
-              : "$ " + promotionValue
-          } ${
-            actionTags?.length > 0
-              ? `off for ${actionTags?.map((x) => x.value || "").join(", ")}.`
-              : ""
-          }. ${
-            mergeEndDate
-              ? `This offer is ends on ${dateToString(
-                  mergeEndDate,
-                  MESSAGE_END_DATE_FORMAT
-                )} so hurry`
-              : "Hurry"
-          } 🏃🏻‍♀️ and book your appointment on HarmonyPay App now!`;
+          // convert endDate to string for format
+          const mergeEndDate = noEndDate
+            ? null
+            : `${formatWithMoment(
+                new Date(endDate),
+                "YYYY-MM-DD"
+              )}T${formatHourMinute(
+                formatWithMoment(endTime, HOURS_FORMAT)
+              )}:00`;
+
+          // create message content with endDate
+          const endDateMsg = mergeEndDate
+            ? `This offer is ends on ${dateToString(
+                mergeEndDate,
+                MESSAGE_END_DATE_FORMAT
+              )} so hurry`
+            : "Hurry";
+
+          // ====> return text message
+          return `Look out! 👀 ${businessName} is waiting for you to claim their special ${title} promotion to get ${promotionMsg} ${actionMsg}. ${endDateMsg} 🏃🏻‍♀️ and book your appointment on HarmonyPay App now!`;
         case 2:
-          return `More for less and all for you! During their ${title} promotion,choose any of ${conditionServiceProductTags
-            ?.map((x) => x.value || "")
-            .join(", ")} at ${merchant.businessName} to get ${
-            promotionType === "percent"
-              ? promotionValue + " %"
-              : "$ " + promotionValue
-          }${
-            actionTags?.length > 0
-              ? ` off for ${actionTags?.map((x) => x.value || "").join(", ")}.`
-              : ""
-          }. Hurry and book your appointment on HarmonyPay App now to grab this deal!`;
+          const serviceMsg =
+            conditionServiceProductTags?.map((x) => x.value || "").join(", ") ||
+            "";
+          // ====> return text message
+          return `More for less and all for you! During their ${title} promotion,choose any of ${serviceMsg} at ${businessName} to get ${promotionMsg}${actionMsg}. Hurry and book your appointment on HarmonyPay App now to grab this deal!`;
         case 3:
-          return `Happy, happy birthday! Hurry onto your HarmonyPay App to claim a special gift from one of your favorite stores, ${
-            merchant.businessName
-          } to get ${
-            promotionType === "percent"
-              ? promotionValue + " %"
-              : "$ " + promotionValue
-          }${
-            actionTags?.length > 0
-              ? ` off for ${actionTags?.map((x) => x.value || "")?.join(", ")}.`
-              : ""
-          }.`;
+          // ====> return text message
+          return `Happy, happy birthday! Hurry onto your HarmonyPay App to claim a special gift from one of your favorite stores, ${businessName} to get ${promotionMsg}${actionMsg}.`;
         case 4:
-          return `Loyalty pays! Literally. Go onto your HarmonyPay App to grab this special gift from  ${
-            merchant.businessName
-          } to get ${
-            promotionType === "percent"
-              ? promotionValue + " %"
-              : "$ " + promotionValue
-          }${
-            actionTags?.length > 0
-              ? ` off for ${actionTags?.map((x) => x.value || "")?.join(", ")}.`
-              : ""
-          }. Thanks for being one of our best customers!`;
+          // ====> return text message
+          return `Loyalty pays! Literally. Go onto your HarmonyPay App to grab this special gift from  ${businessName} to get ${promotionMsg}${actionMsg}. Thanks for being one of our best customers!`;
         case 5:
+          // ====> return text message
           return (
-            `Aww, shucks! We think you're awesome too! Here's a sweet thank you gift from you from ${merchant.businessName} for your referral. Hurry to the HarmonyPay App to claim your exclusive deal!` +
-            `Hurry to your HarmonyPay App to claim your referral reward from ${
-              merchant.businessName
-            } to get ${
-              promotionType === "percent"
-                ? promotionValue + " %"
-                : "$ " + promotionValue
-            }${
-              actionTags?.length > 0
-                ? ` off for ${actionTags
-                    ?.map((x) => x.value || "")
-                    ?.join(", ")}.`
-                : ""
-            }`
+            `Aww, shucks! We think you're awesome too! Here's a sweet thank you gift from you from ${businessName} for your referral. Hurry to the HarmonyPay App to claim your exclusive deal!` +
+            `Hurry to your HarmonyPay App to claim your referral reward from ${businessName} to get ${promotionMsg}${actionMsg}`
           );
         default:
           return "No message content";
