@@ -217,12 +217,14 @@ const PromotiomDetail = forwardRef(
     }, [productsByMerchantId, servicesByMerchant]);
 
     useEffect(() => {
-      const tempCategory = categoriesByMerchant.map((category) => ({
-        value: category?.name || "",
-        type: "Category",
-        originalId: category?.categoryId || 0,
-        id: `${category?.categoryId}_Category`,
-      }));
+      const tempCategory = categoriesByMerchant
+        ?.filter((product) => product.isDisabled === 0)
+        .map((category) => ({
+          value: category?.name || "",
+          type: "Category",
+          originalId: category?.categoryId || 0,
+          id: `${category?.categoryId}_Category`,
+        }));
 
       setDataCategory(tempCategory);
     }, [categoriesByMerchant]);
