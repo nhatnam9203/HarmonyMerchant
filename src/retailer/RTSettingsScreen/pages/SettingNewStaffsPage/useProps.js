@@ -1,18 +1,14 @@
 import NavigationServices from "@navigators/NavigatorServices";
-import {
-  INPUT_TYPE,
-  dateToString,
-  BIRTH_DAY_DATE_FORMAT_STRING,
-} from "@shared/utils";
+import { addStaffByMerchant, editStaff } from "@redux/actions/staff";
+import { STAFF_PERMISSIONS, STAFF_PERMISSIONS_ROLES } from "@shared/utils";
+import { BusinessWorkingTime } from "@utils";
 import { useFormik } from "formik";
-import _ from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import * as Yup from "yup";
-import { addStaffByMerchant, editStaff } from "@redux/actions/staff";
 import { useDispatch, useSelector } from "react-redux";
-import { BusinessWorkingTime } from "@utils";
-import { STAFF_PERMISSIONS_ROLES } from "@shared/utils";
+import * as Yup from "yup";
+import actions from "@actions";
+import { useFocusEffect } from "@react-navigation/native";
 
 let counter = -1000000;
 
@@ -82,12 +78,16 @@ const SALARY_TYPE = {
 export const useProps = ({ params: { isNew, isEdit, item } }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [errorMsg, setErrorMsg] = React.useState(null);
-  const [current_staff, setCurrentStaff] = React.useState(item);
-  const [salary, setSalary] = React.useState(SALARY_TYPE.PER_HOUR);
-  const [staffPermission, setStaffPermission] = React.useState(null);
-  const [permission, setPermission] = React.useState(STAFF_PERMISSIONS_ROLES);
+  const roleSelectRef = React.useRef(null);
 
+  const staffDetail = useSelector((state) => state.staff?.staffDetail);
+
+  const [errorMsg, setErrorMsg] = React.useState(null);
+  const [current_staff, setCurrentStaff] = React.useState(null);
+  const [salary, setSalary] = React.useState(SALARY_TYPE.PER_HOUR);
+  const [staffPermission, setStaffPermission] = React.useState("Admin");
+  const [permission, setPermission] = React.useState(STAFF_PERMISSIONS_ROLES);
+  const [staffId, setStaffId] = React.useState(null);
   /**
   |--------------------------------------------------
   | CALL API
@@ -102,6 +102,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     dispatch(editStaff(staff, id, false, buttonCancelPress));
   };
 
+  // !! ??
   const updateObject = (values) => {
     const keys = Object.keys(values);
     const newValues = { ...INITIAL_VALUE_STAFF };
@@ -134,6 +135,12 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
       values.confirmPin = values.pin;
 
       if (isNew) {
+        values.roles = {
+          nameRole: staffPermission,
+        };
+        if (staffPermission === "Manager") {
+          values.permission = permission;
+        }
         createStaff(values);
       } else if (isEdit) {
         let newValues = updateObject(values);
@@ -154,22 +161,45 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   |--------------------------------------------------
   */
 
-  React.useEffect(() => {
-    if (item) {
-      setCurrentStaff(item);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (item) {
+        console.log(item);
+        setCurrentStaff(null);
+        setStaffId(item?.staffId);
+        dispatch(actions.staff.getDetailStaffByMerchantId(item?.staffId));
+      }
+    }, [item])
+  );
 
-      if (item.salary?.perHour?.isCheck) {
-        setSalary(SALARY_TYPE.PER_HOUR);
-      } else if (item.productSalary?.commission?.isCheck) {
+  React.useEffect(() => {
+    if (staffDetail && staffId && staffId === staffDetail.staffId) {
+      console.log(staffDetail);
+
+      setCurrentStaff(staffDetail);
+
+      if (staffDetail.productSalaries?.commission?.isCheck) {
         setSalary(SALARY_TYPE.COMMISSION);
       } else {
         setSalary(SALARY_TYPE.PER_HOUR);
       }
 
-      setStaffPermission(item?.roleName);
-      setPermission(item?.permission ?? STAFF_PERMISSIONS_ROLES);
+      setStaffPermission(staffDetail?.roleName);
+      if (staffDetail.roleName === "Manager") {
+        setPermission(
+          staffDetail.permission?.length > 0
+            ? staffDetail.permission
+            : STAFF_PERMISSIONS_ROLES
+        );
+      }
+
+      roleSelectRef.current?.selectIndex(
+        STAFF_PERMISSIONS?.findIndex(
+          (x) => x.value === staffDetail?.roleName
+        ) || 0
+      );
     }
-  }, [item]);
+  }, [staffDetail, staffId]);
 
   const buttonCancelPress = () => {
     NavigationServices.goBack();
@@ -187,13 +217,22 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     onChangeStaffPermissions: (val) => {
       setStaffPermission(val);
       form.setFieldValue("roleName", val);
+      if (val === "Manager") {
+        setPermission(
+          current_staff?.permission?.length > 0
+            ? current_staff?.permission
+            : STAFF_PERMISSIONS_ROLES
+        );
+      }
     },
     staffPermission,
     permission,
     onChangePermissionRole: (it) => {
+      if (!permission || permission?.length <= 0) return;
       const index = permission?.findIndex((x) => x.key === it.key);
       permission[index] = it;
       setPermission(permission);
     },
+    roleSelectRef,
   };
 };

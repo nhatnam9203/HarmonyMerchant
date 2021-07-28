@@ -1,8 +1,8 @@
-import { layouts } from '@shared/themes';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
-import { CustomInputMask } from './CustomInput';
+import { layouts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, View } from "react-native";
+import { CustomInputMask } from "./CustomInput";
 export const FormInputSalary = ({
   label,
   defaultValue,
@@ -14,7 +14,7 @@ export const FormInputSalary = ({
   const [disabled, setDisabled] = React.useState(editable);
   const onHandleChange = (value) => {
     setSalary(value);
-    if (onChangeText && typeof onChangeText === 'function') {
+    if (onChangeText && typeof onChangeText === "function") {
       onChangeText(value);
     }
   };
@@ -32,27 +32,28 @@ export const FormInputSalary = ({
     }
     setDisabled(editable);
   }, [editable]);
+
   return (
     <View style={styles.containerInputSalary}>
       <Text style={layouts.fontLightBrown}>{label}</Text>
       <CustomInputMask
-        type={'money'}
+        type={"money"}
         autoFocus={true}
         options={{
           precision: 2,
-          separator: '.',
-          delimiter: ',',
-          unit: '',
-          suffixUnit: '',
+          separator: ".",
+          delimiter: ",",
+          unit: "",
+          suffixUnit: "",
         }}
         style={{
           width: scaleWidth(240),
-          backgroundColor: !disabled ? '#BCBCBC' : 'transparent',
+          backgroundColor: !disabled ? "#BCBCBC" : "#fff",
         }}
         textInputProps={{
-          placeholder: '0.00',
+          placeholder: "0.00",
           fontSize: scaleFont(17),
-          textAlign: 'left',
+          textAlign: "left",
           defaultValue: salary,
           onChangeText: onHandleChange,
           editable: disabled,

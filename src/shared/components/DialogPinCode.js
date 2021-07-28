@@ -105,8 +105,9 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
     return (
       <ButtonGradientWhite
         label={item}
-        width={scaleWidth(72)}
-        height={scaleWidth(54)}
+        width={scaleWidth(100)}
+        height={scaleWidth(60)}
+        borderRadius={scaleWidth(3)}
         textColor={colors.GREYISH_BROWN}
         fontSize={scaleFont(26)}
         fontWeight="500"
@@ -182,12 +183,13 @@ export const DialogPinCode = React.forwardRef((props, ref) => {
 const styles = StyleSheet.create({
   dialog: {
     flex: 0,
-    width: scaleWidth(480),
+    width: scaleWidth(380),
   },
 
   container: {
     justifyContent: "center",
     alignItems: "center",
+    flex: 0,
   },
 
   row: { flexDirection: "row", alignItems: "center" },
@@ -223,7 +225,7 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    width: scaleWidth(236),
+    width: scaleWidth(320),
     height: scaleHeight(48),
     borderRadius: scaleWidth(3),
     backgroundColor: colors.WHITE,
@@ -246,7 +248,7 @@ const styles = StyleSheet.create({
     height: scaleHeight(16),
   },
 
-  flatList: { width: scaleWidth(236) },
+  flatList: { width: scaleWidth(320) },
 
   charButton: {
     width: scaleWidth(72),

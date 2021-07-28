@@ -1,9 +1,9 @@
-import React from 'react';
-import { Alert } from 'react-native';
-import _, { isEmpty } from 'ramda';
+import React from "react";
+import { Alert } from "react-native";
+import _, { isEmpty } from "ramda";
 import connectRedux from "@redux/ConnectRedux";
-import Layout from './layout';
-import strings from './strings';
+import Layout from "./layout";
+import strings from "./strings";
 import {
   validateEmail,
   getIdStateByName,
@@ -14,103 +14,103 @@ import {
   BusinessWorkingTime,
   formatNumberFromCurrency,
   menuTabs,
-} from '@utils';
-import * as l from 'lodash';
+} from "@utils";
+import * as l from "lodash";
 
 const initState = {
   user: {
-    firstName: '',
-    lastName: '',
-    displayName: '',
+    firstName: "",
+    lastName: "",
+    displayName: "",
     address: {
-      street: '',
-      city: '',
-      state: '',
-      zip: '',
+      street: "",
+      city: "",
+      state: "",
+      zip: "",
     },
-    cellphone: '',
-    email: '',
-    pin: '',
-    confirmPin: '',
+    cellphone: "",
+    email: "",
+    pin: "",
+    confirmPin: "",
     isActive: true,
-    isDisabled: 'Active',
+    isDisabled: "Active",
     roles: {
-      nameRole: 'Admin',
+      nameRole: "Admin",
     },
     permission: [
       {
-          "id": 0,
-          "key": menuTabs.MARKETING,
-          "label": "Marketing",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.MARKETING,
+        label: "Marketing",
+        isChecked: true,
       },
       {
-          "id": 0,
-          "key": menuTabs.CHECKOUT_DISCOUNT,
-          "label": "Change Discount",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.CHECKOUT_DISCOUNT,
+        label: "Change Discount",
+        isChecked: true,
       },
       {
-          "id": 0,
-          "key": menuTabs.MENU_INVOICE,
-          "label": "Invoice",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.MENU_INVOICE,
+        label: "Invoice",
+        isChecked: true,
       },
       {
-          "id": 0,
-          "key": menuTabs.MENU_SETTLEMENT,
-          "label": "Settlement",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.MENU_SETTLEMENT,
+        label: "Settlement",
+        isChecked: true,
       },
       {
-          "id": 0,
-          "key": menuTabs.MENU_CUSTOMER,
-          "label": "Customer",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.MENU_CUSTOMER,
+        label: "Customer",
+        isChecked: true,
       },
       {
-          "id": 0,
-          "key": menuTabs.MENU_GIFTCARD,
-          "label": "Gift card",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.MENU_GIFTCARD,
+        label: "Gift card",
+        isChecked: true,
       },
       {
-          "id": 0,
-          "key": menuTabs.MENU_INVENTORY,
-          "label": "Inventory",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.MENU_INVENTORY,
+        label: "Inventory",
+        isChecked: true,
       },
       {
-          "id": 0,
-          "key": menuTabs.MENU_REPORT,
-          "label": "Report",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.MENU_REPORT,
+        label: "Report",
+        isChecked: true,
       },
       {
-          "id": 0,
-          "key": menuTabs.MENU_SETTING,
-          "label": "Setting",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.MENU_SETTING,
+        label: "Setting",
+        isChecked: true,
       },
     ],
-    driverlicense: '',
-    socialSecurityNumber: '',
-    professionalLicense: '',
+    driverlicense: "",
+    socialSecurityNumber: "",
+    professionalLicense: "",
   },
-  staffId: '',
+  staffId: "",
   tipFee: {
     percent: {
-      value: '0.0',
+      value: "0.0",
       isCheck: false,
     },
     fixedAmount: {
-      value: '0.0',
+      value: "0.0",
       isCheck: false,
     },
   },
   salary: {
     perHour: {
-      value: '0.00',
+      value: "0.00",
       isCheck: false,
     },
     commission: {
@@ -132,7 +132,7 @@ const initState = {
   },
   cashPercent: 0,
   fileId: 0,
-  imageUrl: '',
+  imageUrl: "",
   isSubmitButton: true,
   value: {},
   dynamicMarginBottomState: 24,
@@ -147,7 +147,7 @@ class AddStaff extends Layout {
   constructor(props) {
     super(props);
     const { profile } = this.props;
-    
+
     this.state = {
       ...initState,
       staffDetail: {},
@@ -167,19 +167,26 @@ class AddStaff extends Layout {
     this.servivesRef = React.createRef();
 
     this.assignSevices = React.createRef();
-    this.isEditStaff = false
+    this.isEditStaff = false;
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { isGetStaffDetailSuccess, staffDetail } = this.props;
-    if (isGetStaffDetailSuccess && prevProps.isGetStaffDetailSuccess !== isGetStaffDetailSuccess) {
-        
-        this.setState({
-            staffDetail,
-        }, () => {this.setStateFromParent(staffDetail, this.isEditStaff)});
-        this.props.actions.staff.resetStateGetStaffDetail();
+    if (
+      isGetStaffDetailSuccess &&
+      prevProps.isGetStaffDetailSuccess !== isGetStaffDetailSuccess
+    ) {
+      this.setState(
+        {
+          staffDetail,
+        },
+        () => {
+          this.setStateFromParent(staffDetail, this.isEditStaff);
+        }
+      );
+      this.props.actions.staff.resetStateGetStaffDetail();
     }
-}
+  }
 
   scrollStaffTo(position) {
     this.scrollStaffRef.current?.scrollTo({
@@ -190,63 +197,63 @@ class AddStaff extends Layout {
   }
 
   setStateFromParent = async (infoStaffHandle, isEditStaff) => {
-    this.isEditStaff = isEditStaff
+    this.isEditStaff = isEditStaff;
     const permissionInit = [
       {
-          "id": 0,
-          "key": menuTabs.MARKETING,
-          "label": "Marketing",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.MARKETING,
+        label: "Marketing",
+        isChecked: true,
       },
       {
-          "id": 0,
-          "key": menuTabs.CHECKOUT_DISCOUNT,
-          "label": "Change Discount",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.CHECKOUT_DISCOUNT,
+        label: "Change Discount",
+        isChecked: true,
       },
       {
-          "id": 0,
-          "key": menuTabs.MENU_INVOICE,
-          "label": "Invoice",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.MENU_INVOICE,
+        label: "Invoice",
+        isChecked: true,
       },
       {
-          "id": 0,
-          "key": menuTabs.MENU_SETTLEMENT,
-          "label": "Settlement",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.MENU_SETTLEMENT,
+        label: "Settlement",
+        isChecked: true,
       },
       {
-          "id": 0,
-          "key": menuTabs.MENU_CUSTOMER,
-          "label": "Customer",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.MENU_CUSTOMER,
+        label: "Customer",
+        isChecked: true,
       },
       {
-          "id": 0,
-          "key": menuTabs.MENU_GIFTCARD,
-          "label": "Gift card",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.MENU_GIFTCARD,
+        label: "Gift card",
+        isChecked: true,
       },
       {
-          "id": 0,
-          "key": menuTabs.MENU_INVENTORY,
-          "label": "Inventory",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.MENU_INVENTORY,
+        label: "Inventory",
+        isChecked: true,
       },
       {
-          "id": 0,
-          "key": menuTabs.MENU_REPORT,
-          "label": "Report",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.MENU_REPORT,
+        label: "Report",
+        isChecked: true,
       },
       {
-          "id": 0,
-          "key": menuTabs.MENU_SETTING,
-          "label": "Setting",
-          "isChecked": true
+        id: 0,
+        key: menuTabs.MENU_SETTING,
+        label: "Setting",
+        isChecked: true,
       },
-    ]
+    ];
     if (isEditStaff) {
       const { stateCity } = this.props;
 
@@ -256,21 +263,21 @@ class AddStaff extends Layout {
       );
       if (isEmpty(tempsalaries?.commission?.value)) {
         tempsalaries?.commission?.value.push({
-          from: '0.0',
-          to: '0.0',
-          commission: '0.0',
+          from: "0.0",
+          to: "0.0",
+          commission: "0.0",
         });
       }
 
-      const permission = !l.isEmpty(l.get(infoStaffHandle, 'permission'))
-                        ? l.get(infoStaffHandle, 'permission')
-                        : permissionInit
+      const permission = !l.isEmpty(l.get(infoStaffHandle, "permission"))
+        ? l.get(infoStaffHandle, "permission")
+        : permissionInit;
 
       await this.setState({
         user: {
-          firstName: infoStaffHandle?.firstName || '',
-          lastName: infoStaffHandle?.lastName || '',
-          displayName: infoStaffHandle?.displayName || '',
+          firstName: infoStaffHandle?.firstName || "",
+          lastName: infoStaffHandle?.lastName || "",
+          displayName: infoStaffHandle?.displayName || "",
           address: {
             street: infoStaffHandle.address,
             city: infoStaffHandle.city,
@@ -284,7 +291,7 @@ class AddStaff extends Layout {
           isActive: infoStaffHandle?.isActive
             ? infoStaffHandle.isActive
             : false,
-          isDisabled: infoStaffHandle?.isDisabled === 0 ? 'Active' : 'Disable',
+          isDisabled: infoStaffHandle?.isDisabled === 0 ? "Active" : "Disable",
           roles: {
             nameRole: infoStaffHandle?.roleName,
           },
@@ -293,7 +300,7 @@ class AddStaff extends Layout {
           professionalLicense: infoStaffHandle?.professionalLicense,
           permission,
         },
-        staffId: infoStaffHandle?.staffId || '',
+        staffId: infoStaffHandle?.staffId || "",
         fileId: infoStaffHandle?.fileId || 0,
         imageUrl: infoStaffHandle.imageUrl,
         rowsSalaryIncome:
@@ -305,7 +312,6 @@ class AddStaff extends Layout {
         productSalary: infoStaffHandle?.productSalaries,
         tipFee: infoStaffHandle?.tipFees,
         cashPercent: infoStaffHandle?.cashPercent,
-        
       });
       this.browserFileRef.current?.setImageUrlFromParent(
         infoStaffHandle.imageUrl
@@ -314,19 +320,20 @@ class AddStaff extends Layout {
         getCodeAreaPhone(infoStaffHandle.phone).areaCode
       );
 
-      this.assignSevices?.current?.setStateFromParent(JSON.parse(
-        JSON.stringify(infoStaffHandle)))
+      this.assignSevices?.current?.setStateFromParent(
+        JSON.parse(JSON.stringify(infoStaffHandle))
+      );
     } else {
       // ----------- Create New Staff -----------
       const { profile } = this.props;
-      const initStateTemp = JSON.parse(JSON.stringify(initState))
+      const initStateTemp = JSON.parse(JSON.stringify(initState));
       await this.setState({
         ...initStateTemp,
         workingTime: profile.businessHour
           ? profile.businessHour
           : BusinessWorkingTime,
       });
-      this.browserFileRef?.current?.setImageUrlFromParent('');
+      this.browserFileRef?.current?.setImageUrlFromParent("");
       this.assignSevices?.current?.getServiceAssignData();
     }
 
@@ -364,9 +371,9 @@ class AddStaff extends Layout {
     let isEmpty = false;
 
     for (let ref of incomeSalary) {
-      let from = ref?.state?.from || '0.00';
-      let to = ref?.state?.to || '0.00';
-      let commission = ref?.state?.commission || '0.00';
+      let from = ref?.state?.from || "0.00";
+      let to = ref?.state?.to || "0.00";
+      let commission = ref?.state?.commission || "0.00";
 
       if (!from || !to || !commission) {
         isEmpty = true;
@@ -387,7 +394,7 @@ class AddStaff extends Layout {
     if (isEmpty) {
       return {
         status: false,
-        message: 'Please enter full salary income information!',
+        message: "Please enter full salary income information!",
         data: [{ from: 0.0, to: 0.0, commission: 0.0 }],
       };
     }
@@ -395,14 +402,14 @@ class AddStaff extends Layout {
     if (!isCheckIsValidIncome) {
       return {
         status: false,
-        message: 'From income not greater than to income',
+        message: "From income not greater than to income",
         data: [{ from: 0.0, to: 0.0, commission: 0.0 }],
       };
     }
 
     return {
       status: true,
-      message: '',
+      message: "",
       data: values,
     };
   };
@@ -435,35 +442,35 @@ class AddStaff extends Layout {
     const { user } = this.state;
     const { stateCity } = this.props;
     const arrayKey = Object.keys(user);
-    let keyError = '';
+    let keyError = "";
     for (let i = 0; i < arrayKey.length; i++) {
-      if (arrayKey[i] == 'address') {
+      if (arrayKey[i] == "address") {
         if (
-          user.address.state !== '' &&
+          user.address.state !== "" &&
           !checkStateIsValid(stateCity, user.address.state)
         ) {
-          keyError = 'stateInvalid';
+          keyError = "stateInvalid";
           break;
         }
-      } else if (arrayKey[i] == 'roles') {
-        if (user.roles.nameRole == '') {
-          keyError = 'nameRole';
+      } else if (arrayKey[i] == "roles") {
+        if (user.roles.nameRole == "") {
+          keyError = "nameRole";
           break;
         }
-      } else if (arrayKey[i] == 'email' && user[arrayKey[i]] !== '') {
+      } else if (arrayKey[i] == "email" && user[arrayKey[i]] !== "") {
         if (!validateEmail(user[arrayKey[i]])) {
-          keyError = 'emailInvalid';
+          keyError = "emailInvalid";
           break;
         }
       } else if (
-        arrayKey[i] != 'driverlicense' &&
-        arrayKey[i] != 'socialSecurityNumber' &&
-        arrayKey[i] != 'professionalLicense'
+        arrayKey[i] != "driverlicense" &&
+        arrayKey[i] != "socialSecurityNumber" &&
+        arrayKey[i] != "professionalLicense"
       ) {
         if (
-          user[arrayKey[i]] === '' &&
-          arrayKey[i] !== 'cellphone' &&
-          arrayKey[i] !== 'email'
+          user[arrayKey[i]] === "" &&
+          arrayKey[i] !== "cellphone" &&
+          arrayKey[i] !== "email"
         ) {
           keyError = arrayKey[i];
           break;
@@ -471,16 +478,16 @@ class AddStaff extends Layout {
       }
     }
     if (user.pin !== user.confirmPin) {
-      keyError = 'pinnotmatch';
+      keyError = "pinnotmatch";
     }
     // ------- Check Service Salary Income ------------
     const resultSalaryIncome = this.checkSalaryIncomeService();
     const isCheckIncomeSalary =
       this.commissionSalaryRef?.current?.state?.isCheck;
     if (isCheckIncomeSalary && !resultSalaryIncome.status) {
-      keyError = resultSalaryIncome?.message || '';
+      keyError = resultSalaryIncome?.message || "";
     }
-    if (keyError !== '') {
+    if (keyError !== "") {
       Alert.alert(`${strings[keyError] ? strings[keyError] : keyError}`);
     } else {
       const { address } = user;
@@ -501,11 +508,11 @@ class AddStaff extends Layout {
       const temptStaff = {
         ...user,
         cellphone:
-          user.cellphone === ''
-            ? ''
+          user.cellphone === ""
+            ? ""
             : `${this.cellphoneRef?.current?.state?.codeAreaPhone}${user.cellphone}`,
         address: temptAddress,
-        isDisabled: user.isDisabled === 'Active' ? 0 : 1,
+        isDisabled: user.isDisabled === "Active" ? 0 : 1,
         // workingTime: objWorkingTime,
         workingTime: { ...this.state.workingTime },
         salary: tempSalary,
@@ -518,7 +525,7 @@ class AddStaff extends Layout {
       };
 
       if (this.state.isEditStaff) {
-        console.log('temptStaff', temptStaff);
+        console.log("temptStaff", temptStaff);
         this.props.editStaff(temptStaff, this.state.staffId);
       } else {
         console.log(JSON.stringify(temptStaff));
@@ -528,50 +535,49 @@ class AddStaff extends Layout {
   };
 
   convertKeyToName(key) {
-    let name = '';
+    let name = "";
     switch (key) {
-      case 'Percent (%)':
-        name = 'percent';
+      case "Percent (%)":
+        name = "percent";
         break;
-      case 'Fixed amount ($)':
-        name = 'fixedAmount';
+      case "Fixed amount ($)":
+        name = "fixedAmount";
         break;
-      case 'Per hour ($)':
-        name = 'perHour';
+      case "Per hour ($)":
+        name = "perHour";
         break;
-      case 'Commission (%)':
-        name = 'commission';
+      case "Commission (%)":
+        name = "commission";
         break;
       default:
-        name = 'commission1';
+        name = "commission1";
     }
     return name;
   }
 
   /**
    * change permission list of manager role
-   * @param {*} key 
-   * @param {*} isEnable 
+   * @param {*} key
+   * @param {*} isEnable
    */
-  switchPermission(key, isEnable){
+  switchPermission(key, isEnable) {
     const { user } = this.state;
-    let permission = l.map(l.get(user, 'permission', []), (item) => {
-      let itemUpdate = item
-      if(l.get(item, 'key') == key){
-        itemUpdate.isChecked = isEnable
+    let permission = l.map(l.get(user, "permission", []), (item) => {
+      let itemUpdate = item;
+      if (l.get(item, "key") == key) {
+        itemUpdate.isChecked = isEnable;
       }
-      return itemUpdate
-    })
+      return itemUpdate;
+    });
     const temptUpdate = { ...user, permission };
     this.setState({
       user: temptUpdate,
-    })
-
+    });
   }
 
-  updateUserInfo(key, value, keyParent = '') {
+  updateUserInfo(key, value, keyParent = "") {
     const { user } = this.state;
-    if (keyParent !== '') {
+    if (keyParent !== "") {
       const temptParent = user[keyParent];
       const temptChild = { ...temptParent, [key]: value };
       const temptUpdate = { ...user, [keyParent]: temptChild };
@@ -625,7 +631,7 @@ class AddStaff extends Layout {
     const tempSalary = JSON.parse(JSON.stringify(this.state.salary));
     const isCheck = tempSalary?.perHour?.isCheck;
     if (isCheck) {
-      tempSalary.perHour.value = '0.00';
+      tempSalary.perHour.value = "0.00";
     } else {
       tempSalary.commission = {
         value: [
@@ -668,7 +674,7 @@ class AddStaff extends Layout {
       ];
     } else {
       tempSalary.perHour = {
-        value: '0.00',
+        value: "0.00",
         isCheck: false,
       };
     }
@@ -682,9 +688,9 @@ class AddStaff extends Layout {
   addMoreSalary = () => {
     const tempSalary = JSON.parse(JSON.stringify(this.state.salary));
     tempSalary.commission.value.push({
-      from: '0.0',
-      to: '0.0',
-      commission: '0.0',
+      from: "0.0",
+      to: "0.0",
+      commission: "0.0",
     });
 
     this.setState({
@@ -738,10 +744,10 @@ class AddStaff extends Layout {
     const isCheck = tempTipFee?.percent?.isCheck;
 
     if (isCheck) {
-      tempTipFee.percent.value = '0.00';
+      tempTipFee.percent.value = "0.00";
     } else {
       tempTipFee.fixedAmount.isCheck = false;
-      tempTipFee.fixedAmount.value = '0.00';
+      tempTipFee.fixedAmount.value = "0.00";
     }
 
     tempTipFee.percent.isCheck = !isCheck;
@@ -765,10 +771,10 @@ class AddStaff extends Layout {
     const isCheck = tempTipFee?.fixedAmount?.isCheck;
 
     if (isCheck) {
-      tempTipFee.fixedAmount.value = '0.00';
+      tempTipFee.fixedAmount.value = "0.00";
     } else {
       tempTipFee.percent.isCheck = false;
-      tempTipFee.percent.value = '0.00';
+      tempTipFee.percent.value = "0.00";
     }
 
     tempTipFee.fixedAmount.isCheck = !isCheck;
@@ -801,4 +807,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connectRedux(mapStateToProps, AddStaff);
-

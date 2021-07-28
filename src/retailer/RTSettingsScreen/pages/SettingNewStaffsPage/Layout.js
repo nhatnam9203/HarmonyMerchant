@@ -40,8 +40,8 @@ export const Layout = ({
   SALARY_TYPE,
   onChangeStaffPermissions,
   staffPermission,
-  permission,
   onChangePermissionRole,
+  roleSelectRef,
 }) => {
   const [t] = useTranslation();
 
@@ -54,6 +54,10 @@ export const Layout = ({
   }) => {
     if (columnKey === "isChecked") {
       const onChangeSettingPermission = (val) => {
+        // console.log(cellItem);
+        // if (val === cellItem.isChecked) {
+        //   return;
+        // }
         onChangePermissionRole(Object.assign({}, cellItem, { isChecked: val }));
       };
 
@@ -177,7 +181,9 @@ export const Layout = ({
                 "productSalary.commission.value"
               )}
               editable={salary === SALARY_TYPE.COMMISSION}
-              defaultValue={current_staff?.productSalary?.commission?.value}
+              defaultValue={
+                current_staff?.productSalaries?.commission?.value + ""
+              }
             />
             <CustomCheckBox
               selectedColor={colors.OCEAN_BLUE}
@@ -202,7 +208,7 @@ export const Layout = ({
               label={t("Salary per hour ($)")}
               onChangeText={form?.handleChange("salary.perHour.value")}
               editable={salary === SALARY_TYPE.PER_HOUR}
-              defaultValue={current_staff?.salary?.perHour?.value}
+              defaultValue={current_staff?.salaries?.perHour?.value + ""}
             />
             <CustomCheckBox
               selectedColor={colors.OCEAN_BLUE}
@@ -232,7 +238,7 @@ export const Layout = ({
           <View style={styles.content}>
             <FormSelect
               // isDropdown
-              // filterRef={billingSelectRef}
+              filterRef={roleSelectRef}
               label={t("Roles")}
               required={false}
               filterItems={STAFF_PERMISSIONS}
@@ -256,11 +262,15 @@ export const Layout = ({
           </View>
         </View>
 
-        {staffPermission === "Manager" && (
+        {staffPermission === "Manager" && current_staff?.permission && (
           <View style={styles.container}>
             <View style={styles.permission}>
               <Table
-                items={current_staff?.permission ?? STAFF_PERMISSIONS_ROLES}
+                items={
+                  current_staff?.permission?.length > 0
+                    ? current_staff?.permission
+                    : STAFF_PERMISSIONS_ROLES
+                }
                 headerKeyLabels={{
                   label: t("Tabs"),
                   // inputType: t('Input Type'),
