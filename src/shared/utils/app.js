@@ -130,7 +130,8 @@ export const createSubmitAppointment = (products) => {
 };
 
 export const getFullName = (customer) => {
-  return `${customer.firstName} ${customer.lastName}`;
+  if (!customer) return "";
+  return `${customer.firstName || ""} ${customer.lastName || ""}`;
 };
 
 export const SHIPPING_CARRIER = [

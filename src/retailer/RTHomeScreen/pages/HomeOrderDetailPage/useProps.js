@@ -79,9 +79,7 @@ export const useProps = ({
       if (
         payment?.length <= 0 &&
         ((status === ORDERED_STATUS.PENDING && purchasePoint === "Store") ||
-          (status === ORDERED_STATUS.PROCESS &&
-            !didNotPay &&
-            purchasePoint !== "Store"))
+          (status === ORDERED_STATUS.PROCESS && !didNotPay))
       ) {
         NavigationServices.navigate("retailer.home.order.pay", {
           orderItem: data,

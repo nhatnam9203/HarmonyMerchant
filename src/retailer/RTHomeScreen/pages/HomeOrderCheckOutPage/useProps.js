@@ -254,10 +254,10 @@ export const useProps = ({
       if (appointmentId) {
         addItemAppointment(submitProducts[0]);
       } else {
-        if (!customer) {
-          customerRef.current?.showPhoneInput();
-          return;
-        }
+        // if (!customer) {
+        //   customerRef.current?.showPhoneInput();
+        //   return;
+        // }
 
         if (!appointment) {
           createAppointmentTemp({
