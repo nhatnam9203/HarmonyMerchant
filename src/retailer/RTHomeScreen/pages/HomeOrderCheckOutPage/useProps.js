@@ -273,5 +273,8 @@ export const useProps = ({
       removeItemAppointment(item?.bookingProductId);
     },
     customer,
+    onResultScanCode: (data) => {
+      alert("code" + data);
+    },
   };
 };
