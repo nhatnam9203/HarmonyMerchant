@@ -25,7 +25,7 @@ import {
 } from "@utils";
 import connectRedux from "@redux/ConnectRedux";
 import Configs from '@configs';
-
+import _ from 'lodash';
 
 class PopupAddEditProduct extends React.Component {
   constructor(props) {
@@ -79,9 +79,9 @@ class PopupAddEditProduct extends React.Component {
         name: productInfo.name,
         description: productInfo.description,
         sku: productInfo.sku ? productInfo.sku : "",
-        quantity: productInfo.quantity ? productInfo.quantity : "",
-        minThreshold: productInfo.minThreshold ? productInfo.minThreshold : "",
-        maxThreshold: productInfo.maxThreshold ? productInfo.maxThreshold : "",
+        quantity: _.get(productInfo, 'quantity'),
+        minThreshold: _.get(productInfo, 'minThreshold'),
+        maxThreshold: _.get(productInfo, 'maxThreshold'),
         price: productInfo.price ? productInfo.price : "",
         isDisabled: productInfo.isDisabled === 0 ? "Active" : "Disable",
       },
@@ -128,7 +128,7 @@ class PopupAddEditProduct extends React.Component {
     for (let i = 0; i <= arrayKey.length - 1; i++) {
       if (arrayKey[i] === "description") {
         continue;
-      } else if (temptProductInfo[arrayKey[i]] == "") {
+      } else if (temptProductInfo[arrayKey[i]] === "") {
         keyError = arrayKey[i];
         break;
       }
