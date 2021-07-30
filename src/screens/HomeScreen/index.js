@@ -563,9 +563,11 @@ class HomeScreen extends Layout {
     this.setState({
       visible: false,
     });
-    this.props.actions.app.maskNotiAsReadById(
-      noti?.merchantNotificationId || 0
-    );
+    if(!l.get(noti, 'view')){
+      this.props.actions.app.maskNotiAsReadById(
+        noti?.merchantNotificationId || 0
+      );
+    }
   };
 
   loadMoreNotificationList = () => {
