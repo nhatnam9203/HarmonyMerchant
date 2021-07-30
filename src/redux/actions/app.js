@@ -314,6 +314,24 @@ export function resetNotiIntervalId() {
   };
 }
 
+export function reduceUnreadNotification() {
+  return {
+    type: "REDUCE_UNREAD_NOTIFICATION",
+  };
+}
+
+export function increaseUnreadNotification() {
+  return {
+    type: "INCREASE_UNREAD_NOTIFICATION",
+  };
+}
+
+export function resetUnreadNotification() {
+  return {
+    type: "RESET_UNREAD_NOTIFICATION",
+  };
+}
+
 export function getNotificationList(page = 1) {
   return {
     type: "GET_NOTIFICATION_LIST",
