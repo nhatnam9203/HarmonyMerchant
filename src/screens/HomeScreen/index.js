@@ -624,7 +624,7 @@ class HomeScreen extends Layout {
     ) {
       if (profileStaffLogin?.token) {
         this.handleNotification();
-        this.props.actions.app.getCountUnReadOfNotification();
+        this.props.actions.app.increaseUnreadNotification();
         this.props.actions.app.resetStateNotiWhenHaveAAppointment();
       }
     }

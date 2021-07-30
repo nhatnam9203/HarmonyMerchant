@@ -371,7 +371,7 @@ function* maskNotiAsReadById(action) {
     const responses = yield requestAPI(action);
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
-      yield put(actions.app.getCountUnReadOfNotification());
+      yield put(actions.app.reduceUnreadNotification());
     } else if (parseInt(codeNumber) === 401) {
       yield put({
         type: 'UNAUTHORIZED',
@@ -398,7 +398,7 @@ function* readAllNotification(action) {
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
       yield put(actions.app.getNotificationList());
-      yield put(actions.app.getCountUnReadOfNotification());
+      yield put(actions.app.resetUnreadNotification());
     } else if (parseInt(codeNumber) === 401) {
       yield put({
         type: 'UNAUTHORIZED',

@@ -300,6 +300,21 @@ function appReducer(state = initialState, action) {
         notiTotalPages: action.totalPages,
         notiCurrentPage: action.currentPage,
       };
+    case "RESET_UNREAD_NOTIFICATION":
+      return {
+        ...state,
+        notificationContUnread: 0,
+      }
+    case "REDUCE_UNREAD_NOTIFICATION":
+      return {
+        ...state,
+        notificationContUnread: notificationContUnread - 1,
+      }
+    case "INCREASE_UNREAD_NOTIFICATION":
+      return {
+        ...state,
+        notificationContUnread: notificationContUnread + 1,
+      }
     case "GET_COUNT_UNREAD_OF_NOTIFICATION_SUCCESS":
       return {
         ...state,
