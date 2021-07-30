@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { ReportStatisticLayout, TableListExtended } from "../../widget";
+import { ReportStatisticLayout, TableListExtended } from "../../../widget";
 import { localize } from "@utils";
 
 export default function StaffStatistic(props, ref) {
@@ -89,7 +89,7 @@ export default function StaffStatistic(props, ref) {
     });
   }, [filterId, listStaffsSalary]);
 
-  const onCellPress = ({ key, row, column, item }) => { };
+  const onCellPress = ({ key, row, column, item }) => {};
 
   const renderCell = ({ key, row, column, item }) => {
     return null;

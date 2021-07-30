@@ -3,12 +3,12 @@ import { localize } from "@utils";
 import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
-import { PopupStaffInvoicePrint } from "../../../widget";
-import { ReportTabLayout, TableListExtended } from "../../widget";
+import { PopupStaffInvoicePrint } from "../../../../widget";
+import { ReportTabLayout, TableListExtended, TableList } from "../../../widget";
 
 const FILTER_NAME_DEFAULT = "All Staff";
 
-export default function StaffReportTab({
+export default function StaffDurationTab({
   style,
   onGoStatistics,
   titleRangeTime,
@@ -129,71 +129,19 @@ export default function StaffReportTab({
         handleTheDownloadedFile={handleTheDownloadedFile}
         filterNameDefault={FILTER_NAME_DEFAULT}
         rightTooltip={<></>}
-        title={localize("Staff Salary", language)}
+        title={localize("Staff Service Duration", language)}
       >
-        <TableListExtended
+        <TableList
           tableData={filterDataTable()}
           tableHead={{
-            name: localize("Name ", language),
+            name: localize("Staff Name ", language),
             serviceSales: localize("Service Sales", language),
-            surcharge: localize("Surcharge", language),
-            netServiceSales: localize("Net Service Sale", language),
-            serviceSplit: localize("Service Split", language),
-            // productSales: localize("Product Sales", language),
-            // productSplit: localize("Product Split", language),
-            // workingHour: localize("Working Hour", language),
-            // salaryWage: localize("Salary Wage", language),
-            tip: localize("Tip Amount", language),
-            discountByStaff: localize("Discount By Staff", language),
-            refundAmount: localize("Refund amount", language),
-            salary: localize("Salary", language),
           }}
-          whiteKeys={[
-            "name",
-            "serviceSales",
-            "surcharge",
-            "netServiceSales",
-            "serviceSplit",
-            // "productSales",
-            // "productSplit",
-            // "workingHour",
-            // "salaryWage",
-            "tip",
-            "discountByStaff",
-            "refundAmount",
-            "salary",
-            "action",
-          ]}
+          whiteKeys={["name", "serviceSales", "action"]}
           primaryId="staffId"
           sumTotalKey="name"
-          calcSumKeys={[
-            "serviceSales",
-            "surcharge",
-            "netServiceSales",
-            "serviceSplit",
-            // "productSales",
-            // "productSplit",
-            // "workingHour",
-            // "salaryWage",
-            "tip",
-            "discountByStaff",
-            "refundAmount",
-            "salary",
-          ]}
-          priceKeys={[
-            "serviceSales",
-            "surcharge",
-            "netServiceSales",
-            "serviceSplit",
-            // "productSales",
-            // "productSplit",
-            // "workingHour",
-            // "salaryWage",
-            "tip",
-            "discountByStaff",
-            "refundAmount",
-            "salary",
-          ]}
+          calcSumKeys={["serviceSales"]}
+          priceKeys={["serviceSales"]}
           unitKeys={{ workingHour: "hrs" }}
           sortDefault="NONE"
           sortKey="name"

@@ -1,47 +1,53 @@
-import actions from "@actions";
 import React, {
+  useState,
   forwardRef,
   useImperativeHandle,
   useRef,
-  useState,
 } from "react";
-import { StyleSheet, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { ReportLayout } from "../../widget";
-import StaffReportTab from "./StaffReportTab";
-import StaffStatistic from "./StaffStatistic";
+import { View, Text } from "react-native";
+import { useSelector } from "react-redux";
 
-const RANGE_TIME_DEFAULT = "This Week";
+import { CustomScrollTab } from "../../widget";
+import StaffSalaryTab from "./StaffSalary";
+import StaffServiceDurationTab from "./StaffServiceDuration";
 
 function StaffTab({ style, showBackButton }, ref) {
-  /**redux store*/
-  const dispatch = useDispatch();
+  /**redux store */
+  const language = useSelector((state) => state.dataLocal.language);
 
-  const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
-  const nextPage = useSelector((state) => state.staff.listStaffsSalaryNextPage);
+  /**state store */
+  const [currentTab, setCurrentTab] = useState(0);
+  const [showHeader, setShowHeader] = useState(true);
 
-  const pathFileReportStaff = useSelector(
-    (state) => state.staff.pathFileReportStaffSalary
-  );
-
-  const pathFileReportStaffStatistic = useSelector(
-    (state) => state.staff.pathFileReportStaffStatistic
-  );
-
-  const isDownloadReportStaff = useSelector(
-    (state) => state.staff.isDownloadReportStaff
-  );
-
-  /**state */
-  const [titleRangeTime, setTitleRangeTime] = useState(RANGE_TIME_DEFAULT);
-  const [filterNameItem, setFilterNameItem] = useState(undefined);
-  const [filterNames, setFilterNames] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
-
-  /**ref */
-  const layoutRef = useRef(null);
+  /**refs */
+  const staffSalaryTabRef = useRef(null);
+  const staffDurationTabRef = useRef(null);
 
   /**function */
+  const onChangeTab = (tabIndex) => {
+    staffSalaryTabRef?.current?.goBack();
+    staffDurationTabRef?.current?.goBack();
+    setCurrentTab(tabIndex);
+  };
+
+  const onGoBack = () => {
+    switch (currentTab) {
+      case 0:
+        staffSalaryTabRef.current?.goBack();
+        break;
+      case 1:
+        staffDurationTabRef.current?.goBack();
+        break;
+      default:
+        break;
+    }
+    setShowHeader(true);
+  };
+
+  const onShowHeader = (bl) => {
+    setShowHeader(bl);
+  };
+
   const getListStaffsSalaryTop = async (page = 1) => {
     if (page <= 0) return;
 
@@ -54,146 +60,44 @@ function StaffTab({ style, showBackButton }, ref) {
     );
   };
 
-  const showCalendar = (isShow) => {
-    layoutRef?.current?.showCalendar(isShow);
-  };
-
-  //callback
-  const onChangeTimeTitle = async (timeTitle) => {
-    await setTitleRangeTime(timeTitle);
-    await getListStaffsSalaryTop(1);
-  };
-
-  const onChangeFilterNames = (names) => {
-    setFilterNames(names);
-  };
-
-  const onChangeFilterId = async (filterId) => {
-    await setFilterNameItem(filterId);
-  };
-
-  const onGoStatistics = async (item) => {
-    await setFilterNameItem(item.name);
-    layoutRef.current?.goNext();
-  };
-
-  const onShowPopupExport = (title) => {
-    layoutRef?.current?.showPopupExport(title);
-  };
-
-  const onRequestExportFileToServer = (currentTab, titleExportFile) => {
-    switch (currentTab) {
-      case 0:
-        dispatch(
-          actions.staff.getExportStaffSalary(
-            layoutRef?.current?.getTimeUrl(),
-            true,
-            "csv",
-            titleExportFile
-          )
-        );
-        break;
-      case 1:
-        const filterItem = listStaffsSalary.find(
-          (item) => item.name === filterNameItem
-        );
-        if (!filterItem) return;
-        dispatch(
-          actions.staff.getExportStaffStatistics(
-            filterItem.staffId,
-            layoutRef?.current?.getTimeUrl(),
-            true,
-            "csv",
-            titleExportFile
-          )
-        );
-        break;
-      default:
-        break;
-    }
-  };
-
-  const onHandleTheDownloadedFile = (filePath) => {
-    layoutRef.current?.handleTheDownloadedFile(filePath);
-  };
-
-  // public function
+  // public func
   useImperativeHandle(ref, () => ({
-    goBack: () => {
-      layoutRef.current?.goBack();
-      dispatch(actions.staff.resetDownloadExportFiles());
+    goBack: onGoBack,
+    didBlur: () => {
+      // setTitleRangeTime("This week");
+      staffSalaryTabRef?.current?.didBlur();
+      staffDurationTabRef?.current?.didBlur();
     },
-    getListStaffsSalaryTop: () => getListStaffsSalaryTop(),
-    didBlur: async () => {
-      // await setTitleRangeTime(RANGE_TIME_DEFAULT);
+    didFocus: () => {
+      staffSalaryTabRef?.current?.didFocus();
+      staffDurationTabRef?.current?.didFocus();
     },
-    didFocus: async () => {
-      // await setTitleRangeTime(RANGE_TIME_DEFAULT);
-      layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
+    getListStaffsSalaryTop: () => {
+      staffSalaryTabRef.current?.getListStaffsSalaryTop();
     },
   }));
 
-  /**effect */
-  const refreshData = () => {
-    setRefreshing(true);
-    getListStaffsSalaryTop(1);
-  };
-
-  const loadMoreData = () => {
-    getListStaffsSalaryTop(nextPage);
-  };
-
-  React.useEffect(() => {
-    setRefreshing(false);
-  }, [listStaffsSalary]);
-
   return (
-    <View style={[styles.container, style]}>
-      <ReportLayout
-        ref={layoutRef}
-        style={style}
-        showBackButton={showBackButton}
-        onChangeTimeTitle={onChangeTimeTitle}
-        onRequestExportFileToServer={onRequestExportFileToServer}
-        isDownloadReport={isDownloadReportStaff}
-      >
-        <StaffReportTab
+    <View style={[style, { paddingTop: 10 }]}>
+      <CustomScrollTab onHeaderTabChanged={onChangeTab} showHeader={showHeader}>
+        <StaffSalaryTab
           style={{ flex: 1 }}
-          tabLabel="Staff Salary"
-          onGoStatistics={onGoStatistics}
-          showCalendar={() => showCalendar(true)}
-          titleRangeTime={titleRangeTime}
-          onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("StaffSalary")}
-          pathFileExport={pathFileReportStaff}
-          handleTheDownloadedFile={onHandleTheDownloadedFile}
-          onRefresh={refreshData}
-          isRefreshing={refreshing}
-          onLoadMore={loadMoreData}
-          endLoadMore={nextPage <= 0}
+          ref={staffSalaryTabRef}
+          tabLabel="        Salary      "
+          showBackButton={showBackButton}
+          showHeader={onShowHeader}
         />
-        <StaffStatistic
+
+        <StaffServiceDurationTab
           style={{ flex: 1 }}
-          tabLabel="Staff Statistics"
-          title="Staff Statistics"
-          titleRangeTime={titleRangeTime}
-          showCalendar={() => showCalendar(true)}
-          dataFilters={filterNames}
-          filterId={filterNameItem}
-          onChangeFilter={onChangeFilterId}
-          showExportFile={() => onShowPopupExport("StaffStatistic")}
-          pathFileExport={pathFileReportStaffStatistic}
-          handleTheDownloadedFile={onHandleTheDownloadedFile}
-          onRefresh={refreshData}
-          isRefreshing={refreshing}
+          ref={staffDurationTabRef}
+          tabLabel="Service Duration"
+          showBackButton={showBackButton}
+          showHeader={onShowHeader}
         />
-      </ReportLayout>
+      </CustomScrollTab>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {},
-});
 
 export default StaffTab = forwardRef(StaffTab);
