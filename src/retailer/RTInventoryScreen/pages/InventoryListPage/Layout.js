@@ -2,6 +2,7 @@ import IMAGE from "@resources";
 import {
   ButtonGradient,
   ButtonGradientWhite,
+  ButtonGradientGreen,
   DropdownMenu,
   // ExportModal,
   ExportModalInventory,
@@ -53,6 +54,8 @@ export const Layout = ({
   onResultScanCode,
   onCheckedAll,
   getCheckedValue,
+  onButtonApprovePress,
+  onHandleQuantity,
 }) => {
   const { t } = useTranslation();
 
@@ -82,11 +85,25 @@ export const Layout = ({
       const onHandleEdit = () => {
         onEditProduct(item);
       };
+      const onHandleQty = () => {
+        onHandleQuantity(item);
+      };
       return (
         <View
-          style={layouts.fill}
+          style={[layouts.fill, layouts.horizontal]}
           key={getUniqueId(columnKey, rowIndex, "cell-action")}
         >
+          <ButtonGradientWhite
+            label={t("Quantity")}
+            width={scaleWidth(72)}
+            height={scaleHeight(30)}
+            borderRadius={scaleWidth(3)}
+            fontSize={scaleFont(15)}
+            // textColor={colors.WHITE}
+            fontWeight="normal"
+            onPress={onHandleQty}
+          />
+          <View style={layouts.marginHorizontal} />
           <ButtonGradient
             label={t("Edit")}
             width={scaleWidth(72)}
@@ -163,7 +180,7 @@ export const Layout = ({
           primaryKey="productId"
           widthForKeys={{
             imageUrl: IMAGE_WIDTH,
-            name: scaleWidth(220),
+            name: scaleWidth(150),
             categoryName: scaleWidth(120),
             sku: scaleWidth(150),
             price: scaleWidth(120),
@@ -214,26 +231,35 @@ export const Layout = ({
       </View>
 
       <View style={[styles.rowContent, { justifyContent: "flex-start" }]}>
-        <DropdownMenu
-          items={categories}
-          defaultIndex={0}
-          onChangeValue={(item) => {
-            setCategory(item?.value);
-          }}
-          width={scaleWidth(208)}
-          placeholder={t("Select Category")}
-        />
-        <View style={layouts.marginHorizontal} />
+        <View style={styles.leftContent}>
+          <DropdownMenu
+            items={categories}
+            defaultIndex={0}
+            onChangeValue={(item) => {
+              setCategory(item?.value);
+            }}
+            width={scaleWidth(208)}
+            placeholder={t("Select Category")}
+          />
+          <View style={layouts.marginHorizontal} />
 
-        <DropdownMenu
-          ref={needToOrderRef}
-          items={NEED_TO_ORDER}
-          defaultValue={needToOrder}
-          onChangeValue={(item) => {
-            setNeedToOrder(item?.value);
-          }}
-          placeholder={t("Need to order")}
-          width={scaleWidth(160)}
+          <DropdownMenu
+            ref={needToOrderRef}
+            items={NEED_TO_ORDER}
+            defaultValue={needToOrder}
+            onChangeValue={(item) => {
+              setNeedToOrder(item?.value);
+            }}
+            placeholder={t("Need to order")}
+            width={scaleWidth(160)}
+          />
+        </View>
+
+        <ButtonGradientGreen
+          onPress={onButtonApprovePress}
+          label={t("Approve Change")}
+          width={scaleWidth(140)}
+          borderRadius={scaleWidth(3)}
         />
       </View>
 

@@ -164,6 +164,27 @@ export const ButtonGradientRed = ({
   />
 );
 
+export const ButtonGradientGreen = ({
+  textColor,
+  borderRadius = scaleHeight(1),
+  borderColor,
+  ...props
+}) => (
+  <ButtonGradient
+    {...props}
+    lastColor="#4cd964"
+    firstColor="#33cc33"
+    textColor={textColor ?? colors.PALE_GREY}
+    borderColor
+    pressFirstColor="#33cc33"
+    pressLastColor="#33cc33"
+    pressTextColor={colors.PALE_GREY}
+    pressBorderColor={borderColor}
+    borderWidth={0}
+    borderRadius={borderRadius}
+  />
+);
+
 const styles = StyleSheet.create({
   button: {
     height: "100%",

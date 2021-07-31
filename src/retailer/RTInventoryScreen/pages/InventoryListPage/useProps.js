@@ -235,5 +235,11 @@ export const useProps = ({ params: { reload } }) => {
         itemSelected?.findIndex((x) => item.productId === x.productId) >= 0
       );
     },
+    onButtonApprovePress: () => {},
+    onHandleQuantity: (item) => {
+      NavigationServices.navigate("retailer.inventory.product.qty", {
+        item,
+      });
+    },
   };
 };

@@ -1,10 +1,10 @@
-import { appMerchant } from "@redux/slices";
+import { loginStaff } from "@actions/staff";
+import NavigationServices from "@navigators/NavigatorServices";
 import { CodePushContext } from "@shared/providers/CodePushProvider";
+import { useGetAddressStates } from "@shared/services/api/app";
 import { sleep } from "@shared/utils/app";
 import React from "react";
-import { useDispatch } from "react-redux";
-import { useGetAddressStates } from "@shared/services/api/app";
-import DeviceInfo from "react-native-device-info";
+import { useDispatch, useSelector } from "react-redux";
 
 const log = (obj, message = "") => {
   Logger.log(`[SplashScreen] ${message}`, obj);
@@ -16,7 +16,11 @@ export const useProps = (_params) => {
     addPushCodeCompleteCallback,
     removePushCodeCompleteCallback,
   } = React.useContext(CodePushContext);
+
   const dispatch = useDispatch();
+
+  const merchant = useSelector((state) => state.dataLocal.profile);
+
   const [finishedLoadCodePush, setLoadCodePush] = React.useState(false);
   const [finishedLoadApp, setLoadApp] = React.useState(false);
 
@@ -44,7 +48,24 @@ export const useProps = (_params) => {
 
   React.useEffect(() => {
     if (finishedLoadCodePush && finishedLoadApp) {
-      dispatch(appMerchant.startApp());
+      const { type } = merchant || {};
+      if (merchant?.needSetting) {
+        dispatch(loginStaff(merchant.merchantCode, "0000"));
+        NavigationServices.replace("SetupStore");
+      } else {
+        switch (type) {
+          case Constants.APP_TYPE.POS:
+            NavigationServices.replace("SalonNavigator");
+            break;
+          case Constants.APP_TYPE.RETAILER:
+            NavigationServices.replace("RetailerNavigator");
+            break;
+          default:
+            NavigationServices.replace("AuthNavigator");
+
+            break;
+        }
+      }
     }
   }, [dispatch, finishedLoadCodePush, finishedLoadApp]);
 

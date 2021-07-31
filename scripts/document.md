@@ -23,6 +23,8 @@ yarn new:page retailer/RTSettingsScreen/pages SettingNewAttributesPage retailer.
 yarn new:page retailer/RTHomeScreen/pages HomeOrderListPage retailer.home.order.list
 yarn new:page retailer/RTHomeScreen/pages HomeOrderDetailPage retailer.home.order.detail
 
+yarn new:page retailer/RTInventoryScreen/pages InventoryAdjustQtyPage retailer.inventory.product.qty
+
 ### Create Component
 
 yarn new:component [name]
