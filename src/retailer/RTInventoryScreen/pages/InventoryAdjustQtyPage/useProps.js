@@ -22,6 +22,7 @@ export const useProps = ({ params: { item } }) => {
   |--------------------------------------------------
   */
   const [product, getProducts] = useGetProducts();
+  const [productsRestock, restockProducts] = useRestockProducts();
 
   /**
   |--------------------------------------------------
@@ -46,6 +47,13 @@ export const useProps = ({ params: { item } }) => {
     productItem,
     onGoBack: () => {
       NavigationServices.goBack();
+    },
+    onSubmitRestock: (value, reason = t("New stock")) => {
+      restockProducts({
+        ids: [productItem?.productId],
+        quantity: value || 0,
+        reason: reason,
+      });
     },
   };
 };
