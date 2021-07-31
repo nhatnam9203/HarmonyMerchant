@@ -303,17 +303,23 @@ function appReducer(state = initialState, action) {
     case "RESET_UNREAD_NOTIFICATION":
       return {
         ...state,
-        notificationContUnread: 0,
+        notificationContUnread: '0',
       }
     case "REDUCE_UNREAD_NOTIFICATION":
+      let count = parseInt(state.notificationContUnread)
+      if(count > 0){
+        count = count - 1
+      }
+      
       return {
         ...state,
-        notificationContUnread: notificationContUnread - 1,
+        notificationContUnread: `${count}`,
       }
     case "INCREASE_UNREAD_NOTIFICATION":
+      const notifCount = parseInt(state.notificationContUnread) + 1
       return {
         ...state,
-        notificationContUnread: notificationContUnread + 1,
+        notificationContUnread: `${notifCount}`,
       }
     case "GET_COUNT_UNREAD_OF_NOTIFICATION_SUCCESS":
       return {
