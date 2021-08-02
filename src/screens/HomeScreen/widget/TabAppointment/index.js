@@ -191,7 +191,7 @@ class TabAppointment extends Layout {
           ) {
             // ---------- Handle Push Notification from weview --------------
             if (this.props?.profileStaffLogin?.token) {
-              this.props.actions.app.getCountUnReadOfNotification();
+              this.props.actions.app.increaseUnreadNotification();
             }
           } else if (action == "addMore") {
             this.props.addMoreAppointmentFromCalendar(
