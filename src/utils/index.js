@@ -21,6 +21,8 @@ import * as l from 'lodash';
 import PushNotification from "react-native-push-notification";
 import { parseString } from "react-native-xml2js";
 import env from "react-native-config";
+import configureStore from "../redux/store";
+const { store } = configureStore();
 
 const PosLink = NativeModules.batch;
 const PosLinkReport = NativeModules.report;
@@ -1630,7 +1632,10 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
   return shortPurchasePoint;
 };
 
-export const handleAutoClose = async (paxMachineInfo, token) => {
+export const handleAutoClose = async () => {
+  const { dataLocal, hardware } = store.getState()
+  const { paxMachineInfo } = hardware
+  const { token, deviceId, deviceName } = dataLocal
   const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
     paxMachineInfo;
   if (isSetup) {
@@ -1661,12 +1666,14 @@ export const handleAutoClose = async (paxMachineInfo, token) => {
 
       if (result?.ResultCode && result?.ResultCode == "000000") {
         if (tempEnv == "Production" && result?.Message === "DEMO APPROVED") {
-          throw "You're running your Pax on DEMO MODE!";
+          console.log('Demo mode')
         } else {
           totalRecord = parseInt(result?.TotalRecord || 0);
           const creditCount = totalRecord
           parseString(xmlExtData, (err, result) => {
-            if (!err) {
+            if (err) {
+              processingSettlementWithoutConnectPax()
+            } else {
               const terminalID = `${result?.xml?.SN || null}`;
 
               requestAPI({
@@ -1674,23 +1681,43 @@ export const handleAutoClose = async (paxMachineInfo, token) => {
                   method: 'GET',
                   api: `${Configs.API_URL}settlement/waiting?sn=${terminalID}}`,
                   token,
+                  deviceName, 
+                  deviceId
                 }).then(settleWaitingResponse => {
                   const settleWaiting = l.get(settleWaitingResponse, 'data')
-                  settle(paxMachineInfo, settleWaiting, creditCount, terminalID, token)
+                  settle(paxMachineInfo, settleWaiting, creditCount, terminalID)
                 });
             } 
           });
         }
       } else {
-        throw `${result.ResultTxt}`;
+        processingSettlementWithoutConnectPax()
       }
     } catch (error) {
-      
+      processingSettlementWithoutConnectPax()
     }
-  } 
+  } else {
+    processingSettlementWithoutConnectPax()
+  }
 };
 
-export const settle = async (paxMachineInfo, settleWaiting, creditCount, terminalID, token ) => {
+export const processingSettlementWithoutConnectPax = () => {
+  const { dataLocal } = store.getState()
+  const { token, deviceId, deviceName } = dataLocal
+  requestAPI({
+    type: 'GET_SETTLEMENT_WAITING',
+    method: 'GET',
+    api: `${Configs.API_URL}settlement/waiting?sn=${null}}`,
+    token,
+    deviceName, 
+    deviceId
+  }).then(settleWaitingResponse => {
+    const settleWaiting = l.get(settleWaitingResponse, 'data')
+    proccessingSettlement([], settleWaiting, null, false);
+  });
+}
+
+export const settle = async (paxMachineInfo, settleWaiting, creditCount, terminalID) => {
   const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
 
   if (isSetup && terminalID) {
@@ -1699,7 +1726,7 @@ export const settle = async (paxMachineInfo, settleWaiting, creditCount, termina
               (err) => {
               },
               (data) => {
-                  proccessingSettlement(data, settleWaiting, terminalID, token);
+                  proccessingSettlement(data, settleWaiting, terminalID, true);
               });
       } else {
           const tempIpPax = commType == "TCP" ? ip : "";
@@ -1739,7 +1766,7 @@ export const settle = async (paxMachineInfo, settleWaiting, creditCount, termina
               message => {
                 const result = JSON.parse(message);
                 if (result.status != 0) {
-                  proccessingSettlement(responseData, settleWaiting, terminalID, token);
+                  proccessingSettlement(responseData, settleWaiting, terminalID, true);
                 }
               }
           )
@@ -1748,7 +1775,9 @@ export const settle = async (paxMachineInfo, settleWaiting, creditCount, termina
   } 
 }
 
-export const proccessingSettlement = async (responseData, settleWaiting, terminalID, token) => {
+export const proccessingSettlement = async (responseData, settleWaiting, terminalID, isConnectPax) => {
+  const { dataLocal } = store.getState()
+  const { token, deviceId, deviceName } = dataLocal
   const editPaymentByHarmony =settleWaiting?.paymentByHarmony || 0.0
   const editPaymentByCash = settleWaiting?.paymentByCash || 0.0
   const editOtherPayment = settleWaiting?.otherPayment || 0.0
@@ -1782,7 +1811,7 @@ export const proccessingSettlement = async (responseData, settleWaiting, termina
   const body = { 
     ...settleTotal, 
     checkout: settleWaiting.checkout, 
-    isConnectPax: true, 
+    isConnectPax,
     responseData 
   };
   requestAPI({
@@ -1790,6 +1819,8 @@ export const proccessingSettlement = async (responseData, settleWaiting, termina
     api: `${Configs.API_URL}settlement`,
     body,
     token,
+    deviceName, 
+    deviceId
   })
   
 }

@@ -26,7 +26,7 @@ const FirebaseNotificationProvider = () => {
   const onForegroundMessage = (data) => {
     // TODO: process message on foreground state
     if(_.get(data, 'data.key') === 'AUTO_CLOSE'){
-      handleAutoClose(paxMachineInfo, token)
+      handleAutoClose()
       return
     }
     dispatch({
