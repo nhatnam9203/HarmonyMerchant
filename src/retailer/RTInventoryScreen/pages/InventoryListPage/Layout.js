@@ -59,7 +59,13 @@ export const Layout = ({
 }) => {
   const { t } = useTranslation();
 
-  const onRenderTableCell = ({ item, columnKey, rowIndex }) => {
+  const onRenderTableCell = ({
+    item,
+    columnKey,
+    rowIndex,
+    textStyle,
+    cellWidth,
+  }) => {
     if (columnKey === "imageUrl") {
       const handleCheckRow = (val) => {
         onCheckedRow(item, val);
@@ -117,6 +123,31 @@ export const Layout = ({
         </View>
       );
     }
+
+    if (columnKey === "quantity") {
+      return (
+        <View
+          style={{ width: cellWidth, paddingVertical: scaleHeight(2) }}
+          key={getUniqueId(columnKey, rowIndex, "cell-quantity")}
+        >
+          <Text
+            style={[
+              textStyle,
+              {
+                textAlign: "left",
+                textAlignVertical: "center",
+              },
+              item.isAdjust && { color: "red" },
+            ]}
+            numberOfLines={5}
+            ellipsizeMode="tail"
+          >
+            {item?.quantity}
+          </Text>
+        </View>
+      );
+    }
+
     return null;
   };
 
@@ -180,9 +211,9 @@ export const Layout = ({
           primaryKey="productId"
           widthForKeys={{
             imageUrl: IMAGE_WIDTH,
-            name: scaleWidth(150),
+            name: scaleWidth(160),
             categoryName: scaleWidth(120),
-            sku: scaleWidth(150),
+            sku: scaleWidth(125),
             price: scaleWidth(120),
             quantity: scaleWidth(100),
             needToOrder: scaleWidth(100),
