@@ -106,7 +106,7 @@ export const Layout = ({
               width={scaleWidth(72)}
               height={scaleHeight(30)}
               borderRadius={scaleWidth(3)}
-              fontSize={scaleFont(15)}
+              fontSize={scaleFont(14)}
               // textColor={colors.WHITE}
               fontWeight="normal"
               onPress={onHandleEdit}
@@ -290,24 +290,27 @@ export const Layout = ({
                   items={adjustHistoryList}
                   headerKeyLabels={{
                     createdDate: t("Date time"),
-                    staffName: t("Staff"),
+                    label: t("Version"),
+                    modifiedByName: t("Staff name"),
                     reason: t("Reason"),
                     adjustQuantity: t("Adjusted qty"),
-                    quantity: t("Items in stock"),
+                    status: t("Status"),
                   }}
                   whiteListKeys={[
                     "createdDate",
-                    "staffName",
+                    "label",
+                    "modifiedByName",
                     "reason",
                     "adjustQuantity",
-                    "quantity",
+                    "status",
                   ]}
                   widthForKeys={{
-                    createdDate: scaleWidth(250),
+                    createdDate: scaleWidth(200),
+                    label: scaleWidth(250),
                     staffName: scaleWidth(150),
-                    reason: scaleWidth(250),
+                    reason: scaleWidth(150),
                     adjustQuantity: scaleWidth(150),
-                    quantity: scaleWidth(150),
+                    status: scaleWidth(150),
                   }}
                   primaryKey="id"
                   emptyDescription={t("No Restock History")}

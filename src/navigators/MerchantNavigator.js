@@ -57,7 +57,7 @@ export const MerchantNavigator = () => {
 
   return (
     <Navigator
-      initialRouteName="SplashScreen"
+      initialRouteName="merchant.splash"
       headerMode="none"
       screenOptions={{
         cardOverlayEnabled: true,

@@ -74,6 +74,7 @@ function* login(action) {
 
       yield put({ type: "STOP_LOADING_ROOT" });
       // NavigationServices.navigate("Splash");
+      NavigationServices.replace("merchant.splash");
     } else {
       yield put({
         type: "LOGIN_APP_FAIL",

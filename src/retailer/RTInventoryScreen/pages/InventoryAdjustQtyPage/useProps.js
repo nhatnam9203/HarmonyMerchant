@@ -56,7 +56,7 @@ export const useProps = ({ params: { item } }) => {
     const { codeStatus, data } = adjustPendingList || {};
     if (statusSuccess(codeStatus)) {
       setAdjustVersions(
-        data?.quantities.map((x) => {
+        data?.quantities?.map((x) => {
           if (x.tempQuantity === 0)
             return Object.assign({}, x, { tempQuantity: x.quantity });
 
