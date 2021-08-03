@@ -56,6 +56,7 @@ export const Layout = ({
   getCheckedValue,
   onButtonApprovePress,
   onHandleQuantity,
+  isPermission,
 }) => {
   const { t } = useTranslation();
 
@@ -111,6 +112,7 @@ export const Layout = ({
           />
           <View style={layouts.marginHorizontal} />
           <ButtonGradient
+            disable={!isPermission()}
             label={t("Edit")}
             width={scaleWidth(72)}
             height={scaleHeight(30)}
@@ -138,6 +140,7 @@ export const Layout = ({
                 textAlignVertical: "center",
               },
               item.isAdjust && { color: "red" },
+              item.quantity < item.needToOrder && { color: "#ffc130" },
             ]}
             numberOfLines={5}
             ellipsizeMode="tail"
@@ -177,6 +180,13 @@ export const Layout = ({
       );
     }
     return null;
+  };
+
+  const onHandlePressedRow = (params) => {
+    if (!isPermission()) {
+      return;
+    }
+    onLoadProductDetail(params);
   };
 
   return (
@@ -227,7 +237,7 @@ export const Layout = ({
             needToOrder: (value) => (value ? `${value}` : "0"),
           }}
           renderCell={onRenderTableCell}
-          onRowPress={onLoadProductDetail}
+          onRowPress={onHandlePressedRow}
           onRefresh={onRefresh}
         />
       </View>
@@ -245,6 +255,7 @@ export const Layout = ({
           />
           <View style={layouts.marginHorizontal} />
           <RestockButton
+            disable={!isPermission()}
             label={t("Restock")}
             width={scaleWidth(100)}
             height={scaleHeight(32)}
@@ -254,6 +265,7 @@ export const Layout = ({
           />
           <View style={layouts.marginHorizontal} />
           <ExportModalInventory
+            disable={!isPermission()}
             ref={exportRef}
             onExportFile={callExportProduct}
             title={t("ReportInventory")}
@@ -287,6 +299,7 @@ export const Layout = ({
         </View>
 
         <ButtonGradientGreen
+          disable={!isPermission()}
           onPress={onButtonApprovePress}
           label={t("Approve Change")}
           width={scaleWidth(140)}
@@ -305,6 +318,7 @@ export const Layout = ({
           />
           <View style={layouts.marginHorizontal} />
           <ScanQRButton
+            disable={!isPermission()}
             label={t("Scan")}
             title={t("Scan Barcode")}
             width={scaleWidth(160)}
@@ -322,6 +336,7 @@ export const Layout = ({
           />
         </View>
         <ButtonGradient
+          disable={!isPermission()}
           onPress={onButtonNewProductPress}
           label={t("Add Product")}
           width={scaleWidth(140)}

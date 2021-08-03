@@ -166,8 +166,8 @@ export const FormAddress = React.forwardRef(
           <View style={styles.verticalPadding} />
 
           <View style={styles.rowContent}>
-            <CustomInputMask
-              type={"zip-code"}
+            <CustomInput
+              // type={"zip-code"}
               style={styles.customInput}
               textInputProps={{
                 placeholder: t("Zip Code"),

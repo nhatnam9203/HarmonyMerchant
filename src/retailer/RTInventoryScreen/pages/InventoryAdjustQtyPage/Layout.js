@@ -36,6 +36,8 @@ export const Layout = ({
   onSwitchTabPending,
   onSwitchTabHistory,
   pendingList,
+  onLoadMoreHistory,
+  isLoadMoreHistory,
 }) => {
   const [t] = useTranslation();
   const onRenderTableCell = ({
@@ -272,11 +274,17 @@ export const Layout = ({
                     adjustQuantity: scaleWidth(150),
                     createdByName: scaleWidth(150),
                   }}
-                  primaryKey="id"
+                  primaryKey="createdByName"
                   emptyDescription={t("No Restock History")}
                   formatFunctionKeys={{
                     createdDate: (value) =>
                       dateToString(value, DATE_TIME_SHOW_FORMAT_STRING),
+                    adjustQuantity: (value) => {
+                      if (value === 0 || !value) return "0";
+                      if (value > 0 && !`${value}`.startsWith("+"))
+                        return "+" + value;
+                      return value + "";
+                    },
                   }}
                   onRowPress={() => {}}
                 />
@@ -317,8 +325,16 @@ export const Layout = ({
                   formatFunctionKeys={{
                     createdDate: (value) =>
                       dateToString(value, DATE_TIME_SHOW_FORMAT_STRING),
+                    adjustQuantity: (value) => {
+                      if (value === 0 || !value) return "0";
+                      if (value > 0 && !`${value}`.startsWith("+"))
+                        return "+" + value;
+                      return value + "";
+                    },
                   }}
                   onRowPress={() => {}}
+                  onLoadMore={onLoadMoreHistory}
+                  isLoadMore={isLoadMoreHistory}
                 />
               )}
             </View>

@@ -1,15 +1,14 @@
-import React from "react";
+import NavigationServices from "@navigators/NavigatorServices";
 import {
-  useGetProducts,
-  useDeleteProducts,
-  useRestockProducts,
   useGetAdjustHistoryList,
   useGetAdjustPendingList,
+  useGetProducts,
+  useRestockProducts,
   useSubmitAdjustQuantity,
 } from "@shared/services/api/retailer";
+import { statusSuccess } from "@shared/utils/app";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import NavigationServices from "@navigators/NavigatorServices";
-import { NEED_TO_ORDER, statusSuccess } from "@shared/utils/app";
 
 const log = (obj, message = "") => {
   Logger.log(`[Inventory Product Qty] ${message}`, obj);
@@ -25,6 +24,14 @@ export const useProps = ({ params: { item } }) => {
   const [pendingList, setPendingList] = React.useState([]);
   const [currentTab, setCurrentTab] = React.useState(0);
 
+  const [page, setPage] = React.useState(1);
+  const [historyList, setHistoryList] = React.useState([]);
+  const [isLoadMoreHistory, setIsLoadMoreHistory] = React.useState(false);
+  const [pagination, setPagination] = React.useState({
+    pages: 0,
+    count: 0,
+  });
+
   /**
   |--------------------------------------------------
   | CALL API
@@ -34,6 +41,16 @@ export const useProps = ({ params: { item } }) => {
   const [productsRestock, restockProducts] = useRestockProducts();
   const [adjustQuantityData, adjustQuantity] = useSubmitAdjustQuantity();
   const [adjustHistoryList, getAdjustHistoryList] = useGetAdjustHistoryList();
+  const callGetAdjustHistoryList = React.useCallback(() => {
+    if (productItem?.productId) {
+      getAdjustHistoryList(productItem?.productId, {
+        page: page,
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, productItem?.productId]);
+
   const [adjustPendingList, getAdjustPendingList] = useGetAdjustPendingList();
 
   /**
@@ -45,12 +62,18 @@ export const useProps = ({ params: { item } }) => {
     const productId = item?.productId;
     if (productId) {
       // getProducts(productId);
-      getAdjustHistoryList(productId);
+      // getAdjustHistoryList(productId);
+      setPage(1);
       getAdjustPendingList(productId);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  React.useEffect(() => {
+    callGetAdjustHistoryList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, productItem?.productId]);
 
   React.useEffect(() => {
     const { codeStatus, data } = adjustPendingList || {};
@@ -74,6 +97,23 @@ export const useProps = ({ params: { item } }) => {
       NavigationServices.navigate("retailer.inventory.list", { reload: true });
     }
   }, [adjustQuantityData]);
+
+  React.useEffect(() => {
+    setIsLoadMoreHistory(false);
+    const { codeStatus, data, pages = 0, count = 0 } = adjustHistoryList || {};
+    if (statusSuccess(codeStatus)) {
+      if (page > 1 && page <= pages && items) {
+        setHistoryList(historyList.concat(data));
+      } else {
+        setHistoryList(data);
+      }
+
+      setPagination({
+        pages,
+        count,
+      });
+    }
+  }, [adjustHistoryList]);
 
   return {
     productItem,
@@ -103,6 +143,10 @@ export const useProps = ({ params: { item } }) => {
           (x) => x.productQuantityId === cellItem.id
         );
 
+        const pendingItemIndex = pendingList?.findIndex(
+          (x) => x.productQuantityId === adjustItem.productQuantityId
+        );
+
         if (submitIndex >= 0) {
           const existItem = listSubmit[submitIndex];
           adjustItem.id = existItem.id;
@@ -112,27 +156,39 @@ export const useProps = ({ params: { item } }) => {
 
           setListSubmit(newArray);
         } else {
-          let pendingItem = pendingList?.find(
-            (x) => x.productQuantityId === adjustItem.productQuantityId
-          );
-
-          if (pendingItem) {
-            adjustItem.id = pendingItem.id;
-          } else {
-            // const newPendingItem = {
-            //   id: "temp" + adjustItem.productQuantityId,
-            //   label: adjustItem.label,
-            //   adjustQuantity: adjustItem.adjustQuantity,
-            //   reason: adjustItem.reason,
-            //   createdByName: "",
-            // };
+          if (pendingItemIndex >= 0) {
+            adjustItem.id = pendingList[pendingItemIndex].id;
           }
-
           setListSubmit([...listSubmit, adjustItem]);
+        }
+
+        // Update Pending List
+        if (pendingItemIndex >= 0) {
+          let clonePendingList = [...pendingList];
+          let pendingItem = clonePendingList[pendingItemIndex];
+
+          pendingItem.adjustQuantity = adjustItem.adjustQuantity;
+          pendingItem.reason = adjustItem.reason;
+
+          clonePendingList[pendingItemIndex] = pendingItem;
+
+          setPendingList(clonePendingList);
+        } else {
+          const currentDate = new Date();
+          const newPendingItem = {
+            id: adjustItem.id,
+            label: adjustItem.label,
+            adjustQuantity: adjustItem.adjustQuantity,
+            reason: adjustItem.reason,
+            createdByName: "",
+            createdDate: currentDate.getTime(),
+          };
+
+          setPendingList([...pendingList, newPendingItem]);
         }
       }
     },
-    adjustHistoryList: adjustHistoryList?.data,
+    adjustHistoryList: historyList,
     adjustPendingList: adjustPendingList?.data,
     adjustVersions,
     submit: () => {
@@ -157,5 +213,12 @@ export const useProps = ({ params: { item } }) => {
       }
     },
     pendingList,
+    onLoadMoreHistory: () => {
+      if (page < pagination?.pages) {
+        setIsLoadMoreHistory(true);
+        setPage((prev) => prev + 1);
+      }
+    },
+    isLoadMoreHistory: isLoadMoreHistory,
   };
 };
