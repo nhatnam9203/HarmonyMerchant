@@ -112,12 +112,20 @@ export const useProps = ({ params: { item } }) => {
 
           setListSubmit(newArray);
         } else {
-          const pendingItem = pendingList?.find(
+          let pendingItem = pendingList?.find(
             (x) => x.productQuantityId === adjustItem.productQuantityId
           );
 
           if (pendingItem) {
             adjustItem.id = pendingItem.id;
+          } else {
+            // const newPendingItem = {
+            //   id: "temp" + adjustItem.productQuantityId,
+            //   label: adjustItem.label,
+            //   adjustQuantity: adjustItem.adjustQuantity,
+            //   reason: adjustItem.reason,
+            //   createdByName: "",
+            // };
           }
 
           setListSubmit([...listSubmit, adjustItem]);
