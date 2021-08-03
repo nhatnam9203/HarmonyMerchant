@@ -272,11 +272,20 @@ export const Layout = ({
                     adjustQuantity: scaleWidth(150),
                     createdByName: scaleWidth(150),
                   }}
-                  primaryKey="id"
+                  primaryKey="createdDate"
                   emptyDescription={t("No Restock History")}
                   formatFunctionKeys={{
                     createdDate: (value) =>
                       dateToString(value, DATE_TIME_SHOW_FORMAT_STRING),
+                    adjustQuantity: (value) => {
+                      if (value > 0) {
+                        return "+" + value;
+                      }
+                      if (!value || value === 0) {
+                        return "0";
+                      }
+                      return value;
+                    },
                   }}
                   onRowPress={() => {}}
                 />

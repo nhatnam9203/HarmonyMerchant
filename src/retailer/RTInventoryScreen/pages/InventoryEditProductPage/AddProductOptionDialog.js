@@ -21,6 +21,12 @@ export const AddProductOptionDialog = ({
   const dialogRef = React.useRef(null);
   const [items, setItems] = React.useState(null);
   const [options, setOptions] = React.useState(null);
+  const [page, setPage] = React.useState(1);
+  const [pagination, setPagination] = React.useState({
+    pages: 0,
+    count: 0,
+  });
+  const [isLoadMore, setIsLoadMore] = React.useState(false);
 
   /**
   |--------------------------------------------------
@@ -28,26 +34,58 @@ export const AddProductOptionDialog = ({
   |--------------------------------------------------
   */
   const [attributesList, getAttributesList] = useGetAttributesList();
+  const callGetAttributesList = React.useCallback(() => {
+    getAttributesList({
+      page: page,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
+
+  React.useEffect(() => {
+    callGetAttributesList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   // chỗ này parent sẽ gọi
   React.useEffect(() => {
-    const { codeStatus, data } = attributesList || {};
+    setIsLoadMore(false);
+
+    const { codeStatus, data, pages = 0, count = 0 } = attributesList || {};
     if (statusSuccess(codeStatus)) {
-      setOptions(
-        attributesList?.data
-          ?.filter(
-            (v) =>
-              defaultOptionsId?.findIndex((x) => x.attributeId === v.id) < 0
+      setPagination({
+        pages,
+        count,
+      });
+
+      if (page > 1 && page <= pages && options) {
+        setOptions(
+          options.concat(
+            data
+              ?.filter(
+                (v) =>
+                  defaultOptionsId?.findIndex((x) => x.attributeId === v.id) < 0
+              )
+              .map((x) => Object.assign({}, x, { attributeId: x.id, id: 0 }))
           )
-          .map((x) => Object.assign({}, x, { attributeId: x.id, id: 0 })) // cái này lấy từ attribute list về
-      );
+        );
+      } else {
+        setOptions(
+          data
+            ?.filter(
+              (v) =>
+                defaultOptionsId?.findIndex((x) => x.attributeId === v.id) < 0
+            )
+            .map((x) => Object.assign({}, x, { attributeId: x.id, id: 0 }))
+        );
+      }
     }
   }, [attributesList]);
 
   const onShowDialog = () => {
     setItems(null);
 
-    getAttributesList();
+    // getAttributesList();
+    setPage(1);
     dialogRef.current?.show();
   };
 
@@ -81,6 +119,17 @@ export const AddProductOptionDialog = ({
     );
   };
 
+  const onRenderFooterComponent = () => {
+    return <View style={styles.itemSeparator} />;
+  };
+
+  const onHandleLoadMore = () => {
+    if (page < pagination?.pages) {
+      setIsLoadMore(true);
+      setPage((prev) => prev + 1);
+    }
+  };
+
   return (
     <View>
       {renderButton && renderButton(onShowDialog)}
@@ -110,12 +159,14 @@ export const AddProductOptionDialog = ({
             renderItem={onRenderItem}
             keyExtractor={(item) => item?.attributeId}
             ListHeaderComponent={() => <View style={styles.itemSeparator} />}
-            ListFooterComponent={() => <View style={styles.itemSeparator} />}
+            ListFooterComponent={onRenderFooterComponent}
             ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
             ListEmptyComponent={() => <View></View>}
             // refreshControl={
             //   <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
             // }
+            onEndReachedThreshold={0.1}
+            onEndReached={onHandleLoadMore}
           />
         </View>
       </DialogLayout>

@@ -89,11 +89,13 @@ export const useProps = ({ params: { item } }) => {
         cloneArr[itemIndx] = replaceItem;
         setAdjustVersions(cloneArr);
 
+        const adjustQty = parseInt(value) - cellItem.quantity;
+
         let adjustItem = {
           id: 0,
           productQuantityId: cellItem.id,
           label: cellItem.label,
-          adjustQuantity: parseInt(value),
+          adjustQuantity: adjustQty > 0 ? "+" + adjustQty : adjustQty,
           reason: reason,
         };
 
@@ -110,7 +112,22 @@ export const useProps = ({ params: { item } }) => {
 
           setListSubmit(newArray);
         } else {
-          // const pendingItem = adjustPendingList?.data?.pending?.find(x => x.)
+          let pendingItem = pendingList?.find(
+            (x) => x.productQuantityId === adjustItem.productQuantityId
+          );
+
+          if (pendingItem) {
+            adjustItem.id = pendingItem.id;
+          } else {
+            // const newPendingItem = {
+            //   id: "temp" + adjustItem.productQuantityId,
+            //   label: adjustItem.label,
+            //   adjustQuantity: adjustItem.adjustQuantity,
+            //   reason: adjustItem.reason,
+            //   createdByName: "",
+            // };
+          }
+
           setListSubmit([...listSubmit, adjustItem]);
         }
       }
@@ -139,6 +156,6 @@ export const useProps = ({ params: { item } }) => {
         scrollTabRef.current?.goToPage(1);
       }
     },
-    pendingList
+    pendingList,
   };
 };

@@ -7,7 +7,14 @@ import {
 } from "@utils";
 import _ from "ramda";
 import React, { useEffect, useState } from "react";
-import { FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+} from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { getUniqueId, getValueForColumnKey } from "./helpers";
 import { Cell, EmptyList, Header, Row } from "./widget";
@@ -96,6 +103,8 @@ export function Table({
   calcAvgKeys,
   isRefreshing = false,
   onRefresh = () => {},
+  isLoadMore = false,
+  onLoadMore = () => {},
 }) {
   /**state */
   const [headerContent, setHeaderContent] = useState(null);
@@ -369,19 +378,35 @@ export function Table({
     );
   };
 
-  const onRenderFooterSpace = () =>
-    renderFooterComponent ? (
-      renderFooterComponent()
-    ) : (
-      <View
-        style={
-          showSumOnBottom && {
-            height: 0,
-            backgroundColor: "transparent",
-          }
-        }
-      />
-    );
+  const onRenderFooterSpace = () => {
+    if (renderFooterComponent) {
+      return renderFooterComponent();
+    } else {
+      if (isLoadMore) {
+        return (
+          <View
+            style={{
+              height: scaleHeight(30),
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <ActivityIndicator color="grey" style={{ marginLeft: 8 }} />
+          </View>
+        );
+      } else
+        return (
+          <View
+            style={
+              showSumOnBottom && {
+                height: 0,
+                backgroundColor: "transparent",
+              }
+            }
+          />
+        );
+    }
+  };
 
   // render line spacing
   const renderSeparator = () => {
@@ -392,6 +417,12 @@ export function Table({
     setData(data);
     if (setItems && typeof setItems === "function") {
       setItems(data);
+    }
+  };
+
+  const onHandleLoadMore = () => {
+    if (onLoadMore && typeof onLoadMore === "function") {
+      onLoadMore();
     }
   };
 
@@ -426,7 +457,10 @@ export function Table({
             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
           }
           onMoveEnd={onHandleChangeData}
+          initialNumToRender={20}
           onScrollToIndexFailed={() => {}}
+          onEndReachedThreshold={0.1}
+          onEndReached={onHandleLoadMore}
         />
       ) : (
         <FlatList
@@ -445,6 +479,8 @@ export function Table({
           }
           initialNumToRender={20}
           onScrollToIndexFailed={() => {}}
+          onEndReachedThreshold={0.1}
+          onEndReached={onHandleLoadMore}
         />
       )}
       {showSumOnBottom && onRenderFooter()}
