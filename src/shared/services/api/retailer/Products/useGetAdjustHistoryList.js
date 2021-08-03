@@ -24,9 +24,10 @@ export const useGetAdjustHistoryList = () => {
     }
   }, [dispatch, loading, response]);
 
-  const getAdjustHistoryList = (productId) => {
+  const getAdjustHistoryList = (productId, params) => {
     execute({
       url: `${RETAILER_PRODUCTS.url}/adjustquantity/history/${productId}`,
+      params: params,
     });
   };
 

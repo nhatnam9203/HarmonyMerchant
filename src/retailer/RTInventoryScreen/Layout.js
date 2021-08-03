@@ -51,12 +51,12 @@ export const Layout = ({
         <Screen {...InventoryEditProductPage} />
         <Screen {...InventoryAdjustQtyPage} />
       </Navigator>
-      <PermissionChecker
+      {/* <PermissionChecker
         navigation={navigation}
         tabName={menuTabs.MENU_INVENTORY}
         tabPermission={tabPermission}
         togglePopupPermission={togglePopupPermission}
-      />
+      /> */}
     </View>
   );
 };

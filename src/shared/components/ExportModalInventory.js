@@ -1,7 +1,7 @@
-import IMAGE from '@resources';
-import { colors, fonts, layouts } from '@shared/themes';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import IMAGE from "@resources";
+import { colors, fonts, layouts } from "@shared/themes";
+import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Image,
   StyleSheet,
@@ -9,30 +9,30 @@ import {
   TouchableOpacity,
   View,
   KeyboardAvoidingView,
-} from 'react-native';
-import { useDispatch } from 'react-redux';
-import { appMerchant } from '@redux/slices';
-import DropDownPicker from 'react-native-dropdown-picker';
-import Modal from 'react-native-modal';
-import { ButtonGradient, ButtonGradientWhite } from './Button';
-import { CustomInput } from './CustomInput';
-import { CustomRadioSelect } from './CustomRadioSelect';
+} from "react-native";
+import { useDispatch } from "react-redux";
+import { appMerchant } from "@redux/slices";
+import DropDownPicker from "react-native-dropdown-picker";
+import Modal from "react-native-modal";
+import { ButtonGradient, ButtonGradientWhite } from "./Button";
+import { CustomInput } from "./CustomInput";
+import { CustomRadioSelect } from "./CustomRadioSelect";
 import {
   createFilePath,
   getInfoPathFile,
   handleTheDownloadedFile,
   handleShareFile,
-} from '@shared/utils/files';
+} from "@shared/utils/files";
 const EXPORT_FUNCTION = [
   // { value: 'pdf', label: 'PDF' },
-  { value: 'excel', label: 'EXCEL' },
-  { value: 'csv', label: 'CSV' },
+  { value: "excel", label: "EXCEL" },
+  { value: "csv", label: "CSV" },
 ];
 
-const EXPORT_PAGE = ['preview', 'export'];
+const EXPORT_PAGE = ["preview", "export"];
 
 export const ExportModalInventory = React.forwardRef(
-  ({ onExportFile, title }, ref) => {
+  ({ onExportFile, title, disable = false }, ref) => {
     const [t] = useTranslation();
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
@@ -69,7 +69,7 @@ export const ExportModalInventory = React.forwardRef(
     };
 
     const onRequestFileFromServer = () => {
-      if (typeof onExportFile === 'function') {
+      if (typeof onExportFile === "function") {
         onExportFile({
           type: mode,
           isNeedToOrder: isNeedToOrder === 0 ? true : false,
@@ -79,7 +79,7 @@ export const ExportModalInventory = React.forwardRef(
     };
 
     const onHandleCreateFile = async (url) => {
-      let changeMode = mode === 'excel' ? 'xlsx' : mode;
+      let changeMode = mode === "excel" ? "xlsx" : mode;
       let filePath = await createFilePath({
         fileName: fileName,
         extention: changeMode,
@@ -138,13 +138,13 @@ export const ExportModalInventory = React.forwardRef(
 
     const renderImageFile = () => {
       switch (mode) {
-        case 'excel':
-        case 'csv':
+        case "excel":
+        case "csv":
           return IMAGE.ExportCsvFileImage;
-        case 'pdf':
+        case "pdf":
           return IMAGE.ExportPdfFileImage;
         default:
-          return '';
+          return "";
       }
     };
 
@@ -152,7 +152,7 @@ export const ExportModalInventory = React.forwardRef(
       return (
         <View style={styles.content}>
           <Text style={styles.titleContent}>
-            {t('File created successfully')}
+            {t("File created successfully")}
           </Text>
           <View style={layouts.marginVertical} />
           <TouchableOpacity style={styles.fileInfo}>
@@ -183,13 +183,13 @@ export const ExportModalInventory = React.forwardRef(
         case EXPORT_PAGE[1]:
           return (
             <View style={styles.content}>
-              <Text style={styles.exportTextStyle}>{t('Save as')}</Text>
+              <Text style={styles.exportTextStyle}>{t("Save as")}</Text>
               <CustomInput
                 style={styles.customInput}
                 textInputProps={{
-                  placeholder: t('Untittle.csv'),
+                  placeholder: t("Untittle.csv"),
                   fontSize: scaleFont(17),
-                  textAlign: 'left',
+                  textAlign: "left",
                   defaultValue: fileName,
                   onChangeText: onHandleChangeFileName,
                 }}
@@ -197,8 +197,8 @@ export const ExportModalInventory = React.forwardRef(
               <View style={layouts.marginVertical} />
               <CustomRadioSelect
                 data={[
-                  { label: t('The products need to order more'), value: 0 },
-                  { label: t('All product'), value: 1 },
+                  { label: t("The products need to order more"), value: 0 },
+                  { label: t("All product"), value: 1 },
                 ]}
                 onSelect={onHandleChangeSelect}
                 required={true}
@@ -207,7 +207,7 @@ export const ExportModalInventory = React.forwardRef(
               <View style={styles.bottomStyle}>
                 <ButtonGradient
                   onPress={onRequestFileFromServer}
-                  label={t('Next')}
+                  label={t("Next")}
                   width={scaleWidth(140)}
                   height={scaleHeight(40)}
                 />
@@ -239,7 +239,7 @@ export const ExportModalInventory = React.forwardRef(
           containerStyle={styles.containerStyle}
           dropDownDirection="AUTO"
           scrollViewProps={{
-            decelerationRate: 'fast',
+            decelerationRate: "fast",
           }}
           itemKey="value"
           closeAfterSelecting={true}
@@ -250,13 +250,14 @@ export const ExportModalInventory = React.forwardRef(
           // placeholder={placeholder}
         />
         <ButtonGradientWhite
-          label={t('Export')}
+          disable={disable}
+          label={t("Export")}
           width={scaleWidth(100)}
           height={scaleHeight(32)}
           textColor={colors.OCEAN_BLUE}
           fontSize={scaleFont(15)}
           onPress={onExportButtonPress}
-          borderColor={open ? colors.OCEAN_BLUE : '#ccc'}
+          borderColor={open ? colors.OCEAN_BLUE : "#ccc"}
         >
           <View style={layouts.marginHorizontal} />
           <Image
@@ -275,7 +276,7 @@ export const ExportModalInventory = React.forwardRef(
             <View style={styles.container}>
               <View style={styles.header}>
                 <Text style={[layouts.fill, styles.txtTitle]}>
-                  {t('Export')}
+                  {t("Export")}
                 </Text>
                 <TouchableOpacity
                   style={styles.buttonClose}
@@ -298,18 +299,18 @@ export const ExportModalInventory = React.forwardRef(
 
 const styles = StyleSheet.create({
   modal: {
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: "rgba(0,0,0,0.5)",
     margin: 0,
   },
 
   container: {
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
     width: scaleWidth(400),
     borderRadius: scaleHeight(20),
-    overflow: 'hidden',
+    overflow: "hidden",
   },
 
   dropdown: {
@@ -320,7 +321,7 @@ const styles = StyleSheet.create({
 
   dropDownContainerStyle: {
     borderWidth: 0,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: scaleHeight(3),
     marginTop: scaleHeight(35),
   },
@@ -328,14 +329,14 @@ const styles = StyleSheet.create({
   textStyle: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: '400',
-    fontStyle: 'normal',
-    textAlign: 'left',
+    fontWeight: "400",
+    fontStyle: "normal",
+    textAlign: "left",
     color: colors.BROWNISH_GREY,
   },
 
   containerStyle: {
-    shadowColor: '#0006',
+    shadowColor: "#0006",
     shadowOffset: {
       width: 2,
       height: 3,
@@ -348,20 +349,20 @@ const styles = StyleSheet.create({
 
   header: {
     height: scaleWidth(48),
-    width: '100%',
+    width: "100%",
     backgroundColor: colors.OCEAN_BLUE,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
   },
 
   txtTitle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(23),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.WHITE,
   },
 
@@ -369,9 +370,9 @@ const styles = StyleSheet.create({
     width: scaleWidth(28),
     height: scaleHeight(28),
     borderRadius: scaleWidth(14),
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
     marginRight: scaleWidth(10),
   },
 
@@ -383,49 +384,49 @@ const styles = StyleSheet.create({
   exportTextStyle: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(17),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   bottomStyle: {
-    width: '100%',
+    width: "100%",
     height: scaleHeight(80),
     borderTopWidth: 1,
-    borderTopColor: '#ddd',
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderTopColor: "#ddd",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
-  content: { flex: 0, width: '100%', paddingHorizontal: scaleWidth(20) },
+  content: { flex: 0, width: "100%", paddingHorizontal: scaleWidth(20) },
 
   customInput: {
     height: scaleHeight(40),
-    width: '100%',
+    width: "100%",
   },
 
   titleContent: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.GREYISH_BROWN,
   },
 
   fileInfo: {
-    width: '100%',
+    width: "100%",
     height: scaleHeight(60),
     backgroundColor: colors.WHITE,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: '#dddddd',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    borderColor: "#dddddd",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
     paddingHorizontal: scaleWidth(8),
   },
 
@@ -436,28 +437,28 @@ const styles = StyleSheet.create({
 
   pdfBottom: {
     height: scaleHeight(80),
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
 
   pdfFileTitle: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(15),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.OCEAN_BLUE,
   },
 
   pdfFileText: {
     fontFamily: fonts.LIGHT,
     fontSize: scaleFont(15),
-    fontWeight: '300',
-    fontStyle: 'normal',
+    fontWeight: "300",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 });

@@ -1,14 +1,12 @@
-import React from "react";
-import {
-  useGetAttributesList,
-  useDeleteAttributes,
-} from "@shared/services/api/retailer";
-import { SORT_TYPE } from "@shared/utils/app";
-import { useTranslation } from "react-i18next";
-import _ from "lodash";
 import NavigationServices from "@navigators/NavigatorServices";
 import { useFocusEffect } from "@react-navigation/native";
-import { NEED_TO_ORDER, statusSuccess } from "@shared/utils/app";
+import {
+  useDeleteAttributes,
+  useGetAttributesList,
+} from "@shared/services/api/retailer";
+import { SORT_TYPE, statusSuccess } from "@shared/utils/app";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 export const useProps = ({ params: { reload }, reloadPage }) => {
   const [t] = useTranslation();
