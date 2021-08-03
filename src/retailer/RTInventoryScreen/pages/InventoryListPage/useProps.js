@@ -5,6 +5,7 @@ import {
   useRestockProducts,
   useExportProducts,
   useGetProducts,
+  useApprovedAdjustQty,
 } from "@shared/services/api/retailer";
 import { NEED_TO_ORDER, statusSuccess } from "@shared/utils/app";
 
@@ -54,6 +55,7 @@ export const useProps = ({ params: { reload } }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, page, needToOrder, searchVal]);
   const [productsRestock, restockProducts] = useRestockProducts();
+  const [approvedAdjustQtyData, approvedAdjustQty] = useApprovedAdjustQty();
 
   /**
   |--------------------------------------------------
@@ -101,12 +103,12 @@ export const useProps = ({ params: { reload } }) => {
   }, [productsExport]);
 
   React.useEffect(() => {
-    const { codeStatus, data } = productsRestock || {};
+    const { codeStatus, data } = productsRestock || approvedAdjustQtyData || {};
     if (statusSuccess(codeStatus)) {
       callGetProductList();
       setItemSelected(null);
     }
-  }, [productsRestock]);
+  }, [productsRestock, approvedAdjustQtyData]);
 
   React.useEffect(() => {
     callGetProductList();
@@ -234,6 +236,20 @@ export const useProps = ({ params: { reload } }) => {
       return (
         itemSelected?.findIndex((x) => item.productId === x.productId) >= 0
       );
+    },
+    onButtonApprovePress: () => {
+      // !! chua check permission
+      if (itemSelected?.length > 0) {
+        const productIds = itemSelected.map((v) => v.productId);
+        approvedAdjustQty(productIds);
+      } else {
+        alert("Please! Check products to approve");
+      }
+    },
+    onHandleQuantity: (item) => {
+      NavigationServices.navigate("retailer.inventory.product.qty", {
+        item,
+      });
     },
   };
 };

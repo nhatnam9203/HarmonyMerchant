@@ -12,6 +12,7 @@ import {
   InventoryEditProductPage,
   InventoryListPage,
   InventoryProductDetailPage,
+  InventoryAdjustQtyPage,
 } from "./pages";
 import { PermissionChecker } from "@shared/components";
 import { menuTabs } from "@utils";
@@ -48,6 +49,7 @@ export const Layout = ({
         <Screen {...InventoryProductDetailPage} />
         <Screen {...InventoryEditCategoryPage} />
         <Screen {...InventoryEditProductPage} />
+        <Screen {...InventoryAdjustQtyPage} />
       </Navigator>
       <PermissionChecker
         navigation={navigation}

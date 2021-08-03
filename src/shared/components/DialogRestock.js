@@ -5,64 +5,66 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
-export const DialogRestock = React.forwardRef(({ onRestockSubmit }, ref) => {
-  const [t] = useTranslation();
-  const dialogRef = React.useRef(null);
-  const [value, setValue] = React.useState(0);
-  const [reason, setReason] = React.useState(null);
+export const DialogRestock = React.forwardRef(
+  ({ onRestockSubmit, title, label }, ref) => {
+    const [t] = useTranslation();
+    const dialogRef = React.useRef(null);
+    const [value, setValue] = React.useState(0);
+    const [reason, setReason] = React.useState(null);
 
-  React.useImperativeHandle(ref, () => ({
-    show: () => {
-      setValue(0);
-      setReason(null);
-      dialogRef.current?.show();
-    },
-  }));
+    React.useImperativeHandle(ref, () => ({
+      show: () => {
+        setValue(0);
+        setReason(null);
+        dialogRef.current?.show();
+      },
+    }));
 
-  const onHandleSubmitButtonPress = () => {
-    dialogRef.current?.hide();
-    if (onRestockSubmit && typeof onRestockSubmit === "function") {
-      onRestockSubmit(value, reason);
-    }
-  };
+    const onHandleSubmitButtonPress = () => {
+      dialogRef.current?.hide();
+      if (onRestockSubmit && typeof onRestockSubmit === "function") {
+        onRestockSubmit(value, reason);
+      }
+    };
 
-  return (
-    <View>
-      <DialogLayout
-        title={t("Restock")}
-        ref={dialogRef}
-        bottomChildren={() => (
-          <View style={styles.bottomStyle}>
-            <ButtonGradient
-              label={t("Submit")}
-              width={scaleWidth(140)}
-              height={scaleHeight(40)}
-              borderRadius={scaleWidth(3)}
-              onPress={onHandleSubmitButtonPress}
+    return (
+      <View>
+        <DialogLayout
+          title={title ?? t("Restock")}
+          ref={dialogRef}
+          bottomChildren={() => (
+            <View style={styles.bottomStyle}>
+              <ButtonGradient
+                label={t("Submit")}
+                width={scaleWidth(140)}
+                height={scaleHeight(40)}
+                borderRadius={scaleWidth(3)}
+                onPress={onHandleSubmitButtonPress}
+              />
+            </View>
+          )}
+        >
+          <View style={styles.container}>
+            <FormInput
+              label={label ?? t("Enter the amount of adjustment")}
+              placeholder={t("Enter the amount")}
+              onChangeValue={setValue}
+              defaultValue={value}
+              keyboardType="numeric"
+            />
+
+            <FormInput
+              label={t("Reason")}
+              placeholder={t("Adjustment reason")}
+              onChangeValue={setReason}
+              defaultValue={reason}
             />
           </View>
-        )}
-      >
-        <View style={styles.container}>
-          <FormInput
-            label={t("Enter the amount of adjustment")}
-            placeholder={t("Enter the amount")}
-            onChangeValue={setValue}
-            defaultValue={value}
-            keyboardType="numeric"
-          />
-
-          <FormInput
-            label={t("Reason")}
-            placeholder={t("Adjustment reason")}
-            onChangeValue={setReason}
-            defaultValue={reason}
-          />
-        </View>
-      </DialogLayout>
-    </View>
-  );
-});
+        </DialogLayout>
+      </View>
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   container: {
