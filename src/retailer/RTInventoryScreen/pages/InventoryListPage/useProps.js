@@ -8,7 +8,7 @@ import {
   useApprovedAdjustQty,
 } from "@shared/services/api/retailer";
 import { NEED_TO_ORDER, statusSuccess } from "@shared/utils/app";
-
+import { isPermissionToTab, role } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -22,6 +22,11 @@ export const useProps = ({ params: { reload } }) => {
   const categories = useSelector(
     (state) => state.inventoryRetailer?.categories
   );
+  const profileStaffLogin = useSelector(
+    (state) => state.dataLocal?.profileStaffLogin
+  );
+  const roleName = profileStaffLogin?.roleName || role.Admin;
+
   const merchant = useSelector((state) => state.dataLocal.profile);
   const [searchVal, setSearchVal] = React.useState();
   const [category, setCategory] = React.useState(-1);
@@ -239,6 +244,11 @@ export const useProps = ({ params: { reload } }) => {
     },
     onButtonApprovePress: () => {
       // !! chua check permission
+
+      if (roleName !== role.Admin) {
+        alert("Permission denied, You are not allowed approve!");
+        return;
+      }
       if (itemSelected?.length > 0) {
         const productIds = itemSelected.map((v) => v.productId);
         approvedAdjustQty(productIds);

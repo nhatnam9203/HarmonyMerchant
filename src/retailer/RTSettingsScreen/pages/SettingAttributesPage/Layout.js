@@ -25,6 +25,8 @@ export const Layout = ({
   onButtonDeleteAttributePress,
   onSelectRow,
   onRefresh,
+  onLoadMore,
+  isLoadMore,
 }) => {
   const { t } = useTranslation();
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
@@ -100,6 +102,8 @@ export const Layout = ({
           onRowPress={onSelectRow}
           draggable={true}
           onRefresh={onRefresh}
+          onLoadMore={onLoadMore}
+          isLoadMore={isLoadMore}
         />
       </View>
     </View>
