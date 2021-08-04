@@ -192,7 +192,17 @@ class Layout extends React.Component {
                 notSelectCategories = categoriesFilter.filter((category, index) => checkCategoryIsNotExist(category, IdCategoriesList));
                 tempCategories = [...selectCategories, ...notSelectCategories];
             } else {
-                tempCategories = [...selectCategories, ...categoryStaff];
+                let categoriesStaffFilter = []
+                
+                for (let i = 0; i < categoryStaff.length; i++) {
+                    const findItem = l.find(selectCategories, item => {
+                        return item.categoryId == categoryStaff[i].categoryId
+                    })
+                    if(!findItem){
+                        categoriesStaffFilter.push(categoryStaff[i])
+                    }
+                }
+                tempCategories = [...categoriesStaffFilter, ...selectCategories];
             }
         } else {
             if (isOfflineMode || isBlockBookingFromCalendar) {
