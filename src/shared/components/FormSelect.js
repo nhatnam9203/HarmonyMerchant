@@ -52,7 +52,7 @@ export const FormSelect = ({
             }}
             style={layouts.fill}
             // width={scaleWidth(208)}
-            height={scaleHeight(40)}
+            height={scaleHeight(44)}
           />
         ) : (
           <ButtonFilter
