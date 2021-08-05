@@ -217,6 +217,7 @@ export const Layout = ({
         <View style={styles.content}>
           <FormProductOptionQty
             items={productItem?.quantities}
+            options={productItem?.options}
             dispatchProduct={dispatchProduct}
           />
 

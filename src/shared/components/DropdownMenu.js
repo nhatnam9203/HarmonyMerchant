@@ -51,6 +51,10 @@ export const DropdownMenu = React.forwardRef(
       }
     }, [defaultIndex, options]);
 
+    // React.useEffect(() => {
+    //   setOptions(items);
+    // }, [items]);
+
     const onSelect = (idx, value) => {
       setItem(value);
       if (onChangeValue && typeof onChangeValue === "function") {

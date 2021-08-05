@@ -109,7 +109,7 @@ export const AddProductOptionDialog = ({
       onSelectAttributed(item, val);
     };
     return (
-      <View style={[layouts.horizontal, styles.item]}>
+      <View style={[layouts.horizontal, styles.item]} key={item?.attributeId}>
         <Text style={styles.itemText}>{item?.label}</Text>
         <CustomCheckBox
           value={item?.checked}

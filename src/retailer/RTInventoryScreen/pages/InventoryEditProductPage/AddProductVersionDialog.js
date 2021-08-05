@@ -1,4 +1,4 @@
-import { ButtonGradient, CustomCheckBox } from "@shared/components";
+import { ButtonGradient, FormSelect } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
 import { useGetAttributesList } from "@shared/services/api/retailer";
 import { colors, fonts, layouts } from "@shared/themes";
@@ -6,54 +6,92 @@ import { statusSuccess } from "@shared/utils/app";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import { addOption } from "./ProductState";
+import { filter } from "rxjs/operators";
+import { createProductVersion } from "./ProductState";
 
 const log = (obj, message = "") => {
   Logger.log(`[AddProductVersionDialog] ${message}`, obj);
 };
 
+const ItemOptionValues = ({ item, onSelectOptionValue }) => {
+  const formSelectRef = React.useRef(null);
+
+  const onChangeValue = (val) => {
+    const temp = item?.values?.find((v) => v.id === val);
+    onSelectOptionValue(temp);
+  };
+
+  // let defaultValue = item?.values?.length > 0 ? item?.values[0].value : null;
+
+  React.useEffect(() => {
+    if (item) {
+      formSelectRef.current?.setFilterItems(
+        item?.values
+          ?.filter((x) => x.checked)
+          .map((x, index) => ({
+            id: x.id,
+            label: x.label,
+            value: x.id,
+            position: index,
+          }))
+      );
+    }
+  }, [item?.values]);
+
+  return (
+    <View style={styles.item} key={item?.id + ""}>
+      <FormSelect
+        filterRef={formSelectRef}
+        required={false}
+        label={item?.label}
+        filterItems={item?.values}
+        defaultValue={null}
+        onChangeValue={onChangeValue}
+      />
+    </View>
+  );
+};
+
 export const AddProductVersionDialog = ({
   renderButton,
-  defaultOptionsId = [],
   dispatchProduct,
+  options,
 }) => {
   const [t] = useTranslation();
   const dialogRef = React.useRef(null);
-  const [items, setItems] = React.useState(null);
-  const [options, setOptions] = React.useState(null);
+  const [selectedItems, setSelectedItems] = React.useState([]);
 
   /**
   |--------------------------------------------------
   | CALL API
   |--------------------------------------------------
   */
-  const [attributesList, getAttributesList] = useGetAttributesList();
+  // const [attributesList, getAttributesList] = useGetAttributesList();
 
-  // chỗ này parent sẽ gọi
-  React.useEffect(() => {
-    const { codeStatus, data } = attributesList || {};
-    if (statusSuccess(codeStatus)) {
-      setOptions(
-        attributesList?.data
-          ?.filter(
-            (v) =>
-              defaultOptionsId?.findIndex((x) => x.attributeId === v.id) < 0
-          )
-          .map((x) => Object.assign({}, x, { attributeId: x.id, id: 0 })) // cái này lấy từ attribute list về
-      );
-    }
-  }, [attributesList]);
+  // // chỗ này parent sẽ gọi
+  // React.useEffect(() => {
+  //   const { codeStatus, data } = attributesList || {};
+  //   if (statusSuccess(codeStatus)) {
+  //     setOptions(
+  //       attributesList?.data
+  //         ?.filter(
+  //           (v) =>
+  //             defaultOptionsId?.findIndex((x) => x.attributeId === v.id) < 0
+  //         )
+  //         .map((x) => Object.assign({}, x, { attributeId: x.id, id: 0 })) // cái này lấy từ attribute list về
+  //     );
+  //   }
+  // }, [attributesList]);
 
   const onShowDialog = () => {
-    setItems(null);
+    setSelectedItems([]);
 
-    getAttributesList();
     dialogRef.current?.show();
   };
 
   const onHandleApplyButtonPress = () => {
     dialogRef.current?.hide();
-    dispatchProduct(addOption(items));
+    dispatchProduct(createProductVersion(selectedItems));
   };
 
   const onSelectAttributed = (item, selected) => {
@@ -66,31 +104,52 @@ export const AddProductVersionDialog = ({
     }
   };
 
-  const onRenderItem = ({ item }) => {
-    const setToggleCheckBox = (val) => {
-      onSelectAttributed(item, val);
+  const selectOptionValue = (val) => {
+    // !! neu tao moi product  thi cho nay ko dung id dc
+    const selectOption = options?.find((v) => v.id === val.optionId);
+    const existIndx = selectedItems?.findIndex((x) => x.id === val.id);
+
+    if (existIndx >= 0) {
+      let clones = [...selectedItems];
+      clones[existIndx] = val;
+      setSelectedItems(clones);
+    } else {
+      let clones = [...selectedItems];
+      clones.push(val);
+      setSelectedItems(clones.sort((a, b) => a.position - b.position));
+    }
+  };
+
+  const onRenderItem = ({ item, index }) => {
+    const onSelectOptionValue = (optValue) => {
+      selectOptionValue(
+        Object.assign({}, optValue, { position: index, optionId: item.id })
+      );
     };
+
     return (
-      <View style={[layouts.horizontal, styles.item]}>
-        <Text style={styles.itemText}>{item?.label}</Text>
-        <CustomCheckBox
-          value={item?.checked}
-          onValueChange={setToggleCheckBox}
-        />
-      </View>
+      <ItemOptionValues
+        item={item}
+        key={item.id + ""}
+        onSelectOptionValue={onSelectOptionValue}
+      />
     );
+  };
+
+  const onRenderFooterComponent = () => {
+    return <View style={styles.itemSeparator} />;
   };
 
   return (
     <View>
       {renderButton && renderButton(onShowDialog)}
       <DialogLayout
-        title={t("Add attribute")}
+        title={t("Manual Generate")}
         ref={dialogRef}
         bottomChildren={() => (
           <View style={styles.bottomStyle}>
             <ButtonGradient
-              label={t("Add selected")}
+              label={t("Generate")}
               width={scaleWidth(140)}
               height={scaleHeight(40)}
               borderRadius={scaleWidth(3)}
@@ -101,21 +160,24 @@ export const AddProductVersionDialog = ({
       >
         <View style={styles.container}>
           <Text style={styles.title}>
-            {t("Select customize options attribute")}
+            {t("Select options attribute and value")}
           </Text>
 
           <FlatList
             style={styles.list}
             data={options}
+            bounces={false}
             renderItem={onRenderItem}
-            keyExtractor={(item) => item?.attributeId}
+            keyExtractor={(item) => item?.id + ""}
             ListHeaderComponent={() => <View style={styles.itemSeparator} />}
-            ListFooterComponent={() => <View style={styles.itemSeparator} />}
+            ListFooterComponent={onRenderFooterComponent}
             ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
             ListEmptyComponent={() => <View></View>}
             // refreshControl={
             //   <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
             // }
+            // onEndReachedThreshold={0.1}
+            // onEndReached={onHandleLoadMore}
           />
         </View>
       </DialogLayout>
@@ -158,20 +220,14 @@ const styles = StyleSheet.create({
 
   item: {
     width: scaleWidth(440),
-    height: scaleHeight(48),
+    // height: scaleHeight(48),
     backgroundColor: colors.WHITE,
-    borderStyle: "solid",
-    borderRightWidth: scaleWidth(1),
-    borderLeftWidth: scaleWidth(1),
-    borderColor: "#dddddd",
-    alignItems: "center",
-    paddingHorizontal: scaleWidth(16),
-    justifyContent: "space-between",
+    paddingHorizontal: scaleWidth(30),
   },
 
   itemSeparator: {
-    backgroundColor: "#dddddd",
-    height: scaleHeight(1),
+    // backgroundColor: "#dddddd",
+    height: scaleHeight(8),
   },
 
   itemText: {

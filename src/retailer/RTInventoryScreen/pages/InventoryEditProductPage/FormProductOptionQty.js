@@ -1,4 +1,8 @@
-import { ButtonGradientRed, FormUploadImage } from "@shared/components";
+import {
+  ButtonGradientRed,
+  FormUploadImage,
+  ButtonGradient,
+} from "@shared/components";
 import { CustomInput, CustomInputMoney } from "@shared/components/CustomInput";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
@@ -6,13 +10,26 @@ import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, View, Pressable, Image } from "react-native";
-import { deleteProductVersion, updateOptionsQty } from "./ProductState";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import {
+  deleteProductVersion,
+  updateOptionsQty,
+  generateProductVersion,
+} from "./ProductState";
 import IMAGE from "@resources";
+import { AddProductVersionDialog } from "./AddProductVersionDialog";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
+const GenerateConfirmButton = WithDialogConfirm(ButtonGradient);
 
-export const FormProductOptionQty = ({ dispatchProduct, items }) => {
+export const FormProductOptionQty = ({ dispatchProduct, items, options }) => {
   const [t] = useTranslation();
   const [optionsQty, setOptionsQty] = React.useState(null);
 
@@ -20,7 +37,10 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
     setOptionsQty(items);
   }, [items]);
 
-  const onAddNewVersion = () => {};
+  const autoGenerateVersions = () => {
+    dispatchProduct(generateProductVersion());
+  };
+  const manualGenerateVersions = () => {};
 
   const onRenderTableCell = ({
     item: cellItem,
@@ -229,20 +249,49 @@ export const FormProductOptionQty = ({ dispatchProduct, items }) => {
 
   return (
     <View style={styles.container}>
-      <View style={[layouts.horizontal, { justifyContent: "space-between" }]}>
+      <View
+        style={[
+          layouts.horizontal,
+          { justifyContent: "space-between", alignItems: "center" },
+        ]}
+      >
         <Text style={styles.infoHeaderText}>{t("Product Versions")}</Text>
-        {/* <Pressable style={[layouts.horizontal, layouts.horizontalCenterRight]} onPress={onAddNewVersion}>
-          <Image
-            source={IMAGE.plus}
-            style={{
-              width: scaleWidth(16),
-              height: scaleHeight(16),
-              marginHorizontal: scaleWidth(8),
-            }}
-            resizeMode="contain"
+        <View style={[layouts.horizontal, layouts.horizontalCenterRight]}>
+          <AddProductVersionDialog
+            dispatchProduct={dispatchProduct}
+            options={options}
+            renderButton={(onShowDialog) => (
+              <View style={[layouts.horizontal, layouts.horizontalCenterRight]}>
+                <ButtonGradient
+                  label={t("Manual Generate")}
+                  width={scaleWidth(135)}
+                  height={scaleHeight(35)}
+                  fontSize={scaleFont(15)}
+                  textColor={colors.WHITE}
+                  fontWeight="500"
+                  borderRadius={scaleWidth(3)}
+                  onPress={onShowDialog}
+                />
+              </View>
+            )}
           />
-          <Text style={styles.headerOptionsLabel}>{t("Add new version")}</Text>
-        </Pressable> */}
+
+          <View style={layouts.marginHorizontal} />
+          <GenerateConfirmButton
+            label={t("Auto Generate")}
+            description={t("Do you want to generate auto ?")}
+            width={scaleWidth(120)}
+            height={scaleHeight(35)}
+            fontSize={scaleFont(15)}
+            textColor={colors.WHITE}
+            fontWeight="500"
+            borderRadius={scaleWidth(3)}
+            onPress={autoGenerateVersions}
+          />
+
+          <View style={styles.itemSeparator} />
+          <View style={styles.itemSeparator} />
+        </View>
       </View>
       <View style={layouts.marginVertical} />
       {optionsQty && (
@@ -345,9 +394,9 @@ const styles = StyleSheet.create({
   },
 
   headerOptionsLabel: {
-    fontFamily: fonts.REGULAR,
-    fontSize: scaleFont(15),
-    fontWeight: "normal",
+    fontFamily: fonts.BOLD,
+    fontSize: scaleFont(17),
+    fontWeight: "bold",
     fontStyle: "normal",
     letterSpacing: 0,
     textAlign: "left",

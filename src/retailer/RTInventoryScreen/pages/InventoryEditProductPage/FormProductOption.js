@@ -162,7 +162,7 @@ export const FormProductOption = React.forwardRef(
           });
 
           dispatchProduct(
-            changeOption(
+            updateOption(
               Object.assign({}, item, { values: updatesSelectOptions })
             )
           );

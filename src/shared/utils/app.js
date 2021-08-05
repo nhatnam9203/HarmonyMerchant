@@ -285,9 +285,9 @@ export const getGroupCustomer = (groupId = -1) => {
 
 export const arrayIsEqual = (a, b) => {
   if (a?.length !== b?.length) return false;
-  for (var i = 0; i < a.length; i++) {
+  for (var i = 0; i < a?.length; i++) {
     // if (a[i] != b[i]) return false;  // !! do thứ tự phần tử trong mảng ko cố định
-    if (!b.includes(a[i])) return false;
+    if (!b?.includes(a[i])) return false;
   }
 
   return true;

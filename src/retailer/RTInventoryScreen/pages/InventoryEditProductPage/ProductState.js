@@ -12,6 +12,8 @@ export const PRODUCT_UPDATE_OPTION_QTY = "product-update-options_qty";
 export const PRODUCT_UPDATE_NAME = "product-update-name";
 export const PRODUCT_UPDATE_ATTRIBUTE = "product-update-attribute";
 export const PRODUCT_REMOVE_VERSION = "product-remove-version";
+export const GENERATE_PRODUCT_VERSION = "product-generate-version";
+export const PRODUCT_CREATE_VERSION = "product-create-version";
 
 const initState = {};
 
@@ -81,6 +83,27 @@ const createQuantitiesItem = (product, options) => {
       price: product?.price,
     })
   );
+};
+
+const createVersionFromItems = (product, items) => {
+  const item = items?.reduce((accumulator, currentValue, index) => {
+    console.log(currentValue);
+    return Object.assign({}, accumulator, {
+      label: accumulator?.label
+        ? `${accumulator.label ?? ""} - ${currentValue.label ?? ""}`
+        : currentValue.label,
+      attributeIds: [
+        ...(accumulator.attributeIds || []),
+        currentValue.attributeValueId,
+      ],
+    });
+  }, {});
+
+  return {
+    label: `${product?.name ?? "New product"} - ${item.label ?? ""}`,
+    price: item?.price,
+    attributeIds: item.attributeIds,
+  };
 };
 
 export const productReducer = (state = initState, action) => {
@@ -258,7 +281,69 @@ export const productReducer = (state = initState, action) => {
         (f) => !arrayIsEqual(f?.attributeIds, qtyItem?.attributeIds)
       );
       return Object.assign({}, state, { quantities: arr });
+    case GENERATE_PRODUCT_VERSION:
+      let optionsList = state?.options;
+      const quantityList = state?.quantities || [];
 
+      let generateList = createQuantitiesItem(state, optionsList)?.map((x) => {
+        const isExistItem = quantityList?.find((f) =>
+          arrayIsEqual(f?.attributeIds, x?.attributeIds)
+        );
+
+        if (isExistItem) {
+          return Object.assign({}, x, {
+            needToOrder: isExistItem.needToOrder,
+            quantity: isExistItem.quantity,
+            tempQuantity: isExistItem.tempQuantity,
+            description: isExistItem.description,
+            costPrice: isExistItem.costPrice,
+            price: isExistItem.price,
+            sku: isExistItem.sku,
+            imageUrl: isExistItem.imageUrl,
+            fileId: isExistItem.fileId,
+            position: isExistItem.position ?? 0,
+            id: isExistItem.id ?? 0,
+          });
+        }
+        return x;
+      });
+
+      return Object.assign({}, state, {
+        quantities: generateList?.sort((a, b) => a.position - b.position),
+      });
+    case PRODUCT_CREATE_VERSION:
+      let newQuantityList =
+        state?.quantities?.length > 0 ? [...state?.quantities] : [];
+      let temp = createVersionFromItems(state, action.payload);
+      console.log(temp);
+      const isExistIndex = newQuantityList?.findIndex((f) =>
+        arrayIsEqual(f?.attributeIds, temp?.attributeIds)
+      );
+
+      if (isExistIndex >= 0) {
+        const isExistItem = newQuantityList[isExistIndex];
+        temp = Object.assign({}, temp, {
+          needToOrder: isExistItem.needToOrder,
+          quantity: isExistItem.quantity,
+          tempQuantity: isExistItem.tempQuantity,
+          description: isExistItem.description,
+          costPrice: isExistItem.costPrice,
+          price: isExistItem.price,
+          sku: isExistItem.sku,
+          imageUrl: isExistItem.imageUrl,
+          fileId: isExistItem.fileId,
+          position: isExistItem.position ?? 0,
+          id: isExistItem.id ?? 0,
+        });
+
+        newQuantityList[isExistIndex] = temp;
+      } else {
+        newQuantityList.push(temp);
+      }
+
+      return Object.assign({}, state, {
+        quantities: newQuantityList,
+      });
     default:
       break;
   }
@@ -330,5 +415,18 @@ export const deleteProductVersion = (item) => {
   return {
     type: PRODUCT_REMOVE_VERSION,
     payload: item,
+  };
+};
+
+export const generateProductVersion = () => {
+  return {
+    type: GENERATE_PRODUCT_VERSION,
+  };
+};
+
+export const createProductVersion = (arrayOptions) => {
+  return {
+    type: PRODUCT_CREATE_VERSION,
+    payload: arrayOptions,
   };
 };

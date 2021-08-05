@@ -53,7 +53,7 @@ export const ButtonFilter = React.forwardRef(
     // }, [filterItems]);
 
     // React.useEffect(() => {
-    //   reloadItems();
+    //   setItems(filterItems);
     // }, [filterItems]);
 
     // const reloadItem = React.useMemo(() => {
