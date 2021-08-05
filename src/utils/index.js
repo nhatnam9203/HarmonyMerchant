@@ -1563,6 +1563,13 @@ export const getNotiContentByType = (noti) => {
         </Text>
       );
       break;
+    case "close_settlement":
+      message = (
+        <Text style={[styles.txt_content, { fontWeight: "500" }]}>
+          <Text style={{ fontWeight: "300" }}>{`${noti?.message || ""} `}</Text>
+        </Text>
+      );
+      break;
     default:
       message = (
         <Text style={[styles.txt_content, { fontWeight: "500" }]}>

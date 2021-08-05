@@ -252,7 +252,7 @@ class PopupDiscount extends React.Component {
 
                                           minimumTrackTintColor={colors.OCEAN_BLUE}
                                           maximumTrackTintColor={colors.PALE_GREY}
-                                          step={1}
+                                          step={25}
                                         />
 
                                     <View style={styles.viewRowContainer}>
