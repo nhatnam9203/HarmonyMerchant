@@ -14,7 +14,9 @@ export default function StaffDurationStatistic(props, ref) {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.dataLocal.language);
 
-  const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
+  const listStaffsSalary = useSelector(
+    (state) => state.report.staffServiceDurationDetailList
+  );
 
   /**state */
   const [table, setTable] = useState({});
@@ -23,59 +25,30 @@ export default function StaffDurationStatistic(props, ref) {
 
   /**useEffect */
   useEffect(() => {
-    const item = listStaffsSalary.find((item) => item.name === filterId);
-
     setTable({
-      tableData: item?.salariesByDate || [],
+      tableData: listStaffsSalary || [],
       tableHead: {
-        dateString: localize("Date", language),
-        serviceSales: localize("Service Sales", language),
-        // surcharge: localize("Surcharge", language),
-        // netServiceSales: localize("Net Service Sale", language),
-        // serviceSplit: localize("Service Split", language),
-        // productSales: localize("Product Sales", language),
-        // productSplit: localize("Product Split", language),
-        // workingHour: localize("Working Hour", language),
-        // salaryWage: localize("Salary Wage", language),
-        // tipAmount: localize("Tip Amount", language),
-        // discountByStaff: localize("Discount By Staff", language),
-        // salary: localize("Salary", language),
-        // loginTime: localize("Login Time", language),
-        // logoutTime: localize("Logout Time", language),
+        date: localize("Date", language),
+        service: localize("Service", language),
+        duration: localize("Service duration", language),
+        toTime: localize("Start time", language),
+        fromTime: localize("End time", language),
+        differenceDurationMinute: localize("Difference duration", language),
       },
       whiteKeys: [
-        "dateString",
-        "serviceSales",
-        // "surcharge",
-        // "netServiceSales",
-        // "serviceSplit",
-        // "productSales",
-        // "productSplit",
-        // "workingHour",
-        // "salaryWage",
-        // "tipAmount",
-        // "discountByStaff",
-        // "salary",
-        // "loginTime",
-        // "logoutTime",
+        "date",
+        "service",
+        "duration",
+        "toTime",
+        "fromTime",
+        "differenceDurationMinute",
       ],
       primaryId: "date",
-      sumTotalKey: "dateString",
-      calcSumKeys: [
-        "serviceSales",
-        // "surcharge",
-        // "netServiceSales",
-        // "serviceSplit",
-        // "productSales",
-        // "productSplit",
-        // "workingHour",
-        // "salaryWage",
-        // "tipAmount",
-        // "discountByStaff",
-        // "salary",
-      ],
+      sumTotalKey: "date",
+      calcSumKeys: ["differenceDurationMinute"],
+      formatKeys: { differenceDurationMinute: "hhmm" },
       priceKeys: [
-        "serviceSales",
+        // "serviceSales",
         // "surcharge",
         // "netServiceSales",
         // "serviceSplit",
@@ -87,11 +60,17 @@ export default function StaffDurationStatistic(props, ref) {
         // "discountByStaff",
         // "salary",
       ],
-      sortKey: "dateString",
+      sortKey: "date",
       unitKeys: { workingHour: "hrs" },
-      tableCellWidth: { dateString: 200, loginTime: 140, logoutTime: 140 },
+      tableCellWidth: {
+        date: scaleWidth(200),
+        service: scaleWidth(200),
+        logoutTime: 140,
+      },
     });
   }, [filterId, listStaffsSalary]);
+
+  useEffect(() => {}, [filterId]);
 
   const onCellPress = ({ key, row, column, item }) => {};
 

@@ -5,7 +5,7 @@ import {
   roundFloatNumber,
   scaleSize,
 } from "@utils";
-import _ from "ramda";
+import _, { F } from "ramda";
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
@@ -165,6 +165,23 @@ function TableList({
       return value + " hrs";
     }
 
+    if (format === "hhmm") {
+      let result = value >= 0 ? "" : "-";
+      const intValue = value >= 0 ? value : -value;
+      const hrs = Math.floor(intValue / 60);
+      const mins = intValue % 60;
+
+      if (hrs) {
+        result = result + " " + hrs + " h";
+      }
+
+      if (mins) {
+        result = result + " " + mins + " min";
+      }
+
+      return result;
+    }
+
     return isPriceCell(key)
       ? unitKeys && unitKeys[key]
         ? value + " " + unitKeys[key]
@@ -187,6 +204,23 @@ function TableList({
       }
 
       return value + " hrs";
+    }
+
+    if (format === "hhmm") {
+      let result = value >= 0 ? "" : "-";
+      const intValue = value >= 0 ? value : -value;
+      const hrs = Math.floor(intValue / 60);
+      const mins = intValue % 60;
+
+      if (hrs) {
+        result = result + " " + hrs + " h";
+      }
+
+      if (mins) {
+        result = result + " " + mins + " min";
+      }
+
+      return result;
     }
 
     return isPriceCell(key)

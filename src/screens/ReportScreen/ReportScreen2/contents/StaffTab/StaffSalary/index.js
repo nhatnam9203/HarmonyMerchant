@@ -121,7 +121,7 @@ function StaffSalaryTab({ style, showBackButton }, ref) {
   useImperativeHandle(ref, () => ({
     goBack: () => {
       layoutRef.current?.goBack();
-      dispatch(actions.staff.resetDownloadExportFiles());
+      // dispatch(actions.staff.resetDownloadExportFiles());
     },
     getListStaffsSalaryTop: () => getListStaffsSalaryTop(),
     didBlur: async () => {

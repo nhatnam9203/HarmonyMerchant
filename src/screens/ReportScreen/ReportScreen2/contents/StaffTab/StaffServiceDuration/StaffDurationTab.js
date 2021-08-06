@@ -25,7 +25,9 @@ export default function StaffDurationTab({
 }) {
   const language = useSelector((state) => state.dataLocal.language);
 
-  const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
+  const staffServiceDurationList = useSelector(
+    (state) => state.report.staffServiceDurationList
+  );
 
   /**state */
   const [filterNameItem, setFilterNameItem] = useState(FILTER_NAME_DEFAULT);
@@ -37,11 +39,11 @@ export default function StaffDurationTab({
 
   // create filter name data
   const bindFilterName = () => {
-    if (!listStaffsSalary) return [];
+    if (!staffServiceDurationList) return [];
 
     let array = [];
 
-    const arrMap = listStaffsSalary.map((item) => ({
+    const arrMap = staffServiceDurationList.map((item) => ({
       value: item.name,
       ...item,
     }));
@@ -57,8 +59,8 @@ export default function StaffDurationTab({
   // binding data list for name filter
   const filterDataTable = () => {
     return filterNameItem && filterNameItem !== FILTER_NAME_DEFAULT
-      ? listStaffsSalary.filter((item) => item.name === filterNameItem)
-      : listStaffsSalary;
+      ? staffServiceDurationList.filter((item) => item.name === filterNameItem)
+      : staffServiceDurationList;
   };
 
   // callback
@@ -93,7 +95,7 @@ export default function StaffDurationTab({
   /**effect */
   useEffect(() => {
     bindFilterName();
-  }, [listStaffsSalary]);
+  }, [staffServiceDurationList]);
 
   /**render */
   //callback render action cell
@@ -135,20 +137,23 @@ export default function StaffDurationTab({
           tableData={filterDataTable()}
           tableHead={{
             name: localize("Staff Name ", language),
-            serviceSales: localize("Service Sales", language),
+            differenceDurationMinute: localize("Duration difference", language),
+            action: localize("Actions", language),
           }}
-          whiteKeys={["name", "serviceSales", "action"]}
+          whiteKeys={["name", "differenceDurationMinute", "action"]}
           primaryId="staffId"
           sumTotalKey="name"
-          calcSumKeys={["serviceSales"]}
-          priceKeys={["serviceSales"]}
-          unitKeys={{ workingHour: "hrs" }}
           sortDefault="NONE"
           sortKey="name"
-          tableCellWidth={{}}
+          tableCellWidth={{
+            name: scaleWidth(300),
+            differenceDuration: scaleWidth(300),
+          }}
+          calcSumKeys={["differenceDurationMinute"]}
+          formatKeys={{ differenceDurationMinute: "hhmm" }}
           renderCell={renderCell}
           renderActionCell={renderActionCell}
-          onRowPress={onRowPress}
+          // onRowPress={onRowPress}
           onRefresh={onRefresh}
           isRefreshing={isRefreshing}
           onLoadMore={onLoadMore}

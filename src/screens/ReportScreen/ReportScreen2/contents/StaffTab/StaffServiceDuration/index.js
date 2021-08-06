@@ -17,19 +17,21 @@ function StaffServiceDurationTab({ style, showBackButton }, ref) {
   /**redux store*/
   const dispatch = useDispatch();
 
-  const listStaffsSalary = useSelector((state) => state.staff.listStaffsSalary);
+  const staffServiceDurationList = useSelector(
+    (state) => state.report.staffServiceDurationList
+  );
   const nextPage = useSelector((state) => state.staff.listStaffsSalaryNextPage);
 
   const pathFileReportStaff = useSelector(
-    (state) => state.staff.pathFileReportStaffSalary
+    (state) => state.report.staffServiceDurationExportPath
   );
 
   const pathFileReportStaffStatistic = useSelector(
-    (state) => state.staff.pathFileReportStaffStatistic
+    (state) => state.report.staffServiceDurationDetailExportPath
   );
 
   const isDownloadReportStaff = useSelector(
-    (state) => state.staff.isDownloadReportStaff
+    (state) => state.report.isDownloadReport
   );
 
   /**state */
@@ -42,14 +44,26 @@ function StaffServiceDurationTab({ style, showBackButton }, ref) {
   const layoutRef = useRef(null);
 
   /**function */
-  const getListStaffsSalaryTop = async (page = 1) => {
-    if (page <= 0) return;
+  const getListStaffsServiceDurationTop = async (staffId = 0) => {
+    // if (page <= 0) return;
 
     await dispatch(
-      actions.staff.getListStaffsSalaryTop(
-        layoutRef?.current?.getTimeUrl(),
+      actions.report.getReportStaffServiceDuration(
         true,
-        page
+        layoutRef?.current?.getTimeUrl(),
+        staffId
+      )
+    );
+  };
+
+  const getListStaffsServiceDurationDetail = async (staffId = 0) => {
+    // if (page <= 0) return;
+
+    await dispatch(
+      actions.report.getReportStaffServiceDurationDetail(
+        true,
+        layoutRef?.current?.getTimeUrl(),
+        staffId
       )
     );
   };
@@ -61,7 +75,7 @@ function StaffServiceDurationTab({ style, showBackButton }, ref) {
   //callback
   const onChangeTimeTitle = async (timeTitle) => {
     await setTitleRangeTime(timeTitle);
-    await getListStaffsSalaryTop(1);
+    await getListStaffsServiceDurationTop();
   };
 
   const onChangeFilterNames = (names) => {
@@ -69,11 +83,19 @@ function StaffServiceDurationTab({ style, showBackButton }, ref) {
   };
 
   const onChangeFilterId = async (filterId) => {
+    const selectItem = staffServiceDurationList?.find(
+      (x) => x.name === filterId
+    );
     await setFilterNameItem(filterId);
+
+    if (selectItem) {
+      await getListStaffsServiceDurationDetail(selectItem.staffId);
+    }
   };
 
   const onGoStatistics = async (item) => {
     await setFilterNameItem(item.name);
+    await getListStaffsServiceDurationDetail(item.staffId);
     layoutRef.current?.goNext();
   };
 
@@ -85,7 +107,8 @@ function StaffServiceDurationTab({ style, showBackButton }, ref) {
     switch (currentTab) {
       case 0:
         dispatch(
-          actions.staff.getExportStaffSalary(
+          actions.report.exportStaffServiceDuration(
+            0,
             layoutRef?.current?.getTimeUrl(),
             true,
             "csv",
@@ -94,12 +117,12 @@ function StaffServiceDurationTab({ style, showBackButton }, ref) {
         );
         break;
       case 1:
-        const filterItem = listStaffsSalary.find(
+        const filterItem = staffServiceDurationList.find(
           (item) => item.name === filterNameItem
         );
         if (!filterItem) return;
         dispatch(
-          actions.staff.getExportStaffStatistics(
+          actions.report.exportServiceStaffDurationDetail(
             filterItem.staffId,
             layoutRef?.current?.getTimeUrl(),
             true,
@@ -121,9 +144,11 @@ function StaffServiceDurationTab({ style, showBackButton }, ref) {
   useImperativeHandle(ref, () => ({
     goBack: () => {
       layoutRef.current?.goBack();
-      dispatch(actions.staff.resetDownloadExportFiles());
+      dispatch(actions.report.resetExportFiles());
     },
-    getListStaffsSalaryTop: () => getListStaffsSalaryTop(),
+    getListStaffsSalaryTop: (staffId) => {
+      getListStaffsServiceDurationTop(staffId);
+    },
     didBlur: async () => {
       // await setTitleRangeTime(RANGE_TIME_DEFAULT);
     },
@@ -135,17 +160,17 @@ function StaffServiceDurationTab({ style, showBackButton }, ref) {
 
   /**effect */
   const refreshData = () => {
-    setRefreshing(true);
-    getListStaffsSalaryTop(1);
+    // setRefreshing(true);
+    // getListStaffsServiceDurationTop();
   };
 
   const loadMoreData = () => {
-    getListStaffsSalaryTop(nextPage);
+    // getListStaffsSalaryTop(nextPage);
   };
 
   React.useEffect(() => {
     setRefreshing(false);
-  }, [listStaffsSalary]);
+  }, [staffServiceDurationList]);
 
   return (
     <View style={[styles.container, style]}>
@@ -164,7 +189,7 @@ function StaffServiceDurationTab({ style, showBackButton }, ref) {
           showCalendar={() => showCalendar(true)}
           titleRangeTime={titleRangeTime}
           onChangeFilterNames={onChangeFilterNames}
-          showExportFile={() => onShowPopupExport("StaffSalary")}
+          showExportFile={() => onShowPopupExport("StaffServiceDuration")}
           pathFileExport={pathFileReportStaff}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
           onRefresh={refreshData}
@@ -181,7 +206,7 @@ function StaffServiceDurationTab({ style, showBackButton }, ref) {
           dataFilters={filterNames}
           filterId={filterNameItem}
           onChangeFilter={onChangeFilterId}
-          showExportFile={() => onShowPopupExport("StaffStatistic")}
+          showExportFile={() => onShowPopupExport("StafferviceDurationDetail")}
           pathFileExport={pathFileReportStaffStatistic}
           handleTheDownloadedFile={onHandleTheDownloadedFile}
           onRefresh={refreshData}

@@ -76,6 +76,18 @@ export const ACTION_TYPES = {
   Product_ExportStatistic: "EXPORT_PRODUCT_SALES_BY_PRODUCT_REPORT_STATISTIC",
   Product_ExportStatisticSuccess:
     "EXPORT_PRODUCT_SALES_BY_PRODUCT_REPORT_STATISTIC_SUCCESS",
+
+  Staff_Get_Service_Duration: "GET_STAFF_SERVICE_DURATION",
+  Staff_Get_Service_Duration_Success: "GET_STAFF_SERVICE_DURATION_SUCCESS",
+
+  Staff_Get_Service_Duration_Detail: "GET_STAFF_SERVICE_DURATION_DETAIL",
+  Staff_Get_Service_Duration_Detail_Success: "GET_STAFF_SERVICE_DURATION_DETAIL_SUCCESS",
+
+  Staff_Export_Service_Duration: "EXPORT_STAFF_SERVICE_DURATION",
+  Staff_Export_Service_Duration_Success: "EXPORT_STAFF_SERVICE_DURATION_SUCCESS",
+
+  Staff_Export_Service_Duration_Detail: "EXPORT_STAFF_SERVICE_DURATION_DETAIL",
+  Staff_Export_Service_Duration_Detail_Success: "EXPORT_STAFF_SERVICE_DURATION_DETAIL_SUCCESS",
 };
 
 /** Get List */
@@ -475,3 +487,69 @@ export function exportServiceSaleByServiceDetail(
     extention: type === "excel" ? "csv" : "pdf",
   };
 }
+
+// STAFF SERVICE DURATION
+export function getReportStaffServiceDuration(
+  isShowLoading = true,
+  params = "quickFilter=thisWeek",
+  staffId = ""
+) {
+  return {
+    type: ACTION_TYPES.Staff_Get_Service_Duration,
+    method: "GET",
+    token: true,
+    api: `staff/report/serviceduration?${params}&staffId=${staffId}`,
+    isShowLoading,
+  };
+}
+
+export function getReportStaffServiceDurationDetail(
+  isShowLoading = true,
+  params = "quickFilter=thisWeek",
+  durationServiceId = ""
+) {
+  return {
+    type: ACTION_TYPES.Staff_Get_Service_Duration_Detail,
+    method: "GET",
+    token: true,
+    api: `staff/report/serviceduration/detail/${durationServiceId}?${params}`,
+    isShowLoading,
+  };
+}
+
+export function exportStaffServiceDuration(
+  staffId = "",
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  type = "excel",
+  fileName
+) {
+  return {
+    type: ACTION_TYPES.Staff_Export_Service_Duration,
+    method: "GET",
+    token: true,
+    api: `staff/report/serviceduration/export?${params}&staffId=${staffId}`,
+    isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
+  };
+}
+
+export function exportServiceStaffDurationDetail(
+  durationServiceId,
+  params = "quickFilter=thisWeek",
+  isShowLoading = true,
+  type = "excel",
+  fileName
+) {
+  return {
+    type: ACTION_TYPES.Staff_Export_Service_Duration_Detail,
+    method: "GET",
+    token: true,
+    api: `staff/report/serviceduration/detail/${durationServiceId}/export?${params}`,
+    isShowLoading,
+    fileName,
+    extention: type === "excel" ? "csv" : "pdf",
+  };
+}
+

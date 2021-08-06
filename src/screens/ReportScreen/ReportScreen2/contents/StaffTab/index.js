@@ -27,6 +27,18 @@ function StaffTab({ style, showBackButton }, ref) {
   const onChangeTab = (tabIndex) => {
     staffSalaryTabRef?.current?.goBack();
     staffDurationTabRef?.current?.goBack();
+
+    switch (tabIndex) {
+      case 0:
+        staffSalaryTabRef.current?.getListStaffsSalaryTop();
+        break;
+      case 1:
+        staffDurationTabRef.current?.getListStaffsSalaryTop();
+        break;
+      default:
+        break;
+    }
+
     setCurrentTab(tabIndex);
   };
 

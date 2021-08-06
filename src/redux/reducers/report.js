@@ -1,6 +1,6 @@
-import AsyncStorage from '@react-native-community/async-storage';
-import { persistReducer } from 'redux-persist';
-import actions from '../actions';
+import AsyncStorage from "@react-native-community/async-storage";
+import { persistReducer } from "redux-persist";
+import actions from "../actions";
 
 const { ACTION_TYPES } = actions.report;
 const initialState = {
@@ -36,6 +36,11 @@ const initialState = {
   productSaleByProductList: [],
   productSaleByProductExportPath: null,
   productSaleByProductDetailExportPath: null,
+
+  staffServiceDurationList: [],
+  staffServiceDurationDetailList: [],
+  staffServiceDurationExportPath: null,
+  staffServiceDurationDetailExportPath: null,
 };
 
 function reportReducer(state = initialState, action) {
@@ -46,7 +51,7 @@ function reportReducer(state = initialState, action) {
         overallPaymentMethodList: action.payload,
         overallPMExportFilePath: null,
       };
-    case 'DOWNLOAD_REPORT_EXPORT':
+    case "DOWNLOAD_REPORT_EXPORT":
       return {
         ...state,
         isDownloadReport: true,
@@ -75,7 +80,7 @@ function reportReducer(state = initialState, action) {
         meStatisticExportFilePath: action.payload,
         isDownloadReport: false,
       };
-    case 'RESET_DOWNLOAD_FILE_REPORT':
+    case "RESET_DOWNLOAD_FILE_REPORT":
       return {
         ...state,
         isDownloadReport: false,
@@ -88,6 +93,11 @@ function reportReducer(state = initialState, action) {
         serviceSaleByServiceDetailExportPath: null,
         productSaleByCategoryDetailExportPath: null,
         productSaleByProductDetailExportPath: null,
+
+        staffServiceDurationExportPath: null,
+        staffServiceDurationDetailExportPath: null,
+
+
       };
     case ACTION_TYPES.OME_GetListSuccess:
       return {
@@ -207,7 +217,31 @@ function reportReducer(state = initialState, action) {
         productSaleByProductDetailExportPath: action.payload,
         isDownloadReport: false,
       };
-    case 'LOGOUT_APP':
+    // staff service duration
+    case ACTION_TYPES.Staff_Get_Service_Duration_Success:
+      return {
+        ...state,
+        staffServiceDurationList: action.payload,
+      };
+    case ACTION_TYPES.Staff_Get_Service_Duration_Detail_Success:
+      return {
+        ...state,
+        staffServiceDurationDetailList: action.payload,
+      };
+    case ACTION_TYPES.Staff_Export_Service_Duration_Success:
+      return {
+        ...state,
+        staffServiceDurationExportPath: action.payload,
+        isDownloadReport: false,
+      };
+    case ACTION_TYPES.Staff_Export_Service_Duration_Detail_Success:
+      return {
+        ...state,
+        staffServiceDurationDetailExportPath: action.payload,
+        isDownloadReport: false,
+      };
+
+    case "LOGOUT_APP":
       return {
         ...initialState,
       };
