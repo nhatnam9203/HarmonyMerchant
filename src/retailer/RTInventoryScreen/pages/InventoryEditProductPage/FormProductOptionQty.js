@@ -18,6 +18,7 @@ import {
   generateProductVersion,
   updateOptionsQty,
 } from "./ProductState";
+import { InputSearch } from "@shared/components/InputSearch";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
 const GenerateConfirmButton = WithDialogConfirm(ButtonGradient);
@@ -33,10 +34,18 @@ export const FormProductOptionQty = ({
   const flatListRef = React.useRef(null);
   const [optionsQty, setOptionsQty] = React.useState(null);
   const [highlightIndex, setHighlightIndex] = React.useState(-1);
+  const [searchText, setSearchText] = React.useState(null);
 
   React.useEffect(() => {
-    setOptionsQty(items);
-  }, [items]);
+    setHighlightIndex(-1);
+    if (searchText) {
+      setOptionsQty(
+        items?.filter((x) => x?.label?.indexOf(searchText) !== -1) || null
+      );
+    } else {
+      setOptionsQty(items);
+    }
+  }, [items, searchText]);
 
   React.useEffect(() => {
     if (itemIsGenerated) {
@@ -261,6 +270,10 @@ export const FormProductOptionQty = ({
     }
   };
 
+  const onChangeValueSearch = (text) => {
+    setSearchText(text);
+  };
+
   return (
     <View style={styles.container}>
       <View
@@ -270,7 +283,11 @@ export const FormProductOptionQty = ({
         ]}
       >
         <Text style={styles.infoHeaderText}>{t("Product Versions")}</Text>
+
         <View style={[layouts.horizontal, layouts.horizontalCenterRight]}>
+          <InputSearch onSearch={onChangeValueSearch} width={scaleWidth(280)} />
+          <View style={layouts.marginHorizontal} />
+
           <AddProductVersionDialog
             dispatchProduct={dispatchProduct}
             options={options}

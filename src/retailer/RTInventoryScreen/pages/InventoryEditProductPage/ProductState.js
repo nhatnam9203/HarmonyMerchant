@@ -315,8 +315,8 @@ export const productReducer = (state = initState, action) => {
       let newQuantityList =
         state?.quantities?.length > 0 ? [...state?.quantities] : [];
       let temp = createVersionFromItems(state, action.payload);
-      console.log("====> temp");
-      console.log(temp);
+      // console.log("====> temp");
+      // console.log(temp);
       const isExistIndex = newQuantityList?.findIndex((f) =>
         arrayIsEqual(f?.attributeIds, temp?.attributeIds)
       );
