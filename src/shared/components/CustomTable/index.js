@@ -89,6 +89,8 @@ export function Table({
   tableStyle,
   sortLocal = SORT_STATE.desc,
   renderFooterComponent,
+  flatListRef = (ref) => {},
+
   // params olds
   sortKey,
   calcSumKeys,
@@ -466,6 +468,7 @@ export function Table({
         <FlatList
           style={tableStyle}
           data={tableData}
+          ref={flatListRef}
           renderItem={renderItem}
           keyExtractor={(item) => getValueForColumnKey(item, primaryKey)}
           // ListHeaderComponent={renderHeader}
