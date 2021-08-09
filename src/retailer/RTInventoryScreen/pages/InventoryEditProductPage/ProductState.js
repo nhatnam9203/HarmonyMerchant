@@ -343,6 +343,7 @@ export const productReducer = (state = initState, action) => {
       return Object.assign({}, state, {
         quantities: newQuantityList,
         itemIsExisted: false,
+        itemIsGenerated: temp,
       });
 
     case PRODUCT_CHECK_VERSION:
@@ -354,7 +355,6 @@ export const productReducer = (state = initState, action) => {
       const findExistIndex = checkQuantities?.findIndex((f) =>
         arrayIsEqual(f?.attributeIds, listAttributeValueIds)
       );
-
 
       return Object.assign({}, state, {
         itemIsExisted: findExistIndex >= 0,
