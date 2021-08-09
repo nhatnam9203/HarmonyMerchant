@@ -322,15 +322,15 @@ export const productReducer = (state = initState, action) => {
       if (isExistIndex >= 0) {
         const isExistItem = newQuantityList[isExistIndex];
         temp = Object.assign({}, temp, {
-          needToOrder: isExistItem.needToOrder,
-          quantity: isExistItem.quantity,
-          tempQuantity: isExistItem.tempQuantity,
-          description: isExistItem.description,
-          costPrice: isExistItem.costPrice,
-          price: isExistItem.price,
-          sku: isExistItem.sku,
-          imageUrl: isExistItem.imageUrl,
-          fileId: isExistItem.fileId,
+          needToOrder: 0,
+          quantity: 0,
+          tempQuantity: 0,
+          // description: isExistItem.description,
+          costPrice: 0,
+          price: 0,
+          // sku: isExistItem.sku,
+          imageUrl: null,
+          fileId: 0,
           position: isExistItem.position ?? 0,
           id: isExistItem.id ?? 0,
         });
@@ -354,7 +354,6 @@ export const productReducer = (state = initState, action) => {
       const findExistIndex = checkQuantities?.findIndex((f) =>
         arrayIsEqual(f?.attributeIds, listAttributeValueIds)
       );
-
 
       return Object.assign({}, state, {
         itemIsExisted: findExistIndex >= 0,
