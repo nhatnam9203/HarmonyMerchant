@@ -121,15 +121,23 @@ export const CustomInputMoney = ({
   const [value, setValue] = React.useState(null);
 
   const onHandleChangeText = (text) => {
+    console.log(text);
+
+    setValue(text);
+    if (onChangeText && typeof onChangeText === "function") {
+      onChangeText(text);
+    }
+  };
+
+  const onEndEditing = () => {
     let num = 0.0;
-    if (!text || text?.trim().length <= 0 || isNaN(text)) {
+    if (!value || value?.trim().length <= 0 || isNaN(value)) {
       num = null;
     } else {
-      num = parseFloat(text)
+      num = parseFloat(value)
         ?.toFixed(2)
         .replace(/\d(?=(\d{3})+\.)/g, "$&,");
     }
-
     setValue(num);
     if (onChangeText && typeof onChangeText === "function") {
       onChangeText(num);
@@ -148,6 +156,7 @@ export const CustomInputMoney = ({
     <View style={[styles.container, style]}>
       <TextInput
         onChangeText={onHandleChangeText}
+        onEndEditing={onEndEditing}
         {...textInputProps}
         value={value}
         style={[

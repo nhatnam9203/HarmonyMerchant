@@ -22,6 +22,7 @@ import {
   deleteProductVersion,
   updateOptionsQty,
   generateProductVersion,
+  checkProductVersion,
 } from "./ProductState";
 import IMAGE from "@resources";
 import { AddProductVersionDialog } from "./AddProductVersionDialog";
@@ -29,7 +30,7 @@ import { AddProductVersionDialog } from "./AddProductVersionDialog";
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
 const GenerateConfirmButton = WithDialogConfirm(ButtonGradient);
 
-export const FormProductOptionQty = ({ dispatchProduct, items, options }) => {
+export const FormProductOptionQty = ({ dispatchProduct, items, options, isExistItem }) => {
   const [t] = useTranslation();
   const [optionsQty, setOptionsQty] = React.useState(null);
 
@@ -260,6 +261,7 @@ export const FormProductOptionQty = ({ dispatchProduct, items, options }) => {
           <AddProductVersionDialog
             dispatchProduct={dispatchProduct}
             options={options}
+            isExistItem={isExistItem}
             renderButton={(onShowDialog) => (
               <View style={[layouts.horizontal, layouts.horizontalCenterRight]}>
                 <ButtonGradient

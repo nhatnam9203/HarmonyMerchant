@@ -7,7 +7,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { filter } from "rxjs/operators";
-import { createProductVersion } from "./ProductState";
+import { createProductVersion, checkProductVersion } from "./ProductState";
 
 const log = (obj, message = "") => {
   Logger.log(`[AddProductVersionDialog] ${message}`, obj);
@@ -56,6 +56,7 @@ export const AddProductVersionDialog = ({
   renderButton,
   dispatchProduct,
   options,
+  isExistItem,
 }) => {
   const [t] = useTranslation();
   const dialogRef = React.useRef(null);
@@ -106,18 +107,21 @@ export const AddProductVersionDialog = ({
 
   const selectOptionValue = (val) => {
     // !! neu tao moi product  thi cho nay ko dung id dc
-    const selectOption = options?.find((v) => v.id === val.optionId);
-    const existIndx = selectedItems?.findIndex((x) => x.id === val.id);
+    // const selectOption = options?.find((v) => v.id === val.optionId);
+    const existIndx = selectedItems?.findIndex(
+      (x) => x.attributeId === val.attributeId
+    );
+    let clones = [...selectedItems];
 
     if (existIndx >= 0) {
-      let clones = [...selectedItems];
       clones[existIndx] = val;
       setSelectedItems(clones);
     } else {
-      let clones = [...selectedItems];
       clones.push(val);
       setSelectedItems(clones.sort((a, b) => a.position - b.position));
     }
+
+    dispatchProduct(checkProductVersion(clones));
   };
 
   const onRenderItem = ({ item, index }) => {
@@ -149,6 +153,7 @@ export const AddProductVersionDialog = ({
         bottomChildren={() => (
           <View style={styles.bottomStyle}>
             <ButtonGradient
+              disable={selectedItems?.length !== options?.length}
               label={t("Generate")}
               width={scaleWidth(140)}
               height={scaleHeight(40)}
@@ -179,6 +184,16 @@ export const AddProductVersionDialog = ({
             // onEndReachedThreshold={0.1}
             // onEndReached={onHandleLoadMore}
           />
+          {isExistItem && (
+            <Text
+              style={[
+                styles.itemText,
+                { color: "orange", textAlign: "center" },
+              ]}
+            >
+              {t(" Item is existed ")}
+            </Text>
+          )}
         </View>
       </DialogLayout>
     </View>

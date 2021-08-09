@@ -14,6 +14,7 @@ export const PRODUCT_UPDATE_ATTRIBUTE = "product-update-attribute";
 export const PRODUCT_REMOVE_VERSION = "product-remove-version";
 export const GENERATE_PRODUCT_VERSION = "product-generate-version";
 export const PRODUCT_CREATE_VERSION = "product-create-version";
+export const PRODUCT_CHECK_VERSION = "product-check-version";
 
 const initState = {};
 
@@ -87,7 +88,6 @@ const createQuantitiesItem = (product, options) => {
 
 const createVersionFromItems = (product, items) => {
   const item = items?.reduce((accumulator, currentValue, index) => {
-    console.log(currentValue);
     return Object.assign({}, accumulator, {
       label: accumulator?.label
         ? `${accumulator.label ?? ""} - ${currentValue.label ?? ""}`
@@ -315,7 +315,6 @@ export const productReducer = (state = initState, action) => {
       let newQuantityList =
         state?.quantities?.length > 0 ? [...state?.quantities] : [];
       let temp = createVersionFromItems(state, action.payload);
-      console.log(temp);
       const isExistIndex = newQuantityList?.findIndex((f) =>
         arrayIsEqual(f?.attributeIds, temp?.attributeIds)
       );
@@ -343,6 +342,22 @@ export const productReducer = (state = initState, action) => {
 
       return Object.assign({}, state, {
         quantities: newQuantityList,
+        itemIsExisted: false,
+      });
+
+    case PRODUCT_CHECK_VERSION:
+      let checkQuantities =
+        state?.quantities?.length > 0 ? [...state?.quantities] : [];
+      const listAttributeValueIds = action.payload?.map(
+        (x) => x.attributeValueId
+      );
+      const findExistIndex = checkQuantities?.findIndex((f) =>
+        arrayIsEqual(f?.attributeIds, listAttributeValueIds)
+      );
+
+
+      return Object.assign({}, state, {
+        itemIsExisted: findExistIndex >= 0,
       });
     default:
       break;
@@ -427,6 +442,13 @@ export const generateProductVersion = () => {
 export const createProductVersion = (arrayOptions) => {
   return {
     type: PRODUCT_CREATE_VERSION,
+    payload: arrayOptions,
+  };
+};
+
+export const checkProductVersion = (arrayOptions) => {
+  return {
+    type: PRODUCT_CHECK_VERSION,
     payload: arrayOptions,
   };
 };
