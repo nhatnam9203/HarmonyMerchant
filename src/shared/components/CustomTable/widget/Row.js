@@ -1,6 +1,6 @@
-import React from 'react';
-import { Pressable, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import IMAGE from '@resources';
+import React from "react";
+import { Pressable, Image, StyleSheet, TouchableOpacity } from "react-native";
+import IMAGE from "@resources";
 
 export const Row = ({
   style,
@@ -12,6 +12,7 @@ export const Row = ({
   onPressOut,
   isDragging,
   draggable = false,
+  highlight = false,
 }) => {
   return (
     <Pressable
@@ -22,6 +23,7 @@ export const Row = ({
         style,
         height && { height },
         isDragging && styles.shadow,
+        highlight && { backgroundColor: "#ffa" },
       ]}
       onLongPress={onLongPress}
       onPressOut={onPressOut}
@@ -34,15 +36,15 @@ export const Row = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFF',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: '100%',
+    backgroundColor: "#FFF",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    height: "100%",
   },
 
   shadow: {
-    shadowColor: '#0000001a',
+    shadowColor: "#0000001a",
     shadowOffset: {
       width: 0,
       height: 3,
@@ -52,8 +54,8 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    height: '100%',
+    height: "100%",
     width: scaleWidth(30),
-    resizeMode: 'center',
+    resizeMode: "center",
   },
 });

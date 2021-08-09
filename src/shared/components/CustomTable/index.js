@@ -90,7 +90,7 @@ export function Table({
   sortLocal = SORT_STATE.desc,
   renderFooterComponent,
   flatListRef = (ref) => {},
-
+  highlightIndex,
   // params olds
   sortKey,
   calcSumKeys,
@@ -288,6 +288,7 @@ export function Table({
   };
 
   const renderItem = ({ item, index, move, moveEnd, isActive }) => {
+    const isHighlighted = highlightIndex && highlightIndex === index
     return (
       <Row
         key={getValueForColumnKey(item, primaryKey)}
@@ -298,6 +299,7 @@ export function Table({
         onPressOut={moveEnd}
         isDragging={isActive}
         draggable={draggable}
+        highlight={isHighlighted}
       >
         {whiteListKeys.map((key, keyIndex) => {
           const cellInfo = Object.create({

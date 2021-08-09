@@ -17,7 +17,7 @@ const ItemOptionValues = ({ item, onSelectOptionValue }) => {
   const formSelectRef = React.useRef(null);
 
   const onChangeValue = (val) => {
-    const temp = item?.values?.find((v) => v.id === val);
+    const temp = item?.values?.find((v) => v.attributeValueId === val);
     onSelectOptionValue(temp);
   };
 
@@ -25,13 +25,14 @@ const ItemOptionValues = ({ item, onSelectOptionValue }) => {
 
   React.useEffect(() => {
     if (item) {
+      console.log(item);
       formSelectRef.current?.setFilterItems(
         item?.values
           ?.filter((x) => x.checked)
           .map((x, index) => ({
             id: x.id,
             label: x.label,
-            value: x.id,
+            value: x.attributeValueId,
             position: index,
           }))
       );
@@ -39,7 +40,7 @@ const ItemOptionValues = ({ item, onSelectOptionValue }) => {
   }, [item?.values]);
 
   return (
-    <View style={styles.item} key={item?.id + ""}>
+    <View style={styles.item}>
       <FormSelect
         filterRef={formSelectRef}
         required={false}
@@ -61,7 +62,6 @@ export const AddProductVersionDialog = ({
   const [t] = useTranslation();
   const dialogRef = React.useRef(null);
   const [selectedItems, setSelectedItems] = React.useState([]);
-
   /**
   |--------------------------------------------------
   | CALL API
@@ -134,7 +134,7 @@ export const AddProductVersionDialog = ({
     return (
       <ItemOptionValues
         item={item}
-        key={item.id + ""}
+        key={item.label}
         onSelectOptionValue={onSelectOptionValue}
       />
     );
@@ -173,7 +173,7 @@ export const AddProductVersionDialog = ({
             data={options}
             bounces={false}
             renderItem={onRenderItem}
-            keyExtractor={(item) => item?.id + ""}
+            keyExtractor={(item) => item?.label}
             ListHeaderComponent={() => <View style={styles.itemSeparator} />}
             ListFooterComponent={onRenderFooterComponent}
             ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}

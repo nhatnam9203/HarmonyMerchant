@@ -1,42 +1,55 @@
 import {
+  ButtonGradient,
   ButtonGradientRed,
   FormUploadImage,
-  ButtonGradient,
 } from "@shared/components";
 import { CustomInput, CustomInputMoney } from "@shared/components/CustomInput";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { colors, fonts, layouts } from "@shared/themes";
+import { arrayIsEqual } from "@shared/utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { AddProductVersionDialog } from "./AddProductVersionDialog";
 import {
   deleteProductVersion,
-  updateOptionsQty,
   generateProductVersion,
-  checkProductVersion,
+  updateOptionsQty,
 } from "./ProductState";
-import IMAGE from "@resources";
-import { AddProductVersionDialog } from "./AddProductVersionDialog";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
 const GenerateConfirmButton = WithDialogConfirm(ButtonGradient);
 
-export const FormProductOptionQty = ({ dispatchProduct, items, options, isExistItem }) => {
+export const FormProductOptionQty = ({
+  dispatchProduct,
+  items,
+  options,
+  isExistItem,
+  itemIsGenerated,
+}) => {
   const [t] = useTranslation();
+  const flatListRef = React.useRef(null);
   const [optionsQty, setOptionsQty] = React.useState(null);
+  const [highlightIndex, setHighlightIndex] = React.useState(-1);
 
   React.useEffect(() => {
     setOptionsQty(items);
   }, [items]);
+
+  React.useEffect(() => {
+    if (itemIsGenerated) {
+      const index = optionsQty?.findIndex((x) =>
+        arrayIsEqual(x.attributeIds, itemIsGenerated.attributeIds)
+      );
+
+      if (index >= 0) {
+        flatListRef.current?.scrollToIndex({ index: index });
+        setHighlightIndex(index);
+      }
+    }
+  }, [itemIsGenerated]);
 
   const autoGenerateVersions = () => {
     dispatchProduct(generateProductVersion());
@@ -300,6 +313,8 @@ export const FormProductOptionQty = ({ dispatchProduct, items, options, isExistI
         <Table
           tableStyle={styles.content}
           items={optionsQty}
+          flatListRef={flatListRef}
+          highlightIndex={highlightIndex}
           headerKeyLabels={{
             imageUrl: t("Image"),
             label: t("Version"),

@@ -315,6 +315,8 @@ export const productReducer = (state = initState, action) => {
       let newQuantityList =
         state?.quantities?.length > 0 ? [...state?.quantities] : [];
       let temp = createVersionFromItems(state, action.payload);
+      console.log("====> temp");
+      console.log(temp);
       const isExistIndex = newQuantityList?.findIndex((f) =>
         arrayIsEqual(f?.attributeIds, temp?.attributeIds)
       );
@@ -343,7 +345,7 @@ export const productReducer = (state = initState, action) => {
       return Object.assign({}, state, {
         quantities: newQuantityList,
         itemIsExisted: false,
-        itemIsGenerated: temp,
+        itemIsGenerated: isExistIndex > 0 ? newQuantityList[isExistIndex] : 0,
       });
 
     case PRODUCT_CHECK_VERSION:
