@@ -43,7 +43,7 @@ export default function StaffDurationStatistic(props, ref) {
         "fromTime",
         "differenceDurationMinute",
       ],
-      primaryId: "date",
+      primaryId: "id",
       sumTotalKey: "date",
       calcSumKeys: ["differenceDurationMinute"],
       formatKeys: { differenceDurationMinute: "hhmm" },
