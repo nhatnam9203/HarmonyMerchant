@@ -43,7 +43,6 @@ export const useProps = ({
   const appointmentId = useSelector(
     (state) => state.basketRetailer.appointmentId
   );
-  const hasSubmit = useSelector((state) => state.basketRetailer.hasSubmit);
   const appointment = useSelector((state) => state.basketRetailer.appointment);
 
   const [activeTab, setActiveTab] = React.useState(CUSTOM_LIST_TYPES.CAT);
@@ -88,7 +87,7 @@ export const useProps = ({
       getCategoriesList({ groupSubIntoMain: true });
 
       dispatch(basketRetailer.clearBasket());
-      customerRef.current?.showPhoneInput();
+      // customerRef.current?.showPhoneInput();
     });
 
     const unsubscribeBlur = navigation.addListener("blur", () => {});
@@ -141,13 +140,10 @@ export const useProps = ({
   React.useEffect(() => {
     const { codeStatus, message, data } =
       appointmentTempCreate || appointmentAdd || {};
+
     if (statusSuccess(codeStatus)) {
-      if (hasSubmit) {
-        createAppointment(data);
-      } else {
-        dispatch(basketRetailer.setAppointmentId(data));
-        getAppointmentTemp(data);
-      }
+      dispatch(basketRetailer.setAppointmentId(data));
+      getAppointmentTemp(data);
     }
   }, [appointmentTempCreate, appointmentAdd]);
 
@@ -231,15 +227,10 @@ export const useProps = ({
     productDetailRef,
     basketRef,
     onHadSubmitted: (productValue) => {
-      if (customer?.customerId) {
-        createAppointment(appointmentId);
+      createAppointment(appointmentId);
 
-        dispatch(basketRetailer.clearBasket());
-        resetAll();
-      } else if (!customer?.customerId) {
-        // !! show dialog input customer
-        customerRef.current?.showPhoneInput();
-      }
+      dispatch(basketRetailer.clearBasket());
+      resetAll();
     },
     onGoBack: () => {
       NavigationServices.navigate("retailer.home.order.list", {});
@@ -254,11 +245,6 @@ export const useProps = ({
       if (appointmentId) {
         addItemAppointment(submitProducts[0]);
       } else {
-        // if (!customer) {
-        //   customerRef.current?.showPhoneInput();
-        //   return;
-        // }
-
         if (!appointment) {
           createAppointmentTemp({
             customerId: customer?.customerId,
