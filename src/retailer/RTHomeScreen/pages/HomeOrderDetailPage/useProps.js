@@ -85,6 +85,7 @@ export const useProps = ({
       ) {
         NavigationServices.navigate("retailer.home.order.pay", {
           orderItem: data,
+          screenId: "retailer.home.order.list",
         });
       } else {
         setAppointmentDetail(data);
@@ -120,6 +121,7 @@ export const useProps = ({
       } else {
         NavigationServices.navigate("retailer.home.order.pay", {
           orderItem: appointmentDetail,
+          screenId: "retailer.home.order.list",
         });
       }
     }

@@ -29,7 +29,7 @@ const log = (obj, message = "") => {
 };
 
 export const useProps = ({
-  params: { orderItem, appointmentId },
+  params: { orderItem, appointmentId, screenId },
   navigation,
 }) => {
   const basketRef = React.useRef(null);
@@ -129,7 +129,9 @@ export const useProps = ({
   const [appointment, getAppointment] = useGetAppointment();
 
   const onGoBack = () => {
-    NavigationServices.navigate("retailer.home.order.list", { reload: true });
+    if (screenId) {
+      NavigationServices.navigate(screenId, { reload: true });
+    } else NavigationServices.navigate("retailer.home.order", { reload: true });
   };
 
   const getPaymentString = (type) => {
@@ -176,7 +178,6 @@ export const useProps = ({
       return;
     }
 
-
     if (method === "harmony" && _.isEmpty(groupAppointment)) {
       popupSendLinkInstallRef.current?.setStateFromParent("");
       setVisibleSendLinkPopup(true);
@@ -222,7 +223,6 @@ export const useProps = ({
   const extractBill = () => {
     if (_.isEmpty(paymentDetailInfo)) {
       if (isOfflineMode) {
-
         const temptTotal = Number(
           formatNumberFromCurrency(subTotalLocal) +
             formatNumberFromCurrency(tipLocal) +
@@ -231,7 +231,6 @@ export const useProps = ({
         ).toFixed(2);
         modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       } else {
-
         const temptTotal = _.isEmpty(groupAppointment)
           ? Number(
               formatNumberFromCurrency(subTotalLocal) +
@@ -244,7 +243,6 @@ export const useProps = ({
         modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       }
     } else {
-
       const totalExact = paymentDetailInfo?.dueAmount
         ? paymentDetailInfo.dueAmount
         : 0;
@@ -451,7 +449,6 @@ export const useProps = ({
     method,
     moneyUserGiveForStaff
   ) => {
-
     try {
       connectSignalR.current = new signalR.HubConnectionBuilder()
         .withUrl(
@@ -502,7 +499,6 @@ export const useProps = ({
       connectSignalR.current
         .start()
         .then(() => {
-
           try {
             dispatch(actions.app.stopLoadingApp());
 

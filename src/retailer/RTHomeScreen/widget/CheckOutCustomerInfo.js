@@ -57,7 +57,7 @@ export const CheckOutCustomerInfo = React.forwardRef(
       } else {
         if (phone) {
           setTimeout(() => {
-            dialogNewRef.current?.show({ phone });
+            dialogNewRef.current?.show({ phone: "+" + phone });
           }, 200);
         }
       }

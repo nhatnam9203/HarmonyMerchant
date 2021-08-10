@@ -212,7 +212,7 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
               width={scaleWidth(140)}
               height={scaleHeight(40)}
               borderRadius={scaleWidth(3)}
-              disable={!form.isValid}
+              // disable={!form.isValid}
               onPress={form.handleSubmit}
             />
           </View>
