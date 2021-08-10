@@ -8,6 +8,7 @@ import {
   useAddItemAppointment,
   useGetAppointmentTemp,
   useRemoveItemAppointment,
+  useGetProductsByBarcode,
 } from "@shared/services/api/retailer";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -66,6 +67,7 @@ export const useProps = ({
   const [appointmentTempGet, getAppointmentTemp] = useGetAppointmentTemp();
   const [appointmentTempRemove, removeItemAppointment] =
     useRemoveItemAppointment();
+  const [productItemGet, getProductsByBarcode] = useGetProductsByBarcode();
 
   const resetAll = () => {
     setCategoryId(null);
@@ -177,6 +179,13 @@ export const useProps = ({
     }
   }, [appointmentTempCreate]);
 
+  React.useEffect(() => {
+    const { codeStatus, message, data } = productItemGet || {};
+    if (statusSuccess(codeStatus)) {
+      productDetailRef.current?.show(data);
+    }
+  }, [productItemGet]);
+
   return {
     categories: categories,
     subCategories: subCategories,
@@ -260,7 +269,7 @@ export const useProps = ({
     },
     customer,
     onResultScanCode: (data) => {
-      alert("code" + data);
+      if (data) getProductsByBarcode(data);
     },
   };
 };

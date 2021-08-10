@@ -48,6 +48,7 @@ export const FormAddressInformation = React.forwardRef(
       onChangeShippingAddress,
       onChangeBillingAddress,
       customerId,
+      screenId,
     },
     ref
   ) => {
@@ -116,7 +117,13 @@ export const FormAddressInformation = React.forwardRef(
       reload: () => {
         if (customerId) getCustomer(customerId);
       },
-      updateAddress: (addressId) => {},
+      updateAddress: (addressId, addressCreate) => {
+        console.log(addressCreate);
+        setSelectedBilling(addressCreate);
+        setSelectedShipping(addressCreate);
+        setDefaultShipping(addressId);
+        setDefaultBilling(addressId);
+      },
     }));
 
     React.useEffect(() => {
@@ -191,6 +198,7 @@ export const FormAddressInformation = React.forwardRef(
         isEdit: true,
         item: selectedBilling,
         customerId,
+        screenId,
       });
     };
 
@@ -199,6 +207,7 @@ export const FormAddressInformation = React.forwardRef(
         NavigationServices.navigate("retailer.address.edit", {
           isNew: true,
           customerId,
+          screenId,
         });
       } else {
         const findItem = addresses.find((x) => x.id === item);
@@ -221,6 +230,7 @@ export const FormAddressInformation = React.forwardRef(
         isEdit: true,
         item: selectedShipping,
         customerId,
+        screenId,
       });
     };
 
@@ -229,6 +239,7 @@ export const FormAddressInformation = React.forwardRef(
         NavigationServices.navigate("retailer.address.edit", {
           isNew: true,
           customerId,
+          screenId,
         });
       } else {
         const findItem = addresses.find((x) => x.id === item);
@@ -267,18 +278,26 @@ export const FormAddressInformation = React.forwardRef(
             onChangeStreetValue={billingAddressForm.handleChange(
               "billingAddressForm.street"
             )}
-            defaultStateValue={selectedBilling?.stateId}
+            defaultStateValue={
+              selectedBilling?.stateId || selectedBilling?.state
+            }
             defaultStreetValue={selectedBilling?.street}
             defaultCityValue={selectedBilling?.city}
-            defaultZipCodeValue={selectedBilling?.zipCode}
+            defaultZipCodeValue={
+              selectedBilling?.zipCode || selectedBilling?.zip
+            }
             useDropDownMenu
             editable={false}
           />
 
           <FormFullName
             ref={billingNameRef}
-            firstName={selectedBilling?.addressFirstName}
-            lastName={selectedBilling?.addressLastName}
+            firstName={
+              selectedBilling?.addressFirstName || selectedBilling?.firstName
+            }
+            lastName={
+              selectedBilling?.addressLastName || selectedBilling?.lastName
+            }
             onChangeFirstName={billingAddressForm.handleChange(
               "billingAddress.firstName"
             )}
@@ -289,7 +308,9 @@ export const FormAddressInformation = React.forwardRef(
           />
 
           <FormPhoneNumber
-            defaultPhone={selectedBilling?.addressPhone}
+            defaultPhone={
+              selectedBilling?.addressPhone || selectedBilling?.phone
+            }
             onChangePhoneNumber={billingAddressForm.handleChange(
               "billingAddressForm.phone"
             )}
@@ -334,18 +355,26 @@ export const FormAddressInformation = React.forwardRef(
             onChangeStreetValue={shippingAddressForm.handleChange(
               "shippingAddressForm.street"
             )}
-            defaultStateValue={selectedShipping?.stateId}
+            defaultStateValue={
+              selectedShipping?.stateId || selectedShipping?.state
+            }
             defaultStreetValue={selectedShipping?.street}
             defaultCityValue={selectedShipping?.city}
-            defaultZipCodeValue={selectedShipping?.zipCode}
+            defaultZipCodeValue={
+              selectedShipping?.zipCode || selectedShipping?.zip
+            }
             useDropDownMenu
             editable={false}
           />
 
           <FormFullName
             ref={shippingNameRef}
-            firstName={selectedShipping?.addressFirstName}
-            lastName={selectedShipping?.addressLastName}
+            firstName={
+              selectedShipping?.addressFirstName || selectedShipping?.firstName
+            }
+            lastName={
+              selectedShipping?.addressLastName || selectedShipping?.lastName
+            }
             onChangeFirstName={shippingAddressForm.handleChange(
               "billingAddress.firstName"
             )}
@@ -356,7 +385,9 @@ export const FormAddressInformation = React.forwardRef(
           />
 
           <FormPhoneNumber
-            defaultPhone={selectedShipping?.addressPhone}
+            defaultPhone={
+              selectedShipping?.addressPhone || selectedShipping?.phone
+            }
             onChangePhoneNumber={shippingAddressForm.handleChange(
               "shippingAddressForm.phone"
             )}

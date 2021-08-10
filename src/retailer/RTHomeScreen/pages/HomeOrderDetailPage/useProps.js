@@ -17,7 +17,7 @@ const log = (obj, message = "") => {
 };
 
 export const useProps = ({
-  params: { order, orderId, addressId },
+  params: { order, orderId, addressId, addressCreate },
   navigation,
 }) => {
   const formAddressRef = React.useRef(null);
@@ -65,9 +65,11 @@ export const useProps = ({
 
       if (addressId) {
         // !! dung de goi update select form khi tao moi
-        formAddressRef.current?.updateAddress(addressId);
+        formAddressRef.current?.updateAddress(addressId, addressCreate);
+        setShippingAddressId(addressId);
+        setBillingAddressId(addressId);
       }
-    }, [orderId, order, addressId])
+    }, [orderId, order, addressId, addressCreate])
   );
 
   React.useEffect(() => {
@@ -183,11 +185,11 @@ export const useProps = ({
       editNote({ notes: noteText }, appointmentDetail?.appointmentId);
     },
     getPaymentString,
-    onEditShippingAddress: (addressId) => {
-      setShippingAddressId(addressId);
+    onEditShippingAddress: (selectAddressId) => {
+      setShippingAddressId(selectAddressId);
     },
-    onEditBillingAddress: (addressId) => {
-      setBillingAddressId(addressId);
+    onEditBillingAddress: (selectAddressId) => {
+      setBillingAddressId(selectAddressId);
     },
     formAddressRef,
     onDidNotPayCheck: (checked) => {

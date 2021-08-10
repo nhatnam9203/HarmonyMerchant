@@ -52,9 +52,10 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
       if (phone) {
         setEdit(false);
         setCurrentCustomer({ phone });
-
-        form.setFieldValue("phone", phone);
+        form.setValues({ phone: phone });
         setPhone(phone);
+        setFirstName(null);
+        setLastName(null);
       } else if (customer) {
         setEdit(true);
         const formatCustomer = Object.assign({}, customer, {
@@ -211,7 +212,7 @@ export const DialogNewCustomer = React.forwardRef((props, ref) => {
               width={scaleWidth(140)}
               height={scaleHeight(40)}
               borderRadius={scaleWidth(3)}
-              disable={!form.isValid || !form.dirty}
+              disable={!form.isValid}
               onPress={form.handleSubmit}
             />
           </View>

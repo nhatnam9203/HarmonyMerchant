@@ -16,7 +16,7 @@ export const useProps = ({
     isNew,
     isEdit,
     item,
-    customerId,
+    customerId = 0,
     isBillingAddress = false,
     isShippingAddress = false,
     screenId,
@@ -100,6 +100,7 @@ export const useProps = ({
           reload: true,
           customerId,
           addressId: data,
+          addressCreate: form.values,
         });
       } else {
         NavigationServices.goBack();

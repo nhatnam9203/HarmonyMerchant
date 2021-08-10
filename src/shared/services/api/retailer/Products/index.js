@@ -9,3 +9,4 @@ export * from "./useGetAdjustHistoryList";
 export * from "./useGetAdjustPendingList";
 export * from "./useSubmitAdjustQuantity";
 export * from "./useApprovedAdjustQty";
+export * from "./useGetProductByBarcode";

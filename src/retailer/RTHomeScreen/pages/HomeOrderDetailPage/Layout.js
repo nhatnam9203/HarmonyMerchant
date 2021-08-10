@@ -313,6 +313,7 @@ export const Layout = ({
                 billingAddress={item?.billingAddress}
                 onChangeShippingAddress={onEditShippingAddress}
                 onChangeBillingAddress={onEditBillingAddress}
+                screenId="retailer.home.order.detail"
               />
             </>
           ) : (

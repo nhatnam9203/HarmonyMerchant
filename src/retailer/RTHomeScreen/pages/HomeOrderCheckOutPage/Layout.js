@@ -50,25 +50,25 @@ export const Layout = ({
           canDelete={true}
         />
         <View style={layouts.marginHorizontal} />
-          <ScanQRButton
-            label={t("Scan")}
-            title={t("Scan Barcode")}
-            width={scaleWidth(140)}
-            height={scaleHeight(40)}
-            onResultScanCode={onResultScanCode}
-            leftChildren={() => (
-              <Image
-                source={IMAGE.scancode}
-                style={{
-                  width: scaleWidth(24),
-                  height: scaleHeight(24),
-                  marginHorizontal: scaleWidth(12),
-                }}
-              />
-            )}
-          />
-        <View style={styles.headerRightContent}>
+        <ScanQRButton
+          label={t("Scan")}
+          title={t("Scan Barcode")}
+          width={scaleWidth(140)}
+          height={scaleHeight(40)}
+          onResultScanCode={onResultScanCode}
+          leftChildren={() => (
+            <Image
+              source={IMAGE.scancode}
+              style={{
+                width: scaleWidth(24),
+                height: scaleHeight(24),
+                marginHorizontal: scaleWidth(12),
+              }}
+            />
+          )}
+        />
 
+        <View style={styles.headerRightContent}>
           <View style={layouts.marginHorizontal} />
           <ButtonGradientWhite
             width={scaleWidth(40)}
