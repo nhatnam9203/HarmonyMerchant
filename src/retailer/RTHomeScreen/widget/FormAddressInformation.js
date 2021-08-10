@@ -117,12 +117,30 @@ export const FormAddressInformation = React.forwardRef(
       reload: () => {
         if (customerId) getCustomer(customerId);
       },
-      updateAddress: (addressId, addressCreate) => {
-        console.log(addressCreate);
-        setSelectedBilling(addressCreate);
-        setSelectedShipping(addressCreate);
+      updateShippingAddress: (addressId, addressCreate) => {
+        const tempAddress = Object.assign({}, addressCreate, {
+          stateId: addressCreate.state,
+        });
+
+        shippingRef.current?.updateAddress(tempAddress);
+        shippingNameRef.current?.updateFirstName(tempAddress?.addressFirstName);
+        shippingNameRef.current?.updateLastName(tempAddress?.addressLastName);
+
         setDefaultShipping(addressId);
+        setSelectedShipping(tempAddress);
+      },
+
+      updateBillingAddress: (addressId, addressCreate) => {
+        const tempAddress = Object.assign({}, addressCreate, {
+          stateId: addressCreate.state,
+        });
+
+        billingRef.current?.updateAddress(tempAddress);
+        billingNameRef.current?.updateFirstName(tempAddress?.addressFirstName);
+        billingNameRef.current?.updateLastName(tempAddress?.addressLastName);
+
         setDefaultBilling(addressId);
+        setSelectedBilling(tempAddress);
       },
     }));
 
@@ -199,6 +217,8 @@ export const FormAddressInformation = React.forwardRef(
         item: selectedBilling,
         customerId,
         screenId,
+        editBillingAddress: true,
+        editShippingAddress: false,
       });
     };
 
@@ -208,6 +228,8 @@ export const FormAddressInformation = React.forwardRef(
           isNew: true,
           customerId,
           screenId,
+          editBillingAddress: true,
+          editShippingAddress: false,
         });
       } else {
         const findItem = addresses.find((x) => x.id === item);
@@ -231,6 +253,8 @@ export const FormAddressInformation = React.forwardRef(
         item: selectedShipping,
         customerId,
         screenId,
+        editShippingAddress: true,
+        editBillingAddress: false,
       });
     };
 
@@ -240,6 +264,8 @@ export const FormAddressInformation = React.forwardRef(
           isNew: true,
           customerId,
           screenId,
+          editShippingAddress: true,
+          editBillingAddress: false,
         });
       } else {
         const findItem = addresses.find((x) => x.id === item);

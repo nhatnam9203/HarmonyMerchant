@@ -17,7 +17,14 @@ const log = (obj, message = "") => {
 };
 
 export const useProps = ({
-  params: { order, orderId, addressId, addressCreate },
+  params: {
+    order,
+    orderId,
+    addressId,
+    addressCreate,
+    editShippingAddress,
+    editBillingAddress,
+  },
   navigation,
 }) => {
   const formAddressRef = React.useRef(null);
@@ -63,13 +70,48 @@ export const useProps = ({
         getAppointment(orderId ?? order.appointmentId);
       }
 
-      if (addressId) {
-        // !! dung de goi update select form khi tao moi
-        formAddressRef.current?.updateAddress(addressId, addressCreate);
-        setShippingAddressId(addressId);
-        setBillingAddressId(addressId);
+      if (addressId && addressCreate) {
+        if (editBillingAddress) {
+          formAddressRef.current?.updateBillingAddress(
+            addressId,
+            addressCreate
+          );
+
+          setBillingAddressId(addressId);
+
+          if (!shippingAddressId) {
+            formAddressRef.current?.updateShippingAddress(
+              addressId,
+              addressCreate
+            );
+
+            setShippingAddressId(addressId);
+          }
+        } else if (editShippingAddress) {
+          formAddressRef.current?.updateShippingAddress(
+            addressId,
+            addressCreate
+          );
+
+          setShippingAddressId(addressId);
+          if (!billingAddressId) {
+            formAddressRef.current?.updateBillingAddress(
+              addressId,
+              addressCreate
+            );
+
+            setBillingAddressId(addressId);
+          }
+        }
       }
-    }, [orderId, order, addressId, addressCreate])
+    }, [
+      orderId,
+      order,
+      addressId,
+      addressCreate,
+      editShippingAddress,
+      editBillingAddress,
+    ])
   );
 
   React.useEffect(() => {
