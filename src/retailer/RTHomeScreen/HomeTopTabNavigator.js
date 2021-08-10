@@ -59,7 +59,7 @@ export const HomeTopTabNavigator = ({
   return (
     <>
       <Navigator
-        initialRouteName="retailer.home.order"
+        initialRouteName="retailer.home.checkout"
         headerMode="none"
         screenOptions={{
           cardStyle: {

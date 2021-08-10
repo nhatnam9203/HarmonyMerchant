@@ -202,7 +202,7 @@ class Layout extends React.Component {
                         categoriesStaffFilter.push(categoryStaff[i])
                     }
                 }
-                tempCategories = [...categoriesStaffFilter, ...selectCategories];
+                tempCategories = [...selectCategories, ...categoriesStaffFilter];
             }
         } else {
             if (isOfflineMode || isBlockBookingFromCalendar) {

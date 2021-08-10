@@ -27,16 +27,10 @@ export const Layout = ({}) => {
         </Text>
         <Text style={styles.txtContent}>
           {t(
-            'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren'
+            'Taking the mission statement from Jerry MaGuire to heart, we strive to build a company that\'s truly care for our clients. As Dicky Fox always said the same thing when asked for his secret'
           )}
         </Text>
       </ScrollView>
-      <View style={styles.layoutBottom}>
-        <CustomLink style={styles.txtLink} url={Configs.DOMAIN} />
-        <Text style={styles.txtAppVersion}>
-          {t('Created by Levinci Team.')}
-        </Text>
-      </View>
     </View>
   );
 };
