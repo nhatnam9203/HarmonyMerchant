@@ -13,6 +13,7 @@ import {
   CheckOutCustomerInfo,
 } from "../../widget";
 import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
+import _ from "lodash";
 
 const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
 const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
@@ -38,9 +39,12 @@ export const Layout = ({
   onRemoveItem,
   customer,
   onResultScanCode,
+  categoriesLabelData,
 }) => {
   const [t] = useTranslation();
-
+  const labelColumn1 = _.get(categoriesLabelData, 'column1') || t("Categories")
+  const labelColumn2 = _.get(categoriesLabelData, 'column2') || t("Subcategories")
+  const labelColumn3 = _.get(categoriesLabelData, 'column3') || t("Products")
   return (
     <View style={layouts.fill}>
       <View style={styles.headContent}>
@@ -85,7 +89,7 @@ export const Layout = ({
       <View style={styles.container}>
         <View style={styles.listContent}>
           <CustomList
-            title={t("Categories")}
+            title={labelColumn1}
             items={categories}
             type={CUSTOM_LIST_TYPES.CAT}
             isActive={activeTab === CUSTOM_LIST_TYPES.CAT}
@@ -94,7 +98,7 @@ export const Layout = ({
             refreshData={onRefreshCategory}
           />
           <CustomList
-            title={t("Subcategories")}
+            title={labelColumn2}
             items={subCategories}
             type={CUSTOM_LIST_TYPES.SUB}
             isActive={activeTab === CUSTOM_LIST_TYPES.SUB}
@@ -102,7 +106,7 @@ export const Layout = ({
             activeId={subCategoryId}
           />
           <CustomList
-            title={t("Products")}
+            title={labelColumn3}
             items={products}
             type={CUSTOM_LIST_TYPES.PRO}
             isActive={activeTab === CUSTOM_LIST_TYPES.PRO}

@@ -3,11 +3,12 @@ import { RETAILER_LAYOUT } from '../../route';
 import { appMerchant } from '@redux/slices';
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import _ from "lodash"
 
 export const useGetLayout = () => {
   const dispatch = useDispatch();
 
-  const [{ data: data, loading, error, response }, execute] = useAxios(
+  const [{ data: layout, loading, error, response }, execute] = useAxios(
     { method: 'GET' },
     {
       manual: true,
@@ -21,7 +22,7 @@ export const useGetLayout = () => {
     if (!loading && response) {
       dispatch(appMerchant.hideLoading());
     }
-  }, [data?.data, dispatch, loading, response]);
+  }, [layout?.data, dispatch, loading, response]);
 
   const getLayout = () => {
     execute({

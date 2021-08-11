@@ -99,7 +99,7 @@ export const layouts = StyleSheet.create({
     color: colors.GREYISH_BROWN,
   },
   formTitleBlue: {
-      fontSize: scaleSize(23),
+      fontSize: scaleFont(23),
       fontWeight: '600',
       color: colors.OCEAN_BLUE,
   },

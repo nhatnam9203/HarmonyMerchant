@@ -1,5 +1,5 @@
 import NavigationServices from "@navigators/NavigatorServices";
-import { basketRetailer } from "@redux/slices";
+import { basketRetailer, appMerchant } from "@redux/slices";
 import {
   useCreateAppointment,
   useCreateAppointmentTemp,
@@ -9,6 +9,7 @@ import {
   useGetAppointmentTemp,
   useRemoveItemAppointment,
   useGetProductsByBarcode,
+  useGetLayout,
 } from "@shared/services/api/retailer";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -53,6 +54,7 @@ export const useProps = ({
   const [categories, setCategories] = React.useState(null);
   const [subCategories, setSubCategories] = React.useState(null);
   const [products, setProducts] = React.useState(basketProducts);
+
   /**
   |--------------------------------------------------
   | CALL API
@@ -68,6 +70,8 @@ export const useProps = ({
   const [appointmentTempRemove, removeItemAppointment] =
     useRemoveItemAppointment();
   const [productItemGet, getProductsByBarcode] = useGetProductsByBarcode();
+  const [categoriesLabel, getCategoriesLabel] = useGetLayout();
+  const [categoriesLabelData, setCategoriesLabelData] = React.useState({});
 
   const resetAll = () => {
     setCategoryId(null);
@@ -87,9 +91,11 @@ export const useProps = ({
     const unsubscribeFocus = navigation.addListener("focus", () => {
       resetAll();
       getCategoriesList({ groupSubIntoMain: true });
-
+      
       dispatch(basketRetailer.clearBasket());
       // customerRef.current?.showPhoneInput();
+
+      getCategoriesLabel();
     });
 
     const unsubscribeBlur = navigation.addListener("blur", () => {});
@@ -186,6 +192,14 @@ export const useProps = ({
     }
   }, [productItemGet]);
 
+  React.useEffect(() => {
+    const { codeStatus, data } = categoriesLabel || {};
+    if (statusSuccess(codeStatus)) {
+        setCategoriesLabelData(data);
+    }
+  }, [categoriesLabel]);
+
+
   return {
     categories: categories,
     subCategories: subCategories,
@@ -271,5 +285,6 @@ export const useProps = ({
     onResultScanCode: (data) => {
       if (data) getProductsByBarcode(data);
     },
+    categoriesLabelData,
   };
 };

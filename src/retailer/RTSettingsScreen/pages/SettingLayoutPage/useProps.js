@@ -1,5 +1,3 @@
-import NavigationServices from "@navigators/NavigatorServices";
-import { useFocusEffect } from "@react-navigation/native";
 import {
   useEditLayout,
   useGetLayout,
@@ -18,31 +16,37 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   |--------------------------------------------------
   */
   const [layout, getLayout] = useGetLayout();
-  const callGetLayout = React.useCallback(() => {
-    getLayout();
-  });
+  const [layoutData, setLayoutData] = React.useState({});
+  
   const [, editLayout] = useEditLayout();
 
   React.useEffect(() => {
-    callGetLayout();
+    getLayout();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onChangeText = (value, key) => {
-    const layoutEdit = layout
-    if(layoutEdit.hasOwnProperty(key)){
-      layoutEdit.key = value
-    }else{
-      layoutEdit = {...layoutEdit, key: value}
+  React.useEffect(() => {
+    const { codeStatus, data } = layout || {};
+    if (statusSuccess(codeStatus)) {
+        setLayoutData(data);
     }
-    this.setState({layout: layoutEdit})
+  }, [layout]);
+
+  const onChangeText = (value, key) => {
+    let layoutEdit = JSON.parse(JSON.stringify(layoutData))
+    if(layoutEdit.hasOwnProperty(key)){
+      layoutEdit[key] = value
+    }else{
+      layoutEdit = {...layoutEdit, [key]: value}
+    }
+    setLayoutData(layoutEdit)
   }
 
-  const onButtonSavePress = (layout) => {
-    editLayout(layout)
+  const onButtonSavePress = (layoutData) => {
+    editLayout(layoutData)
   }
   return {
-    layout,
+    layoutData,
     onChangeText,
     onButtonSavePress,
   };

@@ -1,13 +1,13 @@
 import useAxios from 'axios-hooks';
 import { RETAILER_LAYOUT } from '../../route';
 import { appMerchant } from '@redux/slices';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 export const useEditLayout = () => {
   const dispatch = useDispatch();
 
-  const [{ data: data, loading, error, response }, execute] = useAxios(
+  const [{ data: layout, loading, error, response }, execute] = useAxios(
     { method: 'POST', url: RETAILER_LAYOUT.url },
     {
       manual: true,
@@ -21,7 +21,7 @@ export const useEditLayout = () => {
     if (!loading && response) {
       dispatch(appMerchant.hideLoading());
     }
-  }, [data?.data, dispatch, loading, response]);
+  }, [layout, dispatch, loading, response]);
 
   const editLayout = (layout) => {
     execute({
