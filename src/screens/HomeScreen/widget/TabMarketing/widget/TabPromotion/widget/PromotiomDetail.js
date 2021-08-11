@@ -117,6 +117,7 @@ const PromotiomDetail = forwardRef(
     const [imageFileId, setImageFileId] = React.useState(null);
     const [noEndDate, setNoEndDate] = React.useState(false);
     const [mediaFilePath, setMediaFilePath] = React.useState(null);
+    const [isManually, setIsManually] = React.useState(false);
 
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(
@@ -165,6 +166,7 @@ const PromotiomDetail = forwardRef(
         setPromotionType(data?.promotionType || "percent");
         setPromotionValue(data?.promotionValue || "");
         setIsDisabled(data?.isDisabled ? false : true);
+        setIsManually(data?.isManually);
         setCondition(getConditionTitleIdById(data?.conditionId || 1));
         setActionCondition(
           getDiscountActionByShortName(data?.applyTo || "all")
@@ -470,6 +472,7 @@ const PromotiomDetail = forwardRef(
         smsType: configMessageType,
         content: messageContent,
         noEndDate: noEndDate,
+        isManually: isManually,
       };
 
       // ------------ Check Valid ---------
@@ -998,6 +1001,23 @@ const PromotiomDetail = forwardRef(
                 ios_backgroundColor="#E5E5E5"
                 value={isDisabled}
                 onValueChange={setIsDisabled}
+              />
+
+              {/* ---------  Promotion Manual ------ */}
+              <Text
+                style={[
+                  styles.txt_tit,
+                  { marginBottom: scaleSize(10), marginTop: scaleSize(20) },
+                ]}
+              >
+                Manually apply
+              </Text>
+
+              <Switch
+                trackColor={{ false: "#767577", true: "#0764B0" }}
+                ios_backgroundColor="#E5E5E5"
+                value={isManually}
+                onValueChange={setIsManually}
               />
             </View>
 

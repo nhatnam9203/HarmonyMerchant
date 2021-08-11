@@ -314,14 +314,17 @@ export const Layout = ({
           <ButtonGradientWhite
             label={t("Search")}
             width={scaleWidth(120)}
+            borderRadius={scaleWidth(3)}
             onPress={onButtonSearchPress}
           />
           <View style={layouts.marginHorizontal} />
+
           <ScanQRButton
             disable={!isPermission()}
             label={t("Scan")}
             title={t("Scan Barcode")}
-            width={scaleWidth(160)}
+            width={scaleWidth(120)}
+            borderRadius={scaleWidth(3)}
             onResultScanCode={onResultScanCode}
             leftChildren={() => (
               <Image

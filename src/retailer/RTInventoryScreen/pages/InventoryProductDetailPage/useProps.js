@@ -75,5 +75,10 @@ export const useProps = ({ params: { item } }) => {
         reason: reason,
       });
     },
+    onHandleQuantity: () => {
+      NavigationServices.navigate("retailer.inventory.product.qty", {
+        item,
+      });
+    },
   };
 };

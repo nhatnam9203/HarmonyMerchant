@@ -127,7 +127,7 @@ export const productReducer = (state = initState, action) => {
 
       return Object.assign({}, state, {
         options: mergeOptions,
-        quantities: createQuantitiesItem(state, mergeOptions),
+        // quantities: createQuantitiesItem(state, mergeOptions),
       });
 
     case PRODUCT_REMOVE_OPTION:
