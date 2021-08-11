@@ -45,7 +45,7 @@ export const DropdownMenu = React.forwardRef(
     }));
 
     React.useEffect(() => {
-      if (defaultIndex >= 0 && options?.length > defaultIndex && !item) {
+      if (defaultIndex >= 0 && options?.length > defaultIndex) {
         setItem(options[defaultIndex]);
         modalRef.current?.select(defaultIndex);
       }

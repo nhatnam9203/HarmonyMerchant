@@ -211,5 +211,11 @@ export const useProps = ({
       form.setFieldValue("description", value);
       dispatchProduct(changeProductAttribute("description", value));
     },
+    onResultScanCode: (data) => {
+      if (data) {
+        form.setFieldValue("barCode", data);
+        dispatchProduct(changeProductAttribute("barCode", data));
+      }
+    },
   };
 };

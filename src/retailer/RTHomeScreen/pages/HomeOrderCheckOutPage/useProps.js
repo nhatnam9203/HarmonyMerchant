@@ -8,6 +8,7 @@ import {
   useAddItemAppointment,
   useGetAppointmentTemp,
   useRemoveItemAppointment,
+  useGetProductsByBarcode,
 } from "@shared/services/api/retailer";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,7 +44,6 @@ export const useProps = ({
   const appointmentId = useSelector(
     (state) => state.basketRetailer.appointmentId
   );
-  const hasSubmit = useSelector((state) => state.basketRetailer.hasSubmit);
   const appointment = useSelector((state) => state.basketRetailer.appointment);
 
   const [activeTab, setActiveTab] = React.useState(CUSTOM_LIST_TYPES.CAT);
@@ -67,6 +67,7 @@ export const useProps = ({
   const [appointmentTempGet, getAppointmentTemp] = useGetAppointmentTemp();
   const [appointmentTempRemove, removeItemAppointment] =
     useRemoveItemAppointment();
+  const [productItemGet, getProductsByBarcode] = useGetProductsByBarcode();
 
   const resetAll = () => {
     setCategoryId(null);
@@ -88,7 +89,7 @@ export const useProps = ({
       getCategoriesList({ groupSubIntoMain: true });
 
       dispatch(basketRetailer.clearBasket());
-      customerRef.current?.showPhoneInput();
+      // customerRef.current?.showPhoneInput();
     });
 
     const unsubscribeBlur = navigation.addListener("blur", () => {});
@@ -141,13 +142,10 @@ export const useProps = ({
   React.useEffect(() => {
     const { codeStatus, message, data } =
       appointmentTempCreate || appointmentAdd || {};
+
     if (statusSuccess(codeStatus)) {
-      if (hasSubmit) {
-        createAppointment(data);
-      } else {
-        dispatch(basketRetailer.setAppointmentId(data));
-        getAppointmentTemp(data);
-      }
+      dispatch(basketRetailer.setAppointmentId(data));
+      getAppointmentTemp(data);
     }
   }, [appointmentTempCreate, appointmentAdd]);
 
@@ -180,6 +178,13 @@ export const useProps = ({
       getAppointmentTemp(data);
     }
   }, [appointmentTempCreate]);
+
+  React.useEffect(() => {
+    const { codeStatus, message, data } = productItemGet || {};
+    if (statusSuccess(codeStatus)) {
+      productDetailRef.current?.show(data);
+    }
+  }, [productItemGet]);
 
   return {
     categories: categories,
@@ -231,15 +236,10 @@ export const useProps = ({
     productDetailRef,
     basketRef,
     onHadSubmitted: (productValue) => {
-      if (customer?.customerId) {
-        createAppointment(appointmentId);
+      createAppointment(appointmentId);
 
-        dispatch(basketRetailer.clearBasket());
-        resetAll();
-      } else if (!customer?.customerId) {
-        // !! show dialog input customer
-        customerRef.current?.showPhoneInput();
-      }
+      dispatch(basketRetailer.clearBasket());
+      resetAll();
     },
     onGoBack: () => {
       NavigationServices.navigate("retailer.home.order.list", {});
@@ -254,11 +254,6 @@ export const useProps = ({
       if (appointmentId) {
         addItemAppointment(submitProducts[0]);
       } else {
-        // if (!customer) {
-        //   customerRef.current?.showPhoneInput();
-        //   return;
-        // }
-
         if (!appointment) {
           createAppointmentTemp({
             customerId: customer?.customerId,
@@ -274,7 +269,7 @@ export const useProps = ({
     },
     customer,
     onResultScanCode: (data) => {
-      alert("code" + data);
+      if (data) getProductsByBarcode(data);
     },
   };
 };

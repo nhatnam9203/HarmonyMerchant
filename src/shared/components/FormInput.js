@@ -13,6 +13,7 @@ export const FormInput = ({
   keyboardType,
   editable,
   multiline = false,
+  children,
 }) => {
   const [t] = useTranslation();
   const onHandleChange = (text) => {
@@ -47,6 +48,7 @@ export const FormInput = ({
             }),
           }}
         />
+        {children}
       </View>
     </View>
   );

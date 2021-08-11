@@ -75,14 +75,17 @@ export const FormAddress = React.forwardRef(
 
     React.useImperativeHandle(ref, () => ({
       updateAddress: (address) => {
+        console.log(address);
+
         if (address) {
           setCity(address?.city);
           setStreetAddress(address?.street);
-          setZipCode(address?.zipCode);
+          setZipCode(address?.zipCode || address?.zip);
           const defaultIndex = stateList.findIndex((item) => {
             return item?.stateId === address.stateId;
           });
           setIndex(defaultIndex);
+          console.log(defaultIndex);
         }
       },
     }));

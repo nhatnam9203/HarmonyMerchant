@@ -17,6 +17,9 @@ import { FormProductImages } from "./FormProductImages";
 import { FormProductOption } from "./FormProductOption";
 import { FormProductOptionQty } from "./FormProductOptionQty";
 import { PRODUCT_VISIBLE_TYPE } from "@shared/utils";
+import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
+
+const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
 
 export const Layout = ({
   isEdit,
@@ -33,6 +36,7 @@ export const Layout = ({
   onHandleChangeProductName,
   onHandleChangeProductImages,
   onHandleChangeProductDescription,
+  onResultScanCode,
 }) => {
   const [t] = useTranslation();
 
@@ -113,7 +117,26 @@ export const Layout = ({
               //required={true}
               onChangeValue={form.handleChange("barCode")}
               defaultValue={productItem?.barCode}
-            />
+            >
+              <View style={layouts.marginHorizontal} />
+              <ScanQRButton
+                label={t("Scan")}
+                title={t("Scan Barcode")}
+                width={scaleWidth(120)}
+                height={scaleHeight(40)}
+                onResultScanCode={onResultScanCode}
+                leftChildren={() => (
+                  <Image
+                    source={IMAGE.scancode}
+                    style={{
+                      width: scaleWidth(24),
+                      height: scaleHeight(24),
+                      marginHorizontal: scaleWidth(12),
+                    }}
+                  />
+                )}
+              />
+            </FormInput>
 
             <FormInput
               label={t("SKU")}

@@ -17,7 +17,14 @@ const log = (obj, message = "") => {
 };
 
 export const useProps = ({
-  params: { order, orderId, addressId },
+  params: {
+    order,
+    orderId,
+    addressId,
+    addressCreate,
+    editShippingAddress,
+    editBillingAddress,
+  },
   navigation,
 }) => {
   const formAddressRef = React.useRef(null);
@@ -63,11 +70,48 @@ export const useProps = ({
         getAppointment(orderId ?? order.appointmentId);
       }
 
-      if (addressId) {
-        // !! dung de goi update select form khi tao moi
-        formAddressRef.current?.updateAddress(addressId);
+      if (addressId && addressCreate) {
+        if (editBillingAddress) {
+          formAddressRef.current?.updateBillingAddress(
+            addressId,
+            addressCreate
+          );
+
+          setBillingAddressId(addressId);
+
+          if (!shippingAddressId) {
+            formAddressRef.current?.updateShippingAddress(
+              addressId,
+              addressCreate
+            );
+
+            setShippingAddressId(addressId);
+          }
+        } else if (editShippingAddress) {
+          formAddressRef.current?.updateShippingAddress(
+            addressId,
+            addressCreate
+          );
+
+          setShippingAddressId(addressId);
+          if (!billingAddressId) {
+            formAddressRef.current?.updateBillingAddress(
+              addressId,
+              addressCreate
+            );
+
+            setBillingAddressId(addressId);
+          }
+        }
       }
-    }, [orderId, order, addressId])
+    }, [
+      orderId,
+      order,
+      addressId,
+      addressCreate,
+      editShippingAddress,
+      editBillingAddress,
+    ])
   );
 
   React.useEffect(() => {
@@ -83,6 +127,7 @@ export const useProps = ({
       ) {
         NavigationServices.navigate("retailer.home.order.pay", {
           orderItem: data,
+          screenId: "retailer.home.order.list",
         });
       } else {
         setAppointmentDetail(data);
@@ -118,6 +163,7 @@ export const useProps = ({
       } else {
         NavigationServices.navigate("retailer.home.order.pay", {
           orderItem: appointmentDetail,
+          screenId: "retailer.home.order.list",
         });
       }
     }
@@ -183,11 +229,11 @@ export const useProps = ({
       editNote({ notes: noteText }, appointmentDetail?.appointmentId);
     },
     getPaymentString,
-    onEditShippingAddress: (addressId) => {
-      setShippingAddressId(addressId);
+    onEditShippingAddress: (selectAddressId) => {
+      setShippingAddressId(selectAddressId);
     },
-    onEditBillingAddress: (addressId) => {
-      setBillingAddressId(addressId);
+    onEditBillingAddress: (selectAddressId) => {
+      setBillingAddressId(selectAddressId);
     },
     formAddressRef,
     onDidNotPayCheck: (checked) => {

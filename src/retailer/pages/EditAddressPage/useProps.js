@@ -16,10 +16,12 @@ export const useProps = ({
     isNew,
     isEdit,
     item,
-    customerId,
+    customerId = 0,
     isBillingAddress = false,
     isShippingAddress = false,
     screenId,
+    editShippingAddress,
+    editBillingAddress,
   },
 }) => {
   const { t } = useTranslation();
@@ -54,11 +56,11 @@ export const useProps = ({
   const form = useFormik({
     initialValues: item
       ? Object.assign({}, item, {
-          firstName: item?.addressFirstName,
-          lastName: item?.addressLastName,
-          zip: item?.zipCode,
-          state: item?.stateId,
-          phone: item?.addressPhone,
+          ...(!item?.firstName && { firstName: item?.addressFirstName }),
+          ...(!item?.lastName && { lastName: item?.addressLastName }),
+          ...(!item?.zip && { zip: item?.zipCode }),
+          ...(!item?.state && { state: item?.stateId }),
+          ...(!item?.phone && { phone: item?.addressPhone }),
         })
       : {},
     validationSchema: Yup.object().shape({
@@ -100,6 +102,9 @@ export const useProps = ({
           reload: true,
           customerId,
           addressId: data,
+          addressCreate: form.values,
+          editShippingAddress,
+          editBillingAddress,
         });
       } else {
         NavigationServices.goBack();
@@ -117,11 +122,11 @@ export const useProps = ({
     if (item) {
       setCurrentAddress(
         Object.assign({}, item, {
-          firstName: item?.addressFirstName,
-          lastName: item?.addressLastName,
-          zip: item?.zipCode,
-          state: item?.stateId,
-          phone: item?.addressPhone,
+          ...(!item?.firstName && { firstName: item?.addressFirstName }),
+          ...(!item?.lastName && { lastName: item?.addressLastName }),
+          ...(!item?.zip && { zip: item?.zipCode }),
+          ...(!item?.state && { state: item?.stateId }),
+          ...(!item?.phone && { phone: item?.addressPhone }),
         })
       );
     }
