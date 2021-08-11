@@ -43,9 +43,9 @@ const slices = createSlice({
     //   //   return params;
     //   // },
     // },
-    // clearBasket: (state, action) => {
-    //   return initialState;
-    // },
+    clearBasket: (state, action) => {
+      return initialState;
+    },
     setCustomer: (state, action) => {
       // !@@@@@@@@
       state.customer = action.payload;

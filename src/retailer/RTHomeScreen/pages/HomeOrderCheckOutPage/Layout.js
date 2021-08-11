@@ -50,6 +50,7 @@ export const Layout = ({
           canDelete={true}
         />
         <View style={layouts.marginHorizontal} />
+
         <ScanQRButton
           label={t("Scan")}
           title={t("Scan Barcode")}

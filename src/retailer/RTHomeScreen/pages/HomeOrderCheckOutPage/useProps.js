@@ -23,6 +23,7 @@ import {
   BIRTH_DAY_DATE_FORMAT_STRING,
   statusSuccess,
   dateToString,
+  PRODUCT_VISIBLE_TYPE,
 } from "@shared/utils";
 
 const log = (obj, message = "") => {
@@ -93,7 +94,7 @@ export const useProps = ({
       resetAll();
       getCategoriesList({ groupSubIntoMain: true });
 
-      // dispatch(basketRetailer.clearBasket());
+      dispatch(basketRetailer.clearBasket());
       // customerRef.current?.showPhoneInput();
     });
 
@@ -139,7 +140,9 @@ export const useProps = ({
   React.useEffect(() => {
     if (productsList?.data) {
       setActiveTab(CUSTOM_LIST_TYPES.PRO);
-      setProducts(productsList?.data);
+      setProducts(
+        productsList?.data?.filter((product) => product.visibility !== "webApp")
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productsList?.data]);
@@ -261,7 +264,7 @@ export const useProps = ({
     basketRef,
     onHadSubmitted: (productValue) => {
       createAppointment(appointmentId);
-      // dispatch(basketRetailer.clearBasket());
+      dispatch(basketRetailer.clearBasket());
       resetAll();
     },
     onGoBack: () => {
@@ -292,6 +295,7 @@ export const useProps = ({
     },
     customer,
     onResultScanCode: (data) => {
+      // getProductsByBarcode("8934588063060");
       if (data) getProductsByBarcode(data);
     },
   };
