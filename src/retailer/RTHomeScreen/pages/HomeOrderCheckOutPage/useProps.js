@@ -141,7 +141,7 @@ export const useProps = ({
     if (productsList?.data) {
       setActiveTab(CUSTOM_LIST_TYPES.PRO);
       setProducts(
-        productsList?.data?.filter((product) => product.visibility !== "webApp")
+        productsList?.data?.filter((product) => product.visibility !== "web")
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
