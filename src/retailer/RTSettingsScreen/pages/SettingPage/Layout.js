@@ -11,6 +11,7 @@ import { SettingPaymentPage } from '../SettingPaymentPage';
 import { SettingStaffPage } from '../SettingStaffPage';
 import { SettingTaxPage } from '../SettingTaxPage';
 import { SettingAboutPage } from '../SettingAboutPage';
+import { SettingLayoutPage } from '../SettingLayoutPage';
 import TabGaneral from '../../../RTGeneral';
 import {
   // TabGaneral,
@@ -42,6 +43,8 @@ export const Layout = ({ openDrawer, reload, logOut }) => {
         return <TabHardware reloadPage={reload} />;
       case SettingAboutPage.name:
         return <SettingAboutPage.component reloadPage={reload} />;
+      case SettingLayoutPage.name:
+        return <SettingLayoutPage.component reloadPage={reload} />;
       default:
         return null;
     }
@@ -80,6 +83,11 @@ export const Layout = ({ openDrawer, reload, logOut }) => {
           <ItemDrawer {...SettingTaxPage} active={active} onPress={setActive} />
           <ItemDrawer
             {...SettingHardwarePage}
+            active={active}
+            onPress={setActive}
+          />
+          <ItemDrawer
+            {...SettingLayoutPage}
             active={active}
             onPress={setActive}
           />
