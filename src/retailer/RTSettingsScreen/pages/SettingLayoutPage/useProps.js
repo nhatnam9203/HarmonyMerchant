@@ -29,7 +29,12 @@ export const useProps = ({ params: { reload }, reloadPage }) => {
   }, []);
 
   const onChangeText = (value, key) => {
-    const layoutEdit = {}
+    const layoutEdit = layout
+    if(layoutEdit.hasOwnProperty(key)){
+      layoutEdit.key = value
+    }else{
+      layoutEdit = {...layoutEdit, key: value}
+    }
     this.setState({layout: layoutEdit})
   }
 
