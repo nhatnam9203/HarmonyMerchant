@@ -309,9 +309,13 @@ const PromotiomDetail = forwardRef(
     useEffect(() => {
       if (!_.isEmpty(smsInfoMarketing)) {
         const customerCount = smsInfoMarketing?.customerCount || 0;
-        const customerSendSMSQuantity =
+        const customerSendSMSQty =
           promotionDetailById?.customerSendSMSQuantity || 0;
-        const tempValue = customerSendSMSQuantity / customerCount;
+
+        let tempValue = 0;
+        if (customerCount > 0) {
+          tempValue = customerSendSMSQty / customerCount;
+        }
 
         setValue(tempValue);
         calculatorsmsMoney(tempValue);
@@ -467,7 +471,7 @@ const PromotiomDetail = forwardRef(
         promotionValue: `${promotionValue || 0.0}`,
         isDisabled: isDisabled ? 0 : 1,
         smsAmount: smsAmount,
-        customerSendSMSQuantity: customerSendSMSQuantity,
+        customerSendSMSQuantity: customerSendSMSQuantity ?? 0,
         fileId: imageFileId,
         smsType: configMessageType,
         content: messageContent,
@@ -545,9 +549,9 @@ const PromotiomDetail = forwardRef(
       setDynamicActionTagsMarginBottom(24);
     };
 
-    const hanldeSliderValue = (value) => {
-      setValue(value);
-      calculatorsmsMoney(value);
+    const hanldeSliderValue = (val = 0) => {
+      setValue(val);
+      calculatorsmsMoney(val);
     };
 
     const handleSetCampaignName = (title) => {

@@ -120,15 +120,15 @@ export const useProps = ({
 
   React.useEffect(() => {
     if (item) {
-      setCurrentAddress(
-        Object.assign({}, item, {
-          ...(!item?.firstName && { firstName: item?.addressFirstName }),
-          ...(!item?.lastName && { lastName: item?.addressLastName }),
-          ...(!item?.zip && { zip: item?.zipCode }),
-          ...(!item?.state && { state: item?.stateId }),
-          ...(!item?.phone && { phone: item?.addressPhone }),
-        })
-      );
+      const temp = Object.assign({}, item, {
+        ...(!item?.firstName && { firstName: item?.addressFirstName }),
+        ...(!item?.lastName && { lastName: item?.addressLastName }),
+        ...(!item?.zip && { zip: item?.zipCode }),
+        ...(!item?.state && { state: item?.stateId }),
+        ...(!item?.phone && { phone: item?.addressPhone }),
+      });
+
+      setCurrentAddress(temp);
     }
   }, [item]);
 
