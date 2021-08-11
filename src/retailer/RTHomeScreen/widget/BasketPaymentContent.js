@@ -131,10 +131,6 @@ export const BasketPaymentContent = React.forwardRef(
     // }));
 
     const renderItem = ({ item }) => {
-      // const onHandleDeleteItem = () => {
-      //   dispatch(basketRetailer.removeBasketItem(item.id));
-      // };
-
       return (
         <View style={styles.productItem} key={item.id + ""}>
           <FastImage

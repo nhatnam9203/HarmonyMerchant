@@ -9,6 +9,8 @@ import {
   useGetAppointmentTemp,
   useRemoveItemAppointment,
   useGetProductsByBarcode,
+  useUpdateAppointmentCustomer,
+  useUpdateAppointmentTempCustomer,
 } from "@shared/services/api/retailer";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,10 +39,8 @@ export const useProps = ({
   const dispatch = useDispatch();
 
   const customer = useSelector((state) => state.basketRetailer.customer);
-  const basketProducts = useSelector((state) => state.basketRetailer.products);
-  // const purchasePoint = useSelector(
-  //   (state) => state.basketRetailer.purchasePoint
-  // );
+  // const basketProducts = useSelector((state) => state.basketRetailer.products);
+
   const appointmentId = useSelector(
     (state) => state.basketRetailer.appointmentId
   );
@@ -52,7 +52,9 @@ export const useProps = ({
   const [productId, setProductId] = React.useState(null);
   const [categories, setCategories] = React.useState(null);
   const [subCategories, setSubCategories] = React.useState(null);
-  const [products, setProducts] = React.useState(basketProducts);
+  const [products, setProducts] = React.useState(null);
+  // const [products, setProducts] = React.useState(basketProducts);
+
   /**
   |--------------------------------------------------
   | CALL API
@@ -64,17 +66,20 @@ export const useProps = ({
     useCreateAppointmentTemp();
   const [appointmentCreate, createAppointment] = useCreateAppointment();
   const [appointmentAdd, addItemAppointment] = useAddItemAppointment();
-  const [appointmentTempGet, getAppointmentTemp] = useGetAppointmentTemp();
+  const [, getAppointmentTemp] = useGetAppointmentTemp();
   const [appointmentTempRemove, removeItemAppointment] =
     useRemoveItemAppointment();
   const [productItemGet, getProductsByBarcode] = useGetProductsByBarcode();
+  // const [updateAppointmentCustomerData, updateAppointmentCustomer] =
+  //   useUpdateAppointmentCustomer();
+  const [updateAppointmentTempCustomerData, updateAppointmentTempCustomer] =
+    useUpdateAppointmentTempCustomer();
 
   const resetAll = () => {
     setCategoryId(null);
     setActiveTab(CUSTOM_LIST_TYPES.CAT);
     setSubCategoryId(null);
     setSubCategories(null);
-
     setProducts(null);
   };
 
@@ -88,7 +93,7 @@ export const useProps = ({
       resetAll();
       getCategoriesList({ groupSubIntoMain: true });
 
-      dispatch(basketRetailer.clearBasket());
+      // dispatch(basketRetailer.clearBasket());
       // customerRef.current?.showPhoneInput();
     });
 
@@ -100,28 +105,28 @@ export const useProps = ({
     };
   }, [navigation]);
 
-  React.useEffect(() => {
-    if (basketProducts?.length > 0 && !customer) {
-      customerRef.current?.showPhoneInput();
-    }
-  }, [basketProducts]);
+  // React.useEffect(() => {
+  //   if (basketProducts?.length > 0 && !customer) {
+  //     customerRef.current?.showPhoneInput();
+  //   }
+  // }, [basketProducts]);
 
-  React.useEffect(() => {
-    if (customer) {
-      customerRef.current?.showPhoneInput();
-    }
-  }, [basketProducts]);
+  // React.useEffect(() => {
+  //   if (customer) {
+  //     customerRef.current?.showPhoneInput();
+  //   }
+  // }, [basketProducts]);
 
-  React.useEffect(() => {
-    if (basketProducts?.length > 0 && customer && !appointment) {
-      const submitProducts = createSubmitAppointment(basketProducts);
-      createAppointmentTemp({
-        customerId: customer?.customerId,
-        purchasePoint: getPurchasePoint(),
-        products: submitProducts,
-      });
-    }
-  }, [basketProducts, customer, appointment]);
+  // React.useEffect(() => {
+  //   if (basketProducts?.length > 0 && customer && !appointment) {
+  //     const submitProducts = createSubmitAppointment(basketProducts);
+  //     createAppointmentTemp({
+  //       customerId: customer?.customerId,
+  //       purchasePoint: getPurchasePoint(),
+  //       products: submitProducts,
+  //     });
+  //   }
+  // }, [basketProducts, customer, appointment]);
 
   React.useEffect(() => {
     if (categoriesList?.data) {
@@ -151,11 +156,18 @@ export const useProps = ({
 
   React.useEffect(() => {
     const { codeStatus, message, data } =
-      appointmentAdd || appointmentTempRemove || {};
+      appointmentAdd ||
+      appointmentTempRemove ||
+      updateAppointmentTempCustomerData ||
+      {};
     if (statusSuccess(codeStatus)) {
       getAppointmentTemp(appointmentId);
     }
-  }, [appointmentAdd, appointmentTempRemove]);
+  }, [
+    appointmentAdd,
+    appointmentTempRemove,
+    updateAppointmentTempCustomerData,
+  ]);
 
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentCreate || {};
@@ -185,6 +197,18 @@ export const useProps = ({
       productDetailRef.current?.show(data);
     }
   }, [productItemGet]);
+
+  React.useEffect(() => {
+    // Effect use  update customer for appointment
+    if (!customer || !appointmentId) {
+      return;
+    }
+
+    updateAppointmentTempCustomer(
+      { customerId: customer.customerId },
+      appointmentId
+    );
+  }, [customer, appointmentId]);
 
   return {
     categories: categories,
@@ -237,8 +261,7 @@ export const useProps = ({
     basketRef,
     onHadSubmitted: (productValue) => {
       createAppointment(appointmentId);
-
-      dispatch(basketRetailer.clearBasket());
+      // dispatch(basketRetailer.clearBasket());
       resetAll();
     },
     onGoBack: () => {
