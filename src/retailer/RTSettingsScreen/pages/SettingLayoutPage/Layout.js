@@ -1,7 +1,7 @@
 import {
     ButtonGradient,
   } from "@shared/components";
-  import { colors, layouts } from "@shared/themes";
+  import { colors, layouts, fonts } from "@shared/themes";
   import React from "react";
   import { useTranslation } from "react-i18next";
   import { StyleSheet, Text, View, TextInput } from "react-native";
