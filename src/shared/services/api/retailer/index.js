@@ -7,3 +7,4 @@ export * from './Order';
 export * from './Appointment';
 export * from './Reports';
 export * from './Exports';
+export * from './Layout';

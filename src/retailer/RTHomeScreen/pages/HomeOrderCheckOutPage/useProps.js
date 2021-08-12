@@ -1,5 +1,5 @@
 import NavigationServices from "@navigators/NavigatorServices";
-import { basketRetailer } from "@redux/slices";
+import { basketRetailer, appMerchant } from "@redux/slices";
 import {
   useAddItemAppointmentTemp,
   useCreateAppointment,
@@ -7,6 +7,8 @@ import {
   useGetAppointmentTemp,
   useGetCategoriesList,
   useGetProductsByBarcode,
+  useGetLayout,
+  useUpdateAppointmentCustomer,
   useGetProductsByCategory,
   useRemoveItemAppointmentTemp,
   useUpdateAppointmentTempCustomer,
@@ -71,6 +73,10 @@ export const useProps = ({
   const [appointmentTempItemRemove, removeItemAppointmentTemp] =
     useRemoveItemAppointmentTemp();
   const [productItemGet, getProductsByBarcode] = useGetProductsByBarcode();
+  const [categoriesLabel, getCategoriesLabel] = useGetLayout();
+  const [categoriesLabelData, setCategoriesLabelData] = React.useState({});
+  // const [updateAppointmentCustomerData, updateAppointmentCustomer] =
+  //   useUpdateAppointmentCustomer();
   const [updateAppointmentCustomerData, updateAppointmentCustomer] =
     useUpdateAppointmentCustomer();
   const [updateAppointmentTempCustomerData, updateAppointmentTempCustomer] =
@@ -100,6 +106,8 @@ export const useProps = ({
       getCategoriesList({ groupSubIntoMain: true });
       // dispatch(basketRetailer.clearBasket());
       // customerRef.current?.showPhoneInput();
+
+      getCategoriesLabel();
     });
 
     const unsubscribeBlur = navigation.addListener("blur", () => {});
@@ -228,6 +236,13 @@ export const useProps = ({
   }, [productItemGet]);
 
   React.useEffect(() => {
+    const { codeStatus, data } = categoriesLabel || {};
+    if (statusSuccess(codeStatus)) {
+        setCategoriesLabelData(data);
+    }
+  }, [categoriesLabel]);
+
+  React.useEffect(() => {
     // Effect use  update customer for appointment
     if (!customer) {
       return;
@@ -353,6 +368,7 @@ export const useProps = ({
       // getProductsByBarcode("8934588063060");
       if (data) getProductsByBarcode(data);
     },
+    categoriesLabelData,
     isOrder
   };
 };

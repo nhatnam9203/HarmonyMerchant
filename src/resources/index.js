@@ -286,6 +286,7 @@ export default {
   IconSettingGeneral: require("../assets/images/ic_setting_general.png"),
   IconSettingAttributes: require("../assets/images/ic_setting_attributes.png"),
   IconSettingCategories: require("../assets/images/ic_setting_categories.png"),
+  IconSettingLayout: require("../assets/images/layout.png"),
   IconSettingStaff: require("../assets/images/ic_setting_staff.png"),
   IconSettingPayment: require("../assets/images/ic_setting_payment.png"),
   IconSettingTAX: require("../assets/images/ic_setting_tax.png"),

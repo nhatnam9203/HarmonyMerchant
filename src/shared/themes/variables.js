@@ -98,6 +98,11 @@ export const layouts = StyleSheet.create({
     textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
+  formTitleBlue: {
+      fontSize: scaleFont(23),
+      fontWeight: '600',
+      color: colors.OCEAN_BLUE,
+  },
   formRow: {
     marginTop: scaleHeight(10),
     marginBottom: scaleHeight(10),

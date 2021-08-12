@@ -1518,7 +1518,7 @@ class TabCheckout extends Layout {
     const tempIpPax = commType == 'TCP' ? ip : '';
     const tempPortPax = commType == 'TCP' ? port : '';
     const idBluetooth = commType === 'TCP' ? '' : bluetoothAddr;
-    const extData = isTipOnPaxMachine ? '<TipRequest>1</TipRequest>' : '';
+    const extData = isTipOnPaxMachine ? '<TipRequest>1</TipRequest><Force>T</Force>' : '<Force>T</Force>';
 
     // Send Trans to pax
     PosLink.sendTransaction(
@@ -1549,7 +1549,7 @@ class TabCheckout extends Layout {
   }
 
   async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
-    const { profile, payAppointmentId } = this.props;
+    const { profile, payAppointmentId, groupAppointment } = this.props;
     await this.setState({
       visibleProcessingCredit: false,
     });
@@ -1558,7 +1558,6 @@ class TabCheckout extends Layout {
       const tempEnv = env.IS_PRODUCTION;
       if (l.get(result, 'status', 0) == 0) {
         // setTimeout(()=>{ PosLink.cancelTransaction()}, 100)
-
         if (payAppointmentId) {
           this.props.actions.appointment.cancelHarmonyPayment(
             payAppointmentId,

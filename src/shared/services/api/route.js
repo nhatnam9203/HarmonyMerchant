@@ -61,6 +61,10 @@ export const RETAILER_ATTRIBUTES = {
   url: "attribute",
 };
 
+export const RETAILER_LAYOUT = {
+  url: "merchantlabel",
+};
+
 export const RETAILER_CATEGORIES = {
   url: "category",
 };
