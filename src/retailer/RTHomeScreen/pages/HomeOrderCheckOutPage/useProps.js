@@ -1,14 +1,14 @@
 import NavigationServices from "@navigators/NavigatorServices";
 import { basketRetailer } from "@redux/slices";
 import {
-  useAddItemAppointment,
+  useAddItemAppointmentTemp,
   useCreateAppointment,
   useCreateAppointmentTemp,
   useGetAppointmentTemp,
   useGetCategoriesList,
   useGetProductsByBarcode,
   useGetProductsByCategory,
-  useRemoveItemAppointment,
+  useRemoveItemAppointmentTemp,
   useUpdateAppointmentTempCustomer,
 } from "@shared/services/api/retailer";
 import { createSubmitAppointment, statusSuccess } from "@shared/utils";
@@ -35,6 +35,11 @@ export const useProps = ({
   const appointmentId = useSelector(
     (state) => state.basketRetailer.appointmentId
   );
+
+  const appointmentTempId = useSelector(
+    (state) => state.basketRetailer.appointmentTempId
+  );
+
   const appointment = useSelector((state) => state.basketRetailer.appointment);
 
   const [activeTab, setActiveTab] = React.useState(CUSTOM_LIST_TYPES.CAT);
@@ -55,10 +60,11 @@ export const useProps = ({
   const [appointmentTempCreate, createAppointmentTemp] =
     useCreateAppointmentTemp();
   const [appointmentCreate, createAppointment] = useCreateAppointment();
-  const [appointmentAdd, addItemAppointment] = useAddItemAppointment();
+  const [appointmentTempItemAdd, addItemAppointmentTemp] =
+    useAddItemAppointmentTemp();
   const [, getAppointmentTemp] = useGetAppointmentTemp();
-  const [appointmentTempRemove, removeItemAppointment] =
-    useRemoveItemAppointment();
+  const [appointmentTempItemRemove, removeItemAppointmentTemp] =
+    useRemoveItemAppointmentTemp();
   const [productItemGet, getProductsByBarcode] = useGetProductsByBarcode();
   // const [updateAppointmentCustomerData, updateAppointmentCustomer] =
   //   useUpdateAppointmentCustomer();
@@ -115,32 +121,34 @@ export const useProps = ({
 
   React.useEffect(() => {
     const { codeStatus, message, data } =
-      appointmentTempCreate || appointmentAdd || {};
+      appointmentTempCreate || appointmentTempItemAdd || {};
 
     if (statusSuccess(codeStatus)) {
-      dispatch(basketRetailer.setAppointmentId(data));
+      dispatch(basketRetailer.setAppointmentTempId(data));
       getAppointmentTemp(data);
     }
-  }, [appointmentTempCreate, appointmentAdd]);
+  }, [appointmentTempCreate, appointmentTempItemAdd]);
 
   React.useEffect(() => {
     const { codeStatus, message, data } =
-      appointmentAdd ||
-      appointmentTempRemove ||
+      appointmentTempItemAdd ||
+      appointmentTempItemRemove ||
       updateAppointmentTempCustomerData ||
       {};
     if (statusSuccess(codeStatus)) {
-      getAppointmentTemp(appointmentId);
+      getAppointmentTemp(appointmentTempId);
     }
   }, [
-    appointmentAdd,
-    appointmentTempRemove,
+    appointmentTempItemAdd,
+    appointmentTempItemRemove,
     updateAppointmentTempCustomerData,
   ]);
 
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentCreate || {};
     if (statusSuccess(codeStatus)) {
+      dispatch(basketRetailer.setAppointmentId(data));
+
       if (isOrder) {
         NavigationServices.navigate("retailer.home.order.detail", {
           orderId: data,
@@ -171,15 +179,15 @@ export const useProps = ({
 
   React.useEffect(() => {
     // Effect use  update customer for appointment
-    if (!customer || !appointmentId) {
+    if (!customer || !appointmentTempId) {
       return;
     }
 
     updateAppointmentTempCustomer(
       { customerId: customer.customerId },
-      appointmentId
+      appointmentTempId
     );
-  }, [customer, appointmentId]);
+  }, [customer, appointmentTempId]);
 
   return {
     categories: categories,
@@ -230,8 +238,8 @@ export const useProps = ({
     productId,
     productDetailRef,
     basketRef,
-    onHadSubmitted: (productValue) => {
-      createAppointment(appointmentId);
+    onHadSubmitted: () => {
+      createAppointment(appointmentTempId);
       dispatch(basketRetailer.clearBasket());
       resetAll();
     },
@@ -245,8 +253,8 @@ export const useProps = ({
     onAddProduct: (productItem) => {
       const submitProducts = createSubmitAppointment([productItem]);
 
-      if (appointmentId) {
-        addItemAppointment(submitProducts[0]);
+      if (appointmentTempId) {
+        addItemAppointmentTemp(submitProducts[0]);
       } else {
         if (!appointment) {
           createAppointmentTemp({
@@ -259,7 +267,7 @@ export const useProps = ({
     },
     appointment,
     onRemoveItem: (item) => {
-      removeItemAppointment(item?.bookingProductId);
+      removeItemAppointmentTemp(item?.bookingProductId);
     },
     customer,
     onResultScanCode: (data) => {
