@@ -38,6 +38,7 @@ export const Layout = ({
   onRemoveItem,
   customer,
   onResultScanCode,
+  appointment,
 }) => {
   const [t] = useTranslation();
 

@@ -17,3 +17,4 @@ export * from "./useRemoveItemAppointmentTemp";
 export * from "./useUpdateAppointmentTempCustomer";
 export * from "./useUpdateAppointmentCustomer";
 export * from "./useAppointmentRemoveItem";
+export * from "./useAppointmentAddItem";

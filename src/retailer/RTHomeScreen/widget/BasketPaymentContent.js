@@ -132,7 +132,7 @@ export const BasketPaymentContent = React.forwardRef(
 
     const renderItem = ({ item }) => {
       return (
-        <View style={styles.productItem} key={item.id + ""}>
+        <View style={styles.productItem} key={item.bookingProductId + ""}>
           <FastImage
             style={styles.imageStyle}
             source={
@@ -171,7 +171,7 @@ export const BasketPaymentContent = React.forwardRef(
           data={orderItem?.products}
           renderItem={renderItem}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
-          keyExtractor={(item) => item.id + ""}
+          keyExtractor={(item) => item.bookingProductId + ""}
         />
         <View style={styles.line} />
         <View style={styles.totalContent}>

@@ -40,7 +40,7 @@ export const useProps = ({
   | CALL API
   |--------------------------------------------------
   */
-  const [appointment, getAppointment] = useGetAppointment();
+  const [appointmentGet, getAppointment] = useGetAppointment();
 
   const [appointmentCancel, cancelAppointment] = useCancelAppointment();
   const [appointmentConfirm, confirmAppointment] = useConfirmAppointment();
@@ -115,7 +115,7 @@ export const useProps = ({
   );
 
   React.useEffect(() => {
-    const { codeStatus, message, data } = appointment || {};
+    const { codeStatus, message, data } = appointmentGet || {};
     if (statusSuccess(codeStatus)) {
       log(data);
       const { status, didNotPay, payment, purchasePoint } = data || {};
@@ -136,7 +136,7 @@ export const useProps = ({
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appointment]);
+  }, [appointmentGet]);
 
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentCancel || {};

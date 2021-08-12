@@ -21,6 +21,7 @@ import React from "react";
 import { NativeModules, Platform } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useIsPayment } from "../../hooks";
+import { basketRetailer } from "@redux/slices";
 
 const signalR = require("@microsoft/signalr");
 
@@ -32,7 +33,7 @@ const log = (obj, message = "") => {
 };
 
 export const useProps = ({
-  params: { orderItem, appointmentId, screenId },
+  params: { orderItem, appointmentId, screenId, backScreenId },
   navigation,
 }) => {
   const basketRef = React.useRef(null);
@@ -129,12 +130,22 @@ export const useProps = ({
   const [appointmentDetail, setAppointmentDetail] = React.useState(null);
 
   /** CALL API */
-  const [appointment, getAppointment] = useGetAppointment();
+  const [appointmentGet, getAppointment] = useGetAppointment();
   // const [updateAppointmentCustomerData, updateAppointmentCustomer] =
   //   useUpdateAppointmentCustomer();
+
   const onGoBack = () => {
+    console.log("onGoBack");
     if (screenId) {
       NavigationServices.navigate(screenId, { reload: true });
+    } else NavigationServices.navigate("retailer.home.order", { reload: true });
+  };
+
+  const onCompleteBack = async () => {
+    await dispatch(basketRetailer.clearBasket());
+
+    if (backScreenId) {
+      NavigationServices.navigate(backScreenId, { reset: true });
     } else NavigationServices.navigate("retailer.home.order", { reload: true });
   };
 
@@ -839,6 +850,7 @@ export const useProps = ({
     if (!_.isEmpty(connectSignalR.current)) {
       await connectSignalR.current?.stop();
     }
+
     if (paymentSelected === "Cash" || paymentSelected === "Other") {
       const { portName } = getInfoFromModelNameOfPrinter(
         printerList,
@@ -847,14 +859,12 @@ export const useProps = ({
 
       if (portName) {
         openCashDrawer(portName);
-        onGoBack();
         dispatch(actions.appointment.closeModalPaymentCompleted());
         // this.props.gotoAppoitmentScreen();
         dispatch(actions.appointment.resetBasketEmpty());
         // this.setState(initState);
         dispatch(actions.appointment.resetPayment());
       } else {
-        onGoBack();
         dispatch(actions.appointment.closeModalPaymentCompleted());
         // this.props.gotoAppoitmentScreen();
         dispatch(actions.appointment.resetBasketEmpty());
@@ -866,13 +876,14 @@ export const useProps = ({
         }, 700);
       }
     } else {
-      onGoBack();
       dispatch(actions.appointment.closeModalPaymentCompleted());
       // this.props.gotoAppoitmentScreen();
       dispatch(actions.appointment.resetBasketEmpty());
       // this.setState(initState);
       dispatch(actions.appointment.resetPayment());
     }
+
+    onCompleteBack();
   };
 
   const openCashDrawer = async (portName) => {
@@ -968,15 +979,15 @@ export const useProps = ({
   }, [appointmentId]);
 
   React.useEffect(() => {
-    const { codeStatus, message, data } = appointment || {};
+    const { codeStatus, message, data } = appointmentGet || {};
     if (statusSuccess(codeStatus)) {
       setAppointmentDetail(data);
-
+      dispatch(basketRetailer.setAppointment(data));
       // customerRef.current?.setCustomer(data?.customer);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appointment]);
+  }, [appointmentGet]);
 
   // React.useEffect(() => {
   //   return () => {
@@ -1105,6 +1116,8 @@ export const useProps = ({
       dispatch(actions.appointment.changeFlagSigninAppointment(false));
       dispatch(actions.appointment.resetGroupAppointment());
 
+      // dispatch(basketRetailer.clearBasket());
+
       onGoBack();
       if (visibleConfirm?.func && typeof visibleConfirm?.func === "function") {
         visibleConfirm?.func();
@@ -1175,10 +1188,14 @@ export const useProps = ({
     cancelInvoicePrint: async (isPrintTempt) => {
       setVisiblePrintInvoice(false);
       if (!isPrintTempt) {
-        onGoBack();
         dispatch(actions.appointment.resetBasketEmpty());
         dispatch(actions.appointment.resetPayment());
+        dispatch(basketRetailer.clearBasket());
+        onCompleteBack();
       }
+    },
+    finishedHandle: () => {
+      onCompleteBack();
     },
   };
 };

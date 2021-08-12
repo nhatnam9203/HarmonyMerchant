@@ -28,11 +28,17 @@ export const BasketContentView = React.forwardRef(
   ({ onHadSubmitted, onRemoveItem }, ref) => {
     const [t] = useTranslation();
     const dispatch = useDispatch();
-    const basketProducts = useSelector(
-      (state) => state.basketRetailer.products
-    );
+
     const appointment = useSelector(
       (state) => state.basketRetailer.appointment
+    );
+
+    const appointmentId = useSelector(
+      (state) => state.basketRetailer.appointmentId
+    );
+
+    const appointmentTempId = useSelector(
+      (state) => state.basketRetailer.appointmentTempId
     );
 
     /**
@@ -41,25 +47,12 @@ export const BasketContentView = React.forwardRef(
   |--------------------------------------------------
   */
 
-    const calcTotalPrice = () => {
-      return (
-        basketProducts?.reduce(
-          (accumulator, product) =>
-            accumulator + calcTotalPriceOfProduct(product),
-          0
-        ) ?? 0
-      );
-    };
-
     const onHandleCreateOrder = () => {
-      const submitValues = createSubmitAppointment(basketProducts);
-      onHadSubmitted(submitValues);
+      onHadSubmitted();
     };
 
     React.useImperativeHandle(ref, () => ({
-      canCreateOrder: () => {
-        return basketProducts?.length > 0;
-      },
+      reload: () => {},
     }));
 
     const renderItem = ({ item }) => {
@@ -70,7 +63,10 @@ export const BasketContentView = React.forwardRef(
       };
 
       return (
-        <ProductItem key={item.id + ""} handleDelete={onHandleDeleteItem}>
+        <ProductItem
+          key={item.bookingProductId + ""}
+          handleDelete={onHandleDeleteItem}
+        >
           <View style={styles.productItem}>
             <FastImage
               style={styles.imageStyle}
@@ -111,7 +107,7 @@ export const BasketContentView = React.forwardRef(
           data={appointment?.products}
           renderItem={renderItem}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
-          keyExtractor={(item) => item.id + ""}
+          keyExtractor={(item) => item.bookingProductId + ""}
         />
         <View style={styles.totalContent}>
           <View style={layouts.marginVertical} />
@@ -140,7 +136,11 @@ export const BasketContentView = React.forwardRef(
         <View style={layouts.center}>
           <ButtonGradient
             disable={!appointment || appointment?.products?.length <= 0}
-            label={t("CREATE ORDER")}
+            label={
+              !!appointmentTempId || !appointmentId
+                ? t("CREATE ORDER")
+                : t("SELECT PAYMENT")
+            }
             width={scaleWidth(400)}
             height={scaleHeight(60)}
             fontSize={scaleFont(25)}

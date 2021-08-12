@@ -125,6 +125,7 @@ export const Layout = ({
   cancelInvoicePrint,
   printTemptInvoice,
   checkStatusCashier,
+  finishedHandle,
 }) => {
   const [t] = useTranslation();
 
@@ -260,7 +261,7 @@ export const Layout = ({
                 isDonePayment={isDonePayment}
                 isCancelHarmonyPay={isCancelHarmonyPay}
                 groupAppointment={groupAppointment}
-                finishedHandle={onGoBack}
+                finishedHandle={finishedHandle}
                 onDiscountAdd={onDiscountAdd}
               />
             </View>

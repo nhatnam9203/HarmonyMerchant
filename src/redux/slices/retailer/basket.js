@@ -5,6 +5,7 @@ const initialState = {
   customer: null,
   appointmentTempId: null,
   appointmentId: null,
+  appointment: null,
   purchasePoint: "Store",
 };
 const slices = createSlice({
@@ -12,6 +13,12 @@ const slices = createSlice({
   initialState: initialState,
   reducers: {
     setAppointmentTemp: {
+      // !@@@@@@@@
+      reducer: (state, action) => {
+        state.appointment = action.payload;
+      },
+    },
+    setAppointment: {
       // !@@@@@@@@
       reducer: (state, action) => {
         state.appointment = action.payload;

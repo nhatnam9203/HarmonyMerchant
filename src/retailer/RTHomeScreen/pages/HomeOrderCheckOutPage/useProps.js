@@ -10,18 +10,23 @@ import {
   useGetProductsByCategory,
   useRemoveItemAppointmentTemp,
   useUpdateAppointmentTempCustomer,
+  useAppointmentAddItem,
+  useAppointmentRemoveItem,
+  useGetAppointment,
+  useUpdateAppointmentCustomer,
 } from "@shared/services/api/retailer";
 import { createSubmitAppointment, statusSuccess } from "@shared/utils";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CUSTOM_LIST_TYPES } from "../../widget";
+import { useFocusEffect } from "@react-navigation/native";
 
 const log = (obj, message = "") => {
   Logger.log(`[CheckOutTabPage > useProps] ${message}`, obj);
 };
 
 export const useProps = ({
-  params: { reload, isOrder = false },
+  params: { reload, isOrder = false, reset },
   navigation,
 }) => {
   const productDetailRef = React.useRef(null);
@@ -66,10 +71,14 @@ export const useProps = ({
   const [appointmentTempItemRemove, removeItemAppointmentTemp] =
     useRemoveItemAppointmentTemp();
   const [productItemGet, getProductsByBarcode] = useGetProductsByBarcode();
-  // const [updateAppointmentCustomerData, updateAppointmentCustomer] =
-  //   useUpdateAppointmentCustomer();
+  const [updateAppointmentCustomerData, updateAppointmentCustomer] =
+    useUpdateAppointmentCustomer();
   const [updateAppointmentTempCustomerData, updateAppointmentTempCustomer] =
     useUpdateAppointmentTempCustomer();
+  const [appointmentItemAdd, addAppointmentItem] = useAppointmentAddItem();
+  const [appointmentItemRemove, removeAppointmentItem] =
+    useAppointmentRemoveItem();
+  const [appointmentGet, getAppointment] = useGetAppointment();
 
   const resetAll = () => {
     setCategoryId(null);
@@ -84,12 +93,12 @@ export const useProps = ({
     return "Store";
   };
 
+  /** useEffect */
   React.useEffect(() => {
     const unsubscribeFocus = navigation.addListener("focus", () => {
       resetAll();
       getCategoriesList({ groupSubIntoMain: true });
-
-      dispatch(basketRetailer.clearBasket());
+      // dispatch(basketRetailer.clearBasket());
       // customerRef.current?.showPhoneInput();
     });
 
@@ -100,6 +109,17 @@ export const useProps = ({
       unsubscribeBlur();
     };
   }, [navigation]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (reset) {
+        resetAll();
+        getCategoriesList({ groupSubIntoMain: true });
+      } else if (reload) {
+        if (appointmentId) getAppointment(appointmentId);
+      }
+    }, [reload, reset])
+  );
 
   React.useEffect(() => {
     if (categoriesList?.data) {
@@ -145,6 +165,29 @@ export const useProps = ({
   ]);
 
   React.useEffect(() => {
+    const { codeStatus, message, data } =
+      appointmentItemAdd ||
+      appointmentItemRemove ||
+      updateAppointmentCustomerData ||
+      {};
+    if (statusSuccess(codeStatus)) {
+      getAppointment(appointmentId);
+    }
+  }, [
+    appointmentItemAdd,
+    appointmentItemRemove,
+    updateAppointmentCustomerData,
+  ]);
+
+  React.useEffect(() => {
+    const { codeStatus, message, data } = appointmentGet || {};
+    if (statusSuccess(codeStatus)) {
+      dispatch(basketRetailer.setAppointment(data));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appointmentGet]);
+
+  React.useEffect(() => {
     const { codeStatus, message, data } = appointmentCreate || {};
     if (statusSuccess(codeStatus)) {
       dispatch(basketRetailer.setAppointmentId(data));
@@ -152,12 +195,12 @@ export const useProps = ({
       if (isOrder) {
         NavigationServices.navigate("retailer.home.order.detail", {
           orderId: data,
-          screenId: "retailer.home.order.check_out",
         });
       } else {
         NavigationServices.navigate("retailer.home.order.pay", {
           appointmentId: data,
           screenId: "retailer.home.order.check_out",
+          backScreenId: "retailer.home.order.check_out",
         });
       }
     }
@@ -179,15 +222,22 @@ export const useProps = ({
 
   React.useEffect(() => {
     // Effect use  update customer for appointment
-    if (!customer || !appointmentTempId) {
+    if (!customer) {
       return;
     }
 
-    updateAppointmentTempCustomer(
-      { customerId: customer.customerId },
-      appointmentTempId
-    );
-  }, [customer, appointmentTempId]);
+    if (appointmentId) {
+      updateAppointmentCustomer(
+        { customerId: customer.customerId },
+        appointmentId
+      );
+    } else if (appointmentTempId) {
+      updateAppointmentTempCustomer(
+        { customerId: customer.customerId },
+        appointmentTempId
+      );
+    }
+  }, [customer, appointmentTempId, appointmentId]);
 
   return {
     categories: categories,
@@ -239,9 +289,17 @@ export const useProps = ({
     productDetailRef,
     basketRef,
     onHadSubmitted: () => {
-      createAppointment(appointmentTempId);
-      dispatch(basketRetailer.clearBasket());
-      resetAll();
+      if (appointmentTempId) {
+        createAppointment(appointmentTempId);
+        // dispatch(basketRetailer.clearBasket());
+        resetAll();
+      } else if (appointmentId) {
+        NavigationServices.navigate("retailer.home.order.pay", {
+          appointmentId: appointmentId,
+          screenId: "retailer.home.order.check_out",
+          backScreenId: "retailer.home.order.check_out",
+        });
+      }
     },
     onGoBack: () => {
       NavigationServices.navigate("retailer.home.order.list", {});
@@ -262,12 +320,19 @@ export const useProps = ({
             purchasePoint: getPurchasePoint(),
             products: submitProducts,
           });
+        } else {
+          // add item to appointment
+          addAppointmentItem(submitProducts[0]);
         }
       }
     },
     appointment,
     onRemoveItem: (item) => {
-      removeItemAppointmentTemp(item?.bookingProductId);
+      if (appointmentTempId) {
+        removeItemAppointmentTemp(item?.bookingProductId);
+      } else if (appointmentId) {
+        removeAppointmentItem(item?.bookingProductId);
+      }
     },
     customer,
     onResultScanCode: (data) => {
