@@ -135,17 +135,23 @@ export const useProps = ({
   //   useUpdateAppointmentCustomer();
 
   const onGoBack = () => {
-    console.log("onGoBack");
-    if (screenId) {
-      NavigationServices.navigate(screenId, { reload: true });
+    if (backScreenId) {
+      NavigationServices.navigate(backScreenId, {
+        reload: true,
+        reset: false,
+        reloadAppointmentId: appointmentDetail?.appointmentId,
+      });
     } else NavigationServices.navigate("retailer.home.order", { reload: true });
   };
 
   const onCompleteBack = async () => {
     await dispatch(basketRetailer.clearBasket());
 
-    if (backScreenId) {
-      NavigationServices.navigate(backScreenId, { reset: true });
+    if (screenId) {
+      NavigationServices.navigate(screenId, {
+        reset: true,
+        reloadAppointmentId: null,
+      });
     } else NavigationServices.navigate("retailer.home.order", { reload: true });
   };
 

@@ -38,7 +38,7 @@ export const Layout = ({
   onRemoveItem,
   customer,
   onResultScanCode,
-  appointment,
+  isOrder,
 }) => {
   const [t] = useTranslation();
 
@@ -54,7 +54,7 @@ export const Layout = ({
 
         <ScanQRButton
           label={t("Scan")}
-          title={t("Scan Barcode")}
+          title={t("Scan Barcode")}lúc
           width={scaleWidth(140)}
           height={scaleHeight(40)}
           onResultScanCode={onResultScanCode}
@@ -72,15 +72,17 @@ export const Layout = ({
 
         <View style={styles.headerRightContent}>
           <View style={layouts.marginHorizontal} />
-          <ButtonGradientWhite
-            width={scaleWidth(40)}
-            height={scaleHeight(40)}
-            fontSize={scaleFont(17)}
-            textWeight="normal"
-            onPress={onGoBack}
-          >
-            <Image source={IMAGE.back} />
-          </ButtonGradientWhite>
+          {isOrder && (
+            <ButtonGradientWhite
+              width={scaleWidth(40)}
+              height={scaleHeight(40)}
+              fontSize={scaleFont(17)}
+              textWeight="normal"
+              onPress={onGoBack}
+            >
+              <Image source={IMAGE.back} />
+            </ButtonGradientWhite>
+          )}
         </View>
       </View>
 

@@ -107,29 +107,54 @@ export const Layout = ({
           </>
         );
       case ORDERED_STATUS.PROCESS:
-        return (
-          <>
-            <CancelConfirmButton
-              label={t("Cancel")}
-              width={scaleWidth(120)}
-              height={scaleHeight(40)}
-              fontSize={scaleFont(17)}
-              textWeight="normal"
-              onPress={cancel}
-              description={t("Are you sure you want to Cancel this order ?")}
-            />
-            <View style={layouts.marginHorizontal} />
-            <ButtonGradient
-              label={t("Ship")}
-              width={scaleWidth(120)}
-              height={scaleHeight(40)}
-              fontSize={scaleFont(17)}
-              textColor={colors.WHITE}
-              textWeight="normal"
-              onPress={shipping}
-            />
-          </>
-        );
+        if (item?.payment?.length <= 0) {
+          return (
+            <>
+              <CancelConfirmButton
+                label={t("Cancel")}
+                width={scaleWidth(120)}
+                height={scaleHeight(40)}
+                fontSize={scaleFont(17)}
+                textWeight="normal"
+                onPress={cancel}
+                description={t("Are you sure you want to Cancel this order ?")}
+              />
+              <View style={layouts.marginHorizontal} />
+              <ButtonGradient
+                label={t("Confirm")}
+                width={scaleWidth(120)}
+                height={scaleHeight(40)}
+                fontSize={scaleFont(17)}
+                textColor={colors.WHITE}
+                textWeight="normal"
+                onPress={confirm}
+              />
+            </>
+          );
+        } else
+          return (
+            <>
+              <CancelConfirmButton
+                label={t("Cancel")}
+                width={scaleWidth(120)}
+                height={scaleHeight(40)}
+                fontSize={scaleFont(17)}
+                textWeight="normal"
+                onPress={cancel}
+                description={t("Are you sure you want to Cancel this order ?")}
+              />
+              <View style={layouts.marginHorizontal} />
+              <ButtonGradient
+                label={t("Ship")}
+                width={scaleWidth(120)}
+                height={scaleHeight(40)}
+                fontSize={scaleFont(17)}
+                textColor={colors.WHITE}
+                textWeight="normal"
+                onPress={shipping}
+              />
+            </>
+          );
       case ORDERED_STATUS.CANCEL:
       case ORDERED_STATUS.CLOSED:
       case ORDERED_STATUS.RETURN:

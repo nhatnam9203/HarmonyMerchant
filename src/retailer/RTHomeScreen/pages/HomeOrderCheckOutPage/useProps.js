@@ -26,7 +26,7 @@ const log = (obj, message = "") => {
 };
 
 export const useProps = ({
-  params: { reload, isOrder = false, reset },
+  params: { reload, isOrder = false, reset, reloadAppointmentId },
   navigation,
 }) => {
   const productDetailRef = React.useRef(null);
@@ -112,13 +112,18 @@ export const useProps = ({
 
   useFocusEffect(
     React.useCallback(() => {
+      console.log(reset);
+      console.log(reload);
+      console.log(reloadAppointmentId);
+
       if (reset) {
+        dispatch(basketRetailer.clearBasket());
         resetAll();
         getCategoriesList({ groupSubIntoMain: true });
       } else if (reload) {
-        if (appointmentId) getAppointment(appointmentId);
+        if (reloadAppointmentId) getAppointment(reloadAppointmentId);
       }
-    }, [reload, reset])
+    }, [reload, reset, reloadAppointmentId])
   );
 
   React.useEffect(() => {
@@ -195,6 +200,8 @@ export const useProps = ({
       if (isOrder) {
         NavigationServices.navigate("retailer.home.order.detail", {
           orderId: data,
+          screenId: "retailer.home.order.list",
+          backScreenId: "retailer.home.order.check_out",
         });
       } else {
         NavigationServices.navigate("retailer.home.order.pay", {
@@ -291,14 +298,21 @@ export const useProps = ({
     onHadSubmitted: () => {
       if (appointmentTempId) {
         createAppointment(appointmentTempId);
-        // dispatch(basketRetailer.clearBasket());
         resetAll();
       } else if (appointmentId) {
-        NavigationServices.navigate("retailer.home.order.pay", {
-          appointmentId: appointmentId,
-          screenId: "retailer.home.order.check_out",
-          backScreenId: "retailer.home.order.check_out",
-        });
+        if (appointment?.purchasePoint === "CallOrder") {
+          NavigationServices.navigate("retailer.home.order.detail", {
+            orderId: appointmentId,
+            screenId: "retailer.home.order.list",
+            backScreenId: "retailer.home.order.check_out",
+          });
+        } else {
+          NavigationServices.navigate("retailer.home.order.pay", {
+            appointmentId: appointmentId,
+            screenId: "retailer.home.order.check_out",
+            backScreenId: "retailer.home.order.check_out",
+          });
+        }
       }
     },
     onGoBack: () => {
@@ -339,5 +353,6 @@ export const useProps = ({
       // getProductsByBarcode("8934588063060");
       if (data) getProductsByBarcode(data);
     },
+    isOrder
   };
 };

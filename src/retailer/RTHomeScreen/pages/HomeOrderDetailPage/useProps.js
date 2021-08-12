@@ -24,6 +24,8 @@ export const useProps = ({
     addressCreate,
     editShippingAddress,
     editBillingAddress,
+    screenId,
+    backScreenId,
   },
   navigation,
 }) => {
@@ -122,13 +124,21 @@ export const useProps = ({
 
       if (
         payment?.length <= 0 &&
-        ((status === ORDERED_STATUS.PENDING && purchasePoint === "Store") ||
-          (status === ORDERED_STATUS.PROCESS && !didNotPay))
+        status === ORDERED_STATUS.PENDING &&
+        purchasePoint === "Store"
       ) {
         NavigationServices.navigate("retailer.home.order.pay", {
           orderItem: data,
-          screenId: "retailer.home.order.list",
+          screenId: screenId,
+          backScreenId: backScreenId,
         });
+      } else if (
+        payment?.length <= 0 &&
+        status === ORDERED_STATUS.PROCESS &&
+        !didNotPay
+      ) {
+        setAppointmentDetail(data);
+        formAddressRef.current?.reload();
       } else {
         setAppointmentDetail(data);
         formAddressRef.current?.reload();
@@ -164,6 +174,7 @@ export const useProps = ({
         NavigationServices.navigate("retailer.home.order.pay", {
           orderItem: appointmentDetail,
           screenId: "retailer.home.order.list",
+          backScreenId: "retailer.home.order.check_out",
         });
       }
     }
@@ -195,7 +206,17 @@ export const useProps = ({
   return {
     item: appointmentDetail,
     goBack: () => {
-      NavigationServices.navigate("retailer.home.order.list", { reload: true });
+      if (backScreenId) {
+        NavigationServices.navigate(backScreenId, {
+          reload: true,
+          reset: false,
+          reloadAppointmentId: appointmentDetail?.appointmentId,
+        });
+      } else {
+        NavigationServices.navigate("retailer.home.order.list", {
+          reload: true,
+        });
+      }
     },
     cancel: () => {
       cancelAppointment(appointmentDetail?.appointmentId);

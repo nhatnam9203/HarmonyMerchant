@@ -178,6 +178,7 @@ export const useProps = ({ params: { reload } }) => {
     onButtonNewOrderPress: () => {
       NavigationServices.navigate("retailer.home.order.check_out", {
         isOrder: true,
+        reset: true,
       });
     },
     onSelectRow: ({ item }) => {

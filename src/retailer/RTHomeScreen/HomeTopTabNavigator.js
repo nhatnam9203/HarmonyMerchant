@@ -11,6 +11,7 @@ import { HomeTabBar } from "./widget";
 import actions from "@actions";
 import { PopupCheckStaffPermission } from "@components";
 import NavigatorServices from "@navigators/NavigatorServices";
+import { basketRetailer } from "@redux/slices";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
@@ -84,6 +85,7 @@ export const HomeTopTabNavigator = ({
                 e.preventDefault();
               } else if (marketingTabNoPermission()) {
                 dispatch(actions.marketing.toggleMarketingTabPermission());
+                dispatch(basketRetailer.clearBasket());
               }
             },
           }}
@@ -95,6 +97,8 @@ export const HomeTopTabNavigator = ({
               if (isPayment) {
                 // Prevent default action
                 e.preventDefault();
+              } else {
+                dispatch(basketRetailer.clearBasket());
               }
             },
           }}
@@ -108,6 +112,8 @@ export const HomeTopTabNavigator = ({
                   navigation.navigate(CheckOutTabPage.name);
                 }); // Prevent default action
                 e.preventDefault();
+              } else {
+                dispatch(basketRetailer.clearBasket());
               }
             },
           }}

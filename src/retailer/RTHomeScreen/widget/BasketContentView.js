@@ -137,9 +137,11 @@ export const BasketContentView = React.forwardRef(
           <ButtonGradient
             disable={!appointment || appointment?.products?.length <= 0}
             label={
-              !!appointmentTempId || !appointmentId
-                ? t("CREATE ORDER")
-                : t("SELECT PAYMENT")
+              !!appointmentId
+                ? appointment?.purchasePoint === "CallOrder"
+                  ? t("CONFIRM")
+                  : t("SELECT PAYMENT")
+                : t("CREATE ORDER")
             }
             width={scaleWidth(400)}
             height={scaleHeight(60)}
