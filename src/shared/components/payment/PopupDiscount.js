@@ -9,6 +9,7 @@ import {
     Image,
     StyleSheet,
     TouchableHighlight,
+    Platform,
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import _ from 'ramda';
@@ -16,7 +17,7 @@ import _ from 'ramda';
 import { ButtonCustom, PopupParent, Slider } from '@components';
 import { scaleSize, formatNumberFromCurrency,
      formatMoney, localize, roundNumber,
-     checkIsTablet, round2 } from '@utils';
+     checkIsTablet } from '@utils';
 import connectRedux from '@redux/ConnectRedux';
 import ICON from "@resources";
 import { colors } from '@shared/themes';
@@ -46,7 +47,7 @@ class PopupDiscount extends React.Component {
             customDiscountFixedLocal: 0,
             promotionNotes: "",
             discountByOwner: appointmentDetail && appointmentDetail.discountByOwner
-                                                    ? parseFloat(appointmentDetail.discountByOwner)*100 : 100
+                                                    ? parseFloat(appointmentDetail.discountByOwner) : 100
         };
         this.customDiscountRef = React.createRef();
         this.scrollRef = React.createRef();
@@ -94,8 +95,7 @@ class PopupDiscount extends React.Component {
                 );
             } else {
                 const { promotionNotes, discountByOwner } = this.state;
-                const disCountByOwnerParam = discountByOwner/100
-                this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, disCountByOwnerParam, appointmentIdUpdatePromotion, true);
+                this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, discountByOwner, appointmentIdUpdatePromotion, true);
                 this.props.actions.marketing.addPromotionNote(appointmentDetail.appointmentId, promotionNotes);
                 this.props.actions.marketing.closeModalDiscount();
                 this.resetState();
@@ -113,7 +113,9 @@ class PopupDiscount extends React.Component {
             totalLocal: 0,
             temptTotalLocal: 0,
             customDiscountPercentLocal: 0,
-            customDiscountFixedLocal: 0
+            customDiscountFixedLocal: 0,
+            moneyDiscountCustom: 0,
+            moneyDiscountFixedAmout: 0,
         });
     }
 
@@ -158,6 +160,11 @@ class PopupDiscount extends React.Component {
 
             const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
             const discountByStaff = (100 - this.state.discountByOwner)
+            const manualDiscount = this.state.moneyDiscountCustom > 0
+                                    ? this.state.moneyDiscountCustom
+                                    : this.state.moneyDiscountFixedAmout
+            const discountMoneyByStaff = roundNumber(formatNumberFromCurrency(discountByStaff) * formatNumberFromCurrency(manualDiscount) /100)
+            const discountMoneyByOwner = roundNumber(manualDiscount - discountMoneyByStaff)
             return (
                 <PopupParent
                     title={title}
@@ -208,34 +215,45 @@ class PopupDiscount extends React.Component {
                                         <Text style={styles.textNormal}>{localize('Discount by Staff', language)}</Text>
                                     </View>
 
+                                     {/* ----------Money discount of staff, owner------------ */}
+                                    <View style={styles.viewRowContainer}>
+                                        <Text style={styles.textNormal}>{`$ ${discountMoneyByOwner}`}</Text>
+                                        <Text style={styles.textNormal}>{`$ ${discountMoneyByStaff}`}</Text>
+                                    </View>
                                     {/* ----------Slider------------ */}
                                     <Slider
                                         style={styles.slider}
+                                        value={this.state.discountByOwner}
                                         minimumValue={0}
                                         maximumValue={100}
-                                        minimumTrackTintColor={colors.OCEAN_BLUE}
-                                        maximumTrackTintColor={colors.PALE_GREY}
                                         onValueChange={(value)=>this.handelSliderValue(value)}
-                                        value={this.state.discountByOwner}
-                                        trackStyle={{ height: scaleSize(10), backgroundColor: "#F1F1F1", borderRadius: scaleSize(6) }}
-                                        thumbStyle={{
-                                            height: scaleSize(24), width: scaleSize(24), borderRadius: scaleSize(12), backgroundColor: "#fff",
+                                        trackStyle={{
+                                            height: scaleSize(10),
+                                            backgroundColor: "#F1F1F1",
+                                            borderRadius: scaleSize(6),
+                                          }}
+                                          thumbStyle={{
+                                            height: scaleSize(24),
+                                            width: scaleSize(24),
+                                            borderRadius: scaleSize(12),
+                                            backgroundColor: "#fff",
                                             ...Platform.select({
-                                                ios: {
-                                                    shadowColor: 'rgba(0, 0, 0,0.3)',
-                                                    shadowOffset: { width: 1, height: 0 },
-                                                    shadowOpacity: 1,
+                                              ios: {
+                                                shadowColor: "rgba(0, 0, 0,0.3)",
+                                                shadowOffset: { width: 1, height: 0 },
+                                                shadowOpacity: 1,
+                                              },
 
-                                                },
+                                              android: {
+                                                elevation: 2,
+                                              },
+                                            }),
+                                          }}
 
-                                                android: {
-                                                    elevation: 2,
-                                                },
-                                            })
-                                        }}
-                                        minimumTrackTintColor="#0764B0"
-                                        step={1}
-                                    />
+                                          minimumTrackTintColor={colors.OCEAN_BLUE}
+                                          maximumTrackTintColor={colors.PALE_GREY}
+                                          step={25}
+                                        />
 
                                     <View style={styles.viewRowContainer}>
                                         <Text style={styles.textNormal}>{`${this.state.discountByOwner}%`}</Text>
@@ -305,12 +323,17 @@ class PopupDiscount extends React.Component {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        const { visibleModalDiscount, groupAppointment, isGetPromotionOfAppointment, promotionNotes } = this.props;
+        const { visibleModalDiscount,
+            groupAppointment,
+            isGetPromotionOfAppointment,
+            promotionNotes,
+            discountByOwner } = this.props;
         const visible = visibleModalDiscount && !_.isEmpty(groupAppointment) ? true : false;
         if (prevProps.isGetPromotionOfAppointment !== isGetPromotionOfAppointment && isGetPromotionOfAppointment === "success" && visible) {
             this.props.actions.marketing.resetStateGetPromotionOfAppointment();
             await this.setState({
                 promotionNotes: promotionNotes.note ? promotionNotes.note : "",
+                discountByOwner: discountByOwner ? parseFloat(discountByOwner) : 100,
             });
 
         }
@@ -347,7 +370,7 @@ class CustomDiscount extends React.Component {
         const fixedAmount = customDiscountFixed ? customDiscountFixed: 0
         const type = customDiscountFixed && customDiscountFixed > 0 ? manualType.fixAmountType : manualType.percentType
         const discountTemp = type == manualType.fixAmountType ? customDiscountFixed
-                            : roundNumber((formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100))
+                            : roundNumber(formatNumberFromCurrency(percent) * formatNumberFromCurrency(total) / 100)
         this.state = {
             percent: percent,
             discount: discountTemp,
@@ -543,6 +566,7 @@ const mapStateToProps = state => ({
     language: state.dataLocal.language,
     isGetPromotionOfAppointment: state.marketing.isGetPromotionOfAppointment,
     promotionNotes: state.marketing.promotionNotes,
+    discountByOwner: state.marketing.discountByOwner,
 })
 
 

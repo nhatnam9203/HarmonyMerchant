@@ -194,6 +194,7 @@ export const BasketPaymentContent = React.forwardRef(
               <Image
                 source={IMAGE.add_discount_checkout}
                 style={styles.iconStyle}
+                resizeMode="contain"
               />
             </TouchableOpacity>
           </TotalInfo>
@@ -280,7 +281,7 @@ const styles = StyleSheet.create({
 
   totalInfoContent: {
     flexDirection: "row",
-    height: scaleHeight(30),
+    height: scaleHeight(35),
     alignItems: "center",
     justifyContent: "space-between",
   },

@@ -1,30 +1,20 @@
 import NavigationServices from "@navigators/NavigatorServices";
 import { basketRetailer } from "@redux/slices";
 import {
+  useAddItemAppointment,
   useCreateAppointment,
   useCreateAppointmentTemp,
-  useGetCategoriesList,
-  useGetProductsByCategory,
-  useAddItemAppointment,
   useGetAppointmentTemp,
-  useRemoveItemAppointment,
+  useGetCategoriesList,
   useGetProductsByBarcode,
-  useUpdateAppointmentCustomer,
+  useGetProductsByCategory,
+  useRemoveItemAppointment,
   useUpdateAppointmentTempCustomer,
 } from "@shared/services/api/retailer";
+import { createSubmitAppointment, statusSuccess } from "@shared/utils";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CUSTOM_LIST_TYPES } from "../../widget";
-import {
-  calcTotalPriceOfProduct,
-  createSubmitAppointment,
-} from "@shared/utils";
-import {
-  BIRTH_DAY_DATE_FORMAT_STRING,
-  statusSuccess,
-  dateToString,
-  PRODUCT_VISIBLE_TYPE,
-} from "@shared/utils";
 
 const log = (obj, message = "") => {
   Logger.log(`[CheckOutTabPage > useProps] ${message}`, obj);
@@ -54,7 +44,6 @@ export const useProps = ({
   const [categories, setCategories] = React.useState(null);
   const [subCategories, setSubCategories] = React.useState(null);
   const [products, setProducts] = React.useState(null);
-  // const [products, setProducts] = React.useState(basketProducts);
 
   /**
   |--------------------------------------------------
@@ -106,29 +95,6 @@ export const useProps = ({
     };
   }, [navigation]);
 
-  // React.useEffect(() => {
-  //   if (basketProducts?.length > 0 && !customer) {
-  //     customerRef.current?.showPhoneInput();
-  //   }
-  // }, [basketProducts]);
-
-  // React.useEffect(() => {
-  //   if (customer) {
-  //     customerRef.current?.showPhoneInput();
-  //   }
-  // }, [basketProducts]);
-
-  // React.useEffect(() => {
-  //   if (basketProducts?.length > 0 && customer && !appointment) {
-  //     const submitProducts = createSubmitAppointment(basketProducts);
-  //     createAppointmentTemp({
-  //       customerId: customer?.customerId,
-  //       purchasePoint: getPurchasePoint(),
-  //       products: submitProducts,
-  //     });
-  //   }
-  // }, [basketProducts, customer, appointment]);
-
   React.useEffect(() => {
     if (categoriesList?.data) {
       setActiveTab(CUSTOM_LIST_TYPES.CAT);
@@ -178,10 +144,12 @@ export const useProps = ({
       if (isOrder) {
         NavigationServices.navigate("retailer.home.order.detail", {
           orderId: data,
+          screenId: "retailer.home.order.check_out",
         });
       } else {
         NavigationServices.navigate("retailer.home.order.pay", {
           appointmentId: data,
+          screenId: "retailer.home.order.check_out",
         });
       }
     }

@@ -2,7 +2,10 @@ import actions from "@actions";
 import Configs from "@configs";
 import PrintManager from "@lib/PrintManager";
 import NavigationServices from "@navigators/NavigatorServices";
-import { useGetAppointment } from "@shared/services/api/retailer";
+import {
+  useGetAppointment,
+  useUpdateAppointmentCustomer,
+} from "@shared/services/api/retailer";
 import { statusSuccess } from "@shared/utils";
 import {
   formatNumberFromCurrency,
@@ -127,7 +130,8 @@ export const useProps = ({
 
   /** CALL API */
   const [appointment, getAppointment] = useGetAppointment();
-
+  // const [updateAppointmentCustomerData, updateAppointmentCustomer] =
+  //   useUpdateAppointmentCustomer();
   const onGoBack = () => {
     if (screenId) {
       NavigationServices.navigate(screenId, { reload: true });
