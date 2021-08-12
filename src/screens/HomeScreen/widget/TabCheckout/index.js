@@ -1436,7 +1436,7 @@ class TabCheckout extends Layout {
 
         if (l.get(resultGroupAppointment, 'data.lastAuthCode') == l.get(result, 'AuthCode')) {
           //have not pay yet || multi pay
-          this.sendTransaction(false)
+          this.sendTransaction()
         } else {
           //missing transaction
           //call to server previous response
@@ -1448,13 +1448,13 @@ class TabCheckout extends Layout {
           )
         }
       } else {
-        this.sendTransaction(false)
+        this.sendTransaction()
       }
 
     } else {
       //can not get report
       // batch close or pax inprocess
-      this.sendTransaction(false)
+      this.sendTransaction()
     }
   }
 
@@ -1478,7 +1478,7 @@ class TabCheckout extends Layout {
       this.handleMissingTransaction()
 
     } else {
-      this.sendTransaction(false)
+      this.sendTransaction()
     }
   };
 
@@ -1501,7 +1501,7 @@ class TabCheckout extends Layout {
     }, 300);
   }
 
-  sendTransaction(isForce) {
+  sendTransaction() {
     const {
       paxMachineInfo,
       isTipOnPaxMachine,
@@ -1518,9 +1518,7 @@ class TabCheckout extends Layout {
     const tempIpPax = commType == 'TCP' ? ip : '';
     const tempPortPax = commType == 'TCP' ? port : '';
     const idBluetooth = commType === 'TCP' ? '' : bluetoothAddr;
-    let extData = isTipOnPaxMachine ? '<TipRequest>1</TipRequest>' : '';
-    extData = isForce ? `${extData}<Force>T</Force>` : extData;
-
+    const extData = isTipOnPaxMachine ? '<TipRequest>1</TipRequest><Force>T</Force>' : '<Force>T</Force>';
 
     // Send Trans to pax
     PosLink.sendTransaction(
@@ -1560,12 +1558,6 @@ class TabCheckout extends Layout {
       const tempEnv = env.IS_PRODUCTION;
       if (l.get(result, 'status', 0) == 0) {
         // setTimeout(()=>{ PosLink.cancelTransaction()}, 100)
-        if(l.get(result, 'ResultCode') == "100011"
-          && l.get(result, 'invNum') != `${groupAppointment?.checkoutGroupId}`) {
-          this.sendTransaction(true)
-          return
-        }
-
         if (payAppointmentId) {
           this.props.actions.appointment.cancelHarmonyPayment(
             payAppointmentId,
