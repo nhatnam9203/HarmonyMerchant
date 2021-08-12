@@ -64,7 +64,6 @@ export const BasketContentView = React.forwardRef(
 
     const renderItem = ({ item }) => {
       const onHandleDeleteItem = () => {
-        // dispatch(basketRetailer.removeBasketItem(item.id));
         if (onRemoveItem && typeof onRemoveItem === "function") {
           onRemoveItem(item);
         }

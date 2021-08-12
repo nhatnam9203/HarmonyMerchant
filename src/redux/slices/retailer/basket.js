@@ -13,45 +13,46 @@ const slices = createSlice({
   initialState: initialState,
   reducers: {
     setAppointmentTemp: {
+      // !@@@@@@@@
       reducer: (state, action) => {
         state.appointment = action.payload;
       },
     },
     setAppointmentId: {
+      // !@@@@@@@@
       reducer: (state, action) => {
         state.appointmentId = action.payload;
       },
     },
-    addBasketItem: {
-      reducer: (state, action) => {
-        state.products = [...(state.products || []), action.payload];
-        state.hasSubmit = false;
-      },
-      // prepare: (params) => {
-      //   console.log(params);
-      //   return params;
-      // },
-    },
-    removeBasketItem: {
-      reducer: (state, action) => {
-        state.products = state.products?.filter((x) => x.id !== action.payload);
-      },
-      // prepare: (params) => {
-      //   console.log(params);
-      //   return params;
-      // },
-    },
+    // addBasketItem: {
+    //   reducer: (state, action) => {
+    //     state.products = [...(state.products || []), action.payload];
+    //     state.hasSubmit = false;
+    //   },
+    //   // prepare: (params) => {
+    //   //   console.log(params);
+    //   //   return params;
+    //   // },
+    // },
+    // removeBasketItem: {
+    //   reducer: (state, action) => {
+    //     state.products = state.products?.filter((x) => x.id !== action.payload);
+    //   },
+    //   // prepare: (params) => {
+    //   //   console.log(params);
+    //   //   return params;
+    //   // },
+    // },
     clearBasket: (state, action) => {
       return initialState;
     },
     setCustomer: (state, action) => {
+      // !@@@@@@@@
       state.customer = action.payload;
     },
     deleteCustomer: (state, action) => {
+      // !@@@@@@@@
       return initialState;
-
-      // state.customer = null;
-      // state.hasSubmit = false;
     },
   },
 });

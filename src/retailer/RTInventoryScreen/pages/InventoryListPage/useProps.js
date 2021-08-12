@@ -6,6 +6,7 @@ import {
   useExportProducts,
   useGetProducts,
   useApprovedAdjustQty,
+  useGetProductsByBarcode,
 } from "@shared/services/api/retailer";
 import { NEED_TO_ORDER, statusSuccess } from "@shared/utils/app";
 import { isPermissionToTab, role, menuTabs } from "@utils";
@@ -39,7 +40,7 @@ export const useProps = ({ params: { reload } }) => {
     pages: 0,
     count: 0,
   });
-  const [product, getProducts] = useGetProducts();
+
   /**
   |--------------------------------------------------
   | CALL API
@@ -54,13 +55,17 @@ export const useProps = ({ params: { reload } }) => {
         filters: {
           ...(category >= 0 && { categoryId: category }),
           ...(needToOrder && { needToOrder }),
+          ...(scanCode && { barCode: scanCode }),
         },
       }),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, page, needToOrder, searchVal]);
+
   const [productsRestock, restockProducts] = useRestockProducts();
   const [approvedAdjustQtyData, approvedAdjustQty] = useApprovedAdjustQty();
+  const [product, getProducts] = useGetProducts();
+  const [productItemGet, getProductsByBarcode] = useGetProductsByBarcode();
 
   /**
   |--------------------------------------------------
@@ -125,6 +130,15 @@ export const useProps = ({ params: { reload } }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, page, searchVal, needToOrder]);
 
+  React.useEffect(() => {
+    const { codeStatus, message, data } = productItemGet || {};
+    if (statusSuccess(codeStatus)) {
+      NavigationServices.navigate("retailer.inventory.product.detail", {
+        item: data,
+      });
+    }
+  }, [productItemGet]);
+
   // React.useEffect(() => {
   //   const { codeStatus, data } = product || {};
   //   if (statusSuccess(codeStatus)) {
@@ -165,10 +179,23 @@ export const useProps = ({ params: { reload } }) => {
   };
 
   const onResultScanCode = (data) => {
-    NavigationServices.navigate("retailer.inventory.product.edit", {
-      isNew: true,
-      productBarcode: data,
-    });
+    // NavigationServices.navigate("retailer.inventory.product.edit", {
+    //   isNew: true,
+    //   productBarcode: data,
+    // });
+
+    if (data) {
+      // getInventoryList({
+      //   key: searchVal ?? "",
+      //   page: page,
+      //   filters: {
+      //     ...(category >= 0 && { categoryId: category }),
+      //     ...(needToOrder && { needToOrder }),
+      //     barCode: "1111111",
+      //   },
+      // });
+      getProductsByBarcode(data);
+    }
   };
 
   return {

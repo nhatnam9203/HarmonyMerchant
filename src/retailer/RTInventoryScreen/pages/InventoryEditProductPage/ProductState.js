@@ -127,7 +127,7 @@ export const productReducer = (state = initState, action) => {
 
       return Object.assign({}, state, {
         options: mergeOptions,
-        quantities: createQuantitiesItem(state, mergeOptions),
+        // quantities: createQuantitiesItem(state, mergeOptions),
       });
 
     case PRODUCT_REMOVE_OPTION:
@@ -345,7 +345,8 @@ export const productReducer = (state = initState, action) => {
       return Object.assign({}, state, {
         quantities: newQuantityList,
         itemIsExisted: false,
-        itemIsGenerated: isExistIndex > 0 ? newQuantityList[isExistIndex] : 0,
+        itemIsGenerated:
+          isExistIndex >= 0 ? newQuantityList[isExistIndex] : null,
       });
 
     case PRODUCT_CHECK_VERSION:

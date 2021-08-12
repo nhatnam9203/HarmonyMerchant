@@ -84,12 +84,12 @@ export const FormProductOption = React.forwardRef(
           optionItem["values"] = options?.map((x) =>
             Object.assign({}, x, { checked: false })
           );
-          dispatchProduct(changeOption(optionItem));
+          dispatchProduct(updateOption(optionItem));
         } else {
           optionItem["values"] = options?.map((x) =>
             Object.assign({}, x, { checked: true })
           );
-          dispatchProduct(changeOption(optionItem));
+          dispatchProduct(updateOption(optionItem));
         }
 
         // dispatchProduct(updateOption(optionItem));

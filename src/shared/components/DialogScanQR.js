@@ -24,11 +24,12 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
   |--------------------------------------------------
   */
   const onHandleSuccess = (e) => {
-    if (typeof onSuccess === "function" && onSuccess) {
-      onSuccess(e?.data);
-    }
-
+    const code = e?.data;
     dialogRef.current?.hide();
+
+    if (typeof onSuccess === "function" && onSuccess) {
+      onSuccess(code);
+    }
   };
 
   React.useImperativeHandle(ref, () => ({
@@ -57,9 +58,10 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
               onRead={onHandleSuccess}
               cameraProps={{ flashMode: RNCamera.Constants.FlashMode.auto }}
               showMarker={true}
-              reactivateTimeout={3000}
+              reactivateTimeout={500}
               containerStyle={styles.qrStyle}
               cameraStyle={styles.qrStyle}
+              markerStyle={styles.qrStyle}
               cameraType="back"
               customMarker={
                 <Image

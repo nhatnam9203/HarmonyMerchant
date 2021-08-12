@@ -28,6 +28,7 @@ export const Layout = ({
   onEditProduct,
   onHandleDeleteProduct,
   onSubmitRestock,
+  onHandleQuantity
 }) => {
   const [t] = useTranslation();
 
@@ -107,6 +108,19 @@ export const Layout = ({
           />
 
           <View style={layouts.marginHorizontal} />
+          <ButtonGradientWhite
+            label={t("Quantity")}
+            width={scaleWidth(120)}
+            height={scaleHeight(40)}
+            fontSize={scaleFont(17)}
+            // textColor={colors.WHITE}
+            textWeight="normal"
+            onPress={onHandleQuantity}
+          >
+            {/* <Image source={IMAGE.back} /> */}
+          </ButtonGradientWhite>
+          <View style={layouts.marginHorizontal} />
+
           <ButtonGradient
             label={t("Edit")}
             width={scaleWidth(120)}

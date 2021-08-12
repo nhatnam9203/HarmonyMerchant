@@ -25,7 +25,7 @@ const ItemOptionValues = ({ item, onSelectOptionValue }) => {
 
   React.useEffect(() => {
     if (item) {
-      console.log(item);
+      // console.log(item);
       formSelectRef.current?.setFilterItems(
         item?.values
           ?.filter((x) => x.checked)

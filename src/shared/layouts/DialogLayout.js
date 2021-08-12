@@ -55,8 +55,8 @@ export const DialogLayout = React.forwardRef(
         backdropTransitionInTiming={0}
         animationIn="zoomIn"
         animationOut="zoomOut"
-        backdropTransitionInTiming={250}
-        backdropTransitionOutTiming={150}
+        backdropTransitionInTiming={300}
+        backdropTransitionOutTiming={100}
         onModalWillHide={onModalWillHide}
       >
         <KeyboardAvoidingView behavior={behavior}>

@@ -288,7 +288,8 @@ export function Table({
   };
 
   const renderItem = ({ item, index, move, moveEnd, isActive }) => {
-    const isHighlighted = highlightIndex && highlightIndex === index
+    const isHighlighted = highlightIndex >= 0 && highlightIndex === index;
+
     return (
       <Row
         key={getValueForColumnKey(item, primaryKey)}
