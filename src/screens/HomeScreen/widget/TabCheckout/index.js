@@ -1551,7 +1551,7 @@ class TabCheckout extends Layout {
   }
 
   async handleResponseCreditCard(message, online, moneyUserGiveForStaff) {
-    const { profile, payAppointmentId } = this.props;
+    const { profile, payAppointmentId, groupAppointment } = this.props;
     await this.setState({
       visibleProcessingCredit: false,
     });
@@ -1560,7 +1560,8 @@ class TabCheckout extends Layout {
       const tempEnv = env.IS_PRODUCTION;
       if (l.get(result, 'status', 0) == 0) {
         // setTimeout(()=>{ PosLink.cancelTransaction()}, 100)
-        if(l.get(result, 'ResultCode') == "100011"){
+        if(l.get(result, 'ResultCode') == "100011"
+          && l.get(result, 'invNum') != `${groupAppointment?.checkoutGroupId}`) {
           this.sendTransaction(true)
           return
         }
