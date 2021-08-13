@@ -1,98 +1,200 @@
 //
-//  CloverManager.swift
+//  CloverSwift.swift
 //  Hpmerchant_Production
 //
-//  Created by Duyen Hang on 13/08/2021.
+//  Created by Duyen Hang on 28/07/2021.
 //  Copyright © 2021 Facebook. All rights reserved.
 //
 
 import Foundation
-import CloverConnector
 
-class CloverManager : DefaultCloverConnectorListener, PairingDeviceConfiguration {
-    var cc:ICloverConnector?
+protocol CloverManagerDelegate {
+  func paymentSuccess(response: NSDictionary)
+  func paymentFail(errorMessage: String)
+}
+public class  CloverManager : DefaultCloverConnectorListener, PairingDeviceConfiguration {
 
-    func connect() {
+  var myCloverConnector:ICloverConnector?
+  fileprivate var token:String?
+  var cloverDelegate: CloverManagerDelegate?
+
+  fileprivate let PAIRING_AUTH_TOKEN_KEY:String = "PAIRING_AUTH_TOKEN"
+
+  func connect(_ url:String, appId: String, appName: String, posSerial: String) {
+        myCloverConnector?.dispose()
         // load from previous pairing, or nil will force/require
         // a new pairing with the device
         let savedAuthToken = loadAuthToken()
 
-        let config = WebSocketDeviceConfiguration(endpoint: "wss://192.168.1.115:12345/remote_pay",
-            remoteApplicationID: "com.yourcompany.pos.app:4.3.5",
-            posName: "RegisterApp", posSerial: "ABC-123",
+        let config = WebSocketDeviceConfiguration(endpoint: url,
+            remoteApplicationID: appId,
+            posName: appName, posSerial: posSerial,
             pairingAuthToken: savedAuthToken, pairingDeviceConfiguration: self)
 
-        cc = CloverConnectorFactory.createICloverConnector(config)
-        cc?.addCloverConnectorListener(self)
-        cc?.initializeConnection()
+        myCloverConnector = CloverConnectorFactory.createICloverConnector(config: config)
+        myCloverConnector?.addCloverConnectorListener(self)
+        myCloverConnector?.initializeConnection()
     }
+  
+  func test(){
+    print("test")
+  }
 
-    func doSale() {
+    func doSale(paymentInfo: NSDictionary) {
         // if onDeviceReady has been called
-        let saleRequest = SaleRequest(amount: 1743, externalId: "bc54de43f3")
+      let saleRequest = SaleRequest(amount: paymentInfo.value(forKey: "amount") as! Int, externalId: paymentInfo.value(forKey: "externalId") as! String)
         // configure other properties of SaleRequest
-        cc?.sale(saleRequest)
+        myCloverConnector?.sale(saleRequest)
     }
 
     // store the token to be loaded later by loadAuthToken
-    func saveAuthToken(token:String) {}
-    func loadAuthToken() -> String? { return nil }
+    func saveAuthToken(token:String) {
+      self.token = token
+      UserDefaults.standard.set(self.token, forKey: PAIRING_AUTH_TOKEN_KEY)
+      UserDefaults.standard.synchronize()
+    }
+    func loadAuthToken() -> String? {
+      return UserDefaults.standard.string( forKey: PAIRING_AUTH_TOKEN_KEY)
+    }
 
 
     // PairingDeviceConfiguration
-    func onPairingCode(pairingCode: String) {
+  public func onPairingCode(_ pairingCode: String) {
         // display pairingCode to user, to be entered on the Clover Mini
     }
 
-    func onPairingSuccess(authToken: String) {
+  public func onPairingSuccess(_ authToken: String) {
         // pairing is successful
         // save this authToken to pass in to the config for future connections
         // so pairing will happen automatically
-        saveAuthToken(authToken)
+      saveAuthToken(token: authToken)
     }
 
 
     // DefaultCloverConnectorListener
 
     // called when device is disconnected
-    override func onDeviceDisconnected() {}
+  public override func onDeviceDisconnected() {}
 
     // called when device is connected, but not ready for requests
-    override func onDeviceConnected() {}
+  public override func onDeviceConnected() {}
 
     // called when device is ready to take requests. Note: May be called more than once
-    override func onDeviceReady(info:MerchantInfo){}
+  public override func onDeviceReady(_ info:MerchantInfo){}
 
     // required if Mini wants the POS to verify a signature
-    override func onVerifySignatureRequest(signatureVerifyRequest: VerifySignatureRequest) {
+  public override func onVerifySignatureRequest(_ signatureVerifyRequest: VerifySignatureRequest) {
         //present signature to user, then
         // acceptSignature(...) or rejectSignature(...)
     }
 
     // required if Mini wants the POS to verify a payment
-    override func onConfirmPaymentRequest(request: ConfirmPaymentRequest) {
+  public override func onConfirmPaymentRequest(_ request: ConfirmPaymentRequest) {
         //present 1 or more challenges to user, then
-        cc?.acceptPayment(request.payment!)
+        myCloverConnector?.acceptPayment(request.payment!)
         // or
-        // cc?.rejectPayment(...)
+        // myCloverConnector?.rejectPayment(...)
     }
 
     // override other callback methods
-    override func onSaleResponse(response:SaleResponse) {
+  public override func onSaleResponse(_ response:SaleResponse) {
         if response.success {
             // sale successful and payment is in the response (response.payment)
+          let responseDict: NSDictionary = ["id": response.payment?.id ?? "",
+          // The order with which the payment is associated
+            "order": response.payment?.order ?? "",
+
+          /// Device which processed the transaction for this payment
+            "device": response.payment?.device ?? "",
+
+          /// The tender type associated with this payment, e.g. credit card, cash, etc.
+            "tender": response.payment?.tender ?? "",
+
+          /// Total amount paid
+            "amount": response.payment?.amount ?? 0,
+
+          /// Amount paid in tips
+            "tipAmount": response.payment?.tipAmount ?? 0,
+
+          /// Amount paid in tax
+            "taxAmount": response.payment?.taxAmount ?? 0,
+
+          /// Amount given back in a cash back transaction
+            "cashbackAmount": response.payment?.cashbackAmount ?? 0,
+
+          /// Amount of cash given by the customer
+            "cashTendered": response.payment?.cashTendered ?? "",
+
+            "externalPaymentId": response.payment?.externalPaymentId ?? "",
+          
+         // The employee who processed the payment
+          "employee": response.payment?.employee ?? "",
+
+          /// Time payment was recorded on server
+          "createdTime": response.payment?.createdTime ?? "",
+
+          "clientCreatedTime": response.payment?.clientCreatedTime ?? "",
+
+          /// Last modified time of the payment
+          "modifiedTime": response.payment?.modifiedTime ?? "",
+
+          "offline": response.payment?.offline ?? "",
+
+          "result": response.payment?.result ?? "",
+
+          /// Information about the card used for credit/debit card payments
+          "cardTransaction": response.payment?.cardTransaction ?? "",
+
+          /// Amount record as a service charge
+          "serviceCharge": response.payment?.serviceCharge ?? "",
+
+          "taxRates": response.payment?.taxRates ?? "",
+
+          "refunds": response.payment?.refunds ?? "",
+
+          "note": response.payment?.note ?? "",
+
+          "lineItemPayments": response.payment?.lineItemPayments ?? "",
+
+          /// If voided, the reason why (when available)
+          "voidReason": response.payment?.voidReason ?? "",
+
+          /// Dynamic Currency Conversion information
+          "dccInfo": response.payment?.dccInfo ?? "",
+
+          /// Per transaction settings for the payment
+          "transactionSettings": response.payment?.transactionSettings ?? "",
+
+          /// German region-specific information
+          "germanInfo": response.payment?.germanInfo ?? "",
+
+          /// Tracking information for the app that created this payment.
+          "appTracking": response.payment?.appTracking ?? "",
+
+          /// Additional charges associated with this transaction (Canada INTERAC)
+          "additionalCharges": response.payment?.additionalCharges ?? "",
+          
+          "transactionInfo": response.payment?.transactionInfo ?? "",
+          
+          "increments": response.payment?.increments ?? ""
+          ]
+          
+          if(cloverDelegate != nil){
+            cloverDelegate?.paymentSuccess(response: responseDict)
+          }
         } else {
             // sale failed or was canceled
+          cloverDelegate?.paymentFail(errorMessage: "Failed")
         }
     }
 
-    override func onAuthResponse(response:AuthResponse) {}
-    override func onPreAuthResponse(response:PreAuthResponse) {}
+  public override func onAuthResponse(_ response:AuthResponse) {}
+  public override func onPreAuthResponse(_ response:PreAuthResponse) {}
 
     // will provide UI information about the activity on the Mini,
     // and may provide input options for the POS to select some
     // options on behalf of the customer
-    override func onDeviceActivityStart(deviceEvent:CloverDeviceEvent){} // see CloverConnectorListener.swift for example of calling invokeInputOption from this callback
-    override func onDeviceActivityEnd(deviceEvent:CloverDeviceEvent){}
+  public override func onDeviceActivityStart(_ deviceEvent:CloverDeviceEvent){} // see CloverConnectorListener.swift for example of calling invokeInputOption from this callback
+  public override func onDeviceActivityEnd(_ deviceEvent:CloverDeviceEvent){}
     // etc.
 }

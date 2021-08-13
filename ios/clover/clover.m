@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "clover.h"
 
-
 @implementation clover
 
 - (NSString*) convertObjectToJson:(NSObject*) object
