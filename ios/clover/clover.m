@@ -35,18 +35,18 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo)
 {
-    
+  [self sendEventWithName:@"PAYMENT_SUCCESS" body:@{@"response": @""}];
 }
 
 RCT_EXPORT_METHOD(cancelTransaction){
 }
 
 - (void)paymentFailWithErrorMessage:(NSString * _Nonnull)errorMessage {
-  
+  [self sendEventWithName:@"PAYMENT_FAILED" body:@{@"errorMessage": errorMessage}];
 }
 
 - (void)paymentSuccessWithResponse:(NSDictionary * _Nonnull)response {
-  
+  [self sendEventWithName:@"PAYMENT_SUCCESS" body:@{@"response": response}];
 }
 
 @end

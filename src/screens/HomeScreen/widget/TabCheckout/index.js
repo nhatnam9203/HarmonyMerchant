@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'ramda';
 const signalR = require('@microsoft/signalr');
-import { NativeModules, Platform } from 'react-native';
+import { NativeModules, Platform, NativeEventEmitter } from 'react-native';
 import env from 'react-native-config';
 import BleManager from 'react-native-ble-manager';
 import Layout from './layout';
@@ -27,6 +27,7 @@ import moment from 'moment';
 const PosLinkReport = NativeModules.report;
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
+const Clover = NativeModules.clover;
 
 class TabCheckout extends Layout {
   constructor(props) {
@@ -55,6 +56,12 @@ class TabCheckout extends Layout {
     this.addEditCustomerInfoRef = React.createRef();
     this.staffFlatListRef = React.createRef();
     this.isGetResponsePaymentPax = false
+    this.eventEmitter = new NativeEventEmitter();
+    this.listener = this.eventEmitter.addListener('PAYMENT_SUCCESS', (response)=> this.handlePaymentCloverSuccess(response));
+  }
+
+  handlePaymentCloverSuccess(response) {
+
   }
 
   resetStateFromParent = async () => {
@@ -2590,6 +2597,9 @@ class TabCheckout extends Layout {
       );
       this.sendTransToPaxMachine();
     }
+    Clover.sendTransaction()
+
+    
   }
 
   componentDidMount() {
@@ -2602,6 +2612,12 @@ class TabCheckout extends Layout {
     }
   }
 
+}
+
+componentWillUnmount() {
+  if (this.listener) {
+    this.eventEmitter.removeListener(this.listener);
+  }
 }
 
 const mapStateToProps = (state) => ({
