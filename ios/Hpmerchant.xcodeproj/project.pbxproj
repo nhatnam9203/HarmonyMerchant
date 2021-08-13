@@ -153,6 +153,8 @@
 		532EFBB626C61ABE00CF43EA /* clover.m in Sources */ = {isa = PBXBuildFile; fileRef = 532EFBB426C61AB800CF43EA /* clover.m */; };
 		532EFBB726C61ABE00CF43EA /* clover.m in Sources */ = {isa = PBXBuildFile; fileRef = 532EFBB426C61AB800CF43EA /* clover.m */; };
 		532EFBBA26C61DC500CF43EA /* CloverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532EFBB926C61DC500CF43EA /* CloverManager.swift */; };
+		532EFBBB26C6253500CF43EA /* CloverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532EFBB926C61DC500CF43EA /* CloverManager.swift */; };
+		532EFBBC26C6253600CF43EA /* CloverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532EFBB926C61DC500CF43EA /* CloverManager.swift */; };
 		5E3073ED11B145C2B5DDF125 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A41C25138F34A16945F3546 /* Roboto-Italic.ttf */; };
 		652D7AABC2704D70AA175A7A /* SF Pro Text Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 61F25A5AB1D649C8948AF758 /* SF Pro Text Italic.ttf */; };
 		79DC4200AD2F4D56AADCDC32 /* segoeuiz.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B9C36BA235E4FF7A216DF02 /* segoeuiz.ttf */; };
@@ -1177,6 +1179,7 @@
 				234AF86D25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */,
 				230F1DB824D3DA2200A95898 /* AppDelegate.m in Sources */,
 				230F1DB924D3DA2200A95898 /* main.m in Sources */,
+				532EFBBB26C6253500CF43EA /* CloverManager.swift in Sources */,
 				532EFBB626C61ABE00CF43EA /* clover.m in Sources */,
 				239AD16225BE643700302985 /* payment.m in Sources */,
 			);
@@ -1192,6 +1195,7 @@
 				234AF86E25B15BBB0051AC5E /* rn_ble_plx.swift in Sources */,
 				2388BF1B253FEC34007B4A7A /* AppDelegate.m in Sources */,
 				2388BF1D253FEC34007B4A7A /* main.m in Sources */,
+				532EFBBC26C6253600CF43EA /* CloverManager.swift in Sources */,
 				532EFBB526C61ABD00CF43EA /* clover.m in Sources */,
 				239AD16325BE643700302985 /* payment.m in Sources */,
 			);
