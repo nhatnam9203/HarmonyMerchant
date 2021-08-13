@@ -23,6 +23,10 @@ pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
 
 
 pod 'RNCharts', :path => '../node_modules/react-native-charts-wrapper'
+
+pod 'Starscream', :git => 'https://github.com/clover/Starscream.git', :branch => 'queuePriority-3.0.0'
+
+pod 'CloverConnector', :git => 'https://github.com/clover/remote-pay-ios.git', :tag => '4.0.0'
 # pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
   # Enables Flipper.
