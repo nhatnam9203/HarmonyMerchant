@@ -8,9 +8,19 @@
 
 #import <Foundation/Foundation.h>
 #import "clover.h"
+#import "Hpmerchant_Dev-Swift.h"
 
 @implementation clover
 
+- (instancetype)init
+{
+  self = [super init];
+  if (self) {
+    CloverManager *clover = [CloverManager alloc];
+    clover.cloverDelegate = self;
+  }
+  return self;
+}
 - (NSString*) convertObjectToJson:(NSObject*) object
 {
   NSError *writeError = nil;
@@ -25,10 +35,18 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo)
 {
-  
+    
 }
 
 RCT_EXPORT_METHOD(cancelTransaction){
+}
+
+- (void)paymentFailWithErrorMessage:(NSString * _Nonnull)errorMessage {
+  
+}
+
+- (void)paymentSuccessWithResponse:(NSDictionary * _Nonnull)response {
+  
 }
 
 @end

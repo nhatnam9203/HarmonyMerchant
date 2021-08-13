@@ -8,15 +8,15 @@
 
 import Foundation
 
-protocol CloverManagerDelegate {
+@objc public protocol CloverManagerDelegate {
   func paymentSuccess(response: NSDictionary)
   func paymentFail(errorMessage: String)
 }
-public class  CloverManager : DefaultCloverConnectorListener, PairingDeviceConfiguration {
+@objc public class  CloverManager : DefaultCloverConnectorListener, PairingDeviceConfiguration {
 
   var myCloverConnector:ICloverConnector?
   fileprivate var token:String?
-  var cloverDelegate: CloverManagerDelegate?
+  @objc public var cloverDelegate: CloverManagerDelegate?
 
   fileprivate let PAIRING_AUTH_TOKEN_KEY:String = "PAIRING_AUTH_TOKEN"
 

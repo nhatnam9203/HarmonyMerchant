@@ -11,9 +11,9 @@
 
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
-#import "PosLink.h"
+#import "Hpmerchant_Dev-Swift.h"
 
-@interface clover : NSObject <RCTBridgeModule>
+@interface clover : NSObject <RCTBridgeModule, CloverManagerDelegate>
 
 
 @end
