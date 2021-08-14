@@ -1,5 +1,25 @@
+import {
+  ParentContainer,
+  PopupActiveGiftCard,
+  PopupChangeMoney,
+  PopupConfirm,
+  PopupInvoicePrint,
+  PopupPayCompleted,
+  PopupProcessingCredit,
+  PopupScanCode,
+  PopupSendLinkInstall,
+} from "@components";
 import IMAGE from "@resources";
-import { ButtonGradientWhite, ButtonGradient } from "@shared/components";
+import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
+import {
+  ErrorMessagePaxModal,
+  PopupBill,
+  PopupBlockDiscount,
+  PopupDiscount,
+  PopupDiscountLocal,
+  PopupEnterAmountGiftCard,
+  PopupPaymentDetails,
+} from "@shared/components/payment";
 import { WithDialogPhone } from "@shared/HOC/withDialogPhone";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
@@ -7,49 +27,10 @@ import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, View } from "react-native";
 import {
   BasketPaymentContent,
-  CustomList,
-  CUSTOM_LIST_TYPES,
-  DialogProductDetail,
-  CheckOutCustomerInfo,
   ButtonPaymentMethod,
+  CheckOutCustomerInfo,
+  DialogProductDetail,
 } from "../../widget";
-
-import {
-  ItemCategory,
-  ItemProductService,
-  ItemAmount,
-  ItemExtra,
-  PopupDiscount,
-  PopupBill,
-  PopupDiscountLocal,
-  ItemCustomerBasket,
-  PopupPaymentDetails,
-  ItemBlockBasket,
-  PopupBlockDiscount,
-  ItemPaymentMethod,
-  PopupAddItemIntoAppointments,
-  PopupGiftCardDetail,
-  PopupEnterAmountGiftCard,
-  EnterCustomerPhonePopup,
-  PopupAddEditCustomer,
-  ErrorMessagePaxModal,
-} from "@shared/components/payment";
-import {
-  PopupPayCompleted,
-  PopupChangeStylist,
-  PopupChangeMoney,
-  PopupSendLinkInstall,
-  PopupActiveGiftCard,
-  PopupScanCode,
-  PopupProcessingCredit,
-  PopupInvoicePrint,
-  PopupChangePriceAmountProduct,
-  PopupChangeTip,
-  ScrollableTabView,
-  PopupCheckStaffPermission,
-  ParentContainer,
-  PopupConfirm,
-} from "@components";
 
 const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
 

@@ -132,14 +132,16 @@ export const useProps = ({
           screenId: screenId,
           backScreenId: backScreenId,
         });
-      } else if (
-        payment?.length <= 0 &&
-        status === ORDERED_STATUS.PROCESS &&
-        !didNotPay
-      ) {
-        setAppointmentDetail(data);
-        formAddressRef.current?.reload();
-      } else {
+      }
+      //  else if (
+      //   payment?.length <= 0 &&
+      //   status === ORDERED_STATUS.PROCESS &&
+      //   !didNotPay
+      // ) {
+      //   setAppointmentDetail(data);
+      //   formAddressRef.current?.reload();
+      // }
+      else {
         setAppointmentDetail(data);
         formAddressRef.current?.reload();
       }

@@ -15,7 +15,6 @@ import {
   useAppointmentAddItem,
   useAppointmentRemoveItem,
   useGetAppointment,
-  useUpdateAppointmentCustomer,
 } from "@shared/services/api/retailer";
 import { createSubmitAppointment, statusSuccess } from "@shared/utils";
 import React from "react";
@@ -238,7 +237,7 @@ export const useProps = ({
   React.useEffect(() => {
     const { codeStatus, data } = categoriesLabel || {};
     if (statusSuccess(codeStatus)) {
-        setCategoriesLabelData(data);
+      setCategoriesLabelData(data);
     }
   }, [categoriesLabel]);
 
@@ -369,6 +368,6 @@ export const useProps = ({
       if (data) getProductsByBarcode(data);
     },
     categoriesLabelData,
-    isOrder
+    isOrder,
   };
 };

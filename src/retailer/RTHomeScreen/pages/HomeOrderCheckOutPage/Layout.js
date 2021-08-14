@@ -58,7 +58,7 @@ export const Layout = ({
 
         <ScanQRButton
           label={t("Scan")}
-          title={t("Scan Barcode")}lúc
+          title={t("Scan Barcode")}
           width={scaleWidth(140)}
           height={scaleHeight(40)}
           onResultScanCode={onResultScanCode}
