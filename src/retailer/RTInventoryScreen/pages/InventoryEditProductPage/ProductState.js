@@ -136,7 +136,7 @@ export const productReducer = (state = initState, action) => {
       );
       return Object.assign({}, state, {
         options: filterOptions,
-        quantities: createQuantitiesItem(state, filterOptions),
+        // quantities: createQuantitiesItem(state, filterOptions),
       });
 
     case PRODUCT_CHANGE_OPTIONS:
