@@ -91,7 +91,11 @@ export const useProps = ({
   const visibleChangeMoney = useSelector(
     (state) => state.appointment.visibleChangeMoney
   );
+  const isTipOnPaxMachine = useSelector(
+    (state) => state.dataLocal.isTipOnPaxMachine
+  );
 
+  const [moneyUserGiveForStaff, setMoneyUserGiveForStaff] = React.useState("0");
   const [paymentSelected, setPaymentSelected] = React.useState("");
   const [visibleBillOfPayment, setVisibleBillOfPayment] = React.useState(false);
   const [changeButtonDone, setChangeButtonDone] = React.useState(false);
@@ -128,6 +132,20 @@ export const useProps = ({
   const [visibleScanCode, setVisibleScanCode] = React.useState(false);
   const [visiblePrintInvoice, setVisiblePrintInvoice] = React.useState(false);
   const [appointmentDetail, setAppointmentDetail] = React.useState(null);
+  const startProcessingPax = useSelector(
+    (state) => state.appointment.startProcessingPax
+  );
+
+  React.useEffect(() => {
+    
+    if (startProcessingPax) {
+      dispatch(actions.appointment.resetStateCheckCreditPaymentToServer(
+        false
+      ));
+      sendTransactionIOS()
+        
+    }
+  }, [startProcessingPax]);
 
   /** CALL API */
   const [appointmentGet, getAppointment] = useGetAppointment();
@@ -683,6 +701,42 @@ export const useProps = ({
     }
   };
 
+  const sendTransactionIOS = () => {
+    setVisibleProcessingCredit(true);
+    const moneyCreditCard = Number(
+      formatNumberFromCurrency(moneyUserGiveForStaff) * 100
+    ).toFixed(2);
+    const { ip, port, commType, bluetoothAddr } =
+      paxMachineInfo;
+      const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
+    const tempIpPax = commType == 'TCP' ? ip : '';
+    const tempPortPax = commType == 'TCP' ? port : '';
+    const idBluetooth = commType === 'TCP' ? '' : bluetoothAddr;
+    const extData = isTipOnPaxMachine ? '<TipRequest>1</TipRequest><Force>T</Force>' : '<Force>T</Force>';
+
+    // Send Trans to pax
+    PosLink.sendTransaction(
+      {
+        tenderType: tenderType,
+        transType: 'SALE',
+        amount: `${parseFloat(moneyCreditCard)}`,
+        transactionId: '1',
+        extData: extData,
+        commType: commType,
+        destIp: tempIpPax,
+        portDevice: tempPortPax,
+        timeoutConnect: '90000',
+        bluetoothAddr: idBluetooth,
+        invNum: `${groupAppointment?.checkoutGroupId || 0}`,
+      },
+      (message) => {
+
+        handleResponseCreditCard(message, true, moneyUserGiveForStaff);
+      }
+
+    );
+  }
+
   const doneBill = async (amountPayment = false) => {
     const moneyUserGiveForStaff =
       amountPayment !== false
@@ -690,6 +744,7 @@ export const useProps = ({
         : parseFloat(
             formatNumberFromCurrency(modalBillRef.current?.state.quality)
           );
+    setMoneyUserGiveForStaff(moneyUserGiveForStaff)
 
     const method = getPaymentString(paymentSelected);
     const total = groupAppointment.total
@@ -856,7 +911,6 @@ export const useProps = ({
     if (!_.isEmpty(connectSignalR.current)) {
       await connectSignalR.current?.stop();
     }
-
     if (paymentSelected === "Cash" || paymentSelected === "Other") {
       const { portName } = getInfoFromModelNameOfPrinter(
         printerList,
