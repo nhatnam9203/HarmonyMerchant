@@ -95,7 +95,8 @@ export const useProps = ({
     (state) => state.dataLocal.isTipOnPaxMachine
   );
 
-  const [moneyUserGiveForStaff, setMoneyUserGiveForStaff] = React.useState("0");
+  const [isGetResponsePaymentPax, setIsGetResponsePaymentPax] = React.useState(false);
+  const [moneyUserGiveForStaff, setMoneyUserGiveForStaff] = React.useState(0);
   const [paymentSelected, setPaymentSelected] = React.useState("");
   const [visibleBillOfPayment, setVisibleBillOfPayment] = React.useState(false);
   const [changeButtonDone, setChangeButtonDone] = React.useState(false);
@@ -702,6 +703,7 @@ export const useProps = ({
   };
 
   const sendTransactionIOS = () => {
+    setIsGetResponsePaymentPax(false)
     setVisibleProcessingCredit(true);
     const moneyCreditCard = Number(
       formatNumberFromCurrency(moneyUserGiveForStaff) * 100
@@ -730,7 +732,7 @@ export const useProps = ({
         invNum: `${groupAppointment?.checkoutGroupId || 0}`,
       },
       (message) => {
-
+        setIsGetResponsePaymentPax(true)
         handleResponseCreditCard(message, true, moneyUserGiveForStaff);
       }
 
@@ -840,6 +842,10 @@ export const useProps = ({
     if (Platform.OS === "android") {
       PoslinkAndroid.cancelTransaction((data) => {});
     } else {
+      if (!isGetResponsePaymentPax) {
+        alert("Please wait!")
+        return
+      }
       PosLink.cancelTransaction();
       if (payAppointmentId) {
         dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
