@@ -37,7 +37,6 @@ class TabGaneral extends Layout {
       sendReviewLinkOption: getTitleSendLinkGoogle(
         profile?.sendReviewLinkOption || ""
       ),
-      isUsingTurn: profile?.isUsingTurn || false,
 
       giftForNewEnabled: profile?.giftForNewEnabled || false,
       isTurnOnAutoClose: profile?.isTurnOnAutoClose || false,
@@ -60,7 +59,6 @@ class TabGaneral extends Layout {
     staffColumn,
     signinAppStyle,
     sendReviewLinkOption,
-    isUsingTurn,
     giftForNewEnabled
   ) => {
     const { isFocus, currentTab } = this.props;
@@ -77,7 +75,6 @@ class TabGaneral extends Layout {
         sendReviewLinkOption: getTitleSendLinkGoogle(
           sendReviewLinkOption || ""
         ),
-        isUsingTurn,
         giftForNewEnabled,
       });
       this.updateWorkTime();
@@ -131,7 +128,6 @@ class TabGaneral extends Layout {
       staffColumn,
       signinAppStyle,
       sendReviewLinkOption,
-      isUsingTurn,
       giftForNewEnabled,
       isTurnOnAutoClose,
     } = this.state;
@@ -168,7 +164,6 @@ class TabGaneral extends Layout {
         staffColumn,
         signinAppStyle: getValueSignInAppDisplay(signinAppStyle),
         sendReviewLinkOption: getValueSendLinkGoogle(sendReviewLinkOption),
-        isUsingTurn,
         giftForNewEnabled,
       },
       true,
@@ -208,7 +203,6 @@ class TabGaneral extends Layout {
         sendReviewLinkOption: getTitleSendLinkGoogle(
           profile?.sendReviewLinkOption || ""
         ),
-        isUsingTurn: profile?.isUsingTurn || false,
         giftForNewEnabled: profile?.giftForNewEnabled || false,
       });
       this.updateWorkTime();
@@ -233,7 +227,6 @@ class TabGaneral extends Layout {
         sendReviewLinkOption: getTitleSendLinkGoogle(
           profile?.sendReviewLinkOption || ""
         ),
-        isUsingTurn: profile?.isUsingTurn || false,
         giftForNewEnabled: profile?.giftForNewEnabled || false,
       });
       this.updateWorkTime();
