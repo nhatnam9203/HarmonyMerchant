@@ -80,11 +80,11 @@ const ItemBasket = ({
                     style={{ width: scaleSize(30), height: scaleSize(30) }}
                   />
                 ) : (
-                  <Image
-                    source={ICON.staff_basket}
-                    style={{ width: scaleSize(30), height: scaleSize(30) }}
-                  />
-                )}
+                    <Image
+                      source={ICON.staff_basket}
+                      style={{ width: scaleSize(30), height: scaleSize(30) }}
+                    />
+                  )}
               </View>
             ) : item.type === 'Extra' ? (
               <View
@@ -105,11 +105,11 @@ const ItemBasket = ({
             ) : item.type === 'GiftCards' ? (
               <Image source={ICON.giftcard} />
             ) : (
-              <Image
-                source={ICON.blue_productBasket}
-                style={{ width: scaleSize(22), height: scaleSize(20) }}
-              />
-            )}
+                    <Image
+                      source={ICON.blue_productBasket}
+                      style={{ width: scaleSize(22), height: scaleSize(20) }}
+                    />
+                  )}
           </View>
           {/* -------- Name ------- */}
           <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -145,9 +145,11 @@ const ItemBasket = ({
                   fontWeight: '500',
                 }}
               >
-                {item.type === 'Product' || item.type === 'GiftCards'
-                  ? item?.quanlitySet || 1
-                  : item?.staff?.displayName || 'Any staff'}
+                {
+                  (item.type === 'Product' || item.type === 'GiftCards')
+                    ? item?.quanlitySet || 1
+                    : item?.staff?.staffId === -1 ? "" : item?.staff?.displayName || 'Any staff'
+                }
               </Text>
             </View>
             {/* -------- Price ------- */}
@@ -166,11 +168,10 @@ const ItemBasket = ({
                   fontWeight: '500',
                 }}
               >
-                {`$ ${
-                  item.type === 'Product'
+                {`$ ${item.type === 'Product'
                     ? getTotalProductByQuantity(data.price, item.quanlitySet)
                     : formatMoney(data.price)
-                }`}
+                  }`}
               </Text>
             </View>
           </View>
@@ -179,54 +180,54 @@ const ItemBasket = ({
         {/* ------------------ Extra ----------------- */}
         {item.type === 'Service' && item.extras
           ? item.extras.map((extra) => (
-              <View
-                key={extra?.id}
+            <View
+              key={extra?.id}
+              style={{
+                alignItems: 'center',
+                paddingLeft: scaleSize(45),
+                paddingRight: scaleSize(10),
+                flexDirection: 'row',
+                marginBottom: scaleSize(8),
+              }}
+            >
+              <Image
+                source={ICON.extra_mini}
+                style={{ height: scaleSize(15), width: scaleSize(15) }}
+              />
+              <Text
                 style={{
-                  alignItems: 'center',
-                  paddingLeft: scaleSize(45),
-                  paddingRight: scaleSize(10),
-                  flexDirection: 'row',
-                  marginBottom: scaleSize(8),
+                  color: '#6A6A6A',
+                  fontSize: scaleSize(12),
+                  fontWeight: '500',
+                  marginHorizontal: scaleSize(6),
                 }}
+                numberOfLines={1}
               >
+                {`${extra?.data?.name}`}
+              </Text>
+
+              <Button onPress={() => removeExtra(extra)}>
                 <Image
-                  source={ICON.extra_mini}
+                  source={ICON.delete_extra_mini}
                   style={{ height: scaleSize(15), width: scaleSize(15) }}
                 />
-                <Text
-                  style={{
-                    color: '#6A6A6A',
-                    fontSize: scaleSize(12),
-                    fontWeight: '500',
-                    marginHorizontal: scaleSize(6),
-                  }}
-                  numberOfLines={1}
-                >
-                  {`${extra?.data?.name}`}
-                </Text>
+              </Button>
 
-                <Button onPress={() => removeExtra(extra)}>
-                  <Image
-                    source={ICON.delete_extra_mini}
-                    style={{ height: scaleSize(15), width: scaleSize(15) }}
-                  />
-                </Button>
-
-                {/* --------------- Price ------------------ */}
-                <Text
-                  style={{
-                    flex: 1,
-                    textAlign: 'right',
-                    color: '#6A6A6A',
-                    fontSize: scaleSize(12),
-                    fontWeight: '600',
-                  }}
-                  numberOfLines={1}
-                >
-                  {`$ ${extra?.data?.price}`}
-                </Text>
-              </View>
-            ))
+              {/* --------------- Price ------------------ */}
+              <Text
+                style={{
+                  flex: 1,
+                  textAlign: 'right',
+                  color: '#6A6A6A',
+                  fontSize: scaleSize(12),
+                  fontWeight: '600',
+                }}
+                numberOfLines={1}
+              >
+                {`$ ${extra?.data?.price}`}
+              </Text>
+            </View>
+          ))
           : null}
       </Button>
     </Swipeout>
