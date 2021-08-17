@@ -1988,8 +1988,7 @@ class TabCheckout extends Layout {
 
   addAppointmentCheckout = () => {
     const { blockAppointments } = this.props;
-    console.log('add appointment checkout ')
-    console.log({ blockAppointments })
+
     if (blockAppointments.length > 0) {
       this.createABlockAppointment();
       return;
