@@ -178,6 +178,33 @@ export function createBlockAppointment(merchantId, fromTime = new Date(), userId
     }
 }
 
+export function createAppointmentWaiting(merchantId, fromTime = new Date(), userId = 0, customerId = 0, firstName = "", lastName = "", phoneNumber = "", bookingGroupId) {
+    return {
+        type: 'CREATE_BLOCK_APPOINTMENT',
+        body: {
+            merchantId,
+            userId,
+            customerId,
+            status: 'waiting',
+            services: [],
+            extras: [],
+            products: [],
+            fromTime: moment.parseZone(fromTime).local().format('MM/DD/YYYY hh:mm A'),
+            staffId: -1,
+            customDiscountFixed: 0,
+            customDiscountPercent: 0,
+            firstName,
+            lastName,
+            phoneNumber,
+            bookingGroupId
+        },
+        method: 'POST',
+        token: true,
+        api: `appointment`,
+        fromTimeBlockAppointment: fromTime
+    }
+}
+
 export function getBlockAppointmentById(appointmentId, isGetBookingGroupId = false) {
     return {
         type: 'GET_BLOCK_APPOINTMENT_BY_ID',

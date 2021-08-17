@@ -399,7 +399,7 @@ class HomeScreen extends Layout {
   };
 
   addMoreAppointmentFromCalendar = (appointmentId, staffId = 0) => {
-    if (staffId) {
+    if (staffId && staffId !== 0 && staffId !== -1) {
       this.props.actions.appointment.getGroupAppointmentById(
         appointmentId,
         false,

@@ -109,9 +109,21 @@ class PopupCheckStaffPermission extends React.Component {
                 fontSize: scaleSize(16),
                 fontWeight: "500",
                 marginTop: scaleSize(5),
+                textAlign: 'center'
               }}
             >
-              {"Please enter the authorized PIN number"}
+              {"Please enter the authorized"}
+            </Text>
+            <Text
+              style={{
+                color: "#404040",
+                fontSize: scaleSize(16),
+                fontWeight: "500",
+                marginTop: scaleSize(5),
+                textAlign: 'center'
+              }}
+            >
+              {"PIN number"}
             </Text>
           </View>
           <View
@@ -170,21 +182,21 @@ class PopupCheckStaffPermission extends React.Component {
                 <ActivityIndicator size="large" color="#fff" />
               </View>
             ) : (
-              <ButtonCustom
-                width={"35%"}
-                height={40}
-                backgroundColor="#0764B0"
-                title="SUBMIT"
-                textColor="#fff"
-                onPress={this.submitPin}
-                styleText={{
-                  fontSize: scaleSize(14),
-                }}
-                style={{
-                  borderRadius: scaleSize(4),
-                }}
-              />
-            )}
+                <ButtonCustom
+                  width={"35%"}
+                  height={40}
+                  backgroundColor="#0764B0"
+                  title="SUBMIT"
+                  textColor="#fff"
+                  onPress={this.submitPin}
+                  styleText={{
+                    fontSize: scaleSize(14),
+                  }}
+                  style={{
+                    borderRadius: scaleSize(4),
+                  }}
+                />
+              )}
           </View>
         </View>
       </PopupParent>
