@@ -152,7 +152,7 @@ class Layout extends React.Component {
                   fontWeight: '600',
                 }}
               >
-                {`Tip on pax machine:`}
+                {`Tip on payment terminal:`}
               </Text>
             </View>
             <View
