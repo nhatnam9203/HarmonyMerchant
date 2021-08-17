@@ -184,6 +184,8 @@ export const useProps = ({ params: { reload } }) => {
     onSelectRow: ({ item }) => {
       NavigationServices.navigate("retailer.home.order.detail", {
         order: item,
+        screenId: "retailer.home.order.list",
+        backScreenId: "retailer.home.order.list",
       });
     },
     onRenderCell: () => {},

@@ -175,8 +175,8 @@ export const useProps = ({
       } else {
         NavigationServices.navigate("retailer.home.order.pay", {
           orderItem: appointmentDetail,
-          screenId: "retailer.home.order.list",
-          backScreenId: "retailer.home.order.check_out",
+          screenId: screenId ?? "retailer.home.order.list",
+          backScreenId: backScreenId ?? "retailer.home.order.check_out",
         });
       }
     }

@@ -47,6 +47,7 @@ export const useProps = ({
   const connectSignalR = React.useRef(null);
   const cashBackRef = React.useRef(null);
   const invoicePrintRef = React.useRef(null);
+  const changeTipRef = React.useRef(null);
 
   const dispatch = useDispatch();
   const isPayment = useIsPayment();
@@ -123,6 +124,7 @@ export const useProps = ({
     React.useState(false);
   const [visibleErrorMessageFromPax, setVisibleErrorMessageFromPax] =
     React.useState(false);
+  const [visibleChangeTip, setVisibleChangeTip] = React.useState(false);
 
   const [errorMessageFromPax, setErrorMessageFromPax] = React.useState("");
   const [visibleScanCode, setVisibleScanCode] = React.useState(false);
@@ -1202,6 +1204,33 @@ export const useProps = ({
     },
     finishedHandle: () => {
       onCompleteBack();
+    },
+    changeTipRef,
+    visibleChangeTip,
+    setVisibleChangeTip,
+    onTipAdd: () => {
+      const temptTip =
+        !appointmentDetail || _.isEmpty(appointmentDetail)
+          ? tipLocal
+          : appointmentDetail?.tipAmount;
+      const subTotal = appointmentDetail?.subTotal || 0;
+      const tipPercent = appointmentDetail?.tipPercent || 0;
+      const appointmentID = _.isEmpty(groupAppointment)
+        ? -1
+        : appointmentDetail.appointmentId;
+
+      if (_.isEmpty(connectSignalR.current)) {
+        changeTipRef.current?.setStateFromParent(
+          appointmentID,
+          temptTip ?? 0,
+          subTotal,
+          tipPercent
+        );
+
+        setVisibleChangeTip(true);
+      } else {
+        alert("You are paying by Harmony Payment!");
+      }
     },
   };
 };
