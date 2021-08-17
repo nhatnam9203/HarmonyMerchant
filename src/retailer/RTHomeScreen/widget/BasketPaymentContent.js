@@ -37,6 +37,7 @@ export const BasketPaymentContent = React.forwardRef(
       groupAppointment,
       finishedHandle,
       onDiscountAdd,
+      onTipAdd,
     },
     ref
   ) => {
@@ -191,6 +192,20 @@ export const BasketPaymentContent = React.forwardRef(
           >
             <View style={layouts.marginHorizontal} />
             <TouchableOpacity onPress={onDiscountAdd}>
+              <Image
+                source={IMAGE.add_discount_checkout}
+                style={styles.iconStyle}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          </TotalInfo>
+          <View style={layouts.marginVertical} />
+          <TotalInfo
+            label={t("Tip")}
+            value={formatMoneyWithUnit(groupAppointment?.tipAmount)}
+          >
+            <View style={layouts.marginHorizontal} />
+            <TouchableOpacity onPress={onTipAdd}>
               <Image
                 source={IMAGE.add_discount_checkout}
                 style={styles.iconStyle}

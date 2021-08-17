@@ -8,6 +8,7 @@ import {
   PopupProcessingCredit,
   PopupScanCode,
   PopupSendLinkInstall,
+  PopupChangeTip,
 } from "@components";
 import IMAGE from "@resources";
 import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
@@ -107,6 +108,10 @@ export const Layout = ({
   printTemptInvoice,
   checkStatusCashier,
   finishedHandle,
+  changeTipRef,
+  onTipAdd,
+  visibleChangeTip,
+  setVisibleChangeTip,
 }) => {
   const [t] = useTranslation();
 
@@ -244,6 +249,7 @@ export const Layout = ({
                 groupAppointment={groupAppointment}
                 finishedHandle={finishedHandle}
                 onDiscountAdd={onDiscountAdd}
+                onTipAdd={onTipAdd}
               />
             </View>
           </View>
@@ -351,6 +357,15 @@ export const Layout = ({
         ref={invoicePrintRef}
         visiblePrintInvoice={visiblePrintInvoice}
         onRequestClose={cancelInvoicePrint}
+      />
+
+      <PopupChangeTip
+        ref={changeTipRef}
+        visible={visibleChangeTip}
+        title={t("Add Tip")}
+        onRequestClose={() => {
+          setVisibleChangeTip(false);
+        }}
       />
 
       <PopupPayCompleted
