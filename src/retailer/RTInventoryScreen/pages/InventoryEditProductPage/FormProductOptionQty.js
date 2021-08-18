@@ -125,6 +125,34 @@ export const FormProductOptionQty = ({
           </View>
         );
 
+      case "barcode":
+        const onHandleChangeBarcode = (text) => {
+          dispatchProduct(
+            updateOptionsQty(
+              Object.assign({}, cellItem, { barcode: parseInt(text) ?? 0 })
+            )
+          );
+        };
+
+        return (
+          <View
+            style={{ width: cellWidth }}
+            key={getUniqueId(columnKey, rowIndex, "cell-quantity")}
+          >
+            <CustomInput
+              style={[styles.customInput, { width: scaleWidth(120) }]}
+              textInputProps={{
+                placeholder: "Barcode",
+                fontSize: scaleFont(15),
+                textAlign: "left",
+                defaultValue: cellItem?.barcode || 0,
+                onChangeText: onHandleChangeBarcode,
+                keyboardType: "numeric",
+              }}
+            />
+          </View>
+        );
+
       case "tempQuantity":
         const onHandleChangeTempQty = (text) => {
           dispatchProduct(
@@ -335,6 +363,7 @@ export const FormProductOptionQty = ({
           headerKeyLabels={{
             imageUrl: t("Image"),
             label: t("Version"),
+            barcode: t("Barcode"),
             description: t("Description"),
             costPrice: t("Cost price"),
             price: t("Price"),
@@ -345,6 +374,7 @@ export const FormProductOptionQty = ({
           whiteListKeys={[
             "imageUrl",
             "label",
+            "barcode",
             "description",
             "costPrice",
             "price",
@@ -355,8 +385,9 @@ export const FormProductOptionQty = ({
           primaryKey="label"
           widthForKeys={{
             imageUrl: scaleWidth(60),
-            label: scaleWidth(250),
-            description: scaleWidth(200),
+            label: scaleWidth(150),
+            barcode: scaleWidth(150),
+            description: scaleWidth(150),
             costPrice: scaleWidth(120),
             price: scaleWidth(120),
             quantity: scaleWidth(80),

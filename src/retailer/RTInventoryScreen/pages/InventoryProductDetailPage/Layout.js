@@ -28,7 +28,7 @@ export const Layout = ({
   onEditProduct,
   onHandleDeleteProduct,
   onSubmitRestock,
-  onHandleQuantity
+  onHandleQuantity,
 }) => {
   const [t] = useTranslation();
 
@@ -215,7 +215,7 @@ export const Layout = ({
               items={productItem?.quantities}
               headerKeyLabels={{
                 label: t("Versions"),
-                sku: t("SKU"),
+                barcode: t("Barcode"),
                 description: t("Description"),
                 costPrice: t("Cost price"),
                 price: t("Price"),
@@ -226,7 +226,7 @@ export const Layout = ({
               }}
               whiteListKeys={[
                 "label",
-                "sku",
+                "barcode",
                 "description",
                 "costPrice",
                 "price",
@@ -237,7 +237,7 @@ export const Layout = ({
               ]}
               widthForKeys={{
                 label: scaleWidth(230),
-                sku: scaleWidth(110),
+                barcode: scaleWidth(110),
                 description: scaleWidth(180),
                 costPrice: scaleWidth(100),
                 price: scaleWidth(100),
