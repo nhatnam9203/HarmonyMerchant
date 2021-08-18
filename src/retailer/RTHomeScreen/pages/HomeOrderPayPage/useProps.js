@@ -1292,5 +1292,12 @@ export const useProps = ({
         alert("You are paying by Harmony Payment!");
       }
     },
+    switchTax: () => {
+      const appointmentID = _.isEmpty(groupAppointment)
+        ? -1
+        : appointmentDetail.appointmentId;
+      const isTax = !_.get(groupAppointment, 'isTax')
+      dispatch(actions.appointment.updateTax(isTax, appointmentID));
+    },
   };
 };

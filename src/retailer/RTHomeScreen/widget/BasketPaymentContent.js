@@ -14,6 +14,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Switch,
 } from "react-native";
 import FastImage from "react-native-fast-image";
 import Swipeable from "react-native-gesture-handler/Swipeable";
@@ -38,6 +39,7 @@ export const BasketPaymentContent = React.forwardRef(
       finishedHandle,
       onDiscountAdd,
       onTipAdd,
+      switchTax,
     },
     ref
   ) => {
@@ -182,10 +184,25 @@ export const BasketPaymentContent = React.forwardRef(
             label={t("Subtotal")}
             value={formatMoneyWithUnit(groupAppointment?.subTotal)}
           />
-          <TotalInfo
-            label={t("Tax")}
-            value={formatMoneyWithUnit(groupAppointment?.tax)}
-          />
+         {/* ---- Tax --- */}
+          <View style={styles.totalInfoContent}>
+            <View style={styles.taxRow}>
+              <Text style={styles.totalInfoText}>
+                {t("Tax")}
+              </Text>
+              <Switch
+              style={{marginLeft: scaleWidth(15)}}
+              trackColor={{ false: '#767577', true: '#0764B0' }}
+              ios_backgroundColor="#E5E5E5"
+              onValueChange={switchTax}
+              value={groupAppointment?.isTax}
+              />
+            </View>
+            <Text style={styles.priceInfoText}>
+              {formatMoneyWithUnit(groupAppointment?.tax)}
+            </Text>
+          </View>
+         
           <TotalInfo
             label={t("Discount")}
             value={formatMoneyWithUnit(groupAppointment?.discount)}
@@ -416,4 +433,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
   },
+  taxRow: {
+    flexDirection: 'row', 
+    alignItems: 'center'
+  }
 });

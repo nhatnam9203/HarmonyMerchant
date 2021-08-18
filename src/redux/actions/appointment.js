@@ -25,6 +25,19 @@ export function getGroupAppointmentById(id, isBookingFromCalendar = false, isAdd
     }
 }
 
+export function updateTax(isTax, appointmentid) {
+    return {
+        type: 'UPDATE_TAX',
+        method: 'PUT',
+        token: true,
+        body: {
+            isTax,
+        },
+        api: `appointment/taxupdate/${appointmentid}`,
+        appointmentid,
+    }
+}
+
 export function addItemIntoAppointment(body, appointmentId, isGroup = false, isBlock = false) {
     return {
         type: 'ADD_ITEM_INTO_APPOINTMENT',
