@@ -197,7 +197,9 @@ export const Layout = ({
           />
           <View style={layouts.marginHorizontal} />
           <View style={styles.productNameContent}>
-            <Text style={styles.productName}>{cellItem?.productName}</Text>
+            <Text style={styles.productName}>
+              {cellItem?.value ?? cellItem?.productName}
+            </Text>
             <View style={styles.productNameMarginVertical} />
             <Text style={styles.productName}>{`SKU: ${cellItem?.sku}`}</Text>
           </View>

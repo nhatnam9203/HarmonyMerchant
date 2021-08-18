@@ -364,7 +364,7 @@ export const useProps = ({
     },
     customer,
     onResultScanCode: (data) => {
-      // getProductsByBarcode("8934588063060");
+      // getProductsByBarcode("8936101342225");
       if (data) getProductsByBarcode(data);
     },
     categoriesLabelData,
