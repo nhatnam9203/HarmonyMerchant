@@ -118,6 +118,7 @@ class TabAppointment extends Layout {
     try {
       if (event.nativeEvent && event.nativeEvent.data) {
         const data = JSON.parse(event.nativeEvent.data);
+
         if (validateIsNumber(data) && data < -150) {
           this.onLoadStartWebview();
         } else {
@@ -168,15 +169,22 @@ class TabAppointment extends Layout {
               appointmentIdOffline: appointmentId,
             });
           } else if (action == "signinAppointment") {
-            this.props.bookAppointment(appointmentId, data?.staffId || 0);
-            if (
-              !isOfflineMode &&
-              isEmpty(groupAppointment) &&
-              data?.staffId !== 0
-            ) {
-              this.props.getCategoryStaff(
-                data?.appointment?.staffId || data?.staffId
+            if (data?.staffId === 0) {
+              this.props.createABlockAppointment(
+                appointmentId,
+                new Date()
               );
+            } else {
+              this.props.bookAppointment(appointmentId, data?.staffId || 0);
+              if (
+                !isOfflineMode &&
+                isEmpty(groupAppointment) &&
+                data?.staffId !== 0
+              ) {
+                this.props.getCategoryStaff(
+                  data?.appointment?.staffId || data?.staffId
+                );
+              }
             }
           } else if (action === "addGroupAnyStaff") {
             this.props.createABlockAppointment(
@@ -211,7 +219,7 @@ class TabAppointment extends Layout {
           }
         }
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   async componentDidUpdate(prevProps, prevState, snapshot) {

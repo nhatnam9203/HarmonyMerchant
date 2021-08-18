@@ -59,7 +59,6 @@ class Layout extends React.Component {
       staffColumn,
       signinAppStyle,
       sendReviewLinkOption,
-      isUsingTurn,
       giftForNewEnabled,
     } = this.state;
 
@@ -143,35 +142,6 @@ class Layout extends React.Component {
             </View>
           </View> */}
 
-          {/* ------- Auto Turn  ------ */}
-          {/* <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
-            <View style={{ width: scaleSize(180), justifyContent: "center" }}>
-              <Text
-                style={{
-                  color: "#404040",
-                  fontSize: scaleSize(16),
-                  fontWeight: "600",
-                }}
-              >
-                {`Auto Turn:`}
-              </Text>
-            </View>
-            <View
-              style={{
-                height: scaleSize(40),
-                width: scaleSize(140),
-                justifyContent: "center",
-              }}
-            >
-              <Switch
-                trackColor={{ false: "#767577", true: "#0764B0" }}
-                ios_backgroundColor="#E5E5E5"
-                onValueChange={(isUsingTurn) => this.setState({ isUsingTurn })}
-                value={isUsingTurn}
-              />
-            </View>
-          </View> */}
-
           {/* ------- Tip on pax machine  ------ */}
           <View style={{ flexDirection: 'row', marginTop: scaleSize(8) }}>
             <View style={{ width: scaleSize(180), justifyContent: 'center' }}>
@@ -182,7 +152,7 @@ class Layout extends React.Component {
                   fontWeight: '600',
                 }}
               >
-                {`Tip on pax machine:`}
+                {`Tip on payment terminal:`}
               </Text>
             </View>
             <View
