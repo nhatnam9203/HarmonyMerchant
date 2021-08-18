@@ -2,6 +2,7 @@ import {
   ButtonGradient,
   ButtonGradientRed,
   FormUploadImage,
+  ButtonGradientWhite,
 } from "@shared/components";
 import { CustomInput, CustomInputMoney } from "@shared/components/CustomInput";
 import { Table } from "@shared/components/CustomTable";
@@ -11,7 +12,7 @@ import { colors, fonts, layouts } from "@shared/themes";
 import { arrayIsEqual } from "@shared/utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { AddProductVersionDialog } from "./AddProductVersionDialog";
 import {
   deleteProductVersion,
@@ -19,9 +20,12 @@ import {
   updateOptionsQty,
 } from "./ProductState";
 import { InputSearch } from "@shared/components/InputSearch";
+import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
+import IMAGE from "@resources";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
 const GenerateConfirmButton = WithDialogConfirm(ButtonGradient);
+const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
 
 export const FormProductOptionQty = ({
   dispatchProduct,
@@ -125,30 +129,60 @@ export const FormProductOptionQty = ({
           </View>
         );
 
-      case "barcode":
+      case "barCode":
         const onHandleChangeBarcode = (text) => {
           dispatchProduct(
             updateOptionsQty(
-              Object.assign({}, cellItem, { barcode: parseInt(text) ?? 0 })
+              Object.assign({}, cellItem, { barCode: text ?? "" })
+            )
+          );
+        };
+
+        const onResultScanCode = (data) => {
+          dispatchProduct(
+            updateOptionsQty(
+              Object.assign({}, cellItem, { barCode: data ?? "" })
             )
           );
         };
 
         return (
           <View
-            style={{ width: cellWidth }}
+            style={{
+              width: cellWidth,
+              flexDirection: "row",
+              alignItems: "center",
+            }}
             key={getUniqueId(columnKey, rowIndex, "cell-quantity")}
           >
             <CustomInput
-              style={[styles.customInput, { width: scaleWidth(120) }]}
+              style={[styles.customInput, { width: scaleWidth(130) }]}
               textInputProps={{
                 placeholder: "Barcode",
                 fontSize: scaleFont(15),
                 textAlign: "left",
-                defaultValue: cellItem?.barcode || 0,
+                defaultValue: cellItem?.barCode || "",
                 onChangeText: onHandleChangeBarcode,
                 keyboardType: "numeric",
               }}
+            />
+            <View style={{ width: scaleWidth(2) }} />
+            <ScanQRButton
+              label={null}
+              title={t("Scan Barcode")}
+              width={scaleWidth(40)}
+              height={scaleHeight(50)}
+              onResultScanCode={onResultScanCode}
+              leftChildren={() => (
+                <Image
+                  source={IMAGE.scancode}
+                  style={{
+                    width: scaleWidth(24),
+                    height: scaleHeight(24),
+                    marginHorizontal: scaleWidth(12),
+                  }}
+                />
+              )}
             />
           </View>
         );
@@ -363,7 +397,7 @@ export const FormProductOptionQty = ({
           headerKeyLabels={{
             imageUrl: t("Image"),
             label: t("Version"),
-            barcode: t("Barcode"),
+            barCode: t("Barcode"),
             description: t("Description"),
             costPrice: t("Cost price"),
             price: t("Price"),
@@ -374,7 +408,7 @@ export const FormProductOptionQty = ({
           whiteListKeys={[
             "imageUrl",
             "label",
-            "barcode",
+            "barCode",
             "description",
             "costPrice",
             "price",
@@ -386,8 +420,8 @@ export const FormProductOptionQty = ({
           widthForKeys={{
             imageUrl: scaleWidth(60),
             label: scaleWidth(150),
-            barcode: scaleWidth(150),
-            description: scaleWidth(150),
+            barCode: scaleWidth(180),
+            description: scaleWidth(120),
             costPrice: scaleWidth(120),
             price: scaleWidth(120),
             quantity: scaleWidth(80),

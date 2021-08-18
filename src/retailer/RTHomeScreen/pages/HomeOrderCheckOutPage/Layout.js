@@ -74,7 +74,7 @@ export const Layout = ({
             />
           )}
         />
-
+        {/*
         <ButtonGradientWhite
           width={scaleWidth(40)}
           height={scaleHeight(40)}
@@ -83,7 +83,7 @@ export const Layout = ({
           onPress={onResultScanCode}
         >
           <Image source={IMAGE.back} />
-        </ButtonGradientWhite>
+        </ButtonGradientWhite> */}
 
         <View style={styles.headerRightContent}>
           <View style={layouts.marginHorizontal} />

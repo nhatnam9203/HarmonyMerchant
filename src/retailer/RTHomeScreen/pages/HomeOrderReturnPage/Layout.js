@@ -41,7 +41,7 @@ export const Layout = ({
   onHandleReturn,
   onCheckedRow,
   itemSelected,
-  setNotes
+  setNotes,
 }) => {
   const [t] = useTranslation();
 
@@ -103,7 +103,7 @@ export const Layout = ({
         <View style={styles.container}>
           <FormTitle label={t("Items To Return")} />
           <Table
-            items={item?.products || []}
+            items={item?.products?.filter((x) => !x.isReturn) || []}
             headerKeyLabels={{
               productName: t("Product"),
               price: t("Price"),

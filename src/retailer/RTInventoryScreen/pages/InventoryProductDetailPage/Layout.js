@@ -257,7 +257,7 @@ export const Layout = ({
             />
           )}
 
-          <FormTitle label={t("Restock History")}>
+          {/* <FormTitle label={t("Restock History")}>
             <View style={styles.headLabelButton}>
               <RestockButton
                 label={t("Restock")}
@@ -303,7 +303,7 @@ export const Layout = ({
               }}
               onRowPress={() => {}}
             />
-          )}
+          )} */}
         </View>
       </KeyboardAwareScrollView>
     </View>

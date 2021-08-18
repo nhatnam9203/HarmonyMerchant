@@ -21,6 +21,7 @@ import {
   FormEditNotes,
   FormShippingCarrier,
 } from "../../widget";
+import { OrderStatusView } from "@shared/components/OrderStatusView";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
@@ -198,12 +199,20 @@ export const Layout = ({
           <View style={layouts.marginHorizontal} />
           <View style={styles.productNameContent}>
             <Text style={styles.productName}>
-              {cellItem?.value ?? cellItem?.productName}
+              {!!cellItem?.value ? cellItem?.value : cellItem?.productName}
             </Text>
-            <View style={styles.productNameMarginVertical} />
-            <Text style={styles.productName}>{`SKU: ${cellItem?.sku}`}</Text>
+            {/* <View style={styles.productNameMarginVertical} />
+            <Text style={styles.productName}>{`SKU: ${cellItem?.sku}`}</Text> */}
           </View>
         </View>
+      );
+    }
+
+    if (columnKey === "status") {
+      return cellItem?.isReturn ? (
+        <OrderStatusView status="Return" />
+      ) : (
+        <View />
       );
     }
 
@@ -287,31 +296,36 @@ export const Layout = ({
             items={item?.products || []}
             headerKeyLabels={{
               productName: t("Product"),
+              sku: t("SKU"),
               price: t("Price"),
               quantity: t("Qty"),
               subTotal: t("Subtotal"),
               tax: t("Tax"),
               discount: t("Discount"),
               total: t("Total"),
+              status: t("Return"),
             }}
             whiteListKeys={[
               "productName",
+              "sku",
               "price",
               "quantity",
               "subTotal",
               "tax",
               "discount",
               "total",
+              "status",
             ]}
             primaryKey="productId"
             widthForKeys={{
-              productName: scaleWidth(300),
-              price: scaleWidth(150),
-              quantity: scaleWidth(100),
-              subTotal: scaleWidth(120),
-              tax: scaleWidth(120),
-              discount: scaleWidth(120),
-              total: scaleWidth(150),
+              productName: scaleWidth(220),
+              sku: scaleWidth(100),
+              price: scaleWidth(100),
+              quantity: scaleWidth(80),
+              subTotal: scaleWidth(100),
+              tax: scaleWidth(100),
+              discount: scaleWidth(100),
+              total: scaleWidth(100),
             }}
             emptyDescription={t("No Products")}
             styleTextKeys={{ total: styles.highLabelTextStyle }}
