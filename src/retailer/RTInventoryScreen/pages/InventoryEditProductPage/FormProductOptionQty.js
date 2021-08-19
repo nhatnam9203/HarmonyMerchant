@@ -133,7 +133,9 @@ export const FormProductOptionQty = ({
         const onHandleChangeBarcode = (text) => {
           dispatchProduct(
             updateOptionsQty(
-              Object.assign({}, cellItem, { barCode: text ?? "" })
+              Object.assign({}, cellItem, {
+                barCode: text ?? "",
+              })
             )
           );
         };
@@ -159,11 +161,16 @@ export const FormProductOptionQty = ({
               style={[styles.customInput, { width: scaleWidth(130) }]}
               textInputProps={{
                 placeholder: "Barcode",
-                fontSize: scaleFont(15),
+                fontSize: scaleFont(13),
                 textAlign: "left",
                 defaultValue: cellItem?.barCode || "",
                 onChangeText: onHandleChangeBarcode,
                 keyboardType: "numeric",
+              }}
+              formatText={(txt) => {
+                const temp = txt.replace(/[^0-9]/g, "") ?? "";
+                // console.log(temp);
+                return temp;
               }}
             />
             <View style={{ width: scaleWidth(2) }} />

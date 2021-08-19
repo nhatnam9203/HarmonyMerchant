@@ -14,13 +14,18 @@ export const CustomInput = ({
     textInputStyle,
     ...textInputProps
   },
+  formatText,
   children,
 }) => {
   const [value, setValue] = React.useState(null);
   const onHandleChangeText = (text) => {
-    setValue(text);
+    let val = text;
+    if (formatText && typeof formatText === "function") {
+      val = formatText(text);
+    }
+    setValue(val);
     if (onChangeText && typeof onChangeText === "function") {
-      onChangeText(text);
+      onChangeText(val);
     }
   };
 

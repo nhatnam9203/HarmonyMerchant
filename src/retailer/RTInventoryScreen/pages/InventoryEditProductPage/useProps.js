@@ -71,7 +71,6 @@ export const useProps = ({
         .notRequired(),
     }),
     onSubmit: (values) => {
-      values.barCode = values.barCode || values.sku;
       values.maxThreshold = values.maxThreshold || 0;
       values.minThreshold = values.minThreshold || 0;
 
