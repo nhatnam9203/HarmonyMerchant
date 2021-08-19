@@ -97,6 +97,7 @@ export const useProps = ({
     (state) => state.dataLocal.isTipOnPaxMachine
   );
 
+  const [isTax, setIsTax] = React.useState(false);
   const [isGetResponsePaymentPax, setIsGetResponsePaymentPax] = React.useState(false);
   const [moneyUserGiveForStaff, setMoneyUserGiveForStaff] = React.useState(0);
   const [paymentSelected, setPaymentSelected] = React.useState("");
@@ -1030,6 +1031,7 @@ export const useProps = ({
           false
         )
       );
+      setIsTax(_.get(orderItem, 'isTax'))
     }
   }, [orderItem]);
 
@@ -1053,6 +1055,7 @@ export const useProps = ({
     if (statusSuccess(codeStatus)) {
       setAppointmentDetail(data);
       dispatch(basketRetailer.setAppointment(data));
+      setIsTax(_.get(data, 'isTax'))
       // customerRef.current?.setCustomer(data?.customer);
     }
 
@@ -1313,9 +1316,10 @@ export const useProps = ({
       const appointmentID = _.isEmpty(groupAppointment)
         ? -1
         : appointmentDetail.appointmentId;
-      const isTax = !_.get(appointmentDetail, 'isTax')
-      updateAppointmentTax(isTax, appointmentID);
+      const isTaxUpdate = !isTax
+      setIsTax(isTaxUpdate)
+      updateAppointmentTax(isTaxUpdate, appointmentID);
     },
-    isTax: _.get(appointmentDetail, 'isTax')
+    isTax,
   };
 };
