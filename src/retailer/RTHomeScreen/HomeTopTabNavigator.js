@@ -85,7 +85,6 @@ export const HomeTopTabNavigator = ({
                 e.preventDefault();
               } else if (marketingTabNoPermission()) {
                 dispatch(actions.marketing.toggleMarketingTabPermission());
-                dispatch(basketRetailer.clearBasket());
               }
             },
           }}
@@ -95,10 +94,12 @@ export const HomeTopTabNavigator = ({
           listeners={{
             tabPress: (e) => {
               if (isPayment) {
+                showPopupConfirm(() => {
+                  navigation.navigate(OrderTabPage.name);
+                });
+
                 // Prevent default action
                 e.preventDefault();
-              } else {
-                dispatch(basketRetailer.clearBasket());
               }
             },
           }}
@@ -110,10 +111,10 @@ export const HomeTopTabNavigator = ({
               if (isPayment) {
                 showPopupConfirm(() => {
                   navigation.navigate(CheckOutTabPage.name);
-                }); // Prevent default action
+                });
+
+                // Prevent default action
                 e.preventDefault();
-              } else {
-                dispatch(basketRetailer.clearBasket());
               }
             },
           }}

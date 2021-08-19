@@ -212,10 +212,11 @@ export const Layout = ({
             <Table
               key={"table-version"}
               tableStyle={styles.tableProductVersion}
+              rowHeight={scaleHeight(60)}
               items={productItem?.quantities}
               headerKeyLabels={{
                 label: t("Versions"),
-                barcode: t("Barcode"),
+                barCode: t("Barcode"),
                 description: t("Description"),
                 costPrice: t("Cost price"),
                 price: t("Price"),
@@ -226,7 +227,7 @@ export const Layout = ({
               }}
               whiteListKeys={[
                 "label",
-                "barcode",
+                "barCode",
                 "description",
                 "costPrice",
                 "price",
@@ -237,7 +238,7 @@ export const Layout = ({
               ]}
               widthForKeys={{
                 label: scaleWidth(230),
-                barcode: scaleWidth(110),
+                barCode: scaleWidth(110),
                 description: scaleWidth(180),
                 costPrice: scaleWidth(100),
                 price: scaleWidth(100),

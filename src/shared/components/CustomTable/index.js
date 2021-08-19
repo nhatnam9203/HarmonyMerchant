@@ -107,6 +107,7 @@ export function Table({
   onRefresh = () => {},
   isLoadMore = false,
   onLoadMore = () => {},
+  rowHeight,
 }) {
   /**state */
   const [headerContent, setHeaderContent] = useState(null);
@@ -295,7 +296,7 @@ export function Table({
         key={getValueForColumnKey(item, primaryKey)}
         onPress={() => onRowPress({ item, row: index })}
         disabled={!onRowPress}
-        height={scaleHeight(60)}
+        height={rowHeight}
         onLongPress={move}
         onPressOut={moveEnd}
         isDragging={isActive}

@@ -190,6 +190,7 @@ export const Layout = ({
             <Table
               key={"table-version"}
               tableStyle={styles.tableProductVersion}
+              rowHeight={scaleHeight(60)}
               items={adjustVersions}
               headerKeyLabels={{
                 imageUrl: t("Image"),
@@ -252,6 +253,7 @@ export const Layout = ({
                 <Table
                   key={"table-restock"}
                   tableStyle={styles.tableProductVersion}
+                  rowHeight={scaleHeight(60)}
                   items={pendingList}
                   headerKeyLabels={{
                     createdDate: t("Date time"),
@@ -295,6 +297,7 @@ export const Layout = ({
                 <Table
                   key={"table-restock"}
                   tableStyle={styles.tableProductVersion}
+                  rowHeight={scaleHeight(60)}
                   items={adjustHistoryList}
                   headerKeyLabels={{
                     createdDate: t("Date time"),

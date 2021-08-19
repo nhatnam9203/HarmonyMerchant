@@ -109,7 +109,9 @@ export const useProps = ({
       getCategoriesLabel();
     });
 
-    const unsubscribeBlur = navigation.addListener("blur", () => {});
+    const unsubscribeBlur = navigation.addListener("blur", () => {
+      // dispatch(basketRetailer.clearBasket());
+    });
 
     return () => {
       unsubscribeFocus();
@@ -119,16 +121,13 @@ export const useProps = ({
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log(reset);
-      console.log(reload);
-      console.log(reloadAppointmentId);
-
       if (reset) {
         dispatch(basketRetailer.clearBasket());
         resetAll();
         getCategoriesList({ groupSubIntoMain: true });
-      } else if (reload) {
-        if (reloadAppointmentId) getAppointment(reloadAppointmentId);
+      } else if (reload && reloadAppointmentId) {
+        dispatch(basketRetailer.setAppointmentId(reloadAppointmentId));
+        getAppointment(reloadAppointmentId);
       }
     }, [reload, reset, reloadAppointmentId])
   );

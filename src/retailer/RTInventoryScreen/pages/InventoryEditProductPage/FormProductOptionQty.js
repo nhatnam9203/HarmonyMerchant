@@ -391,6 +391,7 @@ export const FormProductOptionQty = ({
       {optionsQty && (
         <Table
           tableStyle={styles.content}
+          rowHeight={scaleHeight(60)}
           items={optionsQty}
           flatListRef={flatListRef}
           highlightIndex={highlightIndex}

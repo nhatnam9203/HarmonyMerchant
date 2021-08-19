@@ -232,7 +232,6 @@ export const Layout = ({
                 }}
                 defaultValue={`${productItem?.quantity ?? ""}`}
                 keyboardType="number-pad"
-                editable={!isEdit}
               />
             )}
           </View>

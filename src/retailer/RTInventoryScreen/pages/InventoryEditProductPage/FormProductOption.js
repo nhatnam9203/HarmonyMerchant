@@ -308,6 +308,7 @@ export const FormProductOption = React.forwardRef(
           {item?.values?.length > 0 && (
             <Table
               items={item?.values}
+              rowHeight={scaleHeight(60)}
               headerKeyLabels={getHeaderKeys()}
               whiteListKeys={getTableKeys()}
               primaryKey="attributeValueId"

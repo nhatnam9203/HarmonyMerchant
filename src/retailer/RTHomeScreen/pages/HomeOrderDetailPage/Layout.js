@@ -198,11 +198,9 @@ export const Layout = ({
           />
           <View style={layouts.marginHorizontal} />
           <View style={styles.productNameContent}>
-            <Text style={styles.productName}>
-              {!!cellItem?.value ? cellItem?.value : cellItem?.productName}
-            </Text>
-            {/* <View style={styles.productNameMarginVertical} />
-            <Text style={styles.productName}>{`SKU: ${cellItem?.sku}`}</Text> */}
+            <Text style={styles.productName}>{cellItem?.productName}</Text>
+            <View style={styles.productNameMarginVertical} />
+            <Text style={styles.productOption}>{`${cellItem?.value}`}</Text>
           </View>
         </View>
       );
@@ -296,7 +294,7 @@ export const Layout = ({
             items={item?.products || []}
             headerKeyLabels={{
               productName: t("Product"),
-              sku: t("SKU"),
+              // sku: t("SKU"),
               price: t("Price"),
               quantity: t("Qty"),
               subTotal: t("Subtotal"),
@@ -307,7 +305,7 @@ export const Layout = ({
             }}
             whiteListKeys={[
               "productName",
-              "sku",
+              // "sku",
               "price",
               "quantity",
               "subTotal",
@@ -318,8 +316,8 @@ export const Layout = ({
             ]}
             primaryKey="productId"
             widthForKeys={{
-              productName: scaleWidth(220),
-              sku: scaleWidth(100),
+              productName: scaleWidth(320),
+              // sku: scaleWidth(100),
               price: scaleWidth(100),
               quantity: scaleWidth(80),
               subTotal: scaleWidth(100),
@@ -667,10 +665,11 @@ const styles = StyleSheet.create({
 
   cellStyle: {
     paddingHorizontal: scaleWidth(5),
+    paddingVertical: scaleHeight(5),
     alignItems: "center",
   },
 
-  productName: {
+  productOption: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(15),
     fontWeight: "500",
@@ -716,4 +715,14 @@ const styles = StyleSheet.create({
   },
 
   productNameMarginVertical: { height: scaleHeight(4) },
+
+  productName: {
+    fontFamily: fonts.BOLD,
+    fontSize: scaleFont(17),
+    fontWeight: "bold",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.GREYISH_BROWN,
+  },
 });
