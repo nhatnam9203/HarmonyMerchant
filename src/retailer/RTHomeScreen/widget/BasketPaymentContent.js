@@ -40,6 +40,7 @@ export const BasketPaymentContent = React.forwardRef(
       onDiscountAdd,
       onTipAdd,
       switchTax,
+      isTax,
     },
     ref
   ) => {
@@ -195,7 +196,7 @@ export const BasketPaymentContent = React.forwardRef(
               trackColor={{ false: '#767577', true: '#0764B0' }}
               ios_backgroundColor="#E5E5E5"
               onValueChange={switchTax}
-              value={groupAppointment?.isTax}
+              value={isTax}
               />
             </View>
             <Text style={styles.priceInfoText}>

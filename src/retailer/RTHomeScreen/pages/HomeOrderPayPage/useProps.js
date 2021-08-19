@@ -5,6 +5,7 @@ import NavigationServices from "@navigators/NavigatorServices";
 import {
   useGetAppointment,
   useUpdateAppointmentCustomer,
+  useUpdateAppointmentTax,
 } from "@shared/services/api/retailer";
 import { statusSuccess } from "@shared/utils";
 import {
@@ -152,6 +153,7 @@ export const useProps = ({
 
   /** CALL API */
   const [appointmentGet, getAppointment] = useGetAppointment();
+  const [updateAppointmentTaxData, updateAppointmentTax] = useUpdateAppointmentTax();
   // const [updateAppointmentCustomerData, updateAppointmentCustomer] =
   //   useUpdateAppointmentCustomer();
 
@@ -1057,6 +1059,21 @@ export const useProps = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appointmentGet]);
 
+  React.useEffect(() => {
+    const { codeStatus } = updateAppointmentTaxData || {};
+    if (statusSuccess(codeStatus)) {
+      getAppointment(orderItem?.appointmentId)
+      dispatch(
+        actions.appointment?.getGroupAppointmentById(
+          orderItem?.appointmentId,
+          true,
+          false,
+          false
+        )
+      );
+    }
+  }, [updateAppointmentTaxData]);
+
   // React.useEffect(() => {
   //   return () => {
   //     if (connectSignalR.current) {
@@ -1296,8 +1313,9 @@ export const useProps = ({
       const appointmentID = _.isEmpty(groupAppointment)
         ? -1
         : appointmentDetail.appointmentId;
-      const isTax = !_.get(groupAppointment, 'isTax')
-      dispatch(actions.appointment.updateTax(isTax, appointmentID));
+      const isTax = !_.get(appointmentDetail, 'isTax')
+      updateAppointmentTax(isTax, appointmentID);
     },
+    isTax: _.get(appointmentDetail, 'isTax')
   };
 };
