@@ -1061,10 +1061,10 @@ export const useProps = ({
   React.useEffect(() => {
     const { codeStatus } = updateAppointmentTaxData || {};
     if (statusSuccess(codeStatus)) {
-      getAppointment(orderItem?.appointmentId)
+      getAppointment(appointmentDetail?.appointmentId)
       dispatch(
         actions.appointment?.getGroupAppointmentById(
-          orderItem?.appointmentId,
+          appointmentDetail?.appointmentId,
           true,
           false,
           false
