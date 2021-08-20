@@ -112,6 +112,8 @@ export const Layout = ({
   onTipAdd,
   visibleChangeTip,
   setVisibleChangeTip,
+  switchTax,
+  isTax,
 }) => {
   const [t] = useTranslation();
 
@@ -250,6 +252,8 @@ export const Layout = ({
                 finishedHandle={finishedHandle}
                 onDiscountAdd={onDiscountAdd}
                 onTipAdd={onTipAdd}
+                switchTax={switchTax}
+                isTax={isTax}
               />
             </View>
           </View>
