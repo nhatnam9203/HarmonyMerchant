@@ -96,7 +96,8 @@ export const useProps = ({
     (state) => state.dataLocal.isTipOnPaxMachine
   );
 
-  const [isGetResponsePaymentPax, setIsGetResponsePaymentPax] = React.useState(false);
+  const [isGetResponsePaymentPax, setIsGetResponsePaymentPax] =
+    React.useState(false);
   const [moneyUserGiveForStaff, setMoneyUserGiveForStaff] = React.useState(0);
   const [paymentSelected, setPaymentSelected] = React.useState("");
   const [visibleBillOfPayment, setVisibleBillOfPayment] = React.useState(false);
@@ -140,13 +141,9 @@ export const useProps = ({
   );
 
   React.useEffect(() => {
-    
     if (startProcessingPax) {
-      dispatch(actions.appointment.resetStateCheckCreditPaymentToServer(
-        false
-      ));
-      sendTransactionIOS()
-        
+      dispatch(actions.appointment.resetStateCheckCreditPaymentToServer(false));
+      sendTransactionIOS();
     }
   }, [startProcessingPax]);
 
@@ -705,41 +702,41 @@ export const useProps = ({
   };
 
   const sendTransactionIOS = () => {
-    setIsGetResponsePaymentPax(false)
+    setIsGetResponsePaymentPax(false);
     setVisibleProcessingCredit(true);
     const moneyCreditCard = Number(
       formatNumberFromCurrency(moneyUserGiveForStaff) * 100
     ).toFixed(2);
-    const { ip, port, commType, bluetoothAddr } =
-      paxMachineInfo;
-      const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
-    const tempIpPax = commType == 'TCP' ? ip : '';
-    const tempPortPax = commType == 'TCP' ? port : '';
-    const idBluetooth = commType === 'TCP' ? '' : bluetoothAddr;
-    const extData = isTipOnPaxMachine ? '<TipRequest>1</TipRequest><Force>T</Force>' : '<Force>T</Force>';
+    const { ip, port, commType, bluetoothAddr } = paxMachineInfo;
+    const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
+    const tempIpPax = commType == "TCP" ? ip : "";
+    const tempPortPax = commType == "TCP" ? port : "";
+    const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+    const extData = isTipOnPaxMachine
+      ? "<TipRequest>1</TipRequest><Force>T</Force>"
+      : "<Force>T</Force>";
 
     // Send Trans to pax
     PosLink.sendTransaction(
       {
         tenderType: tenderType,
-        transType: 'SALE',
+        transType: "SALE",
         amount: `${parseFloat(moneyCreditCard)}`,
-        transactionId: '1',
+        transactionId: "1",
         extData: extData,
         commType: commType,
         destIp: tempIpPax,
         portDevice: tempPortPax,
-        timeoutConnect: '90000',
+        timeoutConnect: "90000",
         bluetoothAddr: idBluetooth,
         invNum: `${groupAppointment?.checkoutGroupId || 0}`,
       },
       (message) => {
-        setIsGetResponsePaymentPax(true)
+        setIsGetResponsePaymentPax(true);
         handleResponseCreditCard(message, true, moneyUserGiveForStaff);
       }
-
     );
-  }
+  };
 
   const doneBill = async (amountPayment = false) => {
     const moneyUserGiveForStaff =
@@ -748,7 +745,7 @@ export const useProps = ({
         : parseFloat(
             formatNumberFromCurrency(modalBillRef.current?.state.quality)
           );
-    setMoneyUserGiveForStaff(moneyUserGiveForStaff)
+    setMoneyUserGiveForStaff(moneyUserGiveForStaff);
 
     const method = getPaymentString(paymentSelected);
     const total = groupAppointment.total
@@ -845,8 +842,8 @@ export const useProps = ({
       PoslinkAndroid.cancelTransaction((data) => {});
     } else {
       if (!isGetResponsePaymentPax) {
-        alert("Please wait!")
-        return
+        alert("Please wait!");
+        return;
       }
       PosLink.cancelTransaction();
       if (payAppointmentId) {
