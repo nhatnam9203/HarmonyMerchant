@@ -19,6 +19,7 @@ import {
 import FastImage from "react-native-fast-image";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { useDispatch } from "react-redux";
+import { groupBy } from "lodash";
 
 const log = (obj, message = "") => {
   Logger.log(`[BasketContentView] ${message}`, obj);
@@ -49,6 +50,7 @@ export const BasketPaymentContent = React.forwardRef(
     const [buttonTittle, setButtonTittle] = React.useState();
     const [isAcceptPay, setIsAcceptPay] = React.useState(false);
     const [disable, setDisable] = React.useState(false);
+    const [items, setItems] = React.useState(null);
 
     /**
   |--------------------------------------------------
@@ -130,19 +132,45 @@ export const BasketPaymentContent = React.forwardRef(
       setIsAcceptPay(isAccept);
     }, [groupAppointment, paymentSelected, orderItem]);
 
+    React.useEffect(() => {
+      if (orderItem?.products?.length > 0) {
+        const temps = orderItem.products?.reduce((previous, x) => {
+          let groups = previous ?? [];
+          const keyUnique = x.productName + " + " + x.value;
+
+          const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
+
+          if (isExitIdx >= 0) {
+            const existItem = groups[isExitIdx];
+            groups[isExitIdx] = Object.assign({}, existItem, {
+              value: [...existItem.value, x],
+            });
+          } else {
+            groups.push({ key: keyUnique, value: [x] });
+          }
+
+          return groups;
+        }, []);
+        setItems(temps);
+      }
+    }, [orderItem]);
+
     // React.useImperativeHandle(ref, () => ({
     //   canCreateOrder: () => {},
     // }));
 
     const renderItem = ({ item }) => {
+      const firstItem = item.value[0];
+      const qty = item.value?.reduce((prev, cur) => prev + cur.quantity, 0);
+
       return (
-        <View style={styles.productItem} key={item.bookingProductId + ""}>
+        <View style={styles.productItem} key={item.key + ""}>
           <FastImage
             style={styles.imageStyle}
             source={
               item?.imageUrl
                 ? {
-                    uri: item?.imageUrl,
+                    uri: firstItem?.imageUrl,
                     priority: FastImage.priority.high,
                     cache: FastImage.cacheControl.immutable,
                   }
@@ -153,16 +181,16 @@ export const BasketPaymentContent = React.forwardRef(
 
           <View style={layouts.marginHorizontal} />
           <View style={styles.productItemContent}>
-            <Text style={styles.totalText}>{item?.productName}</Text>
-            <Text style={styles.totalInfoText}>{item?.value}</Text>
+            <Text style={styles.totalText}>{firstItem?.productName}</Text>
+            <Text style={styles.totalInfoText}>{firstItem?.value}</Text>
           </View>
-          <Text style={styles.productItemQuantity}>{`${item.quantity} ${t(
+          <Text style={styles.productItemQuantity}>{`${qty} ${t(
             "items"
           )}`}</Text>
           <View style={layouts.marginHorizontal} />
           <View style={layouts.marginHorizontal} />
           <Text style={styles.productItemPrice}>
-            {formatMoneyWithUnit(item.price)}
+            {formatMoneyWithUnit(firstItem?.price)}
           </Text>
         </View>
       );
@@ -172,10 +200,10 @@ export const BasketPaymentContent = React.forwardRef(
       <View style={styles.container}>
         <FlatList
           style={styles.flatList}
-          data={orderItem?.products}
+          data={items}
           renderItem={renderItem}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
-          keyExtractor={(item) => item.bookingProductId + ""}
+          keyExtractor={(item) => item.key + ""}
         />
         <View style={styles.line} />
         <View style={styles.totalContent}>
@@ -185,25 +213,23 @@ export const BasketPaymentContent = React.forwardRef(
             label={t("Subtotal")}
             value={formatMoneyWithUnit(groupAppointment?.subTotal)}
           />
-         {/* ---- Tax --- */}
+          {/* ---- Tax --- */}
           <View style={styles.totalInfoContent}>
             <View style={styles.taxRow}>
-              <Text style={styles.totalInfoText}>
-                {t("Tax")}
-              </Text>
+              <Text style={styles.totalInfoText}>{t("Tax")}</Text>
               <Switch
-              style={{marginLeft: scaleWidth(15)}}
-              trackColor={{ false: '#767577', true: '#0764B0' }}
-              ios_backgroundColor="#E5E5E5"
-              onValueChange={switchTax}
-              value={isTax ? true : false}
+                style={{ marginLeft: scaleWidth(15) }}
+                trackColor={{ false: "#767577", true: "#0764B0" }}
+                ios_backgroundColor="#E5E5E5"
+                onValueChange={switchTax}
+                value={isTax ? true : false}
               />
             </View>
             <Text style={styles.priceInfoText}>
               {formatMoneyWithUnit(groupAppointment?.tax)}
             </Text>
           </View>
-         
+
           <TotalInfo
             label={t("Discount")}
             value={formatMoneyWithUnit(groupAppointment?.discount)}
@@ -435,7 +461,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   taxRow: {
-    flexDirection: 'row', 
-    alignItems: 'center'
-  }
+    flexDirection: "row",
+    alignItems: "center",
+  },
 });

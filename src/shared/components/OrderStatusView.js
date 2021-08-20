@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { colors, fonts } from "@shared/themes";
+import { upperFirst } from "lodash";
 
 export const ORDERED_STATUS = {
   COMPLETE: "Complete",
@@ -49,12 +50,17 @@ export const OrderStatusView = ({ status }) => {
         };
 
       default:
-        break;
+        return {
+          content: { backgroundColor: colors.BROWNISH_GREY, borderWidth: 0 },
+          text: { color: colors.VERY_LIGHT_PINK_E_5 },
+        };
     }
   };
   return (
     <View style={[styles.container, theme()?.content]}>
-      <Text style={[styles.textStyle, theme()?.text]}>{status}</Text>
+      <Text style={[styles.textStyle, theme()?.text]}>
+        {upperFirst(status ?? "")}
+      </Text>
     </View>
   );
 };

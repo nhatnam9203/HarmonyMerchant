@@ -41,11 +41,37 @@ export const BasketContentView = React.forwardRef(
       (state) => state.basketRetailer.appointmentTempId
     );
 
+    const [items, setItems] = React.useState(null);
+
     /**
   |--------------------------------------------------
   | API
   |--------------------------------------------------
   */
+
+    React.useEffect(() => {
+      if (appointment?.products?.length > 0) {
+        const temps = appointment.products?.reduce((previous, x) => {
+          let groups = previous ?? [];
+          const keyUnique = x.productName + " + " + x.value;
+
+          const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
+
+          if (isExitIdx >= 0) {
+            const existItem = groups[isExitIdx];
+            groups[isExitIdx] = Object.assign({}, existItem, {
+              value: [...existItem.value, x],
+            });
+          } else {
+            groups.push({ key: keyUnique, value: [x] });
+          }
+
+          return groups;
+        }, []);
+
+        setItems(temps);
+      }
+    }, [appointment?.products]);
 
     const onHandleCreateOrder = () => {
       onHadSubmitted();
@@ -56,24 +82,24 @@ export const BasketContentView = React.forwardRef(
     }));
 
     const renderItem = ({ item }) => {
+      const firstItem = item.value[0];
+      const qty = item.value?.reduce((prev, cur) => prev + cur.quantity, 0);
+
       const onHandleDeleteItem = () => {
         if (onRemoveItem && typeof onRemoveItem === "function") {
-          onRemoveItem(item);
+          onRemoveItem(firstItem);
         }
       };
 
       return (
-        <ProductItem
-          key={item.bookingProductId + ""}
-          handleDelete={onHandleDeleteItem}
-        >
+        <ProductItem key={item.key + ""} handleDelete={onHandleDeleteItem}>
           <View style={styles.productItem}>
             <FastImage
               style={styles.imageStyle}
               source={
-                item?.imageUrl
+                firstItem?.imageUrl
                   ? {
-                      uri: item?.imageUrl,
+                      uri: firstItem?.imageUrl,
                       priority: FastImage.priority.high,
                       cache: FastImage.cacheControl.immutable,
                     }
@@ -84,16 +110,16 @@ export const BasketContentView = React.forwardRef(
 
             <View style={layouts.marginHorizontal} />
             <View style={styles.productItemContent}>
-              <Text style={styles.totalText}>{item?.productName}</Text>
-              <Text style={styles.totalInfoText}>{item?.value}</Text>
+              <Text style={styles.totalText}>{firstItem?.productName}</Text>
+              <Text style={styles.totalInfoText}>{firstItem?.value}</Text>
             </View>
-            <Text style={styles.productItemQuantity}>{`${item?.quantity} ${t(
+            <Text style={styles.productItemQuantity}>{`${qty} ${t(
               "items"
             )}`}</Text>
             <View style={layouts.marginHorizontal} />
             <View style={layouts.marginHorizontal} />
             <Text style={styles.productItemPrice}>
-              {formatMoneyWithUnit(item?.price)}
+              {formatMoneyWithUnit(firstItem?.price)}
             </Text>
           </View>
         </ProductItem>
@@ -104,10 +130,10 @@ export const BasketContentView = React.forwardRef(
       <View style={styles.container}>
         <FlatList
           style={styles.flatList}
-          data={appointment?.products}
+          data={items}
           renderItem={renderItem}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
-          keyExtractor={(item) => item.bookingProductId + ""}
+          keyExtractor={(item) => item.key + ""}
         />
         <View style={styles.totalContent}>
           <View style={layouts.marginVertical} />
