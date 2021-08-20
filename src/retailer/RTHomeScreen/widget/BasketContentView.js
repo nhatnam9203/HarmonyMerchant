@@ -70,6 +70,8 @@ export const BasketContentView = React.forwardRef(
         }, []);
 
         setItems(temps);
+      } else {
+        setItems(null);
       }
     }, [appointment?.products]);
 

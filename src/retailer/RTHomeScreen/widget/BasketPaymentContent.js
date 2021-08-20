@@ -152,6 +152,8 @@ export const BasketPaymentContent = React.forwardRef(
           return groups;
         }, []);
         setItems(temps);
+      } else {
+        setItems(null);
       }
     }, [orderItem]);
 

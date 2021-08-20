@@ -12,6 +12,7 @@ import actions from "@actions";
 import { PopupCheckStaffPermission } from "@components";
 import NavigatorServices from "@navigators/NavigatorServices";
 import { basketRetailer } from "@redux/slices";
+import NavigationServices from "@navigators/NavigatorServices";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
@@ -108,13 +109,25 @@ export const HomeTopTabNavigator = ({
           {...CheckOutTabPage}
           listeners={{
             tabPress: (e) => {
+              e.preventDefault();
+
               if (isPayment) {
                 showPopupConfirm(() => {
                   navigation.navigate(CheckOutTabPage.name);
                 });
 
                 // Prevent default action
-                e.preventDefault();
+              } else {
+                NavigationServices.navigate(CheckOutTabPage.name, {
+                  reset: true,
+                  reload: false,
+                  appointmentId: null,
+                });
+
+                // navigation.navigate(CheckOutTabPage.name, {
+                //   reset: true,
+                //   appointmentId: null,
+                // });
               }
             },
           }}

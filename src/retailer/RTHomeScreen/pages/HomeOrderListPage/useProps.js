@@ -179,6 +179,7 @@ export const useProps = ({ params: { reload } }) => {
       NavigationServices.navigate("retailer.home.order.check_out", {
         isOrder: true,
         reset: true,
+        appointmentId: null,
       });
     },
     onSelectRow: ({ item }) => {
