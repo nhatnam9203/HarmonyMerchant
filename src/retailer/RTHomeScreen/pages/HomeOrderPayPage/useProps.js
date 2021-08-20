@@ -5,6 +5,7 @@ import NavigationServices from "@navigators/NavigatorServices";
 import {
   useGetAppointment,
   useUpdateAppointmentCustomer,
+  useUpdateAppointmentTax,
 } from "@shared/services/api/retailer";
 import { statusSuccess } from "@shared/utils";
 import {
@@ -96,8 +97,8 @@ export const useProps = ({
     (state) => state.dataLocal.isTipOnPaxMachine
   );
 
-  const [isGetResponsePaymentPax, setIsGetResponsePaymentPax] =
-    React.useState(false);
+  const [isTax, setIsTax] = React.useState(false);
+  const [isGetResponsePaymentPax, setIsGetResponsePaymentPax] = React.useState(false);
   const [moneyUserGiveForStaff, setMoneyUserGiveForStaff] = React.useState(0);
   const [paymentSelected, setPaymentSelected] = React.useState("");
   const [visibleBillOfPayment, setVisibleBillOfPayment] = React.useState(false);
@@ -149,6 +150,7 @@ export const useProps = ({
 
   /** CALL API */
   const [appointmentGet, getAppointment] = useGetAppointment();
+  const [updateAppointmentTaxData, updateAppointmentTax] = useUpdateAppointmentTax();
   // const [updateAppointmentCustomerData, updateAppointmentCustomer] =
   //   useUpdateAppointmentCustomer();
 
@@ -1025,6 +1027,7 @@ export const useProps = ({
           false
         )
       );
+      setIsTax(_.get(orderItem, 'isTax'))
     }
   }, [orderItem]);
 
@@ -1048,11 +1051,27 @@ export const useProps = ({
     if (statusSuccess(codeStatus)) {
       setAppointmentDetail(data);
       dispatch(basketRetailer.setAppointment(data));
+      setIsTax(_.get(data, 'isTax'))
       // customerRef.current?.setCustomer(data?.customer);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appointmentGet]);
+
+  React.useEffect(() => {
+    const { codeStatus } = updateAppointmentTaxData || {};
+    if (statusSuccess(codeStatus)) {
+      getAppointment(orderItem?.appointmentId)
+      dispatch(
+        actions.appointment?.getGroupAppointmentById(
+          orderItem?.appointmentId,
+          true,
+          false,
+          false
+        )
+      );
+    }
+  }, [updateAppointmentTaxData]);
 
   // React.useEffect(() => {
   //   return () => {
@@ -1289,5 +1308,14 @@ export const useProps = ({
         alert("You are paying by Harmony Payment!");
       }
     },
+    switchTax: () => {
+      const appointmentID = _.isEmpty(groupAppointment)
+        ? -1
+        : appointmentDetail.appointmentId;
+      const isTaxUpdate = !isTax
+      setIsTax(isTaxUpdate)
+      updateAppointmentTax(isTaxUpdate, appointmentID);
+    },
+    isTax,
   };
 };
