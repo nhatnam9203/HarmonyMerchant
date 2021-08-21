@@ -229,7 +229,9 @@ export const useProps = ({
   React.useEffect(() => {
     const { codeStatus, message, data } = productItemGet || {};
     if (statusSuccess(codeStatus)) {
-      productDetailRef.current?.show(data);
+      setTimeout(() => {
+        productDetailRef.current?.show(data);
+      }, 100);
     }
   }, [productItemGet]);
 
@@ -363,8 +365,13 @@ export const useProps = ({
     },
     customer,
     onResultScanCode: (data) => {
-      // getProductsByBarcode("8936101342225");
-      if (data) getProductsByBarcode(data);
+      // getProductsByBarcode(data ?? "8936101342225");
+      if (!!data) getProductsByBarcode(data.trim());
+      else {
+        setTimeout(() => {
+          alert(`No products with ${data}`);
+        }, 100);
+      }
     },
     categoriesLabelData,
     isOrder,
