@@ -1317,5 +1317,8 @@ export const useProps = ({
       updateAppointmentTax(isTaxUpdate, appointmentID);
     },
     isTax,
+    onDiscountItemAdd: () => {
+      console.log('test')
+    },
   };
 };

@@ -42,6 +42,7 @@ export const BasketPaymentContent = React.forwardRef(
       onTipAdd,
       switchTax,
       isTax,
+      onDiscountItemAdd,
     },
     ref
   ) => {
@@ -166,35 +167,37 @@ export const BasketPaymentContent = React.forwardRef(
       const qty = item.value?.reduce((prev, cur) => prev + cur.quantity, 0);
 
       return (
-        <View style={styles.productItem} key={item.key + ""}>
-          <FastImage
-            style={styles.imageStyle}
-            source={
-              item?.imageUrl
-                ? {
-                    uri: firstItem?.imageUrl,
-                    priority: FastImage.priority.high,
-                    cache: FastImage.cacheControl.immutable,
-                  }
-                : IMAGE.product_holder
-            }
-            resizeMode="contain"
-          />
+        <TouchableOpacity onPress={onDiscountItemAdd}>
+          <View style={styles.productItem} key={item.key + ""}>
+            <FastImage
+              style={styles.imageStyle}
+              source={
+                item?.imageUrl
+                  ? {
+                      uri: firstItem?.imageUrl,
+                      priority: FastImage.priority.high,
+                      cache: FastImage.cacheControl.immutable,
+                    }
+                  : IMAGE.product_holder
+              }
+              resizeMode="contain"
+            />
 
-          <View style={layouts.marginHorizontal} />
-          <View style={styles.productItemContent}>
-            <Text style={styles.totalText}>{firstItem?.productName}</Text>
-            <Text style={styles.totalInfoText}>{firstItem?.value}</Text>
+            <View style={layouts.marginHorizontal} />
+            <View style={styles.productItemContent}>
+              <Text style={styles.totalText}>{firstItem?.productName}</Text>
+              <Text style={styles.totalInfoText}>{firstItem?.value}</Text>
+            </View>
+            <Text style={styles.productItemQuantity}>{`${qty} ${t(
+              "items"
+            )}`}</Text>
+            <View style={layouts.marginHorizontal} />
+            <View style={layouts.marginHorizontal} />
+            <Text style={styles.productItemPrice}>
+              {formatMoneyWithUnit(firstItem?.price)}
+            </Text>
           </View>
-          <Text style={styles.productItemQuantity}>{`${qty} ${t(
-            "items"
-          )}`}</Text>
-          <View style={layouts.marginHorizontal} />
-          <View style={layouts.marginHorizontal} />
-          <Text style={styles.productItemPrice}>
-            {formatMoneyWithUnit(firstItem?.price)}
-          </Text>
-        </View>
+        </TouchableOpacity>
       );
     };
 
