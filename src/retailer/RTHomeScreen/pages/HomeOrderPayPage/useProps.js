@@ -157,17 +157,20 @@ export const useProps = ({
   //   useUpdateAppointmentCustomer();
 
   const onGoBack = () => {
+    console.log("====> onGoBack");
     if (backScreenId) {
       NavigationServices.navigate(backScreenId, {
         reload: true,
         reset: false,
-        reloadAppointmentId: appointmentDetail?.appointmentId,
       });
-    } else NavigationServices.navigate("retailer.home.order", { reload: true });
+    } else
+      NavigationServices.navigate("retailer.home.order", {
+        reload: true,
+      });
   };
 
   const onCompleteBack = async () => {
-    await dispatch(basketRetailer.clearBasket());
+    console.log("====> onCompleteBack");
 
     if (screenId && screenId !== "retailer.home.order.check_out") {
       NavigationServices.navigate(screenId, {
@@ -175,7 +178,12 @@ export const useProps = ({
         reloadAppointmentId: null,
         reload: true,
       });
-    } else NavigationServices.navigate("retailer.home.order", { reload: true });
+    } else
+      NavigationServices.navigate("retailer.home.order", {
+        reset: true,
+        reload: true,
+        reloadAppointmentId: null,
+      });
   };
 
   const getPaymentString = (type) => {
@@ -921,6 +929,7 @@ export const useProps = ({
     if (!_.isEmpty(connectSignalR.current)) {
       await connectSignalR.current?.stop();
     }
+
     if (paymentSelected === "Cash" || paymentSelected === "Other") {
       const { portName } = getInfoFromModelNameOfPrinter(
         printerList,
@@ -952,6 +961,8 @@ export const useProps = ({
       // this.setState(initState);
       dispatch(actions.appointment.resetPayment());
     }
+
+    await dispatch(basketRetailer.clearBasket());
 
     onCompleteBack();
   };
@@ -1203,7 +1214,7 @@ export const useProps = ({
       dispatch(actions.appointment.changeFlagSigninAppointment(false));
       dispatch(actions.appointment.resetGroupAppointment());
 
-      dispatch(basketRetailer.clearBasket());
+      // dispatch(basketRetailer.clearBasket());
 
       if (visibleConfirm?.func && typeof visibleConfirm?.func === "function") {
         visibleConfirm?.func();
@@ -1278,11 +1289,14 @@ export const useProps = ({
       if (!isPrintTempt) {
         dispatch(actions.appointment.resetBasketEmpty());
         dispatch(actions.appointment.resetPayment());
-        dispatch(basketRetailer.clearBasket());
+        await dispatch(basketRetailer.clearBasket());
+
         onCompleteBack();
       }
     },
     finishedHandle: () => {
+      console.log("====> finishedHandle");
+
       onCompleteBack();
     },
     changeTipRef,

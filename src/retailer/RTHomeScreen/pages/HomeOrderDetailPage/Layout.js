@@ -292,6 +292,7 @@ export const Layout = ({
           <FormTitle label={t("Items Ordered")} />
           <Table
             items={item?.products || []}
+            tableStyle={styles.table}
             headerKeyLabels={{
               productName: t("Product"),
               // sku: t("SKU"),
@@ -314,7 +315,7 @@ export const Layout = ({
               "total",
               "status",
             ]}
-            primaryKey="productId"
+            primaryKey="bookingProductId"
             widthForKeys={{
               productName: scaleWidth(320),
               // sku: scaleWidth(100),
@@ -335,6 +336,9 @@ export const Layout = ({
               total: (value) => `${formatMoneyWithUnit(value)}`,
             }}
             renderCell={onRenderCell}
+            renderFooterComponent={() => (
+              <View style={{ height: scaleHeight(10) }} />
+            )}
             // onRowPress={onSelectRow}
             // draggable={true}
           />
@@ -724,5 +728,9 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: colors.GREYISH_BROWN,
+  },
+
+  table: {
+    flex: 1,
   },
 });

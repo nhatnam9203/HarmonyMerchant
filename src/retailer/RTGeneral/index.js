@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import Layout from './layout';
-import connectRedux from '@redux/ConnectRedux';
+import Layout from "./layout";
+import connectRedux from "@redux/ConnectRedux";
 import {
   getNameLanguage,
   getPosotion,
@@ -11,8 +11,12 @@ import {
   getValueSignInAppDisplay,
   getTitleSendLinkGoogle,
   getValueSendLinkGoogle,
-} from '@utils';
-import { SettingGeneralPage } from '../RTSettingsScreen/pages/SettingGeneralPage';
+} from "@utils";
+import { SettingGeneralPage } from "../RTSettingsScreen/pages/SettingGeneralPage";
+import { NavigationContext } from "@react-navigation/native";
+import { isPermissionToTab, role } from "@utils";
+import * as l from "lodash";
+
 class TabGaneral extends Layout {
   constructor(props) {
     super(props);
@@ -20,24 +24,25 @@ class TabGaneral extends Layout {
 
     this.state = {
       languageApp: getNameLanguage(this.props.language),
-      longitude: profile?.longitude || '',
-      latitude: profile?.latitude || '',
-      webLink: profile?.webLink || '',
-      autoCloseAt: profile.autoCloseAt || '',
+      longitude: profile?.longitude || "",
+      latitude: profile?.latitude || "",
+      webLink: profile?.webLink || "",
+      autoCloseAt: profile.autoCloseAt || "",
       autoLockScreenAfter: autoLockScreenAfter,
-      timezone: profile?.timezone || '',
+      timezone: profile?.timezone || "",
       isUpdateInternal: false,
       businessHour: profile?.businessHour || BusinessWorkingTime,
       turnAmount: profile?.turnAmount || 0,
       staffColumn: profile?.staffColumn || 8,
-      signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || ''),
+      signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || ""),
       sendReviewLinkOption: getTitleSendLinkGoogle(
-        profile?.sendReviewLinkOption || ''
+        profile?.sendReviewLinkOption || ""
       ),
 
       giftForNewEnabled: profile?.giftForNewEnabled || false,
     };
     this.inputRefsTime = [];
+    this.checkPermissionRef = React.createRef();
   }
 
   setRefTimeWorking = (ref) => {
@@ -67,7 +72,7 @@ class TabGaneral extends Layout {
         staffColumn,
         signinAppStyle: getTitleSignInAppDisplay(signinAppStyle),
         sendReviewLinkOption: getTitleSendLinkGoogle(
-          sendReviewLinkOption || ''
+          sendReviewLinkOption || ""
         ),
         giftForNewEnabled,
       });
@@ -124,7 +129,7 @@ class TabGaneral extends Layout {
       sendReviewLinkOption,
       giftForNewEnabled,
     } = this.state;
-    const temptLanguage = languageApp === 'English' ? 'en' : 'vi';
+    const temptLanguage = languageApp === "English" ? "en" : "vi";
     this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
     await this.setState({
       isUpdateInternal: true,
@@ -149,7 +154,7 @@ class TabGaneral extends Layout {
         taxService: profile.taxService,
         taxProduct: profile.taxProduct,
         timezone,
-        autoLockscreen: '',
+        autoLockscreen: "",
         autoCloseAt,
         turnAmount,
         staffColumn,
@@ -174,14 +179,14 @@ class TabGaneral extends Layout {
       !refreshingGeneral
     ) {
       await this.setState({
-        webLink: profile?.webLink || '',
-        timezone: profile?.timezone || '',
-        autoCloseAt: profile?.autoCloseAt || '',
+        webLink: profile?.webLink || "",
+        timezone: profile?.timezone || "",
+        autoCloseAt: profile?.autoCloseAt || "",
         turnAmount: profile?.turnAmount || 0,
         staffColumn: profile?.staffColumn || 8,
-        signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || ''),
+        signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || ""),
         sendReviewLinkOption: getTitleSendLinkGoogle(
-          profile?.sendReviewLinkOption || ''
+          profile?.sendReviewLinkOption || ""
         ),
         giftForNewEnabled: profile?.giftForNewEnabled || false,
       });
@@ -195,15 +200,15 @@ class TabGaneral extends Layout {
       this.state.isUpdateInternal
     ) {
       await this.setState({
-        webLink: profile?.webLink || '',
-        timezone: profile?.timezone || '',
-        autoCloseAt: profile?.autoCloseAt || '',
+        webLink: profile?.webLink || "",
+        timezone: profile?.timezone || "",
+        autoCloseAt: profile?.autoCloseAt || "",
         turnAmount: profile?.turnAmount || 0,
         staffColumn: profile?.staffColumn || 8,
         isUpdateInternal: false,
-        signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || ''),
+        signinAppStyle: getTitleSignInAppDisplay(profile?.signinAppStyle || ""),
         sendReviewLinkOption: getTitleSendLinkGoogle(
-          profile?.sendReviewLinkOption || ''
+          profile?.sendReviewLinkOption || ""
         ),
         giftForNewEnabled: profile?.giftForNewEnabled || false,
       });
@@ -228,6 +233,8 @@ const mapStateToProps = (state) => ({
   loading: state.app.loading,
   versionApp: state.dataLocal.versionApp,
   isTipOnPaxMachine: state.dataLocal.isTipOnPaxMachine,
+  app: state.app,
+  profileStaffLogin: state.dataLocal.profileStaffLogin,
 });
 
 export default connectRedux(mapStateToProps, TabGaneral);

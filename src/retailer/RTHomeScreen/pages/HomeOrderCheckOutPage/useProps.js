@@ -121,15 +121,23 @@ export const useProps = ({
 
   useFocusEffect(
     React.useCallback(() => {
-      if (reset) {
-        dispatch(basketRetailer.clearBasket());
+      // if (reset) {
+      //   dispatch(basketRetailer.clearBasket());
+      //   resetAll();
+      //   getCategoriesList({ groupSubIntoMain: true });
+      // } else if (reload && reloadAppointmentId) {
+      //   dispatch(basketRetailer.setAppointmentId(reloadAppointmentId));
+      //   getAppointment(reloadAppointmentId);
+      // }
+      console.log("useFocusEffect appointmentId " + appointmentId);
+
+      if (appointmentId) {
+        getAppointment(appointmentId);
+      } else if (!appointmentId) {
         resetAll();
         getCategoriesList({ groupSubIntoMain: true });
-      } else if (reload && reloadAppointmentId) {
-        dispatch(basketRetailer.setAppointmentId(reloadAppointmentId));
-        getAppointment(reloadAppointmentId);
       }
-    }, [reload, reset, reloadAppointmentId])
+    }, [appointmentId, reload])
   );
 
   React.useEffect(() => {
