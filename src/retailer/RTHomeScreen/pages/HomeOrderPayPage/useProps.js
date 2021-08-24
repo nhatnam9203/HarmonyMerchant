@@ -1319,6 +1319,11 @@ export const useProps = ({
     isTax,
     onDiscountItemAdd: () => {
       console.log('test')
+      dispatch(
+        actions.marketing.getPromotionByAppointment(
+          appointmentDetail?.appointmentId
+        )
+      );
     },
   };
 };
