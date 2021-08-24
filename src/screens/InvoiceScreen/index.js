@@ -19,8 +19,8 @@ import {
   getInfoFromModelNameOfPrinter,
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
-import { role, menuTabs, isPermissionToTab } from '@utils';
-import * as l from 'lodash';
+import { role, menuTabs, isPermissionToTab } from "@utils";
+import * as l from "lodash";
 
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
@@ -83,7 +83,7 @@ class InvoiceScreen extends Layout {
 
         const { profileStaffLogin } = this.props;
         const roleName = profileStaffLogin?.roleName || role.Admin;
-        const permission = l.get(profileStaffLogin, 'permission', [])
+        const permission = l.get(profileStaffLogin, "permission", []);
         if (roleName === role.Admin) {
           this.props.actions.invoice.getListInvoicesByMerchant();
           this.props.actions.invoice.resetProfileInvoiceLogin();
@@ -91,11 +91,11 @@ class InvoiceScreen extends Layout {
           if (isPermissionToTab(permission, menuTabs.MENU_INVOICE)) {
             this.props.actions.invoice.getListInvoicesByMerchant();
             this.props.actions.invoice.resetProfileInvoiceLogin();
-          }else {
+          } else {
             this.props.actions.invoice.toggleInvoiceTabPermission();
           }
         } else {
-            this.props.actions.invoice.toggleInvoiceTabPermission();
+          this.props.actions.invoice.toggleInvoiceTabPermission();
         }
       }
     );
@@ -166,8 +166,13 @@ class InvoiceScreen extends Layout {
 
   handleLockScreen = () => {
     const { isFocus } = this.state;
+    const { profile } = this.props;
+
     if (isFocus && !this.props.visibleEnterPinInvoice) {
-      this.props.navigation.navigate("Home");
+      // this.props.navigation.navigate("Home");
+      this.props.navigation.navigate(
+        profile.type === "Retailer" ? "retailer.home.order" : "Home"
+      );
       this.props.actions.app.changeFlagVisibleEnteerPinCode(true);
     }
   };
@@ -688,8 +693,12 @@ class InvoiceScreen extends Layout {
   };
 
   closePopupCheckInvoiceTabPermission = () => {
+    const { profile } = this.props;
+
     this.props.actions.invoice.toggleInvoiceTabPermission(false);
-    this.props.navigation.navigate("Home");
+    this.props.navigation.navigate(
+      profile.type === "Retailer" ? "retailer.home.order" : "Home"
+    );
   };
 
   clearIntervalById = () => {

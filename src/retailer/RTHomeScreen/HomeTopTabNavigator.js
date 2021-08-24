@@ -110,7 +110,7 @@ export const HomeTopTabNavigator = ({
           listeners={{
             tabPress: (e) => {
               e.preventDefault();
-
+              console.log(isPayment);
               if (isPayment) {
                 showPopupConfirm(() => {
                   navigation.navigate(CheckOutTabPage.name);
@@ -121,7 +121,7 @@ export const HomeTopTabNavigator = ({
                 NavigationServices.navigate(CheckOutTabPage.name, {
                   reset: true,
                   reload: false,
-                  appointmentId: null,
+                  reloadAppointmentId: null,
                 });
 
                 // navigation.navigate(CheckOutTabPage.name, {

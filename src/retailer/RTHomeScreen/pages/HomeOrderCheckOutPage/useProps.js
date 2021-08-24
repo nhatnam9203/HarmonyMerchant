@@ -121,15 +121,23 @@ export const useProps = ({
 
   useFocusEffect(
     React.useCallback(() => {
-      if (reset) {
-        dispatch(basketRetailer.clearBasket());
+      // if (reset) {
+      //   dispatch(basketRetailer.clearBasket());
+      //   resetAll();
+      //   getCategoriesList({ groupSubIntoMain: true });
+      // } else if (reload && reloadAppointmentId) {
+      //   dispatch(basketRetailer.setAppointmentId(reloadAppointmentId));
+      //   getAppointment(reloadAppointmentId);
+      // }
+      console.log("useFocusEffect appointmentId " + appointmentId);
+
+      if (appointmentId) {
+        getAppointment(appointmentId);
+      } else if (!appointmentId) {
         resetAll();
         getCategoriesList({ groupSubIntoMain: true });
-      } else if (reload && reloadAppointmentId) {
-        dispatch(basketRetailer.setAppointmentId(reloadAppointmentId));
-        getAppointment(reloadAppointmentId);
       }
-    }, [reload, reset, reloadAppointmentId])
+    }, [appointmentId, reload])
   );
 
   React.useEffect(() => {
@@ -229,7 +237,9 @@ export const useProps = ({
   React.useEffect(() => {
     const { codeStatus, message, data } = productItemGet || {};
     if (statusSuccess(codeStatus)) {
-      productDetailRef.current?.show(data);
+      setTimeout(() => {
+        productDetailRef.current?.show(data);
+      }, 100);
     }
   }, [productItemGet]);
 
@@ -363,8 +373,13 @@ export const useProps = ({
     },
     customer,
     onResultScanCode: (data) => {
-      // getProductsByBarcode("8936101342225");
-      if (data) getProductsByBarcode(data);
+      // getProductsByBarcode(data ?? "8936101342225");
+      if (!!data) getProductsByBarcode(data.trim());
+      else {
+        setTimeout(() => {
+          alert(`No products with ${data}`);
+        }, 100);
+      }
     },
     categoriesLabelData,
     isOrder,

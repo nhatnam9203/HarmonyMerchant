@@ -55,7 +55,7 @@ export const useProps = ({ params: { reload } }) => {
         filters: {
           ...(category >= 0 && { categoryId: category }),
           ...(needToOrder && { needToOrder }),
-          ...(scanCode && { barCode: scanCode }),
+          // ...(scanCode && { barCode: scanCode }),
         },
       }),
     });
@@ -156,7 +156,7 @@ export const useProps = ({ params: { reload } }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      if (reload) callGetProductList();
+      callGetProductList();
     }, [reload, category, page, searchVal, needToOrder])
   );
 
