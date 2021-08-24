@@ -24,7 +24,7 @@ export const useProps = ({ navigation, params: { reload } }) => {
   const dispatch = useDispatch();
   const checkPermissionRef = React.useRef(null);
   const { i18n } = useTranslation();
-  const [active, setActive] = React.useState(SettingAttributesPage.name);
+  const [active, setActive] = React.useState(SettingGeneralPage.name);
 
   const profileStaffLogin = useSelector(
     (state) => state.dataLocal?.profileStaffLogin
@@ -35,7 +35,12 @@ export const useProps = ({ navigation, params: { reload } }) => {
   };
 
   const checkPermissionTab = () => {
-    if (active === SettingGeneralPage.name) {
+    if (
+      active !== SettingGeneralPage.name &&
+      active !== SettingHardwarePage.name &&
+      active !== SettingAboutPage.name &&
+      active !== SettingAboutPage.name
+    ) {
       const roleName = profileStaffLogin?.roleName || role.Admin;
       const permission = l.get(profileStaffLogin, "permission", []);
 
@@ -81,7 +86,7 @@ export const useProps = ({ navigation, params: { reload } }) => {
       console.log("focus" + active);
       checkPermissionRef.current?.setStateFromParent("");
 
-      setActive(SettingAttributesPage.name);
+      setActive(SettingGeneralPage.name);
     });
 
     const unsubscribeBlur = navigation.addListener("blur", () => {
@@ -106,6 +111,19 @@ export const useProps = ({ navigation, params: { reload } }) => {
     reload,
     logOut: () => {
       dispatch(actions.auth?.requestLogout());
+
+      // const roleName = profileStaffLogin?.roleName || role.Admin;
+      // const permission = l.get(profileStaffLogin, "permission", []);
+
+      // if (roleName !== role.Admin) {
+      //   if (roleName === role.Manager) {
+      //     if (!isPermissionToTab(permission, tabName)) {
+      //       togglePopupPermission();
+      //     }
+      //   } else {
+      //     togglePopupPermission();
+      //   }
+      // }
     },
     navigation,
     checkPermissionRef,

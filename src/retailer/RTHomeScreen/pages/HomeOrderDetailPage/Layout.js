@@ -83,6 +83,20 @@ export const Layout = ({
             />
           </>
         );
+      case ORDERED_STATUS.NOT_PAY:
+        return (
+          <>
+            <ButtonGradient
+              label={t("Complete")}
+              width={scaleWidth(120)}
+              height={scaleHeight(40)}
+              fontSize={scaleFont(17)}
+              textColor={colors.WHITE}
+              textWeight="normal"
+              onPress={complete}
+            />
+          </>
+        );
       case ORDERED_STATUS.PENDING:
         return (
           <>
