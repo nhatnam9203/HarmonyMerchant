@@ -57,7 +57,7 @@ export const useProps = ({ params: { item } }) => {
     })
 
     //validate quantity update > original quantity
-    if(value > _.get(originItem, 'quantity')){
+    if(value > (_.get(originItem, 'quantity') - _.get(originItem, 'returnQuantity', 0))){
       return
     }
 
