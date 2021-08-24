@@ -24,6 +24,7 @@ import ItemCustomerBasket from './ItemCustomerBasket';
 import PopupPaymentDetails from './PopupPaymentDetails';
 import ItemBlockBasket from "./ItemBlockBasket";
 import PopupBlockDiscount from "./PopupBlockDiscount";
+import PopupDiscountItem from "./PopupDiscountItem";
 import PopupChangeCustomerInfo from "./PopupChangeCustomerInfo";
 import PopupAddItemIntoAppointments from "./PopupAddItemIntoAppointments";
 import PopupGiftCardDetail from "./PopupGiftCardDetail";
@@ -116,6 +117,7 @@ module.exports = {
     PopupPaymentDetails,
     ItemBlockBasket,
     PopupBlockDiscount,
+    PopupDiscountItem,
     PopupChangeCustomerInfo,
     ItemPaymentMethod,
     PopupAddItemIntoAppointments,

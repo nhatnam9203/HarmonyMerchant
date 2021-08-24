@@ -28,7 +28,10 @@ const initialState = {
 
     promotionDetailById: {},
     isUpdatePromotionById: false,
-    smsInfoMarketing: {}
+    smsInfoMarketing: {},
+    visibleModalDiscountItem: false,
+    isGetPromotionOfAppointmentItem: false,
+    appointmentItem: {},
 }
 
 function marketingReducer(state = initialState, action) {
@@ -103,6 +106,17 @@ function marketingReducer(state = initialState, action) {
             return {
                 ...state,
                 isGetPromotionOfAppointment: ""
+            }
+        case 'RESET_STATE_GET_PROMOTION_OF_APPOINTMENT_ITEM':
+            return {
+                ...state,
+                isGetPromotionOfAppointmentItem: ""
+            }
+
+        case 'SET_APPOINTMENT_ITEM':
+            return {
+                ...state,
+                appointmentItem: action.appointmentItem
             }
         case 'GET_PROMOTION_BY_BLOCK_APPOINTMENT_SUCCESS':
             return {

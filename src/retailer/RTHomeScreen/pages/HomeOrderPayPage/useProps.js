@@ -43,6 +43,7 @@ export const useProps = ({
   const popupSendLinkInstallRef = React.useRef(null);
   const popupEnterAmountGiftCardRef = React.useRef(null);
   const popupDiscountRef = React.useRef(null);
+  const popupDiscountItemRef = React.useRef(null);
   const popupDiscountLocalRef = React.useRef(null);
   const activeGiftCardRef = React.useRef(null);
   const connectSignalR = React.useRef(null);
@@ -1135,6 +1136,7 @@ export const useProps = ({
     popupEnterAmountGiftCardRef,
     navigation,
     popupDiscountRef,
+    popupDiscountItemRef,
     visiblePopupDiscountLocal,
     popupDiscountLocalRef,
     onRequestClosePopupDiscountLocal: () => {
@@ -1317,13 +1319,16 @@ export const useProps = ({
       updateAppointmentTax(isTaxUpdate, appointmentID);
     },
     isTax,
-    onDiscountItemAdd: () => {
+    onDiscountItemAdd: (item) => {
       console.log('test')
       dispatch(
         actions.marketing.getPromotionByAppointment(
           appointmentDetail?.appointmentId
         )
       );
+      dispatch(
+        actions.marketing.setAppointmentItem(item)
+      )
     },
   };
 };

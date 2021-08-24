@@ -30,55 +30,22 @@ class PopupDiscount extends React.Component {
 
     constructor(props) {
         super(props);
-        const { groupAppointment, appointmentIdUpdatePromotion } = this.props;
-        const appointmentDetail = appointmentIdUpdatePromotion !== -1
-            && !_.isEmpty(groupAppointment)
-            && groupAppointment.appointments ?
-                groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion)
-                : { subTotal: 0 };
         this.state = {
-            discountTotal: 0,
-            totalLocal: 0,
-            temptTotalLocal: 0,
-            moneyDiscountCustom: 0,
-            moneyDiscountFixedAmout: 0,
-
-            customDiscountPercentLocal: 0,
-            customDiscountFixedLocal: 0,
-            promotionNotes: "",
-            discountByOwner: appointmentDetail && appointmentDetail.discountByOwner
-                                                    ? parseFloat(appointmentDetail.discountByOwner) : 100
+           
         };
-        this.customDiscountRef = React.createRef();
+        this.customDiscountItemRef = React.createRef();
         this.scrollRef = React.createRef();
     }
 
 
-    setStateFromParent = async (totalLocal, discountTotal, customDiscountPercent, customDiscountFixedLocal) => {
-        await this.setState({
-            totalLocal,
-            discountTotal: discountTotal,
-            temptTotalLocal: discountTotal,
-            customDiscountPercentLocal: customDiscountPercent,
-            customDiscountFixedLocal,
-        });
-    }
-
-    handelSliderValue = async(value) => {
-        this.setState({discountByOwner: value})
-    }
-
     submitCustomPromotion = () => {
-        const { groupAppointment, appointmentIdUpdatePromotion, discount } = this.props;
+        const { bookingProductId,  } = this.props;
         const customDiscountPercent =  this.customDiscountRef.current.state.percent;
         const customFixedAmount =  this.customDiscountRef.current.state.fixedAmount;
-        if (!_.isEmpty(groupAppointment)) {
-            const appointmentDetail = appointmentIdUpdatePromotion !== -1 && !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
-            const subTotal = appointmentDetail?.subTotal || 0;
+        if (!_.isEmpty(appointmentDetailItem)) {
+            const subTotal = appointmentDetailItem?.subTotal || 0;
             let totalDiscount = 0;
-            for (let i = 0; i < discount.length; i++) {
-                totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(discount[i].discount);
-            }
+           
             totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(customFixedAmount);
             const moneyDiscountCustom = (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(subTotal) / 100);
             totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(moneyDiscountCustom);
@@ -94,9 +61,7 @@ class PopupDiscount extends React.Component {
                     { cancelable: false }
                 );
             } else {
-                const { promotionNotes, discountByOwner } = this.state;
-                this.props.actions.marketing.customPromotion(customDiscountPercent, customFixedAmount, discountByOwner, appointmentIdUpdatePromotion, true);
-                this.props.actions.marketing.addPromotionNote(appointmentDetail.appointmentId, promotionNotes);
+                this.props.actions.marketing.customPromotionItem(customDiscountPercent, customFixedAmount, appointmentIdUpdatePromotion, bookingProductId);
                 this.props.actions.marketing.closeModalDiscount();
                 this.resetState();
             }
@@ -110,12 +75,6 @@ class PopupDiscount extends React.Component {
 
     async resetState() {
         await this.setState({
-            totalLocal: 0,
-            temptTotalLocal: 0,
-            customDiscountPercentLocal: 0,
-            customDiscountFixedLocal: 0,
-            moneyDiscountCustom: 0,
-            moneyDiscountFixedAmout: 0,
         });
     }
 
@@ -134,37 +93,9 @@ class PopupDiscount extends React.Component {
     // ------ Render -----
     render() {
         try {
-            const { title, discount, visibleModalDiscount,
-                appointmentIdUpdatePromotion, groupAppointment, language
-            } = this.props;
-            const appointmentDetail = appointmentIdUpdatePromotion !== -1 && !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
-            const { customDiscountPercent, customDiscountFixed } = appointmentDetail !== undefined && appointmentDetail && !_.isEmpty(appointmentDetail) ? appointmentDetail : { customDiscountPercent: 0, customDiscountFixed: 0 };
-            const {
-                customDiscountPercentLocal, customDiscountFixedLocal, promotionNotes
-            } = this.state;
-            const visible = visibleModalDiscount && !_.isEmpty(groupAppointment) ? true : false;
-
-            let total = 0;
-            for (let i = 0; i < discount.length; i++) {
-                total = formatNumberFromCurrency(total) + formatNumberFromCurrency(discount[i].discount);
-            }
-
-            if (visible && this.customDiscountRef.current) {
-                total = formatNumberFromCurrency(total) + formatNumberFromCurrency(this.customDiscountRef.current?.state.discount);
-            }
-
-            total = roundNumber(total);
-
-            const temptCustomDiscountPercent = _.isEmpty(appointmentDetail) ? customDiscountPercentLocal : customDiscountPercent;
-            const temptCustomDiscountFixed = _.isEmpty(appointmentDetail) ? customDiscountFixedLocal : customDiscountFixed;
-
-            const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
-            const discountByStaff = (100 - this.state.discountByOwner)
-            const manualDiscount = this.state.moneyDiscountCustom > 0
-                                    ? this.state.moneyDiscountCustom
-                                    : this.state.moneyDiscountFixedAmout
-            const discountMoneyByStaff = roundNumber(formatNumberFromCurrency(discountByStaff) * formatNumberFromCurrency(manualDiscount) /100)
-            const discountMoneyByOwner = roundNumber(manualDiscount - discountMoneyByStaff)
+            
+            const temptCustomDiscountPercent = 0
+            const temptCustomDiscountFixed = 0
             return (
                 <PopupParent
                     title={title}
@@ -181,27 +112,10 @@ class PopupDiscount extends React.Component {
                             <ScrollView
                                 ref={this.scrollRef}
                                 keyboardShouldPersistTaps="always" >
-                                <TouchableOpacity activeOpacity={1} style={{ paddingHorizontal: scaleSize(25) }} >
-                                    {
-                                        discount && discount.length > 0 &&
-                                        <View style={[styles.viewRowContainer, {marginTop: 20}]}>
-                                            <Text style={styles.textNormal}>{localize('Discount Campaigns:', language)}</Text>
-                                            <Text style={styles.textNormal}>{localize('Apply Value', language)}</Text>
-                                        </View>
-                                    }
-
-                                    {
-                                        discount.map((promo, index) => <ItemCampaign
-                                            key={index}
-                                            title={promo?.merchantPromotion?.name}
-                                            discount={promo?.discount}
-                                        />
-                                        )
-                                    }
-                                    <View style={{ height: scaleSize(10) }} />
+                                    
                                     {/* ----------- Row 1 ----------- */}
                                     <CustomDiscount
-                                        ref={this.customDiscountRef}
+                                        ref={this.customDiscountItemRef}
                                         customDiscountPercent={temptCustomDiscountPercent}
                                         customDiscountFixed={temptCustomDiscountFixed}
                                         total={formatNumberFromCurrency(!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0)}
@@ -209,100 +123,10 @@ class PopupDiscount extends React.Component {
                                         language={language}
                                     />
 
-                                    {/* -----------  Discount by Owner, Discount by staff  ----------- */}
-                                    <View style={[styles.viewRowContainer, {marginTop: 25}]}>
-                                        <Text style={styles.textNormal}>{localize('Discount by Owner', language)}</Text>
-                                        <Text style={styles.textNormal}>{localize('Discount by Staff', language)}</Text>
-                                    </View>
-
-                                     {/* ----------Money discount of staff, owner------------ */}
-                                    <View style={styles.viewRowContainer}>
-                                        <Text style={styles.textNormal}>{`$ ${discountMoneyByOwner}`}</Text>
-                                        <Text style={styles.textNormal}>{`$ ${discountMoneyByStaff}`}</Text>
-                                    </View>
-                                    {/* ----------Slider------------ */}
-                                    <Slider
-                                        style={styles.slider}
-                                        value={this.state.discountByOwner}
-                                        minimumValue={0}
-                                        maximumValue={100}
-                                        onValueChange={(value)=>this.handelSliderValue(value)}
-                                        trackStyle={{
-                                            height: scaleSize(10),
-                                            backgroundColor: "#F1F1F1",
-                                            borderRadius: scaleSize(6),
-                                          }}
-                                          thumbStyle={{
-                                            height: scaleSize(24),
-                                            width: scaleSize(24),
-                                            borderRadius: scaleSize(12),
-                                            backgroundColor: "#fff",
-                                            ...Platform.select({
-                                              ios: {
-                                                shadowColor: "rgba(0, 0, 0,0.3)",
-                                                shadowOffset: { width: 1, height: 0 },
-                                                shadowOpacity: 1,
-                                              },
-
-                                              android: {
-                                                elevation: 2,
-                                              },
-                                            }),
-                                          }}
-
-                                          minimumTrackTintColor={colors.OCEAN_BLUE}
-                                          maximumTrackTintColor={colors.PALE_GREY}
-                                          step={25}
-                                        />
-
-                                    <View style={styles.viewRowContainer}>
-                                        <Text style={styles.textNormal}>{`${this.state.discountByOwner}%`}</Text>
-                                        <Text style={styles.textNormal}>{`${discountByStaff}%`}</Text>
-                                    </View>
-
-
-                                    {/* ----------- Note  ----------- */}
-                                    <View style={{marginTop: 20}} >
-                                        <Text style={[styles.textNormal,{marginBottom: 5}]} >
-                                            {`Note`}
-                                        </Text>
-                                        <View style={{
-                                            height: scaleSize(40), borderColor: "#DDDDDD", borderWidth: 2, borderRadius: 4, paddingVertical: 5,
-                                            paddingHorizontal: scaleSize(10)
-                                        }} >
-                                            <TextInput
-                                                style={[{ flex: 1, padding: 0, textAlignVertical: "top" }, styles.textNormal]}
-                                                multiline={true}
-                                                value={promotionNotes}
-                                                onChangeText={(promotionNotes) => this.setState({ promotionNotes })}
-                                                onFocus={() => this.scrollRef.current?.scrollToEnd()}
-                                                onBlur={() => this.scrollTo(0)}
-                                            />
-                                        </View>
-                                    </View>
-
-                                    <View style={{ height: scaleSize(130) }} />
-                                </TouchableOpacity>
                             </ScrollView>
 
                         </View>
-                        {/* ---------- Total ------- */}
-                        <View style={{
-                            flexDirection: 'row', height: scaleSize(40),
-                            paddingHorizontal: scaleSize(25)
-                        }} >
-                            <View style={{ flex: 1, justifyContent: 'center' }} >
-                                <Text style={{ color: '#404040', fontSize: scaleSize(18), fontWeight: 'bold' }} >
-                                    {localize('Total Discount', language)}
-                                </Text>
-                            </View>
-                            <View style={{ justifyContent: 'center' }} >
-                                <Text style={[styles.greenText, {fontWeight: 'bold' }]} >
-                                    {`$ -${formatMoney(total)}`}
-                                </Text>
-                            </View>
-                        </View>
-
+                        
                         {/* ----------- Button Add ---- */}
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSize(12) }} >
                             <ButtonCustom
@@ -324,41 +148,14 @@ class PopupDiscount extends React.Component {
 
     async componentDidUpdate(prevProps, prevState) {
         const { visibleModalDiscount,
-            groupAppointment,
             isGetPromotionOfAppointment,
-            promotionNotes,
-            discountByOwner } = this.props;
-        const visible = visibleModalDiscount && !_.isEmpty(groupAppointment) ? true : false;
+            appointmentItem} = this.props;
+        const visible = visibleModalDiscount && !_.isEmpty(appointmentItem) ? true : false;
         if (prevProps.isGetPromotionOfAppointment !== isGetPromotionOfAppointment && isGetPromotionOfAppointment === "success" && visible) {
             this.props.actions.marketing.resetStateGetPromotionOfAppointment();
-            await this.setState({
-                promotionNotes: promotionNotes.note ? promotionNotes.note : "",
-                discountByOwner: discountByOwner ? parseFloat(discountByOwner) : 100,
-            });
-
         }
     }
 
-}
-
-const ItemCampaign = ({ title, discount }) => {
-
-    return (
-        <View style={{
-            flexDirection: 'row', height: scaleSize(35)
-        }} >
-            <View style={{ flex: 1, justifyContent: 'center' }} >
-                <Text style={{ color: '#404040', fontSize: scaleSize(16) }} >
-                    {title}
-                </Text>
-            </View>
-            <View style={{ justifyContent: 'center' }} >
-                <Text style={{ color: '#4CD964', fontSize: scaleSize(18) }} >
-                    {`$ ${discount}`}
-                </Text>
-            </View>
-        </View>
-    );
 }
 
 class CustomDiscount extends React.Component {
@@ -558,18 +355,14 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-    discount: state.marketing.discount,
-    visibleModalDiscount: state.marketing.visibleModalDiscount,
-    appointmentDetail: state.appointment.appointmentDetail,
-    groupAppointment: state.appointment.groupAppointment,
+    visibleModalDiscount: state.marketing.visibleModalDiscountItem,
     appointmentIdUpdatePromotion: state.marketing.appointmentIdUpdatePromotion,
     language: state.dataLocal.language,
     isGetPromotionOfAppointment: state.marketing.isGetPromotionOfAppointment,
-    promotionNotes: state.marketing.promotionNotes,
-    discountByOwner: state.marketing.discountByOwner,
+    appointmentItem: state.marketing.appointmentItem,
 })
 
 
 
-export default connectRedux(mapStateToProps, PopupDiscount);
+export default connectRedux(mapStateToProps, PopupDiscountItem);
 

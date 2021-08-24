@@ -99,6 +99,21 @@ export function customPromotion(discountPercent, discountFixtom, discountByOwner
     }
 }
 
+export function customPromotionItem(discountPercent, discountFixtom, appointmentid, bookingproductid) {
+    return {
+        type: 'CUSTOM_PROMOTION_ITEM',
+        method: 'PUT',
+        token: true,
+        body: {
+            discountPercent,
+            discountFixtom
+        },
+
+        api: `retailer/appointment/${appointmentid}/custompromotion/${bookingproductid}`,
+        appointmentid,
+    }
+}
+
 export function setStatusApplyButton(isApply, promotionId = 1) {
     return {
         type: 'SET_STATUS_APPLY_BUTTON',
@@ -128,6 +143,13 @@ export function resetStateGetPromotion() {
     }
 }
 
+export function setAppointmentItem(item) {
+    return {
+        type: 'SET_APPOINTMENT_ITEM',
+        appointmentItem: item,
+    }
+}
+
 export function toggleMarketingTabPermission(visible = true) {
     return {
         type: 'TOGGLE_MAKETING_TAB_PERMISSION',
@@ -138,6 +160,12 @@ export function toggleMarketingTabPermission(visible = true) {
 export function resetStateGetPromotionOfAppointment() {
     return {
         type: 'RESET_STATE_GET_PROMOTION_OF_APPOINTMENT',
+    }
+}
+
+export function resetStateGetPromotionOfAppointmentItem() {
+    return {
+        type: 'RESET_STATE_GET_PROMOTION_OF_APPOINTMENT_ITEM',
     }
 }
 
