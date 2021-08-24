@@ -1,10 +1,26 @@
+import actions from "@actions";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import actions from "@actions";
+import { settingRetailer } from "@redux/slices";
+import { SettingGeneralPage } from "./pages/SettingGeneralPage";
 
 export const useProps = ({ navigation }) => {
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    const unsubscribeFocus = navigation.addListener("focus", () => {
+      dispatch(settingRetailer.setActiveTab(SettingGeneralPage.name));
+    });
+
+    const unsubscribeBlur = navigation.addListener("blur", () => {});
+
+    return () => {
+      unsubscribeFocus();
+      unsubscribeBlur();
+    };
+  }, [navigation]);
 
   return {
     changeLanguage: (locale = "vi") => i18n.changeLanguage(locale),

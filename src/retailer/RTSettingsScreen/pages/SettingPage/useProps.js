@@ -19,13 +19,16 @@ import {
   TabHardware,
   TabTAX,
 } from "@src/screens/SettingScreen/widget";
+import { settingRetailer } from "@redux/slices";
 
 export const useProps = ({ navigation, params: { reload } }) => {
   const dispatch = useDispatch();
   const checkPermissionRef = React.useRef(null);
   const { i18n } = useTranslation();
-  const [active, setActive] = React.useState(SettingGeneralPage.name);
   const [isWaitingLogout, setIsWaitingLogout] = React.useState(false);
+
+  // const [active, setActive] = React.useState(SettingGeneralPage.name);
+  const active = useSelector((state) => state.settingRetailer?.activeTab);
 
   const profileStaffLogin = useSelector(
     (state) => state.dataLocal?.profileStaffLogin
@@ -41,7 +44,7 @@ export const useProps = ({ navigation, params: { reload } }) => {
     await dispatch(actions.app.toggleSettingTabPermission(bl));
   };
 
-  const checkPermissionTab = () => {
+  const checkPermissionTab = React.useCallback(() => {
     if (
       active !== SettingGeneralPage.name &&
       active !== SettingHardwarePage.name &&
@@ -61,7 +64,7 @@ export const useProps = ({ navigation, params: { reload } }) => {
         }
       }
     }
-  };
+  }, [active, profileStaffLogin]);
 
   const renderContentDrawer = React.useCallback(() => {
     switch (active) {
@@ -91,9 +94,8 @@ export const useProps = ({ navigation, params: { reload } }) => {
   React.useEffect(() => {
     const unsubscribeFocus = navigation.addListener("focus", () => {
       // console.log("focus" + active);
-
       // setActive(SettingGeneralPage.name);
-      checkPermissionTab();
+      // checkPermissionTab();
     });
 
     const unsubscribeBlur = navigation.addListener("blur", () => {
@@ -104,7 +106,7 @@ export const useProps = ({ navigation, params: { reload } }) => {
       unsubscribeFocus();
       unsubscribeBlur();
     };
-  }, [navigation, active]);
+  }, [navigation]);
 
   React.useEffect(() => {
     checkPermissionTab();
@@ -151,7 +153,9 @@ export const useProps = ({ navigation, params: { reload } }) => {
     navigation,
     checkPermissionRef,
     active,
-    setActive,
+    setActive: (tab) => {
+      dispatch(settingRetailer.setActiveTab(tab));
+    },
     closePopupCheckTabPermission: async () => {
       await setIsWaitingLogout(false);
       await togglePopupPermission(false);
