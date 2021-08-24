@@ -143,7 +143,8 @@ export const Layout = ({
         <View style={styles.container}>
           <FormTitle label={t("Items To Return")} />
           <Table
-            items={item?.products?.filter((x) => !x.isReturn) || []}
+            // items={item?.products?.filter((x) => !x.isReturn) || []}
+            items={item?.products || []}
             headerKeyLabels={{
               productName: t("Product"),
               price: t("Price"),
