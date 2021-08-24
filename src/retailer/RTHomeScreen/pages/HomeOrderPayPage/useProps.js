@@ -1323,7 +1323,7 @@ export const useProps = ({
       console.log('test')
       dispatch(
         actions.marketing.getPromotionByAppointment(
-          appointmentDetail?.appointmentId
+          appointmentDetail?.appointmentId, false, true
         )
       );
       dispatch(

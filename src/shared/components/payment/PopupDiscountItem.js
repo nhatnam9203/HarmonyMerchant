@@ -26,7 +26,7 @@ const manualType = {
     percentType: 'percentType'
 }
 
-class PopupDiscount extends React.Component {
+class PopupDiscountItem extends React.Component {
 
     constructor(props) {
         super(props);
@@ -92,10 +92,11 @@ class PopupDiscount extends React.Component {
 
     // ------ Render -----
     render() {
-        try {
-            
+            const { title, visibleModalDiscountItem, language } = this.props;
+            const visible = visibleModalDiscountItem
             const temptCustomDiscountPercent = 0
             const temptCustomDiscountFixed = 0
+            const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
             return (
                 <PopupParent
                     title={title}
@@ -118,7 +119,8 @@ class PopupDiscount extends React.Component {
                                         ref={this.customDiscountItemRef}
                                         customDiscountPercent={temptCustomDiscountPercent}
                                         customDiscountFixed={temptCustomDiscountFixed}
-                                        total={formatNumberFromCurrency(!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0)}
+                                        total={0}
+                                        // total={formatNumberFromCurrency(!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0)}
                                         onChangeText={(moneyDiscountByPercent, moneyDiscountFixed) => this.onChangeTextCustomDiscount(moneyDiscountByPercent, moneyDiscountFixed)}
                                         language={language}
                                     />
@@ -142,15 +144,14 @@ class PopupDiscount extends React.Component {
                     </View>
                 </PopupParent>
             );
-        } catch (error) {
-        }
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        const { visibleModalDiscount,
+        const { visibleModalDiscountItem,
             isGetPromotionOfAppointment,
-            appointmentItem} = this.props;
-        const visible = visibleModalDiscount && !_.isEmpty(appointmentItem) ? true : false;
+            appointmentItem,
+            groupAppointment} = this.props;
+        const visible = visibleModalDiscountItem && !_.isEmpty(groupAppointment) ? true : false;
         if (prevProps.isGetPromotionOfAppointment !== isGetPromotionOfAppointment && isGetPromotionOfAppointment === "success" && visible) {
             this.props.actions.marketing.resetStateGetPromotionOfAppointment();
         }
@@ -355,11 +356,12 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-    visibleModalDiscount: state.marketing.visibleModalDiscountItem,
+    visibleModalDiscountItem: state.marketing.visibleModalDiscountItem,
     appointmentIdUpdatePromotion: state.marketing.appointmentIdUpdatePromotion,
     language: state.dataLocal.language,
     isGetPromotionOfAppointment: state.marketing.isGetPromotionOfAppointment,
     appointmentItem: state.marketing.appointmentItem,
+    groupAppointment: state.appointment.groupAppointment,
 })
 
 

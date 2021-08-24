@@ -197,6 +197,14 @@ function* getPromotionByAppointment(action) {
                     promotionNotes: responses?.data?.notes || {},
                     discountByOwner: responses?.data.discountByOwner || true,
                 })
+            } else if (action.isAppointmentItem) {
+                yield put({
+                    type: 'GET_PROMOTION_BY_APPOINTMENT_FOR_ITEM_SUCCESS',
+                    payload: responses?.data?.promotions || [],
+                    appointmentId: action.appointmentId,
+                    promotionNotes: responses?.data?.notes || {},
+                    discountByOwner: responses?.data.discountByOwner || true,
+                })
             } else {
                 yield put({
                     type: 'GET_PROMOTION_BY_APPOINTMENT_SUCCESS',

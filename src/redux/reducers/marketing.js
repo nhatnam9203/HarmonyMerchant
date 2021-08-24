@@ -97,6 +97,16 @@ function marketingReducer(state = initialState, action) {
                 promotionNotes: action.promotionNotes,
                 discountByOwner: action.discountByOwner,
             }
+        case 'GET_PROMOTION_BY_APPOINTMENT_FOR_ITEM_SUCCESS':
+            return {
+                ...state,
+                discount: action.payload,
+                visibleModalDiscountItem: true,
+                appointmentIdUpdatePromotion: action.appointmentId,
+                isGetPromotionOfAppointment: "success",
+                promotionNotes: action.promotionNotes,
+                discountByOwner: action.discountByOwner,
+            }
         case 'GET_PROMOTION_BY_APPOINTMENT_FAIL':
             return {
                 ...state,
@@ -134,6 +144,7 @@ function marketingReducer(state = initialState, action) {
                 ...state,
                 visibleModalDiscount: false,
                 visibleModalBlockDiscount: false,
+                visibleModalDiscountItem: false,
                 discount: [],
             }
         case 'OPEN_MODAL_DISCOUNT':

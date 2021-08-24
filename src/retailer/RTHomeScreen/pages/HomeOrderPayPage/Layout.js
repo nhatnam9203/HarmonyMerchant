@@ -267,7 +267,7 @@ export const Layout = ({
       </View>
 
       <PopupDiscount ref={popupDiscountRef} title={t("Discount")} />
-      {/* <PopupDiscountItem ref={popupDiscountItemRef} title={t("Discount")} /> */}
+      <PopupDiscountItem ref={popupDiscountItemRef} title={t("Discount")} />
 
       <PopupBlockDiscount title={t("Discount")} />
       <PopupDiscountLocal

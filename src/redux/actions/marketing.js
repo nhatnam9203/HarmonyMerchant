@@ -44,14 +44,15 @@ export function updatePromotionByMerchant(body, promotionId = 1, isSendNoti = tr
     }
 }
 
-export function getPromotionByAppointment(appointmentId, isBlock = false) {
+export function getPromotionByAppointment(appointmentId, isBlock = false, isAppointmentItem = false) {
     return {
         type: 'GET_PROMOTION_BY_APPOINTMENT',
         method: 'GET',
         token: true,
         api: `appointment/promotion/${appointmentId}`,
         appointmentId,
-        isBlock
+        isBlock,
+        isAppointmentItem,
     }
 }
 
