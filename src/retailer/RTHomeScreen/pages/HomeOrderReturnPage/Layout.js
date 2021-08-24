@@ -3,37 +3,23 @@ import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 import { layouts, colors, fonts } from "@shared/themes";
 import {
-  FormFullName,
   FormTitle,
-  FormPhoneNumber,
-  FormAddress,
-  FormContactEmail,
-  FormBirthDay,
-  FormGender,
-  FormCustomerGroup,
-  FormLabelSwitch,
   ButtonGradient,
   ButtonGradientWhite,
-  ButtonNormal,
-  ProductOptionImage,
-  ButtonGradientRed,
+  
 } from "@shared/components";
 import IMAGE from "@resources";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
-import { InputSearch } from "@shared/components/InputSearch";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { dateToString, DATE_TIME_SHOW_FORMAT_STRING } from "@shared/utils";
 import {
-  DialogProductDetail,
-  BasketContentView,
   FormEditNotes,
-  FormShippingCarrier,
 } from "../../widget";
 import FastImage from "react-native-fast-image";
-import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { formatMoneyWithUnit } from "@utils";
 import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
+import { TextInputMask } from 'react-native-masked-text';
+import _ from "lodash";
 
 export const Layout = ({
   goBack,
@@ -42,10 +28,17 @@ export const Layout = ({
   onCheckedRow,
   itemSelected,
   setNotes,
+  updateQuantity,
+  updateTotal,
 }) => {
   const [t] = useTranslation();
 
   const onRenderCell = ({ item, columnKey, rowIndex, cellWidth }) => {
+    const findIndex = _.findIndex(itemSelected, itemFind => {
+      return itemFind.productId == item.productId
+    })
+    const isSelected = findIndex != -1
+
     if (columnKey === "productName") {
       const handleCheckRow = (val) => {
         onCheckedRow(item, val);
@@ -76,6 +69,53 @@ export const Layout = ({
           <Text style={styles.productName}>{item?.productName}</Text>
         </View>
       );
+    } else if (columnKey === "quantity") {
+      
+      return (
+        isSelected &&
+        <TextInputMask
+          type="only-numbers"
+          placeholder=""
+          style={[
+            {
+              width: scaleWidth(100),
+            }, 
+            styles.textStyle,
+            styles.textInputStyle,
+        ]}
+          value={_.get(item, 'quantity')}
+          onChangeText={(value) =>
+            updateQuantity(item, value)
+          }
+        />
+      )
+      
+    }else if (columnKey === "total") {
+      return (
+        isSelected &&
+          <TextInputMask
+            type="money"
+            placeholder="$ 0.00"
+            options={{
+              precision: 2,
+              separator: '.',
+              delimiter: ',',
+              unit: '$',
+              suffixUnit: ''
+          }}
+            style={[
+              {
+                width: scaleWidth(90),
+              }, 
+              styles.textStyle,
+              styles.textInputStyle,
+          ]}
+            value={_.get(item, 'total')}
+            onChangeText={(value) =>
+              updateTotal(item, value)
+            }
+          />
+      )
     }
 
     return null;
@@ -415,4 +455,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
+  textStyle: {
+    fontFamily: fonts.REGULAR,
+    fontSize: scaleFont(15),
+    fontWeight: "normal",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.GREYISH_BROWN,
+  },
+  textInputStyle: {
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: colors.PALE_GREY,
+    paddingLeft: scaleWidth(5),
+    paddingRight: scaleWidth(5),
+    paddingBottom: scaleWidth(5),
+    paddingTop: scaleWidth(5),
+  }
 });

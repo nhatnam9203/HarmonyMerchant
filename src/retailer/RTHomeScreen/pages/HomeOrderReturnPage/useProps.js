@@ -14,10 +14,12 @@ import {
   statusSuccess,
   dateToString,
 } from "@shared/utils";
+import _ from "lodash";
 
 export const useProps = ({ params: { item } }) => {
   const [itemSelected, setItemSelected] = React.useState([]);
   const [notes, setNotes] = React.useState(null);
+  const [data, setData] = React.useState(JSON.parse(JSON.stringify(item)));
 
   /**
   |--------------------------------------------------
@@ -31,6 +33,7 @@ export const useProps = ({ params: { item } }) => {
   | USE EFFECT
   |--------------------------------------------------
   */
+
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentReturn || {};
     if (statusSuccess(codeStatus)) {
@@ -48,16 +51,80 @@ export const useProps = ({ params: { item } }) => {
     }
   };
 
+  const updateQuantity = (itemQuantity, value) => {
+    const originItem = _.find(_.get(item, 'products'), (originItem) => {
+      return originItem.bookingProductId == itemQuantity.bookingProductId
+    })
+
+    //validate quantity update > original quantity
+    if(value > _.get(originItem, 'quantity')){
+      return
+    }
+
+    const updateList = _.map(itemSelected, updateItem => {
+      let tempItem = updateItem
+      if(_.get(updateItem, 'bookingProductId') == _.get(itemQuantity, 'bookingProductId')) {
+        tempItem.total = (originItem.total/originItem.quantity) * value
+        tempItem.quantity = value
+      }
+      return tempItem
+    })
+
+    setItemSelected(updateList)
+
+    const updateListData = _.map(_.get(data, 'products'), itemTemp => {
+      let temp = itemTemp
+      if(_.get(itemTemp, 'bookingProductId') == _.get(itemQuantity, 'bookingProductId')) {
+        temp.total = (originItem.total/originItem.quantity) * value
+        temp.quantity = value
+      }
+      return temp
+    })
+    let tempData = data
+    tempData.products = updateListData
+    setData(tempData)
+  }
+
+  const updateTotal = (itemChange, value) => {
+    const updateList = _.map(itemSelected, updateItem => {
+      let tempItem = updateItem
+      if(_.get(updateItem, 'bookingProductId') == _.get(itemChange, 'bookingProductId')) {
+        tempItem.total = value
+      }
+      return tempItem
+    })
+
+    setItemSelected(updateList)
+
+    const updateListData = _.map(_.get(data, 'products'), itemTemp => {
+      let temp = itemTemp
+      if(_.get(itemTemp, 'bookingProductId') == _.get(itemChange, 'bookingProductId')) {
+        temp.total = value
+      }
+      return temp
+    })
+    let tempData = data
+    tempData.products = updateListData
+    setData(tempData)
+  }
+
   return {
     goBack: () => {
       NavigationServices.goBack();
     },
-    item,
+    item: JSON.parse(JSON.stringify(data)),
     onHandleReturn: () => {
       if (itemSelected?.length > 0) {
-        const productIds = itemSelected.map((v) => v.bookingProductId);
+        // const productIds = itemSelected.map((v) => v.bookingProductId);
+        const params = _.map(itemSelected, itemTemp => {
+          return {
+            bookingId: _.get(itemTemp, 'bookingProductId'),
+            amount: _.get(itemTemp, 'total'),
+            quantity: _.get(itemTemp, 'quantity')
+          }
+        })
         returnAppointment(item?.appointmentId, {
-          bookingProductIds: productIds,
+          bookingProductIds: params,
           notes: notes,
         });
       }
@@ -65,5 +132,7 @@ export const useProps = ({ params: { item } }) => {
     onCheckedRow,
     itemSelected,
     setNotes,
+    updateQuantity,
+    updateTotal,
   };
 };
