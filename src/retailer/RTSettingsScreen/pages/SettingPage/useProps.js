@@ -25,13 +25,18 @@ export const useProps = ({ navigation, params: { reload } }) => {
   const checkPermissionRef = React.useRef(null);
   const { i18n } = useTranslation();
   const [active, setActive] = React.useState(SettingGeneralPage.name);
+  const [isWaitingLogout, setIsWaitingLogout] = React.useState(false);
 
   const profileStaffLogin = useSelector(
     (state) => state.dataLocal?.profileStaffLogin
   );
 
-  const togglePopupPermission = (bl = true) => {
-    dispatch(actions.app.toggleSettingTabPermission(bl));
+  const settingTabPermission = useSelector(
+    (state) => state.app.settingTabPermission
+  );
+
+  const togglePopupPermission = async (bl = true) => {
+    await dispatch(actions.app.toggleSettingTabPermission(bl));
   };
 
   const checkPermissionTab = () => {
@@ -103,6 +108,14 @@ export const useProps = ({ navigation, params: { reload } }) => {
     checkPermissionTab();
   }, [active]);
 
+  React.useEffect(() => {
+    console.log(settingTabPermission);
+    if (!settingTabPermission && isWaitingLogout) {
+      dispatch(actions.auth?.requestLogout());
+      // setIsWaitingLogout(false);
+    }
+  }, [settingTabPermission, isWaitingLogout]);
+
   return {
     changeLanguage: (locale = "vi") => i18n.changeLanguage(locale),
     openDrawer: () => {
@@ -110,30 +123,39 @@ export const useProps = ({ navigation, params: { reload } }) => {
     },
     reload,
     logOut: () => {
+      const roleName = profileStaffLogin?.roleName || role.Admin;
+      const permission = l.get(profileStaffLogin, "permission", []);
+
+      if (roleName !== role.Admin) {
+        if (roleName === role.Manager) {
+          if (!isPermissionToTab(permission, tabName)) {
+            setTimeout(async () => {
+              await togglePopupPermission();
+              await setIsWaitingLogout(true);
+            }, 500);
+            return;
+          }
+        } else {
+          setTimeout(async () => {
+            await togglePopupPermission();
+            await setIsWaitingLogout(true);
+          }, 500);
+          return;
+        }
+      }
+
       dispatch(actions.auth?.requestLogout());
-
-      // const roleName = profileStaffLogin?.roleName || role.Admin;
-      // const permission = l.get(profileStaffLogin, "permission", []);
-
-      // if (roleName !== role.Admin) {
-      //   if (roleName === role.Manager) {
-      //     if (!isPermissionToTab(permission, tabName)) {
-      //       togglePopupPermission();
-      //     }
-      //   } else {
-      //     togglePopupPermission();
-      //   }
-      // }
     },
     navigation,
     checkPermissionRef,
     active,
     setActive,
-    closePopupCheckTabPermission: () => {
-      togglePopupPermission(false);
+    closePopupCheckTabPermission: async () => {
+      await setIsWaitingLogout(false);
+      await togglePopupPermission(false);
       NavigationServices.navigate("home.order.top_tab");
     },
-    tabPermission: useSelector((state) => state.app.settingTabPermission),
+    tabPermission: settingTabPermission,
     renderContentDrawer,
   };
 };
