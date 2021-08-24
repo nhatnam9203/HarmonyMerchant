@@ -70,51 +70,99 @@ export const Layout = ({
         </View>
       );
     } else if (columnKey === "quantity") {
-      
+      // const quantityShow = _.get(item, 'quantity') - _.get(item, 'returnQuantity', 0)
       return (
-        isSelected &&
-        <TextInputMask
-          type="only-numbers"
-          placeholder=""
-          style={[
-            {
-              width: scaleWidth(100),
-            }, 
-            styles.textStyle,
-            styles.textInputStyle,
-        ]}
-          value={_.get(item, 'quantity')}
-          onChangeText={(value) =>
-            updateQuantity(item, value)
-          }
-        />
-      )
-      
-    }else if (columnKey === "total") {
-      return (
-        isSelected &&
+        // isSelected ?
+        <View>
+        
+        <Text style={[
+          {
+            width: scaleWidth(100),
+          }, 
+          styles.textStyle,
+        ]}>
+        {_.get(item, 'quantity')}
+        </Text>
+        {
+          isSelected ?
           <TextInputMask
-            type="money"
-            placeholder="$ 0.00"
-            options={{
-              precision: 2,
-              separator: '.',
-              delimiter: ',',
-              unit: '$',
-              suffixUnit: ''
-          }}
+            type="only-numbers"
+            placeholder=""
             style={[
               {
-                width: scaleWidth(90),
+                width: scaleWidth(100),
               }, 
               styles.textStyle,
               styles.textInputStyle,
           ]}
-            value={_.get(item, 'total')}
+            value={_.get(item, 'returnQuantity', 0)}
             onChangeText={(value) =>
-              updateTotal(item, value)
+              updateQuantity(item, value)
             }
           />
+          :
+          <Text style={[
+            {
+              width: scaleWidth(100),
+            }, 
+            styles.textStyle,
+            {color: 'red'},
+          ]}>
+          {_.get(item, 'returnQuantity')}
+          </Text>
+        }
+        
+        </View>
+      )
+      
+    }else if (columnKey === "total") {
+      return (
+        <View>
+           <Text style={[
+            styles.textTotalStyle,
+            {
+              width: scaleWidth(100),
+            }, 
+          ]}>
+           {formatMoneyWithUnit(_.get(item, 'total'))}
+          </Text>
+          {
+            isSelected ?
+            <TextInputMask
+              type="money"
+              placeholder="$ 0.00"
+              options={{
+                precision: 2,
+                separator: '.',
+                delimiter: ',',
+                unit: '',
+                suffixUnit: ''
+            }}
+              style={[
+                {
+                  width: scaleWidth(90),
+                }, 
+                styles.textStyle,
+                styles.textInputStyle,
+            ]}
+              value={_.get(item, 'returnAmount', 0)}
+              onChangeText={(value) =>
+                updateTotal(item, value)
+              }
+            />
+            :
+            <Text style={[
+              styles.textTotalStyle,
+              {
+                width: scaleWidth(100),
+                color: 'red'
+              }, 
+            ]}>
+             {formatMoneyWithUnit(_.get(item, 'returnAmount', 0))}
+            </Text>
+          }
+          
+          </View>
       )
     }
 
@@ -464,6 +512,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: colors.GREYISH_BROWN,
+    paddingLeft: 15
   },
   textInputStyle: {
     borderRadius: 5,
@@ -473,5 +522,14 @@ const styles = StyleSheet.create({
     paddingRight: scaleWidth(5),
     paddingBottom: scaleWidth(5),
     paddingTop: scaleWidth(5),
+  },
+  textTotalStyle: {
+    fontFamily: fonts.REGULAR,
+    fontSize: scaleFont(15),
+    fontWeight: "500",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.OCEAN_BLUE,
   }
 });

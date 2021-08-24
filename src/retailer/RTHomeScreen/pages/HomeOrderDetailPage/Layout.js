@@ -22,6 +22,7 @@ import {
   FormShippingCarrier,
 } from "../../widget";
 import { OrderStatusView } from "@shared/components/OrderStatusView";
+import _ from "lodash";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
@@ -204,6 +205,31 @@ export const Layout = ({
           </View>
         </View>
       );
+    }else if (columnKey === "quantity") {
+      const quantityShow = _.get(cellItem, 'quantity') - _.get(cellItem, 'returnQuantity', 0)
+      return (
+        <Text style={[
+          {
+            width: scaleWidth(80),
+          }, 
+          styles.textStyle,
+        ]}>
+        {quantityShow}
+        </Text>
+      )
+      
+    }else if (columnKey === "total") {
+      const totalShow = _.get(cellItem, 'total') - _.get(cellItem, 'returnAmount', 0)
+      return (
+          <Text style={[
+            {
+              width: scaleWidth(100),
+            }, 
+            styles.textStyle,
+          ]}>
+           {formatMoneyWithUnit(totalShow)}
+          </Text>
+      )
     }
 
     if (columnKey === "status") {
@@ -724,5 +750,15 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: colors.GREYISH_BROWN,
+  },
+  textStyle: {
+    fontFamily: fonts.REGULAR,
+    fontSize: scaleFont(15),
+    fontWeight: "normal",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.GREYISH_BROWN,
+    paddingLeft: scaleWidth(5),
   },
 });

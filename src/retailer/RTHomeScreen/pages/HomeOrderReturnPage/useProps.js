@@ -64,8 +64,8 @@ export const useProps = ({ params: { item } }) => {
     const updateList = _.map(itemSelected, updateItem => {
       let tempItem = updateItem
       if(_.get(updateItem, 'bookingProductId') == _.get(itemQuantity, 'bookingProductId')) {
-        tempItem.total = (originItem.total/originItem.quantity) * value
-        tempItem.quantity = value
+        tempItem.returnAmount = (originItem.total/originItem.quantity) * value
+        tempItem.returnQuantity = value
       }
       return tempItem
     })
@@ -75,8 +75,8 @@ export const useProps = ({ params: { item } }) => {
     const updateListData = _.map(_.get(data, 'products'), itemTemp => {
       let temp = itemTemp
       if(_.get(itemTemp, 'bookingProductId') == _.get(itemQuantity, 'bookingProductId')) {
-        temp.total = (originItem.total/originItem.quantity) * value
-        temp.quantity = value
+        temp.returnAmount = (originItem.total/originItem.quantity) * value
+        temp.returnQuantity = value
       }
       return temp
     })
@@ -89,7 +89,7 @@ export const useProps = ({ params: { item } }) => {
     const updateList = _.map(itemSelected, updateItem => {
       let tempItem = updateItem
       if(_.get(updateItem, 'bookingProductId') == _.get(itemChange, 'bookingProductId')) {
-        tempItem.total = value
+        tempItem.returnAmount = value
       }
       return tempItem
     })
@@ -99,7 +99,7 @@ export const useProps = ({ params: { item } }) => {
     const updateListData = _.map(_.get(data, 'products'), itemTemp => {
       let temp = itemTemp
       if(_.get(itemTemp, 'bookingProductId') == _.get(itemChange, 'bookingProductId')) {
-        temp.total = value
+        temp.returnAmount = value
       }
       return temp
     })
@@ -118,13 +118,13 @@ export const useProps = ({ params: { item } }) => {
         // const productIds = itemSelected.map((v) => v.bookingProductId);
         const params = _.map(itemSelected, itemTemp => {
           return {
-            bookingId: [_.get(itemTemp, 'bookingProductId')],
-            amount: _.get(itemTemp, 'total'),
-            quantity: _.get(itemTemp, 'quantity')
+            bookingProductId: _.get(itemTemp, 'bookingProductId'),
+            total: _.get(itemTemp, 'returnAmount'),
+            quantity: _.get(itemTemp, 'returnQuantity')
           }
         })
         returnAppointment(item?.appointmentId, {
-          bookingProductIds: params,
+          orderReturns: params,
           notes: notes,
         });
       }
