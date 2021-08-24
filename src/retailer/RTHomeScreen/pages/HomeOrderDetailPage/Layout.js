@@ -84,6 +84,20 @@ export const Layout = ({
             />
           </>
         );
+      case ORDERED_STATUS.NOT_PAY:
+        return (
+          <>
+            <ButtonGradient
+              label={t("Complete")}
+              width={scaleWidth(120)}
+              height={scaleHeight(40)}
+              fontSize={scaleFont(17)}
+              textColor={colors.WHITE}
+              textWeight="normal"
+              onPress={complete}
+            />
+          </>
+        );
       case ORDERED_STATUS.PENDING:
         return (
           <>
@@ -318,6 +332,7 @@ export const Layout = ({
           <FormTitle label={t("Items Ordered")} />
           <Table
             items={item?.products || []}
+            tableStyle={styles.table}
             headerKeyLabels={{
               productName: t("Product"),
               // sku: t("SKU"),
@@ -340,7 +355,7 @@ export const Layout = ({
               "total",
               "status",
             ]}
-            primaryKey="productId"
+            primaryKey="bookingProductId"
             widthForKeys={{
               productName: scaleWidth(320),
               // sku: scaleWidth(100),
@@ -361,6 +376,9 @@ export const Layout = ({
               total: (value) => `${formatMoneyWithUnit(value)}`,
             }}
             renderCell={onRenderCell}
+            renderFooterComponent={() => (
+              <View style={{ height: scaleHeight(10) }} />
+            )}
             // onRowPress={onSelectRow}
             // draggable={true}
           />
@@ -760,5 +778,8 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: colors.GREYISH_BROWN,
     paddingLeft: scaleWidth(5),
+  },
+  table: {
+    flex: 1,
   },
 });

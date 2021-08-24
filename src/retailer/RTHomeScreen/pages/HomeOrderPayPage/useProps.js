@@ -98,7 +98,8 @@ export const useProps = ({
   );
 
   const [isTax, setIsTax] = React.useState(false);
-  const [isGetResponsePaymentPax, setIsGetResponsePaymentPax] = React.useState(false);
+  const [isGetResponsePaymentPax, setIsGetResponsePaymentPax] =
+    React.useState(false);
   const [moneyUserGiveForStaff, setMoneyUserGiveForStaff] = React.useState(0);
   const [paymentSelected, setPaymentSelected] = React.useState("");
   const [visibleBillOfPayment, setVisibleBillOfPayment] = React.useState(false);
@@ -150,29 +151,39 @@ export const useProps = ({
 
   /** CALL API */
   const [appointmentGet, getAppointment] = useGetAppointment();
-  const [updateAppointmentTaxData, updateAppointmentTax] = useUpdateAppointmentTax();
+  const [updateAppointmentTaxData, updateAppointmentTax] =
+    useUpdateAppointmentTax();
   // const [updateAppointmentCustomerData, updateAppointmentCustomer] =
   //   useUpdateAppointmentCustomer();
 
   const onGoBack = () => {
+    console.log("====> onGoBack");
     if (backScreenId) {
       NavigationServices.navigate(backScreenId, {
         reload: true,
         reset: false,
-        reloadAppointmentId: appointmentDetail?.appointmentId,
       });
-    } else NavigationServices.navigate("retailer.home.order", { reload: true });
+    } else
+      NavigationServices.navigate("retailer.home.order", {
+        reload: true,
+      });
   };
 
   const onCompleteBack = async () => {
-    await dispatch(basketRetailer.clearBasket());
+    console.log("====> onCompleteBack");
 
-    if (screenId) {
+    if (screenId && screenId !== "retailer.home.order.check_out") {
       NavigationServices.navigate(screenId, {
         reset: true,
         reloadAppointmentId: null,
+        reload: true,
       });
-    } else NavigationServices.navigate("retailer.home.order", { reload: true });
+    } else
+      NavigationServices.navigate("retailer.home.order", {
+        reset: true,
+        reload: true,
+        reloadAppointmentId: null,
+      });
   };
 
   const getPaymentString = (type) => {
@@ -918,6 +929,7 @@ export const useProps = ({
     if (!_.isEmpty(connectSignalR.current)) {
       await connectSignalR.current?.stop();
     }
+
     if (paymentSelected === "Cash" || paymentSelected === "Other") {
       const { portName } = getInfoFromModelNameOfPrinter(
         printerList,
@@ -949,6 +961,8 @@ export const useProps = ({
       // this.setState(initState);
       dispatch(actions.appointment.resetPayment());
     }
+
+    await dispatch(basketRetailer.clearBasket());
 
     onCompleteBack();
   };
@@ -1027,7 +1041,7 @@ export const useProps = ({
           false
         )
       );
-      setIsTax(_.get(orderItem, 'isTax'))
+      setIsTax(_.get(orderItem, "isTax"));
     }
   }, [orderItem]);
 
@@ -1051,7 +1065,7 @@ export const useProps = ({
     if (statusSuccess(codeStatus)) {
       setAppointmentDetail(data);
       dispatch(basketRetailer.setAppointment(data));
-      setIsTax(_.get(data, 'isTax'))
+      setIsTax(_.get(data, "isTax"));
       // customerRef.current?.setCustomer(data?.customer);
     }
 
@@ -1061,7 +1075,7 @@ export const useProps = ({
   React.useEffect(() => {
     const { codeStatus } = updateAppointmentTaxData || {};
     if (statusSuccess(codeStatus)) {
-      getAppointment(appointmentDetail?.appointmentId)
+      getAppointment(appointmentDetail?.appointmentId);
       dispatch(
         actions.appointment?.getGroupAppointmentById(
           appointmentDetail?.appointmentId,
@@ -1148,7 +1162,7 @@ export const useProps = ({
             (appointment) =>
               appointment.appointmentId === appointmentDetail?.appointmentId
           );
-
+          console.log(appointment);
           const { services, products, extras, giftCards } = appointment;
           const arrayProducts = getArrayProductsFromAppointment(products);
           const arryaServices = getArrayServicesFromAppointment(services);
@@ -1202,7 +1216,6 @@ export const useProps = ({
 
       // dispatch(basketRetailer.clearBasket());
 
-      onGoBack();
       if (visibleConfirm?.func && typeof visibleConfirm?.func === "function") {
         visibleConfirm?.func();
       }
@@ -1211,6 +1224,8 @@ export const useProps = ({
         type: "VISIBLE_POPUP_PAYMENT_CONFIRM",
         payload: { visible: false, func: null },
       });
+
+      onGoBack();
     },
     visibleConfirm: visibleConfirm?.visible ?? false,
     setVisibleConfirm: () => {
@@ -1274,11 +1289,14 @@ export const useProps = ({
       if (!isPrintTempt) {
         dispatch(actions.appointment.resetBasketEmpty());
         dispatch(actions.appointment.resetPayment());
-        dispatch(basketRetailer.clearBasket());
+        await dispatch(basketRetailer.clearBasket());
+
         onCompleteBack();
       }
     },
     finishedHandle: () => {
+      console.log("====> finishedHandle");
+
       onCompleteBack();
     },
     changeTipRef,
@@ -1312,10 +1330,48 @@ export const useProps = ({
       const appointmentID = _.isEmpty(groupAppointment)
         ? -1
         : appointmentDetail.appointmentId;
-      const isTaxUpdate = !isTax
-      setIsTax(isTaxUpdate)
+      const isTaxUpdate = !isTax;
+      setIsTax(isTaxUpdate);
       updateAppointmentTax(isTaxUpdate, appointmentID);
     },
     isTax,
+    onGoBackOrderList: async () => {
+      if (!_.isEmpty(connectSignalR.current)) {
+        connectSignalR.current?.stop();
+      }
+
+      if (payAppointmentId) {
+        dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
+      }
+
+      dispatch(actions.appointment.resetBasketEmpty());
+      dispatch(actions.appointment.resetPayment());
+      dispatch(actions.appointment.changeFlagSigninAppointment(false));
+      dispatch(actions.appointment.resetGroupAppointment());
+
+      await dispatch(basketRetailer.clearBasket());
+
+      if (visibleConfirm?.func && typeof visibleConfirm?.func === "function") {
+        visibleConfirm?.func();
+      }
+
+      dispatch({
+        type: "VISIBLE_POPUP_PAYMENT_CONFIRM",
+        payload: { visible: false, func: null },
+      });
+
+      if (screenId && screenId !== "retailer.home.order.check_out") {
+        NavigationServices.navigate(screenId, {
+          reload: false,
+          reset: true,
+          reloadAppointmentId: null,
+        });
+      } else {
+        NavigationServices.navigate("retailer.home.order", {
+          reload: true,
+          reloadAppointmentId: null,
+        });
+      }
+    },
   };
 };

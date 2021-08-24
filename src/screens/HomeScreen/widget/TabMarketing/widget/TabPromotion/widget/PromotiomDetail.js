@@ -1220,16 +1220,42 @@ const PromotiomDetail = forwardRef(
               )}
 
               {/* ---------- SMS configuration ----------- */}
-              <Text
+              <View
                 style={{
-                  color: "#404040",
-                  fontSize: scaleSize(16),
-                  fontWeight: "600",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  height: scaleHeight(50),
                   marginTop: scaleSize(20),
                 }}
               >
-                {`SMS/MMS configuration`}
-              </Text>
+                <Text
+                  style={{
+                    color: "#404040",
+                    fontSize: scaleSize(16),
+                    fontWeight: "600",
+                  }}
+                >
+                  {`SMS/MMS configuration`}
+                </Text>
+
+                <TouchableOpacity
+                  style={{
+                    width: scaleHeight(36),
+                    height: scaleHeight(36),
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderWidth: 1,
+                    // borderRadius: scaleSize(5),
+                    borderColor: "#dadada",
+                  }}
+                >
+                  <Image
+                    source={IMAGE.filter}
+                    style={{ width: scaleWidth(22), height: scaleHeight(22) }}
+                  />
+                </TouchableOpacity>
+              </View>
               {/* ---------- New Content Configuration ----------- */}
               <View style={{}}>
                 <View style={layouts.marginVertical} />

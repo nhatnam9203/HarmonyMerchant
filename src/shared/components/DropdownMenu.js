@@ -119,12 +119,28 @@ export const DropdownMenu = React.forwardRef(
             styleHeightItemDropDown,
           ]}
           renderRow={renderRow}
-          renderSeparator={() => <View />}
+          renderSeparator={() => <View style={{ height: 1 }} />}
           onDropdownWillShow={onDropdownWillShow}
           onDropdownWillHide={onDropdownWillHide}
           onSelect={onSelect}
           disabled={!editable}
-          dropdownListProps={{ onScrollToIndexFailed: () => {} }}
+          dropdownListProps={{
+            automaticallyAdjustContentInsets: false,
+            getItemLayout: (data, index) => ({
+              length: height,
+              offset: (height + 1) * index,
+              index,
+            }),
+            onScrollToIndexFailed: (info) => {
+              const wait = new Promise((resolve) => setTimeout(resolve, 500));
+              wait.then(() => {
+                modalRef.scrollToIndex({
+                  index: info.index,
+                  animated: true,
+                });
+              });
+            },
+          }}
         >
           <View style={styles.dropdownContent}>
             <Text

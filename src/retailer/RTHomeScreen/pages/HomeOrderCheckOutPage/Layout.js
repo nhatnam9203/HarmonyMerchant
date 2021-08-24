@@ -74,13 +74,27 @@ export const Layout = ({
             />
           )}
         />
+
+        {/* <ButtonGradientWhite
+          width={scaleWidth(40)}
+          height={scaleHeight(40)}
+          fontSize={scaleFont(17)}
+          textWeight="normal"
+          onPress={() => {
+            onResultScanCode("Pho");
+          }}
+        >
+          <Image source={IMAGE.back} />
+        </ButtonGradientWhite> */}
         {/*
         <ButtonGradientWhite
           width={scaleWidth(40)}
           height={scaleHeight(40)}
           fontSize={scaleFont(17)}
           textWeight="normal"
-          onPress={onResultScanCode}
+          onPress={() => {
+            onResultScanCode("8936101342225");
+          }}
         >
           <Image source={IMAGE.back} />
         </ButtonGradientWhite> */}

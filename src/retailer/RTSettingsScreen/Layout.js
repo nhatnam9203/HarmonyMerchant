@@ -48,12 +48,12 @@ export const Layout = ({
         <Screen {...SettingNewCategoriesPage} />
         <Screen {...SettingNewStaffsPage} />
       </Navigator>
-      <PermissionChecker
+      {/* <PermissionChecker
         navigation={navigation}
         tabName={menuTabs.MENU_SETTING}
         tabPermission={tabPermission}
         togglePopupPermission={togglePopupPermission}
-      />
+      /> */}
     </View>
   );
 };

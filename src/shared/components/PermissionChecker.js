@@ -1,5 +1,5 @@
 import { PopupCheckStaffPermission } from "@components";
-import NavigatorServices from "@navigators/NavigatorServices";
+import NavigationServices from "@navigators/NavigatorServices";
 import { isPermissionToTab, role } from "@utils";
 import * as l from "lodash";
 import React from "react";
@@ -21,7 +21,7 @@ export const PermissionChecker = ({
 
   const closePopupCheckCustomerTabPermission = () => {
     togglePopupPermission(false);
-    NavigatorServices.navigate("home.order.top_tab");
+    NavigationServices.navigate("home.order.top_tab");
   };
 
   React.useEffect(() => {

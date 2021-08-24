@@ -52,7 +52,16 @@ export const useProps = ({ params: { reload } }) => {
       }),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, searchVal, timeVal, orderStatus, payment, purchasePoint, sortById]);
+  }, [
+    page,
+    searchVal,
+    timeVal,
+    orderStatus,
+    payment,
+    purchasePoint,
+    sortById,
+    reload,
+  ]);
 
   /**
   |--------------------------------------------------
@@ -136,7 +145,10 @@ export const useProps = ({ params: { reload } }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      if (reload) callGetOrderList();
+      if (reload) {
+        console.log("HomeOrderListPage is reloading");
+        callGetOrderList();
+      }
     }, [
       reload,
       page,

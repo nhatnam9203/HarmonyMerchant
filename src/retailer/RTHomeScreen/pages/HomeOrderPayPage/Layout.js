@@ -32,7 +32,9 @@ import {
   CheckOutCustomerInfo,
   DialogProductDetail,
 } from "../../widget";
+import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 
+const ExitCheckoutConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
 
 export const Layout = ({
@@ -114,6 +116,7 @@ export const Layout = ({
   setVisibleChangeTip,
   switchTax,
   isTax,
+  onGoBackOrderList,
 }) => {
   const [t] = useTranslation();
 
@@ -161,15 +164,17 @@ export const Layout = ({
           />
           <View style={styles.headerRightContent}>
             {renderButton()}
-            <ButtonGradientWhite
+            <ExitCheckoutConfirmButton
+              // label={t("")}
+              description={t("Do you want to exist this checkout ?")}
               width={scaleWidth(40)}
               height={scaleHeight(40)}
               fontSize={scaleFont(17)}
               textWeight="normal"
-              onPress={onGoBack}
+              onPress={onGoBackOrderList}
             >
               <Image source={IMAGE.back} />
-            </ButtonGradientWhite>
+            </ExitCheckoutConfirmButton>
           </View>
         </View>
 
@@ -213,14 +218,14 @@ export const Layout = ({
                   paymentSelected={paymentSelected}
                 />
               </View>
-              <View style={styles.rowContent}>
+              {/* <View style={styles.rowContent}>
                 <ButtonPaymentMethod
                   key={"Gift Card"}
                   title={"Gift Card"}
                   selectedPayment={selectedPayment}
                   paymentSelected={paymentSelected}
                 />
-              </View>
+              </View> */}
             </View>
 
             <View style={layouts.center}>
