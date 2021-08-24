@@ -88,10 +88,11 @@ export const useProps = ({ navigation, params: { reload } }) => {
 
   React.useEffect(() => {
     const unsubscribeFocus = navigation.addListener("focus", () => {
-      console.log("focus" + active);
+      // console.log("focus" + active);
       checkPermissionRef.current?.setStateFromParent("");
 
-      setActive(SettingGeneralPage.name);
+      // setActive(SettingGeneralPage.name);
+      checkPermissionTab();
     });
 
     const unsubscribeBlur = navigation.addListener("blur", () => {
@@ -109,7 +110,7 @@ export const useProps = ({ navigation, params: { reload } }) => {
   }, [active]);
 
   React.useEffect(() => {
-    console.log(settingTabPermission);
+    // console.log(settingTabPermission);
     if (!settingTabPermission && isWaitingLogout) {
       dispatch(actions.auth?.requestLogout());
       // setIsWaitingLogout(false);
