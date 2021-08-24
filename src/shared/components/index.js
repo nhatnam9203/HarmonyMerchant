@@ -38,3 +38,4 @@ export * from "./Pagination";
 export * from "./SlideInRightModal";
 export * from "./DialogScanQR";
 export * from "./PermissionChecker";
+export * from "./PromotionCustomerFilter";

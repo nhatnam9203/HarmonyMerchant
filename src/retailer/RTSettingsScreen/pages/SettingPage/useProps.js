@@ -45,6 +45,8 @@ export const useProps = ({ navigation, params: { reload } }) => {
   };
 
   const checkPermissionTab = React.useCallback(() => {
+    if (!active) return;
+
     if (
       active !== SettingGeneralPage.name &&
       active !== SettingHardwarePage.name &&

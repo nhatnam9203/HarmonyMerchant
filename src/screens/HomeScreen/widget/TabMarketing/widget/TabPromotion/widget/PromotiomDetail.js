@@ -56,6 +56,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useSelector } from "react-redux";
 import DropdownSearch from "./DropdownSearch";
 import Slider from "./Slider";
+import { PromotionCustomerFilter } from "@shared/components";
 
 const { width } = Dimensions.get("window");
 
@@ -77,6 +78,7 @@ const PromotiomDetail = forwardRef(
   ) => {
     const [t] = useTranslation();
     const messageSelectRef = React.useRef(null);
+    const promotionRef = React.useRef(null);
 
     const [promotionId, setPromotionId] = useState("");
     const [title, setTitle] = useState("");
@@ -123,6 +125,9 @@ const PromotiomDetail = forwardRef(
     const [items, setItems] = useState(
       WorkingTime.map((x) => Object.assign({}, x, { label: x.value }))
     );
+
+    const [customerIds, setCustomerIds] = React.useState(null);
+
     const scrollRef = useRef(null);
 
     const productsByMerchantId = useSelector(
@@ -477,6 +482,7 @@ const PromotiomDetail = forwardRef(
         content: messageContent,
         noEndDate: noEndDate,
         isManually: isManually,
+        customerIds: customerIds,
       };
 
       // ------------ Check Valid ---------
@@ -650,6 +656,15 @@ const PromotiomDetail = forwardRef(
       conditionServiceProductTags,
       noEndDate,
     ]);
+
+    const onHandleFilterCustomer = (ids) => {
+      // console.log(ids);
+      setCustomerIds(ids);
+      // setCustomerSendSMSQuantity(ids?.length ?? 0);
+
+      const count = ids?.length ?? 0;
+      hanldeSliderValue(count / smsInfoMarketing?.customerCount ?? 1);
+    };
 
     React.useEffect(() => {
       if (!useDefaultContent) return;
@@ -1249,6 +1264,12 @@ const PromotiomDetail = forwardRef(
                     // borderRadius: scaleSize(5),
                     borderColor: "#dadada",
                   }}
+                  onPress={() => {
+                    promotionRef.current?.show(
+                      promotionId || 0,
+                      merchant?.merchantId
+                    );
+                  }}
                 >
                   <Image
                     source={IMAGE.filter}
@@ -1537,6 +1558,11 @@ const PromotiomDetail = forwardRef(
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
           date={new Date(isChangeDate === "start" ? startDate : endDate)}
+        />
+
+        <PromotionCustomerFilter
+          ref={promotionRef}
+          setCustomerIds={onHandleFilterCustomer}
         />
       </View>
     );
