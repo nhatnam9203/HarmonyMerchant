@@ -147,6 +147,11 @@ function marketingReducer(state = initialState, action) {
                 visibleModalDiscountItem: false,
                 discount: [],
             }
+        case 'CLOSE_MODAL_DISCOUNT_ITEM':
+            return {
+                ...state,
+                visibleModalDiscountItem: false,
+            }
         case 'OPEN_MODAL_DISCOUNT':
             return {
                 ...state,

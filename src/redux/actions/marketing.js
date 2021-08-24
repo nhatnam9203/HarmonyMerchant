@@ -62,6 +62,11 @@ export function closeModalDiscount() {
     }
 }
 
+export function closeModalDiscountItem() {
+    return {
+        type: 'CLOSE_MODAL_DISCOUNT_ITEM',
+    }
+}
 
 export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentId, price,extras = null, tipPercent = 0, note = "", isGroup = false) {
     return {

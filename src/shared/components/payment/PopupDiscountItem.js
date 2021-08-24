@@ -62,14 +62,14 @@ class PopupDiscountItem extends React.Component {
                 );
             } else {
                 this.props.actions.marketing.customPromotionItem(customDiscountPercent, customFixedAmount, appointmentIdUpdatePromotion, bookingProductId);
-                this.props.actions.marketing.closeModalDiscount();
+                this.props.actions.marketing.closeModalDiscountItem();
                 this.resetState();
             }
         }
     }
 
     onRequestClose = async () => {
-        this.props.actions.marketing.closeModalDiscount();
+        this.props.actions.marketing.closeModalDiscountItem();
         this.resetState();
     }
 
@@ -151,7 +151,7 @@ class PopupDiscountItem extends React.Component {
             isGetPromotionOfAppointment,
             appointmentItem,
             groupAppointment} = this.props;
-        const visible = visibleModalDiscountItem && !_.isEmpty(groupAppointment) ? true : false;
+        const visible = visibleModalDiscountItem;
         if (prevProps.isGetPromotionOfAppointment !== isGetPromotionOfAppointment && isGetPromotionOfAppointment === "success" && visible) {
             this.props.actions.marketing.resetStateGetPromotionOfAppointment();
         }
@@ -356,6 +356,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
+    discount: state.marketing.discount,
     visibleModalDiscountItem: state.marketing.visibleModalDiscountItem,
     appointmentIdUpdatePromotion: state.marketing.appointmentIdUpdatePromotion,
     language: state.dataLocal.language,
