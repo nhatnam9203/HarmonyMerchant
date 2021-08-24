@@ -1,6 +1,6 @@
 import NavigationServices from "@navigators/NavigatorServices";
 import actions from "@redux/actions";
-import { isPermissionToTab, role } from "@utils";
+import { isPermissionToTab, role, menuTabs } from "@utils";
 import * as l from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -36,6 +36,8 @@ export const useProps = ({ navigation, params: { reload } }) => {
   );
 
   const togglePopupPermission = async (bl = true) => {
+    checkPermissionRef.current?.setStateFromParent("");
+
     await dispatch(actions.app.toggleSettingTabPermission(bl));
   };
 
@@ -51,7 +53,7 @@ export const useProps = ({ navigation, params: { reload } }) => {
 
       if (roleName !== role.Admin) {
         if (roleName === role.Manager) {
-          if (!isPermissionToTab(permission, tabName)) {
+          if (!isPermissionToTab(permission, menuTabs.MENU_SETTING)) {
             togglePopupPermission();
           }
         } else {
@@ -89,7 +91,6 @@ export const useProps = ({ navigation, params: { reload } }) => {
   React.useEffect(() => {
     const unsubscribeFocus = navigation.addListener("focus", () => {
       // console.log("focus" + active);
-      checkPermissionRef.current?.setStateFromParent("");
 
       // setActive(SettingGeneralPage.name);
       checkPermissionTab();
@@ -129,7 +130,7 @@ export const useProps = ({ navigation, params: { reload } }) => {
 
       if (roleName !== role.Admin) {
         if (roleName === role.Manager) {
-          if (!isPermissionToTab(permission, tabName)) {
+          if (!isPermissionToTab(permission, menuTabs.MENU_SETTING)) {
             setTimeout(async () => {
               await togglePopupPermission();
               await setIsWaitingLogout(true);
