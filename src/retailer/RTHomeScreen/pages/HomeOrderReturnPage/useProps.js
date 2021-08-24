@@ -118,7 +118,7 @@ export const useProps = ({ params: { item } }) => {
         // const productIds = itemSelected.map((v) => v.bookingProductId);
         const params = _.map(itemSelected, itemTemp => {
           return {
-            bookingId: _.get(itemTemp, 'bookingProductId'),
+            bookingId: [_.get(itemTemp, 'bookingProductId')],
             amount: _.get(itemTemp, 'total'),
             quantity: _.get(itemTemp, 'quantity')
           }
