@@ -1338,7 +1338,6 @@ export const useProps = ({
     },
     isTax,
     onDiscountItemAdd: (item) => {
-      console.log('test')
       dispatch(
         actions.marketing.getPromotionByAppointment(
           appointmentDetail?.appointmentId, false, true

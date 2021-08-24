@@ -32,6 +32,7 @@ const initialState = {
     visibleModalDiscountItem: false,
     isGetPromotionOfAppointmentItem: false,
     appointmentItem: {},
+    discountItems: [],
 }
 
 function marketingReducer(state = initialState, action) {
@@ -150,7 +151,10 @@ function marketingReducer(state = initialState, action) {
         case 'CLOSE_MODAL_DISCOUNT_ITEM':
             return {
                 ...state,
+                visibleModalDiscount: false,
+                visibleModalBlockDiscount: false,
                 visibleModalDiscountItem: false,
+                discountItems: [],
             }
         case 'OPEN_MODAL_DISCOUNT':
             return {

@@ -204,6 +204,7 @@ function* getPromotionByAppointment(action) {
                     appointmentId: action.appointmentId,
                     promotionNotes: responses?.data?.notes || {},
                     discountByOwner: responses?.data.discountByOwner || true,
+                    discountItems: responses?.data?.discountItems || [],
                 })
             } else {
                 yield put({

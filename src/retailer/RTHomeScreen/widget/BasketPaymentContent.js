@@ -167,7 +167,7 @@ export const BasketPaymentContent = React.forwardRef(
       const qty = item.value?.reduce((prev, cur) => prev + cur.quantity, 0);
 
       return (
-        <TouchableOpacity onPress={onDiscountItemAdd}>
+        <TouchableOpacity onPress={onDiscountItemAdd(firstItem)}>
           <View style={styles.productItem} key={item.key + ""}>
             <FastImage
               style={styles.imageStyle}

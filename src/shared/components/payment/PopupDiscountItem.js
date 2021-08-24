@@ -25,6 +25,7 @@ const manualType = {
     fixAmountType: 'fixAmountType',
     percentType: 'percentType'
 }
+import * as l from "lodash";
 
 class PopupDiscountItem extends React.Component {
 
@@ -92,11 +93,21 @@ class PopupDiscountItem extends React.Component {
 
     // ------ Render -----
     render() {
-            const { title, visibleModalDiscountItem, language } = this.props;
-            const visible = visibleModalDiscountItem
-            const temptCustomDiscountPercent = 0
-            const temptCustomDiscountFixed = 0
+            const { title, 
+                visibleModalDiscountItem, 
+                language, 
+                appointmentItem, 
+                discountItems } = this.props;
+            const visible = visibleModalDiscountItem;
+            
             const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
+            const discountItem = l.find(discountItems, findItem =>{
+                return l.get(findItem, 'bookingProductId') == l.get(appointmentItem, 'bookingProductId')
+            })
+
+            const temptCustomDiscountPercent = l.get(discountItem, 'discountPercent', 0)
+            const temptCustomDiscountFixed = l.get(discountItem, 'discount', 0)
+
             return (
                 <PopupParent
                     title={title}
@@ -119,7 +130,7 @@ class PopupDiscountItem extends React.Component {
                                         ref={this.customDiscountItemRef}
                                         customDiscountPercent={temptCustomDiscountPercent}
                                         customDiscountFixed={temptCustomDiscountFixed}
-                                        total={0}
+                                        total={formatNumberFromCurrency(l.get(appointmentItem, 'subTotal'))}
                                         // total={formatNumberFromCurrency(!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0)}
                                         onChangeText={(moneyDiscountByPercent, moneyDiscountFixed) => this.onChangeTextCustomDiscount(moneyDiscountByPercent, moneyDiscountFixed)}
                                         language={language}
@@ -147,14 +158,14 @@ class PopupDiscountItem extends React.Component {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        const { visibleModalDiscountItem,
-            isGetPromotionOfAppointment,
-            appointmentItem,
-            groupAppointment} = this.props;
-        const visible = visibleModalDiscountItem;
-        if (prevProps.isGetPromotionOfAppointment !== isGetPromotionOfAppointment && isGetPromotionOfAppointment === "success" && visible) {
-            this.props.actions.marketing.resetStateGetPromotionOfAppointment();
-        }
+        // const { visibleModalDiscountItem,
+        //     isGetPromotionOfAppointment,
+        //     appointmentItem,
+        //     groupAppointment} = this.props;
+        // const visible = visibleModalDiscountItem;
+        // if (prevProps.isGetPromotionOfAppointment !== isGetPromotionOfAppointment && isGetPromotionOfAppointment === "success" && visible) {
+        //     this.props.actions.marketing.resetStateGetPromotionOfAppointment();
+        // }
     }
 
 }
@@ -236,7 +247,6 @@ class CustomDiscount extends React.Component {
         ? styles.backgroundButtonSelected : styles.backgroundButtonUnSelected
         return (
             <View>
-                <Text style={styles.textNormal}>{localize('Manual Discount', language)}</Text>
                     <View style={styles.viewRowContainer}>
                         <View style={styles.viewGroupRow}>
                             <TouchableHighlight
@@ -300,7 +310,9 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 10,
+        marginTop: 20,
+        marginLeft: 20,
+        marginRight: 20,
     },
     textNormal: {
         color: colors.BROWNISH_GREY,
@@ -357,6 +369,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
     discount: state.marketing.discount,
+    discountItems: state.marketing.discountItems,
     visibleModalDiscountItem: state.marketing.visibleModalDiscountItem,
     appointmentIdUpdatePromotion: state.marketing.appointmentIdUpdatePromotion,
     language: state.dataLocal.language,
@@ -364,8 +377,6 @@ const mapStateToProps = state => ({
     appointmentItem: state.marketing.appointmentItem,
     groupAppointment: state.appointment.groupAppointment,
 })
-
-
 
 export default connectRedux(mapStateToProps, PopupDiscountItem);
 
