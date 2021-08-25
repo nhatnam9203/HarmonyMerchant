@@ -5,7 +5,12 @@ import {
   useGetOrderList,
   useCleanOrder,
 } from "@shared/services/api/retailer";
-import { getTimeTitleFile, SORT_TYPE, statusSuccess } from "@shared/utils";
+import {
+  getTimeTitleFile,
+  SORT_TYPE,
+  statusSuccess,
+  PURCHASE_POINTS_ORDER,
+} from "@shared/utils";
 import { getQuickFilterTimeRange } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -189,9 +194,7 @@ export const useProps = ({ params: { reload } }) => {
     onButtonSearchPress,
     onButtonNewOrderPress: () => {
       NavigationServices.navigate("retailer.home.order.check_out", {
-        isOrder: true,
-        reset: true,
-        appointmentId: null,
+        purchasePoint: PURCHASE_POINTS_ORDER,
       });
     },
     onSelectRow: ({ item }) => {

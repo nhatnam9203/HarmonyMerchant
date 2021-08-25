@@ -96,7 +96,7 @@ export const HomeTopTabNavigator = ({
             tabPress: (e) => {
               if (isPayment) {
                 showPopupConfirm(() => {
-                  navigation.navigate(OrderTabPage.name);
+                  navigation.navigate(OrderTabPage.name, { reload: true });
                 });
 
                 // Prevent default action
@@ -110,7 +110,6 @@ export const HomeTopTabNavigator = ({
           listeners={{
             tabPress: (e) => {
               e.preventDefault();
-              console.log(isPayment);
               if (isPayment) {
                 showPopupConfirm(() => {
                   navigation.navigate(CheckOutTabPage.name);
@@ -118,16 +117,10 @@ export const HomeTopTabNavigator = ({
 
                 // Prevent default action
               } else {
+                console.log(CheckOutTabPage.name);
                 NavigationServices.navigate(CheckOutTabPage.name, {
-                  reset: true,
-                  reload: false,
-                  reloadAppointmentId: null,
+                  reload: true,
                 });
-
-                // navigation.navigate(CheckOutTabPage.name, {
-                //   reset: true,
-                //   appointmentId: null,
-                // });
               }
             },
           }}

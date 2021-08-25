@@ -129,7 +129,8 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     // if(quantity > _.get(product, 'quantity', 0)) return true;
     if (optionsQty && optionsQty.quantity < quantity) {
       return true;
-    }
+    } else if (quantity > _.get(product, "quantity", 0)) return true;
+
     return false;
   };
 

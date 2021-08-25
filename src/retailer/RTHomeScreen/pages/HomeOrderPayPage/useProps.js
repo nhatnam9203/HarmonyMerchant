@@ -157,11 +157,9 @@ export const useProps = ({
   //   useUpdateAppointmentCustomer();
 
   const onGoBack = () => {
-    console.log("====> onGoBack");
     if (backScreenId) {
       NavigationServices.navigate(backScreenId, {
-        reload: true,
-        reset: false,
+        reload: false,
       });
     } else
       NavigationServices.navigate("retailer.home.order", {
@@ -170,19 +168,16 @@ export const useProps = ({
   };
 
   const onCompleteBack = async () => {
-    console.log("====> onCompleteBack");
+    console.log("====> onCompleteBack " + screenId);
+    navigation.goBack();
 
     if (screenId && screenId !== "retailer.home.order.check_out") {
       NavigationServices.navigate(screenId, {
-        reset: true,
-        reloadAppointmentId: null,
         reload: true,
       });
     } else
       NavigationServices.navigate("retailer.home.order", {
-        reset: true,
         reload: true,
-        reloadAppointmentId: null,
       });
   };
 
@@ -1364,12 +1359,10 @@ export const useProps = ({
         NavigationServices.navigate(screenId, {
           reload: false,
           reset: true,
-          reloadAppointmentId: null,
         });
       } else {
         NavigationServices.navigate("retailer.home.order", {
           reload: true,
-          reloadAppointmentId: null,
         });
       }
     },
