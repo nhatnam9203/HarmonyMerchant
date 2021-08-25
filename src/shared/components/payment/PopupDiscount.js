@@ -155,6 +155,20 @@ class PopupDiscount extends React.Component {
                 total = formatNumberFromCurrency(total) + formatNumberFromCurrency(this.customDiscountRef.current?.state.discount);
             }
 
+            if(discountItems){
+                for (let i = 0; i < discountItems.length; i++) {
+                    const itemTemp = discountItems[i]
+                    const findItem = l.find(l.get(appointmentDetail, 'products', []), itemFind => {
+                        return l.get(itemFind, 'bookingProductId') == l.get(itemTemp, 'bookingProductId')
+                    })
+                    const discountAmount = l.get(itemTemp, 'discount') > 0 ?
+                    formatNumberFromCurrency(l.get(itemTemp, 'discount') * l.get(findItem, 'quantity'))
+                    : formatNumberFromCurrency(l.get(itemTemp, 'discountPercent') * formatNumberFromCurrency(l.get(findItem, 'price') * l.get(findItem, 'quantity')) / 100)
+                    total = total + discountAmount
+                }
+    
+            }
+            
             total = roundNumber(total);
 
             const temptCustomDiscountPercent = _.isEmpty(appointmentDetail) ? customDiscountPercentLocal : customDiscountPercent;
@@ -216,8 +230,8 @@ class PopupDiscount extends React.Component {
                                                 return l.get(itemFind, 'bookingProductId') == l.get(itemTemp, 'bookingProductId')
                                             })
                                             const discountAmount = l.get(itemTemp, 'discount') > 0 ?
-                                            formatNumberFromCurrency(l.get(itemTemp, 'discount'))
-                                            : roundNumber(formatNumberFromCurrency(l.get(itemTemp, 'discountPercent')) * formatNumberFromCurrency(l.get(findItem, 'price')) / 100)
+                                            formatNumberFromCurrency(l.get(itemTemp, 'discount') * l.get(findItem, 'quantity'))
+                                            : roundNumber(formatNumberFromCurrency(l.get(itemTemp, 'discountPercent')) * formatNumberFromCurrency(l.get(findItem, 'price') * l.get(findItem, 'quantity')) / 100)
                                             return <ItemCampaign
                                             key={index}
                                             title={l.get(itemTemp, 'productName', '')}

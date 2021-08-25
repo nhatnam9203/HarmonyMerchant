@@ -146,7 +146,7 @@ class PopupDiscountItem extends React.Component {
                         </View>
                         
                         {/* ----------- Button Add ---- */}
-                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSize(12) }} >
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: scaleSize(40) }} >
                             <ButtonCustom
                                 width={scaleSize(160)}
                                 height={40}
@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 20,
+        marginTop: 50,
         marginLeft: 20,
         marginRight: 20,
     },
