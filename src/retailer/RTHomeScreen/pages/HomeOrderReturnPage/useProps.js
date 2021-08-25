@@ -115,8 +115,10 @@ export const useProps = ({ params: { item } }) => {
     item: JSON.parse(JSON.stringify(data)),
     onHandleReturn: () => {
       if (itemSelected?.length > 0) {
-        // const productIds = itemSelected.map((v) => v.bookingProductId);
-        const params = _.map(itemSelected, itemTemp => {
+        const filterList = _.filter(itemSelected, temp => {
+          return _.get(temp, 'returnAmount') > 0 || _.get(temp, 'returnQuantity') > 0
+        })
+        const params = _.map(filterList, itemTemp => {
           return {
             bookingProductId: _.get(itemTemp, 'bookingProductId'),
             total: _.get(itemTemp, 'returnAmount'),
