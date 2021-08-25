@@ -16,8 +16,8 @@ import PrintManager from "@lib/PrintManager";
 import Configs from "@configs";
 import Localization from "../localization";
 import ICON from "../resources";
-export * from './enums';
-import * as l from 'lodash';
+export * from "./enums";
+import * as l from "lodash";
 import PushNotification from "react-native-push-notification";
 import { parseString } from "react-native-xml2js";
 import env from "react-native-config";
@@ -1410,8 +1410,8 @@ export const getFormatTags = (data) => {
     const tempData = data[i];
     if (tempData.type === "Service") {
       services.push(tempData?.originalId);
-    } else if (tempData.type === "Product"){
-      products.push(tempData?.originalId); 
+    } else if (tempData.type === "Product") {
+      products.push(tempData?.originalId);
     } else {
       categories.push(tempData?.originalId);
     }
@@ -1467,14 +1467,14 @@ export const getIconByNotiType = (type) => {
 
 export const isPermissionToTab = (permission, tabMenu) => {
   const tabItem = l.find(permission, (item) => {
-    return l.get(item, 'key') == tabMenu
-  })
-  if (l.get(tabItem, 'isChecked', true)) {
-      return true
-  }else {
-      return false
+    return l.get(item, "key") == tabMenu;
+  });
+  if (l.get(tabItem, "isChecked", true)) {
+    return true;
+  } else {
+    return false;
   }
-}
+};
 
 export const getColorTitleByNotiType = (isRead, type) => {
   let color;
@@ -1640,9 +1640,9 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
 };
 
 export const handleAutoClose = async () => {
-  const { dataLocal, hardware } = store.getState()
-  const { paxMachineInfo } = hardware
-  const { token, deviceId, deviceName } = dataLocal
+  const { dataLocal, hardware } = store.getState();
+  const { paxMachineInfo } = hardware;
+  const { token, deviceId, deviceName } = dataLocal;
   const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
     paxMachineInfo;
   if (isSetup) {
@@ -1673,124 +1673,144 @@ export const handleAutoClose = async () => {
 
       if (result?.ResultCode && result?.ResultCode == "000000") {
         if (tempEnv == "Production" && result?.Message === "DEMO APPROVED") {
-          console.log('Demo mode')
+          console.log("Demo mode");
         } else {
           totalRecord = parseInt(result?.TotalRecord || 0);
-          const creditCount = totalRecord
+          const creditCount = totalRecord;
           parseString(xmlExtData, (err, result) => {
             if (err) {
-              processingSettlementWithoutConnectPax()
+              processingSettlementWithoutConnectPax();
             } else {
               const terminalID = `${result?.xml?.SN || null}`;
 
               requestAPI({
-                  type: 'GET_SETTLEMENT_WAITING',
-                  method: 'GET',
-                  api: `${Configs.API_URL}settlement/waiting?sn=${terminalID}}`,
-                  token,
-                  deviceName, 
-                  deviceId
-                }).then(settleWaitingResponse => {
-                  const settleWaiting = l.get(settleWaitingResponse, 'data')
-                  settle(paxMachineInfo, settleWaiting, creditCount, terminalID)
-                });
-            } 
+                type: "GET_SETTLEMENT_WAITING",
+                method: "GET",
+                api: `${Configs.API_URL}settlement/waiting?sn=${terminalID}}`,
+                token,
+                deviceName,
+                deviceId,
+              }).then((settleWaitingResponse) => {
+                const settleWaiting = l.get(settleWaitingResponse, "data");
+                settle(paxMachineInfo, settleWaiting, creditCount, terminalID);
+              });
+            }
           });
         }
       } else {
-        processingSettlementWithoutConnectPax()
+        processingSettlementWithoutConnectPax();
       }
     } catch (error) {
-      processingSettlementWithoutConnectPax()
+      processingSettlementWithoutConnectPax();
     }
   } else {
-    processingSettlementWithoutConnectPax()
+    processingSettlementWithoutConnectPax();
   }
 };
 
 export const processingSettlementWithoutConnectPax = () => {
-  const { dataLocal } = store.getState()
-  const { token, deviceId, deviceName } = dataLocal
+  const { dataLocal } = store.getState();
+  const { token, deviceId, deviceName } = dataLocal;
   requestAPI({
-    type: 'GET_SETTLEMENT_WAITING',
-    method: 'GET',
+    type: "GET_SETTLEMENT_WAITING",
+    method: "GET",
     api: `${Configs.API_URL}settlement/waiting?sn=${null}}`,
     token,
-    deviceName, 
-    deviceId
-  }).then(settleWaitingResponse => {
-    const settleWaiting = l.get(settleWaitingResponse, 'data')
+    deviceName,
+    deviceId,
+  }).then((settleWaitingResponse) => {
+    const settleWaiting = l.get(settleWaitingResponse, "data");
     proccessingSettlement([], settleWaiting, null, false);
   });
-}
+};
 
-export const settle = async (paxMachineInfo, settleWaiting, creditCount, terminalID) => {
-  const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
+export const settle = async (
+  paxMachineInfo,
+  settleWaiting,
+  creditCount,
+  terminalID
+) => {
+  const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
+    paxMachineInfo;
 
   if (isSetup && terminalID) {
-      if (Platform.OS === "android") {
-          PoslinkAndroid.batchTransaction(ip, port, "", "BATCHCLOSE",
-              (err) => {
-              },
-              (data) => {
-                  proccessingSettlement(data, settleWaiting, terminalID, true);
-              });
-      } else {
-          const tempIpPax = commType == "TCP" ? ip : "";
-          const tempPortPax = commType == "TCP" ? port : "";
-          const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
-          const paymentTransaction = settleWaiting?.paymentTransaction?.length || 0;
-          const responseData = [];
+    if (Platform.OS === "android") {
+      PoslinkAndroid.batchTransaction(
+        ip,
+        port,
+        "",
+        "BATCHCLOSE",
+        (err) => {},
+        (data) => {
+          proccessingSettlement(data, settleWaiting, terminalID, true);
+        }
+      );
+    } else {
+      const tempIpPax = commType == "TCP" ? ip : "";
+      const tempPortPax = commType == "TCP" ? port : "";
+      const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+      const paymentTransaction = settleWaiting?.paymentTransaction?.length || 0;
+      const responseData = [];
 
-          if (creditCount != paymentTransaction) {
-            for (let i = 1; i <= creditCount; i++) {
-                let data = await PosLinkReport.reportTransaction({
-                    transType: "LOCALDETAILREPORT",
-                    edcType: "ALL",
-                    cardType: "",
-                    paymentType: "",
-                    commType: commType,
-                    destIp: tempIpPax,
-                    portDevice: tempPortPax,
-                    timeoutConnect: "90000",
-                    bluetoothAddr: idBluetooth,
-                    refNum: `${i}`
-                });
-                const result = JSON.parse(data);
-                responseData.push(result);
-            }
-          };
-
-          PosLink.batchTransaction({
-              transType: "BATCHCLOSE",
-              edcType: "ALL",
-              commType: commType,
-              destIp: tempIpPax,
-              portDevice: tempPortPax,
-              timeoutConnect: "90000",
-              bluetoothAddr: idBluetooth
-          },
-              message => {
-                const result = JSON.parse(message);
-                if (result.status != 0) {
-                  proccessingSettlement(responseData, settleWaiting, terminalID, true);
-                }
-              }
-          )
+      if (creditCount != paymentTransaction) {
+        for (let i = 1; i <= creditCount; i++) {
+          let data = await PosLinkReport.reportTransaction({
+            transType: "LOCALDETAILREPORT",
+            edcType: "ALL",
+            cardType: "",
+            paymentType: "",
+            commType: commType,
+            destIp: tempIpPax,
+            portDevice: tempPortPax,
+            timeoutConnect: "90000",
+            bluetoothAddr: idBluetooth,
+            refNum: `${i}`,
+          });
+          const result = JSON.parse(data);
+          responseData.push(result);
+        }
       }
 
-  } 
-}
+      PosLink.batchTransaction(
+        {
+          transType: "BATCHCLOSE",
+          edcType: "ALL",
+          commType: commType,
+          destIp: tempIpPax,
+          portDevice: tempPortPax,
+          timeoutConnect: "90000",
+          bluetoothAddr: idBluetooth,
+        },
+        (message) => {
+          const result = JSON.parse(message);
+          if (result.status != 0) {
+            proccessingSettlement(
+              responseData,
+              settleWaiting,
+              terminalID,
+              true
+            );
+          }
+        }
+      );
+    }
+  }
+};
 
-export const proccessingSettlement = async (responseData, settleWaiting, terminalID, isConnectPax) => {
-  const { dataLocal } = store.getState()
-  const { token, deviceId, deviceName } = dataLocal
-  const editPaymentByHarmony =settleWaiting?.paymentByHarmony || 0.0
-  const editPaymentByCash = settleWaiting?.paymentByCash || 0.0
-  const editOtherPayment = settleWaiting?.otherPayment || 0.0
-  const discountSettlement = settleWaiting?.discount || 0.0
-  const editPaymentByCreditCard = settleWaiting?.paymentByCreditCard || 0.0
-  const paymentByGiftcard = settleWaiting?.paymentByGiftcard || 0.0
+export const proccessingSettlement = async (
+  responseData,
+  settleWaiting,
+  terminalID,
+  isConnectPax
+) => {
+  const { dataLocal } = store.getState();
+  const { token, deviceId, deviceName } = dataLocal;
+  const editPaymentByHarmony = settleWaiting?.paymentByHarmony || 0.0;
+  const editPaymentByCash = settleWaiting?.paymentByCash || 0.0;
+  const editOtherPayment = settleWaiting?.otherPayment || 0.0;
+  const discountSettlement = settleWaiting?.discount || 0.0;
+  const editPaymentByCreditCard = settleWaiting?.paymentByCreditCard || 0.0;
+  const paymentByGiftcard = settleWaiting?.paymentByGiftcard || 0.0;
   const settleTotal = {
     paymentByHarmony: editPaymentByHarmony,
     paymentByCreditCard: editPaymentByCreditCard,
@@ -1812,25 +1832,21 @@ export const proccessingSettlement = async (responseData, settleWaiting, termina
         formatNumberFromCurrency(discountSettlement) +
         formatNumberFromCurrency(paymentByGiftcard)
     ),
-    note: '',
+    note: "",
     terminalID,
-  }
-  const body = { 
-    ...settleTotal, 
-    checkout: settleWaiting.checkout, 
+  };
+  const body = {
+    ...settleTotal,
+    checkout: settleWaiting.checkout,
     isConnectPax,
-    responseData 
+    responseData,
   };
   requestAPI({
-    method: 'POST',
+    method: "POST",
     api: `${Configs.API_URL}settlement`,
     body,
     token,
-    deviceName, 
-    deviceId
-  })
-  
-}
-
-
-
+    deviceName,
+    deviceId,
+  });
+};

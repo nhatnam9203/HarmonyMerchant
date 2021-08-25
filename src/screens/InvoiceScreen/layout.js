@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Image,
@@ -7,10 +7,11 @@ import {
   ActivityIndicator,
   Platform,
   VirtualizedList,
-} from 'react-native';
-import _ from 'ramda';
-import Dash from 'react-native-dash';
-import { menuTabs } from '@utils';
+} from "react-native";
+import _ from "ramda";
+import Dash from "react-native-dash";
+import { menuTabs } from "@utils";
+import { getFullName } from "@shared/utils";
 
 import {
   Text,
@@ -27,7 +28,7 @@ import {
   PopupConfirmPrintInvoice,
   ClearTextInputIcon,
   ScrollableTabView,
-} from '@components';
+} from "@components";
 import {
   scaleSize,
   localize,
@@ -36,11 +37,11 @@ import {
   formatMoney,
   getPaymentString,
   PAYMENT_METHODS,
-} from '@utils';
-import styles from './style';
-import IMAGE from '@resources';
-import { ItemInvoice, ItemButton, ItemHistory } from './widget';
-import configs from '@configs';
+} from "@utils";
+import styles from "./style";
+import IMAGE from "@resources";
+import { ItemInvoice, ItemButton, ItemHistory } from "./widget";
+import configs from "@configs";
 
 export default class Layout extends React.Component {
   renderHeader() {
@@ -49,20 +50,20 @@ export default class Layout extends React.Component {
       <View
         style={{
           height: scaleSize(35),
-          borderBottomColor: '#0764B0',
+          borderBottomColor: "#0764B0",
           borderWidth: 3,
           paddingLeft: scaleSize(50),
-          justifyContent: 'center',
+          justifyContent: "center",
         }}
       >
         <Text
           style={{
             fontSize: scaleSize(16),
-            color: '#0764B0',
-            fontWeight: '600',
+            color: "#0764B0",
+            fontWeight: "600",
           }}
         >
-          {localize('Invoice', language)}
+          {localize("Invoice", language)}
         </Text>
       </View>
     );
@@ -74,27 +75,27 @@ export default class Layout extends React.Component {
     const { keySearch } = searchFilter;
     return (
       <View style={{ height: scaleSize(40), paddingHorizontal: scaleSize(12) }}>
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <View style={{ flex: 1, flexDirection: 'row' }}>
+        <View style={{ flex: 1, flexDirection: "row" }}>
+          <View style={{ flex: 1, flexDirection: "row" }}>
             <View
               style={{
                 flex: 1,
-                borderColor: '#C5C5C5',
+                borderColor: "#C5C5C5",
                 borderWidth: 1,
                 borderRadius: scaleSize(4),
-                flexDirection: 'row',
+                flexDirection: "row",
               }}
             >
               <View style={{ flex: 1, paddingHorizontal: scaleSize(12) }}>
                 <TextInput
                   style={{ flex: 1, fontSize: scaleSize(16) }}
                   placeholder={`${localize(
-                    'Invoice No /Phone Number/ Customer Name',
+                    "Invoice No /Phone Number/ Customer Name",
                     language
                   )}`}
                   value={keySearch}
                   onChangeText={(keySearch) =>
-                    this.updateSearchFilterInfo('keySearch', keySearch)
+                    this.updateSearchFilterInfo("keySearch", keySearch)
                   }
                   onSubmitEditing={this.searchInvoiceWithKeyword}
                 />
@@ -105,8 +106,8 @@ export default class Layout extends React.Component {
                   onPress={this.clearSearchText}
                   style={{
                     width: scaleSize(35),
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
                   <ClearTextInputIcon />
@@ -114,16 +115,16 @@ export default class Layout extends React.Component {
               ) : null}
             </View>
           </View>
-          <View style={{ width: scaleSize(120), alignItems: 'flex-end' }}>
+          <View style={{ width: scaleSize(120), alignItems: "flex-end" }}>
             <ButtonCustom
-              width={'90%'}
+              width={"90%"}
               height={40}
               backgroundColor="#F1F1F1"
-              title={localize('Search', language)}
+              title={localize("Search", language)}
               textColor="#6A6A6A"
               onPress={this.searchInvoiceWithKeyword}
-              style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-              styleText={{ fontSize: scaleSize(15), fontWeight: '500' }}
+              style={{ borderWidth: 1, borderColor: "#C5C5C5" }}
+              styleText={{ fontSize: scaleSize(15), fontWeight: "500" }}
             />
           </View>
         </View>
@@ -136,24 +137,24 @@ export default class Layout extends React.Component {
     const { searchFilter, titleRangeTime } = this.state;
     const { paymentMethod, status } = searchFilter;
     const temptColorTextTimeRange =
-      titleRangeTime === 'Time Range' ? 'rgb(155,155,155)' : 'rgb(38,38,38)';
+      titleRangeTime === "Time Range" ? "rgb(155,155,155)" : "rgb(38,38,38)";
     return (
       <View style={{ height: scaleSize(40), paddingHorizontal: scaleSize(12) }}>
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <View style={{ width: scaleSize(70), justifyContent: 'center' }}>
-            <Text style={{ fontSize: scaleSize(18), color: '#6A6A6A' }}>
-              {localize('Filters', language)}
+        <View style={{ flex: 1, flexDirection: "row" }}>
+          <View style={{ width: scaleSize(70), justifyContent: "center" }}>
+            <Text style={{ fontSize: scaleSize(18), color: "#6A6A6A" }}>
+              {localize("Filters", language)}
             </Text>
           </View>
           {/* ------------- */}
           <Button onPress={this.showCalendar} style={{ width: scaleSize(180) }}>
             <View
               style={[
-                { height: scaleSize(40), width: '90%', flexDirection: 'row' },
+                { height: scaleSize(40), width: "90%", flexDirection: "row" },
                 styles.borderStyle,
               ]}
             >
-              <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+              <View style={{ alignItems: "center", flexDirection: "row" }}>
                 <Text
                   style={{
                     color: temptColorTextTimeRange,
@@ -168,8 +169,8 @@ export default class Layout extends React.Component {
               <View
                 style={{
                   flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'flex-end',
+                  justifyContent: "center",
+                  alignItems: "flex-end",
                   paddingRight: scaleSize(6),
                 }}
               >
@@ -183,16 +184,16 @@ export default class Layout extends React.Component {
           {/* ------------- */}
           <View style={{ width: scaleSize(170), marginLeft: scaleSize(16) }}>
             <Dropdown
-              label={localize('Payment Method', language)}
+              label={localize("Payment Method", language)}
               data={PAYMENT_METHODS}
               value={paymentMethod}
               onChangeText={(value) =>
-                this.updateSearchFilterInfo('paymentMethod', value)
+                this.updateSearchFilterInfo("paymentMethod", value)
               }
               containerStyle={{
-                backgroundColor: 'rgb(246,246,246)',
+                backgroundColor: "rgb(246,246,246)",
                 borderWidth: 1,
-                borderColor: '#C5C5C5',
+                borderColor: "#C5C5C5",
                 flex: 1,
                 borderRadius: scaleSize(4),
               }}
@@ -201,25 +202,25 @@ export default class Layout extends React.Component {
           {/* ------------- */}
           <View style={{ width: scaleSize(140), marginLeft: scaleSize(16) }}>
             <Dropdown
-              label={localize('Status', language)}
+              label={localize("Status", language)}
               data={[
-                { value: '' },
-                { value: 'Complete' },
-                { value: 'Incomplete' },
-                { value: 'Paid' },
-                { value: 'Void' },
-                { value: 'Refund' },
-                { value: 'Cancel' },
-                { value: 'Transaction Fail' },
+                { value: "" },
+                { value: "Complete" },
+                { value: "Incomplete" },
+                { value: "Paid" },
+                { value: "Void" },
+                { value: "Refund" },
+                { value: "Cancel" },
+                { value: "Transaction Fail" },
               ]}
               value={status}
               onChangeText={(value) =>
-                this.updateSearchFilterInfo('status', value)
+                this.updateSearchFilterInfo("status", value)
               }
               containerStyle={{
-                backgroundColor: 'rgb(246,246,246)',
+                backgroundColor: "rgb(246,246,246)",
                 borderWidth: 1,
-                borderColor: '#C5C5C5',
+                borderColor: "#C5C5C5",
                 flex: 1,
                 borderRadius: scaleSize(4),
               }}
@@ -232,12 +233,12 @@ export default class Layout extends React.Component {
 
   renderButtonVoid() {
     const { language, invoiceDetail } = this.props;
-    const status = invoiceDetail?.status || '';
+    const status = invoiceDetail?.status || "";
     let isDebitPayment = false;
-    const paymentMethod = invoiceDetail?.paymentMethod || '';
+    const paymentMethod = invoiceDetail?.paymentMethod || "";
 
     try {
-      if (paymentMethod && paymentMethod === 'credit_card') {
+      if (paymentMethod && paymentMethod === "credit_card") {
         const paymentInformation =
           invoiceDetail?.paymentInformation?.length > 0
             ? invoiceDetail.paymentInformation
@@ -246,37 +247,37 @@ export default class Layout extends React.Component {
           paymentInformation &&
           paymentInformation[0]?.paymentData &&
           `${paymentInformation[0]?.paymentData.transaction_type}`.toUpper() ==
-            'CREDIT'
+            "CREDIT"
             ? false
             : true;
       }
     } catch (error) {
       isDebitPayment = false;
     }
-    if (status === 'paid' && !isDebitPayment) {
+    if (status === "paid" && !isDebitPayment) {
       return (
         <ButtonCustom
-          width={'100%'}
+          width={"100%"}
           height={50}
           backgroundColor="#0764B0"
-          title={localize('Refund', language)}
+          title={localize("Refund", language)}
           textColor="#fff"
           onPress={this.changeStatustransaction}
-          style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-          styleText={{ fontSize: scaleSize(20), fontWeight: 'bold' }}
+          style={{ borderWidth: 1, borderColor: "#C5C5C5" }}
+          styleText={{ fontSize: scaleSize(20), fontWeight: "bold" }}
         />
       );
-    } else if (status === 'complete' && !isDebitPayment) {
+    } else if (status === "complete" && !isDebitPayment) {
       return (
         <ButtonCustom
-          width={'100%'}
+          width={"100%"}
           height={50}
           backgroundColor="#0764B0"
-          title={localize('VOID', language)}
+          title={localize("VOID", language)}
           textColor="#fff"
           onPress={this.changeStatustransaction}
-          style={{ borderWidth: 1, borderColor: '#C5C5C5' }}
-          styleText={{ fontSize: scaleSize(20), fontWeight: 'bold' }}
+          style={{ borderWidth: 1, borderColor: "#C5C5C5" }}
+          styleText={{ fontSize: scaleSize(20), fontWeight: "bold" }}
         />
       );
     } else {
@@ -290,13 +291,18 @@ export default class Layout extends React.Component {
     const checkoutPayments =
       invoiceDetail?.checkoutPayments?.slice(0).reverse() || [];
     const refundAmount = invoiceDetail?.refundAmount || 0.0;
-    const promotionNotes = invoiceDetail?.promotionNotes?.note || '';
+    const promotionNotes = invoiceDetail?.promotionNotes?.note || "";
     const tempStyle =
-      Platform.OS === 'android'
-        ? { paddingHorizontal: scaleSize(10), backgroundColor: '#FFFFFF' }
-        : { paddingHorizontal: scaleSize(10) };
-    const status = invoiceDetail?.status || '';
-    const checkoutId = invoiceDetail?.checkoutId || '';
+      Platform.OS === "android"
+        ? { paddingHorizontal: scaleSize(10), backgroundColor: "#FFFFFF" }
+        : { paddingHorizontal: scaleSize(10), backgroundColor: "#FFFFFF" };
+    const status = invoiceDetail?.status || "";
+    const checkoutId = invoiceDetail?.checkoutId || "";
+
+    let invoiceName = getStaffNameForInvoice(profileStaffLogin, basket);
+    if (!invoiceName && invoiceDetail?.user?.userId) {
+      invoiceName = getFullName(invoiceDetail?.user);
+    }
 
     return (
       <View style={{ flex: 1 }}>
@@ -317,10 +323,10 @@ export default class Layout extends React.Component {
               <Text
                 style={[
                   styles.txt_normal,
-                  { fontSize: 24, fontWeight: '600', marginTop: scaleSize(8) },
+                  { fontSize: 24, fontWeight: "600", marginTop: scaleSize(8) },
                 ]}
               >
-                {profile?.businessName || ''}
+                {profile?.businessName || ""}
               </Text>
               {/* ------------- Store Address ----------- */}
               <Text
@@ -330,7 +336,7 @@ export default class Layout extends React.Component {
                   { paddingHorizontal: scaleSize(10), marginTop: scaleSize(4) },
                 ]}
               >
-                {profile?.addressFull || ''}
+                {profile?.addressFull || ""}
               </Text>
               {/* ------------- Phone Address ----------- */}
               <Text
@@ -339,7 +345,7 @@ export default class Layout extends React.Component {
                   { paddingHorizontal: scaleSize(10) },
                 ]}
               >
-                {`Tel : ${profile?.phone || ''}`}
+                {`Tel : ${profile?.phone || ""}`}
               </Text>
               {/* ------------- Company Website ----------- */}
               {profile?.webLink ? (
@@ -349,7 +355,7 @@ export default class Layout extends React.Component {
                     { paddingHorizontal: scaleSize(10) },
                   ]}
                 >
-                  {profile?.webLink || ''}
+                  {profile?.webLink || ""}
                 </Text>
               ) : (
                 <View />
@@ -360,7 +366,7 @@ export default class Layout extends React.Component {
                   styles.txt_normal,
                   {
                     fontSize: 20,
-                    fontWeight: '600',
+                    fontWeight: "600",
                     marginTop: scaleSize(6),
                     marginBottom: scaleSize(6),
                   },
@@ -368,17 +374,17 @@ export default class Layout extends React.Component {
               >
                 {`${
                   status &&
-                  status !== 'paid' &&
-                  status !== 'pending' &&
-                  status !== 'incomplete' &&
-                  status !== 'complete'
+                  status !== "paid" &&
+                  status !== "pending" &&
+                  status !== "incomplete" &&
+                  status !== "complete"
                     ? `${status}`.toUpperCase()
-                    : 'SALE'
+                    : "SALE"
                 }`}
               </Text>
               {/* ------------- Dot Border  ----------- */}
               <Dash
-                style={{ width: '100%', height: 1 }}
+                style={{ width: "100%", height: 1 }}
                 dashGap={5}
                 dashLength={8}
                 dashThickness={1}
@@ -386,7 +392,7 @@ export default class Layout extends React.Component {
               />
 
               {/* ------------- Invoice Date ----------- */}
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{ flexDirection: "row" }}>
                 <View style={{ width: scaleSize(90) }}>
                   <Text style={styles.txt_info}>{`Invoice Date `}</Text>
                 </View>
@@ -396,41 +402,39 @@ export default class Layout extends React.Component {
                       invoiceDetail?.createdDate
                         ? formatWithMoment(
                             invoiceDetail?.createdDate,
-                            'MM/DD/YYYY hh:mm A'
+                            "MM/DD/YYYY hh:mm A"
                           )
-                        : ''
+                        : ""
                     }`}
                   </Text>
                 </View>
               </View>
 
               {/* ------------- Staff ----------- */}
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{ flexDirection: "row" }}>
                 <View style={{ width: scaleSize(90) }}>
                   <Text style={styles.txt_info}>{`Staff Name`}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={styles.txt_info}>
-                    {`: ${getStaffNameForInvoice(profileStaffLogin, basket)}`}
-                  </Text>
+                  <Text style={styles.txt_info}>{`: ${invoiceName}`}</Text>
                 </View>
               </View>
 
               {/* ------------- Invoice No ----------- */}
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{ flexDirection: "row" }}>
                 <View style={{ width: scaleSize(90) }}>
                   <Text style={styles.txt_info}>{`Invoice No`}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.txt_info}>
-                    {checkoutId ? `: # ${checkoutId}` : ':'}
+                    {checkoutId ? `: # ${checkoutId}` : ":"}
                   </Text>
                 </View>
               </View>
 
               {/* ------------- Dot Border  ----------- */}
               <Dash
-                style={{ width: '100%', height: 1 }}
+                style={{ width: "100%", height: 1 }}
                 dashGap={5}
                 dashLength={8}
                 dashThickness={1}
@@ -438,24 +442,24 @@ export default class Layout extends React.Component {
               />
 
               {/* ------------- Header  ----------- */}
-              <View style={{ flexDirection: 'row', marginTop: scaleSize(6) }}>
-                <View style={{ flex: 0.8, justifyContent: 'center' }}>
+              <View style={{ flexDirection: "row", marginTop: scaleSize(6) }}>
+                <View style={{ flex: 0.8, justifyContent: "center" }}>
                   <Text
                     style={[
                       styles.txt_info,
-                      { fontSize: 18, fontWeight: '400' },
+                      { fontSize: 18, fontWeight: "400" },
                     ]}
                   >
                     {`DESCRIPTION`}
                   </Text>
                 </View>
                 <View
-                  style={{ justifyContent: 'center', width: scaleSize(70) }}
+                  style={{ justifyContent: "center", width: scaleSize(70) }}
                 >
                   <Text
                     style={[
                       styles.txt_info,
-                      { fontSize: 18, fontWeight: '400' },
+                      { fontSize: 18, fontWeight: "400" },
                     ]}
                   >
                     {`PRICE`}
@@ -464,14 +468,14 @@ export default class Layout extends React.Component {
                 <View
                   style={{
                     width: scaleSize(30),
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                 >
                   <Text
                     style={[
                       styles.txt_info,
-                      { fontSize: 18, fontWeight: '400' },
+                      { fontSize: 18, fontWeight: "400" },
                     ]}
                   >
                     {`QTY`}
@@ -480,14 +484,14 @@ export default class Layout extends React.Component {
                 <View
                   style={{
                     flex: 0.5,
-                    justifyContent: 'center',
-                    alignItems: 'flex-end',
+                    justifyContent: "center",
+                    alignItems: "flex-end",
                   }}
                 >
                   <Text
                     style={[
                       styles.txt_info,
-                      { fontSize: 18, fontWeight: '400' },
+                      { fontSize: 18, fontWeight: "400" },
                     ]}
                   >
                     {`TOTAL`}
@@ -497,7 +501,7 @@ export default class Layout extends React.Component {
 
               {/* ------------- Dot Border  ----------- */}
               <Dash
-                style={{ width: '100%', height: 1 }}
+                style={{ width: "100%", height: 1 }}
                 dashGap={5}
                 dashLength={8}
                 dashThickness={1}
@@ -513,34 +517,34 @@ export default class Layout extends React.Component {
               <View
                 style={{
                   height: 2,
-                  backgroundColor: '#000',
+                  backgroundColor: "#000",
                   marginVertical: scaleSize(10),
                 }}
               />
               {/* ------------- SubTotal   ----------- */}
               <ItemTotal
-                title={'Subtotal'}
-                value={invoiceDetail?.subTotal || '0.00'}
+                title={"Subtotal"}
+                value={invoiceDetail?.subTotal || "0.00"}
               />
               <ItemTotal
-                title={'Discount'}
-                value={invoiceDetail?.discount || '0.00'}
+                title={"Discount"}
+                value={invoiceDetail?.discount || "0.00"}
               />
               <ItemTotal
-                title={'Tip'}
-                value={invoiceDetail?.tipAmount || '0.00'}
+                title={"Tip"}
+                value={invoiceDetail?.tipAmount || "0.00"}
               />
-              <ItemTotal title={'Tax'} value={invoiceDetail?.tax || '0.00'} />
+              <ItemTotal title={"Tax"} value={invoiceDetail?.tax || "0.00"} />
               <ItemTotal
-                title={'Total'}
-                value={invoiceDetail?.total || '0.00'}
+                title={"Total"}
+                value={invoiceDetail?.total || "0.00"}
               />
 
               {
                 <View>
                   {checkoutPayments.map((data, index) => (
                     <View key={index} style={{ marginBottom: scaleSize(4) }}>
-                      <View style={{ flexDirection: 'row' }}>
+                      <View style={{ flexDirection: "row" }}>
                         <Text style={[styles.txt_total]}>
                           {`- Entry method: ${getPaymentString(
                             data?.paymentMethod
@@ -550,8 +554,8 @@ export default class Layout extends React.Component {
                         <View
                           style={{
                             flex: 1,
-                            alignItems: 'flex-end',
-                            justifyContent: 'center',
+                            alignItems: "flex-end",
+                            justifyContent: "center",
                           }}
                         >
                           <Text
@@ -560,12 +564,12 @@ export default class Layout extends React.Component {
                               { fontSize: scaleSize(10) },
                             ]}
                           >
-                            {`$${data?.amount || ''}`}
+                            {`$${data?.amount || ""}`}
                           </Text>
                         </View>
                       </View>
-                      {data.paymentMethod === 'credit_card' ||
-                      data.paymentMethod === 'debit_card' ? (
+                      {data.paymentMethod === "credit_card" ||
+                      data.paymentMethod === "debit_card" ? (
                         <View style={{ marginTop: scaleSize(5) }}>
                           <Text
                             style={[
@@ -574,9 +578,9 @@ export default class Layout extends React.Component {
                             ]}
                           >
                             {` ${
-                              data?.paymentInformation?.type || ''
+                              data?.paymentInformation?.type || ""
                             }: ***********${
-                              data?.paymentInformation?.number || ''
+                              data?.paymentInformation?.number || ""
                             }`}
                           </Text>
                           <Text
@@ -585,7 +589,7 @@ export default class Layout extends React.Component {
                               { fontSize: scaleSize(10) },
                             ]}
                           >
-                            {` ${data?.paymentInformation?.name || ''}`}
+                            {` ${data?.paymentInformation?.name || ""}`}
                           </Text>
                           <Text
                             style={[
@@ -596,7 +600,7 @@ export default class Layout extends React.Component {
                             {` ${
                               data?.paymentInformation?.sn
                                 ? `Terminal ID: ${data?.paymentInformation?.sn}`
-                                : ''
+                                : ""
                             }`}
                           </Text>
                           <Text
@@ -608,7 +612,7 @@ export default class Layout extends React.Component {
                             {` ${
                               data?.paymentInformation?.refNum
                                 ? `Transaction #: ${data?.paymentInformation?.refNum}`
-                                : ''
+                                : ""
                             }`}
                           </Text>
                         </View>
@@ -620,15 +624,15 @@ export default class Layout extends React.Component {
 
               <View style={{ height: scaleSize(16) }} />
               {parseFloat(refundAmount) > 0 ? (
-                <Text style={{ fontSize: scaleSize(10), fontWeight: 'bold' }}>
+                <Text style={{ fontSize: scaleSize(10), fontWeight: "bold" }}>
                   {`Change : $ ${invoiceDetail?.refundAmount || 0.0}`}
                 </Text>
               ) : null}
 
               {promotionNotes ? (
-                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
+                <Text style={{ fontSize: 16, fontWeight: "bold" }}>
                   {`Discount note: `}
-                  <Text style={{ fontWeight: '500' }}>
+                  <Text style={{ fontWeight: "500" }}>
                     {`${promotionNotes}`}
                   </Text>
                 </Text>
@@ -636,10 +640,10 @@ export default class Layout extends React.Component {
 
               {/* ----------- Thanks , see you again -------- */}
               <View style={{ height: scaleSize(20) }} />
-              <Text style={[styles.txt_total, { alignSelf: 'center' }]}>
+              <Text style={[styles.txt_total, { alignSelf: "center" }]}>
                 {`Thank you !`}
               </Text>
-              <Text style={[styles.txt_total, { alignSelf: 'center' }]}>
+              <Text style={[styles.txt_total, { alignSelf: "center" }]}>
                 {`Please come again`}
               </Text>
               <View style={{ height: scaleSize(8) }} />
@@ -649,8 +653,8 @@ export default class Layout extends React.Component {
                   styles.txt_total,
                   {
                     fontSize: scaleSize(10),
-                    fontWeight: '300',
-                    alignSelf: 'center',
+                    fontWeight: "300",
+                    alignSelf: "center",
                   },
                 ]}
               >
@@ -669,7 +673,7 @@ export default class Layout extends React.Component {
           }}
         >
           {invoiceDetail?.checkoutId ? (
-            <ItemButton title={'History'} onPress={this.gotoHistory} />
+            <ItemButton title={"History"} onPress={this.gotoHistory} />
           ) : null}
           {this.renderButtonVoid()}
         </View>
@@ -679,7 +683,7 @@ export default class Layout extends React.Component {
 
   renderHistoryInvoice() {
     const { language, invoiceDetail } = this.props;
-    const promotionNotes = invoiceDetail?.promotionNotes?.note || '';
+    const promotionNotes = invoiceDetail?.promotionNotes?.note || "";
     const history = invoiceDetail?.history || [];
 
     return (
@@ -691,11 +695,11 @@ export default class Layout extends React.Component {
         }}
       >
         {/* ---------------- Header ---------------- */}
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: "row" }}>
           <View style={{ flex: 1, paddingTop: scaleSize(2) }}>
             <Button
               onPress={this.backTab}
-              style={{ flexDirection: 'row', alignItems: 'center' }}
+              style={{ flexDirection: "row", alignItems: "center" }}
             >
               <Image
                 source={IMAGE.back}
@@ -705,14 +709,14 @@ export default class Layout extends React.Component {
                   marginRight: scaleSize(6),
                 }}
               />
-              <Text style={{ color: '#0764B0', fontSize: scaleSize(14) }}>
-                {localize('Back', language)}
+              <Text style={{ color: "#0764B0", fontSize: scaleSize(14) }}>
+                {localize("Back", language)}
               </Text>
             </Button>
           </View>
           <View style={{}}>
-            <Text style={{ color: '#404040', fontSize: scaleSize(16) }}>
-              {localize('History', language)}
+            <Text style={{ color: "#404040", fontSize: scaleSize(16) }}>
+              {localize("History", language)}
             </Text>
           </View>
           <View style={{ flex: 1 }}></View>
@@ -730,9 +734,9 @@ export default class Layout extends React.Component {
               ))}
               <View style={{ height: scaleSize(16) }} />
               {promotionNotes ? (
-                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
+                <Text style={{ fontSize: 16, fontWeight: "bold" }}>
                   {`Discount note: `}
-                  <Text style={{ fontWeight: '500' }}>
+                  <Text style={{ fontWeight: "500" }}>
                     {`${promotionNotes}`}
                   </Text>
                 </Text>
@@ -756,19 +760,19 @@ export default class Layout extends React.Component {
     } = this.props;
 
     return (
-      <View style={{ flex: 1, flexDirection: 'row' }}>
+      <View style={{ flex: 1, flexDirection: "row" }}>
         {/* ---------- Left ------ */}
         <View style={{ flex: 1.4 }}>
           <View
             style={{
               paddingLeft: scaleSize(12),
-              borderBottomColor: '#C5C5C5',
+              borderBottomColor: "#C5C5C5",
               borderBottomWidth: 1,
               paddingBottom: scaleSize(6),
             }}
           >
-            <Text style={{ color: '#404040', fontSize: scaleSize(18) }}>
-              {localize('Invoice List', language)}
+            <Text style={{ color: "#404040", fontSize: scaleSize(18) }}>
+              {localize("Invoice List", language)}
             </Text>
           </View>
           <View style={{ flex: 1 }}>
@@ -791,13 +795,13 @@ export default class Layout extends React.Component {
               ListEmptyComponent={() => (
                 <View
                   style={{
-                    width: '100%',
-                    alignItems: 'center',
+                    width: "100%",
+                    alignItems: "center",
                     paddingTop: scaleSize(20),
                   }}
                 >
-                  <Text style={{ color: '#404040', fontSize: scaleSize(20) }}>
-                    {localize('List Empty', language)}
+                  <Text style={{ color: "#404040", fontSize: scaleSize(20) }}>
+                    {localize("List Empty", language)}
                   </Text>
                 </View>
               )}
@@ -813,8 +817,8 @@ export default class Layout extends React.Component {
                 <View
                   style={{
                     height: scaleSize(30),
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
                   {isLoadMoreInvoiceList ? (
@@ -832,13 +836,13 @@ export default class Layout extends React.Component {
           <View
             style={{
               paddingLeft: scaleSize(12),
-              borderBottomColor: '#C5C5C5',
+              borderBottomColor: "#C5C5C5",
               borderBottomWidth: 1,
               paddingBottom: scaleSize(6),
             }}
           >
-            <Text style={{ color: '#404040', fontSize: scaleSize(18) }}>
-              {localize('Invoice Detail', language)}
+            <Text style={{ color: "#404040", fontSize: scaleSize(18) }}>
+              {localize("Invoice Detail", language)}
             </Text>
           </View>
           {/* -------- ScrollableTabView ---- */}
@@ -862,14 +866,14 @@ export default class Layout extends React.Component {
             <Button
               onPress={this.shareCustomerInvoice}
               style={{
-                position: 'absolute',
+                position: "absolute",
                 top: scaleSize(-12),
                 right: scaleSize(50),
                 width: scaleSize(35),
                 height: scaleSize(35),
-                backgroundColor: '#0764B0',
-                justifyContent: 'center',
-                alignItems: 'center',
+                backgroundColor: "#0764B0",
+                justifyContent: "center",
+                alignItems: "center",
                 borderRadius: scaleSize(4),
               }}
             >
@@ -884,14 +888,14 @@ export default class Layout extends React.Component {
             <Button
               onPress={this.printCustomerInvoice}
               style={{
-                position: 'absolute',
+                position: "absolute",
                 top: scaleSize(-12),
                 right: scaleSize(8),
                 width: scaleSize(35),
                 height: scaleSize(35),
-                backgroundColor: '#0764B0',
-                justifyContent: 'center',
-                alignItems: 'center',
+                backgroundColor: "#0764B0",
+                justifyContent: "center",
+                alignItems: "center",
                 borderRadius: scaleSize(4),
               }}
             >
@@ -954,14 +958,14 @@ export default class Layout extends React.Component {
         <PopupCheckStaffPermission
           ref={this.checkInvoicePermissionRef}
           visiblePopupCheckStaffPermission={invoiceTabPermission}
-          title={localize('Input PIN Number', language)}
+          title={localize("Input PIN Number", language)}
           tabName={menuTabs.MENU_INVOICE}
           onRequestClose={this.closePopupCheckInvoiceTabPermission}
         />
         <PopupConfirmInvoiceStatus
           ref={this.confirmInvoiceStatusRef}
           visible={visibleConfirmInvoiceStatus}
-          title={localize('Confirmation', language)}
+          title={localize("Confirmation", language)}
           confirmChangeInvoiceStatus={this.confirmChangeInvoiceStatus}
           onRequestClose={() =>
             this.setState({ visibleConfirmInvoiceStatus: false })
@@ -977,8 +981,8 @@ export default class Layout extends React.Component {
         />
         <PopupConfirmPrintInvoice
           visible={visibleConfirmPrintInvoice}
-          title={localize('Confirmation', language)}
-          message={`${localize('Do you want to print receipt', language)}?`}
+          title={localize("Confirmation", language)}
+          message={`${localize("Do you want to print receipt", language)}?`}
           onRequestClose={this.closePopupConfirmPrintInvoice}
           confimYes={this.printInvoice}
           language={language}
@@ -997,13 +1001,13 @@ const ItemPrintBasket = ({ item, index }) => {
   const price = item.data && item.data.price ? item.data.price : 0;
   const quanlitySet = item.quanlitySet ? item.quanlitySet : 1;
   const total = formatMoney(price * quanlitySet);
-  const note = item.note ? item.note : '';
+  const note = item.note ? item.note : "";
 
   return (
-    <View style={{ flexDirection: 'row', marginTop: scaleSize(3) }}>
-      <View style={{ flex: 0.8, justifyContent: 'center' }}>
+    <View style={{ flexDirection: "row", marginTop: scaleSize(3) }}>
+      <View style={{ flex: 0.8, justifyContent: "center" }}>
         <Text style={[styles.txt_info]}>
-          {`${index + 1}. ${item.data && item.data.name ? item.data.name : ''}`}
+          {`${index + 1}. ${item.data && item.data.name ? item.data.name : ""}`}
         </Text>
         {/* ------------ Note -------- */}
         {note ? (
@@ -1012,13 +1016,13 @@ const ItemPrintBasket = ({ item, index }) => {
           </Text>
         ) : null}
       </View>
-      <View style={{ justifyContent: 'center', width: scaleSize(70) }}>
+      <View style={{ justifyContent: "center", width: scaleSize(70) }}>
         <Text style={[styles.txt_info]}>{`$ ${price}`}</Text>
       </View>
       <View
         style={{
           width: scaleSize(30),
-          justifyContent: 'center',
+          justifyContent: "center",
           paddingLeft: scaleSize(6),
         }}
       >
@@ -1027,11 +1031,11 @@ const ItemPrintBasket = ({ item, index }) => {
       <View
         style={{
           flex: 0.5,
-          justifyContent: 'center',
-          alignItems: 'flex-end',
+          justifyContent: "center",
+          alignItems: "flex-end",
         }}
       >
-        <Text style={[styles.txt_info]}>{`$ ${total ? total : ''}`}</Text>
+        <Text style={[styles.txt_info]}>{`$ ${total ? total : ""}`}</Text>
       </View>
     </View>
   );
@@ -1039,11 +1043,11 @@ const ItemPrintBasket = ({ item, index }) => {
 
 const ItemTotal = ({ title, value, style }) => {
   return (
-    <View style={{ flexDirection: 'row', marginBottom: scaleSize(4) }}>
+    <View style={{ flexDirection: "row", marginBottom: scaleSize(4) }}>
       <Text
         style={[
           styles.txt_total,
-          { alignSelf: 'flex-start', fontWeight: '600' },
+          { alignSelf: "flex-start", fontWeight: "600" },
           style,
         ]}
       >
@@ -1053,7 +1057,7 @@ const ItemTotal = ({ title, value, style }) => {
       <Text
         style={[
           styles.txt_total,
-          { alignSelf: 'flex-end', fontWeight: '400' },
+          { alignSelf: "flex-end", fontWeight: "400" },
           style,
         ]}
       >

@@ -12,6 +12,7 @@ import {
 import { StarPRNT } from "react-native-star-prnt";
 import { captureRef, releaseCapture } from "react-native-view-shot";
 import Dash from "react-native-dash";
+import { getFullName } from "@shared/utils";
 
 import ButtonCustom from "./ButtonCustom";
 import {
@@ -227,6 +228,7 @@ class PopupInvoicePrint extends React.Component {
       profile,
       paymentDetailInfo,
       profileStaffLogin,
+      invoiceDetail,
     } = this.props;
     const {
       basket,
@@ -251,6 +253,11 @@ class PopupInvoicePrint extends React.Component {
       Platform.OS === "android"
         ? { paddingHorizontal: scaleSize(10), backgroundColor: "#FFFFFF" }
         : { paddingHorizontal: scaleSize(10) };
+
+    let invoiceName = getStaffNameForInvoice(profileStaffLogin, basket);
+    if (!invoiceName && invoiceDetail?.user?.userId) {
+      invoiceName = getFullName(invoiceDetail?.user);
+    }
 
     return (
       <Modal
@@ -376,10 +383,7 @@ class PopupInvoicePrint extends React.Component {
                     </View>
                     <View style={{ flex: 1 }}>
                       <Text style={styleInvoice.txt_info}>
-                        {`: ${getStaffNameForInvoice(
-                          profileStaffLogin,
-                          basket
-                        )}`}
+                        {`: ${invoiceName}`}
                       </Text>
                     </View>
                   </View>
@@ -947,6 +951,8 @@ const mapStateToProps = (state) => ({
 
   printerSelect: state.dataLocal.printerSelect,
   printerList: state.dataLocal.printerList,
+
+  invoiceDetail: state.invoice.invoiceDetail,
 });
 
 export default connectRedux(mapStateToProps, PopupInvoicePrint);
