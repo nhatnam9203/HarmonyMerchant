@@ -25,6 +25,7 @@ const manualType = {
     fixAmountType: 'fixAmountType',
     percentType: 'percentType'
 }
+import * as l from "lodash";
 
 class PopupDiscount extends React.Component {
 
@@ -135,7 +136,8 @@ class PopupDiscount extends React.Component {
     render() {
         try {
             const { title, discount, visibleModalDiscount,
-                appointmentIdUpdatePromotion, groupAppointment, language
+                appointmentIdUpdatePromotion, groupAppointment, language,
+                discountItems
             } = this.props;
             const appointmentDetail = appointmentIdUpdatePromotion !== -1 && !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
             const { customDiscountPercent, customDiscountFixed } = appointmentDetail !== undefined && appointmentDetail && !_.isEmpty(appointmentDetail) ? appointmentDetail : { customDiscountPercent: 0, customDiscountFixed: 0 };
@@ -165,6 +167,7 @@ class PopupDiscount extends React.Component {
                                     : this.state.moneyDiscountFixedAmout
             const discountMoneyByStaff = roundNumber(formatNumberFromCurrency(discountByStaff) * formatNumberFromCurrency(manualDiscount) /100)
             const discountMoneyByOwner = roundNumber(manualDiscount - discountMoneyByStaff)
+
             return (
                 <PopupParent
                     title={title}
@@ -196,6 +199,31 @@ class PopupDiscount extends React.Component {
                                             title={promo?.merchantPromotion?.name}
                                             discount={promo?.discount}
                                         />
+                                        )
+                                    }
+
+                                    {
+                                        discountItems && discountItems.length > 0 &&
+                                            <Text style={styles.textNormal}>
+                                                {localize('Discount Items:', language)}
+                                            </Text>
+                                            
+                                    }
+
+                                    {
+                                        discountItems.map((itemTemp, index) =>{
+                                            const findItem = l.find(l.get(appointmentDetail, 'products', []), itemFind => {
+                                                return l.get(itemFind, 'bookingProductId') == l.get(itemTemp, 'bookingProductId')
+                                            })
+                                            const discountAmount = l.get(itemTemp, 'discount') > 0 ?
+                                            formatNumberFromCurrency(l.get(itemTemp, 'discount'))
+                                            : roundNumber(formatNumberFromCurrency(l.get(itemTemp, 'discountPercent')) * formatNumberFromCurrency(l.get(findItem, 'price')) / 100)
+                                            return <ItemCampaign
+                                            key={index}
+                                            title={l.get(itemTemp, 'productName', '')}
+                                            discount={discountAmount}
+                                        />
+                                        }  
                                         )
                                     }
                                     <View style={{ height: scaleSize(10) }} />
@@ -559,6 +587,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
     discount: state.marketing.discount,
+    discountItems: state.marketing.discountItems,
     visibleModalDiscount: state.marketing.visibleModalDiscount,
     appointmentDetail: state.appointment.appointmentDetail,
     groupAppointment: state.appointment.groupAppointment,

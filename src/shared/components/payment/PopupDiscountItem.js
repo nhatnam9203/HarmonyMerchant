@@ -40,11 +40,15 @@ class PopupDiscountItem extends React.Component {
 
 
     submitCustomPromotion = () => {
-        const { bookingProductId,  } = this.props;
-        const customDiscountPercent =  this.customDiscountRef.current.state.percent;
-        const customFixedAmount =  this.customDiscountRef.current.state.fixedAmount;
-        if (!_.isEmpty(appointmentDetailItem)) {
-            const subTotal = appointmentDetailItem?.subTotal || 0;
+        const { 
+                appointmentItem,  
+                appointmentIdUpdatePromotion
+            } = this.props;
+        const bookingProductId = l.get(appointmentItem, 'bookingProductId')
+        const customDiscountPercent =  this.customDiscountItemRef.current.state.percent;
+        const customFixedAmount =  this.customDiscountItemRef.current.state.fixedAmount;
+        if (!_.isEmpty(appointmentItem)) {
+            const subTotal = appointmentItem?.subTotal || 0;
             let totalDiscount = 0;
            
             totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(customFixedAmount);
@@ -99,6 +103,7 @@ class PopupDiscountItem extends React.Component {
                 appointmentItem, 
                 discountItems } = this.props;
             const visible = visibleModalDiscountItem;
+            console.log('popup discount item', visible)
             
             const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
             const discountItem = l.find(discountItems, findItem =>{

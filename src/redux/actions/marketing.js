@@ -108,7 +108,7 @@ export function customPromotion(discountPercent, discountFixtom, discountByOwner
 export function customPromotionItem(discountPercent, discountFixtom, appointmentid, bookingproductid) {
     return {
         type: 'CUSTOM_PROMOTION_ITEM',
-        method: 'PUT',
+        method: 'POST',
         token: true,
         body: {
             discountPercent,
