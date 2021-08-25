@@ -2,9 +2,9 @@ import actions from "@actions";
 import Configs from "@configs";
 import PrintManager from "@lib/PrintManager";
 import NavigationServices from "@navigators/NavigatorServices";
+import { basketRetailer } from "@redux/slices";
 import {
   useGetAppointment,
-  useUpdateAppointmentCustomer,
   useUpdateAppointmentTax,
 } from "@shared/services/api/retailer";
 import { statusSuccess } from "@shared/utils";
@@ -22,7 +22,6 @@ import React from "react";
 import { NativeModules, Platform } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useIsPayment } from "../../hooks";
-import { basketRetailer } from "@redux/slices";
 
 const signalR = require("@microsoft/signalr");
 
@@ -1335,12 +1334,12 @@ export const useProps = ({
     onDiscountItemAdd: (item) => {
       dispatch(
         actions.marketing.getPromotionByAppointment(
-          appointmentDetail?.appointmentId, false, true
+          appointmentDetail?.appointmentId,
+          false,
+          true
         )
       );
-      dispatch(
-        actions.marketing.setAppointmentItem(item)
-      )
+      dispatch(actions.marketing.setAppointmentItem(item));
     },
     onGoBackOrderList: async () => {
       if (!_.isEmpty(connectSignalR.current)) {
