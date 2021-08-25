@@ -86,6 +86,14 @@ export const useProps = ({ params: { item } }) => {
   }
 
   const updateTotal = (itemChange, value) => {
+    const originItem = _.find(_.get(item, 'products'), (originItem) => {
+      return originItem.bookingProductId == itemChange.bookingProductId
+    })
+
+    //validate amount update > original amount
+    if(value > (_.get(originItem, 'total') - _.get(originItem, 'returnAmount', 0))){
+      return
+    }
     const updateList = _.map(itemSelected, updateItem => {
       let tempItem = updateItem
       if(_.get(updateItem, 'bookingProductId') == _.get(itemChange, 'bookingProductId')) {
