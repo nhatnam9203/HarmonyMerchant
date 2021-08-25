@@ -1,43 +1,20 @@
-import { basketRetailer } from "@redux/slices";
-import {
-  ButtonGradient,
-  FormAddress,
-  FormContactEmail,
-  FormFullName,
-  FormPhoneNumber,
-  FormTitle,
-} from "@shared/components";
-import { DialogLayout } from "@shared/layouts";
-import {
-  useCreateCustomer,
-  useEditCustomer,
-} from "@shared/services/api/retailer";
-import { colors, fonts, layouts } from "@shared/themes";
-import { statusSuccess } from "@shared/utils";
-import { useFormik } from "formik";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useDispatch } from "react-redux";
-import * as Yup from "yup";
-import {
-  dateToString,
-  DATE_SHOW_FORMAT_STRING,
-  formatPhoneNumber,
-} from "@shared/utils";
+import { ButtonGradient, Pagination } from "@shared/components";
+import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
-import {
-  useCreatePromotionCustomer,
-  useEditPromotionCustomer,
-  useGetPromotionCustomer,
-} from "@shared/services/api/app";
-import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
+import { DialogLayout } from "@shared/layouts";
+import { useGetPromotionCustomer } from "@shared/services/api/app";
+import { colors, fonts, layouts } from "@shared/themes";
+import { formatPhoneNumber, statusSuccess } from "@shared/utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useDispatch } from "react-redux";
 
 const log = (obj, message = "") => {
   Logger.log(`[PromotionCustomerFilter] ${message}`, obj);
 };
+const DEFAULT_PAGE = 1;
 
 export const PromotionCustomerFilter = React.forwardRef(
   ({ setCustomerIds }, ref) => {
@@ -46,10 +23,24 @@ export const PromotionCustomerFilter = React.forwardRef(
     const dialogRef = React.useRef(null);
 
     const [customerList, setCustomerList] = React.useState(null);
+    const [promotion, setPromotion] = React.useState(null);
+    const [pagination, setPagination] = React.useState({
+      pages: 0,
+      count: 0,
+    });
+    const [page, setPage] = React.useState(DEFAULT_PAGE);
 
     /**API */
     const [promotionCustomerGet, getPromotionCustomer] =
       useGetPromotionCustomer();
+
+    const callGetPromotionsList = React.useCallback(() => {
+      if (promotion) {
+        getPromotionCustomer(promotion?.id, promotion?.merchantId, {
+          page: page,
+        });
+      }
+    }, [promotion]);
 
     const onHandleApply = () => {
       if (setCustomerIds && typeof setCustomerIds === "function") {
@@ -59,17 +50,26 @@ export const PromotionCustomerFilter = React.forwardRef(
         setCustomerIds(customerIds);
       }
 
-      setCustomerList(null);
       dialogRef.current?.hide();
     };
 
+    React.useEffect(() => {
+      if (promotion) {
+        callGetPromotionsList();
+      }
+    }, [promotion]);
+
     // public func
     React.useImperativeHandle(ref, () => ({
-      show: (promotionId, merchantId) => {
-        if (promotionId >= 0) {
-          getPromotionCustomer(promotionId, merchantId);
+      show: (promoId, merchantId) => {
+        if (promoId >= 0 && promoId !== promotion?.id) {
+          setPromotion({ id: promoId, merchantId });
         }
         dialogRef.current?.show();
+      },
+      reset: () => {
+        setPromotion(null);
+        setCustomerList(null);
       },
     }));
 
@@ -83,9 +83,18 @@ export const PromotionCustomerFilter = React.forwardRef(
         return;
       }
 
-      const { codeStatus, message, data } = promotionCustomerGet || {};
+      const {
+        codeStatus,
+        data,
+        pages = 0,
+        count = 0,
+      } = promotionCustomerGet || {};
       if (statusSuccess(codeStatus)) {
         setCustomerList(data);
+        setPagination({
+          pages,
+          count,
+        });
       }
     }, [promotionCustomerGet]);
 
@@ -184,6 +193,15 @@ export const PromotionCustomerFilter = React.forwardRef(
               renderCell={onRenderTableCell}
               onRowPress={handleSelectRow}
               // onRefresh={onRefresh}
+            />
+            <View style={layouts.marginVertical} />
+            <Pagination
+              onChangePage={setPage}
+              onChangeItemsPerPage={() => {}}
+              visibleItemsPerPage={false}
+              defaultPage={DEFAULT_PAGE}
+              {...pagination}
+              length={customerList?.length}
             />
           </View>
         </DialogLayout>

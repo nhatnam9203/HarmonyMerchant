@@ -24,9 +24,10 @@ export const useGetPromotionCustomer = () => {
     }
   }, [dispatch, loading, response]);
 
-  const getPromotionCustomer = (merchantPromotionId, merchantId) => {
+  const getPromotionCustomer = (merchantPromotionId, merchantId, params) => {
     execute({
       url: `customer/canbesendpromotion?merchantPromotionId=${merchantPromotionId}&merchantId=${merchantId}`,
+      params: params,
     });
   };
 
