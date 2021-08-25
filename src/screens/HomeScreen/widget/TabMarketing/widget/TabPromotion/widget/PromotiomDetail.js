@@ -10,9 +10,11 @@ import {
   CustomCheckBox,
   CustomRadioSelect,
   FormUploadImage,
+  PromotionCustomerFilter,
 } from "@shared/components";
+import { useGetPromotionCustomer } from "@shared/services/api/app";
 import { colors, fonts, layouts } from "@shared/themes";
-import { dateToString } from "@shared/utils";
+import { dateToString, statusSuccess } from "@shared/utils";
 import {
   DISCOUNT_ACTION,
   formatHourMinute,
@@ -56,7 +58,6 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useSelector } from "react-redux";
 import DropdownSearch from "./DropdownSearch";
 import Slider from "./Slider";
-import { PromotionCustomerFilter } from "@shared/components";
 
 const { width } = Dimensions.get("window");
 
@@ -126,7 +127,7 @@ const PromotiomDetail = forwardRef(
       WorkingTime.map((x) => Object.assign({}, x, { label: x.value }))
     );
 
-    const [customerIds, setCustomerIds] = React.useState(null);
+    const [customerList, setCustomerList] = React.useState(null);
 
     const scrollRef = useRef(null);
 
@@ -149,6 +150,30 @@ const PromotiomDetail = forwardRef(
     );
 
     const merchant = useSelector((state) => state.dataLocal?.profile);
+
+    /**API */
+    const [promotionCustomerGet, getPromotionCustomer] =
+      useGetPromotionCustomer();
+
+    React.useEffect(() => {
+      if (!promotionCustomerGet) {
+        return;
+      }
+
+      const {
+        codeStatus,
+        data,
+        pages = 0,
+        count = 0,
+      } = promotionCustomerGet || {};
+      if (statusSuccess(codeStatus)) {
+        setCustomerList(data);
+        // setPagination({
+        //   pages,
+        //   count,
+        // });
+      }
+    }, [promotionCustomerGet]);
 
     useImperativeHandle(ref, () => ({
       setStateFromParent: (data = {}) => {
@@ -197,6 +222,11 @@ const PromotiomDetail = forwardRef(
         setConfigMessageType(data?.smsType ?? MESSAGE_CONTENT_DEFAULT_TYPE);
         setNoEndDate(data?.noEndDate);
         setMediaFilePath(data?.smsMediaPath);
+
+        if (data?.id);
+        {
+          getPromotionCustomer(data?.id, merchant?.merchantId);
+        }
       },
     }));
 
@@ -482,7 +512,9 @@ const PromotiomDetail = forwardRef(
         content: messageContent,
         noEndDate: noEndDate,
         isManually: isManually,
-        customerIds: customerIds,
+        customerIds: customerList
+          ?.filter((x) => x.checked)
+          .map((x) => x.customerId),
       };
 
       // ------------ Check Valid ---------
@@ -558,6 +590,17 @@ const PromotiomDetail = forwardRef(
     const hanldeSliderValue = (val = 0) => {
       setValue(val);
       calculatorsmsMoney(val);
+
+      const customerCount = parseInt(smsInfoMarketing?.customerCount || 0);
+      const smsCount = Math.ceil(val * customerCount);
+
+      setCustomerList(
+        customerList.map((x, index) =>
+          Object.assign({}, x, {
+            checked: index < smsCount ? true : false,
+          })
+        )
+      );
     };
 
     const handleSetCampaignName = (title) => {
@@ -659,11 +702,20 @@ const PromotiomDetail = forwardRef(
 
     const onHandleFilterCustomer = (ids) => {
       // console.log(ids);
-      setCustomerIds(ids);
       // setCustomerSendSMSQuantity(ids?.length ?? 0);
 
+      setCustomerList(
+        customerList.map((x) =>
+          Object.assign({}, x, {
+            checked: ids.includes(x.customerId) ? true : false,
+          })
+        )
+      );
+
       const count = ids?.length ?? 0;
-      hanldeSliderValue(count / smsInfoMarketing?.customerCount ?? 1);
+      const val = count / smsInfoMarketing?.customerCount ?? 1;
+      setValue(val);
+      calculatorsmsMoney(val);
     };
 
     React.useEffect(() => {
@@ -1265,10 +1317,7 @@ const PromotiomDetail = forwardRef(
                     borderColor: "#dadada",
                   }}
                   onPress={() => {
-                    promotionRef.current?.show(
-                      promotionId || 0,
-                      merchant?.merchantId
-                    );
+                    promotionRef.current?.show(customerList);
                   }}
                 >
                   <Image

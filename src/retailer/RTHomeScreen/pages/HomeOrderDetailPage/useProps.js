@@ -9,7 +9,7 @@ import {
   useGetAppointment,
   useShippingAppointment,
 } from "@shared/services/api/retailer";
-import { statusSuccess } from "@shared/utils";
+import { statusSuccess, PURCHASE_POINTS_STORE } from "@shared/utils";
 import React from "react";
 
 const log = (obj, message = "") => {
@@ -119,29 +119,24 @@ export const useProps = ({
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentGet || {};
     if (statusSuccess(codeStatus)) {
-      log(data);
       const { status, didNotPay, payment, purchasePoint } = data || {};
+
+      log(purchasePoint);
+      log(status);
+      log(payment);
 
       if (
         payment?.length <= 0 &&
-        status === ORDERED_STATUS.PENDING &&
-        purchasePoint === "Store"
+        (status === ORDERED_STATUS.PENDING ||
+          status === ORDERED_STATUS.PROCESS) &&
+        purchasePoint === PURCHASE_POINTS_STORE
       ) {
         NavigationServices.navigate("retailer.home.order.pay", {
           orderItem: data,
           screenId: screenId,
           backScreenId: backScreenId,
         });
-      }
-      //  else if (
-      //   payment?.length <= 0 &&
-      //   status === ORDERED_STATUS.PROCESS &&
-      //   !didNotPay
-      // ) {
-      //   setAppointmentDetail(data);
-      //   formAddressRef.current?.reload();
-      // }
-      else {
+      } else {
         setAppointmentDetail(data);
         formAddressRef.current?.reload();
       }
