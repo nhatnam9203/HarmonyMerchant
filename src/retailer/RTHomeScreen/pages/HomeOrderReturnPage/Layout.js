@@ -70,9 +70,7 @@ export const Layout = ({
         </View>
       );
     } else if (columnKey === "quantity") {
-      // const quantityShow = _.get(item, 'quantity') - _.get(item, 'returnQuantity', 0)
       return (
-        // isSelected ?
         <View>
         
         <Text style={[
@@ -108,7 +106,7 @@ export const Layout = ({
             styles.textStyle,
             {color: 'red'},
           ]}>
-          {_.get(item, 'returnQuantity')}
+          {`- ${_.get(item, 'returnQuantity')}`}
           </Text>
         }
         
@@ -158,7 +156,7 @@ export const Layout = ({
                 color: 'red'
               }, 
             ]}>
-             {formatMoneyWithUnit(_.get(item, 'returnAmount', 0))}
+             {`- ${formatMoneyWithUnit(_.get(item, 'returnAmount', 0))}`}
             </Text>
           }
           
