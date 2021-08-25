@@ -24,6 +24,8 @@ export const useProps = ({
     addressCreate,
     editShippingAddress,
     editBillingAddress,
+    screenId,
+    backScreenId,
   },
   navigation,
 }) => {
@@ -40,7 +42,7 @@ export const useProps = ({
   | CALL API
   |--------------------------------------------------
   */
-  const [appointment, getAppointment] = useGetAppointment();
+  const [appointmentGet, getAppointment] = useGetAppointment();
 
   const [appointmentCancel, cancelAppointment] = useCancelAppointment();
   const [appointmentConfirm, confirmAppointment] = useConfirmAppointment();
@@ -115,28 +117,38 @@ export const useProps = ({
   );
 
   React.useEffect(() => {
-    const { codeStatus, message, data } = appointment || {};
+    const { codeStatus, message, data } = appointmentGet || {};
     if (statusSuccess(codeStatus)) {
       log(data);
       const { status, didNotPay, payment, purchasePoint } = data || {};
 
       if (
         payment?.length <= 0 &&
-        ((status === ORDERED_STATUS.PENDING && purchasePoint === "Store") ||
-          (status === ORDERED_STATUS.PROCESS && !didNotPay))
+        status === ORDERED_STATUS.PENDING &&
+        purchasePoint === "Store"
       ) {
         NavigationServices.navigate("retailer.home.order.pay", {
           orderItem: data,
-          screenId: "retailer.home.order.list",
+          screenId: screenId,
+          backScreenId: backScreenId,
         });
-      } else {
+      }
+      //  else if (
+      //   payment?.length <= 0 &&
+      //   status === ORDERED_STATUS.PROCESS &&
+      //   !didNotPay
+      // ) {
+      //   setAppointmentDetail(data);
+      //   formAddressRef.current?.reload();
+      // }
+      else {
         setAppointmentDetail(data);
         formAddressRef.current?.reload();
       }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appointment]);
+  }, [appointmentGet]);
 
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentCancel || {};
@@ -163,7 +175,8 @@ export const useProps = ({
       } else {
         NavigationServices.navigate("retailer.home.order.pay", {
           orderItem: appointmentDetail,
-          screenId: "retailer.home.order.list",
+          screenId: screenId ?? "retailer.home.order.list",
+          backScreenId: backScreenId ?? "retailer.home.order.check_out",
         });
       }
     }
@@ -195,7 +208,17 @@ export const useProps = ({
   return {
     item: appointmentDetail,
     goBack: () => {
-      NavigationServices.navigate("retailer.home.order.list", { reload: true });
+      if (backScreenId) {
+        NavigationServices.navigate(backScreenId, {
+          reload: true,
+          reset: false,
+          reloadAppointmentId: appointmentDetail?.appointmentId,
+        });
+      } else {
+        NavigationServices.navigate("retailer.home.order.list", {
+          reload: true,
+        });
+      }
     },
     cancel: () => {
       cancelAppointment(appointmentDetail?.appointmentId);

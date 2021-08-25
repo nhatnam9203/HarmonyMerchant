@@ -52,7 +52,16 @@ export const useProps = ({ params: { reload } }) => {
       }),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, searchVal, timeVal, orderStatus, payment, purchasePoint, sortById]);
+  }, [
+    page,
+    searchVal,
+    timeVal,
+    orderStatus,
+    payment,
+    purchasePoint,
+    sortById,
+    reload,
+  ]);
 
   /**
   |--------------------------------------------------
@@ -136,7 +145,10 @@ export const useProps = ({ params: { reload } }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      if (reload) callGetOrderList();
+      if (reload) {
+        console.log("HomeOrderListPage is reloading");
+        callGetOrderList();
+      }
     }, [
       reload,
       page,
@@ -178,11 +190,15 @@ export const useProps = ({ params: { reload } }) => {
     onButtonNewOrderPress: () => {
       NavigationServices.navigate("retailer.home.order.check_out", {
         isOrder: true,
+        reset: true,
+        appointmentId: null,
       });
     },
     onSelectRow: ({ item }) => {
       NavigationServices.navigate("retailer.home.order.detail", {
         order: item,
+        screenId: "retailer.home.order.list",
+        backScreenId: "retailer.home.order.list",
       });
     },
     onRenderCell: () => {},

@@ -220,6 +220,7 @@ const localization = {
     "Discount by Owner": "Discount by Owner",
     "Discount by Staff": "Discount by Staff",
     "Discount Campaigns:": "Discount Campaigns:",
+    "Discount Items:": "Discount Items:",
     "Apply Value": "Apply Value",
     "Manual Discount": "Manual Discount",
     "Total": "Total",

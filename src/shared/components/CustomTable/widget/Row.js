@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    height: "100%",
+    flex: 0,
+    minHeight: scaleHeight(60),
   },
 
   shadow: {

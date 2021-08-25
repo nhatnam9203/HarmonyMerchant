@@ -56,7 +56,7 @@ const formatServerNumber = (numStr) => {
 const sumPropertiesKey = (array, key) => {
   if (array?.length > 0) {
     const values = array.map((item) => formatNumberFromCurrency(item[key]));
-    return values.reduce((a, b) => a + b);
+    return parseFloat(values.reduce((a, b) => a + b)).toFixed(2);
   }
   return 0;
 };

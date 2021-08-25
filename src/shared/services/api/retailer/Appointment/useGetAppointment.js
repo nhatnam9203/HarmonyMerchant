@@ -7,12 +7,13 @@ import { useDispatch } from "react-redux";
 export const useGetAppointment = () => {
   const dispatch = useDispatch();
 
-  const [{ data: appointment, loading, error, response }, execute] = useAxios(
-    { method: "GET" },
-    {
-      manual: true,
-    }
-  );
+  const [{ data: appointmentGet, loading, error, response }, execute] =
+    useAxios(
+      { method: "GET" },
+      {
+        manual: true,
+      }
+    );
 
   React.useEffect(() => {
     if (loading) {
@@ -26,10 +27,10 @@ export const useGetAppointment = () => {
       // });
       dispatch({
         type: "GET_APPOINTMENT_BY_ID_SUCCESS",
-        payload: appointment?.data
+        payload: appointmentGet?.data,
       });
     }
-  }, [ dispatch, loading, response]);
+  }, [dispatch, loading, response]);
 
   const getAppointment = (appointmentId) => {
     execute({
@@ -37,5 +38,5 @@ export const useGetAppointment = () => {
     });
   };
 
-  return [appointment, getAppointment];
+  return [appointmentGet, getAppointment];
 };

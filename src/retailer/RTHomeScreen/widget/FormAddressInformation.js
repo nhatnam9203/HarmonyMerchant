@@ -172,6 +172,7 @@ export const FormAddressInformation = React.forwardRef(
             // !! nhung dong code met moi
             const findItemIndex =
               temps?.findIndex((x) => x.id === billingAddress?.id) || 0;
+
             if (findItemIndex >= 0 && temps?.length > findItemIndex) {
               const t = temps[findItemIndex];
               setSelectedBilling(t);
@@ -191,6 +192,7 @@ export const FormAddressInformation = React.forwardRef(
           if (shippingAddress && !selectedShipping) {
             const findItemIndex =
               temps.findIndex((x) => x.id === shippingAddress?.id) || 0;
+
             if (findItemIndex >= 0 && temps?.length > findItemIndex) {
               const t = temps[findItemIndex];
               setSelectedShipping(t);
@@ -201,7 +203,7 @@ export const FormAddressInformation = React.forwardRef(
             }
           } else if (selectedShipping) {
             const findItemIndex =
-              temps.findIndex((x) => x.id === shippingAddress?.id) || 0;
+              temps.findIndex((x) => x.id === selectedShipping?.id) || 0;
             const t = temps[findItemIndex];
             setSelectedShipping(t);
           }

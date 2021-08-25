@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const reducerName = "retailer.basket";
 const initialState = {
-  appointmentId: null,
   customer: null,
-  purchasePoint: "Store",
-  products: [],
+  appointmentTempId: null,
+  appointmentId: null,
   appointment: null,
+  purchasePoint: "Store",
 };
 const slices = createSlice({
   name: reducerName,
@@ -18,9 +18,22 @@ const slices = createSlice({
         state.appointment = action.payload;
       },
     },
+    setAppointment: {
+      // !@@@@@@@@
+      reducer: (state, action) => {
+        state.appointment = action.payload;
+      },
+    },
+    setAppointmentTempId: {
+      // !@@@@@@@@
+      reducer: (state, action) => {
+        state.appointmentTempId = action.payload;
+      },
+    },
     setAppointmentId: {
       // !@@@@@@@@
       reducer: (state, action) => {
+        state.appointmentTempId = null;
         state.appointmentId = action.payload;
       },
     },

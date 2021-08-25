@@ -1,49 +1,48 @@
-import React from 'react';
 import {
-  View,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  RefreshControl,
-  Image,
-  Switch,
-} from 'react-native';
-import { TextInputMask } from 'react-native-masked-text';
-
-import {
+  Button,
   ButtonCustom,
-  Text,
   Dropdown,
   DropdownCustom,
   ItemWorkingTime,
-  Button,
-} from '@components';
+  PopupCheckStaffPermission,
+  Text,
+} from "@components";
+import ICON from "@resources";
 import {
-  scaleSize,
-  localize,
   getNameStateById,
-  TimeZones,
   hideCharactes,
+  localize,
+  menuTabs,
+  scaleSize,
   WorkingTime,
-} from '@utils';
-import ICON from '@resources';
+} from "@utils";
+import React from "react";
+import {
+  Image,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Switch,
+  TextInput,
+  View,
+} from "react-native";
 
 const AUTO_LOCK = [
-  '2 Minutes',
-  '5 Minutes',
-  '10 Minutes',
-  '15 Minutes',
-  'Never',
+  "2 Minutes",
+  "5 Minutes",
+  "10 Minutes",
+  "15 Minutes",
+  "Never",
 ];
 const STAFF_COLUMN = [{ value: 5 }, { value: 8 }];
 const SIGN_IN_APP_STYLE = [
-  { value: 'Services with categories' },
-  { value: 'Show categories only' },
+  { value: "Services with categories" },
+  { value: "Show categories only" },
 ];
 const SEND_LINK_DATA = [
-  { value: 'Manually' },
-  { value: 'Automatic' },
-  { value: 'Off' },
+  { value: "Manually" },
+  { value: "Automatic" },
+  { value: "Off" },
 ];
 
 class Layout extends React.Component {
@@ -59,26 +58,25 @@ class Layout extends React.Component {
       staffColumn,
       signinAppStyle,
       sendReviewLinkOption,
-      isUsingTurn,
       giftForNewEnabled,
     } = this.state;
 
     return (
-      <View style={{ width: '100%', marginTop: scaleSize(6) }}>
+      <View style={{ width: "100%", marginTop: scaleSize(6) }}>
         <View style={{ flex: 1 }}>
           {/* ------- Item Change Language  ------ */}
           <ItemSetupGeneral
-            title={`${localize('Language', language)}:`}
-            data={[{ value: 'English' }, { value: 'Viet Nam' }]}
+            title={`${localize("Language", language)}:`}
+            data={[{ value: "English" }, { value: "Viet Nam" }]}
             value={languageApp}
             onChangeText={(value) => {
               this.setState({ languageApp: value });
             }}
-            placeHolder={localize('Language', language)}
+            placeHolder={localize("Language", language)}
           />
           {/* ------- Item Auto close at:  ------ */}
           <ItemSetupGeneral
-            title={`${localize('Auto close at', language)}:`}
+            title={`${localize("Auto close at", language)}:`}
             data={WorkingTime}
             value={autoCloseAt}
             onChangeText={(value) => this.setState({ autoCloseAt: value })}
@@ -97,7 +95,7 @@ class Layout extends React.Component {
 
           {/* ------- Send Google Review Link  ------ */}
           <ItemSetupGeneral
-            title={`${localize('Send google review link', language)}:`}
+            title={`${localize("Send google review link", language)}:`}
             data={SEND_LINK_DATA}
             value={sendReviewLinkOption}
             onChangeText={(value) =>
@@ -143,8 +141,8 @@ class Layout extends React.Component {
             </View>
           </View> */}
 
-          {/* ------- Auto Turn  ------ */}
-          {/* <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
+          {/* ------- Tip on pax machine  ------ */}
+          <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
             <View style={{ width: scaleSize(180), justifyContent: "center" }}>
               <Text
                 style={{
@@ -153,7 +151,7 @@ class Layout extends React.Component {
                   fontWeight: "600",
                 }}
               >
-                {`Auto Turn:`}
+                {`Tip on payment terminal:`}
               </Text>
             </View>
             <View
@@ -165,35 +163,6 @@ class Layout extends React.Component {
             >
               <Switch
                 trackColor={{ false: "#767577", true: "#0764B0" }}
-                ios_backgroundColor="#E5E5E5"
-                onValueChange={(isUsingTurn) => this.setState({ isUsingTurn })}
-                value={isUsingTurn}
-              />
-            </View>
-          </View> */}
-
-          {/* ------- Tip on pax machine  ------ */}
-          <View style={{ flexDirection: 'row', marginTop: scaleSize(8) }}>
-            <View style={{ width: scaleSize(180), justifyContent: 'center' }}>
-              <Text
-                style={{
-                  color: '#404040',
-                  fontSize: scaleSize(16),
-                  fontWeight: '600',
-                }}
-              >
-                {`Tip on pax machine:`}
-              </Text>
-            </View>
-            <View
-              style={{
-                height: scaleSize(40),
-                width: scaleSize(140),
-                justifyContent: 'center',
-              }}
-            >
-              <Switch
-                trackColor={{ false: '#767577', true: '#0764B0' }}
                 ios_backgroundColor="#E5E5E5"
                 onValueChange={this.switchTipOnPaxMachine}
                 value={isTipOnPaxMachine}
@@ -223,17 +192,17 @@ class Layout extends React.Component {
                     </View> */}
 
           {/* ------------ Item Auto lock ------------- */}
-          <View style={{ flexDirection: 'row', marginVertical: scaleSize(15) }}>
+          <View style={{ flexDirection: "row", marginVertical: scaleSize(15) }}>
             <View style={{ width: scaleSize(180) }}>
               <Text
                 style={{
-                  color: '#404040',
+                  color: "#404040",
                   fontSize: scaleSize(16),
-                  fontWeight: '600',
+                  fontWeight: "600",
                   marginTop: scaleSize(10),
                 }}
               >
-                {`${localize('Auto lock screen after', language)}:`}
+                {`${localize("Auto lock screen after", language)}:`}
               </Text>
             </View>
             <View
@@ -241,9 +210,9 @@ class Layout extends React.Component {
                 height: scaleSize(40 * 5),
                 flex: 1,
                 paddingHorizontal: scaleSize(10),
-                backgroundColor: '#fff',
+                backgroundColor: "#fff",
                 borderWidth: 1,
-                borderColor: '#C5C5C5',
+                borderColor: "#C5C5C5",
                 borderRadius: scaleSize(6),
               }}
             >
@@ -260,16 +229,16 @@ class Layout extends React.Component {
           </View>
 
           {/* -------- Link website --------- */}
-          <View style={{ flexDirection: 'row', marginTop: scaleSize(8) }}>
-            <View style={{ width: scaleSize(180), justifyContent: 'center' }}>
+          <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
+            <View style={{ width: scaleSize(180), justifyContent: "center" }}>
               <Text
                 style={{
-                  color: '#404040',
+                  color: "#404040",
                   fontSize: scaleSize(16),
-                  fontWeight: '600',
+                  fontWeight: "600",
                 }}
               >
-                {`${localize('Website', language)}:`}
+                {`${localize("Website", language)}:`}
               </Text>
             </View>
             <View
@@ -277,7 +246,7 @@ class Layout extends React.Component {
                 height: scaleSize(40),
                 flex: 1,
                 borderWidth: 1,
-                borderColor: '#C5C5C5',
+                borderColor: "#C5C5C5",
                 paddingHorizontal: scaleSize(10),
               }}
             >
@@ -319,7 +288,7 @@ class Layout extends React.Component {
                     </View> */}
 
           {/* -------- Sign in app display in --------- */}
-          
+
           {/* <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
             <View style={{ width: scaleSize(180), justifyContent: "center" }}>
               <Text
@@ -338,7 +307,7 @@ class Layout extends React.Component {
                 flex: 1,
               }}
             >
-              {/* signinAppStyle:"service_with_category" 
+              {/* signinAppStyle:"service_with_category"
               <Dropdown
                 label={""}
                 data={SIGN_IN_APP_STYLE}
@@ -357,23 +326,23 @@ class Layout extends React.Component {
           </View> */}
 
           {/* -------- Business Hours --------- */}
-          <View style={{ flexDirection: 'row', marginTop: scaleSize(8) }}>
-            <View style={{ width: scaleSize(180), justifyContent: 'center' }}>
+          <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
+            <View style={{ width: scaleSize(180), justifyContent: "center" }}>
               <Text
                 style={{
-                  color: '#404040',
+                  color: "#404040",
                   fontSize: scaleSize(16),
-                  fontWeight: '600',
+                  fontWeight: "600",
                 }}
               >
-                {`${localize('Business Hours', language)}:`}
+                {`${localize("Business Hours", language)}:`}
               </Text>
             </View>
             <View
               style={{
                 height: scaleSize(40),
                 width: scaleSize(400),
-                flexDirection: 'row',
+                flexDirection: "row",
               }}
             />
           </View>
@@ -394,27 +363,27 @@ class Layout extends React.Component {
           {/* ------ Button Save --- */}
           <View
             style={{
-              justifyContent: 'center',
+              justifyContent: "center",
               marginTop: scaleSize(35),
-              flexDirection: 'row',
+              flexDirection: "row",
             }}
           >
             <ButtonCustom
               width={scaleSize(150)}
               height={50}
               backgroundColor="#F1F1F1"
-              title={localize('SAVE', language)}
+              title={localize("SAVE", language)}
               textColor="#6A6A6A"
               onPress={this.saveSettngApp}
               style={{
                 borderWidth: 1,
-                borderColor: '#C5C5C5',
-                backgroundColor: '#0764B0',
+                borderColor: "#C5C5C5",
+                backgroundColor: "#0764B0",
               }}
               styleText={{
                 fontSize: scaleSize(18),
-                fontWeight: '500',
-                color: '#fff',
+                fontWeight: "500",
+                color: "#fff",
               }}
             />
           </View>
@@ -458,18 +427,18 @@ class Layout extends React.Component {
           <View
             style={{
               height: scaleSize(2),
-              width: '100%',
-              backgroundColor: '#C5C5C5',
+              width: "100%",
+              backgroundColor: "#C5C5C5",
               marginTop: scaleSize(18),
             }}
           />
 
           <ItemTextStoreInfo
-            title={localize('Business Name', language)}
+            title={localize("Business Name", language)}
             value={businessName}
           />
           <ItemTextStoreInfo
-            title={localize('Business Address', language)}
+            title={localize("Business Address", language)}
             value={address}
           />
           <ItemTextStoreInfoNotTilte
@@ -478,57 +447,57 @@ class Layout extends React.Component {
             zipcode={zip}
           />
           <ItemTextStoreInfo
-            title={localize('Phone Number', language)}
+            title={localize("Phone Number", language)}
             value={phone}
           />
           <ItemTextStoreInfo
-            title={localize('Contact Email', language)}
+            title={localize("Contact Email", language)}
             value={email}
           />
           <ItemTextStoreInfo
-            title={localize('Bank Name', language)}
-            value={businessBank && businessBank.name ? businessBank.name : ''}
+            title={localize("Bank Name", language)}
+            value={businessBank && businessBank.name ? businessBank.name : ""}
           />
           <ItemTextStoreInfo
-            title={localize('Account Number', language)}
+            title={localize("Account Number", language)}
             value={
               businessBank && businessBank.accountNumber
                 ? hideCharactes(businessBank.accountNumber)
-                : ''
+                : ""
             }
           />
           <ItemTextStoreInfo
-            title={localize('Routing Number', language)}
+            title={localize("Routing Number", language)}
             value={
               businessBank && businessBank.routingNumber
                 ? hideCharactes(businessBank.routingNumber)
-                : ''
+                : ""
             }
           />
           <ItemTextStoreInfo
             title="EIN"
-            value={taxId ? hideCharactes(taxId) : ''}
+            value={taxId ? hideCharactes(taxId) : ""}
           />
           <ItemTextStoreInfo
-            title={localize('Merchant ID', language)}
+            title={localize("Merchant ID", language)}
             value={merchantCode}
           />
 
           <View
             style={{
               height: scaleSize(50),
-              justifyContent: 'flex-end',
-              alignItems: 'flex-end',
+              justifyContent: "flex-end",
+              alignItems: "flex-end",
             }}
           >
             <Text
               style={{
-                color: 'rrgb(57,54,60)',
+                color: "rrgb(57,54,60)",
                 fontSize: scaleSize(14),
-                fontWeight: '600',
+                fontWeight: "600",
               }}
             >
-              {`${localize('Version', language)}: ${versionApp}`}
+              {`${localize("Version", language)}: ${versionApp}`}
             </Text>
           </View>
           <View style={{ height: scaleSize(250) }} />
@@ -546,20 +515,20 @@ const ItemSetupGeneral = ({
   title,
   data,
   placeHolder,
-  value = '',
+  value = "",
   onChangeText,
   titStyle,
   isCustomDropDown = false,
 }) => {
   return (
-    <View style={{ flexDirection: 'row', marginTop: scaleSize(8) }}>
-      <View style={{ width: scaleSize(180), justifyContent: 'center' }}>
+    <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
+      <View style={{ width: scaleSize(180), justifyContent: "center" }}>
         <Text
           style={[
             {
-              color: '#404040',
+              color: "#404040",
               fontSize: scaleSize(16),
-              fontWeight: '600',
+              fontWeight: "600",
             },
             titStyle,
           ]}
@@ -575,9 +544,9 @@ const ItemSetupGeneral = ({
             value={value}
             onChangeText={(value) => onChangeText(value)}
             containerStyle={{
-              backgroundColor: '#F1F1F1',
+              backgroundColor: "#F1F1F1",
               borderWidth: 1,
-              borderColor: '#C5C5C5',
+              borderColor: "#C5C5C5",
               flex: 1,
             }}
           />
@@ -588,9 +557,9 @@ const ItemSetupGeneral = ({
             value={value}
             onChangeText={(value) => onChangeText(value)}
             containerStyle={{
-              backgroundColor: '#F1F1F1',
+              backgroundColor: "#F1F1F1",
               borderWidth: 1,
-              borderColor: '#C5C5C5',
+              borderColor: "#C5C5C5",
               flex: 1,
             }}
           />
@@ -604,31 +573,31 @@ const ItemTextStoreInfoNotTilte = ({ city, state, zipcode }) => {
   return (
     <View
       style={{
-        flexDirection: 'row',
+        flexDirection: "row",
         paddingRight: scaleSize(50),
         marginTop: scaleSize(25),
       }}
     >
       <Text
         style={{
-          color: '#404040',
+          color: "#404040",
           fontSize: scaleSize(16),
-          fontWeight: '600',
+          fontWeight: "600",
           width: scaleSize(150),
         }}
       >
-        {''}
+        {""}
       </Text>
       <View
         style={{
           flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
+          flexDirection: "row",
+          justifyContent: "space-between",
         }}
       >
         <Text
           style={{
-            color: '#404040',
+            color: "#404040",
             fontSize: scaleSize(16),
           }}
         >
@@ -636,7 +605,7 @@ const ItemTextStoreInfoNotTilte = ({ city, state, zipcode }) => {
         </Text>
         <Text
           style={{
-            color: '#404040',
+            color: "#404040",
             fontSize: scaleSize(16),
           }}
         >
@@ -644,7 +613,7 @@ const ItemTextStoreInfoNotTilte = ({ city, state, zipcode }) => {
         </Text>
         <Text
           style={{
-            color: '#404040',
+            color: "#404040",
             fontSize: scaleSize(16),
           }}
         >
@@ -659,15 +628,15 @@ const ItemTextStoreInfo = ({ title, value }) => {
   return (
     <View
       style={{
-        flexDirection: 'row',
+        flexDirection: "row",
         marginTop: scaleSize(25),
       }}
     >
       <Text
         style={{
-          color: '#404040',
+          color: "#404040",
           fontSize: scaleSize(16),
-          fontWeight: '600',
+          fontWeight: "600",
           width: scaleSize(150),
         }}
       >
@@ -675,7 +644,7 @@ const ItemTextStoreInfo = ({ title, value }) => {
       </Text>
       <Text
         style={{
-          color: '#404040',
+          color: "#404040",
           fontSize: scaleSize(16),
         }}
         numberOfLines={1}
@@ -688,7 +657,7 @@ const ItemTextStoreInfo = ({ title, value }) => {
 
 const ItemAutoLock = ({ title, isHideBorderBottom, onPress, isShowIcon }) => {
   const styleBorder = !isHideBorderBottom
-    ? { borderBottomWidth: 1, borderBottomColor: '#C5C5C5' }
+    ? { borderBottomWidth: 1, borderBottomColor: "#C5C5C5" }
     : {};
 
   return (
@@ -697,18 +666,18 @@ const ItemAutoLock = ({ title, isHideBorderBottom, onPress, isShowIcon }) => {
       style={[
         {
           height: scaleSize(40),
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
         },
         styleBorder,
       ]}
     >
       <Text
         style={{
-          color: 'rgb(0,2,2)',
+          color: "rgb(0,2,2)",
           fontSize: scaleSize(16),
-          fontWeight: '500',
+          fontWeight: "500",
         }}
       >
         {title}
@@ -729,7 +698,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     height: scaleSize(60),
-    alignItems: 'center',
+    alignItems: "center",
   },
 });
 

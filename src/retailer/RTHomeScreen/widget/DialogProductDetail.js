@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import FastImage from "react-native-fast-image";
 import { useDispatch } from "react-redux";
+import _ from "lodash";
 
 const log = (obj, message = "") => {
   Logger.log(`[DialogProductDetail] ${message}`, obj);
@@ -124,6 +125,11 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     if (product?.quantities?.length > 0 && !optionsQty) return true;
     if (product?.options?.length > 0 && listFiltersOptionsQty?.length <= 0)
       return true;
+
+    // if(quantity > _.get(product, 'quantity', 0)) return true;
+    if (optionsQty && optionsQty.quantity < quantity) {
+      return true;
+    }
     return false;
   };
 

@@ -21,6 +21,8 @@ import {
   FormEditNotes,
   FormShippingCarrier,
 } from "../../widget";
+import { OrderStatusView } from "@shared/components/OrderStatusView";
+import _ from "lodash";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
@@ -82,6 +84,20 @@ export const Layout = ({
             />
           </>
         );
+      case ORDERED_STATUS.NOT_PAY:
+        return (
+          <>
+            <ButtonGradient
+              label={t("Complete")}
+              width={scaleWidth(120)}
+              height={scaleHeight(40)}
+              fontSize={scaleFont(17)}
+              textColor={colors.WHITE}
+              textWeight="normal"
+              onPress={complete}
+            />
+          </>
+        );
       case ORDERED_STATUS.PENDING:
         return (
           <>
@@ -107,29 +123,54 @@ export const Layout = ({
           </>
         );
       case ORDERED_STATUS.PROCESS:
-        return (
-          <>
-            <CancelConfirmButton
-              label={t("Cancel")}
-              width={scaleWidth(120)}
-              height={scaleHeight(40)}
-              fontSize={scaleFont(17)}
-              textWeight="normal"
-              onPress={cancel}
-              description={t("Are you sure you want to Cancel this order ?")}
-            />
-            <View style={layouts.marginHorizontal} />
-            <ButtonGradient
-              label={t("Ship")}
-              width={scaleWidth(120)}
-              height={scaleHeight(40)}
-              fontSize={scaleFont(17)}
-              textColor={colors.WHITE}
-              textWeight="normal"
-              onPress={shipping}
-            />
-          </>
-        );
+        if (item?.payment?.length <= 0) {
+          return (
+            <>
+              <CancelConfirmButton
+                label={t("Cancel")}
+                width={scaleWidth(120)}
+                height={scaleHeight(40)}
+                fontSize={scaleFont(17)}
+                textWeight="normal"
+                onPress={cancel}
+                description={t("Are you sure you want to Cancel this order ?")}
+              />
+              <View style={layouts.marginHorizontal} />
+              <ButtonGradient
+                label={t("Confirm")}
+                width={scaleWidth(120)}
+                height={scaleHeight(40)}
+                fontSize={scaleFont(17)}
+                textColor={colors.WHITE}
+                textWeight="normal"
+                onPress={confirm}
+              />
+            </>
+          );
+        } else
+          return (
+            <>
+              <CancelConfirmButton
+                label={t("Cancel")}
+                width={scaleWidth(120)}
+                height={scaleHeight(40)}
+                fontSize={scaleFont(17)}
+                textWeight="normal"
+                onPress={cancel}
+                description={t("Are you sure you want to Cancel this order ?")}
+              />
+              <View style={layouts.marginHorizontal} />
+              <ButtonGradient
+                label={t("Ship")}
+                width={scaleWidth(120)}
+                height={scaleHeight(40)}
+                fontSize={scaleFont(17)}
+                textColor={colors.WHITE}
+                textWeight="normal"
+                onPress={shipping}
+              />
+            </>
+          );
       case ORDERED_STATUS.CANCEL:
       case ORDERED_STATUS.CLOSED:
       case ORDERED_STATUS.RETURN:
@@ -174,9 +215,42 @@ export const Layout = ({
           <View style={styles.productNameContent}>
             <Text style={styles.productName}>{cellItem?.productName}</Text>
             <View style={styles.productNameMarginVertical} />
-            <Text style={styles.productName}>{`SKU: ${cellItem?.sku}`}</Text>
+            <Text style={styles.productOption}>{`${cellItem?.value}`}</Text>
           </View>
         </View>
+      );
+    }else if (columnKey === "quantity") {
+      const quantityShow = _.get(cellItem, 'quantity') - _.get(cellItem, 'returnQuantity', 0)
+      return (
+        <Text style={[
+          {
+            width: scaleWidth(80),
+          }, 
+          styles.textStyle,
+        ]}>
+        {quantityShow}
+        </Text>
+      )
+      
+    }else if (columnKey === "total") {
+      const totalShow = _.get(cellItem, 'total') - _.get(cellItem, 'returnAmount', 0)
+      return (
+          <Text style={[
+            {
+              width: scaleWidth(100),
+            }, 
+            styles.textStyle,
+          ]}>
+           {formatMoneyWithUnit(totalShow)}
+          </Text>
+      )
+    }
+
+    if (columnKey === "status") {
+      return cellItem?.isReturn ? (
+        <OrderStatusView status="Return" />
+      ) : (
+        <View />
       );
     }
 
@@ -258,33 +332,39 @@ export const Layout = ({
           <FormTitle label={t("Items Ordered")} />
           <Table
             items={item?.products || []}
+            tableStyle={styles.table}
             headerKeyLabels={{
               productName: t("Product"),
+              // sku: t("SKU"),
               price: t("Price"),
               quantity: t("Qty"),
               subTotal: t("Subtotal"),
               tax: t("Tax"),
               discount: t("Discount"),
               total: t("Total"),
+              status: t("Return"),
             }}
             whiteListKeys={[
               "productName",
+              // "sku",
               "price",
               "quantity",
               "subTotal",
               "tax",
               "discount",
               "total",
+              "status",
             ]}
-            primaryKey="productId"
+            primaryKey="bookingProductId"
             widthForKeys={{
-              productName: scaleWidth(300),
-              price: scaleWidth(150),
-              quantity: scaleWidth(100),
-              subTotal: scaleWidth(120),
-              tax: scaleWidth(120),
-              discount: scaleWidth(120),
-              total: scaleWidth(150),
+              productName: scaleWidth(320),
+              // sku: scaleWidth(100),
+              price: scaleWidth(100),
+              quantity: scaleWidth(80),
+              subTotal: scaleWidth(100),
+              tax: scaleWidth(100),
+              discount: scaleWidth(100),
+              total: scaleWidth(100),
             }}
             emptyDescription={t("No Products")}
             styleTextKeys={{ total: styles.highLabelTextStyle }}
@@ -296,6 +376,9 @@ export const Layout = ({
               total: (value) => `${formatMoneyWithUnit(value)}`,
             }}
             renderCell={onRenderCell}
+            renderFooterComponent={() => (
+              <View style={{ height: scaleHeight(10) }} />
+            )}
             // onRowPress={onSelectRow}
             // draggable={true}
           />
@@ -626,10 +709,11 @@ const styles = StyleSheet.create({
 
   cellStyle: {
     paddingHorizontal: scaleWidth(5),
+    paddingVertical: scaleHeight(5),
     alignItems: "center",
   },
 
-  productName: {
+  productOption: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(15),
     fontWeight: "500",
@@ -675,4 +759,27 @@ const styles = StyleSheet.create({
   },
 
   productNameMarginVertical: { height: scaleHeight(4) },
+
+  productName: {
+    fontFamily: fonts.BOLD,
+    fontSize: scaleFont(17),
+    fontWeight: "bold",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.GREYISH_BROWN,
+  },
+  textStyle: {
+    fontFamily: fonts.REGULAR,
+    fontSize: scaleFont(15),
+    fontWeight: "normal",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.GREYISH_BROWN,
+    paddingLeft: scaleWidth(5),
+  },
+  table: {
+    flex: 1,
+  },
 });

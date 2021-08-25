@@ -29,7 +29,7 @@ export const ButtonNormal = ({
         borderColor && { borderColor },
       ]}
     >
-      {label && (
+      {!!label && (
         <Text
           style={[
             styles.buttonText,
@@ -102,7 +102,7 @@ export const ButtonGradient = ({
         >
           {leftChildren && leftChildren()}
 
-          {label && (
+          {!!label && (
             <Text
               style={[
                 styles.buttonText,

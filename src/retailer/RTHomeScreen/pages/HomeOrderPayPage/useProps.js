@@ -2,7 +2,11 @@ import actions from "@actions";
 import Configs from "@configs";
 import PrintManager from "@lib/PrintManager";
 import NavigationServices from "@navigators/NavigatorServices";
-import { useGetAppointment } from "@shared/services/api/retailer";
+import {
+  useGetAppointment,
+  useUpdateAppointmentCustomer,
+  useUpdateAppointmentTax,
+} from "@shared/services/api/retailer";
 import { statusSuccess } from "@shared/utils";
 import {
   formatNumberFromCurrency,
@@ -18,6 +22,7 @@ import React from "react";
 import { NativeModules, Platform } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useIsPayment } from "../../hooks";
+import { basketRetailer } from "@redux/slices";
 
 const signalR = require("@microsoft/signalr");
 
@@ -29,7 +34,7 @@ const log = (obj, message = "") => {
 };
 
 export const useProps = ({
-  params: { orderItem, appointmentId, screenId },
+  params: { orderItem, appointmentId, screenId, backScreenId },
   navigation,
 }) => {
   const basketRef = React.useRef(null);
@@ -38,11 +43,13 @@ export const useProps = ({
   const popupSendLinkInstallRef = React.useRef(null);
   const popupEnterAmountGiftCardRef = React.useRef(null);
   const popupDiscountRef = React.useRef(null);
+  const popupDiscountItemRef = React.useRef(null);
   const popupDiscountLocalRef = React.useRef(null);
   const activeGiftCardRef = React.useRef(null);
   const connectSignalR = React.useRef(null);
   const cashBackRef = React.useRef(null);
   const invoicePrintRef = React.useRef(null);
+  const changeTipRef = React.useRef(null);
 
   const dispatch = useDispatch();
   const isPayment = useIsPayment();
@@ -87,7 +94,14 @@ export const useProps = ({
   const visibleChangeMoney = useSelector(
     (state) => state.appointment.visibleChangeMoney
   );
+  const isTipOnPaxMachine = useSelector(
+    (state) => state.dataLocal.isTipOnPaxMachine
+  );
 
+  const [isTax, setIsTax] = React.useState(false);
+  const [isGetResponsePaymentPax, setIsGetResponsePaymentPax] =
+    React.useState(false);
+  const [moneyUserGiveForStaff, setMoneyUserGiveForStaff] = React.useState(0);
   const [paymentSelected, setPaymentSelected] = React.useState("");
   const [visibleBillOfPayment, setVisibleBillOfPayment] = React.useState(false);
   const [changeButtonDone, setChangeButtonDone] = React.useState(false);
@@ -119,19 +133,58 @@ export const useProps = ({
     React.useState(false);
   const [visibleErrorMessageFromPax, setVisibleErrorMessageFromPax] =
     React.useState(false);
+  const [visibleChangeTip, setVisibleChangeTip] = React.useState(false);
 
   const [errorMessageFromPax, setErrorMessageFromPax] = React.useState("");
   const [visibleScanCode, setVisibleScanCode] = React.useState(false);
   const [visiblePrintInvoice, setVisiblePrintInvoice] = React.useState(false);
   const [appointmentDetail, setAppointmentDetail] = React.useState(null);
+  const startProcessingPax = useSelector(
+    (state) => state.appointment.startProcessingPax
+  );
+
+  React.useEffect(() => {
+    if (startProcessingPax) {
+      dispatch(actions.appointment.resetStateCheckCreditPaymentToServer(false));
+      sendTransactionIOS();
+    }
+  }, [startProcessingPax]);
 
   /** CALL API */
-  const [appointment, getAppointment] = useGetAppointment();
+  const [appointmentGet, getAppointment] = useGetAppointment();
+  const [updateAppointmentTaxData, updateAppointmentTax] =
+    useUpdateAppointmentTax();
+  // const [updateAppointmentCustomerData, updateAppointmentCustomer] =
+  //   useUpdateAppointmentCustomer();
 
   const onGoBack = () => {
-    if (screenId) {
-      NavigationServices.navigate(screenId, { reload: true });
-    } else NavigationServices.navigate("retailer.home.order", { reload: true });
+    console.log("====> onGoBack");
+    if (backScreenId) {
+      NavigationServices.navigate(backScreenId, {
+        reload: true,
+        reset: false,
+      });
+    } else
+      NavigationServices.navigate("retailer.home.order", {
+        reload: true,
+      });
+  };
+
+  const onCompleteBack = async () => {
+    console.log("====> onCompleteBack");
+
+    if (screenId && screenId !== "retailer.home.order.check_out") {
+      NavigationServices.navigate(screenId, {
+        reset: true,
+        reloadAppointmentId: null,
+        reload: true,
+      });
+    } else
+      NavigationServices.navigate("retailer.home.order", {
+        reset: true,
+        reload: true,
+        reloadAppointmentId: null,
+      });
   };
 
   const getPaymentString = (type) => {
@@ -662,6 +715,43 @@ export const useProps = ({
     }
   };
 
+  const sendTransactionIOS = () => {
+    setIsGetResponsePaymentPax(false);
+    setVisibleProcessingCredit(true);
+    const moneyCreditCard = Number(
+      formatNumberFromCurrency(moneyUserGiveForStaff) * 100
+    ).toFixed(2);
+    const { ip, port, commType, bluetoothAddr } = paxMachineInfo;
+    const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
+    const tempIpPax = commType == "TCP" ? ip : "";
+    const tempPortPax = commType == "TCP" ? port : "";
+    const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+    const extData = isTipOnPaxMachine
+      ? "<TipRequest>1</TipRequest><Force>T</Force>"
+      : "<Force>T</Force>";
+
+    // Send Trans to pax
+    PosLink.sendTransaction(
+      {
+        tenderType: tenderType,
+        transType: "SALE",
+        amount: `${parseFloat(moneyCreditCard)}`,
+        transactionId: "1",
+        extData: extData,
+        commType: commType,
+        destIp: tempIpPax,
+        portDevice: tempPortPax,
+        timeoutConnect: "90000",
+        bluetoothAddr: idBluetooth,
+        invNum: `${groupAppointment?.checkoutGroupId || 0}`,
+      },
+      (message) => {
+        setIsGetResponsePaymentPax(true);
+        handleResponseCreditCard(message, true, moneyUserGiveForStaff);
+      }
+    );
+  };
+
   const doneBill = async (amountPayment = false) => {
     const moneyUserGiveForStaff =
       amountPayment !== false
@@ -669,6 +759,7 @@ export const useProps = ({
         : parseFloat(
             formatNumberFromCurrency(modalBillRef.current?.state.quality)
           );
+    setMoneyUserGiveForStaff(moneyUserGiveForStaff);
 
     const method = getPaymentString(paymentSelected);
     const total = groupAppointment.total
@@ -764,6 +855,10 @@ export const useProps = ({
     if (Platform.OS === "android") {
       PoslinkAndroid.cancelTransaction((data) => {});
     } else {
+      if (!isGetResponsePaymentPax) {
+        alert("Please wait!");
+        return;
+      }
       PosLink.cancelTransaction();
       if (payAppointmentId) {
         dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
@@ -835,6 +930,7 @@ export const useProps = ({
     if (!_.isEmpty(connectSignalR.current)) {
       await connectSignalR.current?.stop();
     }
+
     if (paymentSelected === "Cash" || paymentSelected === "Other") {
       const { portName } = getInfoFromModelNameOfPrinter(
         printerList,
@@ -843,14 +939,12 @@ export const useProps = ({
 
       if (portName) {
         openCashDrawer(portName);
-        onGoBack();
         dispatch(actions.appointment.closeModalPaymentCompleted());
         // this.props.gotoAppoitmentScreen();
         dispatch(actions.appointment.resetBasketEmpty());
         // this.setState(initState);
         dispatch(actions.appointment.resetPayment());
       } else {
-        onGoBack();
         dispatch(actions.appointment.closeModalPaymentCompleted());
         // this.props.gotoAppoitmentScreen();
         dispatch(actions.appointment.resetBasketEmpty());
@@ -862,13 +956,16 @@ export const useProps = ({
         }, 700);
       }
     } else {
-      onGoBack();
       dispatch(actions.appointment.closeModalPaymentCompleted());
       // this.props.gotoAppoitmentScreen();
       dispatch(actions.appointment.resetBasketEmpty());
       // this.setState(initState);
       dispatch(actions.appointment.resetPayment());
     }
+
+    await dispatch(basketRetailer.clearBasket());
+
+    onCompleteBack();
   };
 
   const openCashDrawer = async (portName) => {
@@ -945,6 +1042,7 @@ export const useProps = ({
           false
         )
       );
+      setIsTax(_.get(orderItem, "isTax"));
     }
   }, [orderItem]);
 
@@ -964,15 +1062,31 @@ export const useProps = ({
   }, [appointmentId]);
 
   React.useEffect(() => {
-    const { codeStatus, message, data } = appointment || {};
+    const { codeStatus, message, data } = appointmentGet || {};
     if (statusSuccess(codeStatus)) {
       setAppointmentDetail(data);
-
+      dispatch(basketRetailer.setAppointment(data));
+      setIsTax(_.get(data, "isTax"));
       // customerRef.current?.setCustomer(data?.customer);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appointment]);
+  }, [appointmentGet]);
+
+  React.useEffect(() => {
+    const { codeStatus } = updateAppointmentTaxData || {};
+    if (statusSuccess(codeStatus)) {
+      getAppointment(appointmentDetail?.appointmentId);
+      dispatch(
+        actions.appointment?.getGroupAppointmentById(
+          appointmentDetail?.appointmentId,
+          true,
+          false,
+          false
+        )
+      );
+    }
+  }, [updateAppointmentTaxData]);
 
   // React.useEffect(() => {
   //   return () => {
@@ -1036,6 +1150,7 @@ export const useProps = ({
     popupEnterAmountGiftCardRef,
     navigation,
     popupDiscountRef,
+    popupDiscountItemRef,
     visiblePopupDiscountLocal,
     popupDiscountLocalRef,
     onRequestClosePopupDiscountLocal: () => {
@@ -1049,7 +1164,7 @@ export const useProps = ({
             (appointment) =>
               appointment.appointmentId === appointmentDetail?.appointmentId
           );
-
+          console.log(appointment);
           const { services, products, extras, giftCards } = appointment;
           const arrayProducts = getArrayProductsFromAppointment(products);
           const arryaServices = getArrayServicesFromAppointment(services);
@@ -1101,7 +1216,8 @@ export const useProps = ({
       dispatch(actions.appointment.changeFlagSigninAppointment(false));
       dispatch(actions.appointment.resetGroupAppointment());
 
-      onGoBack();
+      // dispatch(basketRetailer.clearBasket());
+
       if (visibleConfirm?.func && typeof visibleConfirm?.func === "function") {
         visibleConfirm?.func();
       }
@@ -1110,6 +1226,8 @@ export const useProps = ({
         type: "VISIBLE_POPUP_PAYMENT_CONFIRM",
         payload: { visible: false, func: null },
       });
+
+      onGoBack();
     },
     visibleConfirm: visibleConfirm?.visible ?? false,
     setVisibleConfirm: () => {
@@ -1171,9 +1289,100 @@ export const useProps = ({
     cancelInvoicePrint: async (isPrintTempt) => {
       setVisiblePrintInvoice(false);
       if (!isPrintTempt) {
-        onGoBack();
         dispatch(actions.appointment.resetBasketEmpty());
         dispatch(actions.appointment.resetPayment());
+        await dispatch(basketRetailer.clearBasket());
+
+        onCompleteBack();
+      }
+    },
+    finishedHandle: () => {
+      console.log("====> finishedHandle");
+
+      onCompleteBack();
+    },
+    changeTipRef,
+    visibleChangeTip,
+    setVisibleChangeTip,
+    onTipAdd: () => {
+      const temptTip =
+        !appointmentDetail || _.isEmpty(appointmentDetail)
+          ? tipLocal
+          : appointmentDetail?.tipAmount;
+      const subTotal = appointmentDetail?.subTotal || 0;
+      const tipPercent = appointmentDetail?.tipPercent || 0;
+      const appointmentID = _.isEmpty(groupAppointment)
+        ? -1
+        : appointmentDetail.appointmentId;
+
+      if (_.isEmpty(connectSignalR.current)) {
+        changeTipRef.current?.setStateFromParent(
+          appointmentID,
+          temptTip ?? 0,
+          subTotal,
+          tipPercent
+        );
+
+        setVisibleChangeTip(true);
+      } else {
+        alert("You are paying by Harmony Payment!");
+      }
+    },
+    switchTax: () => {
+      const appointmentID = _.isEmpty(groupAppointment)
+        ? -1
+        : appointmentDetail.appointmentId;
+      const isTaxUpdate = !isTax;
+      setIsTax(isTaxUpdate);
+      updateAppointmentTax(isTaxUpdate, appointmentID);
+    },
+    isTax,
+    onDiscountItemAdd: (item) => {
+      dispatch(
+        actions.marketing.getPromotionByAppointment(
+          appointmentDetail?.appointmentId, false, true
+        )
+      );
+      dispatch(
+        actions.marketing.setAppointmentItem(item)
+      )
+    },
+    onGoBackOrderList: async () => {
+      if (!_.isEmpty(connectSignalR.current)) {
+        connectSignalR.current?.stop();
+      }
+
+      if (payAppointmentId) {
+        dispatch(actions.appointment.cancelHarmonyPayment(payAppointmentId));
+      }
+
+      dispatch(actions.appointment.resetBasketEmpty());
+      dispatch(actions.appointment.resetPayment());
+      dispatch(actions.appointment.changeFlagSigninAppointment(false));
+      dispatch(actions.appointment.resetGroupAppointment());
+
+      await dispatch(basketRetailer.clearBasket());
+
+      if (visibleConfirm?.func && typeof visibleConfirm?.func === "function") {
+        visibleConfirm?.func();
+      }
+
+      dispatch({
+        type: "VISIBLE_POPUP_PAYMENT_CONFIRM",
+        payload: { visible: false, func: null },
+      });
+
+      if (screenId && screenId !== "retailer.home.order.check_out") {
+        NavigationServices.navigate(screenId, {
+          reload: false,
+          reset: true,
+          reloadAppointmentId: null,
+        });
+      } else {
+        NavigationServices.navigate("retailer.home.order", {
+          reload: true,
+          reloadAppointmentId: null,
+        });
       }
     },
   };

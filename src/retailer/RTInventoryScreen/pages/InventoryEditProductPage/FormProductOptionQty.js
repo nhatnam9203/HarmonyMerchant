@@ -2,6 +2,7 @@ import {
   ButtonGradient,
   ButtonGradientRed,
   FormUploadImage,
+  ButtonGradientWhite,
 } from "@shared/components";
 import { CustomInput, CustomInputMoney } from "@shared/components/CustomInput";
 import { Table } from "@shared/components/CustomTable";
@@ -11,7 +12,7 @@ import { colors, fonts, layouts } from "@shared/themes";
 import { arrayIsEqual } from "@shared/utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { AddProductVersionDialog } from "./AddProductVersionDialog";
 import {
   deleteProductVersion,
@@ -19,9 +20,12 @@ import {
   updateOptionsQty,
 } from "./ProductState";
 import { InputSearch } from "@shared/components/InputSearch";
+import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
+import IMAGE from "@resources";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
 const GenerateConfirmButton = WithDialogConfirm(ButtonGradient);
+const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
 
 export const FormProductOptionQty = ({
   dispatchProduct,
@@ -121,6 +125,71 @@ export const FormProductOptionQty = ({
                 onChangeText: onHandleChange,
                 keyboardType: "numeric",
               }}
+            />
+          </View>
+        );
+
+      case "barCode":
+        const onHandleChangeBarcode = (text) => {
+          dispatchProduct(
+            updateOptionsQty(
+              Object.assign({}, cellItem, {
+                barCode: text ?? "",
+              })
+            )
+          );
+        };
+
+        const onResultScanCode = (data) => {
+          dispatchProduct(
+            updateOptionsQty(
+              Object.assign({}, cellItem, { barCode: data ?? "" })
+            )
+          );
+        };
+
+        return (
+          <View
+            style={{
+              width: cellWidth,
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+            key={getUniqueId(columnKey, rowIndex, "cell-quantity")}
+          >
+            <CustomInput
+              style={[styles.customInput, { width: scaleWidth(130) }]}
+              textInputProps={{
+                placeholder: "Barcode",
+                fontSize: scaleFont(13),
+                textAlign: "left",
+                defaultValue: cellItem?.barCode || "",
+                onChangeText: onHandleChangeBarcode,
+                keyboardType: "numeric",
+              }}
+              formatText={(txt) => {
+                const temp = txt.replace(/[^0-9]/g, "") ?? "";
+                // console.log(temp);
+                return temp;
+              }}
+            />
+            <View style={{ width: scaleWidth(2) }} />
+            <ScanQRButton
+              label={null}
+              title={t("Scan Barcode")}
+              width={scaleWidth(40)}
+              height={scaleHeight(50)}
+              onResultScanCode={onResultScanCode}
+              leftChildren={() => (
+                <Image
+                  source={IMAGE.scancode}
+                  style={{
+                    width: scaleWidth(24),
+                    height: scaleHeight(24),
+                    marginHorizontal: scaleWidth(12),
+                  }}
+                />
+              )}
             />
           </View>
         );
@@ -329,12 +398,14 @@ export const FormProductOptionQty = ({
       {optionsQty && (
         <Table
           tableStyle={styles.content}
+          rowHeight={scaleHeight(60)}
           items={optionsQty}
           flatListRef={flatListRef}
           highlightIndex={highlightIndex}
           headerKeyLabels={{
             imageUrl: t("Image"),
             label: t("Version"),
+            barCode: t("Barcode"),
             description: t("Description"),
             costPrice: t("Cost price"),
             price: t("Price"),
@@ -345,6 +416,7 @@ export const FormProductOptionQty = ({
           whiteListKeys={[
             "imageUrl",
             "label",
+            "barCode",
             "description",
             "costPrice",
             "price",
@@ -355,8 +427,9 @@ export const FormProductOptionQty = ({
           primaryKey="label"
           widthForKeys={{
             imageUrl: scaleWidth(60),
-            label: scaleWidth(250),
-            description: scaleWidth(200),
+            label: scaleWidth(150),
+            barCode: scaleWidth(180),
+            description: scaleWidth(120),
             costPrice: scaleWidth(120),
             price: scaleWidth(120),
             quantity: scaleWidth(80),

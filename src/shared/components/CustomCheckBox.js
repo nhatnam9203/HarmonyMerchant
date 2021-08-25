@@ -1,11 +1,11 @@
-import React from 'react';
-import { StyleSheet, Platform, View, Text } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import React from "react";
+import { StyleSheet, Platform, View, Text } from "react-native";
+import CheckBox from "@react-native-community/checkbox";
 
 export const CustomCheckBox = ({
-  normalColor = '#fff',
-  selectedColor = 'transparent',
-  onCheckColor = '#0764b0',
+  normalColor = "#fff",
+  selectedColor = "transparent",
+  onCheckColor = "#0764b0",
   disabled = false,
   style,
   label,
@@ -15,14 +15,17 @@ export const CustomCheckBox = ({
   textStyle,
   defaultValue,
   onValueChange,
+  editable = true,
   ...props
 }) => {
   const [toggle, setToggle] = React.useState();
 
   const onHandleChange = () => {
+    if (!editable) return;
+
     const isChange = !toggle;
     setToggle(isChange);
-    if (onValueChange && typeof onValueChange === 'function') {
+    if (onValueChange && typeof onValueChange === "function") {
       onValueChange(isChange);
     }
   };
@@ -34,7 +37,7 @@ export const CustomCheckBox = ({
   return (
     <View style={[styles.layout, style]}>
       <CheckBox
-        style={Platform.OS === 'ios' && [styles.checkBoxStyle, checkBoxStyle]}
+        style={Platform.OS === "ios" && [styles.checkBoxStyle, checkBoxStyle]}
         boxType="square"
         tintColors={{ true: selectedColor, false: normalColor }}
         tintColor={normalColor}
@@ -43,8 +46,8 @@ export const CustomCheckBox = ({
         onFillColor={selectedColor}
         animationDuration={0.25}
         disabled={disabled}
-        onAnimationType={onAnimationType ?? 'stroke'}
-        offAnimationType={offAnimationType ?? 'stroke'}
+        onAnimationType={onAnimationType ?? "stroke"}
+        offAnimationType={offAnimationType ?? "stroke"}
         {...props}
         value={toggle}
         onValueChange={onHandleChange}
@@ -63,31 +66,31 @@ const styles = StyleSheet.create({
     marginRight: scaleWidth(15),
     width: scaleWidth(22),
     height: scaleHeight(22),
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: '#ccc',
-    overflow: 'hidden',
+    borderColor: "#ccc",
+    overflow: "hidden",
   },
 
   layout: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: '100%',
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    height: "100%",
   },
 
   text: {
-    fontFamily: 'Roboto-Medium',
+    fontFamily: "Roboto-Medium",
     fontSize: scaleFont(20),
-    color: '#fff',
-    fontWeight: '500',
-    fontStyle: 'normal',
+    color: "#fff",
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
   },
 
   customCheckBox: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
   },
 });

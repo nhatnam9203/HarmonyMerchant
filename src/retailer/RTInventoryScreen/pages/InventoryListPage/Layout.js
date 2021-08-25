@@ -254,7 +254,7 @@ export const Layout = ({
             length={items?.length}
           />
           <View style={layouts.marginHorizontal} />
-          <RestockButton
+          {/* <RestockButton
             disable={!isPermission()}
             label={t("Restock")}
             width={scaleWidth(100)}
@@ -263,7 +263,7 @@ export const Layout = ({
             fontSize={scaleFont(15)}
             onPress={onSubmitRestock}
           />
-          <View style={layouts.marginHorizontal} />
+          <View style={layouts.marginHorizontal} /> */}
           <ExportModalInventory
             disable={!isPermission()}
             ref={exportRef}

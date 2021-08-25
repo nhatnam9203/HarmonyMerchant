@@ -39,12 +39,14 @@ export const Layout = ({
   onRemoveItem,
   customer,
   onResultScanCode,
+  isOrder,
   categoriesLabelData,
 }) => {
   const [t] = useTranslation();
-  const labelColumn1 = _.get(categoriesLabelData, 'column1') || t("Categories")
-  const labelColumn2 = _.get(categoriesLabelData, 'column2') || t("Subcategories")
-  const labelColumn3 = _.get(categoriesLabelData, 'column3') || t("Products")
+  const labelColumn1 = _.get(categoriesLabelData, "column1") || t("Categories");
+  const labelColumn2 =
+    _.get(categoriesLabelData, "column2") || t("Subcategories");
+  const labelColumn3 = _.get(categoriesLabelData, "column3") || t("Products");
   return (
     <View style={layouts.fill}>
       <View style={styles.headContent}>
@@ -73,17 +75,43 @@ export const Layout = ({
           )}
         />
 
+        {/* <ButtonGradientWhite
+          width={scaleWidth(40)}
+          height={scaleHeight(40)}
+          fontSize={scaleFont(17)}
+          textWeight="normal"
+          onPress={() => {
+            onResultScanCode("Pho");
+          }}
+        >
+          <Image source={IMAGE.back} />
+        </ButtonGradientWhite> */}
+        {/*
+        <ButtonGradientWhite
+          width={scaleWidth(40)}
+          height={scaleHeight(40)}
+          fontSize={scaleFont(17)}
+          textWeight="normal"
+          onPress={() => {
+            onResultScanCode("8936101342225");
+          }}
+        >
+          <Image source={IMAGE.back} />
+        </ButtonGradientWhite> */}
+
         <View style={styles.headerRightContent}>
           <View style={layouts.marginHorizontal} />
-          <ButtonGradientWhite
-            width={scaleWidth(40)}
-            height={scaleHeight(40)}
-            fontSize={scaleFont(17)}
-            textWeight="normal"
-            onPress={onGoBack}
-          >
-            <Image source={IMAGE.back} />
-          </ButtonGradientWhite>
+          {isOrder && (
+            <ButtonGradientWhite
+              width={scaleWidth(40)}
+              height={scaleHeight(40)}
+              fontSize={scaleFont(17)}
+              textWeight="normal"
+              onPress={onGoBack}
+            >
+              <Image source={IMAGE.back} />
+            </ButtonGradientWhite>
+          )}
         </View>
       </View>
 

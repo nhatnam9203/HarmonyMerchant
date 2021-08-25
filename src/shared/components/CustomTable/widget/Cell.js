@@ -27,7 +27,7 @@ export const Cell = ({
           },
       ]}
     >
-      {!!text && <Text style={[styles.textStyle, textStyle]}>{text}</Text>}
+      {(!!text || text == 0) && <Text style={[styles.textStyle, textStyle]}>{text}</Text>}
       {children}
       {/* <View style={styles.verticalLine} /> */}
     </Pressable>

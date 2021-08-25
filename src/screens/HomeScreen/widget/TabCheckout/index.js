@@ -1995,6 +1995,7 @@ class TabCheckout extends Layout {
 
   addAppointmentCheckout = () => {
     const { blockAppointments } = this.props;
+
     if (blockAppointments.length > 0) {
       this.createABlockAppointment();
       return;
@@ -2162,16 +2163,30 @@ class TabCheckout extends Layout {
         : new Date()
     }
 
-    this.props.actions.appointment.createBlockAppointment(
-      profile.merchantId,
-      fromTime,
-      customerInfoBuyAppointment?.userId || 0,
-      customerInfoBuyAppointment?.customerId || 0,
-      customerInfoBuyAppointment?.firstName || '',
-      customerInfoBuyAppointment?.lastName || '',
-      customerInfoBuyAppointment?.phone || '',
-      bookingGroupId
-    );
+    const firstAppointment = blockAppointments[0];
+    if (firstAppointment && firstAppointment.status && firstAppointment.status === "waiting") {
+      this.props.actions.appointment.createAppointmentWaiting(
+        profile.merchantId,
+        fromTime,
+        customerInfoBuyAppointment?.userId || 0,
+        customerInfoBuyAppointment?.customerId || 0,
+        customerInfoBuyAppointment?.firstName || '',
+        customerInfoBuyAppointment?.lastName || '',
+        customerInfoBuyAppointment?.phone || '',
+        bookingGroupId
+      );
+    }else{
+      this.props.actions.appointment.createBlockAppointment(
+        profile.merchantId,
+        fromTime,
+        customerInfoBuyAppointment?.userId || 0,
+        customerInfoBuyAppointment?.customerId || 0,
+        customerInfoBuyAppointment?.firstName || '',
+        customerInfoBuyAppointment?.lastName || '',
+        customerInfoBuyAppointment?.phone || '',
+        bookingGroupId
+      );
+    }
   };
 
   addBlockAppointment = async () => {

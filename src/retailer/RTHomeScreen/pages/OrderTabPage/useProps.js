@@ -2,7 +2,7 @@ import React from "react";
 export const useProps = ({ navigation }) => {
   React.useEffect(() => {
     const unsubscribeFocus = navigation.addListener("focus", () => {
-      navigation.popToTop();
+      navigation?.popToTop();
     });
 
     const unsubscribeBlur = navigation.addListener("blur", () => {});

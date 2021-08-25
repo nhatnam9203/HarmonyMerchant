@@ -14,10 +14,12 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Switch,
 } from "react-native";
 import FastImage from "react-native-fast-image";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { useDispatch } from "react-redux";
+import { groupBy } from "lodash";
 
 const log = (obj, message = "") => {
   Logger.log(`[BasketContentView] ${message}`, obj);
@@ -37,6 +39,10 @@ export const BasketPaymentContent = React.forwardRef(
       groupAppointment,
       finishedHandle,
       onDiscountAdd,
+      onTipAdd,
+      switchTax,
+      isTax,
+      onDiscountItemAdd,
     },
     ref
   ) => {
@@ -45,6 +51,7 @@ export const BasketPaymentContent = React.forwardRef(
     const [buttonTittle, setButtonTittle] = React.useState();
     const [isAcceptPay, setIsAcceptPay] = React.useState(false);
     const [disable, setDisable] = React.useState(false);
+    const [items, setItems] = React.useState(null);
 
     /**
   |--------------------------------------------------
@@ -126,41 +133,71 @@ export const BasketPaymentContent = React.forwardRef(
       setIsAcceptPay(isAccept);
     }, [groupAppointment, paymentSelected, orderItem]);
 
+    React.useEffect(() => {
+      if (orderItem?.products?.length > 0) {
+        const temps = orderItem.products?.reduce((previous, x) => {
+          let groups = previous ?? [];
+          const keyUnique = x.productName + " + " + x.value;
+
+          const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
+
+          if (isExitIdx >= 0) {
+            const existItem = groups[isExitIdx];
+            groups[isExitIdx] = Object.assign({}, existItem, {
+              value: [...existItem.value, x],
+            });
+          } else {
+            groups.push({ key: keyUnique, value: [x] });
+          }
+
+          return groups;
+        }, []);
+        setItems(temps);
+      } else {
+        setItems(null);
+      }
+    }, [orderItem]);
+
     // React.useImperativeHandle(ref, () => ({
     //   canCreateOrder: () => {},
     // }));
 
     const renderItem = ({ item }) => {
-      return (
-        <View style={styles.productItem} key={item.id + ""}>
-          <FastImage
-            style={styles.imageStyle}
-            source={
-              item?.imageUrl
-                ? {
-                    uri: item?.imageUrl,
-                    priority: FastImage.priority.high,
-                    cache: FastImage.cacheControl.immutable,
-                  }
-                : IMAGE.product_holder
-            }
-            resizeMode="contain"
-          />
+      const firstItem = item.value[0];
+      const qty = item.value?.reduce((prev, cur) => prev + cur.quantity, 0);
 
-          <View style={layouts.marginHorizontal} />
-          <View style={styles.productItemContent}>
-            <Text style={styles.totalText}>{item?.productName}</Text>
-            <Text style={styles.totalInfoText}>{item?.value}</Text>
+      return (
+        <TouchableOpacity onPress={() => onDiscountItemAdd(firstItem)}>
+          <View style={styles.productItem} key={item.key + ""}>
+            <FastImage
+              style={styles.imageStyle}
+              source={
+                item?.imageUrl
+                  ? {
+                      uri: firstItem?.imageUrl,
+                      priority: FastImage.priority.high,
+                      cache: FastImage.cacheControl.immutable,
+                    }
+                  : IMAGE.product_holder
+              }
+              resizeMode="contain"
+            />
+
+            <View style={layouts.marginHorizontal} />
+            <View style={styles.productItemContent}>
+              <Text style={styles.totalText}>{firstItem?.productName}</Text>
+              <Text style={styles.totalInfoText}>{firstItem?.value}</Text>
+            </View>
+            <Text style={styles.productItemQuantity}>{`${qty} ${t(
+              "items"
+            )}`}</Text>
+            <View style={layouts.marginHorizontal} />
+            <View style={layouts.marginHorizontal} />
+            <Text style={styles.productItemPrice}>
+              {formatMoneyWithUnit(firstItem?.price)}
+            </Text>
           </View>
-          <Text style={styles.productItemQuantity}>{`${item.quantity} ${t(
-            "items"
-          )}`}</Text>
-          <View style={layouts.marginHorizontal} />
-          <View style={layouts.marginHorizontal} />
-          <Text style={styles.productItemPrice}>
-            {formatMoneyWithUnit(item.price)}
-          </Text>
-        </View>
+        </TouchableOpacity>
       );
     };
 
@@ -168,10 +205,10 @@ export const BasketPaymentContent = React.forwardRef(
       <View style={styles.container}>
         <FlatList
           style={styles.flatList}
-          data={orderItem?.products}
+          data={items}
           renderItem={renderItem}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
-          keyExtractor={(item) => item.id + ""}
+          keyExtractor={(item) => item.key + ""}
         />
         <View style={styles.line} />
         <View style={styles.totalContent}>
@@ -181,10 +218,23 @@ export const BasketPaymentContent = React.forwardRef(
             label={t("Subtotal")}
             value={formatMoneyWithUnit(groupAppointment?.subTotal)}
           />
-          <TotalInfo
-            label={t("Tax")}
-            value={formatMoneyWithUnit(groupAppointment?.tax)}
-          />
+          {/* ---- Tax --- */}
+          <View style={styles.totalInfoContent}>
+            <View style={styles.taxRow}>
+              <Text style={styles.totalInfoText}>{t("Tax")}</Text>
+              <Switch
+                style={{ marginLeft: scaleWidth(15) }}
+                trackColor={{ false: "#767577", true: "#0764B0" }}
+                ios_backgroundColor="#E5E5E5"
+                onValueChange={switchTax}
+                value={isTax ? true : false}
+              />
+            </View>
+            <Text style={styles.priceInfoText}>
+              {formatMoneyWithUnit(groupAppointment?.tax)}
+            </Text>
+          </View>
+
           <TotalInfo
             label={t("Discount")}
             value={formatMoneyWithUnit(groupAppointment?.discount)}
@@ -194,6 +244,21 @@ export const BasketPaymentContent = React.forwardRef(
               <Image
                 source={IMAGE.add_discount_checkout}
                 style={styles.iconStyle}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          </TotalInfo>
+          <View style={layouts.marginVertical} />
+          <TotalInfo
+            label={t("Tip")}
+            value={formatMoneyWithUnit(groupAppointment?.tipAmount)}
+          >
+            <View style={layouts.marginHorizontal} />
+            <TouchableOpacity onPress={onTipAdd}>
+              <Image
+                source={IMAGE.add_discount_checkout}
+                style={styles.iconStyle}
+                resizeMode="contain"
               />
             </TouchableOpacity>
           </TotalInfo>
@@ -280,7 +345,7 @@ const styles = StyleSheet.create({
 
   totalInfoContent: {
     flexDirection: "row",
-    height: scaleHeight(30),
+    height: scaleHeight(35),
     alignItems: "center",
     justifyContent: "space-between",
   },
@@ -399,5 +464,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     flex: 1,
+  },
+  taxRow: {
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
