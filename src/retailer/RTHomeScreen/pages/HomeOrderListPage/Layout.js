@@ -162,8 +162,8 @@ export const Layout = ({
           // unitKeys={{ totalDuration: 'hrs' }}
           widthForKeys={{
             code: scaleWidth(180),
-            purchasePoint: scaleWidth(120),
-            createdDate: scaleWidth(175),
+            purchasePoint: scaleWidth(100),
+            createdDate: scaleWidth(200),
             billToName: scaleWidth(160),
             shipToName: scaleWidth(160),
             status: scaleWidth(120),

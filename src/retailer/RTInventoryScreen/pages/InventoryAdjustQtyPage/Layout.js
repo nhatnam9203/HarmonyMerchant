@@ -142,7 +142,6 @@ export const Layout = ({
             </Text>
           </View>
         );
-        r;
       default:
         return null;
     }
