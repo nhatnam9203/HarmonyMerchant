@@ -28,7 +28,11 @@ const initialState = {
 
     promotionDetailById: {},
     isUpdatePromotionById: false,
-    smsInfoMarketing: {}
+    smsInfoMarketing: {},
+    visibleModalDiscountItem: false,
+    isGetPromotionOfAppointmentItem: false,
+    appointmentItem: {},
+    discountItems: [],
 }
 
 function marketingReducer(state = initialState, action) {
@@ -93,6 +97,18 @@ function marketingReducer(state = initialState, action) {
                 isGetPromotionOfAppointment: "success",
                 promotionNotes: action.promotionNotes,
                 discountByOwner: action.discountByOwner,
+                discountItems: action.discountItems
+            }
+        case 'GET_PROMOTION_BY_APPOINTMENT_FOR_ITEM_SUCCESS':
+            return {
+                ...state,
+                discount: action.payload,
+                visibleModalDiscountItem: true,
+                appointmentIdUpdatePromotion: action.appointmentId,
+                isGetPromotionOfAppointment: "success",
+                promotionNotes: action.promotionNotes,
+                discountByOwner: action.discountByOwner,
+                discountItems: action.discountItems
             }
         case 'GET_PROMOTION_BY_APPOINTMENT_FAIL':
             return {
@@ -103,6 +119,17 @@ function marketingReducer(state = initialState, action) {
             return {
                 ...state,
                 isGetPromotionOfAppointment: ""
+            }
+        case 'RESET_STATE_GET_PROMOTION_OF_APPOINTMENT_ITEM':
+            return {
+                ...state,
+                isGetPromotionOfAppointmentItem: ""
+            }
+
+        case 'SET_APPOINTMENT_ITEM':
+            return {
+                ...state,
+                appointmentItem: action.appointmentItem
             }
         case 'GET_PROMOTION_BY_BLOCK_APPOINTMENT_SUCCESS':
             return {
@@ -120,7 +147,17 @@ function marketingReducer(state = initialState, action) {
                 ...state,
                 visibleModalDiscount: false,
                 visibleModalBlockDiscount: false,
+                visibleModalDiscountItem: false,
                 discount: [],
+                discountItems: [],
+            }
+        case 'CLOSE_MODAL_DISCOUNT_ITEM':
+            return {
+                ...state,
+                visibleModalDiscount: false,
+                visibleModalBlockDiscount: false,
+                visibleModalDiscountItem: false,
+                discountItems: [],
             }
         case 'OPEN_MODAL_DISCOUNT':
             return {

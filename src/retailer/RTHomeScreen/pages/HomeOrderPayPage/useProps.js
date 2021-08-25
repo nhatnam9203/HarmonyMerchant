@@ -43,6 +43,7 @@ export const useProps = ({
   const popupSendLinkInstallRef = React.useRef(null);
   const popupEnterAmountGiftCardRef = React.useRef(null);
   const popupDiscountRef = React.useRef(null);
+  const popupDiscountItemRef = React.useRef(null);
   const popupDiscountLocalRef = React.useRef(null);
   const activeGiftCardRef = React.useRef(null);
   const connectSignalR = React.useRef(null);
@@ -1144,6 +1145,7 @@ export const useProps = ({
     popupEnterAmountGiftCardRef,
     navigation,
     popupDiscountRef,
+    popupDiscountItemRef,
     visiblePopupDiscountLocal,
     popupDiscountLocalRef,
     onRequestClosePopupDiscountLocal: () => {
@@ -1330,6 +1332,16 @@ export const useProps = ({
       updateAppointmentTax(isTaxUpdate, appointmentID);
     },
     isTax,
+    onDiscountItemAdd: (item) => {
+      dispatch(
+        actions.marketing.getPromotionByAppointment(
+          appointmentDetail?.appointmentId, false, true
+        )
+      );
+      dispatch(
+        actions.marketing.setAppointmentItem(item)
+      )
+    },
     onGoBackOrderList: async () => {
       if (!_.isEmpty(connectSignalR.current)) {
         connectSignalR.current?.stop();

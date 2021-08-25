@@ -17,6 +17,7 @@ import {
   PopupBill,
   PopupBlockDiscount,
   PopupDiscount,
+  PopupDiscountItem,
   PopupDiscountLocal,
   PopupEnterAmountGiftCard,
   PopupPaymentDetails,
@@ -80,6 +81,7 @@ export const Layout = ({
   popupEnterAmountGiftCardRef,
   navigation,
   popupDiscountRef,
+  popupDiscountItemRef,
   popupDiscountLocalRef,
   visiblePopupDiscountLocal,
   onRequestClosePopupDiscountLocal,
@@ -116,6 +118,7 @@ export const Layout = ({
   setVisibleChangeTip,
   switchTax,
   isTax,
+  onDiscountItemAdd,
   onGoBackOrderList,
 }) => {
   const [t] = useTranslation();
@@ -259,6 +262,7 @@ export const Layout = ({
                 onTipAdd={onTipAdd}
                 switchTax={switchTax}
                 isTax={isTax}
+                onDiscountItemAdd={onDiscountItemAdd}
               />
             </View>
           </View>
@@ -268,6 +272,9 @@ export const Layout = ({
       </View>
 
       <PopupDiscount ref={popupDiscountRef} title={t("Discount")} />
+      <PopupDiscountItem 
+        ref={popupDiscountItemRef} 
+        title={t("Discount")} />
 
       <PopupBlockDiscount title={t("Discount")} />
       <PopupDiscountLocal

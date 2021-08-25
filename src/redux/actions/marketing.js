@@ -44,14 +44,15 @@ export function updatePromotionByMerchant(body, promotionId = 1, isSendNoti = tr
     }
 }
 
-export function getPromotionByAppointment(appointmentId, isBlock = false) {
+export function getPromotionByAppointment(appointmentId, isBlock = false, isAppointmentItem = false) {
     return {
         type: 'GET_PROMOTION_BY_APPOINTMENT',
         method: 'GET',
         token: true,
         api: `appointment/promotion/${appointmentId}`,
         appointmentId,
-        isBlock
+        isBlock,
+        isAppointmentItem,
     }
 }
 
@@ -61,6 +62,11 @@ export function closeModalDiscount() {
     }
 }
 
+export function closeModalDiscountItem() {
+    return {
+        type: 'CLOSE_MODAL_DISCOUNT_ITEM',
+    }
+}
 
 export function changeStylist(staffId, bookingServiceId, tipAmount, appointmentId, price,extras = null, tipPercent = 0, note = "", isGroup = false) {
     return {
@@ -99,6 +105,21 @@ export function customPromotion(discountPercent, discountFixtom, discountByOwner
     }
 }
 
+export function customPromotionItem(discountPercent, discountFixtom, appointmentid, bookingproductid) {
+    return {
+        type: 'CUSTOM_PROMOTION_ITEM',
+        method: 'POST',
+        token: true,
+        body: {
+            discountPercent,
+            discountFixtom
+        },
+
+        api: `retailer/appointment/${appointmentid}/custompromotion/${bookingproductid}`,
+        appointmentid,
+    }
+}
+
 export function setStatusApplyButton(isApply, promotionId = 1) {
     return {
         type: 'SET_STATUS_APPLY_BUTTON',
@@ -128,6 +149,13 @@ export function resetStateGetPromotion() {
     }
 }
 
+export function setAppointmentItem(item) {
+    return {
+        type: 'SET_APPOINTMENT_ITEM',
+        appointmentItem: item,
+    }
+}
+
 export function toggleMarketingTabPermission(visible = true) {
     return {
         type: 'TOGGLE_MAKETING_TAB_PERMISSION',
@@ -138,6 +166,12 @@ export function toggleMarketingTabPermission(visible = true) {
 export function resetStateGetPromotionOfAppointment() {
     return {
         type: 'RESET_STATE_GET_PROMOTION_OF_APPOINTMENT',
+    }
+}
+
+export function resetStateGetPromotionOfAppointmentItem() {
+    return {
+        type: 'RESET_STATE_GET_PROMOTION_OF_APPOINTMENT_ITEM',
     }
 }
 

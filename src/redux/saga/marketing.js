@@ -196,6 +196,16 @@ function* getPromotionByAppointment(action) {
                     appointmentId: action.appointmentId,
                     promotionNotes: responses?.data?.notes || {},
                     discountByOwner: responses?.data.discountByOwner || true,
+                    discountItems: responses?.data?.discountItems || [],
+                })
+            } else if (action.isAppointmentItem) {
+                yield put({
+                    type: 'GET_PROMOTION_BY_APPOINTMENT_FOR_ITEM_SUCCESS',
+                    payload: responses?.data?.promotions || [],
+                    appointmentId: action.appointmentId,
+                    promotionNotes: responses?.data?.notes || {},
+                    discountByOwner: responses?.data.discountByOwner || true,
+                    discountItems: responses?.data?.discountItems || [],
                 })
             } else {
                 yield put({
@@ -204,6 +214,7 @@ function* getPromotionByAppointment(action) {
                     appointmentId: action.appointmentId,
                     promotionNotes: responses?.data?.notes || {},
                     discountByOwner: responses?.data.discountByOwner || true,
+                    discountItems: responses?.data?.discountItems || [],
                 })
             }
         } else if (parseInt(codeNumber) === 401) {
@@ -292,6 +303,37 @@ function* customPromotion(action) {
                     appointmentId: action.appointmentid
                 })
             }
+
+        } else if (parseInt(codeNumber) === 401) {
+            yield put({
+                type: 'UNAUTHORIZED'
+            })
+        } else {
+            yield put({
+                type: 'SHOW_ERROR_MESSAGE',
+                message: responses?.message
+            })
+        }
+    } catch (error) {
+        alert(`error-customPromotion: ${error}`)
+        yield put({ type: error });
+    } finally {
+        yield put({ type: 'STOP_LOADING_ROOT' });
+    }
+}
+
+function* customPromotionItem(action) {
+    try {
+        yield put({ type: 'LOADING_ROOT' });
+        const responses = yield requestAPI(action);
+        const { codeNumber } = responses;
+        if (parseInt(codeNumber) == 200) {
+             yield put({
+                    type: 'GET_GROUP_APPOINTMENT_BY_ID',
+                    method: 'GET',
+                    api: `appointment/getGroupById/${action?.appointmentid || "customPromotion"}`,
+                    token: true
+                }) 
 
         } else if (parseInt(codeNumber) === 401) {
             yield put({
@@ -558,6 +600,7 @@ export default function* saga() {
         takeLatest('GET_PROMOTION_BY_APPOINTMENT', getPromotionByAppointment),
         takeLatest('CHANGE_STYLIST', changeStylist),
         takeLatest('CUSTOM_PROMOTION', customPromotion),
+        takeLatest('CUSTOM_PROMOTION_ITEM', customPromotionItem),
         takeLatest('SEND_NOTI_BY_PROMOTION_ID', sendNotificationByPromotionId),
         takeLatest('UPDATE_PROMOTION_NOTE', updatePromotionNote),
         takeLatest('ADD_PROMOTION_NOTE', addPromotionNote),
