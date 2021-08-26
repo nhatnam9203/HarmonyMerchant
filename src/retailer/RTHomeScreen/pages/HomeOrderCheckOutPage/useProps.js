@@ -59,6 +59,9 @@ export const useProps = ({
     (state) => state.basketRetailer.appointmentTempId
   );
   const appointment = useSelector((state) => state.basketRetailer.appointment);
+  const appointmentTemp = useSelector(
+    (state) => state.basketRetailer.appointmentTemp
+  );
 
   /**
   |--------------------------------------------------
@@ -433,7 +436,7 @@ export const useProps = ({
         }
       }
     },
-    appointment,
+    appointment: appointmentTemp ?? appointment,
     onRemoveItem: (items) => {
       if (items?.length > 0) {
         let clonePendingList = [...removeItemWaitingList];

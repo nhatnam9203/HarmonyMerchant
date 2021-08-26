@@ -6,21 +6,29 @@ const initialState = {
   appointmentTempId: null,
   appointmentId: null,
   appointment: null,
+  appointmentTemp: null,
 };
 const slices = createSlice({
   name: reducerName,
   initialState: initialState,
   reducers: {
-    setAppointmentTemp: {
-      // !@@@@@@@@
-      reducer: (state, action) => {
-        state.appointment = action.payload;
-      },
-    },
+    // setAppointmentTemp: {
+    //   // !@@@@@@@@
+    //   reducer: (state, action) => {
+    //     state.appointment = action.payload;
+    //   },
+    // },
     setAppointment: {
       // !@@@@@@@@
       reducer: (state, action) => {
+        state.appointmentTemp = null;
         state.appointment = action.payload;
+      },
+    },
+    setAppointmentTemp: {
+      // !@@@@@@@@
+      reducer: (state, action) => {
+        state.appointmentTemp = action.payload;
       },
     },
     setAppointmentTempId: {
