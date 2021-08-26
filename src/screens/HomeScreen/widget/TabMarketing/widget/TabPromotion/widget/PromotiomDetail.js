@@ -223,10 +223,7 @@ const PromotiomDetail = forwardRef(
         setNoEndDate(data?.noEndDate);
         setMediaFilePath(data?.smsMediaPath);
 
-        if (data?.id);
-        {
-          getPromotionCustomer(data?.id, merchant?.merchantId);
-        }
+        getPromotionCustomer(data?.id ?? 0, merchant?.merchantId);
       },
     }));
 
@@ -713,7 +710,18 @@ const PromotiomDetail = forwardRef(
       );
 
       const count = ids?.length ?? 0;
-      const val = count / smsInfoMarketing?.customerCount ?? 1;
+      console.log(count);
+
+      let customersMax = smsInfoMarketing?.customerCount;
+      if (customersMax <= 0) {
+        customersMax = Math.max(customerList?.length, 1);
+      }
+      console.log(customersMax);
+
+      const val = count / customersMax;
+
+      console.log(val);
+
       setValue(val);
       calculatorsmsMoney(val);
     };

@@ -36,7 +36,7 @@ export const PromotionCustomerFilter = React.forwardRef(
 
     const callGetPromotionsList = React.useCallback(() => {
       if (promotion) {
-        getPromotionCustomer(promotion?.id, promotion?.merchantId, {
+        getPromotionCustomer(promotion?.id ?? 0, promotion?.merchantId, {
           page: page,
         });
       }
