@@ -37,6 +37,7 @@ class PopupDiscount extends React.Component {
             && groupAppointment.appointments ?
                 groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion)
                 : { subTotal: 0 };
+        
         this.state = {
             discountTotal: 0,
             totalLocal: 0,
@@ -162,7 +163,7 @@ class PopupDiscount extends React.Component {
                         return l.get(itemFind, 'bookingProductId') == l.get(itemTemp, 'bookingProductId')
                     })
                     const discountAmount = l.get(itemTemp, 'discount') > 0 ?
-                    formatNumberFromCurrency(l.get(itemTemp, 'discount') * l.get(findItem, 'quantity'))
+                    formatNumberFromCurrency(l.get(itemTemp, 'discount'))
                     : formatNumberFromCurrency(l.get(itemTemp, 'discountPercent') * formatNumberFromCurrency(l.get(findItem, 'price') * l.get(findItem, 'quantity')) / 100)
                     total = total + discountAmount
                 }
@@ -230,7 +231,7 @@ class PopupDiscount extends React.Component {
                                                 return l.get(itemFind, 'bookingProductId') == l.get(itemTemp, 'bookingProductId')
                                             })
                                             const discountAmount = l.get(itemTemp, 'discount') > 0 ?
-                                            formatNumberFromCurrency(l.get(itemTemp, 'discount') * l.get(findItem, 'quantity'))
+                                            formatNumberFromCurrency(l.get(itemTemp, 'discount'))
                                             : roundNumber(formatNumberFromCurrency(l.get(itemTemp, 'discountPercent')) * formatNumberFromCurrency(l.get(findItem, 'price') * l.get(findItem, 'quantity')) / 100)
                                             return <ItemCampaign
                                             key={index}
