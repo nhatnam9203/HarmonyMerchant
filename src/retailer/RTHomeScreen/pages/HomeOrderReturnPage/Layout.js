@@ -6,19 +6,16 @@ import {
   FormTitle,
   ButtonGradient,
   ButtonGradientWhite,
-  
 } from "@shared/components";
 import IMAGE from "@resources";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import {
-  FormEditNotes,
-} from "../../widget";
+import { FormEditNotes } from "../../widget";
 import FastImage from "react-native-fast-image";
 import { formatMoneyWithUnit } from "@utils";
 import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
-import { TextInputMask } from 'react-native-masked-text';
+import { TextInputMask } from "react-native-masked-text";
 import _ from "lodash";
 
 export const Layout = ({
@@ -34,10 +31,10 @@ export const Layout = ({
   const [t] = useTranslation();
 
   const onRenderCell = ({ item, columnKey, rowIndex, cellWidth }) => {
-    const findIndex = _.findIndex(itemSelected, itemFind => {
-      return itemFind.productId == item.productId
-    })
-    const isSelected = findIndex != -1
+    const findIndex = _.findIndex(itemSelected, (itemFind) => {
+      return itemFind.productId == item.productId;
+    });
+    const isSelected = findIndex != -1;
 
     if (columnKey === "productName") {
       const handleCheckRow = (val) => {
@@ -66,102 +63,104 @@ export const Layout = ({
             resizeMode="contain"
           />
           <View style={layouts.marginHorizontal} />
-          <Text style={styles.productName}>{item?.productName}</Text>
+          <View style={styles.productNameContent}>
+            <Text style={styles.productName}>{item?.productName}</Text>
+            <View style={styles.productNameMarginVertical} />
+            <Text style={styles.productOption}>{`${item?.value}`}</Text>
+          </View>
         </View>
       );
     } else if (columnKey === "quantity") {
       return (
         <View>
-        
-        <Text style={[
-          {
-            width: scaleWidth(100),
-          }, 
-          styles.textStyle,
-        ]}>
-        {_.get(item, 'quantity')}
-        </Text>
-        {
-          isSelected ?
-          <TextInputMask
-            type="only-numbers"
-            placeholder=""
+          <Text
             style={[
               {
                 width: scaleWidth(100),
-              }, 
+              },
               styles.textStyle,
-              styles.textInputStyle,
-          ]}
-            value={_.get(item, 'returnQuantity', 0)}
-            onChangeText={(value) =>
-              updateQuantity(item, value)
-            }
-          />
-          :
-          <Text style={[
-            {
-              width: scaleWidth(100),
-            }, 
-            styles.textStyle,
-            {color: 'red'},
-          ]}>
-          {`- ${_.get(item, 'returnQuantity')}`}
+            ]}
+          >
+            {_.get(item, "quantity")}
           </Text>
-        }
-        
+          {isSelected ? (
+            <TextInputMask
+              type="only-numbers"
+              placeholder=""
+              style={[
+                {
+                  width: scaleWidth(100),
+                },
+                styles.textStyle,
+                styles.textInputStyle,
+              ]}
+              value={_.get(item, "returnQuantity", 0)}
+              onChangeText={(value) => updateQuantity(item, value)}
+            />
+          ) : (
+            <Text
+              style={[
+                {
+                  width: scaleWidth(100),
+                },
+                styles.textStyle,
+                { color: "red" },
+              ]}
+            >
+              {`- ${_.get(item, "returnQuantity")}`}
+            </Text>
+          )}
         </View>
-      )
-      
-    }else if (columnKey === "total") {
+      );
+    } else if (columnKey === "total") {
       return (
         <View>
-           <Text style={[
-            styles.textTotalStyle,
-            {
-              width: scaleWidth(100),
-            }, 
-          ]}>
-           {formatMoneyWithUnit(_.get(item, 'total'))}
+          <Text
+            style={[
+              styles.textTotalStyle,
+              {
+                width: scaleWidth(100),
+              },
+            ]}
+          >
+            {formatMoneyWithUnit(_.get(item, "total"))}
           </Text>
-          {
-            isSelected ?
+          {isSelected ? (
             <TextInputMask
               type="money"
               placeholder="$ 0.00"
               options={{
                 precision: 2,
-                separator: '.',
-                delimiter: ',',
-                unit: '',
-                suffixUnit: ''
-            }}
+                separator: ".",
+                delimiter: ",",
+                unit: "",
+                suffixUnit: "",
+              }}
               style={[
                 {
                   width: scaleWidth(90),
-                }, 
+                },
                 styles.textStyle,
                 styles.textInputStyle,
-            ]}
-              value={_.get(item, 'returnAmount', 0)}
-              onChangeText={(value) =>
-                updateTotal(item, value)
-              }
+              ]}
+              value={_.get(item, "returnAmount", 0)}
+              onChangeText={(value) => updateTotal(item, value)}
             />
-            :
-            <Text style={[
-              styles.textTotalStyle,
-              {
-                width: scaleWidth(100),
-                color: 'red'
-              }, 
-            ]}>
-             {`- ${formatMoneyWithUnit(_.get(item, 'returnAmount', 0))}`}
+          ) : (
+            <Text
+              style={[
+                styles.textTotalStyle,
+                {
+                  width: scaleWidth(100),
+                  color: "red",
+                },
+              ]}
+            >
+              {`- ${formatMoneyWithUnit(_.get(item, "returnAmount", 0))}`}
             </Text>
-          }
-          
-          </View>
-      )
+          )}
+        </View>
+      );
     }
 
     return null;
@@ -214,7 +213,7 @@ export const Layout = ({
               "discount",
               "total",
             ]}
-            primaryKey="productId"
+            primaryKey="bookingProductId"
             widthForKeys={{
               productName: scaleWidth(300),
               price: scaleWidth(150),
@@ -236,6 +235,9 @@ export const Layout = ({
             renderCell={onRenderCell}
             // onRowPress={onSelectRow}
             // draggable={true}
+            renderFooterComponent={() => (
+              <View style={{ height: scaleHeight(10) }} />
+            )}
           />
           <FormTitle label={t("Order Total")} />
           <View style={layouts.horizontal}>
@@ -515,7 +517,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: colors.GREYISH_BROWN,
-    paddingLeft: 15
+    paddingLeft: 15,
   },
   textInputStyle: {
     borderRadius: 5,
@@ -534,5 +536,21 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: colors.OCEAN_BLUE,
-  }
+  },
+
+  productNameContent: {
+    flex: 1,
+  },
+
+  productNameMarginVertical: { height: scaleHeight(4) },
+
+  productOption: {
+    fontFamily: fonts.MEDIUM,
+    fontSize: scaleFont(15),
+    fontWeight: "500",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.GREYISH_BROWN,
+  },
 });

@@ -1,11 +1,11 @@
-import React from 'react';
-import _ from 'ramda';
-const signalR = require('@microsoft/signalr');
-import { NativeModules, Platform } from 'react-native';
-import env from 'react-native-config';
-import BleManager from 'react-native-ble-manager';
-import Layout from './layout';
-import connectRedux from '@redux/ConnectRedux';
+import React from "react";
+import _ from "ramda";
+const signalR = require("@microsoft/signalr");
+import { NativeModules, Platform } from "react-native";
+import env from "react-native-config";
+import BleManager from "react-native-ble-manager";
+import Layout from "./layout";
+import connectRedux from "@redux/ConnectRedux";
 import {
   getArrayProductsFromAppointment,
   getArrayServicesFromAppointment,
@@ -17,12 +17,12 @@ import {
   getArrayGiftCardsFromAppointment,
   requestAPI,
   localize,
-} from '@utils';
-import PrintManager from '@lib/PrintManager';
-import Configs from '@configs';
-import initState from './widget/initState';
-import * as l from 'lodash';
-import moment from 'moment';
+} from "@utils";
+import PrintManager from "@lib/PrintManager";
+import Configs from "@configs";
+import initState from "./widget/initState";
+import * as l from "lodash";
+import moment from "moment";
 
 const PosLinkReport = NativeModules.report;
 const PosLink = NativeModules.payment;
@@ -54,7 +54,7 @@ class TabCheckout extends Layout {
 
     this.addEditCustomerInfoRef = React.createRef();
     this.staffFlatListRef = React.createRef();
-    this.isGetResponsePaymentPax = false
+    this.isGetResponsePaymentPax = false;
   }
 
   resetStateFromParent = async () => {
@@ -62,17 +62,27 @@ class TabCheckout extends Layout {
   };
 
   getDataColProduct() {
-    const { categorySelected, categoryTypeSelected, isBlockBookingFromCalendar, serviceStaff, productStaff } = this.state;
-    const { productsByMerchantId, servicesByMerchant, extrasByMerchant, isOfflineMode } =
-      this.props;
-    if (categoryTypeSelected === 'Extra') {
+    const {
+      categorySelected,
+      categoryTypeSelected,
+      isBlockBookingFromCalendar,
+      serviceStaff,
+      productStaff,
+    } = this.state;
+    const {
+      productsByMerchantId,
+      servicesByMerchant,
+      extrasByMerchant,
+      isOfflineMode,
+    } = this.props;
+    if (categoryTypeSelected === "Extra") {
       const dataExtra = extrasByMerchant.filter((extra, index) => {
         return extra?.isDisabled === 0;
       });
       return dataExtra;
     } else {
       const data =
-        categoryTypeSelected === 'Service'
+        categoryTypeSelected === "Service"
           ? servicesByMerchant
           : productsByMerchantId;
       if (data?.length > 0) {
@@ -87,7 +97,7 @@ class TabCheckout extends Layout {
           if (categoryTypeSelected === "Service") {
             temptData = [...serviceStaff];
           } else if (categoryTypeSelected === "Product") {
-            temptData = [...productStaff]
+            temptData = [...productStaff];
           }
         }
 
@@ -107,15 +117,15 @@ class TabCheckout extends Layout {
     await this.setState({
       basket: temptBasket,
       staffIdOfline: appointment?.staffId || 0,
-      fromTime: appointment?.fromTime || '',
+      fromTime: appointment?.fromTime || "",
       subTotalLocal: appointment?.subTotal || 0,
       taxLocal: appointment?.tax || 0,
       tipLocal: appointment?.tipAmount || 0,
       discountTotalLocal: appointment?.discount || 0,
       infoUser: {
-        firstName: appointment?.firstName || '',
-        lastName: appointment?.lastName || '',
-        phoneNumber: appointment?.phoneNumber || '',
+        firstName: appointment?.firstName || "",
+        lastName: appointment?.lastName || "",
+        phoneNumber: appointment?.phoneNumber || "",
       },
     });
   };
@@ -146,7 +156,7 @@ class TabCheckout extends Layout {
       const mainAppointmentId = groupAppointment?.mainAppointmentId || 0;
       let body = {};
       // -------------  Add Product  ------------
-      if (categoryTypeSelected === 'Product') {
+      if (categoryTypeSelected === "Product") {
         body = {
           services: [],
           extras: [],
@@ -198,13 +208,13 @@ class TabCheckout extends Layout {
     // ------------- Create  Group Appointment  ------------
     else {
       // -------------  Add Product  ------------
-      if (categoryTypeSelected === 'Product') {
+      if (categoryTypeSelected === "Product") {
         const temptBasket = [];
         temptBasket.unshift({
-          type: 'Product',
+          type: "Product",
           id: `${productSeleted.productId}_pro`,
           data: {
-            name: productSeleted?.name || '',
+            name: productSeleted?.name || "",
             productId: productSeleted?.productId || 0,
             price: productSeleted?.price || 0,
           },
@@ -228,7 +238,7 @@ class TabCheckout extends Layout {
         //  -------------Add Extra , Service ---------
         const temptBasket = [];
         temptBasket.unshift({
-          type: 'Service',
+          type: "Service",
           id: `${productSeleted.serviceId}_ser`,
           data: {
             name: productSeleted.name,
@@ -246,7 +256,7 @@ class TabCheckout extends Layout {
 
         for (let i = 0; i < arrSelectedExtra.length; i++) {
           temptBasket.unshift({
-            type: 'Extra',
+            type: "Extra",
             id: `${arrSelectedExtra[i]?.extraId}_extra`,
             data: {
               name: arrSelectedExtra[i]?.name,
@@ -279,12 +289,12 @@ class TabCheckout extends Layout {
       isShowColAmount: false,
       categorySelected: {
         categoryId: -1,
-        categoryType: '',
+        categoryType: "",
       },
       productSeleted: {
-        name: '',
+        name: "",
       },
-      categoryTypeSelected: '',
+      categoryTypeSelected: "",
       arrSelectedExtra: [],
     });
   };
@@ -320,9 +330,9 @@ class TabCheckout extends Layout {
       true,
       customDiscountFixedLocal,
       customDiscountPercentLocal,
-      customerInfoBuyAppointment?.firstName || '',
-      customerInfoBuyAppointment?.lastName || '',
-      customerInfoBuyAppointment?.phone || '',
+      customerInfoBuyAppointment?.firstName || "",
+      customerInfoBuyAppointment?.lastName || "",
+      customerInfoBuyAppointment?.phone || "",
       moneyUserGiveForStaff,
       false,
       false
@@ -338,7 +348,7 @@ class TabCheckout extends Layout {
   getPriceOfline(basket) {
     let total = 0;
     for (let i = 0; i < basket.length; i++) {
-      if (basket[i].type === 'Product') {
+      if (basket[i].type === "Product") {
         total =
           total + parseFloat(basket[i].data.price) * basket[i].quanlitySet;
       } else {
@@ -358,14 +368,14 @@ class TabCheckout extends Layout {
       : 0;
     let taxTotal = 0;
     for (let i = 0; i < basket.length; i++) {
-      if (basket[i].type === 'Product') {
+      if (basket[i].type === "Product") {
         taxTotal =
           taxTotal +
           (parseFloat(basket[i].data.price) *
             basket[i].quanlitySet *
             taxProduct) /
-          100;
-      } else if (basket[i].type === 'Service') {
+            100;
+      } else if (basket[i].type === "Service") {
         taxTotal =
           taxTotal +
           (formatNumberFromCurrency(basket[i].data.price) * taxService) / 100;
@@ -381,28 +391,28 @@ class TabCheckout extends Layout {
       // ----- Remove With Appointmnet
       let dataRemove = {};
       switch (item.type) {
-        case 'Product':
+        case "Product":
           dataRemove = {
             services: [],
             extras: [],
             products: [{ bookingProductId: item.data.bookingProductId }],
           };
           break;
-        case 'Service':
+        case "Service":
           dataRemove = {
             services: [{ bookingServiceId: item.data.bookingServiceId }],
             extras: [],
             products: [],
           };
           break;
-        case 'Extra':
+        case "Extra":
           dataRemove = {
             services: [],
             extras: [{ bookingExtraId: item.data.bookingExtraId }],
             products: [],
           };
           break;
-        case 'GiftCards':
+        case "GiftCards":
           dataRemove = {
             services: [],
             extras: [{ bookingExtraId: item.data.bookingExtraId }],
@@ -439,15 +449,15 @@ class TabCheckout extends Layout {
     if (
       changeButtonDone &&
       !isDonePayment &&
-      paymentSelected === 'HarmonyPay'
+      paymentSelected === "HarmonyPay"
     ) {
     } else {
       this.setState(
         (prevState) => ({
-          paymentSelected: payment === prevState.paymentSelected ? '' : payment,
+          paymentSelected: payment === prevState.paymentSelected ? "" : payment,
         }),
         () => {
-          if (this.state.paymentSelected === 'Gift Card') {
+          if (this.state.paymentSelected === "Gift Card") {
             this.activeGiftCardRef.current?.setStateFromParent();
             this.props.actions.appointment.handleVisibleActiveGiftCard();
           }
@@ -461,12 +471,12 @@ class TabCheckout extends Layout {
     const categoryType = categorySelected?.categoryType;
     let isExist = false;
     if (
-      categoryType === 'Service' &&
+      categoryType === "Service" &&
       productSeleted?.serviceId === item?.serviceId
     ) {
       isExist = true;
     } else if (
-      categoryType === 'Product' &&
+      categoryType === "Product" &&
       productSeleted?.productId === item?.productId
     ) {
       isExist = true;
@@ -481,7 +491,7 @@ class TabCheckout extends Layout {
     } else {
       this.setState({
         productSeleted: {
-          name: '',
+          name: "",
         },
         isShowColAmount: false,
         arrSelectedExtra: [],
@@ -580,28 +590,28 @@ class TabCheckout extends Layout {
   };
 
   getPaymentString(type) {
-    let method = '';
+    let method = "";
     switch (type) {
-      case 'HarmonyPay':
-        method = 'harmony';
+      case "HarmonyPay":
+        method = "harmony";
         break;
-      case 'Cash':
-        method = 'cash';
+      case "Cash":
+        method = "cash";
         break;
-      case 'Credit Card':
-        method = 'credit_card';
+      case "Credit Card":
+        method = "credit_card";
         break;
-      case 'Debit Card':
-        method = 'credit_card';
+      case "Debit Card":
+        method = "credit_card";
         break;
-      case 'Gift Card':
-        method = 'giftcard';
+      case "Gift Card":
+        method = "giftcard";
         break;
-      case 'Other':
-        method = 'other';
+      case "Other":
+        method = "other";
         break;
       default:
-        method = '';
+        method = "";
     }
     return method;
   }
@@ -613,20 +623,20 @@ class TabCheckout extends Layout {
     const arryaServicesBuy = [];
     const arrayExtrasBuy = [];
     for (let i = 0; i < basket.length; i++) {
-      if (basket[i].type === 'Product') {
+      if (basket[i].type === "Product") {
         arrayProductBuy.push({
           ...basket[i],
           productId: basket[i].data.productId,
           quantity: basket[i].quanlitySet,
         });
-      } else if (basket[i].type === 'Service') {
+      } else if (basket[i].type === "Service") {
         arryaServicesBuy.push({
           ...basket[i],
           serviceId: basket[i].data.serviceId,
           staffId: selectedStaff?.staffId,
           tipAmount: 0,
         });
-      } else if (basket[i].type === 'Extra') {
+      } else if (basket[i].type === "Extra") {
         arrayExtrasBuy.push({
           ...basket[i],
           extraId: basket[i].data.extraId,
@@ -648,42 +658,42 @@ class TabCheckout extends Layout {
     const arrayGiftCards = [];
     const promotionNotes = [];
     appointments.forEach((appointment) => {
-      const note = appointment?.promotionNotes?.note || '';
+      const note = appointment?.promotionNotes?.note || "";
       if (note) {
         promotionNotes.push(note);
       }
       // ------ Push Service -------
       appointment.services.forEach((service) => {
         arryaServicesBuy.push({
-          type: 'Service',
+          type: "Service",
           data: {
-            name: service?.serviceName || '',
-            price: service?.price || '',
+            name: service?.serviceName || "",
+            price: service?.price || "",
           },
           staff: service?.staff || false,
-          note: service?.note || '',
+          note: service?.note || "",
         });
       });
 
       // ------ Push Product -------
       appointment.products.forEach((product) => {
         arrayProductBuy.push({
-          type: 'Product',
+          type: "Product",
           data: {
-            name: product?.productName || '',
-            price: product?.price || '',
+            name: product?.productName || "",
+            price: product?.price || "",
           },
-          quanlitySet: product?.quantity || '',
+          quanlitySet: product?.quantity || "",
         });
       });
 
       // ------ Push Product -------
       appointment.extras.forEach((extra) => {
         arrayExtrasBuy.push({
-          type: 'Extra',
+          type: "Extra",
           data: {
-            name: extra?.extraName || '',
-            price: extra?.price || '',
+            name: extra?.extraName || "",
+            price: extra?.price || "",
           },
         });
       });
@@ -691,12 +701,12 @@ class TabCheckout extends Layout {
       // ------ Push Gift Card -------
       appointment.giftCards.forEach((gift) => {
         arrayGiftCards.push({
-          type: 'GiftCards',
+          type: "GiftCards",
           data: {
-            name: gift?.name || 'Gift Card',
-            price: gift?.price || '',
+            name: gift?.name || "Gift Card",
+            price: gift?.price || "",
           },
-          quanlitySet: gift?.quantity || '',
+          quanlitySet: gift?.quantity || "",
         });
       });
     });
@@ -723,7 +733,7 @@ class TabCheckout extends Layout {
     if (!_.isEmpty(connectionSignalR)) {
       connectionSignalR.stop();
     }
-    if (paymentSelected === 'Cash' || paymentSelected === 'Other') {
+    if (paymentSelected === "Cash" || paymentSelected === "Other") {
       const { printerSelect, printerList } = this.props;
       const { portName } = getInfoFromModelNameOfPrinter(
         printerList,
@@ -747,7 +757,7 @@ class TabCheckout extends Layout {
         this.props.actions.appointment.resetPayment();
 
         setTimeout(() => {
-          alert('Please connect to your cash drawer.');
+          alert("Please connect to your cash drawer.");
         }, 700);
       }
     } else {
@@ -782,10 +792,10 @@ class TabCheckout extends Layout {
     const basket = isOfflineMode
       ? this.state.basket
       : arryaServicesBuy.concat(
-        arrayExtrasBuy,
-        arrayProductBuy,
-        arrayGiftCards
-      );
+          arrayExtrasBuy,
+          arrayProductBuy,
+          arrayGiftCards
+        );
     const tipAmount = groupAppointment?.tipAmount || 0;
     const subTotal = groupAppointment?.subTotal || 0;
     const discount = groupAppointment?.discount || 0;
@@ -797,11 +807,11 @@ class TabCheckout extends Layout {
       : subTotal;
     const temptTotal = _.isEmpty(groupAppointment)
       ? Number(
-        formatNumberFromCurrency(subTotalLocal) +
-        formatNumberFromCurrency(tipLocal) +
-        formatNumberFromCurrency(taxLocal) -
-        formatNumberFromCurrency(discountTotalLocal)
-      ).toFixed(2)
+          formatNumberFromCurrency(subTotalLocal) +
+            formatNumberFromCurrency(tipLocal) +
+            formatNumberFromCurrency(taxLocal) -
+            formatNumberFromCurrency(discountTotalLocal)
+        ).toFixed(2)
       : total;
     const temptDiscount = _.isEmpty(groupAppointment)
       ? discountTotalLocal
@@ -819,7 +829,7 @@ class TabCheckout extends Layout {
       paymentSelected,
       isTemptPrint,
       printMachine,
-      promotionNotes.join(',')
+      promotionNotes.join(",")
     );
     await this.setState({
       visiblePrintInvoice: true,
@@ -850,12 +860,12 @@ class TabCheckout extends Layout {
       if (!_.isEmpty(connectionSignalR)) {
         connectionSignalR.stop();
       }
-      if (paymentSelected === 'Cash' || paymentSelected === 'Other') {
+      if (paymentSelected === "Cash" || paymentSelected === "Other") {
         this.openCashDrawer(portName);
       }
       this.showInvoicePrint(portName, false);
     } else {
-      alert('Please connect to your printer!');
+      alert("Please connect to your printer!");
     }
   };
 
@@ -866,10 +876,10 @@ class TabCheckout extends Layout {
       printerSelect
     );
 
-    if (portName !== '') {
+    if (portName !== "") {
       this.showInvoicePrint(portName);
     } else {
-      alert('Please connect to your printer! ');
+      alert("Please connect to your printer! ");
     }
   };
 
@@ -882,7 +892,7 @@ class TabCheckout extends Layout {
     if (portName) {
       this.openCashDrawer(portName);
     } else {
-      alert('Please connect to your cash drawer.');
+      alert("Please connect to your cash drawer.");
     }
   };
 
@@ -894,7 +904,7 @@ class TabCheckout extends Layout {
     await this.setState({
       changeButtonDone: false,
       isCancelHarmonyPay: false,
-      paymentSelected: '',
+      paymentSelected: "",
     });
 
     const dueAmount =
@@ -940,7 +950,7 @@ class TabCheckout extends Layout {
         .configureLogging(signalR.LogLevel.Information)
         .build();
 
-      connection.on('ListWaNotification', (data) => {
+      connection.on("ListWaNotification", (data) => {
         const temptData = JSON.parse(data);
         if (
           temptData.data &&
@@ -1020,19 +1030,19 @@ class TabCheckout extends Layout {
       if (isOfflineMode) {
         const temptTotal = Number(
           formatNumberFromCurrency(subTotalLocal) +
-          formatNumberFromCurrency(tipLocal) +
-          formatNumberFromCurrency(taxLocal) -
-          formatNumberFromCurrency(discountTotalLocal)
+            formatNumberFromCurrency(tipLocal) +
+            formatNumberFromCurrency(taxLocal) -
+            formatNumberFromCurrency(discountTotalLocal)
         ).toFixed(2);
         this.modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       } else {
         const temptTotal = _.isEmpty(groupAppointment)
           ? Number(
-            formatNumberFromCurrency(subTotalLocal) +
-            formatNumberFromCurrency(tipLocal) +
-            formatNumberFromCurrency(taxLocal) -
-            formatNumberFromCurrency(discountTotalLocal)
-          ).toFixed(2)
+              formatNumberFromCurrency(subTotalLocal) +
+                formatNumberFromCurrency(tipLocal) +
+                formatNumberFromCurrency(taxLocal) -
+                formatNumberFromCurrency(discountTotalLocal)
+            ).toFixed(2)
           : groupAppointment.total;
         this.modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       }
@@ -1077,9 +1087,9 @@ class TabCheckout extends Layout {
       extras: arrayExtrasBuy,
       products: arrayProductBuy,
       fromTime:
-        fromTime !== ''
+        fromTime !== ""
           ? fromTime
-          : formatWithMoment(new Date(), 'MM/DD/YYYY hh:mm A'),
+          : formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
       staffId: staffIdOfline !== 0 ? staffIdOfline : profileStaffLogin.staffId,
       customDiscountFixed: customDiscountPercentLocal,
       customDiscountPercent: customDiscountFixedLocal,
@@ -1102,7 +1112,7 @@ class TabCheckout extends Layout {
     const { groupAppointment, isOfflineMode, paymentDetailInfo } = this.props;
     const method = this.getPaymentString(paymentSelected);
 
-    if (isOfflineMode && method === 'harmony') {
+    if (isOfflineMode && method === "harmony") {
       this.scrollTabRef.current?.goToPage(2);
       this.addAppointmentOfflineMode(true);
       return;
@@ -1110,19 +1120,19 @@ class TabCheckout extends Layout {
 
     if (
       isOfflineMode &&
-      (method === 'credit_card' || method === 'debit_card')
+      (method === "credit_card" || method === "debit_card")
     ) {
-      alert('Not Support Offline Mode');
+      alert("Not Support Offline Mode");
       return;
     }
 
-    if (method === 'harmony' && _.isEmpty(groupAppointment)) {
-      this.popupSendLinkInstallRef.current?.setStateFromParent('');
+    if (method === "harmony" && _.isEmpty(groupAppointment)) {
+      this.popupSendLinkInstallRef.current?.setStateFromParent("");
       this.setState({
         visibleSendLinkPopup: true,
       });
     } else {
-      if (method === 'harmony' || method === 'credit_card') {
+      if (method === "harmony" || method === "credit_card") {
         const dueAmount = paymentDetailInfo?.dueAmount || 0;
         this.modalBillRef?.current?.setStateFromParent(`${dueAmount}`);
       }
@@ -1145,7 +1155,7 @@ class TabCheckout extends Layout {
     await this.setState({
       changeButtonDone: false,
       isCancelHarmonyPay: false,
-      paymentSelected: '',
+      paymentSelected: "",
     });
     const { connectionSignalR, payAppointmentId } = this.props;
 
@@ -1170,15 +1180,15 @@ class TabCheckout extends Layout {
     );
     const totalLocal = Number(
       formatNumberFromCurrency(subTotalLocal) +
-      formatNumberFromCurrency(tipLocal) +
-      formatNumberFromCurrency(taxLocal) -
-      formatNumberFromCurrency(discountTotalLocal)
+        formatNumberFromCurrency(tipLocal) +
+        formatNumberFromCurrency(taxLocal) -
+        formatNumberFromCurrency(discountTotalLocal)
     ).toFixed(2);
 
     if (moneyUserGiveForStaff == 0) {
-      alert('Enter amount!');
+      alert("Enter amount!");
     } else if (moneyUserGiveForStaff - totalLocal < 0) {
-      alert('Payment amount must be greater : ' + totalLocal);
+      alert("Payment amount must be greater : " + totalLocal);
     } else {
       this.addAppointmentOfflineMode();
       await this.setState({
@@ -1211,8 +1221,8 @@ class TabCheckout extends Layout {
       amountPayment !== false
         ? amountPayment
         : parseFloat(
-          formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
-        );
+            formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
+          );
     const method = this.getPaymentString(paymentSelected);
     const total = groupAppointment.total
       ? parseFloat(formatNumberFromCurrency(groupAppointment.total))
@@ -1227,14 +1237,14 @@ class TabCheckout extends Layout {
     }
 
     if (moneyUserGiveForStaff == 0 && groupAppointment && total != 0) {
-      alert('Enter amount!');
+      alert("Enter amount!");
     } else if (
-      (method === 'harmony' ||
-        method === 'credit_card' ||
-        method === 'debit_card') &&
+      (method === "harmony" ||
+        method === "credit_card" ||
+        method === "debit_card") &&
       moneyUserGiveForStaff > dueAmount
     ) {
-      alert('The change not bigger than total money!');
+      alert("The change not bigger than total money!");
     } else {
       await this.setState({
         visibleBillOfPayment: false,
@@ -1242,7 +1252,7 @@ class TabCheckout extends Layout {
 
       this.modalBillRef.current?.setStateFromParent(`0`);
       if (!_.isEmpty(groupAppointment)) {
-        if (method === 'harmony') {
+        if (method === "harmony") {
           this.props.actions.app.loadingApp();
           this.setupSignalR(
             profile,
@@ -1252,21 +1262,21 @@ class TabCheckout extends Layout {
             method,
             moneyUserGiveForStaff
           );
-        } else if (method === 'credit_card' || method === 'debit_card') {
+        } else if (method === "credit_card" || method === "debit_card") {
           if (paxMachineInfo.isSetup) {
             if (moneyUserGiveForStaff == 0) {
-              alert('Enter amount!');
+              alert("Enter amount!");
             } else {
               this.hanleCreditCardProcess(true, moneyUserGiveForStaff);
             }
           } else {
             setTimeout(() => {
-              alert('Please connect your Pax to take payment.');
+              alert("Please connect your Pax to take payment.");
             }, 300);
           }
-        } else if (method === 'giftcard') {
+        } else if (method === "giftcard") {
           setTimeout(() => {
-            alert('giftcard');
+            alert("giftcard");
           }, 500);
         } else {
           this.props.actions.appointment.paymentAppointment(
@@ -1277,10 +1287,10 @@ class TabCheckout extends Layout {
         }
       } else {
         // ------ Handle Buy at store -------
-        if (method === 'credit_card' || method === 'debit_card') {
+        if (method === "credit_card" || method === "debit_card") {
           this.hanleCreditCardProcess(false, moneyUserGiveForStaff);
-        } else if (method === 'harmony') {
-          this.popupSendLinkInstallRef.current?.setStateFromParent('');
+        } else if (method === "harmony") {
+          this.popupSendLinkInstallRef.current?.setStateFromParent("");
           this.setState({
             visibleSendLinkPopup: true,
           });
@@ -1312,9 +1322,9 @@ class TabCheckout extends Layout {
     const moneyCreditCard = Number(
       formatNumberFromCurrency(moneyUserGiveForStaff) * 100
     ).toFixed(2);
-    const tenderType = paymentSelected === 'Credit Card' ? 'CREDIT' : 'DEBIT';
+    const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
 
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       // 1. Show modal processing
       await this.setState({
         visibleProcessingCredit: true,
@@ -1323,10 +1333,10 @@ class TabCheckout extends Layout {
         PoslinkAndroid.sendTransaction(
           ip,
           port,
-          '',
+          "",
           tenderType,
           `${parseInt(moneyCreditCard)}`,
-          'SALE',
+          "SALE",
           (err) => {
             const errorTrans = JSON.parse(err);
             this.setState({
@@ -1365,20 +1375,20 @@ class TabCheckout extends Layout {
         const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
 
         let data = await PosLinkReport.reportTransaction({
-          transType: 'LOCALDETAILREPORT',
-          edcType: 'ALL',
-          cardType: '',
-          paymentType: '',
+          transType: "LOCALDETAILREPORT",
+          edcType: "ALL",
+          cardType: "",
+          paymentType: "",
           commType: commType,
           destIp: tempIpPax,
           portDevice: tempPortPax,
-          timeoutConnect: '90000',
+          timeoutConnect: "90000",
           bluetoothAddr: idBluetooth,
-          refNum: '',
+          refNum: "",
           isLastTransaction,
         });
         let result = JSON.parse(data);
-        const ExtData = result?.ExtData || '';
+        const ExtData = result?.ExtData || "";
         const xmlExtData =
           "<xml>" + ExtData.replace("\\n", "").replace("\\/", "/") + "</xml>";
 
@@ -1399,13 +1409,12 @@ class TabCheckout extends Layout {
       } catch (error) {
         return {};
       }
-
     }
   };
 
   sleep = (milliseconds) => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
-  }
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
+  };
 
   handleMissingTransaction = async () => {
     const {
@@ -1416,57 +1425,61 @@ class TabCheckout extends Layout {
       versionApp,
     } = this.props;
 
-    let result = await this.getPAXReport(paxMachineInfo, "1")
+    let result = await this.getPAXReport(paxMachineInfo, "1");
 
     if (!l.isEmpty(result)) {
-      if (l.get(result, 'InvNum') == l.get(groupAppointment, 'checkoutGroupId', -1).toString()) {
+      if (
+        l.get(result, "InvNum") ==
+        l.get(groupAppointment, "checkoutGroupId", -1).toString()
+      ) {
         //Call server to check auth number
         const resultGroupAppointment = await requestAPI({
-          type: 'GET_GROUP_APPOINTMENT_BY_ID',
-          method: 'GET',
-          api: `${Configs.API_URL}appointment/getGroupById/${l.get(groupAppointment, 'mainAppointmentId', '0')}`,
+          type: "GET_GROUP_APPOINTMENT_BY_ID",
+          method: "GET",
+          api: `${Configs.API_URL}appointment/getGroupById/${l.get(
+            groupAppointment,
+            "mainAppointmentId",
+            "0"
+          )}`,
           token: profileStaffLogin.token,
-          versionApp: versionApp
+          versionApp: versionApp,
         });
 
-        if (l.get(resultGroupAppointment, 'codeNumber', 0) != 200) {
-          this.cancelPayment()
-          return
+        if (l.get(resultGroupAppointment, "codeNumber", 0) != 200) {
+          this.cancelPayment();
+          return;
         }
 
-        if (l.get(resultGroupAppointment, 'data.lastAuthCode') == l.get(result, 'AuthCode')) {
+        if (
+          l.get(resultGroupAppointment, "data.lastAuthCode") ==
+          l.get(result, "AuthCode")
+        ) {
           //have not pay yet || multi pay
-          this.sendTransaction()
+          this.sendTransaction();
         } else {
           //missing transaction
           //call to server previous response
-          this.isGetResponsePaymentPax = true
+          this.isGetResponsePaymentPax = true;
           this.handleResponseCreditCard(
             JSON.stringify(result),
             true,
             amountCredtitForSubmitToServer
-          )
+          );
         }
       } else {
-        this.sendTransaction()
+        this.sendTransaction();
       }
-
     } else {
       //can not get report
       // batch close or pax inprocess
-      this.sendTransaction()
+      this.sendTransaction();
     }
-  }
-
+  };
 
   sendTransToPaxMachine = async () => {
-    const {
-      paxMachineInfo,
-      isCancelPayment,
+    const { paxMachineInfo, isCancelPayment } = this.props;
 
-    } = this.props;
-
-    this.isGetResponsePaymentPax = false
+    this.isGetResponsePaymentPax = false;
 
     // 1. Show modal processing
     await this.setState({
@@ -1475,28 +1488,23 @@ class TabCheckout extends Layout {
 
     //2. Check if isCancelPayment = true
     if (isCancelPayment) {
-      this.handleMissingTransaction()
-
+      this.handleMissingTransaction();
     } else {
-      this.sendTransaction()
+      this.sendTransaction();
     }
   };
 
   cancelPayment() {
-    const {
-      payAppointmentId,
-    } = this.props;
+    const { payAppointmentId } = this.props;
     if (payAppointmentId) {
-      this.props.actions.appointment.cancelHarmonyPayment(
-        payAppointmentId
-      );
+      this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
     }
-    this.isGetResponsePaymentPax = true
+    this.isGetResponsePaymentPax = true;
     setTimeout(() => {
       this.setState({
         visibleProcessingCredit: false,
         visibleErrorMessageFromPax: true,
-        errorMessageFromPax: 'Transaction fail',
+        errorMessageFromPax: "Transaction fail",
       });
     }, 300);
   }
@@ -1514,37 +1522,38 @@ class TabCheckout extends Layout {
     const { paymentSelected } = this.state;
     const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
       paxMachineInfo;
-    const tenderType = paymentSelected === 'Credit Card' ? 'CREDIT' : 'DEBIT';
-    const tempIpPax = commType == 'TCP' ? ip : '';
-    const tempPortPax = commType == 'TCP' ? port : '';
-    const idBluetooth = commType === 'TCP' ? '' : bluetoothAddr;
-    const extData = isTipOnPaxMachine ? '<TipRequest>1</TipRequest><Force>T</Force>' : '<Force>T</Force>';
+    const tenderType = paymentSelected === "Credit Card" ? "CREDIT" : "DEBIT";
+    const tempIpPax = commType == "TCP" ? ip : "";
+    const tempPortPax = commType == "TCP" ? port : "";
+    const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+    const extData = isTipOnPaxMachine
+      ? "<TipRequest>1</TipRequest><Force>T</Force>"
+      : "<Force>T</Force>";
 
     // Send Trans to pax
     PosLink.sendTransaction(
       {
         tenderType: tenderType,
-        transType: 'SALE',
+        transType: "SALE",
         amount: `${parseFloat(paxAmount)}`,
-        transactionId: '1',
+        transactionId: "1",
         extData: extData,
         commType: commType,
         destIp: tempIpPax,
         portDevice: tempPortPax,
-        timeoutConnect: '90000',
+        timeoutConnect: "90000",
         bluetoothAddr: idBluetooth,
         invNum: `${groupAppointment?.checkoutGroupId || 0}`,
       },
       (message) => {
-        this.isGetResponsePaymentPax = true
+        this.isGetResponsePaymentPax = true;
 
         this.handleResponseCreditCard(
           message,
           true,
           amountCredtitForSubmitToServer
-        )
+        );
       }
-
     );
   }
 
@@ -1556,16 +1565,16 @@ class TabCheckout extends Layout {
     try {
       const result = JSON.parse(message);
       const tempEnv = env.IS_PRODUCTION;
-      if (l.get(result, 'status', 0) == 0) {
+      if (l.get(result, "status", 0) == 0) {
         // setTimeout(()=>{ PosLink.cancelTransaction()}, 100)
         if (payAppointmentId) {
           this.props.actions.appointment.cancelHarmonyPayment(
             payAppointmentId,
-            'transaction fail',
+            "transaction fail",
             result?.message
           );
         }
-        if (result?.message === 'ABORTED') {
+        if (result?.message === "ABORTED") {
           return;
         }
         setTimeout(() => {
@@ -1575,8 +1584,8 @@ class TabCheckout extends Layout {
             errorMessageFromPax: `${result.message}`,
           });
         }, 300);
-      } else if (result.ResultCode && result.ResultCode == '000000') {
-        if (tempEnv == 'Production' && result.Message === 'DEMO APPROVED') {
+      } else if (result.ResultCode && result.ResultCode == "000000") {
+        if (tempEnv == "Production" && result.Message === "DEMO APPROVED") {
           if (payAppointmentId) {
             this.props.actions.appointment.cancelHarmonyPayment(
               payAppointmentId
@@ -1613,11 +1622,11 @@ class TabCheckout extends Layout {
           // }
         }
       } else {
-        const resultTxt = result?.ResultTxt || 'Transaction failed:';
+        const resultTxt = result?.ResultTxt || "Transaction failed:";
         if (payAppointmentId) {
           this.props.actions.appointment.cancelHarmonyPayment(
             payAppointmentId,
-            'transaction fail',
+            "transaction fail",
             resultTxt
           );
         }
@@ -1629,17 +1638,17 @@ class TabCheckout extends Layout {
           });
         }, 300);
       }
-    } catch (error) { }
+    } catch (error) {}
   }
 
   cancelTransaction = async () => {
     const { payAppointmentId, language } = this.props;
-    if (Platform.OS === 'android') {
-      PoslinkAndroid.cancelTransaction((data) => { });
+    if (Platform.OS === "android") {
+      PoslinkAndroid.cancelTransaction((data) => {});
     } else {
       if (!this.isGetResponsePaymentPax) {
-        alert(localize('PleaseWait', language))
-        return
+        alert(localize("PleaseWait", language));
+        return;
       }
 
       PosLink.cancelTransaction();
@@ -1682,9 +1691,12 @@ class TabCheckout extends Layout {
     const { isOfflineMode } = this.props;
     this.changeStylistRef.current?.setStateFromParent(service, appointmentId);
     if (!isOfflineMode) {
-      this.props.actions.staff.getStaffService(service?.data?.serviceId, this.callBackGetStaffService);
+      this.props.actions.staff.getStaffService(
+        service?.data?.serviceId,
+        this.callBackGetStaffService
+      );
     } else {
-      this.setState({ visibleChangeStylist: true })
+      this.setState({ visibleChangeStylist: true });
     }
   };
 
@@ -1693,7 +1705,7 @@ class TabCheckout extends Layout {
       visibleChangeStylist: true,
       staffOfService: data,
     });
-  }
+  };
 
   changeProduct = async (product, appointmentId) => {
     this.changePriceAmountProductRef.current?.setStateFromParent(
@@ -1712,14 +1724,14 @@ class TabCheckout extends Layout {
       isShowColAmount: false,
       categorySelected: {
         categoryId: -1,
-        categoryType: '',
+        categoryType: "",
       },
       productSeleted: {
-        name: '',
+        name: "",
       },
-      categoryTypeSelected: '',
+      categoryTypeSelected: "",
       arrSelectedExtra: [],
-      paymentSelected: '',
+      paymentSelected: "",
     });
   };
 
@@ -1730,7 +1742,7 @@ class TabCheckout extends Layout {
         categorySelected: category,
         categoryTypeSelected: category?.categoryType,
         productSeleted: {
-          name: '',
+          name: "",
         },
         isShowColProduct: false,
         isShowColAmount: false,
@@ -1744,27 +1756,29 @@ class TabCheckout extends Layout {
         isShowColAmount: false,
         categorySelected: {
           categoryId: -1,
-          categoryType: '',
+          categoryType: "",
         },
         productSeleted: {
-          name: '',
+          name: "",
         },
-        categoryTypeSelected: '',
+        categoryTypeSelected: "",
         arrSelectedExtra: [],
       });
     }
   };
 
   onPressSelectCategory = async (category) => {
-    const { categorySelected, isBlockBookingFromCalendar, selectedStaff } = this.state;
+    const { categorySelected, isBlockBookingFromCalendar, selectedStaff } =
+      this.state;
     const { isOfflineMode } = this.props;
     if (categorySelected?.categoryId !== category?.categoryId) {
-
       if (!isOfflineMode && !isBlockBookingFromCalendar) {
         if (category?.categoryType?.toString().toLowerCase() === "service") {
-          this.getService(category?.categoryId, selectedStaff?.staffId)
-        } else if (category?.categoryType?.toString().toLowerCase() === "product") {
-          this.getProduct(category?.categoryId)
+          this.getService(category?.categoryId, selectedStaff?.staffId);
+        } else if (
+          category?.categoryType?.toString().toLowerCase() === "product"
+        ) {
+          this.getProduct(category?.categoryId);
         }
       }
 
@@ -1774,7 +1788,7 @@ class TabCheckout extends Layout {
         isShowColProduct: true,
         isShowColAmount: false,
         productSeleted: {
-          name: '',
+          name: "",
         },
         arrSelectedExtra: [],
       });
@@ -1784,18 +1798,18 @@ class TabCheckout extends Layout {
         isShowColAmount: false,
         categorySelected: {
           categoryId: -1,
-          categoryType: '',
+          categoryType: "",
         },
         productSeleted: {
-          name: '',
+          name: "",
         },
-        categoryTypeSelected: '',
+        categoryTypeSelected: "",
         arrSelectedExtra: [],
       });
     }
   };
 
-  changeProductBasketLocal = async (productIdLocal, price, quantity) => { };
+  changeProductBasketLocal = async (productIdLocal, price, quantity) => {};
 
   changeStylistBasketLocal = async (serviceId, staffId, tip, price) => {
     const { basket } = this.state;
@@ -1803,7 +1817,7 @@ class TabCheckout extends Layout {
     if (staffId) {
       const temptStaff = getStaffInfoById(listStaffByMerchant, staffId);
       const temptBasket = basket.map((item, index) => {
-        if (item.type === 'Service' && item.data.serviceId === serviceId) {
+        if (item.type === "Service" && item.data.serviceId === serviceId) {
           return {
             ...item,
             data: {
@@ -1812,8 +1826,8 @@ class TabCheckout extends Layout {
             },
             staff: {
               staffId: staffId,
-              imageUrl: temptStaff?.imageUrl || '',
-              displayName: temptStaff?.displayName || '',
+              imageUrl: temptStaff?.imageUrl || "",
+              displayName: temptStaff?.displayName || "",
               tip: tip,
             },
           };
@@ -1822,7 +1836,7 @@ class TabCheckout extends Layout {
       });
       let temptTip = 0;
       for (let i = 0; i < temptBasket.length; i++) {
-        if (temptBasket[i].type === 'Service') {
+        if (temptBasket[i].type === "Service") {
           if (temptBasket[i].staff && temptBasket[i].staff.tip) {
             temptTip =
               temptTip + formatNumberFromCurrency(temptBasket[i].staff.tip);
@@ -1877,7 +1891,7 @@ class TabCheckout extends Layout {
         });
       }
     } else {
-      alert('You are paying by Harmony Payment!');
+      alert("You are paying by Harmony Payment!");
     }
   };
 
@@ -1899,7 +1913,7 @@ class TabCheckout extends Layout {
         visibleChangeTip: true,
       });
     } else {
-      alert('You are paying by Harmony Payment!');
+      alert("You are paying by Harmony Payment!");
     }
   };
 
@@ -1926,7 +1940,7 @@ class TabCheckout extends Layout {
       });
       this.props.actions.app.sendLinkInstallApp(`${codeAreaPhone}${phone}`);
     } else {
-      alert('Phone is invalid !');
+      alert("Phone is invalid !");
     }
   };
 
@@ -1939,7 +1953,7 @@ class TabCheckout extends Layout {
   onRequestCloseBillModal = async () => {
     await this.setState({
       changeButtonDone: false,
-      paymentSelected: '',
+      paymentSelected: "",
       visibleBillOfPayment: false,
     });
     this.props.actions.appointment.resetPayment();
@@ -1952,8 +1966,8 @@ class TabCheckout extends Layout {
       : 0;
     const subTotal =
       !_.isEmpty(appointmentDetail) &&
-        appointmentDetail &&
-        appointmentDetail.subTotal
+      appointmentDetail &&
+      appointmentDetail.subTotal
         ? appointmentDetail.subTotal
         : 0;
     const discount = appointmentDetail?.discount || 0;
@@ -1965,11 +1979,11 @@ class TabCheckout extends Layout {
       : subTotal;
     const temptTotal = _.isEmpty(appointmentDetail)
       ? Number(
-        formatNumberFromCurrency(subTotalLocal) +
-        formatNumberFromCurrency(tipLocal) +
-        formatNumberFromCurrency(taxLocal) -
-        formatNumberFromCurrency(discountTotalLocal)
-      ).toFixed(2)
+          formatNumberFromCurrency(subTotalLocal) +
+            formatNumberFromCurrency(tipLocal) +
+            formatNumberFromCurrency(taxLocal) -
+            formatNumberFromCurrency(discountTotalLocal)
+        ).toFixed(2)
       : total;
     const temptDiscount = _.isEmpty(appointmentDetail)
       ? discountTotalLocal
@@ -2028,7 +2042,7 @@ class TabCheckout extends Layout {
     }
 
     if (!_.isEmpty(groupAppointment)) {
-      if (paymentSelected === 'Gift Card') {
+      if (paymentSelected === "Gift Card") {
         this.props.actions.appointment.checkSerialNumber(
           code,
           false,
@@ -2047,21 +2061,21 @@ class TabCheckout extends Layout {
       const bodyAction = {
         merchantId: profile.merchantId,
         userId: customerInfoBuyAppointment?.userId || 0,
-        status: 'checkin',
+        status: "checkin",
         services: [],
         extras: [],
         products: [],
-        fromTime: formatWithMoment(new Date(), 'MM/DD/YYYY hh:mm A'),
+        fromTime: formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
         staffId: profileStaffLogin?.staffId || 0,
         customDiscountFixed: customDiscountFixedLocal,
         customDiscountPercent: customDiscountPercentLocal,
-        firstName: customerInfoBuyAppointment?.firstName || '',
-        lastName: customerInfoBuyAppointment?.lastName || '',
-        phoneNumber: customerInfoBuyAppointment?.phone || '',
+        firstName: customerInfoBuyAppointment?.firstName || "",
+        lastName: customerInfoBuyAppointment?.lastName || "",
+        phoneNumber: customerInfoBuyAppointment?.phone || "",
         customerId: customerInfoBuyAppointment?.customerId || 0,
       };
       const optionAction = {
-        method: 'POST',
+        method: "POST",
         token: true,
         api: `${Configs.API_URL}appointment`,
         paymentMethod: method,
@@ -2084,12 +2098,12 @@ class TabCheckout extends Layout {
       isShowColAmount: false,
       categorySelected: {
         categoryId: -1,
-        categoryType: '',
+        categoryType: "",
       },
       productSeleted: {
-        name: '',
+        name: "",
       },
-      categoryTypeSelected: '',
+      categoryTypeSelected: "",
       arrSelectedExtra: [],
     });
   };
@@ -2146,37 +2160,41 @@ class TabCheckout extends Layout {
       fromTimeBlockAppointment,
       customerInfoBuyAppointment,
       bookingGroupId,
-      blockAppointments
+      blockAppointments,
     } = this.props;
 
-    let fromTime = fromTimeBlockAppointment
+    let fromTime = fromTimeBlockAppointment;
     if (blockAppointments && blockAppointments.length > 0) {
-      fromTime = l.get(blockAppointments, '0.fromTime')
-        ? moment(l.get(blockAppointments, '0.fromTime')).local().format()
-        : new Date()
+      fromTime = l.get(blockAppointments, "0.fromTime")
+        ? moment(l.get(blockAppointments, "0.fromTime")).local().format()
+        : new Date();
     }
 
     const firstAppointment = blockAppointments[0];
-    if (firstAppointment && firstAppointment.status && firstAppointment.status === "waiting") {
+    if (
+      firstAppointment &&
+      firstAppointment.status &&
+      firstAppointment.status === "waiting"
+    ) {
       this.props.actions.appointment.createAppointmentWaiting(
         profile.merchantId,
         fromTime,
         customerInfoBuyAppointment?.userId || 0,
         customerInfoBuyAppointment?.customerId || 0,
-        customerInfoBuyAppointment?.firstName || '',
-        customerInfoBuyAppointment?.lastName || '',
-        customerInfoBuyAppointment?.phone || '',
+        customerInfoBuyAppointment?.firstName || "",
+        customerInfoBuyAppointment?.lastName || "",
+        customerInfoBuyAppointment?.phone || "",
         bookingGroupId
       );
-    }else{
+    } else {
       this.props.actions.appointment.createBlockAppointment(
         profile.merchantId,
         fromTime,
         customerInfoBuyAppointment?.userId || 0,
         customerInfoBuyAppointment?.customerId || 0,
-        customerInfoBuyAppointment?.firstName || '',
-        customerInfoBuyAppointment?.lastName || '',
-        customerInfoBuyAppointment?.phone || '',
+        customerInfoBuyAppointment?.firstName || "",
+        customerInfoBuyAppointment?.lastName || "",
+        customerInfoBuyAppointment?.phone || "",
         bookingGroupId
       );
     }
@@ -2187,7 +2205,7 @@ class TabCheckout extends Layout {
     const { categoryTypeSelected, productSeleted, arrSelectedExtra } =
       this.state;
 
-    let isAppointmentIdOpen = '';
+    let isAppointmentIdOpen = "";
 
     for (let i = 0; i < this.blockAppointmentRef.length; i++) {
       if (!this.blockAppointmentRef[i].state.isCollapsed) {
@@ -2201,7 +2219,7 @@ class TabCheckout extends Layout {
       ? isAppointmentIdOpen
       : isOpenBlockAppointmentId;
 
-    if (categoryTypeSelected === 'Product') {
+    if (categoryTypeSelected === "Product") {
       this.props.actions.appointment.addItemIntoAppointment(
         {
           services: [],
@@ -2247,19 +2265,19 @@ class TabCheckout extends Layout {
       isShowColAmount: false,
       categorySelected: {
         categoryId: -1,
-        categoryType: '',
+        categoryType: "",
       },
       productSeleted: {
-        name: '',
+        name: "",
       },
-      categoryTypeSelected: '',
+      categoryTypeSelected: "",
       arrSelectedExtra: [],
     });
   };
 
   addGiftCardIntoBlockAppointment = (code) => {
     const { isOpenBlockAppointmentId } = this.props;
-    let isAppointmentIdOpen = '';
+    let isAppointmentIdOpen = "";
     for (let i = 0; i < this.blockAppointmentRef.length; i++) {
       if (!this.blockAppointmentRef[i].state.isCollapsed) {
         isAppointmentIdOpen =
@@ -2279,7 +2297,7 @@ class TabCheckout extends Layout {
 
   removeItemInBlockAppointment = (dataRemove) => {
     const { blockAppointments } = this.props;
-    let isAppointmentIdOpen = '';
+    let isAppointmentIdOpen = "";
     for (let i = 0; i < this.blockAppointmentRef.length; i++) {
       if (!this.blockAppointmentRef[i].state.isCollapsed) {
         isAppointmentIdOpen =
@@ -2338,9 +2356,9 @@ class TabCheckout extends Layout {
   // ------------------ Change Customer Info buy appointment ----------
   displayPopupCustomerInfo = async () => {
     const { customerInfoBuyAppointment } = this.props;
-    const firstName = customerInfoBuyAppointment?.firstName || '';
-    const lastName = customerInfoBuyAppointment?.lastName || '';
-    const phone = customerInfoBuyAppointment?.phone || '';
+    const firstName = customerInfoBuyAppointment?.firstName || "";
+    const lastName = customerInfoBuyAppointment?.lastName || "";
+    const phone = customerInfoBuyAppointment?.phone || "";
     this.popupCustomerInfoRef.current?.setStateFromParent(
       firstName,
       lastName,
@@ -2408,13 +2426,13 @@ class TabCheckout extends Layout {
   cancelGiftCardPayment = () => {
     this.props.actions.appointment.togglePopupGiftCardPaymentDetail(false);
     this.setState({
-      paymentSelected: '',
+      paymentSelected: "",
     });
   };
 
   showModalCheckPermission = (appointmentId, isBlock = false) => {
     this.popupCheckDiscountPermissionRef?.current?.setStateFromParent(
-      '',
+      "",
       appointmentId,
       isBlock
     );
@@ -2474,12 +2492,12 @@ class TabCheckout extends Layout {
       isShowColAmount: false,
       categorySelected: {
         categoryId: -1,
-        categoryType: '',
+        categoryType: "",
       },
       productSeleted: {
-        name: '',
+        name: "",
       },
-      categoryTypeSelected: '',
+      categoryTypeSelected: "",
       arrSelectedExtra: [],
     });
     // this.scrollFlatListToStaffIndex(staff?.staffId);
@@ -2487,45 +2505,55 @@ class TabCheckout extends Layout {
 
   getCategory = (staffId) => {
     this.setState({ isLoadingCategory: true });
-    this.props.actions.category.getCategoriesByStaff(staffId, this.callBackGetCategory);
-  }
+    this.props.actions.category.getCategoriesByStaff(
+      staffId,
+      this.callBackGetCategory
+    );
+  };
 
   callBackGetCategory = (data = []) => {
     this.setState({
       isLoadingCategory: false,
-      categoryStaff: data
+      categoryStaff: data,
     });
-  }
+  };
 
   getProduct = (categoryId) => {
     this.setState({ isLoadingService: true });
-    this.props.actions.product.getProductByStaff(categoryId, this.callBackGetProduct);
-  }
+    this.props.actions.product.getProductByStaff(
+      categoryId,
+      this.callBackGetProduct
+    );
+  };
 
   getService = (categoryId, staffId) => {
     this.setState({ isLoadingService: true });
-    this.props.actions.service.getServiceByStaff(categoryId, staffId, this.callBackGetService);
-  }
+    this.props.actions.service.getServiceByStaff(
+      categoryId,
+      staffId,
+      this.callBackGetService
+    );
+  };
 
   callBackGetService = (data = []) => {
     this.setState({
       isLoadingService: false,
-      serviceStaff: data
+      serviceStaff: data,
     });
-  }
+  };
 
   callBackGetProduct = (data = []) => {
     this.setState({
       isLoadingService: false,
-      productStaff: data
+      productStaff: data,
     });
-  }
+  };
 
   displayEnterUserPhonePopup = () => {
     const { customerInfoBuyAppointment } = this.props;
-    const firstName = customerInfoBuyAppointment?.firstName || '';
-    const lastName = customerInfoBuyAppointment?.lastName || '';
-    const phone = customerInfoBuyAppointment?.phone || '';
+    const firstName = customerInfoBuyAppointment?.firstName || "";
+    const lastName = customerInfoBuyAppointment?.lastName || "";
+    const phone = customerInfoBuyAppointment?.phone || "";
     this.popupCustomerInfoRef.current?.setStateFromParent(
       firstName,
       lastName,
@@ -2571,7 +2599,7 @@ class TabCheckout extends Layout {
 
   setStatusIsCheckout = (status) => {
     this.setState({ isGotoCheckout: status });
-  }
+  };
 
   async componentDidUpdate(prevProps, prevState) {
     const {
@@ -2583,7 +2611,7 @@ class TabCheckout extends Layout {
     if (
       blockAppointments.length > 0 &&
       prevProps.isLoadingRemoveBlockAppointment !=
-      isLoadingRemoveBlockAppointment &&
+        isLoadingRemoveBlockAppointment &&
       !isLoadingRemoveBlockAppointment
     ) {
       this.updateBlockAppointmentRef();
@@ -2613,10 +2641,9 @@ class TabCheckout extends Layout {
       this.setSelectStaffFromCalendar(staffIdSelected, true);
     }
     if (categoryStaffId) {
-      this.getCategory(categoryStaffId)
+      this.getCategory(categoryStaffId);
     }
   }
-
 }
 
 const mapStateToProps = (state) => ({

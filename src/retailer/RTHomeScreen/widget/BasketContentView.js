@@ -89,7 +89,7 @@ export const BasketContentView = React.forwardRef(
 
       const onHandleDeleteItem = () => {
         if (onRemoveItem && typeof onRemoveItem === "function") {
-          onRemoveItem(firstItem);
+          onRemoveItem(item?.value);
         }
       };
 

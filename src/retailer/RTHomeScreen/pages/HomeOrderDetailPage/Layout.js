@@ -219,38 +219,48 @@ export const Layout = ({
           </View>
         </View>
       );
-    }else if (columnKey === "quantity") {
-      const quantityShow = _.get(cellItem, 'quantity') - _.get(cellItem, 'returnQuantity', 0)
+    } else if (columnKey === "quantity") {
+      const quantityShow =
+        _.get(cellItem, "quantity") - _.get(cellItem, "returnQuantity", 0);
       return (
-        <Text style={[
-          {
-            width: scaleWidth(80),
-          }, 
-          styles.textStyle,
-        ]}>
-        {quantityShow}
+        <Text
+          key={getUniqueId(columnKey, rowIndex, "cell-product-qty")}
+          style={[
+            {
+              width: scaleWidth(80),
+            },
+            styles.textStyle,
+          ]}
+        >
+          {quantityShow}
         </Text>
-      )
-      
-    }else if (columnKey === "total") {
-      const totalShow = _.get(cellItem, 'total') - _.get(cellItem, 'returnAmount', 0)
+      );
+    } else if (columnKey === "total") {
+      const totalShow =
+        _.get(cellItem, "total") - _.get(cellItem, "returnAmount", 0);
       return (
-          <Text style={[
+        <Text
+          key={getUniqueId(columnKey, rowIndex, "cell-product-total")}
+          style={[
             {
               width: scaleWidth(100),
-            }, 
+            },
             styles.textStyle,
-          ]}>
-           {formatMoneyWithUnit(totalShow)}
-          </Text>
-      )
+          ]}
+        >
+          {formatMoneyWithUnit(totalShow)}
+        </Text>
+      );
     }
 
     if (columnKey === "status") {
       return cellItem?.isReturn ? (
-        <OrderStatusView status="Return" />
+        <OrderStatusView
+          key={getUniqueId(columnKey, rowIndex, "cell-product-return")}
+          status="Return"
+        />
       ) : (
-        <View />
+        <View key={getUniqueId(columnKey, rowIndex, "cell-product-return")} />
       );
     }
 

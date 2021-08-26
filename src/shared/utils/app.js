@@ -170,6 +170,9 @@ export const FREE_SHIPPING = [
   { label: "Free shipping", value: 0, group: SHIPPING_METHOD_GROUP.FREE },
 ];
 
+export const PURCHASE_POINTS_STORE = "Store";
+export const PURCHASE_POINTS_ORDER = "CallOrder";
+
 export const PURCHASE_POINTS = [
   {
     label: "All Point",
@@ -177,7 +180,7 @@ export const PURCHASE_POINTS = [
   },
   {
     label: "Store",
-    value: "Store",
+    value: PURCHASE_POINTS_STORE,
   },
   {
     label: "Website",
@@ -185,7 +188,7 @@ export const PURCHASE_POINTS = [
   },
   {
     label: "PhoneCall",
-    value: "PhoneCall",
+    value: PURCHASE_POINTS_ORDER,
   },
 ];
 

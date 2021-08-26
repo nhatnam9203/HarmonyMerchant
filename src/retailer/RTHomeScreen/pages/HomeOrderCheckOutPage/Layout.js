@@ -14,6 +14,7 @@ import {
 } from "../../widget";
 import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
 import _ from "lodash";
+import { PURCHASE_POINTS_ORDER } from "@shared/utils";
 
 const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
 const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
@@ -28,7 +29,7 @@ export const Layout = ({
   onPressProductItem,
   categoryId,
   subCategoryId,
-  productId,
+  selectedProductId,
   productDetailRef,
   basketRef,
   onHadSubmitted,
@@ -39,7 +40,7 @@ export const Layout = ({
   onRemoveItem,
   customer,
   onResultScanCode,
-  isOrder,
+  purchasePoint,
   categoriesLabelData,
 }) => {
   const [t] = useTranslation();
@@ -101,7 +102,7 @@ export const Layout = ({
 
         <View style={styles.headerRightContent}>
           <View style={layouts.marginHorizontal} />
-          {isOrder && (
+          {purchasePoint === PURCHASE_POINTS_ORDER && (
             <ButtonGradientWhite
               width={scaleWidth(40)}
               height={scaleHeight(40)}
@@ -139,7 +140,7 @@ export const Layout = ({
             items={products}
             type={CUSTOM_LIST_TYPES.PRO}
             isActive={activeTab === CUSTOM_LIST_TYPES.PRO}
-            activeId={productId}
+            activeId={selectedProductId}
             onPressRow={onPressProductItem}
           />
         </View>
