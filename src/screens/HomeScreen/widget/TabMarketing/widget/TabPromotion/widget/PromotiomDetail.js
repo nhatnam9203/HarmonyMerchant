@@ -603,6 +603,7 @@ const PromotiomDetail = forwardRef(
     const handleSetCampaignName = (title) => {
       setTitle(title);
       // calculatorsmsMoney(value);
+      getDefaultMessageContent();
     };
 
     const onHandleSetPromotionValue = (val) => {
@@ -710,18 +711,11 @@ const PromotiomDetail = forwardRef(
       );
 
       const count = ids?.length ?? 0;
-      console.log(count);
-
       let customersMax = smsInfoMarketing?.customerCount;
       if (customersMax <= 0) {
         customersMax = Math.max(customerList?.length, 1);
       }
-      console.log(customersMax);
-
       const val = count / customersMax;
-
-      console.log(val);
-
       setValue(val);
       calculatorsmsMoney(val);
     };
