@@ -33,7 +33,7 @@ const slices = createSlice({
       // !@@@@@@@@
       reducer: (state, action) => {
         state.appointmentTempId = null;
-        state.appointment = null;
+        // state.appointment = null;
         state.appointmentId = action.payload;
       },
     },

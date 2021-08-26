@@ -11,6 +11,8 @@ import {
 } from "@shared/services/api/retailer";
 import { statusSuccess, PURCHASE_POINTS_STORE } from "@shared/utils";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { basketRetailer } from "@redux/slices";
 
 const log = (obj, message = "") => {
   Logger.log(`[HomeOrderDetail] ${message}`, obj);
@@ -30,6 +32,8 @@ export const useProps = ({
   navigation,
 }) => {
   const formAddressRef = React.useRef(null);
+  const dispatch = useDispatch();
+
   const [appointmentDetail, setAppointmentDetail] = React.useState(null);
   const [shippingMethod, setShippingMethod] = React.useState(null);
 
@@ -121,25 +125,26 @@ export const useProps = ({
     if (statusSuccess(codeStatus)) {
       const { status, didNotPay, payment, purchasePoint } = data || {};
 
-      log(purchasePoint);
-      log(status);
-      log(payment);
+      if (payment?.length <= 0) {
+        dispatch(basketRetailer.setAppointmentId(data.appointmentId));
+        dispatch(basketRetailer.setAppointment(data));
 
-      if (
-        payment?.length <= 0 &&
-        (status === ORDERED_STATUS.PENDING ||
-          status === ORDERED_STATUS.PROCESS) &&
-        purchasePoint === PURCHASE_POINTS_STORE
-      ) {
-        NavigationServices.navigate("retailer.home.order.pay", {
-          orderItem: data,
-          screenId: screenId,
-          backScreenId: backScreenId,
-        });
-      } else {
-        setAppointmentDetail(data);
-        formAddressRef.current?.reload();
+        if (
+          (status === ORDERED_STATUS.PENDING ||
+            status === ORDERED_STATUS.PROCESS) &&
+          purchasePoint === PURCHASE_POINTS_STORE
+        ) {
+          NavigationServices.navigate("retailer.home.order.pay", {
+            orderItem: data,
+            screenId: screenId,
+            backScreenId: backScreenId,
+          });
+          return;
+        }
       }
+
+      setAppointmentDetail(data);
+      formAddressRef.current?.reload();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

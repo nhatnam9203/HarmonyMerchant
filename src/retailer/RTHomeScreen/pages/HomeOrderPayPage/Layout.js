@@ -52,7 +52,6 @@ export const Layout = ({
   productDetailRef,
   basketRef,
   onHadSubmitted,
-  onGoBack,
   customerRef,
   selectedPayment,
   paymentSelected,
@@ -87,7 +86,7 @@ export const Layout = ({
   onRequestClosePopupDiscountLocal,
   callbackDiscountToParent,
   onDiscountAdd,
-  clearDataConfirm,
+  popupConfirmOnRequestClose,
   titleExitCheckoutTab,
   visibleConfirm,
   setVisibleConfirm,
@@ -120,6 +119,7 @@ export const Layout = ({
   isTax,
   onDiscountItemAdd,
   onGoBackOrderList,
+  onGoBackCheckOut,
 }) => {
   const [t] = useTranslation();
 
@@ -237,7 +237,7 @@ export const Layout = ({
                 width={scaleWidth(400)}
                 height={scaleHeight(60)}
                 fontSize={scaleFont(25)}
-                onPress={onGoBack}
+                onPress={onGoBackCheckOut}
               />
             </View>
           </View>
@@ -272,9 +272,7 @@ export const Layout = ({
       </View>
 
       <PopupDiscount ref={popupDiscountRef} title={t("Discount")} />
-      <PopupDiscountItem 
-        ref={popupDiscountItemRef} 
-        title={t("Discount")} />
+      <PopupDiscountItem ref={popupDiscountItemRef} title={t("Discount")} />
 
       <PopupBlockDiscount title={t("Discount")} />
       <PopupDiscountLocal
@@ -300,7 +298,7 @@ export const Layout = ({
         title={t("Confirmation")}
         message={titleExitCheckoutTab}
         onRequestClose={setVisibleConfirm}
-        confimYes={clearDataConfirm}
+        confimYes={popupConfirmOnRequestClose}
       />
 
       <ErrorMessagePaxModal

@@ -32,7 +32,7 @@ const log = (obj, message = "") => {
 };
 
 export const useProps = ({
-  params: { reload, purchasePoint = PURCHASE_POINTS_STORE },
+  params: { purchasePoint = PURCHASE_POINTS_STORE },
   navigation,
 }) => {
   /**
@@ -108,8 +108,6 @@ export const useProps = ({
   */
 
   const resetAll = async () => {
-    await dispatch(basketRetailer.clearBasket());
-
     setCategoryId(null);
     setActiveTab(CUSTOM_LIST_TYPES.CAT);
     setSubCategoryId(null);
@@ -131,27 +129,33 @@ export const useProps = ({
   /** FOCUS component */
   useFocusEffect(
     React.useCallback(() => {
+      resetAll();
       reloadAll();
-      console.log("HomeOrderCheckoutPage" + reload);
 
-      if (purchasePoint === PURCHASE_POINTS_ORDER || reload) {
-        resetAll();
+      if (
+        appointment?.purchasePoint &&
+        appointment.purchasePoint !== purchasePoint
+      ) {
+        console.log(purchasePoint);
+        console.log(appointment);
+
+        dispatch(basketRetailer.clearBasket());
       }
-    }, [reload, purchasePoint])
+    }, [purchasePoint, appointment])
   );
 
-  React.useEffect(() => {
-    const unsubscribeFocus = navigation.addListener("focus", () => {
-      // customerRef.current?.showPhoneInput();
-    });
+  // React.useEffect(() => {
+  //   const unsubscribeFocus = navigation.addListener("focus", () => {
+  //     reloadAll();
+  //   });
 
-    const unsubscribeBlur = navigation.addListener("blur", () => {});
+  //   const unsubscribeBlur = navigation.addListener("blur", () => {});
 
-    return () => {
-      unsubscribeFocus();
-      unsubscribeBlur();
-    };
-  }, [navigation]);
+  //   return () => {
+  //     unsubscribeFocus();
+  //     unsubscribeBlur();
+  //   };
+  // }, [navigation]);
 
   /**
    * GET Categories effects

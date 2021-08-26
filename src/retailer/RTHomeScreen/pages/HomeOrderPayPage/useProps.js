@@ -156,20 +156,9 @@ export const useProps = ({
   // const [updateAppointmentCustomerData, updateAppointmentCustomer] =
   //   useUpdateAppointmentCustomer();
 
-  const onGoBack = () => {
-    if (backScreenId) {
-      NavigationServices.navigate(backScreenId, {
-        reload: false,
-      });
-    } else
-      NavigationServices.navigate("retailer.home.order", {
-        reload: true,
-      });
-  };
-
   const onCompleteBack = async () => {
     console.log("====> onCompleteBack " + screenId);
-    navigation.goBack();
+    // navigation.goBack();
 
     if (screenId && screenId !== "retailer.home.order.check_out") {
       NavigationServices.navigate(screenId, {
@@ -1094,16 +1083,6 @@ export const useProps = ({
     customerRef,
     basketRef,
     onHadSubmitted: () => {},
-    onGoBack: () => {
-      if (isPayment) {
-        dispatch({
-          type: "VISIBLE_POPUP_PAYMENT_CONFIRM",
-          payload: { visible: true, func: null },
-        });
-      } else {
-        onGoBack();
-      }
-    },
     selectedPayment: (title) => {
       if (
         changeButtonDone &&
@@ -1196,7 +1175,7 @@ export const useProps = ({
     titleExitCheckoutTab: isCancelAppointment
       ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? "
       : "Are you sure you want to exit Check-Out?",
-    clearDataConfirm: () => {
+    popupConfirmOnRequestClose: () => {
       if (!_.isEmpty(connectSignalR.current)) {
         connectSignalR.current?.stop();
       }
@@ -1210,8 +1189,6 @@ export const useProps = ({
       dispatch(actions.appointment.changeFlagSigninAppointment(false));
       dispatch(actions.appointment.resetGroupAppointment());
 
-      // dispatch(basketRetailer.clearBasket());
-
       if (visibleConfirm?.func && typeof visibleConfirm?.func === "function") {
         visibleConfirm?.func();
       }
@@ -1221,7 +1198,17 @@ export const useProps = ({
         payload: { visible: false, func: null },
       });
 
-      onGoBack();
+      NavigationServices.navigate("retailer.home.order.check_out", {
+        purchasePoint: appointmentDetail?.purchasePoint,
+      });
+      // if (backScreenId) {
+      //   NavigationServices.navigate(backScreenId, {
+      //     reload: false,
+      //   });
+      // } else
+      //   NavigationServices.navigate("retailer.home.order", {
+      //     reload: true,
+      //   });
     },
     visibleConfirm: visibleConfirm?.visible ?? false,
     setVisibleConfirm: () => {
@@ -1291,8 +1278,6 @@ export const useProps = ({
       }
     },
     finishedHandle: () => {
-      console.log("====> finishedHandle");
-
       onCompleteBack();
     },
     changeTipRef,
@@ -1355,8 +1340,6 @@ export const useProps = ({
       dispatch(actions.appointment.changeFlagSigninAppointment(false));
       dispatch(actions.appointment.resetGroupAppointment());
 
-      await dispatch(basketRetailer.clearBasket());
-
       if (visibleConfirm?.func && typeof visibleConfirm?.func === "function") {
         visibleConfirm?.func();
       }
@@ -1366,16 +1349,23 @@ export const useProps = ({
         payload: { visible: false, func: null },
       });
 
+      dispatch(basketRetailer.clearBasket());
+
       if (screenId && screenId !== "retailer.home.order.check_out") {
         NavigationServices.navigate(screenId, {
-          reload: false,
-          reset: true,
+          reload: true,
         });
       } else {
         NavigationServices.navigate("retailer.home.order", {
           reload: true,
         });
       }
+    },
+    onGoBackCheckOut: async () => {
+      dispatch({
+        type: "VISIBLE_POPUP_PAYMENT_CONFIRM",
+        payload: { visible: true, func: null },
+      });
     },
   };
 };

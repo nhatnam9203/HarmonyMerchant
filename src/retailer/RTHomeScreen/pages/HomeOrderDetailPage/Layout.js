@@ -434,8 +434,11 @@ export const Layout = ({
               <View style={layouts.horizontal}>
                 <InfoContent label={t("Payment Informations")}>
                   {item?.payment?.length > 0 &&
-                    item?.payment.map((payItem) => (
-                      <View style={styles.personContent}>
+                    item?.payment.map((payItem, indx) => (
+                      <View
+                        style={styles.personContent}
+                        key={`${indx}-${payItem?.paymentMethod}-${payItem?.amount}`}
+                      >
                         <Text style={styles.boldText}>
                           {`${getPaymentString(
                             payItem?.paymentMethod

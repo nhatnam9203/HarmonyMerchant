@@ -11,7 +11,6 @@ import { HomeTabBar } from "./widget";
 import actions from "@actions";
 import { PopupCheckStaffPermission } from "@components";
 import NavigatorServices from "@navigators/NavigatorServices";
-import { basketRetailer } from "@redux/slices";
 import NavigationServices from "@navigators/NavigatorServices";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
