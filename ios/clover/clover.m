@@ -31,6 +31,10 @@
   return result;
 }
 
+- (NSArray<NSString *> *)supportedEvents {
+    return @[];
+}
+
 RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo)

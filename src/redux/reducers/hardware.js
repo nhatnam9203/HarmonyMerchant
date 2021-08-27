@@ -10,6 +10,7 @@ const initialState = {
     timeout: 90000,
     bluetoothAddr: '',
     isSetup: false,
+    terminalName: 'Pax',
   },
 };
 
@@ -32,6 +33,7 @@ function hardwareReducer(state = initialState, action) {
           timeout: 90000,
           bluetoothAddr: '',
           isSetup: false,
+          terminalName: 'Pax',
         },
       };
     default:
