@@ -257,6 +257,8 @@ export const getCategoryIdByName = (categories, name, type = "") => {
 export const getArrayNameCategories = (categories = [], type = "") => {
   const arrayName = [];
   for (let i = 0; i < categories.length; i++) {
+    const category = categories[i];
+    // if (category?.isDisabled === 1) continue;
     if (type == "") {
       arrayName.push({ value: categories[i].name });
     } else {
