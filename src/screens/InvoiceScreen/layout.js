@@ -333,7 +333,10 @@ export default class Layout extends React.Component {
                 numberOfLines={1}
                 style={[
                   styles.txt_normal,
-                  { paddingHorizontal: scaleSize(10), marginTop: scaleSize(4) },
+                  {
+                    paddingHorizontal: scaleSize(10),
+                    marginTop: scaleSize(4),
+                  },
                 ]}
               >
                 {profile?.addressFull || ""}
