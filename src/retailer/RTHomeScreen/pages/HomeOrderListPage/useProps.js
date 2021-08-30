@@ -14,12 +14,16 @@ import {
 import { getQuickFilterTimeRange } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { basketRetailer } from "@redux/slices";
 
 const DEFAULT_PAGE = 1;
 
 export const useProps = ({ params: { reload } }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const exportRef = React.useRef();
+
   const [page, setPage] = React.useState(DEFAULT_PAGE);
   const [searchVal, setSearchVal] = React.useState();
   const [timeVal, setTimeVal] = React.useState();
@@ -193,6 +197,7 @@ export const useProps = ({ params: { reload } }) => {
     onChangeValueSearch,
     onButtonSearchPress,
     onButtonNewOrderPress: () => {
+      dispatch(basketRetailer.clearBasket());
       NavigationServices.navigate("retailer.home.order.check_out", {
         purchasePoint: PURCHASE_POINTS_ORDER,
       });

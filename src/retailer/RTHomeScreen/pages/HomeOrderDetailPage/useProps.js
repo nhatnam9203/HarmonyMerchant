@@ -169,6 +169,7 @@ export const useProps = ({
     const { codeStatus, message, data } = appointmentConfirm || {};
     if (statusSuccess(codeStatus)) {
       if (isDidNotPay) {
+        dispatch(basketRetailer.clearBasket());
         NavigationServices.navigate("retailer.home.order.list", {
           reload: true,
         });
@@ -215,6 +216,7 @@ export const useProps = ({
           reloadAppointmentId: appointmentDetail?.appointmentId,
         });
       } else {
+        dispatch(basketRetailer.clearBasket());
         NavigationServices.navigate("retailer.home.order.list", {
           reload: true,
         });
