@@ -369,7 +369,7 @@ export default class Layout extends React.Component {
                   styles.txt_normal,
                   {
                     fontSize: 20,
-                    fontWeight: "600",
+                    fontWeight: "700",
                     marginTop: scaleSize(6),
                     marginBottom: scaleSize(6),
                   },
@@ -450,7 +450,7 @@ export default class Layout extends React.Component {
                   <Text
                     style={[
                       styles.txt_info,
-                      { fontSize: 18, fontWeight: "400" },
+                      { fontSize: 18, fontWeight: "600" },
                     ]}
                   >
                     {`DESCRIPTION`}
@@ -462,7 +462,7 @@ export default class Layout extends React.Component {
                   <Text
                     style={[
                       styles.txt_info,
-                      { fontSize: 18, fontWeight: "400" },
+                      { fontSize: 18, fontWeight: "600" },
                     ]}
                   >
                     {`PRICE`}
@@ -478,7 +478,7 @@ export default class Layout extends React.Component {
                   <Text
                     style={[
                       styles.txt_info,
-                      { fontSize: 18, fontWeight: "400" },
+                      { fontSize: 18, fontWeight: "600" },
                     ]}
                   >
                     {`QTY`}
@@ -494,7 +494,7 @@ export default class Layout extends React.Component {
                   <Text
                     style={[
                       styles.txt_info,
-                      { fontSize: 18, fontWeight: "400" },
+                      { fontSize: 18, fontWeight: "600" },
                     ]}
                   >
                     {`TOTAL`}
@@ -635,7 +635,7 @@ export default class Layout extends React.Component {
               {promotionNotes ? (
                 <Text style={{ fontSize: 16, fontWeight: "bold" }}>
                   {`Discount note: `}
-                  <Text style={{ fontWeight: "500" }}>
+                  <Text style={{ fontWeight: "600" }}>
                     {`${promotionNotes}`}
                   </Text>
                 </Text>
@@ -656,7 +656,7 @@ export default class Layout extends React.Component {
                   styles.txt_total,
                   {
                     fontSize: scaleSize(10),
-                    fontWeight: "300",
+                    fontWeight: "600",
                     alignSelf: "center",
                   },
                 ]}
