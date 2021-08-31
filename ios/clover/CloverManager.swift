@@ -11,6 +11,7 @@ import Foundation
 @objc public protocol CloverManagerDelegate {
   func paymentSuccess(response: NSDictionary)
   func paymentFail(errorMessage: String)
+  func pairingCode(string: String)
 }
 @objc public class  CloverManager : DefaultCloverConnectorListener, PairingDeviceConfiguration {
 
@@ -20,12 +21,13 @@ import Foundation
 
   fileprivate let PAIRING_AUTH_TOKEN_KEY:String = "PAIRING_AUTH_TOKEN"
 
-  func connect(_ url:String, appId: String, appName: String, posSerial: String) {
+  @objc public func connect(_ url:String, appId: String, appName: String, posSerial: String) {
         myCloverConnector?.dispose()
         // load from previous pairing, or nil will force/require
         // a new pairing with the device
         let savedAuthToken = loadAuthToken()
 
+   
         let config = WebSocketDeviceConfiguration(endpoint: url,
             remoteApplicationID: appId,
             posName: appName, posSerial: posSerial,
@@ -34,6 +36,8 @@ import Foundation
         myCloverConnector = CloverConnectorFactory.createICloverConnector(config: config)
         myCloverConnector?.addCloverConnectorListener(self)
         myCloverConnector?.initializeConnection()
+      
+        
     }
   
   func test(){
@@ -61,7 +65,10 @@ import Foundation
     // PairingDeviceConfiguration
   public func onPairingCode(_ pairingCode: String) {
         // display pairingCode to user, to be entered on the Clover Mini
+    if(cloverDelegate != nil){
+      cloverDelegate?.pairingCode(string: pairingCode)
     }
+  }
 
   public func onPairingSuccess(_ authToken: String) {
         // pairing is successful

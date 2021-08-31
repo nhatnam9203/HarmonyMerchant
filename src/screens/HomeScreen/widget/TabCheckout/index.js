@@ -17,6 +17,9 @@ import {
   getArrayGiftCardsFromAppointment,
   requestAPI,
   localize,
+  REMOTE_APP_ID,
+  APP_NAME,
+  POS_SERIAL,
 } from '@utils';
 import PrintManager from '@lib/PrintManager';
 import Configs from '@configs';
@@ -24,10 +27,11 @@ import initState from './widget/initState';
 import * as l from 'lodash';
 import moment from 'moment';
 
+
 const PosLinkReport = NativeModules.report;
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
-const Clover = NativeModules.clover;
+const { clover } = NativeModules;
 
 class TabCheckout extends Layout {
   constructor(props) {
@@ -56,8 +60,8 @@ class TabCheckout extends Layout {
     this.addEditCustomerInfoRef = React.createRef();
     this.staffFlatListRef = React.createRef();
     this.isGetResponsePaymentPax = false
-    this.eventEmitter = new NativeEventEmitter();
-    this.listener = this.eventEmitter.addListener('PAYMENT_SUCCESS', (response)=> this.handlePaymentCloverSuccess(response));
+    this.eventEmitter = new NativeEventEmitter(clover);
+    this.subscriptions = []
   }
 
   handlePaymentCloverSuccess(response) {
@@ -1465,6 +1469,22 @@ class TabCheckout extends Layout {
     }
   }
 
+  sendTransactionToPaymentMachine() {
+    const { paxMachineInfo } = this.props;
+    if( l.get(paxMachineInfo, 'terminalName') == 'Clover'){
+      const port = l.get(paxMachineInfo, 'port') ? l.get(paxMachineInfo, 'port') : 80
+      const url = `wss://${l.get(paxMachineInfo, 'ip')}:${port}/remote_pay`
+      clover.sendTransaction({
+        url,
+        appId: REMOTE_APP_ID,
+        appName: APP_NAME,
+        posSerial: POS_SERIAL
+      })
+    } else {
+      this.sendTransToPaxMachine()
+    }
+    
+  }
 
   sendTransToPaxMachine = async () => {
     const {
@@ -2305,11 +2325,6 @@ class TabCheckout extends Layout {
     );
   };
 
-  // removeBlockAppointment = (appointmentId) => {
-  //     const { profile } = this.props;
-  //     this.props.actions.appointment.cancleAppointment(appointmentId, profile.merchantId, 0, true);
-  // }
-
   bookBlockAppointment = () => {
     this.props.gotoTabAppointment();
     this.props.actions.appointment.bookBlockAppointment();
@@ -2610,11 +2625,8 @@ class TabCheckout extends Layout {
       this.props.actions.appointment.resetStateCheckCreditPaymentToServer(
         false
       );
-      this.sendTransToPaxMachine();
+      this.sendTransactionToPaymentMachine();
     }
-    Clover.sendTransaction()
-
-    
   }
 
   componentDidMount() {
@@ -2625,15 +2637,39 @@ class TabCheckout extends Layout {
     if (categoryStaffId) {
       this.getCategory(categoryStaffId)
     }
+
+    this.registerEvents()
   }
 
-}
+  componentWillUnmount() {
+    this.unregisterEvents()
+  }
 
-componentWillUnmount() {
-  if (this.listener) {
-    this.eventEmitter.removeListener(this.listener);
+  registerEvents () {
+    clover.changeListenerStatus(true)
+    this.subscriptions = [
+      this.eventEmitter.addListener("paymentSuccess", data => {
+       console.log('data', data)
+      }),
+      this.eventEmitter.addListener("paymentFail", data => {
+        console.log('data', data)
+       }),
+      this.eventEmitter.addListener("pairingCode", data => {
+        console.log('data', data)
+        const text = `Pairing code: ${l.get(data, 'pairingCode')}`
+        alert(text)
+      }),
+    ]
+  }
+
+  unregisterEvents () {
+    clover.changeListenerStatus(false)
+    this.subscriptions.forEach(e => e.remove())
+    this.subscriptions = []
   }
 }
+
+
 
 const mapStateToProps = (state) => ({
   language: state.dataLocal.language,
