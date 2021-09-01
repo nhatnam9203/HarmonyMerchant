@@ -12,10 +12,23 @@ const initialState = {
     isSetup: false,
     terminalName: 'Pax',
   },
+  visiblePopupPairingCode: false,
+  pairingCode: '',
 };
 
 function hardwareReducer(state = initialState, action) {
   switch (action.type) {
+    case 'SET_VISIBLE_POPUP_PAIRING_CODE':
+      return {
+        ...state,
+        visiblePopupPairingCode: action.isVisible,
+      };
+    case 'SET_PAIRING_CODE':
+      return {
+        ...state,
+        pairingCode: action.pairingCode,
+      };
+
     case 'SETUP_PAX_MACHINE':
       return {
         ...state,

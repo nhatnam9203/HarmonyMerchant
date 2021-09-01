@@ -2656,8 +2656,21 @@ class TabCheckout extends Layout {
        }),
       this.eventEmitter.addListener("pairingCode", data => {
         console.log('data', data)
-        const text = `Pairing code: ${l.get(data, 'pairingCode')}`
-        alert(text)
+        if(data){
+          const text = `Pairing code: ${l.get(data, 'pairingCode')}`
+          this.props.actions.hardware.setPairingCode(
+            text
+          );
+          this.props.actions.hardware.setVisiblePopupPairingCode(
+            true
+          );
+        }
+      }),
+      this.eventEmitter.addListener("pairingSuccess", data => {
+        console.log('data', data)
+        this.props.actions.hardware.setVisiblePopupPairingCode(
+          false
+        );
       }),
     ]
   }
@@ -2725,6 +2738,8 @@ const mapStateToProps = (state) => ({
     state.appointment.appointmentIdBookingFromCalendar,
   isBookingFromCalendar: state.appointment.isBookingFromCalendar,
   isCancelPayment: state.appointment.isCancelPayment,
+  visiblePopupPairingCode: state.hardware.visiblePopupPairingCode,
+  pairingCode: state.hardware.pairingCode,
 });
 
 export default connectRedux(mapStateToProps, TabCheckout);

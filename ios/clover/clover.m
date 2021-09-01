@@ -13,6 +13,7 @@
 static NSString* paymentSuccess               = @"paymentSuccess";
 static NSString* paymentFail               = @"paymentFail";
 static NSString* pairingCode               = @"pairingCode";
+static NSString* pairingSuccess               = @"pairingSuccess";
 
 @interface clover ()
 @property (nonatomic) BOOL listening;

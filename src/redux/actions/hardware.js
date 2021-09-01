@@ -5,3 +5,17 @@ export function setupPaxMachine(paxInfo) {
     }
 }
 
+export function setVisiblePopupPairingCode(isVisible) {
+    return {
+        type: 'SET_VISIBLE_POPUP_PAIRING_CODE',
+        isVisible,
+    }
+}
+
+export function setPairingCode(pairingCode) {
+    return {
+        type: 'SET_PAIRING_CODE',
+        pairingCode,
+    }
+}
+

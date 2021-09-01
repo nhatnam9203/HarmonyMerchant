@@ -17,7 +17,8 @@ import {
 import {
     Text, ButtonCustom, Button, PopupConfirm, PopupPayCompleted, PopupChangeStylist, PopupChangeMoney,
     PopupSendLinkInstall, PopupActiveGiftCard, PopupScanCode, PopupProcessingCredit, PopupInvoicePrint,
-    PopupChangePriceAmountProduct, PopupChangeTip, ScrollableTabView, PopupCheckStaffPermission
+    PopupChangePriceAmountProduct, PopupChangeTip, ScrollableTabView, PopupCheckStaffPermission,
+    PopupPairingCode,
 } from '@components';
 import styles from './style';
 import ICON from '@resources';
@@ -904,12 +905,19 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission, isCancelAppointment , isOfflineMode } = this.props;
+        const { language, 
+            visiblePopupPaymentDetails, 
+            visiblePopupCheckDiscountPermission, 
+            isCancelAppointment , 
+            isOfflineMode,
+            visiblePopupParingCode,
+            pairingCode,
+         } = this.props;
         const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
             visiblePopupAddItemIntoBasket, visibleAddEditCustomerPopup,
             visibleErrorMessageFromPax, errorMessageFromPax,
             selectedStaff,
-            staffOfService
+            staffOfService,
         } = this.state;
 
         const titleExitCheckoutTab = isCancelAppointment ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? " : 'Are you sure you want to exit Check-Out?';
@@ -938,6 +946,10 @@ class Layout extends React.Component {
                     message={titleExitCheckoutTab}
                     onRequestClose={() => { this.setState({ visibleConfirm: false }) }}
                     confimYes={this.clearDataCofrim}
+                />
+                <PopupPairingCode
+                    visible={visiblePopupParingCode}
+                    message={pairingCode}
                 />
 
                 {/* ----------------- Display Error Message From Pax Machine ------------------ */}

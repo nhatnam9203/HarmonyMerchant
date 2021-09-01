@@ -427,7 +427,7 @@ const localization = {
     DiscountByStaff: "Discount By Staff",
     "PleaseWait": "Please wait!",
     "NoEndDate": "No end date",
-
+    "PairingCode": "Paring Code",
   },
   vi: {},
 };
