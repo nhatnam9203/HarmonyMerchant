@@ -13,6 +13,7 @@ export const CustomRadioSelect = React.forwardRef(
       required = false,
       defaultValue,
       horizontal = false,
+      style,
     },
     ref
   ) => {
@@ -52,7 +53,7 @@ export const CustomRadioSelect = React.forwardRef(
 
     return data ? (
       <RadioButton.Group onValueChange={onHandleSelect} value={value}>
-        <View style={[horizontal && { flexDirection: "row" }]}>
+        <View style={[horizontal && { flexDirection: "row" }, style]}>
           {data?.map((x) => (
             <View style={styles.rowContent} key={x?.value}>
               <RadioButton.Android value={x?.value} color={colors.OCEAN_BLUE} />

@@ -12,6 +12,7 @@ const CustomTimePicker = ({
   fmDate = HOURS_FORMAT,
   editable = false,
   defaultValue,
+  minuteInterval = 30,
 }) => {
   const [visible, setVisible] = React.useState(false);
   const [date, setDate] = React.useState(new Date());
@@ -76,7 +77,7 @@ const CustomTimePicker = ({
         cancelTextIOS={"Close"}
         confirmTextIOS={"Confirm"}
         headerTextIOS={"Pick Time"}
-        minuteInterval={30}
+        minuteInterval={minuteInterval}
       />
     </View>
   );

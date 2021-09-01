@@ -39,3 +39,4 @@ export * from "./SlideInRightModal";
 export * from "./DialogScanQR";
 export * from "./PermissionChecker";
 export * from "./PromotionCustomerFilter";
+export * from "./StaffCheckInDialog";

@@ -1,7 +1,9 @@
 import ICON from "@resources";
 import { ButtonDrawer } from "@shared/components/ButtonDrawer";
 import { ButtonLock } from "@shared/components/ButtonLock";
+import { ButtonCheckIn } from "@shared/components/ButtonCheckIn";
 import { WithDialogPinCode } from "@shared/HOC/withDialogPinCode";
+import { WithDialogStaffCheckIn } from "@shared/HOC/withDialogStaffCheckIn";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
@@ -10,6 +12,7 @@ const BAR_HEIGHT = scaleHeight(48);
 const CONTENT_HEIGHT = scaleHeight(47);
 
 const ButtonLockScreen = WithDialogPinCode(ButtonLock);
+const ButtonStaffCheckIn = WithDialogStaffCheckIn(ButtonCheckIn);
 
 export const HomeTabBar = ({
   state,
@@ -140,6 +143,7 @@ export const HomeTabBar = ({
           return renderTab(label, index, isFocused, onPress);
         })}
       </View>
+      <ButtonStaffCheckIn />
       <ButtonLockScreen />
     </View>
   );
