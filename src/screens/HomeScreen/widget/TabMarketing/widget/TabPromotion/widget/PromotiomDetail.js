@@ -121,6 +121,7 @@ const PromotiomDetail = forwardRef(
     const [noEndDate, setNoEndDate] = React.useState(false);
     const [mediaFilePath, setMediaFilePath] = React.useState(null);
     const [isManually, setIsManually] = React.useState(false);
+    const [smsMaxCustomer, setSMSMaxCustomer] = React.useState(1);
 
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(
@@ -167,11 +168,11 @@ const PromotiomDetail = forwardRef(
         count = 0,
       } = promotionCustomerGet || {};
       if (statusSuccess(codeStatus)) {
+        if (data?.length > smsMaxCustomer) {
+          setSMSMaxCustomer(data?.length);
+        }
+
         setCustomerList(data);
-        // setPagination({
-        //   pages,
-        //   count,
-        // });
       }
     }, [promotionCustomerGet]);
 
@@ -340,7 +341,10 @@ const PromotiomDetail = forwardRef(
 
     useEffect(() => {
       if (!_.isEmpty(smsInfoMarketing)) {
-        const customerCount = smsInfoMarketing?.customerCount || 0;
+        const customerCount = Math.max(
+          smsInfoMarketing?.customerCount,
+          smsMaxCustomer
+        );
         const customerSendSMSQty =
           promotionDetailById?.customerSendSMSQuantity || 0;
 
@@ -350,12 +354,13 @@ const PromotiomDetail = forwardRef(
         }
 
         setValue(tempValue);
+        setSMSMaxCustomer(customerCount);
         calculatorsmsMoney(tempValue);
       }
     }, [smsInfoMarketing]);
 
     calculatorsmsMoney = (tempValue) => {
-      const customerCount = parseInt(smsInfoMarketing?.customerCount || 0);
+      const customerCount = parseInt(smsMaxCustomer || 0);
       const smsCount = Math.ceil(tempValue * customerCount);
 
       // const smsLength = smsInfoMarketing?.smsLength || 1;
@@ -588,7 +593,7 @@ const PromotiomDetail = forwardRef(
       setValue(val);
       calculatorsmsMoney(val);
 
-      const customerCount = parseInt(smsInfoMarketing?.customerCount || 0);
+      const customerCount = parseInt(smsMaxCustomer || 0);
       const smsCount = Math.ceil(val * customerCount);
 
       setCustomerList(
@@ -711,10 +716,9 @@ const PromotiomDetail = forwardRef(
       );
 
       const count = ids?.length ?? 0;
-      let customersMax = smsInfoMarketing?.customerCount;
-      if (customersMax <= 0) {
-        customersMax = Math.max(customerList?.length, 1);
-      }
+      let customersMax = Math.max(customerList?.length, 1);
+      setSMSMaxCustomer(customersMax);
+
       const val = count / customersMax;
       setValue(val);
       calculatorsmsMoney(val);
@@ -1496,7 +1500,7 @@ const PromotiomDetail = forwardRef(
                       fontWeight: "400",
                     }}
                   >
-                    {`${smsInfoMarketing?.customerCount}`}
+                    {`${smsMaxCustomer}`}
                   </Text>
                 </View>
 
@@ -1527,7 +1531,7 @@ const PromotiomDetail = forwardRef(
                   }}
                   minimumTrackTintColor="#0764B0"
                   smsCount={customerSendSMSQuantity}
-                  smsMaxCount={smsInfoMarketing?.customerCount || 1}
+                  smsMaxCount={smsMaxCustomer || 1}
                   smsMoney={smsAmount}
                   smsMaxMoney={smsMaxAmount}
                 />
