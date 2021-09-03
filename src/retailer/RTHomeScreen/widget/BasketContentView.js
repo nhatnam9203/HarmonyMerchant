@@ -1,10 +1,7 @@
 import IMAGE from "@resources";
 import { ButtonGradient } from "@shared/components";
 import { colors, fonts, layouts } from "@shared/themes";
-import {
-  calcTotalPriceOfProduct,
-  createSubmitAppointment,
-} from "@shared/utils";
+import { PURCHASE_POINTS_ORDER } from "@shared/utils";
 import { formatMoneyWithUnit } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -29,8 +26,14 @@ export const BasketContentView = React.forwardRef(
     const [t] = useTranslation();
     const dispatch = useDispatch();
 
+    const [appointmentItem, setAppointmentItem] = React.useState(null);
+
     const appointment = useSelector(
       (state) => state.basketRetailer.appointment
+    );
+
+    const appointmentTemp = useSelector(
+      (state) => state.basketRetailer.appointmentTemp
     );
 
     const appointmentId = useSelector(
@@ -43,6 +46,10 @@ export const BasketContentView = React.forwardRef(
 
     const [items, setItems] = React.useState(null);
 
+    React.useEffect(() => {
+      setAppointmentItem(appointmentTemp ?? appointment);
+    }, [appointmentTemp, appointment]);
+
     /**
   |--------------------------------------------------
   | API
@@ -50,8 +57,8 @@ export const BasketContentView = React.forwardRef(
   */
 
     React.useEffect(() => {
-      if (appointment?.products?.length > 0) {
-        const temps = appointment.products?.reduce((previous, x) => {
+      if (appointmentItem?.products?.length > 0) {
+        const temps = appointmentItem.products?.reduce((previous, x) => {
           let groups = previous ?? [];
           const keyUnique = x.productName + " + " + x.value;
 
@@ -73,7 +80,7 @@ export const BasketContentView = React.forwardRef(
       } else {
         setItems(null);
       }
-    }, [appointment?.products]);
+    }, [appointmentItem?.products]);
 
     const onHandleCreateOrder = () => {
       onHadSubmitted();
@@ -89,12 +96,12 @@ export const BasketContentView = React.forwardRef(
 
       const onHandleDeleteItem = () => {
         if (onRemoveItem && typeof onRemoveItem === "function") {
-          onRemoveItem(firstItem);
+          onRemoveItem(item?.value);
         }
       };
 
       return (
-        <ProductItem key={item.key + ""} handleDelete={onHandleDeleteItem}>
+        <ProductItem key={item?.key + ""} handleDelete={onHandleDeleteItem}>
           <View style={styles.productItem}>
             <FastImage
               style={styles.imageStyle}
@@ -135,38 +142,38 @@ export const BasketContentView = React.forwardRef(
           data={items}
           renderItem={renderItem}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
-          keyExtractor={(item) => item.key + ""}
+          keyExtractor={(item) => item?.key + ""}
         />
         <View style={styles.totalContent}>
           <View style={layouts.marginVertical} />
           <TotalInfo
             label={t("Subtotal")}
-            value={formatMoneyWithUnit(appointment?.subTotal)}
+            value={formatMoneyWithUnit(appointmentItem?.subTotal)}
           />
           <TotalInfo
             label={t("Tax")}
-            value={formatMoneyWithUnit(appointment?.tax)}
+            value={formatMoneyWithUnit(appointmentItem?.tax)}
           />
           <TotalInfo
             label={t("Discount")}
-            value={formatMoneyWithUnit(appointment?.discount)}
+            value={formatMoneyWithUnit(appointmentItem?.discount)}
           />
           <View style={layouts.marginVertical} />
           <View style={styles.line} />
           <View style={layouts.marginVertical} />
           <TotalInfo
             label={t("Total")}
-            value={formatMoneyWithUnit(appointment?.total)}
+            value={formatMoneyWithUnit(appointmentItem?.total)}
             isBold
           />
           <View style={layouts.marginVertical} />
         </View>
         <View style={layouts.center}>
           <ButtonGradient
-            disable={!appointment || appointment?.products?.length <= 0}
+            disable={!appointmentItem || appointmentItem?.products?.length <= 0}
             label={
               !!appointmentId
-                ? appointment?.purchasePoint === "CallOrder"
+                ? appointmentItem?.purchasePoint === PURCHASE_POINTS_ORDER
                   ? t("CONFIRM")
                   : t("SELECT PAYMENT")
                 : t("CREATE ORDER")

@@ -37,6 +37,7 @@ class PopupDiscount extends React.Component {
             && groupAppointment.appointments ?
                 groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion)
                 : { subTotal: 0 };
+        
         this.state = {
             discountTotal: 0,
             totalLocal: 0,
@@ -162,7 +163,7 @@ class PopupDiscount extends React.Component {
                         return l.get(itemFind, 'bookingProductId') == l.get(itemTemp, 'bookingProductId')
                     })
                     const discountAmount = l.get(itemTemp, 'discount') > 0 ?
-                    formatNumberFromCurrency(l.get(itemTemp, 'discount') * l.get(findItem, 'quantity'))
+                    formatNumberFromCurrency(l.get(itemTemp, 'discount'))
                     : formatNumberFromCurrency(l.get(itemTemp, 'discountPercent') * formatNumberFromCurrency(l.get(findItem, 'price') * l.get(findItem, 'quantity')) / 100)
                     total = total + discountAmount
                 }
@@ -176,6 +177,7 @@ class PopupDiscount extends React.Component {
 
             const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
             const discountByStaff = (100 - this.state.discountByOwner)
+
             const manualDiscount = this.state.moneyDiscountCustom > 0
                                     ? this.state.moneyDiscountCustom
                                     : this.state.moneyDiscountFixedAmout
@@ -230,7 +232,7 @@ class PopupDiscount extends React.Component {
                                                 return l.get(itemFind, 'bookingProductId') == l.get(itemTemp, 'bookingProductId')
                                             })
                                             const discountAmount = l.get(itemTemp, 'discount') > 0 ?
-                                            formatNumberFromCurrency(l.get(itemTemp, 'discount') * l.get(findItem, 'quantity'))
+                                            roundNumber(formatNumberFromCurrency(l.get(itemTemp, 'discount')))
                                             : roundNumber(formatNumberFromCurrency(l.get(itemTemp, 'discountPercent')) * formatNumberFromCurrency(l.get(findItem, 'price') * l.get(findItem, 'quantity')) / 100)
                                             return <ItemCampaign
                                             key={index}
@@ -369,13 +371,21 @@ class PopupDiscount extends React.Component {
             groupAppointment,
             isGetPromotionOfAppointment,
             promotionNotes,
-            discountByOwner } = this.props;
+            discountByOwner,
+            appointmentIdUpdatePromotion } = this.props;
         const visible = visibleModalDiscount && !_.isEmpty(groupAppointment) ? true : false;
         if (prevProps.isGetPromotionOfAppointment !== isGetPromotionOfAppointment && isGetPromotionOfAppointment === "success" && visible) {
             this.props.actions.marketing.resetStateGetPromotionOfAppointment();
+
+            const appointmentDetail = appointmentIdUpdatePromotion !== -1 && !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
+            const { customDiscountPercent, customDiscountFixed, subTotal } = appointmentDetail !== undefined && appointmentDetail && !_.isEmpty(appointmentDetail) ? appointmentDetail : { customDiscountPercent: 0, customDiscountFixed: 0 };
+            const customMoneyByPercent = formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(subTotal) / 100
+
             await this.setState({
                 promotionNotes: promotionNotes.note ? promotionNotes.note : "",
                 discountByOwner: discountByOwner ? parseFloat(discountByOwner) : 100,
+                moneyDiscountCustom: customMoneyByPercent,
+                moneyDiscountFixedAmout: customDiscountFixed,
             });
 
         }

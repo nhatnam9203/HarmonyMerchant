@@ -16,7 +16,12 @@ import {
   useAppointmentRemoveItem,
   useGetAppointment,
 } from "@shared/services/api/retailer";
-import { createSubmitAppointment, statusSuccess } from "@shared/utils";
+import {
+  createSubmitAppointment,
+  statusSuccess,
+  PURCHASE_POINTS_STORE,
+  PURCHASE_POINTS_ORDER,
+} from "@shared/utils";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CUSTOM_LIST_TYPES } from "../../widget";
@@ -27,38 +32,54 @@ const log = (obj, message = "") => {
 };
 
 export const useProps = ({
-  params: { reload, isOrder = false, reset, reloadAppointmentId },
+  params: { purchasePoint = PURCHASE_POINTS_STORE },
   navigation,
 }) => {
+  /**
+  |--------------------------------------------------
+  | CONSTANTS
+  |--------------------------------------------------
+  */
+
   const productDetailRef = React.useRef(null);
   const basketRef = React.useRef(null);
   const customerRef = React.useRef(null);
   const dispatch = useDispatch();
 
+  /**
+  |--------------------------------------------------
+  | REDUX variables
+  |--------------------------------------------------
+  */
   const customer = useSelector((state) => state.basketRetailer.customer);
-  // const basketProducts = useSelector((state) => state.basketRetailer.products);
-
   const appointmentId = useSelector(
     (state) => state.basketRetailer.appointmentId
   );
-
   const appointmentTempId = useSelector(
     (state) => state.basketRetailer.appointmentTempId
   );
-
   const appointment = useSelector((state) => state.basketRetailer.appointment);
-
-  const [activeTab, setActiveTab] = React.useState(CUSTOM_LIST_TYPES.CAT);
-  const [categoryId, setCategoryId] = React.useState(null);
-  const [subCategoryId, setSubCategoryId] = React.useState(null);
-  const [productId, setProductId] = React.useState(null);
-  const [categories, setCategories] = React.useState(null);
-  const [subCategories, setSubCategories] = React.useState(null);
-  const [products, setProducts] = React.useState(null);
+  const appointmentTemp = useSelector(
+    (state) => state.basketRetailer.appointmentTemp
+  );
 
   /**
   |--------------------------------------------------
-  | CALL API
+  | STATE variables
+  |--------------------------------------------------
+  */
+  const [activeTab, setActiveTab] = React.useState(CUSTOM_LIST_TYPES.CAT);
+  const [categoryId, setCategoryId] = React.useState(null);
+  const [subCategoryId, setSubCategoryId] = React.useState(null);
+  const [selectedProductId, setSelectedProductId] = React.useState(null);
+  const [categories, setCategories] = React.useState(null);
+  const [subCategories, setSubCategories] = React.useState(null);
+  const [products, setProducts] = React.useState(null);
+  const [removeItemWaitingList, setRemoveItemWaitingList] = React.useState([]);
+
+  /**
+  |--------------------------------------------------
+  | API Hooks
   |--------------------------------------------------
   */
   const [categoriesList, getCategoriesList] = useGetCategoriesList();
@@ -74,8 +95,6 @@ export const useProps = ({
   const [productItemGet, getProductsByBarcode] = useGetProductsByBarcode();
   const [categoriesLabel, getCategoriesLabel] = useGetLayout();
   const [categoriesLabelData, setCategoriesLabelData] = React.useState({});
-  // const [updateAppointmentCustomerData, updateAppointmentCustomer] =
-  //   useUpdateAppointmentCustomer();
   const [updateAppointmentCustomerData, updateAppointmentCustomer] =
     useUpdateAppointmentCustomer();
   const [updateAppointmentTempCustomerData, updateAppointmentTempCustomer] =
@@ -85,7 +104,13 @@ export const useProps = ({
     useAppointmentRemoveItem();
   const [appointmentGet, getAppointment] = useGetAppointment();
 
-  const resetAll = () => {
+  /**
+  |--------------------------------------------------
+  | Functional
+  |--------------------------------------------------
+  */
+
+  const resetAll = async () => {
     setCategoryId(null);
     setActiveTab(CUSTOM_LIST_TYPES.CAT);
     setSubCategoryId(null);
@@ -93,53 +118,51 @@ export const useProps = ({
     setProducts(null);
   };
 
-  const getPurchasePoint = () => {
-    if (isOrder) return "CallOrder";
-    return "Store";
+  const reloadAll = () => {
+    getCategoriesList({ groupSubIntoMain: true });
+    getCategoriesLabel();
   };
 
-  /** useEffect */
-  React.useEffect(() => {
-    const unsubscribeFocus = navigation.addListener("focus", () => {
-      resetAll();
-      getCategoriesList({ groupSubIntoMain: true });
-      // dispatch(basketRetailer.clearBasket());
-      // customerRef.current?.showPhoneInput();
+  /**
+  |--------------------------------------------------
+  | EFFECTS
+  |--------------------------------------------------
+  */
 
-      getCategoriesLabel();
-    });
-
-    const unsubscribeBlur = navigation.addListener("blur", () => {
-      // dispatch(basketRetailer.clearBasket());
-    });
-
-    return () => {
-      unsubscribeFocus();
-      unsubscribeBlur();
-    };
-  }, [navigation]);
-
+  /** FOCUS component */
   useFocusEffect(
     React.useCallback(() => {
-      // if (reset) {
-      //   dispatch(basketRetailer.clearBasket());
-      //   resetAll();
-      //   getCategoriesList({ groupSubIntoMain: true });
-      // } else if (reload && reloadAppointmentId) {
-      //   dispatch(basketRetailer.setAppointmentId(reloadAppointmentId));
-      //   getAppointment(reloadAppointmentId);
-      // }
-      console.log("useFocusEffect appointmentId " + appointmentId);
+      resetAll();
+      reloadAll();
 
-      if (appointmentId) {
-        getAppointment(appointmentId);
-      } else if (!appointmentId) {
-        resetAll();
-        getCategoriesList({ groupSubIntoMain: true });
+      if (
+        appointment?.purchasePoint &&
+        appointment.purchasePoint !== purchasePoint
+      ) {
+        console.log(purchasePoint);
+        console.log(appointment);
+
+        dispatch(basketRetailer.clearBasket());
       }
-    }, [appointmentId, reload])
+    }, [purchasePoint, appointment])
   );
 
+  // React.useEffect(() => {
+  //   const unsubscribeFocus = navigation.addListener("focus", () => {
+  //     reloadAll();
+  //   });
+
+  //   const unsubscribeBlur = navigation.addListener("blur", () => {});
+
+  //   return () => {
+  //     unsubscribeFocus();
+  //     unsubscribeBlur();
+  //   };
+  // }, [navigation]);
+
+  /**
+   * GET Categories effects
+   */
   React.useEffect(() => {
     if (categoriesList?.data) {
       setActiveTab(CUSTOM_LIST_TYPES.CAT);
@@ -148,6 +171,9 @@ export const useProps = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoriesList?.data]);
 
+  /**
+   * GET Products effects
+   */
   React.useEffect(() => {
     if (productsList?.data) {
       setActiveTab(CUSTOM_LIST_TYPES.PRO);
@@ -158,46 +184,65 @@ export const useProps = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productsList?.data]);
 
+  /**
+   * Create appointment temp effects
+   */
   React.useEffect(() => {
-    const { codeStatus, message, data } =
-      appointmentTempCreate || appointmentTempItemAdd || {};
+    const { codeStatus, message, data } = appointmentTempCreate || {};
 
     if (statusSuccess(codeStatus)) {
       dispatch(basketRetailer.setAppointmentTempId(data));
       getAppointmentTemp(data);
     }
-  }, [appointmentTempCreate, appointmentTempItemAdd]);
+  }, [appointmentTempCreate]);
 
+  /**
+   * Add/Remove item in appointment temp effects
+   * Update customer in appointment temp effects
+   */
   React.useEffect(() => {
     const { codeStatus, message, data } =
-      appointmentTempItemAdd ||
-      appointmentTempItemRemove ||
-      updateAppointmentTempCustomerData ||
-      {};
+      appointmentTempItemAdd || updateAppointmentTempCustomerData || {};
     if (statusSuccess(codeStatus)) {
       getAppointmentTemp(appointmentTempId);
     }
-  }, [
-    appointmentTempItemAdd,
-    appointmentTempItemRemove,
-    updateAppointmentTempCustomerData,
-  ]);
+  }, [appointmentTempItemAdd, updateAppointmentTempCustomerData]);
 
   React.useEffect(() => {
+    const { codeStatus, message, data } = appointmentTempItemRemove || {};
+    if (statusSuccess(codeStatus)) {
+      getAppointmentTemp(appointmentTempId);
+      if (removeItemWaitingList?.length > 0) {
+        setRemoveItemWaitingList(removeItemWaitingList.slice(1));
+      }
+    }
+  }, [appointmentTempItemRemove]);
+
+  /**
+   * Add/Remove item in appointment  effects
+   * Update customer in appointment  effects
+   */
+  React.useEffect(() => {
     const { codeStatus, message, data } =
-      appointmentItemAdd ||
-      appointmentItemRemove ||
-      updateAppointmentCustomerData ||
-      {};
+      appointmentItemAdd || updateAppointmentCustomerData || {};
     if (statusSuccess(codeStatus)) {
       getAppointment(appointmentId);
     }
-  }, [
-    appointmentItemAdd,
-    appointmentItemRemove,
-    updateAppointmentCustomerData,
-  ]);
+  }, [appointmentItemAdd, updateAppointmentCustomerData]);
 
+  React.useEffect(() => {
+    const { codeStatus, message, data } = appointmentItemRemove || {};
+    if (statusSuccess(codeStatus)) {
+      getAppointment(appointmentId);
+      if (removeItemWaitingList?.length > 0) {
+        setRemoveItemWaitingList(removeItemWaitingList.slice(1));
+      }
+    }
+  }, [appointmentItemRemove]);
+
+  /**
+   * GET appointment effects
+   */
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentGet || {};
     if (statusSuccess(codeStatus)) {
@@ -206,12 +251,15 @@ export const useProps = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appointmentGet]);
 
+  /**
+   * CREATE appointment effects
+   */
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentCreate || {};
     if (statusSuccess(codeStatus)) {
       dispatch(basketRetailer.setAppointmentId(data));
 
-      if (isOrder) {
+      if (purchasePoint === PURCHASE_POINTS_ORDER) {
         NavigationServices.navigate("retailer.home.order.detail", {
           orderId: data,
           screenId: "retailer.home.order.list",
@@ -227,6 +275,9 @@ export const useProps = ({
     }
   }, [appointmentCreate]);
 
+  /**
+   * CREATE appointment TEMP effects
+   */
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentTempCreate || {};
     if (statusSuccess(codeStatus)) {
@@ -234,6 +285,9 @@ export const useProps = ({
     }
   }, [appointmentTempCreate]);
 
+  /**
+   * GET product item effects
+   */
   React.useEffect(() => {
     const { codeStatus, message, data } = productItemGet || {};
     if (statusSuccess(codeStatus)) {
@@ -243,6 +297,9 @@ export const useProps = ({
     }
   }, [productItemGet]);
 
+  /**
+   * UPDATE category label effects
+   */
   React.useEffect(() => {
     const { codeStatus, data } = categoriesLabel || {};
     if (statusSuccess(codeStatus)) {
@@ -250,6 +307,9 @@ export const useProps = ({
     }
   }, [categoriesLabel]);
 
+  /**
+   * Call update customer effects
+   */
   React.useEffect(() => {
     // Effect use  update customer for appointment
     if (!customer) {
@@ -268,6 +328,19 @@ export const useProps = ({
       );
     }
   }, [customer, appointmentTempId, appointmentId]);
+
+  React.useEffect(() => {
+    if (removeItemWaitingList?.length <= 0) {
+      return;
+    }
+
+    const removeItem = removeItemWaitingList[0];
+    if (appointmentTempId) {
+      removeItemAppointmentTemp(removeItem?.bookingProductId);
+    } else if (appointmentId) {
+      removeAppointmentItem(removeItem?.bookingProductId);
+    }
+  }, [removeItemWaitingList]);
 
   return {
     categories: categories,
@@ -315,7 +388,7 @@ export const useProps = ({
     },
     categoryId,
     subCategoryId,
-    productId,
+    selectedProductId,
     productDetailRef,
     basketRef,
     onHadSubmitted: () => {
@@ -354,7 +427,7 @@ export const useProps = ({
         if (!appointment) {
           createAppointmentTemp({
             customerId: customer?.customerId,
-            purchasePoint: getPurchasePoint(),
+            purchasePoint,
             products: submitProducts,
           });
         } else {
@@ -363,12 +436,14 @@ export const useProps = ({
         }
       }
     },
-    appointment,
-    onRemoveItem: (item) => {
-      if (appointmentTempId) {
-        removeItemAppointmentTemp(item?.bookingProductId);
-      } else if (appointmentId) {
-        removeAppointmentItem(item?.bookingProductId);
+    appointment: appointmentTemp ?? appointment,
+    onRemoveItem: (items) => {
+      if (items?.length > 0) {
+        let clonePendingList = [...removeItemWaitingList];
+
+        clonePendingList = clonePendingList.concat(items);
+
+        setRemoveItemWaitingList(clonePendingList);
       }
     },
     customer,
@@ -382,6 +457,6 @@ export const useProps = ({
       }
     },
     categoriesLabelData,
-    isOrder,
+    purchasePoint,
   };
 };

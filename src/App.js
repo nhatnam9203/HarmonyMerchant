@@ -1,7 +1,7 @@
 import { FirebaseNotificationProvider } from "@firebase";
 import "@shared/services/translation";
 import React from "react";
-import { View } from "react-native";
+import { View, LogBox } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/es/integration/react";

@@ -1,6 +1,6 @@
 import Configs from "@configs";
 import AsyncStorage from "@react-native-community/async-storage";
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { isDevelopmentMode } from "@shared/utils/app";
 import { combineReducers } from "redux";
 import { createLogger } from "redux-logger";
@@ -33,6 +33,11 @@ middleware.push(authMiddleware);
 middleware.push(sagaMiddleware);
 if (Configs.CHROME_DEBUG_LOGGER && isDevelopmentMode) {
   middleware.push(createLogger());
+}
+
+let enhancers;
+if (__DEV__) {
+  enhancers = [Reactotron.createEnhancer()];
 }
 
 const persistConfig = {
@@ -72,23 +77,13 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 // });
 
 const initialState = {};
-let enhancers;
-if (isDevelopmentMode) {
-  enhancers = [Reactotron.createEnhancer()];
-}
 
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: [
-    ...getDefaultMiddleware({
-      thunk: false,
-      // serializableCheck: {
-      //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      // },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
       serializableCheck: false,
-    }),
-    ...middleware,
-  ],
+    }).concat(middleware),
   preloadedState: initialState,
   devTools: isDevelopmentMode,
   enhancers: enhancers,

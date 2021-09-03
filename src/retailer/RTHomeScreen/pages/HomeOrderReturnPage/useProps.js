@@ -43,7 +43,9 @@ export const useProps = ({ params: { item } }) => {
 
   const onCheckedRow = (checkItem, selected) => {
     const cloneList =
-      itemSelected?.filter((v) => v.productId !== checkItem.productId) || [];
+      itemSelected?.filter(
+        (v) => v.bookingProductId !== checkItem.bookingProductId
+      ) || [];
     if (selected) {
       setItemSelected([...cloneList, checkItem]);
     } else {
@@ -52,61 +54,88 @@ export const useProps = ({ params: { item } }) => {
   };
 
   const updateQuantity = (itemQuantity, value) => {
-    const originItem = _.find(_.get(item, 'products'), (originItem) => {
-      return originItem.bookingProductId == itemQuantity.bookingProductId
-    })
+    const originItem = _.find(_.get(item, "products"), (originItem) => {
+      return originItem.bookingProductId == itemQuantity.bookingProductId;
+    });
 
     //validate quantity update > original quantity
-    if(value > (_.get(originItem, 'quantity') - _.get(originItem, 'returnQuantity', 0))){
-      return
+    if (
+      value >
+      _.get(originItem, "quantity") - _.get(originItem, "returnQuantity", 0)
+    ) {
+      return;
     }
 
-    const updateList = _.map(itemSelected, updateItem => {
-      let tempItem = updateItem
-      if(_.get(updateItem, 'bookingProductId') == _.get(itemQuantity, 'bookingProductId')) {
-        tempItem.returnAmount = (originItem.total/originItem.quantity) * value
-        tempItem.returnQuantity = value
+    const updateList = _.map(itemSelected, (updateItem) => {
+      let tempItem = updateItem;
+      if (
+        _.get(updateItem, "bookingProductId") ==
+        _.get(itemQuantity, "bookingProductId")
+      ) {
+        tempItem.returnAmount =
+          (originItem.total / originItem.quantity) * value;
+        tempItem.returnQuantity = value;
       }
-      return tempItem
-    })
+      return tempItem;
+    });
 
-    setItemSelected(updateList)
+    setItemSelected(updateList);
 
-    const updateListData = _.map(_.get(data, 'products'), itemTemp => {
-      let temp = itemTemp
-      if(_.get(itemTemp, 'bookingProductId') == _.get(itemQuantity, 'bookingProductId')) {
-        temp.returnAmount = (originItem.total/originItem.quantity) * value
-        temp.returnQuantity = value
+    const updateListData = _.map(_.get(data, "products"), (itemTemp) => {
+      let temp = itemTemp;
+      if (
+        _.get(itemTemp, "bookingProductId") ==
+        _.get(itemQuantity, "bookingProductId")
+      ) {
+        temp.returnAmount = (originItem.total / originItem.quantity) * value;
+        temp.returnQuantity = value;
       }
-      return temp
-    })
-    let tempData = data
-    tempData.products = updateListData
-    setData(tempData)
-  }
+      return temp;
+    });
+    let tempData = data;
+    tempData.products = updateListData;
+    setData(tempData);
+  };
 
   const updateTotal = (itemChange, value) => {
-    const updateList = _.map(itemSelected, updateItem => {
-      let tempItem = updateItem
-      if(_.get(updateItem, 'bookingProductId') == _.get(itemChange, 'bookingProductId')) {
-        tempItem.returnAmount = value
-      }
-      return tempItem
-    })
+    const originItem = _.find(_.get(item, "products"), (originItem) => {
+      return originItem.bookingProductId == itemChange.bookingProductId;
+    });
 
-    setItemSelected(updateList)
-
-    const updateListData = _.map(_.get(data, 'products'), itemTemp => {
-      let temp = itemTemp
-      if(_.get(itemTemp, 'bookingProductId') == _.get(itemChange, 'bookingProductId')) {
-        temp.returnAmount = value
+    //validate amount update > original amount
+    if (
+      value >
+      _.get(originItem, "total") - _.get(originItem, "returnAmount", 0)
+    ) {
+      return;
+    }
+    const updateList = _.map(itemSelected, (updateItem) => {
+      let tempItem = updateItem;
+      if (
+        _.get(updateItem, "bookingProductId") ==
+        _.get(itemChange, "bookingProductId")
+      ) {
+        tempItem.returnAmount = value;
       }
-      return temp
-    })
-    let tempData = data
-    tempData.products = updateListData
-    setData(tempData)
-  }
+      return tempItem;
+    });
+
+    setItemSelected(updateList);
+
+    const updateListData = _.map(_.get(data, "products"), (itemTemp) => {
+      let temp = itemTemp;
+      if (
+        _.get(itemTemp, "bookingProductId") ==
+        _.get(itemChange, "bookingProductId")
+      ) {
+        temp.returnAmount = value;
+      }
+      return temp;
+    });
+    let tempData = data;
+    tempData.products = updateListData;
+    setData(tempData);
+  };
 
   return {
     goBack: () => {
@@ -115,14 +144,18 @@ export const useProps = ({ params: { item } }) => {
     item: JSON.parse(JSON.stringify(data)),
     onHandleReturn: () => {
       if (itemSelected?.length > 0) {
-        // const productIds = itemSelected.map((v) => v.bookingProductId);
-        const params = _.map(itemSelected, itemTemp => {
+        const filterList = _.filter(itemSelected, (temp) => {
+          return (
+            _.get(temp, "returnAmount") > 0 || _.get(temp, "returnQuantity") > 0
+          );
+        });
+        const params = _.map(filterList, (itemTemp) => {
           return {
-            bookingProductId: _.get(itemTemp, 'bookingProductId'),
-            total: _.get(itemTemp, 'returnAmount'),
-            quantity: _.get(itemTemp, 'returnQuantity')
-          }
-        })
+            bookingProductId: _.get(itemTemp, "bookingProductId"),
+            total: _.get(itemTemp, "returnAmount"),
+            quantity: _.get(itemTemp, "returnQuantity"),
+          };
+        });
         returnAppointment(item?.appointmentId, {
           orderReturns: params,
           notes: notes,

@@ -36,7 +36,7 @@ export const PromotionCustomerFilter = React.forwardRef(
 
     const callGetPromotionsList = React.useCallback(() => {
       if (promotion) {
-        getPromotionCustomer(promotion?.id, promotion?.merchantId, {
+        getPromotionCustomer(promotion?.id ?? 0, promotion?.merchantId, {
           page: page,
         });
       }
@@ -61,10 +61,8 @@ export const PromotionCustomerFilter = React.forwardRef(
 
     // public func
     React.useImperativeHandle(ref, () => ({
-      show: (promoId, merchantId) => {
-        if (promoId >= 0 && promoId !== promotion?.id) {
-          setPromotion({ id: promoId, merchantId });
-        }
+      show: (list) => {
+        setCustomerList(list);
         dialogRef.current?.show();
       },
       reset: () => {
@@ -195,14 +193,14 @@ export const PromotionCustomerFilter = React.forwardRef(
               // onRefresh={onRefresh}
             />
             <View style={layouts.marginVertical} />
-            <Pagination
+            {/* <Pagination
               onChangePage={setPage}
               onChangeItemsPerPage={() => {}}
               visibleItemsPerPage={false}
               defaultPage={DEFAULT_PAGE}
               {...pagination}
               length={customerList?.length}
-            />
+            /> */}
           </View>
         </DialogLayout>
       </View>

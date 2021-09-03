@@ -9,8 +9,10 @@ import {
   useGetAppointment,
   useShippingAppointment,
 } from "@shared/services/api/retailer";
-import { statusSuccess } from "@shared/utils";
+import { statusSuccess, PURCHASE_POINTS_STORE } from "@shared/utils";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { basketRetailer } from "@redux/slices";
 
 const log = (obj, message = "") => {
   Logger.log(`[HomeOrderDetail] ${message}`, obj);
@@ -30,6 +32,8 @@ export const useProps = ({
   navigation,
 }) => {
   const formAddressRef = React.useRef(null);
+  const dispatch = useDispatch();
+
   const [appointmentDetail, setAppointmentDetail] = React.useState(null);
   const [shippingMethod, setShippingMethod] = React.useState(null);
 
@@ -119,32 +123,28 @@ export const useProps = ({
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentGet || {};
     if (statusSuccess(codeStatus)) {
-      log(data);
       const { status, didNotPay, payment, purchasePoint } = data || {};
 
-      if (
-        payment?.length <= 0 &&
-        status === ORDERED_STATUS.PENDING &&
-        purchasePoint === "Store"
-      ) {
-        NavigationServices.navigate("retailer.home.order.pay", {
-          orderItem: data,
-          screenId: screenId,
-          backScreenId: backScreenId,
-        });
+      if (payment?.length <= 0) {
+        dispatch(basketRetailer.setAppointmentId(data.appointmentId));
+        dispatch(basketRetailer.setAppointment(data));
+
+        if (
+          (status === ORDERED_STATUS.PENDING ||
+            status === ORDERED_STATUS.PROCESS) &&
+          purchasePoint === PURCHASE_POINTS_STORE
+        ) {
+          NavigationServices.navigate("retailer.home.order.pay", {
+            orderItem: data,
+            screenId: screenId,
+            backScreenId: backScreenId,
+          });
+          return;
+        }
       }
-      //  else if (
-      //   payment?.length <= 0 &&
-      //   status === ORDERED_STATUS.PROCESS &&
-      //   !didNotPay
-      // ) {
-      //   setAppointmentDetail(data);
-      //   formAddressRef.current?.reload();
-      // }
-      else {
-        setAppointmentDetail(data);
-        formAddressRef.current?.reload();
-      }
+
+      setAppointmentDetail(data);
+      formAddressRef.current?.reload();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -169,6 +169,7 @@ export const useProps = ({
     const { codeStatus, message, data } = appointmentConfirm || {};
     if (statusSuccess(codeStatus)) {
       if (isDidNotPay) {
+        dispatch(basketRetailer.clearBasket());
         NavigationServices.navigate("retailer.home.order.list", {
           reload: true,
         });
@@ -215,6 +216,7 @@ export const useProps = ({
           reloadAppointmentId: appointmentDetail?.appointmentId,
         });
       } else {
+        dispatch(basketRetailer.clearBasket());
         NavigationServices.navigate("retailer.home.order.list", {
           reload: true,
         });

@@ -575,6 +575,7 @@ class InvoiceScreen extends Layout {
 
   printInvoice = async () => {
     const { invoiceDetail } = this.props;
+
     const { titleInvoice } = this.state;
 
     if (!invoiceDetail?.appointmentId) {

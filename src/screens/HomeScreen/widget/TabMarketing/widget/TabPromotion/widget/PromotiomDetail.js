@@ -10,9 +10,11 @@ import {
   CustomCheckBox,
   CustomRadioSelect,
   FormUploadImage,
+  PromotionCustomerFilter,
 } from "@shared/components";
+import { useGetPromotionCustomer } from "@shared/services/api/app";
 import { colors, fonts, layouts } from "@shared/themes";
-import { dateToString } from "@shared/utils";
+import { dateToString, statusSuccess } from "@shared/utils";
 import {
   DISCOUNT_ACTION,
   formatHourMinute,
@@ -56,7 +58,6 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useSelector } from "react-redux";
 import DropdownSearch from "./DropdownSearch";
 import Slider from "./Slider";
-import { PromotionCustomerFilter } from "@shared/components";
 
 const { width } = Dimensions.get("window");
 
@@ -120,13 +121,14 @@ const PromotiomDetail = forwardRef(
     const [noEndDate, setNoEndDate] = React.useState(false);
     const [mediaFilePath, setMediaFilePath] = React.useState(null);
     const [isManually, setIsManually] = React.useState(false);
+    const [smsMaxCustomer, setSMSMaxCustomer] = React.useState(1);
 
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(
       WorkingTime.map((x) => Object.assign({}, x, { label: x.value }))
     );
 
-    const [customerIds, setCustomerIds] = React.useState(null);
+    const [customerList, setCustomerList] = React.useState(null);
 
     const scrollRef = useRef(null);
 
@@ -149,6 +151,30 @@ const PromotiomDetail = forwardRef(
     );
 
     const merchant = useSelector((state) => state.dataLocal?.profile);
+
+    /**API */
+    const [promotionCustomerGet, getPromotionCustomer] =
+      useGetPromotionCustomer();
+
+    React.useEffect(() => {
+      if (!promotionCustomerGet) {
+        return;
+      }
+
+      const {
+        codeStatus,
+        data,
+        pages = 0,
+        count = 0,
+      } = promotionCustomerGet || {};
+      if (statusSuccess(codeStatus)) {
+        if (data?.length > smsMaxCustomer) {
+          setSMSMaxCustomer(data?.length);
+        }
+
+        setCustomerList(data);
+      }
+    }, [promotionCustomerGet]);
 
     useImperativeHandle(ref, () => ({
       setStateFromParent: (data = {}) => {
@@ -197,6 +223,8 @@ const PromotiomDetail = forwardRef(
         setConfigMessageType(data?.smsType ?? MESSAGE_CONTENT_DEFAULT_TYPE);
         setNoEndDate(data?.noEndDate);
         setMediaFilePath(data?.smsMediaPath);
+
+        getPromotionCustomer(data?.id ?? 0, merchant?.merchantId);
       },
     }));
 
@@ -313,7 +341,10 @@ const PromotiomDetail = forwardRef(
 
     useEffect(() => {
       if (!_.isEmpty(smsInfoMarketing)) {
-        const customerCount = smsInfoMarketing?.customerCount || 0;
+        const customerCount = Math.max(
+          smsInfoMarketing?.customerCount,
+          smsMaxCustomer
+        );
         const customerSendSMSQty =
           promotionDetailById?.customerSendSMSQuantity || 0;
 
@@ -323,12 +354,13 @@ const PromotiomDetail = forwardRef(
         }
 
         setValue(tempValue);
+        setSMSMaxCustomer(customerCount);
         calculatorsmsMoney(tempValue);
       }
     }, [smsInfoMarketing]);
 
     calculatorsmsMoney = (tempValue) => {
-      const customerCount = parseInt(smsInfoMarketing?.customerCount || 0);
+      const customerCount = parseInt(smsMaxCustomer || 0);
       const smsCount = Math.ceil(tempValue * customerCount);
 
       // const smsLength = smsInfoMarketing?.smsLength || 1;
@@ -482,7 +514,9 @@ const PromotiomDetail = forwardRef(
         content: messageContent,
         noEndDate: noEndDate,
         isManually: isManually,
-        customerIds: customerIds,
+        customerIds: customerList
+          ?.filter((x) => x.checked)
+          .map((x) => x.customerId),
       };
 
       // ------------ Check Valid ---------
@@ -558,11 +592,23 @@ const PromotiomDetail = forwardRef(
     const hanldeSliderValue = (val = 0) => {
       setValue(val);
       calculatorsmsMoney(val);
+
+      const customerCount = parseInt(smsMaxCustomer || 0);
+      const smsCount = Math.ceil(val * customerCount);
+
+      setCustomerList(
+        customerList.map((x, index) =>
+          Object.assign({}, x, {
+            checked: index < smsCount ? true : false,
+          })
+        )
+      );
     };
 
     const handleSetCampaignName = (title) => {
       setTitle(title);
       // calculatorsmsMoney(value);
+      getDefaultMessageContent();
     };
 
     const onHandleSetPromotionValue = (val) => {
@@ -659,11 +705,23 @@ const PromotiomDetail = forwardRef(
 
     const onHandleFilterCustomer = (ids) => {
       // console.log(ids);
-      setCustomerIds(ids);
       // setCustomerSendSMSQuantity(ids?.length ?? 0);
 
+      setCustomerList(
+        customerList.map((x) =>
+          Object.assign({}, x, {
+            checked: ids.includes(x.customerId) ? true : false,
+          })
+        )
+      );
+
       const count = ids?.length ?? 0;
-      hanldeSliderValue(count / smsInfoMarketing?.customerCount ?? 1);
+      let customersMax = Math.max(customerList?.length, 1);
+      setSMSMaxCustomer(customersMax);
+
+      const val = count / customersMax;
+      setValue(val);
+      calculatorsmsMoney(val);
     };
 
     React.useEffect(() => {
@@ -1265,10 +1323,7 @@ const PromotiomDetail = forwardRef(
                     borderColor: "#dadada",
                   }}
                   onPress={() => {
-                    promotionRef.current?.show(
-                      promotionId || 0,
-                      merchant?.merchantId
-                    );
+                    promotionRef.current?.show(customerList);
                   }}
                 >
                   <Image
@@ -1445,7 +1500,7 @@ const PromotiomDetail = forwardRef(
                       fontWeight: "400",
                     }}
                   >
-                    {`${smsInfoMarketing?.customerCount}`}
+                    {`${smsMaxCustomer}`}
                   </Text>
                 </View>
 
@@ -1476,7 +1531,7 @@ const PromotiomDetail = forwardRef(
                   }}
                   minimumTrackTintColor="#0764B0"
                   smsCount={customerSendSMSQuantity}
-                  smsMaxCount={smsInfoMarketing?.customerCount || 1}
+                  smsMaxCount={smsMaxCustomer || 1}
                   smsMoney={smsAmount}
                   smsMaxMoney={smsMaxAmount}
                 />
