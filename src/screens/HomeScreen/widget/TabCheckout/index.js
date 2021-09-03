@@ -1485,15 +1485,16 @@ class TabCheckout extends Layout {
   }
 
   sendTransactionToPaymentMachine() {
-    const { paxMachineInfo } = this.props;
-    if( l.get(paxMachineInfo, 'terminalName') == 'Clover'){
-      const port = l.get(paxMachineInfo, 'port') ? l.get(paxMachineInfo, 'port') : 80
-      const url = `wss://${l.get(paxMachineInfo, 'ip')}:${port}/remote_pay`
+    const { cloverMachineInfo, paymentMachineType } = this.props;
+    if( paymentMachineType == 'Clover'){
+      const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
+      const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
       clover.sendTransaction({
         url,
         remoteAppId: REMOTE_APP_ID,
         appName: APP_NAME,
-        posSerial: POS_SERIAL
+        posSerial: POS_SERIAL,
+        token: _.get(cloverMachineInfo, 'token')
       })
     } else {
       this.sendTransToPaxMachine()
@@ -2681,22 +2682,22 @@ class TabCheckout extends Layout {
         console.log('data', data)
        }),
       this.eventEmitter.addListener('pairingCode', data => {
-        console.log('data', data)
         if(data){
           const text = `Pairing code: ${l.get(data, 'pairingCode')}`
-          this.props.actions.hardware.setPairingCode(
-            text
-          );
-          this.props.actions.hardware.setVisiblePopupPairingCode(
-            true
-          );
+          this.setState({
+            visiblePopupParingCode: true,
+            pairingCode: text,
+          })
         }
       }),
       this.eventEmitter.addListener('pairingSuccess', data => {
-        console.log('data', data)
-        this.props.actions.hardware.setVisiblePopupPairingCode(
-          false
+        this.props.actions.hardware.setCloverToken(
+          _.get(data, 'token')
         );
+        this.setState({
+          visiblePopupParingCode: false,
+          pairingCode: '',
+        })
       }),
     ]
   }
@@ -2764,8 +2765,8 @@ const mapStateToProps = (state) => ({
     state.appointment.appointmentIdBookingFromCalendar,
   isBookingFromCalendar: state.appointment.isBookingFromCalendar,
   isCancelPayment: state.appointment.isCancelPayment,
-  visiblePopupPairingCode: state.hardware.visiblePopupPairingCode,
-  pairingCode: state.hardware.pairingCode,
+  cloverMachineInfo: state.hardware.cloverMachineInfo,
+  paymentMachineType: state.hardware.paymentMachineType,
 });
 
 export default connectRedux(mapStateToProps, TabCheckout);

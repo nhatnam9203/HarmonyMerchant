@@ -10,30 +10,49 @@ const initialState = {
     timeout: 90000,
     bluetoothAddr: '',
     isSetup: false,
-    terminalName: 'Pax',
   },
-  visiblePopupPairingCode: false,
-  pairingCode: '',
+  cloverMachineInfo: {
+    name: 'Clover',
+    ip: '',
+    port: '',
+    isSetup: false,
+    token: null,
+  },
+  paymentMachineType: 'Pax',
+
 };
 
 function hardwareReducer(state = initialState, action) {
   switch (action.type) {
-    case 'SET_VISIBLE_POPUP_PAIRING_CODE':
-      return {
-        ...state,
-        visiblePopupPairingCode: action.isVisible,
-      };
-    case 'SET_PAIRING_CODE':
-      return {
-        ...state,
-        pairingCode: action.pairingCode,
-      };
-
     case 'SETUP_PAX_MACHINE':
       return {
         ...state,
-        paxMachineInfo: action.payload,
+        paxMachineInfo: action.payload.paymentMachineInfo,
+        paymentMachineType: action.payload.paymentMachineType,
       };
+    case 'SETUP_CLOVER_MACHINE':
+      console.log('clover setup', {...state.cloverMachineInfo, 
+        ip: action.payload.paymentMachineInfo.ip,
+        port: action.payload.paymentMachineInfo.port,
+        isSetup: action.payload.paymentMachineInfo.isSetup,
+      })
+      return {
+        ...state,
+        cloverMachineInfo: {...cloverMachineInfo, 
+          ip: action.payload.paymentMachineInfo.ip,
+          port: action.payload.paymentMachineInfo.port,
+          isSetup: action.payload.paymentMachineInfo.isSetup,
+        },
+        paymentMachineType: action.payload.paymentMachineType,
+      };
+    case 'SET_CLOVER_TOKEN':
+      return {
+        ...state,
+        cloverMachineInfo: {
+          ...cloverMachineInfo,
+          token: action.payload,
+        }
+      }
 
     case 'DELETE_HARDWARE':
       return {
@@ -48,6 +67,13 @@ function hardwareReducer(state = initialState, action) {
           isSetup: false,
           terminalName: 'Pax',
         },
+        cloverMachineInfo: {
+          name: 'Clover',
+          ip: '',
+          port: '',
+          isSetup: false,
+          token: null,
+        }
       };
     default:
       return state;

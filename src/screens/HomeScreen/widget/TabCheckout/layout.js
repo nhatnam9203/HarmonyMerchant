@@ -910,14 +910,14 @@ class Layout extends React.Component {
             visiblePopupCheckDiscountPermission, 
             isCancelAppointment , 
             isOfflineMode,
-            visiblePopupParingCode,
-            pairingCode,
          } = this.props;
         const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
             visiblePopupAddItemIntoBasket, visibleAddEditCustomerPopup,
             visibleErrorMessageFromPax, errorMessageFromPax,
             selectedStaff,
             staffOfService,
+            visiblePopupParingCode,
+            pairingCode,
         } = this.state;
 
         const titleExitCheckoutTab = isCancelAppointment ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? " : 'Are you sure you want to exit Check-Out?';

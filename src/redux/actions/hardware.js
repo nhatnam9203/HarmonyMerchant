@@ -5,17 +5,16 @@ export function setupPaxMachine(paxInfo) {
     }
 }
 
-export function setVisiblePopupPairingCode(isVisible) {
+export function setupCloverMachine(cloverInfo) {
     return {
-        type: 'SET_VISIBLE_POPUP_PAIRING_CODE',
-        isVisible,
+        type: 'SETUP_CLOVER_MACHINE',
+        payload: cloverInfo
     }
 }
 
-export function setPairingCode(pairingCode) {
+export function setCloverToken(token) {
     return {
-        type: 'SET_PAIRING_CODE',
-        pairingCode,
+        type: 'SET_CLOVER_TOKEN',
+        payload: token
     }
 }
-

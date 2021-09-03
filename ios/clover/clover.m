@@ -65,8 +65,9 @@ RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo)
   NSString *remoteAppId = paymentInfo[@"remoteAppId"];
   NSString *appName = paymentInfo[@"appName"];
   NSString *posSerial = paymentInfo[@"posSerial"];
+  NSString *token = paymentInfo[@"token"];
   
-  [clover connect:url appId: remoteAppId appName: appName posSerial: posSerial];
+  [clover connect:url appId: remoteAppId appName: appName posSerial: posSerial token: token];
 }
 
 RCT_EXPORT_METHOD(cancelTransaction){

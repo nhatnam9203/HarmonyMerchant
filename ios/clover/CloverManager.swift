@@ -22,17 +22,17 @@ import Foundation
 
   fileprivate let PAIRING_AUTH_TOKEN_KEY:String = "PAIRING_AUTH_TOKEN"
 
-  @objc public func connect(_ url:String, appId: String, appName: String, posSerial: String) {
+  @objc public func connect(_ url:String, appId: String, appName: String, posSerial: String, token: String) {
         myCloverConnector?.dispose()
         // load from previous pairing, or nil will force/require
         // a new pairing with the device
-        let savedAuthToken = loadAuthToken()
+//        let savedAuthToken = loadAuthToken()
 
    
         let config = WebSocketDeviceConfiguration(endpoint: url,
             remoteApplicationID: appId,
             posName: appName, posSerial: posSerial,
-            pairingAuthToken: savedAuthToken, pairingDeviceConfiguration: self)
+            pairingAuthToken: token, pairingDeviceConfiguration: self)
 
         myCloverConnector = CloverConnectorFactory.createICloverConnector(config: config)
         myCloverConnector?.addCloverConnectorListener(self)
@@ -40,10 +40,6 @@ import Foundation
       
         
     }
-  
-  func test(){
-    print("test")
-  }
 
     func doSale(paymentInfo: NSDictionary) {
         // if onDeviceReady has been called
@@ -53,14 +49,14 @@ import Foundation
     }
 
     // store the token to be loaded later by loadAuthToken
-    func saveAuthToken(token:String) {
-      self.token = token
-      UserDefaults.standard.set(self.token, forKey: PAIRING_AUTH_TOKEN_KEY)
-      UserDefaults.standard.synchronize()
-    }
-    func loadAuthToken() -> String? {
-      return UserDefaults.standard.string( forKey: PAIRING_AUTH_TOKEN_KEY)
-    }
+//    func saveAuthToken(token:String) {
+//      self.token = token
+//      UserDefaults.standard.set(self.token, forKey: PAIRING_AUTH_TOKEN_KEY)
+//      UserDefaults.standard.synchronize()
+//    }
+//    func loadAuthToken() -> String? {
+//      return UserDefaults.standard.string( forKey: PAIRING_AUTH_TOKEN_KEY)
+//    }
 
 
     // PairingDeviceConfiguration
@@ -75,7 +71,7 @@ import Foundation
         // pairing is successful
         // save this authToken to pass in to the config for future connections
         // so pairing will happen automatically
-      saveAuthToken(token: authToken)
+//      saveAuthToken(token: authToken)
       if(cloverDelegate != nil){
         cloverDelegate?.pairingSuccess(token: authToken)
       }

@@ -16,23 +16,30 @@ import { scaleSize, localize } from '@utils';
 import ICON from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 import BluetoothScanner from "@lib/BluetoothScanner";
+import _ from "lodash";
 
 class SetupHardware extends React.Component {
 
     constructor(props) {
         super(props);
-        const { paxMachineInfo } = this.props;
-        const { name, ip, port, timeout, commType, bluetoothAddr } = paxMachineInfo;
+        const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = this.props;
+        const { commType, bluetoothAddr } = paxMachineInfo;
         this.state = {
             commType: commType || "TCP",
-            name,
-            ip,
-            port,
-            timeout: 300000,//5 minutes
+            name: paymentMachineType == 'Pax' ? 
+                _.get(paxMachineInfo, 'name')
+                : _.get(cloverMachineInfo, 'name'),
+            ip: paymentMachineType == 'Pax' ? 
+                _.get(paxMachineInfo, 'ip')
+                : _.get(cloverMachineInfo, 'ip'),
+            port: paymentMachineType == 'Pax' 
+                ? _.get(paxMachineInfo, 'port')
+                : _.get(cloverMachineInfo, 'port'),
+            timeout: 90000,
             bluetoothAddr,
             peripherals: [],
             scanLoading: false,
-            terminalName: "Pax"
+            terminalName: paymentMachineType,
         };
 
         this.scrollRef = React.createRef();
@@ -65,14 +72,20 @@ class SetupHardware extends React.Component {
                 if (name === "" || bluetoothAddr === "") {
                     alert('Please enter full infomation!');
                 } else {
-                    this.props.actions.hardware.setupPaxMachine({ commType, name, ip, port, timeout, bluetoothAddr, isSetup: true });
+                    this.props.actions.hardware.setupPaxMachine({
+                        paymentMachineInfo:{ commType, name, ip, port, timeout, bluetoothAddr, isSetup: true },
+                        paymentMachineType: 'Pax'
+                    });
                     this.props.backListDevices();
                 }
             } else {
                 if (name == '' || ip == '' || port == '' || timeout == '') {
                     alert('Please enter full infomation!');
                 } else {
-                    this.props.actions.hardware.setupPaxMachine({ commType, name, ip, port, timeout, bluetoothAddr, isSetup: true });
+                    this.props.actions.hardware.setupPaxMachine({
+                        paymentMachineInfo: { commType, name, ip, port, timeout, bluetoothAddr, isSetup: true },
+                        paymentMachineType: 'Pax'
+                    });
                     this.props.backListDevices();
                 };
             }
@@ -80,7 +93,10 @@ class SetupHardware extends React.Component {
             if (ip == '' || port == '') {
                 alert('Please enter full infomation!');
             } else {
-                this.props.actions.hardware.setupPaxMachine({ commType, name: 'Clover', ip, port, timeout, bluetoothAddr, isSetup: true, terminalName });
+                this.props.actions.hardware.setupCloverMachine({
+                    paymentMachineInfo: { ip, port, isSetup: true },
+                    paymentMachineType: 'Clover'
+                });
                 this.props.backListDevices();
             };
         }
@@ -312,7 +328,7 @@ class SetupHardware extends React.Component {
 
                             <ItemSetup
                                 title={localize('Port', language)}
-                                placeholder={"10009"}
+                                placeholder={terminalName == 'Pax' ? "10009" : "12345"}
                                 value={port}
                                 onChangeText={port => this.setState({ port })}
                                 keyboardType="numeric"
@@ -506,6 +522,8 @@ const ItemBluetooth = ({ peripheral, bluetoothPaxInfo, onPress }) => {
 
 const mapStateToProps = state => ({
     paxMachineInfo: state.hardware.paxMachineInfo,
+    cloverMachineInfo: state.hardware.cloverMachineInfo,
+    paymentMachineType: state.hardware.paymentMachineType,
     language: state.dataLocal.language,
     bluetoothPaxInfo: state.dataLocal.bluetoothPaxInfo
 })
