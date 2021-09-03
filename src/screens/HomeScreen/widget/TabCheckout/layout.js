@@ -948,7 +948,7 @@ class Layout extends React.Component {
                     confimYes={this.clearDataCofrim}
                 />
                 <PopupPairingCode
-                    visible={visiblePopupParingCode}
+                    visible={visiblePopupParingCode ? true: false}
                     message={pairingCode}
                 />
 

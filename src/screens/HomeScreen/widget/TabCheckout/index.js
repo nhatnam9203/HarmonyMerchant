@@ -1476,7 +1476,7 @@ class TabCheckout extends Layout {
       const url = `wss://${l.get(paxMachineInfo, 'ip')}:${port}/remote_pay`
       clover.sendTransaction({
         url,
-        appId: REMOTE_APP_ID,
+        remoteAppId: REMOTE_APP_ID,
         appName: APP_NAME,
         posSerial: POS_SERIAL
       })
@@ -2648,13 +2648,13 @@ class TabCheckout extends Layout {
   registerEvents () {
     clover.changeListenerStatus(true)
     this.subscriptions = [
-      this.eventEmitter.addListener("paymentSuccess", data => {
+      this.eventEmitter.addListener('paymentSuccess', data => {
        console.log('data', data)
       }),
-      this.eventEmitter.addListener("paymentFail", data => {
+      this.eventEmitter.addListener('paymentFail', data => {
         console.log('data', data)
        }),
-      this.eventEmitter.addListener("pairingCode", data => {
+      this.eventEmitter.addListener('pairingCode', data => {
         console.log('data', data)
         if(data){
           const text = `Pairing code: ${l.get(data, 'pairingCode')}`
@@ -2666,7 +2666,7 @@ class TabCheckout extends Layout {
           );
         }
       }),
-      this.eventEmitter.addListener("pairingSuccess", data => {
+      this.eventEmitter.addListener('pairingSuccess', data => {
         console.log('data', data)
         this.props.actions.hardware.setVisiblePopupPairingCode(
           false

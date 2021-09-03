@@ -12,6 +12,7 @@ import Foundation
   func paymentSuccess(response: NSDictionary)
   func paymentFail(errorMessage: String)
   func pairingCode(string: String)
+  func pairingSuccess(token: String)
 }
 @objc public class  CloverManager : DefaultCloverConnectorListener, PairingDeviceConfiguration {
 
@@ -75,6 +76,9 @@ import Foundation
         // save this authToken to pass in to the config for future connections
         // so pairing will happen automatically
       saveAuthToken(token: authToken)
+      if(cloverDelegate != nil){
+        cloverDelegate?.pairingSuccess(token: authToken)
+      }
     }
 
 

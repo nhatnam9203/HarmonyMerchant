@@ -15,7 +15,7 @@ static NSString* paymentFail               = @"paymentFail";
 static NSString* pairingCode               = @"pairingCode";
 static NSString* pairingSuccess               = @"pairingSuccess";
 
-@interface clover ()
+@interface clover () <CloverManagerDelegate>
 @property (nonatomic) BOOL listening;
 
 @end
@@ -31,6 +31,7 @@ static NSString* pairingSuccess               = @"pairingSuccess";
   }
   return self;
 }
+
 - (NSString*) convertObjectToJson:(NSObject*) object
 {
   NSError *writeError = nil;
@@ -41,11 +42,16 @@ static NSString* pairingSuccess               = @"pairingSuccess";
   return result;
 }
 
-- (NSArray<NSString *> *)supportedEvents {
-    return @[];
-}
-
 RCT_EXPORT_MODULE();
+
+- (NSArray<NSString *> *)supportedEvents {
+  return @[
+    paymentSuccess,
+    paymentFail,
+    pairingCode,
+    pairingSuccess,
+  ];
+}
 
 RCT_EXPORT_METHOD(changeListenerStatus:(BOOL)value) {
     self.listening = value;
@@ -67,18 +73,24 @@ RCT_EXPORT_METHOD(cancelTransaction){
 }
 
 - (void)paymentFailWithErrorMessage:(NSString * _Nonnull)errorMessage {
-  [self sendEventWithName:@"paymentFail" body:@{@"errorMessage": errorMessage}];
+  [self sendEventWithName:paymentFail body:@{@"errorMessage": errorMessage}];
 }
 
 - (void)paymentSuccessWithResponse:(NSDictionary * _Nonnull)response {
    if (self.listening) {
-        [self sendEventWithName:@"paymentSuccess" body:response];
+        [self sendEventWithName:paymentSuccess body:response];
     }
 }
 
 - (void)pairingCodeWithString:(NSString * _Nonnull)string {
   if (self.listening) {
-    [self sendEventWithName:@"pairingCode" body:@{@"pairingCode": string}];
+    [self sendEventWithName:pairingCode body:@{@"pairingCode": string}];
+  }
+}
+
+- (void)pairingSuccessWithToken:(NSString * _Nonnull)token {
+  if (self.listening) {
+    [self sendEventWithName:pairingSuccess body:@{@"token": token}];
   }
 }
 
