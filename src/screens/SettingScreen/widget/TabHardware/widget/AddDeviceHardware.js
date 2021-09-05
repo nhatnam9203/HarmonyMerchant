@@ -11,8 +11,7 @@ import { Button, Text, ButtonCustom } from '@components';
 import { scaleSize, localize } from '@utils';
 import IMAGE from '@resources';
 import connectRedux from '@redux/ConnectRedux';
-// import BluetoothScanner from "@lib/BluetoothScanner";
-// import { ScrollView } from 'react-native-gesture-handler';
+import _ from "lodash";
 
 class AddDeviceHardware extends React.Component {
 
@@ -100,7 +99,13 @@ class AddDeviceHardware extends React.Component {
     }
 
     renderConnected() {
-        const { paxMachineInfo } = this.props;
+        const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = this.props;
+        let name = ''
+        if (paymentMachineType == 'Pax') {
+            name = _.get(paxMachineInfo, 'name')
+        } else {
+            name = _.get(cloverMachineInfo, 'name')
+        }
         return (
             <Button onPress={this.addDevice} style={{
                 flexDirection: 'row', alignItems: 'center', width: scaleSize(120),
@@ -114,14 +119,23 @@ class AddDeviceHardware extends React.Component {
                     marginLeft: scaleSize(8),
                     textDecorationLine: 'underline'
                 }} >
-                    {paxMachineInfo.name}
+                    {name}
                 </Text>
             </Button>
         );
     }
 
     render() {
-        const { paxMachineInfo, language } = this.props;
+        const { paxMachineInfo, 
+                cloverMachineInfo,
+                language, 
+                paymentMachineType } = this.props;
+        let isSetup = false
+        if (paymentMachineType == 'Pax') {
+            isSetup = _.get(paxMachineInfo, 'isSetup', false)
+        } else {
+            isSetup = _.get(cloverMachineInfo, 'isSetup', false)
+        }
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSize(14), paddingTop: scaleSize(20) }} >
                 <Text style={{
@@ -142,7 +156,7 @@ class AddDeviceHardware extends React.Component {
 
                     {localize('Connected Device', language)}
                 </Text>
-                {!paxMachineInfo.isSetup ? this.renderNoConnected() : this.renderConnected()}
+                {!isSetup ? this.renderNoConnected() : this.renderConnected()}
 
                 {/* ------- Footer -------- */}
                 <View style={{ position: 'absolute', bottom: 0, width: '100%', justifyContent: 'flex-end', paddingBottom: scaleSize(30) }} >
@@ -224,6 +238,8 @@ const ItemBluetooth = ({ peripheral, isConnected, onPress }) => {
 const mapStateToProps = state => ({
     paxMachineInfo: state.hardware.paxMachineInfo,
     language: state.dataLocal.language,
+    cloverMachineInfo: state.hardware.cloverMachineInfo, 
+    paymentMachineType: state.hardware.paymentMachineType,
 })
 
 export default connectRedux(mapStateToProps, AddDeviceHardware);

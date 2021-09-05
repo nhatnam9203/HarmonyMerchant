@@ -133,9 +133,28 @@ class SetupHardware extends React.Component {
     }
 
     setTerminal = (terminalName) => () => {
-        this.setState({
-            terminalName
-        });
+        if(terminalName != this.state.terminalName) {
+            const { name, ip, port } = this.state;
+            const { paxMachineInfo, cloverMachineInfo } = this.props;
+            let tempName = name 
+            let tempIp = ip
+            let tempPort = port
+            if (terminalName == 'Pax') {
+                tempName = _.get(paxMachineInfo, 'name')
+                tempIp = _.get(paxMachineInfo, 'ip')
+                tempPort = _.get(paxMachineInfo, 'port')
+            } else {
+                tempName = _.get(cloverMachineInfo, 'name')
+                tempIp = _.get(cloverMachineInfo, 'ip')
+                tempPort = _.get(cloverMachineInfo, 'port')
+            }
+            this.setState({
+                terminalName,
+                name: tempName,
+                ip: tempIp,
+                port: tempPort,
+            });
+        }
     }
 
     async scanDevices() {

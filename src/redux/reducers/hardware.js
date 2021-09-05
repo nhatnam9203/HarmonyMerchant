@@ -31,14 +31,9 @@ function hardwareReducer(state = initialState, action) {
         paymentMachineType: action.payload.paymentMachineType,
       };
     case 'SETUP_CLOVER_MACHINE':
-      console.log('clover setup', {...state.cloverMachineInfo, 
-        ip: action.payload.paymentMachineInfo.ip,
-        port: action.payload.paymentMachineInfo.port,
-        isSetup: action.payload.paymentMachineInfo.isSetup,
-      })
       return {
         ...state,
-        cloverMachineInfo: {...cloverMachineInfo, 
+        cloverMachineInfo: {...state.cloverMachineInfo, 
           ip: action.payload.paymentMachineInfo.ip,
           port: action.payload.paymentMachineInfo.port,
           isSetup: action.payload.paymentMachineInfo.isSetup,
