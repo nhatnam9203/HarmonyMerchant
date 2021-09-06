@@ -14,10 +14,13 @@ static NSString* paymentSuccess               = @"paymentSuccess";
 static NSString* paymentFail               = @"paymentFail";
 static NSString* pairingCode               = @"pairingCode";
 static NSString* pairingSuccess               = @"pairingSuccess";
+static NSString* deviceReady              = @"deviceReady";
 
 @interface clover () <CloverManagerDelegate>
 @property (nonatomic) BOOL listening;
-
+@property (nonatomic) BOOL isPaymentProcessing;
+@property (nonatomic, strong) CloverManager *clover;
+@property (nonatomic, strong) NSDictionary *paymentInfo;
 @end
 
 @implementation clover
@@ -26,8 +29,6 @@ static NSString* pairingSuccess               = @"pairingSuccess";
 {
   self = [super init];
   if (self) {
-//    CloverManager *clover = [CloverManager alloc];
-//    clover.cloverDelegate = self;
   }
   return self;
 }
@@ -50,6 +51,7 @@ RCT_EXPORT_MODULE();
     paymentFail,
     pairingCode,
     pairingSuccess,
+    deviceReady
   ];
 }
 
@@ -59,25 +61,31 @@ RCT_EXPORT_METHOD(changeListenerStatus:(BOOL)value) {
 
 RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo)
 {
-  CloverManager *clover = [CloverManager alloc];
-  clover.cloverDelegate = self;
+  self.isPaymentProcessing = true;
+  self.paymentInfo = paymentInfo;
+  self.clover = [CloverManager alloc];
+  self.clover.cloverDelegate = self;
   NSString *url = paymentInfo[@"url"];
   NSString *remoteAppId = paymentInfo[@"remoteAppId"];
   NSString *appName = paymentInfo[@"appName"];
   NSString *posSerial = paymentInfo[@"posSerial"];
   NSString *token = paymentInfo[@"token"];
   
-  [clover connect:url appId: remoteAppId appName: appName posSerial: posSerial token: token];
+  [self.clover connect:url appId: remoteAppId appName: appName posSerial: posSerial token: token];
+  
 }
 
 RCT_EXPORT_METHOD(cancelTransaction){
+  self.isPaymentProcessing = false;
 }
 
 - (void)paymentFailWithErrorMessage:(NSString * _Nonnull)errorMessage {
+  self.isPaymentProcessing = false;
   [self sendEventWithName:paymentFail body:@{@"errorMessage": errorMessage}];
 }
 
 - (void)paymentSuccessWithResponse:(NSDictionary * _Nonnull)response {
+  self.isPaymentProcessing = false;
    if (self.listening) {
         [self sendEventWithName:paymentSuccess body:response];
     }
@@ -92,6 +100,16 @@ RCT_EXPORT_METHOD(cancelTransaction){
 - (void)pairingSuccessWithToken:(NSString * _Nonnull)token {
   if (self.listening) {
     [self sendEventWithName:pairingSuccess body:@{@"token": token}];
+  }
+  
+}
+
+- (void)onDeviceReady {
+  if (self.isPaymentProcessing) {
+    [self.clover doSaleWithPaymentInfo: self.paymentInfo];
+  }
+  if (self.listening) {
+    [self sendEventWithName:deviceReady body:nil];
   }
 }
 

@@ -427,7 +427,8 @@ const localization = {
     DiscountByStaff: "Discount By Staff",
     "PleaseWait": "Please wait!",
     "NoEndDate": "No end date",
-    "PairingCode": "Paring Code",
+    "VerifyPayment": "Verify payment",
+    "VerifyPaymentMessage": "This may be a duplicate, do you want to accept this payment?",
   },
   vi: {},
 };

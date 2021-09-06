@@ -11,7 +11,16 @@ import { scaleSize } from '../utils';
 class PopupConfirm extends React.Component {
 
     render() {
-        const { title, visible, message,onRequestClose,confimYes ,hideCloseButton} = this.props;
+        const { title, 
+            visible, 
+            message,
+            onRequestClose,
+            confimYes ,
+            hideCloseButton,
+            textLeftButton,
+            textRightButton,
+            confirmNo,
+        } = this.props;
         return (
             <PopupParent
                 title={title}
@@ -36,9 +45,9 @@ class PopupConfirm extends React.Component {
                                 width={'60%'}
                                 height={35}
                                 backgroundColor="#fff"
-                                title="No"
+                                title={textLeftButton ? textLeftButton : "No"}
                                 textColor="#6A6A6A"
-                                onPress={() => onRequestClose()}
+                                onPress={() => confirmNo ? confirmNo : onRequestClose()}
                                 style={{
                                     borderWidth: 1,
                                     borderColor: '#C5C5C5'
@@ -53,7 +62,7 @@ class PopupConfirm extends React.Component {
                                 width={'60%'}
                                 height={35}
                                 backgroundColor="#0764B0"
-                                title="Yes"
+                                title={ textRightButton ? textRightButton : "Yes" }
                                 textColor="#fff"
                                 onPress={() => confimYes()}
                                 styleText={{

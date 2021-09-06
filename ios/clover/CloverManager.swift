@@ -13,6 +13,7 @@ import Foundation
   func paymentFail(errorMessage: String)
   func pairingCode(string: String)
   func pairingSuccess(token: String)
+  func onDeviceReady()
 }
 @objc public class  CloverManager : DefaultCloverConnectorListener, PairingDeviceConfiguration {
 
@@ -27,26 +28,31 @@ import Foundation
         // load from previous pairing, or nil will force/require
         // a new pairing with the device
 //        let savedAuthToken = loadAuthToken()
-
-   
-        let config = WebSocketDeviceConfiguration(endpoint: url,
-            remoteApplicationID: appId,
-            posName: appName, posSerial: posSerial,
-            pairingAuthToken: token, pairingDeviceConfiguration: self)
-
-        myCloverConnector = CloverConnectorFactory.createICloverConnector(config: config)
-        myCloverConnector?.addCloverConnectorListener(self)
-        myCloverConnector?.initializeConnection()
       
-        
+      let config = WebSocketDeviceConfiguration(endpoint: url,
+          remoteApplicationID: appId,
+          posName: appName, posSerial: posSerial,
+          pairingAuthToken: token.isEmpty ? nil : token,
+          pairingDeviceConfiguration: self)
+
+      myCloverConnector = CloverConnectorFactory.createICloverConnector(config: config)
+      myCloverConnector?.addCloverConnectorListener(self)
+      myCloverConnector?.initializeConnection()
     }
 
-    func doSale(paymentInfo: NSDictionary) {
-        // if onDeviceReady has been called
-      let saleRequest = SaleRequest(amount: paymentInfo.value(forKey: "amount") as! Int, externalId: paymentInfo.value(forKey: "externalId") as! String)
-        // configure other properties of SaleRequest
-        myCloverConnector?.sale(saleRequest)
-    }
+  @objc public func doSale(paymentInfo: NSDictionary) {
+    // if onDeviceReady has been called
+    let amount = Int(paymentInfo.value(forKey: "amount") as! String) ?? 0
+    let externalId = paymentInfo.value(forKey: "externalId") as! String
+    let tipModeString = paymentInfo.value(forKey: "tipMode") as! String
+    
+    let saleRequest = SaleRequest(amount: amount, externalId: externalId)
+    
+    // configure other properties of SaleRequest
+    saleRequest.tipMode = SaleRequest.TipMode(rawValue: tipModeString)
+    
+    myCloverConnector?.sale(saleRequest)
+  }
 
     // store the token to be loaded later by loadAuthToken
 //    func saveAuthToken(token:String) {
@@ -87,13 +93,18 @@ import Foundation
   public override func onDeviceConnected() {}
 
     // called when device is ready to take requests. Note: May be called more than once
-  public override func onDeviceReady(_ info:MerchantInfo){}
+  public override func onDeviceReady(_ info:MerchantInfo){
+    if(cloverDelegate != nil){
+      cloverDelegate?.onDeviceReady()
+    }
+  }
 
     // required if Mini wants the POS to verify a signature
   public override func onVerifySignatureRequest(_ signatureVerifyRequest: VerifySignatureRequest) {
         //present signature to user, then
         // acceptSignature(...) or rejectSignature(...)
-    }
+    myCloverConnector?.acceptSignature(signatureVerifyRequest)
+  }
 
     // required if Mini wants the POS to verify a payment
   public override func onConfirmPaymentRequest(_ request: ConfirmPaymentRequest) {
@@ -105,6 +116,7 @@ import Foundation
 
     // override other callback methods
   public override func onSaleResponse(_ response:SaleResponse) {
+    
         if response.success {
             // sale successful and payment is in the response (response.payment)
           let responseDict: NSDictionary = ["id": response.payment?.id ?? "",
@@ -191,7 +203,15 @@ import Foundation
           }
         } else {
             // sale failed or was canceled
-          cloverDelegate?.paymentFail(errorMessage: "Failed")
+            var errorMessage = ""
+            if response.result == .CANCEL {
+              errorMessage = "Sale Canceled"
+            } else if response.result == .FAIL {
+              errorMessage = "Sale Failed"
+            } else {
+              errorMessage = response.result.rawValue
+            }
+            cloverDelegate?.paymentFail(errorMessage: errorMessage)
         }
     }
 

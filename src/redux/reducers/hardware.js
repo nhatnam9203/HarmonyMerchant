@@ -44,7 +44,7 @@ function hardwareReducer(state = initialState, action) {
       return {
         ...state,
         cloverMachineInfo: {
-          ...cloverMachineInfo,
+          ...state.cloverMachineInfo,
           token: action.payload,
         }
       }

@@ -947,6 +947,14 @@ class Layout extends React.Component {
                     onRequestClose={() => { this.setState({ visibleConfirm: false }) }}
                     confimYes={this.clearDataCofrim}
                 />
+                {/* <PopupConfirm
+                    visible={visibleConfirmPayment}
+                    title={localize('VerifyPayment', language)}
+                    message={localize('VerifyPaymentMessage', language)}
+                    onRequestClose={() => { this.setState({ visibleConfirmPayment: false }) }}
+                    confimYes={this.cofirmPaymentClover}
+                    confirmNo={this.rejectPaymentClover}
+                /> */}
                 <PopupPairingCode
                     visible={visiblePopupParingCode ? true: false}
                     message={pairingCode}
