@@ -14,6 +14,7 @@ export const FormInput = ({
   editable,
   multiline = false,
   children,
+  onFocus,
 }) => {
   const [t] = useTranslation();
   const onHandleChange = (text) => {
@@ -46,6 +47,7 @@ export const FormInput = ({
               textAlignVertical: "top",
               textInputStyle: { height: scaleHeight(70) },
             }),
+            onFocus: onFocus,
           }}
         />
         {children}

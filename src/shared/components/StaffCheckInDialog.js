@@ -21,6 +21,7 @@ import { useDispatch } from "react-redux";
 import IMAGE from "@resources";
 import { CustomTimePicker } from "@components";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const CHECK_IN_TYPE = "check-in";
 const CHECK_OUT_TYPE = "check-out";
@@ -30,6 +31,7 @@ export const StaffCheckInDialog = React.forwardRef(
     const dispatch = useDispatch();
     const [t] = useTranslation();
     const dialogRef = React.useRef(null);
+    const scrollRef = React.useRef(null);
     const messageSelectRef = React.useRef(null);
 
     const [value, setValue] = React.useState(new Date());
@@ -76,6 +78,11 @@ export const StaffCheckInDialog = React.forwardRef(
       setDatePickerVisibility(false);
     };
 
+    const _scrollToInput = (reactNode) => {
+      // Add a 'scroll' ref to your ScrollView
+      scrollRef.current?.scrollToFocusedInput(reactNode);
+    };
+
     React.useImperativeHandle(ref, () => ({
       show: () => {
         // setValue('');
@@ -92,6 +99,7 @@ export const StaffCheckInDialog = React.forwardRef(
           title={title ?? t("Check-In/Check-Out")}
           ref={dialogRef}
           style={styles.dialog}
+          behavior={"none"}
           bottomChildren={() => (
             <View style={styles.bottomStyle}>
               <ButtonGradient
@@ -104,90 +112,128 @@ export const StaffCheckInDialog = React.forwardRef(
             </View>
           )}
         >
-          <View style={styles.container}>
-            <View style={[styles.row, { flexDirection: "row" }]}>
-              <View style={styles.dateContent}>
-                <Text style={styles.textStyle}>{t("Date")}</Text>
-                <TouchableOpacity
-                  style={styles.customInput}
-                  onPress={showDatePicker}
-                >
-                  <TextInput
-                    // onChangeText={onHandleChangeText}
-                    placeholder={t("--/--/----")}
-                    value={showStartDate()}
-                    style={[styles.textInput, styles.textEditStyle]}
-                    pointerEvents="none"
+          <KeyboardAwareScrollView
+            ref={scrollRef}
+            extraScrollHeight={-100}
+            extraHeight={250}
+          >
+            <View style={styles.container}>
+              <View style={styles.marginVertical} />
+              <View style={[styles.row, { flexDirection: "row" }]}>
+                <View style={styles.dateContent}>
+                  <Text style={styles.textStyle}>{t("Date")}</Text>
+                  <TouchableOpacity
+                    style={styles.customInput}
+                    onPress={showDatePicker}
+                  >
+                    <TextInput
+                      // onChangeText={onHandleChangeText}
+                      placeholder={t("--/--/----")}
+                      value={showStartDate()}
+                      style={[styles.textInput, styles.textEditStyle]}
+                      pointerEvents="none"
+                    />
+                    <View style={styles.horizontalLine} />
+                    <Image
+                      source={IMAGE.customer_birthday}
+                      color={"#aaa"}
+                      size={scaleWidth(16)}
+                    />
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.dateContent}>
+                  <Text style={styles.textStyle}>{t("Time")}</Text>
+
+                  <CustomTimePicker
+                    editable={true}
+                    defaultValue={startTime}
+                    onChangeDate={setStartTime}
+                    minuteInterval={0}
+                    renderBase={(showTimePicker) => (
+                      <TouchableOpacity
+                        style={[styles.customInput, { width: scaleWidth(140) }]}
+                        onPress={showTimePicker}
+                      >
+                        <TextInput
+                          pointerEvents="none"
+                          placeholder="--:--"
+                          value={showStartTime()}
+                          style={[styles.textInput, styles.textEditStyle]}
+                        />
+                        <Image
+                          source={IMAGE.dropdown}
+                          style={{ resizeMode: "center" }}
+                        />
+                      </TouchableOpacity>
+                    )}
                   />
-                  <View style={styles.horizontalLine} />
-                  <Image
-                    source={IMAGE.customer_birthday}
-                    color={"#aaa"}
-                    size={scaleWidth(16)}
-                  />
-                </TouchableOpacity>
+                </View>
               </View>
+              <View style={styles.marginVertical} />
 
-              <View style={styles.dateContent}>
-                <Text style={styles.textStyle}>{t("Time")}</Text>
-
-                <CustomTimePicker
-                  editable={true}
-                  defaultValue={startTime}
-                  onChangeDate={setStartTime}
-                  minuteInterval={0}
-                  renderBase={(showTimePicker) => (
-                    <TouchableOpacity
-                      style={[styles.customInput, { width: scaleWidth(140) }]}
-                      onPress={showTimePicker}
-                    >
-                      <TextInput
-                        pointerEvents="none"
-                        placeholder="--:--"
-                        value={showStartTime()}
-                        style={[styles.textInput, styles.textEditStyle]}
-                      />
-                      <Image
-                        source={IMAGE.dropdown}
-                        style={{ resizeMode: "center" }}
-                      />
-                    </TouchableOpacity>
-                  )}
+              <View style={styles.row}>
+                <Text style={styles.textStyle}>{t("Type of opeation")}</Text>
+                <CustomRadioSelect
+                  style={styles.customRadioSelect}
+                  ref={messageSelectRef}
+                  horizontal={true}
+                  defaultValue={CHECK_IN_TYPE}
+                  data={[
+                    { label: t("Check In"), value: CHECK_IN_TYPE },
+                    { label: t("Check Out"), value: CHECK_OUT_TYPE },
+                  ]}
+                  onSelect={onHandleChangeSelect}
                 />
               </View>
-            </View>
-            <View style={styles.marginVertical} />
-
-            <View style={styles.row}>
-              <Text style={styles.textStyle}>{t("Type of opeation")}</Text>
-              <CustomRadioSelect
-                style={styles.customRadioSelect}
-                ref={messageSelectRef}
-                horizontal={true}
-                defaultValue={CHECK_IN_TYPE}
-                data={[
-                  { label: t("Check In"), value: CHECK_IN_TYPE },
-                  { label: t("Check Out"), value: CHECK_OUT_TYPE },
-                ]}
-                onSelect={onHandleChangeSelect}
+              <View style={styles.marginVertical} />
+              <FormInput
+                label={t("Cash amount (The money on the Box")}
+                placeholder={t("Enter the amount")}
+                onChangeValue={setAmount}
+                defaultValue={amount}
+                keyboardType="numeric"
+                onFocus={(event: Event) => {
+                  // `bind` the function if you're using ES6 classes
+                  _scrollToInput(ReactNative.findNodeHandle(event.target));
+                }}
               />
-            </View>
 
-            <FormInput
-              label={t("Cash amount (The money on the Box")}
-              placeholder={t("Enter the amount")}
-              onChangeValue={setAmount}
-              defaultValue={amount}
-              keyboardType="numeric"
-            />
-            <FormInput
-              label={t("Note")}
-              placeholder={t("Input text here ...")}
-              onChangeValue={setNote}
-              defaultValue={note}
-              multiline={true}
-            />
-          </View>
+              {/* <View style={styles.marginVertical} /> */}
+              {/* <Text style={styles.textStyle}>
+                {t("Cash amount (The money on the Box)")}
+              </Text>
+              <View style={styles.marginVertical} />
+
+              <View style={styles.textInputContainer}>
+                <TextInput
+                  style={styles.textInputContent}
+                  onChangeText={setAmount}
+                  value={amount}
+                  placeholder={t("Enter the amount")}
+                  keyboardType="numeric"
+                  onFocus={(event: Event) => {
+                    // `bind` the function if you're using ES6 classes
+                    _scrollToInput(ReactNative.findNodeHandle(event.target));
+                  }}
+                />
+              </View> */}
+
+              <FormInput
+                label={t("Note")}
+                placeholder={t("Input text here ...")}
+                onChangeValue={setNote}
+                defaultValue={note}
+                multiline={true}
+                onFocus={(event: Event) => {
+                  // `bind` the function if you're using ES6 classes
+                  _scrollToInput(ReactNative.findNodeHandle(event.target));
+                }}
+              />
+              <View style={styles.marginVertical} />
+            </View>
+          </KeyboardAwareScrollView>
+
           <DateTimePickerModal
             isVisible={isDatePickerVisible}
             mode="date"
@@ -214,7 +260,7 @@ const styles = StyleSheet.create({
 
   container: { flex: 0 },
 
-  row: { width: "100%", flex: 0 },
+  row: { width: "100%", height: scaleHeight(70) },
 
   title: {
     fontFamily: fonts.MEDIUM,
@@ -297,5 +343,31 @@ const styles = StyleSheet.create({
 
   dateContent: {
     flex: 1,
+  },
+
+  formInputType: {
+    height: scaleHeight(80),
+  },
+
+  textInputContent: {
+    height: scaleHeight(26),
+    fontSize: scaleFont(20),
+    textAlign: "left",
+    fontStyle: "normal",
+    flex: 1,
+  },
+
+  textInputContainer: {
+    borderRadius: 1,
+    backgroundColor: colors.WHITE,
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: "#dddddd",
+    // width: scaleWidth(400),
+    height: scaleHeight(48),
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: scaleWidth(8),
   },
 });
