@@ -274,6 +274,7 @@ export default {
   IconButtonStatusClose: require("../assets/images/btn_status_close.png"),
   ExportPdfFileImage: require("../assets/images/MaskGroup286.png"),
   ImageDefault: require("../assets/images/Group7560.png"),
+  AgencyLogo: require("../assets/images/agencyLogo.png"),
 
   cash_retailer: require("../assets/images/cash.png"),
   check_retailer: require("../assets/images/check.png"),

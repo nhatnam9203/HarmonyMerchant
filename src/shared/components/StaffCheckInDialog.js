@@ -221,7 +221,7 @@ export const StaffCheckInDialog = React.forwardRef(
 
               <FormInput
                 label={t("Note")}
-                placeholder={t("Input text here ...")}
+                placeholder={t("Input note here ...")}
                 onChangeValue={setNote}
                 defaultValue={note}
                 multiline={true}
