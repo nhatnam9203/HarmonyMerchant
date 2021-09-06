@@ -13,6 +13,7 @@ import { RTHomeScreen } from "@src/retailer/RTHomeScreen";
 import { RTInventoryScreen } from "@src/retailer/RTInventoryScreen";
 import { RTReportsScreen } from "@src/retailer/RTReportsScreen";
 import { RTSettingsScreen } from "@src/retailer/RTSettingsScreen";
+import { RTStaffCheckIn } from "@src/retailer/RTStaffCheckIn";
 import React from "react";
 import { SettlementScreen, SupportScreen, InvoiceScreen } from "../screens";
 
@@ -55,6 +56,7 @@ export const RetailerNavigator = () => {
       <Screen {...RTCustomerScreen} />
       <Screen {...RTInventoryScreen} />
       <Screen {...RTReportsScreen} />
+      <Screen {...RTStaffCheckIn} />
       <Screen {...RTSettingsScreen} />
       {/* <Screen {...RTSupportScreen} /> */}
       <Screen

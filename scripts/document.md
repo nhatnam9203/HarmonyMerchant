@@ -4,6 +4,8 @@
 
 yarn new:screen [1] [2] [3]
 
+yarn new:screen retailer RTStaffCheckIn reatiler.staff_checkin
+
 ### Create Page
 
 yarn new:page [path] [name]
