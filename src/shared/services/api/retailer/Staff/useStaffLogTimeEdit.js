@@ -23,9 +23,9 @@ export const useStaffLogTimeEdit = () => {
     }
   }, [dispatch, loading, response]);
 
-  const editStaffLogTime = (id, params) => {
+  const editStaffLogTime = (id, data) => {
     execute({
-      params: params,
+      data: data,
       url: `MerchantStaffLogtime/${id}`,
     });
   };

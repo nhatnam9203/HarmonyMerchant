@@ -17,25 +17,34 @@ import React from "react";
 // import { ButtonFilter } from '@shared/components/ButtonFilter';
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
+import { WithDialogStaffCheckIn } from "@shared/HOC/withDialogStaffCheckIn";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
+const ButtonStaffCheckIn = WithDialogStaffCheckIn(ButtonGradient);
 
 export const Layout = ({
   items,
-  setGroupType,
+  setType,
   STAFF_LOG_TIME_GROUPS,
   dropdownRef,
   onChangeValueSearch,
   onButtonSearchPress,
   onChangeTimeValue,
+  deleteSession,
+  onEditSuccess,
+  RANGE_TIME_DEFAULT
 }) => {
   const { t } = useTranslation();
 
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
     switch (columnKey) {
       case "actions":
-        const onHandleEdit = () => {};
-        const onHandleDelete = () => {};
+        const showEditForm = () => {
+          return item;
+        };
+        const onHandleDelete = () => {
+          deleteSession(item);
+        };
 
         return (
           <View
@@ -55,7 +64,7 @@ export const Layout = ({
               description={t("Are you sure you want to Delete this session ?")}
             />
             <View style={layouts.marginHorizontal} />
-            <ButtonGradient
+            <ButtonStaffCheckIn
               label={t("Edit")}
               width={scaleWidth(72)}
               height={scaleHeight(30)}
@@ -63,7 +72,8 @@ export const Layout = ({
               fontSize={scaleFont(15)}
               textColor={colors.WHITE}
               fontWeight="normal"
-              onPress={onHandleEdit}
+              showEditForm={showEditForm}
+              onSuccess={onEditSuccess}
             />
           </View>
         );
@@ -81,6 +91,7 @@ export const Layout = ({
             merchantStaffLogtimeId: t("Id"),
             startDate: t("Date"),
             startTime: t("Time"),
+            type: t("Type"),
             amount: t("Cash amount"),
             note: t("Note"),
             actions: t("Actions"),
@@ -89,6 +100,7 @@ export const Layout = ({
             "merchantStaffLogtimeId",
             "startDate",
             "startTime",
+            "type",
             "amount",
             "note",
             "actions",
@@ -96,11 +108,12 @@ export const Layout = ({
           // sortedKeys={{ merchantStaffLogtimeId: sortName }}
           primaryKey="merchantStaffLogtimeId"
           widthForKeys={{
-            merchantStaffLogtimeId: scaleWidth(80),
+            merchantStaffLogtimeId: scaleWidth(50),
             startDate: scaleWidth(170),
             startTime: scaleWidth(100),
+            type: scaleWidth(100),
             amount: scaleWidth(120),
-            note: scaleWidth(380),
+            note: scaleWidth(300),
           }}
           emptyDescription={t("No sessions")}
           // styleTextKeys={{ customerName: styles.textName }}
@@ -122,7 +135,7 @@ export const Layout = ({
         <View style={layouts.horizontal}>
           <ButtonCalendarFilter
             onChangeTimeValue={onChangeTimeValue}
-            defaultValue={"This Week"}
+            defaultValue={RANGE_TIME_DEFAULT}
             paddingLeft={scaleWidth(15)}
             paddingTop={scaleHeight(135)}
           />
@@ -130,7 +143,7 @@ export const Layout = ({
           <DropdownMenu
             ref={dropdownRef}
             items={STAFF_LOG_TIME_GROUPS}
-            onChangeValue={setGroupType}
+            onChangeValue={setType}
             defaultIndex={0}
             width={scaleWidth(208)}
             height={scaleHeight(40)}

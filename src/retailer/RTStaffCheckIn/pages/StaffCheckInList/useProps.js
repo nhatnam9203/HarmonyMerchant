@@ -1,19 +1,21 @@
-import { useStaffLogTimeGet } from "@shared/services/api/retailer/Staff";
-import { useTranslation } from "react-i18next";
-import NavigationServices from "@navigators/NavigatorServices";
 import { useFocusEffect } from "@react-navigation/native";
-import React from "react";
 import {
-  CustomerGroupTypes,
-  SORT_TYPE,
-  statusSuccess,
-} from "@shared/utils/app";
+  useStaffLogTimeDelete,
+  useStaffLogTimeEdit,
+  useStaffLogTimeGet,
+} from "@shared/services/api/retailer/Staff";
+import { sortByDate } from "@shared/utils";
+import { SORT_TYPE, statusSuccess } from "@shared/utils/app";
+import { getQuickFilterTimeRange } from "@utils";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 const STAFF_LOG_TIME_GROUPS = [
-  { label: "All type", value: 0 },
-  { label: "Check In", value: 1 },
-  { label: "Check Out", value: 2 },
+  { label: "All type", value: null },
+  { label: "Check In", value: 0 },
+  { label: "Check Out", value: 1 },
 ];
+const RANGE_TIME_DEFAULT = "This Week";
 
 export const useProps = (props) => {
   const { t } = useTranslation();
@@ -22,6 +24,8 @@ export const useProps = (props) => {
   const [page, setPage] = React.useState(1);
   const [searchVal, setSearchVal] = React.useState("");
   const [items, setItems] = React.useState(null);
+  const [timeVal, setTimeVal] = React.useState();
+  const [sortDate, setSortDate] = React.useState(SORT_TYPE.ASC);
 
   /**
   |--------------------------------------------------
@@ -33,14 +37,14 @@ export const useProps = (props) => {
     getStaffLogTime({
       key: searchVal ?? "",
       page: page,
-      type: 0,
+      ...(type && { type: type.value }),
+      ...timeVal,
       // sort: { Id: sortName },
     });
-  }, [type, page, searchVal]);
+  }, [type, page, searchVal, timeVal]);
 
-  React.useEffect(() => {
-    callGetStaffLogTime();
-  }, [type, page, searchVal]);
+  const [staffLogTimeDelete, deleteStaffLogTime] = useStaffLogTimeDelete();
+  const [staffLogTimeEdit, editStaffLogTime] = useStaffLogTimeEdit();
 
   React.useEffect(() => {
     const { codeStatus, data, pages = 0, count = 0 } = staffLogTime || {};
@@ -53,7 +57,60 @@ export const useProps = (props) => {
     }
   }, [staffLogTime]);
 
-  // useFocusEffect(React.useCallback(() => {}, []));
+  React.useEffect(() => {
+    const { codeStatus, data } = staffLogTimeDelete || {};
+    if (statusSuccess(codeStatus)) {
+      callGetStaffLogTime();
+    }
+  }, [staffLogTimeDelete]);
 
-  return { items, STAFF_LOG_TIME_GROUPS };
+  useFocusEffect(
+    React.useCallback(() => {
+      callGetStaffLogTime();
+    }, [type, page, searchVal, timeVal])
+  );
+
+  return {
+    items,
+    STAFF_LOG_TIME_GROUPS,
+    setType,
+    deleteSession: (it) => {
+      deleteStaffLogTime(it.merchantStaffLogtimeId);
+    },
+    onEditSuccess: () => {
+      callGetStaffLogTime();
+    },
+    onChangeTimeValue: (quickFilter, timeState) => {
+      if (quickFilter === "Customize Date") {
+        setTimeVal({
+          quickFilter: "custom",
+          timeStart: timeState.startDate,
+          timeEnd: timeState.endDate,
+        });
+      } else {
+        setTimeVal({ quickFilter: getQuickFilterTimeRange(quickFilter) });
+      }
+    },
+    onSortWithKey: (sortKey) => {
+      switch (sortKey) {
+        case "date":
+          const sortedDate =
+            sortDate === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
+          setSortDate(sortedDate);
+          setData(sortByDate(items, sortedDate, sortKey));
+
+          break;
+
+        default:
+          break;
+      }
+    },
+    RANGE_TIME_DEFAULT,
+    onChangeValueSearch: (text) => {
+      setSearchVal(text);
+    },
+    onButtonSearchPress: () => {
+      callGetStaffLogTime();
+    },
+  };
 };

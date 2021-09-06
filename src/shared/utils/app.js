@@ -370,3 +370,12 @@ export const MERCHANT_TYPES = [
   { label: "Retailer", value: "Retailer" },
   { label: "Table Management", value: "Restaurant" },
 ];
+
+export const STAFF_CHECK_IN_TYPE = 0;
+export const STAFF_CHECK_OUT_TYPE = 1;
+
+export const STAFF_LOG_TIME_TYPE = [
+  // { label: "All type", value: 0 },
+  { label: "Check In", value: STAFF_CHECK_IN_TYPE },
+  { label: "Check Out", value: STAFF_CHECK_OUT_TYPE },
+];

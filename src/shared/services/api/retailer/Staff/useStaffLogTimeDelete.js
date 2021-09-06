@@ -25,7 +25,6 @@ export const useStaffLogTimeDelete = () => {
 
   const deleteStaffLogTime = (id) => {
     execute({
-      data: data,
       url: `MerchantStaffLogtime/delete/${id}`,
     });
   };
