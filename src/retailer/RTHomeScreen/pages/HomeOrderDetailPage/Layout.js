@@ -237,13 +237,13 @@ export const Layout = ({
         <View>
           <Text
             style={[
+              styles.textStyle,
               {
                 width: scaleWidth(100),
               },
-              styles.textStyle,
             ]}
           >
-            {_.get(cellItem, "quantity")}
+            {`  ${_.get(cellItem, "quantity")}`}
           </Text>
           {_.get(item, "returnAmount", 0) > 0 && (
             <Text
@@ -284,10 +284,10 @@ export const Layout = ({
               },
             ]}
           >
-            {formatMoneyWithUnit(_.get(item, "total"))}
+            {`  ${formatMoneyWithUnit(_.get(cellItem, "total"))}`}
           </Text>
 
-          {_.get(item, "returnAmount", 0) > 0 && (
+          {_.get(cellItem, "returnAmount", 0) > 0 && (
             <Text
               style={[
                 styles.textTotalStyle,
@@ -297,7 +297,7 @@ export const Layout = ({
                 },
               ]}
             >
-              {`- ${formatMoneyWithUnit(_.get(item, "returnAmount", 0))}`}
+              {`- ${formatMoneyWithUnit(_.get(cellItem, "returnAmount", 0))}`}
             </Text>
           )}
         </View>
