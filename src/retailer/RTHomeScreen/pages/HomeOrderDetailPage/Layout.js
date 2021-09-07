@@ -223,33 +223,84 @@ export const Layout = ({
       const quantityShow =
         _.get(cellItem, "quantity") - _.get(cellItem, "returnQuantity", 0);
       return (
-        <Text
-          key={getUniqueId(columnKey, rowIndex, "cell-product-qty")}
-          style={[
-            {
-              width: scaleWidth(50),
-            },
-            styles.textStyle,
-          ]}
-        >
-          {quantityShow}
-        </Text>
+        // <Text
+        //   key={getUniqueId(columnKey, rowIndex, "cell-product-qty")}
+        //   style={[
+        //     {
+        //       width: scaleWidth(50),
+        //     },
+        //     styles.textStyle,
+        //   ]}
+        // >
+        //   {quantityShow}
+        // </Text>
+        <View>
+          <Text
+            style={[
+              {
+                width: scaleWidth(100),
+              },
+              styles.textStyle,
+            ]}
+          >
+            {_.get(cellItem, "quantity")}
+          </Text>
+          {_.get(item, "returnAmount", 0) > 0 && (
+            <Text
+              style={[
+                {
+                  width: scaleWidth(100),
+                },
+                styles.textStyle,
+                { color: "red" },
+              ]}
+            >
+              {`- ${_.get(cellItem, "returnQuantity")}`}
+            </Text>
+          )}
+        </View>
       );
     } else if (columnKey === "total") {
       const totalShow =
         _.get(cellItem, "total") - _.get(cellItem, "returnAmount", 0);
       return (
-        <Text
-          key={getUniqueId(columnKey, rowIndex, "cell-product-total")}
-          style={[
-            {
-              width: scaleWidth(100),
-            },
-            styles.textStyle,
-          ]}
-        >
-          {formatMoneyWithUnit(totalShow)}
-        </Text>
+        // <Text
+        //   key={getUniqueId(columnKey, rowIndex, "cell-product-total")}
+        //   style={[
+        //     {
+        //       width: scaleWidth(100),
+        //     },
+        //     styles.textStyle,
+        //   ]}
+        // >
+        //   {formatMoneyWithUnit(totalShow)}
+        // </Text>
+        <View>
+          <Text
+            style={[
+              styles.textTotalStyle,
+              {
+                width: scaleWidth(100),
+              },
+            ]}
+          >
+            {formatMoneyWithUnit(_.get(item, "total"))}
+          </Text>
+
+          {_.get(item, "returnAmount", 0) > 0 && (
+            <Text
+              style={[
+                styles.textTotalStyle,
+                {
+                  width: scaleWidth(100),
+                  color: "red",
+                },
+              ]}
+            >
+              {`- ${formatMoneyWithUnit(_.get(item, "returnAmount", 0))}`}
+            </Text>
+          )}
+        </View>
       );
     }
 
@@ -257,7 +308,11 @@ export const Layout = ({
       return cellItem?.isReturn ? (
         <OrderStatusView
           key={getUniqueId(columnKey, rowIndex, "cell-product-return")}
-          status="Return"
+          status={
+            cellItem.quantity > cellItem.returnQuantity
+              ? "Partial Return"
+              : "Return"
+          }
         />
       ) : (
         <View key={getUniqueId(columnKey, rowIndex, "cell-product-return")} />
@@ -352,7 +407,7 @@ export const Layout = ({
               tax: t("Tax"),
               discount: t("Discount"),
               total: t("Total"),
-              returnQuantity: t("Return Qty"),
+              // returnQuantity: t("Return Qty"),
               status: t("Return"),
             }}
             whiteListKeys={[
@@ -364,19 +419,19 @@ export const Layout = ({
               "tax",
               "discount",
               "total",
-              "returnQuantity",
+              // "returnQuantity",
               "status",
             ]}
             primaryKey="bookingProductId"
             widthForKeys={{
-              productName: scaleWidth(250),
+              productName: scaleWidth(300),
               // sku: scaleWidth(100),
               price: scaleWidth(100),
-              quantity: scaleWidth(50),
+              quantity: scaleWidth(100),
               subTotal: scaleWidth(100),
               tax: scaleWidth(100),
               discount: scaleWidth(100),
-              returnQuantity: scaleWidth(80),
+              // returnQuantity: scaleWidth(80),
               total: scaleWidth(100),
             }}
             emptyDescription={t("No Products")}
