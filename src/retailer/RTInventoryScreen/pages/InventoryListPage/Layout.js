@@ -139,8 +139,9 @@ export const Layout = ({
                 textAlign: "left",
                 textAlignVertical: "center",
               },
+              (item.quantity < item.needToOrder ||
+                item.quantity < item.minThreshold) && { color: "#ffc130" },
               item.isAdjust && { color: "red" },
-              item.quantity < item.needToOrder && { color: "#ffc130" },
             ]}
             numberOfLines={5}
             ellipsizeMode="tail"
