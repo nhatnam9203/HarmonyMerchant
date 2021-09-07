@@ -227,7 +227,7 @@ export const Layout = ({
           key={getUniqueId(columnKey, rowIndex, "cell-product-qty")}
           style={[
             {
-              width: scaleWidth(80),
+              width: scaleWidth(50),
             },
             styles.textStyle,
           ]}
@@ -352,6 +352,7 @@ export const Layout = ({
               tax: t("Tax"),
               discount: t("Discount"),
               total: t("Total"),
+              returnQuantity: t("Return Qty"),
               status: t("Return"),
             }}
             whiteListKeys={[
@@ -363,17 +364,19 @@ export const Layout = ({
               "tax",
               "discount",
               "total",
+              "returnQuantity",
               "status",
             ]}
             primaryKey="bookingProductId"
             widthForKeys={{
-              productName: scaleWidth(320),
+              productName: scaleWidth(250),
               // sku: scaleWidth(100),
               price: scaleWidth(100),
-              quantity: scaleWidth(80),
+              quantity: scaleWidth(50),
               subTotal: scaleWidth(100),
               tax: scaleWidth(100),
               discount: scaleWidth(100),
+              returnQuantity: scaleWidth(80),
               total: scaleWidth(100),
             }}
             emptyDescription={t("No Products")}
