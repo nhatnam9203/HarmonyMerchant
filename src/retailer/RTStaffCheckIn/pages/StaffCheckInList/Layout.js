@@ -32,7 +32,7 @@ export const Layout = ({
   onChangeTimeValue,
   deleteSession,
   onEditSuccess,
-  RANGE_TIME_DEFAULT
+  RANGE_TIME_DEFAULT,
 }) => {
   const { t } = useTranslation();
 
@@ -91,6 +91,7 @@ export const Layout = ({
             merchantStaffLogtimeId: t("Id"),
             startDate: t("Date"),
             startTime: t("Time"),
+            staffName: t("Staff Name"),
             type: t("Type"),
             amount: t("Cash amount"),
             note: t("Note"),
@@ -100,6 +101,7 @@ export const Layout = ({
             "merchantStaffLogtimeId",
             "startDate",
             "startTime",
+            "staffName",
             "type",
             "amount",
             "note",
@@ -109,11 +111,12 @@ export const Layout = ({
           primaryKey="merchantStaffLogtimeId"
           widthForKeys={{
             merchantStaffLogtimeId: scaleWidth(50),
-            startDate: scaleWidth(170),
-            startTime: scaleWidth(100),
-            type: scaleWidth(100),
+            startDate: scaleWidth(150),
+            startTime: scaleWidth(80),
+            staffName: scaleWidth(120),
+            type: scaleWidth(80),
             amount: scaleWidth(120),
-            note: scaleWidth(300),
+            note: scaleWidth(250),
           }}
           emptyDescription={t("No sessions")}
           // styleTextKeys={{ customerName: styles.textName }}
