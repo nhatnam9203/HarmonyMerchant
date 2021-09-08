@@ -15,6 +15,7 @@ static NSString* paymentFail               = @"paymentFail";
 static NSString* pairingCode               = @"pairingCode";
 static NSString* pairingSuccess               = @"pairingSuccess";
 static NSString* deviceReady              = @"deviceReady";
+static NSString* confirmPayment              = @"confirmPayment";
 
 @interface clover () <CloverManagerDelegate>
 @property (nonatomic) BOOL listening;
@@ -51,7 +52,8 @@ RCT_EXPORT_MODULE();
     paymentFail,
     pairingCode,
     pairingSuccess,
-    deviceReady
+    deviceReady,
+    confirmPayment
   ];
 }
 
@@ -75,8 +77,18 @@ RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo)
   
 }
 
+RCT_EXPORT_METHOD(confirmPayment){
+  [self.clover confirmPayment];
+}
+
+RCT_EXPORT_METHOD(rejectPayment){
+  self.isPaymentProcessing = false;
+  [self.clover rejectPayment];
+}
+
 RCT_EXPORT_METHOD(cancelTransaction){
   self.isPaymentProcessing = false;
+  
 }
 
 - (void)paymentFailWithErrorMessage:(NSString * _Nonnull)errorMessage {
@@ -105,12 +117,19 @@ RCT_EXPORT_METHOD(cancelTransaction){
 }
 
 - (void)onDeviceReady {
-  if (self.isPaymentProcessing) {
-    [self.clover doSaleWithPaymentInfo: self.paymentInfo];
-  }
   if (self.listening) {
     [self sendEventWithName:deviceReady body:nil];
   }
+  if (self.isPaymentProcessing) {
+    [self.clover doSaleWithPaymentInfo: self.paymentInfo];
+  }
+ 
+}
+
+- (void)onConfirmPayment {
+    if (self.listening) {
+      [self sendEventWithName:confirmPayment body:nil];
+    }
 }
 
 @end

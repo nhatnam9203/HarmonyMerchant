@@ -267,7 +267,9 @@ export function changeFlagSigninAppointment(flag = false) {
 }
 
 
-export function submitPaymentWithCreditCard(merchantId, responseData, checkoutPaymentId, moneyUserGiveForStaff) {
+export function submitPaymentWithCreditCard(merchantId, 
+    responseData, checkoutPaymentId, moneyUserGiveForStaff,
+    paymentTerminal) {
     return {
         type: 'SUBMIT_PAYMENT_WITH_CREDIT_CARD',
         body: {
@@ -275,14 +277,15 @@ export function submitPaymentWithCreditCard(merchantId, responseData, checkoutPa
             userId: 0,
             title: 'pax',
             responseData,
-            checkoutPaymentId: checkoutPaymentId
+            checkoutPaymentId: checkoutPaymentId,
+            paymentTerminal,
         },
         method: 'POST',
         token: true,
         api: `paymentTransaction`,
         paymentMethod: "credit_card",
         amount: moneyUserGiveForStaff,
-        checkoutPaymentId: checkoutPaymentId
+        checkoutPaymentId: checkoutPaymentId,
     }
 }
 

@@ -918,6 +918,7 @@ class Layout extends React.Component {
             staffOfService,
             visiblePopupParingCode,
             pairingCode,
+            visibleConfirmPayment,
         } = this.state;
 
         const titleExitCheckoutTab = isCancelAppointment ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? " : 'Are you sure you want to exit Check-Out?';
@@ -947,14 +948,16 @@ class Layout extends React.Component {
                     onRequestClose={() => { this.setState({ visibleConfirm: false }) }}
                     confimYes={this.clearDataCofrim}
                 />
-                {/* <PopupConfirm
-                    visible={visibleConfirmPayment}
+                <PopupConfirm
+                    visible={visibleConfirmPayment ? true : false}
                     title={localize('VerifyPayment', language)}
                     message={localize('VerifyPaymentMessage', language)}
                     onRequestClose={() => { this.setState({ visibleConfirmPayment: false }) }}
-                    confimYes={this.cofirmPaymentClover}
+                    confimYes={this.confirmPaymentClover}
                     confirmNo={this.rejectPaymentClover}
-                /> */}
+                    textLeftButton={localize('Reject', language)}
+                    textRightButton={localize('Accept', language)}
+                />
                 <PopupPairingCode
                     visible={visiblePopupParingCode ? true: false}
                     message={pairingCode}

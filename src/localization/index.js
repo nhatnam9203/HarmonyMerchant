@@ -429,6 +429,8 @@ const localization = {
     "NoEndDate": "No end date",
     "VerifyPayment": "Verify payment",
     "VerifyPaymentMessage": "This may be a duplicate, do you want to accept this payment?",
+    "Accept": "Accept",
+    "Reject": "Reject",
   },
   vi: {},
 };

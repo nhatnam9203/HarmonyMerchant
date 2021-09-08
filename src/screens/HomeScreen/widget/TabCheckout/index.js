@@ -2700,7 +2700,8 @@ class TabCheckout extends Layout {
         profile?.merchantId || 0,
         message,
         payAppointmentId,
-        amountCredtitForSubmitToServer
+        amountCredtitForSubmitToServer,
+        "Clover",
       );
     } catch (error) {}
   }
@@ -2728,12 +2729,19 @@ class TabCheckout extends Layout {
     } catch (error) {}
   }
 
-  cofirmPaymentClover = () => {
-    console.log("cofirmPaymentClover")
+  confirmPaymentClover = () => {
+    clover.confirmPayment()
+    this.setState({
+      visibleProcessingCredit: true,
+      visibleConfirmPayment: false,
+    })
   }
 
   rejectPaymentClover = () => {
-    console.log("rejectPaymentClover")
+    clover.rejectPayment()
+    this.setState({
+      visibleConfirmPayment: false,
+    })
   }
 
   registerEvents () {
@@ -2742,10 +2750,12 @@ class TabCheckout extends Layout {
       this.eventEmitter.addListener('paymentSuccess', data => {
        console.log('data', data)
        this.handleResponseCreditCardForCloverSuccess(data)
+       
       }),
       this.eventEmitter.addListener('paymentFail', data => {
         console.log('data', data)
         this.handleResponseCreditCardForCloverFailed(l.get(data, 'errorMessage'))
+        
        }),
       this.eventEmitter.addListener('pairingCode', data => {
         if(data){
@@ -2769,6 +2779,13 @@ class TabCheckout extends Layout {
         
         this.setState({
           visibleProcessingCredit: true,
+        })
+      }),
+      this.eventEmitter.addListener('confirmPayment', () => {
+        
+        this.setState({
+          visibleProcessingCredit: false,
+          visibleConfirmPayment: true,
         })
       }),
     ]

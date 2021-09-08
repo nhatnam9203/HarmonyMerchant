@@ -14,10 +14,12 @@ import Foundation
   func pairingCode(string: String)
   func pairingSuccess(token: String)
   func onDeviceReady()
+  func onConfirmPayment()
 }
 @objc public class  CloverManager : DefaultCloverConnectorListener, PairingDeviceConfiguration {
 
   var myCloverConnector:ICloverConnector?
+  var confirmPaymentRequest: ConfirmPaymentRequest?
   fileprivate var token:String?
   @objc public var cloverDelegate: CloverManagerDelegate?
 
@@ -50,8 +52,17 @@ import Foundation
     
     // configure other properties of SaleRequest
     saleRequest.tipMode = SaleRequest.TipMode(rawValue: tipModeString)
+    saleRequest.autoAcceptSignature = true
     
     myCloverConnector?.sale(saleRequest)
+  }
+  
+  @objc public func confirmPayment() {
+    myCloverConnector?.acceptPayment((self.confirmPaymentRequest?.payment)!)
+  }
+  
+  @objc public func rejectPayment() {
+    myCloverConnector?.rejectPayment((self.confirmPaymentRequest?.payment)!, challenge: (self.confirmPaymentRequest?.challenges![0])!)
   }
 
     // store the token to be loaded later by loadAuthToken
@@ -109,10 +120,14 @@ import Foundation
     // required if Mini wants the POS to verify a payment
   public override func onConfirmPaymentRequest(_ request: ConfirmPaymentRequest) {
         //present 1 or more challenges to user, then
-        myCloverConnector?.acceptPayment(request.payment!)
+//        myCloverConnector?.acceptPayment(request.payment!)
         // or
         // myCloverConnector?.rejectPayment(...)
+    self.confirmPaymentRequest = request
+    if (cloverDelegate != nil) {
+      cloverDelegate?.onConfirmPayment()
     }
+  }
 
     // override other callback methods
   public override func onSaleResponse(_ response:SaleResponse) {
@@ -127,7 +142,7 @@ import Foundation
             "device": response.payment?.device ?? "",
 
           /// The tender type associated with this payment, e.g. credit card, cash, etc.
-            "tender": response.payment?.tender ?? "",
+            "tender": response.payment?.tender?.label ?? "",
 
           /// Total amount paid
             "amount": response.payment?.amount ?? 0,
@@ -162,8 +177,22 @@ import Foundation
           "result": response.payment?.result ?? "",
 
           /// Information about the card used for credit/debit card payments
-          "cardTransaction": response.payment?.cardTransaction ?? "",
-
+          "paymentRef": response.payment?.cardTransaction?.paymentRef ?? "",
+          "creditRef": response.payment?.cardTransaction?.creditRef ?? "",
+          "cardType": response.payment?.cardTransaction?.cardType ?? "",
+          "entryType": response.payment?.cardTransaction?.entryType ?? "",
+          "first6": response.payment?.cardTransaction?.first6 ?? "",
+          "last4": response.payment?.cardTransaction?.last4 ?? "",
+          "type_": response.payment?.cardTransaction?.type_ ?? "",
+          "authCode": response.payment?.cardTransaction?.authCode ?? "",
+          "referenceId": response.payment?.cardTransaction?.referenceId ?? "",
+          "transactionNo": response.payment?.cardTransaction?.transactionNo ?? "",
+          "state": response.payment?.cardTransaction?.state ?? "",
+          "cardholderName": response.payment?.cardTransaction?.cardholderName ?? "",
+          "token": response.payment?.cardTransaction?.token ?? "",
+          "expirationDate": response.payment?.cardTransaction?.vaultedCard?.expirationDate ?? "",
+          
+                              
           /// Amount record as a service charge
           "serviceCharge": response.payment?.serviceCharge ?? "",
 
