@@ -85,6 +85,32 @@ export const Layout = ({
             </Text>
           </View>
         );
+      case "quantity":
+        return (
+          <View
+            style={{ width: cellWidth, paddingVertical: scaleHeight(2) }}
+            key={getUniqueId(columnKey, rowIndex, "cell-quantity")}
+          >
+            <Text
+              style={[
+                textStyle,
+                {
+                  textAlign: "left",
+                  textAlignVertical: "center",
+                },
+                cellItem.isAdjust && { color: "red" },
+                (cellItem.quantity < productItem.minThreshold ||
+                  cellItem.quantity < cellItem.needToOrder) && {
+                  color: "#ffc130",
+                },
+              ]}
+              numberOfLines={5}
+              ellipsizeMode="tail"
+            >
+              {cellItem?.quantity}
+            </Text>
+          </View>
+        );
       default:
         return null;
     }
@@ -196,8 +222,9 @@ export const Layout = ({
                 label={t("Total items in stock")}
                 infoValue={productItem?.quantity + ""}
                 textStyle={
-                  productItem?.quantity < productItem?.minThreshold && {
-                    color: "red",
+                  (productItem?.quantity < productItem?.needToOrder ||
+                    productItem?.quantity < productItem?.minThreshold) && {
+                    color: "#ffc130",
                   }
                 }
               />

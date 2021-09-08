@@ -12,6 +12,7 @@ export const ORDERED_STATUS = {
   CLOSED: "Closed",
   RETURN: "Return",
   NOT_PAY: "Did Not Pay",
+  PARTIAL_RETURN: "Partial Return",
 };
 
 export const OrderStatusView = ({ status }) => {
@@ -44,11 +45,7 @@ export const OrderStatusView = ({ status }) => {
       case ORDERED_STATUS.CLOSED:
       case ORDERED_STATUS.RETURN:
       case ORDERED_STATUS.NOT_PAY:
-        return {
-          content: { backgroundColor: colors.BROWNISH_GREY, borderWidth: 0 },
-          text: { color: colors.VERY_LIGHT_PINK_E_5 },
-        };
-
+      case ORDERED_STATUS.PARTIAL_RETURN:
       default:
         return {
           content: { backgroundColor: colors.BROWNISH_GREY, borderWidth: 0 },

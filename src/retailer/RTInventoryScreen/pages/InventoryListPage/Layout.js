@@ -127,6 +127,14 @@ export const Layout = ({
     }
 
     if (columnKey === "quantity") {
+      const warningQty = () => {
+        const iswarning = item.quantity;
+
+        return (
+          item.quantity < item.needToOrder || item.quantity < item.minThreshold
+        );
+      };
+
       return (
         <View
           style={{ width: cellWidth, paddingVertical: scaleHeight(2) }}
@@ -139,8 +147,8 @@ export const Layout = ({
                 textAlign: "left",
                 textAlignVertical: "center",
               },
+              warningQty() && { color: "#ffc130" },
               item.isAdjust && { color: "red" },
-              item.quantity < item.needToOrder && { color: "#ffc130" },
             ]}
             numberOfLines={5}
             ellipsizeMode="tail"

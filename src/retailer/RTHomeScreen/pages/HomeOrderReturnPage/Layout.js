@@ -81,7 +81,7 @@ export const Layout = ({
               styles.textStyle,
             ]}
           >
-            {_.get(item, "quantity")}
+            {`  ${_.get(item, "quantity")}`}
           </Text>
           {isSelected ? (
             <TextInputMask
@@ -123,7 +123,7 @@ export const Layout = ({
               },
             ]}
           >
-            {formatMoneyWithUnit(_.get(item, "total"))}
+            {`  ${formatMoneyWithUnit(_.get(item, "total"))}`}
           </Text>
           {isSelected ? (
             <TextInputMask
@@ -166,10 +166,12 @@ export const Layout = ({
     return null;
   };
 
-  const filterListNotEmpty = _.filter(itemSelected, temp => {
-    return _.get(temp, 'returnAmount') > 0 || _.get(temp, 'returnQuantity') > 0
-  })
-  const disableButton = itemSelected?.length <= 0 || (itemSelected?.length > 0 && filterListNotEmpty?.length == 0)
+  const filterListNotEmpty = _.filter(itemSelected, (temp) => {
+    return _.get(temp, "returnAmount") > 0 || _.get(temp, "returnQuantity") > 0;
+  });
+  const disableButton =
+    itemSelected?.length <= 0 ||
+    (itemSelected?.length > 0 && filterListNotEmpty?.length == 0);
 
   return (
     <View style={layouts.fill}>
