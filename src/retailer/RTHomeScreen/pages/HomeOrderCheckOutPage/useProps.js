@@ -508,41 +508,9 @@ export const useProps = ({
       setProducts(null);
     },
     submitSerialCode: (code) => {
-      if (blockAppointments.length > 0) {
-        // this.addGiftCardIntoBlockAppointment(code);
-        return;
-      }
-
-      const bodyAction = {
-        merchantId: profile.merchantId,
-        userId: customer?.userId || 0,
-        status: "checkin",
-        services: [],
-        extras: [],
-        products: [],
-        fromTime: formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
-        staffId: profileStaffLogin?.staffId || 0,
-        // customDiscountFixed: customDiscountFixedLocal,
-        // customDiscountPercent: customDiscountPercentLocal,
-        firstName: customer?.firstName || "",
-        lastName: customer?.lastName || "",
-        phoneNumber: customer?.phone || "",
-        customerId: customer?.customerId || 0,
-      };
-
-      const optionAction = {
-        method: "POST",
-        token: true,
-        api: `${Configs.API_URL}appointment`,
-        isLoading: true,
-        paidAmount: 0,
-        creditCardInfo: false,
-        merchantId: profile.merchantId,
-        isPayment: false,
-      };
-
+      // add giftcard to appointment
       dispatch(
-        actions.appointment.checkSerialNumber(code, bodyAction, optionAction)
+        actions.appointment.checkSerialNumber(code, false, false, false)
       );
     },
   };
