@@ -27,6 +27,9 @@ export const CustomList = ({
   activeId,
   type,
   refreshData,
+  renderMoreItem = () => {
+    return null;
+  },
 }) => {
   const [isRefreshing, setIsRefreshing] = React.useState(false);
 
@@ -125,6 +128,7 @@ export const CustomList = ({
           data={items}
           style={styles.listContent}
           ListHeaderComponent={renderHeader}
+          ListFooterComponent={renderMoreItem}
           renderItem={renderItem}
           keyExtractor={(item, index) => `${index}`}
           refreshControl={

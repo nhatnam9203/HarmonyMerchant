@@ -2037,12 +2037,16 @@ class TabCheckout extends Layout {
     } = this.state;
 
     if (blockAppointments.length > 0) {
+      console.log("blockAppointments");
       this.addGiftCardIntoBlockAppointment(code);
       return;
     }
 
     if (!_.isEmpty(groupAppointment)) {
+      console.log("isEmpty" + paymentSelected);
+
       if (paymentSelected === "Gift Card") {
+        console.log("paymentSelected");
         this.props.actions.appointment.checkSerialNumber(
           code,
           false,
@@ -2050,12 +2054,17 @@ class TabCheckout extends Layout {
           true
         );
       } else {
+        console.log("isEmpty");
+
         this.props.actions.appointment.checkSerialNumber(code);
       }
     } else {
+      console.log("checkSerialNumber");
+
       const moneyUserGiveForStaff = parseFloat(
         formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
       );
+
       const method = this.getPaymentString(paymentSelected);
 
       const bodyAction = {
@@ -2289,6 +2298,7 @@ class TabCheckout extends Layout {
     const appointmentId = isAppointmentIdOpen
       ? isAppointmentIdOpen
       : isOpenBlockAppointmentId;
+
     this.props.actions.appointment.addGiftCardIntoBlockAppointment(
       code,
       appointmentId

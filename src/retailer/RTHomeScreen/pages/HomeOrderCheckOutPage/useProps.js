@@ -26,8 +26,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CUSTOM_LIST_TYPES } from "../../widget";
 import { useFocusEffect } from "@react-navigation/native";
-import { getInfoFromModelNameOfPrinter } from "@utils";
+import { getInfoFromModelNameOfPrinter, formatWithMoment } from "@utils";
 import PrintManager from "@lib/PrintManager";
+import actions from "@actions";
+import Configs from "@configs";
 
 const log = (obj, message = "") => {
   Logger.log(`[CheckOutTabPage > useProps] ${message}`, obj);
@@ -42,11 +44,13 @@ export const useProps = ({
   | CONSTANTS
   |--------------------------------------------------
   */
+  const dispatch = useDispatch();
 
   const productDetailRef = React.useRef(null);
   const basketRef = React.useRef(null);
   const customerRef = React.useRef(null);
-  const dispatch = useDispatch();
+  const activeGiftCardRef = React.useRef(null);
+  const modalBillRef = React.useRef(null);
 
   /**
   |--------------------------------------------------
@@ -66,6 +70,14 @@ export const useProps = ({
   );
   const printerList = useSelector((state) => state.dataLocal.printerList);
   const printerSelect = useSelector((state) => state.dataLocal.printerSelect);
+  const blockAppointments = useSelector(
+    (state) => state.appointment.blockAppointments
+  );
+  const profileStaffLogin = useSelector(
+    (state) => state.dataLocal.profileStaffLogin
+  );
+  const profile = useSelector((state) => state.dataLocal.profile);
+
   /**
   |--------------------------------------------------
   | STATE variables
@@ -475,6 +487,63 @@ export const useProps = ({
       } else {
         alert("Please connect to your cash drawer.");
       }
+    },
+    onSelectGiftCard: () => {
+      activeGiftCardRef.current?.setStateFromParent();
+      dispatch(actions.appointment.handleVisibleActiveGiftCard());
+      setCategoryId(1);
+      setActiveTab(CUSTOM_LIST_TYPES.CAT);
+      setSubCategories(null);
+      setSubCategoryId(null);
+      setProducts(null);
+    },
+    activeGiftCardRef,
+    modalBillRef,
+    closePopupActiveGiftCard: () => {
+      dispatch(actions.appointment.handleVisibleActiveGiftCard(false));
+      setCategoryId(null);
+      setActiveTab(CUSTOM_LIST_TYPES.CAT);
+      setSubCategories(null);
+      setSubCategoryId(null);
+      setProducts(null);
+    },
+    submitSerialCode: (code) => {
+      if (blockAppointments.length > 0) {
+        // this.addGiftCardIntoBlockAppointment(code);
+        return;
+      }
+
+      const bodyAction = {
+        merchantId: profile.merchantId,
+        userId: customer?.userId || 0,
+        status: "checkin",
+        services: [],
+        extras: [],
+        products: [],
+        fromTime: formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
+        staffId: profileStaffLogin?.staffId || 0,
+        // customDiscountFixed: customDiscountFixedLocal,
+        // customDiscountPercent: customDiscountPercentLocal,
+        firstName: customer?.firstName || "",
+        lastName: customer?.lastName || "",
+        phoneNumber: customer?.phone || "",
+        customerId: customer?.customerId || 0,
+      };
+
+      const optionAction = {
+        method: "POST",
+        token: true,
+        api: `${Configs.API_URL}appointment`,
+        isLoading: true,
+        paidAmount: 0,
+        creditCardInfo: false,
+        merchantId: profile.merchantId,
+        isPayment: false,
+      };
+
+      dispatch(
+        actions.appointment.checkSerialNumber(code, bodyAction, optionAction)
+      );
     },
   };
 };

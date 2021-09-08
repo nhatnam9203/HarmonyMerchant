@@ -4,7 +4,7 @@ import { WithDialogPhone } from "@shared/HOC/withDialogPhone";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import {
   BasketContentView,
   CustomList,
@@ -15,6 +15,7 @@ import {
 import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
 import _ from "lodash";
 import { PURCHASE_POINTS_ORDER } from "@shared/utils";
+import { PopupActiveGiftCard } from "@components";
 
 const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
 const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
@@ -43,12 +44,26 @@ export const Layout = ({
   purchasePoint,
   categoriesLabelData,
   checkStatusCashier,
+  onSelectGiftCard,
+  activeGiftCardRef,
+  closePopupActiveGiftCard,
+  submitSerialCode,
 }) => {
-  const [t] = useTranslation();
+  const { t } = useTranslation();
+
   const labelColumn1 = _.get(categoriesLabelData, "column1") || t("Categories");
   const labelColumn2 =
     _.get(categoriesLabelData, "column2") || t("Subcategories");
   const labelColumn3 = _.get(categoriesLabelData, "column3") || t("Products");
+
+  const onRenderGiftCardItem = () => {
+    return (
+      <TouchableOpacity style={styles.itemContent} onPress={onSelectGiftCard}>
+        <Text style={styles.itemText}>{t("Gift Card")}</Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={layouts.fill}>
       <View style={styles.headContent}>
@@ -139,6 +154,7 @@ export const Layout = ({
             onPressRow={onPressCategoryItem}
             activeId={categoryId}
             refreshData={onRefreshCategory}
+            renderMoreItem={onRenderGiftCardItem}
           />
           <CustomList
             title={labelColumn2}
@@ -172,6 +188,21 @@ export const Layout = ({
         </View>
       </View>
       <DialogProductDetail ref={productDetailRef} onAddProduct={onAddProduct} />
+      <PopupActiveGiftCard
+        ref={activeGiftCardRef}
+        title={t("Active Gift Card")}
+        onRequestClose={closePopupActiveGiftCard}
+        submitSerialCode={submitSerialCode}
+      />
+
+      {/* <PopupBill
+        ref={modalBillRef}
+        title={t("Enter Amount")}
+        visible={visibleBillOfPayment}
+        onRequestClose={onRequestCloseBillModal}
+        extractBill={extractBill}
+        doneBill={doneBill}
+      /> */}
     </View>
   );
 };
@@ -262,5 +293,29 @@ const styles = StyleSheet.create({
 
   basketDetail: {
     flex: 1,
+  },
+
+  itemContent: {
+    height: scaleHeight(80),
+    backgroundColor: colors.WHITE,
+    borderStyle: "solid",
+    borderBottomWidth: 1,
+    borderBottomColor: "#fff",
+    borderTopWidth: 1,
+    borderTopColor: "#ddd",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    paddingHorizontal: scaleWidth(10),
+  },
+
+  itemText: {
+    fontFamily: fonts.REGULAR,
+    fontSize: scaleFont(17),
+    fontWeight: "normal",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.BROWNISH_GREY,
   },
 });
