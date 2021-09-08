@@ -351,7 +351,12 @@ export const FormProductOptionQty = ({
           { justifyContent: "space-between", alignItems: "center" },
         ]}
       >
-        <Text style={styles.infoHeaderText}>{t("Product Versions")}</Text>
+        <Text style={styles.infoHeaderText}>
+          {t("Product Versions")}
+          <Text style={styles.infoText}>{` · ${
+            optionsQty?.length || 0
+          } versions`}</Text>
+        </Text>
 
         <View style={[layouts.horizontal, layouts.horizontalCenterRight]}>
           <InputSearch onSearch={onChangeValueSearch} width={scaleWidth(280)} />
@@ -508,5 +513,16 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: colors.OCEAN_BLUE,
+  },
+
+  infoText: {
+    fontFamily: fonts.REGULAR,
+    fontSize: scaleFont(15),
+    fontWeight: "normal",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.GREYISH_BROWN,
+    flex: 1,
   },
 });
