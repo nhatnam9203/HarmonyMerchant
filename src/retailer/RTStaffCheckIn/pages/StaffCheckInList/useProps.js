@@ -35,7 +35,7 @@ export const useProps = (props) => {
   const [staffLogTime, getStaffLogTime] = useStaffLogTimeGet();
   const callGetStaffLogTime = React.useCallback(() => {
     getStaffLogTime({
-      ...(searchVal && { staffname: searchVal }),
+      ...(searchVal && { key: searchVal }),
       page: page,
       ...(type && { type: type.value }),
       ...timeVal,
@@ -83,12 +83,12 @@ export const useProps = (props) => {
     onChangeTimeValue: (quickFilter, timeState) => {
       if (quickFilter === "Customize Date") {
         setTimeVal({
-          date: "custom",
+          quickFilter: "custom",
           timeStart: timeState.startDate,
           timeEnd: timeState.endDate,
         });
       } else {
-        setTimeVal({ date: getQuickFilterTimeRange(quickFilter) });
+        setTimeVal({ quickFilter: getQuickFilterTimeRange(quickFilter) });
       }
     },
     onSortWithKey: (sortKey) => {
