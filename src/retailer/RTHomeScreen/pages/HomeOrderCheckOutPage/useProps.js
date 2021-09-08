@@ -26,6 +26,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CUSTOM_LIST_TYPES } from "../../widget";
 import { useFocusEffect } from "@react-navigation/native";
+import { getInfoFromModelNameOfPrinter } from "@utils";
+import PrintManager from "@lib/PrintManager";
 
 const log = (obj, message = "") => {
   Logger.log(`[CheckOutTabPage > useProps] ${message}`, obj);
@@ -62,7 +64,8 @@ export const useProps = ({
   const appointmentTemp = useSelector(
     (state) => state.basketRetailer.appointmentTemp
   );
-
+  const printerList = useSelector((state) => state.dataLocal.printerList);
+  const printerSelect = useSelector((state) => state.dataLocal.printerSelect);
   /**
   |--------------------------------------------------
   | STATE variables
@@ -121,6 +124,10 @@ export const useProps = ({
   const reloadAll = () => {
     getCategoriesList({ groupSubIntoMain: true });
     getCategoriesLabel();
+  };
+
+  const openCashDrawer = async (portName) => {
+    await PrintManager.getInstance().openCashDrawer(portName);
   };
 
   /**
@@ -458,5 +465,16 @@ export const useProps = ({
     },
     categoriesLabelData,
     purchasePoint,
+    checkStatusCashier: async () => {
+      const { portName } = getInfoFromModelNameOfPrinter(
+        printerList,
+        printerSelect
+      );
+      if (portName) {
+        openCashDrawer(portName);
+      } else {
+        alert("Please connect to your cash drawer.");
+      }
+    },
   };
 };

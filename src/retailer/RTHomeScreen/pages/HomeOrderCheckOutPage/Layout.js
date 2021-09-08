@@ -1,5 +1,5 @@
 import IMAGE from "@resources";
-import { ButtonGradientWhite } from "@shared/components";
+import { ButtonGradientWhite, ButtonGradient } from "@shared/components";
 import { WithDialogPhone } from "@shared/HOC/withDialogPhone";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
@@ -42,6 +42,7 @@ export const Layout = ({
   onResultScanCode,
   purchasePoint,
   categoriesLabelData,
+  checkStatusCashier,
 }) => {
   const [t] = useTranslation();
   const labelColumn1 = _.get(categoriesLabelData, "column1") || t("Categories");
@@ -101,6 +102,18 @@ export const Layout = ({
         </ButtonGradientWhite> */}
 
         <View style={styles.headerRightContent}>
+          <ButtonGradient
+            // disable={true}
+            width={scaleWidth(120)}
+            height={scaleHeight(32)}
+            fontSize={scaleFont(12)}
+            textWeight="normal"
+            label={t("Open Cashier")}
+            onPress={checkStatusCashier}
+            leftChildren={() => (
+              <Image style={styles.icon} source={IMAGE.cashier_btn} />
+            )}
+          />
           <View style={layouts.marginHorizontal} />
           {purchasePoint === PURCHASE_POINTS_ORDER && (
             <ButtonGradientWhite
