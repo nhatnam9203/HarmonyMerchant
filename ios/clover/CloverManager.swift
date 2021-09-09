@@ -61,7 +61,16 @@ import Foundation
     myCloverConnector?.sale(saleRequest)
   }
   
-  @objc public func doPrint(image: UIImage) {
+  func imageFromBase64(_ base64: String) -> UIImage? {
+      if let url = URL(string: base64) {
+          if let data = try? Data(contentsOf: url) {
+              return UIImage(data: data)
+          }
+      }
+      return nil
+  }
+  
+  @objc public func doPrint(image: String) {
     
 //    let url = URL.init(fileURLWithPath: imageURI)
 //
@@ -70,10 +79,12 @@ import Foundation
 //
 //    let image = UIImage(data: imageData as Data)
 //    let _ = url.stopAccessingSecurityScopedResource()
+    let imageReceipt = imageFromBase64(image)
     
-      let request = PrintRequest(image: image, printRequestId: "\(arc4random())", printDeviceId: nil)
+    if(imageReceipt != nil){
+      let request = PrintRequest(image: imageReceipt!, printRequestId: "\(arc4random())", printDeviceId: nil)
       self.issuePrintJob(request)
-   
+    }
   }
   
   @objc public func confirmPayment() {

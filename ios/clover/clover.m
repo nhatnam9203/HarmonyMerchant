@@ -99,9 +99,7 @@ RCT_EXPORT_METHOD(cancelTransaction){
   
 }
 
-RCT_EXPORT_METHOD(doPrint:(NSString *)imageURI){
- 
-  UIImage *image = [self getImageFromPath:imageURI];
+RCT_EXPORT_METHOD(doPrint:(NSString *)image){
   [self.clover doPrintWithImage:image];
   
 }
@@ -126,8 +124,7 @@ RCT_EXPORT_METHOD(doPrintWithConnect:(NSDictionary *)printInfo){
   self.isPrintWithConnectProcessing = true;
   NSString *imageURI = printInfo[@"imageUri"];
   if(self.clover){
-    UIImage *image = [self getImageFromPath:imageURI];
-    [self.clover doPrintWithImage:image];
+    [self.clover doPrintWithImage: imageURI];
   }else{
     self.clover = [CloverManager alloc];
     self.clover.cloverDelegate = self;
@@ -177,8 +174,7 @@ RCT_EXPORT_METHOD(doPrintWithConnect:(NSDictionary *)printInfo){
   if (self.isPaymentProcessing) {
     [self.clover doSaleWithPaymentInfo: self.paymentInfo];
   } else if(self.isPrintWithConnectProcessing){
-    UIImage *image = [self getImageFromPath:self.imageUri];
-    [self.clover doPrintWithImage: image];
+    [self.clover doPrintWithImage: self.imageUri];
   }
  
 }

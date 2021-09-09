@@ -173,7 +173,7 @@ class PopupInvoicePrint extends React.Component {
       await this.setState({
         isProcessingPrint: true,
       });
-      const imageUri = await captureRef(this.viewShotRef, {});
+      const imageUri = await captureRef(this.viewShotRef, {result: "data-uri"});
       console.log(imageUri,'imageUri')
       if (imageUri) {
         if(this.props.doPrintClover &&  this.props.doPrintCloverTemp){
@@ -183,34 +183,34 @@ class PopupInvoicePrint extends React.Component {
             this.props.doPrintClover(imageUri)
           }
           const { isPrintTempt } = this.state;
-        releaseCapture(imageUri);
+          // releaseCapture(imageUri);
 
-        if (!isPrintTempt && isSignature) {
-          Alert.alert(
-            "Would you like to print  customer's receipt?",
-            "",
-            [
-              {
-                text: "Cancel",
-                onPress: () => {
-                  this.setState(initalState);
-                  this.props.onRequestClose(isPrintTempt);
+          if (!isPrintTempt && isSignature) {
+            Alert.alert(
+              "Would you like to print  customer's receipt?",
+              "",
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => {
+                    this.setState(initalState);
+                    this.props.onRequestClose(isPrintTempt);
+                  },
+                  style: "cancel",
                 },
-                style: "cancel",
-              },
-              {
-                text: "OK",
-                onPress: () => this.doPrintAgain(),
-              },
-            ],
-            { cancelable: false }
-          );
-        } else {
-              await this.setState(initalState);
-              this.props.onRequestClose(isPrintTempt);
+                {
+                  text: "OK",
+                  onPress: () => this.doPrintAgain(),
+                },
+              ],
+              { cancelable: false }
+            );
+          } else {
+                await this.setState(initalState);
+                this.props.onRequestClose(isPrintTempt);
+              }
             }
           }
-        }
         
     } catch (error) {
       alert(error);
