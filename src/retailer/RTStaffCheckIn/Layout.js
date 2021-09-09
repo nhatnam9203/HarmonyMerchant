@@ -1,12 +1,5 @@
-import {
-  Button,
-  ButtonCustom,
-  Dropdown,
-  StatusBarHeader,
-  Text,
-} from "@components";
+import { StatusBarHeader } from "@components";
 import { createStackNavigator } from "@react-navigation/stack";
-import ICON from "@resources";
 import { PermissionChecker } from "@shared/components";
 import { ButtonDrawer } from "@shared/components/ButtonDrawer";
 import { HeaderToolBar } from "@shared/components/HeaderToolBar";
@@ -15,14 +8,7 @@ import { colors } from "@shared/themes";
 import { menuTabs } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  StyleSheet,
-  TextInput,
-  View,
-} from "react-native";
+import { StyleSheet, View } from "react-native";
 import { StaffCheckInList } from "./pages";
 
 const { Screen, Navigator } = createStackNavigator();
