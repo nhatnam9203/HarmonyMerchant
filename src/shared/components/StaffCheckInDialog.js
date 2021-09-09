@@ -5,6 +5,7 @@ import {
   CustomRadioSelect,
   FormInput,
 } from "@shared/components";
+import { CustomInputMoney } from "@shared/components/CustomInput";
 import { DialogLayout } from "@shared/layouts";
 import {
   useStaffLogTimeCreate,
@@ -16,6 +17,8 @@ import {
   STAFF_CHECK_IN_TYPE,
   STAFF_LOG_TIME_TYPE,
 } from "@shared/utils";
+import { statusSuccess } from "@shared/utils/app";
+import { formatHourMinute, formatWithMoment } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -30,15 +33,7 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useDispatch } from "react-redux";
-import { formatWithMoment, formatHourMinute } from "@utils";
-import moment from "moment";
-import { set } from "ramda";
-import {
-  CustomerGroupTypes,
-  SORT_TYPE,
-  statusSuccess,
-} from "@shared/utils/app";
-import { CustomInput, CustomInputMoney } from "@shared/components/CustomInput";
+import { useSelector } from "react-redux";
 
 const HOURS_FORMAT = "hh:mm A";
 
@@ -59,6 +54,8 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
 
   const [staffLogTimeCreate, createStaffLogTime] = useStaffLogTimeCreate();
   const [staffLogTimeEdit, editStaffLogTime] = useStaffLogTimeEdit();
+
+  const profile = useSelector((state) => state.dataLocal.profileStaffLogin);
 
   const clearDataForm = () => {
     setNote(null);
@@ -83,6 +80,7 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
       note: note,
       amount: amount,
       type: type,
+      staffName: profile ? `${profile.firstName} ${profile.lastName}` : "",
     };
 
     if (sessionId) {
@@ -145,10 +143,10 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
         setStartTime(new Date(item.startTime));
         setAmount(item.amount);
         setType(item.type);
-        messageSelectRef.current?.setValue(item.type);
 
         setSessionId(item.merchantStaffLogtimeId);
         dialogRef.current?.show();
+        messageSelectRef.current?.setValue(item.type);
       }
     },
     hide: () => {
@@ -243,7 +241,7 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
                 style={styles.customRadioSelect}
                 ref={messageSelectRef}
                 horizontal={true}
-                defaultValue={STAFF_CHECK_IN_TYPE}
+                defaultValue={type}
                 data={STAFF_LOG_TIME_TYPE}
                 onSelect={onHandleChangeSelect}
               />

@@ -26,7 +26,10 @@ export const useProps = (props) => {
   const [items, setItems] = React.useState(null);
   const [timeVal, setTimeVal] = React.useState();
   const [sortDate, setSortDate] = React.useState(SORT_TYPE.ASC);
-
+  const [pagination, setPagination] = React.useState({
+    pages: 0,
+    count: 0,
+  });
   /**
   |--------------------------------------------------
   | CALL API
@@ -39,7 +42,7 @@ export const useProps = (props) => {
       page: page,
       ...(type && { type: type.value }),
       ...timeVal,
-      // sort: { Id: sortName },
+      // sorts: { StartDate: sortDate },
     });
   }, [type, page, searchVal, timeVal]);
 
@@ -49,11 +52,11 @@ export const useProps = (props) => {
   React.useEffect(() => {
     const { codeStatus, data, pages = 0, count = 0 } = staffLogTime || {};
     if (statusSuccess(codeStatus)) {
-      setItems(data);
-      // setPagination({
-      //   pages,
-      //   count,
-      // });
+      setItems(sortByDate(data, sortDate, "startDate"));
+      setPagination({
+        pages,
+        count,
+      });
     }
   }, [staffLogTime]);
 
@@ -72,7 +75,10 @@ export const useProps = (props) => {
 
   return {
     items,
+    sortDate,
     STAFF_LOG_TIME_GROUPS,
+    pagination,
+    setPage,
     setType,
     deleteSession: (it) => {
       deleteStaffLogTime(it.merchantStaffLogtimeId);
@@ -93,11 +99,11 @@ export const useProps = (props) => {
     },
     onSortWithKey: (sortKey) => {
       switch (sortKey) {
-        case "date":
+        case "startDate":
           const sortedDate =
             sortDate === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
           setSortDate(sortedDate);
-          setData(sortByDate(items, sortedDate, sortKey));
+          setItems(sortByDate(items, sortedDate, sortKey));
 
           break;
 
@@ -110,6 +116,9 @@ export const useProps = (props) => {
       setSearchVal(text);
     },
     onButtonSearchPress: () => {
+      callGetStaffLogTime();
+    },
+    onRefresh: () => {
       callGetStaffLogTime();
     },
   };
