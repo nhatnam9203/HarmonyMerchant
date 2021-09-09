@@ -516,6 +516,9 @@ export const useProps = ({
         actions.appointment.checkSerialNumber(code, false, false, false)
       );
     },
-    onAddGiftCardToAppointment: (money, gitCardInfo) => {},
+    onAddGiftCardToAppointment: (money, gitCardInfo) => {
+      console.log(money);
+      console.log(gitCardInfo);
+    },
   };
 };
