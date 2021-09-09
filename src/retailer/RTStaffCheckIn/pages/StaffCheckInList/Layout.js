@@ -241,10 +241,9 @@ const styles = StyleSheet.create({
   },
 
   cellStyle: {
-    paddingHorizontal: scaleWidth(15),
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
+    // flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-start",
   },
 
   textStyle: {

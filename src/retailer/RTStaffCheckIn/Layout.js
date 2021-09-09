@@ -40,6 +40,7 @@ export const Layout = ({
       >
         <Screen {...StaffCheckInList} />
       </Navigator>
+
       <PermissionChecker
         navigation={navigation}
         tabName={menuTabs.MENU_CUSTOMER}
