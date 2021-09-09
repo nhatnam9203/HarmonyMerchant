@@ -624,7 +624,8 @@ export const useProps = ({
                 profile?.merchantId || 0,
                 message,
                 payAppointmentId,
-                moneyUserGiveForStaff
+                moneyUserGiveForStaff,
+                'pax'
               )
             );
           } else {

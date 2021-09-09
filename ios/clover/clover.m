@@ -16,12 +16,17 @@ static NSString* pairingCode               = @"pairingCode";
 static NSString* pairingSuccess               = @"pairingSuccess";
 static NSString* deviceReady              = @"deviceReady";
 static NSString* confirmPayment              = @"confirmPayment";
+static NSString* printInProcess         = @"printInProcess";
+static NSString* printDone              = @"printDone";
+static NSString* deviceDisconnected     = @"deviceDisconnected";
 
 @interface clover () <CloverManagerDelegate>
 @property (nonatomic) BOOL listening;
 @property (nonatomic) BOOL isPaymentProcessing;
+@property (nonatomic) BOOL isPrintWithConnectProcessing;
 @property (nonatomic, strong) CloverManager *clover;
 @property (nonatomic, strong) NSDictionary *paymentInfo;
+@property (nonatomic, strong) NSString *imageUri;
 @end
 
 @implementation clover
@@ -53,7 +58,10 @@ RCT_EXPORT_MODULE();
     pairingCode,
     pairingSuccess,
     deviceReady,
-    confirmPayment
+    confirmPayment,
+    printInProcess,
+    printDone,
+    deviceDisconnected,
   ];
 }
 
@@ -91,6 +99,52 @@ RCT_EXPORT_METHOD(cancelTransaction){
   
 }
 
+RCT_EXPORT_METHOD(doPrint:(NSString *)imageURI){
+ 
+  UIImage *image = [self getImageFromPath:imageURI];
+  [self.clover doPrintWithImage:image];
+  
+}
+
+- (UIImage*) getImageFromPath:(NSString*)imageURI {
+  NSError *error = nil;
+  NSURL *imageURL = [NSURL URLWithString:imageURI];
+  NSData *imageData = [NSData dataWithContentsOfURL:imageURL options:NSDataReadingUncached error:&error];
+
+  if (error != nil) {
+      NSURL *fileImageURL = [NSURL fileURLWithPath:imageURI];
+      [fileImageURL startAccessingSecurityScopedResource];
+      imageData = [NSData dataWithContentsOfURL:fileImageURL];
+    [fileImageURL stopAccessingSecurityScopedResource];
+  }
+
+  UIImage *image = [UIImage imageWithData:imageData];
+  return image;
+}
+
+RCT_EXPORT_METHOD(doPrintWithConnect:(NSDictionary *)printInfo){
+  self.isPrintWithConnectProcessing = true;
+  NSString *imageURI = printInfo[@"imageUri"];
+  if(self.clover){
+    UIImage *image = [self getImageFromPath:imageURI];
+    [self.clover doPrintWithImage:image];
+  }else{
+    self.clover = [CloverManager alloc];
+    self.clover.cloverDelegate = self;
+    NSString *url = printInfo[@"url"];
+    NSString *remoteAppId = printInfo[@"remoteAppId"];
+    NSString *appName = printInfo[@"appName"];
+    NSString *posSerial = printInfo[@"posSerial"];
+    NSString *token = printInfo[@"token"];
+    self.imageUri = imageURI;
+    
+    [self.clover connect:url appId: remoteAppId appName: appName posSerial: posSerial token: token];
+  }
+}
+
+
+/*----- DELEGATE FROM CloverManager ------*/
+
 - (void)paymentFailWithErrorMessage:(NSString * _Nonnull)errorMessage {
   self.isPaymentProcessing = false;
   [self sendEventWithName:paymentFail body:@{@"errorMessage": errorMessage}];
@@ -122,14 +176,36 @@ RCT_EXPORT_METHOD(cancelTransaction){
   }
   if (self.isPaymentProcessing) {
     [self.clover doSaleWithPaymentInfo: self.paymentInfo];
+  } else if(self.isPrintWithConnectProcessing){
+    UIImage *image = [self getImageFromPath:self.imageUri];
+    [self.clover doPrintWithImage: image];
   }
  
+}
+
+- (void)onDeviceDisconnected {
+  if (self.listening) {
+    [self sendEventWithName:deviceDisconnected body:nil];
+  }
 }
 
 - (void)onConfirmPayment {
     if (self.listening) {
       [self sendEventWithName:confirmPayment body:nil];
     }
+}
+
+- (void)printInProcess {
+  if (self.listening) {
+    [self sendEventWithName:printInProcess body:nil];
+  }
+}
+
+- (void)printDoneWithMessage:(NSString * _Nonnull)message {
+  self.isPrintWithConnectProcessing = false;
+  if (self.listening) {
+    [self sendEventWithName:printDone body:message];
+  }
 }
 
 @end

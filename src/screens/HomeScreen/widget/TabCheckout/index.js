@@ -62,6 +62,8 @@ class TabCheckout extends Layout {
     //ADD LISTENER FROM CLOVER MODULE
     this.eventEmitter = new NativeEventEmitter(clover);
     this.subscriptions = []
+    this.isProcessPaymentClover = false
+    this.isProcessPrintTempClover = false
   }
 
   resetStateFromParent = async () => {
@@ -836,7 +838,7 @@ class TabCheckout extends Layout {
       paymentSelected,
       isTemptPrint,
       printMachine,
-      promotionNotes.join(",")
+      promotionNotes.join(","),
     );
     await this.setState({
       visiblePrintInvoice: true,
@@ -872,22 +874,32 @@ class TabCheckout extends Layout {
       }
       this.showInvoicePrint(portName, false);
     } else {
-      alert("Please connect to your printer!");
+      const { paymentMachineType } = this.props;
+      if (paymentMachineType == 'Clover') {
+        this.showInvoicePrint(portName, false);
+      }else {
+        alert("Please connect to your printer!");
+      }
     }
   };
 
   printTemptInvoice = async () => {
-    const { printerSelect, printerList } = this.props;
+    const { printerSelect, printerList, paymentMachineType } = this.props;
     const { portName } = getInfoFromModelNameOfPrinter(
       printerList,
       printerSelect
     );
 
-    if (portName !== "") {
+    if( paymentMachineType == "Clover") {
       this.showInvoicePrint(portName);
-    } else {
-      alert("Please connect to your printer! ");
+    }else{
+      if (portName !== "") {
+        this.showInvoicePrint(portName);
+      } else {
+        alert("Please connect to your printer! ");
+      }
     }
+    
   };
 
   checkStatusCashier = async () => {
@@ -1497,6 +1509,10 @@ class TabCheckout extends Layout {
     if( paymentMachineType == 'Clover'){
       const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
       const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+      this.isProcessPaymentClover = true
+       this.setState({
+          visibleProcessingCredit: true,
+        })
       clover.sendTransaction({
         url,
         remoteAppId: REMOTE_APP_ID,
@@ -1641,7 +1657,8 @@ class TabCheckout extends Layout {
             profile?.merchantId || 0,
             message,
             payAppointmentId,
-            moneyUserGiveForStaff
+            moneyUserGiveForStaff,
+            'pax',
           );
 
           // const { paymentSelected, customDiscountPercentLocal, customDiscountFixedLocal } = this.state;
@@ -2690,6 +2707,27 @@ class TabCheckout extends Layout {
   }
 
   // FUNCTIONS FOR CLOVER
+  doPrintClover(imageUri) {
+    clover.doPrint(imageUri)
+  }
+
+  doPrintCloverTemp(imageUri) {
+    this.isProcessPrintTempClover = true
+    const { cloverMachineInfo } = this.props;
+    const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
+    const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+    
+  const printInfo = {
+      imageUri,
+      url,
+      remoteAppId: REMOTE_APP_ID,
+      appName: APP_NAME,
+      posSerial: POS_SERIAL,
+      token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
+    }
+    clover.doPrintWithConnect(printInfo)
+  }
+
   async handleResponseCreditCardForCloverSuccess(message) {
     const { profile, payAppointmentId, amountCredtitForSubmitToServer } = this.props;
     await this.setState({
@@ -2701,7 +2739,7 @@ class TabCheckout extends Layout {
         message,
         payAppointmentId,
         amountCredtitForSubmitToServer,
-        "Clover",
+        "clover",
       );
     } catch (error) {}
   }
@@ -2749,17 +2787,29 @@ class TabCheckout extends Layout {
     this.subscriptions = [
       this.eventEmitter.addListener('paymentSuccess', data => {
        console.log('data', data)
+       this.isProcessPaymentClover = false
        this.handleResponseCreditCardForCloverSuccess(data)
        
       }),
       this.eventEmitter.addListener('paymentFail', data => {
         console.log('data', data)
+        this.isProcessPaymentClover = false
         this.handleResponseCreditCardForCloverFailed(l.get(data, 'errorMessage'))
         
        }),
       this.eventEmitter.addListener('pairingCode', data => {
         if(data){
           const text = `Pairing code: ${l.get(data, 'pairingCode')}`
+          if(this.isProcessPaymentClover) {
+            this.setState({
+              visibleProcessingCredit: false,
+            })
+          }
+          if(this.isProcessPrintTempClover){
+            this.setState({
+              visiblePrintInvoice: false,
+            });
+          }
           this.setState({
             visiblePopupParingCode: true,
             pairingCode: text,
@@ -2774,12 +2824,20 @@ class TabCheckout extends Layout {
           visiblePopupParingCode: false,
           pairingCode: '',
         })
+        if(this.isProcessPaymentClover) {
+          this.setState({
+            visibleProcessingCredit: true,
+          })
+        }
+        // if(this.isProcessPrintTempClover){
+        //   this.setState({
+        //     visiblePrintInvoice: true,
+        //   });
+        // }
       }),
       this.eventEmitter.addListener('deviceReady', () => {
         
-        this.setState({
-          visibleProcessingCredit: true,
-        })
+       
       }),
       this.eventEmitter.addListener('confirmPayment', () => {
         
@@ -2787,6 +2845,27 @@ class TabCheckout extends Layout {
           visibleProcessingCredit: false,
           visibleConfirmPayment: true,
         })
+      }),
+      this.eventEmitter.addListener('printInProcess', () => {
+        
+        
+      }),
+      this.eventEmitter.addListener('printDone', (message) => {
+        console.log(message)
+        this.isProcessPrintTempClover = false
+      }),
+      this.eventEmitter.addListener('deviceDisconnected', () => {
+        console.log(message)
+        if(this.isProcessPaymentClover) {
+          this.setState({
+            visibleProcessingCredit: false,
+          })
+        }
+        if(this.isProcessPrintTempClover){
+          this.setState({
+            visiblePrintInvoice: false,
+          });
+        }
       }),
     ]
   }

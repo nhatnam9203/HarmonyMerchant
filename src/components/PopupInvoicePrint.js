@@ -70,7 +70,7 @@ class PopupInvoicePrint extends React.Component {
     promotionNotes,
     titleInvoice = "SALE",
     invoiceNo = "",
-    checkoutPayments = []
+    checkoutPayments = [],
   ) => {
     await this.setState({
       basket,
@@ -88,8 +88,17 @@ class PopupInvoicePrint extends React.Component {
       checkoutPayments: checkoutPayments,
       promotionNotes,
     });
+    const {paymentMachineType, printerSelect} = this.props
     setTimeout(() => {
-      this.doPrint();
+      if(paymentMachineType == "Clover"){
+        if (printerSelect){
+            this.doPrint();
+        }else{
+            this.doPrintClover();
+        }
+      }else{
+          this.doPrint();
+      }
     }, 1000);
   };
 
@@ -157,16 +166,88 @@ class PopupInvoicePrint extends React.Component {
     }
   };
 
+  doPrintClover = async () => {
+    const { isSignature } = this.state;
+
+    try {
+      await this.setState({
+        isProcessingPrint: true,
+      });
+      const imageUri = await captureRef(this.viewShotRef, {});
+      console.log(imageUri,'imageUri')
+      if (imageUri) {
+        if(this.props.doPrintClover &&  this.props.doPrintCloverTemp){
+          if(this.state.isPrintTempt){
+            this.props.doPrintCloverTemp(imageUri)
+          }else{
+            this.props.doPrintClover(imageUri)
+          }
+          const { isPrintTempt } = this.state;
+        releaseCapture(imageUri);
+
+        if (!isPrintTempt && isSignature) {
+          Alert.alert(
+            "Would you like to print  customer's receipt?",
+            "",
+            [
+              {
+                text: "Cancel",
+                onPress: () => {
+                  this.setState(initalState);
+                  this.props.onRequestClose(isPrintTempt);
+                },
+                style: "cancel",
+              },
+              {
+                text: "OK",
+                onPress: () => this.doPrintAgain(),
+              },
+            ],
+            { cancelable: false }
+          );
+        } else {
+              await this.setState(initalState);
+              this.props.onRequestClose(isPrintTempt);
+            }
+          }
+        }
+        
+    } catch (error) {
+      alert(error);
+      await this.setState({
+        isProcessingPrint: false,
+      });
+    }
+  };
+
   processPrintInvoice = async () => {
-    await this.doPrint();
+    const { paymentMachineType, printerSelect } = this.props;
+    if (paymentMachineType == "Clover") {
+      if (printerSelect){
+        await this.doPrint();
+      }else{
+        await this.doPrintClover();
+      }
+    } else {
+      await this.doPrint();
+    }
   };
 
   doPrintAgain = async () => {
     await this.setState({
       isSignature: false,
     });
+    const { paymentMachineType, printerSelect } = this.props;
     setTimeout(() => {
-      this.doPrint();
+      if (paymentMachineType == "Clover") {
+        if (printerSelect){
+          this.doPrint();
+        }else{
+          this.doPrintClover();
+        }
+      } else {
+        this.doPrint();
+      }
     }, 500);
   };
 
@@ -953,6 +1034,7 @@ const mapStateToProps = (state) => ({
   printerList: state.dataLocal.printerList,
 
   invoiceDetail: state.invoice.invoiceDetail,
+  paymentMachineType: state.hardware.paymentMachineType,
 });
 
 export default connectRedux(mapStateToProps, PopupInvoicePrint);

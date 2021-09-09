@@ -1059,6 +1059,8 @@ class Layout extends React.Component {
                     ref={this.invoicePrintRef}
                     visiblePrintInvoice={this.state.visiblePrintInvoice}
                     onRequestClose={this.cancelInvoicePrint}
+                    doPrintClover={(imageUri) => this.doPrintClover(imageUri)}
+                    doPrintCloverTemp={(imageUri) => this.doPrintCloverTemp(imageUri)}
                 />
                 <EnterCustomerPhonePopup
                     ref={this.popupCustomerInfoRef}

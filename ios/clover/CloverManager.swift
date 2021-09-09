@@ -15,13 +15,18 @@ import Foundation
   func pairingSuccess(token: String)
   func onDeviceReady()
   func onConfirmPayment()
+  func printInProcess()
+  func printDone(message: String)
+  func deviceDisconnected()
 }
 @objc public class  CloverManager : DefaultCloverConnectorListener, PairingDeviceConfiguration {
 
   var myCloverConnector:ICloverConnector?
   var confirmPaymentRequest: ConfirmPaymentRequest?
+  public var printJobStatusDict = [String : (PrintJobStatusResponse) -> Void]()
   fileprivate var token:String?
   @objc public var cloverDelegate: CloverManagerDelegate?
+  var printers: [CLVModels.Printer.Printer]?
 
   fileprivate let PAIRING_AUTH_TOKEN_KEY:String = "PAIRING_AUTH_TOKEN"
 
@@ -29,7 +34,6 @@ import Foundation
         myCloverConnector?.dispose()
         // load from previous pairing, or nil will force/require
         // a new pairing with the device
-//        let savedAuthToken = loadAuthToken()
       
       let config = WebSocketDeviceConfiguration(endpoint: url,
           remoteApplicationID: appId,
@@ -57,6 +61,21 @@ import Foundation
     myCloverConnector?.sale(saleRequest)
   }
   
+  @objc public func doPrint(image: UIImage) {
+    
+//    let url = URL.init(fileURLWithPath: imageURI)
+//
+//    let _ = url.startAccessingSecurityScopedResource();
+//    let imageData:NSData = NSData(contentsOf: url)
+//
+//    let image = UIImage(data: imageData as Data)
+//    let _ = url.stopAccessingSecurityScopedResource()
+    
+      let request = PrintRequest(image: image, printRequestId: "\(arc4random())", printDeviceId: nil)
+      self.issuePrintJob(request)
+   
+  }
+  
   @objc public func confirmPayment() {
     myCloverConnector?.acceptPayment((self.confirmPaymentRequest?.payment)!)
   }
@@ -64,17 +83,6 @@ import Foundation
   @objc public func rejectPayment() {
     myCloverConnector?.rejectPayment((self.confirmPaymentRequest?.payment)!, challenge: (self.confirmPaymentRequest?.challenges![0])!)
   }
-
-    // store the token to be loaded later by loadAuthToken
-//    func saveAuthToken(token:String) {
-//      self.token = token
-//      UserDefaults.standard.set(self.token, forKey: PAIRING_AUTH_TOKEN_KEY)
-//      UserDefaults.standard.synchronize()
-//    }
-//    func loadAuthToken() -> String? {
-//      return UserDefaults.standard.string( forKey: PAIRING_AUTH_TOKEN_KEY)
-//    }
-
 
     // PairingDeviceConfiguration
   public func onPairingCode(_ pairingCode: String) {
@@ -88,17 +96,91 @@ import Foundation
         // pairing is successful
         // save this authToken to pass in to the config for future connections
         // so pairing will happen automatically
-//      saveAuthToken(token: authToken)
       if(cloverDelegate != nil){
         cloverDelegate?.pairingSuccess(token: authToken)
       }
     }
-
+  
+  //*---------Print----------*//
+  
+  func retrievePrinters(completion: ((_ response:RetrievePrintersResponse) -> Void)?) {
+      let request = RetrievePrintersRequest(printerCategory: nil)
+      myCloverConnector?.retrievePrinters(request)
+  }
+  
+  public override func onRetrievePrintersResponse(_ retrievePrintersResponse: RetrievePrintersResponse) {
+      guard retrievePrintersResponse.success == true else {
+          
+        if(self.cloverDelegate != nil){
+          self.cloverDelegate?.printDone(message: "Error retrieving printers")
+        }
+          return
+      }
+      
+      if let printerList = retrievePrintersResponse.printers {
+        if (printerList.count > 0) {
+          self.printers = printerList
+        }
+      }
+      
+  }
+  
+  /// Private wrapper around print call that issues the request, configures the app and UI for printing, and sets up a callback for status
+  ///
+  /// - Parameter request: PrintRequest object containing the information needed to begin a print job
+  private func issuePrintJob(_ request: PrintRequest) {
+          //kick off the print request
+         myCloverConnector?.print(request)
+          
+          //the rest of this scope works to monitor the print job. This can only be done if a printRequestID exists
+          guard let printRequestId = request.printRequestId else { return }
+          
+          //setup the UI for async waiting on the print job
+          if(cloverDelegate != nil){
+            cloverDelegate?.printInProcess()
+          }
+          
+          self.queryPrintStatus(printRequestId)
+  }
+  
+  private func queryPrintStatus(_ printRequestId: String) {
+      //this closure is kept on the listener, catches the first status update for this printRequestId (after it hits the Mini's printer spool), and then polls until the print job is done
+    self.printJobStatusDict[printRequestId] = { [weak self] (response:PrintJobStatusResponse) -> Void in
+          DispatchQueue.main.async {
+              if response.status == .IN_QUEUE || response.status == .PRINTING { //since we're not done, perform another query after a short delay
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    let request = PrintJobStatusRequest(printRequestId)
+                    self?.myCloverConnector?.retrievePrintJobStatus(request)
+                  })
+              } else {
+                  UIApplication.shared.isIdleTimerDisabled = false
+                  self?.printJobStatusDict.removeValue(forKey: printRequestId)
+              }
+          }
+      }
+  }
+  
+  public override func onPrintJobStatusResponse(_ printJobStatusResponse:PrintJobStatusResponse) {
+      DispatchQueue.main.async {
+          if let printRequestId = printJobStatusResponse.printRequestId, let callback = self.printJobStatusDict[printRequestId] { //check that we have a callback for this specific printRequestId
+              callback(printJobStatusResponse)
+              return //since user has provided their own callback to handle this, don't also continue below to fire the default behavior
+          }
+          
+          if(self.cloverDelegate != nil){
+            self.cloverDelegate?.printDone(message: printJobStatusResponse.status.rawValue)
+          }
+      }
+  }
 
     // DefaultCloverConnectorListener
 
     // called when device is disconnected
-  public override func onDeviceDisconnected() {}
+  public override func onDeviceDisconnected() {
+    if(self.cloverDelegate != nil){
+      self.cloverDelegate?.deviceDisconnected()
+    }
+  }
 
     // called when device is connected, but not ready for requests
   public override func onDeviceConnected() {}
@@ -136,7 +218,7 @@ import Foundation
             // sale successful and payment is in the response (response.payment)
           let responseDict: NSDictionary = ["id": response.payment?.id ?? "",
           // The order with which the payment is associated
-            "order": response.payment?.order ?? "",
+          "orderId": response.payment?.order?.id ?? "",
 
           /// Device which processed the transaction for this payment
             "device": response.payment?.device ?? "",
@@ -242,6 +324,8 @@ import Foundation
             }
             cloverDelegate?.paymentFail(errorMessage: errorMessage)
         }
+    
+      myCloverConnector?.showWelcomeScreen()
     }
 
   public override func onAuthResponse(_ response:AuthResponse) {}

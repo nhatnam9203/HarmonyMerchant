@@ -1418,6 +1418,7 @@ class OrderCheckout extends Layout {
               message,
               payAppointmentId,
               moneyUserGiveForStaff,
+              'pax'
             );
           } else {
             // ------ Payment with credit offline card success ----
