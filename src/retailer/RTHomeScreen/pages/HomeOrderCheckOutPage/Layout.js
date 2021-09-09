@@ -16,6 +16,7 @@ import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
 import _ from "lodash";
 import { PURCHASE_POINTS_ORDER } from "@shared/utils";
 import { PopupActiveGiftCard } from "@components";
+import { PopupEnterAmountGiftCard } from "@shared/components/payment";
 
 const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
 const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
@@ -48,6 +49,9 @@ export const Layout = ({
   activeGiftCardRef,
   closePopupActiveGiftCard,
   submitSerialCode,
+  onRequestCloseBillModal,
+  popupEnterAmountGiftCardRef,
+  onAddGiftCardToAppointment
 }) => {
   const { t } = useTranslation();
 
@@ -193,6 +197,15 @@ export const Layout = ({
         title={t("Active Gift Card")}
         onRequestClose={closePopupActiveGiftCard}
         submitSerialCode={submitSerialCode}
+      />
+
+      <PopupEnterAmountGiftCard
+        ref={popupEnterAmountGiftCardRef}
+        onRequestClose={onRequestCloseBillModal}
+        onAddGiftCardToAppointment={onAddGiftCardToAppointment}
+        // language={language}
+        // extractBill={extractBill}
+        // doneBill={doneBill}
       />
 
       {/* <PopupBill

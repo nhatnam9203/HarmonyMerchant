@@ -51,6 +51,7 @@ export const useProps = ({
   const customerRef = React.useRef(null);
   const activeGiftCardRef = React.useRef(null);
   const modalBillRef = React.useRef(null);
+  const popupEnterAmountGiftCardRef = React.useRef(null);
 
   /**
   |--------------------------------------------------
@@ -499,6 +500,8 @@ export const useProps = ({
     },
     activeGiftCardRef,
     modalBillRef,
+    onRequestCloseBillModal: () => {},
+    popupEnterAmountGiftCardRef,
     closePopupActiveGiftCard: () => {
       dispatch(actions.appointment.handleVisibleActiveGiftCard(false));
       setCategoryId(null);
@@ -513,5 +516,6 @@ export const useProps = ({
         actions.appointment.checkSerialNumber(code, false, false, false)
       );
     },
+    onAddGiftCardToAppointment: (money, gitCardInfo) => {},
   };
 };
