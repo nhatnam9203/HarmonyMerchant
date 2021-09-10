@@ -10,7 +10,7 @@ import QRCode from 'react-native-qrcode-svg';
 import _ from 'ramda';
 
 import {
-    scaleSize, localize, formatNumberFromCurrency, 
+    scaleSize, localize, formatNumberFromCurrency,
     formatMoney, roundFloatNumber, checkCategoryIsNotExist,
     menuTabs,
 } from '@utils';
@@ -138,7 +138,7 @@ class Layout extends React.Component {
                         extraData={selectedStaff}
                         keyExtractor={(item, index) => `${item?.staffId}_${index}`}
                         showsVerticalScrollIndicator={false}
-                        onScrollToIndexFailed={() => {}}
+                        onScrollToIndexFailed={() => { }}
                     />
                 </View>
                 {
@@ -193,12 +193,12 @@ class Layout extends React.Component {
                 tempCategories = [...selectCategories, ...notSelectCategories];
             } else {
                 let categoriesStaffFilter = []
-                
+
                 for (let i = 0; i < categoryStaff.length; i++) {
                     const findItem = l.find(selectCategories, item => {
                         return item.categoryId == categoryStaff[i].categoryId
                     })
-                    if(!findItem){
+                    if (!findItem) {
                         categoriesStaffFilter.push(categoryStaff[i])
                     }
                 }
@@ -904,7 +904,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission, isCancelAppointment , isOfflineMode } = this.props;
+        const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission, isCancelAppointment, isOfflineMode, groupAppointment } = this.props;
         const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
             visiblePopupAddItemIntoBasket, visibleAddEditCustomerPopup,
             visibleErrorMessageFromPax, errorMessageFromPax,
@@ -912,7 +912,11 @@ class Layout extends React.Component {
             staffOfService
         } = this.state;
 
-        const titleExitCheckoutTab = isCancelAppointment ? "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? " : 'Are you sure you want to exit Check-Out?';
+        const app0 = groupAppointment?.appointments[0];
+
+        const titleExitCheckoutTab = (isCancelAppointment && app0 && ((app.services.length + app.products.length + app.giftCards.length) === 0)) ?
+            "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? " :
+            'Are you sure you want to exit Check-Out?';
 
         return (
             <View style={styles.container} >
