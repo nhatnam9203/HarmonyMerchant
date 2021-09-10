@@ -51,6 +51,7 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
   const [startDate, setStartDate] = React.useState(new Date());
   const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
   const [sessionId, setSessionId] = React.useState(null);
+  const [staffName, setStaffName] = React.useState(null);
 
   const [staffLogTimeCreate, createStaffLogTime] = useStaffLogTimeCreate();
   const [staffLogTimeEdit, editStaffLogTime] = useStaffLogTimeEdit();
@@ -63,6 +64,8 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
     setType(STAFF_CHECK_IN_TYPE);
     setStartTime(new Date());
     setStartDate(new Date());
+    setStaffName(null);
+    setSessionId(null);
   };
 
   const onHandleSaveLogTime = () => {
@@ -73,20 +76,28 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
       "YYYY-MM-DD"
     )}T${formatHourMinute(formatWithMoment(startTime, HOURS_FORMAT))}:00`;
 
-    const data = {
-      merchantStaffLogtimeId: 0,
-      startDate: time,
-      startTime: time,
-      note: note,
-      amount: amount,
-      type: type,
-      staffName:
-        !sessionId && profile ? `${profile.firstName} ${profile.lastName}` : "",
-    };
-
     if (sessionId) {
+      const data = {
+        startDate: time,
+        startTime: time,
+        note: note,
+        amount: amount,
+        type: type,
+        staffName: staffName,
+      };
+
       editStaffLogTime(sessionId, data);
     } else {
+      const data = {
+        merchantStaffLogtimeId: 0,
+        startDate: time,
+        startTime: time,
+        note: note,
+        amount: amount,
+        type: type,
+        staffName: profile ? `${profile.firstName} ${profile.lastName}` : "",
+      };
+
       createStaffLogTime(data);
     }
   };
@@ -135,6 +146,7 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
     show: () => {
       clearDataForm();
       setSessionId(null);
+      setStaffName(null);
       dialogRef.current?.show();
     },
     showWithItem: (item) => {
@@ -146,6 +158,7 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
         setType(item.type);
 
         setSessionId(item.merchantStaffLogtimeId);
+        setStaffName(item.staffName);
         dialogRef.current?.show();
         messageSelectRef.current?.setValue(item.type);
       }

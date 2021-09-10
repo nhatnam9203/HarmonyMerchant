@@ -31,7 +31,8 @@ export const Layout = ({
       </HeaderToolBar>
 
       <Navigator
-        headerMode="retailer.staff_check_in.list"
+        initialRouteName="retailer.staff_check_in.list"
+        headerMode="none"
         screenOptions={{
           cardStyle: {
             backgroundColor: colors.WHITE_FA,
