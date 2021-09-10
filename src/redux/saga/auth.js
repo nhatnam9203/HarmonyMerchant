@@ -240,6 +240,11 @@ function* checkStaffPermission(action) {
           isShowLoadMore: false,
           isRefreshing: false,
         });
+      } else if (action.tabName === menuTabs.MENU_STAFF_LOGTIME) {
+        yield put({
+          type: "TOGGLE_STAFF_LOGTIME_TAB_PERMISSION",
+          payload: false,
+        });
       }
     } else if (parseInt(codeNumber) === 401) {
       yield put({

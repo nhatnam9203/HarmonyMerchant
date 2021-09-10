@@ -43,7 +43,7 @@ export const Layout = ({
 
       <PermissionChecker
         navigation={navigation}
-        tabName={menuTabs.MENU_CUSTOMER}
+        tabName={menuTabs.MENU_STAFF_LOGTIME}
         tabPermission={tabPermission}
         togglePopupPermission={togglePopupPermission}
       />

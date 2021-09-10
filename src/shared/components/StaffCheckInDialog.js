@@ -80,7 +80,8 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
       note: note,
       amount: amount,
       type: type,
-      staffName: profile ? `${profile.firstName} ${profile.lastName}` : "",
+      staffName:
+        !sessionId && profile ? `${profile.firstName} ${profile.lastName}` : "",
     };
 
     if (sessionId) {
