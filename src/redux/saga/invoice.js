@@ -36,9 +36,7 @@ function* getListInvoicesByMerchant(action) {
         message: responses?.message,
       });
     }
-    console.log('get list invoice : ', { responses })
   } catch (error) {
-    console.log('error get list invoice : ', { error })
     yield put({ type: 'GET_LIST_INVOICE_BY_MERCHANT_FAIL' });
     yield put({ type: error });
   } finally {
