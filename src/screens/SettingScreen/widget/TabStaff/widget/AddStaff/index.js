@@ -253,12 +253,6 @@ class AddStaff extends Layout {
         label: "Setting",
         isChecked: true,
       },
-      {
-        id: 0,
-        key: menuTabs.MENU_STAFF_LOGTIME,
-        label: "Staff Logtime",
-        isChecked: true,
-      },
     ];
 
     if (isEditStaff) {

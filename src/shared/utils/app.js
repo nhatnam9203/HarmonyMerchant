@@ -363,6 +363,12 @@ export const STAFF_PERMISSIONS_ROLES = [
     label: "Setting",
     isChecked: true,
   },
+  {
+    id: 0,
+    key: menuTabs.MENU_STAFF_LOGTIME,
+    label: "Staff Logtime",
+    isChecked: true,
+  },
 ];
 
 export const MERCHANT_TYPES = [
