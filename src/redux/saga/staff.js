@@ -417,8 +417,10 @@ function* loginStaff(action) {
         message: responses?.message,
       });
     }
+    console.log({ responses });
     yield put({ type: "STOP_LOADING_ROOT" });
   } catch (error) {
+    console.log({ error , action});
     yield put({ type: "LOGIN_STAFF_FAIL" });
     yield put({ type: "STOP_LOADING_ROOT" });
     yield put({ ...action, type: error, typeParent: action.type });
