@@ -519,6 +519,8 @@ export const useProps = ({
     onAddGiftCardToAppointment: (money, gitCardInfo) => {
       console.log(money);
       console.log(gitCardInfo);
+
+
     },
   };
 };
