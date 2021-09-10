@@ -912,9 +912,9 @@ class Layout extends React.Component {
             staffOfService
         } = this.state;
 
-        const app0 = groupAppointment?.appointments[0];
+        const app0 = (!l.isEmpty(groupAppointment) && groupAppointment?.appointments[0]) || null;
 
-        const titleExitCheckoutTab = (isCancelAppointment && app0 && ((app.services.length + app.products.length + app.giftCards.length) === 0)) ?
+        const titleExitCheckoutTab = (isCancelAppointment && app0 && ((app0.services.length + app0.products.length + app0.giftCards.length) === 0)) ?
             "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? " :
             'Are you sure you want to exit Check-Out?';
 
