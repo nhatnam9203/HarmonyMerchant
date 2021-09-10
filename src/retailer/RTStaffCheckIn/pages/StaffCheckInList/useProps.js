@@ -6,9 +6,16 @@ import {
 } from "@shared/services/api/retailer/Staff";
 import { sortByDate } from "@shared/utils";
 import { SORT_TYPE, statusSuccess } from "@shared/utils/app";
-import { getQuickFilterTimeRange } from "@utils";
+import {
+  getQuickFilterTimeRange,
+  isPermissionToTab,
+  menuTabs,
+  role,
+} from "@utils";
+import * as l from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const STAFF_LOG_TIME_GROUPS = [
   { label: "All type", value: null },
@@ -30,6 +37,11 @@ export const useProps = (props) => {
     pages: 0,
     count: 0,
   });
+
+  const profileStaffLogin = useSelector(
+    (state) => state.dataLocal?.profileStaffLogin
+  );
+
   /**
   |--------------------------------------------------
   | CALL API
@@ -120,6 +132,22 @@ export const useProps = (props) => {
     },
     onRefresh: () => {
       callGetStaffLogTime();
+    },
+    isPermission: () => {
+      const roleName = profileStaffLogin?.roleName || role.Admin;
+      const permission = l.get(profileStaffLogin, "permission", []);
+
+      if (roleName !== role.Admin) {
+        if (roleName === role.Manager) {
+          if (!isPermissionToTab(permission, menuTabs.MENU_STAFF_LOGTIME)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      }
+
+      return true;
     },
   };
 };

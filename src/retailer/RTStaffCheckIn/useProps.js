@@ -13,9 +13,9 @@ export const useProps = ({ navigation }) => {
     openDrawer,
     navigation,
     handleLockScreen: () => {},
-    tabPermission: useSelector((state) => state.app?.staffLogtimeTabPermission),
-    togglePopupPermission: (bl) => {
-      dispatch(actions.app.toggleStaffLogtimeTabPermission(bl ?? true));
-    },
+    // tabPermission: useSelector((state) => state.app?.staffLogtimeTabPermission),
+    // togglePopupPermission: (bl) => {
+    //   dispatch(actions.app.toggleStaffLogtimeTabPermission(bl ?? true));
+    // },
   };
 };

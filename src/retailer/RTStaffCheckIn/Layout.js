@@ -42,12 +42,12 @@ export const Layout = ({
         <Screen {...StaffCheckInList} />
       </Navigator>
 
-      <PermissionChecker
+      {/* <PermissionChecker
         navigation={navigation}
         tabName={menuTabs.MENU_STAFF_LOGTIME}
         tabPermission={tabPermission}
         togglePopupPermission={togglePopupPermission}
-      />
+      /> */}
     </View>
   );
 };

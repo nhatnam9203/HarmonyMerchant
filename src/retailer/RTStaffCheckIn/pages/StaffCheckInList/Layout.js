@@ -39,6 +39,7 @@ export const Layout = ({
   setPage,
   pagination,
   onRefresh,
+  isPermission,
 }) => {
   const { t } = useTranslation();
 
@@ -75,6 +76,7 @@ export const Layout = ({
             key={getUniqueId(columnKey, rowIndex, "cell-action")}
           >
             <DeleteConfirmButton
+              disable={!isPermission()}
               label={t("Delete")}
               width={scaleWidth(72)}
               height={scaleHeight(30)}
@@ -88,6 +90,7 @@ export const Layout = ({
             />
             <View style={layouts.marginHorizontal} />
             <ButtonStaffCheckIn
+              disable={!isPermission()}
               label={t("Edit")}
               width={scaleWidth(72)}
               height={scaleHeight(30)}
