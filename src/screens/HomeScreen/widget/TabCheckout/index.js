@@ -2855,7 +2855,6 @@ class TabCheckout extends Layout {
         this.isProcessPrintTempClover = false
       }),
       this.eventEmitter.addListener('deviceDisconnected', () => {
-        console.log(message)
         if(this.isProcessPaymentClover) {
           this.setState({
             visibleProcessingCredit: false,

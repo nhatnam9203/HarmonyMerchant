@@ -28,6 +28,7 @@ import {
   PopupConfirmPrintInvoice,
   ClearTextInputIcon,
   ScrollableTabView,
+  PopupPairingCode,
 } from "@components";
 import {
   scaleSize,
@@ -927,6 +928,7 @@ export default class Layout extends React.Component {
       visibleConfirmInvoiceStatus,
       transactionId,
       visiblePrintInvoice,
+      visiblePopupParingCode
     } = this.state;
     return (
       <ParentContainer
@@ -981,6 +983,10 @@ export default class Layout extends React.Component {
           onRequestClose={this.cancelTransaction}
           language={language}
           transactionId={transactionId}
+        />
+        <PopupPairingCode
+            visible={this.state.visiblePopupParingCode ? true: false}
+            message={this.state.pairingCode}
         />
         <PopupConfirmPrintInvoice
           visible={visibleConfirmPrintInvoice}

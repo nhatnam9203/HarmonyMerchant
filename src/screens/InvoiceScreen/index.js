@@ -1,5 +1,5 @@
 import React from "react";
-import { NativeModules, Platform } from "react-native";
+import { NativeModules, Platform, NativeEventEmitter } from "react-native";
 import _ from "ramda";
 import { captureRef, releaseCapture } from "react-native-view-shot";
 import { StarPRNT } from "react-native-star-prnt";
@@ -17,6 +17,9 @@ import {
   getQuickFilterStringInvoice,
   checkStatusPrint,
   getInfoFromModelNameOfPrinter,
+  REMOTE_APP_ID,
+  APP_NAME,
+  POS_SERIAL,
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
 import { role, menuTabs, isPermissionToTab } from "@utils";
@@ -24,6 +27,7 @@ import * as l from "lodash";
 
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
+const { clover } = NativeModules;
 
 const initalState = {
   isFocus: false,
@@ -40,6 +44,8 @@ const initalState = {
   transactionId: false,
   visiblePrintInvoice: false,
   titleInvoice: "",
+  visiblePopupParingCode: false,
+  pairingCode: "",
 };
 
 class InvoiceScreen extends Layout {
@@ -56,6 +62,88 @@ class InvoiceScreen extends Layout {
     this.invoicePrintRef = React.createRef();
     this.viewShotRef = React.createRef();
     this.virtualizedListRef = React.createRef();
+
+    //ADD LISTENER FROM CLOVER MODULE
+    this.eventEmitter = new NativeEventEmitter(clover);
+    this.subscriptions = []
+    this.isProcessVoidPaymentClover = false
+  }
+
+  registerEvents () {
+    clover.changeListenerStatus(true)
+    this.subscriptions = [
+      this.eventEmitter.addListener('voidPaymentSuccess', data => {
+       console.log('data', data)
+       this.isProcessVoidPaymentClover = false
+       this.handleResultVoidTransactionCloverSuccess(data)
+       
+      }),
+      this.eventEmitter.addListener('voidPaymentFail', data => {
+        console.log('data', data)
+        this.isProcessVoidPaymentClover = false
+        this.handleResponseCreditCardForCloverFailed(l.get(data, 'errorMessage'))
+        
+       }),
+       this.eventEmitter.addListener('refundPaymentSuccess', data => {
+        console.log('data', data)
+        this.isProcessVoidPaymentClover = false
+        this.handleResultVoidTransactionCloverSuccess(data)
+        
+       }),
+       this.eventEmitter.addListener('refundPaymentFail', data => {
+         console.log('data', data)
+         this.isProcessVoidPaymentClover = false
+         this.handleResponseCreditCardForCloverFailed(l.get(data, 'errorMessage'))
+         
+        }),
+      this.eventEmitter.addListener('pairingCode', data => {
+        if(data){
+          const text = `Pairing code: ${l.get(data, 'pairingCode')}`
+          if(this.isProcessVoidPaymentClover) {
+            this.setState({
+              visibleProcessingCredit: false,
+            });
+          }
+          this.setState({
+            visiblePopupParingCode: true,
+            pairingCode: text,
+          })
+        }
+      }),
+      this.eventEmitter.addListener('pairingSuccess', data => {
+        this.props.actions.hardware.setCloverToken(
+          l.get(data, 'token')
+        );
+        this.setState({
+          visiblePopupParingCode: false,
+          pairingCode: '',
+        })
+        if(this.isProcessVoidPaymentClover) {
+          this.setState({
+            visibleProcessingCredit: true,
+          });
+        }
+      }),
+      this.eventEmitter.addListener('deviceReady', () => {
+        
+       
+      }),
+      
+      this.eventEmitter.addListener('deviceDisconnected', () => {
+        if(this.isProcessVoidPaymentClover) {
+          this.setState({
+            visibleProcessingCredit: false,
+          });
+        }
+        
+      }),
+    ]
+  }
+
+  unregisterEvents () {
+    clover.changeListenerStatus(false)
+    this.subscriptions.forEach(e => e.remove())
+    this.subscriptions = []
   }
 
   componentDidMount() {
@@ -272,7 +360,7 @@ class InvoiceScreen extends Layout {
   };
 
   confirmChangeInvoiceStatus = async () => {
-    const { paxMachineInfo, invoiceDetail } = this.props;
+    const { paxMachineInfo, invoiceDetail, cloverMachineInfo, paymentMachineType } = this.props;
     const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
       paxMachineInfo;
 
@@ -356,42 +444,77 @@ class InvoiceScreen extends Layout {
 
           if (invoiceDetail?.status === "paid") {
             this.popupProcessingCreditRef.current?.setStateFromParent(false);
-            PosLink.sendTransaction(
-              {
-                tenderType: "CREDIT",
-                transType: "RETURN",
-                amount: `${parseFloat(amount)}`,
-                transactionId: transactionId,
-                extData: extData,
-                commType: commType,
-                destIp: tempIpPax,
-                portDevice: tempPortPax,
-                timeoutConnect: "90000",
-                bluetoothAddr: idBluetooth,
-                invNum: `${invNum}`,
-              },
-              (data) => this.handleResultRefundTransaction(data)
-            );
+            if (paymentMachineType == "Clover") {
+              const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
+              const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+              this.isProcessVoidPaymentClover = true
+              const paymentInfo = {
+                url,
+                remoteAppId: REMOTE_APP_ID,
+                appName: APP_NAME,
+                posSerial: POS_SERIAL,
+                token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
+                orderId: paymentInformation?.orderId || "",
+                paymentId: paymentInformation?.id || "",
+              }
+              clover.voidPayment(paymentInfo);
+            }else{
+              PosLink.sendTransaction(
+                {
+                  tenderType: "CREDIT",
+                  transType: "RETURN",
+                  amount: `${parseFloat(amount)}`,
+                  transactionId: transactionId,
+                  extData: extData,
+                  commType: commType,
+                  destIp: tempIpPax,
+                  portDevice: tempPortPax,
+                  timeoutConnect: "90000",
+                  bluetoothAddr: idBluetooth,
+                  invNum: `${invNum}`,
+                },
+                (data) => this.handleResultRefundTransaction(data)
+              );
+            }
+           
           } else if (invoiceDetail?.status === "complete") {
             this.popupProcessingCreditRef.current?.setStateFromParent(
               transactionId
             );
-            PosLink.sendTransaction(
-              {
-                tenderType: "CREDIT",
-                transType: "VOID",
-                amount: "",
-                transactionId: transactionId,
-                extData: extData,
-                commType: commType,
-                destIp: tempIpPax,
-                portDevice: tempPortPax,
-                timeoutConnect: "90000",
-                bluetoothAddr: idBluetooth,
-                invNum: `${invNum}`,
-              },
-              (data) => this.handleResultVoidTransaction(data)
-            );
+            if (paymentMachineType == "Clover"){
+              this.isProcessVoidPaymentClover = true
+              const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
+              const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+              this.isProcessVoidPaymentClover = true
+              const paymentInfo = {
+                url,
+                remoteAppId: REMOTE_APP_ID,
+                appName: APP_NAME,
+                posSerial: POS_SERIAL,
+                token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
+                orderId: paymentInformation?.orderId || "",
+                paymentId: paymentInformation?.id || "",
+              }
+              clover.refundPayment(paymentInfo);
+            } else {
+              PosLink.sendTransaction(
+                {
+                  tenderType: "CREDIT",
+                  transType: "VOID",
+                  amount: "",
+                  transactionId: transactionId,
+                  extData: extData,
+                  commType: commType,
+                  destIp: tempIpPax,
+                  portDevice: tempPortPax,
+                  timeoutConnect: "90000",
+                  bluetoothAddr: idBluetooth,
+                  invNum: `${invNum}`,
+                },
+                (data) => this.handleResultVoidTransaction(data)
+              );
+            }
+            
           }
         }
       }
@@ -422,6 +545,34 @@ class InvoiceScreen extends Layout {
       quickFilter ? getQuickFilterStringInvoice(quickFilter) : ""
     }`;
   };
+
+  handleResultVoidTransactionCloverSuccess = async (result) => {
+    const { invoiceDetail } = this.props;
+  
+    await this.setState({
+      visibleProcessingCredit: false,
+    });
+
+    if (Platform.OS === "ios") {
+      this.props.actions.invoice.changeStatustransaction(
+        invoiceDetail?.checkoutId,
+        this.getParamsSearch(),
+        result
+      );
+      await this.setState({
+        titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
+      });
+    }
+  }
+
+  handleResultVoidTransactionCloverFailed = async (message) => {
+    await this.setState({
+      visibleProcessingCredit: false,
+    });
+    setTimeout(() => {
+      alert(message);
+    }, 300);
+  }
 
   handleResultVoidTransaction = async (result) => {
     const { invoiceDetail } = this.props;
@@ -710,9 +861,14 @@ class InvoiceScreen extends Layout {
     }
   };
 
+  componentDidMount() {
+    this.registerEvents()
+  }
+
   componentWillUnmount() {
     this.didBlurSubscription();
     this.didFocusSubscription();
+    this.unregisterEvents()
   }
 }
 
@@ -739,6 +895,9 @@ const mapStateToProps = (state) => ({
   notiIntervalId: state.app.notiIntervalId,
 
   invoiceDetail: state.invoice.invoiceDetail,
+
+  cloverMachineInfo: state.hardware.cloverMachineInfo,
+  paymentMachineType: state.hardware.paymentMachineType,
 });
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

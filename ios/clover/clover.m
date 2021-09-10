@@ -19,13 +19,21 @@ static NSString* confirmPayment              = @"confirmPayment";
 static NSString* printInProcess         = @"printInProcess";
 static NSString* printDone              = @"printDone";
 static NSString* deviceDisconnected     = @"deviceDisconnected";
+static NSString* voidPaymentSuccess     = @"voidPaymentSuccess";
+static NSString* voidPaymentFail     = @"voidPaymentFail";
+static NSString* refundPaymentSuccess     = @"refundPaymentSuccess";
+static NSString* refundPaymentFail     = @"refundPaymentFail";
 
 @interface clover () <CloverManagerDelegate>
 @property (nonatomic) BOOL listening;
 @property (nonatomic) BOOL isPaymentProcessing;
+@property (nonatomic) BOOL isVoidProcessing;
+@property (nonatomic) BOOL isRefundProcessing;
 @property (nonatomic) BOOL isPrintWithConnectProcessing;
 @property (nonatomic, strong) CloverManager *clover;
 @property (nonatomic, strong) NSDictionary *paymentInfo;
+@property (nonatomic, strong) NSDictionary *voidInfo;
+@property (nonatomic, strong) NSDictionary *refundInfo;
 @property (nonatomic, strong) NSString *imageUri;
 @end
 
@@ -62,11 +70,27 @@ RCT_EXPORT_MODULE();
     printInProcess,
     printDone,
     deviceDisconnected,
+    voidPaymentSuccess,
+    voidPaymentFail,
+    refundPaymentSuccess,
+    refundPaymentFail
   ];
 }
 
 RCT_EXPORT_METHOD(changeListenerStatus:(BOOL)value) {
     self.listening = value;
+}
+
+- (void) connectClover:(NSDictionary *)info {
+  self.clover = [CloverManager alloc];
+  self.clover.cloverDelegate = self;
+  NSString *url = info[@"url"];
+  NSString *remoteAppId = info[@"remoteAppId"];
+  NSString *appName = info[@"appName"];
+  NSString *posSerial = info[@"posSerial"];
+  NSString *token = info[@"token"];
+  
+  [self.clover connect:url appId: remoteAppId appName: appName posSerial: posSerial token: token];
 }
 
 RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo)
@@ -139,6 +163,29 @@ RCT_EXPORT_METHOD(doPrintWithConnect:(NSDictionary *)printInfo){
   }
 }
 
+RCT_EXPORT_METHOD(voidPayment:(NSDictionary*) voidInfo) {
+  if(self.clover){
+    [self.clover voidPaymentWithPaymentInfo: voidInfo];
+  }else{
+    self.isVoidProcessing = true;
+    self.voidInfo = voidInfo;
+    [self connectClover:voidInfo];
+  }
+}
+
+RCT_EXPORT_METHOD(refundPayment:(NSDictionary*) refundInfo) {
+  if(self.clover){
+    [self.clover refundPaymentWithPaymentInfo: refundInfo];
+  }else{
+    self.isRefundProcessing = true;
+    self.refundInfo = refundInfo;
+    [self connectClover: refundInfo];
+  }
+  
+}
+
+/*---------Functions-----------*/
+
 
 /*----- DELEGATE FROM CloverManager ------*/
 
@@ -153,6 +200,32 @@ RCT_EXPORT_METHOD(doPrintWithConnect:(NSDictionary *)printInfo){
         [self sendEventWithName:paymentSuccess body:response];
     }
 }
+
+- (void)voidFailWithErrorMessage:(NSString * _Nonnull)errorMessage {
+  self.isVoidProcessing = false;
+  [self sendEventWithName:voidPaymentFail body:@{@"errorMessage": errorMessage}];
+}
+
+- (void)voidSuccessWithResponse:(NSDictionary * _Nonnull)response {
+  self.isVoidProcessing = false;
+   if (self.listening) {
+        [self sendEventWithName:voidPaymentSuccess body:response];
+    }
+}
+
+- (void)refundFailWithErrorMessage:(NSString * _Nonnull)errorMessage {
+  self.isRefundProcessing = false;
+  [self sendEventWithName:refundPaymentFail body:@{@"errorMessage": errorMessage}];
+}
+
+- (void)refundSuccessWithResponse:(NSDictionary * _Nonnull)response {
+  self.isRefundProcessing = false;
+   if (self.listening) {
+        [self sendEventWithName:refundPaymentSuccess body:response];
+    }
+}
+
+
 
 - (void)pairingCodeWithString:(NSString * _Nonnull)string {
   if (self.listening) {
@@ -175,6 +248,10 @@ RCT_EXPORT_METHOD(doPrintWithConnect:(NSDictionary *)printInfo){
     [self.clover doSaleWithPaymentInfo: self.paymentInfo];
   } else if(self.isPrintWithConnectProcessing){
     [self.clover doPrintWithImage: self.imageUri];
+  } else if (self.isVoidProcessing) {
+    [self.clover voidPaymentWithPaymentInfo:self.voidInfo];
+  } else if(self.isRefundProcessing) {
+    [self.clover voidPaymentWithPaymentInfo:self.refundInfo];
   }
  
 }

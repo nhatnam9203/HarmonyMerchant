@@ -11,6 +11,10 @@ import Foundation
 @objc public protocol CloverManagerDelegate {
   func paymentSuccess(response: NSDictionary)
   func paymentFail(errorMessage: String)
+  func voidSuccess(response: NSDictionary)
+  func voidFail(errorMessage: String)
+  func refundSuccess(response: NSDictionary)
+  func refundFail(errorMessage: String)
   func pairingCode(string: String)
   func pairingSuccess(token: String)
   func onDeviceReady()
@@ -31,7 +35,7 @@ import Foundation
   fileprivate let PAIRING_AUTH_TOKEN_KEY:String = "PAIRING_AUTH_TOKEN"
 
   @objc public func connect(_ url:String, appId: String, appName: String, posSerial: String, token: String) {
-        myCloverConnector?.dispose()
+    self.myCloverConnector?.dispose()
         // load from previous pairing, or nil will force/require
         // a new pairing with the device
       
@@ -41,9 +45,9 @@ import Foundation
           pairingAuthToken: token.isEmpty ? nil : token,
           pairingDeviceConfiguration: self)
 
-      myCloverConnector = CloverConnectorFactory.createICloverConnector(config: config)
-      myCloverConnector?.addCloverConnectorListener(self)
-      myCloverConnector?.initializeConnection()
+    self.myCloverConnector = CloverConnectorFactory.createICloverConnector(config: config)
+    self.myCloverConnector?.addCloverConnectorListener(self)
+    self.myCloverConnector?.initializeConnection()
     }
 
   @objc public func doSale(paymentInfo: NSDictionary) {
@@ -58,7 +62,21 @@ import Foundation
     saleRequest.tipMode = SaleRequest.TipMode(rawValue: tipModeString)
     saleRequest.autoAcceptSignature = true
     
-    myCloverConnector?.sale(saleRequest)
+    self.myCloverConnector?.sale(saleRequest)
+  }
+  
+  @objc public func voidPayment(paymentInfo: NSDictionary) {
+    let orderId = paymentInfo.value(forKey: "orderId") as! String
+    let paymentId = paymentInfo.value(forKey: "paymentId") as! String
+    let voidRequest = VoidPaymentRequest(orderId: orderId, paymentId: paymentId, voidReason: .USER_CANCEL)
+    self.myCloverConnector?.voidPayment(voidRequest)
+  }
+  
+  @objc public func refundPayment(paymentInfo: NSDictionary) {
+    let orderId = paymentInfo.value(forKey: "orderId") as! String
+    let paymentId = paymentInfo.value(forKey: "paymentId") as! String
+    let refundRequest = RefundPaymentRequest(orderId: orderId, paymentId: paymentId, fullRefund: true)
+    self.cloverConnector?.refundPayment(refundRequest)
   }
   
   func imageFromBase64(_ base64: String) -> UIImage? {
@@ -88,11 +106,11 @@ import Foundation
   }
   
   @objc public func confirmPayment() {
-    myCloverConnector?.acceptPayment((self.confirmPaymentRequest?.payment)!)
+    self.myCloverConnector?.acceptPayment((self.confirmPaymentRequest?.payment)!)
   }
   
   @objc public func rejectPayment() {
-    myCloverConnector?.rejectPayment((self.confirmPaymentRequest?.payment)!, challenge: (self.confirmPaymentRequest?.challenges![0])!)
+    self.myCloverConnector?.rejectPayment((self.confirmPaymentRequest?.payment)!, challenge: (self.confirmPaymentRequest?.challenges![0])!)
   }
 
     // PairingDeviceConfiguration
@@ -116,7 +134,7 @@ import Foundation
   
   func retrievePrinters(completion: ((_ response:RetrievePrintersResponse) -> Void)?) {
       let request = RetrievePrintersRequest(printerCategory: nil)
-      myCloverConnector?.retrievePrinters(request)
+      self.myCloverConnector?.retrievePrinters(request)
   }
   
   public override func onRetrievePrintersResponse(_ retrievePrintersResponse: RetrievePrintersResponse) {
@@ -141,7 +159,7 @@ import Foundation
   /// - Parameter request: PrintRequest object containing the information needed to begin a print job
   private func issuePrintJob(_ request: PrintRequest) {
           //kick off the print request
-         myCloverConnector?.print(request)
+         self.myCloverConnector?.print(request)
           
           //the rest of this scope works to monitor the print job. This can only be done if a printRequestID exists
           guard let printRequestId = request.printRequestId else { return }
@@ -184,7 +202,170 @@ import Foundation
       }
   }
 
-    // DefaultCloverConnectorListener
+  //-------Clover Connection Listener ---------//
+  /*
+   * Response to a payment be voided.
+   */
+  public override func  onVoidPaymentResponse ( _ response:VoidPaymentResponse ) -> Void {
+      DispatchQueue.main.async { [weak self] in
+          guard let self = self else { return }
+          if response.success {
+            let responseDict: NSDictionary = [
+              "paymentId": response.paymentId ?? "",
+              "transactionNumber": response.transactionNumber ?? "",
+              "voidReason": response.voidReason ?? "",
+              "orderId": response.payment?.order?.id ?? "",
+
+              /// Device which processed the transaction for this payment
+                "device": response.payment?.device ?? "",
+
+              /// The tender type associated with this payment, e.g. credit card, cash, etc.
+                "tender": response.payment?.tender?.label ?? "",
+
+              /// Total amount paid
+                "amount": response.payment?.amount ?? 0,
+
+              /// Amount paid in tips
+                "tipAmount": response.payment?.tipAmount ?? 0,
+
+              /// Amount paid in tax
+                "taxAmount": response.payment?.taxAmount ?? 0,
+
+              /// Amount given back in a cash back transaction
+                "cashbackAmount": response.payment?.cashbackAmount ?? 0,
+
+              /// Amount of cash given by the customer
+                "cashTendered": response.payment?.cashTendered ?? "",
+
+                "externalPaymentId": response.payment?.externalPaymentId ?? "",
+              
+             // The employee who processed the payment
+              "employee": response.payment?.employee ?? "",
+
+              /// Time payment was recorded on server
+              "createdTime": response.payment?.createdTime ?? "",
+
+              "clientCreatedTime": response.payment?.clientCreatedTime ?? "",
+
+              /// Last modified time of the payment
+              "modifiedTime": response.payment?.modifiedTime ?? "",
+
+              "offline": response.payment?.offline ?? "",
+
+              "result": response.payment?.result ?? "",
+
+              /// Information about the card used for credit/debit card payments
+              "paymentRef": response.payment?.cardTransaction?.paymentRef ?? "",
+              "creditRef": response.payment?.cardTransaction?.creditRef ?? "",
+              "cardType": response.payment?.cardTransaction?.cardType ?? "",
+              "entryType": response.payment?.cardTransaction?.entryType ?? "",
+              "first6": response.payment?.cardTransaction?.first6 ?? "",
+              "last4": response.payment?.cardTransaction?.last4 ?? "",
+              "type_": response.payment?.cardTransaction?.type_ ?? "",
+              "authCode": response.payment?.cardTransaction?.authCode ?? "",
+              "referenceId": response.payment?.cardTransaction?.referenceId ?? "",
+              "transactionNo": response.payment?.cardTransaction?.transactionNo ?? "",
+              "state": response.payment?.cardTransaction?.state ?? "",
+              "cardholderName": response.payment?.cardTransaction?.cardholderName ?? "",
+              "token": response.payment?.cardTransaction?.token ?? "",
+              "expirationDate": response.payment?.cardTransaction?.vaultedCard?.expirationDate ?? "",
+              
+                                  
+              /// Amount record as a service charge
+              "serviceCharge": response.payment?.serviceCharge ?? "",
+
+              "taxRates": response.payment?.taxRates ?? "",
+
+              "refunds": response.payment?.refunds ?? "",
+
+              "note": response.payment?.note ?? "",
+
+              "lineItemPayments": response.payment?.lineItemPayments ?? "",
+
+              /// If voided, the reason why (when available)
+              "voidReason": response.payment?.voidReason ?? "",
+
+              /// Dynamic Currency Conversion information
+              "dccInfo": response.payment?.dccInfo ?? "",
+
+              /// Per transaction settings for the payment
+              "transactionSettings": response.payment?.transactionSettings ?? "",
+
+              /// German region-specific information
+              "germanInfo": response.payment?.germanInfo ?? "",
+
+              /// Tracking information for the app that created this payment.
+              "appTracking": response.payment?.appTracking ?? "",
+
+              /// Additional charges associated with this transaction (Canada INTERAC)
+              "additionalCharges": response.payment?.additionalCharges ?? "",
+              
+              "transactionInfo": response.payment?.transactionInfo ?? "",
+              
+              "increments": response.payment?.increments ?? ""
+            ]
+            
+            if(self.cloverDelegate != nil){
+              self.cloverDelegate?.voidSuccess(response: responseDict)
+            }
+          } else {
+            let errorMessage = "Void failed: " + String(describing: response.result)
+            if(self.cloverDelegate != nil){
+              self.cloverDelegate?.voidFail(errorMessage: errorMessage)
+            }
+          }
+      }
+  }
+  
+  public override func onRefundPaymentResponse(_ refundPaymentResponse: RefundPaymentResponse) {
+      DispatchQueue.main.async { [weak self] in
+          guard let self = self else { return }
+        let dateFormatter = DateFormatter()
+          if refundPaymentResponse.success {
+            let responseDict: NSDictionary = [
+                "orderId": refundPaymentResponse.orderId ?? "",
+                "paymentId": refundPaymentResponse.paymentId ?? "",
+                "id": refundPaymentResponse.refund?.id ?? "",
+                /// The order with which the refund is associated
+                "orderRef": refundPaymentResponse.refund?.orderRef ?? "",
+                /// Device which processed the transaction for this refund
+                "deviceSerial": refundPaymentResponse.refund?.device?.serial ?? "",
+                /// Total amount refunded, including tax
+                "amount": refundPaymentResponse.refund?.amount ?? 0,
+                /// Tax amount refunded
+                "taxAmount": refundPaymentResponse.refund?.taxAmount ?? 0,
+                /// Tip amount refunded
+                "tipAmount": refundPaymentResponse.refund?.tipAmount ?? 0,
+                /// The time when the refund was recorded on the server
+                "createdTime": dateFormatter.string(from: refundPaymentResponse.refund?.createdTime ?? Date()),
+              /// The tender type associated with this payment, e.g. credit card, cash, etc.
+                "voided": refundPaymentResponse.refund?.voided ?? false,
+                "voidReason": refundPaymentResponse.refund?.voidReason ?? "",
+                "first6": refundPaymentResponse.refund?.cardTransaction?.first6 ?? "",
+                /// The last four digits of the card number
+                "last4": refundPaymentResponse.refund?.cardTransaction?.last4 ?? "",
+                "cardType": refundPaymentResponse.refund?.cardTransaction?.cardType ?? "",
+                /// Authorization code (if successful)
+                "cardTransactionAuthCode": refundPaymentResponse.refund?.cardTransaction?.authCode ?? "",
+                "cardTransactionReferenceId": refundPaymentResponse.refund?.cardTransaction?.referenceId ?? "",
+                "cardTransactionNo": refundPaymentResponse.refund?.cardTransaction?.transactionNo ?? "",
+                "cardholderName": refundPaymentResponse.refund?.cardTransaction?.cardholderName ?? "",
+                "cardTransactionToken": refundPaymentResponse.refund?.cardTransaction?.token ?? ""
+              ]
+              if(self.cloverDelegate != nil){
+                self.cloverDelegate?.refundSuccess(response: responseDict)
+              }
+          } else {
+              var failMessage = "Refund failed"
+              if let failureMessage = refundPaymentResponse.message {
+                failMessage = failureMessage
+              }
+              if(self.cloverDelegate != nil){
+                self.cloverDelegate?.refundFail(errorMessage: failMessage)
+              }
+          }
+      }
+  }
 
     // called when device is disconnected
   public override func onDeviceDisconnected() {
@@ -207,7 +388,7 @@ import Foundation
   public override func onVerifySignatureRequest(_ signatureVerifyRequest: VerifySignatureRequest) {
         //present signature to user, then
         // acceptSignature(...) or rejectSignature(...)
-    myCloverConnector?.acceptSignature(signatureVerifyRequest)
+    self.myCloverConnector?.acceptSignature(signatureVerifyRequest)
   }
 
     // required if Mini wants the POS to verify a payment
@@ -226,6 +407,7 @@ import Foundation
   public override func onSaleResponse(_ response:SaleResponse) {
     
         if response.success {
+          let dateFormatter = DateFormatter()
             // sale successful and payment is in the response (response.payment)
           let responseDict: NSDictionary = ["id": response.payment?.id ?? "",
           // The order with which the payment is associated
@@ -258,7 +440,7 @@ import Foundation
           "employee": response.payment?.employee ?? "",
 
           /// Time payment was recorded on server
-          "createdTime": response.payment?.createdTime ?? "",
+          "createdTime": dateFormatter.string(from: response.payment?.createdTime ?? Date()),
 
           "clientCreatedTime": response.payment?.clientCreatedTime ?? "",
 
@@ -336,7 +518,7 @@ import Foundation
             cloverDelegate?.paymentFail(errorMessage: errorMessage)
         }
     
-      myCloverConnector?.showWelcomeScreen()
+      self.myCloverConnector?.showWelcomeScreen()
     }
 
   public override func onAuthResponse(_ response:AuthResponse) {}
