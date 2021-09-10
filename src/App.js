@@ -18,6 +18,7 @@ import { CodePushProvider } from "@shared/providers/CodePushProvider";
 import { AppStateProvider } from "@shared/providers/AppStateProvider";
 import { isDevelopmentMode } from "@shared/utils/app";
 import "@shared/services/api/axiosClient";
+import { NativeModules, Alert, Platform } from "react-native";
 
 if (isDevelopmentMode) {
   import("../ReactotronConfig").then(() =>
@@ -30,6 +31,12 @@ const { persistor, store } = configureStore();
 const App: () => React$Node = () => {
   React.useEffect(() => {
     SplashScreen.hide();
+
+    try {
+      NativeModules.logPax.loadLogPax();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   return (
