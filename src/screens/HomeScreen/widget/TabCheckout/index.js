@@ -374,7 +374,7 @@ class TabCheckout extends Layout {
           (parseFloat(basket[i].data.price) *
             basket[i].quanlitySet *
             taxProduct) /
-            100;
+          100;
       } else if (basket[i].type === "Service") {
         taxTotal =
           taxTotal +
@@ -560,16 +560,21 @@ class TabCheckout extends Layout {
     this.props.gotoPageCurentParent(isDrawer);
     await this.setState({ ...initState, isInitBasket: true });
     this.scrollTabRef.current?.goToPage(0);
-    this.props.actions.appointment.resetBasketEmpty();
+    await this.props.actions.appointment.resetBasketEmpty();
     this.props.actions.appointment.resetPayment();
     this.props.actions.appointment.changeFlagSigninAppointment(false);
     this.props.actions.appointment.resetGroupAppointment();
 
-    // if (isCancelAppointment) {
-    //     const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
-    //     const customerId = customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0;
-    //     this.props.actions.appointment.cancleAppointment(mainAppointmentId, profile.merchantId, customerId);
-    // }
+    if (isCancelAppointment) {
+      const app = groupAppointment?.appointments[0];
+      if (app) {
+        if ((app.services.length + app.products.length + app.giftCards.length) === 0) {
+          const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
+          const customerId = customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0;
+          this.props.actions.appointment.cancleAppointment(mainAppointmentId, profile.merchantId, customerId);
+        }
+      }
+    }
 
     // if (appointmentIdBookingFromCalendar) {
     //     const customerId = customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0;
@@ -792,10 +797,10 @@ class TabCheckout extends Layout {
     const basket = isOfflineMode
       ? this.state.basket
       : arryaServicesBuy.concat(
-          arrayExtrasBuy,
-          arrayProductBuy,
-          arrayGiftCards
-        );
+        arrayExtrasBuy,
+        arrayProductBuy,
+        arrayGiftCards
+      );
     const tipAmount = groupAppointment?.tipAmount || 0;
     const subTotal = groupAppointment?.subTotal || 0;
     const discount = groupAppointment?.discount || 0;
@@ -807,11 +812,11 @@ class TabCheckout extends Layout {
       : subTotal;
     const temptTotal = _.isEmpty(groupAppointment)
       ? Number(
-          formatNumberFromCurrency(subTotalLocal) +
-            formatNumberFromCurrency(tipLocal) +
-            formatNumberFromCurrency(taxLocal) -
-            formatNumberFromCurrency(discountTotalLocal)
-        ).toFixed(2)
+        formatNumberFromCurrency(subTotalLocal) +
+        formatNumberFromCurrency(tipLocal) +
+        formatNumberFromCurrency(taxLocal) -
+        formatNumberFromCurrency(discountTotalLocal)
+      ).toFixed(2)
       : total;
     const temptDiscount = _.isEmpty(groupAppointment)
       ? discountTotalLocal
@@ -1030,19 +1035,19 @@ class TabCheckout extends Layout {
       if (isOfflineMode) {
         const temptTotal = Number(
           formatNumberFromCurrency(subTotalLocal) +
-            formatNumberFromCurrency(tipLocal) +
-            formatNumberFromCurrency(taxLocal) -
-            formatNumberFromCurrency(discountTotalLocal)
+          formatNumberFromCurrency(tipLocal) +
+          formatNumberFromCurrency(taxLocal) -
+          formatNumberFromCurrency(discountTotalLocal)
         ).toFixed(2);
         this.modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       } else {
         const temptTotal = _.isEmpty(groupAppointment)
           ? Number(
-              formatNumberFromCurrency(subTotalLocal) +
-                formatNumberFromCurrency(tipLocal) +
-                formatNumberFromCurrency(taxLocal) -
-                formatNumberFromCurrency(discountTotalLocal)
-            ).toFixed(2)
+            formatNumberFromCurrency(subTotalLocal) +
+            formatNumberFromCurrency(tipLocal) +
+            formatNumberFromCurrency(taxLocal) -
+            formatNumberFromCurrency(discountTotalLocal)
+          ).toFixed(2)
           : groupAppointment.total;
         this.modalBillRef.current?.setStateFromParent(`${temptTotal}`);
       }
@@ -1180,9 +1185,9 @@ class TabCheckout extends Layout {
     );
     const totalLocal = Number(
       formatNumberFromCurrency(subTotalLocal) +
-        formatNumberFromCurrency(tipLocal) +
-        formatNumberFromCurrency(taxLocal) -
-        formatNumberFromCurrency(discountTotalLocal)
+      formatNumberFromCurrency(tipLocal) +
+      formatNumberFromCurrency(taxLocal) -
+      formatNumberFromCurrency(discountTotalLocal)
     ).toFixed(2);
 
     if (moneyUserGiveForStaff == 0) {
@@ -1221,8 +1226,8 @@ class TabCheckout extends Layout {
       amountPayment !== false
         ? amountPayment
         : parseFloat(
-            formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
-          );
+          formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
+        );
     const method = this.getPaymentString(paymentSelected);
     const total = groupAppointment.total
       ? parseFloat(formatNumberFromCurrency(groupAppointment.total))
@@ -1638,13 +1643,13 @@ class TabCheckout extends Layout {
           });
         }, 300);
       }
-    } catch (error) {}
+    } catch (error) { }
   }
 
   cancelTransaction = async () => {
     const { payAppointmentId, language } = this.props;
     if (Platform.OS === "android") {
-      PoslinkAndroid.cancelTransaction((data) => {});
+      PoslinkAndroid.cancelTransaction((data) => { });
     } else {
       if (!this.isGetResponsePaymentPax) {
         alert(localize("PleaseWait", language));
@@ -1809,7 +1814,7 @@ class TabCheckout extends Layout {
     }
   };
 
-  changeProductBasketLocal = async (productIdLocal, price, quantity) => {};
+  changeProductBasketLocal = async (productIdLocal, price, quantity) => { };
 
   changeStylistBasketLocal = async (serviceId, staffId, tip, price) => {
     const { basket } = this.state;
@@ -1966,8 +1971,8 @@ class TabCheckout extends Layout {
       : 0;
     const subTotal =
       !_.isEmpty(appointmentDetail) &&
-      appointmentDetail &&
-      appointmentDetail.subTotal
+        appointmentDetail &&
+        appointmentDetail.subTotal
         ? appointmentDetail.subTotal
         : 0;
     const discount = appointmentDetail?.discount || 0;
@@ -1979,11 +1984,11 @@ class TabCheckout extends Layout {
       : subTotal;
     const temptTotal = _.isEmpty(appointmentDetail)
       ? Number(
-          formatNumberFromCurrency(subTotalLocal) +
-            formatNumberFromCurrency(tipLocal) +
-            formatNumberFromCurrency(taxLocal) -
-            formatNumberFromCurrency(discountTotalLocal)
-        ).toFixed(2)
+        formatNumberFromCurrency(subTotalLocal) +
+        formatNumberFromCurrency(tipLocal) +
+        formatNumberFromCurrency(taxLocal) -
+        formatNumberFromCurrency(discountTotalLocal)
+      ).toFixed(2)
       : total;
     const temptDiscount = _.isEmpty(appointmentDetail)
       ? discountTotalLocal
@@ -2611,7 +2616,7 @@ class TabCheckout extends Layout {
     if (
       blockAppointments.length > 0 &&
       prevProps.isLoadingRemoveBlockAppointment !=
-        isLoadingRemoveBlockAppointment &&
+      isLoadingRemoveBlockAppointment &&
       !isLoadingRemoveBlockAppointment
     ) {
       this.updateBlockAppointmentRef();
