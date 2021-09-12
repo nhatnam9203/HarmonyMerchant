@@ -763,16 +763,19 @@ class TabCheckout extends Layout {
         this.setState(initState);
         this.props.actions.appointment.resetPayment();
       } else {
+        if (paymentMachineType == "Clover"){
+          this.openCashDrawerClover()
+        }else{
+          setTimeout(() => {
+            alert("Please connect to your cash drawer.");
+          }, 700);
+        }
         this.scrollTabRef.current?.goToPage(0);
         this.props.actions.appointment.closeModalPaymentCompleted();
         this.props.gotoAppoitmentScreen();
         this.props.actions.appointment.resetBasketEmpty();
         this.setState(initState);
         this.props.actions.appointment.resetPayment();
-
-        setTimeout(() => {
-          alert("Please connect to your cash drawer.");
-        }, 700);
       }
     } else {
       this.scrollTabRef.current?.goToPage(0);
@@ -881,6 +884,9 @@ class TabCheckout extends Layout {
     } else {
       const { paymentMachineType } = this.props;
       if (paymentMachineType == 'Clover') {
+        if (paymentSelected === "Cash" || paymentSelected === "Other") {
+          this.openCashDrawerClover();
+        }
         this.showInvoicePrint(portName, false);
       }else {
         alert("Please connect to your printer!");
@@ -908,7 +914,7 @@ class TabCheckout extends Layout {
   };
 
   checkStatusCashier = async () => {
-    const { printerSelect, printerList } = this.props;
+    const { printerSelect, printerList, paymentMachineType } = this.props;
     const { portName } = getInfoFromModelNameOfPrinter(
       printerList,
       printerSelect
@@ -916,9 +922,27 @@ class TabCheckout extends Layout {
     if (portName) {
       this.openCashDrawer(portName);
     } else {
-      alert("Please connect to your cash drawer.");
+      if (paymentMachineType == "Clover"){
+        this.openCashDrawerClover()
+      }else{
+        alert("Please connect to your cash drawer.");
+      }
     }
   };
+
+  openCashDrawerClover(){
+    const {cloverMachineInfo} = this.props
+    const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
+    const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+  
+    clover.openCashDrawer({
+      url,
+      remoteAppId: REMOTE_APP_ID,
+      appName: APP_NAME,
+      posSerial: POS_SERIAL,
+      token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
+    })
+  }
 
   openCashDrawer = async (portName) => {
     await PrintManager.getInstance().openCashDrawer(portName);

@@ -189,6 +189,12 @@ import Foundation
       }
   }
   
+  @objc public func openCashDrawer(){
+    let cashDrawerRequest = OpenCashDrawerRequest("Cash Back", deviceId: nil)
+    self.myCloverConnector?.openCashDrawer(cashDrawerRequest)
+  }
+
+  //-------Clover Connection Listener ---------//
   public override func onPrintJobStatusResponse(_ printJobStatusResponse:PrintJobStatusResponse) {
       DispatchQueue.main.async {
           if let printRequestId = printJobStatusResponse.printRequestId, let callback = self.printJobStatusDict[printRequestId] { //check that we have a callback for this specific printRequestId
@@ -201,8 +207,7 @@ import Foundation
           }
       }
   }
-
-  //-------Clover Connection Listener ---------//
+  
   /*
    * Response to a payment be voided.
    */
@@ -369,9 +374,14 @@ import Foundation
 
     // called when device is disconnected
   public override func onDeviceDisconnected() {
-    if(self.cloverDelegate != nil){
-      self.cloverDelegate?.deviceDisconnected()
-    }
+    print("onDeviceDisconnected")
+//    DispatchQueue.main.async { [weak self] in
+//        guard let self = self else { return }
+//        if(self.cloverDelegate != nil){
+//          self.cloverDelegate?.deviceDisconnected()
+//        }
+//    }
+    
   }
 
     // called when device is connected, but not ready for requests
@@ -527,7 +537,14 @@ import Foundation
     // will provide UI information about the activity on the Mini,
     // and may provide input options for the POS to select some
     // options on behalf of the customer
-  public override func onDeviceActivityStart(_ deviceEvent:CloverDeviceEvent){} // see CloverConnectorListener.swift for example of calling invokeInputOption from this callback
-  public override func onDeviceActivityEnd(_ deviceEvent:CloverDeviceEvent){}
-    // etc.
+  public override func onDeviceActivityStart(_ deviceEvent:CloverDeviceEvent){
+    print("onDeviceActivityStart", deviceEvent)
+  } // see CloverConnectorListener.swift for example of calling invokeInputOption from this callback
+  public override func onDeviceActivityEnd(_ deviceEvent:CloverDeviceEvent){
+    print("onDeviceActivityEnd", deviceEvent)
+  }
+  
+  public override func onDeviceError( _ deviceError: CloverDeviceErrorEvent ) {
+    print("onDeviceError", deviceError)
+  }
 }

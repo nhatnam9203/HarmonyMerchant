@@ -30,6 +30,7 @@ static NSString* refundPaymentFail     = @"refundPaymentFail";
 @property (nonatomic) BOOL isVoidProcessing;
 @property (nonatomic) BOOL isRefundProcessing;
 @property (nonatomic) BOOL isPrintWithConnectProcessing;
+@property (nonatomic) BOOL isOpenCashierProcessing;
 @property (nonatomic, strong) CloverManager *clover;
 @property (nonatomic, strong) NSDictionary *paymentInfo;
 @property (nonatomic, strong) NSDictionary *voidInfo;
@@ -173,6 +174,15 @@ RCT_EXPORT_METHOD(voidPayment:(NSDictionary*) voidInfo) {
   }
 }
 
+RCT_EXPORT_METHOD(openCashDrawer:(NSDictionary*) info) {
+  if(self.clover){
+    [self.clover openCashDrawer];
+  }else{
+    self.isOpenCashierProcessing = true;
+    [self connectClover:info];
+  }
+}
+
 RCT_EXPORT_METHOD(refundPayment:(NSDictionary*) refundInfo) {
   if(self.clover){
     [self.clover refundPaymentWithPaymentInfo: refundInfo];
@@ -190,42 +200,40 @@ RCT_EXPORT_METHOD(refundPayment:(NSDictionary*) refundInfo) {
 /*----- DELEGATE FROM CloverManager ------*/
 
 - (void)paymentFailWithErrorMessage:(NSString * _Nonnull)errorMessage {
-  self.isPaymentProcessing = false;
+  
   [self sendEventWithName:paymentFail body:@{@"errorMessage": errorMessage}];
 }
 
 - (void)paymentSuccessWithResponse:(NSDictionary * _Nonnull)response {
-  self.isPaymentProcessing = false;
+  
    if (self.listening) {
         [self sendEventWithName:paymentSuccess body:response];
     }
 }
 
 - (void)voidFailWithErrorMessage:(NSString * _Nonnull)errorMessage {
-  self.isVoidProcessing = false;
+  
   [self sendEventWithName:voidPaymentFail body:@{@"errorMessage": errorMessage}];
 }
 
 - (void)voidSuccessWithResponse:(NSDictionary * _Nonnull)response {
-  self.isVoidProcessing = false;
+  
    if (self.listening) {
         [self sendEventWithName:voidPaymentSuccess body:response];
     }
 }
 
 - (void)refundFailWithErrorMessage:(NSString * _Nonnull)errorMessage {
-  self.isRefundProcessing = false;
+  
   [self sendEventWithName:refundPaymentFail body:@{@"errorMessage": errorMessage}];
 }
 
 - (void)refundSuccessWithResponse:(NSDictionary * _Nonnull)response {
-  self.isRefundProcessing = false;
+  
    if (self.listening) {
         [self sendEventWithName:refundPaymentSuccess body:response];
     }
 }
-
-
 
 - (void)pairingCodeWithString:(NSString * _Nonnull)string {
   if (self.listening) {
@@ -245,13 +253,30 @@ RCT_EXPORT_METHOD(refundPayment:(NSDictionary*) refundInfo) {
     [self sendEventWithName:deviceReady body:nil];
   }
   if (self.isPaymentProcessing) {
+    
+    self.isPaymentProcessing = false;
     [self.clover doSaleWithPaymentInfo: self.paymentInfo];
+    
   } else if(self.isPrintWithConnectProcessing){
+    
+    self.isPrintWithConnectProcessing = false;
     [self.clover doPrintWithImage: self.imageUri];
+    
   } else if (self.isVoidProcessing) {
+    
+    self.isVoidProcessing = false;
     [self.clover voidPaymentWithPaymentInfo:self.voidInfo];
+    
   } else if(self.isRefundProcessing) {
+    
+    self.isRefundProcessing = false;
     [self.clover voidPaymentWithPaymentInfo:self.refundInfo];
+    
+  } else if(self.isOpenCashierProcessing) {
+    
+    self.isOpenCashierProcessing = false;
+    [self.clover openCashDrawer];
+    
   }
  
 }
