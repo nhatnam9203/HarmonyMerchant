@@ -68,6 +68,9 @@
 		23FEDCF025C00DFD00DDDC25 /* batch.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCEE25C00DFD00DDDC25 /* batch.m */; };
 		23FEDCF125C00DFD00DDDC25 /* batch.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FEDCEE25C00DFD00DDDC25 /* batch.m */; };
 		257B7F4878C8449BBA59493D /* segoeui.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3AFB331EC65948FCA438DE7F /* segoeui.ttf */; };
+		3692CEF726EB4190005BBBD3 /* logPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 3692CEF626EB4190005BBBD3 /* logPax.m */; };
+		3692CEF826EB4190005BBBD3 /* logPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 3692CEF626EB4190005BBBD3 /* logPax.m */; };
+		3692CEF926EB4190005BBBD3 /* logPax.m in Sources */ = {isa = PBXBuildFile; fileRef = 3692CEF626EB4190005BBBD3 /* logPax.m */; };
 		36CA1E98265119A000F2FD53 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A6D29A847164784954C0962 /* Roboto-Black.ttf */; };
 		36CA1E99265119A000F2FD53 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8364A4F07BA646178C6DD608 /* Roboto-BlackItalic.ttf */; };
 		36CA1E9A265119A000F2FD53 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1A53772D95E428C8B28399B /* Roboto-Bold.ttf */; };
@@ -907,6 +910,8 @@
 		365E73FA24F8F38400D2CDB9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3684056524F8BCA200021B55 /* Staing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Staing.entitlements; sourceTree = "<group>"; };
 		3684059024F8BCDA00021B55 /* HPMerchant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HPMerchant.entitlements; sourceTree = "<group>"; };
+		3692CEF526EB4114005BBBD3 /* logPax.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logPax.h; sourceTree = "<group>"; };
+		3692CEF626EB4190005BBBD3 /* logPax.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = logPax.m; sourceTree = "<group>"; };
 		36E4AB54264B29D300614EA3 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		36E4AB64264B2A7200614EA3 /* Hpmerchant-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Hpmerchant-Bridging-Header.h"; sourceTree = "<group>"; };
 		36F619BA2500D81B00893A84 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -1321,6 +1326,7 @@
 		237D407025B588E300E39755 /* trans */ = {
 			isa = PBXGroup;
 			children = (
+				3692CEF426EB40CB005BBBD3 /* log */,
 				237D40F325B59F0B00E39755 /* sdk */,
 				23FEDCEC25C00DFD00DDDC25 /* batch */,
 				23FEDCE325BFFD9000DDDC25 /* report */,
@@ -1414,6 +1420,15 @@
 				22EEC3B8A9E7E3B5D3D99EF8 /* libPods-Hpmerchant-Hpmerchant_Staging.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3692CEF426EB40CB005BBBD3 /* log */ = {
+			isa = PBXGroup;
+			children = (
+				3692CEF526EB4114005BBBD3 /* logPax.h */,
+				3692CEF626EB4190005BBBD3 /* logPax.m */,
+			);
+			path = log;
 			sourceTree = "<group>";
 		};
 		36F619B82500D7FE00893A84 /* Product */ = {
@@ -2098,7 +2113,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Production/Pods-Hpmerchant-Hpmerchant_Production-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -2260,7 +2275,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Staging/Pods-Hpmerchant-Hpmerchant_Staging-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -2320,7 +2335,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Hpmerchant-Hpmerchant_Dev/Pods-Hpmerchant-Hpmerchant_Dev-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -2466,6 +2481,7 @@
 				532EFBF726C63E3A00CF43EA /* ICloverConnector.swift in Sources */,
 				532EFEE726C6404600CF43EA /* PartialAuthMessage.swift in Sources */,
 				532EFCC326C63E8200CF43EA /* VoidCreditResponse.swift in Sources */,
+				3692CEF726EB4190005BBBD3 /* logPax.m in Sources */,
 				36E4AB55264B29D300614EA3 /* File.swift in Sources */,
 				532EFCF026C63E8300CF43EA /* SaleRequest.swift in Sources */,
 				532EFBEB26C63E3A00CF43EA /* DefaultCloverConnectorV2.swift in Sources */,
@@ -2703,6 +2719,7 @@
 				532EFBF826C63E3A00CF43EA /* ICloverConnector.swift in Sources */,
 				532EFEE826C6404600CF43EA /* PartialAuthMessage.swift in Sources */,
 				532EFCC426C63E8200CF43EA /* VoidCreditResponse.swift in Sources */,
+				3692CEF826EB4190005BBBD3 /* logPax.m in Sources */,
 				36E4AB56264B29D300614EA3 /* File.swift in Sources */,
 				532EFCF126C63E8300CF43EA /* SaleRequest.swift in Sources */,
 				532EFBEC26C63E3A00CF43EA /* DefaultCloverConnectorV2.swift in Sources */,
@@ -2940,6 +2957,7 @@
 				532EFBF926C63E3A00CF43EA /* ICloverConnector.swift in Sources */,
 				532EFEE926C6404600CF43EA /* PartialAuthMessage.swift in Sources */,
 				532EFCC526C63E8200CF43EA /* VoidCreditResponse.swift in Sources */,
+				3692CEF926EB4190005BBBD3 /* logPax.m in Sources */,
 				36E4AB57264B29D300614EA3 /* File.swift in Sources */,
 				532EFCF226C63E8300CF43EA /* SaleRequest.swift in Sources */,
 				532EFBED26C63E3A00CF43EA /* DefaultCloverConnectorV2.swift in Sources */,
@@ -3199,7 +3217,7 @@
 				CODE_SIGN_ENTITLEMENTS = Staing.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
@@ -3253,7 +3271,7 @@
 				CODE_SIGN_ENTITLEMENTS = Staing.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 69WQLJ9K8N;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

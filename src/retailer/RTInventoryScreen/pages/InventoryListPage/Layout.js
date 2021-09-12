@@ -128,10 +128,10 @@ export const Layout = ({
 
     if (columnKey === "quantity") {
       const warningQty = () => {
-        const iswarning = item.quantity;
-
         return (
-          item.quantity < item.needToOrder || item.quantity < item.minThreshold
+          item.quantity < item.needToOrder ||
+          item.quantity < item.minThreshold ||
+          (item.countQuantities !== -1 && item.minQty < item.minThreshold)
         );
       };
 
