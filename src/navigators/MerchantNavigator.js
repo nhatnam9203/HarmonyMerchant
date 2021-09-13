@@ -55,11 +55,11 @@ export const MerchantNavigator = () => {
   //   }
   // }, [merchant?.type, isPlash]);
 
-  React.useEffect(() => {
-    if (merchant) {
-      NativeModules.logPax.loadLogPax();
-    }
-  }, [merchant]);
+  // React.useEffect(() => {
+  //   if (merchant) {
+  //     NativeModules.logPax.loadLogPax();
+  //   }
+  // }, [merchant]);
 
   return (
     <Navigator
