@@ -6,16 +6,16 @@
  *  + SalonNavigator (POS finished)
  *  + RestaurantNavigator (coming)
  */
-import NavigationServices from "@navigators/NavigatorServices";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SplashScreen } from "@src/merchant/SplashScreen";
-import { StoreInfoScreen, CongratulationScreen } from "../screens";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { NativeModules } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { CongratulationScreen, StoreInfoScreen } from "../screens";
 import { AuthNavigator } from "./AuthNavigator";
 import { RetailerNavigator } from "./RetailerNavigator";
 import { SalonNavigator } from "./SalonNavigator";
-import { loginStaff } from "../redux/actions/staff";
+
 const { Screen, Navigator } = createStackNavigator();
 
 const SetupStoreStack = () => (
@@ -54,6 +54,12 @@ export const MerchantNavigator = () => {
   //     }
   //   }
   // }, [merchant?.type, isPlash]);
+
+  React.useEffect(() => {
+    if (merchant) {
+      NativeModules.logPax.loadLogPax();
+    }
+  }, [merchant]);
 
   return (
     <Navigator

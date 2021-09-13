@@ -49,6 +49,7 @@ export const Layout = ({
     columnIndex,
     item,
     cellWidth,
+    textStyle,
   }) => {
     switch (columnKey) {
       case "type":
@@ -59,6 +60,27 @@ export const Layout = ({
           >
             <Text style={styles.textStyle}>
               {item?.type === 0 ? t("Check In") : t("Check Out")}
+            </Text>
+          </View>
+        );
+      case "note":
+        return (
+          <View
+            style={[{ width: cellWidth }, styles.cellStyle]}
+            key={getUniqueId(columnKey, rowIndex, "cell-note")}
+          >
+            <Text
+              style={[
+                textStyle,
+                {
+                  textAlign: "left",
+                  textAlignVertical: "center",
+                },
+              ]}
+              numberOfLines={3}
+              ellipsizeMode="tail"
+            >
+              {item?.note}
             </Text>
           </View>
         );
@@ -247,6 +269,7 @@ const styles = StyleSheet.create({
     // flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-start",
+    paddingRight: scaleWidth(5),
   },
 
   textStyle: {
