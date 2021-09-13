@@ -1,12 +1,5 @@
-import {
-  Button,
-  ButtonCustom,
-  Dropdown,
-  StatusBarHeader,
-  Text,
-} from "@components";
+import { StatusBarHeader } from "@components";
 import { createStackNavigator } from "@react-navigation/stack";
-import ICON from "@resources";
 import { PermissionChecker } from "@shared/components";
 import { ButtonDrawer } from "@shared/components/ButtonDrawer";
 import { HeaderToolBar } from "@shared/components/HeaderToolBar";
@@ -15,14 +8,7 @@ import { colors } from "@shared/themes";
 import { menuTabs } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  StyleSheet,
-  TextInput,
-  View,
-} from "react-native";
+import { StyleSheet, View } from "react-native";
 import { StaffCheckInList } from "./pages";
 
 const { Screen, Navigator } = createStackNavigator();
@@ -45,7 +31,8 @@ export const Layout = ({
       </HeaderToolBar>
 
       <Navigator
-        headerMode="retailer.staff_check_in.list"
+        initialRouteName="retailer.staff_check_in.list"
+        headerMode="none"
         screenOptions={{
           cardStyle: {
             backgroundColor: colors.WHITE_FA,
@@ -54,12 +41,13 @@ export const Layout = ({
       >
         <Screen {...StaffCheckInList} />
       </Navigator>
-      <PermissionChecker
+
+      {/* <PermissionChecker
         navigation={navigation}
-        tabName={menuTabs.MENU_CUSTOMER}
+        tabName={menuTabs.MENU_STAFF_LOGTIME}
         tabPermission={tabPermission}
         togglePopupPermission={togglePopupPermission}
-      />
+      /> */}
     </View>
   );
 };

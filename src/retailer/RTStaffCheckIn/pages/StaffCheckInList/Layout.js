@@ -4,6 +4,7 @@ import {
   ButtonGradientRed,
   ButtonGradientWhite,
   DropdownMenu,
+  Pagination,
 } from "@shared/components";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
@@ -16,7 +17,7 @@ import { formatMoneyWithUnit } from "@utils";
 import React from "react";
 // import { ButtonFilter } from '@shared/components/ButtonFilter';
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { WithDialogStaffCheckIn } from "@shared/HOC/withDialogStaffCheckIn";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
@@ -33,11 +34,56 @@ export const Layout = ({
   deleteSession,
   onEditSuccess,
   RANGE_TIME_DEFAULT,
+  sortDate,
+  onSortWithKey,
+  setPage,
+  pagination,
+  onRefresh,
+  isPermission,
 }) => {
   const { t } = useTranslation();
 
-  const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
+  const onRenderCell = ({
+    columnKey,
+    rowIndex,
+    columnIndex,
+    item,
+    cellWidth,
+    textStyle,
+  }) => {
     switch (columnKey) {
+      case "type":
+        return (
+          <View
+            style={[{ width: cellWidth }, styles.cellStyle]}
+            key={getUniqueId(columnKey, rowIndex, "cell-type")}
+          >
+            <Text style={styles.textStyle}>
+              {item?.type === 0 ? t("Check In") : t("Check Out")}
+            </Text>
+          </View>
+        );
+      case "note":
+        return (
+          <View
+            style={[{ width: cellWidth }, styles.cellStyle]}
+            key={getUniqueId(columnKey, rowIndex, "cell-note")}
+          >
+            <Text
+              style={[
+                textStyle,
+                {
+                  textAlign: "left",
+                  textAlignVertical: "center",
+                },
+              ]}
+              numberOfLines={3}
+              ellipsizeMode="tail"
+            >
+              {item?.note}
+            </Text>
+          </View>
+        );
       case "actions":
         const showEditForm = () => {
           return item;
@@ -52,6 +98,7 @@ export const Layout = ({
             key={getUniqueId(columnKey, rowIndex, "cell-action")}
           >
             <DeleteConfirmButton
+              disable={!isPermission()}
               label={t("Delete")}
               width={scaleWidth(72)}
               height={scaleHeight(30)}
@@ -65,6 +112,7 @@ export const Layout = ({
             />
             <View style={layouts.marginHorizontal} />
             <ButtonStaffCheckIn
+              disable={!isPermission()}
               label={t("Edit")}
               width={scaleWidth(72)}
               height={scaleHeight(30)}
@@ -107,20 +155,20 @@ export const Layout = ({
             "note",
             "actions",
           ]}
-          // sortedKeys={{ merchantStaffLogtimeId: sortName }}
+          sortedKeys={{ startDate: sortDate }}
           primaryKey="merchantStaffLogtimeId"
           widthForKeys={{
             merchantStaffLogtimeId: scaleWidth(50),
             startDate: scaleWidth(150),
             startTime: scaleWidth(80),
             staffName: scaleWidth(120),
-            type: scaleWidth(80),
+            type: scaleWidth(100),
             amount: scaleWidth(120),
-            note: scaleWidth(250),
+            note: scaleWidth(230),
           }}
           emptyDescription={t("No sessions")}
           // styleTextKeys={{ customerName: styles.textName }}
-          // onSortWithKey={onSortWithKey}
+          onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
             startDate: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
             startTime: (value) => dateToString(value, "LT"),
@@ -128,11 +176,20 @@ export const Layout = ({
           }}
           renderCell={onRenderCell}
           // onRowPress={onSelectRow}
-          // onRefresh={onRefresh}
+          onRefresh={onRefresh}
         />
       </View>
       <View style={styles.rowContent}>
         <HeaderToolBarTitle label={t("Sessions")} style={styles.textTitle} />
+
+        {/* <Pagination
+          onChangePage={setPage}
+          onChangeItemsPerPage={() => {}}
+          visibleItemsPerPage={false}
+          defaultPage={1}
+          {...pagination}
+          length={items?.length}
+        /> */}
       </View>
       <View style={styles.rowContent}>
         <View style={layouts.horizontal}>
@@ -208,13 +265,20 @@ const styles = StyleSheet.create({
     color: colors.GREYISH_BROWN,
   },
 
-  textTitle: {
-    fontFamily: fonts.BOLD,
-    fontSize: scaleFont(26),
-    fontWeight: "bold",
+  cellStyle: {
+    // flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    paddingRight: scaleWidth(5),
+  },
+
+  textStyle: {
+    fontFamily: fonts.REGULAR,
+    fontSize: scaleFont(15),
+    fontWeight: "normal",
     fontStyle: "normal",
     letterSpacing: 0,
     textAlign: "left",
-    color: colors.OCEAN_BLUE,
+    color: colors.GREYISH_BROWN,
   },
 });

@@ -6,9 +6,16 @@ import {
 } from "@shared/services/api/retailer/Staff";
 import { sortByDate } from "@shared/utils";
 import { SORT_TYPE, statusSuccess } from "@shared/utils/app";
-import { getQuickFilterTimeRange } from "@utils";
+import {
+  getQuickFilterTimeRange,
+  isPermissionToTab,
+  menuTabs,
+  role,
+} from "@utils";
+import * as l from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const STAFF_LOG_TIME_GROUPS = [
   { label: "All type", value: null },
@@ -26,6 +33,14 @@ export const useProps = (props) => {
   const [items, setItems] = React.useState(null);
   const [timeVal, setTimeVal] = React.useState();
   const [sortDate, setSortDate] = React.useState(SORT_TYPE.ASC);
+  const [pagination, setPagination] = React.useState({
+    pages: 0,
+    count: 0,
+  });
+
+  const profileStaffLogin = useSelector(
+    (state) => state.dataLocal?.profileStaffLogin
+  );
 
   /**
   |--------------------------------------------------
@@ -35,11 +50,11 @@ export const useProps = (props) => {
   const [staffLogTime, getStaffLogTime] = useStaffLogTimeGet();
   const callGetStaffLogTime = React.useCallback(() => {
     getStaffLogTime({
-      ...(searchVal && { staffname: searchVal }),
+      ...(searchVal && { key: searchVal }),
       page: page,
       ...(type && { type: type.value }),
       ...timeVal,
-      // sort: { Id: sortName },
+      // sorts: { StartDate: sortDate },
     });
   }, [type, page, searchVal, timeVal]);
 
@@ -49,11 +64,11 @@ export const useProps = (props) => {
   React.useEffect(() => {
     const { codeStatus, data, pages = 0, count = 0 } = staffLogTime || {};
     if (statusSuccess(codeStatus)) {
-      setItems(data);
-      // setPagination({
-      //   pages,
-      //   count,
-      // });
+      setItems(sortByDate(data, sortDate, "startDate"));
+      setPagination({
+        pages,
+        count,
+      });
     }
   }, [staffLogTime]);
 
@@ -72,7 +87,10 @@ export const useProps = (props) => {
 
   return {
     items,
+    sortDate,
     STAFF_LOG_TIME_GROUPS,
+    pagination,
+    setPage,
     setType,
     deleteSession: (it) => {
       deleteStaffLogTime(it.merchantStaffLogtimeId);
@@ -83,21 +101,21 @@ export const useProps = (props) => {
     onChangeTimeValue: (quickFilter, timeState) => {
       if (quickFilter === "Customize Date") {
         setTimeVal({
-          date: "custom",
+          quickFilter: "custom",
           timeStart: timeState.startDate,
           timeEnd: timeState.endDate,
         });
       } else {
-        setTimeVal({ date: getQuickFilterTimeRange(quickFilter) });
+        setTimeVal({ quickFilter: getQuickFilterTimeRange(quickFilter) });
       }
     },
     onSortWithKey: (sortKey) => {
       switch (sortKey) {
-        case "date":
+        case "startDate":
           const sortedDate =
             sortDate === SORT_TYPE.ASC ? SORT_TYPE.DESC : SORT_TYPE.ASC;
           setSortDate(sortedDate);
-          setData(sortByDate(items, sortedDate, sortKey));
+          setItems(sortByDate(items, sortedDate, sortKey));
 
           break;
 
@@ -111,6 +129,25 @@ export const useProps = (props) => {
     },
     onButtonSearchPress: () => {
       callGetStaffLogTime();
+    },
+    onRefresh: () => {
+      callGetStaffLogTime();
+    },
+    isPermission: () => {
+      const roleName = profileStaffLogin?.roleName || role.Admin;
+      const permission = l.get(profileStaffLogin, "permission", []);
+
+      if (roleName !== role.Admin) {
+        if (roleName === role.Manager) {
+          if (!isPermissionToTab(permission, menuTabs.MENU_STAFF_LOGTIME)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      }
+
+      return true;
     },
   };
 };

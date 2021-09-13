@@ -254,6 +254,13 @@ export function toggleSettingTabPermission(visible = true) {
   };
 }
 
+export function toggleStaffLogtimeTabPermission(visible = true) {
+  return {
+    type: "TOGGLE_STAFF_LOGTIME_TAB_PERMISSION",
+    payload: visible,
+  };
+}
+
 export function closeAllPopupPincode() {
   return {
     type: "CLOSE_ALL_POPUP_PIN_CODE",

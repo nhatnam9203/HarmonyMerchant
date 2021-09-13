@@ -1,7 +1,12 @@
 import { FirebaseNotificationProvider } from "@firebase";
+import { AppStateProvider } from "@shared/providers/AppStateProvider";
+import { CodePushProvider } from "@shared/providers/CodePushProvider";
+import "@shared/services/api/axiosClient";
 import "@shared/services/translation";
+import { isDevelopmentMode } from "@shared/utils/app";
 import React from "react";
-import { View, LogBox } from "react-native";
+import { View } from "react-native";
+import codePush from "react-native-code-push";
 import SplashScreen from "react-native-splash-screen";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/es/integration/react";
@@ -9,15 +14,9 @@ import {
   PopupConnected,
   PopupDisconnected,
   PopupInfomationCodePush,
-  Loading,
 } from "./components";
 import { RootNavigator } from "./navigators/RootNavigator";
 import configureStore from "./redux/store";
-import codePush from "react-native-code-push";
-import { CodePushProvider } from "@shared/providers/CodePushProvider";
-import { AppStateProvider } from "@shared/providers/AppStateProvider";
-import { isDevelopmentMode } from "@shared/utils/app";
-import "@shared/services/api/axiosClient";
 
 if (isDevelopmentMode) {
   import("../ReactotronConfig").then(() =>

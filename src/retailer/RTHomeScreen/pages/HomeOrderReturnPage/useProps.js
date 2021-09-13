@@ -72,8 +72,16 @@ export const useProps = ({ params: { item } }) => {
         _.get(updateItem, "bookingProductId") ==
         _.get(itemQuantity, "bookingProductId")
       ) {
-        tempItem.returnAmount =
-          (originItem.total / originItem.quantity) * value;
+        let returnAmount = (originItem.total / originItem.quantity) * value;
+
+        if (
+          originItem.returnQuantity + parseInt(value) ===
+          originItem.quantity
+        ) {
+          returnAmount = originItem.total - originItem.returnAmount;
+        }
+
+        tempItem.returnAmount = parseFloat(returnAmount).toFixed(2);
         tempItem.returnQuantity = value;
       }
       return tempItem;

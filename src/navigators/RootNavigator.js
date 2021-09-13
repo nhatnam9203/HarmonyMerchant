@@ -4,11 +4,11 @@
  *  + App2Navigator
  *  + ...
  */
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
-import { MerchantNavigator } from './MerchantNavigator';
-import { isReadyRef, navigationRef } from './NavigatorServices';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import React from "react";
+import { MerchantNavigator } from "./MerchantNavigator";
+import { isReadyRef, navigationRef } from "./NavigatorServices";
 
 const { Screen, Navigator } = createStackNavigator();
 

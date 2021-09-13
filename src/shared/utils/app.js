@@ -321,12 +321,12 @@ export const STAFF_PERMISSIONS_ROLES = [
     label: "Change Discount",
     isChecked: true,
   },
-  // {
-  //   id: 0,
-  //   key: menuTabs.MENU_INVOICE,
-  //   label: "Invoice",
-  //   isChecked: true,
-  // },
+  {
+    id: 0,
+    key: menuTabs.MENU_INVOICE,
+    label: "Invoice",
+    isChecked: true,
+  },
   {
     id: 0,
     key: menuTabs.MENU_SETTLEMENT,
@@ -361,6 +361,12 @@ export const STAFF_PERMISSIONS_ROLES = [
     id: 0,
     key: menuTabs.MENU_SETTING,
     label: "Setting",
+    isChecked: true,
+  },
+  {
+    id: 0,
+    key: menuTabs.MENU_STAFF_LOGTIME,
+    label: "Staff Log Time",
     isChecked: true,
   },
 ];

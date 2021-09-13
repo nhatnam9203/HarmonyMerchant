@@ -164,7 +164,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
   useFocusEffect(
     React.useCallback(() => {
       if (item) {
-        console.log(item);
+        // console.log(item);
         setCurrentStaff(null);
         setStaffId(item?.staffId);
         dispatch(actions.staff.getDetailStaffByMerchantId(item?.staffId));
@@ -174,7 +174,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
 
   React.useEffect(() => {
     if (staffDetail && staffId && staffId === staffDetail.staffId) {
-      console.log(staffDetail);
+      // console.log(staffDetail);
 
       setCurrentStaff(staffDetail);
 
@@ -188,7 +188,12 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
       if (staffDetail.roleName === "Manager") {
         setPermission(
           staffDetail.permission?.length > 0
-            ? staffDetail.permission
+            ? STAFF_PERMISSIONS_ROLES.map((value) => {
+                const per = staffDetail.permission.find(
+                  (x) => x.key === value.key
+                );
+                return per ?? value;
+              })
             : STAFF_PERMISSIONS_ROLES
         );
       }
@@ -220,7 +225,12 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
       if (val === "Manager") {
         setPermission(
           current_staff?.permission?.length > 0
-            ? current_staff?.permission
+            ? STAFF_PERMISSIONS_ROLES.map((value) => {
+                const per = current_staff?.permission.find(
+                  (x) => x.key === value.key
+                );
+                return per ?? value;
+              })
             : STAFF_PERMISSIONS_ROLES
         );
       }
