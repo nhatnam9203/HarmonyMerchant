@@ -213,9 +213,13 @@ export const Layout = ({
           />
           <View style={layouts.marginHorizontal} />
           <View style={styles.productNameContent}>
-            <Text style={styles.productName}>{cellItem?.productName}</Text>
+            <Text style={styles.productName}>
+              {cellItem?.productName || cellItem?.name}
+            </Text>
             <View style={styles.productNameMarginVertical} />
-            <Text style={styles.productOption}>{`${cellItem?.value}`}</Text>
+            {cellItem?.value && (
+              <Text style={styles.productOption}>{`${cellItem?.value}`}</Text>
+            )}
           </View>
         </View>
       );
@@ -396,7 +400,7 @@ export const Layout = ({
 
           <FormTitle label={t("Items Ordered")} />
           <Table
-            items={item?.products || []}
+            items={[...item?.products, ...item?.giftCards] || []}
             tableStyle={styles.table}
             headerKeyLabels={{
               productName: t("Product"),
