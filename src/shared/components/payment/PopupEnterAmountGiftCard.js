@@ -121,8 +121,9 @@ class PopupEnterAmountGiftCard extends React.Component {
       ) {
         onAddGiftCardToAppointment(
           formatNumberFromCurrency(money),
-          addGiftCardInfoAction
+          addGiftCardInfoAction?.giftCardInfo
         );
+        this.props.actions.appointment.switchPopupGiftCardEnterAmount(false);
       }
     } else {
       alert("Amount must greater than 0!");
