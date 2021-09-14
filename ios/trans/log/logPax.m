@@ -26,14 +26,13 @@
   return result;
 }
 
+RCT_EXPORT_MODULE();
+
 - (void)load {
 
     id idTemp;
 
     NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-  NSLog(@"+++++++=====XXXX===> %@", settings);
-  NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
-
 
     LogManager *logManager = [LogManager sharedInstance];
 
@@ -47,7 +46,6 @@
 
     if ((idTemp = [settings objectForKey:keyLogFilePath]) != nil) {
         logManager.logFilePath = (NSString *)idTemp;
-      NSLog(@"+++++++=====XXXX===> %@", idTemp);
 
     }
 }
@@ -74,7 +72,6 @@
 }
 
 
-RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(loadLogPax) {
   @try {
@@ -87,16 +84,12 @@ RCT_EXPORT_METHOD(loadLogPax) {
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     [self load];
 
-    [manager setLogLevel:0];
-    [manager startLog];
-//    NSLog(@"+++++++=====XXXX===> %@", manager.logFilePath);
+    [manager setLogLevel:4];
+    [[LogManager sharedInstance]startLog];
 
   } @catch (id e) {
     NSLog(@"+++++++=====XXXX===> %@", e);
-
   }
- 
-
 }
 
 RCT_EXPORT_METHOD(readLogPax:(NSString *)dateStr callback:(RCTResponseSenderBlock) callback) {
