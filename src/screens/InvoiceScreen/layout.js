@@ -1000,6 +1000,7 @@ export default class Layout extends React.Component {
           ref={this.invoicePrintRef}
           visiblePrintInvoice={visiblePrintInvoice}
           onRequestClose={this.cancelInvoicePrint}
+          doPrintClover={(imageUri) => this.doPrintClover(imageUri)}
         />
       </ParentContainer>
     );

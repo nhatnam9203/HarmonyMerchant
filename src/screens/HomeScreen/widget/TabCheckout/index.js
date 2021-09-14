@@ -63,7 +63,7 @@ class TabCheckout extends Layout {
     this.eventEmitter = new NativeEventEmitter(clover);
     this.subscriptions = []
     this.isProcessPaymentClover = false
-    this.isProcessPrintTempClover = false
+    this.isProcessPrintClover = false
   }
 
   resetStateFromParent = async () => {
@@ -2740,11 +2740,7 @@ class TabCheckout extends Layout {
 
   // FUNCTIONS FOR CLOVER
   doPrintClover(imageUri) {
-    clover.doPrint(imageUri)
-  }
-
-  doPrintCloverTemp(imageUri) {
-    this.isProcessPrintTempClover = true
+    this.isProcessPrintClover = true
     const { cloverMachineInfo } = this.props;
     const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
     const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
@@ -2837,7 +2833,7 @@ class TabCheckout extends Layout {
               visibleProcessingCredit: false,
             })
           }
-          if(this.isProcessPrintTempClover){
+          if(this.isProcessPrintClover){
             this.setState({
               visiblePrintInvoice: false,
             });
@@ -2861,7 +2857,7 @@ class TabCheckout extends Layout {
             visibleProcessingCredit: true,
           })
         }
-        // if(this.isProcessPrintTempClover){
+        // if(this.isProcessPrintClover){
         //   this.setState({
         //     visiblePrintInvoice: true,
         //   });
@@ -2884,7 +2880,7 @@ class TabCheckout extends Layout {
       }),
       this.eventEmitter.addListener('printDone', (message) => {
         console.log(message)
-        this.isProcessPrintTempClover = false
+        this.isProcessPrintClover = false
       }),
       this.eventEmitter.addListener('deviceDisconnected', () => {
         if(this.isProcessPaymentClover) {
@@ -2892,7 +2888,7 @@ class TabCheckout extends Layout {
             visibleProcessingCredit: false,
           })
         }
-        if(this.isProcessPrintTempClover){
+        if(this.isProcessPrintClover){
           this.setState({
             visiblePrintInvoice: false,
           });

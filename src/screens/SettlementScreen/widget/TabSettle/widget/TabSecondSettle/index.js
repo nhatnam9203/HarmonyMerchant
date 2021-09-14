@@ -11,6 +11,7 @@ import {
 const PosLink = NativeModules.batch;
 const PosLinkReport = NativeModules.report;
 const PoslinkAndroid = NativeModules.PoslinkModule;
+const { clover } = NativeModules;
 
 const INIT_STATE = {
     numberFooter: 1,
@@ -32,9 +33,10 @@ const INIT_STATE = {
 
     },
     errorMessage: '',
-    paxErrorMessage: ''
+    paxErrorMessage: '',
+    visiblePopupParingCode: false,
+    pairingCode: '',
 }
-const { clover } = NativeModules;
 
 class TabSecondSettle extends Layout {
 

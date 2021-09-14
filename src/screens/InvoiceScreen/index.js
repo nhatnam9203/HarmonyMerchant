@@ -65,8 +65,9 @@ class InvoiceScreen extends Layout {
 
     //ADD LISTENER FROM CLOVER MODULE
     this.eventEmitter = new NativeEventEmitter(clover);
-    this.subscriptions = []
-    this.isProcessVoidPaymentClover = false
+    this.subscriptions = [];
+    this.isProcessVoidPaymentClover = false;
+    this.isProcessPrintClover = false;
   }
 
   registerEvents () {
@@ -104,6 +105,11 @@ class InvoiceScreen extends Layout {
               visibleProcessingCredit: false,
             });
           }
+          if(this.isProcessPrintClover){
+            this.setState({
+              visiblePrintInvoice: false,
+            });
+          }
           this.setState({
             visiblePopupParingCode: true,
             pairingCode: text,
@@ -123,6 +129,10 @@ class InvoiceScreen extends Layout {
             visibleProcessingCredit: true,
           });
         }
+      }),
+      this.eventEmitter.addListener('printDone', (message) => {
+        console.log(message)
+        this.isProcessPrintClover = false
       }),
       this.eventEmitter.addListener('deviceReady', () => {
         
@@ -772,7 +782,18 @@ class InvoiceScreen extends Layout {
           visiblePrintInvoice: true,
         });
       } else {
-        alert("Please connect to your printer!");
+        const { 
+                cloverMachineInfo, 
+                paymentMachineType,
+              } = this.props;
+        const { isSetup } = cloverMachineInfo;
+        if (paymentMachineType == "Clover" && isSetup) {
+          await this.setState({
+            visiblePrintInvoice: true,
+          });          
+        }else{
+          alert("Please connect to your printer!");
+        }
       }
     }
   };
@@ -789,6 +810,23 @@ class InvoiceScreen extends Layout {
 
   updateInvoiceDetailAfterCallServer = async () => {};
 
+  doPrintClover(imageUri) {
+    this.isProcessPrintClover = true
+    const { cloverMachineInfo } = this.props;
+    const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
+    const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+    
+    const printInfo = {
+      imageUri,
+      url,
+      remoteAppId: REMOTE_APP_ID,
+      appName: APP_NAME,
+      posSerial: POS_SERIAL,
+      token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
+    }
+    clover.doPrintWithConnect(printInfo)
+  }
+  
   printCustomerInvoice = async () => {
     try {
       const { printerSelect, printerList } = this.props;

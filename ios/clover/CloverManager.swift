@@ -101,8 +101,6 @@ import Foundation
       return nil
   }
   
-  
-  
   @objc public func doPrint(image: String) {
     
 //    let url = URL.init(fileURLWithPath: image)
@@ -117,8 +115,8 @@ import Foundation
     var imageString = image.replacingOccurrences(of: "\n", with: "")
     imageString = imageString.replacingOccurrences(of: "\r", with: "")
   
-    let data = Data(base64Encoded: imageString)
-    let imageReceipt = data != nil ? UIImage(data: data!) : nil
+    let imageData = Data.init(base64Encoded: imageString, options: .init(rawValue: 0))
+    let imageReceipt = imageData != nil ? UIImage(data: imageData!) : nil
     
     if(imageReceipt != nil){
       let request = PrintRequest(image: imageReceipt!, printRequestId: "\(arc4random())", printDeviceId: nil)

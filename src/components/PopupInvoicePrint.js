@@ -176,12 +176,8 @@ class PopupInvoicePrint extends React.Component {
       const imageUri = await captureRef(this.viewShotRef, {result: "base64"});
       console.log(imageUri,'imageUri')
       if (imageUri) {
-        if(this.props.doPrintClover &&  this.props.doPrintCloverTemp){
-          if(this.state.isPrintTempt){
-            this.props.doPrintCloverTemp(imageUri)
-          }else{
-            this.props.doPrintClover(imageUri)
-          }
+        if(this.props.doPrintClover){
+          this.props.doPrintClover(imageUri)
           const { isPrintTempt } = this.state;
           releaseCapture(imageUri);
 

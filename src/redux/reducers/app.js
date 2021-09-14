@@ -27,7 +27,7 @@ const initialState = {
   refreshingGeneral: false,
   connectPAXStatus: {
     status: true,
-    message: "is connecting to Pax machine ....",
+    message: "is connecting to Payment terminal ....",
   },
   isUpdateMerchantSetting: false,
   settingTabPermission: false,
