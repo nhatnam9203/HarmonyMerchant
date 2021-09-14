@@ -6,11 +6,15 @@ import {
 } from "@shared/components";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
-import { ORDERED_STATUS } from "@shared/components/OrderStatusView";
+import {
+  ORDERED_STATUS,
+  OrderStatusView,
+} from "@shared/components/OrderStatusView";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { colors, fonts, layouts } from "@shared/themes";
 import { dateToString, DATE_TIME_SHOW_FORMAT_STRING } from "@shared/utils";
 import { formatMoneyWithUnit } from "@utils";
+import _ from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -21,8 +25,6 @@ import {
   FormEditNotes,
   FormShippingCarrier,
 } from "../../widget";
-import { OrderStatusView } from "@shared/components/OrderStatusView";
-import _ from "lodash";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
@@ -217,7 +219,7 @@ export const Layout = ({
               {cellItem?.productName || cellItem?.name}
             </Text>
             <View style={styles.productNameMarginVertical} />
-            {cellItem?.value && (
+            {!!cellItem?.value && (
               <Text style={styles.productOption}>{`${cellItem?.value}`}</Text>
             )}
           </View>
@@ -247,7 +249,7 @@ export const Layout = ({
               },
             ]}
           >
-            {`  ${_.get(cellItem, "quantity")}`}
+            {`  ${_.get(cellItem, "quantity", 0)}`}
           </Text>
           {_.get(item, "returnAmount", 0) > 0 && (
             <Text
@@ -259,14 +261,14 @@ export const Layout = ({
                 { color: "red" },
               ]}
             >
-              {`- ${_.get(cellItem, "returnQuantity")}`}
+              {`- ${_.get(cellItem, "returnQuantity", 0)}`}
             </Text>
           )}
         </View>
       );
     } else if (columnKey === "total") {
       const totalShow =
-        _.get(cellItem, "total") - _.get(cellItem, "returnAmount", 0);
+        _.get(cellItem, "total", 0) - _.get(cellItem, "returnAmount", 0);
       return (
         // <Text
         //   key={getUniqueId(columnKey, rowIndex, "cell-product-total")}
@@ -288,7 +290,7 @@ export const Layout = ({
               },
             ]}
           >
-            {`  ${formatMoneyWithUnit(_.get(cellItem, "total"))}`}
+            {`  ${formatMoneyWithUnit(_.get(cellItem, "total", 0))}`}
           </Text>
 
           {_.get(cellItem, "returnAmount", 0) > 0 && (
@@ -306,9 +308,7 @@ export const Layout = ({
           )}
         </View>
       );
-    }
-
-    if (columnKey === "status") {
+    } else if (columnKey === "status") {
       return cellItem?.isReturn ? (
         <OrderStatusView
           key={getUniqueId(columnKey, rowIndex, "cell-product-return")}
@@ -400,7 +400,9 @@ export const Layout = ({
 
           <FormTitle label={t("Items Ordered")} />
           <Table
-            items={[...item?.products, ...item?.giftCards] || []}
+            items={
+              [...(item?.products || []), ...(item?.giftCards || [])] || []
+            }
             tableStyle={styles.table}
             headerKeyLabels={{
               productName: t("Product"),
@@ -441,11 +443,11 @@ export const Layout = ({
             emptyDescription={t("No Products")}
             styleTextKeys={{ total: styles.highLabelTextStyle }}
             formatFunctionKeys={{
-              price: (value) => `${formatMoneyWithUnit(value)}`,
-              subTotal: (value) => `${formatMoneyWithUnit(value)}`,
-              tax: (value) => `${formatMoneyWithUnit(value)}`,
-              discount: (value) => `${formatMoneyWithUnit(value)}`,
-              total: (value) => `${formatMoneyWithUnit(value)}`,
+              price: (value) => `${formatMoneyWithUnit(value || 0)}`,
+              subTotal: (value) => `${formatMoneyWithUnit(value || 0)}`,
+              tax: (value) => `${formatMoneyWithUnit(value || 0)}`,
+              discount: (value) => `${formatMoneyWithUnit(value || 0)}`,
+              total: (value) => `${formatMoneyWithUnit(value || 0)}`,
             }}
             renderCell={onRenderCell}
             renderFooterComponent={() => (

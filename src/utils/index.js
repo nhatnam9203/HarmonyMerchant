@@ -466,7 +466,7 @@ export const formatMoney = (
   } catch (e) {}
 };
 
-export const formatMoneyWithUnit = (amount, unit = "$") => {
+export const formatMoneyWithUnit = (amount = 0, unit = "$") => {
   if (unit === "$") {
     if (!amount) return unit + " 0.00";
     return unit + " " + formatMoney(amount);

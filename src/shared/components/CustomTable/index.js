@@ -151,7 +151,7 @@ export function Table({
   };
 
   const getCellValue = (item, key) => {
-    let value = item[key];
+    let value = item[key] || "";
     if (formatFunctionKeys) {
       const formatFunc = formatFunctionKeys[key];
       if (typeof formatFunc === "function") {

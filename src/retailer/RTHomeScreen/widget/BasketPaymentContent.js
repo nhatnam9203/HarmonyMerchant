@@ -127,7 +127,7 @@ export const BasketPaymentContent = React.forwardRef(
     }, [groupAppointment, paymentSelected, orderItem]);
 
     React.useEffect(() => {
-      if (orderItem?.products?.length > 0) {
+      if (orderItem?.products?.length > 0 || orderItem?.giftCards?.length > 0) {
         const temps = orderItem.products?.reduce((previous, x) => {
           let groups = previous ?? [];
           const keyUnique = x.productName + " + " + x.value;
@@ -184,7 +184,7 @@ export const BasketPaymentContent = React.forwardRef(
             <FastImage
               style={styles.imageStyle}
               source={
-                item?.imageUrl
+                firstItem?.imageUrl
                   ? {
                       uri: firstItem?.imageUrl,
                       priority: FastImage.priority.high,

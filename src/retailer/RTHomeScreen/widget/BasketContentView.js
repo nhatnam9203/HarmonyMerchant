@@ -204,7 +204,11 @@ export const BasketContentView = React.forwardRef(
         </View>
         <View style={layouts.center}>
           <ButtonGradient
-            disable={!appointmentItem || appointmentItem?.products?.length <= 0}
+            disable={
+              !appointmentItem ||
+              (appointmentItem?.products?.length <= 0 &&
+                appointmentItem?.giftCards?.length <= 0)
+            }
             label={
               !!appointmentId
                 ? appointmentItem?.purchasePoint === PURCHASE_POINTS_ORDER

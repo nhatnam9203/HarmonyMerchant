@@ -572,7 +572,12 @@ export const useProps = ({
         createAppointmentTemp({
           customerId: customer?.customerId,
           purchasePoint,
-          giftCards: [giftCard],
+          giftCards: [
+            {
+              price: money,
+              giftcardId: gitCardInfo?.giftCardId,
+            },
+          ],
         });
       }
     },
