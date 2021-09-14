@@ -21,6 +21,7 @@ import {
   PopupDiscountLocal,
   PopupEnterAmountGiftCard,
   PopupPaymentDetails,
+  PopupGiftCardDetail,
 } from "@shared/components/payment";
 import { WithDialogPhone } from "@shared/HOC/withDialogPhone";
 import { colors, fonts, layouts } from "@shared/themes";
@@ -120,6 +121,7 @@ export const Layout = ({
   onDiscountItemAdd,
   onGoBackOrderList,
   onGoBackCheckOut,
+  cancelGiftCardPayment,
 }) => {
   const [t] = useTranslation();
 
@@ -400,6 +402,14 @@ export const Layout = ({
         language={language}
         extractBill={extractBill}
         doneBill={doneBill}
+      />
+
+      <PopupGiftCardDetail
+        title={t("Gift Card Details")}
+        onRequestClose={closePopupProductPaymentDetails}
+        language={language}
+        nextPayment={nextPayment}
+        cancelGiftCardPayment={cancelGiftCardPayment}
       />
     </ParentContainer>
   );
