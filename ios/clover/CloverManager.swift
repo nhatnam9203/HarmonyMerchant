@@ -17,6 +17,8 @@ import Foundation
   func refundFail(errorMessage: String)
   func pairingCode(string: String)
   func pairingSuccess(token: String)
+  func closeoutSuccess(response: NSDictionary)
+  func closeoutFail(errorMessage: String)
   func onDeviceReady()
   func onConfirmPayment()
   func printInProcess()
@@ -79,6 +81,17 @@ import Foundation
     self.cloverConnector?.refundPayment(refundRequest)
   }
   
+  @objc func queryPayment(externalPaymentId: String) {
+      
+      let retrievePaymentRequest = RetrievePaymentRequest(externalPaymentId)
+      self.myCloverConnector?.retrievePayment(retrievePaymentRequest)
+  }
+  
+  @objc func closeout() {
+      let closeoutRequest = CloseoutRequest(allowOpenTabs: true, batchId: nil)
+      self.myCloverConnector?.closeout(closeoutRequest)
+  }
+  
   func imageFromBase64(_ base64: String) -> UIImage? {
       if let url = URL(string: base64) {
           if let data = try? Data(contentsOf: url) {
@@ -88,20 +101,32 @@ import Foundation
       return nil
   }
   
+  
+  
   @objc public func doPrint(image: String) {
     
-//    let url = URL.init(fileURLWithPath: imageURI)
-//
+//    let url = URL.init(fileURLWithPath: image)
+////
 //    let _ = url.startAccessingSecurityScopedResource();
-//    let imageData:NSData = NSData(contentsOf: url)
 //
-//    let image = UIImage(data: imageData as Data)
+//    let imageData:Data = try! Data(contentsOf: url)
+//
+//    let imageReceipt = UIImage(data: imageData as Data)
+//
 //    let _ = url.stopAccessingSecurityScopedResource()
-    let imageReceipt = imageFromBase64(image)
+    var imageString = image.replacingOccurrences(of: "\n", with: "")
+    imageString = imageString.replacingOccurrences(of: "\r", with: "")
+  
+    let data = Data(base64Encoded: imageString)
+    let imageReceipt = data != nil ? UIImage(data: data!) : nil
     
     if(imageReceipt != nil){
       let request = PrintRequest(image: imageReceipt!, printRequestId: "\(arc4random())", printDeviceId: nil)
       self.issuePrintJob(request)
+    }else{
+      if(self.cloverDelegate != nil){
+        self.cloverDelegate?.printDone(message: "ERROR")
+      }
     }
   }
   
@@ -129,6 +154,10 @@ import Foundation
         cloverDelegate?.pairingSuccess(token: authToken)
       }
     }
+  
+  @objc public func cancelTransaction() {
+//    self.myCloverConnector?.resetDevice()
+  }
   
   //*---------Print----------*//
   
@@ -162,14 +191,14 @@ import Foundation
          self.myCloverConnector?.print(request)
           
           //the rest of this scope works to monitor the print job. This can only be done if a printRequestID exists
-          guard let printRequestId = request.printRequestId else { return }
+//          guard let printRequestId = request.printRequestId else { return }
           
           //setup the UI for async waiting on the print job
           if(cloverDelegate != nil){
             cloverDelegate?.printInProcess()
           }
           
-          self.queryPrintStatus(printRequestId)
+//          self.queryPrintStatus(printRequestId)
   }
   
   private func queryPrintStatus(_ printRequestId: String) {
@@ -195,13 +224,52 @@ import Foundation
   }
 
   //-------Clover Connection Listener ---------//
+  /*
+   * Response to a closeout.
+   */
+  open override func onCloseoutResponse ( _ closeoutResponse:CloseoutResponse ){
+    DispatchQueue.main.async { [weak self] in
+        let dateFormatter = DateFormatter()
+        if closeoutResponse.success {
+          let responseDict: NSDictionary = [
+//            "paymentId": response.paymentId ?? ""
+            "id": closeoutResponse.batch?.id ?? "",
+            "merchantId": closeoutResponse.batch?.merchantId ?? "",
+            "firstGatewayTxId": closeoutResponse.batch?.firstGatewayTxId ?? "",
+            "lastGatewayTxId": closeoutResponse.batch?.lastGatewayTxId ?? "",
+          
+          /// The number of transactions being batched
+            "txCount": closeoutResponse.batch?.txCount ?? 0,
+          /// Total amount closed
+            "totalBatchAmount": closeoutResponse.batch?.totalBatchAmount ?? 0,
+          /// List of devices in batch
+            "devices": closeoutResponse.batch?.devices ?? 0,
+            "state": closeoutResponse.batch?.state?.rawValue ?? "",
+            "batchType": closeoutResponse.batch?.batchType?.rawValue ?? "",
+          /// Created time of batch
+            "createdTime": dateFormatter.string(from: closeoutResponse.batch?.createdTime ?? Date()),
+          /// Modified time of batch
+            "modifiedTime": dateFormatter.string(from: closeoutResponse.batch?.modifiedTime ?? Date()),
+          /// Details split based on card / employees
+          /// Number of public tips.
+            "openTips": closeoutResponse.batch?.batchDetails?.openTips ?? 0,
+          /// Number of public tabs.
+            "openTabs": closeoutResponse.batch?.batchDetails?.openTabs ?? 0,
+          ]
+          if (self?.cloverDelegate != nil) {
+            self?.cloverDelegate?.closeoutSuccess(response: responseDict)
+          }
+        } else {
+          let message = "ERROR " + (closeoutResponse.reason ?? "")
+          if (self?.cloverDelegate != nil) {
+            self?.cloverDelegate?.closeoutFail(errorMessage: message)
+          }
+        }
+    }
+  }
+  
   public override func onPrintJobStatusResponse(_ printJobStatusResponse:PrintJobStatusResponse) {
       DispatchQueue.main.async {
-          if let printRequestId = printJobStatusResponse.printRequestId, let callback = self.printJobStatusDict[printRequestId] { //check that we have a callback for this specific printRequestId
-              callback(printJobStatusResponse)
-              return //since user has provided their own callback to handle this, don't also continue below to fire the default behavior
-          }
-          
           if(self.cloverDelegate != nil){
             self.cloverDelegate?.printDone(message: printJobStatusResponse.status.rawValue)
           }
@@ -424,7 +492,8 @@ import Foundation
           "orderId": response.payment?.order?.id ?? "",
 
           /// Device which processed the transaction for this payment
-            "device": response.payment?.device ?? "",
+          "device": response.payment?.device?.id ?? "",
+          "deviceId": response.payment?.device?.id ?? "",
 
           /// The tender type associated with this payment, e.g. credit card, cash, etc.
             "tender": response.payment?.tender?.label ?? "",

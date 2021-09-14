@@ -871,8 +871,9 @@ class TabCheckout extends Layout {
       printerList,
       printerSelect
     );
+    const { paymentSelected } = this.state;
     if (portName) {
-      const { paymentSelected } = this.state;
+      
       const { connectionSignalR } = this.props;
       if (!_.isEmpty(connectionSignalR)) {
         connectionSignalR.stop();
@@ -1533,7 +1534,8 @@ class TabCheckout extends Layout {
       paymentMachineType,
       isTipOnPaxMachine,
       paxAmount,
-      groupAppointment
+      groupAppointment,
+      payAppointmentId,
      } = this.props;
     if( paymentMachineType == 'Clover'){
       const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
@@ -1550,7 +1552,7 @@ class TabCheckout extends Layout {
         token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
         tipMode: isTipOnPaxMachine ? 'ON_SCREEN_BEFORE_PAYMENT' : 'NO_TIP',
         amount: `${parseFloat(paxAmount)}`,
-        externalId: `${groupAppointment?.checkoutGroupId || 0}`,
+        externalId: `${payAppointmentId}`//`${groupAppointment?.checkoutGroupId || 0}`,
       })
     } else {
       this.sendTransToPaxMachine()
@@ -1732,15 +1734,16 @@ class TabCheckout extends Layout {
       PoslinkAndroid.cancelTransaction((data) => { });
     } else {
 
-      if (paymentMachineType == "Pax") {
-        //JUST FOR PAX
+      if (paymentMachineType == "Clover") {
+        clover.cancelTransaction()
+      }else{
         if (!this.isGetResponsePaymentPax) {
           alert(localize("PleaseWait", language));
           return;
         }
+        PosLink.cancelTransaction();
       }
 
-      PosLink.cancelTransaction();
       if (payAppointmentId) {
         this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
       }

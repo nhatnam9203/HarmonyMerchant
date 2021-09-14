@@ -23,6 +23,8 @@ static NSString* voidPaymentSuccess     = @"voidPaymentSuccess";
 static NSString* voidPaymentFail     = @"voidPaymentFail";
 static NSString* refundPaymentSuccess     = @"refundPaymentSuccess";
 static NSString* refundPaymentFail     = @"refundPaymentFail";
+static NSString* closeoutSuccess       = @"closeoutSuccess";
+static NSString* closeoutFail       = @"closeoutFail";
 
 @interface clover () <CloverManagerDelegate>
 @property (nonatomic) BOOL listening;
@@ -31,6 +33,7 @@ static NSString* refundPaymentFail     = @"refundPaymentFail";
 @property (nonatomic) BOOL isRefundProcessing;
 @property (nonatomic) BOOL isPrintWithConnectProcessing;
 @property (nonatomic) BOOL isOpenCashierProcessing;
+@property (nonatomic) BOOL isCloseoutProcessing;
 @property (nonatomic, strong) CloverManager *clover;
 @property (nonatomic, strong) NSDictionary *paymentInfo;
 @property (nonatomic, strong) NSDictionary *voidInfo;
@@ -74,7 +77,9 @@ RCT_EXPORT_MODULE();
     voidPaymentSuccess,
     voidPaymentFail,
     refundPaymentSuccess,
-    refundPaymentFail
+    refundPaymentFail,
+    closeoutSuccess,
+    closeoutFail
   ];
 }
 
@@ -96,18 +101,13 @@ RCT_EXPORT_METHOD(changeListenerStatus:(BOOL)value) {
 
 RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo)
 {
-  self.isPaymentProcessing = true;
-  self.paymentInfo = paymentInfo;
-  self.clover = [CloverManager alloc];
-  self.clover.cloverDelegate = self;
-  NSString *url = paymentInfo[@"url"];
-  NSString *remoteAppId = paymentInfo[@"remoteAppId"];
-  NSString *appName = paymentInfo[@"appName"];
-  NSString *posSerial = paymentInfo[@"posSerial"];
-  NSString *token = paymentInfo[@"token"];
-  
-  [self.clover connect:url appId: remoteAppId appName: appName posSerial: posSerial token: token];
-  
+  if(self.clover) {
+    [self.clover doSaleWithPaymentInfo:paymentInfo];
+  }else{
+    self.isPaymentProcessing = true;
+    self.paymentInfo = paymentInfo;
+    [self connectClover:paymentInfo];
+  }
 }
 
 RCT_EXPORT_METHOD(confirmPayment){
@@ -121,7 +121,7 @@ RCT_EXPORT_METHOD(rejectPayment){
 
 RCT_EXPORT_METHOD(cancelTransaction){
   self.isPaymentProcessing = false;
-  
+  [self.clover cancelTransaction];
 }
 
 RCT_EXPORT_METHOD(doPrint:(NSString *)image){
@@ -145,22 +145,26 @@ RCT_EXPORT_METHOD(doPrint:(NSString *)image){
   return image;
 }
 
+RCT_EXPORT_METHOD(closeout:(NSDictionary *)info){
+  
+  if(self.clover){
+    [self.clover closeout];
+  }else{
+    self.isCloseoutProcessing = true;
+    [self connectClover:info];
+  }
+}
+
+
 RCT_EXPORT_METHOD(doPrintWithConnect:(NSDictionary *)printInfo){
-  self.isPrintWithConnectProcessing = true;
+  
   NSString *imageURI = printInfo[@"imageUri"];
   if(self.clover){
     [self.clover doPrintWithImage: imageURI];
   }else{
-    self.clover = [CloverManager alloc];
-    self.clover.cloverDelegate = self;
-    NSString *url = printInfo[@"url"];
-    NSString *remoteAppId = printInfo[@"remoteAppId"];
-    NSString *appName = printInfo[@"appName"];
-    NSString *posSerial = printInfo[@"posSerial"];
-    NSString *token = printInfo[@"token"];
+    self.isPrintWithConnectProcessing = true;
     self.imageUri = imageURI;
-    
-    [self.clover connect:url appId: remoteAppId appName: appName posSerial: posSerial token: token];
+    [self connectClover:printInfo];
   }
 }
 
@@ -235,6 +239,18 @@ RCT_EXPORT_METHOD(refundPayment:(NSDictionary*) refundInfo) {
     }
 }
 
+- (void)closeoutSuccessWithResponse:(NSDictionary * _Nonnull)response {
+  
+  if (self.listening) {
+       [self sendEventWithName:closeoutSuccess body:response];
+   }
+}
+
+- (void)closeoutFailWithErrorMessage:(NSString * _Nonnull)errorMessage {
+  
+  [self sendEventWithName:closeoutFail body:@{@"errorMessage": errorMessage}];
+}
+
 - (void)pairingCodeWithString:(NSString * _Nonnull)string {
   if (self.listening) {
     [self sendEventWithName:pairingCode body:@{@"pairingCode": string}];
@@ -276,6 +292,11 @@ RCT_EXPORT_METHOD(refundPayment:(NSDictionary*) refundInfo) {
     
     self.isOpenCashierProcessing = false;
     [self.clover openCashDrawer];
+    
+  } else if (self.isCloseoutProcessing) {
+    
+    self.isCloseoutProcessing = false;
+    [self.clover closeout];
     
   }
  

@@ -29,13 +29,13 @@ export function clearSearInvoice() {
 
 // ----------- Settle ------------
 
-export function getSettlementWating(terminalID = null, isShowLoading = true) {
+export function getSettlementWating(terminalID = null, paymentTerminal = "pax") {
     return {
         type: 'GET_SETTLEMENT_WAITING',
         method: 'GET',
-        api: `settlement/waiting?sn=${terminalID}`,
+        api: `settlement/waiting?sn=${terminalID}&paymentTerminal=${paymentTerminal}`,
         token: true,
-        isShowLoading
+        isShowLoading: true,
     }
 }
 
@@ -183,21 +183,21 @@ export function getSettlementWarning() {
     }
 }
 
-export function getListStaffsSales(terminalID = null) {
+export function getListStaffsSales(terminalID = null, paymentTerminal = "pax") {
     return {
         type: 'GET_LIST_STAFFS_SALES',
         method: 'GET',
         token: true,
-        api: `appointment/staffSales?sn=${terminalID}`,
+        api: `appointment/staffSales?sn=${terminalID}&paymentTerminal=${paymentTerminal}`,
     }
 }
 
-export function getListGiftCardSales(terminalID) {
+export function getListGiftCardSales(terminalID, paymentTerminal = "pax") {
     return {
         type: 'GET_LIST_GIFT_CARD_SALES',
         method: 'GET',
         token: true,
-        api: `settlement/waiting/giftCardSales?sn=${terminalID}`,
+        api: `settlement/waiting/giftCardSales?sn=${terminalID}&paymentTerminal=${paymentTerminal}`,
     }
 }
 
