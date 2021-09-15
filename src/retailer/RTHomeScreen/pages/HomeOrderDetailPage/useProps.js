@@ -13,6 +13,18 @@ import { statusSuccess, PURCHASE_POINTS_STORE } from "@shared/utils";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { basketRetailer } from "@redux/slices";
+import {
+  getArrayProductsFromAppointment,
+  getArrayServicesFromAppointment,
+  getArrayExtrasFromAppointment,
+  getArrayGiftCardsFromAppointment,
+  getPaymentStringInvoice,
+  getQuickFilterStringInvoice,
+  checkStatusPrint,
+  getInfoFromModelNameOfPrinter,
+} from "@utils";
+import PrintManager from "@lib/PrintManager";
+import { captureRef, releaseCapture } from "react-native-view-shot";
 
 const log = (obj, message = "") => {
   Logger.log(`[HomeOrderDetail] ${message}`, obj);
@@ -33,6 +45,19 @@ export const useProps = ({
 }) => {
   const formAddressRef = React.useRef(null);
   const dispatch = useDispatch();
+
+  /**
+  |--------------------------------------------------
+  | REDUX variables
+  |--------------------------------------------------
+  */
+  const printerList = useSelector((state) => state.dataLocal.printerList);
+  const printerSelect = useSelector((state) => state.dataLocal.printerSelect);
+  /**
+  |--------------------------------------------------
+  | STATE variables
+  |--------------------------------------------------
+  */
 
   const [appointmentDetail, setAppointmentDetail] = React.useState(null);
   const [shippingMethod, setShippingMethod] = React.useState(null);
@@ -263,6 +288,46 @@ export const useProps = ({
     formAddressRef,
     onDidNotPayCheck: (checked) => {
       setDidNotPay(checked);
+    },
+    printCustomerInvoice: async () => {
+      try {
+        const { portName, emulation, widthPaper } =
+          getInfoFromModelNameOfPrinter(printerList, printerSelect);
+
+        if (portName) {
+          dispatch(actions.app.loadingApp());
+          const imageUri = await captureRef(this.viewShotRef, {});
+          if (imageUri) {
+            let commands = [];
+            commands.push({ appendLineFeed: 0 });
+            commands.push({
+              appendBitmap: imageUri,
+              width: parseFloat(widthPaper),
+              bothScale: true,
+              diffusion: true,
+              alignment: "Center",
+            });
+            commands.push({
+              appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+            });
+
+            await PrintManager.getInstance().print(
+              emulation,
+              commands,
+              portName
+            );
+            releaseCapture(imageUri);
+          }
+          this.props.actions.app.stopLoadingApp();
+        } else {
+          alert("Please connect to your printer!");
+        }
+      } catch (error) {
+        this.props.actions.app.stopLoadingApp();
+        setTimeout(() => {
+          alert("error ", error);
+        }, 500);
+      }
     },
   };
 };

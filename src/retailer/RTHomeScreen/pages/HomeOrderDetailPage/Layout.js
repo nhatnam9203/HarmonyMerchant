@@ -41,6 +41,7 @@ export const Layout = ({
   onEditBillingAddress,
   formAddressRef,
   onDidNotPayCheck,
+  printCustomerInvoice,
 }) => {
   const [t] = useTranslation();
 
@@ -609,13 +610,36 @@ export const Layout = ({
               />
             </InfoContent>
             <View style={layouts.marginHorizontal} />
-            <InfoContent label={t("Invoice")}>
+            <InfoContent
+              label={t("Invoice")}
+              rightComponent={() =>
+                item?.invoice?.checkoutId ? (
+                  <TouchableOpacity
+                    onPress={printCustomerInvoice}
+                    style={{
+                      width: scaleWidth(35),
+                      height: scaleHeight(35),
+                      backgroundColor: "#0764B0",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: scaleWidth(4),
+                    }}
+                  >
+                    <Image
+                      source={IMAGE.print_btn}
+                      style={{ width: scaleWidth(20), height: scaleHeight(20) }}
+                    />
+                  </TouchableOpacity>
+                ) : null
+              }
+            >
               <View style={styles.personContent}>
                 <InfoLine
                   label={t("Invoice ID")}
                   infoValue={item?.invoice?.checkoutId}
                   infoTextStyle={styles.highInfoTextStyle}
                 />
+
                 <InfoLine
                   label={t("Invoice Date")}
                   infoValue={dateToString(
@@ -657,26 +681,40 @@ let InfoLine = ({ label, infoValue, labelTextStyle, infoTextStyle }) => {
   );
 };
 
-let InfoHeading = ({ label, onPress, editable = false }) => {
+let InfoHeading = ({ label, onPress, editable = false, rightComponent }) => {
   return (
-    <View style={styles.infoLineContent}>
-      {!!label && <Text style={styles.infoHeaderText}>{label}</Text>}
-      {editable && (
-        <TouchableOpacity onPress={onPress}>
-          <Image
-            style={{ width: scaleWidth(16), height: scaleHeight(16) }}
-            source={IMAGE.edit_customer_icon}
-          />
-        </TouchableOpacity>
-      )}
+    <View style={[styles.infoLineContent, { justifyContent: "space-between" }]}>
+      <View style={layouts.horizontal}>
+        {!!label && <Text style={styles.infoHeaderText}>{label}</Text>}
+        {editable && (
+          <TouchableOpacity onPress={onPress}>
+            <Image
+              style={{ width: scaleWidth(16), height: scaleHeight(16) }}
+              source={IMAGE.edit_customer_icon}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+      {rightComponent && rightComponent()}
     </View>
   );
 };
 
-let InfoContent = ({ label, onPress, children, editable = false }) => {
+let InfoContent = ({
+  label,
+  onPress,
+  children,
+  editable = false,
+  rightComponent,
+}) => {
   return (
     <View style={styles.infoContent}>
-      <InfoHeading label={label} onPress={onPress} editable={editable} />
+      <InfoHeading
+        label={label}
+        onPress={onPress}
+        editable={editable}
+        rightComponent={rightComponent}
+      />
       <View style={[layouts.fill]}>{children}</View>
     </View>
   );
