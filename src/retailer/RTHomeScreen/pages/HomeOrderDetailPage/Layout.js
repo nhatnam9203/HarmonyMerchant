@@ -1,3 +1,4 @@
+import { PopupInvoicePrint } from "@components";
 import IMAGE from "@resources";
 import {
   ButtonGradient,
@@ -6,11 +7,15 @@ import {
 } from "@shared/components";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
-import { ORDERED_STATUS } from "@shared/components/OrderStatusView";
+import {
+  ORDERED_STATUS,
+  OrderStatusView,
+} from "@shared/components/OrderStatusView";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { colors, fonts, layouts } from "@shared/themes";
 import { dateToString, DATE_TIME_SHOW_FORMAT_STRING } from "@shared/utils";
 import { formatMoneyWithUnit } from "@utils";
+import _ from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -21,8 +26,6 @@ import {
   FormEditNotes,
   FormShippingCarrier,
 } from "../../widget";
-import { OrderStatusView } from "@shared/components/OrderStatusView";
-import _ from "lodash";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
@@ -42,6 +45,9 @@ export const Layout = ({
   formAddressRef,
   onDidNotPayCheck,
   printCustomerInvoice,
+  invoicePrintRef,
+  visiblePrintInvoice,
+  cancelInvoicePrint,
 }) => {
   const [t] = useTranslation();
 
@@ -663,6 +669,11 @@ export const Layout = ({
             </InfoContent>
           </View>
         </View>
+        <PopupInvoicePrint
+          ref={invoicePrintRef}
+          visiblePrintInvoice={visiblePrintInvoice}
+          onRequestClose={cancelInvoicePrint}
+        />
       </KeyboardAwareScrollView>
     </View>
   );
