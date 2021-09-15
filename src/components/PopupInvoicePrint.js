@@ -364,7 +364,7 @@ class PopupInvoicePrint extends React.Component {
                 automaticallyAdjustContentInsets={true}
                 keyboardShouldPersistTaps="always"
               >
-                <View ref={this.viewShotRef} style={tempStyle}>
+                <View ref={this.viewShotRef} style={[tempStyle, {backgroundColor: "#fff"}]}>
                   {/* ------------- Store Name ----------- */}
                   <Text
                     style={[
