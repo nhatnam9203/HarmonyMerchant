@@ -316,6 +316,7 @@ export const useProps = ({
     const discount = appointmentDetail?.discount || 0;
     const tax = appointmentDetail?.tax || 0;
     const total = appointmentDetail?.total || 0;
+    const invoiceNo = `${appointmentDetail?.invoice?.checkoutId}` || "";
 
     const temptSubTotal = subTotal;
 
@@ -324,9 +325,8 @@ export const useProps = ({
     const temptTip = tipAmount;
     const temptTax = tax;
 
-    console.log(baskets);
     let payment = "";
-    const payments = appointment.payment;
+    const payments = appointmentDetail.payment;
     if (payments?.length > 0) {
       const firstPayment = payments[0];
       payment = firstPayment.paymentMethod;
@@ -342,7 +342,9 @@ export const useProps = ({
       payment,
       isTemptPrint,
       printMachine,
-      promotionNotes.join(",")
+      promotionNotes.join(","),
+      "SALE",
+      invoiceNo
     );
 
     await setVisiblePrintInvoice(true);
@@ -411,6 +413,7 @@ export const useProps = ({
         printerList,
         printerSelect
       );
+      // showInvoicePrint(portName);
 
       if (portName !== "") {
         showInvoicePrint(portName);

@@ -51,7 +51,7 @@ export const Layout = ({
   submitSerialCode,
   onRequestCloseBillModal,
   popupEnterAmountGiftCardRef,
-  onAddGiftCardToAppointment
+  onAddGiftCardToAppointment,
 }) => {
   const { t } = useTranslation();
 
@@ -61,11 +61,12 @@ export const Layout = ({
   const labelColumn3 = _.get(categoriesLabelData, "column3") || t("Products");
 
   const onRenderGiftCardItem = () => {
-    return (
-      <TouchableOpacity style={styles.itemContent} onPress={onSelectGiftCard}>
-        <Text style={styles.itemText}>{t("Gift Card")}</Text>
-      </TouchableOpacity>
-    );
+    return null;
+    // return (
+    //   <TouchableOpacity style={styles.itemContent} onPress={onSelectGiftCard}>
+    //     <Text style={styles.itemText}>{t("Gift Card")}</Text>
+    //   </TouchableOpacity>
+    // );
   };
 
   return (
