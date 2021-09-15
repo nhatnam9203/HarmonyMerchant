@@ -2078,6 +2078,7 @@ class TabCheckout extends Layout {
       const moneyUserGiveForStaff = parseFloat(
         formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
       );
+
       const method = this.getPaymentString(paymentSelected);
 
       const bodyAction = {
@@ -2311,6 +2312,7 @@ class TabCheckout extends Layout {
     const appointmentId = isAppointmentIdOpen
       ? isAppointmentIdOpen
       : isOpenBlockAppointmentId;
+
     this.props.actions.appointment.addGiftCardIntoBlockAppointment(
       code,
       appointmentId

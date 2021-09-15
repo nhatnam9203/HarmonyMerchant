@@ -64,9 +64,13 @@ export const Layout = ({
           />
           <View style={layouts.marginHorizontal} />
           <View style={styles.productNameContent}>
-            <Text style={styles.productName}>{item?.productName}</Text>
+            <Text style={styles.productName}>
+              {item?.productName || item?.name}
+            </Text>
             <View style={styles.productNameMarginVertical} />
-            <Text style={styles.productOption}>{`${item?.value}`}</Text>
+            {item?.value && (
+              <Text style={styles.productOption}>{`${item?.value}`}</Text>
+            )}
           </View>
         </View>
       );
@@ -81,7 +85,7 @@ export const Layout = ({
               styles.textStyle,
             ]}
           >
-            {`  ${_.get(item, "quantity")}`}
+            {`  ${_.get(item, "quantity", 0)}`}
           </Text>
           {isSelected ? (
             <TextInputMask
@@ -107,7 +111,7 @@ export const Layout = ({
                 { color: "red" },
               ]}
             >
-              {`- ${_.get(item, "returnQuantity")}`}
+              {`- ${_.get(item, "returnQuantity", 0)}`}
             </Text>
           )}
         </View>
@@ -196,7 +200,7 @@ export const Layout = ({
           <FormTitle label={t("Items To Return")} />
           <Table
             // items={item?.products?.filter((x) => !x.isReturn) || []}
-            items={item?.products || []}
+            items={[...item?.products] || []}
             headerKeyLabels={{
               productName: t("Product"),
               price: t("Price"),

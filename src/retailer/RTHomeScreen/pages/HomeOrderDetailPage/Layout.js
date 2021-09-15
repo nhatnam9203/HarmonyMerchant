@@ -220,9 +220,13 @@ export const Layout = ({
           />
           <View style={layouts.marginHorizontal} />
           <View style={styles.productNameContent}>
-            <Text style={styles.productName}>{cellItem?.productName}</Text>
+            <Text style={styles.productName}>
+              {cellItem?.productName || cellItem?.name}
+            </Text>
             <View style={styles.productNameMarginVertical} />
-            <Text style={styles.productOption}>{`${cellItem?.value}`}</Text>
+            {!!cellItem?.value && (
+              <Text style={styles.productOption}>{`${cellItem?.value}`}</Text>
+            )}
           </View>
         </View>
       );
@@ -250,7 +254,7 @@ export const Layout = ({
               },
             ]}
           >
-            {`  ${_.get(cellItem, "quantity")}`}
+            {`  ${_.get(cellItem, "quantity", 0)}`}
           </Text>
           {_.get(item, "returnAmount", 0) > 0 && (
             <Text
@@ -262,14 +266,14 @@ export const Layout = ({
                 { color: "red" },
               ]}
             >
-              {`- ${_.get(cellItem, "returnQuantity")}`}
+              {`- ${_.get(cellItem, "returnQuantity", 0)}`}
             </Text>
           )}
         </View>
       );
     } else if (columnKey === "total") {
       const totalShow =
-        _.get(cellItem, "total") - _.get(cellItem, "returnAmount", 0);
+        _.get(cellItem, "total", 0) - _.get(cellItem, "returnAmount", 0);
       return (
         // <Text
         //   key={getUniqueId(columnKey, rowIndex, "cell-product-total")}
@@ -291,7 +295,7 @@ export const Layout = ({
               },
             ]}
           >
-            {`  ${formatMoneyWithUnit(_.get(cellItem, "total"))}`}
+            {`  ${formatMoneyWithUnit(_.get(cellItem, "total", 0))}`}
           </Text>
 
           {_.get(cellItem, "returnAmount", 0) > 0 && (
@@ -309,9 +313,7 @@ export const Layout = ({
           )}
         </View>
       );
-    }
-
-    if (columnKey === "status") {
+    } else if (columnKey === "status") {
       return cellItem?.isReturn ? (
         <OrderStatusView
           key={getUniqueId(columnKey, rowIndex, "cell-product-return")}
@@ -403,7 +405,9 @@ export const Layout = ({
 
           <FormTitle label={t("Items Ordered")} />
           <Table
-            items={item?.products || []}
+            items={
+              [...(item?.products || []), ...(item?.giftCards || [])] || []
+            }
             tableStyle={styles.table}
             headerKeyLabels={{
               productName: t("Product"),
@@ -444,11 +448,11 @@ export const Layout = ({
             emptyDescription={t("No Products")}
             styleTextKeys={{ total: styles.highLabelTextStyle }}
             formatFunctionKeys={{
-              price: (value) => `${formatMoneyWithUnit(value)}`,
-              subTotal: (value) => `${formatMoneyWithUnit(value)}`,
-              tax: (value) => `${formatMoneyWithUnit(value)}`,
-              discount: (value) => `${formatMoneyWithUnit(value)}`,
-              total: (value) => `${formatMoneyWithUnit(value)}`,
+              price: (value) => `${formatMoneyWithUnit(value || 0)}`,
+              subTotal: (value) => `${formatMoneyWithUnit(value || 0)}`,
+              tax: (value) => `${formatMoneyWithUnit(value || 0)}`,
+              discount: (value) => `${formatMoneyWithUnit(value || 0)}`,
+              total: (value) => `${formatMoneyWithUnit(value || 0)}`,
             }}
             renderCell={onRenderCell}
             renderFooterComponent={() => (
