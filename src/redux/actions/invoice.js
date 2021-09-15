@@ -183,21 +183,21 @@ export function getSettlementWarning() {
     }
 }
 
-export function getListStaffsSales(terminalID = null, paymentTerminal = "pax") {
+export function getListStaffsSales(terminalID = null) {
     return {
         type: 'GET_LIST_STAFFS_SALES',
         method: 'GET',
         token: true,
-        api: `appointment/staffSales?sn=${terminalID}&paymentTerminal=${paymentTerminal}`,
+        api: `appointment/staffSales?sn=${terminalID}`,
     }
 }
 
-export function getListGiftCardSales(terminalID, paymentTerminal = "pax") {
+export function getListGiftCardSales(terminalID) {
     return {
         type: 'GET_LIST_GIFT_CARD_SALES',
         method: 'GET',
         token: true,
-        api: `settlement/waiting/giftCardSales?sn=${terminalID}&paymentTerminal=${paymentTerminal}`,
+        api: `settlement/waiting/giftCardSales?sn=${terminalID}`,
     }
 }
 

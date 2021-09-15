@@ -22,8 +22,8 @@ import Foundation
   func onDeviceReady()
   func onConfirmPayment()
   func printInProcess()
-  func printDone(message: String)
-  func deviceDisconnected()
+//  func printDone(message: String)
+//  func deviceDisconnected()
 }
 @objc public class  CloverManager : DefaultCloverConnectorListener, PairingDeviceConfiguration {
 
@@ -103,15 +103,6 @@ import Foundation
   
   @objc public func doPrint(image: String) {
     
-//    let url = URL.init(fileURLWithPath: image)
-////
-//    let _ = url.startAccessingSecurityScopedResource();
-//
-//    let imageData:Data = try! Data(contentsOf: url)
-//
-//    let imageReceipt = UIImage(data: imageData as Data)
-//
-//    let _ = url.stopAccessingSecurityScopedResource()
     var imageString = image.replacingOccurrences(of: "\n", with: "")
     imageString = imageString.replacingOccurrences(of: "\r", with: "")
   
@@ -122,9 +113,9 @@ import Foundation
       let request = PrintRequest(image: imageReceipt!, printRequestId: "\(arc4random())", printDeviceId: nil)
       self.issuePrintJob(request)
     }else{
-      if(self.cloverDelegate != nil){
-        self.cloverDelegate?.printDone(message: "ERROR")
-      }
+//      if(self.cloverDelegate != nil){
+//        self.cloverDelegate?.printDone(message: "ERROR")
+//      }
     }
   }
   
@@ -167,9 +158,9 @@ import Foundation
   public override func onRetrievePrintersResponse(_ retrievePrintersResponse: RetrievePrintersResponse) {
       guard retrievePrintersResponse.success == true else {
           
-        if(self.cloverDelegate != nil){
-          self.cloverDelegate?.printDone(message: "Error retrieving printers")
-        }
+//        if(self.cloverDelegate != nil){
+//          self.cloverDelegate?.printDone(message: "Error retrieving printers")
+//        }
           return
       }
       
@@ -268,9 +259,9 @@ import Foundation
   
   public override func onPrintJobStatusResponse(_ printJobStatusResponse:PrintJobStatusResponse) {
       DispatchQueue.main.async {
-          if(self.cloverDelegate != nil){
-            self.cloverDelegate?.printDone(message: printJobStatusResponse.status.rawValue)
-          }
+//          if(self.cloverDelegate != nil){
+//            self.cloverDelegate?.printDone(message: printJobStatusResponse.status.rawValue)
+//          }
       }
   }
   

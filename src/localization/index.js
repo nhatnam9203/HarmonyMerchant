@@ -431,6 +431,7 @@ const localization = {
     "VerifyPaymentMessage": "This may be a duplicate, do you want to accept this payment?",
     "Accept": "Accept",
     "Reject": "Reject",
+    "Serial Number": "Serial Number",
   },
   vi: {},
 };

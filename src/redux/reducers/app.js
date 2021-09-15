@@ -250,7 +250,7 @@ function appReducer(state = initialState, action) {
         ...state,
         connectPAXStatus: {
           status: true,
-          message: "( Pax terminal successfully connected! )",
+          message: "( Payment terminal successfully connected! )",
         },
       };
     case "TOGGLE_SETTING_TAB_PERMISSION":
@@ -356,7 +356,7 @@ function getErrorMessagePaxMachine(error) {
     case "You're running your Pax on DEMO MODE!":
       return "( You're running your Pax on DEMO MODE! )";
     case "NOT FOUND":
-      return "( Pax terminal successfully connected!: Not found any transactions )";
+      return "( Payment terminal successfully connected!: Not found any transactions )";
     default:
       return `(Error From Your Pax : "${error}" )`;
   }

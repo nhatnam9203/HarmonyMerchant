@@ -17,6 +17,7 @@ const initialState = {
     port: '',
     isSetup: false,
     token: null,
+    serialNumber: '',
   },
   paymentMachineType: 'Pax',
 
@@ -37,6 +38,7 @@ function hardwareReducer(state = initialState, action) {
           ip: action.payload.paymentMachineInfo.ip,
           port: action.payload.paymentMachineInfo.port,
           isSetup: action.payload.paymentMachineInfo.isSetup,
+          serialNumber: action.payload.paymentMachineInfo.serialNumber,
         },
         paymentMachineType: action.payload.paymentMachineType,
       };

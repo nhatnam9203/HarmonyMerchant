@@ -14,10 +14,10 @@ static NSString* paymentSuccess               = @"paymentSuccess";
 static NSString* paymentFail               = @"paymentFail";
 static NSString* pairingCode               = @"pairingCode";
 static NSString* pairingSuccess               = @"pairingSuccess";
-static NSString* deviceReady              = @"deviceReady";
+//static NSString* deviceReady              = @"deviceReady";
 static NSString* confirmPayment              = @"confirmPayment";
 static NSString* printInProcess         = @"printInProcess";
-static NSString* printDone              = @"printDone";
+//static NSString* printDone              = @"printDone";
 static NSString* deviceDisconnected     = @"deviceDisconnected";
 static NSString* voidPaymentSuccess     = @"voidPaymentSuccess";
 static NSString* voidPaymentFail     = @"voidPaymentFail";
@@ -34,7 +34,7 @@ static NSString* closeoutFail       = @"closeoutFail";
 @property (nonatomic) BOOL isPrintWithConnectProcessing;
 @property (nonatomic) BOOL isOpenCashierProcessing;
 @property (nonatomic) BOOL isCloseoutProcessing;
-@property (nonatomic, strong) CloverManager *clover;
+@property (nonatomic, strong) CloverManager *cloverManager;
 @property (nonatomic, strong) NSDictionary *paymentInfo;
 @property (nonatomic, strong) NSDictionary *voidInfo;
 @property (nonatomic, strong) NSDictionary *refundInfo;
@@ -43,12 +43,21 @@ static NSString* closeoutFail       = @"closeoutFail";
 
 @implementation clover
 
-- (instancetype)init
-{
-  self = [super init];
-  if (self) {
-  }
-  return self;
+//- (instancetype)init
+//{
+//  self = [super init];
+//  if (self) {
+//  }
+//  return self;
+//}
+
++ (id)allocWithZone:(NSZone *)zone {
+    static clover *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [super allocWithZone:zone];
+    });
+    return sharedInstance;
 }
 
 - (NSString*) convertObjectToJson:(NSObject*) object
@@ -69,10 +78,10 @@ RCT_EXPORT_MODULE();
     paymentFail,
     pairingCode,
     pairingSuccess,
-    deviceReady,
+//    deviceReady,
     confirmPayment,
     printInProcess,
-    printDone,
+//    printDone,
     deviceDisconnected,
     voidPaymentSuccess,
     voidPaymentFail,
@@ -88,21 +97,21 @@ RCT_EXPORT_METHOD(changeListenerStatus:(BOOL)value) {
 }
 
 - (void) connectClover:(NSDictionary *)info {
-  self.clover = [CloverManager alloc];
-  self.clover.cloverDelegate = self;
+  self.cloverManager = [CloverManager alloc];
+  self.cloverManager.cloverDelegate = self;
   NSString *url = info[@"url"];
   NSString *remoteAppId = info[@"remoteAppId"];
   NSString *appName = info[@"appName"];
   NSString *posSerial = info[@"posSerial"];
   NSString *token = info[@"token"];
   
-  [self.clover connect:url appId: remoteAppId appName: appName posSerial: posSerial token: token];
+  [self.cloverManager connect:url appId: remoteAppId appName: appName posSerial: posSerial token: token];
 }
 
 RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo)
 {
-  if(self.clover) {
-    [self.clover doSaleWithPaymentInfo:paymentInfo];
+  if(self.cloverManager) {
+    [self.cloverManager doSaleWithPaymentInfo:paymentInfo];
   }else{
     self.isPaymentProcessing = true;
     self.paymentInfo = paymentInfo;
@@ -111,21 +120,21 @@ RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo)
 }
 
 RCT_EXPORT_METHOD(confirmPayment){
-  [self.clover confirmPayment];
+  [self.cloverManager confirmPayment];
 }
 
 RCT_EXPORT_METHOD(rejectPayment){
   self.isPaymentProcessing = false;
-  [self.clover rejectPayment];
+  [self.cloverManager rejectPayment];
 }
 
 RCT_EXPORT_METHOD(cancelTransaction){
   self.isPaymentProcessing = false;
-  [self.clover cancelTransaction];
+  [self.cloverManager cancelTransaction];
 }
 
 RCT_EXPORT_METHOD(doPrint:(NSString *)image){
-  [self.clover doPrintWithImage:image];
+  [self.cloverManager doPrintWithImage:image];
   
 }
 
@@ -147,8 +156,8 @@ RCT_EXPORT_METHOD(doPrint:(NSString *)image){
 
 RCT_EXPORT_METHOD(closeout:(NSDictionary *)info){
   
-  if(self.clover){
-    [self.clover closeout];
+  if(self.cloverManager){
+    [self.cloverManager closeout];
   }else{
     self.isCloseoutProcessing = true;
     [self connectClover:info];
@@ -159,8 +168,8 @@ RCT_EXPORT_METHOD(closeout:(NSDictionary *)info){
 RCT_EXPORT_METHOD(doPrintWithConnect:(NSDictionary *)printInfo){
   
   NSString *imageURI = printInfo[@"imageUri"];
-  if(self.clover){
-    [self.clover doPrintWithImage: imageURI];
+  if(self.cloverManager){
+    [self.cloverManager doPrintWithImage: imageURI];
   }else{
     self.isPrintWithConnectProcessing = true;
     self.imageUri = imageURI;
@@ -169,8 +178,8 @@ RCT_EXPORT_METHOD(doPrintWithConnect:(NSDictionary *)printInfo){
 }
 
 RCT_EXPORT_METHOD(voidPayment:(NSDictionary*) voidInfo) {
-  if(self.clover){
-    [self.clover voidPaymentWithPaymentInfo: voidInfo];
+  if(self.cloverManager){
+    [self.cloverManager voidPaymentWithPaymentInfo: voidInfo];
   }else{
     self.isVoidProcessing = true;
     self.voidInfo = voidInfo;
@@ -179,8 +188,8 @@ RCT_EXPORT_METHOD(voidPayment:(NSDictionary*) voidInfo) {
 }
 
 RCT_EXPORT_METHOD(openCashDrawer:(NSDictionary*) info) {
-  if(self.clover){
-    [self.clover openCashDrawer];
+  if(self.cloverManager){
+    [self.cloverManager openCashDrawer];
   }else{
     self.isOpenCashierProcessing = true;
     [self connectClover:info];
@@ -188,8 +197,8 @@ RCT_EXPORT_METHOD(openCashDrawer:(NSDictionary*) info) {
 }
 
 RCT_EXPORT_METHOD(refundPayment:(NSDictionary*) refundInfo) {
-  if(self.clover){
-    [self.clover refundPaymentWithPaymentInfo: refundInfo];
+  if(self.cloverManager){
+    [self.cloverManager refundPaymentWithPaymentInfo: refundInfo];
   }else{
     self.isRefundProcessing = true;
     self.refundInfo = refundInfo;
@@ -265,38 +274,38 @@ RCT_EXPORT_METHOD(refundPayment:(NSDictionary*) refundInfo) {
 }
 
 - (void)onDeviceReady {
-  if (self.listening) {
-    [self sendEventWithName:deviceReady body:nil];
-  }
+//  if (self.listening) {
+//    [self sendEventWithName:deviceReady body:nil];
+//  }
   if (self.isPaymentProcessing) {
     
     self.isPaymentProcessing = false;
-    [self.clover doSaleWithPaymentInfo: self.paymentInfo];
+    [self.cloverManager doSaleWithPaymentInfo: self.paymentInfo];
     
   } else if(self.isPrintWithConnectProcessing){
     
     self.isPrintWithConnectProcessing = false;
-    [self.clover doPrintWithImage: self.imageUri];
+    [self.cloverManager doPrintWithImage: self.imageUri];
     
   } else if (self.isVoidProcessing) {
     
     self.isVoidProcessing = false;
-    [self.clover voidPaymentWithPaymentInfo:self.voidInfo];
+    [self.cloverManager voidPaymentWithPaymentInfo:self.voidInfo];
     
   } else if(self.isRefundProcessing) {
     
     self.isRefundProcessing = false;
-    [self.clover voidPaymentWithPaymentInfo:self.refundInfo];
+    [self.cloverManager voidPaymentWithPaymentInfo:self.refundInfo];
     
   } else if(self.isOpenCashierProcessing) {
     
     self.isOpenCashierProcessing = false;
-    [self.clover openCashDrawer];
+    [self.cloverManager openCashDrawer];
     
   } else if (self.isCloseoutProcessing) {
     
     self.isCloseoutProcessing = false;
-    [self.clover closeout];
+    [self.cloverManager closeout];
     
   }
  
@@ -320,12 +329,14 @@ RCT_EXPORT_METHOD(refundPayment:(NSDictionary*) refundInfo) {
   }
 }
 
-- (void)printDoneWithMessage:(NSString * _Nonnull)message {
-  self.isPrintWithConnectProcessing = false;
-  if (self.listening) {
-    [self sendEventWithName:printDone body:message];
-  }
-}
+
+
+//- (void)printDoneWithMessage:(NSString * _Nonnull)message {
+//  self.isPrintWithConnectProcessing = false;
+//  if (self.listening) {
+//    [self sendEventWithName:printDone body:message];
+//  }
+//}
 
 @end
 

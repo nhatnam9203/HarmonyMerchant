@@ -7,6 +7,7 @@ import {
     APP_NAME,
     POS_SERIAL,
   } from '@utils';
+import * as l from "lodash";
 
 const PosLink = NativeModules.batch;
 const PosLinkReport = NativeModules.report;
@@ -57,7 +58,7 @@ class TabSecondSettle extends Layout {
            console.log('data', data)
            this.isProcessCloseBatchClover = false
            this.props.actions.app.stopLoadingApp();
-           this.proccessingSettlement([]);
+           this.proccessingSettlement("[]");
           }),
           this.eventEmitter.addListener('closeoutFail', data => {
             console.log('data', data)
@@ -96,10 +97,10 @@ class TabSecondSettle extends Layout {
                 this.props.actions.app.loadingApp();
             }
           }),
-          this.eventEmitter.addListener('deviceReady', () => {
+        //   this.eventEmitter.addListener('deviceReady', () => {
             
            
-          }),
+        //   }),
           
           this.eventEmitter.addListener('deviceDisconnected', () => {
            
@@ -296,7 +297,7 @@ class TabSecondSettle extends Layout {
         const { settleWaiting, connectPAXStatus } = this.props;
         const { settleTotal } = this.state;
         const { status, message } = connectPAXStatus;
-        const isConnectPax = status && message && message == "( Pax terminal successfully connected! )" ? true : false;
+        const isConnectPax = status && message && message == "( Payment terminal successfully connected! )" ? true : false;
         const body = { ...settleTotal, checkout: settleWaiting.checkout, isConnectPax, responseData };
 
         this.setState({

@@ -232,7 +232,7 @@ class Layout extends React.Component {
         const { status, message } = connectPAXStatus;
         const data = settleWaiting.paymentTransaction ? settleWaiting.paymentTransaction : [];
 
-        const isConnectPax = status && message && message == "( Pax terminal successfully connected! )" ? true : false;
+        const isConnectPax = status && message && message == "( Payment terminal successfully connected! )" ? true : false;
         const tempData = isConnectPax ? data : [];
 
         return (
@@ -261,7 +261,7 @@ class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
-        const { paxErrorMessage } = this.state;
+        const { paxErrorMessage, visiblePopupParingCode, pairingCode } = this.state;
 
         return (
             <View style={[styles.container]} >

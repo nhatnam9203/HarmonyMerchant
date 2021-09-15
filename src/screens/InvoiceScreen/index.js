@@ -130,14 +130,14 @@ class InvoiceScreen extends Layout {
           });
         }
       }),
-      this.eventEmitter.addListener('printDone', (message) => {
-        console.log(message)
-        this.isProcessPrintClover = false
-      }),
-      this.eventEmitter.addListener('deviceReady', () => {
+      // this.eventEmitter.addListener('printDone', (message) => {
+      //   console.log(message)
+      //   this.isProcessPrintClover = false
+      // }),
+      // this.eventEmitter.addListener('deviceReady', () => {
         
        
-      }),
+      // }),
       
       this.eventEmitter.addListener('deviceDisconnected', () => {
         if(this.isProcessVoidPaymentClover) {
@@ -825,6 +825,7 @@ class InvoiceScreen extends Layout {
       token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
     }
     clover.doPrintWithConnect(printInfo)
+    this.isProcessPrintClover = false
   }
   
   printCustomerInvoice = async () => {

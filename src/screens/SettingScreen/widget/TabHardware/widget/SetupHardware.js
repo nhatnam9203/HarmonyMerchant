@@ -40,6 +40,7 @@ class SetupHardware extends React.Component {
             peripherals: [],
             scanLoading: false,
             terminalName: paymentMachineType,
+            serialNumber: _.get(cloverMachineInfo, 'serialNumber', ''),
         };
 
         this.scrollRef = React.createRef();
@@ -64,7 +65,8 @@ class SetupHardware extends React.Component {
     }
 
     setupPax = () => {
-        const { name, ip, port, timeout, commType, bluetoothAddr, terminalName } = this.state;
+        const { name, ip, port, timeout, commType, 
+            bluetoothAddr, terminalName, serialNumber } = this.state;
         // ------- Handle Bluetooth Comunication Type ------------
 
         if(terminalName == "Pax"){
@@ -90,12 +92,12 @@ class SetupHardware extends React.Component {
                 };
             }
         }else{
-            if (ip == '' || port == '') {
+            if (ip == '' || port == '' || serialNumber == '') {
                 alert('Please enter full infomation!');
             } else {
                 this.props.actions.hardware.setupCloverMachine({
-                    paymentMachineInfo: { ip, port, isSetup: true },
-                    paymentMachineType: 'Clover'
+                    paymentMachineInfo: { ip, port, isSetup: true, serialNumber },
+                    paymentMachineType: 'Clover',
                 });
                 this.props.backListDevices();
             };
@@ -153,6 +155,7 @@ class SetupHardware extends React.Component {
                 name: tempName,
                 ip: tempIp,
                 port: tempPort,
+                serialNumber: _.get(cloverMachineInfo, 'serialNumber', '')
             });
         }
     }
@@ -221,7 +224,8 @@ class SetupHardware extends React.Component {
 
     render() {
         const { language, bluetoothPaxInfo } = this.props;
-        const { name, ip, port, timeout, commType, terminalName } = this.state;
+        const { name, ip, port, timeout, commType, 
+                terminalName, serialNumber } = this.state;
 
         const tempCheckEthernetIcon = commType === "TCP" ? ICON.radioExportSe : ICON.radioExport;
         const tempCheckBluetoothIcon = commType === "BLUETOOTH" ? ICON.radioExportSe : ICON.radioExport;
@@ -331,6 +335,16 @@ class SetupHardware extends React.Component {
                             placeholder={localize('Device name', language)}
                             value={name}
                             onChangeText={name => this.setState({ name })}
+                        />
+                    }
+
+                    {
+                        terminalName === "Clover" &&
+                        <ItemSetup
+                            title={localize('Serial Number', language)}
+                            placeholder={localize('Serial Number', language)}
+                            value={serialNumber}
+                            onChangeText={serialNumber => this.setState({ serialNumber })}
                         />
                     }
 

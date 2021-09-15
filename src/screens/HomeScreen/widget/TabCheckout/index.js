@@ -742,7 +742,7 @@ class TabCheckout extends Layout {
 
   donotPrintBill = async () => {
     this.props.pushAppointmentIdOfflineIntoWebview();
-    const { connectionSignalR } = this.props;
+    const { connectionSignalR, paymentMachineType } = this.props;
     const { paymentSelected } = this.state;
     if (!_.isEmpty(connectionSignalR)) {
       connectionSignalR.stop();
@@ -2745,7 +2745,7 @@ class TabCheckout extends Layout {
     const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
     const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
     
-  const printInfo = {
+    const printInfo = {
       imageUri,
       url,
       remoteAppId: REMOTE_APP_ID,
@@ -2754,17 +2754,22 @@ class TabCheckout extends Layout {
       token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
     }
     clover.doPrintWithConnect(printInfo)
+    this.isProcessPrintClover = false
   }
 
   async handleResponseCreditCardForCloverSuccess(message) {
-    const { profile, payAppointmentId, amountCredtitForSubmitToServer } = this.props;
+    const { profile, payAppointmentId, 
+      amountCredtitForSubmitToServer,
+      cloverMachineInfo, } = this.props;
     await this.setState({
       visibleProcessingCredit: false,
     });
+    let messageUpdate = {...message,
+                sn: l.get(cloverMachineInfo, 'serialNumber')}
     try {
       this.props.actions.appointment.submitPaymentWithCreditCard(
         profile?.merchantId || 0,
-        message,
+        JSON.stringify(messageUpdate),
         payAppointmentId,
         amountCredtitForSubmitToServer,
         "clover",
@@ -2857,16 +2862,12 @@ class TabCheckout extends Layout {
             visibleProcessingCredit: true,
           })
         }
-        // if(this.isProcessPrintClover){
-        //   this.setState({
-        //     visiblePrintInvoice: true,
-        //   });
-        // }
-      }),
-      this.eventEmitter.addListener('deviceReady', () => {
-        
        
       }),
+      // this.eventEmitter.addListener('deviceReady', () => {
+        
+       
+      // }),
       this.eventEmitter.addListener('confirmPayment', () => {
         
         this.setState({
@@ -2878,10 +2879,10 @@ class TabCheckout extends Layout {
         
         
       }),
-      this.eventEmitter.addListener('printDone', (message) => {
-        console.log(message)
-        this.isProcessPrintClover = false
-      }),
+      // this.eventEmitter.addListener('printDone', (message) => {
+      //   console.log(message)
+      //   this.isProcessPrintClover = false
+      // }),
       this.eventEmitter.addListener('deviceDisconnected', () => {
         if(this.isProcessPaymentClover) {
           this.setState({
