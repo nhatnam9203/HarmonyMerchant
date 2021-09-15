@@ -411,13 +411,12 @@ export const useProps = ({
         printerList,
         printerSelect
       );
-      showInvoicePrint(portName);
 
-      // if (portName !== "") {
-      //   showInvoicePrint(portName);
-      // } else {
-      //   alert("Please connect to your printer! ");
-      // }
+      if (portName !== "") {
+        showInvoicePrint(portName);
+      } else {
+        alert("Please connect to your printer! ");
+      }
     },
     invoicePrintRef,
     visiblePrintInvoice,
