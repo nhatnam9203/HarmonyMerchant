@@ -15,7 +15,7 @@ export const menuTabs = {
     MENU_SETTING: 'MENU_SETTING',
 }
 
-export const REMOTE_APP_ID = 'JCAQ6671XBR3Y.7YXHTNM6RYMVT'
+export const REMOTE_APP_ID = '1MHMKSTW4HZ2P.BRXKQHNH5T1BW'
 export const APP_NAME = 'HarmonyPOS'
 export const POS_SERIAL = "POS"
 
