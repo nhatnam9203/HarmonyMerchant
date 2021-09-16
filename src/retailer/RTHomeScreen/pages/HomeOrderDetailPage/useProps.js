@@ -1,5 +1,6 @@
 import NavigationServices from "@navigators/NavigatorServices";
 import { useFocusEffect } from "@react-navigation/native";
+import { basketRetailer } from "@redux/slices";
 import { ORDERED_STATUS } from "@shared/components/OrderStatusView";
 import {
   useCancelAppointment,
@@ -9,10 +10,10 @@ import {
   useGetAppointment,
   useShippingAppointment,
 } from "@shared/services/api/retailer";
-import { statusSuccess, PURCHASE_POINTS_STORE } from "@shared/utils";
+import { PURCHASE_POINTS_STORE, statusSuccess } from "@shared/utils";
+import { getInfoFromModelNameOfPrinter } from "@utils";
 import React from "react";
-import { useDispatch } from "react-redux";
-import { basketRetailer } from "@redux/slices";
+import { useDispatch, useSelector } from "react-redux";
 
 const log = (obj, message = "") => {
   Logger.log(`[HomeOrderDetail] ${message}`, obj);
@@ -33,6 +34,21 @@ export const useProps = ({
 }) => {
   const formAddressRef = React.useRef(null);
   const dispatch = useDispatch();
+  const invoicePrintRef = React.useRef(null);
+
+  /**
+  |--------------------------------------------------
+  | REDUX variables
+  |--------------------------------------------------
+  */
+  const printerList = useSelector((state) => state.dataLocal.printerList);
+  const printerSelect = useSelector((state) => state.dataLocal.printerSelect);
+
+  /**
+  |--------------------------------------------------
+  | STATE variables
+  |--------------------------------------------------
+  */
 
   const [appointmentDetail, setAppointmentDetail] = React.useState(null);
   const [shippingMethod, setShippingMethod] = React.useState(null);
@@ -40,6 +56,7 @@ export const useProps = ({
   const [shippingAddressId, setShippingAddressId] = React.useState(null);
   const [billingAddressId, setBillingAddressId] = React.useState(null);
   const [isDidNotPay, setDidNotPay] = React.useState(false);
+  const [visiblePrintInvoice, setVisiblePrintInvoice] = React.useState(false);
 
   /**
   |--------------------------------------------------
@@ -206,6 +223,133 @@ export const useProps = ({
     }
     return method;
   };
+
+  const getBasketOnline = (appointments) => {
+    const arrayProductBuy = [];
+    const arryaServicesBuy = [];
+    const arrayExtrasBuy = [];
+    const arrayGiftCards = [];
+    const promotionNotes = [];
+
+    appointments.forEach((appointment) => {
+      const note = appointment?.promotionNotes?.note || "";
+      if (note) {
+        promotionNotes.push(note);
+      }
+      // ------ Push Service -------
+      appointment.services?.forEach((service) => {
+        arryaServicesBuy.push({
+          type: "Service",
+          data: {
+            name: service?.serviceName || "",
+            price: service?.price || "",
+          },
+          staff: service?.staff || false,
+          note: service?.note || "",
+        });
+      });
+
+      // ------ Push Product -------
+      appointment.products?.forEach((product) => {
+        arrayProductBuy.push({
+          type: "Product",
+          data: {
+            name: product?.productName || "",
+            price: product?.price || "",
+          },
+          quanlitySet: product?.quantity || "",
+        });
+      });
+
+      // ------ Push Product -------
+      appointment.extras?.forEach((extra) => {
+        arrayExtrasBuy.push({
+          type: "Extra",
+          data: {
+            name: extra?.extraName || "",
+            price: extra?.price || "",
+          },
+        });
+      });
+
+      // ------ Push Gift Card -------
+      appointment.giftCards?.forEach((gift) => {
+        arrayGiftCards.push({
+          type: "GiftCards",
+          data: {
+            name: gift?.name || "Gift Card",
+            price: gift?.price || "",
+          },
+          quanlitySet: gift?.quantity || "",
+        });
+      });
+    });
+
+    return {
+      arryaServicesBuy,
+      arrayProductBuy,
+      arrayExtrasBuy,
+      arrayGiftCards,
+      promotionNotes,
+    };
+  };
+
+  const showInvoicePrint = async (printMachine, isTemptPrint = true) => {
+    // -------- Pass data to Invoice --------
+
+    const appointments = [appointmentDetail];
+    const {
+      arryaServicesBuy,
+      arrayProductBuy,
+      arrayExtrasBuy,
+      arrayGiftCards,
+      promotionNotes,
+    } = getBasketOnline(appointments);
+
+    const baskets = arryaServicesBuy.concat(
+      arrayExtrasBuy,
+      arrayProductBuy,
+      arrayGiftCards
+    );
+    const tipAmount = appointmentDetail?.tipAmount || 0;
+    const subTotal = appointmentDetail?.subTotal || 0;
+    const discount = appointmentDetail?.discount || 0;
+    const tax = appointmentDetail?.tax || 0;
+    const total = appointmentDetail?.total || 0;
+    const invoiceNo = `${appointmentDetail?.invoice?.checkoutId}` || "";
+
+    const temptSubTotal = subTotal;
+
+    const temptTotal = total;
+    const temptDiscount = discount;
+    const temptTip = tipAmount;
+    const temptTax = tax;
+
+    let payment = "";
+    const payments = appointmentDetail.payment;
+    if (payments?.length > 0) {
+      const firstPayment = payments[0];
+      payment = firstPayment.paymentMethod;
+    }
+
+    invoicePrintRef.current?.setStateFromParent(
+      baskets,
+      temptSubTotal,
+      temptTax,
+      temptDiscount,
+      temptTip,
+      temptTotal,
+      payment,
+      isTemptPrint,
+      printMachine,
+      promotionNotes.join(","),
+      "SALE",
+      invoiceNo
+    );
+
+    await setVisiblePrintInvoice(true);
+  };
+
   return {
     item: appointmentDetail,
     goBack: () => {
@@ -263,6 +407,24 @@ export const useProps = ({
     formAddressRef,
     onDidNotPayCheck: (checked) => {
       setDidNotPay(checked);
+    },
+    printCustomerInvoice: async () => {
+      const { portName } = getInfoFromModelNameOfPrinter(
+        printerList,
+        printerSelect
+      );
+      // showInvoicePrint(portName);
+
+      if (portName !== "") {
+        showInvoicePrint(portName);
+      } else {
+        alert("Please connect to your printer! ");
+      }
+    },
+    invoicePrintRef,
+    visiblePrintInvoice,
+    cancelInvoicePrint: async (isPrintTempt) => {
+      setVisiblePrintInvoice(false);
     },
   };
 };

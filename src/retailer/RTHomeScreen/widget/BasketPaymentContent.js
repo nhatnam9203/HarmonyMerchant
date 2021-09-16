@@ -88,11 +88,6 @@ export const BasketPaymentContent = React.forwardRef(
     };
 
     React.useEffect(() => {
-      // console.log(`changeButtonDone ${changeButtonDone}`);
-      // console.log(`isCancelHarmonyPay ${isCancelHarmonyPay}`);
-      // console.log(`isAcceptPay ${isAcceptPay}`);
-      // console.log(`paymentSelected ${paymentSelected}`);
-
       if (changeButtonDone && isCancelHarmonyPay) {
         if (paymentSelected === "HarmonyPay") {
           setButtonTittle(t("CANCEL"));
@@ -118,8 +113,6 @@ export const BasketPaymentContent = React.forwardRef(
     }, [changeButtonDone, isCancelHarmonyPay, isAcceptPay, paymentSelected]);
 
     React.useEffect(() => {
-      // console.log(`groupAppointment ${JSON.stringify(groupAppointment)}`);
-
       let isAccept = !_.isEmpty(groupAppointment)
         ? groupAppointment.total && parseFloat(groupAppointment.total) > 0
           ? true
@@ -134,7 +127,7 @@ export const BasketPaymentContent = React.forwardRef(
     }, [groupAppointment, paymentSelected, orderItem]);
 
     React.useEffect(() => {
-      if (orderItem?.products?.length > 0) {
+      if (orderItem?.products?.length > 0 || orderItem?.giftCards?.length > 0) {
         const temps = orderItem.products?.reduce((previous, x) => {
           let groups = previous ?? [];
           const keyUnique = x.productName + " + " + x.value;
@@ -152,7 +145,26 @@ export const BasketPaymentContent = React.forwardRef(
 
           return groups;
         }, []);
-        setItems(temps);
+
+        const giftCardTemps = orderItem.giftCards?.reduce((previous, x) => {
+          let groups = previous ?? [];
+          const keyUnique = x.giftCardId + "";
+
+          const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
+
+          if (isExitIdx >= 0) {
+            const existItem = groups[isExitIdx];
+            groups[isExitIdx] = Object.assign({}, existItem, {
+              value: [...existItem.value, x],
+            });
+          } else {
+            groups.push({ key: keyUnique, value: [x] });
+          }
+
+          return groups;
+        }, []);
+
+        setItems([...(temps || []), ...(giftCardTemps || [])]);
       } else {
         setItems(null);
       }
@@ -172,7 +184,7 @@ export const BasketPaymentContent = React.forwardRef(
             <FastImage
               style={styles.imageStyle}
               source={
-                item?.imageUrl
+                firstItem?.imageUrl
                   ? {
                       uri: firstItem?.imageUrl,
                       priority: FastImage.priority.high,
@@ -185,7 +197,9 @@ export const BasketPaymentContent = React.forwardRef(
 
             <View style={layouts.marginHorizontal} />
             <View style={styles.productItemContent}>
-              <Text style={styles.totalText}>{firstItem?.productName}</Text>
+              <Text style={styles.totalText}>
+                {firstItem?.productName ?? firstItem?.name}
+              </Text>
               <Text style={styles.totalInfoText}>{firstItem?.value}</Text>
             </View>
             <Text style={styles.productItemQuantity}>{`${qty} ${t(

@@ -551,6 +551,7 @@ class TabCheckout extends Layout {
       payAppointmentId,
       customerInfoBuyAppointment,
       appointmentIdBookingFromCalendar,
+      isBookingFromCalendar
     } = this.props;
 
     const { isDrawer } = this.state;
@@ -576,7 +577,7 @@ class TabCheckout extends Layout {
 
     if (isCancelAppointment) {
       const app = groupAppointment?.appointments[0];
-      if (app) {
+      if (app && groupAppointment?.appointments && groupAppointment?.appointments.length === 1) {
         if ((app.services.length + app.products.length + app.giftCards.length) === 0) {
           const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
           const customerId = customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0;
@@ -585,10 +586,26 @@ class TabCheckout extends Layout {
       }
     }
 
-    // if (appointmentIdBookingFromCalendar) {
-    //     const customerId = customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0;
-    //     this.props.actions.appointment.cancleAppointment(appointmentIdBookingFromCalendar, profile.merchantId, customerId);
-    // }
+    if (isBookingFromCalendar && appointmentIdBookingFromCalendar) {
+      const app = groupAppointment?.appointments[0];
+      if (app && groupAppointment?.appointments && groupAppointment?.appointments.length === 1) {
+        if ((app.services.length + app.products.length + app.giftCards.length) === 0) {
+          const customerId = customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0;
+          this.props.actions.appointment.cancleAppointment(appointmentIdBookingFromCalendar, profile.merchantId, customerId);
+        }
+      }
+    }
+
+    if (!isBookingFromCalendar && appointmentIdBookingFromCalendar == 0) {
+      const app = groupAppointment?.appointments[0];
+      if (app && groupAppointment?.appointments && groupAppointment?.appointments.length === 1) {
+        if ((app.services.length + app.products.length + app.giftCards.length) === 0) {
+          const mainAppointmentId = groupAppointment.mainAppointmentId ? groupAppointment.mainAppointmentId : 0;
+          const customerId = customerInfoBuyAppointment.customerId ? customerInfoBuyAppointment.customerId : 0;
+          this.props.actions.appointment.cancleAppointment(mainAppointmentId, profile.merchantId, customerId);
+        }
+      }
+    }
 
     // if (temptBlockAppointments && temptBlockAppointments.length > 0) {
     //     for (let i = 0; i < temptBlockAppointments.length; i++) {
@@ -2151,6 +2168,7 @@ class TabCheckout extends Layout {
       const moneyUserGiveForStaff = parseFloat(
         formatNumberFromCurrency(this.modalBillRef.current?.state.quality)
       );
+
       const method = this.getPaymentString(paymentSelected);
 
       const bodyAction = {
@@ -2384,6 +2402,7 @@ class TabCheckout extends Layout {
     const appointmentId = isAppointmentIdOpen
       ? isAppointmentIdOpen
       : isOpenBlockAppointmentId;
+
     this.props.actions.appointment.addGiftCardIntoBlockAppointment(
       code,
       appointmentId

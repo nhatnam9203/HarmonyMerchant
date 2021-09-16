@@ -261,6 +261,7 @@ export default {
   // retailers
   MenuButtonIcon: require("../assets/images/maskGroup87.png"),
   LockButtonIcon: require("../assets/images/maskGroup88.png"),
+  CheckInButtonIcon: require("../assets/images/MaskGroup290.png"),
   BackButtonIcon: require("../assets/images/ic_header_back.png"),
   MerchantBackground: require("../assets/images/bg.png"),
   MerchantLogo: require("../assets/images/maskGroup86.png"),
@@ -273,6 +274,7 @@ export default {
   IconButtonStatusClose: require("../assets/images/btn_status_close.png"),
   ExportPdfFileImage: require("../assets/images/MaskGroup286.png"),
   ImageDefault: require("../assets/images/Group7560.png"),
+  AgencyLogo: require("../assets/images/agencyLogo.png"),
 
   cash_retailer: require("../assets/images/cash.png"),
   check_retailer: require("../assets/images/check.png"),

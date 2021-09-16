@@ -905,14 +905,8 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { language, 
-            visiblePopupPaymentDetails, 
-            visiblePopupCheckDiscountPermission, 
-            isCancelAppointment , 
-            isOfflineMode,
-            groupAppointment,
-         } = this.props;
-
+        const { language, visiblePopupPaymentDetails, visiblePopupCheckDiscountPermission,
+            isCancelAppointment, isOfflineMode, groupAppointment, isBookingFromCalendar, appointmentIdBookingFromCalendar } = this.props;
         const { visibleConfirm, visibleChangeStylist, visiblePopupDiscountLocal, visibleScanCode,
             visiblePopupAddItemIntoBasket, visibleAddEditCustomerPopup,
             visibleErrorMessageFromPax, errorMessageFromPax,
@@ -925,9 +919,15 @@ class Layout extends React.Component {
 
         const app0 = (!l.isEmpty(groupAppointment) && groupAppointment?.appointments[0]) || null;
 
-        const titleExitCheckoutTab = (isCancelAppointment && app0 && ((app0.services.length + app0.products.length + app0.giftCards.length) === 0)) ?
-            "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? " :
-            'Are you sure you want to exit Check-Out?';
+
+        const titleExitCheckoutTab =
+            (
+                (isCancelAppointment && app0 && ((app0.services.length + app0.products.length + app0.giftCards.length) === 0)) ||
+                (isBookingFromCalendar && appointmentIdBookingFromCalendar && app0 && ((app0.services.length + app0.products.length + app0.giftCards.length) === 0)) ||
+                (!isBookingFromCalendar && (appointmentIdBookingFromCalendar == 0) && app0 && ((app0.services.length + app0.products.length + app0.giftCards.length) === 0))
+            ) ?
+                "The appointment will be canceled if you do not complete your payment. Are you sure you want to exit Check-out? " :
+                'Are you sure you want to exit Check-Out?';
 
         return (
             <View style={styles.container} >

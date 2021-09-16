@@ -321,12 +321,12 @@ export const STAFF_PERMISSIONS_ROLES = [
     label: "Change Discount",
     isChecked: true,
   },
-  // {
-  //   id: 0,
-  //   key: menuTabs.MENU_INVOICE,
-  //   label: "Invoice",
-  //   isChecked: true,
-  // },
+  {
+    id: 0,
+    key: menuTabs.MENU_INVOICE,
+    label: "Invoice",
+    isChecked: true,
+  },
   {
     id: 0,
     key: menuTabs.MENU_SETTLEMENT,
@@ -363,10 +363,25 @@ export const STAFF_PERMISSIONS_ROLES = [
     label: "Setting",
     isChecked: true,
   },
+  {
+    id: 0,
+    key: menuTabs.MENU_STAFF_LOGTIME,
+    label: "Staff Log Time",
+    isChecked: true,
+  },
 ];
 
 export const MERCHANT_TYPES = [
   { label: "Salon POS", value: "SalonPos" },
   { label: "Retailer", value: "Retailer" },
   { label: "Table Management", value: "Restaurant" },
+];
+
+export const STAFF_CHECK_IN_TYPE = 0;
+export const STAFF_CHECK_OUT_TYPE = 1;
+
+export const STAFF_LOG_TIME_TYPE = [
+  // { label: "All type", value: 0 },
+  { label: "Check In", value: STAFF_CHECK_IN_TYPE },
+  { label: "Check Out", value: STAFF_CHECK_OUT_TYPE },
 ];

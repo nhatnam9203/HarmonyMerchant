@@ -31,6 +31,7 @@ const initialState = {
   },
   isUpdateMerchantSetting: false,
   settingTabPermission: false,
+  staffLogtimeTabPermission: false,
   visiblePopupCodePush: false,
   descriptionCodePush: "",
   isInitialApp: true,
@@ -258,10 +259,16 @@ function appReducer(state = initialState, action) {
         ...state,
         settingTabPermission: action.payload,
       };
+    case "TOGGLE_STAFF_LOGTIME_TAB_PERMISSION":
+      return {
+        ...state,
+        staffLogtimeTabPermission: action.payload,
+      };
     case "CLOSE_ALL_POPUP_PIN_CODE":
       return {
         ...state,
         settingTabPermission: false,
+        staffLogtimeTabPermission: false,
         visibleEnterPin: false,
       };
     case "OPEN_POPUP_CODE_PUSH":
@@ -303,24 +310,24 @@ function appReducer(state = initialState, action) {
     case "RESET_UNREAD_NOTIFICATION":
       return {
         ...state,
-        notificationContUnread: '0',
-      }
+        notificationContUnread: "0",
+      };
     case "REDUCE_UNREAD_NOTIFICATION":
-      let count = parseInt(state.notificationContUnread)
-      if(count > 0){
-        count = count - 1
+      let count = parseInt(state.notificationContUnread);
+      if (count > 0) {
+        count = count - 1;
       }
-      
+
       return {
         ...state,
         notificationContUnread: `${count}`,
-      }
+      };
     case "INCREASE_UNREAD_NOTIFICATION":
-      const notifCount = parseInt(state.notificationContUnread) + 1
+      const notifCount = parseInt(state.notificationContUnread) + 1;
       return {
         ...state,
         notificationContUnread: `${notifCount}`,
-      }
+      };
     case "GET_COUNT_UNREAD_OF_NOTIFICATION_SUCCESS":
       return {
         ...state,

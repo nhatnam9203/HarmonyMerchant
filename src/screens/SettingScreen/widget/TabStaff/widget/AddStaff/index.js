@@ -254,6 +254,7 @@ class AddStaff extends Layout {
         isChecked: true,
       },
     ];
+
     if (isEditStaff) {
       const { stateCity } = this.props;
 

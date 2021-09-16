@@ -336,6 +336,9 @@ class PopupInvoicePrint extends React.Component {
     if (!invoiceName && invoiceDetail?.user?.userId) {
       invoiceName = getFullName(invoiceDetail?.user);
     }
+    if (!invoiceName) {
+      invoiceName = profileStaffLogin?.displayName;
+    }
 
     let txt_normal = paymentMachineType == "Clover" 
                     ? styleInvoice.txt_normal_clover 
@@ -346,6 +349,7 @@ class PopupInvoicePrint extends React.Component {
     let txt_total = paymentMachineType == "Clover"
                     ? styleInvoice.txt_total_clover
                     : styleInvoice.txt_total
+    
 
     return (
       <Modal

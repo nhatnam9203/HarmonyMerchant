@@ -42,6 +42,7 @@ export const Layout = ({
   staffPermission,
   onChangePermissionRole,
   roleSelectRef,
+  permission,
 }) => {
   const [t] = useTranslation();
 
@@ -262,15 +263,11 @@ export const Layout = ({
           </View>
         </View>
 
-        {staffPermission === "Manager" && current_staff?.permission && (
+        {staffPermission === "Manager" && permission && (
           <View style={styles.container}>
             <View style={styles.permission}>
               <Table
-                items={
-                  current_staff?.permission?.length > 0
-                    ? current_staff?.permission
-                    : STAFF_PERMISSIONS_ROLES
-                }
+                items={permission}
                 headerKeyLabels={{
                   label: t("Tabs"),
                   // inputType: t('Input Type'),

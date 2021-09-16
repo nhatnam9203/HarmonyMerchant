@@ -57,7 +57,10 @@ export const BasketContentView = React.forwardRef(
   */
 
     React.useEffect(() => {
-      if (appointmentItem?.products?.length > 0) {
+      if (
+        appointmentItem?.products?.length > 0 ||
+        appointmentItem?.giftCards?.length > 0
+      ) {
         const temps = appointmentItem.products?.reduce((previous, x) => {
           let groups = previous ?? [];
           const keyUnique = x.productName + " + " + x.value;
@@ -76,11 +79,40 @@ export const BasketContentView = React.forwardRef(
           return groups;
         }, []);
 
-        setItems(temps);
+        const giftCardTemps = appointmentItem.giftCards?.reduce(
+          (previous, x) => {
+            let groups = previous ?? [];
+            const keyUnique = x.giftCardId + "";
+
+            const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
+
+            if (isExitIdx >= 0) {
+              const existItem = groups[isExitIdx];
+              groups[isExitIdx] = Object.assign({}, existItem, {
+                value: [...existItem.value, x],
+              });
+            } else {
+              groups.push({ key: keyUnique, value: [x] });
+            }
+
+            return groups;
+          },
+          []
+        );
+
+        // const giftCardTemps = appointmentItem?.giftCards.map(
+        //   (x) => ({
+        //     key: x.bookingGiftCardId,
+        //     value: [x],
+        //   }),
+        //   []
+        // );
+
+        setItems([...(temps || []), ...(giftCardTemps || [])]);
       } else {
         setItems(null);
       }
-    }, [appointmentItem?.products]);
+    }, [appointmentItem?.products, appointmentItem?.giftCards]);
 
     const onHandleCreateOrder = () => {
       onHadSubmitted();
@@ -119,7 +151,9 @@ export const BasketContentView = React.forwardRef(
 
             <View style={layouts.marginHorizontal} />
             <View style={styles.productItemContent}>
-              <Text style={styles.totalText}>{firstItem?.productName}</Text>
+              <Text style={styles.totalText}>
+                {firstItem?.productName ?? firstItem?.name}
+              </Text>
               <Text style={styles.totalInfoText}>{firstItem?.value}</Text>
             </View>
             <Text style={styles.productItemQuantity}>{`${qty} ${t(
@@ -170,7 +204,11 @@ export const BasketContentView = React.forwardRef(
         </View>
         <View style={layouts.center}>
           <ButtonGradient
-            disable={!appointmentItem || appointmentItem?.products?.length <= 0}
+            disable={
+              !appointmentItem ||
+              (appointmentItem?.products?.length <= 0 &&
+                appointmentItem?.giftCards?.length <= 0)
+            }
             label={
               !!appointmentId
                 ? appointmentItem?.purchasePoint === PURCHASE_POINTS_ORDER
