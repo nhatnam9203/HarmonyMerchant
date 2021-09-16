@@ -48,10 +48,8 @@ const SEND_LINK_DATA = [
 
 class Layout extends React.Component {
   renderSetup() {
-    const { language, 
-            autoLockScreenAfter,
-            isTipOnPaxMachine,
-           } = this.props;
+    const { language, autoLockScreenAfter, isTipOnPaxMachine } = this.props;
+
     const {
       languageApp,
       webLink,
@@ -64,6 +62,7 @@ class Layout extends React.Component {
       signinAppStyle,
       sendReviewLinkOption,
       giftForNewEnabled,
+      receiptFooter
     } = this.state;
 
     return (
@@ -108,8 +107,7 @@ class Layout extends React.Component {
               />
             </View>
           </View>
-          {
-            isTurnOnAutoClose &&
+          {isTurnOnAutoClose && (
             <ItemSetupGeneral
               title={`${localize("Auto close at", language)}:`}
               data={WorkingTime}
@@ -118,8 +116,7 @@ class Layout extends React.Component {
               placeHolder="11:00 PM"
               isCustomDropDown={true}
             />
-          }
-            
+          )}
 
           {/* ------- Staff Columns On Calendar  ------ */}
           <ItemSetupGeneral
@@ -396,6 +393,41 @@ class Layout extends React.Component {
             );
           })}
 
+          {/* --------  Receipt Footer  --------- */}
+          <View style={{ flexDirection: "row", marginTop: scaleSize(16) }}>
+            <View style={{ width: scaleSize(180), justifyContent: "center" }}>
+              <Text
+                style={{
+                  color: "#404040",
+                  fontSize: scaleSize(16),
+                  fontWeight: "600",
+                }}
+              >
+                {`${localize("Receipt Footer", language)}:`}
+              </Text>
+            </View>
+            <View
+              style={{
+                height: scaleSize(60),
+                flex: 1,
+                borderWidth: 1,
+                borderColor: "#C5C5C5",
+                paddingHorizontal: scaleSize(10),
+              }}
+            >
+              <TextInput
+                style={{ flex: 1, fontSize: scaleSize(18) }}
+                placeholder="Receipt footer input here..."
+                value={receiptFooter}
+                onChangeText={(value) =>
+                  this.setState({ receiptFooter: value })
+                }
+                multiline={true}
+                numberOfLines={3}
+              />
+            </View>
+          </View>
+
           {/* ------ Button Save --- */}
           <View
             style={{
@@ -446,6 +478,7 @@ class Layout extends React.Component {
       businessBank,
       merchantId,
     } = profile || {};
+
     return (
       <View style={styles.body}>
         <ScrollView
@@ -554,7 +587,7 @@ const ItemSetupGeneral = ({
   value = "",
   onChangeText,
   titStyle,
-  isCustomDropDown = false
+  isCustomDropDown = false,
 }) => {
   return (
     <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
@@ -573,33 +606,33 @@ const ItemSetupGeneral = ({
         </Text>
       </View>
       <View style={{ height: scaleSize(40), width: scaleSize(140) }}>
-        {
-          !isCustomDropDown ?
-            <Dropdown
-              label={placeHolder}
-              data={data}
-              value={value}
-              onChangeText={(value) => onChangeText(value)}
-              containerStyle={{
-                backgroundColor: "#F1F1F1",
-                borderWidth: 1,
-                borderColor: "#C5C5C5",
-                flex: 1,
-              }}
-            /> :
-            <DropdownCustom
-              label={placeHolder}
-              data={data}
-              value={value}
-              onChangeText={(value) => onChangeText(value)}
-              containerStyle={{
-                backgroundColor: "#F1F1F1",
-                borderWidth: 1,
-                borderColor: "#C5C5C5",
-                flex: 1,
-              }}
-            />
-        }
+        {!isCustomDropDown ? (
+          <Dropdown
+            label={placeHolder}
+            data={data}
+            value={value}
+            onChangeText={(value) => onChangeText(value)}
+            containerStyle={{
+              backgroundColor: "#F1F1F1",
+              borderWidth: 1,
+              borderColor: "#C5C5C5",
+              flex: 1,
+            }}
+          />
+        ) : (
+          <DropdownCustom
+            label={placeHolder}
+            data={data}
+            value={value}
+            onChangeText={(value) => onChangeText(value)}
+            containerStyle={{
+              backgroundColor: "#F1F1F1",
+              borderWidth: 1,
+              borderColor: "#C5C5C5",
+              flex: 1,
+            }}
+          />
+        )}
       </View>
     </View>
   );
