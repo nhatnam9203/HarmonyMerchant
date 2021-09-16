@@ -765,16 +765,27 @@ class PopupInvoicePrint extends React.Component {
 
                   {/* ----------- Thanks , see you again -------- */}
                   <View style={{ height: scaleSize(20) }} />
-                  <Text
-                    style={[styleInvoice.txt_total, { alignSelf: "center" }]}
-                  >
-                    {`Thank you!`}
-                  </Text>
-                  <Text
-                    style={[styleInvoice.txt_total, { alignSelf: "center" }]}
-                  >
-                    {`Please come again`}
-                  </Text>
+                  {!profile?.receiptFooter && (
+                    <Text
+                      style={[styleInvoice.txt_total, { alignSelf: "center" }]}
+                    >
+                      {`Thank you!`}
+                    </Text>
+                  )}
+                  {!profile?.receiptFooter && (
+                    <Text
+                      style={[styleInvoice.txt_total, { alignSelf: "center" }]}
+                    >
+                      {`Please come again`}
+                    </Text>
+                  )}
+                  {profile?.receiptFooter && (
+                    <Text
+                      style={[styleInvoice.txt_total, { alignSelf: "center" }]}
+                    >
+                      {`${profile?.receiptFooter}`}
+                    </Text>
+                  )}
                   <View style={{ height: scaleSize(8) }} />
                   {/* ------------- This is not a bill   ----------- */}
                   <Text
