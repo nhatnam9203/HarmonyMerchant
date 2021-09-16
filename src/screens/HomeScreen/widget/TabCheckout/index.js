@@ -1735,7 +1735,10 @@ class TabCheckout extends Layout {
     } else {
 
       if (paymentMachineType == "Clover") {
-        clover.cancelTransaction()
+        if(this.isProcessPaymentClover){
+          alert(localize("PleaseWait", language));
+          return;
+        }
       }else{
         if (!this.isGetResponsePaymentPax) {
           alert(localize("PleaseWait", language));

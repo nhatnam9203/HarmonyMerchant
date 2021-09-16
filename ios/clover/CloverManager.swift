@@ -63,6 +63,7 @@ import Foundation
     // configure other properties of SaleRequest
     saleRequest.tipMode = SaleRequest.TipMode(rawValue: tipModeString)
     saleRequest.autoAcceptSignature = true
+    saleRequest.disablePrinting = true
     
     self.myCloverConnector?.sale(saleRequest)
   }
@@ -145,7 +146,7 @@ import Foundation
     }
   
   @objc public func cancelTransaction() {
-//    self.myCloverConnector?.resetDevice()
+    self.myCloverConnector?.resetDevice()
   }
   
   //*---------Print----------*//

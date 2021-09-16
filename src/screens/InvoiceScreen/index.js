@@ -130,14 +130,6 @@ class InvoiceScreen extends Layout {
           });
         }
       }),
-      // this.eventEmitter.addListener('printDone', (message) => {
-      //   console.log(message)
-      //   this.isProcessPrintClover = false
-      // }),
-      // this.eventEmitter.addListener('deviceReady', () => {
-        
-       
-      // }),
       
       this.eventEmitter.addListener('deviceDisconnected', () => {
         if(this.isProcessVoidPaymentClover) {
@@ -667,7 +659,12 @@ class InvoiceScreen extends Layout {
   };
 
   cancelTransaction = async () => {
-    PosLink.cancelTransaction();
+    const { paymentMachineType } = this.props
+    if(paymentMachineType == "Clover") {
+      clover.cancelTransaction()
+    }else{
+      PosLink.cancelTransaction();
+    }
     await this.setState({
       visibleProcessingCredit: false,
     });
@@ -858,7 +855,18 @@ class InvoiceScreen extends Layout {
         }
         this.props.actions.app.stopLoadingApp();
       } else {
-        alert("Please connect to your printer!");
+        const { 
+          cloverMachineInfo, 
+          paymentMachineType,
+        } = this.props;
+        const { isSetup } = cloverMachineInfo;
+        if (paymentMachineType == "Clover" && isSetup) {
+          await this.setState({
+            visiblePrintInvoice: true,
+          });          
+        }else{
+              alert("Please connect to your printer!");
+        }
       }
     } catch (error) {
       this.props.actions.app.stopLoadingApp();

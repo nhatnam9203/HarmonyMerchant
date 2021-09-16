@@ -298,554 +298,6 @@ class PopupInvoicePrint extends React.Component {
     return null;
   }
 
-  renderReceipClover() {
-    const {
-      language,
-      visiblePrintInvoice,
-      profile,
-      paymentDetailInfo,
-      profileStaffLogin,
-      invoiceDetail,
-      paymentMachineType
-    } = this.props;
-    const {
-      basket,
-      temptSubTotal,
-      temptTax,
-      temptDiscount,
-      temptTip,
-      temptTotal,
-      isPrintTempt,
-      isSignature,
-      paymentMethods,
-      titleInvoice,
-      invoiceNo,
-      checkoutPayments,
-      promotionNotes,
-    } = this.state;
-    const temtCheckoutPayment =
-      paymentMethods.length > 0 ? paymentMethods : checkoutPayments;
-    const tempHeight = checkIsTablet() ? scaleSize(400) : scaleSize(450);
-
-    const tempStyle =
-      Platform.OS === "android"
-        ? { paddingHorizontal: scaleSize(10), backgroundColor: "#FFFFFF" }
-        : { paddingHorizontal: scaleSize(10) };
-
-    let invoiceName = getStaffNameForInvoice(profileStaffLogin, basket);
-    if (!invoiceName && invoiceDetail?.user?.userId) {
-      invoiceName = getFullName(invoiceDetail?.user);
-    }
-
-    return (
-                <View ref={this.viewShotRef} style={[tempStyle, {backgroundColor: "#fff"}]}>
-                  {/* ------------- Store Name ----------- */}
-                  <Text
-                    style={[
-                      styleInvoice.txt_normal,
-                      {
-                        fontSize: 34,
-                        fontWeight: "600",
-                        marginTop: scaleSize(8),
-                      },
-                    ]}
-                  >
-                    {profile?.businessName || ""}
-                  </Text>
-                  {/* ------------- Store Address ----------- */}
-                  <Text
-                    numberOfLines={1}
-                    style={[
-                      styleInvoice.txt_normal_clover,
-                      {
-                        paddingHorizontal: scaleSize(10),
-                        marginTop: scaleSize(4),
-                      },
-                    ]}
-                  >
-                    {profile?.addressFull || ""}
-                  </Text>
-                  {/* ------------- Phone Address ----------- */}
-                  <Text
-                    style={[
-                      styleInvoice.txt_normal_clover,
-                      { paddingHorizontal: scaleSize(10) },
-                    ]}
-                  >
-                    {`Tel : ${profile?.phone || ""}`}
-                  </Text>
-                  {/* ------------- Company Website ----------- */}
-                  {profile.webLink ? (
-                    <Text
-                      style={[
-                        styleInvoice.txt_normal_clover,
-                        { paddingHorizontal: scaleSize(10) },
-                      ]}
-                    >
-                      {profile?.webLink || ""}
-                    </Text>
-                  ) : (
-                    <View />
-                  )}
-
-                  {/* ------------- SALE/VOID/REFUND  ----------- */}
-                  <Text
-                    style={[
-                      styleInvoice.txt_normal_clover,
-                      {
-                        fontSize: 20,
-                        fontWeight: "600",
-                        marginTop: scaleSize(6),
-                        marginBottom: scaleSize(6),
-                      },
-                    ]}
-                  >
-                    {titleInvoice}
-                  </Text>
-                  {/* ------------- Dot Border  ----------- */}
-                  <Dash
-                    style={{ width: "100%", height: 1 }}
-                    dashGap={5}
-                    dashLength={8}
-                    dashThickness={1}
-                    style={{ marginBottom: scaleSize(10) }}
-                  />
-
-                  {/* ------------- Invoice Date ----------- */}
-                  <View style={{ flexDirection: "row" }}>
-                    <View style={{ width: scaleSize(90) }}>
-                      <Text style={styleInvoice.txt_info_clover}>
-                        {`Invoice Date`}
-                      </Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={styleInvoice.txt_info_clover}>
-                        {`: ${formatWithMoment(
-                          new Date(),
-                          "MM/DD/YYYY hh:mm A"
-                        )}`}
-                      </Text>
-                    </View>
-                  </View>
-                  {/* ------------- Staff ----------- */}
-                  <View style={{ flexDirection: "row" }}>
-                    <View style={{ width: scaleSize(90) }}>
-                      <Text style={styleInvoice.txt_info_clover}>{`Staff Name`}</Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={styleInvoice.txt_info_clover}>
-                        {`: ${invoiceName}`}
-                      </Text>
-                    </View>
-                  </View>
-                  {/* ------------- Invoice No ----------- */}
-                  <View style={{ flexDirection: "row" }}>
-                    <View style={{ width: scaleSize(90) }}>
-                      <Text style={styleInvoice.txt_info_clover}>{`Invoice No`}</Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={styleInvoice.txt_info_clover}>
-                        {`: ${
-                          invoiceNo
-                            ? invoiceNo
-                            : paymentDetailInfo?.invoiceNo || ""
-                        }`}
-                      </Text>
-                    </View>
-                  </View>
-
-                  {/* ------------- Dot Border  ----------- */}
-                  <Dash
-                    style={{ width: "100%", height: 1 }}
-                    dashGap={5}
-                    dashLength={8}
-                    dashThickness={1}
-                    style={{
-                      marginBottom: scaleSize(4),
-                      marginTop: scaleSize(10),
-                    }}
-                  />
-
-                  {/* ------------- Header  ----------- */}
-                  <View
-                    style={{ flexDirection: "row", marginTop: scaleSize(6) }}
-                  >
-                    <View style={{ flex: 0.8, justifyContent: "center" }}>
-                      <Text
-                        style={[
-                          styleInvoice.txt_info_clover,
-                          { fontSize: 18, fontWeight: "400" },
-                        ]}
-                      >
-                        {`DESCRIPTION`}
-                      </Text>
-                    </View>
-                    <View
-                      style={{ justifyContent: "center", width: scaleSize(70) }}
-                    >
-                      <Text
-                        style={[
-                          styleInvoice.txt_info_clover,
-                          { fontSize: 18, fontWeight: "400" },
-                        ]}
-                      >
-                        {`PRICE`}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        width: scaleSize(30),
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Text
-                        style={[
-                          styleInvoice.txt_info_clover,
-                          { fontSize: 18, fontWeight: "400" },
-                        ]}
-                      >
-                        {`QTY`}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        flex: 0.5,
-                        justifyContent: "center",
-                        alignItems: "flex-end",
-                      }}
-                    >
-                      <Text
-                        style={[
-                          styleInvoice.txt_info_clover,
-                          { fontSize: 18, fontWeight: "400" },
-                        ]}
-                      >
-                        {`TOTAL`}
-                      </Text>
-                    </View>
-                  </View>
-                  {/* ------------- Dot Border  ----------- */}
-                  <Dash
-                    style={{ width: "100%", height: 1 }}
-                    dashGap={5}
-                    dashLength={8}
-                    dashThickness={1}
-                    style={{
-                      marginBottom: scaleSize(4),
-                      marginTop: scaleSize(10),
-                    }}
-                  />
-
-                  {/* ------------- Item Invoice   ----------- */}
-                  {basket?.map((item, index) => (
-                    <ItemInvoice key={index} item={item} index={index} />
-                  ))}
-
-                  {/* ------------- Line end item invoice   ----------- */}
-                  <View
-                    style={{
-                      height: 2,
-                      backgroundColor: "#000",
-                      marginVertical: scaleSize(10),
-                    }}
-                  />
-                  {/* ------------- SubTotal   ----------- */}
-                  <ItemTotal title={"Subtotal"} value={temptSubTotal} />
-                  <ItemTotal title={"Discount"} value={temptDiscount} />
-                  <ItemTotal title={"Tip"} value={temptTip} />
-                  <ItemTotal title={"Tax"} value={temptTax} />
-                  {isPrintTempt ? (
-                    <View />
-                  ) : (
-                    <ItemTotal title={"Total"} value={temptTotal} />
-                  )}
-
-                  {/* ------------- Enter Tip   ----------- */}
-                  {isPrintTempt ? (
-                    <View
-                      style={{
-                        height: scaleSize(25),
-                        flexDirection: "row",
-                        marginBottom: scaleSize(12),
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: scaleSize(70),
-                          justifyContent: "flex-end",
-                        }}
-                      >
-                        <Text
-                          style={[
-                            styleInvoice.txt_total_clover,
-                            { fontSize: 20, fontWeight: "600" },
-                          ]}
-                        >
-                          {"Tip :"}
-                        </Text>
-                      </View>
-                      <View style={{ width: scaleSize(50) }} />
-                      <View
-                        style={{
-                          flex: 1,
-                          borderBottomColor: "#000",
-                          borderBottomWidth: 1,
-                        }}
-                      />
-                    </View>
-                  ) : (
-                    <View />
-                  )}
-
-                  {/* ------------- Enter Total   ----------- */}
-                  {isPrintTempt ? (
-                    <View
-                      style={{
-                        height: scaleSize(25),
-                        flexDirection: "row",
-                        marginBottom: scaleSize(12),
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: scaleSize(70),
-                          justifyContent: "flex-end",
-                        }}
-                      >
-                        <Text
-                          style={[
-                            styleInvoice.txt_total_clover,
-                            { fontSize: 20, fontWeight: "600" },
-                          ]}
-                        >
-                          {"Total :"}
-                        </Text>
-                      </View>
-                      <View style={{ width: scaleSize(50) }} />
-                      <View
-                        style={{
-                          flex: 1,
-                          borderBottomColor: "#000",
-                          borderBottomWidth: 1,
-                        }}
-                      />
-                    </View>
-                  ) : (
-                    <View />
-                  )}
-
-                  {/* ------------- Entry Method   ----------- */}
-                  {!isPrintTempt ? (
-                    <View>
-                      {temtCheckoutPayment.map((data, index) => (
-                        <View
-                          key={index}
-                          style={{ marginBottom: scaleSize(4) }}
-                        >
-                          <View style={{ flexDirection: "row" }}>
-                            <Text style={[styleInvoice.txt_total_clover]}>
-                              {`- Entry method: ${getPaymentString(
-                                data?.paymentMethod || ""
-                              )}`}
-                            </Text>
-                            <View
-                              style={{
-                                flex: 1,
-                                alignItems: "flex-end",
-                                justifyContent: "center",
-                              }}
-                            >
-                              <Text
-                                style={[
-                                  styleInvoice.txt_total_clover,
-                                  { fontSize: scaleSize(10) },
-                                ]}
-                              >
-                                {`$${data?.amount || ""}`}
-                              </Text>
-                            </View>
-                          </View>
-                          {(data.paymentMethod &&
-                            data.paymentMethod === "credit_card") ||
-                          data.paymentMethod === "debit_card" ? (
-                            <View style={{ marginTop: scaleSize(5) }}>
-                              <Text
-                                style={[
-                                  styleInvoice.txt_total_clover,
-                                  { fontSize: scaleSize(10) },
-                                ]}
-                              >
-                                {`    ${
-                                  data?.paymentInformation?.type || ""
-                                }: ***********${
-                                  data?.paymentInformation?.number || ""
-                                }`}
-                              </Text>
-                              <Text
-                                style={[
-                                  styleInvoice.txt_total_clover,
-                                  { fontSize: scaleSize(10) },
-                                ]}
-                              >
-                                {`    ${data?.paymentInformation?.name || ""}`}
-                              </Text>
-                              <Text
-                                style={[
-                                  styleInvoice.txt_total_clover,
-                                  { fontSize: scaleSize(10) },
-                                ]}
-                              >
-                                {`    ${
-                                  data?.paymentInformation?.sn
-                                    ? `Terminal ID: ${data?.paymentInformation?.sn}`
-                                    : ""
-                                }`}
-                              </Text>
-                              <Text
-                                style={[
-                                  styleInvoice.txt_total_clover,
-                                  { fontSize: scaleSize(10) },
-                                ]}
-                              >
-                                {`    ${
-                                  data?.paymentInformation?.refNum
-                                    ? `Transaction #: ${data?.paymentInformation?.refNum}`
-                                    : ""
-                                }`}
-                              </Text>
-                            </View>
-                          ) : null}
-                        </View>
-                      ))}
-                    </View>
-                  ) : (
-                    <View />
-                  )}
-
-                  {isSignature && !isPrintTempt ? (
-                    <View
-                      style={{
-                        height: scaleSize(15),
-                        flexDirection: "row",
-                        marginTop: scaleSize(15),
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: scaleSize(70),
-                          justifyContent: "flex-end",
-                        }}
-                      >
-                        <Text
-                          style={[
-                            styleInvoice.txt_total_clover,
-                            { fontSize: 18, fontWeight: "600" },
-                          ]}
-                        >
-                          {"Signature:"}
-                        </Text>
-                      </View>
-                      <View style={{ width: scaleSize(50) }} />
-                      <View
-                        style={{
-                          flex: 1,
-                          borderBottomColor: "#000",
-                          borderBottomWidth: 1,
-                        }}
-                      />
-                    </View>
-                  ) : (
-                    <View />
-                  )}
-
-                  {isPrintTempt ? (
-                    <View
-                      style={{
-                        height: scaleSize(15),
-                        flexDirection: "row",
-                        marginTop: scaleSize(15),
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: scaleSize(70),
-                          justifyContent: "flex-end",
-                        }}
-                      >
-                        <Text
-                          style={[
-                            styleInvoice.txt_total_clover,
-                            { fontSize: 18, fontWeight: "600" },
-                          ]}
-                        >
-                          {"Signature:"}
-                        </Text>
-                      </View>
-                      <View style={{ width: scaleSize(50) }} />
-                      <View
-                        style={{
-                          flex: 1,
-                          borderBottomColor: "#000",
-                          borderBottomWidth: 1,
-                        }}
-                      />
-                    </View>
-                  ) : (
-                    <View />
-                  )}
-
-                  {promotionNotes ? (
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontWeight: "bold",
-                        marginTop: scaleSize(10),
-                      }}
-                    >
-                      {`Discount note: `}
-                      <Text style={{ fontWeight: "500" }}>
-                        {`${promotionNotes}`}
-                      </Text>
-                    </Text>
-                  ) : null}
-
-                  {/* ----------- Thanks , see you again -------- */}
-                  <View style={{ height: scaleSize(20) }} />
-                  <Text
-                    style={[styleInvoice.txt_total_clover, { alignSelf: "center" }]}
-                  >
-                    {`Thank you!`}
-                  </Text>
-                  <Text
-                    style={[styleInvoice.txt_total_clover, { alignSelf: "center" }]}
-                  >
-                    {`Please come again`}
-                  </Text>
-                  <View style={{ height: scaleSize(8) }} />
-                  {/* ------------- This is not a bill   ----------- */}
-                  <Text
-                    style={[
-                      styleInvoice.txt_total_clover,
-                      {
-                        fontSize: scaleSize(10),
-                        fontWeight: "300",
-                        alignSelf: "center",
-                      },
-                    ]}
-                  >
-                    {`*********** ${
-                      isPrintTempt
-                        ? "Customer's Receipt"
-                        : isSignature
-                        ? "Merchant's Receipt"
-                        : "Customer's Receipt"
-                    } ***********`}
-                  </Text>
-                </View>
-    );
-  }
-
   render() {
     const {
       language,
@@ -885,6 +337,16 @@ class PopupInvoicePrint extends React.Component {
       invoiceName = getFullName(invoiceDetail?.user);
     }
 
+    let txt_normal = paymentMachineType == "Clover" 
+                    ? styleInvoice.txt_normal_clover 
+                    : styleInvoice.txt_normal
+    let txt_info = paymentMachineType == "Clover" 
+                   ? styleInvoice.txt_info_clover 
+                   : styleInvoice.txt_info
+    let txt_total = paymentMachineType == "Clover"
+                    ? styleInvoice.txt_total_clover
+                    : styleInvoice.txt_total
+
     return (
       <Modal
         visible={visiblePrintInvoice}
@@ -913,515 +375,543 @@ class PopupInvoicePrint extends React.Component {
                 automaticallyAdjustContentInsets={true}
                 keyboardShouldPersistTaps="always"
               >
-                {paymentMachineType == "Clover" ? 
-                  this.renderReceipClover()
-                   :
-                   <View ref={this.viewShotRef} style={[tempStyle, {backgroundColor: "#fff"}]}>
-                  {/* ------------- Store Name ----------- */}
+               
+                <View ref={this.viewShotRef} style={[tempStyle, {backgroundColor: "#fff"}]}>
+                {/* ------------- Store Name ----------- */}
+                <Text
+                  style={[
+                    txt_normal,
+                    {
+                      fontSize: 24,
+                      fontWeight: "600",
+                      marginTop: scaleSize(8),
+                    },
+                  ]}
+                >
+                  {profile?.businessName || ""}
+                </Text>
+                {/* ------------- Store Address ----------- */}
+                <Text
+                  numberOfLines={1}
+                  style={[
+                    txt_normal,
+                    {
+                      paddingHorizontal: scaleSize(10),
+                      marginTop: scaleSize(4),
+                    },
+                  ]}
+                >
+                  {profile?.addressFull || ""}
+                </Text>
+                {/* ------------- Phone Address ----------- */}
+                <Text
+                  style={[
+                    txt_normal,
+                    { paddingHorizontal: scaleSize(10) },
+                  ]}
+                >
+                  {`Tel : ${profile?.phone || ""}`}
+                </Text>
+                {/* ------------- Company Website ----------- */}
+                {profile.webLink ? (
                   <Text
                     style={[
-                      styleInvoice.txt_normal,
-                      {
-                        fontSize: 24,
-                        fontWeight: "600",
-                        marginTop: scaleSize(8),
-                      },
-                    ]}
-                  >
-                    {profile?.businessName || ""}
-                  </Text>
-                  {/* ------------- Store Address ----------- */}
-                  <Text
-                    numberOfLines={1}
-                    style={[
-                      styleInvoice.txt_normal,
-                      {
-                        paddingHorizontal: scaleSize(10),
-                        marginTop: scaleSize(4),
-                      },
-                    ]}
-                  >
-                    {profile?.addressFull || ""}
-                  </Text>
-                  {/* ------------- Phone Address ----------- */}
-                  <Text
-                    style={[
-                      styleInvoice.txt_normal,
+                      txt_normal,
                       { paddingHorizontal: scaleSize(10) },
                     ]}
                   >
-                    {`Tel : ${profile?.phone || ""}`}
+                    {profile?.webLink || ""}
                   </Text>
-                  {/* ------------- Company Website ----------- */}
-                  {profile.webLink ? (
+                ) : (
+                  <View />
+                )}
+
+                {/* ------------- SALE/VOID/REFUND  ----------- */}
+                <Text
+                  style={[
+                    txt_normal,
+                    {
+                      fontSize: 20,
+                      fontWeight: "600",
+                      marginTop: scaleSize(6),
+                      marginBottom: scaleSize(6),
+                    },
+                  ]}
+                >
+                  {titleInvoice}
+                </Text>
+                {/* ------------- Dot Border  ----------- */}
+                <Dash
+                  style={{ width: "100%", height: 1 }}
+                  dashGap={5}
+                  dashLength={8}
+                  dashThickness={1}
+                  style={{ marginBottom: scaleSize(10) }}
+                />
+
+                {/* ------------- Invoice Date ----------- */}
+                <View style={{ flexDirection: "row" }}>
+                  <View style={{ width: scaleSize(90) }}>
+                    <Text style={txt_info}>
+                      {`Invoice Date`}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={txt_info}>
+                      {`: ${formatWithMoment(
+                        new Date(),
+                        "MM/DD/YYYY hh:mm A"
+                      )}`}
+                    </Text>
+                  </View>
+                </View>
+                {/* ------------- Staff ----------- */}
+                <View style={{ flexDirection: "row" }}>
+                  <View style={{ width: scaleSize(90) }}>
+                    <Text style={txt_info}>{`Staff Name`}</Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={txt_info}>
+                      {`: ${invoiceName}`}
+                    </Text>
+                  </View>
+                </View>
+                {/* ------------- Invoice No ----------- */}
+                <View style={{ flexDirection: "row" }}>
+                  <View style={{ width: scaleSize(90) }}>
+                    <Text style={txt_info}>{`Invoice No`}</Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={txt_info}>
+                      {`: ${
+                        invoiceNo
+                          ? invoiceNo
+                          : paymentDetailInfo?.invoiceNo || ""
+                      }`}
+                    </Text>
+                  </View>
+                </View>
+
+                {/* ------------- Dot Border  ----------- */}
+                <Dash
+                  style={{ width: "100%", height: 1 }}
+                  dashGap={5}
+                  dashLength={8}
+                  dashThickness={1}
+                  style={{
+                    marginBottom: scaleSize(4),
+                    marginTop: scaleSize(10),
+                  }}
+                />
+
+                {/* ------------- Header  ----------- */}
+                <View
+                  style={{ flexDirection: "row", marginTop: scaleSize(6) }}
+                >
+                  <View style={{ flex: 0.8, justifyContent: "center" }}>
                     <Text
                       style={[
-                        styleInvoice.txt_normal,
-                        { paddingHorizontal: scaleSize(10) },
+                        txt_info,
+                        paymentMachineType == "Clover" ?
+                        { fontSize: 18, fontWeight: "500" }
+                        : { fontSize: 18, fontWeight: "400" },
                       ]}
                     >
-                      {profile?.webLink || ""}
+                      {`DESCRIPTION`}
                     </Text>
-                  ) : (
-                    <View />
-                  )}
-
-                  {/* ------------- SALE/VOID/REFUND  ----------- */}
-                  <Text
-                    style={[
-                      styleInvoice.txt_normal,
-                      {
-                        fontSize: 20,
-                        fontWeight: "600",
-                        marginTop: scaleSize(6),
-                        marginBottom: scaleSize(6),
-                      },
-                    ]}
-                  >
-                    {titleInvoice}
-                  </Text>
-                  {/* ------------- Dot Border  ----------- */}
-                  <Dash
-                    style={{ width: "100%", height: 1 }}
-                    dashGap={5}
-                    dashLength={8}
-                    dashThickness={1}
-                    style={{ marginBottom: scaleSize(10) }}
-                  />
-
-                  {/* ------------- Invoice Date ----------- */}
-                  <View style={{ flexDirection: "row" }}>
-                    <View style={{ width: scaleSize(90) }}>
-                      <Text style={styleInvoice.txt_info}>
-                        {`Invoice Date`}
-                      </Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={styleInvoice.txt_info}>
-                        {`: ${formatWithMoment(
-                          new Date(),
-                          "MM/DD/YYYY hh:mm A"
-                        )}`}
-                      </Text>
-                    </View>
                   </View>
-                  {/* ------------- Staff ----------- */}
-                  <View style={{ flexDirection: "row" }}>
-                    <View style={{ width: scaleSize(90) }}>
-                      <Text style={styleInvoice.txt_info}>{`Staff Name`}</Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={styleInvoice.txt_info}>
-                        {`: ${invoiceName}`}
-                      </Text>
-                    </View>
-                  </View>
-                  {/* ------------- Invoice No ----------- */}
-                  <View style={{ flexDirection: "row" }}>
-                    <View style={{ width: scaleSize(90) }}>
-                      <Text style={styleInvoice.txt_info}>{`Invoice No`}</Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={styleInvoice.txt_info}>
-                        {`: ${
-                          invoiceNo
-                            ? invoiceNo
-                            : paymentDetailInfo?.invoiceNo || ""
-                        }`}
-                      </Text>
-                    </View>
-                  </View>
-
-                  {/* ------------- Dot Border  ----------- */}
-                  <Dash
-                    style={{ width: "100%", height: 1 }}
-                    dashGap={5}
-                    dashLength={8}
-                    dashThickness={1}
-                    style={{
-                      marginBottom: scaleSize(4),
-                      marginTop: scaleSize(10),
-                    }}
-                  />
-
-                  {/* ------------- Header  ----------- */}
                   <View
-                    style={{ flexDirection: "row", marginTop: scaleSize(6) }}
+                    style={{ justifyContent: "center", width: scaleSize(70) }}
                   >
-                    <View style={{ flex: 0.8, justifyContent: "center" }}>
-                      <Text
-                        style={[
-                          styleInvoice.txt_info,
-                          { fontSize: 18, fontWeight: "400" },
-                        ]}
-                      >
-                        {`DESCRIPTION`}
-                      </Text>
-                    </View>
-                    <View
-                      style={{ justifyContent: "center", width: scaleSize(70) }}
-                    >
-                      <Text
-                        style={[
-                          styleInvoice.txt_info,
-                          { fontSize: 18, fontWeight: "400" },
-                        ]}
-                      >
-                        {`PRICE`}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        width: scaleSize(30),
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Text
-                        style={[
-                          styleInvoice.txt_info,
-                          { fontSize: 18, fontWeight: "400" },
-                        ]}
-                      >
-                        {`QTY`}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        flex: 0.5,
-                        justifyContent: "center",
-                        alignItems: "flex-end",
-                      }}
-                    >
-                      <Text
-                        style={[
-                          styleInvoice.txt_info,
-                          { fontSize: 18, fontWeight: "400" },
-                        ]}
-                      >
-                        {`TOTAL`}
-                      </Text>
-                    </View>
-                  </View>
-                  {/* ------------- Dot Border  ----------- */}
-                  <Dash
-                    style={{ width: "100%", height: 1 }}
-                    dashGap={5}
-                    dashLength={8}
-                    dashThickness={1}
-                    style={{
-                      marginBottom: scaleSize(4),
-                      marginTop: scaleSize(10),
-                    }}
-                  />
-
-                  {/* ------------- Item Invoice   ----------- */}
-                  {basket?.map((item, index) => (
-                    <ItemInvoice key={index} item={item} index={index} />
-                  ))}
-
-                  {/* ------------- Line end item invoice   ----------- */}
-                  <View
-                    style={{
-                      height: 2,
-                      backgroundColor: "#000",
-                      marginVertical: scaleSize(10),
-                    }}
-                  />
-                  {/* ------------- SubTotal   ----------- */}
-                  <ItemTotal title={"Subtotal"} value={temptSubTotal} />
-                  <ItemTotal title={"Discount"} value={temptDiscount} />
-                  <ItemTotal title={"Tip"} value={temptTip} />
-                  <ItemTotal title={"Tax"} value={temptTax} />
-                  {isPrintTempt ? (
-                    <View />
-                  ) : (
-                    <ItemTotal title={"Total"} value={temptTotal} />
-                  )}
-
-                  {/* ------------- Enter Tip   ----------- */}
-                  {isPrintTempt ? (
-                    <View
-                      style={{
-                        height: scaleSize(25),
-                        flexDirection: "row",
-                        marginBottom: scaleSize(12),
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: scaleSize(70),
-                          justifyContent: "flex-end",
-                        }}
-                      >
-                        <Text
-                          style={[
-                            styleInvoice.txt_total,
-                            { fontSize: 20, fontWeight: "600" },
-                          ]}
-                        >
-                          {"Tip :"}
-                        </Text>
-                      </View>
-                      <View style={{ width: scaleSize(50) }} />
-                      <View
-                        style={{
-                          flex: 1,
-                          borderBottomColor: "#000",
-                          borderBottomWidth: 1,
-                        }}
-                      />
-                    </View>
-                  ) : (
-                    <View />
-                  )}
-
-                  {/* ------------- Enter Total   ----------- */}
-                  {isPrintTempt ? (
-                    <View
-                      style={{
-                        height: scaleSize(25),
-                        flexDirection: "row",
-                        marginBottom: scaleSize(12),
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: scaleSize(70),
-                          justifyContent: "flex-end",
-                        }}
-                      >
-                        <Text
-                          style={[
-                            styleInvoice.txt_total,
-                            { fontSize: 20, fontWeight: "600" },
-                          ]}
-                        >
-                          {"Total :"}
-                        </Text>
-                      </View>
-                      <View style={{ width: scaleSize(50) }} />
-                      <View
-                        style={{
-                          flex: 1,
-                          borderBottomColor: "#000",
-                          borderBottomWidth: 1,
-                        }}
-                      />
-                    </View>
-                  ) : (
-                    <View />
-                  )}
-
-                  {/* ------------- Entry Method   ----------- */}
-                  {!isPrintTempt ? (
-                    <View>
-                      {temtCheckoutPayment.map((data, index) => (
-                        <View
-                          key={index}
-                          style={{ marginBottom: scaleSize(4) }}
-                        >
-                          <View style={{ flexDirection: "row" }}>
-                            <Text style={[styleInvoice.txt_total]}>
-                              {`- Entry method: ${getPaymentString(
-                                data?.paymentMethod || ""
-                              )}`}
-                            </Text>
-                            <View
-                              style={{
-                                flex: 1,
-                                alignItems: "flex-end",
-                                justifyContent: "center",
-                              }}
-                            >
-                              <Text
-                                style={[
-                                  styleInvoice.txt_total,
-                                  { fontSize: scaleSize(10) },
-                                ]}
-                              >
-                                {`$${data?.amount || ""}`}
-                              </Text>
-                            </View>
-                          </View>
-                          {(data.paymentMethod &&
-                            data.paymentMethod === "credit_card") ||
-                          data.paymentMethod === "debit_card" ? (
-                            <View style={{ marginTop: scaleSize(5) }}>
-                              <Text
-                                style={[
-                                  styleInvoice.txt_total,
-                                  { fontSize: scaleSize(10) },
-                                ]}
-                              >
-                                {`    ${
-                                  data?.paymentInformation?.type || ""
-                                }: ***********${
-                                  data?.paymentInformation?.number || ""
-                                }`}
-                              </Text>
-                              <Text
-                                style={[
-                                  styleInvoice.txt_total,
-                                  { fontSize: scaleSize(10) },
-                                ]}
-                              >
-                                {`    ${data?.paymentInformation?.name || ""}`}
-                              </Text>
-                              <Text
-                                style={[
-                                  styleInvoice.txt_total,
-                                  { fontSize: scaleSize(10) },
-                                ]}
-                              >
-                                {`    ${
-                                  data?.paymentInformation?.sn
-                                    ? `Terminal ID: ${data?.paymentInformation?.sn}`
-                                    : ""
-                                }`}
-                              </Text>
-                              <Text
-                                style={[
-                                  styleInvoice.txt_total,
-                                  { fontSize: scaleSize(10) },
-                                ]}
-                              >
-                                {`    ${
-                                  data?.paymentInformation?.refNum
-                                    ? `Transaction #: ${data?.paymentInformation?.refNum}`
-                                    : ""
-                                }`}
-                              </Text>
-                            </View>
-                          ) : null}
-                        </View>
-                      ))}
-                    </View>
-                  ) : (
-                    <View />
-                  )}
-
-                  {isSignature && !isPrintTempt ? (
-                    <View
-                      style={{
-                        height: scaleSize(15),
-                        flexDirection: "row",
-                        marginTop: scaleSize(15),
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: scaleSize(70),
-                          justifyContent: "flex-end",
-                        }}
-                      >
-                        <Text
-                          style={[
-                            styleInvoice.txt_total,
-                            { fontSize: 18, fontWeight: "600" },
-                          ]}
-                        >
-                          {"Signature:"}
-                        </Text>
-                      </View>
-                      <View style={{ width: scaleSize(50) }} />
-                      <View
-                        style={{
-                          flex: 1,
-                          borderBottomColor: "#000",
-                          borderBottomWidth: 1,
-                        }}
-                      />
-                    </View>
-                  ) : (
-                    <View />
-                  )}
-
-                  {isPrintTempt ? (
-                    <View
-                      style={{
-                        height: scaleSize(15),
-                        flexDirection: "row",
-                        marginTop: scaleSize(15),
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: scaleSize(70),
-                          justifyContent: "flex-end",
-                        }}
-                      >
-                        <Text
-                          style={[
-                            styleInvoice.txt_total,
-                            { fontSize: 18, fontWeight: "600" },
-                          ]}
-                        >
-                          {"Signature:"}
-                        </Text>
-                      </View>
-                      <View style={{ width: scaleSize(50) }} />
-                      <View
-                        style={{
-                          flex: 1,
-                          borderBottomColor: "#000",
-                          borderBottomWidth: 1,
-                        }}
-                      />
-                    </View>
-                  ) : (
-                    <View />
-                  )}
-
-                  {promotionNotes ? (
                     <Text
+                      style={[
+                        txt_info,
+                        paymentMachineType == "Clover" ?
+                        { fontSize: 18, fontWeight: "500" }
+                        : { fontSize: 18, fontWeight: "400" },
+                      ]}
+                    >
+                      {`PRICE`}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      width: scaleSize(30),
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text
+                      style={[
+                        txt_info,
+                        paymentMachineType == "Clover" ?
+                        { fontSize: 18, fontWeight: "500" }
+                        : { fontSize: 18, fontWeight: "400" },
+                      ]}
+                    >
+                      {`QTY`}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 0.5,
+                      justifyContent: "center",
+                      alignItems: "flex-end",
+                    }}
+                  >
+                    <Text
+                      style={[
+                        txt_info,
+                        paymentMachineType == "Clover" ?
+                        { fontSize: 18, fontWeight: "500" }
+                        : { fontSize: 18, fontWeight: "400" },
+                      ]}
+                    >
+                      {`TOTAL`}
+                    </Text>
+                  </View>
+                </View>
+                {/* ------------- Dot Border  ----------- */}
+                <Dash
+                  style={{ width: "100%", height: 1 }}
+                  dashGap={5}
+                  dashLength={8}
+                  dashThickness={1}
+                  style={{
+                    marginBottom: scaleSize(4),
+                    marginTop: scaleSize(10),
+                  }}
+                />
+
+                {/* ------------- Item Invoice   ----------- */}
+                {basket?.map((item, index) => (
+                  <ItemInvoice key={index} item={item} index={index} paymentMachineType={paymentMachineType}/>
+                ))}
+
+                {/* ------------- Line end item invoice   ----------- */}
+                <View
+                  style={{
+                    height: 2,
+                    backgroundColor: "#000",
+                    marginVertical: scaleSize(10),
+                  }}
+                />
+                {/* ------------- SubTotal   ----------- */}
+                <ItemTotal title={"Subtotal"} value={temptSubTotal} 
+                paymentMachineType={paymentMachineType}/>
+                <ItemTotal title={"Discount"} value={temptDiscount} 
+                paymentMachineType={paymentMachineType}/>
+                <ItemTotal title={"Tip"} value={temptTip} 
+                paymentMachineType={paymentMachineType}/>
+                <ItemTotal title={"Tax"} value={temptTax}
+                paymentMachineType={paymentMachineType} />
+                {isPrintTempt ? (
+                  <View />
+                ) : (
+                  <ItemTotal title={"Total"} value={temptTotal} 
+                  paymentMachineType={paymentMachineType}/>
+                )}
+
+                {/* ------------- Enter Tip   ----------- */}
+                {isPrintTempt ? (
+                  <View
+                    style={{
+                      height: scaleSize(25),
+                      flexDirection: "row",
+                      marginBottom: scaleSize(12),
+                    }}
+                  >
+                    <View
                       style={{
-                        fontSize: 16,
-                        fontWeight: "bold",
-                        marginTop: scaleSize(10),
+                        width: scaleSize(70),
+                        justifyContent: "flex-end",
                       }}
                     >
-                      {`Discount note: `}
-                      <Text style={{ fontWeight: "500" }}>
-                        {`${promotionNotes}`}
+                      <Text
+                        style={[
+                          txt_total,
+                          { fontSize: 20, fontWeight: "600" },
+                        ]}
+                      >
+                        {"Tip :"}
                       </Text>
-                    </Text>
-                  ) : null}
+                    </View>
+                    <View style={{ width: scaleSize(50) }} />
+                    <View
+                      style={{
+                        flex: 1,
+                        borderBottomColor: "#000",
+                        borderBottomWidth: 1,
+                      }}
+                    />
+                  </View>
+                ) : (
+                  <View />
+                )}
 
-                  {/* ----------- Thanks , see you again -------- */}
-                  <View style={{ height: scaleSize(20) }} />
-                  <Text
-                    style={[styleInvoice.txt_total, { alignSelf: "center" }]}
+                {/* ------------- Enter Total   ----------- */}
+                {isPrintTempt ? (
+                  <View
+                    style={{
+                      height: scaleSize(25),
+                      flexDirection: "row",
+                      marginBottom: scaleSize(12),
+                    }}
                   >
-                    {`Thank you!`}
-                  </Text>
-                  <Text
-                    style={[styleInvoice.txt_total, { alignSelf: "center" }]}
+                    <View
+                      style={{
+                        width: scaleSize(70),
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      <Text
+                        style={[
+                          txt_total,
+                          { fontSize: 20, fontWeight: "600" },
+                        ]}
+                      >
+                        {"Total :"}
+                      </Text>
+                    </View>
+                    <View style={{ width: scaleSize(50) }} />
+                    <View
+                      style={{
+                        flex: 1,
+                        borderBottomColor: "#000",
+                        borderBottomWidth: 1,
+                      }}
+                    />
+                  </View>
+                ) : (
+                  <View />
+                )}
+
+                {/* ------------- Entry Method   ----------- */}
+                {!isPrintTempt ? (
+                  <View>
+                    {temtCheckoutPayment.map((data, index) => (
+                      <View
+                        key={index}
+                        style={{ marginBottom: scaleSize(4) }}
+                      >
+                        <View style={{ flexDirection: "row" }}>
+                          <Text style={[txt_total]}>
+                            {`- Entry method: ${getPaymentString(
+                              data?.paymentMethod || ""
+                            )}`}
+                          </Text>
+                          <View
+                            style={{
+                              flex: 1,
+                              alignItems: "flex-end",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Text
+                              style={[
+                                txt_total,
+                                paymentMachineType == "Clover" ?
+                                { fontSize: scaleSize(15) }
+                                : { fontSize: scaleSize(10) },
+                              ]}
+                            >
+                              {`$${data?.amount || ""}`}
+                            </Text>
+                          </View>
+                        </View>
+                        {(data.paymentMethod &&
+                          data.paymentMethod === "credit_card") ||
+                        data.paymentMethod === "debit_card" ? (
+                          <View style={{ marginTop: scaleSize(5) }}>
+                            <Text
+                              style={[
+                                txt_total,
+                                paymentMachineType == "Clover" ?
+                                { fontSize: scaleSize(15) } 
+                                : { fontSize: scaleSize(10) },
+                              ]}
+                            >
+                              {`    ${
+                                data?.paymentInformation?.type || ""
+                              }: ***********${
+                                data?.paymentInformation?.number || ""
+                              }`}
+                            </Text>
+                            <Text
+                              style={[
+                                txt_total,
+                                paymentMachineType == "Clover" ?
+                                { fontSize: scaleSize(15) } :
+                                { fontSize: scaleSize(10) },
+                              ]}
+                            >
+                              {`    ${data?.paymentInformation?.name || ""}`}
+                            </Text>
+                            <Text
+                              style={[
+                                txt_total,
+                                paymentMachineType == "Clover" ?
+                                { fontSize: scaleSize(15) } :
+                                { fontSize: scaleSize(10) },
+                              ]}
+                            >
+                              {`    ${
+                                data?.paymentInformation?.sn
+                                  ? `Terminal ID: ${data?.paymentInformation?.sn}`
+                                  : ""
+                              }`}
+                            </Text>
+                            <Text
+                              style={[
+                                txt_total,
+                                paymentMachineType == "Clover" ?
+                                { fontSize: scaleSize(15) } :
+                                { fontSize: scaleSize(10) },
+                              ]}
+                            >
+                              {`    ${
+                                data?.paymentInformation?.refNum
+                                  ? `Transaction #: ${data?.paymentInformation?.refNum}`
+                                  : ""
+                              }`}
+                            </Text>
+                          </View>
+                        ) : null}
+                      </View>
+                    ))}
+                  </View>
+                ) : (
+                  <View />
+                )}
+
+                {isSignature && !isPrintTempt ? (
+                  <View
+                    style={{
+                      height: scaleSize(15),
+                      flexDirection: "row",
+                      marginTop: scaleSize(15),
+                    }}
                   >
-                    {`Please come again`}
-                  </Text>
-                  <View style={{ height: scaleSize(8) }} />
-                  {/* ------------- This is not a bill   ----------- */}
-                  <Text
-                    style={[
-                      styleInvoice.txt_total,
-                      {
-                        fontSize: scaleSize(10),
-                        fontWeight: "300",
-                        alignSelf: "center",
-                      },
-                    ]}
+                    <View
+                      style={{
+                        width: scaleSize(70),
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      <Text
+                        style={[
+                          txt_total,
+                          { fontSize: 18, fontWeight: "600" },
+                        ]}
+                      >
+                        {"Signature:"}
+                      </Text>
+                    </View>
+                    <View style={{ width: scaleSize(50) }} />
+                    <View
+                      style={{
+                        flex: 1,
+                        borderBottomColor: "#000",
+                        borderBottomWidth: 1,
+                      }}
+                    />
+                  </View>
+                ) : (
+                  <View />
+                )}
+
+                {isPrintTempt ? (
+                  <View
+                    style={{
+                      height: scaleSize(15),
+                      flexDirection: "row",
+                      marginTop: scaleSize(15),
+                    }}
                   >
-                    {`*********** ${
-                      isPrintTempt
-                        ? "Customer's Receipt"
-                        : isSignature
-                        ? "Merchant's Receipt"
-                        : "Customer's Receipt"
-                    } ***********`}
+                    <View
+                      style={{
+                        width: scaleSize(70),
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      <Text
+                        style={[
+                          txt_total,
+                          { fontSize: 18, fontWeight: "600" },
+                        ]}
+                      >
+                        {"Signature:"}
+                      </Text>
+                    </View>
+                    <View style={{ width: scaleSize(50) }} />
+                    <View
+                      style={{
+                        flex: 1,
+                        borderBottomColor: "#000",
+                        borderBottomWidth: 1,
+                      }}
+                    />
+                  </View>
+                ) : (
+                  <View />
+                )}
+
+                {promotionNotes ? (
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      marginTop: scaleSize(10),
+                    }}
+                  >
+                    {`Discount note: `}
+                    <Text style={{ fontWeight: "500" }}>
+                      {`${promotionNotes}`}
+                    </Text>
                   </Text>
-                </View>
-                }
+                ) : null}
+
+                {/* ----------- Thanks , see you again -------- */}
+                <View style={{ height: scaleSize(20) }} />
+                <Text
+                  style={[txt_total, { alignSelf: "center" }]}
+                >
+                  {`Thank you!`}
+                </Text>
+                <Text
+                  style={[txt_total, { alignSelf: "center" }]}
+                >
+                  {`Please come again`}
+                </Text>
+                <View style={{ height: scaleSize(8) }} />
+                {/* ------------- This is not a bill   ----------- */}
+                <Text
+                  style={[
+                    txt_total,
+                    paymentMachineType == "Clover" ?
+                    {
+                      fontSize: scaleSize(10),
+                      fontWeight: "500",
+                      alignSelf: "center",
+                    }
+                    :
+                    {
+                      fontSize: scaleSize(10),
+                      fontWeight: "300",
+                      alignSelf: "center",
+                    },
+                  ]}
+                >
+                  {`*********** ${
+                    isPrintTempt
+                      ? "Customer's Receipt"
+                      : isSignature
+                      ? "Merchant's Receipt"
+                      : "Customer's Receipt"
+                  } ***********`}
+                </Text>
+              </View>
+                
                 <View style={{ height: scaleSize(30) }} />
               </ScrollView>
             </View>
@@ -1479,29 +969,32 @@ class PopupInvoicePrint extends React.Component {
   }
 }
 
-const ItemInvoice = ({ item, index }) => {
+const ItemInvoice = ({ item, index, paymentMachineType }) => {
   const price = item.data && item.data.price ? item.data.price : 0;
   const quanlitySet = item.quanlitySet ? item.quanlitySet : 1;
   const total = formatMoney(price * quanlitySet);
   const note = item.note ? item.note : "";
+  let txt_info = paymentMachineType == "Clover" 
+                   ? [styleInvoice.txt_info_clover, { fontSize: 18, marginLeft: 8 }]
+                   : [styleInvoice.txt_info, { fontSize: 13, marginLeft: 8 }]
 
   return (
     <View style={{ flexDirection: "row", marginTop: scaleSize(3) }}>
       <View style={{ flex: 0.8, justifyContent: "center" }}>
-        <Text style={[styleInvoice.txt_info]}>
+        <Text style={[txt_info]}>
           {`${index + 1}. ${item.data && item.data.name ? item.data.name : ""}`}
         </Text>
         {/* ------------ Note -------- */}
         {note ? (
           <Text
-            style={[styleInvoice.txt_info, { fontSize: 13, marginLeft: 8 }]}
+            style={txt_info}
           >
             {`(Note: ${note})`}
           </Text>
         ) : null}
       </View>
       <View style={{ justifyContent: "center", width: scaleSize(70) }}>
-        <Text style={[styleInvoice.txt_info]}>{`$ ${price}`}</Text>
+        <Text style={txt_info}>{`$ ${price}`}</Text>
       </View>
       <View
         style={{
@@ -1512,7 +1005,7 @@ const ItemInvoice = ({ item, index }) => {
           // paddingLeft: scaleSize(6)
         }}
       >
-        <Text style={[styleInvoice.txt_info]}>{quanlitySet}</Text>
+        <Text style={txt_info}>{quanlitySet}</Text>
       </View>
       <View
         style={{
@@ -1521,18 +1014,21 @@ const ItemInvoice = ({ item, index }) => {
           alignItems: "flex-end",
         }}
       >
-        <Text style={[styleInvoice.txt_info]}>{`$ ${total ? total : ""}`}</Text>
+        <Text style={txt_info}>{`$ ${total ? total : ""}`}</Text>
       </View>
     </View>
   );
 };
 
-const ItemTotal = ({ title, value, style }) => {
+const ItemTotal = ({ title, value, style, paymentMachineType }) => {
+  let txt_total = paymentMachineType == "Clover"
+                    ? styleInvoice.txt_total_clover
+                    : styleInvoice.txt_total
   return (
     <View style={{ flexDirection: "row", marginBottom: scaleSize(4) }}>
       <Text
         style={[
-          styleInvoice.txt_total,
+          txt_total,
           { alignSelf: "flex-start", fontWeight: "600" },
           style,
         ]}
@@ -1542,7 +1038,7 @@ const ItemTotal = ({ title, value, style }) => {
       <View style={{ flex: 1 }} />
       <Text
         style={[
-          styleInvoice.txt_total,
+          txt_total,
           { alignSelf: "flex-end", fontWeight: "400" },
           style,
         ]}
@@ -1556,19 +1052,19 @@ const ItemTotal = ({ title, value, style }) => {
 const styleInvoice = StyleSheet.create({
   txt_normal_clover: {
     color: "#000",
-    fontSize: 28,
+    fontSize: 18,
     alignSelf: "center",
-    fontWeight: "200",
+    fontWeight: "500",
   },
   txt_info_clover: {
     color: "#000",
-    fontSize: 28,
-    fontWeight: "200",
+    fontSize: 18,
+    fontWeight: "500",
   },
   txt_total_clover: {
     color: "#000",
-    fontSize: 30,
-    fontWeight: "200",
+    fontSize: 20,
+    fontWeight: "500",
   },
   txt_normal: {
     color: "#000",
