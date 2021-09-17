@@ -11,7 +11,6 @@
 
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
-//#import "Hpmerchant_Dev-Swift.h"
 #import <React/RCTEventEmitter.h>
 
 @interface clover : RCTEventEmitter <RCTBridgeModule>

@@ -306,7 +306,8 @@ class PopupInvoicePrint extends React.Component {
       paymentDetailInfo,
       profileStaffLogin,
       invoiceDetail,
-      paymentMachineType
+      paymentMachineType,
+      printerSelect,
     } = this.props;
     const {
       basket,
@@ -339,18 +340,8 @@ class PopupInvoicePrint extends React.Component {
     if (!invoiceName) {
       invoiceName = profileStaffLogin?.displayName;
     }
-
-    let txt_normal = paymentMachineType == "Clover" 
-                    ? styleInvoice.txt_normal_clover 
-                    : styleInvoice.txt_normal
-    let txt_info = paymentMachineType == "Clover" 
-                   ? styleInvoice.txt_info_clover 
-                   : styleInvoice.txt_info
-    let txt_total = paymentMachineType == "Clover"
-                    ? styleInvoice.txt_total_clover
-                    : styleInvoice.txt_total
+    let fontWeightClover = paymentMachineType == "Clover" && !printerSelect && {fontWeight: "600"}
     
-
     return (
       <Modal
         visible={visiblePrintInvoice}
@@ -384,7 +375,7 @@ class PopupInvoicePrint extends React.Component {
                 {/* ------------- Store Name ----------- */}
                 <Text
                   style={[
-                    txt_normal,
+                    styleInvoice.txt_normal,
                     {
                       fontSize: 24,
                       fontWeight: "600",
@@ -398,11 +389,12 @@ class PopupInvoicePrint extends React.Component {
                 <Text
                   numberOfLines={1}
                   style={[
-                    txt_normal,
+                    styleInvoice.txt_normal,
                     {
                       paddingHorizontal: scaleSize(10),
                       marginTop: scaleSize(4),
                     },
+                    fontWeightClover
                   ]}
                 >
                   {profile?.addressFull || ""}
@@ -410,8 +402,9 @@ class PopupInvoicePrint extends React.Component {
                 {/* ------------- Phone Address ----------- */}
                 <Text
                   style={[
-                    txt_normal,
+                    styleInvoice.txt_normal,
                     { paddingHorizontal: scaleSize(10) },
+                    fontWeightClover
                   ]}
                 >
                   {`Tel : ${profile?.phone || ""}`}
@@ -420,8 +413,9 @@ class PopupInvoicePrint extends React.Component {
                 {profile.webLink ? (
                   <Text
                     style={[
-                      txt_normal,
+                      styleInvoice.txt_normal,
                       { paddingHorizontal: scaleSize(10) },
+                      fontWeightClover
                     ]}
                   >
                     {profile?.webLink || ""}
@@ -433,7 +427,7 @@ class PopupInvoicePrint extends React.Component {
                 {/* ------------- SALE/VOID/REFUND  ----------- */}
                 <Text
                   style={[
-                    txt_normal,
+                    styleInvoice.txt_normal,
                     {
                       fontSize: 20,
                       fontWeight: "600",
@@ -456,12 +450,12 @@ class PopupInvoicePrint extends React.Component {
                 {/* ------------- Invoice Date ----------- */}
                 <View style={{ flexDirection: "row" }}>
                   <View style={{ width: scaleSize(90) }}>
-                    <Text style={txt_info}>
+                    <Text style={[styleInvoice.txt_info, fontWeightClover]}>
                       {`Invoice Date`}
                     </Text>
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={txt_info}>
+                    <Text style={[styleInvoice.txt_info, fontWeightClover]}>
                       {`: ${formatWithMoment(
                         new Date(),
                         "MM/DD/YYYY hh:mm A"
@@ -472,10 +466,10 @@ class PopupInvoicePrint extends React.Component {
                 {/* ------------- Staff ----------- */}
                 <View style={{ flexDirection: "row" }}>
                   <View style={{ width: scaleSize(90) }}>
-                    <Text style={txt_info}>{`Staff Name`}</Text>
+                    <Text style={[styleInvoice.txt_info, fontWeightClover]}>{`Staff Name`}</Text>
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={txt_info}>
+                    <Text style={[styleInvoice.txt_info, fontWeightClover]}>
                       {`: ${invoiceName}`}
                     </Text>
                   </View>
@@ -483,10 +477,10 @@ class PopupInvoicePrint extends React.Component {
                 {/* ------------- Invoice No ----------- */}
                 <View style={{ flexDirection: "row" }}>
                   <View style={{ width: scaleSize(90) }}>
-                    <Text style={txt_info}>{`Invoice No`}</Text>
+                    <Text style={[styleInvoice.txt_info, fontWeightClover]}>{`Invoice No`}</Text>
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={txt_info}>
+                    <Text style={[styleInvoice.txt_info, fontWeightClover]}>
                       {`: ${
                         invoiceNo
                           ? invoiceNo
@@ -515,10 +509,9 @@ class PopupInvoicePrint extends React.Component {
                   <View style={{ flex: 0.8, justifyContent: "center" }}>
                     <Text
                       style={[
-                        txt_info,
-                        paymentMachineType == "Clover" ?
-                        { fontSize: 18, fontWeight: "500" }
-                        : { fontSize: 18, fontWeight: "400" },
+                        styleInvoice.txt_info,
+                        { fontSize: 18, fontWeight: "400" },
+                        fontWeightClover
                       ]}
                     >
                       {`DESCRIPTION`}
@@ -529,10 +522,9 @@ class PopupInvoicePrint extends React.Component {
                   >
                     <Text
                       style={[
-                        txt_info,
-                        paymentMachineType == "Clover" ?
-                        { fontSize: 18, fontWeight: "500" }
-                        : { fontSize: 18, fontWeight: "400" },
+                        styleInvoice.txt_info,
+                        { fontSize: 18, fontWeight: "400" },
+                        fontWeightClover
                       ]}
                     >
                       {`PRICE`}
@@ -547,10 +539,9 @@ class PopupInvoicePrint extends React.Component {
                   >
                     <Text
                       style={[
-                        txt_info,
-                        paymentMachineType == "Clover" ?
-                        { fontSize: 18, fontWeight: "500" }
-                        : { fontSize: 18, fontWeight: "400" },
+                        styleInvoice.txt_info,
+                       { fontSize: 18, fontWeight: "400" },
+                       fontWeightClover
                       ]}
                     >
                       {`QTY`}
@@ -565,10 +556,9 @@ class PopupInvoicePrint extends React.Component {
                   >
                     <Text
                       style={[
-                        txt_info,
-                        paymentMachineType == "Clover" ?
-                        { fontSize: 18, fontWeight: "500" }
-                        : { fontSize: 18, fontWeight: "400" },
+                        styleInvoice.txt_info,
+                        { fontSize: 18, fontWeight: "400" },
+                        fontWeightClover
                       ]}
                     >
                       {`TOTAL`}
@@ -589,7 +579,12 @@ class PopupInvoicePrint extends React.Component {
 
                 {/* ------------- Item Invoice   ----------- */}
                 {basket?.map((item, index) => (
-                  <ItemInvoice key={index} item={item} index={index} paymentMachineType={paymentMachineType}/>
+                  <ItemInvoice 
+                  key={index} 
+                  item={item} 
+                  index={index} 
+                  paymentMachineType={paymentMachineType}
+                  printerSelect={printerSelect}/>
                 ))}
 
                 {/* ------------- Line end item invoice   ----------- */}
@@ -601,19 +596,24 @@ class PopupInvoicePrint extends React.Component {
                   }}
                 />
                 {/* ------------- SubTotal   ----------- */}
-                <ItemTotal title={"Subtotal"} value={temptSubTotal} 
-                paymentMachineType={paymentMachineType}/>
-                <ItemTotal title={"Discount"} value={temptDiscount} 
-                paymentMachineType={paymentMachineType}/>
-                <ItemTotal title={"Tip"} value={temptTip} 
-                paymentMachineType={paymentMachineType}/>
+                <ItemTotal title={"Subtotal"} value={temptSubTotal}
+                paymentMachineType={paymentMachineType}
+                printerSelect={printerSelect}/>
+                <ItemTotal title={"Discount"} value={temptDiscount}
+                paymentMachineType={paymentMachineType}
+                printerSelect={printerSelect}/>
+                <ItemTotal title={"Tip"} value={temptTip}
+                paymentMachineType={paymentMachineType}
+                printerSelect={printerSelect}/>
                 <ItemTotal title={"Tax"} value={temptTax}
-                paymentMachineType={paymentMachineType} />
+                paymentMachineType={paymentMachineType}
+                printerSelect={printerSelect}/>
                 {isPrintTempt ? (
                   <View />
                 ) : (
-                  <ItemTotal title={"Total"} value={temptTotal} 
-                  paymentMachineType={paymentMachineType}/>
+                  <ItemTotal title={"Total"} value={temptTotal}
+                  paymentMachineType={paymentMachineType}
+                  printerSelect={printerSelect}/>
                 )}
 
                 {/* ------------- Enter Tip   ----------- */}
@@ -633,7 +633,7 @@ class PopupInvoicePrint extends React.Component {
                     >
                       <Text
                         style={[
-                          txt_total,
+                          styleInvoice.txt_total,
                           { fontSize: 20, fontWeight: "600" },
                         ]}
                       >
@@ -670,7 +670,7 @@ class PopupInvoicePrint extends React.Component {
                     >
                       <Text
                         style={[
-                          txt_total,
+                          styleInvoice.txt_total,
                           { fontSize: 20, fontWeight: "600" },
                         ]}
                       >
@@ -699,7 +699,7 @@ class PopupInvoicePrint extends React.Component {
                         style={{ marginBottom: scaleSize(4) }}
                       >
                         <View style={{ flexDirection: "row" }}>
-                          <Text style={[txt_total]}>
+                          <Text style={[styleInvoice.txt_total]}>
                             {`- Entry method: ${getPaymentString(
                               data?.paymentMethod || ""
                             )}`}
@@ -713,8 +713,8 @@ class PopupInvoicePrint extends React.Component {
                           >
                             <Text
                               style={[
-                                txt_total,
-                                paymentMachineType == "Clover" ?
+                                styleInvoice.txt_total,
+                                paymentMachineType == "Clover" && !printerSelect ?
                                 { fontSize: scaleSize(15) }
                                 : { fontSize: scaleSize(10) },
                               ]}
@@ -729,8 +729,8 @@ class PopupInvoicePrint extends React.Component {
                           <View style={{ marginTop: scaleSize(5) }}>
                             <Text
                               style={[
-                                txt_total,
-                                paymentMachineType == "Clover" ?
+                                styleInvoice.txt_total,
+                                paymentMachineType == "Clover" && !printerSelect ?
                                 { fontSize: scaleSize(15) } 
                                 : { fontSize: scaleSize(10) },
                               ]}
@@ -743,8 +743,8 @@ class PopupInvoicePrint extends React.Component {
                             </Text>
                             <Text
                               style={[
-                                txt_total,
-                                paymentMachineType == "Clover" ?
+                                styleInvoice.txt_total,
+                                paymentMachineType == "Clover" && !printerSelect ?
                                 { fontSize: scaleSize(15) } :
                                 { fontSize: scaleSize(10) },
                               ]}
@@ -753,8 +753,8 @@ class PopupInvoicePrint extends React.Component {
                             </Text>
                             <Text
                               style={[
-                                txt_total,
-                                paymentMachineType == "Clover" ?
+                                styleInvoice.txt_total,
+                                paymentMachineType == "Clover" && !printerSelect ?
                                 { fontSize: scaleSize(15) } :
                                 { fontSize: scaleSize(10) },
                               ]}
@@ -767,8 +767,8 @@ class PopupInvoicePrint extends React.Component {
                             </Text>
                             <Text
                               style={[
-                                txt_total,
-                                paymentMachineType == "Clover" ?
+                                styleInvoice.txt_total,
+                                paymentMachineType == "Clover" && !printerSelect ?
                                 { fontSize: scaleSize(15) } :
                                 { fontSize: scaleSize(10) },
                               ]}
@@ -804,7 +804,7 @@ class PopupInvoicePrint extends React.Component {
                     >
                       <Text
                         style={[
-                          txt_total,
+                          styleInvoice.txt_total,
                           { fontSize: 18, fontWeight: "600" },
                         ]}
                       >
@@ -840,7 +840,7 @@ class PopupInvoicePrint extends React.Component {
                     >
                       <Text
                         style={[
-                          txt_total,
+                          styleInvoice.txt_total,
                           { fontSize: 18, fontWeight: "600" },
                         ]}
                       >
@@ -878,12 +878,13 @@ class PopupInvoicePrint extends React.Component {
                 {/* ----------- Thanks , see you again -------- */}
                 <View style={{ height: scaleSize(20) }} />
                 <Text
-                  style={[txt_total, { alignSelf: "center" }]}
+                  style={[styleInvoice.txt_total, { alignSelf: "center" },
+                  fontWeightClover]}
                 >
                   {`Thank you!`}
                 </Text>
                 <Text
-                  style={[txt_total, { alignSelf: "center" }]}
+                  style={[styleInvoice.txt_total, { alignSelf: "center" }, fontWeightClover]}
                 >
                   {`Please come again`}
                 </Text>
@@ -891,19 +892,8 @@ class PopupInvoicePrint extends React.Component {
                 {/* ------------- This is not a bill   ----------- */}
                 <Text
                   style={[
-                    txt_total,
-                    paymentMachineType == "Clover" ?
-                    {
-                      fontSize: scaleSize(10),
-                      fontWeight: "500",
-                      alignSelf: "center",
-                    }
-                    :
-                    {
-                      fontSize: scaleSize(10),
-                      fontWeight: "300",
-                      alignSelf: "center",
-                    },
+                    styleInvoice.txt_total,
+                    {fontWeight: "600"}
                   ]}
                 >
                   {`*********** ${
@@ -973,14 +963,14 @@ class PopupInvoicePrint extends React.Component {
   }
 }
 
-const ItemInvoice = ({ item, index, paymentMachineType }) => {
+const ItemInvoice = ({ item, index, paymentMachineType, printerSelect }) => {
   const price = item.data && item.data.price ? item.data.price : 0;
   const quanlitySet = item.quanlitySet ? item.quanlitySet : 1;
   const total = formatMoney(price * quanlitySet);
   const note = item.note ? item.note : "";
-  let txt_info = paymentMachineType == "Clover" 
-                   ? [styleInvoice.txt_info_clover, { fontSize: 18, marginLeft: 8 }]
-                   : [styleInvoice.txt_info, { fontSize: 13, marginLeft: 8 }]
+  let txt_info = paymentMachineType == "Clover" && !printerSelect
+                   ? [styleInvoice.txt_info, { fontSize: 18, marginLeft: 8, fontWeight: "700" }]
+                   : [styleInvoice.txt_info, { fontSize: 18, marginLeft: 8, fontWeight: "600" }]
 
   return (
     <View style={{ flexDirection: "row", marginTop: scaleSize(3) }}>
@@ -1024,15 +1014,13 @@ const ItemInvoice = ({ item, index, paymentMachineType }) => {
   );
 };
 
-const ItemTotal = ({ title, value, style, paymentMachineType }) => {
-  let txt_total = paymentMachineType == "Clover"
-                    ? styleInvoice.txt_total_clover
-                    : styleInvoice.txt_total
+const ItemTotal = ({ title, value, style, paymentMachineType, printerSelect }) => {
+
   return (
     <View style={{ flexDirection: "row", marginBottom: scaleSize(4) }}>
       <Text
         style={[
-          txt_total,
+          styleInvoice.txt_total,
           { alignSelf: "flex-start", fontWeight: "600" },
           style,
         ]}
@@ -1042,8 +1030,10 @@ const ItemTotal = ({ title, value, style, paymentMachineType }) => {
       <View style={{ flex: 1 }} />
       <Text
         style={[
-          txt_total,
-          { alignSelf: "flex-end", fontWeight: "400" },
+          styleInvoice.txt_total,
+          paymentMachineType == "Clover" && !printerSelect ?
+          { alignSelf: "flex-end", fontWeight: "600" }
+          : { alignSelf: "flex-end", fontWeight: "400" },
           style,
         ]}
       >
@@ -1054,37 +1044,21 @@ const ItemTotal = ({ title, value, style, paymentMachineType }) => {
 };
 
 const styleInvoice = StyleSheet.create({
-  txt_normal_clover: {
-    color: "#000",
-    fontSize: 18,
-    alignSelf: "center",
-    fontWeight: "500",
-  },
-  txt_info_clover: {
-    color: "#000",
-    fontSize: 18,
-    fontWeight: "500",
-  },
-  txt_total_clover: {
-    color: "#000",
-    fontSize: 20,
-    fontWeight: "500",
-  },
   txt_normal: {
     color: "#000",
     fontSize: 18,
     alignSelf: "center",
-    fontWeight: "200",
+    fontWeight: "500",
   },
   txt_info: {
     color: "#000",
     fontSize: 18,
-    fontWeight: "200",
+    fontWeight: "500",
   },
   txt_total: {
     color: "#000",
     fontSize: 20,
-    fontWeight: "200",
+    fontWeight: "500",
   },
 });
 

@@ -111,7 +111,8 @@ RCT_EXPORT_METHOD(changeListenerStatus:(BOOL)value) {
 
 RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo)
 {
-  if(self.cloverManager) {
+  NSString *url = paymentInfo[@"url"];
+  if(self.cloverManager && [self.cloverManager.urlSetting isEqual:url]) {
     [self.cloverManager doSaleWithPaymentInfo:paymentInfo];
   }else{
     self.isPaymentProcessing = true;
@@ -157,7 +158,8 @@ RCT_EXPORT_METHOD(doPrint:(NSString *)image){
 
 RCT_EXPORT_METHOD(closeout:(NSDictionary *)info){
   
-  if(self.cloverManager){
+  NSString *url = info[@"url"];
+  if(self.cloverManager && [self.cloverManager.urlSetting isEqual:url]) {
     [self.cloverManager closeout];
   }else{
     self.isCloseoutProcessing = true;
@@ -169,7 +171,8 @@ RCT_EXPORT_METHOD(closeout:(NSDictionary *)info){
 RCT_EXPORT_METHOD(doPrintWithConnect:(NSDictionary *)printInfo){
   
   NSString *imageURI = printInfo[@"imageUri"];
-  if(self.cloverManager){
+  NSString *url = printInfo[@"url"];
+  if(self.cloverManager && [self.cloverManager.urlSetting isEqual:url]) {
     [self.cloverManager doPrintWithImage: imageURI];
   }else{
     self.isPrintWithConnectProcessing = true;
@@ -179,7 +182,8 @@ RCT_EXPORT_METHOD(doPrintWithConnect:(NSDictionary *)printInfo){
 }
 
 RCT_EXPORT_METHOD(voidPayment:(NSDictionary*) voidInfo) {
-  if(self.cloverManager){
+  NSString *url = voidInfo[@"url"];
+  if(self.cloverManager && [self.cloverManager.urlSetting isEqual:url]) {
     [self.cloverManager voidPaymentWithPaymentInfo: voidInfo];
   }else{
     self.isVoidProcessing = true;
@@ -189,7 +193,8 @@ RCT_EXPORT_METHOD(voidPayment:(NSDictionary*) voidInfo) {
 }
 
 RCT_EXPORT_METHOD(openCashDrawer:(NSDictionary*) info) {
-  if(self.cloverManager){
+  NSString *url = info[@"url"];
+  if(self.cloverManager && [self.cloverManager.urlSetting isEqual:url]) {
     [self.cloverManager openCashDrawer];
   }else{
     self.isOpenCashierProcessing = true;
@@ -198,7 +203,8 @@ RCT_EXPORT_METHOD(openCashDrawer:(NSDictionary*) info) {
 }
 
 RCT_EXPORT_METHOD(refundPayment:(NSDictionary*) refundInfo) {
-  if(self.cloverManager){
+  NSString *url = refundInfo[@"url"];
+  if(self.cloverManager && [self.cloverManager.urlSetting isEqual:url]) {
     [self.cloverManager refundPaymentWithPaymentInfo: refundInfo];
   }else{
     self.isRefundProcessing = true;

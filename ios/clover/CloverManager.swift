@@ -32,6 +32,7 @@ import Foundation
   public var printJobStatusDict = [String : (PrintJobStatusResponse) -> Void]()
   fileprivate var token:String?
   @objc public var cloverDelegate: CloverManagerDelegate?
+  @objc public var urlSetting: String?
   var printers: [CLVModels.Printer.Printer]?
 
   fileprivate let PAIRING_AUTH_TOKEN_KEY:String = "PAIRING_AUTH_TOKEN"
@@ -40,7 +41,7 @@ import Foundation
     self.myCloverConnector?.dispose()
         // load from previous pairing, or nil will force/require
         // a new pairing with the device
-      
+    self.urlSetting = url
       let config = WebSocketDeviceConfiguration(endpoint: url,
           remoteApplicationID: appId,
           posName: appName, posSerial: posSerial,
