@@ -259,6 +259,10 @@ class PopupInvoicePrint extends React.Component {
       invoiceName = getFullName(invoiceDetail?.user);
     }
 
+    if (!invoiceName) {
+      invoiceName = profileStaffLogin?.displayName;
+    }
+
     return (
       <Modal
         visible={visiblePrintInvoice}

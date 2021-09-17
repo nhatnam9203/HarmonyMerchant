@@ -15,6 +15,10 @@ import {
   useAppointmentAddItem,
   useAppointmentRemoveItem,
   useGetAppointment,
+  useAppointmentAddGiftCard,
+  useAppointmentTempAddGiftCard,
+  useAppointmentRemoveGiftCard,
+  useAppointmentTempRemoveGiftCard,
 } from "@shared/services/api/retailer";
 import {
   createSubmitAppointment,
@@ -26,8 +30,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CUSTOM_LIST_TYPES } from "../../widget";
 import { useFocusEffect } from "@react-navigation/native";
-import { getInfoFromModelNameOfPrinter } from "@utils";
+import { getInfoFromModelNameOfPrinter, formatWithMoment } from "@utils";
 import PrintManager from "@lib/PrintManager";
+import actions from "@actions";
+import Configs from "@configs";
 
 const log = (obj, message = "") => {
   Logger.log(`[CheckOutTabPage > useProps] ${message}`, obj);
@@ -42,11 +48,14 @@ export const useProps = ({
   | CONSTANTS
   |--------------------------------------------------
   */
+  const dispatch = useDispatch();
 
   const productDetailRef = React.useRef(null);
   const basketRef = React.useRef(null);
   const customerRef = React.useRef(null);
-  const dispatch = useDispatch();
+  const activeGiftCardRef = React.useRef(null);
+  const modalBillRef = React.useRef(null);
+  const popupEnterAmountGiftCardRef = React.useRef(null);
 
   /**
   |--------------------------------------------------
@@ -66,6 +75,14 @@ export const useProps = ({
   );
   const printerList = useSelector((state) => state.dataLocal.printerList);
   const printerSelect = useSelector((state) => state.dataLocal.printerSelect);
+  const blockAppointments = useSelector(
+    (state) => state.appointment.blockAppointments
+  );
+  const profileStaffLogin = useSelector(
+    (state) => state.dataLocal.profileStaffLogin
+  );
+  const profile = useSelector((state) => state.dataLocal.profile);
+
   /**
   |--------------------------------------------------
   | STATE variables
@@ -106,6 +123,15 @@ export const useProps = ({
   const [appointmentItemRemove, removeAppointmentItem] =
     useAppointmentRemoveItem();
   const [appointmentGet, getAppointment] = useGetAppointment();
+
+  const [appointmentGiftCardAdd, addAppointmentGiftCard] =
+    useAppointmentAddGiftCard();
+  const [appointmentTempGiftCardAdd, addAppointmentTempGiftCard] =
+    useAppointmentTempAddGiftCard();
+  const [appointmentGiftCardRemove, removeAppointmentGiftCard] =
+    useAppointmentRemoveGiftCard();
+  const [appointmentTempGiftCardRemove, removeAppointmentTempGiftCard] =
+    useAppointmentTempRemoveGiftCard();
 
   /**
   |--------------------------------------------------
@@ -209,21 +235,29 @@ export const useProps = ({
    */
   React.useEffect(() => {
     const { codeStatus, message, data } =
-      appointmentTempItemAdd || updateAppointmentTempCustomerData || {};
+      appointmentTempItemAdd ||
+      updateAppointmentTempCustomerData ||
+      appointmentTempGiftCardAdd ||
+      {};
     if (statusSuccess(codeStatus)) {
       getAppointmentTemp(appointmentTempId);
     }
-  }, [appointmentTempItemAdd, updateAppointmentTempCustomerData]);
+  }, [
+    appointmentTempItemAdd,
+    updateAppointmentTempCustomerData,
+    appointmentTempGiftCardAdd,
+  ]);
 
   React.useEffect(() => {
-    const { codeStatus, message, data } = appointmentTempItemRemove || {};
+    const { codeStatus, message, data } =
+      appointmentTempItemRemove || appointmentTempGiftCardRemove || {};
     if (statusSuccess(codeStatus)) {
       getAppointmentTemp(appointmentTempId);
       if (removeItemWaitingList?.length > 0) {
         setRemoveItemWaitingList(removeItemWaitingList.slice(1));
       }
     }
-  }, [appointmentTempItemRemove]);
+  }, [appointmentTempItemRemove, appointmentTempGiftCardRemove]);
 
   /**
    * Add/Remove item in appointment  effects
@@ -231,21 +265,29 @@ export const useProps = ({
    */
   React.useEffect(() => {
     const { codeStatus, message, data } =
-      appointmentItemAdd || updateAppointmentCustomerData || {};
+      appointmentItemAdd ||
+      updateAppointmentCustomerData ||
+      appointmentGiftCardAdd ||
+      {};
     if (statusSuccess(codeStatus)) {
       getAppointment(appointmentId);
     }
-  }, [appointmentItemAdd, updateAppointmentCustomerData]);
+  }, [
+    appointmentItemAdd,
+    updateAppointmentCustomerData,
+    appointmentGiftCardAdd,
+  ]);
 
   React.useEffect(() => {
-    const { codeStatus, message, data } = appointmentItemRemove || {};
+    const { codeStatus, message, data } =
+      appointmentItemRemove || appointmentGiftCardRemove || {};
     if (statusSuccess(codeStatus)) {
       getAppointment(appointmentId);
       if (removeItemWaitingList?.length > 0) {
         setRemoveItemWaitingList(removeItemWaitingList.slice(1));
       }
     }
-  }, [appointmentItemRemove]);
+  }, [appointmentItemRemove, appointmentGiftCardRemove]);
 
   /**
    * GET appointment effects
@@ -343,9 +385,21 @@ export const useProps = ({
 
     const removeItem = removeItemWaitingList[0];
     if (appointmentTempId) {
-      removeItemAppointmentTemp(removeItem?.bookingProductId);
+      if (removeItem?.bookingProductId) {
+        removeItemAppointmentTemp(removeItem?.bookingProductId);
+      }
+
+      if (removeItem?.bookingGiftCardId) {
+        removeAppointmentTempGiftCard(removeItem?.bookingGiftCardId);
+      }
     } else if (appointmentId) {
-      removeAppointmentItem(removeItem?.bookingProductId);
+      if (removeItem?.bookingProductId) {
+        removeAppointmentItem(removeItem?.bookingProductId);
+      }
+
+      if (removeItem?.bookingGiftCardId) {
+        removeAppointmentGiftCard(removeItem?.bookingGiftCardId);
+      }
     }
   }, [removeItemWaitingList]);
 
@@ -445,6 +499,7 @@ export const useProps = ({
     },
     appointment: appointmentTemp ?? appointment,
     onRemoveItem: (items) => {
+      console.log(items);
       if (items?.length > 0) {
         let clonePendingList = [...removeItemWaitingList];
 
@@ -474,6 +529,56 @@ export const useProps = ({
         openCashDrawer(portName);
       } else {
         alert("Please connect to your cash drawer.");
+      }
+    },
+    onSelectGiftCard: () => {
+      activeGiftCardRef.current?.setStateFromParent();
+      dispatch(actions.appointment.handleVisibleActiveGiftCard());
+      setCategoryId(1);
+      setActiveTab(CUSTOM_LIST_TYPES.CAT);
+      setSubCategories(null);
+      setSubCategoryId(null);
+      setProducts(null);
+    },
+    activeGiftCardRef,
+    modalBillRef,
+    onRequestCloseBillModal: () => {},
+    popupEnterAmountGiftCardRef,
+    closePopupActiveGiftCard: () => {
+      dispatch(actions.appointment.handleVisibleActiveGiftCard(false));
+      setCategoryId(null);
+      setActiveTab(CUSTOM_LIST_TYPES.CAT);
+      setSubCategories(null);
+      setSubCategoryId(null);
+      setProducts(null);
+    },
+    submitSerialCode: (code) => {
+      // add giftcard to appointment
+      dispatch(
+        actions.appointment.checkSerialNumber(code, false, false, false)
+      );
+    },
+    onAddGiftCardToAppointment: (money, gitCardInfo) => {
+      const giftCard = {
+        Price: money,
+        GiftCardId: gitCardInfo?.giftCardId,
+      };
+
+      if (appointmentTempId) {
+        addAppointmentTempGiftCard(giftCard);
+      } else if (appointmentId) {
+        addAppointmentGiftCard(giftCard);
+      } else {
+        createAppointmentTemp({
+          customerId: customer?.customerId,
+          purchasePoint,
+          giftCards: [
+            {
+              price: money,
+              giftcardId: gitCardInfo?.giftCardId,
+            },
+          ],
+        });
       }
     },
   };

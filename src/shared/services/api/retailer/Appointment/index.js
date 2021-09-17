@@ -19,3 +19,7 @@ export * from "./useUpdateAppointmentCustomer";
 export * from "./useAppointmentRemoveItem";
 export * from "./useAppointmentAddItem";
 export * from "./useUpdateAppointmentTax";
+export * from "./useAppointmentAddGiftCard";
+export * from "./useAppointmentTempAddGiftCard";
+export * from "./useAppointmentRemoveGiftCard";
+export * from "./useAppointmentTempRemoveGiftCard";

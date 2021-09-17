@@ -1,3 +1,4 @@
+import { PopupInvoicePrint } from "@components";
 import IMAGE from "@resources";
 import {
   ButtonGradient,
@@ -6,11 +7,15 @@ import {
 } from "@shared/components";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
-import { ORDERED_STATUS } from "@shared/components/OrderStatusView";
+import {
+  ORDERED_STATUS,
+  OrderStatusView,
+} from "@shared/components/OrderStatusView";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { colors, fonts, layouts } from "@shared/themes";
 import { dateToString, DATE_TIME_SHOW_FORMAT_STRING } from "@shared/utils";
 import { formatMoneyWithUnit } from "@utils";
+import _ from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -21,8 +26,6 @@ import {
   FormEditNotes,
   FormShippingCarrier,
 } from "../../widget";
-import { OrderStatusView } from "@shared/components/OrderStatusView";
-import _ from "lodash";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
@@ -41,6 +44,10 @@ export const Layout = ({
   onEditBillingAddress,
   formAddressRef,
   onDidNotPayCheck,
+  printCustomerInvoice,
+  invoicePrintRef,
+  visiblePrintInvoice,
+  cancelInvoicePrint,
 }) => {
   const [t] = useTranslation();
 
@@ -213,9 +220,13 @@ export const Layout = ({
           />
           <View style={layouts.marginHorizontal} />
           <View style={styles.productNameContent}>
-            <Text style={styles.productName}>{cellItem?.productName}</Text>
+            <Text style={styles.productName}>
+              {cellItem?.productName || cellItem?.name}
+            </Text>
             <View style={styles.productNameMarginVertical} />
-            <Text style={styles.productOption}>{`${cellItem?.value}`}</Text>
+            {!!cellItem?.value && (
+              <Text style={styles.productOption}>{`${cellItem?.value}`}</Text>
+            )}
           </View>
         </View>
       );
@@ -243,7 +254,7 @@ export const Layout = ({
               },
             ]}
           >
-            {`  ${_.get(cellItem, "quantity")}`}
+            {`  ${_.get(cellItem, "quantity", 0)}`}
           </Text>
           {_.get(item, "returnAmount", 0) > 0 && (
             <Text
@@ -255,14 +266,14 @@ export const Layout = ({
                 { color: "red" },
               ]}
             >
-              {`- ${_.get(cellItem, "returnQuantity")}`}
+              {`- ${_.get(cellItem, "returnQuantity", 0)}`}
             </Text>
           )}
         </View>
       );
     } else if (columnKey === "total") {
       const totalShow =
-        _.get(cellItem, "total") - _.get(cellItem, "returnAmount", 0);
+        _.get(cellItem, "total", 0) - _.get(cellItem, "returnAmount", 0);
       return (
         // <Text
         //   key={getUniqueId(columnKey, rowIndex, "cell-product-total")}
@@ -284,7 +295,7 @@ export const Layout = ({
               },
             ]}
           >
-            {`  ${formatMoneyWithUnit(_.get(cellItem, "total"))}`}
+            {`  ${formatMoneyWithUnit(_.get(cellItem, "total", 0))}`}
           </Text>
 
           {_.get(cellItem, "returnAmount", 0) > 0 && (
@@ -302,9 +313,7 @@ export const Layout = ({
           )}
         </View>
       );
-    }
-
-    if (columnKey === "status") {
+    } else if (columnKey === "status") {
       return cellItem?.isReturn ? (
         <OrderStatusView
           key={getUniqueId(columnKey, rowIndex, "cell-product-return")}
@@ -396,7 +405,9 @@ export const Layout = ({
 
           <FormTitle label={t("Items Ordered")} />
           <Table
-            items={item?.products || []}
+            items={
+              [...(item?.products || []), ...(item?.giftCards || [])] || []
+            }
             tableStyle={styles.table}
             headerKeyLabels={{
               productName: t("Product"),
@@ -437,11 +448,11 @@ export const Layout = ({
             emptyDescription={t("No Products")}
             styleTextKeys={{ total: styles.highLabelTextStyle }}
             formatFunctionKeys={{
-              price: (value) => `${formatMoneyWithUnit(value)}`,
-              subTotal: (value) => `${formatMoneyWithUnit(value)}`,
-              tax: (value) => `${formatMoneyWithUnit(value)}`,
-              discount: (value) => `${formatMoneyWithUnit(value)}`,
-              total: (value) => `${formatMoneyWithUnit(value)}`,
+              price: (value) => `${formatMoneyWithUnit(value || 0)}`,
+              subTotal: (value) => `${formatMoneyWithUnit(value || 0)}`,
+              tax: (value) => `${formatMoneyWithUnit(value || 0)}`,
+              discount: (value) => `${formatMoneyWithUnit(value || 0)}`,
+              total: (value) => `${formatMoneyWithUnit(value || 0)}`,
             }}
             renderCell={onRenderCell}
             renderFooterComponent={() => (
@@ -609,13 +620,36 @@ export const Layout = ({
               />
             </InfoContent>
             <View style={layouts.marginHorizontal} />
-            <InfoContent label={t("Invoice")}>
+            <InfoContent
+              label={t("Invoice")}
+              rightComponent={() =>
+                item?.invoice?.checkoutId ? (
+                  <TouchableOpacity
+                    onPress={printCustomerInvoice}
+                    style={{
+                      width: scaleWidth(35),
+                      height: scaleHeight(35),
+                      backgroundColor: "#0764B0",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: scaleWidth(4),
+                    }}
+                  >
+                    <Image
+                      source={IMAGE.print_btn}
+                      style={{ width: scaleWidth(20), height: scaleHeight(20) }}
+                    />
+                  </TouchableOpacity>
+                ) : null
+              }
+            >
               <View style={styles.personContent}>
                 <InfoLine
                   label={t("Invoice ID")}
                   infoValue={item?.invoice?.checkoutId}
                   infoTextStyle={styles.highInfoTextStyle}
                 />
+
                 <InfoLine
                   label={t("Invoice Date")}
                   infoValue={dateToString(
@@ -640,6 +674,12 @@ export const Layout = ({
           </View>
         </View>
       </KeyboardAwareScrollView>
+
+      <PopupInvoicePrint
+        ref={invoicePrintRef}
+        visiblePrintInvoice={visiblePrintInvoice}
+        onRequestClose={cancelInvoicePrint}
+      />
     </View>
   );
 };
@@ -657,26 +697,40 @@ let InfoLine = ({ label, infoValue, labelTextStyle, infoTextStyle }) => {
   );
 };
 
-let InfoHeading = ({ label, onPress, editable = false }) => {
+let InfoHeading = ({ label, onPress, editable = false, rightComponent }) => {
   return (
-    <View style={styles.infoLineContent}>
-      {!!label && <Text style={styles.infoHeaderText}>{label}</Text>}
-      {editable && (
-        <TouchableOpacity onPress={onPress}>
-          <Image
-            style={{ width: scaleWidth(16), height: scaleHeight(16) }}
-            source={IMAGE.edit_customer_icon}
-          />
-        </TouchableOpacity>
-      )}
+    <View style={[styles.infoLineContent, { justifyContent: "space-between" }]}>
+      <View style={layouts.horizontal}>
+        {!!label && <Text style={styles.infoHeaderText}>{label}</Text>}
+        {editable && (
+          <TouchableOpacity onPress={onPress}>
+            <Image
+              style={{ width: scaleWidth(16), height: scaleHeight(16) }}
+              source={IMAGE.edit_customer_icon}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+      {rightComponent && rightComponent()}
     </View>
   );
 };
 
-let InfoContent = ({ label, onPress, children, editable = false }) => {
+let InfoContent = ({
+  label,
+  onPress,
+  children,
+  editable = false,
+  rightComponent,
+}) => {
   return (
     <View style={styles.infoContent}>
-      <InfoHeading label={label} onPress={onPress} editable={editable} />
+      <InfoHeading
+        label={label}
+        onPress={onPress}
+        editable={editable}
+        rightComponent={rightComponent}
+      />
       <View style={[layouts.fill]}>{children}</View>
     </View>
   );
