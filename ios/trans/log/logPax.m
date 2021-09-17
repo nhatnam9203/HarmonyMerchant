@@ -75,31 +75,42 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(loadLogPax) {
   @try {
+
     LogManager *manager = [LogManager sharedInstance];
-        NSDictionary *defaults = @{
-                                   keyLogFileName: @"POSLog",
-                                   keyLogDays:[NSNumber numberWithInt:30],
-                                   keyLogFilePath:@"POSLogPath",
-                                   };
-    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
-    [self load];
 
-    [manager setLogLevel:4];
-    [[LogManager sharedInstance]startLog];
+    [manager setLogLevel:1];
+    manager.logFileName = @"POSLog";
+    manager.logFilePath = @"POSLogPath";
+    manager.logDays = 30;
 
-  } @catch (id e) {
+    [manager startLog];
+    
+
+
+  } @catch (NSException* e) {
     NSLog(@"+++++++=====XXXX===> %@", e);
   }
 }
 
-RCT_EXPORT_METHOD(readLogPax:(NSString *)dateStr callback:(RCTResponseSenderBlock) callback) {
-  NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-  [dateFormat setDateFormat:@"yyyy-MM-dd"];
-  NSDate *date = [dateFormat dateFromString:dateStr];
+RCT_EXPORT_METHOD(readLogPax:(NSDictionary *)info callback:(RCTResponseSenderBlock) callback){
 
+  @try {
+    LogManager *manager = [LogManager sharedInstance];
+
+//    [manager writeLog:@"test 2 log"];
   
-  NSString* log =  [[LogManager sharedInstance] readLog:date];
-  callback(@[log]);
+
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    NSDate *date = [dateFormat dateFromString:(NSString *) info[@"dateStr"]];
+    
+    NSString* log =  [manager readLog:date];
+
+    callback(@[log]);
+  } @catch (NSException *exception) {
+    NSLog(@"+++++++=====XXXX===> readLogPax %@", exception);
+  }
 }
+
 
 @end
