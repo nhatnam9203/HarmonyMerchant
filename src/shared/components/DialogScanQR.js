@@ -1,22 +1,21 @@
-import actions from "@redux/actions";
 import IMAGE from "@resources";
 import { DialogLayout } from "@shared/layouts";
-import { useGetCategoriesList } from "@shared/services/api/retailer";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Image, View, Text, Platform } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import QRCodeScanner from "react-native-qrcode-scanner";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { RNCamera } from "react-native-camera";
-const log = (obj, message = "") => {
-  Logger.log(`[DialogPincode] ${message}`, obj);
-};
+import QRCodeScanner from "react-native-qrcode-scanner";
+import { useDispatch } from "react-redux";
+import { ButtonGradient, FormInput } from "@shared/components";
 
 export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const dialogRef = React.useRef(null);
+
+  const [value, setValue] = React.useState("");
+
   /**
   |--------------------------------------------------
   | CALL API
@@ -32,9 +31,17 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
     }
   };
 
+  const onHandleSubmit = () => {
+    dialogRef.current?.hide();
+    if (typeof onSuccess === "function" && onSuccess) {
+      onSuccess(value);
+    }
+    setValue("");
+  };
+
   React.useImperativeHandle(ref, () => ({
     show: () => {
-      // setValue('');
+      setValue("");
       dialogRef.current?.show();
     },
     hide: () => {
@@ -50,8 +57,6 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
         style={styles.dialog}
       >
         <View style={styles.container}>
-          <View style={styles.marginVertical} />
-
           <View style={styles.camera}>
             <QRCodeScanner
               //ref={this.scannerRef}
@@ -61,7 +66,6 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
               reactivateTimeout={500}
               containerStyle={styles.qrStyle}
               cameraStyle={styles.qrStyle}
-              markerStyle={styles.qrStyle}
               cameraType="back"
               customMarker={
                 <Image
@@ -76,7 +80,25 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
             </Text>
           </View>
 
-          <View style={styles.marginVertical} />
+          <View style={styles.inputContent}>
+            <FormInput
+              // label={t("Input Barcode")}
+              placeholder={t("Enter  barcode")}
+              //required={true}
+              onChangeValue={setValue}
+              defaultValue={""}
+            >
+              <View style={layouts.marginHorizontal} />
+              <ButtonGradient
+                label={t("Submit")}
+                width={scaleWidth(140)}
+                height={scaleHeight(40)}
+                borderRadius={scaleWidth(3)}
+                disable={value?.length <= 0}
+                onPress={onHandleSubmit}
+              />
+            </FormInput>
+          </View>
         </View>
       </DialogLayout>
     </View>
@@ -107,33 +129,37 @@ const styles = StyleSheet.create({
   },
 
   camera: {
-    width: scaleWidth(480),
-    height: scaleHeight(480),
+    width: scaleWidth(400),
+    height: scaleHeight(400),
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#000",
   },
+
   qrStyle: {
-    width: scaleWidth(450),
-    height: scaleHeight(450),
+    width: scaleWidth(400),
+    height: scaleHeight(400),
   },
 
   markerStyle: {
-    width: scaleWidth(340),
-    height: scaleHeight(340),
+    width: "80%",
+    height: "80%",
     resizeMode: "contain",
   },
 
   marginVertical: {
     height: scaleHeight(10),
   },
+
   textCamera: {
     ...layouts.fontLightBlue,
     color: colors.WHITE,
     fontSize: scaleFont(14),
-    position: "absolute",
-    bottom: scaleHeight(30),
-    zIndex: 1000000,
     fontStyle: "italic",
     fontWeight: "400",
+  },
+
+  inputContent: {
+    width: "100%",
   },
 });
