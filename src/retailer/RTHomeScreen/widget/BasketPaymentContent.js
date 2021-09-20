@@ -164,7 +164,7 @@ export const BasketPaymentContent = React.forwardRef(
           return groups;
         }, []);
 
-        setItems([...temps, ...giftCardTemps]);
+        setItems([...(temps || []), ...(giftCardTemps || [])]);
       } else {
         setItems(null);
       }

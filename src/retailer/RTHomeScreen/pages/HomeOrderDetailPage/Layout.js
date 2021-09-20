@@ -673,12 +673,13 @@ export const Layout = ({
             </InfoContent>
           </View>
         </View>
-        <PopupInvoicePrint
-          ref={invoicePrintRef}
-          visiblePrintInvoice={visiblePrintInvoice}
-          onRequestClose={cancelInvoicePrint}
-        />
       </KeyboardAwareScrollView>
+
+      <PopupInvoicePrint
+        ref={invoicePrintRef}
+        visiblePrintInvoice={visiblePrintInvoice}
+        onRequestClose={cancelInvoicePrint}
+      />
     </View>
   );
 };

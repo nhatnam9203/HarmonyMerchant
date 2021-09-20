@@ -108,7 +108,7 @@ export const BasketContentView = React.forwardRef(
         //   []
         // );
 
-        setItems([...temps, ...giftCardTemps]);
+        setItems([...(temps || []), ...(giftCardTemps || [])]);
       } else {
         setItems(null);
       }
