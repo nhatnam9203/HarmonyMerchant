@@ -47,7 +47,7 @@ class PopupConfirm extends React.Component {
                                 backgroundColor="#fff"
                                 title={textLeftButton ? textLeftButton : "No"}
                                 textColor="#6A6A6A"
-                                onPress={() => confirmNo ? confirmNo : onRequestClose()}
+                                onPress={() => confirmNo ? confirmNo() : onRequestClose()}
                                 style={{
                                     borderWidth: 1,
                                     borderColor: '#C5C5C5'

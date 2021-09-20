@@ -963,6 +963,7 @@ class Layout extends React.Component {
                     confirmNo={this.rejectPaymentClover}
                     textLeftButton={localize('Reject', language)}
                     textRightButton={localize('Accept', language)}
+                    hideCloseButton={true}
                 />
                 <PopupPairingCode
                     visible={visiblePopupParingCode ? true: false}

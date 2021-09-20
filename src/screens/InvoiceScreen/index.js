@@ -459,7 +459,7 @@ class InvoiceScreen extends Layout {
                 orderId: paymentInformation?.orderId || "",
                 paymentId: paymentInformation?.id || "",
               }
-              clover.voidPayment(paymentInfo);
+              clover.refundPayment(paymentInfo);
             }else{
               PosLink.sendTransaction(
                 {
@@ -497,7 +497,7 @@ class InvoiceScreen extends Layout {
                 orderId: paymentInformation?.orderId || "",
                 paymentId: paymentInformation?.id || "",
               }
-              clover.refundPayment(paymentInfo);
+              clover.voidPayment(paymentInfo);
             } else {
               PosLink.sendTransaction(
                 {

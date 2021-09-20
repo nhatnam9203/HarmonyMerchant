@@ -23,7 +23,7 @@ import Foundation
   func onConfirmPayment()
   func printInProcess()
 //  func printDone(message: String)
-//  func deviceDisconnected()
+  func deviceDisconnected()
 }
 @objc public class  CloverManager : DefaultCloverConnectorListener, PairingDeviceConfiguration {
 
@@ -434,12 +434,11 @@ import Foundation
     // called when device is disconnected
   public override func onDeviceDisconnected() {
     print("onDeviceDisconnected")
-//    DispatchQueue.main.async { [weak self] in
-//        guard let self = self else { return }
-//        if(self.cloverDelegate != nil){
-//          self.cloverDelegate?.deviceDisconnected()
-//        }
-//    }
+    
+    if(cloverDelegate != nil){
+          cloverDelegate?.deviceDisconnected()
+        }
+    
     
   }
 
@@ -605,6 +604,17 @@ import Foundation
   }
   
   public override func onDeviceError( _ deviceError: CloverDeviceErrorEvent ) {
-    print("onDeviceError", deviceError)
+  }
+  
+  public override func onRetrieveDeviceStatusResponse(_ response: RetrieveDeviceStatusResponse) {
+    
+  }
+  
+  public override func onInvalidStateTransitionResponse(_ response: InvalidStateTransitionResponse) {
+    print("onInvalidStateTransitionResponse", response)
+  }
+  
+  public override func onDisplayReceiptOptionsResponse(_ response: DisplayReceiptOptionsResponse) {
+    print("onDisplayReceiptOptionsResponse", response)
   }
 }

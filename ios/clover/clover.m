@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "clover.h"
-//#import "Hpmerchant_Dev-Swift.h"
-#import "Staing-Swift.h"
+#import "Hpmerchant_Dev-Swift.h"
+//#import "Staing-Swift.h"
 
 static NSString* paymentSuccess               = @"paymentSuccess";
 static NSString* paymentFail               = @"paymentFail";
@@ -318,21 +318,21 @@ RCT_EXPORT_METHOD(refundPayment:(NSDictionary*) refundInfo) {
  
 }
 
-- (void)onDeviceDisconnected {
+- (void)deviceDisconnected {
   if (self.listening) {
-    [self sendEventWithName:deviceDisconnected body:nil];
+    [self sendEventWithName:deviceDisconnected body:@{}];
   }
 }
 
 - (void)onConfirmPayment {
     if (self.listening) {
-      [self sendEventWithName:confirmPayment body:nil];
+      [self sendEventWithName:confirmPayment body:@{}];
     }
 }
 
 - (void)printInProcess {
   if (self.listening) {
-    [self sendEventWithName:printInProcess body:nil];
+    [self sendEventWithName:printInProcess body:@{}];
   }
 }
 
