@@ -1299,7 +1299,7 @@ class Layout extends React.Component {
 
     const app0 =
       (!l.isEmpty(groupAppointment) &&
-        groupAppointment?.appointments?.first()) ||
+        l.get(groupAppointment,'appointments.0')) ||
       null;
 
     const titleExitCheckoutTab =

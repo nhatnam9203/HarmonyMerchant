@@ -82,7 +82,7 @@ export const requestAPI = async (action, header = {}) => {
     validateStatus: (status) => status >= 200 && status < 600,
   };
 
-  console.log('configs', configs)
+  console.log('action', action)
 
   if (
     (method == "POST" || method == "DELETE" || method == "PUT") &&

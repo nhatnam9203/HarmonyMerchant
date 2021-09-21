@@ -10,10 +10,7 @@ import {
 } from 'react-native';
 // import { BleManager } from 'react-native-ble-plx';
 
-import { Button, Text, ButtonCustom } from '@components';
-import { scaleSize, localize } from '@utils';
 import IMAGE from '@resources';
-import connectRedux from '@redux/ConnectRedux';
 import _ from "lodash";
 
 class AddDeviceHardware extends React.Component {
@@ -128,6 +125,7 @@ class AddDeviceHardware extends React.Component {
 
     renderConnected() {
         const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = this.props;
+        const { textPaxLog } = this.state;
         let name = ''
         if (paymentMachineType == 'Pax') {
             name = _.get(paxMachineInfo, 'name')
@@ -135,7 +133,7 @@ class AddDeviceHardware extends React.Component {
             name = _.get(cloverMachineInfo, 'name')
         }
         return (
-          <View>
+          <View style={{flex:1}}>
             <Button onPress={this.addDevice} style={{
                 flexDirection: 'row', alignItems: 'center', width: scaleSize(120),
                 marginTop: scaleSize(12)
@@ -151,86 +149,88 @@ class AddDeviceHardware extends React.Component {
                     {name}
                 </Text>
             </Button>
+            {paymentMachineType == "Pax" &&
             <View style={{ flexDirection: "row" }}>
-          <Button
-            onPress={this.showLogPax}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              width: scaleSize(65),
-              height: scaleSize(20),
-              marginTop: scaleSize(20),
-              borderRadius: scaleSize(3),
-              backgroundColor: "#0764B0",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: scaleSize(10),
-                color: "white",
-                //   textDecorationLine: "underline",
-              }}
-            >
-              {"Get LogPax"}
-            </Text>
-          </Button>
-
-          {textPaxLog && (
-            <Button
-              onPress={this.saveLogPax}
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-                width: scaleSize(65),
-                height: scaleSize(20),
-                marginTop: scaleSize(20),
-                borderRadius: scaleSize(3),
-                backgroundColor: "#fff",
-                marginLeft: scaleSize(5),
-              }}
-            >
-              <Text
+              <Button
+                onPress={this.showLogPax}
                 style={{
-                  fontSize: scaleSize(10),
-                  color: "gray",
-                  //   textDecorationLine: "underline",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: scaleSize(65),
+                  height: scaleSize(20),
+                  marginTop: scaleSize(20),
+                  borderRadius: scaleSize(3),
+                  backgroundColor: "#0764B0",
                 }}
               >
-                {"Save LogPax"}
-              </Text>
-            </Button>
-          )}
-        </View>
+                <Text
+                  style={{
+                    fontSize: scaleSize(10),
+                    color: "white",
+                    //   textDecorationLine: "underline",
+                  }}
+                >
+                  {"Get LogPax"}
+                </Text>
+              </Button>
 
-        {textPaxLog && (
-          <View
-            style={{
-              flex: 1,
-              fontSize: scaleSize(16),
-              backgroundColor: "#eaeaef",
-              marginTop: scaleSize(5),
-              marginBottom: scaleSize(100),
-              borderWidth: 1,
-              borderColor: "gray",
-              borderRadius: 3,
-              padding: scaleSize(4),
-            }}
-          >
-            <ScrollView>
-              <Text
+              {textPaxLog && (
+                <Button
+                  onPress={this.saveLogPax}
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: scaleSize(65),
+                    height: scaleSize(20),
+                    marginTop: scaleSize(20),
+                    borderRadius: scaleSize(3),
+                    backgroundColor: "#fff",
+                    marginLeft: scaleSize(5),
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: scaleSize(10),
+                      color: "gray",
+                      //   textDecorationLine: "underline",
+                    }}
+                  >
+                    {"Save LogPax"}
+                  </Text>
+                </Button>
+              )}
+          </View>
+         }
+
+            {textPaxLog && paymentMachineType == "Pax" (
+              <View
                 style={{
                   flex: 1,
-                  fontSize: scaleSize(12),
-                  textAlignVertical: "bottom",
+                  fontSize: scaleSize(16),
+                  backgroundColor: "#eaeaef",
+                  marginTop: scaleSize(5),
+                  marginBottom: scaleSize(100),
+                  borderWidth: 1,
+                  borderColor: "gray",
+                  borderRadius: 3,
+                  padding: scaleSize(4),
                 }}
               >
-                {textPaxLog}
-              </Text>
-            </ScrollView>
-          </View>
-        )}
+                <ScrollView>
+                  <Text
+                    style={{
+                      flex: 1,
+                      fontSize: scaleSize(12),
+                      textAlignVertical: "bottom",
+                    }}
+                  >
+                    {textPaxLog}
+                  </Text>
+                </ScrollView>
+              </View>
+            )}
 
           </View>
         );
