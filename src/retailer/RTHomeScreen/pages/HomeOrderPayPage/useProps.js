@@ -1219,7 +1219,16 @@ export const useProps = ({
       });
     },
     activeGiftCardRef,
-    submitSerialCode: (code) => {},
+    submitSerialCode: (code) => {
+      console.log(paymentSelected);
+      if (groupAppointment) {
+        if (paymentSelected === "Gift Card") {
+          dispatch(
+            actions.appointment.checkSerialNumber(code, false, false, true)
+          );
+        }
+      }
+    },
     closePopupActiveGiftCard: async () => {
       dispatch(actions.appointment.handleVisibleActiveGiftCard(false));
     },
@@ -1367,6 +1376,10 @@ export const useProps = ({
         type: "VISIBLE_POPUP_PAYMENT_CONFIRM",
         payload: { visible: true, func: null },
       });
+    },
+    cancelGiftCardPayment: () => {
+      dispatch(actions.appointment.togglePopupGiftCardPaymentDetail(false));
+      setPaymentSelected("");
     },
   };
 };

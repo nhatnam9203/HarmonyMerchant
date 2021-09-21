@@ -7,6 +7,7 @@ import {
 import { useTranslation } from "react-i18next";
 import NavigationServices from "@navigators/NavigatorServices";
 import { NEED_TO_ORDER, statusSuccess } from "@shared/utils/app";
+import { useFocusEffect } from "@react-navigation/native";
 
 const log = (obj, message = "") => {
   Logger.log(`[Inventory Product Detail] ${message}`, obj);
@@ -33,11 +34,18 @@ export const useProps = ({ params: { item } }) => {
   | USE EFFECT
   |--------------------------------------------------
   */
-  React.useEffect(() => {
-    getProducts(item?.productId);
+  // React.useEffect(() => {
+  //   console.log(item);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [item?.productId]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log(item);
+      if (item?.productId) getProducts(item?.productId);
+    }, [item])
+  );
 
   React.useEffect(() => {
     const { codeStatus } = productsRestock || {};
@@ -62,7 +70,7 @@ export const useProps = ({ params: { item } }) => {
     onEditProduct: () => {
       NavigationServices.navigate("retailer.inventory.product.edit", {
         isEdit: true,
-        item: item,
+        item: productItem,
       });
     },
     onHandleDeleteProduct: () => {

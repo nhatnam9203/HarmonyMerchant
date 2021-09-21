@@ -1,4 +1,7 @@
-import React from 'react';
+import { Button, ButtonCustom, Text } from "@components";
+import connectRedux from "@redux/ConnectRedux";
+import { localize, scaleSize } from "@utils";
+import React from "react";
 import {
     View,
     StyleSheet,
@@ -49,6 +52,31 @@ class AddDeviceHardware extends React.Component {
     handleSelectPeripheral = (peripheral) => {
         this.props.actions.dataLocal.saveBluetoothPaxInfo(peripheral);
     }
+
+    showLogPax = async () => {
+      const date = moment(date).format("yyyy-MM-DD") + "";
+  
+      await NativeModules.logPax.readLogPax({ dateStr: date }, (textLog) => {
+        this.setState({ textPaxLog: textLog });
+      });
+    };
+  
+    saveLogPax = async () => {
+      const { textPaxLog } = this.state;
+      var path = RNFS.DocumentDirectoryPath + "/logPax.txt";
+      console.log(path);
+  
+      RNFS.writeFile(path, textPaxLog, "utf8")
+        .then((success) => {
+          setTimeout(() => {
+            handleShareFile("Log File", path);
+          }, 250);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    };
+  
 
     // -------- Render ------
 
@@ -107,6 +135,7 @@ class AddDeviceHardware extends React.Component {
             name = _.get(cloverMachineInfo, 'name')
         }
         return (
+          <View>
             <Button onPress={this.addDevice} style={{
                 flexDirection: 'row', alignItems: 'center', width: scaleSize(120),
                 marginTop: scaleSize(12)
@@ -122,6 +151,88 @@ class AddDeviceHardware extends React.Component {
                     {name}
                 </Text>
             </Button>
+            <View style={{ flexDirection: "row" }}>
+          <Button
+            onPress={this.showLogPax}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              width: scaleSize(65),
+              height: scaleSize(20),
+              marginTop: scaleSize(20),
+              borderRadius: scaleSize(3),
+              backgroundColor: "#0764B0",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: scaleSize(10),
+                color: "white",
+                //   textDecorationLine: "underline",
+              }}
+            >
+              {"Get LogPax"}
+            </Text>
+          </Button>
+
+          {textPaxLog && (
+            <Button
+              onPress={this.saveLogPax}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                width: scaleSize(65),
+                height: scaleSize(20),
+                marginTop: scaleSize(20),
+                borderRadius: scaleSize(3),
+                backgroundColor: "#fff",
+                marginLeft: scaleSize(5),
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: scaleSize(10),
+                  color: "gray",
+                  //   textDecorationLine: "underline",
+                }}
+              >
+                {"Save LogPax"}
+              </Text>
+            </Button>
+          )}
+        </View>
+
+        {textPaxLog && (
+          <View
+            style={{
+              flex: 1,
+              fontSize: scaleSize(16),
+              backgroundColor: "#eaeaef",
+              marginTop: scaleSize(5),
+              marginBottom: scaleSize(100),
+              borderWidth: 1,
+              borderColor: "gray",
+              borderRadius: 3,
+              padding: scaleSize(4),
+            }}
+          >
+            <ScrollView>
+              <Text
+                style={{
+                  flex: 1,
+                  fontSize: scaleSize(12),
+                  textAlignVertical: "bottom",
+                }}
+              >
+                {textPaxLog}
+              </Text>
+            </ScrollView>
+          </View>
+        )}
+
+          </View>
         );
     }
 
@@ -189,58 +300,61 @@ class AddDeviceHardware extends React.Component {
 
 const ItemBluetoothConnect = ({ title, isSelect, onPress }) => {
     const tempIconSelect = isSelect ? ICON.radioExportSe : ICON.radioExport;
-
-    return (
-        <Button onPress={() => onPress(title)} style={{ flexDirection: "row", alignItems: "center", marginTop: scaleSize(10) }} >
-            <Image source={tempIconSelect} />
-            <Text style={{ fontSize: scaleSize(14), color: "rgb(131,131,131)", marginLeft: scaleSize(10) }} >
-                {title}
-            </Text>
-        </Button>
-    );
 }
 
 const ItemBluetooth = ({ peripheral, isConnected, onPress }) => {
+  return (
+    <Button
+      onPress={() => onPress(peripheral)}
+      style={{
+        height: scaleSize(45),
+        backgroundColor: "rgb(250,250,250)",
+        borderRadius: 6,
+        flexDirection: "row",
+        alignItems: "center",
+        paddingLeft: scaleSize(15),
+        paddingRight: scaleSize(40),
+        justifyContent: "space-between",
+        marginBottom: scaleSize(13),
+      }}
+    >
+      <View>
+        <Text
+          style={{
+            fontSize: scaleSize(14),
+            fontWeight: "600",
+          }}
+        >
+          {peripheral?.name || "No Name"}
+        </Text>
+        <Text
+          style={{
+            fontSize: scaleSize(8),
+            fontWeight: "300",
+          }}
+        >
+          {peripheral?.id || ""}
+        </Text>
+      </View>
 
-    return (
-        <Button onPress={() => onPress(peripheral)} style={{
-            height: scaleSize(45), backgroundColor: "rgb(250,250,250)", borderRadius: 6,
-            flexDirection: "row", alignItems: "center", paddingLeft: scaleSize(15),
-            paddingRight: scaleSize(40), justifyContent: "space-between",
-            marginBottom: scaleSize(13)
-        }} >
-            <View>
-                <Text style={{
-                    fontSize: scaleSize(14),
-                    fontWeight: '600',
-                }} >
-                    {peripheral?.name || "No Name"}
-                </Text>
-                <Text style={{
-                    fontSize: scaleSize(8),
-                    fontWeight: '300',
-                }} >
-                    {peripheral?.id || ""}
-                </Text>
-            </View>
-
-            <Text style={{
-                fontSize: scaleSize(12),
-                fontWeight: '600',
-                color: '#0764B0',
-            }} >
-                {`${isConnected ? "Connected" : ""}`}
-            </Text>
-        </Button>
-    );
-}
+      <Text
+        style={{
+          fontSize: scaleSize(12),
+          fontWeight: "600",
+          color: "#0764B0",
+        }}
+      >
+        {`${isConnected ? "Connected" : ""}`}
+      </Text>
+    </Button>
+  );
+};
 
 const mapStateToProps = state => ({
-    paxMachineInfo: state.hardware.paxMachineInfo,
-    language: state.dataLocal.language,
-    cloverMachineInfo: state.hardware.cloverMachineInfo, 
-    paymentMachineType: state.hardware.paymentMachineType,
+  paxMachineInfo: state.hardware.paxMachineInfo,
+  language: state.dataLocal.language,
+  cloverMachineInfo: state.hardware.cloverMachineInfo, 
+  paymentMachineType: state.hardware.paymentMachineType,
 })
 
 export default connectRedux(mapStateToProps, AddDeviceHardware);
-

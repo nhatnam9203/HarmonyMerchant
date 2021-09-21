@@ -13,10 +13,10 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import {
+  changeProductAttribute,
+  changeProductName,
   productReducer,
   setProduct,
-  changeProductName,
-  changeProductAttribute,
 } from "./ProductState";
 
 const log = (obj, message = "") => {
@@ -36,7 +36,7 @@ export const useProps = ({
 
   const [errorMsg, setErrorMsg] = React.useState(null);
   const [categoriesFilter, setCategoriesFilter] = React.useState([]);
-  const [productItem, dispatchProduct] = React.useReducer(productReducer, item);
+  const [productItem, dispatchProduct] = React.useReducer(productReducer, null);
   /**
   |--------------------------------------------------
   | CALL API
@@ -106,6 +106,12 @@ export const useProps = ({
 
   useFocusEffect(
     React.useCallback(() => {
+      if (item?.productId) getProducts(item?.productId);
+    }, [item])
+  );
+
+  useFocusEffect(
+    React.useCallback(() => {
       if (reload) {
         getCategoriesList();
       }
@@ -136,10 +142,6 @@ export const useProps = ({
   }, [productData, productEdit]);
 
   React.useEffect(() => {
-    if (!productsGet) {
-      return;
-    }
-
     const { codeStatus, data } = productsGet || {};
     if (statusSuccess(codeStatus)) {
       dispatchProduct(setProduct(data));
@@ -172,11 +174,11 @@ export const useProps = ({
     reloadCategory();
   }, [categories]);
 
-  React.useEffect(() => {
-    if (item?.productId) {
-      getProducts(item?.productId);
-    }
-  }, [item?.productId]);
+  // React.useEffect(() => {
+  //   if (item?.productId) {
+  //     getProducts(item?.productId);
+  //   }
+  // }, [item?.productId]);
 
   return {
     isEdit,

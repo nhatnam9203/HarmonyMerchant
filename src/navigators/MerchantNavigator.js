@@ -9,7 +9,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { SplashScreen } from "@src/merchant/SplashScreen";
 import React from "react";
-import { NativeModules } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { CongratulationScreen, StoreInfoScreen } from "../screens";
 import { AuthNavigator } from "./AuthNavigator";
@@ -54,12 +53,6 @@ export const MerchantNavigator = () => {
   //     }
   //   }
   // }, [merchant?.type, isPlash]);
-
-  // React.useEffect(() => {
-  //   if (merchant) {
-  //     NativeModules.logPax.loadLogPax();
-  //   }
-  // }, [merchant]);
 
   return (
     <Navigator

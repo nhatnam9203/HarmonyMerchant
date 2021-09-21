@@ -29,6 +29,7 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo callback:(RCTResponseSenderBlock)callback)
 {
+  NSLog(@"+++++++=====XXXX===> paymentInfo log");
   
   CommSetting *commSetting = [[CommSetting alloc]init];
   
