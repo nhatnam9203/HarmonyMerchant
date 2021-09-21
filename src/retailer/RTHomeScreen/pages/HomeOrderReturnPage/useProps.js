@@ -53,9 +53,9 @@ export const useProps = ({ params: { item } }) => {
       let tempItem = updateItem;
       if (
         (itemQuantity?.bookingProductId &&
-          updateItem?.bookingProductId === itemQuantity.bookingProductId) ||
+          tempItem?.bookingProductId === itemQuantity.bookingProductId) ||
         (itemQuantity?.bookingGiftCardId &&
-          updateItem?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
+          tempItem?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
       ) {
         let returnAmount = (originItem.total / originItem.quantity) * value;
 
@@ -78,9 +78,9 @@ export const useProps = ({ params: { item } }) => {
       let temp = itemTemp;
       if (
         (itemQuantity?.bookingProductId &&
-          updateItem?.bookingProductId === itemQuantity.bookingProductId) ||
+          temp?.bookingProductId === itemQuantity.bookingProductId) ||
         (itemQuantity?.bookingGiftCardId &&
-          updateItem?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
+          temp?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
       ) {
         temp.returnAmount = (originItem.total / originItem.quantity) * value;
         temp.returnQuantity = value;
@@ -109,9 +109,9 @@ export const useProps = ({ params: { item } }) => {
       let tempItem = updateItem;
       if (
         (itemQuantity?.bookingProductId &&
-          updateItem?.bookingProductId === itemQuantity.bookingProductId) ||
+          tempItem?.bookingProductId === itemQuantity.bookingProductId) ||
         (itemQuantity?.bookingGiftCardId &&
-          updateItem?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
+          tempItem?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
       ) {
         tempItem.returnAmount = value;
       }
@@ -124,9 +124,9 @@ export const useProps = ({ params: { item } }) => {
       let temp = itemTemp;
       if (
         (itemQuantity?.bookingProductId &&
-          updateItem?.bookingProductId === itemQuantity.bookingProductId) ||
+          temp?.bookingProductId === itemQuantity.bookingProductId) ||
         (itemQuantity?.bookingGiftCardId &&
-          updateItem?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
+          temp?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
       ) {
         temp.returnAmount = value;
       }
