@@ -28,6 +28,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   const [optionsQty, setOptionsQty] = React.useState(null); // array [optionsValueId]
   const [listFiltersOptionsQty, setListFiltersOptionsQty] =
     React.useState(null);
+  const [codeSelected, setCodeSelected] = React.useState(null);
 
   const [optionsSelected, setOptionsSelected] = React.useState(null); // [{id: id, value: value}]
   /**
@@ -135,7 +136,8 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   };
 
   React.useImperativeHandle(ref, () => ({
-    show: (item) => {
+    show: (item, selected) => {
+      // selected : can barcode/ id/ ....
       dialogRef.current?.show();
       setOptionsQty(null);
       setImageUrl(null);
@@ -143,6 +145,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
       setQuantity(1);
       setProduct(item);
       getProducts(item.productId);
+      setCodeSelected(selected);
     },
   }));
 
@@ -180,6 +183,31 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
 
       setProduct(data);
       setImageUrl(data?.imageUrl);
+      if (codeSelected) {
+        const tmp = data?.quantities?.find((x) => x.barCode === codeSelected);
+        if (tmp?.attributeIds?.length && tmp.quantity > 0) {
+          const selectedList = tmp?.attributeIds?.map((v) => {
+            let findOpt = null;
+            for (let i = 0; i < data?.options?.length; i++) {
+              const opt = data?.options[i];
+              findOpt = opt.values?.find((f) => f.attributeValueId == v);
+              if (findOpt) {
+                return {
+                  id: opt?.id,
+                  value: findOpt?.attributeValueId,
+                };
+              }
+            }
+            return null;
+          });
+
+
+          if (selectedList?.length > 0) {
+            setOptionsSelected(selectedList);
+            setOptionsQty(tmp);
+          }
+        }
+      }
     }
   }, [productsGet]);
 

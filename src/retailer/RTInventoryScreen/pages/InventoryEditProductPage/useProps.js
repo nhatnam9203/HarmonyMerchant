@@ -145,6 +145,7 @@ export const useProps = ({
     const { codeStatus, data } = productsGet || {};
     if (statusSuccess(codeStatus)) {
       dispatchProduct(setProduct(data));
+      form.setValues(data);
       // visibilitySelectRef.current?.setFilterItems(list);
     }
   }, [productsGet]);
