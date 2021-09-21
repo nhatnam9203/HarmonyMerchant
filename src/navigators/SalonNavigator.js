@@ -2,32 +2,38 @@
  * SalonNavigator (POS App)
  *
  */
-import { scaleSize } from "../utils";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import React from "react";
+import IMAGE from "@resources";
 import {
   CustomDrawerContent,
   CustomDrawerIcon,
 } from "@shared/components/CustomDrawerContent";
-import IMAGE from "@resources";
-
+import React from "react";
+import { NativeModules } from "react-native";
 import {
-  SlideDrawer,
-  HomeScreen,
-  SettingScreen,
-  InventoryScreen,
   CustomerScreen,
-  InvoiceScreen,
-  SupportScreen,
-  SettlementScreen,
-  ReportScreen,
   GiftCardScreen,
-  InventoryOfRetail,
-  CustomerNewScreen,
+  HomeScreen,
+  InventoryScreen,
+  InvoiceScreen,
+  ReportScreen,
+  SettingScreen,
+  SettlementScreen,
+  SupportScreen,
 } from "../screens";
+import { scaleSize } from "../utils";
 
 const { Screen, Navigator } = createDrawerNavigator();
 export const SalonNavigator = () => {
+  const loadPax = async () => {
+    console.log("====> start log pax");
+    await NativeModules.logPax.loadLogPax();
+  };
+
+  React.useEffect(() => {
+    loadPax();
+  }, []);
+
   return (
     <Navigator
       initialRouteName="Home"
