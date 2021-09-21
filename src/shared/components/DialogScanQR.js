@@ -61,9 +61,10 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
             <QRCodeScanner
               //ref={this.scannerRef}
               onRead={onHandleSuccess}
-              cameraProps={{ flashMode: RNCamera.Constants.FlashMode.auto }}
+              // cameraProps={{ flashMode: RNCamera.Constants.FlashMode.auto }}
+              flashMode={RNCamera.Constants.FlashMode.torch}
               showMarker={true}
-              reactivateTimeout={500}
+              // reactivateTimeout={500}
               containerStyle={styles.qrStyle}
               cameraStyle={styles.qrStyle}
               cameraType="back"
