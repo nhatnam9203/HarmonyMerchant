@@ -74,23 +74,42 @@ export const useProps = ({ params: { item } }) => {
 
     setItemSelected(updateList);
 
-    const updateListData = _.map(_.get(data, "products"), (itemTemp) => {
-      let temp = itemTemp;
-      if (
-        (itemQuantity?.bookingProductId &&
-          temp?.bookingProductId === itemQuantity.bookingProductId) ||
-        (itemQuantity?.bookingGiftCardId &&
-          temp?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
-      ) {
-        temp.returnAmount = (originItem.total / originItem.quantity) * value;
-        temp.returnQuantity = value;
-      }
-      return temp;
-    });
+    let updateListData = null;
+    if (itemQuantity?.bookingProductId) {
+      updateListData = _.map(_.get(data, "products"), (itemTemp) => {
+        let temp = itemTemp;
+        if (
+          itemQuantity?.bookingProductId &&
+          temp?.bookingProductId === itemQuantity.bookingProductId
+        ) {
+          temp.returnAmount = (originItem.total / originItem.quantity) * value;
+          temp.returnQuantity = value;
+        }
+        return temp;
+      });
 
-    let tempData = data;
-    tempData.products = updateListData;
-    setData(tempData);
+      let tempData = data;
+      tempData.products = updateListData;
+      setData(tempData);
+    }
+
+    if (itemQuantity?.bookingGiftCardId) {
+      updateListData = _.map(_.get(data, "giftCards"), (itemTemp) => {
+        let temp = itemTemp;
+        if (
+          itemQuantity?.bookingGiftCardId &&
+          temp?.bookingGiftCardId === itemQuantity.bookingGiftCardId
+        ) {
+          temp.returnAmount = (originItem.total / originItem.quantity) * value;
+          temp.returnQuantity = value;
+        }
+        return temp;
+      });
+
+      let tempData = data;
+      tempData.giftCards = updateListData;
+      setData(tempData);
+    }
   };
 
   const updateTotal = (itemChange, value) => {
@@ -108,10 +127,10 @@ export const useProps = ({ params: { item } }) => {
     const updateList = _.map(itemSelected, (updateItem) => {
       let tempItem = updateItem;
       if (
-        (itemQuantity?.bookingProductId &&
-          tempItem?.bookingProductId === itemQuantity.bookingProductId) ||
-        (itemQuantity?.bookingGiftCardId &&
-          tempItem?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
+        (itemChange?.bookingProductId &&
+          tempItem?.bookingProductId === itemChange.bookingProductId) ||
+        (itemChange?.bookingGiftCardId &&
+          tempItem?.bookingGiftCardId === itemChange.bookingGiftCardId)
       ) {
         tempItem.returnAmount = value;
       }
@@ -120,21 +139,40 @@ export const useProps = ({ params: { item } }) => {
 
     setItemSelected(updateList);
 
-    const updateListData = _.map(_.get(data, "products"), (itemTemp) => {
-      let temp = itemTemp;
-      if (
-        (itemQuantity?.bookingProductId &&
-          temp?.bookingProductId === itemQuantity.bookingProductId) ||
-        (itemQuantity?.bookingGiftCardId &&
-          temp?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
-      ) {
-        temp.returnAmount = value;
-      }
-      return temp;
-    });
-    let tempData = data;
-    tempData.products = updateListData;
-    setData(tempData);
+    let updateListData = null;
+    if (itemTemp?.bookingProductId) {
+      updateListData = _.map(_.get(data, "products"), (itemTemp) => {
+        let temp = itemTemp;
+        if (
+          itemQuantity?.bookingProductId &&
+          temp?.bookingProductId === itemQuantity.bookingProductId
+        ) {
+          temp.returnAmount = value;
+        }
+        return temp;
+      });
+
+      let tempData = data;
+      tempData.products = updateListData;
+      setData(tempData);
+    }
+
+    if (itemTemp?.bookingGiftCardId) {
+      updateListData = _.map(_.get(data, "giftCards"), (itemTemp) => {
+        let temp = itemTemp;
+        if (
+          itemQuantity?.bookingGiftCardId &&
+          temp?.bookingGiftCardId === itemQuantity.bookingGiftCardId
+        ) {
+          temp.returnAmount = value;
+        }
+        return temp;
+      });
+
+      let tempData = data;
+      tempData.giftCards = updateListData;
+      setData(tempData);
+    }
   };
 
   return {
@@ -165,13 +203,15 @@ export const useProps = ({ params: { item } }) => {
           .map((x) => x.bookingGiftCardId);
 
         returnAppointment(item?.appointmentId, {
-          orderReturns: params,
-          bookingGiftCardIds: giftCards,
+          orderReturns: params?.length > 0 ? params : [],
+          bookingGiftCardIds: giftCards?.length > 0 ? giftCards : [],
           notes: notes,
         });
       }
     },
     onCheckedRow: (checkItem, selected) => {
+      console.log(checkItem);
+
       let cloneList = [];
       if (checkItem?.bookingProductId) {
         cloneList =
