@@ -1,20 +1,8 @@
 import NavigationServices from "@navigators/NavigatorServices";
-import React from "react";
-import {
-  useGetAppointment,
-  useCancelAppointment,
-  useConfirmAppointment,
-  useShippingAppointment,
-  useCompleteAppointment,
-  useReturnAppointment,
-  useEditNotes,
-} from "@shared/services/api/retailer";
-import {
-  BIRTH_DAY_DATE_FORMAT_STRING,
-  statusSuccess,
-  dateToString,
-} from "@shared/utils";
+import { useReturnAppointment } from "@shared/services/api/retailer";
+import { statusSuccess } from "@shared/utils";
 import _ from "lodash";
+import React from "react";
 
 export const useProps = ({ params: { item } }) => {
   const [itemSelected, setItemSelected] = React.useState([]);
@@ -41,22 +29,17 @@ export const useProps = ({ params: { item } }) => {
     }
   }, [appointmentReturn]);
 
-  const onCheckedRow = (checkItem, selected) => {
-    const cloneList =
-      itemSelected?.filter(
-        (v) => v.bookingProductId !== checkItem.bookingProductId
-      ) || [];
-    if (selected) {
-      setItemSelected([...cloneList, checkItem]);
-    } else {
-      setItemSelected(cloneList);
-    }
-  };
-
   const updateQuantity = (itemQuantity, value) => {
-    const originItem = _.find(_.get(item, "products"), (originItem) => {
-      return originItem.bookingProductId == itemQuantity.bookingProductId;
-    });
+    let originItem = null;
+    if (itemQuantity?.bookingProductId) {
+      originItem = _.find(_.get(item, "products"), (originItem) => {
+        return originItem.bookingProductId == itemQuantity.bookingProductId;
+      });
+    } else if (itemQuantity?.bookingGiftCardId) {
+      originItem = _.find(_.get(item, "giftCards"), (originItem) => {
+        return originItem.bookingGiftCardId == itemQuantity.bookingGiftCardId;
+      });
+    }
 
     //validate quantity update > original quantity
     if (
@@ -69,8 +52,10 @@ export const useProps = ({ params: { item } }) => {
     const updateList = _.map(itemSelected, (updateItem) => {
       let tempItem = updateItem;
       if (
-        _.get(updateItem, "bookingProductId") ==
-        _.get(itemQuantity, "bookingProductId")
+        (itemQuantity?.bookingProductId &&
+          updateItem?.bookingProductId === itemQuantity.bookingProductId) ||
+        (itemQuantity?.bookingGiftCardId &&
+          updateItem?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
       ) {
         let returnAmount = (originItem.total / originItem.quantity) * value;
 
@@ -92,14 +77,17 @@ export const useProps = ({ params: { item } }) => {
     const updateListData = _.map(_.get(data, "products"), (itemTemp) => {
       let temp = itemTemp;
       if (
-        _.get(itemTemp, "bookingProductId") ==
-        _.get(itemQuantity, "bookingProductId")
+        (itemQuantity?.bookingProductId &&
+          updateItem?.bookingProductId === itemQuantity.bookingProductId) ||
+        (itemQuantity?.bookingGiftCardId &&
+          updateItem?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
       ) {
         temp.returnAmount = (originItem.total / originItem.quantity) * value;
         temp.returnQuantity = value;
       }
       return temp;
     });
+
     let tempData = data;
     tempData.products = updateListData;
     setData(tempData);
@@ -120,8 +108,10 @@ export const useProps = ({ params: { item } }) => {
     const updateList = _.map(itemSelected, (updateItem) => {
       let tempItem = updateItem;
       if (
-        _.get(updateItem, "bookingProductId") ==
-        _.get(itemChange, "bookingProductId")
+        (itemQuantity?.bookingProductId &&
+          updateItem?.bookingProductId === itemQuantity.bookingProductId) ||
+        (itemQuantity?.bookingGiftCardId &&
+          updateItem?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
       ) {
         tempItem.returnAmount = value;
       }
@@ -133,8 +123,10 @@ export const useProps = ({ params: { item } }) => {
     const updateListData = _.map(_.get(data, "products"), (itemTemp) => {
       let temp = itemTemp;
       if (
-        _.get(itemTemp, "bookingProductId") ==
-        _.get(itemChange, "bookingProductId")
+        (itemQuantity?.bookingProductId &&
+          updateItem?.bookingProductId === itemQuantity.bookingProductId) ||
+        (itemQuantity?.bookingGiftCardId &&
+          updateItem?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
       ) {
         temp.returnAmount = value;
       }
@@ -157,20 +149,50 @@ export const useProps = ({ params: { item } }) => {
             _.get(temp, "returnAmount") > 0 || _.get(temp, "returnQuantity") > 0
           );
         });
-        const params = _.map(filterList, (itemTemp) => {
-          return {
-            bookingProductId: _.get(itemTemp, "bookingProductId"),
-            total: _.get(itemTemp, "returnAmount"),
-            quantity: _.get(itemTemp, "returnQuantity"),
-          };
-        });
+
+        const params = filterList
+          ?.filter((x) => x.bookingProductId)
+          .map((itemTemp) => {
+            return {
+              bookingProductId: _.get(itemTemp, "bookingProductId"),
+              total: _.get(itemTemp, "returnAmount"),
+              quantity: _.get(itemTemp, "returnQuantity"),
+            };
+          });
+
+        const giftCards = filterList
+          ?.filter((x) => x.bookingGiftCardId)
+          .map((x) => x.bookingGiftCardId);
+
         returnAppointment(item?.appointmentId, {
           orderReturns: params,
+          bookingGiftCardIds: giftCards,
           notes: notes,
         });
       }
     },
-    onCheckedRow,
+    onCheckedRow: (checkItem, selected) => {
+      let cloneList = [];
+      if (checkItem?.bookingProductId) {
+        cloneList =
+          itemSelected?.filter(
+            (v) => v.bookingProductId !== checkItem.bookingProductId
+          ) || [];
+      }
+
+      if (checkItem?.bookingGiftCardId) {
+        cloneList =
+          itemSelected?.filter(
+            (v) => v.bookingGiftCardId !== checkItem.bookingGiftCardId
+          ) || [];
+      }
+
+      if (selected) {
+        setItemSelected([...cloneList, checkItem]);
+      } else {
+        setItemSelected(cloneList);
+      }
+    },
     itemSelected,
     setNotes,
     updateQuantity,

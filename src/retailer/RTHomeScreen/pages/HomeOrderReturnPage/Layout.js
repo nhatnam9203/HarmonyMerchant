@@ -68,7 +68,7 @@ export const Layout = ({
               {item?.productName || item?.name}
             </Text>
             <View style={styles.productNameMarginVertical} />
-            {item?.value && (
+            {!!item?.value && (
               <Text style={styles.productOption}>{`${item?.value}`}</Text>
             )}
           </View>
@@ -200,7 +200,9 @@ export const Layout = ({
           <FormTitle label={t("Items To Return")} />
           <Table
             // items={item?.products?.filter((x) => !x.isReturn) || []}
-            items={[...item?.products] || []}
+            items={
+              [...(item?.products || []), ...(item?.giftCards || [])] || []
+            }
             headerKeyLabels={{
               productName: t("Product"),
               price: t("Price"),
