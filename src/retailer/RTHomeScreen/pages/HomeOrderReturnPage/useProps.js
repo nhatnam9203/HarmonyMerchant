@@ -41,18 +41,6 @@ export const useProps = ({ params: { item } }) => {
     }
   }, [appointmentReturn]);
 
-  const onCheckedRow = (checkItem, selected) => {
-    const cloneList =
-      itemSelected?.filter(
-        (v) => v.bookingProductId !== checkItem.bookingProductId
-      ) || [];
-    if (selected) {
-      setItemSelected([...cloneList, checkItem]);
-    } else {
-      setItemSelected(cloneList);
-    }
-  };
-
   const updateQuantity = (itemQuantity, value) => {
     const originItem = _.find(_.get(item, "products"), (originItem) => {
       return originItem.bookingProductId == itemQuantity.bookingProductId;
@@ -170,7 +158,18 @@ export const useProps = ({ params: { item } }) => {
         });
       }
     },
-    onCheckedRow,
+    onCheckedRow: (checkItem, selected) => {
+      const cloneList =
+        itemSelected?.filter(
+          (v) => v.bookingProductId !== checkItem.bookingProductId
+        ) || [];
+
+      if (selected) {
+        setItemSelected([...cloneList, checkItem]);
+      } else {
+        setItemSelected(cloneList);
+      }
+    },
     itemSelected,
     setNotes,
     updateQuantity,
