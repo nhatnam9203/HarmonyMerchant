@@ -127,12 +127,12 @@ class HomeScreen extends Layout {
           }, 500);
         }
       })
-      .catch((error) => { });
+      .catch((error) => {});
   }
 
-  codePushStatusDidChange(syncStatus) { }
+  codePushStatusDidChange(syncStatus) {}
 
-  codePushDownloadDidProgress(progress) { }
+  codePushDownloadDidProgress(progress) {}
 
   backAction = () => {
     if (this.state.isFocus) {
@@ -158,6 +158,7 @@ class HomeScreen extends Layout {
     this.watcherNetwork
       .pipe(distinctUntilChanged())
       .subscribe((isConnected) => {
+        console.log(isConnected);
         this.checkIsOfflineMode(isConnected);
       });
   };
@@ -166,9 +167,16 @@ class HomeScreen extends Layout {
     const { isOfflineMode } = this.props;
     if (!isConnected && !isOfflineMode) {
       this.props.actions.app.showPopupDisconneted();
-    } else if (isConnected && isOfflineMode) {
-      this.props.actions.app.showPopupConneted(true);
-      this.props.actions.app.toogleOfflineMode(false);
+    } else {
+      this.props.actions.app.showPopupDisconneted(false);
+
+      if (isConnected && isOfflineMode) {
+        this.props.actions.app.showPopupConneted(true);
+      }
+
+      if (isOfflineMode) {
+        this.props.actions.app.toogleOfflineMode(false);
+      }
     }
   };
 
@@ -187,7 +195,7 @@ class HomeScreen extends Layout {
           taxService: profile.taxService,
           taxProduct: profile.taxProduct,
         });
-      } catch (error) { }
+      } catch (error) {}
     }
   }
 
@@ -211,8 +219,13 @@ class HomeScreen extends Layout {
 
   onPressHandlerChangeTab = async (index) => {
     const { currentTab } = this.state;
-    const { groupAppointment, appointmentIdOffline, blockAppointments, profileStaffLogin, isOfflineMode } =
-      this.props;
+    const {
+      groupAppointment,
+      appointmentIdOffline,
+      blockAppointments,
+      profileStaffLogin,
+      isOfflineMode,
+    } = this.props;
     if (appointmentIdOffline !== 0) {
       this.props.actions.appointment.checkoutAppointmentOffline(0);
     }
@@ -266,7 +279,6 @@ class HomeScreen extends Layout {
         } else {
           // console.log('-----7-------');
           if (index === 2 && _.isEmpty(groupAppointment)) {
-
             if (!isOfflineMode) {
               this.getCategoryStaff(profileStaffLogin.staffId);
             }
@@ -274,9 +286,10 @@ class HomeScreen extends Layout {
             if (!this.tabCheckoutRef?.current) {
               this.setState({ staffIdSelected: profileStaffLogin.staffId });
             } else {
-              this.tabCheckoutRef?.current.setSelectStaffFromCalendar(profileStaffLogin.staffId);
+              this.tabCheckoutRef?.current.setSelectStaffFromCalendar(
+                profileStaffLogin.staffId
+              );
             }
-            
           }
           if (index === 0) {
             this.tooglePopupMarketingPermission();
@@ -532,7 +545,7 @@ class HomeScreen extends Layout {
       const intervalId = setInterval(() => {
         try {
           SoundPlayer.playSoundFile("harmony", "mp3");
-        } catch (e) { }
+        } catch (e) {}
       }, 5000);
       this.props.actions.app.handleNotifiIntervalId(intervalId);
     }
@@ -577,7 +590,7 @@ class HomeScreen extends Layout {
     this.setState({
       visible: false,
     });
-    if(!l.get(noti, 'view')){
+    if (!l.get(noti, "view")) {
       this.props.actions.app.maskNotiAsReadById(
         noti?.merchantNotificationId || 0
       );
@@ -617,7 +630,7 @@ class HomeScreen extends Layout {
       !_.isEmpty(groupAppointment) &&
       isCheckAppointmentBeforeOffline &&
       isCheckAppointmentBeforeOffline !==
-      prevProps.isCheckAppointmentBeforeOffline
+        prevProps.isCheckAppointmentBeforeOffline
     ) {
       this.props.actions.appointment.checkAppointmentBeforOffline(false);
       this.tabCheckoutRef?.current?.resetStateFromParent();
@@ -636,7 +649,7 @@ class HomeScreen extends Layout {
     if (
       isHandleNotiWhenHaveAAppointment &&
       prevProps.isHandleNotiWhenHaveAAppointment !==
-      isHandleNotiWhenHaveAAppointment
+        isHandleNotiWhenHaveAAppointment
     ) {
       if (profileStaffLogin?.token) {
         this.handleNotification();
@@ -649,8 +662,9 @@ class HomeScreen extends Layout {
     this.didBlurSubscription();
     this.didFocusSubscription();
 
+    this.watcherNetwork?.pipe(finalize(() => {}));
     this.unsubscribeNetInfo();
-    this.watcherNetwork?.pipe(finalize(() => { }));
+
     BackHandler.removeEventListener("hardwareBackPress", this.backAction);
     AppState.removeEventListener("change", this.handleAppStateChange);
     this.clearIntervalById();
