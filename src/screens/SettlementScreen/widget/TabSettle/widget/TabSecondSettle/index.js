@@ -6,6 +6,7 @@ import {
     REMOTE_APP_ID,
     APP_NAME,
     POS_SERIAL,
+    localize,
   } from '@utils';
 import * as l from "lodash";
 
@@ -52,25 +53,25 @@ class TabSecondSettle extends Layout {
     }
 
     registerEvents () {
+        const { language } = this.props;
         clover.changeListenerStatus(true)
         this.subscriptions = [
           this.eventEmitter.addListener('closeoutSuccess', data => {
-           console.log('data', data)
            this.isProcessCloseBatchClover = false
            this.props.actions.app.stopLoadingApp();
            this.proccessingSettlement("[]");
           }),
           this.eventEmitter.addListener('closeoutFail', data => {
-            console.log('data', data)
             this.props.actions.app.stopLoadingApp();
             this.isProcessCloseBatchClover = false
             this.setState({
                 numberFooter: 1,
                 progress: 0,
             })
-            this.setState({
-                paxErrorMessage: l.get(data, 'errorMessage')
-            })
+            setTimeout(() => {
+                alert(l.get(data, 'errorMessage'))
+              }, 200);
+           
            }),
           this.eventEmitter.addListener('pairingCode', data => {
             if(data){
@@ -103,7 +104,17 @@ class TabSecondSettle extends Layout {
         //   }),
           
           this.eventEmitter.addListener('deviceDisconnected', () => {
-           
+            if(this.isProcessCloseBatchClover) {
+                this.props.actions.app.stopLoadingApp();
+                this.isProcessCloseBatchClover = false
+                this.setState({
+                    numberFooter: 1,
+                    progress: 0,
+                })
+                setTimeout(() => {
+                    alert(localize("No connected device", language))
+                  }, 200);
+            }
           }),
         ]
       }

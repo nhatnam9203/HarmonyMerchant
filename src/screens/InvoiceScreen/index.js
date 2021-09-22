@@ -76,7 +76,6 @@ class InvoiceScreen extends Layout {
     clover.changeListenerStatus(true)
     this.subscriptions = [
       this.eventEmitter.addListener('voidPaymentSuccess', data => {
-       console.log('data', data)
        this.isProcessVoidPaymentClover = false
        let messageUpdate = {...data,
         sn: l.get(cloverMachineInfo, 'serialNumber')}
@@ -84,13 +83,11 @@ class InvoiceScreen extends Layout {
        
       }),
       this.eventEmitter.addListener('voidPaymentFail', data => {
-        console.log('data', data)
         this.isProcessVoidPaymentClover = false
         this.handleResultVoidTransactionCloverFailed(l.get(data, 'errorMessage'))
         
        }),
        this.eventEmitter.addListener('refundPaymentSuccess', data => {
-        console.log('data', data)
         this.isProcessVoidPaymentClover = false
         let messageUpdate = {...data,
           sn: l.get(cloverMachineInfo, 'serialNumber')}
@@ -98,7 +95,6 @@ class InvoiceScreen extends Layout {
         
        }),
        this.eventEmitter.addListener('refundPaymentFail', data => {
-         console.log('data', data)
          this.isProcessVoidPaymentClover = false
          this.handleResultVoidTransactionCloverFailed(l.get(data, 'errorMessage'))
          
