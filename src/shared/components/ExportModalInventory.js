@@ -35,6 +35,12 @@ export const ExportModalInventory = React.forwardRef(
   ({ onExportFile, title, disable = false }, ref) => {
     const [t] = useTranslation();
     const dispatch = useDispatch();
+    const selectSwitchRef = React.useRef(null);
+    const NEED_TO_ORDER = [
+      { label: t("The products need to order more"), value: 0 },
+      { label: t("All product"), value: 1 },
+    ];
+
     const [open, setOpen] = React.useState(false);
     const [items, setItems] = React.useState(EXPORT_FUNCTION);
     const [value, setValue] = React.useState(null);
@@ -42,7 +48,9 @@ export const ExportModalInventory = React.forwardRef(
     const [show_modal, setShowModal] = React.useState(false);
     const [files, setFiles] = React.useState({});
     const [fileName, setFileName] = React.useState(title);
-    const [isNeedToOrder, setNeedToOrder] = React.useState(0);
+    const [isNeedToOrder, setNeedToOrder] = React.useState(
+      NEED_TO_ORDER[0].value
+    );
     const [page, setPage] = React.useState(EXPORT_PAGE[1]);
     React.useImperativeHandle(ref, () => ({
       show: () => {
@@ -61,6 +69,7 @@ export const ExportModalInventory = React.forwardRef(
       setPage(EXPORT_PAGE[1]);
       setFileName(title);
       setNeedToOrder(0);
+      selectSwitchRef.current?.setValue(0);
     };
 
     const onHandleChange = (val) => {
@@ -117,8 +126,9 @@ export const ExportModalInventory = React.forwardRef(
     const onHandleChangeFileName = (value) => {
       setFileName(value);
     };
+
     const onHandleChangeSelect = (item) => {
-      setNeedToOrder(item.value);
+      setNeedToOrder(item?.value);
     };
 
     /**
@@ -178,7 +188,7 @@ export const ExportModalInventory = React.forwardRef(
       );
     };
 
-    const renderContent = () => {
+    const renderContent = React.useCallback(() => {
       switch (page) {
         case EXPORT_PAGE[1]:
           return (
@@ -196,12 +206,11 @@ export const ExportModalInventory = React.forwardRef(
               />
               <View style={layouts.marginVertical} />
               <CustomRadioSelect
-                data={[
-                  { label: t("The products need to order more"), value: 0 },
-                  { label: t("All product"), value: 1 },
-                ]}
+                red={selectSwitchRef}
+                data={NEED_TO_ORDER}
                 onSelect={onHandleChangeSelect}
                 required={true}
+                defaultValue={isNeedToOrder}
               />
 
               <View style={styles.bottomStyle}>
@@ -219,7 +228,7 @@ export const ExportModalInventory = React.forwardRef(
         default:
           return null;
       }
-    };
+    }, [page]);
 
     return (
       <View>

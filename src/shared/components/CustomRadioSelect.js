@@ -35,7 +35,9 @@ export const CustomRadioSelect = React.forwardRef(
     };
 
     React.useEffect(() => {
-      if (data?.length > 0 && required) setValue(data[0].value);
+      if (data?.length > 0 && required) {
+        setValue(data[0].value);
+      }
     }, [data, required]);
 
     // React.useEffect(() => {
