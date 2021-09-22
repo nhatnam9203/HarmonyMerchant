@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "clover.h"
-//#import "Hpmerchant_Dev-Swift.h"
-#import "Staing-Swift.h"
+#import "Hpmerchant_Dev-Swift.h"
+//#import "Staing-Swift.h"
 
 static NSString* paymentSuccess               = @"paymentSuccess";
 static NSString* paymentFail               = @"paymentFail";

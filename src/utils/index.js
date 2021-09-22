@@ -82,8 +82,6 @@ export const requestAPI = async (action, header = {}) => {
     validateStatus: (status) => status >= 200 && status < 600,
   };
 
-  console.log('action', action)
-
   if (
     (method == "POST" || method == "DELETE" || method == "PUT") &&
     action.body
@@ -92,7 +90,6 @@ export const requestAPI = async (action, header = {}) => {
   }
   try {
     let response = await axios(configs);
-    console.log('response', response)
     const codeNumber = response.status ? response.status : 0;
     if (codeNumber === 401) {
       return { codeNumber: codeNumber };

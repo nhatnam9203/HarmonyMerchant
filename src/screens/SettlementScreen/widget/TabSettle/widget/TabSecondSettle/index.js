@@ -55,13 +55,11 @@ class TabSecondSettle extends Layout {
         clover.changeListenerStatus(true)
         this.subscriptions = [
           this.eventEmitter.addListener('closeoutSuccess', data => {
-           console.log('data', data)
            this.isProcessCloseBatchClover = false
            this.props.actions.app.stopLoadingApp();
            this.proccessingSettlement("[]");
           }),
           this.eventEmitter.addListener('closeoutFail', data => {
-            console.log('data', data)
             this.props.actions.app.stopLoadingApp();
             this.isProcessCloseBatchClover = false
             this.setState({
@@ -103,7 +101,17 @@ class TabSecondSettle extends Layout {
         //   }),
           
           this.eventEmitter.addListener('deviceDisconnected', () => {
-           
+            if(this.isProcessCloseBatchClover) {
+                this.props.actions.app.stopLoadingApp();
+                this.isProcessCloseBatchClover = false
+                this.setState({
+                    numberFooter: 1,
+                    progress: 0,
+                })
+                this.setState({
+                    paxErrorMessage: l.get(data, 'errorMessage')
+                })
+            }
           }),
         ]
       }
