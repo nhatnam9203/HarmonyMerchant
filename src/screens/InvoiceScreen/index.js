@@ -20,6 +20,7 @@ import {
   REMOTE_APP_ID,
   APP_NAME,
   POS_SERIAL,
+  localize,
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
 import { role, menuTabs, isPermissionToTab } from "@utils";
@@ -71,30 +72,35 @@ class InvoiceScreen extends Layout {
   }
 
   registerEvents () {
+    const {cloverMachineInfo, language} = this.props
     clover.changeListenerStatus(true)
     this.subscriptions = [
       this.eventEmitter.addListener('voidPaymentSuccess', data => {
        console.log('data', data)
        this.isProcessVoidPaymentClover = false
-       this.handleResultVoidTransactionCloverSuccess(data)
+       let messageUpdate = {...data,
+        sn: l.get(cloverMachineInfo, 'serialNumber')}
+       this.handleResultVoidTransactionCloverSuccess(messageUpdate)
        
       }),
       this.eventEmitter.addListener('voidPaymentFail', data => {
         console.log('data', data)
         this.isProcessVoidPaymentClover = false
-        this.handleResponseCreditCardForCloverFailed(l.get(data, 'errorMessage'))
+        this.handleResultVoidTransactionCloverFailed(l.get(data, 'errorMessage'))
         
        }),
        this.eventEmitter.addListener('refundPaymentSuccess', data => {
         console.log('data', data)
         this.isProcessVoidPaymentClover = false
-        this.handleResultVoidTransactionCloverSuccess(data)
+        let messageUpdate = {...data,
+          sn: l.get(cloverMachineInfo, 'serialNumber')}
+        this.handleResultVoidTransactionCloverSuccess(messageUpdate)
         
        }),
        this.eventEmitter.addListener('refundPaymentFail', data => {
          console.log('data', data)
          this.isProcessVoidPaymentClover = false
-         this.handleResponseCreditCardForCloverFailed(l.get(data, 'errorMessage'))
+         this.handleResultVoidTransactionCloverFailed(l.get(data, 'errorMessage'))
          
         }),
       this.eventEmitter.addListener('pairingCode', data => {
@@ -133,9 +139,8 @@ class InvoiceScreen extends Layout {
       
       this.eventEmitter.addListener('deviceDisconnected', () => {
         if(this.isProcessVoidPaymentClover) {
-          this.setState({
-            visibleProcessingCredit: false,
-          });
+          this.isProcessVoidPaymentClover = false
+          this.handleResultVoidTransactionCloverFailed(localize("No connected device", language))
         }
         
       }),
@@ -149,6 +154,7 @@ class InvoiceScreen extends Layout {
   }
 
   componentDidMount() {
+    this.registerEvents()
     this.didBlurSubscription = this.props.navigation.addListener(
       "blur",
       (payload) => {
@@ -521,13 +527,14 @@ class InvoiceScreen extends Layout {
         }
       }
     } else {
+      //payment method != credit card
       await this.setState({
         visibleConfirmInvoiceStatus: false,
         titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
       });
       this.props.actions.invoice.changeStatustransaction(
         invoiceDetail?.checkoutId,
-        this.getParamsSearch()
+        this.getParamsSearch(),
       );
     }
   };
@@ -549,7 +556,7 @@ class InvoiceScreen extends Layout {
   };
 
   handleResultVoidTransactionCloverSuccess = async (result) => {
-    const { invoiceDetail } = this.props;
+    const { invoiceDetail, cloverMachineInfo } = this.props;
   
     await this.setState({
       visibleProcessingCredit: false,
@@ -559,7 +566,8 @@ class InvoiceScreen extends Layout {
       this.props.actions.invoice.changeStatustransaction(
         invoiceDetail?.checkoutId,
         this.getParamsSearch(),
-        result
+        result,
+        "clover"
       );
       await this.setState({
         titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
@@ -604,7 +612,8 @@ class InvoiceScreen extends Layout {
         this.props.actions.invoice.changeStatustransaction(
           invoiceDetail?.checkoutId,
           this.getParamsSearch(),
-          result
+          result,
+          "pax"
         );
         await this.setState({
           titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
@@ -644,7 +653,8 @@ class InvoiceScreen extends Layout {
         this.props.actions.invoice.changeStatustransaction(
           invoiceDetail.checkoutId,
           this.getParamsSearch(),
-          result
+          result,
+          "pax"
         );
         await this.setState({
           titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
@@ -861,9 +871,13 @@ class InvoiceScreen extends Layout {
         } = this.props;
         const { isSetup } = cloverMachineInfo;
         if (paymentMachineType == "Clover" && isSetup) {
-          await this.setState({
-            visiblePrintInvoice: true,
-          });          
+          this.props.actions.app.loadingApp();
+          const imageUri = await captureRef(this.viewShotRef, {result: "base64"});     
+          if (imageUri) {
+            this.doPrintClover(imageUri)
+            releaseCapture(imageUri);
+          }
+          this.props.actions.app.stopLoadingApp();    
         }else{
               alert("Please connect to your printer!");
         }
@@ -908,9 +922,6 @@ class InvoiceScreen extends Layout {
     }
   };
 
-  componentDidMount() {
-    this.registerEvents()
-  }
 
   componentWillUnmount() {
     this.didBlurSubscription();

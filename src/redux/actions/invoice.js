@@ -100,12 +100,14 @@ export function clearSearchBatchHistory() {
     }
 }
 
-export function changeStatustransaction(checkoutId, params, responseData = {}) {
+export function changeStatustransaction(checkoutId, params, responseData = {}, paymentTerminal, sn) {
     return {
         type: 'CHANGE_STATUS_TRANSACTION',
         method: 'PUT',
         body: {
-            responseData: responseData
+            responseData: responseData,
+            paymentTerminal,
+            sn,
         },
         api: `checkout/paymentvoidrefundtransaction/${checkoutId}`,
         token: true,

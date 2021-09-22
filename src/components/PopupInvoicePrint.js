@@ -896,13 +896,13 @@ class PopupInvoicePrint extends React.Component {
                     {fontWeight: "600"}
                   ]}
                 >
-                  {`******* ${
+                  {`********** ${
                     isPrintTempt
                       ? "Customer's Receipt"
                       : isSignature
                       ? "Merchant's Receipt"
                       : "Customer's Receipt"
-                  } *******`}
+                  } **********`}
                 </Text>
               </View>
                 

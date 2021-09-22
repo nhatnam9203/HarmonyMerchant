@@ -2889,7 +2889,6 @@ class TabCheckout extends Layout {
   }
 
   registerEvents () {
-    const {language} = this.props
     clover.changeListenerStatus(true)
     this.subscriptions = [
       this.eventEmitter.addListener('paymentSuccess', data => {
@@ -2958,15 +2957,16 @@ class TabCheckout extends Layout {
       //   this.isProcessPrintClover = false
       // }),
       this.eventEmitter.addListener('deviceDisconnected', () => {
-        // if(this.isProcessPaymentClover) {
-        //   this.isProcessPaymentClover = false
-        //   this.handleResponseCreditCardForCloverFailed(localize("No connected device", language))
-        // }
-        // if(this.isProcessPrintClover){
-        //   this.setState({
-        //     visiblePrintInvoice: false,
-        //   });
-        // }
+        if(this.isProcessPaymentClover) {
+          this.isProcessPaymentClover = false
+          this.handleResponseCreditCardForCloverFailed("No connected device")
+        }
+        if(this.isProcessPrintClover){
+          this.isProcessPrintClover = false
+          this.setState({
+            visiblePrintInvoice: false,
+          });
+        }
       }),
     ]
   }

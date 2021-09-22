@@ -302,7 +302,7 @@ RCT_EXPORT_METHOD(refundPayment:(NSDictionary*) refundInfo) {
   } else if(self.isRefundProcessing) {
     
     self.isRefundProcessing = false;
-    [self.cloverManager voidPaymentWithPaymentInfo:self.refundInfo];
+    [self.cloverManager refundPaymentWithPaymentInfo:self.refundInfo];
     
   } else if(self.isOpenCashierProcessing) {
     
@@ -322,6 +322,23 @@ RCT_EXPORT_METHOD(refundPayment:(NSDictionary*) refundInfo) {
   if (self.listening) {
     [self sendEventWithName:deviceDisconnected body:@{}];
   }
+  if (self.isPaymentProcessing
+      || self.isPrintWithConnectProcessing
+      || self.isVoidProcessing
+      || self.isRefundProcessing
+      || self.isOpenCashierProcessing
+      || self.isCloseoutProcessing){
+    
+    self.isPaymentProcessing = false;
+    self.isVoidProcessing = false;
+    self.isRefundProcessing = false;
+    self.isPrintWithConnectProcessing = false;
+    self.isOpenCashierProcessing = false;
+    self.isCloseoutProcessing = false;
+    
+    [self cancelTransaction];
+  }
+ 
 }
 
 - (void)onConfirmPayment {

@@ -928,7 +928,8 @@ export default class Layout extends React.Component {
       visibleConfirmInvoiceStatus,
       transactionId,
       visiblePrintInvoice,
-      visiblePopupParingCode
+      visiblePopupParingCode,
+      pairingCode
     } = this.state;
     return (
       <ParentContainer
@@ -985,8 +986,8 @@ export default class Layout extends React.Component {
           transactionId={transactionId}
         />
         <PopupPairingCode
-            visible={this.state.visiblePopupParingCode ? true: false}
-            message={this.state.pairingCode}
+            visible={visiblePopupParingCode ? true: false}
+            message={pairingCode}
         />
         <PopupConfirmPrintInvoice
           visible={visibleConfirmPrintInvoice}
