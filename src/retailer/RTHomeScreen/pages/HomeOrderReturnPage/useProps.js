@@ -140,29 +140,30 @@ export const useProps = ({ params: { item } }) => {
     setItemSelected(updateList);
 
     let updateListData = null;
-    if (itemTemp?.bookingProductId) {
+    if (itemChange?.bookingProductId) {
       updateListData = _.map(_.get(data, "products"), (itemTemp) => {
         let temp = itemTemp;
         if (
-          itemQuantity?.bookingProductId &&
-          temp?.bookingProductId === itemQuantity.bookingProductId
+          itemChange?.bookingProductId &&
+          temp?.bookingProductId === itemChange.bookingProductId
         ) {
           temp.returnAmount = value;
         }
         return temp;
       });
 
+
       let tempData = data;
       tempData.products = updateListData;
       setData(tempData);
     }
 
-    if (itemTemp?.bookingGiftCardId) {
+    if (itemChange?.bookingGiftCardId) {
       updateListData = _.map(_.get(data, "giftCards"), (itemTemp) => {
         let temp = itemTemp;
         if (
-          itemQuantity?.bookingGiftCardId &&
-          temp?.bookingGiftCardId === itemQuantity.bookingGiftCardId
+          itemChange?.bookingGiftCardId &&
+          temp?.bookingGiftCardId === itemChange.bookingGiftCardId
         ) {
           temp.returnAmount = value;
         }
@@ -210,7 +211,6 @@ export const useProps = ({ params: { item } }) => {
       }
     },
     onCheckedRow: (checkItem, selected) => {
-
       let cloneList = [];
       if (checkItem?.bookingProductId) {
         cloneList =
