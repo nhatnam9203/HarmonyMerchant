@@ -210,7 +210,6 @@ export const useProps = ({ params: { item } }) => {
       }
     },
     onCheckedRow: (checkItem, selected) => {
-      console.log(checkItem);
 
       let cloneList = [];
       if (checkItem?.bookingProductId) {
