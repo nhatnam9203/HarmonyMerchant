@@ -11,6 +11,16 @@ const initialState = {
     bluetoothAddr: '',
     isSetup: false,
   },
+  cloverMachineInfo: {
+    name: 'Clover',
+    ip: '',
+    port: '',
+    isSetup: false,
+    token: null,
+    serialNumber: '',
+  },
+  paymentMachineType: 'Pax',
+
 };
 
 function hardwareReducer(state = initialState, action) {
@@ -18,8 +28,28 @@ function hardwareReducer(state = initialState, action) {
     case 'SETUP_PAX_MACHINE':
       return {
         ...state,
-        paxMachineInfo: action.payload,
+        paxMachineInfo: action.payload.paymentMachineInfo,
+        paymentMachineType: action.payload.paymentMachineType,
       };
+    case 'SETUP_CLOVER_MACHINE':
+      return {
+        ...state,
+        cloverMachineInfo: {...state.cloverMachineInfo, 
+          ip: action.payload.paymentMachineInfo.ip,
+          port: action.payload.paymentMachineInfo.port,
+          isSetup: action.payload.paymentMachineInfo.isSetup,
+          serialNumber: action.payload.paymentMachineInfo.serialNumber,
+        },
+        paymentMachineType: action.payload.paymentMachineType,
+      };
+    case 'SET_CLOVER_TOKEN':
+      return {
+        ...state,
+        cloverMachineInfo: {
+          ...state.cloverMachineInfo,
+          token: action.payload,
+        }
+      }
 
     case 'DELETE_HARDWARE':
       return {
@@ -32,7 +62,15 @@ function hardwareReducer(state = initialState, action) {
           timeout: 90000,
           bluetoothAddr: '',
           isSetup: false,
+          terminalName: 'Pax',
         },
+        cloverMachineInfo: {
+          name: 'Clover',
+          ip: '',
+          port: '',
+          isSetup: false,
+          token: null,
+        }
       };
     default:
       return state;

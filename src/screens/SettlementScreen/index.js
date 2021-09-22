@@ -153,6 +153,7 @@ const mapStateToProps = (state) => ({
   terminalID: state.app.terminalID,
   profileStaffLogin: state.dataLocal.profileStaffLogin,
   notiIntervalId: state.app.notiIntervalId,
+  paymentMachineType: state.hardware.paymentMachineType,
 });
 
 export default connectRedux(mapStateToProps, SettlementScreen);
