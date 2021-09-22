@@ -12,6 +12,7 @@
 #import "PaymentRequest.h"
 #import "PaymentResponse.h"
 #import "ProcessTransResult.h"
+#import "LogManager.h"
 
 @implementation payment
 
@@ -29,7 +30,6 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo callback:(RCTResponseSenderBlock)callback)
 {
-  NSLog(@"+++++++=====XXXX===> paymentInfo log");
   
   CommSetting *commSetting = [[CommSetting alloc]init];
   
@@ -71,11 +71,15 @@ RCT_EXPORT_METHOD(sendTransaction:(NSDictionary *)paymentInfo callback:(RCTRespo
   paymentRequest.ServiceFee = @"";
   
   _poslink.paymentRequest = paymentRequest;
-  
+
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
     ProcessTransResult *ret = [self->_poslink processTrans:PAYMENT];
     dispatch_async(dispatch_get_main_queue(), ^{
+      
+      [[LogManager sharedInstance] writeLog:[NSString stringWithFormat:@"%@", @"ProcessTransResult"]];
+
+
       if (ret.code == OK ) {
         if([self->_poslink.paymentResponse.ResultCode isEqual: @"000000"]){
           NSDictionary *dataSuccess = @{@"status":@true,
