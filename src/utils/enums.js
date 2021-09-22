@@ -3,6 +3,10 @@ export const role = {
   Admin: "Admin",
 };
 
+export const REMOTE_APP_ID = '1MHMKSTW4HZ2P.BRXKQHNH5T1BW'
+export const APP_NAME = 'HarmonyPOS'
+export const POS_SERIAL = "POS"
+
 export const menuTabs = {
   MARKETING: "MENU_HOME_TAB_MARKETING",
   CHECKOUT_DISCOUNT: "MENU_HOME_TAB_CHECKOUT_DISCOUNT",

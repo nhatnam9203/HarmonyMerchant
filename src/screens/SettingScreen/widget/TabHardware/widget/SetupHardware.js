@@ -16,22 +16,31 @@ import { scaleSize, localize } from '@utils';
 import ICON from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 import BluetoothScanner from "@lib/BluetoothScanner";
+import _ from "lodash";
 
 class SetupHardware extends React.Component {
 
     constructor(props) {
         super(props);
-        const { paxMachineInfo } = this.props;
-        const { name, ip, port, timeout, commType, bluetoothAddr } = paxMachineInfo;
+        const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = this.props;
+        const { commType, bluetoothAddr } = paxMachineInfo;
         this.state = {
             commType: commType || "TCP",
-            name,
-            ip,
-            port,
-            timeout: 300000,//5 minutes
+            name: paymentMachineType == 'Pax' ? 
+                _.get(paxMachineInfo, 'name')
+                : _.get(cloverMachineInfo, 'name'),
+            ip: paymentMachineType == 'Pax' ? 
+                _.get(paxMachineInfo, 'ip')
+                : _.get(cloverMachineInfo, 'ip'),
+            port: paymentMachineType == 'Pax' 
+                ? _.get(paxMachineInfo, 'port')
+                : _.get(cloverMachineInfo, 'port'),
+            timeout: 90000,
             bluetoothAddr,
             peripherals: [],
-            scanLoading: false
+            scanLoading: false,
+            terminalName: paymentMachineType,
+            serialNumber: _.get(cloverMachineInfo, 'serialNumber', ''),
         };
 
         this.scrollRef = React.createRef();
@@ -56,24 +65,44 @@ class SetupHardware extends React.Component {
     }
 
     setupPax = () => {
-        const { name, ip, port, timeout, commType, bluetoothAddr } = this.state;
+        const { name, ip, port, timeout, commType, 
+            bluetoothAddr, terminalName, serialNumber } = this.state;
         // ------- Handle Bluetooth Comunication Type ------------
 
-        if (commType === "BLUETOOTH") {
-            if (name === "" || bluetoothAddr === "") {
-                alert('Please enter full infomation!');
+        if(terminalName == "Pax"){
+            if (commType === "BLUETOOTH") {
+                if (name === "" || bluetoothAddr === "") {
+                    alert('Please enter full infomation!');
+                } else {
+                    this.props.actions.hardware.setupPaxMachine({
+                        paymentMachineInfo:{ commType, name, ip, port, timeout, bluetoothAddr, isSetup: true },
+                        paymentMachineType: 'Pax'
+                    });
+                    this.props.backListDevices();
+                }
             } else {
-                this.props.actions.hardware.setupPaxMachine({ commType, name, ip, port, timeout, bluetoothAddr, isSetup: true });
-                this.props.backListDevices();
+                if (name == '' || ip == '' || port == '' || timeout == '') {
+                    alert('Please enter full infomation!');
+                } else {
+                    this.props.actions.hardware.setupPaxMachine({
+                        paymentMachineInfo: { commType, name, ip, port, timeout, bluetoothAddr, isSetup: true },
+                        paymentMachineType: 'Pax'
+                    });
+                    this.props.backListDevices();
+                };
             }
-        } else {
-            if (name == '' || ip == '' || port == '' || timeout == '') {
+        }else{
+            if (ip == '' || port == '' || serialNumber == '') {
                 alert('Please enter full infomation!');
             } else {
-                this.props.actions.hardware.setupPaxMachine({ commType, name, ip, port, timeout, bluetoothAddr, isSetup: true });
+                this.props.actions.hardware.setupCloverMachine({
+                    paymentMachineInfo: { ip, port, isSetup: true, serialNumber },
+                    paymentMachineType: 'Clover',
+                });
                 this.props.backListDevices();
             };
         }
+        
     }
 
     cancelSetupPax = async () => {
@@ -102,6 +131,32 @@ class SetupHardware extends React.Component {
 
         if (commType === "BLUETOOTH") {
             this.scanDevices();
+        }
+    }
+
+    setTerminal = (terminalName) => () => {
+        if(terminalName != this.state.terminalName) {
+            const { name, ip, port } = this.state;
+            const { paxMachineInfo, cloverMachineInfo } = this.props;
+            let tempName = name 
+            let tempIp = ip
+            let tempPort = port
+            if (terminalName == 'Pax') {
+                tempName = _.get(paxMachineInfo, 'name')
+                tempIp = _.get(paxMachineInfo, 'ip')
+                tempPort = _.get(paxMachineInfo, 'port')
+            } else {
+                tempName = _.get(cloverMachineInfo, 'name')
+                tempIp = _.get(cloverMachineInfo, 'ip')
+                tempPort = _.get(cloverMachineInfo, 'port')
+            }
+            this.setState({
+                terminalName,
+                name: tempName,
+                ip: tempIp,
+                port: tempPort,
+                serialNumber: _.get(cloverMachineInfo, 'serialNumber', '')
+            });
         }
     }
 
@@ -169,11 +224,13 @@ class SetupHardware extends React.Component {
 
     render() {
         const { language, bluetoothPaxInfo } = this.props;
-        const { name, ip, port, timeout, commType } = this.state;
+        const { name, ip, port, timeout, commType, 
+                terminalName, serialNumber } = this.state;
 
         const tempCheckEthernetIcon = commType === "TCP" ? ICON.radioExportSe : ICON.radioExport;
         const tempCheckBluetoothIcon = commType === "BLUETOOTH" ? ICON.radioExportSe : ICON.radioExport;
-
+        const tempCheckPax = terminalName === "Pax" ? ICON.radioExportSe : ICON.radioExport;
+        const tempCheckClover = terminalName === "Clover" ? ICON.radioExportSe : ICON.radioExport;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSize(14), paddingTop: scaleSize(20) }} >
                 <Text style={{
@@ -183,6 +240,39 @@ class SetupHardware extends React.Component {
                 }} >
                     {localize('Payment Terminal', language)}
                 </Text>
+
+                <Text style={{
+                    fontSize: scaleSize(16),
+                    fontWeight: '600',
+                    color: 'rgb(81,81,81)',
+                    marginTop: scaleSize(26),
+                    marginBottom: scaleSize(10)
+                }} >
+                    {localize('Device', language)}
+                </Text>
+                <View style={{flexDirection:'row'}}>
+                    <Button onPress={this.setTerminal("Pax")} style={{ flexDirection: "row", marginRight: scaleSize(40) }} >
+                        <Image
+                            source={tempCheckPax}
+                            style={{ marginRight: scaleSize(10) }}
+                        />
+                        <Text style={{ fontSize: scaleSize(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
+                            {localize('Pax', language)}
+                        </Text>
+                    </Button>
+
+                    <Button onPress={this.setTerminal("Clover")} style={{ flexDirection: "row" }} >
+                        <Image
+                            source={tempCheckClover}
+                            style={{ marginRight: scaleSize(10) }}
+                        />
+                        <Text style={{ fontSize: scaleSize(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
+                            {localize('Clover', language)}
+                        </Text>
+                    </Button>
+
+                </View>
+
                 <Text style={{
                     fontSize: scaleSize(16),
                     fontWeight: '600',
@@ -202,48 +292,64 @@ class SetupHardware extends React.Component {
                     keyboardShouldPersistTaps="always"
                 >
                     {/* --------------- Communication Type ----------------- */}
-                    <View style={{ flexDirection: 'row', marginTop: scaleSize(20), }} >
-                        <View style={{ width: scaleSize(140), justifyContent: 'center', }} >
-                            <Text style={{ fontSize: scaleSize(13), color: 'rgb(42,42,42)' }} >
-                                {`Communication Type`}
-                            </Text>
-                        </View>
-                        <View style={{ flex: 1, flexDirection: "row", paddingHorizontal: scaleSize(20) }} >
-                            <View style={{ flex: 1, }} >
-                                <Button onPress={this.setCommType("TCP")} style={{ flexDirection: "row" }} >
-                                    <Image
-                                        source={tempCheckEthernetIcon}
-                                        style={{ marginRight: scaleSize(10) }}
-                                    />
-                                    <Text style={{ fontSize: scaleSize(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
-                                        {`Ethernet`}
-                                    </Text>
-                                </Button>
+                    {
+                        terminalName === "Pax" &&
+                        <View style={{ flexDirection: 'row', marginTop: scaleSize(20), }} >
+                            <View style={{ width: scaleSize(140), justifyContent: 'center', }} >
+                                <Text style={{ fontSize: scaleSize(13), color: 'rgb(42,42,42)' }} >
+                                    {`Communication Type`}
+                                </Text>
                             </View>
-                            <View style={{ flex: 1, flexDirection: "row" }} >
-                                <Button onPress={this.setCommType("BLUETOOTH")} style={{ flexDirection: "row" }} >
-                                    <Image
-                                        source={tempCheckBluetoothIcon}
-                                        style={{ marginRight: scaleSize(10) }}
-                                    />
-                                    <Text style={{ fontSize: scaleSize(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
-                                        {`Bluetooth`}
-                                    </Text>
-                                </Button>
+                            <View style={{ flex: 1, flexDirection: "row", paddingHorizontal: scaleSize(20) }} >
+                                <View style={{ flex: 1, }} >
+                                    <Button onPress={this.setCommType("TCP")} style={{ flexDirection: "row" }} >
+                                        <Image
+                                            source={tempCheckEthernetIcon}
+                                            style={{ marginRight: scaleSize(10) }}
+                                        />
+                                        <Text style={{ fontSize: scaleSize(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
+                                            {`Ethernet`}
+                                        </Text>
+                                    </Button>
+                                </View>
+                                <View style={{ flex: 1, flexDirection: "row" }} >
+                                    <Button onPress={this.setCommType("BLUETOOTH")} style={{ flexDirection: "row" }} >
+                                        <Image
+                                            source={tempCheckBluetoothIcon}
+                                            style={{ marginRight: scaleSize(10) }}
+                                        />
+                                        <Text style={{ fontSize: scaleSize(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
+                                            {`Bluetooth`}
+                                        </Text>
+                                    </Button>
+                                </View>
+
                             </View>
-
                         </View>
-                    </View>
-
-                    <ItemSetup
-                        title={localize('Name', language)}
-                        placeholder={localize('Device name', language)}
-                        value={name}
-                        onChangeText={name => this.setState({ name })}
-                    />
+                    }
 
                     {
-                        commType === "TCP" ? <>
+                        terminalName === "Pax" &&
+                        <ItemSetup
+                            title={localize('Name', language)}
+                            placeholder={localize('Device name', language)}
+                            value={name}
+                            onChangeText={name => this.setState({ name })}
+                        />
+                    }
+
+                    {
+                        terminalName === "Clover" &&
+                        <ItemSetup
+                            title={localize('Serial Number', language)}
+                            placeholder={localize('Serial Number', language)}
+                            value={serialNumber}
+                            onChangeText={serialNumber => this.setState({ serialNumber })}
+                        />
+                    }
+
+                    {
+                        commType === "TCP" || terminalName === "Clover" ? <>
                             <ItemSetup
                                 title={localize('IP Address', language)}
                                 placeholder={"192.168.1.1"}
@@ -255,7 +361,7 @@ class SetupHardware extends React.Component {
 
                             <ItemSetup
                                 title={localize('Port', language)}
-                                placeholder={"10009"}
+                                placeholder={terminalName == 'Pax' ? "10009" : "12345"}
                                 value={port}
                                 onChangeText={port => this.setState({ port })}
                                 keyboardType="numeric"
@@ -265,7 +371,7 @@ class SetupHardware extends React.Component {
                     }
 
                     {
-                        commType === "BLUETOOTH" ? <ItemSetup
+                        commType === "BLUETOOTH" && terminalName === "Pax" ? <ItemSetup
                             title={localize('Bluetooth ID', language)}
                             placeholder={"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"}
                             value={bluetoothPaxInfo?.id || ""}
@@ -278,7 +384,7 @@ class SetupHardware extends React.Component {
                     }
 
                     {
-                        commType === "BLUETOOTH" ?
+                        commType === "BLUETOOTH" && terminalName === "Pax" ?
                             <>
                                 <Button onPress={this.scanDevices} style={{
                                     flexDirection: 'row', alignItems: 'center', width: scaleSize(120),
@@ -449,6 +555,8 @@ const ItemBluetooth = ({ peripheral, bluetoothPaxInfo, onPress }) => {
 
 const mapStateToProps = state => ({
     paxMachineInfo: state.hardware.paxMachineInfo,
+    cloverMachineInfo: state.hardware.cloverMachineInfo,
+    paymentMachineType: state.hardware.paymentMachineType,
     language: state.dataLocal.language,
     bluetoothPaxInfo: state.dataLocal.bluetoothPaxInfo
 })

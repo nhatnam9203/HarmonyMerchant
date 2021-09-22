@@ -24,6 +24,9 @@ const initialState = {
   visible: false,
   categoryStaffId: null,
   staffIdSelected: null,
+  visiblePopupParingCode: false,
+  pairingCode: '',
+  visibleConfirmPayment: false,
 };
 
 const PosLink = NativeModules.payment;
