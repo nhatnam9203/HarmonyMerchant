@@ -10,7 +10,6 @@ import { CheckOutTabPage, OrderTabPage } from "./pages";
 import { HomeTabBar } from "./widget";
 import actions from "@actions";
 import { PopupCheckStaffPermission } from "@components";
-import NavigatorServices from "@navigators/NavigatorServices";
 import NavigationServices from "@navigators/NavigatorServices";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
