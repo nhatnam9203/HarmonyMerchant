@@ -2889,16 +2889,15 @@ class TabCheckout extends Layout {
   }
 
   registerEvents () {
+    const { language } = this.props
     clover.changeListenerStatus(true)
     this.subscriptions = [
       this.eventEmitter.addListener('paymentSuccess', data => {
-       console.log('data', data)
        this.isProcessPaymentClover = false
        this.handleResponseCreditCardForCloverSuccess(data)
        
       }),
       this.eventEmitter.addListener('paymentFail', data => {
-        console.log('data', data)
         this.isProcessPaymentClover = false
         this.handleResponseCreditCardForCloverFailed(l.get(data, 'errorMessage'))
         
@@ -2959,7 +2958,7 @@ class TabCheckout extends Layout {
       this.eventEmitter.addListener('deviceDisconnected', () => {
         if(this.isProcessPaymentClover) {
           this.isProcessPaymentClover = false
-          this.handleResponseCreditCardForCloverFailed("No connected device")
+          this.handleResponseCreditCardForCloverFailed(localize("No connected device", language))
         }
         if(this.isProcessPrintClover){
           this.isProcessPrintClover = false

@@ -29,6 +29,8 @@ const PosLinkReport = NativeModules.report;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 const { width, height } = Dimensions.get("window");
 
+const { clover } = NativeModules;
+
 export const checkIsTablet = () => {
   const isTablet = parseFloat(width / height) > 1.5 ? true : false;
   return isTablet;
@@ -1643,11 +1645,27 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
 
 export const handleAutoClose = async () => {
   const { dataLocal, hardware } = store.getState();
-  const { paxMachineInfo } = hardware;
+  const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = hardware;
   const { token, deviceId, deviceName } = dataLocal;
   const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
     paxMachineInfo;
-  if (isSetup) {
+  
+  if(paymentMachineType == "Clover" && l.get(cloverMachineInfo, "isSetup")){
+    //Clover
+    const sn = l.get(cloverMachineInfo, 'serialNumber')
+    requestAPI({
+      type: "GET_SETTLEMENT_WAITING",
+      method: "GET",
+      api: `${Configs.API_URL}settlement/waiting?sn=${sn}}&paymentTerminal=clover`,
+      token,
+      deviceName,
+      deviceId,
+    }).then((settleWaitingResponse) => {
+      const settleWaiting = l.get(settleWaitingResponse, "data");
+      settle(paxMachineInfo, settleWaiting, creditCount, terminalID);
+    });
+  }else if (isSetup) {
+    //Pax
     let totalRecord = 0;
 
     try {
@@ -1688,7 +1706,7 @@ export const handleAutoClose = async () => {
               requestAPI({
                 type: "GET_SETTLEMENT_WAITING",
                 method: "GET",
-                api: `${Configs.API_URL}settlement/waiting?sn=${terminalID}}`,
+                api: `${Configs.API_URL}settlement/waiting?sn=${terminalID}}&paymentTerminal=pax`,
                 token,
                 deviceName,
                 deviceId,
@@ -1708,6 +1726,7 @@ export const handleAutoClose = async () => {
   } else {
     processingSettlementWithoutConnectPax();
   }
+  
 };
 
 export const processingSettlementWithoutConnectPax = () => {

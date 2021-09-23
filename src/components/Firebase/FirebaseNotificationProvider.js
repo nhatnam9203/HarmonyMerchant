@@ -39,7 +39,7 @@ const FirebaseNotificationProvider = () => {
   const onBackgroundMessage = ({ data }) => {
     // TODO: process message on background state
     if(_.get(data, 'data.key') === 'AUTO_CLOSE'){
-      handleAutoClose(paxMachineInfo, token)
+      handleAutoClose()
     }
   };
 
