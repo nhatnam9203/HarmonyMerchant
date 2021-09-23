@@ -18,7 +18,7 @@ import {
   STAFF_LOG_TIME_TYPE,
 } from "@shared/utils";
 import { statusSuccess } from "@shared/utils/app";
-import { formatHourMinute, formatWithMoment } from "@utils";
+import { formatHourMinute, formatWithMoment, role } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -32,8 +32,7 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const HOURS_FORMAT = "hh:mm A";
 
@@ -200,6 +199,7 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
                 <TouchableOpacity
                   style={styles.customInput}
                   onPress={showDatePicker}
+                  disabled={profile?.roleName !== role.Admin}
                 >
                   <TextInput
                     // onChangeText={onHandleChangeText}
@@ -231,6 +231,7 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
                     <TouchableOpacity
                       style={[styles.customInput, { width: scaleWidth(140) }]}
                       onPress={showTimePicker}
+                      disabled={profile?.roleName !== role.Admin}
                     >
                       <TextInput
                         pointerEvents="none"
