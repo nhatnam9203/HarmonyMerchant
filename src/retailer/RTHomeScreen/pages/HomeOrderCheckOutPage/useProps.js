@@ -96,6 +96,7 @@ export const useProps = ({
   const [subCategories, setSubCategories] = React.useState(null);
   const [products, setProducts] = React.useState(null);
   const [removeItemWaitingList, setRemoveItemWaitingList] = React.useState([]);
+  const [scanCodeTemp, setScanCodeTemp] = React.useState(null);
 
   /**
   |--------------------------------------------------
@@ -341,7 +342,8 @@ export const useProps = ({
     const { codeStatus, message, data } = productItemGet || {};
     if (statusSuccess(codeStatus)) {
       setTimeout(() => {
-        productDetailRef.current?.show(data);
+        productDetailRef.current?.show(data, scanCodeTemp);
+        setScanCodeTemp(null);
       }, 100);
     }
   }, [productItemGet]);
@@ -510,11 +512,13 @@ export const useProps = ({
     },
     customer,
     onResultScanCode: (data) => {
-      // getProductsByBarcode(data ?? "8936101342225");
-      if (!!data) getProductsByBarcode(data.trim());
-      else {
+      if (data?.trim()) {
+        const code = data?.trim();
+        setScanCodeTemp(code);
+        getProductsByBarcode(code);
+      } else {
         setTimeout(() => {
-          alert(`No products with ${data}`);
+          alert(`Scan code fail ${data}`);
         }, 100);
       }
     },
