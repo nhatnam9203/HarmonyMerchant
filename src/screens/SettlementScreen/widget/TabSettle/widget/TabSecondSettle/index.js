@@ -53,13 +53,13 @@ class TabSecondSettle extends Layout {
     }
 
     registerEvents () {
-        const { language, cloverMachineInfo } = this.props;
+        const { language } = this.props;
         clover.changeListenerStatus(true)
         this.subscriptions = [
           this.eventEmitter.addListener('closeoutSuccess', data => {
            this.isProcessCloseBatchClover = false
            this.props.actions.app.stopLoadingApp();
-           this.proccessingSettlement(null, "clover", l.get(cloverMachineInfo, "serialNumber"));
+           this.proccessingSettlement("[]");
           }),
           this.eventEmitter.addListener('closeoutFail', data => {
             this.props.actions.app.stopLoadingApp();
@@ -317,17 +317,12 @@ class TabSecondSettle extends Layout {
         }
     }
 
-    proccessingSettlement = async (responseData, paymentTerminal, sn) => {
+    proccessingSettlement = async (responseData) => {
         const { settleWaiting, connectPAXStatus } = this.props;
         const { settleTotal } = this.state;
         const { status, message } = connectPAXStatus;
         const isConnectPax = status && message && message == "( Payment terminal successfully connected! )" ? true : false;
-        const body = { ...settleTotal, 
-                        checkout: settleWaiting.checkout, 
-                        isConnectPax, 
-                        responseData,
-                        paymentTerminal,
-                        sn};
+        const body = { ...settleTotal, checkout: settleWaiting.checkout, isConnectPax, responseData };
 
         this.setState({
             numberFooter: 2,
@@ -355,7 +350,7 @@ class TabSecondSettle extends Layout {
                     paxErrorMessage: result.message
                 })
             } else {
-                this.proccessingSettlement(responseData, "pax");
+                this.proccessingSettlement(responseData);
             }
         } catch (error) {
         }
