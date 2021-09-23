@@ -23,3 +23,5 @@ export * from "./useAppointmentAddGiftCard";
 export * from "./useAppointmentTempAddGiftCard";
 export * from "./useAppointmentRemoveGiftCard";
 export * from "./useAppointmentTempRemoveGiftCard";
+export * from "./useAppointmentUpdateItem";
+export * from "./useAppointmentTempUpdateItem";

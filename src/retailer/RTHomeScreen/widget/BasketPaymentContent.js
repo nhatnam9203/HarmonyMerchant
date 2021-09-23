@@ -128,43 +128,50 @@ export const BasketPaymentContent = React.forwardRef(
 
     React.useEffect(() => {
       if (orderItem?.products?.length > 0 || orderItem?.giftCards?.length > 0) {
-        const temps = orderItem.products?.reduce((previous, x) => {
-          let groups = previous ?? [];
-          const keyUnique = x.productName + " + " + x.value;
+        // const temps = orderItem.products?.reduce((previous, x) => {
+        //   let groups = previous ?? [];
+        //   const keyUnique = x.productName + " + " + x.value;
 
-          const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
+        //   const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
 
-          if (isExitIdx >= 0) {
-            const existItem = groups[isExitIdx];
-            groups[isExitIdx] = Object.assign({}, existItem, {
-              value: [...existItem.value, x],
-            });
-          } else {
-            groups.push({ key: keyUnique, value: [x] });
-          }
+        //   if (isExitIdx >= 0) {
+        //     const existItem = groups[isExitIdx];
+        //     groups[isExitIdx] = Object.assign({}, existItem, {
+        //       value: [...existItem.value, x],
+        //     });
+        //   } else {
+        //     groups.push({ key: keyUnique, value: [x] });
+        //   }
 
-          return groups;
-        }, []);
+        //   return groups;
+        // }, []);
 
-        const giftCardTemps = orderItem.giftCards?.reduce((previous, x) => {
-          let groups = previous ?? [];
-          const keyUnique = x.giftCardId + "";
+        // const giftCardTemps = orderItem.giftCards?.reduce((previous, x) => {
+        //   let groups = previous ?? [];
+        //   const keyUnique = x.giftCardId + "";
 
-          const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
+        //   const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
 
-          if (isExitIdx >= 0) {
-            const existItem = groups[isExitIdx];
-            groups[isExitIdx] = Object.assign({}, existItem, {
-              value: [...existItem.value, x],
-            });
-          } else {
-            groups.push({ key: keyUnique, value: [x] });
-          }
+        //   if (isExitIdx >= 0) {
+        //     const existItem = groups[isExitIdx];
+        //     groups[isExitIdx] = Object.assign({}, existItem, {
+        //       value: [...existItem.value, x],
+        //     });
+        //   } else {
+        //     groups.push({ key: keyUnique, value: [x] });
+        //   }
 
-          return groups;
-        }, []);
+        //   return groups;
+        // }, []);
 
-        setItems([...(temps || []), ...(giftCardTemps || [])]);
+        setItems([
+          ...(orderItem?.products?.map((x) =>
+            Object.assign({}, x, { key: x.bookingProductId })
+          ) || []),
+          ...(orderItem?.giftCards?.map((x) =>
+            Object.assign({}, x, { key: x.giftCardId })
+          ) || []),
+        ]);
       } else {
         setItems(null);
       }
@@ -175,18 +182,18 @@ export const BasketPaymentContent = React.forwardRef(
     // }));
 
     const renderItem = ({ item }) => {
-      const firstItem = item.value[0];
-      const qty = item.value?.reduce((prev, cur) => prev + cur.quantity, 0);
+      // const firstItem = item.value[0];
+      // const qty = item.value?.reduce((prev, cur) => prev + cur.quantity, 0);
 
       return (
-        <TouchableOpacity onPress={() => onDiscountItemAdd(firstItem)}>
+        <TouchableOpacity onPress={() => onDiscountItemAdd(item)}>
           <View style={styles.productItem} key={item.key + ""}>
             <FastImage
               style={styles.imageStyle}
               source={
-                firstItem?.imageUrl
+                item?.imageUrl
                   ? {
-                      uri: firstItem?.imageUrl,
+                      uri: item?.imageUrl,
                       priority: FastImage.priority.high,
                       cache: FastImage.cacheControl.immutable,
                     }
@@ -198,17 +205,17 @@ export const BasketPaymentContent = React.forwardRef(
             <View style={layouts.marginHorizontal} />
             <View style={styles.productItemContent}>
               <Text style={styles.totalText}>
-                {firstItem?.productName ?? firstItem?.name}
+                {item?.productName ?? item?.name}
               </Text>
-              <Text style={styles.totalInfoText}>{firstItem?.value}</Text>
+              <Text style={styles.totalInfoText}>{item?.value}</Text>
             </View>
-            <Text style={styles.productItemQuantity}>{`${qty} ${t(
+            <Text style={styles.productItemQuantity}>{`${item?.quantity} ${t(
               "items"
             )}`}</Text>
             <View style={layouts.marginHorizontal} />
             <View style={layouts.marginHorizontal} />
             <Text style={styles.productItemPrice}>
-              {formatMoneyWithUnit(firstItem?.price)}
+              {formatMoneyWithUnit(item?.price)}
             </Text>
           </View>
         </TouchableOpacity>

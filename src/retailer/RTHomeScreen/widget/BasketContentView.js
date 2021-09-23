@@ -22,7 +22,7 @@ const log = (obj, message = "") => {
 };
 
 export const BasketContentView = React.forwardRef(
-  ({ onHadSubmitted, onRemoveItem }, ref) => {
+  ({ onHadSubmitted, onRemoveItem, onEditItem }, ref) => {
     const [t] = useTranslation();
     const dispatch = useDispatch();
 
@@ -61,54 +61,53 @@ export const BasketContentView = React.forwardRef(
         appointmentItem?.products?.length > 0 ||
         appointmentItem?.giftCards?.length > 0
       ) {
-        const temps = appointmentItem.products?.reduce((previous, x) => {
-          let groups = previous ?? [];
-          const keyUnique = x.productName + " + " + x.value;
+        // const temps = appointmentItem.products?.reduce((previous, x) => {
+        //   let groups = previous ?? [];
+        //   const keyUnique = x.productName + " + " + x.value;
 
-          const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
+        //   const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
 
-          if (isExitIdx >= 0) {
-            const existItem = groups[isExitIdx];
-            groups[isExitIdx] = Object.assign({}, existItem, {
-              value: [...existItem.value, x],
-            });
-          } else {
-            groups.push({ key: keyUnique, value: [x] });
-          }
+        //   if (isExitIdx >= 0) {
+        //     const existItem = groups[isExitIdx];
+        //     groups[isExitIdx] = Object.assign({}, existItem, {
+        //       value: [...existItem.value, x],
+        //     });
+        //   } else {
+        //     groups.push({ key: keyUnique, value: [x] });
+        //   }
 
-          return groups;
-        }, []);
+        //   return groups;
+        // }, []);
 
-        const giftCardTemps = appointmentItem.giftCards?.reduce(
-          (previous, x) => {
-            let groups = previous ?? [];
-            const keyUnique = x.giftCardId + "";
+        // const giftCardTemps = appointmentItem.giftCards?.reduce(
+        //   (previous, x) => {
+        //     let groups = previous ?? [];
+        //     const keyUnique = x.giftCardId + "";
 
-            const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
+        //     const isExitIdx = groups.findIndex((g) => g.key === keyUnique);
 
-            if (isExitIdx >= 0) {
-              const existItem = groups[isExitIdx];
-              groups[isExitIdx] = Object.assign({}, existItem, {
-                value: [...existItem.value, x],
-              });
-            } else {
-              groups.push({ key: keyUnique, value: [x] });
-            }
+        //     if (isExitIdx >= 0) {
+        //       const existItem = groups[isExitIdx];
+        //       groups[isExitIdx] = Object.assign({}, existItem, {
+        //         value: [...existItem.value, x],
+        //       });
+        //     } else {
+        //       groups.push({ key: keyUnique, value: [x] });
+        //     }
 
-            return groups;
-          },
-          []
-        );
-
-        // const giftCardTemps = appointmentItem?.giftCards.map(
-        //   (x) => ({
-        //     key: x.bookingGiftCardId,
-        //     value: [x],
-        //   }),
+        //     return groups;
+        //   },
         //   []
         // );
 
-        setItems([...(temps || []), ...(giftCardTemps || [])]);
+        setItems([
+          ...(appointmentItem?.products?.map((x) =>
+            Object.assign({}, x, { key: x.bookingProductId })
+          ) || []),
+          ...(appointmentItem?.giftCards?.map((x) =>
+            Object.assign({}, x, { key: x.giftCardId })
+          ) || []),
+        ]);
       } else {
         setItems(null);
       }
@@ -123,24 +122,30 @@ export const BasketContentView = React.forwardRef(
     }));
 
     const renderItem = ({ item }) => {
-      const firstItem = item.value[0];
-      const qty = item.value?.reduce((prev, cur) => prev + cur.quantity, 0);
+      // const firstItem = item.value[0];
+      // const qty = item.value?.reduce((prev, cur) => prev + cur.quantity, 0);
 
       const onHandleDeleteItem = () => {
         if (onRemoveItem && typeof onRemoveItem === "function") {
-          onRemoveItem(item?.value);
+          onRemoveItem(item);
+        }
+      };
+
+      const onEditProduct = () => {
+        if (onEditItem && typeof onEditItem === "function") {
+          onEditItem(item);
         }
       };
 
       return (
         <ProductItem key={item?.key + ""} handleDelete={onHandleDeleteItem}>
-          <View style={styles.productItem}>
+          <TouchableOpacity style={styles.productItem} onPress={onEditProduct}>
             <FastImage
               style={styles.imageStyle}
               source={
-                firstItem?.imageUrl
+                item?.imageUrl
                   ? {
-                      uri: firstItem?.imageUrl,
+                      uri: item?.imageUrl,
                       priority: FastImage.priority.high,
                       cache: FastImage.cacheControl.immutable,
                     }
@@ -152,19 +157,19 @@ export const BasketContentView = React.forwardRef(
             <View style={layouts.marginHorizontal} />
             <View style={styles.productItemContent}>
               <Text style={styles.totalText}>
-                {firstItem?.productName ?? firstItem?.name}
+                {item?.productName ?? item?.name}
               </Text>
-              <Text style={styles.totalInfoText}>{firstItem?.value}</Text>
+              <Text style={styles.totalInfoText}>{item?.value}</Text>
             </View>
-            <Text style={styles.productItemQuantity}>{`${qty} ${t(
+            <Text style={styles.productItemQuantity}>{`${item?.quantity} ${t(
               "items"
             )}`}</Text>
             <View style={layouts.marginHorizontal} />
             <View style={layouts.marginHorizontal} />
             <Text style={styles.productItemPrice}>
-              {formatMoneyWithUnit(firstItem?.price)}
+              {formatMoneyWithUnit(item?.price)}
             </Text>
-          </View>
+          </TouchableOpacity>
         </ProductItem>
       );
     };
@@ -246,6 +251,7 @@ const ProductItem = ({ children, handleDelete }) => {
       outputRange: [0, 1],
       extrapolate: "clamp",
     });
+
     return (
       <TouchableOpacity
         style={styles.rightAction}
