@@ -20,6 +20,8 @@ import {
   useAppointmentRemoveGiftCard,
   useAppointmentTempRemoveGiftCard,
   useGetProductsList,
+  useAppointmentUpdateItem,
+  useAppointmentTempUpdateItem,
 } from "@shared/services/api/retailer";
 import {
   createSubmitAppointment,
@@ -57,6 +59,7 @@ export const useProps = ({
   const activeGiftCardRef = React.useRef(null);
   const modalBillRef = React.useRef(null);
   const popupEnterAmountGiftCardRef = React.useRef(null);
+  const editProductItemRef = React.useRef(null);
 
   /**
   |--------------------------------------------------
@@ -143,6 +146,12 @@ export const useProps = ({
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchVal]);
+
+  const [appointmentProductItemUpdate, appointmentUpdateProductItem] =
+    useAppointmentUpdateItem();
+
+  const [appointmentTempProductItemUpdate, appointmentTempUpdateProductItem] =
+    useAppointmentTempUpdateItem();
   /**
   |--------------------------------------------------
   | Functional
@@ -273,6 +282,7 @@ export const useProps = ({
       appointmentTempItemAdd ||
       updateAppointmentTempCustomerData ||
       appointmentTempGiftCardAdd ||
+      appointmentTempProductItemUpdate ||
       {};
     if (statusSuccess(codeStatus)) {
       getAppointmentTemp(appointmentTempId);
@@ -281,6 +291,7 @@ export const useProps = ({
     appointmentTempItemAdd,
     updateAppointmentTempCustomerData,
     appointmentTempGiftCardAdd,
+    appointmentTempProductItemUpdate,
   ]);
 
   React.useEffect(() => {
@@ -299,10 +310,11 @@ export const useProps = ({
    * Update customer in appointment  effects
    */
   React.useEffect(() => {
-    const { codeStatus, message, data } =
+    const { codeStatus } =
       appointmentItemAdd ||
       updateAppointmentCustomerData ||
       appointmentGiftCardAdd ||
+      appointmentProductItemUpdate ||
       {};
     if (statusSuccess(codeStatus)) {
       getAppointment(appointmentId);
@@ -311,6 +323,7 @@ export const useProps = ({
     appointmentItemAdd,
     updateAppointmentCustomerData,
     appointmentGiftCardAdd,
+    appointmentProductItemUpdate,
   ]);
 
   React.useEffect(() => {
@@ -518,7 +531,19 @@ export const useProps = ({
       const submitProducts = createSubmitAppointment([productItem]);
 
       if (appointmentTempId) {
-        addItemAppointmentTemp(submitProducts[0]);
+        const findItem = appointmentTemp?.products?.find(
+          (x) => x.productId === productItem.productId
+        );
+
+        if (findItem) {
+          appointmentTempUpdateProductItem(
+            appointmentTempId,
+            findItem?.bookingProductId,
+            { quantity: findItem?.quantity + productItem?.quantity }
+          );
+        } else {
+          addItemAppointmentTemp(submitProducts[0]);
+        }
       } else {
         if (!appointment) {
           createAppointmentTemp({
@@ -527,19 +552,48 @@ export const useProps = ({
             products: submitProducts,
           });
         } else {
-          // add item to appointment
-          addAppointmentItem(submitProducts[0]);
+          const findItem = appointment?.products?.find(
+            (x) => x.productId === productItem.productId
+          );
+          if (findItem) {
+            appointmentUpdateProductItem(
+              appointmentId,
+              findItem?.bookingProductId,
+              { quantity: findItem?.quantity + productItem?.quantity }
+            );
+          } else {
+            // add item to appointment
+            addAppointmentItem(submitProducts[0]);
+          }
         }
       }
     },
     appointment: appointmentTemp ?? appointment,
-    onRemoveItem: (items) => {
-      if (items?.length > 0) {
-        let clonePendingList = [...removeItemWaitingList];
+    onRemoveItem: (removeItem) => {
+      // if (items?.length > 0) {
+      //   let clonePendingList = [...removeItemWaitingList];
 
-        clonePendingList = clonePendingList.concat(items);
+      //   clonePendingList = clonePendingList.concat(items);
 
-        setRemoveItemWaitingList(clonePendingList);
+      //   setRemoveItemWaitingList(clonePendingList);
+      // }
+
+      if (appointmentTempId) {
+        if (removeItem?.bookingProductId) {
+          removeItemAppointmentTemp(removeItem?.bookingProductId);
+        }
+
+        if (removeItem?.bookingGiftCardId) {
+          removeAppointmentTempGiftCard(removeItem?.bookingGiftCardId);
+        }
+      } else if (appointmentId) {
+        if (removeItem?.bookingProductId) {
+          removeAppointmentItem(removeItem?.bookingProductId);
+        }
+
+        if (removeItem?.bookingGiftCardId) {
+          removeAppointmentGiftCard(removeItem?.bookingGiftCardId);
+        }
       }
     },
     customer,
@@ -622,5 +676,24 @@ export const useProps = ({
       setSearchVal(searchValue);
     },
     searchProducts: productListData,
+    editProductItemRef,
+    onShowDialogEditProductItem: (proItem) => {
+      editProductItemRef.current?.show(proItem);
+    },
+    onSubmitEditProductItem: (proItem, params) => {
+      if (appointmentTempId) {
+        appointmentTempUpdateProductItem(
+          appointmentTempId,
+          proItem?.bookingProductId,
+          params
+        );
+      } else {
+        appointmentUpdateProductItem(
+          appointmentId,
+          proItem?.bookingProductId,
+          params
+        );
+      }
+    },
   };
 };

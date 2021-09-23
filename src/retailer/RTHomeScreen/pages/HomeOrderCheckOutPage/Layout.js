@@ -11,6 +11,7 @@ import {
   CUSTOM_LIST_TYPES,
   DialogProductDetail,
   CheckOutCustomerInfo,
+  DialogEditProductOrder,
 } from "../../widget";
 import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
 import _ from "lodash";
@@ -18,7 +19,6 @@ import { PURCHASE_POINTS_ORDER } from "@shared/utils";
 import { PopupActiveGiftCard } from "@components";
 import { PopupEnterAmountGiftCard } from "@shared/components/payment";
 import { InputSearch } from "@shared/components/InputSearch";
-import DropDownPicker from "react-native-dropdown-picker";
 
 const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
 const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
@@ -57,6 +57,9 @@ export const Layout = ({
   onButtonSearchPress,
   onChangeValueSearch,
   searchProducts,
+  editProductItemRef,
+  onShowDialogEditProductItem,
+  onSubmitEditProductItem
 }) => {
   const { t } = useTranslation();
 
@@ -240,6 +243,7 @@ export const Layout = ({
               ref={basketRef}
               onHadSubmitted={onHadSubmitted}
               onRemoveItem={onRemoveItem}
+              onEditItem={onShowDialogEditProductItem}
             />
           </View>
         </View>
@@ -260,6 +264,8 @@ export const Layout = ({
         // extractBill={extractBill}
         // doneBill={doneBill}
       />
+
+      <DialogEditProductOrder ref={editProductItemRef} onEditProductItem={onSubmitEditProductItem}/>
 
       {/* <PopupBill
         ref={modalBillRef}
