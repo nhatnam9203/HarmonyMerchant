@@ -64,7 +64,6 @@ import Foundation
     // configure other properties of SaleRequest
     saleRequest.tipMode = SaleRequest.TipMode(rawValue: tipModeString)
     saleRequest.autoAcceptSignature = true
-    saleRequest.disablePrinting = true
     
     self.myCloverConnector?.sale(saleRequest)
   }
@@ -80,7 +79,7 @@ import Foundation
     let orderId = paymentInfo.value(forKey: "orderId") as! String
     let paymentId = paymentInfo.value(forKey: "paymentId") as! String
     let refundRequest = RefundPaymentRequest(orderId: orderId, paymentId: paymentId, fullRefund: true)
-    self.cloverConnector?.refundPayment(refundRequest)
+    self.myCloverConnector?.refundPayment(refundRequest)
   }
   
   @objc func queryPayment(externalPaymentId: String) {
