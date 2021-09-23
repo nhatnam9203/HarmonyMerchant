@@ -113,6 +113,7 @@ class TabFirstSettle extends Layout {
           
           this.handleRequestAPIByTerminalID(l.get(cloverMachineInfo, 'serialNumber'), "clover")
         }else{
+          this.handleRequestAPIByTerminalID(null, "clover")
           this.props.actions.app.connectPaxMachineError(
             "Don't have setup in Hardware Tab!"
           );
@@ -497,7 +498,7 @@ class TabFirstSettle extends Layout {
     this.props.actions.invoice.getSettlementWating(terminalID, paymentTerminal);
     this.props.actions.invoice.getListStaffsSales(terminalID);
     this.props.actions.invoice.getListGiftCardSales(terminalID);
-    if (terminalID) {
+    if (terminalID && paymentTerminal == "pax") {
       this.props.actions.app.ConnectPaxMachineSuccess();
     }
   };

@@ -32,12 +32,12 @@ export default class Layout extends React.Component {
             }} >
                 <Text style={{ fontSize: scaleSize(16), color: '#0764B0' ,fontWeight:"600"}} >
                     {localize('Batch Settlements', language)}
-                    {paymentMachineType == "Pax" &&
+                    
                         <Text numberOflines={1} style={{ fontSize: scaleSize(11), color: statusConnectColor, fontWeight: "600", fontStyle: 'italic' }} >
                             {/* {`  ${connectPAXStatus.message} ${terminalID ? `TerminalID: #${terminalID}` : ""}`} */}
                             {`  ${connectPAXStatus.message}`}
                         </Text>
-                    }
+                    
                 </Text>
             </View>
         );

@@ -27,7 +27,7 @@ const initialState = {
   refreshingGeneral: false,
   connectPAXStatus: {
     status: true,
-    message: "is connecting to Payment terminal ....",
+    message: "",
   },
   isUpdateMerchantSetting: false,
   settingTabPermission: false,
@@ -365,7 +365,7 @@ function getErrorMessagePaxMachine(error) {
     case "NOT FOUND":
       return "( Payment terminal successfully connected!: Not found any transactions )";
     default:
-      return `(Error From Your Pax : "${error}" )`;
+      return `(Error From Your Payment Terminal : "${error}" )`;
   }
 }
 

@@ -68,9 +68,12 @@ class TabSecondSettle extends Layout {
                 numberFooter: 1,
                 progress: 0,
             })
-            setTimeout(() => {
-                alert(l.get(data, 'errorMessage'))
-              }, 200);
+            // setTimeout(() => {
+            //     alert(l.get(data, 'errorMessage'))
+            //   }, 200);
+            this.props.actions.app.connectPaxMachineError(
+                l.get(data, 'errorMessage')
+              );
            
            }),
           this.eventEmitter.addListener('pairingCode', data => {
@@ -111,9 +114,9 @@ class TabSecondSettle extends Layout {
                     numberFooter: 1,
                     progress: 0,
                 })
-                setTimeout(() => {
-                    alert(localize("No connected device", language))
-                  }, 200);
+                this.props.actions.app.connectPaxMachineError(
+                    localize("No connected device", language)
+                  );
             }
           }),
         ]
@@ -208,7 +211,31 @@ class TabSecondSettle extends Layout {
         const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
         const { creditCount, settleTotal } = this.state;
 
-        if (isSetup && settleTotal?.terminalID) {
+        if(paymentMachineType == "Clover" && l.get(cloverMachineInfo, "isSetup")){
+            //Clover
+            await this.setState({
+                numberFooter: 2,
+                errorMessage: '',
+                paxErrorMessage: ''
+            });
+            setTimeout(() => {
+                this.setState({
+                    progress: 0.5,
+                });
+            }, 100);
+            const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
+            const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+            this.isProcessCloseBatchClover = true
+            this.props.actions.app.loadingApp();
+            clover.closeout({
+                url,
+                remoteAppId: REMOTE_APP_ID,
+                appName: APP_NAME,
+                posSerial: POS_SERIAL,
+                token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
+              })
+        } else if (isSetup && settleTotal?.terminalID) {
+            //Pax
             await this.setState({
                 numberFooter: 2,
                 errorMessage: '',
@@ -228,19 +255,7 @@ class TabSecondSettle extends Layout {
                         this.proccessingSettlement();
                     });
             } else {
-                if (paymentMachineType == "Clover"){
-                    const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
-                    const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
-                    this.isProcessCloseBatchClover = true
-                    this.props.actions.app.loadingApp();
-                    clover.closeout({
-                        url,
-                        remoteAppId: REMOTE_APP_ID,
-                        appName: APP_NAME,
-                        posSerial: POS_SERIAL,
-                        token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
-                      })
-                } else {
+                
                     const tempIpPax = commType == "TCP" ? ip : "";
                     const tempPortPax = commType == "TCP" ? port : "";
                     const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
@@ -283,13 +298,11 @@ class TabSecondSettle extends Layout {
                         bluetoothAddr: idBluetooth
                     },
                         message => this.handleResponseBatchTransactions(message, responseData));
-                }
-              
             }
 
         } else {
             Alert.alert(
-                'Unable to connect to PAX or not found any transaction on your PAX, Do you want to continue without PAX?',
+                'Unable to connect to payment terminal or not found any transaction on your payment terminal, Do you want to continue without payment terminal?',
                 '',
                 [
                     {
