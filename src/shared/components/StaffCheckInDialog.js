@@ -199,7 +199,7 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
                 <TouchableOpacity
                   style={styles.customInput}
                   onPress={showDatePicker}
-                  disabled={profile?.roleName !== role.Admin}
+                  disabled={profile?.roleName !== role.Admin || !sessionId}
                 >
                   <TextInput
                     // onChangeText={onHandleChangeText}
@@ -231,7 +231,7 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
                     <TouchableOpacity
                       style={[styles.customInput, { width: scaleWidth(140) }]}
                       onPress={showTimePicker}
-                      disabled={profile?.roleName !== role.Admin}
+                      disabled={profile?.roleName !== role.Admin || !sessionId}
                     >
                       <TextInput
                         pointerEvents="none"
