@@ -83,7 +83,6 @@ export const useProps = ({
     (state) => state.dataLocal.profileStaffLogin
   );
   const profile = useSelector((state) => state.dataLocal.profile);
-  const [searchVal, setSearchVal] = React.useState();
 
   /**
   |--------------------------------------------------
@@ -99,6 +98,8 @@ export const useProps = ({
   const [products, setProducts] = React.useState(null);
   const [removeItemWaitingList, setRemoveItemWaitingList] = React.useState([]);
   const [searchData, setSearchData] = React.useState(null);
+  const [searchVal, setSearchVal] = React.useState();
+
   /**
   |--------------------------------------------------
   | API Hooks
@@ -219,10 +220,10 @@ export const useProps = ({
     if (searchVal) callGetProductList();
     else {
       setSearchData(null);
-      setCategoryId(null);
-      setActiveTab(CUSTOM_LIST_TYPES.CAT);
-      setSubCategories(null);
       setProducts(null);
+      if (activeTab === CUSTOM_LIST_TYPES.PRO) {
+        setActiveTab(CUSTOM_LIST_TYPES.CAT);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchVal]);
@@ -446,7 +447,6 @@ export const useProps = ({
       if (!categoryItem) {
         return;
       }
-
       if (categoryItem?.categoryId === categoryId) {
         setCategoryId(null);
         setActiveTab(CUSTOM_LIST_TYPES.CAT);
@@ -459,6 +459,7 @@ export const useProps = ({
 
       setSubCategoryId(null);
       setProducts(null);
+      setSearchVal(null);
     },
     onPressSubCategoryItem: (subCategoryItem) => {
       if (!subCategoryItem) {
@@ -533,7 +534,6 @@ export const useProps = ({
     },
     appointment: appointmentTemp ?? appointment,
     onRemoveItem: (items) => {
-      console.log(items);
       if (items?.length > 0) {
         let clonePendingList = [...removeItemWaitingList];
 

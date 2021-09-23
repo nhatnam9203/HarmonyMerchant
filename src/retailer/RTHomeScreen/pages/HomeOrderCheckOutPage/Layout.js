@@ -74,9 +74,6 @@ export const Layout = ({
     // );
   };
 
-  console.log(products?.length);
-  console.log(subCategories?.length);
-
   return (
     <View style={layouts.fill}>
       <View style={styles.headContent}>
