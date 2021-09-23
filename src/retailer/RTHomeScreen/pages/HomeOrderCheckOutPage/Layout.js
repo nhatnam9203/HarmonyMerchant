@@ -17,6 +17,8 @@ import _ from "lodash";
 import { PURCHASE_POINTS_ORDER } from "@shared/utils";
 import { PopupActiveGiftCard } from "@components";
 import { PopupEnterAmountGiftCard } from "@shared/components/payment";
+import { InputSearch } from "@shared/components/InputSearch";
+import DropDownPicker from "react-native-dropdown-picker";
 
 const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
 const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
@@ -52,6 +54,9 @@ export const Layout = ({
   onRequestCloseBillModal,
   popupEnterAmountGiftCardRef,
   onAddGiftCardToAppointment,
+  onButtonSearchPress,
+  onChangeValueSearch,
+  searchProducts,
 }) => {
   const { t } = useTranslation();
 
@@ -68,6 +73,9 @@ export const Layout = ({
     //   </TouchableOpacity>
     // );
   };
+
+  console.log(products?.length);
+  console.log(subCategories?.length);
 
   return (
     <View style={layouts.fill}>
@@ -96,6 +104,18 @@ export const Layout = ({
             />
           )}
         />
+        <View style={styles.rowContent}>
+          <InputSearch onSearch={onChangeValueSearch} width={scaleWidth(280)} />
+
+          <View style={layouts.marginHorizontal} />
+
+          {/* <ButtonGradientWhite
+            label={t("Search")}
+            width={scaleWidth(120)}
+            borderRadius={scaleWidth(3)}
+            onPress={onButtonSearchPress}
+          /> */}
+        </View>
 
         {/* <ButtonGradientWhite
           width={scaleWidth(40)}
@@ -150,34 +170,69 @@ export const Layout = ({
       </View>
 
       <View style={styles.container}>
-        <View style={styles.listContent}>
-          <CustomList
-            title={labelColumn1}
-            items={categories}
-            type={CUSTOM_LIST_TYPES.CAT}
-            isActive={activeTab === CUSTOM_LIST_TYPES.CAT}
-            onPressRow={onPressCategoryItem}
-            activeId={categoryId}
-            refreshData={onRefreshCategory}
-            renderMoreItem={onRenderGiftCardItem}
-          />
-          <CustomList
-            title={labelColumn2}
-            items={subCategories}
-            type={CUSTOM_LIST_TYPES.SUB}
-            isActive={activeTab === CUSTOM_LIST_TYPES.SUB}
-            onPressRow={onPressSubCategoryItem}
-            activeId={subCategoryId}
-          />
-          <CustomList
-            title={labelColumn3}
-            items={products}
-            type={CUSTOM_LIST_TYPES.PRO}
-            isActive={activeTab === CUSTOM_LIST_TYPES.PRO}
-            activeId={selectedProductId}
-            onPressRow={onPressProductItem}
-          />
-        </View>
+        {products?.length && !subCategories?.length ? (
+          <View style={styles.listContent}>
+            <CustomList
+              title={labelColumn1}
+              items={categories}
+              type={CUSTOM_LIST_TYPES.CAT}
+              isActive={activeTab === CUSTOM_LIST_TYPES.CAT}
+              onPressRow={onPressCategoryItem}
+              activeId={categoryId}
+              refreshData={onRefreshCategory}
+              renderMoreItem={onRenderGiftCardItem}
+            />
+
+            <CustomList
+              title={labelColumn3}
+              items={products}
+              type={CUSTOM_LIST_TYPES.PRO}
+              isActive={activeTab === CUSTOM_LIST_TYPES.PRO}
+              activeId={selectedProductId}
+              onPressRow={onPressProductItem}
+            />
+
+            <CustomList
+              title={labelColumn2}
+              items={subCategories}
+              type={CUSTOM_LIST_TYPES.SUB}
+              isActive={activeTab === CUSTOM_LIST_TYPES.SUB}
+              onPressRow={onPressSubCategoryItem}
+              activeId={subCategoryId}
+            />
+          </View>
+        ) : (
+          <View style={styles.listContent}>
+            <CustomList
+              title={labelColumn1}
+              items={categories}
+              type={CUSTOM_LIST_TYPES.CAT}
+              isActive={activeTab === CUSTOM_LIST_TYPES.CAT}
+              onPressRow={onPressCategoryItem}
+              activeId={categoryId}
+              refreshData={onRefreshCategory}
+              renderMoreItem={onRenderGiftCardItem}
+            />
+
+            <CustomList
+              title={labelColumn2}
+              items={subCategories}
+              type={CUSTOM_LIST_TYPES.SUB}
+              isActive={activeTab === CUSTOM_LIST_TYPES.SUB}
+              onPressRow={onPressSubCategoryItem}
+              activeId={subCategoryId}
+            />
+
+            <CustomList
+              title={labelColumn3}
+              items={products}
+              type={CUSTOM_LIST_TYPES.PRO}
+              isActive={activeTab === CUSTOM_LIST_TYPES.PRO}
+              activeId={selectedProductId}
+              onPressRow={onPressProductItem}
+            />
+          </View>
+        )}
         <View style={styles.basketContent}>
           <View style={styles.basketHeader}>
             <Text style={styles.basketTitle}>{t("Basket")}</Text>
@@ -331,5 +386,14 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: colors.BROWNISH_GREY,
+  },
+
+  rowContent: {
+    marginTop: scaleHeight(10),
+    marginBottom: scaleHeight(10),
+    paddingHorizontal: scaleWidth(16),
+    height: scaleHeight(40),
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });

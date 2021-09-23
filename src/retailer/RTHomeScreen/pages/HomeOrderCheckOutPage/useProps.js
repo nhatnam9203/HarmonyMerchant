@@ -19,6 +19,7 @@ import {
   useAppointmentTempAddGiftCard,
   useAppointmentRemoveGiftCard,
   useAppointmentTempRemoveGiftCard,
+  useGetProductsList,
 } from "@shared/services/api/retailer";
 import {
   createSubmitAppointment,
@@ -82,6 +83,7 @@ export const useProps = ({
     (state) => state.dataLocal.profileStaffLogin
   );
   const profile = useSelector((state) => state.dataLocal.profile);
+  const [searchVal, setSearchVal] = React.useState();
 
   /**
   |--------------------------------------------------
@@ -96,7 +98,7 @@ export const useProps = ({
   const [subCategories, setSubCategories] = React.useState(null);
   const [products, setProducts] = React.useState(null);
   const [removeItemWaitingList, setRemoveItemWaitingList] = React.useState([]);
-
+  const [searchData, setSearchData] = React.useState(null);
   /**
   |--------------------------------------------------
   | API Hooks
@@ -133,6 +135,13 @@ export const useProps = ({
   const [appointmentTempGiftCardRemove, removeAppointmentTempGiftCard] =
     useAppointmentTempRemoveGiftCard();
 
+  const [productListData, getInventoryList] = useGetProductsList();
+  const callGetProductList = React.useCallback(() => {
+    getInventoryList({
+      key: searchVal ?? "",
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchVal]);
   /**
   |--------------------------------------------------
   | Functional
@@ -145,6 +154,7 @@ export const useProps = ({
     setSubCategoryId(null);
     setSubCategories(null);
     setProducts(null);
+    setSearchData(null);
   };
 
   const reloadAll = () => {
@@ -172,9 +182,6 @@ export const useProps = ({
         appointment?.purchasePoint &&
         appointment.purchasePoint !== purchasePoint
       ) {
-        console.log(purchasePoint);
-        console.log(appointment);
-
         dispatch(basketRetailer.clearBasket());
       }
     }, [purchasePoint, appointment])
@@ -192,6 +199,33 @@ export const useProps = ({
   //     unsubscribeBlur();
   //   };
   // }, [navigation]);
+
+  React.useEffect(() => {
+    const { codeStatus, data } = productListData || {};
+    if (statusSuccess(codeStatus)) {
+      setSearchData(data);
+
+      if (data?.length > 0) {
+        setCategoryId(null);
+        setSubCategories(null);
+        setSubCategoryId(null);
+        setActiveTab(CUSTOM_LIST_TYPES.PRO);
+        setProducts(data);
+      }
+    }
+  }, [productListData]);
+
+  React.useEffect(() => {
+    if (searchVal) callGetProductList();
+    else {
+      setSearchData(null);
+      setCategoryId(null);
+      setActiveTab(CUSTOM_LIST_TYPES.CAT);
+      setSubCategories(null);
+      setProducts(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchVal]);
 
   /**
    * GET Categories effects
@@ -581,5 +615,12 @@ export const useProps = ({
         });
       }
     },
+    onButtonSearchPress: (searchValue) => {
+      console.log(searchValue);
+    },
+    onChangeValueSearch: (searchValue) => {
+      setSearchVal(searchValue);
+    },
+    searchProducts: productListData,
   };
 };
