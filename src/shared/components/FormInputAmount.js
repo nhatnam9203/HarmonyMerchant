@@ -1,8 +1,8 @@
-import React from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native';
-import { fonts, colors } from '@shared/themes';
-import { layouts } from '../themes';
-import { TextInputMask } from 'react-native-masked-text';
+import React from "react";
+import { View, Text, StyleSheet, Pressable, TextInput } from "react-native";
+import { fonts, colors } from "@shared/themes";
+import { layouts } from "../themes";
+import { TextInputMask } from "react-native-masked-text";
 const MIN = 1;
 
 export const FormInputAmount = ({
@@ -25,14 +25,14 @@ export const FormInputAmount = ({
   };
 
   const onHandleChange = (text) => {
-    if (onChangeValue && typeof onChangeValue === 'function') {
+    if (onChangeValue && typeof onChangeValue === "function") {
       setAmount(text);
       onChangeValue(text);
     }
   };
 
   React.useEffect(() => {
-    if (onChangeValue && typeof onChangeValue === 'function') {
+    if (onChangeValue && typeof onChangeValue === "function") {
       onChangeValue(amount);
     }
   }, [amount]);
@@ -54,7 +54,7 @@ export const FormInputAmount = ({
           type="only-numbers"
           keyboardType="numeric"
           style={styles.input}
-          value={amount + ''}
+          value={amount + ""}
           onChangeText={onHandleChange}
         />
         <View style={layouts.marginHorizontal} />
@@ -71,47 +71,47 @@ const styles = StyleSheet.create({
   label: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
     color: colors.GREYISH_BROWN,
   },
 
   button: {
-    width: scaleWidth(32),
-    height: scaleHeight(32),
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: scaleWidth(40),
+    height: scaleHeight(40),
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   border: {
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: scaleWidth(1),
     borderColor: colors.OCEAN_BLUE,
   },
 
   inputContent: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
 
   input: {
     width: scaleWidth(48),
-    height: scaleHeight(32),
+    height: scaleHeight(40),
     backgroundColor: colors.WHITE_FA,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: scaleWidth(1),
-    borderColor: '#cccccc',
-    textAlign: 'center',
+    borderColor: "#cccccc",
+    textAlign: "center",
   },
 
   textStyle: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
-    fontWeight: 'normal',
-    fontStyle: 'normal',
+    fontWeight: "normal",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.GREYISH_BROWN,
   },
 });
