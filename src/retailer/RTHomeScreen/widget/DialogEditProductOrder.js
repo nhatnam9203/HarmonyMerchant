@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View, Text, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDispatch } from "react-redux";
+import { useGetProducts } from "@shared/services/api/retailer";
+import { arrayIsEqual, INPUT_TYPE, statusSuccess } from "@shared/utils";
 
 export const DialogEditProductOrder = React.forwardRef(
   ({ onEditProductItem }, ref) => {
@@ -17,6 +19,7 @@ export const DialogEditProductOrder = React.forwardRef(
     const [amount, setAmount] = React.useState(0);
     const [quantity, setQuantity] = React.useState(1);
     const [productItem, setProductItem] = React.useState(null);
+    const [maxCountQty, setMaxCountQty] = React.useState(10);
 
     /**
   |--------------------------------------------------
@@ -24,14 +27,16 @@ export const DialogEditProductOrder = React.forwardRef(
 
   |--------------------------------------------------
   */
+    const [productsGet, getProducts] = useGetProducts();
 
     React.useImperativeHandle(ref, () => ({
       show: (item) => {
-        console.log(item);
+        // console.log(item);
         dialogRef.current?.show();
         setQuantity(item.quantity);
         setAmount(item.price);
         setProductItem(item);
+        getProducts(item.productId);
       },
       hide: () => {
         dialogRef.current?.hide();
@@ -59,6 +64,22 @@ export const DialogEditProductOrder = React.forwardRef(
   |--------------------------------------------------
   */
 
+    React.useEffect(() => {
+      const { codeStatus, data } = productsGet || {};
+      if (statusSuccess(codeStatus)) {
+        if (data.quantities?.length > 0) {
+          const findItem = data.quantities?.find(
+            (x) => x.id === productItem.quantityId
+          );
+          if (findItem) {
+            setMaxCountQty(findItem.quantity);
+          }
+        } else {
+          setMaxCountQty(data.quantity);
+        }
+      }
+    }, [productsGet]);
+
     return (
       <View>
         <DialogLayout
@@ -72,7 +93,7 @@ export const DialogEditProductOrder = React.forwardRef(
                 width={scaleWidth(140)}
                 height={scaleHeight(40)}
                 borderRadius={scaleWidth(3)}
-                // disable={!form.isValid}
+                disable={quantity > maxCountQty}
                 onPress={handleSubmit}
               />
             </View>
