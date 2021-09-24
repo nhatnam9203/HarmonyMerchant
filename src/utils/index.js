@@ -21,7 +21,6 @@ import * as l from "lodash";
 import PushNotification from "react-native-push-notification";
 import { parseString } from "react-native-xml2js";
 import env from "react-native-config";
-import { useDispatch } from "react-redux";
 import actions from "@actions";
 import configureStore from "../redux/store";
 const { store } = configureStore();
@@ -74,6 +73,7 @@ export const requestAPI = async (action, header = {}) => {
     headers["Authorization"] = `Bearer ${action.token}`;
   }
 
+  console.log('action', action)
   headers["User-Agent"] = `HarmonyMerchant/${
     action.versionApp
       ? `${action.versionApp}.${Configs.CODEPUSH_VERSION}`
@@ -99,6 +99,7 @@ export const requestAPI = async (action, header = {}) => {
   }
   try {
     let response = await axios(configs);
+    console.log('response', response)
     const codeNumber = response.status ? response.status : 0;
     if (codeNumber === 401) {
       return { codeNumber: codeNumber };
@@ -1651,8 +1652,8 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
 };
 
 export const handleAutoClose = async () => {
-  const dispatch = useDispatch();
-  dispatch(actions.invoice.autoCloseBatch());
+  console.log("handleAutoClose")
+  
   const { dataLocal, hardware } = store.getState();
   const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = hardware;
   const { token, deviceId, deviceName } = dataLocal;
@@ -1661,6 +1662,8 @@ export const handleAutoClose = async () => {
   
   if(paymentMachineType == "Clover" && l.get(cloverMachineInfo, "isSetup")){
     //Clover
+    console.log("call autoCloseBatch")
+    store.dispatch(actions.invoice.autoCloseBatch());
     const sn = l.get(cloverMachineInfo, 'serialNumber')
     requestAPI({
       type: "GET_SETTLEMENT_WAITING",
@@ -1671,7 +1674,7 @@ export const handleAutoClose = async () => {
       deviceId,
     }).then((settleWaitingResponse) => {
       const settleWaiting = l.get(settleWaitingResponse, "data");
-      settle(settleWaiting, creditCount, terminalID);
+      settle(settleWaiting, 0, sn);
     });
   }else if (isSetup) {
     //Pax
@@ -1739,6 +1742,7 @@ export const handleAutoClose = async () => {
 };
 
 export const processingSettlementWithoutConnectPax = () => {
+  console.log("processingSettlementWithoutConnectPax")
   const { dataLocal } = store.getState();
   const { token, deviceId, deviceName } = dataLocal;
   requestAPI({
@@ -1759,6 +1763,8 @@ export const settle = async (
   creditCount,
   terminalID
 ) => {
+  console.log("settle")
+
   const { dataLocal, hardware } = store.getState();
   const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = hardware;
   const { token, deviceId, deviceName } = dataLocal;
@@ -1776,6 +1782,7 @@ export const settle = async (
         posSerial: POS_SERIAL,
         token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
       })
+      store.dispatch(actions.invoice.saveSettleWaiting(settleWaiting));
   } else if (isSetup && terminalID) {
     //Pax
     if (Platform.OS === "android") {
@@ -1847,6 +1854,7 @@ export const proccessingSettlement = async (
   terminalID,
   isConnectPax
 ) => {
+  console.log("proccessingSettlement")
   const { dataLocal } = store.getState();
   const { token, deviceId, deviceName } = dataLocal;
   const editPaymentByHarmony = settleWaiting?.paymentByHarmony || 0.0;

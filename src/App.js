@@ -5,7 +5,7 @@ import "@shared/services/api/axiosClient";
 import "@shared/services/translation";
 import { isDevelopmentMode } from "@shared/utils/app";
 import React from "react";
-import { View } from "react-native";
+import { View, NativeModules, NativeEventEmitter } from "react-native";
 import codePush from "react-native-code-push";
 import SplashScreen from "react-native-splash-screen";
 import { Provider } from "react-redux";
@@ -17,20 +17,13 @@ import {
 } from "./components";
 import { RootNavigator } from "./navigators/RootNavigator";
 import configureStore from "./redux/store";
-// import { useDispatch } from "react-redux";
-// import actions from "@actions";
-// import {
-//   REMOTE_APP_ID,
-//   APP_NAME,
-//   POS_SERIAL,
-//   requestAPI,
-// } from "@utils";
-// import Configs from "@configs";
-// import * as l from "lodash";
+import { useDispatch } from "react-redux";
+import actions from "@actions";
+import {
+  proccessingSettlement,
+} from "@utils";
+import * as l from "lodash";
 
-const PosLink = NativeModules.batch;
-const PosLinkReport = NativeModules.report;
-const PoslinkAndroid = NativeModules.PoslinkModule;
 const { clover } = NativeModules;
 
 if (isDevelopmentMode) {
@@ -43,50 +36,52 @@ const { persistor, store } = configureStore();
 
 const App: () => React$Node = () => {
   //ADD LISTENER FROM CLOVER MODULE
-  // let eventEmitter = new NativeEventEmitter(clover);
-  // let subscriptions = []
+  let eventEmitter = new NativeEventEmitter(clover);
+  let subscriptions = []
 
-  // const registerEvents = () => {
-  //   const { invoice, hardware } = store.getState();
-  //   const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = hardware;
-  //   const terminalID = l.get(cloverMachineInfo, "serialNumber")
-  //   clover.changeListenerStatus(true)
-  //   subscriptions = [
-  //     eventEmitter.addListener('closeoutSuccess', data => {
-  //       if(paymentMachineType == "Clover" && l.get(invoice, "isProcessAutoCloseBatch")) {
-  //         const dispatch = useDispatch();
-  //         dispatch(actions.invoice.autoCloseBatchResponse());
-  //         proccessingSettlement(
-  //           "[]",
-  //           l.get(invoice, "settleWaiting"),
-  //           terminalID,
-  //           true
-  //         );
-  //       }
+  const registerEvents = () => {
+    const { invoice, hardware } = store.getState();
+    const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = hardware;
+    const terminalID = l.get(cloverMachineInfo, "serialNumber")
+    clover.changeListenerStatus(true)
+    subscriptions = [
+      eventEmitter.addListener('closeoutSuccess', data => {
+        console.log("closeoutSuccess")
+        console.log(l.get(invoice, "isProcessAutoCloseBatch"))
+        if(paymentMachineType == "Clover" && l.get(invoice, "isProcessAutoCloseBatch")) {
+          
+          store.dispatch(actions.invoice.autoCloseBatchResponse());
+          proccessingSettlement(
+            "[]",
+            l.get(invoice, "settleWaiting"),
+            terminalID,
+            true
+          );
+        }
         
-  //      }),
-  //      eventEmitter.addListener('closeoutFail', data => {
-  //         const dispatch = useDispatch();
-  //         dispatch(actions.invoice.autoCloseBatchResponse());
-  //       }),
+       }),
+       eventEmitter.addListener('closeoutFail', data => {
+         console.log("closeoutFail")
+          store.dispatch(actions.invoice.autoCloseBatchResponse());
+        }),
 
-  //   ]
-  // }
+    ]
+  }
 
-  // const unregisterEvents = () => {
-  //   clover.changeListenerStatus(false)
-  //   this.subscriptions.forEach(e => e.remove())
-  //   this.subscriptions = []
-  // }
+  const unregisterEvents = () => {
+    clover.changeListenerStatus(false)
+    subscriptions.forEach(e => e.remove())
+    subscriptions = []
+  }
 
   React.useEffect(() => {
     SplashScreen.hide();
 
-    // registerEvents();
+    registerEvents();
 
-    // return () => {
-      // unregisterEvents();
-    // }
+    return () => {
+      unregisterEvents();
+    }
 
   }, []);
 

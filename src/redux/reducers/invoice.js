@@ -59,7 +59,7 @@ function invoiceReducer(state = initialState, action) {
         case 'AUTO_CLOSE_BATCH_RESPONSE':
             return {
                 ...state,
-                isProcessAutoCloseBatch: fasle,
+                isProcessAutoCloseBatch: false,
             }
         case 'SAVE_SETTLE_WAITING':
             return {
