@@ -21,6 +21,8 @@ import * as l from "lodash";
 import PushNotification from "react-native-push-notification";
 import { parseString } from "react-native-xml2js";
 import env from "react-native-config";
+import { useDispatch } from "react-redux";
+import actions from "@actions";
 import configureStore from "../redux/store";
 const { store } = configureStore();
 import {
@@ -1649,6 +1651,8 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
 };
 
 export const handleAutoClose = async () => {
+  const dispatch = useDispatch();
+  dispatch(actions.invoice.autoCloseBatch());
   const { dataLocal, hardware } = store.getState();
   const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = hardware;
   const { token, deviceId, deviceName } = dataLocal;
