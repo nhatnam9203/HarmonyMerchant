@@ -1,31 +1,19 @@
-import { Button, ButtonCustom, Text } from "@components";
-import connectRedux from "@redux/ConnectRedux";
-import { localize, scaleSize } from "@utils";
 import React from "react";
-import {
-  Image,
-  NativeModules,
-  View,
-  TextInput,
-  ScrollView,
-} from "react-native";
+import { View, StyleSheet, Image, Platform } from "react-native";
+// import { BleManager } from 'react-native-ble-plx';
+
+import { Button, Text, ButtonCustom } from "@components";
+import { scaleSize, localize } from "@utils";
+import IMAGE from "@resources";
+import connectRedux from "@redux/ConnectRedux";
 // import BluetoothScanner from "@lib/BluetoothScanner";
 // import { ScrollView } from 'react-native-gesture-handler';
-import moment from "moment";
-import {
-  createFilePath,
-  getInfoPathFile,
-  handleTheDownloadedFile,
-  handleShareFile,
-} from "@shared/utils/files";
-import * as RNFS from "react-native-fs";
 
 class AddDeviceHardware extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       peripherals: [],
-      textPaxLog: null,
     };
     this.bluetoothScannerRef = React.createRef();
   }
@@ -34,30 +22,6 @@ class AddDeviceHardware extends React.Component {
 
   addDevice = () => {
     this.props.gotoSetupDevice();
-  };
-
-  showLogPax = async () => {
-    const date = moment(date).format("yyyy-MM-DD") + "";
-
-    await NativeModules.logPax.readLogPax({ dateStr: date }, (textLog) => {
-      this.setState({ textPaxLog: textLog });
-    });
-  };
-
-  saveLogPax = async () => {
-    const { textPaxLog } = this.state;
-    var path = RNFS.DocumentDirectoryPath + "/logPax.txt";
-    console.log(path);
-
-    RNFS.writeFile(path, textPaxLog, "utf8")
-      .then((success) => {
-        setTimeout(() => {
-          handleShareFile("Log File", path);
-        }, 250);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
   };
 
   scanAndConnect() {}
@@ -141,113 +105,28 @@ class AddDeviceHardware extends React.Component {
 
   renderConnected() {
     const { paxMachineInfo } = this.props;
-    const { textPaxLog } = this.state;
-
     return (
-      <View style={{ flex: 1 }}>
-        <Button
-          onPress={this.addDevice}
+      <Button
+        onPress={this.addDevice}
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          width: scaleSize(120),
+          marginTop: scaleSize(12),
+        }}
+      >
+        <Text
           style={{
-            flexDirection: "row",
-            alignItems: "center",
-            width: scaleSize(120),
-            marginTop: scaleSize(12),
+            fontSize: scaleSize(14),
+            fontWeight: "bold",
+            color: "#0764B0",
+            marginLeft: scaleSize(8),
+            textDecorationLine: "underline",
           }}
         >
-          <Text
-            style={{
-              fontSize: scaleSize(14),
-              fontWeight: "bold",
-              color: "#0764B0",
-              marginLeft: scaleSize(8),
-              textDecorationLine: "underline",
-            }}
-          >
-            {paxMachineInfo.name}
-          </Text>
-        </Button>
-
-        <View style={{ flexDirection: "row" }}>
-          <Button
-            onPress={this.showLogPax}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              width: scaleSize(65),
-              height: scaleSize(20),
-              marginTop: scaleSize(20),
-              borderRadius: scaleSize(3),
-              backgroundColor: "#0764B0",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: scaleSize(10),
-                color: "white",
-                //   textDecorationLine: "underline",
-              }}
-            >
-              {"Get LogPax"}
-            </Text>
-          </Button>
-
-          {textPaxLog && (
-            <Button
-              onPress={this.saveLogPax}
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-                width: scaleSize(65),
-                height: scaleSize(20),
-                marginTop: scaleSize(20),
-                borderRadius: scaleSize(3),
-                backgroundColor: "#fff",
-                marginLeft: scaleSize(5),
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: scaleSize(10),
-                  color: "gray",
-                  //   textDecorationLine: "underline",
-                }}
-              >
-                {"Save LogPax"}
-              </Text>
-            </Button>
-          )}
-        </View>
-
-        {textPaxLog && (
-          <View
-            style={{
-              flex: 1,
-              fontSize: scaleSize(16),
-              backgroundColor: "#eaeaef",
-              marginTop: scaleSize(5),
-              marginBottom: scaleSize(100),
-              borderWidth: 1,
-              borderColor: "gray",
-              borderRadius: 3,
-              padding: scaleSize(4),
-            }}
-          >
-            <ScrollView>
-              <Text
-                style={{
-                  flex: 1,
-                  fontSize: scaleSize(12),
-                  textAlignVertical: "bottom",
-                }}
-              >
-                {textPaxLog}
-              </Text>
-            </ScrollView>
-          </View>
-        )}
-      </View>
+          {paxMachineInfo.name}
+        </Text>
+      </Button>
     );
   }
 

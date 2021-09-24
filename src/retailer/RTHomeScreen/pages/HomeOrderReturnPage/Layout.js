@@ -68,7 +68,7 @@ export const Layout = ({
               {item?.productName || item?.name}
             </Text>
             <View style={styles.productNameMarginVertical} />
-            {item?.value && (
+            {!!item?.value && (
               <Text style={styles.productOption}>{`${item?.value}`}</Text>
             )}
           </View>
