@@ -139,7 +139,11 @@ export const BasketContentView = React.forwardRef(
 
       return (
         <ProductItem key={item?.key + ""} handleDelete={onHandleDeleteItem}>
-          <TouchableOpacity style={styles.productItem} onPress={onEditProduct}>
+          <TouchableOpacity
+            style={styles.productItem}
+            onPress={onEditProduct}
+            activeOpacity={1}
+          >
             <FastImage
               style={styles.imageStyle}
               source={

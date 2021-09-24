@@ -59,7 +59,7 @@ export const Layout = ({
   searchProducts,
   editProductItemRef,
   onShowDialogEditProductItem,
-  onSubmitEditProductItem
+  onSubmitEditProductItem,
 }) => {
   const { t } = useTranslation();
 
@@ -69,12 +69,12 @@ export const Layout = ({
   const labelColumn3 = _.get(categoriesLabelData, "column3") || t("Products");
 
   const onRenderGiftCardItem = () => {
-    // return null;
-    return (
-      <TouchableOpacity style={styles.itemContent} onPress={onSelectGiftCard}>
-        <Text style={styles.itemText}>{t("Gift Card")}</Text>
-      </TouchableOpacity>
-    );
+    return null;
+    // return (
+    //   <TouchableOpacity style={styles.itemContent} onPress={onSelectGiftCard}>
+    //     <Text style={styles.itemText}>{t("Gift Card")}</Text>
+    //   </TouchableOpacity>
+    // );
   };
 
   return (
@@ -265,7 +265,10 @@ export const Layout = ({
         // doneBill={doneBill}
       />
 
-      <DialogEditProductOrder ref={editProductItemRef} onEditProductItem={onSubmitEditProductItem}/>
+      <DialogEditProductOrder
+        ref={editProductItemRef}
+        onEditProductItem={onSubmitEditProductItem}
+      />
 
       {/* <PopupBill
         ref={modalBillRef}

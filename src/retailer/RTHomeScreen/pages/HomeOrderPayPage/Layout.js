@@ -224,14 +224,14 @@ export const Layout = ({
                   paymentSelected={paymentSelected}
                 />
               </View>
-              <View style={styles.rowContent}>
+              {/* <View style={styles.rowContent}>
                 <ButtonPaymentMethod
                   key={"Gift Card"}
                   title={"Gift Card"}
                   selectedPayment={selectedPayment}
                   paymentSelected={paymentSelected}
                 />
-              </View>
+              </View> */}
             </View>
 
             <View style={layouts.center}>
