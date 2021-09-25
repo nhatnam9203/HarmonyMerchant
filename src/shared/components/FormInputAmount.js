@@ -9,6 +9,8 @@ export const FormInputAmount = ({
   label,
   defaultValue = MIN,
   onChangeValue,
+  width,
+  style,
 }) => {
   const [amount, setAmount] = React.useState(defaultValue);
 
@@ -38,7 +40,7 @@ export const FormInputAmount = ({
   }, [amount]);
 
   return (
-    <View style={styles.container}>
+    <View>
       {label && <Text style={styles.label}>{label}</Text>}
       <View style={layouts.marginVertical} />
       <View style={styles.inputContent}>
@@ -53,7 +55,7 @@ export const FormInputAmount = ({
         <TextInputMask
           type="only-numbers"
           keyboardType="numeric"
-          style={styles.input}
+          style={[styles.input, width && { width }]}
           value={amount + ""}
           onChangeText={onHandleChange}
         />

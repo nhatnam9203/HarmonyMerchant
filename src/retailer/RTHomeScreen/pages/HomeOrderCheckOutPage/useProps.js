@@ -534,7 +534,7 @@ export const useProps = ({
 
       if (appointmentTempId) {
         const findItem = appointmentTemp?.products?.find(
-          (x) => x.productId === productItem.productId
+          (x) => x.productQuantityId === productItem.productQuantityId
         );
 
         if (findItem) {
@@ -555,7 +555,7 @@ export const useProps = ({
           });
         } else {
           const findItem = appointment?.products?.find(
-            (x) => x.productId === productItem.productId
+            (x) => x.productQuantityId === productItem.productQuantityId
           );
           if (findItem) {
             appointmentUpdateProductItem(

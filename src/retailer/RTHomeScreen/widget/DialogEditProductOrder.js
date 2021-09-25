@@ -144,13 +144,24 @@ export const DialogEditProductOrder = React.forwardRef(
               />
             </View> */}
 
-            <FormInput
+            {/* <FormInput
               label={t("Quantity")}
               placeholder={t("1")}
               required={true}
               onChangeValue={onHandleChangeText}
               defaultValue={quantity ? quantity + "" : ""}
-            />
+            /> */}
+            <Text style={styles.textStyle}>{t("Quantity")}</Text>
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+              <FormInputAmount
+                // label={t("Quantity")}
+                defaultValue={quantity}
+                onChangeValue={(value) => {
+                  onHandleChangeText(value);
+                }}
+                width={scaleWidth(100)}
+              />
+            </View>
           </View>
         </DialogLayout>
       </View>

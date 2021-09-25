@@ -85,6 +85,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
           id: Date.now(),
           options: filterOptions,
           quantity: quantity,
+          productQuantityId: optionsQty?.id,
         })
       );
     }
