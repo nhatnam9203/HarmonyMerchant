@@ -69,8 +69,10 @@ export const DialogEditProductOrder = React.forwardRef(
       if (statusSuccess(codeStatus)) {
         if (data.quantities?.length > 0) {
           const findItem = data.quantities?.find(
-            (x) => x.id === productItem.quantityId
+            (x) => x.id === productItem.productQuantityId
           );
+
+          console.log(findItem);
           if (findItem) {
             setMaxCountQty(findItem.quantity);
           }
