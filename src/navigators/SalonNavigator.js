@@ -25,14 +25,14 @@ import { scaleSize } from "../utils";
 
 const { Screen, Navigator } = createDrawerNavigator();
 export const SalonNavigator = () => {
-  const loadPax = async () => {
-    console.log("====> start log pax");
-    await NativeModules.logPax.loadLogPax();
-  };
+  // const loadPax = async () => {
+  //   console.log("====> start log pax");
+  //   await NativeModules.logPax.loadLogPax();
+  // };
 
-  React.useEffect(() => {
-    loadPax();
-  }, []);
+  // React.useEffect(() => {
+  //   loadPax();
+  // }, []);
 
   return (
     <Navigator

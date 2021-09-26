@@ -1294,7 +1294,8 @@ class Layout extends React.Component {
 
     const app0 =
       (!l.isEmpty(groupAppointment) &&
-        groupAppointment?.appointments?.first()) ||
+        groupAppointment?.appointments?.length > 0 &&
+        groupAppointment?.appointments[0]) ||
       null;
 
     const titleExitCheckoutTab =
