@@ -341,7 +341,7 @@ class PopupInvoicePrint extends React.Component {
       invoiceName = profileStaffLogin?.displayName;
     }
     let fontWeightClover = paymentMachineType == "Clover" && !printerSelect && {fontWeight: "600"}
-    
+    let isPrintFormatClover = paymentMachineType == "Clover" && !printerSelect
     return (
       <Modal
         visible={visiblePrintInvoice}
@@ -510,7 +510,7 @@ class PopupInvoicePrint extends React.Component {
                     <Text
                       style={[
                         styleInvoice.txt_info,
-                        { fontSize: 18, fontWeight: "400" },
+                        { fontSize: 18, fontWeight: "600" },
                         fontWeightClover
                       ]}
                     >
@@ -523,7 +523,7 @@ class PopupInvoicePrint extends React.Component {
                     <Text
                       style={[
                         styleInvoice.txt_info,
-                        { fontSize: 18, fontWeight: "400" },
+                        { fontSize: 18, fontWeight: "600" },
                         fontWeightClover
                       ]}
                     >
@@ -540,7 +540,7 @@ class PopupInvoicePrint extends React.Component {
                     <Text
                       style={[
                         styleInvoice.txt_info,
-                       { fontSize: 18, fontWeight: "400" },
+                       { fontSize: 18, fontWeight: "600" },
                        fontWeightClover
                       ]}
                     >
@@ -557,7 +557,7 @@ class PopupInvoicePrint extends React.Component {
                     <Text
                       style={[
                         styleInvoice.txt_info,
-                        { fontSize: 18, fontWeight: "400" },
+                        { fontSize: 18, fontWeight: "600" },
                         fontWeightClover
                       ]}
                     >
@@ -893,7 +893,8 @@ class PopupInvoicePrint extends React.Component {
                 <Text
                   style={[
                     styleInvoice.txt_total,
-                    {fontWeight: "600"}
+                    {fontWeight: "600"},
+                    !isPrintFormatClover && { fontSize: 13 }
                   ]}
                 >
                   {`********** ${
@@ -1033,7 +1034,7 @@ const ItemTotal = ({ title, value, style, paymentMachineType, printerSelect }) =
           styleInvoice.txt_total,
           paymentMachineType == "Clover" && !printerSelect ?
           { alignSelf: "flex-end", fontWeight: "600" }
-          : { alignSelf: "flex-end", fontWeight: "400" },
+          : { alignSelf: "flex-end", fontWeight: "600" },
           style,
         ]}
       >
@@ -1048,17 +1049,17 @@ const styleInvoice = StyleSheet.create({
     color: "#000",
     fontSize: 18,
     alignSelf: "center",
-    fontWeight: "500",
+    fontWeight: "600",
   },
   txt_info: {
     color: "#000",
     fontSize: 18,
-    fontWeight: "500",
+    fontWeight: "600",
   },
   txt_total: {
     color: "#000",
     fontSize: 20,
-    fontWeight: "500",
+    fontWeight: "600",
   },
 });
 
