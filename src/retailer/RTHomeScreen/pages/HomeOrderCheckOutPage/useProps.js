@@ -19,6 +19,9 @@ import {
   useAppointmentTempAddGiftCard,
   useAppointmentRemoveGiftCard,
   useAppointmentTempRemoveGiftCard,
+  useGetProductsList,
+  useAppointmentUpdateItem,
+  useAppointmentTempUpdateItem,
 } from "@shared/services/api/retailer";
 import {
   createSubmitAppointment,
@@ -56,6 +59,7 @@ export const useProps = ({
   const activeGiftCardRef = React.useRef(null);
   const modalBillRef = React.useRef(null);
   const popupEnterAmountGiftCardRef = React.useRef(null);
+  const editProductItemRef = React.useRef(null);
 
   /**
   |--------------------------------------------------
@@ -96,6 +100,8 @@ export const useProps = ({
   const [subCategories, setSubCategories] = React.useState(null);
   const [products, setProducts] = React.useState(null);
   const [removeItemWaitingList, setRemoveItemWaitingList] = React.useState([]);
+  const [searchData, setSearchData] = React.useState(null);
+  const [searchVal, setSearchVal] = React.useState();
   const [scanCodeTemp, setScanCodeTemp] = React.useState(null);
 
   /**
@@ -134,6 +140,19 @@ export const useProps = ({
   const [appointmentTempGiftCardRemove, removeAppointmentTempGiftCard] =
     useAppointmentTempRemoveGiftCard();
 
+  const [productListData, getInventoryList] = useGetProductsList();
+  const callGetProductList = React.useCallback(() => {
+    getInventoryList({
+      key: searchVal ?? "",
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchVal]);
+
+  const [appointmentProductItemUpdate, appointmentUpdateProductItem] =
+    useAppointmentUpdateItem();
+
+  const [appointmentTempProductItemUpdate, appointmentTempUpdateProductItem] =
+    useAppointmentTempUpdateItem();
   /**
   |--------------------------------------------------
   | Functional
@@ -146,6 +165,7 @@ export const useProps = ({
     setSubCategoryId(null);
     setSubCategories(null);
     setProducts(null);
+    setSearchData(null);
   };
 
   const reloadAll = () => {
@@ -173,9 +193,6 @@ export const useProps = ({
         appointment?.purchasePoint &&
         appointment.purchasePoint !== purchasePoint
       ) {
-        console.log(purchasePoint);
-        console.log(appointment);
-
         dispatch(basketRetailer.clearBasket());
       }
     }, [purchasePoint, appointment])
@@ -193,6 +210,33 @@ export const useProps = ({
   //     unsubscribeBlur();
   //   };
   // }, [navigation]);
+
+  React.useEffect(() => {
+    const { codeStatus, data } = productListData || {};
+    if (statusSuccess(codeStatus)) {
+      setSearchData(data);
+
+      if (data?.length > 0) {
+        setCategoryId(null);
+        setSubCategories(null);
+        setSubCategoryId(null);
+        setActiveTab(CUSTOM_LIST_TYPES.PRO);
+        setProducts(data);
+      }
+    }
+  }, [productListData]);
+
+  React.useEffect(() => {
+    if (searchVal) callGetProductList();
+    else {
+      setSearchData(null);
+      setProducts(null);
+      if (activeTab === CUSTOM_LIST_TYPES.PRO) {
+        setActiveTab(CUSTOM_LIST_TYPES.CAT);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchVal]);
 
   /**
    * GET Categories effects
@@ -239,6 +283,7 @@ export const useProps = ({
       appointmentTempItemAdd ||
       updateAppointmentTempCustomerData ||
       appointmentTempGiftCardAdd ||
+      appointmentTempProductItemUpdate ||
       {};
     if (statusSuccess(codeStatus)) {
       getAppointmentTemp(appointmentTempId);
@@ -247,6 +292,7 @@ export const useProps = ({
     appointmentTempItemAdd,
     updateAppointmentTempCustomerData,
     appointmentTempGiftCardAdd,
+    appointmentTempProductItemUpdate,
   ]);
 
   React.useEffect(() => {
@@ -265,10 +311,11 @@ export const useProps = ({
    * Update customer in appointment  effects
    */
   React.useEffect(() => {
-    const { codeStatus, message, data } =
+    const { codeStatus } =
       appointmentItemAdd ||
       updateAppointmentCustomerData ||
       appointmentGiftCardAdd ||
+      appointmentProductItemUpdate ||
       {};
     if (statusSuccess(codeStatus)) {
       getAppointment(appointmentId);
@@ -277,6 +324,7 @@ export const useProps = ({
     appointmentItemAdd,
     updateAppointmentCustomerData,
     appointmentGiftCardAdd,
+    appointmentProductItemUpdate,
   ]);
 
   React.useEffect(() => {
@@ -414,7 +462,6 @@ export const useProps = ({
       if (!categoryItem) {
         return;
       }
-
       if (categoryItem?.categoryId === categoryId) {
         setCategoryId(null);
         setActiveTab(CUSTOM_LIST_TYPES.CAT);
@@ -427,6 +474,7 @@ export const useProps = ({
 
       setSubCategoryId(null);
       setProducts(null);
+      setSearchVal(null);
     },
     onPressSubCategoryItem: (subCategoryItem) => {
       if (!subCategoryItem) {
@@ -485,7 +533,19 @@ export const useProps = ({
       const submitProducts = createSubmitAppointment([productItem]);
 
       if (appointmentTempId) {
-        addItemAppointmentTemp(submitProducts[0]);
+        const findItem = appointmentTemp?.products?.find(
+          (x) => x.productQuantityId === productItem.productQuantityId
+        );
+
+        if (findItem) {
+          appointmentTempUpdateProductItem(
+            appointmentTempId,
+            findItem?.bookingProductId,
+            { quantity: findItem?.quantity + productItem?.quantity }
+          );
+        } else {
+          addItemAppointmentTemp(submitProducts[0]);
+        }
       } else {
         if (!appointment) {
           createAppointmentTemp({
@@ -494,25 +554,53 @@ export const useProps = ({
             products: submitProducts,
           });
         } else {
-          // add item to appointment
-          addAppointmentItem(submitProducts[0]);
+          const findItem = appointment?.products?.find(
+            (x) => x.productQuantityId === productItem.productQuantityId
+          );
+          if (findItem) {
+            appointmentUpdateProductItem(
+              appointmentId,
+              findItem?.bookingProductId,
+              { quantity: findItem?.quantity + productItem?.quantity }
+            );
+          } else {
+            // add item to appointment
+            addAppointmentItem(submitProducts[0]);
+          }
         }
       }
     },
     appointment: appointmentTemp ?? appointment,
-    onRemoveItem: (items) => {
-      if (items?.length > 0) {
-        let clonePendingList = [...removeItemWaitingList];
+    onRemoveItem: (removeItem) => {
+      // if (items?.length > 0) {
+      //   let clonePendingList = [...removeItemWaitingList];
+
+      //   clonePendingList = clonePendingList.concat(items);
 
         clonePendingList = clonePendingList.concat(items);
+      //   setRemoveItemWaitingList(clonePendingList);
+      // }
 
-        setRemoveItemWaitingList(clonePendingList);
+      if (appointmentTempId) {
+        if (removeItem?.bookingProductId) {
+          removeItemAppointmentTemp(removeItem?.bookingProductId);
+        }
+
+        if (removeItem?.bookingGiftCardId) {
+          removeAppointmentTempGiftCard(removeItem?.bookingGiftCardId);
+        }
+      } else if (appointmentId) {
+        if (removeItem?.bookingProductId) {
+          removeAppointmentItem(removeItem?.bookingProductId);
+        }
+
+        if (removeItem?.bookingGiftCardId) {
+          removeAppointmentGiftCard(removeItem?.bookingGiftCardId);
+        }
       }
     },
     customer,
     onResultScanCode: (data) => {
-      // getProductsByBarcode(data ?? "8936101342225");
-
       if (data?.trim()) {
         const code = data?.trim();
         setScanCodeTemp(code);
@@ -584,6 +672,32 @@ export const useProps = ({
             },
           ],
         });
+      }
+    },
+    onButtonSearchPress: (searchValue) => {
+      console.log(searchValue);
+    },
+    onChangeValueSearch: (searchValue) => {
+      setSearchVal(searchValue);
+    },
+    searchProducts: productListData,
+    editProductItemRef,
+    onShowDialogEditProductItem: (proItem) => {
+      editProductItemRef.current?.show(proItem);
+    },
+    onSubmitEditProductItem: (proItem, params) => {
+      if (appointmentTempId) {
+        appointmentTempUpdateProductItem(
+          appointmentTempId,
+          proItem?.bookingProductId,
+          params
+        );
+      } else {
+        appointmentUpdateProductItem(
+          appointmentId,
+          proItem?.bookingProductId,
+          params
+        );
       }
     },
   };

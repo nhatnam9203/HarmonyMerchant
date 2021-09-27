@@ -32,6 +32,7 @@ export const InputSearch = ({ width, height, onSearch, textInputProps }) => {
         defaultValue: value,
         onChangeText: onHandleChange,
         textAlign: 'left',
+        clearButtonMode: "always"
       })}
     >
       <Image source={IMAGE.search} color={'#9E9E9E'} size={scaleWidth(32)} />

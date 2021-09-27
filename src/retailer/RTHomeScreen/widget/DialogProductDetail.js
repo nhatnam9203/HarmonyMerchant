@@ -31,6 +31,8 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   const [codeSelected, setCodeSelected] = React.useState(null);
 
   const [optionsSelected, setOptionsSelected] = React.useState(null); // [{id: id, value: value}]
+  const [codeSelected, setCodeSelected] = React.useState(null);
+
   /**
   |--------------------------------------------------
   | API
@@ -84,6 +86,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
           id: Date.now(),
           options: filterOptions,
           quantity: quantity,
+          productQuantityId: optionsQty?.id,
         })
       );
     }
@@ -138,6 +141,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   React.useImperativeHandle(ref, () => ({
     show: (item, selected) => {
       // selected : can barcode/ id/ ....
+
       dialogRef.current?.show();
       setOptionsQty(null);
       setImageUrl(null);
@@ -183,6 +187,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
 
       setProduct(data);
       setImageUrl(data?.imageUrl);
+
       if (codeSelected) {
         const tmp = data?.quantities?.find((x) => x.barCode === codeSelected);
         if (tmp?.attributeIds?.length && tmp.quantity > 0) {
@@ -200,7 +205,6 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
             }
             return null;
           });
-
 
           if (selectedList?.length > 0) {
             setOptionsSelected(selectedList);

@@ -1,6 +1,6 @@
-import React from 'react';
-import Layout from './layout';
-import connectRedux from '@redux/ConnectRedux';
+import React from "react";
+import Layout from "./layout";
+import connectRedux from "@redux/ConnectRedux";
 
 class TabStaff extends Layout {
   constructor(props) {
@@ -11,14 +11,14 @@ class TabStaff extends Layout {
       visibleRestore: false,
       isEditStaff: false,
       filter: {
-        role: '',
-        status: '',
+        role: "",
+        status: "",
       },
       staffHandle: {},
       searchFilter: {
-        keySearch: '',
-        role: '',
-        status: '',
+        keySearch: "",
+        role: "",
+        status: "",
       },
       index: 0,
     };
@@ -33,16 +33,16 @@ class TabStaff extends Layout {
   setStateFromParent = async () => {
     await this.setState({
       searchFilter: {
-        keySearch: '',
-        role: '',
-        status: '',
+        keySearch: "",
+        role: "",
+        status: "",
       },
     });
   };
 
-  async updateSearchFilterInfo(key, value, keyParent = '') {
+  async updateSearchFilterInfo(key, value, keyParent = "") {
     const { searchFilter } = this.state;
-    if (keyParent !== '') {
+    if (keyParent !== "") {
       const temptParent = searchFilter[keyParent];
       const temptChild = { ...temptParent, [key]: value };
       const temptUpdate = { ...searchFilter, [keyParent]: temptChild };
@@ -55,12 +55,12 @@ class TabStaff extends Layout {
         searchFilter: temptUpdate,
       });
     }
-    if (key !== 'keySearch') {
+    if (key !== "keySearch") {
       setTimeout(() => {
         this.searchStaff();
       }, 100);
     } else {
-      if (value === '') {
+      if (value === "") {
         this.searchStaff();
       }
     }
@@ -119,10 +119,10 @@ class TabStaff extends Layout {
     this.props.actions.staff.switchAddStaff(true);
 
     if (this.addStaffRef?.current) {
-      this.addStaffRef?.current?.setStateFromParent('', false);
+      this.addStaffRef?.current?.setStateFromParent("", false);
     } else {
       setTimeout(() => {
-        this.addStaffRef?.current?.setStateFromParent('', false);
+        this.addStaffRef?.current?.setStateFromParent("", false);
       }, 500);
     }
 
@@ -141,17 +141,22 @@ class TabStaff extends Layout {
       staffHandle: staff,
     });
 
-    this.props.actions.staff.getDetailStaffByMerchantId(staff?.staffId);
-    this.props.actions.staff.switchAddStaff(true);
+    if (this.addStaffRef.current) {
+      await this.addStaffRef?.current?.setStateFromParent(staff, true);
 
-    if (this.addStaffRef?.current) {
-      this.addStaffRef?.current?.setStateFromParent(staff, true);
+      this.props.actions.staff.getDetailStaffByMerchantId(staff?.staffId);
+      this.props.actions.staff.switchAddStaff(true);
+
+      this.scrollTabParentRef?.current?.goToPage(1);
     } else {
-      setTimeout(() => {
-        this.addStaffRef?.current?.setStateFromParent(staff, true);
+      setTimeout(async () => {
+        await this.addStaffRef?.current?.setStateFromParent(staff, true);
+
+        this.props.actions.staff.getDetailStaffByMerchantId(staff?.staffId);
+        this.props.actions.staff.switchAddStaff(true);
       }, 500);
+      this.scrollTabParentRef?.current?.goToPage(1);
     }
-    this.scrollTabParentRef?.current?.goToPage(1);
   };
 
   restoreStaff = (staff) => () => {
@@ -211,9 +216,9 @@ class TabStaff extends Layout {
   clearSearchText = () => {
     const { searchFilter } = this.state;
     const { role, status } = searchFilter;
-    this.updateSearchFilterInfo('keySearch', '');
+    this.updateSearchFilterInfo("keySearch", "");
     this.props.actions.staff.getStaffByMerchantId(
-      '',
+      "",
       role,
       status,
       searchFilter
@@ -232,8 +237,11 @@ class TabStaff extends Layout {
       }
     }
     this.props.actions.staff.updateStaffsPositionLocal(tempStaffList);
-    this.props.actions.staff.updateStaffStatus(isActive, staff.staffId ? staff.staffId : 0,
-                                                searchFilter)
+    this.props.actions.staff.updateStaffStatus(
+      isActive,
+      staff.staffId ? staff.staffId : 0,
+      searchFilter
+    );
   };
 
   // componentDidMount() {

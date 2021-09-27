@@ -197,6 +197,7 @@ class AddStaff extends Layout {
   }
 
   setStateFromParent = async (infoStaffHandle, isEditStaff) => {
+    console.log(infoStaffHandle);
     this.isEditStaff = isEditStaff;
     const permissionInit = [
       {
@@ -321,9 +322,7 @@ class AddStaff extends Layout {
         getCodeAreaPhone(infoStaffHandle.phone).areaCode
       );
 
-      this.assignSevices?.current?.setStateFromParent(
-        JSON.parse(JSON.stringify(infoStaffHandle))
-      );
+      await this.assignSevices?.current?.setStateFromParent(infoStaffHandle);
     } else {
       // ----------- Create New Staff -----------
       const { profile } = this.props;

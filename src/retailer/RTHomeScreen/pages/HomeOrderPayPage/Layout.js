@@ -169,17 +169,18 @@ export const Layout = ({
           />
           <View style={styles.headerRightContent}>
             {renderButton()}
-            <ExitCheckoutConfirmButton
+            <ButtonGradientWhite
               // label={t("")}
               description={t("Do you want to exist this checkout ?")}
               width={scaleWidth(40)}
               height={scaleHeight(40)}
               fontSize={scaleFont(17)}
               textWeight="normal"
-              onPress={onGoBackOrderList}
+              onPress={onGoBackCheckOut}
+              // onPress={onGoBackOrderList}
             >
               <Image source={IMAGE.back} />
-            </ExitCheckoutConfirmButton>
+            </ButtonGradientWhite>
           </View>
         </View>
 
@@ -223,14 +224,14 @@ export const Layout = ({
                   paymentSelected={paymentSelected}
                 />
               </View>
-              <View style={styles.rowContent}>
+              {/* <View style={styles.rowContent}>
                 <ButtonPaymentMethod
                   key={"Gift Card"}
                   title={"Gift Card"}
                   selectedPayment={selectedPayment}
                   paymentSelected={paymentSelected}
                 />
-              </View>
+              </View> */}
             </View>
 
             <View style={layouts.center}>

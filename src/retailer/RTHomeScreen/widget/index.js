@@ -10,3 +10,4 @@ export * from './CheckOutCustomerInfo';
 export * from './ButtonPaymentMethod';
 export * from './BasketPaymentContent';
 export * from './FormAddressInformation';
+export * from './DialogEditProductOrder';
