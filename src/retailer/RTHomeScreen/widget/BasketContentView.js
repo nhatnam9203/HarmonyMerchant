@@ -132,6 +132,7 @@ export const BasketContentView = React.forwardRef(
       };
 
       const onEditProduct = () => {
+        if (!item.bookingProductId) return;
         if (onEditItem && typeof onEditItem === "function") {
           onEditItem(item);
         }
