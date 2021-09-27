@@ -17,7 +17,6 @@ import {
 } from "./components";
 import { RootNavigator } from "./navigators/RootNavigator";
 import configureStore from "./redux/store";
-import { useDispatch } from "react-redux";
 import actions from "@actions";
 import {
   proccessingSettlement,
@@ -25,6 +24,7 @@ import {
 import * as l from "lodash";
 
 const { clover } = NativeModules;
+const { persistor, store } = configureStore();
 
 if (isDevelopmentMode) {
   import("../ReactotronConfig").then(() =>
@@ -32,37 +32,38 @@ if (isDevelopmentMode) {
   );
 }
 
-const { persistor, store } = configureStore();
-
 const App: () => React$Node = () => {
   //ADD LISTENER FROM CLOVER MODULE
   let eventEmitter = new NativeEventEmitter(clover);
   let subscriptions = []
 
   const registerEvents = () => {
-    const { invoice, hardware } = store.getState();
-    const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = hardware;
-    const terminalID = l.get(cloverMachineInfo, "serialNumber")
+    
     clover.changeListenerStatus(true)
     subscriptions = [
       eventEmitter.addListener('closeoutSuccess', data => {
-        console.log("closeoutSuccess")
-        console.log(l.get(invoice, "isProcessAutoCloseBatch"))
+        const { invoice, hardware } = store.getState();
+        const { cloverMachineInfo, paymentMachineType } = hardware;
+        const terminalID = l.get(cloverMachineInfo, "serialNumber")
         if(paymentMachineType == "Clover" && l.get(invoice, "isProcessAutoCloseBatch")) {
           
           store.dispatch(actions.invoice.autoCloseBatchResponse());
+          setTimeout(()=> 
           proccessingSettlement(
             "[]",
             l.get(invoice, "settleWaiting"),
             terminalID,
             true
-          );
+          ), 200)
         }
         
        }),
        eventEmitter.addListener('closeoutFail', data => {
-         console.log("closeoutFail")
-          store.dispatch(actions.invoice.autoCloseBatchResponse());
+        const { invoice, hardware } = store.getState();
+        const { paymentMachineType } = hardware;
+          if(paymentMachineType == "Clover" && l.get(invoice, "isProcessAutoCloseBatch")) {
+            store.dispatch(actions.invoice.autoCloseBatchResponse());
+          }
         }),
 
     ]
