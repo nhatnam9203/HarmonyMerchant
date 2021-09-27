@@ -28,8 +28,6 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   const [optionsQty, setOptionsQty] = React.useState(null); // array [optionsValueId]
   const [listFiltersOptionsQty, setListFiltersOptionsQty] =
     React.useState(null);
-  const [codeSelected, setCodeSelected] = React.useState(null);
-
   const [optionsSelected, setOptionsSelected] = React.useState(null); // [{id: id, value: value}]
   const [codeSelected, setCodeSelected] = React.useState(null);
 

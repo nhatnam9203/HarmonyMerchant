@@ -69,12 +69,12 @@ export const Layout = ({
   const labelColumn3 = _.get(categoriesLabelData, "column3") || t("Products");
 
   const onRenderGiftCardItem = () => {
-    return null;
-    // return (
-    //   <TouchableOpacity style={styles.itemContent} onPress={onSelectGiftCard}>
-    //     <Text style={styles.itemText}>{t("Gift Card")}</Text>
-    //   </TouchableOpacity>
-    // );
+    // return null;
+    return (
+      <TouchableOpacity style={styles.itemContent} onPress={onSelectGiftCard}>
+        <Text style={styles.itemText}>{t("Gift Card")}</Text>
+      </TouchableOpacity>
+    );
   };
 
   return (
@@ -108,38 +108,7 @@ export const Layout = ({
           <InputSearch onSearch={onChangeValueSearch} width={scaleWidth(280)} />
 
           <View style={layouts.marginHorizontal} />
-
-          {/* <ButtonGradientWhite
-            label={t("Search")}
-            width={scaleWidth(120)}
-            borderRadius={scaleWidth(3)}
-            onPress={onButtonSearchPress}
-          /> */}
         </View>
-
-        {/* <ButtonGradientWhite
-          width={scaleWidth(40)}
-          height={scaleHeight(40)}
-          fontSize={scaleFont(17)}
-          textWeight="normal"
-          onPress={() => {
-            onResultScanCode("Pho");
-          }}
-        >
-          <Image source={IMAGE.back} />
-        </ButtonGradientWhite> */}
-        {/*
-        <ButtonGradientWhite
-          width={scaleWidth(40)}
-          height={scaleHeight(40)}
-          fontSize={scaleFont(17)}
-          textWeight="normal"
-          onPress={() => {
-            onResultScanCode("8936101342225");
-          }}
-        >
-          <Image source={IMAGE.back} />
-        </ButtonGradientWhite> */}
 
         <View style={styles.headerRightContent}>
           <ButtonGradient

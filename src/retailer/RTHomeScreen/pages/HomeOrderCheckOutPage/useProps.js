@@ -572,15 +572,6 @@ export const useProps = ({
     },
     appointment: appointmentTemp ?? appointment,
     onRemoveItem: (removeItem) => {
-      // if (items?.length > 0) {
-      //   let clonePendingList = [...removeItemWaitingList];
-
-      //   clonePendingList = clonePendingList.concat(items);
-
-        clonePendingList = clonePendingList.concat(items);
-      //   setRemoveItemWaitingList(clonePendingList);
-      // }
-
       if (appointmentTempId) {
         if (removeItem?.bookingProductId) {
           removeItemAppointmentTemp(removeItem?.bookingProductId);
