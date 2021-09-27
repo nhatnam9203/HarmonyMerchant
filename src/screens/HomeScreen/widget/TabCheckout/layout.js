@@ -19,21 +19,21 @@ import {
   menuTabs,
 } from "@utils";
 import {
-    Text, 
-    ButtonCustom, 
-    Button, 
-    PopupConfirm, 
-    PopupPayCompleted, 
-    PopupChangeStylist, 
+    Text,
+    ButtonCustom,
+    Button,
+    PopupConfirm,
+    PopupPayCompleted,
+    PopupChangeStylist,
     PopupChangeMoney,
-    PopupSendLinkInstall, 
-    PopupActiveGiftCard, 
-    PopupScanCode, 
-    PopupProcessingCredit, 
+    PopupSendLinkInstall,
+    PopupActiveGiftCard,
+    PopupScanCode,
+    PopupProcessingCredit,
     PopupInvoicePrint,
-    PopupChangePriceAmountProduct, 
-    PopupChangeTip, 
-    ScrollableTabView, 
+    PopupChangePriceAmountProduct,
+    PopupChangeTip,
+    ScrollableTabView,
     PopupCheckStaffPermission,
     PopupPairingCode,
 } from '@components';
@@ -250,6 +250,7 @@ class Layout extends React.Component {
       categoryStaff,
       isLoadingCategory,
     } = this.state;
+
     let tempWidth = 180;
     tempWidth = isShowColProduct ? 100 : tempWidth;
 
