@@ -152,6 +152,7 @@ export const useProps = ({ params: { item } }) => {
         return temp;
       });
 
+
       let tempData = data;
       tempData.products = updateListData;
       setData(tempData);
@@ -196,8 +197,8 @@ export const useProps = ({ params: { item } }) => {
           .map((itemTemp) => {
             return {
               bookingProductId: _.get(itemTemp, "bookingProductId"),
-              total: itemTemp.total,
-              quantity: 1,
+              total: _.get(itemTemp, "returnAmount"),
+              quantity: _.get(itemTemp, "returnQuantity"),
             };
           });
 
