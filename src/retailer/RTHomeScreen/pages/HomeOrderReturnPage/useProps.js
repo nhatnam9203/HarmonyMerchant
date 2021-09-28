@@ -152,7 +152,6 @@ export const useProps = ({ params: { item } }) => {
         return temp;
       });
 
-
       let tempData = data;
       tempData.products = updateListData;
       setData(tempData);
@@ -185,7 +184,10 @@ export const useProps = ({ params: { item } }) => {
       if (itemSelected?.length > 0) {
         const filterList = _.filter(itemSelected, (temp) => {
           return (
-            _.get(temp, "returnAmount") > 0 || _.get(temp, "returnQuantity") > 0
+            (temp.bookingProductId &&
+              (_.get(temp, "returnAmount") > 0 ||
+                _.get(temp, "returnQuantity") > 0)) ||
+            temp.bookingGiftCardId
           );
         });
 
@@ -194,8 +196,8 @@ export const useProps = ({ params: { item } }) => {
           .map((itemTemp) => {
             return {
               bookingProductId: _.get(itemTemp, "bookingProductId"),
-              total: _.get(itemTemp, "returnAmount"),
-              quantity: _.get(itemTemp, "returnQuantity"),
+              total: itemTemp.total,
+              quantity: 1,
             };
           });
 

@@ -616,6 +616,7 @@ export const useProps = ({
       }
     },
     onSelectGiftCard: () => {
+      console.log("onSelectGiftCard");
       activeGiftCardRef.current?.setStateFromParent();
       dispatch(actions.appointment.handleVisibleActiveGiftCard());
       setCategoryId(1);

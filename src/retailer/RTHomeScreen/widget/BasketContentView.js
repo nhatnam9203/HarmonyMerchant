@@ -105,7 +105,7 @@ export const BasketContentView = React.forwardRef(
             Object.assign({}, x, { key: x.bookingProductId })
           ) || []),
           ...(appointmentItem?.giftCards?.map((x) =>
-            Object.assign({}, x, { key: x.giftCardId })
+            Object.assign({}, x, { key: x.bookingGiftCardId })
           ) || []),
         ]);
       } else {
