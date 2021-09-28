@@ -24,6 +24,7 @@ import {
   getStaffNameForInvoice,
   getInfoFromModelNameOfPrinter,
   checkIsTablet,
+  formatNumberFromCurrency,
 } from "../utils";
 import connectRedux from "@redux/ConnectRedux";
 import PrintManager from "@lib/PrintManager";
@@ -174,7 +175,6 @@ class PopupInvoicePrint extends React.Component {
         isProcessingPrint: true,
       });
       const imageUri = await captureRef(this.viewShotRef, {result: "base64"});
-      console.log(imageUri,'imageUri')
       if (imageUri) {
         if(this.props.doPrintClover){
           this.props.doPrintClover(imageUri)
@@ -719,7 +719,7 @@ class PopupInvoicePrint extends React.Component {
                                 : { fontSize: scaleSize(13) },
                               ]}
                             >
-                              {`$${data?.amount || ""}`}
+                              {`$${Number(formatNumberFromCurrency(data?.amount || "0")).toFixed(2)}`}
                             </Text>
                           </View>
                         </View>
