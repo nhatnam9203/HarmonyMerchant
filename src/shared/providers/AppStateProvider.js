@@ -55,9 +55,9 @@ export const AppStateProvider = ({ children }) => {
     loadDeviceInfo();
     // Subscribe to network state updates
     const unsubscribe = NetInfo.addEventListener((state) => {
-      setNetworkState(state.isConnected);
-      console.log("Connection type", state.type);
-      console.log("Is connected?", state.isConnected);
+      setNetworkState(state?.isConnected);
+      // console.log("Connection type", state.type);
+      // console.log("Is connected?", state.isConnected);
     });
 
     return () => {
