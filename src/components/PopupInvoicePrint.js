@@ -714,9 +714,9 @@ class PopupInvoicePrint extends React.Component {
                             <Text
                               style={[
                                 styleInvoice.txt_total,
-                                paymentMachineType == "Clover" && !printerSelect ?
+                                isPrintFormatClover ?
                                 { fontSize: scaleSize(15) }
-                                : { fontSize: scaleSize(10) },
+                                : { fontSize: scaleSize(13) },
                               ]}
                             >
                               {`$${data?.amount || ""}`}
@@ -730,9 +730,9 @@ class PopupInvoicePrint extends React.Component {
                             <Text
                               style={[
                                 styleInvoice.txt_total,
-                                paymentMachineType == "Clover" && !printerSelect ?
+                                isPrintFormatClover ?
                                 { fontSize: scaleSize(15) } 
-                                : { fontSize: scaleSize(10) },
+                                : { fontSize: scaleSize(13) },
                               ]}
                             >
                               {`    ${
@@ -744,9 +744,9 @@ class PopupInvoicePrint extends React.Component {
                             <Text
                               style={[
                                 styleInvoice.txt_total,
-                                paymentMachineType == "Clover" && !printerSelect ?
+                                isPrintFormatClover ?
                                 { fontSize: scaleSize(15) } :
-                                { fontSize: scaleSize(10) },
+                                { fontSize: scaleSize(13) },
                               ]}
                             >
                               {`    ${data?.paymentInformation?.name || ""}`}
@@ -754,9 +754,9 @@ class PopupInvoicePrint extends React.Component {
                             <Text
                               style={[
                                 styleInvoice.txt_total,
-                                paymentMachineType == "Clover" && !printerSelect ?
+                                isPrintFormatClover ?
                                 { fontSize: scaleSize(15) } :
-                                { fontSize: scaleSize(10) },
+                                { fontSize: scaleSize(13) },
                               ]}
                             >
                               {`    ${
@@ -768,9 +768,9 @@ class PopupInvoicePrint extends React.Component {
                             <Text
                               style={[
                                 styleInvoice.txt_total,
-                                paymentMachineType == "Clover" && !printerSelect ?
+                                isPrintFormatClover ?
                                 { fontSize: scaleSize(15) } :
-                                { fontSize: scaleSize(10) },
+                                { fontSize: scaleSize(13) },
                               ]}
                             >
                               {`    ${
@@ -869,7 +869,7 @@ class PopupInvoicePrint extends React.Component {
                     }}
                   >
                     {`Discount note: `}
-                    <Text style={{ fontWeight: "500" }}>
+                    <Text style={{ fontWeight: "600" }}>
                       {`${promotionNotes}`}
                     </Text>
                   </Text>
@@ -893,8 +893,11 @@ class PopupInvoicePrint extends React.Component {
                 <Text
                   style={[
                     styleInvoice.txt_total,
-                    {fontWeight: "600"},
-                    !isPrintFormatClover && { fontSize: 13 }
+                    {
+                      fontWeight: "600",
+                      alignSelf: "center", 
+                    },
+                    !isPrintFormatClover && { fontSize: 13, alignSelf: "center" }
                   ]}
                 >
                   {`********** ${
