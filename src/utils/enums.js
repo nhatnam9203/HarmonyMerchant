@@ -3,9 +3,14 @@ export const role = {
   Admin: "Admin",
 };
 
+/*---Clover----*/
 export const REMOTE_APP_ID = '1MHMKSTW4HZ2P.BRXKQHNH5T1BW'
 export const APP_NAME = 'HarmonyPOS'
 export const POS_SERIAL = "POS"
+
+/*---Dejavoo----*/
+export const AUTHEN_KEY = 'taATqWde4c'
+export const REGISTER_ID = '82379001'
 
 export const menuTabs = {
   MARKETING: "MENU_HOME_TAB_MARKETING",

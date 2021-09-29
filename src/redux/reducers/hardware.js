@@ -19,6 +19,12 @@ const initialState = {
     token: null,
     serialNumber: '',
   },
+  dejavooMachineInfo: {
+    name: '',
+    ip: '',
+    port: '',
+    isSetup: false,
+  },
   paymentMachineType: 'Pax',
 
 };
