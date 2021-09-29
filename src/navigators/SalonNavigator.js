@@ -22,6 +22,7 @@ import {
   SupportScreen,
 } from "../screens";
 import { scaleSize } from "../utils";
+import { RTStaffCheckIn } from "@src/retailer/RTStaffCheckIn";
 
 const { Screen, Navigator } = createDrawerNavigator();
 export const SalonNavigator = () => {
@@ -129,6 +130,7 @@ export const SalonNavigator = () => {
           ),
         }}
       />
+      <Screen {...RTStaffCheckIn} />
       <Screen
         name="Support"
         component={SupportScreen}
