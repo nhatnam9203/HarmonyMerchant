@@ -19,25 +19,27 @@ import {
   menuTabs,
 } from "@utils";
 import {
-  Text,
-  ButtonCustom,
-  Button,
-  PopupConfirm,
-  PopupPayCompleted,
-  PopupChangeStylist,
-  PopupChangeMoney,
-  PopupSendLinkInstall,
-  PopupActiveGiftCard,
-  PopupScanCode,
-  PopupProcessingCredit,
-  PopupInvoicePrint,
-  PopupChangePriceAmountProduct,
-  PopupChangeTip,
-  ScrollableTabView,
-  PopupCheckStaffPermission,
-} from "@components";
-import styles from "./style";
-import ICON from "@resources";
+    Text,
+    ButtonCustom,
+    Button,
+    PopupConfirm,
+    PopupPayCompleted,
+    PopupChangeStylist,
+    PopupChangeMoney,
+    PopupSendLinkInstall,
+    PopupActiveGiftCard,
+    PopupScanCode,
+    PopupProcessingCredit,
+    PopupInvoicePrint,
+    PopupChangePriceAmountProduct,
+    PopupChangeTip,
+    ScrollableTabView,
+    PopupCheckStaffPermission,
+    PopupPairingCode,
+} from '@components';
+import styles from './style';
+import ICON from '@resources';
+
 import {
   ItemCategory,
   ItemProductService,
@@ -248,6 +250,7 @@ class Layout extends React.Component {
       categoryStaff,
       isLoadingCategory,
     } = this.state;
+
     let tempWidth = 180;
     tempWidth = isShowColProduct ? 100 : tempWidth;
 
@@ -1290,6 +1293,9 @@ class Layout extends React.Component {
       errorMessageFromPax,
       selectedStaff,
       staffOfService,
+      visiblePopupParingCode,
+      pairingCode,
+      visibleConfirmPayment,
     } = this.state;
 
     const app0 =
@@ -1350,6 +1356,21 @@ class Layout extends React.Component {
             this.setState({ visibleConfirm: false });
           }}
           confimYes={this.clearDataCofrim}
+        />
+        <PopupConfirm
+            visible={visibleConfirmPayment ? true : false}
+            title={localize('VerifyPayment', language)}
+            message={localize('VerifyPaymentMessage', language)}
+            onRequestClose={() => { this.setState({ visibleConfirmPayment: false }) }}
+            confimYes={this.confirmPaymentClover}
+            confirmNo={this.rejectPaymentClover}
+            textLeftButton={localize('Reject', language)}
+            textRightButton={localize('Accept', language)}
+            hideCloseButton={true}
+        />
+        <PopupPairingCode
+            visible={visiblePopupParingCode ? true: false}
+            message={pairingCode}
         />
 
         {/* ----------------- Display Error Message From Pax Machine ------------------ */}
@@ -1459,6 +1480,7 @@ class Layout extends React.Component {
           ref={this.invoicePrintRef}
           visiblePrintInvoice={this.state.visiblePrintInvoice}
           onRequestClose={this.cancelInvoicePrint}
+          doPrintClover={(imageUri) => this.doPrintClover(imageUri)}
         />
         <EnterCustomerPhonePopup
           ref={this.popupCustomerInfoRef}

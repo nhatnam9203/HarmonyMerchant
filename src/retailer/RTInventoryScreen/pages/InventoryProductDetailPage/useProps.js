@@ -42,7 +42,6 @@ export const useProps = ({ params: { item } }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log(item);
       if (item?.productId) getProducts(item?.productId);
     }, [item])
   );

@@ -105,7 +105,7 @@ export const BasketContentView = React.forwardRef(
             Object.assign({}, x, { key: x.bookingProductId })
           ) || []),
           ...(appointmentItem?.giftCards?.map((x) =>
-            Object.assign({}, x, { key: x.giftCardId })
+            Object.assign({}, x, { key: x.bookingGiftCardId })
           ) || []),
         ]);
       } else {
@@ -132,6 +132,7 @@ export const BasketContentView = React.forwardRef(
       };
 
       const onEditProduct = () => {
+        if (!item.bookingProductId) return;
         if (onEditItem && typeof onEditItem === "function") {
           onEditItem(item);
         }

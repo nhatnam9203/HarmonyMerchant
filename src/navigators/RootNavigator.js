@@ -9,10 +9,14 @@ import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { MerchantNavigator } from "./MerchantNavigator";
 import { isReadyRef, navigationRef } from "./NavigatorServices";
+import TopBarToastMessage from "@shared/components/TopBarToastMessage";
+import { AppStateContext } from "@shared/providers/AppStateProvider";
 
 const { Screen, Navigator } = createStackNavigator();
 
 export const RootNavigator = () => {
+  const { networkState } = React.useContext(AppStateContext);
+
   React.useEffect(() => {
     return () => {
       isReadyRef.current = false;
@@ -30,6 +34,10 @@ export const RootNavigator = () => {
       <Navigator headerMode="none">
         <Screen name="MerchantNavigator" component={MerchantNavigator} />
       </Navigator>
+
+      {!networkState && (
+        <TopBarToastMessage message={"No Internet Connection"} />
+      )}
     </NavigationContainer>
   );
 };

@@ -169,7 +169,7 @@ export const BasketPaymentContent = React.forwardRef(
             Object.assign({}, x, { key: x.bookingProductId })
           ) || []),
           ...(orderItem?.giftCards?.map((x) =>
-            Object.assign({}, x, { key: x.giftCardId })
+            Object.assign({}, x, { key: x.bookingGiftCardId })
           ) || []),
         ]);
       } else {
@@ -185,8 +185,14 @@ export const BasketPaymentContent = React.forwardRef(
       // const firstItem = item.value[0];
       // const qty = item.value?.reduce((prev, cur) => prev + cur.quantity, 0);
 
+      const onHandleAddDiscount = () => {
+        if (!item.bookingProductId) return;
+        if (onDiscountItemAdd && typeof onDiscountItemAdd === "function") {
+          onDiscountItemAdd(item);
+        }
+      };
       return (
-        <TouchableOpacity onPress={() => onDiscountItemAdd(item)}>
+        <TouchableOpacity onPress={onHandleAddDiscount}>
           <View style={styles.productItem} key={item.key + ""}>
             <FastImage
               style={styles.imageStyle}

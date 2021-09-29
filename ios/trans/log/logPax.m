@@ -13,6 +13,7 @@
 #define keyLogFileName @"logFileName"
 #define keyLogDays @"logDays"
 #define keyLogFilePath @"logFilePath"
+#import <React/RCTLog.h>
 
 @implementation logPax
 
@@ -78,17 +79,18 @@ RCT_EXPORT_METHOD(loadLogPax) {
 
     LogManager *manager = [LogManager sharedInstance];
 
-    [manager setLogLevel:1];
+    [manager setLogLevel:4];
     manager.logFileName = @"POSLog";
     manager.logFilePath = @"POSLogPath";
-    manager.logDays = 30;
+    manager.logDays = 5;
+    RCTLogInfo(@"loadLogPax %@", manager);
 
     [manager startLog];
     
 
 
   } @catch (NSException* e) {
-    NSLog(@"+++++++=====XXXX===> %@", e);
+//    RCTLogInfo(@"loadLogPax %@", e);
   }
 }
 
@@ -97,18 +99,18 @@ RCT_EXPORT_METHOD(readLogPax:(NSDictionary *)info callback:(RCTResponseSenderBlo
   @try {
     LogManager *manager = [LogManager sharedInstance];
 
-//    [manager writeLog:@"test 2 log"];
-  
+    [manager writeLog:@"None"];
 
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
     NSDate *date = [dateFormat dateFromString:(NSString *) info[@"dateStr"]];
-    
+    RCTLogInfo(@"loadLogPax date %@", date);
+ 
     NSString* log =  [manager readLog:date];
 
     callback(@[log]);
   } @catch (NSException *exception) {
-    NSLog(@"+++++++=====XXXX===> readLogPax %@", exception);
+    RCTLogInfo(@"readLogPax %@", exception);
   }
 }
 

@@ -10,6 +10,7 @@ import { Button, Text } from '@components';
 import { scaleSize, localize, checkStatusPrint } from '@utils';
 import IMAGE from '@resources';
 import connectRedux from '@redux/ConnectRedux';
+import _ from "lodash";
 
 class HomeHardware extends React.Component {
 
@@ -29,8 +30,17 @@ class HomeHardware extends React.Component {
     // -------- Render ------
 
     render() {
-        const { paxMachineInfo, language ,printerSelect} = this.props;
-        const temptTitle = !paxMachineInfo.isSetup ? 'No Device' : paxMachineInfo.name;
+        const { paxMachineInfo, cloverMachineInfo, paymentMachineType, language ,printerSelect} = this.props;
+        let temptTitle = 'No Device'
+        let isSetup =  false
+        if (paymentMachineType == 'Pax'){
+            temptTitle = !_.get(paxMachineInfo, 'isSetup') ? 'No Device' : paxMachineInfo.name;
+            isSetup = _.get(paxMachineInfo, 'isSetup')
+        }else {
+            temptTitle = !_.get(cloverMachineInfo, 'isSetup') ? 'No Device' : cloverMachineInfo.name;
+            isSetup = _.get(cloverMachineInfo, 'isSetup')
+        }
+        
         return (
             <View style={{ flex: 1 }} >
                 <View style={{
@@ -74,7 +84,7 @@ class HomeHardware extends React.Component {
                         </View>
 
                         {
-                            paxMachineInfo.isSetup ? <Button onPress={this.deleteHardware} style={{
+                            isSetup ? <Button onPress={this.deleteHardware} style={{
                                 width: scaleSize(20), height: scaleSize(20),
                                 position: "absolute", top: 5, right: 5,
                                 borderRadius: scaleSize(10), justifyContent: "center", alignItems: "center"
@@ -149,7 +159,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
     paxMachineInfo: state.hardware.paxMachineInfo,
     language: state.dataLocal.language,
-    printerSelect: state.dataLocal.printerSelect
+    printerSelect: state.dataLocal.printerSelect,
+    cloverMachineInfo: state.hardware.cloverMachineInfo, 
+    paymentMachineType: state.hardware.paymentMachineType,
 })
 
 export default connectRedux(mapStateToProps, HomeHardware);

@@ -22,7 +22,7 @@ import configs from "@configs";
 export default class Layout extends React.Component {
 
     renderHeader() {
-        const { language, connectPAXStatus,terminalID } = this.props;
+        const { language, connectPAXStatus,terminalID, paymentMachineType } = this.props;
         const statusConnectColor = connectPAXStatus.status ? "#4CD964" : "#FF6F00";
 
         return (
@@ -32,10 +32,12 @@ export default class Layout extends React.Component {
             }} >
                 <Text style={{ fontSize: scaleSize(16), color: '#0764B0' ,fontWeight:"600"}} >
                     {localize('Batch Settlements', language)}
-                    <Text numberOflines={1} style={{ fontSize: scaleSize(11), color: statusConnectColor, fontWeight: "600", fontStyle: 'italic' }} >
-                        {/* {`  ${connectPAXStatus.message} ${terminalID ? `TerminalID: #${terminalID}` : ""}`} */}
-                        {`  ${connectPAXStatus.message}`}
-                    </Text>
+                    
+                        <Text numberOflines={1} style={{ fontSize: scaleSize(11), color: statusConnectColor, fontWeight: "600", fontStyle: 'italic' }} >
+                            {/* {`  ${connectPAXStatus.message} ${terminalID ? `TerminalID: #${terminalID}` : ""}`} */}
+                            {`  ${connectPAXStatus.message}`}
+                        </Text>
+                    
                 </Text>
             </View>
         );

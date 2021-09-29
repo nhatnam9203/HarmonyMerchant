@@ -245,7 +245,7 @@ export const Layout = ({
         // >
         //   {quantityShow}
         // </Text>
-        <View>
+        <View key={getUniqueId(columnKey, rowIndex, "cell-product-qty")}>
           <Text
             style={[
               styles.textStyle,
@@ -286,7 +286,7 @@ export const Layout = ({
         // >
         //   {formatMoneyWithUnit(totalShow)}
         // </Text>
-        <View>
+        <View key={getUniqueId(columnKey, rowIndex, "cell-product-total")}>
           <Text
             style={[
               styles.textTotalStyle,
@@ -406,7 +406,14 @@ export const Layout = ({
           <FormTitle label={t("Items Ordered")} />
           <Table
             items={
-              [...(item?.products || []), ...(item?.giftCards || [])] || []
+              [
+                ...(item?.products?.map((x) =>
+                  Object.assign({}, x, { key: x.bookingProductId })
+                ) || []),
+                ...(item?.giftCards?.map((x) =>
+                  Object.assign({}, x, { key: x.bookingGiftCardId })
+                ) || []),
+              ] || []
             }
             tableStyle={styles.table}
             headerKeyLabels={{
@@ -433,7 +440,7 @@ export const Layout = ({
               // "returnQuantity",
               "status",
             ]}
-            primaryKey="bookingProductId"
+            primaryKey="key"
             widthForKeys={{
               productName: scaleWidth(300),
               // sku: scaleWidth(100),

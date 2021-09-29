@@ -624,7 +624,8 @@ export const useProps = ({
                 profile?.merchantId || 0,
                 message,
                 payAppointmentId,
-                moneyUserGiveForStaff
+                moneyUserGiveForStaff,
+                'pax'
               )
             );
           } else {
@@ -790,7 +791,7 @@ export const useProps = ({
             }
           } else {
             setTimeout(() => {
-              alert("Please connect your Pax to take payment.");
+              alert("Please connect your Payment terminal to take payment.");
             }, 300);
           }
         } else if (method === "giftcard") {

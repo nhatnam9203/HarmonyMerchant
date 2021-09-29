@@ -1226,7 +1226,7 @@ class OrderCheckout extends Layout {
             }
           } else {
             setTimeout(() => {
-              alert('Please connect your Pax to take payment.');
+              alert('Please connect your Payment terminal to take payment.');
             }, 300);
           }
         } else if (method === 'giftcard') {
@@ -1418,6 +1418,7 @@ class OrderCheckout extends Layout {
               message,
               payAppointmentId,
               moneyUserGiveForStaff,
+              'pax'
             );
           } else {
             // ------ Payment with credit offline card success ----

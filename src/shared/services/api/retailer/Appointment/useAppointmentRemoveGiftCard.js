@@ -32,7 +32,7 @@ export const useAppointmentRemoveGiftCard = () => {
 
   const removeAppointmentGiftCard = (giftCardId) => {
     execute({
-      url: `${RETAILER_ORDER.url}/temp/${appointmentId}/removegiftcard/${giftCardId}`,
+      url: `${RETAILER_ORDER.url}/${appointmentId}/removegiftcard/${giftCardId}`,
     });
   };
 

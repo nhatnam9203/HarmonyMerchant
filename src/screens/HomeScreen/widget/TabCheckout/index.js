@@ -1,9 +1,8 @@
 import React from "react";
 import _ from "ramda";
 const signalR = require("@microsoft/signalr");
-import { NativeModules, Platform } from "react-native";
+import { NativeModules, Platform, NativeEventEmitter} from "react-native";
 import env from "react-native-config";
-import BleManager from "react-native-ble-manager";
 import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
 import {
@@ -17,16 +16,20 @@ import {
   getArrayGiftCardsFromAppointment,
   requestAPI,
   localize,
-} from "@utils";
-import PrintManager from "@lib/PrintManager";
-import Configs from "@configs";
-import initState from "./widget/initState";
-import * as l from "lodash";
-import moment from "moment";
+  REMOTE_APP_ID,
+  APP_NAME,
+  POS_SERIAL,
+} from '@utils';
+import PrintManager from '@lib/PrintManager';
+import Configs from '@configs';
+import initState from './widget/initState';
+import * as l from 'lodash';
+import moment from 'moment';
 
 const PosLinkReport = NativeModules.report;
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
+const { clover } = NativeModules;
 
 class TabCheckout extends Layout {
   constructor(props) {
@@ -54,7 +57,13 @@ class TabCheckout extends Layout {
 
     this.addEditCustomerInfoRef = React.createRef();
     this.staffFlatListRef = React.createRef();
-    this.isGetResponsePaymentPax = false;
+    this.isGetResponsePaymentPax = false
+
+    //ADD LISTENER FROM CLOVER MODULE
+    this.eventEmitter = new NativeEventEmitter(clover);
+    this.subscriptions = []
+    this.isProcessPaymentClover = false
+    this.isProcessPrintClover = false
   }
 
   resetStateFromParent = async () => {
@@ -793,7 +802,7 @@ class TabCheckout extends Layout {
 
   donotPrintBill = async () => {
     this.props.pushAppointmentIdOfflineIntoWebview();
-    const { connectionSignalR } = this.props;
+    const { connectionSignalR, paymentMachineType } = this.props;
     const { paymentSelected } = this.state;
     if (!_.isEmpty(connectionSignalR)) {
       connectionSignalR.stop();
@@ -814,16 +823,19 @@ class TabCheckout extends Layout {
         this.setState(initState);
         this.props.actions.appointment.resetPayment();
       } else {
+        if (paymentMachineType == "Clover"){
+          this.openCashDrawerClover()
+        }else{
+          setTimeout(() => {
+            alert("Please connect to your cash drawer.");
+          }, 700);
+        }
         this.scrollTabRef.current?.goToPage(0);
         this.props.actions.appointment.closeModalPaymentCompleted();
         this.props.gotoAppoitmentScreen();
         this.props.actions.appointment.resetBasketEmpty();
         this.setState(initState);
         this.props.actions.appointment.resetPayment();
-
-        setTimeout(() => {
-          alert("Please connect to your cash drawer.");
-        }, 700);
       }
     } else {
       this.scrollTabRef.current?.goToPage(0);
@@ -894,7 +906,7 @@ class TabCheckout extends Layout {
       paymentSelected,
       isTemptPrint,
       printMachine,
-      promotionNotes.join(",")
+      promotionNotes.join(","),
     );
     await this.setState({
       visiblePrintInvoice: true,
@@ -919,8 +931,9 @@ class TabCheckout extends Layout {
       printerList,
       printerSelect
     );
+    const { paymentSelected } = this.state;
     if (portName) {
-      const { paymentSelected } = this.state;
+      
       const { connectionSignalR } = this.props;
       if (!_.isEmpty(connectionSignalR)) {
         connectionSignalR.stop();
@@ -930,26 +943,39 @@ class TabCheckout extends Layout {
       }
       this.showInvoicePrint(portName, false);
     } else {
-      alert("Please connect to your printer!");
+      const { paymentMachineType } = this.props;
+      if (paymentMachineType == 'Clover') {
+        if (paymentSelected === "Cash" || paymentSelected === "Other") {
+          this.openCashDrawerClover();
+        }
+        this.showInvoicePrint(portName, false);
+      }else {
+        alert("Please connect to your printer!");
+      }
     }
   };
 
   printTemptInvoice = async () => {
-    const { printerSelect, printerList } = this.props;
+    const { printerSelect, printerList, paymentMachineType } = this.props;
     const { portName } = getInfoFromModelNameOfPrinter(
       printerList,
       printerSelect
     );
 
-    if (portName !== "") {
+    if( paymentMachineType == "Clover") {
       this.showInvoicePrint(portName);
-    } else {
-      alert("Please connect to your printer! ");
+    }else{
+      if (portName !== "") {
+        this.showInvoicePrint(portName);
+      } else {
+        alert("Please connect to your printer! ");
+      }
     }
+    
   };
 
   checkStatusCashier = async () => {
-    const { printerSelect, printerList } = this.props;
+    const { printerSelect, printerList, paymentMachineType } = this.props;
     const { portName } = getInfoFromModelNameOfPrinter(
       printerList,
       printerSelect
@@ -957,9 +983,27 @@ class TabCheckout extends Layout {
     if (portName) {
       this.openCashDrawer(portName);
     } else {
-      alert("Please connect to your cash drawer.");
+      if (paymentMachineType == "Clover"){
+        this.openCashDrawerClover()
+      }else{
+        alert("Please connect to your cash drawer.");
+      }
     }
   };
+
+  openCashDrawerClover(){
+    const {cloverMachineInfo} = this.props
+    const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
+    const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+  
+    clover.openCashDrawer({
+      url,
+      remoteAppId: REMOTE_APP_ID,
+      appName: APP_NAME,
+      posSerial: POS_SERIAL,
+      token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
+    })
+  }
 
   openCashDrawer = async (portName) => {
     await PrintManager.getInstance().openCashDrawer(portName);
@@ -1275,6 +1319,8 @@ class TabCheckout extends Layout {
       profileStaffLogin,
       customerInfoBuyAppointment,
       paymentDetailInfo,
+      cloverMachineInfo,
+      paymentMachineType
     } = this.props;
     const {
       paymentSelected,
@@ -1328,7 +1374,13 @@ class TabCheckout extends Layout {
             moneyUserGiveForStaff
           );
         } else if (method === "credit_card" || method === "debit_card") {
-          if (paxMachineInfo.isSetup) {
+          let isSetup = false
+          if (paymentMachineType == 'Pax') {
+            isSetup = l.get(paxMachineInfo, 'isSetup')
+          } else {
+            isSetup = l.get(cloverMachineInfo, 'isSetup')
+          }
+          if (isSetup) {
             if (moneyUserGiveForStaff == 0) {
               alert("Enter amount!");
             } else {
@@ -1336,7 +1388,7 @@ class TabCheckout extends Layout {
             }
           } else {
             setTimeout(() => {
-              alert("Please connect your Pax to take payment.");
+              alert("Please connect your Payment terminal to take payment.");
             }, 300);
           }
         } else if (method === "giftcard") {
@@ -1477,10 +1529,6 @@ class TabCheckout extends Layout {
     }
   };
 
-  sleep = (milliseconds) => {
-    return new Promise((resolve) => setTimeout(resolve, milliseconds));
-  };
-
   handleMissingTransaction = async () => {
     const {
       paxMachineInfo,
@@ -1539,7 +1587,38 @@ class TabCheckout extends Layout {
       // batch close or pax inprocess
       this.sendTransaction();
     }
-  };
+  }
+
+  async sendTransactionToPaymentMachine() {
+    const { cloverMachineInfo, 
+      paymentMachineType,
+      isTipOnPaxMachine,
+      paxAmount,
+      groupAppointment,
+      payAppointmentId,
+     } = this.props;
+    if( paymentMachineType == 'Clover'){
+      const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
+      const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+      this.isProcessPaymentClover = true
+       this.setState({
+          visibleProcessingCredit: true,
+        })
+      clover.sendTransaction({
+        url,
+        remoteAppId: REMOTE_APP_ID,
+        appName: APP_NAME,
+        posSerial: POS_SERIAL,
+        token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
+        tipMode: isTipOnPaxMachine ? 'ON_SCREEN_BEFORE_PAYMENT' : 'NO_TIP',
+        amount: `${parseFloat(paxAmount)}`,
+        externalId: `${payAppointmentId}`//`${groupAppointment?.checkoutGroupId || 0}`,
+      })
+    } else {
+      this.sendTransToPaxMachine()
+    }
+    
+  }
 
   sendTransToPaxMachine = async () => {
     console.log("=======> sendTransToPaxMachine");
@@ -1576,6 +1655,7 @@ class TabCheckout extends Layout {
   }
 
   sendTransaction() {
+    //send to Pax terminal
     const {
       paxMachineInfo,
       isTipOnPaxMachine,
@@ -1676,6 +1756,7 @@ class TabCheckout extends Layout {
             message,
             payAppointmentId,
             moneyUserGiveForStaff,
+            'pax',
             parameter
           );
 
@@ -1716,16 +1797,24 @@ class TabCheckout extends Layout {
   }
 
   cancelTransaction = async () => {
-    const { payAppointmentId, language } = this.props;
+    const { payAppointmentId, language, paymentMachineType } = this.props;
     if (Platform.OS === "android") {
       PoslinkAndroid.cancelTransaction((data) => {});
     } else {
-      if (!this.isGetResponsePaymentPax) {
-        alert(localize("PleaseWait", language));
-        return;
+
+      if (paymentMachineType == "Clover") {
+        if(this.isProcessPaymentClover){
+          alert(localize("PleaseWait", language));
+          return;
+        }
+      }else{
+        if (!this.isGetResponsePaymentPax) {
+          alert(localize("PleaseWait", language));
+          return;
+        }
+        PosLink.cancelTransaction();
       }
 
-      PosLink.cancelTransaction();
       if (payAppointmentId) {
         this.props.actions.appointment.cancelHarmonyPayment(payAppointmentId);
       }
@@ -2392,11 +2481,6 @@ class TabCheckout extends Layout {
     );
   };
 
-  // removeBlockAppointment = (appointmentId) => {
-  //     const { profile } = this.props;
-  //     this.props.actions.appointment.cancleAppointment(appointmentId, profile.merchantId, 0, true);
-  // }
-
   bookBlockAppointment = () => {
     this.props.gotoTabAppointment();
     this.props.actions.appointment.bookBlockAppointment();
@@ -2707,7 +2791,7 @@ class TabCheckout extends Layout {
       this.props.actions.appointment.resetStateCheckCreditPaymentToServer(
         false
       );
-      this.sendTransToPaxMachine();
+      this.sendTransactionToPaymentMachine();
     }
   }
 
@@ -2719,8 +2803,182 @@ class TabCheckout extends Layout {
     if (categoryStaffId) {
       this.getCategory(categoryStaffId);
     }
+
+    this.registerEvents()
+  }
+
+  componentWillUnmount() {
+    this.unregisterEvents()
+  }
+
+  // FUNCTIONS FOR CLOVER
+  doPrintClover(imageUri) {
+    this.isProcessPrintClover = true
+    const { cloverMachineInfo } = this.props;
+    const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
+    const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+    
+    const printInfo = {
+      imageUri,
+      url,
+      remoteAppId: REMOTE_APP_ID,
+      appName: APP_NAME,
+      posSerial: POS_SERIAL,
+      token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
+    }
+    clover.doPrintWithConnect(printInfo)
+    this.isProcessPrintClover = false
+  }
+
+  async handleResponseCreditCardForCloverSuccess(message) {
+    const { profile, payAppointmentId, 
+      amountCredtitForSubmitToServer,
+      cloverMachineInfo, } = this.props;
+    await this.setState({
+      visibleProcessingCredit: false,
+    });
+    let messageUpdate = {...message,
+                sn: l.get(cloverMachineInfo, 'serialNumber')}
+    try {
+      this.props.actions.appointment.submitPaymentWithCreditCard(
+        profile?.merchantId || 0,
+        JSON.stringify(messageUpdate),
+        payAppointmentId,
+        amountCredtitForSubmitToServer,
+        "clover",
+      );
+    } catch (error) {}
+  }
+
+  async handleResponseCreditCardForCloverFailed(errorMessage) {
+    const { profile, payAppointmentId } = this.props;
+    await this.setState({
+      visibleProcessingCredit: false,
+    });
+    try {
+      if (payAppointmentId) {
+        this.props.actions.appointment.cancelHarmonyPayment(
+          payAppointmentId,
+          "transaction fail",
+          errorMessage
+        );
+      }
+     
+      setTimeout(() => {
+        this.setState({
+          visibleErrorMessageFromPax: true,
+          errorMessageFromPax: errorMessage,
+        });
+      }, 300);
+    } catch (error) {}
+  }
+
+  confirmPaymentClover = () => {
+    clover.confirmPayment()
+    this.setState({
+      visibleProcessingCredit: true,
+      visibleConfirmPayment: false,
+    })
+  }
+
+  rejectPaymentClover = () => {
+    clover.rejectPayment()
+    this.setState({
+      visibleConfirmPayment: false,
+    })
+  }
+
+  registerEvents () {
+    clover.changeListenerStatus(true)
+    this.subscriptions = [
+      this.eventEmitter.addListener('paymentSuccess', data => {
+       console.log('data', data)
+       this.isProcessPaymentClover = false
+       this.handleResponseCreditCardForCloverSuccess(data)
+       
+      }),
+      this.eventEmitter.addListener('paymentFail', data => {
+        console.log('data', data)
+        this.isProcessPaymentClover = false
+        this.handleResponseCreditCardForCloverFailed(l.get(data, 'errorMessage'))
+        
+       }),
+      this.eventEmitter.addListener('pairingCode', data => {
+        if(data){
+          const text = `Pairing code: ${l.get(data, 'pairingCode')}`
+          if(this.isProcessPaymentClover) {
+            this.setState({
+              visibleProcessingCredit: false,
+            })
+          }
+          if(this.isProcessPrintClover){
+            this.setState({
+              visiblePrintInvoice: false,
+            });
+          }
+          this.setState({
+            visiblePopupParingCode: true,
+            pairingCode: text,
+          })
+        }
+      }),
+      this.eventEmitter.addListener('pairingSuccess', data => {
+        this.props.actions.hardware.setCloverToken(
+          l.get(data, 'token')
+        );
+        this.setState({
+          visiblePopupParingCode: false,
+          pairingCode: '',
+        })
+        if(this.isProcessPaymentClover) {
+          this.setState({
+            visibleProcessingCredit: true,
+          })
+        }
+       
+      }),
+      // this.eventEmitter.addListener('deviceReady', () => {
+        
+       
+      // }),
+      this.eventEmitter.addListener('confirmPayment', () => {
+        
+        this.setState({
+          visibleProcessingCredit: false,
+          visibleConfirmPayment: true,
+        })
+      }),
+      this.eventEmitter.addListener('printInProcess', () => {
+        
+        
+      }),
+      // this.eventEmitter.addListener('printDone', (message) => {
+      //   console.log(message)
+      //   this.isProcessPrintClover = false
+      // }),
+      this.eventEmitter.addListener('deviceDisconnected', () => {
+        if(this.isProcessPaymentClover) {
+          this.isProcessPaymentClover = false
+          this.handleResponseCreditCardForCloverFailed("No connected device")
+        }
+        if(this.isProcessPrintClover){
+          this.isProcessPrintClover = false
+          this.setState({
+            visiblePrintInvoice: false,
+          });
+        }
+      }),
+    ]
+  }
+
+  unregisterEvents () {
+    clover.changeListenerStatus(false)
+    this.subscriptions.forEach(e => e.remove())
+    this.subscriptions = []
   }
 }
+
+
 
 const mapStateToProps = (state) => ({
   language: state.dataLocal.language,
@@ -2776,6 +3034,8 @@ const mapStateToProps = (state) => ({
     state.appointment.appointmentIdBookingFromCalendar,
   isBookingFromCalendar: state.appointment.isBookingFromCalendar,
   isCancelPayment: state.appointment.isCancelPayment,
+  cloverMachineInfo: state.hardware.cloverMachineInfo,
+  paymentMachineType: state.hardware.paymentMachineType,
 });
 
 export default connectRedux(mapStateToProps, TabCheckout);

@@ -1,18 +1,14 @@
+import configs from "@configs";
+import connectRedux from "@redux/ConnectRedux";
+import { getPosotion, isPermissionToTab, menuTabs, role } from "@utils";
+import * as l from "lodash";
+import _ from "ramda";
 import React from "react";
-import _, { not } from "ramda";
-import { Alert, BackHandler, AppState, NativeModules } from "react-native";
-import NetInfo from "@react-native-community/netinfo";
-import { Subject } from "rxjs";
-import { distinctUntilChanged, finalize } from "rxjs/operators";
+import { Alert, AppState, BackHandler, NativeModules } from "react-native";
 import CodePush from "react-native-code-push";
 import env from "react-native-config";
 import SoundPlayer from "react-native-sound-player";
-
 import Layout from "./layout";
-import connectRedux from "@redux/ConnectRedux";
-import { getPosotion, role, menuTabs, isPermissionToTab } from "@utils";
-import configs from "@configs";
-import * as l from "lodash";
 
 const initialState = {
   isFocus: true,
@@ -24,6 +20,9 @@ const initialState = {
   visible: false,
   categoryStaffId: null,
   staffIdSelected: null,
+  visiblePopupParingCode: false,
+  pairingCode: "",
+  visibleConfirmPayment: false,
 };
 
 const PosLink = NativeModules.payment;
@@ -39,8 +38,8 @@ class HomeScreen extends Layout {
     this.tabAppointmentRef = React.createRef();
     this.tabCheckoutRef = React.createRef();
     this.popupEnterPinRef = React.createRef();
-    this.unsubscribeNetInfo = null;
-    this.watcherNetwork = new Subject();
+    // this.unsubscribeNetInfo = null;
+    // this.watcherNetwork = new Subject();
     this.checkMarketingPermissionRef = React.createRef();
 
     this.onEndReachedCalledDuringMomentum = true;
@@ -81,12 +80,12 @@ class HomeScreen extends Layout {
       }
     );
 
-    this.initWatcherNetwork();
+    // this.initWatcherNetwork();
 
-    this.unsubscribeNetInfo = NetInfo.addEventListener((state) => {
-      const isConnected = state.isConnected ? state.isConnected : false;
-      this.watcherNetwork.next(isConnected);
-    });
+    // this.unsubscribeNetInfo = NetInfo.addEventListener((state) => {
+    //   const isConnected = state.isConnected ? state.isConnected : false;
+    //   this.watcherNetwork.next(isConnected);
+    // });
 
     AppState.addEventListener("change", this.handleAppStateChange);
   }
@@ -154,31 +153,31 @@ class HomeScreen extends Layout {
     }
   };
 
-  initWatcherNetwork = () => {
-    this.watcherNetwork
-      .pipe(distinctUntilChanged())
-      .subscribe((isConnected) => {
-        console.log(isConnected);
-        this.checkIsOfflineMode(isConnected);
-      });
-  };
+  // initWatcherNetwork = () => {
+  //   this.watcherNetwork
+  //     .pipe(distinctUntilChanged())
+  //     .subscribe((isConnected) => {
+  //       console.log(isConnected);
+  //       this.checkIsOfflineMode(isConnected);
+  //     });
+  // };
 
-  checkIsOfflineMode = (isConnected) => {
-    const { isOfflineMode } = this.props;
-    if (!isConnected && !isOfflineMode) {
-      this.props.actions.app.showPopupDisconneted();
-    } else {
-      this.props.actions.app.showPopupDisconneted(false);
+  // checkIsOfflineMode = (isConnected) => {
+  //   const { isOfflineMode } = this.props;
+  //   if (!isConnected && !isOfflineMode) {
+  //     this.props.actions.app.showPopupDisconneted();
+  //   } else {
+  //     this.props.actions.app.showPopupDisconneted(false);
 
-      if (isConnected && isOfflineMode) {
-        this.props.actions.app.showPopupConneted(true);
-      }
+  //     if (isConnected && isOfflineMode) {
+  //       this.props.actions.app.showPopupConneted(true);
+  //     }
 
-      if (isOfflineMode) {
-        this.props.actions.app.toogleOfflineMode(false);
-      }
-    }
-  };
+  //     if (isOfflineMode) {
+  //       this.props.actions.app.toogleOfflineMode(false);
+  //     }
+  //   }
+  // };
 
   async getCurrentLocation() {
     const { profile } = this.props;
@@ -662,8 +661,8 @@ class HomeScreen extends Layout {
     this.didBlurSubscription();
     this.didFocusSubscription();
 
-    this.watcherNetwork?.pipe(finalize(() => {}));
-    this.unsubscribeNetInfo();
+    // this.watcherNetwork?.pipe(finalize(() => {}));
+    // this.unsubscribeNetInfo();
 
     BackHandler.removeEventListener("hardwareBackPress", this.backAction);
     AppState.removeEventListener("change", this.handleAppStateChange);

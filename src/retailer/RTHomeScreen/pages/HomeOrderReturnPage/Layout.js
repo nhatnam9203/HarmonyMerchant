@@ -76,7 +76,7 @@ export const Layout = ({
       );
     } else if (columnKey === "quantity") {
       return (
-        <View>
+        <View key={getUniqueId(columnKey, rowIndex, "cell-quantity")}>
           <Text
             style={[
               {
@@ -87,38 +87,39 @@ export const Layout = ({
           >
             {`  ${_.get(item, "quantity", 0)}`}
           </Text>
-          {isSelected ? (
-            <TextInputMask
-              type="only-numbers"
-              placeholder=""
-              style={[
-                {
-                  width: scaleWidth(100),
-                },
-                styles.textStyle,
-                styles.textInputStyle,
-              ]}
-              value={_.get(item, "returnQuantity", 0)}
-              onChangeText={(value) => updateQuantity(item, value)}
-            />
-          ) : (
-            <Text
-              style={[
-                {
-                  width: scaleWidth(100),
-                },
-                styles.textStyle,
-                { color: "red" },
-              ]}
-            >
-              {`- ${_.get(item, "returnQuantity", 0)}`}
-            </Text>
-          )}
+          {item.bookingProductId &&
+            (isSelected ? (
+              <TextInputMask
+                type="only-numbers"
+                placeholder=""
+                style={[
+                  {
+                    width: scaleWidth(100),
+                  },
+                  styles.textStyle,
+                  styles.textInputStyle,
+                ]}
+                value={_.get(item, "returnQuantity", 0)}
+                onChangeText={(value) => updateQuantity(item, value)}
+              />
+            ) : (
+              <Text
+                style={[
+                  {
+                    width: scaleWidth(100),
+                  },
+                  styles.textStyle,
+                  { color: "red" },
+                ]}
+              >
+                {`- ${_.get(item, "returnQuantity", 0)}`}
+              </Text>
+            ))}
         </View>
       );
     } else if (columnKey === "total") {
       return (
-        <View>
+        <View key={getUniqueId(columnKey, rowIndex, "cell-total")}>
           <Text
             style={[
               styles.textTotalStyle,
@@ -129,40 +130,41 @@ export const Layout = ({
           >
             {`  ${formatMoneyWithUnit(_.get(item, "total"))}`}
           </Text>
-          {isSelected ? (
-            <TextInputMask
-              type="money"
-              placeholder="$ 0.00"
-              options={{
-                precision: 2,
-                separator: ".",
-                delimiter: ",",
-                unit: "",
-                suffixUnit: "",
-              }}
-              style={[
-                {
-                  width: scaleWidth(90),
-                },
-                styles.textStyle,
-                styles.textInputStyle,
-              ]}
-              value={_.get(item, "returnAmount", 0)}
-              onChangeText={(value) => updateTotal(item, value)}
-            />
-          ) : (
-            <Text
-              style={[
-                styles.textTotalStyle,
-                {
-                  width: scaleWidth(100),
-                  color: "red",
-                },
-              ]}
-            >
-              {`- ${formatMoneyWithUnit(_.get(item, "returnAmount", 0))}`}
-            </Text>
-          )}
+          {item.bookingProductId &&
+            (isSelected ? (
+              <TextInputMask
+                type="money"
+                placeholder="$ 0.00"
+                options={{
+                  precision: 2,
+                  separator: ".",
+                  delimiter: ",",
+                  unit: "",
+                  suffixUnit: "",
+                }}
+                style={[
+                  {
+                    width: scaleWidth(90),
+                  },
+                  styles.textStyle,
+                  styles.textInputStyle,
+                ]}
+                value={_.get(item, "returnAmount", 0)}
+                onChangeText={(value) => updateTotal(item, value)}
+              />
+            ) : (
+              <Text
+                style={[
+                  styles.textTotalStyle,
+                  {
+                    width: scaleWidth(100),
+                    color: "red",
+                  },
+                ]}
+              >
+                {`- ${formatMoneyWithUnit(_.get(item, "returnAmount", 0))}`}
+              </Text>
+            ))}
         </View>
       );
     }
@@ -171,7 +173,12 @@ export const Layout = ({
   };
 
   const filterListNotEmpty = _.filter(itemSelected, (temp) => {
-    return _.get(temp, "returnAmount") > 0 || _.get(temp, "returnQuantity") > 0;
+    return (
+      (temp.bookingProductId &&
+        (_.get(temp, "returnAmount") > 0 ||
+          _.get(temp, "returnQuantity") > 0)) ||
+      temp.bookingGiftCardId
+    );
   });
   const disableButton =
     itemSelected?.length <= 0 ||
@@ -201,7 +208,14 @@ export const Layout = ({
           <Table
             // items={item?.products?.filter((x) => !x.isReturn) || []}
             items={
-              [...(item?.products || []), ...(item?.giftCards || [])] || []
+              [
+                ...(item?.products?.map((x) =>
+                  Object.assign({}, x, { key: x.bookingProductId })
+                ) || []),
+                ...(item?.giftCards?.map((x) =>
+                  Object.assign({}, x, { key: x.bookingGiftCardId })
+                ) || []),
+              ] || []
             }
             headerKeyLabels={{
               productName: t("Product"),
@@ -221,7 +235,7 @@ export const Layout = ({
               "discount",
               "total",
             ]}
-            primaryKey="bookingProductId"
+            primaryKey="key"
             widthForKeys={{
               productName: scaleWidth(300),
               price: scaleWidth(150),

@@ -16,6 +16,7 @@ import {
   formatWithMoment,
 } from "@utils";
 import Configs from "@configs";
+import * as l from "lodash";
 
 const PosLink = NativeModules.report;
 const PoslinkAndroid = NativeModules.PoslinkModule;
@@ -106,7 +107,20 @@ class TabFirstSettle extends Layout {
     if (Platform.OS === "android") {
       this.handlePAXReport_Android();
     } else {
-      this.handlePAXReport_IOS();
+      const { cloverMachineInfo, paymentMachineType } = this.props;
+      if(paymentMachineType == "Clover") {
+        if(l.get(cloverMachineInfo, 'isSetup')){
+          
+          this.handleRequestAPIByTerminalID(l.get(cloverMachineInfo, 'serialNumber'), "clover")
+        }else{
+          this.handleRequestAPIByTerminalID(null, "clover")
+          this.props.actions.app.connectPaxMachineError(
+            "Don't have setup in Hardware Tab!"
+          );
+        }
+      }else{
+        this.handlePAXReport_IOS();
+      }
     }
   };
 
@@ -264,31 +278,12 @@ class TabFirstSettle extends Layout {
           } else {
             totalRecord = parseInt(result?.TotalRecord || 0);
 
-            // ----------- Total Report --------
-            // let amountData = await PosLink.reportTransaction({
-            //     transType: "LOCALTOTALREPORT",
-            //     edcType: "ALL",
-            //     cardType: "",
-            //     paymentType: "",
-            //     commType: commType,
-            //     destIp: tempIpPax,
-            //     portDevice: tempPortPax,
-            //     timeoutConnect: "90000",
-            //     bluetoothAddr: idBluetooth,
-            //     refNum: ''
-            // });
-            // let amountResult = JSON.parse(amountData);
-            // totalRecord = parseInt(amountResult?.CreditCount || 0);
-            // console.log("LOCALTOTALREPORT: ", JSON.stringify(amountResult));
-
-            // totalReport = parseFloat(amountResult?.CreditAmount || 0);
-
             parseString(xmlExtData, (err, result) => {
               if (err) {
-                this.handleRequestAPIByTerminalID(null);
+                this.handleRequestAPIByTerminalID(null, "pax");
               } else {
                 const terminalID = `${result?.xml?.SN || null}`;
-                this.handleRequestAPIByTerminalID(terminalID);
+                this.handleRequestAPIByTerminalID(terminalID, "pax");
               }
             });
           }
@@ -297,7 +292,7 @@ class TabFirstSettle extends Layout {
         }
       } catch (error) {
         isError = true;
-        this.handleRequestAPIByTerminalID(null);
+        this.handleRequestAPIByTerminalID(null, "pax");
         this.props.actions.app.connectPaxMachineError(`${error}`);
       }
 
@@ -321,7 +316,7 @@ class TabFirstSettle extends Layout {
         });
       }
     } else {
-      this.handleRequestAPIByTerminalID(null);
+      this.handleRequestAPIByTerminalID(null, "pax");
       this.props.actions.app.connectPaxMachineError(
         "Don't have setup in Hardware Tab!"
       );
@@ -495,15 +490,15 @@ class TabFirstSettle extends Layout {
     this.handlePAXReport();
   };
 
-  handleRequestAPIByTerminalID = (terminalID) => {
+  handleRequestAPIByTerminalID = (terminalID, paymentTerminal) => {
     this.setState({
       terminalID,
     });
     this.props.actions.app.updatePaxTerminalID(terminalID ? terminalID : "");
-    this.props.actions.invoice.getSettlementWating(terminalID);
+    this.props.actions.invoice.getSettlementWating(terminalID, paymentTerminal);
     this.props.actions.invoice.getListStaffsSales(terminalID);
     this.props.actions.invoice.getListGiftCardSales(terminalID);
-    if (terminalID) {
+    if (terminalID && paymentTerminal == "pax") {
       this.props.actions.app.ConnectPaxMachineSuccess();
     }
   };
@@ -590,7 +585,9 @@ const mapStateToProps = (state) => ({
   gitfCardSales: state.invoice.gitfCardSales,
   listStaffByMerchant: state.staff.listStaffByMerchant,
   isHandleInternalFirstSettlemetTab:
-    state.invoice.isHandleInternalFirstSettlemetTab,
+  state.invoice.isHandleInternalFirstSettlemetTab,
+  cloverMachineInfo: state.hardware.cloverMachineInfo,
+  paymentMachineType: state.hardware.paymentMachineType,
 });
 
 export default connectRedux(mapStateToProps, TabFirstSettle);

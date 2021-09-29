@@ -319,53 +319,47 @@ export function resetConnectSignalR() {
 }
 
 export function changeFlagSigninAppointment(flag = false) {
-  return {
-    type: "CHANGE_FLAG_APPOINTMENT",
-    payload: flag,
-  };
+    return {
+        type: 'CHANGE_FLAG_APPOINTMENT',
+        payload: flag
+    }
 }
 
-export function submitPaymentWithCreditCard(
-  merchantId,
-  responseData,
-  checkoutPaymentId,
-  moneyUserGiveForStaff,
-  paymentData
-) {
-  return {
-    type: "SUBMIT_PAYMENT_WITH_CREDIT_CARD",
-    body: {
-      merchantId,
-      userId: 0,
-      title: "pax",
-      responseData,
-      checkoutPaymentId: checkoutPaymentId,
-      paymentData,
-    },
-    method: "POST",
-    token: true,
-    api: `paymentTransaction`,
-    paymentMethod: "credit_card",
-    amount: moneyUserGiveForStaff,
-    checkoutPaymentId: checkoutPaymentId,
-  };
+
+export function submitPaymentWithCreditCard(merchantId, 
+    responseData, checkoutPaymentId, moneyUserGiveForStaff,
+    paymentTerminal, paymentData) {
+    return {
+        type: 'SUBMIT_PAYMENT_WITH_CREDIT_CARD',
+        body: {
+            merchantId,
+            userId: 0,
+            title: 'pax',
+            responseData,
+            checkoutPaymentId: checkoutPaymentId,
+            paymentTerminal,
+            paymentData
+        },
+        method: 'POST',
+        token: true,
+        api: `paymentTransaction`,
+        paymentMethod: "credit_card",
+        amount: moneyUserGiveForStaff,
+        checkoutPaymentId: checkoutPaymentId,
+    }
 }
 
-export function cancelHarmonyPayment(
-  appointmentId,
-  status = null,
-  note = null
-) {
-  return {
-    type: "CANCEL_HARMONY_PAYMENT",
-    body: {
-      status,
-      note,
-    },
-    method: "PUT",
-    token: true,
-    api: `appointment/cancelmethod/${appointmentId}`,
-  };
+export function cancelHarmonyPayment(appointmentId, status = null, note = null) {
+    return {
+        type: 'CANCEL_HARMONY_PAYMENT',
+        body: {
+            status,
+            note
+        },
+        method: 'PUT',
+        token: true,
+        api: `appointment/cancelmethod/${appointmentId}`,
+    }
 }
 
 export function addAppointmentOfflineMode(body) {

@@ -572,14 +572,6 @@ export const useProps = ({
     },
     appointment: appointmentTemp ?? appointment,
     onRemoveItem: (removeItem) => {
-      // if (items?.length > 0) {
-      //   let clonePendingList = [...removeItemWaitingList];
-
-      //   clonePendingList = clonePendingList.concat(items);
-
-      //   setRemoveItemWaitingList(clonePendingList);
-      // }
-
       if (appointmentTempId) {
         if (removeItem?.bookingProductId) {
           removeItemAppointmentTemp(removeItem?.bookingProductId);
@@ -624,6 +616,7 @@ export const useProps = ({
       }
     },
     onSelectGiftCard: () => {
+      console.log("onSelectGiftCard");
       activeGiftCardRef.current?.setStateFromParent();
       dispatch(actions.appointment.handleVisibleActiveGiftCard());
       setCategoryId(1);

@@ -1,20 +1,8 @@
 import NavigationServices from "@navigators/NavigatorServices";
-import React from "react";
-import {
-  useGetAppointment,
-  useCancelAppointment,
-  useConfirmAppointment,
-  useShippingAppointment,
-  useCompleteAppointment,
-  useReturnAppointment,
-  useEditNotes,
-} from "@shared/services/api/retailer";
-import {
-  BIRTH_DAY_DATE_FORMAT_STRING,
-  statusSuccess,
-  dateToString,
-} from "@shared/utils";
+import { useReturnAppointment } from "@shared/services/api/retailer";
+import { statusSuccess } from "@shared/utils";
 import _ from "lodash";
+import React from "react";
 
 export const useProps = ({ params: { item } }) => {
   const [itemSelected, setItemSelected] = React.useState([]);
@@ -42,9 +30,16 @@ export const useProps = ({ params: { item } }) => {
   }, [appointmentReturn]);
 
   const updateQuantity = (itemQuantity, value) => {
-    const originItem = _.find(_.get(item, "products"), (originItem) => {
-      return originItem.bookingProductId == itemQuantity.bookingProductId;
-    });
+    let originItem = null;
+    if (itemQuantity?.bookingProductId) {
+      originItem = _.find(_.get(item, "products"), (originItem) => {
+        return originItem.bookingProductId == itemQuantity.bookingProductId;
+      });
+    } else if (itemQuantity?.bookingGiftCardId) {
+      originItem = _.find(_.get(item, "giftCards"), (originItem) => {
+        return originItem.bookingGiftCardId == itemQuantity.bookingGiftCardId;
+      });
+    }
 
     //validate quantity update > original quantity
     if (
@@ -57,8 +52,10 @@ export const useProps = ({ params: { item } }) => {
     const updateList = _.map(itemSelected, (updateItem) => {
       let tempItem = updateItem;
       if (
-        _.get(updateItem, "bookingProductId") ==
-        _.get(itemQuantity, "bookingProductId")
+        (itemQuantity?.bookingProductId &&
+          tempItem?.bookingProductId === itemQuantity.bookingProductId) ||
+        (itemQuantity?.bookingGiftCardId &&
+          tempItem?.bookingGiftCardId === itemQuantity.bookingGiftCardId)
       ) {
         let returnAmount = (originItem.total / originItem.quantity) * value;
 
@@ -77,20 +74,42 @@ export const useProps = ({ params: { item } }) => {
 
     setItemSelected(updateList);
 
-    const updateListData = _.map(_.get(data, "products"), (itemTemp) => {
-      let temp = itemTemp;
-      if (
-        _.get(itemTemp, "bookingProductId") ==
-        _.get(itemQuantity, "bookingProductId")
-      ) {
-        temp.returnAmount = (originItem.total / originItem.quantity) * value;
-        temp.returnQuantity = value;
-      }
-      return temp;
-    });
-    let tempData = data;
-    tempData.products = updateListData;
-    setData(tempData);
+    let updateListData = null;
+    if (itemQuantity?.bookingProductId) {
+      updateListData = _.map(_.get(data, "products"), (itemTemp) => {
+        let temp = itemTemp;
+        if (
+          itemQuantity?.bookingProductId &&
+          temp?.bookingProductId === itemQuantity.bookingProductId
+        ) {
+          temp.returnAmount = (originItem.total / originItem.quantity) * value;
+          temp.returnQuantity = value;
+        }
+        return temp;
+      });
+
+      let tempData = data;
+      tempData.products = updateListData;
+      setData(tempData);
+    }
+
+    if (itemQuantity?.bookingGiftCardId) {
+      updateListData = _.map(_.get(data, "giftCards"), (itemTemp) => {
+        let temp = itemTemp;
+        if (
+          itemQuantity?.bookingGiftCardId &&
+          temp?.bookingGiftCardId === itemQuantity.bookingGiftCardId
+        ) {
+          temp.returnAmount = (originItem.total / originItem.quantity) * value;
+          temp.returnQuantity = value;
+        }
+        return temp;
+      });
+
+      let tempData = data;
+      tempData.giftCards = updateListData;
+      setData(tempData);
+    }
   };
 
   const updateTotal = (itemChange, value) => {
@@ -108,8 +127,10 @@ export const useProps = ({ params: { item } }) => {
     const updateList = _.map(itemSelected, (updateItem) => {
       let tempItem = updateItem;
       if (
-        _.get(updateItem, "bookingProductId") ==
-        _.get(itemChange, "bookingProductId")
+        (itemChange?.bookingProductId &&
+          tempItem?.bookingProductId === itemChange.bookingProductId) ||
+        (itemChange?.bookingGiftCardId &&
+          tempItem?.bookingGiftCardId === itemChange.bookingGiftCardId)
       ) {
         tempItem.returnAmount = value;
       }
@@ -118,19 +139,41 @@ export const useProps = ({ params: { item } }) => {
 
     setItemSelected(updateList);
 
-    const updateListData = _.map(_.get(data, "products"), (itemTemp) => {
-      let temp = itemTemp;
-      if (
-        _.get(itemTemp, "bookingProductId") ==
-        _.get(itemChange, "bookingProductId")
-      ) {
-        temp.returnAmount = value;
-      }
-      return temp;
-    });
-    let tempData = data;
-    tempData.products = updateListData;
-    setData(tempData);
+    let updateListData = null;
+    if (itemChange?.bookingProductId) {
+      updateListData = _.map(_.get(data, "products"), (itemTemp) => {
+        let temp = itemTemp;
+        if (
+          itemChange?.bookingProductId &&
+          temp?.bookingProductId === itemChange.bookingProductId
+        ) {
+          temp.returnAmount = value;
+        }
+        return temp;
+      });
+
+
+      let tempData = data;
+      tempData.products = updateListData;
+      setData(tempData);
+    }
+
+    if (itemChange?.bookingGiftCardId) {
+      updateListData = _.map(_.get(data, "giftCards"), (itemTemp) => {
+        let temp = itemTemp;
+        if (
+          itemChange?.bookingGiftCardId &&
+          temp?.bookingGiftCardId === itemChange.bookingGiftCardId
+        ) {
+          temp.returnAmount = value;
+        }
+        return temp;
+      });
+
+      let tempData = data;
+      tempData.giftCards = updateListData;
+      setData(tempData);
+    }
   };
 
   return {
@@ -142,27 +185,49 @@ export const useProps = ({ params: { item } }) => {
       if (itemSelected?.length > 0) {
         const filterList = _.filter(itemSelected, (temp) => {
           return (
-            _.get(temp, "returnAmount") > 0 || _.get(temp, "returnQuantity") > 0
+            (temp.bookingProductId &&
+              (_.get(temp, "returnAmount") > 0 ||
+                _.get(temp, "returnQuantity") > 0)) ||
+            temp.bookingGiftCardId
           );
         });
-        const params = _.map(filterList, (itemTemp) => {
-          return {
-            bookingProductId: _.get(itemTemp, "bookingProductId"),
-            total: _.get(itemTemp, "returnAmount"),
-            quantity: _.get(itemTemp, "returnQuantity"),
-          };
-        });
+
+        const params = filterList
+          ?.filter((x) => x.bookingProductId)
+          .map((itemTemp) => {
+            return {
+              bookingProductId: _.get(itemTemp, "bookingProductId"),
+              total: _.get(itemTemp, "returnAmount"),
+              quantity: _.get(itemTemp, "returnQuantity"),
+            };
+          });
+
+        const giftCards = filterList
+          ?.filter((x) => x.bookingGiftCardId)
+          .map((x) => x.bookingGiftCardId);
+
         returnAppointment(item?.appointmentId, {
-          orderReturns: params,
+          orderReturns: params?.length > 0 ? params : [],
+          bookingGiftCardIds: giftCards?.length > 0 ? giftCards : [],
           notes: notes,
         });
       }
     },
     onCheckedRow: (checkItem, selected) => {
-      const cloneList =
-        itemSelected?.filter(
-          (v) => v.bookingProductId !== checkItem.bookingProductId
-        ) || [];
+      let cloneList = [];
+      if (checkItem?.bookingProductId) {
+        cloneList =
+          itemSelected?.filter(
+            (v) => v.bookingProductId !== checkItem.bookingProductId
+          ) || [];
+      }
+
+      if (checkItem?.bookingGiftCardId) {
+        cloneList =
+          itemSelected?.filter(
+            (v) => v.bookingGiftCardId !== checkItem.bookingGiftCardId
+          ) || [];
+      }
 
       if (selected) {
         setItemSelected([...cloneList, checkItem]);
