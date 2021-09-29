@@ -273,14 +273,14 @@ export const Layout = ({
                   label={t("Shipping & Handling")}
                   infoValue={formatMoneyWithUnit(item?.shippingAmount)}
                 />
-                {/* <InfoLine
+                <InfoLine
                   label={t("Tax")}
                   infoValue={formatMoneyWithUnit(item?.tax)}
                 />
                 <InfoLine
                   label={t("Discount")}
                   infoValue={formatMoneyWithUnit(item?.discount)}
-                /> */}
+                />
               </View>
               <InfoLine
                 label={t("Grand Total")}
@@ -288,19 +288,19 @@ export const Layout = ({
                 labelTextStyle={styles.highLabelTextStyle}
                 infoTextStyle={styles.highInfoTextStyle}
               />
-              {/*
+
               <InfoLine
                 label={t("Total Return")}
                 infoValue={formatMoneyWithUnit(item?.returnAmount)}
                 labelTextStyle={styles.highLabelTextStyle}
                 infoTextStyle={styles.highInfoTextStyle}
-              /> */}
-              {/* <InfoLine
+              />
+              <InfoLine
                 label={t("Total Due")}
                 infoValue={formatMoneyWithUnit(item?.dueAmount)}
                 labelTextStyle={styles.highLabelTextStyle}
                 infoTextStyle={styles.highInfoTextStyle}
-              /> */}
+              />
             </InfoContent>
             <View style={layouts.marginHorizontal} />
             <InfoContent label={t("Return Comments")}>
