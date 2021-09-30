@@ -44,11 +44,28 @@ const initialState = {
 
     invoiceDetail: {},
     creditBatchDetailById: {},
-    isGetCreditBatchDetailById: false
+    isGetCreditBatchDetailById: false,
+    
+    isProcessAutoCloseBatch: false,
 }
 
 function invoiceReducer(state = initialState, action) {
     switch (action.type) {
+        case 'AUTO_CLOSE_BATCH':
+            return {
+                ...state,
+                isProcessAutoCloseBatch: true,
+            }
+        case 'AUTO_CLOSE_BATCH_RESPONSE':
+            return {
+                ...state,
+                isProcessAutoCloseBatch: false,
+            }
+        case 'SAVE_SETTLE_WAITING':
+            return {
+                ...state,
+                settleWaiting: action.settleWaiting
+            }
         case 'GET_LIST_INVOICE_BY_MERCHANT':
             return {
                 ...state,

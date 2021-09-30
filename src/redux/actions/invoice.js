@@ -128,6 +128,25 @@ export function settleBatch(body, timeoutIncrease = true) {
     }
 }
 
+export function autoCloseBatch() {
+    return {
+        type: "AUTO_CLOSE_BATCH"
+    }
+}
+
+export function autoCloseBatchResponse() {
+    return {
+        type: "AUTO_CLOSE_BATCH_RESPONSE"
+    }
+}
+
+export function saveSettleWaiting(settleWaiting) {
+    return {
+        type: "SAVE_SETTLE_WAITING",
+        settleWaiting,
+    }
+}
+
 export function resetStateIsGettingSettlement() {
     return {
         type: 'RESET_STATE_IS_GETTING_SETTLEMENT'
