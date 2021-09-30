@@ -24,7 +24,7 @@
     "pod": "npx pod-install",
     "postinstall": "node scripts/react-scrollview-fix.js",
     "pod:clean": "cd ios && pod deintegrate && rm -rf ~/Library/Caches/CocoaPods && rm -rf Pods && rm -rf ~/Library/Developer/Xcode/DerivedData/* && rm -rf Podfile.lock",
-    "push:ios-production": "appcenter codepush release-react -a HarmonyPayment/HpMerchant-iOS -d Production -t 1.1.11 --description update",
+    "push:ios-production": "appcenter codepush release-react -a HarmonyPayment/HpMerchant-iOS -d Production -t 1.1.12 --description update",
     "push:ios-staging": "appcenter codepush release-react -a HarmonyPayment/HpMerchant-iOS -d Staging -t 1.2.11 --description \"Update\"",
     "push:ios-development": "appcenter codepush release-react -a HarmonyPayment/HpMerchant-iOS -d Development -t 1.1 --description update",
     "run:ios-staging": "npx react-native run-ios --scheme='Hpmerchant_Staging' --simulator='iPad Pro (9.7-inch)'",
