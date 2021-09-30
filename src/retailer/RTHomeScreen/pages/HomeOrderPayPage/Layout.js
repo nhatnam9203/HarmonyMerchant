@@ -225,12 +225,12 @@ export const Layout = ({
                 />
               </View>
               <View style={styles.rowContent}>
-                <ButtonPaymentMethod
+                {/* <ButtonPaymentMethod
                   key={"Gift Card"}
                   title={"Gift Card"}
                   selectedPayment={selectedPayment}
                   paymentSelected={paymentSelected}
-                />
+                /> */}
               </View>
             </View>
 
