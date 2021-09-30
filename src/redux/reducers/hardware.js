@@ -56,7 +56,17 @@ function hardwareReducer(state = initialState, action) {
           token: action.payload,
         }
       }
-
+    case 'SETUP_DEJAVOO_MACHINE':
+      return {
+        ...state,
+        dejavooMachineInfo: {...state.dejavooMachineInfo, 
+          ip: action.payload.paymentMachineInfo.ip,
+          port: action.payload.paymentMachineInfo.port,
+          isSetup: action.payload.paymentMachineInfo.isSetup,
+          name: action.payload.paymentMachineInfo.name,
+        },
+        paymentMachineType: action.payload.paymentMachineType,
+      };
     case 'DELETE_HARDWARE':
       return {
         ...state,

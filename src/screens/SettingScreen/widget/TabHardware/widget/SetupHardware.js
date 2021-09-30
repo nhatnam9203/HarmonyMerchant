@@ -32,25 +32,31 @@ class SetupHardware extends React.Component {
               } = this.props;
         const { commType, bluetoothAddr } = paxMachineInfo;
         let name = ""
+        let ip = ""
+        let port = ""
         if(paymentMachineType == PaymentTerminalType.Clover){
+
            name = _.get(cloverMachineInfo, 'name')
+           ip = _.get(cloverMachineInfo, 'ip')
+           port = _.get(cloverMachineInfo, 'port')
+
         } else if(paymentMachineType == PaymentTerminalType.Dejavoo){
+           
             name = _.get(dejavooMachineInfo, 'name')
+            ip = _.get(dejavooMachineInfo, 'ip')
+            port = _.get(dejavooMachineInfo, 'port')
+
         } else{
             //Pax
             name = _.get(paxMachineInfo, 'name')
+            ip = _.get(paxMachineInfo, 'ip')
+            port = _.get(paxMachineInfo, 'port')
         }
         this.state = {
             commType: commType || "TCP",
-            name: paymentMachineType == PaymentTerminalType.Pax ? 
-                _.get(paxMachineInfo, 'name')
-                : _.get(cloverMachineInfo, 'name'),
-            ip: paymentMachineType == PaymentTerminalType.Pax ? 
-                _.get(paxMachineInfo, 'ip')
-                : _.get(cloverMachineInfo, 'ip'),
-            port: paymentMachineType == PaymentTerminalType.Pax 
-                ? _.get(paxMachineInfo, 'port')
-                : _.get(cloverMachineInfo, 'port'),
+            name,
+            ip,
+            port,
             timeout: 90000,
             bluetoothAddr,
             peripherals: [],
@@ -85,7 +91,7 @@ class SetupHardware extends React.Component {
             bluetoothAddr, terminalName, serialNumber } = this.state;
         // ------- Handle Bluetooth Comunication Type ------------
 
-        if(terminalName == "Pax"){
+        if(terminalName == PaymentTerminalType.Pax){
             if (commType === "BLUETOOTH") {
                 if (name === "" || bluetoothAddr === "") {
                     alert('Please enter full infomation!');
@@ -107,7 +113,17 @@ class SetupHardware extends React.Component {
                     this.props.backListDevices();
                 };
             }
-        }else{
+        } else if (terminalName == PaymentTerminalType.Dejavoo){
+            if (ip == '' || port == '' || name == '') {
+                alert('Please enter full infomation!');
+            } else {
+                this.props.actions.hardware.setupDejavooMachine({
+                    paymentMachineInfo: { ip, port, isSetup: true, serialNumber },
+                    paymentMachineType: 'Clover',
+                });
+                this.props.backListDevices();
+            };
+        } else{
             if (ip == '' || port == '' || serialNumber == '') {
                 alert('Please enter full infomation!');
             } else {
