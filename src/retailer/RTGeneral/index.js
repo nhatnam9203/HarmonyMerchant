@@ -45,6 +45,8 @@ class TabGaneral extends Layout {
     this.checkPermissionRef = React.createRef();
   }
 
+  addMoreShipping = () => {};
+
   setRefTimeWorking = (ref) => {
     if (ref) {
       this.inputRefsTime.push(ref);

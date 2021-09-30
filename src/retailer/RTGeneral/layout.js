@@ -26,6 +26,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { SettingShippingItem } from "@shared/components/SettingShippingItem";
 
 const AUTO_LOCK = [
   "2 Minutes",
@@ -34,11 +35,14 @@ const AUTO_LOCK = [
   "15 Minutes",
   "Never",
 ];
+
 const STAFF_COLUMN = [{ value: 5 }, { value: 8 }];
+
 const SIGN_IN_APP_STYLE = [
   { value: "Services with categories" },
   { value: "Show categories only" },
 ];
+
 const SEND_LINK_DATA = [
   { value: "Manually" },
   { value: "Automatic" },
@@ -359,6 +363,64 @@ class Layout extends React.Component {
               />
             );
           })}
+          {/* -------- Shipping Methods--------- */}
+
+          <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
+            <View style={{ width: scaleSize(180), justifyContent: "center" }}>
+              <Text
+                style={{
+                  color: "#404040",
+                  fontSize: scaleSize(16),
+                  fontWeight: "600",
+                }}
+              >
+                {`${localize("Shipping Methods", language)}:`}
+              </Text>
+            </View>
+            <View
+              style={{
+                height: scaleSize(40),
+                width: scaleSize(400),
+                flexDirection: "row",
+              }}
+            />
+          </View>
+
+          <View style={{ paddingHorizontal: scaleWidth(25) }}>
+            <SettingShippingItem label="Shipping free" />
+            <View
+              style={{
+                width: scaleSize(180),
+                justifyContent: "center",
+                height: scaleHeight(50),
+              }}
+            >
+              <Text
+                style={{
+                  color: "#404040",
+                  fontSize: scaleFont(14),
+                  fontWeight: "500",
+                }}
+              >
+                {`${localize("Flat rate shipping", language)}:`}
+              </Text>
+            </View>
+
+            <SettingShippingItem label="Shipping free" item={{}} />
+
+            <Button onPress={this.addMoreShipping}>
+              <Text
+                style={{
+                  color: "#0764B0",
+                  fontWeight: "700",
+                  fontSize: scaleSize(14),
+                  marginTop: scaleSize(15),
+                }}
+              >
+                {`+ Add more`}
+              </Text>
+            </Button>
+          </View>
 
           {/* ------ Button Save --- */}
           <View
