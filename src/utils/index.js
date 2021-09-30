@@ -21,13 +21,21 @@ import * as l from "lodash";
 import PushNotification from "react-native-push-notification";
 import { parseString } from "react-native-xml2js";
 import env from "react-native-config";
+import actions from "@actions";
 import configureStore from "../redux/store";
-const { store } = configureStore();
+const { persistor, store } = configureStore();
+import {
+  REMOTE_APP_ID,
+  APP_NAME,
+  POS_SERIAL,
+} from '@utils';
 
 const PosLink = NativeModules.batch;
 const PosLinkReport = NativeModules.report;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 const { width, height } = Dimensions.get("window");
+
+const { clover } = NativeModules;
 
 export const checkIsTablet = () => {
   const isTablet = parseFloat(width / height) > 1.5 ? true : false;
@@ -1642,12 +1650,32 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
 };
 
 export const handleAutoClose = async () => {
+  
   const { dataLocal, hardware } = store.getState();
-  const { paxMachineInfo } = hardware;
+  const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = hardware;
   const { token, deviceId, deviceName } = dataLocal;
   const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
     paxMachineInfo;
-  if (isSetup) {
+  
+  if(paymentMachineType == "Clover" && l.get(cloverMachineInfo, "isSetup")){
+    //Clover
+    
+    store.dispatch(actions.invoice.autoCloseBatch());
+    const sn = l.get(cloverMachineInfo, 'serialNumber')
+    requestAPI({
+      type: "GET_SETTLEMENT_WAITING",
+      method: "GET",
+      api: `${Configs.API_URL}settlement/waiting?sn=${sn}&paymentTerminal=clover`,
+      token,
+      deviceName,
+      deviceId,
+    }).then((settleWaitingResponse) => {
+      const settleWaiting = l.get(settleWaitingResponse, "data");
+      store.dispatch(actions.invoice.saveSettleWaiting(settleWaiting));
+      settle(settleWaiting, 0, sn);
+    });
+  }else if (isSetup) {
+    //Pax
     let totalRecord = 0;
 
     try {
@@ -1688,13 +1716,14 @@ export const handleAutoClose = async () => {
               requestAPI({
                 type: "GET_SETTLEMENT_WAITING",
                 method: "GET",
-                api: `${Configs.API_URL}settlement/waiting?sn=${terminalID}}`,
+                api: `${Configs.API_URL}settlement/waiting?sn=${terminalID}}&paymentTerminal=pax`,
                 token,
                 deviceName,
                 deviceId,
               }).then((settleWaitingResponse) => {
                 const settleWaiting = l.get(settleWaitingResponse, "data");
-                settle(paxMachineInfo, settleWaiting, creditCount, terminalID);
+
+                settle(settleWaiting, creditCount, terminalID);
               });
             }
           });
@@ -1708,6 +1737,7 @@ export const handleAutoClose = async () => {
   } else {
     processingSettlementWithoutConnectPax();
   }
+  
 };
 
 export const processingSettlementWithoutConnectPax = () => {
@@ -1722,20 +1752,37 @@ export const processingSettlementWithoutConnectPax = () => {
     deviceId,
   }).then((settleWaitingResponse) => {
     const settleWaiting = l.get(settleWaitingResponse, "data");
+    store.dispatch(actions.invoice.saveSettleWaiting(settleWaiting));
     proccessingSettlement([], settleWaiting, null, false);
   });
 };
 
 export const settle = async (
-  paxMachineInfo,
   settleWaiting,
   creditCount,
   terminalID
 ) => {
+
+  const { dataLocal, hardware } = store.getState();
+  const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = hardware;
+  const { token, deviceId, deviceName } = dataLocal;
   const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
     paxMachineInfo;
 
-  if (isSetup && terminalID) {
+  if(paymentMachineType == "Clover" && l.get(cloverMachineInfo, "isSetup")){
+    //Clover
+    const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
+    const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+    clover.closeout({
+        url,
+        remoteAppId: REMOTE_APP_ID,
+        appName: APP_NAME,
+        posSerial: POS_SERIAL,
+        token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
+      })
+      
+  } else if (isSetup && terminalID) {
+    //Pax
     if (Platform.OS === "android") {
       PoslinkAndroid.batchTransaction(
         ip,
