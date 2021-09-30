@@ -138,19 +138,39 @@ class SetupHardware extends React.Component {
     }
 
     cancelSetupPax = async () => {
-        const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = this.props;
+        const { paxMachineInfo, 
+            cloverMachineInfo, 
+            dejavooMachineInfo,
+            paymentMachineType 
+          } = this.props;
         const { commType, bluetoothAddr } = paxMachineInfo;
+        let name = ""
+        let ip = ""
+        let port = ""
+        if(paymentMachineType == PaymentTerminalType.Clover){
+
+            name = _.get(cloverMachineInfo, 'name')
+            ip = _.get(cloverMachineInfo, 'ip')
+            port = _.get(cloverMachineInfo, 'port')
+
+        } else if(paymentMachineType == PaymentTerminalType.Dejavoo){
+        
+            name = _.get(dejavooMachineInfo, 'name')
+            ip = _.get(dejavooMachineInfo, 'ip')
+            port = _.get(dejavooMachineInfo, 'port')
+
+        } else{
+            //Pax
+            name = _.get(paxMachineInfo, 'name')
+            ip = _.get(paxMachineInfo, 'ip')
+            port = _.get(paxMachineInfo, 'port')
+        }
+
         this.setState({...this.state,
             commType: commType || "TCP",
-            name: paymentMachineType == 'Pax' ? 
-                _.get(paxMachineInfo, 'name')
-                : _.get(cloverMachineInfo, 'name'),
-            ip: paymentMachineType == 'Pax' ? 
-                _.get(paxMachineInfo, 'ip')
-                : _.get(cloverMachineInfo, 'ip'),
-            port: paymentMachineType == 'Pax' 
-                ? _.get(paxMachineInfo, 'port')
-                : _.get(cloverMachineInfo, 'port'),
+            name,
+            ip,
+            port,
             timeout: _.get(paxMachineInfo, 'timeout'),
             bluetoothAddr,
             terminalName: paymentMachineType,
@@ -177,15 +197,20 @@ class SetupHardware extends React.Component {
     setTerminal = (terminalName) => () => {
         if(terminalName != this.state.terminalName) {
             const { name, ip, port } = this.state;
-            const { paxMachineInfo, cloverMachineInfo } = this.props;
+            const { paxMachineInfo, cloverMachineInfo, dejavooMachineInfo } = this.props;
             let tempName = name 
             let tempIp = ip
             let tempPort = port
-            if (terminalName == 'Pax') {
+            if (terminalName == PaymentTerminalType.Pax) {
                 tempName = _.get(paxMachineInfo, 'name')
                 tempIp = _.get(paxMachineInfo, 'ip')
                 tempPort = _.get(paxMachineInfo, 'port')
+            } else if (terminalName == PaymentTerminalType.Dejavoo) {
+                tempName = _.get(dejavooMachineInfo, 'name')
+                tempIp = _.get(dejavooMachineInfo, 'ip')
+                tempPort = _.get(dejavooMachineInfo, 'port')
             } else {
+                //Clover
                 tempName = _.get(cloverMachineInfo, 'name')
                 tempIp = _.get(cloverMachineInfo, 'ip')
                 tempPort = _.get(cloverMachineInfo, 'port')
@@ -269,8 +294,9 @@ class SetupHardware extends React.Component {
 
         const tempCheckEthernetIcon = commType === "TCP" ? ICON.radioExportSe : ICON.radioExport;
         const tempCheckBluetoothIcon = commType === "BLUETOOTH" ? ICON.radioExportSe : ICON.radioExport;
-        const tempCheckPax = terminalName === "Pax" ? ICON.radioExportSe : ICON.radioExport;
-        const tempCheckClover = terminalName === "Clover" ? ICON.radioExportSe : ICON.radioExport;
+        const tempCheckPax = terminalName === PaymentTerminalType.Pax ? ICON.radioExportSe : ICON.radioExport;
+        const tempCheckClover = terminalName === PaymentTerminalType.Clover ? ICON.radioExportSe : ICON.radioExport;
+        const tempCheckDejavoo = terminalName === PaymentTerminalType.Dejavoo ? ICON.radioExportSe : ICON.radioExport;
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSize(14), paddingTop: scaleSize(20) }} >
                 <Text style={{
@@ -304,6 +330,16 @@ class SetupHardware extends React.Component {
                     <Button onPress={this.setTerminal("Clover")} style={{ flexDirection: "row" }} >
                         <Image
                             source={tempCheckClover}
+                            style={{ marginRight: scaleSize(10) }}
+                        />
+                        <Text style={{ fontSize: scaleSize(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
+                            {localize('Clover', language)}
+                        </Text>
+                    </Button>
+
+                    <Button onPress={this.setTerminal(PaymentTerminalType.Dejavoo)} style={{ flexDirection: "row" }} >
+                        <Image
+                            source={tempCheckDejavoo}
                             style={{ marginRight: scaleSize(10) }}
                         />
                         <Text style={{ fontSize: scaleSize(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
