@@ -106,16 +106,24 @@ class SetupHardware extends React.Component {
     }
 
     cancelSetupPax = async () => {
-        const { paxMachineInfo } = this.props;
-        const { name, ip, port, timeout, commType, bluetoothAddr } = paxMachineInfo;
-        await this.setState({
-            name,
-            ip,
-            port,
-            timeout,
-            commType,
-            bluetoothAddr
-        });
+        const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = this.props;
+        const { commType, bluetoothAddr } = paxMachineInfo;
+        this.setState({...this.state,
+            commType: commType || "TCP",
+            name: paymentMachineType == 'Pax' ? 
+                _.get(paxMachineInfo, 'name')
+                : _.get(cloverMachineInfo, 'name'),
+            ip: paymentMachineType == 'Pax' ? 
+                _.get(paxMachineInfo, 'ip')
+                : _.get(cloverMachineInfo, 'ip'),
+            port: paymentMachineType == 'Pax' 
+                ? _.get(paxMachineInfo, 'port')
+                : _.get(cloverMachineInfo, 'port'),
+            timeout: _.get(paxMachineInfo, 'timeout'),
+            bluetoothAddr,
+            terminalName: paymentMachineType,
+            serialNumber: _.get(cloverMachineInfo, 'serialNumber', ''),
+        })
 
         this.props.backListDevices();
     }
