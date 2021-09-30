@@ -12,7 +12,10 @@ import {
 import { BleManager } from 'react-native-ble-plx';
 
 import { ButtonCustom, Text, Button } from '@components';
-import { scaleSize, localize } from '@utils';
+import { scaleSize, 
+        localize,
+        PaymentTerminalType,
+       } from '@utils';
 import ICON from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 import BluetoothScanner from "@lib/BluetoothScanner";
@@ -22,17 +25,30 @@ class SetupHardware extends React.Component {
 
     constructor(props) {
         super(props);
-        const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = this.props;
+        const { paxMachineInfo, 
+                cloverMachineInfo, 
+                dejavooMachineInfo,
+                paymentMachineType 
+              } = this.props;
         const { commType, bluetoothAddr } = paxMachineInfo;
+        let name = ""
+        if(paymentMachineType == PaymentTerminalType.Clover){
+           name = _.get(cloverMachineInfo, 'name')
+        } else if(paymentMachineType == PaymentTerminalType.Dejavoo){
+            name = _.get(dejavooMachineInfo, 'name')
+        } else{
+            //Pax
+            name = _.get(paxMachineInfo, 'name')
+        }
         this.state = {
             commType: commType || "TCP",
-            name: paymentMachineType == 'Pax' ? 
+            name: paymentMachineType == PaymentTerminalType.Pax ? 
                 _.get(paxMachineInfo, 'name')
                 : _.get(cloverMachineInfo, 'name'),
-            ip: paymentMachineType == 'Pax' ? 
+            ip: paymentMachineType == PaymentTerminalType.Pax ? 
                 _.get(paxMachineInfo, 'ip')
                 : _.get(cloverMachineInfo, 'ip'),
-            port: paymentMachineType == 'Pax' 
+            port: paymentMachineType == PaymentTerminalType.Pax 
                 ? _.get(paxMachineInfo, 'port')
                 : _.get(cloverMachineInfo, 'port'),
             timeout: 90000,

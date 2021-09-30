@@ -24,3 +24,9 @@ export const menuTabs = {
   MENU_SETTING: "MENU_SETTING",
   MENU_STAFF_LOGTIME: "MENU_STAFF_LOGTIME",
 };
+
+export const PaymentTerminalType = {
+  Clover: "Clover",
+  Pax: "Pax",
+  Dejavoo: "Dejavoo",
+}
