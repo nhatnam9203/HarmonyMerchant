@@ -71,43 +71,47 @@ class InvoiceScreen extends Layout {
     this.isProcessPrintClover = false;
   }
 
-  registerEvents () {
-    const {cloverMachineInfo, language} = this.props
-    clover.changeListenerStatus(true)
+  registerEvents() {
+    const { cloverMachineInfo, language } = this.props;
+    clover.changeListenerStatus(true);
     this.subscriptions = [
-      this.eventEmitter.addListener('voidPaymentSuccess', data => {
-       this.isProcessVoidPaymentClover = false
-       let messageUpdate = {...data,
-        sn: l.get(cloverMachineInfo, 'serialNumber')}
-       this.handleResultVoidTransactionCloverSuccess(messageUpdate)
-       
+      this.eventEmitter.addListener("voidPaymentSuccess", (data) => {
+        this.isProcessVoidPaymentClover = false;
+        let messageUpdate = {
+          ...data,
+          sn: l.get(cloverMachineInfo, "serialNumber"),
+        };
+        this.handleResultVoidTransactionCloverSuccess(messageUpdate);
       }),
-      this.eventEmitter.addListener('voidPaymentFail', data => {
-        this.isProcessVoidPaymentClover = false
-        this.handleResultVoidTransactionCloverFailed(l.get(data, 'errorMessage'))
-        
-       }),
-       this.eventEmitter.addListener('refundPaymentSuccess', data => {
-        this.isProcessVoidPaymentClover = false
-        let messageUpdate = {...data,
-          sn: l.get(cloverMachineInfo, 'serialNumber')}
-        this.handleResultVoidTransactionCloverSuccess(messageUpdate)
-        
-       }),
-       this.eventEmitter.addListener('refundPaymentFail', data => {
-         this.isProcessVoidPaymentClover = false
-         this.handleResultVoidTransactionCloverFailed(l.get(data, 'errorMessage'))
-         
-        }),
-      this.eventEmitter.addListener('pairingCode', data => {
-        if(data){
-          const text = `Pairing code: ${l.get(data, 'pairingCode')}`
-          if(this.isProcessVoidPaymentClover) {
+      this.eventEmitter.addListener("voidPaymentFail", (data) => {
+        this.isProcessVoidPaymentClover = false;
+        this.handleResultVoidTransactionCloverFailed(
+          l.get(data, "errorMessage")
+        );
+      }),
+      this.eventEmitter.addListener("refundPaymentSuccess", (data) => {
+        this.isProcessVoidPaymentClover = false;
+        let messageUpdate = {
+          ...data,
+          sn: l.get(cloverMachineInfo, "serialNumber"),
+        };
+        this.handleResultVoidTransactionCloverSuccess(messageUpdate);
+      }),
+      this.eventEmitter.addListener("refundPaymentFail", (data) => {
+        this.isProcessVoidPaymentClover = false;
+        this.handleResultVoidTransactionCloverFailed(
+          l.get(data, "errorMessage")
+        );
+      }),
+      this.eventEmitter.addListener("pairingCode", (data) => {
+        if (data) {
+          const text = `Pairing code: ${l.get(data, "pairingCode")}`;
+          if (this.isProcessVoidPaymentClover) {
             this.setState({
               visibleProcessingCredit: false,
             });
           }
-          if(this.isProcessPrintClover){
+          if (this.isProcessPrintClover) {
             this.setState({
               visiblePrintInvoice: false,
             });
@@ -115,42 +119,41 @@ class InvoiceScreen extends Layout {
           this.setState({
             visiblePopupParingCode: true,
             pairingCode: text,
-          })
+          });
         }
       }),
-      this.eventEmitter.addListener('pairingSuccess', data => {
-        this.props.actions.hardware.setCloverToken(
-          l.get(data, 'token')
-        );
+      this.eventEmitter.addListener("pairingSuccess", (data) => {
+        this.props.actions.hardware.setCloverToken(l.get(data, "token"));
         this.setState({
           visiblePopupParingCode: false,
-          pairingCode: '',
-        })
-        if(this.isProcessVoidPaymentClover) {
+          pairingCode: "",
+        });
+        if (this.isProcessVoidPaymentClover) {
           this.setState({
             visibleProcessingCredit: true,
           });
         }
       }),
-      
-      this.eventEmitter.addListener('deviceDisconnected', () => {
-        if(this.isProcessVoidPaymentClover) {
-          this.isProcessVoidPaymentClover = false
-          this.handleResultVoidTransactionCloverFailed(localize("No connected device", language))
+
+      this.eventEmitter.addListener("deviceDisconnected", () => {
+        if (this.isProcessVoidPaymentClover) {
+          this.isProcessVoidPaymentClover = false;
+          this.handleResultVoidTransactionCloverFailed(
+            localize("No connected device", language)
+          );
         }
-        
       }),
-    ]
+    ];
   }
 
-  unregisterEvents () {
-    clover.changeListenerStatus(false)
-    this.subscriptions.forEach(e => e.remove())
-    this.subscriptions = []
+  unregisterEvents() {
+    clover.changeListenerStatus(false);
+    this.subscriptions.forEach((e) => e.remove());
+    this.subscriptions = [];
   }
 
   componentDidMount() {
-    this.registerEvents()
+    this.registerEvents();
     this.didBlurSubscription = this.props.navigation.addListener(
       "blur",
       (payload) => {
@@ -364,7 +367,12 @@ class InvoiceScreen extends Layout {
   };
 
   confirmChangeInvoiceStatus = async () => {
-    const { paxMachineInfo, invoiceDetail, cloverMachineInfo, paymentMachineType } = this.props;
+    const {
+      paxMachineInfo,
+      invoiceDetail,
+      cloverMachineInfo,
+      paymentMachineType,
+    } = this.props;
     const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
       paxMachineInfo;
 
@@ -449,20 +457,27 @@ class InvoiceScreen extends Layout {
           if (invoiceDetail?.status === "paid") {
             this.popupProcessingCreditRef.current?.setStateFromParent(false);
             if (paymentMachineType == "Clover") {
-              const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
-              const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
-              this.isProcessVoidPaymentClover = true
+              const port = l.get(cloverMachineInfo, "port")
+                ? l.get(cloverMachineInfo, "port")
+                : 80;
+              const url = `wss://${l.get(
+                cloverMachineInfo,
+                "ip"
+              )}:${port}/remote_pay`;
+              this.isProcessVoidPaymentClover = true;
               const paymentInfo = {
                 url,
                 remoteAppId: REMOTE_APP_ID,
                 appName: APP_NAME,
                 posSerial: POS_SERIAL,
-                token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
+                token: l.get(cloverMachineInfo, "token")
+                  ? l.get(cloverMachineInfo, "token", "")
+                  : "",
                 orderId: paymentInformation?.orderId || "",
                 paymentId: paymentInformation?.id || "",
-              }
+              };
               clover.refundPayment(paymentInfo);
-            }else{
+            } else {
               PosLink.sendTransaction(
                 {
                   tenderType: "CREDIT",
@@ -480,25 +495,31 @@ class InvoiceScreen extends Layout {
                 (data) => this.handleResultRefundTransaction(data)
               );
             }
-           
           } else if (invoiceDetail?.status === "complete") {
             this.popupProcessingCreditRef.current?.setStateFromParent(
               transactionId
             );
-            if (paymentMachineType == "Clover"){
-              this.isProcessVoidPaymentClover = true
-              const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
-              const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
-              this.isProcessVoidPaymentClover = true
+            if (paymentMachineType == "Clover") {
+              this.isProcessVoidPaymentClover = true;
+              const port = l.get(cloverMachineInfo, "port")
+                ? l.get(cloverMachineInfo, "port")
+                : 80;
+              const url = `wss://${l.get(
+                cloverMachineInfo,
+                "ip"
+              )}:${port}/remote_pay`;
+              this.isProcessVoidPaymentClover = true;
               const paymentInfo = {
                 url,
                 remoteAppId: REMOTE_APP_ID,
                 appName: APP_NAME,
                 posSerial: POS_SERIAL,
-                token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
+                token: l.get(cloverMachineInfo, "token")
+                  ? l.get(cloverMachineInfo, "token", "")
+                  : "",
                 orderId: paymentInformation?.orderId || "",
                 paymentId: paymentInformation?.id || "",
-              }
+              };
               clover.voidPayment(paymentInfo);
             } else {
               PosLink.sendTransaction(
@@ -518,7 +539,6 @@ class InvoiceScreen extends Layout {
                 (data) => this.handleResultVoidTransaction(data)
               );
             }
-            
           }
         }
       }
@@ -530,7 +550,7 @@ class InvoiceScreen extends Layout {
       });
       this.props.actions.invoice.changeStatustransaction(
         invoiceDetail?.checkoutId,
-        this.getParamsSearch(),
+        this.getParamsSearch()
       );
     }
   };
@@ -553,7 +573,7 @@ class InvoiceScreen extends Layout {
 
   handleResultVoidTransactionCloverSuccess = async (result) => {
     const { invoiceDetail, cloverMachineInfo } = this.props;
-  
+
     await this.setState({
       visibleProcessingCredit: false,
     });
@@ -569,7 +589,7 @@ class InvoiceScreen extends Layout {
         titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
       });
     }
-  }
+  };
 
   handleResultVoidTransactionCloverFailed = async (message) => {
     await this.setState({
@@ -578,7 +598,7 @@ class InvoiceScreen extends Layout {
     setTimeout(() => {
       alert(message);
     }, 300);
-  }
+  };
 
   handleResultVoidTransaction = async (result) => {
     const { invoiceDetail } = this.props;
@@ -665,10 +685,10 @@ class InvoiceScreen extends Layout {
   };
 
   cancelTransaction = async () => {
-    const { paymentMachineType } = this.props
-    if(paymentMachineType == "Clover") {
-      clover.cancelTransaction()
-    }else{
+    const { paymentMachineType } = this.props;
+    if (paymentMachineType == "Clover") {
+      clover.cancelTransaction();
+    } else {
       PosLink.cancelTransaction();
     }
     await this.setState({
@@ -785,16 +805,13 @@ class InvoiceScreen extends Layout {
           visiblePrintInvoice: true,
         });
       } else {
-        const { 
-                cloverMachineInfo, 
-                paymentMachineType,
-              } = this.props;
+        const { cloverMachineInfo, paymentMachineType } = this.props;
         const { isSetup } = cloverMachineInfo;
         if (paymentMachineType == "Clover" && isSetup) {
           await this.setState({
             visiblePrintInvoice: true,
-          });          
-        }else{
+          });
+        } else {
           alert("Please connect to your printer!");
         }
       }
@@ -814,23 +831,27 @@ class InvoiceScreen extends Layout {
   updateInvoiceDetailAfterCallServer = async () => {};
 
   doPrintClover(imageUri) {
-    this.isProcessPrintClover = true
+    this.isProcessPrintClover = true;
     const { cloverMachineInfo } = this.props;
-    const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
-    const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
-    
+    const port = l.get(cloverMachineInfo, "port")
+      ? l.get(cloverMachineInfo, "port")
+      : 80;
+    const url = `wss://${l.get(cloverMachineInfo, "ip")}:${port}/remote_pay`;
+
     const printInfo = {
       imageUri,
       url,
       remoteAppId: REMOTE_APP_ID,
       appName: APP_NAME,
       posSerial: POS_SERIAL,
-      token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
-    }
-    clover.doPrintWithConnect(printInfo)
-    this.isProcessPrintClover = false
+      token: l.get(cloverMachineInfo, "token")
+        ? l.get(cloverMachineInfo, "token", "")
+        : "",
+    };
+    clover.doPrintWithConnect(printInfo);
+    this.isProcessPrintClover = false;
   }
-  
+
   printCustomerInvoice = async () => {
     try {
       const { printerSelect, printerList } = this.props;
@@ -861,21 +882,20 @@ class InvoiceScreen extends Layout {
         }
         this.props.actions.app.stopLoadingApp();
       } else {
-        const { 
-          cloverMachineInfo, 
-          paymentMachineType,
-        } = this.props;
+        const { cloverMachineInfo, paymentMachineType } = this.props;
         const { isSetup } = cloverMachineInfo;
         if (paymentMachineType == "Clover" && isSetup) {
           this.props.actions.app.loadingApp();
-          const imageUri = await captureRef(this.viewShotRef, {result: "base64"});     
+          const imageUri = await captureRef(this.viewShotRef, {
+            result: "base64",
+          });
           if (imageUri) {
-            this.doPrintClover(imageUri)
+            this.doPrintClover(imageUri);
             releaseCapture(imageUri);
           }
-          this.props.actions.app.stopLoadingApp();    
-        }else{
-              alert("Please connect to your printer!");
+          this.props.actions.app.stopLoadingApp();
+        } else {
+          alert("Please connect to your printer!");
         }
       }
     } catch (error) {
@@ -890,6 +910,7 @@ class InvoiceScreen extends Layout {
     try {
       const imageUri = await captureRef(this.viewShotRef, {});
       if (Platform.OS === "ios") {
+
         RNFetchBlob.ios.previewDocument(imageUri);
       } else {
         const shareResponse = await Share.open({
@@ -918,11 +939,10 @@ class InvoiceScreen extends Layout {
     }
   };
 
-
   componentWillUnmount() {
     this.didBlurSubscription();
     this.didFocusSubscription();
-    this.unregisterEvents()
+    this.unregisterEvents();
   }
 }
 

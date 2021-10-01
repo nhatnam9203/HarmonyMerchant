@@ -32,6 +32,7 @@ import PopupEnterAmountGiftCard from "./PopupEnterAmountGiftCard";
 import EnterCustomerPhonePopup from "./EnterCustomerPhonePopup";
 import PopupAddEditCustomer from "./PopupAddEditCustomer";
 import ErrorMessagePaxModal from './ErrorMessagePaxModal';
+import PopupInvoice from './PopupInvoice';
 
 function getPaymentLogoByName(name) {
     let logo = "";
@@ -125,7 +126,8 @@ module.exports = {
     PopupEnterAmountGiftCard,
     EnterCustomerPhonePopup,
     PopupAddEditCustomer,
-    ErrorMessagePaxModal
+    ErrorMessagePaxModal,
+    PopupInvoice
 }
 
 
