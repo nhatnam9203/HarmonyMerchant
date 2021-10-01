@@ -351,7 +351,6 @@ class TabAppointment extends Layout {
             );
 
             // this.showInvoicePrint(portName, false, appointment);
-            console.log(data);
 
             const isTemp = appointment?.status !== "paid";
             if (portName !== "") {
