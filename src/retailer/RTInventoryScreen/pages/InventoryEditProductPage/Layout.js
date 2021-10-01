@@ -86,7 +86,7 @@ export const Layout = ({
               onChangeValue={(val) => form.setFieldValue("visibility", val)}
             />
 
-            {/* <FormInputMask
+            <FormInputMask
               label={t("Cost Price ($)")}
               placeholder={t("Enter cost price")}
               required={true}
@@ -95,7 +95,7 @@ export const Layout = ({
               }}
               defaultValue={productItem?.costPrice}
               keyboardType="numeric"
-            /> */}
+            />
 
             {(!productItem?.quantities ||
               productItem?.quantities?.length <= 0) && (
