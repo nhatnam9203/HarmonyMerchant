@@ -4,7 +4,8 @@ import {
   useStaffLogTimeEdit,
   useStaffLogTimeGet,
 } from "@shared/services/api/retailer/Staff";
-import { sortByDate } from "@shared/utils";
+import { useExportStaffLogTime } from "@shared/services/api/retailer/Exports";
+import { getTimeTitleFile, sortByDate } from "@shared/utils";
 import { SORT_TYPE, statusSuccess } from "@shared/utils/app";
 import {
   getQuickFilterTimeRange,
@@ -26,6 +27,7 @@ const RANGE_TIME_DEFAULT = "This Week";
 
 export const useProps = (props) => {
   const { t } = useTranslation();
+  const exportRef = React.useRef();
 
   const [type, setType] = React.useState(0);
   const [page, setPage] = React.useState(1);
@@ -60,6 +62,8 @@ export const useProps = (props) => {
 
   const [staffLogTimeDelete, deleteStaffLogTime] = useStaffLogTimeDelete();
   const [staffLogTimeEdit, editStaffLogTime] = useStaffLogTimeEdit();
+
+  const [staffLogTimeExport, exportStaffLogTime] = useExportStaffLogTime();
 
   React.useEffect(() => {
     const { codeStatus, data, pages = 0, count = 0 } = staffLogTime || {};
@@ -148,6 +152,16 @@ export const useProps = (props) => {
       }
 
       return true;
+    },
+    callExportOrderList: (values) => {
+      const params = Object.assign({}, values, {
+        ...(searchVal && { key: searchVal }),
+        page: page,
+        ...(type && { type: type.value }),
+        ...timeVal,
+      });
+      exportRef.current?.onSetFileName(getTimeTitleFile("ReportOrder", params));
+      exportStaffLogTime(params);
     },
   };
 };

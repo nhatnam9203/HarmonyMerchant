@@ -5,6 +5,7 @@ import {
   ButtonGradientWhite,
   DropdownMenu,
   Pagination,
+  ExportModal,
 } from "@shared/components";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
@@ -40,6 +41,8 @@ export const Layout = ({
   pagination,
   onRefresh,
   isPermission,
+  exportRef,
+  callExportOrderList
 }) => {
   const { t } = useTranslation();
 
@@ -190,6 +193,8 @@ export const Layout = ({
           {...pagination}
           length={items?.length}
         /> */}
+
+        <ExportModal ref={exportRef} onExportFile={callExportOrderList} />
       </View>
       <View style={styles.rowContent}>
         <View style={layouts.horizontal}>
