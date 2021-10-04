@@ -928,7 +928,7 @@ class PopupInvoicePrint extends React.Component {
                   </Text> */}
 
                   {/* ----------- Thanks , see you again -------- */}
-                  <View style={{ height: scaleSize(20) }} />
+                  {/* <View style={{ height: scaleSize(20) }} />
                   <Text
                     style={[
                       styleInvoice.txt_total,
@@ -946,7 +946,7 @@ class PopupInvoicePrint extends React.Component {
                     ]}
                   >
                     {`Please come again`}
-                  </Text>
+                  </Text> */}
                   <View style={{ height: scaleSize(8) }} />
                   {/* ------------- This is not a bill   ----------- */}
                   <Text
