@@ -9,6 +9,7 @@ import {
   PopupScanCode,
   PopupSendLinkInstall,
   PopupChangeTip,
+  PopupPairingCode,
 } from "@components";
 import IMAGE from "@resources";
 import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
@@ -122,6 +123,12 @@ export const Layout = ({
   onGoBackOrderList,
   onGoBackCheckOut,
   cancelGiftCardPayment,
+  visiblePopupParingCode,
+  pairingCode,
+  visibleConfirmPayment,
+  setVisibleConfirmPayment,
+  confirmPaymentClover,
+  rejectPaymentClover,
 }) => {
   const [t] = useTranslation();
 
@@ -302,6 +309,22 @@ export const Layout = ({
         message={titleExitCheckoutTab}
         onRequestClose={setVisibleConfirm}
         confimYes={popupConfirmOnRequestClose}
+      />
+
+      <PopupConfirm
+        visible={visibleConfirmPayment ? true : false}
+        title={t("Verify payment")}
+        message={t("This may be a duplicate, do you want to accept this payment?")}
+        onRequestClose={() => { setVisibleConfirmPayment }}
+        confimYes={confirmPaymentClover}
+        confirmNo={rejectPaymentClover}
+        textLeftButton={t("Reject")}
+        textRightButton={t("Accept")}
+        hideCloseButton={true}
+      />
+      <PopupPairingCode
+        visible={visiblePopupParingCode ? true: false}
+        message={pairingCode}
       />
 
       <ErrorMessagePaxModal
