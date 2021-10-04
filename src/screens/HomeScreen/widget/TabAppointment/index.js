@@ -7,6 +7,7 @@ import {
   getArrayServicesFromAppointment,
   getInfoFromModelNameOfPrinter,
   validateIsNumber,
+  checkStatusPrint,
 } from "@utils";
 import { isEmpty } from "lodash";
 import React from "react";
@@ -25,6 +26,7 @@ class TabAppointment extends Layout {
       appState: AppState.currentState,
       calendarLink: this.getLinkForCalendar(),
       visiblePrintInvoice: false,
+      appointment: null,
     };
     this.webviewRef = React.createRef();
     this.amountRef = React.createRef();
@@ -36,6 +38,13 @@ class TabAppointment extends Layout {
 
   componentDidMount() {
     AppState.addEventListener("change", this.handleAppStateChange);
+
+    this.didBlurSubscription = this.props.navigation.addListener(
+      "blur",
+      (payload) => {
+        this.props.actions.invoice.resetInvoiceDetailState();
+      }
+    );
   }
 
   getLinkForCalendar() {
@@ -189,6 +198,7 @@ class TabAppointment extends Layout {
   };
 
   showInvoicePrint = async (printMachine, isTemptPrint = true, appointment) => {
+    const { invoiceDetail } = this.props;
     const appointments = [appointment];
     const {
       arryaServicesBuy,
@@ -224,6 +234,12 @@ class TabAppointment extends Layout {
       payment = firstPayment.paymentMethod;
     }
 
+    const titleInvoice = invoiceDetail
+      ? invoiceDetail?.status === "paid"
+        ? "REFUND"
+        : "VOID"
+      : "";
+
     this.invoicePrintRef.current?.setStateFromParent(
       baskets,
       temptSubTotal,
@@ -235,11 +251,13 @@ class TabAppointment extends Layout {
       isTemptPrint,
       printMachine,
       promotionNotes.join(","),
-      "SALE",
-      invoiceNo
+      titleInvoice,
+      invoiceDetail?.checkoutId || "",
+      invoiceDetail?.checkoutPayments || []
     );
 
-    await this.setState({ visiblePrintInvoice: true });
+    await this.setState({ visiblePrintInvoice: true, appointment: null });
+    this.props.actions.invoice.resetInvoiceDetailState();
   };
 
   onMessageFromWebview = async (event) => {
@@ -350,11 +368,17 @@ class TabAppointment extends Layout {
               printerSelect
             );
 
+            const { checkoutId } = appointment || {};
             const isTemp = appointment?.status !== "paid";
 
-            console.log(appointment);
             if (portName !== "") {
-              this.showInvoicePrint(portName, isTemp, appointment);
+              if (checkoutId) {
+                this.setState({ appointment: appointment }, () => {
+                  this.props.actions.invoice.getInvoiceDetail(checkoutId);
+                });
+              } else {
+                this.showInvoicePrint(portName, isTemp, appointment);
+              }
             } else {
               alert("Please connect to your printer! ");
             }
@@ -365,14 +389,32 @@ class TabAppointment extends Layout {
   };
 
   async componentDidUpdate(prevProps, prevState, snapshot) {
-    const { isReloadWebview } = this.props;
+    const { isReloadWebview, invoiceDetail } = this.props;
+    const { appointment } = this.state;
+
     if (isReloadWebview && isReloadWebview != prevProps.isReloadWebview) {
       this.reloadWebviewFromParent();
       this.props.actions.app.resetStateReloadWebView();
     }
+
+    if (
+      appointment &&
+      invoiceDetail &&
+      appointment?.checkoutId === invoiceDetail?.checkoutId &&
+      prevProps.invoiceDetail?.checkoutId !== invoiceDetail?.checkoutId
+    ) {
+      const { printerSelect, printerList } = this.props;
+      const { portName } = getInfoFromModelNameOfPrinter(
+        printerList,
+        printerSelect
+      );
+      const isTemp = appointment?.status !== "paid";
+      this.showInvoicePrint(portName, isTemp, appointment);
+    }
   }
 
   componentWillUnmount() {
+    this.didBlurSubscription();
     AppState.removeEventListener("change", this.handleAppStateChange);
   }
 }

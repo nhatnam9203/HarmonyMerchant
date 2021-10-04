@@ -215,7 +215,8 @@ export const Layout = ({
                 />
               )}
 
-              {productItem?.quantities?.length > 0 && (
+              {(!productItem?.quantities ||
+                productItem?.quantities?.length <= 0) && (
                 <ProductInfoLine
                   label={t("Cost Price")}
                   infoValue={`${formatMoneyWithUnit(productItem?.costPrice)}`}
