@@ -1,18 +1,18 @@
-import React from "react";
-import _ from "ramda";
-import { AppState } from "react-native";
-
-import Layout from "./layout";
+import Configs from "@configs";
 import connectRedux from "@redux/ConnectRedux";
 import {
-  validateIsNumber,
-  getArrayProductsFromAppointment,
-  getArrayServicesFromAppointment,
   getArrayExtrasFromAppointment,
   getArrayGiftCardsFromAppointment,
+  getArrayProductsFromAppointment,
+  getArrayServicesFromAppointment,
+  getInfoFromModelNameOfPrinter,
+  validateIsNumber,
+  checkStatusPrint,
 } from "@utils";
-import Configs from "@configs";
 import { isEmpty } from "lodash";
+import React from "react";
+import { AppState } from "react-native";
+import Layout from "./layout";
 
 const initState = {
   appointmentIdOffline: 0,
@@ -25,16 +25,26 @@ class TabAppointment extends Layout {
       ...initState,
       appState: AppState.currentState,
       calendarLink: this.getLinkForCalendar(),
+      visiblePrintInvoice: false,
+      appointment: null,
     };
     this.webviewRef = React.createRef();
     this.amountRef = React.createRef();
     this.changeStylistRef = React.createRef();
     this.changePriceAmountProductRef = React.createRef();
     this.popupCheckDiscountPermissionRef = React.createRef();
+    this.invoicePrintRef = React.createRef();
   }
 
   componentDidMount() {
     AppState.addEventListener("change", this.handleAppStateChange);
+
+    this.didBlurSubscription = this.props.navigation.addListener(
+      "blur",
+      (payload) => {
+        this.props.actions.invoice.resetInvoiceDetailState();
+      }
+    );
   }
 
   getLinkForCalendar() {
@@ -113,12 +123,148 @@ class TabAppointment extends Layout {
     this.webviewRef.current?.reload();
   };
 
+  cancelInvoicePrint = async () => {
+    await this.setState({ visiblePrintInvoice: false });
+  };
+
+  getBasketOnline = (appointments) => {
+    const arrayProductBuy = [];
+    const arryaServicesBuy = [];
+    const arrayExtrasBuy = [];
+    const arrayGiftCards = [];
+    const promotionNotes = [];
+
+    appointments.forEach((appointment) => {
+      const note = appointment?.promotionNotes?.note || "";
+      if (note) {
+        promotionNotes.push(note);
+      }
+      // ------ Push Service -------
+      appointment.services?.forEach((service) => {
+        arryaServicesBuy.push({
+          type: "Service",
+          data: {
+            name: service?.serviceName || "",
+            price: service?.price || "",
+          },
+          staff: service?.staff || false,
+          note: service?.note || "",
+        });
+      });
+
+      // ------ Push Product -------
+      appointment.products?.forEach((product) => {
+        arrayProductBuy.push({
+          type: "Product",
+          data: {
+            name: product?.productName || "",
+            price: product?.price || "",
+          },
+          quanlitySet: product?.quantity || "",
+        });
+      });
+
+      // ------ Push Product -------
+      appointment.extras?.forEach((extra) => {
+        arrayExtrasBuy.push({
+          type: "Extra",
+          data: {
+            name: extra?.extraName || "",
+            price: extra?.price || "",
+          },
+        });
+      });
+
+      // ------ Push Gift Card -------
+      appointment.giftCards?.forEach((gift) => {
+        arrayGiftCards.push({
+          type: "GiftCards",
+          data: {
+            name: gift?.name || "Gift Card",
+            price: gift?.price || "",
+          },
+          quanlitySet: gift?.quantity || "",
+        });
+      });
+    });
+
+    return {
+      arryaServicesBuy,
+      arrayProductBuy,
+      arrayExtrasBuy,
+      arrayGiftCards,
+      promotionNotes,
+    };
+  };
+
+  showInvoicePrint = async (printMachine, isTemptPrint = true, appointment) => {
+    const { invoiceDetail } = this.props;
+    const appointments = [appointment];
+    const {
+      arryaServicesBuy,
+      arrayProductBuy,
+      arrayExtrasBuy,
+      arrayGiftCards,
+      promotionNotes,
+    } = this.getBasketOnline(appointments);
+
+    const baskets = arryaServicesBuy.concat(
+      arrayExtrasBuy,
+      arrayProductBuy,
+      arrayGiftCards
+    );
+    const tipAmount = appointment?.tipAmount || 0;
+    const subTotal = appointment?.subTotal || 0;
+    const discount = appointment?.discount || 0;
+    const tax = appointment?.tax || 0;
+    const total = appointment?.total || 0;
+    const invoiceNo = appointment?.invoice?.checkoutId ?? "";
+
+    const temptSubTotal = subTotal;
+
+    const temptTotal = total;
+    const temptDiscount = discount;
+    const temptTip = tipAmount;
+    const temptTax = tax;
+
+    let payment = "";
+    const payments = appointment.payment;
+    if (payments?.length > 0) {
+      const firstPayment = payments[0];
+      payment = firstPayment.paymentMethod;
+    }
+
+    const titleInvoice = invoiceDetail
+      ? invoiceDetail?.status === "paid"
+        ? "REFUND"
+        : "VOID"
+      : "";
+
+    this.invoicePrintRef.current?.setStateFromParent(
+      baskets,
+      temptSubTotal,
+      temptTax,
+      temptDiscount,
+      temptTip,
+      temptTotal,
+      payment,
+      isTemptPrint,
+      printMachine,
+      promotionNotes.join(","),
+      titleInvoice,
+      invoiceDetail?.checkoutId || "",
+      invoiceDetail?.checkoutPayments || []
+    );
+
+    await this.setState({ visiblePrintInvoice: true, appointment: null });
+    this.props.actions.invoice.resetInvoiceDetailState();
+  };
+
   onMessageFromWebview = async (event) => {
     const { groupAppointment, isOfflineMode } = this.props;
     try {
       if (event.nativeEvent && event.nativeEvent.data) {
         const data = JSON.parse(event.nativeEvent.data);
-
         if (validateIsNumber(data) && data < -150) {
           this.onLoadStartWebview();
         } else {
@@ -170,10 +316,7 @@ class TabAppointment extends Layout {
             });
           } else if (action == "signinAppointment") {
             if (data?.staffId === 0) {
-              this.props.createABlockAppointment(
-                appointmentId,
-                new Date()
-              );
+              this.props.createABlockAppointment(appointmentId, new Date());
             } else {
               this.props.bookAppointment(appointmentId, data?.staffId || 0);
               if (
@@ -216,21 +359,62 @@ class TabAppointment extends Layout {
               data?.appointmentId,
               data?.staffId || 0
             );
+          } else if (action == "printFromCalendar") {
+            const appointment = data?.appointment;
+
+            const { printerSelect, printerList } = this.props;
+            const { portName } = getInfoFromModelNameOfPrinter(
+              printerList,
+              printerSelect
+            );
+
+            const { checkoutId } = appointment || {};
+            const isTemp = appointment?.status !== "paid";
+
+            if (portName !== "") {
+              if (checkoutId) {
+                this.setState({ appointment: appointment }, () => {
+                  this.props.actions.invoice.getInvoiceDetail(checkoutId);
+                });
+              } else {
+                this.showInvoicePrint(portName, isTemp, appointment);
+              }
+            } else {
+              alert("Please connect to your printer! ");
+            }
           }
         }
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   async componentDidUpdate(prevProps, prevState, snapshot) {
-    const { isReloadWebview } = this.props;
+    const { isReloadWebview, invoiceDetail } = this.props;
+    const { appointment } = this.state;
+
     if (isReloadWebview && isReloadWebview != prevProps.isReloadWebview) {
       this.reloadWebviewFromParent();
       this.props.actions.app.resetStateReloadWebView();
     }
+
+    if (
+      appointment &&
+      invoiceDetail &&
+      appointment?.checkoutId === invoiceDetail?.checkoutId &&
+      prevProps.invoiceDetail?.checkoutId !== invoiceDetail?.checkoutId
+    ) {
+      const { printerSelect, printerList } = this.props;
+      const { portName } = getInfoFromModelNameOfPrinter(
+        printerList,
+        printerSelect
+      );
+      const isTemp = appointment?.status !== "paid";
+      this.showInvoicePrint(portName, isTemp, appointment);
+    }
   }
 
   componentWillUnmount() {
+    this.didBlurSubscription();
     AppState.removeEventListener("change", this.handleAppStateChange);
   }
 }
@@ -252,6 +436,9 @@ const mapStateToProps = (state) => ({
   extrasByMerchant: state.extra.extrasByMerchant,
   groupAppointment: state.appointment.groupAppointment,
   isOfflineMode: state.network.isOfflineMode,
+  invoiceDetail: state.invoice.invoiceDetail,
+  printerSelect: state.dataLocal.printerSelect,
+  printerList: state.dataLocal.printerList,
 });
 
 export default connectRedux(mapStateToProps, TabAppointment);

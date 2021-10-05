@@ -1,33 +1,34 @@
+import ButtonCustom from "@components/ButtonCustom";
+import PrintManager from "@lib/PrintManager";
+import connectRedux from "@redux/ConnectRedux";
+import { getFullName } from "@shared/utils";
+import {
+  checkIsTablet,
+  formatMoney,
+  formatNumberFromCurrency,
+  formatWithMoment,
+  getInfoFromModelNameOfPrinter,
+  getPaymentString,
+  getStaffNameForInvoice,
+  localize,
+  scaleSize,
+} from "@utils";
 import React from "react";
 import {
-  View,
-  Text,
   ActivityIndicator,
+  Alert,
+  Modal,
+  Platform,
   ScrollView,
   StyleSheet,
-  Modal,
-  Alert,
-  Platform,
+  Text,
+  View,
 } from "react-native";
+import Dash from "react-native-dash";
+import Share from "react-native-share";
 import { StarPRNT } from "react-native-star-prnt";
 import { captureRef, releaseCapture } from "react-native-view-shot";
-import Dash from "react-native-dash";
-import { getFullName } from "@shared/utils";
-
-import ButtonCustom from "./ButtonCustom";
-import {
-  scaleSize,
-  localize,
-  getPaymentString,
-  formatMoney,
-  formatWithMoment,
-  getStaffNameForInvoice,
-  getInfoFromModelNameOfPrinter,
-  checkIsTablet,
-  formatNumberFromCurrency,
-} from "../utils";
-import connectRedux from "@redux/ConnectRedux";
-import PrintManager from "@lib/PrintManager";
+import RNFetchBlob from "rn-fetch-blob";
 
 const initalState = {
   basket: [],
@@ -39,7 +40,7 @@ const initalState = {
   paymentSelected: "",
   isPrintTempt: true,
   printMachine: "",
-  isProcessingPrint: true,
+  isProcessingPrint: false,
   isCheck: false,
   isSignature: true,
 
@@ -51,7 +52,7 @@ const initalState = {
   promotionNotes: "",
 };
 
-class PopupInvoicePrint extends React.Component {
+class PopupInvoice extends React.Component {
   constructor(props) {
     super(props);
     this.state = initalState;
@@ -89,18 +90,18 @@ class PopupInvoicePrint extends React.Component {
       checkoutPayments: checkoutPayments,
       promotionNotes,
     });
-    const { paymentMachineType, printerSelect } = this.props;
-    setTimeout(() => {
-      if (paymentMachineType == "Clover") {
-        if (printerSelect) {
-          this.doPrint();
-        } else {
-          this.doPrintClover();
-        }
-      } else {
-        this.doPrint();
-      }
-    }, 1000);
+    // const { paymentMachineType, printerSelect } = this.props;
+    // setTimeout(() => {
+    //   if (paymentMachineType == "Clover") {
+    //     if (printerSelect) {
+    //       this.doPrint();
+    //     } else {
+    //       this.doPrintClover();
+    //     }
+    //   } else {
+    //     this.doPrint();
+    //   }
+    // }, 1000);
   };
 
   doPrint = async () => {
@@ -246,6 +247,38 @@ class PopupInvoicePrint extends React.Component {
     }, 500);
   };
 
+  processShareInvoice = async () => {
+    try {
+      await this.setState({
+        isProcessingPrint: true,
+      });
+
+      const imageUri = await captureRef(this.viewShotRef, {});
+
+      await this.setState({
+        isProcessingPrint: false,
+      });
+      await this.props.onRequestClose(true);
+
+      if (Platform.OS === "ios") {
+        console.log(imageUri);
+        setTimeout(() => {
+          RNFetchBlob.ios.previewDocument(imageUri);
+        }, 500);
+      } else {
+        await Share.open({
+          url: `file://${imageUri}`,
+        });
+      }
+    } catch (error) {
+      // alert(error)
+
+      await this.setState({
+        isProcessingPrint: false,
+      });
+    }
+  };
+
   getDate() {
     return formatWithMoment(new Date(), "MM/DD/YYYY");
   }
@@ -342,6 +375,7 @@ class PopupInvoicePrint extends React.Component {
     let fontWeightClover = paymentMachineType == "Clover" &&
       !printerSelect && { fontWeight: "600" };
     let isPrintFormatClover = paymentMachineType == "Clover" && !printerSelect;
+
     return (
       <Modal
         visible={visiblePrintInvoice}
@@ -425,6 +459,7 @@ class PopupInvoicePrint extends React.Component {
                   ) : (
                     <View />
                   )}
+
                   {/* ------------- SALE/VOID/REFUND  ----------- */}
                   <Text
                     style={[
@@ -447,6 +482,7 @@ class PopupInvoicePrint extends React.Component {
                     dashThickness={1}
                     style={{ marginBottom: scaleSize(10) }}
                   />
+
                   {/* ------------- Invoice Date ----------- */}
                   <View style={{ flexDirection: "row" }}>
                     <View style={{ width: scaleSize(90) }}>
@@ -493,6 +529,7 @@ class PopupInvoicePrint extends React.Component {
                       </Text>
                     </View>
                   </View>
+
                   {/* ------------- Dot Border  ----------- */}
                   <Dash
                     style={{ width: "100%", height: 1 }}
@@ -504,6 +541,7 @@ class PopupInvoicePrint extends React.Component {
                       marginTop: scaleSize(10),
                     }}
                   />
+
                   {/* ------------- Header  ----------- */}
                   <View
                     style={{ flexDirection: "row", marginTop: scaleSize(6) }}
@@ -578,6 +616,7 @@ class PopupInvoicePrint extends React.Component {
                       marginTop: scaleSize(10),
                     }}
                   />
+
                   {/* ------------- Item Invoice   ----------- */}
                   {basket?.map((item, index) => (
                     <ItemInvoice
@@ -588,6 +627,7 @@ class PopupInvoicePrint extends React.Component {
                       printerSelect={printerSelect}
                     />
                   ))}
+
                   {/* ------------- Line end item invoice   ----------- */}
                   <View
                     style={{
@@ -631,6 +671,7 @@ class PopupInvoicePrint extends React.Component {
                       printerSelect={printerSelect}
                     />
                   )}
+
                   {/* ------------- Enter Tip   ----------- */}
                   {isPrintTempt ? (
                     <View
@@ -667,6 +708,7 @@ class PopupInvoicePrint extends React.Component {
                   ) : (
                     <View />
                   )}
+
                   {/* ------------- Enter Total   ----------- */}
                   {isPrintTempt ? (
                     <View
@@ -703,6 +745,7 @@ class PopupInvoicePrint extends React.Component {
                   ) : (
                     <View />
                   )}
+
                   {/* ------------- Entry Method   ----------- */}
                   {!isPrintTempt ? (
                     <View>
@@ -802,6 +845,7 @@ class PopupInvoicePrint extends React.Component {
                   ) : (
                     <View />
                   )}
+
                   {isSignature && !isPrintTempt ? (
                     <View
                       style={{
@@ -837,6 +881,7 @@ class PopupInvoicePrint extends React.Component {
                   ) : (
                     <View />
                   )}
+
                   {isPrintTempt ? (
                     <View
                       style={{
@@ -872,29 +917,7 @@ class PopupInvoicePrint extends React.Component {
                   ) : (
                     <View />
                   )}
-                  {/* ----------- Thanks , see you again -------- */}
-                  <View style={{ height: scaleSize(20) }} />
-                  {!profile?.receiptFooter && (
-                    <Text
-                      style={[styleInvoice.txt_total, { alignSelf: "center" }]}
-                    >
-                      {`Thank you!`}
-                    </Text>
-                  )}
-                  {!profile?.receiptFooter && (
-                    <Text
-                      style={[styleInvoice.txt_total, { alignSelf: "center" }]}
-                    >
-                      {`Please come again`}
-                    </Text>
-                  )}
-                  {profile?.receiptFooter && (
-                    <Text
-                      style={[styleInvoice.txt_total, { alignSelf: "center" }]}
-                    >
-                      {`${profile?.receiptFooter}`}
-                    </Text>
-                  )}
+
                   {promotionNotes ? (
                     <Text
                       style={{
@@ -909,26 +932,9 @@ class PopupInvoicePrint extends React.Component {
                       </Text>
                     </Text>
                   ) : null}
-                  <View style={{ height: scaleSize(8) }} />
-                  {/* ------------- This is not a bill   ----------- */}
-                  {/* <Text
-                    style={[
-                      styleInvoice.txt_total,
-                      {
-                        fontSize: scaleSize(10),
-                        fontWeight: "300",
-                        alignSelf: "center",
-                      },
-                    ]}
-                  >
-                    {`Discount note: `}
-                    <Text style={{ fontWeight: "600" }}>
-                      {`${promotionNotes}`}
-                    </Text>
-                  </Text> */}
 
                   {/* ----------- Thanks , see you again -------- */}
-                  {/* <View style={{ height: scaleSize(20) }} />
+                  <View style={{ height: scaleSize(20) }} />
                   <Text
                     style={[
                       styleInvoice.txt_total,
@@ -946,7 +952,7 @@ class PopupInvoicePrint extends React.Component {
                     ]}
                   >
                     {`Please come again`}
-                  </Text> */}
+                  </Text>
                   <View style={{ height: scaleSize(8) }} />
                   {/* ------------- This is not a bill   ----------- */}
                   <Text
@@ -1008,9 +1014,9 @@ class PopupInvoicePrint extends React.Component {
                 width={"30%"}
                 height={30}
                 backgroundColor="#0764B0"
-                title={localize("PRINT", language)}
+                title={localize("SHARE", language)}
                 textColor="#fff"
-                onPress={this.processPrintInvoice}
+                onPress={this.processShareInvoice}
                 styleText={{
                   fontSize: scaleSize(10),
                   fontWeight: "600",
@@ -1147,4 +1153,4 @@ const mapStateToProps = (state) => ({
   paymentMachineType: state.hardware.paymentMachineType,
 });
 
-export default connectRedux(mapStateToProps, PopupInvoicePrint);
+export default connectRedux(mapStateToProps, PopupInvoice);

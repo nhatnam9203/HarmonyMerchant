@@ -25,6 +25,9 @@ import React from "react";
 import { NativeModules, Platform, NativeEventEmitter } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useIsPayment } from "../../hooks";
+import RNFetchBlob from "rn-fetch-blob";
+import Share from "react-native-share";
+import { captureRef, releaseCapture } from "react-native-view-shot";
 
 const signalR = require("@microsoft/signalr");
 
@@ -53,6 +56,7 @@ export const useProps = ({
   const cashBackRef = React.useRef(null);
   const invoicePrintRef = React.useRef(null);
   const changeTipRef = React.useRef(null);
+  const invoiceRef = React.useRef(null);
 
    //ADD LISTENER FROM CLOVER MODULE
    let eventEmitter = new NativeEventEmitter(clover);
@@ -152,6 +156,7 @@ export const useProps = ({
   const [errorMessageFromPax, setErrorMessageFromPax] = React.useState("");
   const [visibleScanCode, setVisibleScanCode] = React.useState(false);
   const [visiblePrintInvoice, setVisiblePrintInvoice] = React.useState(false);
+  const [visibleInvoice, setVisibleInvoice] = React.useState(false);
   const [appointmentDetail, setAppointmentDetail] = React.useState(null);
   const startProcessingPax = useSelector(
     (state) => state.appointment.startProcessingPax
@@ -776,7 +781,7 @@ export const useProps = ({
                 message,
                 payAppointmentId,
                 moneyUserGiveForStaff,
-                'pax'
+                "pax"
               )
             );
           } else {
@@ -1562,6 +1567,71 @@ export const useProps = ({
       }
       clover.doPrintWithConnect(printInfo)
       isProcessPrintClover = false
-    }
+    },
+    shareTemptInvoice: async () => {
+      const { portName } = getInfoFromModelNameOfPrinter(
+        printerList,
+        printerSelect
+      );
+
+      const appointments = groupAppointment?.appointments || [];
+      const {
+        arryaServicesBuy,
+        arrayProductBuy,
+        arrayExtrasBuy,
+        arrayGiftCards,
+        promotionNotes,
+      } = getBasketOnline(appointments);
+
+      const baskets = isOfflineMode
+        ? basket
+        : arryaServicesBuy.concat(
+            arrayExtrasBuy,
+            arrayProductBuy,
+            arrayGiftCards
+          );
+      const tipAmount = groupAppointment?.tipAmount || 0;
+      const subTotal = groupAppointment?.subTotal || 0;
+      const discount = groupAppointment?.discount || 0;
+      const tax = groupAppointment?.tax || 0;
+      const total = groupAppointment?.total || 0;
+
+      const temptSubTotal = _.isEmpty(groupAppointment)
+        ? subTotalLocal
+        : subTotal;
+      const temptTotal = _.isEmpty(groupAppointment)
+        ? Number(
+            formatNumberFromCurrency(subTotalLocal) +
+              formatNumberFromCurrency(tipLocal) +
+              formatNumberFromCurrency(taxLocal) -
+              formatNumberFromCurrency(discountTotalLocal)
+          ).toFixed(2)
+        : total;
+      const temptDiscount = _.isEmpty(groupAppointment)
+        ? discountTotalLocal
+        : discount;
+      const temptTip = _.isEmpty(groupAppointment) ? tipLocal : tipAmount;
+      const temptTax = _.isEmpty(groupAppointment) ? taxLocal : tax;
+
+      await invoiceRef.current?.setStateFromParent(
+        baskets,
+        temptSubTotal,
+        temptTax,
+        temptDiscount,
+        temptTip,
+        temptTotal,
+        paymentSelected,
+        true,
+        portName,
+        promotionNotes.join(",")
+      );
+
+      await setVisibleInvoice(true);
+    },
+    invoiceRef,
+    visibleInvoice,
+    cancelInvoice: () => {
+      setVisibleInvoice(false);
+    },
   };
 };
