@@ -35,6 +35,7 @@ export const useProps = ({
   const formAddressRef = React.useRef(null);
   const dispatch = useDispatch();
   const invoicePrintRef = React.useRef(null);
+  const invoiceRef = React.useRef(null);
 
   /**
   |--------------------------------------------------
@@ -57,6 +58,7 @@ export const useProps = ({
   const [billingAddressId, setBillingAddressId] = React.useState(null);
   const [isDidNotPay, setDidNotPay] = React.useState(false);
   const [visiblePrintInvoice, setVisiblePrintInvoice] = React.useState(false);
+  const [visibleInvoice, setVisibleInvoice] = React.useState(false);
 
   /**
   |--------------------------------------------------
@@ -425,6 +427,69 @@ export const useProps = ({
     visiblePrintInvoice,
     cancelInvoicePrint: async (isPrintTempt) => {
       setVisiblePrintInvoice(false);
+    },
+    invoiceRef,
+    visibleInvoice,
+    cancelInvoice: () => {
+      setVisibleInvoice(false);
+    },
+    shareCustomerInvoice: async () => {
+      const { portName } = getInfoFromModelNameOfPrinter(
+        printerList,
+        printerSelect
+      );
+
+      const appointments = [appointmentDetail];
+      const {
+        arryaServicesBuy,
+        arrayProductBuy,
+        arrayExtrasBuy,
+        arrayGiftCards,
+        promotionNotes,
+      } = getBasketOnline(appointments);
+
+      const baskets = arryaServicesBuy.concat(
+        arrayExtrasBuy,
+        arrayProductBuy,
+        arrayGiftCards
+      );
+      const tipAmount = appointmentDetail?.tipAmount || 0;
+      const subTotal = appointmentDetail?.subTotal || 0;
+      const discount = appointmentDetail?.discount || 0;
+      const tax = appointmentDetail?.tax || 0;
+      const total = appointmentDetail?.total || 0;
+      const invoiceNo = `${appointmentDetail?.invoice?.checkoutId}` || "";
+
+      const temptSubTotal = subTotal;
+
+      const temptTotal = total;
+      const temptDiscount = discount;
+      const temptTip = tipAmount;
+      const temptTax = tax;
+
+      let payment = "";
+      const payments = appointmentDetail.payment;
+      if (payments?.length > 0) {
+        const firstPayment = payments[0];
+        payment = firstPayment.paymentMethod;
+      }
+
+      await invoiceRef.current?.setStateFromParent(
+        baskets,
+        temptSubTotal,
+        temptTax,
+        temptDiscount,
+        temptTip,
+        temptTotal,
+        payment,
+        false,
+        portName,
+        promotionNotes.join(","),
+        "SALE",
+        invoiceNo
+      );
+
+      await setVisibleInvoice(true);
     },
   };
 };
