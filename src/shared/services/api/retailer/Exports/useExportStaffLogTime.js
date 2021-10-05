@@ -26,7 +26,7 @@ export const useExportStaffLogTime = () => {
   const exportStaffLogTime = (params) => {
     execute({
       params,
-      url: `${RETAILER_ORDER.url}/export`,
+      url: `merchantstafflogtime/export`,
     });
   };
 

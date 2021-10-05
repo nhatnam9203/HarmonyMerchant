@@ -42,7 +42,7 @@ export const Layout = ({
   onRefresh,
   isPermission,
   exportRef,
-  callExportOrderList
+  callExportOrderList,
 }) => {
   const { t } = useTranslation();
 
@@ -158,7 +158,7 @@ export const Layout = ({
             "note",
             "actions",
           ]}
-          sortedKeys={{ startDate: sortDate }}
+          // sortedKeys={{ startDate: sortDate }}
           primaryKey="merchantStaffLogtimeId"
           widthForKeys={{
             merchantStaffLogtimeId: scaleWidth(50),
@@ -171,7 +171,7 @@ export const Layout = ({
           }}
           emptyDescription={t("No sessions")}
           // styleTextKeys={{ customerName: styles.textName }}
-          onSortWithKey={onSortWithKey}
+          // onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
             startDate: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
             startTime: (value) => dateToString(value, "LT"),

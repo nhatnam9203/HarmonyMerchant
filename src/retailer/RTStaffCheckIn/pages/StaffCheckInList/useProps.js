@@ -1,10 +1,10 @@
 import { useFocusEffect } from "@react-navigation/native";
+import { useExportStaffLogTime } from "@shared/services/api/retailer/Exports";
 import {
   useStaffLogTimeDelete,
   useStaffLogTimeEdit,
   useStaffLogTimeGet,
 } from "@shared/services/api/retailer/Staff";
-import { useExportStaffLogTime } from "@shared/services/api/retailer/Exports";
 import { getTimeTitleFile, sortByDate } from "@shared/utils";
 import { SORT_TYPE, statusSuccess } from "@shared/utils/app";
 import {
@@ -56,7 +56,7 @@ export const useProps = (props) => {
       page: page,
       ...(type && { type: type.value }),
       ...timeVal,
-      // sorts: { StartDate: sortDate },
+      // sort: { startDate: sortDate },
     });
   }, [type, page, searchVal, timeVal]);
 
@@ -82,6 +82,13 @@ export const useProps = (props) => {
       callGetStaffLogTime();
     }
   }, [staffLogTimeDelete]);
+
+  React.useEffect(() => {
+    const { codeStatus, data } = staffLogTimeExport || {};
+    if (statusSuccess(codeStatus)) {
+      exportRef.current?.onCreateFile(data?.path);
+    }
+  }, [staffLogTimeExport]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -153,14 +160,18 @@ export const useProps = (props) => {
 
       return true;
     },
+    exportRef,
     callExportOrderList: (values) => {
-      const params = Object.assign({}, values, {
+      const params = {
+        exportType: values?.type || "excel",
         ...(searchVal && { key: searchVal }),
-        page: page,
-        ...(type && { type: type.value }),
+        ...(type && { type: values.type }),
         ...timeVal,
-      });
-      exportRef.current?.onSetFileName(getTimeTitleFile("ReportOrder", params));
+        // sort: { StartDate: sortDate },
+      };
+      exportRef.current?.onSetFileName(
+        getTimeTitleFile("Report Staff Logtime ", params)
+      );
       exportStaffLogTime(params);
     },
   };
