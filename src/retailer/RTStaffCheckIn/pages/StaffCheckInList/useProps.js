@@ -165,7 +165,7 @@ export const useProps = (props) => {
       const params = {
         exportType: values?.type || "excel",
         ...(searchVal && { key: searchVal }),
-        ...(type && { type: values.type }),
+        ...(type && { type: type.value }),
         ...timeVal,
         // sort: { StartDate: sortDate },
       };
