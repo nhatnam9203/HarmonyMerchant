@@ -165,8 +165,6 @@ export const useProps = ({
     (state) => state.appointment.startProcessingPax
   );
 
-  const visibleProcessingCreditRef = React.useRef(visibleProcessingCredit);
-
   const handleResponseCreditCardForCloverSuccess = async (message) => {
     setVisibleProcessingCredit(false)
     const { hardware, dataLocal, appointment } = store.getState();
@@ -175,11 +173,7 @@ export const useProps = ({
     const { payAppointmentId, amountCredtitForSubmitToServer } = appointment;
     let messageUpdate = {...message,
                 sn: _.get(cloverMachineInfo, 'serialNumber')}
-    console.log('submitPaymentWithCreditCard', profile?.merchantId || 0,
-                messageUpdate,
-                payAppointmentId,
-                amountCredtitForSubmitToServer,
-                'clover')
+   
     try {
       dispatch(
         actions.appointment.submitPaymentWithCreditCard(
@@ -219,17 +213,20 @@ export const useProps = ({
     clover.changeListenerStatus(true)
     subscriptions = [
         eventEmitter.addListener('paymentSuccess', data => {
-        console.log('paymentSuccess', data)
-        console.log('visibleProcessingCredit', visibleProcessingCreditRef.current)
-        console.log('isProcessPaymentClover', isProcessPaymentClover)
-        isProcessPaymentClover = false
+          const { appointment } = store.getState();
+          const { isProcessPaymentClover } = appointment;
+          console.log('isProcessPaymentClover', isProcessPaymentClover)
+        // isProcessPaymentClover = false
+        dispatch(actions.appointment.isProcessPaymentClover(false))
         handleResponseCreditCardForCloverSuccess(data)
       }),
       eventEmitter.addListener('paymentFail', data => {
         console.log('paymentFail', data)
+        const { appointment } = store.getState();
+        const { isProcessPaymentClover } = appointment;
         console.log('isProcessPaymentClover', isProcessPaymentClover)
-        console.log('visiblePopupParingCodeRef', visiblePopupParingCodeRef.current)
-        isProcessPaymentClover = false
+        // isProcessPaymentClover = false
+        dispatch(actions.appointment.isProcessPaymentClover(false))
         handleResponseCreditCardForCloverFailed(_.get(data, 'errorMessage'))
         
        }),
@@ -237,7 +234,10 @@ export const useProps = ({
         console.log('pairingCode', data)
         if(data){
           const text = `Pairing code: ${_.get(data, 'pairingCode')}`
+          const { appointment } = store.getState();
+          const { isProcessPaymentClover } = appointment;
           console.log('isProcessPaymentClover', isProcessPaymentClover)
+
           if(isProcessPaymentClover) {
             setVisibleProcessingCredit(false);
           }
@@ -256,6 +256,9 @@ export const useProps = ({
         setVisiblePopupParingCode(false)
         setPairingCode("")
     
+        const { appointment } = store.getState();
+        const { isProcessPaymentClover } = appointment;
+        console.log('isProcessPaymentClover', isProcessPaymentClover)
         if(isProcessPaymentClover) {
           setVisibleProcessingCredit(true);
         }
@@ -274,8 +277,9 @@ export const useProps = ({
 
       eventEmitter.addListener('deviceDisconnected', () => {
         console.log('deviceDisconnected')
+        const { appointment } = store.getState();
+        const { isProcessPaymentClover } = appointment;
         console.log('isProcessPaymentClover', isProcessPaymentClover)
-        console.log('isProcessPrintClover', isProcessPrintClover)
         if(isProcessPaymentClover) {
           isProcessPaymentClover = false
           handleResponseCreditCardForCloverFailed("No connected device")
@@ -314,6 +318,9 @@ export const useProps = ({
         const port = _.get(cloverMachineInfo, 'port') ? _.get(cloverMachineInfo, 'port') : 80
         const url = `wss://${_.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
         isProcessPaymentClover = true
+
+        dispatch(actions.appointment.isProcessPaymentClover(true));
+
         setVisibleProcessingCredit(true)
          console.log("moneyCreditCard", {url,
          remoteAppId: REMOTE_APP_ID,
