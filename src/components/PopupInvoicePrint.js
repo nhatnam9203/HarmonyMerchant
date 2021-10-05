@@ -389,12 +389,13 @@ class PopupInvoicePrint extends React.Component {
                   </Text>
                   {/* ------------- Store Address ----------- */}
                   <Text
-                    numberOfLines={1}
+                    numberOfLines={2}
                     style={[
                       styleInvoice.txt_normal,
                       {
                         paddingHorizontal: scaleSize(10),
                         marginTop: scaleSize(4),
+                        textAlign: "center",
                       },
                       fontWeightClover,
                     ]}

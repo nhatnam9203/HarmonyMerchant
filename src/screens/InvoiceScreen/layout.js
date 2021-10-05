@@ -331,12 +331,13 @@ export default class Layout extends React.Component {
               </Text>
               {/* ------------- Store Address ----------- */}
               <Text
-                numberOfLines={1}
+                numberOfLines={2}
                 style={[
                   styles.txt_normal,
                   {
                     paddingHorizontal: scaleSize(10),
                     marginTop: scaleSize(4),
+                    textAlign: "center",
                   },
                 ]}
               >
@@ -939,7 +940,7 @@ export default class Layout extends React.Component {
       transactionId,
       visiblePrintInvoice,
       visiblePopupParingCode,
-      pairingCode
+      pairingCode,
     } = this.state;
     return (
       <ParentContainer
@@ -996,8 +997,8 @@ export default class Layout extends React.Component {
           transactionId={transactionId}
         />
         <PopupPairingCode
-            visible={visiblePopupParingCode ? true: false}
-            message={pairingCode}
+          visible={visiblePopupParingCode ? true : false}
+          message={pairingCode}
         />
         <PopupConfirmPrintInvoice
           visible={visibleConfirmPrintInvoice}
