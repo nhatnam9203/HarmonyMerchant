@@ -129,6 +129,7 @@ export const Layout = ({
   setVisibleConfirmPayment,
   confirmPaymentClover,
   rejectPaymentClover,
+  doPrintClover,
 }) => {
   const [t] = useTranslation();
 
@@ -397,6 +398,7 @@ export const Layout = ({
         ref={invoicePrintRef}
         visiblePrintInvoice={visiblePrintInvoice}
         onRequestClose={cancelInvoicePrint}
+        doPrintClover={doPrintClover}
       />
 
       <PopupChangeTip

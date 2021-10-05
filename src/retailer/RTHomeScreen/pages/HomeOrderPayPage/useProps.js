@@ -235,10 +235,7 @@ export const useProps = ({
       eventEmitter.addListener('confirmPayment', () => {
           
         setVisibleProcessingCredit(false);
-        
-        this.setState({
-          visibleConfirmPayment: true,
-        })
+        setVisibleConfirmPayment(true);
       }),
       eventEmitter.addListener('printInProcess', () => {
         
@@ -267,13 +264,20 @@ export const useProps = ({
   React.useEffect(() => {
     registerEvents()
 
-    return unregisterEvents()
+    return function cleanup() {
+      unregisterEvents();
+    };
   }, []);
 
   React.useEffect(() => {
     if (startProcessingPax) {
       dispatch(actions.appointment.resetStateCheckCreditPaymentToServer(false));
       if( paymentMachineType == 'Clover'){
+        setIsGetResponsePaymentPax(false);
+        setVisibleProcessingCredit(true);
+        const moneyCreditCard = Number(
+          formatNumberFromCurrency(moneyUserGiveForStaff) * 100
+        ).toFixed(2);
         const port = _.get(cloverMachineInfo, 'port') ? _.get(cloverMachineInfo, 'port') : 80
         const url = `wss://${_.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
         isProcessPaymentClover = true
@@ -286,7 +290,7 @@ export const useProps = ({
           posSerial: POS_SERIAL,
           token: _.get(cloverMachineInfo, 'token') ? _.get(cloverMachineInfo, 'token', '') : "",
           tipMode: isTipOnPaxMachine ? 'ON_SCREEN_BEFORE_PAYMENT' : 'NO_TIP',
-          amount: `${parseFloat(paxAmount)}`,
+          amount: `${parseFloat(moneyCreditCard)}`,
           externalId: `${payAppointmentId}`//`${groupAppointment?.checkoutGroupId || 0}`,
         })
       } else {
@@ -1543,5 +1547,21 @@ export const useProps = ({
       clover.rejectPayment()
       setVisibleConfirmPayment(false)
     },
+    doPrintClover: (imageUri) => {
+      isProcessPrintClover = true
+      const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
+      const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+      
+      const printInfo = {
+        imageUri,
+        url,
+        remoteAppId: REMOTE_APP_ID,
+        appName: APP_NAME,
+        posSerial: POS_SERIAL,
+        token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
+      }
+      clover.doPrintWithConnect(printInfo)
+      isProcessPrintClover = false
+    }
   };
 };
