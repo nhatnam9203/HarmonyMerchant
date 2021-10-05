@@ -28,12 +28,14 @@ import { useIsPayment } from "../../hooks";
 import RNFetchBlob from "rn-fetch-blob";
 import Share from "react-native-share";
 import { captureRef, releaseCapture } from "react-native-view-shot";
+import configureStore from "../../../../redux/store";
 
 const signalR = require("@microsoft/signalr");
 
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 const { clover } = NativeModules;
+const { persistor, store } = configureStore();
 
 const log = (obj, message = "") => {
   Logger.log(`[HomeOrderPayPage] ${message}`, obj);
@@ -57,6 +59,7 @@ export const useProps = ({
   const invoicePrintRef = React.useRef(null);
   const changeTipRef = React.useRef(null);
   const invoiceRef = React.useRef(null);
+  
 
    //ADD LISTENER FROM CLOVER MODULE
    let eventEmitter = new NativeEventEmitter(clover);
@@ -162,17 +165,28 @@ export const useProps = ({
     (state) => state.appointment.startProcessingPax
   );
 
+  const visibleProcessingCreditRef = React.useRef(visibleProcessingCredit);
+
   const handleResponseCreditCardForCloverSuccess = async (message) => {
     setVisibleProcessingCredit(false)
+    const { hardware, dataLocal, appointment } = store.getState();
+    const { cloverMachineInfo } = hardware;
+    const { profile } = dataLocal;
+    const { payAppointmentId, amountCredtitForSubmitToServer } = appointment;
     let messageUpdate = {...message,
                 sn: _.get(cloverMachineInfo, 'serialNumber')}
+    console.log('submitPaymentWithCreditCard', profile?.merchantId || 0,
+                messageUpdate,
+                payAppointmentId,
+                amountCredtitForSubmitToServer,
+                'clover')
     try {
       dispatch(
         actions.appointment.submitPaymentWithCreditCard(
           profile?.merchantId || 0,
           messageUpdate,
           payAppointmentId,
-          moneyUserGiveForStaff,
+          amountCredtitForSubmitToServer,
           'clover'
         )
       );
@@ -180,6 +194,9 @@ export const useProps = ({
   }
 
   const handleResponseCreditCardForCloverFailed = async (errorMessage) => {
+    const { appointment } = store.getState();
+    const { payAppointmentId } = appointment;
+    console.log('payAppointmentId', payAppointmentId)
 
     setVisibleProcessingCredit(false)
     try {
@@ -202,18 +219,25 @@ export const useProps = ({
     clover.changeListenerStatus(true)
     subscriptions = [
         eventEmitter.addListener('paymentSuccess', data => {
+        console.log('paymentSuccess', data)
+        console.log('visibleProcessingCredit', visibleProcessingCreditRef.current)
+        console.log('isProcessPaymentClover', isProcessPaymentClover)
         isProcessPaymentClover = false
         handleResponseCreditCardForCloverSuccess(data)
-       
       }),
       eventEmitter.addListener('paymentFail', data => {
+        console.log('paymentFail', data)
+        console.log('isProcessPaymentClover', isProcessPaymentClover)
+        console.log('visiblePopupParingCodeRef', visiblePopupParingCodeRef.current)
         isProcessPaymentClover = false
         handleResponseCreditCardForCloverFailed(_.get(data, 'errorMessage'))
         
        }),
       eventEmitter.addListener('pairingCode', data => {
+        console.log('pairingCode', data)
         if(data){
           const text = `Pairing code: ${_.get(data, 'pairingCode')}`
+          console.log('isProcessPaymentClover', isProcessPaymentClover)
           if(isProcessPaymentClover) {
             setVisibleProcessingCredit(false);
           }
@@ -225,6 +249,7 @@ export const useProps = ({
         }
       }),
       eventEmitter.addListener('pairingSuccess', data => {
+        console.log('pairingSuccess', data)
         dispatch(actions.hardware.setCloverToken(
           _.get(data, 'token')
         ));
@@ -238,7 +263,7 @@ export const useProps = ({
       }),
 
       eventEmitter.addListener('confirmPayment', () => {
-          
+        console.log('confirmPayment')
         setVisibleProcessingCredit(false);
         setVisibleConfirmPayment(true);
       }),
@@ -248,9 +273,12 @@ export const useProps = ({
       }),
 
       eventEmitter.addListener('deviceDisconnected', () => {
+        console.log('deviceDisconnected')
+        console.log('isProcessPaymentClover', isProcessPaymentClover)
+        console.log('isProcessPrintClover', isProcessPrintClover)
         if(isProcessPaymentClover) {
           isProcessPaymentClover = false
-          handleResponseCreditCardForCloverFailed(localize("No connected device", language))
+          handleResponseCreditCardForCloverFailed("No connected device")
         }
         if(isProcessPrintClover){
           isProcessPrintClover = false
@@ -287,7 +315,14 @@ export const useProps = ({
         const url = `wss://${_.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
         isProcessPaymentClover = true
         setVisibleProcessingCredit(true)
-         
+         console.log("moneyCreditCard", {url,
+         remoteAppId: REMOTE_APP_ID,
+         appName: APP_NAME,
+         posSerial: POS_SERIAL,
+         token: _.get(cloverMachineInfo, 'token') ? _.get(cloverMachineInfo, 'token', '') : "",
+         tipMode: isTipOnPaxMachine ? 'ON_SCREEN_BEFORE_PAYMENT' : 'NO_TIP',
+         amount: `${parseFloat(moneyCreditCard)}`,
+         externalId: `${payAppointmentId}`})
         clover.sendTransaction({
           url,
           remoteAppId: REMOTE_APP_ID,
