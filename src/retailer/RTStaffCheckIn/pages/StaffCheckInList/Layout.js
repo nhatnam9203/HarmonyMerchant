@@ -5,6 +5,7 @@ import {
   ButtonGradientWhite,
   DropdownMenu,
   Pagination,
+  ExportModal,
 } from "@shared/components";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
@@ -40,6 +41,8 @@ export const Layout = ({
   pagination,
   onRefresh,
   isPermission,
+  exportRef,
+  callExportOrderList,
 }) => {
   const { t } = useTranslation();
 
@@ -155,7 +158,7 @@ export const Layout = ({
             "note",
             "actions",
           ]}
-          sortedKeys={{ startDate: sortDate }}
+          // sortedKeys={{ startDate: sortDate }}
           primaryKey="merchantStaffLogtimeId"
           widthForKeys={{
             merchantStaffLogtimeId: scaleWidth(50),
@@ -168,7 +171,7 @@ export const Layout = ({
           }}
           emptyDescription={t("No sessions")}
           // styleTextKeys={{ customerName: styles.textName }}
-          onSortWithKey={onSortWithKey}
+          // onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
             startDate: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
             startTime: (value) => dateToString(value, "LT"),
@@ -190,6 +193,8 @@ export const Layout = ({
           {...pagination}
           length={items?.length}
         /> */}
+
+        <ExportModal ref={exportRef} onExportFile={callExportOrderList} />
       </View>
       <View style={styles.rowContent}>
         <View style={layouts.horizontal}>
