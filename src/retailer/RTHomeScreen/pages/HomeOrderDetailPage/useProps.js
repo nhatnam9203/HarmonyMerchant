@@ -486,7 +486,9 @@ export const useProps = ({
         portName,
         promotionNotes.join(","),
         "SALE",
-        invoiceNo
+        invoiceNo,
+        [],
+        appointmentDetail?.invoice?.createdDate
       );
 
       await setVisibleInvoice(true);
