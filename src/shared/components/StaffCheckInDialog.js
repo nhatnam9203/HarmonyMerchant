@@ -80,7 +80,7 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
         startDate: time,
         startTime: time,
         note: note,
-        amount: amount,
+        amount: parseFloat(amount),
         type: type,
         staffName: staffName,
       };
@@ -92,7 +92,7 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
         startDate: time,
         startTime: time,
         note: note,
-        amount: amount,
+        amount: parseFloat(amount),
         type: type,
         staffName: profile ? `${profile.firstName} ${profile.lastName}` : "",
       };
