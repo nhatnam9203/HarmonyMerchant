@@ -64,8 +64,6 @@ export const useProps = ({
    //ADD LISTENER FROM CLOVER MODULE
    let eventEmitter = new NativeEventEmitter(clover);
    let subscriptions = []
-   let isProcessPaymentClover = false
-   let isProcessPrintClover = false
 
   const dispatch = useDispatch();
   const isPayment = useIsPayment();
@@ -173,7 +171,6 @@ export const useProps = ({
     const { payAppointmentId, amountCredtitForSubmitToServer } = appointment;
     let messageUpdate = {...message,
                 sn: _.get(cloverMachineInfo, 'serialNumber')}
-   
     try {
       dispatch(
         actions.appointment.submitPaymentWithCreditCard(
@@ -190,7 +187,6 @@ export const useProps = ({
   const handleResponseCreditCardForCloverFailed = async (errorMessage) => {
     const { appointment } = store.getState();
     const { payAppointmentId } = appointment;
-    console.log('payAppointmentId', payAppointmentId)
 
     setVisibleProcessingCredit(false)
     try {
@@ -213,43 +209,29 @@ export const useProps = ({
     clover.changeListenerStatus(true)
     subscriptions = [
         eventEmitter.addListener('paymentSuccess', data => {
-          const { appointment } = store.getState();
-          const { isProcessPaymentClover } = appointment;
-          console.log('isProcessPaymentClover', isProcessPaymentClover)
-        // isProcessPaymentClover = false
         dispatch(actions.appointment.isProcessPaymentClover(false))
         handleResponseCreditCardForCloverSuccess(data)
       }),
       eventEmitter.addListener('paymentFail', data => {
-        console.log('paymentFail', data)
-        const { appointment } = store.getState();
-        const { isProcessPaymentClover } = appointment;
-        console.log('isProcessPaymentClover', isProcessPaymentClover)
-        // isProcessPaymentClover = false
         dispatch(actions.appointment.isProcessPaymentClover(false))
         handleResponseCreditCardForCloverFailed(_.get(data, 'errorMessage'))
         
        }),
       eventEmitter.addListener('pairingCode', data => {
-        console.log('pairingCode', data)
         if(data){
           const text = `Pairing code: ${_.get(data, 'pairingCode')}`
           const { appointment } = store.getState();
           const { isProcessPaymentClover } = appointment;
-          console.log('isProcessPaymentClover', isProcessPaymentClover)
 
           if(isProcessPaymentClover) {
             setVisibleProcessingCredit(false);
           }
-          if(isProcessPrintClover){
-            setVisiblePrintInvoice(false)
-          }
+          setVisiblePrintInvoice(false)
           setVisiblePopupParingCode(true)
           setPairingCode(text)
         }
       }),
       eventEmitter.addListener('pairingSuccess', data => {
-        console.log('pairingSuccess', data)
         dispatch(actions.hardware.setCloverToken(
           _.get(data, 'token')
         ));
@@ -258,7 +240,6 @@ export const useProps = ({
     
         const { appointment } = store.getState();
         const { isProcessPaymentClover } = appointment;
-        console.log('isProcessPaymentClover', isProcessPaymentClover)
         if(isProcessPaymentClover) {
           setVisibleProcessingCredit(true);
         }
@@ -266,7 +247,6 @@ export const useProps = ({
       }),
 
       eventEmitter.addListener('confirmPayment', () => {
-        console.log('confirmPayment')
         setVisibleProcessingCredit(false);
         setVisibleConfirmPayment(true);
       }),
@@ -276,18 +256,13 @@ export const useProps = ({
       }),
 
       eventEmitter.addListener('deviceDisconnected', () => {
-        console.log('deviceDisconnected')
         const { appointment } = store.getState();
         const { isProcessPaymentClover } = appointment;
-        console.log('isProcessPaymentClover', isProcessPaymentClover)
         if(isProcessPaymentClover) {
           isProcessPaymentClover = false
           handleResponseCreditCardForCloverFailed("No connected device")
         }
-        if(isProcessPrintClover){
-          isProcessPrintClover = false
-          setVisiblePrintInvoice(false)
-        }
+        setVisiblePrintInvoice(false)
       }),
     ]
   }
@@ -317,19 +292,11 @@ export const useProps = ({
         ).toFixed(2);
         const port = _.get(cloverMachineInfo, 'port') ? _.get(cloverMachineInfo, 'port') : 80
         const url = `wss://${_.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
-        isProcessPaymentClover = true
 
         dispatch(actions.appointment.isProcessPaymentClover(true));
 
         setVisibleProcessingCredit(true)
-         console.log("moneyCreditCard", {url,
-         remoteAppId: REMOTE_APP_ID,
-         appName: APP_NAME,
-         posSerial: POS_SERIAL,
-         token: _.get(cloverMachineInfo, 'token') ? _.get(cloverMachineInfo, 'token', '') : "",
-         tipMode: isTipOnPaxMachine ? 'ON_SCREEN_BEFORE_PAYMENT' : 'NO_TIP',
-         amount: `${parseFloat(moneyCreditCard)}`,
-         externalId: `${payAppointmentId}`})
+        
         clover.sendTransaction({
           url,
           remoteAppId: REMOTE_APP_ID,
@@ -338,7 +305,7 @@ export const useProps = ({
           token: _.get(cloverMachineInfo, 'token') ? _.get(cloverMachineInfo, 'token', '') : "",
           tipMode: isTipOnPaxMachine ? 'ON_SCREEN_BEFORE_PAYMENT' : 'NO_TIP',
           amount: `${parseFloat(moneyCreditCard)}`,
-          externalId: `${payAppointmentId}`//`${groupAppointment?.checkoutGroupId || 0}`,
+          externalId: `${payAppointmentId}`
         })
       } else {
         //send by Pax
@@ -1068,10 +1035,14 @@ export const useProps = ({
       printerSelect
     );
 
-    if (portName !== "") {
+    if (paymentMachineType == "Clover") {
       showInvoicePrint(portName);
     } else {
-      alert("Please connect to your printer! ");
+      if (portName !== "") {
+        showInvoicePrint(portName);
+      } else {
+        alert("Please connect to your printer! ");
+      }
     }
   };
 
@@ -1104,7 +1075,14 @@ export const useProps = ({
       }
       showInvoicePrint(portName, false);
     } else {
-      alert("Please connect to your printer!");
+      if (paymentMachineType == "Clover") {
+        if (paymentSelected === "Cash" || paymentSelected === "Other") {
+          this.openCashDrawerClover();
+        }
+        showInvoicePrint(portName, false);
+      } else {
+        alert("Please connect to your printer!");
+      }
     }
   };
 
@@ -1595,9 +1573,9 @@ export const useProps = ({
       setVisibleConfirmPayment(false)
     },
     doPrintClover: (imageUri) => {
-      isProcessPrintClover = true
-      const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
-      const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+      // isProcessPrintClover = true
+      const port = _.get(cloverMachineInfo, 'port') ? _.get(cloverMachineInfo, 'port') : 80
+      const url = `wss://${_.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
       
       const printInfo = {
         imageUri,
@@ -1605,10 +1583,10 @@ export const useProps = ({
         remoteAppId: REMOTE_APP_ID,
         appName: APP_NAME,
         posSerial: POS_SERIAL,
-        token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
+        token: _.get(cloverMachineInfo, 'token') ? _.get(cloverMachineInfo, 'token', '') : "",
       }
       clover.doPrintWithConnect(printInfo)
-      isProcessPrintClover = false
+      // isProcessPrintClover = false
     },
     shareTemptInvoice: async () => {
       const { portName } = getInfoFromModelNameOfPrinter(
