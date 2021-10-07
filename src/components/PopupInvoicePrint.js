@@ -339,6 +339,7 @@ class PopupInvoicePrint extends React.Component {
     if (!invoiceName) {
       invoiceName = profileStaffLogin?.displayName;
     }
+
     let fontWeightClover = paymentMachineType == "Clover" &&
       !printerSelect && { fontWeight: "600" };
     let isPrintFormatClover = paymentMachineType == "Clover" && !printerSelect;

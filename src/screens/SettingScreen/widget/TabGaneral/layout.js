@@ -62,7 +62,7 @@ class Layout extends React.Component {
       signinAppStyle,
       sendReviewLinkOption,
       giftForNewEnabled,
-      receiptFooter
+      receiptFooter,
     } = this.state;
 
     return (
@@ -394,7 +394,7 @@ class Layout extends React.Component {
           })}
 
           {/* --------  Receipt Footer  --------- */}
-          {/* <View style={{ flexDirection: "row", marginTop: scaleSize(16) }}>
+          <View style={{ flexDirection: "row", marginTop: scaleSize(16) }}>
             <View style={{ width: scaleSize(180), justifyContent: "center" }}>
               <Text
                 style={{
@@ -426,7 +426,7 @@ class Layout extends React.Component {
                 numberOfLines={3}
               />
             </View>
-          </View> */}
+          </View>
 
           {/* ------ Button Save --- */}
           <View

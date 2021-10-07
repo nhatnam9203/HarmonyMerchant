@@ -966,11 +966,14 @@ class TabCheckout extends Layout {
     if (paymentMachineType == "Clover") {
       this.showInvoicePrint(portName);
     } else {
-      if (portName !== "") {
-        this.showInvoicePrint(portName);
-      } else {
-        alert("Please connect to your printer! ");
-      }
+      const { groupAppointment } = this.props;
+
+      this.invoiceRef.current?.showAppointmentReceipt({
+        appointmentId: groupAppointment?.mainAppointmentId,
+        isShareReceipt: false,
+        isPrintTempt: true,
+        isSalon: true,
+      });
     }
   };
 
@@ -2987,80 +2990,13 @@ class TabCheckout extends Layout {
   }
 
   shareTemptInvoice = async () => {
-    const {
-      groupAppointment,
-      isOfflineMode,
-      printerSelect,
-      printerList,
-      paymentMachineType,
-    } = this.props;
-    const {
-      subTotalLocal,
-      tipLocal,
-      discountTotalLocal,
-      taxLocal,
-      paymentSelected,
-    } = this.state;
+    const { groupAppointment } = this.props;
 
-    const { portName } = getInfoFromModelNameOfPrinter(
-      printerList,
-      printerSelect
-    );
-
-    const appointments = groupAppointment?.appointments || [];
-    const {
-      arryaServicesBuy,
-      arrayProductBuy,
-      arrayExtrasBuy,
-      arrayGiftCards,
-      promotionNotes,
-    } = this.getBasketOnline(appointments);
-
-    const baskets = isOfflineMode
-      ? basket
-      : arryaServicesBuy.concat(
-          arrayExtrasBuy,
-          arrayProductBuy,
-          arrayGiftCards
-        );
-    const tipAmount = groupAppointment?.tipAmount || 0;
-    const subTotal = groupAppointment?.subTotal || 0;
-    const discount = groupAppointment?.discount || 0;
-    const tax = groupAppointment?.tax || 0;
-    const total = groupAppointment?.total || 0;
-
-    const temptSubTotal = _.isEmpty(groupAppointment)
-      ? subTotalLocal
-      : subTotal;
-    const temptTotal = _.isEmpty(groupAppointment)
-      ? Number(
-          formatNumberFromCurrency(subTotalLocal) +
-            formatNumberFromCurrency(tipLocal) +
-            formatNumberFromCurrency(taxLocal) -
-            formatNumberFromCurrency(discountTotalLocal)
-        ).toFixed(2)
-      : total;
-    const temptDiscount = _.isEmpty(groupAppointment)
-      ? discountTotalLocal
-      : discount;
-    const temptTip = _.isEmpty(groupAppointment) ? tipLocal : tipAmount;
-    const temptTax = _.isEmpty(groupAppointment) ? taxLocal : tax;
-
-    await this.invoiceRef.current?.setStateFromParent(
-      baskets,
-      temptSubTotal,
-      temptTax,
-      temptDiscount,
-      temptTip,
-      temptTotal,
-      paymentSelected,
-      true,
-      portName,
-      promotionNotes.join(",")
-    );
-
-    await this.setState({
-      visibleInvoice: true,
+    this.invoiceRef.current?.showAppointmentReceipt({
+      appointmentId: groupAppointment?.mainAppointmentId,
+      isShareReceipt: true,
+      isSalon: true,
+      isPrintTempt: true,
     });
   };
 

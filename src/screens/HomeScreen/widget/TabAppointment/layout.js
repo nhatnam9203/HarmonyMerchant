@@ -2,13 +2,12 @@ import React from "react";
 import { View } from "react-native";
 import { WebView } from "react-native-webview";
 import _ from "ramda";
-import { PopupInvoicePrint } from "@components";
+import { PopupInvoice } from "@shared/components/payment";
 
 import styles from "./style";
 
 class Layout extends React.Component {
   render() {
-    const {visiblePrintInvoice} = this.state;
 
     const injectedJavascript = `(function() {
             window.postMessage = function(data) {
@@ -30,11 +29,7 @@ class Layout extends React.Component {
           useWebKit={true}
         />
 
-        <PopupInvoicePrint
-          ref={this.invoicePrintRef}
-          visiblePrintInvoice={visiblePrintInvoice}
-          onRequestClose={this.cancelInvoicePrint}
-        />
+        <PopupInvoice ref={this.invoiceRef} />
       </View>
     );
   }
