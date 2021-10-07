@@ -42,8 +42,6 @@ export const useProps = ({
   | REDUX variables
   |--------------------------------------------------
   */
-  const printerList = useSelector((state) => state.dataLocal.printerList);
-  const printerSelect = useSelector((state) => state.dataLocal.printerSelect);
 
   /**
   |--------------------------------------------------

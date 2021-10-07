@@ -33,7 +33,7 @@ import RNFetchBlob from "rn-fetch-blob";
 import { ItemHeaderReceipt, ItemReceipt } from "./ItemReceipt";
 import { TotalView } from "./TotalView";
 
-export const PopupInvoice = React.forwardRef(({}, ref) => {
+export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
   const viewShotRef = React.useRef(null);
   const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
 
@@ -225,8 +225,11 @@ export const PopupInvoice = React.forwardRef(({}, ref) => {
   };
 
   const onCancel = () => {
-    reset();
+    if (cancelInvoicePrint && typeof cancelInvoicePrint === "function") {
+      cancelInvoicePrint(printTempt);
+    }
     setVisible(false);
+    reset();
   };
 
   const renderLoadingProcessingPrint = () => {
@@ -297,10 +300,7 @@ export const PopupInvoice = React.forwardRef(({}, ref) => {
             [
               {
                 text: "Cancel",
-                onPress: () => {
-                  reset();
-                  setVisible(false);
-                },
+                onPress: onCancel,
                 style: "cancel",
               },
               {
@@ -311,13 +311,12 @@ export const PopupInvoice = React.forwardRef(({}, ref) => {
             { cancelable: false }
           );
         } else {
-          reset();
-          setVisible(false);
+          onCancel();
         }
       }
     } catch (error) {
-      console.log(error);
-      await setVisible(false);
+      console.log(`Printer erro with ${error}`);
+      onCancel();
     }
   };
 

@@ -10,7 +10,6 @@ import {
 import { statusSuccess } from "@shared/utils";
 import {
   formatNumberFromCurrency,
-  formatWithMoment,
   getArrayExtrasFromAppointment,
   getArrayGiftCardsFromAppointment,
   getArrayProductsFromAppointment,
@@ -21,19 +20,11 @@ import _ from "lodash";
 import React from "react";
 import { NativeModules, Platform } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { useIsPayment } from "../../hooks";
-import RNFetchBlob from "rn-fetch-blob";
-import Share from "react-native-share";
-import { captureRef, releaseCapture } from "react-native-view-shot";
 
 const signalR = require("@microsoft/signalr");
 
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
-
-const log = (obj, message = "") => {
-  Logger.log(`[HomeOrderPayPage] ${message}`, obj);
-};
 
 export const useProps = ({
   params: { orderItem, appointmentId, screenId, backScreenId },
@@ -55,9 +46,7 @@ export const useProps = ({
   const invoiceRef = React.useRef(null);
 
   const dispatch = useDispatch();
-  const isPayment = useIsPayment();
 
-  const isOfflineMode = useSelector((state) => state.network.isOfflineMode);
   const groupAppointment = useSelector(
     (state) => state.appointment.groupAppointment
   );
@@ -72,9 +61,6 @@ export const useProps = ({
   const paxMachineInfo = useSelector((state) => state.hardware.paxMachineInfo);
   const token = useSelector((state) => state.dataLocal.token);
   const deviceId = useSelector((state) => state.dataLocal.deviceId);
-  const customerInfoBuyAppointment = useSelector(
-    (state) => state.appointment.customerInfoBuyAppointment
-  );
 
   const payAppointmentId = useSelector(
     (state) => state.appointment.payAppointmentId
@@ -94,11 +80,11 @@ export const useProps = ({
   const visibleConfirm = useSelector(
     (state) => state.appointment.visiblePopupPaymentConfirm
   );
-  const visibleChangeMoney = useSelector(
-    (state) => state.appointment.visibleChangeMoney
-  );
   const isTipOnPaxMachine = useSelector(
     (state) => state.dataLocal.isTipOnPaxMachine
+  );
+  const visiblePaymentCompleted = useSelector(
+    (state) => state.appointment.visiblePaymentCompleted
   );
 
   const [isTax, setIsTax] = React.useState(false);
@@ -124,13 +110,6 @@ export const useProps = ({
   const [visiblePopupDiscountLocal, setVisiblePopupDiscountLocal] =
     React.useState(false);
 
-  const [infoUser, setInfoUser] = React.useState({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-  });
-  const [staffIdOfline, setStaffIdOfline] = React.useState(0);
-  const [fromTime, setFromTime] = React.useState("");
   const [basket, setBasket] = React.useState([]);
   const [visibleProcessingCredit, setVisibleProcessingCredit] =
     React.useState(false);
@@ -140,8 +119,6 @@ export const useProps = ({
 
   const [errorMessageFromPax, setErrorMessageFromPax] = React.useState("");
   const [visibleScanCode, setVisibleScanCode] = React.useState(false);
-  const [visiblePrintInvoice, setVisiblePrintInvoice] = React.useState(false);
-  const [visibleInvoice, setVisibleInvoice] = React.useState(false);
   const [appointmentDetail, setAppointmentDetail] = React.useState(null);
   const startProcessingPax = useSelector(
     (state) => state.appointment.startProcessingPax
@@ -158,13 +135,8 @@ export const useProps = ({
   const [appointmentGet, getAppointment] = useGetAppointment();
   const [updateAppointmentTaxData, updateAppointmentTax] =
     useUpdateAppointmentTax();
-  // const [updateAppointmentCustomerData, updateAppointmentCustomer] =
-  //   useUpdateAppointmentCustomer();
 
   const onCompleteBack = async () => {
-    console.log("====> onCompleteBack " + screenId);
-    // navigation.goBack();
-
     if (screenId && screenId !== "retailer.home.order.check_out") {
       NavigationServices.navigate(screenId, {
         reload: true,
@@ -205,20 +177,6 @@ export const useProps = ({
   const payBasket = async () => {
     const method = getPaymentString(paymentSelected);
 
-    if (isOfflineMode && method === "harmony") {
-      // this.scrollTabRef.current?.goToPage(2);
-      // this.addAppointmentOfflineMode(true);
-      return;
-    }
-
-    if (
-      isOfflineMode &&
-      (method === "credit_card" || method === "debit_card")
-    ) {
-      alert("Not Support Offline Mode");
-      return;
-    }
-
     if (method === "harmony" && _.isEmpty(groupAppointment)) {
       popupSendLinkInstallRef.current?.setStateFromParent("");
       setVisibleSendLinkPopup(true);
@@ -228,15 +186,6 @@ export const useProps = ({
         modalBillRef?.current?.setStateFromParent(`${dueAmount}`);
       }
       await setVisibleBillOfPayment(true);
-
-      // if (method === 'harmony' || method === 'credit_card') {
-      //     const dueAmount = parseFloat(formatNumberFromCurrency(paymentDetailInfo?.dueAmount || 0));
-      //     this.doneBill(dueAmount);
-      // } else {
-      //     await this.setState({
-      //         visibleBillOfPayment: true
-      //     });
-      // }
     }
   };
 
@@ -263,197 +212,22 @@ export const useProps = ({
 
   const extractBill = () => {
     if (_.isEmpty(paymentDetailInfo)) {
-      if (isOfflineMode) {
-        const temptTotal = Number(
-          formatNumberFromCurrency(subTotalLocal) +
-            formatNumberFromCurrency(tipLocal) +
-            formatNumberFromCurrency(taxLocal) -
-            formatNumberFromCurrency(discountTotalLocal)
-        ).toFixed(2);
-        modalBillRef.current?.setStateFromParent(`${temptTotal}`);
-      } else {
-        const temptTotal = _.isEmpty(groupAppointment)
-          ? Number(
-              formatNumberFromCurrency(subTotalLocal) +
-                formatNumberFromCurrency(tipLocal) +
-                formatNumberFromCurrency(taxLocal) -
-                formatNumberFromCurrency(discountTotalLocal)
-            ).toFixed(2)
-          : groupAppointment.total;
+      const temptTotal = _.isEmpty(groupAppointment)
+        ? Number(
+            formatNumberFromCurrency(subTotalLocal) +
+              formatNumberFromCurrency(tipLocal) +
+              formatNumberFromCurrency(taxLocal) -
+              formatNumberFromCurrency(discountTotalLocal)
+          ).toFixed(2)
+        : groupAppointment.total;
 
-        modalBillRef.current?.setStateFromParent(`${temptTotal}`);
-      }
+      modalBillRef.current?.setStateFromParent(`${temptTotal}`);
     } else {
       const totalExact = paymentDetailInfo?.dueAmount
         ? paymentDetailInfo.dueAmount
         : 0;
 
       modalBillRef.current?.setStateFromParent(`${totalExact}`);
-    }
-  };
-
-  const getBasketOffline = () => {
-    const arrayProductBuy = [];
-    const arryaServicesBuy = [];
-    const arrayExtrasBuy = [];
-    for (let i = 0; i < basket.length; i++) {
-      if (basket[i].type === "Product") {
-        arrayProductBuy.push({
-          ...basket[i],
-          productId: basket[i].data.productId,
-          quantity: basket[i].quanlitySet,
-        });
-      } else if (basket[i].type === "Service") {
-        arryaServicesBuy.push({
-          ...basket[i],
-          serviceId: basket[i].data.serviceId,
-          //staffId: selectedStaff?.staffId,
-          tipAmount: 0,
-        });
-      } else if (basket[i].type === "Extra") {
-        arrayExtrasBuy.push({
-          ...basket[i],
-          extraId: basket[i].data.extraId,
-        });
-      }
-    }
-    return {
-      arrayProductBuy,
-      arryaServicesBuy,
-      arrayExtrasBuy,
-      // staffId: selectedStaff?.staffId,
-    };
-  };
-
-  const getBasketOnline = (appointments) => {
-    const arrayProductBuy = [];
-    const arryaServicesBuy = [];
-    const arrayExtrasBuy = [];
-    const arrayGiftCards = [];
-    const promotionNotes = [];
-
-    appointments.forEach((appointment) => {
-      const note = appointment?.promotionNotes?.note || "";
-      if (note) {
-        promotionNotes.push(note);
-      }
-      // ------ Push Service -------
-      appointment.services.forEach((service) => {
-        arryaServicesBuy.push({
-          type: "Service",
-          data: {
-            name: service?.serviceName || "",
-            price: service?.price || "",
-          },
-          staff: service?.staff || false,
-          note: service?.note || "",
-        });
-      });
-
-      // ------ Push Product -------
-      appointment.products.forEach((product) => {
-        arrayProductBuy.push({
-          type: "Product",
-          data: {
-            name: product?.productName || "",
-            price: product?.price || "",
-          },
-          quanlitySet: product?.quantity || "",
-        });
-      });
-
-      // ------ Push Product -------
-      appointment.extras.forEach((extra) => {
-        arrayExtrasBuy.push({
-          type: "Extra",
-          data: {
-            name: extra?.extraName || "",
-            price: extra?.price || "",
-          },
-        });
-      });
-
-      // ------ Push Gift Card -------
-      appointment.giftCards.forEach((gift) => {
-        arrayGiftCards.push({
-          type: "GiftCards",
-          data: {
-            name: gift?.name || "Gift Card",
-            price: gift?.price || "",
-          },
-          quanlitySet: gift?.quantity || "",
-        });
-      });
-    });
-
-    return {
-      arryaServicesBuy,
-      arrayProductBuy,
-      arrayExtrasBuy,
-      arrayGiftCards,
-      promotionNotes,
-    };
-  };
-
-  const addAppointmentOfflineMode = (isHarmonyOffline = false) => {
-    let method = getPaymentString(paymentSelected);
-    const dataAnymousAppoitment = getBasketOffline();
-
-    const { arrayProductBuy, arryaServicesBuy, arrayExtrasBuy } =
-      dataAnymousAppoitment;
-
-    const appointmentOfflineMode = {
-      appointmentId: appointmentIdOffline,
-      firstName: infoUser.firstName,
-      lastName: infoUser.lastName,
-      phoneNumber: infoUser.phoneNumber,
-      subTotal: subTotalLocal ? parseFloat(subTotalLocal) : 0,
-      tax: taxLocal ? parseFloat(taxLocal) : 0,
-      tipAmount: tipLocal ? parseFloat(tipLocal) : 0,
-      discount: discountTotalLocal ? parseFloat(discountTotalLocal) : 0,
-      merchantId: profile.merchantId,
-      services: arryaServicesBuy,
-      extras: arrayExtrasBuy,
-      products: arrayProductBuy,
-      fromTime:
-        fromTime !== ""
-          ? fromTime
-          : formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A"),
-      staffId: staffIdOfline !== 0 ? staffIdOfline : profileStaffLogin.staffId,
-      customDiscountFixed: customDiscountPercentLocal,
-      customDiscountPercent: customDiscountFixedLocal,
-      paymentMethod: method,
-      paymentTransactionId: 0,
-    };
-    if (isHarmonyOffline) {
-      setAppointmentOfflineMode(appointmentOfflineMode);
-    } else {
-      dispatch(
-        actions.dataLocal.addAppointmentOfflineMode(appointmentOfflineMode)
-      );
-    }
-  };
-
-  const handlePaymentOffLineMode = async () => {
-    const moneyUserGiveForStaff = parseFloat(
-      formatNumberFromCurrency(modalBillRef.current?.state.quality)
-    );
-    const totalLocal = Number(
-      formatNumberFromCurrency(subTotalLocal) +
-        formatNumberFromCurrency(tipLocal) +
-        formatNumberFromCurrency(taxLocal) -
-        formatNumberFromCurrency(discountTotalLocal)
-    ).toFixed(2);
-
-    if (moneyUserGiveForStaff == 0) {
-      alert("Enter amount!");
-    } else if (moneyUserGiveForStaff - totalLocal < 0) {
-      alert("Payment amount must be greater : " + totalLocal);
-    } else {
-      addAppointmentOfflineMode();
-      setVisibleBillOfPayment(false);
-      modalBillRef.current?.setStateFromParent(`0`);
-      dispatch(actions.appointment.showModalPrintReceipt());
     }
   };
 
@@ -603,7 +377,6 @@ export const useProps = ({
           return;
         }
         setTimeout(() => {
-          // alert(result.message);
           setVisibleErrorMessageFromPax(true);
           setErrorMessageFromPax(`${result.message}`);
         }, 300);
@@ -758,11 +531,6 @@ export const useProps = ({
       ? parseFloat(formatNumberFromCurrency(paymentDetailInfo.dueAmount))
       : 0;
 
-    if (isOfflineMode) {
-      handlePaymentOffLineMode();
-      return;
-    }
-
     if (moneyUserGiveForStaff == 0 && groupAppointment && total != 0) {
       alert("Enter amount!");
     } else if (
@@ -870,16 +638,7 @@ export const useProps = ({
   };
 
   const printTemptInvoice = async () => {
-    const { portName } = getInfoFromModelNameOfPrinter(
-      printerList,
-      printerSelect
-    );
-
-    if (portName !== "") {
-      showInvoicePrint(portName);
-    } else {
-      alert("Please connect to your printer! ");
-    }
+    showInvoicePrint(true);
   };
 
   const checkStatusCashier = async () => {
@@ -896,23 +655,18 @@ export const useProps = ({
   };
 
   const printBill = async () => {
-    // this.pushAppointmentIdOfflineIntoWebview();
-
     const { portName } = getInfoFromModelNameOfPrinter(
       printerList,
       printerSelect
     );
-    if (portName) {
-      if (!_.isEmpty(connectSignalR.current)) {
-        await connectSignalR.current?.stop();
-      }
-      if (paymentSelected === "Cash" || paymentSelected === "Other") {
-        openCashDrawer(portName);
-      }
-      showInvoicePrint(portName, false);
-    } else {
-      alert("Please connect to your printer!");
+
+    if (!_.isEmpty(connectSignalR.current)) {
+      await connectSignalR.current?.stop();
     }
+    if (paymentSelected === "Cash" || paymentSelected === "Other") {
+      openCashDrawer(portName);
+    }
+    showInvoicePrint(false);
   };
 
   const donotPrintBill = async () => {
@@ -929,15 +683,11 @@ export const useProps = ({
       if (portName) {
         openCashDrawer(portName);
         dispatch(actions.appointment.closeModalPaymentCompleted());
-        // this.props.gotoAppoitmentScreen();
         dispatch(actions.appointment.resetBasketEmpty());
-        // this.setState(initState);
         dispatch(actions.appointment.resetPayment());
       } else {
         dispatch(actions.appointment.closeModalPaymentCompleted());
-        // this.props.gotoAppoitmentScreen();
         dispatch(actions.appointment.resetBasketEmpty());
-        // this.setState(initState);
         dispatch(actions.appointment.resetPayment());
 
         setTimeout(() => {
@@ -946,14 +696,11 @@ export const useProps = ({
       }
     } else {
       dispatch(actions.appointment.closeModalPaymentCompleted());
-      // this.props.gotoAppoitmentScreen();
       dispatch(actions.appointment.resetBasketEmpty());
-      // this.setState(initState);
       dispatch(actions.appointment.resetPayment());
     }
 
     await dispatch(basketRetailer.clearBasket());
-
     onCompleteBack();
   };
 
@@ -961,63 +708,15 @@ export const useProps = ({
     await PrintManager.getInstance().openCashDrawer(portName);
   };
 
-  const showInvoicePrint = async (printMachine, isTemptPrint = true) => {
+  const showInvoicePrint = async (isTemptPrint = true) => {
     // -------- Pass data to Invoice --------
     // this.props.actions.appointment.closeModalPaymentCompleted();
     dispatch(actions.appointment.closeModalPaymentCompleted());
 
-    const appointments = groupAppointment?.appointments || [];
-    const {
-      arryaServicesBuy,
-      arrayProductBuy,
-      arrayExtrasBuy,
-      arrayGiftCards,
-      promotionNotes,
-    } = getBasketOnline(appointments);
-
-    const baskets = isOfflineMode
-      ? basket
-      : arryaServicesBuy.concat(
-          arrayExtrasBuy,
-          arrayProductBuy,
-          arrayGiftCards
-        );
-    const tipAmount = groupAppointment?.tipAmount || 0;
-    const subTotal = groupAppointment?.subTotal || 0;
-    const discount = groupAppointment?.discount || 0;
-    const tax = groupAppointment?.tax || 0;
-    const total = groupAppointment?.total || 0;
-
-    const temptSubTotal = _.isEmpty(groupAppointment)
-      ? subTotalLocal
-      : subTotal;
-    const temptTotal = _.isEmpty(groupAppointment)
-      ? Number(
-          formatNumberFromCurrency(subTotalLocal) +
-            formatNumberFromCurrency(tipLocal) +
-            formatNumberFromCurrency(taxLocal) -
-            formatNumberFromCurrency(discountTotalLocal)
-        ).toFixed(2)
-      : total;
-    const temptDiscount = _.isEmpty(groupAppointment)
-      ? discountTotalLocal
-      : discount;
-    const temptTip = _.isEmpty(groupAppointment) ? tipLocal : tipAmount;
-    const temptTax = _.isEmpty(groupAppointment) ? taxLocal : tax;
-
-    invoicePrintRef.current?.setStateFromParent(
-      baskets,
-      temptSubTotal,
-      temptTax,
-      temptDiscount,
-      temptTip,
-      temptTotal,
-      paymentSelected,
-      isTemptPrint,
-      printMachine,
-      promotionNotes.join(",")
-    );
-    await setVisiblePrintInvoice(true);
+    invoiceRef.current?.showAppointmentReceipt({
+      appointmentId: groupAppointment?.mainAppointmentId,
+      isPrintTempt: isTemptPrint,
+    });
   };
 
   React.useEffect(() => {
@@ -1076,14 +775,6 @@ export const useProps = ({
       );
     }
   }, [updateAppointmentTaxData]);
-
-  // React.useEffect(() => {
-  //   return () => {
-  //     if (connectSignalR.current) {
-  //       connectSignalR.current.stop();
-  //     }
-  //   };
-  // }, []);
 
   return {
     customerRef,
@@ -1207,14 +898,6 @@ export const useProps = ({
       NavigationServices.navigate("retailer.home.order.check_out", {
         purchasePoint: appointmentDetail?.purchasePoint,
       });
-      // if (backScreenId) {
-      //   NavigationServices.navigate(backScreenId, {
-      //     reload: false,
-      //   });
-      // } else
-      //   NavigationServices.navigate("retailer.home.order", {
-      //     reload: true,
-      //   });
     },
     visibleConfirm: visibleConfirm?.visible ?? false,
     setVisibleConfirm: () => {
@@ -1250,16 +933,12 @@ export const useProps = ({
     cashBackRef,
     setVisibleChangeMoney: () => {},
     doneBillByCash: () => {
-      if (isOfflineMode) {
-        dispatch(actions.appointment.showModalPrintReceipt());
-      } else {
-        const temptAppointmentId = _.isEmpty(appointmentDetail)
-          ? appointmentIdOffline
-          : appointmentDetail.appointmentId;
+      const temptAppointmentId = _.isEmpty(appointmentDetail)
+        ? appointmentIdOffline
+        : appointmentDetail.appointmentId;
 
-        dispatch(actions.appointment.checkoutSubmit(temptAppointmentId));
-        dispatch(actions.appointment.showModalPrintReceipt());
-      }
+      dispatch(actions.appointment.checkoutSubmit(temptAppointmentId));
+      dispatch(actions.appointment.showModalPrintReceipt());
     },
     visibleScanCode,
     onRequestCloseScanCode: () => {
@@ -1272,18 +951,15 @@ export const useProps = ({
         paymentTransactionId: e.data,
       };
 
-      dispatch(actions.dataLocal.addAppointmentOfflineMode(tempDate));
       dispatch(actions.appointment.showModalPrintReceipt());
     },
     confimPayOfflinemode: () => {
       setVisibleScanCode(true);
     },
     invoicePrintRef,
-    visiblePrintInvoice,
     printTemptInvoice,
     checkStatusCashier,
     cancelInvoicePrint: async (isPrintTempt) => {
-      setVisiblePrintInvoice(false);
       if (!isPrintTempt) {
         dispatch(actions.appointment.resetBasketEmpty());
         dispatch(actions.appointment.resetPayment());
@@ -1387,69 +1063,12 @@ export const useProps = ({
       setPaymentSelected("");
     },
     shareTemptInvoice: async () => {
-      const { portName } = getInfoFromModelNameOfPrinter(
-        printerList,
-        printerSelect
-      );
-
-      const appointments = groupAppointment?.appointments || [];
-      const {
-        arryaServicesBuy,
-        arrayProductBuy,
-        arrayExtrasBuy,
-        arrayGiftCards,
-        promotionNotes,
-      } = getBasketOnline(appointments);
-
-      const baskets = isOfflineMode
-        ? basket
-        : arryaServicesBuy.concat(
-            arrayExtrasBuy,
-            arrayProductBuy,
-            arrayGiftCards
-          );
-      const tipAmount = groupAppointment?.tipAmount || 0;
-      const subTotal = groupAppointment?.subTotal || 0;
-      const discount = groupAppointment?.discount || 0;
-      const tax = groupAppointment?.tax || 0;
-      const total = groupAppointment?.total || 0;
-
-      const temptSubTotal = _.isEmpty(groupAppointment)
-        ? subTotalLocal
-        : subTotal;
-      const temptTotal = _.isEmpty(groupAppointment)
-        ? Number(
-            formatNumberFromCurrency(subTotalLocal) +
-              formatNumberFromCurrency(tipLocal) +
-              formatNumberFromCurrency(taxLocal) -
-              formatNumberFromCurrency(discountTotalLocal)
-          ).toFixed(2)
-        : total;
-      const temptDiscount = _.isEmpty(groupAppointment)
-        ? discountTotalLocal
-        : discount;
-      const temptTip = _.isEmpty(groupAppointment) ? tipLocal : tipAmount;
-      const temptTax = _.isEmpty(groupAppointment) ? taxLocal : tax;
-
-      await invoiceRef.current?.setStateFromParent(
-        baskets,
-        temptSubTotal,
-        temptTax,
-        temptDiscount,
-        temptTip,
-        temptTotal,
-        paymentSelected,
-        true,
-        portName,
-        promotionNotes.join(",")
-      );
-
-      await setVisibleInvoice(true);
+      await invoiceRef.current?.showAppointmentReceipt({
+        appointmentId: groupAppointment?.mainAppointmentId,
+        isShareMode: true,
+        isPrintTempt: true,
+      });
     },
     invoiceRef,
-    visibleInvoice,
-    cancelInvoice: () => {
-      setVisibleInvoice(false);
-    },
   };
 };
