@@ -849,69 +849,15 @@ class TabCheckout extends Layout {
     }
   };
 
-  showInvoicePrint = async (printMachine, isTemptPrint = true) => {
+  showInvoicePrint = async (isTemptPrint = true) => {
     // -------- Pass data to Invoice --------
     this.props.actions.appointment.closeModalPaymentCompleted();
-    const { groupAppointment, isOfflineMode } = this.props;
-    const {
-      subTotalLocal,
-      tipLocal,
-      discountTotalLocal,
-      taxLocal,
-      paymentSelected,
-    } = this.state;
-    const appointments = groupAppointment?.appointments || [];
-    const {
-      arryaServicesBuy,
-      arrayProductBuy,
-      arrayExtrasBuy,
-      arrayGiftCards,
-      promotionNotes,
-    } = this.getBasketOnline(appointments);
-    const basket = isOfflineMode
-      ? this.state.basket
-      : arryaServicesBuy.concat(
-          arrayExtrasBuy,
-          arrayProductBuy,
-          arrayGiftCards
-        );
-    const tipAmount = groupAppointment?.tipAmount || 0;
-    const subTotal = groupAppointment?.subTotal || 0;
-    const discount = groupAppointment?.discount || 0;
-    const tax = groupAppointment?.tax || 0;
-    const total = groupAppointment?.total || 0;
+    const { groupAppointment } = this.props;
 
-    const temptSubTotal = _.isEmpty(groupAppointment)
-      ? subTotalLocal
-      : subTotal;
-    const temptTotal = _.isEmpty(groupAppointment)
-      ? Number(
-          formatNumberFromCurrency(subTotalLocal) +
-            formatNumberFromCurrency(tipLocal) +
-            formatNumberFromCurrency(taxLocal) -
-            formatNumberFromCurrency(discountTotalLocal)
-        ).toFixed(2)
-      : total;
-    const temptDiscount = _.isEmpty(groupAppointment)
-      ? discountTotalLocal
-      : discount;
-    const temptTip = _.isEmpty(groupAppointment) ? tipLocal : tipAmount;
-    const temptTax = _.isEmpty(groupAppointment) ? taxLocal : tax;
-
-    this.invoicePrintRef.current?.setStateFromParent(
-      basket,
-      temptSubTotal,
-      temptTax,
-      temptDiscount,
-      temptTip,
-      temptTotal,
-      paymentSelected,
-      isTemptPrint,
-      printMachine,
-      promotionNotes.join(",")
-    );
-    await this.setState({
-      visiblePrintInvoice: true,
+    this.invoiceRef.current?.showAppointmentReceipt({
+      appointmentId: groupAppointment?.mainAppointmentId,
+      isSalon: true,
+      isPrintTempt: isTemptPrint,
     });
   };
 
@@ -942,39 +888,27 @@ class TabCheckout extends Layout {
       if (paymentSelected === "Cash" || paymentSelected === "Other") {
         this.openCashDrawer(portName);
       }
-      this.showInvoicePrint(portName, false);
+      this.showInvoicePrint(false);
     } else {
       const { paymentMachineType } = this.props;
       if (paymentMachineType == "Clover") {
         if (paymentSelected === "Cash" || paymentSelected === "Other") {
           this.openCashDrawerClover();
         }
-        this.showInvoicePrint(portName, false);
-      } else {
-        alert("Please connect to your printer!");
+        this.showInvoicePrint(false);
       }
     }
   };
 
   printTemptInvoice = async () => {
-    const { printerSelect, printerList, paymentMachineType } = this.props;
-    const { portName } = getInfoFromModelNameOfPrinter(
-      printerList,
-      printerSelect
-    );
+    const { groupAppointment } = this.props;
 
-    if (paymentMachineType == "Clover") {
-      this.showInvoicePrint(portName);
-    } else {
-      const { groupAppointment } = this.props;
-
-      this.invoiceRef.current?.showAppointmentReceipt({
-        appointmentId: groupAppointment?.mainAppointmentId,
-        isShareReceipt: false,
-        isPrintTempt: true,
-        isSalon: true,
-      });
-    }
+    this.invoiceRef.current?.showAppointmentReceipt({
+      appointmentId: groupAppointment?.mainAppointmentId,
+      isShareReceipt: false,
+      isPrintTempt: true,
+      isSalon: true,
+    });
   };
 
   checkStatusCashier = async () => {
