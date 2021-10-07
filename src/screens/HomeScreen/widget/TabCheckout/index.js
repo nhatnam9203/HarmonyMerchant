@@ -2994,7 +2994,7 @@ class TabCheckout extends Layout {
 
     this.invoiceRef.current?.showAppointmentReceipt({
       appointmentId: groupAppointment?.mainAppointmentId,
-      isShareReceipt: true,
+      isShareMode: true,
       isSalon: true,
       isPrintTempt: true,
     });

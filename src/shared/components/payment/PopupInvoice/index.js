@@ -1,45 +1,41 @@
-import React from "react";
-import {
-  View,
-  Text,
-  ActivityIndicator,
-  ScrollView,
-  StyleSheet,
-  Modal,
-  Alert,
-  Platform,
-} from "react-native";
-import { StarPRNT } from "react-native-star-prnt";
-import { captureRef, releaseCapture } from "react-native-view-shot";
-import Dash from "react-native-dash";
-import { getFullName } from "@shared/utils";
-import {
-  scaleSize,
-  localize,
-  getPaymentString,
-  formatMoney,
-  formatWithMoment,
-  getStaffNameForInvoice,
-  getInfoFromModelNameOfPrinter,
-  checkIsTablet,
-  formatNumberFromCurrency,
-} from "@utils";
-import connectRedux from "@redux/ConnectRedux";
+import ButtonCustom from "@components/ButtonCustom";
 import PrintManager from "@lib/PrintManager";
-import { useSelector, useDispatch } from "react-redux";
 import {
   useGetGroupAppointment,
   useGetInvoiceDetail,
 } from "@shared/services/api/app";
-import { PURCHASE_POINTS_STORE, statusSuccess } from "@shared/utils";
+import { getFullName, statusSuccess } from "@shared/utils";
+import {
+  checkIsTablet,
+  formatNumberFromCurrency,
+  formatWithMoment,
+  getInfoFromModelNameOfPrinter,
+  getPaymentString,
+  getStaffNameForInvoice,
+  scaleSize,
+} from "@utils";
+import React from "react";
+import {
+  ActivityIndicator,
+  Alert,
+  Modal,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import Dash from "react-native-dash";
+import { StarPRNT } from "react-native-star-prnt";
+import { captureRef, releaseCapture } from "react-native-view-shot";
+import { useSelector } from "react-redux";
+import RNFetchBlob from "rn-fetch-blob";
 import { ItemHeaderReceipt, ItemReceipt } from "./ItemReceipt";
 import { TotalView } from "./TotalView";
-import ButtonCustom from "@components/ButtonCustom";
-import RNFetchBlob from "rn-fetch-blob";
 
 export const PopupInvoice = React.forwardRef(({}, ref) => {
   const viewShotRef = React.useRef(null);
-  const tempHeight = checkIsTablet() ? scaleHeight(600) : scaleHeight(600);
+  const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
 
   /**
   |--------------------------------------------------
@@ -199,7 +195,7 @@ export const PopupInvoice = React.forwardRef(({}, ref) => {
   };
 
   const getInvoiceName = () => {
-    let invoiceName;
+    let invoiceName = " ";
 
     if (groupAppointment) {
       invoiceName = getStaffNameForInvoice(
@@ -208,7 +204,7 @@ export const PopupInvoice = React.forwardRef(({}, ref) => {
       );
     }
 
-    if (!invoiceName && invoiceDetailData?.user?.userId) {
+    if (!invoiceName && invoiceDetail?.user?.userId) {
       invoiceName = getFullName(invoiceDetail?.user);
     }
     if (!invoiceName) {
@@ -381,6 +377,7 @@ export const PopupInvoice = React.forwardRef(({}, ref) => {
       setPaymentMachineType(machineType);
       setTitleInvoice(title);
       setIsSalonApp(isSalon);
+
       if (appointmentId) {
         getGroupAppointment(appointmentId);
       }
@@ -425,7 +422,7 @@ export const PopupInvoice = React.forwardRef(({}, ref) => {
               >
                 {/* ------------- Store Name -----------*/}
                 <Text style={styles.titleStyle}>
-                  {profile?.businessName || ""}
+                  {profile?.businessName || " "}
                 </Text>
 
                 {/* ------------- Store Address ----------- */}
@@ -433,18 +430,18 @@ export const PopupInvoice = React.forwardRef(({}, ref) => {
                   numberOfLines={2}
                   style={[styles.textStyle, { textAlign: "center" }]}
                 >
-                  {profile?.addressFull || ""}
+                  {profile?.addressFull || " "}
                 </Text>
 
                 {/* ------------- Phone Address ----------- */}
                 <Text style={[styles.textStyle, { textAlign: "center" }]}>
-                  {`Tel : ${profile?.phone || ""}`}
+                  {`Tel : ${profile?.phone || " "}`}
                 </Text>
 
                 {/* ------------- Company Website ----------- */}
                 {profile.webLink && (
                   <Text style={[styles.textStyle, { textAlign: "center" }]}>
-                    {profile?.webLink || ""}
+                    {profile?.webLink || " "}
                   </Text>
                 )}
 
@@ -608,7 +605,12 @@ export const PopupInvoice = React.forwardRef(({}, ref) => {
                   styleTextValue={styles.textStyle}
                 />
                 {!printTempt && (
-                  <TotalView title={"Total"} value={getTotal()} />
+                  <TotalView
+                    title={"Total"}
+                    value={getTotal()}
+                    styleTextTitle={styles.textStyle}
+                    styleTextValue={styles.textStyle}
+                  />
                 )}
                 {/* ------------- Enter Tip   ----------- */}
                 {printTempt && (
@@ -842,7 +844,7 @@ export const PopupInvoice = React.forwardRef(({}, ref) => {
                       { alignSelf: "center", textAlign: "center" },
                     ]}
                   >
-                    {`${profile?.receiptFooter}`}
+                    {` ${profile?.receiptFooter}`}
                   </Text>
                 ) : (
                   <Text
@@ -866,7 +868,7 @@ export const PopupInvoice = React.forwardRef(({}, ref) => {
                   >
                     {`Discount note: `}
                     <Text style={{ fontWeight: "600" }}>
-                      {`${getPromotionNotes(groupAppointment?.appointments)}`}
+                      {` ${getPromotionNotes(groupAppointment?.appointments)}`}
                     </Text>
                   </Text>
                 )}

@@ -1,21 +1,11 @@
+import { formatMoney } from "@utils";
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
-import {
-  checkIsTablet,
-  formatMoney,
-  formatNumberFromCurrency,
-  formatWithMoment,
-  getInfoFromModelNameOfPrinter,
-  getPaymentString,
-  getStaffNameForInvoice,
-  localize,
-  scaleSize,
-} from "@utils";
+import { StyleSheet, Text, View } from "react-native";
 
 export const ItemReceipt = ({ item, index, isSalonApp }) => {
   const renderItemInvoice = () => {
     const price = item.data && item.data.price ? item.data.price : 0;
-    const quanlitySet = item.quanlitySet ? item.quanlitySet : 1;
+    const quanlitySet = item.quanlitySet ?? 1;
     const total = formatMoney(price * quanlitySet);
     const note = item.note ? item.note : "";
 
@@ -32,7 +22,7 @@ export const ItemReceipt = ({ item, index, isSalonApp }) => {
           ) : null}
         </View>
 
-        <View style={{ justifyContent: "center", width: scaleWidth(80) }}>
+        <View style={{ justifyContent: "center", width: scaleWidth(100) }}>
           <Text style={styles.textStyle}>{`$ ${price}`}</Text>
         </View>
 
@@ -108,7 +98,7 @@ export const ItemHeaderReceipt = ({ isSalonApp }) => {
         <View style={[styles.headerContent, { flex: 1 }]}>
           <Text style={styles.headerStyle}>{`DESCRIPTION`}</Text>
         </View>
-        <View style={{ justifyContent: "center", width: scaleWidth(80) }}>
+        <View style={{ justifyContent: "center", width: scaleWidth(100) }}>
           <Text style={styles.headerStyle}>{`PRICE`}</Text>
         </View>
         <View
