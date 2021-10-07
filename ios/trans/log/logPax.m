@@ -74,12 +74,12 @@ RCT_EXPORT_MODULE();
 
 
 
-RCT_EXPORT_METHOD(loadLogPax) {
+RCT_EXPORT_METHOD(loadLogPax:(int)logLevel) {
   @try {
 
     LogManager *manager = [LogManager sharedInstance];
 
-    [manager setLogLevel:4];
+    [manager setLogLevel:logLevel];
     manager.logFileName = @"POSLog";
     manager.logFilePath = @"POSLogPath";
     manager.logDays = 5;

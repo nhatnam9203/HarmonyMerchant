@@ -27,7 +27,7 @@ import { RTStaffCheckIn } from "@src/retailer/RTStaffCheckIn";
 const { Screen, Navigator } = createDrawerNavigator();
 export const SalonNavigator = () => {
   const loadPax = async () => {
-    await NativeModules.logPax.loadLogPax();
+    await NativeModules.logPax.loadLogPax(4);
   };
 
   React.useEffect(() => {
