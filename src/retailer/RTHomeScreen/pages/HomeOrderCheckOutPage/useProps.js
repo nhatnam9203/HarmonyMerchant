@@ -534,7 +534,10 @@ export const useProps = ({
 
       if (appointmentTempId) {
         const findItem = appointmentTemp?.products?.find(
-          (x) => x.productQuantityId === productItem.productQuantityId
+          (x) =>
+            x.productQuantityId === productItem.productQuantityId ||
+            (productItem?.quantities?.length <= 0 &&
+              x.productId === productItem.productId)
         );
 
         if (findItem) {
@@ -555,7 +558,10 @@ export const useProps = ({
           });
         } else {
           const findItem = appointment?.products?.find(
-            (x) => x.productQuantityId === productItem.productQuantityId
+            (x) =>
+              x.productQuantityId === productItem.productQuantityId ||
+              (productItem?.quantities?.length <= 0 &&
+                x.productId === productItem.productId)
           );
           if (findItem) {
             appointmentUpdateProductItem(

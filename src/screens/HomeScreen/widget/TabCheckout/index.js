@@ -874,30 +874,26 @@ class TabCheckout extends Layout {
 
   printBill = async () => {
     this.pushAppointmentIdOfflineIntoWebview();
-    const { printerSelect, printerList } = this.props;
+    const { printerSelect, printerList, connectionSignalR } = this.props;
     const { portName } = getInfoFromModelNameOfPrinter(
       printerList,
       printerSelect
     );
     const { paymentSelected } = this.state;
-    if (portName) {
-      const { connectionSignalR } = this.props;
-      if (!_.isEmpty(connectionSignalR)) {
-        connectionSignalR.stop();
-      }
-      if (paymentSelected === "Cash" || paymentSelected === "Other") {
+
+    if (!_.isEmpty(connectionSignalR)) {
+      connectionSignalR.stop();
+    }
+
+    if (paymentSelected === "Cash" || paymentSelected === "Other") {
+      if (paymentMachineType == "Clover") {
+        this.openCashDrawerClover();
+      } else {
         this.openCashDrawer(portName);
       }
-      this.showInvoicePrint(false);
-    } else {
-      const { paymentMachineType } = this.props;
-      if (paymentMachineType == "Clover") {
-        if (paymentSelected === "Cash" || paymentSelected === "Other") {
-          this.openCashDrawerClover();
-        }
-        this.showInvoicePrint(false);
-      }
     }
+
+    this.showInvoicePrint(false);
   };
 
   printTemptInvoice = async () => {

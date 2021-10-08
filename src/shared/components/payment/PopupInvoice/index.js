@@ -262,10 +262,8 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClove
   };
 
   const onPrintProcess = async () => {
-    const { portName } = getInfoFromModelNameOfPrinter(
-      printerList,
-      printerSelect
-    );
+    const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(printerList, printerSelect);
+
 
     try {
       await setIsProcessingPrint(true);
@@ -370,6 +368,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClove
       isSalon = false,
     }) => {
       if (!appointmentId) {
+        onCancel();
         return;
       }
 
@@ -381,10 +380,11 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClove
           printerSelect
         );
 
-        if (!portName) {
-          alert("Please connect to your printer! ");
-          return;
-        }
+        // if (!portName) {
+        //   onCancel();
+        //   alert("Please connect to your printer! ");
+        //   return;
+        // }
       }
 
       setIsShare(isShareMode);
