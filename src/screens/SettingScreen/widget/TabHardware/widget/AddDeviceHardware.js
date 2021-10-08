@@ -1,6 +1,6 @@
 import { Button, ButtonCustom, Text } from "@components";
 import connectRedux from "@redux/ConnectRedux";
-import { localize, scaleSize } from "@utils";
+import { localize, scaleSize, PaymentTerminalType } from "@utils";
 import React from "react";
 import {
     View,
@@ -131,13 +131,19 @@ class AddDeviceHardware extends React.Component {
     }
 
     renderConnected() {
-        const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = this.props;
+        const { paxMachineInfo, 
+                cloverMachineInfo, 
+                dejavooMachineInfo,
+                paymentMachineType } = this.props;
         const { textPaxLog } = this.state;
         let name = ''
-        if (paymentMachineType == 'Pax') {
+        if (paymentMachineType == PaymentTerminalType.Pax) {
             name = _.get(paxMachineInfo, 'name')
-        } else {
+        } else if (paymentMachineType == PaymentTerminalType.Clover) {
             name = _.get(cloverMachineInfo, 'name')
+        }else {
+          //Dejavoo
+          name = _.get(dejavooMachineInfo, 'name')
         }
         return (
           <View style={{flex:1}}>
@@ -246,13 +252,16 @@ class AddDeviceHardware extends React.Component {
     render() {
         const { paxMachineInfo, 
                 cloverMachineInfo,
+                dejavooMachineInfo,
                 language, 
                 paymentMachineType } = this.props;
         let isSetup = false
-        if (paymentMachineType == 'Pax') {
-            isSetup = _.get(paxMachineInfo, 'isSetup', false)
-        } else {
-            isSetup = _.get(cloverMachineInfo, 'isSetup', false)
+        if (paymentMachineType == PaymentTerminalType.Pax) {
+          isSetup = _.get(paxMachineInfo, 'isSetup', false)
+        } else if (paymentMachineType == PaymentTerminalType.Clover){
+          isSetup = _.get(cloverMachineInfo, 'isSetup', false)
+        }else {
+          isSetup = _.get(dejavooMachineInfo, 'isSetup', false)
         }
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSize(14), paddingTop: scaleSize(20) }} >
@@ -362,6 +371,7 @@ const mapStateToProps = state => ({
   language: state.dataLocal.language,
   cloverMachineInfo: state.hardware.cloverMachineInfo, 
   paymentMachineType: state.hardware.paymentMachineType,
+  dejavooMachineInfo: state.hardware.dejavooMachineInfo, 
 })
 
 export default connectRedux(mapStateToProps, AddDeviceHardware);

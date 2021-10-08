@@ -1899,3 +1899,7 @@ export const proccessingSettlement = async (
     deviceId,
   });
 };
+
+export const stringIsEmptyOrWhiteSpaces = (str) => {
+  return str == null || str == undefined || (str && str.trim().length === 0)
+}

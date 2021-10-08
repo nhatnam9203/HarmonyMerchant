@@ -7,7 +7,8 @@ import {
 } from 'react-native';
 
 import { Button, Text } from '@components';
-import { scaleSize, localize, checkStatusPrint } from '@utils';
+import { scaleSize, localize, checkStatusPrint,
+        PaymentTerminalType } from '@utils';
 import IMAGE from '@resources';
 import connectRedux from '@redux/ConnectRedux';
 import _ from "lodash";
@@ -30,15 +31,23 @@ class HomeHardware extends React.Component {
     // -------- Render ------
 
     render() {
-        const { paxMachineInfo, cloverMachineInfo, paymentMachineType, language ,printerSelect} = this.props;
+        const { paxMachineInfo, 
+            cloverMachineInfo, 
+            dejavooMachineInfo,
+            paymentMachineType, 
+            language,
+            printerSelect} = this.props;
         let temptTitle = 'No Device'
         let isSetup =  false
-        if (paymentMachineType == 'Pax'){
+        if (paymentMachineType == PaymentTerminalType.Pax){
             temptTitle = !_.get(paxMachineInfo, 'isSetup') ? 'No Device' : paxMachineInfo.name;
             isSetup = _.get(paxMachineInfo, 'isSetup')
-        }else {
+        }else if (paymentMachineType == PaymentTerminalType.Clover){
             temptTitle = !_.get(cloverMachineInfo, 'isSetup') ? 'No Device' : cloverMachineInfo.name;
             isSetup = _.get(cloverMachineInfo, 'isSetup')
+        } else{
+            temptTitle = !_.get(dejavooMachineInfo, 'isSetup') ? 'No Device' : dejavooMachineInfo.name;
+            isSetup = _.get(dejavooMachineInfo, 'isSetup')
         }
         
         return (
@@ -162,6 +171,7 @@ const mapStateToProps = state => ({
     printerSelect: state.dataLocal.printerSelect,
     cloverMachineInfo: state.hardware.cloverMachineInfo, 
     paymentMachineType: state.hardware.paymentMachineType,
+    dejavooMachineInfo: state.hardware.dejavooMachineInfo, 
 })
 
 export default connectRedux(mapStateToProps, HomeHardware);

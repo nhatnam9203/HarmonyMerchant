@@ -432,6 +432,7 @@ const localization = {
     "Accept": "Accept",
     "Reject": "Reject",
     "Serial Number": "Serial Number",
+    "Dejavoo": "Dejavoo",
   },
   vi: {},
 };

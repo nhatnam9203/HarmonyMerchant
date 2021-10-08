@@ -15,6 +15,7 @@ import { ButtonCustom, Text, Button } from '@components';
 import { scaleSize, 
         localize,
         PaymentTerminalType,
+        stringIsEmptyOrWhiteSpaces,
        } from '@utils';
 import ICON from '@resources';
 import connectRedux from '@redux/ConnectRedux';
@@ -93,7 +94,8 @@ class SetupHardware extends React.Component {
 
         if(terminalName == PaymentTerminalType.Pax){
             if (commType === "BLUETOOTH") {
-                if (name === "" || bluetoothAddr === "") {
+                if (stringIsEmptyOrWhiteSpaces(name) 
+                    || stringIsEmptyOrWhiteSpaces(bluetoothAddr)) {
                     alert('Please enter full infomation!');
                 } else {
                     this.props.actions.hardware.setupPaxMachine({
@@ -103,7 +105,10 @@ class SetupHardware extends React.Component {
                     this.props.backListDevices();
                 }
             } else {
-                if (name == '' || ip == '' || port == '' || timeout == '') {
+                if (stringIsEmptyOrWhiteSpaces(name) 
+                    || stringIsEmptyOrWhiteSpaces(ip) 
+                    || stringIsEmptyOrWhiteSpaces(port) 
+                    || stringIsEmptyOrWhiteSpaces(timeout)) {
                     alert('Please enter full infomation!');
                 } else {
                     this.props.actions.hardware.setupPaxMachine({
@@ -114,12 +119,14 @@ class SetupHardware extends React.Component {
                 };
             }
         } else if (terminalName == PaymentTerminalType.Dejavoo){
-            if (ip == '' || port == '' || name == '') {
+            if (stringIsEmptyOrWhiteSpaces(ip) 
+                || stringIsEmptyOrWhiteSpaces(port) 
+                || stringIsEmptyOrWhiteSpaces(name)) {
                 alert('Please enter full infomation!');
             } else {
                 this.props.actions.hardware.setupDejavooMachine({
-                    paymentMachineInfo: { ip, port, isSetup: true, serialNumber },
-                    paymentMachineType: 'Clover',
+                    paymentMachineInfo: { ip, port, isSetup: true, name },
+                    paymentMachineType: PaymentTerminalType.Dejavoo,
                 });
                 this.props.backListDevices();
             };
@@ -129,7 +136,7 @@ class SetupHardware extends React.Component {
             } else {
                 this.props.actions.hardware.setupCloverMachine({
                     paymentMachineInfo: { ip, port, isSetup: true, serialNumber },
-                    paymentMachineType: 'Clover',
+                    paymentMachineType: PaymentTerminalType.Clover,
                 });
                 this.props.backListDevices();
             };
@@ -328,7 +335,7 @@ class SetupHardware extends React.Component {
                     </Button>
 
                     {_.get(dataLocal, "profile.type") == Constants.APP_TYPE.POS &&
-                        <Button onPress={this.setTerminal("Clover")} style={{ flexDirection: "row" }} >
+                        <Button onPress={this.setTerminal(PaymentTerminalType.Clover)} style={{ flexDirection: "row", marginRight: scaleSize(40) }} >
                             <Image
                                 source={tempCheckClover}
                                 style={{ marginRight: scaleSize(10) }}
@@ -339,15 +346,17 @@ class SetupHardware extends React.Component {
                         </Button>
                     }
 
-                    <Button onPress={this.setTerminal(PaymentTerminalType.Dejavoo)} style={{ flexDirection: "row" }} >
-                        <Image
-                            source={tempCheckDejavoo}
-                            style={{ marginRight: scaleSize(10) }}
-                        />
-                        <Text style={{ fontSize: scaleSize(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
-                            {localize('Clover', language)}
-                        </Text>
-                    </Button>
+                    {_.get(dataLocal, "profile.type") == Constants.APP_TYPE.POS &&
+                        <Button onPress={this.setTerminal(PaymentTerminalType.Dejavoo)} style={{ flexDirection: "row" }} >
+                            <Image
+                                source={tempCheckDejavoo}
+                                style={{ marginRight: scaleSize(10) }}
+                            />
+                            <Text style={{ fontSize: scaleSize(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
+                                {localize('Dejavoo', language)}
+                            </Text>
+                        </Button>
+                    }
 
                 </View>
 
@@ -407,7 +416,9 @@ class SetupHardware extends React.Component {
                     }
 
                     {
-                        terminalName === "Pax" &&
+                        (terminalName === PaymentTerminalType.Pax 
+                        || terminalName === PaymentTerminalType.Dejavoo)
+                        &&
                         <ItemSetup
                             title={localize('Name', language)}
                             placeholder={localize('Device name', language)}
@@ -634,6 +645,7 @@ const ItemBluetooth = ({ peripheral, bluetoothPaxInfo, onPress }) => {
 const mapStateToProps = state => ({
     paxMachineInfo: state.hardware.paxMachineInfo,
     cloverMachineInfo: state.hardware.cloverMachineInfo,
+    dejavooMachineInfo: state.hardware.dejavooMachineInfo,
     paymentMachineType: state.hardware.paymentMachineType,
     language: state.dataLocal.language,
     bluetoothPaxInfo: state.dataLocal.bluetoothPaxInfo,
