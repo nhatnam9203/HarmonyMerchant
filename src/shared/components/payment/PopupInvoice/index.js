@@ -59,7 +59,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
   const [groupAppointment, setGroupAppointment] = React.useState(null);
   const [invoiceDetail, setInvoiceDetail] = React.useState(null);
   const [printTempt, setPrintTempt] = React.useState(false);
-  const [isSignature, setIsSignature] = React.useState(false);
+  const [isSignature, setIsSignature] = React.useState(true);
   const [isProcessingPrint, setIsProcessingPrint] = React.useState(false);
   const [isShare, setIsShare] = React.useState(false);
   const [paymentMachineType, setPaymentMachineType] = React.useState(null);
@@ -80,11 +80,12 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
   */
 
   const reset = async () => {
-    await setGroupAppointment(null);
-    await setInvoiceDetail(null);
-    await setTitleInvoice("TICKET");
-    await setIsShare(false);
-    await setPrintTempt(false);
+    setGroupAppointment(null);
+    setInvoiceDetail(null);
+    setTitleInvoice("TICKET");
+    setIsShare(false);
+    setPrintTempt(false);
+    setIsSignature(true);
   };
 
   const getBasketOnline = (appointments) => {
@@ -257,10 +258,17 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
   };
 
   const doPrintAgain = async () => {
-    await setIsSignature(false, () => {
-      onPrintProcess();
-    });
+    setIsSignature(false);
+    // setTimeout(() => {
+    //   onPrintProcess();
+    // }, 1000);
   };
+
+  React.useEffect(() => {
+    if (!isSignature && !isShare && !printTempt) {
+      onPrintProcess();
+    }
+  }, [isSignature]);
 
   const onPrintProcess = async () => {
     const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(
@@ -359,7 +367,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
       title = "TICKET",
       isSalon = false,
     }) => {
-      await reset();
+      reset();
 
       if (!appointmentId) {
         return;
@@ -379,11 +387,11 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
         }
       }
 
-      await setPrintTempt(isPrintTempt);
-      await setIsShare(isShareMode);
-      await setPaymentMachineType(machineType);
-      await setTitleInvoice(title);
-      await setIsSalonApp(isSalon);
+      setPrintTempt(isPrintTempt);
+      setIsShare(isShareMode);
+      setPaymentMachineType(machineType);
+      setTitleInvoice(title);
+      setIsSalonApp(isSalon);
 
       // call api get info
       await getGroupAppointment(appointmentId);
