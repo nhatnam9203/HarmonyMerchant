@@ -50,7 +50,6 @@ const initalState = {
   checkoutPayments: [],
 
   promotionNotes: "",
-  invoiceDate: null,
 };
 
 class PopupInvoice extends React.Component {
@@ -73,8 +72,7 @@ class PopupInvoice extends React.Component {
     promotionNotes,
     titleInvoice = "SALE",
     invoiceNo = "",
-    checkoutPayments = [],
-    invoiceDate
+    checkoutPayments = []
   ) => {
     await this.setState({
       basket,
@@ -91,7 +89,6 @@ class PopupInvoice extends React.Component {
       invoiceNo,
       checkoutPayments: checkoutPayments,
       promotionNotes,
-      invoiceDate,
     });
     // const { paymentMachineType, printerSelect } = this.props;
     // setTimeout(() => {
@@ -358,7 +355,6 @@ class PopupInvoice extends React.Component {
       invoiceNo,
       checkoutPayments,
       promotionNotes,
-      invoiceDate,
     } = this.state;
     const temtCheckoutPayment =
       paymentMethods.length > 0 ? paymentMethods : checkoutPayments;
@@ -427,13 +423,12 @@ class PopupInvoice extends React.Component {
                   </Text>
                   {/* ------------- Store Address ----------- */}
                   <Text
-                    numberOfLines={2}
+                    numberOfLines={1}
                     style={[
                       styleInvoice.txt_normal,
                       {
                         paddingHorizontal: scaleSize(10),
                         marginTop: scaleSize(4),
-                        textAlign: "center",
                       },
                       fontWeightClover,
                     ]}
@@ -498,7 +493,7 @@ class PopupInvoice extends React.Component {
                     <View style={{ flex: 1 }}>
                       <Text style={[styleInvoice.txt_info, fontWeightClover]}>
                         {`: ${formatWithMoment(
-                          invoiceDate ?? new Date(),
+                          new Date(),
                           "MM/DD/YYYY hh:mm A"
                         )}`}
                       </Text>

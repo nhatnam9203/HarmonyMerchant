@@ -42,8 +42,6 @@ export const useProps = ({
   | REDUX variables
   |--------------------------------------------------
   */
-  const printerList = useSelector((state) => state.dataLocal.printerList);
-  const printerSelect = useSelector((state) => state.dataLocal.printerSelect);
 
   /**
   |--------------------------------------------------
@@ -58,7 +56,6 @@ export const useProps = ({
   const [billingAddressId, setBillingAddressId] = React.useState(null);
   const [isDidNotPay, setDidNotPay] = React.useState(false);
   const [visiblePrintInvoice, setVisiblePrintInvoice] = React.useState(false);
-  const [visibleInvoice, setVisibleInvoice] = React.useState(false);
 
   /**
   |--------------------------------------------------
@@ -411,17 +408,10 @@ export const useProps = ({
       setDidNotPay(checked);
     },
     printCustomerInvoice: async () => {
-      const { portName } = getInfoFromModelNameOfPrinter(
-        printerList,
-        printerSelect
-      );
-      // showInvoicePrint(portName);
-
-      if (portName !== "") {
-        showInvoicePrint(portName);
-      } else {
-        alert("Please connect to your printer! ");
-      }
+      invoiceRef.current?.showAppointmentReceipt({
+        appointmentId: appointmentDetail?.appointmentId,
+        checkoutId: appointmentDetail?.invoice?.checkoutId,
+      });
     },
     invoicePrintRef,
     visiblePrintInvoice,
@@ -429,69 +419,12 @@ export const useProps = ({
       setVisiblePrintInvoice(false);
     },
     invoiceRef,
-    visibleInvoice,
-    cancelInvoice: () => {
-      setVisibleInvoice(false);
-    },
     shareCustomerInvoice: async () => {
-      const { portName } = getInfoFromModelNameOfPrinter(
-        printerList,
-        printerSelect
-      );
-
-      const appointments = [appointmentDetail];
-      const {
-        arryaServicesBuy,
-        arrayProductBuy,
-        arrayExtrasBuy,
-        arrayGiftCards,
-        promotionNotes,
-      } = getBasketOnline(appointments);
-
-      const baskets = arryaServicesBuy.concat(
-        arrayExtrasBuy,
-        arrayProductBuy,
-        arrayGiftCards
-      );
-      const tipAmount = appointmentDetail?.tipAmount || 0;
-      const subTotal = appointmentDetail?.subTotal || 0;
-      const discount = appointmentDetail?.discount || 0;
-      const tax = appointmentDetail?.tax || 0;
-      const total = appointmentDetail?.total || 0;
-      const invoiceNo = `${appointmentDetail?.invoice?.checkoutId}` || "";
-
-      const temptSubTotal = subTotal;
-
-      const temptTotal = total;
-      const temptDiscount = discount;
-      const temptTip = tipAmount;
-      const temptTax = tax;
-
-      let payment = "";
-      const payments = appointmentDetail.payment;
-      if (payments?.length > 0) {
-        const firstPayment = payments[0];
-        payment = firstPayment.paymentMethod;
-      }
-
-      await invoiceRef.current?.setStateFromParent(
-        baskets,
-        temptSubTotal,
-        temptTax,
-        temptDiscount,
-        temptTip,
-        temptTotal,
-        payment,
-        false,
-        portName,
-        promotionNotes.join(","),
-        "SALE",
-        invoiceNo,
-        [],
-        appointmentDetail?.invoice?.createdDate
-      );
-
-      await setVisibleInvoice(true);
+      invoiceRef.current?.showAppointmentReceipt({
+        appointmentId: appointmentDetail?.appointmentId,
+        checkoutId: appointmentDetail?.invoice?.checkoutId,
+        isShareMode: true,
+      });
     },
   };
 };

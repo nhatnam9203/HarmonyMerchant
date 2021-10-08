@@ -387,17 +387,7 @@ export const Layout = ({
         resultScanCode={resultScanCode}
       />
 
-      <PopupInvoicePrint
-        ref={invoicePrintRef}
-        visiblePrintInvoice={visiblePrintInvoice}
-        onRequestClose={cancelInvoicePrint}
-      />
-
-      <PopupInvoice
-        ref={invoiceRef}
-        visiblePrintInvoice={visibleInvoice}
-        onRequestClose={cancelInvoice}
-      />
+      <PopupInvoice ref={invoiceRef} cancelInvoicePrint={cancelInvoicePrint} />
 
       <PopupChangeTip
         ref={changeTipRef}
