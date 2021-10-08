@@ -86,16 +86,19 @@ export const Layout = ({
               onChangeValue={(val) => form.setFieldValue("visibility", val)}
             />
 
-            {/* <FormInputMask
-              label={t("Cost Price ($)")}
-              placeholder={t("Enter cost price")}
-              required={true}
-              onChangeValue={(value) => {
-                if (value) form.setFieldValue("costPrice", parseFloat(value));
-              }}
-              defaultValue={productItem?.costPrice}
-              keyboardType="numeric"
-            /> */}
+            {(!productItem?.quantities ||
+              productItem?.quantities?.length <= 0) && (
+              <FormInputMask
+                label={t("Cost Price ($)")}
+                placeholder={t("Enter cost price")}
+                required={true}
+                onChangeValue={(value) => {
+                  if (value) form.setFieldValue("costPrice", parseFloat(value));
+                }}
+                defaultValue={productItem?.costPrice}
+                keyboardType="numeric"
+              />
+            )}
 
             {(!productItem?.quantities ||
               productItem?.quantities?.length <= 0) && (

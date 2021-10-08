@@ -1,18 +1,16 @@
-import React from "react";
-import _ from "ramda";
-import { AppState } from "react-native";
-
-import Layout from "./layout";
+import Configs from "@configs";
 import connectRedux from "@redux/ConnectRedux";
 import {
-  validateIsNumber,
-  getArrayProductsFromAppointment,
-  getArrayServicesFromAppointment,
   getArrayExtrasFromAppointment,
   getArrayGiftCardsFromAppointment,
+  getArrayProductsFromAppointment,
+  getArrayServicesFromAppointment,
+  validateIsNumber,
 } from "@utils";
-import Configs from "@configs";
 import { isEmpty } from "lodash";
+import React from "react";
+import { AppState } from "react-native";
+import Layout from "./layout";
 
 const initState = {
   appointmentIdOffline: 0,
@@ -25,12 +23,16 @@ class TabAppointment extends Layout {
       ...initState,
       appState: AppState.currentState,
       calendarLink: this.getLinkForCalendar(),
+      visiblePrintInvoice: false,
+      appointment: null,
     };
     this.webviewRef = React.createRef();
     this.amountRef = React.createRef();
     this.changeStylistRef = React.createRef();
     this.changePriceAmountProductRef = React.createRef();
     this.popupCheckDiscountPermissionRef = React.createRef();
+    this.invoicePrintRef = React.createRef();
+    this.invoiceRef = React.createRef();
   }
 
   componentDidMount() {
@@ -118,7 +120,6 @@ class TabAppointment extends Layout {
     try {
       if (event.nativeEvent && event.nativeEvent.data) {
         const data = JSON.parse(event.nativeEvent.data);
-
         if (validateIsNumber(data) && data < -150) {
           this.onLoadStartWebview();
         } else {
@@ -170,10 +171,7 @@ class TabAppointment extends Layout {
             });
           } else if (action == "signinAppointment") {
             if (data?.staffId === 0) {
-              this.props.createABlockAppointment(
-                appointmentId,
-                new Date()
-              );
+              this.props.createABlockAppointment(appointmentId, new Date());
             } else {
               this.props.bookAppointment(appointmentId, data?.staffId || 0);
               if (
@@ -216,14 +214,25 @@ class TabAppointment extends Layout {
               data?.appointmentId,
               data?.staffId || 0
             );
+          } else if (action == "printFromCalendar") {
+            const appointment = data?.appointment;
+            const isTemp = appointment?.status !== "paid";
+
+            this.invoiceRef.current?.showAppointmentReceipt({
+              appointmentId: appointment?.id,
+              checkoutId: appointment?.checkoutId,
+              isPrintTempt: isTemp,
+              isSalon: true,
+            });
           }
         }
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   async componentDidUpdate(prevProps, prevState, snapshot) {
     const { isReloadWebview } = this.props;
+
     if (isReloadWebview && isReloadWebview != prevProps.isReloadWebview) {
       this.reloadWebviewFromParent();
       this.props.actions.app.resetStateReloadWebView();
@@ -249,7 +258,6 @@ const mapStateToProps = (state) => ({
   loading: state.app.loading,
   isReloadWebview: state.app.isReloadWebview,
   deviceId: state.dataLocal.deviceId,
-  extrasByMerchant: state.extra.extrasByMerchant,
   groupAppointment: state.appointment.groupAppointment,
   isOfflineMode: state.network.isOfflineMode,
 });

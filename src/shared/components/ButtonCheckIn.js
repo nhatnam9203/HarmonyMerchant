@@ -3,9 +3,12 @@ import ICON from "@resources";
 import React from "react";
 import { colors, layouts } from "@shared/themes";
 
-export const ButtonCheckIn = ({ onPress }) => {
+export const ButtonCheckIn = ({ onPress, height }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.container, height && { height }]}
+    >
       <Image source={ICON.CheckInButtonIcon} style={styles.img} />
     </TouchableOpacity>
   );

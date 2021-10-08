@@ -6,12 +6,19 @@ import {
     View,
     StyleSheet,
     Image,
-    Platform
+    Platform,
+    NativeModules,
+    ScrollView,
 } from 'react-native';
 // import { BleManager } from 'react-native-ble-plx';
 
 import IMAGE from '@resources';
 import _ from "lodash";
+import moment from 'moment';
+import RNFS from 'react-native-fs';
+import {
+  handleShareFile,
+} from "@shared/utils/files";
 
 class AddDeviceHardware extends React.Component {
 
@@ -204,7 +211,7 @@ class AddDeviceHardware extends React.Component {
           </View>
          }
 
-            {textPaxLog && paymentMachineType == "Pax" (
+            {textPaxLog && paymentMachineType == "Pax" && (
               <View
                 style={{
                   flex: 1,

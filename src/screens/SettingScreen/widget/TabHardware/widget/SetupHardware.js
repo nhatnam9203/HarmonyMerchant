@@ -288,7 +288,7 @@ class SetupHardware extends React.Component {
     // -------- Render ------
 
     render() {
-        const { language, bluetoothPaxInfo } = this.props;
+        const { language, bluetoothPaxInfo, dataLocal } = this.props;
         const { name, ip, port, timeout, commType, 
                 terminalName, serialNumber } = this.state;
 
@@ -327,15 +327,17 @@ class SetupHardware extends React.Component {
                         </Text>
                     </Button>
 
-                    <Button onPress={this.setTerminal("Clover")} style={{ flexDirection: "row" }} >
-                        <Image
-                            source={tempCheckClover}
-                            style={{ marginRight: scaleSize(10) }}
-                        />
-                        <Text style={{ fontSize: scaleSize(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
-                            {localize('Clover', language)}
-                        </Text>
-                    </Button>
+                    {_.get(dataLocal, "profile.type") == Constants.APP_TYPE.POS &&
+                        <Button onPress={this.setTerminal("Clover")} style={{ flexDirection: "row" }} >
+                            <Image
+                                source={tempCheckClover}
+                                style={{ marginRight: scaleSize(10) }}
+                            />
+                            <Text style={{ fontSize: scaleSize(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
+                                {localize('Clover', language)}
+                            </Text>
+                        </Button>
+                    }
 
                     <Button onPress={this.setTerminal(PaymentTerminalType.Dejavoo)} style={{ flexDirection: "row" }} >
                         <Image
@@ -634,7 +636,8 @@ const mapStateToProps = state => ({
     cloverMachineInfo: state.hardware.cloverMachineInfo,
     paymentMachineType: state.hardware.paymentMachineType,
     language: state.dataLocal.language,
-    bluetoothPaxInfo: state.dataLocal.bluetoothPaxInfo
+    bluetoothPaxInfo: state.dataLocal.bluetoothPaxInfo,
+    dataLocal: state.dataLocal,
 })
 
 export default connectRedux(mapStateToProps, SetupHardware);

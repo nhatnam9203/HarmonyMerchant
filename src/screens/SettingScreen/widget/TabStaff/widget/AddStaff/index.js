@@ -197,7 +197,7 @@ class AddStaff extends Layout {
   }
 
   setStateFromParent = async (infoStaffHandle, isEditStaff) => {
-    console.log(infoStaffHandle);
+    // console.log(infoStaffHandle);
     this.isEditStaff = isEditStaff;
     const permissionInit = [
       {
@@ -525,10 +525,10 @@ class AddStaff extends Layout {
       };
 
       if (this.state.isEditStaff) {
-        console.log("temptStaff", temptStaff);
+        // console.log("temptStaff", temptStaff);
         this.props.editStaff(temptStaff, this.state.staffId);
       } else {
-        console.log(JSON.stringify(temptStaff));
+        // console.log(JSON.stringify(temptStaff));
         this.props.addStaff(temptStaff);
       }
     }
@@ -630,20 +630,21 @@ class AddStaff extends Layout {
   handlePerHourCheckBox = () => {
     const tempSalary = JSON.parse(JSON.stringify(this.state.salary));
     const isCheck = tempSalary?.perHour?.isCheck;
-    if (isCheck) {
-      tempSalary.perHour.value = "0.00";
-    } else {
-      tempSalary.commission = {
-        value: [
-          {
-            from: 0,
-            to: 0,
-            commission: 0,
-          },
-        ],
-        isCheck: false,
-      };
-    }
+    // if (isCheck) {
+    //   tempSalary.perHour.value = "0.00";
+    // } else {
+    //   tempSalary.commission = {
+    //     value: [
+    //       {
+    //         from: 0,
+    //         to: 0,
+    //         commission: 0,
+    //       },
+    //     ],
+    //     isCheck: false,
+    //   };
+    // }
+
     tempSalary.perHour.isCheck = !isCheck;
 
     this.setState({
@@ -664,20 +665,20 @@ class AddStaff extends Layout {
     const tempSalary = JSON.parse(JSON.stringify(this.state.salary));
     const isCheck = tempSalary?.commission?.isCheck;
 
-    if (isCheck) {
-      tempSalary.commission.value = [
-        {
-          from: 0,
-          to: 0,
-          commission: 0,
-        },
-      ];
-    } else {
-      tempSalary.perHour = {
-        value: "0.00",
-        isCheck: false,
-      };
-    }
+    // if (isCheck) {
+    //   tempSalary.commission.value = [
+    //     {
+    //       from: 0,
+    //       to: 0,
+    //       commission: 0,
+    //     },
+    //   ];
+    // } else {
+    //   tempSalary.perHour = {
+    //     value: "0.00",
+    //     isCheck: false,
+    //   };
+    // }
     tempSalary.commission.isCheck = !isCheck;
 
     this.setState({

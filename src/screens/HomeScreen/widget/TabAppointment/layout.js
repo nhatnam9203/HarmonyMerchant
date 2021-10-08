@@ -2,11 +2,13 @@ import React from "react";
 import { View } from "react-native";
 import { WebView } from "react-native-webview";
 import _ from "ramda";
+import { PopupInvoice } from "@shared/components/payment";
 
 import styles from "./style";
 
 class Layout extends React.Component {
   render() {
+
     const injectedJavascript = `(function() {
             window.postMessage = function(data) {
               window.ReactNativeWebView.postMessage(data);
@@ -26,6 +28,8 @@ class Layout extends React.Component {
           cacheEnabled={false}
           useWebKit={true}
         />
+
+        <PopupInvoice ref={this.invoiceRef} />
       </View>
     );
   }

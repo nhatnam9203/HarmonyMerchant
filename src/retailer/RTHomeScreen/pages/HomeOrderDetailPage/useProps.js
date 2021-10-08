@@ -35,14 +35,13 @@ export const useProps = ({
   const formAddressRef = React.useRef(null);
   const dispatch = useDispatch();
   const invoicePrintRef = React.useRef(null);
+  const invoiceRef = React.useRef(null);
 
   /**
   |--------------------------------------------------
   | REDUX variables
   |--------------------------------------------------
   */
-  const printerList = useSelector((state) => state.dataLocal.printerList);
-  const printerSelect = useSelector((state) => state.dataLocal.printerSelect);
 
   /**
   |--------------------------------------------------
@@ -409,22 +408,23 @@ export const useProps = ({
       setDidNotPay(checked);
     },
     printCustomerInvoice: async () => {
-      const { portName } = getInfoFromModelNameOfPrinter(
-        printerList,
-        printerSelect
-      );
-      // showInvoicePrint(portName);
-
-      if (portName !== "") {
-        showInvoicePrint(portName);
-      } else {
-        alert("Please connect to your printer! ");
-      }
+      invoiceRef.current?.showAppointmentReceipt({
+        appointmentId: appointmentDetail?.appointmentId,
+        checkoutId: appointmentDetail?.invoice?.checkoutId,
+      });
     },
     invoicePrintRef,
     visiblePrintInvoice,
     cancelInvoicePrint: async (isPrintTempt) => {
       setVisiblePrintInvoice(false);
+    },
+    invoiceRef,
+    shareCustomerInvoice: async () => {
+      invoiceRef.current?.showAppointmentReceipt({
+        appointmentId: appointmentDetail?.appointmentId,
+        checkoutId: appointmentDetail?.invoice?.checkoutId,
+        isShareMode: true,
+      });
     },
   };
 };

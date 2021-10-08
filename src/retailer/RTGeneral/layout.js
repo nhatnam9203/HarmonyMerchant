@@ -59,6 +59,7 @@ class Layout extends React.Component {
       signinAppStyle,
       sendReviewLinkOption,
       giftForNewEnabled,
+      receiptFooter,
     } = this.state;
 
     return (
@@ -359,6 +360,41 @@ class Layout extends React.Component {
               />
             );
           })}
+
+          {/* --------  Receipt Footer  --------- */}
+          <View style={{ flexDirection: "row", marginTop: scaleSize(16) }}>
+            <View style={{ width: scaleSize(180), justifyContent: "center" }}>
+              <Text
+                style={{
+                  color: "#404040",
+                  fontSize: scaleSize(16),
+                  fontWeight: "600",
+                }}
+              >
+                {`${localize("Receipt Footer", language)}:`}
+              </Text>
+            </View>
+            <View
+              style={{
+                height: scaleSize(60),
+                flex: 1,
+                borderWidth: 1,
+                borderColor: "#C5C5C5",
+                paddingHorizontal: scaleSize(10),
+              }}
+            >
+              <TextInput
+                style={{ flex: 1, fontSize: scaleSize(18) }}
+                placeholder="Receipt footer input here..."
+                value={receiptFooter}
+                onChangeText={(value) =>
+                  this.setState({ receiptFooter: value })
+                }
+                multiline={true}
+                numberOfLines={3}
+              />
+            </View>
+          </View>
 
           {/* ------ Button Save --- */}
           <View
