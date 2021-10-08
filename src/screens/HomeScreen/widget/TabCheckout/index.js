@@ -849,18 +849,6 @@ class TabCheckout extends Layout {
     }
   };
 
-  showInvoicePrint = async (isTemptPrint = true) => {
-    // -------- Pass data to Invoice --------
-    this.props.actions.appointment.closeModalPaymentCompleted();
-    const { groupAppointment } = this.props;
-
-    this.invoiceRef.current?.showAppointmentReceipt({
-      appointmentId: groupAppointment?.mainAppointmentId,
-      isSalon: true,
-      isPrintTempt: isTemptPrint,
-    });
-  };
-
   cancelInvoicePrint = async (isPrintTempt) => {
     await this.setState({ visiblePrintInvoice: false });
     if (!isPrintTempt) {
@@ -874,11 +862,21 @@ class TabCheckout extends Layout {
 
   printBill = async () => {
     this.pushAppointmentIdOfflineIntoWebview();
-    const { printerSelect, printerList, connectionSignalR } = this.props;
+
+    const {
+      printerSelect,
+      printerList,
+      connectionSignalR,
+      paymentMachineType,
+      paymentDetailInfo,
+      groupAppointment,
+    } = this.props;
+
     const { portName } = getInfoFromModelNameOfPrinter(
       printerList,
       printerSelect
     );
+
     const { paymentSelected } = this.state;
 
     if (!_.isEmpty(connectionSignalR)) {
@@ -893,15 +891,21 @@ class TabCheckout extends Layout {
       }
     }
 
-    this.showInvoicePrint(false);
+    this.props.actions.appointment.closeModalPaymentCompleted();
+    this.invoiceRef.current?.showAppointmentReceipt({
+      appointmentId: groupAppointment?.mainAppointmentId,
+      checkoutId: paymentDetailInfo?.invoiceNo,
+      isSalon: true,
+      isPrintTempt: false,
+    });
   };
 
   printTemptInvoice = async () => {
-    const { groupAppointment } = this.props;
+    const { groupAppointment, paymentDetailInfo } = this.props;
 
-    this.invoiceRef.current?.showAppointmentReceipt({
+    await this.invoiceRef.current?.showAppointmentReceipt({
       appointmentId: groupAppointment?.mainAppointmentId,
-      isShareReceipt: false,
+      checkoutId: paymentDetailInfo?.invoiceNo,
       isPrintTempt: true,
       isSalon: true,
     });

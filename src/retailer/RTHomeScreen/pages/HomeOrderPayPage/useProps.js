@@ -704,6 +704,7 @@ export const useProps = ({
 
     invoiceRef.current?.showAppointmentReceipt({
       appointmentId: groupAppointment?.mainAppointmentId,
+      checkoutId: paymentDetailInfo?.invoiceNo,
       isPrintTempt: isTemptPrint,
     });
   };

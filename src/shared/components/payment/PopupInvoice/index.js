@@ -79,11 +79,12 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
   |--------------------------------------------------
   */
 
-  const reset = () => {
-    setGroupAppointment(null);
-    setInvoiceDetail(null);
-    setTitleInvoice("TICKET");
-    setIsShare(false);
+  const reset = async () => {
+    await setGroupAppointment(null);
+    await setInvoiceDetail(null);
+    await setTitleInvoice("TICKET");
+    await setIsShare(false);
+    await setPrintTempt(false);
   };
 
   const getBasketOnline = (appointments) => {
@@ -223,9 +224,9 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
     return " ";
   };
 
-  const onCancel = () => {
+  const onCancel = (temp) => {
     if (cancelInvoicePrint && typeof cancelInvoicePrint === "function") {
-      cancelInvoicePrint(printTempt);
+      cancelInvoicePrint(temp ?? printTempt);
     }
     setVisible(false);
     reset();
@@ -262,15 +263,18 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
   };
 
   const onPrintProcess = async () => {
-    const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(printerList, printerSelect);
-
+    const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(
+      printerList,
+      printerSelect
+    );
 
     try {
       await setIsProcessingPrint(true);
-      const imageUri = await captureRef(viewShotRef, {
-        ...(paymentMachineType === "Clover" &&
-          !printerSelect && { result: "base64" }),
-      });
+      const imageUri = await captureRef(viewShotRef, {});
+      // const imageUri = await captureRef(viewShotRef, {
+      //   ...(paymentMachineType === "Clover" &&
+      //     !printerSelect && { result: "base64" }),
+      // });
       await setIsProcessingPrint(false);
 
       if (imageUri) {
@@ -312,7 +316,8 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
         }
       }
     } catch (error) {
-      console.log(`Printer erro with ${error}`);
+      console.log(`Printer error with ${error}`);
+      alert(`Printer error with ${error}`);
       onCancel();
     }
   };
@@ -345,7 +350,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
   */
 
   React.useImperativeHandle(ref, () => ({
-    showAppointmentReceipt: ({
+    showAppointmentReceipt: async ({
       appointmentId,
       checkoutId,
       isPrintTempt = false,
@@ -354,12 +359,11 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
       title = "TICKET",
       isSalon = false,
     }) => {
+      await reset();
+
       if (!appointmentId) {
-        onCancel();
         return;
       }
-
-      reset();
 
       if (!isShareMode) {
         const { portName } = getInfoFromModelNameOfPrinter(
@@ -367,25 +371,29 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
           printerSelect
         );
 
-        // if (!portName) {
-        //   onCancel();
-        //   alert("Please connect to your printer! ");
-        //   return;
-        // }
+        if (!portName) {
+          onCancel(isPrintTempt);
+
+          alert("Please connect to your printer! ");
+          return;
+        }
       }
 
-      setIsShare(isShareMode);
-      setPrintTempt(isPrintTempt);
-      setPaymentMachineType(machineType);
-      setTitleInvoice(title);
-      setIsSalonApp(isSalon);
-      getGroupAppointment(appointmentId);
+      await setPrintTempt(isPrintTempt);
+      await setIsShare(isShareMode);
+      await setPaymentMachineType(machineType);
+      await setTitleInvoice(title);
+      await setIsSalonApp(isSalon);
+
+      // call api get info
+      await getGroupAppointment(appointmentId);
       if (checkoutId) {
         getInvoiceDetail(checkoutId);
       }
+      await setIsProcessingPrint(true);
 
       // show modal
-      setVisible(true);
+      await setVisible(true);
     },
   }));
 
@@ -393,6 +401,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
     const { codeStatus, data } = groupAppointmentData || {};
     if (statusSuccess(codeStatus)) {
       setGroupAppointment(data);
+      setIsProcessingPrint(false);
     }
   }, [groupAppointmentData]);
 
@@ -400,6 +409,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
     const { codeStatus, data } = invoiceDetailData || {};
     if (statusSuccess(codeStatus)) {
       setInvoiceDetail(data);
+      setIsProcessingPrint(false);
     }
   }, [invoiceDetailData]);
 
