@@ -33,7 +33,7 @@ import RNFetchBlob from "rn-fetch-blob";
 import { ItemHeaderReceipt, ItemReceipt } from "./ItemReceipt";
 import { TotalView } from "./TotalView";
 
-export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
+export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClover }, ref) => {
   const viewShotRef = React.useRef(null);
   const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
 
@@ -277,43 +277,56 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
       await setIsProcessingPrint(false);
 
       if (imageUri) {
-        let commands = [];
-        commands.push({ appendLineFeed: 0 });
-        commands.push({
-          appendBitmap: imageUri,
-          width: parseFloat(widthPaper),
-          bothScale: true,
-          diffusion: true,
-          alignment: "Center",
-        });
-        commands.push({
-          appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-        });
-
-        await PrintManager.getInstance().print(emulation, commands, portName);
-
-        releaseCapture(imageUri);
-        if (!printTempt && isSignature) {
-          Alert.alert(
-            "Would you like to print  customer's receipt?",
-            "",
-            [
-              {
-                text: "Cancel",
-                onPress: onCancel,
-                style: "cancel",
-              },
-              {
-                text: "OK",
-                onPress: doPrintAgain,
-              },
-            ],
-            { cancelable: false }
-          );
-        } else {
-          onCancel();
+       
+          if (printerSelect) {
+            let commands = [];
+            commands.push({ appendLineFeed: 0 });
+            commands.push({
+              appendBitmap: imageUri,
+              width: parseFloat(widthPaper),
+              bothScale: true,
+              diffusion: true,
+              alignment: "Center",
+            });
+            commands.push({
+              appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+            });
+    
+            await PrintManager.getInstance().print(emulation, commands, portName);
+    
+            releaseCapture(imageUri);
+            if (!printTempt && isSignature) {
+              Alert.alert(
+                "Would you like to print  customer's receipt?",
+                "",
+                [
+                  {
+                    text: "Cancel",
+                    onPress: onCancel,
+                    style: "cancel",
+                  },
+                  {
+                    text: "OK",
+                    onPress: doPrintAgain,
+                  },
+                ],
+                { cancelable: false }
+              );
+            } else {
+              onCancel();
+            }
+          }
+        }else{
+          if (paymentMachineType == "Clover") {
+            if (doPrintClover && typeof doPrintClover === "function") {
+              doPrintClover();
+            }
+          }else{
+            alert("Please connect to your printer!");
+          }
         }
-      }
+       
+      
     } catch (error) {
       console.log(`Printer erro with ${error}`);
       onCancel();
