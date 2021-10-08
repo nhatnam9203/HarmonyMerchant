@@ -74,15 +74,22 @@ RCT_EXPORT_MODULE();
 
 
 
-RCT_EXPORT_METHOD(loadLogPax) {
+RCT_EXPORT_METHOD(loadLogPax:(NSDictionary *)logInfo) {
   @try {
 
     LogManager *manager = [LogManager sharedInstance];
-
-    [manager setLogLevel:4];
+    int logLevel = 4;
+    if([logInfo objectForKey:@"logLevel"] != nil){
+      logLevel = (int)[[logInfo objectForKey:@"logLevel"] integerValue];
+    }
+    int logDay = 5;
+    if([logInfo objectForKey:@"logDay"] != nil){
+      logDay = (int)[[logInfo objectForKey:@"logDay"] integerValue];
+    }
+    [manager setLogLevel:logLevel];
     manager.logFileName = @"POSLog";
     manager.logFilePath = @"POSLogPath";
-    manager.logDays = 5;
+    manager.logDays = logDay;
     RCTLogInfo(@"loadLogPax %@", manager);
 
     [manager startLog];

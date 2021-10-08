@@ -1547,8 +1547,7 @@ class Layout extends React.Component {
 
         <PopupInvoice
           ref={this.invoiceRef}
-          visiblePrintInvoice={visibleInvoice}
-          onRequestClose={this.cancelInvoice}
+          cancelInvoicePrint={this.cancelInvoicePrint}
         />
       </View>
     );

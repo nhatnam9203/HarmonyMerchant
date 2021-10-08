@@ -1,4 +1,3 @@
-import { PopupInvoicePrint } from "@components";
 import IMAGE from "@resources";
 import {
   ButtonGradient,
@@ -11,6 +10,7 @@ import {
   ORDERED_STATUS,
   OrderStatusView,
 } from "@shared/components/OrderStatusView";
+import { PopupInvoice } from "@shared/components/payment";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { colors, fonts, layouts } from "@shared/themes";
 import { dateToString, DATE_TIME_SHOW_FORMAT_STRING } from "@shared/utils";
@@ -26,18 +26,6 @@ import {
   FormEditNotes,
   FormShippingCarrier,
 } from "../../widget";
-import {
-  ErrorMessagePaxModal,
-  PopupBill,
-  PopupBlockDiscount,
-  PopupDiscount,
-  PopupDiscountItem,
-  PopupDiscountLocal,
-  PopupEnterAmountGiftCard,
-  PopupPaymentDetails,
-  PopupGiftCardDetail,
-  PopupInvoice,
-} from "@shared/components/payment";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
@@ -57,13 +45,8 @@ export const Layout = ({
   formAddressRef,
   onDidNotPayCheck,
   printCustomerInvoice,
-  invoicePrintRef,
-  visiblePrintInvoice,
-  cancelInvoicePrint,
   shareCustomerInvoice,
   invoiceRef,
-  visibleInvoice,
-  cancelInvoice,
 }) => {
   const [t] = useTranslation();
 
@@ -721,17 +704,7 @@ export const Layout = ({
         </View>
       </KeyboardAwareScrollView>
 
-      <PopupInvoicePrint
-        ref={invoicePrintRef}
-        visiblePrintInvoice={visiblePrintInvoice}
-        onRequestClose={cancelInvoicePrint}
-      />
-
-      <PopupInvoice
-        ref={invoiceRef}
-        visiblePrintInvoice={visibleInvoice}
-        onRequestClose={cancelInvoice}
-      />
+      <PopupInvoice ref={invoiceRef} />
     </View>
   );
 };
