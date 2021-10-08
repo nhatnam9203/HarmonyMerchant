@@ -40,6 +40,7 @@ class TabGaneral extends Layout {
       ),
 
       giftForNewEnabled: profile?.giftForNewEnabled || false,
+      receiptFooter: profile?.receiptFooter || "",
     };
     this.inputRefsTime = [];
     this.checkPermissionRef = React.createRef();
@@ -130,6 +131,7 @@ class TabGaneral extends Layout {
       signinAppStyle,
       sendReviewLinkOption,
       giftForNewEnabled,
+      receiptFooter,
     } = this.state;
     const temptLanguage = languageApp === "English" ? "en" : "vi";
     this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
@@ -163,6 +165,7 @@ class TabGaneral extends Layout {
         signinAppStyle: getValueSignInAppDisplay(signinAppStyle),
         sendReviewLinkOption: getValueSendLinkGoogle(sendReviewLinkOption),
         giftForNewEnabled,
+        receiptFooter,
       },
       true,
       true

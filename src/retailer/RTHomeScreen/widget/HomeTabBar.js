@@ -21,6 +21,7 @@ export const HomeTabBar = ({
   position,
   onOpenDrawer,
   notificationContUnread = 0,
+
 }) => {
   const renderTab = (name, page, isTabActive, onPress) => {
     const textColor = isTabActive ? "#FFFFFF" : "#0872C9";

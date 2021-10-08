@@ -4,21 +4,21 @@ import {
   ButtonGradientRed,
   ButtonGradientWhite,
   DropdownMenu,
-  Pagination,
+  ExportModal,
 } from "@shared/components";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
 import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
 import { InputSearch } from "@shared/components/InputSearch";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
+import { WithDialogStaffCheckIn } from "@shared/HOC/withDialogStaffCheckIn";
 import { colors, fonts, layouts } from "@shared/themes";
 import { dateToString, DATE_SHOW_FORMAT_STRING } from "@shared/utils";
 import { formatMoneyWithUnit } from "@utils";
 import React from "react";
 // import { ButtonFilter } from '@shared/components/ButtonFilter';
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, Text } from "react-native";
-import { WithDialogStaffCheckIn } from "@shared/HOC/withDialogStaffCheckIn";
+import { StyleSheet, Text, View } from "react-native";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
 const ButtonStaffCheckIn = WithDialogStaffCheckIn(ButtonGradient);
@@ -40,6 +40,8 @@ export const Layout = ({
   pagination,
   onRefresh,
   isPermission,
+  exportRef,
+  callExportOrderList,
 }) => {
   const { t } = useTranslation();
 
@@ -155,7 +157,7 @@ export const Layout = ({
             "note",
             "actions",
           ]}
-          sortedKeys={{ startDate: sortDate }}
+          // sortedKeys={{ startDate: sortDate }}
           primaryKey="merchantStaffLogtimeId"
           widthForKeys={{
             merchantStaffLogtimeId: scaleWidth(50),
@@ -168,7 +170,7 @@ export const Layout = ({
           }}
           emptyDescription={t("No sessions")}
           // styleTextKeys={{ customerName: styles.textName }}
-          onSortWithKey={onSortWithKey}
+          // onSortWithKey={onSortWithKey}
           formatFunctionKeys={{
             startDate: (value) => dateToString(value, DATE_SHOW_FORMAT_STRING),
             startTime: (value) => dateToString(value, "LT"),
@@ -190,6 +192,12 @@ export const Layout = ({
           {...pagination}
           length={items?.length}
         /> */}
+
+        <ExportModal
+          ref={exportRef}
+          onExportFile={callExportOrderList}
+          exportFuncs={[{ value: "excel", label: "EXCEL" }]}
+        />
       </View>
       <View style={styles.rowContent}>
         <View style={layouts.horizontal}>

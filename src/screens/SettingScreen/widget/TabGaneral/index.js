@@ -12,9 +12,9 @@ import {
   getTitleSendLinkGoogle,
   getValueSendLinkGoogle,
 } from "@utils";
-import _ from 'lodash'
+import _ from "lodash";
 
-import moment from 'moment';
+import moment from "moment";
 
 class TabGaneral extends Layout {
   constructor(props) {
@@ -40,6 +40,7 @@ class TabGaneral extends Layout {
 
       giftForNewEnabled: profile?.giftForNewEnabled || false,
       isTurnOnAutoClose: profile?.isTurnOnAutoClose || false,
+      receiptFooter: profile?.receiptFooter || "",
     };
     this.inputRefsTime = [];
   }
@@ -130,10 +131,11 @@ class TabGaneral extends Layout {
       sendReviewLinkOption,
       giftForNewEnabled,
       isTurnOnAutoClose,
+      receiptFooter,
     } = this.state;
     const temptLanguage = languageApp === "English" ? "en" : "vi";
     this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
-    
+
     await this.setState({
       isUpdateInternal: true,
     });
@@ -165,6 +167,7 @@ class TabGaneral extends Layout {
         signinAppStyle: getValueSignInAppDisplay(signinAppStyle),
         sendReviewLinkOption: getValueSendLinkGoogle(sendReviewLinkOption),
         giftForNewEnabled,
+        receiptFooter,
       },
       true,
       true
@@ -176,12 +179,12 @@ class TabGaneral extends Layout {
   };
 
   switchAuToClose = (visible) => {
-    if(visible && (!this.state.autoCloseAt || this.state.autoCloseAt == "")){
-      this.setState({autoCloseAt: "11:00 PM"})
+    if (visible && (!this.state.autoCloseAt || this.state.autoCloseAt == "")) {
+      this.setState({ autoCloseAt: "11:00 PM" });
     }
 
-    this.setState({isTurnOnAutoClose: visible})
-  }
+    this.setState({ isTurnOnAutoClose: visible });
+  };
 
   async componentDidUpdate(prevProps, prevState) {
     const { profile, refreshingGeneral, loading, isFocus, currentTab } =

@@ -214,10 +214,14 @@ export const Layout = ({
                   infoValue={`${formatMoneyWithUnit(productItem?.price)}`}
                 />
               )}
-              {/* <ProductInfoLine
-                label={t("Cost Price")}
-                infoValue={`${formatMoneyWithUnit(productItem?.costPrice)}`}
-              /> */}
+
+              {(!productItem?.quantities ||
+                productItem?.quantities?.length <= 0) && (
+                <ProductInfoLine
+                  label={t("Cost Price")}
+                  infoValue={`${formatMoneyWithUnit(productItem?.costPrice)}`}
+                />
+              )}
               <ProductInfoLine
                 label={t("Total items in stock")}
                 infoValue={productItem?.quantity + ""}

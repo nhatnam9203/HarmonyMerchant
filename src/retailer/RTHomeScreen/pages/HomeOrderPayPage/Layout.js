@@ -22,6 +22,7 @@ import {
   PopupEnterAmountGiftCard,
   PopupPaymentDetails,
   PopupGiftCardDetail,
+  PopupInvoice,
 } from "@shared/components/payment";
 import { WithDialogPhone } from "@shared/HOC/withDialogPhone";
 import { colors, fonts, layouts } from "@shared/themes";
@@ -122,6 +123,10 @@ export const Layout = ({
   onGoBackOrderList,
   onGoBackCheckOut,
   cancelGiftCardPayment,
+  shareTemptInvoice,
+  invoiceRef,
+  visibleInvoice,
+  cancelInvoice,
 }) => {
   const [t] = useTranslation();
 
@@ -131,7 +136,20 @@ export const Layout = ({
         <View style={layouts.marginHorizontal} />
         <ButtonGradient
           // disable={true}
-          width={scaleWidth(120)}
+          width={scaleWidth(100)}
+          height={scaleHeight(32)}
+          fontSize={scaleFont(12)}
+          textWeight="normal"
+          label={t("Share receipt")}
+          onPress={shareTemptInvoice}
+          leftChildren={() => (
+            <Image style={styles.icon} source={IMAGE.share_icon} />
+          )}
+        />
+        <View style={layouts.marginHorizontal} />
+        <ButtonGradient
+          // disable={true}
+          width={scaleWidth(100)}
           height={scaleHeight(32)}
           fontSize={scaleFont(12)}
           textWeight="normal"
@@ -276,7 +294,6 @@ export const Layout = ({
 
       <PopupDiscount ref={popupDiscountRef} title={t("Discount")} />
       <PopupDiscountItem ref={popupDiscountItemRef} title={t("Discount")} />
-
       <PopupBlockDiscount title={t("Discount")} />
       <PopupDiscountLocal
         ref={popupDiscountLocalRef}
@@ -370,11 +387,7 @@ export const Layout = ({
         resultScanCode={resultScanCode}
       />
 
-      <PopupInvoicePrint
-        ref={invoicePrintRef}
-        visiblePrintInvoice={visiblePrintInvoice}
-        onRequestClose={cancelInvoicePrint}
-      />
+      <PopupInvoice ref={invoiceRef} cancelInvoicePrint={cancelInvoicePrint} />
 
       <PopupChangeTip
         ref={changeTipRef}

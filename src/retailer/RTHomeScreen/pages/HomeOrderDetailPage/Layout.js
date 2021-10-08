@@ -1,4 +1,3 @@
-import { PopupInvoicePrint } from "@components";
 import IMAGE from "@resources";
 import {
   ButtonGradient,
@@ -11,6 +10,7 @@ import {
   ORDERED_STATUS,
   OrderStatusView,
 } from "@shared/components/OrderStatusView";
+import { PopupInvoice } from "@shared/components/payment";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { colors, fonts, layouts } from "@shared/themes";
 import { dateToString, DATE_TIME_SHOW_FORMAT_STRING } from "@shared/utils";
@@ -45,9 +45,8 @@ export const Layout = ({
   formAddressRef,
   onDidNotPayCheck,
   printCustomerInvoice,
-  invoicePrintRef,
-  visiblePrintInvoice,
-  cancelInvoicePrint,
+  shareCustomerInvoice,
+  invoiceRef,
 }) => {
   const [t] = useTranslation();
 
@@ -346,6 +345,51 @@ export const Layout = ({
           <View style={layouts.marginHorizontal} />
           {renderButton()}
           <View style={layouts.marginHorizontal} />
+          {item?.invoice?.checkoutId && (
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={shareCustomerInvoice}
+                style={{
+                  width: scaleWidth(40),
+                  height: scaleHeight(40),
+                  backgroundColor: "#0764B0",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: scaleWidth(4),
+                }}
+              >
+                <Image
+                  source={IMAGE.share_icon}
+                  style={{
+                    width: scaleWidth(20),
+                    height: scaleHeight(20),
+                  }}
+                />
+              </TouchableOpacity>
+              <View style={layouts.marginHorizontal} />
+
+              <TouchableOpacity
+                onPress={printCustomerInvoice}
+                style={{
+                  width: scaleWidth(40),
+                  height: scaleHeight(40),
+                  backgroundColor: "#0764B0",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: scaleWidth(4),
+                }}
+              >
+                <Image
+                  source={IMAGE.print_btn}
+                  style={{
+                    width: scaleWidth(20),
+                    height: scaleHeight(20),
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+          <View style={layouts.marginHorizontal} />
           <ButtonGradientWhite
             width={scaleWidth(40)}
             height={scaleHeight(40)}
@@ -627,29 +671,7 @@ export const Layout = ({
               />
             </InfoContent>
             <View style={layouts.marginHorizontal} />
-            <InfoContent
-              label={t("Invoice")}
-              rightComponent={() =>
-                item?.invoice?.checkoutId ? (
-                  <TouchableOpacity
-                    onPress={printCustomerInvoice}
-                    style={{
-                      width: scaleWidth(35),
-                      height: scaleHeight(35),
-                      backgroundColor: "#0764B0",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      borderRadius: scaleWidth(4),
-                    }}
-                  >
-                    <Image
-                      source={IMAGE.print_btn}
-                      style={{ width: scaleWidth(20), height: scaleHeight(20) }}
-                    />
-                  </TouchableOpacity>
-                ) : null
-              }
-            >
+            <InfoContent label={t("Invoice")}>
               <View style={styles.personContent}>
                 <InfoLine
                   label={t("Invoice ID")}
@@ -682,11 +704,7 @@ export const Layout = ({
         </View>
       </KeyboardAwareScrollView>
 
-      <PopupInvoicePrint
-        ref={invoicePrintRef}
-        visiblePrintInvoice={visiblePrintInvoice}
-        onRequestClose={cancelInvoicePrint}
-      />
+      <PopupInvoice ref={invoiceRef} />
     </View>
   );
 };

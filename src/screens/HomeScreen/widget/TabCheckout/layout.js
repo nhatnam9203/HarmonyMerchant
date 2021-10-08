@@ -1,67 +1,65 @@
+import {
+  Button,
+  ButtonCustom,
+  PopupActiveGiftCard,
+  PopupChangeMoney,
+  PopupChangePriceAmountProduct,
+  PopupChangeStylist,
+  PopupChangeTip,
+  PopupCheckStaffPermission,
+  PopupConfirm,
+  PopupInvoicePrint,
+  PopupPairingCode,
+  PopupPayCompleted,
+  PopupProcessingCredit,
+  PopupScanCode,
+  PopupSendLinkInstall,
+  ScrollableTabView,
+  Text,
+} from "@components";
+import ICON from "@resources";
+import { PopupInvoice } from "@shared/components/payment";
+import {
+  checkCategoryIsNotExist,
+  formatMoney,
+  formatNumberFromCurrency,
+  localize,
+  menuTabs,
+  roundFloatNumber,
+  scaleSize,
+} from "@utils";
+import * as l from "lodash";
+import _ from "ramda";
 import React from "react";
 import {
-  View,
+  ActivityIndicator,
+  FlatList,
   Image,
   ScrollView,
-  FlatList,
-  ActivityIndicator,
+  View,
 } from "react-native";
 import QRCode from "react-native-qrcode-svg";
-import _ from "ramda";
-
+import styles from "./style";
 import {
-  scaleSize,
-  localize,
-  formatNumberFromCurrency,
-  formatMoney,
-  roundFloatNumber,
-  checkCategoryIsNotExist,
-  menuTabs,
-} from "@utils";
-import {
-    Text,
-    ButtonCustom,
-    Button,
-    PopupConfirm,
-    PopupPayCompleted,
-    PopupChangeStylist,
-    PopupChangeMoney,
-    PopupSendLinkInstall,
-    PopupActiveGiftCard,
-    PopupScanCode,
-    PopupProcessingCredit,
-    PopupInvoicePrint,
-    PopupChangePriceAmountProduct,
-    PopupChangeTip,
-    ScrollableTabView,
-    PopupCheckStaffPermission,
-    PopupPairingCode,
-} from '@components';
-import styles from './style';
-import ICON from '@resources';
-
-import {
-  ItemCategory,
-  ItemProductService,
-  ItemAmount,
-  ItemExtra,
-  PopupDiscount,
-  PopupBill,
-  PopupDiscountLocal,
-  ItemCustomerBasket,
-  PopupPaymentDetails,
-  ItemBlockBasket,
-  PopupBlockDiscount,
-  ItemPaymentMethod,
-  PopupAddItemIntoAppointments,
-  PopupGiftCardDetail,
-  PopupEnterAmountGiftCard,
   EnterCustomerPhonePopup,
-  PopupAddEditCustomer,
   ErrorMessagePaxModal,
+  ItemAmount,
+  ItemBlockBasket,
+  ItemCategory,
+  ItemCustomerBasket,
+  ItemExtra,
+  ItemPaymentMethod,
+  ItemProductService,
+  PopupAddEditCustomer,
+  PopupAddItemIntoAppointments,
+  PopupBill,
+  PopupBlockDiscount,
+  PopupDiscount,
+  PopupDiscountLocal,
+  PopupEnterAmountGiftCard,
+  PopupGiftCardDetail,
+  PopupPaymentDetails,
 } from "./widget";
-import * as l from "lodash";
-
 import { StaffItem } from "./widget/NewCheckoutComponent";
 
 class Layout extends React.Component {
@@ -135,23 +133,42 @@ class Layout extends React.Component {
           }}
         >
           {!_.isEmpty(groupAppointment) ? (
-            <Button
-              onPress={this.printTemptInvoice}
-              style={[styles.btnCashier, { marginRight: scaleSize(8) }]}
-            >
-              <Image
-                source={ICON.print_btn}
-                style={{ width: scaleSize(14), height: scaleSize(16) }}
-              />
-              <Text
-                style={[
-                  styles.textBtnCashier,
-                  { fontSize: scaleSize(9), fontWeight: "500" },
-                ]}
+            <View style={{ flexDirection: "row" }}>
+              <Button
+                onPress={this.shareTemptInvoice}
+                style={[styles.btnCashier, { marginRight: scaleSize(8) }]}
               >
-                {localize("Print receipt", language)}
-              </Text>
-            </Button>
+                <Image
+                  source={ICON.share_icon}
+                  style={{ width: scaleSize(14), height: scaleSize(16) }}
+                />
+                <Text
+                  style={[
+                    styles.textBtnCashier,
+                    { fontSize: scaleSize(9), fontWeight: "500" },
+                  ]}
+                >
+                  {localize("Share receipt", language)}
+                </Text>
+              </Button>
+              <Button
+                onPress={this.printTemptInvoice}
+                style={[styles.btnCashier, { marginRight: scaleSize(8) }]}
+              >
+                <Image
+                  source={ICON.print_btn}
+                  style={{ width: scaleSize(14), height: scaleSize(16) }}
+                />
+                <Text
+                  style={[
+                    styles.textBtnCashier,
+                    { fontSize: scaleSize(9), fontWeight: "500" },
+                  ]}
+                >
+                  {localize("Print receipt", language)}
+                </Text>
+              </Button>
+            </View>
           ) : (
             <View />
           )}
@@ -1296,6 +1313,7 @@ class Layout extends React.Component {
       visiblePopupParingCode,
       pairingCode,
       visibleConfirmPayment,
+      visibleInvoice,
     } = this.state;
 
     const app0 =
@@ -1358,19 +1376,21 @@ class Layout extends React.Component {
           confimYes={this.clearDataCofrim}
         />
         <PopupConfirm
-            visible={visibleConfirmPayment ? true : false}
-            title={localize('VerifyPayment', language)}
-            message={localize('VerifyPaymentMessage', language)}
-            onRequestClose={() => { this.setState({ visibleConfirmPayment: false }) }}
-            confimYes={this.confirmPaymentClover}
-            confirmNo={this.rejectPaymentClover}
-            textLeftButton={localize('Reject', language)}
-            textRightButton={localize('Accept', language)}
-            hideCloseButton={true}
+          visible={visibleConfirmPayment ? true : false}
+          title={localize("VerifyPayment", language)}
+          message={localize("VerifyPaymentMessage", language)}
+          onRequestClose={() => {
+            this.setState({ visibleConfirmPayment: false });
+          }}
+          confimYes={this.confirmPaymentClover}
+          confirmNo={this.rejectPaymentClover}
+          textLeftButton={localize("Reject", language)}
+          textRightButton={localize("Accept", language)}
+          hideCloseButton={true}
         />
         <PopupPairingCode
-            visible={visiblePopupParingCode ? true: false}
-            message={pairingCode}
+          visible={visiblePopupParingCode ? true : false}
+          message={pairingCode}
         />
 
         {/* ----------------- Display Error Message From Pax Machine ------------------ */}
@@ -1523,6 +1543,11 @@ class Layout extends React.Component {
           }
           editCustomerInfo={this.editCustomerInfo}
           addCustomerInfo={this.addCustomerInfo}
+        />
+
+        <PopupInvoice
+          ref={this.invoiceRef}
+          cancelInvoicePrint={this.cancelInvoicePrint}
         />
       </View>
     );

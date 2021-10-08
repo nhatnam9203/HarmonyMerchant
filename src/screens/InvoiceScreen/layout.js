@@ -331,12 +331,13 @@ export default class Layout extends React.Component {
               </Text>
               {/* ------------- Store Address ----------- */}
               <Text
-                numberOfLines={1}
+                numberOfLines={2}
                 style={[
                   styles.txt_normal,
                   {
                     paddingHorizontal: scaleSize(10),
                     marginTop: scaleSize(4),
+                    textAlign: "center",
                   },
                 ]}
               >
@@ -644,12 +645,22 @@ export default class Layout extends React.Component {
 
               {/* ----------- Thanks , see you again -------- */}
               <View style={{ height: scaleSize(20) }} />
-              <Text style={[styles.txt_total, { alignSelf: "center" }]}>
-                {`Thank you !`}
-              </Text>
-              <Text style={[styles.txt_total, { alignSelf: "center" }]}>
-                {`Please come again`}
-              </Text>
+              {!profile?.receiptFooter && (
+                <Text style={[styles.txt_total, { alignSelf: "center" }]}>
+                  {`Thank you !`}
+                </Text>
+              )}
+              {!profile?.receiptFooter && (
+                <Text style={[styles.txt_total, { alignSelf: "center" }]}>
+                  {`Please come again`}
+                </Text>
+              )}
+
+              {profile?.receiptFooter && (
+                <Text style={[styles.txt_total, { alignSelf: "center" }]}>
+                  {`${profile?.receiptFooter}`}
+                </Text>
+              )}
               <View style={{ height: scaleSize(8) }} />
               {/* ------------- This is not a bill   ----------- */}
               <Text
@@ -929,7 +940,7 @@ export default class Layout extends React.Component {
       transactionId,
       visiblePrintInvoice,
       visiblePopupParingCode,
-      pairingCode
+      pairingCode,
     } = this.state;
     return (
       <ParentContainer
@@ -986,8 +997,8 @@ export default class Layout extends React.Component {
           transactionId={transactionId}
         />
         <PopupPairingCode
-            visible={visiblePopupParingCode ? true: false}
-            message={pairingCode}
+          visible={visiblePopupParingCode ? true : false}
+          message={pairingCode}
         />
         <PopupConfirmPrintInvoice
           visible={visibleConfirmPrintInvoice}

@@ -7,7 +7,6 @@ import {
   VirtualizedList,
   Modal,
 } from "react-native";
-
 import {
   HomeTabBar,
   StatusBarHeader,
@@ -25,7 +24,7 @@ import {
   getColorTitleByNotiType,
   getNotiContentByType,
   formatWithMoment,
-  menuTabs
+  menuTabs,
 } from "@utils";
 import styles from "./style";
 import ICON from "@resources";
@@ -37,8 +36,11 @@ import {
   OrderCheckout,
 } from "./widget";
 import configs from "@configs";
+import { ButtonCheckIn } from "@shared/components/ButtonCheckIn";
+import { WithDialogStaffCheckIn } from "@shared/HOC/withDialogStaffCheckIn";
 
 const { height } = Dimensions.get("window");
+const ButtonStaffCheckIn = WithDialogStaffCheckIn(ButtonCheckIn);
 
 export default class Layout extends React.Component {
   renderNotiItem(noti) {
@@ -184,15 +186,23 @@ export default class Layout extends React.Component {
             />
           </Button>
 
-          <Button
-            onPress={this.showLockScreen}
-            style={configs.btn_right_position}
+          <View
+            style={[
+              configs.btn_right_position,
+              {
+                flexDirection: "row",
+              },
+            ]}
           >
-            <Image
-              source={ICON.signOut}
-              style={{ width: scaleSize(34), height: scaleSize(34) }}
-            />
-          </Button>
+            <ButtonStaffCheckIn height={scaleSize(32)} />
+
+            <Button onPress={this.showLockScreen}>
+              <Image
+                source={ICON.signOut}
+                style={{ width: scaleSize(34), height: scaleSize(33) }}
+              />
+            </Button>
+          </View>
 
           <PopupEnterPin
             visibleEnterPin={visibleEnterPin && isFocus ? true : false}
