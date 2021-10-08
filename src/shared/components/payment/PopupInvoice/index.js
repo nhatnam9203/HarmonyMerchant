@@ -215,7 +215,6 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClove
   };
 
   const getCustomerName = () => {
-    console.log(groupAppointment);
     if (groupAppointment && groupAppointment.appointments?.length > 0) {
       const { firstName = " ", lastName = " " } =
         groupAppointment.appointments[0] || {};
@@ -370,33 +369,35 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClove
       title = "TICKET",
       isSalon = false,
     }) => {
+      if (!appointmentId) {
+        return;
+      }
+
       reset();
 
-      // if (!isShareMode) {
-      //   const { portName } = getInfoFromModelNameOfPrinter(
-      //     printerList,
-      //     printerSelect
-      //   );
+      if (!isShareMode) {
+        const { portName } = getInfoFromModelNameOfPrinter(
+          printerList,
+          printerSelect
+        );
 
-      //   if (!portName) {
-      //     alert("Please connect to your printer! ");
-      //     return;
-      //   }
-      // }
+        if (!portName) {
+          alert("Please connect to your printer! ");
+          return;
+        }
+      }
 
       setIsShare(isShareMode);
       setPrintTempt(isPrintTempt);
       setPaymentMachineType(machineType);
       setTitleInvoice(title);
       setIsSalonApp(isSalon);
-
-      if (appointmentId) {
-        getGroupAppointment(appointmentId);
-      }
-
+      getGroupAppointment(appointmentId);
       if (checkoutId) {
         getInvoiceDetail(checkoutId);
       }
+
+      // show modal
       setVisible(true);
     },
   }));
@@ -451,15 +452,20 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClove
                 </Text>
 
                 {/* ------------- Company Website ----------- */}
-                {profile.webLink && (
+                {!!profile?.webLink && (
                   <Text style={[styles.textStyle, { textAlign: "center" }]}>
-                    {profile?.webLink || " "}
+                    {profile?.webLink}
                   </Text>
                 )}
 
                 {/* ------------- SALE/VOID/REFUND  ----------- */}
                 <Text style={styles.titleStyle}>{titleInvoice}</Text>
-                <Text style={[styles.textStyle, { textAlign: "center" }]}>
+                <Text
+                  style={[
+                    styles.textStyle,
+                    { textAlign: "center", fontSize: scaleFont(15) },
+                  ]}
+                >
                   {`( ${formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A")} )`}
                 </Text>
                 {/* ------------- Dot Border  ----------- */}
@@ -539,7 +545,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClove
                     </View>
                     <View style={{ flex: 1 }}>
                       <Text style={[styles.textStyle]}>
-                        {`: ${invoiceDetail?.invoiceNo || ""}`}
+                        {`: ${invoiceDetail?.invoiceNo ?? " "}`}
                       </Text>
                     </View>
                   </View>
