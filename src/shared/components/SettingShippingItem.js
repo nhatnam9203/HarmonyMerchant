@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { CustomCheckBox } from "./CustomCheckBox";
-import { FormInput } from "./FormInput";
+import { FormInput, FormInputMask } from "./FormInput";
 import { useTranslation } from "react-i18next";
 
 export const SettingShippingItem = ({
@@ -12,17 +12,37 @@ export const SettingShippingItem = ({
 }) => {
   const { t } = useTranslation();
 
+  const onChangeLabel = (val) => {
+    if (onValueChange && typeof onValueChange === "function") {
+      onValueChange(Object.assign({}, item, { label: val }));
+    }
+  };
+
+  const onChangeMount = (val) => {
+    if (onValueChange && typeof onValueChange === "function") {
+      onValueChange(Object.assign({}, item, { amount: val }));
+    }
+  };
+
+  const onCheck = () => {
+    if (onValueChange && typeof onValueChange === "function") {
+      onValueChange(!isCheck);
+    }
+  };
+
   return (
     <View style={styles.content}>
-      <View>
-        <CustomCheckBox
-          style={{ flexDirection: "row" }}
-          textStyle={styles.textStyle}
-          label={label}
-          defaultValue={isCheck}
-          onValueChange={onValueChange}
-        />
-      </View>
+      {!item && (
+        <View>
+          <CustomCheckBox
+            style={{ flexDirection: "row" }}
+            textStyle={styles.textStyle}
+            label={label}
+            defaultValue={isCheck}
+            onValueChange={onCheck}
+          />
+        </View>
+      )}
       {item && (
         <View style={styles.item}>
           <View style={styles.marginHorizontal} />
@@ -32,17 +52,17 @@ export const SettingShippingItem = ({
             label={t("Label")}
             placeholder={t("Enter shipping name")}
             // required={true}
-            // onChangeValue={form.handleChange("name")}
-            // defaultValue={categoryItem?.name}
+            onChangeValue={onChangeLabel}
+            defaultValue={item?.label}
           />
           <View style={styles.marginHorizontal} />
-          <FormInput
+          <FormInputMask
             style={styles.inputAmount}
             label={t("Amount")}
             placeholder={t("Enter amount")}
             // required={true}
-            // onChangeValue={form.handleChange("name")}
-            // defaultValue={categoryItem?.name}
+            onChangeValue={onChangeMount}
+            defaultValue={item?.amount + ""}
           />
           <View style={styles.marginHorizontal} />
         </View>
@@ -58,7 +78,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "red",
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: scaleHeight(10),
+    marginVertical: scaleHeight(20),
   },
   textStyle: {
     color: "#404040",

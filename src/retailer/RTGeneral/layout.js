@@ -64,6 +64,7 @@ class Layout extends React.Component {
       sendReviewLinkOption,
       giftForNewEnabled,
       receiptFooter,
+      shippingMethod,
     } = this.state;
 
     return (
@@ -388,18 +389,23 @@ class Layout extends React.Component {
           </View>
 
           <View style={{ paddingHorizontal: scaleWidth(25) }}>
-            <SettingShippingItem label="Shipping free" />
+            <SettingShippingItem
+              label="Shipping free"
+              isCheck={shippingMethod?.freeShip}
+              onValueChange={this.onCheckShippingFree}
+            />
+
             <View
               style={{
                 width: scaleSize(180),
                 justifyContent: "center",
-                height: scaleHeight(50),
+                height: scaleHeight(30),
               }}
             >
               <Text
                 style={{
                   color: "#404040",
-                  fontSize: scaleFont(14),
+                  fontSize: scaleFont(17),
                   fontWeight: "500",
                 }}
               >
@@ -407,7 +413,14 @@ class Layout extends React.Component {
               </Text>
             </View>
 
-            <SettingShippingItem label="Shipping free" item={{}} />
+            {shippingMethod?.shippingFlatRates?.map((item, index) => (
+              <SettingShippingItem
+                label="Flat Rate"
+                item={item}
+                key={item.id + "-" + index}
+                onValueChange={this.onChangeShippingFlatRate}
+              />
+            ))}
 
             <Button onPress={this.addMoreShipping}>
               <Text

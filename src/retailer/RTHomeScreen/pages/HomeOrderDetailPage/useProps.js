@@ -43,6 +43,8 @@ export const useProps = ({
   |--------------------------------------------------
   */
 
+  const profile = useSelector((state) => state.dataLocal.profile);
+
   /**
   |--------------------------------------------------
   | STATE variables
