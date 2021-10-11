@@ -197,6 +197,7 @@ export const Layout = ({
               }}
               defaultValue={salary === SALARY_TYPE.COMMISSION}
               onValueChange={(value) => {
+                form?.setFieldValue("salary.perHour.isCheck", !value);
                 form?.setFieldValue("productSalary.commission.isCheck", value);
                 setSalary(
                   value ? SALARY_TYPE.COMMISSION : SALARY_TYPE.PER_HOUR
@@ -221,6 +222,7 @@ export const Layout = ({
                 fontFamily: fonts.MEDIUM,
               }}
               onValueChange={(value) => {
+                form?.setFieldValue("productSalary.commission.isCheck", !value);
                 form?.setFieldValue("salary.perHour.isCheck", value);
                 setSalary(
                   value ? SALARY_TYPE.PER_HOUR : SALARY_TYPE.COMMISSION

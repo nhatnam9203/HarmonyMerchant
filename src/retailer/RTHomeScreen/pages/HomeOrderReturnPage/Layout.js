@@ -307,14 +307,14 @@ export const Layout = ({
             <View style={layouts.marginHorizontal} />
 
             <InfoContent label={t("Return Comments")}>
-              <CustomCheckBox
+              {/* <CustomCheckBox
                 label={t("Return shipping and tip")}
                 onValueChange={setToggleReturnShipping}
                 selectedColor={colors.OCEAN_BLUE}
                 onCheckColor="#fff"
                 textStyle={[styles.textStyle, { color: colors.OCEAN_BLUE }]}
                 style={{ height: scaleHeight(40) }}
-              />
+              /> */}
               <FormEditNotes
                 // defaultValue={item?.note}
                 // onSubmitNotes={onSubmitNotes}
