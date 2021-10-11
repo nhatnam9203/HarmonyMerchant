@@ -142,9 +142,9 @@ export const SHIPPING_CARRIER = [
   { label: "Other", value: "Other" },
 ];
 
-const STORE_PICKUP_CONSTANT = "StorePickup";
-const FLAT_RATE_CONSTANT = "FlatRate_shipping";
-const FREE_SHIP_CONSTANT = "Free_Shipping";
+const STORE_PICKUP_CONSTANT = "store_pickup";
+const FLAT_RATE_CONSTANT = "flat_rate";
+const FREE_SHIP_CONSTANT = "free";
 
 export const SHIPPING_METHOD_GROUP = {
   STORE_PICKUP: STORE_PICKUP_CONSTANT,

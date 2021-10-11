@@ -634,7 +634,7 @@ export const Layout = ({
                 />
                 <InfoLine
                   label={t("Shipping & Handling")}
-                  infoValue={formatMoneyWithUnit(item?.shippingAmount)}
+                  infoValue={formatMoneyWithUnit(item?.shippingFee)}
                 />
                 <InfoLine
                   label={t("Tax")}

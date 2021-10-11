@@ -43,7 +43,6 @@ export const useProps = ({
   |--------------------------------------------------
   */
 
-  const profile = useSelector((state) => state.dataLocal.profile);
 
   /**
   |--------------------------------------------------
@@ -375,7 +374,7 @@ export const useProps = ({
     },
     confirm: () => {
       const params = Object.assign({}, shippingMethod, {
-        shippingAmount: 0,
+        // shippingAmount: 0,
         billingAddressId:
           billingAddressId ?? appointmentDetail?.billingAddress?.id,
         shippingAddressId:

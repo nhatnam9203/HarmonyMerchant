@@ -12,6 +12,7 @@ import { formatMoneyWithUnit } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useSelector } from "react-redux";
 
 export const FormShippingCarrier = ({ onChangeValue }) => {
   const [t] = useTranslation();
@@ -21,16 +22,19 @@ export const FormShippingCarrier = ({ onChangeValue }) => {
   const storePickupSwitchRef = React.useRef(null);
   const shippingCarrierRef = React.useRef(null);
 
+  const { shippingMethod } =
+    useSelector((state) => state.dataLocal.profile) || {};
+
   const [shippingCarrier, setShippingCarrier] = React.useState();
   const [trackingNumber, setTrackingNumber] = React.useState();
 
   const [shippingMethodGroup, setShippingMethodGroup] = React.useState(
     SHIPPING_METHOD_GROUP.STORE_PICKUP
   );
-  const [shippingMethodLabel, setShippingMethodLabel] = React.useState();
+  const [flatRateCustom, setFlatRateCustom] = React.useState(0);
 
   const onHandleChangeMethod = (item) => {
-    setShippingMethodLabel(item.label);
+    setFlatRateCustom(item?.id ?? 0);
 
     switch (item.group) {
       case SHIPPING_METHOD_GROUP.STORE_PICKUP:
@@ -69,16 +73,11 @@ export const FormShippingCarrier = ({ onChangeValue }) => {
       onChangeValue({
         shippingCarrier,
         trackingNumber,
-        shippingMethodGroup,
-        shippingMethodLabel,
+        shippingMethod: shippingMethodGroup,
+        flatRateCustom,
       });
     }
-  }, [
-    shippingCarrier,
-    trackingNumber,
-    shippingMethodGroup,
-    shippingMethodLabel,
-  ]);
+  }, [shippingCarrier, trackingNumber, shippingMethodGroup, flatRateCustom]);
 
   return (
     <View style={layouts.horizontal}>
@@ -99,7 +98,7 @@ export const FormShippingCarrier = ({ onChangeValue }) => {
           defaultValue={trackingNumber}
         />
       </InfoContent>
-      <InfoContent label={t("Shipping method")} editable={true}>
+      <InfoContent label={t("Shipping method")} editable={false}>
         <InfoHeading label={t("Store Pickup")} fontSize={scaleWidth(15)} />
         <CustomRadioSelect
           ref={storePickupSwitchRef}
@@ -123,34 +122,49 @@ export const FormShippingCarrier = ({ onChangeValue }) => {
         />
         <CustomRadioSelect
           ref={flatRateSwitchRef}
-          data={FLAT_RATE_SHIPPING}
+          data={
+            shippingMethod?.shippingFlatRates?.map((x) =>
+              Object.assign({}, x, {
+                group: SHIPPING_METHOD_GROUP.FLAT_RATE,
+                value: x.amount,
+              })
+            ) ?? FLAT_RATE_SHIPPING
+          }
           onSelect={onHandleChangeMethod}
           onRenderLabel={(x) => (
             <Text style={styles.textStyle}>
               {x?.label}
               <Text style={styles.textBoldStyle}>
                 {" - "}
-                {formatMoneyWithUnit(x?.value)}
+                {formatMoneyWithUnit(x?.amount ?? x?.value)}
               </Text>
             </Text>
           )}
         />
 
-        <InfoHeading label={t("Free shipping")} fontSize={scaleWidth(15)} />
-        <CustomRadioSelect
-          ref={freeSwitchRef}
-          data={FREE_SHIPPING}
-          onSelect={onHandleChangeMethod}
-          onRenderLabel={(x) => (
-            <Text style={styles.textStyle}>
-              {x?.label}
-              <Text style={styles.textBoldStyle}>
-                {" - "}
-                {formatMoneyWithUnit(x?.value)}
-              </Text>
-            </Text>
-          )}
-        />
+        {!shippingMethod ||
+          (shippingMethod?.freeShip && (
+            <View>
+              <InfoHeading
+                label={t("Free shipping")}
+                fontSize={scaleWidth(15)}
+              />
+              <CustomRadioSelect
+                ref={freeSwitchRef}
+                data={FREE_SHIPPING}
+                onSelect={onHandleChangeMethod}
+                onRenderLabel={(x) => (
+                  <Text style={styles.textStyle}>
+                    {x?.label}
+                    <Text style={styles.textBoldStyle}>
+                      {" - "}
+                      {formatMoneyWithUnit(x?.value)}
+                    </Text>
+                  </Text>
+                )}
+              />
+            </View>
+          ))}
       </InfoContent>
     </View>
   );
