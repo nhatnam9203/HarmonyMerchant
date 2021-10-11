@@ -413,14 +413,16 @@ class Layout extends React.Component {
               </Text>
             </View>
 
-            {shippingMethod?.shippingFlatRates?.map((item, index) => (
-              <SettingShippingItem
-                label="Flat Rate"
-                item={item}
-                key={item.id + "-" + index}
-                onValueChange={this.onChangeShippingFlatRate}
-              />
-            ))}
+            {shippingMethod?.shippingFlatRates
+              ?.filter((x) => x.isDeleted == false)
+              ?.map((item, index) => (
+                <SettingShippingItem
+                  label="Flat Rate"
+                  item={item}
+                  key={item.id + "-" + index}
+                  onValueChange={this.onChangeShippingFlatRate}
+                />
+              ))}
 
             <Button onPress={this.addMoreShipping}>
               <Text

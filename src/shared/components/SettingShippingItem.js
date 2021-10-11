@@ -1,8 +1,10 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { CustomCheckBox } from "./CustomCheckBox";
 import { FormInput, FormInputMask } from "./FormInput";
 import { useTranslation } from "react-i18next";
+import IMAGE from "@resources";
+import style from "./payment/style";
 
 export const SettingShippingItem = ({
   onValueChange,
@@ -27,6 +29,12 @@ export const SettingShippingItem = ({
   const onCheck = () => {
     if (onValueChange && typeof onValueChange === "function") {
       onValueChange(!isCheck);
+    }
+  };
+
+  const onRemoveItem = () => {
+    if (onValueChange && typeof onValueChange === "function") {
+      onValueChange(Object.assign({}, item, { isDeleted: 1 }));
     }
   };
 
@@ -65,6 +73,17 @@ export const SettingShippingItem = ({
             defaultValue={item?.amount + ""}
           />
           <View style={styles.marginHorizontal} />
+
+          <TouchableOpacity style={styles.buttonDelete} onPress={onRemoveItem}>
+            <Image
+              source={IMAGE.DeleteOutline}
+              style={{
+                width: scaleWidth(24),
+                height: scaleHeight(24),
+                tintColor: "#ddd",
+              }}
+            />
+          </TouchableOpacity>
         </View>
       )}
     </View>
@@ -91,4 +110,15 @@ const styles = StyleSheet.create({
 
   input: { width: scaleWidth(250) },
   inputAmount: { width: scaleWidth(150) },
+
+  buttonDelete: {
+    width: scaleWidth(40),
+    height: scaleHeight(40),
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: scaleHeight(40),
+    borderWidth: 1,
+    borderColor: "#dadada",
+    backgroundColor: "red",
+  },
 });

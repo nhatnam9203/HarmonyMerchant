@@ -123,12 +123,14 @@ export const FormShippingCarrier = ({ onChangeValue }) => {
         <CustomRadioSelect
           ref={flatRateSwitchRef}
           data={
-            shippingMethod?.shippingFlatRates?.map((x) =>
-              Object.assign({}, x, {
-                group: SHIPPING_METHOD_GROUP.FLAT_RATE,
-                value: x.amount,
-              })
-            ) ?? FLAT_RATE_SHIPPING
+            shippingMethod?.shippingFlatRates
+              ?.filter((x) => !x.isDeleted)
+              ?.map((x) =>
+                Object.assign({}, x, {
+                  group: SHIPPING_METHOD_GROUP.FLAT_RATE,
+                  value: x.amount,
+                })
+              ) ?? FLAT_RATE_SHIPPING
           }
           onSelect={onHandleChangeMethod}
           onRenderLabel={(x) => (
