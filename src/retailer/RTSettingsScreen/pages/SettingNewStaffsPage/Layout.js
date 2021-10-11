@@ -178,9 +178,10 @@ export const Layout = ({
           <View style={styles.content}>
             <FormInputSalary
               label={t("Commission (%)")}
-              onChangeText={form?.handleChange(
-                "productSalary.commission.value"
-              )}
+              onChangeText={(value) => {
+
+                form?.setFieldValue("productSalary.commission.value", value);
+              }}
               editable={salary === SALARY_TYPE.COMMISSION}
               defaultValue={
                 current_staff?.productSalaries?.commission?.value + ""

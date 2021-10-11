@@ -50,7 +50,7 @@ const INITIAL_VALUE_STAFF = {
   salary: {
     perHour: {
       value: "0.00",
-      isCheck: false,
+      isCheck: true,
     },
     commission: {
       value: [],
@@ -182,6 +182,9 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
         setSalary(SALARY_TYPE.COMMISSION);
       } else {
         setSalary(SALARY_TYPE.PER_HOUR);
+        form?.setFieldValue("salary.perHour.isCheck", true);
+        form?.setFieldValue("salary.commission.isCheck", false);
+        form?.setFieldValue("productSalary.commission.isCheck", false);
       }
 
       setStaffPermission(staffDetail?.roleName);
