@@ -2,13 +2,12 @@ import {
   ParentContainer,
   PopupActiveGiftCard,
   PopupChangeMoney,
+  PopupChangeTip,
   PopupConfirm,
-  PopupInvoicePrint,
   PopupPayCompleted,
   PopupProcessingCredit,
   PopupScanCode,
   PopupSendLinkInstall,
-  PopupChangeTip,
 } from "@components";
 import IMAGE from "@resources";
 import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
@@ -20,10 +19,11 @@ import {
   PopupDiscountItem,
   PopupDiscountLocal,
   PopupEnterAmountGiftCard,
-  PopupPaymentDetails,
   PopupGiftCardDetail,
   PopupInvoice,
+  PopupPaymentDetails,
 } from "@shared/components/payment";
+import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { WithDialogPhone } from "@shared/HOC/withDialogPhone";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
@@ -35,25 +35,13 @@ import {
   CheckOutCustomerInfo,
   DialogProductDetail,
 } from "../../widget";
-import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 
 const ExitCheckoutConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
 
 export const Layout = ({
-  activeTab,
-  categories,
-  subCategories,
-  products,
-  onPressCategoryItem,
-  onPressSubCategoryItem,
-  onPressProductItem,
-  categoryId,
-  subCategoryId,
-  productId,
   productDetailRef,
   basketRef,
-  onHadSubmitted,
   customerRef,
   selectedPayment,
   paymentSelected,
@@ -73,7 +61,6 @@ export const Layout = ({
   isDonePayment,
   isCancelHarmonyPay,
   groupAppointment,
-  basket,
   visibleSendLinkPopup,
   setVisibleSendLinkPopup,
   sendLinkInstallApp,
@@ -107,8 +94,6 @@ export const Layout = ({
   visibleScanCode,
   onRequestCloseScanCode,
   resultScanCode,
-  invoicePrintRef,
-  visiblePrintInvoice,
   cancelInvoicePrint,
   printTemptInvoice,
   checkStatusCashier,
@@ -120,13 +105,10 @@ export const Layout = ({
   switchTax,
   isTax,
   onDiscountItemAdd,
-  onGoBackOrderList,
   onGoBackCheckOut,
   cancelGiftCardPayment,
   shareTemptInvoice,
   invoiceRef,
-  visibleInvoice,
-  cancelInvoice,
 }) => {
   const [t] = useTranslation();
 

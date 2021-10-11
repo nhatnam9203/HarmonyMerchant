@@ -30,6 +30,8 @@ export const useProps = ({
   params: { orderItem, appointmentId, screenId, backScreenId },
   navigation,
 }) => {
+  const dispatch = useDispatch();
+
   const basketRef = React.useRef(null);
   const customerRef = React.useRef(null);
   const modalBillRef = React.useRef(null);
@@ -41,11 +43,8 @@ export const useProps = ({
   const activeGiftCardRef = React.useRef(null);
   const connectSignalR = React.useRef(null);
   const cashBackRef = React.useRef(null);
-  const invoicePrintRef = React.useRef(null);
   const changeTipRef = React.useRef(null);
   const invoiceRef = React.useRef(null);
-
-  const dispatch = useDispatch();
 
   const groupAppointment = useSelector(
     (state) => state.appointment.groupAppointment
@@ -54,14 +53,10 @@ export const useProps = ({
     (state) => state.appointment.paymentDetailInfo
   );
   const language = useSelector((state) => state.dataLocal.language);
-  const profileStaffLogin = useSelector(
-    (state) => state.dataLocal.profileStaffLogin
-  );
   const profile = useSelector((state) => state.dataLocal.profile);
   const paxMachineInfo = useSelector((state) => state.hardware.paxMachineInfo);
   const token = useSelector((state) => state.dataLocal.token);
   const deviceId = useSelector((state) => state.dataLocal.deviceId);
-
   const payAppointmentId = useSelector(
     (state) => state.appointment.payAppointmentId
   );
@@ -83,9 +78,6 @@ export const useProps = ({
   const isTipOnPaxMachine = useSelector(
     (state) => state.dataLocal.isTipOnPaxMachine
   );
-  const visiblePaymentCompleted = useSelector(
-    (state) => state.appointment.visiblePaymentCompleted
-  );
 
   const [isTax, setIsTax] = React.useState(false);
   const [isGetResponsePaymentPax, setIsGetResponsePaymentPax] =
@@ -102,21 +94,16 @@ export const useProps = ({
     React.useState(0);
   const [customDiscountFixedLocal, setCustomDiscountFixedLocal] =
     React.useState(0);
-  const [customerInfoByPhone, setCustomerInfoByPhone] = React.useState({
-    userId: 0,
-  });
   const [visibleSendLinkPopup, setVisibleSendLinkPopup] = React.useState(false);
   const [isCancelHarmonyPay, setIsCancelHarmonyPay] = React.useState(false);
   const [visiblePopupDiscountLocal, setVisiblePopupDiscountLocal] =
     React.useState(false);
-
   const [basket, setBasket] = React.useState([]);
   const [visibleProcessingCredit, setVisibleProcessingCredit] =
     React.useState(false);
   const [visibleErrorMessageFromPax, setVisibleErrorMessageFromPax] =
     React.useState(false);
   const [visibleChangeTip, setVisibleChangeTip] = React.useState(false);
-
   const [errorMessageFromPax, setErrorMessageFromPax] = React.useState("");
   const [visibleScanCode, setVisibleScanCode] = React.useState(false);
   const [appointmentDetail, setAppointmentDetail] = React.useState(null);
@@ -663,9 +650,11 @@ export const useProps = ({
     if (!_.isEmpty(connectSignalR.current)) {
       await connectSignalR.current?.stop();
     }
+
     if (paymentSelected === "Cash" || paymentSelected === "Other") {
       openCashDrawer(portName);
     }
+
     showInvoicePrint(false);
   };
 
@@ -715,6 +704,7 @@ export const useProps = ({
 
     invoiceRef.current?.showAppointmentReceipt({
       appointmentId: groupAppointment?.mainAppointmentId,
+      checkoutId: paymentDetailInfo?.invoiceNo,
       isPrintTempt: isTemptPrint,
     });
   };
@@ -779,7 +769,6 @@ export const useProps = ({
   return {
     customerRef,
     basketRef,
-    onHadSubmitted: () => {},
     selectedPayment: (title) => {
       if (
         changeButtonDone &&
@@ -956,7 +945,6 @@ export const useProps = ({
     confimPayOfflinemode: () => {
       setVisibleScanCode(true);
     },
-    invoicePrintRef,
     printTemptInvoice,
     checkStatusCashier,
     cancelInvoicePrint: async (isPrintTempt) => {
