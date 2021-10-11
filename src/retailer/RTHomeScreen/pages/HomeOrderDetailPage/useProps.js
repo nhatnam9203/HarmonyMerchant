@@ -43,7 +43,6 @@ export const useProps = ({
   |--------------------------------------------------
   */
 
-
   /**
   |--------------------------------------------------
   | STATE variables
@@ -392,6 +391,7 @@ export const useProps = ({
       });
     },
     onChangeShippingMethod: (shipping) => {
+      console.log(shipping);
       setShippingMethod(shipping);
     },
     onSubmitNotes: (noteText) => {

@@ -60,6 +60,7 @@ export const Layout = ({
   editProductItemRef,
   onShowDialogEditProductItem,
   onSubmitEditProductItem,
+  isCanGoBack,
 }) => {
   const { t } = useTranslation();
 
@@ -124,15 +125,18 @@ export const Layout = ({
             )}
           />
           <View style={layouts.marginHorizontal} />
-          <ButtonGradientWhite
-            width={scaleWidth(40)}
-            height={scaleHeight(40)}
-            fontSize={scaleFont(17)}
-            textWeight="normal"
-            onPress={onGoBack}
-          >
-            <Image source={IMAGE.back} />
-          </ButtonGradientWhite>
+
+          {isCanGoBack() && (
+            <ButtonGradientWhite
+              width={scaleWidth(40)}
+              height={scaleHeight(40)}
+              fontSize={scaleFont(17)}
+              textWeight="normal"
+              onPress={onGoBack}
+            >
+              <Image source={IMAGE.back} />
+            </ButtonGradientWhite>
+          )}
         </View>
       </View>
 

@@ -878,26 +878,29 @@ class TabCheckout extends Layout {
     );
 
     const { paymentSelected } = this.state;
-
     if (!_.isEmpty(connectionSignalR)) {
       connectionSignalR.stop();
     }
 
-    if (paymentSelected === "Cash" || paymentSelected === "Other") {
-      if (paymentMachineType == "Clover") {
-        this.openCashDrawerClover();
-      } else {
-        this.openCashDrawer(portName);
+    if (paymentMachineType !== "Clover" && !portName) {
+      alert("Please connect to your printer!");
+    } else {
+      if (paymentSelected === "Cash" || paymentSelected === "Other") {
+        if (paymentMachineType === "Clover") {
+          this.openCashDrawerClover();
+        } else {
+          this.openCashDrawer(portName);
+        }
       }
-    }
 
-    this.props.actions.appointment.closeModalPaymentCompleted();
-    this.invoiceRef.current?.showAppointmentReceipt({
-      appointmentId: groupAppointment?.mainAppointmentId,
-      checkoutId: paymentDetailInfo?.invoiceNo,
-      isSalon: true,
-      isPrintTempt: false,
-    });
+      this.props.actions.appointment.closeModalPaymentCompleted();
+      this.invoiceRef.current?.showAppointmentReceipt({
+        appointmentId: groupAppointment?.mainAppointmentId,
+        checkoutId: paymentDetailInfo?.invoiceNo,
+        isSalon: true,
+        isPrintTempt: false,
+      });
+    }
   };
 
   printTemptInvoice = async () => {
@@ -946,8 +949,19 @@ class TabCheckout extends Layout {
     });
   }
 
-  openCashDrawer = async (portName) => {
-    await PrintManager.getInstance().openCashDrawer(portName);
+  openCashDrawer = async () => {
+    const { portName } = getInfoFromModelNameOfPrinter(
+      printerList,
+      printerSelect
+    );
+
+    if (portName) {
+      await PrintManager.getInstance().openCashDrawer(portName);
+    } else {
+      setTimeout(() => {
+        alert("Please connect to your cash drawer.");
+      }, 700);
+    }
   };
 
   handleHarmonyPayment = async (checkoutPaymentInfo) => {

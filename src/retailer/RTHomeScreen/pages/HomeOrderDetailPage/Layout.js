@@ -575,7 +575,9 @@ export const Layout = ({
                   )}
                 </InfoContent>
                 <View style={layouts.marginHorizontal} />
-                <InfoContent label={t("Shipping & Handling Infomation")}>
+                {/** Shipping  */}
+                <InfoContent label={t("Shipping & Handling Information")}>
+                  {/** Shipping Carrier */}
                   {!!item?.shipping?.shippingCarrier && (
                     <View style={styles.personContent}>
                       <Text>{t("Shipping carrier")}</Text>
@@ -600,16 +602,16 @@ export const Layout = ({
                     </View>
                   )}
 
-                  {item?.shipping?.shippingMethodGroup && (
+                  {item?.shipping?.shippingMethod && (
                     <View style={styles.personContent}>
                       <Text>{t("Shipping method")}</Text>
                       <View style={layouts.marginVertical} />
 
                       <View style={layouts.horizontal}>
-                        {item?.shipping?.shippingMethodGroup && (
+                        {item?.shipping?.shippingMethod && (
                           <Text
                             style={styles.boldText}
-                          >{`${item?.shipping?.shippingMethodGroup}`}</Text>
+                          >{`${item?.shipping?.shippingMethod}`}</Text>
                         )}
                         {item?.shipping?.shippingMethodLabel && (
                           <Text

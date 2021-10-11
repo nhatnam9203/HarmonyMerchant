@@ -25,6 +25,7 @@ const signalR = require("@microsoft/signalr");
 
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
+const { clover } = NativeModules;
 
 export const useProps = ({
   params: { orderItem, appointmentId, screenId, backScreenId },
@@ -77,6 +78,12 @@ export const useProps = ({
   );
   const isTipOnPaxMachine = useSelector(
     (state) => state.dataLocal.isTipOnPaxMachine
+  );
+  const paymentMachineType = useSelector(
+    (state) => state.hardware.paymentMachineType
+  );
+  const cloverMachineInfo = useSelector(
+    (state) => state.hardware.cloverMachineInfo
   );
 
   const [isTax, setIsTax] = React.useState(false);
@@ -651,11 +658,36 @@ export const useProps = ({
       await connectSignalR.current?.stop();
     }
 
-    if (paymentSelected === "Cash" || paymentSelected === "Other") {
-      openCashDrawer(portName);
-    }
+    if (paymentMachineType !== "Clover" && !portName) {
+      alert("Please connect to your printer!");
+    } else {
+      if (paymentSelected === "Cash" || paymentSelected === "Other") {
+        if (paymentMachineType === "Clover") {
+          openCashDrawerClover();
+        } else {
+          openCashDrawer(portName);
+        }
+      }
 
-    showInvoicePrint(false);
+      showInvoicePrint(false);
+    }
+  };
+
+  const openCashDrawerClover = () => {
+    const port = _.get(cloverMachineInfo, "port")
+      ? _.get(cloverMachineInfo, "port")
+      : 80;
+    const url = `wss://${_.get(cloverMachineInfo, "ip")}:${port}/remote_pay`;
+
+    clover.openCashDrawer({
+      url,
+      remoteAppId: REMOTE_APP_ID,
+      appName: APP_NAME,
+      posSerial: POS_SERIAL,
+      token: _.get(cloverMachineInfo, "token")
+        ? _.get(cloverMachineInfo, "token", "")
+        : "",
+    });
   };
 
   const donotPrintBill = async () => {
@@ -693,8 +725,19 @@ export const useProps = ({
     onCompleteBack();
   };
 
-  const openCashDrawer = async (portName) => {
-    await PrintManager.getInstance().openCashDrawer(portName);
+  openCashDrawer = async () => {
+    const { portName } = getInfoFromModelNameOfPrinter(
+      printerList,
+      printerSelect
+    );
+
+    if (portName) {
+      await PrintManager.getInstance().openCashDrawer(portName);
+    } else {
+      setTimeout(() => {
+        alert("Please connect to your cash drawer.");
+      }, 700);
+    }
   };
 
   const showInvoicePrint = async (isTemptPrint = true) => {
