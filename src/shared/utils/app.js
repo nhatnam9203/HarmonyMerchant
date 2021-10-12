@@ -161,9 +161,24 @@ export const STORE_PICKUPS = [
 ];
 
 export const FLAT_RATE_SHIPPING = [
-  { label: "1 - 2 days", value: 5, group: SHIPPING_METHOD_GROUP.FLAT_RATE },
-  { label: "2 - 4 days", value: 10, group: SHIPPING_METHOD_GROUP.FLAT_RATE },
-  { label: "5 - 10 days", value: 15, group: SHIPPING_METHOD_GROUP.FLAT_RATE },
+  {
+    label: "1 - 2 days",
+    amount: 5,
+    value: 1000000,
+    group: SHIPPING_METHOD_GROUP.FLAT_RATE,
+  },
+  {
+    label: "2 - 4 days",
+    amount: 10,
+    value: 1000001,
+    group: SHIPPING_METHOD_GROUP.FLAT_RATE,
+  },
+  {
+    label: "5 - 10 days",
+    amount: 15,
+    value: 1000002,
+    group: SHIPPING_METHOD_GROUP.FLAT_RATE,
+  },
 ];
 
 export const FREE_SHIPPING = [

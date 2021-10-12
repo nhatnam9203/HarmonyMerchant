@@ -26,6 +26,7 @@ import {
   FormEditNotes,
   FormShippingCarrier,
 } from "../../widget";
+import { PURCHASE_POINTS_ORDER, statusSuccess } from "@shared/utils";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
@@ -47,6 +48,7 @@ export const Layout = ({
   printCustomerInvoice,
   shareCustomerInvoice,
   invoiceRef,
+  getShippingMethodLabel,
 }) => {
   const [t] = useTranslation();
 
@@ -513,10 +515,16 @@ export const Layout = ({
             // draggable={true}
           />
 
-          {item?.status === ORDERED_STATUS.PENDING ? (
+          {item?.status === ORDERED_STATUS.PENDING ||
+          (item?.status === ORDERED_STATUS.PROCESS &&
+            item.purchasePoint === PURCHASE_POINTS_ORDER &&
+            item.payment?.length <= 0) ? (
             <>
               <FormTitle label={t("Shipping Method")} />
-              <FormShippingCarrier onChangeValue={onChangeShippingMethod} />
+              <FormShippingCarrier
+                onChangeValue={onChangeShippingMethod}
+                appointment={item}
+              />
 
               <FormTitle label={t("Address Information")} />
               <FormAddressInformation
@@ -608,16 +616,9 @@ export const Layout = ({
                       <View style={layouts.marginVertical} />
 
                       <View style={layouts.horizontal}>
-                        {item?.shipping?.shippingMethod && (
-                          <Text
-                            style={styles.boldText}
-                          >{`${item?.shipping?.shippingMethod}`}</Text>
-                        )}
-                        {item?.shipping?.shippingMethodLabel && (
-                          <Text
-                            style={styles.boldText}
-                          >{`/${item?.shipping?.shippingMethodLabel}`}</Text>
-                        )}
+                        <Text
+                          style={styles.boldText}
+                        >{`${getShippingMethodLabel()}`}</Text>
                       </View>
                     </View>
                   )}

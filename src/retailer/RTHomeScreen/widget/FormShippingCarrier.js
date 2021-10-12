@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 
-export const FormShippingCarrier = ({ onChangeValue }) => {
+export const FormShippingCarrier = ({ onChangeValue, appointment }) => {
   const [t] = useTranslation();
 
   const freeSwitchRef = React.useRef(null);
@@ -79,6 +79,57 @@ export const FormShippingCarrier = ({ onChangeValue }) => {
     }
   }, [shippingCarrier, trackingNumber, shippingMethodGroup, flatRateCustom]);
 
+  React.useEffect(() => {
+    if (appointment?.shipping) {
+      switch (appointment?.shipping?.shippingMethod) {
+        case SHIPPING_METHOD_GROUP.FREE:
+          setShippingMethodGroup(SHIPPING_METHOD_GROUP.FREE);
+
+          shippingCarrierRef.current?.setValue(
+            appointment?.shipping?.shippingCarrier
+          );
+          setShippingCarrier(appointment?.shipping?.shippingCarrier);
+
+          setTrackingNumber(appointment?.shipping?.trackingNumber);
+
+          flatRateSwitchRef.current?.reset();
+          storePickupSwitchRef.current?.reset();
+
+          break;
+        case SHIPPING_METHOD_GROUP.FLAT_RATE:
+          console.log(shippingMethod);
+          setShippingMethodGroup(SHIPPING_METHOD_GROUP.FLAT_RATE);
+
+          setFlatRateCustom(appointment?.shipping?.flatRateCustom);
+          flatRateSwitchRef.current?.setValue(
+            appointment?.shipping?.flatRateCustom
+          );
+
+          setShippingCarrier(appointment?.shipping?.shippingCarrier);
+          shippingCarrierRef.current?.setValue(
+            appointment?.shipping?.shippingCarrier
+          );
+
+          setTrackingNumber(appointment?.shipping?.trackingNumber);
+
+          freeSwitchRef.current?.reset();
+          storePickupSwitchRef.current?.reset();
+
+          break;
+        case SHIPPING_METHOD_GROUP.STORE_PICKUP:
+        default:
+          freeSwitchRef.current?.reset();
+
+          flatRateSwitchRef.current?.reset();
+          shippingCarrierRef.current?.reset();
+          setShippingCarrier(null);
+          setTrackingNumber(null);
+
+          break;
+      }
+    }
+  }, [appointment]);
+
   return (
     <View style={layouts.horizontal}>
       <InfoContent
@@ -128,7 +179,7 @@ export const FormShippingCarrier = ({ onChangeValue }) => {
               ?.map((x) =>
                 Object.assign({}, x, {
                   group: SHIPPING_METHOD_GROUP.FLAT_RATE,
-                  value: x.amount,
+                  value: x.id,
                 })
               ) ?? FLAT_RATE_SHIPPING
           }
