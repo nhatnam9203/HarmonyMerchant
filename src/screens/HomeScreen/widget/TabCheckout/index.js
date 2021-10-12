@@ -950,6 +950,8 @@ class TabCheckout extends Layout {
   }
 
   openCashDrawer = async () => {
+    const { printerSelect, printerList } = this.props;
+
     const { portName } = getInfoFromModelNameOfPrinter(
       printerList,
       printerSelect
