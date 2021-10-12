@@ -668,7 +668,6 @@ export const useProps = ({
           openCashDrawer(portName);
         }
       }
-
       showInvoicePrint(false);
     }
   };

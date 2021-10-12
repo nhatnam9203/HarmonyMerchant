@@ -910,7 +910,6 @@ class InvoiceScreen extends Layout {
     try {
       const imageUri = await captureRef(this.viewShotRef, {});
       if (Platform.OS === "ios") {
-
         RNFetchBlob.ios.previewDocument(imageUri);
       } else {
         const shareResponse = await Share.open({
@@ -938,6 +937,8 @@ class InvoiceScreen extends Layout {
       this.props.actions.app.resetNotiIntervalId();
     }
   };
+
+
 
   componentWillUnmount() {
     this.didBlurSubscription();

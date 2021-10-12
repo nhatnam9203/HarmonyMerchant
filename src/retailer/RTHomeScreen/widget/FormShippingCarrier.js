@@ -171,53 +171,55 @@ export const FormShippingCarrier = ({ onChangeValue, appointment }) => {
           label={t("Flat rate shipping")}
           fontSize={scaleWidth(15)}
         />
-        <CustomRadioSelect
-          ref={flatRateSwitchRef}
-          data={
-            shippingMethod?.shippingFlatRates
-              ?.filter((x) => !x.isDeleted)
-              ?.map((x) =>
-                Object.assign({}, x, {
-                  group: SHIPPING_METHOD_GROUP.FLAT_RATE,
-                  value: x.id,
-                })
-              ) ?? FLAT_RATE_SHIPPING
-          }
-          onSelect={onHandleChangeMethod}
-          onRenderLabel={(x) => (
-            <Text style={styles.textStyle}>
-              {x?.label}
-              <Text style={styles.textBoldStyle}>
-                {" - "}
-                {formatMoneyWithUnit(x?.amount ?? x?.value)}
+        {shippingMethod?.shippingFlatRates?.length > 0 ? (
+          <CustomRadioSelect
+            ref={flatRateSwitchRef}
+            data={
+              shippingMethod?.shippingFlatRates
+                ?.filter((x) => !x.isDeleted)
+                ?.map((x) =>
+                  Object.assign({}, x, {
+                    group: SHIPPING_METHOD_GROUP.FLAT_RATE,
+                    value: x.id,
+                  })
+                ) ?? FLAT_RATE_SHIPPING
+            }
+            onSelect={onHandleChangeMethod}
+            onRenderLabel={(x) => (
+              <Text style={styles.textStyle}>
+                {x?.label}
+                <Text style={styles.textBoldStyle}>
+                  {" - "}
+                  {formatMoneyWithUnit(x?.amount ?? x?.value)}
+                </Text>
               </Text>
-            </Text>
-          )}
-        />
+            )}
+          />
+        ) : (
+          <Text style={styles.textStyle}>
+            {t("You need to go into settings to set up shipping method.")}
+          </Text>
+        )}
 
-        {!shippingMethod ||
-          (shippingMethod?.freeShip && (
-            <View>
-              <InfoHeading
-                label={t("Free shipping")}
-                fontSize={scaleWidth(15)}
-              />
-              <CustomRadioSelect
-                ref={freeSwitchRef}
-                data={FREE_SHIPPING}
-                onSelect={onHandleChangeMethod}
-                onRenderLabel={(x) => (
-                  <Text style={styles.textStyle}>
-                    {x?.label}
-                    <Text style={styles.textBoldStyle}>
-                      {" - "}
-                      {formatMoneyWithUnit(x?.value)}
-                    </Text>
+        {shippingMethod?.freeShip && (
+          <View>
+            <InfoHeading label={t("Free shipping")} fontSize={scaleWidth(15)} />
+            <CustomRadioSelect
+              ref={freeSwitchRef}
+              data={FREE_SHIPPING}
+              onSelect={onHandleChangeMethod}
+              onRenderLabel={(x) => (
+                <Text style={styles.textStyle}>
+                  {x?.label}
+                  <Text style={styles.textBoldStyle}>
+                    {" - "}
+                    {formatMoneyWithUnit(x?.value)}
                   </Text>
-                )}
-              />
-            </View>
-          ))}
+                </Text>
+              )}
+            />
+          </View>
+        )}
       </InfoContent>
     </View>
   );

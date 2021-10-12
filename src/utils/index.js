@@ -1650,16 +1650,16 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
 };
 
 export const handleAutoClose = async () => {
-  
+
   const { dataLocal, hardware } = store.getState();
   const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = hardware;
   const { token, deviceId, deviceName } = dataLocal;
   const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
     paxMachineInfo;
-  
+
   if(paymentMachineType == "Clover" && l.get(cloverMachineInfo, "isSetup")){
     //Clover
-    
+
     store.dispatch(actions.invoice.autoCloseBatch());
     const sn = l.get(cloverMachineInfo, 'serialNumber')
     requestAPI({
@@ -1737,7 +1737,7 @@ export const handleAutoClose = async () => {
   } else {
     processingSettlementWithoutConnectPax();
   }
-  
+
 };
 
 export const processingSettlementWithoutConnectPax = () => {
@@ -1780,7 +1780,7 @@ export const settle = async (
         posSerial: POS_SERIAL,
         token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
       })
-      
+
   } else if (isSetup && terminalID) {
     //Pax
     if (Platform.OS === "android") {
