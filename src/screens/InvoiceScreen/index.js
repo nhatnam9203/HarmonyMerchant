@@ -63,6 +63,7 @@ class InvoiceScreen extends Layout {
     this.invoicePrintRef = React.createRef();
     this.viewShotRef = React.createRef();
     this.virtualizedListRef = React.createRef();
+    this.invoiceRef = React.createRef();
 
     //ADD LISTENER FROM CLOVER MODULE
     this.eventEmitter = new NativeEventEmitter(clover);
@@ -937,8 +938,6 @@ class InvoiceScreen extends Layout {
       this.props.actions.app.resetNotiIntervalId();
     }
   };
-
-
 
   componentWillUnmount() {
     this.didBlurSubscription();

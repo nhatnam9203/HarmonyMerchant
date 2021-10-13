@@ -328,7 +328,7 @@ export const useProps = ({
       appointmentProductItemUpdate ||
       {};
     if (statusSuccess(codeStatus)) {
-      getAppointment(appointmentId);
+      if (appointmentId) getAppointment(appointmentId);
     }
   }, [
     appointmentItemAdd,
@@ -341,7 +341,7 @@ export const useProps = ({
     const { codeStatus, message, data } =
       appointmentItemRemove || appointmentGiftCardRemove || {};
     if (statusSuccess(codeStatus)) {
-      getAppointment(appointmentId);
+      if (appointmentId) getAppointment(appointmentId);
       if (removeItemWaitingList?.length > 0) {
         setRemoveItemWaitingList(removeItemWaitingList.slice(1));
       }

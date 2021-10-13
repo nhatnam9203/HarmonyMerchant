@@ -12,6 +12,7 @@ import _ from "ramda";
 import Dash from "react-native-dash";
 import { menuTabs } from "@utils";
 import { getFullName } from "@shared/utils";
+import { PopupInvoice } from "@shared/components/payment";
 
 import {
   Text,
@@ -299,7 +300,7 @@ export default class Layout extends React.Component {
     const tempStyle =
       Platform.OS === "android"
         ? { paddingHorizontal: scaleSize(10), backgroundColor: "#FFFFFF" }
-        : { paddingHorizontal: scaleSize(10), backgroundColor: "#FFFFFF" };
+        : { paddingHorizontal: scaleSize(10), backgroundColor: "#fff9" };
     const status = invoiceDetail?.status || "";
     const checkoutId = invoiceDetail?.checkoutId || "";
 
@@ -1063,6 +1064,8 @@ export default class Layout extends React.Component {
           onRequestClose={this.cancelInvoicePrint}
           doPrintClover={(imageUri) => this.doPrintClover(imageUri)}
         />
+
+        <PopupInvoice ref={this.invoiceRef} />
       </ParentContainer>
     );
   }

@@ -171,7 +171,8 @@ export const FormShippingCarrier = ({ onChangeValue, appointment }) => {
           label={t("Flat rate shipping")}
           fontSize={scaleWidth(15)}
         />
-        {shippingMethod?.shippingFlatRates?.length > 0 ? (
+        {shippingMethod?.shippingFlatRates?.filter((x) => !x.isDeleted)
+          ?.length > 0 ? (
           <CustomRadioSelect
             ref={flatRateSwitchRef}
             data={
