@@ -40,6 +40,7 @@ export const useProps = ({
   const dispatch = useDispatch();
   const invoicePrintRef = React.useRef(null);
   const invoiceRef = React.useRef(null);
+  const returnReceiptRef = React.useRef(null);
 
   /**
   |--------------------------------------------------
@@ -93,7 +94,9 @@ export const useProps = ({
 
   React.useEffect(() => {
     if (profile) {
-      setShippingFlatRates(profile.shippingMethod?.shippingFlatRates);
+      setShippingFlatRates([
+        ...(profile.shippingMethod?.shippingFlatRates || []),
+      ]);
     } else {
       setShippingFlatRates(null);
     }
@@ -445,10 +448,10 @@ export const useProps = ({
           case SHIPPING_METHOD_GROUP.STORE_PICKUP:
             return "Store Pickup";
           case SHIPPING_METHOD_GROUP.FLAT_RATE:
-            const flatRate = shippingFlatRates
+            const flatRate = [...shippingFlatRates]
               ?.filter((x) => !x.isDeleted)
               ?.find(
-                (x) => (x.id = appointmentDetail?.shipping?.flatRateCustom)
+                (x) => x.id === appointmentDetail?.shipping?.flatRateCustom
               );
 
             if (flatRate) {
@@ -465,5 +468,17 @@ export const useProps = ({
         }
       }
     }, [appointmentDetail]),
+    returnReceiptRef,
+    printReturnInvoice: (itemReturn) => {
+      returnReceiptRef.current?.showReceipt({
+        item: itemReturn,
+      });
+    },
+    shareReturnInvoice: (itemReturn) => {
+      returnReceiptRef.current?.showReceipt({
+        isShareMode: true,
+        item: itemReturn,
+      });
+    },
   };
 };

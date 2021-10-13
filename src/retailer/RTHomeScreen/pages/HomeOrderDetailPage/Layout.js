@@ -27,6 +27,7 @@ import {
   FormShippingCarrier,
 } from "../../widget";
 import { PURCHASE_POINTS_ORDER, statusSuccess } from "@shared/utils";
+import { PopupReturnReceipt } from "@shared/components";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
@@ -49,6 +50,9 @@ export const Layout = ({
   shareCustomerInvoice,
   invoiceRef,
   getShippingMethodLabel,
+  shareReturnInvoice,
+  printReturnInvoice,
+  returnReceiptRef,
 }) => {
   const [t] = useTranslation();
 
@@ -332,6 +336,71 @@ export const Layout = ({
     return null;
   };
 
+  const onRenderCellReturn = ({
+    item: cellItem,
+    columnKey,
+    rowIndex,
+    cellWidth,
+  }) => {
+    switch (columnKey) {
+      case "receipt":
+        return (
+          <View
+            key={getUniqueId(columnKey, rowIndex, "cell-return-receipt")}
+            style={{ flexDirection: "row" }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                shareReturnInvoice(cellItem);
+              }}
+              style={{
+                width: scaleWidth(40),
+                height: scaleHeight(40),
+                backgroundColor: "#0764B0",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: scaleWidth(4),
+              }}
+            >
+              <Image
+                source={IMAGE.share_icon}
+                style={{
+                  width: scaleWidth(20),
+                  height: scaleHeight(20),
+                }}
+              />
+            </TouchableOpacity>
+            <View style={layouts.marginHorizontal} />
+
+            <TouchableOpacity
+              onPress={() => {
+                printReturnInvoice(cellItem);
+              }}
+              style={{
+                width: scaleWidth(40),
+                height: scaleHeight(40),
+                backgroundColor: "#0764B0",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: scaleWidth(4),
+              }}
+            >
+              <Image
+                source={IMAGE.print_btn}
+                style={{
+                  width: scaleWidth(20),
+                  height: scaleHeight(20),
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+        );
+
+      default:
+        break;
+    }
+  };
+
   return (
     <View style={layouts.fill}>
       <View style={styles.headContent}>
@@ -514,6 +583,50 @@ export const Layout = ({
             // onRowPress={onSelectRow}
             // draggable={true}
           />
+
+          {item?.returns?.length > 0 && (
+            <View>
+              <FormTitle label={`${t("Return History")}`} />
+              <Table
+                items={item?.returns || []}
+                tableStyle={styles.table}
+                headerKeyLabels={{
+                  code: t("Code"),
+                  createdDate: t("Date"),
+                  notes: t("Note"),
+                  createdBy: t("Staff"),
+                  receipt: t("Receipt"),
+                }}
+                whiteListKeys={[
+                  "code",
+                  "createdDate",
+                  "createdBy",
+                  "notes",
+                  "receipt",
+                ]}
+                primaryKey="code"
+                widthForKeys={{
+                  code: scaleWidth(200),
+                  createdDate: scaleWidth(200),
+                  createdBy: scaleWidth(200),
+                  notes: scaleWidth(280),
+                  receipt: scaleWidth(120),
+                }}
+                emptyDescription={t("No Returns History")}
+                styleTextKeys={{ total: styles.highLabelTextStyle }}
+                formatFunctionKeys={{
+                  code: (value) => `#${value}`,
+                  createdDate: (value) =>
+                    dateToString(value, DATE_TIME_SHOW_FORMAT_STRING),
+                }}
+                renderCell={onRenderCellReturn}
+                renderFooterComponent={() => (
+                  <View style={{ height: scaleHeight(10) }} />
+                )}
+                // onRowPress={onSelectRow}
+              />
+            </View>
+          )}
 
           {item?.status === ORDERED_STATUS.PENDING ||
           (item?.status === ORDERED_STATUS.PROCESS &&
@@ -708,6 +821,7 @@ export const Layout = ({
       </KeyboardAwareScrollView>
 
       <PopupInvoice ref={invoiceRef} />
+      <PopupReturnReceipt ref={returnReceiptRef} />
     </View>
   );
 };

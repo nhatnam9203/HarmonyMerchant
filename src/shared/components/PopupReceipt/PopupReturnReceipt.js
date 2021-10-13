@@ -30,10 +30,13 @@ import { StarPRNT } from "react-native-star-prnt";
 import { captureRef, releaseCapture } from "react-native-view-shot";
 import { useSelector } from "react-redux";
 import RNFetchBlob from "rn-fetch-blob";
-import { ItemHeaderReceipt, ItemReceipt } from "./ItemReceipt";
-import { TotalView } from "./TotalView";
+import {
+  ItemHeaderReceipt,
+  ItemReceipt,
+} from "../payment/PopupInvoice/ItemReceipt";
+import { TotalView } from "../payment/PopupInvoice/TotalView";
 
-export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
+export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
   const viewShotRef = React.useRef(null);
   const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
 
@@ -54,24 +57,17 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
   |--------------------------------------------------
   */
   const [visible, setVisible] = React.useState(false);
-  const [titleInvoice, setTitleInvoice] = React.useState("TICKET");
-
-  const [groupAppointment, setGroupAppointment] = React.useState(null);
-  const [invoiceDetail, setInvoiceDetail] = React.useState(null);
-  const [printTempt, setPrintTempt] = React.useState(false);
-  const [isSignature, setIsSignature] = React.useState(true);
+  const [titleInvoice, setTitleInvoice] = React.useState("Partical Return");
   const [isProcessingPrint, setIsProcessingPrint] = React.useState(false);
   const [isShare, setIsShare] = React.useState(false);
-  const [paymentMachineType, setPaymentMachineType] = React.useState(null);
-  const [isSalonApp, setIsSalonApp] = React.useState(false);
+  const [itemReceipt, setItemReceipt] = React.useState(null);
+  const [printTempt, setPrintTempt] = React.useState(false);
 
   /**
   |--------------------------------------------------
   | CALL API
   |--------------------------------------------------
   */
-  const [groupAppointmentData, getGroupAppointment] = useGetGroupAppointment();
-  const [invoiceDetailData, getInvoiceDetail] = useGetInvoiceDetail();
 
   /**
   |--------------------------------------------------
@@ -80,155 +76,39 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
   */
 
   const reset = async () => {
-    setGroupAppointment(null);
-    setInvoiceDetail(null);
-    setTitleInvoice("TICKET");
     setIsShare(false);
-    setPrintTempt(false);
-    setIsSignature(true);
-  };
-
-  const getBasketOnline = (appointments) => {
-    const arrayProductBuy = [];
-    const arryaServicesBuy = [];
-    const arrayExtrasBuy = [];
-    const arrayGiftCards = [];
-    const promotionNotes = [];
-
-    appointments.forEach((appointment) => {
-      // ------ Push Service -------
-      appointment.services?.forEach((service) => {
-        arryaServicesBuy.push({
-          type: "Service",
-          data: {
-            name: service?.serviceName || "",
-            price: service?.price || "",
-          },
-          staff: service?.staff || false,
-          note: service?.note || "",
-        });
-      });
-
-      // ------ Push Product -------
-      appointment.products?.forEach((product) => {
-        arrayProductBuy.push({
-          type: "Product",
-          data: {
-            name: product?.productName || "",
-            price: product?.price || "",
-          },
-          quanlitySet: product?.quantity || "",
-        });
-      });
-
-      // ------ Push Product -------
-      appointment.extras?.forEach((extra) => {
-        arrayExtrasBuy.push({
-          type: "Extra",
-          data: {
-            name: extra?.extraName || "",
-            price: extra?.price || "",
-          },
-        });
-      });
-
-      // ------ Push Gift Card -------
-      appointment.giftCards?.forEach((gift) => {
-        arrayGiftCards.push({
-          type: "GiftCards",
-          data: {
-            name: gift?.name || "Gift Card",
-            price: gift?.price || "",
-          },
-          quanlitySet: gift?.quantity || "",
-        });
-      });
-    });
-
-    return arryaServicesBuy.concat(
-      arrayExtrasBuy,
-      arrayProductBuy,
-      arrayGiftCards
-    );
   };
 
   const getSubTotal = () => {
-    if (groupAppointment) return groupAppointment?.subTotal;
     return 0;
   };
   const getDiscount = () => {
-    if (groupAppointment) return groupAppointment?.discount;
     return 0;
   };
   const getTipAmount = () => {
-    if (groupAppointment) return groupAppointment?.tipAmount;
     return 0;
   };
   const getTax = () => {
-    if (groupAppointment) return groupAppointment?.tax;
     return 0;
   };
   const getTotal = () => {
-    if (groupAppointment) return groupAppointment?.total;
     return 0;
   };
 
-  const getCheckoutPaymentMethods = () => {
-    return [];
-  };
-
-  const getPromotionNotes = (appointments) => {
-    let promotionNotes = [];
-    appointments?.forEach((appointment) => {
-      const note = appointment?.promotionNotes?.note || "";
-      if (note) {
-        promotionNotes.push(note);
-      }
-    });
-
-    return promotionNotes.join(",");
-  };
-
   const getFooterReceipt = () => {
-    if (!printTempt && isSignature) {
-      return "Merchant's Receipt";
-    }
-    return "Customer's Receipt";
+    return "Partical Return Receipt";
   };
 
-  const getInvoiceName = () => {
-    let invoiceName = " ";
-
-    if (groupAppointment) {
-      invoiceName = getStaffNameForInvoice(
-        profileStaffLogin,
-        getBasketOnline(groupAppointment.appointments)
-      );
-    }
-
-    if (!invoiceName && invoiceDetail?.user?.userId) {
-      invoiceName = getFullName(invoiceDetail?.user);
-    }
-    if (!invoiceName) {
-      invoiceName = profileStaffLogin?.displayName;
-    }
-
-    return invoiceName;
+  const getStaffName = () => {
+    return itemReceipt?.createdBy ?? " ";
   };
 
-  const getCustomerName = () => {
-    if (groupAppointment && groupAppointment.appointments?.length > 0) {
-      const { firstName = " ", lastName = " " } =
-        groupAppointment.appointments[0] || {};
-      return `${firstName} ${lastName}`;
-    }
-    return " ";
+  const getItems = () => {
+    const { products = [], giftCards = [] } = itemReceipt?.returnData || {};
+    return [...products, ...giftCards];
   };
 
   const onCancel = (temp) => {
-    if (cancelInvoicePrint && typeof cancelInvoicePrint === "function") {
-      cancelInvoicePrint(temp ?? printTempt);
-    }
     setVisible(false);
     reset();
   };
@@ -256,19 +136,6 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
     }
     return null;
   };
-
-  const doPrintAgain = async () => {
-    setIsSignature(false);
-    // setTimeout(() => {
-    //   onPrintProcess();
-    // }, 1000);
-  };
-
-  React.useEffect(() => {
-    if (!isSignature && !isShare && !printTempt) {
-      onPrintProcess();
-    }
-  }, [isSignature]);
 
   const onPrintProcess = async () => {
     const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(
@@ -302,31 +169,10 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
         await PrintManager.getInstance().print(emulation, commands, portName);
 
         releaseCapture(imageUri);
-        if (!printTempt && isSignature) {
-          Alert.alert(
-            "Would you like to print  customer's receipt?",
-            "",
-            [
-              {
-                text: "Cancel",
-                onPress: onCancel,
-                style: "cancel",
-              },
-              {
-                text: "OK",
-                onPress: doPrintAgain,
-              },
-            ],
-            { cancelable: false }
-          );
-        } else {
-          onCancel();
-        }
       }
     } catch (error) {
       console.log(`Printer error with ${error}`);
       alert(`Printer error with ${error}`);
-      onCancel();
     }
   };
 
@@ -358,18 +204,10 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
   */
 
   React.useImperativeHandle(ref, () => ({
-    showAppointmentReceipt: async ({
-      appointmentId,
-      checkoutId,
-      isPrintTempt = false,
-      isShareMode = false,
-      machineType,
-      title = "TICKET",
-      isSalon = false,
-    }) => {
+    showReceipt: async ({ isShareMode = false, item }) => {
       reset();
 
-      if (!appointmentId) {
+      if (!item) {
         return;
       }
 
@@ -387,39 +225,23 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
         }
       }
 
-      setPrintTempt(isPrintTempt);
       setIsShare(isShareMode);
-      setPaymentMachineType(machineType);
-      setTitleInvoice(title);
-      setIsSalonApp(isSalon);
+      setItemReceipt(item);
 
-      // call api get info
-      await getGroupAppointment(appointmentId);
-      if (checkoutId) {
-        getInvoiceDetail(checkoutId);
-      }
-      await setIsProcessingPrint(true);
+      //   await setIsProcessingPrint(true);
 
       // show modal
       await setVisible(true);
     },
   }));
 
-  React.useEffect(() => {
-    const { codeStatus, data } = groupAppointmentData || {};
-    if (statusSuccess(codeStatus)) {
-      setGroupAppointment(data);
-      setIsProcessingPrint(false);
-    }
-  }, [groupAppointmentData]);
-
-  React.useEffect(() => {
-    const { codeStatus, data } = invoiceDetailData || {};
-    if (statusSuccess(codeStatus)) {
-      setInvoiceDetail(data);
-      setIsProcessingPrint(false);
-    }
-  }, [invoiceDetailData]);
+  //   React.useEffect(() => {
+  //     const { codeStatus, data } = groupAppointmentData || {};
+  //     if (statusSuccess(codeStatus)) {
+  //       setGroupAppointment(data);
+  //       setIsProcessingPrint(false);
+  //     }
+  //   }, [groupAppointmentData]);
 
   return (
     <Modal visible={visible} onRequestClose={() => {}} transparent={true}>
@@ -485,76 +307,44 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                   }}
                 />
 
-                {/* ------------- Receipt Date ----------- */}
-                {/* <View style={styles.rowContent}>
+                {/* ------------- Staff ----------- */}
+                <View style={styles.rowContent}>
                   <View style={{ width: scaleSize(90) }}>
-                    <Text style={[styles.textStyle]}>{`Created Date`}</Text>
+                    <Text style={[styles.textStyle]}>{`Staff Name`}</Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text
+                      style={[styles.textStyle]}
+                    >{`: ${getStaffName()}`}</Text>
+                  </View>
+                </View>
+
+                {/* ------------- Return Create Date ----------- */}
+                <View style={styles.rowContent}>
+                  <View style={{ width: scaleSize(90) }}>
+                    <Text style={[styles.textStyle]}>{`Return Date`}</Text>
                   </View>
                   <View style={{ flex: 1 }}>
                     <Text style={[styles.textStyle]}>
                       {`: ${formatWithMoment(
-                        new Date(),
+                        itemReceipt?.createdDate,
                         "MM/DD/YYYY hh:mm A"
                       )}`}
                     </Text>
                   </View>
-                </View> */}
-
-                {/* ------------- Staff ----------- */}
-                {isSalonApp ? (
-                  <View style={styles.rowContent}>
-                    <View style={{ width: scaleSize(90) }}>
-                      <Text style={[styles.textStyle]}>{`Customer`}</Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text
-                        style={[styles.textStyle]}
-                      >{`: ${getCustomerName()}`}</Text>
-                    </View>
-                  </View>
-                ) : (
-                  <View style={styles.rowContent}>
-                    <View style={{ width: scaleSize(90) }}>
-                      <Text style={[styles.textStyle]}>{`Staff Name`}</Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text
-                        style={[styles.textStyle]}
-                      >{`: ${getInvoiceName()}`}</Text>
-                    </View>
-                  </View>
-                )}
-
-                {/* ------------- Invoice Date ----------- */}
-                {invoiceDetail && (
-                  <View style={styles.rowContent}>
-                    <View style={{ width: scaleSize(90) }}>
-                      <Text style={[styles.textStyle]}>{`Invoice Date`}</Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={[styles.textStyle]}>
-                        {`: ${formatWithMoment(
-                          invoiceDetail?.createdDate,
-                          "MM/DD/YYYY hh:mm A"
-                        )}`}
-                      </Text>
-                    </View>
-                  </View>
-                )}
+                </View>
 
                 {/* ------------- Invoice No ----------- */}
-                {invoiceDetail && (
-                  <View style={styles.rowContent}>
-                    <View style={{ width: scaleSize(90) }}>
-                      <Text style={[styles.textStyle]}>{`Invoice No`}</Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={[styles.textStyle]}>
-                        {`: ${invoiceDetail?.invoiceNo ?? " "}`}
-                      </Text>
-                    </View>
+                <View style={styles.rowContent}>
+                  <View style={{ width: scaleSize(90) }}>
+                    <Text style={[styles.textStyle]}>{`Return No`}</Text>
                   </View>
-                )}
+                  <View style={{ flex: 1 }}>
+                    <Text style={[styles.textStyle]}>
+                      {`: #${itemReceipt?.code ?? " "}`}
+                    </Text>
+                  </View>
+                </View>
                 {/* ------------- Dot Border  ----------- */}
                 <Dash
                   style={{ height: 1 }}
@@ -568,7 +358,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                 />
 
                 {/* ------------- Header  ----------- */}
-                <ItemHeaderReceipt type="SalonPos" />
+                <ItemHeaderReceipt type="ReturnReceipt" />
 
                 {/* ------------- Dot Border  ----------- */}
                 <Dash
@@ -583,17 +373,14 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                 />
 
                 {/* ------------- Item Invoice   ----------- */}
-                {groupAppointment &&
-                  getBasketOnline(groupAppointment?.appointments)?.map(
-                    (receiptItem, index) => (
-                      <ItemReceipt
-                        key={index}
-                        item={receiptItem}
-                        index={index}
-                        type="SalonPos"
-                      />
-                    )
-                  )}
+                {getItems()?.map((receiptItem, index) => (
+                  <ItemReceipt
+                    key={index}
+                    item={receiptItem}
+                    index={index}
+                    type="ReturnReceipt"
+                  />
+                ))}
                 {/* ------------- Line end item invoice   ----------- */}
                 <View
                   style={{
@@ -705,158 +492,37 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                   </View>
                 )}
 
-                {/* ------------- Entry Method   ----------- */}
-                {!printTempt && (
-                  <View>
-                    {getCheckoutPaymentMethods().map((data, index) => (
-                      <View key={index} style={{ marginBottom: scaleSize(4) }}>
-                        <View style={{ flexDirection: "row" }}>
-                          <Text style={[styles.textStyle]}>
-                            {`- Entry method: ${getPaymentString(
-                              data?.paymentMethod || ""
-                            )}`}
-                          </Text>
-                          <View
-                            style={{
-                              flex: 1,
-                              alignItems: "flex-end",
-                              justifyContent: "center",
-                            }}
-                          >
-                            <Text
-                              style={[
-                                styles.textStyle,
-                                { fontSize: scaleSize(13) },
-                              ]}
-                            >
-                              {`$${Number(
-                                formatNumberFromCurrency(data?.amount || "0")
-                              ).toFixed(2)}`}
-                            </Text>
-                          </View>
-                        </View>
-                        {(data.paymentMethod &&
-                          data.paymentMethod === "credit_card") ||
-                        data.paymentMethod === "debit_card" ? (
-                          <View style={{ marginTop: scaleSize(5) }}>
-                            <Text
-                              style={[
-                                styles.textStyle,
-                                { fontSize: scaleSize(13) },
-                              ]}
-                            >
-                              {`    ${
-                                data?.paymentInformation?.type || ""
-                              }: ***********${
-                                data?.paymentInformation?.number || ""
-                              }`}
-                            </Text>
-                            <Text
-                              style={[
-                                styles.textStyle,
-                                { fontSize: scaleSize(13) },
-                              ]}
-                            >
-                              {`    ${data?.paymentInformation?.name || ""}`}
-                            </Text>
-                            <Text
-                              style={[
-                                styles.textStyle,
-                                { fontSize: scaleSize(13) },
-                              ]}
-                            >
-                              {`    ${
-                                data?.paymentInformation?.sn
-                                  ? `Terminal ID: ${data?.paymentInformation?.sn}`
-                                  : ""
-                              }`}
-                            </Text>
-                            <Text
-                              style={[
-                                styles.textStyle,
-                                { fontSize: scaleSize(13) },
-                              ]}
-                            >
-                              {`    ${
-                                data?.paymentInformation?.refNum
-                                  ? `Transaction #: ${data?.paymentInformation?.refNum}`
-                                  : ""
-                              }`}
-                            </Text>
-                          </View>
-                        ) : null}
-                      </View>
-                    ))}
-                  </View>
-                )}
-
-                {isSignature && !printTempt && (
+                <View
+                  style={{
+                    height: scaleSize(15),
+                    flexDirection: "row",
+                    marginTop: scaleSize(15),
+                  }}
+                >
                   <View
                     style={{
-                      height: scaleSize(15),
-                      flexDirection: "row",
-                      marginTop: scaleSize(15),
+                      width: scaleSize(70),
+                      justifyContent: "flex-end",
                     }}
                   >
-                    <View
-                      style={{
-                        width: scaleSize(70),
-                        justifyContent: "flex-end",
-                      }}
+                    <Text
+                      style={[
+                        styles.textStyle,
+                        { fontSize: 18, fontWeight: "600" },
+                      ]}
                     >
-                      <Text
-                        style={[
-                          styles.textStyle,
-                          { fontSize: 18, fontWeight: "600" },
-                        ]}
-                      >
-                        {"Signature:"}
-                      </Text>
-                    </View>
-                    <View style={{ width: scaleSize(50) }} />
-                    <View
-                      style={{
-                        flex: 1,
-                        borderBottomColor: "#000",
-                        borderBottomWidth: 1,
-                      }}
-                    />
+                      {"Signature:"}
+                    </Text>
                   </View>
-                )}
-
-                {printTempt && (
+                  <View style={{ width: scaleSize(50) }} />
                   <View
                     style={{
-                      height: scaleSize(15),
-                      flexDirection: "row",
-                      marginTop: scaleSize(15),
+                      flex: 1,
+                      borderBottomColor: "#000",
+                      borderBottomWidth: 1,
                     }}
-                  >
-                    <View
-                      style={{
-                        width: scaleSize(70),
-                        justifyContent: "flex-end",
-                      }}
-                    >
-                      <Text
-                        style={[
-                          styles.textStyle,
-                          { fontSize: 18, fontWeight: "600" },
-                        ]}
-                      >
-                        {"Signature:"}
-                      </Text>
-                    </View>
-                    <View style={{ width: scaleSize(50) }} />
-                    <View
-                      style={{
-                        flex: 1,
-                        borderBottomColor: "#000",
-                        borderBottomWidth: 1,
-                      }}
-                    />
-                  </View>
-                )}
+                  />
+                </View>
 
                 <View style={styles.marginVertical} />
                 <View style={styles.marginVertical} />
@@ -877,22 +543,6 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                     ]}
                   >
                     {`Thank you!\nPlease come again`}
-                  </Text>
-                )}
-
-                {/* ------------- Promotions Note   ----------- */}
-                {!!getPromotionNotes(groupAppointment?.appointments) && (
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      marginTop: scaleSize(10),
-                    }}
-                  >
-                    {`Discount note: `}
-                    <Text style={{ fontWeight: "600" }}>
-                      {` ${getPromotionNotes(groupAppointment?.appointments)}`}
-                    </Text>
                   </Text>
                 )}
 

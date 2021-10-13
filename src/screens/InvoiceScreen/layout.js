@@ -544,7 +544,7 @@ export default class Layout extends React.Component {
                   </Text>
                 </View>
               </View> */}
-              <ItemHeaderReceipt isSalonApp={profile.type === "SalonPos"} />
+              <ItemHeaderReceipt type={profile.type} />
 
               {/* ------------- Dot Border  ----------- */}
               <Dash
@@ -563,7 +563,7 @@ export default class Layout extends React.Component {
                   key={index}
                   item={item}
                   index={index}
-                  isSalonApp={profile.type === "SalonPos"}
+                  type={profile.type}
                 />
               ))}
 

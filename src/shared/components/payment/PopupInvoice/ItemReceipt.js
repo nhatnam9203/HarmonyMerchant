@@ -2,7 +2,7 @@ import { formatMoney } from "@utils";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export const ItemReceipt = ({ item, index, isSalonApp }) => {
+export const ItemReceipt = ({ item, index, type }) => {
   const renderItemInvoice = () => {
     const price = item.data && item.data.price ? item.data.price : 0;
     const quanlitySet = item.quanlitySet ?? 1;
@@ -88,10 +88,59 @@ export const ItemReceipt = ({ item, index, isSalonApp }) => {
     );
   };
 
-  return isSalonApp ? renderSalonItemInvoice() : renderItemInvoice();
+  const renderItemReturnReceipt = () => {
+    const quanlitySet = item?.returnQuantity ?? 1;
+    const total = item?.returnPrice;
+    const price = item?.returnPrice / quanlitySet;
+
+    return (
+      <View style={styles.content}>
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <Text style={[styles.textStyle]}>
+            {`${index + 1}. ${item?.productName ?? " "}`}
+          </Text>
+        </View>
+
+        <View
+          style={[
+            styles.headerContent,
+            {
+              width: scaleWidth(50),
+            },
+          ]}
+        >
+          <Text style={styles.textStyle}>{quanlitySet}</Text>
+        </View>
+
+        <View style={{ justifyContent: "center", width: scaleWidth(100) }}>
+          <Text style={styles.textStyle}>{`$ ${price}`}</Text>
+        </View>
+
+        <View
+          style={[
+            styles.headerContent,
+            {
+              width: scaleWidth(80),
+            },
+          ]}
+        >
+          <Text style={styles.textStyle}>{`$ ${total ? total : ""}`}</Text>
+        </View>
+      </View>
+    );
+  };
+
+  switch (type) {
+    default:
+      return renderItemInvoice();
+    case "SalonPos":
+      return renderSalonItemInvoice();
+    case "ReturnReceipt":
+      return renderItemReturnReceipt();
+  }
 };
 
-export const ItemHeaderReceipt = ({ isSalonApp }) => {
+export const ItemHeaderReceipt = ({ type }) => {
   const renderHeaderInvoice = () => {
     return (
       <View style={styles.content}>
@@ -149,7 +198,50 @@ export const ItemHeaderReceipt = ({ isSalonApp }) => {
     );
   };
 
-  return isSalonApp ? renderSalonHeaderInvoice() : renderHeaderInvoice();
+  const renderItemReturnHeaderReceipt = () => {
+    return (
+      <View style={styles.content}>
+        <View style={[styles.headerContent, { flex: 1 }]}>
+          <Text style={styles.headerStyle}>{`DESCRIPTION`}</Text>
+        </View>
+
+        <View
+          style={[
+            styles.headerContent,
+            {
+              width: scaleWidth(50),
+            },
+          ]}
+        >
+          <Text style={styles.headerStyle}>{` QTY`}</Text>
+        </View>
+
+        <View style={{ justifyContent: "center", width: scaleWidth(100) }}>
+          <Text style={styles.headerStyle}>{` PRICE`}</Text>
+        </View>
+
+        <View
+          style={[
+            styles.headerContent,
+            {
+              width: scaleWidth(80),
+            },
+          ]}
+        >
+          <Text style={styles.headerStyle}>{`TOTAL`}</Text>
+        </View>
+      </View>
+    );
+  };
+
+  switch (type) {
+    default:
+      return renderHeaderInvoice();
+    case "SalonPos":
+      return renderSalonHeaderInvoice();
+    case "ReturnReceipt":
+      return renderItemReturnHeaderReceipt();
+  }
 };
 
 const styles = StyleSheet.create({
