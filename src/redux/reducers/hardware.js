@@ -21,8 +21,7 @@ const initialState = {
   },
   dejavooMachineInfo: {
     name: '',
-    ip: '',
-    port: '',
+    tpn: '',
     isSetup: false,
   },
   paymentMachineType: 'Pax',
@@ -60,8 +59,7 @@ function hardwareReducer(state = initialState, action) {
       return {
         ...state,
         dejavooMachineInfo: {...state.dejavooMachineInfo, 
-          ip: action.payload.paymentMachineInfo.ip,
-          port: action.payload.paymentMachineInfo.port,
+          tpn: action.payload.paymentMachineInfo.tpn,
           isSetup: action.payload.paymentMachineInfo.isSetup,
           name: action.payload.paymentMachineInfo.name,
         },
@@ -79,6 +77,7 @@ function hardwareReducer(state = initialState, action) {
           bluetoothAddr: '',
           isSetup: false,
           terminalName: 'Pax',
+          tpn: '',
         },
         cloverMachineInfo: {
           name: 'Clover',
@@ -86,6 +85,11 @@ function hardwareReducer(state = initialState, action) {
           port: '',
           isSetup: false,
           token: null,
+        },
+        dejavooMachineInfo: {
+          name: '',
+          tpn: '',
+          isSetup: false,
         }
       };
     default:

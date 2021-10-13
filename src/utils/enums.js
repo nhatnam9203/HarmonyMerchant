@@ -9,8 +9,8 @@ export const APP_NAME = 'HarmonyPOS'
 export const POS_SERIAL = "POS"
 
 /*---Dejavoo----*/
-export const AUTHEN_KEY = 'taATqWde4c'
-export const REGISTER_ID = '82379001'
+export const AUTHEN_KEY = 'd4RL8FrETi'
+export const REGISTER_ID = '315100012760'
 
 export const menuTabs = {
   MARKETING: "MENU_HOME_TAB_MARKETING",

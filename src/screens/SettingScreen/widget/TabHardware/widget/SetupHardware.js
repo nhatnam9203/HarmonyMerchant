@@ -35,6 +35,7 @@ class SetupHardware extends React.Component {
         let name = ""
         let ip = ""
         let port = ""
+        let tpn = ""
         if(paymentMachineType == PaymentTerminalType.Clover){
 
            name = _.get(cloverMachineInfo, 'name')
@@ -44,8 +45,7 @@ class SetupHardware extends React.Component {
         } else if(paymentMachineType == PaymentTerminalType.Dejavoo){
            
             name = _.get(dejavooMachineInfo, 'name')
-            ip = _.get(dejavooMachineInfo, 'ip')
-            port = _.get(dejavooMachineInfo, 'port')
+            tpn = _.get(dejavooMachineInfo, 'tpn')
 
         } else{
             //Pax
@@ -64,6 +64,7 @@ class SetupHardware extends React.Component {
             scanLoading: false,
             terminalName: paymentMachineType,
             serialNumber: _.get(cloverMachineInfo, 'serialNumber', ''),
+            tpn,
         };
 
         this.scrollRef = React.createRef();
@@ -89,7 +90,7 @@ class SetupHardware extends React.Component {
 
     setupPax = () => {
         const { name, ip, port, timeout, commType, 
-            bluetoothAddr, terminalName, serialNumber } = this.state;
+            bluetoothAddr, terminalName, serialNumber, tpn } = this.state;
         // ------- Handle Bluetooth Comunication Type ------------
 
         if(terminalName == PaymentTerminalType.Pax){
@@ -119,18 +120,18 @@ class SetupHardware extends React.Component {
                 };
             }
         } else if (terminalName == PaymentTerminalType.Dejavoo){
-            if (stringIsEmptyOrWhiteSpaces(ip) 
-                || stringIsEmptyOrWhiteSpaces(port) 
+            if (stringIsEmptyOrWhiteSpaces(tpn) 
                 || stringIsEmptyOrWhiteSpaces(name)) {
                 alert('Please enter full infomation!');
             } else {
                 this.props.actions.hardware.setupDejavooMachine({
-                    paymentMachineInfo: { ip, port, isSetup: true, name },
+                    paymentMachineInfo: { tpn, isSetup: true, name },
                     paymentMachineType: PaymentTerminalType.Dejavoo,
                 });
                 this.props.backListDevices();
             };
         } else{
+            //Pax
             if (ip == '' || port == '' || serialNumber == '') {
                 alert('Please enter full infomation!');
             } else {
@@ -154,6 +155,7 @@ class SetupHardware extends React.Component {
         let name = ""
         let ip = ""
         let port = ""
+        let tpn = ""
         if(paymentMachineType == PaymentTerminalType.Clover){
 
             name = _.get(cloverMachineInfo, 'name')
@@ -163,8 +165,7 @@ class SetupHardware extends React.Component {
         } else if(paymentMachineType == PaymentTerminalType.Dejavoo){
         
             name = _.get(dejavooMachineInfo, 'name')
-            ip = _.get(dejavooMachineInfo, 'ip')
-            port = _.get(dejavooMachineInfo, 'port')
+            tpn = _.get(dejavooMachineInfo, 'tpn')
 
         } else{
             //Pax
@@ -182,6 +183,7 @@ class SetupHardware extends React.Component {
             bluetoothAddr,
             terminalName: paymentMachineType,
             serialNumber: _.get(cloverMachineInfo, 'serialNumber', ''),
+            tpn,
         })
 
         this.props.backListDevices();
@@ -203,19 +205,19 @@ class SetupHardware extends React.Component {
 
     setTerminal = (terminalName) => () => {
         if(terminalName != this.state.terminalName) {
-            const { name, ip, port } = this.state;
+            const { name, ip, port, tpn } = this.state;
             const { paxMachineInfo, cloverMachineInfo, dejavooMachineInfo } = this.props;
             let tempName = name 
             let tempIp = ip
             let tempPort = port
+            let tempTpn = tpn
             if (terminalName == PaymentTerminalType.Pax) {
                 tempName = _.get(paxMachineInfo, 'name')
                 tempIp = _.get(paxMachineInfo, 'ip')
                 tempPort = _.get(paxMachineInfo, 'port')
             } else if (terminalName == PaymentTerminalType.Dejavoo) {
                 tempName = _.get(dejavooMachineInfo, 'name')
-                tempIp = _.get(dejavooMachineInfo, 'ip')
-                tempPort = _.get(dejavooMachineInfo, 'port')
+                tempTpn = _.get(dejavooMachineInfo, 'tpn')
             } else {
                 //Clover
                 tempName = _.get(cloverMachineInfo, 'name')
@@ -227,7 +229,8 @@ class SetupHardware extends React.Component {
                 name: tempName,
                 ip: tempIp,
                 port: tempPort,
-                serialNumber: _.get(cloverMachineInfo, 'serialNumber', '')
+                serialNumber: _.get(cloverMachineInfo, 'serialNumber', ''),
+                tpn,
             });
         }
     }
@@ -297,13 +300,20 @@ class SetupHardware extends React.Component {
     render() {
         const { language, bluetoothPaxInfo, dataLocal } = this.props;
         const { name, ip, port, timeout, commType, 
-                terminalName, serialNumber } = this.state;
+                terminalName, serialNumber, tpn } = this.state;
 
         const tempCheckEthernetIcon = commType === "TCP" ? ICON.radioExportSe : ICON.radioExport;
         const tempCheckBluetoothIcon = commType === "BLUETOOTH" ? ICON.radioExportSe : ICON.radioExport;
         const tempCheckPax = terminalName === PaymentTerminalType.Pax ? ICON.radioExportSe : ICON.radioExport;
         const tempCheckClover = terminalName === PaymentTerminalType.Clover ? ICON.radioExportSe : ICON.radioExport;
         const tempCheckDejavoo = terminalName === PaymentTerminalType.Dejavoo ? ICON.radioExportSe : ICON.radioExport;
+        
+        let placeHolderPort = "10009"
+        if(terminalName === PaymentTerminalType.Clover){
+            placeHolderPort = "12345"
+        }else if(terminalName === PaymentTerminalType.Dejavoo){
+            placeHolderPort = "8443"
+        }
         return (
             <View style={{ flex: 1, paddingHorizontal: scaleSize(14), paddingTop: scaleSize(20) }} >
                 <Text style={{
@@ -428,7 +438,7 @@ class SetupHardware extends React.Component {
                     }
 
                     {
-                        terminalName === "Clover" &&
+                        terminalName === PaymentTerminalType.Clover &&
                         <ItemSetup
                             title={localize('Serial Number', language)}
                             placeholder={localize('Serial Number', language)}
@@ -438,7 +448,18 @@ class SetupHardware extends React.Component {
                     }
 
                     {
-                        commType === "TCP" || terminalName === "Clover" ? <>
+                        terminalName === PaymentTerminalType.Dejavoo &&
+                        <ItemSetup
+                            title={localize('TPN', language)}
+                            placeholder={localize('TPN', language)}
+                            value={tpn}
+                            onChangeText={tpn => this.setState({ tpn })}
+                        />
+                    }
+
+                    {
+                        (commType === "TCP" && terminalName === PaymentTerminalType.Pax) 
+                        || terminalName === PaymentTerminalType.Clover ? <>
                             <ItemSetup
                                 title={localize('IP Address', language)}
                                 placeholder={"192.168.1.1"}
@@ -450,7 +471,7 @@ class SetupHardware extends React.Component {
 
                             <ItemSetup
                                 title={localize('Port', language)}
-                                placeholder={terminalName == 'Pax' ? "10009" : "12345"}
+                                placeholder={placeHolderPort}
                                 value={port}
                                 onChangeText={port => this.setState({ port })}
                                 keyboardType="numeric"

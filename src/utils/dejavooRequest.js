@@ -1,34 +1,19 @@
-import React from "react";
-import {
-  Platform,
-  Dimensions,
-  Linking,
-  Alert,
-  Text,
-  StyleSheet,
-  NativeModules,
-} from "react-native";
 import axios from "axios";
-import { openSettings } from "react-native-permissions";
-import moment from "moment";
-import PrintManager from "@lib/PrintManager";
-
-import Configs from "@configs";
-import Localization from "../localization";
-import ICON from "../resources";
 import {
     AUTHEN_KEY,
-    REGISTER_ID,
   } from '@utils';
 import _ from "lodash";
-import PushNotification from "react-native-push-notification";
-import { parseString } from "react-native-xml2js";
-import env from "react-native-config";
 import { parseString } from "react-native-xml2js";
 import configureStore from "../redux/store";
 const { store } = configureStore();
+let headers = Object.assign(
+  { Accept: "application/json", "Content-Type": "application/json" }
+);
+
+const api = 'https://spinpos.net/spin/cgi.html'
 
 export const requestTransactionDejavoo = async (params) => {
+    console.log('params', params)
     const { hardware } = store.getState();
     const { dejavooMachineInfo } = hardware;
     const transType = _.get(params, 'transType')
@@ -39,100 +24,80 @@ export const requestTransactionDejavoo = async (params) => {
                 `<InvNum>${_.get(params, 'invNum')}</InvNum>`+
                 `<RefId>${_.get(params, 'RefId', '1')}</RefId>`+
                 `<AuthKey>${AUTHEN_KEY}</AuthKey>`+
-                `<RegisterId>${REGISTER_ID}</RegisterId>`+
-                transType == "Sale" && `<PrintReceipt>No</PrintReceipt>`+
+                `<TPN>${_.get(dejavooMachineInfo, 'tpn')}</TPN>`+
+                `<PrintReceipt>No</PrintReceipt>`+
                 `</request>`
+    console.log('param', param)
     
-   const api = `http://${_.get(dejavooMachineInfo, 'ip')}:${_.get(dejavooMachineInfo, 'port')}/cgi.html`
-
    const configs = {
     method: "get",
     baseURL: api,
     url: `?TerminalTransaction=${param}`,
     headers: headers,
     timeout: 90000,
+    };
+    console.log('configs', configs)
+    const response = await handleRequest(configs)
+    return response
   };
+
+  const handleRequest = async (configs) => {
     try {
-      let xmlResponse = await axios(configs);
-      parseString(xmlResponse, (err, result) => {
-        if (err) {
-            return {errorMessage: "Error"}
-        } else {
-          return result
-        }
-      });
+      const response = await axios(configs);
+      console.log('response', response)
+   
+      if (parseInt(_.get(response, 'status')) == 200) {
+        const xmlResponse = _.get(response, 'data')
+        console.log('xmlResponse', xmlResponse)
+        return xmlResponse
+      } else {
+        return '<xmp><response><ResultCode>999</ResultCode><Message>Error</Message></response></xmp>'
+      }
     } catch (error) {
-      return {errorMessage: "Error"}
+      console.log('error', error)
+      return '<xmp><response><ResultCode>999</ResultCode><Message>Error</Message></response></xmp>'
     }
-  };
+  }
   
   export const requestPrintDejavoo = async (params) => {
     const { hardware } = store.getState();
     const { dejavooMachineInfo } = hardware;
-    const transType = _.get(params, 'transType')
     const param = `<request>`+
                 `<AuthKey>${AUTHEN_KEY}</AuthKey>`+
-                `<RegisterId>${REGISTER_ID}</RegisterId>`+
+                `<TPN>${_.get(dejavooMachineInfo, 'tpn')}</TPN>`+
                 `<printer width="24">`+
                 `<img>${_.get(params, 'image')}</img>`+
                 `</printer>`+
                 `</request>`
     
-    const api = `http://${_.get(dejavooMachineInfo, 'ip')}:${_.get(dejavooMachineInfo, 'port')}/cgi.html`
-
    const configs = {
     method: "get",
     baseURL: api,
     url: `?TerminalTransaction=${param}`,
     headers: headers,
     timeout: 90000,
-  };
-    try {
-      let xmlResponse = await axios(configs);
-      parseString(xmlResponse, (err, result) => {
-        if (err) {
-            return {errorMessage: "Error"}
-        } else {
-          return result
-        }
-      });
-    } catch (error) {
-      return {errorMessage: "Error"}
-    }
+    };
+    const response = await handleRequest(configs)
+    return response
   };
 
   export const requestSettlementDejavoo = async (params) => {
     const { hardware } = store.getState();
     const { dejavooMachineInfo } = hardware;
-    const transType = _.get(params, 'transType')
     const param = `<request>`+
                 `<AuthKey>${AUTHEN_KEY}</AuthKey>`+
-                `<RegisterId>${REGISTER_ID}</RegisterId>`+
+                `<TPN>${_.get(dejavooMachineInfo, 'tpn')}</TPN>`+
                 `<RefId>${_.get(params, 'RefId', '1')}</RefId>`+
                 `<TransType>Settle</TransType>`+
                 `<Param>Close</Param>`+
                 `</request>`
     
-    
-    const api = `http://${_.get(dejavooMachineInfo, 'ip')}:${_.get(dejavooMachineInfo, 'port')}/cgi.html`
-
    const configs = {
     method: "get",
     baseURL: api,
     url: `?TerminalTransaction=${param}`,
     headers: headers,
     timeout: 90000,
-  };
-    try {
-      let xmlResponse = await axios(configs);
-      parseString(xmlResponse, (err, result) => {
-        if (err) {
-            return {errorMessage: "Error"}
-        } else {
-          return result
-        }
-      });
-    } catch (error) {
-      return {errorMessage: "Error"}
-    }
+    };
+    handleRequest(configs)
   };

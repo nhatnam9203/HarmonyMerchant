@@ -17,6 +17,7 @@ import Configs from "@configs";
 import Localization from "../localization";
 import ICON from "../resources";
 export * from "./enums";
+export * from "./dejavooRequest";
 import * as l from "lodash";
 import PushNotification from "react-native-push-notification";
 import { parseString } from "react-native-xml2js";
