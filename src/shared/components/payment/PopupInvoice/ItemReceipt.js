@@ -155,7 +155,7 @@ export const ItemHeaderReceipt = ({ isSalonApp }) => {
 const styles = StyleSheet.create({
   content: { flexDirection: "row" },
 
-  textStyle: { fontSize: 18, fontWeight: "300", textAlign: "left" },
+  textStyle: { fontSize: 18, fontWeight: "400", textAlign: "left" },
 
   headerStyle: {
     fontSize: scaleFont(17),

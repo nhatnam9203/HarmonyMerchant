@@ -1,22 +1,23 @@
-import React from "react";
-import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
-import { useTranslation } from "react-i18next";
-import { layouts, colors, fonts } from "@shared/themes";
+import IMAGE from "@resources";
 import {
-  FormTitle,
   ButtonGradient,
   ButtonGradientWhite,
+  CustomCheckBox,
+  FormTitle,
 } from "@shared/components";
-import IMAGE from "@resources";
+import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { FormEditNotes } from "../../widget";
-import FastImage from "react-native-fast-image";
+import { colors, fonts, layouts } from "@shared/themes";
 import { formatMoneyWithUnit } from "@utils";
-import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
-import { TextInputMask } from "react-native-masked-text";
 import _ from "lodash";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import FastImage from "react-native-fast-image";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { TextInputMask } from "react-native-masked-text";
+import { FormEditNotes } from "../../widget";
 
 export const Layout = ({
   goBack,
@@ -27,6 +28,7 @@ export const Layout = ({
   setNotes,
   updateQuantity,
   updateTotal,
+  setToggleReturnShipping,
 }) => {
   const [t] = useTranslation();
 
@@ -273,14 +275,14 @@ export const Layout = ({
                   label={t("Shipping & Handling")}
                   infoValue={formatMoneyWithUnit(item?.shippingAmount)}
                 />
-                {/* <InfoLine
+                <InfoLine
                   label={t("Tax")}
                   infoValue={formatMoneyWithUnit(item?.tax)}
                 />
                 <InfoLine
                   label={t("Discount")}
                   infoValue={formatMoneyWithUnit(item?.discount)}
-                /> */}
+                />
               </View>
               <InfoLine
                 label={t("Grand Total")}
@@ -288,22 +290,31 @@ export const Layout = ({
                 labelTextStyle={styles.highLabelTextStyle}
                 infoTextStyle={styles.highInfoTextStyle}
               />
-              {/*
+
               <InfoLine
                 label={t("Total Return")}
                 infoValue={formatMoneyWithUnit(item?.returnAmount)}
                 labelTextStyle={styles.highLabelTextStyle}
                 infoTextStyle={styles.highInfoTextStyle}
-              /> */}
-              {/* <InfoLine
+              />
+              <InfoLine
                 label={t("Total Due")}
                 infoValue={formatMoneyWithUnit(item?.dueAmount)}
                 labelTextStyle={styles.highLabelTextStyle}
                 infoTextStyle={styles.highInfoTextStyle}
-              /> */}
+              />
             </InfoContent>
             <View style={layouts.marginHorizontal} />
+
             <InfoContent label={t("Return Comments")}>
+              {/* <CustomCheckBox
+                label={t("Return shipping and tip")}
+                onValueChange={setToggleReturnShipping}
+                selectedColor={colors.OCEAN_BLUE}
+                onCheckColor="#fff"
+                textStyle={[styles.textStyle, { color: colors.OCEAN_BLUE }]}
+                style={{ height: scaleHeight(40) }}
+              /> */}
               <FormEditNotes
                 // defaultValue={item?.note}
                 // onSubmitNotes={onSubmitNotes}
@@ -531,6 +542,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
+
   textStyle: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),

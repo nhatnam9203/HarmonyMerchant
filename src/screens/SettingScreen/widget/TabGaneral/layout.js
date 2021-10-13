@@ -655,7 +655,7 @@ const ItemTextStoreInfoNotTilte = ({ city, state, zipcode }) => {
           width: scaleSize(150),
         }}
       >
-        {""}
+        {" "}
       </Text>
       <View
         style={{

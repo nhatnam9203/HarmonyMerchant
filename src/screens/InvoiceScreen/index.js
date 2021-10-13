@@ -63,6 +63,7 @@ class InvoiceScreen extends Layout {
     this.invoicePrintRef = React.createRef();
     this.viewShotRef = React.createRef();
     this.virtualizedListRef = React.createRef();
+    this.invoiceRef = React.createRef();
 
     //ADD LISTENER FROM CLOVER MODULE
     this.eventEmitter = new NativeEventEmitter(clover);
@@ -910,7 +911,6 @@ class InvoiceScreen extends Layout {
     try {
       const imageUri = await captureRef(this.viewShotRef, {});
       if (Platform.OS === "ios") {
-
         RNFetchBlob.ios.previewDocument(imageUri);
       } else {
         const shareResponse = await Share.open({

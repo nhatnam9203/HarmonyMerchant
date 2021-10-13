@@ -26,6 +26,7 @@ import {
   FormEditNotes,
   FormShippingCarrier,
 } from "../../widget";
+import { PURCHASE_POINTS_ORDER, statusSuccess } from "@shared/utils";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
@@ -47,6 +48,7 @@ export const Layout = ({
   printCustomerInvoice,
   shareCustomerInvoice,
   invoiceRef,
+  getShippingMethodLabel,
 }) => {
   const [t] = useTranslation();
 
@@ -513,10 +515,16 @@ export const Layout = ({
             // draggable={true}
           />
 
-          {item?.status === ORDERED_STATUS.PENDING ? (
+          {item?.status === ORDERED_STATUS.PENDING ||
+          (item?.status === ORDERED_STATUS.PROCESS &&
+            item.purchasePoint === PURCHASE_POINTS_ORDER &&
+            item.payment?.length <= 0) ? (
             <>
               <FormTitle label={t("Shipping Method")} />
-              <FormShippingCarrier onChangeValue={onChangeShippingMethod} />
+              <FormShippingCarrier
+                onChangeValue={onChangeShippingMethod}
+                appointment={item}
+              />
 
               <FormTitle label={t("Address Information")} />
               <FormAddressInformation
@@ -575,7 +583,9 @@ export const Layout = ({
                   )}
                 </InfoContent>
                 <View style={layouts.marginHorizontal} />
-                <InfoContent label={t("Shipping & Handling Infomation")}>
+                {/** Shipping  */}
+                <InfoContent label={t("Shipping & Handling Information")}>
+                  {/** Shipping Carrier */}
                   {!!item?.shipping?.shippingCarrier && (
                     <View style={styles.personContent}>
                       <Text>{t("Shipping carrier")}</Text>
@@ -600,22 +610,15 @@ export const Layout = ({
                     </View>
                   )}
 
-                  {item?.shipping?.shippingMethodGroup && (
+                  {item?.shipping?.shippingMethod && (
                     <View style={styles.personContent}>
                       <Text>{t("Shipping method")}</Text>
                       <View style={layouts.marginVertical} />
 
                       <View style={layouts.horizontal}>
-                        {item?.shipping?.shippingMethodGroup && (
-                          <Text
-                            style={styles.boldText}
-                          >{`${item?.shipping?.shippingMethodGroup}`}</Text>
-                        )}
-                        {item?.shipping?.shippingMethodLabel && (
-                          <Text
-                            style={styles.boldText}
-                          >{`/${item?.shipping?.shippingMethodLabel}`}</Text>
-                        )}
+                        <Text
+                          style={styles.boldText}
+                        >{`${getShippingMethodLabel()}`}</Text>
                       </View>
                     </View>
                   )}
@@ -634,7 +637,7 @@ export const Layout = ({
                 />
                 <InfoLine
                   label={t("Shipping & Handling")}
-                  infoValue={formatMoneyWithUnit(item?.shippingAmount)}
+                  infoValue={formatMoneyWithUnit(item?.shippingFee)}
                 />
                 <InfoLine
                   label={t("Tax")}

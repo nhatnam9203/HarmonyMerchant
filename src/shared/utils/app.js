@@ -142,9 +142,9 @@ export const SHIPPING_CARRIER = [
   { label: "Other", value: "Other" },
 ];
 
-const STORE_PICKUP_CONSTANT = "StorePickup";
-const FLAT_RATE_CONSTANT = "FlatRate_shipping";
-const FREE_SHIP_CONSTANT = "Free_Shipping";
+const STORE_PICKUP_CONSTANT = "store_pickup";
+const FLAT_RATE_CONSTANT = "flat_rate";
+const FREE_SHIP_CONSTANT = "free";
 
 export const SHIPPING_METHOD_GROUP = {
   STORE_PICKUP: STORE_PICKUP_CONSTANT,
@@ -161,9 +161,24 @@ export const STORE_PICKUPS = [
 ];
 
 export const FLAT_RATE_SHIPPING = [
-  { label: "1 - 2 days", value: 5, group: SHIPPING_METHOD_GROUP.FLAT_RATE },
-  { label: "2 - 4 days", value: 10, group: SHIPPING_METHOD_GROUP.FLAT_RATE },
-  { label: "5 - 10 days", value: 15, group: SHIPPING_METHOD_GROUP.FLAT_RATE },
+  {
+    label: "1 - 2 days",
+    amount: 5,
+    value: 1000000,
+    group: SHIPPING_METHOD_GROUP.FLAT_RATE,
+  },
+  {
+    label: "2 - 4 days",
+    amount: 10,
+    value: 1000001,
+    group: SHIPPING_METHOD_GROUP.FLAT_RATE,
+  },
+  {
+    label: "5 - 10 days",
+    amount: 15,
+    value: 1000002,
+    group: SHIPPING_METHOD_GROUP.FLAT_RATE,
+  },
 ];
 
 export const FREE_SHIPPING = [

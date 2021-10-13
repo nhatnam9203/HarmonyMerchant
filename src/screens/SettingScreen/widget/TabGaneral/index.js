@@ -40,7 +40,7 @@ class TabGaneral extends Layout {
 
       giftForNewEnabled: profile?.giftForNewEnabled || false,
       isTurnOnAutoClose: profile?.isTurnOnAutoClose || false,
-      receiptFooter: profile?.receiptFooter || "",
+      receiptFooter: profile?.receiptFooter || null,
     };
     this.inputRefsTime = [];
   }

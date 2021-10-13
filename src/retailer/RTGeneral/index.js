@@ -1,21 +1,47 @@
-import React from "react";
-
-import Layout from "./layout";
 import connectRedux from "@redux/ConnectRedux";
 import {
+  BusinessWorkingTime,
   getNameLanguage,
   getPosotion,
-  gotoSettingsDevice,
-  BusinessWorkingTime,
-  getTitleSignInAppDisplay,
-  getValueSignInAppDisplay,
   getTitleSendLinkGoogle,
+  getTitleSignInAppDisplay,
   getValueSendLinkGoogle,
+  getValueSignInAppDisplay,
+  gotoSettingsDevice,
 } from "@utils";
+import React from "react";
 import { SettingGeneralPage } from "../RTSettingsScreen/pages/SettingGeneralPage";
-import { NavigationContext } from "@react-navigation/native";
-import { isPermissionToTab, role } from "@utils";
-import * as l from "lodash";
+import Layout from "./layout";
+
+const ShippingMethodDefault = {
+  id: 0,
+  storePickup: true,
+  flatRate: true,
+  freeShip: true,
+  shippingFlatRates: [
+    {
+      id: 0,
+      label: "1-2 days",
+      amount: 5.0,
+      isDeleted: 0,
+      tempId: 1,
+    },
+    {
+      id: 0,
+      label: "2-4 days",
+      amount: 10.0,
+      isDeleted: 0,
+      tempId: 2,
+    },
+    {
+      id: 0,
+      label: "5-10 days",
+      amount: 15.0,
+      isDeleted: 0,
+      tempId: 3,
+    },
+  ],
+};
 
 class TabGaneral extends Layout {
   constructor(props) {
@@ -41,9 +67,13 @@ class TabGaneral extends Layout {
 
       giftForNewEnabled: profile?.giftForNewEnabled || false,
       receiptFooter: profile?.receiptFooter || "",
+      shippingMethod: profile?.shippingMethod ?? ShippingMethodDefault,
     };
+    this.tempId = 4;
     this.inputRefsTime = [];
     this.checkPermissionRef = React.createRef();
+    this.onChangeShippingFlatRate = this.onChangeShippingFlatRate.bind(this);
+    this.onCheckShippingFree = this.onCheckShippingFree.bind(this);
   }
 
   setRefTimeWorking = (ref) => {
@@ -130,6 +160,7 @@ class TabGaneral extends Layout {
       sendReviewLinkOption,
       giftForNewEnabled,
       receiptFooter,
+      shippingMethod,
     } = this.state;
     const temptLanguage = languageApp === "English" ? "en" : "vi";
     this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
@@ -164,6 +195,7 @@ class TabGaneral extends Layout {
         sendReviewLinkOption: getValueSendLinkGoogle(sendReviewLinkOption),
         giftForNewEnabled,
         receiptFooter,
+        shippingMethod,
       },
       true,
       true
@@ -192,6 +224,7 @@ class TabGaneral extends Layout {
           profile?.sendReviewLinkOption || ""
         ),
         giftForNewEnabled: profile?.giftForNewEnabled || false,
+        shippingMethod: profile?.shippingMethod ?? ShippingMethodDefault,
       });
       this.updateWorkTime();
     }
@@ -214,10 +247,60 @@ class TabGaneral extends Layout {
           profile?.sendReviewLinkOption || ""
         ),
         giftForNewEnabled: profile?.giftForNewEnabled || false,
+        shippingMethod: profile?.shippingMethod ?? ShippingMethodDefault,
       });
       this.updateWorkTime();
     }
   }
+
+  addMoreShipping = () => {
+    this.tempId++;
+
+    const { shippingMethod } = this.state;
+
+    let { shippingFlatRates = [] } = shippingMethod || [];
+
+    shippingFlatRates.push({
+      id: 0,
+      label: "Flat rate",
+      amount: 0,
+      isDeleted: 0,
+      tempId: this.tempId,
+    });
+
+    this.setState({
+      shippingMethod: Object.assign({}, shippingMethod, {
+        shippingFlatRates,
+      }),
+    });
+  };
+
+  onCheckShippingFree(isCheck) {
+    const { shippingMethod } = this.state;
+
+    this.setState({
+      shippingMethod: Object.assign({}, shippingMethod, { freeShip: isCheck }),
+    });
+  }
+
+  onChangeShippingFlatRate(shipItem) {
+    const { shippingMethod } = this.state;
+    let { shippingFlatRates = [] } = shippingMethod || [];
+    const findIndex = shippingFlatRates?.findIndex((x) =>
+      x.id > 0 ? x.id === shipItem.id : x.tempId === shipItem.tempId
+    );
+
+    if (findIndex >= 0) {
+      shippingFlatRates[findIndex] = shipItem;
+
+      this.setState({
+        shippingMethod: Object.assign({}, shippingMethod, {
+          shippingFlatRates,
+        }),
+      });
+    }
+  }
+
   componentDidMount() {
     this.props.actions.app.getMerchantByID(this.props.profile.merchantId, true);
   }

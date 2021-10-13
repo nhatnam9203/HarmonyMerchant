@@ -12,6 +12,7 @@ import _ from "ramda";
 import Dash from "react-native-dash";
 import { menuTabs } from "@utils";
 import { getFullName } from "@shared/utils";
+import { PopupInvoice } from "@shared/components/payment";
 
 import {
   Text,
@@ -43,7 +44,10 @@ import styles from "./style";
 import IMAGE from "@resources";
 import { ItemInvoice, ItemButton, ItemHistory } from "./widget";
 import configs from "@configs";
-
+import {
+  ItemHeaderReceipt,
+  ItemReceipt,
+} from "@shared/components/payment/PopupInvoice/ItemReceipt";
 export default class Layout extends React.Component {
   renderHeader() {
     const { language } = this.props;
@@ -233,7 +237,7 @@ export default class Layout extends React.Component {
   }
 
   renderButtonVoid() {
-    const { language, invoiceDetail } = this.props;
+    const { language, invoiceDetail, profile } = this.props;
     const status = invoiceDetail?.status || "";
     let isDebitPayment = false;
     const paymentMethod = invoiceDetail?.paymentMethod || "";
@@ -296,13 +300,19 @@ export default class Layout extends React.Component {
     const tempStyle =
       Platform.OS === "android"
         ? { paddingHorizontal: scaleSize(10), backgroundColor: "#FFFFFF" }
-        : { paddingHorizontal: scaleSize(10), backgroundColor: "#FFFFFF" };
+        : { paddingHorizontal: scaleSize(10), backgroundColor: "#fff9" };
     const status = invoiceDetail?.status || "";
     const checkoutId = invoiceDetail?.checkoutId || "";
 
-    let invoiceName = getStaffNameForInvoice(profileStaffLogin, basket);
-    if (!invoiceName && invoiceDetail?.user?.userId) {
-      invoiceName = getFullName(invoiceDetail?.user);
+    let invoiceName = "";
+    if (profile && profile?.type === "SalonPos") {
+      const { firstName = " ", lastName = " " } = invoiceDetail?.user || {};
+      invoiceName = firstName + " " + lastName;
+    } else {
+      invoiceName = getStaffNameForInvoice(profileStaffLogin, basket);
+      if (!invoiceName && invoiceDetail?.user?.userId) {
+        invoiceName = getFullName(invoiceDetail?.user);
+      }
     }
 
     return (
@@ -327,7 +337,7 @@ export default class Layout extends React.Component {
                   { fontSize: 24, fontWeight: "600", marginTop: scaleSize(8) },
                 ]}
               >
-                {profile?.businessName || ""}
+                {profile?.businessName || " "}
               </Text>
               {/* ------------- Store Address ----------- */}
               <Text
@@ -341,7 +351,7 @@ export default class Layout extends React.Component {
                   },
                 ]}
               >
-                {profile?.addressFull || ""}
+                {profile?.addressFull || " "}
               </Text>
               {/* ------------- Phone Address ----------- */}
               <Text
@@ -353,14 +363,14 @@ export default class Layout extends React.Component {
                 {`Tel : ${profile?.phone || ""}`}
               </Text>
               {/* ------------- Company Website ----------- */}
-              {profile?.webLink ? (
+              {!!profile?.webLink ? (
                 <Text
                   style={[
                     styles.txt_normal,
                     { paddingHorizontal: scaleSize(10) },
                   ]}
                 >
-                  {profile?.webLink || ""}
+                  {profile?.webLink}
                 </Text>
               ) : (
                 <View />
@@ -373,7 +383,6 @@ export default class Layout extends React.Component {
                     fontSize: 20,
                     fontWeight: "700",
                     marginTop: scaleSize(6),
-                    marginBottom: scaleSize(6),
                   },
                 ]}
               >
@@ -387,6 +396,18 @@ export default class Layout extends React.Component {
                     : "SALE"
                 }`}
               </Text>
+              <Text
+                style={[
+                  styles.txt_normal,
+                  {
+                    textAlign: "center",
+                    fontSize: scaleFont(15),
+                    marginBottom: scaleSize(6),
+                  },
+                ]}
+              >
+                {`( ${formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A")} )`}
+              </Text>
               {/* ------------- Dot Border  ----------- */}
               <Dash
                 style={{ width: "100%", height: 1 }}
@@ -395,6 +416,48 @@ export default class Layout extends React.Component {
                 dashThickness={1}
                 style={{ marginBottom: scaleSize(10) }}
               />
+
+              {/* ------------- Staff ----------- */}
+              {/* <View style={{ flexDirection: "row" }}>
+                <View style={{ width: scaleSize(90) }}>
+                  <Text style={styles.txt_info}>{`Staff Name`}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.txt_info}>{`: ${invoiceName}`}</Text>
+                </View>
+              </View> */}
+
+              {profile.type === "SalonPos" ? (
+                <View style={{ flexDirection: "row" }}>
+                  <View style={{ width: scaleSize(90) }}>
+                    <Text style={[styles.txt_info]}>{`Customer`}</Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={[styles.txt_info]}>{`: ${invoiceName}`}</Text>
+                  </View>
+                </View>
+              ) : (
+                <View style={{ flexDirection: "row" }}>
+                  <View style={{ width: scaleSize(90) }}>
+                    <Text style={[styles.txt_info]}>{`Staff Name`}</Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={[styles.txt_info]}>{`: ${invoiceName}`}</Text>
+                  </View>
+                </View>
+              )}
+
+              {/* ------------- Invoice No ----------- */}
+              <View style={{ flexDirection: "row" }}>
+                <View style={{ width: scaleSize(90) }}>
+                  <Text style={styles.txt_info}>{`Invoice No`}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.txt_info}>
+                    {checkoutId ? `: # ${checkoutId}` : ":"}
+                  </Text>
+                </View>
+              </View>
 
               {/* ------------- Invoice Date ----------- */}
               <View style={{ flexDirection: "row" }}>
@@ -415,28 +478,6 @@ export default class Layout extends React.Component {
                 </View>
               </View>
 
-              {/* ------------- Staff ----------- */}
-              <View style={{ flexDirection: "row" }}>
-                <View style={{ width: scaleSize(90) }}>
-                  <Text style={styles.txt_info}>{`Staff Name`}</Text>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.txt_info}>{`: ${invoiceName}`}</Text>
-                </View>
-              </View>
-
-              {/* ------------- Invoice No ----------- */}
-              <View style={{ flexDirection: "row" }}>
-                <View style={{ width: scaleSize(90) }}>
-                  <Text style={styles.txt_info}>{`Invoice No`}</Text>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.txt_info}>
-                    {checkoutId ? `: # ${checkoutId}` : ":"}
-                  </Text>
-                </View>
-              </View>
-
               {/* ------------- Dot Border  ----------- */}
               <Dash
                 style={{ width: "100%", height: 1 }}
@@ -447,7 +488,7 @@ export default class Layout extends React.Component {
               />
 
               {/* ------------- Header  ----------- */}
-              <View style={{ flexDirection: "row", marginTop: scaleSize(6) }}>
+              {/* <View style={{ flexDirection: "row", marginTop: scaleSize(6) }}>
                 <View style={{ flex: 0.8, justifyContent: "center" }}>
                   <Text
                     style={[
@@ -502,7 +543,8 @@ export default class Layout extends React.Component {
                     {`TOTAL`}
                   </Text>
                 </View>
-              </View>
+              </View> */}
+              <ItemHeaderReceipt isSalonApp={profile.type === "SalonPos"} />
 
               {/* ------------- Dot Border  ----------- */}
               <Dash
@@ -514,8 +556,15 @@ export default class Layout extends React.Component {
               />
 
               {/* ------------- Item Invoice   ----------- */}
-              {basket.map((item, index) => (
-                <ItemPrintBasket key={index} item={item} index={index} />
+              {/* <ItemPrintBasket key={index} item={item} index={index} /> */}
+
+              {basket?.map((item, index) => (
+                <ItemReceipt
+                  key={index}
+                  item={item}
+                  index={index}
+                  isSalonApp={profile.type === "SalonPos"}
+                />
               ))}
 
               {/* ------------- Line end item invoice   ----------- */}
@@ -656,9 +705,9 @@ export default class Layout extends React.Component {
                 </Text>
               )}
 
-              {profile?.receiptFooter && (
+              {!!profile?.receiptFooter && (
                 <Text style={[styles.txt_total, { alignSelf: "center" }]}>
-                  {`${profile?.receiptFooter}`}
+                  {` ${profile?.receiptFooter} `}
                 </Text>
               )}
               <View style={{ height: scaleSize(8) }} />
@@ -942,6 +991,7 @@ export default class Layout extends React.Component {
       visiblePopupParingCode,
       pairingCode,
     } = this.state;
+
     return (
       <ParentContainer
         handleLockScreen={this.handleLockScreen}
@@ -1014,6 +1064,8 @@ export default class Layout extends React.Component {
           onRequestClose={this.cancelInvoicePrint}
           doPrintClover={(imageUri) => this.doPrintClover(imageUri)}
         />
+
+        <PopupInvoice ref={this.invoiceRef} />
       </ParentContainer>
     );
   }

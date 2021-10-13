@@ -60,6 +60,7 @@ export const Layout = ({
   editProductItemRef,
   onShowDialogEditProductItem,
   onSubmitEditProductItem,
+  isCanGoBack,
 }) => {
   const { t } = useTranslation();
 
@@ -124,7 +125,8 @@ export const Layout = ({
             )}
           />
           <View style={layouts.marginHorizontal} />
-          {purchasePoint === PURCHASE_POINTS_ORDER && (
+
+          {isCanGoBack() && (
             <ButtonGradientWhite
               width={scaleWidth(40)}
               height={scaleHeight(40)}
