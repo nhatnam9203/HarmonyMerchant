@@ -57,7 +57,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
   |--------------------------------------------------
   */
   const [visible, setVisible] = React.useState(false);
-  const [titleInvoice, setTitleInvoice] = React.useState("Partical Return");
+  const [titleInvoice, setTitleInvoice] = React.useState("Return");
   const [isProcessingPrint, setIsProcessingPrint] = React.useState(false);
   const [isShare, setIsShare] = React.useState(false);
   const [itemReceipt, setItemReceipt] = React.useState(null);
@@ -86,7 +86,10 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
     return 0;
   };
   const getTipAmount = () => {
-    return 0;
+    return itemReceipt?.tipAmount || 0;
+  };
+  const getShippingAmount = () => {
+    return itemReceipt?.shippingAmount || 0;
   };
   const getTax = () => {
     return 0;
@@ -96,7 +99,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
   };
 
   const getFooterReceipt = () => {
-    return "Partical Return Receipt";
+    return "Merchant's Receipt";
   };
 
   const getStaffName = () => {
@@ -390,19 +393,19 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                   }}
                 />
                 {/* ------------- SubTotal   ----------- */}
+                <TotalView
+                  title={"Tip"}
+                  value={getTipAmount()}
+                  styleTextTitle={styles.textStyle}
+                  styleTextValue={styles.textStyle}
+                />
+                <TotalView
+                  title={"Shipping"}
+                  value={getShippingAmount()}
+                  styleTextTitle={styles.textStyle}
+                  styleTextValue={styles.textStyle}
+                />
                 {/* <TotalView
-                  title={"Subtotal"}
-                  value={getSubTotal()}
-                  styleTextTitle={styles.textStyle}
-                  styleTextValue={styles.textStyle}
-                />
-                <TotalView
-                  title={"Discount"}
-                  value={getDiscount()}
-                  styleTextTitle={styles.textStyle}
-                  styleTextValue={styles.textStyle}
-                />
-                <TotalView
                   title={"Tip"}
                   value={getTipAmount()}
                   styleTextTitle={styles.textStyle}

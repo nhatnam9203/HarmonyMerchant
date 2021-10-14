@@ -109,22 +109,29 @@ export const ItemReceipt = ({ item, index, type }) => {
             },
           ]}
         >
-          <Text style={styles.textStyle}>{quanlitySet}</Text>
+          <Text style={styles.textStyle}>{item?.saleQuantity}</Text>
         </View>
 
-        <View style={{ justifyContent: "center", width: scaleWidth(100) }}>
-          <Text style={styles.textStyle}>{`$ ${price}`}</Text>
+        <View style={{ justifyContent: "center", width: scaleWidth(60) }}>
+          <Text style={styles.textStyle}>{`$ ${item?.saslePrice}`}</Text>
         </View>
 
         <View
           style={[
             styles.headerContent,
             {
-              width: scaleWidth(80),
+              width: scaleWidth(60),
+              alignItems: "center",
             },
           ]}
         >
-          <Text style={styles.textStyle}>{`$ ${total ? total : ""}`}</Text>
+          <Text
+            style={[styles.textStyle, { textAlign: "center", flex: 1 }]}
+          >{`${item?.returnQuantity} `}</Text>
+        </View>
+
+        <View style={{ justifyContent: "center", width: scaleWidth(60) }}>
+          <Text style={styles.textStyle}>{`$${item?.returnPrice}`}</Text>
         </View>
       </View>
     );
@@ -202,7 +209,7 @@ export const ItemHeaderReceipt = ({ type }) => {
     return (
       <View style={styles.content}>
         <View style={[styles.headerContent, { flex: 1 }]}>
-          <Text style={styles.headerStyle}>{`DESCRIPTION`}</Text>
+          <Text style={styles.headerStyle}>{`Name`}</Text>
         </View>
 
         <View
@@ -213,22 +220,26 @@ export const ItemHeaderReceipt = ({ type }) => {
             },
           ]}
         >
-          <Text style={styles.headerStyle}>{` QTY`}</Text>
+          <Text style={styles.headerStyle}>{`Qty`}</Text>
         </View>
 
-        <View style={{ justifyContent: "center", width: scaleWidth(100) }}>
-          <Text style={styles.headerStyle}>{` PRICE`}</Text>
+        <View style={{ justifyContent: "center", width: scaleWidth(60) }}>
+          <Text style={styles.headerStyle}>{` Price`}</Text>
         </View>
 
         <View
           style={[
             styles.headerContent,
             {
-              width: scaleWidth(80),
+              width: scaleWidth(60),
             },
           ]}
         >
-          <Text style={styles.headerStyle}>{`TOTAL`}</Text>
+          <Text style={styles.headerStyle}>{`Return Qty`}</Text>
+        </View>
+
+        <View style={{ justifyContent: "center", width: scaleWidth(60) }}>
+          <Text style={styles.headerStyle}>{`Return Total`}</Text>
         </View>
       </View>
     );
@@ -247,10 +258,10 @@ export const ItemHeaderReceipt = ({ type }) => {
 const styles = StyleSheet.create({
   content: { flexDirection: "row" },
 
-  textStyle: { fontSize: 18, fontWeight: "400", textAlign: "left" },
+  textStyle: { fontSize: scaleFont(15), fontWeight: "400", textAlign: "left" },
 
   headerStyle: {
-    fontSize: scaleFont(17),
+    fontSize: scaleFont(15),
     fontWeight: "500",
     textAlign: "left",
   },
