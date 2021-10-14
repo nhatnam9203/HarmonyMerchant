@@ -300,7 +300,7 @@ export default class Layout extends React.Component {
     const tempStyle =
       Platform.OS === "android"
         ? { paddingHorizontal: scaleSize(10), backgroundColor: "#FFFFFF" }
-        : { paddingHorizontal: scaleSize(10), backgroundColor: "#fff9" };
+        : { paddingHorizontal: scaleSize(10), backgroundColor: "#fff" };
     const status = invoiceDetail?.status || "";
     const checkoutId = invoiceDetail?.checkoutId || "";
 
@@ -544,7 +544,10 @@ export default class Layout extends React.Component {
                   </Text>
                 </View>
               </View> */}
-              <ItemHeaderReceipt isSalonApp={profile.type === "SalonPos"} />
+              <ItemHeaderReceipt isSalonApp={profile.type === "SalonPos"} textStyle={[
+                      styles.txt_info,
+                      { fontSize: 18, fontWeight: "600" },
+                    ]}/>
 
               {/* ------------- Dot Border  ----------- */}
               <Dash

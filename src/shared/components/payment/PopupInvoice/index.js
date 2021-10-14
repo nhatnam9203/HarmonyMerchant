@@ -173,8 +173,17 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
     return 0;
   };
 
+  // const getPaymentMethods = () => {
+  //   return paymentDetailInfo.paidAmounts &&
+  //     paymentDetailInfo.paidAmounts.length > 0
+  //     ? paymentDetailInfo.paidAmounts.slice(0).reverse()
+  //     : [];
+  // };
+
   const getCheckoutPaymentMethods = () => {
-    return [];
+    return groupAppointment?.paymentMethods?.length > 0
+      ? groupAppointment?.paymentMethods
+      : groupAppointment?.checkoutPayments;
   };
 
   const getPromotionNotes = (appointments) => {
@@ -708,7 +717,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                 {/* ------------- Entry Method   ----------- */}
                 {!printTempt && (
                   <View>
-                    {getCheckoutPaymentMethods().map((data, index) => (
+                    {getCheckoutPaymentMethods()?.map((data, index) => (
                       <View key={index} style={{ marginBottom: scaleSize(4) }}>
                         <View style={{ flexDirection: "row" }}>
                           <Text style={[styles.textStyle]}>

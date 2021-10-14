@@ -448,7 +448,7 @@ export const useProps = ({
             const flatRate = shippingFlatRates
               ?.filter((x) => !x.isDeleted)
               ?.find(
-                (x) => (x.id = appointmentDetail?.shipping?.flatRateCustom)
+                (x) => x.id === appointmentDetail?.shipping?.flatRateCustom
               );
 
             if (flatRate) {
