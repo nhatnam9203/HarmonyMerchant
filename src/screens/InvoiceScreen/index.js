@@ -23,9 +23,12 @@ import {
   localize,
   PaymentTerminalType,
   requestTransactionDejavoo,
+  role, 
+  menuTabs, 
+  isPermissionToTab,
+  stringIsEmptyOrWhiteSpaces,
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
-import { role, menuTabs, isPermissionToTab } from "@utils";
 import * as l from "lodash";
 import { parseString } from "react-native-xml2js";
 
@@ -489,7 +492,7 @@ class InvoiceScreen extends Layout {
                   const params = {
                     tenderType: "Credit",
                     transType: "Return",
-                    amount: parseFloat(amount/100).toFixed(2),
+                    amount: parseFloat(amount).toFixed(2),
                     RefId: transactionId,
                     invNum: `${invNum}`,
                   }
@@ -564,12 +567,11 @@ class InvoiceScreen extends Layout {
                   const params = {
                     tenderType: "Credit",
                     transType: "Void",
-                    amount: parseFloat(amount/100).toFixed(2),
+                    amount: parseFloat(amount).toFixed(2),
                     RefId: transactionId,
                     invNum: `${invNum}`,
                   }
                   requestTransactionDejavoo(params).then((responses) => {
-                    console.log('response void', responses)
                     this.handleResultRefundTransactionDejavoo(responses)
                   })
                   
@@ -758,7 +760,11 @@ class InvoiceScreen extends Layout {
     parseString(responses, (err, result) => {
       console.log('result', result)
       if (err || l.get(result, 'xmp.response.0.ResultCode.0') != 0) {
-        const resultTxt = l.get(result, 'xmp.response.0.Message.0') || "Error";
+        let detailMessage = l.get(result, 'xmp.response.0.RespMSG.0', "").replace(/%20/g, " ")
+        detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage) ? `: ${detailMessage}` : detailMessage
+        
+        const resultTxt = `${l.get(result, 'xmp.response.0.Message.0')}${detailMessage}`
+        || "Error";
         setTimeout(() => {
           alert(resultTxt);
         }, 300);
@@ -778,7 +784,13 @@ class InvoiceScreen extends Layout {
 
   cancelTransaction = async () => {
     const { paymentMachineType } = this.props;
-    if (paymentMachineType == "Clover") {
+
+    if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+      alert("Can not cancel request.")
+      return
+    }
+
+    if (paymentMachineType == PaymentTerminalType.Clover) {
       clover.cancelTransaction();
     } else {
       PosLink.cancelTransaction();
@@ -858,7 +870,7 @@ class InvoiceScreen extends Layout {
       alert("You don't select invoice!");
     } else {
       const printMachine = await checkStatusPrint();
-      if (printMachine) {
+      if (printMachine && printMachine.length > 0) {
         this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
 
         const {

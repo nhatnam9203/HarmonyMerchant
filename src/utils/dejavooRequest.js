@@ -23,8 +23,8 @@ export const requestTransactionDejavoo = async (params) => {
                 `<Amount>${_.get(params, 'amount')}</Amount>`+
                 `<InvNum>${_.get(params, 'invNum')}</InvNum>`+
                 `<RefId>${_.get(params, 'RefId', '1')}</RefId>`+
-                `<AuthKey>${AUTHEN_KEY}</AuthKey>`+
-                `<TPN>${_.get(dejavooMachineInfo, 'tpn')}</TPN>`+
+                `<AuthKey>${_.get(dejavooMachineInfo, 'authKey')}</AuthKey>`+
+                `<RegisterId>${_.get(dejavooMachineInfo, 'registerId')}</RegisterId>`+
                 `<PrintReceipt>No</PrintReceipt>`+
                 `</request>`
     console.log('param', param)
@@ -63,8 +63,8 @@ export const requestTransactionDejavoo = async (params) => {
     const { hardware } = store.getState();
     const { dejavooMachineInfo } = hardware;
     const param = `<request>`+
-                `<AuthKey>${AUTHEN_KEY}</AuthKey>`+
-                `<TPN>${_.get(dejavooMachineInfo, 'tpn')}</TPN>`+
+                `<AuthKey>${_.get(dejavooMachineInfo, 'authKey')}</AuthKey>`+
+                `<RegisterId>${_.get(dejavooMachineInfo, 'registerId')}</RegisterId>`+
                 `<printer width="24">`+
                 `<img>${_.get(params, 'image')}</img>`+
                 `</printer>`+
@@ -81,13 +81,13 @@ export const requestTransactionDejavoo = async (params) => {
     return response
   };
 
-  export const requestSettlementDejavoo = async (params) => {
+  export const requestSettlementDejavoo = async () => {
     const { hardware } = store.getState();
     const { dejavooMachineInfo } = hardware;
     const param = `<request>`+
-                `<AuthKey>${AUTHEN_KEY}</AuthKey>`+
-                `<TPN>${_.get(dejavooMachineInfo, 'tpn')}</TPN>`+
-                `<RefId>${_.get(params, 'RefId', '1')}</RefId>`+
+                `<AuthKey>${_.get(dejavooMachineInfo, 'authKey')}</AuthKey>`+
+                `<RegisterId>${_.get(dejavooMachineInfo, 'registerId')}</RegisterId>`+
+                `<RefId>${Date.now()}</RefId>`+
                 `<TransType>Settle</TransType>`+
                 `<Param>Close</Param>`+
                 `</request>`
@@ -99,5 +99,6 @@ export const requestTransactionDejavoo = async (params) => {
     headers: headers,
     timeout: 90000,
     };
-    handleRequest(configs)
+    const response = await handleRequest(configs)
+    return response
   };

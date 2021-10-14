@@ -99,6 +99,7 @@ export const requestAPI = async (action, header = {}) => {
   }
   try {
     let response = await axios(configs);
+    console.log('response', response)
     const codeNumber = response.status ? response.status : 0;
     if (codeNumber === 401) {
       return { codeNumber: codeNumber };
@@ -1902,5 +1903,5 @@ export const proccessingSettlement = async (
 };
 
 export const stringIsEmptyOrWhiteSpaces = (str) => {
-  return str == null || str == undefined || (str && str.trim().length === 0)
+  return str == null || str == undefined || (str.trim().length == 0)
 }

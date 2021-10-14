@@ -25,3 +25,10 @@ export function setupDejavooMachine(dejavooInfo) {
         payload: dejavooInfo
     }
 }
+
+export function setDejavooMachineSN(sn) {
+    return {
+        type: 'SET_DEJAVOO_SN',
+        payload: sn
+    }
+}

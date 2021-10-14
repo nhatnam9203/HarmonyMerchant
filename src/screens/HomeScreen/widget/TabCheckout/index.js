@@ -21,6 +21,7 @@ import {
   POS_SERIAL,
   PaymentTerminalType,
   requestTransactionDejavoo,
+  stringIsEmptyOrWhiteSpaces
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
 import Configs from "@configs";
@@ -1721,9 +1722,12 @@ class TabCheckout extends Layout {
     });
     try {
       parseString(message, (err, result) => {
-        console.log('result', result)
         if (err || l.get(result, 'xmp.response.0.ResultCode.0') != 0) {
-          const resultTxt = l.get(result, 'xmp.response.0.Message.0') || "Transaction failed";
+          let detailMessage = l.get(result, 'xmp.response.0.RespMSG.0', "").replace(/%20/g, " ")
+          detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage) ? `: ${detailMessage}` : detailMessage
+          
+          const resultTxt = `${l.get(result, 'xmp.response.0.Message.0')}${detailMessage}`
+                            || "Transaction failed";
           if (payAppointmentId) {
             this.props.actions.appointment.cancelHarmonyPayment(
               payAppointmentId,
@@ -1738,6 +1742,11 @@ class TabCheckout extends Layout {
             });
           }, 300);
         } else {
+          const SN = l.get(result, 'xmp.response.0.SN.0');
+          if(!stringIsEmptyOrWhiteSpaces(SN)){
+            console.log('SN', SN)
+            this.props.actions.hardware.setDejavooMachineSN(SN);
+          }
           this.props.actions.appointment.submitPaymentWithCreditCard(
             profile?.merchantId || 0,
             message,

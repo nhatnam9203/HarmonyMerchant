@@ -35,7 +35,8 @@ class SetupHardware extends React.Component {
         let name = ""
         let ip = ""
         let port = ""
-        let tpn = ""
+        let registerId = ""
+        let authKey = ""
         if(paymentMachineType == PaymentTerminalType.Clover){
 
            name = _.get(cloverMachineInfo, 'name')
@@ -45,7 +46,8 @@ class SetupHardware extends React.Component {
         } else if(paymentMachineType == PaymentTerminalType.Dejavoo){
            
             name = _.get(dejavooMachineInfo, 'name')
-            tpn = _.get(dejavooMachineInfo, 'tpn')
+            registerId = _.get(dejavooMachineInfo, 'registerId')
+            authKey = _.get(dejavooMachineInfo, 'authKey')
 
         } else{
             //Pax
@@ -64,7 +66,8 @@ class SetupHardware extends React.Component {
             scanLoading: false,
             terminalName: paymentMachineType,
             serialNumber: _.get(cloverMachineInfo, 'serialNumber', ''),
-            tpn,
+            registerId,
+            authKey,
         };
 
         this.scrollRef = React.createRef();
@@ -90,7 +93,7 @@ class SetupHardware extends React.Component {
 
     setupPax = () => {
         const { name, ip, port, timeout, commType, 
-            bluetoothAddr, terminalName, serialNumber, tpn } = this.state;
+            bluetoothAddr, terminalName, serialNumber, registerId, authKey } = this.state;
         // ------- Handle Bluetooth Comunication Type ------------
 
         if(terminalName == PaymentTerminalType.Pax){
@@ -120,12 +123,13 @@ class SetupHardware extends React.Component {
                 };
             }
         } else if (terminalName == PaymentTerminalType.Dejavoo){
-            if (stringIsEmptyOrWhiteSpaces(tpn) 
+            if (stringIsEmptyOrWhiteSpaces(registerId) 
+                ||stringIsEmptyOrWhiteSpaces(authKey) 
                 || stringIsEmptyOrWhiteSpaces(name)) {
                 alert('Please enter full infomation!');
             } else {
                 this.props.actions.hardware.setupDejavooMachine({
-                    paymentMachineInfo: { tpn, isSetup: true, name },
+                    paymentMachineInfo: { registerId, authKey, isSetup: true, name },
                     paymentMachineType: PaymentTerminalType.Dejavoo,
                 });
                 this.props.backListDevices();
@@ -155,7 +159,8 @@ class SetupHardware extends React.Component {
         let name = ""
         let ip = ""
         let port = ""
-        let tpn = ""
+        let registerId = ""
+        let authKey = ""
         if(paymentMachineType == PaymentTerminalType.Clover){
 
             name = _.get(cloverMachineInfo, 'name')
@@ -165,8 +170,8 @@ class SetupHardware extends React.Component {
         } else if(paymentMachineType == PaymentTerminalType.Dejavoo){
         
             name = _.get(dejavooMachineInfo, 'name')
-            tpn = _.get(dejavooMachineInfo, 'tpn')
-
+            registerId = _.get(dejavooMachineInfo, 'registerId')
+            authKey = _.get(dejavooMachineInfo, 'authKey')
         } else{
             //Pax
             name = _.get(paxMachineInfo, 'name')
@@ -183,7 +188,8 @@ class SetupHardware extends React.Component {
             bluetoothAddr,
             terminalName: paymentMachineType,
             serialNumber: _.get(cloverMachineInfo, 'serialNumber', ''),
-            tpn,
+            registerId,
+            authKey,
         })
 
         this.props.backListDevices();
@@ -205,19 +211,21 @@ class SetupHardware extends React.Component {
 
     setTerminal = (terminalName) => () => {
         if(terminalName != this.state.terminalName) {
-            const { name, ip, port, tpn } = this.state;
+            const { name, ip, port, registerId, authKey } = this.state;
             const { paxMachineInfo, cloverMachineInfo, dejavooMachineInfo } = this.props;
             let tempName = name 
             let tempIp = ip
             let tempPort = port
-            let tempTpn = tpn
+            let tempRegisterId = registerId
+            let tempAuthKey = authKey
             if (terminalName == PaymentTerminalType.Pax) {
                 tempName = _.get(paxMachineInfo, 'name')
                 tempIp = _.get(paxMachineInfo, 'ip')
                 tempPort = _.get(paxMachineInfo, 'port')
             } else if (terminalName == PaymentTerminalType.Dejavoo) {
                 tempName = _.get(dejavooMachineInfo, 'name')
-                tempTpn = _.get(dejavooMachineInfo, 'tpn')
+                tempRegisterId = _.get(dejavooMachineInfo, 'registerId')
+                tempAuthKey = _.get(dejavooMachineInfo, 'authKey')
             } else {
                 //Clover
                 tempName = _.get(cloverMachineInfo, 'name')
@@ -230,7 +238,8 @@ class SetupHardware extends React.Component {
                 ip: tempIp,
                 port: tempPort,
                 serialNumber: _.get(cloverMachineInfo, 'serialNumber', ''),
-                tpn,
+                registerId: tempRegisterId,
+                authKey: tempAuthKey,
             });
         }
     }
@@ -300,7 +309,7 @@ class SetupHardware extends React.Component {
     render() {
         const { language, bluetoothPaxInfo, dataLocal } = this.props;
         const { name, ip, port, timeout, commType, 
-                terminalName, serialNumber, tpn } = this.state;
+                terminalName, serialNumber, registerId, authKey } = this.state;
 
         const tempCheckEthernetIcon = commType === "TCP" ? ICON.radioExportSe : ICON.radioExport;
         const tempCheckBluetoothIcon = commType === "BLUETOOTH" ? ICON.radioExportSe : ICON.radioExport;
@@ -448,13 +457,20 @@ class SetupHardware extends React.Component {
                     }
 
                     {
-                        terminalName === PaymentTerminalType.Dejavoo &&
-                        <ItemSetup
-                            title={localize('TPN', language)}
-                            placeholder={localize('TPN', language)}
-                            value={tpn}
-                            onChangeText={tpn => this.setState({ tpn })}
-                        />
+                        terminalName === PaymentTerminalType.Dejavoo && <>
+                            <ItemSetup
+                                title={localize('Register ID', language)}
+                                placeholder={localize('Register ID', language)}
+                                value={registerId}
+                                onChangeText={registerId => this.setState({ registerId })}
+                            />
+                            <ItemSetup
+                                title={localize('Auth Key', language)}
+                                placeholder={localize('Auth Key', language)}
+                                value={authKey}
+                                onChangeText={authKey => this.setState({ authKey })}
+                          />
+                        </>
                     }
 
                     {
