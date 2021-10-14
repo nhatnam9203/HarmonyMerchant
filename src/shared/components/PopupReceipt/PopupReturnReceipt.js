@@ -390,7 +390,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                   }}
                 />
                 {/* ------------- SubTotal   ----------- */}
-                <TotalView
+                {/* <TotalView
                   title={"Subtotal"}
                   value={getSubTotal()}
                   styleTextTitle={styles.textStyle}
@@ -421,7 +421,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                     styleTextTitle={styles.textStyle}
                     styleTextValue={styles.textStyle}
                   />
-                )}
+                )} */}
                 {/* ------------- Enter Tip   ----------- */}
                 {printTempt && (
                   <View
