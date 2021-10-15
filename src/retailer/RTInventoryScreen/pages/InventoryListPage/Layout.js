@@ -137,7 +137,11 @@ export const Layout = ({
 
       return (
         <View
-          style={{ width: cellWidth, paddingVertical: scaleHeight(2) }}
+          style={{
+            width: cellWidth,
+            paddingVertical: scaleHeight(2),
+            paddingLeft: scaleWidth(10),
+          }}
           key={getUniqueId(columnKey, rowIndex, "cell-quantity")}
         >
           <Text
@@ -154,6 +158,27 @@ export const Layout = ({
             ellipsizeMode="tail"
           >
             {item?.quantity}
+          </Text>
+        </View>
+      );
+    }
+
+    if (columnKey === "price") {
+      return (
+        <View
+          style={{ width: cellWidth, paddingVertical: scaleHeight(2) }}
+          key={getUniqueId(columnKey, rowIndex, "cell-price")}
+        >
+          <Text
+            style={[
+              textStyle,
+              {
+                textAlign: "left",
+                textAlignVertical: "center",
+              },
+            ]}
+          >
+            {item?.countQuantities > 0 ? item?.priceRange : item?.price}
           </Text>
         </View>
       );
@@ -220,8 +245,8 @@ export const Layout = ({
             "imageUrl",
             "name",
             "categoryName",
-            "sku",
             "price",
+            "sku",
             "quantity",
             "needToOrder",
             "actions",
@@ -230,11 +255,11 @@ export const Layout = ({
           widthForKeys={{
             imageUrl: IMAGE_WIDTH,
             name: scaleWidth(160),
-            categoryName: scaleWidth(120),
-            sku: scaleWidth(125),
-            price: scaleWidth(120),
+            categoryName: scaleWidth(110),
+            sku: scaleWidth(135),
+            price: scaleWidth(125),
             quantity: scaleWidth(100),
-            needToOrder: scaleWidth(100),
+            needToOrder: scaleWidth(80),
           }}
           emptyDescription={t("No Products")}
           styleTextKeys={{ name: styles.textName, sku: styles.textSku }}
