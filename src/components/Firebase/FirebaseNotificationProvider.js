@@ -25,24 +25,22 @@ const FirebaseNotificationProvider = () => {
 
   const onForegroundMessage = (data) => {
     // TODO: process message on foreground state
-    //hard code for test
-    //if(_.get(data, 'data.key') === 'AUTO_CLOSE'){
+    if(_.get(data, 'data.key') === 'AUTO_CLOSE'){
       handleAutoClose()
-    //  return
-    //}
-//     dispatch({
-//       type: "HANDLE_NOTIFICATION_WHEN_HAVE_A_APPOINTMENT",
-//       payload: data,
-//     });
-//     notifyService?.firebaseNotify(data);
+     return
+    }
+    dispatch({
+      type: "HANDLE_NOTIFICATION_WHEN_HAVE_A_APPOINTMENT",
+      payload: data,
+    });
+    notifyService?.firebaseNotify(data);
   };
 
   const onBackgroundMessage = ({ data }) => {
     // TODO: process message on background state
-    //hard code for test 
-    //if(_.get(data, 'data.key') === 'AUTO_CLOSE'){
+    if(_.get(data, 'data.key') === 'AUTO_CLOSE'){
       handleAutoClose()
-    //}
+    }
   };
 
   const onOpenedApp = ({ data }) => {
