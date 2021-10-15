@@ -2946,7 +2946,7 @@ class TabCheckout extends Layout {
       appointmentId: groupAppointment?.mainAppointmentId,
       isShareMode: true,
       isSalon: true,
-      isPrintTempt: true,
+      isPrintTempt: false,
     });
   };
 

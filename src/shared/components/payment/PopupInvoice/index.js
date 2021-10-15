@@ -32,6 +32,7 @@ import { useSelector } from "react-redux";
 import RNFetchBlob from "rn-fetch-blob";
 import { ItemHeaderReceipt, ItemReceipt } from "./ItemReceipt";
 import { TotalView } from "./TotalView";
+import { layouts } from "@shared/themes";
 
 export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
   const viewShotRef = React.useRef(null);
@@ -448,36 +449,33 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                 ]}
               >
                 {/* ------------- Store Name -----------*/}
-                <Text style={styles.titleStyle}>
+                <Text style={layouts.fontPrintTitleStyle}>
                   {profile?.businessName || " "}
                 </Text>
 
                 {/* ------------- Store Address ----------- */}
-                <Text
-                  numberOfLines={2}
-                  style={[styles.textStyle, { textAlign: "center" }]}
-                >
+                <Text numberOfLines={2} style={layouts.fontPrintSubTitleStyle}>
                   {profile?.addressFull || " "}
                 </Text>
 
                 {/* ------------- Phone Address ----------- */}
-                <Text style={[styles.textStyle, { textAlign: "center" }]}>
+                <Text style={layouts.fontPrintSubTitleStyle}>
                   {`Tel : ${profile?.phone || " "}`}
                 </Text>
 
                 {/* ------------- Company Website ----------- */}
                 {!!profile?.webLink && (
-                  <Text style={[styles.textStyle, { textAlign: "center" }]}>
+                  <Text style={layouts.fontPrintSubTitleStyle}>
                     {profile?.webLink}
                   </Text>
                 )}
 
                 {/* ------------- SALE/VOID/REFUND  ----------- */}
-                <Text style={styles.titleStyle}>{titleInvoice}</Text>
+                <Text style={layouts.fontPrintTitleStyle}>{titleInvoice}</Text>
                 <Text
                   style={[
-                    styles.textStyle,
-                    { textAlign: "center", fontSize: scaleFont(15) },
+                    layouts.fontPrintStyle,
+                    { fontSize: scaleFont(18), textAlign: "center" },
                   ]}
                 >
                   {`( ${formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A")} )`}
@@ -494,41 +492,41 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                   }}
                 />
 
-                {/* ------------- Receipt Date ----------- */}
-                {/* <View style={styles.rowContent}>
-                  <View style={{ width: scaleSize(90) }}>
-                    <Text style={[styles.textStyle]}>{`Created Date`}</Text>
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Text style={[styles.textStyle]}>
-                      {`: ${formatWithMoment(
-                        new Date(),
-                        "MM/DD/YYYY hh:mm A"
-                      )}`}
-                    </Text>
-                  </View>
-                </View> */}
-
                 {/* ------------- Staff ----------- */}
                 {isSalonApp ? (
                   <View style={styles.rowContent}>
-                    <View style={{ width: scaleSize(90) }}>
-                      <Text style={[styles.textStyle]}>{`Customer`}</Text>
+                    <View
+                      style={{
+                        width: scaleSize(90),
+                        justifyContent: "flex-start",
+                      }}
+                    >
+                      <Text
+                        style={[
+                          layouts.fontPrintSubTitleStyle,
+                          { textAlign: "left" },
+                        ]}
+                      >{`Customer`}</Text>
                     </View>
                     <View style={{ flex: 1 }}>
                       <Text
-                        style={[styles.textStyle]}
+                        style={[layouts.fontPrintStyle]}
                       >{`: ${getCustomerName()}`}</Text>
                     </View>
                   </View>
                 ) : (
                   <View style={styles.rowContent}>
                     <View style={{ width: scaleSize(90) }}>
-                      <Text style={[styles.textStyle]}>{`Staff Name`}</Text>
+                      <Text
+                        style={[
+                          layouts.fontPrintSubTitleStyle,
+                          { textAlign: "left" },
+                        ]}
+                      >{`Staff Name`}</Text>
                     </View>
                     <View style={{ flex: 1 }}>
                       <Text
-                        style={[styles.textStyle]}
+                        style={[layouts.fontPrintStyle]}
                       >{`: ${getInvoiceName()}`}</Text>
                     </View>
                   </View>
@@ -538,10 +536,15 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                 {invoiceDetail && (
                   <View style={styles.rowContent}>
                     <View style={{ width: scaleSize(90) }}>
-                      <Text style={[styles.textStyle]}>{`Invoice Date`}</Text>
+                      <Text
+                        style={[
+                          layouts.fontPrintSubTitleStyle,
+                          { textAlign: "left" },
+                        ]}
+                      >{`Invoice Date`}</Text>
                     </View>
                     <View style={{ flex: 1 }}>
-                      <Text style={[styles.textStyle]}>
+                      <Text style={[layouts.fontPrintStyle]}>
                         {`: ${formatWithMoment(
                           invoiceDetail?.createdDate,
                           "MM/DD/YYYY hh:mm A"
@@ -555,10 +558,15 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                 {invoiceDetail && (
                   <View style={styles.rowContent}>
                     <View style={{ width: scaleSize(90) }}>
-                      <Text style={[styles.textStyle]}>{`Invoice No`}</Text>
+                      <Text
+                        style={[
+                          layouts.fontPrintSubTitleStyle,
+                          { textAlign: "left" },
+                        ]}
+                      >{`Invoice No`}</Text>
                     </View>
                     <View style={{ flex: 1 }}>
-                      <Text style={[styles.textStyle]}>
+                      <Text style={[layouts.fontPrintStyle]}>
                         {`: ${invoiceDetail?.invoiceNo ?? " "}`}
                       </Text>
                     </View>
@@ -577,7 +585,10 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                 />
 
                 {/* ------------- Header  ----------- */}
-                <ItemHeaderReceipt type="SalonPos" />
+                <ItemHeaderReceipt
+                  type={profile.type}
+                  textStyle={layouts.fontPrintSubTitleStyle}
+                />
 
                 {/* ------------- Dot Border  ----------- */}
                 <Dash
@@ -599,7 +610,8 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                         key={index}
                         item={receiptItem}
                         index={index}
-                        type="SalonPos"
+                        type={profile.type}
+                        textStyle={layouts.fontPrintStyle}
                       />
                     )
                   )}
@@ -615,33 +627,33 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                 <TotalView
                   title={"Subtotal"}
                   value={getSubTotal()}
-                  styleTextTitle={styles.textStyle}
-                  styleTextValue={styles.textStyle}
+                  styleTextTitle={layouts.fontPrintSubTitleStyle}
+                  styleTextValue={layouts.fontPrintStyle}
                 />
                 <TotalView
                   title={"Discount"}
                   value={getDiscount()}
-                  styleTextTitle={styles.textStyle}
-                  styleTextValue={styles.textStyle}
+                  styleTextTitle={layouts.fontPrintSubTitleStyle}
+                  styleTextValue={layouts.fontPrintStyle}
                 />
                 <TotalView
                   title={"Tip"}
                   value={getTipAmount()}
-                  styleTextTitle={styles.textStyle}
-                  styleTextValue={styles.textStyle}
+                  styleTextTitle={layouts.fontPrintSubTitleStyle}
+                  styleTextValue={layouts.fontPrintStyle}
                 />
                 <TotalView
                   title={"Tax"}
                   value={getTax()}
-                  styleTextTitle={styles.textStyle}
-                  styleTextValue={styles.textStyle}
+                  styleTextTitle={layouts.fontPrintSubTitleStyle}
+                  styleTextValue={layouts.fontPrintStyle}
                 />
                 {!printTempt && (
                   <TotalView
                     title={"Total"}
                     value={getTotal()}
-                    styleTextTitle={styles.textStyle}
-                    styleTextValue={styles.textStyle}
+                    styleTextTitle={layouts.fontPrintSubTitleStyle}
+                    styleTextValue={layouts.fontPrintStyle}
                   />
                 )}
                 {/* ------------- Enter Tip   ----------- */}
@@ -661,8 +673,8 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                     >
                       <Text
                         style={[
-                          styles.textStyle,
-                          { fontSize: 20, fontWeight: "600" },
+                          layouts.fontPrintStyle,
+                          { fontSize: scaleFont(20), fontWeight: "600" },
                         ]}
                       >
                         {"Tip :"}
@@ -696,8 +708,8 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                     >
                       <Text
                         style={[
-                          styles.textStyle,
-                          { fontSize: 20, fontWeight: "600" },
+                          layouts.fontPrintStyle,
+                          { fontSize: scaleFont(20), fontWeight: "600" },
                         ]}
                       >
                         {"Total :"}
@@ -720,7 +732,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                     {getCheckoutPaymentMethods()?.map((data, index) => (
                       <View key={index} style={{ marginBottom: scaleSize(4) }}>
                         <View style={{ flexDirection: "row" }}>
-                          <Text style={[styles.textStyle]}>
+                          <Text style={[layouts.fontPrintStyle]}>
                             {`- Entry method: ${getPaymentString(
                               data?.paymentMethod || ""
                             )}`}
@@ -734,8 +746,8 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                           >
                             <Text
                               style={[
-                                styles.textStyle,
-                                { fontSize: scaleSize(13) },
+                                layouts.fontPrintStyle,
+                                { fontSize: scaleSize(18) },
                               ]}
                             >
                               {`$${Number(
@@ -748,44 +760,24 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                           data.paymentMethod === "credit_card") ||
                         data.paymentMethod === "debit_card" ? (
                           <View style={{ marginTop: scaleSize(5) }}>
-                            <Text
-                              style={[
-                                styles.textStyle,
-                                { fontSize: scaleSize(13) },
-                              ]}
-                            >
+                            <Text style={[layouts.fontPrintStyle]}>
                               {`    ${
                                 data?.paymentInformation?.type || ""
                               }: ***********${
                                 data?.paymentInformation?.number || ""
                               }`}
                             </Text>
-                            <Text
-                              style={[
-                                styles.textStyle,
-                                { fontSize: scaleSize(13) },
-                              ]}
-                            >
+                            <Text style={[layouts.fontPrintStyle]}>
                               {`    ${data?.paymentInformation?.name || ""}`}
                             </Text>
-                            <Text
-                              style={[
-                                styles.textStyle,
-                                { fontSize: scaleSize(13) },
-                              ]}
-                            >
+                            <Text style={[layouts.fontPrintStyle]}>
                               {`    ${
                                 data?.paymentInformation?.sn
                                   ? `Terminal ID: ${data?.paymentInformation?.sn}`
                                   : ""
                               }`}
                             </Text>
-                            <Text
-                              style={[
-                                styles.textStyle,
-                                { fontSize: scaleSize(13) },
-                              ]}
-                            >
+                            <Text style={[layouts.fontPrintStyle]}>
                               {`    ${
                                 data?.paymentInformation?.refNum
                                   ? `Transaction #: ${data?.paymentInformation?.refNum}`
@@ -815,8 +807,8 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                     >
                       <Text
                         style={[
-                          styles.textStyle,
-                          { fontSize: 18, fontWeight: "600" },
+                          layouts.fontPrintStyle,
+                          { fontSize: scaleFont(18), fontWeight: "600" },
                         ]}
                       >
                         {"Signature:"}
@@ -849,8 +841,8 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                     >
                       <Text
                         style={[
-                          styles.textStyle,
-                          { fontSize: 18, fontWeight: "600" },
+                          layouts.fontPrintStyle,
+                          { fontSize: scaleFont(18), fontWeight: "600" },
                         ]}
                       >
                         {"Signature:"}
@@ -872,7 +864,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                 {profile?.receiptFooter ? (
                   <Text
                     style={[
-                      styles.textStyle,
+                      layouts.fontPrintSubTitleStyle,
                       { alignSelf: "center", textAlign: "center" },
                     ]}
                   >
@@ -881,7 +873,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                 ) : (
                   <Text
                     style={[
-                      styles.textStyle,
+                      layouts.fontPrintSubTitleStyle,
                       { alignSelf: "center", textAlign: "center" },
                     ]}
                   >
@@ -891,13 +883,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
 
                 {/* ------------- Promotions Note   ----------- */}
                 {!!getPromotionNotes(groupAppointment?.appointments) && (
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      marginTop: scaleSize(10),
-                    }}
-                  >
+                  <Text style={layouts.fontPrintStyle}>
                     {`Discount note: `}
                     <Text style={{ fontWeight: "600" }}>
                       {` ${getPromotionNotes(groupAppointment?.appointments)}`}
@@ -906,8 +892,15 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                 )}
 
                 {/* ------------- This is not a bill   ----------- */}
-                <Text style={styles.footerTextStyle}>
-                  {`********** ${getFooterReceipt()} **********`}
+                <Text
+                  style={[
+                    layouts.fontPrintStyle,
+                    {
+                      alignSelf: "center",
+                    },
+                  ]}
+                >
+                  {`********* ${getFooterReceipt()} *********`}
                 </Text>
               </View>
             </ScrollView>

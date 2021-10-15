@@ -1096,7 +1096,7 @@ export const useProps = ({
       await invoiceRef.current?.showAppointmentReceipt({
         appointmentId: groupAppointment?.mainAppointmentId,
         isShareMode: true,
-        isPrintTempt: true,
+        isPrintTempt: false,
       });
     },
     invoiceRef,

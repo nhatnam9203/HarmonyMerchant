@@ -48,6 +48,7 @@ import {
   ItemHeaderReceipt,
   ItemReceipt,
 } from "@shared/components/payment/PopupInvoice/ItemReceipt";
+import { layouts } from "@shared/themes";
 export default class Layout extends React.Component {
   renderHeader() {
     const { language } = this.props;
@@ -292,6 +293,7 @@ export default class Layout extends React.Component {
 
   renderDetailInvoice() {
     const { profile, profileStaffLogin, invoiceDetail } = this.props;
+    const { receiptContentBg } = this.state;
     const basket = this.convertBasket(invoiceDetail?.basket || []);
     const checkoutPayments =
       invoiceDetail?.checkoutPayments?.slice(0).reverse() || [];
@@ -299,8 +301,11 @@ export default class Layout extends React.Component {
     const promotionNotes = invoiceDetail?.promotionNotes?.note || "";
     const tempStyle =
       Platform.OS === "android"
-        ? { paddingHorizontal: scaleSize(10), backgroundColor: "#FFFFFF" }
-        : { paddingHorizontal: scaleSize(10), backgroundColor: "#fff" };
+        ? { paddingHorizontal: scaleSize(5), backgroundColor: "#FFFFFF" }
+        : {
+            paddingHorizontal: scaleSize(5),
+            backgroundColor: receiptContentBg,
+          };
     const status = invoiceDetail?.status || "";
     const checkoutId = invoiceDetail?.checkoutId || "";
 
@@ -333,8 +338,8 @@ export default class Layout extends React.Component {
               {/* ------------- Store Name ----------- */}
               <Text
                 style={[
-                  styles.txt_normal,
-                  { fontSize: 24, fontWeight: "600", marginTop: scaleSize(8) },
+                  layouts.fontPrintTitleStyle,
+                  { marginTop: scaleSize(8) },
                 ]}
               >
                 {profile?.businessName || " "}
@@ -343,7 +348,7 @@ export default class Layout extends React.Component {
               <Text
                 numberOfLines={2}
                 style={[
-                  styles.txt_normal,
+                  layouts.fontPrintSubTitleStyle,
                   {
                     paddingHorizontal: scaleSize(10),
                     marginTop: scaleSize(4),
@@ -356,7 +361,7 @@ export default class Layout extends React.Component {
               {/* ------------- Phone Address ----------- */}
               <Text
                 style={[
-                  styles.txt_normal,
+                  layouts.fontPrintSubTitleStyle,
                   { paddingHorizontal: scaleSize(10) },
                 ]}
               >
@@ -366,7 +371,7 @@ export default class Layout extends React.Component {
               {!!profile?.webLink ? (
                 <Text
                   style={[
-                    styles.txt_normal,
+                    layouts.fontPrintSubTitleStyle,
                     { paddingHorizontal: scaleSize(10) },
                   ]}
                 >
@@ -378,10 +383,8 @@ export default class Layout extends React.Component {
               {/* ------------- SALE/VOID/REFUND  ----------- */}
               <Text
                 style={[
-                  styles.txt_normal,
+                  layouts.fontPrintTitleStyle,
                   {
-                    fontSize: 20,
-                    fontWeight: "700",
                     marginTop: scaleSize(6),
                   },
                 ]}
@@ -398,11 +401,11 @@ export default class Layout extends React.Component {
               </Text>
               <Text
                 style={[
-                  styles.txt_normal,
+                  layouts.fontPrintStyle,
                   {
                     textAlign: "center",
-                    fontSize: scaleFont(15),
                     marginBottom: scaleSize(6),
+                    fontSize: scaleFont(18),
                   },
                 ]}
               >
@@ -429,31 +432,62 @@ export default class Layout extends React.Component {
 
               {profile.type === "SalonPos" ? (
                 <View style={{ flexDirection: "row" }}>
-                  <View style={{ width: scaleSize(90) }}>
-                    <Text style={[styles.txt_info]}>{`Customer`}</Text>
+                  <View
+                    style={{
+                      width: scaleSize(90),
+                      justifyContent: "flex-start",
+                    }}
+                  >
+                    <Text
+                      style={[
+                        layouts.fontPrintSubTitleStyle,
+                        { textAlign: "left" },
+                      ]}
+                    >{`Customer`}</Text>
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={[styles.txt_info]}>{`: ${invoiceName}`}</Text>
+                    <Text
+                      style={[layouts.fontPrintStyle]}
+                    >{`: ${invoiceName}`}</Text>
                   </View>
                 </View>
               ) : (
                 <View style={{ flexDirection: "row" }}>
-                  <View style={{ width: scaleSize(90) }}>
-                    <Text style={[styles.txt_info]}>{`Staff Name`}</Text>
+                  <View
+                    style={{
+                      width: scaleSize(90),
+                      justifyContent: "flex-start",
+                    }}
+                  >
+                    <Text
+                      style={[
+                        layouts.fontPrintSubTitleStyle,
+                        { textAlign: "left" },
+                      ]}
+                    >{`Staff Name`}</Text>
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={[styles.txt_info]}>{`: ${invoiceName}`}</Text>
+                    <Text
+                      style={[layouts.fontPrintStyle]}
+                    >{`: ${invoiceName}`}</Text>
                   </View>
                 </View>
               )}
 
               {/* ------------- Invoice No ----------- */}
               <View style={{ flexDirection: "row" }}>
-                <View style={{ width: scaleSize(90) }}>
-                  <Text style={styles.txt_info}>{`Invoice No`}</Text>
+                <View
+                  style={{ width: scaleSize(90), justifyContent: "flex-start" }}
+                >
+                  <Text
+                    style={[
+                      layouts.fontPrintSubTitleStyle,
+                      { textAlign: "left" },
+                    ]}
+                  >{`Invoice No`}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={styles.txt_info}>
+                  <Text style={layouts.fontPrintStyle}>
                     {checkoutId ? `: # ${checkoutId}` : ":"}
                   </Text>
                 </View>
@@ -461,11 +495,18 @@ export default class Layout extends React.Component {
 
               {/* ------------- Invoice Date ----------- */}
               <View style={{ flexDirection: "row" }}>
-                <View style={{ width: scaleSize(90) }}>
-                  <Text style={styles.txt_info}>{`Invoice Date `}</Text>
+                <View
+                  style={{ width: scaleSize(90), justifyContent: "flex-start" }}
+                >
+                  <Text
+                    style={[
+                      layouts.fontPrintSubTitleStyle,
+                      { textAlign: "left" },
+                    ]}
+                  >{`Invoice Date `}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={styles.txt_info}>
+                  <Text style={layouts.fontPrintStyle}>
                     {`: ${
                       invoiceDetail?.createdDate
                         ? formatWithMoment(
@@ -488,63 +529,11 @@ export default class Layout extends React.Component {
               />
 
               {/* ------------- Header  ----------- */}
-              {/* <View style={{ flexDirection: "row", marginTop: scaleSize(6) }}>
-                <View style={{ flex: 0.8, justifyContent: "center" }}>
-                  <Text
-                    style={[
-                      styles.txt_info,
-                      { fontSize: 18, fontWeight: "600" },
-                    ]}
-                  >
-                    {`DESCRIPTION`}
-                  </Text>
-                </View>
-                <View
-                  style={{ justifyContent: "center", width: scaleSize(70) }}
-                >
-                  <Text
-                    style={[
-                      styles.txt_info,
-                      { fontSize: 18, fontWeight: "600" },
-                    ]}
-                  >
-                    {`PRICE`}
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    width: scaleSize(30),
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
-                    style={[
-                      styles.txt_info,
-                      { fontSize: 18, fontWeight: "600" },
-                    ]}
-                  >
-                    {`QTY`}
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flex: 0.5,
-                    justifyContent: "center",
-                    alignItems: "flex-end",
-                  }}
-                >
-                  <Text
-                    style={[
-                      styles.txt_info,
-                      { fontSize: 18, fontWeight: "600" },
-                    ]}
-                  >
-                    {`TOTAL`}
-                  </Text>
-                </View>
-              </View> */}
-              <ItemHeaderReceipt type={profile.type} />
+
+              <ItemHeaderReceipt
+                type={profile.type}
+                textStyle={layouts.fontPrintSubTitleStyle}
+              />
 
               {/* ------------- Dot Border  ----------- */}
               <Dash
@@ -564,6 +553,7 @@ export default class Layout extends React.Component {
                   item={item}
                   index={index}
                   type={profile.type}
+                  textStyle={layouts.fontPrintStyle}
                 />
               ))}
 
@@ -599,7 +589,7 @@ export default class Layout extends React.Component {
                   {checkoutPayments.map((data, index) => (
                     <View key={index} style={{ marginBottom: scaleSize(4) }}>
                       <View style={{ flexDirection: "row" }}>
-                        <Text style={[styles.txt_total]}>
+                        <Text style={[layouts.fontPrintStyle]}>
                           {`- Entry method: ${getPaymentString(
                             data?.paymentMethod
                           )}`}
@@ -614,8 +604,8 @@ export default class Layout extends React.Component {
                         >
                           <Text
                             style={[
-                              styles.txt_total,
-                              { fontSize: scaleSize(10) },
+                              layouts.fontPrintStyle,
+                              { fontSize: scaleFont(18) },
                             ]}
                           >
                             {`$${data?.amount || ""}`}
@@ -625,44 +615,24 @@ export default class Layout extends React.Component {
                       {data.paymentMethod === "credit_card" ||
                       data.paymentMethod === "debit_card" ? (
                         <View style={{ marginTop: scaleSize(5) }}>
-                          <Text
-                            style={[
-                              styles.txt_total,
-                              { fontSize: scaleSize(10) },
-                            ]}
-                          >
+                          <Text style={[layouts.fontPrintStyle]}>
                             {` ${
                               data?.paymentInformation?.type || ""
                             }: ***********${
                               data?.paymentInformation?.number || ""
                             }`}
                           </Text>
-                          <Text
-                            style={[
-                              styles.txt_total,
-                              { fontSize: scaleSize(10) },
-                            ]}
-                          >
+                          <Text style={[layouts.fontPrintStyle]}>
                             {` ${data?.paymentInformation?.name || ""}`}
                           </Text>
-                          <Text
-                            style={[
-                              styles.txt_total,
-                              { fontSize: scaleSize(10) },
-                            ]}
-                          >
+                          <Text style={[layouts.fontPrintStyle]}>
                             {` ${
                               data?.paymentInformation?.sn
                                 ? `Terminal ID: ${data?.paymentInformation?.sn}`
                                 : ""
                             }`}
                           </Text>
-                          <Text
-                            style={[
-                              styles.txt_total,
-                              { fontSize: scaleSize(10) },
-                            ]}
-                          >
+                          <Text style={[layouts.fontPrintStyle]}>
                             {` ${
                               data?.paymentInformation?.refNum
                                 ? `Transaction #: ${data?.paymentInformation?.refNum}`
@@ -678,13 +648,13 @@ export default class Layout extends React.Component {
 
               <View style={{ height: scaleSize(16) }} />
               {parseFloat(refundAmount) > 0 ? (
-                <Text style={{ fontSize: scaleSize(10), fontWeight: "bold" }}>
+                <Text style={layouts.fontPrintStyle}>
                   {`Change : $ ${invoiceDetail?.refundAmount || 0.0}`}
                 </Text>
               ) : null}
 
               {promotionNotes ? (
-                <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                <Text style={layouts.fontPrintStyle}>
                   {`Discount note: `}
                   <Text style={{ fontWeight: "600" }}>
                     {`${promotionNotes}`}
@@ -695,18 +665,33 @@ export default class Layout extends React.Component {
               {/* ----------- Thanks , see you again -------- */}
               <View style={{ height: scaleSize(20) }} />
               {!profile?.receiptFooter && (
-                <Text style={[styles.txt_total, { alignSelf: "center" }]}>
+                <Text
+                  style={[
+                    layouts.fontPrintSubTitleStyle,
+                    { alignSelf: "center" },
+                  ]}
+                >
                   {`Thank you !`}
                 </Text>
               )}
               {!profile?.receiptFooter && (
-                <Text style={[styles.txt_total, { alignSelf: "center" }]}>
+                <Text
+                  style={[
+                    layouts.fontPrintSubTitleStyle,
+                    { alignSelf: "center" },
+                  ]}
+                >
                   {`Please come again`}
                 </Text>
               )}
 
               {!!profile?.receiptFooter && (
-                <Text style={[styles.txt_total, { alignSelf: "center" }]}>
+                <Text
+                  style={[
+                    layouts.fontPrintSubTitleStyle,
+                    { alignSelf: "center" },
+                  ]}
+                >
                   {` ${profile?.receiptFooter} `}
                 </Text>
               )}
@@ -714,15 +699,13 @@ export default class Layout extends React.Component {
               {/* ------------- This is not a bill   ----------- */}
               <Text
                 style={[
-                  styles.txt_total,
+                  layouts.fontPrintStyle,
                   {
-                    fontSize: scaleSize(10),
-                    fontWeight: "600",
                     alignSelf: "center",
                   },
                 ]}
               >
-                {`*********** Customer's Receipt ***********`}
+                {`********* Customer's Receipt *********`}
               </Text>
             </View>
             <View style={{ height: scaleSize(90) }} />
@@ -1120,21 +1103,15 @@ const ItemTotal = ({ title, value, style }) => {
     <View style={{ flexDirection: "row", marginBottom: scaleSize(4) }}>
       <Text
         style={[
-          styles.txt_total,
-          { alignSelf: "flex-start", fontWeight: "600" },
+          layouts.fontPrintSubTitleStyle,
+          { alignSelf: "flex-start" },
           style,
         ]}
       >
         {title}
       </Text>
       <View style={{ flex: 1 }} />
-      <Text
-        style={[
-          styles.txt_total,
-          { alignSelf: "flex-end", fontWeight: "400" },
-          style,
-        ]}
-      >
+      <Text style={[layouts.fontPrintStyle, { alignSelf: "flex-end" }, style]}>
         {`$ ${value}`}
       </Text>
     </View>
