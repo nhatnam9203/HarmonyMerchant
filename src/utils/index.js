@@ -1654,7 +1654,7 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
 };
 
 export const handleAutoClose = async () => {
-
+  console.log("handleAutoClose")
   const { dataLocal, hardware } = store.getState();
   const { paxMachineInfo, 
       cloverMachineInfo, 
@@ -1693,7 +1693,6 @@ export const handleAutoClose = async () => {
       deviceId,
     }).then((settleWaitingResponse) => {
       const settleWaiting = l.get(settleWaitingResponse, "data");
-      store.dispatch(actions.invoice.saveSettleWaiting(settleWaiting));
       settle(settleWaiting, 0, sn);
     });
   } else if (l.get(paxMachineInfo, "isSetup")) {
@@ -1765,6 +1764,7 @@ export const handleAutoClose = async () => {
 };
 
 export const processingSettlementWithoutConnectPax = () => {
+  console.log("processingSettlementWithoutConnectPax")
   const { dataLocal } = store.getState();
   const { token, deviceId, deviceName } = dataLocal;
   requestAPI({
@@ -1786,7 +1786,7 @@ export const settle = async (
   creditCount,
   terminalID
 ) => {
-
+  console.log("settle", settleWaiting, terminalID)
   const { dataLocal, hardware } = store.getState();
   const { paxMachineInfo, 
           cloverMachineInfo, 
@@ -1811,12 +1811,13 @@ export const settle = async (
   } else if (paymentMachineType == PaymentTerminalType.Dejavoo
               && l.get(dejavooMachineInfo, "isSetup")) {
     //Dejavoo
+    const responses = await requestSettlementDejavoo();
     parseString(responses, (err, result) => {
       console.log('result', result)
       if (l.get(result, 'xmp.response.0.ResultCode.0') == 0) {
         //success
         proccessingSettlement(
-          responseData,
+          '[]',
           settleWaiting,
           terminalID,
           true
