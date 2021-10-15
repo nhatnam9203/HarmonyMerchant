@@ -16,10 +16,22 @@ import { RTSettingsScreen } from "@src/retailer/RTSettingsScreen";
 import { RTStaffCheckIn } from "@src/retailer/RTStaffCheckIn";
 import React from "react";
 import { SettlementScreen, SupportScreen, InvoiceScreen } from "../screens";
+import actions from "@actions";
+import { useSelector, useDispatch } from "react-redux";
 
 const { Screen, Navigator } = createDrawerNavigator();
 
 export const RetailerNavigator = () => {
+  const dispatch = useDispatch();
+
+  const profile = useSelector((state) => state.dataLocal.profile);
+
+  React.useEffect(() => {
+    if (profile?.merchantId) {
+      dispatch(actions.app.getMerchantByID(profile.merchantId, true));
+    }
+  }, [profile?.merchantId]);
+
   return (
     <Navigator
       headerMode="none"

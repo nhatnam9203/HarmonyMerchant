@@ -300,7 +300,7 @@ export default class Layout extends React.Component {
     const tempStyle =
       Platform.OS === "android"
         ? { paddingHorizontal: scaleSize(10), backgroundColor: "#FFFFFF" }
-        : { paddingHorizontal: scaleSize(10), backgroundColor: "#fff9" };
+        : { paddingHorizontal: scaleSize(10), backgroundColor: "#fff" };
     const status = invoiceDetail?.status || "";
     const checkoutId = invoiceDetail?.checkoutId || "";
 
