@@ -29,6 +29,8 @@ import {
   REMOTE_APP_ID,
   APP_NAME,
   POS_SERIAL,
+  PaymentTerminalType,
+  requestSettlementDejavoo,
 } from '@utils';
 
 const PosLink = NativeModules.batch;
@@ -1654,14 +1656,17 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
 export const handleAutoClose = async () => {
 
   const { dataLocal, hardware } = store.getState();
-  const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = hardware;
+  const { paxMachineInfo, 
+      cloverMachineInfo, 
+      paymentMachineType, 
+      dejavooMachineInfo } = hardware;
   const { token, deviceId, deviceName } = dataLocal;
-  const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
-    paxMachineInfo;
+ 
 
-  if(paymentMachineType == "Clover" && l.get(cloverMachineInfo, "isSetup")){
+  if (paymentMachineType == PaymentTerminalType.Clover 
+      && l.get(cloverMachineInfo, "isSetup")) {
+
     //Clover
-
     store.dispatch(actions.invoice.autoCloseBatch());
     const sn = l.get(cloverMachineInfo, 'serialNumber')
     requestAPI({
@@ -1676,8 +1681,25 @@ export const handleAutoClose = async () => {
       store.dispatch(actions.invoice.saveSettleWaiting(settleWaiting));
       settle(settleWaiting, 0, sn);
     });
-  }else if (isSetup) {
+  } else if (l.get(dejavooMachineInfo, "isSetup")) {
+    //Dejavoo
+    const sn = l.get(dejavooMachineInfo, "sn")
+    requestAPI({
+      type: "GET_SETTLEMENT_WAITING",
+      method: "GET",
+      api: `${Configs.API_URL}settlement/waiting?sn=${sn}&paymentTerminal=clover`,
+      token,
+      deviceName,
+      deviceId,
+    }).then((settleWaitingResponse) => {
+      const settleWaiting = l.get(settleWaitingResponse, "data");
+      store.dispatch(actions.invoice.saveSettleWaiting(settleWaiting));
+      settle(settleWaiting, 0, sn);
+    });
+  } else if (l.get(paxMachineInfo, "isSetup")) {
     //Pax
+    const { ip, port, commType, bluetoothAddr, } =
+    paxMachineInfo;
     let totalRecord = 0;
 
     try {
@@ -1766,12 +1788,15 @@ export const settle = async (
 ) => {
 
   const { dataLocal, hardware } = store.getState();
-  const { paxMachineInfo, cloverMachineInfo, paymentMachineType } = hardware;
-  const { token, deviceId, deviceName } = dataLocal;
-  const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
+  const { paxMachineInfo, 
+          cloverMachineInfo, 
+          paymentMachineType, 
+          dejavooMachineInfo } = hardware;
+  const { ip, port, commType, bluetoothAddr, isSetup } =
     paxMachineInfo;
 
-  if(paymentMachineType == "Clover" && l.get(cloverMachineInfo, "isSetup")){
+  if (paymentMachineType == PaymentTerminalType.Clover 
+      && l.get(cloverMachineInfo, "isSetup")) {
     //Clover
     const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
     const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
@@ -1783,6 +1808,22 @@ export const settle = async (
         token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
       })
 
+  } else if (paymentMachineType == PaymentTerminalType.Dejavoo
+              && l.get(dejavooMachineInfo, "isSetup")) {
+    //Dejavoo
+    parseString(responses, (err, result) => {
+      console.log('result', result)
+      if (l.get(result, 'xmp.response.0.ResultCode.0') == 0) {
+        //success
+        proccessingSettlement(
+          responseData,
+          settleWaiting,
+          terminalID,
+          true
+        );
+      } 
+    })
+    
   } else if (isSetup && terminalID) {
     //Pax
     if (Platform.OS === "android") {

@@ -1744,7 +1744,6 @@ class TabCheckout extends Layout {
         } else {
           const SN = l.get(result, 'xmp.response.0.SN.0');
           if(!stringIsEmptyOrWhiteSpaces(SN)){
-            console.log('SN', SN)
             this.props.actions.hardware.setDejavooMachineSN(SN);
           }
           this.props.actions.appointment.submitPaymentWithCreditCard(
