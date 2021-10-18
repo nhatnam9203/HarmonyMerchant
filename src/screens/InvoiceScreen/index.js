@@ -498,7 +498,6 @@ class InvoiceScreen extends Layout {
                     invNum: `${invNum}`,
                   }
                   requestTransactionDejavoo(params).then((responses) => {
-                    console.log('response return', responses)
                     this.handleResultRefundTransactionDejavoo(responses)
                   })
                 }
@@ -759,7 +758,6 @@ class InvoiceScreen extends Layout {
     });
 
     parseString(responses, (err, result) => {
-      console.log('result', result)
       if (err || l.get(result, 'xmp.response.0.ResultCode.0') != 0) {
         let detailMessage = l.get(result, 'xmp.response.0.RespMSG.0', "").replace(/%20/g, " ")
         detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage) ? `: ${detailMessage}` : detailMessage
