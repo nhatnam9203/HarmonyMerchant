@@ -903,18 +903,22 @@ class TabCheckout extends Layout {
         checkoutId: paymentDetailInfo?.invoiceNo,
         isSalon: true,
         isPrintTempt: false,
+        machineType: paymentMachineType,
       });
     }
   };
 
   printTemptInvoice = async () => {
-    const { groupAppointment, paymentDetailInfo } = this.props;
+    const { groupAppointment, 
+            paymentDetailInfo,
+            paymentMachineType, } = this.props;
 
     await this.invoiceRef.current?.showAppointmentReceipt({
       appointmentId: groupAppointment?.mainAppointmentId,
       checkoutId: paymentDetailInfo?.invoiceNo,
       isPrintTempt: true,
       isSalon: true,
+      machineType: paymentMachineType,
     });
   };
 

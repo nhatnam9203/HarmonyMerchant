@@ -13,6 +13,7 @@ import {
   getPaymentString,
   getStaffNameForInvoice,
   scaleSize,
+  PaymentTerminalType,
 } from "@utils";
 import React from "react";
 import {
@@ -288,16 +289,16 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClove
 
     try {
       await setIsProcessingPrint(true);
-      const imageUri = await captureRef(viewShotRef, {});
-      // const imageUri = await captureRef(viewShotRef, {
-      //   ...(paymentMachineType === "Clover" &&
-      //     !printerSelect && { result: "base64" }),
-      // });
+      // const imageUri = await captureRef(viewShotRef, {});
+      const imageUri = await captureRef(viewShotRef, {
+        ...(paymentMachineType === "Clover" &&
+          !printerSelect && { result: "base64" }),
+      });
       await setIsProcessingPrint(false);
 
       if (imageUri) {
        
-          if (printerSelect) {
+          if (portName) {
             let commands = [];
             commands.push({ appendLineFeed: 0 });
             commands.push({
@@ -334,14 +335,12 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClove
             } else {
               onCancel();
             }
-          }
-        }else{
-          if (paymentMachineType == "Clover") {
-            if (doPrintClover && typeof doPrintClover === "function") {
-              doPrintClover();
+          }else {
+            if (paymentMachineType == "Clover") {
+              if (doPrintClover && typeof doPrintClover === "function") {
+                doPrintClover(imageUri);
+              }
             }
-          }else{
-            alert("Please connect to your printer!");
           }
         }
        
@@ -402,7 +401,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClove
           printerSelect
         );
 
-        if (!portName) {
+        if (!portName && machineType !== "Clover") {
           onCancel(isPrintTempt);
 
           alert("Please connect to your printer! ");
@@ -457,7 +456,8 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClove
               <View
                 ref={viewShotRef}
                 style={[
-                  { backgroundColor: isShare ? "#fff" : "#0000" },
+                  { backgroundColor: (isShare || paymentMachineType == PaymentTerminalType.Clover) 
+                                      ? "#fff" : "#0000" },
                   styles.receiptContent,
                 ]}
               >
