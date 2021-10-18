@@ -1609,10 +1609,8 @@ class TabCheckout extends Layout {
         extData: extData,
         invNum: `${groupAppointment?.checkoutGroupId || 0}`,
       };
-      console.log('parameter', parameter)
 
       const responses = await requestTransactionDejavoo(parameter)
-      console.log('responses', responses)
       this.handleResponseCreditCardDejavoo(
         responses,
         true,

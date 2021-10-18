@@ -242,7 +242,6 @@ class TabSecondSettle extends Layout {
             this.props.actions.app.loadingApp();
             const responses = await requestSettlementDejavoo();
             parseString(responses, (err, result) => {
-                console.log('result', result)
                 if (err || l.get(result, 'xmp.response.0.ResultCode.0') != 0) {
                   const resultTxt = `${l.get(result, 'xmp.response.0.Message.0')}`
                                     || "Error";

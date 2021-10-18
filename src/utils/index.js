@@ -101,7 +101,6 @@ export const requestAPI = async (action, header = {}) => {
   }
   try {
     let response = await axios(configs);
-    console.log('response', response)
     const codeNumber = response.status ? response.status : 0;
     if (codeNumber === 401) {
       return { codeNumber: codeNumber };
@@ -1654,7 +1653,6 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
 };
 
 export const handleAutoClose = async () => {
-  console.log("handleAutoClose")
   const { dataLocal, hardware } = store.getState();
   const { paxMachineInfo, 
       cloverMachineInfo, 
@@ -1764,7 +1762,6 @@ export const handleAutoClose = async () => {
 };
 
 export const processingSettlementWithoutConnectPax = () => {
-  console.log("processingSettlementWithoutConnectPax")
   const { dataLocal } = store.getState();
   const { token, deviceId, deviceName } = dataLocal;
   requestAPI({
@@ -1786,7 +1783,6 @@ export const settle = async (
   creditCount,
   terminalID
 ) => {
-  console.log("settle", settleWaiting, terminalID)
   const { dataLocal, hardware } = store.getState();
   const { paxMachineInfo, 
           cloverMachineInfo, 
@@ -1813,7 +1809,6 @@ export const settle = async (
     //Dejavoo
     const responses = await requestSettlementDejavoo();
     parseString(responses, (err, result) => {
-      console.log('result', result)
       if (l.get(result, 'xmp.response.0.ResultCode.0') == 0) {
         //success
         proccessingSettlement(
