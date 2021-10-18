@@ -2,7 +2,6 @@ import {
   ParentContainer,
   PopupActiveGiftCard,
   PopupChangeMoney,
-  PopupChangeTip,
   PopupConfirm,
   PopupPayCompleted,
   PopupProcessingCredit,
