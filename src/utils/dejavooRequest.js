@@ -13,7 +13,6 @@ let headers = Object.assign(
 const api = 'https://spinpos.net/spin/cgi.html'
 
 export const requestTransactionDejavoo = async (params) => {
-    console.log('params', params)
     const { hardware } = store.getState();
     const { dejavooMachineInfo } = hardware;
     const transType = _.get(params, 'transType')
@@ -27,7 +26,6 @@ export const requestTransactionDejavoo = async (params) => {
                 `<RegisterId>${_.get(dejavooMachineInfo, 'registerId')}</RegisterId>`+
                 `<PrintReceipt>No</PrintReceipt>`+
                 `</request>`
-    console.log('param', param)
     
    const configs = {
     method: "get",
@@ -36,7 +34,6 @@ export const requestTransactionDejavoo = async (params) => {
     headers: headers,
     timeout: 90000,
     };
-    console.log('configs', configs)
     const response = await handleRequest(configs)
     return response
   };
@@ -44,17 +41,14 @@ export const requestTransactionDejavoo = async (params) => {
   const handleRequest = async (configs) => {
     try {
       const response = await axios(configs);
-      console.log('response', response)
    
       if (parseInt(_.get(response, 'status')) == 200) {
         const xmlResponse = _.get(response, 'data')
-        console.log('xmlResponse', xmlResponse)
         return xmlResponse
       } else {
         return '<xmp><response><ResultCode>999</ResultCode><Message>Error</Message></response></xmp>'
       }
     } catch (error) {
-      console.log('error', error)
       return '<xmp><response><ResultCode>999</ResultCode><Message>Error</Message></response></xmp>'
     }
   }
