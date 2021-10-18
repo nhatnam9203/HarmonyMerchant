@@ -18,3 +18,17 @@ export function setCloverToken(token) {
         payload: token
     }
 }
+
+export function setupDejavooMachine(dejavooInfo) {
+    return {
+        type: 'SETUP_DEJAVOO_MACHINE',
+        payload: dejavooInfo
+    }
+}
+
+export function setDejavooMachineSN(sn) {
+    return {
+        type: 'SET_DEJAVOO_SN',
+        payload: sn
+    }
+}
