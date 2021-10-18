@@ -10,7 +10,11 @@ import {
   useGetAppointment,
   useShippingAppointment,
 } from "@shared/services/api/retailer";
-import { PURCHASE_POINTS_STORE, statusSuccess } from "@shared/utils";
+import {
+  PURCHASE_POINTS_STORE,
+  statusSuccess,
+  SHIPPING_METHOD_GROUP,
+} from "@shared/utils";
 import { getInfoFromModelNameOfPrinter } from "@utils";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,13 +40,14 @@ export const useProps = ({
   const dispatch = useDispatch();
   const invoicePrintRef = React.useRef(null);
   const invoiceRef = React.useRef(null);
+  const returnReceiptRef = React.useRef(null);
 
   /**
   |--------------------------------------------------
   | REDUX variables
   |--------------------------------------------------
   */
-
+  const profile = useSelector((state) => state.dataLocal.profile);
   /**
   |--------------------------------------------------
   | STATE variables
@@ -56,6 +61,7 @@ export const useProps = ({
   const [billingAddressId, setBillingAddressId] = React.useState(null);
   const [isDidNotPay, setDidNotPay] = React.useState(false);
   const [visiblePrintInvoice, setVisiblePrintInvoice] = React.useState(false);
+  const [shippingFlatRates, setShippingFlatRates] = React.useState(null);
 
   /**
   |--------------------------------------------------
@@ -85,6 +91,16 @@ export const useProps = ({
       unsubscribeBlur();
     };
   }, [navigation]);
+
+  React.useEffect(() => {
+    if (profile) {
+      setShippingFlatRates([
+        ...(profile.shippingMethod?.shippingFlatRates || []),
+      ]);
+    } else {
+      setShippingFlatRates(null);
+    }
+  }, [profile]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -373,7 +389,7 @@ export const useProps = ({
     },
     confirm: () => {
       const params = Object.assign({}, shippingMethod, {
-        shippingAmount: 0,
+        // shippingAmount: 0,
         billingAddressId:
           billingAddressId ?? appointmentDetail?.billingAddress?.id,
         shippingAddressId:
@@ -424,6 +440,44 @@ export const useProps = ({
         appointmentId: appointmentDetail?.appointmentId,
         checkoutId: appointmentDetail?.invoice?.checkoutId,
         isShareMode: true,
+      });
+    },
+    getShippingMethodLabel: React.useCallback(() => {
+      if (appointmentDetail?.shipping?.shippingMethod) {
+        switch (appointmentDetail?.shipping?.shippingMethod) {
+          case SHIPPING_METHOD_GROUP.STORE_PICKUP:
+            return "Store Pickup";
+          case SHIPPING_METHOD_GROUP.FLAT_RATE:
+            const flatRate = [...shippingFlatRates]
+              ?.filter((x) => !x.isDeleted)
+              ?.find(
+                (x) => x.id === appointmentDetail?.shipping?.flatRateCustom
+              );
+
+            if (flatRate) {
+              return `${flatRate?.label} - ${flatRate?.amount}$`;
+            }
+
+            return "Flat Rate";
+
+          case SHIPPING_METHOD_GROUP.FREE:
+            return "Free Shipping";
+
+          default:
+            return "Unknown";
+        }
+      }
+    }, [appointmentDetail]),
+    returnReceiptRef,
+    printReturnInvoice: (itemReturn) => {
+      returnReceiptRef.current?.showReceipt({
+        item: itemReturn,
+      });
+    },
+    shareReturnInvoice: (itemReturn) => {
+      returnReceiptRef.current?.showReceipt({
+        isShareMode: true,
+        item: itemReturn,
       });
     },
   };

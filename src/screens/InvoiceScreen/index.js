@@ -21,10 +21,16 @@ import {
   APP_NAME,
   POS_SERIAL,
   localize,
+  PaymentTerminalType,
+  requestTransactionDejavoo,
+  role, 
+  menuTabs, 
+  isPermissionToTab,
+  stringIsEmptyOrWhiteSpaces,
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
-import { role, menuTabs, isPermissionToTab } from "@utils";
 import * as l from "lodash";
+import { parseString } from "react-native-xml2js";
 
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
@@ -47,6 +53,7 @@ const initalState = {
   titleInvoice: "",
   visiblePopupParingCode: false,
   pairingCode: "",
+  receiptContentBg: "#fff",
 };
 
 class InvoiceScreen extends Layout {
@@ -63,6 +70,7 @@ class InvoiceScreen extends Layout {
     this.invoicePrintRef = React.createRef();
     this.viewShotRef = React.createRef();
     this.virtualizedListRef = React.createRef();
+    this.invoiceRef = React.createRef();
 
     //ADD LISTENER FROM CLOVER MODULE
     this.eventEmitter = new NativeEventEmitter(clover);
@@ -446,17 +454,10 @@ class InvoiceScreen extends Layout {
             }, 100);
           }
         } else {
-          const amount = paymentInformation?.ApprovedAmount || 0;
-          const transactionId = paymentInformation?.RefNum || 0;
-          const extData = paymentInformation?.ExtData || "";
-          const invNum = paymentInformation?.InvNum || "";
-          const tempIpPax = commType == "TCP" ? ip : "";
-          const tempPortPax = commType == "TCP" ? port : "";
-          const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
 
           if (invoiceDetail?.status === "paid") {
             this.popupProcessingCreditRef.current?.setStateFromParent(false);
-            if (paymentMachineType == "Clover") {
+            if (paymentMachineType == PaymentTerminalType.Clover) {
               const port = l.get(cloverMachineInfo, "port")
                 ? l.get(cloverMachineInfo, "port")
                 : 80;
@@ -477,7 +478,40 @@ class InvoiceScreen extends Layout {
                 paymentId: paymentInformation?.id || "",
               };
               clover.refundPayment(paymentInfo);
+            } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+              const amount = l.get(invoiceDetail, 'paymentInformation.0.amount')
+              
+              parseString(paymentInformation, (err, result) => {
+                if(err){
+                  setTimeout(() => {
+                    alert("Error");
+                  }, 300);
+                }else{
+                  
+                  const transactionId = l.get(result, 'xmp.response.0.RefId.0')
+                  const invNum = l.get(result, 'xmp.response.0.InvNum.0')
+                  const params = {
+                    tenderType: "Credit",
+                    transType: "Return",
+                    amount: parseFloat(amount).toFixed(2),
+                    RefId: transactionId,
+                    invNum: `${invNum}`,
+                  }
+                  requestTransactionDejavoo(params).then((responses) => {
+                    this.handleResultRefundTransactionDejavoo(responses)
+                  })
+                }
+              })
+              
             } else {
+              //Pax
+              const amount = paymentInformation?.ApprovedAmount || 0;
+              const transactionId = paymentInformation?.RefNum || 0;
+              const extData = paymentInformation?.ExtData || "";
+              const invNum = paymentInformation?.InvNum || "";
+              const tempIpPax = commType == "TCP" ? ip : "";
+              const tempPortPax = commType == "TCP" ? port : "";
+              const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
               PosLink.sendTransaction(
                 {
                   tenderType: "CREDIT",
@@ -496,10 +530,8 @@ class InvoiceScreen extends Layout {
               );
             }
           } else if (invoiceDetail?.status === "complete") {
-            this.popupProcessingCreditRef.current?.setStateFromParent(
-              transactionId
-            );
-            if (paymentMachineType == "Clover") {
+            
+            if (paymentMachineType == PaymentTerminalType.Clover) {
               this.isProcessVoidPaymentClover = true;
               const port = l.get(cloverMachineInfo, "port")
                 ? l.get(cloverMachineInfo, "port")
@@ -521,7 +553,42 @@ class InvoiceScreen extends Layout {
                 paymentId: paymentInformation?.id || "",
               };
               clover.voidPayment(paymentInfo);
+            } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+              const amount = l.get(invoiceDetail, 'paymentInformation.0.amount')
+              parseString(paymentInformation, (err, result) => {
+                if(err){
+                  setTimeout(() => {
+                    alert("Error");
+                  }, 300);
+                }else{
+                
+                  const transactionId = l.get(result, 'xmp.response.0.RefId.0')
+                  const invNum = l.get(result, 'xmp.response.0.InvNum.0')
+                  const params = {
+                    tenderType: "Credit",
+                    transType: "Void",
+                    amount: parseFloat(amount).toFixed(2),
+                    RefId: transactionId,
+                    invNum: `${invNum}`,
+                  }
+                  requestTransactionDejavoo(params).then((responses) => {
+                    this.handleResultRefundTransactionDejavoo(responses)
+                  })
+                  
+                }
+              })
+              
             } else {
+              //Pax
+              const transactionId = paymentInformation?.RefNum || 0;
+              const extData = paymentInformation?.ExtData || "";
+              const invNum = paymentInformation?.InvNum || "";
+              const tempIpPax = commType == "TCP" ? ip : "";
+              const tempPortPax = commType == "TCP" ? port : "";
+              const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+              this.popupProcessingCreditRef.current?.setStateFromParent(
+                transactionId
+              );
               PosLink.sendTransaction(
                 {
                   tenderType: "CREDIT",
@@ -684,9 +751,45 @@ class InvoiceScreen extends Layout {
     }
   };
 
+  handleResultRefundTransactionDejavoo = async (responses) => {
+    const { invoiceDetail } = this.props;
+    await this.setState({
+      visibleProcessingCredit: false,
+    });
+
+    parseString(responses, (err, result) => {
+      if (err || l.get(result, 'xmp.response.0.ResultCode.0') != 0) {
+        let detailMessage = l.get(result, 'xmp.response.0.RespMSG.0', "").replace(/%20/g, " ")
+        detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage) ? `: ${detailMessage}` : detailMessage
+        
+        const resultTxt = `${l.get(result, 'xmp.response.0.Message.0')}${detailMessage}`
+        || "Error";
+        setTimeout(() => {
+          alert(resultTxt);
+        }, 300);
+      } else {
+        this.props.actions.invoice.changeStatustransaction(
+          invoiceDetail.checkoutId,
+          this.getParamsSearch(),
+          responses,
+          "dejavoo"
+        );
+        this.setState({
+          titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
+        });
+      }
+    })
+  };
+
   cancelTransaction = async () => {
     const { paymentMachineType } = this.props;
-    if (paymentMachineType == "Clover") {
+
+    if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+      alert("Can not cancel request.")
+      return
+    }
+
+    if (paymentMachineType == PaymentTerminalType.Clover) {
       clover.cancelTransaction();
     } else {
       PosLink.cancelTransaction();
@@ -766,7 +869,7 @@ class InvoiceScreen extends Layout {
       alert("You don't select invoice!");
     } else {
       const printMachine = await checkStatusPrint();
-      if (printMachine) {
+      if (printMachine && printMachine.length > 0) {
         this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
 
         const {
@@ -860,44 +963,50 @@ class InvoiceScreen extends Layout {
         printerSelect
       );
 
-      if (portName) {
-        this.props.actions.app.loadingApp();
-        const imageUri = await captureRef(this.viewShotRef, {});
-        if (imageUri) {
-          let commands = [];
-          commands.push({ appendLineFeed: 0 });
-          commands.push({
-            appendBitmap: imageUri,
-            width: parseFloat(widthPaper),
-            bothScale: true,
-            diffusion: true,
-            alignment: "Center",
-          });
-          commands.push({
-            appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-          });
-
-          await PrintManager.getInstance().print(emulation, commands, portName);
-          releaseCapture(imageUri);
-        }
-        this.props.actions.app.stopLoadingApp();
-      } else {
-        const { cloverMachineInfo, paymentMachineType } = this.props;
-        const { isSetup } = cloverMachineInfo;
-        if (paymentMachineType == "Clover" && isSetup) {
+      await this.setState({ receiptContentBg: "#fff0" }, async () => {
+        if (portName) {
           this.props.actions.app.loadingApp();
-          const imageUri = await captureRef(this.viewShotRef, {
-            result: "base64",
-          });
+          const imageUri = await captureRef(this.viewShotRef, {});
           if (imageUri) {
-            this.doPrintClover(imageUri);
+            let commands = [];
+            commands.push({ appendLineFeed: 0 });
+            commands.push({
+              appendBitmap: imageUri,
+              width: parseFloat(widthPaper),
+              bothScale: true,
+              diffusion: true,
+              alignment: "Center",
+            });
+            commands.push({
+              appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+            });
+
+            await PrintManager.getInstance().print(
+              emulation,
+              commands,
+              portName
+            );
             releaseCapture(imageUri);
           }
           this.props.actions.app.stopLoadingApp();
         } else {
-          alert("Please connect to your printer!");
+          const { cloverMachineInfo, paymentMachineType } = this.props;
+          const { isSetup } = cloverMachineInfo;
+          if (paymentMachineType == "Clover" && isSetup) {
+            this.props.actions.app.loadingApp();
+            const imageUri = await captureRef(this.viewShotRef, {
+              result: "base64",
+            });
+            if (imageUri) {
+              this.doPrintClover(imageUri);
+              releaseCapture(imageUri);
+            }
+            this.props.actions.app.stopLoadingApp();
+          } else {
+            alert("Please connect to your printer!");
+          }
         }
-      }
+      });
     } catch (error) {
       this.props.actions.app.stopLoadingApp();
       setTimeout(() => {
@@ -908,15 +1017,16 @@ class InvoiceScreen extends Layout {
 
   shareCustomerInvoice = async () => {
     try {
-      const imageUri = await captureRef(this.viewShotRef, {});
-      if (Platform.OS === "ios") {
-
-        RNFetchBlob.ios.previewDocument(imageUri);
-      } else {
-        const shareResponse = await Share.open({
-          url: `file://${imageUri}`,
-        });
-      }
+      await this.setState({ receiptContentBg: "#fff" }, async () => {
+        const imageUri = await captureRef(this.viewShotRef, {});
+        if (Platform.OS === "ios") {
+          RNFetchBlob.ios.previewDocument(imageUri);
+        } else {
+          const shareResponse = await Share.open({
+            url: `file://${imageUri}`,
+          });
+        }
+      });
     } catch (error) {
       // alert(error)
     }

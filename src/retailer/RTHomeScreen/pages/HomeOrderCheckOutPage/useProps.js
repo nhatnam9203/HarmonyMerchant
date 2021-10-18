@@ -1,42 +1,41 @@
+import actions from "@actions";
+import PrintManager from "@lib/PrintManager";
 import NavigationServices from "@navigators/NavigatorServices";
-import { basketRetailer, appMerchant } from "@redux/slices";
+import { useFocusEffect } from "@react-navigation/native";
+import { basketRetailer } from "@redux/slices";
 import {
   useAddItemAppointmentTemp,
+  useAppointmentAddGiftCard,
+  useAppointmentAddItem,
+  useAppointmentRemoveGiftCard,
+  useAppointmentRemoveItem,
+  useAppointmentTempAddGiftCard,
+  useAppointmentTempRemoveGiftCard,
+  useAppointmentTempUpdateItem,
+  useAppointmentUpdateItem,
   useCreateAppointment,
   useCreateAppointmentTemp,
+  useGetAppointment,
   useGetAppointmentTemp,
   useGetCategoriesList,
-  useGetProductsByBarcode,
   useGetLayout,
-  useUpdateAppointmentCustomer,
+  useGetProductsByBarcode,
   useGetProductsByCategory,
-  useRemoveItemAppointmentTemp,
-  useUpdateAppointmentTempCustomer,
-  useAppointmentAddItem,
-  useAppointmentRemoveItem,
-  useGetAppointment,
-  useAppointmentAddGiftCard,
-  useAppointmentTempAddGiftCard,
-  useAppointmentRemoveGiftCard,
-  useAppointmentTempRemoveGiftCard,
   useGetProductsList,
-  useAppointmentUpdateItem,
-  useAppointmentTempUpdateItem,
+  useRemoveItemAppointmentTemp,
+  useUpdateAppointmentCustomer,
+  useUpdateAppointmentTempCustomer,
 } from "@shared/services/api/retailer";
 import {
   createSubmitAppointment,
-  statusSuccess,
-  PURCHASE_POINTS_STORE,
   PURCHASE_POINTS_ORDER,
+  PURCHASE_POINTS_STORE,
+  statusSuccess,
 } from "@shared/utils";
+import { getInfoFromModelNameOfPrinter } from "@utils";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CUSTOM_LIST_TYPES } from "../../widget";
-import { useFocusEffect } from "@react-navigation/native";
-import { getInfoFromModelNameOfPrinter, formatWithMoment } from "@utils";
-import PrintManager from "@lib/PrintManager";
-import actions from "@actions";
-import Configs from "@configs";
 
 const log = (obj, message = "") => {
   Logger.log(`[CheckOutTabPage > useProps] ${message}`, obj);
@@ -173,8 +172,19 @@ export const useProps = ({
     getCategoriesLabel();
   };
 
-  const openCashDrawer = async (portName) => {
-    await PrintManager.getInstance().openCashDrawer(portName);
+  const openCashDrawer = async () => {
+    const { portName } = getInfoFromModelNameOfPrinter(
+      printerList,
+      printerSelect
+    );
+
+    if (portName) {
+      await PrintManager.getInstance().openCashDrawer(portName);
+    } else {
+      setTimeout(() => {
+        alert("Please connect to your cash drawer.");
+      }, 700);
+    }
   };
 
   /**
@@ -318,7 +328,7 @@ export const useProps = ({
       appointmentProductItemUpdate ||
       {};
     if (statusSuccess(codeStatus)) {
-      getAppointment(appointmentId);
+      if (appointmentId) getAppointment(appointmentId);
     }
   }, [
     appointmentItemAdd,
@@ -331,7 +341,7 @@ export const useProps = ({
     const { codeStatus, message, data } =
       appointmentItemRemove || appointmentGiftCardRemove || {};
     if (statusSuccess(codeStatus)) {
-      getAppointment(appointmentId);
+      if (appointmentId) getAppointment(appointmentId);
       if (removeItemWaitingList?.length > 0) {
         setRemoveItemWaitingList(removeItemWaitingList.slice(1));
       }
@@ -524,6 +534,9 @@ export const useProps = ({
     },
     onGoBack: () => {
       NavigationServices.navigate("retailer.home.order.list", {});
+    },
+    isCanGoBack: () => {
+      return navigation.canGoBack();
     },
     customerRef,
     onRefreshCategory: () => {

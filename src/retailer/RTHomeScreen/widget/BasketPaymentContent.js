@@ -290,6 +290,13 @@ export const BasketPaymentContent = React.forwardRef(
             </TouchableOpacity>
           </TotalInfo>
           <View style={layouts.marginVertical} />
+          {groupAppointment?.shippingFee >= 0 && (
+            <TotalInfo
+              label={t("Shipping Fee")}
+              value={formatMoneyWithUnit(groupAppointment?.shippingFee)}
+            />
+          )}
+          <View style={layouts.marginVertical} />
           <View style={styles.line} />
           <View style={layouts.marginVertical} />
           <TotalInfo

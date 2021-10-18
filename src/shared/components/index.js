@@ -40,3 +40,4 @@ export * from "./DialogScanQR";
 export * from "./PermissionChecker";
 export * from "./PromotionCustomerFilter";
 export * from "./StaffCheckInDialog";
+export * from "./PopupReceipt";

@@ -12,8 +12,9 @@ import { formatMoneyWithUnit } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useSelector } from "react-redux";
 
-export const FormShippingCarrier = ({ onChangeValue }) => {
+export const FormShippingCarrier = ({ onChangeValue, appointment }) => {
   const [t] = useTranslation();
 
   const freeSwitchRef = React.useRef(null);
@@ -21,16 +22,19 @@ export const FormShippingCarrier = ({ onChangeValue }) => {
   const storePickupSwitchRef = React.useRef(null);
   const shippingCarrierRef = React.useRef(null);
 
+  const { shippingMethod } =
+    useSelector((state) => state.dataLocal.profile) || {};
+
   const [shippingCarrier, setShippingCarrier] = React.useState();
   const [trackingNumber, setTrackingNumber] = React.useState();
 
   const [shippingMethodGroup, setShippingMethodGroup] = React.useState(
     SHIPPING_METHOD_GROUP.STORE_PICKUP
   );
-  const [shippingMethodLabel, setShippingMethodLabel] = React.useState();
+  const [flatRateCustom, setFlatRateCustom] = React.useState(0);
 
   const onHandleChangeMethod = (item) => {
-    setShippingMethodLabel(item.label);
+    setFlatRateCustom(item?.id ?? 0);
 
     switch (item.group) {
       case SHIPPING_METHOD_GROUP.STORE_PICKUP:
@@ -69,16 +73,62 @@ export const FormShippingCarrier = ({ onChangeValue }) => {
       onChangeValue({
         shippingCarrier,
         trackingNumber,
-        shippingMethodGroup,
-        shippingMethodLabel,
+        shippingMethod: shippingMethodGroup,
+        flatRateCustom,
       });
     }
-  }, [
-    shippingCarrier,
-    trackingNumber,
-    shippingMethodGroup,
-    shippingMethodLabel,
-  ]);
+  }, [shippingCarrier, trackingNumber, shippingMethodGroup, flatRateCustom]);
+
+  React.useEffect(() => {
+    if (appointment?.shipping) {
+      switch (appointment?.shipping?.shippingMethod) {
+        case SHIPPING_METHOD_GROUP.FREE:
+          setShippingMethodGroup(SHIPPING_METHOD_GROUP.FREE);
+
+          shippingCarrierRef.current?.setValue(
+            appointment?.shipping?.shippingCarrier
+          );
+          setShippingCarrier(appointment?.shipping?.shippingCarrier);
+
+          setTrackingNumber(appointment?.shipping?.trackingNumber);
+
+          flatRateSwitchRef.current?.reset();
+          storePickupSwitchRef.current?.reset();
+
+          break;
+        case SHIPPING_METHOD_GROUP.FLAT_RATE:
+          console.log(shippingMethod);
+          setShippingMethodGroup(SHIPPING_METHOD_GROUP.FLAT_RATE);
+
+          setFlatRateCustom(appointment?.shipping?.flatRateCustom);
+          flatRateSwitchRef.current?.setValue(
+            appointment?.shipping?.flatRateCustom
+          );
+
+          setShippingCarrier(appointment?.shipping?.shippingCarrier);
+          shippingCarrierRef.current?.setValue(
+            appointment?.shipping?.shippingCarrier
+          );
+
+          setTrackingNumber(appointment?.shipping?.trackingNumber);
+
+          freeSwitchRef.current?.reset();
+          storePickupSwitchRef.current?.reset();
+
+          break;
+        case SHIPPING_METHOD_GROUP.STORE_PICKUP:
+        default:
+          freeSwitchRef.current?.reset();
+
+          flatRateSwitchRef.current?.reset();
+          shippingCarrierRef.current?.reset();
+          setShippingCarrier(null);
+          setTrackingNumber(null);
+
+          break;
+      }
+    }
+  }, [appointment]);
 
   return (
     <View style={layouts.horizontal}>
@@ -99,7 +149,7 @@ export const FormShippingCarrier = ({ onChangeValue }) => {
           defaultValue={trackingNumber}
         />
       </InfoContent>
-      <InfoContent label={t("Shipping method")} editable={true}>
+      <InfoContent label={t("Shipping method")} editable={false}>
         <InfoHeading label={t("Store Pickup")} fontSize={scaleWidth(15)} />
         <CustomRadioSelect
           ref={storePickupSwitchRef}
@@ -121,36 +171,56 @@ export const FormShippingCarrier = ({ onChangeValue }) => {
           label={t("Flat rate shipping")}
           fontSize={scaleWidth(15)}
         />
-        <CustomRadioSelect
-          ref={flatRateSwitchRef}
-          data={FLAT_RATE_SHIPPING}
-          onSelect={onHandleChangeMethod}
-          onRenderLabel={(x) => (
-            <Text style={styles.textStyle}>
-              {x?.label}
-              <Text style={styles.textBoldStyle}>
-                {" - "}
-                {formatMoneyWithUnit(x?.value)}
+        {shippingMethod?.shippingFlatRates?.filter((x) => !x.isDeleted)
+          ?.length > 0 ? (
+          <CustomRadioSelect
+            ref={flatRateSwitchRef}
+            data={
+              shippingMethod?.shippingFlatRates
+                ?.filter((x) => !x.isDeleted)
+                ?.map((x) =>
+                  Object.assign({}, x, {
+                    group: SHIPPING_METHOD_GROUP.FLAT_RATE,
+                    value: x.id,
+                  })
+                ) ?? FLAT_RATE_SHIPPING
+            }
+            onSelect={onHandleChangeMethod}
+            onRenderLabel={(x) => (
+              <Text style={styles.textStyle}>
+                {x?.label}
+                <Text style={styles.textBoldStyle}>
+                  {" - "}
+                  {formatMoneyWithUnit(x?.amount ?? x?.value)}
+                </Text>
               </Text>
-            </Text>
-          )}
-        />
+            )}
+          />
+        ) : (
+          <Text style={styles.textStyle}>
+            {t("You need to go into settings to set up shipping method.")}
+          </Text>
+        )}
 
-        <InfoHeading label={t("Free shipping")} fontSize={scaleWidth(15)} />
-        <CustomRadioSelect
-          ref={freeSwitchRef}
-          data={FREE_SHIPPING}
-          onSelect={onHandleChangeMethod}
-          onRenderLabel={(x) => (
-            <Text style={styles.textStyle}>
-              {x?.label}
-              <Text style={styles.textBoldStyle}>
-                {" - "}
-                {formatMoneyWithUnit(x?.value)}
-              </Text>
-            </Text>
-          )}
-        />
+        {shippingMethod?.freeShip && (
+          <View>
+            <InfoHeading label={t("Free shipping")} fontSize={scaleWidth(15)} />
+            <CustomRadioSelect
+              ref={freeSwitchRef}
+              data={FREE_SHIPPING}
+              onSelect={onHandleChangeMethod}
+              onRenderLabel={(x) => (
+                <Text style={styles.textStyle}>
+                  {x?.label}
+                  <Text style={styles.textBoldStyle}>
+                    {" - "}
+                    {formatMoneyWithUnit(x?.value)}
+                  </Text>
+                </Text>
+              )}
+            />
+          </View>
+        )}
       </InfoContent>
     </View>
   );

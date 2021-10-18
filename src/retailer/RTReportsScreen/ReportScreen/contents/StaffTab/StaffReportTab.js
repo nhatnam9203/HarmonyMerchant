@@ -19,6 +19,8 @@ export default function StaffReportTab({
   handleTheDownloadedFile,
   onRefresh,
   isRefreshing,
+  onLoadMore,
+  endLoadMore,
 }) {
   const language = useSelector((state) => state.dataLocal.language);
 
@@ -201,6 +203,8 @@ export default function StaffReportTab({
           onRowPress={onRowPress}
           onRefresh={onRefresh}
           isRefreshing={isRefreshing}
+          onLoadMore={onLoadMore}
+          endLoadMore={endLoadMore}
         />
       </ReportTabLayout>
 

@@ -152,7 +152,6 @@ export const useProps = ({ params: { item } }) => {
         return temp;
       });
 
-
       let tempData = data;
       tempData.products = updateListData;
       setData(tempData);
@@ -239,5 +238,6 @@ export const useProps = ({ params: { item } }) => {
     setNotes,
     updateQuantity,
     updateTotal,
+    setToggleReturnShipping: (bl) => {},
   };
 };

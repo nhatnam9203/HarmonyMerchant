@@ -26,6 +26,8 @@ import {
   FormEditNotes,
   FormShippingCarrier,
 } from "../../widget";
+import { PURCHASE_POINTS_ORDER, statusSuccess } from "@shared/utils";
+import { PopupReturnReceipt } from "@shared/components";
 
 const CancelConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
@@ -47,6 +49,10 @@ export const Layout = ({
   printCustomerInvoice,
   shareCustomerInvoice,
   invoiceRef,
+  getShippingMethodLabel,
+  shareReturnInvoice,
+  printReturnInvoice,
+  returnReceiptRef,
 }) => {
   const [t] = useTranslation();
 
@@ -330,6 +336,71 @@ export const Layout = ({
     return null;
   };
 
+  const onRenderCellReturn = ({
+    item: cellItem,
+    columnKey,
+    rowIndex,
+    cellWidth,
+  }) => {
+    switch (columnKey) {
+      case "receipt":
+        return (
+          <View
+            key={getUniqueId(columnKey, rowIndex, "cell-return-receipt")}
+            style={{ flexDirection: "row" }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                shareReturnInvoice(cellItem);
+              }}
+              style={{
+                width: scaleWidth(40),
+                height: scaleHeight(40),
+                backgroundColor: "#0764B0",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: scaleWidth(4),
+              }}
+            >
+              <Image
+                source={IMAGE.share_icon}
+                style={{
+                  width: scaleWidth(20),
+                  height: scaleHeight(20),
+                }}
+              />
+            </TouchableOpacity>
+            <View style={layouts.marginHorizontal} />
+
+            <TouchableOpacity
+              onPress={() => {
+                printReturnInvoice(cellItem);
+              }}
+              style={{
+                width: scaleWidth(40),
+                height: scaleHeight(40),
+                backgroundColor: "#0764B0",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: scaleWidth(4),
+              }}
+            >
+              <Image
+                source={IMAGE.print_btn}
+                style={{
+                  width: scaleWidth(20),
+                  height: scaleHeight(20),
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+        );
+
+      default:
+        break;
+    }
+  };
+
   return (
     <View style={layouts.fill}>
       <View style={styles.headContent}>
@@ -513,10 +584,60 @@ export const Layout = ({
             // draggable={true}
           />
 
-          {item?.status === ORDERED_STATUS.PENDING ? (
+          {item?.returns?.length > 0 && (
+            <View>
+              <FormTitle label={`${t("Return History")}`} />
+              <Table
+                items={item?.returns || []}
+                tableStyle={styles.table}
+                headerKeyLabels={{
+                  code: t("Code"),
+                  createdDate: t("Date"),
+                  notes: t("Note"),
+                  createdBy: t("Staff"),
+                  receipt: t("Receipt"),
+                }}
+                whiteListKeys={[
+                  "code",
+                  "createdDate",
+                  "createdBy",
+                  "notes",
+                  "receipt",
+                ]}
+                primaryKey="code"
+                widthForKeys={{
+                  code: scaleWidth(200),
+                  createdDate: scaleWidth(200),
+                  createdBy: scaleWidth(200),
+                  notes: scaleWidth(280),
+                  receipt: scaleWidth(120),
+                }}
+                emptyDescription={t("No Returns History")}
+                styleTextKeys={{ total: styles.highLabelTextStyle }}
+                formatFunctionKeys={{
+                  code: (value) => `#${value}`,
+                  createdDate: (value) =>
+                    dateToString(value, DATE_TIME_SHOW_FORMAT_STRING),
+                }}
+                renderCell={onRenderCellReturn}
+                renderFooterComponent={() => (
+                  <View style={{ height: scaleHeight(10) }} />
+                )}
+                // onRowPress={onSelectRow}
+              />
+            </View>
+          )}
+
+          {item?.status === ORDERED_STATUS.PENDING ||
+          (item?.status === ORDERED_STATUS.PROCESS &&
+            item.purchasePoint === PURCHASE_POINTS_ORDER &&
+            item.payment?.length <= 0) ? (
             <>
               <FormTitle label={t("Shipping Method")} />
-              <FormShippingCarrier onChangeValue={onChangeShippingMethod} />
+              <FormShippingCarrier
+                onChangeValue={onChangeShippingMethod}
+                appointment={item}
+              />
 
               <FormTitle label={t("Address Information")} />
               <FormAddressInformation
@@ -575,7 +696,9 @@ export const Layout = ({
                   )}
                 </InfoContent>
                 <View style={layouts.marginHorizontal} />
-                <InfoContent label={t("Shipping & Handling Infomation")}>
+                {/** Shipping  */}
+                <InfoContent label={t("Shipping & Handling Information")}>
+                  {/** Shipping Carrier */}
                   {!!item?.shipping?.shippingCarrier && (
                     <View style={styles.personContent}>
                       <Text>{t("Shipping carrier")}</Text>
@@ -600,22 +723,15 @@ export const Layout = ({
                     </View>
                   )}
 
-                  {item?.shipping?.shippingMethodGroup && (
+                  {item?.shipping?.shippingMethod && (
                     <View style={styles.personContent}>
                       <Text>{t("Shipping method")}</Text>
                       <View style={layouts.marginVertical} />
 
                       <View style={layouts.horizontal}>
-                        {item?.shipping?.shippingMethodGroup && (
-                          <Text
-                            style={styles.boldText}
-                          >{`${item?.shipping?.shippingMethodGroup}`}</Text>
-                        )}
-                        {item?.shipping?.shippingMethodLabel && (
-                          <Text
-                            style={styles.boldText}
-                          >{`/${item?.shipping?.shippingMethodLabel}`}</Text>
-                        )}
+                        <Text
+                          style={styles.boldText}
+                        >{`${getShippingMethodLabel()}`}</Text>
                       </View>
                     </View>
                   )}
@@ -634,7 +750,7 @@ export const Layout = ({
                 />
                 <InfoLine
                   label={t("Shipping & Handling")}
-                  infoValue={formatMoneyWithUnit(item?.shippingAmount)}
+                  infoValue={formatMoneyWithUnit(item?.shippingFee)}
                 />
                 <InfoLine
                   label={t("Tax")}
@@ -705,6 +821,7 @@ export const Layout = ({
       </KeyboardAwareScrollView>
 
       <PopupInvoice ref={invoiceRef} />
+      <PopupReturnReceipt ref={returnReceiptRef} />
     </View>
   );
 };
