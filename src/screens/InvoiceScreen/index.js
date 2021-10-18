@@ -53,6 +53,7 @@ const initalState = {
   titleInvoice: "",
   visiblePopupParingCode: false,
   pairingCode: "",
+  receiptContentBg: "#fff",
 };
 
 class InvoiceScreen extends Layout {
@@ -964,44 +965,50 @@ class InvoiceScreen extends Layout {
         printerSelect
       );
 
-      if (portName) {
-        this.props.actions.app.loadingApp();
-        const imageUri = await captureRef(this.viewShotRef, {});
-        if (imageUri) {
-          let commands = [];
-          commands.push({ appendLineFeed: 0 });
-          commands.push({
-            appendBitmap: imageUri,
-            width: parseFloat(widthPaper),
-            bothScale: true,
-            diffusion: true,
-            alignment: "Center",
-          });
-          commands.push({
-            appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-          });
-
-          await PrintManager.getInstance().print(emulation, commands, portName);
-          releaseCapture(imageUri);
-        }
-        this.props.actions.app.stopLoadingApp();
-      } else {
-        const { cloverMachineInfo, paymentMachineType } = this.props;
-        const { isSetup } = cloverMachineInfo;
-        if (paymentMachineType == "Clover" && isSetup) {
+      await this.setState({ receiptContentBg: "#fff0" }, async () => {
+        if (portName) {
           this.props.actions.app.loadingApp();
-          const imageUri = await captureRef(this.viewShotRef, {
-            result: "base64",
-          });
+          const imageUri = await captureRef(this.viewShotRef, {});
           if (imageUri) {
-            this.doPrintClover(imageUri);
+            let commands = [];
+            commands.push({ appendLineFeed: 0 });
+            commands.push({
+              appendBitmap: imageUri,
+              width: parseFloat(widthPaper),
+              bothScale: true,
+              diffusion: true,
+              alignment: "Center",
+            });
+            commands.push({
+              appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+            });
+
+            await PrintManager.getInstance().print(
+              emulation,
+              commands,
+              portName
+            );
             releaseCapture(imageUri);
           }
           this.props.actions.app.stopLoadingApp();
         } else {
-          alert("Please connect to your printer!");
+          const { cloverMachineInfo, paymentMachineType } = this.props;
+          const { isSetup } = cloverMachineInfo;
+          if (paymentMachineType == "Clover" && isSetup) {
+            this.props.actions.app.loadingApp();
+            const imageUri = await captureRef(this.viewShotRef, {
+              result: "base64",
+            });
+            if (imageUri) {
+              this.doPrintClover(imageUri);
+              releaseCapture(imageUri);
+            }
+            this.props.actions.app.stopLoadingApp();
+          } else {
+            alert("Please connect to your printer!");
+          }
         }
-      }
+      });
     } catch (error) {
       this.props.actions.app.stopLoadingApp();
       setTimeout(() => {
@@ -1012,14 +1019,16 @@ class InvoiceScreen extends Layout {
 
   shareCustomerInvoice = async () => {
     try {
-      const imageUri = await captureRef(this.viewShotRef, {});
-      if (Platform.OS === "ios") {
-        RNFetchBlob.ios.previewDocument(imageUri);
-      } else {
-        const shareResponse = await Share.open({
-          url: `file://${imageUri}`,
-        });
-      }
+      await this.setState({ receiptContentBg: "#fff" }, async () => {
+        const imageUri = await captureRef(this.viewShotRef, {});
+        if (Platform.OS === "ios") {
+          RNFetchBlob.ios.previewDocument(imageUri);
+        } else {
+          const shareResponse = await Share.open({
+            url: `file://${imageUri}`,
+          });
+        }
+      });
     } catch (error) {
       // alert(error)
     }
