@@ -2,12 +2,13 @@ import {
   ParentContainer,
   PopupActiveGiftCard,
   PopupChangeMoney,
-  PopupChangeTip,
   PopupConfirm,
   PopupPayCompleted,
   PopupProcessingCredit,
   PopupScanCode,
   PopupSendLinkInstall,
+  PopupChangeTip,
+  PopupPairingCode,
 } from "@components";
 import IMAGE from "@resources";
 import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
@@ -107,6 +108,13 @@ export const Layout = ({
   onDiscountItemAdd,
   onGoBackCheckOut,
   cancelGiftCardPayment,
+  visiblePopupParingCode,
+  pairingCode,
+  visibleConfirmPayment,
+  setVisibleConfirmPayment,
+  confirmPaymentClover,
+  rejectPaymentClover,
+  doPrintClover,
   shareTemptInvoice,
   invoiceRef,
 }) => {
@@ -303,6 +311,22 @@ export const Layout = ({
         confimYes={popupConfirmOnRequestClose}
       />
 
+      <PopupConfirm
+        visible={visibleConfirmPayment ? true : false}
+        title={t("Verify payment")}
+        message={t("This may be a duplicate, do you want to accept this payment?")}
+        onRequestClose={() => { setVisibleConfirmPayment }}
+        confimYes={confirmPaymentClover}
+        confirmNo={rejectPaymentClover}
+        textLeftButton={t("Reject")}
+        textRightButton={t("Accept")}
+        hideCloseButton={true}
+      />
+      <PopupPairingCode
+        visible={visiblePopupParingCode ? true: false}
+        message={pairingCode}
+      />
+
       <ErrorMessagePaxModal
         visible={visibleErrorMessageFromPax}
         title={t("Trasaction Fail")}
@@ -368,8 +392,10 @@ export const Layout = ({
         onRequestClose={onRequestCloseScanCode}
         resultScanCode={resultScanCode}
       />
-
-      <PopupInvoice ref={invoiceRef} cancelInvoicePrint={cancelInvoicePrint} />
+      
+      <PopupInvoice ref={invoiceRef} 
+        cancelInvoicePrint={cancelInvoicePrint} 
+        doPrintClover={doPrintClover} />
 
       <PopupChangeTip
         ref={changeTipRef}

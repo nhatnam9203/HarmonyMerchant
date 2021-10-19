@@ -963,7 +963,7 @@ class InvoiceScreen extends Layout {
         printerSelect
       );
 
-      await this.setState({ receiptContentBg: "#fff0" }, async () => {
+      await this.setState({ receiptContentBg: "#fff" }, async () => {
         if (portName) {
           this.props.actions.app.loadingApp();
           const imageUri = await captureRef(this.viewShotRef, {});

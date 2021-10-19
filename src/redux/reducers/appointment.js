@@ -57,10 +57,16 @@ const initialState = {
   isBookingFromCalendar: false,
   appointmentIdBookingFromCalendar: 0,
   visiblePopupPaymentConfirm: false,
+  isProcessPaymentClover: false,
 };
 
 function appointmentReducer(state = initialState, action) {
   switch (action.type) {
+    case "IS_PROCESS_PAYMENT_CLOVER":
+      return {
+        ...state,
+        isProcessPaymentClover: action.payload
+      }
     case "RESET_GROUP_APPOINTMENT":
       return {
         ...initialState,
