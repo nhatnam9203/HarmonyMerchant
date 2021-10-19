@@ -910,7 +910,7 @@ export const useProps = ({
       appointmentId: groupAppointment?.mainAppointmentId,
       checkoutId: paymentDetailInfo?.invoiceNo,
       isPrintTempt: isTemptPrint,
-      paymentMachineType,
+      machineType: paymentMachineType,
     });
   };
 
