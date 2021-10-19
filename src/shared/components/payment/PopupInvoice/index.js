@@ -297,7 +297,6 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClove
 
     try {
       await setIsProcessingPrint(true);
-      // const imageUri = await captureRef(viewShotRef, {});
       const imageUri = await captureRef(viewShotRef, {
         ...(paymentMachineType === "Clover" &&
           !printerSelect && { result: "base64" }),
