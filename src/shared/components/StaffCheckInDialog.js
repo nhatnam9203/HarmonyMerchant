@@ -4,6 +4,7 @@ import {
   ButtonGradient,
   CustomRadioSelect,
   FormInput,
+  FormInputMask,
 } from "@shared/components";
 import { CustomInputMoney } from "@shared/components/CustomInput";
 import { DialogLayout } from "@shared/layouts";
@@ -280,7 +281,7 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
             </Text>
             <View style={styles.marginVertical} />
 
-            <CustomInputMoney
+            {/* <CustomInputMoney
               style={styles.textInputContainer}
               textInputProps={{
                 placeholder: "Price",
@@ -293,6 +294,19 @@ export const StaffCheckInDialog = React.forwardRef(({ onSuccess }, ref) => {
                   // `bind` the function if you're using ES6 classes
                   _scrollToInput(ReactNative.findNodeHandle(event.target));
                 },
+              }}
+            /> */}
+
+            <FormInputMask
+              label={t("Price ($)")}
+              placeholder={"Price"}
+              // required={true}
+              onChangeValue={setAmount}
+              defaultValue={amount || 0}
+              keyboardType="numeric"
+              onFocus={(event: Event) => {
+                // `bind` the function if you're using ES6 classes
+                _scrollToInput(ReactNative.findNodeHandle(event.target));
               }}
             />
 
