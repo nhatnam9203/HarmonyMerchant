@@ -353,7 +353,7 @@ class SetupHardware extends React.Component {
                         </Text>
                     </Button>
 
-                    <Button onPress={this.setTerminal("Clover")} style={{ flexDirection: "row" }} >
+                    <Button onPress={this.setTerminal("Clover")} style={{ flexDirection: "row", marginRight: scaleSize(40) }} >
                         <Image
                             source={tempCheckClover}
                             style={{ marginRight: scaleSize(10) }}
