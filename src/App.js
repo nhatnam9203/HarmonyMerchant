@@ -14,6 +14,7 @@ import {
   PopupConnected,
   PopupDisconnected,
   PopupInfomationCodePush,
+  PopupPairingCode,
 } from "./components";
 import { RootNavigator } from "./navigators/RootNavigator";
 import configureStore from "./redux/store";
@@ -37,6 +38,9 @@ const App: () => React$Node = () => {
   let eventEmitter = new NativeEventEmitter(clover);
   let subscriptions = []
 
+  const [visiblePopupParingCode, setVisiblePopupParingCode] = React.useState(false);
+  const [pairingCode, setPairingCode] = React.useState("");
+
   const registerEvents = () => {
     
     clover.changeListenerStatus(true)
@@ -59,10 +63,31 @@ const App: () => React$Node = () => {
         
        }),
        eventEmitter.addListener('closeoutFail', data => {
-        const { invoice, hardware } = store.getState();
-        const { paymentMachineType } = hardware;
+          const { invoice, hardware } = store.getState();
+          const { paymentMachineType } = hardware;
           if(paymentMachineType == "Clover" && l.get(invoice, "isProcessAutoCloseBatch")) {
             store.dispatch(actions.invoice.autoCloseBatchResponse());
+          }
+        }),
+
+        eventEmitter.addListener("pairingCode", (data) => {
+          if (data) {
+            const { invoice, hardware } = store.getState();
+            const { paymentMachineType } = hardware;
+            const text = `Pairing code: ${l.get(data, "pairingCode")}`;
+            if(paymentMachineType == "Clover" && l.get(invoice, "isProcessAutoCloseBatch")) {
+              setVisiblePopupParingCode(true)
+              setPairingCode(text)
+            }
+          }
+        }),
+        eventEmitter.addListener("pairingSuccess", (data) => {
+          const { invoice, hardware } = store.getState();
+          const { paymentMachineType } = hardware;
+          store.dispatch(actions.hardware.setCloverToken(l.get(data, "token")));
+          if(paymentMachineType == "Clover" && l.get(invoice, "isProcessAutoCloseBatch")) {
+            setVisiblePopupParingCode(false)
+            setPairingCode("")
           }
         }),
 
@@ -97,6 +122,10 @@ const App: () => React$Node = () => {
             <PopupConnected />
             <FirebaseNotificationProvider />
             <PopupInfomationCodePush />
+            <PopupPairingCode
+              visible={visiblePopupParingCode ? true : false}
+              message={pairingCode}
+            />
           </AppStateProvider>
         </CodePushProvider>
       </PersistGate>
