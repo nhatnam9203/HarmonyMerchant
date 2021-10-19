@@ -619,7 +619,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                         item={receiptItem}
                         index={index}
                         type={profile.type}
-                        textStyle={layouts.fontPrintStyle}
+                        textStyle={[layouts.fontPrintStyle]}
                       />
                     )
                   )}

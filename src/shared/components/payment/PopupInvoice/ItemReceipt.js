@@ -121,7 +121,7 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
           style={[
             styles.headerContent,
             {
-              width: scaleWidth(40),
+              width: scaleWidth(55),
             },
           ]}
         >
@@ -130,7 +130,13 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
           </Text>
         </View>
 
-        <View style={{ justifyContent: "center", width: scaleWidth(60) }}>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            width: scaleWidth(85),
+          }}
+        >
           <Text
             style={[styles.textStyle, textStyle]}
           >{`$ ${item?.saslePrice}`}</Text>
@@ -140,23 +146,24 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
           style={[
             styles.headerContent,
             {
-              width: scaleWidth(60),
-              alignItems: "center",
+              width: scaleWidth(55),
             },
           ]}
         >
           <Text
-            style={[
-              styles.textStyle,
-              { textAlign: "center", flex: 1 },
-              textStyle,
-            ]}
+            style={[styles.textStyle, { textAlign: "center" }, textStyle]}
           >{`${item?.returnQuantity} `}</Text>
         </View>
 
-        <View style={{ justifyContent: "center", width: scaleWidth(60) }}>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            width: scaleWidth(85),
+          }}
+        >
           <Text
-            style={[styles.textStyle, textStyle]}
+            style={[styles.textStyle, { textAlign: "center" }, textStyle]}
           >{`$${item?.returnPrice}`}</Text>
         </View>
       </View>
@@ -278,29 +285,29 @@ export const ItemHeaderReceipt = ({ type, textStyle }) => {
           style={[
             styles.headerContent,
             {
-              width: scaleWidth(40),
+              width: scaleWidth(55),
             },
           ]}
         >
           <Text style={[styles.headerStyle, textStyle]}>{`Qty`}</Text>
         </View>
 
-        <View style={{ justifyContent: "center", width: scaleWidth(60) }}>
-          <Text style={[styles.headerStyle, textStyle]}>{` Price`}</Text>
+        <View style={{ justifyContent: "center", width: scaleWidth(85) }}>
+          <Text style={[styles.headerStyle, textStyle]}>{`Total Price`}</Text>
         </View>
 
         <View
           style={[
             styles.headerContent,
             {
-              width: scaleWidth(60),
+              width: scaleWidth(55),
             },
           ]}
         >
           <Text style={[styles.headerStyle, textStyle]}>{`Return Qty`}</Text>
         </View>
 
-        <View style={{ justifyContent: "center", width: scaleWidth(60) }}>
+        <View style={{ justifyContent: "center", width: scaleWidth(85) }}>
           <Text style={[styles.headerStyle, textStyle]}>{`Return Total`}</Text>
         </View>
       </View>
