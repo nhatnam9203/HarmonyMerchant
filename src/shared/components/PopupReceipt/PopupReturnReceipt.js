@@ -459,12 +459,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                   styleTextTitle={layouts.fontPrintSubTitleStyle}
                   styleTextValue={layouts.fontPrintStyle}
                 />
-                <TotalView
-                  title={"Tip"}
-                  value={getTipAmount()}
-                  styleTextTitle={layouts.fontPrintSubTitleStyle}
-                  styleTextValue={layouts.fontPrintStyle}
-                />
+
                 <TotalView
                   title={"Tax"}
                   value={getTax()}
