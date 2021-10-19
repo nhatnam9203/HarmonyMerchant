@@ -182,6 +182,10 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
   // };
 
   const getCheckoutPaymentMethods = () => {
+    if (invoiceDetail) {
+      return invoiceDetail?.checkoutPayments?.slice(0).reverse() || [];
+    }
+
     return groupAppointment?.paymentMethods?.length > 0
       ? groupAppointment?.paymentMethods
       : groupAppointment?.checkoutPayments;
@@ -236,7 +240,11 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
   };
 
   const onCancel = (temp) => {
-    if (cancelInvoicePrint && typeof cancelInvoicePrint === "function") {
+    if (
+      cancelInvoicePrint &&
+      typeof cancelInvoicePrint === "function" &&
+      !isShare
+    ) {
       cancelInvoicePrint(temp ?? printTempt);
     }
     setVisible(false);
