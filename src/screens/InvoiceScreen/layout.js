@@ -705,7 +705,7 @@ export default class Layout extends React.Component {
                   },
                 ]}
               >
-                {`********* Customer's Receipt *********`}
+                {`********* Merchant's Receipt *********`}
               </Text>
             </View>
             <View style={{ height: scaleSize(90) }} />

@@ -195,6 +195,8 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
       console.log(`Printer error with ${error}`);
       alert(`Printer error with ${error}`);
     }
+
+    await setVisible(false);
   };
 
   const onShareProcess = async () => {
@@ -225,7 +227,12 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
   */
 
   React.useImperativeHandle(ref, () => ({
-    showReceipt: async ({ isShareMode = false, item, appointment }) => {
+    showReceipt: async ({
+      isShareMode = false,
+      item,
+      appointment,
+      isPrintTempt = true,
+    }) => {
       reset();
 
       if (!item) {
@@ -435,11 +442,12 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                 />
                 {/* ------------- SubTotal   ----------- */}
                 <TotalView
-                  title={"Tip"}
-                  value={getTipAmount()}
+                  title={"Subtotal"}
+                  value={getSubTotal()}
                   styleTextTitle={layouts.fontPrintSubTitleStyle}
                   styleTextValue={layouts.fontPrintStyle}
                 />
+
                 <TotalView
                   title={"Shipping"}
                   value={getShippingAmount()}
@@ -448,11 +456,12 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                 />
 
                 <TotalView
-                  title={"Subtotal"}
-                  value={getSubTotal()}
+                  title={"Tip"}
+                  value={getTipAmount()}
                   styleTextTitle={layouts.fontPrintSubTitleStyle}
                   styleTextValue={layouts.fontPrintStyle}
                 />
+
                 <TotalView
                   title={"Discount"}
                   value={getDiscount()}

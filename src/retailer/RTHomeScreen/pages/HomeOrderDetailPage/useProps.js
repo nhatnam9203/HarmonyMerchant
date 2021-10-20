@@ -473,6 +473,7 @@ export const useProps = ({
       returnReceiptRef.current?.showReceipt({
         item: itemReturn,
         appointment: appointmentDetail,
+        isShareMode: false,
       });
     },
     shareReturnInvoice: (itemReturn) => {

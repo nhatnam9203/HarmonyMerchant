@@ -41,7 +41,8 @@ class PopupDiscountItem extends React.Component {
   }
 
   submitCustomPromotion = () => {
-    const { appointmentItem, appointmentIdUpdatePromotion } = this.props;
+    const { appointmentItem, appointmentIdUpdatePromotion, groupAppointment } =
+      this.props;
 
     const bookingProductId = l.get(appointmentItem, "bookingProductId");
     const customDiscountPercent =
@@ -51,6 +52,19 @@ class PopupDiscountItem extends React.Component {
     if (!_.isEmpty(appointmentItem)) {
       const subTotal = appointmentItem?.subTotal || 0;
       const discount = appointmentItem?.discount || 0;
+
+      let manualDiscount = 0;
+      console.log(groupAppointment);
+      if (groupAppointment?.appointments?.length > 0) {
+        const { customDiscountPercent = 0, customDiscountFixed = 0 } =
+          groupAppointment?.appointments[0];
+        const customMoneyByPercent =
+          (formatNumberFromCurrency(customDiscountPercent) *
+            formatNumberFromCurrency(subTotal)) /
+          100;
+        manualDiscount = customMoneyByPercent ?? customDiscountFixed;
+      }
+      console.log(manualDiscount);
 
       let totalDiscount = 0;
 
@@ -67,6 +81,7 @@ class PopupDiscountItem extends React.Component {
 
       if (
         formatNumberFromCurrency(totalDiscount) +
+          formatNumberFromCurrency(manualDiscount) +
           formatNumberFromCurrency(discount) >
         formatNumberFromCurrency(subTotal)
       ) {
@@ -122,7 +137,6 @@ class PopupDiscountItem extends React.Component {
       discountItems,
     } = this.props;
     const visible = visibleModalDiscountItem;
-    console.log("popup discount item", visible);
 
     const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
     const discountItem = l.find(discountItems, (findItem) => {

@@ -204,10 +204,14 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
   };
 
   const getFooterReceipt = () => {
-    if (!printTempt && isSignature) {
-      return "Merchant's Receipt";
+    if (
+      (invoiceDetail?.status === "paid" ||
+        groupAppointment?.status === "paid") &&
+      !isSignature
+    ) {
+      return "Customer's Receipt";
     }
-    return "Customer's Receipt";
+    return "Merchant's Receipt";
   };
 
   const getInvoiceName = () => {
