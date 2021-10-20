@@ -29,7 +29,8 @@ class Layout extends React.Component {
           useWebKit={true}
         />
 
-        <PopupInvoice ref={this.invoiceRef} />
+        <PopupInvoice ref={this.invoiceRef} 
+        doPrintClover={(imageUri) => this.doPrintClover(imageUri)}/>
       </View>
     );
   }
