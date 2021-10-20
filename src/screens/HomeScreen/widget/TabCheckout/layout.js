@@ -9,7 +9,7 @@ import {
   PopupCheckStaffPermission,
   PopupConfirm,
   PopupInvoicePrint,
-  PopupPairingCode,
+  // PopupPairingCode,
   PopupPayCompleted,
   PopupProcessingCredit,
   PopupScanCode,
@@ -1388,10 +1388,10 @@ class Layout extends React.Component {
           textRightButton={localize("Accept", language)}
           hideCloseButton={true}
         />
-        <PopupPairingCode
+        {/* <PopupPairingCode
           visible={visiblePopupParingCode ? true : false}
           message={pairingCode}
-        />
+        /> */}
 
         {/* ----------------- Display Error Message From Pax Machine ------------------ */}
         <ErrorMessagePaxModal

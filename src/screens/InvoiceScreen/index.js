@@ -51,8 +51,6 @@ const initalState = {
   transactionId: false,
   visiblePrintInvoice: false,
   titleInvoice: "",
-  visiblePopupParingCode: false,
-  pairingCode: "",
   receiptContentBg: "#fff",
 };
 
@@ -124,18 +122,12 @@ class InvoiceScreen extends Layout {
               visiblePrintInvoice: false,
             });
           }
-          this.setState({
-            visiblePopupParingCode: true,
-            pairingCode: text,
-          });
+          
         }
       }),
       this.eventEmitter.addListener("pairingSuccess", (data) => {
         this.props.actions.hardware.setCloverToken(l.get(data, "token"));
-        this.setState({
-          visiblePopupParingCode: false,
-          pairingCode: "",
-        });
+        
         if (this.isProcessVoidPaymentClover) {
           this.setState({
             visibleProcessingCredit: true,

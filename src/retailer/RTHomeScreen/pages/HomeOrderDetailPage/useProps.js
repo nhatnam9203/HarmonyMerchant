@@ -2,6 +2,7 @@ import NavigationServices from "@navigators/NavigatorServices";
 import { useFocusEffect } from "@react-navigation/native";
 import { basketRetailer } from "@redux/slices";
 import { ORDERED_STATUS } from "@shared/components/OrderStatusView";
+import { NativeModules } from "react-native";
 import {
   useCancelAppointment,
   useCompleteAppointment,
@@ -15,13 +16,21 @@ import {
   statusSuccess,
   SHIPPING_METHOD_GROUP,
 } from "@shared/utils";
-import { getInfoFromModelNameOfPrinter } from "@utils";
+import { 
+        getInfoFromModelNameOfPrinter,
+        REMOTE_APP_ID,
+        APP_NAME,
+        POS_SERIAL,
+      } from "@utils";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import _ from "lodash";
 
 const log = (obj, message = "") => {
   Logger.log(`[HomeOrderDetail] ${message}`, obj);
 };
+
+const { clover } = NativeModules;
 
 export const useProps = ({
   params: {
@@ -48,6 +57,13 @@ export const useProps = ({
   |--------------------------------------------------
   */
   const profile = useSelector((state) => state.dataLocal.profile);
+  const paymentMachineType = useSelector(
+    (state) => state.hardware.paymentMachineType
+  );
+  const cloverMachineInfo = useSelector(
+    (state) => state.hardware.cloverMachineInfo
+  );
+
   /**
   |--------------------------------------------------
   | STATE variables
@@ -427,6 +443,7 @@ export const useProps = ({
       invoiceRef.current?.showAppointmentReceipt({
         appointmentId: appointmentDetail?.appointmentId,
         checkoutId: appointmentDetail?.invoice?.checkoutId,
+        machineType: paymentMachineType,
       });
     },
     invoicePrintRef,
@@ -479,6 +496,20 @@ export const useProps = ({
         isShareMode: true,
         item: itemReturn,
       });
+    },
+    doPrintClover: (imageUri) => {
+      const port = _.get(cloverMachineInfo, 'port') ? _.get(cloverMachineInfo, 'port') : 80
+      const url = `wss://${_.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+      
+      const printInfo = {
+        imageUri,
+        url,
+        remoteAppId: REMOTE_APP_ID,
+        appName: APP_NAME,
+        posSerial: POS_SERIAL,
+        token: _.get(cloverMachineInfo, 'token') ? _.get(cloverMachineInfo, 'token', '') : "",
+      }
+      clover.doPrintWithConnect(printInfo)
     },
   };
 };

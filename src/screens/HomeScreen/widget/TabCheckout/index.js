@@ -2985,27 +2985,16 @@ class TabCheckout extends Layout {
               visiblePrintInvoice: false,
             });
           }
-          this.setState({
-            visiblePopupParingCode: true,
-            pairingCode: text,
-          });
         }
       }),
       this.eventEmitter.addListener("pairingSuccess", (data) => {
-        this.props.actions.hardware.setCloverToken(l.get(data, "token"));
-        this.setState({
-          visiblePopupParingCode: false,
-          pairingCode: "",
-        });
+        
         if (this.isProcessPaymentClover) {
           this.setState({
             visibleProcessingCredit: true,
           });
         }
       }),
-      // this.eventEmitter.addListener('deviceReady', () => {
-
-      // }),
       this.eventEmitter.addListener("confirmPayment", () => {
         this.setState({
           visibleProcessingCredit: false,
@@ -3013,10 +3002,7 @@ class TabCheckout extends Layout {
         });
       }),
       this.eventEmitter.addListener("printInProcess", () => {}),
-      // this.eventEmitter.addListener('printDone', (message) => {
-      //   console.log(message)
-      //   this.isProcessPrintClover = false
-      // }),
+  
       this.eventEmitter.addListener("deviceDisconnected", () => {
         if (this.isProcessPaymentClover) {
           this.isProcessPaymentClover = false;

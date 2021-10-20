@@ -8,7 +8,6 @@ import {
   PopupScanCode,
   PopupSendLinkInstall,
   PopupChangeTip,
-  PopupPairingCode,
 } from "@components";
 import IMAGE from "@resources";
 import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
@@ -108,8 +107,6 @@ export const Layout = ({
   onDiscountItemAdd,
   onGoBackCheckOut,
   cancelGiftCardPayment,
-  visiblePopupParingCode,
-  pairingCode,
   visibleConfirmPayment,
   setVisibleConfirmPayment,
   confirmPaymentClover,
@@ -321,10 +318,6 @@ export const Layout = ({
         textLeftButton={t("Reject")}
         textRightButton={t("Accept")}
         hideCloseButton={true}
-      />
-      <PopupPairingCode
-        visible={visiblePopupParingCode ? true: false}
-        message={pairingCode}
       />
 
       <ErrorMessagePaxModal

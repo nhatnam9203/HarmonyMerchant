@@ -53,6 +53,7 @@ export const Layout = ({
   shareReturnInvoice,
   printReturnInvoice,
   returnReceiptRef,
+  doPrintClover,
 }) => {
   const [t] = useTranslation();
 
@@ -820,7 +821,10 @@ export const Layout = ({
         </View>
       </KeyboardAwareScrollView>
 
-      <PopupInvoice ref={invoiceRef} />
+      <PopupInvoice 
+        ref={invoiceRef} 
+        doPrintClover={doPrintClover}/>
+        
       <PopupReturnReceipt ref={returnReceiptRef} />
     </View>
   );

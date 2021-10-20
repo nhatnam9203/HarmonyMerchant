@@ -123,8 +123,6 @@ export const useProps = ({
   const [basket, setBasket] = React.useState([]);
   const [visibleProcessingCredit, setVisibleProcessingCredit] =
     React.useState(false);
-  const [visiblePopupParingCode, setVisiblePopupParingCode] = React.useState(false);
-  const [pairingCode, setPairingCode] = React.useState("");
   const [visibleConfirmPayment, setVisibleConfirmPayment] = React.useState(false);
   const [visibleErrorMessageFromPax, setVisibleErrorMessageFromPax] =
     React.useState(false);
@@ -200,16 +198,12 @@ export const useProps = ({
             setVisibleProcessingCredit(false);
           }
           setVisiblePrintInvoice(false)
-          setVisiblePopupParingCode(true)
-          setPairingCode(text)
         }
       }),
       eventEmitter.addListener('pairingSuccess', data => {
         dispatch(actions.hardware.setCloverToken(
           _.get(data, 'token')
         ));
-        setVisiblePopupParingCode(false)
-        setPairingCode("")
     
         const { appointment } = store.getState();
         const { isProcessPaymentClover } = appointment;
@@ -1255,8 +1249,6 @@ export const useProps = ({
       dispatch(actions.appointment.togglePopupGiftCardPaymentDetail(false));
       setPaymentSelected("");
     },
-    visiblePopupParingCode,
-    pairingCode,
     visibleConfirmPayment,
     setVisibleConfirmPayment: () => {
       setVisibleConfirmPayment(false)

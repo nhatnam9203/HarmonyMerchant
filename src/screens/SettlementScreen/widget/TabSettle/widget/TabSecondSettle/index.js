@@ -40,8 +40,6 @@ const INIT_STATE = {
     },
     errorMessage: '',
     paxErrorMessage: '',
-    visiblePopupParingCode: false,
-    pairingCode: '',
 }
 
 class TabSecondSettle extends Layout {
@@ -85,20 +83,12 @@ class TabSecondSettle extends Layout {
                 this.props.actions.app.stopLoadingApp();
                 
               }
-              this.setState({
-                visiblePopupParingCode: true,
-                pairingCode: text,
-              })
             }
           }),
           this.eventEmitter.addListener('pairingSuccess', data => {
             this.props.actions.hardware.setCloverToken(
               l.get(data, 'token')
             );
-            this.setState({
-              visiblePopupParingCode: false,
-              pairingCode: '',
-            })
             if(this.isProcessCloseBatchClover) {
                 this.props.actions.app.loadingApp();
             }

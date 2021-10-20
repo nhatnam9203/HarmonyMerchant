@@ -12,7 +12,6 @@ import { scaleSize, localize, formatMoney, getCredicardIcon } from '@utils';
 import {
     Text, 
     ButtonCustom,
-    PopupPairingCode
 } from '@components';
 import styles from './style';
 
@@ -265,10 +264,6 @@ class Layout extends React.Component {
 
         return (
             <View style={[styles.container]} >
-                <PopupPairingCode
-                    visible={visiblePopupParingCode ? true: false}
-                    message={pairingCode}
-                />
                 <View style={{ height: scaleSize(10) }} />
                 <View style={{ flex: 1, paddingHorizontal: scaleSize(10), flexDirection: 'row' }} >
                     {/* --------- Actual Amount --------- */}
