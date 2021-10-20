@@ -623,7 +623,7 @@ export default class Layout extends React.Component {
                             }`}
                           </Text>
                           <Text style={[layouts.fontPrintStyle]}>
-                            {` ${data?.paymentInformation?.name || ""}`}
+                            {` ${data?.paymentInformation?.name.replace(/%20/g, " ") || ""}`}
                           </Text>
                           <Text style={[layouts.fontPrintStyle]}>
                             {` ${

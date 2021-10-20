@@ -1940,5 +1940,5 @@ export const proccessingSettlement = async (
 };
 
 export const stringIsEmptyOrWhiteSpaces = (str) => {
-  return str == null || str == undefined || (str.trim().length == 0)
+  return str == null || str == undefined || (typeof str === 'string' && str.trim().length == 0)
 }

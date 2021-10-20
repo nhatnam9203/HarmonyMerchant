@@ -111,8 +111,7 @@ class SetupHardware extends React.Component {
             } else {
                 if (stringIsEmptyOrWhiteSpaces(name) 
                     || stringIsEmptyOrWhiteSpaces(ip) 
-                    || stringIsEmptyOrWhiteSpaces(port) 
-                    || stringIsEmptyOrWhiteSpaces(timeout)) {
+                    || stringIsEmptyOrWhiteSpaces(port)) {
                     alert('Please enter full infomation!');
                 } else {
                     this.props.actions.hardware.setupPaxMachine({
