@@ -1864,6 +1864,10 @@ class TabCheckout extends Layout {
           alert(localize("PleaseWait", language));
           return;
         }
+      } else if (paymentMachineType == PaymentTerminalType.Dejavoo){
+        //Dejavoo can not cancel transaction by api
+        alert(localize("PleaseWait", language));
+          return;
       } else {
         if (!this.isGetResponsePaymentPax) {
           alert(localize("PleaseWait", language));
