@@ -89,6 +89,7 @@ class PopupDiscount extends React.Component {
       this.props;
     const customDiscountPercent = this.customDiscountRef.current.state.percent;
     const customFixedAmount = this.customDiscountRef.current.state.fixedAmount;
+
     if (!_.isEmpty(groupAppointment)) {
       const appointmentDetail =
         appointmentIdUpdatePromotion !== -1 &&
@@ -117,8 +118,26 @@ class PopupDiscount extends React.Component {
         formatNumberFromCurrency(totalDiscount) +
         formatNumberFromCurrency(moneyDiscountCustom);
 
+      // Tính discount cho product item
+      let productItemDiscount = 0;
+      if (appointmentDetail?.products?.length > 0) {
+        productItemDiscount = appointmentDetail?.products?.reduce(
+          (sum, prod) => {
+            const { discountPercent = 0, discount = 0, price, quantity } = prod;
+
+            const discountTemp =
+              discountPercent > 0
+                ? (discountPercent * quantity * price) / 100
+                : discount;
+            return sum + discountTemp;
+          },
+          0
+        );
+      }
+
       if (
-        formatNumberFromCurrency(totalDiscount) >
+        formatNumberFromCurrency(totalDiscount) +
+          formatNumberFromCurrency(productItemDiscount) >
         formatNumberFromCurrency(subTotal)
       ) {
         Alert.alert(

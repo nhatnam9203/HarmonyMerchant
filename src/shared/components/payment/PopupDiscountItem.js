@@ -54,7 +54,7 @@ class PopupDiscountItem extends React.Component {
       const discount = appointmentItem?.discount || 0;
 
       let manualDiscount = 0;
-      console.log(groupAppointment);
+      // console.log(groupAppointment);
       if (groupAppointment?.appointments?.length > 0) {
         const { customDiscountPercent = 0, customDiscountFixed = 0 } =
           groupAppointment?.appointments[0];
@@ -64,7 +64,6 @@ class PopupDiscountItem extends React.Component {
           100;
         manualDiscount = customMoneyByPercent ?? customDiscountFixed;
       }
-      console.log(manualDiscount);
 
       let totalDiscount = 0;
 
@@ -256,8 +255,8 @@ class CustomDiscount extends React.Component {
 
   changeTypeManualDiscount = async (type) => {
     if (type == manualType.percentType) {
-      await this.setState({
-        manualTypeSelect: manualType.percentType,
+        await this.setState({
+          manualTypeSelect: manualType.percentType,
       });
     } else {
       await this.setState({

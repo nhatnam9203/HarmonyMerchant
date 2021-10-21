@@ -865,7 +865,7 @@ export const useProps = ({
             (appointment) =>
               appointment.appointmentId === appointmentDetail?.appointmentId
           );
-          console.log(appointment);
+          // console.log(appointment);
           const { services, products, extras, giftCards } = appointment;
           const arrayProducts = getArrayProductsFromAppointment(products);
           const arryaServices = getArrayServicesFromAppointment(services);
