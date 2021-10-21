@@ -362,17 +362,15 @@ class SetupHardware extends React.Component {
                         </Text>
                     </Button>
 
-                    {_.get(dataLocal, "profile.type") == Constants.APP_TYPE.POS &&
-                        <Button onPress={this.setTerminal(PaymentTerminalType.Dejavoo)} style={{ flexDirection: "row" }} >
-                            <Image
-                                source={tempCheckDejavoo}
-                                style={{ marginRight: scaleSize(10) }}
-                            />
-                            <Text style={{ fontSize: scaleSize(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
-                                {localize('Dejavoo', language)}
-                            </Text>
-                        </Button>
-                    }
+                    <Button onPress={this.setTerminal(PaymentTerminalType.Dejavoo)} style={{ flexDirection: "row" }} >
+                        <Image
+                            source={tempCheckDejavoo}
+                            style={{ marginRight: scaleSize(10) }}
+                        />
+                        <Text style={{ fontSize: scaleSize(15), color: 'rgb(42,42,42)', fontWeight: "600" }} >
+                            {localize('Dejavoo', language)}
+                        </Text>
+                    </Button>
 
                 </View>
 

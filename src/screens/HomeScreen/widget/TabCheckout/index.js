@@ -1601,16 +1601,12 @@ class TabCheckout extends Layout {
       } = this.props;
       const { paymentSelected } = this.state;
       const tenderType = paymentSelected === "Credit Card" ? "Credit" : "Debit";
-      const extData = isTipOnPaxMachine
-        ? "<TipRequest>1</TipRequest><Force>T</Force>"
-        : "<Force>T</Force>";
   
       const parameter = {
         tenderType: tenderType,
         transType: "Sale",
         amount: parseFloat(paxAmount/100).toFixed(2),
         RefId: payAppointmentId,
-        extData: extData,
         invNum: `${groupAppointment?.checkoutGroupId || 0}`,
       };
 

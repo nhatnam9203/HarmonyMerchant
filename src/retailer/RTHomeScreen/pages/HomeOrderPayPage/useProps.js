@@ -18,6 +18,9 @@ import {
   REMOTE_APP_ID,
   APP_NAME,
   POS_SERIAL,
+  PaymentTerminalType,
+  requestTransactionDejavoo,
+  stringIsEmptyOrWhiteSpaces,
 } from "@utils";
 import _ from "lodash";
 import React from "react";
@@ -28,6 +31,7 @@ import RNFetchBlob from "rn-fetch-blob";
 import Share from "react-native-share";
 import { captureRef, releaseCapture } from "react-native-view-shot";
 import configureStore from "../../../../redux/store";
+import { parseString } from "react-native-xml2js";
 
 
 const signalR = require("@microsoft/signalr");
@@ -251,7 +255,7 @@ export const useProps = ({
   React.useEffect(() => {
     if (startProcessingPax) {
       dispatch(actions.appointment.resetStateCheckCreditPaymentToServer(false));
-      if( paymentMachineType == 'Clover'){
+      if( paymentMachineType == PaymentTerminalType.Clover){
         setIsGetResponsePaymentPax(false);
         setVisibleProcessingCredit(true);
         const moneyCreditCard = Number(
@@ -274,6 +278,27 @@ export const useProps = ({
           amount: `${parseFloat(moneyCreditCard)}`,
           externalId: `${payAppointmentId}`
         })
+      } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+        setVisibleProcessingCredit(true)
+       
+        const tenderType = paymentSelected === "Credit Card" ? "Credit" : "Debit";
+    
+        const parameter = {
+          tenderType: tenderType,
+          transType: "Sale",
+          amount: Number(moneyUserGiveForStaff).toFixed(2),
+          RefId: payAppointmentId,
+          invNum: `${groupAppointment?.checkoutGroupId || 0}`,
+        };
+        requestTransactionDejavoo(parameter).then((responses) => {
+          handleResponseCreditCardDejavoo(
+            responses,
+            true,
+            moneyUserGiveForStaff,
+            parameter
+          );
+        })
+        
       } else {
         //send by Pax
         sendTransactionIOS();
@@ -296,6 +321,55 @@ export const useProps = ({
         reload: true,
       });
   };
+
+  const handleResponseCreditCardDejavoo = async (
+    message,
+    online,
+    moneyUserGiveForStaff,
+    parameter
+  ) =>  {
+    setVisibleProcessingCredit(false)
+    
+    try {
+      parseString(message, (err, result) => {
+        if (err || _.get(result, 'xmp.response.0.ResultCode.0') != 0) {
+          let detailMessage = _.get(result, 'xmp.response.0.RespMSG.0', "").replace(/%20/g, " ")
+          detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage) ? `: ${detailMessage}` : detailMessage
+          
+          const resultTxt = `${_.get(result, 'xmp.response.0.Message.0')}${detailMessage}`
+                            || "Transaction failed";
+          if (payAppointmentId) {
+            dispatch(
+              actions.appointment.cancelHarmonyPayment(
+                payAppointmentId,
+                "transaction fail",
+                resultTxt
+              )
+            );
+          }
+          setTimeout(() => {
+            setVisibleErrorMessageFromPax(true);
+            setErrorMessageFromPax(`${resultTxt}`);
+          }, 300);
+        } else {
+          const SN = _.get(result, 'xmp.response.0.SN.0');
+          if(!stringIsEmptyOrWhiteSpaces(SN)){
+            dispatch(actions.hardware.setDejavooMachineSN(SN));
+          }
+          dispatch(actions.appointment.submitPaymentWithCreditCard(
+            profile?.merchantId || 0,
+            message,
+            payAppointmentId,
+            moneyUserGiveForStaff,
+            "dejavoo",
+            parameter
+          ));
+        }
+      });
+       
+      
+    } catch (error) {}
+  }
 
   const getPaymentString = (type) => {
     let method = "";
