@@ -985,8 +985,6 @@ export default class Layout extends React.Component {
       visibleConfirmInvoiceStatus,
       transactionId,
       visiblePrintInvoice,
-      visiblePopupParingCode,
-      pairingCode,
     } = this.state;
 
     return (

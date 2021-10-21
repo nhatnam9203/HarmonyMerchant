@@ -1310,8 +1310,6 @@ class Layout extends React.Component {
       errorMessageFromPax,
       selectedStaff,
       staffOfService,
-      visiblePopupParingCode,
-      pairingCode,
       visibleConfirmPayment,
       visibleInvoice,
     } = this.state;
@@ -1388,10 +1386,6 @@ class Layout extends React.Component {
           textRightButton={localize("Accept", language)}
           hideCloseButton={true}
         />
-        {/* <PopupPairingCode
-          visible={visiblePopupParingCode ? true : false}
-          message={pairingCode}
-        /> */}
 
         {/* ----------------- Display Error Message From Pax Machine ------------------ */}
         <ErrorMessagePaxModal

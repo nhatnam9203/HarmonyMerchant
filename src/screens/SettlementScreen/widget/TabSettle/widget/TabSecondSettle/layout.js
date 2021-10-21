@@ -260,7 +260,7 @@ class Layout extends React.Component {
 
     render() {
         const { language } = this.props;
-        const { paxErrorMessage, visiblePopupParingCode, pairingCode } = this.state;
+        const { paxErrorMessage } = this.state;
 
         return (
             <View style={[styles.container]} >
