@@ -25,6 +25,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
 } from "react-native";
 import Dash from "react-native-dash";
 import { StarPRNT } from "react-native-star-prnt";
@@ -788,7 +789,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClove
                               }`}
                             </Text>
                             <Text style={[layouts.fontPrintStyle]}>
-                              {`    ${data?.paymentInformation?.name || ""}`}
+                              {`    ${data?.paymentInformation?.name?.replace(/%20/g, " ") || ""}`}
                             </Text>
                             <Text style={[layouts.fontPrintStyle]}>
                               {`    ${
@@ -804,6 +805,20 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClove
                                   : ""
                               }`}
                             </Text>
+
+                            { data?.paymentInformation?.signData &&
+                              <View style={styles.rowSignature}>
+                                <Text style={[layouts.fontPrintStyle]}>
+                                  {"    Signature: "}
+                                </Text>
+                                <Image 
+                                  style={styles.signImage}
+                                  source={{
+                                    uri: `data:image/png;base64,${data?.paymentInformation?.signData}`
+                                  }}
+                                  />
+                              </View>
+                          }
                           </View>
                         ) : null}
                       </View>
@@ -1024,4 +1039,14 @@ const styles = StyleSheet.create({
   },
 
   marginVertical: { height: scaleHeight(10) },
+
+  rowSignature: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  signImage:{
+    width: scaleWidth(100),
+    height: scaleHeight(40),
+    resizeMode: "contain",
+  },
 });

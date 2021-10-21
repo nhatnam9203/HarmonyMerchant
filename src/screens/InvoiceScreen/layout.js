@@ -622,7 +622,7 @@ export default class Layout extends React.Component {
                             }`}
                           </Text>
                           <Text style={[layouts.fontPrintStyle]}>
-                            {` ${data?.paymentInformation?.name.replace(/%20/g, " ") || ""}`}
+                            {` ${data?.paymentInformation?.name?.replace(/%20/g, " ") || ""}`}
                           </Text>
                           <Text style={[layouts.fontPrintStyle]}>
                             {` ${
@@ -638,6 +638,21 @@ export default class Layout extends React.Component {
                                 : ""
                             }`}
                           </Text>
+
+                          { data?.paymentInformation?.signData &&
+                            <View style={styles.rowSignature}>
+                              <Text style={[layouts.fontPrintStyle]}>
+                                {" Signature: "}
+                              </Text>
+                              <Image 
+                                style={styles.signImage}
+                                source={{
+                                  uri: `data:image/png;base64,${data?.paymentInformation?.signData}`
+                                }}
+                                />
+                            </View>
+                          }
+                         
                         </View>
                       ) : null}
                     </View>
