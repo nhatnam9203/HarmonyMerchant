@@ -14,6 +14,7 @@ import {
   getStaffNameForInvoice,
   scaleSize,
   PaymentTerminalType,
+  stringIsEmptyOrWhiteSpaces
 } from "@utils";
 import React from "react";
 import {
@@ -35,6 +36,7 @@ import RNFetchBlob from "rn-fetch-blob";
 import { ItemHeaderReceipt, ItemReceipt } from "./ItemReceipt";
 import { TotalView } from "./TotalView";
 import { layouts } from "@shared/themes";
+import _ from "lodash";
 
 export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClover }, ref) => {
   const viewShotRef = React.useRef(null);
@@ -806,7 +808,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClove
                               }`}
                             </Text>
 
-                            { data?.paymentInformation?.signData &&
+                            { !stringIsEmptyOrWhiteSpaces(_.get(data, "paymentInformation.signData")) &&
                               <View style={styles.rowSignature}>
                                 <Text style={[layouts.fontPrintStyle]}>
                                   {"    Signature: "}
