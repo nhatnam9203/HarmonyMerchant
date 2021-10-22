@@ -10,9 +10,12 @@ import {
 } from "react-native";
 import _ from "ramda";
 import Dash from "react-native-dash";
-import { menuTabs } from "@utils";
+import { 
+        menuTabs, 
+        stringIsEmptyOrWhiteSpaces } from "@utils";
 import { getFullName } from "@shared/utils";
 import { PopupInvoice } from "@shared/components/payment";
+import * as l from "lodash";
 
 import {
   Text,
@@ -639,7 +642,7 @@ export default class Layout extends React.Component {
                             }`}
                           </Text>
 
-                          { data?.paymentInformation?.signData &&
+                          { !stringIsEmptyOrWhiteSpaces(l.get(data, "paymentInformation.signData")) &&
                             <View style={styles.rowSignature}>
                               <Text style={[layouts.fontPrintStyle]}>
                                 {" Signature: "}
