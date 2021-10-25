@@ -297,11 +297,13 @@ class TabSecondSettle extends Layout {
                                 responseData.push(result);
                             }
                         } catch (error) {
+                            this.setState({errorMessage: "Get report error"})
                             this.props.actions.app.stopLoadingApp();
                             // console.log("---- error: ", error);
                         }
                     };
                     this.props.actions.app.stopLoadingApp();
+                    this.setState({errorMessage: "Begin close batch"})
     
                     PosLink.batchTransaction({
                         transType: "BATCHCLOSE",
@@ -354,8 +356,10 @@ class TabSecondSettle extends Layout {
     }
 
     async handleResponseBatchTransactions(message, responseData) {
+        
         try {
             const result = JSON.parse(message);
+            this.setState({errorMessage: "Close batch response"})
             if (result.status == 0) {
                 this.setState({
                     numberFooter: 1,

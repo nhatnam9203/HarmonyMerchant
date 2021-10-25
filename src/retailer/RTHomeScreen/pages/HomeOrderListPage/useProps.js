@@ -155,7 +155,6 @@ export const useProps = ({ params: { reload } }) => {
   useFocusEffect(
     React.useCallback(() => {
       if (reload) {
-        console.log("HomeOrderListPage is reloading");
         callGetOrderList();
       }
     }, [

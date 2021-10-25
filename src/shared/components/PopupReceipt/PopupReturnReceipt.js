@@ -35,6 +35,7 @@ import {
   ItemReceipt,
 } from "../payment/PopupInvoice/ItemReceipt";
 import { TotalView } from "../payment/PopupInvoice/TotalView";
+import { layouts } from "@shared/themes";
 
 export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
   const viewShotRef = React.useRef(null);
@@ -61,6 +62,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
   const [isProcessingPrint, setIsProcessingPrint] = React.useState(false);
   const [isShare, setIsShare] = React.useState(false);
   const [itemReceipt, setItemReceipt] = React.useState(null);
+  const [appointmentInfo, setAppointmentInfo] = React.useState(null);
   const [printTempt, setPrintTempt] = React.useState(false);
 
   /**
@@ -80,22 +82,38 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
   };
 
   const getSubTotal = () => {
-    return 0;
+    return appointmentInfo?.subTotal ?? 0;
   };
   const getDiscount = () => {
-    return 0;
+    return appointmentInfo?.discount ?? 0;
   };
   const getTipAmount = () => {
-    return itemReceipt?.tipAmount || 0;
+    return appointmentInfo?.tipAmount ?? 0;
   };
   const getShippingAmount = () => {
-    return itemReceipt?.shippingAmount || 0;
+    return appointmentInfo?.shippingFee ?? 0;
   };
   const getTax = () => {
-    return 0;
+    return appointmentInfo?.tax ?? 0;
   };
   const getTotal = () => {
-    return 0;
+    return appointmentInfo?.total ?? 0;
+  };
+
+  const getReturnTipAmount = () => {
+    return itemReceipt?.tipAmount || 0;
+  };
+  const getReturnShippingAmount = () => {
+    return itemReceipt?.shippingAmount || 0;
+  };
+
+  const getTotalReturn = () => {
+    const items = getItems();
+    const totalReturn = items?.reduce(
+      (sum, item) => sum + parseFloat(item.returnPrice),
+      0
+    );
+    return parseFloat(totalReturn).toFixed(2);
   };
 
   const getFooterReceipt = () => {
@@ -177,6 +195,8 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
       console.log(`Printer error with ${error}`);
       alert(`Printer error with ${error}`);
     }
+
+    await setVisible(false);
   };
 
   const onShareProcess = async () => {
@@ -207,7 +227,12 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
   */
 
   React.useImperativeHandle(ref, () => ({
-    showReceipt: async ({ isShareMode = false, item }) => {
+    showReceipt: async ({
+      isShareMode = false,
+      item,
+      appointment,
+      isPrintTempt = true,
+    }) => {
       reset();
 
       if (!item) {
@@ -230,6 +255,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
 
       setIsShare(isShareMode);
       setItemReceipt(item);
+      setAppointmentInfo(appointment);
 
       //   await setIsProcessingPrint(true);
 
@@ -264,36 +290,33 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                 ]}
               >
                 {/* ------------- Store Name -----------*/}
-                <Text style={styles.titleStyle}>
+                <Text style={layouts.fontPrintTitleStyle}>
                   {profile?.businessName || " "}
                 </Text>
 
                 {/* ------------- Store Address ----------- */}
-                <Text
-                  numberOfLines={2}
-                  style={[styles.textStyle, { textAlign: "center" }]}
-                >
+                <Text numberOfLines={2} style={layouts.fontPrintSubTitleStyle}>
                   {profile?.addressFull || " "}
                 </Text>
 
                 {/* ------------- Phone Address ----------- */}
-                <Text style={[styles.textStyle, { textAlign: "center" }]}>
+                <Text style={layouts.fontPrintSubTitleStyle}>
                   {`Tel : ${profile?.phone || " "}`}
                 </Text>
 
                 {/* ------------- Company Website ----------- */}
                 {!!profile?.webLink && (
-                  <Text style={[styles.textStyle, { textAlign: "center" }]}>
+                  <Text style={layouts.fontPrintSubTitleStyle}>
                     {profile?.webLink}
                   </Text>
                 )}
 
                 {/* ------------- SALE/VOID/REFUND  ----------- */}
-                <Text style={styles.titleStyle}>{titleInvoice}</Text>
+                <Text style={layouts.fontPrintTitleStyle}>{titleInvoice}</Text>
                 <Text
                   style={[
-                    styles.textStyle,
-                    { textAlign: "center", fontSize: scaleFont(15) },
+                    layouts.fontPrintStyle,
+                    { fontSize: scaleFont(18), textAlign: "center" },
                   ]}
                 >
                   {`( ${formatWithMoment(new Date(), "MM/DD/YYYY hh:mm A")} )`}
@@ -313,11 +336,16 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                 {/* ------------- Staff ----------- */}
                 <View style={styles.rowContent}>
                   <View style={{ width: scaleSize(90) }}>
-                    <Text style={[styles.textStyle]}>{`Staff Name`}</Text>
+                    <Text
+                      style={[
+                        layouts.fontPrintSubTitleStyle,
+                        { textAlign: "left" },
+                      ]}
+                    >{`Staff Name`}</Text>
                   </View>
                   <View style={{ flex: 1 }}>
                     <Text
-                      style={[styles.textStyle]}
+                      style={[layouts.fontPrintStyle]}
                     >{`: ${getStaffName()}`}</Text>
                   </View>
                 </View>
@@ -325,10 +353,15 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                 {/* ------------- Return Create Date ----------- */}
                 <View style={styles.rowContent}>
                   <View style={{ width: scaleSize(90) }}>
-                    <Text style={[styles.textStyle]}>{`Return Date`}</Text>
+                    <Text
+                      style={[
+                        layouts.fontPrintSubTitleStyle,
+                        { textAlign: "left" },
+                      ]}
+                    >{`Return Date`}</Text>
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={[styles.textStyle]}>
+                    <Text style={[layouts.fontPrintStyle]}>
                       {`: ${formatWithMoment(
                         itemReceipt?.createdDate,
                         "MM/DD/YYYY hh:mm A"
@@ -340,10 +373,15 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                 {/* ------------- Invoice No ----------- */}
                 <View style={styles.rowContent}>
                   <View style={{ width: scaleSize(90) }}>
-                    <Text style={[styles.textStyle]}>{`Return No`}</Text>
+                    <Text
+                      style={[
+                        layouts.fontPrintSubTitleStyle,
+                        { textAlign: "left" },
+                      ]}
+                    >{`Return No`}</Text>
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={[styles.textStyle]}>
+                    <Text style={[layouts.fontPrintStyle]}>
                       {`: #${itemReceipt?.code ?? " "}`}
                     </Text>
                   </View>
@@ -361,7 +399,13 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                 />
 
                 {/* ------------- Header  ----------- */}
-                <ItemHeaderReceipt type="ReturnReceipt" />
+                <ItemHeaderReceipt
+                  type="ReturnReceipt"
+                  textStyle={[
+                    layouts.fontPrintSubTitleStyle,
+                    { fontSize: scaleFont(15) },
+                  ]}
+                />
 
                 {/* ------------- Dot Border  ----------- */}
                 <Dash
@@ -382,6 +426,10 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                     item={receiptItem}
                     index={index}
                     type="ReturnReceipt"
+                    textStyle={[
+                      layouts.fontPrintStyle,
+                      { fontSize: scaleFont(17) },
+                    ]}
                   />
                 ))}
                 {/* ------------- Line end item invoice   ----------- */}
@@ -394,37 +442,80 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                 />
                 {/* ------------- SubTotal   ----------- */}
                 <TotalView
-                  title={"Tip"}
-                  value={getTipAmount()}
-                  styleTextTitle={styles.textStyle}
-                  styleTextValue={styles.textStyle}
+                  title={"Subtotal"}
+                  value={getSubTotal()}
+                  styleTextTitle={layouts.fontPrintSubTitleStyle}
+                  styleTextValue={layouts.fontPrintStyle}
                 />
+
                 <TotalView
                   title={"Shipping"}
                   value={getShippingAmount()}
-                  styleTextTitle={styles.textStyle}
-                  styleTextValue={styles.textStyle}
+                  styleTextTitle={layouts.fontPrintSubTitleStyle}
+                  styleTextValue={layouts.fontPrintStyle}
                 />
-                {/* <TotalView
+
+                <TotalView
                   title={"Tip"}
                   value={getTipAmount()}
-                  styleTextTitle={styles.textStyle}
-                  styleTextValue={styles.textStyle}
+                  styleTextTitle={layouts.fontPrintSubTitleStyle}
+                  styleTextValue={layouts.fontPrintStyle}
                 />
+
+                <TotalView
+                  title={"Discount"}
+                  value={getDiscount()}
+                  styleTextTitle={layouts.fontPrintSubTitleStyle}
+                  styleTextValue={layouts.fontPrintStyle}
+                />
+
                 <TotalView
                   title={"Tax"}
                   value={getTax()}
-                  styleTextTitle={styles.textStyle}
-                  styleTextValue={styles.textStyle}
+                  styleTextTitle={layouts.fontPrintSubTitleStyle}
+                  styleTextValue={layouts.fontPrintStyle}
                 />
+
                 {!printTempt && (
                   <TotalView
                     title={"Total"}
                     value={getTotal()}
-                    styleTextTitle={styles.textStyle}
-                    styleTextValue={styles.textStyle}
+                    styleTextTitle={layouts.fontPrintSubTitleStyle}
+                    styleTextValue={layouts.fontPrintStyle}
                   />
-                )} */}
+                )}
+
+                <Dash
+                  style={{ width: "100%", height: 1 }}
+                  dashGap={5}
+                  dashLength={8}
+                  dashThickness={1}
+                  style={{
+                    marginVertical: scaleHeight(10),
+                    marginHorizontal: scaleWidth(4),
+                  }}
+                />
+
+                <TotalView
+                  title={"Return Tip"}
+                  value={getReturnTipAmount()}
+                  styleTextTitle={layouts.fontPrintSubTitleStyle}
+                  styleTextValue={layouts.fontPrintStyle}
+                />
+                <TotalView
+                  title={"Return Shipping"}
+                  value={getReturnShippingAmount()}
+                  styleTextTitle={layouts.fontPrintSubTitleStyle}
+                  styleTextValue={layouts.fontPrintStyle}
+                />
+
+                <TotalView
+                  title={"Return Total"}
+                  value={getTotalReturn()}
+                  styleTextTitle={layouts.fontPrintSubTitleStyle}
+                  styleTextValue={layouts.fontPrintStyle}
+                />
+
                 {/* ------------- Enter Tip   ----------- */}
                 {printTempt && (
                   <View
@@ -442,7 +533,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                     >
                       <Text
                         style={[
-                          styles.textStyle,
+                          layouts.fontPrintStyle,
                           { fontSize: 20, fontWeight: "600" },
                         ]}
                       >
@@ -477,7 +568,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                     >
                       <Text
                         style={[
-                          styles.textStyle,
+                          layouts.fontPrintStyle,
                           { fontSize: 20, fontWeight: "600" },
                         ]}
                       >
@@ -532,7 +623,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                 {profile?.receiptFooter ? (
                   <Text
                     style={[
-                      styles.textStyle,
+                      layouts.fontPrintSubTitleStyle,
                       { alignSelf: "center", textAlign: "center" },
                     ]}
                   >
@@ -541,7 +632,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                 ) : (
                   <Text
                     style={[
-                      styles.textStyle,
+                      layouts.fontPrintSubTitleStyle,
                       { alignSelf: "center", textAlign: "center" },
                     ]}
                   >
@@ -550,7 +641,14 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
                 )}
 
                 {/* ------------- This is not a bill   ----------- */}
-                <Text style={styles.footerTextStyle}>
+                <Text
+                  style={[
+                    layouts.fontPrintStyle,
+                    {
+                      alignSelf: "center",
+                    },
+                  ]}
+                >
                   {`********** ${getFooterReceipt()} **********`}
                 </Text>
               </View>

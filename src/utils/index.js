@@ -1737,7 +1737,7 @@ export const handleAutoClose = async () => {
               requestAPI({
                 type: "GET_SETTLEMENT_WAITING",
                 method: "GET",
-                api: `${Configs.API_URL}settlement/waiting?sn=${terminalID}}&paymentTerminal=pax`,
+                api: `${Configs.API_URL}settlement/waiting?sn=${terminalID}&paymentTerminal=pax`,
                 token,
                 deviceName,
                 deviceId,
@@ -1767,7 +1767,7 @@ export const processingSettlementWithoutConnectPax = () => {
   requestAPI({
     type: "GET_SETTLEMENT_WAITING",
     method: "GET",
-    api: `${Configs.API_URL}settlement/waiting?sn=${null}}`,
+    api: `${Configs.API_URL}settlement/waiting?sn=${null}`,
     token,
     deviceName,
     deviceId,

@@ -435,6 +435,7 @@ const localization = {
     "Dejavoo": "Dejavoo",
     "Auth Key": "Auth Key",
     "Register ID": "Register ID",
+    "Your transaction is invalid": "Your transaction is invalid",
   },
   vi: {},
 };

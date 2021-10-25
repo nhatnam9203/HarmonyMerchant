@@ -372,6 +372,7 @@ class InvoiceScreen extends Layout {
       invoiceDetail,
       cloverMachineInfo,
       paymentMachineType,
+      language,
     } = this.props;
     const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
       paxMachineInfo;
@@ -379,6 +380,7 @@ class InvoiceScreen extends Layout {
     if (invoiceDetail?.paymentMethod === "credit_card") {
       const paymentInformation =
         invoiceDetail?.paymentInformation[0]?.responseData || {};
+      const method = l.get(invoiceDetail, "paymentInformation.0.paymentData.method")
 
       if (!_.isEmpty(paymentInformation)) {
         await this.setState({
@@ -449,7 +451,16 @@ class InvoiceScreen extends Layout {
 
           if (invoiceDetail?.status === "paid") {
             this.popupProcessingCreditRef.current?.setStateFromParent(false);
+
             if (paymentMachineType == PaymentTerminalType.Clover) {
+              if(method != "Clover") {
+                await this.setState({
+                  visibleConfirmInvoiceStatus: true,
+                  visibleProcessingCredit: false,
+                });
+                alert(localize("Your transaction is invalid", language))
+                return
+              }
               const port = l.get(cloverMachineInfo, "port")
                 ? l.get(cloverMachineInfo, "port")
                 : 80;
@@ -471,6 +482,14 @@ class InvoiceScreen extends Layout {
               };
               clover.refundPayment(paymentInfo);
             } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+              if(method != "Dejavoo") {
+                await this.setState({
+                  visibleConfirmInvoiceStatus: true,
+                  visibleProcessingCredit: false,
+                });
+                alert(localize("Your transaction is invalid", language))
+                return
+              }
               const amount = l.get(invoiceDetail, 'paymentInformation.0.amount')
               
               parseString(paymentInformation, (err, result) => {
@@ -504,6 +523,15 @@ class InvoiceScreen extends Layout {
               const tempIpPax = commType == "TCP" ? ip : "";
               const tempPortPax = commType == "TCP" ? port : "";
               const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
+
+              if(method != "Pax") {
+                await this.setState({
+                  visibleConfirmInvoiceStatus: true,
+                  visibleProcessingCredit: false,
+                });
+                alert(localize("Your transaction is invalid", language))
+                return
+              }
               PosLink.sendTransaction(
                 {
                   tenderType: "CREDIT",
@@ -523,7 +551,18 @@ class InvoiceScreen extends Layout {
             }
           } else if (invoiceDetail?.status === "complete") {
             
+            this.popupProcessingCreditRef.current?.setStateFromParent(
+              transactionId
+            );
             if (paymentMachineType == PaymentTerminalType.Clover) {
+              if(method != "Clover") {
+                await this.setState({
+                  visibleConfirmInvoiceStatus: true,
+                  visibleProcessingCredit: false,
+                });
+                alert(localize("Your transaction is invalid", language))
+                return
+              }
               this.isProcessVoidPaymentClover = true;
               const port = l.get(cloverMachineInfo, "port")
                 ? l.get(cloverMachineInfo, "port")
@@ -546,6 +585,14 @@ class InvoiceScreen extends Layout {
               };
               clover.voidPayment(paymentInfo);
             } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+              if(method != "Dejavoo") {
+                await this.setState({
+                  visibleConfirmInvoiceStatus: true,
+                  visibleProcessingCredit: false,
+                });
+                alert(localize("Your transaction is invalid", language))
+                return
+              }
               const amount = l.get(invoiceDetail, 'paymentInformation.0.amount')
               parseString(paymentInformation, (err, result) => {
                 if(err){
@@ -581,6 +628,14 @@ class InvoiceScreen extends Layout {
               this.popupProcessingCreditRef.current?.setStateFromParent(
                 transactionId
               );
+              if(method != "Pax") {
+                await this.setState({
+                  visibleConfirmInvoiceStatus: true,
+                  visibleProcessingCredit: false,
+                });
+                alert(localize("Your transaction is invalid", language))
+                return
+              }
               PosLink.sendTransaction(
                 {
                   tenderType: "CREDIT",
