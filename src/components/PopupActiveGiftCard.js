@@ -58,6 +58,7 @@ class PopupActiveGiftCard extends React.Component {
   keyboardDidHide = async () => {
     await this.setState({
       customStyle: {},
+      scancode: "",
     });
   };
 
