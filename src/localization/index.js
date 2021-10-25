@@ -432,6 +432,7 @@ const localization = {
     "Accept": "Accept",
     "Reject": "Reject",
     "Serial Number": "Serial Number",
+    "Your transaction is invalid": "Your transaction is invalid",
   },
   vi: {},
 };
