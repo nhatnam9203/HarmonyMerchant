@@ -41,7 +41,7 @@ export const useProps = ({
   const popupDiscountRef = React.useRef(null);
   const popupDiscountItemRef = React.useRef(null);
   const popupDiscountLocalRef = React.useRef(null);
-  const activeGiftCardRef = React.useRef(null);
+  const activeGiftCardPayRef = React.useRef(null);
   const connectSignalR = React.useRef(null);
   const cashBackRef = React.useRef(null);
   const changeTipRef = React.useRef(null);
@@ -811,7 +811,7 @@ export const useProps = ({
   return {
     customerRef,
     basketRef,
-    selectedPayment: (title) => {
+    selectedPayment: async (title) => {
       if (
         changeButtonDone &&
         !isDonePayment &&
@@ -820,7 +820,7 @@ export const useProps = ({
       } else {
         setPaymentSelected(title);
         if (title === "Gift Card") {
-          activeGiftCardRef.current?.setStateFromParent();
+          await activeGiftCardPayRef.current?.setStateFromParent();
           dispatch(actions.appointment.handleVisibleActiveGiftCard());
         }
       }
@@ -937,9 +937,9 @@ export const useProps = ({
         payload: { visible: false, func: null },
       });
     },
-    activeGiftCardRef,
+    activeGiftCardPayRef,
     submitSerialCode: (code) => {
-      console.log(paymentSelected);
+      console.log("=====> ", code);
       if (groupAppointment) {
         if (paymentSelected === "Gift Card") {
           dispatch(

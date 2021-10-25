@@ -634,8 +634,8 @@ export const useProps = ({
         alert("Please connect to your cash drawer.");
       }
     },
-    onSelectGiftCard: () => {
-      activeGiftCardRef.current?.setStateFromParent();
+    onSelectGiftCard: async () => {
+      await activeGiftCardRef.current?.setStateFromParent();
       dispatch(actions.appointment.handleVisibleActiveGiftCard());
       setCategoryId(1);
       setActiveTab(CUSTOM_LIST_TYPES.CAT);
@@ -657,6 +657,7 @@ export const useProps = ({
     },
     submitSerialCode: (code) => {
       // add giftcard to appointment
+      console.log("===checkout =>", code);
       dispatch(
         actions.appointment.checkSerialNumber(code, false, false, false)
       );

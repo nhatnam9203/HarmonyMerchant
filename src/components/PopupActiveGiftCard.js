@@ -43,6 +43,8 @@ class PopupActiveGiftCard extends React.Component {
   setStateFromParent = async () => {
     await this.setState({
       scancode: "",
+      visibleScanCode: false,
+      value: "",
     });
   };
 

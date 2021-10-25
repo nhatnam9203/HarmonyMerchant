@@ -79,7 +79,7 @@ export const Layout = ({
   titleExitCheckoutTab,
   visibleConfirm,
   setVisibleConfirm,
-  activeGiftCardRef,
+  activeGiftCardPayRef,
   submitSerialCode,
   closePopupActiveGiftCard,
   visiblePopupPaymentDetails,
@@ -349,7 +349,7 @@ export const Layout = ({
       />
 
       <PopupActiveGiftCard
-        ref={activeGiftCardRef}
+        ref={activeGiftCardPayRef}
         title={t("Active Gift Card")}
         onRequestClose={closePopupActiveGiftCard}
         submitSerialCode={submitSerialCode}
