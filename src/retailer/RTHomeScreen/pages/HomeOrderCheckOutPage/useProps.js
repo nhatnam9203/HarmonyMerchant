@@ -37,10 +37,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CUSTOM_LIST_TYPES } from "../../widget";
 
-const log = (obj, message = "") => {
-  Logger.log(`[CheckOutTabPage > useProps] ${message}`, obj);
-};
-
 export const useProps = ({
   params: { purchasePoint = PURCHASE_POINTS_STORE },
   navigation,
@@ -78,13 +74,6 @@ export const useProps = ({
   );
   const printerList = useSelector((state) => state.dataLocal.printerList);
   const printerSelect = useSelector((state) => state.dataLocal.printerSelect);
-  const blockAppointments = useSelector(
-    (state) => state.appointment.blockAppointments
-  );
-  const profileStaffLogin = useSelector(
-    (state) => state.dataLocal.profileStaffLogin
-  );
-  const profile = useSelector((state) => state.dataLocal.profile);
 
   /**
   |--------------------------------------------------
@@ -207,19 +196,6 @@ export const useProps = ({
       }
     }, [purchasePoint, appointment])
   );
-
-  // React.useEffect(() => {
-  //   const unsubscribeFocus = navigation.addListener("focus", () => {
-  //     reloadAll();
-  //   });
-
-  //   const unsubscribeBlur = navigation.addListener("blur", () => {});
-
-  //   return () => {
-  //     unsubscribeFocus();
-  //     unsubscribeBlur();
-  //   };
-  // }, [navigation]);
 
   React.useEffect(() => {
     const { codeStatus, data } = productListData || {};
@@ -363,7 +339,7 @@ export const useProps = ({
    * CREATE appointment effects
    */
   React.useEffect(() => {
-    const { codeStatus, message, data } = appointmentCreate || {};
+    const { codeStatus, data } = appointmentCreate || {};
     if (statusSuccess(codeStatus)) {
       dispatch(basketRetailer.setAppointmentId(data));
 
@@ -468,6 +444,21 @@ export const useProps = ({
     subCategories: subCategories,
     products: products,
     activeTab,
+    appointment: appointmentTemp ?? appointment,
+    categoryId,
+    subCategoryId,
+    selectedProductId,
+    productDetailRef,
+    basketRef,
+    customerRef,
+    customer,
+    categoriesLabelData,
+    purchasePoint,
+    activeGiftCardRef,
+    modalBillRef,
+    popupEnterAmountGiftCardRef,
+    searchProducts: productListData,
+    editProductItemRef,
     onPressCategoryItem: (categoryItem) => {
       if (!categoryItem) {
         return;
@@ -507,11 +498,6 @@ export const useProps = ({
 
       productDetailRef.current?.show(productItem);
     },
-    categoryId,
-    subCategoryId,
-    selectedProductId,
-    productDetailRef,
-    basketRef,
     onHadSubmitted: () => {
       if (appointmentTempId) {
         createAppointment(appointmentTempId);
@@ -538,7 +524,6 @@ export const useProps = ({
     isCanGoBack: () => {
       return navigation.canGoBack();
     },
-    customerRef,
     onRefreshCategory: () => {
       getCategoriesList({ groupSubIntoMain: true });
     },
@@ -589,7 +574,6 @@ export const useProps = ({
         }
       }
     },
-    appointment: appointmentTemp ?? appointment,
     onRemoveItem: (removeItem) => {
       if (appointmentTempId) {
         if (removeItem?.bookingProductId) {
@@ -609,7 +593,6 @@ export const useProps = ({
         }
       }
     },
-    customer,
     onResultScanCode: (data) => {
       if (data?.trim()) {
         const code = data?.trim();
@@ -621,8 +604,6 @@ export const useProps = ({
         }, 100);
       }
     },
-    categoriesLabelData,
-    purchasePoint,
     checkStatusCashier: async () => {
       const { portName } = getInfoFromModelNameOfPrinter(
         printerList,
@@ -643,10 +624,7 @@ export const useProps = ({
       setSubCategoryId(null);
       setProducts(null);
     },
-    activeGiftCardRef,
-    modalBillRef,
     onRequestCloseBillModal: () => {},
-    popupEnterAmountGiftCardRef,
     closePopupActiveGiftCard: () => {
       dispatch(actions.appointment.handleVisibleActiveGiftCard(false));
       setCategoryId(null);
@@ -690,8 +668,6 @@ export const useProps = ({
     onChangeValueSearch: (searchValue) => {
       setSearchVal(searchValue);
     },
-    searchProducts: productListData,
-    editProductItemRef,
     onShowDialogEditProductItem: (proItem) => {
       editProductItemRef.current?.show(proItem);
     },
