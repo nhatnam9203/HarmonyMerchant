@@ -80,7 +80,7 @@ export const Layout = ({
   visibleConfirm,
   setVisibleConfirm,
   activeGiftCardPayRef,
-  submitSerialCode,
+  submitPayGiftCard,
   closePopupActiveGiftCard,
   visiblePopupPaymentDetails,
   closePopupProductPaymentDetails,
@@ -109,6 +109,7 @@ export const Layout = ({
   cancelGiftCardPayment,
   shareTemptInvoice,
   invoiceRef,
+  visiblePopupGiftCard,
 }) => {
   const [t] = useTranslation();
 
@@ -349,10 +350,12 @@ export const Layout = ({
       />
 
       <PopupActiveGiftCard
-        ref={activeGiftCardPayRef}
+        key={"payment"}
+        ref={(ref) => (activeGiftCardPayRef.current = ref)}
         title={t("Active Gift Card")}
         onRequestClose={closePopupActiveGiftCard}
-        submitSerialCode={submitSerialCode}
+        submitSerialCode={submitPayGiftCard}
+        visiblePopupGiftCard={visiblePopupGiftCard}
       />
 
       <PopupPaymentDetails

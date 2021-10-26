@@ -117,6 +117,7 @@ export const useProps = ({
   const startProcessingPax = useSelector(
     (state) => state.appointment.startProcessingPax
   );
+  const [visiblePopupGiftCard, setVisiblePopupGiftCard] = React.useState(false);
 
   React.useEffect(() => {
     if (startProcessingPax) {
@@ -821,7 +822,8 @@ export const useProps = ({
         setPaymentSelected(title);
         if (title === "Gift Card") {
           await activeGiftCardPayRef.current?.setStateFromParent();
-          dispatch(actions.appointment.handleVisibleActiveGiftCard());
+          // await dispatch(actions.appointment.handleVisibleActiveGiftCard());
+          setVisiblePopupGiftCard(true);
         }
       }
     },
@@ -854,6 +856,7 @@ export const useProps = ({
     popupDiscountItemRef,
     visiblePopupDiscountLocal,
     popupDiscountLocalRef,
+    visiblePopupGiftCard,
     onRequestClosePopupDiscountLocal: () => {
       setVisiblePopupDiscountLocal(false);
     },
@@ -938,18 +941,19 @@ export const useProps = ({
       });
     },
     activeGiftCardPayRef,
-    submitSerialCode: (code) => {
-      console.log("=====> ", code);
+    submitPayGiftCard: async (code) => {
+      setVisiblePopupGiftCard(false);
       if (groupAppointment) {
         if (paymentSelected === "Gift Card") {
-          dispatch(
+          await dispatch(
             actions.appointment.checkSerialNumber(code, false, false, true)
           );
         }
       }
     },
     closePopupActiveGiftCard: async () => {
-      dispatch(actions.appointment.handleVisibleActiveGiftCard(false));
+      // dispatch(actions.appointment.handleVisibleActiveGiftCard(false));
+      setVisiblePopupGiftCard(false);
     },
     visiblePopupPaymentDetails,
     closePopupProductPaymentDetails: () => {
