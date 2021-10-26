@@ -61,6 +61,7 @@ export const Layout = ({
   onShowDialogEditProductItem,
   onSubmitEditProductItem,
   isCanGoBack,
+  visiblePopupGiftCard,
 }) => {
   const { t } = useTranslation();
 
@@ -221,7 +222,9 @@ export const Layout = ({
       </View>
       <DialogProductDetail ref={productDetailRef} onAddProduct={onAddProduct} />
       <PopupActiveGiftCard
-        ref={activeGiftCardRef}
+        key={"checkout"}
+        ref={(ref) => (activeGiftCardRef.current = ref)}
+        visiblePopupGiftCard={visiblePopupGiftCard}
         title={t("Active Gift Card")}
         onRequestClose={closePopupActiveGiftCard}
         submitSerialCode={submitSerialCode}

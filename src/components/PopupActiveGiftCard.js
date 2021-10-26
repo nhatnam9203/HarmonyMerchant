@@ -43,6 +43,8 @@ class PopupActiveGiftCard extends React.Component {
   setStateFromParent = async () => {
     await this.setState({
       scancode: "",
+      visibleScanCode: false,
+      value: "",
     });
   };
 
@@ -58,6 +60,7 @@ class PopupActiveGiftCard extends React.Component {
   keyboardDidHide = async () => {
     await this.setState({
       customStyle: {},
+      scancode: "",
     });
   };
 
@@ -70,6 +73,7 @@ class PopupActiveGiftCard extends React.Component {
   onRequestCloseScanCode = () => {
     this.setState({
       visibleScanCode: false,
+      scancode: "",
     });
   };
 
@@ -97,12 +101,15 @@ class PopupActiveGiftCard extends React.Component {
       hideCloseButton,
       visiblePopupActiveGiftCard,
       loading,
+      visiblePopupGiftCard,
     } = this.props;
+
+    const visiblePopup = visiblePopupGiftCard ?? visiblePopupActiveGiftCard;
     const { customStyle, scancode } = this.state;
     return (
       <PopupParent
         title={title}
-        visible={visiblePopupActiveGiftCard}
+        visible={visiblePopup}
         onRequestClose={() => onRequestClose()}
         hideCloseButton={hideCloseButton}
         style={customStyle}

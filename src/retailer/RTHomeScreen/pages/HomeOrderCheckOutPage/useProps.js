@@ -102,6 +102,7 @@ export const useProps = ({
   const [searchData, setSearchData] = React.useState(null);
   const [searchVal, setSearchVal] = React.useState();
   const [scanCodeTemp, setScanCodeTemp] = React.useState(null);
+  const [visiblePopupGiftCard, setVisiblePopupGiftCard] = React.useState(false);
 
   /**
   |--------------------------------------------------
@@ -468,6 +469,7 @@ export const useProps = ({
     subCategories: subCategories,
     products: products,
     activeTab,
+    visiblePopupGiftCard,
     onPressCategoryItem: (categoryItem) => {
       if (!categoryItem) {
         return;
@@ -634,9 +636,10 @@ export const useProps = ({
         alert("Please connect to your cash drawer.");
       }
     },
-    onSelectGiftCard: () => {
-      activeGiftCardRef.current?.setStateFromParent();
-      dispatch(actions.appointment.handleVisibleActiveGiftCard());
+    onSelectGiftCard: async () => {
+      await activeGiftCardRef.current?.setStateFromParent();
+      // await dispatch(actions.appointment.handleVisibleActiveGiftCard());
+      setVisiblePopupGiftCard(true);
       setCategoryId(1);
       setActiveTab(CUSTOM_LIST_TYPES.CAT);
       setSubCategories(null);
@@ -648,16 +651,19 @@ export const useProps = ({
     onRequestCloseBillModal: () => {},
     popupEnterAmountGiftCardRef,
     closePopupActiveGiftCard: () => {
-      dispatch(actions.appointment.handleVisibleActiveGiftCard(false));
+      // dispatch(actions.appointment.handleVisibleActiveGiftCard(false));
+      setVisiblePopupGiftCard(false);
       setCategoryId(null);
       setActiveTab(CUSTOM_LIST_TYPES.CAT);
       setSubCategories(null);
       setSubCategoryId(null);
       setProducts(null);
     },
-    submitSerialCode: (code) => {
+    submitSerialCode: async (code) => {
       // add giftcard to appointment
-      dispatch(
+      setVisiblePopupGiftCard(false);
+
+      await dispatch(
         actions.appointment.checkSerialNumber(code, false, false, false)
       );
     },

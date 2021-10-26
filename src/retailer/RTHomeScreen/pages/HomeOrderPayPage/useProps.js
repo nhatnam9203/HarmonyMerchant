@@ -41,7 +41,7 @@ export const useProps = ({
   const popupDiscountRef = React.useRef(null);
   const popupDiscountItemRef = React.useRef(null);
   const popupDiscountLocalRef = React.useRef(null);
-  const activeGiftCardRef = React.useRef(null);
+  const activeGiftCardPayRef = React.useRef(null);
   const connectSignalR = React.useRef(null);
   const cashBackRef = React.useRef(null);
   const changeTipRef = React.useRef(null);
@@ -117,6 +117,7 @@ export const useProps = ({
   const startProcessingPax = useSelector(
     (state) => state.appointment.startProcessingPax
   );
+  const [visiblePopupGiftCard, setVisiblePopupGiftCard] = React.useState(false);
 
   React.useEffect(() => {
     if (startProcessingPax) {
@@ -811,7 +812,7 @@ export const useProps = ({
   return {
     customerRef,
     basketRef,
-    selectedPayment: (title) => {
+    selectedPayment: async (title) => {
       if (
         changeButtonDone &&
         !isDonePayment &&
@@ -820,8 +821,9 @@ export const useProps = ({
       } else {
         setPaymentSelected(title);
         if (title === "Gift Card") {
-          activeGiftCardRef.current?.setStateFromParent();
-          dispatch(actions.appointment.handleVisibleActiveGiftCard());
+          await activeGiftCardPayRef.current?.setStateFromParent();
+          // await dispatch(actions.appointment.handleVisibleActiveGiftCard());
+          setVisiblePopupGiftCard(true);
         }
       }
     },
@@ -854,6 +856,7 @@ export const useProps = ({
     popupDiscountItemRef,
     visiblePopupDiscountLocal,
     popupDiscountLocalRef,
+    visiblePopupGiftCard,
     onRequestClosePopupDiscountLocal: () => {
       setVisiblePopupDiscountLocal(false);
     },
@@ -937,19 +940,20 @@ export const useProps = ({
         payload: { visible: false, func: null },
       });
     },
-    activeGiftCardRef,
-    submitSerialCode: (code) => {
-      console.log(paymentSelected);
+    activeGiftCardPayRef,
+    submitPayGiftCard: async (code) => {
+      setVisiblePopupGiftCard(false);
       if (groupAppointment) {
         if (paymentSelected === "Gift Card") {
-          dispatch(
+          await dispatch(
             actions.appointment.checkSerialNumber(code, false, false, true)
           );
         }
       }
     },
     closePopupActiveGiftCard: async () => {
-      dispatch(actions.appointment.handleVisibleActiveGiftCard(false));
+      // dispatch(actions.appointment.handleVisibleActiveGiftCard(false));
+      setVisiblePopupGiftCard(false);
     },
     visiblePopupPaymentDetails,
     closePopupProductPaymentDetails: () => {
