@@ -231,12 +231,10 @@ export const Layout = ({
       />
 
       <PopupEnterAmountGiftCard
-        ref={popupEnterAmountGiftCardRef}
+        ref={(ref) => (popupEnterAmountGiftCardRef.current = ref)}
         onRequestClose={onRequestCloseBillModal}
         onAddGiftCardToAppointment={onAddGiftCardToAppointment}
-        // language={language}
-        // extractBill={extractBill}
-        // doneBill={doneBill}
+
       />
 
       <DialogEditProductOrder

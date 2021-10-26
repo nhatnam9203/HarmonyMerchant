@@ -668,6 +668,9 @@ export const useProps = ({
       );
     },
     onAddGiftCardToAppointment: (money, gitCardInfo) => {
+      console.log(money);
+      console.log(gitCardInfo);
+
       const giftCard = {
         Price: money,
         GiftCardId: gitCardInfo?.giftCardId,
