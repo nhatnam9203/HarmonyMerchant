@@ -708,5 +708,8 @@ export const useProps = ({
         );
       }
     },
+    clearBasket: () => {
+      dispatch(basketRetailer.clearBasket());
+    },
   };
 };

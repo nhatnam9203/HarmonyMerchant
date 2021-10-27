@@ -55,6 +55,7 @@ export const Layout = ({
   onShowDialogEditProductItem,
   onSubmitEditProductItem,
   isCanGoBack,
+  clearBasket
 }) => {
   const { t } = useTranslation();
 
@@ -201,6 +202,29 @@ export const Layout = ({
         <View style={styles.basketContent}>
           <View style={styles.basketHeader}>
             <Text style={styles.basketTitle}>{t("Basket")}</Text>
+
+            <TouchableOpacity
+              style={{
+                width: scaleWidth(45),
+                height: scaleHeight(45),
+                position: "absolute",
+                right: 0,
+                top: 0,
+                bottom: 0,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={clearBasket}
+            >
+              <Image
+                source={IMAGE.trash_icon}
+                style={{
+                  tintColor: colors.GREYISH_BROWN,
+                  width: scaleWidth(20),
+                  height: scaleHeight(20),
+                }}
+              />
+            </TouchableOpacity>
           </View>
 
           <View style={styles.basketDetail}>
