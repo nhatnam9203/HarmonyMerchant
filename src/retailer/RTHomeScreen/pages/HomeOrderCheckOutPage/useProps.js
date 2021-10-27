@@ -107,7 +107,8 @@ export const useProps = ({
   const [, getAppointmentTemp] = useGetAppointmentTemp();
   const [appointmentTempItemRemove, removeItemAppointmentTemp] =
     useRemoveItemAppointmentTemp();
-  const [productItemGet, getProductsByBarcode] = useGetProductsByBarcode();
+  const [productItemByBarcodeGet, getProductsByBarcode] =
+    useGetProductsByBarcode();
   const [categoriesLabel, getCategoriesLabel] = useGetLayout();
   const [categoriesLabelData, setCategoriesLabelData] = React.useState({});
   const [updateAppointmentCustomerData, updateAppointmentCustomer] =
@@ -173,6 +174,54 @@ export const useProps = ({
       setTimeout(() => {
         alert("Please connect to your cash drawer.");
       }, 700);
+    }
+  };
+
+  const addProductToBasket = (productItem) => {
+    const submitProducts = createSubmitAppointment([productItem]);
+
+    if (appointmentTempId) {
+      const findItem = appointmentTemp?.products?.find(
+        (x) =>
+          x.productQuantityId === productItem.productQuantityId ||
+          (productItem?.quantities?.length <= 0 &&
+            x.productId === productItem.productId)
+      );
+
+      if (findItem) {
+        appointmentTempUpdateProductItem(
+          appointmentTempId,
+          findItem?.bookingProductId,
+          { quantity: findItem?.quantity + productItem?.quantity }
+        );
+      } else {
+        addItemAppointmentTemp(submitProducts[0]);
+      }
+    } else {
+      if (!appointment) {
+        createAppointmentTemp({
+          customerId: customer?.customerId,
+          purchasePoint,
+          products: submitProducts,
+        });
+      } else {
+        const findItem = appointment?.products?.find(
+          (x) =>
+            x.productQuantityId === productItem.productQuantityId ||
+            (productItem?.quantities?.length <= 0 &&
+              x.productId === productItem.productId)
+        );
+        if (findItem) {
+          appointmentUpdateProductItem(
+            appointmentId,
+            findItem?.bookingProductId,
+            { quantity: findItem?.quantity + productItem?.quantity }
+          );
+        } else {
+          // add item to appointment
+          addAppointmentItem(submitProducts[0]);
+        }
+      }
     }
   };
 
@@ -372,15 +421,33 @@ export const useProps = ({
   /**
    * GET product item effects
    */
+
+  // React.useEffect(() => {
+  //   const { codeStatus, message, data } = productItemGet || {};
+  //   if (statusSuccess(codeStatus)) {
+  //     setTimeout(() => {
+  //       productDetailRef.current?.show(data, scanCodeTemp);
+  //       setScanCodeTemp(null);
+  //     }, 100);
+  //   }
+  // }, [productItemGet]);
+
   React.useEffect(() => {
-    const { codeStatus, message, data } = productItemGet || {};
+    const { codeStatus, data } = productItemByBarcodeGet || {};
     if (statusSuccess(codeStatus)) {
+      const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
       setTimeout(() => {
-        productDetailRef.current?.show(data, scanCodeTemp);
+        addProductToBasket(
+          Object.assign({}, data, {
+            id: Date.now(),
+            quantity: 1,
+            productQuantityId: tmp?.id,
+          })
+        );
         setScanCodeTemp(null);
       }, 100);
     }
-  }, [productItemGet]);
+  }, [productItemByBarcodeGet]);
 
   /**
    * UPDATE category label effects
@@ -527,53 +594,7 @@ export const useProps = ({
     onRefreshCategory: () => {
       getCategoriesList({ groupSubIntoMain: true });
     },
-    onAddProduct: (productItem) => {
-      const submitProducts = createSubmitAppointment([productItem]);
-
-      if (appointmentTempId) {
-        const findItem = appointmentTemp?.products?.find(
-          (x) =>
-            x.productQuantityId === productItem.productQuantityId ||
-            (productItem?.quantities?.length <= 0 &&
-              x.productId === productItem.productId)
-        );
-
-        if (findItem) {
-          appointmentTempUpdateProductItem(
-            appointmentTempId,
-            findItem?.bookingProductId,
-            { quantity: findItem?.quantity + productItem?.quantity }
-          );
-        } else {
-          addItemAppointmentTemp(submitProducts[0]);
-        }
-      } else {
-        if (!appointment) {
-          createAppointmentTemp({
-            customerId: customer?.customerId,
-            purchasePoint,
-            products: submitProducts,
-          });
-        } else {
-          const findItem = appointment?.products?.find(
-            (x) =>
-              x.productQuantityId === productItem.productQuantityId ||
-              (productItem?.quantities?.length <= 0 &&
-                x.productId === productItem.productId)
-          );
-          if (findItem) {
-            appointmentUpdateProductItem(
-              appointmentId,
-              findItem?.bookingProductId,
-              { quantity: findItem?.quantity + productItem?.quantity }
-            );
-          } else {
-            // add item to appointment
-            addAppointmentItem(submitProducts[0]);
-          }
-        }
-      }
-    },
+    onAddProduct: addProductToBasket,
     onRemoveItem: (removeItem) => {
       if (appointmentTempId) {
         if (removeItem?.bookingProductId) {
@@ -594,6 +615,7 @@ export const useProps = ({
       }
     },
     onResultScanCode: (data) => {
+      // scan barcode show product
       if (data?.trim()) {
         const code = data?.trim();
         setScanCodeTemp(code);
