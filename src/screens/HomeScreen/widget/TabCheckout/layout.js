@@ -9,7 +9,7 @@ import {
   PopupCheckStaffPermission,
   PopupConfirm,
   PopupInvoicePrint,
-  PopupPairingCode,
+  // PopupPairingCode,
   PopupPayCompleted,
   PopupProcessingCredit,
   PopupScanCode,
@@ -1310,8 +1310,6 @@ class Layout extends React.Component {
       errorMessageFromPax,
       selectedStaff,
       staffOfService,
-      visiblePopupParingCode,
-      pairingCode,
       visibleConfirmPayment,
       visibleInvoice,
     } = this.state;
@@ -1387,10 +1385,6 @@ class Layout extends React.Component {
           textLeftButton={localize("Reject", language)}
           textRightButton={localize("Accept", language)}
           hideCloseButton={true}
-        />
-        <PopupPairingCode
-          visible={visiblePopupParingCode ? true : false}
-          message={pairingCode}
         />
 
         {/* ----------------- Display Error Message From Pax Machine ------------------ */}
@@ -1548,6 +1542,7 @@ class Layout extends React.Component {
         <PopupInvoice
           ref={this.invoiceRef}
           cancelInvoicePrint={this.cancelInvoicePrint}
+          doPrintClover={(imageUri) => this.doPrintClover(imageUri)}
         />
       </View>
     );

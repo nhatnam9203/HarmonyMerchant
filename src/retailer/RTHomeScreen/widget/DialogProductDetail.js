@@ -97,41 +97,41 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
    * @param {*} value
    */
   const canSelectOptionValue = (value, index) => {
-    if (!listFiltersOptionsQty || listFiltersOptionsQty?.length <= 0)
-      return false;
+    // if (!listFiltersOptionsQty || listFiltersOptionsQty?.length <= 0)
+    //   return false;
 
-    if (optionsSelected) {
-      if (index === 0) {
-        const filterArr = product?.quantities?.filter((x) => x.quantity > 0);
-        for (const x of filterArr) {
-          if (x.attributeIds?.includes(value)) {
-            return true;
-          }
-        }
-      }
-    }
+    // if (optionsSelected) {
+    //   if (index === 0) {
+    //     const filterArr = product?.quantities?.filter((x) => x.quantity > 0);
+    //     for (const x of filterArr) {
+    //       if (x.attributeIds?.includes(value)) {
+    //         return true;
+    //       }
+    //     }
+    //   }
+    // }
 
-    for (const x of listFiltersOptionsQty) {
-      if (x.attributeIds?.includes(value)) {
-        return true;
-      }
-    }
+    // for (const x of listFiltersOptionsQty) {
+    //   if (x.attributeIds?.includes(value)) {
+    //     return true;
+    //   }
+    // }
 
-    return false;
+    return true;
   };
 
   const disableAddBasket = () => {
-    // console.log(product);
-    if (quantity <= 0) return true;
+    // if (quantity <= 0) return true;
     if (!product) return true;
     if (product?.quantities?.length > 0 && !optionsQty) return true;
-    if (product?.options?.length > 0 && listFiltersOptionsQty?.length <= 0)
-      return true;
+    // if (product?.options?.length > 0 && listFiltersOptionsQty?.length <= 0)
+    //   return true;
 
-    // if(quantity > _.get(product, 'quantity', 0)) return true;
-    if (optionsQty && optionsQty.quantity < quantity) {
-      return true;
-    } else if (quantity > _.get(product, "quantity", 0)) return true;
+    // if (optionsQty && optionsQty.quantity < quantity) {
+    //   return true;
+    // }
+
+    // else if (quantity > _.get(product, "quantity", 0)) return true;
 
     return false;
   };
@@ -188,7 +188,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
 
       if (codeSelected) {
         const tmp = data?.quantities?.find((x) => x.barCode === codeSelected);
-        if (tmp?.attributeIds?.length && tmp.quantity > 0) {
+        if (tmp?.attributeIds?.length) {
           const selectedList = tmp?.attributeIds?.map((v) => {
             let findOpt = null;
             for (let i = 0; i < data?.options?.length; i++) {
@@ -217,7 +217,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     if (product?.quantities)
       setListFiltersOptionsQty(
         product?.quantities?.filter((x) => {
-          if (x.quantity <= 0) return false;
+          // if (x.quantity <= 0) return false;
           return true;
         })
       );
@@ -273,7 +273,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     setOptionsSelected(newOptionsList);
 
     const filtersQuantities = data?.quantities?.filter((x) => {
-      if (x.quantity <= 0) return false;
+      // if (x.quantity <= 0) return false;
       const temps = x?.attributeIds;
       for (let i = 0; i < newOptionsList?.length; i++) {
         if (!temps.includes(newOptionsList[i]?.value)) return false;

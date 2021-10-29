@@ -1,36 +1,44 @@
-import React from "react";
+import { ButtonCustom, PopupParent } from "@components";
+import connectRedux from "@redux/ConnectRedux";
+import { colors } from "@shared/themes";
 import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  Alert,
-  TextInput,
-  Image,
-  StyleSheet,
-  TouchableHighlight,
-  Platform,
-} from "react-native";
-import { TextInputMask } from "react-native-masked-text";
-import _ from "ramda";
-
-import { ButtonCustom, PopupParent, Slider } from "@components";
-import {
-  scaleSize,
-  formatNumberFromCurrency,
+  checkIsTablet,
   formatMoney,
+  formatNumberFromCurrency,
   localize,
   roundNumber,
-  checkIsTablet,
+  scaleSize,
 } from "@utils";
-import connectRedux from "@redux/ConnectRedux";
-import ICON from "@resources";
-import { colors } from "@shared/themes";
+import * as l from "lodash";
+import _ from "ramda";
+import React from "react";
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { TextInputMask } from "react-native-masked-text";
+
 const manualType = {
   fixAmountType: "fixAmountType",
   percentType: "percentType",
 };
-import * as l from "lodash";
+
+const DiscountOptions = [
+  { id: 5, value: 5, label: "5%" },
+  { id: 10, value: 10, label: "10%" },
+  { id: 15, value: 15, label: "15%" },
+  { id: 20, value: 20, label: "20%" },
+  { id: 25, value: 25, label: "25%" },
+  { id: 30, value: 30, label: "30%" },
+  { id: 50, value: 50, label: "50%" },
+  { id: 100, value: 100, label: "100%" },
+];
 
 class PopupDiscount extends React.Component {
   constructor(props) {
@@ -426,7 +434,7 @@ class PopupDiscount extends React.Component {
                     >{`$ ${discountMoneyByStaff}`}</Text>
                   </View>
                   {/* ----------Slider------------ */}
-                  <Slider
+                  {/* <Slider
                     style={styles.slider}
                     value={this.state.discountByOwner}
                     minimumValue={0}
@@ -457,7 +465,7 @@ class PopupDiscount extends React.Component {
                     minimumTrackTintColor={colors.OCEAN_BLUE}
                     maximumTrackTintColor={colors.PALE_GREY}
                     step={25}
-                  />
+                  /> */}
 
                   <View style={styles.viewRowContainer}>
                     <Text
@@ -466,6 +474,41 @@ class PopupDiscount extends React.Component {
                     <Text
                       style={styles.textNormal}
                     >{`${discountByStaff}%`}</Text>
+                  </View>
+
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      marginTop: scaleSize(10),
+                      width: "100%",
+                      justifyContent: "space-evenly",
+                    }}
+                  >
+                    {DiscountOptions?.map((discountItem) => {
+                      const onChangeDiscountValue = () => {
+                        this.handelSliderValue(discountItem.value);
+                      };
+
+                      const selected =
+                        discountItem.value === this.state.discountByOwner;
+                      return (
+                        <TouchableOpacity
+                          key={discountItem.id + ""}
+                          style={{
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: scaleWidth(60),
+                            height: scaleHeight(40),
+                            borderWidth: 1,
+                            borderColor: selected ? "#0A0AAA" : "gray",
+                            borderRadius: scaleSize(3),
+                          }}
+                          onPress={onChangeDiscountValue}
+                        >
+                          <Text>{discountItem.label}</Text>
+                        </TouchableOpacity>
+                      );
+                    })}
                   </View>
 
                   {/* ----------- Note  ----------- */}

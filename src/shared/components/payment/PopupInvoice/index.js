@@ -13,6 +13,8 @@ import {
   getPaymentString,
   getStaffNameForInvoice,
   scaleSize,
+  PaymentTerminalType,
+  stringIsEmptyOrWhiteSpaces
 } from "@utils";
 import React from "react";
 import {
@@ -24,6 +26,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
 } from "react-native";
 import Dash from "react-native-dash";
 import { StarPRNT } from "react-native-star-prnt";
@@ -33,8 +36,9 @@ import RNFetchBlob from "rn-fetch-blob";
 import { ItemHeaderReceipt, ItemReceipt } from "./ItemReceipt";
 import { TotalView } from "./TotalView";
 import { layouts } from "@shared/themes";
+import _ from "lodash";
 
-export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
+export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint, doPrintClover }, ref) => {
   const viewShotRef = React.useRef(null);
   const tempHeight = checkIsTablet() ? scaleHeight(400) : scaleHeight(450);
 
@@ -300,51 +304,61 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
 
     try {
       await setIsProcessingPrint(true);
-      const imageUri = await captureRef(viewShotRef, {});
-      // const imageUri = await captureRef(viewShotRef, {
-      //   ...(paymentMachineType === "Clover" &&
-      //     !printerSelect && { result: "base64" }),
-      // });
+      const imageUri = await captureRef(viewShotRef, {
+        ...(paymentMachineType === "Clover" &&
+          !printerSelect && { result: "base64" }),
+      });
       await setIsProcessingPrint(false);
 
       if (imageUri) {
-        let commands = [];
-        commands.push({ appendLineFeed: 0 });
-        commands.push({
-          appendBitmap: imageUri,
-          width: parseFloat(widthPaper),
-          bothScale: true,
-          diffusion: true,
-          alignment: "Center",
-        });
-        commands.push({
-          appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-        });
-
-        await PrintManager.getInstance().print(emulation, commands, portName);
-
-        releaseCapture(imageUri);
-        if (!printTempt && isSignature) {
-          Alert.alert(
-            "Would you like to print  customer's receipt?",
-            "",
-            [
-              {
-                text: "Cancel",
-                onPress: onCancel,
-                style: "cancel",
-              },
-              {
-                text: "OK",
-                onPress: doPrintAgain,
-              },
-            ],
-            { cancelable: false }
-          );
-        } else {
-          onCancel();
+       
+          if (portName) {
+            let commands = [];
+            commands.push({ appendLineFeed: 0 });
+            commands.push({
+              appendBitmap: imageUri,
+              width: parseFloat(widthPaper),
+              bothScale: true,
+              diffusion: true,
+              alignment: "Center",
+            });
+            commands.push({
+              appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+            });
+    
+            await PrintManager.getInstance().print(emulation, commands, portName);
+    
+            releaseCapture(imageUri);
+            if (!printTempt && isSignature) {
+              Alert.alert(
+                "Would you like to print  customer's receipt?",
+                "",
+                [
+                  {
+                    text: "Cancel",
+                    onPress: onCancel,
+                    style: "cancel",
+                  },
+                  {
+                    text: "OK",
+                    onPress: doPrintAgain,
+                  },
+                ],
+                { cancelable: false }
+              );
+            } else {
+              onCancel();
+            }
+          }else {
+            if (paymentMachineType == "Clover") {
+              if (doPrintClover && typeof doPrintClover === "function") {
+                doPrintClover(imageUri);
+              }
+            }
+          }
         }
-      }
+       
+      
     } catch (error) {
       console.log(`Printer error with ${error}`);
       alert(`Printer error with ${error}`);
@@ -401,7 +415,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
           printerSelect
         );
 
-        if (!portName) {
+        if (!portName && machineType !== "Clover") {
           onCancel(isPrintTempt);
 
           alert("Please connect to your printer! ");
@@ -456,7 +470,8 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
               <View
                 ref={viewShotRef}
                 style={[
-                  { backgroundColor: isShare ? "#fff" : "#0000" },
+                  { backgroundColor: (isShare || paymentMachineType == PaymentTerminalType.Clover) 
+                                      ? "#fff" : "#0000" },
                   styles.receiptContent,
                 ]}
               >
@@ -780,7 +795,7 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                               }`}
                             </Text>
                             <Text style={[layouts.fontPrintStyle]}>
-                              {`    ${data?.paymentInformation?.name || ""}`}
+                              {`    ${data?.paymentInformation?.name?.replace(/%20/g, " ") || ""}`}
                             </Text>
                             <Text style={[layouts.fontPrintStyle]}>
                               {`    ${
@@ -796,6 +811,20 @@ export const PopupInvoice = React.forwardRef(({ cancelInvoicePrint }, ref) => {
                                   : ""
                               }`}
                             </Text>
+
+                            { !stringIsEmptyOrWhiteSpaces(_.get(data, "paymentInformation.signData")) &&
+                              <View style={styles.rowSignature}>
+                                <Text style={[layouts.fontPrintStyle]}>
+                                  {"    Signature: "}
+                                </Text>
+                                <Image 
+                                  style={styles.signImage}
+                                  source={{
+                                    uri: `data:image/png;base64,${data?.paymentInformation?.signData}`
+                                  }}
+                                  />
+                              </View>
+                          }
                           </View>
                         ) : null}
                       </View>
@@ -1016,4 +1045,14 @@ const styles = StyleSheet.create({
   },
 
   marginVertical: { height: scaleHeight(10) },
+
+  rowSignature: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  signImage:{
+    width: scaleWidth(100),
+    height: scaleHeight(40),
+    resizeMode: "contain",
+  },
 });

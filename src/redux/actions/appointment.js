@@ -699,3 +699,10 @@ export function switchVisibleAddEditCustomerPopup(visible = true) {
     payload: visible,
   };
 }
+
+export function isProcessPaymentClover(isProcess = false) {
+  return {
+    type: "IS_PROCESS_PAYMENT_CLOVER",
+    payload: isProcess,
+  }
+}

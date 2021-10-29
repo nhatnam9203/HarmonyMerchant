@@ -14,6 +14,7 @@ import {
   roundFloatNumber,
   requestAPI,
   formatWithMoment,
+  PaymentTerminalType,
 } from "@utils";
 import Configs from "@configs";
 import * as l from "lodash";
@@ -107,10 +108,9 @@ class TabFirstSettle extends Layout {
     if (Platform.OS === "android") {
       this.handlePAXReport_Android();
     } else {
-      const { cloverMachineInfo, paymentMachineType } = this.props;
-      if(paymentMachineType == "Clover") {
+      const { cloverMachineInfo, dejavooMachineInfo, paymentMachineType } = this.props;
+      if (paymentMachineType == PaymentTerminalType.Clover) {
         if(l.get(cloverMachineInfo, 'isSetup')){
-          
           this.handleRequestAPIByTerminalID(l.get(cloverMachineInfo, 'serialNumber'), "clover")
         }else{
           this.handleRequestAPIByTerminalID(null, "clover")
@@ -118,7 +118,16 @@ class TabFirstSettle extends Layout {
             "Don't have setup in Hardware Tab!"
           );
         }
-      }else{
+      } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+        if(l.get(dejavooMachineInfo, 'isSetup')){
+          this.handleRequestAPIByTerminalID(l.get(dejavooMachineInfo, 'sn'), "dejavoo")
+        }else{
+          this.handleRequestAPIByTerminalID(null, "dejavoo")
+          this.props.actions.app.connectPaxMachineError(
+            "Don't have setup in Hardware Tab!"
+          );
+        }
+      } else {
         this.handlePAXReport_IOS();
       }
     }
@@ -587,6 +596,7 @@ const mapStateToProps = (state) => ({
   isHandleInternalFirstSettlemetTab:
   state.invoice.isHandleInternalFirstSettlemetTab,
   cloverMachineInfo: state.hardware.cloverMachineInfo,
+  dejavooMachineInfo: state.hardware.dejavooMachineInfo,
   paymentMachineType: state.hardware.paymentMachineType,
 });
 

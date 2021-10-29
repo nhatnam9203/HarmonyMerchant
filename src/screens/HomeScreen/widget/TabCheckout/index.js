@@ -19,12 +19,16 @@ import {
   REMOTE_APP_ID,
   APP_NAME,
   POS_SERIAL,
+  PaymentTerminalType,
+  requestTransactionDejavoo,
+  stringIsEmptyOrWhiteSpaces
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
 import Configs from "@configs";
 import initState from "./widget/initState";
 import * as l from "lodash";
 import moment from "moment";
+import { parseString } from "react-native-xml2js";
 
 const PosLinkReport = NativeModules.report;
 const PosLink = NativeModules.payment;
@@ -899,18 +903,22 @@ class TabCheckout extends Layout {
         checkoutId: paymentDetailInfo?.invoiceNo,
         isSalon: true,
         isPrintTempt: false,
+        machineType: paymentMachineType,
       });
     }
   };
 
   printTemptInvoice = async () => {
-    const { groupAppointment, paymentDetailInfo } = this.props;
+    const { groupAppointment, 
+            paymentDetailInfo,
+            paymentMachineType, } = this.props;
 
     await this.invoiceRef.current?.showAppointmentReceipt({
       appointmentId: groupAppointment?.mainAppointmentId,
       checkoutId: paymentDetailInfo?.invoiceNo,
       isPrintTempt: true,
       isSalon: true,
+      machineType: paymentMachineType,
     });
   };
 
@@ -1277,6 +1285,7 @@ class TabCheckout extends Layout {
       customerInfoBuyAppointment,
       paymentDetailInfo,
       cloverMachineInfo,
+      dejavooMachineInfo,
       paymentMachineType,
     } = this.props;
     const {
@@ -1332,8 +1341,10 @@ class TabCheckout extends Layout {
           );
         } else if (method === "credit_card" || method === "debit_card") {
           let isSetup = false;
-          if (paymentMachineType == "Pax") {
+          if (paymentMachineType == PaymentTerminalType.Pax) {
             isSetup = l.get(paxMachineInfo, "isSetup");
+          } else if (paymentMachineType == PaymentTerminalType.Dejavoo){
+            isSetup = l.get(dejavooMachineInfo, "isSetup");
           } else {
             isSetup = l.get(cloverMachineInfo, "isSetup");
           }
@@ -1549,13 +1560,14 @@ class TabCheckout extends Layout {
   async sendTransactionToPaymentMachine() {
     const {
       cloverMachineInfo,
+      dejavooMachineInfo,
       paymentMachineType,
       isTipOnPaxMachine,
       paxAmount,
       groupAppointment,
       payAppointmentId,
     } = this.props;
-    if (paymentMachineType == "Clover") {
+    if (paymentMachineType == PaymentTerminalType.Clover) {
       const port = l.get(cloverMachineInfo, "port")
         ? l.get(cloverMachineInfo, "port")
         : 80;
@@ -1576,7 +1588,37 @@ class TabCheckout extends Layout {
         amount: `${parseFloat(paxAmount)}`,
         externalId: `${payAppointmentId}`, //`${groupAppointment?.checkoutGroupId || 0}`,
       });
+    } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+      this.setState({
+        visibleProcessingCredit: true,
+      });
+      const {
+        isTipOnPaxMachine,
+        paxAmount,
+        groupAppointment,
+        amountCredtitForSubmitToServer,
+        payAppointmentId,
+      } = this.props;
+      const { paymentSelected } = this.state;
+      const tenderType = paymentSelected === "Credit Card" ? "Credit" : "Debit";
+  
+      const parameter = {
+        tenderType: tenderType,
+        transType: "Sale",
+        amount: parseFloat(paxAmount/100).toFixed(2),
+        RefId: payAppointmentId,
+        invNum: `${groupAppointment?.checkoutGroupId || 0}`,
+      };
+
+      const responses = await requestTransactionDejavoo(parameter)
+      this.handleResponseCreditCardDejavoo(
+        responses,
+        true,
+        amountCredtitForSubmitToServer,
+        parameter
+      );
     } else {
+      //Pax
       this.sendTransToPaxMachine();
     }
   }
@@ -1664,6 +1706,57 @@ class TabCheckout extends Layout {
         parameter
       );
     });
+  }
+
+  async handleResponseCreditCardDejavoo(
+    message,
+    online,
+    moneyUserGiveForStaff,
+    parameter
+  ) {
+    const { profile, payAppointmentId, groupAppointment } = this.props;
+    await this.setState({
+      visibleProcessingCredit: false,
+    });
+    try {
+      parseString(message, (err, result) => {
+        if (err || l.get(result, 'xmp.response.0.ResultCode.0') != 0) {
+          let detailMessage = l.get(result, 'xmp.response.0.RespMSG.0', "").replace(/%20/g, " ")
+          detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage) ? `: ${detailMessage}` : detailMessage
+          
+          const resultTxt = `${l.get(result, 'xmp.response.0.Message.0')}${detailMessage}`
+                            || "Transaction failed";
+          if (payAppointmentId) {
+            this.props.actions.appointment.cancelHarmonyPayment(
+              payAppointmentId,
+              "transaction fail",
+              resultTxt
+            );
+          }
+          setTimeout(() => {
+            this.setState({
+              visibleErrorMessageFromPax: true,
+              errorMessageFromPax: `${resultTxt}`,
+            });
+          }, 300);
+        } else {
+          const SN = l.get(result, 'xmp.response.0.SN.0');
+          if(!stringIsEmptyOrWhiteSpaces(SN)){
+            this.props.actions.hardware.setDejavooMachineSN(SN);
+          }
+          this.props.actions.appointment.submitPaymentWithCreditCard(
+            profile?.merchantId || 0,
+            message,
+            payAppointmentId,
+            moneyUserGiveForStaff,
+            "dejavoo",
+            parameter
+          );
+        }
+      });
+       
+      
+    } catch (error) {}
   }
 
   async handleResponseCreditCard(
@@ -1767,6 +1860,10 @@ class TabCheckout extends Layout {
           alert(localize("PleaseWait", language));
           return;
         }
+      } else if (paymentMachineType == PaymentTerminalType.Dejavoo){
+        //Dejavoo can not cancel transaction by api
+        alert(localize("PleaseWait", language));
+          return;
       } else {
         if (!this.isGetResponsePaymentPax) {
           alert(localize("PleaseWait", language));
@@ -2884,27 +2981,16 @@ class TabCheckout extends Layout {
               visiblePrintInvoice: false,
             });
           }
-          this.setState({
-            visiblePopupParingCode: true,
-            pairingCode: text,
-          });
         }
       }),
       this.eventEmitter.addListener("pairingSuccess", (data) => {
-        this.props.actions.hardware.setCloverToken(l.get(data, "token"));
-        this.setState({
-          visiblePopupParingCode: false,
-          pairingCode: "",
-        });
+        
         if (this.isProcessPaymentClover) {
           this.setState({
             visibleProcessingCredit: true,
           });
         }
       }),
-      // this.eventEmitter.addListener('deviceReady', () => {
-
-      // }),
       this.eventEmitter.addListener("confirmPayment", () => {
         this.setState({
           visibleProcessingCredit: false,
@@ -2912,10 +2998,7 @@ class TabCheckout extends Layout {
         });
       }),
       this.eventEmitter.addListener("printInProcess", () => {}),
-      // this.eventEmitter.addListener('printDone', (message) => {
-      //   console.log(message)
-      //   this.isProcessPrintClover = false
-      // }),
+  
       this.eventEmitter.addListener("deviceDisconnected", () => {
         if (this.isProcessPaymentClover) {
           this.isProcessPaymentClover = false;
@@ -3012,6 +3095,7 @@ const mapStateToProps = (state) => ({
   isBookingFromCalendar: state.appointment.isBookingFromCalendar,
   isCancelPayment: state.appointment.isCancelPayment,
   cloverMachineInfo: state.hardware.cloverMachineInfo,
+  dejavooMachineInfo: state.hardware.dejavooMachineInfo,
   paymentMachineType: state.hardware.paymentMachineType,
 });
 

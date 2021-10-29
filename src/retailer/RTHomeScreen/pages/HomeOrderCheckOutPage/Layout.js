@@ -1,26 +1,23 @@
+import { PopupActiveGiftCard } from "@components";
 import IMAGE from "@resources";
-import { ButtonGradientWhite, ButtonGradient } from "@shared/components";
-import { WithDialogPhone } from "@shared/HOC/withDialogPhone";
+import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
+import { InputSearch } from "@shared/components/InputSearch";
+import { PopupEnterAmountGiftCard } from "@shared/components/payment";
+import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
 import { colors, fonts, layouts } from "@shared/themes";
+import _ from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
   BasketContentView,
+  CheckOutCustomerInfo,
   CustomList,
   CUSTOM_LIST_TYPES,
-  DialogProductDetail,
-  CheckOutCustomerInfo,
   DialogEditProductOrder,
+  DialogProductDetail,
 } from "../../widget";
-import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
-import _ from "lodash";
-import { PURCHASE_POINTS_ORDER } from "@shared/utils";
-import { PopupActiveGiftCard } from "@components";
-import { PopupEnterAmountGiftCard } from "@shared/components/payment";
-import { InputSearch } from "@shared/components/InputSearch";
 
-const ButtonPhone = WithDialogPhone(ButtonGradientWhite);
 const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
 
 export const Layout = ({
@@ -44,7 +41,6 @@ export const Layout = ({
   onRemoveItem,
   customer,
   onResultScanCode,
-  purchasePoint,
   categoriesLabelData,
   checkStatusCashier,
   onSelectGiftCard,
@@ -54,14 +50,13 @@ export const Layout = ({
   onRequestCloseBillModal,
   popupEnterAmountGiftCardRef,
   onAddGiftCardToAppointment,
-  onButtonSearchPress,
   onChangeValueSearch,
-  searchProducts,
   editProductItemRef,
   onShowDialogEditProductItem,
   onSubmitEditProductItem,
   isCanGoBack,
   visiblePopupGiftCard,
+  clearBasket,
 }) => {
   const { t } = useTranslation();
 
@@ -208,6 +203,29 @@ export const Layout = ({
         <View style={styles.basketContent}>
           <View style={styles.basketHeader}>
             <Text style={styles.basketTitle}>{t("Basket")}</Text>
+
+            <TouchableOpacity
+              style={{
+                width: scaleWidth(45),
+                height: scaleHeight(45),
+                position: "absolute",
+                right: 0,
+                top: 0,
+                bottom: 0,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={clearBasket}
+            >
+              <Image
+                source={IMAGE.trash_icon}
+                style={{
+                  tintColor: colors.GREYISH_BROWN,
+                  width: scaleWidth(20),
+                  height: scaleHeight(20),
+                }}
+              />
+            </TouchableOpacity>
           </View>
 
           <View style={styles.basketDetail}>

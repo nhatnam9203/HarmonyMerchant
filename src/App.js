@@ -75,7 +75,7 @@ const App: () => React$Node = () => {
             const { invoice, hardware } = store.getState();
             const { paymentMachineType } = hardware;
             const text = `Pairing code: ${l.get(data, "pairingCode")}`;
-            if(paymentMachineType == "Clover" && l.get(invoice, "isProcessAutoCloseBatch")) {
+            if(paymentMachineType == "Clover" ) {
               setVisiblePopupParingCode(true)
               setPairingCode(text)
             }
@@ -85,7 +85,7 @@ const App: () => React$Node = () => {
           const { invoice, hardware } = store.getState();
           const { paymentMachineType } = hardware;
           store.dispatch(actions.hardware.setCloverToken(l.get(data, "token")));
-          if(paymentMachineType == "Clover" && l.get(invoice, "isProcessAutoCloseBatch")) {
+          if(paymentMachineType == "Clover" ) {
             setVisiblePopupParingCode(false)
             setPairingCode("")
           }

@@ -6,11 +6,17 @@ import {
   getArrayProductsFromAppointment,
   getArrayServicesFromAppointment,
   validateIsNumber,
+  REMOTE_APP_ID,
+  APP_NAME,
+  POS_SERIAL,
 } from "@utils";
 import { isEmpty } from "lodash";
 import React from "react";
-import { AppState } from "react-native";
+import { AppState, NativeModules } from "react-native";
 import Layout from "./layout";
+import _ from "lodash";
+
+const { clover } = NativeModules;
 
 const initState = {
   appointmentIdOffline: 0,
@@ -223,12 +229,33 @@ class TabAppointment extends Layout {
               checkoutId: appointment?.checkoutId,
               isPrintTempt: isTemp,
               isSalon: true,
+              machineType: this.props.paymentMachineType,
             });
           }
         }
       }
     } catch (error) {}
   };
+
+  doPrintClover(imageUri) {
+    const { cloverMachineInfo } = this.props;
+    const port = _.get(cloverMachineInfo, "port")
+      ? _.get(cloverMachineInfo, "port")
+      : 80;
+    const url = `wss://${_.get(cloverMachineInfo, "ip")}:${port}/remote_pay`;
+
+    const printInfo = {
+      imageUri,
+      url,
+      remoteAppId: REMOTE_APP_ID,
+      appName: APP_NAME,
+      posSerial: POS_SERIAL,
+      token: _.get(cloverMachineInfo, "token")
+        ? _.get(cloverMachineInfo, "token", "")
+        : "",
+    };
+    clover.doPrintWithConnect(printInfo);
+  }
 
   async componentDidUpdate(prevProps, prevState, snapshot) {
     const { isReloadWebview } = this.props;
@@ -260,6 +287,8 @@ const mapStateToProps = (state) => ({
   deviceId: state.dataLocal.deviceId,
   groupAppointment: state.appointment.groupAppointment,
   isOfflineMode: state.network.isOfflineMode,
+  paymentMachineType: state.hardware.paymentMachineType,
+  cloverMachineInfo: state.hardware.cloverMachineInfo,
 });
 
 export default connectRedux(mapStateToProps, TabAppointment);
