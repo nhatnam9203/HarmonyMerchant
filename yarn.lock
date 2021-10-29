@@ -1055,6 +1055,13 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
+"@kichiyaki/react-native-barcode-generator@^0.6.7":
+  version "0.6.7"
+  resolved "https://registry.yarnpkg.com/@kichiyaki/react-native-barcode-generator/-/react-native-barcode-generator-0.6.7.tgz#86a34213d271a653301907124fbc599be325d3bc"
+  integrity sha512-tBrL5rtOVYV1Y9vc6mUNFhC4J9KiWWwmo0yqb78dnVQ9Pn/r7OOwoWwbw1ZGA9OLbhEII83BQI0k8GmoDaU+BQ==
+  dependencies:
+    jsbarcode "^3.8.0"
+
 "@microsoft/signalr@^3.1.15":
   version "3.1.20"
   resolved "https://registry.yarnpkg.com/@microsoft/signalr/-/signalr-3.1.20.tgz#6ed5651795987f85ec0d9b47cb67bbf1715c7be0"
@@ -6428,6 +6435,11 @@ js-yaml@^3.13.1:
     argparse "^1.0.7"
     esprima "^4.0.0"
 
+jsbarcode@^3.8.0:
+  version "3.11.5"
+  resolved "https://registry.yarnpkg.com/jsbarcode/-/jsbarcode-3.11.5.tgz#390b3efd0271f35b9d68c7b8af6e972445969014"
+  integrity sha512-zv3KsH51zD00I/LrFzFSM6dst7rDn0vIMzaiZFL7qusTjPZiPtxg3zxetp0RR7obmjTw4f6NyGgbdkBCgZUIrA==
+
 jsbn@~0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
@@ -9132,10 +9144,10 @@ react-native-storage@^1.0.1:
     opencollective "^1.0.3"
     opencollective-postinstall "^2.0.2"
 
-react-native-svg@^10.1.0:
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-10.1.0.tgz#f7be0f814fb79b06dda6d938bf8e609f47318789"
-  integrity sha512-mgo6CshQIQrDDBVUPqJK/iOsJEdlagk7N4q8fyo1sqCiSUP2efpt+AQ1IRXZtHXut210/7TliAamvM59NV0Bzg==
+react-native-svg@^12.1.1:
+  version "12.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.1.1.tgz#5f292410b8bcc07bbc52b2da7ceb22caf5bcaaee"
+  integrity sha512-NIAJ8jCnXGCqGWXkkJ1GTzO4a3Md5at5sagYV8Vh4MXYnL4z5Rh428Wahjhh+LIjx40EE5xM5YtwyJBqOIba2Q==
   dependencies:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"

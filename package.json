@@ -43,6 +43,7 @@
     "zeplin-connect-dev-mode": "zeplin connect --dev"
   },
   "dependencies": {
+    "@kichiyaki/react-native-barcode-generator": "^0.6.7",
     "@microsoft/signalr": "^3.1.15",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/checkbox": "^0.5.7",
@@ -123,7 +124,7 @@
     "react-native-star-rating": "^1.1.0",
     "react-native-stars": "^1.2.2",
     "react-native-storage": "^1.0.1",
-    "react-native-svg": "^10.1.0",
+    "react-native-svg": "^12.1.1",
     "react-native-swipeout": "^2.3.6",
     "react-native-swiper": "^1.5.14",
     "react-native-tab-view": "^2.16.0",
