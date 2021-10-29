@@ -55,7 +55,8 @@ export const Layout = ({
   onShowDialogEditProductItem,
   onSubmitEditProductItem,
   isCanGoBack,
-  clearBasket
+  visiblePopupGiftCard,
+  clearBasket,
 }) => {
   const { t } = useTranslation();
 
@@ -239,19 +240,19 @@ export const Layout = ({
       </View>
       <DialogProductDetail ref={productDetailRef} onAddProduct={onAddProduct} />
       <PopupActiveGiftCard
-        ref={activeGiftCardRef}
+        key={"checkout"}
+        ref={(ref) => (activeGiftCardRef.current = ref)}
+        visiblePopupGiftCard={visiblePopupGiftCard}
         title={t("Active Gift Card")}
         onRequestClose={closePopupActiveGiftCard}
         submitSerialCode={submitSerialCode}
       />
 
       <PopupEnterAmountGiftCard
-        ref={popupEnterAmountGiftCardRef}
+        ref={(ref) => (popupEnterAmountGiftCardRef.current = ref)}
         onRequestClose={onRequestCloseBillModal}
         onAddGiftCardToAppointment={onAddGiftCardToAppointment}
-        // language={language}
-        // extractBill={extractBill}
-        // doneBill={doneBill}
+
       />
 
       <DialogEditProductOrder

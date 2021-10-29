@@ -11,10 +11,10 @@ abstract_target 'Hpmerchant' do
 # permissions_path = '../node_modules/react-native-permissions/ios'
 # pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
 
-pod 'react-native-ble-manager', :path => '../node_modules/react-native-ble-manager'
+# pod 'react-native-ble-manager', :path => '../node_modules/react-native-ble-manager'
 
-pod 'react-native-ble-plx', :path => '../node_modules/react-native-ble-plx'
-pod 'react-native-ble-plx-swift', :path => '../node_modules/react-native-ble-plx'
+# pod 'react-native-ble-plx', :path => '../node_modules/react-native-ble-plx'
+# pod 'react-native-ble-plx-swift', :path => '../node_modules/react-native-ble-plx'
 permissions_path = '../node_modules/react-native-permissions/ios'
 pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
 
@@ -25,6 +25,7 @@ pod 'ObjectMapper', '3.5.1'
 pod 'RNCharts', :path => '../node_modules/react-native-charts-wrapper'
 
 pod 'Starscream', :git => 'https://github.com/clover/Starscream.git', :branch => 'queuePriority-3.0.0'
+pod 'MultiplatformBleAdapter', :git => 'https://github.com/dotintent/MultiPlatformBleAdapter'
 
 #pod 'CloverConnector', :git => 'https://github.com/clover/remote-pay-ios.git', :tag => '4.0.0'
 # pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
