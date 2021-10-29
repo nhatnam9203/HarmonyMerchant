@@ -551,9 +551,6 @@ class InvoiceScreen extends Layout {
             }
           } else if (invoiceDetail?.status === "complete") {
             
-            this.popupProcessingCreditRef.current?.setStateFromParent(
-              transactionId
-            );
             if (paymentMachineType == PaymentTerminalType.Clover) {
               if(method != "Clover") {
                 await this.setState({
