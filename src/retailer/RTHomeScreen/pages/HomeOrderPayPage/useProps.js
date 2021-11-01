@@ -202,7 +202,6 @@ export const useProps = ({
           if(isProcessPaymentClover) {
             setVisibleProcessingCredit(false);
           }
-          setVisiblePrintInvoice(false)
         }
       }),
       eventEmitter.addListener('pairingSuccess', data => {
