@@ -491,6 +491,7 @@ export const useProps = ({
         item: itemReturn,
         appointment: appointmentDetail,
         isShareMode: false,
+        machineType: paymentMachineType,
       });
     },
     shareReturnInvoice: (itemReturn) => {

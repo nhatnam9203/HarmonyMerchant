@@ -13,6 +13,8 @@ import {
   getPaymentString,
   getStaffNameForInvoice,
   scaleSize,
+  doPrintClover,
+  PaymentTerminalType,
 } from "@utils";
 import React from "react";
 import {
@@ -64,6 +66,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
   const [itemReceipt, setItemReceipt] = React.useState(null);
   const [appointmentInfo, setAppointmentInfo] = React.useState(null);
   const [printTempt, setPrintTempt] = React.useState(false);
+  const [paymentMachineType, setPaymentMachineType] = React.useState(null);
 
   /**
   |--------------------------------------------------
@@ -166,30 +169,34 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
 
     try {
       await setIsProcessingPrint(true);
-      const imageUri = await captureRef(viewShotRef, {});
-      // const imageUri = await captureRef(viewShotRef, {
-      //   ...(paymentMachineType === "Clover" &&
-      //     !printerSelect && { result: "base64" }),
-      // });
+      const imageUri = await captureRef(viewShotRef, {
+        ...(paymentMachineType === PaymentTerminalType.Clover &&
+          !printerSelect && { result: "base64" }),
+      });
       await setIsProcessingPrint(false);
 
       if (imageUri) {
-        let commands = [];
-        commands.push({ appendLineFeed: 0 });
-        commands.push({
-          appendBitmap: imageUri,
-          width: parseFloat(widthPaper),
-          bothScale: true,
-          diffusion: true,
-          alignment: "Center",
-        });
-        commands.push({
-          appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
-        });
+        if (portName) {
+          let commands = [];
+          commands.push({ appendLineFeed: 0 });
+          commands.push({
+            appendBitmap: imageUri,
+            width: parseFloat(widthPaper),
+            bothScale: true,
+            diffusion: true,
+            alignment: "Center",
+          });
+          commands.push({
+            appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+          });
 
-        await PrintManager.getInstance().print(emulation, commands, portName);
+          await PrintManager.getInstance().print(emulation, commands, portName);
 
-        releaseCapture(imageUri);
+          releaseCapture(imageUri);
+        } else if (paymentMachineType == PaymentTerminalType.Clover) {
+              doPrintClover(imageUri);
+              releaseCapture(imageUri);
+        }
       }
     } catch (error) {
       console.log(`Printer error with ${error}`);
@@ -232,6 +239,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
       item,
       appointment,
       isPrintTempt = true,
+      machineType
     }) => {
       reset();
 
@@ -245,7 +253,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
           printerSelect
         );
 
-        if (!portName) {
+        if (!portName && machineType != "Clover") {
           onCancel(isPrintTempt);
 
           alert("Please connect to your printer! ");
@@ -256,6 +264,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
       setIsShare(isShareMode);
       setItemReceipt(item);
       setAppointmentInfo(appointment);
+      setPaymentMachineType(machineType);
 
       //   await setIsProcessingPrint(true);
 
@@ -285,7 +294,7 @@ export const PopupReturnReceipt = React.forwardRef(({}, ref) => {
               <View
                 ref={viewShotRef}
                 style={[
-                  { backgroundColor: isShare ? "#fff" : "#0000" },
+                  { backgroundColor: isShare || paymentMachineType == PaymentTerminalType.Clover ? "#fff" : "#0000" },
                   styles.receiptContent,
                 ]}
               >

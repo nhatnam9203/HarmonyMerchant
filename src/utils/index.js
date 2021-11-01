@@ -1942,3 +1942,20 @@ export const proccessingSettlement = async (
 export const stringIsEmptyOrWhiteSpaces = (str) => {
   return str == null || str == undefined || (typeof str === 'string' && str.trim().length == 0)
 }
+
+export const doPrintClover = (imageUri) => {
+  const { hardware } = store.getState();
+  const { cloverMachineInfo } = hardware;
+  const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
+  const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+  
+  const printInfo = {
+    imageUri,
+    url,
+    remoteAppId: REMOTE_APP_ID,
+    appName: APP_NAME,
+    posSerial: POS_SERIAL,
+    token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
+  }
+  clover.doPrintWithConnect(printInfo)
+}
