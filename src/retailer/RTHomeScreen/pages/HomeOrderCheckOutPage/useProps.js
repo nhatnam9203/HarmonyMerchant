@@ -437,16 +437,43 @@ export const useProps = ({
     const { codeStatus, data } = productItemByBarcodeGet || {};
     if (statusSuccess(codeStatus)) {
       const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
-      setTimeout(() => {
-        addProductToBasket(
-          Object.assign({}, data, {
-            id: Date.now(),
-            quantity: 1,
-            productQuantityId: tmp?.id,
-          })
-        );
-        setScanCodeTemp(null);
-      }, 100);
+      if (tmp) {
+        const attributeIds = tmp.attributeIds;
+
+        const filterOptions = data?.options?.map((v) => {
+          let temp = v?.values.filter((i) =>
+            attributeIds.includes(i.attributeValueId)
+          );
+          const { values, ...pro } = v;
+          return Object.assign({}, pro, { values: temp });
+        });
+
+        setTimeout(() => {
+          addProductToBasket(
+            Object.assign({}, data, {
+              id: Date.now(),
+              quantity: 1,
+              options: filterOptions,
+              productQuantityId: tmp?.id,
+            })
+          );
+          setScanCodeTemp(null);
+        }, 100);
+      } else {
+        if (data?.quantities?.length > 0) {
+          productDetailRef.current?.show(data);
+        } else {
+          setTimeout(() => {
+            addProductToBasket(
+              Object.assign({}, data, {
+                id: Date.now(),
+                quantity: 1,
+              })
+            );
+            setScanCodeTemp(null);
+          }, 100);
+        }
+      }
     }
   }, [productItemByBarcodeGet]);
 
