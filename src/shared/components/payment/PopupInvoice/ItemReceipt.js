@@ -164,7 +164,7 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
         >
           <Text
             style={[styles.textStyle, { textAlign: "center" }, textStyle]}
-          >{`$${item?.returnPrice}`}</Text>
+          >{`$ ${item?.returnPrice}`}</Text>
         </View>
       </View>
     );
