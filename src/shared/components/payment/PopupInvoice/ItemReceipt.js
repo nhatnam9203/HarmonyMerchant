@@ -3,8 +3,6 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export const ItemReceipt = ({ item, index, type, textStyle }) => {
-  console.log(item);
-
   const renderItemInvoice = () => {
     const price = item.data && item.data.price ? item.data.price : 0;
     const discount = item?.data?.discount;
@@ -18,7 +16,13 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
     return (
       <>
         <View style={styles.content}>
-          <View style={{ flex: 1, justifyContent: "center" }}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+            }}
+          >
             <Text style={[styles.textStyle, textStyle]}>
               {`${index + 1}. ${
                 item.data && item.data.name ? item.data.name : ""
@@ -429,7 +433,7 @@ export const ItemHeaderReceipt = ({ type, textStyle }) => {
 };
 
 const styles = StyleSheet.create({
-  content: { flexDirection: "row", paddingVertical: scaleHeight(0) },
+  content: { flexDirection: "row", paddingVertical: scaleHeight(5) },
 
   textStyle: { fontSize: scaleFont(15), fontWeight: "400", textAlign: "left" },
 
