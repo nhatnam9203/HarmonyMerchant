@@ -778,13 +778,15 @@ export default class Layout extends React.Component {
               </Text>
               <View style={{ height: scaleHeight(20) }} />
 
-              <Barcode
-                format="CODE128"
-                value={invoiceDetail?.invoiceNo + ""}
-                text={`${invoiceDetail?.invoiceNo}`}
-                style={{ marginBottom: 10 }}
-                maxWidth={scaleWidth(300)}
-              />
+              {invoiceDetail?.invoiceNo && (
+                <Barcode
+                  format="CODE128"
+                  value={invoiceDetail?.code + ""}
+                  text={`${invoiceDetail?.code}`}
+                  style={{ marginBottom: 10 }}
+                  maxWidth={scaleWidth(300)}
+                />
+              )}
             </View>
             <View style={{ height: scaleSize(90) }} />
           </ScrollView>

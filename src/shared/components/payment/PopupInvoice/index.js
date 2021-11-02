@@ -225,12 +225,12 @@ export const PopupInvoice = React.forwardRef(
     };
 
     const renderBarcodeReceipt = React.useCallback(() => {
-      if (invoiceDetail?.invoiceNo)
+      if (invoiceDetail?.code)
         return (
           <Barcode
             format="CODE128"
-            value={invoiceDetail?.invoiceNo + ""}
-            text={`${invoiceDetail?.invoiceNo}`}
+            value={invoiceDetail?.code + ""}
+            text={`${invoiceDetail?.code}`}
             style={{ marginBottom: 10 }}
             maxWidth={scaleWidth(300)}
           />
@@ -1005,7 +1005,6 @@ export const PopupInvoice = React.forwardRef(
                   </Text>
                   <View style={styles.marginVertical} />
                   {renderBarcodeReceipt()}
-
                 </View>
               </ScrollView>
             </View>

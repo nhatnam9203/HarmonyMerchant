@@ -554,7 +554,6 @@ class InvoiceScreen extends Layout {
               );
             }
           } else if (invoiceDetail?.status === "complete") {
-
             if (paymentMachineType == PaymentTerminalType.Clover) {
               if (method != "Clover") {
                 await this.setState({
@@ -1108,16 +1107,24 @@ class InvoiceScreen extends Layout {
     this.unregisterEvents();
   }
 
-  onResultScanCode(scanResult) {
+  async onResultScanCode(scanResult) {
     if (scanResult?.trim()) {
-      this.props.actions.invoice.updateSearchKeyword(scanResult);
+      await this.updateSearchFilterInfo("keySearch", scanResult);
+
+      await this.props.actions.invoice.updateSearchKeyword(scanResult);
+
+      this.searchInvoice();
+      this.virtualizedListRef?.current?.scrollToOffset({
+        x: 0,
+        y: 0,
+        animated: false,
+      });
     } else {
       setTimeout(() => {
         alert(`Scan code fail ${data}`);
       }, 100);
     }
   }
-
 }
 
 const mapStateToProps = (state) => ({
