@@ -7,12 +7,11 @@ import {
   ActivityIndicator,
   Platform,
   VirtualizedList,
+  TouchableOpacity,
 } from "react-native";
 import _ from "ramda";
 import Dash from "react-native-dash";
-import { 
-        menuTabs, 
-        stringIsEmptyOrWhiteSpaces } from "@utils";
+import { menuTabs, stringIsEmptyOrWhiteSpaces } from "@utils";
 import { getFullName } from "@shared/utils";
 import { PopupInvoice } from "@shared/components/payment";
 import * as l from "lodash";
@@ -51,6 +50,9 @@ import {
   ItemReceipt,
 } from "@shared/components/payment/PopupInvoice/ItemReceipt";
 import { layouts } from "@shared/themes";
+import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
+import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
+const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
 export default class Layout extends React.Component {
   renderHeader() {
     const { language } = this.props;
@@ -123,7 +125,13 @@ export default class Layout extends React.Component {
               ) : null}
             </View>
           </View>
-          <View style={{ width: scaleSize(120), alignItems: "flex-end" }}>
+          <View
+            style={{
+              width: scaleSize(120),
+              alignItems: "flex-end",
+              marginRight: scaleWidth(10),
+            }}
+          >
             <ButtonCustom
               width={"90%"}
               height={40}
@@ -135,6 +143,43 @@ export default class Layout extends React.Component {
               styleText={{ fontSize: scaleSize(15), fontWeight: "500" }}
             />
           </View>
+          {/* <TouchableOpacity
+            style={{
+              borderWidth: 1,
+              borderColor: "#C5C5C5",
+              height: scaleHeight(50),
+              width: scaleWidth(100),
+              alignItems: "center",
+              justifyContent: "center",
+              marginLeft: scaleWidth(10),
+              borderRadius: scaleSize(6),
+            }}
+            onPress={this.scanSearchInvoice}
+          >
+            <Image
+              source={IMAGE.scancode}
+              style={{
+                width: scaleWidth(30),
+                height: scaleHeight(30),
+                marginHorizontal: scaleWidth(12),
+              }}
+            />
+          </TouchableOpacity> */}
+          <ScanQRButton
+            width={scaleWidth(110)}
+            height={scaleHeight(50)}
+            onResultScanCode={this.onResultScanCode}
+            leftChildren={() => (
+              <Image
+                source={IMAGE.scancode}
+                style={{
+                  width: scaleWidth(24),
+                  height: scaleHeight(24),
+                  marginHorizontal: scaleWidth(12),
+                }}
+              />
+            )}
+          />
         </View>
       </View>
     );
@@ -625,7 +670,12 @@ export default class Layout extends React.Component {
                             }`}
                           </Text>
                           <Text style={[layouts.fontPrintStyle]}>
-                            {` ${data?.paymentInformation?.name?.replace(/%20/g, " ") || ""}`}
+                            {` ${
+                              data?.paymentInformation?.name?.replace(
+                                /%20/g,
+                                " "
+                              ) || ""
+                            }`}
                           </Text>
                           <Text style={[layouts.fontPrintStyle]}>
                             {` ${
@@ -642,20 +692,21 @@ export default class Layout extends React.Component {
                             }`}
                           </Text>
 
-                          { !stringIsEmptyOrWhiteSpaces(l.get(data, "paymentInformation.signData")) &&
+                          {!stringIsEmptyOrWhiteSpaces(
+                            l.get(data, "paymentInformation.signData")
+                          ) && (
                             <View style={styles.rowSignature}>
                               <Text style={[layouts.fontPrintStyle]}>
                                 {" Signature: "}
                               </Text>
-                              <Image 
+                              <Image
                                 style={styles.signImage}
                                 source={{
-                                  uri: `data:image/png;base64,${data?.paymentInformation?.signData}`
+                                  uri: `data:image/png;base64,${data?.paymentInformation?.signData}`,
                                 }}
-                                />
+                              />
                             </View>
-                          }
-                         
+                          )}
                         </View>
                       ) : null}
                     </View>

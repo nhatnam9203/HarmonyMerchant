@@ -222,18 +222,31 @@ export const PopupInvoice = React.forwardRef(
     };
 
     const renderBarcodeReceipt = React.useCallback(() => {
-      if (groupAppointment?.mainAppointmentId)
+      if (invoiceDetail?.invoiceNo)
         return (
           <Barcode
             format="CODE128"
-            value={groupAppointment?.mainAppointmentId + ""}
-            text={"   "}
+            value={invoiceDetail?.invoiceNo + ""}
+            text={`${invoiceDetail?.invoiceNo}`}
             style={{ marginBottom: 10 }}
             maxWidth={scaleWidth(300)}
           />
         );
       return <View />;
-    }, [groupAppointment?.mainAppointmentId]);
+    }, [invoiceDetail?.invoiceNo]);
+    // const renderBarcodeReceipt = React.useCallback(() => {
+    //   if (groupAppointment?.mainAppointmentId)
+    //     return (
+    //       <Barcode
+    //         format="CODE128"
+    //         value={groupAppointment?.mainAppointmentId + ""}
+    //         text={"   "}
+    //         style={{ marginBottom: 10 }}
+    //         maxWidth={scaleWidth(300)}
+    //       />
+    //     );
+    //   return <View />;
+    // }, [groupAppointment?.mainAppointmentId]);
 
     const getInvoiceName = () => {
       let invoiceName = " ";

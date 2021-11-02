@@ -23,8 +23,8 @@ import {
   localize,
   PaymentTerminalType,
   requestTransactionDejavoo,
-  role, 
-  menuTabs, 
+  role,
+  menuTabs,
   isPermissionToTab,
   stringIsEmptyOrWhiteSpaces,
 } from "@utils";
@@ -75,6 +75,8 @@ class InvoiceScreen extends Layout {
     this.subscriptions = [];
     this.isProcessVoidPaymentClover = false;
     this.isProcessPrintClover = false;
+
+    this.onResultScanCode = this.onResultScanCode.bind(this);
   }
 
   registerEvents() {
@@ -122,12 +124,11 @@ class InvoiceScreen extends Layout {
               visiblePrintInvoice: false,
             });
           }
-          
         }
       }),
       this.eventEmitter.addListener("pairingSuccess", (data) => {
         this.props.actions.hardware.setCloverToken(l.get(data, "token"));
-        
+
         if (this.isProcessVoidPaymentClover) {
           this.setState({
             visibleProcessingCredit: true,
@@ -380,7 +381,10 @@ class InvoiceScreen extends Layout {
     if (invoiceDetail?.paymentMethod === "credit_card") {
       const paymentInformation =
         invoiceDetail?.paymentInformation[0]?.responseData || {};
-      const method = l.get(invoiceDetail, "paymentInformation.0.paymentData.method")
+      const method = l.get(
+        invoiceDetail,
+        "paymentInformation.0.paymentData.method"
+      );
 
       if (!_.isEmpty(paymentInformation)) {
         await this.setState({
@@ -448,18 +452,17 @@ class InvoiceScreen extends Layout {
             }, 100);
           }
         } else {
-
           if (invoiceDetail?.status === "paid") {
             this.popupProcessingCreditRef.current?.setStateFromParent(false);
 
             if (paymentMachineType == PaymentTerminalType.Clover) {
-              if(method != "Clover") {
+              if (method != "Clover") {
                 await this.setState({
                   visibleConfirmInvoiceStatus: true,
                   visibleProcessingCredit: false,
                 });
-                alert(localize("Your transaction is invalid", language))
-                return
+                alert(localize("Your transaction is invalid", language));
+                return;
               }
               const port = l.get(cloverMachineInfo, "port")
                 ? l.get(cloverMachineInfo, "port")
@@ -482,38 +485,39 @@ class InvoiceScreen extends Layout {
               };
               clover.refundPayment(paymentInfo);
             } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
-              if(method != "Dejavoo") {
+              if (method != "Dejavoo") {
                 await this.setState({
                   visibleConfirmInvoiceStatus: true,
                   visibleProcessingCredit: false,
                 });
-                alert(localize("Your transaction is invalid", language))
-                return
+                alert(localize("Your transaction is invalid", language));
+                return;
               }
-              const amount = l.get(invoiceDetail, 'paymentInformation.0.amount')
-              
+              const amount = l.get(
+                invoiceDetail,
+                "paymentInformation.0.amount"
+              );
+
               parseString(paymentInformation, (err, result) => {
-                if(err){
+                if (err) {
                   setTimeout(() => {
                     alert("Error");
                   }, 300);
-                }else{
-                  
-                  const transactionId = l.get(result, 'xmp.response.0.RefId.0')
-                  const invNum = l.get(result, 'xmp.response.0.InvNum.0')
+                } else {
+                  const transactionId = l.get(result, "xmp.response.0.RefId.0");
+                  const invNum = l.get(result, "xmp.response.0.InvNum.0");
                   const params = {
                     tenderType: "Credit",
                     transType: "Return",
                     amount: parseFloat(amount).toFixed(2),
                     RefId: transactionId,
                     invNum: `${invNum}`,
-                  }
+                  };
                   requestTransactionDejavoo(params).then((responses) => {
-                    this.handleResultRefundTransactionDejavoo(responses)
-                  })
+                    this.handleResultRefundTransactionDejavoo(responses);
+                  });
                 }
-              })
-              
+              });
             } else {
               //Pax
               const amount = paymentInformation?.ApprovedAmount || 0;
@@ -524,13 +528,13 @@ class InvoiceScreen extends Layout {
               const tempPortPax = commType == "TCP" ? port : "";
               const idBluetooth = commType === "TCP" ? "" : bluetoothAddr;
 
-              if(method != "Pax") {
+              if (method != "Pax") {
                 await this.setState({
                   visibleConfirmInvoiceStatus: true,
                   visibleProcessingCredit: false,
                 });
-                alert(localize("Your transaction is invalid", language))
-                return
+                alert(localize("Your transaction is invalid", language));
+                return;
               }
               PosLink.sendTransaction(
                 {
@@ -550,18 +554,17 @@ class InvoiceScreen extends Layout {
               );
             }
           } else if (invoiceDetail?.status === "complete") {
-            
             this.popupProcessingCreditRef.current?.setStateFromParent(
               transactionId
             );
             if (paymentMachineType == PaymentTerminalType.Clover) {
-              if(method != "Clover") {
+              if (method != "Clover") {
                 await this.setState({
                   visibleConfirmInvoiceStatus: true,
                   visibleProcessingCredit: false,
                 });
-                alert(localize("Your transaction is invalid", language))
-                return
+                alert(localize("Your transaction is invalid", language));
+                return;
               }
               this.isProcessVoidPaymentClover = true;
               const port = l.get(cloverMachineInfo, "port")
@@ -585,38 +588,38 @@ class InvoiceScreen extends Layout {
               };
               clover.voidPayment(paymentInfo);
             } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
-              if(method != "Dejavoo") {
+              if (method != "Dejavoo") {
                 await this.setState({
                   visibleConfirmInvoiceStatus: true,
                   visibleProcessingCredit: false,
                 });
-                alert(localize("Your transaction is invalid", language))
-                return
+                alert(localize("Your transaction is invalid", language));
+                return;
               }
-              const amount = l.get(invoiceDetail, 'paymentInformation.0.amount')
+              const amount = l.get(
+                invoiceDetail,
+                "paymentInformation.0.amount"
+              );
               parseString(paymentInformation, (err, result) => {
-                if(err){
+                if (err) {
                   setTimeout(() => {
                     alert("Error");
                   }, 300);
-                }else{
-                
-                  const transactionId = l.get(result, 'xmp.response.0.RefId.0')
-                  const invNum = l.get(result, 'xmp.response.0.InvNum.0')
+                } else {
+                  const transactionId = l.get(result, "xmp.response.0.RefId.0");
+                  const invNum = l.get(result, "xmp.response.0.InvNum.0");
                   const params = {
                     tenderType: "Credit",
                     transType: "Void",
                     amount: parseFloat(amount).toFixed(2),
                     RefId: transactionId,
                     invNum: `${invNum}`,
-                  }
+                  };
                   requestTransactionDejavoo(params).then((responses) => {
-                    this.handleResultRefundTransactionDejavoo(responses)
-                  })
-                  
+                    this.handleResultRefundTransactionDejavoo(responses);
+                  });
                 }
-              })
-              
+              });
             } else {
               //Pax
               const transactionId = paymentInformation?.RefNum || 0;
@@ -628,13 +631,13 @@ class InvoiceScreen extends Layout {
               this.popupProcessingCreditRef.current?.setStateFromParent(
                 transactionId
               );
-              if(method != "Pax") {
+              if (method != "Pax") {
                 await this.setState({
                   visibleConfirmInvoiceStatus: true,
                   visibleProcessingCredit: false,
                 });
-                alert(localize("Your transaction is invalid", language))
-                return
+                alert(localize("Your transaction is invalid", language));
+                return;
               }
               PosLink.sendTransaction(
                 {
@@ -805,12 +808,17 @@ class InvoiceScreen extends Layout {
     });
 
     parseString(responses, (err, result) => {
-      if (err || l.get(result, 'xmp.response.0.ResultCode.0') != 0) {
-        let detailMessage = l.get(result, 'xmp.response.0.RespMSG.0', "").replace(/%20/g, " ")
-        detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage) ? `: ${detailMessage}` : detailMessage
-        
-        const resultTxt = `${l.get(result, 'xmp.response.0.Message.0')}${detailMessage}`
-        || "Error";
+      if (err || l.get(result, "xmp.response.0.ResultCode.0") != 0) {
+        let detailMessage = l
+          .get(result, "xmp.response.0.RespMSG.0", "")
+          .replace(/%20/g, " ");
+        detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage)
+          ? `: ${detailMessage}`
+          : detailMessage;
+
+        const resultTxt =
+          `${l.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
+          "Error";
         setTimeout(() => {
           alert(resultTxt);
         }, 300);
@@ -825,15 +833,15 @@ class InvoiceScreen extends Layout {
           titleInvoice: invoiceDetail?.status === "paid" ? "REFUND" : "VOID",
         });
       }
-    })
+    });
   };
 
   cancelTransaction = async () => {
     const { paymentMachineType } = this.props;
 
     if (paymentMachineType == PaymentTerminalType.Dejavoo) {
-      alert("Can not cancel request.")
-      return
+      alert("Can not cancel request.");
+      return;
     }
 
     if (paymentMachineType == PaymentTerminalType.Clover) {
@@ -1100,6 +1108,16 @@ class InvoiceScreen extends Layout {
     this.didBlurSubscription();
     this.didFocusSubscription();
     this.unregisterEvents();
+  }
+
+  onResultScanCode(scanResult) {
+    if (scanResult?.trim()) {
+      this.props.actions.invoice.updateSearchKeyword(scanResult);
+    } else {
+      setTimeout(() => {
+        alert(`Scan code fail ${data}`);
+      }, 100);
+    }
   }
 }
 
