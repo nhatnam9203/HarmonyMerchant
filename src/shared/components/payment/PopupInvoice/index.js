@@ -124,6 +124,9 @@ export const PopupInvoice = React.forwardRef(
             data: {
               name: product?.productName || "",
               price: product?.price || "",
+              value: product?.value,
+              discount: product?.discount,
+              discountPercent: product?.discountPercent,
             },
             quanlitySet: product?.quantity || "",
           });
@@ -405,6 +408,7 @@ export const PopupInvoice = React.forwardRef(
         await setVisible(false);
       }
     };
+
     /**
   |--------------------------------------------------
   | HOOKS
@@ -435,7 +439,6 @@ export const PopupInvoice = React.forwardRef(
 
           if (!portName && machineType !== "Clover") {
             onCancel(isPrintTempt);
-
             alert("Please connect to your printer! ");
             return;
           }
@@ -474,8 +477,6 @@ export const PopupInvoice = React.forwardRef(
         setIsProcessingPrint(false);
       }
     }, [invoiceDetailData]);
-
-    console.log(groupAppointment?.mainAppointmentId);
 
     return (
       <Modal visible={visible} onRequestClose={() => {}} transparent={true}>
@@ -991,6 +992,7 @@ export const PopupInvoice = React.forwardRef(
                   </Text>
                   <View style={styles.marginVertical} />
                   {renderBarcodeReceipt()}
+
                 </View>
               </ScrollView>
             </View>

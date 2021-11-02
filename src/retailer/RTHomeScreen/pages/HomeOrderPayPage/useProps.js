@@ -202,7 +202,6 @@ export const useProps = ({
           if(isProcessPaymentClover) {
             setVisibleProcessingCredit(false);
           }
-          setVisiblePrintInvoice(false)
         }
       }),
       eventEmitter.addListener('pairingSuccess', data => {
@@ -231,10 +230,9 @@ export const useProps = ({
         const { appointment } = store.getState();
         const { isProcessPaymentClover } = appointment;
         if(isProcessPaymentClover) {
-          isProcessPaymentClover = false
+          dispatch(actions.appointment.isProcessPaymentClover(false))
           handleResponseCreditCardForCloverFailed("No connected device")
         }
-        setVisiblePrintInvoice(false)
       }),
     ]
   }
