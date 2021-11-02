@@ -95,7 +95,7 @@ export const DialogEditProductOrder = React.forwardRef(
                 width={scaleWidth(140)}
                 height={scaleHeight(40)}
                 borderRadius={scaleWidth(3)}
-                disable={quantity > maxCountQty}
+                // disable={quantity > maxCountQty}
                 onPress={handleSubmit}
               />
             </View>

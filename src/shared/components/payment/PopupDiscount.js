@@ -500,12 +500,21 @@ class PopupDiscount extends React.Component {
                             width: scaleWidth(60),
                             height: scaleHeight(40),
                             borderWidth: 1,
-                            borderColor: selected ? "#0A0AAA" : "gray",
+                            borderColor: selected ? "#fff" : "#0764B0",
+                            backgroundColor: selected ? "#0764B0" : "#fff",
                             borderRadius: scaleSize(3),
                           }}
                           onPress={onChangeDiscountValue}
                         >
-                          <Text>{discountItem.label}</Text>
+                          <Text
+                            style={{
+                              color: selected ? "#fff" : "#0764B0",
+                              fontSize: scaleSize(15),
+                              fontWeight: "400",
+                            }}
+                          >
+                            {discountItem.label}
+                          </Text>
                         </TouchableOpacity>
                       );
                     })}
