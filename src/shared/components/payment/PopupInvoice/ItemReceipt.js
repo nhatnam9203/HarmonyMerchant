@@ -92,7 +92,13 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
         </View>
         {(discount > 0 || discountPercent > 0) && (
           <View style={{ height: scaleHeight(30), flexDirection: "row" }}>
-            <View style={{ flex: 1, justifyContent: "center" }}>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+              }}
+            >
               {discount > 0 ? (
                 <Text
                   style={styles.textStyle}
@@ -112,7 +118,9 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
               }}
             >
               {discount > 0 ? (
-                <Text style={styles.textStyle}>{`- $ ${discount}`}</Text>
+                <Text style={styles.textStyle}>{`- $ ${formatMoney(
+                  discount / quanlitySet
+                )}`}</Text>
               ) : null}
               {discountPercent > 0 ? (
                 <Text style={styles.textStyle}>{`- $ ${formatMoney(
@@ -144,7 +152,7 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
             >
               {discount > 0 ? (
                 <Text style={styles.textStyle}>{`- $ ${formatMoney(
-                  discount * quanlitySet
+                  discount
                 )}`}</Text>
               ) : null}
               {discountPercent > 0 ? (
