@@ -554,7 +554,7 @@ class InvoiceScreen extends Layout {
               );
             }
           } else if (invoiceDetail?.status === "complete") {
-            
+
             if (paymentMachineType == PaymentTerminalType.Clover) {
               if (method != "Clover") {
                 await this.setState({
@@ -1117,6 +1117,7 @@ class InvoiceScreen extends Layout {
       }, 100);
     }
   }
+
 }
 
 const mapStateToProps = (state) => ({

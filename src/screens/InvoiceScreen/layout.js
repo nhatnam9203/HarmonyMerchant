@@ -1,58 +1,59 @@
-import React from "react";
 import {
-  View,
-  Image,
-  TextInput,
-  ScrollView,
-  ActivityIndicator,
-  Platform,
-  VirtualizedList,
-  TouchableOpacity,
-} from "react-native";
-import _ from "ramda";
-import Dash from "react-native-dash";
-import { menuTabs, stringIsEmptyOrWhiteSpaces } from "@utils";
-import { getFullName } from "@shared/utils";
-import { PopupInvoice } from "@shared/components/payment";
-import * as l from "lodash";
-
-import {
-  Text,
-  StatusBarHeader,
   Button,
-  ParentContainer,
   ButtonCustom,
+  ClearTextInputIcon,
   Dropdown,
+  ParentContainer,
   PopupCalendar,
   PopupCheckStaffPermission,
   PopupConfirmInvoiceStatus,
-  PopupProcessingCredit,
-  PopupInvoicePrint,
   PopupConfirmPrintInvoice,
-  ClearTextInputIcon,
+  PopupInvoicePrint,
+  PopupProcessingCredit,
   ScrollableTabView,
+  StatusBarHeader,
+  Text,
 } from "@components";
-import {
-  scaleSize,
-  localize,
-  formatWithMoment,
-  getStaffNameForInvoice,
-  formatMoney,
-  getPaymentString,
-  PAYMENT_METHODS,
-} from "@utils";
-import styles from "./style";
-import IMAGE from "@resources";
-import { ItemInvoice, ItemButton, ItemHistory } from "./widget";
 import configs from "@configs";
+import Barcode from "@kichiyaki/react-native-barcode-generator";
+import IMAGE from "@resources";
+import { ButtonGradientWhite } from "@shared/components";
+import { PopupInvoice } from "@shared/components/payment";
 import {
   ItemHeaderReceipt,
   ItemReceipt,
 } from "@shared/components/payment/PopupInvoice/ItemReceipt";
-import { layouts } from "@shared/themes";
 import { WithDialogScanQR } from "@shared/HOC/withDialogScanQR";
-import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
+import { layouts } from "@shared/themes";
+import { getFullName } from "@shared/utils";
+import {
+  formatMoney,
+  formatWithMoment,
+  getPaymentString,
+  getStaffNameForInvoice,
+  localize,
+  menuTabs,
+  PAYMENT_METHODS,
+  scaleSize,
+  stringIsEmptyOrWhiteSpaces,
+} from "@utils";
+import * as l from "lodash";
+import React from "react";
+import {
+  ActivityIndicator,
+  Image,
+  Platform,
+  ScrollView,
+  TextInput,
+  View,
+  VirtualizedList,
+} from "react-native";
+import Dash from "react-native-dash";
+import styles from "./style";
+import { ItemButton, ItemHistory, ItemInvoice } from "./widget";
+
 const ScanQRButton = WithDialogScanQR(ButtonGradientWhite);
+
 export default class Layout extends React.Component {
   renderHeader() {
     const { language } = this.props;
@@ -775,6 +776,15 @@ export default class Layout extends React.Component {
               >
                 {`********* Merchant's Receipt *********`}
               </Text>
+              <View style={{ height: scaleHeight(20) }} />
+
+              <Barcode
+                format="CODE128"
+                value={invoiceDetail?.invoiceNo + ""}
+                text={`${invoiceDetail?.invoiceNo}`}
+                style={{ marginBottom: 10 }}
+                maxWidth={scaleWidth(300)}
+              />
             </View>
             <View style={{ height: scaleSize(90) }} />
           </ScrollView>
