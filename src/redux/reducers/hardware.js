@@ -19,6 +19,12 @@ const initialState = {
     token: null,
     serialNumber: '',
   },
+  dejavooMachineInfo: {
+    name: '',
+    registerId: '',
+    authKey: '',
+    isSetup: false,
+  },
   paymentMachineType: 'Pax',
 
 };
@@ -50,7 +56,25 @@ function hardwareReducer(state = initialState, action) {
           token: action.payload,
         }
       }
-
+    case 'SETUP_DEJAVOO_MACHINE':
+      return {
+        ...state,
+        dejavooMachineInfo: {...state.dejavooMachineInfo, 
+          registerId: action.payload.paymentMachineInfo.registerId,
+          authKey: action.payload.paymentMachineInfo.authKey,
+          isSetup: action.payload.paymentMachineInfo.isSetup,
+          name: action.payload.paymentMachineInfo.name,
+        },
+        paymentMachineType: action.payload.paymentMachineType,
+      };
+    case 'SET_DEJAVOO_SN':
+      return {
+        ...state,
+        dejavooMachineInfo: {
+          ...state.dejavooMachineInfo,
+          sn: action.payload,
+        }
+      }
     case 'DELETE_HARDWARE':
       return {
         ...state,
@@ -70,6 +94,13 @@ function hardwareReducer(state = initialState, action) {
           port: '',
           isSetup: false,
           token: null,
+        },
+        dejavooMachineInfo: {
+          name: '',
+          registerId: '',
+          authenKey: '',
+          isSetup: false,
+          sn: '',
         }
       };
     default:

@@ -3,9 +3,14 @@ export const role = {
   Admin: "Admin",
 };
 
+/*---Clover----*/
 export const REMOTE_APP_ID = '1MHMKSTW4HZ2P.BRXKQHNH5T1BW'
 export const APP_NAME = 'HarmonyPOS'
 export const POS_SERIAL = "POS"
+
+/*---Dejavoo----*/
+export const AUTHEN_KEY = 'd4RL8FrETi'
+export const REGISTER_ID = '315100012760'
 
 export const menuTabs = {
   MARKETING: "MENU_HOME_TAB_MARKETING",
@@ -19,3 +24,9 @@ export const menuTabs = {
   MENU_SETTING: "MENU_SETTING",
   MENU_STAFF_LOGTIME: "MENU_STAFF_LOGTIME",
 };
+
+export const PaymentTerminalType = {
+  Clover: "Clover",
+  Pax: "Pax",
+  Dejavoo: "Dejavoo",
+}

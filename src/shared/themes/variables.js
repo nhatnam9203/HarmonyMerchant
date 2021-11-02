@@ -146,15 +146,15 @@ export const layouts = StyleSheet.create({
   },
   fontPrintStyle: {
     color: "#000",
-    fontSize: scaleFont(20),
-    fontWeight: "300",
+    fontSize: scaleFont(18),
+    fontWeight: "600",
     textAlign: "left",
   },
   fontPrintTitleStyle: {
     color: "#000",
     fontSize: scaleFont(22),
     textAlign: "center",
-    fontWeight: "600",
+    fontWeight: "700",
   },
   fontPrintSubTitleStyle: {
     color: "#000",

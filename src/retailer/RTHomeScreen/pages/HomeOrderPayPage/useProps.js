@@ -15,17 +15,31 @@ import {
   getArrayProductsFromAppointment,
   getArrayServicesFromAppointment,
   getInfoFromModelNameOfPrinter,
+  REMOTE_APP_ID,
+  APP_NAME,
+  POS_SERIAL,
+  PaymentTerminalType,
+  requestTransactionDejavoo,
+  stringIsEmptyOrWhiteSpaces,
 } from "@utils";
 import _ from "lodash";
 import React from "react";
-import { NativeModules, Platform } from "react-native";
+import { NativeModules, Platform, NativeEventEmitter } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { useIsPayment } from "../../hooks";
+import RNFetchBlob from "rn-fetch-blob";
+import Share from "react-native-share";
+import { captureRef, releaseCapture } from "react-native-view-shot";
+import configureStore from "../../../../redux/store";
+import { parseString } from "react-native-xml2js";
+
 
 const signalR = require("@microsoft/signalr");
 
 const PosLink = NativeModules.payment;
 const PoslinkAndroid = NativeModules.PoslinkModule;
 const { clover } = NativeModules;
+const { persistor, store } = configureStore();
 
 export const useProps = ({
   params: { orderItem, appointmentId, screenId, backScreenId },
@@ -46,6 +60,11 @@ export const useProps = ({
   const cashBackRef = React.useRef(null);
   const changeTipRef = React.useRef(null);
   const invoiceRef = React.useRef(null);
+  
+
+   //ADD LISTENER FROM CLOVER MODULE
+   let eventEmitter = new NativeEventEmitter(clover);
+   let subscriptions = []
 
   const groupAppointment = useSelector(
     (state) => state.appointment.groupAppointment
@@ -108,6 +127,7 @@ export const useProps = ({
   const [basket, setBasket] = React.useState([]);
   const [visibleProcessingCredit, setVisibleProcessingCredit] =
     React.useState(false);
+  const [visibleConfirmPayment, setVisibleConfirmPayment] = React.useState(false);
   const [visibleErrorMessageFromPax, setVisibleErrorMessageFromPax] =
     React.useState(false);
   const [visibleChangeTip, setVisibleChangeTip] = React.useState(false);
@@ -119,10 +139,169 @@ export const useProps = ({
   );
   const [visiblePopupGiftCard, setVisiblePopupGiftCard] = React.useState(false);
 
+  const handleResponseCreditCardForCloverSuccess = async (message) => {
+    setVisibleProcessingCredit(false)
+    const { hardware, dataLocal, appointment } = store.getState();
+    const { cloverMachineInfo } = hardware;
+    const { profile } = dataLocal;
+    const { payAppointmentId, amountCredtitForSubmitToServer } = appointment;
+    let messageUpdate = {...message,
+                sn: _.get(cloverMachineInfo, 'serialNumber')}
+    try {
+      dispatch(
+        actions.appointment.submitPaymentWithCreditCard(
+          profile?.merchantId || 0,
+          messageUpdate,
+          payAppointmentId,
+          amountCredtitForSubmitToServer,
+          'clover'
+        )
+      );
+    } catch (error) {}
+  }
+
+  const handleResponseCreditCardForCloverFailed = async (errorMessage) => {
+    const { appointment } = store.getState();
+    const { payAppointmentId } = appointment;
+
+    setVisibleProcessingCredit(false)
+    try {
+      if (payAppointmentId) {
+        dispatch(actions.appointment.cancelHarmonyPayment(
+          payAppointmentId,
+          "transaction fail",
+          errorMessage
+        ));
+      }
+     
+      setTimeout(() => {
+        setErrorMessageFromPax(errorMessage)
+        setVisibleErrorMessageFromPax(true)
+      }, 300);
+    } catch (error) {}
+  }
+
+  const registerEvents = () => {
+    clover.changeListenerStatus(true)
+    subscriptions = [
+        eventEmitter.addListener('paymentSuccess', data => {
+        dispatch(actions.appointment.isProcessPaymentClover(false))
+        handleResponseCreditCardForCloverSuccess(data)
+      }),
+      eventEmitter.addListener('paymentFail', data => {
+        dispatch(actions.appointment.isProcessPaymentClover(false))
+        handleResponseCreditCardForCloverFailed(_.get(data, 'errorMessage'))
+        
+       }),
+      eventEmitter.addListener('pairingCode', data => {
+        if(data){
+          const text = `Pairing code: ${_.get(data, 'pairingCode')}`
+          const { appointment } = store.getState();
+          const { isProcessPaymentClover } = appointment;
+
+          if(isProcessPaymentClover) {
+            setVisibleProcessingCredit(false);
+          }
+        }
+      }),
+      eventEmitter.addListener('pairingSuccess', data => {
+        dispatch(actions.hardware.setCloverToken(
+          _.get(data, 'token')
+        ));
+    
+        const { appointment } = store.getState();
+        const { isProcessPaymentClover } = appointment;
+        if(isProcessPaymentClover) {
+          setVisibleProcessingCredit(true);
+        }
+       
+      }),
+
+      eventEmitter.addListener('confirmPayment', () => {
+        setVisibleProcessingCredit(false);
+        setVisibleConfirmPayment(true);
+      }),
+      eventEmitter.addListener('printInProcess', () => {
+        
+        
+      }),
+
+      eventEmitter.addListener('deviceDisconnected', () => {
+        const { appointment } = store.getState();
+        const { isProcessPaymentClover } = appointment;
+        if(isProcessPaymentClover) {
+          dispatch(actions.appointment.isProcessPaymentClover(false))
+          handleResponseCreditCardForCloverFailed("No connected device")
+        }
+      }),
+    ]
+  }
+
+  const unregisterEvents = () => {
+    clover.changeListenerStatus(false)
+    subscriptions.forEach(e => e.remove())
+    subscriptions = []
+  }
+
+  React.useEffect(() => {
+    registerEvents()
+
+    return function cleanup() {
+      unregisterEvents();
+    };
+  }, []);
+
   React.useEffect(() => {
     if (startProcessingPax) {
       dispatch(actions.appointment.resetStateCheckCreditPaymentToServer(false));
-      sendTransactionIOS();
+      if( paymentMachineType == PaymentTerminalType.Clover){
+        setIsGetResponsePaymentPax(false);
+        setVisibleProcessingCredit(true);
+        const moneyCreditCard = Number(
+          formatNumberFromCurrency(moneyUserGiveForStaff) * 100
+        ).toFixed(2);
+        const port = _.get(cloverMachineInfo, 'port') ? _.get(cloverMachineInfo, 'port') : 80
+        const url = `wss://${_.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+
+        dispatch(actions.appointment.isProcessPaymentClover(true));
+
+        setVisibleProcessingCredit(true)
+        
+        clover.sendTransaction({
+          url,
+          remoteAppId: REMOTE_APP_ID,
+          appName: APP_NAME,
+          posSerial: POS_SERIAL,
+          token: _.get(cloverMachineInfo, 'token') ? _.get(cloverMachineInfo, 'token', '') : "",
+          tipMode: isTipOnPaxMachine ? 'ON_SCREEN_BEFORE_PAYMENT' : 'NO_TIP',
+          amount: `${parseFloat(moneyCreditCard)}`,
+          externalId: `${payAppointmentId}`
+        })
+      } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+        setVisibleProcessingCredit(true)
+       
+        const tenderType = paymentSelected === "Credit Card" ? "Credit" : "Debit";
+    
+        const parameter = {
+          tenderType: tenderType,
+          transType: "Sale",
+          amount: Number(moneyUserGiveForStaff).toFixed(2),
+          RefId: payAppointmentId,
+          invNum: `${groupAppointment?.checkoutGroupId || 0}`,
+        };
+        requestTransactionDejavoo(parameter).then((responses) => {
+          handleResponseCreditCardDejavoo(
+            responses,
+            true,
+            moneyUserGiveForStaff,
+            parameter
+          );
+        })
+        
+      } else {
+        //send by Pax
+        sendTransactionIOS();
+      }
     }
   }, [startProcessingPax]);
 
@@ -141,6 +320,55 @@ export const useProps = ({
         reload: true,
       });
   };
+
+  const handleResponseCreditCardDejavoo = async (
+    message,
+    online,
+    moneyUserGiveForStaff,
+    parameter
+  ) =>  {
+    setVisibleProcessingCredit(false)
+    
+    try {
+      parseString(message, (err, result) => {
+        if (err || _.get(result, 'xmp.response.0.ResultCode.0') != 0) {
+          let detailMessage = _.get(result, 'xmp.response.0.RespMSG.0', "").replace(/%20/g, " ")
+          detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage) ? `: ${detailMessage}` : detailMessage
+          
+          const resultTxt = `${_.get(result, 'xmp.response.0.Message.0')}${detailMessage}`
+                            || "Transaction failed";
+          if (payAppointmentId) {
+            dispatch(
+              actions.appointment.cancelHarmonyPayment(
+                payAppointmentId,
+                "transaction fail",
+                resultTxt
+              )
+            );
+          }
+          setTimeout(() => {
+            setVisibleErrorMessageFromPax(true);
+            setErrorMessageFromPax(`${resultTxt}`);
+          }, 300);
+        } else {
+          const SN = _.get(result, 'xmp.response.0.SN.0');
+          if(!stringIsEmptyOrWhiteSpaces(SN)){
+            dispatch(actions.hardware.setDejavooMachineSN(SN));
+          }
+          dispatch(actions.appointment.submitPaymentWithCreditCard(
+            profile?.merchantId || 0,
+            message,
+            payAppointmentId,
+            moneyUserGiveForStaff,
+            "dejavoo",
+            parameter
+          ));
+        }
+      });
+       
+      
+    } catch (error) {}
+  }
 
   const getPaymentString = (type) => {
     let method = "";
@@ -688,7 +916,7 @@ export const useProps = ({
         ? _.get(cloverMachineInfo, "token", "")
         : "",
     });
-  };
+  }
 
   const donotPrintBill = async () => {
     if (!_.isEmpty(connectSignalR.current)) {
@@ -749,6 +977,7 @@ export const useProps = ({
       appointmentId: groupAppointment?.mainAppointmentId,
       checkoutId: paymentDetailInfo?.invoiceNo,
       isPrintTempt: isTemptPrint,
+      machineType: paymentMachineType,
     });
   };
 
@@ -1095,6 +1324,33 @@ export const useProps = ({
     cancelGiftCardPayment: () => {
       dispatch(actions.appointment.togglePopupGiftCardPaymentDetail(false));
       setPaymentSelected("");
+    },
+    visibleConfirmPayment,
+    setVisibleConfirmPayment: () => {
+      setVisibleConfirmPayment(false)
+    },
+    confirmPaymentClover: () => {
+      clover.confirmPayment()
+      setVisibleProcessingCredit(true)
+      setVisibleConfirmPayment(false)
+    },
+    rejectPaymentClover: () => {
+      clover.rejectPayment()
+      setVisibleConfirmPayment(false)
+    },
+    doPrintClover: (imageUri) => {
+      const port = _.get(cloverMachineInfo, 'port') ? _.get(cloverMachineInfo, 'port') : 80
+      const url = `wss://${_.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+      
+      const printInfo = {
+        imageUri,
+        url,
+        remoteAppId: REMOTE_APP_ID,
+        appName: APP_NAME,
+        posSerial: POS_SERIAL,
+        token: _.get(cloverMachineInfo, 'token') ? _.get(cloverMachineInfo, 'token', '') : "",
+      }
+      clover.doPrintWithConnect(printInfo)
     },
     shareTemptInvoice: async () => {
       await invoiceRef.current?.showAppointmentReceipt({

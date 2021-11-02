@@ -37,10 +37,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CUSTOM_LIST_TYPES } from "../../widget";
 
-const log = (obj, message = "") => {
-  Logger.log(`[CheckOutTabPage > useProps] ${message}`, obj);
-};
-
 export const useProps = ({
   params: { purchasePoint = PURCHASE_POINTS_STORE },
   navigation,
@@ -78,13 +74,6 @@ export const useProps = ({
   );
   const printerList = useSelector((state) => state.dataLocal.printerList);
   const printerSelect = useSelector((state) => state.dataLocal.printerSelect);
-  const blockAppointments = useSelector(
-    (state) => state.appointment.blockAppointments
-  );
-  const profileStaffLogin = useSelector(
-    (state) => state.dataLocal.profileStaffLogin
-  );
-  const profile = useSelector((state) => state.dataLocal.profile);
 
   /**
   |--------------------------------------------------
@@ -119,7 +108,8 @@ export const useProps = ({
   const [, getAppointmentTemp] = useGetAppointmentTemp();
   const [appointmentTempItemRemove, removeItemAppointmentTemp] =
     useRemoveItemAppointmentTemp();
-  const [productItemGet, getProductsByBarcode] = useGetProductsByBarcode();
+  const [productItemByBarcodeGet, getProductsByBarcode] =
+    useGetProductsByBarcode();
   const [categoriesLabel, getCategoriesLabel] = useGetLayout();
   const [categoriesLabelData, setCategoriesLabelData] = React.useState({});
   const [updateAppointmentCustomerData, updateAppointmentCustomer] =
@@ -188,6 +178,54 @@ export const useProps = ({
     }
   };
 
+  const addProductToBasket = (productItem) => {
+    const submitProducts = createSubmitAppointment([productItem]);
+
+    if (appointmentTempId) {
+      const findItem = appointmentTemp?.products?.find(
+        (x) =>
+          x.productQuantityId === productItem.productQuantityId ||
+          (productItem?.quantities?.length <= 0 &&
+            x.productId === productItem.productId)
+      );
+
+      if (findItem) {
+        appointmentTempUpdateProductItem(
+          appointmentTempId,
+          findItem?.bookingProductId,
+          { quantity: findItem?.quantity + productItem?.quantity }
+        );
+      } else {
+        addItemAppointmentTemp(submitProducts[0]);
+      }
+    } else {
+      if (!appointment) {
+        createAppointmentTemp({
+          customerId: customer?.customerId,
+          purchasePoint,
+          products: submitProducts,
+        });
+      } else {
+        const findItem = appointment?.products?.find(
+          (x) =>
+            x.productQuantityId === productItem.productQuantityId ||
+            (productItem?.quantities?.length <= 0 &&
+              x.productId === productItem.productId)
+        );
+        if (findItem) {
+          appointmentUpdateProductItem(
+            appointmentId,
+            findItem?.bookingProductId,
+            { quantity: findItem?.quantity + productItem?.quantity }
+          );
+        } else {
+          // add item to appointment
+          addAppointmentItem(submitProducts[0]);
+        }
+      }
+    }
+  };
+
   /**
   |--------------------------------------------------
   | EFFECTS
@@ -208,19 +246,6 @@ export const useProps = ({
       }
     }, [purchasePoint, appointment])
   );
-
-  // React.useEffect(() => {
-  //   const unsubscribeFocus = navigation.addListener("focus", () => {
-  //     reloadAll();
-  //   });
-
-  //   const unsubscribeBlur = navigation.addListener("blur", () => {});
-
-  //   return () => {
-  //     unsubscribeFocus();
-  //     unsubscribeBlur();
-  //   };
-  // }, [navigation]);
 
   React.useEffect(() => {
     const { codeStatus, data } = productListData || {};
@@ -364,7 +389,7 @@ export const useProps = ({
    * CREATE appointment effects
    */
   React.useEffect(() => {
-    const { codeStatus, message, data } = appointmentCreate || {};
+    const { codeStatus, data } = appointmentCreate || {};
     if (statusSuccess(codeStatus)) {
       dispatch(basketRetailer.setAppointmentId(data));
 
@@ -397,15 +422,60 @@ export const useProps = ({
   /**
    * GET product item effects
    */
+
+  // React.useEffect(() => {
+  //   const { codeStatus, message, data } = productItemGet || {};
+  //   if (statusSuccess(codeStatus)) {
+  //     setTimeout(() => {
+  //       productDetailRef.current?.show(data, scanCodeTemp);
+  //       setScanCodeTemp(null);
+  //     }, 100);
+  //   }
+  // }, [productItemGet]);
+
   React.useEffect(() => {
-    const { codeStatus, message, data } = productItemGet || {};
+    const { codeStatus, data } = productItemByBarcodeGet || {};
     if (statusSuccess(codeStatus)) {
-      setTimeout(() => {
-        productDetailRef.current?.show(data, scanCodeTemp);
-        setScanCodeTemp(null);
-      }, 100);
+      const tmp = data?.quantities?.find((x) => x.barCode === scanCodeTemp);
+      if (tmp) {
+        const attributeIds = tmp.attributeIds;
+
+        const filterOptions = data?.options?.map((v) => {
+          let temp = v?.values.filter((i) =>
+            attributeIds.includes(i.attributeValueId)
+          );
+          const { values, ...pro } = v;
+          return Object.assign({}, pro, { values: temp });
+        });
+
+        setTimeout(() => {
+          addProductToBasket(
+            Object.assign({}, data, {
+              id: Date.now(),
+              quantity: 1,
+              options: filterOptions,
+              productQuantityId: tmp?.id,
+            })
+          );
+          setScanCodeTemp(null);
+        }, 100);
+      } else {
+        if (data?.quantities?.length > 0) {
+          productDetailRef.current?.show(data);
+        } else {
+          setTimeout(() => {
+            addProductToBasket(
+              Object.assign({}, data, {
+                id: Date.now(),
+                quantity: 1,
+              })
+            );
+            setScanCodeTemp(null);
+          }, 100);
+        }
+      }
     }
-  }, [productItemGet]);
+  }, [productItemByBarcodeGet]);
 
   /**
    * UPDATE category label effects
@@ -470,6 +540,21 @@ export const useProps = ({
     products: products,
     activeTab,
     visiblePopupGiftCard,
+    appointment: appointmentTemp ?? appointment,
+    categoryId,
+    subCategoryId,
+    selectedProductId,
+    productDetailRef,
+    basketRef,
+    customerRef,
+    customer,
+    categoriesLabelData,
+    purchasePoint,
+    activeGiftCardRef,
+    modalBillRef,
+    popupEnterAmountGiftCardRef,
+    searchProducts: productListData,
+    editProductItemRef,
     onPressCategoryItem: (categoryItem) => {
       if (!categoryItem) {
         return;
@@ -509,11 +594,6 @@ export const useProps = ({
 
       productDetailRef.current?.show(productItem);
     },
-    categoryId,
-    subCategoryId,
-    selectedProductId,
-    productDetailRef,
-    basketRef,
     onHadSubmitted: () => {
       if (appointmentTempId) {
         createAppointment(appointmentTempId);
@@ -540,58 +620,10 @@ export const useProps = ({
     isCanGoBack: () => {
       return navigation.canGoBack();
     },
-    customerRef,
     onRefreshCategory: () => {
       getCategoriesList({ groupSubIntoMain: true });
     },
-    onAddProduct: (productItem) => {
-      const submitProducts = createSubmitAppointment([productItem]);
-
-      if (appointmentTempId) {
-        const findItem = appointmentTemp?.products?.find(
-          (x) =>
-            x.productQuantityId === productItem.productQuantityId ||
-            (productItem?.quantities?.length <= 0 &&
-              x.productId === productItem.productId)
-        );
-
-        if (findItem) {
-          appointmentTempUpdateProductItem(
-            appointmentTempId,
-            findItem?.bookingProductId,
-            { quantity: findItem?.quantity + productItem?.quantity }
-          );
-        } else {
-          addItemAppointmentTemp(submitProducts[0]);
-        }
-      } else {
-        if (!appointment) {
-          createAppointmentTemp({
-            customerId: customer?.customerId,
-            purchasePoint,
-            products: submitProducts,
-          });
-        } else {
-          const findItem = appointment?.products?.find(
-            (x) =>
-              x.productQuantityId === productItem.productQuantityId ||
-              (productItem?.quantities?.length <= 0 &&
-                x.productId === productItem.productId)
-          );
-          if (findItem) {
-            appointmentUpdateProductItem(
-              appointmentId,
-              findItem?.bookingProductId,
-              { quantity: findItem?.quantity + productItem?.quantity }
-            );
-          } else {
-            // add item to appointment
-            addAppointmentItem(submitProducts[0]);
-          }
-        }
-      }
-    },
-    appointment: appointmentTemp ?? appointment,
+    onAddProduct: addProductToBasket,
     onRemoveItem: (removeItem) => {
       if (appointmentTempId) {
         if (removeItem?.bookingProductId) {
@@ -611,8 +643,8 @@ export const useProps = ({
         }
       }
     },
-    customer,
     onResultScanCode: (data) => {
+      // scan barcode show product
       if (data?.trim()) {
         const code = data?.trim();
         setScanCodeTemp(code);
@@ -623,8 +655,6 @@ export const useProps = ({
         }, 100);
       }
     },
-    categoriesLabelData,
-    purchasePoint,
     checkStatusCashier: async () => {
       const { portName } = getInfoFromModelNameOfPrinter(
         printerList,
@@ -646,10 +676,7 @@ export const useProps = ({
       setSubCategoryId(null);
       setProducts(null);
     },
-    activeGiftCardRef,
-    modalBillRef,
     onRequestCloseBillModal: () => {},
-    popupEnterAmountGiftCardRef,
     closePopupActiveGiftCard: () => {
       // dispatch(actions.appointment.handleVisibleActiveGiftCard(false));
       setVisiblePopupGiftCard(false);
@@ -699,8 +726,6 @@ export const useProps = ({
     onChangeValueSearch: (searchValue) => {
       setSearchVal(searchValue);
     },
-    searchProducts: productListData,
-    editProductItemRef,
     onShowDialogEditProductItem: (proItem) => {
       editProductItemRef.current?.show(proItem);
     },
@@ -718,6 +743,9 @@ export const useProps = ({
           params
         );
       }
+    },
+    clearBasket: () => {
+      dispatch(basketRetailer.clearBasket());
     },
   };
 };

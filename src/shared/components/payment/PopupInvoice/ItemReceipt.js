@@ -3,63 +3,159 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export const ItemReceipt = ({ item, index, type, textStyle }) => {
+  console.log(item);
+
   const renderItemInvoice = () => {
     const price = item.data && item.data.price ? item.data.price : 0;
+    const discount = item?.data?.discount;
+    const discountPercent = item?.data?.discountPercent;
+
     const quanlitySet = item.quanlitySet ?? 1;
     const total = formatMoney(price * quanlitySet);
     const note = item.note ? item.note : "";
+    const label = item?.data?.value;
 
     return (
-      <View style={styles.content}>
-        <View style={{ flex: 1, justifyContent: "center" }}>
-          <Text style={[styles.textStyle, textStyle]}>
-            {`${index + 1}. ${
-              item.data && item.data.name ? item.data.name : ""
-            }`}
-          </Text>
-          {note ? (
-            <Text style={styles.textStyle}>{`(Note: ${note})`}</Text>
+      <>
+        <View style={styles.content}>
+          <View style={{ flex: 1, justifyContent: "center" }}>
+            <Text style={[styles.textStyle, textStyle]}>
+              {`${index + 1}. ${
+                item.data && item.data.name ? item.data.name : ""
+              }`}
+            </Text>
+
+            {label ? <Text style={styles.textStyle}>{`${label}`}</Text> : null}
+            {/* {discount > 0 ? (
+            <Text
+              style={styles.textStyle}
+            >{`  (Discount: $ ${discount})`}</Text>
           ) : null}
-        </View>
+          {discountPercent > 0 ? (
+            <Text
+              style={styles.textStyle}
+            >{`  (Discount: ${discountPercent}%)`}</Text>
+          ) : null} */}
+            {note ? (
+              <Text style={styles.textStyle}>{`(Note: ${note})`}</Text>
+            ) : null}
+          </View>
 
-        <View
-          style={{
-            justifyContent: "center",
-            width: scaleWidth(90),
-            alignItems: "center",
-          }}
-        >
-          <Text style={[styles.textStyle, textStyle]}>{`$ ${price}`}</Text>
-        </View>
-
-        <View
-          style={[
-            styles.headerContent,
-            {
-              width: scaleWidth(40),
-              justifyContent: "center",
-              alignItems: "center",
-            },
-          ]}
-        >
-          <Text style={[styles.textStyle, textStyle]}>{quanlitySet}</Text>
-        </View>
-
-        <View
-          style={[
-            styles.headerContent,
-            {
+          <View
+            style={{
               width: scaleWidth(90),
-              alignItems: "center",
-              justifyContent: "center",
-            },
-          ]}
-        >
-          <Text style={[styles.textStyle, textStyle]}>{`$ ${
-            total ? total : ""
-          }`}</Text>
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+            }}
+          >
+            <Text style={[styles.textStyle, textStyle]}>{`$ ${price}`}</Text>
+          </View>
+
+          <View
+            style={[
+              styles.headerContent,
+              {
+                width: scaleWidth(40),
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+              },
+            ]}
+          >
+            <Text style={[styles.textStyle, textStyle]}>{quanlitySet}</Text>
+          </View>
+
+          <View
+            style={[
+              styles.headerContent,
+              {
+                width: scaleWidth(90),
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+              },
+            ]}
+          >
+            <Text style={[styles.textStyle, textStyle]}>{`$ ${
+              total ? total : ""
+            }`}</Text>
+            {/*
+          {discount > 0 ? (
+            <Text style={styles.textStyle}>{` $ ${
+              discount * quanlitySet
+            }`}</Text>
+          ) : null}
+          {discountPercent > 0 ? (
+            <Text style={styles.textStyle}>{`$ ${
+              discountPercent * price * quanlitySet
+            }`}</Text>
+          ) : null} */}
+          </View>
         </View>
-      </View>
+        {(discount > 0 || discountPercent > 0) && (
+          <View style={{ height: scaleHeight(30), flexDirection: "row" }}>
+            <View style={{ flex: 1, justifyContent: "center" }}>
+              {discount > 0 ? (
+                <Text
+                  style={styles.textStyle}
+                >{`Discount: $ ${discount}`}</Text>
+              ) : null}
+              {discountPercent > 0 ? (
+                <Text
+                  style={styles.textStyle}
+                >{`Discount: ${discountPercent}%`}</Text>
+              ) : null}
+            </View>
+            <View
+              style={{
+                justifyContent: "flex-start",
+                width: scaleWidth(90),
+                alignItems: "flex-start",
+              }}
+            >
+              {discount > 0 ? (
+                <Text style={styles.textStyle}>{`- $ ${discount}`}</Text>
+              ) : null}
+              {discountPercent > 0 ? (
+                <Text style={styles.textStyle}>{`- $ ${formatMoney(
+                  (discountPercent * price) / 100
+                )}`}</Text>
+              ) : null}
+            </View>
+            <View
+              style={[
+                styles.headerContent,
+                {
+                  width: scaleWidth(40),
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                },
+              ]}
+            >
+              {/* <Text style={[styles.textStyle, textStyle]}>{quanlitySet}</Text> */}
+            </View>
+            <View
+              style={[
+                styles.headerContent,
+                {
+                  width: scaleWidth(90),
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                },
+              ]}
+            >
+              {discount > 0 ? (
+                <Text style={styles.textStyle}>{`- $ ${formatMoney(
+                  discount * quanlitySet
+                )}`}</Text>
+              ) : null}
+              {discountPercent > 0 ? (
+                <Text style={styles.textStyle}>{`- $ ${formatMoney(
+                  ((discountPercent * price) / 100) * quanlitySet
+                )}`}</Text>
+              ) : null}
+            </View>
+          </View>
+        )}
+      </>
     );
   };
 
@@ -164,7 +260,7 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
         >
           <Text
             style={[styles.textStyle, { textAlign: "center" }, textStyle]}
-          >{`$${item?.returnPrice}`}</Text>
+          >{`$ ${item?.returnPrice}`}</Text>
         </View>
       </View>
     );

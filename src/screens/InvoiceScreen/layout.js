@@ -10,9 +10,12 @@ import {
 } from "react-native";
 import _ from "ramda";
 import Dash from "react-native-dash";
-import { menuTabs } from "@utils";
+import { 
+        menuTabs, 
+        stringIsEmptyOrWhiteSpaces } from "@utils";
 import { getFullName } from "@shared/utils";
 import { PopupInvoice } from "@shared/components/payment";
+import * as l from "lodash";
 
 import {
   Text,
@@ -29,7 +32,6 @@ import {
   PopupConfirmPrintInvoice,
   ClearTextInputIcon,
   ScrollableTabView,
-  PopupPairingCode,
 } from "@components";
 import {
   scaleSize,
@@ -623,7 +625,7 @@ export default class Layout extends React.Component {
                             }`}
                           </Text>
                           <Text style={[layouts.fontPrintStyle]}>
-                            {` ${data?.paymentInformation?.name || ""}`}
+                            {` ${data?.paymentInformation?.name?.replace(/%20/g, " ") || ""}`}
                           </Text>
                           <Text style={[layouts.fontPrintStyle]}>
                             {` ${
@@ -639,6 +641,21 @@ export default class Layout extends React.Component {
                                 : ""
                             }`}
                           </Text>
+
+                          { !stringIsEmptyOrWhiteSpaces(l.get(data, "paymentInformation.signData")) &&
+                            <View style={styles.rowSignature}>
+                              <Text style={[layouts.fontPrintStyle]}>
+                                {" Signature: "}
+                              </Text>
+                              <Image 
+                                style={styles.signImage}
+                                source={{
+                                  uri: `data:image/png;base64,${data?.paymentInformation?.signData}`
+                                }}
+                                />
+                            </View>
+                          }
+                         
                         </View>
                       ) : null}
                     </View>
@@ -971,8 +988,6 @@ export default class Layout extends React.Component {
       visibleConfirmInvoiceStatus,
       transactionId,
       visiblePrintInvoice,
-      visiblePopupParingCode,
-      pairingCode,
     } = this.state;
 
     return (
@@ -1028,10 +1043,6 @@ export default class Layout extends React.Component {
           onRequestClose={this.cancelTransaction}
           language={language}
           transactionId={transactionId}
-        />
-        <PopupPairingCode
-          visible={visiblePopupParingCode ? true : false}
-          message={pairingCode}
         />
         <PopupConfirmPrintInvoice
           visible={visibleConfirmPrintInvoice}

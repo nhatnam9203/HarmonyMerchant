@@ -38,4 +38,13 @@ export default StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
   },
+  rowSignature: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  signImage:{
+    width: scaleSize(100),
+    height: scaleSize(40),
+    resizeMode: "contain",
+  }
 });

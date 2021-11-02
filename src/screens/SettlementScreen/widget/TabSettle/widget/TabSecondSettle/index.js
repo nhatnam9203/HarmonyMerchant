@@ -7,8 +7,12 @@ import {
     APP_NAME,
     POS_SERIAL,
     localize,
+    PaymentTerminalType,
+    requestSettlementDejavoo,
+    stringIsEmptyOrWhiteSpaces,
   } from '@utils';
 import * as l from "lodash";
+import { parseString } from "react-native-xml2js";
 
 const PosLink = NativeModules.batch;
 const PosLinkReport = NativeModules.report;
@@ -36,8 +40,6 @@ const INIT_STATE = {
     },
     errorMessage: '',
     paxErrorMessage: '',
-    visiblePopupParingCode: false,
-    pairingCode: '',
 }
 
 class TabSecondSettle extends Layout {
@@ -68,9 +70,7 @@ class TabSecondSettle extends Layout {
                 numberFooter: 1,
                 progress: 0,
             })
-            // setTimeout(() => {
-            //     alert(l.get(data, 'errorMessage'))
-            //   }, 200);
+            
             this.props.actions.app.connectPaxMachineError(
                 l.get(data, 'errorMessage')
               );
@@ -83,28 +83,16 @@ class TabSecondSettle extends Layout {
                 this.props.actions.app.stopLoadingApp();
                 
               }
-              this.setState({
-                visiblePopupParingCode: true,
-                pairingCode: text,
-              })
             }
           }),
           this.eventEmitter.addListener('pairingSuccess', data => {
             this.props.actions.hardware.setCloverToken(
               l.get(data, 'token')
             );
-            this.setState({
-              visiblePopupParingCode: false,
-              pairingCode: '',
-            })
             if(this.isProcessCloseBatchClover) {
                 this.props.actions.app.loadingApp();
             }
           }),
-        //   this.eventEmitter.addListener('deviceReady', () => {
-            
-           
-        //   }),
           
           this.eventEmitter.addListener('deviceDisconnected', () => {
             if(this.isProcessCloseBatchClover) {
@@ -207,11 +195,16 @@ class TabSecondSettle extends Layout {
     }
 
     settle = async () => {
-        const { paxMachineInfo, settleWaiting, cloverMachineInfo, paymentMachineType } = this.props;
+        const { paxMachineInfo, 
+                settleWaiting, 
+                cloverMachineInfo, 
+                dejavooMachineInfo,
+                paymentMachineType } = this.props;
         const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } = paxMachineInfo;
         const { creditCount, settleTotal } = this.state;
 
-        if(paymentMachineType == "Clover" && l.get(cloverMachineInfo, "isSetup")){
+        if (paymentMachineType == PaymentTerminalType.Clover 
+            && l.get(cloverMachineInfo, "isSetup")) {
             //Clover
             await this.setState({
                 numberFooter: 2,
@@ -234,6 +227,28 @@ class TabSecondSettle extends Layout {
                 posSerial: POS_SERIAL,
                 token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
               })
+        } else if(paymentMachineType == PaymentTerminalType.Dejavoo 
+            && l.get(dejavooMachineInfo, "isSetup")){ 
+            this.props.actions.app.loadingApp();
+            const responses = await requestSettlementDejavoo();
+            parseString(responses, (err, result) => {
+                if (err || l.get(result, 'xmp.response.0.ResultCode.0') != 0) {
+                  const resultTxt = `${l.get(result, 'xmp.response.0.Message.0')}`
+                                    || "Error";
+                  this.props.actions.app.stopLoadingApp();
+                  this.setState({
+                    numberFooter: 1,
+                    progress: 0,
+                    })
+                    
+                  this.props.actions.app.connectPaxMachineError(resultTxt);
+               
+                } else {
+                   
+                    this.proccessingSettlement("[]");
+                }
+            })
+
         } else if (isSetup && settleTotal?.terminalID) {
             //Pax
             await this.setState({
@@ -401,6 +416,7 @@ const mapStateToProps = state => ({
     isSettleBatch: state.invoice.isSettleBatch,
     connectPAXStatus: state.app.connectPAXStatus,
     cloverMachineInfo: state.hardware.cloverMachineInfo,
+    dejavooMachineInfo: state.hardware.dejavooMachineInfo,
     paymentMachineType: state.hardware.paymentMachineType,
 })
 
