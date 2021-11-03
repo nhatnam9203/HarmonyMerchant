@@ -464,13 +464,11 @@ class InvoiceScreen extends Layout {
                 alert(localize("Your transaction is invalid", language));
                 return;
               }
-              const port = l.get(cloverMachineInfo, "port")
+              const portClover = l.get(cloverMachineInfo, "port")
                 ? l.get(cloverMachineInfo, "port")
                 : 80;
-              const url = `wss://${l.get(
-                cloverMachineInfo,
-                "ip"
-              )}:${port}/remote_pay`;
+              const ipClover = l.get(cloverMachineInfo, "ip")
+              const url = `wss://${ipClover}:${portClover}/remote_pay`;
               this.isProcessVoidPaymentClover = true;
               const paymentInfo = {
                 url,
@@ -564,13 +562,12 @@ class InvoiceScreen extends Layout {
                 return;
               }
               this.isProcessVoidPaymentClover = true;
-              const port = l.get(cloverMachineInfo, "port")
+              const portClover = l.get(cloverMachineInfo, "port")
                 ? l.get(cloverMachineInfo, "port")
                 : 80;
-              const url = `wss://${l.get(
-                cloverMachineInfo,
-                "ip"
-              )}:${port}/remote_pay`;
+              const ipClover = l.get(cloverMachineInfo, "ip")
+             
+              const url = `wss://${ipClover}:${portClover}/remote_pay`;
               this.isProcessVoidPaymentClover = true;
               const paymentInfo = {
                 url,
