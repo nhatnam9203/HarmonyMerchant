@@ -1514,14 +1514,11 @@ class TabCheckout extends Layout {
         l.get(groupAppointment, "checkoutGroupId", -1).toString()
       ) {
         //Call server to check auth number
+        const mainAppointmentId = l.get(groupAppointment, "mainAppointmentId", "0")
         const resultGroupAppointment = await requestAPI({
           type: "GET_GROUP_APPOINTMENT_BY_ID",
           method: "GET",
-          api: `${Configs.API_URL}appointment/getGroupById/${l.get(
-            groupAppointment,
-            "mainAppointmentId",
-            "0"
-          )}`,
+          api: `${Configs.API_URL}appointment/getGroupById/${mainAppointmentId}`,
           token: profileStaffLogin.token,
           versionApp: versionApp,
         });
