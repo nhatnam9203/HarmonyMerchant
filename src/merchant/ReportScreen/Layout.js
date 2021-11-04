@@ -4,12 +4,11 @@ import { ButtonGradient, PermissionChecker } from "@shared/components";
 import { ButtonDrawer } from "@shared/components/ButtonDrawer";
 import { HeaderToolBar } from "@shared/components/HeaderToolBar";
 import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
-import { colors } from "@shared/themes";
 import { menuTabs } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
-import ReportScreen from "./ReportScreen";
+import { ReportScreen } from "./salon";
 
 export const Layout = ({
   openDrawer,
@@ -52,7 +51,9 @@ export const Layout = ({
       >
         <HeaderToolBarTitle label={t("Reports")} />
       </HeaderToolBar>
+
       <ReportScreen ref={screenReportRef} showBackButton={onShowBackButton} />
+
       <PermissionChecker
         navigation={navigation}
         tabName={menuTabs.MENU_REPORT}
@@ -66,6 +67,5 @@ export const Layout = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.WHITE_FA,
   },
 });

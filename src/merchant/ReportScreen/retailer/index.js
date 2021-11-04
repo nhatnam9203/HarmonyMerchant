@@ -2,16 +2,11 @@ import NavigationServices from "@navigators/NavigatorServices";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import IMAGE from "@resources";
 import { colors } from "@shared/themes";
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
+import { CustomTopBarScreenReport } from "../widget";
 import {
   CustomerTab,
   OrderTab,
@@ -20,15 +15,10 @@ import {
   SalesTab,
   StaffTab,
 } from "./contents";
-import { CustomTopBarScreenReport } from "./widget";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
-const log = (obj, message = "") => {
-  Logger.log(`[Report Screen] ${message}`, obj);
-};
-
-function ReportScreen({ showBackButton }, ref) {
+export const ReportScreen = React.forwardRef(({ showBackButton }, ref) => {
   const { t } = useTranslation();
 
   const reportTabPermission = useSelector(
@@ -58,33 +48,19 @@ function ReportScreen({ showBackButton }, ref) {
   useImperativeHandle(ref, () => ({
     goBack: () => {
       switch (tabIndex) {
-        case 0:
-          // salesRef.current?.goBack();
-          NavigationServices.goBack();
-
-          break;
-        case 1:
-          // orderRef.current?.goBack();
-          NavigationServices.goBack();
-
-          break;
-        case 2:
-          // productRef.current?.goBack();
-          NavigationServices.goBack();
-
-          break;
-        case 3:
-          // customerRef.current?.goBack();
-          NavigationServices.goBack();
-
-          break;
         case 4:
           overallRef.current?.goBack();
           break;
         case 5:
           staffRef.current?.goBack();
           break;
+        case 0:
+        case 1:
+        case 2:
+        case 3:
         default:
+          NavigationServices.goBack();
+
           break;
       }
     },
@@ -299,9 +275,7 @@ function ReportScreen({ showBackButton }, ref) {
       </Navigator>
     </View>
   );
-}
-
-export default ReportScreen = forwardRef(ReportScreen);
+});
 
 const styles = StyleSheet.create({
   container: {

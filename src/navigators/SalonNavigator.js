@@ -16,18 +16,19 @@ import {
   HomeScreen,
   InventoryScreen,
   InvoiceScreen,
-  ReportScreen,
+  // ReportScreen,
   SettingScreen,
   SettlementScreen,
   SupportScreen,
 } from "../screens";
 import { scaleSize } from "../utils";
 import { RTStaffCheckIn } from "@src/retailer/RTStaffCheckIn";
+import { ReportScreen } from "../merchant/ReportScreen";
 
 const { Screen, Navigator } = createDrawerNavigator();
 export const SalonNavigator = () => {
   const loadPax = async () => {
-    await NativeModules.logPax.loadLogPax({logLevel: 4, logDay: 5});
+    await NativeModules.logPax.loadLogPax({ logLevel: 4, logDay: 5 });
   };
 
   React.useEffect(() => {
@@ -108,7 +109,7 @@ export const SalonNavigator = () => {
           ),
         }}
       />
-      <Screen
+      {/* <Screen
         name="Reports"
         component={ReportScreen}
         options={{
@@ -118,7 +119,8 @@ export const SalonNavigator = () => {
             />
           ),
         }}
-      />
+      /> */}
+      <Screen {...ReportScreen} />
       <Screen
         name="Setting"
         component={SettingScreen}
