@@ -8,7 +8,8 @@ import { menuTabs } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
-import { ReportScreen } from "./salon";
+import { RetailerReportScreen } from "./retailer";
+import { SalonReportScreen } from "./salon";
 
 export const Layout = ({
   openDrawer,
@@ -19,8 +20,11 @@ export const Layout = ({
   navigation,
   tabPermission,
   togglePopupPermission,
+  isSalonApp,
 }) => {
   const { t } = useTranslation();
+
+  const renderSalonReport = isSalonApp();
 
   const onRenderBackButton = () => {
     return isShowBackButton ? (
@@ -52,7 +56,17 @@ export const Layout = ({
         <HeaderToolBarTitle label={t("Reports")} />
       </HeaderToolBar>
 
-      <ReportScreen ref={screenReportRef} showBackButton={onShowBackButton} />
+      {renderSalonReport ? (
+        <SalonReportScreen
+          ref={screenReportRef}
+          showBackButton={onShowBackButton}
+        />
+      ) : (
+        <RetailerReportScreen
+          ref={screenReportRef}
+          showBackButton={onShowBackButton}
+        />
+      )}
 
       <PermissionChecker
         navigation={navigation}

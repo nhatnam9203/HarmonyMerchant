@@ -19,7 +19,7 @@ import {
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
-export const ReportScreen = React.forwardRef(({ showBackButton }, ref) => {
+export const SalonReportScreen = React.forwardRef(({ showBackButton }, ref) => {
   const { t } = useTranslation();
 
   const reportTabPermission = useSelector(
