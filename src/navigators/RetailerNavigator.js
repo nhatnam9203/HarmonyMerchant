@@ -39,7 +39,7 @@ export const RetailerNavigator = () => {
       // initialRouteName={"retailer.reports"} //!! add to developer, remove when finished
       drawerContent={CustomDrawerContent}
       drawerStyle={{
-        width: scaleWidth(191),
+        width: scaleWidth(260),
       }}
     >
       <Screen {...RTHomeScreen} />

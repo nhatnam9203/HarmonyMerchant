@@ -33,7 +33,7 @@ export const CustomDrawerContent = (props) => {
       />
       <TimeKeeping
         {...props}
-        label="Log Time"
+        label="Staff Log Time"
         icon={() => <CustomDrawerIcon source={IMAGE["Timekeeping"]} />}
         onShowed={() => {
           navigation?.closeDrawer();

@@ -40,7 +40,7 @@ export const SalonNavigator = () => {
       initialRouteName="Home"
       drawerContent={CustomDrawerContent}
       drawerStyle={{
-        width: scaleSize(200),
+        width: scaleWidth(260),
       }}
     >
       <Screen
