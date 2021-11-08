@@ -6,6 +6,7 @@ export const WithDialogStaffCheckIn = (WrappedComponent) => {
   return function WithDialogStaffCheckInComponent({
     showEditForm,
     onSuccess,
+    onShowed,
     ...props
   }) {
     const dialogRef = React.useRef(null);
@@ -15,6 +16,9 @@ export const WithDialogStaffCheckIn = (WrappedComponent) => {
         dialogRef.current?.showWithItem(item);
       } else {
         dialogRef.current?.show();
+        if (onShowed && typeof onShowed === "function") {
+          onShowed();
+        }
       }
     };
 

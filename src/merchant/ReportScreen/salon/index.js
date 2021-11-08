@@ -16,6 +16,7 @@ import {
   OverallTab,
 } from "./contents";
 // import { StaffTab } from "../general";
+import { RTStaffCheckIn } from "../general";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
@@ -325,6 +326,18 @@ export const SalonReportScreen = React.forwardRef(({ showBackButton }, ref) => {
               showBackButton={onShowBackButton}
             />
           )}
+        </Screen>
+        <Screen
+          name={"RTStaffCheckInTab"}
+          options={{
+            title: t("Log Time"),
+            tabBarIcon: IMAGE.Timekeeping,
+          }}
+          initialParams={{
+            showBackButton: showBackButton,
+          }}
+        >
+          {(props) => <RTStaffCheckIn.component {...props} />}
         </Screen>
       </Navigator>
     </View>

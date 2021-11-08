@@ -144,7 +144,7 @@ export const HomeTabBar = ({
           return renderTab(label, index, isFocused, onPress);
         })}
       </View>
-      <ButtonStaffCheckIn />
+      {/* <ButtonStaffCheckIn /> */}
       <ButtonLockScreen />
     </View>
   );

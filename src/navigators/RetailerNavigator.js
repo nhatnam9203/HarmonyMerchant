@@ -69,7 +69,7 @@ export const RetailerNavigator = () => {
       <Screen {...RTCustomerScreen} />
       <Screen {...RTInventoryScreen} />
       <Screen {...ReportScreen} />
-      <Screen {...RTStaffCheckIn} />
+      {/* <Screen {...RTStaffCheckIn} /> */}
       <Screen {...RTSettingsScreen} />
       {/* <Screen {...RTSupportScreen} /> */}
       <Screen

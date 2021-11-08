@@ -194,7 +194,7 @@ export default class Layout extends React.Component {
               },
             ]}
           >
-            <ButtonStaffCheckIn height={scaleSize(32)} />
+            {/* <ButtonStaffCheckIn height={scaleSize(32)} /> */}
 
             <Button onPress={this.showLockScreen}>
               <Image

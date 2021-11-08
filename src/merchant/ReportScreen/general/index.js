@@ -1,5 +1,3 @@
-import StaffTab from "./contents/StaffTab";
+import { RTStaffCheckIn } from "./contents/RTStaffCheckIn";
 
-module.exports = {
-  StaffTab,
-};
+module.exports = { RTStaffCheckIn };

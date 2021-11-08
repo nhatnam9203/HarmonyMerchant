@@ -132,7 +132,7 @@ export const SalonNavigator = () => {
           ),
         }}
       />
-      <Screen {...RTStaffCheckIn} />
+      {/* <Screen {...RTStaffCheckIn} /> */}
       <Screen
         name="Support"
         component={SupportScreen}

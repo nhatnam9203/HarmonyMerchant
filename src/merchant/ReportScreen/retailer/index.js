@@ -15,267 +15,282 @@ import {
   SalesTab,
   StaffTab,
 } from "./contents";
+import { RTStaffCheckIn } from "../general";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
-export const RetailerReportScreen = React.forwardRef(({ showBackButton }, ref) => {
-  const { t } = useTranslation();
+export const RetailerReportScreen = React.forwardRef(
+  ({ showBackButton }, ref) => {
+    const { t } = useTranslation();
 
-  const reportTabPermission = useSelector(
-    (state) => state.staff.reportTabPermission
-  );
-  const reportTabPermissionSuccess = useSelector(
-    (state) => state.staff.reportTabPermissionSuccess
-  );
-  /**state */
-  const [tabIndex, setTabIndex] = useState(0);
-  const [isMount, setIsMount] = useState(false);
+    const reportTabPermission = useSelector(
+      (state) => state.staff.reportTabPermission
+    );
+    const reportTabPermissionSuccess = useSelector(
+      (state) => state.staff.reportTabPermissionSuccess
+    );
+    /**state */
+    const [tabIndex, setTabIndex] = useState(0);
+    const [isMount, setIsMount] = useState(false);
 
-  /**refs */
-  const scrollTabRef = useRef(null);
+    /**refs */
+    const scrollTabRef = useRef(null);
 
-  // const giftCardRef = useRef(null);
-  // const serviceRef = useRef(null);
+    // const giftCardRef = useRef(null);
+    // const serviceRef = useRef(null);
 
-  const salesRef = useRef(null);
-  const orderRef = useRef(null);
-  const productRef = useRef(null);
-  const customerRef = useRef(null);
-  const overallRef = useRef(null);
-  const staffRef = useRef(null);
+    const salesRef = useRef(null);
+    const orderRef = useRef(null);
+    const productRef = useRef(null);
+    const customerRef = useRef(null);
+    const overallRef = useRef(null);
+    const staffRef = useRef(null);
 
-  /**public function  */
-  useImperativeHandle(ref, () => ({
-    goBack: () => {
+    /**public function  */
+    useImperativeHandle(ref, () => ({
+      goBack: () => {
+        switch (tabIndex) {
+          case 4:
+            overallRef.current?.goBack();
+            break;
+          case 5:
+            staffRef.current?.goBack();
+            break;
+          case 0:
+          case 1:
+          case 2:
+          case 3:
+          default:
+            NavigationServices.goBack();
+
+            break;
+        }
+      },
+      didBlur: () => {
+        setIsMount(false);
+        switch (tabIndex) {
+          case 0:
+          default:
+            salesRef?.current?.didBlur();
+            orderRef.current?.didBlur();
+            productRef?.current?.didBlur();
+            customerRef.current?.didBlur();
+            overallRef?.current?.didBlur();
+            staffRef?.current?.didBlur();
+
+            break;
+        }
+        scrollTabRef?.current?.goToFirstTab();
+      },
+      didFocus: () => {
+        switch (tabIndex) {
+          case 0:
+            salesRef.current?.didFocus();
+            break;
+          case 1:
+            orderRef.current?.didFocus();
+            break;
+          case 2:
+            productRef.current?.didFocus();
+            break;
+          case 3:
+            customerRef.current?.didFocus();
+            break;
+          case 4:
+            overallRef.current?.didFocus();
+            break;
+          case 5:
+            staffRef.current?.didFocus();
+            break;
+          default:
+            break;
+        }
+      },
+    }));
+
+    const onChangeTab = (index) => {
       switch (tabIndex) {
+        case 0:
+          // salesRef.current?.goBack();
+          break;
+        case 1:
+          // orderRef.current?.goBack();
+          break;
+        case 2:
+          // productRef.current?.goBack();
+          break;
+        case 3:
+          // customerRef.current?.goBack();
+          break;
         case 4:
           overallRef.current?.goBack();
+          showBackButton(false);
+
           break;
         case 5:
           staffRef.current?.goBack();
-          break;
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        default:
-          NavigationServices.goBack();
+          showBackButton(false);
 
           break;
-      }
-    },
-    didBlur: () => {
-      setIsMount(false);
-      switch (tabIndex) {
-        case 0:
         default:
-          salesRef?.current?.didBlur();
-          orderRef.current?.didBlur();
-          productRef?.current?.didBlur();
-          customerRef.current?.didBlur();
-          overallRef?.current?.didBlur();
-          staffRef?.current?.didBlur();
-
           break;
       }
-      scrollTabRef?.current?.goToFirstTab();
-    },
-    didFocus: () => {
-      switch (tabIndex) {
+
+      setTabIndex(index);
+    };
+
+    const onShowBackButton = (bl) => {
+      showBackButton(bl);
+    };
+
+    //
+    useEffect(() => {
+      if (reportTabPermissionSuccess === true && isMount) {
+        switch (tabIndex) {
+          case 0:
+            salesRef.current?.didFocus();
+            break;
+          case 1:
+            orderRef.current?.didFocus();
+            break;
+          case 2:
+            productRef.current?.didFocus();
+            break;
+          case 3:
+            customerRef.current?.didFocus();
+            break;
+          case 4:
+            overallRef.current?.didFocus();
+            break;
+          case 5:
+            staffRef.current?.didFocus();
+            break;
+          default:
+            break;
+        }
+      }
+
+      if (reportTabPermission === true && isMount === false) {
+        setIsMount(true);
+      }
+    }, [reportTabPermission, reportTabPermissionSuccess]);
+
+    // ------------- New Code ---------------
+
+    handleOnChangeTab = (i) => {
+      switch (i) {
         case 0:
-          salesRef.current?.didFocus();
+          // staffRef?.current?.getListStaffsSalaryTop();
           break;
         case 1:
-          orderRef.current?.didFocus();
+          // giftCardRef?.current?.getGiftCardReportSales();
           break;
         case 2:
-          productRef.current?.didFocus();
-          break;
-        case 3:
-          customerRef.current?.didFocus();
-          break;
-        case 4:
-          overallRef.current?.didFocus();
+          // customerRef?.current?.getCustomerReportSales();
           break;
         case 5:
-          staffRef.current?.didFocus();
+          // overallRef?.current?.callAPIForTwoTabs();
           break;
+
         default:
           break;
       }
-    },
-  }));
+    };
 
-  const onChangeTab = (index) => {
-    switch (tabIndex) {
-      case 0:
-        // salesRef.current?.goBack();
-        break;
-      case 1:
-        // orderRef.current?.goBack();
-        break;
-      case 2:
-        // productRef.current?.goBack();
-        break;
-      case 3:
-        // customerRef.current?.goBack();
-        break;
-      case 4:
-        overallRef.current?.goBack();
-        showBackButton(false);
-
-        break;
-      case 5:
-        staffRef.current?.goBack();
-        showBackButton(false);
-
-        break;
-      default:
-        break;
-    }
-
-    setTabIndex(index);
-  };
-
-  const onShowBackButton = (bl) => {
-    showBackButton(bl);
-  };
-
-  //
-  useEffect(() => {
-    if (reportTabPermissionSuccess === true && isMount) {
-      switch (tabIndex) {
-        case 0:
-          salesRef.current?.didFocus();
-          break;
-        case 1:
-          orderRef.current?.didFocus();
-          break;
-        case 2:
-          productRef.current?.didFocus();
-          break;
-        case 3:
-          customerRef.current?.didFocus();
-          break;
-        case 4:
-          overallRef.current?.didFocus();
-          break;
-        case 5:
-          staffRef.current?.didFocus();
-          break;
-        default:
-          break;
-      }
-    }
-
-    if (reportTabPermission === true && isMount === false) {
-      setIsMount(true);
-    }
-  }, [reportTabPermission, reportTabPermissionSuccess]);
-
-  // ------------- New Code ---------------
-
-  handleOnChangeTab = (i) => {
-    switch (i) {
-      case 0:
-        // staffRef?.current?.getListStaffsSalaryTop();
-        break;
-      case 1:
-        // giftCardRef?.current?.getGiftCardReportSales();
-        break;
-      case 2:
-        // customerRef?.current?.getCustomerReportSales();
-        break;
-      case 5:
-        // overallRef?.current?.callAPIForTwoTabs();
-        break;
-
-      default:
-        break;
-    }
-  };
-
-  return (
-    <View style={styles.container}>
-      <Navigator
-        headerMode="none"
-        screenOptions={{
-          cardStyle: {
-            backgroundColor: colors.WHITE_FA,
-          },
-        }}
-        lazy={true}
-        optimizationsEnabled={true}
-        swipeEnabled={false}
-        lazyPreloadDistance={1}
-        tabBar={(props) => (
-          <CustomTopBarScreenReport {...props} onChangeTab={onChangeTab} />
-        )}
-      >
-        <Screen
-          name={"ReportSalesTab"}
-          component={SalesTab}
-          options={{
-            title: t("Sales"),
-            tabBarIcon: IMAGE.Report_Sales,
+    return (
+      <View style={styles.container}>
+        <Navigator
+          headerMode="none"
+          screenOptions={{
+            cardStyle: {
+              backgroundColor: colors.WHITE_FA,
+            },
           }}
-          initialParams={{ showBackButton: showBackButton }}
-        />
-        <Screen
-          name={"ReportOrderTab"}
-          component={OrderTab}
-          options={{
-            title: t("Order"),
-            tabBarIcon: IMAGE.Report_Order,
-          }}
-          initialParams={{ showBackButton: showBackButton }}
-        />
-        <Screen
-          name={"ReportProductTab"}
-          component={ProductTab}
-          options={{
-            title: t("Product"),
-            tabBarIcon: IMAGE.Report_Product,
-          }}
-          initialParams={{ showBackButton: showBackButton }}
-        />
-        <Screen
-          name={"ReportCustomerTab"}
-          component={CustomerTab}
-          options={{
-            title: t("Customer"),
-            tabBarIcon: IMAGE.Customer,
-          }}
-          initialParams={{ showBackButton: showBackButton }}
-        />
-        <Screen
-          name={"ReportOverallTab"}
-          options={{
-            title: t("Overall"),
-            tabBarIcon: IMAGE.Report_Overall,
-          }}
-          initialParams={{
-            showBackButton: showBackButton,
-          }}
+          lazy={true}
+          optimizationsEnabled={true}
+          swipeEnabled={false}
+          lazyPreloadDistance={1}
+          tabBar={(props) => (
+            <CustomTopBarScreenReport {...props} onChangeTab={onChangeTab} />
+          )}
         >
-          {(props) => <OverallTab {...props} ref={overallRef} />}
-        </Screen>
-        <Screen
-          name={"ReportStaffTab"}
-          options={{
-            title: t("Staff"),
-            tabBarIcon: IMAGE.Staff,
-          }}
-          initialParams={{
-            showBackButton: showBackButton,
-          }}
-        >
-          {(props) => <StaffTab {...props} ref={staffRef} />}
-        </Screen>
-      </Navigator>
-    </View>
-  );
-});
+          <Screen
+            name={"ReportSalesTab"}
+            component={SalesTab}
+            options={{
+              title: t("Sales"),
+              tabBarIcon: IMAGE.Report_Sales,
+            }}
+            initialParams={{ showBackButton: showBackButton }}
+          />
+          <Screen
+            name={"ReportOrderTab"}
+            component={OrderTab}
+            options={{
+              title: t("Order"),
+              tabBarIcon: IMAGE.Report_Order,
+            }}
+            initialParams={{ showBackButton: showBackButton }}
+          />
+          <Screen
+            name={"ReportProductTab"}
+            component={ProductTab}
+            options={{
+              title: t("Product"),
+              tabBarIcon: IMAGE.Report_Product,
+            }}
+            initialParams={{ showBackButton: showBackButton }}
+          />
+          <Screen
+            name={"ReportCustomerTab"}
+            component={CustomerTab}
+            options={{
+              title: t("Customer"),
+              tabBarIcon: IMAGE.Customer,
+            }}
+            initialParams={{ showBackButton: showBackButton }}
+          />
+          <Screen
+            name={"ReportOverallTab"}
+            options={{
+              title: t("Overall"),
+              tabBarIcon: IMAGE.Report_Overall,
+            }}
+            initialParams={{
+              showBackButton: showBackButton,
+            }}
+          >
+            {(props) => <OverallTab {...props} ref={overallRef} />}
+          </Screen>
+          <Screen
+            name={"ReportStaffTab"}
+            options={{
+              title: t("Staff"),
+              tabBarIcon: IMAGE.Staff,
+            }}
+            initialParams={{
+              showBackButton: showBackButton,
+            }}
+          >
+            {(props) => <StaffTab {...props} ref={staffRef} />}
+          </Screen>
+          <Screen
+            name={"RTStaffCheckInTab"}
+            options={{
+              title: t("Log Time"),
+              tabBarIcon: IMAGE.Timekeeping,
+            }}
+            initialParams={{
+              showBackButton: showBackButton,
+            }}
+          >
+            {(props) => <RTStaffCheckIn.component {...props} />}
+          </Screen>
+        </Navigator>
+      </View>
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   container: {
