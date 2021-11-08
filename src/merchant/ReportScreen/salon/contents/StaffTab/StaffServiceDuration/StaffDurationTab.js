@@ -156,7 +156,6 @@ export default function StaffDurationTab({
           formatKeys={{ differenceDurationMinute: "hhmm" }}
           renderCell={renderCell}
           renderActionCell={renderActionCell}
-          // onRowPress={onRowPress}
           onRefresh={onRefresh}
           isRefreshing={isRefreshing}
           onLoadMore={onLoadMore}

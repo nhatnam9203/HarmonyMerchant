@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import { ScrollableTabView } from "@components";
 import { fonts } from "@shared/themes";
-
-import IMAGE from "@resources";
+import React, { useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const SCROLL_PAGE_DEFAULT = 0;
 

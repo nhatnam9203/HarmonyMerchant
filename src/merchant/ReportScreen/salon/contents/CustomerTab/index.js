@@ -1,19 +1,17 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
-import { View, StyleSheet } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-
 import actions from "@actions";
-
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
+import { StyleSheet, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { ReportLayout } from "../../../widget";
-
 import CustomerReportTab from "./CustomerReportTab";
 import CustomerStatistic from "./CustomerStatistic";
+import { colors } from "@shared/themes";
 
 const RANGE_TIME_DEFAULT = "This Week";
 
@@ -47,6 +45,7 @@ function CustomerTab({ style, showBackButton }, ref) {
 
   /**function */
   const getCustomerReportSales = async () => {
+    console.log("===> getCustomerReportSales");
     await dispatch(
       actions.report.getCustomerSales(true, layoutRef?.current?.getTimeUrl())
     );
@@ -128,12 +127,12 @@ function CustomerTab({ style, showBackButton }, ref) {
     didFocus: () => {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
-    getCustomerReportSales: () => getCustomerReportSales()
+    getCustomerReportSales: () => getCustomerReportSales(),
   }));
 
   /**effect */
   useEffect(() => {
-    getCustomerReportSales();
+    // getCustomerReportSales();
   }, []);
 
   const refreshData = () => {
@@ -145,12 +144,18 @@ function CustomerTab({ style, showBackButton }, ref) {
     setRefreshing(false);
   }, [customerReportList]);
 
+  const onShowBackButton = (bl) => {
+    if (showBackButton && typeof showBackButton === "function") {
+      showBackButton(bl);
+    }
+  };
+
   return (
     <View style={[styles.container, style]}>
       <ReportLayout
         ref={layoutRef}
-        style={style}
-        showBackButton={showBackButton}
+        style={styles.container}
+        showBackButton={onShowBackButton}
         onChangeTimeTitle={onChangeTimeTitle}
         onRequestExportFileToServer={onRequestExportFileToServer}
         isDownloadReport={isDownloadReport}
@@ -190,7 +195,7 @@ function CustomerTab({ style, showBackButton }, ref) {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { backgroundColor: colors.WHITE, flex: 1 },
 });
 
 export default CustomerTab = forwardRef(CustomerTab);

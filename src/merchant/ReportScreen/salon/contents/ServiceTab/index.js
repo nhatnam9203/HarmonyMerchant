@@ -1,16 +1,15 @@
 import React, {
-  useState,
   forwardRef,
   useImperativeHandle,
   useRef,
+  useState,
 } from "react";
-import { View, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
-
 import { CustomScrollTab } from "../../../widget";
-
 import SalesByCategory from "./SalesByCategory";
 import SalesByService from "./SalesByService";
+import { colors } from "@shared/themes";
 
 function ServiceTab({ style, showBackButton }, ref) {
   /**redux store */
@@ -63,14 +62,20 @@ function ServiceTab({ style, showBackButton }, ref) {
     },
   }));
 
+  const onShowBackButton = (bl) => {
+    if (showBackButton && typeof showBackButton === "function") {
+      showBackButton(bl);
+    }
+  };
+
   return (
-    <View style={[style, { paddingTop: 10 }]}>
+    <View style={[styles.container, { paddingTop: 10 }]}>
       <CustomScrollTab onHeaderTabChanged={onChangeTab} showHeader={showHeader}>
         <SalesByCategory
           style={{ flex: 1 }}
           ref={salesByCategoryTabRef}
           tabLabel="Sales By Category"
-          showBackButton={showBackButton}
+          showBackButton={onShowBackButton}
           showHeader={onShowHeader}
         />
 
@@ -78,12 +83,16 @@ function ServiceTab({ style, showBackButton }, ref) {
           style={{ flex: 1 }}
           ref={salesByServiceTabRef}
           tabLabel="Sales By Service"
-          showBackButton={showBackButton}
+          showBackButton={onShowBackButton}
           showHeader={onShowHeader}
         />
       </CustomScrollTab>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { backgroundColor: colors.WHITE, flex: 1 },
+});
 
 export default ServiceTab = forwardRef(ServiceTab);

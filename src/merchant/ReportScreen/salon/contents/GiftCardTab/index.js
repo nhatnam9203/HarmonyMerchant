@@ -1,15 +1,14 @@
+import actions from "@actions";
+import { useFocusEffect } from "@react-navigation/native";
+import { colors } from "@shared/themes";
 import React, {
-  useEffect,
-  useState,
-  useRef,
   forwardRef,
   useImperativeHandle,
+  useRef,
+  useState,
 } from "react";
-import { View, StyleSheet } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-
-import actions from "@actions";
-
+import { StyleSheet, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { ReportLayout } from "../../../widget";
 import GiftCardReportTab from "./GiftCardReportTab";
 import GiftCardStatistic from "./GiftCardStatistic";
@@ -131,14 +130,21 @@ function GiftCardTab({ style, showBackButton }, ref) {
     didBlur: () => {},
     didFocus: () => {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
+      getGiftCardReportSales();
     },
     getGiftCardReportSales: () => getGiftCardReportSales(),
   }));
 
   /**effect */
-  useEffect(() => {
-    getGiftCardReportSales();
-  }, []);
+  // useEffect(() => {
+  //   getGiftCardReportSales();
+  // }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getGiftCardReportSales();
+    }, [])
+  );
 
   const refreshData = () => {
     setRefreshing(true);
@@ -149,12 +155,18 @@ function GiftCardTab({ style, showBackButton }, ref) {
     setRefreshing(false);
   }, [giftCardReportList]);
 
+  const onShowBackButton = (bl) => {
+    if (showBackButton && typeof showBackButton === "function") {
+      showBackButton(bl);
+    }
+  };
+
   return (
     <View style={[styles.container, style]}>
       <ReportLayout
         ref={layoutRef}
-        style={style}
-        showBackButton={showBackButton}
+        style={styles.container}
+        showBackButton={onShowBackButton}
         onChangeTimeTitle={onChangeTimeTitle}
         onRequestExportFileToServer={onRequestExportFileToServer}
         isDownloadReport={isDownloadReport}
@@ -195,7 +207,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { backgroundColor: colors.WHITE, flex: 1 },
 });
 
 export default GiftCardTab = forwardRef(GiftCardTab);

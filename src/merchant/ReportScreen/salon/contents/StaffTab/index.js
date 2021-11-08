@@ -1,15 +1,15 @@
 import React, {
-  useState,
   forwardRef,
   useImperativeHandle,
   useRef,
+  useState,
 } from "react";
-import { View, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
-
 import { CustomScrollTab } from "../../../widget";
 import StaffSalaryTab from "./StaffSalary";
 import StaffServiceDurationTab from "./StaffServiceDuration";
+import { colors } from "@shared/themes";
 
 function StaffTab({ style, showBackButton }, ref) {
   /**redux store */
@@ -92,7 +92,7 @@ function StaffTab({ style, showBackButton }, ref) {
   }));
 
   return (
-    <View style={[style, { paddingTop: 10 }]}>
+    <View style={[styles.container, { paddingTop: 10 }]}>
       <CustomScrollTab onHeaderTabChanged={onChangeTab} showHeader={showHeader}>
         <StaffSalaryTab
           style={{ flex: 1 }}
@@ -113,5 +113,9 @@ function StaffTab({ style, showBackButton }, ref) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { backgroundColor: colors.WHITE, flex: 1 },
+});
 
 export default StaffTab = forwardRef(StaffTab);

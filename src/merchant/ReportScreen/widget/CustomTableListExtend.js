@@ -56,7 +56,7 @@ const formatServerNumber = (numStr) => {
 const sumPropertiesKey = (array, key) => {
   if (array?.length > 0) {
     const values = array.map((item) => formatNumberFromCurrency(item[key]));
-    return parseFloat(values.reduce((a, b) => a + b)).toFixed(2);
+    return values.reduce((a, b) => a + b);
   }
   return 0;
 };
@@ -120,6 +120,7 @@ function TableListExtended({
   onRefresh,
   isRefreshing,
   onLoadMore = () => {},
+  endLoadMore = false,
 }) {
   /**state */
   const [headerContent, setHeaderContent] = useState({});
@@ -490,6 +491,7 @@ function TableListExtended({
 
   // render header
   const renderSection = () => {
+    return <></>;
     return (
       <TableRow
         style={{
@@ -562,6 +564,17 @@ function TableListExtended({
     }
   }, [isRefreshing]);
 
+  const onHandleLoadMore = () => {
+    if (endLoadMore) {
+      stickyFormRef.current.endLoading();
+      return;
+    }
+    onLoadMore();
+    setTimeout(() => {
+      stickyFormRef.current.endLoading();
+    }, 2000);
+  };
+
   return (
     <View style={styles.container}>
       <StickyForm
@@ -576,7 +589,7 @@ function TableListExtended({
         }}
         // onLayout={(e) => setVisibleScrollPartWidth(e.nativeEvent.layout.width)}
         data={dataFactory}
-        heightForSection={() => TABLE_ROW_HEIGHT}
+        heightForSection={() => 0}
         heightForIndexPath={() => TABLE_ROW_HEIGHT}
         renderHeader={renderHeader}
         renderSection={renderSection}
@@ -600,12 +613,7 @@ function TableListExtended({
           }, 2000);
         }}
         refreshHeader={NormalHeader}
-        onLoading={() => {
-          onLoadMore();
-          setTimeout(() => {
-            stickyFormRef.current.endLoading();
-          }, 2000);
-        }}
+        onLoading={onHandleLoadMore}
       />
       {!isContentSmallerThanScrollView && (
         <Animated.View

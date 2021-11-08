@@ -5,7 +5,7 @@ import {
   roundFloatNumber,
   scaleSize,
 } from "@utils";
-import _ from "ramda";
+import _, { F } from "ramda";
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
@@ -17,7 +17,6 @@ import {
   RefreshControl,
 } from "react-native";
 import moment from "moment";
-
 
 const TABLE_HEADER_HEIGHT = 50;
 const TABLE_ROW_HEIGHT = 50;
@@ -69,8 +68,8 @@ const getCellKey = (item, primaryId) => {
 
 const strCompare = (a, b) => {
   // check valid date -> sort date
-  if (moment(a).isValid() && moment(b).isValid() ) {
-    return moment(a,DATE_FORMAT) <= moment(b,DATE_FORMAT);
+  if (moment(a).isValid() && moment(b).isValid()) {
+    return moment(a, DATE_FORMAT) <= moment(b, DATE_FORMAT);
   }
   return a.toString().localeCompare(b.toString());
 };
@@ -166,6 +165,23 @@ function TableList({
       return value + " hrs";
     }
 
+    if (format === "hhmm") {
+      let result = value >= 0 ? "" : "-";
+      const intValue = value >= 0 ? value : -value;
+      const hrs = Math.floor(intValue / 60);
+      const mins = intValue % 60;
+
+      if (hrs) {
+        result = result + " " + hrs + " h";
+      }
+
+      if (mins) {
+        result = result + " " + mins + " min";
+      }
+
+      return result;
+    }
+
     return isPriceCell(key)
       ? unitKeys && unitKeys[key]
         ? value + " " + unitKeys[key]
@@ -188,6 +204,23 @@ function TableList({
       }
 
       return value + " hrs";
+    }
+
+    if (format === "hhmm") {
+      let result = value >= 0 ? "" : "-";
+      const intValue = value >= 0 ? value : -value;
+      const hrs = Math.floor(intValue / 60);
+      const mins = intValue % 60;
+
+      if (hrs) {
+        result = result + " " + hrs + " h";
+      }
+
+      if (mins) {
+        result = result + " " + mins + " min";
+      }
+
+      return result;
     }
 
     return isPriceCell(key)
@@ -266,6 +299,7 @@ function TableList({
   /**render */
   // render cell
   const renderItem = ({ item, index }) => {
+    if (!item) return null;
     const cellKey = getCellKey(item, primaryId);
 
     return (

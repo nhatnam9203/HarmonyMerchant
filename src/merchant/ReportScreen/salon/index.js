@@ -8,14 +8,14 @@ import { StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 import { CustomTopBarScreenReport } from "../widget";
 import {
-  // StaffTab,
+  StaffTab,
   GiftCardTab,
   CustomerTab,
   ServiceTab,
   ProductTab,
   OverallTab,
 } from "./contents";
-import { StaffTab } from "../general";
+// import { StaffTab } from "../general";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
@@ -35,34 +35,36 @@ export const ReportScreen = React.forwardRef(({ showBackButton }, ref) => {
   /**refs */
   const scrollTabRef = useRef(null);
 
-  // const giftCardRef = useRef(null);
-  // const serviceRef = useRef(null);
-
-  const salesRef = useRef(null);
-  const orderRef = useRef(null);
-  const productRef = useRef(null);
-  const customerRef = useRef(null);
-  const overallRef = useRef(null);
   const staffRef = useRef(null);
   const giftCardRef = useRef(null);
+  const customerRef = useRef(null);
+  const serviceRef = useRef(null);
+  const productRef = useRef(null);
+  const overallRef = useRef(null);
 
   /**public function  */
   useImperativeHandle(ref, () => ({
     goBack: () => {
       switch (tabIndex) {
-        case 4:
-          overallRef.current?.goBack();
-          break;
-        case 5:
+        case 0:
           staffRef.current?.goBack();
           break;
-        case 0:
         case 1:
+          giftCardRef.current?.goBack();
+          break;
         case 2:
+          customerRef.current?.goBack();
+          break;
         case 3:
+          serviceRef.current?.goBack();
+          break;
+        case 4:
+          productRef.current?.goBack();
+          break;
+        case 5:
+          overallRef.current?.goBack();
+          break;
         default:
-          NavigationServices.goBack();
-
           break;
       }
     },
@@ -71,13 +73,12 @@ export const ReportScreen = React.forwardRef(({ showBackButton }, ref) => {
       switch (tabIndex) {
         case 0:
         default:
-          salesRef?.current?.didBlur();
-          orderRef.current?.didBlur();
-          productRef?.current?.didBlur();
-          customerRef.current?.didBlur();
-          overallRef?.current?.didBlur();
           staffRef?.current?.didBlur();
-
+          giftCardRef?.current?.didBlur();
+          customerRef?.current?.didBlur();
+          serviceRef?.current?.didBlur();
+          productRef?.current?.didBlur();
+          overallRef?.current?.didBlur();
           break;
       }
       scrollTabRef?.current?.goToFirstTab();
@@ -85,22 +86,22 @@ export const ReportScreen = React.forwardRef(({ showBackButton }, ref) => {
     didFocus: () => {
       switch (tabIndex) {
         case 0:
-          salesRef.current?.didFocus();
+          staffRef.current?.didFocus();
           break;
         case 1:
-          orderRef.current?.didFocus();
+          giftCardRef.current?.didFocus();
           break;
         case 2:
-          productRef.current?.didFocus();
-          break;
-        case 3:
           customerRef.current?.didFocus();
           break;
+        case 3:
+          serviceRef.current?.didFocus();
+          break;
         case 4:
-          overallRef.current?.didFocus();
+          productRef.current?.didFocus();
           break;
         case 5:
-          staffRef.current?.didFocus();
+          overallRef.current?.didFocus();
           break;
         default:
           break;
@@ -111,36 +112,34 @@ export const ReportScreen = React.forwardRef(({ showBackButton }, ref) => {
   const onChangeTab = (index) => {
     switch (tabIndex) {
       case 0:
-        // salesRef.current?.goBack();
+        staffRef.current?.goBack();
         break;
       case 1:
-        // orderRef.current?.goBack();
+        giftCardRef.current?.goBack();
         break;
       case 2:
-        // productRef.current?.goBack();
+        customerRef.current?.goBack();
         break;
       case 3:
-        // customerRef.current?.goBack();
+        serviceRef.current?.goBack();
         break;
       case 4:
-        overallRef.current?.goBack();
-        showBackButton(false);
-
+        productRef.current?.goBack();
         break;
       case 5:
-        staffRef.current?.goBack();
-        showBackButton(false);
-
+        overallRef.current?.goBack();
         break;
       default:
         break;
     }
 
     setTabIndex(index);
+    onShowBackButton(false);
   };
 
   const onShowBackButton = (bl) => {
-    showBackButton(bl);
+    if (showBackButton && typeof showBackButton === "function")
+      showBackButton(bl);
   };
 
   //
@@ -148,22 +147,22 @@ export const ReportScreen = React.forwardRef(({ showBackButton }, ref) => {
     if (reportTabPermissionSuccess === true && isMount) {
       switch (tabIndex) {
         case 0:
-          salesRef.current?.didFocus();
+          staffRef.current?.didFocus();
           break;
         case 1:
-          orderRef.current?.didFocus();
+          giftCardRef.current?.didFocus();
           break;
         case 2:
-          productRef.current?.didFocus();
-          break;
-        case 3:
           customerRef.current?.didFocus();
           break;
+        case 3:
+          serviceRef.current?.didFocus();
+          break;
         case 4:
-          overallRef.current?.didFocus();
+          productRef.current?.didFocus();
           break;
         case 5:
-          staffRef.current?.didFocus();
+          overallRef.current?.didFocus();
           break;
         default:
           break;
@@ -180,16 +179,16 @@ export const ReportScreen = React.forwardRef(({ showBackButton }, ref) => {
   handleOnChangeTab = (i) => {
     switch (i) {
       case 0:
-        // staffRef?.current?.getListStaffsSalaryTop();
+        staffRef?.current?.getListStaffsSalaryTop();
         break;
       case 1:
-        // giftCardRef?.current?.getGiftCardReportSales();
+        giftCardRef?.current?.getGiftCardReportSales();
         break;
       case 2:
-        // customerRef?.current?.getCustomerReportSales();
+        customerRef?.current?.getCustomerReportSales();
         break;
       case 5:
-        // overallRef?.current?.callAPIForTwoTabs();
+        overallRef?.current?.callAPIForTwoTabs();
         break;
 
       default:
@@ -221,36 +220,111 @@ export const ReportScreen = React.forwardRef(({ showBackButton }, ref) => {
             tabBarIcon: IMAGE.Staff,
           }}
           initialParams={{
-            showBackButton: showBackButton,
+            showBackButton: onShowBackButton,
           }}
         >
-          {(props) => <StaffTab {...props} ref={staffRef} />}
+          {(props) => (
+            <StaffTab
+              {...props}
+              ref={staffRef}
+              showBackButton={onShowBackButton}
+            />
+          )}
         </Screen>
 
         <Screen
           name={"ReportGiftCardTab"}
           options={{
             title: t("Gift Card"),
-            tabBarIcon: IMAGE.GiftCard,
+            tabBarIcon: IMAGE.giftcard,
           }}
           initialParams={{
-            showBackButton: showBackButton,
+            showBackButton: onShowBackButton,
           }}
         >
-          {(props) => <GiftCardTab {...props} ref={giftCardRef} />}
+          {(props) => (
+            <GiftCardTab
+              {...props}
+              ref={giftCardRef}
+              showBackButton={onShowBackButton}
+            />
+          )}
+        </Screen>
+
+        <Screen
+          name={"ReportCustomerTab"}
+          options={{
+            title: t("Customer"),
+            tabBarIcon: IMAGE.Customer,
+          }}
+          initialParams={{
+            showBackButton: onShowBackButton,
+          }}
+        >
+          {(props) => (
+            <CustomerTab
+              {...props}
+              ref={customerRef}
+              showBackButton={onShowBackButton}
+            />
+          )}
         </Screen>
 
         <Screen
           name={"ReportServiceTab"}
           options={{
             title: t("Service"),
-            tabBarIcon: IMAGE.Service,
+            tabBarIcon: IMAGE.Services,
           }}
           initialParams={{
-            showBackButton: showBackButton,
+            showBackButton: onShowBackButton,
           }}
         >
-          {(props) => <ServiceTab {...props} ref={giftCardRef} />}
+          {(props) => (
+            <ServiceTab
+              {...props}
+              ref={serviceRef}
+              showBackButton={onShowBackButton}
+            />
+          )}
+        </Screen>
+
+        <Screen
+          name={"ReportProductTab"}
+          options={{
+            title: t("Product"),
+            tabBarIcon: IMAGE.Report_Product,
+          }}
+          initialParams={{
+            showBackButton: onShowBackButton,
+          }}
+        >
+          {(props) => (
+            <ProductTab
+              {...props}
+              ref={productRef}
+              showBackButton={onShowBackButton}
+            />
+          )}
+        </Screen>
+
+        <Screen
+          name={"ReportOverallTab"}
+          options={{
+            title: t("Overall"),
+            tabBarIcon: IMAGE.Report_Overall,
+          }}
+          initialParams={{
+            showBackButton: onShowBackButton,
+          }}
+        >
+          {(props) => (
+            <OverallTab
+              {...props}
+              ref={overallRef}
+              showBackButton={onShowBackButton}
+            />
+          )}
         </Screen>
       </Navigator>
     </View>
