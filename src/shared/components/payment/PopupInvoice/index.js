@@ -366,22 +366,26 @@ export const PopupInvoice = React.forwardRef(
 
             releaseCapture(imageUri);
             if (!printTempt && isSignature) {
-              Alert.alert(
-                "Would you like to print  customer's receipt?",
-                "",
-                [
-                  {
-                    text: "Cancel",
-                    onPress: onCancel,
-                    style: "cancel",
-                  },
-                  {
-                    text: "OK",
-                    onPress: doPrintAgain,
-                  },
-                ],
-                { cancelable: false }
-              );
+              if (profile?.isPrintReceipt) {
+                doPrintAgain();
+              } else {
+                Alert.alert(
+                  "Would you like to print  customer's receipt?",
+                  "",
+                  [
+                    {
+                      text: "Cancel",
+                      onPress: onCancel,
+                      style: "cancel",
+                    },
+                    {
+                      text: "OK",
+                      onPress: doPrintAgain,
+                    },
+                  ],
+                  { cancelable: false }
+                );
+              }
             } else {
               onCancel();
             }
