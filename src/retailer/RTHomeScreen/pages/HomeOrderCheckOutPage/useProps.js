@@ -120,7 +120,6 @@ export const useProps = ({
   const [appointmentItemRemove, removeAppointmentItem] =
     useAppointmentRemoveItem();
   const [appointmentGet, getAppointment] = useGetAppointment();
-
   const [appointmentGiftCardAdd, addAppointmentGiftCard] =
     useAppointmentAddGiftCard();
   const [appointmentTempGiftCardAdd, addAppointmentTempGiftCard] =

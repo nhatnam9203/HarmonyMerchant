@@ -68,12 +68,17 @@ class TabGaneral extends Layout {
       giftForNewEnabled: profile?.giftForNewEnabled || false,
       receiptFooter: profile?.receiptFooter || "",
       shippingMethod: profile?.shippingMethod ?? ShippingMethodDefault,
+      isCheckQty: profile?.isCheckQty ?? false,
+      isPrintReceipt: profile?.isPrintReceipt ?? false,
     };
     this.tempId = 4;
     this.inputRefsTime = [];
     this.checkPermissionRef = React.createRef();
     this.onChangeShippingFlatRate = this.onChangeShippingFlatRate.bind(this);
     this.onCheckShippingFree = this.onCheckShippingFree.bind(this);
+    this.switchCheckProductQuantity =
+      this.switchCheckProductQuantity.bind(this);
+    this.switchPrintReceipt = this.switchPrintReceipt.bind(this);
   }
 
   setRefTimeWorking = (ref) => {
@@ -161,6 +166,8 @@ class TabGaneral extends Layout {
       giftForNewEnabled,
       receiptFooter,
       shippingMethod,
+      isCheckQty,
+      isPrintReceipt,
     } = this.state;
     const temptLanguage = languageApp === "English" ? "en" : "vi";
     this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
@@ -196,6 +203,8 @@ class TabGaneral extends Layout {
         giftForNewEnabled,
         receiptFooter,
         shippingMethod,
+        isCheckQty,
+        isPrintReceipt,
       },
       true,
       true
@@ -306,6 +315,18 @@ class TabGaneral extends Layout {
   }
   componentWillUnmount() {
     this.inputRefsTime = [];
+  }
+
+  switchCheckProductQuantity(visible) {
+    this.setState({
+      isCheckQty: visible,
+    });
+  }
+
+  switchPrintReceipt(visible) {
+    this.setState({
+      isPrintReceipt: visible,
+    });
   }
 }
 

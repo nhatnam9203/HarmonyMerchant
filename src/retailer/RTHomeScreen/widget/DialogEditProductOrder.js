@@ -1,13 +1,12 @@
-import { ButtonGradient, FormInput, FormInputAmount } from "@shared/components";
+import { ButtonGradient, FormInputAmount } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
-import { colors, fonts, layouts } from "@shared/themes";
+import { useGetProducts } from "@shared/services/api/retailer";
+import { colors, fonts } from "@shared/themes";
+import { statusSuccess } from "@shared/utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, Text, TextInput } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useDispatch } from "react-redux";
-import { useGetProducts } from "@shared/services/api/retailer";
-import { arrayIsEqual, INPUT_TYPE, statusSuccess } from "@shared/utils";
+import { StyleSheet, Text, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 export const DialogEditProductOrder = React.forwardRef(
   ({ onEditProductItem }, ref) => {
@@ -15,6 +14,9 @@ export const DialogEditProductOrder = React.forwardRef(
     const [t] = useTranslation();
     const dialogRef = React.useRef(null);
     const scrollRef = React.useRef(null);
+
+    const { isCheckQty = false } =
+      useSelector((state) => state.dataLocal.profile) || {};
 
     const [amount, setAmount] = React.useState(0);
     const [quantity, setQuantity] = React.useState(1);
@@ -95,7 +97,7 @@ export const DialogEditProductOrder = React.forwardRef(
                 width={scaleWidth(140)}
                 height={scaleHeight(40)}
                 borderRadius={scaleWidth(3)}
-                // disable={quantity > maxCountQty}
+                disable={isCheckQty && quantity > maxCountQty}
                 onPress={handleSubmit}
               />
             </View>

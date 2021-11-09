@@ -65,6 +65,8 @@ class Layout extends React.Component {
       giftForNewEnabled,
       receiptFooter,
       shippingMethod,
+      isCheckQty,
+      isPrintReceipt
     } = this.state;
 
     return (
@@ -149,7 +151,13 @@ class Layout extends React.Component {
 
           {/* ------- Tip on pax machine  ------ */}
           <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
-            <View style={{ width: scaleSize(180), justifyContent: "center" }}>
+            <View
+              style={{
+                width: scaleWidth(260),
+                justifyContent: "center",
+                alignItems: "flex-start",
+              }}
+            >
               <Text
                 style={{
                   color: "#404040",
@@ -172,6 +180,77 @@ class Layout extends React.Component {
                 ios_backgroundColor="#E5E5E5"
                 onValueChange={this.switchTipOnPaxMachine}
                 value={isTipOnPaxMachine}
+              />
+            </View>
+          </View>
+
+          {/* ------- Is Check Product Qty  ------ */}
+          <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
+            <View
+              style={{
+                width: scaleWidth(260),
+                justifyContent: "center",
+                alignItems: "flex-start",
+              }}
+            >
+              <Text
+                style={{
+                  color: "#404040",
+                  fontSize: scaleSize(16),
+                  fontWeight: "600",
+                }}
+              >
+                {`Is Check Product Qty:`}
+              </Text>
+            </View>
+            <View
+              style={{
+                height: scaleSize(40),
+                width: scaleSize(140),
+                justifyContent: "center",
+              }}
+            >
+              <Switch
+                trackColor={{ false: "#767577", true: "#0764B0" }}
+                ios_backgroundColor="#E5E5E5"
+                onValueChange={this.switchCheckProductQuantity}
+                value={isCheckQty}
+              />
+            </View>
+          </View>
+
+          {/* ------- Print Receipt Auto When Pay  ------ */}
+
+          <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
+            <View
+              style={{
+                width: scaleWidth(260),
+                justifyContent: "center",
+                alignItems: "flex-start",
+              }}
+            >
+              <Text
+                style={{
+                  color: "#404040",
+                  fontSize: scaleSize(16),
+                  fontWeight: "600",
+                }}
+              >
+                {`Print Receipt Auto:`}
+              </Text>
+            </View>
+            <View
+              style={{
+                height: scaleSize(40),
+                width: scaleSize(140),
+                justifyContent: "center",
+              }}
+            >
+              <Switch
+                trackColor={{ false: "#767577", true: "#0764B0" }}
+                ios_backgroundColor="#E5E5E5"
+                onValueChange={this.switchPrintReceipt}
+                value={isPrintReceipt}
               />
             </View>
           </View>

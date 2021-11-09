@@ -5,12 +5,12 @@ import { useGetProducts } from "@shared/services/api/retailer";
 import { colors, fonts, layouts } from "@shared/themes";
 import { arrayIsEqual, INPUT_TYPE, statusSuccess } from "@shared/utils";
 import { formatMoneyWithUnit } from "@utils";
+import _ from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import FastImage from "react-native-fast-image";
-import { useDispatch } from "react-redux";
-import _ from "lodash";
+import { useDispatch, useSelector } from "react-redux";
 
 const log = (obj, message = "") => {
   Logger.log(`[DialogProductDetail] ${message}`, obj);
@@ -20,6 +20,9 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const dialogRef = React.useRef(null);
+
+  const { isCheckQty = false } =
+    useSelector((state) => state.dataLocal.profile) || {};
 
   const [product, setProduct] = React.useState(null);
   const [quantity, setQuantity] = React.useState(1);
@@ -121,17 +124,18 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   };
 
   const disableAddBasket = () => {
-    // if (quantity <= 0) return true;
+    if (isCheckQty && quantity <= 0) return true;
     if (!product) return true;
     if (product?.quantities?.length > 0 && !optionsQty) return true;
-    // if (product?.options?.length > 0 && listFiltersOptionsQty?.length <= 0)
-    //   return true;
 
-    // if (optionsQty && optionsQty.quantity < quantity) {
-    //   return true;
-    // }
+    if (isCheckQty) {
+      if (product?.options?.length > 0 && listFiltersOptionsQty?.length <= 0)
+        return true;
 
-    // else if (quantity > _.get(product, "quantity", 0)) return true;
+      if (optionsQty && optionsQty.quantity < quantity) {
+        return true;
+      } else if (quantity > _.get(product, "quantity", 0)) return true;
+    }
 
     return false;
   };
@@ -189,6 +193,10 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
       if (codeSelected) {
         const tmp = data?.quantities?.find((x) => x.barCode === codeSelected);
         if (tmp?.attributeIds?.length) {
+          if (isCheckQty && tmp.quantity <= 0) {
+            return;
+          }
+
           const selectedList = tmp?.attributeIds?.map((v) => {
             let findOpt = null;
             for (let i = 0; i < data?.options?.length; i++) {
@@ -217,7 +225,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     if (product?.quantities)
       setListFiltersOptionsQty(
         product?.quantities?.filter((x) => {
-          // if (x.quantity <= 0) return false;
+          if (isCheckQty && x.quantity <= 0) return false;
           return true;
         })
       );
@@ -273,7 +281,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     setOptionsSelected(newOptionsList);
 
     const filtersQuantities = data?.quantities?.filter((x) => {
-      // if (x.quantity <= 0) return false;
+      if (isCheckQty && x.quantity <= 0) return false;
       const temps = x?.attributeIds;
       for (let i = 0; i < newOptionsList?.length; i++) {
         if (!temps.includes(newOptionsList[i]?.value)) return false;
