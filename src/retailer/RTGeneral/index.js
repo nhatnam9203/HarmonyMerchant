@@ -234,6 +234,9 @@ class TabGaneral extends Layout {
         ),
         giftForNewEnabled: profile?.giftForNewEnabled || false,
         shippingMethod: profile?.shippingMethod ?? ShippingMethodDefault,
+        receiptFooter: profile?.receiptFooter || "",
+        isCheckQty: profile?.isCheckQty ?? false,
+        isPrintReceipt: profile?.isPrintReceipt ?? false,
       });
       this.updateWorkTime();
     }
@@ -257,6 +260,9 @@ class TabGaneral extends Layout {
         ),
         giftForNewEnabled: profile?.giftForNewEnabled || false,
         shippingMethod: profile?.shippingMethod ?? ShippingMethodDefault,
+        receiptFooter: profile?.receiptFooter || "",
+        isCheckQty: profile?.isCheckQty ?? false,
+        isPrintReceipt: profile?.isPrintReceipt ?? false,
       });
       this.updateWorkTime();
     }

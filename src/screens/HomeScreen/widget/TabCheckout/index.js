@@ -21,7 +21,7 @@ import {
   POS_SERIAL,
   PaymentTerminalType,
   requestTransactionDejavoo,
-  stringIsEmptyOrWhiteSpaces
+  stringIsEmptyOrWhiteSpaces,
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
 import Configs from "@configs";
@@ -62,6 +62,7 @@ class TabCheckout extends Layout {
     this.addEditCustomerInfoRef = React.createRef();
     this.staffFlatListRef = React.createRef();
     this.invoiceRef = React.createRef();
+    this.popupEnterAmountCustomServiceRef = React.createRef();
 
     this.isGetResponsePaymentPax = false;
 
@@ -909,9 +910,8 @@ class TabCheckout extends Layout {
   };
 
   printTemptInvoice = async () => {
-    const { groupAppointment, 
-            paymentDetailInfo,
-            paymentMachineType, } = this.props;
+    const { groupAppointment, paymentDetailInfo, paymentMachineType } =
+      this.props;
 
     await this.invoiceRef.current?.showAppointmentReceipt({
       appointmentId: groupAppointment?.mainAppointmentId,
@@ -1343,7 +1343,7 @@ class TabCheckout extends Layout {
           let isSetup = false;
           if (paymentMachineType == PaymentTerminalType.Pax) {
             isSetup = l.get(paxMachineInfo, "isSetup");
-          } else if (paymentMachineType == PaymentTerminalType.Dejavoo){
+          } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
             isSetup = l.get(dejavooMachineInfo, "isSetup");
           } else {
             isSetup = l.get(cloverMachineInfo, "isSetup");
@@ -1514,7 +1514,11 @@ class TabCheckout extends Layout {
         l.get(groupAppointment, "checkoutGroupId", -1).toString()
       ) {
         //Call server to check auth number
-        const mainAppointmentId = l.get(groupAppointment, "mainAppointmentId", "0")
+        const mainAppointmentId = l.get(
+          groupAppointment,
+          "mainAppointmentId",
+          "0"
+        );
         const resultGroupAppointment = await requestAPI({
           type: "GET_GROUP_APPOINTMENT_BY_ID",
           method: "GET",
@@ -1598,16 +1602,16 @@ class TabCheckout extends Layout {
       } = this.props;
       const { paymentSelected } = this.state;
       const tenderType = paymentSelected === "Credit Card" ? "Credit" : "Debit";
-  
+
       const parameter = {
         tenderType: tenderType,
         transType: "Sale",
-        amount: parseFloat(paxAmount/100).toFixed(2),
+        amount: parseFloat(paxAmount / 100).toFixed(2),
         RefId: payAppointmentId,
         invNum: `${groupAppointment?.checkoutGroupId || 0}`,
       };
 
-      const responses = await requestTransactionDejavoo(parameter)
+      const responses = await requestTransactionDejavoo(parameter);
       this.handleResponseCreditCardDejavoo(
         responses,
         true,
@@ -1717,12 +1721,17 @@ class TabCheckout extends Layout {
     });
     try {
       parseString(message, (err, result) => {
-        if (err || l.get(result, 'xmp.response.0.ResultCode.0') != 0) {
-          let detailMessage = l.get(result, 'xmp.response.0.RespMSG.0', "").replace(/%20/g, " ")
-          detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage) ? `: ${detailMessage}` : detailMessage
-          
-          const resultTxt = `${l.get(result, 'xmp.response.0.Message.0')}${detailMessage}`
-                            || "Transaction failed";
+        if (err || l.get(result, "xmp.response.0.ResultCode.0") != 0) {
+          let detailMessage = l
+            .get(result, "xmp.response.0.RespMSG.0", "")
+            .replace(/%20/g, " ");
+          detailMessage = !stringIsEmptyOrWhiteSpaces(detailMessage)
+            ? `: ${detailMessage}`
+            : detailMessage;
+
+          const resultTxt =
+            `${l.get(result, "xmp.response.0.Message.0")}${detailMessage}` ||
+            "Transaction failed";
           if (payAppointmentId) {
             this.props.actions.appointment.cancelHarmonyPayment(
               payAppointmentId,
@@ -1737,8 +1746,8 @@ class TabCheckout extends Layout {
             });
           }, 300);
         } else {
-          const SN = l.get(result, 'xmp.response.0.SN.0');
-          if(!stringIsEmptyOrWhiteSpaces(SN)){
+          const SN = l.get(result, "xmp.response.0.SN.0");
+          if (!stringIsEmptyOrWhiteSpaces(SN)) {
             this.props.actions.hardware.setDejavooMachineSN(SN);
           }
           this.props.actions.appointment.submitPaymentWithCreditCard(
@@ -1751,8 +1760,6 @@ class TabCheckout extends Layout {
           );
         }
       });
-       
-      
     } catch (error) {}
   }
 
@@ -1857,10 +1864,10 @@ class TabCheckout extends Layout {
           alert(localize("PleaseWait", language));
           return;
         }
-      } else if (paymentMachineType == PaymentTerminalType.Dejavoo){
+      } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
         //Dejavoo can not cancel transaction by api
         alert(localize("PleaseWait", language));
-          return;
+        return;
       } else {
         if (!this.isGetResponsePaymentPax) {
           alert(localize("PleaseWait", language));
@@ -2981,7 +2988,6 @@ class TabCheckout extends Layout {
         }
       }),
       this.eventEmitter.addListener("pairingSuccess", (data) => {
-        
         if (this.isProcessPaymentClover) {
           this.setState({
             visibleProcessingCredit: true,
@@ -2995,7 +3001,7 @@ class TabCheckout extends Layout {
         });
       }),
       this.eventEmitter.addListener("printInProcess", () => {}),
-  
+
       this.eventEmitter.addListener("deviceDisconnected", () => {
         if (this.isProcessPaymentClover) {
           this.isProcessPaymentClover = false;
@@ -3034,6 +3040,13 @@ class TabCheckout extends Layout {
     await this.setState({
       visibleInvoice: false,
     });
+  };
+
+  onSelectCustomService = () => {
+    const { selectedStaff } = this.state;
+
+    console.log("select staff " + JSON.stringify(selectedStaff));
+    this.popupEnterAmountCustomServiceRef.current?.showPopup(selectedStaff);
   };
 }
 

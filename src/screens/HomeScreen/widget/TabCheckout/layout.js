@@ -59,6 +59,7 @@ import {
   PopupEnterAmountGiftCard,
   PopupGiftCardDetail,
   PopupPaymentDetails,
+  PopupEnterAmountCustomService,
 } from "./widget";
 import { StaffItem } from "./widget/NewCheckoutComponent";
 
@@ -259,8 +260,13 @@ class Layout extends React.Component {
   }
 
   renderCategoriesCheckout() {
-    const { language, categoriesByMerchant, groupAppointment, isOfflineMode } =
-      this.props;
+    const {
+      language,
+      categoriesByMerchant,
+      groupAppointment,
+      isOfflineMode,
+      profile,
+    } = this.props;
     const {
       isShowColProduct,
       isBlockBookingFromCalendar,
@@ -328,6 +334,8 @@ class Layout extends React.Component {
       }
     }
 
+    const isCustomService = profile?.isCustomService ?? false;
+
     return (
       <View
         style={[{ width: scaleSize(tempWidth) }, styles.categories_column_box]}
@@ -357,6 +365,17 @@ class Layout extends React.Component {
               showsVerticalScrollIndicator={false}
               keyboardShouldPersistTaps="always"
             >
+              {isCustomService && (
+                <ItemCategory
+                  category={{
+                    name: "Custom Service",
+                    categoryId: 1,
+                  }}
+                  onPressSelectCategory={this.onSelectCustomService}
+                  colorText={temptColorHeader}
+                  categorySelected={false}
+                />
+              )}
               {tempCategories.map((category, index) => (
                 <ItemCategory
                   key={index}
@@ -1543,6 +1562,14 @@ class Layout extends React.Component {
           ref={this.invoiceRef}
           cancelInvoicePrint={this.cancelInvoicePrint}
           doPrintClover={(imageUri) => this.doPrintClover(imageUri)}
+        />
+
+        <PopupEnterAmountCustomService
+          ref={this.popupEnterAmountCustomServiceRef}
+          // onRequestClose={this.onRequestCloseBillModal}
+          language={language}
+          // extractBill={this.extractBill}
+          // doneBill={this.doneBill}
         />
       </View>
     );

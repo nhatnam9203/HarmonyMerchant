@@ -41,6 +41,7 @@ class TabGaneral extends Layout {
       giftForNewEnabled: profile?.giftForNewEnabled || false,
       isTurnOnAutoClose: profile?.isTurnOnAutoClose || false,
       receiptFooter: profile?.receiptFooter || null,
+      isCustomService: profile?.isCustomService || false,
     };
     this.inputRefsTime = [];
   }
@@ -132,6 +133,7 @@ class TabGaneral extends Layout {
       giftForNewEnabled,
       isTurnOnAutoClose,
       receiptFooter,
+      isCustomService,
     } = this.state;
     const temptLanguage = languageApp === "English" ? "en" : "vi";
     this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
@@ -168,6 +170,7 @@ class TabGaneral extends Layout {
         sendReviewLinkOption: getValueSendLinkGoogle(sendReviewLinkOption),
         giftForNewEnabled,
         receiptFooter,
+        isCustomService,
       },
       true,
       true
@@ -184,6 +187,10 @@ class TabGaneral extends Layout {
     }
 
     this.setState({ isTurnOnAutoClose: visible });
+  };
+
+  switchCustomService = (visible) => {
+    this.setState({ isCustomService: visible });
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -207,6 +214,8 @@ class TabGaneral extends Layout {
           profile?.sendReviewLinkOption || ""
         ),
         giftForNewEnabled: profile?.giftForNewEnabled || false,
+        receiptFooter: profile?.receiptFooter || null,
+        isCustomService: profile?.isCustomService || false,
       });
       this.updateWorkTime();
     }
@@ -231,6 +240,8 @@ class TabGaneral extends Layout {
           profile?.sendReviewLinkOption || ""
         ),
         giftForNewEnabled: profile?.giftForNewEnabled || false,
+        receiptFooter: profile?.receiptFooter || null,
+        isCustomService: profile?.isCustomService || false,
       });
       this.updateWorkTime();
     }
