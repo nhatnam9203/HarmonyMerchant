@@ -16,7 +16,13 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
     return (
       <>
         <View style={styles.content}>
-          <View style={{ flex: 1, justifyContent: "flex-start" }}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+            }}
+          >
             <Text style={[styles.textStyle, textStyle]}>
               {`${index + 1}. ${
                 item.data && item.data.name ? item.data.name : ""
@@ -427,7 +433,7 @@ export const ItemHeaderReceipt = ({ type, textStyle }) => {
 };
 
 const styles = StyleSheet.create({
-  content: { flexDirection: "row", paddingVertical: scaleHeight(0) },
+  content: { flexDirection: "row", paddingVertical: scaleHeight(5) },
 
   textStyle: { fontSize: scaleFont(15), fontWeight: "400", textAlign: "left" },
 

@@ -249,7 +249,7 @@ export const useProps = ({
   React.useEffect(() => {
     const { codeStatus, data } = productListData || {};
     if (statusSuccess(codeStatus)) {
-      setSearchData(data);
+      setSearchData(data?.filter((x) => x.visibility !== "web"));
 
       if (data?.length > 0) {
         setCategoryId(null);
