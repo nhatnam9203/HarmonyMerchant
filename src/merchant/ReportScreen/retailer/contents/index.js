@@ -14,4 +14,5 @@ module.exports = {
   OverallTab,
   SalesTab,
   OrderTab,
+  GiftCardTab
 };

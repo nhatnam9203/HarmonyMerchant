@@ -1,18 +1,17 @@
+import actions from "@actions";
+import { colors } from "@shared/themes";
 import React, {
-  useEffect,
-  useState,
-  useRef,
   forwardRef,
   useImperativeHandle,
+  useRef,
+  useState,
 } from "react";
-import { View, StyleSheet } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-
-import actions from "@actions";
-
+import { StyleSheet, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { ReportLayout } from "../../../widget";
 import GiftCardReportTab from "./GiftCardReportTab";
 import GiftCardStatistic from "./GiftCardStatistic";
+import { useFocusEffect } from "@react-navigation/native";
 
 const RANGE_TIME_DEFAULT = "This Week";
 
@@ -128,18 +127,23 @@ function GiftCardTab({ style, showBackButton }, ref) {
     goBack: () => {
       layoutRef.current?.goBack();
     },
-    didBlur: () => {
-    },
+    didBlur: () => {},
     didFocus: () => {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
-    getGiftCardReportSales: () => getGiftCardReportSales()
+    getGiftCardReportSales: () => getGiftCardReportSales(),
   }));
 
   /**effect */
-  useEffect(() => {
-    getGiftCardReportSales();
-  }, []);
+  // useEffect(() => {
+  //   getGiftCardReportSales();
+  // }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getGiftCardReportSales();
+    }, [])
+  );
 
   const refreshData = () => {
     setRefreshing(true);
@@ -155,6 +159,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
       <ReportLayout
         ref={layoutRef}
         style={style}
+        style={styles.container}
         showBackButton={showBackButton}
         onChangeTimeTitle={onChangeTimeTitle}
         onRequestExportFileToServer={onRequestExportFileToServer}
@@ -196,7 +201,7 @@ function GiftCardTab({ style, showBackButton }, ref) {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { backgroundColor: colors.WHITE, flex: 1 },
 });
 
 export default GiftCardTab = forwardRef(GiftCardTab);

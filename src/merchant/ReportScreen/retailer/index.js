@@ -14,6 +14,7 @@ import {
   ProductTab,
   SalesTab,
   StaffTab,
+  GiftCardTab,
 } from "./contents";
 import { RTStaffCheckIn } from "../general";
 
@@ -36,7 +37,6 @@ export const RetailerReportScreen = React.forwardRef(
     /**refs */
     const scrollTabRef = useRef(null);
 
-    // const giftCardRef = useRef(null);
     // const serviceRef = useRef(null);
 
     const salesRef = useRef(null);
@@ -45,6 +45,7 @@ export const RetailerReportScreen = React.forwardRef(
     const customerRef = useRef(null);
     const overallRef = useRef(null);
     const staffRef = useRef(null);
+    const giftCardRef = useRef(null);
 
     /**public function  */
     useImperativeHandle(ref, () => ({
@@ -274,6 +275,26 @@ export const RetailerReportScreen = React.forwardRef(
           >
             {(props) => <StaffTab {...props} ref={staffRef} />}
           </Screen>
+
+          <Screen
+            name={"ReportGiftCardTab"}
+            options={{
+              title: t("Gift Card"),
+              tabBarIcon: IMAGE.giftcard,
+            }}
+            initialParams={{
+              showBackButton: onShowBackButton,
+            }}
+          >
+            {(props) => (
+              <GiftCardTab
+                {...props}
+                ref={giftCardRef}
+                showBackButton={onShowBackButton}
+              />
+            )}
+          </Screen>
+
           <Screen
             name={"RTStaffCheckInTab"}
             options={{
