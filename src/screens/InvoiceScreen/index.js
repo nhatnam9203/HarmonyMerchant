@@ -467,7 +467,7 @@ class InvoiceScreen extends Layout {
               const portClover = l.get(cloverMachineInfo, "port")
                 ? l.get(cloverMachineInfo, "port")
                 : 80;
-              const ipClover = l.get(cloverMachineInfo, "ip")
+              const ipClover = l.get(cloverMachineInfo, "ip");
               const url = `wss://${ipClover}:${portClover}/remote_pay`;
               this.isProcessVoidPaymentClover = true;
               const paymentInfo = {
@@ -565,8 +565,8 @@ class InvoiceScreen extends Layout {
               const portClover = l.get(cloverMachineInfo, "port")
                 ? l.get(cloverMachineInfo, "port")
                 : 80;
-              const ipClover = l.get(cloverMachineInfo, "ip")
-             
+              const ipClover = l.get(cloverMachineInfo, "ip");
+
               const url = `wss://${ipClover}:${portClover}/remote_pay`;
               this.isProcessVoidPaymentClover = true;
               const paymentInfo = {
@@ -1012,7 +1012,7 @@ class InvoiceScreen extends Layout {
         printerSelect
       );
 
-      await this.setState({ receiptContentBg: "#fff" }, async () => {
+      await this.setState({ receiptContentBg: "transparent" }, async () => {
         if (portName) {
           this.props.actions.app.loadingApp();
           const imageUri = await captureRef(this.viewShotRef, {});

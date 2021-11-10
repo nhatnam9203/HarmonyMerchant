@@ -74,7 +74,8 @@ export const useProps = ({
   );
   const printerList = useSelector((state) => state.dataLocal.printerList);
   const printerSelect = useSelector((state) => state.dataLocal.printerSelect);
-
+  const { isCheckQty = false } =
+    useSelector((state) => state.dataLocal.profile) || {};
   /**
   |--------------------------------------------------
   | STATE variables
@@ -447,30 +448,38 @@ export const useProps = ({
           return Object.assign({}, pro, { values: temp });
         });
 
-        setTimeout(() => {
-          addProductToBasket(
-            Object.assign({}, data, {
-              id: Date.now(),
-              quantity: 1,
-              options: filterOptions,
-              productQuantityId: tmp?.id,
-            })
-          );
-          setScanCodeTemp(null);
-        }, 100);
-      } else {
-        if (data?.quantities?.length > 0) {
-          productDetailRef.current?.show(data);
-        } else {
+        if (isCheckQty && tmp.quantity >= 1) {
           setTimeout(() => {
             addProductToBasket(
               Object.assign({}, data, {
                 id: Date.now(),
                 quantity: 1,
+                options: filterOptions,
+                productQuantityId: tmp?.id,
               })
             );
             setScanCodeTemp(null);
           }, 100);
+        } else {
+          alert("Product is out of stock!");
+        }
+      } else {
+        if (data?.quantities?.length > 0) {
+          productDetailRef.current?.show(data);
+        } else {
+          if (isCheckQty && data?.quantity >= 1) {
+            setTimeout(() => {
+              addProductToBasket(
+                Object.assign({}, data, {
+                  id: Date.now(),
+                  quantity: 1,
+                })
+              );
+              setScanCodeTemp(null);
+            }, 100);
+          } else {
+            alert("Product is out of stock!");
+          }
         }
       }
     }
@@ -694,9 +703,6 @@ export const useProps = ({
       );
     },
     onAddGiftCardToAppointment: (money, gitCardInfo) => {
-      console.log(money);
-      console.log(gitCardInfo);
-
       const giftCard = {
         Price: money,
         GiftCardId: gitCardInfo?.giftCardId,

@@ -14,7 +14,9 @@ export const useProps = ({ navigation }) => {
       dispatch(settingRetailer.setActiveTab(SettingGeneralPage.name));
     });
 
-    const unsubscribeBlur = navigation.addListener("blur", () => {});
+    const unsubscribeBlur = navigation.addListener("blur", () => {
+      dispatch(settingRetailer.setActiveTab("none"));
+    });
 
     return () => {
       unsubscribeFocus();
