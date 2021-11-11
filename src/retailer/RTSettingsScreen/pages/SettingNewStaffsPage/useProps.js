@@ -58,6 +58,10 @@ const INITIAL_VALUE_STAFF = {
     },
   },
   productSalary: {
+    perHour: {
+      value: "0.00",
+      isCheck: true,
+    },
     commission: {
       value: "0.00",
       isCheck: false,
@@ -184,6 +188,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
         setSalary(SALARY_TYPE.PER_HOUR);
         form?.setFieldValue("salary.perHour.isCheck", true);
         form?.setFieldValue("salary.commission.isCheck", false);
+        form?.setFieldValue("productSalary.perHour.isCheck", true);
         form?.setFieldValue("productSalary.commission.isCheck", false);
       }
 

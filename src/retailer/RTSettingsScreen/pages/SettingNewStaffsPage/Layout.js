@@ -179,7 +179,6 @@ export const Layout = ({
             <FormInputSalary
               label={t("Commission (%)")}
               onChangeText={(value) => {
-
                 form?.setFieldValue("productSalary.commission.value", value);
               }}
               editable={salary === SALARY_TYPE.COMMISSION}
@@ -198,7 +197,7 @@ export const Layout = ({
               }}
               defaultValue={salary === SALARY_TYPE.COMMISSION}
               onValueChange={(value) => {
-                form?.setFieldValue("salary.perHour.isCheck", !value);
+                form?.setFieldValue("productSalary.perHour.isCheck", !value);
                 form?.setFieldValue("productSalary.commission.isCheck", value);
                 setSalary(
                   value ? SALARY_TYPE.COMMISSION : SALARY_TYPE.PER_HOUR
@@ -209,9 +208,9 @@ export const Layout = ({
           <View style={styles.content}>
             <FormInputSalary
               label={t("Salary per hour ($)")}
-              onChangeText={form?.handleChange("salary.perHour.value")}
+              onChangeText={form?.handleChange("productSalary.perHour.value")}
               editable={salary === SALARY_TYPE.PER_HOUR}
-              defaultValue={current_staff?.salaries?.perHour?.value + ""}
+              defaultValue={current_staff?.productSalaries?.perHour?.value + ""}
             />
             <CustomCheckBox
               selectedColor={colors.OCEAN_BLUE}
@@ -224,7 +223,7 @@ export const Layout = ({
               }}
               onValueChange={(value) => {
                 form?.setFieldValue("productSalary.commission.isCheck", !value);
-                form?.setFieldValue("salary.perHour.isCheck", value);
+                form?.setFieldValue("productSalary.perHour.isCheck", value);
                 setSalary(
                   value ? SALARY_TYPE.PER_HOUR : SALARY_TYPE.COMMISSION
                 );
