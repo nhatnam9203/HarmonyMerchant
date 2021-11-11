@@ -324,10 +324,10 @@ export const PopupInvoice = React.forwardRef(
     };
 
     React.useEffect(() => {
-      if (!isSignature && !isShare && !printTempt) {
+      if (!isSignature && !isShare && !printTempt && profile?.isPrintReceipt) {
         onPrintProcess();
       }
-    }, [isSignature]);
+    }, [isSignature, isShare, printTempt, profile?.isPrintReceipt]);
 
     const onPrintProcess = async () => {
       const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(
