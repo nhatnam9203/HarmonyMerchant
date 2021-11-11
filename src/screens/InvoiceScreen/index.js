@@ -1012,7 +1012,7 @@ class InvoiceScreen extends Layout {
         printerSelect
       );
 
-      await this.setState({ receiptContentBg: "transparent" }, async () => {
+      await this.setState({ receiptContentBg: "#00000000" }, async () => {
         if (portName) {
           this.props.actions.app.loadingApp();
           const imageUri = await captureRef(this.viewShotRef, {});

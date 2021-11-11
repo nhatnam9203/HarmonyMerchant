@@ -1,6 +1,7 @@
 import { formatMoney } from "@utils";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import Dash from "react-native-dash";
 
 export const ItemReceipt = ({ item, index, type, textStyle }) => {
   const renderItemInvoice = () => {
@@ -178,37 +179,52 @@ export const ItemReceipt = ({ item, index, type, textStyle }) => {
     const note = item.note ? item.note : "";
     const staffName = item.staff?.displayName ?? "";
     return (
-      <View style={styles.content}>
-        <View style={{ flex: 1, justifyContent: "center" }}>
-          <Text style={[styles.textStyle, textStyle]}>
-            {`${index + 1}. ${
-              item.data && item.data.name ? item.data.name : ""
-            }`}
-          </Text>
-          {note ? (
-            <Text
-              style={[styles.textStyle, textStyle]}
-            >{`(Note: ${note})`}</Text>
-          ) : null}
-        </View>
+      <>
+        {index > 0 && (
+          <Dash
+            style={{
+              width: "98%",
+              height: 1,
+              paddingHorizontal: scaleWidth(5),
+            }}
+            dashGap={5}
+            dashLength={2}
+            dashThickness={1}
+            dashColor="#000"
+          />
+        )}
+        <View style={styles.content}>
+          <View style={{ flex: 1, justifyContent: "center" }}>
+            <Text style={[styles.textStyle, textStyle]}>
+              {`${index + 1}. ${
+                item.data && item.data.name ? item.data.name : ""
+              }`}
+            </Text>
+            {note ? (
+              <Text
+                style={[styles.textStyle, textStyle]}
+              >{`(Note: ${note})`}</Text>
+            ) : null}
+          </View>
 
-        <View style={{ justifyContent: "center", width: scaleWidth(100) }}>
-          <Text style={[styles.textStyle, textStyle]}>{` ${staffName}`}</Text>
-        </View>
+          <View style={{ justifyContent: "center", width: scaleWidth(100) }}>
+            <Text style={[styles.textStyle, textStyle]}>{` ${staffName}`}</Text>
+          </View>
 
-        <View
-          style={[
-            styles.headerContent,
-            {
-              width: scaleWidth(80),
-            },
-          ]}
-        >
-          <Text style={[styles.textStyle, textStyle]}>{`$ ${
-            total ? total : ""
-          }`}</Text>
+          <View
+            style={[
+              styles.headerContent,
+              {
+                width: scaleWidth(80),
+              },
+            ]}
+          >
+            <Text style={[styles.textStyle, textStyle]}>{`$ ${
+              total ? total : ""
+            }`}</Text>
+          </View>
         </View>
-      </View>
+      </>
     );
   };
 
