@@ -71,6 +71,7 @@ export const PopupInvoice = React.forwardRef(
     const [isShare, setIsShare] = React.useState(false);
     const [paymentMachineType, setPaymentMachineType] = React.useState(null);
     const [isSalonApp, setIsSalonApp] = React.useState(false);
+    const [fromAppointmentTab, setFromAppointmentTab] = React.useState(false);
 
     /**
   |--------------------------------------------------
@@ -441,6 +442,7 @@ export const PopupInvoice = React.forwardRef(
         machineType,
         title = "TICKET",
         isSalon = false,
+        isAppointmentTab = false,
       }) => {
         reset();
 
@@ -448,24 +450,25 @@ export const PopupInvoice = React.forwardRef(
           return;
         }
 
-        if (!isShareMode) {
-          const { portName } = getInfoFromModelNameOfPrinter(
-            printerList,
-            printerSelect
-          );
+        // if (!isShareMode) {
+        //   const { portName } = getInfoFromModelNameOfPrinter(
+        //     printerList,
+        //     printerSelect
+        //   );
 
-          if (!portName && machineType !== "Clover") {
-            onCancel(isPrintTempt);
-            alert("Please connect to your printer! ");
-            return;
-          }
-        }
+        //   if (!portName && machineType !== "Clover") {
+        //     onCancel(isPrintTempt);
+        //     alert("Please connect to your printer! ");
+        //     return;
+        //   }
+        // }
 
         setPrintTempt(isPrintTempt);
         setIsShare(isShareMode);
         setPaymentMachineType(machineType);
         setTitleInvoice(title);
         setIsSalonApp(isSalon);
+        setFromAppointmentTab(isAppointmentTab);
 
         // call api get info
         await getGroupAppointment(appointmentId);
@@ -561,14 +564,15 @@ export const PopupInvoice = React.forwardRef(
                   {/* ------------- Dot Border  ----------- */}
                   <Dash
                     style={{ width: "100%", height: 1 }}
-                    dashGap={5}
-                    dashLength={8}
+                    dashGap={2}
+                    dashLength={10}
                     dashThickness={1}
                     style={{
-                      marginVertical: scaleHeight(10),
+                      marginVertical: scaleHeight(4),
                       marginHorizontal: scaleWidth(4),
                     }}
                   />
+                  <View style={styles.marginVertical} />
 
                   {/* ------------- Staff ----------- */}
                   {isSalonApp ? (
@@ -650,14 +654,17 @@ export const PopupInvoice = React.forwardRef(
                       </View>
                     </View>
                   )}
+
+                  <View style={styles.marginVertical} />
+
                   {/* ------------- Dot Border  ----------- */}
                   <Dash
                     style={{ height: 1 }}
-                    dashGap={5}
-                    dashLength={8}
+                    dashGap={2}
+                    dashLength={10}
                     dashThickness={1}
                     style={{
-                      marginVertical: scaleHeight(10),
+                      marginVertical: scaleHeight(4),
                       marginHorizontal: scaleWidth(4),
                     }}
                   />
@@ -671,11 +678,11 @@ export const PopupInvoice = React.forwardRef(
                   {/* ------------- Dot Border  ----------- */}
                   <Dash
                     style={{ width: "100%", height: 1 }}
-                    dashGap={5}
-                    dashLength={8}
+                    dashGap={2}
+                    dashLength={10}
                     dashThickness={1}
                     style={{
-                      marginVertical: scaleHeight(10),
+                      marginVertical: scaleHeight(4),
                       marginHorizontal: scaleWidth(4),
                     }}
                   />
@@ -962,6 +969,9 @@ export const PopupInvoice = React.forwardRef(
                   )}
 
                   <View style={styles.marginVertical} />
+                  {fromAppointmentTab && (
+                    <View style={{ height: scaleHeight(200) }} />
+                  )}
 
                   <View style={styles.marginVertical} />
                   {profile?.receiptFooter ? (

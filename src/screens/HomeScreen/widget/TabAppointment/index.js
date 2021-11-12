@@ -230,6 +230,7 @@ class TabAppointment extends Layout {
               isPrintTempt: isTemp,
               isSalon: true,
               machineType: this.props.paymentMachineType,
+              isAppointmentTab: true
             });
           }
         }

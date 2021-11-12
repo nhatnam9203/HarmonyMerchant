@@ -449,7 +449,10 @@ export const ItemHeaderReceipt = ({ type, textStyle }) => {
 };
 
 const styles = StyleSheet.create({
-  content: { flexDirection: "row", paddingVertical: scaleHeight(5) },
+  content: {
+    flexDirection: "row",
+    paddingVertical: scaleHeight(3),
+  },
 
   textStyle: { fontSize: scaleFont(15), fontWeight: "400", textAlign: "left" },
 
@@ -462,6 +465,6 @@ const styles = StyleSheet.create({
   headerContent: {
     justifyContent: "center",
     alignItems: "center",
-    height: scaleHeight(40),
+    height: scaleHeight(30),
   },
 });
