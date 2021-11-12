@@ -742,7 +742,7 @@ export const PopupInvoice = React.forwardRef(
                     />
                   )}
                   {/* ------------- Enter Tip   ----------- */}
-                  {printTempt && (
+                  {printTempt && !fromAppointmentTab && (
                     <View
                       style={{
                         height: scaleSize(25),
@@ -777,7 +777,7 @@ export const PopupInvoice = React.forwardRef(
                   )}
 
                   {/* ------------- Enter Total   ----------- */}
-                  {printTempt && (
+                  {printTempt && !fromAppointmentTab && (
                     <View
                       style={{
                         height: scaleSize(25),
@@ -934,7 +934,7 @@ export const PopupInvoice = React.forwardRef(
                     </View>
                   )}
 
-                  {printTempt && (
+                  {printTempt && !fromAppointmentTab && (
                     <View
                       style={{
                         height: scaleSize(15),
