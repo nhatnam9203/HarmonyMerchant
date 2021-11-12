@@ -1,7 +1,7 @@
-import IMAGE from '@resources';
-import { CustomInput } from '@shared/components/CustomInput';
-import { colors, layouts, fonts } from '@shared/themes';
-import React from 'react';
+import IMAGE from "@resources";
+import { CustomInput } from "@shared/components/CustomInput";
+import { colors, layouts, fonts } from "@shared/themes";
+import React from "react";
 import {
   Image,
   ImageBackground,
@@ -10,15 +10,16 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useTranslation, withTranslation } from 'react-i18next';
+} from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useTranslation, withTranslation } from "react-i18next";
 
 export const Layout = ({
   inputIdSubmit,
   inputEmailRef,
   forgotPassFormik,
   errorMsg,
+  onGoBack
 }) => {
   return (
     <View style={layouts.fill}>
@@ -36,8 +37,8 @@ export const Layout = ({
               submit={inputIdSubmit}
               iRef={inputEmailRef}
               value={forgotPassFormik.values.email}
-              onChangeValue={forgotPassFormik.handleChange('email')}
-              onBlur={forgotPassFormik.handleBlur('email')}
+              onChangeValue={forgotPassFormik.handleChange("email")}
+              onBlur={forgotPassFormik.handleBlur("email")}
             />
 
             <SpacingVertical />
@@ -55,6 +56,37 @@ export const Layout = ({
             />
           </View>
         </KeyboardAwareScrollView>
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            top: scaleHeight(20),
+            left: scaleWidth(20),
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+          onPress={onGoBack}
+        >
+          <Image
+            source={IMAGE.back}
+            style={{
+              width: scaleWidth(18),
+              height: scaleHeight(18),
+              resizeMode: "contain",
+              tintColor: "#fff",
+            }}
+          />
+          <View style={{ width: scaleWidth(10) }} />
+          <Text
+            style={{
+              fontSize: scaleFont(20),
+              fontFamily: fonts.MEDIUM,
+              color: colors.WHITE,
+            }}
+          >
+            {"Back"}
+          </Text>
+        </TouchableOpacity>
       </ImageBackground>
     </View>
   );
@@ -71,13 +103,13 @@ let InputEmail = ({ submit, iRef, t, value, onChangeValue }) => (
     textInputProps={{
       onSubmitEditing: submit,
       ref: iRef,
-      returnKeyType: 'send',
-      clearButtonMode: 'while-editing',
-      placeholder: t('Email address'),
+      returnKeyType: "send",
+      clearButtonMode: "while-editing",
+      placeholder: t("Merchant ID"),
       defaultValue: value,
       onChangeText: onChangeValue,
       autoFocus: true,
-      autoCapitalize: 'none',
+      autoCapitalize: "none",
     }}
   />
 );
@@ -102,14 +134,14 @@ let ButtonSignIn = ({ t, disable, onPress }) => (
         { color: disable ? colors.BROWNISH_GREY : colors.WHITE },
       ]}
     >
-      {t('submit').toUpperCase()}
+      {t("submit").toUpperCase()}
     </Text>
   </Pressable>
 );
 ButtonSignIn = withTranslation()(ButtonSignIn);
 
 let TextTitle = ({ t }) => {
-  return <Text style={styles.textTitle}>{t('Forgot Password')}</Text>;
+  return <Text style={styles.textTitle}>{t("Forgot Password")}</Text>;
 };
 TextTitle = withTranslation()(TextTitle);
 
@@ -117,7 +149,7 @@ let TextDescription = ({ t }) => {
   return (
     <Text style={styles.textDescription}>
       {t(
-        "Please enter your email address and we'll send you \n instructions on how to reset your password"
+        "Please enter your merchant ID and we'll send you \n instructions on how to reset your password"
       )}
     </Text>
   );
@@ -129,20 +161,20 @@ const SpacingVertical = () => <View style={layouts.marginVertical} />;
 const styles = StyleSheet.create({
   imageBg: {
     flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 
   logo: {
-    position: 'absolute',
+    position: "absolute",
     top: scaleHeight(64),
-    alignSelf: 'center',
+    alignSelf: "center",
   },
 
   content: {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: scaleHeight(210),
     flex: 1,
   },
@@ -157,53 +189,53 @@ const styles = StyleSheet.create({
     borderRadius: scaleWidth(3),
     backgroundColor: colors.VERY_LIGHT_PINK_1,
     marginBottom: scaleHeight(55),
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   signInText: {
-    fontFamily: 'Roboto-Medium',
+    fontFamily: "Roboto-Medium",
     fontSize: scaleFont(25),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
   },
 
   textTitle: {
-    fontFamily: 'Roboto-Bold',
+    fontFamily: "Roboto-Bold",
     fontSize: scaleFont(40),
-    fontWeight: 'bold',
-    fontStyle: 'normal',
+    fontWeight: "bold",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.WHITE,
   },
 
   textDescription: {
-    fontFamily: 'Roboto-Light',
+    fontFamily: "Roboto-Light",
     fontSize: scaleFont(24),
-    fontWeight: '300',
-    fontStyle: 'normal',
+    fontWeight: "300",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.WHITE,
   },
   errorContent: {
     width: scaleWidth(400),
-    position: 'absolute',
+    position: "absolute",
     top: scaleHeight(200),
-    alignSelf: 'center',
+    alignSelf: "center",
     flex: 0,
   },
 
   errorText: {
     fontFamily: fonts.MEDIUM,
     fontSize: scaleFont(20),
-    fontWeight: '500',
-    fontStyle: 'normal',
+    fontWeight: "500",
+    fontStyle: "normal",
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.ORANGEY_RED,
   },
 });

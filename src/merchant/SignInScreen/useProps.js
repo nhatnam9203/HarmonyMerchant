@@ -23,7 +23,7 @@ export const useProps = ({ navigation }) => {
   */
   const { t } = useTranslation();
   const SignInSchema = Yup.object().shape({
-    email: Yup.string().required(t("Email is required!")),
+    email: Yup.string().required(t("Merchant ID is required!")),
     password: Yup.string()
       .min(1, t("Password is short!"))
       .max(30, t("Password is long!"))
@@ -35,9 +35,12 @@ export const useProps = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const [errorMsg, setErrorMsg] = React.useState(null);
-  const toggleCheckBox = useSelector((state) => state.appMerchant.rememberMID);
-  const merchantID = useSelector((state) => state.appMerchant.merchantID);
+
   const errorLogin = useSelector((state) => state.auth.errorLogin);
+  const MIDStorage = useSelector((state) => state.dataLocal.MIDStorage);
+  const [isRememberMID, setIsRememberMID] = React.useState(
+    useSelector((state) => state.dataLocal.isRememberMID) ?? false
+  );
 
   /**
   |--------------------------------------------------
@@ -53,13 +56,13 @@ export const useProps = ({ navigation }) => {
   */
   const signInFormik = useFormik({
     initialValues: {
-      email: merchantID ?? "",
+      email: MIDStorage ?? "",
       password: "",
       terminalId: terminalIDs[1].value,
     },
     validationSchema: SignInSchema,
     onSubmit: ({ email, password, terminalId }) => {
-      dispatch(actions.auth.login(email, password, terminalId, toggleCheckBox));
+      dispatch(actions.auth.login(email, password, terminalId, isRememberMID));
     },
   });
 
@@ -77,11 +80,11 @@ export const useProps = ({ navigation }) => {
   //   if (statusSuccess(codeStatus)) {
   //     setErrorMsg(null);
   //     dispatch(authMerchant.signInSuccess(data));
-  //     dispatch(
-  //       appMerchant.saveMerchantID(
-  //         toggleCheckBox ? data?.merchant?.merchantCode : null
-  //       )
-  //     );
+  // dispatch(
+  //   appMerchant.saveMerchantID(
+  //     toggleCheckBox ? data?.merchant?.merchantCode : null
+  //   )
+  // );
 
   //     return;
   //   }
@@ -130,9 +133,10 @@ export const useProps = ({ navigation }) => {
     },
     terminalIDs: terminalIDs,
     errorMsg,
-    toggleCheckBox,
+    isRememberMID,
     setToggleCheckBox: (value) => {
-      dispatch(appMerchant.rememberMID(value));
+      // dispatch(appMerchant.rememberMID(value));
+      setIsRememberMID(value);
     },
     signInFormik,
   };

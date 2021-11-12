@@ -1333,11 +1333,10 @@ class Layout extends React.Component {
       visibleInvoice,
     } = this.state;
 
-    const app0 =
-      (!l.isEmpty(groupAppointment) &&
-        groupAppointment?.appointments?.length > 0 &&
-        groupAppointment?.appointments[0]) ||
-      null;
+    const app0 = null;
+    if (groupAppointment && groupAppointment?.appointments?.length > 0) {
+      app0 = groupAppointment?.appointments[0];
+    }
 
     const titleExitCheckoutTab =
       (isCancelAppointment &&

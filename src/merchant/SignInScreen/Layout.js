@@ -31,7 +31,7 @@ export const Layout = ({
   onForgotPasswordPress,
   terminalIDs,
   errorMsg,
-  toggleCheckBox,
+  isRememberMID,
   setToggleCheckBox,
   signInFormik,
   onSignUpdPress,
@@ -56,7 +56,7 @@ export const Layout = ({
                 {t("No account")}
               </Text>
               <TouchableOpacity activeOpacity={0.5} onPress={onSignUpdPress}>
-                <Text style={styles.signUpText}>{t('Sign Up')}</Text>
+                <Text style={styles.signUpText}>{t("Sign Up")}</Text>
               </TouchableOpacity>
             </View>
 
@@ -74,7 +74,7 @@ export const Layout = ({
             >
               <CustomCheckBox
                 label={t("Remember MID")}
-                value={toggleCheckBox}
+                value={isRememberMID}
                 onValueChange={setToggleCheckBox}
               />
               <TouchableOpacity
@@ -92,7 +92,7 @@ export const Layout = ({
               value={signInFormik.values.terminalId}
               onChangeValue={(callback) => {
                 return signInFormik.setFieldValue(
-                  'terminalId',
+                  "terminalId",
                   callback(signInFormik.values.terminalId)
                 );
               }}

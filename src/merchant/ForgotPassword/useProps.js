@@ -1,14 +1,14 @@
-import NavigationServices from '@navigators/NavigatorServices';
-import { appMerchant, authMerchant } from '@redux/slices';
-import { useForgotPassword } from '@shared/services/api/merchant';
-import { getTerminalIds, statusSuccess } from '@shared/utils/app';
-import { useFormik } from 'formik';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import * as Yup from 'yup';
+import NavigationServices from "@navigators/NavigatorServices";
+import { appMerchant, authMerchant } from "@redux/slices";
+import { useForgotPassword } from "@shared/services/api/merchant";
+import { getTerminalIds, statusSuccess } from "@shared/utils/app";
+import { useFormik } from "formik";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import * as Yup from "yup";
 
-export const useProps = (_params) => {
+export const useProps = ({ navigation }) => {
   /**
   |--------------------------------------------------
   | VARIABLES
@@ -33,12 +33,12 @@ export const useProps = (_params) => {
   */
 
   const ForgotPasSchema = Yup.object().shape({
-    email: Yup.string().required(t('Email is required!')),
+    email: Yup.string().required(t("Email is required!")),
   });
 
   const forgotPassFormik = useFormik({
     initialValues: {
-      email: '',
+      email: "",
     },
     validationSchema: ForgotPasSchema,
     onSubmit: (values) => {
@@ -89,5 +89,8 @@ export const useProps = (_params) => {
       inputEmailRef?.current?.focus();
     },
     forgotPassFormik,
+    onGoBack: () => {
+      navigation.goBack();
+    },
   };
 };
