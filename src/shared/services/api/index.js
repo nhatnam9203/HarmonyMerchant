@@ -43,7 +43,7 @@ const request = async (action, header = {}) => {
     baseURL: Configs.API_URL,
     url: api,
     headers: headers,
-    timeout: action?.timeoutIncrease ? 60000 : 30000,
+    timeout: action?.timeoutIncrease ? 90000 : 30000,
     validateStatus: (status) => status >= 200 && status < 600,
   };
 
