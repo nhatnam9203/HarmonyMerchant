@@ -29,13 +29,14 @@ export function clearSearInvoice() {
 
 // ----------- Settle ------------
 
-export function getSettlementWating(terminalID = null, paymentTerminal = "pax") {
+export function getSettlementWating(terminalID = null, paymentTerminal = "pax", timeoutIncrease = true) {
     return {
         type: 'GET_SETTLEMENT_WAITING',
         method: 'GET',
         api: `settlement/waiting?sn=${terminalID}&paymentTerminal=${paymentTerminal}`,
         token: true,
         isShowLoading: true,
+        timeoutIncrease,
     }
 }
 
@@ -54,7 +55,7 @@ export function invoicesOfStaff(staffId) {
     }
 }
 
-export function getTransactionSettlement(status = "", timeStart = "", timeEnd = "", key = "", quickFilter = "", page = 1, isShowLoading = true, isLoadMore = false) {
+export function getTransactionSettlement(status = "", timeStart = "", timeEnd = "", key = "", quickFilter = "", page = 1, isShowLoading = true, isLoadMore = false, timeoutIncrease = true) {
     return {
         type: 'GET_TRANSACTION_SETTLEMENT',
         method: 'GET',
@@ -62,7 +63,8 @@ export function getTransactionSettlement(status = "", timeStart = "", timeEnd = 
         token: true,
         isShowLoading,
         currentPage: page,
-        isLoadMore
+        isLoadMore,
+        timeoutIncrease,
     }
 }
 

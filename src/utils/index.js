@@ -89,7 +89,7 @@ export const requestAPI = async (action, header = {}) => {
     baseURL: Configs.API_URL,
     url: `${action.api}`,
     headers: headers,
-    timeout: action?.timeOut ?? action?.timeoutIncrease ? 60000 : 30000,
+    timeout: action?.timeOut ?? action?.timeoutIncrease ? 90000 : 30000,
     validateStatus: (status) => status >= 200 && status < 600,
   };
 
