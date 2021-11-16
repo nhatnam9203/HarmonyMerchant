@@ -1333,7 +1333,7 @@ class Layout extends React.Component {
       visibleInvoice,
     } = this.state;
 
-    const app0 = null;
+    let app0 = null;
     if (groupAppointment && groupAppointment?.appointments?.length > 0) {
       app0 = groupAppointment?.appointments[0];
     }
