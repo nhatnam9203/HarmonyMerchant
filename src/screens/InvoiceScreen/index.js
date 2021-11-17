@@ -918,7 +918,10 @@ class InvoiceScreen extends Layout {
       alert("You don't select invoice!");
     } else {
       const printMachine = await checkStatusPrint();
-      if (printMachine && printMachine.length > 0) {
+      const { cloverMachineInfo, paymentMachineType } = this.props;
+      const { isSetup } = cloverMachineInfo;
+      if ((printMachine && printMachine.length > 0)
+        || (paymentMachineType == "Clover" && isSetup)) {
         this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
 
         const {
@@ -957,15 +960,7 @@ class InvoiceScreen extends Layout {
           visiblePrintInvoice: true,
         });
       } else {
-        const { cloverMachineInfo, paymentMachineType } = this.props;
-        const { isSetup } = cloverMachineInfo;
-        if (paymentMachineType == "Clover" && isSetup) {
-          await this.setState({
-            visiblePrintInvoice: true,
-          });
-        } else {
-          alert("Please connect to your printer!");
-        }
+        alert("Please connect to your printer!");
       }
     }
   };
@@ -1006,13 +1001,14 @@ class InvoiceScreen extends Layout {
 
   printCustomerInvoice = async () => {
     try {
-      const { printerSelect, printerList } = this.props;
+      const { printerSelect, printerList, paymentMachineType } = this.props;
       const { portName, emulation, widthPaper } = getInfoFromModelNameOfPrinter(
         printerList,
         printerSelect
       );
-
-      await this.setState({ receiptContentBg: "#00000000" }, async () => {
+      const receiptContentBg = (paymentMachineType == PaymentTerminalType.Clover && !portName)
+                                ? { receiptContentBg: "#ffff" } : { receiptContentBg: "#00000000" }
+      await this.setState(receiptContentBg, async () => {
         if (portName) {
           this.props.actions.app.loadingApp();
           const imageUri = await captureRef(this.viewShotRef, {});
