@@ -104,6 +104,9 @@ export const useProps = ({
   const cloverMachineInfo = useSelector(
     (state) => state.hardware.cloverMachineInfo
   );
+  const dejavooMachineInfo = useSelector(
+    (state) => state.hardware.cloverMachineInfo
+  );
 
   const [isTax, setIsTax] = React.useState(false);
   const [isGetResponsePaymentPax, setIsGetResponsePaymentPax] =
@@ -779,7 +782,15 @@ export const useProps = ({
             moneyUserGiveForStaff
           );
         } else if (method === "credit_card" || method === "debit_card") {
-          if (paxMachineInfo.isSetup) {
+          let isSetup = false;
+          if (paymentMachineType == PaymentTerminalType.Pax) {
+            isSetup = _.get(paxMachineInfo, "isSetup");
+          } else if (paymentMachineType == PaymentTerminalType.Dejavoo) {
+            isSetup = _.get(dejavooMachineInfo, "isSetup");
+          } else {
+            isSetup = _.get(cloverMachineInfo, "isSetup");
+          }
+          if (isSetup) {
             if (moneyUserGiveForStaff == 0) {
               alert("Enter amount!");
             } else {
