@@ -448,7 +448,7 @@ export const useProps = ({
           return Object.assign({}, pro, { values: temp });
         });
 
-        if (isCheckQty && tmp.quantity >= 1) {
+        if (!isCheckQty || tmp.quantity >= 1) {
           setTimeout(() => {
             addProductToBasket(
               Object.assign({}, data, {
@@ -458,16 +458,16 @@ export const useProps = ({
                 productQuantityId: tmp?.id,
               })
             );
-            setScanCodeTemp(null);
           }, 100);
         } else {
           alert("Product is out of stock!");
         }
+        setScanCodeTemp(null);
       } else {
         if (data?.quantities?.length > 0) {
           productDetailRef.current?.show(data);
         } else {
-          if (isCheckQty && data?.quantity >= 1) {
+          if (!isCheckQty || data?.quantity >= 1) {
             setTimeout(() => {
               addProductToBasket(
                 Object.assign({}, data, {
@@ -475,11 +475,12 @@ export const useProps = ({
                   quantity: 1,
                 })
               );
-              setScanCodeTemp(null);
             }, 100);
           } else {
             alert("Product is out of stock!");
           }
+
+          setScanCodeTemp(null);
         }
       }
     }

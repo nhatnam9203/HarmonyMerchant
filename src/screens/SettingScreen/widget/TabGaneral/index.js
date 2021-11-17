@@ -42,6 +42,7 @@ class TabGaneral extends Layout {
       isTurnOnAutoClose: profile?.isTurnOnAutoClose || false,
       receiptFooter: profile?.receiptFooter || null,
       isCustomService: profile?.isCustomService || false,
+      isPrintReceipt: profile?.isPrintReceipt ?? false,
     };
     this.inputRefsTime = [];
   }
@@ -134,6 +135,7 @@ class TabGaneral extends Layout {
       isTurnOnAutoClose,
       receiptFooter,
       isCustomService,
+      isPrintReceipt,
     } = this.state;
     const temptLanguage = languageApp === "English" ? "en" : "vi";
     this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
@@ -171,6 +173,7 @@ class TabGaneral extends Layout {
         giftForNewEnabled,
         receiptFooter,
         isCustomService,
+        isPrintReceipt,
       },
       true,
       true
@@ -191,6 +194,12 @@ class TabGaneral extends Layout {
 
   switchCustomService = (visible) => {
     this.setState({ isCustomService: visible });
+  };
+
+  switchPrintReceipt = (visible) => {
+    this.setState({
+      isPrintReceipt: visible,
+    });
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -216,6 +225,7 @@ class TabGaneral extends Layout {
         giftForNewEnabled: profile?.giftForNewEnabled || false,
         receiptFooter: profile?.receiptFooter || null,
         isCustomService: profile?.isCustomService || false,
+        isPrintReceipt: profile?.isPrintReceipt ?? false,
       });
       this.updateWorkTime();
     }
@@ -242,6 +252,7 @@ class TabGaneral extends Layout {
         giftForNewEnabled: profile?.giftForNewEnabled || false,
         receiptFooter: profile?.receiptFooter || null,
         isCustomService: profile?.isCustomService || false,
+        isPrintReceipt: profile?.isPrintReceipt ?? false,
       });
       this.updateWorkTime();
     }
