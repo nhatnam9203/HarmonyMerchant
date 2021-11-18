@@ -241,7 +241,6 @@ export const useProps = ({
   }
 
   const unregisterEvents = () => {
-    clover.changeListenerStatus(false)
     subscriptions.forEach(e => e.remove())
     subscriptions = []
   }
@@ -533,7 +532,6 @@ export const useProps = ({
       });
 
       connectSignalR.current.onclose(async (error) => {
-        console.log(error);
         await dispatch(actions.appointment.resetConnectSignalR());
       });
 
@@ -1108,7 +1106,6 @@ export const useProps = ({
             (appointment) =>
               appointment.appointmentId === appointmentDetail?.appointmentId
           );
-          // console.log(appointment);
           const { services, products, extras, giftCards } = appointment;
           const arrayProducts = getArrayProductsFromAppointment(products);
           const arryaServices = getArrayServicesFromAppointment(services);

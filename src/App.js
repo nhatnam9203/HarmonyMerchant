@@ -42,7 +42,6 @@ const App: () => React$Node = () => {
   const [pairingCode, setPairingCode] = React.useState("");
 
   const registerEvents = () => {
-    
     clover.changeListenerStatus(true)
     subscriptions = [
       eventEmitter.addListener('closeoutSuccess', data => {
@@ -105,9 +104,9 @@ const App: () => React$Node = () => {
 
     registerEvents();
 
-    return () => {
+    return function cleanup() {
       unregisterEvents();
-    }
+    };
 
   }, []);
 

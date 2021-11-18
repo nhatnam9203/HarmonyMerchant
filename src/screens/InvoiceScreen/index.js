@@ -148,7 +148,6 @@ class InvoiceScreen extends Layout {
   }
 
   unregisterEvents() {
-    clover.changeListenerStatus(false);
     this.subscriptions.forEach((e) => e.remove());
     this.subscriptions = [];
   }
@@ -562,9 +561,7 @@ class InvoiceScreen extends Layout {
                 return;
               }
               this.isProcessVoidPaymentClover = true;
-              const portClover = l.get(cloverMachineInfo, "port")
-                ? l.get(cloverMachineInfo, "port")
-                : 80;
+              const portClover = l.get(cloverMachineInfo, "port") ? l.get(cloverMachineInfo, "port") : 80;
               const ipClover = l.get(cloverMachineInfo, "ip");
 
               const url = `wss://${ipClover}:${portClover}/remote_pay`;

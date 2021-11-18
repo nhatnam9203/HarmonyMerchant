@@ -3020,7 +3020,7 @@ class TabCheckout extends Layout {
   }
 
   unregisterEvents() {
-    clover.changeListenerStatus(false);
+    // clover.changeListenerStatus(false);
     this.subscriptions.forEach((e) => e.remove());
     this.subscriptions = [];
   }
