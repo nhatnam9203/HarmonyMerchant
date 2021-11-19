@@ -450,18 +450,18 @@ export const PopupInvoice = React.forwardRef(
           return;
         }
 
-        // if (!isShareMode) {
-        //   const { portName } = getInfoFromModelNameOfPrinter(
-        //     printerList,
-        //     printerSelect
-        //   );
+        if (!isShareMode) {
+          const { portName } = getInfoFromModelNameOfPrinter(
+            printerList,
+            printerSelect
+          );
 
-        //   if (!portName && machineType !== "Clover") {
-        //     onCancel(isPrintTempt);
-        //     alert("Please connect to your printer! ");
-        //     return;
-        //   }
-        // }
+          if (!portName && machineType !== "Clover") {
+            onCancel(isPrintTempt);
+            alert("Please connect to your printer! ");
+            return;
+          }
+        }
 
         setPrintTempt(isPrintTempt);
         setIsShare(isShareMode);
