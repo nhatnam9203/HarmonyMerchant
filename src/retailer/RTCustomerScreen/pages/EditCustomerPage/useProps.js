@@ -25,6 +25,7 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
 
   const [errorMsg, setErrorMsg] = React.useState(null);
   const [currentCustomer, setCurrentCustomer] = React.useState(null);
+  const [collapsedAddress, setCollapsedAddress] = React.useState(false);
   /**
   |--------------------------------------------------
   | CALL API
@@ -190,5 +191,9 @@ export const useProps = ({ params: { isNew, isEdit, item } }) => {
     isEdit,
     isNew,
     currentCustomer,
+    collapsedAddress,
+    collapsedAddressSelected: () => {
+      setCollapsedAddress((prev) => !prev);
+    },
   };
 };

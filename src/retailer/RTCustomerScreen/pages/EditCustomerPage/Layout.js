@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { layouts, colors, fonts } from "@shared/themes";
@@ -24,6 +24,8 @@ export const Layout = ({
   isEdit,
   isNew,
   currentCustomer,
+  collapsedAddress,
+  collapsedAddressSelected,
 }) => {
   const [t] = useTranslation();
 
@@ -95,60 +97,102 @@ export const Layout = ({
           </View>
 
           <View style={styles.content}>
-            <FormLabelSwitch
-              defaultValue={
-                currentCustomer?.addressPost?.defaultShippingAddress
-              }
-              onValueChange={(value) =>
-                form.setFieldValue("addressPost.defaultShippingAddress", value)
-              }
-              label={t("Default Shipping Address")}
-            />
+            {!collapsedAddress && (
+              <>
+                <FormLabelSwitch
+                  defaultValue={
+                    currentCustomer?.addressPost?.defaultShippingAddress
+                  }
+                  onValueChange={(value) =>
+                    form.setFieldValue(
+                      "addressPost.defaultShippingAddress",
+                      value
+                    )
+                  }
+                  label={t("Default Shipping Address")}
+                />
 
-            <FormLabelSwitch
-              defaultValue={currentCustomer?.addressPost?.defaultBillingAddress}
-              onValueChange={(value) =>
-                form.setFieldValue("addressPost.defaultBillingAddress", value)
-              }
-              label={t("Default Billing Address")}
-            />
+                <FormLabelSwitch
+                  defaultValue={
+                    currentCustomer?.addressPost?.defaultBillingAddress
+                  }
+                  onValueChange={(value) =>
+                    form.setFieldValue(
+                      "addressPost.defaultBillingAddress",
+                      value
+                    )
+                  }
+                  label={t("Default Billing Address")}
+                />
 
-            <FormPhoneNumber
-              defaultPhone={currentCustomer?.defaultAddress?.addressPhone}
-              onChangePhoneNumber={form.handleChange("addressPost.phone")}
-              required={false}
-            />
+                <FormPhoneNumber
+                  defaultPhone={currentCustomer?.defaultAddress?.addressPhone}
+                  onChangePhoneNumber={form.handleChange("addressPost.phone")}
+                  required={false}
+                />
 
-            <FormAddress
-              onChangeCityValue={(value) =>
-                form.setFieldValue("addressPost.city", value)
-              }
-              onChangeStateValue={(value) =>
-                form.setFieldValue("addressPost.state", value)
-              }
-              onChangeZipCodeValue={(value) =>
-                form.setFieldValue("addressPost.zip", value)
-              }
-              onChangeStreetValue={(value) =>
-                form.setFieldValue("addressPost.street", value)
-              }
-              defaultStateValue={currentCustomer?.addressPost?.stateId}
-              defaultStreetValue={currentCustomer?.addressPost?.street}
-              defaultCityValue={currentCustomer?.addressPost?.city}
-              defaultZipCodeValue={currentCustomer?.addressPost?.zipCode}
-              useDropDownMenu
-              required={false}
-            />
+                <FormAddress
+                  onChangeCityValue={(value) =>
+                    form.setFieldValue("addressPost.city", value)
+                  }
+                  onChangeStateValue={(value) =>
+                    form.setFieldValue("addressPost.state", value)
+                  }
+                  onChangeZipCodeValue={(value) =>
+                    form.setFieldValue("addressPost.zip", value)
+                  }
+                  onChangeStreetValue={(value) =>
+                    form.setFieldValue("addressPost.street", value)
+                  }
+                  defaultStateValue={currentCustomer?.addressPost?.stateId}
+                  defaultStreetValue={currentCustomer?.addressPost?.street}
+                  defaultCityValue={currentCustomer?.addressPost?.city}
+                  defaultZipCodeValue={currentCustomer?.addressPost?.zipCode}
+                  useDropDownMenu
+                  required={false}
+                />
 
-            <FormFullName
-              firstName={currentCustomer?.addressPost?.firstName}
-              lastName={currentCustomer?.addressPost?.lastName}
-              onChangeFirstName={form.handleChange("addressPost.firstName")}
-              onChangeLastName={form.handleChange("addressPost.lastName")}
-              required={false}
-            />
-
-            <FormTitle label={t("Addresses")} />
+                <FormFullName
+                  firstName={currentCustomer?.addressPost?.firstName}
+                  lastName={currentCustomer?.addressPost?.lastName}
+                  onChangeFirstName={form.handleChange("addressPost.firstName")}
+                  onChangeLastName={form.handleChange("addressPost.lastName")}
+                  required={false}
+                />
+              </>
+            )}
+            <FormTitle label={t("Addresses")}>
+              <TouchableOpacity
+                style={{
+                  width: "80%",
+                  alignItems: "flex-end",
+                }}
+                onPress={collapsedAddressSelected}
+              >
+                <View
+                  style={{
+                    width: scaleWidth(32),
+                    height: scaleWidth(32),
+                    borderRadius: scaleWidth(16),
+                    backgroundColor: "#fafafa",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: colors.OCEAN_BLUE,
+                      fontFamily: fonts.REGULAR,
+                      fontSize: scaleFont(26),
+                    }}
+                  >
+                    {collapsedAddress ? "+" : "-"}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </FormTitle>
           </View>
         </View>
       </KeyboardAwareScrollView>
