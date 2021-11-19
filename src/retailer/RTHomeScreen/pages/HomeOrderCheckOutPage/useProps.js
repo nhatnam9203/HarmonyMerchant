@@ -55,6 +55,7 @@ export const useProps = ({
   const modalBillRef = React.useRef(null);
   const popupEnterAmountGiftCardRef = React.useRef(null);
   const editProductItemRef = React.useRef(null);
+  const inputSearchRef = React.useRef(null);
 
   /**
   |--------------------------------------------------
@@ -179,6 +180,7 @@ export const useProps = ({
   };
 
   const addProductToBasket = (productItem) => {
+    inputSearchRef.current?.reset();
     const submitProducts = createSubmitAppointment([productItem]);
 
     if (appointmentTempId) {
@@ -564,6 +566,7 @@ export const useProps = ({
     popupEnterAmountGiftCardRef,
     searchProducts: productListData,
     editProductItemRef,
+    inputSearchRef,
     onPressCategoryItem: (categoryItem) => {
       if (!categoryItem) {
         return;
@@ -600,6 +603,7 @@ export const useProps = ({
       if (!productItem) {
         return;
       }
+      inputSearchRef.current?.reset();
 
       productDetailRef.current?.show(productItem);
     },
