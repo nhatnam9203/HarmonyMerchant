@@ -153,11 +153,13 @@ class TabCheckout extends Layout {
       blockAppointments,
       profileStaffLogin,
     } = this.props;
+
     const {
       categoryTypeSelected,
       productSeleted,
       arrSelectedExtra,
       selectedStaff,
+      customServiceSelected,
     } = this.state;
 
     // ------------ Block Booking -------------
@@ -178,7 +180,7 @@ class TabCheckout extends Layout {
           extras: [],
           products: [
             {
-              productId: productSeleted.productId,
+              productId: productSeleted?.productId,
               quantity: this.amountRef.current?.state.quanlity,
             },
           ],
@@ -197,9 +199,11 @@ class TabCheckout extends Layout {
         body = {
           services: [
             {
-              serviceId: productSeleted.serviceId,
+              serviceId:
+                productSeleted?.serviceId ?? customServiceSelected.serviceId,
               // staffId: mainAppointment?.staff?.staffId || profileStaffLogin.staffId,
               staffId: selectedStaff?.staffId,
+              amount: customServiceSelected?.amount,
             },
           ],
           extras: temptExtra,
@@ -228,7 +232,7 @@ class TabCheckout extends Layout {
         const temptBasket = [];
         temptBasket.unshift({
           type: "Product",
-          id: `${productSeleted.productId}_pro`,
+          id: `${productSeleted?.productId}_pro`,
           data: {
             name: productSeleted?.name || "",
             productId: productSeleted?.productId || 0,
@@ -255,13 +259,17 @@ class TabCheckout extends Layout {
         const temptBasket = [];
         temptBasket.unshift({
           type: "Service",
-          id: `${productSeleted.serviceId}_ser`,
+          id: `${
+            productSeleted?.serviceId ?? customServiceSelected?.serviceId
+          }_ser`,
           data: {
-            name: productSeleted.name,
-            serviceId: productSeleted.serviceId,
-            price: productSeleted.price,
+            name: productSeleted?.name ?? "Custom Service",
+            serviceId:
+              productSeleted?.serviceId ?? customServiceSelected?.serviceId,
+            price: productSeleted?.price ?? customServiceSelected?.amount,
           },
-          serviceName: productSeleted.name,
+          serviceName: productSeleted?.name ?? "Custom Service",
+          amount: customServiceSelected.amount,
           staff: {
             staffId: profileStaffLogin.staffId,
             imageUrl: profileStaffLogin.imageUrl,
@@ -307,11 +315,10 @@ class TabCheckout extends Layout {
         categoryId: -1,
         categoryType: "",
       },
-      productSeleted: {
-        name: "",
-      },
+      productSeleted: null,
       categoryTypeSelected: "",
       arrSelectedExtra: [],
+      customServiceSelected: null,
     });
   };
 
@@ -503,14 +510,14 @@ class TabCheckout extends Layout {
         productSeleted: item,
         isShowColAmount: true,
         arrSelectedExtra: [],
+        customServiceSelected: null,
       });
     } else {
       this.setState({
-        productSeleted: {
-          name: "",
-        },
+        productSeleted: null,
         isShowColAmount: false,
         arrSelectedExtra: [],
+        customServiceSelected: null,
       });
     }
   };
@@ -1950,12 +1957,11 @@ class TabCheckout extends Layout {
         categoryId: -1,
         categoryType: "",
       },
-      productSeleted: {
-        name: "",
-      },
+      productSeleted: null,
       categoryTypeSelected: "",
       arrSelectedExtra: [],
       paymentSelected: "",
+      customServiceSelected: null,
     });
   };
 
@@ -1965,12 +1971,11 @@ class TabCheckout extends Layout {
       await this.setState({
         categorySelected: category,
         categoryTypeSelected: category?.categoryType,
-        productSeleted: {
-          name: "",
-        },
+        productSeleted: null,
         isShowColProduct: false,
         isShowColAmount: false,
         arrSelectedExtra: [],
+        customServiceSelected: null,
       });
       this.activeGiftCardRef.current?.setStateFromParent();
       this.props.actions.appointment.handleVisibleActiveGiftCard();
@@ -1982,11 +1987,10 @@ class TabCheckout extends Layout {
           categoryId: -1,
           categoryType: "",
         },
-        productSeleted: {
-          name: "",
-        },
+        productSeleted: null,
         categoryTypeSelected: "",
         arrSelectedExtra: [],
+        customServiceSelected: null,
       });
     }
   };
@@ -2011,10 +2015,9 @@ class TabCheckout extends Layout {
         categoryTypeSelected: category?.categoryType,
         isShowColProduct: true,
         isShowColAmount: false,
-        productSeleted: {
-          name: "",
-        },
+        productSeleted: null,
         arrSelectedExtra: [],
+        customServiceSelected: null,
       });
     } else {
       await this.setState({
@@ -2024,11 +2027,10 @@ class TabCheckout extends Layout {
           categoryId: -1,
           categoryType: "",
         },
-        productSeleted: {
-          name: "",
-        },
+        productSeleted: null,
         categoryTypeSelected: "",
         arrSelectedExtra: [],
+        customServiceSelected: null,
       });
     }
   };
@@ -2325,11 +2327,10 @@ class TabCheckout extends Layout {
         categoryId: -1,
         categoryType: "",
       },
-      productSeleted: {
-        name: "",
-      },
+      productSeleted: null,
       categoryTypeSelected: "",
       arrSelectedExtra: [],
+      customServiceSelected: null,
     });
   };
 
@@ -2363,8 +2364,8 @@ class TabCheckout extends Layout {
     const extrasBySort = [];
 
     for (let i = 0; i < extrasByMerchant.length; i++) {
-      for (let j = 0; j < productSeleted.extras.length; j++) {
-        const extraLocal = productSeleted.extras[j];
+      for (let j = 0; j < productSeleted?.extras.length; j++) {
+        const extraLocal = productSeleted?.extras[j];
         const extralGlobal = extrasByMerchant[i];
         if (
           extralGlobal.extraId === extraLocal.extraId &&
@@ -2427,8 +2428,12 @@ class TabCheckout extends Layout {
 
   addBlockAppointment = async () => {
     const { isOpenBlockAppointmentId } = this.props;
-    const { categoryTypeSelected, productSeleted, arrSelectedExtra } =
-      this.state;
+    const {
+      categoryTypeSelected,
+      productSeleted,
+      arrSelectedExtra,
+      customServiceSelected,
+    } = this.state;
 
     let isAppointmentIdOpen = "";
 
@@ -2451,7 +2456,7 @@ class TabCheckout extends Layout {
           extras: [],
           products: [
             {
-              productId: productSeleted.productId,
+              productId: productSeleted?.productId,
               quantity: this.amountRef.current?.state.quanlity,
             },
           ],
@@ -2472,7 +2477,9 @@ class TabCheckout extends Layout {
         {
           services: [
             {
-              serviceId: productSeleted.serviceId,
+              serviceId:
+                productSeleted?.serviceId ?? customServiceSelected?.serviceId,
+              amount: customServiceSelected?.amount,
             },
           ],
           extras: temptExtra,
@@ -2492,11 +2499,10 @@ class TabCheckout extends Layout {
         categoryId: -1,
         categoryType: "",
       },
-      productSeleted: {
-        name: "",
-      },
+      productSeleted: null,
       categoryTypeSelected: "",
       arrSelectedExtra: [],
+      customServiceSelected: null,
     });
   };
 
@@ -2715,11 +2721,10 @@ class TabCheckout extends Layout {
         categoryId: -1,
         categoryType: "",
       },
-      productSeleted: {
-        name: "",
-      },
+      productSeleted: null,
       categoryTypeSelected: "",
       arrSelectedExtra: [],
+      customServiceSelected: null,
     });
     // this.scrollFlatListToStaffIndex(staff?.staffId);
   };
@@ -3045,8 +3050,22 @@ class TabCheckout extends Layout {
   onSelectCustomService = () => {
     const { selectedStaff } = this.state;
 
-    console.log("select staff " + JSON.stringify(selectedStaff));
     this.popupEnterAmountCustomServiceRef.current?.showPopup(selectedStaff);
+  };
+
+  submitAddCustomService = (params) => {
+    const { customService } = this.props;
+
+    this.setState(
+      {
+        customServiceSelected: Object.assign({}, params, {
+          serviceId: customService?.serviceId,
+        }),
+      },
+      () => {
+        this.addAmount();
+      }
+    );
   };
 }
 
@@ -3107,6 +3126,7 @@ const mapStateToProps = (state) => ({
   cloverMachineInfo: state.hardware.cloverMachineInfo,
   dejavooMachineInfo: state.hardware.dejavooMachineInfo,
   paymentMachineType: state.hardware.paymentMachineType,
+  customService: state.service.customService,
 });
 
 export default connectRedux(mapStateToProps, TabCheckout);

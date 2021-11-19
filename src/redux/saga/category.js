@@ -274,6 +274,7 @@ export default function* saga() {
   yield all([
     takeLatest("ADD_CATEGORY", addCategory),
     takeLatest("GET_CATEGORIES_BY_MERCHANR_ID", getCategoriesByMerchantId),
+
     takeLatest("ARCHIVE_CATEGORY", archiveCategory),
     takeLatest("RESTORE_CATEGORY", restoreCategory),
     takeLatest("EDIT_CATEGORY", editCategory),

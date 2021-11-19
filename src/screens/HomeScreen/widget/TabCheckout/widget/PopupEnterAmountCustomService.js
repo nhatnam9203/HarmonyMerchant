@@ -29,7 +29,7 @@ class PopupEnterAmountCustomService extends React.Component {
     this.state = initState;
   }
 
-  showPopup = (staff) => {
+  showPopup = (staff, callback) => {
     this.setState({
       visiblePopup: true,
       currentStaff: staff,
@@ -114,12 +114,26 @@ class PopupEnterAmountCustomService extends React.Component {
   addAmount = () => {
     // const { quality } = this.state;
     const { leftNumbers, rightNumners, currentStaff } = this.state;
+    const { submitAddCustomService } = this.props;
 
     const money = formatNumberFromCurrency(`${leftNumbers}.${rightNumners}`);
     if (formatNumberFromCurrency(money) > 0) {
+      submitAddCustomService({
+        staffId: currentStaff.staffId,
+        amount: money,
+      });
     } else {
       alert("Amount must greater than 0!");
     }
+    this.setState({
+      leftNumbers: "0",
+      rightNumners: "00",
+      isPressDot: 0,
+      isClear: 1,
+      quality: "0",
+      isResetQuantityToZero: false,
+      visiblePopup: false,
+    });
   };
 
   onRequestClose = () => {
@@ -380,6 +394,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  customService: state.service.customService,
+});
 
 export default connectRedux(mapStateToProps, PopupEnterAmountCustomService);

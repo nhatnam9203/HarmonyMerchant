@@ -494,6 +494,10 @@ class HomeScreen extends Layout {
       ),
       this.props.actions.app.getNotificationList(),
       this.props.actions.app.getCountUnReadOfNotification(),
+
+      this.props.actions.service.getCustomServiceByMerchantId(
+        profile?.merchantId
+      ),
     ])
       .then((data) => {
         this.props.actions.staff.reloadButtonEnterPincode();

@@ -29,6 +29,16 @@ export function getServicesByMerchant(
   };
 }
 
+export function getCustomServiceByMerchantId(merchantId, isShowLoading = true) {
+  return {
+    type: "GET_CUSTOM_SERVICE_BY_MERCHANT_ID",
+    method: "GET",
+    token: true,
+    api: `Service/getcustomservice/${merchantId}`,
+    isShowLoading,
+  };
+}
+
 export function searchService(name = "", category = "", status = "") {
   return {
     type: "SEARCH_SERVICE",

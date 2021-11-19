@@ -28,6 +28,7 @@ export function getCategoriesByMerchantId(
   };
 }
 
+
 export function archiveCategory(id, searchFilter = false) {
   return {
     type: "ARCHIVE_CATEGORY",

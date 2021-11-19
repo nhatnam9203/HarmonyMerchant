@@ -1569,6 +1569,7 @@ class Layout extends React.Component {
           language={language}
           // extractBill={this.extractBill}
           // doneBill={this.doneBill}
+          submitAddCustomService={this.submitAddCustomService}
         />
       </View>
     );
