@@ -278,7 +278,7 @@ class Layout extends React.Component {
     tempWidth = isShowColProduct ? 100 : tempWidth;
 
     const temptColorHeader = isShowColProduct ? { color: "#6A6A6A" } : {};
-    const categoriesFilter = categoriesByMerchant.filter(
+    const categoriesFilter = categoriesByMerchant?.filter(
       (category, index) => category.isDisabled === 0
     );
 
