@@ -29,10 +29,11 @@ class PopupEnterAmountCustomService extends React.Component {
     this.state = initState;
   }
 
-  showPopup = (staff, callback) => {
+  showPopup = (staff, itemService) => {
     this.setState({
       visiblePopup: true,
       currentStaff: staff,
+      itemService: itemService,
     });
   };
 
@@ -113,14 +114,16 @@ class PopupEnterAmountCustomService extends React.Component {
 
   addAmount = () => {
     // const { quality } = this.state;
-    const { leftNumbers, rightNumners, currentStaff } = this.state;
+    const { leftNumbers, rightNumners, currentStaff, itemService } = this.state;
     const { submitAddCustomService } = this.props;
 
     const money = formatNumberFromCurrency(`${leftNumbers}.${rightNumners}`);
     if (formatNumberFromCurrency(money) > 0) {
       submitAddCustomService({
         staffId: currentStaff.staffId,
-        amount: money,
+        price: money,
+        categoryId: itemService?.category?.categoryId,
+        serviceId: itemService?.serviceId,
       });
     } else {
       alert("Amount must greater than 0!");

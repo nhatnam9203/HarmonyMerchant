@@ -334,8 +334,6 @@ class Layout extends React.Component {
       }
     }
 
-    const isCustomService = profile?.isCustomService ?? false;
-
     return (
       <View
         style={[{ width: scaleSize(tempWidth) }, styles.categories_column_box]}
@@ -365,17 +363,6 @@ class Layout extends React.Component {
               showsVerticalScrollIndicator={false}
               keyboardShouldPersistTaps="always"
             >
-              {isCustomService && (
-                <ItemCategory
-                  category={{
-                    name: "Custom Service",
-                    categoryId: 1,
-                  }}
-                  onPressSelectCategory={this.onSelectCustomService}
-                  colorText={temptColorHeader}
-                  categorySelected={false}
-                />
-              )}
               {tempCategories.map((category, index) => (
                 <ItemCategory
                   key={index}
@@ -404,7 +391,7 @@ class Layout extends React.Component {
   }
 
   renderProductCheckout() {
-    const { language, groupAppointment } = this.props;
+    const { language, groupAppointment, customService, profile } = this.props;
     const {
       isShowColAmount,
       categorySelected,
@@ -418,6 +405,7 @@ class Layout extends React.Component {
     const data = this.getDataColProduct();
     const tempTitle =
       categorySelected?.categoryType === "Service" ? "Services" : "Products";
+    const isCustomService = profile?.isCustomService ?? false;
 
     return (
       <View
@@ -452,6 +440,22 @@ class Layout extends React.Component {
               showsVerticalScrollIndicator={false}
               keyboardShouldPersistTaps="always"
             >
+              {isCustomService && (
+                <ItemProductService
+                  key="custom_service"
+                  index={-1}
+                  item={Object.assign({}, customService, {
+                    name: "Custom service",
+                    category: categorySelected,
+                  })}
+                  colorText={temptColorHeader}
+                  itemSelected={productSeleted}
+                  categoryTypeSelected={categoryTypeSelected}
+                  isShowColAmount={isShowColAmount}
+                  groupAppointment={groupAppointment}
+                  showColAmount={this.showCustomServiceAmount}
+                />
+              )}
               {data.map((item, index) => (
                 <ItemProductService
                   key={index}

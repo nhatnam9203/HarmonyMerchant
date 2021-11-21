@@ -203,7 +203,10 @@ class TabCheckout extends Layout {
                 productSeleted?.serviceId ?? customServiceSelected.serviceId,
               // staffId: mainAppointment?.staff?.staffId || profileStaffLogin.staffId,
               staffId: selectedStaff?.staffId,
-              amount: customServiceSelected?.amount,
+              ...(customServiceSelected && {
+                categoryId: customServiceSelected?.categoryId,
+                price: customServiceSelected?.price,
+              }),
             },
           ],
           extras: temptExtra,
@@ -266,16 +269,19 @@ class TabCheckout extends Layout {
             name: productSeleted?.name ?? "Custom Service",
             serviceId:
               productSeleted?.serviceId ?? customServiceSelected?.serviceId,
-            price: productSeleted?.price ?? customServiceSelected?.amount,
+            price: productSeleted?.price ?? customServiceSelected?.price,
           },
           serviceName: productSeleted?.name ?? "Custom Service",
-          amount: customServiceSelected.amount,
           staff: {
             staffId: profileStaffLogin.staffId,
             imageUrl: profileStaffLogin.imageUrl,
             displayName: profileStaffLogin.displayName,
             tip: 0.0,
           },
+          ...(customServiceSelected && {
+            categoryId: customServiceSelected?.categoryId,
+            price: customServiceSelected?.price,
+          }),
         });
 
         for (let i = 0; i < arrSelectedExtra.length; i++) {
@@ -3047,20 +3053,24 @@ class TabCheckout extends Layout {
     });
   };
 
-  onSelectCustomService = () => {
+  showCustomServiceAmount = (itemService) => {
     const { selectedStaff } = this.state;
-
-    this.popupEnterAmountCustomServiceRef.current?.showPopup(selectedStaff);
+    this.setState({
+      productSeleted: null,
+      isShowColAmount: false,
+      arrSelectedExtra: [],
+      customServiceSelected: null,
+    });
+    this.popupEnterAmountCustomServiceRef.current?.showPopup(
+      selectedStaff,
+      itemService
+    );
   };
 
   submitAddCustomService = (params) => {
-    const { customService } = this.props;
-
     this.setState(
       {
-        customServiceSelected: Object.assign({}, params, {
-          serviceId: customService?.serviceId,
-        }),
+        customServiceSelected: params,
       },
       () => {
         this.addAmount();
