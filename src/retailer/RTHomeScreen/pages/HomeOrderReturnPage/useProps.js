@@ -4,7 +4,7 @@ import { statusSuccess } from "@shared/utils";
 import _ from "lodash";
 import React from "react";
 
-export const useProps = ({ params: { item } }) => {
+export const useProps = ({ params: { item }, navigation }) => {
   const [itemSelected, setItemSelected] = React.useState([]);
   const [notes, setNotes] = React.useState(null);
   const [data, setData] = React.useState(JSON.parse(JSON.stringify(item)));
@@ -25,7 +25,18 @@ export const useProps = ({ params: { item } }) => {
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentReturn || {};
     if (statusSuccess(codeStatus)) {
-      NavigationServices.navigate("retailer.home.order.list", { reload: true });
+      if (navigation?.canGoBack()) {
+        // navigation.goBack();
+        NavigationServices.navigate("retailer.home.order.detail", {
+          order: item,
+          screenId: "retailer.home.order.list",
+          backScreenId: "retailer.home.order.list",
+        });
+      } else {
+        NavigationServices.navigate("retailer.home.order.list", {
+          reload: true,
+        });
+      }
     }
   }, [appointmentReturn]);
 
