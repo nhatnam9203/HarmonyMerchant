@@ -2485,7 +2485,10 @@ class TabCheckout extends Layout {
             {
               serviceId:
                 productSeleted?.serviceId ?? customServiceSelected?.serviceId,
-              amount: customServiceSelected?.amount,
+              ...(customServiceSelected && {
+                categoryId: customServiceSelected?.categoryId,
+                price: customServiceSelected?.price,
+              }),
             },
           ],
           extras: temptExtra,
