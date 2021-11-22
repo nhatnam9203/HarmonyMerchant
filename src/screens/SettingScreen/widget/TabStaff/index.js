@@ -180,6 +180,7 @@ class TabStaff extends Layout {
 
   submitEditStaff = (staff, id) => {
     const { searchFilter } = this.state;
+    // console.log(staff);
     this.props.actions.staff.editStaff(staff, id, searchFilter);
   };
 

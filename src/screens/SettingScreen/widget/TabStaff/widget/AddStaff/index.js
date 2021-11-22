@@ -504,9 +504,9 @@ class AddStaff extends Layout {
       // this.setState({
       //   salary: tempSalary,
       // });
+      // console.log(this.state.workingTime);
 
-      const temptStaff = {
-        ...user,
+      const temptStaff = Object.assign({}, user, {
         cellphone:
           user.cellphone === ""
             ? ""
@@ -514,7 +514,7 @@ class AddStaff extends Layout {
         address: temptAddress,
         isDisabled: user.isDisabled === "Active" ? 0 : 1,
         // workingTime: objWorkingTime,
-        workingTime: { ...this.state.workingTime },
+        workingTime: Object.assign({}, this.state.workingTime),
         salary: tempSalary,
         tipFee: this.state.tipFee,
         fileId: this.state.fileId,
@@ -522,13 +522,11 @@ class AddStaff extends Layout {
         productSalary: this.state.productSalary,
         cashPercent: parseFloat(this.state.cashPercent),
         categories: this.assignSevices?.current?.getStateFromParent(),
-      };
+      });
 
       if (this.state.isEditStaff) {
-        // console.log("temptStaff", temptStaff);
         this.props.editStaff(temptStaff, this.state.staffId);
       } else {
-        // console.log(JSON.stringify(temptStaff));
         this.props.addStaff(temptStaff);
       }
     }
@@ -609,19 +607,30 @@ class AddStaff extends Layout {
   };
 
   selectCheckbox = (day, isCheck) => async () => {
-    const tempWorkingTime = { ...this.state.workingTime };
-    tempWorkingTime[day].isCheck = !isCheck;
+    if (day) {
+      let temp = this.state.workingTime[day];
 
-    await this.setState({
-      workingTime: tempWorkingTime,
-    });
+      temp = Object.assign({}, temp, { isCheck: !isCheck });
+      const mergeWorkingTime = Object.assign({}, this.state.workingTime, {
+        [day]: temp,
+      });
+
+      await this.setState({
+        workingTime: mergeWorkingTime,
+      });
+    }
   };
 
   onChangeTimeOfWorkingTime = async (value, day, keyTime) => {
     const tempWorkingTime = { ...this.state.workingTime };
-    tempWorkingTime[day][keyTime] = value;
+    let dateObject = tempWorkingTime[day];
+
+    dateObject = Object.assign({}, dateObject, { [keyTime]: value });
+
     await this.setState({
-      workingTime: tempWorkingTime,
+      workingTime: Object.assign({}, this.state.workingTime, {
+        [day]: dateObject,
+      }),
     });
   };
 
@@ -722,21 +731,28 @@ class AddStaff extends Layout {
   };
 
   handleProductSalaryCheckBox = () => {
-    const tempProductSalary = { ...this.state.productSalary };
-    const isCheck = tempProductSalary?.commission?.isCheck;
-    tempProductSalary.commission.isCheck = !isCheck;
+    let { commission } = this.state.productSalary || {};
+    commission = Object.assign({}, commission, {
+      isCheck: !commission?.isCheck,
+    });
 
     this.setState({
-      productSalary: tempProductSalary,
+      productSalary: Object.assign({}, this.state.productSalary, {
+        commission,
+      }),
     });
   };
 
   handleChangeProductSalaryValue = (value) => {
-    const tempProductSalary = { ...this.state.productSalary };
-    tempProductSalary.commission.value = value;
+    let { commission } = this.state.productSalary || {};
+    commission = Object.assign({}, commission, {
+      value: value,
+    });
 
     this.setState({
-      productSalary: tempProductSalary,
+      productSalary: Object.assign({}, this.state.productSalary, {
+        commission,
+      }),
     });
   };
 
