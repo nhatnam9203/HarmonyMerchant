@@ -15,6 +15,11 @@ export const FormInput = ({
   multiline = false,
   children,
   onFocus,
+  textInputRef,
+  autoFocus,
+  showSoftInputOnFocus,
+  onEndEditing,
+  onBlur,
 }) => {
   const [t] = useTranslation();
   const onHandleChange = (text) => {
@@ -33,7 +38,9 @@ export const FormInput = ({
       )}
       <View style={styles.content}>
         <CustomInput
+          ref={textInputRef}
           style={[styles.customInput, multiline && { height: scaleHeight(80) }]}
+          // textInputRef={textInputRef}
           textInputProps={{
             placeholder: placeholder ?? t("Input here"),
             fontSize: scaleFont(17),
@@ -48,6 +55,10 @@ export const FormInput = ({
               textInputStyle: { height: scaleHeight(70) },
             }),
             onFocus: onFocus,
+            autoFocus: autoFocus,
+            showSoftInputOnFocus: showSoftInputOnFocus,
+            onEndEditing: onEndEditing,
+            onBlur: onBlur,
           }}
         />
         {children}

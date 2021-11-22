@@ -57,6 +57,7 @@ export const Layout = ({
   isCanGoBack,
   visiblePopupGiftCard,
   clearBasket,
+  inputSearchRef,
 }) => {
   const { t } = useTranslation();
 
@@ -102,7 +103,11 @@ export const Layout = ({
           )}
         />
         <View style={styles.rowContent}>
-          <InputSearch onSearch={onChangeValueSearch} width={scaleWidth(280)} />
+          <InputSearch
+            ref={inputSearchRef}
+            onSearch={onChangeValueSearch}
+            width={scaleWidth(280)}
+          />
 
           <View style={layouts.marginHorizontal} />
         </View>
@@ -252,7 +257,6 @@ export const Layout = ({
         ref={(ref) => (popupEnterAmountGiftCardRef.current = ref)}
         onRequestClose={onRequestCloseBillModal}
         onAddGiftCardToAppointment={onAddGiftCardToAppointment}
-
       />
 
       <DialogEditProductOrder
