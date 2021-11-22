@@ -260,7 +260,18 @@ export const useProps = ({
         setSubCategoryId(null);
         setActiveTab(CUSTOM_LIST_TYPES.PRO);
         setProducts(data);
+        // !![feature] check if product trả về 1 item và tìm value search là 1 barcode và có trong sp con thì add luôn vào bastket
+      } else {
+        setSearchData(null);
+        setProducts(null);
+        if (activeTab === CUSTOM_LIST_TYPES.PRO) {
+          setActiveTab(CUSTOM_LIST_TYPES.CAT);
+        }
+
+        //!![feature] Toast message no product found here!
       }
+
+      inputSearchRef?.current.reset();
     }
   }, [productListData]);
 
