@@ -78,8 +78,8 @@ class TabPromotion extends Layout {
     this.props.actions.marketing.deletePromotionById(campaign?.id || 0);
   };
 
-  sendStartCampaign = (campaignID = 0, isSchedule = false) => {
-    this.props.actions.marketing.sendStartPromotionById(campaignID, isSchedule);
+  sendStartCampaign = (campaignID = 0) => {
+    this.props.actions.marketing.sendStartPromotionById(campaignID);
   };
 
   goToPage = (page = 1) => {

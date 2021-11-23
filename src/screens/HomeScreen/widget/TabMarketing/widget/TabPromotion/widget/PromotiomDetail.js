@@ -58,12 +58,14 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useSelector } from "react-redux";
 import DropdownSearch from "./DropdownSearch";
 import Slider from "./Slider";
+import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 
 const { width } = Dimensions.get("window");
 
 const HOURS_FORMAT = "hh:mm A";
 const MESSAGE_END_DATE_FORMAT = "dddd, DD MMMM yyyy hh:mm a";
 const MESSAGE_CONTENT_DEFAULT_TYPE = "sms";
+const SendConfirmButton = WithDialogConfirm(Button);
 
 // PromotiomDetail
 const PromotiomDetail = forwardRef(
@@ -124,7 +126,6 @@ const PromotiomDetail = forwardRef(
     const [isManually, setIsManually] = React.useState(false);
     const [smsMaxCustomer, setSMSMaxCustomer] = React.useState(1);
     const [isSchedule, setIsSchedule] = useState(false);
-    // const [isChangePromotion, setIsChangePromotion] = useState(false);
 
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(
@@ -184,6 +185,7 @@ const PromotiomDetail = forwardRef(
         setCustomerSendSMSQuantity(data?.customerSendSMSQuantity || 0);
         setPromotionId(data?.id || "");
         setTitle(data?.name);
+        setIsHandleEdit(data?.id ? true : false);
         setStartDate(
           formatWithMoment(data?.fromDate || new Date(), "MM/DD/YYYY")
         );
@@ -228,8 +230,6 @@ const PromotiomDetail = forwardRef(
 
         getPromotionCustomer(data?.id ?? 0, merchant?.merchantId);
         setIsSchedule(data?.isSchedule);
-        // setIsChangePromotion(data === null);
-        setIsHandleEdit(data?.id ? true : false);
       },
     }));
 
@@ -522,6 +522,7 @@ const PromotiomDetail = forwardRef(
         customerIds: customerList
           ?.filter((x) => x.checked)
           .map((x) => x.customerId),
+        isSchedule: isSchedule,
       };
 
       // ------------ Check Valid ---------
@@ -731,7 +732,7 @@ const PromotiomDetail = forwardRef(
 
     const onHandleSendStartCampaign = () => {
       if (sendStartCampaign && typeof sendStartCampaign === "function") {
-        sendStartCampaign(promotionId, !isSchedule);
+        sendStartCampaign(promotionId);
       }
     };
 
@@ -1597,6 +1598,26 @@ const PromotiomDetail = forwardRef(
                     {`$${smsMaxAmount}`}
                   </Text>
                 </View>
+
+                <Text
+                  style={[
+                    styles.txt_tit,
+                    {
+                      marginBottom: scaleSize(10),
+                      marginTop: scaleSize(20),
+                      fontWeight: "500",
+                    },
+                  ]}
+                >
+                  {`Auto send message`}
+                </Text>
+
+                <Switch
+                  trackColor={{ false: "#767577", true: "#0764B0" }}
+                  ios_backgroundColor="#E5E5E5"
+                  value={isSchedule}
+                  onValueChange={setIsSchedule}
+                />
               </View>
             </View>
           </View>
@@ -1608,13 +1629,15 @@ const PromotiomDetail = forwardRef(
         <View
           style={{
             // width: scaleSize(250),
-            height: scaleSize(35),
+            height: scaleSize(50),
             position: "absolute",
-            bottom: scaleSize(20),
+            bottom: scaleSize(0),
             left: 0,
             right: 0,
             flexDirection: "row",
             justifyContent: "center",
+            paddingVertical: scaleHeight(8),
+            backgroundColor: "#fff",
           }}
         >
           <Button
@@ -1623,7 +1646,7 @@ const PromotiomDetail = forwardRef(
               {
                 backgroundColor: "#F1F1F1",
                 borderRadius: 2,
-                width: scaleWidth(120),
+                width: scaleWidth(150),
               },
               styles.centered_box,
             ]}
@@ -1637,7 +1660,7 @@ const PromotiomDetail = forwardRef(
               {
                 backgroundColor: "#0764B0",
                 borderRadius: 2,
-                width: scaleWidth(120),
+                width: scaleWidth(150),
               },
               styles.centered_box,
             ]}
@@ -1648,14 +1671,18 @@ const PromotiomDetail = forwardRef(
           </Button>
           <View style={{ width: scaleWidth(20) }} />
 
-          <Button
+          <SendConfirmButton
             disabled={!canStartSendCampaign()}
             onPress={onHandleSendStartCampaign}
+            description={
+              "Are you sure you want to send message for this Campaign ?"
+            }
             style={[
               {
                 backgroundColor: canStartSendCampaign() ? "#0764B0" : "#F1F1F1",
                 borderRadius: 2,
                 width: scaleWidth(280),
+                height: scaleHeight(48),
               },
               styles.centered_box,
             ]}
@@ -1663,7 +1690,7 @@ const PromotiomDetail = forwardRef(
             <Text style={[styles.txt_footer, { color: "#fff" }]}>
               {"SEND AND START CAMPAIGN"}
             </Text>
-          </Button>
+          </SendConfirmButton>
         </View>
 
         <DateTimePickerModal

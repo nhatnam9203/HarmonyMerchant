@@ -306,11 +306,11 @@ export function updatePromotionById(promotionId, body) {
   };
 }
 
-export function sendStartPromotionById(promotionId, isSchedule) {
+export function sendStartPromotionById(promotionId) {
   return {
     type: "SEND_START_PROMOTION_BY_ID",
     method: "POST",
-    body: { isSchedule },
+    // body: { isSchedule },
     token: true,
     api: `MerchantPromotion/sendPromotion/${promotionId}`,
   };
