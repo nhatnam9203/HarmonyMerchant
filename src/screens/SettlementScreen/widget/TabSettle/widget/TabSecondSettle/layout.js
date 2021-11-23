@@ -28,7 +28,7 @@ class Layout extends React.Component {
                 <View style={{ alignItems: 'center' }} >
                     <Text style={{ color: '#DB7D2A', fontSize: scaleSize(16) }} >
                         {/* {progress === 1 ? 'Batch Settlement Successful' : ''} */}
-                        {`Batch Slettlement is in progressing`}
+                        {`Batch Settlement is in progressing`}
                     </Text>
                 </View>
                 <Text style={{ color: '#404040', fontSize: scaleSize(14), marginTop: scaleSize(5), marginBottom: scaleSize(4) }} >
