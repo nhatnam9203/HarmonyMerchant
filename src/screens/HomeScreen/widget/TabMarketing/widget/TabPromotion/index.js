@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import Layout from './layout';
-import connectRedux from '@redux/ConnectRedux';
-import { getServiceIdByName } from '@utils';
-import { scaleSize } from '@utils';
+import Layout from "./layout";
+import connectRedux from "@redux/ConnectRedux";
+import { getServiceIdByName } from "@utils";
+import { scaleSize } from "@utils";
 
 class TabPromotion extends Layout {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: 0
+      currentTab: 0,
     };
 
     this.scrollTabParentRef = React.createRef();
@@ -23,7 +23,7 @@ class TabPromotion extends Layout {
   onChangeTab = (index) => {
     const currentIndex = index.i;
     this.props.handleChangeBackgrounColor(currentIndex);
-  }
+  };
 
   createNewCampaign = () => {
     this.props.actions.marketing.resetStatePromotionDetailById();
@@ -34,45 +34,49 @@ class TabPromotion extends Layout {
     } else {
       setTimeout(() => {
         this.promotionDetailRef?.current?.setStateFromParent();
-      }, 300)
+      }, 300);
     }
-
-  }
+  };
 
   editCampaign = (campaign) => () => {
-
     this.goToPage(1);
     if (this.promotionDetailRef?.current) {
       this.promotionDetailRef?.current?.setStateFromParent(campaign);
     } else {
       setTimeout(() => {
         this.promotionDetailRef?.current?.setStateFromParent(campaign);
-      }, 300)
+      }, 300);
     }
 
-
-    this.props.actions.marketing.getPromotionDetailById(campaign?.id,campaign?.conditionId);
+    this.props.actions.marketing.getPromotionDetailById(
+      campaign?.id,
+      campaign?.conditionId
+    );
     // setTimeout(() => {
     //   this.props.actions.marketing.getSMSInformation(campaign?.conditionId);
     // }, 500)
-  }
+  };
 
   getSMSInformation = (conditionId) => {
     // console.log("----- getSMSInformation: ",conditionId);
     this.props.actions.marketing.getSMSInformation(conditionId);
-  }
+  };
 
   disableCampaign = (campaign) => () => {
     this.props.actions.marketing.disablePromotionById(campaign?.id || 0);
-  }
+  };
 
   enableCampaign = (campaign) => () => {
     this.props.actions.marketing.enablePromotionById(campaign?.id || 0);
-  }
+  };
 
   cancelCampaign = () => {
     this.scrollTabParentRef?.current?.goToPage(0);
-  }
+  };
+
+  deleteCampaign = (campaign) => {
+    this.props.actions.marketing.deletePromotionById(campaign?.id || 0);
+  };
 
   goToPage = (page = 1) => {
     if (this.scrollTabParentRef?.current) {
@@ -80,45 +84,45 @@ class TabPromotion extends Layout {
     } else {
       setTimeout(() => {
         this.scrollTabParentRef?.current?.goToPage(page);
-      }, 300)
+      }, 300);
     }
-  }
+  };
 
   updatePromotionById = (promotionId, body) => {
     this.props.actions.marketing.updatePromotionById(promotionId, body);
-  }
+  };
 
   handleCreateNewCampaign = (campaign) => {
     this.props.actions.marketing.createNewCampaign(campaign);
-  }
+  };
 
   viewRule = () => {
     this.goToPage(2);
-  }
+  };
 
-  disableRule = () => {
-
-  }
+  disableRule = () => {};
 
   cancelRewardPoints = () => {
     this.goToPage(0);
-  }
+  };
 
   saveRewardPoints = () => {
     this.goToPage(0);
-  }
+  };
 
   componentDidUpdate(prevProps, prevState) {
     const { isUpdatePromotionById } = this.props;
-    if (isUpdatePromotionById && prevProps.isUpdatePromotionById !== isUpdatePromotionById) {
+    if (
+      isUpdatePromotionById &&
+      prevProps.isUpdatePromotionById !== isUpdatePromotionById
+    ) {
       this.props.actions.marketing.resetStateIsUpdatePromotionById(false);
       this.goToPage(0);
     }
   }
-
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   profile: state.dataLocal.profile,
   language: state.dataLocal.language,
   promotions: state.marketing.promotions,
@@ -128,11 +132,7 @@ const mapStateToProps = state => ({
   refreshingPromotion: state.marketing.refreshingPromotion,
   isGetPromotionByMerchant: state.marketing.isGetPromotionByMerchant,
 
-  isUpdatePromotionById: state.marketing.isUpdatePromotionById
-})
-
-
+  isUpdatePromotionById: state.marketing.isUpdatePromotionById,
+});
 
 export default connectRedux(mapStateToProps, TabPromotion);
-
-
