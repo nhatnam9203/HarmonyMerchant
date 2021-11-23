@@ -13,6 +13,7 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const dialogRef = React.useRef(null);
+  const textInputRef = React.useRef(null);
 
   const [value, setValue] = React.useState("");
 
@@ -33,16 +34,33 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
 
   const onHandleSubmit = () => {
     dialogRef.current?.hide();
+    // console.log(`====> onHandleSubmit:  ${value}`);
     if (typeof onSuccess === "function" && onSuccess) {
       onSuccess(value);
     }
     setValue("");
+    textInputRef.current?.clear();
+  };
+
+  const onChangeValue = (text) => {
+    setValue(text);
+    dialogRef.current?.hide();
+
+    if (typeof onSuccess === "function" && onSuccess) {
+      onSuccess(text);
+    }
+
+    setTimeout(() => {
+      setValue("");
+      textInputRef.current?.clear();
+    }, 100);
   };
 
   React.useImperativeHandle(ref, () => ({
     show: () => {
       setValue("");
       dialogRef.current?.show();
+      // textInputRef.current?.focus();
     },
     hide: () => {
       dialogRef.current?.hide();
@@ -86,18 +104,22 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
               // label={t("Input Barcode")}
               placeholder={t("Enter  barcode")}
               //required={true}
-              onChangeValue={setValue}
+              onChangeValue={onChangeValue}
               defaultValue={""}
+              // editable={false}
+              textInputRef={textInputRef}
+              autoFocus={true}
+              showSoftInputOnFocus={false}
             >
-              <View style={layouts.marginHorizontal} />
-              <ButtonGradient
+              {/* <View style={layouts.marginHorizontal} /> */}
+              {/* <ButtonGradient
                 label={t("Submit")}
                 width={scaleWidth(140)}
                 height={scaleHeight(40)}
                 borderRadius={scaleWidth(3)}
                 disable={value?.length <= 0}
                 onPress={onHandleSubmit}
-              />
+              /> */}
             </FormInput>
           </View>
         </View>

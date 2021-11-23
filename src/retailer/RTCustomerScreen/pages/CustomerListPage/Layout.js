@@ -78,7 +78,7 @@ export const Layout = ({
           headerKeyLabels={{
             customerName: t("Name"),
             phone: t("Phone Number"),
-            email: t("Email"),
+            // email: t("Email"),
             group: t("Group"),
             createdDate: t("Customer Since"),
             actions: t("Actions"),
@@ -86,7 +86,7 @@ export const Layout = ({
           whiteListKeys={[
             "customerName",
             "phone",
-            "email",
+            // "email",
             "group",
             "createdDate",
             "actions",
@@ -95,11 +95,11 @@ export const Layout = ({
           primaryKey="customerId"
           // unitKeys={{ totalDuration: "hrs" }}
           widthForKeys={{
-            customerName: scaleWidth(190),
-            phone: scaleWidth(170),
-            email: scaleWidth(280),
-            group: scaleWidth(120),
-            createdDate: scaleWidth(170),
+            customerName: scaleWidth(320),
+            phone: scaleWidth(220),
+            // email: scaleWidth(280),
+            group: scaleWidth(150),
+            createdDate: scaleWidth(200),
           }}
           emptyDescription={t("No Customers")}
           styleTextKeys={{ customerName: styles.textName }}
