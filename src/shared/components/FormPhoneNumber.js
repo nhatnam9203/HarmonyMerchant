@@ -21,8 +21,13 @@ export const FormPhoneNumber = ({
   const onHandleChangeValue = (value) => {
     // !! format phone input here
     setPhoneNumber(value);
+
     if (onChangePhoneNumber && typeof onChangePhoneNumber === "function") {
-      onChangePhoneNumber(`${phoneCodeValue}${value?.trim()}`);
+      if (value?.trim()?.length > 0) {
+        onChangePhoneNumber(`${phoneCodeValue}${value?.trim()}`);
+      } else {
+        onChangePhoneNumber("");
+      }
     }
   };
 
