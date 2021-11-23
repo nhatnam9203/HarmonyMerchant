@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ReportLayout } from "../../../../widget";
 import StaffReportTab from "./StaffReportTab";
 import StaffStatistic from "./StaffStatistic";
+import { useFocusEffect } from "@react-navigation/native";
 
 const RANGE_TIME_DEFAULT = "This Week";
 
@@ -142,6 +143,12 @@ function StaffSalaryTab({ style, showBackButton }, ref) {
   const loadMoreData = () => {
     getListStaffsSalaryTop(nextPage);
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getListStaffsSalaryTop(1);
+    }, [])
+  );
 
   React.useEffect(() => {
     setRefreshing(false);
