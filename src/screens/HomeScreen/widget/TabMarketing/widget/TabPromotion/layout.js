@@ -38,6 +38,7 @@ class Layout extends React.Component {
             handleCreateNewCampaign={this.handleCreateNewCampaign}
             updatePromotionById={this.updatePromotionById}
             getSMSInformation={this.getSMSInformation}
+            sendStartCampaign={this.sendStartCampaign}
           />
 
           <RewardDetail

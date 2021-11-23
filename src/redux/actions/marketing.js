@@ -306,6 +306,16 @@ export function updatePromotionById(promotionId, body) {
   };
 }
 
+export function sendStartPromotionById(promotionId, isSchedule) {
+  return {
+    type: "SEND_START_PROMOTION_BY_ID",
+    method: "POST",
+    body: { isSchedule },
+    token: true,
+    api: `MerchantPromotion/sendPromotion/${promotionId}`,
+  };
+}
+
 export function resetStateIsUpdatePromotionById(visible = true) {
   return {
     type: "RESET_STATE_IS_UPDATE_PROMOTION_BY_ID",

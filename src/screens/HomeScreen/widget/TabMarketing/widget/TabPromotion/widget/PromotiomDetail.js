@@ -74,6 +74,7 @@ const PromotiomDetail = forwardRef(
       updatePromotionById,
       handleCreateNewCampaign,
       getSMSInformation,
+      sendStartCampaign,
     },
     ref
   ) => {
@@ -122,6 +123,8 @@ const PromotiomDetail = forwardRef(
     const [mediaFilePath, setMediaFilePath] = React.useState(null);
     const [isManually, setIsManually] = React.useState(false);
     const [smsMaxCustomer, setSMSMaxCustomer] = React.useState(1);
+    const [isSchedule, setIsSchedule] = useState(false);
+    // const [isChangePromotion, setIsChangePromotion] = useState(false);
 
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(
@@ -179,7 +182,6 @@ const PromotiomDetail = forwardRef(
     useImperativeHandle(ref, () => ({
       setStateFromParent: (data = {}) => {
         setCustomerSendSMSQuantity(data?.customerSendSMSQuantity || 0);
-        setIsHandleEdit(data?.id ? true : false);
         setPromotionId(data?.id || "");
         setTitle(data?.name);
         setStartDate(
@@ -225,6 +227,9 @@ const PromotiomDetail = forwardRef(
         setMediaFilePath(data?.smsMediaPath);
 
         getPromotionCustomer(data?.id ?? 0, merchant?.merchantId);
+        setIsSchedule(data?.isSchedule);
+        // setIsChangePromotion(data === null);
+        setIsHandleEdit(data?.id ? true : false);
       },
     }));
 
@@ -724,6 +729,16 @@ const PromotiomDetail = forwardRef(
       calculatorsmsMoney(val);
     };
 
+    const onHandleSendStartCampaign = () => {
+      if (sendStartCampaign && typeof sendStartCampaign === "function") {
+        sendStartCampaign(promotionId, !isSchedule);
+      }
+    };
+
+    const canStartSendCampaign = () => {
+      return isHandleEdit && !isSchedule;
+    };
+
     React.useEffect(() => {
       if (!useDefaultContent) return;
 
@@ -742,6 +757,22 @@ const PromotiomDetail = forwardRef(
       conditionServiceProductTags,
       noEndDate,
     ]);
+
+    // React.useEffect(() => {
+    //   if (isHandleEdit) setIsChangePromotion(true);
+    // }, [
+    //   title,
+    //   endDate,
+    //   endTime,
+    //   actionTags,
+    //   condition,
+    //   merchant,
+    //   promotionType,
+    //   promotionValue,
+    //   useDefaultContent,
+    //   conditionServiceProductTags,
+    //   noEndDate,
+    // ]);
 
     return (
       <View
@@ -1064,7 +1095,7 @@ const PromotiomDetail = forwardRef(
               </View>
 
               {/* ---------  Promotion type ------ */}
-              <Text
+              {/* <Text
                 style={[
                   styles.txt_tit,
                   { marginBottom: scaleSize(10), marginTop: scaleSize(20) },
@@ -1078,7 +1109,7 @@ const PromotiomDetail = forwardRef(
                 ios_backgroundColor="#E5E5E5"
                 value={isDisabled}
                 onValueChange={setIsDisabled}
-              />
+              /> */}
 
               {/* ---------  Promotion Manual ------ */}
               <Text
@@ -1576,33 +1607,61 @@ const PromotiomDetail = forwardRef(
         {/* --------------- Footer ---------------- */}
         <View
           style={{
-            width: scaleSize(250),
+            // width: scaleSize(250),
             height: scaleSize(35),
             position: "absolute",
             bottom: scaleSize(20),
-            left: (width - scaleSize(280)) / 2,
+            left: 0,
+            right: 0,
             flexDirection: "row",
+            justifyContent: "center",
           }}
         >
           <Button
             onPress={cancelCampaign}
             style={[
-              { flex: 1, backgroundColor: "#F1F1F1", borderRadius: 2 },
+              {
+                backgroundColor: "#F1F1F1",
+                borderRadius: 2,
+                width: scaleWidth(120),
+              },
               styles.centered_box,
             ]}
           >
             <Text style={styles.txt_footer}>{`CANCEL`}</Text>
           </Button>
-          <View style={{ width: scaleSize(25) }} />
+          <View style={{ width: scaleWidth(20) }} />
           <Button
             onPress={handleCampaign}
             style={[
-              { flex: 1, backgroundColor: "#0764B0", borderRadius: 2 },
+              {
+                backgroundColor: "#0764B0",
+                borderRadius: 2,
+                width: scaleWidth(120),
+              },
               styles.centered_box,
             ]}
           >
             <Text style={[styles.txt_footer, { color: "#fff" }]}>
               {isHandleEdit ? "SAVE" : "ADD"}
+            </Text>
+          </Button>
+          <View style={{ width: scaleWidth(20) }} />
+
+          <Button
+            disabled={!canStartSendCampaign()}
+            onPress={onHandleSendStartCampaign}
+            style={[
+              {
+                backgroundColor: canStartSendCampaign() ? "#0764B0" : "#F1F1F1",
+                borderRadius: 2,
+                width: scaleWidth(280),
+              },
+              styles.centered_box,
+            ]}
+          >
+            <Text style={[styles.txt_footer, { color: "#fff" }]}>
+              {"SEND AND START CAMPAIGN"}
             </Text>
           </Button>
         </View>

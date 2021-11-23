@@ -608,6 +608,30 @@ function* getSMSInformation(action) {
   }
 }
 
+function* sendStartPromotionById(action) {
+  try {
+    yield put({ type: "LOADING_ROOT" });
+    const responses = yield requestAPI(action);
+    const { codeNumber } = responses;
+    if (parseInt(codeNumber) == 200) {
+      yield put(getPromotionByMerchant());
+    } else if (parseInt(codeNumber) === 401) {
+      yield put({
+        type: "UNAUTHORIZED",
+      });
+    } else {
+      yield put({
+        type: "SHOW_ERROR_MESSAGE",
+        message: responses?.message,
+      });
+    }
+  } catch (error) {
+    yield put({ type: error });
+  } finally {
+    yield put({ type: "STOP_LOADING_ROOT" });
+  }
+}
+
 export default function* saga() {
   yield all([
     takeLatest("GET_BANNER_MERCHANT", getBannerMerchant),
@@ -631,5 +655,6 @@ export default function* saga() {
     takeLatest("CREATE_NEW_CAMPAIGN", createNewCampaign),
     takeLatest("GET_SMS_INFORMATION", getSMSInformation),
     takeLatest("DELETE_PROMOTION_BY_ID", deletePromotionById),
+    takeLatest("SEND_START_PROMOTION_BY_ID", sendStartPromotionById),
   ]);
 }

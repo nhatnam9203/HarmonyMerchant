@@ -39,7 +39,6 @@ class TabPromotion extends Layout {
   };
 
   editCampaign = (campaign) => () => {
-    this.goToPage(1);
     if (this.promotionDetailRef?.current) {
       this.promotionDetailRef?.current?.setStateFromParent(campaign);
     } else {
@@ -47,6 +46,7 @@ class TabPromotion extends Layout {
         this.promotionDetailRef?.current?.setStateFromParent(campaign);
       }, 300);
     }
+    this.goToPage(1);
 
     this.props.actions.marketing.getPromotionDetailById(
       campaign?.id,
@@ -76,6 +76,10 @@ class TabPromotion extends Layout {
 
   deleteCampaign = (campaign) => {
     this.props.actions.marketing.deletePromotionById(campaign?.id || 0);
+  };
+
+  sendStartCampaign = (campaignID = 0, isSchedule = false) => {
+    this.props.actions.marketing.sendStartPromotionById(campaignID, isSchedule);
   };
 
   goToPage = (page = 1) => {
