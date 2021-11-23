@@ -183,6 +183,7 @@ export const productReducer = (state = initState, action) => {
             fileId: isExistItem.fileId,
             position: isExistItem.position ?? 0,
             id: isExistItem.id ?? 0,
+            barCode: isExistItem?.barCode,
           });
         }
         return x;
@@ -251,6 +252,8 @@ export const productReducer = (state = initState, action) => {
             quantity: isExistItem.quantity,
             costPrice: isExistItem.costPrice,
             additionalPrice: isExistItem.additionalPrice,
+            barCode: isExistItem.barCode,
+            description: isExistItem?.description,
           });
         }
         return x;
