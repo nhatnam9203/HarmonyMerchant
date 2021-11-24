@@ -74,9 +74,9 @@ export const CustomList = ({
               <Text style={styles.productName} numberOfLines={3}>
                 {item?.name}
               </Text>
-              <Text style={styles.productPrice}>{`${formatMoneyWithUnit(
-                item?.priceRange ?? item?.price
-              )}`}</Text>
+              <Text style={styles.productPrice}>{`${
+                item?.priceRange ?? formatMoneyWithUnit(item?.price)
+              }`}</Text>
             </View>
           </>
         );
