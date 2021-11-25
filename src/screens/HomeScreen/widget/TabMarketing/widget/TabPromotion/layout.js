@@ -29,6 +29,7 @@ class Layout extends React.Component {
             viewRule={this.viewRule}
             disableRule={this.disableRule}
             promotions={promotions}
+            sendStartCampaign={this.sendStartCampaign}
           />
           <PromotiomDetail
             ref={this.promotionDetailRef}

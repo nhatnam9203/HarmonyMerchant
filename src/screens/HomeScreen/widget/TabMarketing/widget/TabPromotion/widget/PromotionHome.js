@@ -25,6 +25,7 @@ const PromotionHome = ({
   deleteCampaign,
   viewRule,
   disableRule,
+  sendStartCampaign,
 }) => {
   const [giftForNewEnabled, setGiftForNewEnabled] = useState(true);
   const profile = useSelector((state) => state?.dataLocal?.profile);
@@ -37,6 +38,12 @@ const PromotionHome = ({
   handleChangeGiftForCustomer = (value) => {
     setGiftForNewEnabled(value);
     dispatch(appActions.changeIsGiftForNew(value));
+  };
+
+  onSendStartCampaign = (item) => {
+    if (sendStartCampaign && typeof sendStartCampaign === "function") {
+      sendStartCampaign(item?.id);
+    }
   };
 
   return (
@@ -91,7 +98,10 @@ const PromotionHome = ({
             editCampaign={editCampaign(item)}
             disableCampaign={disableCampaign(item)}
             enableCampaign={enableCampaign(item)}
-            deleteCampaign={() => {deleteCampaign(item);}}
+            deleteCampaign={() => {
+              deleteCampaign(item);
+            }}
+            sendStartCampaign={onSendStartCampaign}
           />
         )}
         // ListHeaderComponent={() => <CampaignTableHeader />}
@@ -279,7 +289,13 @@ const CampaignRow = ({
   disableCampaign,
   enableCampaign,
   deleteCampaign,
+  sendStartCampaign,
 }) => {
+  const onHandleSendStartCampaign = () => {
+    if (sendStartCampaign && typeof sendStartCampaign === "function") {
+      sendStartCampaign(data);
+    }
+  };
   return (
     <TouchableOpacity
       style={{
@@ -317,10 +333,25 @@ const CampaignRow = ({
       {/* ------------------- Actions ------------------- */}
       <View
         style={[
-          { width: scaleSize(150), flexDirection: "row" },
+          { width: scaleSize(220), flexDirection: "row" },
           styles.center_txt,
         ]}
       >
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          {!data?.isDisabled && (
+            <DeleteConfirmButton
+              description={
+                "Are you sure you want to send message for this Campaign ?"
+              }
+              onPress={onHandleSendStartCampaign}
+              style={[styles.btn_row, { backgroundColor: "#0764B0" }]}
+            >
+              <Text style={[styles.txt_row, { color: "#fff" }]}>{`Send`}</Text>
+            </DeleteConfirmButton>
+          )}
+        </View>
+        <View style={{ width: scaleSize(10) }} />
+
         <View style={{ flex: 1, justifyContent: "center" }}>
           {data?.isDisabled ? (
             <Button

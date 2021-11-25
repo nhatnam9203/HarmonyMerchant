@@ -121,7 +121,7 @@ class TabPromotion extends Layout {
       prevProps.isUpdatePromotionById !== isUpdatePromotionById
     ) {
       this.props.actions.marketing.resetStateIsUpdatePromotionById(false);
-      this.goToPage(0);
+      // this.goToPage(0);
     }
   }
 }

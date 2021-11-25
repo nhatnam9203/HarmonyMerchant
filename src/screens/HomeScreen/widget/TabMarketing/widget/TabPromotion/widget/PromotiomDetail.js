@@ -104,7 +104,7 @@ const PromotiomDetail = forwardRef(
     const [dataCategory, setDataCategory] = useState([]);
     const [numberOfTimesApply, setNumberOfTimesApply] = useState("");
     const [actionTags, setActionTags] = useState([]);
-    const [isDisabled, setIsDisabled] = useState(true);
+    const [isDisabled, setIsDisabled] = useState(1);
     const [isHandleEdit, setIsHandleEdit] = useState(false);
     const [dynamicConditionMarginBottom, setDynamicConditionMarginBottom] =
       useState(24);
@@ -200,7 +200,7 @@ const PromotiomDetail = forwardRef(
         }
         setPromotionType(data?.promotionType || "percent");
         setPromotionValue(data?.promotionValue || "");
-        setIsDisabled(data?.isDisabled ? false : true);
+        setIsDisabled(data?.isDisabled ?? 1);
         setIsManually(data?.isManually);
         setCondition(getConditionTitleIdById(data?.conditionId || 1));
         setActionCondition(
@@ -511,7 +511,7 @@ const PromotiomDetail = forwardRef(
         },
         promotionType: promotionType,
         promotionValue: `${promotionValue || 0.0}`,
-        isDisabled: isDisabled ? 0 : 1,
+        isDisabled: isDisabled,
         smsAmount: smsAmount,
         customerSendSMSQuantity: customerSendSMSQuantity ?? 0,
         fileId: imageFileId,
@@ -731,6 +731,7 @@ const PromotiomDetail = forwardRef(
     };
 
     const onHandleSendStartCampaign = () => {
+      handleCampaign(); // save
       if (sendStartCampaign && typeof sendStartCampaign === "function") {
         sendStartCampaign(promotionId);
       }
@@ -1688,7 +1689,9 @@ const PromotiomDetail = forwardRef(
             ]}
           >
             <Text style={[styles.txt_footer, { color: "#fff" }]}>
-              {"SEND AND START CAMPAIGN"}
+              {isHandleEdit
+                ? "SAVE AND SEND CAMPAIGN"
+                : "SEND AND START CAMPAIGN"}
             </Text>
           </SendConfirmButton>
         </View>

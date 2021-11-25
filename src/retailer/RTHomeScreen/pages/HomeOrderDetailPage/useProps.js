@@ -16,7 +16,7 @@ import {
   statusSuccess,
   SHIPPING_METHOD_GROUP,
 } from "@shared/utils";
-import { 
+import {
         getInfoFromModelNameOfPrinter,
         REMOTE_APP_ID,
         APP_NAME,
@@ -268,7 +268,7 @@ export const useProps = ({
         promotionNotes.push(note);
       }
       // ------ Push Service -------
-      appointment.services?.forEach((service) => {
+      appointment?.services?.forEach((service) => {
         arryaServicesBuy.push({
           type: "Service",
           data: {
@@ -281,7 +281,7 @@ export const useProps = ({
       });
 
       // ------ Push Product -------
-      appointment.products?.forEach((product) => {
+      appointment?.products?.forEach((product) => {
         arrayProductBuy.push({
           type: "Product",
           data: {
@@ -293,7 +293,7 @@ export const useProps = ({
       });
 
       // ------ Push Product -------
-      appointment.extras?.forEach((extra) => {
+      appointment?.extras?.forEach((extra) => {
         arrayExtrasBuy.push({
           type: "Extra",
           data: {
@@ -304,7 +304,7 @@ export const useProps = ({
       });
 
       // ------ Push Gift Card -------
-      appointment.giftCards?.forEach((gift) => {
+      appointment?.giftCards?.forEach((gift) => {
         arrayGiftCards.push({
           type: "GiftCards",
           data: {
@@ -504,7 +504,7 @@ export const useProps = ({
     doPrintClover: (imageUri) => {
       const port = _.get(cloverMachineInfo, 'port') ? _.get(cloverMachineInfo, 'port') : 80
       const url = `wss://${_.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
-      
+
       const printInfo = {
         imageUri,
         url,

@@ -744,7 +744,7 @@ class TabCheckout extends Layout {
         promotionNotes.push(note);
       }
       // ------ Push Service -------
-      appointment.services.forEach((service) => {
+      appointment?.services.forEach((service) => {
         arryaServicesBuy.push({
           type: "Service",
           data: {
@@ -757,7 +757,7 @@ class TabCheckout extends Layout {
       });
 
       // ------ Push Product -------
-      appointment.products.forEach((product) => {
+      appointment?.products.forEach((product) => {
         arrayProductBuy.push({
           type: "Product",
           data: {
@@ -769,7 +769,7 @@ class TabCheckout extends Layout {
       });
 
       // ------ Push Product -------
-      appointment.extras.forEach((extra) => {
+      appointment?.extras.forEach((extra) => {
         arrayExtrasBuy.push({
           type: "Extra",
           data: {
@@ -780,7 +780,7 @@ class TabCheckout extends Layout {
       });
 
       // ------ Push Gift Card -------
-      appointment.giftCards.forEach((gift) => {
+      appointment?.giftCards.forEach((gift) => {
         arrayGiftCards.push({
           type: "GiftCards",
           data: {
