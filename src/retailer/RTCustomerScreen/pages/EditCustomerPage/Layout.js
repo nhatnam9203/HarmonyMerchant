@@ -213,7 +213,7 @@ export const Layout = ({
           fontSize={scaleFont(25)}
           textColor={colors.WHITE}
           fontWeight="500"
-          disable={!form?.isValid || !form?.dirty}
+          disable={!form?.isValid}
           onPress={form?.handleSubmit}
         />
       </View>
