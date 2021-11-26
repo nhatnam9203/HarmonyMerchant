@@ -5,12 +5,11 @@ import {
 } from "@shared/components";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
-import { OrderStatusView } from "@shared/components/OrderStatusView";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
-import { colors, layouts, fonts } from "@shared/themes";
+import { colors, fonts, layouts } from "@shared/themes";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
 

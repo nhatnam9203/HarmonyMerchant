@@ -24,12 +24,18 @@ export const Layout = ({
   onSelectRow,
   getStaffListByMerchant,
   items,
+  onButtonArchiveStaffPress,
 }) => {
   const { t } = useTranslation();
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
     const onHandleEdit = () => {
       onButtonEditStaffPress(item);
     };
+
+    const onHandleArchive = () => {
+      onButtonArchiveStaffPress(item);
+    };
+
     if (columnKey === "actions") {
       return (
         <View
@@ -45,6 +51,19 @@ export const Layout = ({
             textColor={colors.WHITE}
             fontWeight="normal"
             onPress={onHandleEdit}
+          />
+          <View style={layouts.marginHorizontal} />
+
+          <DeleteConfirmButton
+            label={t("Archive")}
+            width={scaleWidth(72)}
+            height={scaleHeight(30)}
+            borderRadius={scaleWidth(3)}
+            fontSize={scaleFont(15)}
+            textColor={colors.WHITE}
+            fontWeight="normal"
+            onPress={onHandleArchive}
+            description={t("Do you want to archive this staff?")}
           />
         </View>
       );
@@ -83,9 +102,9 @@ export const Layout = ({
           sortedKeys={{ displayName: sortLabel }}
           primaryKey="staffId"
           widthForKeys={{
-            displayName: scaleWidth(230),
-            roleName: scaleWidth(120),
-            phone: scaleWidth(180),
+            displayName: scaleWidth(180),
+            roleName: scaleWidth(100),
+            phone: scaleWidth(160),
             email: scaleWidth(250),
           }}
           emptyDescription={t("No Staffs")}
