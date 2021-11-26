@@ -198,9 +198,13 @@ export const useProps = ({
     filterCategoryRef,
     dispatchProduct,
     categoriesFilter: categoriesFilter,
-    onHandleChangeProductName: (value) => {
-      form.setFieldValue("name", value);
-      dispatchProduct(changeProductName(value));
+    onHandleChangeProductName: async (value) => {
+      // console.log("=====> onHandleChangeProductName");
+      await form.setFieldValue("name", value);
+    },
+    onEndChangeProductName: async (value) => {
+      // console.log("=====> onEndChangeProductName" + value);
+      await dispatchProduct(changeProductName(value));
     },
     onHandleChangeProductImages: (values) => {
       form.setFieldValue("images", values);

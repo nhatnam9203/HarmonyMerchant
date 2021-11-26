@@ -1,10 +1,9 @@
+import IMAGE from "@resources";
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { CustomCheckBox } from "./CustomCheckBox";
 import { FormInput, FormInputMask } from "./FormInput";
-import { useTranslation } from "react-i18next";
-import IMAGE from "@resources";
-import style from "./payment/style";
 
 export const SettingShippingItem = ({
   onValueChange,

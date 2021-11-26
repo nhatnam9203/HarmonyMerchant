@@ -57,9 +57,9 @@ export const FormInput = ({
             onFocus: onFocus,
             autoFocus: autoFocus,
             showSoftInputOnFocus: showSoftInputOnFocus,
-            onEndEditing: onEndEditing,
             onBlur: onBlur,
           }}
+          onEndEditing={onEndEditing}
         />
         {children}
       </View>

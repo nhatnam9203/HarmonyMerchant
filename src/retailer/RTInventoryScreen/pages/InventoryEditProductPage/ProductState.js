@@ -239,6 +239,7 @@ export const productReducer = (state = initState, action) => {
 
       return Object.assign({}, state, { quantities: quantities });
     case PRODUCT_UPDATE_NAME:
+      state.name = action.payload;
       const quantitiesUpdateName = createQuantitiesItem(
         state,
         state?.options
@@ -267,7 +268,6 @@ export const productReducer = (state = initState, action) => {
       });
 
       return Object.assign({}, state, {
-        name: action.payload,
         quantities: quantitiesUpdateName?.sort(
           (a, b) => a.position - b.position
         ),

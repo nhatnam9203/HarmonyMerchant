@@ -18,11 +18,13 @@ export const CustomInput = React.forwardRef(
       },
       formatText,
       children,
+      onEndEditing,
     },
     ref
   ) => {
     const textInputRef = React.useRef(null);
     const [value, setValue] = React.useState(null);
+
     const onHandleChangeText = (text) => {
       let val = text;
       if (formatText && typeof formatText === "function") {
@@ -31,6 +33,12 @@ export const CustomInput = React.forwardRef(
       setValue(val);
       if (onChangeText && typeof onChangeText === "function") {
         onChangeText(val);
+      }
+    };
+
+    const onHandleEndEditing = () => {
+      if (onEndEditing && typeof onEndEditing === "function") {
+        onEndEditing(value);
       }
     };
 
@@ -63,6 +71,7 @@ export const CustomInput = React.forwardRef(
               : [styles.textPlaceholderStyle, fontSize && { fontSize }],
             textInputStyle,
           ]}
+          onEndEditing={onHandleEndEditing}
         />
         {children}
       </View>
@@ -139,7 +148,7 @@ export const CustomInputMoney = ({
   const [value, setValue] = React.useState(null);
 
   const onHandleChangeText = (text) => {
-    console.log(text);
+    // console.log(text);
 
     setValue(text);
     if (onChangeText && typeof onChangeText === "function") {
@@ -158,8 +167,12 @@ export const CustomInputMoney = ({
     }
     setValue(num);
     if (onChangeText && typeof onChangeText === "function") {
-      onChangeText(num);
+      onChangeText(value);
     }
+
+    // if (onEndEditing && typeof onEndEditing === "function") {
+    //   onEndEditing(value);
+    // }
   };
 
   React.useEffect(() => {
