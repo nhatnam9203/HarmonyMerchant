@@ -761,7 +761,9 @@ const PromotiomDetail = forwardRef(
     const onHandleSendStartCampaign = () => {
       handleCampaign(); // save
       if (sendStartCampaign && typeof sendStartCampaign === "function") {
-        sendStartCampaign(promotionId);
+        setTimeout(() => {
+          sendStartCampaign(promotionId);
+        }, 1500);
       }
     };
 
