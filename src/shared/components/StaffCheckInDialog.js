@@ -6,7 +6,6 @@ import {
   FormInput,
   FormInputMask,
 } from "@shared/components";
-import { CustomInputMoney } from "@shared/components/CustomInput";
 import { DialogLayout } from "@shared/layouts";
 import {
   useStaffLogTimeCreate,

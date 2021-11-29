@@ -100,45 +100,54 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
    * @param {*} value
    */
   const canSelectOptionValue = (value, index) => {
-    // if (!listFiltersOptionsQty || listFiltersOptionsQty?.length <= 0)
-    //   return false;
+    if (!listFiltersOptionsQty || listFiltersOptionsQty?.length <= 0)
+      return false;
 
-    // if (optionsSelected) {
-    //   if (index === 0) {
-    //     const filterArr = product?.quantities?.filter((x) => x.quantity > 0);
-    //     for (const x of filterArr) {
-    //       if (x.attributeIds?.includes(value)) {
-    //         return true;
-    //       }
-    //     }
-    //   }
-    // }
+    if (optionsSelected) {
+      if (index === 0) {
+        const filterArr = product?.quantities; // not check qty
+        // const filterArr = product?.quantities?.filter((x) => x.quantity > 0);
+        for (const x of filterArr) {
+          if (x.attributeIds?.includes(value)) {
+            return true;
+          }
+        }
+      }
+    }
 
-    // for (const x of listFiltersOptionsQty) {
-    //   if (x.attributeIds?.includes(value)) {
-    //     return true;
-    //   }
-    // }
+    for (const x of listFiltersOptionsQty) {
+      if (x.attributeIds?.includes(value)) {
+        return true;
+      }
+    }
 
-    return true;
+    return false;
   };
 
-  const disableAddBasket = () => {
+  const disableAddBasket = React.useCallback(() => {
+    // console.log(optionsQty);
+
     if (isCheckQty && quantity <= 0) return true;
     if (!product) return true;
     if (product?.quantities?.length > 0 && !optionsQty) return true;
+    if (product?.options?.length > 0 && listFiltersOptionsQty?.length <= 0)
+      return true;
+
+    if (
+      listFiltersOptionsQty?.length > 0 &&
+      optionsQty &&
+      listFiltersOptionsQty.indexOf(optionsQty) < 0
+    )
+      return true;
 
     if (isCheckQty) {
-      if (product?.options?.length > 0 && listFiltersOptionsQty?.length <= 0)
-        return true;
-
       if (optionsQty && optionsQty.quantity < quantity) {
         return true;
       } else if (quantity > _.get(product, "quantity", 0)) return true;
     }
 
     return false;
-  };
+  }, [isCheckQty, quantity, optionsQty, listFiltersOptionsQty]);
 
   React.useImperativeHandle(ref, () => ({
     show: (item, selected) => {
@@ -303,6 +312,9 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
         setListFiltersOptionsQty(filtersQuantities);
         setOptionsQty(null);
       }
+    } else {
+      // setListFiltersOptionsQty(null);
+      setOptionsQty(null);
     }
   };
 

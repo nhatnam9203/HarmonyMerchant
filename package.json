@@ -139,6 +139,7 @@
     "react-navigation": "^3.13.0",
     "react-navigation-redux-helpers": "^4.0.1",
     "react-navigation-slide-from-right-transition": "^1.0.4",
+    "react-query": "^3.33.5",
     "react-redux": "^7.2.4",
     "react-timer-mixin": "^0.13.4",
     "redux": "^4.1.0",

@@ -1,11 +1,15 @@
+import actions from "@actions";
 import { FirebaseNotificationProvider } from "@firebase";
-import { AppStateProvider } from "@shared/providers/AppStateProvider";
-import { CodePushProvider } from "@shared/providers/CodePushProvider";
 import "@shared/services/api/axiosClient";
+import { AppStateProvider } from "@shared/providers/AppStateProvider";
+import { AxiosApiProvider } from "@shared/providers/AxiosApiProvider";
+import { CodePushProvider } from "@shared/providers/CodePushProvider";
 import "@shared/services/translation";
 import { isDevelopmentMode } from "@shared/utils/app";
+import { proccessingSettlement } from "@utils";
+import * as l from "lodash";
 import React from "react";
-import { View, NativeModules, NativeEventEmitter } from "react-native";
+import { NativeEventEmitter, NativeModules, View } from "react-native";
 import codePush from "react-native-code-push";
 import SplashScreen from "react-native-splash-screen";
 import { Provider } from "react-redux";
@@ -18,11 +22,6 @@ import {
 } from "./components";
 import { RootNavigator } from "./navigators/RootNavigator";
 import configureStore from "./redux/store";
-import actions from "@actions";
-import {
-  proccessingSettlement,
-} from "@utils";
-import * as l from "lodash";
 
 const { clover } = NativeModules;
 const { persistor, store } = configureStore();
@@ -36,68 +35,75 @@ if (isDevelopmentMode) {
 const App: () => React$Node = () => {
   //ADD LISTENER FROM CLOVER MODULE
   let eventEmitter = new NativeEventEmitter(clover);
-  let subscriptions = []
+  let subscriptions = [];
 
-  const [visiblePopupParingCode, setVisiblePopupParingCode] = React.useState(false);
+  const [visiblePopupParingCode, setVisiblePopupParingCode] =
+    React.useState(false);
   const [pairingCode, setPairingCode] = React.useState("");
 
   const registerEvents = () => {
-    clover.changeListenerStatus(true)
+    clover.changeListenerStatus(true);
     subscriptions = [
-      eventEmitter.addListener('closeoutSuccess', data => {
+      eventEmitter.addListener("closeoutSuccess", (data) => {
         const { invoice, hardware } = store.getState();
         const { cloverMachineInfo, paymentMachineType } = hardware;
-        const terminalID = l.get(cloverMachineInfo, "serialNumber")
-        if(paymentMachineType == "Clover" && l.get(invoice, "isProcessAutoCloseBatch")) {
-          
+        const terminalID = l.get(cloverMachineInfo, "serialNumber");
+        if (
+          paymentMachineType == "Clover" &&
+          l.get(invoice, "isProcessAutoCloseBatch")
+        ) {
           store.dispatch(actions.invoice.autoCloseBatchResponse());
-          setTimeout(()=> 
-          proccessingSettlement(
-            "[]",
-            l.get(invoice, "settleWaiting"),
-            terminalID,
-            true
-          ), 200)
+          setTimeout(
+            () =>
+              proccessingSettlement(
+                "[]",
+                l.get(invoice, "settleWaiting"),
+                terminalID,
+                true
+              ),
+            200
+          );
         }
-        
-       }),
-       eventEmitter.addListener('closeoutFail', data => {
+      }),
+      eventEmitter.addListener("closeoutFail", (data) => {
+        const { invoice, hardware } = store.getState();
+        const { paymentMachineType } = hardware;
+        if (
+          paymentMachineType == "Clover" &&
+          l.get(invoice, "isProcessAutoCloseBatch")
+        ) {
+          store.dispatch(actions.invoice.autoCloseBatchResponse());
+        }
+      }),
+
+      eventEmitter.addListener("pairingCode", (data) => {
+        if (data) {
           const { invoice, hardware } = store.getState();
           const { paymentMachineType } = hardware;
-          if(paymentMachineType == "Clover" && l.get(invoice, "isProcessAutoCloseBatch")) {
-            store.dispatch(actions.invoice.autoCloseBatchResponse());
+          const text = `Pairing code: ${l.get(data, "pairingCode")}`;
+          if (paymentMachineType == "Clover") {
+            setVisiblePopupParingCode(true);
+            setPairingCode(text);
           }
-        }),
-
-        eventEmitter.addListener("pairingCode", (data) => {
-          if (data) {
-            const { invoice, hardware } = store.getState();
-            const { paymentMachineType } = hardware;
-            const text = `Pairing code: ${l.get(data, "pairingCode")}`;
-            if(paymentMachineType == "Clover" ) {
-              setVisiblePopupParingCode(true)
-              setPairingCode(text)
-            }
-          }
-        }),
-        eventEmitter.addListener("pairingSuccess", (data) => {
-          const { invoice, hardware } = store.getState();
-          const { paymentMachineType } = hardware;
-          store.dispatch(actions.hardware.setCloverToken(l.get(data, "token")));
-          if(paymentMachineType == "Clover" ) {
-            setVisiblePopupParingCode(false)
-            setPairingCode("")
-          }
-        }),
-
-    ]
-  }
+        }
+      }),
+      eventEmitter.addListener("pairingSuccess", (data) => {
+        const { invoice, hardware } = store.getState();
+        const { paymentMachineType } = hardware;
+        store.dispatch(actions.hardware.setCloverToken(l.get(data, "token")));
+        if (paymentMachineType == "Clover") {
+          setVisiblePopupParingCode(false);
+          setPairingCode("");
+        }
+      }),
+    ];
+  };
 
   const unregisterEvents = () => {
-    clover.changeListenerStatus(false)
-    subscriptions.forEach(e => e.remove())
-    subscriptions = []
-  }
+    clover.changeListenerStatus(false);
+    subscriptions.forEach((e) => e.remove());
+    subscriptions = [];
+  };
 
   React.useEffect(() => {
     SplashScreen.hide();
@@ -107,7 +113,6 @@ const App: () => React$Node = () => {
     return function cleanup() {
       unregisterEvents();
     };
-
   }, []);
 
   return (
@@ -115,16 +120,18 @@ const App: () => React$Node = () => {
       <PersistGate loading={<View />} persistor={persistor}>
         <CodePushProvider>
           <AppStateProvider>
-            <RootNavigator />
-            {/* <Loading /> */}
-            <PopupDisconnected />
-            <PopupConnected />
-            <FirebaseNotificationProvider />
-            <PopupInfomationCodePush />
-            <PopupPairingCode
-              visible={visiblePopupParingCode ? true : false}
-              message={pairingCode}
-            />
+            <AxiosApiProvider>
+              <RootNavigator />
+              {/* <Loading /> */}
+              <PopupDisconnected />
+              <PopupConnected />
+              <FirebaseNotificationProvider />
+              <PopupInfomationCodePush />
+              <PopupPairingCode
+                visible={visiblePopupParingCode ? true : false}
+                message={pairingCode}
+              />
+            </AxiosApiProvider>
           </AppStateProvider>
         </CodePushProvider>
       </PersistGate>
@@ -138,7 +145,7 @@ const App: () => React$Node = () => {
 //   const { token, deviceId, deviceName } = dataLocal;
 //   const { name, ip, port, timeout, commType, bluetoothAddr, isSetup } =
 //     paxMachineInfo;
-  
+
 //   if(paymentMachineType == "Clover" && l.get(cloverMachineInfo, "isSetup")){
 //     //Clover
 //     const terminalID = l.get(cloverMachineInfo, 'serialNumber')
@@ -215,7 +222,7 @@ const App: () => React$Node = () => {
 //   } else {
 //     processingSettlementWithoutConnectPax();
 //   }
-  
+
 // };
 
 // export const processingSettlementWithoutConnectPax = () => {
@@ -250,7 +257,6 @@ const App: () => React$Node = () => {
 //     const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
 //     const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
 
-    
 //     clover.closeout({
 //         url,
 //         remoteAppId: REMOTE_APP_ID,

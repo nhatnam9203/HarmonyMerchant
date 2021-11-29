@@ -28,6 +28,7 @@ import _ from 'lodash';
 
 class Layout extends React.Component {
 
+
   renderItemPermission = ({item}) => {
     return(
       <View style={{justifyContent: 'center',}}>
@@ -267,7 +268,7 @@ class Layout extends React.Component {
               />
             </View>
           }
-          
+
 
 
           {/* ----------- Active -------- */}
@@ -414,7 +415,7 @@ class Layout extends React.Component {
             title={`${localize("Cash Percent", language)} (%)`}
             placeholder={"10"}
             onFocus={() => { }}
-            maxLength={3}
+            maxLength={6}
             isNotToggleCheck={true}
             data={{
               isCheck: true,

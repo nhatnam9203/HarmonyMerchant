@@ -127,12 +127,12 @@ function CustomerTab({ style, showBackButton }, ref) {
     didFocus: () => {
       layoutRef?.current?.setTimeFilter(RANGE_TIME_DEFAULT);
     },
-    getCustomerReportSales: () => getCustomerReportSales(),
+    getCustomerReportSales: getCustomerReportSales,
   }));
 
   /**effect */
   useEffect(() => {
-    // getCustomerReportSales();
+    getCustomerReportSales();
   }, []);
 
   const refreshData = () => {

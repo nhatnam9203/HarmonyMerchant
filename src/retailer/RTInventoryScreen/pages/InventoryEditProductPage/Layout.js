@@ -37,6 +37,7 @@ export const Layout = ({
   onHandleChangeProductImages,
   onHandleChangeProductDescription,
   onResultScanCode,
+  onEndChangeProductName,
 }) => {
   const [t] = useTranslation();
 
@@ -186,6 +187,7 @@ export const Layout = ({
               required={true}
               onChangeValue={onHandleChangeProductName}
               defaultValue={productItem?.name}
+              onEndEditing={onEndChangeProductName}
             />
           </View>
           <View style={styles.content}>

@@ -43,6 +43,13 @@ class TabGaneral extends Layout {
       receiptFooter: profile?.receiptFooter || null,
       isCustomService: profile?.isCustomService || false,
       isPrintReceipt: profile?.isPrintReceipt ?? false,
+      businessName: profile?.businessName ?? "",
+      phone: profile?.phone,
+      email: profile?.email,
+      address: profile?.address,
+      city: profile?.city,
+      stateId: profile?.stateId,
+      zip: profile?.zip,
     };
     this.inputRefsTime = [];
   }
@@ -80,6 +87,9 @@ class TabGaneral extends Layout {
         ),
         giftForNewEnabled,
       });
+
+      this.onRefreshGeneral();
+
       this.updateWorkTime();
     }
   };
@@ -136,6 +146,13 @@ class TabGaneral extends Layout {
       receiptFooter,
       isCustomService,
       isPrintReceipt,
+      businessName,
+      phone,
+      email,
+      address,
+      city,
+      stateId,
+      zip,
     } = this.state;
     const temptLanguage = languageApp === "English" ? "en" : "vi";
     this.props.actions.dataLocal.changeSettingLocal(temptLanguage, autoCloseAt);
@@ -174,6 +191,13 @@ class TabGaneral extends Layout {
         receiptFooter,
         isCustomService,
         isPrintReceipt,
+        businessName,
+        phone,
+        email,
+        address,
+        city,
+        stateId,
+        zip,
       },
       true,
       true
@@ -226,6 +250,13 @@ class TabGaneral extends Layout {
         receiptFooter: profile?.receiptFooter || null,
         isCustomService: profile?.isCustomService || false,
         isPrintReceipt: profile?.isPrintReceipt ?? false,
+        businessName: profile?.businessName ?? "",
+        phone: profile?.phone,
+        email: profile?.email,
+        address: profile?.address,
+        city: profile?.city,
+        stateId: profile?.stateId,
+        zip: profile?.zip,
       });
       this.updateWorkTime();
     }
@@ -253,6 +284,13 @@ class TabGaneral extends Layout {
         receiptFooter: profile?.receiptFooter || null,
         isCustomService: profile?.isCustomService || false,
         isPrintReceipt: profile?.isPrintReceipt ?? false,
+        businessName: profile?.businessName ?? "",
+        phone: profile?.phone,
+        email: profile?.email,
+        address: profile?.address,
+        city: profile?.city,
+        stateId: profile?.stateId,
+        zip: profile?.zip,
       });
       this.updateWorkTime();
     }

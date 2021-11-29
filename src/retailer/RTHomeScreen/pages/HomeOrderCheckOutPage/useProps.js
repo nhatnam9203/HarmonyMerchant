@@ -55,6 +55,7 @@ export const useProps = ({
   const modalBillRef = React.useRef(null);
   const popupEnterAmountGiftCardRef = React.useRef(null);
   const editProductItemRef = React.useRef(null);
+  const inputSearchRef = React.useRef(null);
 
   /**
   |--------------------------------------------------
@@ -179,6 +180,7 @@ export const useProps = ({
   };
 
   const addProductToBasket = (productItem) => {
+    inputSearchRef.current?.reset();
     const submitProducts = createSubmitAppointment([productItem]);
 
     if (appointmentTempId) {
@@ -258,7 +260,18 @@ export const useProps = ({
         setSubCategoryId(null);
         setActiveTab(CUSTOM_LIST_TYPES.PRO);
         setProducts(data);
+        // !![feature] check if product trả về 1 item và tìm value search là 1 barcode và có trong sp con thì add luôn vào bastket
+      } else {
+        setSearchData(null);
+        setProducts(null);
+        if (activeTab === CUSTOM_LIST_TYPES.PRO) {
+          setActiveTab(CUSTOM_LIST_TYPES.CAT);
+        }
+
+        //!![feature] Toast message no product found here!
       }
+
+      inputSearchRef?.current.reset();
     }
   }, [productListData]);
 
@@ -564,6 +577,7 @@ export const useProps = ({
     popupEnterAmountGiftCardRef,
     searchProducts: productListData,
     editProductItemRef,
+    inputSearchRef,
     onPressCategoryItem: (categoryItem) => {
       if (!categoryItem) {
         return;
@@ -600,6 +614,7 @@ export const useProps = ({
       if (!productItem) {
         return;
       }
+      inputSearchRef.current?.reset();
 
       productDetailRef.current?.show(productItem);
     },

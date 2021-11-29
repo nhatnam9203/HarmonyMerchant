@@ -1,6 +1,7 @@
 import {
   ButtonGradient,
   ButtonGradientRed,
+  ButtonGradientWhite,
   SearchBar,
 } from "@shared/components";
 import { Table } from "@shared/components/CustomTable";
@@ -13,6 +14,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
+const RestoreConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
 export const Layout = ({
   sortLabel,
@@ -24,12 +26,23 @@ export const Layout = ({
   onSelectRow,
   getStaffListByMerchant,
   items,
+  onButtonArchiveStaffPress,
+  onButtonRestoreStaffPress,
 }) => {
   const { t } = useTranslation();
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
     const onHandleEdit = () => {
       onButtonEditStaffPress(item);
     };
+
+    const onHandleArchive = () => {
+      onButtonArchiveStaffPress(item);
+    };
+
+    const onHandleRestore = () => {
+      onButtonRestoreStaffPress(item);
+    };
+
     if (columnKey === "actions") {
       return (
         <View
@@ -46,6 +59,33 @@ export const Layout = ({
             fontWeight="normal"
             onPress={onHandleEdit}
           />
+          <View style={layouts.marginHorizontal} />
+
+          {item?.isDisabled === 0 ? (
+            <DeleteConfirmButton
+              label={t("Archive")}
+              width={scaleWidth(72)}
+              height={scaleHeight(30)}
+              borderRadius={scaleWidth(3)}
+              fontSize={scaleFont(15)}
+              textColor={colors.WHITE}
+              fontWeight="normal"
+              onPress={onHandleArchive}
+              description={t("Do you want to archive this staff?")}
+            />
+          ) : (
+            <RestoreConfirmButton
+              label={t("Restore")}
+              width={scaleWidth(72)}
+              height={scaleHeight(30)}
+              borderRadius={scaleWidth(3)}
+              fontSize={scaleFont(15)}
+              textColor={colors.GREYISH_BROWN}
+              fontWeight="normal"
+              onPress={onHandleRestore}
+              description={t("Do you want to restore this staff?")}
+            />
+          )}
         </View>
       );
     }
@@ -83,9 +123,9 @@ export const Layout = ({
           sortedKeys={{ displayName: sortLabel }}
           primaryKey="staffId"
           widthForKeys={{
-            displayName: scaleWidth(230),
-            roleName: scaleWidth(120),
-            phone: scaleWidth(180),
+            displayName: scaleWidth(180),
+            roleName: scaleWidth(100),
+            phone: scaleWidth(160),
             email: scaleWidth(250),
           }}
           emptyDescription={t("No Staffs")}

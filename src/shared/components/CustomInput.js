@@ -4,58 +4,80 @@ import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 
-export const CustomInput = ({
-  style,
-  textInputProps: {
-    defaultValue,
-    fontSize,
-    textAlign,
-    onChangeText,
-    textInputStyle,
-    ...textInputProps
-  },
-  formatText,
-  children,
-}) => {
-  const [value, setValue] = React.useState(null);
-  const onHandleChangeText = (text) => {
-    let val = text;
-    if (formatText && typeof formatText === "function") {
-      val = formatText(text);
-    }
-    setValue(val);
-    if (onChangeText && typeof onChangeText === "function") {
-      onChangeText(val);
-    }
-  };
+export const CustomInput = React.forwardRef(
+  (
+    {
+      style,
+      textInputProps: {
+        defaultValue,
+        fontSize,
+        textAlign,
+        onChangeText,
+        textInputStyle,
+        ...textInputProps
+      },
+      formatText,
+      children,
+      onEndEditing,
+    },
+    ref
+  ) => {
+    const textInputRef = React.useRef(null);
+    const [value, setValue] = React.useState(null);
 
-  React.useEffect(() => {
-    if (defaultValue != null && defaultValue != value) {
-      if (typeof defaultValue === "string") {
-        setValue(defaultValue);
-      } else setValue(defaultValue + "");
-    }
-  }, [defaultValue]);
+    const onHandleChangeText = (text) => {
+      let val = text;
+      if (formatText && typeof formatText === "function") {
+        val = formatText(text);
+      }
+      setValue(val);
+      if (onChangeText && typeof onChangeText === "function") {
+        onChangeText(val);
+      }
+    };
 
-  return (
-    <View style={[styles.container, style]}>
-      <TextInput
-        onChangeText={onHandleChangeText}
-        {...textInputProps}
-        value={value}
-        style={[
-          styles.textInput,
-          textAlign && { textAlign },
-          value?.length > 0
-            ? [styles.textEditStyle, fontSize && { fontSize }]
-            : [styles.textPlaceholderStyle, fontSize && { fontSize }],
-          textInputStyle,
-        ]}
-      />
-      {children}
-    </View>
-  );
-};
+    const onHandleEndEditing = () => {
+      if (onEndEditing && typeof onEndEditing === "function") {
+        onEndEditing(value);
+      }
+    };
+
+    React.useEffect(() => {
+      if (defaultValue != null && defaultValue != value) {
+        if (typeof defaultValue === "string") {
+          setValue(defaultValue);
+        } else setValue(defaultValue + "");
+      }
+    }, [defaultValue]);
+
+    React.useImperativeHandle(ref, () => ({
+      clear: () => {
+        setValue("");
+      },
+    }));
+
+    return (
+      <View style={[styles.container, style]}>
+        <TextInput
+          ref={textInputRef}
+          onChangeText={onHandleChangeText}
+          {...textInputProps}
+          value={value}
+          style={[
+            styles.textInput,
+            textAlign && { textAlign },
+            value?.length > 0
+              ? [styles.textEditStyle, fontSize && { fontSize }]
+              : [styles.textPlaceholderStyle, fontSize && { fontSize }],
+            textInputStyle,
+          ]}
+          onEndEditing={onHandleEndEditing}
+        />
+        {children}
+      </View>
+    );
+  }
+);
 
 export const CustomInputMask = ({
   style,
@@ -126,7 +148,7 @@ export const CustomInputMoney = ({
   const [value, setValue] = React.useState(null);
 
   const onHandleChangeText = (text) => {
-    console.log(text);
+    // console.log(text);
 
     setValue(text);
     if (onChangeText && typeof onChangeText === "function") {
@@ -145,8 +167,12 @@ export const CustomInputMoney = ({
     }
     setValue(num);
     if (onChangeText && typeof onChangeText === "function") {
-      onChangeText(num);
+      onChangeText(value);
     }
+
+    // if (onEndEditing && typeof onEndEditing === "function") {
+    //   onEndEditing(value);
+    // }
   };
 
   React.useEffect(() => {

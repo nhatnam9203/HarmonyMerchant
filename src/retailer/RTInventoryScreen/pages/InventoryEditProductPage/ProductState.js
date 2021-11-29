@@ -183,6 +183,7 @@ export const productReducer = (state = initState, action) => {
             fileId: isExistItem.fileId,
             position: isExistItem.position ?? 0,
             id: isExistItem.id ?? 0,
+            barCode: isExistItem?.barCode,
           });
         }
         return x;
@@ -238,6 +239,7 @@ export const productReducer = (state = initState, action) => {
 
       return Object.assign({}, state, { quantities: quantities });
     case PRODUCT_UPDATE_NAME:
+      state.name = action.payload;
       const quantitiesUpdateName = createQuantitiesItem(
         state,
         state?.options
@@ -248,17 +250,27 @@ export const productReducer = (state = initState, action) => {
 
         if (isExistItem) {
           return Object.assign({}, x, {
+            needToOrder: isExistItem.needToOrder,
             quantity: isExistItem.quantity,
+            tempQuantity: isExistItem.tempQuantity,
+            description: isExistItem.description,
             costPrice: isExistItem.costPrice,
-            additionalPrice: isExistItem.additionalPrice,
+            price: isExistItem.price,
+            sku: isExistItem.sku,
+            imageUrl: isExistItem.imageUrl,
+            fileId: isExistItem.fileId,
+            position: isExistItem.position ?? 0,
+            id: isExistItem.id ?? 0,
+            barCode: isExistItem?.barCode,
           });
         }
         return x;
       });
 
       return Object.assign({}, state, {
-        name: action.payload,
-        quantities: quantitiesUpdateName,
+        quantities: quantitiesUpdateName?.sort(
+          (a, b) => a.position - b.position
+        ),
       });
 
     case PRODUCT_UPDATE_ATTRIBUTE:

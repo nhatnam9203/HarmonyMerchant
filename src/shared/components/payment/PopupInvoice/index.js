@@ -61,7 +61,7 @@ export const PopupInvoice = React.forwardRef(
   |--------------------------------------------------
   */
     const [visible, setVisible] = React.useState(false);
-    const [titleInvoice, setTitleInvoice] = React.useState("TICKET");
+    // const [titleInvoice, setTitleInvoice] = React.useState("TICKET");
 
     const [groupAppointment, setGroupAppointment] = React.useState(null);
     const [invoiceDetail, setInvoiceDetail] = React.useState(null);
@@ -91,7 +91,7 @@ export const PopupInvoice = React.forwardRef(
     const reset = async () => {
       setGroupAppointment(null);
       setInvoiceDetail(null);
-      setTitleInvoice("TICKET");
+      // setTitleInvoice("TICKET");
       setIsShare(false);
       setPrintTempt(false);
       setIsSignature(true);
@@ -104,9 +104,9 @@ export const PopupInvoice = React.forwardRef(
       const arrayGiftCards = [];
       const promotionNotes = [];
 
-      appointments.forEach((appointment) => {
+      appointments?.forEach((appointment) => {
         // ------ Push Service -------
-        appointment.services?.forEach((service) => {
+        appointment?.services?.forEach((service) => {
           arryaServicesBuy.push({
             type: "Service",
             data: {
@@ -119,7 +119,7 @@ export const PopupInvoice = React.forwardRef(
         });
 
         // ------ Push Product -------
-        appointment.products?.forEach((product) => {
+        appointment?.products?.forEach((product) => {
           arrayProductBuy.push({
             type: "Product",
             data: {
@@ -134,7 +134,7 @@ export const PopupInvoice = React.forwardRef(
         });
 
         // ------ Push Product -------
-        appointment.extras?.forEach((extra) => {
+        appointment?.extras?.forEach((extra) => {
           arrayExtrasBuy.push({
             type: "Extra",
             data: {
@@ -145,7 +145,7 @@ export const PopupInvoice = React.forwardRef(
         });
 
         // ------ Push Gift Card -------
-        appointment.giftCards?.forEach((gift) => {
+        appointment?.giftCards?.forEach((gift) => {
           arrayGiftCards.push({
             type: "GiftCards",
             data: {
@@ -440,7 +440,7 @@ export const PopupInvoice = React.forwardRef(
         isPrintTempt = false,
         isShareMode = false,
         machineType,
-        title = "TICKET",
+        // title = "TICKET",
         isSalon = false,
         isAppointmentTab = false,
       }) => {
@@ -466,7 +466,7 @@ export const PopupInvoice = React.forwardRef(
         setPrintTempt(isPrintTempt);
         setIsShare(isShareMode);
         setPaymentMachineType(machineType);
-        setTitleInvoice(title);
+        // setTitleInvoice(isAppointmentTab ? "TICKET" : "");
         setIsSalonApp(isSalon);
         setFromAppointmentTab(isAppointmentTab);
 
@@ -548,7 +548,17 @@ export const PopupInvoice = React.forwardRef(
 
                   {/* ------------- SALE/VOID/REFUND  ----------- */}
                   <Text style={layouts.fontPrintTitleStyle}>
-                    {titleInvoice}
+                    {fromAppointmentTab
+                      ? "TICKET"
+                      : `${
+                          invoiceDetail?.status &&
+                          invoiceDetail?.status !== "paid" &&
+                          invoiceDetail?.status !== "pending" &&
+                          invoiceDetail?.status !== "incomplete" &&
+                          invoiceDetail?.status !== "complete"
+                            ? `${invoiceDetail?.status}`.toUpperCase()
+                            : "SALE"
+                        }`}
                   </Text>
                   <Text
                     style={[
