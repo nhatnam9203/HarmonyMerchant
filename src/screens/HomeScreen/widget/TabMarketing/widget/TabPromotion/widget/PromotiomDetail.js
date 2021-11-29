@@ -52,6 +52,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert,
 } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -519,9 +520,8 @@ const PromotiomDetail = forwardRef(
         content: messageContent,
         noEndDate: noEndDate,
         isManually: isManually,
-        customerIds: customerList
-          ?.filter((x) => x.checked)
-          .map((x) => x.customerId),
+        customerIds:
+          customerList?.filter((x) => x.checked).map((x) => x.customerId) || [],
         isSchedule: isSchedule,
       };
 
@@ -599,16 +599,44 @@ const PromotiomDetail = forwardRef(
       setValue(val);
       calculatorsmsMoney(val);
 
-      const customerCount = parseInt(smsMaxCustomer || 0);
-      const smsCount = Math.ceil(val * customerCount);
+      // const customerCount = parseInt(smsMaxCustomer || 0);
+      // const smsCount = Math.ceil(val * customerCount);
 
-      setCustomerList(
-        customerList.map((x, index) =>
-          Object.assign({}, x, {
-            checked: index < smsCount ? true : false,
-          })
-        )
-      );
+      // !! nếu kéo cái thanh thì ko set customers, set lại list customer khi bấm filters
+      // setCustomerList(null);
+    };
+
+    const onHandleSlideComplete = () => {
+      const filterCustomerCount = customerList?.filter(
+        (x) => x.checked
+      )?.length;
+
+      if (filterCustomerCount > 0) {
+        Alert.alert(
+          "Warning",
+          "List customer filter will reset! Do you want to change it?",
+          [
+            {
+              text: "Cancel",
+              onPress: () => {
+                setValue(filterCustomerCount / smsMaxCustomer);
+                calculatorsmsMoney(filterCustomerCount / smsMaxCustomer);
+              },
+              style: "cancel",
+            },
+            {
+              text: "OK",
+              onPress: () => {
+                setCustomerList(
+                  customerList?.map((x) =>
+                    Object.assign({}, x, { checked: false })
+                  )
+                );
+              },
+            },
+          ]
+        );
+      }
     };
 
     const handleSetCampaignName = (title) => {
@@ -642,7 +670,7 @@ const PromotiomDetail = forwardRef(
       console.log("loop 1");
       const actionMsg =
         actionTags?.length > 0
-          ? `off for ${actionTags?.map((x) => x.value || "").join(", ")}.`
+          ? ` off for ${actionTags?.map((x) => x.value || "").join(", ")}.`
           : "";
 
       const promotionMsg =
@@ -710,7 +738,7 @@ const PromotiomDetail = forwardRef(
     ]);
 
     const onHandleFilterCustomer = (ids) => {
-      // console.log(ids);
+      console.log(ids);
       // setCustomerSendSMSQuantity(ids?.length ?? 0);
 
       setCustomerList(
@@ -733,12 +761,26 @@ const PromotiomDetail = forwardRef(
     const onHandleSendStartCampaign = () => {
       handleCampaign(); // save
       if (sendStartCampaign && typeof sendStartCampaign === "function") {
-        sendStartCampaign(promotionId);
+        setTimeout(() => {
+          sendStartCampaign(promotionId);
+        }, 1500);
       }
     };
 
     const canStartSendCampaign = () => {
       return isHandleEdit && !isSchedule;
+    };
+
+    const onFilterCustomerButtonPress = () => {
+      const temps = customerList?.map((x, index) =>
+        Object.assign({}, x, {
+          checked: index < customerSendSMSQuantity ? true : false,
+        })
+      );
+
+      // setCustomerList(temps);
+
+      promotionRef.current?.show(temps);
     };
 
     React.useEffect(() => {
@@ -1355,9 +1397,7 @@ const PromotiomDetail = forwardRef(
                     // borderRadius: scaleSize(5),
                     borderColor: "#dadada",
                   }}
-                  onPress={() => {
-                    promotionRef.current?.show(customerList);
-                  }}
+                  onPress={onFilterCustomerButtonPress}
                 >
                   <Image
                     source={IMAGE.filter}
@@ -1540,6 +1580,12 @@ const PromotiomDetail = forwardRef(
                 <Slider
                   value={value}
                   onValueChange={hanldeSliderValue}
+                  // onSlidingStart={() => {
+                  //   alert(
+                  //     "List filters customers will change!, Do you want do it."
+                  //   );
+                  // }}
+                  onSlidingComplete={onHandleSlideComplete}
                   trackStyle={{
                     height: scaleSize(10),
                     backgroundColor: "#F1F1F1",
