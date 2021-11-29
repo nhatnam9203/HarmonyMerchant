@@ -1,8 +1,8 @@
-import { axios } from '@shared/services/api/axiosClient';
-import React, { createContext } from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { axios } from "@shared/services/api/axiosClient";
+import React, { createContext } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
 
-const log = (obj, message = '') => {
+const log = (obj, message = "") => {
   //   Logger.log(`[CodePushProvider] ${message}`, obj);
 };
 

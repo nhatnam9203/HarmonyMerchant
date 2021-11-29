@@ -1,6 +1,7 @@
 import {
   ButtonGradient,
   ButtonGradientRed,
+  ButtonGradientWhite,
   SearchBar,
 } from "@shared/components";
 import { Table } from "@shared/components/CustomTable";
@@ -13,6 +14,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 
 const DeleteConfirmButton = WithDialogConfirm(ButtonGradientRed);
+const RestoreConfirmButton = WithDialogConfirm(ButtonGradientWhite);
 
 export const Layout = ({
   sortLabel,
@@ -25,6 +27,7 @@ export const Layout = ({
   getStaffListByMerchant,
   items,
   onButtonArchiveStaffPress,
+  onButtonRestoreStaffPress,
 }) => {
   const { t } = useTranslation();
   const onRenderCell = ({ columnKey, rowIndex, columnIndex, item }) => {
@@ -34,6 +37,10 @@ export const Layout = ({
 
     const onHandleArchive = () => {
       onButtonArchiveStaffPress(item);
+    };
+
+    const onHandleRestore = () => {
+      onButtonRestoreStaffPress(item);
     };
 
     if (columnKey === "actions") {
@@ -54,17 +61,31 @@ export const Layout = ({
           />
           <View style={layouts.marginHorizontal} />
 
-          <DeleteConfirmButton
-            label={t("Archive")}
-            width={scaleWidth(72)}
-            height={scaleHeight(30)}
-            borderRadius={scaleWidth(3)}
-            fontSize={scaleFont(15)}
-            textColor={colors.WHITE}
-            fontWeight="normal"
-            onPress={onHandleArchive}
-            description={t("Do you want to archive this staff?")}
-          />
+          {item?.isDisabled === 0 ? (
+            <DeleteConfirmButton
+              label={t("Archive")}
+              width={scaleWidth(72)}
+              height={scaleHeight(30)}
+              borderRadius={scaleWidth(3)}
+              fontSize={scaleFont(15)}
+              textColor={colors.WHITE}
+              fontWeight="normal"
+              onPress={onHandleArchive}
+              description={t("Do you want to archive this staff?")}
+            />
+          ) : (
+            <RestoreConfirmButton
+              label={t("Restore")}
+              width={scaleWidth(72)}
+              height={scaleHeight(30)}
+              borderRadius={scaleWidth(3)}
+              fontSize={scaleFont(15)}
+              textColor={colors.GREYISH_BROWN}
+              fontWeight="normal"
+              onPress={onHandleRestore}
+              description={t("Do you want to restore this staff?")}
+            />
+          )}
         </View>
       );
     }

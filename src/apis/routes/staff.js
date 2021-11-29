@@ -88,7 +88,7 @@ export const archiveStaff = (staffId) => ({
 export const restoreStaff = (staffId) => ({
   queryId: "ArchiveStaff",
   params: {
-    url: `staff/archive/${staffId}`,
+    url: `staff/restore/${staffId}`,
     method: "PUT",
   },
 });

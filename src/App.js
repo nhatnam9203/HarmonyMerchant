@@ -1,11 +1,15 @@
+import actions from "@actions";
 import { FirebaseNotificationProvider } from "@firebase";
-import { AppStateProvider } from "@shared/providers/AppStateProvider";
-import { CodePushProvider } from "@shared/providers/CodePushProvider";
 import "@shared/services/api/axiosClient";
+import { AppStateProvider } from "@shared/providers/AppStateProvider";
+import { AxiosApiProvider } from "@shared/providers/AxiosApiProvider";
+import { CodePushProvider } from "@shared/providers/CodePushProvider";
 import "@shared/services/translation";
 import { isDevelopmentMode } from "@shared/utils/app";
+import { proccessingSettlement } from "@utils";
+import * as l from "lodash";
 import React from "react";
-import { View, NativeModules, NativeEventEmitter } from "react-native";
+import { NativeEventEmitter, NativeModules, View } from "react-native";
 import codePush from "react-native-code-push";
 import SplashScreen from "react-native-splash-screen";
 import { Provider } from "react-redux";
@@ -18,10 +22,6 @@ import {
 } from "./components";
 import { RootNavigator } from "./navigators/RootNavigator";
 import configureStore from "./redux/store";
-import actions from "@actions";
-import { proccessingSettlement } from "@utils";
-import * as l from "lodash";
-import { AxiosApiProvider } from "@shared/providers/AxiosApiProvider";
 
 const { clover } = NativeModules;
 const { persistor, store } = configureStore();

@@ -54,7 +54,16 @@ export const useProps = (props) => {
     // }
   };
 
-  const onResponse = () => {};
+  const onResponse = (key, data) => {
+    switch (key) {
+      case "archiveForStaff":
+      case "restoreForStaff":
+      default:
+        getStaffListByMerchant();
+
+        break;
+    }
+  };
   const { archiveForStaff, restoreForStaff } = useApis(onResponse);
 
   const onSortWithKey = (sortKey) => {
@@ -135,6 +144,9 @@ export const useProps = (props) => {
     sortLabel,
     onButtonArchiveStaffPress: (item) => {
       archiveForStaff(item.staffId);
+    },
+    onButtonRestoreStaffPress: (item) => {
+      restoreForStaff(item.staffId);
     },
   };
 };

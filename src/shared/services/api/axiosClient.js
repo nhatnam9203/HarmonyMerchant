@@ -10,7 +10,7 @@ const log = (obj, message = "") => {
   Logger.log(`[axiosClient] ${message}`, obj);
 };
 
-const axios = Axios.create({
+export const axios = Axios.create({
   baseURL: Configs.API_URL,
   timeout: 30000,
   headers: {

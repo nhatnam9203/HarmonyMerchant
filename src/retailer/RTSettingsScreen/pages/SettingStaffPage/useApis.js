@@ -1,12 +1,14 @@
+import React from "react";
 import { archiveStaff, restoreStaff, useAxiosMutation } from "@apis";
 
-export const useApis = (props, onResponse) => {
-  const { staffId } = props;
+export const useApis = (onResponse = () => {}) => {
+  const [staffId, setStaffId] = React.useState(null);
 
   const [, archiveForStaff] = useAxiosMutation({
     ...archiveStaff(staffId),
     onSuccess: (data, response) => {
       if (response?.codeNumber == 200) {
+        onResponse("archiveForStaff", data);
       }
     },
   });
@@ -15,15 +17,19 @@ export const useApis = (props, onResponse) => {
     ...restoreStaff(staffId),
     onSuccess: (data, response) => {
       if (response?.codeNumber == 200) {
+        onResponse("restoreForStaff", data);
       }
     },
   });
 
   return {
-    archiveForStaff: (staffId) => {
-      console.log(archiveForStaff);
-      archiveForStaff(staffId);
+    archiveForStaff: async (id) => {
+      await setStaffId(id);
+      await archiveForStaff();
     },
-    restoreForStaff: (staffId) => {},
+    restoreForStaff: async (id) => {
+      await setStaffId(id);
+      await restoreForStaff();
+    },
   };
 };
