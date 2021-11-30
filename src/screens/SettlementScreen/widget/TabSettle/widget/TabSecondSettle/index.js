@@ -74,6 +74,8 @@ class TabSecondSettle extends Layout {
             this.props.actions.app.connectPaxMachineError(
                 l.get(data, 'errorMessage')
               );
+            
+            this.confirmSettleWithoutTerminalPayment()
            
            }),
           this.eventEmitter.addListener('pairingCode', data => {
@@ -241,6 +243,7 @@ class TabSecondSettle extends Layout {
                     })
                     
                   this.props.actions.app.connectPaxMachineError(resultTxt);
+                  this.confirmSettleWithoutTerminalPayment()
                
                 } else {
                    
@@ -318,20 +321,24 @@ class TabSecondSettle extends Layout {
             }
 
         } else {
-            Alert.alert(
-                'Unable to connect to payment terminal or not found any transaction on your payment terminal, Do you want to continue without payment terminal?',
-                '',
-                [
-                    {
-                        text: 'Cancel',
-                        onPress: () => { },
-                        style: 'cancel'
-                    },
-                    { text: 'OK', onPress: () => this.proccessingSettlement() }
-                ],
-                { cancelable: false }
-            );
+            this.confirmSettleWithoutTerminalPayment()
         }
+    }
+
+    confirmSettleWithoutTerminalPayment = () => {
+        Alert.alert(
+            'Unable to connect to payment terminal or not found any transaction on your payment terminal, Do you want to continue without payment terminal?',
+            '',
+            [
+                {
+                    text: 'Cancel',
+                    onPress: () => { },
+                    style: 'cancel'
+                },
+                { text: 'OK', onPress: () => this.proccessingSettlement() }
+            ],
+            { cancelable: false }
+        );
     }
 
     proccessingSettlement = async (responseData) => {
