@@ -21,6 +21,7 @@ export const DialogLayout = React.forwardRef(
       style,
       onModalWillHide = () => {},
       hideCloseButton = false,
+      onForceClose,
     },
     ref
   ) => {
@@ -30,6 +31,13 @@ export const DialogLayout = React.forwardRef(
 
     const onModalHide = () => {
       setOpen(false);
+    };
+
+    const onForceHideModal = () => {
+      setOpen(false);
+      if (onForceClose && typeof onForceClose === "function") {
+        onForceClose();
+      }
     };
 
     React.useImperativeHandle(ref, () => ({
@@ -68,7 +76,7 @@ export const DialogLayout = React.forwardRef(
               {!hideCloseButton && (
                 <TouchableOpacity
                   style={styles.buttonClose}
-                  onPress={onModalHide}
+                  onPress={onForceHideModal}
                 >
                   <Image
                     source={IMAGE.closePopup}

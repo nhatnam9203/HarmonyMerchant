@@ -6,10 +6,6 @@ import { sleep } from "@shared/utils/app";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const log = (obj, message = "") => {
-  Logger.log(`[SplashScreen] ${message}`, obj);
-};
-
 export const useProps = (_params) => {
   const {
     progress,

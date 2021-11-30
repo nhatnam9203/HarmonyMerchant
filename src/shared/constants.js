@@ -1,4 +1,4 @@
 export const APP_TYPE = {
-  POS: 'SalonPos',
-  RETAILER: 'Retailer',
+  POS: "SalonPos",
+  RETAILER: "Retailer",
 };

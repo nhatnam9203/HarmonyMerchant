@@ -23,40 +23,16 @@ export const useAxiosMutation = ({
     async (body) => await postRequest(body),
     {
       onSuccess: (response) => {
-        if (response?.codeNumber == 200 || response?.codeNumber == 204) {
-          if (onSuccess && typeof onSuccess === "function") {
-            onSuccess(response?.data, response);
-          }
-        } else {
-          if (response?.message) {
-            console.log({ params, response });
-            dispatch(app.hideLoading());
-            if (isReturnError) {
-              dispatch(
-                app.setError({
-                  isError: true,
-                  messageError: response?.message,
-                  errorType: "error",
-                  titleError: "Alert",
-                })
-              );
-            }
-            if (onLoginError && typeof onLoginError == "function") {
-              onLoginError(response?.message);
-            }
-          }
-        }
+        dispatch(app.hideLoading());
+
+        onSuccess(response?.data, response);
       },
       onError: (err) => {
-        dispatch(app.hideLoading());
+        console.log("/** Mutate Error Message */");
         console.log(err);
-        if (
-          err?.message &&
-          onLoginError &&
-          typeof onLoginError === "function"
-        ) {
-          onLoginError(err?.message);
-        }
+        console.log("/** ----------*---------- */");
+
+        dispatch(app.hideLoading());
       },
     } // disable fetch auto
   );

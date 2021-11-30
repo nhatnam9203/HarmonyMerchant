@@ -63,7 +63,33 @@ class TabPromotion extends Layout {
   };
 
   disableCampaign = (campaign) => () => {
-    this.props.actions.marketing.disablePromotionById(campaign?.id || 0);
+    const {
+      id,
+      merchantId,
+      toDate,
+      smsMediaPath,
+      specificFrom,
+      specificTo,
+      conditionDetail,
+      applyToDetail,
+      ...propCamp
+    } = campaign || {};
+    this.props.actions.marketing.updatePromotionById(
+      id,
+      Object.assign({}, propCamp, {
+        isSchedule: false,
+        conditionDetail: conditionDetail ?? {
+          service: [],
+          product: [],
+        },
+        applyToDetail: applyToDetail ?? {
+          service: [],
+          product: [],
+          category: [],
+        },
+      })
+    );
+    this.props.actions.marketing.disablePromotionById(id || 0);
   };
 
   enableCampaign = (campaign) => () => {

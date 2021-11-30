@@ -44,13 +44,11 @@ export const useProps = ({ navigation, params: { reload } }) => {
     await dispatch(actions.app.toggleSettingTabPermission(bl));
   };
 
-  const checkPermissionTab = React.useCallback(() => {
+  const checkPermissionTab = () => {
     if (!active) return;
 
     if (
-      active !== SettingGeneralPage.name &&
       active !== SettingHardwarePage.name &&
-      active !== SettingAboutPage.name &&
       active !== SettingAboutPage.name
     ) {
       const roleName = profileStaffLogin?.roleName || role.Admin;
@@ -64,9 +62,11 @@ export const useProps = ({ navigation, params: { reload } }) => {
         } else {
           togglePopupPermission();
         }
+      } else {
+        togglePopupPermission(false);
       }
     }
-  }, [active, profileStaffLogin]);
+  };
 
   const renderContentDrawer = React.useCallback(() => {
     switch (active) {
