@@ -87,7 +87,7 @@ export const PopupCheckPermission = React.forwardRef(
       dialogRef.current?.hide();
       clearTextInput();
 
-      if (onclosePop && typeof onclosePop === "function") {
+      if (onClosePopup && typeof onClosePopup === "function") {
         onClosePopup();
       }
     };
