@@ -264,7 +264,8 @@ export const productReducer = (state = initState, action) => {
               imageUrl: isExistItem.imageUrl,
               fileId: isExistItem.fileId,
               position: isExistItem.position ?? 0,
-              id: isExistItem.id ?? 0,
+              // id: 0,
+              id: isExistItem?.id ?? 0,
               barCode: isExistItem?.barCode,
             });
           }

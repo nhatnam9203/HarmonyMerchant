@@ -74,6 +74,7 @@ class TabPromotion extends Layout {
       applyToDetail,
       ...propCamp
     } = campaign || {};
+
     this.props.actions.marketing.updatePromotionById(
       id,
       Object.assign({}, propCamp, {
@@ -89,7 +90,9 @@ class TabPromotion extends Layout {
         },
       })
     );
-    this.props.actions.marketing.disablePromotionById(id || 0);
+    setTimeout(() => {
+      this.props.actions.marketing.disablePromotionById(id || 0);
+    }, 500);
   };
 
   enableCampaign = (campaign) => () => {

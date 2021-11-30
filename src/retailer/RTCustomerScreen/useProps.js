@@ -10,7 +10,6 @@ export const useProps = ({ navigation }) => {
 
   const popupCheckPermissionRef = React.useRef(null);
   const { isPermission } = usePermission(menuTabs.MENU_CUSTOMER);
-  console.log("isPermission " + isPermission);
 
   const openDrawer = () => {
     navigation.openDrawer();
