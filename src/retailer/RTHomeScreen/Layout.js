@@ -1,25 +1,10 @@
-import {
-  ParentContainer,
-  ScrollableTabView,
-  StatusBarHeader,
-} from "@components";
-// import HomeTabBar from '@components/HomeTabBar2020';
-import { ButtonLock } from "@shared/components/ButtonLock";
-import { ButtonDrawer } from "@shared/components/ButtonDrawer";
-import {
-  OrderCheckout,
-  OrderTab,
-  TabMarketing,
-} from "@src/screens/HomeScreen/widget";
-import React, { createContext } from "react";
-import { StyleSheet, View } from "react-native";
-import { OrderTabPage, MarketingTabPage, CheckOutTabPage } from "./pages";
-import { colors } from "@shared/themes";
-import { HomeTabBar } from "./widget";
-import { useTranslation } from "react-i18next";
-import { HomeTopTabNavigator } from "./HomeTopTabNavigator";
-import NavigationServices from "@navigators/NavigatorServices";
+import { StatusBarHeader } from "@components";
 import { createStackNavigator } from "@react-navigation/stack";
+import { colors } from "@shared/themes";
+import React, { createContext } from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet } from "react-native";
+import { HomeTopTabNavigator } from "./HomeTopTabNavigator";
 
 export const HomeStateContext = createContext({});
 

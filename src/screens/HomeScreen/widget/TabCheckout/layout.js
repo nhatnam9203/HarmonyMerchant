@@ -391,7 +391,14 @@ class Layout extends React.Component {
   }
 
   renderProductCheckout() {
-    const { language, groupAppointment, customService, profile } = this.props;
+    console.log("isBookingFromCalendar" + isBookingFromCalendar);
+    const {
+      language,
+      groupAppointment,
+      customService,
+      profile,
+      isBookingFromCalendar,
+    } = this.props;
     const {
       isShowColAmount,
       categorySelected,
@@ -440,7 +447,7 @@ class Layout extends React.Component {
               showsVerticalScrollIndicator={false}
               keyboardShouldPersistTaps="always"
             >
-              {isCustomService && (
+              {isCustomService && !isBookingFromCalendar && (
                 <ItemProductService
                   key="custom_service"
                   index={-1}

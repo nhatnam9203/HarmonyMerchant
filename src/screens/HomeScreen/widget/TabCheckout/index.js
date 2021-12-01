@@ -2408,6 +2408,7 @@ class TabCheckout extends Layout {
       firstAppointment.status &&
       firstAppointment.status === "waiting"
     ) {
+
       this.props.actions.appointment.createAppointmentWaiting(
         profile.merchantId,
         fromTime,
@@ -2419,6 +2420,7 @@ class TabCheckout extends Layout {
         bookingGroupId
       );
     } else {
+
       this.props.actions.appointment.createBlockAppointment(
         profile.merchantId,
         fromTime,

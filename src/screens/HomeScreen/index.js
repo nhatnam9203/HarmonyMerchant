@@ -385,6 +385,7 @@ class HomeScreen extends Layout {
 
   bookAppointment = async (appointmentId, staffId = 0) => {
     // this.props.actions.appointment.getAppointmentById(appointmentId);
+    console.log("====> bookAppointmentFromCalendar");
 
     this.props.actions.appointment.getGroupAppointmentById(
       appointmentId,
@@ -409,6 +410,8 @@ class HomeScreen extends Layout {
   };
 
   addMoreAppointmentFromCalendar = (appointmentId, staffId = 0) => {
+    console.log("===> addMoreAppointmentFromCalendar");
+
     if (staffId && staffId !== 0 && staffId !== -1) {
       this.props.actions.appointment.getGroupAppointmentById(
         appointmentId,
@@ -442,13 +445,23 @@ class HomeScreen extends Layout {
     }
   };
 
+  /**
+   * createABlockAppointment
+   * Can call from web with appointment id
+   * @param {*} appointmentId
+   * @param {*} fromTime
+   */
   createABlockAppointment = (appointmentId, fromTime) => {
+    console.log("createABlockAppointment");
+
     this.props.actions.appointment.updateFromTimeBlockAppointment(
       fromTime ? fromTime : new Date()
     );
+
     this.props.actions.appointment.getBlockAppointmentById(appointmentId, true);
 
     this.scrollTabParentRef.current.goToPage(2);
+
     if (this.tabCheckoutRef?.current) {
       this.tabCheckoutRef?.current?.setBlockStateFromCalendar();
     } else {

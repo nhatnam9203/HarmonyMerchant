@@ -79,15 +79,15 @@ class TabPromotion extends Layout {
       id,
       Object.assign({}, propCamp, {
         isSchedule: false,
-        conditionDetail: conditionDetail ?? {
-          service: [],
-          product: [],
-        },
-        applyToDetail: applyToDetail ?? {
-          service: [],
-          product: [],
-          category: [],
-        },
+        // conditionDetail: conditionDetail ?? {
+        //   service: [],
+        //   product: [],
+        // },
+        // applyToDetail: applyToDetail ?? {
+        //   service: [],
+        //   product: [],
+        //   category: [],
+        // },
       })
     );
     setTimeout(() => {

@@ -130,7 +130,8 @@ class TabAppointment extends Layout {
           this.onLoadStartWebview();
         } else {
           const { action, appointmentId } = data;
-          // console.log("onMessageFromWebview: ", JSON.stringify(data));
+          console.log("onMessageFromWebview: ", JSON.stringify(data));
+
           if (action === "checkout") {
             if (!isOfflineMode && isEmpty(groupAppointment)) {
               this.props.getCategoryStaff(
@@ -176,6 +177,7 @@ class TabAppointment extends Layout {
               appointmentIdOffline: appointmentId,
             });
           } else if (action == "signinAppointment") {
+
             if (data?.staffId === 0) {
               this.props.createABlockAppointment(appointmentId, new Date());
             } else {
@@ -230,12 +232,14 @@ class TabAppointment extends Layout {
               isPrintTempt: isTemp,
               isSalon: true,
               machineType: this.props.paymentMachineType,
-              isAppointmentTab: true
+              isAppointmentTab: true,
             });
           }
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log("Calling from web is error " + error);
+    }
   };
 
   doPrintClover(imageUri) {

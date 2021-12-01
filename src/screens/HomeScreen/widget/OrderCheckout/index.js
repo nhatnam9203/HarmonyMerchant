@@ -1937,6 +1937,7 @@ class OrderCheckout extends Layout {
       customerInfoBuyAppointment,
       bookingGroupId,
     } = this.props;
+
     this.props.actions.appointment.createBlockAppointment(
       profile.merchantId,
       fromTimeBlockAppointment,
