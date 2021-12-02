@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
+import { setSchedulePromotion, useAxiosMutation } from "@apis";
 
 const { width } = Dimensions.get("window");
 const DeleteConfirmButton = WithDialogConfirm(Button);
@@ -27,9 +28,23 @@ const PromotionHome = ({
   disableRule,
   sendStartCampaign,
 }) => {
-  const [giftForNewEnabled, setGiftForNewEnabled] = useState(true);
-  const profile = useSelector((state) => state?.dataLocal?.profile);
   const dispatch = useDispatch();
+
+  const profile = useSelector((state) => state?.dataLocal?.profile);
+
+  const [giftForNewEnabled, setGiftForNewEnabled] = useState(true);
+  const [focusPromotionId, setFocusPromotionId] = useState(null);
+  /**
+   * API Check permission
+   */
+  const [, disableAutoSendMessage] = useAxiosMutation({
+    ...setSchedulePromotion(focusPromotionId, false),
+    onSuccess: (data, response) => {
+      console.log(data);
+      if (response?.codeNumber === 200) {
+      }
+    },
+  });
 
   useEffect(() => {
     setGiftForNewEnabled(profile?.giftForNewEnabled);
@@ -43,6 +58,14 @@ const PromotionHome = ({
   onSendStartCampaign = (item) => {
     if (sendStartCampaign && typeof sendStartCampaign === "function") {
       sendStartCampaign(item?.id);
+    }
+  };
+
+  onHandleDisablePromotion = async (item) => {
+    await setFocusPromotionId(item.id);
+    await disableAutoSendMessage();
+    if (disableCampaign && typeof disableCampaign === "function") {
+      disableCampaign(item);
     }
   };
 
@@ -95,9 +118,15 @@ const PromotionHome = ({
         renderItem={({ item, index }) => (
           <CampaignRow
             data={item}
-            editCampaign={editCampaign(item)}
-            disableCampaign={disableCampaign(item)}
-            enableCampaign={enableCampaign(item)}
+            editCampaign={() => {
+              editCampaign(item);
+            }}
+            disableCampaign={async () => {
+              await onHandleDisablePromotion(item);
+            }}
+            enableCampaign={() => {
+              enableCampaign(item);
+            }}
             deleteCampaign={() => {
               deleteCampaign(item);
             }}
