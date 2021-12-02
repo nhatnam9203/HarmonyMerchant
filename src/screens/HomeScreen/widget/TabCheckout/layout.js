@@ -260,13 +260,8 @@ class Layout extends React.Component {
   }
 
   renderCategoriesCheckout() {
-    const {
-      language,
-      categoriesByMerchant,
-      groupAppointment,
-      isOfflineMode,
-      profile,
-    } = this.props;
+    const { language, categoriesByMerchant, groupAppointment, isOfflineMode } =
+      this.props;
     const {
       isShowColProduct,
       isBlockBookingFromCalendar,
@@ -391,7 +386,6 @@ class Layout extends React.Component {
   }
 
   renderProductCheckout() {
-    console.log("isBookingFromCalendar" + isBookingFromCalendar);
     const {
       language,
       groupAppointment,
@@ -405,7 +399,12 @@ class Layout extends React.Component {
       productSeleted,
       categoryTypeSelected,
       isLoadingService,
+      isBookingFromAppointmentTab,
     } = this.state;
+
+    console.log("isBookingFromCalendar" + isBookingFromCalendar);
+    console.log("isBookingFromAppointmentTab" + isBookingFromAppointmentTab);
+
     let tempWidth = 200;
     tempWidth = isShowColAmount ? 120 : tempWidth;
     const temptColorHeader = isShowColAmount ? { color: "#6A6A6A" } : {};
@@ -447,7 +446,7 @@ class Layout extends React.Component {
               showsVerticalScrollIndicator={false}
               keyboardShouldPersistTaps="always"
             >
-              {isCustomService && !isBookingFromCalendar && (
+              {isCustomService && !isBookingFromAppointmentTab && (
                 <ItemProductService
                   key="custom_service"
                   index={-1}

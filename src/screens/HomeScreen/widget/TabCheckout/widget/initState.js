@@ -82,4 +82,5 @@ export default {
   staffOfService: [],
 
   visibleInvoice: false,
+  isBookingFromAppointmentTab: false,
 };

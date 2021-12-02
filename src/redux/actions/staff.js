@@ -260,12 +260,12 @@ export function resetStateIsEditStaffById() {
   };
 }
 
-export function getStaffService(serviceId, callBack) {
+export function getStaffService(serviceId, date, callBack) {
   return {
     type: "GET_STAFF_SERVICE",
     method: "GET",
     token: true,
-    api: `staff/byService/${serviceId}`,
+    api: `staff/byService/${serviceId}?date=${date}`,
     callBack,
   };
 }
