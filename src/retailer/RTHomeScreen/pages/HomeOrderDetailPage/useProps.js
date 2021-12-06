@@ -17,11 +17,11 @@ import {
   SHIPPING_METHOD_GROUP,
 } from "@shared/utils";
 import {
-        getInfoFromModelNameOfPrinter,
-        REMOTE_APP_ID,
-        APP_NAME,
-        POS_SERIAL,
-      } from "@utils";
+  getInfoFromModelNameOfPrinter,
+  REMOTE_APP_ID,
+  APP_NAME,
+  POS_SERIAL,
+} from "@utils";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
@@ -444,6 +444,7 @@ export const useProps = ({
         appointmentId: appointmentDetail?.appointmentId,
         checkoutId: appointmentDetail?.invoice?.checkoutId,
         machineType: paymentMachineType,
+        isAppointmentTab: true,
       });
     },
     invoicePrintRef,
@@ -502,8 +503,10 @@ export const useProps = ({
       });
     },
     doPrintClover: (imageUri) => {
-      const port = _.get(cloverMachineInfo, 'port') ? _.get(cloverMachineInfo, 'port') : 80
-      const url = `wss://${_.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
+      const port = _.get(cloverMachineInfo, "port")
+        ? _.get(cloverMachineInfo, "port")
+        : 80;
+      const url = `wss://${_.get(cloverMachineInfo, "ip")}:${port}/remote_pay`;
 
       const printInfo = {
         imageUri,
@@ -511,9 +514,11 @@ export const useProps = ({
         remoteAppId: REMOTE_APP_ID,
         appName: APP_NAME,
         posSerial: POS_SERIAL,
-        token: _.get(cloverMachineInfo, 'token') ? _.get(cloverMachineInfo, 'token', '') : "",
-      }
-      clover.doPrintWithConnect(printInfo)
+        token: _.get(cloverMachineInfo, "token")
+          ? _.get(cloverMachineInfo, "token", "")
+          : "",
+      };
+      clover.doPrintWithConnect(printInfo);
     },
   };
 };
