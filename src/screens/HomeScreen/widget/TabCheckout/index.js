@@ -2977,6 +2977,7 @@ class TabCheckout extends Layout {
     clover.changeListenerStatus(true);
     this.subscriptions = [
       this.eventEmitter.addListener("paymentSuccess", (data) => {
+        console.log("paymentSuccess")
         this.isProcessPaymentClover = false;
         this.handleResponseCreditCardForCloverSuccess(data);
       }),

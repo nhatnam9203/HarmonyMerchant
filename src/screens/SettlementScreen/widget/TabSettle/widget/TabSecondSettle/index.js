@@ -9,7 +9,7 @@ import {
     localize,
     PaymentTerminalType,
     requestSettlementDejavoo,
-    stringIsEmptyOrWhiteSpaces,
+    roundFloatNumber,
   } from '@utils';
 import * as l from "lodash";
 import { parseString } from "react-native-xml2js";
@@ -59,23 +59,29 @@ class TabSecondSettle extends Layout {
         clover.changeListenerStatus(true)
         this.subscriptions = [
           this.eventEmitter.addListener('closeoutSuccess', data => {
-           this.isProcessCloseBatchClover = false
-           this.props.actions.app.stopLoadingApp();
-           this.proccessingSettlement("[]");
+            if (this.isProcessCloseBatchClover) {
+                this.isProcessCloseBatchClover = false
+                this.props.actions.app.stopLoadingApp();
+                this.proccessingSettlement("[]", false);
+            }
+           
           }),
           this.eventEmitter.addListener('closeoutFail', data => {
-            this.props.actions.app.stopLoadingApp();
-            this.isProcessCloseBatchClover = false
-            this.setState({
-                numberFooter: 1,
-                progress: 0,
-            })
-            
-            this.props.actions.app.connectPaxMachineError(
-                l.get(data, 'errorMessage')
-              );
-            
-            this.confirmSettleWithoutTerminalPayment()
+              console.log("closeoutFail")
+              if (this.isProcessCloseBatchClover) {
+                this.props.actions.app.stopLoadingApp();
+                this.isProcessCloseBatchClover = false
+                this.setState({
+                    numberFooter: 1,
+                    progress: 0,
+                })
+                
+                this.props.actions.app.connectPaxMachineError(
+                    l.get(data, 'errorMessage')
+                );
+                
+                this.confirmSettleWithoutTerminalPayment()
+              }
            
            }),
           this.eventEmitter.addListener('pairingCode', data => {
@@ -107,6 +113,7 @@ class TabSecondSettle extends Layout {
                 this.props.actions.app.connectPaxMachineError(
                     localize("No connected device", language)
                   );
+                this.confirmSettleWithoutTerminalPayment()
             }
           }),
         ]
@@ -247,7 +254,7 @@ class TabSecondSettle extends Layout {
                
                 } else {
                    
-                    this.proccessingSettlement("[]");
+                    this.proccessingSettlement("[]", false);
                 }
             })
 
@@ -326,6 +333,18 @@ class TabSecondSettle extends Layout {
     }
 
     confirmSettleWithoutTerminalPayment = () => {
+        const { paymentMachineType } = this.props;
+        const { settleTotal } = this.state;
+        if( paymentMachineType != PaymentTerminalType.Pax) {
+            const totalSubmit = roundFloatNumber(l.get(settleTotal, "total") - l.get(settleTotal, "paymentByCreditCard"))
+            console.log("totalSubmit", totalSubmit)
+            
+            if(totalSubmit == 0) {
+                console.log('return')
+                return;
+            }
+        }
+        console.log('aaa')
         Alert.alert(
             'Unable to connect to payment terminal or not found any transaction on your payment terminal, Do you want to continue without payment terminal?',
             '',
@@ -335,18 +354,39 @@ class TabSecondSettle extends Layout {
                     onPress: () => { },
                     style: 'cancel'
                 },
-                { text: 'OK', onPress: () => this.proccessingSettlement() }
+                { text: 'OK', onPress: () => this.proccessingSettlement("[]", true) }
             ],
             { cancelable: false }
         );
     }
 
-    proccessingSettlement = async (responseData) => {
-        const { settleWaiting, connectPAXStatus } = this.props;
+    proccessingSettlement = async (responseData, isSettlementWithoutPaymentTerminal) => {
+        const { 
+            settleWaiting, 
+            connectPAXStatus, 
+            paymentMachineType 
+        } = this.props;
         const { settleTotal } = this.state;
         const { status, message } = connectPAXStatus;
         const isConnectPax = status && message && message == "( Payment terminal successfully connected! )" ? true : false;
-        const body = { ...settleTotal, checkout: settleWaiting.checkout, isConnectPax, responseData };
+     
+        let settleTotalSubmit = settleTotal
+       
+        if (paymentMachineType != PaymentTerminalType.Pax && isSettlementWithoutPaymentTerminal) {
+            const creditCardAmountSubmit = "0.00"
+            const totalSubmit = roundFloatNumber(l.get(settleTotal, "total") - l.get(settleTotal, "paymentByCreditCard"))
+
+            settleTotalSubmit = {
+                ...settleTotal,
+                paymentByCreditCard: creditCardAmountSubmit,
+                total: totalSubmit,
+                terminalID: null,
+              }
+        }
+        
+
+        
+        const body = { ...settleTotalSubmit, checkout: settleWaiting.checkout, isConnectPax, responseData };
 
         this.setState({
             numberFooter: 2,
@@ -376,7 +416,7 @@ class TabSecondSettle extends Layout {
                     paxErrorMessage: result.message
                 })
             } else {
-                this.proccessingSettlement(responseData);
+                this.proccessingSettlement(responseData, false);
             }
         } catch (error) {
         }
