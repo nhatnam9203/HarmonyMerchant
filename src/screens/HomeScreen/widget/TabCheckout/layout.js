@@ -446,7 +446,7 @@ class Layout extends React.Component {
               showsVerticalScrollIndicator={false}
               keyboardShouldPersistTaps="always"
             >
-              {isCustomService && !isBookingFromAppointmentTab && (
+              {/* {isCustomService && !isBookingFromAppointmentTab && (
                 <ItemProductService
                   key="custom_service"
                   index={-1}
@@ -461,7 +461,7 @@ class Layout extends React.Component {
                   groupAppointment={groupAppointment}
                   showColAmount={this.showCustomServiceAmount}
                 />
-              )}
+              )} */}
               {data.map((item, index) => (
                 <ItemProductService
                   key={index}
