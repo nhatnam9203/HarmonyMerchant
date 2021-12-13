@@ -10,6 +10,7 @@ import {
     PaymentTerminalType,
     requestSettlementDejavoo,
     roundFloatNumber,
+    processingSettlementWithoutConnectPax,
   } from '@utils';
 import * as l from "lodash";
 import { parseString } from "react-native-xml2js";
@@ -62,7 +63,7 @@ class TabSecondSettle extends Layout {
             if (this.isProcessCloseBatchClover) {
                 this.isProcessCloseBatchClover = false
                 this.props.actions.app.stopLoadingApp();
-                this.proccessingSettlement("[]", false);
+                this.proccessingSettlement("[]");
             }
            
           }),
@@ -254,7 +255,7 @@ class TabSecondSettle extends Layout {
                
                 } else {
                    
-                    this.proccessingSettlement("[]", false);
+                    this.proccessingSettlement("[]");
                 }
             })
 
@@ -334,17 +335,6 @@ class TabSecondSettle extends Layout {
 
     confirmSettleWithoutTerminalPayment = () => {
         const { paymentMachineType } = this.props;
-        const { settleTotal } = this.state;
-        if( paymentMachineType != PaymentTerminalType.Pax) {
-            const totalSubmit = roundFloatNumber(l.get(settleTotal, "total") - l.get(settleTotal, "paymentByCreditCard"))
-            console.log("totalSubmit", totalSubmit)
-            
-            if(totalSubmit == 0) {
-                console.log('return')
-                return;
-            }
-        }
-        console.log('aaa')
         Alert.alert(
             'Unable to connect to payment terminal or not found any transaction on your payment terminal, Do you want to continue without payment terminal?',
             '',
@@ -354,13 +344,20 @@ class TabSecondSettle extends Layout {
                     onPress: () => { },
                     style: 'cancel'
                 },
-                { text: 'OK', onPress: () => this.proccessingSettlement("[]", true) }
+                { text: 'OK', onPress: () => {
+                    if (paymentMachineType != PaymentTerminalType.Pax) {
+                        processingSettlementWithoutConnectPax();
+                    } else {
+                        //Pax
+                        this.proccessingSettlement("[]")
+                    }
+                } }
             ],
             { cancelable: false }
         );
     }
 
-    proccessingSettlement = async (responseData, isSettlementWithoutPaymentTerminal) => {
+    proccessingSettlement = async (responseData) => {
         const { 
             settleWaiting, 
             connectPAXStatus, 
@@ -370,23 +367,7 @@ class TabSecondSettle extends Layout {
         const { status, message } = connectPAXStatus;
         const isConnectPax = status && message && message == "( Payment terminal successfully connected! )" ? true : false;
      
-        let settleTotalSubmit = settleTotal
-       
-        if (paymentMachineType != PaymentTerminalType.Pax && isSettlementWithoutPaymentTerminal) {
-            const creditCardAmountSubmit = "0.00"
-            const totalSubmit = roundFloatNumber(l.get(settleTotal, "total") - l.get(settleTotal, "paymentByCreditCard"))
-
-            settleTotalSubmit = {
-                ...settleTotal,
-                paymentByCreditCard: creditCardAmountSubmit,
-                total: totalSubmit,
-                terminalID: null,
-              }
-        }
-        
-
-        
-        const body = { ...settleTotalSubmit, checkout: settleWaiting.checkout, isConnectPax, responseData };
+        const body = { ...settleTotal, checkout: settleWaiting.checkout, isConnectPax, responseData };
 
         this.setState({
             numberFooter: 2,
@@ -416,7 +397,7 @@ class TabSecondSettle extends Layout {
                     paxErrorMessage: result.message
                 })
             } else {
-                this.proccessingSettlement(responseData, false);
+                this.proccessingSettlement(responseData);
             }
         } catch (error) {
         }
