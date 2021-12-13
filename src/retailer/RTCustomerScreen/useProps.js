@@ -1,9 +1,15 @@
 import actions from "@actions";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { usePermission } from "@shared/hooks";
+import { menuTabs } from "@utils";
+import { useFocusEffect } from "@react-navigation/native";
 
 export const useProps = ({ navigation }) => {
   const dispatch = useDispatch();
+
+  const popupCheckPermissionRef = React.useRef(null);
+  const { isPermission } = usePermission(menuTabs.MENU_CUSTOMER);
 
   const openDrawer = () => {
     navigation.openDrawer();
@@ -20,15 +26,27 @@ export const useProps = ({ navigation }) => {
     };
   }, [navigation]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      if (isPermission) {
+        popupCheckPermissionRef.current.hide();
+      } else {
+        popupCheckPermissionRef.current.show();
+      }
+    }, [isPermission])
+  );
+
   return {
     openDrawer,
     navigation,
-    handleLockScreen: () => {},
-    tabPermission: useSelector(
-      (state) => state.customer?.customerTabPermission
-    ),
-    togglePopupPermission: (bl) => {
-      dispatch(actions.customer.toggleCustomerTabPermission(bl ?? true));
-    },
+    popupCheckPermissionRef,
+    // handleLockScreen: () => {},
+    onForceClosePopupPermission: () => {},
+    // tabPermission: useSelector(
+    //   (state) => state.customer?.customerTabPermission
+    // ),
+    // togglePopupPermission: (bl) => {
+    //   dispatch(actions.customer.toggleCustomerTabPermission(bl ?? true));
+    // },
   };
 };

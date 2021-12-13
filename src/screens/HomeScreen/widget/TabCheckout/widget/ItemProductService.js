@@ -95,11 +95,11 @@ const ItemProductService = ({
     ? { backgroundColor: "#DCF7FF" }
     : {};
   const temptBackgrounColor =
-    item[temptKeyId] === itemSelected?.temptKeyId
+    item[temptKeyId] === itemSelected?.[temptKeyId]
       ? { backgroundColor: "#0764B0" }
       : {};
   const temptTextColor =
-    item[temptKeyId] === itemSelected?.temptKeyId ? { color: "#fff" } : {};
+    item[temptKeyId] === itemSelected?.[temptKeyId] ? { color: "#fff" } : {};
   const temptTextPriceColor =
     item[temptKeyId] === itemSelected?.temptKeyId ? { color: "#fff" } : {};
 

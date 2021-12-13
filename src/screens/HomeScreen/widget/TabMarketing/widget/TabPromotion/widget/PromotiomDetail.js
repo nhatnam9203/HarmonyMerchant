@@ -1664,6 +1664,7 @@ const PromotiomDetail = forwardRef(
                   ios_backgroundColor="#E5E5E5"
                   value={isSchedule}
                   onValueChange={setIsSchedule}
+                  disabled={isDisabled}
                 />
               </View>
             </View>

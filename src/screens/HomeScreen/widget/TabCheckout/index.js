@@ -1925,11 +1925,18 @@ class TabCheckout extends Layout {
   };
 
   changeStylist = async (service, appointmentId) => {
-    const { isOfflineMode } = this.props;
+    const { isOfflineMode, groupAppointment } = this.props;
+
+    const { fromTime = new Date() } =
+      groupAppointment?.appointments?.find(
+        (appointment) => appointment.appointmentId === appointmentId
+      ) || {};
+
     this.changeStylistRef.current?.setStateFromParent(service, appointmentId);
     if (!isOfflineMode) {
       this.props.actions.staff.getStaffService(
         service?.data?.serviceId,
+        formatWithMoment(fromTime, "MM/DD/YYYY"), // Fix for case custom service not contains by staff, so get staff no data here!
         this.callBackGetStaffService
       );
     } else {
@@ -2812,7 +2819,11 @@ class TabCheckout extends Layout {
 
   bookAppointmentFromCalendar = () => {
     this.props.gotoTabAppointment();
-    this.setState(initState);
+    this.setState(
+      Object.assign(initState, {
+        isBookingFromAppointmentTab: true, // book appointment from calendar
+      })
+    );
     this.props.actions.appointment.resetGroupAppointment();
   };
 
@@ -2820,6 +2831,7 @@ class TabCheckout extends Layout {
     await this.setState({
       selectedStaff: { staffId },
       isShowCategoriesColumn: true,
+      isBookingFromAppointmentTab: true, // book appointment from calendar
     });
 
     this.scrollFlatListToStaffIndex(staffId, isFirstPressCheckout);
@@ -2829,11 +2841,15 @@ class TabCheckout extends Layout {
     await this.setState({
       isShowCategoriesColumn: true,
       isBlockBookingFromCalendar: true,
+      isBookingFromAppointmentTab: true, // book appointment from calendar
     });
   };
 
   setStatusIsCheckout = (status) => {
-    this.setState({ isGotoCheckout: status });
+    this.setState({
+      isGotoCheckout: status,
+      isBookingFromAppointmentTab: !status, // book appointment from calendar
+    });
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -2883,6 +2899,7 @@ class TabCheckout extends Layout {
   }
 
   componentWillUnmount() {
+    console.log("tab check out componentWillUnmount");
     this.unregisterEvents();
   }
 

@@ -38,7 +38,7 @@ class TabPromotion extends Layout {
     }
   };
 
-  editCampaign = (campaign) => () => {
+  editCampaign = (campaign) => {
     if (this.promotionDetailRef?.current) {
       this.promotionDetailRef?.current?.setStateFromParent(campaign);
     } else {
@@ -62,11 +62,40 @@ class TabPromotion extends Layout {
     this.props.actions.marketing.getSMSInformation(conditionId);
   };
 
-  disableCampaign = (campaign) => () => {
-    this.props.actions.marketing.disablePromotionById(campaign?.id || 0);
+  disableCampaign = (campaign) => {
+    const {
+      id,
+      merchantId,
+      toDate,
+      smsMediaPath,
+      specificFrom,
+      specificTo,
+      conditionDetail,
+      applyToDetail,
+      ...propCamp
+    } = campaign || {};
+
+    // this.props.actions.marketing.updatePromotionById(
+    //   id,
+    //   Object.assign({}, propCamp, {
+    //     isSchedule: false,
+    //     // conditionDetail: conditionDetail ?? {
+    //     //   service: [],
+    //     //   product: [],
+    //     // },
+    //     // applyToDetail: applyToDetail ?? {
+    //     //   service: [],
+    //     //   product: [],
+    //     //   category: [],
+    //     // },
+    //   })
+    // );
+    setTimeout(() => {
+      this.props.actions.marketing.disablePromotionById(id || 0);
+    }, 500);
   };
 
-  enableCampaign = (campaign) => () => {
+  enableCampaign = (campaign) => {
     this.props.actions.marketing.enablePromotionById(campaign?.id || 0);
   };
 

@@ -325,7 +325,13 @@ export const PopupInvoice = React.forwardRef(
     };
 
     React.useEffect(() => {
-      if (!isSignature && !isShare && !printTempt && profile?.isPrintReceipt) {
+      if (
+        !isSignature &&
+        !isShare &&
+        !printTempt &&
+        profile?.isPrintReceipt &&
+        !fromAppointmentTab
+      ) {
         onPrintProcess();
       }
     }, [isSignature, isShare, printTempt, profile?.isPrintReceipt]);
@@ -356,7 +362,7 @@ export const PopupInvoice = React.forwardRef(
               alignment: "Center",
             });
             commands.push({
-              appendCutPaper: StarPRNT.CutPaperAction.FullCutWithFeed,
+              appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
             });
 
             await PrintManager.getInstance().print(

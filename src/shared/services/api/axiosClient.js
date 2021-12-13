@@ -27,6 +27,7 @@ export const axios = Axios.create({
 axios.interceptors.request.use(
   async (config) => {
     const token = await getAuthToken();
+    console.log(token);
     if (token) {
       config.headers = Object.assign({}, config.headers, {
         authorization: `Bearer ${token}`,
@@ -51,7 +52,7 @@ axios.interceptors.response.use(
         break;
       case 404: // not found
       case 400: // thieu field
-        if (codeStatus !== 2) {
+        if (codeStatus !== 2 && codeStatus !== 5) {
           // exception cho phone not exist -> checkout
           setTimeout(() => {
             alert(`${message}`);

@@ -260,13 +260,8 @@ class Layout extends React.Component {
   }
 
   renderCategoriesCheckout() {
-    const {
-      language,
-      categoriesByMerchant,
-      groupAppointment,
-      isOfflineMode,
-      profile,
-    } = this.props;
+    const { language, categoriesByMerchant, groupAppointment, isOfflineMode } =
+      this.props;
     const {
       isShowColProduct,
       isBlockBookingFromCalendar,
@@ -391,14 +386,25 @@ class Layout extends React.Component {
   }
 
   renderProductCheckout() {
-    const { language, groupAppointment, customService, profile } = this.props;
+    const {
+      language,
+      groupAppointment,
+      customService,
+      profile,
+      isBookingFromCalendar,
+    } = this.props;
     const {
       isShowColAmount,
       categorySelected,
       productSeleted,
       categoryTypeSelected,
       isLoadingService,
+      isBookingFromAppointmentTab,
     } = this.state;
+
+    console.log("isBookingFromCalendar" + isBookingFromCalendar);
+    console.log("isBookingFromAppointmentTab" + isBookingFromAppointmentTab);
+
     let tempWidth = 200;
     tempWidth = isShowColAmount ? 120 : tempWidth;
     const temptColorHeader = isShowColAmount ? { color: "#6A6A6A" } : {};
@@ -440,7 +446,7 @@ class Layout extends React.Component {
               showsVerticalScrollIndicator={false}
               keyboardShouldPersistTaps="always"
             >
-              {isCustomService && (
+              {/* {isCustomService && !isBookingFromAppointmentTab && (
                 <ItemProductService
                   key="custom_service"
                   index={-1}
@@ -455,7 +461,7 @@ class Layout extends React.Component {
                   groupAppointment={groupAppointment}
                   showColAmount={this.showCustomServiceAmount}
                 />
-              )}
+              )} */}
               {data.map((item, index) => (
                 <ItemProductService
                   key={index}

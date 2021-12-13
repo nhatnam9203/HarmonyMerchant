@@ -42,7 +42,7 @@ export function checkStaffPermission(merchantCode, staffPin, tabName = menuTabs.
     api: `staff/login/checkpermission`,
     tabName,
     appointmentId,
-    isBlock
+    isBlock,
   };
 }
 

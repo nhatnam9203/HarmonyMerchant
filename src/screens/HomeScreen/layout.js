@@ -1,43 +1,36 @@
-import React from "react";
 import {
-  View,
-  Image,
-  Dimensions,
-  Text,
-  VirtualizedList,
-  Modal,
-} from "react-native";
-import {
-  HomeTabBar,
-  StatusBarHeader,
   Button,
+  HomeTabBar,
   ParentContainer,
-  PopupEnterPin,
   PopupCheckStaffPermission,
+  PopupEnterPin,
   ScrollableTabView,
-  Loading,
+  StatusBarHeader,
 } from "@components";
-import {
-  scaleSize,
-  localize,
-  getIconByNotiType,
-  getColorTitleByNotiType,
-  getNotiContentByType,
-  formatWithMoment,
-  menuTabs,
-} from "@utils";
-import styles from "./style";
-import ICON from "@resources";
-import {
-  TabMarketing,
-  TabAppointment,
-  TabCheckout,
-  OrderTab,
-  OrderCheckout,
-} from "./widget";
 import configs from "@configs";
+import ICON from "@resources";
 import { ButtonCheckIn } from "@shared/components/ButtonCheckIn";
 import { WithDialogStaffCheckIn } from "@shared/HOC/withDialogStaffCheckIn";
+import {
+  formatWithMoment,
+  getColorTitleByNotiType,
+  getIconByNotiType,
+  getNotiContentByType,
+  localize,
+  menuTabs,
+  scaleSize,
+} from "@utils";
+import React from "react";
+import {
+  Dimensions,
+  Image,
+  Modal,
+  Text,
+  View,
+  VirtualizedList,
+} from "react-native";
+import styles from "./style";
+import { TabAppointment, TabCheckout, TabMarketing } from "./widget";
 
 const { height } = Dimensions.get("window");
 const ButtonStaffCheckIn = WithDialogStaffCheckIn(ButtonCheckIn);

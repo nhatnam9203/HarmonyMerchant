@@ -35,6 +35,8 @@ import {
   RowEmptyTableCustomer,
   RowTableCustomer,
 } from "./widget";
+import { PopupCheckStaffPermission } from "@components";
+import { PopupCheckPermission } from "@shared/components";
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -44,6 +46,8 @@ export const Layout = ({
   handleLockScreen,
   tabPermission,
   togglePopupPermission,
+  popupCheckPermissionRef,
+  onForceClosePopupPermission,
 }) => {
   const { t } = useTranslation();
 
@@ -295,11 +299,11 @@ export const Layout = ({
         <Screen {...CustomerDetailPage} />
         <Screen {...EditCustomerAddressPage} />
       </Navigator>
-      <PermissionChecker
-        navigation={navigation}
+
+      <PopupCheckPermission
+        ref={popupCheckPermissionRef}
+        onForceClosePopup={onForceClosePopupPermission}
         tabName={menuTabs.MENU_CUSTOMER}
-        tabPermission={tabPermission}
-        togglePopupPermission={togglePopupPermission}
       />
     </View>
   );

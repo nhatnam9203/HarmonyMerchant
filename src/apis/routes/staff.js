@@ -60,8 +60,8 @@ export const getStaffOfService = (serviceId, date) => ({
   },
 });
 
-export const staffGetAvaiableTime = (staffId, data) => ({
-  queryId: "staffGetAvaiableTime",
+export const getStaffAvaiableTime = (staffId, data) => ({
+  queryId: "GetStaffAvaiableTime",
   params: {
     url: `staff/getavailabletime/${staffId}`,
     method: "PUT",
@@ -70,7 +70,7 @@ export const staffGetAvaiableTime = (staffId, data) => ({
 });
 
 export const getStaffByMerchant = (merchantId) => ({
-  queryId: "getStaffByMerchant",
+  queryId: "GetStaffByMerchant",
   params: {
     url: `staff/getbymerchant/${merchantId}`,
     method: "GET",
@@ -86,9 +86,22 @@ export const archiveStaff = (staffId) => ({
 });
 
 export const restoreStaff = (staffId) => ({
-  queryId: "ArchiveStaff",
+  queryId: "RestoreStaff",
   params: {
     url: `staff/restore/${staffId}`,
     method: "PUT",
+  },
+});
+
+export const checkPermissionStaff = (merchantCode, staffPin, tab) => ({
+  queryId: "CheckPermissionStaff",
+  params: {
+    url: `staff/login/checkpermission`,
+    method: "POST",
+    data: {
+      merchantCode,
+      staffPin,
+      tab,
+    },
   },
 });

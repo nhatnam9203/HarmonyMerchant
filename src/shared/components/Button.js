@@ -2,6 +2,7 @@ import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import { Pressable, StyleSheet, Text, TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import Spinner from "react-native-spinkit";
 
 export const ButtonNormal = ({
   width,
@@ -59,7 +60,7 @@ export const ButtonGradient = ({
   width,
   height,
   borderRadius = 1,
-  label,
+  label = " ",
   textStyle,
   onPress,
   borderWidth = scaleWidth(1),
@@ -76,6 +77,7 @@ export const ButtonGradient = ({
   pressLastColor = colors.PEACOCK_BLUE,
   borderColor = colors.OCEAN_BLUE,
   pressBorderColor = colors.OCEAN_BLUE,
+  loading = false,
 }) => {
   return (
     <Pressable
@@ -102,7 +104,14 @@ export const ButtonGradient = ({
         >
           {leftChildren && leftChildren()}
 
-          {!!label && (
+          {loading ? (
+            <Spinner
+              style={styles.spinner}
+              type={"Circle"}
+              size={scaleWidth(25)}
+              color="#fff"
+            />
+          ) : (
             <Text
               style={[
                 styles.buttonText,
@@ -206,5 +215,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     padding: scaleWidth(6),
+  },
+
+  spinner: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

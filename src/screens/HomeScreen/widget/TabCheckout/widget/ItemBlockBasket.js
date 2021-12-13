@@ -3,7 +3,7 @@ import {
     View,
     Text,
     Image,
-    LayoutAnimation, Platform, 
+    LayoutAnimation, Platform,
 } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 import _ from 'ramda';
