@@ -346,7 +346,19 @@ class TabSecondSettle extends Layout {
                 },
                 { text: 'OK', onPress: () => {
                     if (paymentMachineType != PaymentTerminalType.Pax) {
-                        processingSettlementWithoutConnectPax();
+                        const { token, deviceId, deviceName } = dataLocal;
+                        requestAPI({
+                            type: "GET_SETTLEMENT_WAITING",
+                            method: "GET",
+                            api: `${Configs.API_URL}settlement/waiting?sn=${null}`,
+                            token,
+                            deviceName,
+                            deviceId,
+                        }).then((settleWaitingResponse) => {
+                            const settleWaiting = l.get(settleWaitingResponse, "data");
+                            store.dispatch(actions.invoice.saveSettleWaiting(settleWaiting));
+                            proccessingSettlement([], settleWaiting, null, false);
+                        });
                     } else {
                         //Pax
                         this.proccessingSettlement("[]")
@@ -438,6 +450,7 @@ class TabSecondSettle extends Layout {
 }
 
 const mapStateToProps = state => ({
+    dataLocal: state.dataLocal,
     language: state.dataLocal.language,
     paxMachineInfo: state.hardware.paxMachineInfo,
     settleWaiting: state.invoice.settleWaiting,
