@@ -239,7 +239,10 @@ export const productReducer = (state = initState, action) => {
 
       return Object.assign({}, state, { quantities: quantities });
     case PRODUCT_UPDATE_NAME:
-      // state.name = action.payload;
+      state = {
+        ...state,
+        name: action.payload || ""
+      }
       const quantitiesUpdateName = createQuantitiesItem(state, state?.options)
         ?.filter((x) => {
           const isExistItem = state?.quantities?.find((f) =>
