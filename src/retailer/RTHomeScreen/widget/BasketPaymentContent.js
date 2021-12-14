@@ -219,7 +219,7 @@ export const BasketPaymentContent = React.forwardRef(
               {item?.discount && (
                 <Text
                   style={styles.totalInfoText}
-                >{`Discount: ${formatMoneyWithUnit(item?.discount)}`}</Text>
+                >{`Discount: ${formatMoneyWithUnit(item?.totalDiscount)}`}</Text>
               )}
             </View>
             <Text style={styles.productItemQuantity}>{`${item?.quantity} ${t(
