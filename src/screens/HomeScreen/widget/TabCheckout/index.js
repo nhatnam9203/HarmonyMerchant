@@ -3040,6 +3040,7 @@ class TabCheckout extends Layout {
           this.handleResponseCreditCardForCloverFailed(
             localize("No connected device", language)
           );
+          clover.cancelTransaction();
         }
         if (this.isProcessPrintClover) {
           this.isProcessPrintClover = false;

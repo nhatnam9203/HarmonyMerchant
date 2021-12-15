@@ -235,6 +235,7 @@ export const useProps = ({
         if(isProcessPaymentClover) {
           dispatch(actions.appointment.isProcessPaymentClover(false))
           handleResponseCreditCardForCloverFailed("No connected device")
+          clover.cancelTransaction();
         }
       }),
     ]

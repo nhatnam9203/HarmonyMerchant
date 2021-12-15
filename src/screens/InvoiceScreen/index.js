@@ -142,6 +142,7 @@ class InvoiceScreen extends Layout {
           this.handleResultVoidTransactionCloverFailed(
             localize("No connected device", language)
           );
+          clover.cancelTransaction();
         }
       }),
     ];

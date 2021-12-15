@@ -116,6 +116,7 @@ class TabSecondSettle extends Layout {
                     localize("No connected device", language)
                   );
                 this.confirmSettleWithoutTerminalPayment()
+                clover.cancelTransaction();
             }
           }),
         ]
