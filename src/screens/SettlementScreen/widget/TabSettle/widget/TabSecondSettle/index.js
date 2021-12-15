@@ -10,8 +10,10 @@ import {
     PaymentTerminalType,
     requestSettlementDejavoo,
     roundFloatNumber,
-    processingSettlementWithoutConnectPax,
+    requestAPI,
+    formatNumberFromCurrency,
   } from '@utils';
+  import Configs from "@configs";
 import * as l from "lodash";
 import { parseString } from "react-native-xml2js";
 
@@ -68,7 +70,6 @@ class TabSecondSettle extends Layout {
            
           }),
           this.eventEmitter.addListener('closeoutFail', data => {
-              console.log("closeoutFail")
               if (this.isProcessCloseBatchClover) {
                 this.props.actions.app.stopLoadingApp();
                 this.isProcessCloseBatchClover = false
@@ -355,52 +356,51 @@ class TabSecondSettle extends Layout {
                             deviceName,
                             deviceId,
                         }).then((settleWaitingResponse) => {
-                            conso;e.log('settleWaitingResponse', settleWaitingResponse)
-                            const settleWaiting = l.get(settleWaitingResponse, "data");
-                            const editPaymentByHarmony = settleWaiting?.paymentByHarmony || 0.0;
-                            const editPaymentByCash = settleWaiting?.paymentByCash || 0.0;
-                            const editOtherPayment = settleWaiting?.otherPayment || 0.0;
-                            const discountSettlement = settleWaiting?.discount || 0.0;
-                            const editPaymentByCreditCard = settleWaiting?.paymentByCreditCard || 0.0;
-                            const paymentByGiftcard = settleWaiting?.paymentByGiftcard || 0.0;
-                            const settleTotal = {
-                                paymentByHarmony: editPaymentByHarmony,
-                                paymentByCreditCard: editPaymentByCreditCard,
-                                paymentByCash: editPaymentByCash,
-                                otherPayment: editOtherPayment,
-                                discount: discountSettlement,
-                                paymentByCashStatistic: settleWaiting.paymentByCash
-                                  ? settleWaiting.paymentByCash
-                                  : 0.0,
-                                otherPaymentStatistic: settleWaiting.otherPayment
-                                  ? settleWaiting.otherPayment
-                                  : 0.0,
-                                paymentByGiftcard: paymentByGiftcard,
-                                total: roundFloatNumber(
-                                  formatNumberFromCurrency(editPaymentByHarmony) +
-                                    formatNumberFromCurrency(editPaymentByCreditCard) +
-                                    formatNumberFromCurrency(editPaymentByCash) +
-                                    formatNumberFromCurrency(editOtherPayment) +
-                                    formatNumberFromCurrency(discountSettlement) +
-                                    formatNumberFromCurrency(paymentByGiftcard)
-                                ),
-                                note: "",
-                                terminalID: null,
-                              };
-                            const body = { ...settleTotal, checkout: settleWaiting.checkout, isConnectPax: false, '[]' };
 
-                            this.setState({
-                                numberFooter: 2,
-                                errorMessage: '',
-                                paxErrorMessage: ''
-                            });
-                            setTimeout(() => {
+                            if (l.get(settleWaitingResponse, 'codeNumber') == 200) {
+                                const settleWaiting = l.get(settleWaitingResponse, "data");
+                                const editPaymentByHarmony = settleWaiting?.paymentByHarmony || 0.0;
+                                const editPaymentByCash = settleWaiting?.paymentByCash || 0.0;
+                                const editOtherPayment = settleWaiting?.otherPayment || 0.0;
+                                const discountSettlement = settleWaiting?.discount || 0.0;
+                                const editPaymentByCreditCard = settleWaiting?.paymentByCreditCard || 0.0;
+                                const paymentByGiftcard = settleWaiting?.paymentByGiftcard || 0.0;
+                                const settleTotal = {
+                                    paymentByHarmony: editPaymentByHarmony,
+                                    paymentByCreditCard: editPaymentByCreditCard,
+                                    paymentByCash: editPaymentByCash,
+                                    otherPayment: editOtherPayment,
+                                    discount: discountSettlement,
+                                    paymentByCashStatistic: editPaymentByCash,
+                                    otherPaymentStatistic: editOtherPayment,
+                                    paymentByGiftcard: paymentByGiftcard,
+                                    total: roundFloatNumber(
+                                    formatNumberFromCurrency(editPaymentByHarmony) +
+                                        formatNumberFromCurrency(editPaymentByCreditCard) +
+                                        formatNumberFromCurrency(editPaymentByCash) +
+                                        formatNumberFromCurrency(editOtherPayment) +
+                                        formatNumberFromCurrency(discountSettlement) +
+                                        formatNumberFromCurrency(paymentByGiftcard)
+                                    ),
+                                    note: "",
+                                    terminalID: null,
+                                };
+                                const body = { ...settleTotal, checkout: settleWaiting.checkout, isConnectPax: false, responseData: '[]' };
+
                                 this.setState({
-                                    progress: 0.5,
+                                    numberFooter: 2,
+                                    errorMessage: '',
+                                    paxErrorMessage: ''
                                 });
-                            }, 100);
+                                setTimeout(() => {
+                                    this.setState({
+                                        progress: 0.5,
+                                    });
+                                }, 100);
 
-                            this.props.actions.invoice.settleBatch(body);
+                                this.props.actions.invoice.settleBatch(body);
+                            }
+                            
                         });
                     } else {
                         //Pax
