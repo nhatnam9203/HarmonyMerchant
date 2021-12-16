@@ -9,8 +9,11 @@ import {
     localize,
     PaymentTerminalType,
     requestSettlementDejavoo,
-    stringIsEmptyOrWhiteSpaces,
+    roundFloatNumber,
+    requestAPI,
+    formatNumberFromCurrency,
   } from '@utils';
+  import Configs from "@configs";
 import * as l from "lodash";
 import { parseString } from "react-native-xml2js";
 
@@ -59,21 +62,28 @@ class TabSecondSettle extends Layout {
         clover.changeListenerStatus(true)
         this.subscriptions = [
           this.eventEmitter.addListener('closeoutSuccess', data => {
-           this.isProcessCloseBatchClover = false
-           this.props.actions.app.stopLoadingApp();
-           this.proccessingSettlement("[]");
+            if (this.isProcessCloseBatchClover) {
+                this.isProcessCloseBatchClover = false
+                this.props.actions.app.stopLoadingApp();
+                this.proccessingSettlement("[]");
+            }
+           
           }),
           this.eventEmitter.addListener('closeoutFail', data => {
-            this.props.actions.app.stopLoadingApp();
-            this.isProcessCloseBatchClover = false
-            this.setState({
-                numberFooter: 1,
-                progress: 0,
-            })
-            
-            this.props.actions.app.connectPaxMachineError(
-                l.get(data, 'errorMessage')
-              );
+              if (this.isProcessCloseBatchClover) {
+                this.props.actions.app.stopLoadingApp();
+                this.isProcessCloseBatchClover = false
+                this.setState({
+                    numberFooter: 1,
+                    progress: 0,
+                })
+                
+                this.props.actions.app.connectPaxMachineError(
+                    l.get(data, 'errorMessage')
+                );
+                
+                this.confirmSettleWithoutTerminalPayment()
+              }
            
            }),
           this.eventEmitter.addListener('pairingCode', data => {
@@ -105,6 +115,8 @@ class TabSecondSettle extends Layout {
                 this.props.actions.app.connectPaxMachineError(
                     localize("No connected device", language)
                   );
+                this.confirmSettleWithoutTerminalPayment()
+                clover.cancelTransaction();
             }
           }),
         ]
@@ -241,6 +253,7 @@ class TabSecondSettle extends Layout {
                     })
                     
                   this.props.actions.app.connectPaxMachineError(resultTxt);
+                  this.confirmSettleWithoutTerminalPayment()
                
                 } else {
                    
@@ -318,27 +331,98 @@ class TabSecondSettle extends Layout {
             }
 
         } else {
-            Alert.alert(
-                'Unable to connect to payment terminal or not found any transaction on your payment terminal, Do you want to continue without payment terminal?',
-                '',
-                [
-                    {
-                        text: 'Cancel',
-                        onPress: () => { },
-                        style: 'cancel'
-                    },
-                    { text: 'OK', onPress: () => this.proccessingSettlement() }
-                ],
-                { cancelable: false }
-            );
+            this.confirmSettleWithoutTerminalPayment()
         }
     }
 
+    confirmSettleWithoutTerminalPayment = () => {
+        const { paymentMachineType } = this.props;
+        Alert.alert(
+            'Unable to connect to payment terminal or not found any transaction on your payment terminal, Do you want to continue without payment terminal?',
+            '',
+            [
+                {
+                    text: 'Cancel',
+                    onPress: () => { },
+                    style: 'cancel'
+                },
+                { text: 'OK', onPress: () => {
+                    if (paymentMachineType != PaymentTerminalType.Pax) {
+                        const { token, deviceId, deviceName } = this.props.dataLocal;
+                        requestAPI({
+                            type: "GET_SETTLEMENT_WAITING",
+                            method: "GET",
+                            api: `${Configs.API_URL}settlement/waiting?sn=${null}`,
+                            token,
+                            deviceName,
+                            deviceId,
+                        }).then((settleWaitingResponse) => {
+
+                            if (l.get(settleWaitingResponse, 'codeNumber') == 200) {
+                                const settleWaiting = l.get(settleWaitingResponse, "data");
+                                const editPaymentByHarmony = settleWaiting?.paymentByHarmony || 0.0;
+                                const editPaymentByCash = settleWaiting?.paymentByCash || 0.0;
+                                const editOtherPayment = settleWaiting?.otherPayment || 0.0;
+                                const discountSettlement = settleWaiting?.discount || 0.0;
+                                const editPaymentByCreditCard = settleWaiting?.paymentByCreditCard || 0.0;
+                                const paymentByGiftcard = settleWaiting?.paymentByGiftcard || 0.0;
+                                const settleTotal = {
+                                    paymentByHarmony: editPaymentByHarmony,
+                                    paymentByCreditCard: editPaymentByCreditCard,
+                                    paymentByCash: editPaymentByCash,
+                                    otherPayment: editOtherPayment,
+                                    discount: discountSettlement,
+                                    paymentByCashStatistic: editPaymentByCash,
+                                    otherPaymentStatistic: editOtherPayment,
+                                    paymentByGiftcard: paymentByGiftcard,
+                                    total: roundFloatNumber(
+                                    formatNumberFromCurrency(editPaymentByHarmony) +
+                                        formatNumberFromCurrency(editPaymentByCreditCard) +
+                                        formatNumberFromCurrency(editPaymentByCash) +
+                                        formatNumberFromCurrency(editOtherPayment) +
+                                        formatNumberFromCurrency(discountSettlement) +
+                                        formatNumberFromCurrency(paymentByGiftcard)
+                                    ),
+                                    note: "",
+                                    terminalID: null,
+                                };
+                                const body = { ...settleTotal, checkout: settleWaiting.checkout, isConnectPax: false, responseData: '[]' };
+
+                                this.setState({
+                                    numberFooter: 2,
+                                    errorMessage: '',
+                                    paxErrorMessage: ''
+                                });
+                                setTimeout(() => {
+                                    this.setState({
+                                        progress: 0.5,
+                                    });
+                                }, 100);
+
+                                this.props.actions.invoice.settleBatch(body);
+                            }
+                            
+                        });
+                    } else {
+                        //Pax
+                        this.proccessingSettlement("[]")
+                    }
+                } }
+            ],
+            { cancelable: false }
+        );
+    }
+
     proccessingSettlement = async (responseData) => {
-        const { settleWaiting, connectPAXStatus } = this.props;
+        const { 
+            settleWaiting, 
+            connectPAXStatus, 
+            paymentMachineType 
+        } = this.props;
         const { settleTotal } = this.state;
         const { status, message } = connectPAXStatus;
         const isConnectPax = status && message && message == "( Payment terminal successfully connected! )" ? true : false;
+     
         const body = { ...settleTotal, checkout: settleWaiting.checkout, isConnectPax, responseData };
 
         this.setState({
@@ -410,6 +494,7 @@ class TabSecondSettle extends Layout {
 }
 
 const mapStateToProps = state => ({
+    dataLocal: state.dataLocal,
     language: state.dataLocal.language,
     paxMachineInfo: state.hardware.paxMachineInfo,
     settleWaiting: state.invoice.settleWaiting,

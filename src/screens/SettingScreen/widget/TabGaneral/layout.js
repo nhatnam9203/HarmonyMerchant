@@ -206,8 +206,8 @@ class Layout extends React.Component {
             </View>
           </View>
 
-          {/* ------- Is Custom Service !de build #7 ------ */}
-          {/* <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
+          {/* ------- Is Custom Service ------ */}
+          <View style={{ flexDirection: "row", marginTop: scaleSize(8) }}>
             <View style={{ width: scaleSize(180), justifyContent: "center" }}>
               <Text
                 style={{
@@ -233,7 +233,7 @@ class Layout extends React.Component {
                 value={isCustomService}
               />
             </View>
-          </View> */}
+          </View>
 
           {/* ------- Print Receipt Auto When Pay  ------ */}
 

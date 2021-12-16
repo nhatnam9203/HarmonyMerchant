@@ -125,7 +125,6 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
   };
 
   const disableAddBasket = React.useCallback(() => {
-    // console.log(optionsQty);
 
     if (isCheckQty && quantity <= 0) return true;
     if (!product) return true;
@@ -143,7 +142,9 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
     if (isCheckQty) {
       if (optionsQty && optionsQty.quantity < quantity) {
         return true;
-      } else if (quantity > _.get(product, "quantity", 0)) return true;
+      } else if (quantity > _.get(product, "quantity", 0) && !optionsQty) {
+        return true;
+      } 
     }
 
     return false;

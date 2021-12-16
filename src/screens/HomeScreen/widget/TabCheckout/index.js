@@ -2994,6 +2994,7 @@ class TabCheckout extends Layout {
     clover.changeListenerStatus(true);
     this.subscriptions = [
       this.eventEmitter.addListener("paymentSuccess", (data) => {
+        console.log("paymentSuccess")
         this.isProcessPaymentClover = false;
         this.handleResponseCreditCardForCloverSuccess(data);
       }),
@@ -3039,6 +3040,7 @@ class TabCheckout extends Layout {
           this.handleResponseCreditCardForCloverFailed(
             localize("No connected device", language)
           );
+          clover.cancelTransaction();
         }
         if (this.isProcessPrintClover) {
           this.isProcessPrintClover = false;
