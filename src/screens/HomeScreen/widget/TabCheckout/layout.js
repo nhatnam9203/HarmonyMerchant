@@ -392,6 +392,7 @@ class Layout extends React.Component {
       customService,
       profile,
       isBookingFromCalendar,
+      blockAppointments,
     } = this.props;
     const {
       isShowColAmount,
@@ -446,6 +447,8 @@ class Layout extends React.Component {
               {isCustomService 
               && !isBookingFromAppointmentTab 
               && categoryTypeSelected != "Product"
+              && blockAppointments.length == 0
+              && customService
               && (
                 <ItemProductService
                   key="custom_service"
