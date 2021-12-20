@@ -69,6 +69,9 @@ export const useProps = ({
   const groupAppointment = useSelector(
     (state) => state.appointment.groupAppointment
   );
+  const appointmentDetailData = useSelector(
+    (state) => state.appointment.appointmentDetail
+  );
   const paymentDetailInfo = useSelector(
     (state) => state.appointment.paymentDetailInfo
   );
@@ -963,7 +966,7 @@ export const useProps = ({
     onCompleteBack();
   };
 
-  openCashDrawer = async () => {
+  const openCashDrawer = async () => {
     const { portName } = getInfoFromModelNameOfPrinter(
       printerList,
       printerSelect
@@ -1020,6 +1023,11 @@ export const useProps = ({
       );
     }
   }, [appointmentId]);
+
+  React.useEffect(() => {
+    setAppointmentDetail(appointmentDetailData);
+  }, [appointmentDetailData]);
+
 
   React.useEffect(() => {
     const { codeStatus, message, data } = appointmentGet || {};
