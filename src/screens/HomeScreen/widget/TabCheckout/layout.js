@@ -445,6 +445,7 @@ class Layout extends React.Component {
               keyboardShouldPersistTaps="always"
             >
               {isCustomService 
+              && !isBookingFromCalendar
               && !isBookingFromAppointmentTab 
               && categoryTypeSelected != "Product"
               && blockAppointments.length == 0
