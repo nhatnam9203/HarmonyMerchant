@@ -191,6 +191,13 @@ export const BasketPaymentContent = React.forwardRef(
           onDiscountItemAdd(item);
         }
       };
+
+      const discounts = _.map(_.get(item, 'discounts'), itemDiscount => {
+        const type = itemDiscount?.type == "Item" ? "Discount Item:" : "Promotion:"
+        const value = _.get(itemDiscount, 'value')
+        return `${type} ${formatMoneyWithUnit(value)}`
+      })
+      
       return (
         <TouchableOpacity onPress={onHandleAddDiscount}>
           <View style={styles.productItem} key={item.key + ""}>
@@ -217,10 +224,23 @@ export const BasketPaymentContent = React.forwardRef(
               <View style={layouts.marginVertical} />
 
               {item?.discount && (
-                <Text
-                  style={styles.totalInfoText}
-                >{`Discount: ${formatMoneyWithUnit(item?.totalDiscount)}`}</Text>
+                <View>
+                  <Text
+                    style={styles.totalInfoText}
+                  >
+                    {`Discount: ${formatMoneyWithUnit(item?.totalDiscount)}`}
+                  </Text>
+                  {item?.discounts?.length > 0 &&
+                  <Text
+                    style={styles.descriptionText}
+                  >
+                    {`(${discounts.toString()})`}
+                  </Text>
+                  }
+                </View>
+                
               )}
+               
             </View>
             <Text style={styles.productItemQuantity}>{`${item?.quantity} ${t(
               "items"
@@ -394,6 +414,15 @@ const styles = StyleSheet.create({
   totalInfoText: {
     fontFamily: fonts.REGULAR,
     fontSize: scaleFont(15),
+    fontWeight: "normal",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.GREYISH_BROWN,
+  },
+  descriptionText: {
+    fontFamily: fonts.REGULAR,
+    fontSize: scaleFont(12),
     fontWeight: "normal",
     fontStyle: "normal",
     letterSpacing: 0,
