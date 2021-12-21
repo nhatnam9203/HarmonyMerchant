@@ -436,6 +436,7 @@ const localization = {
     "Auth Key": "Auth Key",
     "Register ID": "Register ID",
     "Your transaction is invalid": "Your transaction is invalid",
+    "ManualDiscountNote": "(Note: Manual Discount will replace Promotion Discount)"
   },
   vi: {},
 };

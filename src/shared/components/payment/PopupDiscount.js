@@ -29,16 +29,16 @@ const manualType = {
   percentType: "percentType",
 };
 
-const DiscountOptions = [
-  { id: 5, value: 5, label: "5%" },
-  { id: 10, value: 10, label: "10%" },
-  { id: 15, value: 15, label: "15%" },
-  { id: 20, value: 20, label: "20%" },
-  { id: 25, value: 25, label: "25%" },
-  { id: 30, value: 30, label: "30%" },
-  { id: 50, value: 50, label: "50%" },
-  { id: 100, value: 100, label: "100%" },
-];
+// const DiscountOptions = [
+//   { id: 5, value: 5, label: "5%" },
+//   { id: 10, value: 10, label: "10%" },
+//   { id: 15, value: 15, label: "15%" },
+//   { id: 20, value: 20, label: "20%" },
+//   { id: 25, value: 25, label: "25%" },
+//   { id: 30, value: 30, label: "30%" },
+//   { id: 50, value: 50, label: "50%" },
+//   { id: 100, value: 100, label: "100%" },
+// ];
 
 class PopupDiscount extends React.Component {
   constructor(props) {
@@ -239,20 +239,8 @@ class PopupDiscount extends React.Component {
         visibleModalDiscount && !_.isEmpty(groupAppointment) ? true : false;
 
       let total = 0;
-      for (let i = 0; i < discount.length; i++) {
-        total =
-          formatNumberFromCurrency(total) +
-          formatNumberFromCurrency(discount[i].discount);
-      }
-
-      if (visible && this.customDiscountRef.current) {
-        total =
-          formatNumberFromCurrency(total) +
-          formatNumberFromCurrency(
-            this.customDiscountRef.current?.state.discount
-          );
-      }
-
+      let discountItemsTotal = 0;
+     
       if (discountItems) {
         for (let i = 0; i < discountItems.length; i++) {
           const itemTemp = discountItems[i];
@@ -275,7 +263,22 @@ class PopupDiscount extends React.Component {
                     )) /
                     100
                 );
-          total = total + discountAmount;
+          discountItemsTotal = discountItemsTotal + discountAmount;
+          total = discountItemsTotal;
+        }
+      }
+
+      if (visible && this.customDiscountRef.current && this.customDiscountRef.current?.state.discount > 0) {
+        total =
+          formatNumberFromCurrency(total) +
+          formatNumberFromCurrency(
+            this.customDiscountRef.current?.state.discount
+          );
+      } else {
+        for (let i = 0; i < discount.length; i++) {
+          total =
+            formatNumberFromCurrency(total) +
+            formatNumberFromCurrency(discount[i].discount);
         }
       }
 
@@ -396,12 +399,8 @@ class PopupDiscount extends React.Component {
                     customDiscountPercent={temptCustomDiscountPercent}
                     customDiscountFixed={temptCustomDiscountFixed}
                     total={formatNumberFromCurrency(
-                      !_.isEmpty(appointmentDetail) &&
-                        appointmentDetail &&
-                        appointmentDetail.subTotal
-                        ? appointmentDetail.subTotal
-                        : 0
-                    )}
+                        appointmentDetail?.subTotal - discountItemsTotal
+                    ) || 0}
                     onChangeText={(
                       moneyDiscountByPercent,
                       moneyDiscountFixed
@@ -415,24 +414,24 @@ class PopupDiscount extends React.Component {
                   />
 
                   {/* -----------  Discount by Owner, Discount by staff  ----------- */}
-                  <View style={[styles.viewRowContainer, { marginTop: 25 }]}>
+                  {/* <View style={[styles.viewRowContainer, { marginTop: 25 }]}>
                     <Text style={styles.textNormal}>
                       {localize("Discount by Owner", language)}
                     </Text>
                     <Text style={styles.textNormal}>
                       {localize("Discount by Staff", language)}
                     </Text>
-                  </View>
+                  </View> */}
 
                   {/* ----------Money discount of staff, owner------------ */}
-                  <View style={styles.viewRowContainer}>
+                  {/* <View style={styles.viewRowContainer}>
                     <Text
                       style={styles.textNormal}
                     >{`$ ${discountMoneyByOwner}`}</Text>
                     <Text
                       style={styles.textNormal}
                     >{`$ ${discountMoneyByStaff}`}</Text>
-                  </View>
+                  </View> */}
                   {/* ----------Slider------------ */}
                   {/* <Slider
                     style={styles.slider}
@@ -467,16 +466,16 @@ class PopupDiscount extends React.Component {
                     step={25}
                   /> */}
 
-                  <View style={styles.viewRowContainer}>
+                  {/* <View style={styles.viewRowContainer}>
                     <Text
                       style={styles.textNormal}
                     >{`${this.state.discountByOwner}%`}</Text>
                     <Text
                       style={styles.textNormal}
                     >{`${discountByStaff}%`}</Text>
-                  </View>
+                  </View> */}
 
-                  <View
+                  {/* <View
                     style={{
                       flexDirection: "row",
                       marginTop: scaleSize(10),
@@ -518,7 +517,7 @@ class PopupDiscount extends React.Component {
                         </TouchableOpacity>
                       );
                     })}
-                  </View>
+                  </View> */}
 
                   {/* ----------- Note  ----------- */}
                   <View style={{ marginTop: 20 }}>
@@ -771,9 +770,15 @@ class CustomDiscount extends React.Component {
         : styles.backgroundButtonUnSelected;
     return (
       <View>
-        <Text style={styles.textNormal}>
-          {localize("Manual Discount", language)}
-        </Text>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Text style={styles.textNormal}>
+            {localize("Manual Discount", language)}
+          </Text>
+          <Text style={styles.discountNote}>
+            {localize("ManualDiscountNote", language)}
+          </Text>
+        </View>
+        
         <View style={styles.viewRowContainer}>
           <View style={styles.viewGroupRow}>
             <TouchableHighlight
@@ -844,6 +849,11 @@ const styles = StyleSheet.create({
   textNormal: {
     color: colors.BROWNISH_GREY,
     fontSize: scaleSize(16),
+  },
+  discountNote:{
+    color: 'red',
+    fontSize: scaleSize(13),
+    marginLeft: scaleSize(5),
   },
   discountTypeButton: {
     paddingTop: 10,

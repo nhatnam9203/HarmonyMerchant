@@ -280,8 +280,7 @@ function* customPromotion(action) {
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
       if (!action.isBlock) {
-        action.isGroup
-          ? yield put({
+         yield put({
               type: "GET_GROUP_APPOINTMENT_BY_ID",
               method: "GET",
               api: `appointment/getGroupById/${
@@ -289,7 +288,7 @@ function* customPromotion(action) {
               }`,
               token: true,
             })
-          : yield put({
+         yield put({
               type: "GET_APPOINTMENT_BY_ID",
               method: "GET",
               api: `appointment/${action.appointmentid}`,
@@ -334,6 +333,13 @@ function* customPromotionItem(action) {
         api: `appointment/getGroupById/${
           action?.appointmentid || "customPromotion"
         }`,
+        token: true,
+      });
+
+      yield put({
+        type: "GET_APPOINTMENT_BY_ID",
+        method: "GET",
+        api: `appointment/${action.appointmentid}`,
         token: true,
       });
     } else if (parseInt(codeNumber) === 401) {

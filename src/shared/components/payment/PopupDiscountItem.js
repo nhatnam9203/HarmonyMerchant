@@ -50,7 +50,7 @@ class PopupDiscountItem extends React.Component {
     const customFixedAmount =
       this.customDiscountItemRef.current.state.fixedAmount;
     if (!_.isEmpty(appointmentItem)) {
-      const subTotal = appointmentItem?.subTotal || 0;
+      const subTotal = (appointmentItem?.price * appointmentItem?.quantity) || 0;
       const discount = appointmentItem?.discount || 0;
 
       let manualDiscount = 0;
@@ -137,7 +137,6 @@ class PopupDiscountItem extends React.Component {
     } = this.props;
     const visible = visibleModalDiscountItem;
 
-    const tempHeight = checkIsTablet() ? scaleSize(390) : scaleSize(400);
     const discountItem = l.find(discountItems, (findItem) => {
       return (
         l.get(findItem, "bookingProductId") ==
@@ -162,13 +161,13 @@ class PopupDiscountItem extends React.Component {
       >
         <View
           style={{
-            height: tempHeight,
+            height: scaleSize(200),
             backgroundColor: "#fff",
             borderBottomLeftRadius: scaleSize(15),
             borderBottomRightRadius: scaleSize(15),
           }}
         >
-          <View style={{ height: scaleSize(300) }}>
+          <View>
             <ScrollView ref={this.scrollRef} keyboardShouldPersistTaps="always">
               {/* ----------- Row 1 ----------- */}
               <CustomDiscount
@@ -176,7 +175,7 @@ class PopupDiscountItem extends React.Component {
                 customDiscountPercent={temptCustomDiscountPercent}
                 customDiscountFixed={temptCustomDiscountFixed}
                 total={formatNumberFromCurrency(
-                  l.get(appointmentItem, "subTotal")
+                  l.get(appointmentItem, "price") * l.get(appointmentItem, "quantity")
                 )}
                 // total={formatNumberFromCurrency(!_.isEmpty(appointmentDetail) && appointmentDetail && appointmentDetail.subTotal ? appointmentDetail.subTotal : 0)}
                 onChangeText={(moneyDiscountByPercent, moneyDiscountFixed) =>
