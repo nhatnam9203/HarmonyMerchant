@@ -109,22 +109,6 @@ class PopupDiscount extends React.Component {
             )
           : { subTotal: 0 };
       const subTotal = appointmentDetail?.subTotal || 0;
-      let totalDiscount = 0;
-      for (let i = 0; i < discount.length; i++) {
-        totalDiscount =
-          formatNumberFromCurrency(totalDiscount) +
-          formatNumberFromCurrency(discount[i].discount);
-      }
-      totalDiscount =
-        formatNumberFromCurrency(totalDiscount) +
-        formatNumberFromCurrency(customFixedAmount);
-      const moneyDiscountCustom =
-        (formatNumberFromCurrency(customDiscountPercent) *
-          formatNumberFromCurrency(subTotal)) /
-        100;
-      totalDiscount =
-        formatNumberFromCurrency(totalDiscount) +
-        formatNumberFromCurrency(moneyDiscountCustom);
 
       // Tính discount cho product item
       let productItemDiscount = 0;
@@ -142,6 +126,33 @@ class PopupDiscount extends React.Component {
           0
         );
       }
+
+      let totalDiscount = 0;
+     
+      let manualDiscount = formatNumberFromCurrency(manualDiscount) +
+                          formatNumberFromCurrency(customFixedAmount);
+
+      //calculate discount percent after apply discount items (-productItemDiscount)
+      const moneyDiscountCustom =
+        (formatNumberFromCurrency(customDiscountPercent) *
+          (formatNumberFromCurrency(subTotal) - productItemDiscount)) /
+        100;
+        manualDiscount =
+        formatNumberFromCurrency(manualDiscount) +
+        formatNumberFromCurrency(moneyDiscountCustom);
+
+      //just apply discount for manual or promotion, not both
+      if(manualDiscount > 0) {
+        totalDiscount = manualDiscount
+      } else {
+        for (let i = 0; i < discount.length; i++) {
+          totalDiscount =
+            formatNumberFromCurrency(totalDiscount) +
+            formatNumberFromCurrency(discount[i].discount);
+        }
+      }
+
+      
 
       if (
         formatNumberFromCurrency(totalDiscount) +
@@ -161,7 +172,9 @@ class PopupDiscount extends React.Component {
           customFixedAmount,
           discountByOwner,
           appointmentIdUpdatePromotion,
-          true
+          true,
+          false,
+          true,
         );
         this.props.actions.marketing.addPromotionNote(
           appointmentDetail.appointmentId,

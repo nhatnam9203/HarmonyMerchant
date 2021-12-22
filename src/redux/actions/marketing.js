@@ -114,7 +114,8 @@ export function customPromotion(
   discountByOwner,
   appointmentid,
   isGroup = false,
-  isBlock = false
+  isBlock = false,
+  isRetailer = false,
 ) {
   return {
     type: "CUSTOM_PROMOTION",
@@ -129,6 +130,7 @@ export function customPromotion(
     appointmentid,
     isGroup,
     isBlock,
+    isRetailer,
   };
 }
 

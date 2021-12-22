@@ -70,7 +70,7 @@ export const useProps = ({
     (state) => state.appointment.groupAppointment
   );
   const appointmentDetailData = useSelector(
-    (state) => state.appointment.appointmentDetail
+    (state) => state.appointment.appointmentRetailerDetail
   );
   const paymentDetailInfo = useSelector(
     (state) => state.appointment.paymentDetailInfo
@@ -995,6 +995,12 @@ export const useProps = ({
   };
 
   React.useEffect(() => {
+    if(appointmentDetailData) {
+      setAppointmentDetail(appointmentDetailData);
+    }
+  }, [appointmentDetailData]);
+
+  React.useEffect(() => {
     if (orderItem?.appointmentId) {
       setAppointmentDetail(orderItem);
       dispatch(
@@ -1023,10 +1029,6 @@ export const useProps = ({
       );
     }
   }, [appointmentId]);
-
-  React.useEffect(() => {
-    setAppointmentDetail(appointmentDetailData);
-  }, [appointmentDetailData]);
 
 
   React.useEffect(() => {
