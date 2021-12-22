@@ -51,19 +51,19 @@ class PopupDiscountItem extends React.Component {
       this.customDiscountItemRef.current.state.fixedAmount;
     if (!_.isEmpty(appointmentItem)) {
       const subTotal = (appointmentItem?.price * appointmentItem?.quantity) || 0;
-      const discount = appointmentItem?.discount || 0;
+      // const discount = appointmentItem?.discount || 0;
 
-      let manualDiscount = 0;
-      // console.log(groupAppointment);
-      if (groupAppointment?.appointments?.length > 0) {
-        const { customDiscountPercent = 0, customDiscountFixed = 0 } =
-          groupAppointment?.appointments[0];
-        const customMoneyByPercent =
-          (formatNumberFromCurrency(customDiscountPercent) *
-            formatNumberFromCurrency(subTotal)) /
-          100;
-        manualDiscount = customMoneyByPercent ?? customDiscountFixed;
-      }
+      // let manualDiscount = 0;
+      // // console.log(groupAppointment);
+      // if (groupAppointment?.appointments?.length > 0) {
+      //   const { customDiscountPercent = 0, customDiscountFixed = 0 } =
+      //     groupAppointment?.appointments[0];
+      //   const customMoneyByPercent =
+      //     (formatNumberFromCurrency(customDiscountPercent) *
+      //       formatNumberFromCurrency(subTotal)) /
+      //     100;
+      //   manualDiscount = customMoneyByPercent ?? customDiscountFixed;
+      // }
 
       let totalDiscount = 0;
 
@@ -79,9 +79,7 @@ class PopupDiscountItem extends React.Component {
         formatNumberFromCurrency(moneyDiscountCustom);
 
       if (
-        formatNumberFromCurrency(totalDiscount) +
-          formatNumberFromCurrency(manualDiscount) +
-          formatNumberFromCurrency(discount) >
+        formatNumberFromCurrency(totalDiscount) >
         formatNumberFromCurrency(subTotal)
       ) {
         Alert.alert(
@@ -100,6 +98,8 @@ class PopupDiscountItem extends React.Component {
         this.props.actions.marketing.closeModalDiscountItem();
         this.resetState();
       }
+
+   
     }
   };
 

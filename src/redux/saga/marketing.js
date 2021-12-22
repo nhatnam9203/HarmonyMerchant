@@ -280,6 +280,8 @@ function* customPromotion(action) {
     const { codeNumber } = responses;
     if (parseInt(codeNumber) == 200) {
       if (!action.isBlock) {
+        action.isGroup
+        ?
          yield put({
               type: "GET_GROUP_APPOINTMENT_BY_ID",
               method: "GET",
@@ -288,12 +290,22 @@ function* customPromotion(action) {
               }`,
               token: true,
             })
-         yield put({
+          : yield put({
               type: "GET_APPOINTMENT_BY_ID",
               method: "GET",
               api: `appointment/${action.appointmentid}`,
               token: true,
             });
+        
+        if (action.isRetailer) {
+          yield put({
+            type: "GET_APPOINTMENT_RETAILER_BY_ID",
+            method: "GET",
+            api: `retailer/appointment/${action.appointmentid}`,
+            token: true,
+          });
+        }
+
       } else {
         yield put({
           type: "GET_BLOCK_APPOINTMENT_BY_ID",
@@ -337,9 +349,9 @@ function* customPromotionItem(action) {
       });
 
       yield put({
-        type: "GET_APPOINTMENT_BY_ID",
+        type: "GET_APPOINTMENT_RETAILER_BY_ID",
         method: "GET",
-        api: `appointment/${action.appointmentid}`,
+        api: `retailer/appointment/${action.appointmentid}`,
         token: true,
       });
     } else if (parseInt(codeNumber) === 401) {

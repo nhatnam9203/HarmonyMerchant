@@ -4,6 +4,7 @@ import _ from "lodash";
 
 const initialState = {
   appointmentDetail: {},
+  appointmentRetailerDetail: {},
   isGetAppointmentSucces: false,
   visiblePaymentCompleted: false,
   isDonePayment: false,
@@ -94,6 +95,12 @@ function appointmentReducer(state = initialState, action) {
       return {
         ...state,
         appointmentDetail: action.payload,
+        isGetAppointmentSucces: true,
+      };
+    case "GET_APPOINTMENT_RETAILER_BY_ID_SUCCESS":
+      return {
+        ...state,
+        appointmentRetailerDetail: action.payload,
         isGetAppointmentSucces: true,
       };
     case "GET_GROUP_APPOINTMENT_BY_ID_SUCCESS":
