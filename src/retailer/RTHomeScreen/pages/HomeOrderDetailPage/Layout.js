@@ -551,7 +551,7 @@ export const Layout = ({
               "quantity",
               "subTotal",
               "tax",
-              "discount",
+              "totalDiscount",
               "total",
               // "returnQuantity",
               "status",
