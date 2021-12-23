@@ -2522,6 +2522,22 @@ class TabCheckout extends Layout {
     });
   };
 
+  removeBlockAppointment = (appointmentId) => {
+    const {customerInfoBuyAppointment,  profile} = this.props;
+
+    const customerId = customerInfoBuyAppointment.customerId
+            ? customerInfoBuyAppointment.customerId
+            : 0;
+
+    this.props.actions.appointment.cancleAppointment(
+      appointmentId,
+      profile.merchantId,
+      customerId,
+      true,
+      false
+    );
+  }
+
   addGiftCardIntoBlockAppointment = (code) => {
     const { isOpenBlockAppointmentId } = this.props;
     let isAppointmentIdOpen = "";
