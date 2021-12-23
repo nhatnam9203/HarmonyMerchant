@@ -52,15 +52,21 @@ class PopupBlockDiscount extends React.Component {
 
         // ---------- Check total ---------
         let totalDiscount = 0;
-        for (let i = 0; i < discount.length; i++) {
-            totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(discount[i].discount);
-        };
 
+        let manualDiscount = 0;
         const moneyDiscountCustom = (formatNumberFromCurrency(percentDiscountCustom) * formatNumberFromCurrency(subTotal) / 100);
 
-        totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(moneyDiscountFixedAmout);
-        totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(moneyDiscountCustom);
+        manualDiscount = formatNumberFromCurrency(manualDiscount) + formatNumberFromCurrency(moneyDiscountFixedAmout);
+        manualDiscount = formatNumberFromCurrency(manualDiscount) + formatNumberFromCurrency(moneyDiscountCustom);
 
+        if(manualDiscount > 0) {
+            totalDiscount = manualDiscount
+        } else {
+            for (let i = 0; i < discount.length; i++) {
+                totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(discount[i].discount);
+            };
+        }
+        
         if (formatNumberFromCurrency(totalDiscount) > formatNumberFromCurrency(subTotal)) {
             Alert.alert(
                 `Warning`,

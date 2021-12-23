@@ -76,13 +76,19 @@ class PopupDiscount extends React.Component {
             const appointmentDetail = appointmentIdUpdatePromotion !== -1 && !_.isEmpty(groupAppointment) && groupAppointment.appointments ? groupAppointment.appointments.find(appointment => appointment.appointmentId === appointmentIdUpdatePromotion) : { subTotal: 0 };
             const subTotal = appointmentDetail?.subTotal || 0;
             let totalDiscount = 0;
-            for (let i = 0; i < discount.length; i++) {
-                totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(discount[i].discount);
-            }
-            totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(customFixedAmount);
+            let manualDiscount = 0;
+            manualDiscount = formatNumberFromCurrency(manualDiscount) + formatNumberFromCurrency(customFixedAmount);
             const moneyDiscountCustom = (formatNumberFromCurrency(customDiscountPercent) * formatNumberFromCurrency(subTotal) / 100);
-            totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(moneyDiscountCustom);
+            manualDiscount = formatNumberFromCurrency(manualDiscount) + formatNumberFromCurrency(moneyDiscountCustom);
 
+            if (manualDiscount > 0) {
+                totalDiscount = manualDiscount
+            } else {
+                for (let i = 0; i < discount.length; i++) {
+                    totalDiscount = formatNumberFromCurrency(totalDiscount) + formatNumberFromCurrency(discount[i].discount);
+                }
+            }
+            
             if (formatNumberFromCurrency(totalDiscount) > formatNumberFromCurrency(subTotal)) {
                 Alert.alert(
                     `Warning`,
