@@ -144,7 +144,19 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct, appointment
     if (isCheckQty) {
       console.log('appointment', appointment)
       console.log('optionsQty', optionsQty)
-      if (optionsQty && optionsQty.quantity < quantity) {
+      const productOrder = _.find(_.get(appointment, 'products'), item => {
+        console.log('item', item)
+        console.log('check', JSON.stringify(_.get(item, 'attributeIds')), _.get(optionsQty, 'attributeIds'))
+        console.log(JSON.stringify(_.get(item, 'attributeIds')) == JSON.stringify(_.get(optionsQty, 'attributeIds')))
+        return JSON.stringify(_.get(item, 'attributeIds')) == JSON.stringify(_.get(optionsQty, 'attributeIds'))
+      } )
+      console.log('productOrder', productOrder)
+      let quantityTotal = quantity
+      if(productOrder) {
+        quantityTotal = quantityTotal + _.get(productOrder, 'quantity')
+      }
+
+      if (optionsQty && optionsQty.quantity < quantityTotal) {
         return true;
       } else if (quantity > _.get(product, "quantity", 0) && !optionsQty) {
         return true;
