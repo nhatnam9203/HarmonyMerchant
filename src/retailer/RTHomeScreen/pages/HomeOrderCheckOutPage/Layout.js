@@ -58,6 +58,7 @@ export const Layout = ({
   visiblePopupGiftCard,
   clearBasket,
   inputSearchRef,
+  appointment,
 }) => {
   const { t } = useTranslation();
 
@@ -243,7 +244,10 @@ export const Layout = ({
           </View>
         </View>
       </View>
-      <DialogProductDetail ref={productDetailRef} onAddProduct={onAddProduct} />
+      <DialogProductDetail 
+      ref={productDetailRef} 
+      onAddProduct={onAddProduct} 
+      appointment={appointment}/>
       <PopupActiveGiftCard
         key={"checkout"}
         ref={(ref) => (activeGiftCardRef.current = ref)}

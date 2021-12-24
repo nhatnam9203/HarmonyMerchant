@@ -16,7 +16,7 @@ const log = (obj, message = "") => {
   Logger.log(`[DialogProductDetail] ${message}`, obj);
 };
 
-export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
+export const DialogProductDetail = React.forwardRef(({ onAddProduct, appointment }, ref) => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const dialogRef = React.useRef(null);
@@ -140,9 +140,21 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct }, ref) => {
       return true;
 
     if (isCheckQty) {
-      if (optionsQty && optionsQty.quantity < quantity) {
+      const productOrder = _.find(_.get(appointment, 'products'), item => {
+        if (optionsQty) {
+          return JSON.stringify(_.get(item, 'attributeIds')) == JSON.stringify(_.get(optionsQty, 'attributeIds'))
+        } else {
+          return _.get(item, 'productId') == _.get(product, 'productId')
+        }
+      } )
+      let quantityTotal = quantity
+      if(productOrder) {
+        quantityTotal = quantityTotal + _.get(productOrder, 'quantity')
+      } 
+
+      if (optionsQty && optionsQty.quantity < quantityTotal) {
         return true;
-      } else if (quantity > _.get(product, "quantity", 0) && !optionsQty) {
+      } else if (quantityTotal > _.get(product, "quantity", 0) && !optionsQty) {
         return true;
       } 
     }
