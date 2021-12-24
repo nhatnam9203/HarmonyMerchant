@@ -131,8 +131,6 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct, appointment
     if (product?.quantities?.length > 0 && !optionsQty) return true;
     if (product?.options?.length > 0 && listFiltersOptionsQty?.length <= 0)
       return true;
-    console.log('product', product)
-    console.log('listFiltersOptionsQty', listFiltersOptionsQty)
 
     if (
       listFiltersOptionsQty?.length > 0 &&
@@ -153,7 +151,7 @@ export const DialogProductDetail = React.forwardRef(({ onAddProduct, appointment
       if(productOrder) {
         quantityTotal = quantityTotal + _.get(productOrder, 'quantity')
       } 
-      
+
       if (optionsQty && optionsQty.quantity < quantityTotal) {
         return true;
       } else if (quantityTotal > _.get(product, "quantity", 0) && !optionsQty) {
