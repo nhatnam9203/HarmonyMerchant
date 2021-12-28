@@ -195,7 +195,7 @@ export const useProps = ({
         appointmentTempUpdateProductItem(
           appointmentTempId,
           findItem?.bookingProductId,
-          { quantity: findItem?.quantity + productItem?.quantity }
+          { quantity: parseInt(findItem?.quantity) + parseInt(productItem?.quantity) }
         );
       } else {
         addItemAppointmentTemp(submitProducts[0]);
