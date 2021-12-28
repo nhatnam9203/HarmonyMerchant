@@ -1096,6 +1096,9 @@ export const getStaffNameForInvoice = (profileStaffLogin = {}, basket = []) => {
 
 export const hideCharactes = (str, numShow = 4) => {
   let temptStr = [];
+
+  if(!str) return ""
+  
   for (let i = parseInt(str.length - 1); i >= 0; i--) {
     if (temptStr.length < numShow) {
       temptStr.unshift(str[i]);
