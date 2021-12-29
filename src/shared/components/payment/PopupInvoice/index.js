@@ -72,6 +72,7 @@ export const PopupInvoice = React.forwardRef(
     const [paymentMachineType, setPaymentMachineType] = React.useState(null);
     const [isSalonApp, setIsSalonApp] = React.useState(false);
     const [fromAppointmentTab, setFromAppointmentTab] = React.useState(false);
+    const [checkoutId, setCheckoutId] = React.useState(null);
 
     /**
   |--------------------------------------------------
@@ -478,8 +479,17 @@ export const PopupInvoice = React.forwardRef(
 
         // call api get info
         await getGroupAppointment(appointmentId);
+
+       
         if (checkoutId) {
-          getInvoiceDetail(checkoutId);
+          setCheckoutId(checkoutId)
+           //if group checkout, there are array checkoutid 
+          let checkoutIdTemp = checkoutId
+          const arrayCheckoutId = checkoutId.split("-");
+          if(arrayCheckoutId && arrayCheckoutId.length > 0) {
+            checkoutIdTemp = arrayCheckoutId[0];
+          }
+          getInvoiceDetail(checkoutIdTemp);
         }
         await setIsProcessingPrint(true);
 
@@ -653,7 +663,7 @@ export const PopupInvoice = React.forwardRef(
                   )}
 
                   {/* ------------- Invoice No ----------- */}
-                  {invoiceDetail && (
+                  {checkoutId && (
                     <View style={styles.rowContent}>
                       <View style={{ width: scaleSize(90) }}>
                         <Text
@@ -665,7 +675,7 @@ export const PopupInvoice = React.forwardRef(
                       </View>
                       <View style={{ flex: 1 }}>
                         <Text style={[layouts.fontPrintStyle]}>
-                          {`: ${invoiceDetail?.invoiceNo ?? " "}`}
+                          {`: ${checkoutId ?? " "}`}
                         </Text>
                       </View>
                     </View>
