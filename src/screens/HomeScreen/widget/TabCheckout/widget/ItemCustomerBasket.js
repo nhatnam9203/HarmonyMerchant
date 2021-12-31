@@ -17,6 +17,7 @@ import IMAGE from '@resources';
 import styles from '../style';
 import ItemBasket from './ItemBasket';
 import connectRedux from '@redux/ConnectRedux';
+import * as l from "lodash";
 
 class ItemCustomerBasket extends React.Component {
 
@@ -87,7 +88,14 @@ class ItemCustomerBasket extends React.Component {
         if (checkoutPayments.length === 0) {
             const { appointmentDetail } = this.props;
             const appointmentId = _.isEmpty(groupAppointment) ? -1 : appointmentDetail.appointmentId;
-            this.props.showModalTipAppointment(appointmentId, tip, appointmentDetail?.subTotal || 0, tipPercent);
+            let totalGiftCard = 0;
+            if(appointmentDetail?.giftCards) {
+                for(let i=0; i<appointmentDetail?.giftCards.length; i++) {
+                    const giftCard = appointmentDetail?.giftCards[i]
+                    totalGiftCard = parseFloat(totalGiftCard) + parseFloat(l.get(giftCard, 'price'))
+                }
+            }
+            this.props.showModalTipAppointment(appointmentId, tip, appointmentDetail?.subTotal - totalGiftCard || 0, tipPercent);
         }
     }
 
