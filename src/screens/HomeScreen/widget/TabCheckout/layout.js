@@ -62,6 +62,7 @@ import {
   PopupEnterAmountCustomService,
 } from "./widget";
 import { StaffItem } from "./widget/NewCheckoutComponent";
+import { QRCodePay } from "@components/PaymentButtons";
 
 class Layout extends React.Component {
   renderHeader() {
@@ -444,28 +445,27 @@ class Layout extends React.Component {
               showsVerticalScrollIndicator={false}
               keyboardShouldPersistTaps="always"
             >
-              {isCustomService 
-              && !isBookingFromCalendar
-              && !isBookingFromAppointmentTab 
-              && categoryTypeSelected != "Product"
-              && blockAppointments.length == 0
-              && customService
-              && (
-                <ItemProductService
-                  key="custom_service"
-                  index={-1}
-                  item={Object.assign({}, customService, {
-                    name: "Custom service",
-                    category: categorySelected,
-                  })}
-                  colorText={temptColorHeader}
-                  itemSelected={productSeleted}
-                  categoryTypeSelected={categoryTypeSelected}
-                  isShowColAmount={isShowColAmount}
-                  groupAppointment={groupAppointment}
-                  showColAmount={this.showCustomServiceAmount}
-                />
-              )}
+              {isCustomService &&
+                !isBookingFromCalendar &&
+                !isBookingFromAppointmentTab &&
+                categoryTypeSelected != "Product" &&
+                blockAppointments.length == 0 &&
+                customService && (
+                  <ItemProductService
+                    key="custom_service"
+                    index={-1}
+                    item={Object.assign({}, customService, {
+                      name: "Custom service",
+                      category: categorySelected,
+                    })}
+                    colorText={temptColorHeader}
+                    itemSelected={productSeleted}
+                    categoryTypeSelected={categoryTypeSelected}
+                    isShowColAmount={isShowColAmount}
+                    groupAppointment={groupAppointment}
+                    showColAmount={this.showCustomServiceAmount}
+                  />
+                )}
               {data.map((item, index) => (
                 <ItemProductService
                   key={index}
@@ -967,7 +967,7 @@ class Layout extends React.Component {
   renderPaymetsMethod() {
     const { language } = this.props;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={[styles.payment_header, { paddingLeft: scaleSize(20) }]}>
           <Text
             style={[
@@ -1008,6 +1008,7 @@ class Layout extends React.Component {
               paymentSelected={this.state.paymentSelected}
             />
           ))}
+          <QRCodePay key="QRCodePay" />
         </View>
 
         {/* ------ Footer ----- */}

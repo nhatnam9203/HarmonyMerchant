@@ -1,0 +1,1 @@
+export { QRCodePay } from "./QRCodePay";

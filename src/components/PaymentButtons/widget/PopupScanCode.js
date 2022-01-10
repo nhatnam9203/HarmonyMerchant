@@ -9,7 +9,7 @@ import { RNCamera } from "react-native-camera";
 import QRCodeScanner from "react-native-qrcode-scanner";
 import { useDispatch } from "react-redux";
 
-export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
+export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const dialogRef = React.useRef(null);
@@ -18,10 +18,10 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
   const [value, setValue] = React.useState("");
 
   /**
-  |--------------------------------------------------
-  | CALL API
-  |--------------------------------------------------
-  */
+    |--------------------------------------------------
+    | CALL API
+    |--------------------------------------------------
+    */
   const onHandleSuccess = (e) => {
     const code = e?.data;
     dialogRef.current?.hide();
@@ -94,14 +94,14 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
             />
 
             <Text style={styles.textCamera}>
-              {t("Focus Camera on Barcode Or QR Code to Scan SKU Number")}
+              {t("Focus Camera on Barcode Or QR Code to Scan")}
             </Text>
           </View>
 
           <View style={styles.inputContent}>
             <FormInput
               // label={t("Input Barcode")}
-              placeholder={t("Enter  barcode")}
+              placeholder={t("Enter Code")}
               //required={true}
               onChangeValue={onChangeValue}
               defaultValue={""}
@@ -112,13 +112,13 @@ export const DialogScanQR = React.forwardRef(({ title, onSuccess }, ref) => {
             >
               {/* <View style={layouts.marginHorizontal} /> */}
               {/* <ButtonGradient
-                label={t("Submit")}
-                width={scaleWidth(140)}
-                height={scaleHeight(40)}
-                borderRadius={scaleWidth(3)}
-                disable={value?.length <= 0}
-                onPress={onHandleSubmit}
-              /> */}
+                  label={t("Submit")}
+                  width={scaleWidth(140)}
+                  height={scaleHeight(40)}
+                  borderRadius={scaleWidth(3)}
+                  disable={value?.length <= 0}
+                  onPress={onHandleSubmit}
+                /> */}
             </FormInput>
           </View>
         </View>
