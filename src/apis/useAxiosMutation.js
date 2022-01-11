@@ -1,8 +1,8 @@
 import { axios } from "@shared/services/api/axiosClient";
+import { appMerchant as app } from "@src/redux/slices";
 import React from "react";
 import { useMutation } from "react-query";
 import { useDispatch } from "react-redux";
-import { appMerchant as app } from "@src/redux/slices";
 
 export const useAxiosMutation = ({
   params,

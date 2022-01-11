@@ -1,4 +1,3 @@
-// import { appMerchant } from '@redux/slices';
 import { axios } from "@shared/services/api/axiosClient";
 import { appMerchant as app } from "@src/redux/slices";
 import React from "react";
@@ -45,15 +44,15 @@ export const useAxiosQuery = ({
         } else {
           if (response?.message) {
             dispatch(app.hideLoading());
-            dispatch(
-              app.setError({
-                isError: true,
-                messageError: response?.message,
-                errorType: "error",
-                titleError: "Alert",
-              })
-            );
-            if (onLoginError && typeof onLoginError == "function") {
+            // dispatch(
+            //   app.setError({
+            //     isError: true,
+            //     messageError: response?.message,
+            //     errorType: "error",
+            //     titleError: "Alert",
+            //   })
+            // );
+            if (onLoginError && typeof onLoginError === "function") {
               onLoginError(response?.message);
             }
           }
