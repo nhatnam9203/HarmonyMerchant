@@ -3,7 +3,7 @@ import { QRCodePayButton } from "./Layout";
 import { useProps } from "./useProps";
 import { PopupScanCode, PopupCardDetail } from "../widget";
 
-export const QRCodePay = () => {
+export const QRCodePay = ({ appointment }) => {
   const popupScanRef = React.useRef(null);
   const popupCardDetailRef = React.useRef(null);
 
@@ -18,8 +18,6 @@ export const QRCodePay = () => {
   const onResultScanCode = (data) => {
     setCode(data);
     // show loading
-
-    // // Test
   };
 
   React.useEffect(() => {
@@ -30,6 +28,10 @@ export const QRCodePay = () => {
     }
   }, [cardDetail]);
 
+  React.useEffect(() => {
+    console.log(appointment);
+  }, [appointment]);
+
   return (
     <>
       <QRCodePayButton onPress={onShowQRCodeScan} />
@@ -38,6 +40,7 @@ export const QRCodePay = () => {
         ref={popupCardDetailRef}
         onSuccess={onResultScanCode}
         cardDetail={cardDetail}
+        appointment={appointment}
       />
     </>
   );

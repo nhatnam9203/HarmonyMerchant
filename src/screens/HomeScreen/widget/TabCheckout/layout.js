@@ -965,7 +965,7 @@ class Layout extends React.Component {
   }
 
   renderPaymetsMethod() {
-    const { language } = this.props;
+    const { language, groupAppointment } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={[styles.payment_header, { paddingLeft: scaleSize(20) }]}>
@@ -1008,7 +1008,7 @@ class Layout extends React.Component {
               paymentSelected={this.state.paymentSelected}
             />
           ))}
-          <QRCodePay key="QRCodePay" />
+          <QRCodePay key="QRCodePay" appointment={groupAppointment} />
         </View>
 
         {/* ------ Footer ----- */}

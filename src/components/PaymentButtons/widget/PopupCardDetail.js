@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 
 export const PopupCardDetail = React.forwardRef(
-  ({ cardDetail, onSuccess }, ref) => {
+  ({ cardDetail, appointment, onSuccess }, ref) => {
     const [t] = useTranslation();
     const dialogRef = React.useRef(null);
 
@@ -57,7 +57,7 @@ export const PopupCardDetail = React.forwardRef(
 
             <Row>
               <Label text={t("Charge amount")} />
-              <TextValue text={t("$ 1.00")} />
+              <TextValue text={`${appointment?.total}`} />
             </Row>
             <Row>
               <Label text={t("Amount")} />
@@ -79,7 +79,7 @@ export const PopupCardDetail = React.forwardRef(
             </Row>
             <Row>
               <Label text={t("Amount due")} />
-              <TextValue text={t("$ 1.00")} />
+              <TextValue text={`${appointment?.paidAmount}`} />
             </Row>
             <View style={styles.margin} />
 
