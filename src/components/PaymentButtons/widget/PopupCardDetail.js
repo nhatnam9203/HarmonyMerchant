@@ -9,105 +9,107 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 
-export const PopupCardDetail = React.forwardRef(({ title, onSuccess }, ref) => {
-  const [t] = useTranslation();
-  const dialogRef = React.useRef(null);
+export const PopupCardDetail = React.forwardRef(
+  ({ cardDetail, onSuccess }, ref) => {
+    const [t] = useTranslation();
+    const dialogRef = React.useRef(null);
 
-  const textInputRef = React.useRef(null);
+    const textInputRef = React.useRef(null);
 
-  const [value, setValue] = React.useState("");
+    const [value, setValue] = React.useState("");
 
-  const onSubmitButtonPress = () => {};
+    const onSubmitButtonPress = () => {};
 
-  React.useImperativeHandle(ref, () => ({
-    show: () => {
-      dialogRef.current?.show();
-    },
-    hide: () => {
-      setValue("");
-      textInputRef.current?.clear();
-      dialogRef.current?.hide();
-    },
-  }));
+    React.useImperativeHandle(ref, () => ({
+      show: () => {
+        dialogRef.current?.show();
+      },
+      hide: () => {
+        setValue("");
+        textInputRef.current?.clear();
+        dialogRef.current?.hide();
+      },
+    }));
 
-  return (
-    <View>
-      <DialogLayout
-        title={title ?? t("Payment Card Details")}
-        ref={dialogRef}
-        style={styles.dialog}
-      >
-        <View style={styles.container}>
-          <View style={styles.margin} />
-          <Row>
-            <Label text={t("Serial Number")} />
-            <TextValue text={t("#233424234")} />
-          </Row>
-          <Row>
-            <Label text={t("Amount")} />
-            <TextValue text={t("$ 1.00")} />
-          </Row>
-
-          <View style={styles.margin} />
-          <View style={styles.line} />
-          <View style={styles.margin} />
-          <Title text={t("Payment details")} />
-          <View style={styles.margin} />
-
-          <Row>
-            <Label text={t("Charge amount")} />
-            <TextValue text={t("$ 1.00")} />
-          </Row>
-          <Row>
-            <Label text={t("Amount")} />
-            <View style={styles.payAmount}>
-              <FormInput
-                // label={t("Input Barcode")}
-                placeholder={t("Enter code here")}
-                //required={true}
-                onChangeValue={setValue}
-                defaultValue={""}
-                // editable={false}
-                textInputRef={textInputRef}
-                autoFocus={true}
-                showSoftInputOnFocus={false}
-              >
-                {/* <View style={layouts.marginHorizontal} /> */}
-              </FormInput>
-            </View>
-          </Row>
-          <Row>
-            <Label text={t("Amount due")} />
-            <TextValue text={t("$ 1.00")} />
-          </Row>
-          <View style={styles.margin} />
-
-          <View style={styles.buttonContent}>
-            <ButtonGradientWhite
-              label={t("Cancel")}
-              width={scaleWidth(120)}
-              height={scaleHeight(40)}
-              borderRadius={scaleWidth(3)}
-              disable={value?.length <= 0}
-              onPress={onSubmitButtonPress}
-            />
+    return (
+      <View>
+        <DialogLayout
+          title={t("Payment Card Details")}
+          ref={dialogRef}
+          style={styles.dialog}
+        >
+          <View style={styles.container}>
             <View style={styles.margin} />
-            <ButtonGradient
-              label={t("Submit")}
-              width={scaleWidth(120)}
-              height={scaleHeight(40)}
-              borderRadius={scaleWidth(3)}
-              disable={value?.length <= 0}
-              onPress={onSubmitButtonPress}
-            />
-          </View>
+            <Row>
+              <Label text={t("Serial Number")} />
+              <TextValue text={cardDetail?.name + " "} />
+            </Row>
+            <Row>
+              <Label text={t("Amount")} />
+              <TextValue text={cardDetail?.amount + " "} />
+            </Row>
 
-          <View style={styles.margin} />
-        </View>
-      </DialogLayout>
-    </View>
-  );
-});
+            <View style={styles.margin} />
+            <View style={styles.line} />
+            <View style={styles.margin} />
+            <Title text={t("Payment details")} />
+            <View style={styles.margin} />
+
+            <Row>
+              <Label text={t("Charge amount")} />
+              <TextValue text={t("$ 1.00")} />
+            </Row>
+            <Row>
+              <Label text={t("Amount")} />
+              <View style={styles.payAmount}>
+                <FormInput
+                  // label={t("Input Barcode")}
+                  placeholder={t("Enter code here")}
+                  //required={true}
+                  onChangeValue={setValue}
+                  defaultValue={""}
+                  // editable={false}
+                  textInputRef={textInputRef}
+                  autoFocus={true}
+                  showSoftInputOnFocus={false}
+                >
+                  {/* <View style={layouts.marginHorizontal} /> */}
+                </FormInput>
+              </View>
+            </Row>
+            <Row>
+              <Label text={t("Amount due")} />
+              <TextValue text={t("$ 1.00")} />
+            </Row>
+            <View style={styles.margin} />
+
+            <View style={styles.buttonContent}>
+              <ButtonGradientWhite
+                label={t("Cancel")}
+                width={scaleWidth(120)}
+                height={scaleHeight(40)}
+                borderRadius={scaleWidth(3)}
+                disable={value?.length <= 0}
+                onPress={onSubmitButtonPress}
+              />
+              <View style={styles.margin} />
+              <ButtonGradient
+                label={t("Submit")}
+                width={scaleWidth(120)}
+                height={scaleHeight(40)}
+                borderRadius={scaleWidth(3)}
+                disable={value?.length <= 0}
+                onPress={onSubmitButtonPress}
+              />
+            </View>
+
+            <View style={styles.margin} />
+          </View>
+        </DialogLayout>
+      </View>
+    );
+  }
+);
 
 const Row = ({ children }) => <View style={styles.row}>{children}</View>;
 const Label = ({ text }) => <Text style={styles.label}>{`${text}`}</Text>;

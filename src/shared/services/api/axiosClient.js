@@ -52,7 +52,7 @@ axios.interceptors.response.use(
         break;
       case 404: // not found
       case 400: // thieu field
-        if (codeStatus !== 2 && codeStatus !== 5) {
+        if (codeStatus !== 2 && codeStatus !== 5 && codeStatus !== 4) {
           // exception cho phone not exist -> checkout
           setTimeout(() => {
             alert(`${message}`);

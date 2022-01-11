@@ -9,7 +9,7 @@ export const QRCodePay = () => {
 
   const [code, setCode] = React.useState(null);
 
-  const {} = useProps({ code });
+  const { cardDetail } = useProps({ code });
 
   const onShowQRCodeScan = () => {
     popupScanRef.current?.show();
@@ -20,16 +20,25 @@ export const QRCodePay = () => {
     // show loading
 
     // // Test
-    // setTimeout(() => {
-    //   popupCardDetailRef.current?.show();
-    // }, 1200);
   };
+
+  React.useEffect(() => {
+    if (cardDetail) {
+      setTimeout(() => {
+        popupCardDetailRef.current?.show();
+      }, 600);
+    }
+  }, [cardDetail]);
 
   return (
     <>
       <QRCodePayButton onPress={onShowQRCodeScan} />
       <PopupScanCode ref={popupScanRef} onSuccess={onResultScanCode} />
-      <PopupCardDetail ref={popupCardDetailRef} onSuccess={onResultScanCode} />
+      <PopupCardDetail
+        ref={popupCardDetailRef}
+        onSuccess={onResultScanCode}
+        cardDetail={cardDetail}
+      />
     </>
   );
 };

@@ -5,12 +5,30 @@ import {
   useAxiosQuery,
 } from "@apis";
 
+export const CardType = {
+  GIFT_CARD: "GiftCard",
+  CUSTOMER_CARD: "HarmonyPay",
+};
+
 export const useProps = ({ code }) => {
+  const [cardDetail, setCardDetail] = React.useState(null);
+
   const [checkSerialNumberLoading, checkSerialNumber] = useAxiosQuery({
     ...checkGiftCardSerialNumber(code),
     enabled: false,
     onSuccess: (data, response) => {
       console.log(data);
+      if (data) {
+        setCardDetail({
+          cardType: CardType.GIFT_CARD,
+          amount: data.amount,
+          name: `#${data.serialNumber}`,
+          id: data.giftCardId,
+        });
+      }
+    },
+    onError: (e) => {
+      console.log(e);
     },
   });
 
@@ -19,6 +37,17 @@ export const useProps = ({ code }) => {
     enabled: false,
     onSuccess: (data, response) => {
       console.log(data);
+      if (data) {
+        setCardDetail({
+          cardType: CardType.CUSTOMER_CARD,
+          amount: data.amount,
+          name: data.userName,
+          id: data.userCardId,
+        });
+      }
+    },
+    onError: (e) => {
+      console.log(e);
     },
   });
 
@@ -29,7 +58,8 @@ export const useProps = ({ code }) => {
     }
   }, [code]);
   return {
-    checkSerialNumber,
     loading: checkSerialNumberLoading || checkConsumerPayTokenLoading,
+    cardDetail,
+    checkSerialNumber,
   };
 };

@@ -10,6 +10,7 @@ export const useAxiosQuery = ({
   params,
   queryId,
   onSuccess,
+  onError,
   onLoginError,
   isLoadingDefault = true,
   isStopLoading = false,
@@ -43,7 +44,7 @@ export const useAxiosQuery = ({
           }
         } else {
           if (response?.message) {
-            dispatch(app.hideLoading());
+            // dispatch(app.hideLoading());
             // dispatch(
             //   app.setError({
             //     isError: true,
@@ -52,21 +53,21 @@ export const useAxiosQuery = ({
             //     titleError: "Alert",
             //   })
             // );
-            if (onLoginError && typeof onLoginError === "function") {
-              onLoginError(response?.message);
+            if (onError && typeof onError === "function") {
+              onError(response);
             }
           }
         }
       },
       onError: (err) => {
-        console.log({ err });
-        console.log("end popint :", { params });
         if (
           err?.message &&
           onLoginError &&
           typeof onLoginError === "function"
         ) {
-          onLoginError(err?.message);
+          if (onError && typeof onError === "function") {
+            onError(response);
+          }
         }
       },
     } // disable fetch auto
