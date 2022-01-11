@@ -1,6 +1,6 @@
 import actions from "@redux/actions";
 import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
-import { DialogLayout } from "@shared/layouts";
+import { DialogLayout } from "../layouts";
 import { useGetCategoriesList } from "@shared/services/api/retailer";
 import { colors, fonts } from "@shared/themes";
 import React from "react";

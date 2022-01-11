@@ -8,6 +8,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import { RNCamera } from "react-native-camera";
 import QRCodeScanner from "react-native-qrcode-scanner";
 import { useDispatch } from "react-redux";
+import { CameraScreen, CameraType } from "react-native-camera-kit";
 
 export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
   const dispatch = useDispatch();
@@ -75,7 +76,7 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
       >
         <View style={styles.container}>
           <View style={styles.camera}>
-            <QRCodeScanner
+            {/* <QRCodeScanner
               //ref={this.scannerRef}
               onRead={onHandleSuccess}
               // cameraProps={{ flashMode: RNCamera.Constants.FlashMode.auto }}
@@ -91,11 +92,23 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
                   source={IMAGE["scan_marker"]}
                 />
               }
+            /> */}
+            <CameraScreen
+              // Barcode props
+              scanBarcode={true}
+              cameraType={CameraType.Front} // front/back(default)
+              onReadCode={(event) => Alert.alert("QR code found")} // optional
+              laserColor="#0764B0" // (default red) optional, color of laser in scanner frame
+              frameColor="white" // (default white) optional, color of border of scanner frame
+              showFrame={true} //(default false) optional, show frame with transparent layer (qr code or barcode will be read on this area ONLY), start animation for scanner,that stoped when find any code. Frame always at center of the screen
+              hideControls={true}
+              offsetForScannerFrame={400}
+              heightForScannerFrame={400}
+              // colorForScannerFrame={"blue"}
             />
-
-            <Text style={styles.textCamera}>
+            {/* <Text style={styles.textCamera}>
               {t("Focus Camera on Barcode Or QR Code to Scan")}
-            </Text>
+            </Text> */}
           </View>
 
           <View style={styles.inputContent}>
@@ -153,9 +166,6 @@ const styles = StyleSheet.create({
   camera: {
     width: scaleWidth(400),
     height: scaleHeight(400),
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#000",
   },
 
   qrStyle: {

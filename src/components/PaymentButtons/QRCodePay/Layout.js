@@ -24,6 +24,7 @@ export const QRCodePayButton = ({ selected = false }) => {
 
   const onResultScanCode = (data) => {
     console.log(data);
+
   };
 
   return (
