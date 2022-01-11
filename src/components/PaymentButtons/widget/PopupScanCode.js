@@ -1,70 +1,48 @@
-import IMAGE from "@resources";
-import { FormInput } from "@shared/components";
+import { ButtonGradient, FormInput } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, Text, View } from "react-native";
-import { RNCamera } from "react-native-camera";
-import QRCodeScanner from "react-native-qrcode-scanner";
-import { useDispatch } from "react-redux";
-import { CameraScreen, CameraType } from "react-native-camera-kit";
+import { StyleSheet, Text, View } from "react-native";
+import { CameraScreen } from "react-native-camera-kit";
 
 export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
-  const dispatch = useDispatch();
   const [t] = useTranslation();
   const dialogRef = React.useRef(null);
   const textInputRef = React.useRef(null);
 
   const [value, setValue] = React.useState("");
 
-  /**
-    |--------------------------------------------------
-    | CALL API
-    |--------------------------------------------------
-    */
-  const onHandleSuccess = (e) => {
-    const code = e?.data;
-    dialogRef.current?.hide();
-
-    if (typeof onSuccess === "function" && onSuccess) {
-      onSuccess(code);
-    }
-  };
-
-  const onHandleSubmit = () => {
-    dialogRef.current?.hide();
-    // console.log(`====> onHandleSubmit:  ${value}`);
-    if (typeof onSuccess === "function" && onSuccess) {
-      onSuccess(value);
-    }
+  const hidePopup = () => {
     setValue("");
     textInputRef.current?.clear();
+    dialogRef.current?.hide();
   };
 
-  const onChangeValue = (text) => {
-    setValue(text);
-    dialogRef.current?.hide();
-
+  const handleSubmit = (text) => {
     if (typeof onSuccess === "function" && onSuccess) {
       onSuccess(text);
     }
+  };
 
-    setTimeout(() => {
-      setValue("");
-      textInputRef.current?.clear();
-    }, 100);
+  const onSubmitButtonPress = (e) => {
+    handleSubmit(value);
+    hidePopup();
+  };
+
+  const onReadCode = (event) => {
+    if (event) {
+      const codeString = event.nativeEvent?.codeStringValue;
+      handleSubmit(codeString);
+    }
+    hidePopup();
   };
 
   React.useImperativeHandle(ref, () => ({
     show: () => {
-      setValue("");
       dialogRef.current?.show();
-      // textInputRef.current?.focus();
     },
-    hide: () => {
-      dialogRef.current?.hide();
-    },
+    hide: hidePopup,
   }));
 
   return (
@@ -76,47 +54,28 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
       >
         <View style={styles.container}>
           <View style={styles.camera}>
-            {/* <QRCodeScanner
-              //ref={this.scannerRef}
-              onRead={onHandleSuccess}
-              // cameraProps={{ flashMode: RNCamera.Constants.FlashMode.auto }}
-              flashMode={RNCamera.Constants.FlashMode.torch}
-              showMarker={true}
-              // reactivateTimeout={500}
-              containerStyle={styles.qrStyle}
-              cameraStyle={styles.qrStyle}
-              cameraType="back"
-              customMarker={
-                <Image
-                  style={styles.markerStyle}
-                  source={IMAGE["scan_marker"]}
-                />
-              }
-            /> */}
             <CameraScreen
-              // Barcode props
               scanBarcode={true}
-              cameraType={CameraType.Front} // front/back(default)
-              onReadCode={(event) => Alert.alert("QR code found")} // optional
+              onReadCode={onReadCode} // optional
               laserColor="#0764B0" // (default red) optional, color of laser in scanner frame
               frameColor="white" // (default white) optional, color of border of scanner frame
               showFrame={true} //(default false) optional, show frame with transparent layer (qr code or barcode will be read on this area ONLY), start animation for scanner,that stoped when find any code. Frame always at center of the screen
               hideControls={true}
               offsetForScannerFrame={400}
               heightForScannerFrame={400}
-              // colorForScannerFrame={"blue"}
+              colorForScannerFrame={"blue"}
             />
-            {/* <Text style={styles.textCamera}>
-              {t("Focus Camera on Barcode Or QR Code to Scan")}
-            </Text> */}
           </View>
-
+          <View style={styles.marginVertical} />
+          <Text style={styles.textCamera}>
+            {t("Please! Focus Camera on Barcode Or QR Code to Scan")}
+          </Text>
           <View style={styles.inputContent}>
             <FormInput
               // label={t("Input Barcode")}
-              placeholder={t("Enter Code")}
+              placeholder={t("Enter code here")}
               //required={true}
-              onChangeValue={onChangeValue}
+              onChangeValue={setValue}
               defaultValue={""}
               // editable={false}
               textInputRef={textInputRef}
@@ -124,14 +83,14 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
               showSoftInputOnFocus={false}
             >
               {/* <View style={layouts.marginHorizontal} /> */}
-              {/* <ButtonGradient
-                  label={t("Submit")}
-                  width={scaleWidth(140)}
-                  height={scaleHeight(40)}
-                  borderRadius={scaleWidth(3)}
-                  disable={value?.length <= 0}
-                  onPress={onHandleSubmit}
-                /> */}
+              <ButtonGradient
+                label={t("Submit")}
+                width={scaleWidth(120)}
+                height={scaleHeight(40)}
+                borderRadius={scaleWidth(3)}
+                disable={value?.length <= 0}
+                onPress={onSubmitButtonPress}
+              />
             </FormInput>
           </View>
         </View>
@@ -147,8 +106,8 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    justifyContent: "center",
-    alignItems: "center",
+    // justifyContent: "center",
+    // alignItems: "center",
   },
 
   row: { flexDirection: "row", alignItems: "center" },
@@ -164,7 +123,7 @@ const styles = StyleSheet.create({
   },
 
   camera: {
-    width: scaleWidth(400),
+    width: scaleWidth(440),
     height: scaleHeight(400),
   },
 
@@ -185,10 +144,12 @@ const styles = StyleSheet.create({
 
   textCamera: {
     ...layouts.fontLightBlue,
-    color: colors.WHITE,
+    color: colors.GREYISH_BROWN,
     fontSize: scaleFont(14),
     fontStyle: "italic",
     fontWeight: "400",
+    textAlign: "center",
+    width: "100%",
   },
 
   inputContent: {

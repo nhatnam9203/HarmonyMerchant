@@ -20,11 +20,11 @@ function goBack() {
   navigationRef.current?.goBack();
 }
 
-function setContainer(container: Object) {
+function setContainer(container) {
   _container = container;
 }
 
-function reset(routeName: string, params?: NavigationParams) {
+function reset(routeName, params) {
   _container.dispatch(
     StackActions.reset({
       index: 0,
@@ -44,12 +44,10 @@ function reset(routeName: string, params?: NavigationParams) {
 //   );
 // }
 
-function navigateDeep(
-  actions: { routeName: string, params?: NavigationParams }[]
-) {
+function navigateDeep(actions) {
   _container.dispatch(
     actions.reduceRight(
-      (prevAction, action): any =>
+      (prevAction, action) =>
         NavigationActions.navigate({
           type: "Navigation/NAVIGATE",
           routeName: action.routeName,
@@ -69,7 +67,7 @@ function back() {
   _container.dispatch(NavigationActions.back());
 }
 
-function getCurrentRoute(): NavigationRoute | null {
+function getCurrentRoute() {
   if (!_container || !_container.state.nav) {
     return null;
   }

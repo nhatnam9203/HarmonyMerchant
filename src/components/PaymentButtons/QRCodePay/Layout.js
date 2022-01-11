@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { PopupScanCode } from "../widget";
+import { PopupScanCode, PopupCardDetail } from "../widget";
 
 const backgroundImage = require("../Assets/images/pay_button_background.png");
 const iconImage = require("../Assets/images/harmony_payment.png");
@@ -16,15 +16,24 @@ const iconImage = require("../Assets/images/harmony_payment.png");
 export const QRCodePayButton = ({ selected = false }) => {
   const textColor = selected ? "#fff" : "#404040";
 
-  const popupRef = React.useRef(null);
+  const popupScanRef = React.useRef(null);
+  const popupCardDetailRef = React.useRef(null);
 
   const onShowQRCodeScan = () => {
-    popupRef.current?.show();
+    popupScanRef.current?.show();
   };
 
   const onResultScanCode = (data) => {
     console.log(data);
 
+    // check serial number if giftcard
+
+    // check consumer card
+
+    // Test
+    setTimeout(() => {
+      popupCardDetailRef.current?.show();
+    }, 1200);
   };
 
   return (
@@ -50,7 +59,8 @@ export const QRCodePayButton = ({ selected = false }) => {
           </ImageBackground>
         )}
       </Pressable>
-      <PopupScanCode ref={popupRef} onSuccess={onResultScanCode} />
+      <PopupScanCode ref={popupScanRef} onSuccess={onResultScanCode} />
+      <PopupCardDetail ref={popupCardDetailRef} onSuccess={onResultScanCode} />
     </>
   );
 };
