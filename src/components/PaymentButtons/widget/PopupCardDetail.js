@@ -1,6 +1,6 @@
 import {
   ButtonGradient,
-  FormInput,
+  FormInputMask,
   ButtonGradientWhite,
 } from "@shared/components";
 import { DialogLayout } from "@shared/layouts";
@@ -10,22 +10,28 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 
 export const PopupCardDetail = React.forwardRef(
-  ({ cardDetail, appointment, onSuccess }, ref) => {
+  ({ cardDetail, appointment, onCancel, onSuccess }, ref) => {
     const [t] = useTranslation();
     const dialogRef = React.useRef(null);
 
     const textInputRef = React.useRef(null);
 
-    const [value, setValue] = React.useState("");
+    const [payAmount, setPayAmount] = React.useState(0);
 
     const onSubmitButtonPress = () => {};
+
+    const onModalWillHide = () => {
+      if (onCancel && typeof onCancel === "function") {
+        onCancel();
+      }
+    };
 
     React.useImperativeHandle(ref, () => ({
       show: () => {
         dialogRef.current?.show();
       },
       hide: () => {
-        setValue("");
+        setPayAmount(0);
         textInputRef.current?.clear();
         dialogRef.current?.hide();
       },
@@ -37,6 +43,7 @@ export const PopupCardDetail = React.forwardRef(
           title={t("Payment Card Details")}
           ref={dialogRef}
           style={styles.dialog}
+          onModalWillHide={onModalWillHide}
         >
           <View style={styles.container}>
             <View style={styles.margin} />
@@ -62,19 +69,19 @@ export const PopupCardDetail = React.forwardRef(
             <Row>
               <Label text={t("Amount")} />
               <View style={styles.payAmount}>
-                <FormInput
+                <FormInputMask
                   // label={t("Input Barcode")}
-                  placeholder={t("Enter code here")}
+                  placeholder={t("Enter price")}
                   //required={true}
-                  onChangeValue={setValue}
-                  defaultValue={""}
+                  onChangeValue={setPayAmount}
+                  defaultValue={payAmount}
                   // editable={false}
                   textInputRef={textInputRef}
                   autoFocus={true}
                   showSoftInputOnFocus={false}
-                >
-                  {/* <View style={layouts.marginHorizontal} /> */}
-                </FormInput>
+                  keyboardType="numeric"
+                  textAlign="right"
+                />
               </View>
             </Row>
             <Row>
@@ -89,7 +96,6 @@ export const PopupCardDetail = React.forwardRef(
                 width={scaleWidth(120)}
                 height={scaleHeight(40)}
                 borderRadius={scaleWidth(3)}
-                disable={value?.length <= 0}
                 onPress={onSubmitButtonPress}
               />
               <View style={styles.margin} />
@@ -98,7 +104,7 @@ export const PopupCardDetail = React.forwardRef(
                 width={scaleWidth(120)}
                 height={scaleHeight(40)}
                 borderRadius={scaleWidth(3)}
-                disable={value?.length <= 0}
+                disable={payAmount?.length <= 0}
                 onPress={onSubmitButtonPress}
               />
             </View>
@@ -188,7 +194,7 @@ const styles = StyleSheet.create({
   },
 
   payAmount: {
-    width: "50%",
+    width: "40%",
   },
 
   line: {

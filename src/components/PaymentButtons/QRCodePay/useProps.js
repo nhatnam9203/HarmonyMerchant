@@ -55,6 +55,8 @@ export const useProps = ({ code }) => {
     if (code) {
       checkSerialNumber();
       checkPayToken();
+    } else {
+      setCardDetail(null);
     }
   }, [code]);
   return {

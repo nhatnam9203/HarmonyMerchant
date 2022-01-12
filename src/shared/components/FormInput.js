@@ -20,6 +20,7 @@ export const FormInput = ({
   showSoftInputOnFocus,
   onEndEditing,
   onBlur,
+  textAlign,
 }) => {
   const [t] = useTranslation();
   const onHandleChange = (text) => {
@@ -44,7 +45,7 @@ export const FormInput = ({
           textInputProps={{
             placeholder: placeholder ?? t("Input here"),
             fontSize: scaleFont(17),
-            textAlign: "left",
+            textAlign: textAlign ?? "left",
             defaultValue: defaultValue,
             onChangeText: onHandleChange,
             keyboardType: keyboardType,
@@ -79,10 +80,11 @@ export const FormInputMask = ({
     precision: 2,
     separator: ".",
     delimiter: ",",
-    unit: "",
+    unit: "$",
     suffixUnit: "",
   },
   type = "money",
+  textAlign,
 }) => {
   const [t] = useTranslation();
   const onHandleChange = (text) => {
@@ -107,7 +109,7 @@ export const FormInputMask = ({
           textInputProps={{
             placeholder: placeholder ?? t("Input here"),
             fontSize: scaleFont(17),
-            textAlign: "left",
+            textAlign: textAlign ?? "left",
             defaultValue: defaultValue,
             onChangeText: onHandleChange,
             keyboardType: keyboardType,
