@@ -8,7 +8,7 @@ import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
-import { formatNumberFromCurrency } from "@utils";
+import { formatNumberFromCurrency, formatMoneyWithUnit } from "@utils";
 
 export const PopupCardDetail = React.forwardRef(
   ({ cardDetail, appointment, onCancel, onSubmit }, ref) => {
@@ -18,6 +18,7 @@ export const PopupCardDetail = React.forwardRef(
     const textInputRef = React.useRef(null);
 
     const [payAmount, setPayAmount] = React.useState(0);
+    const [dueAmount, setDueAmount] = React.useState(0);
 
     const hidePopup = () => {
       setPayAmount(0);
@@ -26,6 +27,13 @@ export const PopupCardDetail = React.forwardRef(
     };
 
     const onSubmitButtonPress = () => {
+      if (payAmount <= 0) {
+        alert(t("Amount must greater than 0!"));
+        return;
+      }
+      // if (payAmount > formatNumberFromCurrency(total))
+      //   alert(t(`Amount must less than ${total}`));
+
       if (onSubmit && typeof onSubmit === "function") {
         onSubmit(formatNumberFromCurrency(payAmount));
       }
@@ -42,9 +50,32 @@ export const PopupCardDetail = React.forwardRef(
       }
     };
 
+    const onChangePaidAmount = (amount) => {
+      const { total = 0 } = appointment || {};
+      console.log(total);
+      console.log(amount);
+
+      setPayAmount(amount);
+      setDueAmount(
+        formatNumberFromCurrency(total) - formatNumberFromCurrency(amount)
+      );
+    };
+
+    // React.useEffect(() => {
+    //   if (appointment?.dueAmount) {
+    //     // setDueAmount(formatNumberFromCurrency(appointment?.dueAmount));
+    //     onChangePaidAmount(appointment?.dueAmount);
+    //   } else {
+    //     setDueAmount(0);
+    //   }
+    // }, [appointment]);
+
     React.useImperativeHandle(ref, () => ({
       show: () => {
         dialogRef.current?.show();
+        if (formatNumberFromCurrency(appointment?.dueAmount ?? 0) > 0) {
+          onChangePaidAmount(appointment?.dueAmount);
+        }
       },
       hide: () => {
         setPayAmount(0);
@@ -64,12 +95,18 @@ export const PopupCardDetail = React.forwardRef(
           <View style={styles.container}>
             <View style={styles.margin} />
             <Row>
-              <Label text={t("Serial Number")} />
+              <Label
+                text={
+                  cardDetail?.cardType === "GiftCard"
+                    ? t("Serial number")
+                    : t("Customer name")
+                }
+              />
               <TextValue text={cardDetail?.name + " "} />
             </Row>
             <Row>
               <Label text={t("Amount")} />
-              <TextValue text={`$${cardDetail?.amount}`} />
+              <TextValue text={`${formatMoneyWithUnit(cardDetail?.amount)}`} />
             </Row>
 
             <View style={styles.margin} />
@@ -80,7 +117,7 @@ export const PopupCardDetail = React.forwardRef(
 
             <Row>
               <Label text={t("Charge amount")} />
-              <TextValue text={`$${appointment?.total}`} />
+              <TextValue text={`${formatMoneyWithUnit(appointment?.total)}`} />
             </Row>
             <Row>
               <Label text={t("Amount")} />
@@ -89,7 +126,7 @@ export const PopupCardDetail = React.forwardRef(
                   // label={t("Input Barcode")}
                   placeholder={t("Enter price")}
                   //required={true}
-                  onChangeValue={setPayAmount}
+                  onChangeValue={onChangePaidAmount}
                   defaultValue={payAmount}
                   // editable={false}
                   textInputRef={textInputRef}
@@ -101,8 +138,11 @@ export const PopupCardDetail = React.forwardRef(
               </View>
             </Row>
             <Row>
-              <Label text={t("Amount due")} />
-              <TextValue text={`$${appointment?.dueAmount}`} />
+              <Label text={t("Amount due")} textColor={"red"} />
+              <TextValue
+                text={`${formatMoneyWithUnit(dueAmount)}`}
+                textColor={"red"}
+              />
             </Row>
             <View style={styles.margin} />
 
@@ -134,9 +174,17 @@ export const PopupCardDetail = React.forwardRef(
 );
 
 const Row = ({ children }) => <View style={styles.row}>{children}</View>;
-const Label = ({ text }) => <Text style={styles.label}>{`${text}`}</Text>;
+const Label = ({ text, textColor }) => (
+  <Text
+    style={[styles.label, textColor && { color: textColor }]}
+  >{`${text}`}</Text>
+);
 const Title = ({ text }) => <Text style={styles.title}>{`${text}`}</Text>;
-const TextValue = ({ text }) => <Text style={styles.value}>{`${text}`}</Text>;
+const TextValue = ({ text, textColor }) => (
+  <Text
+    style={[styles.value, textColor && { color: textColor }]}
+  >{`${text}`}</Text>
+);
 
 const styles = StyleSheet.create({
   dialog: {

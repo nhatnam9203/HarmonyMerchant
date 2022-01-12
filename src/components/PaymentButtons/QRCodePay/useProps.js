@@ -25,11 +25,15 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
   const [scanCode, setScanCode] = React.useState(null);
   const [checkOutSubmitId, setCheckOutSubmitId] = React.useState(null);
 
+  // cheat
+  const [checkGiftCardFail, setCheckGiftCardFail] = React.useState(false);
+  const [checkConsumerCodeFail, setCheckConsumerCodeFail] =
+    React.useState(false);
+
   const [checkSerialNumberLoading, checkSerialNumber] = useAxiosQuery({
     ...checkGiftCardSerialNumber(code),
     enabled: false,
     onSuccess: (data, response) => {
-      console.log(data);
       if (data) {
         setCardDetail({
           cardType: CardType.GIFT_CARD,
@@ -39,10 +43,14 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
         });
 
         setCardType(CardType.GIFT_CARD);
+        setCheckGiftCardFail(false);
+      } else {
+        setCheckGiftCardFail(true);
       }
     },
     onError: (e) => {
       console.log(e);
+      setCheckGiftCardFail(true);
     },
   });
 
@@ -50,7 +58,6 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
     ...checkConsumerPayToken(code),
     enabled: false,
     onSuccess: (data, response) => {
-      console.log(data);
       if (data) {
         setCardDetail({
           cardType: CardType.CUSTOMER_CARD,
@@ -60,17 +67,18 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
         });
 
         setCardType(CardType.CUSTOMER_CARD);
+        setCheckConsumerCodeFail(false);
+      } else {
+        setCheckConsumerCodeFail(true);
       }
     },
     onError: (e) => {
       console.log(e);
+      setCheckConsumerCodeFail(true);
     },
   });
 
   const getSubmitFunction = () => {
-    console.log(cardType);
-    console.log(code);
-
     if (cardType === CardType.CUSTOMER_CARD)
       return submitConsumerPayment(checkOutSubmitId, scanCode);
     return checkoutSubmit(checkOutSubmitId);
@@ -79,7 +87,6 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
   const [, paymentSubmit] = useAxiosMutation({
     ...getSubmitFunction(),
     onSuccess: (data, response) => {
-      console.log(data);
       // TODO: ??? need recode
       if (data?.checkoutPaymentResponse) {
         let { dueAmount = 0 } = data?.checkoutPaymentResponse;
@@ -106,7 +113,6 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
   const [, selectPayment] = useAxiosMutation({
     ...selectPaymentMethod(paymentInfo?.checkoutGroupId, paymentInfo),
     onSuccess: (data, response) => {
-      console.log(data);
       if (response?.codeNumber === 400) {
         alert(response?.message);
         //TODO: !!! hide dialog, close payment
@@ -129,8 +135,10 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
 
   React.useEffect(() => {
     if (code) {
+      // Check code valid
       checkSerialNumber();
       checkPayToken();
+
       setScanCode(code);
     } else {
       setCardDetail(null);
@@ -139,6 +147,11 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
 
   React.useEffect(() => {
     if (paymentInfo) {
+      // Reset check code
+      setCheckGiftCardFail(false);
+      setCheckConsumerCodeFail(false);
+
+      // Set Payment method
       selectPayment();
     } else {
     }
@@ -149,6 +162,14 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
       paymentSubmit();
     }
   }, [checkOutSubmitId]);
+
+  React.useEffect(() => {
+    if (checkGiftCardFail && checkConsumerCodeFail) {
+      alert(`Code is invalid!!!`);
+      setCheckGiftCardFail(false);
+      setCheckConsumerCodeFail(false);
+    }
+  }, [checkGiftCardFail, checkConsumerCodeFail]);
 
   return {
     loading: checkSerialNumberLoading || checkConsumerPayTokenLoading,
