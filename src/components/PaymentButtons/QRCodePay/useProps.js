@@ -4,6 +4,7 @@ import {
   checkConsumerPayToken,
   selectPaymentMethod,
   checkoutSubmit,
+  submitConsumerPayment,
   useAxiosQuery,
   useAxiosMutation,
 } from "@apis";
@@ -20,6 +21,8 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
   const dispatch = useDispatch();
 
   const [cardDetail, setCardDetail] = React.useState(null);
+  const [cardType, setCardType] = React.useState(null);
+  const [scanCode, setScanCode] = React.useState(null);
   const [checkOutSubmitId, setCheckOutSubmitId] = React.useState(null);
 
   const [checkSerialNumberLoading, checkSerialNumber] = useAxiosQuery({
@@ -34,6 +37,8 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
           name: `#${data.serialNumber}`,
           giftCardId: data.giftCardId,
         });
+
+        setCardType(CardType.GIFT_CARD);
       }
     },
     onError: (e) => {
@@ -53,6 +58,8 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
           name: data.userName,
           userCardId: data.userCardId,
         });
+
+        setCardType(CardType.CUSTOMER_CARD);
       }
     },
     onError: (e) => {
@@ -60,8 +67,17 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
     },
   });
 
-  const [, checkOutSubmit] = useAxiosMutation({
-    ...checkoutSubmit(checkOutSubmitId),
+  const getSubmitFunction = () => {
+    console.log(cardType);
+    console.log(code);
+
+    if (cardType === CardType.CUSTOMER_CARD)
+      return submitConsumerPayment(checkOutSubmitId, scanCode);
+    return checkoutSubmit(checkOutSubmitId);
+  };
+
+  const [, paymentSubmit] = useAxiosMutation({
+    ...getSubmitFunction(),
     onSuccess: (data, response) => {
       console.log(data);
       // TODO: ??? need recode
@@ -69,12 +85,12 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
         let { dueAmount = 0 } = data?.checkoutPaymentResponse;
 
         dueAmount = formatNumberFromCurrency(dueAmount);
-        console.log(dueAmount);
         dispatch(
           actions.appointment.updatePaymentInfoByHarmonyPayment(
             data?.checkoutPaymentResponse
           )
         );
+        resetAll();
         if (dueAmount == 0) {
           // ----- Transaction Completed --------
           dispatch(actions.appointment.completeTransaction());
@@ -106,10 +122,16 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
     },
   });
 
+  const resetAll = () => {
+    setCardDetail(null);
+    setScanCode(null);
+  };
+
   React.useEffect(() => {
     if (code) {
       checkSerialNumber();
       checkPayToken();
+      setScanCode(code);
     } else {
       setCardDetail(null);
     }
@@ -124,7 +146,7 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
 
   React.useEffect(() => {
     if (checkOutSubmitId) {
-      checkOutSubmit();
+      paymentSubmit();
     }
   }, [checkOutSubmitId]);
 
