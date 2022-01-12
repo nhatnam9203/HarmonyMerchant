@@ -2,14 +2,16 @@ import React from "react";
 import { QRCodePayButton } from "./Layout";
 import { useProps } from "./useProps";
 import { PopupScanCode, PopupCardDetail } from "../widget";
+import { PAYMENT_METHOD, getPaymentString } from "../utils";
 
-export const QRCodePay = ({ appointment }) => {
+export const QRCodePay = ({ appointment, onPaidAppointment }) => {
   const popupScanRef = React.useRef(null);
   const popupCardDetailRef = React.useRef(null);
 
   const [code, setCode] = React.useState(null);
+  const [paymentInfo, setPaymentInfo] = React.useState(null);
 
-  const { cardDetail } = useProps({ code });
+  const { cardDetail } = useProps({ code, paymentInfo, onPaidAppointment });
 
   const onShowQRCodeScan = () => {
     popupScanRef.current?.show();
@@ -22,6 +24,17 @@ export const QRCodePay = ({ appointment }) => {
 
   const onPopupCardDetailCancel = () => {
     setCode(null);
+  };
+
+  const onPayAppointment = (amount) => {
+    if (appointment?.checkoutGroupId) {
+      setPaymentInfo({
+        checkoutGroupId: appointment?.checkoutGroupId,
+        amount: amount,
+        method: getPaymentString(cardDetail?.cardType),
+        giftCardId: cardDetail?.giftCardId ?? 0,
+      });
+    }
   };
 
   React.useEffect(() => {
@@ -42,7 +55,7 @@ export const QRCodePay = ({ appointment }) => {
       <PopupScanCode ref={popupScanRef} onSuccess={onResultScanCode} />
       <PopupCardDetail
         ref={popupCardDetailRef}
-        onSuccess={onResultScanCode}
+        onSubmit={onPayAppointment}
         onCancel={onPopupCardDetailCancel}
         cardDetail={cardDetail}
         appointment={appointment}

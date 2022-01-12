@@ -8,9 +8,10 @@ import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
+import { formatNumberFromCurrency } from "@utils";
 
 export const PopupCardDetail = React.forwardRef(
-  ({ cardDetail, appointment, onCancel, onSuccess }, ref) => {
+  ({ cardDetail, appointment, onCancel, onSubmit }, ref) => {
     const [t] = useTranslation();
     const dialogRef = React.useRef(null);
 
@@ -18,7 +19,22 @@ export const PopupCardDetail = React.forwardRef(
 
     const [payAmount, setPayAmount] = React.useState(0);
 
-    const onSubmitButtonPress = () => {};
+    const hidePopup = () => {
+      setPayAmount(0);
+      textInputRef.current?.clear();
+      dialogRef.current?.hide();
+    };
+
+    const onSubmitButtonPress = () => {
+      if (onSubmit && typeof onSubmit === "function") {
+        onSubmit(formatNumberFromCurrency(payAmount));
+      }
+      hidePopup();
+    };
+
+    const onCancelButtonPress = () => {
+      hidePopup();
+    };
 
     const onModalWillHide = () => {
       if (onCancel && typeof onCancel === "function") {
@@ -53,7 +69,7 @@ export const PopupCardDetail = React.forwardRef(
             </Row>
             <Row>
               <Label text={t("Amount")} />
-              <TextValue text={cardDetail?.amount + " "} />
+              <TextValue text={`$${cardDetail?.amount}`} />
             </Row>
 
             <View style={styles.margin} />
@@ -64,7 +80,7 @@ export const PopupCardDetail = React.forwardRef(
 
             <Row>
               <Label text={t("Charge amount")} />
-              <TextValue text={`${appointment?.total}`} />
+              <TextValue text={`$${appointment?.total}`} />
             </Row>
             <Row>
               <Label text={t("Amount")} />
@@ -86,7 +102,7 @@ export const PopupCardDetail = React.forwardRef(
             </Row>
             <Row>
               <Label text={t("Amount due")} />
-              <TextValue text={`${appointment?.paidAmount}`} />
+              <TextValue text={`$${appointment?.dueAmount}`} />
             </Row>
             <View style={styles.margin} />
 
@@ -96,7 +112,7 @@ export const PopupCardDetail = React.forwardRef(
                 width={scaleWidth(120)}
                 height={scaleHeight(40)}
                 borderRadius={scaleWidth(3)}
-                onPress={onSubmitButtonPress}
+                onPress={onCancelButtonPress}
               />
               <View style={styles.margin} />
               <ButtonGradient

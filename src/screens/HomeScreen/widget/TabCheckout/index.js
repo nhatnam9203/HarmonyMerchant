@@ -2523,11 +2523,11 @@ class TabCheckout extends Layout {
   };
 
   removeBlockAppointment = (appointmentId) => {
-    const {customerInfoBuyAppointment,  profile} = this.props;
+    const { customerInfoBuyAppointment, profile } = this.props;
 
     const customerId = customerInfoBuyAppointment.customerId
-            ? customerInfoBuyAppointment.customerId
-            : 0;
+      ? customerInfoBuyAppointment.customerId
+      : 0;
 
     this.props.actions.appointment.cancleAppointment(
       appointmentId,
@@ -2536,7 +2536,7 @@ class TabCheckout extends Layout {
       true,
       false
     );
-  }
+  };
 
   addGiftCardIntoBlockAppointment = (code) => {
     const { isOpenBlockAppointmentId } = this.props;
@@ -3010,7 +3010,7 @@ class TabCheckout extends Layout {
     clover.changeListenerStatus(true);
     this.subscriptions = [
       this.eventEmitter.addListener("paymentSuccess", (data) => {
-        console.log("paymentSuccess")
+        console.log("paymentSuccess");
         this.isProcessPaymentClover = false;
         this.handleResponseCreditCardForCloverSuccess(data);
       }),
@@ -3115,6 +3115,8 @@ class TabCheckout extends Layout {
       }
     );
   };
+
+  onCodePayPaidAppointment = () => {};
 }
 
 const mapStateToProps = (state) => ({

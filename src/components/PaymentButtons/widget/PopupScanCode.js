@@ -48,7 +48,7 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
   return (
     <View>
       <DialogLayout
-        title={title ?? t("Scan QR code")}
+        title={title ?? t("HarmonyPay - Gift Card")}
         ref={dialogRef}
         style={styles.dialog}
       >

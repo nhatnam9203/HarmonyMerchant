@@ -1008,7 +1008,11 @@ class Layout extends React.Component {
               paymentSelected={this.state.paymentSelected}
             />
           ))}
-          <QRCodePay key="QRCodePay" appointment={groupAppointment} />
+          <QRCodePay
+            key="QRCodePay"
+            appointment={groupAppointment}
+            onPaidAppointment={this.onCodePayPaidAppointment}
+          />
         </View>
 
         {/* ------ Footer ----- */}
