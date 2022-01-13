@@ -40,7 +40,10 @@ export const QRCodePayButton = ({ selected = false, onPress }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0,
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    // backgroundColor: "red",
   },
 
   background: {

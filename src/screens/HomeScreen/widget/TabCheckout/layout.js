@@ -1000,19 +1000,20 @@ class Layout extends React.Component {
           ))}
         </View>
         <View style={styles.box_payment_container}>
-          {["Gift Card"].map((title, index) => (
+          {/* {["Gift Card"].map((title, index) => (
             <ItemPaymentMethod
               key={index}
               title={title}
               selectedPayment={this.selectedPayment}
               paymentSelected={this.state.paymentSelected}
             />
-          ))}
+          ))} */}
           <QRCodePay
             key="QRCodePay"
             appointment={groupAppointment}
             onPaidAppointment={this.onCodePayPaidAppointment}
           />
+          <View style={{ flex: 1 }} />
         </View>
 
         {/* ------ Footer ----- */}

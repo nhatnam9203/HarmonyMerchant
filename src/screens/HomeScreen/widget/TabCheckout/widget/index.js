@@ -69,45 +69,47 @@ const ItemPaymentMethod = ({ title, selectedPayment, paymentSelected }) => {
   const tempTitleMarginTop = isTablet ? scaleSize(2) : scaleSize(8);
 
   return (
-    <Button
-      onPress={() => selectedPayment(title)}
-      style={[
-        {
-          width: scaleSize(190),
-          height: tempHeight,
-          backgroundColor: "#fff",
-          justifyContent: "center",
-          alignItems: "center",
-          borderRadius: 8,
-          ...Platform.select({
-            ios: {
-              shadowColor: "#000",
-              shadowOffset: { width: 0, height: 3 },
-              shadowOpacity: 0.25,
-              shadowRadius: 4,
-            },
-            android: {
-              elevation: 2,
-            },
-          }),
-        },
-        temptBackground,
-      ]}
-    >
-      <Image source={ICON[tempLogo]} style={icon_style} />
-      <Text
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Button
+        onPress={() => selectedPayment(title)}
         style={[
           {
-            fontSize: scaleSize(13),
-            color: "#404040",
-            marginTop: tempTitleMarginTop,
+            width: scaleWidth(250),
+            height: scaleHeight(120),
+            backgroundColor: "#fff",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 8,
+            ...Platform.select({
+              ios: {
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 3 },
+                shadowOpacity: 0.25,
+                shadowRadius: 4,
+              },
+              android: {
+                elevation: 2,
+              },
+            }),
           },
-          temptTextColor,
+          temptBackground,
         ]}
       >
-        {title}
-      </Text>
-    </Button>
+        <Image source={ICON[tempLogo]} style={icon_style} />
+        <Text
+          style={[
+            {
+              fontSize: scaleSize(13),
+              color: "#404040",
+              marginTop: tempTitleMarginTop,
+            },
+            temptTextColor,
+          ]}
+        >
+          {title}
+        </Text>
+      </Button>
+    </View>
   );
 };
 
