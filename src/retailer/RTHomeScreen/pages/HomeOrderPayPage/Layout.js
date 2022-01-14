@@ -166,7 +166,7 @@ export const Layout = ({
   };
 
   return (
-    <ParentContainer handleLockScreen={() => {}} navigation={navigation}>
+    <>
       <View style={layouts.fill}>
         <View style={styles.headContent}>
           <CheckOutCustomerInfo
@@ -183,7 +183,7 @@ export const Layout = ({
               fontSize={scaleFont(17)}
               textWeight="normal"
               onPress={onGoBackCheckOut}
-              // onPress={onGoBackOrderList}
+            // onPress={onGoBackOrderList}
             >
               <Image source={IMAGE.back} />
             </ButtonGradientWhite>
@@ -388,9 +388,9 @@ export const Layout = ({
         onRequestClose={onRequestCloseScanCode}
         resultScanCode={resultScanCode}
       />
-      
-      <PopupInvoice ref={invoiceRef} 
-        cancelInvoicePrint={cancelInvoicePrint} 
+
+      <PopupInvoice ref={invoiceRef}
+        cancelInvoicePrint={cancelInvoicePrint}
         doPrintClover={doPrintClover} />
 
       <PopupChangeTip
@@ -403,7 +403,7 @@ export const Layout = ({
       />
 
       <PopupPayCompleted
-        onRequestClose={() => {}}
+        onRequestClose={() => { }}
         printBill={printBill}
         donotPrintBill={donotPrintBill}
       />
@@ -429,7 +429,7 @@ export const Layout = ({
         nextPayment={nextPayment}
         cancelGiftCardPayment={cancelGiftCardPayment}
       />
-    </ParentContainer>
+    </>
   );
 };
 

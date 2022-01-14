@@ -20,6 +20,7 @@ export const QRCodePay = ({ appointment, onPaidAppointment }) => {
   const onResultScanCode = (data) => {
     setCode(data);
     // show loading
+
   };
 
   const onPopupCardDetailCancel = () => {
@@ -46,7 +47,7 @@ export const QRCodePay = ({ appointment, onPaidAppointment }) => {
   }, [cardDetail]);
 
   React.useEffect(() => {
-    console.log(appointment);
+    // console.log(appointment);
   }, [appointment]);
 
   return (

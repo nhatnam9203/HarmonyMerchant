@@ -1,11 +1,9 @@
 import { StatusBarHeader } from "@components";
 import { createStackNavigator } from "@react-navigation/stack";
-import { PermissionChecker } from "@shared/components";
 import { ButtonDrawer } from "@shared/components/ButtonDrawer";
 import { HeaderToolBar } from "@shared/components/HeaderToolBar";
 import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
 import { colors } from "@shared/themes";
-import { menuTabs } from "@utils";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -42,12 +40,7 @@ export const Layout = ({
         <Screen {...StaffCheckInList} />
       </Navigator>
 
-      {/* <PermissionChecker
-        navigation={navigation}
-        tabName={menuTabs.MENU_STAFF_LOGTIME}
-        tabPermission={tabPermission}
-        togglePopupPermission={togglePopupPermission}
-      /> */}
+
     </View>
   );
 };

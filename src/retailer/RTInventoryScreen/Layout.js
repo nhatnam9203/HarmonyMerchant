@@ -8,14 +8,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import {
-  InventoryEditCategoryPage,
+  InventoryAdjustQtyPage, InventoryEditCategoryPage,
   InventoryEditProductPage,
   InventoryListPage,
-  InventoryProductDetailPage,
-  InventoryAdjustQtyPage,
+  InventoryProductDetailPage
 } from "./pages";
-import { PermissionChecker } from "@shared/components";
-import { menuTabs } from "@utils";
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -51,12 +48,7 @@ export const Layout = ({
         <Screen {...InventoryEditProductPage} />
         <Screen {...InventoryAdjustQtyPage} />
       </Navigator>
-      {/* <PermissionChecker
-        navigation={navigation}
-        tabName={menuTabs.MENU_INVENTORY}
-        tabPermission={tabPermission}
-        togglePopupPermission={togglePopupPermission}
-      /> */}
+
     </View>
   );
 };

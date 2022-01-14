@@ -3,8 +3,10 @@ import { DialogLayout } from "@shared/layouts";
 import { colors, fonts, layouts } from "@shared/themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, View } from "react-native";
-import { CameraScreen } from "react-native-camera-kit";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { RNCamera } from "react-native-camera";
+import QRCodeScanner from "react-native-qrcode-scanner";
+import IMAGE from "@resources";
 
 export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
   const [t] = useTranslation();
@@ -21,6 +23,7 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
 
   const handleSubmit = (text) => {
     if (typeof onSuccess === "function" && onSuccess) {
+      console.log(text);
       onSuccess(text);
     }
   };
@@ -32,7 +35,8 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
 
   const onReadCode = (event) => {
     if (event) {
-      const codeString = event.nativeEvent?.codeStringValue;
+      // const codeString = event.nativeEvent?.codeStringValue;
+      const codeString = event?.data;
       handleSubmit(codeString);
     }
     hidePopup();
@@ -54,7 +58,7 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
       >
         <View style={styles.container}>
           <View style={styles.camera}>
-            <CameraScreen
+            {/* <CameraScreen
               scanBarcode={true}
               onReadCode={onReadCode} // optional
               laserColor="#0764B0" // (default red) optional, color of laser in scanner frame
@@ -64,6 +68,23 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
               offsetForScannerFrame={400}
               heightForScannerFrame={400}
               colorForScannerFrame={"blue"}
+            /> */}
+            <QRCodeScanner
+              //ref={this.scannerRef}
+              onRead={onReadCode}
+              cameraProps={{ flashMode: RNCamera.Constants.FlashMode.auto }}
+              flashMode={RNCamera.Constants.FlashMode.torch}
+              showMarker={true}
+              // reactivateTimeout={500}
+              containerStyle={styles.qrStyle}
+              cameraStyle={styles.qrStyle}
+              cameraType="back"
+              customMarker={
+                <Image
+                  style={styles.markerStyle}
+                  source={IMAGE["scan_marker"]}
+                />
+              }
             />
           </View>
           <View style={styles.marginVertical} />
@@ -123,8 +144,10 @@ const styles = StyleSheet.create({
   },
 
   camera: {
-    width: scaleWidth(440),
+    width: scaleWidth(400),
     height: scaleHeight(400),
+    backgroundColor: '#000',
+    alignSelf: 'center'
   },
 
   qrStyle: {
@@ -133,8 +156,8 @@ const styles = StyleSheet.create({
   },
 
   markerStyle: {
-    width: "80%",
-    height: "80%",
+    width: "90%",
+    height: "90%",
     resizeMode: "contain",
   },
 

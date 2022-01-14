@@ -3,11 +3,11 @@ import {
   ButtonCustom,
   Dropdown,
   StatusBarHeader,
-  Text,
+  Text
 } from "@components";
 import { createStackNavigator } from "@react-navigation/stack";
 import ICON from "@resources";
-import { PermissionChecker } from "@shared/components";
+import { PopupCheckPermission } from "@shared/components";
 import { ButtonDrawer } from "@shared/components/ButtonDrawer";
 import { HeaderToolBar } from "@shared/components/HeaderToolBar";
 import { HeaderToolBarTitle } from "@shared/components/HeaderToolBarTitle";
@@ -21,22 +21,20 @@ import {
   Image,
   StyleSheet,
   TextInput,
-  View,
+  View
 } from "react-native";
 import { Block } from "./components";
 import {
   CustomerDetailPage,
   CustomerListPage,
   EditCustomerAddressPage,
-  EditCustomerPage,
+  EditCustomerPage
 } from "./pages";
 import {
   HeaderTableCustomer,
   RowEmptyTableCustomer,
-  RowTableCustomer,
+  RowTableCustomer
 } from "./widget";
-import { PopupCheckStaffPermission } from "@components";
-import { PopupCheckPermission } from "@shared/components";
 
 const { Screen, Navigator } = createStackNavigator();
 

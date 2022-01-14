@@ -2,30 +2,45 @@
  * RetailerNavigator (App Retailer)
  *
  */
+import actions from "@actions";
+import { ParentContainer } from '@components';
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { useIsFocused } from "@react-navigation/native";
 import IMAGE from "@resources";
 import {
   CustomDrawerContent,
-  CustomDrawerIcon,
+  CustomDrawerIcon
 } from "@shared/components/CustomDrawerContent";
 import { RTCustomerScreen } from "@src/retailer/RTCustomerScreen";
 import { RTHomeScreen } from "@src/retailer/RTHomeScreen";
 import { RTInventoryScreen } from "@src/retailer/RTInventoryScreen";
-// import { RTReportsScreen } from "@src/retailer/RTReportsScreen";
 import { RTSettingsScreen } from "@src/retailer/RTSettingsScreen";
-import { RTStaffCheckIn } from "@src/retailer/RTStaffCheckIn";
 import React from "react";
-import { SettlementScreen, SupportScreen, InvoiceScreen } from "../screens";
-import actions from "@actions";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ReportScreen } from "../merchant/ReportScreen";
+import { InvoiceScreen, SettlementScreen, SupportScreen } from "../screens";
 
 const { Screen, Navigator } = createDrawerNavigator();
 
-export const RetailerNavigator = () => {
+export const RetailerNavigator = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const profile = useSelector((state) => state.dataLocal.profile);
+
+  const isFocused = useIsFocused();
+
+  const handleLockScreen = () => {
+    if (isFocused) {
+      // go to home
+
+
+      // lock screen
+    }
+  }
+
+  const clearIntervalById = () => {
+
+  }
 
   React.useEffect(() => {
     if (profile?.merchantId) {
@@ -33,57 +48,62 @@ export const RetailerNavigator = () => {
     }
   }, [profile?.merchantId]);
 
+
+
   return (
-    <Navigator
-      headerMode="none"
-      // initialRouteName={"retailer.reports"} //!! add to developer, remove when finished
-      drawerContent={CustomDrawerContent}
-      drawerStyle={{
-        width: scaleWidth(260),
-      }}
+    <ParentContainer
+      handleLockScreen={handleLockScreen}
+      activeScreen={isFocused}
+      navigation={navigation}
+      clearIntervalById={clearIntervalById}
     >
-      <Screen {...RTHomeScreen} />
-      {/* <Screen {...RTSettlementScreen} /> */}
-      <Screen
-        name="Settlement"
-        component={SettlementScreen}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <CustomDrawerIcon
-              source={focused ? IMAGE["Se_Settlement"] : IMAGE["Settlement"]}
-            />
-          ),
+      <Navigator
+        headerMode="none"
+        drawerContent={CustomDrawerContent}
+        drawerStyle={{
+          width: scaleWidth(260),
         }}
-      />
-      <Screen
-        name="Invoice"
-        component={InvoiceScreen}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <CustomDrawerIcon
-              source={focused ? IMAGE["Se_Invoice"] : IMAGE["Invoice"]}
-            />
-          ),
-        }}
-      />
-      <Screen {...RTCustomerScreen} />
-      <Screen {...RTInventoryScreen} />
-      <Screen {...ReportScreen} />
-      {/* <Screen {...RTStaffCheckIn} /> */}
-      <Screen {...RTSettingsScreen} />
-      {/* <Screen {...RTSupportScreen} /> */}
-      <Screen
-        name="Support"
-        component={SupportScreen}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <CustomDrawerIcon
-              source={focused ? IMAGE["Se_Support"] : IMAGE["Support"]}
-            />
-          ),
-        }}
-      />
-      {/* <Screen {...RTTimekeepingScreen} /> */}
-    </Navigator>
+      >
+        <Screen {...RTHomeScreen} />
+        <Screen
+          name="Settlement"
+          component={SettlementScreen}
+          options={{
+            drawerIcon: ({ focused }) => (
+              <CustomDrawerIcon
+                source={focused ? IMAGE["Se_Settlement"] : IMAGE["Settlement"]}
+              />
+            ),
+          }}
+        />
+        <Screen
+          name="Invoice"
+          component={InvoiceScreen}
+          options={{
+            drawerIcon: ({ focused }) => (
+              <CustomDrawerIcon
+                source={focused ? IMAGE["Se_Invoice"] : IMAGE["Invoice"]}
+              />
+            ),
+          }}
+        />
+        <Screen {...RTCustomerScreen} />
+        <Screen {...RTInventoryScreen} />
+        <Screen {...ReportScreen} />
+        <Screen {...RTSettingsScreen} />
+        <Screen
+          name="Support"
+          component={SupportScreen}
+          options={{
+            drawerIcon: ({ focused }) => (
+              <CustomDrawerIcon
+                source={focused ? IMAGE["Se_Support"] : IMAGE["Support"]}
+              />
+            ),
+          }}
+        />
+      </Navigator>
+    </ParentContainer>
+
   );
 };

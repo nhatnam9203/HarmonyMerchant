@@ -52,8 +52,6 @@ export const PopupCardDetail = React.forwardRef(
 
     const onChangePaidAmount = (amount) => {
       const { total = 0 } = appointment || {};
-      console.log(total);
-      console.log(amount);
 
       setPayAmount(amount);
       setDueAmount(
