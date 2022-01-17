@@ -843,7 +843,7 @@ class TabCheckout extends Layout {
         this.setState(initState);
         this.props.actions.appointment.resetPayment();
       } else {
-        if (paymentMachineType == "Clover") {
+        if (paymentMachineType == PaymentTerminalType.Clover) {
           this.openCashDrawerClover();
         } else {
           setTimeout(() => {
@@ -900,11 +900,13 @@ class TabCheckout extends Layout {
       connectionSignalR.stop();
     }
 
-    if (paymentMachineType !== "Clover" && !portName) {
+    if (paymentMachineType === PaymentTerminalType.Pax 
+      && !portName) {
       alert("Please connect to your printer!");
     } else {
       if (paymentSelected === "Cash" || paymentSelected === "Other") {
-        if (paymentMachineType === "Clover") {
+        if (paymentMachineType === PaymentTerminalType.Clover 
+          && !portName) {
           this.openCashDrawerClover();
         } else {
           this.openCashDrawer(portName);
@@ -944,7 +946,7 @@ class TabCheckout extends Layout {
     if (portName) {
       this.openCashDrawer(portName);
     } else {
-      if (paymentMachineType == "Clover") {
+      if (paymentMachineType == PaymentTerminalType.Clover) {
         this.openCashDrawerClover();
       } else {
         alert("Please connect to your cash drawer.");

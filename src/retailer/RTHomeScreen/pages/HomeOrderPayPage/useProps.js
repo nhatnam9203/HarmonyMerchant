@@ -900,12 +900,13 @@ export const useProps = ({
       await connectSignalR.current?.stop();
     }
 
-    if (paymentMachineType !== "Clover" && !portName) {
+    if (paymentMachineType == PaymentTerminalType.Pax && !portName) {
       alert("Please connect to your printer!");
     } else {
       if (paymentSelected === "Cash" || paymentSelected === "Other") {
-        if (paymentMachineType === "Clover") {
-          openCashDrawerClover();
+        if (paymentMachineType === PaymentTerminalType.Clover
+          && !portName) {
+            openCashDrawerClover();
         } else {
           openCashDrawer(portName);
         }

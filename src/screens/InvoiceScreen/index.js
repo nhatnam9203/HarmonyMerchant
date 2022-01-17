@@ -27,6 +27,12 @@ import {
   menuTabs,
   isPermissionToTab,
   stringIsEmptyOrWhiteSpaces,
+  requestPrintDejavoo,
+  formatMoney,
+  getPaymentString,
+  formatNumberFromCurrency,
+  getCenterStringArrayXml,
+  formatWithMoment,
 } from "@utils";
 import PrintManager from "@lib/PrintManager";
 import * as l from "lodash";
@@ -916,10 +922,12 @@ class InvoiceScreen extends Layout {
       alert("You don't select invoice!");
     } else {
       const printMachine = await checkStatusPrint();
-      const { cloverMachineInfo, paymentMachineType } = this.props;
+      const { cloverMachineInfo, paymentMachineType, dejavooMachineInfo } = this.props;
       const { isSetup } = cloverMachineInfo;
       if ((printMachine && printMachine.length > 0)
-        || (paymentMachineType == "Clover" && isSetup)) {
+        || (paymentMachineType == PaymentTerminalType.Clover && isSetup)
+        || (paymentMachineType == PaymentTerminalType.Dejavoo 
+          && l.get(dejavooMachineInfo, "isSetup"))) {
         this.props.actions.invoice.togglPopupConfirmPrintInvoice(false);
 
         const {
@@ -997,6 +1005,158 @@ class InvoiceScreen extends Layout {
     this.isProcessPrintClover = false;
   }
 
+  getInvoiceItemsXml() {
+    const { invoiceDetail } = this.props;
+    const basket = this.convertBasket(invoiceDetail?.basket || []);
+    
+    let stringItems = ""
+    basket?.map(
+      (item, index) => {
+        const price = item.data && item.data.price ? item.data.price : 0;
+        const quanlitySet = item.quanlitySet ? item.quanlitySet : 1;
+        const total = formatMoney(price * quanlitySet);
+        const note = item.note ? item.note : "";
+        const staffName = item.staff?.displayName ?? "";
+
+        const noteXml = note ? `<t>(Note: ${note})</t>` : ``
+        const staffXml = staffName ? `<t>(${staffName})</t>` : ``
+
+        stringItems = stringItems + `<t>${
+          l.padEnd(l.truncate(`${index + 1}.${l.get(item, 'data.name')}`, {
+            'length': 15
+          }), 15, '.')}${l.padStart(`$${total}`, 9, ".")}</t>
+        ${noteXml}
+        ${staffXml}`
+
+      }
+    ) 
+    return stringItems
+  }
+
+  getContentXmlReceipt() {
+    const { profile, profileStaffLogin, invoiceDetail } = this.props;
+    const { receiptContentBg } = this.state;
+    const basket = this.convertBasket(invoiceDetail?.basket || []);
+    const refundAmount = invoiceDetail?.refundAmount || 0.0;
+    const checkoutPayments =
+      invoiceDetail?.checkoutPayments?.slice(0).reverse() || [];
+    const promotionNotes = invoiceDetail?.promotionNotes?.note || "";
+    
+    const status = invoiceDetail?.status || "";
+    const checkoutId = invoiceDetail?.checkoutId || "";
+
+    let invoiceName = "";
+    if (profile && profile?.type === "SalonPos") {
+      const { firstName = " ", lastName = " " } = invoiceDetail?.user || {};
+      invoiceName = firstName + " " + lastName;
+    } else {
+      invoiceName = getStaffNameForInvoice(profileStaffLogin, basket);
+      if (!invoiceName && invoiceDetail?.user?.userId) {
+        invoiceName = getFullName(invoiceDetail?.user);
+      }
+    }
+    const invoiceNo = checkoutId ? 
+                    `Invoice No: ${checkoutId ?? " "}`
+                    :`` 
+    let entryMethodXml = ""
+    checkoutPayments.map((data, index) => {
+      entryMethodXml = entryMethodXml + 
+                    `- Entry method: ${getPaymentString(
+                        data?.paymentMethod || ""
+                      )} $${Number(
+                        formatNumberFromCurrency(data?.amount || "0")
+                      ).toFixed(2)}
+                      ${(data.paymentMethod &&
+                          data.paymentMethod === "credit_card") ||
+                          data.paymentMethod === "debit_card" ? 
+                          `<t>${
+                            data?.paymentInformation?.type || ""
+                          }: ***********${
+                            data?.paymentInformation?.number || ""
+                          }</t>
+                          ${data?.paymentInformation?.name ?
+                            `<t>${data?.paymentInformation?.name?.replace(
+                              /%20/g,
+                              " "
+                            )}</t>`: ""
+                          }
+                          ${
+                            data?.paymentInformation?.sn
+                            ? `<t>Terminal ID: ${data?.paymentInformation?.sn}</t>`
+                            : ""
+                          }
+                          ${
+                            data?.paymentInformation?.refNum
+                              ? `<t>Transaction #: ${data?.paymentInformation?.refNum}</t>`
+                              : ""
+                          }
+                          ${
+                            !stringIsEmptyOrWhiteSpaces(
+                              l.get(data, "paymentInformation.signData")
+                            ) ? `<t>Signature: </t>
+                                <img>${data?.paymentInformation?.signData}</img>` : ""
+                          }
+                          ` 
+                          : ``}`
+      })
+
+    
+
+    let xmlContent = `${getCenterStringArrayXml(profile?.businessName || " ")}
+    ${getCenterStringArrayXml(profile?.addressFull || " ")}
+    <t><c>${`Tel : ${profile?.phone || " "}`}</c></t>
+    <t><c>${profile?.webLink}</c></t>
+    <t><c>${`${
+      status &&
+      status !== "paid" &&
+      status !== "pending" &&
+      status !== "incomplete" &&
+      status !== "complete"
+        ? `${status}`.toUpperCase()
+        : "SALE"
+    }`}</c></t>
+    <t><c>${`( ${formatWithMoment(
+                      new Date(),
+                      "MM/DD/YYYY hh:mm A"
+                    )} )`}</c></t>
+    <t><c>${"-".repeat(24)}</c></t>
+    <t>Customer: ${invoiceName}</t>
+    <t>Invoice Date: ${formatWithMoment(
+                            invoiceDetail?.createdDate,
+                            "MM/DD/YYYY hh:mm A"
+                          )}</t>
+    <t>${invoiceNo}</t>
+    <t><c>${"-".repeat(24)}</c></t>
+    <t>DESCRIPTION.......TOTAL</t>
+    <t><c>${"-".repeat(24)}</c></t>
+    ${this.getInvoiceItemsXml()}
+    <t><c>${"-".repeat(24)}</c></t>
+    <t/>
+    <t>${l.padEnd("Subtotal: ", 15, ".")}${l.padStart(`$${invoiceDetail?.subTotal || "0.00"}`, 9, ".")}</t>
+    <t>${l.padEnd("Discount: ", 15, ".")}${l.padStart(`$${invoiceDetail?.discount || "0.00"}`, 9, ".")}</t>
+    <t>${l.padEnd("Tip: ", 15, ".")}${l.padStart(`$${invoiceDetail?.tipAmount || "0.00"}`, 9, ".")}</t>
+    <t>${l.padEnd("Tax: ", 15, ".")}${l.padStart(`$${invoiceDetail?.tax || "0.00"}`, 9, ".")}</t>
+    <t>${l.padEnd("Total: ", 15, ".")}${l.padStart(`$${invoiceDetail?.total || "0.00"}`, 9, ".")}</t>
+    ${entryMethodXml}
+
+    ${parseFloat(refundAmount) > 0 
+      ? `<t>Change : $${invoiceDetail?.refundAmount || "0.00"}</t>`
+      : ``}
+
+    ${profile?.receiptFooter 
+      ? `<t>${getCenterStringArrayXml(profile?.receiptFooter)}</t>` 
+      : `<t><c>Thank you!</c></t>
+        <t><c>Please come again</c></t>`}
+    ${
+      promotionNotes
+      ? `<t>Discount note: ${promotionNotes}</t>` 
+      : ``
+    }
+    <t>${l.pad("Merchant's Receipt", 24, '*')}</t>
+    `
+   return xmlContent                  
+  }
+
   printCustomerInvoice = async () => {
     try {
       const { printerSelect, printerList, paymentMachineType } = this.props;
@@ -1033,9 +1193,11 @@ class InvoiceScreen extends Layout {
           }
           this.props.actions.app.stopLoadingApp();
         } else {
-          const { cloverMachineInfo, paymentMachineType } = this.props;
+          const { cloverMachineInfo, 
+                  paymentMachineType,
+                  dejavooMachineInfo, } = this.props;
           const { isSetup } = cloverMachineInfo;
-          if (paymentMachineType == "Clover" && isSetup) {
+          if (paymentMachineType == PaymentTerminalType.Clover && isSetup) {
             this.props.actions.app.loadingApp();
             const imageUri = await captureRef(this.viewShotRef, {
               result: "base64",
@@ -1045,6 +1207,13 @@ class InvoiceScreen extends Layout {
               releaseCapture(imageUri);
             }
             this.props.actions.app.stopLoadingApp();
+          } else if (paymentMachineType == PaymentTerminalType.Dejavoo 
+            && l.get(dejavooMachineInfo, "isSetup")) {
+              const content = this.getContentXmlReceipt()
+                const params = {
+                  content,
+                };
+                requestPrintDejavoo(params);
           } else {
             alert("Please connect to your printer!");
           }
@@ -1144,6 +1313,7 @@ const mapStateToProps = (state) => ({
 
   cloverMachineInfo: state.hardware.cloverMachineInfo,
   paymentMachineType: state.hardware.paymentMachineType,
+  dejavooMachineInfo: state.hardware.dejavooMachineInfo,
 });
 
 export default connectRedux(mapStateToProps, InvoiceScreen);

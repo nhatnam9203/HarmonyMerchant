@@ -1962,3 +1962,38 @@ export const doPrintClover = (imageUri) => {
   }
   clover.doPrintWithConnect(printInfo)
 }
+
+
+export const getArrayBeakLineString = (text, maxWidth) => {
+  let arrayString = [];
+  let words = text.split(' ');
+  let textLine = ""
+  let oldTextLine = ""
+  for(let i = 0; i < words.length; i++) {
+    oldTextLine = textLine;
+    textLine = textLine + words[i] + " ";
+    if(textLine.length > maxWidth) {
+      textLine = oldTextLine
+      arrayString.push(textLine)
+      textLine = ""
+
+      if(i == words.length - 1) {
+        arrayString.push(words[i])
+      }
+    } else if(i == words.length - 1) {
+      arrayString.push(textLine)
+    }
+  }
+
+  return arrayString
+}
+
+export const getCenterStringArrayXml = (text) => {
+  const arrayString = getArrayBeakLineString(text, 24);
+  if(!arrayString) return ""
+  let result = ""
+  for (let i=0; i < arrayString.length; i++) {
+    result = result + `<t><c>${arrayString[i]}</c></t>`
+  }
+  return result
+} 
