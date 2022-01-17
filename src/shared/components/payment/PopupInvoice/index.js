@@ -4,7 +4,7 @@ import {
   useGetGroupAppointment,
   useGetInvoiceDetail,
 } from "@shared/services/api/app";
-import { getFullName, statusSuccess } from "@shared/utils";
+import { getFullName, statusSuccess, } from "@shared/utils";
 import {
   checkIsTablet,
   formatNumberFromCurrency,
@@ -15,6 +15,9 @@ import {
   scaleSize,
   PaymentTerminalType,
   stringIsEmptyOrWhiteSpaces,
+  requestPrintDejavoo,
+  getCenterStringArrayXml,
+  formatMoney
 } from "@utils";
 import React from "react";
 import {
@@ -344,67 +347,76 @@ export const PopupInvoice = React.forwardRef(
       );
 
       try {
-        await setIsProcessingPrint(true);
-        const imageUri = await captureRef(viewShotRef, {
-          ...(paymentMachineType === "Clover" &&
-            !printerSelect && { result: "base64" }),
-        });
-        await setIsProcessingPrint(false);
-
-        if (imageUri) {
-          if (portName) {
-            let commands = [];
-            commands.push({ appendLineFeed: 0 });
-            commands.push({
-              appendBitmap: imageUri,
-              width: parseFloat(widthPaper),
-              bothScale: true,
-              diffusion: true,
-              alignment: "Center",
-            });
-            commands.push({
-              appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
-            });
-
-            await PrintManager.getInstance().print(
-              emulation,
-              commands,
-              portName
-            );
-
-            releaseCapture(imageUri);
-            if (!printTempt && isSignature) {
-              if (profile?.isPrintReceipt) {
-                doPrintAgain();
+          await setIsProcessingPrint(true);
+          const imageUri = await captureRef(viewShotRef, {
+            ...(paymentMachineType === "Clover" &&
+              !printerSelect && { result: "base64" }),
+          });
+          await setIsProcessingPrint(false);
+  
+          if (imageUri) {
+            if (portName) {
+              let commands = [];
+              commands.push({ appendLineFeed: 0 });
+              commands.push({
+                appendBitmap: imageUri,
+                width: parseFloat(widthPaper),
+                bothScale: true,
+                diffusion: true,
+                alignment: "Center",
+              });
+              commands.push({
+                appendCutPaper: StarPRNT.CutPaperAction.PartialCutWithFeed,
+              });
+  
+              await PrintManager.getInstance().print(
+                emulation,
+                commands,
+                portName
+              );
+  
+              releaseCapture(imageUri);
+              if (!printTempt && isSignature) {
+                if (profile?.isPrintReceipt) {
+                  doPrintAgain();
+                } else {
+                  Alert.alert(
+                    "Would you like to print  customer's receipt?",
+                    "",
+                    [
+                      {
+                        text: "Cancel",
+                        onPress: onCancel,
+                        style: "cancel",
+                      },
+                      {
+                        text: "OK",
+                        onPress: doPrintAgain,
+                      },
+                    ],
+                    { cancelable: false }
+                  );
+                }
               } else {
-                Alert.alert(
-                  "Would you like to print  customer's receipt?",
-                  "",
-                  [
-                    {
-                      text: "Cancel",
-                      onPress: onCancel,
-                      style: "cancel",
-                    },
-                    {
-                      text: "OK",
-                      onPress: doPrintAgain,
-                    },
-                  ],
-                  { cancelable: false }
-                );
+                onCancel();
               }
             } else {
-              onCancel();
-            }
-          } else {
-            if (paymentMachineType == "Clover") {
-              if (doPrintClover && typeof doPrintClover === "function") {
-                doPrintClover(imageUri);
+              if (paymentMachineType == "Clover") {
+                if (doPrintClover && typeof doPrintClover === "function") {
+                  doPrintClover(imageUri);
+                }
+              } else if (paymentMachineType == "Dejavoo") {
+        
+                const content = getContentXmlReceipt()
+                const params = {
+                  content,
+                };
+                requestPrintDejavoo(params);
               }
             }
           }
-        }
+        
+       
       } catch (error) {
         console.log(`Printer error with ${error}`);
         alert(`Printer error with ${error}`);
@@ -433,6 +445,151 @@ export const PopupInvoice = React.forwardRef(
         await setVisible(false);
       }
     };
+
+     //---- Functions for Print text Receipt by Dejavoo  ----//
+
+    const getInvoiceItemsXml = () => {
+      
+      if (!groupAppointment) return ""
+      
+      let stringItems = ""
+
+      let invoiceItems = 
+      getBasketOnline(groupAppointment?.appointments)?.map(
+        (item, index) => {
+          const price = item.data && item.data.price ? item.data.price : 0;
+          const quanlitySet = item.quanlitySet ? item.quanlitySet : 1;
+          const total = formatMoney(price * quanlitySet);
+          const note = item.note ? item.note : "";
+          const staffName = item.staff?.displayName ?? "";
+
+          const noteXml = note ? `<t>(Note: ${note})</t>` : ``
+          const staffXml = staffName ? `<t>(${staffName})</t>` : ``
+
+          stringItems = stringItems + `<t>${
+            _.padEnd(_.truncate(`${index + 1}.${_.get(item, 'data.name')}`, {
+              'length': 15
+            }), 15, '.')}${_.padStart(`$${total}`, 9, ".")}</t>
+          ${noteXml}
+          ${staffXml}`
+
+        }
+      ) 
+      return stringItems
+    }
+
+    const getContentXmlReceipt = () => {
+
+      const invoiceNo = checkoutId ? 
+                      `Invoice No: ${checkoutId ?? " "}`
+                      :`` 
+      let entryMethodXml = ""
+      if(!printTempt) {
+        getCheckoutPaymentMethods()?.map((data, index) => {
+          entryMethodXml = entryMethodXml + 
+                        `- Entry method: ${getPaymentString(
+                            data?.paymentMethod || ""
+                          )} $${Number(
+                            formatNumberFromCurrency(data?.amount || "0")
+                          ).toFixed(2)}
+                          ${(data.paymentMethod &&
+                             data.paymentMethod === "credit_card") ||
+                             data.paymentMethod === "debit_card" ? 
+                             `<t>${
+                                data?.paymentInformation?.type || ""
+                              }: ***********${
+                                data?.paymentInformation?.number || ""
+                              }</t>
+                              ${data?.paymentInformation?.name ?
+                                `<t>${data?.paymentInformation?.name?.replace(
+                                  /%20/g,
+                                  " "
+                                )}</t>`: ""
+                              }
+                              ${
+                                data?.paymentInformation?.sn
+                                ? `<t>Terminal ID: ${data?.paymentInformation?.sn}</t>`
+                                : ""
+                              }
+                              ${
+                                data?.paymentInformation?.refNum
+                                  ? `<t>Transaction #: ${data?.paymentInformation?.refNum}</t>`
+                                  : ""
+                              }
+                              ${
+                                !stringIsEmptyOrWhiteSpaces(
+                                  _.get(data, "paymentInformation.signData")
+                                ) ? `<t>Signature: </t>
+                                    <img>${data?.paymentInformation?.signData}</img>` : ""
+                              }
+                              ` 
+                              : ``}`
+        })
+
+      }
+
+      let xmlContent = `${getCenterStringArrayXml(profile?.businessName || " ")}
+      ${getCenterStringArrayXml(profile?.addressFull || " ")}
+      <t><c>${`Tel : ${profile?.phone || " "}`}</c></t>
+      <t><c>${profile?.webLink}</c></t>
+      <t><c>${`${
+        invoiceDetail?.status &&
+        invoiceDetail?.status !== "paid" &&
+        invoiceDetail?.status !== "pending" &&
+        invoiceDetail?.status !== "incomplete" &&
+        invoiceDetail?.status !== "complete"
+          ? `${invoiceDetail?.status}`.toUpperCase()
+          : "SALE"
+      }`}</c></t>
+      <t><c>${`( ${formatWithMoment(
+                        new Date(),
+                        "MM/DD/YYYY hh:mm A"
+                      )} )`}</c></t>
+      <t><c>${"-".repeat(24)}</c></t>
+      <t>Customer: ${getCustomerName()}</t>
+      <t>Invoice Date: ${formatWithMoment(
+                              invoiceDetail?.createdDate,
+                              "MM/DD/YYYY hh:mm A"
+                            )}</t>
+      <t>${invoiceNo}</t>
+      <t><c>${"-".repeat(24)}</c></t>
+      <t>DESCRIPTION.......TOTAL</t>
+      <t><c>${"-".repeat(24)}</c></t>
+      ${getInvoiceItemsXml()}
+      <t><c>${"-".repeat(24)}</c></t>
+      <t/>
+      <t>${_.padEnd("Subtotal: ", 15, ".")}${_.padStart(`$${getSubTotal()}`, 9, ".")}</t>
+      <t>${_.padEnd("Discount: ", 15, ".")}${_.padStart(`$${getDiscount()}`, 9, ".")}</t>
+      <t>${_.padEnd("Tip: ", 15, ".")}${_.padStart(`$${getTipAmount()}`, 9, ".")}</t>
+      <t>${_.padEnd("Tax: ", 15, ".")}${_.padStart(`$${getTax()}`, 9, ".")}</t>
+      ${!printTempt ? 
+     `<t>${_.padEnd("Total: ", 15, ".")}${_.padStart(`$${getTotal()}`, 9, ".")}</t>
+     ${entryMethodXml}
+     ${isSignature ? `<t> .</t><t> .</t><t>Signature: _____________</t><t> .</t>`: ``}
+      `: ``}
+      ${printTempt ? `<t>${_.padEnd("Tip: ", 24, ".")}</t>
+                      <t>${_.padEnd("Total:", 24, ".")}</t>
+                      <t> .</t>
+                      <t> .</t>
+                      <t>Signature: _____________</t>
+                      <t> .</t>` 
+
+                    : ``}
+      ${profile?.receiptFooter 
+        ? `<t>${profile?.receiptFooter}</t>` 
+        : `<t><c>Thank you!</c></t>
+          <t><c>Please come again</c></t>`}
+      ${
+        !!getPromotionNotes(groupAppointment?.appointments) 
+        ? `<t>Discount note: ${getPromotionNotes(
+                              groupAppointment?.appointments
+                            )}</t>` 
+        : ``
+      }
+      <t>${_.pad(getFooterReceipt(), 24, '*')}</t>
+      `
+     return xmlContent                  
+    }
 
     /**
   |--------------------------------------------------
@@ -463,7 +620,7 @@ export const PopupInvoice = React.forwardRef(
             printerSelect
           );
 
-          if (!portName && machineType !== "Clover") {
+          if (!portName && machineType == PaymentTerminalType.Pax) {
             onCancel(isPrintTempt);
             alert("Please connect to your printer! ");
             return;

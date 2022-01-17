@@ -7,7 +7,7 @@ import { parseString } from "react-native-xml2js";
 import configureStore from "../redux/store";
 const { store } = configureStore();
 let headers = Object.assign(
-  { Accept: "application/json", "Content-Type": "application/json" }
+  { Accept: "xml", "Content-Type": "xml" }
 );
 
 const api = 'https://spinpos.net/spin/cgi.html'
@@ -60,17 +60,20 @@ export const requestTransactionDejavoo = async (params) => {
                 `<AuthKey>${_.get(dejavooMachineInfo, 'authKey')}</AuthKey>`+
                 `<RegisterId>${_.get(dejavooMachineInfo, 'registerId')}</RegisterId>`+
                 `<printer width="24">`+
-                `<img>${_.get(params, 'image')}</img>`+
+                `${_.get(params, 'content')}`+
+                // `<img>${_.get(params, 'image')}</img>`+
                 `</printer>`+
                 `</request>`
     
    const configs = {
-    method: "get",
-    baseURL: api,
-    url: `?TerminalTransaction=${param}`,
+    method: "post",
+    baseURL: "https://spinpos.net/spin/",
+    url: "Transaction",
     headers: headers,
     timeout: 90000,
+    data: param,
     };
+    console.log('configs', configs)
     const response = await handleRequest(configs)
     return response
   };
