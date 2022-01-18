@@ -15,6 +15,7 @@ const ItemProductService = ({
   groupAppointment,
   appointmentDetail,
   isShowColAmount,
+  defaultThumb
 }) => {
   // const [source, setSource] = useState({
   //     uri: item.imageUrl,
@@ -35,10 +36,9 @@ const ItemProductService = ({
 
   const temptKeyId =
     categoryTypeSelected === "Service" ? "serviceId" : "productId";
-  const placeHolder =
-    categoryTypeSelected === "Service"
-      ? ICON.service_holder
-      : ICON.product_holder;
+  const placeHolder = categoryTypeSelected === "Service"
+    ? ICON.service_holder
+    : ICON.product_holder;
 
   let isSelectOnServer = false;
   const appointments = groupAppointment?.appointments || [];
@@ -142,12 +142,13 @@ const ItemProductService = ({
                 priority: FastImage.priority.low,
                 cache: FastImage.cacheControl.immutable,
               }}
-              // onError={() => setSource(categoryTypeSelected === 'Service' ? ICON.service_holder : ICON.product_holder)}
+            // onError={() => setSource(categoryTypeSelected === 'Service' ? ICON.service_holder : ICON.product_holder)}
             />
           ) : (
             <FastImage
               style={{ width: scaleSize(50), height: scaleSize(50) }}
-              source={placeHolder}
+              source={defaultThumb ?? placeHolder}
+              resizeMode="contain"
             />
           )}
         </View>

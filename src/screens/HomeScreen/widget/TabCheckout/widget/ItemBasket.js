@@ -75,16 +75,16 @@ const ItemBasket = ({
                     source={
                       item?.imageUrl
                         ? { uri: item.imageUrl }
-                        : ICON.service_holder
+                        : item?.isCustomService ? ICON.custom_service_thumb : ICON.service_holder
                     }
                     style={{ width: scaleSize(30), height: scaleSize(30) }}
                   />
                 ) : (
-                    <Image
-                      source={ICON.staff_basket}
-                      style={{ width: scaleSize(30), height: scaleSize(30) }}
-                    />
-                  )}
+                  <Image
+                    source={ICON.staff_basket}
+                    style={{ width: scaleSize(30), height: scaleSize(30) }}
+                  />
+                )}
               </View>
             ) : item.type === 'Extra' ? (
               <View
@@ -105,11 +105,11 @@ const ItemBasket = ({
             ) : item.type === 'GiftCards' ? (
               <Image source={ICON.giftcard} />
             ) : (
-                    <Image
-                      source={ICON.blue_productBasket}
-                      style={{ width: scaleSize(22), height: scaleSize(20) }}
-                    />
-                  )}
+              <Image
+                source={ICON.blue_productBasket}
+                style={{ width: scaleSize(22), height: scaleSize(20) }}
+              />
+            )}
           </View>
           {/* -------- Name ------- */}
           <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -169,8 +169,8 @@ const ItemBasket = ({
                 }}
               >
                 {`$ ${item.type === 'Product'
-                    ? getTotalProductByQuantity(data.price, item.quanlitySet)
-                    : formatMoney(data.price)
+                  ? getTotalProductByQuantity(data.price, item.quanlitySet)
+                  : formatMoney(data.price)
                   }`}
               </Text>
             </View>
