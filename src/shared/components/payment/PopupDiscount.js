@@ -29,16 +29,16 @@ const manualType = {
   percentType: "percentType",
 };
 
-// const DiscountOptions = [
-//   { id: 5, value: 5, label: "5%" },
-//   { id: 10, value: 10, label: "10%" },
-//   { id: 15, value: 15, label: "15%" },
-//   { id: 20, value: 20, label: "20%" },
-//   { id: 25, value: 25, label: "25%" },
-//   { id: 30, value: 30, label: "30%" },
-//   { id: 50, value: 50, label: "50%" },
-//   { id: 100, value: 100, label: "100%" },
-// ];
+const DiscountOptions = [
+  { id: 5, value: 5, label: "5%" },
+  { id: 10, value: 10, label: "10%" },
+  { id: 15, value: 15, label: "15%" },
+  { id: 20, value: 20, label: "20%" },
+  { id: 25, value: 25, label: "25%" },
+  { id: 30, value: 30, label: "30%" },
+  { id: 50, value: 50, label: "50%" },
+  { id: 100, value: 100, label: "100%" },
+];
 
 class PopupDiscount extends React.Component {
   constructor(props) {
@@ -88,9 +88,9 @@ class PopupDiscount extends React.Component {
     });
   };
 
-  handelSliderValue = async (value) => {
-    this.setState({ discountByOwner: value });
-  };
+  // handelSliderValue = async (value) => {
+  //   this.setState({ discountByOwner: value });
+  // };
 
   submitCustomPromotion = () => {
     const { groupAppointment, appointmentIdUpdatePromotion, discount } =
@@ -488,49 +488,7 @@ class PopupDiscount extends React.Component {
                     >{`${discountByStaff}%`}</Text>
                   </View> */}
 
-                  {/* <View
-                    style={{
-                      flexDirection: "row",
-                      marginTop: scaleSize(10),
-                      width: "100%",
-                      justifyContent: "space-evenly",
-                    }}
-                  >
-                    {DiscountOptions?.map((discountItem) => {
-                      const onChangeDiscountValue = () => {
-                        this.handelSliderValue(discountItem.value);
-                      };
-
-                      const selected =
-                        discountItem.value === this.state.discountByOwner;
-                      return (
-                        <TouchableOpacity
-                          key={discountItem.id + ""}
-                          style={{
-                            justifyContent: "center",
-                            alignItems: "center",
-                            width: scaleWidth(60),
-                            height: scaleHeight(40),
-                            borderWidth: 1,
-                            borderColor: selected ? "#fff" : "#0764B0",
-                            backgroundColor: selected ? "#0764B0" : "#fff",
-                            borderRadius: scaleSize(3),
-                          }}
-                          onPress={onChangeDiscountValue}
-                        >
-                          <Text
-                            style={{
-                              color: selected ? "#fff" : "#0764B0",
-                              fontSize: scaleSize(15),
-                              fontWeight: "400",
-                            }}
-                          >
-                            {discountItem.label}
-                          </Text>
-                        </TouchableOpacity>
-                      );
-                    })}
-                  </View> */}
+                
 
                   {/* ----------- Note  ----------- */}
                   <View style={{ marginTop: 20 }}>
@@ -762,6 +720,13 @@ class CustomDiscount extends React.Component {
     this.calculateDiscount(textNumber);
   };
 
+  handlePercentDiscount = async (value) => {
+    await this.setState({
+      manualTypeSelect: manualType.percentType,
+    });
+    this.onChangeText(value.toFixed(2))
+  }
+
   render() {
     const { language } = this.props;
     const stylePercentText =
@@ -841,12 +806,57 @@ class CustomDiscount extends React.Component {
             {/* -------  ----- */}
           </View>
 
+        
+
           <View style={{ justifyContent: "center" }}>
             <Text style={{ color: "#4CD964", fontSize: scaleSize(18) }}>
               {`$ ${formatMoney(roundNumber(this.state.discount))}`}
             </Text>
           </View>
         </View>
+        <View
+            style={{
+              flexDirection: "row",
+              marginTop: scaleSize(20),
+              width: "100%",
+              justifyContent: "space-evenly",
+            }}
+          >
+            {DiscountOptions?.map((discountItem) => {
+              const onChangeDiscountValue = () => {
+                this.handlePercentDiscount(discountItem.value);
+              };
+
+              const selected =
+                discountItem.value === this.state.discountByOwner;
+              return (
+                <TouchableOpacity
+                  key={discountItem.id + ""}
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: scaleWidth(60),
+                    height: scaleHeight(40),
+                    borderWidth: 1,
+                    borderColor: selected ? "#fff" : "#0764B0",
+                    backgroundColor: selected ? "#0764B0" : "#fff",
+                    borderRadius: scaleSize(3),
+                  }}
+                  onPress={onChangeDiscountValue}
+                >
+                  <Text
+                    style={{
+                      color: selected ? "#fff" : "#0764B0",
+                      fontSize: scaleSize(15),
+                      fontWeight: "400",
+                    }}
+                  >
+                    {discountItem.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
       </View>
     );
   }
