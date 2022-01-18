@@ -31,8 +31,12 @@ export const PopupCardDetail = React.forwardRef(
         alert(t("Amount must greater than 0!"));
         return;
       }
-      // if (payAmount > formatNumberFromCurrency(total))
-      //   alert(t(`Amount must less than ${total}`));
+
+      const cardAmount = formatNumberFromCurrency(cardDetail?.amount);
+      if (payAmount > cardAmount) {
+        alert(t(`Amount must less than ${cardAmount}`));
+        return;
+      }
 
       if (onSubmit && typeof onSubmit === "function") {
         onSubmit(formatNumberFromCurrency(payAmount));
@@ -51,12 +55,19 @@ export const PopupCardDetail = React.forwardRef(
     };
 
     const onChangePaidAmount = (amount) => {
-      const { total = 0 } = appointment || {};
+      const { total = 0, dueAmount } = appointment || {};
 
-      setPayAmount(amount);
-      setDueAmount(
-        formatNumberFromCurrency(total) - formatNumberFromCurrency(amount)
-      );
+      let paidValue = formatNumberFromCurrency(amount);
+      const cardAmount = formatNumberFromCurrency(cardDetail?.amount);
+
+      if (paidValue > cardAmount) {
+        paidValue = cardAmount;
+      }
+      let dueValue = formatNumberFromCurrency(dueAmount) - paidValue;
+
+
+      setPayAmount(paidValue);
+      setDueAmount(dueValue);
     };
 
     // React.useEffect(() => {
@@ -71,7 +82,7 @@ export const PopupCardDetail = React.forwardRef(
     React.useImperativeHandle(ref, () => ({
       show: () => {
         dialogRef.current?.show();
-        if (formatNumberFromCurrency(appointment?.dueAmount ?? 0) > 0) {
+        if (formatNumberFromCurrency(appointment?.dueAmount ?? 0) >= 0) {
           onChangePaidAmount(appointment?.dueAmount);
         }
       },
