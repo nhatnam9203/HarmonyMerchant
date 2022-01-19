@@ -295,4 +295,7 @@ export default {
   IconSettingHardware: require("../assets/images/ic_setting_hardware.png"),
   IconSettingAbout: require("../assets/images/ic_setting_about.png"),
   IconSettingLogOut: require("../assets/images/ic_setting_logout.png"),
+
+  custom_service_thumb: require("../assets/images/custom_service.png"),
+
 };

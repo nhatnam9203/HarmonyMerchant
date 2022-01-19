@@ -9,13 +9,16 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import { formatNumberFromCurrency, formatMoneyWithUnit } from "@utils";
+import { useSelector } from "react-redux";
 
 export const PopupCardDetail = React.forwardRef(
   ({ cardDetail, appointment, onCancel, onSubmit }, ref) => {
     const [t] = useTranslation();
     const dialogRef = React.useRef(null);
-
     const textInputRef = React.useRef(null);
+
+    const paymentDetailInfo = useSelector(state => state.appointment.paymentDetailInfo);
+
 
     const [payAmount, setPayAmount] = React.useState(0);
     const [dueAmount, setDueAmount] = React.useState(0);
@@ -55,7 +58,7 @@ export const PopupCardDetail = React.forwardRef(
     };
 
     const onChangePaidAmount = (amount) => {
-      const { total = 0, dueAmount } = appointment || {};
+      const { grandTotal = 0, dueAmount = 0 } = paymentDetailInfo || {};
 
       let paidValue = formatNumberFromCurrency(amount);
       const cardAmount = formatNumberFromCurrency(cardDetail?.amount);
@@ -82,8 +85,8 @@ export const PopupCardDetail = React.forwardRef(
     React.useImperativeHandle(ref, () => ({
       show: () => {
         dialogRef.current?.show();
-        if (formatNumberFromCurrency(appointment?.dueAmount ?? 0) >= 0) {
-          onChangePaidAmount(appointment?.dueAmount);
+        if (formatNumberFromCurrency(paymentDetailInfo?.dueAmount ?? 0) >= 0) {
+          onChangePaidAmount(paymentDetailInfo?.dueAmount);
         }
       },
       hide: () => {
@@ -136,7 +139,7 @@ export const PopupCardDetail = React.forwardRef(
                   placeholder={t("Enter price")}
                   //required={true}
                   onChangeValue={onChangePaidAmount}
-                  defaultValue={payAmount}
+                  defaultValue={formatMoneyWithUnit(payAmount)}
                   // editable={false}
                   textInputRef={textInputRef}
                   autoFocus={true}

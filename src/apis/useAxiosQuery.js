@@ -60,14 +60,8 @@ export const useAxiosQuery = ({
         }
       },
       onError: (err) => {
-        if (
-          err?.message &&
-          onLoginError &&
-          typeof onLoginError === "function"
-        ) {
-          if (onError && typeof onError === "function") {
-            onError(response);
-          }
+        if (onError && typeof onError === "function") {
+          onError(err);
         }
       },
     } // disable fetch auto

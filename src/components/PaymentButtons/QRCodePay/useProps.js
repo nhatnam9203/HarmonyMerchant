@@ -79,6 +79,7 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
   });
 
   const getSubmitFunction = () => {
+    // TODO: scanCode null thì phải làm sao ?
     if (cardType === CardType.CUSTOMER_CARD)
       return submitConsumerPayment(checkOutSubmitId, scanCode);
     return checkoutSubmit(checkOutSubmitId);
@@ -86,7 +87,7 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
 
   const [, paymentSubmit] = useAxiosMutation({
     ...getSubmitFunction(),
-    onSuccess: (data, response) => {
+    onSuccess: async (data, response) => {
       // TODO: ??? need recode
       if (data?.checkoutPaymentResponse) {
         let { dueAmount = 0 } = data?.checkoutPaymentResponse;
@@ -97,7 +98,7 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
             data?.checkoutPaymentResponse
           )
         );
-        resetAll();
+        await resetAll();
         if (dueAmount == 0) {
           // ----- Transaction Completed --------
           dispatch(actions.appointment.completeTransaction());
@@ -131,7 +132,15 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
   const resetAll = () => {
     setCardDetail(null);
     setScanCode(null);
+    setCheckGiftCardFail(false);
+    setCheckConsumerCodeFail(false);
   };
+
+  const asyncReset = async () => {
+    await setCheckGiftCardFail(false);
+    await setCheckConsumerCodeFail(false);
+  }
+
 
   React.useEffect(() => {
     if (code) {
@@ -148,8 +157,7 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
   React.useEffect(() => {
     if (paymentInfo) {
       // Reset check code
-      setCheckGiftCardFail(false);
-      setCheckConsumerCodeFail(false);
+      asyncReset();
 
       // Set Payment method
       selectPayment();
@@ -165,9 +173,10 @@ export const useProps = ({ code, paymentInfo, onSubmit }) => {
 
   React.useEffect(() => {
     if (checkGiftCardFail && checkConsumerCodeFail) {
-      alert(`Code is invalid!!!`);
-      setCheckGiftCardFail(false);
-      setCheckConsumerCodeFail(false);
+      asyncReset();
+      setTimeout(() => {
+        alert(`Code is invalid!!!`);
+      }, 300)
     }
   }, [checkGiftCardFail, checkConsumerCodeFail]);
 
