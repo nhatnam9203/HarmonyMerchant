@@ -1173,6 +1173,10 @@ export const useProps = ({
         visibleConfirm?.func();
       }
 
+      if (appointmentId) {
+        getAppointment(appointmentId);
+      }
+
       dispatch({
         type: "VISIBLE_POPUP_PAYMENT_CONFIRM",
         payload: { visible: false, func: null },
