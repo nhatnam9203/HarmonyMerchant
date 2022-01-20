@@ -27,10 +27,26 @@ class Layout extends React.Component {
           onMessage={this.onMessageFromWebview}
           cacheEnabled={false}
           useWebKit={true}
+          onError={(syntheticEvent) => {
+            const { nativeEvent } = syntheticEvent;
+            console.warn('WebView error: ', nativeEvent);
+          }}
+          onHttpError={(syntheticEvent) => {
+            const { nativeEvent } = syntheticEvent;
+            console.warn(
+              'WebView received error status code: ',
+              nativeEvent.statusCode,
+            );
+          }}
+          onLoad={(syntheticEvent) => {
+            const { nativeEvent } = syntheticEvent;
+            console.log(nativeEvent.url);
+          }}
+
         />
 
-        <PopupInvoice ref={this.invoiceRef} 
-        doPrintClover={(imageUri) => this.doPrintClover(imageUri)}/>
+        <PopupInvoice ref={this.invoiceRef}
+          doPrintClover={(imageUri) => this.doPrintClover(imageUri)} />
       </View>
     );
   }
