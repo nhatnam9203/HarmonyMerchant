@@ -55,7 +55,7 @@ class PopupInfomationCodePush extends React.Component {
     render() {
         const { title, visiblePopupCodePush, descriptionCodePush,versionApp } = this.props;
         const { isLoading } = this.state;
-        const descriptions = descriptionCodePush.split(",");
+        const descriptions = descriptionCodePush?.split(",");
 
         return (
             <ModalCustom

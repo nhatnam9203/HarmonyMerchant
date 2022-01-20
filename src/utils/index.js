@@ -76,14 +76,12 @@ export const requestAPI = async (action, header = {}) => {
     headers["Authorization"] = `Bearer ${action.token}`;
   }
 
-  headers["User-Agent"] = `HarmonyMerchant/${
-    action.versionApp
+  headers["User-Agent"] = `HarmonyMerchant/${action.versionApp
       ? `${action.versionApp}.${Configs.CODEPUSH_VERSION}`
       : `${Configs.VERSION}.${Configs.CODEPUSH_VERSION}`
-  }/${Platform.OS}`;
-  headers["DeviceID"] = `${encodeURIComponent(action?.deviceName)}_${
-    action?.deviceId
-  }`;
+    }/${Platform.OS}`;
+  headers["DeviceID"] = `${encodeURIComponent(action?.deviceName)}_${action?.deviceId
+    }`;
   const configs = {
     method: `${method}`.toLowerCase(),
     baseURL: Configs.API_URL,
@@ -183,10 +181,10 @@ export const gotoSettingsDevice = () => {
     "Confirmation",
     "You not allowed this permission. Please go to settings .Then enable allow this permission!",
     [
-      { text: "Ask me later", onPress: () => {} },
+      { text: "Ask me later", onPress: () => { } },
       {
         text: "Cancel",
-        onPress: () => {},
+        onPress: () => { },
         style: "cancel",
       },
       {
@@ -419,13 +417,13 @@ export const ListCodeAreaPhone = [
 
 export const getCodeAreaPhone = (phone) => {
   if (`${phone}`.includes("+1")) {
-    const temptPhone = phone.split("+1");
+    const temptPhone = phone?.split("+1");
     return {
       phone: temptPhone[1],
       areaCode: "+1",
     };
   } else if (`${phone}`.includes("+84")) {
-    const temptPhone = phone.split("+84");
+    const temptPhone = phone?.split("+84");
     return {
       phone: temptPhone[1],
       areaCode: "+84",
@@ -469,12 +467,12 @@ export const formatMoney = (
       i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) +
       (decimalCount
         ? decimal +
-          Math.abs(amount - i)
-            .toFixed(decimalCount)
-            .slice(2)
+        Math.abs(amount - i)
+          .toFixed(decimalCount)
+          .slice(2)
         : "")
     );
-  } catch (e) {}
+  } catch (e) { }
 };
 
 export const formatMoneyWithUnit = (amount = 0, unit = "$") => {
@@ -754,8 +752,8 @@ export const getWorkingTime = (date) => {
 
 export const getCurrentIndexWorkingTime = (date) => {
   const currentTime = formatWithMoment(date ?? new Date(), "hh:mm A");
-  const splitTime = currentTime.split(":");
-  const splitSpace = splitTime[1].split(" ");
+  const splitTime = currentTime?.split(":");
+  const splitSpace = splitTime[1]?.split(" ");
   let str;
   if (parseInt(splitSpace[0]) >= 30) {
     str = `${splitTime[0]}:30 ${splitSpace[1]}`;
@@ -801,8 +799,8 @@ export const getMonthNameShort = (month) => {
   return monthNamesShort[month];
 };
 export function formatDateApi(eDate) {
-  var dateT = eDate.split("T");
-  var date = dateT[0].split("-");
+  var dateT = eDate?.split("T");
+  var date = dateT[0]?.split("-");
   var month = getMonthNameShort(date[1]);
   return {
     month,
@@ -1097,8 +1095,8 @@ export const getStaffNameForInvoice = (profileStaffLogin = {}, basket = []) => {
 export const hideCharactes = (str, numShow = 4) => {
   let temptStr = [];
 
-  if(!str) return ""
-  
+  if (!str) return ""
+
   for (let i = parseInt(str.length - 1); i >= 0; i--) {
     if (temptStr.length < numShow) {
       temptStr.unshift(str[i]);
@@ -1286,7 +1284,7 @@ export const isValidDate = (date) => {
 };
 
 export const stringToDate = (d) => {
-  const date = `${d}`.split("/");
+  const date = `${d}`?.split("/");
 
   if (date.length >= 3) {
     return `${date[2]}-${date[0]}-${date[1]}`;
@@ -1318,7 +1316,7 @@ export const DISCOUNT_ACTION = [
 
 export const formatHourMinute = (time) => {
   if (`${time}`.includes("PM")) {
-    const tempTime = `${time}`.split(":");
+    const tempTime = `${time}`?.split(":");
     const tempHour =
       parseInt(tempTime[0]) !== 12
         ? parseInt(tempTime[0]) + 12
@@ -1657,15 +1655,15 @@ export const getShortOrderPurchasePoint = (purchasePoint) => {
 
 export const handleAutoClose = async () => {
   const { dataLocal, hardware } = store.getState();
-  const { paxMachineInfo, 
-      cloverMachineInfo, 
-      paymentMachineType, 
-      dejavooMachineInfo } = hardware;
+  const { paxMachineInfo,
+    cloverMachineInfo,
+    paymentMachineType,
+    dejavooMachineInfo } = hardware;
   const { token, deviceId, deviceName } = dataLocal;
- 
 
-  if (paymentMachineType == PaymentTerminalType.Clover 
-      && l.get(cloverMachineInfo, "isSetup")) {
+
+  if (paymentMachineType == PaymentTerminalType.Clover
+    && l.get(cloverMachineInfo, "isSetup")) {
 
     //Clover
     store.dispatch(actions.invoice.autoCloseBatch());
@@ -1699,7 +1697,7 @@ export const handleAutoClose = async () => {
   } else if (l.get(paxMachineInfo, "isSetup")) {
     //Pax
     const { ip, port, commType, bluetoothAddr, } =
-    paxMachineInfo;
+      paxMachineInfo;
     let totalRecord = 0;
 
     try {
@@ -1787,28 +1785,28 @@ export const settle = async (
   terminalID
 ) => {
   const { dataLocal, hardware } = store.getState();
-  const { paxMachineInfo, 
-          cloverMachineInfo, 
-          paymentMachineType, 
-          dejavooMachineInfo } = hardware;
+  const { paxMachineInfo,
+    cloverMachineInfo,
+    paymentMachineType,
+    dejavooMachineInfo } = hardware;
   const { ip, port, commType, bluetoothAddr, isSetup } =
     paxMachineInfo;
 
-  if (paymentMachineType == PaymentTerminalType.Clover 
-      && l.get(cloverMachineInfo, "isSetup")) {
+  if (paymentMachineType == PaymentTerminalType.Clover
+    && l.get(cloverMachineInfo, "isSetup")) {
     //Clover
     const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
     const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
     clover.closeout({
-        url,
-        remoteAppId: REMOTE_APP_ID,
-        appName: APP_NAME,
-        posSerial: POS_SERIAL,
-        token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
-      })
+      url,
+      remoteAppId: REMOTE_APP_ID,
+      appName: APP_NAME,
+      posSerial: POS_SERIAL,
+      token: l.get(cloverMachineInfo, 'token') ? l.get(cloverMachineInfo, 'token', '') : "",
+    })
 
   } else if (paymentMachineType == PaymentTerminalType.Dejavoo
-              && l.get(dejavooMachineInfo, "isSetup")) {
+    && l.get(dejavooMachineInfo, "isSetup")) {
     //Dejavoo
     const responses = await requestSettlementDejavoo();
     parseString(responses, (err, result) => {
@@ -1820,9 +1818,9 @@ export const settle = async (
           terminalID,
           true
         );
-      } 
+      }
     })
-    
+
   } else if (isSetup && terminalID) {
     //Pax
     if (Platform.OS === "android") {
@@ -1831,7 +1829,7 @@ export const settle = async (
         port,
         "",
         "BATCHCLOSE",
-        (err) => {},
+        (err) => { },
         (data) => {
           proccessingSettlement(data, settleWaiting, terminalID, true);
         }
@@ -1917,11 +1915,11 @@ export const proccessingSettlement = async (
     paymentByGiftcard: paymentByGiftcard,
     total: roundFloatNumber(
       formatNumberFromCurrency(editPaymentByHarmony) +
-        formatNumberFromCurrency(editPaymentByCreditCard) +
-        formatNumberFromCurrency(editPaymentByCash) +
-        formatNumberFromCurrency(editOtherPayment) +
-        formatNumberFromCurrency(discountSettlement) +
-        formatNumberFromCurrency(paymentByGiftcard)
+      formatNumberFromCurrency(editPaymentByCreditCard) +
+      formatNumberFromCurrency(editPaymentByCash) +
+      formatNumberFromCurrency(editOtherPayment) +
+      formatNumberFromCurrency(discountSettlement) +
+      formatNumberFromCurrency(paymentByGiftcard)
     ),
     note: "",
     terminalID,
@@ -1951,7 +1949,7 @@ export const doPrintClover = (imageUri) => {
   const { cloverMachineInfo } = hardware;
   const port = l.get(cloverMachineInfo, 'port') ? l.get(cloverMachineInfo, 'port') : 80
   const url = `wss://${l.get(cloverMachineInfo, 'ip')}:${port}/remote_pay`
-  
+
   const printInfo = {
     imageUri,
     url,
@@ -1966,21 +1964,21 @@ export const doPrintClover = (imageUri) => {
 
 export const getArrayBeakLineString = (text, maxWidth) => {
   let arrayString = [];
-  let words = text.split(' ');
+  let words = text?.split(' ');
   let textLine = ""
   let oldTextLine = ""
-  for(let i = 0; i < words.length; i++) {
+  for (let i = 0; i < words.length; i++) {
     oldTextLine = textLine;
     textLine = textLine + words[i] + " ";
-    if(textLine.length > maxWidth) {
+    if (textLine.length > maxWidth) {
       textLine = oldTextLine
       arrayString.push(textLine)
       textLine = ""
 
-      if(i == words.length - 1) {
+      if (i == words.length - 1) {
         arrayString.push(words[i])
       }
-    } else if(i == words.length - 1) {
+    } else if (i == words.length - 1) {
       arrayString.push(textLine)
     }
   }
@@ -1990,10 +1988,10 @@ export const getArrayBeakLineString = (text, maxWidth) => {
 
 export const getCenterStringArrayXml = (text) => {
   const arrayString = getArrayBeakLineString(text, 24);
-  if(!arrayString) return ""
+  if (!arrayString) return ""
   let result = ""
-  for (let i=0; i < arrayString.length; i++) {
+  for (let i = 0; i < arrayString.length; i++) {
     result = result + `<t><c>${arrayString[i]}</c></t>`
   }
   return result
-} 
+}

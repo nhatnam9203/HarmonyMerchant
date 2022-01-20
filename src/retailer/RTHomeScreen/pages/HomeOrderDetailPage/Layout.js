@@ -14,7 +14,7 @@ import { PopupInvoice } from "@shared/components/payment";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { colors, fonts, layouts } from "@shared/themes";
 import { dateToString, DATE_TIME_SHOW_FORMAT_STRING } from "@shared/utils";
-import { formatMoneyWithUnit } from "@utils";
+import { formatMoneyWithUnit, formatNumberFromCurrency } from "@utils";
 import _ from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -216,10 +216,10 @@ export const Layout = ({
             source={
               cellItem?.imageUrl
                 ? {
-                    uri: cellItem?.imageUrl,
-                    priority: FastImage.priority.high,
-                    cache: FastImage.cacheControl.immutable,
-                  }
+                  uri: cellItem?.imageUrl,
+                  priority: FastImage.priority.high,
+                  cache: FastImage.cacheControl.immutable,
+                }
                 : IMAGE.product_holder
             }
             resizeMode="contain"
@@ -581,8 +581,8 @@ export const Layout = ({
             renderFooterComponent={() => (
               <View style={{ height: scaleHeight(10) }} />
             )}
-            // onRowPress={onSelectRow}
-            // draggable={true}
+          // onRowPress={onSelectRow}
+          // draggable={true}
           />
 
           {item?.returns?.length > 0 && (
@@ -624,15 +624,15 @@ export const Layout = ({
                 renderFooterComponent={() => (
                   <View style={{ height: scaleHeight(10) }} />
                 )}
-                // onRowPress={onSelectRow}
+              // onRowPress={onSelectRow}
               />
             </View>
           )}
 
           {item?.status === ORDERED_STATUS.PENDING ||
-          (item?.status === ORDERED_STATUS.PROCESS &&
-            item.purchasePoint === PURCHASE_POINTS_ORDER &&
-            item.payment?.length <= 0) ? (
+            (item?.status === ORDERED_STATUS.PROCESS &&
+              item.purchasePoint === PURCHASE_POINTS_ORDER &&
+              item.payment?.length <= 0) ? (
             <>
               <FormTitle label={t("Shipping Method")} />
               <FormShippingCarrier
@@ -716,9 +716,8 @@ export const Layout = ({
                             <Text style={styles.boldText}>{" - "}</Text>
                           )}
                         {item?.shipping?.trackingNumber && (
-                          <Text style={styles.boldText}>{`${
-                            item?.shipping?.trackingNumber
-                          } (${t("Tracking number")})`}</Text>
+                          <Text style={styles.boldText}>{`${item?.shipping?.trackingNumber
+                            } (${t("Tracking number")})`}</Text>
                         )}
                       </View>
                     </View>
@@ -780,12 +779,19 @@ export const Layout = ({
                 labelTextStyle={styles.highLabelTextStyle}
                 infoTextStyle={styles.highInfoTextStyle}
               />
-              <InfoLine
+
+              {formatNumberFromCurrency(item?.dueAmount) < 0 ? <InfoLine
+                label={t("Change Amount")}
+                infoValue={formatMoneyWithUnit(Math.abs(item?.dueAmount))}
+                labelTextStyle={styles.highLabelTextStyle}
+                infoTextStyle={styles.highInfoTextStyle}
+              /> : <InfoLine
                 label={t("Total Due")}
                 infoValue={formatMoneyWithUnit(item?.dueAmount)}
                 labelTextStyle={styles.highLabelTextStyle}
                 infoTextStyle={styles.highInfoTextStyle}
-              />
+              />}
+
             </InfoContent>
             <View style={layouts.marginHorizontal} />
             <InfoContent label={t("Invoice")}>
@@ -821,10 +827,10 @@ export const Layout = ({
         </View>
       </KeyboardAwareScrollView>
 
-      <PopupInvoice 
-        ref={invoiceRef} 
-        doPrintClover={doPrintClover}/>
-        
+      <PopupInvoice
+        ref={invoiceRef}
+        doPrintClover={doPrintClover} />
+
       <PopupReturnReceipt ref={returnReceiptRef} />
     </View>
   );

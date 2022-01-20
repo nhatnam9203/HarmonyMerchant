@@ -109,7 +109,7 @@ function ReportLayout(
 
     if (isCustomizeDate) {
       if (startDate && endDate) {
-        title = ` ${startDate.split("/").join("")} - ${endDate
+        title = ` ${startDate?.split("/").join("")} - ${endDate
           .split("/")
           .join("")}`;
       }
@@ -138,12 +138,12 @@ function ReportLayout(
     switch (currentTab) {
       case 0:
         await setTitleExportFile(
-          "Report" + title + getTimeTitle().split(" ").join("")
+          "Report" + title + getTimeTitle()?.split(" ").join("")
         );
         break;
       case 1:
         await setTitleExportFile(
-          "Report" + title + getTimeTitle().split(" ").join("")
+          "Report" + title + getTimeTitle()?.split(" ").join("")
         );
         break;
       default:

@@ -31,13 +31,13 @@ export const hours = (d, extraMinutes = 0) => {
 
 export const splitCodeAndPhone = (phone) => {
   if (`${phone}`.includes("+1")) {
-    const temptPhone = phone.split("+1");
+    const temptPhone = phone?.split("+1");
     return {
       phone: temptPhone[1],
       areaCode: "1",
     };
   } else if (`${phone}`.includes("+84")) {
-    const temptPhone = phone.split("+84");
+    const temptPhone = phone?.split("+84");
 
     return {
       phone: temptPhone[1],

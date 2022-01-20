@@ -36,7 +36,7 @@ class BrowserFile extends React.PureComponent {
           Platform.OS === "ios" &&
           (fileName.endsWith(".heic") || fileName.endsWith(".HEIC"))
         ) {
-          fileName = `${fileName.split(".")[0]}.JPG`;
+          fileName = `${fileName?.split(".")[0]}.JPG`;
         }
       }
 

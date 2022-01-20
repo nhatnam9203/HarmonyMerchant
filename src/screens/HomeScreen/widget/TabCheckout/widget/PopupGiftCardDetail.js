@@ -51,7 +51,7 @@ class PopupGiftCardDetail extends React.Component {
 
     getAmountEnter(amount) {
         if (`${amount}`.indexOf("$") !== -1) {
-            const tempAmount = (`${amount}`.trim()).split("$ ");
+            const tempAmount = (`${amount}`.trim())?.split("$ ");
             return formatNumberFromCurrency(tempAmount[1]);
         }
 

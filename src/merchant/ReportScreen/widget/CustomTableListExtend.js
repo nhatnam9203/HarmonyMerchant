@@ -319,7 +319,7 @@ function TableListExtended({
 
     autoScrollTimer = setTimeout(() => {
       offsetXMap?.forEach((value, key, map) => {
-        const arrStr = key.split(KEY_CONCAT_FOR_INDEX);
+        const arrStr = key?.split(KEY_CONCAT_FOR_INDEX);
         const cellWidth = getCellWidth(arrStr[0], arrStr[1]);
 
         let { x, y } = currentOffset;

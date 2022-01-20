@@ -9,7 +9,7 @@ import { CustomTableCheckBox } from "@shared/components/CustomCheckBox";
 import { Table } from "@shared/components/CustomTable";
 import { getUniqueId } from "@shared/components/CustomTable/helpers";
 import { colors, fonts, layouts } from "@shared/themes";
-import { formatMoneyWithUnit } from "@utils";
+import { formatMoneyWithUnit, formatNumberFromCurrency } from "@utils";
 import _ from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -56,10 +56,10 @@ export const Layout = ({
             source={
               item.imageUrl
                 ? {
-                    uri: item.imageUrl,
-                    priority: FastImage.priority.high,
-                    cache: FastImage.cacheControl.immutable,
-                  }
+                  uri: item.imageUrl,
+                  priority: FastImage.priority.high,
+                  cache: FastImage.cacheControl.immutable,
+                }
                 : IMAGE.product_holder
             }
             resizeMode="contain"
@@ -297,12 +297,18 @@ export const Layout = ({
                 labelTextStyle={styles.highLabelTextStyle}
                 infoTextStyle={styles.highInfoTextStyle}
               />
-              <InfoLine
+
+              {formatNumberFromCurrency(item?.dueAmount) < 0 ? <InfoLine
+                label={t("Change Amount")}
+                infoValue={formatMoneyWithUnit(Math.abs(item?.dueAmount))}
+                labelTextStyle={styles.highLabelTextStyle}
+                infoTextStyle={styles.highInfoTextStyle}
+              /> : <InfoLine
                 label={t("Total Due")}
                 infoValue={formatMoneyWithUnit(item?.dueAmount)}
                 labelTextStyle={styles.highLabelTextStyle}
                 infoTextStyle={styles.highInfoTextStyle}
-              />
+              />}
             </InfoContent>
             <View style={layouts.marginHorizontal} />
 

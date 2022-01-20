@@ -152,7 +152,7 @@ function TableList({
     let value = item[key];
     if (format === "mins" && value > 0) {
       const str = parseFloat(value).toFixed(2).toString();
-      const splits = str.split(".");
+      const splits = str?.split(".");
       if (splits.length === 2) {
         return (
           parseInt(splits[0]) +
@@ -193,7 +193,7 @@ function TableList({
     const format = formatKeys[key];
     if (format === "mins" && value > 0) {
       const str = parseFloat(value).toFixed(2).toString();
-      const splits = str.split(".");
+      const splits = str?.split(".");
       if (splits.length === 2) {
         return (
           parseInt(splits[0]) +

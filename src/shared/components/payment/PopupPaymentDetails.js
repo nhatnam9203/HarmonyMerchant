@@ -66,11 +66,10 @@ class PopupPaymentDetails extends React.Component {
             />
             <ItemDetail
               title={`${localize("Grand Total", language)}:`}
-              value={`$ ${
-                paymentDetailInfo.grandTotal
+              value={`$ ${paymentDetailInfo.grandTotal
                   ? formatMoney(paymentDetailInfo.grandTotal)
                   : ""
-              }`}
+                }`}
               isBold={true}
               subText={""}
             />
@@ -82,22 +81,19 @@ class PopupPaymentDetails extends React.Component {
               }}
             />
             <ItemDetail
-              title={`${localize("Paid", language)} (${
-                paidAmounts.paymentMethod ? paidAmounts.paymentMethod : ""
-              }):`}
-              value={`$ ${
-                paidAmounts.amount ? formatMoney(paidAmounts.amount) : ""
-              }`}
+              title={`${localize("Paid", language)} (${paidAmounts.paymentMethod ? paidAmounts.paymentMethod : ""
+                }):`}
+              value={`$ ${paidAmounts.amount ? formatMoney(paidAmounts.amount) : ""
+                }`}
               isBold={true}
               subText={``}
             />
             <ItemDetail
               title={`${localize("Amount Due", language)}:`}
-              value={`$ ${
-                paymentDetailInfo.dueAmount
+              value={`$ ${paymentDetailInfo.dueAmount
                   ? formatMoney(paymentDetailInfo.dueAmount)
                   : ""
-              }`}
+                }`}
               isBold={true}
               subText={""}
               style={{
