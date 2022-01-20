@@ -49,6 +49,7 @@ import {
   VirtualizedList,
 } from "react-native";
 import Dash from "react-native-dash";
+import { formatMoneyWithUnit } from "../../utils";
 import styles from "./style";
 import { ItemButton, ItemHistory, ItemInvoice } from "./widget";
 
@@ -299,8 +300,8 @@ export default class Layout extends React.Component {
             : null;
         isDebitPayment =
           paymentInformation &&
-          paymentInformation[0]?.paymentData &&
-          `${paymentInformation[0]?.paymentData.transaction_type}`.toUpper() ==
+            paymentInformation[0]?.paymentData &&
+            `${paymentInformation[0]?.paymentData.transaction_type}`.toUpper() ==
             "CREDIT"
             ? false
             : true;
@@ -351,9 +352,9 @@ export default class Layout extends React.Component {
       Platform.OS === "android"
         ? { paddingHorizontal: scaleSize(5), backgroundColor: "#FFFFFF" }
         : {
-            paddingHorizontal: scaleSize(5),
-            backgroundColor: receiptContentBg,
-          };
+          paddingHorizontal: scaleSize(5),
+          backgroundColor: receiptContentBg,
+        };
     const status = invoiceDetail?.status || "";
     const checkoutId = invoiceDetail?.checkoutId || "";
 
@@ -437,15 +438,14 @@ export default class Layout extends React.Component {
                   },
                 ]}
               >
-                {`${
-                  status &&
+                {`${status &&
                   status !== "paid" &&
                   status !== "pending" &&
                   status !== "incomplete" &&
                   status !== "complete"
-                    ? `${status}`.toUpperCase()
-                    : "SALE"
-                }`}
+                  ? `${status}`.toUpperCase()
+                  : "SALE"
+                  }`}
               </Text>
               <Text
                 style={[
@@ -555,14 +555,13 @@ export default class Layout extends React.Component {
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={layouts.fontPrintStyle}>
-                    {`: ${
-                      invoiceDetail?.createdDate
-                        ? formatWithMoment(
-                            invoiceDetail?.createdDate,
-                            "MM/DD/YYYY hh:mm A"
-                          )
-                        : ""
-                    }`}
+                    {`: ${invoiceDetail?.createdDate
+                      ? formatWithMoment(
+                        invoiceDetail?.createdDate,
+                        "MM/DD/YYYY hh:mm A"
+                      )
+                      : ""
+                      }`}
                   </Text>
                 </View>
               </View>
@@ -632,6 +631,7 @@ export default class Layout extends React.Component {
                 value={invoiceDetail?.total || "0.00"}
               />
 
+
               {
                 <View>
                   {checkoutPayments.map((data, index) => (
@@ -661,53 +661,48 @@ export default class Layout extends React.Component {
                         </View>
                       </View>
                       {data.paymentMethod === "credit_card" ||
-                      data.paymentMethod === "debit_card" ? (
+                        data.paymentMethod === "debit_card" ? (
                         <View style={{ marginTop: scaleSize(5) }}>
                           <Text style={[layouts.fontPrintStyle]}>
-                            {` ${
-                              data?.paymentInformation?.type || ""
-                            }: ***********${
-                              data?.paymentInformation?.number || ""
-                            }`}
+                            {` ${data?.paymentInformation?.type || ""
+                              }: ***********${data?.paymentInformation?.number || ""
+                              }`}
                           </Text>
                           <Text style={[layouts.fontPrintStyle]}>
-                            {` ${
-                              data?.paymentInformation?.name?.replace(
-                                /%20/g,
-                                " "
-                              ) || ""
-                            }`}
+                            {` ${data?.paymentInformation?.name?.replace(
+                              /%20/g,
+                              " "
+                            ) || ""
+                              }`}
                           </Text>
                           <Text style={[layouts.fontPrintStyle]}>
-                            {` ${
-                              data?.paymentInformation?.sn
-                                ? `Terminal ID: ${data?.paymentInformation?.sn}`
-                                : ""
-                            }`}
+                            {` ${data?.paymentInformation?.sn
+                              ? `Terminal ID: ${data?.paymentInformation?.sn}`
+                              : ""
+                              }`}
                           </Text>
                           <Text style={[layouts.fontPrintStyle]}>
-                            {` ${
-                              data?.paymentInformation?.refNum
-                                ? `Transaction #: ${data?.paymentInformation?.refNum}`
-                                : ""
-                            }`}
+                            {` ${data?.paymentInformation?.refNum
+                              ? `Transaction #: ${data?.paymentInformation?.refNum}`
+                              : ""
+                              }`}
                           </Text>
 
                           {!stringIsEmptyOrWhiteSpaces(
                             l.get(data, "paymentInformation.signData")
                           ) && (
-                            <View style={styles.rowSignature}>
-                              <Text style={[layouts.fontPrintStyle]}>
-                                {" Signature: "}
-                              </Text>
-                              <Image
-                                style={styles.signImage}
-                                source={{
-                                  uri: `data:image/png;base64,${data?.paymentInformation?.signData}`,
-                                }}
-                              />
-                            </View>
-                          )}
+                              <View style={styles.rowSignature}>
+                                <Text style={[layouts.fontPrintStyle]}>
+                                  {" Signature: "}
+                                </Text>
+                                <Image
+                                  style={styles.signImage}
+                                  source={{
+                                    uri: `data:image/png;base64,${data?.paymentInformation?.signData}`,
+                                  }}
+                                />
+                              </View>
+                            )}
                         </View>
                       ) : null}
                     </View>

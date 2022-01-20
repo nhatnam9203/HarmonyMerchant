@@ -402,6 +402,8 @@ export const Layout = ({
     }
   };
 
+  console.log(item);
+
   return (
     <View style={layouts.fill}>
       <View style={styles.headContent}>

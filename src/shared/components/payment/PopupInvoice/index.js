@@ -17,7 +17,8 @@ import {
   stringIsEmptyOrWhiteSpaces,
   requestPrintDejavoo,
   getCenterStringArrayXml,
-  formatMoney
+  formatMoney,
+  formatMoneyWithUnit
 } from "@utils";
 import React from "react";
 import {
@@ -182,7 +183,9 @@ export const PopupInvoice = React.forwardRef(
     };
 
     const getTax = () => {
-      if (groupAppointment) return groupAppointment?.tax;
+      if (groupAppointment) {
+        return groupAppointment?.tax;
+      }
       return 0;
     };
 
@@ -200,6 +203,34 @@ export const PopupInvoice = React.forwardRef(
       if (groupAppointment && groupAppointment?.dueAmount < 0) return Math.abs(groupAppointment?.dueAmount);
       return 0;
     };
+
+    const getTaxRate = () => {
+      // taxRate
+      let taxRate = 0;
+      if (groupAppointment) {
+        const { appointments = [] } = groupAppointment;
+        appointments?.forEach(x => {
+
+          const { products, services } = x;
+          if (products?.length > 0) {
+            const productItem = products[0];
+            taxRate = formatNumberFromCurrency(productItem?.taxRate);
+            if (taxRate > 0)
+              return taxRate;
+          }
+
+
+          if (services?.length > 0) {
+            const serviceItem = services[0];
+            taxRate = formatNumberFromCurrency(serviceItem?.taxRate);
+            if (taxRate > 0)
+              return taxRate;
+          }
+        })
+      }
+
+      return taxRate;
+    }
 
 
     // const getPaymentMethods = () => {
@@ -915,7 +946,7 @@ export const PopupInvoice = React.forwardRef(
                     styleTextValue={layouts.fontPrintStyle}
                   />
                   <TotalView
-                    title={"Tax"}
+                    title={`Tax ${getTaxRate() > 0 && "(" + getTaxRate() + "%)"}`}
                     value={getTax()}
                     styleTextTitle={layouts.fontPrintSubTitleStyle}
                     styleTextValue={layouts.fontPrintStyle}
@@ -931,7 +962,7 @@ export const PopupInvoice = React.forwardRef(
                   {getChange() > 0 && (
                     <TotalView
                       title={"Change"}
-                      value={getChange()}
+                      value={formatMoneyWithUnit(getChange())}
                       styleTextTitle={layouts.fontPrintSubTitleStyle}
                       styleTextValue={layouts.fontPrintStyle}
                     />
