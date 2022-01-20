@@ -180,14 +180,27 @@ export const PopupInvoice = React.forwardRef(
       if (groupAppointment) return groupAppointment?.tipAmount;
       return 0;
     };
+
     const getTax = () => {
       if (groupAppointment) return groupAppointment?.tax;
       return 0;
     };
+
     const getTotal = () => {
       if (groupAppointment) return groupAppointment?.total;
       return 0;
     };
+
+    const getDue = () => {
+      if (groupAppointment && groupAppointment?.dueAmount > 0) return groupAppointment?.dueAmount;
+      return 0;
+    };
+
+    const getChange = () => {
+      if (groupAppointment && groupAppointment?.dueAmount < 0) return Math.abs(groupAppointment?.dueAmount);
+      return 0;
+    };
+
 
     // const getPaymentMethods = () => {
     //   return paymentDetailInfo.paidAmounts &&
@@ -631,11 +644,10 @@ export const PopupInvoice = React.forwardRef(
 
 
         if (checkoutId) {
-          console.log("checkoutId " + checkoutId);
           setCheckoutId(checkoutId)
           //if group checkout, there are array checkoutid
           let checkoutIdTemp = checkoutId
-          const arrayCheckoutId = checkoutId?.split("-");
+          const arrayCheckoutId = `${checkoutId}`?.split("-");
           if (arrayCheckoutId && arrayCheckoutId.length > 0) {
             checkoutIdTemp = arrayCheckoutId[0];
           }
@@ -912,6 +924,14 @@ export const PopupInvoice = React.forwardRef(
                     <TotalView
                       title={"Total"}
                       value={getTotal()}
+                      styleTextTitle={layouts.fontPrintSubTitleStyle}
+                      styleTextValue={layouts.fontPrintStyle}
+                    />
+                  )}
+                  {getChange() > 0 && (
+                    <TotalView
+                      title={"Change"}
+                      value={getChange()}
                       styleTextTitle={layouts.fontPrintSubTitleStyle}
                       styleTextValue={layouts.fontPrintStyle}
                     />
