@@ -31,6 +31,7 @@ class TabAppointment extends Layout {
       calendarLink: this.getLinkForCalendar(),
       visiblePrintInvoice: false,
       appointment: null,
+      loadMessage: null,
     };
     this.webviewRef = React.createRef();
     this.amountRef = React.createRef();

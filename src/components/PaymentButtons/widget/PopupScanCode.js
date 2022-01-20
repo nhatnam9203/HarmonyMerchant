@@ -72,8 +72,8 @@ export const PopupScanCode = React.forwardRef(({ title, onSuccess }, ref) => {
             <QRCodeScanner
               //ref={this.scannerRef}
               onRead={onReadCode}
-              cameraProps={{ flashMode: RNCamera.Constants.FlashMode.auto }}
-              flashMode={RNCamera.Constants.FlashMode.torch}
+              // cameraProps={{ flashMode: RNCamera.Constants.FlashMode.auto }}
+              // flashMode={RNCamera.Constants.FlashMode.torch}
               showMarker={true}
               // reactivateTimeout={500}
               containerStyle={styles.qrStyle}
