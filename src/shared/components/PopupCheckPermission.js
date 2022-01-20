@@ -56,7 +56,11 @@ export const PopupCheckPermission = React.forwardRef(
      * Call API check permission
      */
     const onHandleSubmit = async () => {
-      await requestCheckPermission();
+      if (tabName)
+        await requestCheckPermission();
+      else {
+
+      }
     };
 
     /**

@@ -42,3 +42,4 @@ export * from "./PromotionCustomerFilter";
 export * from "./StaffCheckInDialog";
 export * from "./PopupReceipt";
 export * from "./PopupCheckPermission";
+export * from "./PopupPinCode";

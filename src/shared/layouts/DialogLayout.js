@@ -19,7 +19,7 @@ export const DialogLayout = React.forwardRef(
       title,
       behavior = "position",
       style,
-      onModalWillHide = () => {},
+      onModalWillHide = () => { },
       hideCloseButton = false,
       onForceClose,
     },
@@ -152,13 +152,16 @@ const styles = StyleSheet.create({
   },
 
   buttonClose: {
-    width: scaleWidth(28),
-    height: scaleHeight(28),
-    borderRadius: scaleWidth(14),
+    width: scaleWidth(30),
+    height: scaleHeight(30),
+    borderRadius: scaleWidth(15),
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff",
     marginRight: scaleWidth(10),
+    position: 'absolute',
+    top: 10, right: 2,
+
   },
 
   iconButtonClose: {

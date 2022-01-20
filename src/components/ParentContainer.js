@@ -17,7 +17,8 @@ class ParentContainer extends Component {
     let timeout = 0;
     switch (number) {
       case "2 Minutes":
-        timeout = parseInt(2 * 60 * 1000);
+        // timeout = parseInt(2 * 60 * 1000);
+        timeout = parseInt(15 * 1000);
         break;
       case "5 Minutes":
         timeout = parseInt(5 * 60 * 1000);

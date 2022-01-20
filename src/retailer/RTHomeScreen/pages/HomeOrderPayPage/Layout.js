@@ -1,13 +1,10 @@
 import {
-  ParentContainer,
   PopupActiveGiftCard,
-  PopupChangeMoney,
-  PopupConfirm,
+  PopupChangeMoney, PopupChangeTip, PopupConfirm,
   PopupPayCompleted,
   PopupProcessingCredit,
   PopupScanCode,
-  PopupSendLinkInstall,
-  PopupChangeTip,
+  PopupSendLinkInstall
 } from "@components";
 import IMAGE from "@resources";
 import { ButtonGradient, ButtonGradientWhite } from "@shared/components";
@@ -21,7 +18,7 @@ import {
   PopupEnterAmountGiftCard,
   PopupGiftCardDetail,
   PopupInvoice,
-  PopupPaymentDetails,
+  PopupPaymentDetails
 } from "@shared/components/payment";
 import { WithDialogConfirm } from "@shared/HOC/withDialogConfirm";
 import { WithDialogPhone } from "@shared/HOC/withDialogPhone";
@@ -33,7 +30,7 @@ import {
   BasketPaymentContent,
   ButtonPaymentMethod,
   CheckOutCustomerInfo,
-  DialogProductDetail,
+  DialogProductDetail
 } from "../../widget";
 
 const ExitCheckoutConfirmButton = WithDialogConfirm(ButtonGradientWhite);

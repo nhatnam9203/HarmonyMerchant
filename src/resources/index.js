@@ -297,5 +297,6 @@ export default {
   IconSettingLogOut: require("../assets/images/ic_setting_logout.png"),
 
   custom_service_thumb: require("../assets/images/custom_service.png"),
+  remove_pin_code: require("../assets/images/ic_remove_pin_code.png"),
 
 };

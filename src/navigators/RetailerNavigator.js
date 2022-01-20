@@ -19,26 +19,49 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ReportScreen } from "../merchant/ReportScreen";
 import { InvoiceScreen, SettlementScreen, SupportScreen } from "../screens";
+import NavigationServices from "@navigators/NavigatorServices";
+import { View } from 'react-native'
+import { PopupPinCode } from "@shared/components"
+import { useLockScreen } from '@shared/hooks'
 
 const { Screen, Navigator } = createDrawerNavigator();
 
+
 export const RetailerNavigator = ({ navigation }) => {
   const dispatch = useDispatch();
+  const popupPinCodeRef = React.useRef(null);
 
   const profile = useSelector((state) => state.dataLocal.profile);
+  const notiIntervalId = useSelector((state) => state.app.notiIntervalId);
 
   const isFocused = useIsFocused();
+  const { loginStaff } = useLockScreen(() => {
+    popupPinCodeRef.current?.hide();
+    dispatch(actions.app.closeAllPopupPincode());
+  });
+
+  const onSubmit = (value) => {
+
+    // popupPinCodeRef.current?.hide();
+    loginStaff(value);
+  }
 
   const handleLockScreen = () => {
+    console.log("isFocused " + isFocused);
     if (isFocused) {
-      // go to home
-
-
-      // lock screen
+      NavigationServices.navigate("home.order.top_tab");
+      popupPinCodeRef.current?.show();
     }
   }
 
   const clearIntervalById = () => {
+    if (notiIntervalId) {
+      clearInterval(notiIntervalId);
+      dispatch(actions.app.resetNotiIntervalId());
+    }
+  }
+
+  const onForceClosePopupPinCode = () => {
 
   }
 
@@ -49,61 +72,62 @@ export const RetailerNavigator = ({ navigation }) => {
   }, [profile?.merchantId]);
 
 
-
   return (
-    <ParentContainer
-      handleLockScreen={handleLockScreen}
-      activeScreen={isFocused}
-      navigation={navigation}
-      clearIntervalById={clearIntervalById}
-    >
-      <Navigator
-        headerMode="none"
-        drawerContent={CustomDrawerContent}
-        drawerStyle={{
-          width: scaleWidth(260),
-        }}
+    <>
+      <ParentContainer
+        handleLockScreen={handleLockScreen}
+        activeScreen={isFocused}
+        navigation={navigation}
+        clearIntervalById={clearIntervalById}
       >
-        <Screen {...RTHomeScreen} />
-        <Screen
-          name="Settlement"
-          component={SettlementScreen}
-          options={{
-            drawerIcon: ({ focused }) => (
-              <CustomDrawerIcon
-                source={focused ? IMAGE["Se_Settlement"] : IMAGE["Settlement"]}
-              />
-            ),
+        <Navigator
+          headerMode="none"
+          drawerContent={CustomDrawerContent}
+          drawerStyle={{
+            width: scaleWidth(260),
           }}
-        />
-        <Screen
-          name="Invoice"
-          component={InvoiceScreen}
-          options={{
-            drawerIcon: ({ focused }) => (
-              <CustomDrawerIcon
-                source={focused ? IMAGE["Se_Invoice"] : IMAGE["Invoice"]}
-              />
-            ),
-          }}
-        />
-        <Screen {...RTCustomerScreen} />
-        <Screen {...RTInventoryScreen} />
-        <Screen {...ReportScreen} />
-        <Screen {...RTSettingsScreen} />
-        <Screen
-          name="Support"
-          component={SupportScreen}
-          options={{
-            drawerIcon: ({ focused }) => (
-              <CustomDrawerIcon
-                source={focused ? IMAGE["Se_Support"] : IMAGE["Support"]}
-              />
-            ),
-          }}
-        />
-      </Navigator>
-    </ParentContainer>
-
+        >
+          <Screen {...RTHomeScreen} />
+          <Screen
+            name="Settlement"
+            component={SettlementScreen}
+            options={{
+              drawerIcon: ({ focused }) => (
+                <CustomDrawerIcon
+                  source={focused ? IMAGE["Se_Settlement"] : IMAGE["Settlement"]}
+                />
+              ),
+            }}
+          />
+          <Screen
+            name="Invoice"
+            component={InvoiceScreen}
+            options={{
+              drawerIcon: ({ focused }) => (
+                <CustomDrawerIcon
+                  source={focused ? IMAGE["Se_Invoice"] : IMAGE["Invoice"]}
+                />
+              ),
+            }}
+          />
+          <Screen {...RTCustomerScreen} />
+          <Screen {...RTInventoryScreen} />
+          <Screen {...ReportScreen} />
+          <Screen {...RTSettingsScreen} />
+          <Screen
+            name="Support"
+            component={SupportScreen}
+            options={{
+              drawerIcon: ({ focused }) => (
+                <CustomDrawerIcon
+                  source={focused ? IMAGE["Se_Support"] : IMAGE["Support"]}
+                />
+              ),
+            }}
+          />
+        </Navigator>
+      </ParentContainer>
+      <PopupPinCode ref={popupPinCodeRef} onSubmit={onSubmit} onForceClose={onForceClosePopupPinCode} />
+    </>
   );
 };
