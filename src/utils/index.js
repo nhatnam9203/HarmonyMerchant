@@ -77,8 +77,8 @@ export const requestAPI = async (action, header = {}) => {
   }
 
   headers["User-Agent"] = `HarmonyMerchant/${action.versionApp
-      ? `${action.versionApp}.${Configs.CODEPUSH_VERSION}`
-      : `${Configs.VERSION}.${Configs.CODEPUSH_VERSION}`
+    ? `${action.versionApp}.${Configs.CODEPUSH_VERSION}`
+    : `${Configs.VERSION}.${Configs.CODEPUSH_VERSION}`
     }/${Platform.OS}`;
   headers["DeviceID"] = `${encodeURIComponent(action?.deviceName)}_${action?.deviceId
     }`;
@@ -1994,4 +1994,56 @@ export const getCenterStringArrayXml = (text) => {
     result = result + `<t><c>${arrayString[i]}</c></t>`
   }
   return result
+}
+
+export const getTaxRateFromAppointment = (appointment) => {
+  // taxRate
+  let taxRate = 0;
+  if (appointment) {
+    const { products, services } = appointment;
+    if (products?.length > 0) {
+      const productItem = products[0];
+      taxRate = formatNumberFromCurrency(productItem?.taxRate ?? 0);
+      if (taxRate > 0)
+        return taxRate;
+    }
+
+
+    if (services?.length > 0) {
+      const serviceItem = services[0];
+      taxRate = formatNumberFromCurrency(serviceItem?.taxRate ?? 0);
+      if (taxRate > 0)
+        return taxRate;
+    }
+  }
+
+  return taxRate;
+}
+
+export const getTaxRateFromGroupAppointment = (groupAppointment) => {
+  // taxRate
+  let taxRate = 0;
+  if (groupAppointment) {
+    const { appointments = [] } = groupAppointment;
+    appointments?.forEach(x => {
+
+      const { products, services } = x;
+      if (products?.length > 0) {
+        const productItem = products[0];
+        taxRate = formatNumberFromCurrency(productItem?.taxRate);
+        if (taxRate > 0)
+          return taxRate;
+      }
+
+
+      if (services?.length > 0) {
+        const serviceItem = services[0];
+        taxRate = formatNumberFromCurrency(serviceItem?.taxRate);
+        if (taxRate > 0)
+          return taxRate;
+      }
+    })
+  }
+
+  return taxRate;
 }

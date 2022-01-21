@@ -25,6 +25,7 @@ import {
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
+import { getTaxRateFromAppointment } from "@utils";
 
 const log = (obj, message = "") => {
   Logger.log(`[HomeOrderDetail] ${message}`, obj);
@@ -98,9 +99,9 @@ export const useProps = ({
   |--------------------------------------------------
   */
   React.useEffect(() => {
-    const unsubscribeFocus = navigation.addListener("focus", () => {});
+    const unsubscribeFocus = navigation.addListener("focus", () => { });
 
-    const unsubscribeBlur = navigation.addListener("blur", () => {});
+    const unsubscribeBlur = navigation.addListener("blur", () => { });
 
     return () => {
       unsubscribeFocus();
@@ -520,5 +521,8 @@ export const useProps = ({
       };
       clover.doPrintWithConnect(printInfo);
     },
+    getTaxRate: () => {
+      return getTaxRateFromAppointment(appointmentDetail);
+    }
   };
 };
